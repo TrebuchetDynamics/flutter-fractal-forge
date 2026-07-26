@@ -19,30 +19,39 @@ const int _musicBeatsPerBar = 4;
 /// (24/28/32/36/40 beats). Image detail density picks the band.
 const List<int> _musicTempoBpmBands = [60, 70, 80, 90, 100];
 
-// Band edges below are set from the fractal captures in screenshots/, where
-// collapsed detail runs about 0.01-0.14 and brightness about 0.09-0.67. Even
-// splits of the nominal 0-1 range leave most of each table unreachable.
+// Band edges are quantiles of a measured corpus: 80 GPU-rendered catalog
+// thumbnails plus the five viewer captures, each normalised to the grid the
+// live scan actually sees (pixelRatio 0.25 of the logical viewport, ~270x480).
+// Normalising matters -- detail is a local gradient measure, so reading it off
+// a higher-resolution capture inflates it several fold.
+//
+// Corpus ranges: brightness 0.01-0.98 (median 0.29), detail 0.005-0.53
+// (median 0.06), saturation 0.0-0.83 (median 0.25). Quantile edges keep every
+// band roughly equally used; even splits of 0-1 do not, because all three
+// features are heavily skewed toward the low end.
+//
 // Re-measure if the scan bins or the collapse formulas change.
-const List<double> _musicTempoDetailEdges = [0.03, 0.06, 0.09, 0.12];
-const List<double> _musicRegisterBrightnessEdges = [0.15, 0.35];
-const List<double> _musicModeBrightnessEdges = [0.22];
+const List<double> _musicTempoDetailEdges = [0.04, 0.055, 0.07, 0.15];
+const List<double> _musicRegisterBrightnessEdges = [0.21, 0.46];
+const List<double> _musicModeBrightnessEdges = [0.30];
 
-/// Saturation picks the progression. Measured captures run about 0.19-0.64,
-/// so the eight bands are spread across that range rather than 0-1.
+/// Saturation picks the progression, at octiles of the measured corpus.
 const List<double> _musicProgressionSaturationEdges = [
+  0.07,
+  0.12,
+  0.17,
   0.25,
-  0.30,
-  0.35,
-  0.40,
-  0.45,
-  0.50,
-  0.55,
+  0.32,
+  0.39,
+  0.48,
 ];
 
-/// These bands are roughly 0.05 wide, so they need a tighter margin than the
-/// wide mode/tempo/register bands or a band would be almost impossible to
-/// leave.
+/// Progression and tempo bands are far narrower than the register/mode ones --
+/// down to 0.05 and 0.015 respectively -- so they need their own margins. A
+/// margin wider than the band it guards makes that band impossible to enter or
+/// leave, which would strand tempo or skip progressions entirely.
 const double _musicProgressionHysteresis = 0.015;
+const double _musicTempoHysteresis = 0.004;
 
 /// How far past an edge a feature must travel before the band it selects is
 /// allowed to change. Without it, a view resting near an edge flips key, mode,
@@ -232,7 +241,10 @@ FractalMusicIdentity resolveFractalMusicIdentity(
     _musicTempoDetailEdges,
     previous == null
         ? null
-        : _musicTempoBpmBands.indexOf(previous.bpm).clamp(0, _musicTempoBpmBands.length - 1),
+        : _musicTempoBpmBands
+            .indexOf(previous.bpm)
+            .clamp(0, _musicTempoBpmBands.length - 1),
+    margin: _musicTempoHysteresis,
   );
 
   final progressionBand = _bandWithHysteresis(
