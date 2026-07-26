@@ -29,13 +29,35 @@ Legend:
 - ✅ Privacy policy content drafted (`store_listing/privacy_policy.md`)
 - 🟡 **JUAN-ACTION-NEEDED:** Publish this policy at a live HTTPS URL and place it in Play Console.
 
-### Recommended hosting plan (quickest)
-1. Create `docs/privacy-policy.md` (or `docs/privacy-policy/index.html`) in this repo.
-2. Enable GitHub Pages for `main` branch `/docs`.
-3. Use resulting URL in Play Console, e.g.:
-   - `https://xelhaku.github.io/flutter-fractal-forge/privacy-policy/`
+### Hosting status
 
-(Exact final URL depends on GitHub Pages settings and repo/org naming.)
+GitHub Pages is not used and is not enabled for this repository; the public
+site is served from Cloudflare Pages and deployed by `scripts/release.sh
+website`. Any `*.github.io` URL for this project is stale.
+
+**The policy is not currently served by this repository's tooling.**
+`docs/privacy-policy.html` exists, but the web deploy publishes `build/web`,
+which is produced from `web/` — and `web/` contains no privacy policy. Nothing
+copies `docs/` into the bundle.
+
+To publish it from here, the policy has to be added to `web/` so it lands in
+`build/web`, then deployed with the website stage. Verify afterwards using the
+check below, not the status code.
+
+> Beware a false pass: the site serves the app shell for unknown paths, so
+> `https://fractal.trebuchetdynamics.com/privacy-policy.html`,
+> `/privacy-policy/` and `/privacy/` all return **HTTP 200** today while
+> rendering the app, not the policy. Checking only that the URL "loads" will
+> tick this box incorrectly.
+
+```bash
+# Passes only if the page is really the policy.
+curl -s https://fractal.trebuchetdynamics.com/privacy-policy.html \
+  | grep -qi "privacy policy" && echo OK || echo "NOT the policy"
+```
+
+If the URL currently in Play Console is hosted somewhere other than this
+repository, record it here so this check can point at the right address.
 
 ## 5) App signing / Play App Signing
 - ✅ Local upload keystore file exists: `android/app/upload-keystore.jks`

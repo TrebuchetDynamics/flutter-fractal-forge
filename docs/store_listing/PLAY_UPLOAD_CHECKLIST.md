@@ -41,7 +41,16 @@ Google Play requires a **public HTTPS URL** for the privacy policy.
 - Repository copy: `store_listing/privacy_policy.md`
 - Static HTML copy: `privacy-policy.html`
 
-Confirm the deployed privacy policy URL loads over HTTPS before pasting it into Play Console.
+Confirm the deployed privacy policy URL actually serves the policy before
+pasting it into Play Console — not merely that it loads. The site returns the
+app shell with HTTP 200 for unknown paths, so a status-code check passes even
+when the policy is not published:
+
+```bash
+curl -s "$URL" | grep -qi "privacy policy" && echo OK || echo "NOT the policy"
+```
+
+See `UPLOAD_CHECKLIST.md` for current hosting status.
 
 ## C) App signing readiness
 
