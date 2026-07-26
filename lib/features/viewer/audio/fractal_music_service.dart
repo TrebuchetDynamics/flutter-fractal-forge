@@ -845,6 +845,13 @@ List<_MusicEvent> _composeScanScore({
   // Brighter images sing higher. Octave steps only, so the chord keeps its
   // pitch classes; the bass stays anchored so the low end does not move.
   final register = identity.registerSemitones;
+  // The pad is the bridge between the anchored bass and the melody, so it only
+  // follows the register lift as far as one octave. Letting it take the full
+  // two leaves a hole in the middle of the spectrum: measured on a bright
+  // fractal, 90-180Hz and 1440-2880Hz both carried heavy energy while
+  // 360-720Hz sat at 2%, so the arrangement split into bass plus treble with
+  // nothing between.
+  final padRegister = math.min(register, 12);
   final progression = _musicProgression(
     major: major,
     index: identity.progressionIndex,
@@ -949,7 +956,7 @@ List<_MusicEvent> _composeScanScore({
       events.add(_MusicEvent(
         startSample: barStart,
         sustainSamples: barSustain,
-        midi: chordRootMidi + register + tone,
+        midi: chordRootMidi + padRegister + tone,
         velocity: barVelocity * 0.8,
         harmonicBoost: harmonicBoost,
         voice: _MusicVoice.pad,
@@ -1041,7 +1048,9 @@ List<_MusicEvent> _composeScanScore({
         events.add(_MusicEvent(
           startSample: beatStart,
           sustainSamples: math.max(1, (samplesPerBeat * 0.25).round()),
-          midi: leadMidi + 12,
+          // Texture is a sparkle an octave over the lead, so it has to follow
+          // the lead's register rather than the unshifted pitch.
+          midi: leadMidi + register + 12,
           velocity: summary.detail.clamp(0.0, 1.0),
           harmonicBoost: 0.0,
           voice: _MusicVoice.texture,
