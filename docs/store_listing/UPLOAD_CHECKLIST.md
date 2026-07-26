@@ -26,7 +26,7 @@ Legend:
 - ✅ Content rating answers finalized (`store_listing/content_rating_readiness.md`)
 
 ## 4) Privacy policy URL requirement
-- ✅ Privacy policy content drafted (`store_listing/privacy_policy.md`)
+- ✅ Privacy policy published (`web/privacy-policy.html`, single source)
 - 🟡 **JUAN-ACTION-NEEDED:** Publish this policy at a live HTTPS URL and place it in Play Console.
 
 ### Hosting status

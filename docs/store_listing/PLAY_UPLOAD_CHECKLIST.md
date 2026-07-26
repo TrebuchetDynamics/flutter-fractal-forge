@@ -29,7 +29,7 @@ This checklist is for Google Play Console maintenance releases. The app is publi
 - [DONE] Content rating answers
   - Path: `store_listing/content_rating_readiness.md`
 - [DONE] Privacy policy text draft
-  - Path: `store_listing/privacy_policy.md`
+  - Path: `web/privacy-policy.html`
 - [DONE] Permissions audit
   - Path: `store_listing/manifest_permissions_audit.md`
 
@@ -38,7 +38,7 @@ This checklist is for Google Play Console maintenance releases. The app is publi
 Google Play requires a **public HTTPS URL** for the privacy policy.
 
 - Public app/site: `https://fractal.trebuchetdynamics.com`
-- Repository copy: `store_listing/privacy_policy.md`
+- Source of truth: `web/privacy-policy.html` (deployed with the site)
 - Published policy: `web/privacy-policy.html` -> `/privacy-policy` (live)
 
 Confirm the deployed privacy policy URL actually serves the policy before
@@ -78,7 +78,7 @@ See `UPLOAD_CHECKLIST.md` for current hosting status.
    - Feature graphic `store_listing/feature_graphic.png`
    - Screenshots from `store_listing/screenshots/*_9x16.png`
 5. [JUAN-ACTION-NEEDED] Complete Content Rating using `store_listing/content_rating_readiness.md`.
-6. [JUAN-ACTION-NEEDED] Enter Privacy Policy URL (published from `store_listing/privacy_policy.md`).
+6. [JUAN-ACTION-NEEDED] Enter Privacy Policy URL (published from `web/privacy-policy.html`).
 7. [JUAN-ACTION-NEEDED] Complete Data Safety and other policy declarations.
 8. [JUAN-ACTION-NEEDED] Submit to Internal Testing (recommended first), then production rollout.
 
