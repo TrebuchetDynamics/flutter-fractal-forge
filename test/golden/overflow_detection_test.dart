@@ -146,9 +146,6 @@ void main() {
         label: 'Catalog / dark / 3.0x',
       );
     },
-        skip:
-            true /* Known overflow at 3.0x text scale —
-            catalog search bar and section headers need responsive layout fix */
         );
 
     testWidgets('no overflow at normal text scale (high contrast)',
@@ -172,9 +169,6 @@ void main() {
         label: 'Catalog / highContrast / 3.0x',
       );
     },
-        skip:
-            true /* Known overflow at 3.0x text scale —
-            catalog search bar and section headers need responsive layout fix */
         );
   });
 

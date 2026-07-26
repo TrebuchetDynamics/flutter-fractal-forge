@@ -360,7 +360,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
               key: const Key('catalogPinnedFilterBar'),
               pinned: true,
               delegate: _PinnedHeaderDelegate(
-                height: 80,
+                height: _pinnedFilterBarHeight(context),
                 child: _buildPinnedTopBar(context, l10n, filterResult),
               ),
             ),
@@ -426,6 +426,21 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
         return a.compareTo(b);
       });
     return [null, ...categories];
+  }
+
+  /// Height of the pinned filter bar.
+  ///
+  /// A SliverPersistentHeader needs a fixed extent, so this cannot be measured
+  /// from the content. The bar is mostly fixed padding around a single line of
+  /// chip text, which is why it overflowed by only 2px at a 3.0x accessibility
+  /// text scale -- so the extent grows by however much that text grows rather
+  /// than by the whole scale factor, which would reserve 240px for content
+  /// needing 82.
+  static double _pinnedFilterBarHeight(BuildContext context) {
+    const base = 80.0;
+    const chipFontSize = 12.0;
+    final scaled = MediaQuery.textScalerOf(context).scale(chipFontSize);
+    return base + (scaled - chipFontSize).clamp(0.0, 48.0);
   }
 
   Widget _buildPinnedTopBar(
