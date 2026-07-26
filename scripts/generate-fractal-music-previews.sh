@@ -149,7 +149,10 @@ void writeRealCapturePreviews(Directory outDir) {
     final label = file.uri.pathSegments.last
         .replaceAll('.png', '')
         .replaceAll('_', '-');
-    final key = noteNames[identity.rootSemitones];
+    // rootSemitones is an offset from the composer's base pitch, MIDI 45 (A2),
+    // not from C -- so the sounding key is nine semitones up from a naive
+    // C-indexed lookup.
+    final key = noteNames[(identity.rootSemitones + 9) % 12];
     final mode = identity.major ? 'maj' : 'min';
     final name = 'real-$label-$key$mode-${identity.bpm}bpm'
         '-prog${identity.progressionIndex}'
