@@ -5,6 +5,17 @@ All notable changes to Flutter Fractal Forge are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.77] - 2026-07-26
+
+### Fixed
+- Fractal Music made too many fractals sound alike. The thresholds deciding
+  tempo, major or minor, octave, and which chord progression to use were set
+  against a sample that turned out not to be representative, so most fractals
+  landed on the same choices — roughly half the catalog shared a single chord
+  progression. They are now set from a measurement of 85 real renders across
+  the catalog, so the full range of each is actually reached and two different
+  fractals are far more likely to sound genuinely different.
+
 ## [1.1.76] - 2026-07-25
 
 ### Changed
