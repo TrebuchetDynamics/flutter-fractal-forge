@@ -1,18 +1,23 @@
-# Web Preview GitHub Pages Deployment
+# Web Preview Deployment
 
 > Current public URL: https://fractal.trebuchetdynamics.com/
 >
 > This page documents how to publish the Fractal Forge browser preview after an owner explicitly approves deployment.
+>
+> The preview is served from Cloudflare Pages. A manual GitHub Pages workflow
+> existed alongside it but never deployed successfully -- GitHub Pages was
+> never enabled on the repository, so its deploy job failed 404 on both of its
+> two runs -- and it was removed rather than left as a broken second path.
 
 ## What is prepared
 
 - Landing wrapper: `web/landing.html`
 - Flutter app entrypoint: `web/index.html`
 - Landing media: `web/landing-assets/`
-- Local/CI build verifier: `scripts/build-web-preview.sh`
-- Manual-only GitHub Pages workflow: `.github/workflows/web-preview-pages.yml`
+- Build script: `scripts/build-web-preview.sh` (takes the base href as its argument)
+- Deploy stage: `scripts/release.sh website`
 
-The workflow has **no push trigger**. It only runs from GitHub Actions `workflow_dispatch` and requires typing `deploy-web-preview` in the confirmation input.
+There is no push-triggered deploy. Publishing is always an explicit owner action.
 
 ## Public URL
 
@@ -50,14 +55,13 @@ This verifies:
 - local landing links resolve.
 - Flutter `base href` matches `/flutter-fractal-forge/`.
 
-## GitHub repository settings
+## Deploy prerequisites
 
-Before running the workflow:
-
-1. Open repository **Settings → Pages**.
-2. Set **Build and deployment → Source** to **GitHub Actions**.
-3. Ensure Actions are enabled for the repository.
-4. Confirm the repository name is still `flutter-fractal-forge`; otherwise update the base href used by the workflow and expected URL.
+1. `wrangler` installed and on `PATH`.
+2. `CLOUDFLARE_API_TOKEN` set, or `CLOUDFLARE_API_KEY` present in `.env` at the
+   project root, which the website stage falls back to.
+3. `CLOUDFLARE_PAGES_PROJECT` if the target is not the default
+   `flutter-fractal-forge`.
 
 ## Pre-deploy hardware smoke
 
@@ -80,12 +84,16 @@ This does not prove full web parity. Export/share, CPU precision fallback, and d
 Only after explicit owner approval to deploy and after the pre-deploy hardware smoke passes:
 
 1. Push the prepared branch/commit to `main`.
-2. Go to **Actions → Web preview GitHub Pages**.
-3. Click **Run workflow**.
-4. Enter confirmation exactly:
+2. Preview what would happen without publishing:
 
-   ```text
-   deploy-web-preview
+   ```bash
+   scripts/release.sh website --dry-run
+   ```
+
+3. Publish:
+
+   ```bash
+   scripts/release.sh website
    ```
 
 5. Wait for the deploy job to finish.
@@ -113,6 +121,7 @@ Do not market this as full web parity yet:
 
 If the public preview is bad:
 
-1. Disable GitHub Pages in **Settings → Pages**, or rerun the workflow from a known-good commit.
+1. Roll back the deployment in the Cloudflare Pages dashboard, or rerun the
+   website stage from a known-good commit.
 2. Keep the README/social copy pointed at the installable app until the web preview is fixed.
 3. File regressions with the `web-preview` label.
