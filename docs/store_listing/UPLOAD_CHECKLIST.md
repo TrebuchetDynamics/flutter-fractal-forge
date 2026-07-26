@@ -38,9 +38,11 @@ website`. Any `*.github.io` URL for this project is stale.
 The policy lives at `web/privacy-policy.html`, so the web build copies it into
 `build/web` and the website stage publishes it at:
 
-- `https://fractal.trebuchetdynamics.com/privacy-policy.html`
+- `https://fractal.trebuchetdynamics.com/privacy-policy`
 
-Use that exact path in Play Console.
+Use that exact URL in Play Console. Cloudflare Pages serves extensionless
+paths, 308-redirecting `/privacy-policy.html` to `/privacy-policy`, so the
+canonical address has no `.html`.
 
 > Beware a false pass: the site serves the app shell for unknown paths, so a
 > mistyped or unpublished path still returns **HTTP 200** while rendering the
@@ -49,7 +51,9 @@ Use that exact path in Play Console.
 
 ```bash
 # Passes only if the page is really the policy.
-curl -s https://fractal.trebuchetdynamics.com/privacy-policy.html \
+# -L matters: without it the .html form's 308 is not followed and this
+# reports a false negative on a policy that is correctly published.
+curl -sL https://fractal.trebuchetdynamics.com/privacy-policy \
   | grep -qi "privacy policy" && echo OK || echo "NOT the policy"
 ```
 
