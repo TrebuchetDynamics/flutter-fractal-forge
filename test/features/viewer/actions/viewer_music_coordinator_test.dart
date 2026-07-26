@@ -88,6 +88,22 @@ void main() {
     );
   }
 
+  /// Waits until [condition] holds rather than guessing how long the restart
+  /// chain takes. The chain is a timer plus a frame capture plus an async play,
+  /// so a fixed few-millisecond sleep is not a safe budget: under full-suite
+  /// load it is missed often enough to flake, while in isolation it always
+  /// passes. Polling keeps the assertion exactly as strict and removes the
+  /// dependence on machine speed.
+  Future<void> waitUntil(
+    bool Function() condition, {
+    Duration timeout = const Duration(seconds: 2),
+  }) async {
+    final deadline = DateTime.now().add(timeout);
+    while (!condition() && DateTime.now().isBefore(deadline)) {
+      await Future<void>.delayed(const Duration(milliseconds: 1));
+    }
+  }
+
   FractalMusicScanFrame frameWithValue(int value) {
     final rgba = Uint8List(4 * 4 * 4);
     for (var i = 0; i < 4 * 4; i++) {
@@ -508,7 +524,7 @@ void main() {
       final coord = makeCoordinator(effects: effects, syncCalls: syncs);
 
       coord.scheduleRescan(controller);
-      await Future<void>.delayed(const Duration(milliseconds: 5));
+      await waitUntil(() => music.playCount >= 1);
       expect(music.playCount, 1);
 
       coord.cancelRescan();
@@ -548,7 +564,7 @@ void main() {
       );
 
       coord.scheduleRescan(controller);
-      await Future<void>.delayed(const Duration(milliseconds: 3));
+      await waitUntil(() => music.playCount >= 1);
       expect(music.playCount, 1);
       coord.cancelRescan();
       await Future<void>.delayed(const Duration(milliseconds: 12));
