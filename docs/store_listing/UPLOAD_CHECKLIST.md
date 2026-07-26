@@ -35,20 +35,17 @@ GitHub Pages is not used and is not enabled for this repository; the public
 site is served from Cloudflare Pages and deployed by `scripts/release.sh
 website`. Any `*.github.io` URL for this project is stale.
 
-**The policy is not currently served by this repository's tooling.**
-`docs/privacy-policy.html` exists, but the web deploy publishes `build/web`,
-which is produced from `web/` — and `web/` contains no privacy policy. Nothing
-copies `docs/` into the bundle.
+The policy lives at `web/privacy-policy.html`, so the web build copies it into
+`build/web` and the website stage publishes it at:
 
-To publish it from here, the policy has to be added to `web/` so it lands in
-`build/web`, then deployed with the website stage. Verify afterwards using the
-check below, not the status code.
+- `https://fractal.trebuchetdynamics.com/privacy-policy.html`
 
-> Beware a false pass: the site serves the app shell for unknown paths, so
-> `https://fractal.trebuchetdynamics.com/privacy-policy.html`,
-> `/privacy-policy/` and `/privacy/` all return **HTTP 200** today while
-> rendering the app, not the policy. Checking only that the URL "loads" will
-> tick this box incorrectly.
+Use that exact path in Play Console.
+
+> Beware a false pass: the site serves the app shell for unknown paths, so a
+> mistyped or unpublished path still returns **HTTP 200** while rendering the
+> app. Checking only that a URL "loads" will tick this box incorrectly —
+> always check the content.
 
 ```bash
 # Passes only if the page is really the policy.
