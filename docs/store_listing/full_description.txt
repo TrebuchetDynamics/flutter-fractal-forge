@@ -19,7 +19,6 @@ Features:
 • Looper for animated parameter motion
 • Fractal Music generation from visual scans
 • Wallpaper apply/save tools
-• Camera overlay experiments that stay on device
 • Export and share tools
 • Accessibility support with high contrast, reduced motion, labels, and configurable touch targets
 
