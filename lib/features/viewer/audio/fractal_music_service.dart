@@ -953,10 +953,15 @@ List<_MusicEvent> _composeScanScore({
       voice: _MusicVoice.bass,
     ));
     for (final tone in major ? const [0, 4, 7] : const [0, 3, 7]) {
+      // Open voicing. The pad's root stays at the chord root so it sits one
+      // octave above the bass and bridges it; only the third and fifth take
+      // the register lift. Lifting the whole triad left two full octaves of
+      // nothing between bass and pad, which is audible as a hollow middle.
+      final lift = tone == 0 ? 0 : padRegister;
       events.add(_MusicEvent(
         startSample: barStart,
         sustainSamples: barSustain,
-        midi: chordRootMidi + padRegister + tone,
+        midi: chordRootMidi + lift + tone,
         velocity: barVelocity * 0.8,
         harmonicBoost: harmonicBoost,
         voice: _MusicVoice.pad,
