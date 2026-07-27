@@ -141,9 +141,12 @@ instead of reconstructed one by one.
 ## [Unreleased]
 
 ### Planned
-- Smooth coloring and palette system improvements
-- Perturbation theory for GPU deep zoom beyond float32 limits
+- Smooth coloring across the remaining escape-time shaders (done in the
+  perturbation shader)
 - Improved auto-pilot navigation with manual correction acceptance
 - Enhanced preset management (delete, rename, thumbnail generation)
 - User-defined color palette support
 - Bookmark/favorites system for fractal locations
+
+Perturbation for GPU deep zoom beyond float32 has shipped and is no longer
+planned work; see the Extended GPU Preview entry in CONTEXT.md.
