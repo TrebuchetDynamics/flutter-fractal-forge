@@ -61,6 +61,10 @@ const double _musicBandHysteresis = 0.04;
 /// Key may only move once the hue has drifted more than this many semitones.
 const double _musicRootHysteresisSemitones = 1.5;
 
+/// Above this pitch the lead is doubled an octave down for body. MIDI 79 is
+/// roughly 784Hz, above which a near-sine melody starts to sound thin.
+const int _musicLeadDoubleMidi = 79;
+
 /// Motion above this turns a bar's closing rest into a pickup fill.
 ///
 /// Measured by rendering the same fractal at controlled camera offsets (pans
@@ -1040,14 +1044,30 @@ List<_MusicEvent> _composeScanScore({
               scale: scale,
             );
 
+      final voicedLead = leadMidi + register;
       events.add(_MusicEvent(
         startSample: beatStart,
         sustainSamples: noteSustain,
-        midi: leadMidi + register,
+        midi: voicedLead,
         velocity: _musicVelocity(summary.energy, summary.detail),
         harmonicBoost: summary.energy.clamp(0.0, 1.0) * 0.14,
         voice: _MusicVoice.lead,
       ));
+      // A high melody carried by one near-sine reads as thin: at the top
+      // register the lead sits around 1.8kHz with almost nothing under it.
+      // Doubling an octave below puts body beneath the line without moving
+      // the line itself. Only above _musicLeadDoubleMidi, since a low lead is
+      // already in a body-rich range and doubling it there just muddies.
+      if (voicedLead > _musicLeadDoubleMidi) {
+        events.add(_MusicEvent(
+          startSample: beatStart,
+          sustainSamples: noteSustain,
+          midi: voicedLead - 12,
+          velocity: _musicVelocity(summary.energy, summary.detail) * 0.5,
+          harmonicBoost: summary.energy.clamp(0.0, 1.0) * 0.10,
+          voice: _MusicVoice.lead,
+        ));
+      }
 
       if (summary.detail >= 0.08) {
         events.add(_MusicEvent(
