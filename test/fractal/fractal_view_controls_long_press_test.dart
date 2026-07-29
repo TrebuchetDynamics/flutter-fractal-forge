@@ -79,14 +79,47 @@ void main() {
 
     expect(selectedSectors, 12);
   });
+
+  testWidgets('long-press sheet copy localizes to Spanish', (tester) async {
+    await _pumpHarness(tester, locale: const Locale('es'));
+
+    await tester.longPress(find.byKey(const ValueKey('viewerRandomButton')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Opciones aleatorias'), findsOneWidget);
+    expect(
+      find.text(
+          'Salta a otro fractal o quédate en este y transforma sus parámetros.'),
+      findsOneWidget,
+    );
+    expect(find.text('Cambia a otra entrada del catálogo.'), findsOneWidget);
+    // The English source strings must be gone, not merely accompanied.
+    expect(find.text('Random options'), findsNothing);
+    expect(find.text('Switch to another catalog entry.'), findsNothing);
+
+    await tester.tap(find.byTooltip('Cerrar'));
+    await tester.pumpAndSettle();
+
+    await tester
+        .longPress(find.byKey(const ValueKey('viewerKaleidoscopeButton')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Secciones del kaleidoscopio'), findsOneWidget);
+    expect(find.text('Número de sectores'), findsOneWidget);
+    expect(find.text('Reflejar sectores'), findsOneWidget);
+    expect(find.text('Kaleidoscope sections'), findsNothing);
+    expect(find.text('Wedge count'), findsNothing);
+  });
 }
 
 Future<void> _pumpHarness(
   WidgetTester tester, {
   ValueChanged<int>? onSetSectors,
+  Locale locale = const Locale('en'),
 }) async {
   await tester.pumpWidget(
     MaterialApp(
+      locale: locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       home: Scaffold(

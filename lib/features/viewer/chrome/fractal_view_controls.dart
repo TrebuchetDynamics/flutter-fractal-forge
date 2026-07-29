@@ -105,7 +105,7 @@ class FractalViewControls extends StatelessWidget {
         FloatingActionButtonWidget(
           key: const ValueKey('viewerReportFractalButton'),
           icon: Icons.report_problem_rounded,
-          tooltip: 'Report fractal',
+          tooltip: l10n.tooltipReportFractal,
           onPressed: isExporting ? null : actions.reportFractal,
           onLongPress: isExporting ? null : actions.reportFractal,
           isCompact: true,
@@ -121,21 +121,19 @@ class FractalViewControls extends StatelessWidget {
             : () => _showActionModal(
                   context,
                   icon: Icons.shuffle_rounded,
-                  title: 'Random options',
-                  subtitle:
-                      'Jump to a new fractal or keep this one and reshape its parameters.',
+                  title: l10n.randomOptionsTitle,
+                  subtitle: l10n.randomOptionsSubtitle,
                   children: [
                     _ActionTile(
                       icon: Icons.shuffle_rounded,
                       label: l10n.tooltipRandomFractal,
-                      description: 'Switch to another catalog entry.',
+                      description: l10n.randomOptionsCatalogDescription,
                       onTap: actions.openRandomFractal,
                     ),
                     _ActionTile(
                       icon: Icons.tune_rounded,
                       label: l10n.randomize,
-                      description:
-                          'Stay on this fractal and randomize its controls.',
+                      description: l10n.randomOptionsParamsDescription,
                       onTap: actions.randomizeParams,
                     ),
                   ],
@@ -195,12 +193,12 @@ class FractalViewControls extends StatelessWidget {
                   context,
                   icon: Icons.loop_rounded,
                   title: l10n.tooltipCameraLooper,
-                  subtitle: 'Record repeatable camera motion for exports.',
+                  subtitle: l10n.looperOptionsSubtitle,
                   children: [
                     _ActionTile(
                       icon: Icons.loop_rounded,
                       label: l10n.tooltipCameraLooper,
-                      description: 'Open the looper timeline and GIF controls.',
+                      description: l10n.looperOptionsDescription,
                       onTap: actions.openLooper,
                     ),
                   ],
@@ -233,16 +231,14 @@ class FractalViewControls extends StatelessWidget {
                   context,
                   icon: Icons.music_note,
                   title: l10n.tooltipFractalMusicOff,
-                  subtitle:
-                      'Turn the current image into a visible scan and sound.',
+                  subtitle: l10n.fractalMusicOptionsSubtitle,
                   children: [
                     _ActionTile(
                       icon: Icons.music_note,
                       label: fractalMusicEnabled
                           ? l10n.tooltipFractalMusicOn
                           : l10n.tooltipFractalMusicOff,
-                      description:
-                          'Toggle radial scan sonification for this view.',
+                      description: l10n.fractalMusicOptionsDescription,
                       onTap: actions.toggleFractalMusic,
                     ),
                   ],
@@ -262,12 +258,12 @@ class FractalViewControls extends StatelessWidget {
                   context,
                   icon: Icons.fullscreen_rounded,
                   title: l10n.tooltipFullscreen,
-                  subtitle: 'Hide controls for a cleaner viewing surface.',
+                  subtitle: l10n.fullscreenOptionsSubtitle,
                   children: [
                     _ActionTile(
                       icon: Icons.fullscreen_rounded,
                       label: l10n.tooltipFullscreen,
-                      description: 'Enter the unobtrusive viewer mode.',
+                      description: l10n.fullscreenOptionsDescription,
                       onTap: actions.toggleFullscreen,
                     ),
                   ],
@@ -322,32 +318,32 @@ class FractalViewControls extends StatelessWidget {
           ? '${l10n.tooltipExport} / ${l10n.wallpaperTitle}'
           : l10n.tooltipExport,
       subtitle: supportsWallpaper
-          ? 'Save, share, or fit the current render to your device.'
-          : 'Save or share the current render.',
+          ? l10n.exportOptionsSubtitleWithWallpaper
+          : l10n.exportOptionsSubtitle,
       children: [
         _ActionTile(
           icon: Icons.download_rounded,
           label: l10n.tooltipExport,
-          description: 'Choose resolution and transparent-background options.',
+          description: l10n.exportOptionsExportDescription,
           onTap: actions.openExport,
         ),
         _ActionTile(
           icon: Icons.link_rounded,
           label: l10n.tooltipShare,
-          description: 'Copy a replayable link to this exact view.',
+          description: l10n.exportOptionsLinkDescription,
           onTap: actions.shareLink,
         ),
         _ActionTile(
           icon: Icons.share_rounded,
           label: l10n.shareToSocialTargets,
-          description: 'Render an image and send it to installed apps.',
+          description: l10n.exportOptionsImageDescription,
           onTap: actions.shareImage,
         ),
         if (supportsWallpaper)
           _ActionTile(
             icon: Icons.wallpaper_rounded,
             label: l10n.wallpaperTitle,
-            description: 'Preview crops for phone wallpaper sizes.',
+            description: l10n.exportOptionsWallpaperDescription,
             onTap: actions.openWallpaper,
           ),
       ],
@@ -355,6 +351,7 @@ class FractalViewControls extends StatelessWidget {
   }
 
   void _showKaleidoscopeModal(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     var selectedSectors = kaleidoscopeSectors;
     var mirrorEnabled = kaleidoscopeMirror;
     showModalBottomSheet<void>(
@@ -364,11 +361,11 @@ class FractalViewControls extends StatelessWidget {
       builder: (sheetContext) => StatefulBuilder(
         builder: (context, setSheetState) => _FabOptionsSheet(
           icon: Icons.filter_vintage_rounded,
-          title: 'Kaleidoscope sections',
-          subtitle: 'Pick a symmetry count and mirror behavior for this view.',
+          title: l10n.kaleidoscopeOptionsTitle,
+          subtitle: l10n.kaleidoscopeOptionsSubtitle,
           children: [
             Text(
-              'Wedge count',
+              l10n.kaleidoscopeWedgeCount,
               style: AppTypography.labelLarge.copyWith(
                 color: AppColors.textSecondary,
               ),
@@ -410,8 +407,8 @@ class FractalViewControls extends StatelessWidget {
             const SizedBox(height: AppSpacing.md),
             _SwitchActionTile(
               icon: Icons.flip_rounded,
-              label: 'Mirror wedges',
-              description: 'Reflect each wedge for sharper radial symmetry.',
+              label: l10n.kaleidoscopeMirrorWedges,
+              description: l10n.kaleidoscopeMirrorWedgesDescription,
               value: mirrorEnabled,
               onChanged: (value) {
                 mirrorEnabled = value;
@@ -899,6 +896,7 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
   void _showDefaultLongPressModal() {
     final onPressed = widget.onPressed;
     if (onPressed == null) return;
+    final l10n = AppLocalizations.of(context)!;
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -906,12 +904,12 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
       builder: (_) => _FabOptionsSheet(
         icon: widget.icon,
         title: widget.tooltip,
-        subtitle: 'Available action for this viewer control.',
+        subtitle: l10n.fabSheetGenericSubtitle,
         children: [
           _ActionTile(
             icon: widget.icon,
             label: widget.tooltip,
-            description: 'Run this action and return to the viewer.',
+            description: l10n.fabSheetGenericDescription,
             onTap: onPressed,
           ),
         ],

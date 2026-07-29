@@ -2683,6 +2683,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{title} controls section'**
   String semanticControlsSectionHeader(Object title);
+
+  /// No description provided for @tooltipReportFractal.
+  ///
+  /// In en, this message translates to:
+  /// **'Report fractal'**
+  String get tooltipReportFractal;
+
+  /// No description provided for @fabSheetGenericSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Available action for this viewer control.'**
+  String get fabSheetGenericSubtitle;
+
+  /// No description provided for @fabSheetGenericDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Run this action and return to the viewer.'**
+  String get fabSheetGenericDescription;
+
+  /// No description provided for @randomOptionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Random options'**
+  String get randomOptionsTitle;
+
+  /// No description provided for @randomOptionsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump to a new fractal or keep this one and reshape its parameters.'**
+  String get randomOptionsSubtitle;
+
+  /// No description provided for @randomOptionsCatalogDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to another catalog entry.'**
+  String get randomOptionsCatalogDescription;
+
+  /// No description provided for @randomOptionsParamsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay on this fractal and randomize its controls.'**
+  String get randomOptionsParamsDescription;
+
+  /// No description provided for @exportOptionsSubtitleWithWallpaper.
+  ///
+  /// In en, this message translates to:
+  /// **'Save, share, or fit the current render to your device.'**
+  String get exportOptionsSubtitleWithWallpaper;
+
+  /// No description provided for @exportOptionsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save or share the current render.'**
+  String get exportOptionsSubtitle;
+
+  /// No description provided for @exportOptionsExportDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose resolution and transparent-background options.'**
+  String get exportOptionsExportDescription;
+
+  /// No description provided for @exportOptionsLinkDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy a replayable link to this exact view.'**
+  String get exportOptionsLinkDescription;
+
+  /// No description provided for @exportOptionsImageDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Render an image and send it to installed apps.'**
+  String get exportOptionsImageDescription;
+
+  /// No description provided for @exportOptionsWallpaperDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview crops for phone wallpaper sizes.'**
+  String get exportOptionsWallpaperDescription;
+
+  /// No description provided for @looperOptionsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Record repeatable camera motion for exports.'**
+  String get looperOptionsSubtitle;
+
+  /// No description provided for @looperOptionsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the looper timeline and GIF controls.'**
+  String get looperOptionsDescription;
+
+  /// No description provided for @kaleidoscopeOptionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Kaleidoscope sections'**
+  String get kaleidoscopeOptionsTitle;
+
+  /// No description provided for @kaleidoscopeOptionsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a symmetry count and mirror behavior for this view.'**
+  String get kaleidoscopeOptionsSubtitle;
+
+  /// No description provided for @kaleidoscopeWedgeCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Wedge count'**
+  String get kaleidoscopeWedgeCount;
+
+  /// No description provided for @kaleidoscopeMirrorWedges.
+  ///
+  /// In en, this message translates to:
+  /// **'Mirror wedges'**
+  String get kaleidoscopeMirrorWedges;
+
+  /// No description provided for @kaleidoscopeMirrorWedgesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Reflect each wedge for sharper radial symmetry.'**
+  String get kaleidoscopeMirrorWedgesDescription;
+
+  /// No description provided for @fractalMusicOptionsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn the current image into a visible scan and sound.'**
+  String get fractalMusicOptionsSubtitle;
+
+  /// No description provided for @fractalMusicOptionsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle radial scan sonification for this view.'**
+  String get fractalMusicOptionsDescription;
+
+  /// No description provided for @fullscreenOptionsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide controls for a cleaner viewing surface.'**
+  String get fullscreenOptionsSubtitle;
+
+  /// No description provided for @fullscreenOptionsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the unobtrusive viewer mode.'**
+  String get fullscreenOptionsDescription;
 }
 
 class _AppLocalizationsDelegate

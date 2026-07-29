@@ -631,5 +631,30 @@
     }
   },
   "semanticFeaturedSection": "Carrusel de fractales destacados",
-  "semanticControlsSectionHeader": "Sección de controles {title}"
+  "semanticControlsSectionHeader": "Sección de controles {title}",
+
+  "tooltipReportFractal": "Informar sobre el fractal",
+  "fabSheetGenericSubtitle": "Acción disponible para este control del visor.",
+  "fabSheetGenericDescription": "Ejecuta esta acción y vuelve al visor.",
+  "randomOptionsTitle": "Opciones aleatorias",
+  "randomOptionsSubtitle": "Salta a otro fractal o quédate en este y transforma sus parámetros.",
+  "randomOptionsCatalogDescription": "Cambia a otra entrada del catálogo.",
+  "randomOptionsParamsDescription": "Quédate en este fractal y aleatoriza sus controles.",
+  "exportOptionsSubtitleWithWallpaper": "Guarda, comparte o ajusta el render actual a tu dispositivo.",
+  "exportOptionsSubtitle": "Guarda o comparte el render actual.",
+  "exportOptionsExportDescription": "Elige la resolución y las opciones de fondo transparente.",
+  "exportOptionsLinkDescription": "Copia un enlace que reproduce esta vista exacta.",
+  "exportOptionsImageDescription": "Genera una imagen y envíala a las apps instaladas.",
+  "exportOptionsWallpaperDescription": "Previsualiza recortes para tamaños de fondo de pantalla.",
+  "looperOptionsSubtitle": "Graba un movimiento de cámara repetible para tus exportaciones.",
+  "looperOptionsDescription": "Abre la línea de tiempo del bucle y los controles de GIF.",
+  "kaleidoscopeOptionsTitle": "Secciones del kaleidoscopio",
+  "kaleidoscopeOptionsSubtitle": "Elige el número de simetrías y el comportamiento del espejo para esta vista.",
+  "kaleidoscopeWedgeCount": "Número de sectores",
+  "kaleidoscopeMirrorWedges": "Reflejar sectores",
+  "kaleidoscopeMirrorWedgesDescription": "Refleja cada sector para lograr una simetría radial más nítida.",
+  "fractalMusicOptionsSubtitle": "Convierte la imagen actual en un barrido visible y en sonido.",
+  "fractalMusicOptionsDescription": "Activa o desactiva la sonificación por barrido radial en esta vista.",
+  "fullscreenOptionsSubtitle": "Oculta los controles para una superficie de visualización más limpia.",
+  "fullscreenOptionsDescription": "Entra en el modo de visor discreto."
 }

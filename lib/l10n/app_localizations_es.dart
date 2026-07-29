@@ -1418,4 +1418,94 @@ class AppLocalizationsEs extends AppLocalizations {
   String semanticControlsSectionHeader(Object title) {
     return 'Sección de controles $title';
   }
+
+  @override
+  String get tooltipReportFractal => 'Informar sobre el fractal';
+
+  @override
+  String get fabSheetGenericSubtitle =>
+      'Acción disponible para este control del visor.';
+
+  @override
+  String get fabSheetGenericDescription =>
+      'Ejecuta esta acción y vuelve al visor.';
+
+  @override
+  String get randomOptionsTitle => 'Opciones aleatorias';
+
+  @override
+  String get randomOptionsSubtitle =>
+      'Salta a otro fractal o quédate en este y transforma sus parámetros.';
+
+  @override
+  String get randomOptionsCatalogDescription =>
+      'Cambia a otra entrada del catálogo.';
+
+  @override
+  String get randomOptionsParamsDescription =>
+      'Quédate en este fractal y aleatoriza sus controles.';
+
+  @override
+  String get exportOptionsSubtitleWithWallpaper =>
+      'Guarda, comparte o ajusta el render actual a tu dispositivo.';
+
+  @override
+  String get exportOptionsSubtitle => 'Guarda o comparte el render actual.';
+
+  @override
+  String get exportOptionsExportDescription =>
+      'Elige la resolución y las opciones de fondo transparente.';
+
+  @override
+  String get exportOptionsLinkDescription =>
+      'Copia un enlace que reproduce esta vista exacta.';
+
+  @override
+  String get exportOptionsImageDescription =>
+      'Genera una imagen y envíala a las apps instaladas.';
+
+  @override
+  String get exportOptionsWallpaperDescription =>
+      'Previsualiza recortes para tamaños de fondo de pantalla.';
+
+  @override
+  String get looperOptionsSubtitle =>
+      'Graba un movimiento de cámara repetible para tus exportaciones.';
+
+  @override
+  String get looperOptionsDescription =>
+      'Abre la línea de tiempo del bucle y los controles de GIF.';
+
+  @override
+  String get kaleidoscopeOptionsTitle => 'Secciones del kaleidoscopio';
+
+  @override
+  String get kaleidoscopeOptionsSubtitle =>
+      'Elige el número de simetrías y el comportamiento del espejo para esta vista.';
+
+  @override
+  String get kaleidoscopeWedgeCount => 'Número de sectores';
+
+  @override
+  String get kaleidoscopeMirrorWedges => 'Reflejar sectores';
+
+  @override
+  String get kaleidoscopeMirrorWedgesDescription =>
+      'Refleja cada sector para lograr una simetría radial más nítida.';
+
+  @override
+  String get fractalMusicOptionsSubtitle =>
+      'Convierte la imagen actual en un barrido visible y en sonido.';
+
+  @override
+  String get fractalMusicOptionsDescription =>
+      'Activa o desactiva la sonificación por barrido radial en esta vista.';
+
+  @override
+  String get fullscreenOptionsSubtitle =>
+      'Oculta los controles para una superficie de visualización más limpia.';
+
+  @override
+  String get fullscreenOptionsDescription =>
+      'Entra en el modo de visor discreto.';
 }

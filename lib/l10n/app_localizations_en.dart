@@ -1402,4 +1402,94 @@ class AppLocalizationsEn extends AppLocalizations {
   String semanticControlsSectionHeader(Object title) {
     return '$title controls section';
   }
+
+  @override
+  String get tooltipReportFractal => 'Report fractal';
+
+  @override
+  String get fabSheetGenericSubtitle =>
+      'Available action for this viewer control.';
+
+  @override
+  String get fabSheetGenericDescription =>
+      'Run this action and return to the viewer.';
+
+  @override
+  String get randomOptionsTitle => 'Random options';
+
+  @override
+  String get randomOptionsSubtitle =>
+      'Jump to a new fractal or keep this one and reshape its parameters.';
+
+  @override
+  String get randomOptionsCatalogDescription =>
+      'Switch to another catalog entry.';
+
+  @override
+  String get randomOptionsParamsDescription =>
+      'Stay on this fractal and randomize its controls.';
+
+  @override
+  String get exportOptionsSubtitleWithWallpaper =>
+      'Save, share, or fit the current render to your device.';
+
+  @override
+  String get exportOptionsSubtitle => 'Save or share the current render.';
+
+  @override
+  String get exportOptionsExportDescription =>
+      'Choose resolution and transparent-background options.';
+
+  @override
+  String get exportOptionsLinkDescription =>
+      'Copy a replayable link to this exact view.';
+
+  @override
+  String get exportOptionsImageDescription =>
+      'Render an image and send it to installed apps.';
+
+  @override
+  String get exportOptionsWallpaperDescription =>
+      'Preview crops for phone wallpaper sizes.';
+
+  @override
+  String get looperOptionsSubtitle =>
+      'Record repeatable camera motion for exports.';
+
+  @override
+  String get looperOptionsDescription =>
+      'Open the looper timeline and GIF controls.';
+
+  @override
+  String get kaleidoscopeOptionsTitle => 'Kaleidoscope sections';
+
+  @override
+  String get kaleidoscopeOptionsSubtitle =>
+      'Pick a symmetry count and mirror behavior for this view.';
+
+  @override
+  String get kaleidoscopeWedgeCount => 'Wedge count';
+
+  @override
+  String get kaleidoscopeMirrorWedges => 'Mirror wedges';
+
+  @override
+  String get kaleidoscopeMirrorWedgesDescription =>
+      'Reflect each wedge for sharper radial symmetry.';
+
+  @override
+  String get fractalMusicOptionsSubtitle =>
+      'Turn the current image into a visible scan and sound.';
+
+  @override
+  String get fractalMusicOptionsDescription =>
+      'Toggle radial scan sonification for this view.';
+
+  @override
+  String get fullscreenOptionsSubtitle =>
+      'Hide controls for a cleaner viewing surface.';
+
+  @override
+  String get fullscreenOptionsDescription =>
+      'Enter the unobtrusive viewer mode.';
 }
