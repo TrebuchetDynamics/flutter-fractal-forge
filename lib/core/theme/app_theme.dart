@@ -14,7 +14,15 @@ class AppColors {
 
   // Accent colors - cosmic purple/blue gradient
   static const Color primary = Color(0xFF7C4DFF);
-  static const Color primaryLight = Color(0xFFB388FF);
+
+  /// Accent for text and icons drawn straight onto a surface.
+  ///
+  /// Lighter than [primary] on purpose: [primary] measures 3.86:1 on [surface]
+  /// and 3.57:1 on [surfaceVariant], below the 4.5 WCAG AA floor for body text.
+  /// This value measures 9.02:1 and 8.33:1, clearing AAA (7:1) with margin.
+  /// [primary] stays correct on a filled control, which supplies its own
+  /// background. Locked by test/a11y/accent_contrast_test.dart.
+  static const Color primaryLight = Color(0xFFC7A4FF);
   static const Color primaryDark = Color(0xFF5C3DBF);
 
   // Secondary - cyan/teal for contrast
@@ -130,7 +138,10 @@ class OledColors {
 
   // Accent colors - same cosmic purple/blue
   static const Color primary = Color(0xFF7C4DFF);
-  static const Color primaryLight = Color(0xFFB388FF);
+
+  /// See [AppColors.primaryLight]. Measures 9.60:1 on the OLED [surface] and
+  /// 8.44:1 on [surfaceVariant].
+  static const Color primaryLight = Color(0xFFC7A4FF);
   static const Color primaryDark = Color(0xFF5C3DBF);
 
   // Secondary - same cyan/teal

@@ -4,9 +4,8 @@
 
 - **Dark-first**: Dark theme is the primary experience (fractals look best on dark backgrounds)
 - **Performance-first**: UI must never block GPU rendering (60 FPS target)
-- **Accessibility-first**: WCAG AAA is the goal for all interactive elements.
-  The automated gate enforces AA today and one token falls short of AAA — see
-  [Contrast Ratios](#contrast-ratios) for the measured numbers.
+- **Accessibility-first**: WCAG AAA for all text. Every token a user reads
+  clears 7:1 on both surfaces — see [Contrast Ratios](#contrast-ratios).
 
 ---
 
@@ -30,7 +29,7 @@ other two themes and deliberately differ.
 | Token | Hex | Usage |
 |-------|-----|-------|
 | `primary` | `#7C4DFF` | Filled buttons, FABs, selection fills |
-| `primaryLight` | `#B388FF` | Text buttons, accents on a bare surface |
+| `primaryLight` | `#C7A4FF` | Text buttons, accents on a bare surface |
 | `primaryDark` | `#5C3DBF` | Pressed/darker accent |
 | `secondary` | `#18FFFF` | Secondary actions, links |
 | `secondaryLight` | `#76FFFF` | — |
@@ -38,7 +37,7 @@ other two themes and deliberately differ.
 
 Use `primaryLight`, not `primary`, for text that sits directly on a surface:
 `primary` measures 3.86:1 on `surface`, under the 4.5 WCAG AA threshold for
-body text, while `primaryLight` gives 6.98:1. `primary` is fine on a filled
+body text, while `primaryLight` gives 9.02:1. `primary` is fine on a filled
 button, which supplies its own background.
 
 ### Text and lines
@@ -169,7 +168,7 @@ Use `AppBottomSheet` / `AppDraggableBottomSheet` in
 |------|------------|------|--------|
 | Filled | `primary` (`#7C4DFF`) | White | None |
 | Outlined | Transparent | `primary` | 1px `primary` |
-| Text | Transparent | `primaryLight` (`#B388FF`) | None |
+| Text | Transparent | `primaryLight` (`#C7A4FF`) | None |
 | FAB | `primary` gradient when active, else `surface` | White / `textPrimary` | 1px white at 14–22% |
 
 Text buttons use `primaryLight` for contrast (see Accents). The viewer's FAB
@@ -263,14 +262,16 @@ Measured against the dark theme, `surface` `#12121C` / `surfaceVariant`
 |-------|-----------|-----------|----------|---------|
 | `textPrimary` | 17.08 | 15.78 | pass | pass |
 | `textSecondary` | 8.63 | 7.98 | pass | pass |
-| `primaryLight` | 6.98 | 6.45 | pass | **short** |
+| `primaryLight` | 9.02 | 8.33 | pass | pass |
 | `textMuted` | 3.70 | 3.42 | **fail** | fail |
 
 `textMuted` clears the 3:1 threshold for icons and decoration only; do not use
-it for text. `primaryLight` clears AA but lands just under AAA, so the
-"AAA on all interactive elements" goal in Design Philosophy is not currently
-met for text buttons — closing that gap needs a lighter accent than any token
-in the palette today.
+it for text. Everything a user reads clears AAA.
+
+`test/a11y/accent_contrast_test.dart` locks these ratios by arithmetic, since
+Flutter's `textContrastGuideline` only enforces the AA floor. It also asserts
+`primary` still fails AA on a bare surface, which is the reason
+`primaryLight` exists as a separate token.
 
 What is actually enforced: `test/a11y/semantics/interactive_name_audit_test.dart`
 asserts Flutter's `textContrastGuideline`, which is the **AA** 4.5 threshold,
