@@ -19,31 +19,40 @@ const int _musicBeatsPerBar = 4;
 /// (24/28/32/36/40 beats). Image detail density picks the band.
 const List<int> _musicTempoBpmBands = [60, 70, 80, 90, 100];
 
-// Band edges are quantiles of a measured corpus: 80 GPU-rendered catalog
-// thumbnails plus the five viewer captures, each normalised to the grid the
-// live scan actually sees (pixelRatio 0.25 of the logical viewport, ~270x480).
-// Normalising matters -- detail is a local gradient measure, so reading it off
-// a higher-resolution capture inflates it several fold.
+// Band edges are quantiles of a measured corpus of 246 renders: catalog
+// thumbnails across the registry plus the app's viewer captures, each
+// normalised to the grid the live scan actually sees (pixelRatio 0.25 of the
+// logical viewport, ~270x480). Normalising matters -- detail is a local
+// gradient measure, so reading it off a higher-resolution capture inflates it
+// several fold.
 //
-// Corpus ranges: brightness 0.01-0.98 (median 0.29), detail 0.005-0.53
-// (median 0.06), saturation 0.0-0.83 (median 0.25). Quantile edges keep every
-// band roughly equally used; even splits of 0-1 do not, because all three
-// features are heavily skewed toward the low end.
+// Corpus medians: brightness 0.57, contrast 0.11, detail 0.05, saturation 0.35.
+// Quantile edges keep every band roughly equally used; even splits of 0-1 do
+// not, because the features are skewed.
+//
+// The previous edges were fitted to a smaller, darker corpus. Once the
+// attractor renders were fixed the catalog got much brighter and nearly all of
+// it landed in the top register band.
 //
 // Re-measure if the scan bins or the collapse formulas change.
-const List<double> _musicTempoDetailEdges = [0.04, 0.055, 0.07, 0.15];
-const List<double> _musicRegisterBrightnessEdges = [0.21, 0.46];
-const List<double> _musicModeBrightnessEdges = [0.30];
+const List<double> _musicTempoDetailEdges = [0.022, 0.043, 0.079, 0.149];
+const List<double> _musicRegisterBrightnessEdges = [0.39, 0.673];
+
+/// Mode comes from contrast, not brightness. Brightness already sets the
+/// register, and driving both from one feature collapsed two of the four
+/// identity dimensions into one: a bright fractal was forced to be major AND
+/// high, so a visually varied family sounded the same.
+const List<double> _musicModeContrastEdges = [0.112];
 
 /// Saturation picks the progression, at octiles of the measured corpus.
 const List<double> _musicProgressionSaturationEdges = [
-  0.07,
-  0.12,
-  0.17,
-  0.25,
-  0.32,
-  0.39,
-  0.48,
+  0.171,
+  0.234,
+  0.303,
+  0.354,
+  0.411,
+  0.535,
+  0.632,
 ];
 
 /// Progression and tempo bands are far narrower than the register/mode ones --
@@ -118,12 +127,17 @@ class FractalMusicScanFrame {
 @immutable
 class FractalMusicFeatures {
   final double brightness;
+
+  /// Spread of brightness across the scan, independent of its mean. Drives
+  /// mode, so a bright image is no longer forced to be both major and high.
+  final double contrast;
   final double detail;
   final double hue;
   final double saturation;
 
   const FractalMusicFeatures({
     required this.brightness,
+    this.contrast = 0.0,
     required this.detail,
     required this.hue,
     required this.saturation,
@@ -222,6 +236,7 @@ FractalMusicFeatures fractalMusicFeaturesOf(FractalMusicScanFrame frame) {
   final collapsed = _collapseDistanceProfile(bins);
   return FractalMusicFeatures(
     brightness: collapsed.brightness,
+    contrast: collapsed.contrast,
     detail: collapsed.detail,
     hue: collapsed.hue,
     saturation: collapsed.saturation,
@@ -240,8 +255,8 @@ FractalMusicIdentity resolveFractalMusicIdentity(
     previous == null ? null : previous.registerSemitones ~/ 12,
   );
   final modeBand = _bandWithHysteresis(
-    features.brightness,
-    _musicModeBrightnessEdges,
+    features.contrast,
+    _musicModeContrastEdges,
     previous == null ? null : (previous.major ? 1 : 0),
   );
   final tempoBand = _bandWithHysteresis(
@@ -729,6 +744,7 @@ Uint8List buildFractalMusicScanWav({
   final resolved = identity ??
       resolveFractalMusicIdentity(FractalMusicFeatures(
         brightness: harmonyProfile.brightness,
+        contrast: harmonyProfile.contrast,
         detail: harmonyProfile.detail,
         hue: harmonyProfile.hue,
         saturation: harmonyProfile.saturation,
@@ -1177,8 +1193,13 @@ Uint8List _renderScore(
 }
 
 @visibleForTesting
-({double brightness, double detail, double hue, double saturation})
-    debugFractalMusicScanProfile({
+({
+  double brightness,
+  double contrast,
+  double detail,
+  double hue,
+  double saturation
+}) debugFractalMusicScanProfile({
   required FractalMusicScanFrame scanFrame,
   required int step,
   int steps = _scanMusicSteps,
@@ -1288,8 +1309,13 @@ List<
   });
 }
 
-({double brightness, double detail, double hue, double saturation})
-    _collapseDistanceProfile(
+({
+  double brightness,
+  double contrast,
+  double detail,
+  double hue,
+  double saturation
+}) _collapseDistanceProfile(
   List<
           ({
             double brightness,
@@ -1300,8 +1326,11 @@ List<
           })>
       bins,
 ) {
-  if (bins.isEmpty) return (brightness: 0, detail: 0, hue: 0, saturation: 0);
+  if (bins.isEmpty) {
+    return (brightness: 0, contrast: 0, detail: 0, hue: 0, saturation: 0);
+  }
   var brightness = 0.0;
+  var brightnessSq = 0.0;
   var detail = 0.0;
   var saturation = 0.0;
   var hueX = 0.0;
@@ -1309,6 +1338,7 @@ List<
   var hueWeight = 0.0;
   for (final bin in bins) {
     brightness += bin.brightness;
+    brightnessSq += bin.brightness * bin.brightness;
     detail += bin.detail;
     saturation += bin.saturation;
     final weight = bin.brightness + bin.saturation * 0.25;
@@ -1318,8 +1348,16 @@ List<
   }
   var hue = hueWeight <= 1e-9 ? 0.0 : math.atan2(hueY, hueX) / (math.pi * 2);
   if (hue < 0) hue += 1;
+  final meanBrightness = brightness / bins.length;
+  // Spread of brightness across the scan, not its average. A stark image and a
+  // hazy one can share a mean; this separates them, and it is independent of
+  // how bright the image is overall.
+  final variance =
+      (brightnessSq / bins.length - meanBrightness * meanBrightness)
+          .clamp(0.0, 1.0);
   return (
-    brightness: (brightness / bins.length).clamp(0.0, 1.0),
+    brightness: meanBrightness.clamp(0.0, 1.0),
+    contrast: math.sqrt(variance).clamp(0.0, 1.0),
     detail: (detail / bins.length).clamp(0.0, 1.0),
     hue: hue.clamp(0.0, 1.0),
     saturation: (saturation / bins.length).clamp(0.0, 1.0),

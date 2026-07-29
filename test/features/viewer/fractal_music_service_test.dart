@@ -786,25 +786,29 @@ void main() {
 
   FractalMusicFeatures features({
     double brightness = 0.2,
-    double detail = 0.05,
+    double contrast = 0.05,
+    double detail = 0.03,
     double hue = 0.0,
-    double saturation = 0.5,
+    double saturation = 0.2,
   }) =>
       FractalMusicFeatures(
         brightness: brightness,
+        contrast: contrast,
         detail: detail,
         hue: hue,
         saturation: saturation,
       );
 
   test('mode holds through a nudge and flips once it clears the band', () {
-    final start = resolveFractalMusicIdentity(features(brightness: 0.28));
+    // Mode is driven by contrast, not brightness: brightness already sets the
+    // register, and one feature driving both collapsed the two dimensions.
+    final start = resolveFractalMusicIdentity(features(contrast: 0.09));
     expect(start.major, isFalse);
 
     // Past the raw edge but still inside the hysteresis band: hold.
     expect(
       resolveFractalMusicIdentity(
-        features(brightness: 0.32),
+        features(contrast: 0.13),
         previous: start,
       ).major,
       isFalse,
@@ -812,7 +816,7 @@ void main() {
 
     expect(
       resolveFractalMusicIdentity(
-        features(brightness: 0.35),
+        features(contrast: 0.17),
         previous: start,
       ).major,
       isTrue,
@@ -842,18 +846,18 @@ void main() {
   });
 
   test('tempo holds through a nudge across a detail band edge', () {
-    final start = resolveFractalMusicIdentity(features(detail: 0.02));
+    final start = resolveFractalMusicIdentity(features(detail: 0.015));
     expect(start.bpm, 60);
 
     // Tempo bands are only ~0.015 wide, so they carry a much tighter margin
     // than mode or register; the nudge that holds has to be correspondingly
     // small.
     expect(
-      resolveFractalMusicIdentity(features(detail: 0.042), previous: start).bpm,
+      resolveFractalMusicIdentity(features(detail: 0.025), previous: start).bpm,
       60,
     );
     expect(
-      resolveFractalMusicIdentity(features(detail: 0.05), previous: start).bpm,
+      resolveFractalMusicIdentity(features(detail: 0.06), previous: start).bpm,
       greaterThan(60),
     );
   });
@@ -929,24 +933,25 @@ void main() {
     FractalMusicFeatures withSaturation(double saturation) =>
         FractalMusicFeatures(
           brightness: 0.2,
-          detail: 0.05,
+          contrast: 0.05,
+          detail: 0.03,
           hue: 0.0,
           saturation: saturation,
         );
 
-    final low = resolveFractalMusicIdentity(withSaturation(0.05));
+    final low = resolveFractalMusicIdentity(withSaturation(0.12));
     expect(low.progressionIndex, 0);
-    expect(resolveFractalMusicIdentity(withSaturation(0.10)).progressionIndex,
+    expect(resolveFractalMusicIdentity(withSaturation(0.20)).progressionIndex,
         greaterThan(0));
 
     // Just past the edge but inside the tighter progression band: hold.
     expect(
-      resolveFractalMusicIdentity(withSaturation(0.08), previous: low)
+      resolveFractalMusicIdentity(withSaturation(0.18), previous: low)
           .progressionIndex,
       0,
     );
     expect(
-      resolveFractalMusicIdentity(withSaturation(0.09), previous: low)
+      resolveFractalMusicIdentity(withSaturation(0.20), previous: low)
           .progressionIndex,
       1,
     );
