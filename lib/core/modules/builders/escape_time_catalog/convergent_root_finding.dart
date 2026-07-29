@@ -35,6 +35,29 @@ final List<EscapeTimeConfig> _convergentRootFindingCatalog = [
     ],
   ),
   EscapeTimeConfig(
+    id: 'zeta_newton',
+    name: 'Riemann Zeta Newton Basins',
+    shaderAsset: 'shaders/root_finding/zeta_newton_gpu.frag',
+    defaultIterations: 60,
+    defaultBailout: 4.0,
+    // Framed on the critical line: Re(s) = 1/2, with the first nontrivial
+    // zeros at Im(s) ~ 14.13, 21.02, 25.01.
+    defaultCenterX: 0.5,
+    defaultCenterY: 16.0,
+    defaultZoom: 0.06,
+    extraParams: [
+      FractalParameter(
+        id: 'terms',
+        label: (_) => 'Series Terms',
+        type: FractalParamType.float,
+        min: 8,
+        max: 48,
+        step: 1,
+        defaultValue: 28,
+      ),
+    ],
+  ),
+  EscapeTimeConfig(
     id: 'magnet_newton',
     name: 'Magnet Newton',
     shaderAsset: 'shaders/root_finding/magnet_newton_gpu.frag',

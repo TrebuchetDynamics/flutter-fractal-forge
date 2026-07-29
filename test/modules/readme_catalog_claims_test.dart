@@ -17,8 +17,8 @@ void main() {
         .length;
     final diagnostics = modules.length - production;
 
-    expect(production, 977,
-        reason: 'README.md advertises 977 production fractals');
+    expect(production, 978,
+        reason: 'README.md advertises 978 production fractals');
     expect(diagnostics, 7,
         reason: 'README.md says debug/test builds add 7 diagnostic modules');
 
@@ -48,7 +48,7 @@ void main() {
   });
 
   test('public copy does not advertise undeclared device capabilities', () {
-    // Counts were already anchored here, which is why "977" survived fifteen
+    // Counts were already anchored here, which is why "978" survived fifteen
     // translations. Capability claims were not, which is how "camera overlay
     // experiments" reached thirteen locales and the published privacy policy
     // for an app that has never requested camera access.

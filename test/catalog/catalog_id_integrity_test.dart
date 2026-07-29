@@ -11,16 +11,16 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 ///
 /// ## Expected counts (update when catalog intentionally grows)
 ///
-/// - Escape-time catalog raw unique IDs       : 504
+/// - Escape-time catalog raw unique IDs       : 505
 /// - Raymarched-3D catalog unique IDs         :  10
 /// - Custom hand-built modules                :   7
 ///   (julia, julia_dual, phoenix, nova, mandelbulb, mandelbox,
 ///    hydrogen_orbital)
-/// - Total ModuleRegistry modules (debug/test) : 984
-/// - Production fractals excluding diagnostics : 977
+/// - Total ModuleRegistry modules (debug/test) : 985
+/// - Production fractals excluding diagnostics : 978
 ///
 /// The debug/test registry includes 7 diagnostic shader modules; public copy
-/// should use 977 production fractals. The "196 GPU shaders" figure in TODO.md refers to fragment shader
+/// should use 978 production fractals. The "196 GPU shaders" figure in TODO.md refers to fragment shader
 /// assets compiled at build time; it predates the full catalog expansion.
 void main() {
   // ---------------------------------------------------------------------------
@@ -33,8 +33,8 @@ void main() {
       catalog = escapeTimeCatalog;
     });
 
-    test('total entry count is 504', () {
-      expect(catalog.length, 504,
+    test('total entry count is 505', () {
+      expect(catalog.length, 505,
           reason: 'Update this constant when entries are intentionally '
               'added to or removed from escape_time_catalog.dart.');
     });
@@ -118,10 +118,10 @@ void main() {
       registry = ModuleRegistry();
     });
 
-    test('total module count is 984 in debug/test', () {
+    test('total module count is 985 in debug/test', () {
       // Debug/test builds include 7 diagnostic modules. Public docs count
-      // production fractals as 977 after excluding those diagnostics.
-      expect(registry.modules.length, 984,
+      // production fractals as 978 after excluding those diagnostics.
+      expect(registry.modules.length, 985,
           reason: 'Update this constant when modules are intentionally '
               'added to or removed from the de-duplicated registry.');
     });

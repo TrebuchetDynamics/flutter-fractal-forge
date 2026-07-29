@@ -163,6 +163,7 @@ flutter:
     - shaders/escape_time_family/polynomial_maps/talis_gpu.frag
     - shaders/root_finding/halley_gpu.frag
     - shaders/root_finding/householder_gpu.frag
+    - shaders/root_finding/zeta_newton_gpu.frag
     - shaders/root_finding/magnet_newton_gpu.frag
     - shaders/strange_attractors/henon_gpu.frag
     - shaders/strange_attractors/tinkerbell_gpu.frag
