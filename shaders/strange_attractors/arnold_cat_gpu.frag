@@ -58,6 +58,12 @@ void main() {
   float eps = 0.02 / max(1.0, uZoom);
   int period = target;
   float structure = 0.0;
+  // The cat map has Lyapunov exponent ~0.96 per step, so neighbouring pixels
+  // separate by e^(0.96 n). Past about three steps adjacent pixels are fully
+  // decorrelated at thumbnail resolution and any statistic over the orbit is
+  // uniform noise. Capture the orbit while it is still locally smooth: this is
+  // the characteristic shearing the map is known for.
+  vec2 zEarly = z;
 
   for (int i = 0; i < MAX_ITERS; i++) {
     if (i >= target) break;
@@ -66,6 +72,7 @@ void main() {
     z = fract(vec2(2.0 * z.x + z.y, z.x + z.y));
 
     structure += abs(z.x - z.y);
+    if (i == 1) zEarly = z;
 
     if (period == target && distance(z, fract(p + 0.5)) < eps && i > 2) {
       period = i + 1;
@@ -74,7 +81,8 @@ void main() {
 
   float pNorm = float(period) / float(target);
   float sNorm = clamp(structure / float(target), 0.0, 1.0);
-  float t = fract(0.65 * pNorm + 0.35 * sNorm + uTime * 0.00007);
+  float t = fract(1.7 * zEarly.x + 1.1 * zEarly.y + 0.15 * pNorm
+                  + 0.08 * sNorm + uTime * 0.00007);
   vec3 col = getPaletteColor(t, int(uColorScheme));
 
   if (uTransparentBg > 0.5 && period >= target) {
