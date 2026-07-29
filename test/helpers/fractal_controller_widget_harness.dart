@@ -13,10 +13,15 @@ class FractalControllerWidgetHarness {
   final ModuleRegistry registry;
   late final FractalController controller;
 
-  Widget wrap(Widget child, {Locale locale = const Locale('en')}) {
+  Widget wrap(
+    Widget child, {
+    Locale locale = const Locale('en'),
+    ThemeData? theme,
+  }) {
     return ChangeNotifierProvider.value(
       value: controller,
       child: MaterialApp(
+        theme: theme,
         locale: locale,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
@@ -25,8 +30,12 @@ class FractalControllerWidgetHarness {
     );
   }
 
-  Widget wrapScaffold(Widget body, {Locale locale = const Locale('en')}) =>
-      wrap(Scaffold(body: body), locale: locale);
+  Widget wrapScaffold(
+    Widget body, {
+    Locale locale = const Locale('en'),
+    ThemeData? theme,
+  }) =>
+      wrap(Scaffold(body: body), locale: locale, theme: theme);
 
   Widget textFromController(String Function(FractalController ctrl) text) {
     return wrap(

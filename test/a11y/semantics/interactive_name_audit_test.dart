@@ -55,6 +55,19 @@ void expectCleanSemantics(WidgetTester tester, String where) {
   );
 }
 
+/// Asserts text on this surface meets the WCAG AA contrast ratio.
+///
+/// Every caller must supply the real app theme. Rendering an overlay like the
+/// HUD against the default light Scaffold reports failures that do not exist in
+/// the app, because its translucent background composites over white.
+Future<void> expectReadableText(WidgetTester tester, String where) async {
+  await expectLater(
+    tester,
+    meetsGuideline(textContrastGuideline),
+    reason: '$where has text below the WCAG AA contrast ratio',
+  );
+}
+
 void main() {
   test('semantics action bits match the audit mask', assertActionBitsUnchanged);
 
@@ -65,6 +78,7 @@ void main() {
     await tester.pumpWidget(harness.buildApp());
     await settleChrome(tester);
     expectCleanSemantics(tester, 'app-shell');
+    await expectReadableText(tester, 'app-shell');
     handle.dispose();
     await disposeAccessibilityTestWidget(tester);
   });
@@ -109,6 +123,7 @@ void main() {
     ));
     await settleChrome(tester);
     expectCleanSemantics(tester, 'viewer');
+    await expectReadableText(tester, 'viewer');
     handle.dispose();
     await disposeAccessibilityTestWidget(tester);
   });
@@ -131,6 +146,7 @@ void main() {
     ));
     await settleChrome(tester);
     expectCleanSemantics(tester, 'a11y-settings');
+    await expectReadableText(tester, 'a11y-settings');
     handle.dispose();
     await disposeAccessibilityTestWidget(tester);
   });
@@ -161,6 +177,7 @@ void main() {
     await tester.tap(find.text('Open'));
     await tester.pumpAndSettle();
     expectCleanSemantics(tester, 'export-sheet');
+    await expectReadableText(tester, 'export-sheet');
     handle.dispose();
   });
 
@@ -170,13 +187,17 @@ void main() {
     addTearDown(harness.dispose);
 
     final handle = tester.ensureSemantics();
-    await tester.pumpWidget(harness.wrapScaffold(const FractalControlsHud()));
+    await tester.pumpWidget(harness.wrapScaffold(
+      const FractalControlsHud(),
+      theme: AppTheme.dark,
+    ));
     await settleChrome(tester);
     await tester.tap(find.text('Kaleidoscope'));
     await settleChrome(tester);
     await tester.tap(find.text('Fluid mode'));
     await settleChrome(tester);
     expectCleanSemantics(tester, 'hud-expanded');
+    await expectReadableText(tester, 'hud-expanded');
     handle.dispose();
   });
 }

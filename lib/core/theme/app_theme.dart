@@ -542,10 +542,15 @@ class AppTheme {
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: AppColors.primary,
+          // primaryLight, not primary: a text button has no fill of its own, so
+          // the label sits straight on the surface. primary #7C4DFF measures
+          // 3.86:1 there and 3.57:1 on surfaceVariant, under the 4.5 WCAG AA
+          // threshold for body text; primaryLight #B388FF gives 6.98 and 6.45.
+          // Filled buttons keep primary — they supply their own background.
+          foregroundColor: AppColors.primaryLight,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           textStyle:
-              AppTypography.labelLarge.copyWith(color: AppColors.primary),
+              AppTypography.labelLarge.copyWith(color: AppColors.primaryLight),
         ),
       ),
       iconButtonTheme: IconButtonThemeData(
@@ -1004,10 +1009,12 @@ class AppTheme {
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: OledColors.primary,
+          // Same reasoning as the dark theme: primary measures 4.11:1 on the
+          // OLED surface and 3.62:1 on surfaceVariant, primaryLight 7.43 / 6.53.
+          foregroundColor: OledColors.primaryLight,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           textStyle:
-              AppTypography.labelLarge.copyWith(color: OledColors.primary),
+              AppTypography.labelLarge.copyWith(color: OledColors.primaryLight),
         ),
       ),
       iconButtonTheme: IconButtonThemeData(
