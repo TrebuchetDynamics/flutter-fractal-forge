@@ -1,5 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'dart:ui' show Tristate;
+
+import 'package:flutter/semantics.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_view_controls.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -116,6 +119,45 @@ void main() {
       await tester.tap(find.byTooltip('Close'));
       await tester.pumpAndSettle();
     }
+  });
+
+  testWidgets('mirror toggle exposes its label and state on one node',
+      (tester) async {
+    final handle = tester.ensureSemantics();
+    await _pumpHarness(tester);
+
+    await tester
+        .longPress(find.byKey(const ValueKey('viewerKaleidoscopeButton')));
+    await tester.pumpAndSettle();
+
+    // Only nodes the platform actually surfaces — a node merged into an
+    // ancestor is not reported to TalkBack/VoiceOver separately.
+    final toggles = <SemanticsNode>[];
+    void collect(SemanticsNode node) {
+      if (!node.isMergedIntoParent &&
+          node.getSemanticsData().flagsCollection.isToggled != Tristate.none) {
+        toggles.add(node);
+      }
+      node.visitChildren((child) {
+        collect(child);
+        return true;
+      });
+    }
+
+    // Semantics live on this pipeline owner; rootPipelineOwner.semanticsOwner
+    // is null in a widget test. Matches test/a11y/semantics/.
+    // ignore: deprecated_member_use
+    collect(tester.binding.pipelineOwner.semanticsOwner!.rootSemanticsNode!);
+
+    expect(toggles, hasLength(1), reason: 'switch and row announced separately');
+    expect(toggles.single.getSemanticsData().label, contains('Mirror wedges'));
+    expect(
+      toggles.single.getSemanticsData().flagsCollection.isToggled,
+      Tristate.isTrue,
+      reason: 'mirror is on but the node does not say so',
+    );
+
+    handle.dispose();
   });
 
   testWidgets('FAB without a secondary action ignores long press',

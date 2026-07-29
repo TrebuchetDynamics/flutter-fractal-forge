@@ -585,46 +585,51 @@ class _SwitchActionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: AppColors.surfaceVariant.withValues(alpha: 0.72),
-      borderRadius: BorderRadius.circular(18),
-      child: InkWell(
+    // The row and its Switch are two separate interactive nodes otherwise: the
+    // row carries the label but no on/off state, and the Switch carries the
+    // state but no label, so a screen reader can never hear both together.
+    return MergeSemantics(
+      child: Material(
+        color: AppColors.surfaceVariant.withValues(alpha: 0.72),
         borderRadius: BorderRadius.circular(18),
-        onTap: () => onChanged(!value),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 72),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.lg,
-              vertical: AppSpacing.md,
-            ),
-            child: Row(
-              children: [
-                _ModalIconBadge(icon: icon),
-                const SizedBox(width: AppSpacing.md),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        label,
-                        style: AppTypography.bodyMedium.copyWith(
-                          color: AppColors.textPrimary,
-                          fontWeight: FontWeight.w700,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(18),
+          onTap: () => onChanged(!value),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 72),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg,
+                vertical: AppSpacing.md,
+              ),
+              child: Row(
+                children: [
+                  _ModalIconBadge(icon: icon),
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          label,
+                          style: AppTypography.bodyMedium.copyWith(
+                            color: AppColors.textPrimary,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        description,
-                        style: AppTypography.bodySmall.copyWith(
-                          color: AppColors.textSecondary,
+                        const SizedBox(height: 2),
+                        Text(
+                          description,
+                          style: AppTypography.bodySmall.copyWith(
+                            color: AppColors.textSecondary,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Switch.adaptive(value: value, onChanged: onChanged),
-              ],
+                  Switch.adaptive(value: value, onChanged: onChanged),
+                ],
+              ),
             ),
           ),
         ),
@@ -894,5 +899,4 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
       ),
     );
   }
-
 }
