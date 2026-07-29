@@ -5,6 +5,23 @@ All notable changes to Flutter Fractal Forge are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.80] - 2026-07-28
+
+### Fixed
+- Many strange attractors — Lorenz, Halvorsen, Rössler, Chen, Aizawa, the
+  Sprott family and others — rendered as flat colour washes with no visible
+  shape. Three separate causes: the viewport sampled too small a slice of each
+  system to tell one pixel from another, the colouring averaged the whole
+  trajectory and so came out the same everywhere, and a dozen fractals were
+  framed off-centre and zoomed far past their own detail. They now show their
+  actual structure.
+- The Cantor set drew as a near-black frame, because the set itself is
+  vanishingly thin. It now draws the familiar construction: each row removing
+  another middle third.
+- Fractal Music sounded thin in its upper register on bright fractals. The
+  chords now bridge the gap to the bass instead of sitting far above it, and
+  a high melody is reinforced an octave below so the line has body.
+
 ## [1.1.79] - 2026-07-26
 
 ### Fixed
