@@ -84,6 +84,35 @@ void main() {
     depth += 1.0;
   }
 
+  // The Cantor set has measure zero, so testing full membership leaves almost
+  // every pixel outside it and the frame reads as black. Use the vertical axis
+  // to select the construction stage instead, which is the standard depiction:
+  // each row shows one more round of middle-third removal.
+  float rows = clamp(float(target), 2.0, 12.0);
+  int level = int(clamp(floor((1.0 - y) * rows), 0.0, rows - 1.0)) + 1;
+  float sx = fract(p.x * 0.5 + 0.5);
+  bool inSet = true;
+  for (int i = 0; i < MAX_ITERS; i++) {
+    if (i >= level) break;
+    sx *= 3.0;
+    float dg = floor(sx);
+    sx = fract(sx);
+    if (dg > 0.5 && dg < 1.5) { inSet = false; break; }
+  }
+  float rowT = float(level) / rows;
+  float gutter = smoothstep(0.02, 0.10, abs(fract((1.0 - y) * rows) - 0.5) * 2.0);
+
+  if (inSet) {
+    float t = fract(rowT * 0.8 + 0.15 * stripe + uTime * 0.00008);
+    vec3 color = getPaletteColor(t, int(uColorScheme));
+    color *= 0.45 + 0.55 * gutter;
+    fragColor = vec4(linearToSRGB(color), 1.0);
+    return;
+  }
+  if (uTransparentBg > 0.5) { fragColor = vec4(0.0); return; }
+  fragColor = vec4(linearToSRGB(vec3(0.03)), 1.0);
+  return;
+
   float band = smoothstep(0.3, 0.0, abs(y - 0.5));
   float edge = exp(-120.0 * stripe);
 
