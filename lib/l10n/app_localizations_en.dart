@@ -1407,14 +1407,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tooltipReportFractal => 'Report fractal';
 
   @override
-  String get fabSheetGenericSubtitle =>
-      'Available action for this viewer control.';
-
-  @override
-  String get fabSheetGenericDescription =>
-      'Run this action and return to the viewer.';
-
-  @override
   String get randomOptionsTitle => 'Random options';
 
   @override

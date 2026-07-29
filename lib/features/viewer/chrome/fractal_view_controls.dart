@@ -375,7 +375,11 @@ class FractalViewControls extends StatelessWidget {
               spacing: AppSpacing.sm,
               runSpacing: AppSpacing.sm,
               children: [
-                for (final sectors in const [4, 6, 8, 10, 12, 16])
+                // Every value FractalController.setKaleidoscopeSectors can
+                // hold: it clamps to 4..16 and snaps odd inputs down to even,
+                // so a gap here means an unselectable, unreachable-by-chip
+                // state rather than a missing shortcut.
+                for (final sectors in const [4, 6, 8, 10, 12, 14, 16])
                   ChoiceChip(
                     label: Text('$sectors'),
                     selected: selectedSectors == sectors,
@@ -747,12 +751,10 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
     // Check for reduced motion preference
     final reduceMotion = MediaQuery.of(context).disableAnimations ||
         (context.read<AccessibilityService?>()?.reducedMotionEnabled ?? false);
-    final effectiveLongPress = widget.onLongPress ??
-        (widget.onPressed == null ? null : () => _showDefaultLongPressModal());
     // Every FAB goes inert while an export runs. Without a visual cue the
     // column looks identical to its live state, so taps land on nothing with
     // no feedback at all (no press animation, no haptic, no action).
-    final isDisabled = widget.onPressed == null && effectiveLongPress == null;
+    final isDisabled = widget.onPressed == null && widget.onLongPress == null;
 
     return FadeIn(
       delay: reduceMotion ? Duration.zero : widget.delay,
@@ -760,11 +762,11 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
         label: widget.tooltip,
         button: true,
         enabled: widget.onPressed != null,
-        onLongPress: effectiveLongPress,
+        onLongPress: widget.onLongPress,
         child: Tooltip(
           message: widget.tooltip,
           child: FocusableActionDetector(
-            enabled: widget.onPressed != null || effectiveLongPress != null,
+            enabled: widget.onPressed != null || widget.onLongPress != null,
             onShowFocusHighlight: (focused) {
               if (_isFocused == focused) return;
               setState(() => _isFocused = focused);
@@ -785,7 +787,7 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
               _LongPressActivateIntent:
                   CallbackAction<_LongPressActivateIntent>(
                 onInvoke: (_) {
-                  effectiveLongPress?.call();
+                  widget.onLongPress?.call();
                   return null;
                 },
               ),
@@ -816,7 +818,7 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
                     }
                   : null,
               onTap: widget.onPressed,
-              onLongPress: effectiveLongPress,
+              onLongPress: widget.onLongPress,
               child: SizedBox.square(
                 dimension: _fabTouchSize,
                 child: Center(
@@ -893,27 +895,4 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
     );
   }
 
-  void _showDefaultLongPressModal() {
-    final onPressed = widget.onPressed;
-    if (onPressed == null) return;
-    final l10n = AppLocalizations.of(context)!;
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) => _FabOptionsSheet(
-        icon: widget.icon,
-        title: widget.tooltip,
-        subtitle: l10n.fabSheetGenericSubtitle,
-        children: [
-          _ActionTile(
-            icon: widget.icon,
-            label: widget.tooltip,
-            description: l10n.fabSheetGenericDescription,
-            onTap: onPressed,
-          ),
-        ],
-      ),
-    );
-  }
 }

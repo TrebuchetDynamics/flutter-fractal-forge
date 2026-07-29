@@ -80,6 +80,70 @@ void main() {
     expect(selectedSectors, 12);
   });
 
+  testWidgets('kaleidoscope sheet offers every reachable sector count',
+      (tester) async {
+    // FractalController.setKaleidoscopeSectors clamps to 4..16 and snaps odd
+    // inputs down, so these are exactly the values the app can hold. A missing
+    // chip is a state the sheet can neither show as selected nor restore.
+    const reachable = [4, 6, 8, 10, 12, 14, 16];
+
+    for (final sectors in reachable) {
+      int? selectedSectors;
+      await _pumpHarness(
+        tester,
+        sectors: sectors,
+        onSetSectors: (value) => selectedSectors = value,
+      );
+
+      await tester
+          .longPress(find.byKey(const ValueKey('viewerKaleidoscopeButton')));
+      await tester.pumpAndSettle();
+
+      final chip = find.widgetWithText(ChoiceChip, '$sectors');
+      expect(chip, findsOneWidget, reason: 'no chip for $sectors sectors');
+      expect(
+        tester.widget<ChoiceChip>(chip).selected,
+        isTrue,
+        reason: '$sectors sectors opened with nothing selected',
+      );
+
+      await tester.tap(chip);
+      await tester.pump();
+      expect(selectedSectors, sectors);
+
+      // Close before the next iteration: pumpWidget reuses the Navigator
+      // element, so a left-open sheet would survive into the next case.
+      await tester.tap(find.byTooltip('Close'));
+      await tester.pumpAndSettle();
+    }
+  });
+
+  testWidgets('FAB without a secondary action ignores long press',
+      (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: const Scaffold(
+          body: FloatingActionButtonWidget(
+            key: ValueKey('bareFab'),
+            icon: Icons.fullscreen_exit_rounded,
+            tooltip: 'Exit fullscreen',
+            onPressed: _noop,
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    await tester.longPress(find.byKey(const ValueKey('bareFab')));
+    await tester.pumpAndSettle();
+
+    // No sheet whose only content restates the tap action the user just held.
+    expect(find.byType(BottomSheet), findsNothing);
+    expect(find.byTooltip('Close'), findsNothing);
+  });
+
   testWidgets('long-press sheet copy localizes to Spanish', (tester) async {
     await _pumpHarness(tester, locale: const Locale('es'));
 
@@ -112,10 +176,13 @@ void main() {
   });
 }
 
+void _noop() {}
+
 Future<void> _pumpHarness(
   WidgetTester tester, {
   ValueChanged<int>? onSetSectors,
   Locale locale = const Locale('en'),
+  int sectors = 8,
 }) async {
   await tester.pumpWidget(
     MaterialApp(
@@ -125,6 +192,7 @@ Future<void> _pumpHarness(
       home: Scaffold(
         body: _Harness(
           onSetSectors: onSetSectors ?? (_) {},
+          sectors: sectors,
         ),
       ),
     ),
@@ -134,8 +202,9 @@ Future<void> _pumpHarness(
 
 class _Harness extends StatefulWidget {
   final ValueChanged<int> onSetSectors;
+  final int sectors;
 
-  const _Harness({required this.onSetSectors});
+  const _Harness({required this.onSetSectors, required this.sectors});
 
   @override
   State<_Harness> createState() => _HarnessState();
@@ -160,7 +229,7 @@ class _HarnessState extends State<_Harness>
       fabController: _fabController,
       isExporting: false,
       kaleidoscopeEnabled: false,
-      kaleidoscopeSectors: 8,
+      kaleidoscopeSectors: widget.sectors,
       kaleidoscopeMirror: true,
       fractalMusicEnabled: false,
       textOverlayEnabled: false,

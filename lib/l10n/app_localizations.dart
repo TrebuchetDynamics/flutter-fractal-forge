@@ -2690,18 +2690,6 @@ abstract class AppLocalizations {
   /// **'Report fractal'**
   String get tooltipReportFractal;
 
-  /// No description provided for @fabSheetGenericSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Available action for this viewer control.'**
-  String get fabSheetGenericSubtitle;
-
-  /// No description provided for @fabSheetGenericDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Run this action and return to the viewer.'**
-  String get fabSheetGenericDescription;
-
   /// No description provided for @randomOptionsTitle.
   ///
   /// In en, this message translates to:

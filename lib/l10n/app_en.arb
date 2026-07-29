@@ -633,8 +633,6 @@
   "semanticControlsSectionHeader": "{title} controls section",
 
   "tooltipReportFractal": "Report fractal",
-  "fabSheetGenericSubtitle": "Available action for this viewer control.",
-  "fabSheetGenericDescription": "Run this action and return to the viewer.",
   "randomOptionsTitle": "Random options",
   "randomOptionsSubtitle": "Jump to a new fractal or keep this one and reshape its parameters.",
   "randomOptionsCatalogDescription": "Switch to another catalog entry.",

@@ -634,8 +634,6 @@
   "semanticControlsSectionHeader": "Sección de controles {title}",
 
   "tooltipReportFractal": "Informar sobre el fractal",
-  "fabSheetGenericSubtitle": "Acción disponible para este control del visor.",
-  "fabSheetGenericDescription": "Ejecuta esta acción y vuelve al visor.",
   "randomOptionsTitle": "Opciones aleatorias",
   "randomOptionsSubtitle": "Salta a otro fractal o quédate en este y transforma sus parámetros.",
   "randomOptionsCatalogDescription": "Cambia a otra entrada del catálogo.",

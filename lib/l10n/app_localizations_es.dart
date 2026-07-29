@@ -1423,14 +1423,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tooltipReportFractal => 'Informar sobre el fractal';
 
   @override
-  String get fabSheetGenericSubtitle =>
-      'Acción disponible para este control del visor.';
-
-  @override
-  String get fabSheetGenericDescription =>
-      'Ejecuta esta acción y vuelve al visor.';
-
-  @override
   String get randomOptionsTitle => 'Opciones aleatorias';
 
   @override
