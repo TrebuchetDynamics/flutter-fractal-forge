@@ -495,11 +495,20 @@ class SectionHeader extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: AppSpacing.md),
         child: Row(
           children: [
-            Text(
-              title.toUpperCase(),
-              style: AppTypography.labelSmall.copyWith(
-                color: AppColors.textMuted,
-                letterSpacing: 1.2,
+            // Flexible: uppercase with letterSpacing gets wide fast, and at a
+            // 3x text scale an unconstrained title overflowed this row by up
+            // to 98px. The trailing rule beside it can give up its space.
+            Flexible(
+              child: Text(
+                title.toUpperCase(),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                // textSecondary, not textMuted: at labelSmall (10px) textMuted
+                // measures 3.70:1 on surface, under the 4.5 AA floor for text.
+                style: AppTypography.labelSmall.copyWith(
+                  color: AppColors.textSecondary,
+                  letterSpacing: 1.2,
+                ),
               ),
             ),
             const SizedBox(width: AppSpacing.md),

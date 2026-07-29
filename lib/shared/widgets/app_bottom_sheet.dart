@@ -206,8 +206,12 @@ class AppBottomSheetHeader extends StatelessWidget {
                 if (subtitle != null)
                   Text(
                     subtitle!,
+                    // textSecondary, not textMuted: this is prose a user reads,
+                    // and textMuted measures 3.70:1 on surface, below the 4.5
+                    // AA floor. textSecondary gives 8.63:1. Keep textMuted for
+                    // icons and decoration, where 3:1 is the bar.
                     style: AppTypography.bodySmall.copyWith(
-                      color: AppColors.textMuted,
+                      color: AppColors.textSecondary,
                     ),
                   ),
               ],
@@ -287,8 +291,12 @@ class AppDialog extends StatelessWidget {
                 if (subtitle != null)
                   Text(
                     subtitle!,
+                    // textSecondary, not textMuted: this is prose a user reads,
+                    // and textMuted measures 3.70:1 on surface, below the 4.5
+                    // AA floor. textSecondary gives 8.63:1. Keep textMuted for
+                    // icons and decoration, where 3:1 is the bar.
                     style: AppTypography.bodySmall.copyWith(
-                      color: AppColors.textMuted,
+                      color: AppColors.textSecondary,
                     ),
                   ),
               ],

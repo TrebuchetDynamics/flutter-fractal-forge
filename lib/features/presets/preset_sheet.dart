@@ -163,9 +163,27 @@ class _PresetSheetState extends State<PresetSheet> {
                                 : Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      const Icon(Icons.save_rounded, size: 20),
+                                      // Dark on purpose: this gradient is
+                                      // bright cyan, so the inherited light
+                                      // text measured 1.54:1 against it. Dark
+                                      // gives 12.8:1.
+                                      Icon(
+                                        Icons.save_rounded,
+                                        size: 20,
+                                        color: AppColors.background,
+                                      ),
                                       const SizedBox(width: AppSpacing.sm),
-                                      Text(l10n.savePreset),
+                                      Flexible(
+                                        child: Text(
+                                          l10n.savePreset,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            color: AppColors.background,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   ),
                           ),
@@ -224,10 +242,19 @@ class _PresetSheetState extends State<PresetSheet> {
                               ),
                             ),
                             const SizedBox(width: AppSpacing.md),
-                            Text(
-                              l10n.loadingPresets,
-                              style: AppTypography.bodyMedium.copyWith(
-                                color: AppColors.textMuted,
+                            // This row lives only while the future resolves,
+                            // which is why neither the layout nor the contrast
+                            // gate saw it: unconstrained it overflowed by 37px
+                            // at 1.3x on a 320-wide screen, and textMuted is
+                            // 3.70:1 against the surface.
+                            Flexible(
+                              child: Text(
+                                l10n.loadingPresets,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppTypography.bodyMedium.copyWith(
+                                  color: AppColors.textSecondary,
+                                ),
                               ),
                             ),
                           ],
@@ -506,6 +533,12 @@ class _PresetChip extends StatelessWidget {
       onTap: onTap,
       builder: (isPressed) => AnimatedContainer(
         duration: AppAnimations.normal,
+        // PressableScale defers hit testing to its child, so the chip itself
+        // has to reach the minimum target — padding out empty space around a
+        // 35px pill would not be tappable.
+        constraints: const BoxConstraints(
+          minHeight: AccessibleSizing.minTouchTarget,
+        ),
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.md,
           vertical: AppSpacing.sm,
@@ -536,12 +569,19 @@ class _PresetChip extends StatelessWidget {
                   : AppColors.textMuted,
             ),
             const SizedBox(width: AppSpacing.xs),
-            Text(
-              label,
-              style: AppTypography.labelMedium.copyWith(
-                color: isPressed
-                    ? (isBuiltIn ? AppColors.primary : AppColors.secondary)
-                    : AppColors.textSecondary,
+            // Flexible: preset names are user-supplied and the built-in ones
+            // run long ("Lightning Strike"), so an unconstrained label
+            // overflowed the row on a 320-wide screen at normal text scale.
+            Flexible(
+              child: Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTypography.labelMedium.copyWith(
+                  color: isPressed
+                      ? (isBuiltIn ? AppColors.primary : AppColors.secondary)
+                      : AppColors.textSecondary,
+                ),
               ),
             ),
           ],
@@ -571,6 +611,9 @@ class _UserPresetChip extends StatelessWidget {
       onTap: onTap,
       builder: (isPressed) => AnimatedContainer(
         duration: AppAnimations.normal,
+        constraints: const BoxConstraints(
+          minHeight: AccessibleSizing.minTouchTarget,
+        ),
         padding: const EdgeInsets.only(
           left: AppSpacing.md,
           top: AppSpacing.sm,
@@ -597,43 +640,32 @@ class _UserPresetChip extends StatelessWidget {
               color: isPressed ? AppColors.secondary : AppColors.textMuted,
             ),
             const SizedBox(width: AppSpacing.xs),
-            Text(
-              label,
-              style: AppTypography.labelMedium.copyWith(
-                color:
-                    isPressed ? AppColors.secondary : AppColors.textSecondary,
+            // Flexible so a long user-supplied name ellipsizes instead of
+            // overflowing the row, and so the two icon buttons below keep
+            // their full targets on a narrow screen.
+            Flexible(
+              child: Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTypography.labelMedium.copyWith(
+                  color:
+                      isPressed ? AppColors.secondary : AppColors.textSecondary,
+                ),
               ),
             ),
             const SizedBox(width: AppSpacing.xs),
-            Tooltip(
-              message: l10n.tooltipRenamePreset,
-              child: InkWell(
-                onTap: onRename,
-                borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
-                child: Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Icon(
-                    Icons.edit_outlined,
-                    size: 14,
-                    color: AppColors.textMuted,
-                  ),
-                ),
-              ),
+            // 48x48 around each 14px glyph: these were 22x22, less than a
+            // quarter of the minimum target area, and one of them deletes.
+            _ChipIconButton(
+              tooltip: l10n.tooltipRenamePreset,
+              icon: Icons.edit_outlined,
+              onTap: onRename,
             ),
-            Tooltip(
-              message: l10n.tooltipDeletePreset,
-              child: InkWell(
-                onTap: onDelete,
-                borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
-                child: Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Icon(
-                    Icons.close_rounded,
-                    size: 14,
-                    color: AppColors.textMuted,
-                  ),
-                ),
-              ),
+            _ChipIconButton(
+              tooltip: l10n.tooltipDeletePreset,
+              icon: Icons.close_rounded,
+              onTap: onDelete,
             ),
           ],
         ),
@@ -712,11 +744,48 @@ class _ErrorState extends StatelessWidget {
               style: AppTypography.bodySmall.copyWith(color: AppColors.error),
             ),
           ),
-          TextButton(
-            onPressed: onRetry,
-            child: Text(l10n.actionRetry),
+          Flexible(
+            child: TextButton(
+              onPressed: onRetry,
+              child: Text(
+                l10n.actionRetry,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// A 14px glyph inside a full 48x48 target, for the actions embedded in a
+/// user preset chip.
+class _ChipIconButton extends StatelessWidget {
+  final String tooltip;
+  final IconData icon;
+  final VoidCallback onTap;
+
+  const _ChipIconButton({
+    required this.tooltip,
+    required this.icon,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: tooltip,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
+        child: SizedBox.square(
+          dimension: AccessibleSizing.minTouchTarget,
+          child: Center(
+            child: Icon(icon, size: 14, color: AppColors.textSecondary),
+          ),
+        ),
       ),
     );
   }
