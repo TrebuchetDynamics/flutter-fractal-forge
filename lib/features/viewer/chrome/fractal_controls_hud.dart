@@ -298,58 +298,67 @@ class _CompactHudSliderRow extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: Colors.white70,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w500,
+        // The Semantics below already carries this label and value, so reading
+        // the visible copy too would announce each slider three times.
+        ExcludeSemantics(
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white70,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              valueLabel,
-              style: const TextStyle(
-                color: Colors.cyanAccent,
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-                fontFeatures: [FontFeature.tabularFigures()],
+              const SizedBox(width: 8),
+              Text(
+                valueLabel,
+                style: const TextStyle(
+                  color: Colors.cyanAccent,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  fontFeatures: [FontFeature.tabularFigures()],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-        Semantics(
-          label: semanticLabel,
-          value: valueLabel,
-          hint: l10n.semanticSliderAdjust(min, max),
-          slider: true,
-          child: SliderTheme(
-            data: SliderTheme.of(context).copyWith(
-              trackHeight: 3,
-              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 7),
-              overlayShape: const RoundSliderOverlayShape(overlayRadius: 12),
-              activeTrackColor: Colors.cyanAccent,
-              inactiveTrackColor: Colors.white.withValues(alpha: 0.15),
-              thumbColor: Colors.white,
-              valueIndicatorColor: Colors.cyanAccent,
-              valueIndicatorTextStyle: const TextStyle(
-                color: Colors.black,
-                fontSize: 10,
+        // Without the merge the Slider's thumb is its own node, carrying the
+        // adjust actions and the percentage but none of the name — so the
+        // control announces "69%" and never says which parameter it is.
+        MergeSemantics(
+          child: Semantics(
+            label: semanticLabel,
+            value: valueLabel,
+            hint: l10n.semanticSliderAdjust(min, max),
+            slider: true,
+            child: SliderTheme(
+              data: SliderTheme.of(context).copyWith(
+                trackHeight: 3,
+                thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 7),
+                overlayShape: const RoundSliderOverlayShape(overlayRadius: 12),
+                activeTrackColor: Colors.cyanAccent,
+                inactiveTrackColor: Colors.white.withValues(alpha: 0.15),
+                thumbColor: Colors.white,
+                valueIndicatorColor: Colors.cyanAccent,
+                valueIndicatorTextStyle: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 10,
+                ),
               ),
-            ),
-            child: Slider(
-              value: value.clamp(min, max),
-              min: min,
-              max: max,
-              divisions: divisions,
-              onChanged: onChanged,
-              onChangeEnd: (v) => HapticFeedback.lightImpact(),
+              child: Slider(
+                value: value.clamp(min, max),
+                min: min,
+                max: max,
+                divisions: divisions,
+                onChanged: onChanged,
+                onChangeEnd: (v) => HapticFeedback.lightImpact(),
+              ),
             ),
           ),
         ),

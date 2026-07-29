@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dart';
@@ -106,6 +107,50 @@ void main() {
         expect(tester.takeException(), isNull, reason: 'expanded at $scale x');
       });
     }
+
+    testWidgets('every adjustable HUD control announces what it adjusts',
+        (tester) async {
+      final handle = tester.ensureSemantics();
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Kaleidoscope'));
+      await tester.pumpAndSettle();
+
+      final bare = <String>[];
+      void walk(SemanticsNode node) {
+        if (!node.isMergedIntoParent) {
+          final data = node.getSemanticsData();
+          // Sliders carry increase/decrease; a scroll container legitimately
+          // has no name, so only adjustable controls are checked here.
+          final adjustable = data.flagsCollection.isSlider;
+          if (adjustable && data.label.isEmpty) {
+            bare.add('value="${data.value}"');
+          }
+        }
+        node.visitChildren((child) {
+          walk(child);
+          return true;
+        });
+      }
+
+      // ignore: deprecated_member_use
+      walk(tester.binding.pipelineOwner.semanticsOwner!.rootSemanticsNode!);
+
+      expect(
+        bare,
+        isEmpty,
+        reason: 'slider thumbs surfaced without the parameter name',
+      );
+      for (final label in const [
+        'Iterations',
+        'Kaleidoscope sectors',
+        'Kaleidoscope rotation',
+      ]) {
+        expect(find.bySemanticsLabel(label), findsOneWidget, reason: label);
+      }
+
+      handle.dispose();
+    });
 
     testWidgets('every sectors detent lands on a distinct sector count',
         (tester) async {
