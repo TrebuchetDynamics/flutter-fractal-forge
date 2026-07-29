@@ -63,6 +63,7 @@ void main() {
   float bailoutSq = max(4.0, uBailout * uBailout);
   int it = target;
   float orbit = 0.0;
+  const int TRANSIENT = 28;
 
   for (int i = 0; i < MAX_ITERS; i++) {
     if (i >= target) break;
@@ -73,12 +74,17 @@ void main() {
     y += dt * dy;
     z += dt * dz;
     float r2 = x * x + y * y + 0.2 * z * z;
-    orbit += exp(-0.20 * (x * x + y * y)) + 0.08 * exp(-0.6 * abs(z));
+    // Only the transient carries per-pixel information. A time-average over
+    // the whole run is ergodic: it converges to the same value from every
+    // starting point, which rendered this as a solid field.
+    if (i < TRANSIENT) {
+      orbit += exp(-0.20 * (x * x + y * y)) + 0.08 * exp(-0.6 * abs(z));
+    }
     if (r2 > bailoutSq) { it = i + 1; break; }
   }
 
   if (it >= target) {
-    float t = fract((orbit / float(target)) * 1.8 + 0.08 * atan(y, x) + uTime * 0.00005);
+    float t = fract((orbit / float(TRANSIENT)) * 1.8 + 0.08 * atan(y, x) + uTime * 0.00005);
     fragColor = vec4(linearToSRGB(getPaletteColor(t, int(uColorScheme))), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
   }

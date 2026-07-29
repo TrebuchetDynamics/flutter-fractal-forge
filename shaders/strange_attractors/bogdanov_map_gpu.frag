@@ -63,6 +63,7 @@ void main() {
   float bailoutSq = max(4.0, uBailout * uBailout);
   int it = target;
   float density = 0.0;
+  const int TRANSIENT = 28;
 
   for (int i = 0; i < MAX_ITERS; i++) {
     if (i >= target) break;
@@ -73,12 +74,17 @@ void main() {
     y = ny;
 
     float r2 = x * x + y * y;
-    density += exp(-0.25 * r2);
+    // Only the transient carries per-pixel information: a time-average
+    // over the whole run is ergodic and converges to the same value from
+    // every starting point, which rendered this as a flat field.
+    if (i < TRANSIENT) {
+      density += exp(-0.25 * r2);
+    }
     if (r2 > bailoutSq) { it = i + 1; break; }
   }
 
   if (it >= target) {
-    float t = fract((density / float(target)) * 1.5 + uTime * 0.00005);
+    float t = fract((density / float(TRANSIENT)) * 1.5 + uTime * 0.00005);
     vec3 col = getPaletteColor(t, int(uColorScheme));
     fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;

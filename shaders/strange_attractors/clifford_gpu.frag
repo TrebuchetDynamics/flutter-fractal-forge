@@ -69,6 +69,7 @@ void main() {
 
   int it = target;
   float density = 0.0;
+  const int TRANSIENT = 28;
 
   for (int i = 0; i < MAX_ITERS; i++) {
     if (i >= target) break;
@@ -80,7 +81,12 @@ void main() {
 
     float r2 = x * x + y * y;
     // ponytail: hot-loop exp was the cost; rational falloff is enough for density color.
-    density += 1.0 / (1.0 + 0.25 * r2 + 0.03 * r2 * r2);
+    // Only the transient carries per-pixel information: a time-average
+    // over the whole run is ergodic and converges to the same value from
+    // every starting point, which rendered this as a flat field.
+    if (i < TRANSIENT) {
+      density += 1.0 / (1.0 + 0.25 * r2 + 0.03 * r2 * r2);
+    }
     if (r2 > bailoutSq) {
       it = i + 1;
       break;
@@ -88,7 +94,7 @@ void main() {
   }
 
   if (it >= target) {
-    float t = fract((density / float(target)) * 3.2 + 0.08 * sin(11.0 * p.x + 7.0 * p.y) + uTime * 0.00005);
+    float t = fract((density / float(TRANSIENT)) * 3.2 + 0.08 * sin(11.0 * p.x + 7.0 * p.y) + uTime * 0.00005);
     vec3 col = getPaletteColor(t, int(uColorScheme));
     fragColor = vec4(linearToSRGB(col), uTransparentBg > 0.5 ? 0.9 : 1.0);
     return;
