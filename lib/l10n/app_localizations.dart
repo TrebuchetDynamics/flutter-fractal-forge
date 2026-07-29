@@ -2845,6 +2845,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose a palette for this render.'**
   String get palettePickerSubtitle;
+
+  /// No description provided for @settingsAccessibilitySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'High contrast, reduced motion, large targets'**
+  String get settingsAccessibilitySubtitle;
+
+  /// No description provided for @settingsPaletteSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Customize color palettes'**
+  String get settingsPaletteSubtitle;
+
+  /// No description provided for @settingsFormulaLab.
+  ///
+  /// In en, this message translates to:
+  /// **'Formula Lab'**
+  String get settingsFormulaLab;
+
+  /// No description provided for @settingsFormulaLabSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Write & preview custom FRM formulas'**
+  String get settingsFormulaLabSubtitle;
+
+  /// No description provided for @settingsLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get settingsLanguage;
+
+  /// No description provided for @settingsAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get settingsAbout;
+
+  /// No description provided for @settingsVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version}'**
+  String settingsVersion(Object version);
+
+  /// No description provided for @settingsColorTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Color Theme'**
+  String get settingsColorTheme;
+
+  /// No description provided for @settingsColorThemeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a contrast and surface style.'**
+  String get settingsColorThemeSubtitle;
+
+  /// No description provided for @settingsAboutBlurb.
+  ///
+  /// In en, this message translates to:
+  /// **'GPU-accelerated fractal exploration with 350+ types, deep zoom, and real-time rendering.'**
+  String get settingsAboutBlurb;
 }
 
 class _AppLocalizationsDelegate

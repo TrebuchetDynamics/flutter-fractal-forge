@@ -1493,4 +1493,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get palettePickerSubtitle => 'Choose a palette for this render.';
+
+  @override
+  String get settingsAccessibilitySubtitle =>
+      'High contrast, reduced motion, large targets';
+
+  @override
+  String get settingsPaletteSubtitle => 'Customize color palettes';
+
+  @override
+  String get settingsFormulaLab => 'Formula Lab';
+
+  @override
+  String get settingsFormulaLabSubtitle =>
+      'Write & preview custom FRM formulas';
+
+  @override
+  String get settingsLanguage => 'Language';
+
+  @override
+  String get settingsAbout => 'About';
+
+  @override
+  String settingsVersion(Object version) {
+    return 'Version $version';
+  }
+
+  @override
+  String get settingsColorTheme => 'Color Theme';
+
+  @override
+  String get settingsColorThemeSubtitle =>
+      'Choose a contrast and surface style.';
+
+  @override
+  String get settingsAboutBlurb =>
+      'GPU-accelerated fractal exploration with 350+ types, deep zoom, and real-time rendering.';
 }

@@ -1509,4 +1509,40 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get palettePickerSubtitle => 'Elige una paleta para este render.';
+
+  @override
+  String get settingsAccessibilitySubtitle =>
+      'Alto contraste, movimiento reducido, objetivos grandes';
+
+  @override
+  String get settingsPaletteSubtitle => 'Personaliza las paletas de color';
+
+  @override
+  String get settingsFormulaLab => 'Laboratorio de fórmulas';
+
+  @override
+  String get settingsFormulaLabSubtitle =>
+      'Escribe y previsualiza fórmulas FRM personalizadas';
+
+  @override
+  String get settingsLanguage => 'Idioma';
+
+  @override
+  String get settingsAbout => 'Acerca de';
+
+  @override
+  String settingsVersion(Object version) {
+    return 'Versión $version';
+  }
+
+  @override
+  String get settingsColorTheme => 'Tema de color';
+
+  @override
+  String get settingsColorThemeSubtitle =>
+      'Elige un estilo de contraste y superficie.';
+
+  @override
+  String get settingsAboutBlurb =>
+      'Exploración de fractales acelerada por GPU con más de 350 tipos, zoom profundo y renderizado en tiempo real.';
 }

@@ -660,5 +660,21 @@
   "hudRandomizeTooltip": "Aleatorizar parámetros",
   "hudSemanticKaleidoscopeSectors": "Sectores del kaleidoscopio",
   "hudSemanticKaleidoscopeRotation": "Rotación del kaleidoscopio",
-  "palettePickerSubtitle": "Elige una paleta para este render."
+  "palettePickerSubtitle": "Elige una paleta para este render.",
+
+  "settingsAccessibilitySubtitle": "Alto contraste, movimiento reducido, objetivos grandes",
+  "settingsPaletteSubtitle": "Personaliza las paletas de color",
+  "settingsFormulaLab": "Laboratorio de fórmulas",
+  "settingsFormulaLabSubtitle": "Escribe y previsualiza fórmulas FRM personalizadas",
+  "settingsLanguage": "Idioma",
+  "settingsAbout": "Acerca de",
+  "settingsVersion": "Versión {version}",
+  "@settingsVersion": {
+    "placeholders": {
+      "version": {}
+    }
+  },
+  "settingsColorTheme": "Tema de color",
+  "settingsColorThemeSubtitle": "Elige un estilo de contraste y superficie.",
+  "settingsAboutBlurb": "Exploración de fractales acelerada por GPU con más de 350 tipos, zoom profundo y renderizado en tiempo real."
 }

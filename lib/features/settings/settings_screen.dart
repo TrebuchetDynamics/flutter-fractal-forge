@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_fractals/core/app_version.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -29,7 +30,7 @@ class SettingsScreen extends StatelessWidget {
                 _SettingsTile(
                   icon: Icons.accessibility_new_rounded,
                   title: l10n.accessibilityTitle,
-                  subtitle: 'High contrast, reduced motion, large targets',
+                  subtitle: l10n.settingsAccessibilitySubtitle,
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -42,7 +43,7 @@ class SettingsScreen extends StatelessWidget {
                 _SettingsTile(
                   icon: Icons.palette_outlined,
                   title: l10n.paramColorScheme,
-                  subtitle: 'Customize color palettes',
+                  subtitle: l10n.settingsPaletteSubtitle,
                   onTap: () {
                     _showThemeSelector(context);
                   },
@@ -50,8 +51,8 @@ class SettingsScreen extends StatelessWidget {
                 const SizedBox(height: AppSpacing.md),
                 _SettingsTile(
                   icon: Icons.functions_rounded,
-                  title: 'Formula Lab',
-                  subtitle: 'Write & preview custom FRM formulas',
+                  title: l10n.settingsFormulaLab,
+                  subtitle: l10n.settingsFormulaLabSubtitle,
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -63,7 +64,7 @@ class SettingsScreen extends StatelessWidget {
                 const SizedBox(height: AppSpacing.md),
                 _SettingsTile(
                   icon: Icons.language_rounded,
-                  title: 'Language',
+                  title: l10n.settingsLanguage,
                   subtitle: 'English / Español',
                   onTap: () {
                     // TODO: Implement language selection
@@ -72,8 +73,8 @@ class SettingsScreen extends StatelessWidget {
                 const SizedBox(height: AppSpacing.md),
                 _SettingsTile(
                   icon: Icons.info_outline_rounded,
-                  title: 'About',
-                  subtitle: 'Version 1.1.0+24',
+                  title: l10n.settingsAbout,
+                  subtitle: l10n.settingsVersion(kAppVersion),
                   onTap: () {
                     _showAboutDialog(context);
                   },
@@ -87,6 +88,7 @@ class SettingsScreen extends StatelessWidget {
   }
 
   void _showThemeSelector(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final accessibility = context.read<AccessibilityService>();
 
     showModalBottomSheet(
@@ -97,75 +99,81 @@ class SettingsScreen extends StatelessWidget {
         children: [
           AppBottomSheetHeader(
             icon: Icons.palette_outlined,
-            title: 'Color Theme',
-            subtitle: 'Choose a contrast and surface style.',
+            title: l10n.settingsColorTheme,
+            subtitle: l10n.settingsColorThemeSubtitle,
             onClose: () => Navigator.pop(sheetContext),
           ),
           const Divider(height: 1, color: AppColors.divider),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.md,
-              AppSpacing.md,
-              AppSpacing.md,
-              0,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _ThemeOption(
-                  title: AppThemeMode.dark.displayName,
-                  subtitle: AppThemeMode.dark.description,
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFF0A0A12), Color(0xFF7C4DFF)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
+          // Flexible and scrollable, like every other sheet body: as a plain
+          // fixed child this Column overflowed the 0.56 height factor by 192px,
+          // because three theme cards plus the cancel button exceed it and
+          // AppBottomSheet gives its children no scroll region of its own.
+          Flexible(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.md,
+                AppSpacing.md,
+                AppSpacing.md,
+                0,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _ThemeOption(
+                    title: AppThemeMode.dark.displayName,
+                    subtitle: AppThemeMode.dark.description,
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF0A0A12), Color(0xFF7C4DFF)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    isSelected: accessibility.themeMode == AppThemeMode.dark,
+                    onTap: () {
+                      accessibility.setThemeMode(AppThemeMode.dark);
+                      Navigator.pop(sheetContext);
+                    },
                   ),
-                  isSelected: accessibility.themeMode == AppThemeMode.dark,
-                  onTap: () {
-                    accessibility.setThemeMode(AppThemeMode.dark);
-                    Navigator.pop(sheetContext);
-                  },
-                ),
-                const SizedBox(height: 12),
-                _ThemeOption(
-                  title: AppThemeMode.oled.displayName,
-                  subtitle: AppThemeMode.oled.description,
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFF000000), Color(0xFF7C4DFF)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
+                  const SizedBox(height: 12),
+                  _ThemeOption(
+                    title: AppThemeMode.oled.displayName,
+                    subtitle: AppThemeMode.oled.description,
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF000000), Color(0xFF7C4DFF)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    isSelected: accessibility.themeMode == AppThemeMode.oled,
+                    onTap: () {
+                      accessibility.setThemeMode(AppThemeMode.oled);
+                      Navigator.pop(sheetContext);
+                    },
                   ),
-                  isSelected: accessibility.themeMode == AppThemeMode.oled,
-                  onTap: () {
-                    accessibility.setThemeMode(AppThemeMode.oled);
-                    Navigator.pop(sheetContext);
-                  },
-                ),
-                const SizedBox(height: 12),
-                _ThemeOption(
-                  title: AppThemeMode.highContrast.displayName,
-                  subtitle: AppThemeMode.highContrast.description,
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFF000000), Color(0xFFFFFF00)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
+                  const SizedBox(height: 12),
+                  _ThemeOption(
+                    title: AppThemeMode.highContrast.displayName,
+                    subtitle: AppThemeMode.highContrast.description,
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF000000), Color(0xFFFFFF00)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    isSelected:
+                        accessibility.themeMode == AppThemeMode.highContrast,
+                    onTap: () {
+                      accessibility.setThemeMode(AppThemeMode.highContrast);
+                      Navigator.pop(sheetContext);
+                    },
                   ),
-                  isSelected:
-                      accessibility.themeMode == AppThemeMode.highContrast,
-                  onTap: () {
-                    accessibility.setThemeMode(AppThemeMode.highContrast);
-                    Navigator.pop(sheetContext);
-                  },
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  child: TextButton(
-                    onPressed: () => Navigator.pop(sheetContext),
-                    child: const Text('Cancel'),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    child: TextButton(
+                      onPressed: () => Navigator.pop(sheetContext),
+                      child: Text(l10n.actionCancel),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
@@ -174,6 +182,7 @@ class SettingsScreen extends StatelessWidget {
   }
 
   void _showAboutDialog(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AppDialog(
@@ -184,16 +193,18 @@ class SettingsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Version 1.1.0+24',
+              l10n.settingsVersion(kAppVersion),
               style: AppTypography.bodyMedium.copyWith(
                 color: AppColors.textSecondary,
               ),
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
-              'GPU-accelerated fractal exploration with 350+ types, deep zoom, and real-time rendering.',
+              l10n.settingsAboutBlurb,
+              // textSecondary, not textMuted: prose at 12px measured 3.70:1
+              // against the dialog surface, under the 4.5 AA floor.
               style: AppTypography.bodySmall.copyWith(
-                color: AppColors.textMuted,
+                color: AppColors.textSecondary,
               ),
             ),
           ],

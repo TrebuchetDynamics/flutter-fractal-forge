@@ -659,5 +659,21 @@
   "hudRandomizeTooltip": "Randomize parameters",
   "hudSemanticKaleidoscopeSectors": "Kaleidoscope sectors",
   "hudSemanticKaleidoscopeRotation": "Kaleidoscope rotation",
-  "palettePickerSubtitle": "Choose a palette for this render."
+  "palettePickerSubtitle": "Choose a palette for this render.",
+
+  "settingsAccessibilitySubtitle": "High contrast, reduced motion, large targets",
+  "settingsPaletteSubtitle": "Customize color palettes",
+  "settingsFormulaLab": "Formula Lab",
+  "settingsFormulaLabSubtitle": "Write & preview custom FRM formulas",
+  "settingsLanguage": "Language",
+  "settingsAbout": "About",
+  "settingsVersion": "Version {version}",
+  "@settingsVersion": {
+    "placeholders": {
+      "version": {}
+    }
+  },
+  "settingsColorTheme": "Color Theme",
+  "settingsColorThemeSubtitle": "Choose a contrast and surface style.",
+  "settingsAboutBlurb": "GPU-accelerated fractal exploration with 350+ types, deep zoom, and real-time rendering."
 }
