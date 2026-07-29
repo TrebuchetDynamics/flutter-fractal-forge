@@ -752,6 +752,10 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
         (context.read<AccessibilityService?>()?.reducedMotionEnabled ?? false);
     final effectiveLongPress = widget.onLongPress ??
         (widget.onPressed == null ? null : () => _showDefaultLongPressModal());
+    // Every FAB goes inert while an export runs. Without a visual cue the
+    // column looks identical to its live state, so taps land on nothing with
+    // no feedback at all (no press animation, no haptic, no action).
+    final isDisabled = widget.onPressed == null && effectiveLongPress == null;
 
     return FadeIn(
       delay: reduceMotion ? Duration.zero : widget.delay,
@@ -791,20 +795,24 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
             },
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onTapDown: (widget.onPressed != null && !reduceMotion)
+              onTapDown: widget.onPressed != null
                   ? (_) {
+                      // Reduced motion suppresses the press animation only.
+                      // Haptics are a separate preference and the only
+                      // non-visual confirmation that the tap registered.
+                      HapticService.medium();
+                      if (reduceMotion) return;
                       setState(() => _isPressed = true);
                       _controller.forward();
-                      HapticService.medium();
                     }
                   : null,
-              onTapUp: (widget.onPressed != null && !reduceMotion)
+              onTapUp: widget.onPressed != null
                   ? (_) {
                       setState(() => _isPressed = false);
                       _controller.reverse();
                     }
                   : null,
-              onTapCancel: (widget.onPressed != null && !reduceMotion)
+              onTapCancel: widget.onPressed != null
                   ? () {
                       setState(() => _isPressed = false);
                       _controller.reverse();
@@ -826,12 +834,15 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
                         width: AccessibleSizing.focusIndicatorWidth,
                       ),
                     ),
-                    child: reduceMotion
-                        ? _buildButtonContent()
-                        : ScaleTransition(
-                            scale: _scaleAnimation,
-                            child: _buildButtonContent(),
-                          ),
+                    child: _buildDimmedIfDisabled(
+                      isDisabled,
+                      reduceMotion
+                          ? _buildButtonContent()
+                          : ScaleTransition(
+                              scale: _scaleAnimation,
+                              child: _buildButtonContent(),
+                            ),
+                    ),
                   ),
                 ),
               ),
@@ -840,6 +851,13 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
         ),
       ),
     );
+  }
+
+  /// Material's standard 38% disabled opacity, applied only when the button
+  /// has no action left so enabled buttons keep a compositing-free paint path.
+  Widget _buildDimmedIfDisabled(bool isDisabled, Widget content) {
+    if (!isDisabled) return content;
+    return Opacity(opacity: 0.38, child: content);
   }
 
   Widget _buildButtonContent() {

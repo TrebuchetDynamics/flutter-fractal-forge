@@ -50,6 +50,7 @@ Future<bool> _pumpControls(
   bool fractalMusicEnabled = false,
   bool textOverlayEnabled = false,
   bool showFractalReport = false,
+  bool reduceMotion = false,
   VoidCallback? onToggleKaleidoscope,
   VoidCallback? onReportFractal,
   required VoidCallback onOpenWallpaper,
@@ -59,6 +60,10 @@ Future<bool> _pumpControls(
       locale: locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+      builder: (context, child) => MediaQuery(
+        data: MediaQuery.of(context).copyWith(disableAnimations: reduceMotion),
+        child: child!,
+      ),
       home: Scaffold(
         body: _Host(
           (controller) => FractalViewControls(
@@ -429,5 +434,64 @@ void main() {
     await tester.pump();
     expect(tapped, isFalse);
     expect(find.text('Export / Wallpaper'), findsNothing);
+  });
+
+  testWidgets('FABs dim while exporting so the inert state is visible',
+      (tester) async {
+    Finder dimmed(ValueKey<String> key) => find.descendant(
+          of: find.byKey(key),
+          matching: find.byWidgetPredicate(
+            (widget) => widget is Opacity && widget.opacity < 1.0,
+          ),
+        );
+
+    const fabKeys = [
+      ValueKey('viewerExportButton'),
+      ValueKey('viewerRandomButton'),
+      ValueKey('viewerKaleidoscopeButton'),
+      ValueKey('viewerFullscreenButton'),
+    ];
+
+    await _pumpControls(tester, isExporting: false, onOpenWallpaper: () {});
+    for (final key in fabKeys) {
+      expect(dimmed(key), findsNothing, reason: '$key enabled');
+    }
+
+    await _pumpControls(tester, isExporting: true, onOpenWallpaper: () {});
+    for (final key in fabKeys) {
+      expect(dimmed(key), findsOneWidget, reason: '$key exporting');
+    }
+  });
+
+  testWidgets('FAB taps keep firing haptics when reduced motion is on',
+      (tester) async {
+    final log = <MethodCall>[];
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      SystemChannels.platform,
+      (call) async {
+        log.add(call);
+        return null;
+      },
+    );
+    addTearDown(() => tester.binding.defaultBinaryMessenger
+        .setMockMethodCallHandler(SystemChannels.platform, null));
+
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      reduceMotion: true,
+      onOpenWallpaper: () {},
+    );
+
+    await tester.tap(find.byKey(const ValueKey('viewerRandomButton')));
+    await tester.pump();
+
+    expect(
+      log.where((call) =>
+          call.method == 'HapticFeedback.vibrate' &&
+          call.arguments == 'HapticFeedbackType.mediumImpact'),
+      isNotEmpty,
+      reason: 'reduced motion must not suppress tap haptics',
+    );
   });
 }
