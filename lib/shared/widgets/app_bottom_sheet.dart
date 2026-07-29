@@ -202,10 +202,21 @@ class AppBottomSheetHeader extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: AppTypography.titleMedium),
+                // Bounded: this header is a fixed child of the sheet's Column,
+                // so anything it takes comes off the scrollable body. Left to
+                // wrap freely it reached 195px of a 352px sheet at a 3x text
+                // scale, starving the body to zero height and overflowing.
+                Text(
+                  title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTypography.titleMedium,
+                ),
                 if (subtitle != null)
                   Text(
                     subtitle!,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     // textSecondary, not textMuted: this is prose a user reads,
                     // and textMuted measures 3.70:1 on surface, below the 4.5
                     // AA floor. textSecondary gives 8.63:1. Keep textMuted for
@@ -287,10 +298,21 @@ class AppDialog extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: AppTypography.titleMedium),
+                // Bounded: this header is a fixed child of the sheet's Column,
+                // so anything it takes comes off the scrollable body. Left to
+                // wrap freely it reached 195px of a 352px sheet at a 3x text
+                // scale, starving the body to zero height and overflowing.
+                Text(
+                  title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTypography.titleMedium,
+                ),
                 if (subtitle != null)
                   Text(
                     subtitle!,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     // textSecondary, not textMuted: this is prose a user reads,
                     // and textMuted measures 3.70:1 on surface, below the 4.5
                     // AA floor. textSecondary gives 8.63:1. Keep textMuted for
