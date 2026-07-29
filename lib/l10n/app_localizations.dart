@@ -2750,18 +2750,6 @@ abstract class AppLocalizations {
   /// **'Preview crops for phone wallpaper sizes.'**
   String get exportOptionsWallpaperDescription;
 
-  /// No description provided for @looperOptionsSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Record repeatable camera motion for exports.'**
-  String get looperOptionsSubtitle;
-
-  /// No description provided for @looperOptionsDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Open the looper timeline and GIF controls.'**
-  String get looperOptionsDescription;
-
   /// No description provided for @kaleidoscopeOptionsTitle.
   ///
   /// In en, this message translates to:
@@ -2791,30 +2779,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reflect each wedge for sharper radial symmetry.'**
   String get kaleidoscopeMirrorWedgesDescription;
-
-  /// No description provided for @fractalMusicOptionsSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Turn the current image into a visible scan and sound.'**
-  String get fractalMusicOptionsSubtitle;
-
-  /// No description provided for @fractalMusicOptionsDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Toggle radial scan sonification for this view.'**
-  String get fractalMusicOptionsDescription;
-
-  /// No description provided for @fullscreenOptionsSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Hide controls for a cleaner viewing surface.'**
-  String get fullscreenOptionsSubtitle;
-
-  /// No description provided for @fullscreenOptionsDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter the unobtrusive viewer mode.'**
-  String get fullscreenOptionsDescription;
 }
 
 class _AppLocalizationsDelegate

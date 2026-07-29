@@ -1461,14 +1461,6 @@ class AppLocalizationsEs extends AppLocalizations {
       'Previsualiza recortes para tamaños de fondo de pantalla.';
 
   @override
-  String get looperOptionsSubtitle =>
-      'Graba un movimiento de cámara repetible para tus exportaciones.';
-
-  @override
-  String get looperOptionsDescription =>
-      'Abre la línea de tiempo del bucle y los controles de GIF.';
-
-  @override
   String get kaleidoscopeOptionsTitle => 'Secciones del kaleidoscopio';
 
   @override
@@ -1484,20 +1476,4 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get kaleidoscopeMirrorWedgesDescription =>
       'Refleja cada sector para lograr una simetría radial más nítida.';
-
-  @override
-  String get fractalMusicOptionsSubtitle =>
-      'Convierte la imagen actual en un barrido visible y en sonido.';
-
-  @override
-  String get fractalMusicOptionsDescription =>
-      'Activa o desactiva la sonificación por barrido radial en esta vista.';
-
-  @override
-  String get fullscreenOptionsSubtitle =>
-      'Oculta los controles para una superficie de visualización más limpia.';
-
-  @override
-  String get fullscreenOptionsDescription =>
-      'Entra en el modo de visor discreto.';
 }

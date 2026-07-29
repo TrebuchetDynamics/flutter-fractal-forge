@@ -187,22 +187,6 @@ class FractalViewControls extends StatelessWidget {
         icon: Icons.loop_rounded,
         tooltip: l10n.tooltipCameraLooper,
         onPressed: isExporting ? null : actions.openLooper,
-        onLongPress: isExporting
-            ? null
-            : () => _showActionModal(
-                  context,
-                  icon: Icons.loop_rounded,
-                  title: l10n.tooltipCameraLooper,
-                  subtitle: l10n.looperOptionsSubtitle,
-                  children: [
-                    _ActionTile(
-                      icon: Icons.loop_rounded,
-                      label: l10n.tooltipCameraLooper,
-                      description: l10n.looperOptionsDescription,
-                      onTap: actions.openLooper,
-                    ),
-                  ],
-                ),
         isCompact: true,
         delay: const Duration(milliseconds: 180),
       ),
@@ -225,24 +209,6 @@ class FractalViewControls extends StatelessWidget {
             ? l10n.tooltipFractalMusicOn
             : l10n.tooltipFractalMusicOff,
         onPressed: isExporting ? null : actions.toggleFractalMusic,
-        onLongPress: isExporting
-            ? null
-            : () => _showActionModal(
-                  context,
-                  icon: Icons.music_note,
-                  title: l10n.tooltipFractalMusicOff,
-                  subtitle: l10n.fractalMusicOptionsSubtitle,
-                  children: [
-                    _ActionTile(
-                      icon: Icons.music_note,
-                      label: fractalMusicEnabled
-                          ? l10n.tooltipFractalMusicOn
-                          : l10n.tooltipFractalMusicOff,
-                      description: l10n.fractalMusicOptionsDescription,
-                      onTap: actions.toggleFractalMusic,
-                    ),
-                  ],
-                ),
         isPrimary: fractalMusicEnabled,
         isCompact: true,
         delay: const Duration(milliseconds: 220),
@@ -252,22 +218,6 @@ class FractalViewControls extends StatelessWidget {
         icon: Icons.fullscreen_rounded,
         tooltip: l10n.tooltipFullscreen,
         onPressed: isExporting ? null : actions.toggleFullscreen,
-        onLongPress: isExporting
-            ? null
-            : () => _showActionModal(
-                  context,
-                  icon: Icons.fullscreen_rounded,
-                  title: l10n.tooltipFullscreen,
-                  subtitle: l10n.fullscreenOptionsSubtitle,
-                  children: [
-                    _ActionTile(
-                      icon: Icons.fullscreen_rounded,
-                      label: l10n.tooltipFullscreen,
-                      description: l10n.fullscreenOptionsDescription,
-                      onTap: actions.toggleFullscreen,
-                    ),
-                  ],
-                ),
         isCompact: true,
         delay: const Duration(milliseconds: 240),
       ),

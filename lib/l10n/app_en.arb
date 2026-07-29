@@ -643,15 +643,9 @@
   "exportOptionsLinkDescription": "Copy a replayable link to this exact view.",
   "exportOptionsImageDescription": "Render an image and send it to installed apps.",
   "exportOptionsWallpaperDescription": "Preview crops for phone wallpaper sizes.",
-  "looperOptionsSubtitle": "Record repeatable camera motion for exports.",
-  "looperOptionsDescription": "Open the looper timeline and GIF controls.",
   "kaleidoscopeOptionsTitle": "Kaleidoscope sections",
   "kaleidoscopeOptionsSubtitle": "Pick a symmetry count and mirror behavior for this view.",
   "kaleidoscopeWedgeCount": "Wedge count",
   "kaleidoscopeMirrorWedges": "Mirror wedges",
-  "kaleidoscopeMirrorWedgesDescription": "Reflect each wedge for sharper radial symmetry.",
-  "fractalMusicOptionsSubtitle": "Turn the current image into a visible scan and sound.",
-  "fractalMusicOptionsDescription": "Toggle radial scan sonification for this view.",
-  "fullscreenOptionsSubtitle": "Hide controls for a cleaner viewing surface.",
-  "fullscreenOptionsDescription": "Enter the unobtrusive viewer mode."
+  "kaleidoscopeMirrorWedgesDescription": "Reflect each wedge for sharper radial symmetry."
 }

@@ -1445,14 +1445,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Preview crops for phone wallpaper sizes.';
 
   @override
-  String get looperOptionsSubtitle =>
-      'Record repeatable camera motion for exports.';
-
-  @override
-  String get looperOptionsDescription =>
-      'Open the looper timeline and GIF controls.';
-
-  @override
   String get kaleidoscopeOptionsTitle => 'Kaleidoscope sections';
 
   @override
@@ -1468,20 +1460,4 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get kaleidoscopeMirrorWedgesDescription =>
       'Reflect each wedge for sharper radial symmetry.';
-
-  @override
-  String get fractalMusicOptionsSubtitle =>
-      'Turn the current image into a visible scan and sound.';
-
-  @override
-  String get fractalMusicOptionsDescription =>
-      'Toggle radial scan sonification for this view.';
-
-  @override
-  String get fullscreenOptionsSubtitle =>
-      'Hide controls for a cleaner viewing surface.';
-
-  @override
-  String get fullscreenOptionsDescription =>
-      'Enter the unobtrusive viewer mode.';
 }

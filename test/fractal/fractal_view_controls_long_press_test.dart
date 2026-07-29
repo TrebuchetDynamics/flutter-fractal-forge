@@ -160,6 +160,23 @@ void main() {
     handle.dispose();
   });
 
+  testWidgets('single-action FABs open no sheet on long press', (tester) async {
+    // These three toggle or open something directly; a sheet whose only tile
+    // repeats that action just costs a second tap.
+    for (final key in const [
+      'viewerLooperButton',
+      'viewerFractalMusicButton',
+      'viewerFullscreenButton',
+    ]) {
+      await _pumpHarness(tester);
+      await tester.longPress(find.byKey(ValueKey(key)));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(BottomSheet), findsNothing, reason: key);
+      expect(find.byTooltip('Close'), findsNothing, reason: key);
+    }
+  });
+
   testWidgets('FAB without a secondary action ignores long press',
       (tester) async {
     await tester.pumpWidget(
