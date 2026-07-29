@@ -442,7 +442,10 @@ class _KaleidoscopeSection extends StatelessWidget {
                   value: controller.kaleidoscopeSectors.toDouble(),
                   min: 4,
                   max: 16,
-                  divisions: 12,
+                  // Even-only stops (4,6,…,16), matching the full controls
+                  // panel: setKaleidoscopeSectors snaps odd values down, so a
+                  // step of 1 would make half the detents land nowhere.
+                  divisions: 6,
                   valueLabel: controller.kaleidoscopeSectors.toString(),
                   semanticLabel: 'Kaleidoscope sectors',
                   onChanged: (v) =>

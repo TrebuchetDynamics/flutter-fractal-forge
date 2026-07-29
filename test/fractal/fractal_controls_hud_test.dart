@@ -86,6 +86,42 @@ void main() {
       expect(find.text('Rotation'), findsOneWidget);
     });
 
+    testWidgets('every sectors detent lands on a distinct sector count',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Kaleidoscope'));
+      await tester.pumpAndSettle();
+
+      final sectorsSlider = find.descendant(
+        of: find.byWidgetPredicate(
+          (w) => w is Semantics && w.properties.label == 'Kaleidoscope sectors',
+        ),
+        matching: find.byType(Slider),
+      );
+      expect(sectorsSlider, findsOneWidget);
+
+      final slider = tester.widget<Slider>(sectorsSlider);
+      final divisions = slider.divisions!;
+      final step = (slider.max - slider.min) / divisions;
+
+      // setKaleidoscopeSectors snaps odd values down, so two adjacent detents
+      // that differ by 1 collapse onto the same count and one of them is a
+      // dead stop the user can drag to but never land on.
+      final reachable = <int>{};
+      for (var i = 0; i <= divisions; i++) {
+        harness.controller
+            .setKaleidoscopeSectors((slider.min + i * step).round());
+        reachable.add(harness.controller.kaleidoscopeSectors);
+      }
+
+      expect(
+        reachable.length,
+        divisions + 1,
+        reason: 'only ${reachable.length} of ${divisions + 1} detents are live',
+      );
+    });
+
     testWidgets('randomize does not trigger celebration particles',
         (tester) async {
       await tester.pumpWidget(buildTestWidget());
