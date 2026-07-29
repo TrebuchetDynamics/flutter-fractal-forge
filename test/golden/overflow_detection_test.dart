@@ -89,7 +89,12 @@ void main() {
     ThemeData? theme,
     double textScaleFactor = 1.0,
     String label = '',
+    Size? surfaceSize,
   }) async {
+    if (surfaceSize != null) {
+      await tester.binding.setSurfaceSize(surfaceSize);
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+    }
     final overflowErrors = <FlutterErrorDetails>[];
     final originalHandler = FlutterError.onError;
 
@@ -221,5 +226,23 @@ void main() {
         label: 'ExportSheet / highContrast / 3.0x',
       );
     });
+
+    // The cases above render at the default 800x600 test surface, where the
+    // sheet has enough width to absorb any text growth. Phone widths are where
+    // it actually breaks, so scale is swept there too.
+    for (final surface in const [Size(360, 640), Size(320, 568)]) {
+      for (final scale in const [1.0, 1.3, 2.0, 3.0]) {
+        testWidgets('no overflow at ${scale}x on $surface', (tester) async {
+          await assertNoOverflow(
+            tester,
+            buildExportSheet(),
+            theme: AppTheme.dark,
+            textScaleFactor: scale,
+            surfaceSize: surface,
+            label: 'ExportSheet / dark / ${scale}x / $surface',
+          );
+        });
+      }
+    }
   });
 }

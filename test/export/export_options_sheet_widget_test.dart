@@ -129,7 +129,13 @@ void main() {
       initialOptions: ExportPresets.webOptimized,
     );
 
-    await tester.scrollUntilVisible(find.text('PNG (PNG fallback)'), 120);
+    // The sheet has two scrollables now — the options list and the capped
+    // action area beneath it — so name the one that holds the summary.
+    await tester.scrollUntilVisible(
+      find.text('PNG (PNG fallback)'),
+      120,
+      scrollable: find.byType(Scrollable).first,
+    );
     expect(find.text('PNG (PNG fallback)'), findsOneWidget);
     expect(
       find.text('WebP is not encoded yet; exports use PNG fallback.'),

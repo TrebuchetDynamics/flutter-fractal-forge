@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
+import 'package:flutter_fractals/core/models/export_options.dart';
+import 'package:flutter_fractals/features/export/export_options_sheet.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/storage/exploration_stats_service.dart';
@@ -131,6 +133,35 @@ void main() {
     expectCleanSemantics(tester, 'a11y-settings');
     handle.dispose();
     await disposeAccessibilityTestWidget(tester);
+  });
+
+  testWidgets('export options sheet', (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    final handle = tester.ensureSemantics();
+    await tester.pumpWidget(MaterialApp(
+      theme: AppTheme.dark,
+      locale: const Locale('en'),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: Scaffold(
+        body: Builder(
+          builder: (context) => Center(
+            child: ElevatedButton(
+              onPressed: () => ExportOptionsSheet.show(
+                context,
+                initialOptions: const ExportOptions(),
+                fractalType: 'mandelbrot',
+              ),
+              child: const Text('Open'),
+            ),
+          ),
+        ),
+      ),
+    ));
+    await tester.tap(find.text('Open'));
+    await tester.pumpAndSettle();
+    expectCleanSemantics(tester, 'export-sheet');
+    handle.dispose();
   });
 
   testWidgets('controls HUD', (tester) async {

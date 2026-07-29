@@ -159,7 +159,19 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
             ],
           ),
         ),
-        _buildExportActions(context, l10n),
+        // Capped and scrollable, not fixed: at a large text scale these buttons
+        // wanted 501px inside a 406px sheet, which starved the Expanded list
+        // above to zero height — the whole options body disappeared — and still
+        // overflowed. A ceiling rather than a flex share so the natural size is
+        // untouched whenever it fits, which is every normal-scale case.
+        ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.sizeOf(context).height * 0.45,
+          ),
+          child: SingleChildScrollView(
+            child: _buildExportActions(context, l10n),
+          ),
+        ),
       ],
     );
   }
@@ -227,18 +239,27 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
                 ),
               ),
               const SizedBox(width: 8),
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    _showCustomization = !_showCustomization;
-                    if (!_showCustomization) {
-                      _showAdvanced = false;
-                    }
-                  });
-                },
-                child: Text(_showCustomization
-                    ? l10n.exportButtonSimple
-                    : l10n.exportButtonCustomize),
+              // Unconstrained, this button grew with the text scale until the
+              // Expanded beside it was squeezed to zero width and the plan
+              // title vanished, and the row still overflowed.
+              Flexible(
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      _showCustomization = !_showCustomization;
+                      if (!_showCustomization) {
+                        _showAdvanced = false;
+                      }
+                    });
+                  },
+                  child: Text(
+                    _showCustomization
+                        ? l10n.exportButtonSimple
+                        : l10n.exportButtonCustomize,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
               ),
             ],
           ),
