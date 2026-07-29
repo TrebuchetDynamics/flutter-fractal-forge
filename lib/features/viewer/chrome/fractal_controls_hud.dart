@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/features/controls/param_control_plan.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
@@ -561,14 +562,22 @@ class _HudIconButton extends StatelessWidget {
         message: tooltip,
         child: InkWell(
           onTap: onPressed,
-          borderRadius: BorderRadius.circular(20),
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(24),
+          // The circle stays 36 so the HUD keeps its density, but the tappable
+          // area is padded out to the 48 minimum — this is the only way to
+          // dismiss the HUD, so it should not be the smallest target in it.
+          child: SizedBox.square(
+            dimension: AccessibleSizing.minTouchTarget,
+            child: Center(
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Icon(icon, size: 20, color: Colors.white70),
+              ),
             ),
-            child: Icon(icon, size: 20, color: Colors.white70),
           ),
         ),
       ),

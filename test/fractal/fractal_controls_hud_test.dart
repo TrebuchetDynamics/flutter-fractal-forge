@@ -108,6 +108,22 @@ void main() {
       });
     }
 
+    testWidgets('the HUD close button keeps a 48px touch target',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      // The only way to dismiss the HUD; the visible circle stays smaller.
+      final target = find.ancestor(
+        of: find.byIcon(Icons.close_rounded),
+        matching: find.byType(InkWell),
+      );
+      expect(target, findsOneWidget);
+      final size = tester.getSize(target);
+      expect(size.width, greaterThanOrEqualTo(48.0));
+      expect(size.height, greaterThanOrEqualTo(48.0));
+    });
+
     testWidgets('every adjustable HUD control announces what it adjusts',
         (tester) async {
       final handle = tester.ensureSemantics();
