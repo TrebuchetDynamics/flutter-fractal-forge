@@ -283,13 +283,16 @@ class AppTypography {
     color: AppColors.textSecondary,
   );
 
+  /// Defaults to [AppColors.textSecondary], not textMuted: this is body text,
+  /// and textMuted measures 3.70:1 on surface, under the 4.5 WCAG AA floor.
+  /// Callers wanting a decorative tint must opt in with copyWith.
   static const TextStyle bodySmall = TextStyle(
     fontFamily: bodyFont,
     fontSize: 12,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.2,
     height: 1.5,
-    color: AppColors.textMuted,
+    color: AppColors.textSecondary,
   );
 
   // Label styles
@@ -311,13 +314,15 @@ class AppTypography {
     color: AppColors.textSecondary,
   );
 
+  /// See [bodySmall] on the colour choice. At 10px this is the smallest text in
+  /// the app, so it needs the contrast most.
   static const TextStyle labelSmall = TextStyle(
     fontFamily: bodyFont,
     fontSize: 10,
     fontWeight: FontWeight.w500,
     letterSpacing: 0.5,
     height: 1.4,
-    color: AppColors.textMuted,
+    color: AppColors.textSecondary,
   );
 
   // Monospace for numeric values - JetBrains Mono

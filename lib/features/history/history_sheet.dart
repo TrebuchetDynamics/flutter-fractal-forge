@@ -81,8 +81,15 @@ class _HistorySheetState extends State<HistorySheet>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Bounded: this header is a fixed child of the sheet's
+                    // Column, so what it takes comes off the tab body rather
+                    // than scrolling. Uncapped it reached 412px inside a 341px
+                    // sheet at a 3x text scale and the TabBarView collapsed to
+                    // zero, hiding every entry until the sheet was dragged up.
                     Text(
                       l10n.historyTitle,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: AppTypography.headlineMedium,
                     ),
                     if (history.historyCount > 0)
@@ -91,6 +98,8 @@ class _HistorySheetState extends State<HistorySheet>
                           history.currentPosition,
                           history.historyCount,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: AppTypography.bodySmall,
                       ),
                   ],
@@ -156,7 +165,16 @@ class _HistorySheetState extends State<HistorySheet>
                     children: [
                       const Icon(Icons.history_rounded, size: 18),
                       const SizedBox(width: 6),
-                      Text(l10n.historyTabHistory),
+                      // Flexible: the tab label sits in a bounded Row beside an
+                      // icon and a count badge, and overflowed by 21-23px at
+                      // 1.0x on a 360-wide screen before this.
+                      Flexible(
+                        child: Text(
+                          l10n.historyTabHistory,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                       if (history.historyCount > 0) ...[
                         const SizedBox(width: 4),
                         _CountBadge(count: history.historyCount),
@@ -170,7 +188,16 @@ class _HistorySheetState extends State<HistorySheet>
                     children: [
                       const Icon(Icons.star_rounded, size: 18),
                       const SizedBox(width: 6),
-                      Text(l10n.historyTabFavorites),
+                      // Flexible: the tab label sits in a bounded Row beside an
+                      // icon and a count badge, and overflowed by 21-23px at
+                      // 1.0x on a 360-wide screen before this.
+                      Flexible(
+                        child: Text(
+                          l10n.historyTabFavorites,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                       if (history.favoritesCount > 0) ...[
                         const SizedBox(width: 4),
                         _CountBadge(count: history.favoritesCount),
@@ -596,30 +623,39 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.xxl),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              size: 64,
-              color: AppColors.textMuted.withValues(alpha: 0.5),
+    // Centred when it fits, scrollable when it does not: the 64px icon plus two
+    // lines of copy overflowed the tab body by up to 68px on a short screen.
+    return LayoutBuilder(
+      builder: (context, constraints) => SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minHeight: constraints.maxHeight),
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.xxl),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    icon,
+                    size: 64,
+                    color: AppColors.textMuted.withValues(alpha: 0.5),
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  Text(
+                    title,
+                    style: AppTypography.titleMedium,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  Text(
+                    subtitle,
+                    style: AppTypography.bodySmall,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: AppSpacing.lg),
-            Text(
-              title,
-              style: AppTypography.titleMedium,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            Text(
-              subtitle,
-              style: AppTypography.bodySmall,
-              textAlign: TextAlign.center,
-            ),
-          ],
+          ),
         ),
       ),
     );
