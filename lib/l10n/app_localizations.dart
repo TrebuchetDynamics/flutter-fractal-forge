@@ -2839,6 +2839,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Kaleidoscope rotation'**
   String get hudSemanticKaleidoscopeRotation;
+
+  /// No description provided for @palettePickerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a palette for this render.'**
+  String get palettePickerSubtitle;
 }
 
 class _AppLocalizationsDelegate

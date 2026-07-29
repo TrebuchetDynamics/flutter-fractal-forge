@@ -658,5 +658,6 @@
   "hudResetParamsLabel": "Params",
   "hudRandomizeTooltip": "Randomize parameters",
   "hudSemanticKaleidoscopeSectors": "Kaleidoscope sectors",
-  "hudSemanticKaleidoscopeRotation": "Kaleidoscope rotation"
+  "hudSemanticKaleidoscopeRotation": "Kaleidoscope rotation",
+  "palettePickerSubtitle": "Choose a palette for this render."
 }

@@ -817,7 +817,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
               AppBottomSheetHeader(
                 icon: Icons.palette_rounded,
                 title: l10n.paramColorScheme,
-                subtitle: 'Choose a palette for this render.',
+                subtitle: l10n.palettePickerSubtitle,
                 onClose: () => Navigator.of(context).pop(),
               ),
               Flexible(
@@ -1231,67 +1231,75 @@ class _PaletteChoiceTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: AnimatedContainer(
-          duration: AppAnimations.fast,
-          padding: const EdgeInsets.all(6),
-          decoration: BoxDecoration(
-            color: selected
-                ? AppColors.primary.withValues(alpha: 0.18)
-                : AppColors.surfaceVariant.withValues(alpha: 0.62),
+    // Which palette is active is otherwise conveyed only by the check icon and
+    // the border colour, so a screen reader hears nine identical buttons.
+    return MergeSemantics(
+      child: Semantics(
+        selected: selected,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onTap,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: selected ? AppColors.primaryLight : AppColors.glassBorder,
-              width: selected ? 1.4 : 1,
-            ),
-          ),
-          child: Column(
-            children: [
-              Expanded(
-                child: Stack(
-                  children: [
-                    Positioned.fill(
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          gradient: _paletteGradient(value),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.white24),
+            child: AnimatedContainer(
+              duration: AppAnimations.fast,
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: selected
+                    ? AppColors.primary.withValues(alpha: 0.18)
+                    : AppColors.surfaceVariant.withValues(alpha: 0.62),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color:
+                      selected ? AppColors.primaryLight : AppColors.glassBorder,
+                  width: selected ? 1.4 : 1,
+                ),
+              ),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Stack(
+                      children: [
+                        Positioned.fill(
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              gradient: _paletteGradient(value),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: Colors.white24),
+                            ),
+                          ),
                         ),
-                      ),
+                        if (selected)
+                          Positioned(
+                            top: 4,
+                            right: 4,
+                            child: Icon(
+                              Icons.check_circle_rounded,
+                              size: 17,
+                              color: AppColors.primaryLight,
+                            ),
+                          ),
+                      ],
                     ),
-                    if (selected)
-                      Positioned(
-                        top: 4,
-                        right: 4,
-                        child: Icon(
-                          Icons.check_circle_rounded,
-                          size: 17,
-                          color: AppColors.primaryLight,
-                        ),
-                      ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    label,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: AppTypography.labelSmall.copyWith(
+                      color: selected
+                          ? AppColors.textPrimary
+                          : AppColors.textSecondary,
+                      fontSize: 10,
+                      height: 1.05,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 5),
-              Text(
-                label,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-                style: AppTypography.labelSmall.copyWith(
-                  color: selected
-                      ? AppColors.textPrimary
-                      : AppColors.textSecondary,
-                  fontSize: 10,
-                  height: 1.05,
-                  fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),

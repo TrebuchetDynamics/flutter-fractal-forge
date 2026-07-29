@@ -1506,4 +1506,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get hudSemanticKaleidoscopeRotation => 'Rotación del kaleidoscopio';
+
+  @override
+  String get palettePickerSubtitle => 'Elige una paleta para este render.';
 }
