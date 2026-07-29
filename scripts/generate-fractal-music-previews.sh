@@ -90,9 +90,14 @@ void main() {
 /// These do. screenshots/ is gitignored, so this is skipped on a fresh clone
 /// and in CI rather than failing.
 void writeRealCapturePreviews(Directory outDir) {
-  final captures = Directory('screenshots');
+  // Defaults to the app screenshots. Point PREVIEW_IMAGE_DIR at a directory of
+  // rendered fractal thumbnails to hear those instead -- the music is driven by
+  // brightness, detail, hue and saturation, so different fractals give
+  // genuinely different pieces.
+  final dir = Platform.environment['PREVIEW_IMAGE_DIR'] ?? 'screenshots';
+  final captures = Directory(dir);
   if (!captures.existsSync()) {
-    print('screenshots/ absent - skipping real-capture previews');
+    print('$dir absent - skipping real-capture previews');
     return;
   }
 
@@ -212,7 +217,8 @@ DART
 
 mkdir -p "$OUT_DIR"
 cd "$ROOT"
-OUT_DIR="$OUT_DIR" "$FLUTTER" test "$TMP_TEST" --reporter expanded
+OUT_DIR="$OUT_DIR" PREVIEW_IMAGE_DIR="${PREVIEW_IMAGE_DIR:-screenshots}" \
+  "$FLUTTER" test "$TMP_TEST" --reporter expanded
 python3 - "$OUT_DIR" <<'PY'
 import json
 import math
