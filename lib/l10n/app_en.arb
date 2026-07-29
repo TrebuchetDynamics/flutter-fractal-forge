@@ -647,5 +647,16 @@
   "kaleidoscopeOptionsSubtitle": "Pick a symmetry count and mirror behavior for this view.",
   "kaleidoscopeWedgeCount": "Wedge count",
   "kaleidoscopeMirrorWedges": "Mirror wedges",
-  "kaleidoscopeMirrorWedgesDescription": "Reflect each wedge for sharper radial symmetry."
+  "kaleidoscopeMirrorWedgesDescription": "Reflect each wedge for sharper radial symmetry.",
+
+  "hudPalette": "Palette",
+  "hudKaleidoscope": "Kaleidoscope",
+  "hudRotation": "Rotation",
+  "hudFluidMode": "Fluid mode",
+  "hudFluidIntensity": "Fluid intensity",
+  "hudResetViewLabel": "View",
+  "hudResetParamsLabel": "Params",
+  "hudRandomizeTooltip": "Randomize parameters",
+  "hudSemanticKaleidoscopeSectors": "Kaleidoscope sectors",
+  "hudSemanticKaleidoscopeRotation": "Kaleidoscope rotation"
 }

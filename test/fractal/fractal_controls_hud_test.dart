@@ -108,6 +108,33 @@ void main() {
       });
     }
 
+    testWidgets('HUD labels localize to Spanish', (tester) async {
+      await tester.pumpWidget(
+        harness.wrapScaffold(
+          const FractalControlsHud(),
+          locale: const Locale('es'),
+        ),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Kaleidoscopio'));
+      await tester.pumpAndSettle();
+
+      for (final label in const [
+        'Paleta',
+        'Modo fluido',
+        'Vista',
+        'Parámetros',
+        'Aleatorizar',
+        'Rotación',
+      ]) {
+        expect(find.text(label), findsWidgets, reason: label);
+      }
+      // The English source strings must be gone, not merely accompanied.
+      for (final label in const ['Palette', 'Fluid mode', 'Randomize']) {
+        expect(find.text(label), findsNothing, reason: label);
+      }
+    });
+
     testWidgets('the HUD close button keeps a 48px touch target',
         (tester) async {
       await tester.pumpWidget(buildTestWidget());

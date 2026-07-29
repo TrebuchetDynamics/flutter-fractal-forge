@@ -1460,4 +1460,34 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get kaleidoscopeMirrorWedgesDescription =>
       'Reflect each wedge for sharper radial symmetry.';
+
+  @override
+  String get hudPalette => 'Palette';
+
+  @override
+  String get hudKaleidoscope => 'Kaleidoscope';
+
+  @override
+  String get hudRotation => 'Rotation';
+
+  @override
+  String get hudFluidMode => 'Fluid mode';
+
+  @override
+  String get hudFluidIntensity => 'Fluid intensity';
+
+  @override
+  String get hudResetViewLabel => 'View';
+
+  @override
+  String get hudResetParamsLabel => 'Params';
+
+  @override
+  String get hudRandomizeTooltip => 'Randomize parameters';
+
+  @override
+  String get hudSemanticKaleidoscopeSectors => 'Kaleidoscope sectors';
+
+  @override
+  String get hudSemanticKaleidoscopeRotation => 'Kaleidoscope rotation';
 }

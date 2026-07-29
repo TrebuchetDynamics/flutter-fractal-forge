@@ -2779,6 +2779,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reflect each wedge for sharper radial symmetry.'**
   String get kaleidoscopeMirrorWedgesDescription;
+
+  /// No description provided for @hudPalette.
+  ///
+  /// In en, this message translates to:
+  /// **'Palette'**
+  String get hudPalette;
+
+  /// No description provided for @hudKaleidoscope.
+  ///
+  /// In en, this message translates to:
+  /// **'Kaleidoscope'**
+  String get hudKaleidoscope;
+
+  /// No description provided for @hudRotation.
+  ///
+  /// In en, this message translates to:
+  /// **'Rotation'**
+  String get hudRotation;
+
+  /// No description provided for @hudFluidMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluid mode'**
+  String get hudFluidMode;
+
+  /// No description provided for @hudFluidIntensity.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluid intensity'**
+  String get hudFluidIntensity;
+
+  /// No description provided for @hudResetViewLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'View'**
+  String get hudResetViewLabel;
+
+  /// No description provided for @hudResetParamsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Params'**
+  String get hudResetParamsLabel;
+
+  /// No description provided for @hudRandomizeTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Randomize parameters'**
+  String get hudRandomizeTooltip;
+
+  /// No description provided for @hudSemanticKaleidoscopeSectors.
+  ///
+  /// In en, this message translates to:
+  /// **'Kaleidoscope sectors'**
+  String get hudSemanticKaleidoscopeSectors;
+
+  /// No description provided for @hudSemanticKaleidoscopeRotation.
+  ///
+  /// In en, this message translates to:
+  /// **'Kaleidoscope rotation'**
+  String get hudSemanticKaleidoscopeRotation;
 }
 
 class _AppLocalizationsDelegate

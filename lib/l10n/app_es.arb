@@ -648,5 +648,16 @@
   "kaleidoscopeOptionsSubtitle": "Elige el número de simetrías y el comportamiento del espejo para esta vista.",
   "kaleidoscopeWedgeCount": "Número de sectores",
   "kaleidoscopeMirrorWedges": "Reflejar sectores",
-  "kaleidoscopeMirrorWedgesDescription": "Refleja cada sector para lograr una simetría radial más nítida."
+  "kaleidoscopeMirrorWedgesDescription": "Refleja cada sector para lograr una simetría radial más nítida.",
+
+  "hudPalette": "Paleta",
+  "hudKaleidoscope": "Kaleidoscopio",
+  "hudRotation": "Rotación",
+  "hudFluidMode": "Modo fluido",
+  "hudFluidIntensity": "Intensidad del fluido",
+  "hudResetViewLabel": "Vista",
+  "hudResetParamsLabel": "Parámetros",
+  "hudRandomizeTooltip": "Aleatorizar parámetros",
+  "hudSemanticKaleidoscopeSectors": "Sectores del kaleidoscopio",
+  "hudSemanticKaleidoscopeRotation": "Rotación del kaleidoscopio"
 }

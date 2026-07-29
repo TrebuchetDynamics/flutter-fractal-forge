@@ -144,20 +144,20 @@ class FractalControlsHud extends StatelessWidget {
 
                   const SizedBox(height: 4),
                   _HudToggleRow(
-                    label: 'Fluid mode',
+                    label: l10n.hudFluidMode,
                     value: controller.fluidModeEnabled,
                     onChanged: controller.setFluidModeEnabled,
                   ),
                   if (controller.fluidModeEnabled) ...[
                     const SizedBox(height: 4),
                     _CompactHudSliderRow(
-                      label: 'Fluid intensity',
+                      label: l10n.hudFluidIntensity,
                       value: controller.fluidStrength,
                       min: FractalEffectInputBounds.minFluidStrength,
                       max: FractalEffectInputBounds.maxFluidStrength,
                       divisions: 20,
                       valueLabel: controller.fluidStrength.toStringAsFixed(1),
-                      semanticLabel: 'Fluid intensity',
+                      semanticLabel: l10n.hudFluidIntensity,
                       onChanged: controller.setFluidStrength,
                     ),
                   ],
@@ -381,15 +381,16 @@ class _CompactColorSchemeRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<FractalController>();
+    final l10n = AppLocalizations.of(context)!;
     final colorSchemeParam =
         controller.module.parameters.firstWhere((p) => p.id == 'colorScheme');
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Palette',
-          style: TextStyle(
+        Text(
+          l10n.hudPalette,
+          style: const TextStyle(
             color: Colors.white70,
             fontSize: 11,
             fontWeight: FontWeight.w500,
@@ -441,7 +442,7 @@ class _KaleidoscopeSection extends StatelessWidget {
       children: [
         // Toggle row
         _HudToggleRow(
-          label: 'Kaleidoscope',
+          label: l10n.hudKaleidoscope,
           value: controller.kaleidoscopeEnabled,
           onChanged: (v) => controller.setKaleidoscopeEnabled(v),
         ),
@@ -451,7 +452,7 @@ class _KaleidoscopeSection extends StatelessWidget {
             children: [
               Expanded(
                 child: _CompactHudSliderRow(
-                  label: 'Sectors',
+                  label: l10n.kaleidoscopeSectors,
                   value: controller.kaleidoscopeSectors.toDouble(),
                   min: 4,
                   max: 16,
@@ -460,7 +461,7 @@ class _KaleidoscopeSection extends StatelessWidget {
                   // step of 1 would make half the detents land nowhere.
                   divisions: 6,
                   valueLabel: controller.kaleidoscopeSectors.toString(),
-                  semanticLabel: 'Kaleidoscope sectors',
+                  semanticLabel: l10n.hudSemanticKaleidoscopeSectors,
                   onChanged: (v) =>
                       controller.setKaleidoscopeSectors(v.round()),
                 ),
@@ -472,14 +473,14 @@ class _KaleidoscopeSection extends StatelessWidget {
             children: [
               Expanded(
                 child: _CompactHudSliderRow(
-                  label: 'Rotation',
+                  label: l10n.hudRotation,
                   value: controller.kaleidoscopeRotation,
                   min: 0,
                   max: 6.28,
                   divisions: 62,
                   valueLabel:
                       controller.kaleidoscopeRotation.toStringAsFixed(2),
-                  semanticLabel: 'Kaleidoscope rotation',
+                  semanticLabel: l10n.hudSemanticKaleidoscopeRotation,
                   onChanged: controller.setKaleidoscopeRotation,
                 ),
               ),
@@ -505,6 +506,7 @@ class _ActionButtonsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Row(
       children: [
         // Flexible, not fixed: at a large text scale the two reset buttons
@@ -512,8 +514,8 @@ class _ActionButtonsRow extends StatelessWidget {
         Flexible(
           child: _HudActionButton(
             icon: Icons.home_filled,
-            label: 'View',
-            tooltip: 'Reset view',
+            label: l10n.hudResetViewLabel,
+            tooltip: l10n.resetView,
             onPressed: onResetView,
           ),
         ),
@@ -521,8 +523,8 @@ class _ActionButtonsRow extends StatelessWidget {
         Flexible(
           child: _HudActionButton(
             icon: Icons.settings_backup_restore_rounded,
-            label: 'Params',
-            tooltip: 'Reset parameters',
+            label: l10n.hudResetParamsLabel,
+            tooltip: l10n.resetParams,
             onPressed: onResetParams,
           ),
         ),
@@ -530,8 +532,8 @@ class _ActionButtonsRow extends StatelessWidget {
         Expanded(
           child: _HudActionButton(
             icon: Icons.shuffle_rounded,
-            label: 'Randomize',
-            tooltip: 'Randomize parameters',
+            label: l10n.randomize,
+            tooltip: l10n.hudRandomizeTooltip,
             onPressed: onRandomize,
             isPrimary: true,
           ),
