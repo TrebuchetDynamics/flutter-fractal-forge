@@ -5,6 +5,18 @@ All notable changes to Flutter Fractal Forge are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.81] - 2026-07-29
+
+### Added
+- **Riemann Zeta Newton Basins**, a new fractal: Newton's method applied to the
+  Riemann zeta function, so the basins are the zeta zeros themselves. It opens
+  framed on the critical line where the first nontrivial zeros sit. The catalog
+  is now 978 fractals.
+
+### Fixed
+- The Arnold cat map drew as flat noise. It now shows the diagonal shearing the
+  map is known for.
+
 ## [1.1.80] - 2026-07-28
 
 ### Fixed
