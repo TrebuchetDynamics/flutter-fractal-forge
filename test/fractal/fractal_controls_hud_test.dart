@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dart';
 
 import '../helpers/fractal_controller_widget_harness.dart';
+import '../helpers/overflow_guard.dart';
 
 void main() {
   group('FractalControlsHud', () {
@@ -93,18 +94,28 @@ void main() {
         await tester.binding.setSurfaceSize(const Size(320, 568));
         addTearDown(() => tester.binding.setSurfaceSize(null));
 
-        await tester.pumpWidget(
-          MediaQuery(
-            data: MediaQueryData(textScaler: TextScaler.linear(scale)),
-            child: buildTestWidget(),
-          ),
+        // The guard catches an overflow in a widget that is disposed before the
+        // assertion runs, and names it — see test/helpers/overflow_guard.dart.
+        await expectNoOverflow(
+          () async {
+            await tester.pumpWidget(
+              MediaQuery(
+                data: MediaQueryData(textScaler: TextScaler.linear(scale)),
+                child: buildTestWidget(),
+              ),
+            );
+            await tester.pumpAndSettle();
+          },
+          reason: 'collapsed at $scale x',
         );
-        await tester.pumpAndSettle();
-        expect(tester.takeException(), isNull, reason: 'collapsed at $scale x');
 
-        await tester.tap(find.text('Kaleidoscope'));
-        await tester.pumpAndSettle();
-        expect(tester.takeException(), isNull, reason: 'expanded at $scale x');
+        await expectNoOverflow(
+          () async {
+            await tester.tap(find.text('Kaleidoscope'));
+            await tester.pumpAndSettle();
+          },
+          reason: 'expanded at $scale x',
+        );
       });
     }
 

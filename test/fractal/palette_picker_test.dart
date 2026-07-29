@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../a11y/shared/permission_test_harness.dart';
+import '../helpers/overflow_guard.dart';
 
 void main() {
   group('palette picker', () {
@@ -114,9 +115,10 @@ void main() {
         await tester.binding.setSurfaceSize(const Size(360, 640));
         addTearDown(() => tester.binding.setSurfaceSize(null));
 
-        await openPicker(tester, textScale: scale);
-
-        expect(tester.takeException(), isNull, reason: 'at $scale x');
+        await expectNoOverflow(
+          () => openPicker(tester, textScale: scale),
+          reason: 'at $scale x',
+        );
       });
     }
   });

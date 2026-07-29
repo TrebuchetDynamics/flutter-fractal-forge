@@ -10,6 +10,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../helpers/overflow_guard.dart';
+
 /// Pumps the sheet with one saved preset, so the user-preset chip and its
 /// embedded rename/delete actions are in the tree.
 Future<void> _pumpSheet(
@@ -84,23 +86,10 @@ void main() {
           await tester.binding.setSurfaceSize(size);
           addTearDown(() => tester.binding.setSurfaceSize(null));
 
-          final overflows = <String>[];
-          final previous = FlutterError.onError;
-          FlutterError.onError = (details) {
-            if (details.exceptionAsString().contains('overflowed')) {
-              overflows.add(details.exceptionAsString());
-            } else {
-              previous?.call(details);
-            }
-          };
-          try {
-            await _pumpSheet(tester, textScale: scale);
-          } finally {
-            FlutterError.onError = previous;
-          }
-          tester.takeException();
-
-          expect(overflows, isEmpty, reason: '$scale x on $size');
+          await expectNoOverflow(
+            () => _pumpSheet(tester, textScale: scale),
+            reason: '$scale x on $size',
+          );
         });
       }
     }

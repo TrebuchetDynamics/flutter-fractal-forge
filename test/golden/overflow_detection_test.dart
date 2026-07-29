@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import '../helpers/overflow_guard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
@@ -95,37 +97,20 @@ void main() {
       await tester.binding.setSurfaceSize(surfaceSize);
       addTearDown(() => tester.binding.setSurfaceSize(null));
     }
-    final overflowErrors = <FlutterErrorDetails>[];
-    final originalHandler = FlutterError.onError;
-
-    FlutterError.onError = (FlutterErrorDetails details) {
-      final message = details.exceptionAsString();
-      if (message.contains('overflowed') || message.contains('OVERFLOW')) {
-        overflowErrors.add(details);
-      } else {
-        // Forward non-overflow errors to the default handler.
-        originalHandler?.call(details);
-      }
-    };
-
-    try {
-      await tester.pumpWidget(buildTestShell(
-        child: widget,
-        theme: theme,
-        textScaleFactor: textScaleFactor,
-      ));
-      await tester.pump();
-      await tester.pump(const Duration(seconds: 1));
-
-      expect(
-        overflowErrors,
-        isEmpty,
-        reason: 'RenderFlex overflow detected $label: '
-            '${overflowErrors.map((e) => e.exceptionAsString()).join('\n')}',
-      );
-    } finally {
-      FlutterError.onError = originalHandler;
-    }
+    // Shared guard so a failure names the widget that overflowed, and so a
+    // widget that is disposed before the assertion still gets reported.
+    await expectNoOverflow(
+      () async {
+        await tester.pumpWidget(buildTestShell(
+          child: widget,
+          theme: theme,
+          textScaleFactor: textScaleFactor,
+        ));
+        await tester.pump();
+        await tester.pump(const Duration(seconds: 1));
+      },
+      reason: 'RenderFlex overflow detected $label',
+    );
   }
 
   group('Overflow Detection — Catalog Screen', () {
