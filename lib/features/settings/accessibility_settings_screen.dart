@@ -151,9 +151,8 @@ class _SettingTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final semanticLabel = value
-        ? l10n.semanticToggleOn(title)
-        : l10n.semanticToggleOff(title);
+    final semanticLabel =
+        value ? l10n.semanticToggleOn(title) : l10n.semanticToggleOff(title);
 
     return Semantics(
       label: semanticLabel,
@@ -161,65 +160,71 @@ class _SettingTile extends StatelessWidget {
       toggled: value,
       enabled: true,
       onTap: () => onChanged(!value),
-      child: GestureDetector(
-        onTap: () => onChanged(!value),
-        child: Container(
-          padding: const EdgeInsets.all(AppSpacing.lg),
-          decoration: BoxDecoration(
-            color: value
-                ? AppColors.primary.withValues(alpha: 0.1)
-                : AppColors.surface,
-            borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-            border: Border.all(
+      // The Semantics above is the whole story for a screen reader: its label
+      // carries the title and state, its hint the subtitle. Without excluding
+      // the subtree, the inner GestureDetector surfaces as a second operable
+      // node over the same rect, so each setting is announced twice in two
+      // different wordings and reads like two separate settings. Excluding
+      // semantics does not affect hit testing, so touch still works here.
+      child: ExcludeSemantics(
+        child: GestureDetector(
+          onTap: () => onChanged(!value),
+          child: Container(
+            padding: const EdgeInsets.all(AppSpacing.lg),
+            decoration: BoxDecoration(
               color: value
-                  ? AppColors.primary.withValues(alpha: 0.4)
-                  : AppColors.border.withValues(alpha: 0.5),
+                  ? AppColors.primary.withValues(alpha: 0.1)
+                  : AppColors.surface,
+              borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+              border: Border.all(
+                color: value
+                    ? AppColors.primary.withValues(alpha: 0.4)
+                    : AppColors.border.withValues(alpha: 0.5),
+              ),
             ),
-          ),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(AppSpacing.sm),
-                decoration: BoxDecoration(
-                  color: value
-                      ? AppColors.primary.withValues(alpha: 0.2)
-                      : AppColors.surfaceVariant,
-                  borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(AppSpacing.sm),
+                  decoration: BoxDecoration(
+                    color: value
+                        ? AppColors.primary.withValues(alpha: 0.2)
+                        : AppColors.surfaceVariant,
+                    borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
+                  ),
+                  child: Icon(
+                    icon,
+                    color: value ? AppColors.primary : AppColors.textMuted,
+                    size: 24,
+                  ),
                 ),
-                child: Icon(
-                  icon,
-                  color: value ? AppColors.primary : AppColors.textMuted,
-                  size: 24,
-                ),
-              ),
-              const SizedBox(width: AppSpacing.lg),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: AppTypography.titleMedium.copyWith(
-                        color: value ? AppColors.primary : AppColors.textPrimary,
+                const SizedBox(width: AppSpacing.lg),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: AppTypography.titleMedium.copyWith(
+                          color:
+                              value ? AppColors.primary : AppColors.textPrimary,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      subtitle,
-                      style: AppTypography.bodySmall,
-                    ),
-                  ],
+                      const SizedBox(height: 4),
+                      Text(
+                        subtitle,
+                        style: AppTypography.bodySmall,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(width: AppSpacing.md),
-              // Use semantic-excluded switch since we handle it at container level
-              ExcludeSemantics(
-                child: Switch(
+                const SizedBox(width: AppSpacing.md),
+                Switch(
                   value: value,
                   onChanged: onChanged,
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
