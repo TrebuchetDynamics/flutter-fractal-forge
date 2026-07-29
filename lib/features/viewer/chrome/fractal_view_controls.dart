@@ -763,89 +763,95 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
 
     return FadeIn(
       delay: reduceMotion ? Duration.zero : widget.delay,
-      child: Semantics(
-        label: widget.tooltip,
-        button: true,
-        enabled: widget.onPressed != null,
-        onLongPress: widget.onLongPress,
-        child: Tooltip(
-          message: widget.tooltip,
-          child: FocusableActionDetector(
-            enabled: widget.onPressed != null || widget.onLongPress != null,
-            onShowFocusHighlight: (focused) {
-              if (_isFocused == focused) return;
-              setState(() => _isFocused = focused);
-            },
-            shortcuts: const {
-              SingleActivator(LogicalKeyboardKey.enter): ActivateIntent(),
-              SingleActivator(LogicalKeyboardKey.space): ActivateIntent(),
-              SingleActivator(LogicalKeyboardKey.enter, shift: true):
-                  _LongPressActivateIntent(),
-            },
-            actions: {
-              ActivateIntent: CallbackAction<ActivateIntent>(
-                onInvoke: (_) {
-                  widget.onPressed?.call();
-                  return null;
-                },
-              ),
-              _LongPressActivateIntent:
-                  CallbackAction<_LongPressActivateIntent>(
-                onInvoke: (_) {
-                  widget.onLongPress?.call();
-                  return null;
-                },
-              ),
-            },
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTapDown: widget.onPressed != null
-                  ? (_) {
-                      // Reduced motion suppresses the press animation only.
-                      // Haptics are a separate preference and the only
-                      // non-visual confirmation that the tap registered.
-                      HapticService.medium();
-                      if (reduceMotion) return;
-                      setState(() => _isPressed = true);
-                      _controller.forward();
-                    }
-                  : null,
-              onTapUp: widget.onPressed != null
-                  ? (_) {
-                      setState(() => _isPressed = false);
-                      _controller.reverse();
-                    }
-                  : null,
-              onTapCancel: widget.onPressed != null
-                  ? () {
-                      setState(() => _isPressed = false);
-                      _controller.reverse();
-                    }
-                  : null,
-              onTap: widget.onPressed,
-              onLongPress: widget.onLongPress,
-              child: SizedBox.square(
-                dimension: _fabTouchSize,
-                child: Center(
-                  child: Container(
-                    padding: const EdgeInsets.all(2),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(18),
-                      border: Border.all(
-                        color: _isFocused
-                            ? HighContrastColors.focusIndicator
-                            : Colors.transparent,
-                        width: AccessibleSizing.focusIndicatorWidth,
+      // Without the merge this Semantics node (label + long press) and the
+      // inner GestureDetector (tap) surface as two separate stops, so the
+      // column reads as nine labelled buttons interleaved with nine unlabelled
+      // ones, and the tap action sits on the unlabelled half.
+      child: MergeSemantics(
+        child: Semantics(
+          label: widget.tooltip,
+          button: true,
+          enabled: widget.onPressed != null,
+          onLongPress: widget.onLongPress,
+          child: Tooltip(
+            message: widget.tooltip,
+            child: FocusableActionDetector(
+              enabled: widget.onPressed != null || widget.onLongPress != null,
+              onShowFocusHighlight: (focused) {
+                if (_isFocused == focused) return;
+                setState(() => _isFocused = focused);
+              },
+              shortcuts: const {
+                SingleActivator(LogicalKeyboardKey.enter): ActivateIntent(),
+                SingleActivator(LogicalKeyboardKey.space): ActivateIntent(),
+                SingleActivator(LogicalKeyboardKey.enter, shift: true):
+                    _LongPressActivateIntent(),
+              },
+              actions: {
+                ActivateIntent: CallbackAction<ActivateIntent>(
+                  onInvoke: (_) {
+                    widget.onPressed?.call();
+                    return null;
+                  },
+                ),
+                _LongPressActivateIntent:
+                    CallbackAction<_LongPressActivateIntent>(
+                  onInvoke: (_) {
+                    widget.onLongPress?.call();
+                    return null;
+                  },
+                ),
+              },
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTapDown: widget.onPressed != null
+                    ? (_) {
+                        // Reduced motion suppresses the press animation only.
+                        // Haptics are a separate preference and the only
+                        // non-visual confirmation that the tap registered.
+                        HapticService.medium();
+                        if (reduceMotion) return;
+                        setState(() => _isPressed = true);
+                        _controller.forward();
+                      }
+                    : null,
+                onTapUp: widget.onPressed != null
+                    ? (_) {
+                        setState(() => _isPressed = false);
+                        _controller.reverse();
+                      }
+                    : null,
+                onTapCancel: widget.onPressed != null
+                    ? () {
+                        setState(() => _isPressed = false);
+                        _controller.reverse();
+                      }
+                    : null,
+                onTap: widget.onPressed,
+                onLongPress: widget.onLongPress,
+                child: SizedBox.square(
+                  dimension: _fabTouchSize,
+                  child: Center(
+                    child: Container(
+                      padding: const EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18),
+                        border: Border.all(
+                          color: _isFocused
+                              ? HighContrastColors.focusIndicator
+                              : Colors.transparent,
+                          width: AccessibleSizing.focusIndicatorWidth,
+                        ),
                       ),
-                    ),
-                    child: _buildDimmedIfDisabled(
-                      isDisabled,
-                      reduceMotion
-                          ? _buildButtonContent()
-                          : ScaleTransition(
-                              scale: _scaleAnimation,
-                              child: _buildButtonContent(),
-                            ),
+                      child: _buildDimmedIfDisabled(
+                        isDisabled,
+                        reduceMotion
+                            ? _buildButtonContent()
+                            : ScaleTransition(
+                                scale: _scaleAnimation,
+                                child: _buildButtonContent(),
+                              ),
+                      ),
                     ),
                   ),
                 ),

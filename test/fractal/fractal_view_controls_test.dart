@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_view_controls.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -461,6 +462,49 @@ void main() {
     for (final key in fabKeys) {
       expect(dimmed(key), findsOneWidget, reason: '$key exporting');
     }
+  });
+
+  testWidgets('each FAB surfaces exactly one labelled screen-reader stop',
+      (tester) async {
+    final handle = tester.ensureSemantics();
+    await _pumpControls(tester, isExporting: false, onOpenWallpaper: () {});
+    await tester.pumpAndSettle();
+
+    // Only nodes the platform surfaces: a node merged into an ancestor is not
+    // a separate stop for TalkBack/VoiceOver.
+    final labels = <String>[];
+    var unlabeled = 0;
+    void walk(SemanticsNode node) {
+      if (!node.isMergedIntoParent) {
+        final data = node.getSemanticsData();
+        if (data.actions != 0) {
+          if (data.label.isEmpty) {
+            unlabeled++;
+          } else {
+            labels.add(data.label);
+          }
+        }
+      }
+      node.visitChildren((child) {
+        walk(child);
+        return true;
+      });
+    }
+
+    // Semantics live on this pipeline owner; rootPipelineOwner.semanticsOwner
+    // is null in a widget test. Matches test/a11y/semantics/.
+    // ignore: deprecated_member_use
+    walk(tester.binding.pipelineOwner.semanticsOwner!.rootSemanticsNode!);
+
+    expect(
+      unlabeled,
+      0,
+      reason: 'the GestureDetector carrying onTap became its own bare stop',
+    );
+    expect(labels, hasLength(9), reason: 'one stop per visible FAB');
+    expect(labels.toSet(), hasLength(9), reason: 'labels must be distinct');
+
+    handle.dispose();
   });
 
   testWidgets('FAB taps keep firing haptics when reduced motion is on',
