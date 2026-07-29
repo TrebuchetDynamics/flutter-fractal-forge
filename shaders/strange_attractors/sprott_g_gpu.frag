@@ -50,8 +50,12 @@ void main() {
   vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
 
   vec2 p = uv / max(0.000001, uZoom) + uCenter;
-  float x = p.x;
-  float y = p.y;
+  // Phase-space scaling: the viewport spans about +/-0.5 while this
+  // system's attractor spans a much wider range, so without it every
+  // pixel samples one negligible patch of initial conditions.
+  const float PHASE_SCALE = 4.0;
+  float x = p.x * PHASE_SCALE;
+  float y = p.y * PHASE_SCALE;
   float z = 0.5 + 0.2 * sin(0.0011 * uTime) + 0.15 * p.x;
 
   const float dt = 0.02;
