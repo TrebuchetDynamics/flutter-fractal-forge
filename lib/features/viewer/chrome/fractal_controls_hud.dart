@@ -64,14 +64,17 @@ class FractalControlsHud extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 12),
-                Text(
-                  l10n.controlsTitle,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
+                Expanded(
+                  child: Text(
+                    l10n.controlsTitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
-                const Spacer(),
                 // Close button
                 _HudIconButton(
                   icon: Icons.close_rounded,
@@ -494,18 +497,24 @@ class _ActionButtonsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        _HudActionButton(
-          icon: Icons.home_filled,
-          label: 'View',
-          tooltip: 'Reset view',
-          onPressed: onResetView,
+        // Flexible, not fixed: at a large text scale the two reset buttons
+        // alone can exceed the row and push Randomize to zero width.
+        Flexible(
+          child: _HudActionButton(
+            icon: Icons.home_filled,
+            label: 'View',
+            tooltip: 'Reset view',
+            onPressed: onResetView,
+          ),
         ),
         const SizedBox(width: 8),
-        _HudActionButton(
-          icon: Icons.settings_backup_restore_rounded,
-          label: 'Params',
-          tooltip: 'Reset parameters',
-          onPressed: onResetParams,
+        Flexible(
+          child: _HudActionButton(
+            icon: Icons.settings_backup_restore_rounded,
+            label: 'Params',
+            tooltip: 'Reset parameters',
+            onPressed: onResetParams,
+          ),
         ),
         const SizedBox(width: 8),
         Expanded(
@@ -652,12 +661,16 @@ class _HudToggleRow extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                label,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
+              Flexible(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
               Container(
@@ -745,12 +758,19 @@ class _HudActionButton extends StatelessWidget {
                   color: isPrimary ? Colors.black87 : Colors.white70,
                 ),
                 const SizedBox(width: 4),
-                Text(
-                  label,
-                  style: TextStyle(
-                    color: isPrimary ? Colors.black87 : Colors.white70,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
+                // Shrink rather than overflow: this button sits in a bounded
+                // Row, so a larger text scale or a longer localized label
+                // would otherwise paint the overflow stripe.
+                Flexible(
+                  child: Text(
+                    label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: isPrimary ? Colors.black87 : Colors.white70,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ],

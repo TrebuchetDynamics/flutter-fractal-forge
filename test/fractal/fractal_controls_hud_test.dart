@@ -86,6 +86,27 @@ void main() {
       expect(find.text('Rotation'), findsOneWidget);
     });
 
+    for (final scale in const [1.0, 1.3, 2.0]) {
+      testWidgets('HUD survives a ${scale}x text scale on a narrow screen',
+          (tester) async {
+        await tester.binding.setSurfaceSize(const Size(320, 568));
+        addTearDown(() => tester.binding.setSurfaceSize(null));
+
+        await tester.pumpWidget(
+          MediaQuery(
+            data: MediaQueryData(textScaler: TextScaler.linear(scale)),
+            child: buildTestWidget(),
+          ),
+        );
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull, reason: 'collapsed at $scale x');
+
+        await tester.tap(find.text('Kaleidoscope'));
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull, reason: 'expanded at $scale x');
+      });
+    }
+
     testWidgets('every sectors detent lands on a distinct sector count',
         (tester) async {
       await tester.pumpWidget(buildTestWidget());
