@@ -151,6 +151,30 @@ void main() {
       expect(size.height, greaterThanOrEqualTo(48.0));
     });
 
+    testWidgets('HUD sliders are draggable across a 48px band', (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      final slider = find.byType(Slider).first;
+      final rect = tester.getRect(slider);
+      expect(rect.height, greaterThanOrEqualTo(48.0));
+
+      // Land in the lower edge of the band rather than on the track itself:
+      // this only registers if the whole box is hit-testable, not just the
+      // 24px strip the compact SliderTheme would otherwise produce.
+      harness.controller.updateParam('iterations', 350);
+      await tester.pumpAndSettle();
+
+      await tester.tapAt(Offset(rect.left + rect.width * 0.75, rect.bottom - 3));
+      await tester.pumpAndSettle();
+
+      expect(
+        harness.controller.params['iterations'],
+        isNot(350),
+        reason: 'a tap inside the touch band did not reach the slider',
+      );
+    });
+
     testWidgets('every adjustable HUD control announces what it adjusts',
         (tester) async {
       final handle = tester.ensureSemantics();

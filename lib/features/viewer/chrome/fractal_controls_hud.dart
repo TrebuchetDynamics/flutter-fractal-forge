@@ -352,13 +352,20 @@ class _CompactHudSliderRow extends StatelessWidget {
                   fontSize: 10,
                 ),
               ),
-              child: Slider(
-                value: value.clamp(min, max),
-                min: min,
-                max: max,
-                divisions: divisions,
-                onChanged: onChanged,
-                onChangeEnd: (v) => HapticFeedback.lightImpact(),
+              // The compact theme (3px track, radius-12 overlay) sizes the
+              // Slider's box to 24, so the draggable strip was half the
+              // minimum. A tight height grows the hit area without touching
+              // the track, thumb or overlay, which stay centred in it.
+              child: SizedBox(
+                height: AccessibleSizing.minTouchTarget,
+                child: Slider(
+                  value: value.clamp(min, max),
+                  min: min,
+                  max: max,
+                  divisions: divisions,
+                  onChanged: onChanged,
+                  onChangeEnd: (v) => HapticFeedback.lightImpact(),
+                ),
               ),
             ),
           ),
