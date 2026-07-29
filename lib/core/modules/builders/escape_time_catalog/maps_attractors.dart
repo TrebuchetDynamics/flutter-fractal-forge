@@ -391,7 +391,11 @@ final List<EscapeTimeConfig> _mapsAttractorsCatalog = [
     defaultBailout: 18.0,
     defaultCenterX: 0.0,
     defaultCenterY: 0.0,
-    defaultZoom: 12.0,
+    // This shader plots the orbit into screen space rather than iterating the
+    // pixel, so zoom scales the plotted attractor directly. The orbit spans
+    // about +/-0.7 against a +/-0.5 viewport, so zoom 12 pushed all of it far
+    // outside the frame and every pixel accumulated zero weight.
+    defaultZoom: 0.7,
   ),
   EscapeTimeConfig(
     id: 'rabinovich_fabrikant',

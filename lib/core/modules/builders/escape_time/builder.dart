@@ -21,8 +21,12 @@ class EscapeTimeConfig {
   final double defaultIterations;
   final double defaultBailout;
   final int defaultColorScheme;
-  final double defaultCenterX;
-  final double defaultCenterY;
+  /// Null means "not configured, pick an automatic framing". An explicit 0.0
+  /// means the module is deliberately centred on the origin, which matters for
+  /// attractors whose orbit sits there; the two cannot be told apart if this
+  /// is a plain double.
+  final double? defaultCenterX;
+  final double? defaultCenterY;
   final double defaultZoom;
   final int maxIterations;
   final String category;
@@ -38,8 +42,8 @@ class EscapeTimeConfig {
     this.defaultIterations = 120,
     this.defaultBailout = 4.0,
     this.defaultColorScheme = 0,
-    this.defaultCenterX = 0.0,
-    this.defaultCenterY = 0.0,
+    this.defaultCenterX,
+    this.defaultCenterY,
     this.defaultZoom = 1.0,
     // Most runtime_effect escape-time shaders compile with a static loop cap of 500.
     // Keep the UI/params cap aligned with shader reality to avoid misleading controls.
@@ -177,8 +181,8 @@ class _EscapeTimeDefaults {
 
 _EscapeTimeDefaults _resolveEscapeTimeDefaults(EscapeTimeConfig config) {
   var effectiveIterations = config.defaultIterations;
-  var effectiveCenterX = config.defaultCenterX;
-  var effectiveCenterY = config.defaultCenterY;
+  var effectiveCenterX = config.defaultCenterX ?? 0.0;
+  var effectiveCenterY = config.defaultCenterY ?? 0.0;
   var effectiveZoom = config.defaultZoom;
 
   if (config.extraPresets.isNotEmpty) {
@@ -191,8 +195,8 @@ _EscapeTimeDefaults _resolveEscapeTimeDefaults(EscapeTimeConfig config) {
       effectiveIterations = it.toDouble();
     }
     // Only use first preset's view if no explicit center/zoom was configured.
-    final hasExplicitView = config.defaultCenterX != 0.0 ||
-        config.defaultCenterY != 0.0 ||
+    final hasExplicitView = config.defaultCenterX != null ||
+        config.defaultCenterY != null ||
         config.defaultZoom != 1.0;
     if (!hasExplicitView) {
       effectiveCenterX = curated.view.pan.x;
@@ -205,7 +209,7 @@ _EscapeTimeDefaults _resolveEscapeTimeDefaults(EscapeTimeConfig config) {
     final autoDefaults = _autoDefaultsForModule(config.id);
     final usesBaseIterations = config.defaultIterations == 120;
     final usesBaseCenter =
-        config.defaultCenterX == 0.0 && config.defaultCenterY == 0.0;
+        config.defaultCenterX == null && config.defaultCenterY == null;
     final usesBaseZoom = config.defaultZoom == 1.0;
 
     if (usesBaseIterations) {

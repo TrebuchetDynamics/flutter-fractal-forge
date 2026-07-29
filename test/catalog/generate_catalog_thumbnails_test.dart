@@ -31,7 +31,7 @@ void main() {
       try {
         final frame = await renderCpuFrame(
           moduleId: config.id,
-          viewPan: Vector2(config.defaultCenterX, config.defaultCenterY),
+          viewPan: Vector2(config.defaultCenterX ?? 0.0, config.defaultCenterY ?? 0.0),
           viewZoom: config.defaultZoom,
           iterations: config.defaultIterations.round().clamp(50, 300),
           bailout: config.defaultBailout,

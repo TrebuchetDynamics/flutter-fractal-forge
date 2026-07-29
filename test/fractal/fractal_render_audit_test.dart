@@ -52,7 +52,7 @@ void main() {
         // Default render for scoring (64x64 for most, 128x128 for the two edge cases).
         final iters = await renderCpuIterationBuffer(
           moduleId: config.id,
-          viewPan: Vector2(config.defaultCenterX, config.defaultCenterY),
+          viewPan: Vector2(config.defaultCenterX ?? 0.0, config.defaultCenterY ?? 0.0),
           viewZoom: config.defaultZoom,
           iterations: iterCap,
           bailout: config.defaultBailout,
@@ -67,7 +67,7 @@ void main() {
             ? _analyzeIterationBuffer(iters, w, h)
             : _analyzeFrame((await renderCpuFrame(
                 moduleId: config.id,
-                viewPan: Vector2(config.defaultCenterX, config.defaultCenterY),
+                viewPan: Vector2(config.defaultCenterX ?? 0.0, config.defaultCenterY ?? 0.0),
                 viewZoom: config.defaultZoom,
                 iterations: iterCap,
                 bailout: config.defaultBailout,
@@ -82,7 +82,7 @@ void main() {
         if (isHiRes && iters != null) {
           final it64 = await renderCpuIterationBuffer(
             moduleId: config.id,
-            viewPan: Vector2(config.defaultCenterX, config.defaultCenterY),
+            viewPan: Vector2(config.defaultCenterX ?? 0.0, config.defaultCenterY ?? 0.0),
             viewZoom: config.defaultZoom,
             iterations: iterCap,
             bailout: config.defaultBailout,
@@ -105,7 +105,7 @@ void main() {
           // artifact (common for some formulas).
           if ((s64?.uniqueColors ?? 0) <= 1 && s128.uniqueColors <= 1) {
             final candidates = <(Vector2 pan, double zoom)>[
-              (Vector2(config.defaultCenterX, config.defaultCenterY), config.defaultZoom),
+              (Vector2(config.defaultCenterX ?? 0.0, config.defaultCenterY ?? 0.0), config.defaultZoom),
               (Vector2(0.0, 0.0), 0.25),
               (Vector2(0.0, 0.0), 0.5),
               (Vector2(0.0, 0.0), 1.0),
@@ -155,7 +155,7 @@ void main() {
         var scored = stats;
         if (isHiRes && iters != null && !stats.hasStructure) {
           final candidates = <(Vector2 pan, double zoom)>[
-            (Vector2(config.defaultCenterX, config.defaultCenterY), config.defaultZoom),
+            (Vector2(config.defaultCenterX ?? 0.0, config.defaultCenterY ?? 0.0), config.defaultZoom),
             (Vector2(0.0, 0.0), 0.5),
             (Vector2(0.0, 0.0), 1.0),
             (Vector2(-0.5, 0.0), 0.7),
