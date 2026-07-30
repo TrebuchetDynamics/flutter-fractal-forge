@@ -16,7 +16,7 @@ mkdir -p build
 
 "$FLUTTER_BIN" analyze | tee "$ANALYZE_LOG"
 "$FLUTTER_BIN" test --machine > "$TEST_MACHINE_LOG"
-"$FLUTTER_BIN" test --reporter compact test/fractal_render_audit_test.dart | tee "$RUNTIME_LOG"
+"$FLUTTER_BIN" test --reporter compact test/fractal/fractal_render_audit_test.dart | tee "$RUNTIME_LOG"
 grep -q "Audit complete\. .*passed variance check\." "$RUNTIME_LOG"
 "$FLUTTER_BIN" build apk --release | tee "$BUILD_LOG"
 
