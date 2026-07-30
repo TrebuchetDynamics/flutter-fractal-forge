@@ -115,11 +115,13 @@ void main() {
 
       // Built inline in English before, so every one of the 430 cards announced
       // in English while the section headers around them localized correctly.
-      final cards =
-          names.where((n) => n.contains('Toca dos veces para abrir')).toList();
-      expect(cards, isNotEmpty, reason: 'no Spanish card label found');
       expect(
-        names.where((n) => n.contains('Double tap to open')),
+        names.where((n) => n.startsWith('Fractal ')),
+        isNotEmpty,
+        reason: 'no Spanish card label found',
+      );
+      expect(
+        names.where((n) => n.contains(' fractal, ')),
         isEmpty,
         reason: 'a card label is still English',
       );
@@ -127,6 +129,14 @@ void main() {
         names.where((n) => n.contains(' presets.')),
         isEmpty,
         reason: 'the inline English label is still in use',
+      );
+      // The platform appends its own activation instruction for a button, so
+      // the label must not carry one of its own.
+      expect(
+        names.where((n) =>
+            n.contains('Double tap') || n.contains('Toca dos veces')),
+        isEmpty,
+        reason: 'a label still spells out the activation gesture',
       );
       handle.dispose();
     });

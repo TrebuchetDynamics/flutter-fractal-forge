@@ -621,7 +621,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String semanticFractalCard(Object name, Object dimension) {
-    return '$name fractal, $dimension. Double tap to open.';
+    return '$name fractal, $dimension';
   }
 
   @override
@@ -670,21 +670,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String semanticExportProgress(Object percent) {
     return 'Exporting image, $percent percent complete';
-  }
-
-  @override
-  String semanticPresetItem(Object name) {
-    return '$name preset. Double tap to apply.';
-  }
-
-  @override
-  String semanticToggleOn(Object label) {
-    return '$label, currently on. Double tap to turn off.';
-  }
-
-  @override
-  String semanticToggleOff(Object label) {
-    return '$label, currently off. Double tap to turn on.';
   }
 
   @override

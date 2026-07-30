@@ -222,7 +222,7 @@
   "soundEffectsVolume": "Volumen",
 
   "semanticFractalViewer": "Visor de fractales interactivo. Pellizca para acercar, arrastra para desplazar.",
-  "semanticFractalCard": "Fractal {name}, {dimension}. Toca dos veces para abrir.",
+  "semanticFractalCard": "Fractal {name}, {dimension}",
   "@semanticFractalCard": {
     "placeholders": {
       "name": {},
@@ -259,24 +259,6 @@
   "@semanticExportProgress": {
     "placeholders": {
       "percent": {}
-    }
-  },
-  "semanticPresetItem": "Preset {name}. Toca dos veces para aplicar.",
-  "@semanticPresetItem": {
-    "placeholders": {
-      "name": {}
-    }
-  },
-  "semanticToggleOn": "{label}, actualmente encendido. Toca dos veces para apagar.",
-  "@semanticToggleOn": {
-    "placeholders": {
-      "label": {}
-    }
-  },
-  "semanticToggleOff": "{label}, actualmente apagado. Toca dos veces para encender.",
-  "@semanticToggleOff": {
-    "placeholders": {
-      "label": {}
     }
   },
 

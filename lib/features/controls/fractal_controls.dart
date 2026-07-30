@@ -661,11 +661,12 @@ class _PremiumSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     return Semantics(
       toggled: value,
-      label:
-          value ? l10n.semanticToggleOn(label) : l10n.semanticToggleOff(label),
+      // Name only: `toggled` already makes the platform announce on/off and the
+      // gesture to change it. Spelling either out in the label had TalkBack say
+      // both twice.
+      label: label,
       child: GestureDetector(
         onTap: () => onChanged(!value),
         behavior: HitTestBehavior.opaque,

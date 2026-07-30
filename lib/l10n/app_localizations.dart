@@ -1265,7 +1265,7 @@ abstract class AppLocalizations {
   /// No description provided for @semanticFractalCard.
   ///
   /// In en, this message translates to:
-  /// **'{name} fractal, {dimension}. Double tap to open.'**
+  /// **'{name} fractal, {dimension}'**
   String semanticFractalCard(Object name, Object dimension);
 
   /// No description provided for @semanticSlider.
@@ -1351,24 +1351,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Exporting image, {percent} percent complete'**
   String semanticExportProgress(Object percent);
-
-  /// No description provided for @semanticPresetItem.
-  ///
-  /// In en, this message translates to:
-  /// **'{name} preset. Double tap to apply.'**
-  String semanticPresetItem(Object name);
-
-  /// No description provided for @semanticToggleOn.
-  ///
-  /// In en, this message translates to:
-  /// **'{label}, currently on. Double tap to turn off.'**
-  String semanticToggleOn(Object label);
-
-  /// No description provided for @semanticToggleOff.
-  ///
-  /// In en, this message translates to:
-  /// **'{label}, currently off. Double tap to turn on.'**
-  String semanticToggleOff(Object label);
 
   /// No description provided for @announceFractalLoaded.
   ///

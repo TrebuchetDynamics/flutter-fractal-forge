@@ -1,7 +1,10 @@
+import 'dart:ui' show Tristate;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/features/settings/accessibility_settings_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -212,21 +215,25 @@ void main() {
       await tester.pumpWidget(_buildScreen(service));
       await tester.pumpAndSettle();
 
-      // Before: semanticToggleOff('High Contrast') label present in tree
+      // The label is the setting's name; the state lives in the toggled flag,
+      // which is what a screen reader reads out. Asserting on the flag rather
+      // than on prose also stops this test from depending on wording.
+      // bySemanticsLabel matches a String exactly, and the label is now just
+      // the setting's name.
+      SemanticsNode nodeFor(String name) =>
+          tester.getSemantics(find.bySemanticsLabel(name));
+
       expect(
-        find.bySemanticsLabel(
-            RegExp('High Contrast, currently off')),
-        findsOneWidget,
+        nodeFor('High Contrast').getSemanticsData().flagsCollection.isToggled,
+        Tristate.isFalse,
       );
 
       await tester.tap(find.text('High Contrast'));
       await tester.pumpAndSettle();
 
-      // After: semanticToggleOn('High Contrast') label present
       expect(
-        find.bySemanticsLabel(
-            RegExp('High Contrast, currently on')),
-        findsOneWidget,
+        nodeFor('High Contrast').getSemanticsData().flagsCollection.isToggled,
+        Tristate.isTrue,
       );
     });
 

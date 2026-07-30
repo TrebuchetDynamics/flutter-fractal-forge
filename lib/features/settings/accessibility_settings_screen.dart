@@ -150,12 +150,10 @@ class _SettingTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final semanticLabel =
-        value ? l10n.semanticToggleOn(title) : l10n.semanticToggleOff(title);
-
     return Semantics(
-      label: semanticLabel,
+      // Name only: `toggled` below already makes the platform announce on/off
+      // and the gesture to change it.
+      label: title,
       hint: subtitle,
       toggled: value,
       enabled: true,
