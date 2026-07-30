@@ -632,5 +632,20 @@
   "frmFormulaFieldLabel": "Fórmula FRM",
   "frmRender": "Renderizar",
   "frmTapRenderToPreview": "Toca Renderizar para previsualizar",
-  "frmSyntaxHelp": "Admite + - * / ^, funciones (sqr, conj, exp, sin, …) y literales (re, im) con las variables pixel / z / c. El escape predeterminado es |z|² > 4; añade una línea como cabs2(z) <= 4 para definir el tuyo."
+  "frmSyntaxHelp": "Admite + - * / ^, funciones (sqr, conj, exp, sin, …) y literales (re, im) con las variables pixel / z / c. El escape predeterminado es |z|² > 4; añade una línea como cabs2(z) <= 4 para definir el tuyo.",
+
+  "debugReportTitle": "Informe de depuración de GPU",
+  "debugReportSavedReport": "Informe guardado: {path}",
+  "@debugReportSavedReport": {
+    "placeholders": {
+      "path": {}
+    }
+  },
+  "debugReportSavedScreenshot": "Captura guardada: {path}",
+  "@debugReportSavedScreenshot": {
+    "placeholders": {
+      "path": {}
+    }
+  },
+  "debugReportCopiedJson": "Se copió el JSON de depuración de GPU al portapapeles. Pégalo en Telegram."
 }

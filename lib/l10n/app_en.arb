@@ -631,5 +631,20 @@
   "frmFormulaFieldLabel": "FRM formula",
   "frmRender": "Render",
   "frmTapRenderToPreview": "Tap Render to preview",
-  "frmSyntaxHelp": "Supports + - * / ^, functions (sqr, conj, exp, sin, …) and (re, im) literals with variables pixel / z / c. Escape defaults to |z|² > 4; add a line like cabs2(z) <= 4 to set your own."
+  "frmSyntaxHelp": "Supports + - * / ^, functions (sqr, conj, exp, sin, …) and (re, im) literals with variables pixel / z / c. Escape defaults to |z|² > 4; add a line like cabs2(z) <= 4 to set your own.",
+
+  "debugReportTitle": "GPU Debug Report",
+  "debugReportSavedReport": "Saved report: {path}",
+  "@debugReportSavedReport": {
+    "placeholders": {
+      "path": {}
+    }
+  },
+  "debugReportSavedScreenshot": "Saved screenshot: {path}",
+  "@debugReportSavedScreenshot": {
+    "placeholders": {
+      "path": {}
+    }
+  },
+  "debugReportCopiedJson": "Copied GPU debug JSON to clipboard. Paste it into Telegram."
 }

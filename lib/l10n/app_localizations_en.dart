@@ -1422,4 +1422,21 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get frmSyntaxHelp =>
       'Supports + - * / ^, functions (sqr, conj, exp, sin, …) and (re, im) literals with variables pixel / z / c. Escape defaults to |z|² > 4; add a line like cabs2(z) <= 4 to set your own.';
+
+  @override
+  String get debugReportTitle => 'GPU Debug Report';
+
+  @override
+  String debugReportSavedReport(Object path) {
+    return 'Saved report: $path';
+  }
+
+  @override
+  String debugReportSavedScreenshot(Object path) {
+    return 'Saved screenshot: $path';
+  }
+
+  @override
+  String get debugReportCopiedJson =>
+      'Copied GPU debug JSON to clipboard. Paste it into Telegram.';
 }

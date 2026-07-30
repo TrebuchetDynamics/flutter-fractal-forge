@@ -2725,6 +2725,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Supports + - * / ^, functions (sqr, conj, exp, sin, …) and (re, im) literals with variables pixel / z / c. Escape defaults to |z|² > 4; add a line like cabs2(z) <= 4 to set your own.'**
   String get frmSyntaxHelp;
+
+  /// No description provided for @debugReportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'GPU Debug Report'**
+  String get debugReportTitle;
+
+  /// No description provided for @debugReportSavedReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved report: {path}'**
+  String debugReportSavedReport(Object path);
+
+  /// No description provided for @debugReportSavedScreenshot.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved screenshot: {path}'**
+  String debugReportSavedScreenshot(Object path);
+
+  /// No description provided for @debugReportCopiedJson.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied GPU debug JSON to clipboard. Paste it into Telegram.'**
+  String get debugReportCopiedJson;
 }
 
 class _AppLocalizationsDelegate

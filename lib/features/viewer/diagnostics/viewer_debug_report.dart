@@ -75,7 +75,7 @@ mixin _DebugReportMixin on State<FractalViewerScreen>, _GpuHealthMixin {
                 iconGradient: const LinearGradient(
                   colors: [Colors.amber, AppColors.warning],
                 ),
-                title: 'GPU Debug Report',
+                title: l10n.debugReportTitle,
                 onClose: () => Navigator.of(context).pop(),
               ),
               const Divider(height: 1, color: AppColors.divider),
@@ -98,21 +98,20 @@ mixin _DebugReportMixin on State<FractalViewerScreen>, _GpuHealthMixin {
                           },
                           icon: const Icon(Icons.science_rounded),
                           label: Text(
-                            AppLocalizations.of(context)!
-                                .debugReportOpenShaderLab,
+                            l10n.debugReportOpenShaderLab,
                           ),
                         ),
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Saved report: ${reportFile.path}',
+                        l10n.debugReportSavedReport(reportFile.path),
                         style: AppTypography.bodySmall.copyWith(
                           color: AppColors.textSecondary,
                         ),
                       ),
                       if (screenshotFile != null)
                         Text(
-                          'Saved screenshot: ${screenshotFile.path}',
+                          l10n.debugReportSavedScreenshot(screenshotFile.path),
                           style: AppTypography.bodySmall.copyWith(
                             color: AppColors.textSecondary,
                           ),
@@ -143,20 +142,17 @@ mixin _DebugReportMixin on State<FractalViewerScreen>, _GpuHealthMixin {
                                   ClipboardData(text: reportText));
                               Navigator.of(context).pop();
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'Copied GPU debug JSON to clipboard. Paste it into Telegram.',
-                                  ),
+                                SnackBar(
+                                  content: Text(l10n.debugReportCopiedJson),
                                 ),
                               );
                             },
-                            child: Text(AppLocalizations.of(context)!
-                                .debugReportCopyJson),
+                            child: Text(l10n.debugReportCopyJson),
                           ),
                           OutlinedButton(
                             onPressed: () => Navigator.of(context).pop(),
                             child:
-                                Text(AppLocalizations.of(context)!.actionClose),
+                                Text(l10n.actionClose),
                           ),
                         ],
                       ),

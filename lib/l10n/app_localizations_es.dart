@@ -1436,4 +1436,21 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get frmSyntaxHelp =>
       'Admite + - * / ^, funciones (sqr, conj, exp, sin, …) y literales (re, im) con las variables pixel / z / c. El escape predeterminado es |z|² > 4; añade una línea como cabs2(z) <= 4 para definir el tuyo.';
+
+  @override
+  String get debugReportTitle => 'Informe de depuración de GPU';
+
+  @override
+  String debugReportSavedReport(Object path) {
+    return 'Informe guardado: $path';
+  }
+
+  @override
+  String debugReportSavedScreenshot(Object path) {
+    return 'Captura guardada: $path';
+  }
+
+  @override
+  String get debugReportCopiedJson =>
+      'Se copió el JSON de depuración de GPU al portapapeles. Pégalo en Telegram.';
 }
