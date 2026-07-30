@@ -182,6 +182,28 @@ void _viewerJumpToRandomFractal(
   final rng = math.Random();
   final pick = candidates[rng.nextInt(candidates.length)];
   controller.selectModule(pick, resetView: true);
+
+  final paletteParams = pick.parameters.where(
+    (param) => param.id == 'colorScheme',
+  );
+  if (paletteParams.isEmpty) return;
+
+  final paletteParam = paletteParams.first;
+  final paletteValues = paletteParam.options.isNotEmpty
+      ? [for (final option in paletteParam.options) option.value]
+      : [
+          for (var value = paletteParam.min.ceil();
+              value <= paletteParam.max.floor();
+              value++)
+            value,
+        ];
+  paletteValues.remove(controller.params['colorScheme']);
+  if (paletteValues.isNotEmpty) {
+    controller.updateParam(
+      'colorScheme',
+      paletteValues[rng.nextInt(paletteValues.length)],
+    );
+  }
 }
 
 void _viewerOnRandomFractalFab(

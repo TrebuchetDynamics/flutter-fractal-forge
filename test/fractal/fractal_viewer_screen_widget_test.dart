@@ -150,6 +150,14 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(controller.module.id, isNot(equals('mandelbrot')));
+      final paletteParam = controller.module.parameters.firstWhere(
+        (param) => param.id == 'colorScheme',
+      );
+      expect(
+        controller.params['colorScheme'],
+        isNot(paletteParam.defaultValue),
+        reason: 'Random fractal must also choose a new palette',
+      );
 
       // Let delayed FAB fade-in timers complete before teardown.
       await tester.pump(const Duration(milliseconds: 400));
