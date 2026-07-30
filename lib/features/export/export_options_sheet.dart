@@ -152,21 +152,20 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
                 ],
                 const SizedBox(height: 16),
               ],
-              _buildQuickPresets(context, l10n),
-              const SizedBox(height: 24),
+              if (!_showCustomization) ...[
+                _buildQuickPresets(context, l10n),
+                const SizedBox(height: 24),
+              ],
               _buildExportSummary(context, l10n),
               const SizedBox(height: 24),
             ],
           ),
         ),
-        // Capped and scrollable, not fixed: at a large text scale these buttons
-        // wanted 501px inside a 406px sheet, which starved the Expanded list
-        // above to zero height — the whole options body disappeared — and still
-        // overflowed. A ceiling rather than a flex share so the natural size is
-        // untouched whenever it fits, which is every normal-scale case.
+        // Keep actions accessible without letting large text or landscape
+        // layouts starve the options list above.
         ConstrainedBox(
           constraints: BoxConstraints(
-            maxHeight: MediaQuery.sizeOf(context).height * 0.45,
+            maxHeight: MediaQuery.sizeOf(context).height * 0.35,
           ),
           child: SingleChildScrollView(
             child: _buildExportActions(context, l10n),
@@ -188,6 +187,56 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
     final planText = '${_formatSummaryValue(effectiveOptions, l10n)} • '
         '$resolutionText';
 
+    final leading = Container(
+      width: 44,
+      height: 44,
+      decoration: BoxDecoration(
+        color: theme.colorScheme.primaryContainer,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Icon(
+        Icons.ios_share_rounded,
+        color: theme.colorScheme.onPrimaryContainer,
+      ),
+    );
+    final details = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          planText,
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(height: 3),
+        Text(
+          _showCustomization
+              ? l10n.exportCustomizeModeHint
+              : l10n.exportSimpleModeHint,
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.68),
+          ),
+        ),
+      ],
+    );
+    final modeButton = TextButton(
+      onPressed: () {
+        setState(() {
+          _showCustomization = !_showCustomization;
+          if (!_showCustomization) {
+            _showAdvanced = false;
+          }
+        });
+      },
+      child: Text(
+        _showCustomization
+            ? l10n.exportButtonSimple
+            : l10n.exportButtonCustomize,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -200,68 +249,39 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  Icons.ios_share_rounded,
-                  color: theme.colorScheme.onPrimaryContainer,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          LayoutBuilder(
+            builder: (context, constraints) {
+              if (constraints.maxWidth < 360) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(
-                      planText,
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                      ),
+                    Row(
+                      children: [
+                        leading,
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Align(
+                            alignment: AlignmentDirectional.centerEnd,
+                            child: modeButton,
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 3),
-                    Text(
-                      _showCustomization
-                          ? l10n.exportCustomizeModeHint
-                          : l10n.exportSimpleModeHint,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color:
-                            theme.colorScheme.onSurface.withValues(alpha: 0.68),
-                      ),
-                    ),
+                    const SizedBox(height: 8),
+                    details,
                   ],
-                ),
-              ),
-              const SizedBox(width: 8),
-              // Unconstrained, this button grew with the text scale until the
-              // Expanded beside it was squeezed to zero width and the plan
-              // title vanished, and the row still overflowed.
-              Flexible(
-                child: TextButton(
-                  onPressed: () {
-                    setState(() {
-                      _showCustomization = !_showCustomization;
-                      if (!_showCustomization) {
-                        _showAdvanced = false;
-                      }
-                    });
-                  },
-                  child: Text(
-                    _showCustomization
-                        ? l10n.exportButtonSimple
-                        : l10n.exportButtonCustomize,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-            ],
+                );
+              }
+              return Row(
+                children: [
+                  leading,
+                  const SizedBox(width: 12),
+                  Expanded(child: details),
+                  const SizedBox(width: 8),
+                  modeButton,
+                ],
+              );
+            },
           ),
           const SizedBox(height: 12),
           Text(
@@ -375,36 +395,40 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
           style: sheetSectionLabelStyle(theme),
         ),
         const SizedBox(height: 12),
-        SegmentedButton<ExportFormat>(
-          segments: [
-            ButtonSegment(
-              value: ExportFormat.png,
-              label: Text(l10n.exportFormatPng),
-              icon: const Icon(Icons.image),
-            ),
-            ButtonSegment(
-              value: ExportFormat.jpg,
-              label: Text(l10n.exportFormatJpg),
-              icon: const Icon(Icons.photo),
-            ),
-            ButtonSegment(
-              value: ExportFormat.webp,
-              label: Text(l10n.exportFormatWebp),
-              icon: const Icon(Icons.web_asset),
-            ),
-          ],
-          selected: {_options.format},
-          onSelectionChanged: (selected) {
-            setState(() {
-              _options = _options.copyWith(
-                format: selected.first,
-                // Auto-disable transparency for JPG
-                transparentBackground: selected.first == ExportFormat.jpg
-                    ? false
-                    : _options.transparentBackground,
-              );
-            });
-          },
+        LayoutBuilder(
+          builder: (context, constraints) => SegmentedButton<ExportFormat>(
+            direction:
+                constraints.maxWidth < 420 ? Axis.vertical : Axis.horizontal,
+            segments: [
+              ButtonSegment(
+                value: ExportFormat.png,
+                label: Text(l10n.exportFormatPng),
+                icon: const Icon(Icons.image),
+              ),
+              ButtonSegment(
+                value: ExportFormat.jpg,
+                label: Text(l10n.exportFormatJpg),
+                icon: const Icon(Icons.photo),
+              ),
+              ButtonSegment(
+                value: ExportFormat.webp,
+                label: Text(l10n.exportFormatWebp),
+                icon: const Icon(Icons.web_asset),
+              ),
+            ],
+            selected: {_options.format},
+            onSelectionChanged: (selected) {
+              setState(() {
+                _options = _options.copyWith(
+                  format: selected.first,
+                  // Auto-disable transparency for JPG
+                  transparentBackground: selected.first == ExportFormat.jpg
+                      ? false
+                      : _options.transparentBackground,
+                );
+              });
+            },
+          ),
         ),
         const SizedBox(height: 8),
         _buildFormatHint(context, l10n),
@@ -472,53 +496,66 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
         ),
         if (_options.resolution == ExportResolution.custom) ...[
           const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: _customWidthController,
-                  decoration: InputDecoration(
-                    labelText: l10n.exportWidth,
-                    suffixText: 'px',
-                    border: const OutlineInputBorder(),
-                  ),
-                  keyboardType: TextInputType.number,
-                  onChanged: (value) {
-                    final width = int.tryParse(value);
-                    if (width != null && width > 0) {
-                      setState(() {
-                        _options = _options.copyWith(customWidth: width);
-                      });
-                    }
-                  },
-                ),
-              ),
-              const SizedBox(width: 12),
-              const Icon(Icons.close, size: 16),
-              const SizedBox(width: 12),
-              Expanded(
-                child: TextField(
-                  controller: _customHeightController,
-                  decoration: InputDecoration(
-                    labelText: l10n.exportHeight,
-                    suffixText: 'px',
-                    border: const OutlineInputBorder(),
-                  ),
-                  keyboardType: TextInputType.number,
-                  onChanged: (value) {
-                    final height = int.tryParse(value);
-                    if (height != null && height > 0) {
-                      setState(() {
-                        _options = _options.copyWith(customHeight: height);
-                      });
-                    }
-                  },
-                ),
-              ),
-            ],
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final widthField = _buildDimensionField(
+                controller: _customWidthController,
+                label: l10n.exportWidth,
+                onChanged: (width) {
+                  _options = _options.copyWith(customWidth: width);
+                },
+              );
+              final heightField = _buildDimensionField(
+                controller: _customHeightController,
+                label: l10n.exportHeight,
+                onChanged: (height) {
+                  _options = _options.copyWith(customHeight: height);
+                },
+              );
+              if (constraints.maxWidth < 420) {
+                return Column(
+                  children: [
+                    widthField,
+                    const SizedBox(height: 12),
+                    heightField,
+                  ],
+                );
+              }
+              return Row(
+                children: [
+                  Expanded(child: widthField),
+                  const SizedBox(width: 12),
+                  const Icon(Icons.close, size: 16),
+                  const SizedBox(width: 12),
+                  Expanded(child: heightField),
+                ],
+              );
+            },
           ),
         ],
       ],
+    );
+  }
+
+  Widget _buildDimensionField({
+    required TextEditingController controller,
+    required String label,
+    required ValueChanged<int> onChanged,
+  }) {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        suffixText: 'px',
+        border: const OutlineInputBorder(),
+      ),
+      keyboardType: TextInputType.number,
+      onChanged: (value) {
+        final dimension = int.tryParse(value);
+        if (dimension != null && dimension > 0) {
+          setState(() => onChanged(dimension));
+        }
+      },
     );
   }
 
@@ -968,17 +1005,18 @@ class _SummaryChip extends StatelessWidget {
             theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.45),
         borderRadius: BorderRadius.circular(999),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
+      child: Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        spacing: 6,
+        runSpacing: 4,
         children: [
           Icon(
             icon,
             size: 15,
             color: theme.colorScheme.onSurface.withValues(alpha: 0.56),
           ),
-          const SizedBox(width: 6),
           Text(
-            '$label ',
+            label,
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.onSurface.withValues(alpha: 0.62),
             ),

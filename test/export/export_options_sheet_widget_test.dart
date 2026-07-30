@@ -53,6 +53,7 @@ void main() {
   Future<_SheetHarness> pumpSheet(
     WidgetTester tester, {
     ExportOptions initialOptions = const ExportOptions(),
+    double textScale = 1,
   }) async {
     final harness = _SheetHarness();
     await tester.pumpWidget(
@@ -60,6 +61,12 @@ void main() {
         locale: const Locale('en'),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
+        builder: (context, child) => MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            textScaler: TextScaler.linear(textScale),
+          ),
+          child: child!,
+        ),
         home: Scaffold(
           body: Builder(
             builder: (context) => Center(
@@ -120,6 +127,36 @@ void main() {
     expect(
         find.text('PNG (PNG fallback) • Full HD (1920×1080)'), findsOneWidget);
     expect(find.text('PNG • Full HD (1920×1080)'), findsOneWidget);
+  });
+
+  testWidgets('Customize replaces quick presets with manual controls',
+      (tester) async {
+    bool hasQuickPresetsSection() {
+      final list = tester.widget<ListView>(find.byType(ListView));
+      final delegate = list.childrenDelegate as SliverChildListDelegate;
+      return delegate.children.whereType<Column>().any(
+            (section) => section.children.whereType<Text>().any(
+                  (text) => text.data == 'Quick Presets',
+                ),
+          );
+    }
+
+    await pumpSheet(tester);
+
+    expect(hasQuickPresetsSection(), isTrue);
+    expect(find.byKey(const ValueKey('exportQuoteTextField')), findsNothing);
+
+    await tester.tap(find.text('Customize'));
+    await tester.pumpAndSettle();
+
+    expect(hasQuickPresetsSection(), isFalse);
+    expect(find.byKey(const ValueKey('exportQuoteTextField')), findsOneWidget);
+
+    await tester.tap(find.text('Simple'));
+    await tester.pumpAndSettle();
+
+    expect(hasQuickPresetsSection(), isTrue);
+    expect(find.byKey(const ValueKey('exportQuoteTextField')), findsNothing);
   });
 
   testWidgets('WebP preset summary advertises PNG fallback truthfully',
@@ -190,6 +227,87 @@ void main() {
       ),
     );
     expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('Customize layout works on constrained screens', (tester) async {
+    addTearDown(tester.view.reset);
+
+    for (final layout in [
+      (size: const Size(320, 568), textScale: 2.0),
+      (size: const Size(640, 360), textScale: 1.0),
+    ]) {
+      tester.view.physicalSize = layout.size;
+      tester.view.devicePixelRatio = 1;
+      await pumpSheet(
+        tester,
+        initialOptions: const ExportOptions(
+          resolution: ExportResolution.custom,
+        ),
+        textScale: layout.textScale,
+      );
+
+      await tester.scrollUntilVisible(
+        find.text('Customize'),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.tap(find.text('Customize'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Simple'), findsOneWidget);
+      await tester.scrollUntilVisible(
+        find.text('Format'),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.ensureVisible(find.text('Format'));
+      await tester.pump();
+      expect(
+        find.text('Format').hitTestable(),
+        findsOneWidget,
+        reason: 'Format must be operable at '
+            '${layout.size} and ${layout.textScale}x text',
+      );
+      final formatControl = tester.widget<SegmentedButton<ExportFormat>>(
+        find.byType(SegmentedButton<ExportFormat>),
+      );
+      expect(
+        formatControl.direction,
+        layout.size.width < 420 ? Axis.vertical : Axis.horizontal,
+      );
+
+      await tester.scrollUntilVisible(
+        find.text('Width'),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.ensureVisible(find.text('Width'));
+      await tester.pump();
+
+      final widthField = find.widgetWithText(TextField, '1920');
+      final heightField = find.widgetWithText(TextField, '1080');
+      if (layout.size.width < 420) {
+        expect(
+          tester.getTopLeft(heightField).dy,
+          greaterThan(tester.getBottomLeft(widthField).dy),
+        );
+      } else {
+        expect(
+          tester.getTopLeft(heightField).dy,
+          tester.getTopLeft(widthField).dy,
+        );
+      }
+
+      expect(
+        tester.takeException(),
+        isNull,
+        reason: 'Customize must not overflow at '
+            '${layout.size} and ${layout.textScale}x text',
+      );
+
+      await tester.tap(find.byTooltip('Close'));
+      await tester.pumpAndSettle();
+    }
   });
 
   testWidgets('desktop sheet is width constrained and hides wallpaper',
