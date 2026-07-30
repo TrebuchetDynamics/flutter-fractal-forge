@@ -564,19 +564,32 @@ class _SheetIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // The tappable area is 48 while the coloured pill stays 40, so the chrome is
+    // unchanged. It was a flat 40x40 before, which failed the minimum target —
+    // and went unnoticed because the earlier audit caught these buttons in their
+    // disabled state, where they carry no tap semantics for a guideline to check.
     return Tooltip(
       message: tooltip,
       child: Material(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(10),
+        color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(10),
-          child: Container(
-            width: 40,
-            height: 40,
-            alignment: Alignment.center,
-            child: Icon(icon, size: 20, color: iconColor),
+          borderRadius:
+              BorderRadius.circular(AccessibleSizing.minTouchTarget / 2),
+          child: SizedBox.square(
+            dimension: AccessibleSizing.minTouchTarget,
+            child: Center(
+              child: Container(
+                width: 40,
+                height: 40,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: backgroundColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(icon, size: 20, color: iconColor),
+              ),
+            ),
           ),
         ),
       ),
