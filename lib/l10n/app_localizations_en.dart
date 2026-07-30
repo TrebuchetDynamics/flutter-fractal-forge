@@ -1409,4 +1409,17 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get settingsAboutBlurb =>
       'GPU-accelerated fractal exploration with 350+ types, deep zoom, and real-time rendering.';
+
+  @override
+  String get frmFormulaFieldLabel => 'FRM formula';
+
+  @override
+  String get frmRender => 'Render';
+
+  @override
+  String get frmTapRenderToPreview => 'Tap Render to preview';
+
+  @override
+  String get frmSyntaxHelp =>
+      'Supports + - * / ^, functions (sqr, conj, exp, sin, …) and (re, im) literals with variables pixel / z / c. Escape defaults to |z|² > 4; add a line like cabs2(z) <= 4 to set your own.';
 }

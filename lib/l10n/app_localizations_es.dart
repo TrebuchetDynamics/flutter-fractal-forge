@@ -1423,4 +1423,17 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get settingsAboutBlurb =>
       'Exploración de fractales acelerada por GPU con más de 350 tipos, zoom profundo y renderizado en tiempo real.';
+
+  @override
+  String get frmFormulaFieldLabel => 'Fórmula FRM';
+
+  @override
+  String get frmRender => 'Renderizar';
+
+  @override
+  String get frmTapRenderToPreview => 'Toca Renderizar para previsualizar';
+
+  @override
+  String get frmSyntaxHelp =>
+      'Admite + - * / ^, funciones (sqr, conj, exp, sin, …) y literales (re, im) con las variables pixel / z / c. El escape predeterminado es |z|² > 4; añade una línea como cabs2(z) <= 4 para definir el tuyo.';
 }

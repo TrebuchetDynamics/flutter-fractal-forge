@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart' show compute;
 import 'package:flutter/material.dart';
+import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/features/formulas/frm/frm_engine.dart';
 import 'package:flutter_fractals/features/formulas/frm/frm_parser.dart';
 
@@ -109,8 +110,11 @@ class _FrmFormulaScreenState extends State<FrmFormulaScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Formula Lab')),
+      // Shares the settings tile's key rather than a second copy of the name.
+      appBar: AppBar(title: Text(l10n.settingsFormulaLab)),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
@@ -127,7 +131,7 @@ class _FrmFormulaScreenState extends State<FrmFormulaScreen> {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12),
-                    child: _buildPreview(theme),
+                    child: _buildPreview(theme, l10n),
                   ),
                 ),
               ),
@@ -151,23 +155,20 @@ class _FrmFormulaScreenState extends State<FrmFormulaScreen> {
                 maxLines: 8,
                 minLines: 4,
                 style: const TextStyle(fontFamily: 'monospace', fontSize: 13),
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'FRM formula',
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: l10n.frmFormulaFieldLabel,
                 ),
               ),
               const SizedBox(height: 12),
               FilledButton.icon(
                 onPressed: _rendering ? null : _render,
                 icon: const Icon(Icons.play_arrow_rounded),
-                label: const Text('Render'),
+                label: Text(l10n.frmRender),
               ),
               const SizedBox(height: 12),
               Text(
-                'Supports + - * / ^, functions (sqr, conj, exp, sin, …) and '
-                '(re, im) literals with variables pixel / z / c. Escape '
-                'defaults to |z|² > 4; add a line like cabs2(z) <= 4 to set '
-                'your own.',
+                l10n.frmSyntaxHelp,
                 style: theme.textTheme.bodySmall,
               ),
             ],
@@ -177,7 +178,7 @@ class _FrmFormulaScreenState extends State<FrmFormulaScreen> {
     );
   }
 
-  Widget _buildPreview(ThemeData theme) {
+  Widget _buildPreview(ThemeData theme, AppLocalizations l10n) {
     final error = _error;
     if (error != null) {
       return Center(
@@ -196,7 +197,7 @@ class _FrmFormulaScreenState extends State<FrmFormulaScreen> {
     if (image == null && !_rendering) {
       return Center(
         child: Text(
-          'Tap Render to preview',
+          l10n.frmTapRenderToPreview,
           style: theme.textTheme.bodyMedium
               ?.copyWith(color: Colors.white.withValues(alpha: 0.6)),
         ),

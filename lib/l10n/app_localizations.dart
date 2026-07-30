@@ -2701,6 +2701,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'GPU-accelerated fractal exploration with 350+ types, deep zoom, and real-time rendering.'**
   String get settingsAboutBlurb;
+
+  /// No description provided for @frmFormulaFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'FRM formula'**
+  String get frmFormulaFieldLabel;
+
+  /// No description provided for @frmRender.
+  ///
+  /// In en, this message translates to:
+  /// **'Render'**
+  String get frmRender;
+
+  /// No description provided for @frmTapRenderToPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap Render to preview'**
+  String get frmTapRenderToPreview;
+
+  /// No description provided for @frmSyntaxHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Supports + - * / ^, functions (sqr, conj, exp, sin, …) and (re, im) literals with variables pixel / z / c. Escape defaults to |z|² > 4; add a line like cabs2(z) <= 4 to set your own.'**
+  String get frmSyntaxHelp;
 }
 
 class _AppLocalizationsDelegate

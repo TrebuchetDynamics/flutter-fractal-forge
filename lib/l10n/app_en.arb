@@ -626,5 +626,10 @@
   },
   "settingsColorTheme": "Color Theme",
   "settingsColorThemeSubtitle": "Choose a contrast and surface style.",
-  "settingsAboutBlurb": "GPU-accelerated fractal exploration with 350+ types, deep zoom, and real-time rendering."
+  "settingsAboutBlurb": "GPU-accelerated fractal exploration with 350+ types, deep zoom, and real-time rendering.",
+
+  "frmFormulaFieldLabel": "FRM formula",
+  "frmRender": "Render",
+  "frmTapRenderToPreview": "Tap Render to preview",
+  "frmSyntaxHelp": "Supports + - * / ^, functions (sqr, conj, exp, sin, …) and (re, im) literals with variables pixel / z / c. Escape defaults to |z|² > 4; add a line like cabs2(z) <= 4 to set your own."
 }

@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/formulas/frm_formula_screen.dart';
+import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+/// The screen reads AppLocalizations, so the delegates are required. Supplying
+/// the app's theme as well means these render what the app renders rather than
+/// the default light Material one.
+Widget _app({Locale locale = const Locale('en')}) => MaterialApp(
+      theme: AppTheme.dark,
+      locale: locale,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: const FrmFormulaScreen(),
+    );
 
 void main() {
   testWidgets('Formula Lab shows its controls', (tester) async {
     await tester.runAsync(() async {
-      await tester.pumpWidget(const MaterialApp(home: FrmFormulaScreen()));
+      await tester.pumpWidget(_app());
       await tester.pump();
 
       expect(find.text('Formula Lab'), findsOneWidget);
@@ -18,7 +31,7 @@ void main() {
 
   testWidgets('shows a parse error for an invalid formula', (tester) async {
     await tester.runAsync(() async {
-      await tester.pumpWidget(const MaterialApp(home: FrmFormulaScreen()));
+      await tester.pumpWidget(_app());
       await tester.pump();
 
       // Invalid source: the parse runs on the main thread (before the isolate

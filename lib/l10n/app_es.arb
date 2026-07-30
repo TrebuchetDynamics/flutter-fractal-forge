@@ -627,5 +627,10 @@
   },
   "settingsColorTheme": "Tema de color",
   "settingsColorThemeSubtitle": "Elige un estilo de contraste y superficie.",
-  "settingsAboutBlurb": "Exploración de fractales acelerada por GPU con más de 350 tipos, zoom profundo y renderizado en tiempo real."
+  "settingsAboutBlurb": "Exploración de fractales acelerada por GPU con más de 350 tipos, zoom profundo y renderizado en tiempo real.",
+
+  "frmFormulaFieldLabel": "Fórmula FRM",
+  "frmRender": "Renderizar",
+  "frmTapRenderToPreview": "Toca Renderizar para previsualizar",
+  "frmSyntaxHelp": "Admite + - * / ^, funciones (sqr, conj, exp, sin, …) y literales (re, im) con las variables pixel / z / c. El escape predeterminado es |z|² > 4; añade una línea como cabs2(z) <= 4 para definir el tuyo."
 }
