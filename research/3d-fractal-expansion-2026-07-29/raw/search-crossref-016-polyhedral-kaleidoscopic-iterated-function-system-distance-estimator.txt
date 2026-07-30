@@ -1,0 +1,10 @@
+10.32614/cran.package.ifs	ifs: Iterated Function Systems
+10.2307/1913973	The Iterated Minimum Distance Estimator and the Quasi-Maximum Likelihood Estimator
+10.1007/978-3-319-27857-5_10	Interactive Procedural Building Generation Using Kaleidoscopic Iterated Function Systems
+10.1201/9781439864708-10	Deterministic Theory of Iterated Function Systems
+10.1201/9781439864708-11	Probabilistic Theory of Iterated Function Systems
+10.21236/ada265856	Estimating the Spatial Extent of Attractors of Iterated Function System
+10.1007/1-84628-686-7_3	Iterated Function Systems – the Model
+10.1007/1-84628-686-7_6	nD Iterated Function Systems and Their Applications
+10.1214/aop/1176990943	Functional Laws of the Iterated Logarithm for the Product-Limit Estimator of a Distribution Function Under Random Censorship or Truncation
+10.2139/ssrn.6182175	Quantization dimension for a generalized inhomogeneous bi-Lipschitz iterated function system

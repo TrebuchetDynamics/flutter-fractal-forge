@@ -1,0 +1,42 @@
+{
+  "candidate": "quaternion_mandelbrot_3d",
+  "decision": "implement",
+  "identity": "The c=(x,y,z,0) hyperplane slice of the quadratic quaternion Mandelbrot parameter set",
+  "recurrence": {
+    "initial": "q_0 = 0",
+    "step": "q_(n+1) = q_n^2 + c",
+    "membership": "the orbit of zero remains bounded",
+    "slice": "c.w = 0"
+  },
+  "distinct_from": {
+    "quaternion_julia_3d": "Julia varies q_0 with fixed c; Mandelbrot fixes q_0=0 and varies c",
+    "mandelbrot": "Existing module is the planar complex parameter set rather than a three-dimensional quaternion hyperplane slice",
+    "mandelbulb": "Uses a polar vector-space power rather than quaternion multiplication"
+  },
+  "sources": [
+    {
+      "title": "Generalization of the Mandelbrot set: Quaternionic quadratic maps",
+      "doi": "10.1016/0960-0779(94)00163-K",
+      "url": "https://doi.org/10.1016/0960-0779(94)00163-K",
+      "claim": "Q maps to Q squared plus C is a quaternionic higher-dimensional Mandelbrot generalization"
+    },
+    {
+      "title": "3D Rendering of the Quaternion Mandelbrot Set with Memory",
+      "doi": "10.1142/S0218348X24500610",
+      "url": "https://doi.org/10.1142/S0218348X24500610",
+      "claim": "Four-dimensional quaternion Mandelbrot geometry is visualized through cutting-plane reduction to 3D"
+    },
+    {
+      "title": "Mandelbulb, Mandelbrot, Mandelring and Hopfbrot",
+      "arxiv": "2305.17848",
+      "url": "https://arxiv.org/abs/2305.17848",
+      "claim": "Quaternion Mandelbrot membership is defined by the bounded orbit of zero under z^d+c"
+    }
+  ],
+  "implementation": {
+    "stable_id": "quaternion_mandelbrot_3d",
+    "shader": "shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_mandelbrot_3d_gpu.frag",
+    "third_party_code_copied": false,
+    "preset_identities_added": 0
+  }
+}

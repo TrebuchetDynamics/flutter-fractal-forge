@@ -1,0 +1,10 @@
+10.1090/s0002-9947-03-03171-4	Fractafolds based on the Sierpinski gasket and their spectra
+10.1103/physrevb.100.155135	Topological states on fractal lattices
+10.3390/fractalfract6020089	Fractals: An Eclectic Survey, Part-I
+10.1088/0960-1317/23/5/055024	Fabrication of 3D fractal structures using nanoscale anisotropic etching of single crystalline silicon
+10.17512/jamcm.2012.2.06	Fractals based on regular convex polytopes
+10.4171/jncg/91	Spectral triples and the geometry of fractals
+10.3842/sigma.2021.020	A Spectral Triple for a Solenoid Based on the Sierpinski Gasket
+10.1103/prxquantum.4.030338	Tailoring Three-Dimensional Topological Codes for Biased Noise
+10.1155/2013/756075	Explicit Spectral Decimation for a Class of Self-Similar Fractals
+10.51483/ijpamr.5.2.2025.69-82	Ismail A Mageed’s Megaannum Theory of Fractal Topology: Open Problems, Applications, and Outlook for Tomorrow

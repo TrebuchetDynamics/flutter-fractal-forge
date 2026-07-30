@@ -1,0 +1,10 @@
+10.3390/s16091526	Potential Seasonal Terrestrial Water Storage Monitoring from GPS Vertical Displacements: A Case Study in the Lower Three-Rivers Headwater Region, China
+10.1109/tbme.2005.851519	Automated Design of Robust Discriminant Analysis Classifier for Foot Pressure Lesions Using Kinematic Data
+10.22028/d291-25862	Daylight simulation with photon maps
+10.1007/s41614-024-00167-2	Magnetic flux rope models and data-driven magnetohydrodynamic simulations of solar eruptions
+10.1007/s40766-022-00038-x	Earth’s gradients as the engine of plate tectonics and earthquakes
+10.1007/s11207-026-02608-2	Polarimeter to Unify the Corona and Heliosphere (PUNCH)
+10.21203/rs.3.rs-587959/v1	How Often Should Dead-Reckoned Animal Movement Paths be Corrected for Drift?
+	The Audible Human Project: Modeling Sound Transmission in the Lungs and Torso
+10.6028/nist.ir.5550	Industrial applications of scanned probe microscopy
+10.6092/unibo/amsdottorato/1358	Statistical methods for biomedical signal analysis and processing

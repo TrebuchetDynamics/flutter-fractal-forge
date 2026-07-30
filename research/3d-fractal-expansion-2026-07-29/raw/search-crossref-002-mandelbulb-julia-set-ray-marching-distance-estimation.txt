@@ -1,0 +1,10 @@
+10.1016/j.chaos.2025.116829	Dynamic Mandelbulb fractals: A mathematical framework for time-evolving 3D fractals using distance estimation
+10.1142/9789812778604_0009	Ray Tracing Methods by Distance Estimation
+10.31649/1997-9266-2025-179-2-132-137	Ray Tracing Algorithm Based on Screen Space Ray Marching
+10.2307/j.ctv21hrj87.104	Ray E. Cramer Marching Hundred Hall
+10.3233/xst-2003-00081	Modified fast marching and level set method for medical image segmentation
+10.17760/d20316436	And the beat goes on
+10.1093/ornithapp/duag017	Evaluation of distance estimation by observers with point counts and distance-sampling methodology: A field test
+10.1109/icpr.2008.4761722	The polar distance transform by fast-marching
+10.32614/cran.package.gsda	GSDA: Gene Set Distance Analysis (GSDA)
+10.2139/ssrn.5119565	Efficient Implicit Time-Marching Schemes with High-Order Stencils for Compressible Flow

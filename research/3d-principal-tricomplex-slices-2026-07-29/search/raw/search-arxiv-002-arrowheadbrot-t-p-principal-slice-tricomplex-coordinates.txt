@@ -1,0 +1,10 @@
+10.1007/s00006-019-0956-1	Characterization of the Principal 3D Slices Related to the Multicomplex Mandelbrot Set
+10.1088/0264-9381/22/21/008	Slice Stretching Effects for Maximal Slicing of a Schwarzschild Black Hole
+	A Study of Dynamics of the Tricomplex Polynomial $η^p+c$
+10.1111/sjos.12264	When and why are principal component scores a good tool for visualizing high-dimensional data?
+	Pseudo-slice knots
+	The Zero Slice of Quaternionic Real Bordism
+10.1007/s00013-004-1048-5	The Existence of Cartan Connections and Geometrizable Principal Bundles
+	Sheets, slice induction and G2(2) case
+10.1103/physrevd.106.105009	C-P-T Fractionalization
+	Boundary Julia theory for slice regular functions

@@ -1,0 +1,244 @@
+# Search batch results
+
+Deduped records: 240
+
+- Derivation of the postulates of quantum mechanics from the first principles of scale relativity — DOI: `10.1088/1751-8113/40/48/012`
+- March Möbius madness with a polynomial PostScript March 32, 1998 — DOI: `10.1145/275168.275171`
+- Interferences and Events : On Epistemic Shifts in Physics through Computer Simulations — DOI: `10.14619/022`
+- Quantum Entanglement in Classical Systems: so what is the Subquantum Medium Made of? — DOI: `10.1007/s10773-024-05851-0`
+- Mathematics Magazine Front Matter — DOI: `10.4169/002557010x494797`
+- Nonlocality was never a proven fact : So what is the subquantum medium made of?
+- A Formal Connection between Napier's Logarithm and the Bernoulli Numbers — DOI: `10.5281/zenodo.5015650`
+- A Recursive Algorithm for Calculating Natural Logarithms using Bernoulli Numbers — DOI: `10.5281/zenodo.5144036`
+- A Formal Connection between Napier's Logarithm and the Bernoulli Numbers — DOI: `10.5281/zenodo.5029496`
+- Interferences and Events
+- The complex quadratic map and its ℳ-set — DOI: `10.1007/978-1-4757-4017-2_5`
+- The inexhaustible function z squared plus c — DOI: `10.1007/978-1-4757-4017-2_23`
+- 3D RENDERING OF THE QUATERNION MANDELBROT SET WITH MEMORY — DOI: `10.1142/s0218348x24500610`
+- The ‘‘mystery’’ of the quadratic Mandelbrot set — DOI: `10.1119/1.17465`
+- The Quadratic Family and the Mandelbrot Set — DOI: `10.1007/978-1-4419-8732-7_15`
+- Continuous interpolation of the quadratic map and intrinsic tiling of the interiors of Julia sets — DOI: `10.1007/978-1-4757-4017-2_11`
+- mandelbrot: Generates Views on the Mandelbrot Set — DOI: `10.32614/cran.package.mandelbrot`
+- The Quadratic Family and the Mandelbrot Set — DOI: `10.1007/978-1-4684-0222-3_15`
+- Topological entropy of quadratic polynomials and dimension of sections of the Mandelbrot set — DOI: `10.1016/j.aim.2014.12.033`
+- The Mandelbrot set is universal — DOI: `10.1017/cbo9780511569159.003`
+- Local properties of the Mandelbrot set at parabolic points — DOI: `10.1017/cbo9780511569159.008`
+- Quaternion algebras and quadratic forms — DOI: `10.1090/crmm/022/03`
+- Generalization of the Mandelbrot set: Quaternionic quadratic maps — DOI: `10.1016/0960-0779(94)00163-k`
+- Pathways to hyperchaos in a three-dimensional quadratic map — DOI: `10.1140/epjp/s13360-024-05438-y`
+- Mandelbrot Set Print — DOI: `10.3840/07001482`
+- Cantor and Fatou dusts; self-squared dragons — DOI: `10.1007/978-1-4757-4017-2_4`
+- Precise measurement of the CKM angle $γ$ with a novel approach
+- Measurement of the CKM angle $γ$ in $B^{\pm} \rightarrow D(\rightarrow K^{0}_{\rm S} h^{\prime+}h^{\prime-})h^{\pm}$ decays with a novel approach
+- Reconstruction of interactions in the ProtoDUNE-SP detector with Pandora — DOI: `10.1140/epjc/s10052-023-11733-2`
+- Differential measurement of the branching fraction and $C\!P$ asymmetry of the decay $B^\pm\to π^\pmμ^+μ^-$
+- The Physics of the B Factories — DOI: `10.1140/epjc/s10052-014-3026-9`
+- Measurement of $Ξ_{c}^{+}$ production in $p$Pb collisions at $\sqrt{s_{NN}}=8.16$ TeV at LHCb — DOI: `10.1103/physrevc.109.044901`
+- Measurements of the absolute branching fractions of the $Λ_{c}^{+}$ hadronic decays
+- Machine learning techniques for jet reconstruction at LHCb and application to the search for $H \to b \bar{b}$ and $H \to c \bar{c}$ in $\sqrt{s}=13$ TeV $pp$ collisions
+- First measurement of the decay-time-integrated $C\!P$ asymmetry in $B_s^0 \to D_s^- π^+$ decays
+- $C\!P$ violation analysis of local and nonlocal amplitudes in the $\overline{B}^0 \to \overline{K}^{*0}μ^+μ^-$ decay
+- Search for $C\!P$ violation in $D^+ \to φπ^+$ decays
+- First observation of the $\overline{B}_{s}^{0}\toΛ_{c}^{+}\overlineΛ_{c}{}^{-}$ decay and evidence for the $\overline{B}^{0}\toΛ_{c}^{+}\overlineΛ_{c}{}^{-}$ decay — DOI: `10.1103/cxn3-8t4g`
+- Measurement of $C\!P$ asymmetry in $D^0 \to K^0_{\rm S} K^0_{\rm S}$ decays with Run 3 data — DOI: `10.1007/jhep02(2026)253`
+- Observation and investigation of the $T_{c\bar{c}1}(4430)^{+}$ structure in $B^{+} \to ψ(2S) K_{\text{S}}^{0} π^{+}$ decays — DOI: `10.1103/rcfs-ynh2`
+- First observation of the $\mathitΛ_b^{0}\!\rightarrow\mathitΛ_{c}^{+}D_{s}^{-}K^{+}K^{-}$ decay and search for pentaquarks in the $\mathitΛ_{c}^{+}D_{s}^{-}$ system — DOI: `10.1103/b28d-z2xc`
+- Study of $B_{c}(1P)^{+}$ states in the $B_{c}^{+} γ$ mass spectrum — DOI: `10.1103/1d49-q8h4`
+- Observation of orbitally excited $B_{c}^{+}$ states — DOI: `10.1103/fc8j-tb8k`
+- Measurement of $C\!P$ violation observables in $D^+\rightarrow K^-K^+π^+$ decays — DOI: `10.1103/physrevlett.133.251801`
+- Tests of General Relativity with GWTC-3 — DOI: `10.1103/physrevd.112.084080`
+- All-sky search for short gravitational-wave bursts in the third Advanced LIGO and Advanced Virgo run — DOI: `10.1103/physrevd.104.122004`
+- Relationship between the Mandelbrot Algorithm and the Platonic Solids — DOI: `10.3390/math10030482`
+- Generalized quaternion M sets and Julia sets perturbed by dynamical noises — DOI: `10.1007/s11071-015-2145-7`
+- Fast computation of fractal dimension for 2D, 3D and 4D data — DOI: `10.1016/j.jocs.2022.101908`
+- Symmetries and Dynamics of Generalized Biquaternionic Julia Sets Defined by Various Polynomials — DOI: `10.3390/sym15010043`
+- On the symmetry of bioctonionic Julia sets — DOI: `10.17512/jamcm.2013.2.03`
+- The Mandelbrot Set for a Coquaternionic Family of Quadratics — DOI: `10.1007/978-3-031-97589-9_11`
+- Julia sets within generalized quaternionic and multiquaternionic tensor product algebras — DOI: `10.1016/j.cnsns.2026.110572`
+- Mandelbulb, Mandelbrot, Mandelring and Hopfbrot — DOI: `10.48550/arxiv.2305.17848`
+- Calculating fractal sets in n ≥ 1 embedding dimensions without the use of truncation — DOI: `10.36227/techrxiv.19425989`
+- Colour Fractal Analysis for Video Quality Assessment — DOI: `10.2352/cgiv.2010.5.1.art00040`
+- On Commutative Analogues of Clifford Algebras and Their Decompositions — DOI: `10.1007/s00006-025-01422-6`
+- 12th International Conference on Geometry and Applications — DOI: `10.1007/s00022-015-0296-9`
+- Quaternionic Generalisation of the Mandelbrot Set — DOI: `10.1007/978-1-4899-1085-1_54`
+- External rays and the real slice of the Mandelbrot set — DOI: `10.1017/s0143385702001335`
+- Quaternionic Slice Regular Functions and Quaternionic Laplace Transforms — DOI: `10.1007/s10473-023-0116-5`
+- Mandelbrot Set Print — DOI: `10.3840/001482`
+- Three unconventional representations of the Mandelbrot set — DOI: `10.1016/0097-8493(90)90017-r`
+- Mandelbrot Set Doodle — DOI: `10.3840/07001478`
+- Natural Maths - Mandelbrot Set — DOI: `10.55277/researchhub.br88fx0d.1`
+- Mandelbrot Set Doodle — DOI: `10.3840/001478`
+- Figure 3: Formal modeling of Mandelbrot set. — DOI: `10.7717/peerjcs.892/fig-3`
+- three-dimensional Boolean-set operation — DOI: `10.1007/springerreference_26957`
+- Modulation dans l'ensemble de Mandelbrot — DOI: `10.1017/cbo9780511569159.005`
+- The Zero Slice of Quaternionic Real Bordism
+- Slice Regular Composition Operators on Quaternionic Fock Spaces via Matrix Realization
+- Surgery sequences and self-similarity of the Mandelbrot set — DOI: `10.2140/agt.2025.25.2807`
+- On a Slice of the Cubic 2-adic Mandelbrot Set
+- Homotopies and Maps between Eigenvalues of some Generalized Lucas Sequences and the Mandelbrot Set
+- External rays and the real slice of the Mandelbrot set
+- On Fibers and Local Connectivity of Mandelbrot and Multibrot Sets
+- Bounds for the Zeros of Quaternionic Polynomials and Regular Functions Using Matrix Techniques
+- Quaternionic slice regular functions and quaternionic Laplace transforms
+- Pseudo-slice knots
+- A comparison of optimisation algorithms for high-dimensional particle and astrophysics applications — DOI: `10.1007/jhep05(2021)108`
+- Quaternionic Monge-Ampere equations
+- Slice conformality and Riemann manifolds on quaternions and octonions — DOI: `10.1007/s00209-022-03079-4`
+- Quantum Error Correction in Quaternionic Hilbert Spaces
+- The Dynamics of Financial Markets -- Mandelbrot's multifractal cascades, and beyond
+- Zero sets and Nullstellensatz type theorems for slice regular quaternionic polynomials
+- Newton-Mandelbrot set and Murase-Mandelbrot set
+- Explicit Quaternionic Contact Structures and Metrics with Special Holonomy
+- Generalized quaternionic Bargmann-Fock spaces and associated Segal-Bargmann transforms
+- On fiber bundles and quaternionic slice regular functions
+- Control and synchronization of Julia sets of the complex dissipative standard system — DOI: `10.15388/na.2016.4.3`
+- Dual-Quaternion Julia Fractals — DOI: `10.20944/preprints202304.0246.v1`
+- Dual-Quaternion Julia Fractals — DOI: `10.48550/arxiv.2303.14827`
+- ПРОЦЕДУРНА ГЕНЕРАЦІЯ У ЧОТИРИВИМІРНОМУ ПРОСТОРІ: ВІД 4D ГРАДІЄНТНОГО ШУМУ ДО ВІЗУАЛІЗАЦІЇ КВАТЕРНІОННИХ ФРАКТАЛІВ — DOI: `10.32782/2521-6643-2025-2-70.16`
+- Interactive realism for visualization using ray tracing — DOI: `10.1109/visual.1995.480791`
+- Ray Tracing — DOI: `10.1201/b10676-19`
+- FPGA Hardware Acceleration for Visualization with Use of the Ray Tracing Algorithm — DOI: `10.15546/aeei-2014-0010`
+- VISUALIZATION OF CHAOTIC DYNAMICAL SYSTEMS BASED ON MANDELBROT SET METHODOLOGY — DOI: `10.1142/s0218348x08003752`
+- Ray tracing point set surfaces — DOI: `10.1109/smi.2003.1199627`
+- IEEE Visualization and Graphics Technical Committee (VGTC) — DOI: `10.1109/rt.2006.280205`
+- The Advanced X-ray Timing Array (AXTAR): A US MIDEX Mission Concept
+- The Advanced X-ray Timing Array (AXTAR) — DOI: `10.1063/1.3031197`
+- X-Ray Eclipse Timing in the LMXB EXO0748-676 — DOI: `10.1063/1.1781061`
+- The USA X-ray Timing Experiment
+- Gamma Rays from Dark Matter — DOI: `10.1063/1.1370815`
+- Acceleration and Interaction of Ultra High Energy Cosmic Rays
+- Detection of 16 Gamma-Ray Pulsars Through Blind Frequency Searches Using the Fermi LAT — DOI: `10.1126/science.1175558`
+- X-ray and radio prompt emission from a hypernova SN 2002ap — DOI: `10.1016/j.nuclphysbps.2004.04.054`
+- Hypercomplex analytic spaces and schemes
+- An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference — DOI: `10.1177/14738716241229437`
+- Interpretation of radio continuum and molecular line observations of Sgr B2: free-free and synchrotron emission, and implications for cosmic rays — DOI: `10.1111/j.1365-2966.2008.13752.x`
+- Very high energy gamma rays from Markarian 501
+- The NRL Program in X-ray Navigation
+- Beyond English: Centering Multilingualism in Data Visualization
+- X-ray observation of radio supernova SN1979C by ASCA
+- Characterization of Pulsar Sources for X-ray Navigation
+- Rational parameter rays of the Mandelbrot set
+- On the viscosity approximation type iterative method and its non-linear behaviour in the generation of Mandelbrot and Julia sets — DOI: `10.1007/s11075-023-01644-4`
+- Efficient antialiased rendering of 3-D linear fractals — DOI: `10.1145/127719.122728`
+- Visual-Based Defect Detection and Classification Approaches for Industrial Applications—A SURVEY — DOI: `10.3390/s20051459`
+- Ray tracing deterministic 3-D fractals — DOI: `10.1145/74333.74363`
+- Photon Tracing for Complex Environments — DOI: `10.2312/8147`
+- Geometric modeling with primitives
+- The hierarchical hair model and sweeping rendering algorithms. — DOI: `10.82465/5929`
+- Parametric sweep search for parallel robot workspace determination
+- Intraoperative Endoscopic Augmented Reality in Third Ventriculostomy — DOI: `10.5445/ir/1000015284`
+- Plenary lectures — DOI: `10.2478/ctb-2013-0001`
+- Symmetry in Vision — DOI: `10.3390/books978-3-03842-497-0`
+- About the Code of Practice of the European Mathematical Society
+- Quaternion Mandelbrot Sets — DOI: `10.1142/9789812778604_0006`
+- A Quaternion-Based Rendering Pipeline — DOI: `10.1201/b11642-22`
+- Quaternion Analysis — DOI: `10.1142/9789812778604_0004`
+- A Quaternion-Based Rendering Pipeline Dzmitry Malyshau — DOI: `10.1201/9781351172486-13`
+- Distance-based surface presentations and rendering — DOI: `10.15476/elte.2023.289`
+- Quaternion Deterministic Fractals in Virtual Reality — DOI: `10.1142/9789812778604_0010`
+- Mandelbrot- and Julia-Like Rendering of Polynomiographs — DOI: `10.1007/978-3-319-11331-9_4`
+- 3D distance measurements &amp;amp; rendering with AIVE results v1 — DOI: `10.17504/protocols.io.dm6gpdrz8gzp/v1`
+- Analyzing effects of geometric rendering parameters on size and distance estimation in on-axis stereographics — DOI: `10.1145/2338676.2338699`
+- A novel investigation of quaternion Julia and Mandelbrot sets using the viscosity iterative approach — DOI: `10.1016/j.rico.2025.100525`
+- Spacecraft Attitude Estimation — DOI: `10.1201/9780429446580-8`
+- A Comparison in Handmetric between Quaternion Euclidean Product Distance and Cauchy Schwartz Inequality Distance — DOI: `10.1109/ast.2009.19`
+- Color-Based Surface Reflectance Separation for Scene Illumination Estimation and Rendering — DOI: `10.25148/etd.fi11042702`
+- Square Root Quaternion Estimation — DOI: `10.2514/6.2002-4914`
+- 2D Shape Rendering by Distance Fields — DOI: `10.1201/b12288-15`
+- Fast surface rendering from raster data by voxel traversal using chessboard distance — DOI: `10.1109/visual.1994.346320`
+- Mutual information-based depth estimation and 3D reconstruction for image-based rendering systems — DOI: `10.5353/th_b4832966`
+- Spacecraft Attitude Estimation — DOI: `10.1201/9781003584766-8`
+- Quaternion Hardy Functions for Local Images Feature Representation
+- Evolutive Rendering Models
+- Quaternion Gravi-Electromagnetism — DOI: `10.1007/s10773-011-0953-1`
+- Linear Mappings of Quaternion Algebra
+- Quaternion Orders and Ternary Quadratic Forms
+- Sampling expansions associated with quaternion difference equations — DOI: `10.1080/03081087.2022.2094863`
+- Supersymmetrization of Quaternion Dirac Equation for Generalized Fields of Dyons — DOI: `10.1007/s10773-012-1206-7`
+- Removing External Degrees of Freedom from Transition-State Search Methods using Quaternions — DOI: `10.1021/ct501155k`
+- Distance Estimation Methods for a Practical Macroscale Molecular Communication System — DOI: `10.1016/j.nancom.2020.100300`
+- Towards Improving Speaker Distance Estimation through Generative Impulse Response Augmentation
+- An introduction to using dual quaternions to study kinematics
+- Fundamental Properties of Quaternion Spinors — DOI: `10.1134/s0202289312030103`
+- Adaptive Frameless Rendering — DOI: `10.2312/egwr/egsr05/265-275`
+- An Algorithm for the Factorization of Split Quaternion Polynomials — DOI: `10.1007/s00006-021-01133-8`
+- A Unifying Approach to Quaternion Adaptive Filtering: Addressing the Gradient and Convergence
+- Differentiable Inverse Rendering with Interpretable Basis BRDFs
+- Random-matrix theory of quantum transport — DOI: `10.1103/revmodphys.69.731`
+- Brauer–Manin obstruction for integral points of homogeneous spaces and representation by integral quadratic forms — DOI: `10.1112/s0010437x0800376x`
+- Extremal black holes, nilpotent orbits and the true fake superpotential — DOI: `10.1007/jhep01(2010)038`
+- Extremal black holes, nilpotent orbits and the true fake superpotential
+- Finite dimensional Teichmüller spaces and generalizations — DOI: `10.1090/s0273-0979-1981-14933-8`
+- Distribution of periodic torus orbits and Duke's theorem for cubic fields — DOI: `10.4007/annals.2011.173.2.5`
+- Quantum dynamics in Krylov space: Methods and applications — DOI: `10.1016/j.physrep.2025.05.001`
+- Sato–Tate theorem for families and low-lying zeros of automorphic $$L$$ L -functions — DOI: `10.1007/s00222-015-0583-y`
+- Â-Genus on Non-Spin Manifolds with S1 Actions and the Classification of Positive Quaternion-Kähler 12-Manifolds — DOI: `10.4310/jdg/1090351527`
+- Affine linear sieve, expanders, and sum-product — DOI: `10.1007/s00222-009-0225-3`
+- Selfdual Einstein Metrics with Torus Symmetry — DOI: `10.4310/jdg/1090351125`
+- CSIDH: An Efficient Post-Quantum Commutative Group Action — DOI: `10.1007/978-3-030-03332-3_15`
+- Trace coordinates on Fricke spaces of some simple hyperbolic surfaces — DOI: `10.4171/055-1/16`
+- Billiards and Teichmüller curves on Hilbert modular surfaces — DOI: `10.1090/s0894-0347-03-00432-6`
+- Joint Optimization of Radio and Computational Resources for Multicell Mobile-Edge Computing — DOI: `10.1109/tsipn.2015.2448520`
+- Sparse equidistribution problems, period bounds and subconvexity — DOI: `10.4007/annals.2010.172.989`
+- Nodal lines in momentum space: topological invariants and recent realizations in photonic and other systems — DOI: `10.1515/nanoph-2021-0692`
+- Global $L$-packets for GSp(2) and theta lifts — DOI: `10.4171/dm/104`
+- Model order reduction methods for geometrically nonlinear structures: a review of nonlinear techniques — DOI: `10.1007/s11071-021-06693-9`
+- Toric hyperkähler varieties — DOI: `10.4171/dm/130`
+- Computing Optima in Standard Quadratic Functions in Zero-Error Probabilistic Polynomial Time — DOI: `10.2139/ssrn.4946941`
+- Vector space of linearizations for the quadratic two-parameter matrix polynomial — DOI: `10.1080/03081087.2012.697676`
+- THE PARAMETER SPACE OF A QUADRATIC FAMILY OF POLYNOMIAL MAPS OF ℂ<sup>2</sup> — DOI: `10.1142/s0129167x08004819`
+- Q-Jamba: Quaternion-Native Hybrid State-Space Language Models with 3.4× Parameter Compression — DOI: `10.24108/preprints-3114725`
+- Submanifolds of quaternion projective space with bounded second fundamental form — DOI: `10.2996/kmj/1138039097`
+- Minimax Parameter Estimation under Generalized Quadratic Loss with a Compact Parameter Space — DOI: `10.21236/ada004823`
+- Topics in Quadratic and Quaternion Orders. — DOI: `10.31390/gradschool_disstheses.1686`
+- Special curves in the parameter space of polynomials — DOI: `10.23943/princeton/9780691235462.003.0009`
+- Quaternion algebras and quaternion orders — DOI: `10.1090/crmm/022/01`
+- Robust Stability and Stabilization for Time-Varying Discrete-Time Polytopic Quadratic Systems with Bounded Parameter Variation — DOI: `10.23919/ccc64809.2025.11179113`
+- Quadratic trigonometric polynomial curves with a shape parameter — DOI: `10.1016/s0167-8396(02)00126-7`
+- Quadratic Variation for a Class of $L \log^+ L$-Bounded Two-parameter Martingales — DOI: `10.1214/aop/1176992083`
+- The Limit of the Zero Locus of the Independence Polynomial for Bounded Degree Graphs — DOI: `10.1307/mmj/20226256`
+- Ternary quadratic forms and quaternion algebras — DOI: `10.1007/978-3-030-56694-4_5`
+- Quaternion orders and ternary quadratic forms — DOI: `10.1007/978-3-030-56694-4_22`
+- Towards Computing Suboptimal Controls in a Zero-Sum Linear-Quadratic Differential Game: Artificial Parameter Approach — DOI: `10.29007/tzmt`
+- Quadratic and polynomial functions — DOI: `10.1093/hesc/9780199216345.003.0008`
+- POLYNOMIALLY BOUNDED (-TIME) ALGORITHM ( Polynomial algorithm) — DOI: `10.1007/springerreference_5971`
+- Annotated Quadratic Polynomial — DOI: `10.3840/000027`
+- Zero Decomposition with Multiplicity of Zero-Dimensional Polynomial Systems
+- Solidification of Icosahedral Quasicrystals: Viewpoint Based on a Quaternion Orientational Order Parameter and the Formation of the E8 Lattice
+- Bounds for the Zeros of Polynomials over Quaternion Division Algebra
+- Self-supervised Machine Learning Based Approach to Orbit Modelling Applied to Space Traffic Management
+- SPACE: the SPectroscopic All-sky Cosmic Explorer — DOI: `10.1007/s10686-008-9096-7`
+- Quadratic Split Quaternion Polynomials: Factorization and Geometry — DOI: `10.1007/s00006-019-1037-1`
+- On the location of zeros of a quaternion polynomial
+- Zeros and factorizations of quaternion polynomials: the algorithmic approach
+- An Assessment of the Space Radiation Environment in a Near Equatorial Low Earth Orbit Based on Razaksat-1 Satellite
+- Whistler instability stimulated by the suprathermal electrons present in space plasmas — DOI: `10.1007/s10509-019-3661-6`
+- Advancing Heliophysics and Space Weather Modeling through Open Science — DOI: `10.1029/2025sw004922`
+- Bounds for the Zeros of Quaternionic Polynomials via Matrix Methods
+- Verification of Space Weather Forecasts issued by the Met Office Space Weather Operations Centre — DOI: `10.1002/2017sw001683`
+- Kaehler spaces, nilpotent orbits, and singular reduction
+- Multipliers of periodic orbits of quadratic polynomials and the parameter plane
+- RayBench: An Advanced NVIDIA-Centric GPU Rendering Benchmark Suite for Optimal Performance Analysis — DOI: `10.3390/electronics12194124`
+- Color Image Cryptosystem Based on Sine Chaotic Map, 4D Chen Hyperchaotic Map of Fractional-Order and Hybrid DNA Coding — DOI: `10.1109/access.2023.3282160`
+- Towards additive manufacturing oriented geometric modeling using implicit functions — DOI: `10.1186/s42492-018-0009-y`
+- Visualising volumetric fractals — DOI: `10.5176/2251-3043_5.2.370`
+- Procedural generation of aesthetic patterns from dynamics and iteration processes — DOI: `10.1515/amcs-2017-0058`
+- Relationships between Image Synthesis and Analysis Towards Unification? — DOI: `10.1111/j.1467-8659.1990.tb00387.x`
+- Modernism, Fiction and Mathematics — DOI: `10.1515/9781474416245`
+- Interpretations of Complexity
+- Brain tumor detection using three-dimensional Bayesian level set method with volume rendering — DOI: `10.1109/icwapr.2012.6294771`
+- Haptic rendering of three-dimensional heterogeneous features — DOI: `10.5353/th_b3875820`
+- Figure 5—video1. Three-dimensional rendering of FAS on hydrophilized graphene. — DOI: `10.7554/elife.42747.017`
+- Figure 2: Three-dimensional model rendering from CT data for MOR 1627. — DOI: `10.7717/peerj.20796/fig-2`
+- Video 3. Three-dimensional rendering of reconstructed Layer II motor cortical neurons. — DOI: `10.7554/elife.10566.017`
+- Video 4. Three-dimensional rendering of reconstructed Layer V motor cortical neurons. — DOI: `10.7554/elife.10566.018`
+- Video 5. Three-dimensional rendering of reconstructed Layer VI motor cortical neuron. — DOI: `10.7554/elife.10566.019`
+- Video 1. Three dimensional rendering of mitochondrial structure of a control fibroblast. — DOI: `10.7554/elife.16078.011`
+- Three-dimensional Scene Representations: Modeling, Animation, and Rendering Techniques — DOI: `10.1007/978-3-540-72532-9_6`
+- Figure 2—video 1. Three-dimensional rendering of FAS in unsupported vitrified solution. — DOI: `10.7554/elife.42747.007`
+- Mandelbrot set and Julia sets of fractional order
+- The Decoration Theorem for Mandelbrot and Multibrot Sets
+- Mandelbrot set as a particular Julia set of Fractional Order, echipotential lines and external rays of Mandelbrot and Julia sets of Fractional Order
+- Julia sets appear quasiconformally in the Mandelbrot set
+- On three-dimensional Alexandrov spaces
+- Higher Order Mandelbrot Sets and their Varying Shapes

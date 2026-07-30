@@ -1,0 +1,16 @@
+10.1007/978-1-4899-1085-1_54	Quaternionic Generalisation of the Mandelbrot Set
+10.1016/0960-0779(94)00163-k	Generalization of the Mandelbrot set: Quaternionic quadratic maps
+10.32614/cran.package.mandelbrot	mandelbrot: Generates Views on the Mandelbrot Set
+10.1017/s0143385702001335	External rays and the real slice of the Mandelbrot set
+10.1017/cbo9780511569159.003	The Mandelbrot set is universal
+10.1017/cbo9780511569159.008	Local properties of the Mandelbrot set at parabolic points
+10.3840/07001482	Mandelbrot Set Print
+10.1007/s10473-023-0116-5	Quaternionic Slice Regular Functions and Quaternionic Laplace Transforms
+10.3840/001482	Mandelbrot Set Print
+10.1016/0097-8493(90)90017-r	Three unconventional representations of the Mandelbrot set
+10.3840/07001478	Mandelbrot Set Doodle
+10.55277/researchhub.br88fx0d.1	Natural Maths - Mandelbrot Set
+10.3840/001478	Mandelbrot Set Doodle
+10.7717/peerjcs.892/fig-3	Figure 3: Formal modeling of Mandelbrot set.
+10.1007/springerreference_26957	three-dimensional Boolean-set operation
+10.1017/cbo9780511569159.005	Modulation dans l'ensemble de Mandelbrot

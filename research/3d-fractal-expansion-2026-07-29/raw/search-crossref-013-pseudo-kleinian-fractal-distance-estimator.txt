@@ -1,0 +1,10 @@
+10.4171/jfg/139	Dimensions of Kleinian orbital sets
+10.4171/jfg/93	On horospheric limit sets of Kleinian groups
+10.35508/fractal.v2i1.4036	Perbandingan Estimator Histogram dan Estimator Kernel
+10.1007/bf03179238	Fractal-feature distance analysis of contrast-detail phantom image and meaning of pseudo fractal dimension and complexity
+10.3390/fractalfract7030238	A Multi-Spectral Fractal Image Model and Its Associated Fractal Dimension Estimator
+10.1007/978-3-0348-7891-3_6	The Exponent of Convergence of Kleinian Groups; on a Theorem of Bishop and Jones
+10.1090/conm/731/14674	Dimensions of limit sets of Kleinian groups
+10.70675/9039c95cz6fd2z4531zb06bz4a787b210ccd	Definition and characterization of pseudo-curvatures for fractal curves
+10.1007/978-1-4757-4017-2_15	Introduction to papers on Kleinian groups, their fractal limit sets, and IFS: history, recollections, and acknowledgments
+10.2139/ssrn.6502721	On Simulation Pseudo-Bias and Truncation in the Modified Harmonic Mean Estimator

@@ -1,0 +1,10 @@
+	On affine iterated function systems which robustly admit an invariant affine subspace
+10.1007/jhep05(2021)108	A comparison of optimisation algorithms for high-dimensional particle and astrophysics applications
+	On three-dimensional Alexandrov spaces
+	A Three-Dimensional GUI for Windows Explorer
+	Description of three-dimensional evolution algebras
+10.1142/s0218348x17500402	The generalization of Sierpinski carpet and Sierpinski triangle in $n$-dimensional space
+	Infinitely many holes in connectedness loci for collinear affine iterated function systems
+	Sierpinski object for affine systems
+10.1023/a:1020464224385	Arctic octahedron in three-dimensional rhombus tilings and related integer solid partitions
+10.1155/2019/7817353	Integral means inequalities, convolution, and univalent functions

@@ -1,0 +1,6 @@
+quaternion Mandelbrot set quadratic map q squared plus c
+quaternionic Mandelbrot set three dimensional slice
+hypercomplex Mandelbrot set visualization ray tracing
+quaternion Mandelbrot distance estimation rendering
+quaternion quadratic polynomial parameter space bounded orbit zero
+three dimensional rendering quaternion Mandelbrot set

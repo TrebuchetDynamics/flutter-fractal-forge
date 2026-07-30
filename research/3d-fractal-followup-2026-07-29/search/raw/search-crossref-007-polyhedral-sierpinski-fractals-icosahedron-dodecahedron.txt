@@ -1,0 +1,20 @@
+10.17776/csj.534616	Truncated Truncated Dodecahedron and Truncated Truncated Icosahedron Spaces
+10.2307/3608759	2539. The dual polyhedral compound : Great Icosahedron + Great Stellated Dodecahedron. {3, 5/2} + {5/2, 3}
+10.2307/3610320	Correction to Note 2539: 2539. The Dual Polyhedral Compound: Great Icosahedron + Great Stellated Dodecahedron. 3, 5/2 + 5/2, 3
+10.5948/upo9780883859292.017	Appendix: Group of the Dodecahedron and the Icosahedron
+10.3840/003115	Dissection of Three Rhombic Solids into an Icosahedron, a Dodecahedron, and an Icosidodecahedron
+10.3840/08003115	Dissection of Three Rhombic Solids into an Icosahedron, a Dodecahedron, and an Icosidodecahedron
+10.3840/08003039	Dissection of a Rhombic 210-hedron into a Combination of Icosahedron and Truncated Dodecahedron
+10.1021/acs.jpca.6b05258.s001	Cu20Si12: A Hollow Cage Constituted of a Copper Dodecahedron and a Silicon Icosahedron
+10.3840/003039	Dissection of a Rhombic 210-hedron into a Combination of Icosahedron and Truncated Dodecahedron
+10.1016/b978-044450002-1/50028-x	Sierpinski fractals and GCDs
+10.1016/0012-365x(84)90037-2	A convex characterization of the graphs of the dodecahedron and icosahedron
+10.5948/upo9780883859292.016	Appendix. Group of the Dodecahedron and the Icosahedron
+10.1142/s0218348x10005135	MAXIMAL DIMENSIONS OF UNIFORM SIERPINSKI FRACTALS
+10.1142/s0218348x18500032	THE SIERPINSKI TRIANGLE PLANE
+10.1142/s0218348x22501274	RINGS AROUND SIERPINSKI HOLES
+10.1021/acsphotonics.9b01179.s001	Carving Plasmon Modes in Silver Sierpinski Fractals
+10.1142/s0218348x19500919	DISTINGUISHING BETWEEN SIERPINSKI TRIANGLE CONSTRUCTIONS
+10.1142/s0218348x08004022	LIPSCHITZ EQUIVALENCE OF GENERAL SIERPINSKI CARPETS
+10.1016/j.chaos.2020.110142	Fractal functions on the Sierpinski Gasket
+10.1016/j.chaos.2006.06.003	Hilbert space, Poincaré dodecahedron and golden mean transfiniteness

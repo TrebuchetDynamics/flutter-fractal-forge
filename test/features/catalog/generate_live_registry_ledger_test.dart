@@ -23,6 +23,7 @@ void main() {
     final skipped = ledger['skipped']! as Map<String, Object>;
 
     expect(entries.length, greaterThanOrEqualTo(890));
+    expect(skipped['nonFractal'], 1);
     expect(skipped['missingThumbnail'], 0);
     expect(skipped['unknownFamily'], 0);
     expect(File(ledgerPath).existsSync(), isTrue);
@@ -37,6 +38,10 @@ void main() {
       (entry) => entry['stable_id'] == 'life_like_b000_s000',
     );
     expect(lifeLike['family'], 'cellular_automata');
+    expect(
+      decodedEntries.any((entry) => entry['stable_id'] == 'hydrogen_orbital'),
+      isFalse,
+    );
 
     final worklist = jsonDecode(File(worklistPath).readAsStringSync())
         as Map<String, Object?>;

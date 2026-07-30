@@ -1,0 +1,5 @@
+10.15388/na.2016.4.3	Control and synchronization of Julia sets of the complex dissipative standard system
+10.36227/techrxiv.19425989	Calculating fractal sets in n ≥ 1 embedding dimensions without the use of truncation
+10.20944/preprints202304.0246.v1	Dual-Quaternion Julia Fractals
+10.48550/arxiv.2303.14827	Dual-Quaternion Julia Fractals
+10.32782/2521-6643-2025-2-70.16	ПРОЦЕДУРНА ГЕНЕРАЦІЯ У ЧОТИРИВИМІРНОМУ ПРОСТОРІ: ВІД 4D ГРАДІЄНТНОГО ШУМУ ДО ВІЗУАЛІЗАЦІЇ КВАТЕРНІОННИХ ФРАКТАЛІВ

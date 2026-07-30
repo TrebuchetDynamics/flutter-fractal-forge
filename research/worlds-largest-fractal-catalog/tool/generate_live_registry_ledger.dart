@@ -83,6 +83,8 @@ bool isDiagnosticModule(String id, String shaderAsset) {
       shaderAsset.startsWith('shaders/diagnostic/');
 }
 
+bool isNonFractalModule(String id) => id == 'hydrogen_orbital';
+
 String identityTypeFor(String category) {
   return categoryToIdentityType[category] ?? 'named_stable_variant';
 }
@@ -99,6 +101,7 @@ Map<String, Object> buildLiveRegistryLedger({DateTime? generatedAt}) {
   final catalog = CatalogRepository.fromRegistry(registry);
   final entries = <Map<String, Object>>[];
   var skippedDiagnostic = 0;
+  var skippedNonFractal = 0;
   var skippedUnknownFamily = 0;
   final unknownFamilies = <Map<String, Object>>[];
 
@@ -106,6 +109,10 @@ Map<String, Object> buildLiveRegistryLedger({DateTime? generatedAt}) {
     final module = entry.module;
     if (isDiagnosticModule(module.id, module.shaderAsset)) {
       skippedDiagnostic++;
+      continue;
+    }
+    if (isNonFractalModule(module.id)) {
+      skippedNonFractal++;
       continue;
     }
     if (!File(module.shaderAsset).existsSync()) {
@@ -168,6 +175,7 @@ Map<String, Object> buildLiveRegistryLedger({DateTime? generatedAt}) {
         'Counts stable live module formula/rule identities only; built-in presets, random seeds, palettes, camera views, and runtime thumbnails are ignored.',
     'skipped': {
       'diagnostic': skippedDiagnostic,
+      'nonFractal': skippedNonFractal,
       'missingThumbnail': 0,
       'unknownFamily': skippedUnknownFamily,
     },
@@ -206,6 +214,7 @@ void main() {
     'thumbnailWorklist': thumbnailWorklistPath,
     'entries': (ledger['entries']! as List).length,
     'skippedDiagnostic': skipped['diagnostic'],
+    'skippedNonFractal': skipped['nonFractal'],
     'skippedUnknownFamily': skipped['unknownFamily'],
   }));
 }

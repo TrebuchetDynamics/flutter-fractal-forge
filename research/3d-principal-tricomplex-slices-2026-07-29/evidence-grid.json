@@ -1,0 +1,69 @@
+{
+  "candidate": "arrowheadbrot_3d",
+  "decision": "implement",
+  "identity": "Classical quadratic principal tricomplex Mandelbrot slice T(1,i1,j1), j1=i1*i2",
+  "coordinates": "c = x + y*i1 + z*j1",
+  "idempotent_components": {
+    "minus": "(x-z) + y*i",
+    "plus": "(x+z) + y*i"
+  },
+  "membership": "Both complex components belong to the ordinary quadratic Mandelbrot set",
+  "section_characterization": "union for z in [-9/8,9/8] of [((M-z) intersect (M+z)) + z*j1]",
+  "distance_estimate": "sqrt((d_minus^2 + d_plus^2)/2)",
+  "distinct_from": {
+    "tetrabrot_3d": "Arrowheadbrot translates the real component x+/-z; Tetrabrot translates the imaginary component y+/-z",
+    "mandelbrot": "Coupled three-real-dimensional conjunction of two complex parameter memberships",
+    "quaternion_mandelbrot_3d": "Commutative tricomplex idempotent decomposition rather than quaternion multiplication",
+    "power_variants": "Classical identity is fixed at quadratic p=2"
+  },
+  "known_points": [
+    {
+      "point": [0.0, 0.0, 0.0],
+      "arrowheadbrot_contained": true,
+      "tetrabrot_contained": true
+    },
+    {
+      "point": [-0.875, 0.0, 1.125],
+      "arrowheadbrot_components": [-2.0, 0.25],
+      "arrowheadbrot_contained": true,
+      "tetrabrot_contained": false
+    },
+    {
+      "point": [0.0, 0.0, 0.3],
+      "arrowheadbrot_components": [-0.3, 0.3],
+      "arrowheadbrot_contained": false,
+      "tetrabrot_contained": true
+    }
+  ],
+  "sources": [
+    {
+      "title": "Relationship between the Mandelbrot Algorithm and the Platonic Solids",
+      "year": 2022,
+      "arxiv": "2107.04016",
+      "doi": "10.3390/math10030482",
+      "url": "https://arxiv.org/abs/2107.04016",
+      "claim": "Proposition 3 names T(1,i1,j1) Arrowheadbrot and gives its exact idempotent components and section characterization"
+    },
+    {
+      "title": "Characterization of the Principal 3D Slices Related to the Multicomplex Mandelbrot Set",
+      "year": 2019,
+      "arxiv": "1809.02020",
+      "doi": "10.1007/s00006-019-0956-1",
+      "url": "https://arxiv.org/abs/1809.02020",
+      "claim": "Proves componentwise Multibrot membership, idempotent Euclidean norm, and tricomplex sufficiency for principal 3D slices"
+    },
+    {
+      "title": "On a Bicomplex Distance Estimation for the Tetrabrot",
+      "year": 2005,
+      "doi": "10.1142/S0218127405013873",
+      "url": "https://doi.org/10.1142/S0218127405013873",
+      "claim": "Distance-estimator precedent for ray tracing bicomplex idempotent components"
+    }
+  ],
+  "implementation": {
+    "stable_id": "arrowheadbrot_3d",
+    "shader": "shaders/3d_and_hypercomplex/raymarched_volumes/arrowheadbrot_3d_gpu.frag",
+    "third_party_code_copied": false,
+    "preset_identities_added": 0
+  }
+}

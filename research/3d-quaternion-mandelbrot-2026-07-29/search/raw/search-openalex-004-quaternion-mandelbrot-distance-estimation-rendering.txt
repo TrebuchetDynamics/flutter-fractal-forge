@@ -1,0 +1,14 @@
+10.1007/s11075-023-01644-4	On the viscosity approximation type iterative method and its non-linear behaviour in the generation of Mandelbrot and Julia sets
+10.1145/127719.122728	Efficient antialiased rendering of 3-D linear fractals
+10.3390/s20051459	Visual-Based Defect Detection and Classification Approaches for Industrial Applications—A SURVEY
+10.1145/74333.74363	Ray tracing deterministic 3-D fractals
+10.48550/arxiv.2303.14827	Dual-Quaternion Julia Fractals
+10.20944/preprints202304.0246.v1	Dual-Quaternion Julia Fractals
+10.2312/8147	Photon Tracing for Complex Environments
+	Geometric modeling with primitives
+10.82465/5929	The hierarchical hair model and sweeping rendering algorithms.
+	Parametric sweep search for parallel robot workspace determination
+10.5445/ir/1000015284	Intraoperative Endoscopic Augmented Reality in Third Ventriculostomy
+10.2478/ctb-2013-0001	Plenary lectures
+10.3390/books978-3-03842-497-0	Symmetry in Vision
+	About the Code of Practice of the European Mathematical Society

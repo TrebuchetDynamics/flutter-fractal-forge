@@ -1,0 +1,159 @@
+# Search batch results
+
+Deduped records: 155
+
+- Relationship between the Mandelbrot Algorithm and the Platonic Solids — DOI: `10.3390/math10030482`
+- mandelbrot: Generates Views on the Mandelbrot Set — DOI: `10.32614/cran.package.mandelbrot`
+- External rays and the real slice of the Mandelbrot set — DOI: `10.1017/s0143385702001335`
+- The Mandelbrot set is universal — DOI: `10.1017/cbo9780511569159.003`
+- Local properties of the Mandelbrot set at parabolic points — DOI: `10.1017/cbo9780511569159.008`
+- Mandelbrot Set Print — DOI: `10.3840/07001482`
+- Mandelbrot Set Print — DOI: `10.3840/001482`
+- Three unconventional representations of the Mandelbrot set — DOI: `10.1016/0097-8493(90)90017-r`
+- Mandelbrot Set Doodle — DOI: `10.3840/07001478`
+- Natural Maths - Mandelbrot Set — DOI: `10.55277/researchhub.br88fx0d.1`
+- Mandelbrot Set Doodle — DOI: `10.3840/001478`
+- Figure 3: Formal modeling of Mandelbrot set. — DOI: `10.7717/peerjcs.892/fig-3`
+- three-dimensional Boolean-set operation — DOI: `10.1007/springerreference_26957`
+- Modulation dans l'ensemble de Mandelbrot — DOI: `10.1017/cbo9780511569159.005`
+- Mandelbrot set, n. — DOI: `10.1093/oed/8949024788`
+- On a Slice of the Cubic 2-Adic Mandelbrot Set — DOI: `10.1007/978-3-032-11183-8_2`
+- The Abstract Mandelbrot set — DOI: `10.1007/bfb0104002`
+- Surgery sequences and self-similarity of the Mandelbrot set — DOI: `10.2140/agt.2025.25.2807`
+- On a Slice of the Cubic 2-adic Mandelbrot Set
+- Homotopies and Maps between Eigenvalues of some Generalized Lucas Sequences and the Mandelbrot Set
+- External rays and the real slice of the Mandelbrot set
+- On Fibers and Local Connectivity of Mandelbrot and Multibrot Sets
+- A Study of Dynamics of the Tricomplex Polynomial $η^p+c$
+- Pseudo-slice knots
+- A comparison of optimisation algorithms for high-dimensional particle and astrophysics applications — DOI: `10.1007/jhep05(2021)108`
+- Characterization of the Principal 3D Slices Related to the Multicomplex Mandelbrot Set — DOI: `10.1007/s00006-019-0956-1`
+- The Dynamics of Financial Markets -- Mandelbrot's multifractal cascades, and beyond
+- Newton-Mandelbrot set and Murase-Mandelbrot set
+- Tricomplex Distance Estimation for Filled-in Julia Sets and Multibrot Sets — DOI: `10.1142/s0218127419500858`
+- Topological entropy of quadratic polynomials and dimension of sections of the Mandelbrot set
+- Slice Stretching Effects for Maximal Slicing of a Schwarzschild Black Hole — DOI: `10.1088/0264-9381/22/21/008`
+- Mandelbrot set and Julia sets of fractional order
+- The Decoration Theorem for Mandelbrot and Multibrot Sets
+- Colored HOMFLY and Generalized Mandelbrot set — DOI: `10.1007/jhep11(2015)151`
+- Baby Mandelbrot sets and Spines in some one-dimensional subspaces of the parameter space for generalized McMullen Maps — DOI: `10.1007/s12346-025-01312-z`
+- Mandelbrot set as a particular Julia set of Fractional Order, echipotential lines and external rays of Mandelbrot and Julia sets of Fractional Order
+- Relationship between the Mandelbrot Algorithm and the Platonic Solids — DOI: `10.48550/arxiv.2107.04016`
+- A GENERALIZED MANDELBROT SET FOR BICOMPLEX NUMBERS — DOI: `10.1142/s0218348x0000041x`
+- A Generalized Mandelbrot Set of Polynomials of Type 𝐸<sub>𝑑</sub> for Bicomplex Numbers — DOI: `10.1515/gmj.2008.189`
+- ON A BICOMPLEX DISTANCE ESTIMATION FOR THE TETRABROT — DOI: `10.1142/s0218127405013873`
+- Construction of 3D Mandelbrot Set and Julia Set — DOI: `10.5120/14920-3514`
+- 3D representation of the Mandelbrot set — DOI: `10.1007/bf01900831`
+- Harmonic morphisms and bicomplex manifolds
+- Modelling the Distribution of 3D Brain MRI using a 2D Slice VAE
+- SAM 3D: 3Dfy Anything in Images
+- When and why are principal component scores a good tool for visualizing high-dimensional data? — DOI: `10.1111/sjos.12264`
+- On qc compatibility of satellite copies of the Mandelbrot set: II
+- Normal Families of Bicomplex Holomorphic Functions
+- Symmetries and Dynamics of Generalized Biquaternionic Julia Sets Defined by Various Polynomials — DOI: `10.3390/sym15010043`
+- Julia sets within generalized quaternionic and multiquaternionic tensor product algebras — DOI: `10.1016/j.cnsns.2026.110572`
+- On Commutative Analogues of Clifford Algebras and Their Decompositions — DOI: `10.1007/s00006-025-01422-6`
+- A Study of Tricomplex Numbers: Representation, Subalgebras, Idempotent Forms — DOI: `10.33774/coe-2025-n0h9f-v2`
+- A Study of Tricomplex Numbers: Representation, Subalgebras, Idempotent Forms — DOI: `10.33774/coe-2025-n0h9f`
+- Idempotent Elements in Tricomplex Numbers — DOI: `10.33774/coe-2025-837kl-v2`
+- Idempotent Elements in Tricomplex Numbers — DOI: `10.33774/coe-2025-837kl`
+- Tricomplex Numbers and idempotent elements in C3 — DOI: `10.21203/rs.3.rs-2510074/v1`
+- A Set-Theoretical Representation for Weakly Idempotent Lattices and Interlaced Weakly Idempotent Bilattices — DOI: `10.1142/9789811254925_0014`
+- A set-theoretical representation for weakly idempotent lattices and interlaced weakly idempotent bilattices — DOI: `10.1007/s40879-016-0110-8`
+- Polynomial representations and categorifications of Fock Space
+- Structures and Representations of Generalized Path Algebras
+- Dequantization of Mathematics, idempotent semirings and fuzzy sets
+- Finite-Dimensional Representations of Hyper Loop Algebras Over Non-Algebraically Closed Fields
+- Representations of hom-Lie algebras — DOI: `10.1007/s10468-011-9280-8`
+- Clifford theory for glider representations — DOI: `10.1007/s10468-016-9628-1`
+- Point-SRA: Self-Representation Alignment for 3D Representation Learning — DOI: `10.1609/aaai.v40i13.38026`
+- Idempotent completions of $n$-exangulated categories — DOI: `10.1007/s10485-023-09758-5`
+- Idempotent Slices with Applications to Code-Size Reduction
+- An analogue of Kida's formula in graph theory — DOI: `10.4310/pamq.250312162321`
+- A Local Families Index Formula for $${\overline{\partial}}$$ -Operators on Punctured Riemann Surfaces — DOI: `10.1007/s00220-009-0816-2`
+- Productivité et flux de carbone dans la mer du Labrador au cours des derniers 40 000 ans — DOI: `10.1139/e94-012`
+- Novoselsky, Vallières, and La'adan Reply: — DOI: `10.1103/physrevlett.81.5949`
+- Portneuf — DOI: `10.1515/9782763797809`
+- Portneuf — DOI: `10.2307/jj.7249499`
+- À propos du dossier sur Pierre Vallières — DOI: `10.7202/1060232ar`
+- Taylor, Robert Rochon — DOI: `10.1093/acref/9780195301731.013.77941`
+- Preoperative Chemotherapy and Surgery — DOI: `10.1007/0-387-28274-2_44`
+- Nicolas Bergasse to M. — Rambaud de Vallières, June 1775 [rousjeVF0400020a1c] — DOI: `10.13051/ee:doc/rousjevf0400020a1c`
+- TOPOS: Toponymic data bank - information update — DOI: `10.4095/298574`
+- ENVIRONMENTAL LABORATORY QUALITY ASSURANCE. — DOI: `10.2172/4724888`
+- Rencontre avec Andréane Frenette-Vallières : Écriture, Territoire et Identité — DOI: `10.16993/rnef.188`
+- Innovation in Evaluation - Bringing Together Community Practice and Research — DOI: `10.1037/e509012013-068`
+- Rochon Lake, Manitoba — DOI: `10.4095/116924`
+- M. — Rambaud de Vallières [rambauddev023189] — DOI: `10.13051/ee:bio/rambauddev023189`
+- Dollarization — DOI: `10.4324/9780203987742`
+- Post-Keynesian Economics — DOI: `10.4337/9781785363573`
+- Some index formulae on the moduli space of stable parabolic vector bundles
+- A diagrammer's note on DC conductivity of anisotropic Fermi liquids for beginners: Maebashi-Fukuyama formula and Taylor formula
+- Jacobi-Trudy formula for generalised Schur polynomials
+- A weighted invariant trace formula
+- On Multiplicity Formula for Spherical Varieties
+- An Explicit Formula For The Divisor Function
+- Dual addition formulas associated with dual product formulas — DOI: `10.1142/9789813228887_0019`
+- Combinatorial formulas for Macdonald polynomials by superizations
+- An extension of the cogrowth formula to arbitrary subsets of the tree
+- On the Thomae formula for $Z_N$ curves
+- Quasi-parabolic Siegel Formula
+- McLean's second variation formula revisited — DOI: `10.1016/j.geomphys.2016.10.002`
+- Elementary Formulas for Greatest Common Divisors and Semiprime Factors
+- A d'Alembert Formula for Hopf Hypersurfaces
+- Pseudodifferential operators on manifolds with foliated boundaries
+- The Baker-Campbell-Hausdorff formula in the free metabelian Lie algebra
+- New conformal map for the trapezoidal formula for infinite integrals of unilateral rapidly decreasing functions — DOI: `10.1016/j.cam.2020.113354`
+- On the viscosity approximation type iterative method and its non-linear behaviour in the generation of Mandelbrot and Julia sets — DOI: `10.1007/s11075-023-01644-4`
+- An Application of Viscosity Approximation Type Iterative Method in the Generation of Mandelbrot and Julia Fractals — DOI: `10.1007/s00010-022-00908-z`
+- Escape Criteria Using Hybrid Picard S-Iteration Leading to a Comparative Analysis of Fractal Mandelbrot Sets Generated with S-Iteration — DOI: `10.3390/fractalfract8020116`
+- The Symmetry in the Noise-Perturbed Mandelbrot Set — DOI: `10.3390/sym11040577`
+- On the convergence of multicomplex M-J sets to the Steinmetz hypersolids — DOI: `10.17512/jamcm.2016.3.07`
+- Fuzzy Mandelbric Set and Its Perturbations by Dynamical Noises — DOI: `10.3390/fractalfract8030158`
+- Bicomplex Burning Ship Fractal
+- Non-Hermitian quantum fractals — DOI: `10.1103/physrevb.110.l201103`
+- Control and synchronization of Julia sets of the complex dissipative standard system — DOI: `10.15388/na.2016.4.3`
+- Polynomiography and various convergence tests
+- A very special Fractal: Gingko of Jena — DOI: `10.1016/s0016-7169(14)71493-x`
+- Control and synchronization of Julia sets in discrete three-dimensional ecological developmental systems — DOI: `10.3934/dcdss.2026093`
+- Figure 9. Three-dimensional visualization window — DOI: `10.54859/kjogi99693-53843`
+- VISUALIZATION OF CHAOTIC DYNAMICAL SYSTEMS BASED ON MANDELBROT SET METHODOLOGY — DOI: `10.1142/s0218348x08003752`
+- An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference — DOI: `10.1177/14738716241229437`
+- Beyond English: Centering Multilingualism in Data Visualization
+- An Analytical Survey on Recent Trends in High Dimensional Data Visualization
+- Reframing Pattern: A Comprehensive Approach to a Composite Visual Variable — DOI: `10.1109/tvcg.2025.3633909`
+- Towards a Survey on Static and Dynamic Hypergraph Visualizations — DOI: `10.1109/vis49827.2021.9623305`
+- Deep Generative Neural Embeddings for High Dimensional Data Visualization
+- NL2INTERFACE: Interactive Visualization Interface Generation from Natural Language Queries
+- Reclaiming the Horizon: Novel Visualization Designs for Time-Series Data with Large Value Ranges — DOI: `10.1109/tvcg.2023.3326576`
+- LMap: Shape-Preserving Local Mappings for Biomedical Visualization — DOI: `10.1109/tvcg.2017.2772237`
+- Beware of Validation by Eye: Visual Validation of Linear Trends in Scatterplots — DOI: `10.1109/tvcg.2024.3456305`
+- What Would a Graph Look Like in This Layout? A Machine Learning Approach to Large Graph Visualization — DOI: `10.1109/tvcg.2017.2743858`
+- Visual Analytics for Temporal Hypergraph Model Exploration — DOI: `10.1109/tvcg.2020.3030408`
+- VisRuler: Visual Analytics for Extracting Decision Rules from Bagged and Boosted Decision Trees — DOI: `10.1177/14738716221142005`
+- ON A GENERALIZED FATOU–JULIA THEOREM IN MULTICOMPLEX SPACES — DOI: `10.1142/s0218348x09004326`
+- The Mandelbrot Set for a Coquaternionic Family of Quadratics — DOI: `10.1007/978-3-031-97589-9_11`
+- Determinant, Characteristic Polynomial, and Inverse in Commutative Analogues of Clifford Algebras — DOI: `10.48550/arxiv.2412.20135`
+- Classification of Principle 3D Slices of Filled-in Julia Sets in Multicomplex Spaces — DOI: `10.1007/s00010-025-01257-3`
+- Geometric Exploration of Generalized Mandelbrot Sets — DOI: `10.58445/rars.2662`
+- Julia Sets and the Mandelbrot Set — DOI: `10.3840/07000706`
+- Julia Sets and the Mandelbrot Set — DOI: `10.3840/000706`
+- Julia and Mandelbrot Sets — DOI: `10.1007/978-0-387-49514-9_21`
+- Baby Mandelbrot sets are born in cauliflowers — DOI: `10.1017/cbo9780511569159.004`
+- Public Key Cryptographic System Using Mandelbrot Sets — DOI: `10.1109/milcom.2006.302396`
+- Parameter Spaces and Mandelbrot Sets — DOI: `10.1016/b978-0-12-079061-6.50013-9`
+- Review for "Dynamics of Julia and Mandelbrot Sets: Viscosity Approximation Method with h-Convexity" — DOI: `10.1088/1402-4896/adc958/v1/review1`
+- Review for "Dynamics of Julia and Mandelbrot Sets: Viscosity Approximation Method with h-Convexity" — DOI: `10.1088/1402-4896/adc958/v2/review2`
+- Review for "Dynamics of Julia and Mandelbrot Sets: Viscosity Approximation Method with h-Convexity" — DOI: `10.1088/1402-4896/adc958/v3/review1`
+- 6 The Fatou and Julia sets — DOI: `10.1515/9783111689685-006`
+- Fuzzy Mandelbrot sets — DOI: `10.1016/j.fss.2021.03.007`
+- Julia sets and the Mandelbrot set — DOI: `10.1142/9789814291293_0008`
+- Mandelbrot and Julia Sets — DOI: `10.1007/978-3-540-74867-0_11`
+- The Julia and Mandelbrot Sets — DOI: `10.1201/9781420011043-12`
+- Complex Fractals : Julia Sets and the Mandelbrot Set — DOI: `10.1201/b11855-11`
+- Review for "Dynamics of Julia and Mandelbrot Sets: Viscosity Approximation Method with h-Convexity" — DOI: `10.1088/1402-4896/adc958/v2/review1`
+- Mandelbrot and Julia Sets — DOI: `10.1007/978-3-662-03866-6_11`
+- Classification of Principle 3D Slices of Filled-in Julia Sets in Multicomplex Spaces
+- Julia sets appear quasiconformally in the Mandelbrot set
+- Higher Order Mandelbrot Sets and their Varying Shapes
+- Multicomplex Ideals, Modules and Hilbert Spaces — DOI: `10.1007/s00006-025-01373-y`

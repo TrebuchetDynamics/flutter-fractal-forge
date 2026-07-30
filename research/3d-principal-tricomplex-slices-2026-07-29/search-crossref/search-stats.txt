@@ -1,0 +1,7 @@
+Search batch stats
+Queries: 27
+Sources: crossref
+Records: 250
+Deduped records: 132
+Failures: 0
+Skipped sources: 0

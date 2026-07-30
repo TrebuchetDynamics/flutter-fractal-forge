@@ -1,0 +1,10 @@
+	Harmonic morphisms and bicomplex manifolds
+	Bicomplex Algebraic Numbers
+	Infinite Dimensional Bicomplex Spectral Decomposition Theorem
+	On bicomplex Pell and Pell-Lucas numbers
+	Bicomplex Lucas and Horadam Numbers
+	The Dynamics of Financial Markets -- Mandelbrot's multifractal cascades, and beyond
+10.3390/math10030482	Relationship between the Mandelbrot Algorithm and the Platonic Solids
+	A Study of Dynamics of the Tricomplex Polynomial $η^p+c$
+	On Fibers and Local Connectivity of Mandelbrot and Multibrot Sets
+10.2140/agt.2025.25.2807	Surgery sequences and self-similarity of the Mandelbrot set

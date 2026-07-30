@@ -1,0 +1,37 @@
+{
+  "question": "Does Turtlebrot have an exact reflected-intersection rule and four-component membership formula distinct from the existing Mousebrot, Arrowheadbrot, and Tetrabrot modules?",
+  "rforge_version": "v0.1.19",
+  "timestamp": "2026-07-29T21:44:26Z",
+  "depth": "focused evidence extraction from checksum-locked comprehensive and Mousebrot packages",
+  "parent_packages": [
+    "research/3d-principal-tricomplex-slices-2026-07-29",
+    "research/3d-mousebrot-2026-07-29"
+  ],
+  "queries_reused": 27,
+  "sources_reused": ["openalex", "arxiv", "crossref"],
+  "parent_search_stats": {
+    "records": 475,
+    "unique_dois": 174,
+    "citation_seeds": 3,
+    "citation_edges": 37
+  },
+  "new_live_searches": 0,
+  "reuse_rationale": "The comprehensive corpus contains the defining Turtlebrot Proposition 7 and the Mousebrot package supplies the immediately reused component derivation; eight checksums lock those inputs.",
+  "accepted": ["turtlebrot_3d"],
+  "outputs": [
+    "source-corpus.json",
+    "report.md",
+    "evidence-grid.json",
+    "evidence-gaps.json",
+    "provenance.json"
+  ],
+  "external_sources_inspected": [
+    "https://ar5iv.labs.arxiv.org/html/2107.04016",
+    "https://ar5iv.labs.arxiv.org/html/1809.02020"
+  ],
+  "errors": [
+    "No new retrieval was attempted because the checksum-locked source packages already cover Turtlebrot and its parent Mousebrot rule.",
+    "The paper states the reflected bicomplex intersection; the four ordinary complex coordinates are obtained by a documented second idempotent decomposition.",
+    "No PDF, TeX source, full text, or third-party shader code is stored in the repository."
+  ]
+}

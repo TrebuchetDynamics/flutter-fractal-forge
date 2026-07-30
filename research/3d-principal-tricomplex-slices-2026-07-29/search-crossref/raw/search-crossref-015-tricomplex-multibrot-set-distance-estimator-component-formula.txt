@@ -1,0 +1,10 @@
+10.1142/s0218127419500858	Tricomplex Distance Estimation for Filled-In Julia Sets and Multibrot Sets
+10.32323/ujma.1174056	Singular Perturbations of Multibrot Set Polynomials
+10.22237/jmasm/1272687660	A New Biased Estimator Derived from Principal Component Regression Estimator
+10.3390/fractalfract5020050	Analytic Solution of the Langevin Differential Equations Dominated by a Multibrot Fractal Set
+10.4036/iis.2019.a.03	Taylor Coefficients of the Conformal Map for the Exterior of the Reciprocal of the Multibrot Set
+10.4171/jems/243	Parapuzzle of the multibrot set and typical dynamics of unimodal maps
+10.33774/coe-2025-d6w15	Conjugation and Moduli in Tricomplex Numbers
+10.33774/coe-2025-gw741	The Tricomplex Polynomial and Its Root Structure
+10.2307/1913973	The Iterated Minimum Distance Estimator and the Quasi-Maximum Likelihood Estimator
+10.1007/s002110050458	A formula for the 2-norm distance from a matrix to the set of matrices with multiple eigenvalues

@@ -1,0 +1,78 @@
+{
+  "question": "Which additional named principal three-dimensional tricomplex Mandelbrot slice has exact published coordinates, component membership, and a defensible identity distinct from the existing Tetrabrot?",
+  "rforge_version": "v0.1.19",
+  "timestamp": "2026-07-29T20:40:37Z",
+  "depth": "comprehensive",
+  "queries_file": "queries.txt",
+  "query_count": 27,
+  "sources": ["openalex", "arxiv", "crossref"],
+  "search_stats": {
+    "openalex_arxiv_records": 225,
+    "openalex_arxiv_deduped": 105,
+    "openalex_arxiv_unique_dois": 47,
+    "crossref_records": 250,
+    "crossref_deduped": 132,
+    "crossref_unique_dois": 132,
+    "combined_records": 475,
+    "combined_unique_dois": 174,
+    "combined_unique_titles": 219
+  },
+  "citation_expand_attempted": [
+    "10.3390/math10030482",
+    "10.1007/s00006-019-0956-1",
+    "10.1142/S0218127405013873"
+  ],
+  "citation_expand_succeeded": [
+    "10.3390/math10030482",
+    "10.1007/s00006-019-0956-1",
+    "10.1142/S0218127405013873"
+  ],
+  "citation_edges": {
+    "10.3390/math10030482": 25,
+    "10.1007/s00006-019-0956-1": 0,
+    "10.1142/S0218127405013873": 12
+  },
+  "accepted": ["arrowheadbrot_3d"],
+  "deferred": [
+    "mousebrot_3d",
+    "turtlebrot_3d",
+    "hourglassbrot_3d",
+    "metabrot_3d",
+    "airbrot_3d",
+    "firebrot_3d"
+  ],
+  "outputs": [
+    "queries.txt",
+    "search/results.jsonl",
+    "search/manifest.json",
+    "search-crossref/results.jsonl",
+    "search-crossref/manifest.json",
+    "search-output.log",
+    "search-open-output.log",
+    "search-crossref-output.log",
+    "search-stats.txt",
+    "citation-output.log",
+    "citations/platonic.json",
+    "citations/platonic.md",
+    "citations/characterization.json",
+    "citations/characterization.md",
+    "citations/tetrabrot-distance.json",
+    "citations/tetrabrot-distance.md",
+    "report.md",
+    "evidence-grid.json",
+    "evidence-gaps.json",
+    "provenance.json"
+  ],
+  "external_sources_inspected": [
+    "https://arxiv.org/abs/1809.02020",
+    "https://ar5iv.labs.arxiv.org/html/1809.02020",
+    "https://ar5iv.labs.arxiv.org/html/2107.04016"
+  ],
+  "errors": [
+    "The initial all-source ResearchForge batch timed out after 1200 seconds before writing results; it was rerun as saved OpenAlex/arXiv and Crossref batches.",
+    "Eight of 27 arXiv queries returned HTTP 429 late in the batch; all 27 queries have OpenAlex and Crossref results.",
+    "Ketch keyword search was rate-limited; direct Ketch arXiv scraping and public ar5iv page inspection succeeded.",
+    "Citation expansion for 10.1007/s00006-019-0956-1 succeeded with zero returned edges.",
+    "No full text, PDF, TeX source, or third-party renderer code is stored in the repository."
+  ]
+}

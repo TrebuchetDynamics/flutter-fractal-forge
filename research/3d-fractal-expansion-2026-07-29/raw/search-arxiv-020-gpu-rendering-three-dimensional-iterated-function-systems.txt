@@ -1,0 +1,10 @@
+	Infinitely many holes in connectedness loci for collinear affine iterated function systems
+10.1007/jhep05(2021)108	A comparison of optimisation algorithms for high-dimensional particle and astrophysics applications
+	On affine iterated function systems which robustly admit an invariant affine subspace
+	Evolutive Rendering Models
+	GPU-Augmented OLAP Execution Engine: GPU Offloading
+10.1109/tpwrs.2016.2535297	Three-Phase Dynamic Simulation of Power Systems Using Combined Transmission and Distribution System Models
+	Performance Comparison Between OpenCV Built in CPU and GPU Functions on Image Processing Operations
+	On three-dimensional Alexandrov spaces
+	Deep In-GPU Experience Replay
+	Performance Comparison on Parallel CPU and GPU Algorithms for Unified Gas-Kinetic Scheme

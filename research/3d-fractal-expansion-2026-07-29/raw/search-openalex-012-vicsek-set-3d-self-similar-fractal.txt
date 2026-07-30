@@ -1,0 +1,10 @@
+10.3389/fncel.2013.00003	Quantitating the subtleties of microglial morphology with fractal analysis
+10.5194/angeo-24-3557-2006	From pre-storm activity to magnetic storms: a transition described in terms of fractal dynamics
+10.1088/1742-6596/351/1/012020	Small-angle scattering from generalized self-similar Vicsek fractals
+10.1093/cercor/bhac363	The fractal brain: scale-invariance in structure and dynamics
+10.1088/0305-4470/37/31/r01	The restaurant at the end of the random walk: recent developments in the description of anomalous transport by fractional dynamics
+10.1371/journal.pone.0041148	Fractal Dimension and Vessel Complexity in Patients with Cerebral Arteriovenous Malformations
+10.1038/s41598-018-22545-w	Electrochemical Evaluations of Fractal Microelectrodes for Energy Efficient Neurostimulation
+10.3389/fneng.2013.00003	Analysis of fractal electrodes for efficient neural stimulation
+10.1186/1475-925x-9-59	Atomic force microscopy in vitro study of surface roughness and fractal character of a dental restoration composite after air-polishing
+10.1177/10996362241294162	Design and study of crashworthiness for square vicsek fractal hierarchical multicellular tubes under axial compression

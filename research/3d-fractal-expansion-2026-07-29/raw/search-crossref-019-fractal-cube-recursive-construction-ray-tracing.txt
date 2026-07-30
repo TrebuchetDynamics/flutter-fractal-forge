@@ -1,0 +1,10 @@
+10.1007/978-3-031-23161-2_300997	Recursive Ray Tracing
+10.1201/9781439803356-24	Recursive Ray Tracing
+10.1016/b978-0-08-050754-5.50058-x	A RECURSIVE SHADOW VOXEL CACHE FOR RAY TRACING
+10.1016/b978-0-08-050754-5.50118-3	A RECURSIVE SHADOW VOXEL CACHE FOR RAY TRACING
+10.3997/2214-4609.201407941	Seismic Wave Field Modelling by Means of Recursive Cell Ray Tracing
+10.1109/rt.2006.280217	On the Fast Construction of Spatial Hierarchies for Ray Tracing
+10.1109/rt.2006.280214	An Evaluation of Parallel Grid Construction for Ray Tracing Dynamic Scenes
+10.2139/ssrn.5396642	Pareto Cube (Pareto³) Recursive Methodology for Strategic Analysis
+10.1190/1.1887586	Recursive subdivision of triangulated surface for 3‐D ray tracing
+10.1201/9781420066678-7	Construction of Seismic Images by Ray Tracing

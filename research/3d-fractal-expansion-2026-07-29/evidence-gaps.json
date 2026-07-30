@@ -1,0 +1,24 @@
+{
+  "gaps": [
+    {
+      "candidate": "sierpinski_octahedron_3d",
+      "gap": "The retrieved scholarly metadata validates 3D polyhedral/layered IFS practice but does not state this six-map octahedral construction explicitly.",
+      "mitigation": "Treat the local existing-app lead as naming provenance and lock the six maps, ratio, and dimension in source/tests; do not claim historical priority."
+    },
+    {
+      "candidate": "pseudo_kleinian",
+      "gap": "Pseudo-Kleinian is a community distance estimator rather than a canonical Kleinian-group limit set; academic indexing is weak.",
+      "mitigation": "Name it Pseudo-Kleinian, preserve the distinction in documentation, and use the existing local recurrence rather than copying community shader code."
+    },
+    {
+      "candidate": "jerusalem_cube_3d",
+      "gap": "The primary 2011 source was not acquired; exact construction details came from public secondary metadata and the existing local source lead.",
+      "mitigation": "Use only the explicit mixed-scale construction and validate r=sqrt(2)-1 plus the 8/12 child counts."
+    },
+    {
+      "candidate": "all",
+      "gap": "No stable CPU distance-estimator oracle exists in the current render-audit pipeline for 3D modules.",
+      "mitigation": "Add source-level construction contracts and require strict GPU image-health metrics, shader compilation, finite parameter bounds, and rotation response."
+    }
+  ]
+}

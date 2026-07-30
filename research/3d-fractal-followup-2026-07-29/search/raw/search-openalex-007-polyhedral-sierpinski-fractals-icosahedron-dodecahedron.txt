@@ -1,0 +1,4 @@
+10.5815/ijmsc.2017.04.01	Construction of Fractals based on Catalan Solids
+10.3390/ijgi4010320	Categorization and Conversions for Indexing Methods of Discrete Global Grid Systems
+10.20944/preprints202504.1528.v1	A Multidisciplinary Approach to Triangular Shapes: Philosophy, Art, Mathematical Properties, and Application Purposes for High-Frequency Signal Processing Using Sierpinski Geometry
+10.3390/fractalfract9070444	A Multidisciplinary Approach to Triangular Shapes: Philosophy, Art, Mathematical Properties, and Application Purposes for High-Frequency Signal Processing Using Sierpiński Geometry

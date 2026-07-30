@@ -1,0 +1,10 @@
+	The integral field spectroscopy (IFS) wiki
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1142/s0218348x14500145	On Intersecting IFS Fractals with Lines
+	The fractal octahedron network of the large scale structure
+	Apollonian Circumcircles of IFS Fractals
+	FI-KAN: Fractal Interpolation Kolmogorov-Arnold Networks
+	The chord-length probability density of the regular octahedron
+	Real-time Tool for Affine Transformations of Two Dimensional IFS Fractals
+	A fractal dimension estimate for a graph-directed IFS of non-similarities
+10.1038/s41598-023-45962-y	Network efficiency of spatial systems with fractal morphology: a geometric graphs approach

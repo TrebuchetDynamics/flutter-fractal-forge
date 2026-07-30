@@ -1,0 +1,20 @@
+10.1017/cbo9781316227619.011	Projections of the four-corner Cantor set
+10.1142/s0218348x12500077	HAUSDORFF MEASURE OF CARTESIAN PRODUCT OF THE TERNARY CANTOR SET
+10.1017/cbo9781316227619.009	Cantor measures
+10.1103/physreva.40.3444	Expansion of the Hausdorff dimension of the two-scale Cantor set
+10.3836/tjm/1244208596	Hausdorff Dimension of a Cantor set on $R^1$
+10.1216/rmjm/1030539621	The Hausdorff Dimension of the Nondifferentiability Set of a Nonsymmetric Cantor Function
+10.18297/etd/1632	Cantor set approximations and dimension computations in hyperspaces.
+10.1007/s00222-007-0083-9	Hausdorff dimension of Cantor attractors in one-dimensional dynamics
+10.2996/kmj/1245982902	The Hausdorff dimension of the set of dissipative points for a Cantor-like model set for singly cusped parabolic dynamics
+10.4134/ckms.2004.19.1.113	HAUSDORFF DIMENSION OF DERANGED CANTOR SET WITHOUT SOME BOUNDEDNESS CONDITION
+10.1109/iti.2009.5196094	Hausdorff dimension of the random middle third Cantor set
+10.2307/2159830	The Hausdorff Dimension of the Nondifferentiability Set of the Cantor Function is [ ln(2)/ln(3) ] 2
+10.2307/44154036	THE HAUSDORFF DIMENSION AND MEASURE OF SOME CANTOR SETS
+10.4064/fm-38-1-55-72	Concerning the Cartesian product of Cantor-manifolds
+10.21136/cmj.1968.100861	Hausdorff dimension of set of real numbers characterized by digit properties in a Cantor expansion
+10.1088/0951-7715/16/3/309	The exact Hausdorff dimension functions of some Cantor sets
+10.1016/0960-0779(94)90002-7	Silver mean Hausdorff dimension and Cantor sets
+10.1142/s0218348x12500193	THE HAUSDORFF DIMENSION OF A GRAPH-DIRECTED SET WHOSE UNDERLYING MULTIGRAPH IS A CARTESIAN PRODUCT OR A TENSOR PRODUCT OF MULTIGRAPHS
+10.1090/s0002-9939-1993-1143222-3	The Hausdorff dimension of the nondifferentiability set of the Cantor function is [𝑙𝑛(2)/𝑙𝑛(3)]²
+10.14321/realanalexch.1759623537	Riesz Potential and Energy on Cantor Dyadic Group and Their Relation to Hausdorff Dimension

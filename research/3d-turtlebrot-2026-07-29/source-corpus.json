@@ -1,0 +1,49 @@
+{
+  "parent_packages": [
+    "research/3d-principal-tricomplex-slices-2026-07-29",
+    "research/3d-mousebrot-2026-07-29"
+  ],
+  "reuse_reason": "The comprehensive principal-slice corpus explicitly retrieved Turtlebrot and Proposition 7, while the immediately preceding Mousebrot package checksum-locks the two-component rule used by the reflected-intersection derivation.",
+  "search_stats": {
+    "queries": 27,
+    "sources": ["openalex", "arxiv", "crossref"],
+    "records": 475,
+    "unique_dois": 174,
+    "citation_seeds": 3,
+    "citation_edges": 37
+  },
+  "verified_files": [
+    {
+      "path": "research/3d-principal-tricomplex-slices-2026-07-29/queries.txt",
+      "sha256": "2d776a334dbbc3efebdb38ab75d9f6649fed729f80e5903a67c10e0fc7ef3708"
+    },
+    {
+      "path": "research/3d-principal-tricomplex-slices-2026-07-29/search/results.jsonl",
+      "sha256": "44d32f5171e9b5cafd71af945a49112968898cc46e19f638985e5f24faf4eb63"
+    },
+    {
+      "path": "research/3d-principal-tricomplex-slices-2026-07-29/search-crossref/results.jsonl",
+      "sha256": "1dd74deeeb0ab29165cbc72d5f9c0c320fa7f43d5204d6e814ebfd4bd164506d"
+    },
+    {
+      "path": "research/3d-principal-tricomplex-slices-2026-07-29/report.md",
+      "sha256": "d5a30d6ec0245ae417f5370496fb3fe3d2c4697c62c284c0f44559a134182ed6"
+    },
+    {
+      "path": "research/3d-principal-tricomplex-slices-2026-07-29/provenance.json",
+      "sha256": "c43c020eeb621350199b6f603e03734a140025d9ffeced169beb876bb0566713"
+    },
+    {
+      "path": "research/3d-mousebrot-2026-07-29/report.md",
+      "sha256": "26ce28cfabc6bf067a7f3f4377a6cc432f60435267e1c5f27ed31d1962030088"
+    },
+    {
+      "path": "research/3d-mousebrot-2026-07-29/evidence-grid.json",
+      "sha256": "2e3bedf92c2c0c09bfd852cbd80c5ad65df7d771cd95ae0f042b1a22d5158643"
+    },
+    {
+      "path": "research/3d-mousebrot-2026-07-29/provenance.json",
+      "sha256": "fdb758b9368277a0ddf0a955edca853270d0109223559190db7a739296c726de"
+    }
+  ]
+}

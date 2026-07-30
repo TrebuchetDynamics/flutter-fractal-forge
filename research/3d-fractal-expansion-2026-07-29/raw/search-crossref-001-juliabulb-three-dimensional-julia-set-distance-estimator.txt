@@ -1,0 +1,9 @@
+10.1007/springerreference_26957	three-dimensional Boolean-set operation
+10.1109/coginfocom.2017.8268291	Virtual proximity in distance education — The usage of a three-dimensional software
+10.1109/oceans.1982.1151843	Performance characteristics of a three-dimensional array shape estimator
+10.32920/ryerson.14656848.v1	Modelling of Three-Dimensional Intersection Sight Distance
+10.2996/kmj/1383660695	Explicit estimates on distance estimator method for Julia sets of polynomials
+10.1117/12.886728	Three-dimensional speckle-noise reduction by using computational integral imaging and statistical point estimator
+10.32920/ryerson.14656848	Modelling of Three-Dimensional Intersection Sight Distance
+10.3724/sp.j.1087.2012.03377	Three-dimensional terrain modeling based on regional feature distance weighting
+10.1021/acsaelm.3c01324.s001	Three-Dimensional/Two-Dimensional Perovskite-Resistive Random-Access Memory with Low SET Voltage and High Stability

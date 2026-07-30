@@ -1,0 +1,7 @@
+Source coverage for research/3d-fractal-followup-2026-07-29/search
+  arxiv                    160 records (8 files)
+  crossref                 160 records (8 files)
+  openalex                 109 records (8 files)
+
+Total unique DOIs: 259
+Library (results.jsonl): 429 records

@@ -1,0 +1,10 @@
+10.4028/www.scientific.net/amr.490-495.2559	Research of Three-Dimensional Simulation Tree Based on Iterated Function System
+10.5220/0003829803610364	SIERPINSKI JELLY - Iterated Function Systems as Elastic Bodies
+10.1109/78.330394	Representation of discrete sequences with three-dimensional iterated function systems
+10.1021/acs.iecr.9b02547.s001	Development of Highly Efficient and Durable Three-Dimensional Octahedron NiCo2O4 Spinel Nanoparticles toward the Selective Oxidation of Styrene
+10.19184/jid.v23i1.17447	Construction of Three Branches Fractal Trees Using Iterated Function System
+10.4028/www.scientific.net/amm.513-517.2569	The Studies of Modeling Method for Three Dimension Iterated Function System
+10.1201/9781439864708-10	Deterministic Theory of Iterated Function Systems
+10.1201/9781439864708-11	Probabilistic Theory of Iterated Function Systems
+10.4028/www.scientific.net/kem.392-394.575	Stochastic Fractal Modeling and Process Planning for Machining Using Two-Dimensional Iterated Function System
+10.1115/1.4063361	Three-Dimensional Material Mask Overlay Topology Optimization Approach With Truncated Octahedron Elements

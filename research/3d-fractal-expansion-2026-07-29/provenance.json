@@ -1,0 +1,73 @@
+{
+  "question": "Which mathematically distinct 3D fractal identities can be added safely to Flutter Fractal Forge without counting parameter presets as fractals?",
+  "rforge_version": "rforge v0.1.19 (04aacd6, 2026-07-28T15:37:42Z)",
+  "timestamp": "2026-07-29T17:00:00Z",
+  "depth": "comprehensive",
+  "save_path": "research/3d-fractal-expansion-2026-07-29/",
+  "queries": [
+    "Juliabulb three dimensional Julia set distance estimator",
+    "Mandelbulb Julia set ray marching distance estimation",
+    "Mandelbulb power map Julia constant three dimensions",
+    "Sierpinski octahedron three dimensional iterated function system",
+    "Sierpinski octahedron fractal Hausdorff dimension",
+    "regular octahedron vertex IFS fractal",
+    "Jerusalem cube fractal construction Hausdorff dimension",
+    "Jerusalem cube iterated function system",
+    "Jerusalem cube fractal ray tracing",
+    "Vicsek fractal three dimensional generalization",
+    "Vicsek fractal iterated function system higher dimensions",
+    "Vicsek set 3D self similar fractal",
+    "pseudo Kleinian fractal distance estimator",
+    "Kleinian group limit set three dimensional visualization",
+    "sphere inversion fractal ray marching distance estimator",
+    "polyhedral kaleidoscopic iterated function system distance estimator",
+    "three dimensional deterministic fractal ray marching",
+    "distance estimated 3D fractals Mandelbulb Mandelbox KIFS",
+    "fractal cube recursive construction ray tracing",
+    "GPU rendering three dimensional iterated function systems"
+  ],
+  "sources": ["openalex", "crossref", "arxiv"],
+  "search_stats": {
+    "openalex": 148,
+    "crossref": 197,
+    "arxiv": 200,
+    "library_records": 545,
+    "deduplicated_records": 421,
+    "total_unique_dois": 336
+  },
+  "citation_expand_attempted": [
+    "10.1142/S0218348X21500948",
+    "10.4171/JFG/163",
+    "10.48550/arXiv.2305.17848"
+  ],
+  "citation_expand_succeeded": [
+    "10.1142/S0218348X21500948",
+    "10.4171/JFG/163",
+    "10.48550/arXiv.2305.17848"
+  ],
+  "outputs": [
+    "queries.txt",
+    "results.jsonl",
+    "manifest.json",
+    "search-stats.txt",
+    "search-output.log",
+    "coverage-stats.log",
+    "citation-vicsek-3d.json",
+    "citation-vicsek-3d.md",
+    "citation-sierpinski-cubes.json",
+    "citation-sierpinski-cubes.md",
+    "citation-mandelbulb.json",
+    "citation-mandelbulb.md",
+    "evidence-grid.json",
+    "evidence-gaps.json",
+    "report.md",
+    "provenance.json"
+  ],
+  "errors": [
+    "Semantic Scholar was not queried because RFORGE_SEMANTIC_SCHOLAR_API_KEY is not configured.",
+    "Academic indexes were noisy for Jerusalem Cube, Sierpinski Octahedron, and community Pseudo-Kleinian terminology.",
+    "Citation expansion succeeded but returned zero edges for the Sierpinski-cubes and Mandelbulb seeds.",
+    "No full text was acquired or downloaded; claims use metadata, public construction descriptions, and local source leads.",
+    "The installed rforge version does not expose evidence-grid generation, so evidence-grid.json and evidence-gaps.json were written directly from retrieved metadata."
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "gaps": [
+    {
+      "candidate": "hourglassbrot_3d",
+      "gap": "Proposition 8 states the reflected Arrowheadbrot-related intersection, while the four final ordinary complex coordinates require substitution into Proposition 3.",
+      "mitigation": "Document every coordinate mapping, lock all four shader equations, and compare the remapped parent copy in the CPU oracle."
+    },
+    {
+      "candidate": "hourglassbrot_3d",
+      "gap": "The four-component root-mean-square escape-time estimate is not an exact signed Euclidean distance theorem.",
+      "mitigation": "Use conservative ray steps, runtime compilation, image-health metrics, and separate membership evidence."
+    },
+    {
+      "candidate": "hourglassbrot_3d",
+      "gap": "Finite-iteration rational witnesses are not a general Mandelbrot-membership decision method.",
+      "mitigation": "Use them only as independent regressions alongside source-derived formula contracts."
+    },
+    {
+      "candidate": "metabrot_airbrot_firebrot",
+      "gap": "Remaining named slices use different bases; Airbrot and Firebrot are ordinary polyhedra in the quadratic case.",
+      "mitigation": "Do not expose them as Hourglassbrot presets; require separate formula and product-classification audits."
+    }
+  ]
+}

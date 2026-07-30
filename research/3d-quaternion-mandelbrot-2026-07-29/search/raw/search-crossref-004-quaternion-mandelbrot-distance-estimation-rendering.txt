@@ -1,0 +1,20 @@
+10.1142/9789812778604_0006	Quaternion Mandelbrot Sets
+10.1142/s0218348x24500610	3D RENDERING OF THE QUATERNION MANDELBROT SET WITH MEMORY
+10.1201/b11642-22	A Quaternion-Based Rendering Pipeline
+10.1142/9789812778604_0004	Quaternion Analysis
+10.1201/9781351172486-13	A Quaternion-Based Rendering Pipeline Dzmitry Malyshau
+10.15476/elte.2023.289	Distance-based surface presentations and rendering
+10.1142/9789812778604_0010	Quaternion Deterministic Fractals in Virtual Reality
+10.1007/978-3-319-11331-9_4	Mandelbrot- and Julia-Like Rendering of Polynomiographs
+10.17504/protocols.io.dm6gpdrz8gzp/v1	3D distance measurements &amp;amp; rendering with AIVE results v1
+10.1145/2338676.2338699	Analyzing effects of geometric rendering parameters on size and distance estimation in on-axis stereographics
+10.1016/j.rico.2025.100525	A novel investigation of quaternion Julia and Mandelbrot sets using the viscosity iterative approach
+10.1201/9780429446580-8	Spacecraft Attitude Estimation
+10.1109/ast.2009.19	A Comparison in Handmetric between Quaternion Euclidean Product Distance and Cauchy Schwartz Inequality Distance
+10.25148/etd.fi11042702	Color-Based Surface Reflectance Separation for Scene Illumination Estimation and Rendering
+10.2514/6.2002-4914	Square Root Quaternion Estimation
+10.1201/b12288-15	2D Shape Rendering by Distance Fields
+10.1109/visual.1994.346320	Fast surface rendering from raster data by voxel traversal using chessboard distance
+10.5353/th_b4832966	Mutual information-based depth estimation and 3D reconstruction for image-based rendering systems
+10.1201/9781003584766-8	Spacecraft Attitude Estimation
+10.32614/cran.package.mandelbrot	mandelbrot: Generates Views on the Mandelbrot Set

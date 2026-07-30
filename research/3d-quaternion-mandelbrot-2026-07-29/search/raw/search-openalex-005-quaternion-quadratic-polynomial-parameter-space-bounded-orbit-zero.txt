@@ -1,0 +1,20 @@
+10.1103/revmodphys.69.731	Random-matrix theory of quantum transport
+10.1112/s0010437x0800376x	Brauer–Manin obstruction for integral points of homogeneous spaces and representation by integral quadratic forms
+10.1007/jhep01(2010)038	Extremal black holes, nilpotent orbits and the true fake superpotential
+	Extremal black holes, nilpotent orbits and the true fake superpotential
+10.1090/s0273-0979-1981-14933-8	Finite dimensional Teichmüller spaces and generalizations
+10.4007/annals.2011.173.2.5	Distribution of periodic torus orbits and Duke's theorem for cubic fields
+10.1016/j.physrep.2025.05.001	Quantum dynamics in Krylov space: Methods and applications
+10.1007/s00222-015-0583-y	Sato–Tate theorem for families and low-lying zeros of automorphic $$L$$ L -functions
+10.4310/jdg/1090351527	Â-Genus on Non-Spin Manifolds with S1 Actions and the Classification of Positive Quaternion-Kähler 12-Manifolds
+10.1007/s00222-009-0225-3	Affine linear sieve, expanders, and sum-product
+10.4310/jdg/1090351125	Selfdual Einstein Metrics with Torus Symmetry
+10.1007/978-3-030-03332-3_15	CSIDH: An Efficient Post-Quantum Commutative Group Action
+10.4171/055-1/16	Trace coordinates on Fricke spaces of some simple hyperbolic surfaces
+10.1090/s0894-0347-03-00432-6	Billiards and Teichmüller curves on Hilbert modular surfaces
+10.1109/tsipn.2015.2448520	Joint Optimization of Radio and Computational Resources for Multicell Mobile-Edge Computing
+10.4007/annals.2010.172.989	Sparse equidistribution problems, period bounds and subconvexity
+10.1515/nanoph-2021-0692	Nodal lines in momentum space: topological invariants and recent realizations in photonic and other systems
+10.4171/dm/104	Global $L$-packets for GSp(2) and theta lifts
+10.1007/s11071-021-06693-9	Model order reduction methods for geometrically nonlinear structures: a review of nonlinear techniques
+10.4171/dm/130	Toric hyperkähler varieties

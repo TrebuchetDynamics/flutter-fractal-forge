@@ -1,0 +1,20 @@
+10.1142/s0218348x24500610	3D RENDERING OF THE QUATERNION MANDELBROT SET WITH MEMORY
+10.1007/s11075-023-01644-4	On the viscosity approximation type iterative method and its non-linear behaviour in the generation of Mandelbrot and Julia sets
+10.1145/74333.74363	Ray tracing deterministic 3-D fractals
+10.3390/s20051459	Visual-Based Defect Detection and Classification Approaches for Industrial Applications—A SURVEY
+10.3390/electronics12194124	RayBench: An Advanced NVIDIA-Centric GPU Rendering Benchmark Suite for Optimal Performance Analysis
+10.1109/access.2023.3282160	Color Image Cryptosystem Based on Sine Chaotic Map, 4D Chen Hyperchaotic Map of Fractional-Order and Hybrid DNA Coding
+10.1186/s42492-018-0009-y	Towards additive manufacturing oriented geometric modeling using implicit functions
+10.3390/sym15010043	Symmetries and Dynamics of Generalized Biquaternionic Julia Sets Defined by Various Polynomials
+10.5176/2251-3043_5.2.370	Visualising volumetric fractals
+10.1515/amcs-2017-0058	Procedural generation of aesthetic patterns from dynamics and iteration processes
+10.1111/j.1467-8659.1990.tb00387.x	Relationships between Image Synthesis and Analysis Towards Unification?
+10.48550/arxiv.2303.14827	Dual-Quaternion Julia Fractals
+10.20944/preprints202304.0246.v1	Dual-Quaternion Julia Fractals
+10.1515/9781474416245	Modernism, Fiction and Mathematics
+10.2312/8147	Photon Tracing for Complex Environments
+	Geometric modeling with primitives
+10.1016/j.cnsns.2026.110572	Julia sets within generalized quaternionic and multiquaternionic tensor product algebras
+10.82465/5929	The hierarchical hair model and sweeping rendering algorithms.
+10.36227/techrxiv.19425989	Calculating fractal sets in n ≥ 1 embedding dimensions without the use of truncation
+	Interpretations of Complexity

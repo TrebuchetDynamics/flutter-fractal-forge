@@ -30,6 +30,7 @@ class CatalogRepository {
     final categoriesById = {
       for (final config in escapeTimeCatalog) config.id: config.category,
       for (final config in raymarched3DCatalog) config.id: config.category,
+      'hydrogen_orbital': 'Scientific Visualization',
     };
     final performanceIds =
         performanceModules.map((module) => module.id).toSet();

@@ -1,0 +1,20 @@
+10.3390/math9131546	A Generalization of the Hausdorff Dimension Theorem for Deterministic Fractals
+10.54097/fcis.v5i1.11588	Several Methods for Calculating and Estimating the Hausdorff Dimension
+10.1007/jhep03(2017)138	Multifractional theories: an unconventional review
+10.3390/fractalfract7090639	A Mechanical Picture of Fractal Darcy’s Law
+10.1007/s00039-016-0354-y	On the differentiability of Lipschitz functions with respect to measures in the Euclidean space
+10.3390/fractalfract7080597	A Brief Survey of Paradigmatic Fractals from a Topological Perspective
+10.1016/j.jfa.2021.109019	Density results for Sobolev, Besov and Triebel–Lizorkin spaces on rough sets
+	Entropy: a guide for the perplexed
+	Flocculation Dynamics of cohesive sediment
+10.48550/arxiv.1909.04691	Strong-field gravitational lensing by black holes
+10.3390/math12132044	Torricelli’s Law in Fractal Space–Time Continuum
+	Fractal Zeta Functions in Metric Spaces
+10.3390/axioms12030278	The Fourfold Way to Gaussianity: Physical Interactions, Distributional Models and Monadic Transformations
+10.1007/s00161-016-0523-0	A tessellated continuum approach to thermal analysis: discontinuity networks
+	Point-dimension theory (part II): The point-cross dimension
+	Dynamic Light Scattering for the Characterization of Polydisperse Fractal Systems by the Example of Pyrogenic Silica
+10.1016/j.cnsns.2026.110572	Julia sets within generalized quaternionic and multiquaternionic tensor product algebras
+10.1007/s11082-026-08741-3	Fractal photonic crystals with controlled disorder for robust 3D-integrated on-chip quantum mode localization
+10.3390/books978-3-0365-2758-1	Symmetry and Mesoscopic Physics
+10.1137/24m1697141	High-Order Numerical Integration on Self-Affine Sets

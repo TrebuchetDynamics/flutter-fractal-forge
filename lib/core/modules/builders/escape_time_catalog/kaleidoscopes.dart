@@ -498,25 +498,6 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     category: 'Escape-Time',
   ),
   EscapeTimeConfig(
-    id: 'implicit_affine_fractal_surface',
-    name: 'Implicit Affine Fractal Surface',
-    shaderAsset:
-        'shaders/ifs_and_geometric/raymarched_3d/implicit_affine_fractal_surface_gpu.frag',
-    defaultIterations: 12,
-    defaultBailout: 4.0,
-    category: '3D Fractals',
-    extraParams: [
-      _floatParam(
-        id: 'epsilon',
-        label: 'Epsilon',
-        min: 0.0005,
-        max: 0.02,
-        step: 0.0005,
-        defaultValue: 0.002,
-      ),
-    ],
-  ),
-  EscapeTimeConfig(
     id: 'hofstadter_butterfly',
     name: 'Hofstadter Butterfly',
     shaderAsset:
@@ -1178,113 +1159,6 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
       ),
     ],
   ),
-  EscapeTimeConfig(
-    id: 'quaternion_julia_3d',
-    name: 'Quaternion Julia 3D',
-    shaderAsset:
-        'shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag',
-    defaultIterations: 150,
-    defaultBailout: 4.0,
-    defaultZoom: 0.6,
-    category: '3D & Hypercomplex',
-    extraParams: [
-      FractalParameter(
-        id: 'juliaCReal',
-        label: (l10n) => l10n.paramJuliaCReal,
-        type: FractalParamType.float,
-        min: -1.5,
-        max: 1.5,
-        step: 0.01,
-        defaultValue: -0.8,
-      ),
-      FractalParameter(
-        id: 'juliaCImag',
-        label: (l10n) => l10n.paramJuliaCImag,
-        type: FractalParamType.float,
-        min: -1.5,
-        max: 1.5,
-        step: 0.01,
-        defaultValue: 0.156,
-      ),
-    ],
-    extraPresets: [
-      catalogPreset(
-        id: 'quaternion-julia-3d-classic',
-        moduleId: 'quaternion_julia_3d',
-        name: 'Classic',
-        params: {
-          'iterations': 150,
-          'bailout': 4.0,
-          'colorScheme': 0,
-          'juliaCReal': -0.8,
-          'juliaCImag': 0.156
-        },
-        view: FractalViewState(
-            pan: Vector2(0, 0), zoom: 0.6, rotation: Vector3.zero()),
-      ),
-      catalogPreset(
-        id: 'quaternion-julia-3d-organic',
-        moduleId: 'quaternion_julia_3d',
-        name: 'Organic',
-        params: {
-          'iterations': 200,
-          'bailout': 4.0,
-          'colorScheme': 1,
-          'juliaCReal': -0.4,
-          'juliaCImag': 0.6
-        },
-        view: FractalViewState(
-            pan: Vector2(0, 0), zoom: 0.8, rotation: Vector3.zero()),
-      ),
-    ],
-  ),
-  EscapeTimeConfig(
-    id: 'dual_quaternion_julia',
-    name: 'Dual Quaternion Julia',
-    shaderAsset:
-        'shaders/3d_and_hypercomplex/raymarched_volumes/dual_quaternion_julia_gpu.frag',
-    defaultIterations: 150,
-    defaultBailout: 4.0,
-    defaultZoom: 0.6,
-    category: '3D & Hypercomplex',
-    extraParams: [
-      FractalParameter(
-        id: 'juliaCReal',
-        label: (l10n) => l10n.paramJuliaCReal,
-        type: FractalParamType.float,
-        min: -1.5,
-        max: 1.5,
-        step: 0.01,
-        defaultValue: -0.8,
-      ),
-      FractalParameter(
-        id: 'juliaCImag',
-        label: (l10n) => l10n.paramJuliaCImag,
-        type: FractalParamType.float,
-        min: -1.5,
-        max: 1.5,
-        step: 0.01,
-        defaultValue: 0.156,
-      ),
-    ],
-    extraPresets: [
-      catalogPreset(
-        id: 'dual-quaternion-julia-classic',
-        moduleId: 'dual_quaternion_julia',
-        name: 'Classic',
-        params: {
-          'iterations': 150,
-          'bailout': 4.0,
-          'colorScheme': 0,
-          'juliaCReal': -0.8,
-          'juliaCImag': 0.156
-        },
-        view: FractalViewState(
-            pan: Vector2(0, 0), zoom: 0.6, rotation: Vector3.zero()),
-      ),
-    ],
-  ),
-
   EscapeTimeConfig(
     id: 'newton_z3_nova',
     name: 'Newton z³ Nova',

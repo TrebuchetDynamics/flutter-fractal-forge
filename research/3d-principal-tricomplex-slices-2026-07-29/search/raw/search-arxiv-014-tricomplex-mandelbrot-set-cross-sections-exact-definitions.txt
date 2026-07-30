@@ -1,0 +1,10 @@
+10.2140/agt.2025.25.2807	Surgery sequences and self-similarity of the Mandelbrot set
+	Homotopies and Maps between Eigenvalues of some Generalized Lucas Sequences and the Mandelbrot Set
+10.1088/1126-6708/2007/02/029	Gluonic Pole Cross Sections and Single Spin Asymmetries in Hadron-Hadron Scattering
+	On Fibers and Local Connectivity of Mandelbrot and Multibrot Sets
+	A Study of Dynamics of the Tricomplex Polynomial $η^p+c$
+	Topological entropy of quadratic polynomials and dimension of sections of the Mandelbrot set
+	Cross Sections for the Electron Activation of Gamma-Ray Fluorescence
+10.1103/physrevc.87.054003	Elastic pbar-d scattering and total pbar-d cross sections
+	The Dynamics of Financial Markets -- Mandelbrot's multifractal cascades, and beyond
+10.1103/5lg4-hsvq	New determination of the neutrino hadronic production cross sections from GeV to beyond PeV energies

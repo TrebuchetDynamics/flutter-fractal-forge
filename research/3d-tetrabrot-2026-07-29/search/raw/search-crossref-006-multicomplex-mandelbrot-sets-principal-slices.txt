@@ -1,0 +1,20 @@
+10.1007/s00006-019-0956-1	Characterization of the Principal 3D Slices Related to the Multicomplex Mandelbrot Set
+10.1007/s00010-025-01257-3	Classification of Principle 3D Slices of Filled-in Julia Sets in Multicomplex Spaces
+10.58445/rars.2662	Geometric Exploration of Generalized Mandelbrot Sets
+10.3840/07000706	Julia Sets and the Mandelbrot Set
+10.3840/000706	Julia Sets and the Mandelbrot Set
+10.1007/978-0-387-49514-9_21	Julia and Mandelbrot Sets
+10.1017/cbo9780511569159.004	Baby Mandelbrot sets are born in cauliflowers
+10.1109/milcom.2006.302396	Public Key Cryptographic System Using Mandelbrot Sets
+10.1016/b978-0-12-079061-6.50013-9	Parameter Spaces and Mandelbrot Sets
+10.1088/1402-4896/adc958/v1/review1	Review for "Dynamics of Julia and Mandelbrot Sets: Viscosity Approximation Method with h-Convexity"
+10.1088/1402-4896/adc958/v2/review2	Review for "Dynamics of Julia and Mandelbrot Sets: Viscosity Approximation Method with h-Convexity"
+10.1088/1402-4896/adc958/v3/review1	Review for "Dynamics of Julia and Mandelbrot Sets: Viscosity Approximation Method with h-Convexity"
+10.1515/9783111689685-006	6 The Fatou and Julia sets
+10.1016/j.fss.2021.03.007	Fuzzy Mandelbrot sets
+10.1142/9789814291293_0008	Julia sets and the Mandelbrot set
+10.1007/978-3-540-74867-0_11	Mandelbrot and Julia Sets
+10.1201/9781420011043-12	The Julia and Mandelbrot Sets
+10.1201/b11855-11	Complex Fractals : Julia Sets and the Mandelbrot Set
+10.1088/1402-4896/adc958/v2/review1	Review for "Dynamics of Julia and Mandelbrot Sets: Viscosity Approximation Method with h-Convexity"
+10.1007/978-3-662-03866-6_11	Mandelbrot and Julia Sets

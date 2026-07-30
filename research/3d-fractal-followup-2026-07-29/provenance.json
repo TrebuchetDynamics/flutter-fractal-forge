@@ -1,0 +1,33 @@
+{
+  "question": "What additional mathematically explicit 3D fractal can be added after the 23-identity audit without counting presets or inventing under-specified polyhedral variants?",
+  "rforge_version": "v0.1.19",
+  "timestamp": "2026-07-29T17:40:00Z",
+  "depth": "targeted follow-up",
+  "queries_file": "queries.txt",
+  "sources": ["openalex", "crossref", "arxiv"],
+  "search_stats": {
+    "openalex": 109,
+    "crossref": 160,
+    "arxiv": 160,
+    "library_records": 429,
+    "unique_dois": 259
+  },
+  "accepted": ["cantor_dust_3d"],
+  "rejected": ["sierpinski_icosahedron_3d", "sierpinski_dodecahedron_3d"],
+  "outputs": [
+    "queries.txt",
+    "search/results.jsonl",
+    "search/manifest.json",
+    "search-stats.txt",
+    "search-output.log",
+    "report.md",
+    "evidence-grid.json",
+    "evidence-gaps.json",
+    "provenance.json"
+  ],
+  "errors": [
+    "Ketch web search was rate limited, so the reproducible ResearchForge search was used.",
+    "No full text was downloaded.",
+    "Retrieved metadata did not establish exact icosahedron or dodecahedron IFS contraction systems."
+  ]
+}

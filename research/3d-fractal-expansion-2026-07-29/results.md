@@ -1,0 +1,425 @@
+# Search batch results
+
+Deduped records: 421
+
+- three-dimensional Boolean-set operation — DOI: `10.1007/springerreference_26957`
+- Virtual proximity in distance education — The usage of a three-dimensional software — DOI: `10.1109/coginfocom.2017.8268291`
+- Performance characteristics of a three-dimensional array shape estimator — DOI: `10.1109/oceans.1982.1151843`
+- Modelling of Three-Dimensional Intersection Sight Distance — DOI: `10.32920/ryerson.14656848.v1`
+- Explicit estimates on distance estimator method for Julia sets of polynomials — DOI: `10.2996/kmj/1383660695`
+- Three-dimensional speckle-noise reduction by using computational integral imaging and statistical point estimator — DOI: `10.1117/12.886728`
+- Modelling of Three-Dimensional Intersection Sight Distance — DOI: `10.32920/ryerson.14656848`
+- Three-dimensional terrain modeling based on regional feature distance weighting — DOI: `10.3724/sp.j.1087.2012.03377`
+- Three-Dimensional/Two-Dimensional Perovskite-Resistive Random-Access Memory with Low SET Voltage and High Stability — DOI: `10.1021/acsaelm.3c01324.s001`
+- World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)
+- NQCDynamics.jl: A Julia Package for Nonadiabatic Quantum Classical Molecular Dynamics in the Condensed Phase — DOI: `10.1063/5.0089436`
+- Kernels, Data & Physics
+- Type Stability in Julia: Avoiding Performance Pathologies in JIT Compilation (Extended Version) — DOI: `10.1145/3485527`
+- Internal force distributions in 't Hooft-Polyakov monopole and Julia-Zee dyon — DOI: `10.1103/physrevd.107.055015`
+- A comparison of optimisation algorithms for high-dimensional particle and astrophysics applications — DOI: `10.1007/jhep05(2021)108`
+- NetworkDynamics.jl -- Composing and simulating complex networks in Julia — DOI: `10.1063/5.0051387`
+- Tricomplex Distance Estimation for Filled-in Julia Sets and Multibrot Sets — DOI: `10.1142/s0218127419500858`
+- Quadratic Julia Sets with Positive Area
+- Estimation of the directional parameter of the offset exponential and normal distributions in three-dimensional space using the sample mean
+- Raymarching Distance Fields with CUDA — DOI: `10.3390/electronics10222730`
+- Dual-Quaternion Julia Fractals — DOI: `10.20944/preprints202304.0246.v1`
+- Dual-Quaternion Julia Fractals — DOI: `10.48550/arxiv.2303.14827`
+- GigaVoxels : un pipeline de rendu basé Voxel pour l'exploration efficace de scènes larges et détaillées — DOI: `10.70675/eac6d731zb122z42e4z9bfazc694e2be432a`
+- Dynamic Mandelbulb fractals: A mathematical framework for time-evolving 3D fractals using distance estimation — DOI: `10.1016/j.chaos.2025.116829`
+- Ray Tracing Methods by Distance Estimation — DOI: `10.1142/9789812778604_0009`
+- Ray Tracing Algorithm Based on Screen Space Ray Marching — DOI: `10.31649/1997-9266-2025-179-2-132-137`
+- Ray E. Cramer Marching Hundred Hall — DOI: `10.2307/j.ctv21hrj87.104`
+- Modified fast marching and level set method for medical image segmentation — DOI: `10.3233/xst-2003-00081`
+- And the beat goes on — DOI: `10.17760/d20316436`
+- Evaluation of distance estimation by observers with point counts and distance-sampling methodology: A field test — DOI: `10.1093/ornithapp/duag017`
+- The polar distance transform by fast-marching — DOI: `10.1109/icpr.2008.4761722`
+- GSDA: Gene Set Distance Analysis (GSDA) — DOI: `10.32614/cran.package.gsda`
+- Efficient Implicit Time-Marching Schemes with High-Order Stencils for Compressible Flow — DOI: `10.2139/ssrn.5119565`
+- The Advanced X-ray Timing Array (AXTAR): A US MIDEX Mission Concept
+- The Advanced X-ray Timing Array (AXTAR) — DOI: `10.1063/1.3031197`
+- X-Ray Eclipse Timing in the LMXB EXO0748-676 — DOI: `10.1063/1.1781061`
+- The USA X-ray Timing Experiment
+- Gamma Rays from Dark Matter — DOI: `10.1063/1.1370815`
+- Acceleration and Interaction of Ultra High Energy Cosmic Rays
+- Detection of 16 Gamma-Ray Pulsars Through Blind Frequency Searches Using the Fermi LAT — DOI: `10.1126/science.1175558`
+- X-ray and radio prompt emission from a hypernova SN 2002ap — DOI: `10.1016/j.nuclphysbps.2004.04.054`
+- Fractals: An Eclectic Survey, Part-I — DOI: `10.3390/fractalfract6020089`
+- Mandelbulb, Mandelbrot, Mandelring and Hopfbrot — DOI: `10.48550/arxiv.2305.17848`
+- Julia sets within generalized quaternionic and multiquaternionic tensor product algebras — DOI: `10.1016/j.cnsns.2026.110572`
+- Parametric sweep search for parallel robot workspace determination
+- Constant Drug Release from a Hollow Cylinder of Finite Length in Three Dimensions — DOI: `10.1002/9781119055976.ch6`
+- Lukes and power: three dimensions and three criticisms — DOI: `10.4337/9781839109768.00010`
+- A spherical constant velocity model for target tracking in three dimensions — DOI: `10.1109/aero.2012.6187209`
+- Animal Groups in Three Dimensions — DOI: `10.1017/cbo9780511601156`
+- Learning in Three Dimensions: The Educational Power of Virtual Worlds — DOI: `10.64240/029cb00fef`
+- Learning in Three Dimensions: The Educational Power of Virtual Worlds — DOI: `10.64240/48124a6133`
+- Magnetic Design for Three-Phase Dynamic Wireless Power Transfer with Constant Output Power — DOI: `10.36227/techrxiv.19653372`
+- Magnetic Design for Three-Phase Dynamic Wireless Power Transfer with Constant Output Power — DOI: `10.36227/techrxiv.19653372.v1`
+- Unsupervised Machine Learning Method for the Phase Behavior of the Constant Magnetization Ising Model in Two and Three Dimensions — DOI: `10.1021/acs.jpcb.4c06261.s001`
+- Two Surveys Begin to Map the Universe in Three Dimensions — DOI: `10.1063/1.882143`
+- Robust Power Flow and Three-Phase Power Flow Analyses — DOI: `10.1109/tpwrs.2018.2863042`
+- Mandelbulb, Mandelbrot, Mandelring and Hopfbrot
+- Development and high-power testing of an X-band dielectric-loaded power extractor — DOI: `10.1103/physrevaccelbeams.23.011301`
+- Boundary Julia theory for slice regular functions
+- Fractafolds based on the Sierpinski gasket and their spectra — DOI: `10.1090/s0002-9947-03-03171-4`
+- DNA rendering of polyhedral meshes at the nanoscale — DOI: `10.1038/nature14586`
+- Tailoring Three-Dimensional Topological Codes for Biased Noise — DOI: `10.1103/prxquantum.4.030338`
+- Lattice-Gas Cellular Automata and Lattice Boltzmann Models: An Introduction — DOI: `10.1007/b72010`
+- On quantum iterated function systems — DOI: `10.2478/bf02476427`
+- A Spectral Triple for a Solenoid Based on the Sierpinski Gasket — DOI: `10.3842/sigma.2021.020`
+- Fabrication of 3D fractal structures using nanoscale anisotropic etching of single crystalline silicon — DOI: `10.1088/0960-1317/23/5/055024`
+- A Multidisciplinary Approach to Triangular Shapes: Philosophy, Art, Mathematical Properties, and Application Purposes for High-Frequency Signal Processing Using Sierpinski Geometry — DOI: `10.20944/preprints202504.1528.v1`
+- Digital Earth Platforms — DOI: `10.1007/978-981-32-9915-3_2`
+- Research of Three-Dimensional Simulation Tree Based on Iterated Function System — DOI: `10.4028/www.scientific.net/amr.490-495.2559`
+- SIERPINSKI JELLY - Iterated Function Systems as Elastic Bodies — DOI: `10.5220/0003829803610364`
+- Representation of discrete sequences with three-dimensional iterated function systems — DOI: `10.1109/78.330394`
+- Development of Highly Efficient and Durable Three-Dimensional Octahedron NiCo2O4 Spinel Nanoparticles toward the Selective Oxidation of Styrene — DOI: `10.1021/acs.iecr.9b02547.s001`
+- Construction of Three Branches Fractal Trees Using Iterated Function System — DOI: `10.19184/jid.v23i1.17447`
+- The Studies of Modeling Method for Three Dimension Iterated Function System — DOI: `10.4028/www.scientific.net/amm.513-517.2569`
+- Deterministic Theory of Iterated Function Systems — DOI: `10.1201/9781439864708-10`
+- Probabilistic Theory of Iterated Function Systems — DOI: `10.1201/9781439864708-11`
+- Stochastic Fractal Modeling and Process Planning for Machining Using Two-Dimensional Iterated Function System — DOI: `10.4028/www.scientific.net/kem.392-394.575`
+- Three-Dimensional Material Mask Overlay Topology Optimization Approach With Truncated Octahedron Elements — DOI: `10.1115/1.4063361`
+- On affine iterated function systems which robustly admit an invariant affine subspace
+- On three-dimensional Alexandrov spaces
+- A Three-Dimensional GUI for Windows Explorer
+- Description of three-dimensional evolution algebras
+- The generalization of Sierpinski carpet and Sierpinski triangle in $n$-dimensional space — DOI: `10.1142/s0218348x17500402`
+- Infinitely many holes in connectedness loci for collinear affine iterated function systems
+- Sierpinski object for affine systems
+- Arctic octahedron in three-dimensional rhombus tilings and related integer solid partitions — DOI: `10.1023/a:1020464224385`
+- Integral means inequalities, convolution, and univalent functions — DOI: `10.1155/2019/7817353`
+- Topological states on fractal lattices — DOI: `10.1103/physrevb.100.155135`
+- Fractals based on regular convex polytopes — DOI: `10.17512/jamcm.2012.2.06`
+- Spectral triples and the geometry of fractals — DOI: `10.4171/jncg/91`
+- Explicit Spectral Decimation for a Class of Self-Similar Fractals — DOI: `10.1155/2013/756075`
+- Ismail A Mageed’s Megaannum Theory of Fractal Topology: Open Problems, Applications, and Outlook for Tomorrow — DOI: `10.51483/ijpamr.5.2.2025.69-82`
+- The Hausdorff measure of a Sierpinski-like fractal — DOI: `10.14492/hokmj/1285766665`
+- Why the Hausdorff Dimension of Spacetime is D ≈ 2.7 A Critical Fractal Threshold in Unified Fractal Quantum Field Theory (UFQFT) — DOI: `10.22541/au.176858321.13122244/v1`
+- Hausdorff measure of fractal-Sierpinski carpet — DOI: `10.1007/bf02837392`
+- A Discrete Version of Local Hausdorff Dimension on Fractal Networks — DOI: `10.2139/ssrn.5159356`
+- Hausdorff Measure and Dimension — DOI: `10.1002/0470013850.ch2`
+- Hausdorff Dimension of Hyperbolic Attractors in ℝ3 — DOI: `10.1007/978-3-0348-7891-3_5`
+- On a fractal set with a gap between its Hausdorff dimension and box dimension — DOI: `10.32917/hmj/1206127720`
+- Fractal dimension: Limit capacity or Hausdorff dimension? — DOI: `10.1119/1.16262`
+- Hausdorff Dimension Type Models for Fractal Structures — DOI: `10.1007/978-3-030-16645-8_4`
+- SELF-AFFINE FRACTAL SETS, III: HAUSDORFF DIMENSION ANOMALIES AND THEIR IMPLICATIONS — DOI: `10.1016/b978-0-444-86995-1.50006-8`
+- Minkowski dimension and explicit tube formulas for $p$-adic fractal strings — DOI: `10.3390/fractalfract2040026`
+- The Hausdorff Dimension of Non-Uniquely Ergodic directions in $\mathcal{H}(2)$ is almost everywhere $1/2$ — DOI: `10.2140/gt.2015.19.3537`
+- On the Hausdorff dimension of certain sets arising in Number Theory
+- Projected images of the Sierpinski tetrahedron and other layered fractal imaginary cubes — DOI: `10.4171/jfg/163`
+- Fractal dimension and turbulence in Giant HII Regions — DOI: `10.1088/1742-6596/582/1/012049`
+- Generalized Hausdorff dimension of irrationals with Lagrange value exactly 3
+- Critical properties of Ising model on Sierpinski fractals. A finite size scaling analysis approach — DOI: `10.1103/physrevb.58.14387`
+- Lipschitz continuity of the Hausdorff dimension of self-affine sponges at Sierpinski sponges
+- Hausdorff and Fourier dimension of graph of continuous additive processes
+- A new fractal dimension: The topological Hausdorff dimension
+- Construction of Fractals based on Catalan Solids — DOI: `10.5815/ijmsc.2017.04.01`
+- Periodic and Almost Periodic Functions on Infinite Sierpinski Gaskets — DOI: `10.4153/cjm-2009-055-9`
+- Octahedron Fractal — DOI: `10.3840/07001643`
+- Octahedron Fractal — DOI: `10.3840/001643`
+- Micro Regular Octahedron and Truncated Octahedron Cavities on 111 Oriented Silicon Wafer — DOI: `10.1109/nano.2008.262`
+- IFS Examples — DOI: `10.1016/b978-0-12-440740-4.50012-6`
+- An Affine Regular Icosahedron Inscribed in an Affine Regular Octahedron in a GS-Quasigroup — DOI: `10.31896/k.21.8`
+- On new fractal phenomena connected with infinite linear IFS — DOI: `10.1002/mana.201500471`
+- Orthogonal Basis IFS — DOI: `10.1007/978-1-4612-2472-3_10`
+- The Volume of the Regular Octahedron — DOI: `10.5951/mt.67.7.0644`
+- Collapsible Models of the Regular Octahedron — DOI: `10.5951/mt.65.6.0530`
+- IFS fractal interpolation for 2D and 3D visualization — DOI: `10.1109/visual.1995.480798`
+- The integral field spectroscopy (IFS) wiki
+- On Intersecting IFS Fractals with Lines — DOI: `10.1142/s0218348x14500145`
+- The fractal octahedron network of the large scale structure
+- Apollonian Circumcircles of IFS Fractals
+- FI-KAN: Fractal Interpolation Kolmogorov-Arnold Networks
+- The chord-length probability density of the regular octahedron
+- Real-time Tool for Affine Transformations of Two Dimensional IFS Fractals
+- A fractal dimension estimate for a graph-directed IFS of non-similarities
+- Network efficiency of spatial systems with fractal morphology: a geometric graphs approach — DOI: `10.1038/s41598-023-45962-y`
+- The Fractal Pattern of the French Gothic Cathedrals — DOI: `10.1007/s00004-014-0187-7`
+- Hausdorff dimension of planar self-affine sets and measures — DOI: `10.1007/s00222-018-00849-y`
+- Hausdorff dimension of planar self-affine sets and measures
+- A Multiscale Statistical Analysis of Rough Surfaces and Applications to Tribology — DOI: `10.3390/math12121804`
+- On the homology of the space of knots — DOI: `10.2140/gt.2009.13.99`
+- An introduction to the Ribe program — DOI: `10.48550/arxiv.1205.5993`
+- Resonance between planar self-affine measures — DOI: `10.1016/j.aim.2024.109770`
+- On the dimension of orthogonal projections of self-similar measures — DOI: `10.48550/arxiv.2407.16262`
+- Mapping Borel Sets onto Balls and Self-similar Sets by Lipschitz and Nearly Lipschitz Maps — DOI: `10.1093/imrn/rny008`
+- Mapping Borel sets onto balls and self-similar sets by Lipschitz and\n nearly Lipschitz maps — DOI: `10.48550/arxiv.1802.08095`
+- Hausdorff Dimension — DOI: `10.1007/978-1-4757-4134-6_6`
+- Hausdorff dimension of a fractal interpolation function — DOI: `10.4064/cm99-2-11`
+- A generalization of Hausdorff dimension applied to Hilbert cubes and Wasserstein spaces — DOI: `10.1142/s1793525312500094`
+- Hausdorff dimension of Gauss--Cantor sets and two applications to classical Lagrange and Markov spectra
+- Modified Hausdorff Fractal Dimension (MHFD)
+- A Generalization of the Hausdorff Dimension Theorem for Fractals — DOI: `10.3390/math9131546`
+- Iterative voting and acyclic games — DOI: `10.1016/j.artint.2017.08.002`
+- Frequent pattern mining: current status and future directions — DOI: `10.1007/s10618-006-0059-1`
+- Expander graphs and their applications — DOI: `10.1090/s0273-0979-06-01126-8`
+- Art and Shamanism: From Cave Painting to the White Cube — DOI: `10.3390/rel10010054`
+- Intelligent Screening Systems for Cervical Cancer — DOI: `10.1155/2014/810368`
+- MULTILISP: a language for concurrent symbolic computation — DOI: `10.1145/4472.4478`
+- Quantum Entanglement in Neural Network States — DOI: `10.1103/physrevx.7.021021`
+- Navigation Rules for Exploring Large Multidimensional Data Cubes — DOI: `10.4018/jdwm.2006100102`
+- Classification of Explainable Artificial Intelligence Methods through Their Output Formats — DOI: `10.3390/make3030032`
+- On the homology of algebras of Whitney functions over subanalytic sets — DOI: `10.4007/annals.2008.167.1`
+- Estimating the Spatial Extent of Attractors of Iterated Function System — DOI: `10.21236/ada265856`
+- Iterated Function Systems – the Model — DOI: `10.1007/1-84628-686-7_3`
+- nD Iterated Function Systems and Their Applications — DOI: `10.1007/1-84628-686-7_6`
+- Quantization dimension for a generalized inhomogeneous bi-Lipschitz iterated function system — DOI: `10.2139/ssrn.6182175`
+- ITERATED RANDOM FUNCTION SYSTEM: CONVERGENCE THEOREMS — DOI: `10.1142/9789812702715_0006`
+- Quantization dimension for a generalized inhomogeneous bi-Lipschitz iterated function system — DOI: `10.2139/ssrn.6182172`
+- Abundance of Self-Similarities within the Attractor of an Iterated Function System (Ifs) — DOI: `10.2139/ssrn.4984009`
+- RIFS: Random Iterated Function System — DOI: `10.32614/cran.package.rifs`
+- Cube Bench: A Benchmark for Spatial Visual Reasoning in MLLMs
+- The "Sphered Cube": A New Method for the Solution of Partial Differential Equations in Cubical Geometry
+- Normal Smoothings for Smooth Cube Manifolds
+- CUBE: A Standard for Unifying Agent Benchmarks
+- Variants of the Gale-Berlekamp Switching Game and their Solutions: Balancing the Rectangle and the Cube
+- Teledrive: An Embodied AI based Telepresence System
+- Relatively geometric actions of Kähler groups on CAT(0) cube complexes — DOI: `10.2140/agt.2024.24.4127`
+- Compiler Technology for Parallel Scientific Computation — DOI: `10.1155/1994/243495`
+- Art and the Real-time Archive: Relocation, Remix, Response
+- Materials of Culture — DOI: `10.14361/9783839466971`
+- Generating ogives to (i) analyse perceptual changes associated with ambiguous figures, and (ii) reaction times in an inhibition-of-return (IOR) task
+- Distributions of the perceptual switches associated with viewing ambiguous stimuli
+- Plasmonic Properties of Two-dimensional Nanoparticle Arrays
+- Flexible and tunable plasmonics on soft materials
+- Program: 31st Annual Meeting of The Psychonomic Society, New Orleans, November 16–18, 1990 — DOI: `10.3758/bf03334071`
+- Discovering Geographic Knowledge in Data Rich Environments, Final Report
+- GPGPU Ray Tracing vs. DXR Ray Tracing Approaches — DOI: `10.1007/979-8-8688-1691-8_3`
+- Stolen Land: Tracing Traumascapes in Four Leprosaria in the Jerusalem District — DOI: `10.70190/jq.i69.p87`
+- Chapter 6 Tracing the Jerusalem Code in Christiansfeld: A World Heritage City — DOI: `10.1515/9783110639476-007`
+- Coherent Ray-tracing for BREAD — DOI: `10.2172/1835864`
+- Polarization properties of a corner-cube retroreflector with three-dimensional polarization ray-tracing calculus — DOI: `10.1364/ao.52.004527`
+- The application of fractal clustering to efficient molecular ray tracing on low-cost computers — DOI: `10.1016/0263-7855(91)80019-v`
+- Scholars and Notables: Tracing the Effendiya’s Hold on Power in 18th-Century Jerusalem — DOI: `10.70190/jq.i32.p5`
+- Bare-Bones Ray Tracing — DOI: `10.1201/b10675-3`
+- Ray-Tracing Hardware — DOI: `10.1007/978-3-030-17490-3_7`
+- Ray tracing: Strengths and opportunities — DOI: `10.1109/rt.2008.4634609`
+- Interpretation of radio continuum and molecular line observations of Sgr B2: free-free and synchrotron emission, and implications for cosmic rays — DOI: `10.1111/j.1365-2966.2008.13752.x`
+- Weighted average geodesic distance of Vicsek network in three-dimensional space — DOI: `10.1142/s0217979221500776`
+- Scaling of fracture systems in geological media — DOI: `10.1029/1999rg000074`
+- Fractal Modeling and Fractal Dimension Description of Urban Morphology — DOI: `10.3390/e22090961`
+- From pre-storm activity to magnetic storms: a transition described in terms of fractal dynamics — DOI: `10.5194/angeo-24-3557-2006`
+- The fractal brain: scale-invariance in structure and dynamics — DOI: `10.1093/cercor/bhac363`
+- Characterizing Growth and Form of Fractal Cities with Allometric Scaling Exponents — DOI: `10.1155/2010/194715`
+- Harmonic Coordinates on Fractals with Finitely Ramified Cell Structure — DOI: `10.4153/cjm-2008-022-3`
+- Fractality à la carte: a general particle aggregation model — DOI: `10.1038/srep19505`
+- Fractal and multifractal analyses of bipartite networks — DOI: `10.1038/srep45588`
+- Fractal Growth — DOI: `10.1142/1408`
+- Fractal Growth Phenomena — DOI: `10.1142/0511`
+- Fractal Growth Phenomena — DOI: `10.1142/1407`
+- NODE-WEIGHTED AVERAGE DISTANCES OF NETWORKS MODELED ON THREE-DIMENSIONAL VICSEK FRACTAL — DOI: `10.1142/s0218348x21500948`
+- Dynamics of Fractal Surfaces — DOI: `10.1142/1452`
+- Simulating Fractal Aggregation — DOI: `10.1063/1.4822891`
+- Fractal Growth Phenomena — DOI: `10.1063/1.4822864`
+- Tortuosity in two-dimensional and three-dimensional fractal porous media: A numerical analysis — DOI: `10.1016/b978-0-12-817797-6.00007-5`
+- Fractal H-Vicsek MIMO Antenna for 5G Communications — DOI: `10.15199/48.2021.06.03`
+- Two-parameter Family-Vicsek scaling in a dissipative XXZ spin chain
+- Exact mean first-passage time on generalized Vicsek fractal
+- Sandpiles on the Vicsek fractal explode with probability 1/4
+- Fractal Interpretation of Bacterial Light Harvesters — DOI: `10.1142/s0218348x21500249`
+- Exact solution of mean geodesic distance for Vicsek fractals — DOI: `10.1088/1751-8113/41/48/485102`
+- Determining global mean-first-passage time of random walks on Vicsek fractals using eigenvalues of Laplacian matrices — DOI: `10.1103/physreve.81.031118`
+- A generalized model for Yang-Fourier transforms in fractal space
+- Extended Vicsek fractals: Laplacian spectra and their applications — DOI: `10.1103/physreve.94.052501`
+- Fractal design concepts for stretchable electronics — DOI: `10.1038/ncomms4266`
+- Quantitating the subtleties of microglial morphology with fractal analysis — DOI: `10.3389/fncel.2013.00003`
+- Control principles of complex systems — DOI: `10.1103/revmodphys.88.035006`
+- Use of fractal dimensions to quantify coral shape — DOI: `10.1007/s00338-007-0256-4`
+- Box-covering algorithm for fractal dimension of weighted networks — DOI: `10.1038/srep03049`
+- The Conundrum of Functional Brain Networks: Small-World Efficiency or Fractal Modularity — DOI: `10.3389/fphys.2012.00123`
+- Fractal Dimension and Vessel Complexity in Patients with Cerebral Arteriovenous Malformations — DOI: `10.1371/journal.pone.0041148`
+- Reliable Multi-Fractal Characterization of Weighted Complex Networks: Algorithms and Implications — DOI: `10.1038/s41598-017-07209-5`
+- Analysis of fractal electrodes for efficient neural stimulation — DOI: `10.3389/fneng.2013.00003`
+- Electrochemical Evaluations of Fractal Microelectrodes for Energy Efficient Neurostimulation — DOI: `10.1038/s41598-018-22545-w`
+- Fractal Shapes Generated by Iterated Function Systems — DOI: `10.31390/gradschool_theses.4571`
+- Fractals via Controlled Fisher Iterated Function System — DOI: `10.3390/fractalfract6120746`
+- Fractal Creation with Iterated Function Systems — DOI: `10.3840/001675`
+- On the dimensions of attractors of random self-similar graph directed iterated function systems — DOI: `10.4171/jfg/51`
+- Fractal Creation with Iterated Function Systems — DOI: `10.3840/07001675`
+- Classical Iterated Function System — DOI: `10.1201/9781003481096-4`
+- Iterated Function Systems — DOI: `10.1117/3.353798.ch2`
+- Machine Learning Driven Clustering for Efficient Segmentation of Fractal Patterns from Non Affine Iterated Function System — DOI: `10.2139/ssrn.5118508`
+- Fractal Image Encoding Based on Minimum Iterated Function System — DOI: `10.1109/icivc58118.2023.10270655`
+- An Overview of Complex Fractal Dimensions: From Fractal Strings to Fractal Drums, and Back
+- Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality — DOI: `10.4171/jfg/57`
+- Fractal Zeta Functions and Complex Dimensions of Ahlfors Metric Measure Spaces
+- Fractal dimensions for Iterated Graph Systems
+- Fractal Homeomorphism for Bi-affine Iterated Function Systems
+- Fractal zeta functions and complex dimensions: A general higher-dimensional theory — DOI: `10.1007/978-3-319-18660-3_13`
+- Small-angle scattering from generalized self-similar Vicsek fractals — DOI: `10.1088/1742-6596/351/1/012020`
+- The restaurant at the end of the random walk: recent developments in the description of anomalous transport by fractional dynamics — DOI: `10.1088/0305-4470/37/31/r01`
+- Atomic force microscopy in vitro study of surface roughness and fractal character of a dental restoration composite after air-polishing — DOI: `10.1186/1475-925x-9-59`
+- Design and study of crashworthiness for square vicsek fractal hierarchical multicellular tubes under axial compression — DOI: `10.1177/10996362241294162`
+- A p.c.f. self-similar set with no self-similar energy — DOI: `10.4171/jfg/82`
+- A self-similar set with non-locally connected components — DOI: `10.4171/jfg/148`
+- Fractal Limits: The Mandelbrot Set and the self-similar tilings of M. C. Escher — DOI: `10.1007/978-1-84996-486-9_5`
+- Principal Concepts of Fractal Theory and Self‐Similar Processes — DOI: `10.1002/9780470062098.ch1`
+- Structure of the class of iterated function systems that generate the same self-similar set — DOI: `10.4171/jfg/44`
+- The Fractal Dimension: Self-Similar and Self-Affine Scaling — DOI: `10.1093/oso/9780195080131.003.0007`
+- Tracing a diffusion-limited aggregate: Self-affine versus self-similar scaling — DOI: `10.1103/physreva.41.6881`
+- Quantum memories at finite temperature — DOI: `10.1103/revmodphys.88.045005`
+- Jarník-type theorem for self-similar sets
+- Optimal Self-Organization — DOI: `10.1088/1367-2630/1/1/313`
+- Fractality, Self-Similarity and Complex Dimensions
+- Modeling Self-Similar Traffic for Network Simulation
+- PSP volume 111 issue 3 Cover and Back matter — DOI: `10.1017/s0305004100075502`
+- 統合数理科学 : 現象解明を通した数学の発展 : 中間成果報告書
+- A Formal Connection between Napier's Logarithm and the Bernoulli Numbers — DOI: `10.5281/zenodo.5029496`
+- Mathematics Magazine Front Matter — DOI: `10.4169/002557010x494797`
+- A Recursive Algorithm for Calculating Natural Logarithms using Bernoulli Numbers — DOI: `10.5281/zenodo.5144036`
+- A Formal Connection between Napier's Logarithm and the Bernoulli Numbers — DOI: `10.5281/zenodo.5015650`
+- Dimensions of Kleinian orbital sets — DOI: `10.4171/jfg/139`
+- On horospheric limit sets of Kleinian groups — DOI: `10.4171/jfg/93`
+- Perbandingan Estimator Histogram dan Estimator Kernel — DOI: `10.35508/fractal.v2i1.4036`
+- Fractal-feature distance analysis of contrast-detail phantom image and meaning of pseudo fractal dimension and complexity — DOI: `10.1007/bf03179238`
+- A Multi-Spectral Fractal Image Model and Its Associated Fractal Dimension Estimator — DOI: `10.3390/fractalfract7030238`
+- The Exponent of Convergence of Kleinian Groups; on a Theorem of Bishop and Jones — DOI: `10.1007/978-3-0348-7891-3_6`
+- Dimensions of limit sets of Kleinian groups — DOI: `10.1090/conm/731/14674`
+- Definition and characterization of pseudo-curvatures for fractal curves — DOI: `10.70675/9039c95cz6fd2z4531zb06bz4a787b210ccd`
+- Introduction to papers on Kleinian groups, their fractal limit sets, and IFS: history, recollections, and acknowledgments — DOI: `10.1007/978-1-4757-4017-2_15`
+- On Simulation Pseudo-Bias and Truncation in the Modified Harmonic Mean Estimator — DOI: `10.2139/ssrn.6502721`
+- Pointwise estimates of pseudo-differential operators — DOI: `10.1007/s11868-011-0029-2`
+- Dimensions of Kleinian orbital sets
+- Variable Topology on Fractal Manifold
+- Essential spectrum of elliptic systems of pseudo-differential operators on $L^2(\mathbb{R}^N)\oplus L^2(\mathbb{R}^N)$
+- Perturbation of Sectorial Projections of Elliptic Pseudo-differential Operators — DOI: `10.1007/s11868-011-0042-5`
+- Moduli spaces of local systems and higher Teichmüller theory — DOI: `10.1007/s10240-006-0039-4`
+- The Fire of Desire: A Multisited Inquiry into Consumer Passion — DOI: `10.1086/378613`
+- An alternative to wave mechanics on curved spaces — DOI: `10.1007/bf00673252`
+- Visualizing curvature on the Lorenz manifold — DOI: `10.1080/17513470701503632`
+- Ends of hyperbolic 3-manifolds — DOI: `10.1090/s0894-0347-1993-1166330-8`
+- Complex earthquakes and Teichmüller theory — DOI: `10.1090/s0894-0347-98-00259-8`
+- Properties of convergence groups and spaces — DOI: `10.1090/s1088-4173-97-00011-8`
+- Braid groups and quiver mutation — DOI: `10.2140/pjm.2017.290.77`
+- Cosmic topology. Part I. Limits on orientable Euclidean manifolds from circle searches — DOI: `10.1088/1475-7516/2023/01/030`
+- Levy processes - from probability theory to finance and quantum groups
+- Remarks on the Limit Point Set of a Finitely Generated Kleinian Group — DOI: `10.1007/978-1-4612-5796-7_35`
+- The Hausdorff dimension of the limit set of a geometrically finite Kleinian group — DOI: `10.1007/bf02392194`
+- Finely Open Sets in the Limit Set of a Finitely Generated Kleinian Group — DOI: `10.1007/978-94-011-2436-2_6`
+- Remarks on the Limit Point Set of a Finitely Generated Kleinian Group — DOI: `10.1515/9781400822492-004`
+- Quasi-arcs in the limit set of a singly degenerate group with bounded geometry — DOI: `10.1017/cbo9780511542817.007`
+- Complex hyperbolic Kleinian groups with limit set a wild knot — DOI: `10.1016/j.top.2003.10.004`
+- The limit set intersection theorem for finitely generated Kleinian groups — DOI: `10.4310/mrl.1996.v3.n5.a9`
+- On Limit Sets of 4-dimensional Kleinian Groups with 3 Generators — DOI: `10.3836/tjm/1279719585`
+- The Limit Set in Dimension 2 — DOI: `10.1007/978-3-0348-0481-3_6`
+- The critical exponent, the Hausdorff dimension of the limit set and the convex core entropy of a Kleinian group — DOI: `10.1090/ecgd/279`
+- On horospheric limit sets of Kleinian groups
+- Tevatron-for-LHC Report of the QCD Working Group
+- Limit sets and commensurability of Kleinian groups — DOI: `10.1017/s0004972710000146`
+- An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference — DOI: `10.1177/14738716241229437`
+- On the limit set of a geometrically infinite Kleinian group
+- Limit set intersection theorems for Kleinian groups and a conjecture of Susskind — DOI: `10.1007/s40315-014-0078-7`
+- Beyond English: Centering Multilingualism in Data Visualization
+- Schur multipliers of special p-groups of rank 2 — DOI: `10.1515/jgth-2019-0045`
+- An Analytical Survey on Recent Trends in High Dimensional Data Visualization
+- Potential Seasonal Terrestrial Water Storage Monitoring from GPS Vertical Displacements: A Case Study in the Lower Three-Rivers Headwater Region, China — DOI: `10.3390/s16091526`
+- Automated Design of Robust Discriminant Analysis Classifier for Foot Pressure Lesions Using Kinematic Data — DOI: `10.1109/tbme.2005.851519`
+- Daylight simulation with photon maps — DOI: `10.22028/d291-25862`
+- Magnetic flux rope models and data-driven magnetohydrodynamic simulations of solar eruptions — DOI: `10.1007/s41614-024-00167-2`
+- Earth’s gradients as the engine of plate tectonics and earthquakes — DOI: `10.1007/s40766-022-00038-x`
+- Polarimeter to Unify the Corona and Heliosphere (PUNCH) — DOI: `10.1007/s11207-026-02608-2`
+- How Often Should Dead-Reckoned Animal Movement Paths be Corrected for Drift? — DOI: `10.21203/rs.3.rs-587959/v1`
+- The Audible Human Project: Modeling Sound Transmission in the Lungs and Torso
+- Industrial applications of scanned probe microscopy — DOI: `10.6028/nist.ir.5550`
+- Statistical methods for biomedical signal analysis and processing — DOI: `10.6092/unibo/amsdottorato/1358`
+- An unbiased ray-marching transmittance estimator — DOI: `10.1145/3450626.3459937`
+- A NOVEL FAST FRACTAL IMAGE COMPRESSION METHOD BASED ON DISTANCE CLUSTERING IN HIGH DIMENSIONAL SPHERE SURFACE — DOI: `10.1142/s0218348x17400047`
+- Geometry of ray paths and inversion of earthquake body-wave time–distance curves — DOI: `10.1017/cbo9780511819643.016`
+- Fractal-in-a-Sphere: Confined Self-Assembly of Fractal Silica Nanoparticles — DOI: `10.1021/acs.chemmater.9b03864.s001`
+- Fractal Basins of Attraction in the Inversion of Geomagnetic Data — DOI: `10.1533/9780857099594.138`
+- Fast Marching Method-Inspired Inversion Neural Network for Permeability Prediction — DOI: `10.5772/intechopen.115629`
+- Distinct distances on a sphere
+- The gamma-ray millisecond pulsar deathline, revisited - New velocity and distance measurements — DOI: `10.1051/0004-6361/201527847`
+- ifs: Iterated Function Systems — DOI: `10.32614/cran.package.ifs`
+- The Iterated Minimum Distance Estimator and the Quasi-Maximum Likelihood Estimator — DOI: `10.2307/1913973`
+- Interactive Procedural Building Generation Using Kaleidoscopic Iterated Function Systems — DOI: `10.1007/978-3-319-27857-5_10`
+- Functional Laws of the Iterated Logarithm for the Product-Limit Estimator of a Distribution Function Under Random Censorship or Truncation — DOI: `10.1214/aop/1176990943`
+- The Kaleidoscopic Filter: A Structural Resolution of Restricted Integer Partitions
+- Reflected Brownian Motion in a Convex Polyhedral Cone: Tail Estimates for the Stationary Distribution
+- Structure of Multiple Mirror System from Kaleidoscopic Projections of Single 3D Point
+- Distance Estimation Methods for a Practical Macroscale Molecular Communication System — DOI: `10.1016/j.nancom.2020.100300`
+- Wedge decomposition of polyhedral products
+- The higher topological complexity of subcomplexes of products of spheres---and related polyhedral product spaces
+- A Linear Extrinsic Calibration of Kaleidoscopic Imaging System from Single 3D Point
+- Counterexample-guided computation of polyhedral Lyapunov functions for hybrid systems
+- New Techniques for Ray Tracing Procedurally Defined Objects — DOI: `10.1145/357323.357324`
+- Contour lines of the two-dimensional discrete Gaussian free field — DOI: `10.1007/s11511-009-0034-y`
+- Particle Systems—a Technique for Modeling a Class of Fuzzy Objects — DOI: `10.1145/357318.357320`
+- Fractal Properties of Various Clay Minerals Obtained from SEM Images — DOI: `10.1155/2021/5516444`
+- Deterministic approximations of random reflectors — DOI: `10.1090/s0002-9947-2013-05851-5`
+- The computational complexity of knot and link problems — DOI: `10.1145/301970.301971`
+- Fractal lacunarity of trabecular bone and magnetic resonance imaging: New perspectives for osteoporotic fracture risk assessment — DOI: `10.5312/wjo.v6.i2.221`
+- A simple model of ocean waves — DOI: `10.1145/15886.15894`
+- On the Indicatrixes of Waves Scattering from the Random Fractal Anisotropic Surface — DOI: `10.5772/intechopen.68187`
+- Challenges and Opportunities in Geometric Modeling of Complex Bio-Inspired Three-Dimensional Objects Designed for Additive Manufacturing — DOI: `10.1115/1.4051720`
+- An improved space-marching Euler code for three-dimensional bodies at supersonic speeds — DOI: `10.2514/6.1986-276`
+- Three Dimensional Traveltimes Using the Fast Marching Method — DOI: `10.3997/2214-4609.201408168`
+- Deterministic Assembly of Three-Dimensional Suspended Nanowire Structures — DOI: `10.1021/acs.nanolett.9b02198.s001`
+- A Three-Dimensional Geological Modelling Method Using a Modified Marching Cubes Algorithm — DOI: `10.2139/ssrn.4624601`
+- Time‐Marching Method for Two‐Dimensional and Three‐Dimensional Flow Computations in Turbomachinery — DOI: `10.1002/9780470825020.ch9`
+- An Application of Implicit Time Marching to Three Dimensional Flow through a Compressor Blade Row. — DOI: `10.21236/ada096354`
+- Three-Dimensional Assessment of Damage Evolution for Fiber-Reinforced Recycled Powder Concrete Based on X-Ray Computed Tomography and Fractal Theory — DOI: `10.2139/ssrn.4796970`
+- X-Ray Computed Tomography-Based Three-Dimensional Fractal Characterization of Bedding-Fracture-Controlled Porosity and Permeability Anisotropy in LGS Shale Oil Cores — DOI: `10.3390/fractalfract10060388`
+- Computation of three-dimensional viscous flows using a space-marching method — DOI: `10.2514/6.1984-1298`
+- ON THE ALGEBRAIC FOUNDATION OF THE MANDELBULB — DOI: `10.1142/s0218348x23500627`
+- The Mandelbulb: first ‘true’ 3D image of famous fractal — DOI: `10.1016/s0262-4079(09)63150-x`
+- Game-enabling the 3D-Mandelbulb Fractal by adding Velocity-induced Support Vectors — DOI: `10.5120/7309-9869`
+- Deterministic Fractals and Distance Estimation — DOI: `10.1142/9789812778604_0002`
+- FRACTALS, AVERAGE DISTANCE AND THE CANTOR SET — DOI: `10.1142/s0218348x10005019`
+- AVERAGE GEODESIC DISTANCE OF (2 × 3)-TYPE HYBRID SIERPINSKI GASKET — DOI: `10.1142/s0218348x24501329`
+- ECCENTRIC DISTANCE SUM OF SUBSTITUTION TREE NETWORKS — DOI: `10.1142/s0218348x21501474`
+- Distance-expanding maps — DOI: `10.1017/cbo9781139193184.005`
+- CODING AND DISTANCE CALCULATING OF SEPARATELY RANDOM FRACTALS AND APPLICATION TO GENERATING RIVER NETWORKS — DOI: `10.1142/s0218348x05002738`
+- Extending Mandelbox Fractals with Shape Inversions
+- Crystallization of space: Space-time fractals from fractal arithmetic — DOI: `10.1016/j.chaos.2015.12.004`
+- Analysis, Synthesis, and Estimation of Fractal-Rate Stochastic Point Processes
+- Micro and Macro Fractals generated by multi-valued dynamical systems — DOI: `10.1142/s0218348x14500121`
+- Helicalised fractals — DOI: `10.1016/j.chaos.2015.02.012`
+- Long-range fractal correlations in literary corpora
+- Fractal Analytical Approach of Urban Form Based on Spatial Correlation Function — DOI: `10.1016/j.chaos.2013.02.006`
+- Autocorrelations of random fractal apertures and phase screens — DOI: `10.1142/s0218348x17500050`
+- Measuring information growth in fractal phase space — DOI: `10.1016/j.chaos.2003.12.035`
+- A fractal-like structure for the fractional quantum Hall effect
+- Application of X-ray computed tomography to soil science: A literature review — DOI: `10.4141/cjss06027`
+- Ray casting implicit fractal surfaces with reduced affine arithmetic — DOI: `10.1007/s00371-006-0090-7`
+- Shape from silhouette: image pixels for marching cubes
+- Tracing rays the past, present and future of ray tracing performance
+- Photon Tracing for Complex Environments — DOI: `10.2312/8147`
+- A Survey on Parallel Computing and Its Applications in Data-Parallel Problems Using GPU Architectures — DOI: `10.4208/cicp.110113.010813a`
+- Constructive Volume Geometry — DOI: `10.1111/1467-8659.00464`
+- Spelunking the deep — DOI: `10.1145/3528223.3530155`
+- Recursive Ray Tracing — DOI: `10.1007/978-3-031-23161-2_300997`
+- Recursive Ray Tracing — DOI: `10.1201/9781439803356-24`
+- A RECURSIVE SHADOW VOXEL CACHE FOR RAY TRACING — DOI: `10.1016/b978-0-08-050754-5.50058-x`
+- A RECURSIVE SHADOW VOXEL CACHE FOR RAY TRACING — DOI: `10.1016/b978-0-08-050754-5.50118-3`
+- Seismic Wave Field Modelling by Means of Recursive Cell Ray Tracing — DOI: `10.3997/2214-4609.201407941`
+- On the Fast Construction of Spatial Hierarchies for Ray Tracing — DOI: `10.1109/rt.2006.280217`
+- An Evaluation of Parallel Grid Construction for Ray Tracing Dynamic Scenes — DOI: `10.1109/rt.2006.280214`
+- Pareto Cube (Pareto³) Recursive Methodology for Strategic Analysis — DOI: `10.2139/ssrn.5396642`
+- Recursive subdivision of triangulated surface for 3‐D ray tracing — DOI: `10.1190/1.1887586`
+- Construction of Seismic Images by Ray Tracing — DOI: `10.1201/9781420066678-7`
+- Very high energy gamma rays from Markarian 501
+- Instant neural graphics primitives with a multiresolution hash encoding — DOI: `10.1145/3528223.3530127`
+- Deep appearance models for face rendering — DOI: `10.1145/3197517.3201401`
+- Physics-informed machine learning — DOI: `10.1038/s42254-021-00314-5`
+- Review of computer-generated hologram algorithms for color dynamic holographic three-dimensional display — DOI: `10.1038/s41377-022-00916-3`
+- Graph Processing on GPUs — DOI: `10.1145/3128571`
+- State of the Art in Transfer Functions for Direct Volume Rendering — DOI: `10.1111/cgf.12934`
+- Real-time parallel hashing on the GPU — DOI: `10.1145/1618452.1618500`
+- iRASPA: GPU-accelerated visualization software for materials scientists — DOI: `10.1080/08927022.2018.1426855`
+- Generation and visualization of large‐scale three‐dimensional reconstructions from underwater robotic surveys — DOI: `10.1002/rob.20324`
+- Single-image SVBRDF capture with a rendering-aware deep network — DOI: `10.1145/3197517.3201378`
+- IFS Rendering Algorithms — DOI: `10.1007/1-84628-686-7_5`
+- GPU-Accelerated Rendering of Unbounded Nonlinear Iterated Function System Fixed Points — DOI: `10.5402/2012/825782`
+- Modeling and rendering of nonlinear iterated function systems — DOI: `10.1016/b978-044450002-1/50063-1`
+- GPU-accelerated iterated function systems — DOI: `10.1145/1187112.1187128`
+- High-Performance Iterated Function Systems — DOI: `10.1016/b978-0-12-384988-5.00018-8`
+- Modeling and rendering of nonlinear iterated function systems — DOI: `10.1016/0097-8493(94)90169-4`
+- Image based rendering of iterated function systems — DOI: `10.1016/j.cag.2004.08.005`
+- Evolutive Rendering Models
+- GPU-Augmented OLAP Execution Engine: GPU Offloading
+- Three-Phase Dynamic Simulation of Power Systems Using Combined Transmission and Distribution System Models — DOI: `10.1109/tpwrs.2016.2535297`
+- Performance Comparison Between OpenCV Built in CPU and GPU Functions on Image Processing Operations
+- Deep In-GPU Experience Replay
+- Performance Comparison on Parallel CPU and GPU Algorithms for Unified Gas-Kinetic Scheme

@@ -1,0 +1,19 @@
+{
+  "gaps": [
+    {
+      "candidate": "quaternion_mandelbrot_3d",
+      "gap": "The full quaternion parameter set is four-dimensional; a 3D renderer necessarily selects a hyperplane or projection.",
+      "mitigation": "State and test the exact c.w=0 hyperplane rather than presenting the image as the entire 4D set."
+    },
+    {
+      "candidate": "quaternion_mandelbrot_3d",
+      "gap": "The scalar derivative recurrence used for sphere tracing is a practical distance estimate, not a proof of exact Euclidean distance to the set.",
+      "mitigation": "Use conservative stepping, source-contract tests, known bounded/escape orbit checks, shader compilation, and strict image-health auditing."
+    },
+    {
+      "candidate": "memory_variants",
+      "gap": "The 2024 visualization paper studies multiple history-dependent recurrences beyond the base quadratic set.",
+      "mitigation": "Do not count or implement memory variants without separate formula provenance and validation."
+    }
+  ]
+}

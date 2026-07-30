@@ -1,0 +1,10 @@
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.2140/gt.2015.19.3537	The Hausdorff Dimension of Non-Uniquely Ergodic directions in $\mathcal{H}(2)$ is almost everywhere $1/2$
+	On the Hausdorff dimension of certain sets arising in Number Theory
+10.4171/jfg/163	Projected images of the Sierpinski tetrahedron and other layered fractal imaginary cubes
+10.1088/1742-6596/582/1/012049	Fractal dimension and turbulence in Giant HII Regions
+	Generalized Hausdorff dimension of irrationals with Lagrange value exactly 3
+10.1103/physrevb.58.14387	Critical properties of Ising model on Sierpinski fractals. A finite size scaling analysis approach
+	Lipschitz continuity of the Hausdorff dimension of self-affine sponges at Sierpinski sponges
+	Hausdorff and Fourier dimension of graph of continuous additive processes
+	A new fractal dimension: The topological Hausdorff dimension

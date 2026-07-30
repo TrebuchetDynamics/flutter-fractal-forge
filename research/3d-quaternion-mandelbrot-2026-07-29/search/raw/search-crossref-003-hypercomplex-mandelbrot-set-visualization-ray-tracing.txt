@@ -1,0 +1,16 @@
+10.1109/visual.1995.480791	Interactive realism for visualization using ray tracing
+10.32614/cran.package.mandelbrot	mandelbrot: Generates Views on the Mandelbrot Set
+10.1201/b10676-19	Ray Tracing
+10.1017/cbo9780511569159.003	The Mandelbrot set is universal
+10.1017/cbo9780511569159.008	Local properties of the Mandelbrot set at parabolic points
+10.3840/07001482	Mandelbrot Set Print
+10.15546/aeei-2014-0010	FPGA Hardware Acceleration for Visualization with Use of the Ray Tracing Algorithm
+10.1142/s0218348x08003752	VISUALIZATION OF CHAOTIC DYNAMICAL SYSTEMS BASED ON MANDELBROT SET METHODOLOGY
+10.3840/001482	Mandelbrot Set Print
+10.3840/07001478	Mandelbrot Set Doodle
+10.1109/smi.2003.1199627	Ray tracing point set surfaces
+10.55277/researchhub.br88fx0d.1	Natural Maths - Mandelbrot Set
+10.1109/rt.2006.280205	IEEE Visualization and Graphics Technical Committee (VGTC)
+10.3840/001478	Mandelbrot Set Doodle
+10.7717/peerjcs.892/fig-3	Figure 3: Formal modeling of Mandelbrot set.
+10.1017/cbo9780511569159.005	Modulation dans l'ensemble de Mandelbrot

@@ -1,0 +1,10 @@
+10.1145/3450626.3459937	An unbiased ray-marching transmittance estimator
+10.35508/fractal.v2i1.4036	Perbandingan Estimator Histogram dan Estimator Kernel
+10.1142/s0218348x17400047	A NOVEL FAST FRACTAL IMAGE COMPRESSION METHOD BASED ON DISTANCE CLUSTERING IN HIGH DIMENSIONAL SPHERE SURFACE
+10.1017/cbo9780511819643.016	Geometry of ray paths and inversion of earthquake body-wave time–distance curves
+10.1021/acs.chemmater.9b03864.s001	Fractal-in-a-Sphere: Confined Self-Assembly of Fractal Silica Nanoparticles
+10.3390/fractalfract7030238	A Multi-Spectral Fractal Image Model and Its Associated Fractal Dimension Estimator
+10.31649/1997-9266-2025-179-2-132-137	Ray Tracing Algorithm Based on Screen Space Ray Marching
+10.2307/j.ctv21hrj87.104	Ray E. Cramer Marching Hundred Hall
+10.1533/9780857099594.138	Fractal Basins of Attraction in the Inversion of Geomagnetic Data
+10.5772/intechopen.115629	Fast Marching Method-Inspired Inversion Neural Network for Permeability Prediction

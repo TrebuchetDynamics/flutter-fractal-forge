@@ -1,0 +1,10 @@
+	Two-parameter Family-Vicsek scaling in a dissipative XXZ spin chain
+10.1103/revmodphys.88.045005	Quantum memories at finite temperature
+	Jarník-type theorem for self-similar sets
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1088/1367-2630/1/1/313	Optimal Self-Organization
+	Fractality, Self-Similarity and Complex Dimensions
+	Modeling Self-Similar Traffic for Network Simulation
+	Sandpiles on the Vicsek fractal explode with probability 1/4
+10.1088/1751-8113/41/48/485102	Exact solution of mean geodesic distance for Vicsek fractals
+	Exact mean first-passage time on generalized Vicsek fractal

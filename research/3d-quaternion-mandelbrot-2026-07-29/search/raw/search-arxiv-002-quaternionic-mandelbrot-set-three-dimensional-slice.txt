@@ -1,0 +1,20 @@
+	The Zero Slice of Quaternionic Real Bordism
+	Slice Regular Composition Operators on Quaternionic Fock Spaces via Matrix Realization
+10.2140/agt.2025.25.2807	Surgery sequences and self-similarity of the Mandelbrot set
+	On a Slice of the Cubic 2-adic Mandelbrot Set
+	Homotopies and Maps between Eigenvalues of some Generalized Lucas Sequences and the Mandelbrot Set
+	External rays and the real slice of the Mandelbrot set
+	On Fibers and Local Connectivity of Mandelbrot and Multibrot Sets
+	Bounds for the Zeros of Quaternionic Polynomials and Regular Functions Using Matrix Techniques
+	Quaternionic slice regular functions and quaternionic Laplace transforms
+	Pseudo-slice knots
+10.1007/jhep05(2021)108	A comparison of optimisation algorithms for high-dimensional particle and astrophysics applications
+	Quaternionic Monge-Ampere equations
+10.1007/s00209-022-03079-4	Slice conformality and Riemann manifolds on quaternions and octonions
+	Quantum Error Correction in Quaternionic Hilbert Spaces
+	The Dynamics of Financial Markets -- Mandelbrot's multifractal cascades, and beyond
+	Zero sets and Nullstellensatz type theorems for slice regular quaternionic polynomials
+	Newton-Mandelbrot set and Murase-Mandelbrot set
+	Explicit Quaternionic Contact Structures and Metrics with Special Holonomy
+	Generalized quaternionic Bargmann-Fock spaces and associated Segal-Bargmann transforms
+	On fiber bundles and quaternionic slice regular functions

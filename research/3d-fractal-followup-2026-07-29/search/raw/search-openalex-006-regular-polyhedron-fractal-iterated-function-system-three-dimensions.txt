@@ -1,0 +1,20 @@
+10.4171/rmi/454	Quasiconformal dimensions of self-similar fractals
+10.1016/j.patcog.2014.05.016	Connectivity calculus of fractal polyhedrons
+10.1038/s41467-018-08210-w	Self-assembly of fractal liquid crystal colloids
+10.1155/2012/958101	Simplicial Approach to Fractal Structures
+10.1007/b72010	Lattice-Gas Cellular Automata and Lattice Boltzmann Models: An Introduction
+10.3390/fractalfract7080597	A Brief Survey of Paradigmatic Fractals from a Topological Perspective
+10.1090/mcom/3028	A BDDC algorithm with deluxe scaling for 𝐻(𝑐𝑢𝑟𝑙) in two dimensions with irregular subdomains
+10.5815/ijmsc.2017.04.01	Construction of Fractals based on Catalan Solids
+10.3390/en13195097	Metaheuristic Optimization of Power and Energy Systems: Underlying Principles and Main Issues of the ‘Rush to Heuristics’
+10.1109/access.2024.3372411	Miniaturization and Fabrication of a Novel Cross-Fractal Biosensor and Sensor for Characterizing 3D Printing Electromagnetic Properties in Polylactic Acid
+	Human Performance Models for Computer-Aided Engineering
+10.3390/ijgi9030171	Indexing Mixed Aperture Icosahedral Hexagonal Discrete Global Grid Systems
+10.3390/min9030183	X-ray Microcomputed Tomography (µCT) for Mineral Characterization: A Review of Data Analysis Methods
+	Tree growth visualization
+10.1214/aoap/1019737664	On excursion sets, tube formulas and maxima of random fields
+10.3390/math9192411	The Influence of NeoTrie VR’s Immersive Virtual Reality on the Teaching and Learning of Geometry
+10.3390/rs11060623	A Concave Hull Methodology for Calculating the Crown Volume of Individual Trees Based on Vehicle-Borne LiDAR Data
+10.1016/j.sigpro.2011.04.025	A panorama on multiscale geometric representations, intertwining spatial, directional and frequency selectivity
+10.1155/2013/291823	Attractors and Finite-Dimensional Behaviour in the 2D Navier-Stokes Equations
+10.1080/01605682.2023.2253852	Operational Research: methods and applications

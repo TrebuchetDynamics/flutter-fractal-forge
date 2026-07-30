@@ -1,0 +1,5 @@
+10.3390/fractalfract6020089	Fractals: An Eclectic Survey, Part-I
+10.48550/arxiv.2305.17848	Mandelbulb, Mandelbrot, Mandelring and Hopfbrot
+10.1016/j.cnsns.2026.110572	Julia sets within generalized quaternionic and multiquaternionic tensor product algebras
+	Parametric sweep search for parallel robot workspace determination
+10.70675/eac6d731zb122z42e4z9bfazc694e2be432a	GigaVoxels : un pipeline de rendu basé Voxel pour l'exploration efficace de scènes larges et détaillées

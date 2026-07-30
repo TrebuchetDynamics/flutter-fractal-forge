@@ -1,0 +1,10 @@
+10.2140/agt.2025.25.2807	Surgery sequences and self-similarity of the Mandelbrot set
+	Homotopies and Maps between Eigenvalues of some Generalized Lucas Sequences and the Mandelbrot Set
+	On Fibers and Local Connectivity of Mandelbrot and Multibrot Sets
+	Dequantization of Mathematics, idempotent semirings and fuzzy sets
+	The Dynamics of Financial Markets -- Mandelbrot's multifractal cascades, and beyond
+10.1007/s10485-023-09758-5	Idempotent completions of $n$-exangulated categories
+	Newton-Mandelbrot set and Murase-Mandelbrot set
+10.3390/math10030482	Relationship between the Mandelbrot Algorithm and the Platonic Solids
+	Mandelbrot set and Julia sets of fractional order
+	The Decoration Theorem for Mandelbrot and Multibrot Sets

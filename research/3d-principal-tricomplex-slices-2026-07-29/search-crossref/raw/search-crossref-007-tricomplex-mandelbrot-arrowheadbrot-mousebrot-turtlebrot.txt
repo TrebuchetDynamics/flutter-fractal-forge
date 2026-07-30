@@ -1,0 +1,10 @@
+10.33774/coe-2025-d6w15	Conjugation and Moduli in Tricomplex Numbers
+10.33774/coe-2025-gw741	The Tricomplex Polynomial and Its Root Structure
+10.33774/coe-2025-837kl-v2	Idempotent Elements in Tricomplex Numbers
+10.33774/coe-2025-gw741-v2	The Tricomplex Polynomial and Its Root Structure
+10.33774/coe-2025-n0h9f-v2	A Study of Tricomplex Numbers: Representation, Subalgebras, Idempotent Forms
+10.33774/coe-2025-n0h9f	A Study of Tricomplex Numbers: Representation, Subalgebras, Idempotent Forms
+10.33774/coe-2025-837kl	Idempotent Elements in Tricomplex Numbers
+10.32614/cran.package.mandelbrot	mandelbrot: Generates Views on the Mandelbrot Set
+10.33774/coe-2025-c68nf	On the Conjugation of Tricomplex Numbers: Algebraic Operations, Moduli, and Decompositions
+10.62072/acm.2025.080111	Some Properties of Fundamental Formulation of Tricomplex Polynomials

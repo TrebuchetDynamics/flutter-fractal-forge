@@ -1,0 +1,10 @@
+	Two-parameter Family-Vicsek scaling in a dissipative XXZ spin chain
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	Exact mean first-passage time on generalized Vicsek fractal
+	Sandpiles on the Vicsek fractal explode with probability 1/4
+10.1142/s0218348x21500249	Fractal Interpretation of Bacterial Light Harvesters
+10.1007/jhep05(2021)108	A comparison of optimisation algorithms for high-dimensional particle and astrophysics applications
+10.1088/1751-8113/41/48/485102	Exact solution of mean geodesic distance for Vicsek fractals
+10.1103/physreve.81.031118	Determining global mean-first-passage time of random walks on Vicsek fractals using eigenvalues of Laplacian matrices
+	A generalized model for Yang-Fourier transforms in fractal space
+10.1103/physreve.94.052501	Extended Vicsek fractals: Laplacian spectra and their applications

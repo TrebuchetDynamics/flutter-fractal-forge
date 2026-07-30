@@ -1,0 +1,10 @@
+	On horospheric limit sets of Kleinian groups
+	Tevatron-for-LHC Report of the QCD Working Group
+10.1017/s0004972710000146	Limit sets and commensurability of Kleinian groups
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+	On the limit set of a geometrically infinite Kleinian group
+10.1007/jhep05(2021)108	A comparison of optimisation algorithms for high-dimensional particle and astrophysics applications
+10.1007/s40315-014-0078-7	Limit set intersection theorems for Kleinian groups and a conjecture of Susskind
+	Beyond English: Centering Multilingualism in Data Visualization
+10.1515/jgth-2019-0045	Schur multipliers of special p-groups of rank 2
+	An Analytical Survey on Recent Trends in High Dimensional Data Visualization

@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "1",
+  "createdAt": "2026-07-29T17:33:54Z",
+  "queries": [
+    "three dimensional Cantor dust Cartesian product Cantor set Hausdorff dimension",
+    "Cantor cube C x C x C self similar set eight maps",
+    "three dimensional Cantor set iterated function system eight corner cubes",
+    "Sierpinski icosahedron iterated function system contraction ratio",
+    "Sierpinski dodecahedron iterated function system contraction ratio",
+    "regular polyhedron fractal iterated function system three dimensions",
+    "polyhedral Sierpinski fractals icosahedron dodecahedron",
+    "self similar fractal polyhedra vertex iterated function systems"
+  ],
+  "sources": [
+    "openalex",
+    "crossref",
+    "arxiv"
+  ],
+  "limit": 20,
+  "results": 429,
+  "deduped": 351,
+  "failures": 0
+}

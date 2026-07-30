@@ -1,0 +1,10 @@
+	On affine iterated function systems which robustly admit an invariant affine subspace
+	Cube Bench: A Benchmark for Spatial Visual Reasoning in MLLMs
+	The "Sphered Cube": A New Method for the Solution of Partial Differential Equations in Cubical Geometry
+	Normal Smoothings for Smooth Cube Manifolds
+	Infinitely many holes in connectedness loci for collinear affine iterated function systems
+	CUBE: A Standard for Unifying Agent Benchmarks
+10.1155/2019/7817353	Integral means inequalities, convolution, and univalent functions
+	Variants of the Gale-Berlekamp Switching Game and their Solutions: Balancing the Rectangle and the Cube
+	Teledrive: An Embodied AI based Telepresence System
+10.2140/agt.2024.24.4127	Relatively geometric actions of Kähler groups on CAT(0) cube complexes

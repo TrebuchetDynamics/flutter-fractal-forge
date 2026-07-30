@@ -1,0 +1,10 @@
+10.1016/j.artint.2017.08.002	Iterative voting and acyclic games
+10.1007/s10618-006-0059-1	Frequent pattern mining: current status and future directions
+10.1090/s0273-0979-06-01126-8	Expander graphs and their applications
+10.3390/rel10010054	Art and Shamanism: From Cave Painting to the White Cube
+10.1155/2014/810368	Intelligent Screening Systems for Cervical Cancer
+10.1145/4472.4478	MULTILISP: a language for concurrent symbolic computation
+10.1103/physrevx.7.021021	Quantum Entanglement in Neural Network States
+10.4018/jdwm.2006100102	Navigation Rules for Exploring Large Multidimensional Data Cubes
+10.3390/make3030032	Classification of Explainable Artificial Intelligence Methods through Their Output Formats
+10.4007/annals.2008.167.1	On the homology of algebras of Whitney functions over subanalytic sets

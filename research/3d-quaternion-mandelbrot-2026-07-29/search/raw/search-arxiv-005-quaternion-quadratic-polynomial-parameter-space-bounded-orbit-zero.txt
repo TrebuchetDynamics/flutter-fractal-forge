@@ -1,0 +1,20 @@
+	Quaternion Orders and Ternary Quadratic Forms
+	Zero Decomposition with Multiplicity of Zero-Dimensional Polynomial Systems
+	Solidification of Icosahedral Quasicrystals: Viewpoint Based on a Quaternion Orientational Order Parameter and the Formation of the E8 Lattice
+	Bounds for the Zeros of Polynomials over Quaternion Division Algebra
+	Self-supervised Machine Learning Based Approach to Orbit Modelling Applied to Space Traffic Management
+10.1007/s10686-008-9096-7	SPACE: the SPectroscopic All-sky Cosmic Explorer
+	Quaternion Hardy Functions for Local Images Feature Representation
+10.1007/s00006-021-01133-8	An Algorithm for the Factorization of Split Quaternion Polynomials
+10.1007/s00006-019-1037-1	Quadratic Split Quaternion Polynomials: Factorization and Geometry
+	On the location of zeros of a quaternion polynomial
+	Zeros and factorizations of quaternion polynomials: the algorithmic approach
+	An Assessment of the Space Radiation Environment in a Near Equatorial Low Earth Orbit Based on Razaksat-1 Satellite
+10.1080/03081087.2022.2094863	Sampling expansions associated with quaternion difference equations
+10.1007/s10509-019-3661-6	Whistler instability stimulated by the suprathermal electrons present in space plasmas
+10.1029/2025sw004922	Advancing Heliophysics and Space Weather Modeling through Open Science
+	Bounds for the Zeros of Quaternionic Polynomials via Matrix Methods
+10.1002/2017sw001683	Verification of Space Weather Forecasts issued by the Met Office Space Weather Operations Centre
+	Kaehler spaces, nilpotent orbits, and singular reduction
+	Multipliers of periodic orbits of quadratic polynomials and the parameter plane
+10.1007/s10773-011-0953-1	Quaternion Gravi-Electromagnetism

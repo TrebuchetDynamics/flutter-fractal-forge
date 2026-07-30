@@ -1,0 +1,10 @@
+10.3390/mca29030031	A New Generalized Definition of Fractal–Fractional Derivative with Some Applications
+10.33774/coe-2025-d6w15	Conjugation and Moduli in Tricomplex Numbers
+10.33774/coe-2025-gw741	The Tricomplex Polynomial and Its Root Structure
+10.70675/9039c95cz6fd2z4531zb06bz4a787b210ccd	Definition and characterization of pseudo-curvatures for fractal curves
+10.2139/ssrn.5727442	시공간 암흑물질 중력자 블랙홀의 카르마 프랙탈 인과론(KFC)기반 수학적 정의와 의미 (Mathematical Definition and Significance of Spacetime Dark Matter Graviton and Black Holes based on Karma Fractal Causality KFC)
+10.33774/coe-2025-837kl-v2	Idempotent Elements in Tricomplex Numbers
+10.33140/an.05.03.04	Mathematical Modeling of Stress Using Fractal Geometry; The Power Laws and Fractal Complexity of Stress
+10.31219/osf.io/4crxd_v1	The Fractal Stokes’ Theorem: Rigorously Definition, Proof, and Applications
+10.1515/9781400839056-012	CHAPTER 9. Fractal Dimension
+10.7554/elife.96784.1.sa2	eLife Assessment: Fractal cycles of sleep: a new aperiodic activity-based definition of sleep cycles

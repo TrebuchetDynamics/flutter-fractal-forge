@@ -1,0 +1,10 @@
+10.1007/1-84628-686-7_5	IFS Rendering Algorithms
+10.5402/2012/825782	GPU-Accelerated Rendering of Unbounded Nonlinear Iterated Function System Fixed Points
+10.1016/b978-044450002-1/50063-1	Modeling and rendering of nonlinear iterated function systems
+10.1145/1187112.1187128	GPU-accelerated iterated function systems
+10.1016/b978-0-12-384988-5.00018-8	High-Performance Iterated Function Systems
+10.1109/78.330394	Representation of discrete sequences with three-dimensional iterated function systems
+10.1016/0097-8493(94)90169-4	Modeling and rendering of nonlinear iterated function systems
+10.1201/9781439864708-10	Deterministic Theory of Iterated Function Systems
+10.1016/j.cag.2004.08.005	Image based rendering of iterated function systems
+10.1201/9781439864708-11	Probabilistic Theory of Iterated Function Systems

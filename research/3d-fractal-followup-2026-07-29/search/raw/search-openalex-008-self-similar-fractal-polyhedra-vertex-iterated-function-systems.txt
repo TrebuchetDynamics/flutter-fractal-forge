@@ -1,0 +1,20 @@
+10.4171/rmi/454	Quasiconformal dimensions of self-similar fractals
+10.4064/bc84-0-9	Self-affine fractals of finite type
+10.1090/s1061-0022-07-00985-5	Dimensions of locally and asymptotically self-similar spaces
+10.1016/j.patcog.2014.05.016	Connectivity calculus of fractal polyhedrons
+10.1155/2012/958101	Simplicial Approach to Fractal Structures
+10.1007/b72010	Lattice-Gas Cellular Automata and Lattice Boltzmann Models: An Introduction
+10.1145/344779.344935	Silhouette clipping
+10.1093/jxb/erq081	Constraints of space in plant development
+10.5815/ijmsc.2017.04.01	Construction of Fractals based on Catalan Solids
+10.1007/s11837-012-0360-y	Relating Dynamic Properties to Atomic Structure in Metallic Glasses
+10.48550/arxiv.0805.0562	The Classification Theorem for Compact Surfaces And A Detour On Fractals
+10.1007/s00429-021-02435-0	A hands-on tutorial on network and topological neuroscience
+10.26599/nr.2025.94907174	Programmable bottom-up self-assembly of nanomaterials at the nanoscale and microscale
+10.1007/s00010-020-00720-7	Starshaped sets
+10.1107/s1600576719016789	<i>BornAgain</i>: software for simulating and fitting grazing-incidence small-angle scattering
+10.1080/01605682.2023.2253852	Operational Research: methods and applications
+10.3390/math8040530	Turbulence as a Network of Fourier Modes
+10.3390/mca25020025	Porous Functionally Graded Plates: An Assessment of the Influence of Shear Correction Factor on Static Behavior
+10.1002/andp.202300349	Jumping Platonic Solids on a Vibrating Plate
+10.1093/mnras/stad229	The complex multiscale structure in simulated and observed emission maps of the proto-cluster cloud G0.253+0.016 (‘the Brick’)

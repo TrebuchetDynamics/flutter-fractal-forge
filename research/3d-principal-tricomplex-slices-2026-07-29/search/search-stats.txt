@@ -1,0 +1,8 @@
+Search batch stats
+Queries: 27
+Sources: openalex,arxiv
+Records: 225
+Deduped records: 105
+Failures: 8
+Skipped sources: 0
+  arxiv failures: 8

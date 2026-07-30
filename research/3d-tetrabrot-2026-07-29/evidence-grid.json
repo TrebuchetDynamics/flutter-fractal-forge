@@ -1,0 +1,44 @@
+{
+  "candidate": "tetrabrot_3d",
+  "decision": "implement",
+  "identity": "Classical quadratic principal slice T^2(1,i1,i2) of the tricomplex Mandelbrot set",
+  "coordinates": "c = x + y*i1 + z*i2",
+  "components": {
+    "minus": "x + (y-z)*i",
+    "plus": "x + (y+z)*i"
+  },
+  "membership": "Both complex components belong to the ordinary quadratic Mandelbrot set",
+  "distance_estimate": "sqrt((d_minus^2 + d_plus^2)/2)",
+  "distinct_from": {
+    "mandelbrot": "Planar complex parameter set rather than the coupled 3D tricomplex slice",
+    "quaternion_mandelbrot_3d": "Commutative tricomplex idempotent components rather than quaternion multiplication",
+    "power_variants": "The identity is fixed at quadratic p=2"
+  },
+  "sources": [
+    {
+      "title": "Tricomplex Distance Estimation for Filled-in Julia Sets and Multibrot Sets",
+      "arxiv": "1811.09697",
+      "doi": "10.1142/S0218127419500858",
+      "url": "https://arxiv.org/abs/1811.09697",
+      "claim": "Defines the classical Tetrabrot slice, its idempotent complex components, and component distance expression"
+    },
+    {
+      "title": "On a Bicomplex Distance Estimation for the Tetrabrot",
+      "doi": "10.1142/S0218127405013873",
+      "url": "https://doi.org/10.1142/S0218127405013873",
+      "claim": "Develops distance estimation for ray tracing three-dimensional Tetrabrot slices"
+    },
+    {
+      "title": "Relationship between the Mandelbrot Algorithm and the Platonic Solids",
+      "doi": "10.3390/math10030482",
+      "url": "https://doi.org/10.3390/math10030482",
+      "claim": "Classifies the eight named principal 3D tricomplex Mandelbrot slices"
+    }
+  ],
+  "implementation": {
+    "stable_id": "tetrabrot_3d",
+    "shader": "shaders/3d_and_hypercomplex/raymarched_volumes/tetrabrot_3d_gpu.frag",
+    "third_party_code_copied": false,
+    "preset_identities_added": 0
+  }
+}

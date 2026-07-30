@@ -1,0 +1,10 @@
+10.1007/s10240-006-0039-4	Moduli spaces of local systems and higher Teichmüller theory
+10.1086/378613	The Fire of Desire: A Multisited Inquiry into Consumer Passion
+10.1007/bf00673252	An alternative to wave mechanics on curved spaces
+10.1080/17513470701503632	Visualizing curvature on the Lorenz manifold
+10.1090/s0894-0347-1993-1166330-8	Ends of hyperbolic 3-manifolds
+10.1090/s0894-0347-98-00259-8	Complex earthquakes and Teichmüller theory
+10.1090/s1088-4173-97-00011-8	Properties of convergence groups and spaces
+10.2140/pjm.2017.290.77	Braid groups and quiver mutation
+10.1088/1475-7516/2023/01/030	Cosmic topology. Part I. Limits on orientable Euclidean manifolds from circle searches
+	Levy processes - from probability theory to finance and quantum groups

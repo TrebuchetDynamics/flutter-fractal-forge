@@ -1,0 +1,10 @@
+10.22541/au.176858321.13122244/v1	Why the Hausdorff Dimension of Spacetime is D ≈ 2.7 A Critical Fractal Threshold in Unified Fractal Quantum Field Theory (UFQFT)
+10.2139/ssrn.5159356	A Discrete Version of Local Hausdorff Dimension on Fractal Networks
+10.1002/0470013850.ch2	Hausdorff Measure and Dimension
+10.1007/978-3-0348-7891-3_5	Hausdorff Dimension of Hyperbolic Attractors in ℝ3
+10.32917/hmj/1206127720	On a fractal set with a gap between its Hausdorff dimension and box dimension
+10.1119/1.16262	Fractal dimension: Limit capacity or Hausdorff dimension?
+10.1007/978-3-030-16645-8_4	Hausdorff Dimension Type Models for Fractal Structures
+10.1016/b978-0-444-86995-1.50006-8	SELF-AFFINE FRACTAL SETS, III: HAUSDORFF DIMENSION ANOMALIES AND THEIR IMPLICATIONS
+10.1007/978-1-4757-4134-6_6	Hausdorff Dimension
+10.4064/cm99-2-11	Hausdorff dimension of a fractal interpolation function

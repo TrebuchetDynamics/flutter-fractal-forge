@@ -1,0 +1,20 @@
+	Hausdorff dimension of Gauss--Cantor sets and two applications to classical Lagrange and Markov spectra
+	Hausdorff measure of cartesian product of Cantor sets
+	Spectral triples for AF C*-algebras and metrics on the Cantor set
+	Genus $g$ Cantor sets and germane Julia sets
+	Cantor: Inspiring Multimodal Chain-of-Thought of MLLM
+	Characterizing the Cantor bi-cube in asymptotic categories
+	Quasisymmetric uniformization and Hausdorff dimensions of Cantor circle Julia sets
+	Hausdorff dimension of Besicovitch sets of Cantor graphs
+	Cantor sets in higher dimensions II: Optimal dimension constraint for stable intersections
+10.2140/pjm.2023.326.285	Existence of principal values of some singular integrals on Cantor sets, and Hausdorff dimension
+	Geometric properties of images of cartesian products of regular Cantor sets by differentiable real maps
+	Conjugacy in the Cantor Set Automorphism Group
+	A Better Upper Bound of Hausdorff Measure of the Cartesian Product of the Middle Third Cantor Set with Itself Compare to Others'
+10.14321/realanalexch.39.2.0367	Exact Hausdorff measures of Cantor sets
+	Cantor Julia sets with Hausdorff dimension two
+	Hausdorff Dimension of Cantor Series
+	Stable intersections of regular conformal Cantor sets with large Hausdorff dimensions
+	Hausdorff and harmonic measures on non-homogeneous Cantor sets
+	Hausdorff dimension of Cantor intersections and robust heterodimensional cycles for heterochaos horseshoe maps
+	Cantor sets in higher dimension I: Criterion for stable intersections

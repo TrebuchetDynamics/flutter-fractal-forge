@@ -1,0 +1,15 @@
+10.1007/s11075-023-01644-4	On the viscosity approximation type iterative method and its non-linear behaviour in the generation of Mandelbrot and Julia sets
+10.1007/s00010-022-00908-z	An Application of Viscosity Approximation Type Iterative Method in the Generation of Mandelbrot and Julia Fractals
+10.3390/fractalfract8020116	Escape Criteria Using Hybrid Picard S-Iteration Leading to a Comparative Analysis of Fractal Mandelbrot Sets Generated with S-Iteration
+10.3390/sym11040577	The Symmetry in the Noise-Perturbed Mandelbrot Set
+10.3390/math10030482	Relationship between the Mandelbrot Algorithm and the Platonic Solids
+10.17512/jamcm.2016.3.07	On the convergence of multicomplex M-J sets to the Steinmetz hypersolids
+10.3390/fractalfract8030158	Fuzzy Mandelbric Set and Its Perturbations by Dynamical Noises
+10.3390/sym15010043	Symmetries and Dynamics of Generalized Biquaternionic Julia Sets Defined by Various Polynomials
+	Bicomplex Burning Ship Fractal
+10.1103/physrevb.110.l201103	Non-Hermitian quantum fractals
+10.15388/na.2016.4.3	Control and synchronization of Julia sets of the complex dissipative standard system
+	Polynomiography and various convergence tests
+10.1016/s0016-7169(14)71493-x	A very special Fractal: Gingko of Jena
+10.3934/dcdss.2026093	Control and synchronization of Julia sets in discrete three-dimensional ecological developmental systems
+10.1016/j.cnsns.2026.110572	Julia sets within generalized quaternionic and multiquaternionic tensor product algebras

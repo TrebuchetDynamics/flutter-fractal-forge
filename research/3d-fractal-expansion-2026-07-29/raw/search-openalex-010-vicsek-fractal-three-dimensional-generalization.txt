@@ -1,0 +1,10 @@
+10.1142/s0217979221500776	Weighted average geodesic distance of Vicsek network in three-dimensional space
+10.1029/1999rg000074	Scaling of fracture systems in geological media
+10.3390/e22090961	Fractal Modeling and Fractal Dimension Description of Urban Morphology
+10.5194/angeo-24-3557-2006	From pre-storm activity to magnetic storms: a transition described in terms of fractal dynamics
+10.1093/cercor/bhac363	The fractal brain: scale-invariance in structure and dynamics
+10.1155/2010/194715	Characterizing Growth and Form of Fractal Cities with Allometric Scaling Exponents
+10.4153/cjm-2008-022-3	Harmonic Coordinates on Fractals with Finitely Ramified Cell Structure
+10.3390/math9131546	A Generalization of the Hausdorff Dimension Theorem for Deterministic Fractals
+10.1038/srep19505	Fractality à la carte: a general particle aggregation model
+10.1038/srep45588	Fractal and multifractal analyses of bipartite networks

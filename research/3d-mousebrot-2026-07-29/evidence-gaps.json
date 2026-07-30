@@ -1,0 +1,24 @@
+{
+  "gaps": [
+    {
+      "candidate": "mousebrot_3d",
+      "gap": "The name-to-basis evidence is split between the text's Mousebrot/Figure 3(c) statement and the figure caption's T(i1,i2,j1) label.",
+      "mitigation": "Record both source locations and independently derive the component equations from the paper's general idempotent identity."
+    },
+    {
+      "candidate": "mousebrot_3d",
+      "gap": "The shader's root-mean-square of complex escape-time distance estimates is not an exact signed-distance theorem.",
+      "mitigation": "Use conservative ray steps, formula-contract tests, runtime shader compilation, comparative CPU membership checks, and strict image-health metrics."
+    },
+    {
+      "candidate": "mousebrot_3d",
+      "gap": "The bounded -i/2 and -i witnesses use finite iteration rather than a general analytic Mandelbrot-membership decision.",
+      "mitigation": "Pair them with the exact real endpoint -2 comparison and retain the formula/source contracts as separate evidence."
+    },
+    {
+      "candidate": "remaining_principal_slices",
+      "gap": "Turtlebrot, Hourglassbrot, Metabrot, Airbrot, and Firebrot are not component-derived or renderer-validated in this package.",
+      "mitigation": "Keep them out of the registry until separately reviewed; do not expose them as Mousebrot presets."
+    }
+  ]
+}

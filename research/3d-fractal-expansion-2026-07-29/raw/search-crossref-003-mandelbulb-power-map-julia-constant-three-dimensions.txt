@@ -1,0 +1,10 @@
+10.1002/9781119055976.ch6	Constant Drug Release from a Hollow Cylinder of Finite Length in Three Dimensions
+10.4337/9781839109768.00010	Lukes and power: three dimensions and three criticisms
+10.1109/aero.2012.6187209	A spherical constant velocity model for target tracking in three dimensions
+10.1017/cbo9780511601156	Animal Groups in Three Dimensions
+10.64240/029cb00fef	Learning in Three Dimensions: The Educational Power of Virtual Worlds
+10.64240/48124a6133	Learning in Three Dimensions: The Educational Power of Virtual Worlds
+10.36227/techrxiv.19653372	Magnetic Design for Three-Phase Dynamic Wireless Power Transfer with Constant Output Power
+10.36227/techrxiv.19653372.v1	Magnetic Design for Three-Phase Dynamic Wireless Power Transfer with Constant Output Power
+10.1021/acs.jpcb.4c06261.s001	Unsupervised Machine Learning Method for the Phase Behavior of the Constant Magnetization Ising Model in Two and Three Dimensions
+10.1063/1.882143	Two Surveys Begin to Map the Universe in Three Dimensions

@@ -1,0 +1,20 @@
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	An Overview of Complex Fractal Dimensions: From Fractal Strings to Fractal Drums, and Back
+	Fractal Zeta Functions and Complex Dimensions of Ahlfors Metric Measure Spaces
+	On affine iterated function systems which robustly admit an invariant affine subspace
+	Fractal dimensions for Iterated Graph Systems
+10.4171/jfg/57	Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality
+10.1038/s41598-023-45962-y	Network efficiency of spatial systems with fractal morphology: a geometric graphs approach
+	Fractal Homeomorphism for Bi-affine Iterated Function Systems
+10.1007/978-3-319-18660-3_13	Fractal zeta functions and complex dimensions: A general higher-dimensional theory
+	Construction and properties of fuzzy-valued fractal interpolation function by using iterated function system
+	Fractal dimension of discrete sets and percolation
+	FI-KAN: Fractal Interpolation Kolmogorov-Arnold Networks
+	On the Higuchi fractal dimension of invariant measures for countable idempotent iterated function systems
+	Fractal formation and ordering in Random Sequential Adsorption
+	Fractality, Self-Similarity and Complex Dimensions
+10.4171/jfg/155	Tube Formulae for Generalized von Koch Fractals through Scaling Functional Equations
+10.4171/jfg/51	On the dimensions of attractors of random self-similar graph directed iterated function systems
+10.1088/1742-6596/582/1/012049	Fractal dimension and turbulence in Giant HII Regions
+	Estimates on the Spectrum of Fractals Arising From Affine Iterations
+10.3842/sigma.2015.084	Fast Basins and Branched Fractal Manifolds of Attractors of Iterated Function Systems

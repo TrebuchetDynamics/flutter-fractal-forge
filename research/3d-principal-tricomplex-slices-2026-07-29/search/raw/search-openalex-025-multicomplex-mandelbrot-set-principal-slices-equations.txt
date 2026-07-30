@@ -1,0 +1,5 @@
+10.3390/math10030482	Relationship between the Mandelbrot Algorithm and the Platonic Solids
+10.3390/sym15010043	Symmetries and Dynamics of Generalized Biquaternionic Julia Sets Defined by Various Polynomials
+10.1016/j.cnsns.2026.110572	Julia sets within generalized quaternionic and multiquaternionic tensor product algebras
+10.1007/s00006-025-01422-6	On Commutative Analogues of Clifford Algebras and Their Decompositions
+10.48550/arxiv.2412.20135	Determinant, Characteristic Polynomial, and Inverse in Commutative Analogues of Clifford Algebras

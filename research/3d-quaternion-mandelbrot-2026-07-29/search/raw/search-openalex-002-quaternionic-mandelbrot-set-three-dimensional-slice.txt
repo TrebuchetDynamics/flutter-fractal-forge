@@ -1,0 +1,12 @@
+10.3390/math10030482	Relationship between the Mandelbrot Algorithm and the Platonic Solids
+10.1007/s11071-015-2145-7	Generalized quaternion M sets and Julia sets perturbed by dynamical noises
+10.1016/j.jocs.2022.101908	Fast computation of fractal dimension for 2D, 3D and 4D data
+10.3390/sym15010043	Symmetries and Dynamics of Generalized Biquaternionic Julia Sets Defined by Various Polynomials
+10.17512/jamcm.2013.2.03	On the symmetry of bioctonionic Julia sets
+10.1007/978-3-031-97589-9_11	The Mandelbrot Set for a Coquaternionic Family of Quadratics
+10.1016/j.cnsns.2026.110572	Julia sets within generalized quaternionic and multiquaternionic tensor product algebras
+10.48550/arxiv.2305.17848	Mandelbulb, Mandelbrot, Mandelring and Hopfbrot
+10.36227/techrxiv.19425989	Calculating fractal sets in n ≥ 1 embedding dimensions without the use of truncation
+10.2352/cgiv.2010.5.1.art00040	Colour Fractal Analysis for Video Quality Assessment
+10.1007/s00006-025-01422-6	On Commutative Analogues of Clifford Algebras and Their Decompositions
+10.1007/s00022-015-0296-9	12th International Conference on Geometry and Applications

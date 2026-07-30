@@ -1,0 +1,10 @@
+10.1016/j.jalgebra.2025.09.044	Invariant theory and coefficient algebras of Lie algebras
+	Categorical Constructions for Hopf Algebras
+	Deformation of algebras over the Landweber-Novikov algebra
+	Crossed product of Hopf algebras
+10.1080/00927870601115872	Deformation of dual Leibniz algebra morphisms
+10.1016/j.jalgebra.2013.06.012	Classifying complements for Hopf algebras and Lie algebras
+	Quantizations of generalized-Witt algebra and of Jacobson-Witt algebra in the modular case
+10.1016/j.jalgebra.2023.02.014	Orbifolds of Gaiotto-Rapčák $Y$-algebras
+	Classification of PM Quiver Hopf Algebras
+10.1016/j.jalgebra.2013.06.008	Connected Hopf Algebras of Dimension $p^2$

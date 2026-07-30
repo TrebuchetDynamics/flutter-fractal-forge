@@ -1,0 +1,6 @@
+10.32614/cran.package.mandelbrot	mandelbrot: Generates Views on the Mandelbrot Set
+10.1017/cbo9780511569159.003	The Mandelbrot set is universal
+10.1016/j.aim.2014.12.033	Topological entropy of quadratic polynomials and dimension of sections of the Mandelbrot set
+10.1017/cbo9780511569159.008	Local properties of the Mandelbrot set at parabolic points
+10.11606/d.3.2017.tde-05122017-134523	Kinematically exact elastoplastic analysis of steelo rods with compact cross sections.
+10.3840/07001482	Mandelbrot Set Print

@@ -1,0 +1,24 @@
+openalex+arxiv
+Source coverage for research/3d-principal-tricomplex-slices-2026-07-29/search
+  arxiv                    190 records (19 files)
+  openalex                 35 records (27 files)
+
+Total unique DOIs: 47
+Library (results.jsonl): 225 records
+
+Failed queries (8):
+  [arxiv] "Metabrot mathematical definition tricomplex" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [arxiv] "Airbrot mathematical definition tricomplex" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [arxiv] "Firebrot mathematical definition tricomplex" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [arxiv] "principal slices tricomplex Mandelbrot set topology" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [arxiv] "3D visualization tricomplex Mandelbrot set ray tracing" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [arxiv] "multicomplex Mandelbrot set principal slices equations" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [arxiv] "tricomplex Mandelbrot slice bicomplex components" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [arxiv] "tricomplex Julia Multibrot filled set idempotents" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+
+crossref
+Source coverage for research/3d-principal-tricomplex-slices-2026-07-29/search-crossref
+  crossref                 250 records (27 files)
+
+Total unique DOIs: 132
+Library (results.jsonl): 250 records

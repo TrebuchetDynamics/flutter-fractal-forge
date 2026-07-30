@@ -1,0 +1,20 @@
+10.3390/math10030482	Relationship between the Mandelbrot Algorithm and the Platonic Solids
+10.1007/s00220-009-0816-2	A local families index formula for d-bar operators on punctured Riemann surfaces
+	Some index formulae on the moduli space of stable parabolic vector bundles
+	A diagrammer's note on DC conductivity of anisotropic Fermi liquids for beginners: Maebashi-Fukuyama formula and Taylor formula
+10.4310/pamq.250312162321	An analogue of Kida's formula in graph theory
+	Jacobi-Trudy formula for generalised Schur polynomials
+	A weighted invariant trace formula
+	On Multiplicity Formula for Spherical Varieties
+	An Explicit Formula For The Divisor Function
+10.1142/9789813228887_0019	Dual addition formulas associated with dual product formulas
+	Combinatorial formulas for Macdonald polynomials by superizations
+	An extension of the cogrowth formula to arbitrary subsets of the tree
+	On the Thomae formula for $Z_N$ curves
+	Quasi-parabolic Siegel Formula
+10.1016/j.geomphys.2016.10.002	McLean's second variation formula revisited
+	Elementary Formulas for Greatest Common Divisors and Semiprime Factors
+	A d'Alembert Formula for Hopf Hypersurfaces
+	Pseudodifferential operators on manifolds with foliated boundaries
+	The Baker-Campbell-Hausdorff formula in the free metabelian Lie algebra
+10.1016/j.cam.2020.113354	New conformal map for the trapezoidal formula for infinite integrals of unilateral rapidly decreasing functions

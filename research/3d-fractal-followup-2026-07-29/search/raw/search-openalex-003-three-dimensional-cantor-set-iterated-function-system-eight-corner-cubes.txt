@@ -1,0 +1,19 @@
+10.1090/noti1734	The on-line encyclopedia of integer sequences
+10.1057/s41599-021-00766-1	The fractal dimension of Islamic and Persian four-folding gardens
+10.1090/s0273-0979-2011-01334-9	The classical theory of minimal surfaces
+	Tangible Toolkits for Reflective Systems Modeling
+10.1090/s1088-4173-2010-00220-1	Lattès-type mappings on compact manifolds
+10.1090/s0002-9947-2011-05188-3	Algebraic numbers, free group automorphisms and substitutions on the plane
+10.3390/fractalfract6020089	Fractals: An Eclectic Survey, Part-I
+10.1063/1.475172	Influence of temperature and viscosity on anthracene rotational diffusion in organic solvents: Molecular dynamics simulations and fluorescence anisotropy study
+10.24132/csrn.3301.34	A New Deterministic Gasket Fractal Based on Ball Sets
+10.1002/nme.6271	Variational eigenerosion for rate‐dependent plasticity in concrete modeling at small strain
+10.1103/physrevb.102.064213	Perpendicular space accounting of localized states in a quasicrystal
+10.1089/ast.2016.1548	The PanCam Instrument for the ExoMars Rover
+10.3390/systems10020026	DSRP Theory: A Primer
+10.1145/3548777	BioLumin: An Immersive Mixed Reality Experience for Interactive Microscopic Visualization and Biomedical Research Annotation
+10.1007/s00454-022-00387-8	Admissible Reversing and Extended Symmetries for Bijective Substitutions
+	Existence, non existence and uniqueness results for higher order elliptic systems
+10.7907/9qzd-kv20	Reactive-Process Programming and Distributed Discrete-Event Simulation
+	The development of secondary porosity and permeability in fractured rock
+10.32657/10356/51166	Complexity : a study of fractals and self-organized criticality

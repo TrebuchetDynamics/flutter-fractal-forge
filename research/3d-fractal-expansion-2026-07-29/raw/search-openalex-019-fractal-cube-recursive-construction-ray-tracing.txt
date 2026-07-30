@@ -1,0 +1,10 @@
+10.4141/cjss06027	Application of X-ray computed tomography to soil science: A literature review
+10.1093/cercor/bhac363	The fractal brain: scale-invariance in structure and dynamics
+10.1007/s00371-006-0090-7	Ray casting implicit fractal surfaces with reduced affine arithmetic
+	Shape from silhouette: image pixels for marching cubes
+	Tracing rays the past, present and future of ray tracing performance
+10.2312/8147	Photon Tracing for Complex Environments
+10.1145/301970.301971	The computational complexity of knot and link problems
+10.4208/cicp.110113.010813a	A Survey on Parallel Computing and Its Applications in Data-Parallel Problems Using GPU Architectures
+10.1111/1467-8659.00464	Constructive Volume Geometry
+10.1145/3528223.3530155	Spelunking the deep

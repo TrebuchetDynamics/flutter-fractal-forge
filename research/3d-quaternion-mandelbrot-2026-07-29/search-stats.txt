@@ -1,0 +1,7 @@
+Source coverage for research/3d-quaternion-mandelbrot-2026-07-29/search
+  arxiv                    120 records (6 files)
+  crossref                 104 records (6 files)
+  openalex                 81 records (6 files)
+
+Total unique DOIs: 174
+Library (results.jsonl): 305 records

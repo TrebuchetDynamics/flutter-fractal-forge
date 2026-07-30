@@ -1,0 +1,10 @@
+	Roman Galactic Plane Survey Definition Committee Report
+	Developing a 21st Century Global Library for Mathematics Research
+	Mathematical Physics : Problems and Solutions of The Students Training Contest Olympiad in Mathematical and Theoretical Physics (May 21st - 24th, 2010)
+	The mathematics of superoscillations
+	Variational tricomplex and BRST theory
+	A Study of Dynamics of the Tricomplex Polynomial $η^p+c$
+	Mathematical definition of quantum field theory on a manifold
+10.1080/00029890.2020.1690387	The Surprising Accuracy of Benford's Law in Mathematics
+	Survey of mathematical foundations of QFT and perturbative string theory
+	Adapting Mathematical Domain Reasoners

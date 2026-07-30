@@ -1,0 +1,19 @@
+{
+  "gaps": [
+    {
+      "candidate": "tetrabrot_3d",
+      "gap": "The complex component formulas produce a distance estimator suitable for ray tracing, not an independently proven exact signed distance field in the shader implementation.",
+      "mitigation": "Use conservative stepping, exact component-membership CPU checks, source-contract tests, shader compilation, and strict image-health metrics."
+    },
+    {
+      "candidate": "other_principal_slices",
+      "gap": "The literature names seven other principal tricomplex Mandelbrot slices, but this cycle does not validate each renderer or identity boundary.",
+      "mitigation": "Do not add them as Tetrabrot presets; research and validate separately if pursued."
+    },
+    {
+      "candidate": "higher_power_tetrabrots",
+      "gap": "Higher-degree Tetrabrots are parameter variations of the Multibrot degree and require a product decision before exposure.",
+      "mitigation": "Keep the catalog identity fixed at the classical quadratic p=2 instead of adding degree clones."
+    }
+  ]
+}

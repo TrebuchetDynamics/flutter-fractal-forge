@@ -1,0 +1,10 @@
+10.1142/s0218127419500858	Tricomplex Distance Estimation for Filled-In Julia Sets and Multibrot Sets
+10.32323/ujma.1174056	Singular Perturbations of Multibrot Set Polynomials
+10.1007/s11228-005-0001-5	Strong Analyticity of Partly Filled-in Composite Julia Sets
+10.3390/fractalfract5020050	Analytic Solution of the Langevin Differential Equations Dominated by a Multibrot Fractal Set
+10.4036/iis.2019.a.03	Taylor Coefficients of the Conformal Map for the Exterior of the Reciprocal of the Multibrot Set
+10.1080/14689367.2019.1663790	Filled Julia set of some class of Hénon-like maps
+10.4171/jems/243	Parapuzzle of the multibrot set and typical dynamics of unimodal maps
+10.1360/n012019-00039	Area-capacity-modulus inequality and area of the filled Julia set
+10.1088/1757-899x/928/4/042007	Computing the Filled Julia Set
+10.33774/coe-2025-d6w15	Conjugation and Moduli in Tricomplex Numbers

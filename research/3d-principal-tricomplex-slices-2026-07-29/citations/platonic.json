@@ -1,0 +1,184 @@
+{
+  "nodes": [
+    {
+      "id": "058a82feded90c60b774d36895e5ddf31cb4bfee"
+    },
+    {
+      "id": "0624898b70b986ada03177b486a6769bac772e11"
+    },
+    {
+      "id": "10.3390/math10030482"
+    },
+    {
+      "id": "139b30d41ed043ee56cccb817e932dd60f85a09b"
+    },
+    {
+      "id": "1b5ca23051d433400c89e2b85d8e21a77537e01e"
+    },
+    {
+      "id": "1d8f4411bbb8be2109fb61afd52c9f93feb97299"
+    },
+    {
+      "id": "3a516b19da69454c1c05c655c1a453822fb23b05"
+    },
+    {
+      "id": "3dafca9628d96fecde7297fb795fbe8411294c70"
+    },
+    {
+      "id": "41544e4eed4934c82adcf8685a23ec734d73252f"
+    },
+    {
+      "id": "6ab7aff87aa1ae523cc062c2365f8230f0dc1b16"
+    },
+    {
+      "id": "6f4fcef3c963b1209b1273e9b857fd7d85812272"
+    },
+    {
+      "id": "783875b18608a1de815763a47d0c6073cdeb6d9a"
+    },
+    {
+      "id": "7b770e1435bc0c617836020a113cb143ebab49e7"
+    },
+    {
+      "id": "7c91a901887bdab46d315621262d01692d584c9f"
+    },
+    {
+      "id": "809b466e0b3e10fc281e70d276da7b4fdb817125"
+    },
+    {
+      "id": "8445e1885af3e3f06a1a0484d9ed6c190e72d8b4"
+    },
+    {
+      "id": "926b1a1ecc9dc11ea07caa30e21150d7d703709a"
+    },
+    {
+      "id": "9f638190e34eddf61077f1656c7d2c6cfade9421"
+    },
+    {
+      "id": "9fc99f1aa15da78bc7d7ee6768d38737810abed5"
+    },
+    {
+      "id": "a9e4065af21169a266581a53fac3cac9fb7d023d"
+    },
+    {
+      "id": "c961fe653f55895e6525b051d2f184a67c721105"
+    },
+    {
+      "id": "cf0ad4bc4d36fe233b2c6bb8ea5846356fff7e28"
+    },
+    {
+      "id": "d98294ed96d5a446196c59397c8d4bdbb9ee981c"
+    },
+    {
+      "id": "e2a3e502b96ad1d4ce7809a7ec1e202c166de975"
+    },
+    {
+      "id": "e634bebd356292034a1ad1181405c3e41514e692"
+    },
+    {
+      "id": "f8bf15abd5f366f5b887d41e9b71850dd7f76dc4"
+    }
+  ],
+  "edges": [
+    {
+      "source": "10.3390/math10030482",
+      "target": "058a82feded90c60b774d36895e5ddf31cb4bfee"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "0624898b70b986ada03177b486a6769bac772e11"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "139b30d41ed043ee56cccb817e932dd60f85a09b"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "1b5ca23051d433400c89e2b85d8e21a77537e01e"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "1d8f4411bbb8be2109fb61afd52c9f93feb97299"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "3a516b19da69454c1c05c655c1a453822fb23b05"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "3dafca9628d96fecde7297fb795fbe8411294c70"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "41544e4eed4934c82adcf8685a23ec734d73252f"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "6ab7aff87aa1ae523cc062c2365f8230f0dc1b16"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "6f4fcef3c963b1209b1273e9b857fd7d85812272"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "783875b18608a1de815763a47d0c6073cdeb6d9a"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "7b770e1435bc0c617836020a113cb143ebab49e7"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "7c91a901887bdab46d315621262d01692d584c9f"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "809b466e0b3e10fc281e70d276da7b4fdb817125"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "8445e1885af3e3f06a1a0484d9ed6c190e72d8b4"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "926b1a1ecc9dc11ea07caa30e21150d7d703709a"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "9f638190e34eddf61077f1656c7d2c6cfade9421"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "9fc99f1aa15da78bc7d7ee6768d38737810abed5"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "a9e4065af21169a266581a53fac3cac9fb7d023d"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "c961fe653f55895e6525b051d2f184a67c721105"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "cf0ad4bc4d36fe233b2c6bb8ea5846356fff7e28"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "d98294ed96d5a446196c59397c8d4bdbb9ee981c"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "e2a3e502b96ad1d4ce7809a7ec1e202c166de975"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "e634bebd356292034a1ad1181405c3e41514e692"
+    },
+    {
+      "source": "10.3390/math10030482",
+      "target": "f8bf15abd5f366f5b887d41e9b71850dd7f76dc4"
+    }
+  ]
+}

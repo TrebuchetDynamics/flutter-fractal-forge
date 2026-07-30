@@ -1,0 +1,34 @@
+{
+  "question": "Does the named Mousebrot principal slice have an exact basis and idempotent component rule distinct from the existing Tetrabrot and Arrowheadbrot modules?",
+  "rforge_version": "v0.1.19",
+  "timestamp": "2026-07-29T21:24:27Z",
+  "depth": "focused evidence extraction from comprehensive parent corpus",
+  "parent_package": "research/3d-principal-tricomplex-slices-2026-07-29",
+  "queries_reused": 27,
+  "sources_reused": ["openalex", "arxiv", "crossref"],
+  "parent_search_stats": {
+    "records": 475,
+    "unique_dois": 174,
+    "citation_seeds": 3,
+    "citation_edges": 37
+  },
+  "new_live_searches": 0,
+  "reuse_rationale": "The immediately preceding comprehensive corpus explicitly searched Mousebrot and the exact principal-slice/idempotent concepts; checksum-locked reuse avoids duplicating retrieval.",
+  "accepted": ["mousebrot_3d"],
+  "outputs": [
+    "source-corpus.json",
+    "report.md",
+    "evidence-grid.json",
+    "evidence-gaps.json",
+    "provenance.json"
+  ],
+  "external_sources_inspected": [
+    "https://ar5iv.labs.arxiv.org/html/2107.04016",
+    "https://ar5iv.labs.arxiv.org/html/1809.02020"
+  ],
+  "errors": [
+    "No new retrieval was attempted because the checksum-locked comprehensive parent package already covered the candidate.",
+    "The exact Mousebrot basis is established by combining the text's Figure 3(c) name mapping with the figure caption; it is not restated as a standalone numbered proposition.",
+    "No PDF, TeX source, full text, or third-party shader code is stored in the repository."
+  ]
+}

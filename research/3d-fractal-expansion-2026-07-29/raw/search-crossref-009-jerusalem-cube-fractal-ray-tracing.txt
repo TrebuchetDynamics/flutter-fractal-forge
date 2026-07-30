@@ -1,0 +1,10 @@
+10.1007/979-8-8688-1691-8_3	GPGPU Ray Tracing vs. DXR Ray Tracing Approaches
+10.70190/jq.i69.p87	Stolen Land: Tracing Traumascapes in Four Leprosaria in the Jerusalem District
+10.1515/9783110639476-007	Chapter 6 Tracing the Jerusalem Code in Christiansfeld: A World Heritage City
+10.2172/1835864	Coherent Ray-tracing for BREAD
+10.1364/ao.52.004527	Polarization properties of a corner-cube retroreflector with three-dimensional polarization ray-tracing calculus
+10.1016/0263-7855(91)80019-v	The application of fractal clustering to efficient molecular ray tracing on low-cost computers
+10.70190/jq.i32.p5	Scholars and Notables: Tracing the Effendiya’s Hold on Power in 18th-Century Jerusalem
+10.1201/b10675-3	Bare-Bones Ray Tracing
+10.1007/978-3-030-17490-3_7	Ray-Tracing Hardware
+10.1109/rt.2008.4634609	Ray tracing: Strengths and opportunities

@@ -1,0 +1,10 @@
+10.1007/978-1-4612-5796-7_35	Remarks on the Limit Point Set of a Finitely Generated Kleinian Group
+10.1007/bf02392194	The Hausdorff dimension of the limit set of a geometrically finite Kleinian group
+10.1007/978-94-011-2436-2_6	Finely Open Sets in the Limit Set of a Finitely Generated Kleinian Group
+10.1515/9781400822492-004	Remarks on the Limit Point Set of a Finitely Generated Kleinian Group
+10.1017/cbo9780511542817.007	Quasi-arcs in the limit set of a singly degenerate group with bounded geometry
+10.1016/j.top.2003.10.004	Complex hyperbolic Kleinian groups with limit set a wild knot
+10.4310/mrl.1996.v3.n5.a9	The limit set intersection theorem for finitely generated Kleinian groups
+10.3836/tjm/1279719585	On Limit Sets of 4-dimensional Kleinian Groups with 3 Generators
+10.1007/978-3-0348-0481-3_6	The Limit Set in Dimension 2
+10.1090/ecgd/279	The critical exponent, the Hausdorff dimension of the limit set and the convex core entropy of a Kleinian group

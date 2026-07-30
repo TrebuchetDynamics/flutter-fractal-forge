@@ -32,7 +32,7 @@ FractalModule buildMandelboxModule() {
       label: (_) => 'Scale',
       type: FractalParamType.float,
       min: 1.5,
-      max: 3.0,
+      max: 4.0,
       step: 0.05,
       defaultValue: 2.0,
     ),

@@ -1,0 +1,20 @@
+Juliabulb three dimensional Julia set distance estimator
+Mandelbulb Julia set ray marching distance estimation
+Mandelbulb power map Julia constant three dimensions
+Sierpinski octahedron three dimensional iterated function system
+Sierpinski octahedron fractal Hausdorff dimension
+regular octahedron vertex IFS fractal
+Jerusalem cube fractal construction Hausdorff dimension
+Jerusalem cube iterated function system
+Jerusalem cube fractal ray tracing
+Vicsek fractal three dimensional generalization
+Vicsek fractal iterated function system higher dimensions
+Vicsek set 3D self similar fractal
+pseudo Kleinian fractal distance estimator
+Kleinian group limit set three dimensional visualization
+sphere inversion fractal ray marching distance estimator
+polyhedral kaleidoscopic iterated function system distance estimator
+three dimensional deterministic fractal ray marching
+distance estimated 3D fractals Mandelbulb Mandelbox KIFS
+fractal cube recursive construction ray tracing
+GPU rendering three dimensional iterated function systems

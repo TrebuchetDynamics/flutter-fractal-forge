@@ -1,11 +1,12 @@
 {
-  "generated_at": "2026-07-02T00:00:00.000Z",
+  "generated_at": "2026-07-29T22:00:53.000Z",
   "purpose": "Promoted ledger from live production ModuleRegistry entries that have shader assets and runtime-rendered catalog previews.",
   "counting_rule": "Counts stable live module formula/rule identities only; built-in presets, random seeds, palettes, camera views, and runtime thumbnails are ignored.",
   "skipped": {
     "diagnostic": 7,
     "missingThumbnail": 0,
-    "unknownFamily": 0
+    "unknownFamily": 0,
+    "nonFractal": 1
   },
   "missingThumbnails": [],
   "unknownFamilies": [],
@@ -2500,40 +2501,6 @@
         ]
       },
       "accessibility_label": "benesi fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "pseudo_kleinian",
-      "display_name": "pseudo kleinian",
-      "family": "escape_time_polynomial_complex",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: pseudo_kleinian; catalog category: Escape-Time; shader asset: shaders/ifs_and_geometric/pseudo_kleinian_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/ifs_and_geometric/pseudo_kleinian_gpu.frag",
-      "parameter_schema": {
-        "iterations": "integer",
-        "bailout": "float",
-        "colorScheme": "enumeration"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "pseudo kleinian fractal",
       "counted_entry": true,
       "ingest_status": "promoted",
       "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
@@ -17212,42 +17179,6 @@
       "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
     },
     {
-      "stable_id": "hydrogen_orbital",
-      "display_name": "hydrogen orbital",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: hydrogen_orbital; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/hydrogen_orbital_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/hydrogen_orbital_gpu.frag",
-      "parameter_schema": {
-        "densityGain": "float",
-        "noiseStrength": "float",
-        "radialScale": "float",
-        "steps": "integer",
-        "colorScheme": "enumeration"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "hydrogen orbital fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
       "stable_id": "f0143_dendrite_julia",
       "display_name": "f0143 dendrite julia",
       "family": "escape_time_polynomial_complex",
@@ -25974,874 +25905,6 @@
         ]
       },
       "accessibility_label": "f1156 orbit trap cross fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0570_mandelbox_s_1_5",
-      "display_name": "f0570 mandelbox s 1 5",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0570_mandelbox_s_1_5; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag",
-      "parameter_schema": {
-        "scale": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "colorScheme": "enumeration"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0570 mandelbox s 1 5 fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0571_mandelbox_s_1_8",
-      "display_name": "f0571 mandelbox s 1 8",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0571_mandelbox_s_1_8; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag",
-      "parameter_schema": {
-        "scale": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "colorScheme": "enumeration"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0571 mandelbox s 1 8 fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0572_mandelbox_s_2_0",
-      "display_name": "f0572 mandelbox s 2 0",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0572_mandelbox_s_2_0; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag",
-      "parameter_schema": {
-        "scale": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "colorScheme": "enumeration"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0572 mandelbox s 2 0 fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0573_mandelbox_s_2_2",
-      "display_name": "f0573 mandelbox s 2 2",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0573_mandelbox_s_2_2; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag",
-      "parameter_schema": {
-        "scale": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "colorScheme": "enumeration"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0573 mandelbox s 2 2 fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0574_mandelbox_s_2_5",
-      "display_name": "f0574 mandelbox s 2 5",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0574_mandelbox_s_2_5; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag",
-      "parameter_schema": {
-        "scale": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "colorScheme": "enumeration"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0574 mandelbox s 2 5 fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0575_mandelbox_s_2_7",
-      "display_name": "f0575 mandelbox s 2 7",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0575_mandelbox_s_2_7; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag",
-      "parameter_schema": {
-        "scale": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "colorScheme": "enumeration"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0575 mandelbox s 2 7 fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0576_mandelbox_s_3_0",
-      "display_name": "f0576 mandelbox s 3 0",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0576_mandelbox_s_3_0; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag",
-      "parameter_schema": {
-        "scale": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "colorScheme": "enumeration"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0576 mandelbox s 3 0 fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0577_mandelbox_s_3_5",
-      "display_name": "f0577 mandelbox s 3 5",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0577_mandelbox_s_3_5; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag",
-      "parameter_schema": {
-        "scale": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "colorScheme": "enumeration"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0577 mandelbox s 3 5 fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0578_mandelbox_s_4_0",
-      "display_name": "f0578 mandelbox s 4 0",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0578_mandelbox_s_4_0; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag",
-      "parameter_schema": {
-        "scale": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "colorScheme": "enumeration"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0578 mandelbox s 4 0 fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0561_mandelbulb_n_8",
-      "display_name": "f0561 mandelbulb n 8",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0561_mandelbulb_n_8; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag",
-      "parameter_schema": {
-        "power": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "bailout": "float",
-        "colorScheme": "enumeration"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0561 mandelbulb n 8 fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0562_mandelbulb_n_9",
-      "display_name": "f0562 mandelbulb n 9",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0562_mandelbulb_n_9; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag",
-      "parameter_schema": {
-        "power": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "bailout": "float",
-        "colorScheme": "enumeration"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0562 mandelbulb n 9 fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0563_mandelbulb_n_10",
-      "display_name": "f0563 mandelbulb n 10",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0563_mandelbulb_n_10; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag",
-      "parameter_schema": {
-        "power": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "bailout": "float",
-        "colorScheme": "enumeration"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0563 mandelbulb n 10 fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0564_mandelbulb_n_11",
-      "display_name": "f0564 mandelbulb n 11",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0564_mandelbulb_n_11; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag",
-      "parameter_schema": {
-        "power": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "bailout": "float",
-        "colorScheme": "enumeration"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0564 mandelbulb n 11 fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0565_mandelbulb_n_12",
-      "display_name": "f0565 mandelbulb n 12",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0565_mandelbulb_n_12; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag",
-      "parameter_schema": {
-        "power": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "bailout": "float",
-        "colorScheme": "enumeration"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0565 mandelbulb n 12 fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0566_mandelbulb_n_14",
-      "display_name": "f0566 mandelbulb n 14",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0566_mandelbulb_n_14; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag",
-      "parameter_schema": {
-        "power": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "bailout": "float",
-        "colorScheme": "enumeration"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0566 mandelbulb n 14 fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0567_mandelbulb_n_16",
-      "display_name": "f0567 mandelbulb n 16",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0567_mandelbulb_n_16; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag",
-      "parameter_schema": {
-        "power": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "bailout": "float",
-        "colorScheme": "enumeration"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0567 mandelbulb n 16 fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0568_mandelbulb_n_20",
-      "display_name": "f0568 mandelbulb n 20",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0568_mandelbulb_n_20; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag",
-      "parameter_schema": {
-        "power": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "bailout": "float",
-        "colorScheme": "enumeration"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0568 mandelbulb n 20 fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0569_mandelbulb_n_24",
-      "display_name": "f0569 mandelbulb n 24",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0569_mandelbulb_n_24; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag",
-      "parameter_schema": {
-        "power": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "bailout": "float",
-        "colorScheme": "enumeration"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0569 mandelbulb n 24 fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0593_sierpinski_tetrahedron_3d",
-      "display_name": "f0593 sierpinski tetrahedron 3d",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0593_sierpinski_tetrahedron_3d; catalog category: 3D Fractals; shader asset: shaders/ifs_and_geometric/raymarched_3d/kifs_sierpinski_tetra_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/ifs_and_geometric/raymarched_3d/kifs_sierpinski_tetra_gpu.frag",
-      "parameter_schema": {
-        "power": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "bailout": "float",
-        "colorScheme": "enumeration"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0593 sierpinski tetrahedron 3d fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0598_3d_koch_snowflake",
-      "display_name": "f0598 3d koch snowflake",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0598_3d_koch_snowflake; catalog category: 3D Fractals; shader asset: shaders/ifs_and_geometric/raymarched_3d/kifs_koch_fold_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/ifs_and_geometric/raymarched_3d/kifs_koch_fold_gpu.frag",
-      "parameter_schema": {
-        "power": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "bailout": "float",
-        "colorScheme": "enumeration"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0598 3d koch snowflake fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0540_quaternion_julia_0_2_0_8_0_0_0_0",
-      "display_name": "f0540 quaternion julia 0 2 0 8 0 0 0 0",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0540_quaternion_julia_0_2_0_8_0_0_0_0; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag",
-      "parameter_schema": {
-        "power": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "bailout": "float",
-        "colorScheme": "enumeration",
-        "c0": "float",
-        "c1": "float",
-        "c2": "float",
-        "c3": "float"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0540 quaternion julia 0 2 0 8 0 0 0 0 fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0544_quaternion_julia_0_291_0_399_0_339_0_437",
-      "display_name": "f0544 quaternion julia 0 291 0 399 0 339 0 437",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0544_quaternion_julia_0_291_0_399_0_339_0_437; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag",
-      "parameter_schema": {
-        "power": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "bailout": "float",
-        "colorScheme": "enumeration",
-        "c0": "float",
-        "c1": "float",
-        "c2": "float",
-        "c3": "float"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0544 quaternion julia 0 291 0 399 0 339 0 437 fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0545_quaternion_julia_0_08_0_0_0_8_0_0",
-      "display_name": "f0545 quaternion julia 0 08 0 0 0 8 0 0",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0545_quaternion_julia_0_08_0_0_0_8_0_0; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag",
-      "parameter_schema": {
-        "power": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "bailout": "float",
-        "colorScheme": "enumeration",
-        "c0": "float",
-        "c1": "float",
-        "c2": "float",
-        "c3": "float"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0545 quaternion julia 0 08 0 0 0 8 0 0 fractal",
-      "counted_entry": true,
-      "ingest_status": "promoted",
-      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
-    },
-    {
-      "stable_id": "f0594_menger_sponge_3d",
-      "display_name": "f0594 menger sponge 3d",
-      "family": "distance_estimated_3d_raymarch",
-      "mathematical_identity_type": "named_stable_variant",
-      "formula_or_rule": "Live app FractalModule identity: f0594_menger_sponge_3d; catalog category: 3D Fractals; shader asset: shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
-      "renderer_path": "shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag",
-      "parameter_schema": {
-        "power": "float",
-        "iterations": "integer",
-        "steps": "integer",
-        "bailout": "float",
-        "colorScheme": "enumeration",
-        "fractalType": "integer"
-      },
-      "provenance": {
-        "source_type": "live_module_registry",
-        "source": "lib/core/modules/module_registry.dart",
-        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
-      },
-      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
-      "thumbnail_plan": "runtime-rendered catalog preview",
-      "validation": {
-        "status": "validated",
-        "signals": [
-          "ModuleRegistry entry exists",
-          "CatalogRepository entry exists",
-          "shader asset exists",
-          "runtime thumbnail renderer available",
-          "presets ignored for counted-entry total"
-        ]
-      },
-      "accessibility_label": "f0594 menger sponge 3d fractal",
       "counted_entry": true,
       "ingest_status": "promoted",
       "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
@@ -61668,6 +60731,431 @@
       "counted_entry": true,
       "ingest_status": "promoted",
       "notes": "Legalize/XMission import slice. Individual parameter/image entries remain uncounted presets/source leads."
+    },
+    {
+      "stable_id": "juliabulb_3d",
+      "display_name": "juliabulb 3d",
+      "family": "distance_estimated_3d_raymarch",
+      "mathematical_identity_type": "named_stable_variant",
+      "formula_or_rule": "Live app FractalModule identity: juliabulb_3d; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/juliabulb_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/juliabulb_3d_gpu.frag",
+      "parameter_schema": {
+        "power": "float",
+        "iterations": "integer",
+        "steps": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration",
+        "cx": "float",
+        "cy": "float",
+        "cz": "float"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "juliabulb 3d fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
+    },
+    {
+      "stable_id": "vicsek_3d",
+      "display_name": "vicsek 3d",
+      "family": "distance_estimated_3d_raymarch",
+      "mathematical_identity_type": "named_stable_variant",
+      "formula_or_rule": "Live app FractalModule identity: vicsek_3d; catalog category: 3D Fractals; shader asset: shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+      "parameter_schema": {
+        "iterations": "integer",
+        "steps": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "vicsek 3d fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
+    },
+    {
+      "stable_id": "jerusalem_cube_3d",
+      "display_name": "jerusalem cube 3d",
+      "family": "distance_estimated_3d_raymarch",
+      "mathematical_identity_type": "named_stable_variant",
+      "formula_or_rule": "Live app FractalModule identity: jerusalem_cube_3d; catalog category: 3D Fractals; shader asset: shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+      "parameter_schema": {
+        "iterations": "integer",
+        "steps": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "jerusalem cube 3d fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
+    },
+    {
+      "stable_id": "sierpinski_octahedron_3d",
+      "display_name": "sierpinski octahedron 3d",
+      "family": "distance_estimated_3d_raymarch",
+      "mathematical_identity_type": "named_stable_variant",
+      "formula_or_rule": "Live app FractalModule identity: sierpinski_octahedron_3d; catalog category: 3D Fractals; shader asset: shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+      "parameter_schema": {
+        "iterations": "integer",
+        "steps": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "sierpinski octahedron 3d fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
+    },
+    {
+      "stable_id": "pseudo_kleinian",
+      "display_name": "pseudo kleinian",
+      "family": "distance_estimated_3d_raymarch",
+      "mathematical_identity_type": "named_stable_variant",
+      "formula_or_rule": "Live app FractalModule identity: pseudo_kleinian; catalog category: 3D Fractals; shader asset: shaders/ifs_and_geometric/pseudo_kleinian_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/ifs_and_geometric/pseudo_kleinian_gpu.frag",
+      "parameter_schema": {
+        "power": "float",
+        "iterations": "integer",
+        "steps": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "pseudo kleinian fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
+    },
+    {
+      "stable_id": "cantor_dust_3d",
+      "display_name": "cantor dust 3d",
+      "family": "distance_estimated_3d_raymarch",
+      "mathematical_identity_type": "named_stable_variant",
+      "formula_or_rule": "Live app FractalModule identity: cantor_dust_3d; catalog category: 3D Fractals; shader asset: shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+      "parameter_schema": {
+        "iterations": "integer",
+        "steps": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "cantor dust 3d fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
+    },
+    {
+      "stable_id": "quaternion_mandelbrot_3d",
+      "display_name": "quaternion mandelbrot 3d",
+      "family": "distance_estimated_3d_raymarch",
+      "mathematical_identity_type": "named_stable_variant",
+      "formula_or_rule": "Live app FractalModule identity: quaternion_mandelbrot_3d; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_mandelbrot_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_mandelbrot_3d_gpu.frag",
+      "parameter_schema": {
+        "iterations": "integer",
+        "steps": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "quaternion mandelbrot 3d fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
+    },
+    {
+      "stable_id": "tetrabrot_3d",
+      "display_name": "tetrabrot 3d",
+      "family": "distance_estimated_3d_raymarch",
+      "mathematical_identity_type": "named_stable_variant",
+      "formula_or_rule": "Live app FractalModule identity: tetrabrot_3d; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/tetrabrot_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/tetrabrot_3d_gpu.frag",
+      "parameter_schema": {
+        "iterations": "integer",
+        "steps": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "tetrabrot 3d fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
+    },
+    {
+      "stable_id": "arrowheadbrot_3d",
+      "display_name": "arrowheadbrot 3d",
+      "family": "distance_estimated_3d_raymarch",
+      "mathematical_identity_type": "named_stable_variant",
+      "formula_or_rule": "Live app FractalModule identity: arrowheadbrot_3d; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/arrowheadbrot_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/arrowheadbrot_3d_gpu.frag",
+      "parameter_schema": {
+        "iterations": "integer",
+        "steps": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "arrowheadbrot 3d fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
+    },
+    {
+      "stable_id": "mousebrot_3d",
+      "display_name": "mousebrot 3d",
+      "family": "distance_estimated_3d_raymarch",
+      "mathematical_identity_type": "named_stable_variant",
+      "formula_or_rule": "Live app FractalModule identity: mousebrot_3d; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/mousebrot_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/mousebrot_3d_gpu.frag",
+      "parameter_schema": {
+        "iterations": "integer",
+        "steps": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "mousebrot 3d fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
+    },
+    {
+      "stable_id": "turtlebrot_3d",
+      "display_name": "turtlebrot 3d",
+      "family": "distance_estimated_3d_raymarch",
+      "mathematical_identity_type": "named_stable_variant",
+      "formula_or_rule": "Live app FractalModule identity: turtlebrot_3d; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/turtlebrot_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/turtlebrot_3d_gpu.frag",
+      "parameter_schema": {
+        "iterations": "integer",
+        "steps": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "turtlebrot 3d fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
+    },
+    {
+      "stable_id": "hourglassbrot_3d",
+      "display_name": "hourglassbrot 3d",
+      "family": "distance_estimated_3d_raymarch",
+      "mathematical_identity_type": "named_stable_variant",
+      "formula_or_rule": "Live app FractalModule identity: hourglassbrot_3d; catalog category: 3D Fractals; shader asset: shaders/3d_and_hypercomplex/raymarched_volumes/hourglassbrot_3d_gpu.frag. Counts the module formula/rule identity only, not presets, palettes, or camera views.",
+      "renderer_path": "shaders/3d_and_hypercomplex/raymarched_volumes/hourglassbrot_3d_gpu.frag",
+      "parameter_schema": {
+        "iterations": "integer",
+        "steps": "integer",
+        "bailout": "float",
+        "colorScheme": "enumeration"
+      },
+      "provenance": {
+        "source_type": "live_module_registry",
+        "source": "lib/core/modules/module_registry.dart",
+        "reuse_decision": "local app module identity; count only the stable module formula/rule identity, not built-in presets or random seeds"
+      },
+      "license_context": "local app module and shader artifact; no upstream source copied by this ledger",
+      "thumbnail_plan": "runtime-rendered catalog preview",
+      "validation": {
+        "status": "validated",
+        "signals": [
+          "ModuleRegistry entry exists",
+          "CatalogRepository entry exists",
+          "shader asset exists",
+          "runtime thumbnail renderer available",
+          "presets ignored for counted-entry total"
+        ]
+      },
+      "accessibility_label": "hourglassbrot 3d fractal",
+      "counted_entry": true,
+      "ingest_status": "promoted",
+      "notes": "Generated from live registry. Formula detail should be enriched before educational copy, but this is a renderable stable module identity."
     }
   ]
 }

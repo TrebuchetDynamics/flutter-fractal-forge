@@ -1,0 +1,10 @@
+10.3390/math10030482	Relationship between the Mandelbrot Algorithm and the Platonic Solids
+10.1016/s0022-3093(02)01438-2	Collectivity of motion in undercooled liquids and amorphous solids
+	The Platonic Representation Hypothesis
+	Platonicons: the Platonic solids start rolling
+10.22331/q-2020-07-09-293	The Platonic solids and fundamental tests of quantum mechanics
+	An Etruscan Dodecahedron
+10.1107/s205327331400638x	Faces of platonic solids in all dimensions
+10.1103/physreve.80.041104	Dense Packings of Polyhedra: Platonic and Archimedean Solids
+	The Dynamics of Financial Markets -- Mandelbrot's multifractal cascades, and beyond
+	Platonic Representations in the Human Brain: Unsupervised Recovery of Universal Geometry

@@ -1,0 +1,20 @@
+10.1016/j.chaos.2021.111140	On the contraction ratio of iterated function systems whose attractors are Sierpinski <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML" altimg="si4.svg"><mml:mi>n</mml:mi></mml:math>-gons
+10.5220/0003829803610364	SIERPINSKI JELLY - Iterated Function Systems as Elastic Bodies
+10.1142/9789814291293_0006	Contraction maps and iterated function systems
+10.52783/cana.v32.2867	Multi Fuzzy Iterated Function System Consisting of Generalized Fuzzy Contraction Mapping in Fuzzy Metric Spaces
+10.1007/bf01450560	Iterated ring class fields and the icosahedron
+10.3390/axioms15030201	On Contraction Principles in Product Spaces and Applications in Iterated Function Systems
+10.20944/preprints202603.1399.v2	Scale Selection in Iterated Function Systems and Banach Contractions via the Susceptibility Peak: A Contraction-Lens Framework on Finite Metric Structures
+10.1007/s11784-022-00978-1	An application of Edelstein’s contraction principle: the attractor of a graph-directed generalized iterated function system
+10.1201/9781439864708-10	Deterministic Theory of Iterated Function Systems
+10.1201/9781439864708-11	Probabilistic Theory of Iterated Function Systems
+10.21236/ada265856	Estimating the Spatial Extent of Attractors of Iterated Function System
+10.1007/1-84628-686-7_3	Iterated Function Systems – the Model
+10.1007/1-84628-686-7_6	nD Iterated Function Systems and Their Applications
+10.2139/ssrn.6182175	Quantization dimension for a generalized inhomogeneous bi-Lipschitz iterated function system
+10.1142/9789812702715_0006	ITERATED RANDOM FUNCTION SYSTEM: CONVERGENCE THEOREMS
+10.2139/ssrn.6182172	Quantization dimension for a generalized inhomogeneous bi-Lipschitz iterated function system
+10.1007/s11229-009-9688-4	Multiple and iterated contraction reduced to single-step single-sentence contraction
+10.1201/b18980-15	- Anticanonical linear system
+10.1016/j.artint.2019.103171	From iterated revision to iterated contraction: Extending the Harper Identity
+10.2139/ssrn.4984009	Abundance of Self-Similarities within the Attractor of an Iterated Function System (Ifs)

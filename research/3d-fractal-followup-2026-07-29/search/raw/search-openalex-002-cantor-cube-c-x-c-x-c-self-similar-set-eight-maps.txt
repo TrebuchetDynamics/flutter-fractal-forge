@@ -1,0 +1,20 @@
+10.4064/cm110-2-3	Topological size of scrambled sets
+10.1016/j.cell.2019.12.036	Large-Scale Exome Sequencing Study Implicates Both Developmental and Functional Changes in the Neurobiology of Autism
+10.1063/1.1336498	Symbolic dynamics and computation in model gene networks
+10.1029/2006je002701	An overview of the Mars Reconnaissance Orbiter (MRO) science mission
+10.1090/s0273-0979-2011-01334-9	The classical theory of minimal surfaces
+10.1007/s00220-011-1220-2	Spectral and Quantum Dynamical Properties of the Weakly Coupled Fibonacci Hamiltonian
+10.3390/nano9121719	A Comprehensive Review on the Synthesis, Characterization, and Biomedical Application of Platinum Nanoparticles
+	On Circular Coding Properties of Gene and Protein Sequences
+10.1038/s41467-018-06757-2	Predictive multiphase evolution in Al-containing high-entropy alloys
+10.1137/140962681	Optimizing the Adaptive Fast Multipole Method for Fractal Sets
+10.1090/s0002-9947-2011-05188-3	Algebraic numbers, free group automorphisms and substitutions on the plane
+10.1038/ismej.2016.187	Chemolithotrophic processes in the bacterial communities on the surface of mineral-enriched biochars
+10.1016/j.jfa.2021.109019	Density results for Sobolev, Besov and Triebel–Lizorkin spaces on rough sets
+10.1524/zkri.219.7.391.35643	Twenty years of structure research on quasicrystals. Part I. Pentagonal, octagonal, decagonal and dodecagonal quasicrystals
+10.1021/acsnanoscienceau.3c00049	Colloidal Nanoparticles of High Entropy Materials: Capabilities, Challenges, and Opportunities in Synthesis and Characterization
+10.1090/s0002-9947-00-02368-0	Examples of torsion points on genus two curves
+10.1093/mnras/sty2170	Multifractal analysis of the interstellar medium: first application to Hi-GAL observations
+10.1029/2022gc010724	Estimating the Net Magnetic Moment of Geological Samples From Planar Field Maps Using Multipoles
+10.2307/2219295	The Computer Revolution in Philosophy.
+10.1016/j.aim.2010.10.009	A general theory of self-similarity

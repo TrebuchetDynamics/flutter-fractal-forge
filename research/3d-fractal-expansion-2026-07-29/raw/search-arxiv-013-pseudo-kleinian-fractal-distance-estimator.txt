@@ -1,0 +1,10 @@
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1007/s11868-011-0029-2	Pointwise estimates of pseudo-differential operators
+10.4171/jfg/57	Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality
+	Dimensions of Kleinian orbital sets
+10.1038/s41598-023-45962-y	Network efficiency of spatial systems with fractal morphology: a geometric graphs approach
+10.1142/s0218348x21500249	Fractal Interpretation of Bacterial Light Harvesters
+	Variable Topology on Fractal Manifold
+	An Overview of Complex Fractal Dimensions: From Fractal Strings to Fractal Drums, and Back
+	Essential spectrum of elliptic systems of pseudo-differential operators on $L^2(\mathbb{R}^N)\oplus L^2(\mathbb{R}^N)$
+10.1007/s11868-011-0042-5	Perturbation of Sectorial Projections of Elliptic Pseudo-differential Operators

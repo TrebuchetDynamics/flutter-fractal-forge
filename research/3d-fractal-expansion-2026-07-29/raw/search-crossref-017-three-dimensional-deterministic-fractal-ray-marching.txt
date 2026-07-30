@@ -1,0 +1,9 @@
+10.2514/6.1986-276	An improved space-marching Euler code for three-dimensional bodies at supersonic speeds
+10.3997/2214-4609.201408168	Three Dimensional Traveltimes Using the Fast Marching Method
+10.1021/acs.nanolett.9b02198.s001	Deterministic Assembly of Three-Dimensional Suspended Nanowire Structures
+10.2139/ssrn.4624601	A Three-Dimensional Geological Modelling Method Using a Modified Marching Cubes Algorithm
+10.1002/9780470825020.ch9	Time‐Marching Method for Two‐Dimensional and Three‐Dimensional Flow Computations in Turbomachinery
+10.21236/ada096354	An Application of Implicit Time Marching to Three Dimensional Flow through a Compressor Blade Row.
+10.2139/ssrn.4796970	Three-Dimensional Assessment of Damage Evolution for Fiber-Reinforced Recycled Powder Concrete Based on X-Ray Computed Tomography and Fractal Theory
+10.3390/fractalfract10060388	X-Ray Computed Tomography-Based Three-Dimensional Fractal Characterization of Bedding-Fracture-Controlled Porosity and Permeability Anisotropy in LGS Shale Oil Cores
+10.2514/6.1984-1298	Computation of three-dimensional viscous flows using a space-marching method

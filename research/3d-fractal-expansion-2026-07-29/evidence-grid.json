@@ -1,0 +1,63 @@
+{
+  "question": "Which mathematically distinct 3D fractal identities can be added safely to Flutter Fractal Forge without counting parameter presets as fractals?",
+  "candidates": [
+    {
+      "id": "juliabulb_3d",
+      "identity": "Julia set of the White-Nylander polar power map in R3",
+      "formula": "z0=p; z(n+1)=polarPower(z(n), power)+c",
+      "evidence": [
+        "https://arxiv.org/abs/2305.17848",
+        "https://doi.org/10.1142/S0218348X23500627",
+        "research/worlds-largest-fractal-catalog/curated-entry-ledger.existing-app.json"
+      ],
+      "identity_decision": "One configurable Juliabulb family; powers and c constants are controls/presets, not separate identities.",
+      "implementation_source": "Fresh local GLSL implementation from the stated polar map; no third-party code copied."
+    },
+    {
+      "id": "vicsek_3d",
+      "identity": "Three-dimensional center-cross Vicsek IFS",
+      "formula": "Seven similarities of ratio 1/3: center plus six face-adjacent cube centers; dimension log(7)/log(3).",
+      "evidence": [
+        "https://en.wikipedia.org/wiki/Vicsek_fractal",
+        "https://doi.org/10.1142/S0218348X21500948",
+        "research/worlds-largest-fractal-catalog/curated-entry-ledger.existing-app.json"
+      ],
+      "identity_decision": "Distinct 3D transform system, not the existing 2D Vicsek module.",
+      "implementation_source": "Fresh recursive nearest-child IFS distance estimate from the seven-map construction."
+    },
+    {
+      "id": "jerusalem_cube_3d",
+      "identity": "Jerusalem cube mixed-scale IFS",
+      "formula": "Eight corner similarities of ratio r=sqrt(2)-1 and twelve edge similarities of ratio r^2; dimension solves 8*r^d+12*r^(2d)=1.",
+      "evidence": [
+        "https://en.wikipedia.org/wiki/Menger_sponge#Jerusalem_cube",
+        "research/worlds-largest-fractal-catalog/curated-entry-ledger.existing-app.json"
+      ],
+      "identity_decision": "Distinct mixed-scale cube construction; the existing jerusalem_cube module is explicitly a 2D cross-section.",
+      "implementation_source": "Fresh recursive nearest-child IFS distance estimate from the published construction."
+    },
+    {
+      "id": "sierpinski_octahedron_3d",
+      "identity": "Six-vertex octahedral Sierpinski IFS",
+      "formula": "Six similarities of ratio 1/2 centered toward the positive and negative coordinate-axis vertices; dimension log(6)/log(2).",
+      "evidence": [
+        "research/worlds-largest-fractal-catalog/curated-entry-ledger.existing-app.json",
+        "https://arxiv.org/abs/2205.13065"
+      ],
+      "identity_decision": "Distinct polyhedral IFS from the four-vertex Sierpinski tetrahedron.",
+      "implementation_source": "Fresh local octahedral IFS implementation; no external shader code copied."
+    },
+    {
+      "id": "pseudo_kleinian",
+      "identity": "Pseudo-Kleinian box-fold and sphere-inversion distance-estimated fractal",
+      "formula": "Repeated p=2*clamp(p,-C,C)-p, spherical inversion, scale accumulation, and affine offset.",
+      "evidence": [
+        "https://github.com/makarov-mm/pseudo-kleinian",
+        "https://www.imaginary.org/sites/default/files/hybrid_pseudo.pdf",
+        "shaders/ifs_and_geometric/pseudo_kleinian_gpu.frag"
+      ],
+      "identity_decision": "Promote the existing pseudo_kleinian identity from a 2D projection to its intended 3D ray-marched renderer; do not add a duplicate ID.",
+      "implementation_source": "Rewrite the existing local shader around its current fold/inversion recurrence; no third-party code copied."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+10.4171/jfg/82	A p.c.f. self-similar set with no self-similar energy
+10.1142/1408	Fractal Growth
+10.4171/jfg/148	A self-similar set with non-locally connected components
+10.1007/978-1-84996-486-9_5	Fractal Limits: The Mandelbrot Set and the self-similar tilings of M. C. Escher
+10.1142/0511	Fractal Growth Phenomena
+10.1002/9780470062098.ch1	Principal Concepts of Fractal Theory and Self‐Similar Processes
+10.1142/1407	Fractal Growth Phenomena
+10.4171/jfg/44	Structure of the class of iterated function systems that generate the same self-similar set
+10.1093/oso/9780195080131.003.0007	The Fractal Dimension: Self-Similar and Self-Affine Scaling
+10.1103/physreva.41.6881	Tracing a diffusion-limited aggregate: Self-affine versus self-similar scaling

@@ -1,0 +1,9 @@
+10.1142/1408	Fractal Growth
+10.1142/0511	Fractal Growth Phenomena
+10.1142/1407	Fractal Growth Phenomena
+10.1142/s0218348x21500948	NODE-WEIGHTED AVERAGE DISTANCES OF NETWORKS MODELED ON THREE-DIMENSIONAL VICSEK FRACTAL
+10.1142/1452	Dynamics of Fractal Surfaces
+10.1063/1.4822891	Simulating Fractal Aggregation
+10.1063/1.4822864	Fractal Growth Phenomena
+10.1016/b978-0-12-817797-6.00007-5	Tortuosity in two-dimensional and three-dimensional fractal porous media: A numerical analysis
+10.15199/48.2021.06.03	Fractal H-Vicsek MIMO Antenna for 5G Communications

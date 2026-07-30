@@ -12,13 +12,17 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   test('public production fractal counts match the registry', () {
     final modules = ModuleRegistry().modules;
-    final production = modules
-        .where((m) => !m.shaderAsset.startsWith('shaders/diagnostic/'))
+    final diagnostics = modules
+        .where((m) => m.shaderAsset.startsWith('shaders/diagnostic/'))
         .length;
-    final diagnostics = modules.length - production;
+    final production = modules
+        .where((m) =>
+            !m.shaderAsset.startsWith('shaders/diagnostic/') &&
+            m.id != 'hydrogen_orbital')
+        .length;
 
-    expect(production, 978,
-        reason: 'README.md advertises 978 production fractals');
+    expect(production, 964,
+        reason: 'README.md advertises 964 production fractals');
     expect(diagnostics, 7,
         reason: 'README.md says debug/test builds add 7 diagnostic modules');
 
@@ -48,8 +52,8 @@ void main() {
   });
 
   test('public copy does not advertise undeclared device capabilities', () {
-    // Counts were already anchored here, which is why "978" survived fifteen
-    // translations. Capability claims were not, which is how "camera overlay
+    // Counts are anchored here so stale totals cannot survive translations.
+    // Capability claims were not, which is how "camera overlay
     // experiments" reached thirteen locales and the published privacy policy
     // for an app that has never requested camera access.
     //
@@ -70,15 +74,30 @@ void main() {
       'camera': (
         permission: 'CAMERA',
         terms: [
-          'camera', 'kamera', 'caméra', 'cámara', 'fotocamera',
-          'カメラ', '카메라', '相机', '相機', 'कैमरा',
+          'camera',
+          'kamera',
+          'caméra',
+          'cámara',
+          'fotocamera',
+          'カメラ',
+          '카메라',
+          '相机',
+          '相機',
+          'कैमरा',
         ],
       ),
       'microphone': (
         permission: 'RECORD_AUDIO',
         terms: [
-          'microphone', 'mikrofon', 'micrófono', 'microfono',
-          'マイク', '마이크', '麦克风', '麥克風', 'माइक',
+          'microphone',
+          'mikrofon',
+          'micrófono',
+          'microfono',
+          'マイク',
+          '마이크',
+          '麦克风',
+          '麥克風',
+          'माइक',
         ],
       ),
       'bluetooth': (permission: 'BLUETOOTH', terms: ['bluetooth']),
@@ -114,7 +133,7 @@ void main() {
         if (declared.contains(cap.value.permission)) continue;
         final claim = RegExp(
           r'(requests?|require[sd]?|uses?|access(es)? (to )?(your )?)'
-          r'[^.<>]{0,40}\b${cap.key}\b'
+                  r'[^.<>]{0,40}\b${cap.key}\b'
               .replaceAll(r'${cap.key}', RegExp.escape(cap.key)),
           caseSensitive: false,
         );

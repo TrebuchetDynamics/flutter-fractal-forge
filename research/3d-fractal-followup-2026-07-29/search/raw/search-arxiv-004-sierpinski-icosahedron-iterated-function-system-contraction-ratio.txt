@@ -1,0 +1,20 @@
+	A Conditional Perspective on the Logic of Iterated Belief Contraction
+	On affine iterated function systems which robustly admit an invariant affine subspace
+	Contracting on average iterated function systems by metric change
+	Linear Response for Contracting on Average Iterated Function Systems
+10.1017/prm.2023.28	Brownian motion on the golden ratio Sierpinski gasket
+	Iterated function systems consisting of phi-max-contractions have attractor
+	Weakly contractive iterated function systems and beyond: A manual
+	Dimension estimates for invariant measures of contracting-on-average iterated function systems
+	Infinitely many holes in connectedness loci for collinear affine iterated function systems
+	Iterated function systems of affine expanding and contracting maps on the unit interval
+	From the Icosahedron to E8
+10.3233/faia200180	A Conditional Perspective for Iterated Belief Contraction
+10.1155/2019/7817353	Integral means inequalities, convolution, and univalent functions
+	Belyi Function Decompositions for The Icosahedron of Genus 4
+	The Hutchinson-Barnsley theory for generalized iterated function systems by means of infinite iterated function systems
+	Invariant measures of Markov operators associated to iterated function systems consisting of phi-max-contractions with probabilities
+	Complete monotonicity of a function involving a ratio of gamma functions and applications
+	Generalised Sierpinski Triangles
+10.1143/ptp.109.853	Wess-Zumino term for the AdS superstring and generalized Inonu-Wigner contraction
+	Hecke algebras and edge contractions

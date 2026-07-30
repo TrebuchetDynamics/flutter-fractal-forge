@@ -1,0 +1,20 @@
+	Characterizing the Cantor bi-cube in asymptotic categories
+	Genus $g$ Cantor sets and germane Julia sets
+	Iterated functions and the Cantor set in one dimension
+	On affine iterated function systems which robustly admit an invariant affine subspace
+	Spectral triples for AF C*-algebras and metrics on the Cantor set
+	Costas cubes
+	Cantor set zeros of one-dimensional Brownian motion minus Cantor function
+	The Variation of the Uncentered Maximal Operator with respect to Cubes
+10.1007/jhep05(2021)108	A comparison of optimisation algorithms for high-dimensional particle and astrophysics applications
+	Conjugacy in the Cantor Set Automorphism Group
+10.1002/jcd.21718	Constructions of Pairs of Orthogonal Latin Cubes
+	Cantor: Inspiring Multimodal Chain-of-Thought of MLLM
+	Sets of integers that do not contain Hilbert cubes of dimension 3
+	On three-dimensional Alexandrov spaces
+	Tromino Tiling Deficient Cubes of Any Side Length
+	On the Cantor set and the Cantor-Lebesgue functions
+	Applications of Three Dimensional Extremal Length, I: Tiling of a Topological Cube
+	Interface currents and corner states in magnetic quarter-plane systems
+	Projections of four corner Cantor set: total self-similarity, spectrum and unique codings
+10.1007/jhep11(2020)026	Edge modes of gravity -- I: Corner potentials and charges

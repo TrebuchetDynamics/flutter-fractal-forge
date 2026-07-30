@@ -1,0 +1,355 @@
+# Search batch results
+
+Deduped records: 351
+
+- A Generalization of the Hausdorff Dimension Theorem for Deterministic Fractals — DOI: `10.3390/math9131546`
+- Several Methods for Calculating and Estimating the Hausdorff Dimension — DOI: `10.54097/fcis.v5i1.11588`
+- Multifractional theories: an unconventional review — DOI: `10.1007/jhep03(2017)138`
+- A Mechanical Picture of Fractal Darcy’s Law — DOI: `10.3390/fractalfract7090639`
+- On the differentiability of Lipschitz functions with respect to measures in the Euclidean space — DOI: `10.1007/s00039-016-0354-y`
+- A Brief Survey of Paradigmatic Fractals from a Topological Perspective — DOI: `10.3390/fractalfract7080597`
+- Density results for Sobolev, Besov and Triebel–Lizorkin spaces on rough sets — DOI: `10.1016/j.jfa.2021.109019`
+- Entropy: a guide for the perplexed
+- Flocculation Dynamics of cohesive sediment
+- Strong-field gravitational lensing by black holes — DOI: `10.48550/arxiv.1909.04691`
+- Torricelli’s Law in Fractal Space–Time Continuum — DOI: `10.3390/math12132044`
+- Fractal Zeta Functions in Metric Spaces
+- The Fourfold Way to Gaussianity: Physical Interactions, Distributional Models and Monadic Transformations — DOI: `10.3390/axioms12030278`
+- A tessellated continuum approach to thermal analysis: discontinuity networks — DOI: `10.1007/s00161-016-0523-0`
+- Point-dimension theory (part II): The point-cross dimension
+- Dynamic Light Scattering for the Characterization of Polydisperse Fractal Systems by the Example of Pyrogenic Silica
+- Julia sets within generalized quaternionic and multiquaternionic tensor product algebras — DOI: `10.1016/j.cnsns.2026.110572`
+- Fractal photonic crystals with controlled disorder for robust 3D-integrated on-chip quantum mode localization — DOI: `10.1007/s11082-026-08741-3`
+- Symmetry and Mesoscopic Physics — DOI: `10.3390/books978-3-0365-2758-1`
+- High-Order Numerical Integration on Self-Affine Sets — DOI: `10.1137/24m1697141`
+- Projections of the four-corner Cantor set — DOI: `10.1017/cbo9781316227619.011`
+- HAUSDORFF MEASURE OF CARTESIAN PRODUCT OF THE TERNARY CANTOR SET — DOI: `10.1142/s0218348x12500077`
+- Cantor measures — DOI: `10.1017/cbo9781316227619.009`
+- Expansion of the Hausdorff dimension of the two-scale Cantor set — DOI: `10.1103/physreva.40.3444`
+- Hausdorff Dimension of a Cantor set on $R^1$ — DOI: `10.3836/tjm/1244208596`
+- The Hausdorff Dimension of the Nondifferentiability Set of a Nonsymmetric Cantor Function — DOI: `10.1216/rmjm/1030539621`
+- Cantor set approximations and dimension computations in hyperspaces. — DOI: `10.18297/etd/1632`
+- Hausdorff dimension of Cantor attractors in one-dimensional dynamics — DOI: `10.1007/s00222-007-0083-9`
+- The Hausdorff dimension of the set of dissipative points for a Cantor-like model set for singly cusped parabolic dynamics — DOI: `10.2996/kmj/1245982902`
+- HAUSDORFF DIMENSION OF DERANGED CANTOR SET WITHOUT SOME BOUNDEDNESS CONDITION — DOI: `10.4134/ckms.2004.19.1.113`
+- Hausdorff dimension of the random middle third Cantor set — DOI: `10.1109/iti.2009.5196094`
+- The Hausdorff Dimension of the Nondifferentiability Set of the Cantor Function is [ ln(2)/ln(3) ] 2 — DOI: `10.2307/2159830`
+- THE HAUSDORFF DIMENSION AND MEASURE OF SOME CANTOR SETS — DOI: `10.2307/44154036`
+- Concerning the Cartesian product of Cantor-manifolds — DOI: `10.4064/fm-38-1-55-72`
+- Hausdorff dimension of set of real numbers characterized by digit properties in a Cantor expansion — DOI: `10.21136/cmj.1968.100861`
+- The exact Hausdorff dimension functions of some Cantor sets — DOI: `10.1088/0951-7715/16/3/309`
+- Silver mean Hausdorff dimension and Cantor sets — DOI: `10.1016/0960-0779(94)90002-7`
+- THE HAUSDORFF DIMENSION OF A GRAPH-DIRECTED SET WHOSE UNDERLYING MULTIGRAPH IS A CARTESIAN PRODUCT OR A TENSOR PRODUCT OF MULTIGRAPHS — DOI: `10.1142/s0218348x12500193`
+- The Hausdorff dimension of the nondifferentiability set of the Cantor function is [𝑙𝑛(2)/𝑙𝑛(3)]² — DOI: `10.1090/s0002-9939-1993-1143222-3`
+- Riesz Potential and Energy on Cantor Dyadic Group and Their Relation to Hausdorff Dimension — DOI: `10.14321/realanalexch.1759623537`
+- Hausdorff dimension of Gauss--Cantor sets and two applications to classical Lagrange and Markov spectra
+- Hausdorff measure of cartesian product of Cantor sets
+- Spectral triples for AF C*-algebras and metrics on the Cantor set
+- Genus $g$ Cantor sets and germane Julia sets
+- Cantor: Inspiring Multimodal Chain-of-Thought of MLLM
+- Characterizing the Cantor bi-cube in asymptotic categories
+- Quasisymmetric uniformization and Hausdorff dimensions of Cantor circle Julia sets
+- Hausdorff dimension of Besicovitch sets of Cantor graphs
+- Cantor sets in higher dimensions II: Optimal dimension constraint for stable intersections
+- Existence of principal values of some singular integrals on Cantor sets, and Hausdorff dimension — DOI: `10.2140/pjm.2023.326.285`
+- Geometric properties of images of cartesian products of regular Cantor sets by differentiable real maps
+- Conjugacy in the Cantor Set Automorphism Group
+- A Better Upper Bound of Hausdorff Measure of the Cartesian Product of the Middle Third Cantor Set with Itself Compare to Others'
+- Exact Hausdorff measures of Cantor sets — DOI: `10.14321/realanalexch.39.2.0367`
+- Cantor Julia sets with Hausdorff dimension two
+- Hausdorff Dimension of Cantor Series
+- Stable intersections of regular conformal Cantor sets with large Hausdorff dimensions
+- Hausdorff and harmonic measures on non-homogeneous Cantor sets
+- Hausdorff dimension of Cantor intersections and robust heterodimensional cycles for heterochaos horseshoe maps
+- Cantor sets in higher dimension I: Criterion for stable intersections
+- Topological size of scrambled sets — DOI: `10.4064/cm110-2-3`
+- Large-Scale Exome Sequencing Study Implicates Both Developmental and Functional Changes in the Neurobiology of Autism — DOI: `10.1016/j.cell.2019.12.036`
+- Symbolic dynamics and computation in model gene networks — DOI: `10.1063/1.1336498`
+- An overview of the Mars Reconnaissance Orbiter (MRO) science mission — DOI: `10.1029/2006je002701`
+- The classical theory of minimal surfaces — DOI: `10.1090/s0273-0979-2011-01334-9`
+- Spectral and Quantum Dynamical Properties of the Weakly Coupled Fibonacci Hamiltonian — DOI: `10.1007/s00220-011-1220-2`
+- A Comprehensive Review on the Synthesis, Characterization, and Biomedical Application of Platinum Nanoparticles — DOI: `10.3390/nano9121719`
+- On Circular Coding Properties of Gene and Protein Sequences
+- Predictive multiphase evolution in Al-containing high-entropy alloys — DOI: `10.1038/s41467-018-06757-2`
+- Optimizing the Adaptive Fast Multipole Method for Fractal Sets — DOI: `10.1137/140962681`
+- Algebraic numbers, free group automorphisms and substitutions on the plane — DOI: `10.1090/s0002-9947-2011-05188-3`
+- Chemolithotrophic processes in the bacterial communities on the surface of mineral-enriched biochars — DOI: `10.1038/ismej.2016.187`
+- Twenty years of structure research on quasicrystals. Part I. Pentagonal, octagonal, decagonal and dodecagonal quasicrystals — DOI: `10.1524/zkri.219.7.391.35643`
+- Colloidal Nanoparticles of High Entropy Materials: Capabilities, Challenges, and Opportunities in Synthesis and Characterization — DOI: `10.1021/acsnanoscienceau.3c00049`
+- Examples of torsion points on genus two curves — DOI: `10.1090/s0002-9947-00-02368-0`
+- Multifractal analysis of the interstellar medium: first application to Hi-GAL observations — DOI: `10.1093/mnras/sty2170`
+- Estimating the Net Magnetic Moment of Geological Samples From Planar Field Maps Using Multipoles — DOI: `10.1029/2022gc010724`
+- The Computer Revolution in Philosophy. — DOI: `10.2307/2219295`
+- A general theory of self-similarity — DOI: `10.1016/j.aim.2010.10.009`
+- MEASURE LINEARITY OF BILIPSCHITZ MAPS OF SELF-SIMILAR CANTOR SETS — DOI: `10.2307/44153939`
+- Dynamical properties of certain continuous self maps of the Cantor set — DOI: `10.1016/j.topol.2011.06.062`
+- Modeling self-similar dendrite arrays with a cantor middle-third set of line segments — DOI: `10.1016/0927-0256(96)00021-3`
+- SIMPLE APPROACH TO MULTIFRACTAL SPECTRUM OF A SELF-SIMILAR CANTOR SET — DOI: `10.4134/ckms.2005.20.4.695`
+- Relation between spectral classes of a self-similar Cantor set — DOI: `10.1016/j.jmaa.2003.12.001`
+- Construction of topological representation of geometric patterns using cantor self-similar set — DOI: `10.1063/5.0311896`
+- A wild Cantor set in the Hilbert cube — DOI: `10.2140/pjm.1968.24.189`
+- The transfer matrices of the self-similar fractal potentials on the Cantor set — DOI: `10.1088/1751-8121/41/37/379801`
+- The transfer matrices of the self-similar fractal potentials on the Cantor set — DOI: `10.1088/1751-8113/41/37/379801`
+- Cantor set spectra and self-similar critical modes in a 1D-quasicrystal — DOI: `10.1016/0167-2789(89)90173-5`
+- Figure 1: Cloninger’s “ light” character cube, showing all eight possible combinations of high/low scores in self-directedness, cooperativeness, and self-ranscendence. — DOI: `10.7717/peerj.1675/fig-1`
+- Self‐Similar Objects — DOI: `10.1002/9781118548745.ch6`
+- The transfer matrices of the self-similar fractal potentials on the Cantor set — DOI: `10.1088/0305-4470/33/23/307`
+- Photonic Band Gap and Fractal Resonances in Aperiodic Cantor-like Self-Similar a:SiNx Photonic Structures — DOI: `10.1021/acsaom.4c00081.s001`
+- Non-Integer Bases, Iteration of Continuous Real Maps, and an Arithmetic Self-Similar set — DOI: `10.1023/a:1010667918943`
+- Electron tunnelling through a self-similar fractal potential on the generalized Cantor set — DOI: `10.1088/0305-4470/33/23/308`
+- Sufficient condition for a topological self-similar set to be a self-similar set — DOI: `10.1016/j.topol.2024.109115`
+- Fractional integral associated to the self-similar set or the generalized self-similar set and its physical interpretation — DOI: `10.1016/0375-9601(96)00418-5`
+- Self-similar Cantor sets and quasiregular mappings. — DOI: `10.1515/crll.1992.424.31`
+- Extensions to maps on the cantor set with dense orbits — DOI: `10.1016/0166-8641(90)90019-x`
+- Improved measurement of absolute branching fraction of the inclusive decay $Λ_{c}^{+} \to K_{S}^{0} X$ — DOI: `10.1007/jhep06(2025)194`
+- Precise measurement of the CKM angle $γ$ with a novel approach
+- Measurement of the CKM angle $γ$ in $B^{\pm} \rightarrow D(\rightarrow K^{0}_{\rm S} h^{\prime+}h^{\prime-})h^{\pm}$ decays with a novel approach
+- Observation of the $X(2370)$ in $J/ψ\rightarrowγK^{0}_{S}K^{0}_{S}π^{0}$ and $J/ψ\rightarrowγπ^{0}π^{0}η$
+- First observation of quantum correlations in $e^+e^-\to XD\bar{D}$ and $C$-even constrained $D\bar{D}$ pairs — DOI: `10.1103/dkgg-9twj`
+- Measurement of the absolute branching fraction of the inclusive decay $\barΛ_{c}^{-} \to \bar{n} + X$ — DOI: `10.1103/physrevd.108.l031101`
+- Observation of the Anomalous Shape of $X(1840)$ in $J/ψ\rightarrow γ3(π^+ π^-)$ Indicating a Second Resonance Near $p\bar{p}$ Threshold — DOI: `10.1103/physrevlett.132.151901`
+- Search for a scalar partner of the $X(3872)$ via $ψ(3770)$ decays into $γηη'$ and $γπ^{+}π^{-}J/ψ$
+- Search for the decays $X(3872)\to K_{S}^{0}K^{\pm}π^{\mp}$ and $K^*(892)\bar{K}$ at BESIII — DOI: `10.1103/4w23-9twd`
+- Reconstruction of interactions in the ProtoDUNE-SP detector with Pandora — DOI: `10.1140/epjc/s10052-023-11733-2`
+- Determination of spin-parity quantum numbers of X(2370) as $0^{-+}$ from $J/ψ\rightarrowγK^{0}_{S}K^{0}_{S}η^{\prime}$ — DOI: `10.1103/physrevlett.132.181901`
+- Search for $C$-even states decaying to $D_{s}^{\pm}D_{s}^{*\mp}$ with masses between $4.08$ and $4.32~\mathrm{GeV}/c^{2}$
+- First measurement of $Σ^{+}n\rightarrowΛp$ and $Σ^{+}n\rightarrowΣ^{0}p$ cross sections via $Σ^+$-nucleus scattering at an electron-positron collider — DOI: `10.1103/nzzh-4f6y`
+- Measurements of the absolute branching fractions of the $Λ_{c}^{+}$ hadronic decays
+- Search for $X(1870)$ via the decay $J/ψ\to ωK^+ K^-η$
+- Precision Studies and Searches for CP Asymmetries in the Inclusive Decay $Λ_{c}^{+}\to ΛX$
+- Cross section measurement of $e^+e^-\to ηψ(2S)$ and search for $e^+e^-\toη\tilde{X}(3872)$ — DOI: `10.1103/physrevd.109.112004`
+- The Physics of the B Factories — DOI: `10.1140/epjc/s10052-014-3026-9`
+- Search for sub-GeV invisible particles in inclusive decays of $J/ψ$ to $φ$ — DOI: `10.1103/qx34-yy4b`
+- Search for $X(3872)\toπ^0π^0χ_{c1,2}$
+- The on-line encyclopedia of integer sequences — DOI: `10.1090/noti1734`
+- The fractal dimension of Islamic and Persian four-folding gardens — DOI: `10.1057/s41599-021-00766-1`
+- Tangible Toolkits for Reflective Systems Modeling
+- Lattès-type mappings on compact manifolds — DOI: `10.1090/s1088-4173-2010-00220-1`
+- Fractals: An Eclectic Survey, Part-I — DOI: `10.3390/fractalfract6020089`
+- Influence of temperature and viscosity on anthracene rotational diffusion in organic solvents: Molecular dynamics simulations and fluorescence anisotropy study — DOI: `10.1063/1.475172`
+- A New Deterministic Gasket Fractal Based on Ball Sets — DOI: `10.24132/csrn.3301.34`
+- Variational eigenerosion for rate‐dependent plasticity in concrete modeling at small strain — DOI: `10.1002/nme.6271`
+- Perpendicular space accounting of localized states in a quasicrystal — DOI: `10.1103/physrevb.102.064213`
+- The PanCam Instrument for the ExoMars Rover — DOI: `10.1089/ast.2016.1548`
+- DSRP Theory: A Primer — DOI: `10.3390/systems10020026`
+- BioLumin: An Immersive Mixed Reality Experience for Interactive Microscopic Visualization and Biomedical Research Annotation — DOI: `10.1145/3548777`
+- Admissible Reversing and Extended Symmetries for Bijective Substitutions — DOI: `10.1007/s00454-022-00387-8`
+- Existence, non existence and uniqueness results for higher order elliptic systems
+- Reactive-Process Programming and Distributed Discrete-Event Simulation — DOI: `10.7907/9qzd-kv20`
+- The development of secondary porosity and permeability in fractured rock
+- Complexity : a study of fractals and self-organized criticality — DOI: `10.32657/10356/51166`
+- Research of Three-Dimensional Simulation Tree Based on Iterated Function System — DOI: `10.4028/www.scientific.net/amr.490-495.2559`
+- Figure set, Figure 13. — DOI: `10.3847/1538-4357/ae2480/data1`
+- On the set-theoretic strength of the $n$-compactness of generalized Cantor cubes — DOI: `10.4064/fm961-1-2016`
+- Representation of discrete sequences with three-dimensional iterated function systems — DOI: `10.1109/78.330394`
+- Some Examples of Minimal Cantor Sets for Iterated Function Systems with Overlap — DOI: `10.3836/tjm/1406552441`
+- Identifying elementary iterated systems through algorithmic inference: The Cantor set example — DOI: `10.1016/j.chaos.2005.08.170`
+- Generalized iterated function systems, multifunctions and Cantor sets — DOI: `10.4064/ap96-1-2`
+- Iterated function systems whose attractors are Cantor — DOI: `10.15507/2079-6900.27.202503.287-301`
+- Development of measurement system of three-dimensional shape and surface reflectance — DOI: `10.1117/12.641985`
+- Three-dimensional weight function analysis and stress intensity factors for nozzle corner cracks — DOI: `10.2139/ssrn.6172038`
+- Iterated Function Systems — DOI: `10.1081/e-eoe2-120009639`
+- Projections of four corner Cantor set: Total self-similarity, spectrum and unique codings — DOI: `10.1016/j.indag.2024.08.006`
+- A note on the history of the Cantor set and Cantor function, Julian F. Fleron — DOI: `10.5948/upo9781614445043.019`
+- Development of ultrathin three-dimensional image capturing system — DOI: `10.1117/12.642583`
+- Fractal set of generalized countable partial iterated function system with generalized contractions via partial Hausdorff metric — DOI: `10.1016/j.topol.2022.108000`
+- Circular Favard Length of the Four-Corner Cantor Set — DOI: `10.1007/s12220-010-9141-4`
+- three-dimensional Boolean-set operation — DOI: `10.1007/springerreference_26957`
+- On the structures of generating iterated function systems of Cantor sets — DOI: `10.1016/j.aim.2009.06.022`
+- The Cantor Set and Function — DOI: `10.1007/978-3-030-03241-8_8`
+- Iterated functions and the Cantor set in one dimension
+- On affine iterated function systems which robustly admit an invariant affine subspace
+- Costas cubes
+- Cantor set zeros of one-dimensional Brownian motion minus Cantor function
+- The Variation of the Uncentered Maximal Operator with respect to Cubes
+- A comparison of optimisation algorithms for high-dimensional particle and astrophysics applications — DOI: `10.1007/jhep05(2021)108`
+- Constructions of Pairs of Orthogonal Latin Cubes — DOI: `10.1002/jcd.21718`
+- Sets of integers that do not contain Hilbert cubes of dimension 3
+- On three-dimensional Alexandrov spaces
+- Tromino Tiling Deficient Cubes of Any Side Length
+- On the Cantor set and the Cantor-Lebesgue functions
+- Applications of Three Dimensional Extremal Length, I: Tiling of a Topological Cube
+- Interface currents and corner states in magnetic quarter-plane systems
+- Projections of four corner Cantor set: total self-similarity, spectrum and unique codings
+- Edge modes of gravity -- I: Corner potentials and charges — DOI: `10.1007/jhep11(2020)026`
+- Lattice-Gas Cellular Automata and Lattice Boltzmann Models: An Introduction — DOI: `10.1007/b72010`
+- Construction of Fractals based on Catalan Solids — DOI: `10.5815/ijmsc.2017.04.01`
+- Three dimensional chaos game representation of protein sequences — DOI: `10.48550/arxiv.2303.09683`
+- On the contraction ratio of iterated function systems whose attractors are Sierpinski <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML" altimg="si4.svg"><mml:mi>n</mml:mi></mml:math>-gons — DOI: `10.1016/j.chaos.2021.111140`
+- SIERPINSKI JELLY - Iterated Function Systems as Elastic Bodies — DOI: `10.5220/0003829803610364`
+- Contraction maps and iterated function systems — DOI: `10.1142/9789814291293_0006`
+- Multi Fuzzy Iterated Function System Consisting of Generalized Fuzzy Contraction Mapping in Fuzzy Metric Spaces — DOI: `10.52783/cana.v32.2867`
+- Iterated ring class fields and the icosahedron — DOI: `10.1007/bf01450560`
+- On Contraction Principles in Product Spaces and Applications in Iterated Function Systems — DOI: `10.3390/axioms15030201`
+- Scale Selection in Iterated Function Systems and Banach Contractions via the Susceptibility Peak: A Contraction-Lens Framework on Finite Metric Structures — DOI: `10.20944/preprints202603.1399.v2`
+- An application of Edelstein’s contraction principle: the attractor of a graph-directed generalized iterated function system — DOI: `10.1007/s11784-022-00978-1`
+- Deterministic Theory of Iterated Function Systems — DOI: `10.1201/9781439864708-10`
+- Probabilistic Theory of Iterated Function Systems — DOI: `10.1201/9781439864708-11`
+- Estimating the Spatial Extent of Attractors of Iterated Function System — DOI: `10.21236/ada265856`
+- Iterated Function Systems – the Model — DOI: `10.1007/1-84628-686-7_3`
+- nD Iterated Function Systems and Their Applications — DOI: `10.1007/1-84628-686-7_6`
+- Quantization dimension for a generalized inhomogeneous bi-Lipschitz iterated function system — DOI: `10.2139/ssrn.6182175`
+- ITERATED RANDOM FUNCTION SYSTEM: CONVERGENCE THEOREMS — DOI: `10.1142/9789812702715_0006`
+- Quantization dimension for a generalized inhomogeneous bi-Lipschitz iterated function system — DOI: `10.2139/ssrn.6182172`
+- Multiple and iterated contraction reduced to single-step single-sentence contraction — DOI: `10.1007/s11229-009-9688-4`
+- - Anticanonical linear system — DOI: `10.1201/b18980-15`
+- From iterated revision to iterated contraction: Extending the Harper Identity — DOI: `10.1016/j.artint.2019.103171`
+- Abundance of Self-Similarities within the Attractor of an Iterated Function System (Ifs) — DOI: `10.2139/ssrn.4984009`
+- A Conditional Perspective on the Logic of Iterated Belief Contraction
+- Contracting on average iterated function systems by metric change
+- Linear Response for Contracting on Average Iterated Function Systems
+- Brownian motion on the golden ratio Sierpinski gasket — DOI: `10.1017/prm.2023.28`
+- Iterated function systems consisting of phi-max-contractions have attractor
+- Weakly contractive iterated function systems and beyond: A manual
+- Dimension estimates for invariant measures of contracting-on-average iterated function systems
+- Infinitely many holes in connectedness loci for collinear affine iterated function systems
+- Iterated function systems of affine expanding and contracting maps on the unit interval
+- From the Icosahedron to E8
+- A Conditional Perspective for Iterated Belief Contraction — DOI: `10.3233/faia200180`
+- Integral means inequalities, convolution, and univalent functions — DOI: `10.1155/2019/7817353`
+- Belyi Function Decompositions for The Icosahedron of Genus 4
+- The Hutchinson-Barnsley theory for generalized iterated function systems by means of infinite iterated function systems
+- Invariant measures of Markov operators associated to iterated function systems consisting of phi-max-contractions with probabilities
+- Complete monotonicity of a function involving a ratio of gamma functions and applications
+- Generalised Sierpinski Triangles
+- Wess-Zumino term for the AdS superstring and generalized Inonu-Wigner contraction — DOI: `10.1143/ptp.109.853`
+- Hecke algebras and edge contractions
+- Stimulus-responsive Self-Assembly of Protein-Based Fractals by Computational Design — DOI: `10.1101/274183`
+- RIFS: Random Iterated Function System — DOI: `10.32614/cran.package.rifs`
+- Cyclic <i>α</i> Meir–Keeler contraction and iterated function system on Branciari b-metric spaces — DOI: `10.1080/10236198.2026.2626426`
+- The surface code on the rhombic dodecahedron
+- Roman Dodecahedron as dioptron: analysis of freely available data
+- Quasiconformal dimensions of self-similar fractals — DOI: `10.4171/rmi/454`
+- Connectivity calculus of fractal polyhedrons — DOI: `10.1016/j.patcog.2014.05.016`
+- Self-assembly of fractal liquid crystal colloids — DOI: `10.1038/s41467-018-08210-w`
+- Simplicial Approach to Fractal Structures — DOI: `10.1155/2012/958101`
+- A BDDC algorithm with deluxe scaling for 𝐻(𝑐𝑢𝑟𝑙) in two dimensions with irregular subdomains — DOI: `10.1090/mcom/3028`
+- Metaheuristic Optimization of Power and Energy Systems: Underlying Principles and Main Issues of the ‘Rush to Heuristics’ — DOI: `10.3390/en13195097`
+- Miniaturization and Fabrication of a Novel Cross-Fractal Biosensor and Sensor for Characterizing 3D Printing Electromagnetic Properties in Polylactic Acid — DOI: `10.1109/access.2024.3372411`
+- Human Performance Models for Computer-Aided Engineering
+- Indexing Mixed Aperture Icosahedral Hexagonal Discrete Global Grid Systems — DOI: `10.3390/ijgi9030171`
+- X-ray Microcomputed Tomography (µCT) for Mineral Characterization: A Review of Data Analysis Methods — DOI: `10.3390/min9030183`
+- Tree growth visualization
+- On excursion sets, tube formulas and maxima of random fields — DOI: `10.1214/aoap/1019737664`
+- The Influence of NeoTrie VR’s Immersive Virtual Reality on the Teaching and Learning of Geometry — DOI: `10.3390/math9192411`
+- A Concave Hull Methodology for Calculating the Crown Volume of Individual Trees Based on Vehicle-Borne LiDAR Data — DOI: `10.3390/rs11060623`
+- A panorama on multiscale geometric representations, intertwining spatial, directional and frequency selectivity — DOI: `10.1016/j.sigpro.2011.04.025`
+- Attractors and Finite-Dimensional Behaviour in the 2D Navier-Stokes Equations — DOI: `10.1155/2013/291823`
+- Operational Research: methods and applications — DOI: `10.1080/01605682.2023.2253852`
+- Construction of Three Branches Fractal Trees Using Iterated Function System — DOI: `10.19184/jid.v23i1.17447`
+- Fractal Shapes Generated by Iterated Function Systems — DOI: `10.31390/gradschool_theses.4571`
+- Fractals via Controlled Fisher Iterated Function System — DOI: `10.3390/fractalfract6120746`
+- Fractal Creation with Iterated Function Systems — DOI: `10.3840/001675`
+- On the dimensions of attractors of random self-similar graph directed iterated function systems — DOI: `10.4171/jfg/51`
+- Fractal Creation with Iterated Function Systems — DOI: `10.3840/07001675`
+- Non-linear iterated function systems and the creation of fractal patterns over regular polygons — DOI: `10.1016/j.cag.2009.05.003`
+- Classical Iterated Function System — DOI: `10.1201/9781003481096-4`
+- Iterated Function Systems — DOI: `10.1117/3.353798.ch2`
+- Machine Learning Driven Clustering for Efficient Segmentation of Fractal Patterns from Non Affine Iterated Function System — DOI: `10.2139/ssrn.5118508`
+- Fractal Image Encoding Based on Minimum Iterated Function System — DOI: `10.1109/icivc58118.2023.10270655`
+- Iterated Function Systems — DOI: `10.1017/9781108778459.007`
+- The Generalized Iterated Function System and Common Attractors of Generalized Hutchinson Operators in Dislocated Metric Spaces — DOI: `10.3390/fractalfract7120832`
+- Application Study of Fractal Figures Based on Iterated Function System Algorithm — DOI: `10.4028/www.scientific.net/amr.694-697.2886`
+- Fractal image compression using iterated function system with probabilities — DOI: `10.1109/itcc.2001.918789`
+- Creation of fractal objects by using iterated function system — DOI: `10.1109/icccnt.2012.6395995`
+- A remark on densities of hyperbolic dimensions for conformal iterated function systems with applications to conformal dynamics and fractal number theory — DOI: `10.1016/s0019-3577(06)80024-8`
+- A new approach to find the multi-fractal dimension of multi-fuzzy fractal attractor sets based on the iterated function system — DOI: `10.1063/1.5136162`
+- The Development of E-Learning System for Fractal Big Tree Graphics Based on Iterated Function System — DOI: `10.4028/www.scientific.net/amm.143-144.233`
+- Intrinsic parallel random iteration algorithm for fractal image decoding based on iterated function system code — DOI: `10.1117/1.1870392`
+- Minkowski dimension and explicit tube formulas for $p$-adic fractal strings — DOI: `10.3390/fractalfract2040026`
+- An Overview of Complex Fractal Dimensions: From Fractal Strings to Fractal Drums, and Back
+- Fractal Zeta Functions and Complex Dimensions of Ahlfors Metric Measure Spaces
+- Fractal dimensions for Iterated Graph Systems
+- Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality — DOI: `10.4171/jfg/57`
+- Network efficiency of spatial systems with fractal morphology: a geometric graphs approach — DOI: `10.1038/s41598-023-45962-y`
+- Fractal Homeomorphism for Bi-affine Iterated Function Systems
+- Fractal zeta functions and complex dimensions: A general higher-dimensional theory — DOI: `10.1007/978-3-319-18660-3_13`
+- Construction and properties of fuzzy-valued fractal interpolation function by using iterated function system
+- Fractal dimension of discrete sets and percolation
+- FI-KAN: Fractal Interpolation Kolmogorov-Arnold Networks
+- On the Higuchi fractal dimension of invariant measures for countable idempotent iterated function systems
+- Fractal formation and ordering in Random Sequential Adsorption
+- Fractality, Self-Similarity and Complex Dimensions
+- Tube Formulae for Generalized von Koch Fractals through Scaling Functional Equations — DOI: `10.4171/jfg/155`
+- Fractal dimension and turbulence in Giant HII Regions — DOI: `10.1088/1742-6596/582/1/012049`
+- Estimates on the Spectrum of Fractals Arising From Affine Iterations
+- Fast Basins and Branched Fractal Manifolds of Attractors of Iterated Function Systems — DOI: `10.3842/sigma.2015.084`
+- Categorization and Conversions for Indexing Methods of Discrete Global Grid Systems — DOI: `10.3390/ijgi4010320`
+- A Multidisciplinary Approach to Triangular Shapes: Philosophy, Art, Mathematical Properties, and Application Purposes for High-Frequency Signal Processing Using Sierpinski Geometry — DOI: `10.20944/preprints202504.1528.v1`
+- A Multidisciplinary Approach to Triangular Shapes: Philosophy, Art, Mathematical Properties, and Application Purposes for High-Frequency Signal Processing Using Sierpiński Geometry — DOI: `10.3390/fractalfract9070444`
+- Truncated Truncated Dodecahedron and Truncated Truncated Icosahedron Spaces — DOI: `10.17776/csj.534616`
+- 2539. The dual polyhedral compound : Great Icosahedron + Great Stellated Dodecahedron. {3, 5/2} + {5/2, 3} — DOI: `10.2307/3608759`
+- Correction to Note 2539: 2539. The Dual Polyhedral Compound: Great Icosahedron + Great Stellated Dodecahedron. 3, 5/2 + 5/2, 3 — DOI: `10.2307/3610320`
+- Appendix: Group of the Dodecahedron and the Icosahedron — DOI: `10.5948/upo9780883859292.017`
+- Dissection of Three Rhombic Solids into an Icosahedron, a Dodecahedron, and an Icosidodecahedron — DOI: `10.3840/003115`
+- Dissection of Three Rhombic Solids into an Icosahedron, a Dodecahedron, and an Icosidodecahedron — DOI: `10.3840/08003115`
+- Dissection of a Rhombic 210-hedron into a Combination of Icosahedron and Truncated Dodecahedron — DOI: `10.3840/08003039`
+- Cu20Si12: A Hollow Cage Constituted of a Copper Dodecahedron and a Silicon Icosahedron — DOI: `10.1021/acs.jpca.6b05258.s001`
+- Dissection of a Rhombic 210-hedron into a Combination of Icosahedron and Truncated Dodecahedron — DOI: `10.3840/003039`
+- Sierpinski fractals and GCDs — DOI: `10.1016/b978-044450002-1/50028-x`
+- A convex characterization of the graphs of the dodecahedron and icosahedron — DOI: `10.1016/0012-365x(84)90037-2`
+- Appendix. Group of the Dodecahedron and the Icosahedron — DOI: `10.5948/upo9780883859292.016`
+- MAXIMAL DIMENSIONS OF UNIFORM SIERPINSKI FRACTALS — DOI: `10.1142/s0218348x10005135`
+- THE SIERPINSKI TRIANGLE PLANE — DOI: `10.1142/s0218348x18500032`
+- RINGS AROUND SIERPINSKI HOLES — DOI: `10.1142/s0218348x22501274`
+- Carving Plasmon Modes in Silver Sierpinski Fractals — DOI: `10.1021/acsphotonics.9b01179.s001`
+- DISTINGUISHING BETWEEN SIERPINSKI TRIANGLE CONSTRUCTIONS — DOI: `10.1142/s0218348x19500919`
+- LIPSCHITZ EQUIVALENCE OF GENERAL SIERPINSKI CARPETS — DOI: `10.1142/s0218348x08004022`
+- Fractal functions on the Sierpinski Gasket — DOI: `10.1016/j.chaos.2020.110142`
+- Hilbert space, Poincaré dodecahedron and golden mean transfiniteness — DOI: `10.1016/j.chaos.2006.06.003`
+- Micro and Macro Fractals generated by multi-valued dynamical systems — DOI: `10.1142/s0218348x14500121`
+- Crystallization of space: Space-time fractals from fractal arithmetic — DOI: `10.1016/j.chaos.2015.12.004`
+- Helicalised fractals — DOI: `10.1016/j.chaos.2015.02.012`
+- Long-range fractal correlations in literary corpora
+- Fractal Patterns in Discrete Laplacians: Iterative Construction on 2D Square Lattices — DOI: `10.1142/s0218348x26500714`
+- Fractal Analytical Approach of Urban Form Based on Spatial Correlation Function — DOI: `10.1016/j.chaos.2013.02.006`
+- Analysis, Synthesis, and Estimation of Fractal-Rate Stochastic Point Processes
+- Measuring information growth in fractal phase space — DOI: `10.1016/j.chaos.2003.12.035`
+- A fractal-like structure for the fractional quantum Hall effect
+- Chaos and Fractals around Black Holes
+- The Hausdorff dimension of fractal sets and fractional quantum Hall effect — DOI: `10.1016/s0960-0779(02)00580-5`
+- Autocorrelations of random fractal apertures and phase screens — DOI: `10.1142/s0218348x17500050`
+- Fractal solutions of reactor models — DOI: `10.1016/s0960-0779(02)00317-x`
+- Comment on: "Stokes' first problem for heated flat plate with Atangana--Baleanu fractional derivative" [Chaos Solitons Fractals 117 (2018) 68] — DOI: `10.1016/j.chaos.2021.110999`
+- Voter model on Sierpinski fractals — DOI: `10.1016/j.physa.2005.08.003`
+- Fractal structure of iterative time profiles — DOI: `10.1016/j.chaos.2005.08.117`
+- Dynamics Motivated by Sierpinski Fractals
+- Varying G, accelerating Universe, and other relevant consequences of a Stochastic Self-Similar and Fractal Universe — DOI: `10.1016/j.chaos.2003.09.036`
+- Self-affine fractals of finite type — DOI: `10.4064/bc84-0-9`
+- Dimensions of locally and asymptotically self-similar spaces — DOI: `10.1090/s1061-0022-07-00985-5`
+- Silhouette clipping — DOI: `10.1145/344779.344935`
+- Constraints of space in plant development — DOI: `10.1093/jxb/erq081`
+- Relating Dynamic Properties to Atomic Structure in Metallic Glasses — DOI: `10.1007/s11837-012-0360-y`
+- The Classification Theorem for Compact Surfaces And A Detour On Fractals — DOI: `10.48550/arxiv.0805.0562`
+- A hands-on tutorial on network and topological neuroscience — DOI: `10.1007/s00429-021-02435-0`
+- Programmable bottom-up self-assembly of nanomaterials at the nanoscale and microscale — DOI: `10.26599/nr.2025.94907174`
+- Starshaped sets — DOI: `10.1007/s00010-020-00720-7`
+- <i>BornAgain</i>: software for simulating and fitting grazing-incidence small-angle scattering — DOI: `10.1107/s1600576719016789`
+- Turbulence as a Network of Fourier Modes — DOI: `10.3390/math8040530`
+- Porous Functionally Graded Plates: An Assessment of the Influence of Shear Correction Factor on Static Behavior — DOI: `10.3390/mca25020025`
+- Jumping Platonic Solids on a Vibrating Plate — DOI: `10.1002/andp.202300349`
+- The complex multiscale structure in simulated and observed emission maps of the proto-cluster cloud G0.253+0.016 (‘the Brick’) — DOI: `10.1093/mnras/stad229`
+- Iterated Function Systems—Self‐Similar and Self‐Affine Sets — DOI: `10.1002/0470013850.ch9`
+- On Self‐Affine and Self‐Similar Graphs of Fractal Interpolation Functions Generated from Iterated Function Systems — DOI: `10.5772/intechopen.68499`
+- Structure of the class of iterated function systems that generate the same self-similar set — DOI: `10.4171/jfg/44`
+- Iterated function systems and self-similarity — DOI: `10.1090/gsm/247/04`
+- Generating iterated function systems for self-similar sets with a separation condition — DOI: `10.4064/fm88-10-2016`
+- Non-self-similar attractors of hyperbolic iterated function systems — DOI: `10.1007/bfb0082829`
+- On the Minkowski content of self-similar random homogeneous iterated function systems — DOI: `10.54330/afm.129638`
+- Continuity of packing measure functions of self-similar iterated function systems — DOI: `10.1017/s0143385711000071`
+- Graph-Theoretic Characterization of Separation Conditions in Self-Affine Iterated Function Systems — DOI: `10.3390/fractalfract9050307`
+- Space-filling curves of self-similar sets (I): iterated function systems with order structures — DOI: `10.1088/0951-7715/29/7/2112`
+- Generating iterated function systems for a class of self-similar sets with complete overlap — DOI: `10.5486/pmd.2015.6092`
+- Fractal Models for Image Synthesis – a Survey — DOI: `10.1007/1-84628-686-7_2`
+- Infinite Iterated Function Systems: Theory and Applications — DOI: `10.1007/978-3-0348-7755-8_5`
+- Simulation and testing of self-similar structures for soil particle-size distributions using iterated function systems — DOI: `10.1016/s0016-7061(98)00104-9`
+- Quantum memories at finite temperature — DOI: `10.1103/revmodphys.88.045005`
+- Strictly self-similar fractals composed of star-polygons that are attractors of Iterated Function Systems
+- On the strong separation condition for self-similar iterated function systems with random translations
+- Generating functionals for guided self-organization
+- Modeling Self-Similar Traffic for Network Simulation
+- V-Variable Fractals: Fractals with Partial Self Similarity
+- Fractal trajectories of the dynamical system
+- A characterization of the fuzzy fractals generated by an orbital fuzzy iterated function system
+- Fractal Attractors in Random Nonlinear Iterated Function Systems: Existence, Stability, and Dimensional Properties
+- Moran-Type Iterated Function Systems and Dimensions of Moran Self-Similar Sets

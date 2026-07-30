@@ -1,0 +1,7 @@
+10.1109/gcis.2009.348	Interactive Ray Tracing for Volume Visualization and 3D Rendering Using Neural Networks
+10.1109/visual.1995.480791	Interactive realism for visualization using ray tracing
+10.1109/iv.1999.781542	3D ray-tracing on PC networks using TCP/IP
+10.32614/cran.package.mandelbrot	mandelbrot: Generates Views on the Mandelbrot Set
+10.1109/3dpvt.2006.39	Carving from Ray-Tracing Constraints: IRT-Carving
+10.5120/14920-3514	Construction of 3D Mandelbrot Set and Julia Set
+10.3997/2214-4609-pdb.131.gen1997_p025	Controlled lnitial-Value Ray Tracing and Two-Point Ray Tracing in 3D

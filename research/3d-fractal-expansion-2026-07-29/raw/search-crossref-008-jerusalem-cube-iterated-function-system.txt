@@ -1,0 +1,10 @@
+10.1201/9781439864708-10	Deterministic Theory of Iterated Function Systems
+10.1201/9781439864708-11	Probabilistic Theory of Iterated Function Systems
+10.21236/ada265856	Estimating the Spatial Extent of Attractors of Iterated Function System
+10.1007/1-84628-686-7_3	Iterated Function Systems – the Model
+10.1007/1-84628-686-7_6	nD Iterated Function Systems and Their Applications
+10.2139/ssrn.6182175	Quantization dimension for a generalized inhomogeneous bi-Lipschitz iterated function system
+10.1142/9789812702715_0006	ITERATED RANDOM FUNCTION SYSTEM: CONVERGENCE THEOREMS
+10.2139/ssrn.6182172	Quantization dimension for a generalized inhomogeneous bi-Lipschitz iterated function system
+10.2139/ssrn.4984009	Abundance of Self-Similarities within the Attractor of an Iterated Function System (Ifs)
+10.32614/cran.package.rifs	RIFS: Random Iterated Function System

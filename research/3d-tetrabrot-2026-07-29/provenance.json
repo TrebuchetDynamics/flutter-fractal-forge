@@ -1,0 +1,36 @@
+{
+  "question": "Can a named tricomplex Mandelbrot 3D slice be implemented from exact published component formulas without adding a visual alias or degree preset?",
+  "rforge_version": "v0.1.19",
+  "timestamp": "2026-07-29T19:50:00Z",
+  "depth": "targeted follow-up with open-source equation inspection",
+  "queries_file": "queries.txt",
+  "sources": ["openalex", "crossref", "arxiv"],
+  "search_stats": {
+    "openalex": 30,
+    "crossref": 104,
+    "arxiv": 120,
+    "library_records": 254,
+    "unique_dois": 110
+  },
+  "accepted": ["tetrabrot_3d"],
+  "outputs": [
+    "queries.txt",
+    "search/results.jsonl",
+    "search/manifest.json",
+    "search-stats.txt",
+    "search-output.log",
+    "report.md",
+    "evidence-grid.json",
+    "evidence-gaps.json",
+    "provenance.json"
+  ],
+  "external_sources_inspected": [
+    "https://arxiv.org/abs/1811.09697",
+    "https://arxiv.org/e-print/1811.09697"
+  ],
+  "errors": [
+    "Ketch search was rate limited for the initial Tetrabrot query; ResearchForge supplied the reproducible literature set.",
+    "The open arXiv TeX source was inspected in /tmp but is not stored in the repository.",
+    "No third-party renderer or shader source was used."
+  ]
+}

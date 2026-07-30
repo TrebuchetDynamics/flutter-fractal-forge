@@ -1,0 +1,24 @@
+{
+  "gaps": [
+    {
+      "candidate": "cantor_dust_3d",
+      "gap": "The scholarly sources use C^d/product terminology rather than establishing Cantor Dust 3D as a canonical historical name.",
+      "mitigation": "Define the catalog identity explicitly as C x C x C and avoid naming-priority claims."
+    },
+    {
+      "candidate": "sierpinski_icosahedron_3d",
+      "gap": "Retrieved metadata did not specify a validated contraction system and ratio.",
+      "mitigation": "Reject for this cycle rather than infer a renderer from appearance."
+    },
+    {
+      "candidate": "sierpinski_dodecahedron_3d",
+      "gap": "Retrieved metadata did not specify a validated contraction system and ratio.",
+      "mitigation": "Reject for this cycle rather than infer a renderer from appearance."
+    },
+    {
+      "candidate": "all_3d_distance_estimators",
+      "gap": "The render pipeline still lacks stable CPU known-point distance-estimator oracles.",
+      "mitigation": "Require source-contract tests, runtime shader compilation, strict GPU image-health metrics, and complete catalog identity tests."
+    }
+  ]
+}

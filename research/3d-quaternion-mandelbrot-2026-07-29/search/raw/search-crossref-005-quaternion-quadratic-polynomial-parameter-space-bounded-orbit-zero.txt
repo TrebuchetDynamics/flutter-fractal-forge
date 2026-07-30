@@ -1,0 +1,20 @@
+10.2139/ssrn.4946941	Computing Optima in Standard Quadratic Functions in Zero-Error Probabilistic Polynomial Time
+10.1080/03081087.2012.697676	Vector space of linearizations for the quadratic two-parameter matrix polynomial
+10.1142/s0129167x08004819	THE PARAMETER SPACE OF A QUADRATIC FAMILY OF POLYNOMIAL MAPS OF ℂ<sup>2</sup>
+10.24108/preprints-3114725	Q-Jamba: Quaternion-Native Hybrid State-Space Language Models with 3.4× Parameter Compression
+10.1090/crmm/022/03	Quaternion algebras and quadratic forms
+10.2996/kmj/1138039097	Submanifolds of quaternion projective space with bounded second fundamental form
+10.21236/ada004823	Minimax Parameter Estimation under Generalized Quadratic Loss with a Compact Parameter Space
+10.31390/gradschool_disstheses.1686	Topics in Quadratic and Quaternion Orders.
+10.23943/princeton/9780691235462.003.0009	Special curves in the parameter space of polynomials
+10.1090/crmm/022/01	Quaternion algebras and quaternion orders
+10.23919/ccc64809.2025.11179113	Robust Stability and Stabilization for Time-Varying Discrete-Time Polytopic Quadratic Systems with Bounded Parameter Variation
+10.1016/s0167-8396(02)00126-7	Quadratic trigonometric polynomial curves with a shape parameter
+10.1214/aop/1176992083	Quadratic Variation for a Class of $L \log^+ L$-Bounded Two-parameter Martingales
+10.1307/mmj/20226256	The Limit of the Zero Locus of the Independence Polynomial for Bounded Degree Graphs
+10.1007/978-3-030-56694-4_5	Ternary quadratic forms and quaternion algebras
+10.1007/978-3-030-56694-4_22	Quaternion orders and ternary quadratic forms
+10.29007/tzmt	Towards Computing Suboptimal Controls in a Zero-Sum Linear-Quadratic Differential Game: Artificial Parameter Approach
+10.1093/hesc/9780199216345.003.0008	Quadratic and polynomial functions
+10.1007/springerreference_5971	POLYNOMIALLY BOUNDED (-TIME) ALGORITHM ( Polynomial algorithm)
+10.3840/000027	Annotated Quadratic Polynomial

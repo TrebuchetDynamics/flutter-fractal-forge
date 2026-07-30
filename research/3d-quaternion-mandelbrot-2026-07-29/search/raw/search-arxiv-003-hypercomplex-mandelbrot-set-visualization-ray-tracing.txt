@@ -1,0 +1,20 @@
+	The Advanced X-ray Timing Array (AXTAR): A US MIDEX Mission Concept
+10.1063/1.3031197	The Advanced X-ray Timing Array (AXTAR)
+10.1063/1.1781061	X-Ray Eclipse Timing in the LMXB EXO0748-676
+	The USA X-ray Timing Experiment
+10.1063/1.1370815	Gamma Rays from Dark Matter
+	Acceleration and Interaction of Ultra High Energy Cosmic Rays
+10.2140/agt.2025.25.2807	Surgery sequences and self-similarity of the Mandelbrot set
+10.1126/science.1175558	Detection of 16 Gamma-Ray Pulsars Through Blind Frequency Searches Using the Fermi LAT
+10.1016/j.nuclphysbps.2004.04.054	X-ray and radio prompt emission from a hypernova SN 2002ap
+	Homotopies and Maps between Eigenvalues of some Generalized Lucas Sequences and the Mandelbrot Set
+	Hypercomplex analytic spaces and schemes
+	On Fibers and Local Connectivity of Mandelbrot and Multibrot Sets
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+10.1111/j.1365-2966.2008.13752.x	Interpretation of radio continuum and molecular line observations of Sgr B2: free-free and synchrotron emission, and implications for cosmic rays
+	Very high energy gamma rays from Markarian 501
+	The NRL Program in X-ray Navigation
+	Beyond English: Centering Multilingualism in Data Visualization
+	X-ray observation of radio supernova SN1979C by ASCA
+	Characterization of Pulsar Sources for X-ray Navigation
+	Rational parameter rays of the Mandelbrot set

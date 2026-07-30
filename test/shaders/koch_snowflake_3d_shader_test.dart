@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   test('3D Koch shader has reachable folds', () {
     final module = ModuleRegistry().modules.singleWhere(
-          (module) => module.id == 'f0598_3d_koch_snowflake',
+          (module) => module.id == 'kifs_koch_fold',
         );
     final source = File(module.shaderAsset).readAsStringSync();
 

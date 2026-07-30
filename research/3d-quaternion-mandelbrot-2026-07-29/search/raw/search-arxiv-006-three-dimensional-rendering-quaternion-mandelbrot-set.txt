@@ -1,0 +1,20 @@
+10.2140/agt.2025.25.2807	Surgery sequences and self-similarity of the Mandelbrot set
+	Homotopies and Maps between Eigenvalues of some Generalized Lucas Sequences and the Mandelbrot Set
+	On Fibers and Local Connectivity of Mandelbrot and Multibrot Sets
+	Quaternion Hardy Functions for Local Images Feature Representation
+10.1007/jhep05(2021)108	A comparison of optimisation algorithms for high-dimensional particle and astrophysics applications
+	Evolutive Rendering Models
+	The Dynamics of Financial Markets -- Mandelbrot's multifractal cascades, and beyond
+	Newton-Mandelbrot set and Murase-Mandelbrot set
+10.1080/03081087.2022.2094863	Sampling expansions associated with quaternion difference equations
+	Linear Mappings of Quaternion Algebra
+10.1007/s10773-011-0953-1	Quaternion Gravi-Electromagnetism
+	Quaternion Orders and Ternary Quadratic Forms
+	Mandelbrot set and Julia sets of fractional order
+	The Decoration Theorem for Mandelbrot and Multibrot Sets
+	Mandelbrot set as a particular Julia set of Fractional Order, echipotential lines and external rays of Mandelbrot and Julia sets of Fractional Order
+	Julia sets appear quasiconformally in the Mandelbrot set
+	On three-dimensional Alexandrov spaces
+10.1007/s10773-012-1206-7	Supersymmetrization of Quaternion Dirac Equation for Generalized Fields of Dyons
+	Higher Order Mandelbrot Sets and their Varying Shapes
+	On a Slice of the Cubic 2-adic Mandelbrot Set

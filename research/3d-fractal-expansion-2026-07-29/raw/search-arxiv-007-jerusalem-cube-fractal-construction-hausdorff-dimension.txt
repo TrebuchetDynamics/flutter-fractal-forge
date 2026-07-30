@@ -1,0 +1,10 @@
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.2140/gt.2015.19.3537	The Hausdorff Dimension of Non-Uniquely Ergodic directions in $\mathcal{H}(2)$ is almost everywhere $1/2$
+10.1142/s1793525312500094	A generalization of Hausdorff dimension applied to Hilbert cubes and Wasserstein spaces
+	On the Hausdorff dimension of certain sets arising in Number Theory
+10.1088/1742-6596/582/1/012049	Fractal dimension and turbulence in Giant HII Regions
+	Generalized Hausdorff dimension of irrationals with Lagrange value exactly 3
+	Hausdorff and Fourier dimension of graph of continuous additive processes
+	Hausdorff dimension of Gauss--Cantor sets and two applications to classical Lagrange and Markov spectra
+	Modified Hausdorff Fractal Dimension (MHFD)
+10.3390/math9131546	A Generalization of the Hausdorff Dimension Theorem for Fractals

@@ -1,0 +1,3693 @@
+{
+  "seed": "catalog-thumbnails-v1",
+  "updateAssets": false,
+  "strict": true,
+  "thumbnailSize": 96,
+  "thumbnailStandard": "staged-smoke",
+  "performanceNotes": [
+    "shaderLoadMs measures ui.FragmentProgram.fromAsset in this process; repeated shader assets may benefit from Flutter asset/shader cache.",
+    "renderWarmupMs measures widget build plus three 500ms pumps before capture.",
+    "captureMs measures PNG capture from the rendered RepaintBoundary/screenshot surface.",
+    "renderMetrics records image-health measurements including blackPixelRatio, nonBlackPixelRatio, uniqueRgbColors, luminanceStdDev, and verdict per fractal.",
+    "mathOracle records cheap CPU/reference known-point checks where a stable oracle exists."
+  ],
+  "selectedCount": 29,
+  "selectedEntries": [
+    {
+      "catalogId": "core.mandelbox",
+      "moduleId": "mandelbox",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag"
+    },
+    {
+      "catalogId": "core.quaternion_julia_3d",
+      "moduleId": "quaternion_julia_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag"
+    },
+    {
+      "catalogId": "core.juliabulb_3d",
+      "moduleId": "juliabulb_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/juliabulb_3d_gpu.frag"
+    },
+    {
+      "catalogId": "core.kifs_menger",
+      "moduleId": "kifs_menger",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag"
+    },
+    {
+      "catalogId": "core.f0597_sierpinski_carpet_3d_menger_cross",
+      "moduleId": "f0597_sierpinski_carpet_3d_menger_cross",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag"
+    },
+    {
+      "catalogId": "core.kifs_sierpinski_tetra",
+      "moduleId": "kifs_sierpinski_tetra",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_sierpinski_tetra_gpu.frag"
+    },
+    {
+      "catalogId": "core.kifs_koch_fold",
+      "moduleId": "kifs_koch_fold",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_koch_fold_gpu.frag"
+    },
+    {
+      "catalogId": "core.kifs_snowflake_fold",
+      "moduleId": "kifs_snowflake_fold",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_snowflake_fold_gpu.frag"
+    },
+    {
+      "catalogId": "core.implicit_affine_fractal_surface",
+      "moduleId": "implicit_affine_fractal_surface",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/implicit_affine_fractal_surface_gpu.frag"
+    },
+    {
+      "catalogId": "core.sierpinski_octahedron_3d",
+      "moduleId": "sierpinski_octahedron_3d",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag"
+    },
+    {
+      "catalogId": "core.jerusalem_cube_3d",
+      "moduleId": "jerusalem_cube_3d",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag"
+    },
+    {
+      "catalogId": "core.vicsek_3d",
+      "moduleId": "vicsek_3d",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag"
+    },
+    {
+      "catalogId": "core.cantor_dust_3d",
+      "moduleId": "cantor_dust_3d",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag"
+    },
+    {
+      "catalogId": "core.pseudo_kleinian",
+      "moduleId": "pseudo_kleinian",
+      "shaderAsset": "shaders/ifs_and_geometric/pseudo_kleinian_gpu.frag"
+    },
+    {
+      "catalogId": "core.quaternion_mandelbrot_3d",
+      "moduleId": "quaternion_mandelbrot_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_mandelbrot_3d_gpu.frag"
+    },
+    {
+      "catalogId": "core.tetrabrot_3d",
+      "moduleId": "tetrabrot_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/tetrabrot_3d_gpu.frag"
+    },
+    {
+      "catalogId": "core.arrowheadbrot_3d",
+      "moduleId": "arrowheadbrot_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/arrowheadbrot_3d_gpu.frag"
+    },
+    {
+      "catalogId": "core.mousebrot_3d",
+      "moduleId": "mousebrot_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mousebrot_3d_gpu.frag"
+    },
+    {
+      "catalogId": "core.turtlebrot_3d",
+      "moduleId": "turtlebrot_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/turtlebrot_3d_gpu.frag"
+    },
+    {
+      "catalogId": "core.dual_quaternion_julia",
+      "moduleId": "dual_quaternion_julia",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/dual_quaternion_julia_gpu.frag"
+    },
+    {
+      "catalogId": "core.mandelbox_shape_inversion",
+      "moduleId": "mandelbox_shape_inversion",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_shape_inversion_gpu.frag"
+    },
+    {
+      "catalogId": "core.apollonian_sphere_packing_3d",
+      "moduleId": "apollonian_sphere_packing_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/apollonian_sphere_packing_gpu.frag"
+    },
+    {
+      "catalogId": "core.inversive_limit_set_3d",
+      "moduleId": "inversive_limit_set_3d",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/inversive_limit_set_3d_gpu.frag"
+    },
+    {
+      "catalogId": "core.mandelbulb_time_modulated",
+      "moduleId": "mandelbulb_time_modulated",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag"
+    },
+    {
+      "catalogId": "core.amazing_box",
+      "moduleId": "amazing_box",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/amazing_box_gpu.frag"
+    },
+    {
+      "catalogId": "core.bulbils",
+      "moduleId": "bulbils",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/bulbils_gpu.frag"
+    },
+    {
+      "catalogId": "core.hartverdrahtet",
+      "moduleId": "hartverdrahtet",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/hartverdrahtet_gpu.frag"
+    },
+    {
+      "catalogId": "core.tglad_formula",
+      "moduleId": "tglad_formula",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/tglad_formula_gpu.frag"
+    },
+    {
+      "catalogId": "core.mandelbulb",
+      "moduleId": "mandelbulb",
+      "shaderAsset": "shaders/legacy/raymarched_3d/mandelbulb.frag"
+    }
+  ],
+  "renderHealthSummary": {
+    "selectedCount": 29,
+    "evaluated": 29,
+    "pass": 29,
+    "allBlack": 0,
+    "mostlyBlack": 0,
+    "transparent": 0,
+    "lowColor": 0,
+    "flat": 0,
+    "blank": 0,
+    "maxBlackPixelRatio": 0.0,
+    "maxTransparentPixelRatio": 0.0,
+    "thresholds": {
+      "minimumPngBytes": 250,
+      "minimumUniqueRgbColors": 3,
+      "minimumLuminanceStdDev": 0.5,
+      "minimumNonTransparentPixelRatio": 0.05,
+      "maximumAllBlackPixelRatio": 0.999,
+      "maximumMostlyBlackPixelRatio": 0.98
+    }
+  },
+  "mathOracleSummary": {
+    "selectedCount": 29,
+    "evaluated": 29,
+    "pass": 6,
+    "fail": 0,
+    "skipped": 23
+  },
+  "renderMetrics": [
+    {
+      "catalogId": "core.mandelbox",
+      "moduleId": "mandelbox",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 7383,
+      "uniqueRgbColors": 510,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 20.3765,
+      "luminanceStdDev": 17.2418,
+      "dominantColorRatio": 0.3892,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.quaternion_julia_3d",
+      "moduleId": "quaternion_julia_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 3972,
+      "uniqueRgbColors": 1047,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 51.2039,
+      "luminanceStdDev": 12.3781,
+      "dominantColorRatio": 0.3902,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.juliabulb_3d",
+      "moduleId": "juliabulb_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/juliabulb_3d_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 6368,
+      "uniqueRgbColors": 1543,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 68.7025,
+      "luminanceStdDev": 46.1868,
+      "dominantColorRatio": 0.2132,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.kifs_menger",
+      "moduleId": "kifs_menger",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 1680,
+      "uniqueRgbColors": 195,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 59.969,
+      "luminanceStdDev": 21.7336,
+      "dominantColorRatio": 0.2855,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.f0597_sierpinski_carpet_3d_menger_cross",
+      "moduleId": "f0597_sierpinski_carpet_3d_menger_cross",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 1893,
+      "uniqueRgbColors": 202,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 57.021,
+      "luminanceStdDev": 15.6088,
+      "dominantColorRatio": 0.2855,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.kifs_sierpinski_tetra",
+      "moduleId": "kifs_sierpinski_tetra",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_sierpinski_tetra_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 1633,
+      "uniqueRgbColors": 102,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 52.1964,
+      "luminanceStdDev": 9.452,
+      "dominantColorRatio": 0.3396,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.kifs_koch_fold",
+      "moduleId": "kifs_koch_fold",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_koch_fold_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 1401,
+      "uniqueRgbColors": 158,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 52.9396,
+      "luminanceStdDev": 11.4453,
+      "dominantColorRatio": 0.3356,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.kifs_snowflake_fold",
+      "moduleId": "kifs_snowflake_fold",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_snowflake_fold_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 341,
+      "uniqueRgbColors": 66,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 53.0223,
+      "luminanceStdDev": 7.5415,
+      "dominantColorRatio": 0.3646,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.implicit_affine_fractal_surface",
+      "moduleId": "implicit_affine_fractal_surface",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/implicit_affine_fractal_surface_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 1351,
+      "uniqueRgbColors": 45,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 57.2804,
+      "luminanceStdDev": 44.6227,
+      "dominantColorRatio": 0.9162,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.sierpinski_octahedron_3d",
+      "moduleId": "sierpinski_octahedron_3d",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 4341,
+      "uniqueRgbColors": 1047,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 68.1683,
+      "luminanceStdDev": 43.9102,
+      "dominantColorRatio": 0.2751,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.jerusalem_cube_3d",
+      "moduleId": "jerusalem_cube_3d",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 3699,
+      "uniqueRgbColors": 946,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 59.3739,
+      "luminanceStdDev": 23.0373,
+      "dominantColorRatio": 0.2917,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.vicsek_3d",
+      "moduleId": "vicsek_3d",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 3530,
+      "uniqueRgbColors": 498,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 59.7475,
+      "luminanceStdDev": 29.4858,
+      "dominantColorRatio": 0.3175,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.cantor_dust_3d",
+      "moduleId": "cantor_dust_3d",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 9796,
+      "uniqueRgbColors": 1685,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 74.2656,
+      "luminanceStdDev": 46.8077,
+      "dominantColorRatio": 0.2771,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.pseudo_kleinian",
+      "moduleId": "pseudo_kleinian",
+      "shaderAsset": "shaders/ifs_and_geometric/pseudo_kleinian_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 24355,
+      "uniqueRgbColors": 8500,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 95.2318,
+      "luminanceStdDev": 30.9647,
+      "dominantColorRatio": 0.0621,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.quaternion_mandelbrot_3d",
+      "moduleId": "quaternion_mandelbrot_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_mandelbrot_3d_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 6821,
+      "uniqueRgbColors": 1827,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 73.9085,
+      "luminanceStdDev": 45.9802,
+      "dominantColorRatio": 0.1629,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.tetrabrot_3d",
+      "moduleId": "tetrabrot_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/tetrabrot_3d_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 6520,
+      "uniqueRgbColors": 1612,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 75.1778,
+      "luminanceStdDev": 51.8144,
+      "dominantColorRatio": 0.1709,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.arrowheadbrot_3d",
+      "moduleId": "arrowheadbrot_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/arrowheadbrot_3d_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 8180,
+      "uniqueRgbColors": 1947,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 79.4825,
+      "luminanceStdDev": 53.6618,
+      "dominantColorRatio": 0.167,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.mousebrot_3d",
+      "moduleId": "mousebrot_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mousebrot_3d_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 7728,
+      "uniqueRgbColors": 2011,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 67.6394,
+      "luminanceStdDev": 33.2152,
+      "dominantColorRatio": 0.1694,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.turtlebrot_3d",
+      "moduleId": "turtlebrot_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/turtlebrot_3d_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 8766,
+      "uniqueRgbColors": 2118,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 77.1375,
+      "luminanceStdDev": 48.7394,
+      "dominantColorRatio": 0.162,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.dual_quaternion_julia",
+      "moduleId": "dual_quaternion_julia",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/dual_quaternion_julia_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 3870,
+      "uniqueRgbColors": 1062,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 52.1127,
+      "luminanceStdDev": 12.8419,
+      "dominantColorRatio": 0.3891,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.mandelbox_shape_inversion",
+      "moduleId": "mandelbox_shape_inversion",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_shape_inversion_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 17533,
+      "uniqueRgbColors": 2578,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 50.5165,
+      "luminanceStdDev": 22.7386,
+      "dominantColorRatio": 0.295,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.apollonian_sphere_packing_3d",
+      "moduleId": "apollonian_sphere_packing_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/apollonian_sphere_packing_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 19850,
+      "uniqueRgbColors": 1606,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 32.3197,
+      "luminanceStdDev": 20.7688,
+      "dominantColorRatio": 0.4134,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.inversive_limit_set_3d",
+      "moduleId": "inversive_limit_set_3d",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/inversive_limit_set_3d_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 763,
+      "uniqueRgbColors": 81,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 53.8724,
+      "luminanceStdDev": 7.7671,
+      "dominantColorRatio": 0.4463,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.mandelbulb_time_modulated",
+      "moduleId": "mandelbulb_time_modulated",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 8005,
+      "uniqueRgbColors": 2384,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 50.9253,
+      "luminanceStdDev": 13.0595,
+      "dominantColorRatio": 0.3108,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.amazing_box",
+      "moduleId": "amazing_box",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/amazing_box_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 9605,
+      "uniqueRgbColors": 2984,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 83.9166,
+      "luminanceStdDev": 23.7131,
+      "dominantColorRatio": 0.2225,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.bulbils",
+      "moduleId": "bulbils",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/bulbils_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 4028,
+      "uniqueRgbColors": 621,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 55.8575,
+      "luminanceStdDev": 18.0164,
+      "dominantColorRatio": 0.3621,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.hartverdrahtet",
+      "moduleId": "hartverdrahtet",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/hartverdrahtet_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 19205,
+      "uniqueRgbColors": 1600,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 118.3058,
+      "luminanceStdDev": 32.4385,
+      "dominantColorRatio": 0.2128,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.tglad_formula",
+      "moduleId": "tglad_formula",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/tglad_formula_gpu.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 13172,
+      "uniqueRgbColors": 4039,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 58.215,
+      "luminanceStdDev": 23.8984,
+      "dominantColorRatio": 0.2045,
+      "verdict": "pass",
+      "warnings": []
+    },
+    {
+      "catalogId": "core.mandelbulb",
+      "moduleId": "mandelbulb",
+      "shaderAsset": "shaders/legacy/raymarched_3d/mandelbulb.frag",
+      "width": 96,
+      "height": 96,
+      "pngBytes": 2100,
+      "uniqueRgbColors": 210,
+      "blackPixelRatio": 0.0,
+      "nonBlackPixelRatio": 1.0,
+      "transparentPixelRatio": 0.0,
+      "nonTransparentRatio": 1.0,
+      "luminanceMean": 56.6131,
+      "luminanceStdDev": 18.2771,
+      "dominantColorRatio": 0.304,
+      "verdict": "pass",
+      "warnings": []
+    }
+  ],
+  "mathOracle": [
+    {
+      "moduleId": "mandelbox",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    },
+    {
+      "moduleId": "quaternion_julia_3d",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    },
+    {
+      "moduleId": "juliabulb_3d",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    },
+    {
+      "moduleId": "kifs_menger",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    },
+    {
+      "moduleId": "f0597_sierpinski_carpet_3d_menger_cross",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    },
+    {
+      "moduleId": "kifs_sierpinski_tetra",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    },
+    {
+      "moduleId": "kifs_koch_fold",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    },
+    {
+      "moduleId": "kifs_snowflake_fold",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    },
+    {
+      "moduleId": "implicit_affine_fractal_surface",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    },
+    {
+      "moduleId": "sierpinski_octahedron_3d",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    },
+    {
+      "moduleId": "jerusalem_cube_3d",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    },
+    {
+      "moduleId": "vicsek_3d",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    },
+    {
+      "moduleId": "cantor_dust_3d",
+      "verdict": "pass",
+      "checks": [
+        {
+          "name": "corner remains in C cubed",
+          "point": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "expectedContained": true,
+          "actualContained": true,
+          "passed": true
+        },
+        {
+          "name": "origin lies in the first middle-third gap",
+          "point": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "expectedContained": false,
+          "actualContained": false,
+          "passed": true
+        },
+        {
+          "name": "one middle coordinate excludes the product point",
+          "point": [
+            1.0,
+            0.0,
+            1.0
+          ],
+          "expectedContained": false,
+          "actualContained": false,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "moduleId": "pseudo_kleinian",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    },
+    {
+      "moduleId": "quaternion_mandelbrot_3d",
+      "verdict": "pass",
+      "checks": [
+        {
+          "name": "origin remains bounded",
+          "parameter": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "expectedEscaped": false,
+          "actualEscaped": false,
+          "passed": true
+        },
+        {
+          "name": "negative unit parameter stays in a two-cycle",
+          "parameter": [
+            -1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "expectedEscaped": false,
+          "actualEscaped": false,
+          "passed": true
+        },
+        {
+          "name": "far real parameter escapes",
+          "parameter": [
+            2.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "expectedEscaped": true,
+          "actualEscaped": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "moduleId": "tetrabrot_3d",
+      "verdict": "pass",
+      "checks": [
+        {
+          "name": "origin belongs to both complex components",
+          "point": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "expectedContained": true,
+          "actualContained": true,
+          "passed": true
+        },
+        {
+          "name": "negative unit parameter is bounded",
+          "point": [
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "expectedContained": true,
+          "actualContained": true,
+          "passed": true
+        },
+        {
+          "name": "far real parameter escapes both components",
+          "point": [
+            2.0,
+            0.0,
+            0.0
+          ],
+          "expectedContained": false,
+          "actualContained": false,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "moduleId": "arrowheadbrot_3d",
+      "verdict": "pass",
+      "checks": [
+        {
+          "name": "origin belongs to both slices",
+          "point": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "expectedArrowheadContained": true,
+          "actualArrowheadContained": true,
+          "expectedTetrabrotContained": true,
+          "actualTetrabrotContained": true,
+          "passed": true
+        },
+        {
+          "name": "real-axis endpoint pair belongs only to Arrowheadbrot",
+          "point": [
+            -0.875,
+            0.0,
+            1.125
+          ],
+          "expectedArrowheadContained": true,
+          "actualArrowheadContained": true,
+          "expectedTetrabrotContained": false,
+          "actualTetrabrotContained": false,
+          "passed": true
+        },
+        {
+          "name": "positive hyperbolic displacement belongs only to Tetrabrot",
+          "point": [
+            0.0,
+            0.0,
+            0.30000001192092896
+          ],
+          "expectedArrowheadContained": false,
+          "actualArrowheadContained": false,
+          "expectedTetrabrotContained": true,
+          "actualTetrabrotContained": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "moduleId": "mousebrot_3d",
+      "verdict": "pass",
+      "checks": [
+        {
+          "name": "origin belongs to all three slices",
+          "point": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "expectedMousebrotContained": true,
+          "actualMousebrotContained": true,
+          "expectedArrowheadContained": true,
+          "actualArrowheadContained": true,
+          "expectedTetrabrotContained": true,
+          "actualTetrabrotContained": true,
+          "passed": true
+        },
+        {
+          "name": "imaginary component pair belongs only to Mousebrot",
+          "point": [
+            -0.75,
+            -0.25,
+            0.0
+          ],
+          "expectedMousebrotContained": true,
+          "actualMousebrotContained": true,
+          "expectedArrowheadContained": false,
+          "actualArrowheadContained": false,
+          "expectedTetrabrotContained": false,
+          "actualTetrabrotContained": false,
+          "passed": true
+        },
+        {
+          "name": "negative real endpoint belongs to the other two slices",
+          "point": [
+            -2.0,
+            0.0,
+            0.0
+          ],
+          "expectedMousebrotContained": false,
+          "actualMousebrotContained": false,
+          "expectedArrowheadContained": true,
+          "actualArrowheadContained": true,
+          "expectedTetrabrotContained": true,
+          "actualTetrabrotContained": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "moduleId": "turtlebrot_3d",
+      "verdict": "pass",
+      "checks": [
+        {
+          "name": "origin belongs to all four compared slices",
+          "point": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "expectedTurtlebrotContained": true,
+          "actualTurtlebrotContained": true,
+          "expectedMousebrotContained": true,
+          "actualMousebrotContained": true,
+          "expectedArrowheadContained": true,
+          "actualArrowheadContained": true,
+          "expectedTetrabrotContained": true,
+          "actualTetrabrotContained": true,
+          "passed": true
+        },
+        {
+          "name": "Mousebrot point is removed by the reflected intersection",
+          "point": [
+            0.125,
+            -0.75,
+            -0.125
+          ],
+          "expectedTurtlebrotContained": false,
+          "actualTurtlebrotContained": false,
+          "expectedMousebrotContained": true,
+          "actualMousebrotContained": true,
+          "expectedArrowheadContained": false,
+          "actualArrowheadContained": false,
+          "expectedTetrabrotContained": false,
+          "actualTetrabrotContained": false,
+          "passed": true
+        },
+        {
+          "name": "Turtlebrot point remains outside the other principal slices",
+          "point": [
+            -0.75,
+            -0.25,
+            0.0
+          ],
+          "expectedTurtlebrotContained": true,
+          "actualTurtlebrotContained": true,
+          "expectedMousebrotContained": true,
+          "actualMousebrotContained": true,
+          "expectedArrowheadContained": false,
+          "actualArrowheadContained": false,
+          "expectedTetrabrotContained": false,
+          "actualTetrabrotContained": false,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "moduleId": "dual_quaternion_julia",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    },
+    {
+      "moduleId": "mandelbox_shape_inversion",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    },
+    {
+      "moduleId": "apollonian_sphere_packing_3d",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    },
+    {
+      "moduleId": "inversive_limit_set_3d",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    },
+    {
+      "moduleId": "mandelbulb_time_modulated",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    },
+    {
+      "moduleId": "amazing_box",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    },
+    {
+      "moduleId": "bulbils",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    },
+    {
+      "moduleId": "hartverdrahtet",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    },
+    {
+      "moduleId": "tglad_formula",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    },
+    {
+      "moduleId": "mandelbulb",
+      "verdict": "skipped",
+      "reason": "no reference oracle for this formula family yet",
+      "checks": []
+    }
+  ],
+  "generated": [
+    {
+      "catalogId": "core.mandelbox",
+      "moduleId": "mandelbox",
+      "path": "build/test_output/catalog_thumbs_seeded/mandelbox.png",
+      "bytes": 7383,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.mandelbox",
+        "moduleId": "mandelbox",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 3.491,
+        "renderWarmupMs": 541.051,
+        "frameTimings": {
+          "count": 2,
+          "avgBuildMs": 134.1325,
+          "maxBuildMs": 268.262,
+          "avgRasterMs": 15.4525,
+          "maxRasterMs": 15.955,
+          "avgTotalSpanMs": 161.42000000000002,
+          "maxTotalSpanMs": 306.833
+        },
+        "captureMs": 173.247,
+        "totalMs": 803.99,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/mandelbox.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 7383
+      },
+      "renderMetrics": {
+        "catalogId": "core.mandelbox",
+        "moduleId": "mandelbox",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 7383,
+        "uniqueRgbColors": 510,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 20.3765,
+        "luminanceStdDev": 17.2418,
+        "dominantColorRatio": 0.3892,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "mandelbox",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    },
+    {
+      "catalogId": "core.quaternion_julia_3d",
+      "moduleId": "quaternion_julia_3d",
+      "path": "build/test_output/catalog_thumbs_seeded/quaternion_julia_3d.png",
+      "bytes": 3972,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.quaternion_julia_3d",
+        "moduleId": "quaternion_julia_3d",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.193,
+        "renderWarmupMs": 265.767,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 4.815,
+          "maxBuildMs": 12.166,
+          "avgRasterMs": 1.7630000000000001,
+          "maxRasterMs": 5.073,
+          "avgTotalSpanMs": 8.017666666666665,
+          "maxTotalSpanMs": 18.604
+        },
+        "captureMs": 73.357,
+        "totalMs": 386.279,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/quaternion_julia_3d.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 3972
+      },
+      "renderMetrics": {
+        "catalogId": "core.quaternion_julia_3d",
+        "moduleId": "quaternion_julia_3d",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 3972,
+        "uniqueRgbColors": 1047,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 51.2039,
+        "luminanceStdDev": 12.3781,
+        "dominantColorRatio": 0.3902,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "quaternion_julia_3d",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    },
+    {
+      "catalogId": "core.juliabulb_3d",
+      "moduleId": "juliabulb_3d",
+      "path": "build/test_output/catalog_thumbs_seeded/juliabulb_3d.png",
+      "bytes": 6368,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.juliabulb_3d",
+        "moduleId": "juliabulb_3d",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/juliabulb_3d_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.15,
+        "renderWarmupMs": 266.406,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 3.4453333333333336,
+          "maxBuildMs": 8.57,
+          "avgRasterMs": 1.0346666666666666,
+          "maxRasterMs": 2.964,
+          "avgTotalSpanMs": 7.944,
+          "maxTotalSpanMs": 18.856
+        },
+        "captureMs": 110.116,
+        "totalMs": 416.838,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/juliabulb_3d.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 6368
+      },
+      "renderMetrics": {
+        "catalogId": "core.juliabulb_3d",
+        "moduleId": "juliabulb_3d",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/juliabulb_3d_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 6368,
+        "uniqueRgbColors": 1543,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 68.7025,
+        "luminanceStdDev": 46.1868,
+        "dominantColorRatio": 0.2132,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "juliabulb_3d",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    },
+    {
+      "catalogId": "core.kifs_menger",
+      "moduleId": "kifs_menger",
+      "path": "build/test_output/catalog_thumbs_seeded/kifs_menger.png",
+      "bytes": 1680,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.kifs_menger",
+        "moduleId": "kifs_menger",
+        "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.11,
+        "renderWarmupMs": 266.451,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 5.702999999999999,
+          "maxBuildMs": 15.633,
+          "avgRasterMs": 1.5053333333333334,
+          "maxRasterMs": 4.384,
+          "avgTotalSpanMs": 8.827333333333334,
+          "maxTotalSpanMs": 21.207
+        },
+        "captureMs": 50.677,
+        "totalMs": 355.785,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/kifs_menger.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 1680
+      },
+      "renderMetrics": {
+        "catalogId": "core.kifs_menger",
+        "moduleId": "kifs_menger",
+        "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 1680,
+        "uniqueRgbColors": 195,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 59.969,
+        "luminanceStdDev": 21.7336,
+        "dominantColorRatio": 0.2855,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "kifs_menger",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    },
+    {
+      "catalogId": "core.f0597_sierpinski_carpet_3d_menger_cross",
+      "moduleId": "f0597_sierpinski_carpet_3d_menger_cross",
+      "path": "build/test_output/catalog_thumbs_seeded/f0597_sierpinski_carpet_3d_menger_cross.png",
+      "bytes": 1893,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.f0597_sierpinski_carpet_3d_menger_cross",
+        "moduleId": "f0597_sierpinski_carpet_3d_menger_cross",
+        "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.141,
+        "renderWarmupMs": 266.116,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 3.0576666666666665,
+          "maxBuildMs": 7.654,
+          "avgRasterMs": 4.1706666666666665,
+          "maxRasterMs": 12.36,
+          "avgTotalSpanMs": 10.434,
+          "maxTotalSpanMs": 26.603
+        },
+        "captureMs": 55.934,
+        "totalMs": 365.26,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/f0597_sierpinski_carpet_3d_menger_cross.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 1893
+      },
+      "renderMetrics": {
+        "catalogId": "core.f0597_sierpinski_carpet_3d_menger_cross",
+        "moduleId": "f0597_sierpinski_carpet_3d_menger_cross",
+        "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 1893,
+        "uniqueRgbColors": 202,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 57.021,
+        "luminanceStdDev": 15.6088,
+        "dominantColorRatio": 0.2855,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "f0597_sierpinski_carpet_3d_menger_cross",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    },
+    {
+      "catalogId": "core.kifs_sierpinski_tetra",
+      "moduleId": "kifs_sierpinski_tetra",
+      "path": "build/test_output/catalog_thumbs_seeded/kifs_sierpinski_tetra.png",
+      "bytes": 1633,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.kifs_sierpinski_tetra",
+        "moduleId": "kifs_sierpinski_tetra",
+        "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_sierpinski_tetra_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.129,
+        "renderWarmupMs": 250.577,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 3.1270000000000002,
+          "maxBuildMs": 7.979,
+          "avgRasterMs": 1.3076666666666668,
+          "maxRasterMs": 3.794,
+          "avgTotalSpanMs": 6.249,
+          "maxTotalSpanMs": 13.843
+        },
+        "captureMs": 78.563,
+        "totalMs": 364.914,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/kifs_sierpinski_tetra.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 1633
+      },
+      "renderMetrics": {
+        "catalogId": "core.kifs_sierpinski_tetra",
+        "moduleId": "kifs_sierpinski_tetra",
+        "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_sierpinski_tetra_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 1633,
+        "uniqueRgbColors": 102,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 52.1964,
+        "luminanceStdDev": 9.452,
+        "dominantColorRatio": 0.3396,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "kifs_sierpinski_tetra",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    },
+    {
+      "catalogId": "core.kifs_koch_fold",
+      "moduleId": "kifs_koch_fold",
+      "path": "build/test_output/catalog_thumbs_seeded/kifs_koch_fold.png",
+      "bytes": 1401,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.kifs_koch_fold",
+        "moduleId": "kifs_koch_fold",
+        "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_koch_fold_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.105,
+        "renderWarmupMs": 250.499,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 3.137,
+          "maxBuildMs": 8.013,
+          "avgRasterMs": 1.0716666666666665,
+          "maxRasterMs": 3.109,
+          "avgTotalSpanMs": 5.544333333333333,
+          "maxTotalSpanMs": 12.631
+        },
+        "captureMs": 46.324,
+        "totalMs": 330.901,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/kifs_koch_fold.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 1401
+      },
+      "renderMetrics": {
+        "catalogId": "core.kifs_koch_fold",
+        "moduleId": "kifs_koch_fold",
+        "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_koch_fold_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 1401,
+        "uniqueRgbColors": 158,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 52.9396,
+        "luminanceStdDev": 11.4453,
+        "dominantColorRatio": 0.3356,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "kifs_koch_fold",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    },
+    {
+      "catalogId": "core.kifs_snowflake_fold",
+      "moduleId": "kifs_snowflake_fold",
+      "path": "build/test_output/catalog_thumbs_seeded/kifs_snowflake_fold.png",
+      "bytes": 341,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.kifs_snowflake_fold",
+        "moduleId": "kifs_snowflake_fold",
+        "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_snowflake_fold_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.126,
+        "renderWarmupMs": 249.796,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 2.8823333333333334,
+          "maxBuildMs": 7.243,
+          "avgRasterMs": 1.0336666666666667,
+          "maxRasterMs": 2.967,
+          "avgTotalSpanMs": 5.333666666666666,
+          "maxTotalSpanMs": 11.676
+        },
+        "captureMs": 48.334,
+        "totalMs": 332.407,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/kifs_snowflake_fold.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 341
+      },
+      "renderMetrics": {
+        "catalogId": "core.kifs_snowflake_fold",
+        "moduleId": "kifs_snowflake_fold",
+        "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_snowflake_fold_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 341,
+        "uniqueRgbColors": 66,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 53.0223,
+        "luminanceStdDev": 7.5415,
+        "dominantColorRatio": 0.3646,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "kifs_snowflake_fold",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    },
+    {
+      "catalogId": "core.implicit_affine_fractal_surface",
+      "moduleId": "implicit_affine_fractal_surface",
+      "path": "build/test_output/catalog_thumbs_seeded/implicit_affine_fractal_surface.png",
+      "bytes": 1351,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.implicit_affine_fractal_surface",
+        "moduleId": "implicit_affine_fractal_surface",
+        "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/implicit_affine_fractal_surface_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.116,
+        "renderWarmupMs": 249.341,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 3.1759999999999997,
+          "maxBuildMs": 8.129,
+          "avgRasterMs": 1.9623333333333333,
+          "maxRasterMs": 5.733,
+          "avgTotalSpanMs": 7.097,
+          "maxTotalSpanMs": 15.664
+        },
+        "captureMs": 45.873,
+        "totalMs": 328.126,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/implicit_affine_fractal_surface.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 1351
+      },
+      "renderMetrics": {
+        "catalogId": "core.implicit_affine_fractal_surface",
+        "moduleId": "implicit_affine_fractal_surface",
+        "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/implicit_affine_fractal_surface_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 1351,
+        "uniqueRgbColors": 45,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 57.2804,
+        "luminanceStdDev": 44.6227,
+        "dominantColorRatio": 0.9162,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "implicit_affine_fractal_surface",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    },
+    {
+      "catalogId": "core.sierpinski_octahedron_3d",
+      "moduleId": "sierpinski_octahedron_3d",
+      "path": "build/test_output/catalog_thumbs_seeded/sierpinski_octahedron_3d.png",
+      "bytes": 4341,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.sierpinski_octahedron_3d",
+        "moduleId": "sierpinski_octahedron_3d",
+        "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.104,
+        "renderWarmupMs": 249.892,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 3.187333333333333,
+          "maxBuildMs": 8.219,
+          "avgRasterMs": 1.0210000000000001,
+          "maxRasterMs": 2.93,
+          "avgTotalSpanMs": 5.8773333333333335,
+          "maxTotalSpanMs": 13.117
+        },
+        "captureMs": 96.051,
+        "totalMs": 382.464,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/sierpinski_octahedron_3d.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 4341
+      },
+      "renderMetrics": {
+        "catalogId": "core.sierpinski_octahedron_3d",
+        "moduleId": "sierpinski_octahedron_3d",
+        "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 4341,
+        "uniqueRgbColors": 1047,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 68.1683,
+        "luminanceStdDev": 43.9102,
+        "dominantColorRatio": 0.2751,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "sierpinski_octahedron_3d",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    },
+    {
+      "catalogId": "core.jerusalem_cube_3d",
+      "moduleId": "jerusalem_cube_3d",
+      "path": "build/test_output/catalog_thumbs_seeded/jerusalem_cube_3d.png",
+      "bytes": 3699,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.jerusalem_cube_3d",
+        "moduleId": "jerusalem_cube_3d",
+        "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.113,
+        "renderWarmupMs": 265.755,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 4.884666666666667,
+          "maxBuildMs": 13.274,
+          "avgRasterMs": 15.296999999999999,
+          "maxRasterMs": 45.765,
+          "avgTotalSpanMs": 21.839,
+          "maxTotalSpanMs": 60.374
+        },
+        "captureMs": 122.457,
+        "totalMs": 428.551,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/jerusalem_cube_3d.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 3699
+      },
+      "renderMetrics": {
+        "catalogId": "core.jerusalem_cube_3d",
+        "moduleId": "jerusalem_cube_3d",
+        "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 3699,
+        "uniqueRgbColors": 946,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 59.3739,
+        "luminanceStdDev": 23.0373,
+        "dominantColorRatio": 0.2917,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "jerusalem_cube_3d",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    },
+    {
+      "catalogId": "core.vicsek_3d",
+      "moduleId": "vicsek_3d",
+      "path": "build/test_output/catalog_thumbs_seeded/vicsek_3d.png",
+      "bytes": 3530,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.vicsek_3d",
+        "moduleId": "vicsek_3d",
+        "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.128,
+        "renderWarmupMs": 250.115,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 2.6123333333333334,
+          "maxBuildMs": 6.501,
+          "avgRasterMs": 15.512666666666666,
+          "maxRasterMs": 46.394,
+          "avgTotalSpanMs": 20.432666666666666,
+          "maxTotalSpanMs": 56.444
+        },
+        "captureMs": 137.413,
+        "totalMs": 421.803,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/vicsek_3d.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 3530
+      },
+      "renderMetrics": {
+        "catalogId": "core.vicsek_3d",
+        "moduleId": "vicsek_3d",
+        "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 3530,
+        "uniqueRgbColors": 498,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 59.7475,
+        "luminanceStdDev": 29.4858,
+        "dominantColorRatio": 0.3175,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "vicsek_3d",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    },
+    {
+      "catalogId": "core.cantor_dust_3d",
+      "moduleId": "cantor_dust_3d",
+      "path": "build/test_output/catalog_thumbs_seeded/cantor_dust_3d.png",
+      "bytes": 9796,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.cantor_dust_3d",
+        "moduleId": "cantor_dust_3d",
+        "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.101,
+        "renderWarmupMs": 250.098,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 3.062,
+          "maxBuildMs": 7.837,
+          "avgRasterMs": 24.067666666666664,
+          "maxRasterMs": 72.073,
+          "avgTotalSpanMs": 28.713333333333335,
+          "maxTotalSpanMs": 81.455
+        },
+        "captureMs": 176.668,
+        "totalMs": 484.994,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/cantor_dust_3d.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 9796
+      },
+      "renderMetrics": {
+        "catalogId": "core.cantor_dust_3d",
+        "moduleId": "cantor_dust_3d",
+        "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 9796,
+        "uniqueRgbColors": 1685,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 74.2656,
+        "luminanceStdDev": 46.8077,
+        "dominantColorRatio": 0.2771,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "cantor_dust_3d",
+        "verdict": "pass",
+        "checks": [
+          {
+            "name": "corner remains in C cubed",
+            "point": [
+              1.0,
+              1.0,
+              1.0
+            ],
+            "expectedContained": true,
+            "actualContained": true,
+            "passed": true
+          },
+          {
+            "name": "origin lies in the first middle-third gap",
+            "point": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "expectedContained": false,
+            "actualContained": false,
+            "passed": true
+          },
+          {
+            "name": "one middle coordinate excludes the product point",
+            "point": [
+              1.0,
+              0.0,
+              1.0
+            ],
+            "expectedContained": false,
+            "actualContained": false,
+            "passed": true
+          }
+        ]
+      },
+      "mathVerdict": "pass"
+    },
+    {
+      "catalogId": "core.pseudo_kleinian",
+      "moduleId": "pseudo_kleinian",
+      "path": "build/test_output/catalog_thumbs_seeded/pseudo_kleinian.png",
+      "bytes": 24355,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.pseudo_kleinian",
+        "moduleId": "pseudo_kleinian",
+        "shaderAsset": "shaders/ifs_and_geometric/pseudo_kleinian_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.138,
+        "renderWarmupMs": 249.782,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 3.1176666666666666,
+          "maxBuildMs": 8.013,
+          "avgRasterMs": 1.006,
+          "maxRasterMs": 2.899,
+          "avgTotalSpanMs": 5.614,
+          "maxTotalSpanMs": 12.432
+        },
+        "captureMs": 178.9,
+        "totalMs": 497.01,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/pseudo_kleinian.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 24355
+      },
+      "renderMetrics": {
+        "catalogId": "core.pseudo_kleinian",
+        "moduleId": "pseudo_kleinian",
+        "shaderAsset": "shaders/ifs_and_geometric/pseudo_kleinian_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 24355,
+        "uniqueRgbColors": 8500,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 95.2318,
+        "luminanceStdDev": 30.9647,
+        "dominantColorRatio": 0.0621,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "pseudo_kleinian",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    },
+    {
+      "catalogId": "core.quaternion_mandelbrot_3d",
+      "moduleId": "quaternion_mandelbrot_3d",
+      "path": "build/test_output/catalog_thumbs_seeded/quaternion_mandelbrot_3d.png",
+      "bytes": 6821,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.quaternion_mandelbrot_3d",
+        "moduleId": "quaternion_mandelbrot_3d",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_mandelbrot_3d_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.108,
+        "renderWarmupMs": 266.003,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 3.5876666666666672,
+          "maxBuildMs": 9.428,
+          "avgRasterMs": 1.4073333333333335,
+          "maxRasterMs": 4.097,
+          "avgTotalSpanMs": 6.778,
+          "maxTotalSpanMs": 15.306
+        },
+        "captureMs": 120.098,
+        "totalMs": 431.855,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/quaternion_mandelbrot_3d.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 6821
+      },
+      "renderMetrics": {
+        "catalogId": "core.quaternion_mandelbrot_3d",
+        "moduleId": "quaternion_mandelbrot_3d",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_mandelbrot_3d_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 6821,
+        "uniqueRgbColors": 1827,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 73.9085,
+        "luminanceStdDev": 45.9802,
+        "dominantColorRatio": 0.1629,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "quaternion_mandelbrot_3d",
+        "verdict": "pass",
+        "checks": [
+          {
+            "name": "origin remains bounded",
+            "parameter": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "expectedEscaped": false,
+            "actualEscaped": false,
+            "passed": true
+          },
+          {
+            "name": "negative unit parameter stays in a two-cycle",
+            "parameter": [
+              -1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "expectedEscaped": false,
+            "actualEscaped": false,
+            "passed": true
+          },
+          {
+            "name": "far real parameter escapes",
+            "parameter": [
+              2.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "expectedEscaped": true,
+            "actualEscaped": true,
+            "passed": true
+          }
+        ]
+      },
+      "mathVerdict": "pass"
+    },
+    {
+      "catalogId": "core.tetrabrot_3d",
+      "moduleId": "tetrabrot_3d",
+      "path": "build/test_output/catalog_thumbs_seeded/tetrabrot_3d.png",
+      "bytes": 6520,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.tetrabrot_3d",
+        "moduleId": "tetrabrot_3d",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/tetrabrot_3d_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.133,
+        "renderWarmupMs": 266.349,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 5.272333333333333,
+          "maxBuildMs": 14.457,
+          "avgRasterMs": 1.896,
+          "maxRasterMs": 5.564,
+          "avgTotalSpanMs": 8.897666666666666,
+          "maxTotalSpanMs": 22.125
+        },
+        "captureMs": 252.776,
+        "totalMs": 557.219,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/tetrabrot_3d.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 6520
+      },
+      "renderMetrics": {
+        "catalogId": "core.tetrabrot_3d",
+        "moduleId": "tetrabrot_3d",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/tetrabrot_3d_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 6520,
+        "uniqueRgbColors": 1612,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 75.1778,
+        "luminanceStdDev": 51.8144,
+        "dominantColorRatio": 0.1709,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "tetrabrot_3d",
+        "verdict": "pass",
+        "checks": [
+          {
+            "name": "origin belongs to both complex components",
+            "point": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "expectedContained": true,
+            "actualContained": true,
+            "passed": true
+          },
+          {
+            "name": "negative unit parameter is bounded",
+            "point": [
+              -1.0,
+              0.0,
+              0.0
+            ],
+            "expectedContained": true,
+            "actualContained": true,
+            "passed": true
+          },
+          {
+            "name": "far real parameter escapes both components",
+            "point": [
+              2.0,
+              0.0,
+              0.0
+            ],
+            "expectedContained": false,
+            "actualContained": false,
+            "passed": true
+          }
+        ]
+      },
+      "mathVerdict": "pass"
+    },
+    {
+      "catalogId": "core.arrowheadbrot_3d",
+      "moduleId": "arrowheadbrot_3d",
+      "path": "build/test_output/catalog_thumbs_seeded/arrowheadbrot_3d.png",
+      "bytes": 8180,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.arrowheadbrot_3d",
+        "moduleId": "arrowheadbrot_3d",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/arrowheadbrot_3d_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.119,
+        "renderWarmupMs": 265.547,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 5.114,
+          "maxBuildMs": 14.033,
+          "avgRasterMs": 1.7163333333333333,
+          "maxRasterMs": 5.044,
+          "avgTotalSpanMs": 8.535333333333334,
+          "maxTotalSpanMs": 20.872
+        },
+        "captureMs": 272.363,
+        "totalMs": 578.381,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/arrowheadbrot_3d.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 8180
+      },
+      "renderMetrics": {
+        "catalogId": "core.arrowheadbrot_3d",
+        "moduleId": "arrowheadbrot_3d",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/arrowheadbrot_3d_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 8180,
+        "uniqueRgbColors": 1947,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 79.4825,
+        "luminanceStdDev": 53.6618,
+        "dominantColorRatio": 0.167,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "arrowheadbrot_3d",
+        "verdict": "pass",
+        "checks": [
+          {
+            "name": "origin belongs to both slices",
+            "point": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "expectedArrowheadContained": true,
+            "actualArrowheadContained": true,
+            "expectedTetrabrotContained": true,
+            "actualTetrabrotContained": true,
+            "passed": true
+          },
+          {
+            "name": "real-axis endpoint pair belongs only to Arrowheadbrot",
+            "point": [
+              -0.875,
+              0.0,
+              1.125
+            ],
+            "expectedArrowheadContained": true,
+            "actualArrowheadContained": true,
+            "expectedTetrabrotContained": false,
+            "actualTetrabrotContained": false,
+            "passed": true
+          },
+          {
+            "name": "positive hyperbolic displacement belongs only to Tetrabrot",
+            "point": [
+              0.0,
+              0.0,
+              0.30000001192092896
+            ],
+            "expectedArrowheadContained": false,
+            "actualArrowheadContained": false,
+            "expectedTetrabrotContained": true,
+            "actualTetrabrotContained": true,
+            "passed": true
+          }
+        ]
+      },
+      "mathVerdict": "pass"
+    },
+    {
+      "catalogId": "core.mousebrot_3d",
+      "moduleId": "mousebrot_3d",
+      "path": "build/test_output/catalog_thumbs_seeded/mousebrot_3d.png",
+      "bytes": 7728,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.mousebrot_3d",
+        "moduleId": "mousebrot_3d",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mousebrot_3d_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.104,
+        "renderWarmupMs": 249.053,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 2.9043333333333337,
+          "maxBuildMs": 7.463,
+          "avgRasterMs": 1.063,
+          "maxRasterMs": 3.04,
+          "avgTotalSpanMs": 5.815666666666666,
+          "maxTotalSpanMs": 12.331
+        },
+        "captureMs": 259.715,
+        "totalMs": 548.695,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/mousebrot_3d.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 7728
+      },
+      "renderMetrics": {
+        "catalogId": "core.mousebrot_3d",
+        "moduleId": "mousebrot_3d",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mousebrot_3d_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 7728,
+        "uniqueRgbColors": 2011,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 67.6394,
+        "luminanceStdDev": 33.2152,
+        "dominantColorRatio": 0.1694,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "mousebrot_3d",
+        "verdict": "pass",
+        "checks": [
+          {
+            "name": "origin belongs to all three slices",
+            "point": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "expectedMousebrotContained": true,
+            "actualMousebrotContained": true,
+            "expectedArrowheadContained": true,
+            "actualArrowheadContained": true,
+            "expectedTetrabrotContained": true,
+            "actualTetrabrotContained": true,
+            "passed": true
+          },
+          {
+            "name": "imaginary component pair belongs only to Mousebrot",
+            "point": [
+              -0.75,
+              -0.25,
+              0.0
+            ],
+            "expectedMousebrotContained": true,
+            "actualMousebrotContained": true,
+            "expectedArrowheadContained": false,
+            "actualArrowheadContained": false,
+            "expectedTetrabrotContained": false,
+            "actualTetrabrotContained": false,
+            "passed": true
+          },
+          {
+            "name": "negative real endpoint belongs to the other two slices",
+            "point": [
+              -2.0,
+              0.0,
+              0.0
+            ],
+            "expectedMousebrotContained": false,
+            "actualMousebrotContained": false,
+            "expectedArrowheadContained": true,
+            "actualArrowheadContained": true,
+            "expectedTetrabrotContained": true,
+            "actualTetrabrotContained": true,
+            "passed": true
+          }
+        ]
+      },
+      "mathVerdict": "pass"
+    },
+    {
+      "catalogId": "core.turtlebrot_3d",
+      "moduleId": "turtlebrot_3d",
+      "path": "build/test_output/catalog_thumbs_seeded/turtlebrot_3d.png",
+      "bytes": 8766,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.turtlebrot_3d",
+        "moduleId": "turtlebrot_3d",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/turtlebrot_3d_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.112,
+        "renderWarmupMs": 250.403,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 2.8683333333333336,
+          "maxBuildMs": 7.295,
+          "avgRasterMs": 1.035,
+          "maxRasterMs": 2.992,
+          "avgTotalSpanMs": 6.004333333333332,
+          "maxTotalSpanMs": 13.856
+        },
+        "captureMs": 983.903,
+        "totalMs": 1275.596,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/turtlebrot_3d.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 8766
+      },
+      "renderMetrics": {
+        "catalogId": "core.turtlebrot_3d",
+        "moduleId": "turtlebrot_3d",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/turtlebrot_3d_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 8766,
+        "uniqueRgbColors": 2118,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 77.1375,
+        "luminanceStdDev": 48.7394,
+        "dominantColorRatio": 0.162,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "turtlebrot_3d",
+        "verdict": "pass",
+        "checks": [
+          {
+            "name": "origin belongs to all four compared slices",
+            "point": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "expectedTurtlebrotContained": true,
+            "actualTurtlebrotContained": true,
+            "expectedMousebrotContained": true,
+            "actualMousebrotContained": true,
+            "expectedArrowheadContained": true,
+            "actualArrowheadContained": true,
+            "expectedTetrabrotContained": true,
+            "actualTetrabrotContained": true,
+            "passed": true
+          },
+          {
+            "name": "Mousebrot point is removed by the reflected intersection",
+            "point": [
+              0.125,
+              -0.75,
+              -0.125
+            ],
+            "expectedTurtlebrotContained": false,
+            "actualTurtlebrotContained": false,
+            "expectedMousebrotContained": true,
+            "actualMousebrotContained": true,
+            "expectedArrowheadContained": false,
+            "actualArrowheadContained": false,
+            "expectedTetrabrotContained": false,
+            "actualTetrabrotContained": false,
+            "passed": true
+          },
+          {
+            "name": "Turtlebrot point remains outside the other principal slices",
+            "point": [
+              -0.75,
+              -0.25,
+              0.0
+            ],
+            "expectedTurtlebrotContained": true,
+            "actualTurtlebrotContained": true,
+            "expectedMousebrotContained": true,
+            "actualMousebrotContained": true,
+            "expectedArrowheadContained": false,
+            "actualArrowheadContained": false,
+            "expectedTetrabrotContained": false,
+            "actualTetrabrotContained": false,
+            "passed": true
+          }
+        ]
+      },
+      "mathVerdict": "pass"
+    },
+    {
+      "catalogId": "core.dual_quaternion_julia",
+      "moduleId": "dual_quaternion_julia",
+      "path": "build/test_output/catalog_thumbs_seeded/dual_quaternion_julia.png",
+      "bytes": 3870,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.dual_quaternion_julia",
+        "moduleId": "dual_quaternion_julia",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/dual_quaternion_julia_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.119,
+        "renderWarmupMs": 266.301,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 3.0660000000000003,
+          "maxBuildMs": 7.898,
+          "avgRasterMs": 1.6116666666666666,
+          "maxRasterMs": 4.709,
+          "avgTotalSpanMs": 7.0073333333333325,
+          "maxTotalSpanMs": 16.262
+        },
+        "captureMs": 81.952,
+        "totalMs": 390.979,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/dual_quaternion_julia.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 3870
+      },
+      "renderMetrics": {
+        "catalogId": "core.dual_quaternion_julia",
+        "moduleId": "dual_quaternion_julia",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/dual_quaternion_julia_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 3870,
+        "uniqueRgbColors": 1062,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 52.1127,
+        "luminanceStdDev": 12.8419,
+        "dominantColorRatio": 0.3891,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "dual_quaternion_julia",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    },
+    {
+      "catalogId": "core.mandelbox_shape_inversion",
+      "moduleId": "mandelbox_shape_inversion",
+      "path": "build/test_output/catalog_thumbs_seeded/mandelbox_shape_inversion.png",
+      "bytes": 17533,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.mandelbox_shape_inversion",
+        "moduleId": "mandelbox_shape_inversion",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_shape_inversion_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.126,
+        "renderWarmupMs": 249.348,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 2.939,
+          "maxBuildMs": 7.544,
+          "avgRasterMs": 1.3753333333333335,
+          "maxRasterMs": 3.992,
+          "avgTotalSpanMs": 6.445333333333333,
+          "maxTotalSpanMs": 13.947
+        },
+        "captureMs": 291.591,
+        "totalMs": 594.493,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/mandelbox_shape_inversion.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 17533
+      },
+      "renderMetrics": {
+        "catalogId": "core.mandelbox_shape_inversion",
+        "moduleId": "mandelbox_shape_inversion",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_shape_inversion_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 17533,
+        "uniqueRgbColors": 2578,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 50.5165,
+        "luminanceStdDev": 22.7386,
+        "dominantColorRatio": 0.295,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "mandelbox_shape_inversion",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    },
+    {
+      "catalogId": "core.apollonian_sphere_packing_3d",
+      "moduleId": "apollonian_sphere_packing_3d",
+      "path": "build/test_output/catalog_thumbs_seeded/apollonian_sphere_packing_3d.png",
+      "bytes": 19850,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.apollonian_sphere_packing_3d",
+        "moduleId": "apollonian_sphere_packing_3d",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/apollonian_sphere_packing_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.125,
+        "renderWarmupMs": 249.249,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 2.9823333333333335,
+          "maxBuildMs": 7.655,
+          "avgRasterMs": 1.2963333333333333,
+          "maxRasterMs": 3.792,
+          "avgTotalSpanMs": 6.010333333333333,
+          "maxTotalSpanMs": 12.728
+        },
+        "captureMs": 577.044,
+        "totalMs": 868.752,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/apollonian_sphere_packing_3d.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 19850
+      },
+      "renderMetrics": {
+        "catalogId": "core.apollonian_sphere_packing_3d",
+        "moduleId": "apollonian_sphere_packing_3d",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/apollonian_sphere_packing_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 19850,
+        "uniqueRgbColors": 1606,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 32.3197,
+        "luminanceStdDev": 20.7688,
+        "dominantColorRatio": 0.4134,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "apollonian_sphere_packing_3d",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    },
+    {
+      "catalogId": "core.inversive_limit_set_3d",
+      "moduleId": "inversive_limit_set_3d",
+      "path": "build/test_output/catalog_thumbs_seeded/inversive_limit_set_3d.png",
+      "bytes": 763,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.inversive_limit_set_3d",
+        "moduleId": "inversive_limit_set_3d",
+        "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/inversive_limit_set_3d_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.114,
+        "renderWarmupMs": 249.581,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 3.058,
+          "maxBuildMs": 7.878,
+          "avgRasterMs": 1.055,
+          "maxRasterMs": 3.02,
+          "avgTotalSpanMs": 5.991333333333333,
+          "maxTotalSpanMs": 12.491
+        },
+        "captureMs": 45.983,
+        "totalMs": 331.895,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/inversive_limit_set_3d.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 763
+      },
+      "renderMetrics": {
+        "catalogId": "core.inversive_limit_set_3d",
+        "moduleId": "inversive_limit_set_3d",
+        "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/inversive_limit_set_3d_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 763,
+        "uniqueRgbColors": 81,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 53.8724,
+        "luminanceStdDev": 7.7671,
+        "dominantColorRatio": 0.4463,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "inversive_limit_set_3d",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    },
+    {
+      "catalogId": "core.mandelbulb_time_modulated",
+      "moduleId": "mandelbulb_time_modulated",
+      "path": "build/test_output/catalog_thumbs_seeded/mandelbulb_time_modulated.png",
+      "bytes": 8005,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.mandelbulb_time_modulated",
+        "moduleId": "mandelbulb_time_modulated",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.091,
+        "renderWarmupMs": 265.86,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 3.029,
+          "maxBuildMs": 7.783,
+          "avgRasterMs": 1.0253333333333334,
+          "maxRasterMs": 2.91,
+          "avgTotalSpanMs": 6.108666666666667,
+          "maxTotalSpanMs": 13.706
+        },
+        "captureMs": 101.462,
+        "totalMs": 417.862,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/mandelbulb_time_modulated.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 8005
+      },
+      "renderMetrics": {
+        "catalogId": "core.mandelbulb_time_modulated",
+        "moduleId": "mandelbulb_time_modulated",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 8005,
+        "uniqueRgbColors": 2384,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 50.9253,
+        "luminanceStdDev": 13.0595,
+        "dominantColorRatio": 0.3108,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "mandelbulb_time_modulated",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    },
+    {
+      "catalogId": "core.amazing_box",
+      "moduleId": "amazing_box",
+      "path": "build/test_output/catalog_thumbs_seeded/amazing_box.png",
+      "bytes": 9605,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.amazing_box",
+        "moduleId": "amazing_box",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/amazing_box_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.101,
+        "renderWarmupMs": 250.023,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 2.8853333333333335,
+          "maxBuildMs": 7.362,
+          "avgRasterMs": 1.1433333333333333,
+          "maxRasterMs": 3.312,
+          "avgTotalSpanMs": 5.495666666666668,
+          "maxTotalSpanMs": 12.052
+        },
+        "captureMs": 185.669,
+        "totalMs": 506.382,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/amazing_box.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 9605
+      },
+      "renderMetrics": {
+        "catalogId": "core.amazing_box",
+        "moduleId": "amazing_box",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/amazing_box_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 9605,
+        "uniqueRgbColors": 2984,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 83.9166,
+        "luminanceStdDev": 23.7131,
+        "dominantColorRatio": 0.2225,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "amazing_box",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    },
+    {
+      "catalogId": "core.bulbils",
+      "moduleId": "bulbils",
+      "path": "build/test_output/catalog_thumbs_seeded/bulbils.png",
+      "bytes": 4028,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.bulbils",
+        "moduleId": "bulbils",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/bulbils_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.124,
+        "renderWarmupMs": 250.064,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 3.1353333333333335,
+          "maxBuildMs": 8.079,
+          "avgRasterMs": 1.133,
+          "maxRasterMs": 3.261,
+          "avgTotalSpanMs": 6.125333333333333,
+          "maxTotalSpanMs": 13.328
+        },
+        "captureMs": 132.559,
+        "totalMs": 420.036,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/bulbils.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 4028
+      },
+      "renderMetrics": {
+        "catalogId": "core.bulbils",
+        "moduleId": "bulbils",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/bulbils_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 4028,
+        "uniqueRgbColors": 621,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 55.8575,
+        "luminanceStdDev": 18.0164,
+        "dominantColorRatio": 0.3621,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "bulbils",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    },
+    {
+      "catalogId": "core.hartverdrahtet",
+      "moduleId": "hartverdrahtet",
+      "path": "build/test_output/catalog_thumbs_seeded/hartverdrahtet.png",
+      "bytes": 19205,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.hartverdrahtet",
+        "moduleId": "hartverdrahtet",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/hartverdrahtet_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.214,
+        "renderWarmupMs": 249.631,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 2.752333333333333,
+          "maxBuildMs": 7.025,
+          "avgRasterMs": 0.9346666666666668,
+          "maxRasterMs": 2.713,
+          "avgTotalSpanMs": 5.384,
+          "maxTotalSpanMs": 11.678
+        },
+        "captureMs": 404.894,
+        "totalMs": 710.103,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/hartverdrahtet.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 19205
+      },
+      "renderMetrics": {
+        "catalogId": "core.hartverdrahtet",
+        "moduleId": "hartverdrahtet",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/hartverdrahtet_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 19205,
+        "uniqueRgbColors": 1600,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 118.3058,
+        "luminanceStdDev": 32.4385,
+        "dominantColorRatio": 0.2128,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "hartverdrahtet",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    },
+    {
+      "catalogId": "core.tglad_formula",
+      "moduleId": "tglad_formula",
+      "path": "build/test_output/catalog_thumbs_seeded/tglad_formula.png",
+      "bytes": 13172,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.tglad_formula",
+        "moduleId": "tglad_formula",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/tglad_formula_gpu.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.108,
+        "renderWarmupMs": 250.753,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 2.8529999999999998,
+          "maxBuildMs": 7.262,
+          "avgRasterMs": 1.5526666666666669,
+          "maxRasterMs": 4.522,
+          "avgTotalSpanMs": 6.035666666666667,
+          "maxTotalSpanMs": 13.814
+        },
+        "captureMs": 372.598,
+        "totalMs": 672.329,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/tglad_formula.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 13172
+      },
+      "renderMetrics": {
+        "catalogId": "core.tglad_formula",
+        "moduleId": "tglad_formula",
+        "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/tglad_formula_gpu.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 13172,
+        "uniqueRgbColors": 4039,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 58.215,
+        "luminanceStdDev": 23.8984,
+        "dominantColorRatio": 0.2045,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "tglad_formula",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    },
+    {
+      "catalogId": "core.mandelbulb",
+      "moduleId": "mandelbulb",
+      "path": "build/test_output/catalog_thumbs_seeded/mandelbulb.png",
+      "bytes": 2100,
+      "warnings": [],
+      "performance": {
+        "catalogId": "core.mandelbulb",
+        "moduleId": "mandelbulb",
+        "shaderAsset": "shaders/legacy/raymarched_3d/mandelbulb.frag",
+        "shaderLoadMs": 0.0,
+        "shaderLoadMode": "renderer-warmup",
+        "moduleSelectMs": 0.103,
+        "renderWarmupMs": 249.211,
+        "frameTimings": {
+          "count": 3,
+          "avgBuildMs": 2.894,
+          "maxBuildMs": 7.372,
+          "avgRasterMs": 0.984,
+          "maxRasterMs": 2.807,
+          "avgTotalSpanMs": 5.789999999999999,
+          "maxTotalSpanMs": 12.149
+        },
+        "captureMs": 61.417,
+        "totalMs": 346.849,
+        "imagePath": "build/test_output/catalog_thumbs_seeded/mandelbulb.png",
+        "imageWidth": 96,
+        "imageHeight": 96,
+        "pngBytes": 2100
+      },
+      "renderMetrics": {
+        "catalogId": "core.mandelbulb",
+        "moduleId": "mandelbulb",
+        "shaderAsset": "shaders/legacy/raymarched_3d/mandelbulb.frag",
+        "width": 96,
+        "height": 96,
+        "pngBytes": 2100,
+        "uniqueRgbColors": 210,
+        "blackPixelRatio": 0.0,
+        "nonBlackPixelRatio": 1.0,
+        "transparentPixelRatio": 0.0,
+        "nonTransparentRatio": 1.0,
+        "luminanceMean": 56.6131,
+        "luminanceStdDev": 18.2771,
+        "dominantColorRatio": 0.304,
+        "verdict": "pass",
+        "warnings": []
+      },
+      "mathOracle": {
+        "moduleId": "mandelbulb",
+        "verdict": "skipped",
+        "reason": "no reference oracle for this formula family yet",
+        "checks": []
+      },
+      "mathVerdict": "skipped"
+    }
+  ],
+  "failed": [],
+  "skipped": [],
+  "qualityWarnings": [],
+  "performance": [
+    {
+      "catalogId": "core.mandelbox",
+      "moduleId": "mandelbox",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 3.491,
+      "renderWarmupMs": 541.051,
+      "frameTimings": {
+        "count": 2,
+        "avgBuildMs": 134.1325,
+        "maxBuildMs": 268.262,
+        "avgRasterMs": 15.4525,
+        "maxRasterMs": 15.955,
+        "avgTotalSpanMs": 161.42000000000002,
+        "maxTotalSpanMs": 306.833
+      },
+      "captureMs": 173.247,
+      "totalMs": 803.99,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/mandelbox.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 7383
+    },
+    {
+      "catalogId": "core.quaternion_julia_3d",
+      "moduleId": "quaternion_julia_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.193,
+      "renderWarmupMs": 265.767,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 4.815,
+        "maxBuildMs": 12.166,
+        "avgRasterMs": 1.7630000000000001,
+        "maxRasterMs": 5.073,
+        "avgTotalSpanMs": 8.017666666666665,
+        "maxTotalSpanMs": 18.604
+      },
+      "captureMs": 73.357,
+      "totalMs": 386.279,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/quaternion_julia_3d.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 3972
+    },
+    {
+      "catalogId": "core.juliabulb_3d",
+      "moduleId": "juliabulb_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/juliabulb_3d_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.15,
+      "renderWarmupMs": 266.406,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 3.4453333333333336,
+        "maxBuildMs": 8.57,
+        "avgRasterMs": 1.0346666666666666,
+        "maxRasterMs": 2.964,
+        "avgTotalSpanMs": 7.944,
+        "maxTotalSpanMs": 18.856
+      },
+      "captureMs": 110.116,
+      "totalMs": 416.838,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/juliabulb_3d.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 6368
+    },
+    {
+      "catalogId": "core.kifs_menger",
+      "moduleId": "kifs_menger",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.11,
+      "renderWarmupMs": 266.451,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 5.702999999999999,
+        "maxBuildMs": 15.633,
+        "avgRasterMs": 1.5053333333333334,
+        "maxRasterMs": 4.384,
+        "avgTotalSpanMs": 8.827333333333334,
+        "maxTotalSpanMs": 21.207
+      },
+      "captureMs": 50.677,
+      "totalMs": 355.785,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/kifs_menger.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 1680
+    },
+    {
+      "catalogId": "core.f0597_sierpinski_carpet_3d_menger_cross",
+      "moduleId": "f0597_sierpinski_carpet_3d_menger_cross",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.141,
+      "renderWarmupMs": 266.116,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 3.0576666666666665,
+        "maxBuildMs": 7.654,
+        "avgRasterMs": 4.1706666666666665,
+        "maxRasterMs": 12.36,
+        "avgTotalSpanMs": 10.434,
+        "maxTotalSpanMs": 26.603
+      },
+      "captureMs": 55.934,
+      "totalMs": 365.26,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/f0597_sierpinski_carpet_3d_menger_cross.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 1893
+    },
+    {
+      "catalogId": "core.kifs_sierpinski_tetra",
+      "moduleId": "kifs_sierpinski_tetra",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_sierpinski_tetra_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.129,
+      "renderWarmupMs": 250.577,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 3.1270000000000002,
+        "maxBuildMs": 7.979,
+        "avgRasterMs": 1.3076666666666668,
+        "maxRasterMs": 3.794,
+        "avgTotalSpanMs": 6.249,
+        "maxTotalSpanMs": 13.843
+      },
+      "captureMs": 78.563,
+      "totalMs": 364.914,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/kifs_sierpinski_tetra.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 1633
+    },
+    {
+      "catalogId": "core.kifs_koch_fold",
+      "moduleId": "kifs_koch_fold",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_koch_fold_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.105,
+      "renderWarmupMs": 250.499,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 3.137,
+        "maxBuildMs": 8.013,
+        "avgRasterMs": 1.0716666666666665,
+        "maxRasterMs": 3.109,
+        "avgTotalSpanMs": 5.544333333333333,
+        "maxTotalSpanMs": 12.631
+      },
+      "captureMs": 46.324,
+      "totalMs": 330.901,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/kifs_koch_fold.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 1401
+    },
+    {
+      "catalogId": "core.kifs_snowflake_fold",
+      "moduleId": "kifs_snowflake_fold",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_snowflake_fold_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.126,
+      "renderWarmupMs": 249.796,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 2.8823333333333334,
+        "maxBuildMs": 7.243,
+        "avgRasterMs": 1.0336666666666667,
+        "maxRasterMs": 2.967,
+        "avgTotalSpanMs": 5.333666666666666,
+        "maxTotalSpanMs": 11.676
+      },
+      "captureMs": 48.334,
+      "totalMs": 332.407,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/kifs_snowflake_fold.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 341
+    },
+    {
+      "catalogId": "core.implicit_affine_fractal_surface",
+      "moduleId": "implicit_affine_fractal_surface",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/implicit_affine_fractal_surface_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.116,
+      "renderWarmupMs": 249.341,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 3.1759999999999997,
+        "maxBuildMs": 8.129,
+        "avgRasterMs": 1.9623333333333333,
+        "maxRasterMs": 5.733,
+        "avgTotalSpanMs": 7.097,
+        "maxTotalSpanMs": 15.664
+      },
+      "captureMs": 45.873,
+      "totalMs": 328.126,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/implicit_affine_fractal_surface.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 1351
+    },
+    {
+      "catalogId": "core.sierpinski_octahedron_3d",
+      "moduleId": "sierpinski_octahedron_3d",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.104,
+      "renderWarmupMs": 249.892,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 3.187333333333333,
+        "maxBuildMs": 8.219,
+        "avgRasterMs": 1.0210000000000001,
+        "maxRasterMs": 2.93,
+        "avgTotalSpanMs": 5.8773333333333335,
+        "maxTotalSpanMs": 13.117
+      },
+      "captureMs": 96.051,
+      "totalMs": 382.464,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/sierpinski_octahedron_3d.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 4341
+    },
+    {
+      "catalogId": "core.jerusalem_cube_3d",
+      "moduleId": "jerusalem_cube_3d",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.113,
+      "renderWarmupMs": 265.755,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 4.884666666666667,
+        "maxBuildMs": 13.274,
+        "avgRasterMs": 15.296999999999999,
+        "maxRasterMs": 45.765,
+        "avgTotalSpanMs": 21.839,
+        "maxTotalSpanMs": 60.374
+      },
+      "captureMs": 122.457,
+      "totalMs": 428.551,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/jerusalem_cube_3d.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 3699
+    },
+    {
+      "catalogId": "core.vicsek_3d",
+      "moduleId": "vicsek_3d",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.128,
+      "renderWarmupMs": 250.115,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 2.6123333333333334,
+        "maxBuildMs": 6.501,
+        "avgRasterMs": 15.512666666666666,
+        "maxRasterMs": 46.394,
+        "avgTotalSpanMs": 20.432666666666666,
+        "maxTotalSpanMs": 56.444
+      },
+      "captureMs": 137.413,
+      "totalMs": 421.803,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/vicsek_3d.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 3530
+    },
+    {
+      "catalogId": "core.cantor_dust_3d",
+      "moduleId": "cantor_dust_3d",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.101,
+      "renderWarmupMs": 250.098,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 3.062,
+        "maxBuildMs": 7.837,
+        "avgRasterMs": 24.067666666666664,
+        "maxRasterMs": 72.073,
+        "avgTotalSpanMs": 28.713333333333335,
+        "maxTotalSpanMs": 81.455
+      },
+      "captureMs": 176.668,
+      "totalMs": 484.994,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/cantor_dust_3d.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 9796
+    },
+    {
+      "catalogId": "core.pseudo_kleinian",
+      "moduleId": "pseudo_kleinian",
+      "shaderAsset": "shaders/ifs_and_geometric/pseudo_kleinian_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.138,
+      "renderWarmupMs": 249.782,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 3.1176666666666666,
+        "maxBuildMs": 8.013,
+        "avgRasterMs": 1.006,
+        "maxRasterMs": 2.899,
+        "avgTotalSpanMs": 5.614,
+        "maxTotalSpanMs": 12.432
+      },
+      "captureMs": 178.9,
+      "totalMs": 497.01,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/pseudo_kleinian.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 24355
+    },
+    {
+      "catalogId": "core.quaternion_mandelbrot_3d",
+      "moduleId": "quaternion_mandelbrot_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_mandelbrot_3d_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.108,
+      "renderWarmupMs": 266.003,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 3.5876666666666672,
+        "maxBuildMs": 9.428,
+        "avgRasterMs": 1.4073333333333335,
+        "maxRasterMs": 4.097,
+        "avgTotalSpanMs": 6.778,
+        "maxTotalSpanMs": 15.306
+      },
+      "captureMs": 120.098,
+      "totalMs": 431.855,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/quaternion_mandelbrot_3d.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 6821
+    },
+    {
+      "catalogId": "core.tetrabrot_3d",
+      "moduleId": "tetrabrot_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/tetrabrot_3d_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.133,
+      "renderWarmupMs": 266.349,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 5.272333333333333,
+        "maxBuildMs": 14.457,
+        "avgRasterMs": 1.896,
+        "maxRasterMs": 5.564,
+        "avgTotalSpanMs": 8.897666666666666,
+        "maxTotalSpanMs": 22.125
+      },
+      "captureMs": 252.776,
+      "totalMs": 557.219,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/tetrabrot_3d.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 6520
+    },
+    {
+      "catalogId": "core.arrowheadbrot_3d",
+      "moduleId": "arrowheadbrot_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/arrowheadbrot_3d_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.119,
+      "renderWarmupMs": 265.547,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 5.114,
+        "maxBuildMs": 14.033,
+        "avgRasterMs": 1.7163333333333333,
+        "maxRasterMs": 5.044,
+        "avgTotalSpanMs": 8.535333333333334,
+        "maxTotalSpanMs": 20.872
+      },
+      "captureMs": 272.363,
+      "totalMs": 578.381,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/arrowheadbrot_3d.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 8180
+    },
+    {
+      "catalogId": "core.mousebrot_3d",
+      "moduleId": "mousebrot_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mousebrot_3d_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.104,
+      "renderWarmupMs": 249.053,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 2.9043333333333337,
+        "maxBuildMs": 7.463,
+        "avgRasterMs": 1.063,
+        "maxRasterMs": 3.04,
+        "avgTotalSpanMs": 5.815666666666666,
+        "maxTotalSpanMs": 12.331
+      },
+      "captureMs": 259.715,
+      "totalMs": 548.695,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/mousebrot_3d.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 7728
+    },
+    {
+      "catalogId": "core.turtlebrot_3d",
+      "moduleId": "turtlebrot_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/turtlebrot_3d_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.112,
+      "renderWarmupMs": 250.403,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 2.8683333333333336,
+        "maxBuildMs": 7.295,
+        "avgRasterMs": 1.035,
+        "maxRasterMs": 2.992,
+        "avgTotalSpanMs": 6.004333333333332,
+        "maxTotalSpanMs": 13.856
+      },
+      "captureMs": 983.903,
+      "totalMs": 1275.596,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/turtlebrot_3d.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 8766
+    },
+    {
+      "catalogId": "core.dual_quaternion_julia",
+      "moduleId": "dual_quaternion_julia",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/dual_quaternion_julia_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.119,
+      "renderWarmupMs": 266.301,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 3.0660000000000003,
+        "maxBuildMs": 7.898,
+        "avgRasterMs": 1.6116666666666666,
+        "maxRasterMs": 4.709,
+        "avgTotalSpanMs": 7.0073333333333325,
+        "maxTotalSpanMs": 16.262
+      },
+      "captureMs": 81.952,
+      "totalMs": 390.979,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/dual_quaternion_julia.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 3870
+    },
+    {
+      "catalogId": "core.mandelbox_shape_inversion",
+      "moduleId": "mandelbox_shape_inversion",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_shape_inversion_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.126,
+      "renderWarmupMs": 249.348,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 2.939,
+        "maxBuildMs": 7.544,
+        "avgRasterMs": 1.3753333333333335,
+        "maxRasterMs": 3.992,
+        "avgTotalSpanMs": 6.445333333333333,
+        "maxTotalSpanMs": 13.947
+      },
+      "captureMs": 291.591,
+      "totalMs": 594.493,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/mandelbox_shape_inversion.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 17533
+    },
+    {
+      "catalogId": "core.apollonian_sphere_packing_3d",
+      "moduleId": "apollonian_sphere_packing_3d",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/apollonian_sphere_packing_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.125,
+      "renderWarmupMs": 249.249,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 2.9823333333333335,
+        "maxBuildMs": 7.655,
+        "avgRasterMs": 1.2963333333333333,
+        "maxRasterMs": 3.792,
+        "avgTotalSpanMs": 6.010333333333333,
+        "maxTotalSpanMs": 12.728
+      },
+      "captureMs": 577.044,
+      "totalMs": 868.752,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/apollonian_sphere_packing_3d.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 19850
+    },
+    {
+      "catalogId": "core.inversive_limit_set_3d",
+      "moduleId": "inversive_limit_set_3d",
+      "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/inversive_limit_set_3d_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.114,
+      "renderWarmupMs": 249.581,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 3.058,
+        "maxBuildMs": 7.878,
+        "avgRasterMs": 1.055,
+        "maxRasterMs": 3.02,
+        "avgTotalSpanMs": 5.991333333333333,
+        "maxTotalSpanMs": 12.491
+      },
+      "captureMs": 45.983,
+      "totalMs": 331.895,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/inversive_limit_set_3d.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 763
+    },
+    {
+      "catalogId": "core.mandelbulb_time_modulated",
+      "moduleId": "mandelbulb_time_modulated",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.091,
+      "renderWarmupMs": 265.86,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 3.029,
+        "maxBuildMs": 7.783,
+        "avgRasterMs": 1.0253333333333334,
+        "maxRasterMs": 2.91,
+        "avgTotalSpanMs": 6.108666666666667,
+        "maxTotalSpanMs": 13.706
+      },
+      "captureMs": 101.462,
+      "totalMs": 417.862,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/mandelbulb_time_modulated.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 8005
+    },
+    {
+      "catalogId": "core.amazing_box",
+      "moduleId": "amazing_box",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/amazing_box_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.101,
+      "renderWarmupMs": 250.023,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 2.8853333333333335,
+        "maxBuildMs": 7.362,
+        "avgRasterMs": 1.1433333333333333,
+        "maxRasterMs": 3.312,
+        "avgTotalSpanMs": 5.495666666666668,
+        "maxTotalSpanMs": 12.052
+      },
+      "captureMs": 185.669,
+      "totalMs": 506.382,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/amazing_box.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 9605
+    },
+    {
+      "catalogId": "core.bulbils",
+      "moduleId": "bulbils",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/bulbils_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.124,
+      "renderWarmupMs": 250.064,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 3.1353333333333335,
+        "maxBuildMs": 8.079,
+        "avgRasterMs": 1.133,
+        "maxRasterMs": 3.261,
+        "avgTotalSpanMs": 6.125333333333333,
+        "maxTotalSpanMs": 13.328
+      },
+      "captureMs": 132.559,
+      "totalMs": 420.036,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/bulbils.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 4028
+    },
+    {
+      "catalogId": "core.hartverdrahtet",
+      "moduleId": "hartverdrahtet",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/hartverdrahtet_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.214,
+      "renderWarmupMs": 249.631,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 2.752333333333333,
+        "maxBuildMs": 7.025,
+        "avgRasterMs": 0.9346666666666668,
+        "maxRasterMs": 2.713,
+        "avgTotalSpanMs": 5.384,
+        "maxTotalSpanMs": 11.678
+      },
+      "captureMs": 404.894,
+      "totalMs": 710.103,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/hartverdrahtet.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 19205
+    },
+    {
+      "catalogId": "core.tglad_formula",
+      "moduleId": "tglad_formula",
+      "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/tglad_formula_gpu.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.108,
+      "renderWarmupMs": 250.753,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 2.8529999999999998,
+        "maxBuildMs": 7.262,
+        "avgRasterMs": 1.5526666666666669,
+        "maxRasterMs": 4.522,
+        "avgTotalSpanMs": 6.035666666666667,
+        "maxTotalSpanMs": 13.814
+      },
+      "captureMs": 372.598,
+      "totalMs": 672.329,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/tglad_formula.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 13172
+    },
+    {
+      "catalogId": "core.mandelbulb",
+      "moduleId": "mandelbulb",
+      "shaderAsset": "shaders/legacy/raymarched_3d/mandelbulb.frag",
+      "shaderLoadMs": 0.0,
+      "shaderLoadMode": "renderer-warmup",
+      "moduleSelectMs": 0.103,
+      "renderWarmupMs": 249.211,
+      "frameTimings": {
+        "count": 3,
+        "avgBuildMs": 2.894,
+        "maxBuildMs": 7.372,
+        "avgRasterMs": 0.984,
+        "maxRasterMs": 2.807,
+        "avgTotalSpanMs": 5.789999999999999,
+        "maxTotalSpanMs": 12.149
+      },
+      "captureMs": 61.417,
+      "totalMs": 346.849,
+      "imagePath": "build/test_output/catalog_thumbs_seeded/mandelbulb.png",
+      "imageWidth": 96,
+      "imageHeight": 96,
+      "pngBytes": 2100
+    }
+  ],
+  "flutterErrors": [],
+  "launchVisualMetrics": []
+}

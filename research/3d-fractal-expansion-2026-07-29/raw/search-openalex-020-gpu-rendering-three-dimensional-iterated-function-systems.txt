@@ -1,0 +1,10 @@
+10.1145/3528223.3530127	Instant neural graphics primitives with a multiresolution hash encoding
+10.1145/3197517.3201401	Deep appearance models for face rendering
+10.1038/s42254-021-00314-5	Physics-informed machine learning
+10.1038/s41377-022-00916-3	Review of computer-generated hologram algorithms for color dynamic holographic three-dimensional display
+10.1145/3128571	Graph Processing on GPUs
+10.1111/cgf.12934	State of the Art in Transfer Functions for Direct Volume Rendering
+10.1145/1618452.1618500	Real-time parallel hashing on the GPU
+10.1080/08927022.2018.1426855	iRASPA: GPU-accelerated visualization software for materials scientists
+10.1002/rob.20324	Generation and visualization of large‐scale three‐dimensional reconstructions from underwater robotic surveys
+10.1145/3197517.3201378	Single-image SVBRDF capture with a rendering-aware deep network

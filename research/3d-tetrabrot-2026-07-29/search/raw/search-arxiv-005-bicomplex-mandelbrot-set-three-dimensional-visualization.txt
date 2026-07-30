@@ -1,0 +1,20 @@
+	Harmonic morphisms and bicomplex manifolds
+10.2140/agt.2025.25.2807	Surgery sequences and self-similarity of the Mandelbrot set
+	Homotopies and Maps between Eigenvalues of some Generalized Lucas Sequences and the Mandelbrot Set
+	On Fibers and Local Connectivity of Mandelbrot and Multibrot Sets
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+	Beyond English: Centering Multilingualism in Data Visualization
+	An Analytical Survey on Recent Trends in High Dimensional Data Visualization
+10.1109/tvcg.2025.3633909	Reframing Pattern: A Comprehensive Approach to a Composite Visual Variable
+10.1109/vis49827.2021.9623305	Towards a Survey on Static and Dynamic Hypergraph Visualizations
+10.1007/jhep05(2021)108	A comparison of optimisation algorithms for high-dimensional particle and astrophysics applications
+	The Dynamics of Financial Markets -- Mandelbrot's multifractal cascades, and beyond
+	Deep Generative Neural Embeddings for High Dimensional Data Visualization
+	NL2INTERFACE: Interactive Visualization Interface Generation from Natural Language Queries
+	Newton-Mandelbrot set and Murase-Mandelbrot set
+10.1109/tvcg.2023.3326576	Reclaiming the Horizon: Novel Visualization Designs for Time-Series Data with Large Value Ranges
+10.1109/tvcg.2017.2772237	LMap: Shape-Preserving Local Mappings for Biomedical Visualization
+10.1109/tvcg.2024.3456305	Beware of Validation by Eye: Visual Validation of Linear Trends in Scatterplots
+10.1109/tvcg.2017.2743858	What Would a Graph Look Like in This Layout? A Machine Learning Approach to Large Graph Visualization
+10.1109/tvcg.2020.3030408	Visual Analytics for Temporal Hypergraph Model Exploration
+10.1177/14738716221142005	VisRuler: Visual Analytics for Extracting Decision Rules from Bagged and Boosted Decision Trees

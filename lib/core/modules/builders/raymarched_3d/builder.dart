@@ -38,6 +38,7 @@ class Raymarched3DConfig {
   final double minPower;
   final double maxPower;
   final String powerLabel;
+  final bool exposePower;
   final double defaultIterations;
   final double maxIterations;
   final double defaultSteps;
@@ -60,6 +61,7 @@ class Raymarched3DConfig {
     this.minPower = 2.0,
     this.maxPower = 12.0,
     this.powerLabel = 'Power',
+    this.exposePower = true,
     this.defaultIterations = 50,
     this.maxIterations = 100,
     this.defaultSteps = 120,
@@ -77,15 +79,16 @@ class Raymarched3DConfig {
 /// Builds a [FractalModule] from a declarative [Raymarched3DConfig].
 FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
   final parameters = [
-    FractalParameter(
-      id: 'power',
-      label: (_) => config.powerLabel,
-      type: FractalParamType.float,
-      min: config.minPower,
-      max: config.maxPower,
-      step: 0.1,
-      defaultValue: config.defaultPower,
-    ),
+    if (config.exposePower)
+      FractalParameter(
+        id: 'power',
+        label: (_) => config.powerLabel,
+        type: FractalParamType.float,
+        min: config.minPower,
+        max: config.maxPower,
+        step: 0.1,
+        defaultValue: config.defaultPower,
+      ),
     CommonFractalParams.iterations(
       defaultValue: config.defaultIterations,
       min: 5,
@@ -123,12 +126,13 @@ FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
   ];
 
   final defaultParams = <String, Object>{
-    'power': config.defaultPower,
+    if (config.exposePower) 'power': config.defaultPower,
     'iterations': config.defaultIterations,
     'steps': config.defaultSteps,
     'bailout': config.defaultBailout,
     'colorScheme': config.defaultColorScheme,
-    if (config.maxFractalType > 0) 'fractalType': config.defaultFractalType,
+    if (config.maxFractalType > 0 || config.defaultFractalType != 0)
+      'fractalType': config.defaultFractalType,
   };
 
   final defaultPreset = catalogPreset(

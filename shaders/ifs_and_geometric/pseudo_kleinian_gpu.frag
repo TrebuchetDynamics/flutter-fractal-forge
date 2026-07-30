@@ -1,97 +1,124 @@
 #include <flutter/runtime_effect.glsl>
+
 precision highp float;
 
+// Pseudo-Kleinian community distance estimator. This is intentionally named
+// "pseudo": it is a box-fold/sphere-inversion system, not a Kleinian group.
 uniform float uTime;
-uniform vec2  uResolution;
-uniform vec2  uCenter;
+uniform vec2 uResolution;
+uniform vec2 uMousePos;
 uniform float uZoom;
+uniform vec3 uRotation;
+uniform float uPower;
 uniform float uIterations;
+uniform float uSteps;
 uniform float uBailout;
 uniform float uColorScheme;
+uniform float uFractalType;
 uniform float uTransparentBg;
+
 out vec4 fragColor;
 
-// IEC 61966-2-1 sRGB transfer function (linear → display-encoded).
-vec3 linearToSRGB(vec3 lin) {
-  lin = clamp(lin, 0.0, 1.0);
-  bvec3 cutoff = lessThan(lin, vec3(0.0031308));
-  vec3 hi = 1.055 * pow(max(lin, vec3(0.0031308)), vec3(1.0 / 2.4)) - 0.055;
-  vec3 lo = lin * 12.92;
-  return mix(hi, lo, vec3(cutoff));
+vec3 linearToSRGB(vec3 value) {
+    value = clamp(value, 0.0, 1.0);
+    bvec3 cutoff = lessThan(value, vec3(0.0031308));
+    vec3 high = 1.055 * pow(max(value, vec3(0.0031308)), vec3(1.0 / 2.4)) - 0.055;
+    vec3 low = value * 12.92;
+    return mix(high, low, vec3(cutoff));
 }
 
-const int MAX_ITERS = 500;
+mat3 rotationMatrix(vec3 angles) {
+    float cx = cos(angles.x), sx = sin(angles.x);
+    float cy = cos(angles.y), sy = sin(angles.y);
+    float cz = cos(angles.z), sz = sin(angles.z);
+    return mat3(
+        cy * cz, sx * sy * cz - cx * sz, cx * sy * cz + sx * sz,
+        cy * sz, sx * sy * sz + cx * cz, cx * sy * sz - sx * cz,
+        -sy, sx * cy, cx * cy
+    );
+}
 
-vec3 iqPalette(float t, vec3 a, vec3 b, vec3 c, vec3 d) { return a + b * cos(6.28318 * (c * t + d)); }
-vec3 getPaletteColor(float t, int scheme) {
-  t = fract(t);
-  if (scheme == 0) return iqPalette(t, vec3(0.5), vec3(0.5), vec3(1.0), vec3(0.00, 0.33, 0.67));
-  if (scheme == 1) return iqPalette(t, vec3(0.5), vec3(0.5), vec3(1.0), vec3(0.50, 0.30, 0.00));
-  if (scheme == 2) return iqPalette(t, vec3(0.5), vec3(0.5), vec3(1.0, 0.7, 0.4), vec3(0.00, 0.15, 0.20));
-  if (scheme == 3) { float g = 0.5 + 0.5 * cos(6.28318 * t); return vec3(g); }
-  float s = float(scheme);
-  vec3 a = 0.55 + 0.15 * sin(vec3(1.0, 2.0, 3.0) * (0.37 * s + 0.1));
-  vec3 b = 0.45 + 0.25 * cos(vec3(1.7, 2.3, 2.9) * (0.29 * s + 0.2));
-  vec3 c = 1.0 + 0.80 * sin(vec3(0.8, 1.3, 1.7) * (0.11 * s + 0.3));
-  vec3 d = fract(sin(vec3(12.9898, 78.233, 37.719) * (s + 0.5)) * 43758.5453);
-  return clamp(iqPalette(t, a, b, c, d), 0.0, 1.0);
+float pseudoKleinianDistance(vec3 point) {
+    vec3 z = point;
+    float derivative = 1.0;
+    float foldScale = clamp(uPower, 1.5, 2.3);
+    int maxIterations = int(clamp(uIterations, 1.0, 16.0));
+
+    for (int iteration = 0; iteration < 16; iteration++) {
+        if (iteration >= maxIterations) break;
+        z = 2.0 * clamp(z, vec3(-1.0, -1.0, -1.3), vec3(1.0, 1.0, 1.3)) - z;
+        float radiusSquared = max(dot(z, z), 1.0e-6);
+        float inversion = max(1.0 / radiusSquared, 1.0);
+        z *= inversion;
+        derivative *= inversion;
+        z = z * foldScale + vec3(-0.08, 0.05, 0.03);
+        derivative = derivative * abs(foldScale) + 1.0;
+    }
+
+    float shell = abs(length(z) - 0.92784);
+    float crossSection = min(
+        max(abs(z.x), abs(z.y)),
+        min(max(abs(z.x), abs(z.z)), max(abs(z.y), abs(z.z)))
+    );
+    return max(shell, crossSection * 0.24 - 0.035) / max(derivative, 1.0e-6);
+}
+
+vec3 surfaceNormal(vec3 point) {
+    const float epsilon = 0.0012;
+    vec2 e = vec2(1.0, -1.0) * epsilon;
+    return normalize(
+        e.xyy * pseudoKleinianDistance(point + e.xyy) +
+        e.yyx * pseudoKleinianDistance(point + e.yyx) +
+        e.yxy * pseudoKleinianDistance(point + e.yxy) +
+        e.xxx * pseudoKleinianDistance(point + e.xxx)
+    );
+}
+
+vec3 palette(float phase) {
+    float shifted = phase + uColorScheme * 0.17 + uFractalType * 0.000001;
+    return 0.5 + 0.5 * cos(6.28318 * (shifted + vec3(0.0, 0.33, 0.67)));
 }
 
 void main() {
-  vec2 fragCoord = FlutterFragCoord().xy;
-  float scale = min(uResolution.x, uResolution.y);
-  vec2 uv = (fragCoord - 0.5 * uResolution) / max(1.0, scale);
+    vec2 fragCoord = FlutterFragCoord().xy;
+    vec2 uv = (fragCoord - 0.5 * uResolution) * 2.0 / uResolution.y;
+    mat3 rotation = rotationMatrix(uRotation);
+    vec3 target = vec3(uMousePos, 0.0);
+    vec3 origin = target + rotation * vec3(0.0, 0.0, 3.2 / max(uZoom, 0.2));
+    vec3 direction = normalize(rotation * vec3(uv, -1.5));
+    int maxSteps = int(clamp(uSteps, 20.0, 160.0));
+    float hitThreshold = 0.001 / max(uZoom, 0.2);
+    float travelled = 0.0;
+    float hitStep = -1.0;
+    vec3 hitPoint = origin;
 
-  vec2 q = uv / max(0.000001, uZoom) + uCenter;
-  vec3 z = vec3(q, 0.25 * sin(0.0005 * uTime));
-  vec3 c = vec3(0.15 * q, 0.0);
-
-  int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)));
-  float bailout = max(4.0, uBailout);
-  int it = target;
-  float de = 0.0;
-  float trap = 1e9;
-
-  for (int i = 0; i < MAX_ITERS; i++) {
-    if (i >= target) break;
-
-    vec3 folded = clamp(z, -1.2, 1.2) * 2.0 - z;
-    trap = min(trap, length(abs(folded.xy) - vec2(0.72)) + 0.18 * abs(folded.z));
-    z = folded;
-
-    float r2 = dot(z, z);
-    float minR2 = 0.25;
-    float fixedR2 = 1.0;
-    if (r2 < minR2) {
-      float k = fixedR2 / minR2;
-      z *= k;
-      de = de * k + 1.0;
-    } else if (r2 < fixedR2) {
-      float k = fixedR2 / max(r2, 1e-6);
-      z *= k;
-      de = de * k + 1.0;
-    } else {
-      de += 1.0;
+    for (int stepIndex = 0; stepIndex < 160; stepIndex++) {
+        if (stepIndex >= maxSteps) break;
+        hitPoint = origin + direction * travelled;
+        float distanceValue = pseudoKleinianDistance(hitPoint);
+        if (distanceValue < hitThreshold) {
+            hitStep = float(stepIndex);
+            break;
+        }
+        travelled += max(distanceValue * 0.7, hitThreshold * 0.35);
+        if (travelled > max(uBailout, 4.0)) break;
     }
 
-    z = z * 1.95 + c + vec3(-0.08, 0.05, 0.03);
+    if (hitStep < 0.0) {
+        if (uTransparentBg > 0.5) {
+            fragColor = vec4(0.0);
+            return;
+        }
+        vec3 background = mix(vec3(0.012, 0.018, 0.03), vec3(0.055, 0.04, 0.085), uv.y * 0.5 + 0.5);
+        fragColor = vec4(linearToSRGB(background), 1.0);
+        return;
+    }
 
-    if (dot(z, z) > bailout * bailout) { it = i + 1; break; }
-  }
-
-  float distEst = length(z) / max(abs(de), 1e-4);
-  float linework = exp(-7.0 * max(0.0, trap));
-  if (it >= target) {
-    float t = fract(0.8 / (1.0 + 35.0 * distEst) + 0.22 * linework + 0.1 * atan(z.y, z.x));
-    vec3 color = getPaletteColor(t + uTime * 0.00004, int(uColorScheme));
-    color = mix(color * 0.62, color + vec3(0.22, 0.18, 0.08), smoothstep(0.05, 0.70, linework));
-    fragColor = vec4(linearToSRGB(color), uTransparentBg > 0.5 ? 0.92 : 1.0);
-    return;
-  }
-
-  float smoothVal = float(it) - log2(log2(dot(z, z) + 1.0));
-  float t = fract(smoothVal / 64.0 + 0.5 / (1.0 + 20.0 * distEst) + 0.18 * linework);
-  vec3 color = getPaletteColor(t, int(uColorScheme));
-  color = mix(color * 0.70, color + vec3(0.20, 0.16, 0.06), smoothstep(0.05, 0.75, linework));
-  fragColor = vec4(linearToSRGB(color), 1.0);
+    vec3 normal = surfaceNormal(hitPoint);
+    vec3 lightDirection = normalize(vec3(0.8, 0.9, 0.5));
+    float diffuse = max(dot(normal, lightDirection), 0.0);
+    float rim = pow(1.0 - max(dot(normal, -direction), 0.0), 2.0);
+    float phase = hitStep / max(uSteps, 1.0) + 0.12 * length(hitPoint) + uTime * 0.00003;
+    vec3 color = palette(phase) * (0.18 + 0.82 * diffuse) + rim * 0.22;
+    fragColor = vec4(linearToSRGB(color), 1.0);
 }

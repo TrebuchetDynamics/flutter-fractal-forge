@@ -1,0 +1,8 @@
+three dimensional Cantor dust Cartesian product Cantor set Hausdorff dimension
+Cantor cube C x C x C self similar set eight maps
+three dimensional Cantor set iterated function system eight corner cubes
+Sierpinski icosahedron iterated function system contraction ratio
+Sierpinski dodecahedron iterated function system contraction ratio
+regular polyhedron fractal iterated function system three dimensions
+polyhedral Sierpinski fractals icosahedron dodecahedron
+self similar fractal polyhedra vertex iterated function systems

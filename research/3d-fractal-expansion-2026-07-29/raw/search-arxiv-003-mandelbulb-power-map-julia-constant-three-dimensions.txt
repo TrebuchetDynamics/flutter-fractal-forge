@@ -1,0 +1,10 @@
+	World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)
+10.1063/5.0089436	NQCDynamics.jl: A Julia Package for Nonadiabatic Quantum Classical Molecular Dynamics in the Condensed Phase
+	Kernels, Data & Physics
+10.1145/3485527	Type Stability in Julia: Avoiding Performance Pathologies in JIT Compilation (Extended Version)
+10.1103/physrevd.107.055015	Internal force distributions in 't Hooft-Polyakov monopole and Julia-Zee dyon
+10.1109/tpwrs.2018.2863042	Robust Power Flow and Three-Phase Power Flow Analyses
+10.1063/5.0051387	NetworkDynamics.jl -- Composing and simulating complex networks in Julia
+	Mandelbulb, Mandelbrot, Mandelring and Hopfbrot
+10.1103/physrevaccelbeams.23.011301	Development and high-power testing of an X-band dielectric-loaded power extractor
+	Boundary Julia theory for slice regular functions

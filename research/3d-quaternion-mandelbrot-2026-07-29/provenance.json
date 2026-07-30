@@ -1,0 +1,37 @@
+{
+  "question": "Does the audited 3D catalog lack a mathematically distinct quaternion Mandelbrot parameter-space identity?",
+  "rforge_version": "v0.1.19",
+  "timestamp": "2026-07-29T19:25:00Z",
+  "depth": "targeted follow-up",
+  "queries_file": "queries.txt",
+  "sources": ["openalex", "crossref", "arxiv"],
+  "search_stats": {
+    "openalex": 81,
+    "crossref": 104,
+    "arxiv": 120,
+    "library_records": 305,
+    "unique_dois": 174
+  },
+  "accepted": ["quaternion_mandelbrot_3d"],
+  "outputs": [
+    "queries.txt",
+    "search/results.jsonl",
+    "search/manifest.json",
+    "search-stats.txt",
+    "search-output.log",
+    "report.md",
+    "evidence-grid.json",
+    "evidence-gaps.json",
+    "provenance.json"
+  ],
+  "external_search_urls": [
+    "https://www.sciencedirect.com/science/article/pii/096007799400163K",
+    "https://arxiv.org/abs/2305.17848",
+    "https://paulbourke.net/papers/fractals2024/prepress.pdf"
+  ],
+  "errors": [
+    "No full text was downloaded through ResearchForge.",
+    "The Ketch search backend used keyless DuckDuckGo fallback rather than its primary backend.",
+    "Distance-estimator exactness was not established; the implementation treats it as a conservative rendering estimate."
+  ]
+}

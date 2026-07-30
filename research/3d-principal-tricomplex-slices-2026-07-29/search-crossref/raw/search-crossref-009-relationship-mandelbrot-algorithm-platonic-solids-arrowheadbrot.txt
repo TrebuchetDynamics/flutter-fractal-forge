@@ -1,0 +1,10 @@
+10.3390/math10030482	Relationship between the Mandelbrot Algorithm and the Platonic Solids
+10.3840/07000405	Platonic Solids
+10.3840/000405	Platonic Solids
+10.3840/001806	Rotational Symmetries of Platonic Solids
+10.3840/07001806	Rotational Symmetries of Platonic Solids
+10.1017/cbo9780511569746.007	The Platonic solids (1–5)
+10.1021/acs.nanolett.4c04923.s001	Depletion-Induced Tunable Assembly of Complementary Platonic Solids
+10.1017/cbo9780511569746.009	Commentary on stellations and compounds of the Platonic solids
+10.1007/978-3-642-04833-3_33	The Platonic Solids
+10.1201/9781439888926-12	Euler’s Formula and Platonic Solids

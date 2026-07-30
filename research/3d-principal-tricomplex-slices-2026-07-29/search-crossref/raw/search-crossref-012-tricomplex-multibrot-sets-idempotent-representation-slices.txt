@@ -1,0 +1,10 @@
+10.33774/coe-2025-n0h9f-v2	A Study of Tricomplex Numbers: Representation, Subalgebras, Idempotent Forms
+10.33774/coe-2025-n0h9f	A Study of Tricomplex Numbers: Representation, Subalgebras, Idempotent Forms
+10.1142/s0218127419500858	Tricomplex Distance Estimation for Filled-In Julia Sets and Multibrot Sets
+10.33774/coe-2025-837kl-v2	Idempotent Elements in Tricomplex Numbers
+10.33774/coe-2025-837kl	Idempotent Elements in Tricomplex Numbers
+10.21203/rs.3.rs-2510074/v1	Tricomplex Numbers and idempotent elements in C3
+10.1090/conm/573/11393	Rational maps with half symmetries, Julia sets, and Multibrot sets in parameter planes
+10.1142/9789811254925_0014	A Set-Theoretical Representation for Weakly Idempotent Lattices and Interlaced Weakly Idempotent Bilattices
+10.1093/imrn/rnw286	Erratum to “The Decoration Theorem for Mandelbrot and Multibrot Sets”
+10.1016/s0165-0114(03)00259-8	A characterization of idempotent nullnorms

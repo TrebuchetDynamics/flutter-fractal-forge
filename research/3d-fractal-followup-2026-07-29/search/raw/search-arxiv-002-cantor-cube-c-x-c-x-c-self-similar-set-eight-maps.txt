@@ -1,0 +1,20 @@
+10.1007/jhep06(2025)194	Improved measurement of absolute branching fraction of the inclusive decay $Λ_{c}^{+} \to K_{S}^{0} X$
+	Precise measurement of the CKM angle $γ$ with a novel approach
+	Measurement of the CKM angle $γ$ in $B^{\pm} \rightarrow D(\rightarrow K^{0}_{\rm S} h^{\prime+}h^{\prime-})h^{\pm}$ decays with a novel approach
+	Observation of the $X(2370)$ in $J/ψ\rightarrowγK^{0}_{S}K^{0}_{S}π^{0}$ and $J/ψ\rightarrowγπ^{0}π^{0}η$
+10.1103/dkgg-9twj	First observation of quantum correlations in $e^+e^-\to XD\bar{D}$ and $C$-even constrained $D\bar{D}$ pairs
+10.1103/physrevd.108.l031101	Measurement of the absolute branching fraction of the inclusive decay $\barΛ_{c}^{-} \to \bar{n} + X$
+10.1103/physrevlett.132.151901	Observation of the Anomalous Shape of $X(1840)$ in $J/ψ\rightarrow γ3(π^+ π^-)$ Indicating a Second Resonance Near $p\bar{p}$ Threshold
+	Search for a scalar partner of the $X(3872)$ via $ψ(3770)$ decays into $γηη'$ and $γπ^{+}π^{-}J/ψ$
+10.1103/4w23-9twd	Search for the decays $X(3872)\to K_{S}^{0}K^{\pm}π^{\mp}$ and $K^*(892)\bar{K}$ at BESIII
+10.1140/epjc/s10052-023-11733-2	Reconstruction of interactions in the ProtoDUNE-SP detector with Pandora
+10.1103/physrevlett.132.181901	Determination of spin-parity quantum numbers of X(2370) as $0^{-+}$ from $J/ψ\rightarrowγK^{0}_{S}K^{0}_{S}η^{\prime}$
+	Search for $C$-even states decaying to $D_{s}^{\pm}D_{s}^{*\mp}$ with masses between $4.08$ and $4.32~\mathrm{GeV}/c^{2}$
+10.1103/nzzh-4f6y	First measurement of $Σ^{+}n\rightarrowΛp$ and $Σ^{+}n\rightarrowΣ^{0}p$ cross sections via $Σ^+$-nucleus scattering at an electron-positron collider
+	Measurements of the absolute branching fractions of the $Λ_{c}^{+}$ hadronic decays
+	Search for $X(1870)$ via the decay $J/ψ\to ωK^+ K^-η$
+	Precision Studies and Searches for CP Asymmetries in the Inclusive Decay $Λ_{c}^{+}\to ΛX$
+10.1103/physrevd.109.112004	Cross section measurement of $e^+e^-\to ηψ(2S)$ and search for $e^+e^-\toη\tilde{X}(3872)$
+10.1140/epjc/s10052-014-3026-9	The Physics of the B Factories
+10.1103/qx34-yy4b	Search for sub-GeV invisible particles in inclusive decays of $J/ψ$ to $φ$
+	Search for $X(3872)\toπ^0π^0χ_{c1,2}$

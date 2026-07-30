@@ -1,0 +1,10 @@
+10.1111/aec.12378	Choosing the number of principal coordinates when using CAP, the canonical analysis of principal coordinates
+10.7717/peerj.4282/fig-5	Figure 5: Principal Coordinates Analysis.
+10.7717/peerj.3630/fig-2	Figure 2: Principal coordinates analysis.
+10.7717/peerj.5462/supp-12	Figure S10: Principal coordinates analysis showing the first and second principal coordinates for the North Island populations with individuals coloured by morphotype
+10.7717/peerj.5260/fig-1	Figure 1: Principal coordinates analysis (PCoA).
+10.7717/peerj.12447/fig-1	Figure 1: Principal coordinates analysis (PCoA).
+10.32614/cran.package.pcps	PCPS: Principal Coordinates of Phylogenetic Structure
+10.7717/peerj.1702/fig-5	Figure 5: Principal Coordinates Analysis plots.
+10.7717/peerj.8289/fig-5	Figure 5: Canonical analyses of principal coordinates.
+10.7717/peerj.11898/fig-3	Figure 3: Constrained analysis of principal coordinates.

@@ -1,0 +1,16 @@
+10.1007/978-1-4757-4017-2_5	The complex quadratic map and its ℳ-set
+10.1007/978-1-4757-4017-2_23	The inexhaustible function z squared plus c
+10.1142/s0218348x24500610	3D RENDERING OF THE QUATERNION MANDELBROT SET WITH MEMORY
+10.1119/1.17465	The ‘‘mystery’’ of the quadratic Mandelbrot set
+10.1007/978-1-4419-8732-7_15	The Quadratic Family and the Mandelbrot Set
+10.1007/978-1-4757-4017-2_11	Continuous interpolation of the quadratic map and intrinsic tiling of the interiors of Julia sets
+10.32614/cran.package.mandelbrot	mandelbrot: Generates Views on the Mandelbrot Set
+10.1007/978-1-4684-0222-3_15	The Quadratic Family and the Mandelbrot Set
+10.1016/j.aim.2014.12.033	Topological entropy of quadratic polynomials and dimension of sections of the Mandelbrot set
+10.1017/cbo9780511569159.003	The Mandelbrot set is universal
+10.1017/cbo9780511569159.008	Local properties of the Mandelbrot set at parabolic points
+10.1090/crmm/022/03	Quaternion algebras and quadratic forms
+10.1016/0960-0779(94)00163-k	Generalization of the Mandelbrot set: Quaternionic quadratic maps
+10.1140/epjp/s13360-024-05438-y	Pathways to hyperchaos in a three-dimensional quadratic map
+10.3840/07001482	Mandelbrot Set Print
+10.1007/978-1-4757-4017-2_4	Cantor and Fatou dusts; self-squared dragons

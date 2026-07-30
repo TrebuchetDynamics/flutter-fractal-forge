@@ -1,0 +1,10 @@
+	Two-parameter Family-Vicsek scaling in a dissipative XXZ spin chain
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	An Overview of Complex Fractal Dimensions: From Fractal Strings to Fractal Drums, and Back
+10.4171/jfg/57	Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality
+	On affine iterated function systems which robustly admit an invariant affine subspace
+	Fractal Zeta Functions and Complex Dimensions of Ahlfors Metric Measure Spaces
+	Fractal dimensions for Iterated Graph Systems
+	Fractal Homeomorphism for Bi-affine Iterated Function Systems
+10.1007/978-3-319-18660-3_13	Fractal zeta functions and complex dimensions: A general higher-dimensional theory
+10.1088/1751-8113/41/48/485102	Exact solution of mean geodesic distance for Vicsek fractals

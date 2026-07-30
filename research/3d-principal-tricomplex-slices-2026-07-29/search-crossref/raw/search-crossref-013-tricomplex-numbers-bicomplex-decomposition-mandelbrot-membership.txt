@@ -1,0 +1,10 @@
+10.1142/s0218348x0000041x	A GENERALIZED MANDELBROT SET FOR BICOMPLEX NUMBERS
+10.1515/gmj.2008.189	A Generalized Mandelbrot Set of Polynomials of Type 𝐸<sub>𝑑</sub> for Bicomplex Numbers
+10.33774/coe-2025-d6w15	Conjugation and Moduli in Tricomplex Numbers
+10.33774/coe-2025-837kl-v2	Idempotent Elements in Tricomplex Numbers
+10.22541/au.167195361.18567881/v1	Bicomplex Leonardo Numbers
+10.33774/coe-2025-837kl	Idempotent Elements in Tricomplex Numbers
+10.33774/coe-2025-skk37	Polynomial Equations of Bicomplex Numbers
+10.32614/cran.package.mandelbrot	mandelbrot: Generates Views on the Mandelbrot Set
+10.33774/coe-2025-n0h9f-v2	A Study of Tricomplex Numbers: Representation, Subalgebras, Idempotent Forms
+10.33774/coe-2025-n0h9f	A Study of Tricomplex Numbers: Representation, Subalgebras, Idempotent Forms

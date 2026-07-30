@@ -1,0 +1,10 @@
+10.1145/357323.357324	New Techniques for Ray Tracing Procedurally Defined Objects
+10.1007/s11511-009-0034-y	Contour lines of the two-dimensional discrete Gaussian free field
+10.1145/357318.357320	Particle Systems—a Technique for Modeling a Class of Fuzzy Objects
+10.1155/2021/5516444	Fractal Properties of Various Clay Minerals Obtained from SEM Images
+10.1090/s0002-9947-2013-05851-5	Deterministic approximations of random reflectors
+10.1145/301970.301971	The computational complexity of knot and link problems
+10.5312/wjo.v6.i2.221	Fractal lacunarity of trabecular bone and magnetic resonance imaging: New perspectives for osteoporotic fracture risk assessment
+10.1145/15886.15894	A simple model of ocean waves
+10.5772/intechopen.68187	On the Indicatrixes of Waves Scattering from the Random Fractal Anisotropic Surface
+10.1115/1.4051720	Challenges and Opportunities in Geometric Modeling of Complex Bio-Inspired Three-Dimensional Objects Designed for Additive Manufacturing

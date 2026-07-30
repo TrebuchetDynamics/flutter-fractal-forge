@@ -1,0 +1,10 @@
+	World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)
+10.1063/5.0089436	NQCDynamics.jl: A Julia Package for Nonadiabatic Quantum Classical Molecular Dynamics in the Condensed Phase
+	Kernels, Data & Physics
+10.1145/3485527	Type Stability in Julia: Avoiding Performance Pathologies in JIT Compilation (Extended Version)
+10.1103/physrevd.107.055015	Internal force distributions in 't Hooft-Polyakov monopole and Julia-Zee dyon
+10.1007/jhep05(2021)108	A comparison of optimisation algorithms for high-dimensional particle and astrophysics applications
+10.1063/5.0051387	NetworkDynamics.jl -- Composing and simulating complex networks in Julia
+10.1142/s0218127419500858	Tricomplex Distance Estimation for Filled-in Julia Sets and Multibrot Sets
+	Quadratic Julia Sets with Positive Area
+	Estimation of the directional parameter of the offset exponential and normal distributions in three-dimensional space using the sample mean

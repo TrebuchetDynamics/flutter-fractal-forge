@@ -1,0 +1,136 @@
+# Search batch results
+
+Deduped records: 132
+
+- A 3D slice–based analytical calculation formula for the reservoir landslide velocity — DOI: `10.1007/s10346-023-02081-z`
+- Characterization of the Principal 3D Slices Related to the Multicomplex Mandelbrot Set — DOI: `10.1007/s00006-019-0956-1`
+- A slice-by-slice blurring model and kernel evaluation using the Klein-Nishina formula for 3D scatter compensation in parallel and converging beam SPECT — DOI: `10.1088/0031-9155/45/5/314`
+- On the exact dimension of Mandelbrot measure — DOI: `10.19195/0208-4147.39.2.4`
+- Exact Spectral Moments and Differentiability of the Weierstrass-Mandelbrot Fractal Function — DOI: `10.1115/1.4045452`
+- Exact formula for cubic partitions — DOI: `10.21203/rs.3.rs-3227533/v1`
+- Multiscale Contact Mechanics of Exact Weierstrass–Mandelbrot Rough Surfaces: Macroscopic Characterization, Microscopic Statistical Quantification, and Morphological Evolution — DOI: `10.2139/ssrn.7044811`
+- THE EXACT FORMULA FOR THE ELLIPSE PERIMETER — DOI: `10.36227/techrxiv.24633117`
+- Chapter 5. The Mandelbrot set: infinite complexity from a simple formula — DOI: `10.12987/9780300220704-007`
+- Choosing the number of principal coordinates when using CAP, the canonical analysis of principal coordinates — DOI: `10.1111/aec.12378`
+- Figure 5: Principal Coordinates Analysis. — DOI: `10.7717/peerj.4282/fig-5`
+- Figure 2: Principal coordinates analysis. — DOI: `10.7717/peerj.3630/fig-2`
+- Figure S10: Principal coordinates analysis showing the first and second principal coordinates for the North Island populations with individuals coloured by morphotype — DOI: `10.7717/peerj.5462/supp-12`
+- Figure 1: Principal coordinates analysis (PCoA). — DOI: `10.7717/peerj.5260/fig-1`
+- Figure 1: Principal coordinates analysis (PCoA). — DOI: `10.7717/peerj.12447/fig-1`
+- PCPS: Principal Coordinates of Phylogenetic Structure — DOI: `10.32614/cran.package.pcps`
+- Figure 5: Principal Coordinates Analysis plots. — DOI: `10.7717/peerj.1702/fig-5`
+- Figure 5: Canonical analyses of principal coordinates. — DOI: `10.7717/peerj.8289/fig-5`
+- Figure 3: Constrained analysis of principal coordinates. — DOI: `10.7717/peerj.11898/fig-3`
+- mandelbrot: Generates Views on the Mandelbrot Set — DOI: `10.32614/cran.package.mandelbrot`
+- The Mandelbrot set is universal — DOI: `10.1017/cbo9780511569159.003`
+- Local properties of the Mandelbrot set at parabolic points — DOI: `10.1017/cbo9780511569159.008`
+- Mandelbrot Set Print — DOI: `10.3840/07001482`
+- Mandelbrot Set Print — DOI: `10.3840/001482`
+- Mandelbrot Set Doodle — DOI: `10.3840/07001478`
+- Ray Tracing Methods by Distance Estimation — DOI: `10.1142/9789812778604_0009`
+- COMPARATIVE STUDY OF RAY TRACING FOR SIGNED DISTANCE FUNCTION — DOI: `10.25206/978-5-8149-3873-2-2024-194-205`
+- Field Estimation through Ray- Tracing for Microwave Links — DOI: `10.5772/16373`
+- Distance aware ray tracing for curves — DOI: `10.1145/2342896.2343016`
+- Distance Estimation for BLE-based Contact Tracing – A Measurement Study — DOI: `10.1109/wd52248.2021.9508280`
+- GPGPU Ray Tracing vs. DXR Ray Tracing Approaches — DOI: `10.1007/979-8-8688-1691-8_3`
+- Texture Coordinate Gradients Estimation for Ray Cones — DOI: `10.1007/978-1-4842-7185-8_7`
+- Estimation of Planar Microlens by Oblique Ray Tracing — DOI: `10.1364/giois.1987.thc5`
+- Coherent Ray-tracing for BREAD — DOI: `10.2172/1835864`
+- Fast estimation of first-order scattering in a medical x-ray computed tomography scanner using a ray-tracing technique — DOI: `10.3233/xst-140460`
+- Conjugation and Moduli in Tricomplex Numbers — DOI: `10.33774/coe-2025-d6w15`
+- The Tricomplex Polynomial and Its Root Structure — DOI: `10.33774/coe-2025-gw741`
+- Robust Bichromatic Classification in 3D Using Planes and Slices — DOI: `10.1109/ecti-con64996.2025.11100624`
+- Classification of Principle 3D Slices of Filled-in Julia Sets in Multicomplex Spaces — DOI: `10.1007/s00010-025-01257-3`
+- 3D Model Classification and Recognition Method Based on Tensor Principal Component Analysis — DOI: `10.1109/iscid.2015.10`
+- 3D registration of prostate histology slices with MR images — DOI: `10.70675/4871d9edzc70fz4201zbfc3z0677e8cacec8`
+- Idempotent Elements in Tricomplex Numbers — DOI: `10.33774/coe-2025-837kl-v2`
+- Automatic Machine Learning Classification of Alzheimer&amp;apos;s Disease Based on Selected Slices from 3D Magnetic Resonance Imagining — DOI: `10.11648/j.ijbse.20160406.11`
+- Figure 1: Volume reconstruction from DICOM images: (A) stack of 2D slices, (B) reconstructed 3D volume, and (C) resampled 3D volume. — DOI: `10.7717/peerjcs.181/fig-1`
+- Tricomplex Distance Estimation for Filled-In Julia Sets and Multibrot Sets — DOI: `10.1142/s0218127419500858`
+- Exact 3D Steady Solutions of Global Equation Sets — DOI: `10.1017/9781108974431.022`
+- Exact Unsteady Solutions in 3D over an Ellipsoidal Planet — DOI: `10.1017/9781108974431.024`
+- Analytic Solution of the Langevin Differential Equations Dominated by a Multibrot Fractal Set — DOI: `10.3390/fractalfract5020050`
+- Runge-Kutta Processes with Exact Principal Error Equations — DOI: `10.1093/imamat/21.3.363`
+- Exact Solution of 3D Navier–Stokes Equations — DOI: `10.17516/1997-1397-2020-13-3-306-313`
+- Constructing Exact Solutions of the Incompressible Navier-Stokes Equations from Known Exact Solutions of the Euler Equations — DOI: `10.36227/techrxiv.176420173.33125274/v1`
+- The Tricomplex Polynomial and Its Root Structure — DOI: `10.33774/coe-2025-gw741-v2`
+- A Study of Tricomplex Numbers: Representation, Subalgebras, Idempotent Forms — DOI: `10.33774/coe-2025-n0h9f-v2`
+- A Study of Tricomplex Numbers: Representation, Subalgebras, Idempotent Forms — DOI: `10.33774/coe-2025-n0h9f`
+- Idempotent Elements in Tricomplex Numbers — DOI: `10.33774/coe-2025-837kl`
+- On the Conjugation of Tricomplex Numbers: Algebraic Operations, Moduli, and Decompositions — DOI: `10.33774/coe-2025-c68nf`
+- Some Properties of Fundamental Formulation of Tricomplex Polynomials — DOI: `10.62072/acm.2025.080111`
+- Alternative Algebra for Trapezoidal Fuzzy Number and Comparison with Various Other Algebra — DOI: `10.5220/0010139800002775`
+- Saxon Vs Traditional Algebra I Textbooks : A Comparison Among Secondary Algebra I Students — DOI: `10.58809/zrjy4010`
+- Comparison of cobordism theories — DOI: `10.1016/j.jalgebra.2009.03.032`
+- A comparison of two complexes — DOI: `10.1016/j.jalgebra.2018.07.038`
+- Max-algebra and pairwise comparison matrices — DOI: `10.1016/s0024-3795(03)00476-2`
+- Comparison ofa-Functions — DOI: `10.1006/jabr.1997.7153`
+- Comparison of Some Field Invariants — DOI: `10.1006/jabr.2000.8380`
+- Minimal comparison algebra and wave front space — DOI: `10.1017/cbo9780511662836.008`
+- Comparison of cohomological and K-theoretical Hall algebra — DOI: `10.1016/j.jalgebra.2026.05.015`
+- The triangle comparison theorem for spheres — DOI: `10.1007/s13366-022-00666-8`
+- Relationship between the Mandelbrot Algorithm and the Platonic Solids — DOI: `10.3390/math10030482`
+- Platonic Solids — DOI: `10.3840/07000405`
+- Platonic Solids — DOI: `10.3840/000405`
+- Rotational Symmetries of Platonic Solids — DOI: `10.3840/001806`
+- Rotational Symmetries of Platonic Solids — DOI: `10.3840/07001806`
+- The Platonic solids (1–5) — DOI: `10.1017/cbo9780511569746.007`
+- Depletion-Induced Tunable Assembly of Complementary Platonic Solids — DOI: `10.1021/acs.nanolett.4c04923.s001`
+- Commentary on stellations and compounds of the Platonic solids — DOI: `10.1017/cbo9780511569746.009`
+- The Platonic Solids — DOI: `10.1007/978-3-642-04833-3_33`
+- Euler’s Formula and Platonic Solids — DOI: `10.1201/9781439888926-12`
+- TRICOMPLEX DYNAMICAL SYSTEMS GENERATED BY POLYNOMIALS OF ODD DEGREE — DOI: `10.1142/s0218348x17500268`
+- A GENERALIZED MANDELBROT SET FOR BICOMPLEX NUMBERS — DOI: `10.1142/s0218348x0000041x`
+- A study of dynamics of the tricomplex polynomial $$\eta ^p+c$$ η p + c — DOI: `10.1007/s11071-015-2146-6`
+- Pharmacologie de l’hémostase et de la thrombose — DOI: `10.1515/9782760634534-016`
+- Pharmacologie de l’hémostase et de la thrombose — DOI: `10.2307/j.ctv69swgn.19`
+- Eight / Buy, Own, Split — DOI: `10.7208/chicago/9780226650432.003.0008`
+- Subset Basis Approximation of Kernel Principal Component Analysis — DOI: `10.5772/37051`
+- Vesper and Compline Music for Eight Principal Voices, Part Two — DOI: `10.4324/9781315790015`
+- Principal units — DOI: `10.1017/cbo9780511667466.003`
+- Chapter Eight: “My Kid Can’t Do Math” — DOI: `10.5771/9781607094333-31`
+- REVIEW: — DOI: `10.2307/jj.8501207.18`
+- Tricomplex Numbers and idempotent elements in C3 — DOI: `10.21203/rs.3.rs-2510074/v1`
+- Rational maps with half symmetries, Julia sets, and Multibrot sets in parameter planes — DOI: `10.1090/conm/573/11393`
+- A Set-Theoretical Representation for Weakly Idempotent Lattices and Interlaced Weakly Idempotent Bilattices — DOI: `10.1142/9789811254925_0014`
+- Erratum to “The Decoration Theorem for Mandelbrot and Multibrot Sets” — DOI: `10.1093/imrn/rnw286`
+- A characterization of idempotent nullnorms — DOI: `10.1016/s0165-0114(03)00259-8`
+- A Generalized Mandelbrot Set of Polynomials of Type 𝐸<sub>𝑑</sub> for Bicomplex Numbers — DOI: `10.1515/gmj.2008.189`
+- Bicomplex Leonardo Numbers — DOI: `10.22541/au.167195361.18567881/v1`
+- Polynomial Equations of Bicomplex Numbers — DOI: `10.33774/coe-2025-skk37`
+- Topological entropy of quadratic polynomials and dimension of sections of the Mandelbrot set — DOI: `10.1016/j.aim.2014.12.033`
+- Kinematically exact elastoplastic analysis of steelo rods with compact cross sections. — DOI: `10.11606/d.3.2017.tde-05122017-134523`
+- Singular Perturbations of Multibrot Set Polynomials — DOI: `10.32323/ujma.1174056`
+- A New Biased Estimator Derived from Principal Component Regression Estimator — DOI: `10.22237/jmasm/1272687660`
+- Taylor Coefficients of the Conformal Map for the Exterior of the Reciprocal of the Multibrot Set — DOI: `10.4036/iis.2019.a.03`
+- Parapuzzle of the multibrot set and typical dynamics of unimodal maps — DOI: `10.4171/jems/243`
+- The Iterated Minimum Distance Estimator and the Quasi-Maximum Likelihood Estimator — DOI: `10.2307/1913973`
+- A formula for the 2-norm distance from a matrix to the set of matrices with multiple eigenvalues — DOI: `10.1007/s002110050458`
+- A New Generalized Definition of Fractal–Fractional Derivative with Some Applications — DOI: `10.3390/mca29030031`
+- Definition and characterization of pseudo-curvatures for fractal curves — DOI: `10.70675/9039c95cz6fd2z4531zb06bz4a787b210ccd`
+- 시공간 암흑물질 중력자 블랙홀의 카르마 프랙탈 인과론(KFC)기반 수학적 정의와 의미 (Mathematical Definition and Significance of Spacetime Dark Matter Graviton and Black Holes based on Karma Fractal Causality KFC) — DOI: `10.2139/ssrn.5727442`
+- Mathematical Modeling of Stress Using Fractal Geometry; The Power Laws and Fractal Complexity of Stress — DOI: `10.33140/an.05.03.04`
+- The Fractal Stokes’ Theorem: Rigorously Definition, Proof, and Applications — DOI: `10.31219/osf.io/4crxd_v1`
+- CHAPTER 9. Fractal Dimension — DOI: `10.1515/9781400839056-012`
+- eLife Assessment: Fractal cycles of sleep: a new aperiodic activity-based definition of sleep cycles — DOI: `10.7554/elife.96784.1.sa2`
+- Definition of a fractal set — DOI: `10.1017/cbo9781139174695.004`
+- eLife Assessment: Fractal cycles of sleep: a new aperiodic activity-based definition of sleep cycles — DOI: `10.7554/elife.96784.2.sa3`
+- Reviewer #2 (Public Review): Fractal cycles of sleep: a new aperiodic activity-based definition of sleep cycles — DOI: `10.7554/elife.96784.1.sa0`
+- Common Fixed Point Theorems on Tricomplex Valued Metric Space — DOI: `10.1155/2022/4617291`
+- Surgery sequences and self-similarity of the Mandelbrot set — DOI: `10.2140/agt.2025.25.2807`
+- Mandelbrot set for fractal n-gons and zeros of power series — DOI: `10.1016/j.topol.2024.108918`
+- Interactive Ray Tracing for Volume Visualization and 3D Rendering Using Neural Networks — DOI: `10.1109/gcis.2009.348`
+- Interactive realism for visualization using ray tracing — DOI: `10.1109/visual.1995.480791`
+- 3D ray-tracing on PC networks using TCP/IP — DOI: `10.1109/iv.1999.781542`
+- Carving from Ray-Tracing Constraints: IRT-Carving — DOI: `10.1109/3dpvt.2006.39`
+- Construction of 3D Mandelbrot Set and Julia Set — DOI: `10.5120/14920-3514`
+- Controlled lnitial-Value Ray Tracing and Two-Point Ray Tracing in 3D — DOI: `10.3997/2214-4609-pdb.131.gen1997_p025`
+- A New Approach to Bicomplex Jacobsthal Matrix and Bicomplex Jacobsthal-Lucas Matrix Components — DOI: `10.9734/jamcs/2023/v38i81795`
+- Certain Julia sets include smooth components — DOI: `10.1007/978-1-4757-4017-2_9`
+- 7 Fatou components — DOI: `10.1515/9783111689685-007`
+- External rays and the real slice of the Mandelbrot set — DOI: `10.1017/s0143385702001335`
+- Trees of visible components in the Mandelbrot set — DOI: `10.4064/fm-164-1-41-60`
+- Strong Analyticity of Partly Filled-in Composite Julia Sets — DOI: `10.1007/s11228-005-0001-5`
+- Filled Julia set of some class of Hénon-like maps — DOI: `10.1080/14689367.2019.1663790`
+- Area-capacity-modulus inequality and area of the filled Julia set — DOI: `10.1360/n012019-00039`
+- Computing the Filled Julia Set — DOI: `10.1088/1757-899x/928/4/042007`

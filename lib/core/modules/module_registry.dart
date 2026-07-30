@@ -2,10 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/builders/escape_time/catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/raymarched_3d/catalog.dart';
-import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_3d_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_clifford_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_de_jong_catalog.dart';
-import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_direct_3d_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_direct_transcendental_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_escape_expression_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_escape_power_catalog.dart';
@@ -19,19 +17,19 @@ import 'package:flutter_fractals/core/modules/fractals/gpu_sampler_diag_module.d
 import 'package:flutter_fractals/core/modules/fractals/hydrogen_orbital_module.dart';
 import 'package:flutter_fractals/core/modules/fractals/julia_dual_module.dart';
 import 'package:flutter_fractals/core/modules/fractals/julia_module.dart';
+import 'package:flutter_fractals/core/modules/fractals/juliabulb_3d_module.dart';
 import 'package:flutter_fractals/core/modules/fractals/mandelbox_module.dart';
 import 'package:flutter_fractals/core/modules/fractals/mandelbulb_module.dart';
 import 'package:flutter_fractals/core/modules/fractals/nova_module.dart';
 import 'package:flutter_fractals/core/modules/fractals/phoenix_module.dart';
+import 'package:flutter_fractals/core/modules/fractals/quaternion_julia_3d_module.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_julia_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_life_like_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart';
-import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_kifs_menger_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_multibrot_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_number_theory_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_orbit_trap_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_phoenix_catalog.dart';
-import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_quaternion_julia_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_residual_ca_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_sprott_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_standard_map_catalog.dart';
@@ -103,6 +101,8 @@ class ModuleRegistry {
       // Hydrogen orbital is a volumetric density renderer with custom controls.
       if (!catalogIds.contains('hydrogen_orbital'))
         buildHydrogenOrbitalModule(),
+      buildQuaternionJulia3DModule(),
+      buildJuliabulb3DModule(),
     ];
 
     // Diagnostics (debug only, always last)
@@ -173,10 +173,6 @@ class ModuleRegistry {
     result.addAll(buildSharedGumowskiMiraCatalogModules());
     result.addAll(buildSharedExactAttractorCatalogModules());
     result.addAll(buildSharedExactEscapeCatalogModules());
-    result.addAll(buildShared3DCatalogModules());
-    result.addAll(buildSharedDirect3DCatalogModules());
-    result.addAll(buildSharedQuaternionJuliaCatalogModules());
-    result.addAll(buildSharedKifsMengerCatalogModules());
     result.addAll(buildSharedNumberTheoryCatalogModules());
     result.addAll(buildSharedResidualCaCatalogModules());
     result.addAll(buildSharedLifeLikeCatalogModules());

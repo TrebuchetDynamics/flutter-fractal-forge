@@ -1,0 +1,10 @@
+10.1007/s00004-014-0187-7	The Fractal Pattern of the French Gothic Cathedrals
+10.1007/s00222-018-00849-y	Hausdorff dimension of planar self-affine sets and measures
+	Hausdorff dimension of planar self-affine sets and measures
+10.3390/math12121804	A Multiscale Statistical Analysis of Rough Surfaces and Applications to Tribology
+10.2140/gt.2009.13.99	On the homology of the space of knots
+10.48550/arxiv.1205.5993	An introduction to the Ribe program
+10.1016/j.aim.2024.109770	Resonance between planar self-affine measures
+10.48550/arxiv.2407.16262	On the dimension of orthogonal projections of self-similar measures
+10.1093/imrn/rny008	Mapping Borel Sets onto Balls and Self-similar Sets by Lipschitz and Nearly Lipschitz Maps
+10.48550/arxiv.1802.08095	Mapping Borel sets onto balls and self-similar sets by Lipschitz and\n nearly Lipschitz maps

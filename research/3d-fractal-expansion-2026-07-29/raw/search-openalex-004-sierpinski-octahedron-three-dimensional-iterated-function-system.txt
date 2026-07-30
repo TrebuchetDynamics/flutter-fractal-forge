@@ -1,0 +1,10 @@
+10.1090/s0002-9947-03-03171-4	Fractafolds based on the Sierpinski gasket and their spectra
+10.1038/nature14586	DNA rendering of polyhedral meshes at the nanoscale
+10.1103/prxquantum.4.030338	Tailoring Three-Dimensional Topological Codes for Biased Noise
+10.1007/b72010	Lattice-Gas Cellular Automata and Lattice Boltzmann Models: An Introduction
+10.2478/bf02476427	On quantum iterated function systems
+10.3842/sigma.2021.020	A Spectral Triple for a Solenoid Based on the Sierpinski Gasket
+10.1088/0960-1317/23/5/055024	Fabrication of 3D fractal structures using nanoscale anisotropic etching of single crystalline silicon
+10.20944/preprints202504.1528.v1	A Multidisciplinary Approach to Triangular Shapes: Philosophy, Art, Mathematical Properties, and Application Purposes for High-Frequency Signal Processing Using Sierpinski Geometry
+10.3390/fractalfract6020089	Fractals: An Eclectic Survey, Part-I
+10.1007/978-981-32-9915-3_2	Digital Earth Platforms

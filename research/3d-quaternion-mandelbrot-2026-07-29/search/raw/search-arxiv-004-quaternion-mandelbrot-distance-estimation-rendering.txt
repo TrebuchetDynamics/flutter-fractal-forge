@@ -1,0 +1,20 @@
+	Quaternion Hardy Functions for Local Images Feature Representation
+10.2140/agt.2025.25.2807	Surgery sequences and self-similarity of the Mandelbrot set
+	The Dynamics of Financial Markets -- Mandelbrot's multifractal cascades, and beyond
+	Evolutive Rendering Models
+	On Fibers and Local Connectivity of Mandelbrot and Multibrot Sets
+10.1007/s10773-011-0953-1	Quaternion Gravi-Electromagnetism
+	Linear Mappings of Quaternion Algebra
+	Quaternion Orders and Ternary Quadratic Forms
+10.1080/03081087.2022.2094863	Sampling expansions associated with quaternion difference equations
+	Homotopies and Maps between Eigenvalues of some Generalized Lucas Sequences and the Mandelbrot Set
+10.1007/s10773-012-1206-7	Supersymmetrization of Quaternion Dirac Equation for Generalized Fields of Dyons
+10.1021/ct501155k	Removing External Degrees of Freedom from Transition-State Search Methods using Quaternions
+10.1016/j.nancom.2020.100300	Distance Estimation Methods for a Practical Macroscale Molecular Communication System
+	Towards Improving Speaker Distance Estimation through Generative Impulse Response Augmentation
+	An introduction to using dual quaternions to study kinematics
+10.1134/s0202289312030103	Fundamental Properties of Quaternion Spinors
+10.2312/egwr/egsr05/265-275	Adaptive Frameless Rendering
+10.1007/s00006-021-01133-8	An Algorithm for the Factorization of Split Quaternion Polynomials
+	A Unifying Approach to Quaternion Adaptive Filtering: Addressing the Gradient and Convergence
+	Differentiable Inverse Rendering with Interpretable Basis BRDFs

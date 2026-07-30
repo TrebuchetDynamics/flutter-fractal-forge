@@ -1,0 +1,10 @@
+10.1142/s0218348x0000041x	A GENERALIZED MANDELBROT SET FOR BICOMPLEX NUMBERS
+10.1515/gmj.2008.189	A Generalized Mandelbrot Set of Polynomials of Type 𝐸<sub>𝑑</sub> for Bicomplex Numbers
+10.9734/jamcs/2023/v38i81795	A New Approach to Bicomplex Jacobsthal Matrix and Bicomplex Jacobsthal-Lucas Matrix Components
+10.1007/978-1-4757-4017-2_9	Certain Julia sets include smooth components
+10.33774/coe-2025-d6w15	Conjugation and Moduli in Tricomplex Numbers
+10.33774/coe-2025-gw741	The Tricomplex Polynomial and Its Root Structure
+10.1515/9783111689685-007	7 Fatou components
+10.1017/s0143385702001335	External rays and the real slice of the Mandelbrot set
+10.4064/fm-164-1-41-60	Trees of visible components in the Mandelbrot set
+10.33774/coe-2025-837kl-v2	Idempotent Elements in Tricomplex Numbers

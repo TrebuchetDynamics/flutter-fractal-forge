@@ -1,0 +1,29 @@
+{
+  "gaps": [
+    {
+      "candidate": "arrowheadbrot_3d",
+      "gap": "The implementation combines ordinary complex distance estimates with the published idempotent Euclidean norm but does not prove an exact signed distance field for every boundary point.",
+      "mitigation": "Use conservative ray steps, source-contract tests, runtime compilation, independent component-membership checks, and strict image-health metrics."
+    },
+    {
+      "candidate": "arrowheadbrot_3d",
+      "gap": "The bounded test for the distinguishing parameters +/-0.3i is finite-iteration evidence rather than a general analytic membership proof.",
+      "mitigation": "Also lock the exact real-axis endpoint pair -2 and 1/4 and use 64 stable iterations for the distinguishing check."
+    },
+    {
+      "candidate": "mousebrot_turtlebrot_hourglassbrot_metabrot",
+      "gap": "Named status is established, but exact basis-to-component renderer formulas were not accepted in this cycle.",
+      "mitigation": "Keep each out of the registry until separately derived and oracle-tested."
+    },
+    {
+      "candidate": "airbrot_firebrot",
+      "gap": "The quadratic sets are an octahedron and regular tetrahedron, creating ambiguity about whether geometric solids belong in a user-facing fractal category.",
+      "mitigation": "Require a product identity decision in addition to algebraic derivation before implementation."
+    },
+    {
+      "candidate": "search_coverage",
+      "gap": "The first all-source batch timed out and eight late arXiv queries returned HTTP 429.",
+      "mitigation": "Saved complete OpenAlex and Crossref coverage for all 27 queries, partial arXiv coverage, explicit failure logs, and citation expansions for three defining seeds."
+    }
+  ]
+}

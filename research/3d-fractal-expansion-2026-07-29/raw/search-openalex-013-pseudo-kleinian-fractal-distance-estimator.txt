@@ -1,0 +1,6 @@
+10.1017/s0305004100075502	PSP volume 111 issue 3 Cover and Back matter
+	統合数理科学 : 現象解明を通した数学の発展 : 中間成果報告書
+10.5281/zenodo.5029496	A Formal Connection between Napier's Logarithm and the Bernoulli Numbers
+10.4169/002557010x494797	Mathematics Magazine Front Matter
+10.5281/zenodo.5144036	A Recursive Algorithm for Calculating Natural Logarithms using Bernoulli Numbers
+10.5281/zenodo.5015650	A Formal Connection between Napier's Logarithm and the Bernoulli Numbers

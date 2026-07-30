@@ -1,0 +1,20 @@
+10.2307/44153939	MEASURE LINEARITY OF BILIPSCHITZ MAPS OF SELF-SIMILAR CANTOR SETS
+10.1016/j.topol.2011.06.062	Dynamical properties of certain continuous self maps of the Cantor set
+10.1016/0927-0256(96)00021-3	Modeling self-similar dendrite arrays with a cantor middle-third set of line segments
+10.4134/ckms.2005.20.4.695	SIMPLE APPROACH TO MULTIFRACTAL SPECTRUM OF A SELF-SIMILAR CANTOR SET
+10.1016/j.jmaa.2003.12.001	Relation between spectral classes of a self-similar Cantor set
+10.1063/5.0311896	Construction of topological representation of geometric patterns using cantor self-similar set
+10.2140/pjm.1968.24.189	A wild Cantor set in the Hilbert cube
+10.1088/1751-8121/41/37/379801	The transfer matrices of the self-similar fractal potentials on the Cantor set
+10.1088/1751-8113/41/37/379801	The transfer matrices of the self-similar fractal potentials on the Cantor set
+10.1016/0167-2789(89)90173-5	Cantor set spectra and self-similar critical modes in a 1D-quasicrystal
+10.7717/peerj.1675/fig-1	Figure 1: Cloninger’s “ light” character cube, showing all eight possible combinations of high/low scores in self-directedness, cooperativeness, and self-ranscendence.
+10.1002/9781118548745.ch6	Self‐Similar Objects
+10.1088/0305-4470/33/23/307	The transfer matrices of the self-similar fractal potentials on the Cantor set
+10.1021/acsaom.4c00081.s001	Photonic Band Gap and Fractal Resonances in Aperiodic Cantor-like Self-Similar a:SiNx Photonic Structures
+10.1023/a:1010667918943	Non-Integer Bases, Iteration of Continuous Real Maps, and an Arithmetic Self-Similar set
+10.1088/0305-4470/33/23/308	Electron tunnelling through a self-similar fractal potential on the generalized Cantor set
+10.1016/j.topol.2024.109115	Sufficient condition for a topological self-similar set to be a self-similar set
+10.1016/0375-9601(96)00418-5	Fractional integral associated to the self-similar set or the generalized self-similar set and its physical interpretation
+10.1515/crll.1992.424.31	Self-similar Cantor sets and quasiregular mappings.
+10.1016/0166-8641(90)90019-x	Extensions to maps on the cantor set with dense orbits

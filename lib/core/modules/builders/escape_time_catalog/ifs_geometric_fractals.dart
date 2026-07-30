@@ -364,13 +364,6 @@ final List<EscapeTimeConfig> _ifsGeometricFractalsCatalog = [
     defaultBailout: 8.0,
   ),
   EscapeTimeConfig(
-    id: 'pseudo_kleinian',
-    name: 'Pseudo-Kleinian',
-    shaderAsset: 'shaders/ifs_and_geometric/pseudo_kleinian_gpu.frag',
-    defaultIterations: 220,
-    defaultBailout: 10.0,
-  ),
-  EscapeTimeConfig(
     id: 'schottky_limit_set',
     name: 'Schottky Limit Set',
     shaderAsset: 'shaders/ifs_and_geometric/schottky_limit_set_gpu.frag',

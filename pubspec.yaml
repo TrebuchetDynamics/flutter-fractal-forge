@@ -485,7 +485,15 @@ flutter:
     - shaders/ifs_and_geometric/raymarched_3d/kifs_koch_fold_gpu.frag
     - shaders/ifs_and_geometric/raymarched_3d/implicit_affine_fractal_surface_gpu.frag
     - shaders/ifs_and_geometric/raymarched_3d/kifs_snowflake_fold_gpu.frag
+    - shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag
     - shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag
+    - shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_mandelbrot_3d_gpu.frag
+    - shaders/3d_and_hypercomplex/raymarched_volumes/tetrabrot_3d_gpu.frag
+    - shaders/3d_and_hypercomplex/raymarched_volumes/arrowheadbrot_3d_gpu.frag
+    - shaders/3d_and_hypercomplex/raymarched_volumes/mousebrot_3d_gpu.frag
+    - shaders/3d_and_hypercomplex/raymarched_volumes/turtlebrot_3d_gpu.frag
+    - shaders/3d_and_hypercomplex/raymarched_volumes/hourglassbrot_3d_gpu.frag
+    - shaders/3d_and_hypercomplex/raymarched_volumes/juliabulb_3d_gpu.frag
     - shaders/3d_and_hypercomplex/raymarched_volumes/dual_quaternion_julia_gpu.frag
     - shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_shape_inversion_gpu.frag
     - shaders/ifs_and_geometric/raymarched_3d/inversive_limit_set_3d_gpu.frag

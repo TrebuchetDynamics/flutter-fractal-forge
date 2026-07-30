@@ -52,6 +52,22 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
   ),
 
   Raymarched3DConfig(
+    id: 'f0597_sierpinski_carpet_3d_menger_cross',
+    name: 'Menger Cross 3D',
+    shaderAsset: 'shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag',
+    category: '3D Fractals',
+    defaultPower: 3.0,
+    minPower: 2.0,
+    maxPower: 5.0,
+    powerLabel: 'Scale',
+    defaultIterations: 12,
+    maxIterations: 20,
+    defaultSteps: 120,
+    defaultBailout: 4.0,
+    defaultFractalType: 1,
+  ),
+
+  Raymarched3DConfig(
     id: 'kifs_sierpinski_tetra',
     name: 'KIFS Sierpinski Tetrahedron',
     shaderAsset:
@@ -137,50 +153,182 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
     ],
   ),
 
+  Raymarched3DConfig(
+    id: 'implicit_affine_fractal_surface',
+    name: 'Implicit Affine Fractal Surface',
+    shaderAsset:
+        'shaders/ifs_and_geometric/raymarched_3d/implicit_affine_fractal_surface_gpu.frag',
+    category: '3D Fractals',
+    defaultPower: 1.7,
+    minPower: 1.2,
+    maxPower: 2.2,
+    powerLabel: 'Affine Scale',
+    defaultIterations: 12,
+    maxIterations: 20,
+    defaultSteps: 128,
+    defaultBailout: 8.0,
+  ),
+
+  Raymarched3DConfig(
+    id: 'sierpinski_octahedron_3d',
+    name: 'Sierpinski Octahedron 3D',
+    shaderAsset:
+        'shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag',
+    category: '3D Fractals',
+    exposePower: false,
+    defaultIterations: 8,
+    maxIterations: 12,
+    defaultSteps: 110,
+    defaultBailout: 8.0,
+    defaultFractalType: 2,
+    defaultZoom: 1.35,
+  ),
+
+  Raymarched3DConfig(
+    id: 'jerusalem_cube_3d',
+    name: 'Jerusalem Cube 3D',
+    shaderAsset:
+        'shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag',
+    category: '3D Fractals',
+    exposePower: false,
+    defaultIterations: 6,
+    maxIterations: 9,
+    defaultSteps: 110,
+    defaultBailout: 8.0,
+    defaultFractalType: 1,
+    defaultZoom: 0.7,
+  ),
+
+  Raymarched3DConfig(
+    id: 'vicsek_3d',
+    name: 'Vicsek 3D',
+    shaderAsset:
+        'shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag',
+    category: '3D Fractals',
+    exposePower: false,
+    defaultIterations: 7,
+    maxIterations: 12,
+    defaultSteps: 110,
+    defaultBailout: 8.0,
+    defaultFractalType: 0,
+    defaultZoom: 1.6,
+  ),
+
+  Raymarched3DConfig(
+    id: 'cantor_dust_3d',
+    name: 'Cantor Dust 3D',
+    shaderAsset:
+        'shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag',
+    category: '3D Fractals',
+    exposePower: false,
+    defaultIterations: 5,
+    maxIterations: 10,
+    defaultSteps: 110,
+    defaultBailout: 8.0,
+    defaultFractalType: 3,
+    defaultZoom: 1.35,
+  ),
+
+  Raymarched3DConfig(
+    id: 'pseudo_kleinian',
+    name: 'Pseudo-Kleinian',
+    shaderAsset: 'shaders/ifs_and_geometric/pseudo_kleinian_gpu.frag',
+    category: '3D Fractals',
+    defaultPower: 1.95,
+    minPower: 1.5,
+    maxPower: 2.3,
+    powerLabel: 'Fold Scale',
+    defaultIterations: 10,
+    maxIterations: 16,
+    defaultSteps: 110,
+    defaultBailout: 8.0,
+    defaultZoom: 0.45,
+  ),
+
   // ── Hypercomplex / Quaternion Family ──────────────────────────
 
   Raymarched3DConfig(
-    id: 'quaternion_julia_3d',
-    name: 'Quaternion Julia 3D',
+    id: 'quaternion_mandelbrot_3d',
+    name: 'Quaternion Mandelbrot 3D',
     shaderAsset:
-        'shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag',
+        'shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_mandelbrot_3d_gpu.frag',
     category: '3D Fractals',
-    defaultPower: 2.0,
-    minPower: 1.0,
-    maxPower: 5.0,
-    powerLabel: 'C Magnitude',
-    defaultIterations: 20,
-    maxIterations: 50,
+    exposePower: false,
+    defaultIterations: 14,
+    maxIterations: 24,
     defaultSteps: 120,
     defaultBailout: 4.0,
-    defaultFractalType: 0,
-    maxFractalType: 3,
-    fractalTypeOptions: [
-      FractalParamOption(value: 0, label: (_) => 'Classic'),
-      FractalParamOption(value: 1, label: (_) => 'Organic'),
-      FractalParamOption(value: 2, label: (_) => 'Crystalline'),
-      FractalParamOption(value: 3, label: (_) => 'Spiral'),
-    ],
-    extraPresets: [
-      catalogPreset(
-        id: 'quaternion_julia_3d-organic',
-        moduleId: 'quaternion_julia_3d',
-        name: 'Organic Shell',
-        params: const {
-          'power': 2.0,
-          'iterations': 25,
-          'steps': 140,
-          'bailout': 4.0,
-          'colorScheme': 1,
-          'fractalType': 1,
-        },
-        view: FractalViewState(
-          pan: Vector2.zero(),
-          zoom: 1.5,
-          rotation: Vector3(0.4, 0.2, 0.0),
-        ),
-      ),
-    ],
+    defaultZoom: 1.5,
+  ),
+
+  Raymarched3DConfig(
+    id: 'tetrabrot_3d',
+    name: 'Tetrabrot 3D',
+    shaderAsset:
+        'shaders/3d_and_hypercomplex/raymarched_volumes/tetrabrot_3d_gpu.frag',
+    category: '3D Fractals',
+    exposePower: false,
+    defaultIterations: 20,
+    maxIterations: 32,
+    defaultSteps: 120,
+    defaultBailout: 4.0,
+    defaultZoom: 1.8,
+  ),
+
+  Raymarched3DConfig(
+    id: 'arrowheadbrot_3d',
+    name: 'Arrowheadbrot 3D',
+    shaderAsset:
+        'shaders/3d_and_hypercomplex/raymarched_volumes/arrowheadbrot_3d_gpu.frag',
+    category: '3D Fractals',
+    exposePower: false,
+    defaultIterations: 20,
+    maxIterations: 32,
+    defaultSteps: 120,
+    defaultBailout: 4.0,
+    defaultZoom: 2.0,
+  ),
+
+  Raymarched3DConfig(
+    id: 'mousebrot_3d',
+    name: 'Mousebrot 3D',
+    shaderAsset:
+        'shaders/3d_and_hypercomplex/raymarched_volumes/mousebrot_3d_gpu.frag',
+    category: '3D Fractals',
+    exposePower: false,
+    defaultIterations: 20,
+    maxIterations: 32,
+    defaultSteps: 120,
+    defaultBailout: 4.0,
+    defaultZoom: 2.0,
+  ),
+
+  Raymarched3DConfig(
+    id: 'turtlebrot_3d',
+    name: 'Turtlebrot 3D',
+    shaderAsset:
+        'shaders/3d_and_hypercomplex/raymarched_volumes/turtlebrot_3d_gpu.frag',
+    category: '3D Fractals',
+    exposePower: false,
+    defaultIterations: 20,
+    maxIterations: 32,
+    defaultSteps: 120,
+    defaultBailout: 4.0,
+    defaultZoom: 2.4,
+  ),
+
+  Raymarched3DConfig(
+    id: 'hourglassbrot_3d',
+    name: 'Hourglassbrot 3D',
+    shaderAsset:
+        'shaders/3d_and_hypercomplex/raymarched_volumes/hourglassbrot_3d_gpu.frag',
+    category: '3D Fractals',
+    exposePower: false,
+    defaultIterations: 20,
+    maxIterations: 32,
+    defaultSteps: 120,
+    defaultBailout: 4.0,
+    defaultZoom: 3.0,
   ),
 
   Raymarched3DConfig(
@@ -335,7 +483,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
     category: '3D Fractals',
     defaultPower: 8.0,
     minPower: 2.0,
-    maxPower: 12.0,
+    maxPower: 24.0,
     powerLabel: 'Power',
     defaultIterations: 50,
     maxIterations: 100,

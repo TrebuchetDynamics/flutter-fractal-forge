@@ -1,0 +1,20 @@
+	Precise measurement of the CKM angle $γ$ with a novel approach
+	Measurement of the CKM angle $γ$ in $B^{\pm} \rightarrow D(\rightarrow K^{0}_{\rm S} h^{\prime+}h^{\prime-})h^{\pm}$ decays with a novel approach
+10.1140/epjc/s10052-023-11733-2	Reconstruction of interactions in the ProtoDUNE-SP detector with Pandora
+	Differential measurement of the branching fraction and $C\!P$ asymmetry of the decay $B^\pm\to π^\pmμ^+μ^-$
+10.1140/epjc/s10052-014-3026-9	The Physics of the B Factories
+10.1103/physrevc.109.044901	Measurement of $Ξ_{c}^{+}$ production in $p$Pb collisions at $\sqrt{s_{NN}}=8.16$ TeV at LHCb
+	Measurements of the absolute branching fractions of the $Λ_{c}^{+}$ hadronic decays
+	Machine learning techniques for jet reconstruction at LHCb and application to the search for $H \to b \bar{b}$ and $H \to c \bar{c}$ in $\sqrt{s}=13$ TeV $pp$ collisions
+	First measurement of the decay-time-integrated $C\!P$ asymmetry in $B_s^0 \to D_s^- π^+$ decays
+	$C\!P$ violation analysis of local and nonlocal amplitudes in the $\overline{B}^0 \to \overline{K}^{*0}μ^+μ^-$ decay
+	Search for $C\!P$ violation in $D^+ \to φπ^+$ decays
+10.1103/cxn3-8t4g	First observation of the $\overline{B}_{s}^{0}\toΛ_{c}^{+}\overlineΛ_{c}{}^{-}$ decay and evidence for the $\overline{B}^{0}\toΛ_{c}^{+}\overlineΛ_{c}{}^{-}$ decay
+10.1007/jhep02(2026)253	Measurement of $C\!P$ asymmetry in $D^0 \to K^0_{\rm S} K^0_{\rm S}$ decays with Run 3 data
+10.1103/rcfs-ynh2	Observation and investigation of the $T_{c\bar{c}1}(4430)^{+}$ structure in $B^{+} \to ψ(2S) K_{\text{S}}^{0} π^{+}$ decays
+10.1103/b28d-z2xc	First observation of the $\mathitΛ_b^{0}\!\rightarrow\mathitΛ_{c}^{+}D_{s}^{-}K^{+}K^{-}$ decay and search for pentaquarks in the $\mathitΛ_{c}^{+}D_{s}^{-}$ system
+10.1103/1d49-q8h4	Study of $B_{c}(1P)^{+}$ states in the $B_{c}^{+} γ$ mass spectrum
+10.1103/fc8j-tb8k	Observation of orbitally excited $B_{c}^{+}$ states
+10.1103/physrevlett.133.251801	Measurement of $C\!P$ violation observables in $D^+\rightarrow K^-K^+π^+$ decays
+10.1103/physrevd.112.084080	Tests of General Relativity with GWTC-3
+10.1103/physrevd.104.122004	All-sky search for short gravitational-wave bursts in the third Advanced LIGO and Advanced Virgo run

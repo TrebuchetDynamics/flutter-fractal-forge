@@ -1,0 +1,10 @@
+10.5220/0010139800002775	Alternative Algebra for Trapezoidal Fuzzy Number and Comparison with Various Other Algebra
+10.58809/zrjy4010	Saxon Vs Traditional Algebra I Textbooks : A Comparison Among Secondary Algebra I Students
+10.1016/j.jalgebra.2009.03.032	Comparison of cobordism theories
+10.1016/j.jalgebra.2018.07.038	A comparison of two complexes
+10.1016/s0024-3795(03)00476-2	Max-algebra and pairwise comparison matrices
+10.1006/jabr.1997.7153	Comparison ofa-Functions
+10.1006/jabr.2000.8380	Comparison of Some Field Invariants
+10.1017/cbo9780511662836.008	Minimal comparison algebra and wave front space
+10.1016/j.jalgebra.2026.05.015	Comparison of cohomological and K-theoretical Hall algebra
+10.1007/s13366-022-00666-8	The triangle comparison theorem for spheres

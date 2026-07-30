@@ -1,0 +1,10 @@
+10.1088/1751-8113/40/48/012	Derivation of the postulates of quantum mechanics from the first principles of scale relativity
+10.1145/275168.275171	March Möbius madness with a polynomial PostScript March 32, 1998
+10.14619/022	Interferences and Events : On Epistemic Shifts in Physics through Computer Simulations
+10.1007/s10773-024-05851-0	Quantum Entanglement in Classical Systems: so what is the Subquantum Medium Made of?
+10.4169/002557010x494797	Mathematics Magazine Front Matter
+	Nonlocality was never a proven fact : So what is the subquantum medium made of?
+10.5281/zenodo.5015650	A Formal Connection between Napier's Logarithm and the Bernoulli Numbers
+10.5281/zenodo.5144036	A Recursive Algorithm for Calculating Natural Logarithms using Bernoulli Numbers
+10.5281/zenodo.5029496	A Formal Connection between Napier's Logarithm and the Bernoulli Numbers
+	Interferences and Events

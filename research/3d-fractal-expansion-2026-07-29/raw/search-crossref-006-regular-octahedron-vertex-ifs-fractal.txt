@@ -1,0 +1,10 @@
+10.3840/07001643	Octahedron Fractal
+10.3840/001643	Octahedron Fractal
+10.1109/nano.2008.262	Micro Regular Octahedron and Truncated Octahedron Cavities on 111 Oriented Silicon Wafer
+10.1016/b978-0-12-440740-4.50012-6	IFS Examples
+10.31896/k.21.8	An Affine Regular Icosahedron Inscribed in an Affine Regular Octahedron in a GS-Quasigroup
+10.1002/mana.201500471	On new fractal phenomena connected with infinite linear IFS
+10.1007/978-1-4612-2472-3_10	Orthogonal Basis IFS
+10.5951/mt.67.7.0644	The Volume of the Regular Octahedron
+10.5951/mt.65.6.0530	Collapsible Models of the Regular Octahedron
+10.1109/visual.1995.480798	IFS fractal interpolation for 2D and 3D visualization

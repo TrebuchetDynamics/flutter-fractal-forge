@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1",
+  "createdAt": "2026-07-29T20:25:07Z",
+  "queries": [
+    "Arrowheadbrot tricomplex Mandelbrot principal 3D slice exact formula",
+    "Arrowheadbrot T^p principal slice tricomplex coordinates",
+    "Arrowheadbrot idempotent decomposition Mandelbrot set",
+    "Arrowheadbrot distance estimation ray tracing",
+    "tricomplex Mandelbrot principal 3D slices classification",
+    "principal 3D slices tricomplex Multibrot exact equations",
+    "tricomplex Mandelbrot Arrowheadbrot Mousebrot Turtlebrot",
+    "Tetrabrot Arrowheadbrot Metabrot comparison algebra",
+    "Relationship Mandelbrot algorithm Platonic solids Arrowheadbrot",
+    "Brouillette Rochon principal 3D slices tricomplex Mandelbrot",
+    "tricomplex dynamics eight principal slices basis units",
+    "tricomplex Multibrot sets idempotent representation slices",
+    "tricomplex numbers bicomplex decomposition Mandelbrot membership",
+    "tricomplex Mandelbrot set cross sections exact definitions",
+    "tricomplex Multibrot set distance estimator component formula",
+    "Arrowheadbrot fractal mathematical definition",
+    "Mousebrot fractal mathematical definition tricomplex",
+    "Turtlebrot fractal mathematical definition tricomplex",
+    "Hourglassbrot mathematical definition tricomplex",
+    "Metabrot mathematical definition tricomplex",
+    "Airbrot mathematical definition tricomplex",
+    "Firebrot mathematical definition tricomplex",
+    "principal slices tricomplex Mandelbrot set topology",
+    "3D visualization tricomplex Mandelbrot set ray tracing",
+    "multicomplex Mandelbrot set principal slices equations",
+    "tricomplex Mandelbrot slice bicomplex components",
+    "tricomplex Julia Multibrot filled set idempotents"
+  ],
+  "sources": [
+    "crossref"
+  ],
+  "limit": 10,
+  "results": 250,
+  "deduped": 132,
+  "failures": 0
+}

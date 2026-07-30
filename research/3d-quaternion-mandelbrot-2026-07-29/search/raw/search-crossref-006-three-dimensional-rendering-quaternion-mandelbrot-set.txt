@@ -1,0 +1,16 @@
+10.1142/s0218348x24500610	3D RENDERING OF THE QUATERNION MANDELBROT SET WITH MEMORY
+10.32614/cran.package.mandelbrot	mandelbrot: Generates Views on the Mandelbrot Set
+10.1109/icwapr.2012.6294771	Brain tumor detection using three-dimensional Bayesian level set method with volume rendering
+10.5353/th_b3875820	Haptic rendering of three-dimensional heterogeneous features
+10.1142/9789812778604_0006	Quaternion Mandelbrot Sets
+10.1017/cbo9780511569159.003	The Mandelbrot set is universal
+10.7554/elife.42747.017	Figure 5—video1. Three-dimensional rendering of FAS on hydrophilized graphene.
+10.1017/cbo9780511569159.008	Local properties of the Mandelbrot set at parabolic points
+10.7717/peerj.20796/fig-2	Figure 2: Three-dimensional model rendering from CT data for MOR 1627.
+10.7554/elife.10566.017	Video 3. Three-dimensional rendering of reconstructed Layer II motor cortical neurons.
+10.7554/elife.10566.018	Video 4. Three-dimensional rendering of reconstructed Layer V motor cortical neurons.
+10.7554/elife.10566.019	Video 5. Three-dimensional rendering of reconstructed Layer VI motor cortical neuron.
+10.7554/elife.16078.011	Video 1. Three dimensional rendering of mitochondrial structure of a control fibroblast.
+10.1007/978-3-540-72532-9_6	Three-dimensional Scene Representations: Modeling, Animation, and Rendering Techniques
+10.3840/07001482	Mandelbrot Set Print
+10.7554/elife.42747.007	Figure 2—video 1. Three-dimensional rendering of FAS in unsupported vitrified solution.

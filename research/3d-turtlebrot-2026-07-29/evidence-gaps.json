@@ -1,0 +1,24 @@
+{
+  "gaps": [
+    {
+      "candidate": "turtlebrot_3d",
+      "gap": "Proposition 7 states the bicomplex reflected intersection, while the four final complex coordinates require a second explicit idempotent substitution.",
+      "mitigation": "Record every substitution in the report, lock all four equations in shader tests, and compare independent CPU membership at formula-separating points."
+    },
+    {
+      "candidate": "turtlebrot_3d",
+      "gap": "Averaging four complex escape-time distance estimates is not a proof of exact signed Euclidean boundary distance.",
+      "mitigation": "Use conservative steps, runtime shader compilation, strict image-health metrics, and separate membership evidence."
+    },
+    {
+      "candidate": "turtlebrot_3d",
+      "gap": "Finite-iteration rational witnesses do not constitute a general Mandelbrot-membership algorithm.",
+      "mitigation": "Use witnesses only as regression checks alongside the exact source-derived component contracts."
+    },
+    {
+      "candidate": "hourglassbrot_3d",
+      "gap": "Its analogous intersection theorem uses a different basis and Arrowheadbrot-related parent slices.",
+      "mitigation": "Do not expose Hourglassbrot as a Turtlebrot preset; derive and audit it separately if pursued."
+    }
+  ]
+}

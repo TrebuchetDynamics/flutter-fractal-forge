@@ -1,0 +1,20 @@
+10.1017/cbo9781316227619.011	Projections of the four-corner Cantor set
+10.4028/www.scientific.net/amr.490-495.2559	Research of Three-Dimensional Simulation Tree Based on Iterated Function System
+10.3847/1538-4357/ae2480/data1	Figure set, Figure 13.
+10.4064/fm961-1-2016	On the set-theoretic strength of the $n$-compactness of generalized Cantor cubes
+10.1109/78.330394	Representation of discrete sequences with three-dimensional iterated function systems
+10.3836/tjm/1406552441	Some Examples of Minimal Cantor Sets for Iterated Function Systems with Overlap
+10.1016/j.chaos.2005.08.170	Identifying elementary iterated systems through algorithmic inference: The Cantor set example
+10.4064/ap96-1-2	Generalized iterated function systems, multifunctions and Cantor sets
+10.15507/2079-6900.27.202503.287-301	Iterated function systems whose attractors are Cantor
+10.1117/12.641985	Development of measurement system of three-dimensional shape and surface reflectance
+10.2139/ssrn.6172038	Three-dimensional weight function analysis and stress intensity factors for nozzle corner cracks
+10.1081/e-eoe2-120009639	Iterated Function Systems
+10.1016/j.indag.2024.08.006	Projections of four corner Cantor set: Total self-similarity, spectrum and unique codings
+10.5948/upo9781614445043.019	A note on the history of the Cantor set and Cantor function, Julian F. Fleron
+10.1117/12.642583	Development of ultrathin three-dimensional image capturing system
+10.1016/j.topol.2022.108000	Fractal set of generalized countable partial iterated function system with generalized contractions via partial Hausdorff metric
+10.1007/s12220-010-9141-4	Circular Favard Length of the Four-Corner Cantor Set
+10.1007/springerreference_26957	three-dimensional Boolean-set operation
+10.1016/j.aim.2009.06.022	On the structures of generating iterated function systems of Cantor sets
+10.1007/978-3-030-03241-8_8	The Cantor Set and Function
