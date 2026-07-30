@@ -40,7 +40,10 @@ def iter_events(obj):
 for line in test_log.read_text().splitlines():
     if not line.strip():
         continue
-    parsed = json.loads(line)
+    try:
+        parsed = json.loads(line)
+    except json.JSONDecodeError:
+        continue
     for evt in iter_events(parsed):
         if evt.get('type') != 'testDone':
             continue
@@ -48,12 +51,12 @@ for line in test_log.read_text().splitlines():
         hidden = evt.get('hidden', False)
         if hidden:
             continue
-        if result == 'success':
+        if evt.get('skipped', False):
+            skipped += 1
+        elif result == 'success':
             passed += 1
         elif result == 'failure':
             failed += 1
-        elif result == 'skipped':
-            skipped += 1
 
 import hashlib
 sha = hashlib.sha256(apk.read_bytes()).hexdigest()
