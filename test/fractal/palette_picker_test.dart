@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/services/rendering/palette/palette_service.dart';
 import 'package:flutter_fractals/core/services/storage/history_store.dart';
+import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,6 +28,7 @@ void main() {
     late RendererSettingsService rendererSettings;
     late HistoryStore historyStore;
     late HistoryProvider historyProvider;
+    late PaletteService paletteService;
 
     setUp(() async {
       TestWidgetsFlutterBinding.ensureInitialized();
@@ -37,15 +41,21 @@ void main() {
           RendererSettingsService(await SharedPreferences.getInstance());
       historyStore = await HistoryStore.create();
       historyProvider = HistoryProvider(store: historyStore);
+      paletteService = await PaletteService.create();
     });
 
     tearDown(() {
       historyProvider.dispose();
       controller.dispose();
       rendererSettings.dispose();
+      paletteService.dispose();
     });
 
-    Widget buildTestWidget({double textScale = 1.0}) => MultiProvider(
+    Widget buildTestWidget({
+      double textScale = 1.0,
+      ThemeData? theme,
+    }) =>
+        MultiProvider(
           providers: [
             Provider.value(value: registry),
             ChangeNotifierProvider.value(value: controller),
@@ -54,6 +64,7 @@ void main() {
             ChangeNotifierProvider.value(value: historyProvider),
           ],
           child: MaterialApp(
+            theme: theme,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             builder: (context, child) => MediaQuery(
@@ -65,13 +76,71 @@ void main() {
           ),
         );
 
-    Future<void> openPicker(WidgetTester tester, {double textScale = 1.0}) async {
-      await tester.pumpWidget(buildTestWidget(textScale: textScale));
+    Future<void> openPicker(
+      WidgetTester tester, {
+      double textScale = 1.0,
+      ThemeData? theme,
+    }) async {
+      await tester.pumpWidget(
+        buildTestWidget(textScale: textScale, theme: theme),
+      );
       await tester.pumpAndSettle();
       await tester
           .longPress(find.byKey(const ValueKey('viewerColorCycleButton')));
       await tester.pumpAndSettle();
     }
+
+    testWidgets('opens with a deep selected palette visible', (tester) async {
+      await tester.binding.setSurfaceSize(const Size(360, 640));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+      controller.updateParam('colorScheme', 63);
+
+      await openPicker(tester);
+
+      expect(
+        find.byIcon(Icons.check_circle_rounded),
+        findsOneWidget,
+        reason: 'the selected palette starts outside the lazy grid viewport',
+      );
+    });
+
+    testWidgets('sheet and selection follow the active color system',
+        (tester) async {
+      await openPicker(tester, theme: AppTheme.highContrast);
+
+      final sheetContainer = tester.widget<Container>(
+        find
+            .descendant(
+              of: find.byType(AppBottomSheet),
+              matching: find.byType(Container),
+            )
+            .first,
+      );
+      final sheetDecoration = sheetContainer.decoration! as BoxDecoration;
+      expect(sheetDecoration.color, HighContrastColors.surface);
+
+      final selectedIcon = tester.widget<Icon>(
+        find.byIcon(Icons.check_circle_rounded),
+      );
+      expect(selectedIcon.color, HighContrastColors.primary);
+    });
+
+    testWidgets('previews preserve authored palette stop positions',
+        (tester) async {
+      await openPicker(tester);
+
+      final gradients = tester
+          .widgetList<DecoratedBox>(find.byType(DecoratedBox))
+          .map((box) => box.decoration)
+          .whereType<BoxDecoration>()
+          .map((decoration) => decoration.gradient)
+          .whereType<LinearGradient>();
+      final firePreview = gradients.firstWhere(
+        (gradient) => gradient.colors.length == 4,
+      );
+
+      expect(firePreview.stops, [0.0, 0.35, 0.7, 1.0]);
+    });
 
     testWidgets('marks exactly one palette as selected for screen readers',
         (tester) async {
@@ -111,7 +180,8 @@ void main() {
     });
 
     for (final scale in const [1.0, 1.5, 2.0]) {
-      testWidgets('picker grid survives a ${scale}x text scale', (tester) async {
+      testWidgets('picker grid survives a ${scale}x text scale',
+          (tester) async {
         await tester.binding.setSurfaceSize(const Size(360, 640));
         addTearDown(() => tester.binding.setSurfaceSize(null));
 

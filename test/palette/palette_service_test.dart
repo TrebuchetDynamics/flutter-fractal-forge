@@ -120,6 +120,20 @@ void main() {
       expect(ids, contains('builtin_colorblind_safe_fire'));
     });
 
+    test('relief palette previews reuse their named shader base colors',
+        () async {
+      final service = await PaletteService.create();
+
+      for (var index = 50; index < CommonFractalParams.paletteCount; index++) {
+        final baseIndex = (index - 50) % 4;
+        expect(
+          service.paletteAtIndex(index).stops.map((stop) => stop.colorArgb),
+          service.paletteAtIndex(baseIndex).stops.map((stop) => stop.colorArgb),
+          reason: 'palette $index must preview base palette $baseIndex',
+        );
+      }
+    });
+
     test('palette indexes match colorScheme64 labels', () async {
       final service = await PaletteService.create();
       final parameter = CommonFractalParams.colorScheme64();

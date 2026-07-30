@@ -42,7 +42,7 @@ class AppBottomSheet extends StatelessWidget {
             math.max(mq.size.height * effectiveFactor, 280) + bottomInset,
       ),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
         boxShadow: [
           BoxShadow(
@@ -135,7 +135,7 @@ class AppDraggableBottomSheet extends StatelessWidget {
       expand: expand,
       builder: (context, scrollController) {
         return Material(
-          color: AppColors.surface,
+          color: Theme.of(context).colorScheme.surface,
           elevation: 18,
           shadowColor: Colors.black.withValues(alpha: 0.35),
           borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),

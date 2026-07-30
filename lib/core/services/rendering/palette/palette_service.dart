@@ -9,6 +9,29 @@ import 'package:flutter_fractals/core/services/storage/palette_store.dart';
 const List<FractalColorStop> _fallbackPaletteStops =
     fallbackFractalPaletteStops;
 
+const List<FractalColorStop> _firePaletteStops = [
+  FractalColorStop(position: 0.0, colorArgb: 0xFF0D0D12),
+  FractalColorStop(position: 0.35, colorArgb: 0xFF6B1D1D),
+  FractalColorStop(position: 0.7, colorArgb: 0xFFF05A28),
+  FractalColorStop(position: 1.0, colorArgb: 0xFFFFE066),
+];
+const List<FractalColorStop> _oceanPaletteStops = [
+  FractalColorStop(position: 0.0, colorArgb: 0xFF06141C),
+  FractalColorStop(position: 0.4, colorArgb: 0xFF0B7285),
+  FractalColorStop(position: 0.8, colorArgb: 0xFF22B8CF),
+  FractalColorStop(position: 1.0, colorArgb: 0xFFA5D8FF),
+];
+const List<FractalColorStop> _psychedelicPaletteStops = [
+  FractalColorStop(position: 0.0, colorArgb: 0xFF3B0A45),
+  FractalColorStop(position: 0.33, colorArgb: 0xFF7C3AED),
+  FractalColorStop(position: 0.66, colorArgb: 0xFF06B6D4),
+  FractalColorStop(position: 1.0, colorArgb: 0xFFF59E0B),
+];
+const List<FractalColorStop> _grayscalePaletteStops = [
+  FractalColorStop(position: 0.0, colorArgb: 0xFF000000),
+  FractalColorStop(position: 1.0, colorArgb: 0xFFFFFFFF),
+];
+
 /// Normalizes palette stops before persistence or shader texture/uniform upload.
 ///
 /// Kept as the service-level compatibility helper while the replayable contract
@@ -218,43 +241,25 @@ class PaletteService extends ChangeNotifier {
         id: 'builtin_fire',
         name: 'Fire',
         isBuiltIn: true,
-        stops: [
-          FractalColorStop(position: 0.0, colorArgb: 0xFF0D0D12),
-          FractalColorStop(position: 0.35, colorArgb: 0xFF6B1D1D),
-          FractalColorStop(position: 0.7, colorArgb: 0xFFF05A28),
-          FractalColorStop(position: 1.0, colorArgb: 0xFFFFE066),
-        ],
+        stops: _firePaletteStops,
       ),
       FractalPalette(
         id: 'builtin_ocean',
         name: 'Ocean',
         isBuiltIn: true,
-        stops: [
-          FractalColorStop(position: 0.0, colorArgb: 0xFF06141C),
-          FractalColorStop(position: 0.4, colorArgb: 0xFF0B7285),
-          FractalColorStop(position: 0.8, colorArgb: 0xFF22B8CF),
-          FractalColorStop(position: 1.0, colorArgb: 0xFFA5D8FF),
-        ],
+        stops: _oceanPaletteStops,
       ),
       FractalPalette(
         id: 'builtin_psychedelic',
         name: 'Psychedelic',
         isBuiltIn: true,
-        stops: [
-          FractalColorStop(position: 0.0, colorArgb: 0xFF3B0A45),
-          FractalColorStop(position: 0.33, colorArgb: 0xFF7C3AED),
-          FractalColorStop(position: 0.66, colorArgb: 0xFF06B6D4),
-          FractalColorStop(position: 1.0, colorArgb: 0xFFF59E0B),
-        ],
+        stops: _psychedelicPaletteStops,
       ),
       FractalPalette(
         id: 'builtin_grayscale',
         name: 'Grayscale',
         isBuiltIn: true,
-        stops: [
-          FractalColorStop(position: 0.0, colorArgb: 0xFF000000),
-          FractalColorStop(position: 1.0, colorArgb: 0xFFFFFFFF),
-        ],
+        stops: _grayscalePaletteStops,
       ),
       FractalPalette(
         id: 'builtin_phoenix',
@@ -437,13 +442,36 @@ class PaletteService extends ChangeNotifier {
       id: id,
       name: name,
       isBuiltIn: true,
-      stops: [
-        FractalColorStop(position: 0.0, colorArgb: _hsv(hue + 25, 0.85, 0.08)),
-        FractalColorStop(position: 0.28, colorArgb: _hsv(hue, 0.82, 0.35)),
-        FractalColorStop(position: 0.58, colorArgb: _hsv(hue + 35, 0.78, 0.72)),
-        FractalColorStop(position: 1.0, colorArgb: _hsv(hue + 70, 0.55, 1.0)),
-      ],
+      stops: index >= 50
+          ? _reliefPaletteStops(index)
+          : [
+              FractalColorStop(
+                position: 0.0,
+                colorArgb: _hsv(hue + 25, 0.85, 0.08),
+              ),
+              FractalColorStop(
+                position: 0.28,
+                colorArgb: _hsv(hue, 0.82, 0.35),
+              ),
+              FractalColorStop(
+                position: 0.58,
+                colorArgb: _hsv(hue + 35, 0.78, 0.72),
+              ),
+              FractalColorStop(
+                position: 1.0,
+                colorArgb: _hsv(hue + 70, 0.55, 1.0),
+              ),
+            ],
     );
+  }
+
+  static List<FractalColorStop> _reliefPaletteStops(int index) {
+    return switch ((index - 50) % 4) {
+      0 => _firePaletteStops,
+      1 => _oceanPaletteStops,
+      2 => _psychedelicPaletteStops,
+      _ => _grayscalePaletteStops,
+    };
   }
 
   static String _generatedPaletteName(int index) {
