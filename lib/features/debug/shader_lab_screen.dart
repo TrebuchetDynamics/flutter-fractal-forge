@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -108,37 +109,44 @@ class _ShaderLabScreenState extends State<ShaderLabScreen> {
     required GlobalKey boundaryKey,
     required Widget child,
     required double? ratio,
+    required double previewHeight,
   }) {
     final ratioText = ratio == null ? '—' : ratio.toStringAsFixed(3);
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            child: Text(
-              '$title  (darkRatio: $ratioText)',
-              style: const TextStyle(color: Colors.white70, fontSize: 12),
-            ),
+    // The preview carries the computed height and the caption sizes to its own
+    // content, so the tile is always exactly as tall as it needs to be. Fixing
+    // the tile's total height instead left the caption and the preview
+    // competing, and the caption wins as the text scale grows.
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          child: Text(
+            '$title  (darkRatio: $ratioText)',
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: Colors.white70, fontSize: 12),
           ),
-          Expanded(
-            child: RepaintBoundary(
-              key: boundaryKey,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    border:
-                        Border.all(color: Colors.amber.withValues(alpha: 0.6)),
-                    color: Colors.black,
-                  ),
-                  child: child,
+        ),
+        SizedBox(
+          height: previewHeight,
+          child: RepaintBoundary(
+            key: boundaryKey,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  border:
+                      Border.all(color: Colors.amber.withValues(alpha: 0.6)),
+                  color: Colors.black,
                 ),
+                child: child,
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -153,81 +161,107 @@ class _ShaderLabScreenState extends State<ShaderLabScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('Shader Lab'),
+        // Both bounded: at a 3x text scale the title and the action together
+        // overran the bar by up to 49px on a narrow screen.
+        title: const Text(
+          'Shader Lab',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         actions: [
-          TextButton(
-            onPressed: _running ? null : _run,
-            child: Text(
-              _running ? 'Running…' : 'Run test',
-              style: const TextStyle(color: Colors.amber),
+          Flexible(
+            child: TextButton(
+              onPressed: _running ? null : _run,
+              child: Text(
+                _running ? 'Running…' : 'Run test',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(color: Colors.amber),
+              ),
             ),
           ),
         ],
       ),
+      // Scrolls rather than dividing a fixed height three ways. The status line
+      // can be a long shader error and each tile carries a caption, so at a
+      // large text scale the fixed parts used to squeeze the previews out and
+      // clip every tile. Tiles keep a floor so they stay legible when scrolled.
       body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Text(
-                shaderStatus,
-                style: const TextStyle(color: Colors.white70, fontSize: 12),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  children: [
-                    _tile(
-                      title: '1) Solid color (Container)',
-                      boundaryKey: _keySolid,
-                      ratio: _darkSolid,
-                      child: const ColoredBox(color: Color(0xFF3B82F6)),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            // Each preview gets an even share of what is left, with a floor
+            // so it stays legible once the column starts scrolling.
+            final previewHeight =
+                math.max((constraints.maxHeight - 160) / 3, 96.0);
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Text(
+                      shaderStatus,
+                      style:
+                          const TextStyle(color: Colors.white70, fontSize: 12),
                     ),
-                    const SizedBox(height: 12),
-                    _tile(
-                      title: '2) Built-in LinearGradient',
-                      boundaryKey: _keyGradient,
-                      ratio: _darkGradient,
-                      child: const DecoratedBox(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              Color(0xFFE11D48),
-                              Color(0xFF8B5CF6),
-                              Color(0xFF06B6D4),
-                            ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      children: [
+                        _tile(
+                          title: '1) Solid color (Container)',
+                          boundaryKey: _keySolid,
+                          ratio: _darkSolid,
+                          previewHeight: previewHeight,
+                          child: const ColoredBox(color: Color(0xFF3B82F6)),
+                        ),
+                        const SizedBox(height: 12),
+                        _tile(
+                          title: '2) Built-in LinearGradient',
+                          boundaryKey: _keyGradient,
+                          ratio: _darkGradient,
+                          previewHeight: previewHeight,
+                          child: const DecoratedBox(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  Color(0xFFE11D48),
+                                  Color(0xFF8B5CF6),
+                                  Color(0xFF06B6D4),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        const SizedBox(height: 12),
+                        _tile(
+                          title: '3) FragmentProgram (runtime_effect)',
+                          boundaryKey: _keyFrag,
+                          ratio: _darkFrag,
+                          previewHeight: previewHeight,
+                          child: _program == null
+                              ? const Center(
+                                  child: Text(
+                                    'Loading shader…',
+                                    style: TextStyle(color: Colors.white54),
+                                  ),
+                                )
+                              : CustomPaint(
+                                  painter: _FragPainter(_program!),
+                                  child: const SizedBox.expand(),
+                                ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 12),
-                    _tile(
-                      title: '3) FragmentProgram (runtime_effect)',
-                      boundaryKey: _keyFrag,
-                      ratio: _darkFrag,
-                      child: _program == null
-                          ? const Center(
-                              child: Text(
-                                'Loading shader…',
-                                style: TextStyle(color: Colors.white54),
-                              ),
-                            )
-                          : CustomPaint(
-                              painter: _FragPainter(_program!),
-                              child: const SizedBox.expand(),
-                            ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ),
-          ],
+            );
+          },
         ),
       ),
     );
