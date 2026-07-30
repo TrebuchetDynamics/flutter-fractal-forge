@@ -4,7 +4,6 @@ import 'package:integration_test/integration_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
-import 'package:flutter_fractals/core/services/storage/onboarding_service.dart';
 import 'package:flutter_fractals/core/services/diagnostics/test_logger.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
@@ -24,10 +23,7 @@ void main() {
     late TestLogger logger;
 
     setUp(() async {
-      SharedPreferences.setMockInitialValues({
-        'onboarding_complete': true,
-        'onboarding_version': OnboardingService.currentVersion,
-      });
+      SharedPreferences.setMockInitialValues({});
       presetStore = await PresetStore.create();
       accessibilityService = await AccessibilityService.create();
       rendererSettingsService = await RendererSettingsService.create();

@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:flutter_fractals/core/services/storage/onboarding_service.dart';
 import 'package:flutter_fractals/main.dart' as app;
 
 import '../helpers/ui_test_helpers.dart';
@@ -24,10 +23,7 @@ void main() {
 
   testWidgets('emulator auto policy probes three representative 2D fractals',
       (tester) async {
-    SharedPreferences.setMockInitialValues({
-      'onboarding_complete': true,
-      'onboarding_version': OnboardingService.currentVersion,
-    });
+    SharedPreferences.setMockInitialValues({});
 
     await app.main();
     await pumpForAppBoot(tester);

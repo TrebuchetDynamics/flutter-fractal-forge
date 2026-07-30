@@ -9,7 +9,6 @@ import 'package:integration_test/integration_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:flutter_fractals/core/services/storage/onboarding_service.dart';
 import 'package:flutter_fractals/core/widgets/animation_effects.dart';
 import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
@@ -158,8 +157,6 @@ void main() {
   testWidgets('capture auditable GPU evidence on emulator for 3 fractals',
       (tester) async {
     SharedPreferences.setMockInitialValues({
-      'onboarding_complete': true,
-      'onboarding_version': OnboardingService.currentVersion,
       // Explicitly run policy in auto mode.
       'renderer_backend_mode': 'auto',
     });

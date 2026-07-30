@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/storage/history_store.dart';
-import 'package:flutter_fractals/core/services/storage/onboarding_service.dart';
 import 'package:flutter_fractals/core/services/rendering/palette/palette_service.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
@@ -29,10 +28,7 @@ void main() {
     late RendererSettingsService rendererSettingsService;
 
     setUp(() async {
-      SharedPreferences.setMockInitialValues({
-        'onboarding_complete': true,
-        'onboarding_version': OnboardingService.currentVersion,
-      });
+      SharedPreferences.setMockInitialValues({});
       final results = await Future.wait([
         PresetStore.create(),
         HistoryStore.create(),

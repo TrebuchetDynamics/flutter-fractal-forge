@@ -42,7 +42,6 @@ import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/rendering/palette/palette_service.dart';
-import 'package:flutter_fractals/core/services/storage/onboarding_service.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_entry.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
 import 'package:flutter_fractals/features/catalog/data/featured_launch_set.dart';
@@ -61,10 +60,7 @@ void main() {
 
   testWidgets('Generate GPU thumbnails and render audit metrics',
       (tester) async {
-    SharedPreferences.setMockInitialValues({
-      'onboarding_complete': true,
-      'onboarding_version': OnboardingService.currentVersion,
-    });
+    SharedPreferences.setMockInitialValues({});
     await PaletteService.create();
 
     final env = Platform.environment;
