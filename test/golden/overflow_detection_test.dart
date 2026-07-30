@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/storage/history_store.dart';
-import 'package:flutter_fractals/core/services/storage/onboarding_service.dart';
 import 'package:flutter_fractals/core/services/rendering/palette/palette_service.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
@@ -30,10 +29,7 @@ void main() {
   late RendererSettingsService rendererSettingsService;
 
   setUp(() async {
-    SharedPreferences.setMockInitialValues({
-      'onboarding_complete': true,
-      'onboarding_version': OnboardingService.currentVersion,
-    });
+    SharedPreferences.setMockInitialValues({});
     final results = await Future.wait([
       PresetStore.create(),
       HistoryStore.create(),
@@ -126,17 +122,18 @@ void main() {
 
     // Known issue: catalog search bar and section headers overflow at 3.0x text
     // scale. Tracked for P2 fix (controls ergonomics / large-text support).
-    testWidgets('no overflow at large text scale 3.0 (dark theme)',
-        (tester) async {
-      await assertNoOverflow(
-        tester,
-        const FractalCatalogScreen(),
-        theme: AppTheme.dark,
-        textScaleFactor: 3.0,
-        label: 'Catalog / dark / 3.0x',
-      );
-    },
+    testWidgets(
+      'no overflow at large text scale 3.0 (dark theme)',
+      (tester) async {
+        await assertNoOverflow(
+          tester,
+          const FractalCatalogScreen(),
+          theme: AppTheme.dark,
+          textScaleFactor: 3.0,
+          label: 'Catalog / dark / 3.0x',
         );
+      },
+    );
 
     testWidgets('no overflow at normal text scale (high contrast)',
         (tester) async {
@@ -149,17 +146,18 @@ void main() {
     });
 
     // Known issue: same overflow as dark theme at 3.0x.
-    testWidgets('no overflow at large text scale 3.0 (high contrast)',
-        (tester) async {
-      await assertNoOverflow(
-        tester,
-        const FractalCatalogScreen(),
-        theme: AppTheme.highContrast,
-        textScaleFactor: 3.0,
-        label: 'Catalog / highContrast / 3.0x',
-      );
-    },
+    testWidgets(
+      'no overflow at large text scale 3.0 (high contrast)',
+      (tester) async {
+        await assertNoOverflow(
+          tester,
+          const FractalCatalogScreen(),
+          theme: AppTheme.highContrast,
+          textScaleFactor: 3.0,
+          label: 'Catalog / highContrast / 3.0x',
         );
+      },
+    );
   });
 
   group('Overflow Detection — Export Options Sheet', () {
