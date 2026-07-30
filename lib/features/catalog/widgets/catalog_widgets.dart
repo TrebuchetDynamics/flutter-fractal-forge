@@ -452,8 +452,16 @@ class _ModuleGridTileState extends State<_ModuleGridTile>
     final accentColor = _categoryAccentColor(widget.entry.category);
 
     return Semantics(
-      label:
-          '$name fractal, ${widget.entry.category}, $dimensionLabel, $presetCount presets. Double tap to open.',
+      // semanticFractalCard, not an inline string: the label was built in
+      // English here, so every card in the catalogue announced in English
+      // regardless of locale — the section headers above them localized, which
+      // made the gap easy to miss. The key already existed and was translated.
+      //
+      // It also drops the category and preset count, which shortens the label
+      // from 133 characters to about 54. The category is already announced by
+      // the section header when the group is entered, so repeating it on all
+      // 430 cards was pure redundancy.
+      label: widget.l10n.semanticFractalCard(name, dimensionLabel),
       button: true,
       child: _FocusableTapRegion(
         regionKey: Key('catalogModuleCard_${widget.entry.catalogId}'),
@@ -756,9 +764,10 @@ class _ModuleCardState extends State<_ModuleCard>
     final dimensionLabel =
         is3D ? widget.l10n.dimension3d : widget.l10n.dimension2d;
     final name = widget.entry.module.displayName(widget.l10n);
-    final presetCount = widget.entry.module.builtInPresets.length + 1;
+    // See the sibling card: localized via the existing key rather than built
+    // inline in English.
     final semanticLabel =
-        '$name fractal, ${widget.entry.category}, $dimensionLabel, $presetCount presets. Double tap to open.';
+        widget.l10n.semanticFractalCard(name, dimensionLabel);
 
     final reduceMotion = MediaQuery.of(context).disableAnimations ||
         (context.read<AccessibilityService?>()?.reducedMotionEnabled ?? false);
