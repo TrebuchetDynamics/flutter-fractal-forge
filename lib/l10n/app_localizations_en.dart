@@ -1497,4 +1497,14 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get debugReportCopiedJson =>
       'Copied GPU debug JSON to clipboard. Paste it into Telegram.';
+
+  @override
+  String fractalReportSaved(Object path) {
+    return 'Saved report: $path';
+  }
+
+  @override
+  String fractalReportFailed(Object error) {
+    return 'Report failed: $error';
+  }
 }

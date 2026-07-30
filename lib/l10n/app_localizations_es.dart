@@ -1511,4 +1511,14 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get debugReportCopiedJson =>
       'Se copió el JSON de depuración de GPU al portapapeles. Pégalo en Telegram.';
+
+  @override
+  String fractalReportSaved(Object path) {
+    return 'Informe guardado: $path';
+  }
+
+  @override
+  String fractalReportFailed(Object error) {
+    return 'No se pudo generar el informe: $error';
+  }
 }

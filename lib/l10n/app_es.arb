@@ -688,5 +688,17 @@
       "path": {}
     }
   },
-  "debugReportCopiedJson": "Se copió el JSON de depuración de GPU al portapapeles. Pégalo en Telegram."
+  "debugReportCopiedJson": "Se copió el JSON de depuración de GPU al portapapeles. Pégalo en Telegram.",
+  "fractalReportSaved": "Informe guardado: {path}",
+  "@fractalReportSaved": {
+    "placeholders": {
+      "path": {}
+    }
+  },
+  "fractalReportFailed": "No se pudo generar el informe: {error}",
+  "@fractalReportFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  }
 }

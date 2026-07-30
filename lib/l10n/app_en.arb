@@ -687,5 +687,17 @@
       "path": {}
     }
   },
-  "debugReportCopiedJson": "Copied GPU debug JSON to clipboard. Paste it into Telegram."
+  "debugReportCopiedJson": "Copied GPU debug JSON to clipboard. Paste it into Telegram.",
+  "fractalReportSaved": "Saved report: {path}",
+  "@fractalReportSaved": {
+    "placeholders": {
+      "path": {}
+    }
+  },
+  "fractalReportFailed": "Report failed: {error}",
+  "@fractalReportFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  }
 }

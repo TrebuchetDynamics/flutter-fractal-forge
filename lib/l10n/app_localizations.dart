@@ -2839,6 +2839,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Copied GPU debug JSON to clipboard. Paste it into Telegram.'**
   String get debugReportCopiedJson;
+
+  /// No description provided for @fractalReportSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved report: {path}'**
+  String fractalReportSaved(Object path);
+
+  /// No description provided for @fractalReportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Report failed: {error}'**
+  String fractalReportFailed(Object error);
 }
 
 class _AppLocalizationsDelegate

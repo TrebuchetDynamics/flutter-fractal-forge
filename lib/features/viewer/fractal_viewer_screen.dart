@@ -779,13 +779,13 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       );
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Saved report: ${file.path}')),
+        SnackBar(content: Text(l10n.fractalReportSaved(file.path))),
       );
     } catch (error) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         appFeedbackSnackBar(
-          message: 'Report failed: $error',
+          message: l10n.fractalReportFailed(error.toString()),
           success: false,
         ),
       );
