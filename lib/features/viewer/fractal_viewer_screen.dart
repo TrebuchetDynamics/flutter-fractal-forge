@@ -95,11 +95,15 @@ class FractalViewerScreen extends StatefulWidget {
   /// rather than by measuring it. Defaults to the real service.
   final ExportService? exportService;
 
+  /// Platform wallpaper backend, overridable for the same reason.
+  final WallpaperService? wallpaperService;
+
   const FractalViewerScreen({
     Key? key,
     this.captureMode = false,
     this.catalogFamily = CatalogFamily.core,
     this.exportService,
+    this.wallpaperService,
   }) : super(key: key);
 
   @override
@@ -120,6 +124,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   @override
   ExportService get _exportService =>
       widget.exportService ?? const ExportService();
+  @override
+  WallpaperService get _wallpaperService =>
+      widget.wallpaperService ?? const WallpaperService();
   final ViewerEffectsController _viewerEffects = ViewerEffectsController();
 
   // Compare mode state

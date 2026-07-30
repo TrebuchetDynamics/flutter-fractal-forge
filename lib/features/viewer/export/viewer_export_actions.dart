@@ -7,6 +7,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
   // Abstract members satisfied by _FractalViewerScreenState.
   AppLogger get _log;
   ExportService get _exportService;
+  WallpaperService get _wallpaperService;
   AutoExploreService? get _autoExploreService;
   LooperController? get _looperController;
   FractalController _activeController(BuildContext context);
@@ -451,6 +452,30 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     await _applyWallpaper(context, options);
   }
 
+  /// Feedback for the wallpaper flow.
+  ///
+  /// The foreground is set explicitly: the theme's snackbar content colour is
+  /// textPrimary, which is 2.55:1 on AppColors.success and 3.2:1 on
+  /// AppColors.error — both under the 4.5:1 floor. AppColors.background reads
+  /// 7.09:1 and 5.66:1 against the same two.
+  void _showWallpaperSnackBar(
+    BuildContext context, {
+    required String message,
+    required bool success,
+  }) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: AppTypography.bodyMedium
+              .copyWith(color: AppColors.background),
+        ),
+        backgroundColor: success ? AppColors.success : AppColors.error,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
   Future<void> _applyWallpaper(
     BuildContext context,
     WallpaperOptions options,
@@ -480,6 +505,10 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
         style: options.style.name,
       );
 
+      // Tracked, not just logged. The copy is something the user asked for,
+      // so a failure has to reach them rather than only the log — the same
+      // rule ViewerExportFeedback states for export's two phases.
+      var copyFailed = false;
       if (saveCopy) {
         final filename = _exportService.generateFilename(
           format: ExportFormat.png,
@@ -488,39 +517,38 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
         try {
           await _exportService.saveBytes(styled, filename: filename);
         } catch (error) {
+          copyFailed = true;
           _log.warn('wallpaper', 'Save wallpaper copy failed',
               data: {'error': error.toString()});
         }
       }
 
-      final ok = await const WallpaperService()
-          .setWallpaper(styled, target: options.target);
+      final ok = await _wallpaperService.setWallpaper(styled,
+          target: options.target);
 
       if (!mounted) return;
       await HapticService.heavy();
       // iOS can't set wallpaper programmatically — the image was saved to
       // Photos instead, so report that rather than claiming it was applied.
       final savedToPhotosOnly = !kIsWeb && Platform.isIOS;
-      final successMessage = savedToPhotosOnly
+      final applied = savedToPhotosOnly
           ? l10n.wallpaperSavedToPhotos
           : l10n.wallpaperApplied;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(ok ? successMessage : l10n.wallpaperFailed),
-          backgroundColor: ok ? AppColors.success : AppColors.error,
-          behavior: SnackBarBehavior.floating,
-        ),
+      final successMessage =
+          copyFailed ? l10n.wallpaperAppliedCopyFailed : applied;
+      _showWallpaperSnackBar(
+        context,
+        message: ok ? successMessage : l10n.wallpaperFailed,
+        success: ok,
       );
     } catch (e) {
       _log.warn('wallpaper', 'Set wallpaper failed',
           data: {'error': e.toString()});
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(l10n.wallpaperFailedWithError(e.toString())),
-          backgroundColor: AppColors.error,
-          behavior: SnackBarBehavior.floating,
-        ),
+      _showWallpaperSnackBar(
+        context,
+        message: l10n.wallpaperFailedWithError(e.toString()),
+        success: false,
       );
     } finally {
       if (mounted) {

@@ -164,6 +164,7 @@
   "wallpaperApplied": "Wallpaper ready",
   "wallpaperSavedToPhotos": "Saved to Photos",
   "wallpaperFailed": "Couldn’t apply wallpaper",
+  "wallpaperAppliedCopyFailed": "Wallpaper ready, but the copy couldn’t be saved",
   "wallpaperFailedWithError": "Couldn’t apply wallpaper: {error}",
   "presetDefault": "Default",
   "presetClassic": "Classic",

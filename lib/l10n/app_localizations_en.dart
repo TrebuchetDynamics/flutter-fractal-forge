@@ -506,6 +506,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get wallpaperFailed => 'Couldn’t apply wallpaper';
 
   @override
+  String get wallpaperAppliedCopyFailed =>
+      'Wallpaper ready, but the copy couldn’t be saved';
+
+  @override
   String wallpaperFailedWithError(Object error) {
     return 'Couldn’t apply wallpaper: $error';
   }

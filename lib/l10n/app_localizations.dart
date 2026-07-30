@@ -1052,6 +1052,12 @@ abstract class AppLocalizations {
   /// **'Couldn’t apply wallpaper'**
   String get wallpaperFailed;
 
+  /// No description provided for @wallpaperAppliedCopyFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallpaper ready, but the copy couldn’t be saved'**
+  String get wallpaperAppliedCopyFailed;
+
   /// No description provided for @wallpaperFailedWithError.
   ///
   /// In en, this message translates to:

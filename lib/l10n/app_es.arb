@@ -164,6 +164,7 @@
   "wallpaperApplied": "Fondo listo",
   "wallpaperSavedToPhotos": "Guardado en Fotos",
   "wallpaperFailed": "No se pudo aplicar el fondo",
+  "wallpaperAppliedCopyFailed": "Fondo listo, pero no se pudo guardar la copia",
   "wallpaperFailedWithError": "No se pudo aplicar el fondo: {error}",
   "presetDefault": "Predeterminado",
   "presetClassic": "Clásico",

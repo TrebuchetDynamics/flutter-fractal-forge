@@ -510,6 +510,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get wallpaperFailed => 'No se pudo aplicar el fondo';
 
   @override
+  String get wallpaperAppliedCopyFailed =>
+      'Fondo listo, pero no se pudo guardar la copia';
+
+  @override
   String wallpaperFailedWithError(Object error) {
     return 'No se pudo aplicar el fondo: $error';
   }
