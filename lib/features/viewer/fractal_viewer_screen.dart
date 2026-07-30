@@ -71,6 +71,46 @@ part 'navigation/viewer_interactions.dart';
 part 'navigation/viewer_history.dart';
 part 'overlays/viewer_hud.dart';
 
+/// Display label for a report tag.
+///
+/// The tag string itself stays English on purpose: it is written verbatim into
+/// the saved report's JSON, which a maintainer reads, so translating it would
+/// change the report's data rather than only its presentation. Only what the
+/// sheet shows is localized. An unrecognised tag falls back to its own text,
+/// so adding one to FractalReportService.defaultTags cannot render blank.
+String _reportTagLabel(AppLocalizations l10n, String tag) {
+  switch (tag) {
+    case 'Low performance':
+      return l10n.reportTagLowPerformance;
+    case 'Weak deep zoom':
+      return l10n.reportTagWeakDeepZoom;
+    case 'Low detail':
+      return l10n.reportTagLowDetail;
+    case 'No image':
+      return l10n.reportTagNoImage;
+    case 'Bad initial view':
+      return l10n.reportTagBadInitialView;
+    case 'Bad default params':
+      return l10n.reportTagBadDefaultParams;
+    case 'Needs more Control Params':
+      return l10n.reportTagNeedsMoreControlParams;
+    case 'Randomize breaks':
+      return l10n.reportTagRandomizeBreaks;
+    case 'Remove candidate':
+      return l10n.reportTagRemoveCandidate;
+    case 'Bad thumbnail':
+      return l10n.reportTagBadThumbnail;
+    case 'Wrong fractal':
+      return l10n.reportTagWrongFractal;
+    case 'Missing shader':
+      return l10n.reportTagMissingShader;
+    case 'Other':
+      return l10n.reportTagOther;
+    default:
+      return tag;
+  }
+}
+
 class FractalViewerScreen extends StatefulWidget {
   /// Chrome-free capture mode for marketing/launch stills.
   ///
@@ -592,7 +632,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                 iconGradient: const LinearGradient(
                   colors: [AppColors.warning, Color(0xFFFF7A45)],
                 ),
-                title: 'Report rendering issue',
+                title: l10n.reportDialogTitle,
                 subtitle: controller.module.displayName(l10n),
                 onClose: () => Navigator.of(sheetContext).pop(false),
               ),
@@ -609,7 +649,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Pick every symptom you see',
+                        l10n.reportDialogSymptoms,
                         style: AppTypography.labelLarge.copyWith(
                           color: AppColors.textPrimary,
                           fontWeight: FontWeight.w700,
@@ -617,7 +657,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                       ),
                       const SizedBox(height: AppSpacing.xs),
                       Text(
-                        'This saves the current view, params, and tags.',
+                        l10n.reportDialogSymptomsHint,
                         style: AppTypography.bodySmall.copyWith(
                           color: AppColors.textMuted,
                         ),
@@ -629,7 +669,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         children: [
                           for (final tag in tags)
                             _ReportTagChip(
-                              label: tag,
+                              label: _reportTagLabel(l10n, tag),
                               selected: selected.contains(tag),
                               onTap: () => setSheetState(() {
                                 if (!selected.remove(tag)) selected.add(tag);
@@ -639,7 +679,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                       ),
                       const SizedBox(height: AppSpacing.lg),
                       Text(
-                        'Notes',
+                        l10n.reportDialogNotes,
                         style: AppTypography.labelMedium.copyWith(
                           color: AppColors.textSecondary,
                           fontWeight: FontWeight.w700,
@@ -654,7 +694,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                           color: AppColors.textPrimary,
                         ),
                         decoration: InputDecoration(
-                          hintText: 'Optional details for the fix pass',
+                          hintText: l10n.reportDialogNotesHint,
                           hintStyle: AppTypography.bodyMedium.copyWith(
                             color: AppColors.textMuted,
                           ),
@@ -699,7 +739,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                           ),
                         ),
                         onPressed: () => Navigator.of(sheetContext).pop(false),
-                        child: const Text('Cancel'),
+                        child: Text(l10n.buttonCancel),
                       ),
                     ),
                     const SizedBox(width: AppSpacing.sm),
@@ -708,7 +748,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         onPressed: selected.isEmpty
                             ? null
                             : () => Navigator.of(sheetContext).pop(true),
-                        child: const Text('Save report'),
+                        child: Text(l10n.reportDialogSave),
                       ),
                     ),
                   ],
@@ -742,7 +782,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
           context: context,
           builder: (dialogContext) => AppDialog(
             icon: Icons.data_object_rounded,
-            title: 'Copy report JSON',
+            title: l10n.reportDialogCopyJsonTitle,
             content: SizedBox(
               width: double.maxFinite,
               child: SingleChildScrollView(child: SelectableText(json)),
@@ -750,7 +790,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(dialogContext).pop(),
-                child: const Text('Close'),
+                child: Text(l10n.actionClose),
               ),
               FilledButton(
                 onPressed: () async {
@@ -758,11 +798,11 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                   if (dialogContext.mounted) Navigator.of(dialogContext).pop();
                   if (mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Report JSON copied')),
+                      SnackBar(content: Text(l10n.reportDialogCopiedJson)),
                     );
                   }
                 },
-                child: const Text('Copy'),
+                child: Text(l10n.actionCopy),
               ),
             ],
           ),

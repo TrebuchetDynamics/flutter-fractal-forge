@@ -2851,6 +2851,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Report failed: {error}'**
   String fractalReportFailed(Object error);
+
+  /// No description provided for @reportDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Report rendering issue'**
+  String get reportDialogTitle;
+
+  /// No description provided for @reportDialogSymptoms.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick every symptom you see'**
+  String get reportDialogSymptoms;
+
+  /// No description provided for @reportDialogSymptomsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'This saves the current view, params, and tags.'**
+  String get reportDialogSymptomsHint;
+
+  /// No description provided for @reportDialogNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get reportDialogNotes;
+
+  /// No description provided for @reportDialogNotesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional details for the fix pass'**
+  String get reportDialogNotesHint;
+
+  /// No description provided for @reportDialogSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save report'**
+  String get reportDialogSave;
+
+  /// No description provided for @reportDialogCopyJsonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy report JSON'**
+  String get reportDialogCopyJsonTitle;
+
+  /// No description provided for @reportDialogCopiedJson.
+  ///
+  /// In en, this message translates to:
+  /// **'Report JSON copied'**
+  String get reportDialogCopiedJson;
+
+  /// No description provided for @reportTagLowPerformance.
+  ///
+  /// In en, this message translates to:
+  /// **'Low performance'**
+  String get reportTagLowPerformance;
+
+  /// No description provided for @reportTagWeakDeepZoom.
+  ///
+  /// In en, this message translates to:
+  /// **'Weak deep zoom'**
+  String get reportTagWeakDeepZoom;
+
+  /// No description provided for @reportTagLowDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Low detail'**
+  String get reportTagLowDetail;
+
+  /// No description provided for @reportTagNoImage.
+  ///
+  /// In en, this message translates to:
+  /// **'No image'**
+  String get reportTagNoImage;
+
+  /// No description provided for @reportTagBadInitialView.
+  ///
+  /// In en, this message translates to:
+  /// **'Bad initial view'**
+  String get reportTagBadInitialView;
+
+  /// No description provided for @reportTagBadDefaultParams.
+  ///
+  /// In en, this message translates to:
+  /// **'Bad default params'**
+  String get reportTagBadDefaultParams;
+
+  /// No description provided for @reportTagNeedsMoreControlParams.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs more Control Params'**
+  String get reportTagNeedsMoreControlParams;
+
+  /// No description provided for @reportTagRandomizeBreaks.
+  ///
+  /// In en, this message translates to:
+  /// **'Randomize breaks'**
+  String get reportTagRandomizeBreaks;
+
+  /// No description provided for @reportTagRemoveCandidate.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove candidate'**
+  String get reportTagRemoveCandidate;
+
+  /// No description provided for @reportTagBadThumbnail.
+  ///
+  /// In en, this message translates to:
+  /// **'Bad thumbnail'**
+  String get reportTagBadThumbnail;
+
+  /// No description provided for @reportTagWrongFractal.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong fractal'**
+  String get reportTagWrongFractal;
+
+  /// No description provided for @reportTagMissingShader.
+  ///
+  /// In en, this message translates to:
+  /// **'Missing shader'**
+  String get reportTagMissingShader;
+
+  /// No description provided for @reportTagOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get reportTagOther;
 }
 
 class _AppLocalizationsDelegate

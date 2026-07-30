@@ -700,5 +700,26 @@
     "placeholders": {
       "error": {}
     }
-  }
+  },
+  "reportDialogTitle": "Informar de un problema de renderizado",
+  "reportDialogSymptoms": "Elige todos los síntomas que veas",
+  "reportDialogSymptomsHint": "Se guardan la vista actual, los parámetros y las etiquetas.",
+  "reportDialogNotes": "Notas",
+  "reportDialogNotesHint": "Detalles opcionales para la corrección",
+  "reportDialogSave": "Guardar informe",
+  "reportDialogCopyJsonTitle": "Copiar el JSON del informe",
+  "reportDialogCopiedJson": "Se copió el JSON del informe",
+  "reportTagLowPerformance": "Rendimiento bajo",
+  "reportTagWeakDeepZoom": "Zoom profundo deficiente",
+  "reportTagLowDetail": "Poco detalle",
+  "reportTagNoImage": "Sin imagen",
+  "reportTagBadInitialView": "Vista inicial incorrecta",
+  "reportTagBadDefaultParams": "Parámetros predeterminados incorrectos",
+  "reportTagNeedsMoreControlParams": "Faltan parámetros de control",
+  "reportTagRandomizeBreaks": "La aleatorización falla",
+  "reportTagRemoveCandidate": "Candidato a eliminar",
+  "reportTagBadThumbnail": "Miniatura incorrecta",
+  "reportTagWrongFractal": "Fractal incorrecto",
+  "reportTagMissingShader": "Falta el sombreador",
+  "reportTagOther": "Otro"
 }

@@ -1521,4 +1521,69 @@ class AppLocalizationsEs extends AppLocalizations {
   String fractalReportFailed(Object error) {
     return 'No se pudo generar el informe: $error';
   }
+
+  @override
+  String get reportDialogTitle => 'Informar de un problema de renderizado';
+
+  @override
+  String get reportDialogSymptoms => 'Elige todos los síntomas que veas';
+
+  @override
+  String get reportDialogSymptomsHint =>
+      'Se guardan la vista actual, los parámetros y las etiquetas.';
+
+  @override
+  String get reportDialogNotes => 'Notas';
+
+  @override
+  String get reportDialogNotesHint => 'Detalles opcionales para la corrección';
+
+  @override
+  String get reportDialogSave => 'Guardar informe';
+
+  @override
+  String get reportDialogCopyJsonTitle => 'Copiar el JSON del informe';
+
+  @override
+  String get reportDialogCopiedJson => 'Se copió el JSON del informe';
+
+  @override
+  String get reportTagLowPerformance => 'Rendimiento bajo';
+
+  @override
+  String get reportTagWeakDeepZoom => 'Zoom profundo deficiente';
+
+  @override
+  String get reportTagLowDetail => 'Poco detalle';
+
+  @override
+  String get reportTagNoImage => 'Sin imagen';
+
+  @override
+  String get reportTagBadInitialView => 'Vista inicial incorrecta';
+
+  @override
+  String get reportTagBadDefaultParams =>
+      'Parámetros predeterminados incorrectos';
+
+  @override
+  String get reportTagNeedsMoreControlParams => 'Faltan parámetros de control';
+
+  @override
+  String get reportTagRandomizeBreaks => 'La aleatorización falla';
+
+  @override
+  String get reportTagRemoveCandidate => 'Candidato a eliminar';
+
+  @override
+  String get reportTagBadThumbnail => 'Miniatura incorrecta';
+
+  @override
+  String get reportTagWrongFractal => 'Fractal incorrecto';
+
+  @override
+  String get reportTagMissingShader => 'Falta el sombreador';
+
+  @override
+  String get reportTagOther => 'Otro';
 }

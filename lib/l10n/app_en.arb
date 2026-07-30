@@ -699,5 +699,26 @@
     "placeholders": {
       "error": {}
     }
-  }
+  },
+  "reportDialogTitle": "Report rendering issue",
+  "reportDialogSymptoms": "Pick every symptom you see",
+  "reportDialogSymptomsHint": "This saves the current view, params, and tags.",
+  "reportDialogNotes": "Notes",
+  "reportDialogNotesHint": "Optional details for the fix pass",
+  "reportDialogSave": "Save report",
+  "reportDialogCopyJsonTitle": "Copy report JSON",
+  "reportDialogCopiedJson": "Report JSON copied",
+  "reportTagLowPerformance": "Low performance",
+  "reportTagWeakDeepZoom": "Weak deep zoom",
+  "reportTagLowDetail": "Low detail",
+  "reportTagNoImage": "No image",
+  "reportTagBadInitialView": "Bad initial view",
+  "reportTagBadDefaultParams": "Bad default params",
+  "reportTagNeedsMoreControlParams": "Needs more Control Params",
+  "reportTagRandomizeBreaks": "Randomize breaks",
+  "reportTagRemoveCandidate": "Remove candidate",
+  "reportTagBadThumbnail": "Bad thumbnail",
+  "reportTagWrongFractal": "Wrong fractal",
+  "reportTagMissingShader": "Missing shader",
+  "reportTagOther": "Other"
 }

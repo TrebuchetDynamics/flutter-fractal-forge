@@ -1507,4 +1507,68 @@ class AppLocalizationsEn extends AppLocalizations {
   String fractalReportFailed(Object error) {
     return 'Report failed: $error';
   }
+
+  @override
+  String get reportDialogTitle => 'Report rendering issue';
+
+  @override
+  String get reportDialogSymptoms => 'Pick every symptom you see';
+
+  @override
+  String get reportDialogSymptomsHint =>
+      'This saves the current view, params, and tags.';
+
+  @override
+  String get reportDialogNotes => 'Notes';
+
+  @override
+  String get reportDialogNotesHint => 'Optional details for the fix pass';
+
+  @override
+  String get reportDialogSave => 'Save report';
+
+  @override
+  String get reportDialogCopyJsonTitle => 'Copy report JSON';
+
+  @override
+  String get reportDialogCopiedJson => 'Report JSON copied';
+
+  @override
+  String get reportTagLowPerformance => 'Low performance';
+
+  @override
+  String get reportTagWeakDeepZoom => 'Weak deep zoom';
+
+  @override
+  String get reportTagLowDetail => 'Low detail';
+
+  @override
+  String get reportTagNoImage => 'No image';
+
+  @override
+  String get reportTagBadInitialView => 'Bad initial view';
+
+  @override
+  String get reportTagBadDefaultParams => 'Bad default params';
+
+  @override
+  String get reportTagNeedsMoreControlParams => 'Needs more Control Params';
+
+  @override
+  String get reportTagRandomizeBreaks => 'Randomize breaks';
+
+  @override
+  String get reportTagRemoveCandidate => 'Remove candidate';
+
+  @override
+  String get reportTagBadThumbnail => 'Bad thumbnail';
+
+  @override
+  String get reportTagWrongFractal => 'Wrong fractal';
+
+  @override
+  String get reportTagMissingShader => 'Missing shader';
+
+  @override
+  String get reportTagOther => 'Other';
 }
