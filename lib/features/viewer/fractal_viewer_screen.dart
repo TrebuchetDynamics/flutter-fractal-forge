@@ -61,6 +61,7 @@ import 'package:flutter_fractals/features/viewer/export/viewer_export_session.da
 import 'package:flutter_fractals/features/viewer/overlays/auto_pilot_alignment_overlay.dart';
 import 'package:flutter_fractals/features/viewer/diagnostics/gpu_health_probe.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
+import 'package:flutter_fractals/shared/widgets/app_feedback_snack_bar.dart';
 
 part 'diagnostics/viewer_gpu_health.dart';
 part 'diagnostics/viewer_debug_report.dart';
@@ -783,9 +784,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     } catch (error) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Report failed: $error'),
-          backgroundColor: AppColors.error,
+        appFeedbackSnackBar(
+          message: 'Report failed: $error',
+          success: false,
         ),
       );
     } finally {

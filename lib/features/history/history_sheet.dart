@@ -8,6 +8,7 @@ import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_fractals/shared/widgets/app_feedback_snack_bar.dart';
 
 /// A modal bottom sheet displaying exploration history and favorites.
 ///
@@ -473,9 +474,7 @@ class _HistorySheetState extends State<HistorySheet>
             child: Text(l10n.buttonCancel),
           ),
           FilledButton(
-            style: FilledButton.styleFrom(
-              backgroundColor: AppColors.error,
-            ),
+            style: destructiveFilledButtonStyle(),
             onPressed: () {
               history.removeFavorite(entry.id);
               Navigator.pop(dialogContext);

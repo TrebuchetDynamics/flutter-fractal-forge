@@ -166,9 +166,9 @@ mixin _DebugReportMixin on State<FractalViewerScreen>, _GpuHealthMixin {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(l10n.exportFailed(e.toString())),
-          backgroundColor: AppColors.error,
+        appFeedbackSnackBar(
+          message: l10n.exportFailed(e.toString()),
+          success: false,
         ),
       );
     }

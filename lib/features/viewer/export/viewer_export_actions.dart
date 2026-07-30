@@ -161,9 +161,9 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     } catch (error) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(l10n.videoExportFailed(error.toString())),
-            backgroundColor: AppColors.error,
+          appFeedbackSnackBar(
+            message: l10n.videoExportFailed(error.toString()),
+            success: false,
           ),
         );
       }
@@ -360,9 +360,9 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(l10n.exportFailed(e.toString())),
-            backgroundColor: AppColors.error,
+          appFeedbackSnackBar(
+            message: l10n.exportFailed(e.toString()),
+            success: false,
           ),
         );
       }
@@ -452,30 +452,6 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     await _applyWallpaper(context, options);
   }
 
-  /// Feedback for the wallpaper flow.
-  ///
-  /// The foreground is set explicitly: the theme's snackbar content colour is
-  /// textPrimary, which is 2.55:1 on AppColors.success and 3.2:1 on
-  /// AppColors.error — both under the 4.5:1 floor. AppColors.background reads
-  /// 7.09:1 and 5.66:1 against the same two.
-  void _showWallpaperSnackBar(
-    BuildContext context, {
-    required String message,
-    required bool success,
-  }) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          style: AppTypography.bodyMedium
-              .copyWith(color: AppColors.background),
-        ),
-        backgroundColor: success ? AppColors.success : AppColors.error,
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
   Future<void> _applyWallpaper(
     BuildContext context,
     WallpaperOptions options,
@@ -536,19 +512,21 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
           : l10n.wallpaperApplied;
       final successMessage =
           copyFailed ? l10n.wallpaperAppliedCopyFailed : applied;
-      _showWallpaperSnackBar(
-        context,
-        message: ok ? successMessage : l10n.wallpaperFailed,
-        success: ok,
+      ScaffoldMessenger.of(context).showSnackBar(
+        appFeedbackSnackBar(
+          message: ok ? successMessage : l10n.wallpaperFailed,
+          success: ok,
+        ),
       );
     } catch (e) {
       _log.warn('wallpaper', 'Set wallpaper failed',
           data: {'error': e.toString()});
       if (!mounted) return;
-      _showWallpaperSnackBar(
-        context,
-        message: l10n.wallpaperFailedWithError(e.toString()),
-        success: false,
+      ScaffoldMessenger.of(context).showSnackBar(
+        appFeedbackSnackBar(
+          message: l10n.wallpaperFailedWithError(e.toString()),
+          success: false,
+        ),
       );
     } finally {
       if (mounted) {

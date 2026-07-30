@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -90,6 +91,73 @@ void main() {
       final ratio = contrastRatio(AppColors.textMuted, AppColors.surfaceVariant);
       expect(ratio, greaterThanOrEqualTo(3.0));
       expect(ratio, lessThan(aa));
+    });
+  });
+
+  // The status colours are light enough that the theme's snack bar text is
+  // unreadable on them, and textContrastGuideline never reaches a floating
+  // snack bar to say so. These lock both halves: the colours themselves, and
+  // the rule that call sites go through the helper that pairs them correctly.
+  group('status-colour feedback', () {
+    const aa = 4.5;
+
+    test('the theme text colour fails on both status backgrounds', () {
+      // Documents why appFeedbackSnackBar overrides the foreground at all.
+      // If these start passing, the helper's override can go.
+      expect(contrastRatio(AppColors.textPrimary, AppColors.success),
+          lessThan(aa));
+      expect(
+          contrastRatio(AppColors.textPrimary, AppColors.error), lessThan(aa));
+    });
+
+    test('the helper foreground clears AA on both', () {
+      expect(contrastRatio(AppColors.background, AppColors.success),
+          greaterThanOrEqualTo(aa));
+      expect(contrastRatio(AppColors.background, AppColors.error),
+          greaterThanOrEqualTo(aa));
+    });
+
+    test('white on error fails, which is the FilledButton default', () {
+      // destructiveFilledButtonStyle exists for this: a bare
+      // FilledButton.styleFrom(backgroundColor: error) keeps white.
+      expect(contrastRatio(Colors.white, AppColors.error), lessThan(aa));
+    });
+
+    test('snack bars that keep the theme background are already fine', () {
+      expect(contrastRatio(AppColors.textPrimary, AppColors.surfaceElevated),
+          greaterThanOrEqualTo(aa));
+    });
+  });
+
+  // A source scan, because the defect is a pairing: a status background with
+  // the theme's foreground. Nothing in a widget test catches it — the six
+  // snack bars and two destructive buttons this replaced all rendered fine and
+  // read at 2.55:1 to 3.49:1.
+  group('status colours are only paired inside the helper', () {
+    final helper = File(
+        'lib/shared/widgets/app_feedback_snack_bar.dart');
+
+    test('no call site sets a status colour as a background itself', () {
+      final offenders = <String>[];
+      for (final entity in Directory('lib').listSync(recursive: true)) {
+        if (entity is! File || !entity.path.endsWith('.dart')) continue;
+        if (entity.path == helper.path) continue;
+        final lines = entity.readAsLinesSync();
+        for (var i = 0; i < lines.length; i++) {
+          final line = lines[i];
+          if (line.contains('backgroundColor:') &&
+              (line.contains('AppColors.error') ||
+                  line.contains('AppColors.success'))) {
+            offenders.add('${entity.path}:${i + 1}');
+          }
+        }
+      }
+      expect(
+        offenders,
+        isEmpty,
+        reason: 'use appFeedbackSnackBar or destructiveFilledButtonStyle so '
+            'the foreground is paired with the background: $offenders',
+      );
     });
   });
 }

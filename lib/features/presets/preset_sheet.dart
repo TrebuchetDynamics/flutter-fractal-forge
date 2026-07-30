@@ -7,6 +7,7 @@ import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
+import 'package:flutter_fractals/shared/widgets/app_feedback_snack_bar.dart';
 
 class PresetSheet extends StatefulWidget {
   /// Optional callback when batch export is requested.
@@ -403,7 +404,7 @@ class _PresetSheetState extends State<PresetSheet> {
           ),
           FilledButton(
             onPressed: () => Navigator.of(ctx).pop(true),
-            style: FilledButton.styleFrom(backgroundColor: AppColors.error),
+            style: destructiveFilledButtonStyle(),
             child: Text(l10n.buttonDelete),
           ),
         ],

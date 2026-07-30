@@ -7,6 +7,7 @@ import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/core/services/platform/haptic_service.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/shared/widgets/app_feedback_snack_bar.dart';
 
 class ExportOverlay extends StatelessWidget {
   final double? progress;
@@ -124,10 +125,9 @@ class ShareSheet extends StatelessWidget {
       navigator.pop();
     } catch (error) {
       messenger.showSnackBar(
-        SnackBar(
-          content: Text(l10n.exportFailed(error.toString())),
-          backgroundColor: AppColors.error,
-          behavior: SnackBarBehavior.floating,
+        appFeedbackSnackBar(
+          message: l10n.exportFailed(error.toString()),
+          success: false,
         ),
       );
     }

@@ -11,6 +11,7 @@ import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/features/settings/settings_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/shared/widgets/app_feedback_snack_bar.dart';
 
 const int kSafeMode = int.fromEnvironment('SAFE_MODE', defaultValue: 0);
 
@@ -118,10 +119,10 @@ class _HomeScreenState extends State<HomeScreen>
     } catch (e) {
       // Module not found, show error
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-              AppLocalizations.of(context)!.homeUnknownFractalType(data.type)),
-          backgroundColor: AppColors.error,
+        appFeedbackSnackBar(
+          message:
+              AppLocalizations.of(context)!.homeUnknownFractalType(data.type),
+          success: false,
         ),
       );
     }
