@@ -38,7 +38,38 @@ void main() {
       findsOneWidget,
     );
     expect(
-        find.text('Preview crops for phone wallpaper sizes.'), findsOneWidget);
+        find.text('Set this view as your home or lock screen wallpaper.'),
+        findsOneWidget);
+  });
+
+  // The wallpaper tile used to be described as "Preview crops for phone
+  // wallpaper sizes." There is no preview anywhere in the flow: the tile opens
+  // WallpaperOptionsSheet and applying from there hands the capture straight to
+  // the platform. The old copy was asserted by this very file, which is part of
+  // why it survived.
+  testWidgets('the wallpaper tile does not promise a preview', (tester) async {
+    await _pumpHarness(tester);
+
+    await tester.longPress(find.byKey(const ValueKey('viewerExportButton')));
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('Preview'), findsNothing);
+  });
+
+  testWidgets('the wallpaper tile localizes and promises no preview in Spanish',
+      (tester) async {
+    await _pumpHarness(tester, locale: const Locale('es'));
+
+    await tester.longPress(find.byKey(const ValueKey('viewerExportButton')));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text(
+          'Establece esta vista como fondo de la pantalla de inicio o de bloqueo.'),
+      findsOneWidget,
+    );
+    expect(find.textContaining('Previsualiza'), findsNothing);
+    expect(find.textContaining('Preview'), findsNothing);
   });
 
   testWidgets('desktop export sheet omits unsupported wallpaper actions',
@@ -53,7 +84,9 @@ void main() {
     expect(find.text('Export'), findsNWidgets(2));
     expect(find.text('Save or share the current render.'), findsOneWidget);
     expect(find.text('Wallpaper'), findsNothing);
-    expect(find.text('Preview crops for phone wallpaper sizes.'), findsNothing);
+    expect(
+        find.text('Set this view as your home or lock screen wallpaper.'),
+        findsNothing);
     debugDefaultTargetPlatformOverride = null;
   });
 

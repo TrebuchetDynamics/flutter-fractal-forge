@@ -633,7 +633,7 @@
   "exportOptionsExportDescription": "Choose resolution and transparent-background options.",
   "exportOptionsLinkDescription": "Copy a replayable link to this exact view.",
   "exportOptionsImageDescription": "Render an image and send it to installed apps.",
-  "exportOptionsWallpaperDescription": "Preview crops for phone wallpaper sizes.",
+  "exportOptionsWallpaperDescription": "Set this view as your home or lock screen wallpaper.",
   "kaleidoscopeOptionsTitle": "Kaleidoscope sections",
   "kaleidoscopeOptionsSubtitle": "Pick a symmetry count and mirror behavior for this view.",
   "kaleidoscopeWedgeCount": "Wedge count",

@@ -634,7 +634,7 @@
   "exportOptionsExportDescription": "Elige la resolución y las opciones de fondo transparente.",
   "exportOptionsLinkDescription": "Copia un enlace que reproduce esta vista exacta.",
   "exportOptionsImageDescription": "Genera una imagen y envíala a las apps instaladas.",
-  "exportOptionsWallpaperDescription": "Previsualiza recortes para tamaños de fondo de pantalla.",
+  "exportOptionsWallpaperDescription": "Establece esta vista como fondo de la pantalla de inicio o de bloqueo.",
   "kaleidoscopeOptionsTitle": "Secciones del kaleidoscopio",
   "kaleidoscopeOptionsSubtitle": "Elige el número de simetrías y el comportamiento del espejo para esta vista.",
   "kaleidoscopeWedgeCount": "Número de sectores",

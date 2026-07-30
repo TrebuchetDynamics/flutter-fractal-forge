@@ -2627,7 +2627,7 @@ abstract class AppLocalizations {
   /// No description provided for @exportOptionsWallpaperDescription.
   ///
   /// In en, this message translates to:
-  /// **'Preview crops for phone wallpaper sizes.'**
+  /// **'Set this view as your home or lock screen wallpaper.'**
   String get exportOptionsWallpaperDescription;
 
   /// No description provided for @kaleidoscopeOptionsTitle.

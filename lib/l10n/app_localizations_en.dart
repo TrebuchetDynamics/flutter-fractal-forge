@@ -1376,7 +1376,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exportOptionsWallpaperDescription =>
-      'Preview crops for phone wallpaper sizes.';
+      'Set this view as your home or lock screen wallpaper.';
 
   @override
   String get kaleidoscopeOptionsTitle => 'Kaleidoscope sections';

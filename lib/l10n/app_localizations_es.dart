@@ -1390,7 +1390,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get exportOptionsWallpaperDescription =>
-      'Previsualiza recortes para tamaños de fondo de pantalla.';
+      'Establece esta vista como fondo de la pantalla de inicio o de bloqueo.';
 
   @override
   String get kaleidoscopeOptionsTitle => 'Secciones del kaleidoscopio';
