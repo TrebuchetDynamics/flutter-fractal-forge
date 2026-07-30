@@ -5,21 +5,54 @@ All notable changes to Flutter Fractal Forge are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.82] - 2026-07-30
+
+### Added
+
+- Expanded and re-audited the ray-marched 3D catalog with distinct,
+  source-backed identities including Juliabulb, Cantor Dust 3D, Quaternion
+  Mandelbrot, Tetrabrot, Arrowheadbrot, Mousebrot, Turtlebrot, and
+  Hourglassbrot.
+- Added formula-specific CPU oracles and strict GPU image-health evidence for
+  the new 3D identities.
+
+### Changed
+
+- Removed parameter-only 3D catalog clones while preserving useful powers,
+  scales, and constants as controls or presets on canonical modules.
+- Removed the obsolete onboarding flow so the app opens directly into the
+  product.
+- Completed another accessibility and localization pass across viewer reports,
+  Formula Lab, settings, presets, history, controls, and status surfaces.
+
+### Fixed
+
+- Kept export controls, sheets, dialogs, and viewer HUD controls usable on
+  compact screens, landscape layouts, and large accessibility text.
+- Aligned palette previews with rendered relief colors and randomized the
+  palette when choosing a random fractal.
+- Stopped valid fractals with black centers from triggering GPU fallback.
+- Improved wallpaper error reporting, batch export results, looper controls,
+  Shader Lab previews, and deterministic screenshot targeting.
+
 ## [1.1.81] - 2026-07-29
 
 ### Added
+
 - **Riemann Zeta Newton Basins**, a new fractal: Newton's method applied to the
   Riemann zeta function, so the basins are the zeta zeros themselves. It opens
   framed on the critical line where the first nontrivial zeros sit. The catalog
   is now 978 fractals.
 
 ### Fixed
+
 - The Arnold cat map drew as flat noise. It now shows the diagonal shearing the
   map is known for.
 
 ## [1.1.80] - 2026-07-28
 
 ### Fixed
+
 - Many strange attractors — Lorenz, Halvorsen, Rössler, Chen, Aizawa, the
   Sprott family and others — rendered as flat colour washes with no visible
   shape. Three separate causes: the viewport sampled too small a slice of each
@@ -37,6 +70,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.79] - 2026-07-26
 
 ### Fixed
+
 - The catalog's filter bar clipped its own contents at the largest
   accessibility text size, cutting off the bottom of the category chips. The
   bar now grows with the text instead of staying a fixed height.
@@ -45,12 +79,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   middle of the sound. The chords now stay closer to the bass and bridge it.
 
 ### Added
+
 - The privacy policy is published with the site at
   https://fractal.trebuchetdynamics.com/privacy-policy
 
 ## [1.1.78] - 2026-07-26
 
 ### Fixed
+
 - Fractal Music added a rhythmic flourish at the end of every bar whenever the
   view moved at all, however slightly, so the music was busier than intended
   while exploring and the quieter phrasing rarely came through. The flourish
@@ -61,6 +97,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.77] - 2026-07-26
 
 ### Fixed
+
 - Fractal Music made too many fractals sound alike. The thresholds deciding
   tempo, major or minor, octave, and which chord progression to use were set
   against a sample that turned out not to be representative, so most fractals
@@ -72,6 +109,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.76] - 2026-07-25
 
 ### Changed
+
 - Fractal Music now composes from an explicit score instead of generating audio
   a sample at a time. Notes have their own start, length, and voice, so they
   overlap and ring on rather than being cut off at each beat.
@@ -91,6 +129,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   a still view keeps the rest, leaving the cadence audible.
 
 ### Fixed
+
 - The whole arrangement briefly faded to silence at every beat, because one
   envelope was applied to the entire mix.
 - Dark regions of a fractal dropped out completely. A Mandelbrot is mostly
@@ -111,6 +150,7 @@ increments rather than distinct releases, so they are summarised here by theme
 instead of reconstructed one by one.
 
 ### Added
+
 - Fractal Music: first version of the feature, turning the fractal on screen
   into sound, with a visible scanner and colour-driven harmony.
 - Fluid warp mode, with runtime controls and feedback.
@@ -120,6 +160,7 @@ instead of reconstructed one by one.
 - Render audit metrics for checking catalog-wide rendering health.
 
 ### Fixed
+
 - Blank renders and inaccurate catalog entries found by the render audit.
 - Wallpaper and high-resolution export falling back incorrectly.
 - Export and wallpaper flows, and modal and viewer control state, all
@@ -133,14 +174,17 @@ instead of reconstructed one by one.
 ## [1.1.0+24] - 2026-02-25
 
 ### Added
+
 - Improved fractal catalog with comprehensive 196+ entry collection
 - Enhanced visual assets for better user experience
 
 ### Changed
+
 - Updated store listing descriptions with accurate fractal counts
 - Improved onboarding flow with reduced page count and better landscape layout
 
 ### Fixed
+
 - Fixed project memory access counts and last accessed timestamps
 - Corrected fractal count from 350+ to 196+ across all documentation
 - Resolved lint analyzer hints in fractal viewer screen
@@ -148,6 +192,7 @@ instead of reconstructed one by one.
 ## [1.0.0+23] - 2026-02-15
 
 ### Added
+
 - GPU-accelerated fractal rendering with 196+ fractal types
 - Deep zoom with multi-precision rendering (float32 GPU, double-float GPU emulation, CPU fallback)
 - 60+ colour schemes with sRGB-correct rendering
@@ -160,6 +205,7 @@ instead of reconstructed one by one.
 - Privacy-first design with no ads, tracking, or data collection
 
 ### Architecture
+
 - Modular fractal system with 196+ GPU-rendered fragment shaders
 - Three-tier precision engine for extreme zoom capabilities
 - Real-time shader rendering up to 60 FPS
@@ -170,6 +216,7 @@ instead of reconstructed one by one.
 ## [Unreleased]
 
 ### Planned
+
 - Smooth coloring across the remaining escape-time shaders (done in the
   perturbation shader)
 - Improved auto-pilot navigation with manual correction acceptance
