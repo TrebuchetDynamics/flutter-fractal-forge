@@ -2108,6 +2108,12 @@ abstract class AppLocalizations {
   /// **'Report'**
   String get cpuFallbackReport;
 
+  /// No description provided for @cpuFallbackBannerMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'CPU fallback enabled (GPU output appeared black).'**
+  String get cpuFallbackBannerMessage;
+
   /// No description provided for @shaderErrorTryAgain.
   ///
   /// In en, this message translates to:

@@ -148,9 +148,13 @@ class CpuFallbackBanner extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
-            'CPU fallback enabled (GPU output appeared black).',
-            style: TextStyle(color: Colors.amber, fontSize: 12),
+          // Bounded: unclamped this ran to 16 lines and 594px at a 3x text
+          // scale, pushing both buttons below the banner's own overlay slot.
+          Text(
+            AppLocalizations.of(context)!.cpuFallbackBannerMessage,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: Colors.amber, fontSize: 12),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),

@@ -85,10 +85,21 @@ class FractalViewerScreen extends StatefulWidget {
   /// this seam to avoid retrofitting instrument controls onto classic modules.
   final CatalogFamily catalogFamily;
 
+  /// Export/share backend, overridable so tests can drive the flows that depend
+  /// on it.
+  ///
+  /// Saving, sharing, wallpaper and the GPU debug report all run through this,
+  /// and each begins with a directory picker and real file writes. With the
+  /// service constructed inline none of those surfaces could be rendered in a
+  /// test, so the debug report sheet in particular was audited by reading it
+  /// rather than by measuring it. Defaults to the real service.
+  final ExportService? exportService;
+
   const FractalViewerScreen({
     Key? key,
     this.captureMode = false,
     this.catalogFamily = CatalogFamily.core,
+    this.exportService,
   }) : super(key: key);
 
   @override
@@ -107,7 +118,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   final GlobalKey _fractalKeyA = GlobalKey();
   final GlobalKey _fractalKeyB = GlobalKey();
   @override
-  final ExportService _exportService = const ExportService();
+  ExportService get _exportService =>
+      widget.exportService ?? const ExportService();
   final ViewerEffectsController _viewerEffects = ViewerEffectsController();
 
   // Compare mode state
@@ -804,6 +816,19 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       return;
     }
 
+    final current = controller.params['colorScheme'];
+    final selectedIndex =
+        options.indexWhere((option) => option.value == current);
+    const columnCount = 4;
+    final gridWidth = MediaQuery.sizeOf(context).width -
+        AppSpacing.md * 2 -
+        AppSpacing.sm * (columnCount - 1);
+    final tileWidth = math.max(1.0, gridWidth / columnCount);
+    final selectedRow = math.max(0, selectedIndex ~/ columnCount - 1);
+    final paletteScrollController = ScrollController(
+      initialScrollOffset: selectedRow * (tileWidth / 0.86 + AppSpacing.sm),
+    );
+
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -822,6 +847,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
               ),
               Flexible(
                 child: GridView.builder(
+                  controller: paletteScrollController,
                   padding: const EdgeInsets.fromLTRB(
                     AppSpacing.md,
                     AppSpacing.sm,
@@ -854,7 +880,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
           );
         },
       ),
-    );
+    ).whenComplete(paletteScrollController.dispose);
   }
 
   KeyEventResult _onKeyEvent(BuildContext context, KeyEvent event) =>
@@ -1053,20 +1079,31 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                     Positioned(
                       top: overlayTop,
                       right: 12,
+                      // Height-bounded and scrollable because the banner is a
+                      // Positioned child: nothing clips or reports it, so at a
+                      // 2x text scale in landscape its buttons sat 91px below
+                      // the viewport and at 3x up to 343px below — silently
+                      // untappable, taking "Try GPU" and "Report" with them.
                       child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 240),
-                        child: CpuFallbackBanner(
-                          onTryGpu: () {
-                            // Switch back to Auto so policy can try GPU again.
-                            context
-                                .read<RendererSettingsService>()
-                                .setBackendMode(RendererBackendMode.auto);
-                            setState(() {
-                              _gpuProbe.resetHealth();
-                              _refreshBackendDecision();
-                            });
-                          },
-                          onReport: () => _shareGpuDebugReport(context),
+                        constraints: BoxConstraints(
+                          maxWidth: 240,
+                          maxHeight:
+                              math.max(0, constraints.maxHeight - overlayTop - 12),
+                        ),
+                        child: SingleChildScrollView(
+                          child: CpuFallbackBanner(
+                            onTryGpu: () {
+                              // Switch back to Auto so policy can try GPU again.
+                              context
+                                  .read<RendererSettingsService>()
+                                  .setBackendMode(RendererBackendMode.auto);
+                              setState(() {
+                                _gpuProbe.resetHealth();
+                                _refreshBackendDecision();
+                              });
+                            },
+                            onReport: () => _shareGpuDebugReport(context),
+                          ),
                         ),
                       ),
                     ),
@@ -1231,6 +1268,7 @@ class _PaletteChoiceTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     // Which palette is active is otherwise conveyed only by the check icon and
     // the border colour, so a screen reader hears nine identical buttons.
     return MergeSemantics(
@@ -1246,12 +1284,14 @@ class _PaletteChoiceTile extends StatelessWidget {
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
                 color: selected
-                    ? AppColors.primary.withValues(alpha: 0.18)
-                    : AppColors.surfaceVariant.withValues(alpha: 0.62),
+                    ? colorScheme.primary.withValues(alpha: 0.18)
+                    : colorScheme.surfaceContainerHighest
+                        .withValues(alpha: 0.62),
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
-                  color:
-                      selected ? AppColors.primaryLight : AppColors.glassBorder,
+                  color: selected
+                      ? colorScheme.primary
+                      : colorScheme.outlineVariant,
                   width: selected ? 1.4 : 1,
                 ),
               ),
@@ -1276,7 +1316,7 @@ class _PaletteChoiceTile extends StatelessWidget {
                             child: Icon(
                               Icons.check_circle_rounded,
                               size: 17,
-                              color: AppColors.primaryLight,
+                              color: colorScheme.primary,
                             ),
                           ),
                       ],
@@ -1290,8 +1330,8 @@ class _PaletteChoiceTile extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: AppTypography.labelSmall.copyWith(
                       color: selected
-                          ? AppColors.textPrimary
-                          : AppColors.textSecondary,
+                          ? colorScheme.onSurface
+                          : colorScheme.onSurfaceVariant,
                       fontSize: 10,
                       height: 1.05,
                       fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
@@ -1309,16 +1349,15 @@ class _PaletteChoiceTile extends StatelessWidget {
   LinearGradient _paletteGradient(Object value) {
     if (value is num) {
       try {
-        final stops = PaletteService.instance
-            .paletteAtIndex(value.round())
-            .stops
-            .map((stop) => Color(stop.colorArgb))
-            .toList();
-        if (stops.length >= 2) {
+        final palette = PaletteService.instance.paletteAtIndex(value.round());
+        final colors =
+            palette.stops.map((stop) => Color(stop.colorArgb)).toList();
+        if (colors.length >= 2) {
           return LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: stops,
+            colors: colors,
+            stops: palette.stops.map((stop) => stop.position).toList(),
           );
         }
       } catch (_) {

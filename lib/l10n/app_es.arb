@@ -473,6 +473,7 @@
 
   "cpuFallbackTryGpu": "Probar GPU",
   "cpuFallbackReport": "Reportar",
+  "cpuFallbackBannerMessage": "Respaldo de CPU activado (la salida de GPU se veía negra).",
 
   "shaderErrorTryAgain": "Intentar de nuevo",
   "shaderErrorGoBack": "Volver",

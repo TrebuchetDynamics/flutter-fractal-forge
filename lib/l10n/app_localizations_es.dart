@@ -1094,6 +1094,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get cpuFallbackReport => 'Reportar';
 
   @override
+  String get cpuFallbackBannerMessage =>
+      'Respaldo de CPU activado (la salida de GPU se veía negra).';
+
+  @override
   String get shaderErrorTryAgain => 'Intentar de nuevo';
 
   @override

@@ -1080,6 +1080,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cpuFallbackReport => 'Report';
 
   @override
+  String get cpuFallbackBannerMessage =>
+      'CPU fallback enabled (GPU output appeared black).';
+
+  @override
   String get shaderErrorTryAgain => 'Try Again';
 
   @override

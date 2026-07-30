@@ -472,6 +472,7 @@
 
   "cpuFallbackTryGpu": "Try GPU",
   "cpuFallbackReport": "Report",
+  "cpuFallbackBannerMessage": "CPU fallback enabled (GPU output appeared black).",
 
   "shaderErrorTryAgain": "Try Again",
   "shaderErrorGoBack": "Go Back",
