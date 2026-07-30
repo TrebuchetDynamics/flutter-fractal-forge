@@ -83,17 +83,6 @@ void main() {
     await disposeAccessibilityTestWidget(tester);
   });
 
-  testWidgets('onboarding', (tester) async {
-    final harness = MainAppA11yHarness();
-    await harness.setUp(forceOnboarding: true);
-    final handle = tester.ensureSemantics();
-    await tester.pumpWidget(harness.buildApp());
-    await settleChrome(tester);
-    expectCleanSemantics(tester, 'onboarding');
-    handle.dispose();
-    await disposeAccessibilityTestWidget(tester);
-  });
-
   testWidgets('viewer', (tester) async {
     TestWidgetsFlutterBinding.ensureInitialized();
     SharedPreferences.setMockInitialValues({});

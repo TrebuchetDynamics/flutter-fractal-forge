@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
-import 'package:flutter_fractals/core/services/storage/onboarding_service.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import 'package:flutter_fractals/main.dart';
@@ -13,18 +12,14 @@ class MainAppA11yHarness {
   late final PresetStore presetStore;
   late final AccessibilityService accessibilityService;
   late final RendererSettingsService rendererSettingsService;
-  OnboardingService? onboardingService;
 
-  Future<void> setUp({bool forceOnboarding = false}) async {
+  Future<void> setUp() async {
     TestWidgetsFlutterBinding.ensureInitialized();
     SharedPreferences.setMockInitialValues({});
     installDenyAllPermissionsHandler();
     presetStore = await PresetStore.create();
     accessibilityService = await AccessibilityService.create();
     rendererSettingsService = await RendererSettingsService.create();
-    if (forceOnboarding) {
-      onboardingService = await OnboardingService.create();
-    }
   }
 
   Widget buildApp() {
@@ -32,7 +27,6 @@ class MainAppA11yHarness {
       presetStore: presetStore,
       accessibilityService: accessibilityService,
       rendererSettingsService: rendererSettingsService,
-      onboardingService: onboardingService,
       locale: const Locale('en'),
     );
   }

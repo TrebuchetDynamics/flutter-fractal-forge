@@ -5,7 +5,6 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/platform/deep_link_service.dart';
 import 'package:flutter_fractals/core/services/storage/history_store.dart';
-import 'package:flutter_fractals/core/services/storage/onboarding_service.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
@@ -48,9 +47,6 @@ class FlutterFractalsApp extends StatelessWidget {
   /// Service for renderer backend preferences.
   final RendererSettingsService rendererSettingsService;
 
-  /// Service for onboarding state management.
-  final OnboardingService? onboardingService;
-
   /// Service for handling deep links.
   final DeepLinkService? deepLinkService;
 
@@ -70,7 +66,6 @@ class FlutterFractalsApp extends StatelessWidget {
     this.historyStore,
     required this.accessibilityService,
     required this.rendererSettingsService,
-    this.onboardingService,
     this.deepLinkService,
     this.locale,
     this.skipSplash = false,
@@ -83,7 +78,6 @@ class FlutterFractalsApp extends StatelessWidget {
       historyStore: historyStore,
       accessibilityService: accessibilityService,
       rendererSettingsService: rendererSettingsService,
-      onboardingService: onboardingService,
       deepLinkService: deepLinkService,
       locale: locale,
       skipSplash: skipSplash,
@@ -97,7 +91,6 @@ class _AppProviders extends StatelessWidget {
   final HistoryStore? historyStore;
   final AccessibilityService accessibilityService;
   final RendererSettingsService rendererSettingsService;
-  final OnboardingService? onboardingService;
   final DeepLinkService? deepLinkService;
   final Locale? locale;
   final bool skipSplash;
@@ -107,7 +100,6 @@ class _AppProviders extends StatelessWidget {
     required this.historyStore,
     required this.accessibilityService,
     required this.rendererSettingsService,
-    required this.onboardingService,
     required this.deepLinkService,
     required this.locale,
     this.skipSplash = false,
@@ -131,15 +123,12 @@ class _AppProviders extends StatelessWidget {
         ChangeNotifierProvider<RendererSettingsService>.value(
           value: rendererSettingsService,
         ),
-        if (onboardingService != null)
-          Provider<OnboardingService>.value(value: onboardingService!),
         if (deepLinkService != null)
           Provider<DeepLinkService>.value(value: deepLinkService!),
       ],
       child: _AppShell(
         locale: locale,
-        onboardingService: onboardingService,
-        skipSplash: skipSplash,
+          skipSplash: skipSplash,
       ),
     );
   }
@@ -148,12 +137,10 @@ class _AppProviders extends StatelessWidget {
 /// Owns MaterialApp/theme/localization shell.
 class _AppShell extends StatelessWidget {
   final Locale? locale;
-  final OnboardingService? onboardingService;
   final bool skipSplash;
 
   const _AppShell({
     required this.locale,
-    required this.onboardingService,
     this.skipSplash = false,
   });
 
@@ -175,8 +162,7 @@ class _AppShell extends StatelessWidget {
           supportedLocales: AppLocalizations.supportedLocales,
           theme: theme,
           home: _AppBootstrap(
-            onboardingService: onboardingService,
-            skipSplash: skipSplash,
+                  skipSplash: skipSplash,
           ),
           debugShowCheckedModeBanner: false,
         );
@@ -187,11 +173,9 @@ class _AppShell extends StatelessWidget {
 
 /// Handles splash -> home startup flow.
 class _AppBootstrap extends StatefulWidget {
-  final OnboardingService? onboardingService;
   final bool skipSplash;
 
-  const _AppBootstrap(
-      {required this.onboardingService, this.skipSplash = false});
+  const _AppBootstrap({this.skipSplash = false});
 
   @override
   State<_AppBootstrap> createState() => _AppBootstrapState();
