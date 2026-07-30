@@ -707,15 +707,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get announceParamsRandomized => 'Parameters randomized';
 
   @override
-  String get onboardingSkip => 'Skip';
-
-  @override
-  String get onboardingNext => 'Next';
-
-  @override
-  String get onboardingGetStarted => 'Get Started';
-
-  @override
   String get semanticSplashScreen => 'Fractal Forge splash screen';
 
   @override
@@ -725,102 +716,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String semanticOnboardingProgress(Object step, Object total) {
     return 'Onboarding progress, step $step of $total';
   }
-
-  @override
-  String get semanticSkipOnboarding => 'Skip onboarding';
-
-  @override
-  String get onboardingWelcomeTitle => 'Welcome to Fractal Forge';
-
-  @override
-  String get onboardingWelcomeDescription =>
-      'Explore infinite mathematical beauty through 350+ interactive fractals with GPU-accelerated rendering — from Mandelbrot sets to strange attractors.';
-
-  @override
-  String get onboardingWelcomeHighlight1 =>
-      'Pan and pinch to navigate with deep zoom and infinite precision';
-
-  @override
-  String get onboardingWelcomeHighlight2 =>
-      'Discover structure in Mandelbrot, Julia, Newton and 350+ fractal types';
-
-  @override
-  String get onboardingWelcomeHighlight3 =>
-      'GPU-accelerated rendering for smooth, real-time exploration';
-
-  @override
-  String get onboardingCreateTitle => 'Create, Export & Share';
-
-  @override
-  String get onboardingCreateDescription =>
-      'Adjust parameters in real time and export stunning high-resolution images to share.';
-
-  @override
-  String get onboardingCreateHighlight1 =>
-      'Real-time parameter controls with 60+ colour schemes';
-
-  @override
-  String get onboardingCreateHighlight2 =>
-      'Export to PNG and share — perfect for art, presentations and study';
-
-  @override
-  String get onboardingFractalTypesTitle => 'Discover Fractal Types';
-
-  @override
-  String get onboardingFractalTypesDescription =>
-      'From classic 2D fractals to stunning 3D Mandelbulb, explore a variety of mathematical art.';
-
-  @override
-  String get onboardingGesturesTitle => 'Intuitive Controls';
-
-  @override
-  String get onboardingGesturesDescription =>
-      'Navigate fractals with simple, natural gestures.';
-
-  @override
-  String get onboardingGesturePan => 'Pan';
-
-  @override
-  String get onboardingGesturePanDesc => 'Drag with one finger to move around';
-
-  @override
-  String get onboardingGestureZoom => 'Zoom';
-
-  @override
-  String get onboardingGestureZoomDesc => 'Pinch to zoom in and out';
-
-  @override
-  String get onboardingGestureRotate => 'Rotate';
-
-  @override
-  String get onboardingGestureRotateDesc => 'Two-finger rotate for 3D fractals';
-
-  @override
-  String get onboardingGestureDoubleTap => 'Double Tap';
-
-  @override
-  String get onboardingGestureDoubleTapDesc => 'Quick reset to default view';
-
-  @override
-  String get onboardingFeaturesTitle => 'Powerful Features';
-
-  @override
-  String get onboardingFeaturesDescription =>
-      'Create, customize, and share your fractal creations.';
-
-  @override
-  String get onboardingFeaturePresets => 'Presets';
-
-  @override
-  String get onboardingFeaturePresetsDesc =>
-      'Save and load your favorite configurations';
-
-  @override
-  String get onboardingFeatureExport => 'Export';
-
-  @override
-  String get onboardingFeatureExportDesc =>
-      'Save high-quality images in multiple formats';
 
   @override
   String get tooltipExitFullscreen => 'Exit fullscreen view';

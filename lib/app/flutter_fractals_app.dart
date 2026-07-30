@@ -12,7 +12,7 @@ import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dar
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/features/home/home_screen.dart';
-import 'package:flutter_fractals/features/onboarding/onboarding_screen.dart'
+import 'package:flutter_fractals/features/onboarding/splash_screen.dart'
     show FractalSplashScreen;
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 

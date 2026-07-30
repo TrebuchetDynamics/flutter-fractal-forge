@@ -296,9 +296,6 @@
   "announceViewReset": "Vista restablecida a los valores predeterminados",
   "announceParamsRandomized": "Parámetros aleatorizados",
 
-  "onboardingSkip": "Omitir",
-  "onboardingNext": "Siguiente",
-  "onboardingGetStarted": "Comenzar",
 
   "semanticSplashScreen": "Pantalla de presentación de Fractal Forge",
   "splashTagline": "Explora patrones matemáticos infinitos",
@@ -309,39 +306,11 @@
       "total": {}
     }
   },
-  "semanticSkipOnboarding": "Omitir incorporación",
 
-  "onboardingWelcomeTitle": "Bienvenido a Fractal Forge",
-  "onboardingWelcomeDescription": "Explora belleza matemática infinita a través de más de 350 fractales interactivos con renderizado acelerado por GPU, desde conjuntos de Mandelbrot hasta atractores extraños.",
-  "onboardingWelcomeHighlight1": "Desplaza y pellizca para navegar con zoom profundo y precisión infinita",
-  "onboardingWelcomeHighlight2": "Descubre estructura en Mandelbrot, Julia, Newton y más de 350 tipos de fractales",
-  "onboardingWelcomeHighlight3": "Renderizado acelerado por GPU para una exploración suave en tiempo real",
 
-  "onboardingCreateTitle": "Crea, exporta y comparte",
-  "onboardingCreateDescription": "Ajusta parámetros en tiempo real y exporta impresionantes imágenes de alta resolución para compartir.",
-  "onboardingCreateHighlight1": "Controles de parámetros en tiempo real con más de 60 esquemas de color",
-  "onboardingCreateHighlight2": "Exporta a PNG y comparte, perfecto para arte, presentaciones y estudio",
 
-  "onboardingFractalTypesTitle": "Descubre Tipos de Fractales",
-  "onboardingFractalTypesDescription": "Desde fractales 2D clásicos hasta el impresionante Mandelbulb 3D, explora una variedad de arte matemático.",
 
-  "onboardingGesturesTitle": "Controles Intuitivos",
-  "onboardingGesturesDescription": "Navega por los fractales con gestos simples y naturales.",
-  "onboardingGesturePan": "Desplazar",
-  "onboardingGesturePanDesc": "Arrastra con un dedo para moverte",
-  "onboardingGestureZoom": "Acercar",
-  "onboardingGestureZoomDesc": "Pellizca para acercar y alejar",
-  "onboardingGestureRotate": "Rotar",
-  "onboardingGestureRotateDesc": "Rota con dos dedos para fractales 3D",
-  "onboardingGestureDoubleTap": "Doble Toque",
-  "onboardingGestureDoubleTapDesc": "Restablecimiento rápido a la vista predeterminada",
 
-  "onboardingFeaturesTitle": "Funciones Poderosas",
-  "onboardingFeaturesDescription": "Crea, personaliza y comparte tus creaciones fractales.",
-  "onboardingFeaturePresets": "Presets",
-  "onboardingFeaturePresetsDesc": "Guarda y carga tus configuraciones favoritas",
-  "onboardingFeatureExport": "Exportar",
-  "onboardingFeatureExportDesc": "Guarda imágenes de alta calidad en múltiples formatos",
 
   "tooltipExitFullscreen": "Salir de pantalla completa",
   "announceEnteredFullscreen": "Pantalla completa activada",

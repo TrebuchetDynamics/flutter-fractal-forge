@@ -295,9 +295,6 @@
   "announceViewReset": "View reset to default",
   "announceParamsRandomized": "Parameters randomized",
 
-  "onboardingSkip": "Skip",
-  "onboardingNext": "Next",
-  "onboardingGetStarted": "Get Started",
 
   "semanticSplashScreen": "Fractal Forge splash screen",
   "splashTagline": "Explore infinite mathematical patterns",
@@ -308,39 +305,11 @@
       "total": {}
     }
   },
-  "semanticSkipOnboarding": "Skip onboarding",
 
-  "onboardingWelcomeTitle": "Welcome to Fractal Forge",
-  "onboardingWelcomeDescription": "Explore infinite mathematical beauty through 350+ interactive fractals with GPU-accelerated rendering — from Mandelbrot sets to strange attractors.",
-  "onboardingWelcomeHighlight1": "Pan and pinch to navigate with deep zoom and infinite precision",
-  "onboardingWelcomeHighlight2": "Discover structure in Mandelbrot, Julia, Newton and 350+ fractal types",
-  "onboardingWelcomeHighlight3": "GPU-accelerated rendering for smooth, real-time exploration",
 
-  "onboardingCreateTitle": "Create, Export & Share",
-  "onboardingCreateDescription": "Adjust parameters in real time and export stunning high-resolution images to share.",
-  "onboardingCreateHighlight1": "Real-time parameter controls with 60+ colour schemes",
-  "onboardingCreateHighlight2": "Export to PNG and share — perfect for art, presentations and study",
 
-  "onboardingFractalTypesTitle": "Discover Fractal Types",
-  "onboardingFractalTypesDescription": "From classic 2D fractals to stunning 3D Mandelbulb, explore a variety of mathematical art.",
 
-  "onboardingGesturesTitle": "Intuitive Controls",
-  "onboardingGesturesDescription": "Navigate fractals with simple, natural gestures.",
-  "onboardingGesturePan": "Pan",
-  "onboardingGesturePanDesc": "Drag with one finger to move around",
-  "onboardingGestureZoom": "Zoom",
-  "onboardingGestureZoomDesc": "Pinch to zoom in and out",
-  "onboardingGestureRotate": "Rotate",
-  "onboardingGestureRotateDesc": "Two-finger rotate for 3D fractals",
-  "onboardingGestureDoubleTap": "Double Tap",
-  "onboardingGestureDoubleTapDesc": "Quick reset to default view",
 
-  "onboardingFeaturesTitle": "Powerful Features",
-  "onboardingFeaturesDescription": "Create, customize, and share your fractal creations.",
-  "onboardingFeaturePresets": "Presets",
-  "onboardingFeaturePresetsDesc": "Save and load your favorite configurations",
-  "onboardingFeatureExport": "Export",
-  "onboardingFeatureExportDesc": "Save high-quality images in multiple formats",
 
   "tooltipExitFullscreen": "Exit fullscreen view",
   "announceEnteredFullscreen": "Entered fullscreen view",
