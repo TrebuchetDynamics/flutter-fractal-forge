@@ -412,7 +412,11 @@ class _OnboardingPage extends StatelessWidget {
   }
 
   Widget _buildPortrait(BuildContext context) {
-    return Padding(
+    // Scrolls as one column rather than pinning a header above an Expanded
+    // list: the icon, title and description grow with the text scale until the
+    // list is squeezed to nothing, and this page then overflowed by 57px at
+    // 1.0x on a 320-wide screen and by 2352px at 3.0x.
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(AppSpacing.xl),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -424,14 +428,14 @@ class _OnboardingPage extends StatelessWidget {
           const SizedBox(height: AppSpacing.md),
           _buildDescription(),
           const SizedBox(height: AppSpacing.xl),
-          Expanded(child: _buildHighlightList()),
+          _buildHighlightList(),
         ],
       ),
     );
   }
 
   Widget _buildLandscape(BuildContext context) {
-    return Padding(
+    return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.xl,
         vertical: AppSpacing.md,
@@ -452,7 +456,7 @@ class _OnboardingPage extends StatelessWidget {
                 const SizedBox(height: AppSpacing.sm),
                 _buildDescription(),
                 const SizedBox(height: AppSpacing.md),
-                Expanded(child: _buildHighlightList()),
+                _buildHighlightList(),
               ],
             ),
           ),
@@ -502,6 +506,11 @@ class _OnboardingPage extends StatelessWidget {
 
   Widget _buildHighlightList() {
     return ListView.separated(
+      // Sized to its content and non-scrolling: the enclosing
+      // SingleChildScrollView owns the viewport now, so this must not try to
+      // scroll or claim unbounded height.
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: data.highlightItems.length,
       separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.md),
       itemBuilder: (context, index) {
