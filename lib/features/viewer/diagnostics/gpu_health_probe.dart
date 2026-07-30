@@ -238,8 +238,9 @@ class GpuHealthProbe {
     lastGpuHistogramSane = stats.histogramSane;
     lastGpuSampleCount = width * height;
 
-    final probeFailed =
-        _forceProbeFailure || !stats.centerNonBlack || !stats.histogramSane;
+    // Fractal interiors are often intentionally black at the center; frame-wide
+    // histogram health is the reliable signal for a failed GPU render.
+    final probeFailed = _forceProbeFailure || !stats.histogramSane;
     if (probeFailed) {
       _gpuHealthFailureStreak++;
     } else {

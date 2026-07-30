@@ -26,6 +26,13 @@ final Uint8List _blackFrame = _makeFrame(4, 4);
 // 4x4 colorful → centerNonBlack=true, histogramSane=true
 final Uint8List _healthyFrame = _makeFrame(4, 4, r: 128, g: 100, b: 150);
 
+Uint8List _healthyFrameWithBlackCenter() {
+  final frame = _makeFrame(4, 4, r: 128, g: 100, b: 150);
+  final center = ((2 * 4) + 2) * 4;
+  frame.fillRange(center, center + 3, 0);
+  return frame;
+}
+
 void main() {
   group('GpuHealthProbe.evaluateFrame', () {
     test('healthy frame keeps streak at 0 and healthFailed=false', () {
@@ -46,6 +53,24 @@ void main() {
       expect(probe.lastGpuCenterNonBlack, isTrue);
       expect(probe.lastGpuHistogramSane, isTrue);
       expect(probe.lastGpuSampleCount, 16);
+    });
+
+    test('black center does not fail an otherwise healthy fractal frame', () {
+      final probe = GpuHealthProbe();
+      probe.beginProbe();
+      final result = probe.evaluateFrame(
+        frameData: _healthyFrameWithBlackCenter(),
+        width: 4,
+        height: 4,
+      );
+      probe.endProbe();
+
+      expect(result.centerNonBlack, isFalse);
+      expect(result.nonBlackRatio, 15 / 16);
+      expect(result.histogramSane, isTrue);
+      expect(result.probeFailed, isFalse);
+      expect(result.failureStreak, 0);
+      expect(result.healthFailed, isFalse);
     });
 
     test('single black frame: streak=1, healthFailed=false (needs 2)', () {
@@ -225,8 +250,7 @@ void main() {
       );
 
       expect(update.captureSnapshot, isTrue);
-      expect(
-          probe.backendDecision.backend, RendererBackend.cpu);
+      expect(probe.backendDecision.backend, RendererBackend.cpu);
       expect(probe.backendDecision.reasonCode,
           FallbackReasonCode.gpuHealthCheckFailed);
     });
