@@ -475,6 +475,45 @@
   "cpuFallbackReport": "Reportar",
   "cpuFallbackBannerMessage": "Respaldo de CPU activado (la salida de GPU se veía negra).",
 
+  "looperTitle": "Bucle de cámara",
+  "looperSubtitle": "Guarda fotogramas clave de cámara y parámetros, luego previsualiza o exporta un GIF en bucle. Máx. 15 s.",
+  "looperSetA": "Fijar A",
+  "looperSetB": "Fijar B",
+  "looperUpdatePoint": "Actualizar {label}",
+  "@looperUpdatePoint": {
+    "placeholders": {
+      "label": {}
+    }
+  },
+  "looperAddPoint": "Añadir {label}",
+  "@looperAddPoint": {
+    "placeholders": {
+      "label": {}
+    }
+  },
+  "looperRemovePoint": "Eliminar el fotograma clave {label}",
+  "@looperRemovePoint": {
+    "placeholders": {
+      "label": {}
+    }
+  },
+  "looperDuration": "Duración",
+  "looperDurationValue": "{seconds} s / máx. 15 s",
+  "@looperDurationValue": {
+    "placeholders": {
+      "seconds": {}
+    }
+  },
+  "looperSeconds": "{seconds} s",
+  "@looperSeconds": {
+    "placeholders": {
+      "seconds": {}
+    }
+  },
+  "looperPreview": "Previsualizar",
+  "looperStop": "Detener",
+  "looperExportGif": "Exportar GIF",
+
   "shaderErrorTryAgain": "Intentar de nuevo",
   "shaderErrorGoBack": "Volver",
 

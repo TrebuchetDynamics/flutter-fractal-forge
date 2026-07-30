@@ -1084,6 +1084,56 @@ class AppLocalizationsEn extends AppLocalizations {
       'CPU fallback enabled (GPU output appeared black).';
 
   @override
+  String get looperTitle => 'Camera looper';
+
+  @override
+  String get looperSubtitle =>
+      'Save camera + parameter keyframes, then preview or export a looping GIF. Max 15s.';
+
+  @override
+  String get looperSetA => 'Set A';
+
+  @override
+  String get looperSetB => 'Set B';
+
+  @override
+  String looperUpdatePoint(Object label) {
+    return 'Update $label';
+  }
+
+  @override
+  String looperAddPoint(Object label) {
+    return 'Add $label';
+  }
+
+  @override
+  String looperRemovePoint(Object label) {
+    return 'Remove keyframe $label';
+  }
+
+  @override
+  String get looperDuration => 'Duration';
+
+  @override
+  String looperDurationValue(Object seconds) {
+    return '${seconds}s / 15s max';
+  }
+
+  @override
+  String looperSeconds(Object seconds) {
+    return '${seconds}s';
+  }
+
+  @override
+  String get looperPreview => 'Preview';
+
+  @override
+  String get looperStop => 'Stop';
+
+  @override
+  String get looperExportGif => 'Export GIF';
+
+  @override
   String get shaderErrorTryAgain => 'Try Again';
 
   @override

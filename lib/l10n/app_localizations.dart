@@ -2114,6 +2114,84 @@ abstract class AppLocalizations {
   /// **'CPU fallback enabled (GPU output appeared black).'**
   String get cpuFallbackBannerMessage;
 
+  /// No description provided for @looperTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera looper'**
+  String get looperTitle;
+
+  /// No description provided for @looperSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save camera + parameter keyframes, then preview or export a looping GIF. Max 15s.'**
+  String get looperSubtitle;
+
+  /// No description provided for @looperSetA.
+  ///
+  /// In en, this message translates to:
+  /// **'Set A'**
+  String get looperSetA;
+
+  /// No description provided for @looperSetB.
+  ///
+  /// In en, this message translates to:
+  /// **'Set B'**
+  String get looperSetB;
+
+  /// No description provided for @looperUpdatePoint.
+  ///
+  /// In en, this message translates to:
+  /// **'Update {label}'**
+  String looperUpdatePoint(Object label);
+
+  /// No description provided for @looperAddPoint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add {label}'**
+  String looperAddPoint(Object label);
+
+  /// No description provided for @looperRemovePoint.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove keyframe {label}'**
+  String looperRemovePoint(Object label);
+
+  /// No description provided for @looperDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get looperDuration;
+
+  /// No description provided for @looperDurationValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds}s / 15s max'**
+  String looperDurationValue(Object seconds);
+
+  /// No description provided for @looperSeconds.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds}s'**
+  String looperSeconds(Object seconds);
+
+  /// No description provided for @looperPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get looperPreview;
+
+  /// No description provided for @looperStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get looperStop;
+
+  /// No description provided for @looperExportGif.
+  ///
+  /// In en, this message translates to:
+  /// **'Export GIF'**
+  String get looperExportGif;
+
   /// No description provided for @shaderErrorTryAgain.
   ///
   /// In en, this message translates to:

@@ -1098,6 +1098,56 @@ class AppLocalizationsEs extends AppLocalizations {
       'Respaldo de CPU activado (la salida de GPU se veía negra).';
 
   @override
+  String get looperTitle => 'Bucle de cámara';
+
+  @override
+  String get looperSubtitle =>
+      'Guarda fotogramas clave de cámara y parámetros, luego previsualiza o exporta un GIF en bucle. Máx. 15 s.';
+
+  @override
+  String get looperSetA => 'Fijar A';
+
+  @override
+  String get looperSetB => 'Fijar B';
+
+  @override
+  String looperUpdatePoint(Object label) {
+    return 'Actualizar $label';
+  }
+
+  @override
+  String looperAddPoint(Object label) {
+    return 'Añadir $label';
+  }
+
+  @override
+  String looperRemovePoint(Object label) {
+    return 'Eliminar el fotograma clave $label';
+  }
+
+  @override
+  String get looperDuration => 'Duración';
+
+  @override
+  String looperDurationValue(Object seconds) {
+    return '$seconds s / máx. 15 s';
+  }
+
+  @override
+  String looperSeconds(Object seconds) {
+    return '$seconds s';
+  }
+
+  @override
+  String get looperPreview => 'Previsualizar';
+
+  @override
+  String get looperStop => 'Detener';
+
+  @override
+  String get looperExportGif => 'Exportar GIF';
+
+  @override
   String get shaderErrorTryAgain => 'Intentar de nuevo';
 
   @override

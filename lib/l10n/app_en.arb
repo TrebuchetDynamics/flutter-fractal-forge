@@ -474,6 +474,45 @@
   "cpuFallbackReport": "Report",
   "cpuFallbackBannerMessage": "CPU fallback enabled (GPU output appeared black).",
 
+  "looperTitle": "Camera looper",
+  "looperSubtitle": "Save camera + parameter keyframes, then preview or export a looping GIF. Max 15s.",
+  "looperSetA": "Set A",
+  "looperSetB": "Set B",
+  "looperUpdatePoint": "Update {label}",
+  "@looperUpdatePoint": {
+    "placeholders": {
+      "label": {}
+    }
+  },
+  "looperAddPoint": "Add {label}",
+  "@looperAddPoint": {
+    "placeholders": {
+      "label": {}
+    }
+  },
+  "looperRemovePoint": "Remove keyframe {label}",
+  "@looperRemovePoint": {
+    "placeholders": {
+      "label": {}
+    }
+  },
+  "looperDuration": "Duration",
+  "looperDurationValue": "{seconds}s / 15s max",
+  "@looperDurationValue": {
+    "placeholders": {
+      "seconds": {}
+    }
+  },
+  "looperSeconds": "{seconds}s",
+  "@looperSeconds": {
+    "placeholders": {
+      "seconds": {}
+    }
+  },
+  "looperPreview": "Preview",
+  "looperStop": "Stop",
+  "looperExportGif": "Export GIF",
+
   "shaderErrorTryAgain": "Try Again",
   "shaderErrorGoBack": "Go Back",
 
