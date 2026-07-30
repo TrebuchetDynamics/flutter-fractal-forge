@@ -17,9 +17,22 @@ import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 class BatchExportDialog extends StatefulWidget {
   final GlobalKey boundaryKey;
 
+  /// Backends, overridable so the dialog's states can be driven in a test.
+  ///
+  /// Both were constructed inline, and the first thing the dialog does is ask
+  /// [ExportService] for an export directory — which opens a real picker. That
+  /// future never resolves under test, so the dialog sat on its first frame
+  /// with an empty status and an empty grid: the progress states, the item
+  /// grid, the error panel and the saved-path footer had never been rendered.
+  /// Both default to the real services.
+  final ExportService? exportService;
+  final BatchExportService? batchExportService;
+
   const BatchExportDialog({
     super.key,
     required this.boundaryKey,
+    this.exportService,
+    this.batchExportService,
   });
 
   @override
@@ -27,7 +40,10 @@ class BatchExportDialog extends StatefulWidget {
 }
 
 class _BatchExportDialogState extends State<BatchExportDialog> {
-  final _service = const BatchExportService();
+  BatchExportService get _service =>
+      widget.batchExportService ?? const BatchExportService();
+  ExportService get _exportService =>
+      widget.exportService ?? const ExportService();
 
   bool _running = true;
   bool _cancelled = false;
@@ -59,7 +75,7 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
     final presetStore = context.read<PresetStore>();
     final l10n = AppLocalizations.of(context)!;
 
-    if (!await const ExportService().chooseLinuxExportDirectory()) {
+    if (!await _exportService.chooseLinuxExportDirectory()) {
       if (!mounted) return;
       setState(() {
         _running = false;
@@ -145,6 +161,8 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
       setState(() {
         _error = e;
         _running = false;
+        // Left as-is this still read "Preparing…" under "Export failed".
+        _status = '';
       });
     } finally {
       controller.loadState(
@@ -186,118 +204,151 @@ class _BatchExportDialogState extends State<BatchExportDialog> {
               onClose: _cancelOrClose,
             ),
             const Divider(height: 1, color: AppColors.divider),
-            const SizedBox(height: AppSpacing.md),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _status,
-                    style: AppTypography.bodyMedium.copyWith(
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  LinearProgressIndicator(
-                    value: _running ? _progress.clamp(0.0, 1.0) : 1.0,
-                    backgroundColor: AppColors.surfaceVariant,
-                    color: AppColors.primary,
-                    minHeight: 6,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            if (_error != null)
-              Padding(
-                padding: const EdgeInsets.all(AppSpacing.lg),
-                child: Container(
-                  padding: const EdgeInsets.all(AppSpacing.lg),
-                  decoration: BoxDecoration(
-                    color: AppColors.error.withValues(alpha: 0.08),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                        color: AppColors.error.withValues(alpha: 0.3)),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.error_outline_rounded,
-                          color: AppColors.error),
-                      const SizedBox(width: AppSpacing.md),
-                      Expanded(
-                        child: Text(
-                          l10n.exportFailed(_error.toString()),
-                          style: AppTypography.bodySmall
-                              .copyWith(color: AppColors.error),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            // Everything below the header scrolls as one body.
+            //
+            // It used to be fixed chrome around a single Expanded holding the
+            // grid, so as the text scale grew the status line, error panel and
+            // saved-path footer took the height and the grid was starved: at
+            // 2.0x and above it measured 0px on every viewport tried and the
+            // exported images simply were not shown, while the column
+            // overflowed its bottom by up to 784px.
             Expanded(
-              child: _items.isEmpty
-                  ? Center(
-                      child: Text(
-                        _running
-                            ? l10n.batchExportPreparing
-                            : l10n.batchExportDone,
-                        style: AppTypography.bodyMedium.copyWith(
-                          color: AppColors.textMuted,
-                        ),
-                      ),
-                    )
-                  : Padding(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(height: AppSpacing.md),
+                    Padding(
                       padding:
                           const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                      child: GridView.builder(
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 12,
-                          mainAxisSpacing: 12,
-                        ),
-                        itemCount: _items.length,
-                        itemBuilder: (context, index) {
-                          final item = _items[index];
-                          return _ExportThumbTile(
-                            name: item.preset.name,
-                            file: item.file,
-                          );
-                        },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _status,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTypography.bodyMedium.copyWith(
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                          const SizedBox(height: AppSpacing.sm),
+                          LinearProgressIndicator(
+                            value: _running ? _progress.clamp(0.0, 1.0) : 1.0,
+                            backgroundColor: AppColors.surfaceVariant,
+                            color: AppColors.primary,
+                            minHeight: 6,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                        ],
                       ),
                     ),
-            ),
-            if (!_running && _outDir != null)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  AppSpacing.lg,
-                  AppSpacing.md,
-                  AppSpacing.lg,
-                  AppSpacing.lg,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${l10n.batchExportSavedTo} ${_outDir!.path}',
-                      style: AppTypography.bodySmall
-                          .copyWith(color: AppColors.textMuted),
-                    ),
-                    if (_contactSheet != null)
+                    const SizedBox(height: AppSpacing.lg),
+                    if (_error != null)
                       Padding(
-                        padding: const EdgeInsets.only(top: AppSpacing.xs),
-                        child: Text(
-                          '${l10n.batchExportContactSheet}: ${_contactSheet!.path}',
-                          style: AppTypography.bodySmall
-                              .copyWith(color: AppColors.textMuted),
+                        padding: const EdgeInsets.all(AppSpacing.lg),
+                        child: Container(
+                          padding: const EdgeInsets.all(AppSpacing.lg),
+                          decoration: BoxDecoration(
+                            color: AppColors.error.withValues(alpha: 0.08),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                                color: AppColors.error.withValues(alpha: 0.3)),
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.error_outline_rounded,
+                                  color: AppColors.error),
+                              const SizedBox(width: AppSpacing.md),
+                              Expanded(
+                                child: Text(
+                                  l10n.exportFailed(_error.toString()),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppTypography.bodySmall
+                                      .copyWith(color: AppColors.error),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    _items.isEmpty
+                        ? Center(
+                            // Silent when the error panel is up: this used to report
+                            // "Done" directly beneath "Export failed".
+                            child: _error != null
+                                ? const SizedBox.shrink()
+                                : Text(
+                                    _running
+                                        ? l10n.batchExportPreparing
+                                        : l10n.batchExportDone,
+                                    textAlign: TextAlign.center,
+                                    style: AppTypography.bodyMedium.copyWith(
+                                      color: AppColors.textSecondary,
+                                    ),
+                                  ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: AppSpacing.lg),
+                            child: GridView.builder(
+                              // Sized by its content now that the body scrolls;
+                              // the outer scroll view owns the scrolling.
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 12,
+                                mainAxisSpacing: 12,
+                              ),
+                              itemCount: _items.length,
+                              itemBuilder: (context, index) {
+                                final item = _items[index];
+                                return _ExportThumbTile(
+                                  name: item.preset.name,
+                                  file: item.file,
+                                );
+                              },
+                            ),
+                          ),
+                    if (!_running && _outDir != null)
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                          AppSpacing.lg,
+                          AppSpacing.md,
+                          AppSpacing.lg,
+                          AppSpacing.lg,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${l10n.batchExportSavedTo} ${_outDir!.path}',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTypography.bodySmall
+                                  .copyWith(color: AppColors.textSecondary),
+                            ),
+                            if (_contactSheet != null)
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: AppSpacing.xs),
+                                child: Text(
+                                  '${l10n.batchExportContactSheet}: ${_contactSheet!.path}',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppTypography.bodySmall
+                                      .copyWith(color: AppColors.textSecondary),
+                                ),
+                              ),
+                          ],
                         ),
                       ),
                   ],
                 ),
               ),
+            ),
           ],
         ),
       ),
