@@ -1095,6 +1095,17 @@ class AppLocalizationsEn extends AppLocalizations {
       'Save camera + parameter keyframes, then preview or export a looping GIF. Max 15s.';
 
   @override
+  String get looperSetStartHint => 'Move to a starting view, then set A.';
+
+  @override
+  String get looperSetEndHint => 'Move to the next view, then set B.';
+
+  @override
+  String looperReadyStatus(Object count) {
+    return '$count keyframes ready. Preview the loop or export it.';
+  }
+
+  @override
   String get looperSetA => 'Set A';
 
   @override

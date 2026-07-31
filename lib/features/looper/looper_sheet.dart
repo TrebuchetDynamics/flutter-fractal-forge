@@ -24,6 +24,16 @@ class LooperSheet extends StatelessWidget {
       builder: (context, _) {
         final seconds = controller.duration.inSeconds;
         final secondsLabel = l10n.looperSeconds(seconds);
+        final statusText = controller.a == null
+            ? l10n.looperSetStartHint
+            : controller.b == null
+                ? l10n.looperSetEndHint
+                : l10n.looperReadyStatus(controller.points.length);
+        final statusIcon = controller.a == null
+            ? Icons.looks_one_outlined
+            : controller.b == null
+                ? Icons.looks_two_outlined
+                : Icons.check_circle_rounded;
         return AppBottomSheet(
           maxHeightFactor: 0.68,
           children: [
@@ -41,6 +51,44 @@ class LooperSheet extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Semantics(
+                      key: const ValueKey('looperWorkflowStatus'),
+                      container: true,
+                      liveRegion: true,
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(AppSpacing.md),
+                        decoration: BoxDecoration(
+                          color:
+                              AppColors.surfaceVariant.withValues(alpha: 0.72),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: AppColors.border.withValues(alpha: 0.7),
+                          ),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(
+                              statusIcon,
+                              color: controller.canLoop
+                                  ? AppColors.success
+                                  : AppColors.primaryLight,
+                            ),
+                            const SizedBox(width: AppSpacing.sm),
+                            Expanded(
+                              child: Text(
+                                statusText,
+                                style: AppTypography.bodySmall.copyWith(
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
                     Row(
                       children: [
                         Expanded(
@@ -150,7 +198,7 @@ class LooperSheet extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                          child: FilledButton.icon(
+                          child: FilledButton.tonalIcon(
                             key: const ValueKey('looperPreviewButton'),
                             onPressed: controller.canLoop
                                 ? controller.togglePreview

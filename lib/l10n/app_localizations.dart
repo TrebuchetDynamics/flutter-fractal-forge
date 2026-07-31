@@ -2132,6 +2132,24 @@ abstract class AppLocalizations {
   /// **'Save camera + parameter keyframes, then preview or export a looping GIF. Max 15s.'**
   String get looperSubtitle;
 
+  /// No description provided for @looperSetStartHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to a starting view, then set A.'**
+  String get looperSetStartHint;
+
+  /// No description provided for @looperSetEndHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to the next view, then set B.'**
+  String get looperSetEndHint;
+
+  /// No description provided for @looperReadyStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} keyframes ready. Preview the loop or export it.'**
+  String looperReadyStatus(Object count);
+
   /// No description provided for @looperSetA.
   ///
   /// In en, this message translates to:

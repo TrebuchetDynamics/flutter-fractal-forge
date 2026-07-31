@@ -1109,6 +1109,17 @@ class AppLocalizationsEs extends AppLocalizations {
       'Guarda fotogramas clave de cámara y parámetros, luego previsualiza o exporta un GIF en bucle. Máx. 15 s.';
 
   @override
+  String get looperSetStartHint => 'Ve a una vista inicial y fija A.';
+
+  @override
+  String get looperSetEndHint => 'Ve a la siguiente vista y fija B.';
+
+  @override
+  String looperReadyStatus(Object count) {
+    return '$count fotogramas clave listos. Previsualiza el bucle o expórtalo.';
+  }
+
+  @override
   String get looperSetA => 'Fijar A';
 
   @override

@@ -477,6 +477,14 @@
 
   "looperTitle": "Camera looper",
   "looperSubtitle": "Save camera + parameter keyframes, then preview or export a looping GIF. Max 15s.",
+  "looperSetStartHint": "Move to a starting view, then set A.",
+  "looperSetEndHint": "Move to the next view, then set B.",
+  "looperReadyStatus": "{count} keyframes ready. Preview the loop or export it.",
+  "@looperReadyStatus": {
+    "placeholders": {
+      "count": {}
+    }
+  },
   "looperSetA": "Set A",
   "looperSetB": "Set B",
   "looperUpdatePoint": "Update {label}",

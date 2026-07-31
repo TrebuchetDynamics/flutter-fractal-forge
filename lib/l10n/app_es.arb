@@ -478,6 +478,14 @@
 
   "looperTitle": "Bucle de cámara",
   "looperSubtitle": "Guarda fotogramas clave de cámara y parámetros, luego previsualiza o exporta un GIF en bucle. Máx. 15 s.",
+  "looperSetStartHint": "Ve a una vista inicial y fija A.",
+  "looperSetEndHint": "Ve a la siguiente vista y fija B.",
+  "looperReadyStatus": "{count} fotogramas clave listos. Previsualiza el bucle o expórtalo.",
+  "@looperReadyStatus": {
+    "placeholders": {
+      "count": {}
+    }
+  },
   "looperSetA": "Fijar A",
   "looperSetB": "Fijar B",
   "looperUpdatePoint": "Actualizar {label}",

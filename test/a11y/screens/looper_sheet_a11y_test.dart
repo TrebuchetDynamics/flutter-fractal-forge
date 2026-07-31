@@ -85,6 +85,28 @@ void main() {
       await disposeAccessibilityTestWidget(tester);
     });
 
+    testWidgets('guides the camera keyframe workflow', (tester) async {
+      await pumpSheet(tester);
+      expect(
+        find.text('Move to a starting view, then set A.'),
+        findsOneWidget,
+      );
+
+      looper.setAFromCurrent();
+      await tester.pump();
+      expect(
+        find.text('Move to the next view, then set B.'),
+        findsOneWidget,
+      );
+
+      looper.setBFromCurrent();
+      await tester.pump();
+      expect(
+        find.text('2 keyframes ready. Preview the loop or export it.'),
+        findsOneWidget,
+      );
+    });
+
     // The slider carried only its value, so it announced "6s" and never said
     // what the six seconds were. findUnnamedSliders does not catch this: the
     // value string counts as a label, so the check has to name the label.
@@ -133,8 +155,8 @@ void main() {
           testWidgets('no overflow with $points points at ${scale}x on $size',
               (tester) async {
             await expectNoOverflow(
-              () => pumpSheet(
-                  tester, textScale: scale, size: size, points: points),
+              () => pumpSheet(tester,
+                  textScale: scale, size: size, points: points),
               reason: '$points points at ${scale}x on $size',
             );
             await disposeAccessibilityTestWidget(tester);
@@ -185,6 +207,12 @@ void main() {
       expect(find.text('Exportar GIF'), findsOneWidget);
       expect(find.text('Previsualizar'), findsOneWidget);
       expect(find.text('Actualizar C'), findsOneWidget);
+      expect(
+        find.text(
+          '4 fotogramas clave listos. Previsualiza el bucle o expórtalo.',
+        ),
+        findsOneWidget,
+      );
 
       for (final english in const [
         'Camera looper',
