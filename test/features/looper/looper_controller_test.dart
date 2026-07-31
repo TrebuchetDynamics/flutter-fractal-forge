@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/looper/looper_controller.dart';
@@ -37,6 +39,16 @@ void main() {
     expect(plan.poseAtFrame(0).x, 0);
     expect(plan.poseAtFrame(plan.frameCount ~/ 2).x, closeTo(2, 0.3));
     expect(plan.poseAtFrame(plan.frameCount - 1).x, 0);
+  });
+
+  test('camera eases into and out of waypoints', () {
+    final plan = _plan(a, b, const Duration(seconds: 2));
+    final beforeB = plan.stateAtPhase(0.495).pose;
+    final afterB = plan.stateAtPhase(0.505).pose;
+
+    expect((b.x - beforeB.x).abs(), lessThan(0.001));
+    expect((afterB.x - b.x).abs(), lessThan(0.001));
+    expect((math.log(b.z) - math.log(beforeB.z)).abs(), lessThan(0.001));
   });
 
   test('resets saved poses and preview when fractal changes', () {

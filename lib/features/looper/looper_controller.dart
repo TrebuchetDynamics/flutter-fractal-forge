@@ -48,14 +48,17 @@ class LooperPose {
 
   static LooperPose lerp(LooperPose a, LooperPose b, double t) {
     final clamped = t.clamp(0.0, 1.0);
-    double mix(double start, double end) => start + (end - start) * clamped;
+    final eased =
+        clamped * clamped * clamped * (clamped * (clamped * 6 - 15) + 10);
+    double mix(double start, double end, double amount) =>
+        start + (end - start) * amount;
     return LooperPose(
-      x: mix(a.x, b.x),
-      y: mix(a.y, b.y),
-      z: math.exp(mix(math.log(a.z), math.log(b.z))),
-      rotationX: mix(a.rotationX, b.rotationX),
-      rotationY: mix(a.rotationY, b.rotationY),
-      rotationZ: mix(a.rotationZ, b.rotationZ),
+      x: mix(a.x, b.x, eased),
+      y: mix(a.y, b.y, eased),
+      z: math.exp(mix(math.log(a.z), math.log(b.z), eased)),
+      rotationX: mix(a.rotationX, b.rotationX, clamped),
+      rotationY: mix(a.rotationY, b.rotationY, clamped),
+      rotationZ: mix(a.rotationZ, b.rotationZ, clamped),
     );
   }
 }
