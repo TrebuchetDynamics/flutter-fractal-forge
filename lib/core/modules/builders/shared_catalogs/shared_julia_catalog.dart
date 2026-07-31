@@ -14,12 +14,22 @@ class SharedJuliaCatalogEntry {
   final String name;
   final double cReal;
   final double cImag;
+  final double centerX;
+  final double centerY;
+  final double defaultZoom;
+  final int defaultIterations;
+  final int defaultColorScheme;
 
   const SharedJuliaCatalogEntry({
     required this.id,
     required this.name,
     required this.cReal,
     required this.cImag,
+    this.centerX = 0.0,
+    this.centerY = 0.0,
+    this.defaultZoom = 1.25,
+    this.defaultIterations = 280,
+    this.defaultColorScheme = 0,
   });
 }
 
@@ -259,6 +269,19 @@ const List<SharedJuliaCatalogEntry> sharedJuliaCatalogEntries = [
       name: "Lacework Julia",
       cReal: 0.3,
       cImag: -0.5),
+  // Fractint fractint.par: YinFinite by Ethan Nagel. The source's six-corner
+  // viewport is rotated 32.5°; center and scale are preserved here.
+  SharedJuliaCatalogEntry(
+    id: 'yinfinite_julia',
+    name: 'YinFinite',
+    cReal: 0.252235,
+    cImag: 0.000169836,
+    centerX: -0.0033692,
+    centerY: -0.00053805,
+    defaultZoom: 12.8344427091,
+    defaultIterations: 320,
+    defaultColorScheme: 50,
+  ),
 ];
 
 List<FractalModule> buildSharedJuliaCatalogModules() =>
@@ -268,9 +291,12 @@ List<FractalModule> buildSharedJuliaCatalogModules() =>
 
 FractalModule _buildSharedJuliaModule(SharedJuliaCatalogEntry entry) {
   final parameters = [
-    CommonFractalParams.iterations(defaultValue: 280, max: 500),
+    CommonFractalParams.iterations(
+      defaultValue: entry.defaultIterations,
+      max: entry.defaultIterations > 500 ? entry.defaultIterations : 500,
+    ),
     CommonFractalParams.bailout(defaultValue: 4.0),
-    CommonFractalParams.colorScheme64(defaultValue: 0),
+    CommonFractalParams.colorScheme64(defaultValue: entry.defaultColorScheme),
     FractalParameter(
       id: 'juliaCReal',
       label: (_) => 'Julia c real',
@@ -296,15 +322,15 @@ FractalModule _buildSharedJuliaModule(SharedJuliaCatalogEntry entry) {
     moduleId: entry.id,
     name: 'Default',
     params: {
-      'iterations': 280,
+      'iterations': entry.defaultIterations,
       'bailout': 4.0,
-      'colorScheme': 0,
+      'colorScheme': entry.defaultColorScheme,
       'juliaCReal': entry.cReal,
       'juliaCImag': entry.cImag,
     },
     view: FractalViewState(
-      pan: Vector2.zero(),
-      zoom: 1.25,
+      pan: Vector2(entry.centerX, entry.centerY),
+      zoom: entry.defaultZoom,
       rotation: Vector3.zero(),
     ),
   );
@@ -324,9 +350,17 @@ FractalModule _buildSharedJuliaModule(SharedJuliaCatalogEntry entry) {
       shader.setFloat(3, state.view.pan.x);
       shader.setFloat(4, state.view.pan.y);
       shader.setFloat(5, state.view.zoom);
-      shader.setFloat(6, readDouble(state.params, 'iterations', 280));
+      shader.setFloat(
+        6,
+        readDouble(
+            state.params, 'iterations', entry.defaultIterations.toDouble()),
+      );
       shader.setFloat(7, readDouble(state.params, 'bailout', 4.0));
-      shader.setFloat(8, readDouble(state.params, 'colorScheme', 0));
+      shader.setFloat(
+        8,
+        readDouble(
+            state.params, 'colorScheme', entry.defaultColorScheme.toDouble()),
+      );
       shader.setFloat(9, readDouble(state.params, 'juliaCReal', entry.cReal));
       shader.setFloat(10, readDouble(state.params, 'juliaCImag', entry.cImag));
       shader.setFloat(11, state.transparentBackground ? 1.0 : 0.0);

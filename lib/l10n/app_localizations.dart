@@ -2756,12 +2756,6 @@ abstract class AppLocalizations {
   /// **'Write & preview custom FRM formulas'**
   String get settingsFormulaLabSubtitle;
 
-  /// No description provided for @settingsLanguage.
-  ///
-  /// In en, this message translates to:
-  /// **'Language'**
-  String get settingsLanguage;
-
   /// No description provided for @settingsAbout.
   ///
   /// In en, this message translates to:
@@ -2789,8 +2783,26 @@ abstract class AppLocalizations {
   /// No description provided for @settingsAboutBlurb.
   ///
   /// In en, this message translates to:
-  /// **'GPU-accelerated fractal exploration with 350+ types, deep zoom, and real-time rendering.'**
+  /// **'GPU-accelerated exploration of 965 production fractals, with deep zoom and real-time rendering.'**
   String get settingsAboutBlurb;
+
+  /// No description provided for @settingsSourceCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Source code'**
+  String get settingsSourceCode;
+
+  /// No description provided for @settingsSourceCodeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'View Fractal Forge on GitHub ↗'**
+  String get settingsSourceCodeSubtitle;
+
+  /// No description provided for @settingsSourceCodeOpenFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to open source code.'**
+  String get settingsSourceCodeOpenFailed;
 
   /// No description provided for @frmFormulaFieldLabel.
   ///

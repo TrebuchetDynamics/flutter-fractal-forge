@@ -19,7 +19,7 @@
   <a href="#run-it-locally">Build locally</a>
 </p>
 
-Fractal Forge is an open-source Flutter explorer for mathematical systems and generative art. Browse **964 production fractals**, tune parameters in real time, move through deep-zoom render paths, and export the views worth keeping.
+Fractal Forge is an open-source Flutter explorer for mathematical systems and generative art. Browse **965 production fractals**, tune parameters in real time, move through deep-zoom render paths, and export the views worth keeping.
 
 ## See it in motion
 
@@ -35,7 +35,7 @@ Fractal Forge is an open-source Flutter explorer for mathematical systems and ge
 
 ## What makes it useful
 
-- **Broad mathematical range** — 964 production fractals across escape-time formulas, root-finding basins, strange attractors, IFS, cellular systems, tilings, space-filling curves, and ray-marched 3D forms.
+- **Broad mathematical range** — 965 production fractals across escape-time formulas, root-finding basins, strange attractors, IFS, cellular systems, tilings, space-filling curves, and ray-marched 3D forms.
 - **GPU-first interaction** — Flutter fragment shaders keep ordinary exploration responsive, with deeper preview and CPU paths where the module supports them.
 - **A real creative toolset** — presets, randomizer, looper, auto-explore, dual Mandelbrot/Julia viewing, wallpaper tools, sharing, and Fractal Music experiments.
 - **Color as a first-class control** — 60+ color schemes plus smooth coloring, orbit traps, distance estimation, stripe and curvature averaging, and normal-map relief.

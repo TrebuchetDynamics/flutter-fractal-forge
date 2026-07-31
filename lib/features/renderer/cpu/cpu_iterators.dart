@@ -49,6 +49,7 @@ final Map<String, CpuIterator> cpuIteratorsByModuleId = <String, CpuIterator>{
   'burning_ship': _iterBurningShip,
   'tricorn': _iterTricorn,
   'julia': _iterJulia,
+  'yinfinite_julia': _iterJulia,
   'multibrot4': _iterMultibrot4,
   'multibrot5': _iterMultibrot5,
   '3d_fractal': _iter3dFractal,

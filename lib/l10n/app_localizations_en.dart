@@ -1447,9 +1447,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Write & preview custom FRM formulas';
 
   @override
-  String get settingsLanguage => 'Language';
-
-  @override
   String get settingsAbout => 'About';
 
   @override
@@ -1466,7 +1463,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsAboutBlurb =>
-      'GPU-accelerated fractal exploration with 350+ types, deep zoom, and real-time rendering.';
+      'GPU-accelerated exploration of 965 production fractals, with deep zoom and real-time rendering.';
+
+  @override
+  String get settingsSourceCode => 'Source code';
+
+  @override
+  String get settingsSourceCodeSubtitle => 'View Fractal Forge on GitHub ↗';
+
+  @override
+  String get settingsSourceCodeOpenFailed => 'Unable to open source code.';
 
   @override
   String get frmFormulaFieldLabel => 'FRM formula';

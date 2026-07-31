@@ -21,8 +21,8 @@ void main() {
             m.id != 'hydrogen_orbital')
         .length;
 
-    expect(production, 964,
-        reason: 'README.md advertises 964 production fractals');
+    expect(production, 965,
+        reason: 'README.md advertises 965 production fractals');
     expect(diagnostics, 7,
         reason: 'README.md says debug/test builds add 7 diagnostic modules');
 
@@ -43,6 +43,13 @@ void main() {
           reason: '${entry.key} short description has a stale catalog count');
       expect(copy['fullDescription'], contains('$production'),
           reason: '${entry.key} full description has a stale catalog count');
+    }
+
+    for (final path in ['lib/l10n/app_en.arb', 'lib/l10n/app_es.arb']) {
+      final messages =
+          jsonDecode(File(path).readAsStringSync()) as Map<String, dynamic>;
+      expect(messages['settingsAboutBlurb'], contains('$production'),
+          reason: '$path has a stale About catalog count');
     }
   });
 

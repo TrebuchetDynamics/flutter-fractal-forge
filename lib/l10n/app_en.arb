@@ -657,7 +657,6 @@
   "settingsPaletteSubtitle": "Customize color palettes",
   "settingsFormulaLab": "Formula Lab",
   "settingsFormulaLabSubtitle": "Write & preview custom FRM formulas",
-  "settingsLanguage": "Language",
   "settingsAbout": "About",
   "settingsVersion": "Version {version}",
   "@settingsVersion": {
@@ -667,7 +666,10 @@
   },
   "settingsColorTheme": "Color Theme",
   "settingsColorThemeSubtitle": "Choose a contrast and surface style.",
-  "settingsAboutBlurb": "GPU-accelerated fractal exploration with 350+ types, deep zoom, and real-time rendering.",
+  "settingsAboutBlurb": "GPU-accelerated exploration of 965 production fractals, with deep zoom and real-time rendering.",
+  "settingsSourceCode": "Source code",
+  "settingsSourceCodeSubtitle": "View Fractal Forge on GitHub ↗",
+  "settingsSourceCodeOpenFailed": "Unable to open source code.",
 
   "frmFormulaFieldLabel": "FRM formula",
   "frmRender": "Render",

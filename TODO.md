@@ -2,7 +2,7 @@
 
 > **Last comprehensive update:** 2026-07-29 researched 3D catalog expansion.
 >
-> **Source anchors for this refresh:** `test/catalog/catalog_id_integrity_test.dart` (501 escape-time entries, 964 production fractals, 1 scientific visualization, and 972 debug/test registry modules including 7 diagnostics), `lib/features/viewer/fractal_viewer_screen.dart` (controls HUD), `lib/core/services/rendering/palette_service.dart` + `palette_shader_adapter.dart` (palette textures).
+> **Source anchors for this refresh:** `test/catalog/catalog_id_integrity_test.dart` (501 escape-time entries, 965 production fractals, 1 scientific visualization, and 973 debug/test registry modules including 7 diagnostics), `lib/features/viewer/fractal_viewer_screen.dart` (controls HUD), `lib/core/services/rendering/palette_service.dart` + `palette_shader_adapter.dart` (palette textures).
 
 ---
 
@@ -10,7 +10,7 @@
 
 **GPU-primary, CPU safety net.**
 - GPU is the default renderer; many catalog modules share reviewed shader families rather than one shader per fractal
-- Live registry lock: 501 escape-time catalog entries, 27 raymarched-3D entries, 9 custom hand-built modules, 964 production fractals plus 1 scientific visualization (972 debug/test `ModuleRegistry` modules including 7 diagnostics)
+- Live registry lock: 501 escape-time catalog entries, 27 raymarched-3D entries, 9 custom hand-built modules, 965 production fractals plus 1 scientific visualization (973 debug/test `ModuleRegistry` modules including 7 diagnostics)
 - CPU fallback auto-activates via renderer health/precision policy when GPU output or precision is invalid
 - CPU path is maintenance-only (no further performance investment)
 - GPU investment: coloring quality, smooth iteration, deep zoom, new formulas
@@ -47,18 +47,18 @@ These fractals use differentiable formulas where `dz_next = f(z+dz, c+dc) - f(z,
 | Stochastic | Random sampling, not deterministic | Buddhabrot, DLA |
 | Tilings | Substitution rules, not iteration | Penrose, Ammann-Beenker |
 
-**Most of the 964-production-fractal catalog is still NOT suitable for perturbation; exact category counts need a fresh catalog audit.**
+**Most of the 965-production-fractal catalog is still NOT suitable for perturbation; exact category counts need a fresh catalog audit.**
 
-### 📊 Module Registry Breakdown (964 production fractals; 972 debug/test modules)
+### 📊 Module Registry Breakdown (965 production fractals; 973 debug/test modules)
 
 ```
 Live locks from test/catalog/catalog_id_integrity_test.dart:
 ├── Escape-time catalog raw unique IDs: 501
 ├── Raymarched-3D catalog unique IDs: 27
 ├── Custom hand-built modules: 9
-├── Production fractals: 964
+├── Production fractals: 965
 ├── Scientific visualizations: 1
-└── Debug/test ModuleRegistry modules including diagnostics: 972
+└── Debug/test ModuleRegistry modules including diagnostics: 973
 
 Perturbation-capable target remains ~70-80 polynomial escape-time fractals.
 Currently routed to GPU perturbation: 9 IDs (julia + 8 generic escape-time IDs).
@@ -316,7 +316,7 @@ float t = fract(smoothVal / 64.0);
 
 ### P2-4: Catalog Hardening
 
-- [x] Registry covers 501 escape-time entries + 27 raymarched 3D + shared/custom promotions = 964 production fractals plus 1 scientific visualization (972 debug/test modules including diagnostics)
+- [x] Registry covers 501 escape-time entries + 27 raymarched 3D + shared/custom promotions = 965 production fractals plus 1 scientific visualization (973 debug/test modules including diagnostics)
 - [ ] **PRD manifest loader** — `assets/catalog/prd_catalog.json`
 - [x] ID lock/integrity tests
 - [x] Filter/sort + list/grid toggle
@@ -385,7 +385,7 @@ class ChunkedRenderer {
 
 ### P4-1: New Escape-Time Fractals
 
-- [x] **Target met:** Catalog grew beyond the old 370 baseline to 964 production fractals.
+- [x] **Target met:** Catalog grew beyond the old 370 baseline to 965 production fractals.
 - [ ] Next formula work should be quality-gated: only add researched formulas with tests, stable IDs, and shader assets.
 
 ### P4-2: New 3D Fractals

@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_fractals/core/app_version.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
+import 'package:flutter_fractals/shared/widgets/app_feedback_snack_bar.dart';
 import 'package:flutter_fractals/features/settings/accessibility_settings_screen.dart';
 import 'package:flutter_fractals/features/formulas/frm_formula_screen.dart';
 
 /// Main settings screen with navigation to accessibility and other options.
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
+
+  static final _sourceCodeUri = Uri.parse(
+    'https://github.com/TrebuchetDynamics/flutter-fractal-forge',
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -59,15 +65,6 @@ class SettingsScreen extends StatelessWidget {
                         builder: (_) => const FrmFormulaScreen(),
                       ),
                     );
-                  },
-                ),
-                const SizedBox(height: AppSpacing.md),
-                _SettingsTile(
-                  icon: Icons.language_rounded,
-                  title: l10n.settingsLanguage,
-                  subtitle: 'English / Español',
-                  onTap: () {
-                    // TODO: Implement language selection
                   },
                 ),
                 const SizedBox(height: AppSpacing.md),
@@ -181,6 +178,27 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
+  Future<void> _openSourceCode(BuildContext context) async {
+    try {
+      if (await launchUrl(
+        _sourceCodeUri,
+        mode: LaunchMode.externalApplication,
+      )) {
+        return;
+      }
+    } catch (_) {
+      // The same user feedback covers unsupported platforms and launch errors.
+    }
+    if (!context.mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      appFeedbackSnackBar(
+        message: AppLocalizations.of(context)!.settingsSourceCodeOpenFailed,
+        success: false,
+      ),
+    );
+  }
+
   void _showAboutDialog(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     showDialog(
@@ -188,26 +206,37 @@ class SettingsScreen extends StatelessWidget {
       builder: (context) => AppDialog(
         icon: Icons.blur_circular_rounded,
         title: 'Fractal Forge',
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              l10n.settingsVersion(kAppVersion),
-              style: AppTypography.bodyMedium.copyWith(
-                color: AppColors.textSecondary,
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                l10n.settingsVersion(kAppVersion),
+                style: AppTypography.bodyMedium.copyWith(
+                  color: AppColors.textSecondary,
+                ),
               ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            Text(
-              l10n.settingsAboutBlurb,
-              // textSecondary, not textMuted: prose at 12px measured 3.70:1
-              // against the dialog surface, under the 4.5 AA floor.
-              style: AppTypography.bodySmall.copyWith(
-                color: AppColors.textSecondary,
+              const SizedBox(height: AppSpacing.md),
+              Text(
+                l10n.settingsAboutBlurb,
+                // textSecondary, not textMuted: prose at 12px measured 3.70:1
+                // against the dialog surface, under the 4.5 AA floor.
+                style: AppTypography.bodySmall.copyWith(
+                  color: AppColors.textSecondary,
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: AppSpacing.sm),
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: const Icon(Icons.code_rounded),
+                title: Text(l10n.settingsSourceCode),
+                subtitle: Text(l10n.settingsSourceCodeSubtitle),
+                trailing: const Icon(Icons.open_in_new_rounded),
+                onTap: () async => _openSourceCode(context),
+              ),
+            ],
+          ),
         ),
         actions: [
           TextButton(

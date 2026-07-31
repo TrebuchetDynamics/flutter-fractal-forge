@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/app_version.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
@@ -94,6 +95,21 @@ void main() {
       await expectLater(tester, meetsGuideline(textContrastGuideline));
       handle.dispose();
     });
+
+    testWidgets('the about dialog fits at large text', (tester) async {
+      await tester.binding.setSurfaceSize(const Size(320, 568));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+      await expectNoOverflow(
+        () async {
+          await _pumpScreen(tester, textScale: 3);
+          await tester.scrollUntilVisible(find.text('About'), 200);
+          await tester.pumpAndSettle();
+          await tester.tap(find.text('About').hitTestable().first);
+          await tester.pumpAndSettle();
+        },
+        reason: 'About dialog at 3x text scale',
+      );
+    });
   });
 
   group('SettingsScreen content', () {
@@ -107,6 +123,67 @@ void main() {
       await tester.tap(find.text('About').hitTestable().first);
       await tester.pumpAndSettle();
       expect(find.text('Version $kAppVersion'), findsWidgets);
+      expect(find.textContaining('965 production fractals'), findsOneWidget);
+      expect(find.text('Source code'), findsOneWidget);
+      expect(find.text('View Fractal Forge on GitHub ↗'), findsOneWidget);
+    });
+
+    testWidgets('does not expose an unfinished language selector',
+        (tester) async {
+      await _pumpScreen(tester);
+
+      expect(find.text('Language'), findsNothing);
+      expect(find.text('English / Español'), findsNothing);
+    });
+
+    testWidgets('opens the canonical public source repository', (tester) async {
+      const channel = MethodChannel('plugins.flutter.io/url_launcher');
+      String? launchedUrl;
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        channel,
+        (call) async {
+          launchedUrl =
+              (call.arguments as Map<Object?, Object?>)['url'] as String;
+          return true;
+        },
+      );
+      addTearDown(
+        () => tester.binding.defaultBinaryMessenger
+            .setMockMethodCallHandler(channel, null),
+      );
+
+      await _pumpScreen(tester);
+      await tester.tap(find.text('About').hitTestable().first);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Source code'));
+      await tester.pumpAndSettle();
+
+      expect(
+        launchedUrl,
+        'https://github.com/TrebuchetDynamics/flutter-fractal-forge',
+      );
+      expect(find.text('Unable to open source code.'), findsNothing);
+    });
+
+    testWidgets('reports when the source code link cannot open',
+        (tester) async {
+      const channel = MethodChannel('plugins.flutter.io/url_launcher');
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        channel,
+        (_) async => false,
+      );
+      addTearDown(
+        () => tester.binding.defaultBinaryMessenger
+            .setMockMethodCallHandler(channel, null),
+      );
+
+      await _pumpScreen(tester);
+      await tester.tap(find.text('About').hitTestable().first);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Source code'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Unable to open source code.'), findsOneWidget);
     });
 
     testWidgets('labels localize to Spanish', (tester) async {
@@ -117,7 +194,6 @@ void main() {
         'Alto contraste, movimiento reducido, objetivos grandes',
         'Personaliza las paletas de color',
         'Laboratorio de fórmulas',
-        'Idioma',
         'Acerca de',
       ]) {
         expect(find.text(label), findsWidgets, reason: label);
@@ -134,8 +210,11 @@ void main() {
         expect(find.text(label), findsNothing, reason: label);
       }
 
-      // Deliberately bilingual, and the app name is a proper noun — both stay.
-      expect(find.text('English / Español'), findsOneWidget);
+      await tester.tap(find.text('Acerca de').hitTestable().first);
+      await tester.pumpAndSettle();
+      expect(find.text('Código fuente'), findsOneWidget);
+      expect(find.text('Ver Fractal Forge en GitHub ↗'), findsOneWidget);
+      expect(find.text('Source code'), findsNothing);
     });
   });
 }

@@ -16,12 +16,12 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 /// - Custom hand-built modules                :   9
 ///   (julia, julia_dual, phoenix, nova, mandelbulb, mandelbox,
 ///    hydrogen_orbital, quaternion_julia_3d, juliabulb_3d)
-/// - Total ModuleRegistry modules (debug/test) : 972
-/// - Production modules excluding diagnostics  : 965
-/// - Production fractals (excluding Hydrogen)  : 964
+/// - Total ModuleRegistry modules (debug/test) : 973
+/// - Production modules excluding diagnostics  : 966
+/// - Production fractals (excluding Hydrogen)  : 965
 ///
 /// The debug/test registry includes 7 diagnostic shader modules; public copy
-/// should use 964 production fractals. The "196 GPU shaders" figure in TODO.md refers to fragment shader
+/// should use 965 production fractals. The "196 GPU shaders" figure in TODO.md refers to fragment shader
 /// assets compiled at build time; it predates the full catalog expansion.
 void main() {
   // ---------------------------------------------------------------------------
@@ -119,10 +119,10 @@ void main() {
       registry = ModuleRegistry();
     });
 
-    test('total module count is 972 in debug/test', () {
+    test('total module count is 973 in debug/test', () {
       // Debug/test builds include 7 diagnostic modules and one non-fractal
-      // scientific visualization. Public docs count 964 production fractals.
-      expect(registry.modules.length, 972,
+      // scientific visualization. Public docs count 965 production fractals.
+      expect(registry.modules.length, 973,
           reason: 'Update this constant when modules are intentionally '
               'added to or removed from the de-duplicated registry.');
     });
