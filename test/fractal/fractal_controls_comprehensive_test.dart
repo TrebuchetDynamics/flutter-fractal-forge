@@ -93,7 +93,7 @@ void main() {
 
       // Call controller method directly (more reliable than tapping in scroll views).
       controller.randomizeParams();
-      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 650));
 
       // Compare the whole map: any single parameter (e.g. iterations) can
       // legitimately re-roll its previous value, which made this test flaky.
