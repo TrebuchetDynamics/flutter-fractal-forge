@@ -44,7 +44,7 @@ Core fractal rendering engine. Contains the GPU-accelerated shader renderer, CPU
 ### Testing Requirements
 - `test/fractal_renderer_widget_test.dart` - Widget lifecycle
 - `test/fractal_renderer_gesture_test.dart` - Gesture input
-- `test/fractal_render_audit_test.dart` - Render correctness
+- `test/fractal/fractal_render_audit_test.dart` - Render correctness
 - `test/renderer_backend_policy_test.dart` - Backend selection
 - `integration_test/render_validation_test.dart` - GPU validation
 

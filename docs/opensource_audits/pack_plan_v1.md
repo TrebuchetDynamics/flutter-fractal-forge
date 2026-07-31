@@ -299,7 +299,7 @@ params: {iterations: 400, bailout: 8.0, colorScheme: 3, lambda: 0.4, alpha: 1.0,
   - assert 5 new module names resolve and render.
 - `test/cpu_formula_coverage_test.dart`
   - ensure new IDs produce finite output and differ from Mandelbrot baseline.
-- `test/fractal_render_audit_test.dart`
+- `test/fractal/fractal_render_audit_test.dart`
   - verify structural pass for all 5 defaults (add per-id tuned-view fallback if needed).
 - `test/catalog_repository_test.dart`
   - sanity check lookups for `core.martin`, `core.chip`, etc.

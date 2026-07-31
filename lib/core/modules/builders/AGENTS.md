@@ -36,7 +36,7 @@ Shaders built via this system MUST use this uniform order:
 
 ### Testing Requirements
 - Catalog tested via `test/module_registry_widget_test.dart`
-- Render audit in `test/fractal_render_audit_test.dart`
+- Render audit in `test/fractal/fractal_render_audit_test.dart`
 
 ## Dependencies
 

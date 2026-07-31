@@ -5,7 +5,7 @@
 /// Uses pixel variance analysis on CPU-rendered frames.
 /// A real fractal has high spatial variance; a gradient has low variance.
 ///
-/// Run: flutter test test/fractal_render_audit_test.dart
+/// Run: flutter test test/fractal/fractal_render_audit_test.dart
 library;
 
 import 'dart:math' as math;

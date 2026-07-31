@@ -17,7 +17,7 @@ Unit tests and widget tests for the Flutter Fractal Forge application. Tests cov
 | `fractal_controller_reset_session_test.dart` | Session reset logic |
 | `fractal_renderer_widget_test.dart` | Renderer widget lifecycle and error handling |
 | `fractal_renderer_gesture_test.dart` | Gesture input handling (pan, zoom, rotate) |
-| `fractal_render_audit_test.dart` | Render correctness audit across all modules |
+| `fractal/fractal_render_audit_test.dart` | Render correctness audit across all modules |
 | `home_screen_widget_test.dart` | HomeScreen navigation and tab behavior |
 | `fractal_catalog_screen_widget_test.dart` | Catalog browsing and search |
 | `export_service_test.dart` | Image export functionality |
