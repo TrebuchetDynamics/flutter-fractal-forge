@@ -513,6 +513,14 @@
   "looperPreview": "Preview",
   "looperStop": "Stop",
   "looperExportGif": "Export GIF",
+  "looperExportSuccess": "Looper GIF exported",
+  "looperExportFailed": "Looper GIF export failed: {error}",
+  "@looperExportFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "looperExportSavedShareFailed": "Looper GIF saved. Sharing did not open; share the saved file manually.",
 
   "shaderErrorTryAgain": "Try Again",
   "shaderErrorGoBack": "Go Back",

@@ -63,13 +63,25 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     final controller = _activeController(context);
     final boundaryKey = _activeBoundaryKey();
     final l10n = AppLocalizations.of(context)!;
-    if (!await _exportService.chooseLinuxExportDirectory()) return;
-    if (!mounted) return;
     final originalView = controller.view;
     final originalParams = controller.params;
     final originalTransparency = controller.transparentBackground;
-    final shouldResumeAutoExplore = _pauseAutoExploreForExportFlow();
     looper.stop();
+    try {
+      if (!await _exportService.chooseLinuxExportDirectory()) return;
+    } catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          appFeedbackSnackBar(
+            message: l10n.looperExportFailed(error.toString()),
+            success: false,
+          ),
+        );
+      }
+      return;
+    }
+    if (!mounted) return;
+    final shouldResumeAutoExplore = _pauseAutoExploreForExportFlow();
 
     setState(() {
       _exportSession = _exportSession
@@ -131,38 +143,47 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
             'looper_${controller.module.id}_${DateTime.now().millisecondsSinceEpoch}.gif',
       );
 
-      await _exportService.shareFile(
-        file,
-        text: ViewerShareCaption.build(
-          fractalName: controller.module.displayName(l10n),
-          shareUrl: DeepLinkService.buildWebUri(
-            moduleId: controller.module.id,
-            params: controller.params,
-            view: controller.view,
-            transparentBackground: controller.transparentBackground,
-            rotationLocked: controller.rotationLocked,
-            glowEnabled: controller.glowEnabled,
-            glowSigma: controller.glowSigma,
-            glowIntensity: controller.glowIntensity,
-            kaleidoscopeEnabled: controller.kaleidoscopeEnabled,
-            kaleidoscopeSectors: controller.kaleidoscopeSectors,
-            kaleidoscopeMirror: controller.kaleidoscopeMirror,
-            kaleidoscopeRotation: controller.kaleidoscopeRotation,
-            kaleidoscopeMirrorMode: controller.kaleidoscopeMirrorMode,
-          ).toString(),
-        ),
-      );
+      var shareFailed = false;
+      try {
+        await _exportService.shareFile(
+          file,
+          text: ViewerShareCaption.build(
+            fractalName: controller.module.displayName(l10n),
+            shareUrl: DeepLinkService.buildWebUri(
+              moduleId: controller.module.id,
+              params: originalParams,
+              view: originalView,
+              transparentBackground: originalTransparency,
+              rotationLocked: controller.rotationLocked,
+              glowEnabled: controller.glowEnabled,
+              glowSigma: controller.glowSigma,
+              glowIntensity: controller.glowIntensity,
+              kaleidoscopeEnabled: controller.kaleidoscopeEnabled,
+              kaleidoscopeSectors: controller.kaleidoscopeSectors,
+              kaleidoscopeMirror: controller.kaleidoscopeMirror,
+              kaleidoscopeRotation: controller.kaleidoscopeRotation,
+              kaleidoscopeMirrorMode: controller.kaleidoscopeMirrorMode,
+            ).toString(),
+          ),
+        );
+      } catch (_) {
+        shareFailed = true;
+      }
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Looper GIF exported')),
+          SnackBar(
+            content: Text(shareFailed
+                ? l10n.looperExportSavedShareFailed
+                : l10n.looperExportSuccess),
+          ),
         );
       }
     } catch (error) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           appFeedbackSnackBar(
-            message: l10n.videoExportFailed(error.toString()),
+            message: l10n.looperExportFailed(error.toString()),
             success: false,
           ),
         );

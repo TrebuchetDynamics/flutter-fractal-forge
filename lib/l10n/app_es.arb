@@ -514,6 +514,14 @@
   "looperPreview": "Previsualizar",
   "looperStop": "Detener",
   "looperExportGif": "Exportar GIF",
+  "looperExportSuccess": "GIF en bucle exportado",
+  "looperExportFailed": "Error al exportar el GIF en bucle: {error}",
+  "@looperExportFailed": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "looperExportSavedShareFailed": "GIF en bucle guardado. No se abrió compartir; comparte el archivo guardado manualmente.",
 
   "shaderErrorTryAgain": "Intentar de nuevo",
   "shaderErrorGoBack": "Volver",

@@ -2198,6 +2198,24 @@ abstract class AppLocalizations {
   /// **'Export GIF'**
   String get looperExportGif;
 
+  /// No description provided for @looperExportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Looper GIF exported'**
+  String get looperExportSuccess;
+
+  /// No description provided for @looperExportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Looper GIF export failed: {error}'**
+  String looperExportFailed(Object error);
+
+  /// No description provided for @looperExportSavedShareFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Looper GIF saved. Sharing did not open; share the saved file manually.'**
+  String get looperExportSavedShareFailed;
+
   /// No description provided for @shaderErrorTryAgain.
   ///
   /// In en, this message translates to:

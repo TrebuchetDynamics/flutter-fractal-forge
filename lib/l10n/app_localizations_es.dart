@@ -1152,6 +1152,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get looperExportGif => 'Exportar GIF';
 
   @override
+  String get looperExportSuccess => 'GIF en bucle exportado';
+
+  @override
+  String looperExportFailed(Object error) {
+    return 'Error al exportar el GIF en bucle: $error';
+  }
+
+  @override
+  String get looperExportSavedShareFailed =>
+      'GIF en bucle guardado. No se abrió compartir; comparte el archivo guardado manualmente.';
+
+  @override
   String get shaderErrorTryAgain => 'Intentar de nuevo';
 
   @override

@@ -1,8 +1,10 @@
+import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
 import 'package:flutter_fractals/core/services/storage/history_store.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
@@ -12,11 +14,52 @@ import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:image/image.dart' as img;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../a11y/shared/permission_test_harness.dart';
 import 'package:vector_math/vector_math.dart' show Vector2, Vector3;
+
+class _LooperExportService extends ExportService {
+  _LooperExportService({
+    this.pickerDelay = Duration.zero,
+    this.pickerThrows = false,
+    this.shareThrows = false,
+  });
+
+  final Duration pickerDelay;
+  final bool pickerThrows;
+  final bool shareThrows;
+  int saveCalls = 0;
+  String? sharedText;
+
+  @override
+  Future<bool> chooseLinuxExportDirectory() async {
+    if (pickerDelay > Duration.zero) await Future<void>.delayed(pickerDelay);
+    if (pickerThrows) throw StateError('picker unavailable');
+    return true;
+  }
+
+  @override
+  Future<Uint8List> capturePng(
+    GlobalKey key, {
+    double pixelRatio = 1.0,
+  }) async =>
+      Uint8List.fromList(img.encodePng(img.Image(width: 2, height: 2)));
+
+  @override
+  Future<File> saveBytes(Uint8List bytes, {required String filename}) async {
+    saveCalls++;
+    return File('/tmp/$filename');
+  }
+
+  @override
+  Future<void> shareFile(File file, {String? text}) async {
+    sharedText = text;
+    if (shareThrows) throw StateError('share unavailable');
+  }
+}
 
 void main() {
   group('FractalViewerScreen', () {
@@ -48,6 +91,8 @@ void main() {
 
     Widget buildTestWidget({
       CatalogFamily catalogFamily = CatalogFamily.core,
+      Locale locale = const Locale('en'),
+      ExportService? exportService,
     }) {
       return MultiProvider(
         providers: [
@@ -58,10 +103,13 @@ void main() {
           ChangeNotifierProvider.value(value: historyProvider),
         ],
         child: MaterialApp(
-          locale: const Locale('en'),
+          locale: locale,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          home: FractalViewerScreen(catalogFamily: catalogFamily),
+          home: FractalViewerScreen(
+            catalogFamily: catalogFamily,
+            exportService: exportService,
+          ),
         ),
       );
     }
@@ -402,6 +450,117 @@ void main() {
 
       expect(controller.view.pan.x, closeTo(initialPan.x, 1e-9));
       expect(controller.view.pan.y, lessThan(initialPan.y));
+    });
+
+    Future<double> exportLooper(
+      WidgetTester tester,
+      _LooperExportService exportService, {
+      bool previewBeforeExport = false,
+      bool settleAfterExport = true,
+    }) async {
+      await tester.pumpWidget(buildTestWidget(
+        locale: const Locale('es'),
+        exportService: exportService,
+      ));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(const ValueKey('viewerLooperButton')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('looperSetAButton')));
+      controller.updateZoom(2);
+      await tester.pump();
+      await tester.tap(find.byKey(const ValueKey('looperSetBButton')));
+      await tester.drag(
+        find.byKey(const ValueKey('looperDurationSlider')),
+        const Offset(-500, 0),
+      );
+      await tester.pump();
+      if (previewBeforeExport) {
+        await tester.tap(find.byKey(const ValueKey('looperPreviewButton')));
+        await tester.pump();
+      }
+      final zoomAtExport = controller.view.zoom;
+      await tester.tap(find.byKey(const ValueKey('looperExportGifButton')));
+      if (settleAfterExport) await tester.pumpAndSettle();
+      return zoomAtExport;
+    }
+
+    testWidgets(
+        'looper export localizes feedback and shares the pre-export view',
+        (tester) async {
+      final exportService = _LooperExportService();
+      await exportLooper(tester, exportService);
+
+      expect(exportService.saveCalls, 1);
+      expect(find.text('GIF en bucle exportado'), findsOneWidget);
+      expect(find.text('Looper GIF exported'), findsNothing);
+      final sharedUrl = exportService.sharedText!
+          .split('\n')
+          .firstWhere((line) => line.startsWith('https://'));
+      expect(Uri.parse(sharedUrl).queryParameters['z'], '2');
+      historyProvider.cancelPendingRecord();
+    });
+
+    testWidgets('looper keeps a completed save when sharing fails',
+        (tester) async {
+      final exportService = _LooperExportService(shareThrows: true);
+      await exportLooper(tester, exportService);
+
+      expect(exportService.saveCalls, 1);
+      expect(
+        find.text(
+          'GIF en bucle guardado. No se abrió compartir; comparte el archivo guardado manualmente.',
+        ),
+        findsOneWidget,
+      );
+      historyProvider.cancelPendingRecord();
+    });
+
+    testWidgets('looper reports a directory picker failure', (tester) async {
+      final exportService = _LooperExportService(pickerThrows: true);
+      await exportLooper(tester, exportService);
+
+      expect(tester.takeException(), isNull);
+      expect(exportService.saveCalls, 0);
+      expect(
+        find.textContaining('Error al exportar el GIF en bucle'),
+        findsOneWidget,
+      );
+      expect(find.textContaining('Exportación de video fallida'), findsNothing);
+      historyProvider.cancelPendingRecord();
+    });
+
+    testWidgets('looper stops preview when the directory picker fails',
+        (tester) async {
+      final exportService = _LooperExportService(
+        pickerDelay: const Duration(milliseconds: 200),
+        pickerThrows: true,
+      );
+      final zoomAtExport = await exportLooper(
+        tester,
+        exportService,
+        previewBeforeExport: true,
+        settleAfterExport: false,
+      );
+
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(controller.view.zoom, zoomAtExport);
+      historyProvider.cancelPendingRecord();
+    });
+
+    testWidgets('looper export restores the state visible before the picker',
+        (tester) async {
+      final exportService = _LooperExportService(
+        pickerDelay: const Duration(milliseconds: 200),
+      );
+      final zoomAtExport = await exportLooper(
+        tester,
+        exportService,
+        previewBeforeExport: true,
+      );
+
+      expect(controller.view.zoom, zoomAtExport);
+      historyProvider.cancelPendingRecord();
     });
 
     testWidgets('works with all modules', (tester) async {

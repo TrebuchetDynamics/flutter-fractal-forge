@@ -1138,6 +1138,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get looperExportGif => 'Export GIF';
 
   @override
+  String get looperExportSuccess => 'Looper GIF exported';
+
+  @override
+  String looperExportFailed(Object error) {
+    return 'Looper GIF export failed: $error';
+  }
+
+  @override
+  String get looperExportSavedShareFailed =>
+      'Looper GIF saved. Sharing did not open; share the saved file manually.';
+
+  @override
   String get shaderErrorTryAgain => 'Try Again';
 
   @override
