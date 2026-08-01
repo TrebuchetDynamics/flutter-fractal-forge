@@ -5,6 +5,25 @@ All notable changes to Flutter Fractal Forge are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.83] - 2026-07-31
+
+### Added
+
+- Added Fractint's YinFinite Julia fractal with its source viewport and
+  normal-map palette.
+- Added a Source code link to Settings → About.
+
+### Changed
+
+- Camera loops now ease smoothly into and out of saved waypoints.
+- The camera-path editor now guides the A → B workflow and announces each
+  state to assistive technology.
+
+### Fixed
+
+- Looper GIF export now reports directory-selection and sharing failures
+  accurately while preserving successful saved files.
+
 ## [1.1.82] - 2026-07-30
 
 ### Added
