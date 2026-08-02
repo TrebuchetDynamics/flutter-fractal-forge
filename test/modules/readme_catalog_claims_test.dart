@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:yaml/yaml.dart';
 
 /// Anchors the public copy in README.md (and the store listing) to the code.
 ///
@@ -26,9 +27,19 @@ void main() {
     expect(diagnostics, 7,
         reason: 'README.md says debug/test builds add 7 diagnostic modules');
 
+    final pubspec =
+        loadYaml(File('pubspec.yaml').readAsStringSync()) as YamlMap;
+    expect(pubspec['description'], contains('$production'),
+        reason: 'pubspec description has a stale catalog count');
+
     expect(
       File('README.md').readAsStringSync(),
       contains('$production production fractals'),
+    );
+    expect(
+      File('web/landing.html').readAsStringSync(),
+      contains('<strong>$production</strong>'),
+      reason: 'web landing page has a stale catalog count',
     );
 
     final listing = jsonDecode(
@@ -50,7 +61,27 @@ void main() {
           jsonDecode(File(path).readAsStringSync()) as Map<String, dynamic>;
       expect(messages['settingsAboutBlurb'], contains('$production'),
           reason: '$path has a stale About catalog count');
+      expect(messages['homeFractalCountBadge'], contains('$production'),
+          reason: '$path has a stale home catalog count');
     }
+  });
+
+  test('web landing exposes verified downloads', () {
+    final landing = File('web/landing.html').readAsStringSync();
+
+    expect(landing, isNot(contains('Public download URL goes here')));
+    expect(
+      landing,
+      contains(
+        'https://play.google.com/store/apps/details?id=com.trebuchetdynamics.fractal.forge',
+      ),
+    );
+    expect(
+      landing,
+      contains(
+        'https://github.com/TrebuchetDynamics/flutter-fractal-forge/releases/latest',
+      ),
+    );
   });
 
   test('README color scheme count is backed by the palette set', () {

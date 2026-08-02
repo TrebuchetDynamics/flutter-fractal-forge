@@ -1263,7 +1263,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get homeFractalCountBadge => '350+ fractales';
+  String get homeFractalCountBadge => '965 fractales';
 
   @override
   String get catalogAllFractals => 'Todos los fractales';

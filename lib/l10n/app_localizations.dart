@@ -2393,7 +2393,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeFractalCountBadge.
   ///
   /// In en, this message translates to:
-  /// **'350+ fractals'**
+  /// **'965 fractals'**
   String get homeFractalCountBadge;
 
   /// No description provided for @catalogAllFractals.

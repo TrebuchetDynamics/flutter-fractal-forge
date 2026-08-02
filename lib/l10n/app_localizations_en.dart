@@ -1249,7 +1249,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get homeFractalCountBadge => '350+ fractals';
+  String get homeFractalCountBadge => '965 fractals';
 
   @override
   String get catalogAllFractals => 'All Fractals';
