@@ -96,8 +96,8 @@ Only after explicit owner approval to deploy and after the pre-deploy hardware s
    scripts/release.sh website
    ```
 
-5. Wait for the deploy job to finish.
-6. Open the canonical landing URL and smoke test:
+4. Wait for the deploy job to finish.
+5. Open the canonical landing URL and smoke test:
    - landing page loads;
    - **Try web preview** opens the Flutter app;
    - onboarding can be skipped;
@@ -114,7 +114,7 @@ For the first soft launch, the download/install CTA should remain a source-build
 Do not market this as full web parity yet:
 
 - Web JavaScript target is runtime viable in Chrome smoke tests.
-- WebAssembly build is currently blocked by dependency imports (`share_plus`, `dart:html`, `ffi`, `win32`).
+- WebAssembly builds locally on Flutter 3.44.6, but has not completed browser smoke testing.
 - Export/share, CPU precision fallback, deep zoom, and real hardware GPU performance still need browser QA.
 
 ## Rollback

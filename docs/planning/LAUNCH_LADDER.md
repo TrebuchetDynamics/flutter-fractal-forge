@@ -1,6 +1,6 @@
 # Fractal Forge Launch Ladder
 
-> Updated: 2026-06-03
+> Updated: 2026-08-02
 >
 > Goal: grow Fractal Forge from a working open-source Flutter fractal app with 500+ downloads into a discoverable project with a web preview, stronger first impression, and staged social launch.
 
@@ -24,20 +24,21 @@ Use **browser web preview** instead of **full web app** until the web gaps below
   - Served `build/web` reached onboarding, catalog, and a GPU-labelled viewer.
   - Follow-up smoke after manifest-gated thumbnails reported `thumbnail404Count: 0` and `networkErrorCount: 0`.
   - See `docs/engineering/rendering/renderer_backend_matrix.md`.
-- Web Wasm target is not viable yet:
-  - `flutter build web --wasm` fails through `share_plus` / `dart:html` and transitive `ffi` / `win32` imports.
+- Web Wasm target is buildable but not runtime-validated yet:
+  - `flutter build web --wasm` succeeded on Flutter 3.44.6.
+  - Browser smoke, export/share, CPU precision fallback, deep zoom, and hardware GPU behavior remain unverified.
 
 ## Weaknesses to fix before a bigger launch
 
-| Weakness | Why it matters | Launch impact | Minimum fix |
-|---|---|---:|---|
-| Catalog entries without exact thumbnails | Fallback thumbnails are acceptable for preview but weaker than curated visual assets | Medium | Generate or curate exact thumbnails for the first featured/top catalog entries. |
-| README screenshots are weak/incomplete | GitHub is a primary landing page for open source | High | Replace placeholder screenshot table with real images/GIF and remove the README "not final marketing captures" disclaimer. |
-| No public web URL yet | Users need a low-friction try-before-install path | High | Deploy web JS preview with clear caveats. |
-| Web parity is unproven | Reddit/social users will test edge cases fast | High | Hide/label unsupported web flows; verify export/share/deep zoom separately. |
-| Too many fractals without curation | New users need instant wow, not a wall of options | Medium | Lead with a Featured Launch Set of 10-20 beautiful, browser-reliable fractals, then mention the broader catalog as depth. |
-| No short video/GIF package | Social posts need motion | Medium | Capture 15-30s catalog -> viewer -> zoom clip and 2 looping GIFs. |
-| Hardware browser performance unknown | Headless smoke used software WebGL/SwiftShader warnings | Medium | Test Chrome on one normal desktop/laptop with hardware GPU before public deployment. |
+| Weakness                                 | Why it matters                                                                       | Launch impact | Minimum fix                                                                                                                |
+| ---------------------------------------- | ------------------------------------------------------------------------------------ | ------------: | -------------------------------------------------------------------------------------------------------------------------- |
+| Catalog entries without exact thumbnails | Fallback thumbnails are acceptable for preview but weaker than curated visual assets |        Medium | Generate or curate exact thumbnails for the first featured/top catalog entries.                                            |
+| README screenshots are weak/incomplete   | GitHub is a primary landing page for open source                                     |          High | Replace placeholder screenshot table with real images/GIF and remove the README "not final marketing captures" disclaimer. |
+| No public web URL yet                    | Users need a low-friction try-before-install path                                    |          High | Deploy web JS preview with clear caveats.                                                                                  |
+| Web parity is unproven                   | Reddit/social users will test edge cases fast                                        |          High | Hide/label unsupported web flows; verify export/share/deep zoom separately.                                                |
+| Too many fractals without curation       | New users need instant wow, not a wall of options                                    |        Medium | Lead with a Featured Launch Set of 10-20 beautiful, browser-reliable fractals, then mention the broader catalog as depth.  |
+| No short video/GIF package               | Social posts need motion                                                             |        Medium | Capture 15-30s catalog -> viewer -> zoom clip and 2 looping GIFs.                                                          |
+| Hardware browser performance unknown     | Headless smoke used software WebGL/SwiftShader warnings                              |        Medium | Test Chrome on one normal desktop/laptop with hardware GPU before public deployment.                                       |
 
 ## Stage 1 — Website preview
 
@@ -176,7 +177,7 @@ Do not block bigger launch solely for documented preview limitations:
 
 - deep-zoom limitations;
 - export/share gaps;
-- WebAssembly failure;
+- unverified WebAssembly runtime parity;
 - non-featured fractal visual bugs;
 - missing exact thumbnails outside the Featured Launch Set.
 
