@@ -4,35 +4,43 @@
 # debug
 
 ## Purpose
-Debug and diagnostic overlays for development. Provides real-time performance metrics, shader compilation status, and rendering diagnostics.
+
+Developer diagnostics for real-time performance, shader rendering, and app logs.
 
 ## Key Files
 
-| File | Description |
-|------|-------------|
-| `debug_overlay.dart` | `DebugOverlay` - shows FPS, frame time, memory usage, and render state |
-| `performance_overlay.dart` | `PerformanceOverlay` - focused performance metrics display |
-| `shader_debug_overlay.dart` | `ShaderDebugOverlay` - shader compilation status and uniform values |
-| `shader_lab_screen.dart` | `ShaderLabScreen` - interactive shader testing and experimentation screen |
+| File                       | Description                                                          |
+| -------------------------- | -------------------------------------------------------------------- |
+| `log_viewer_screen.dart`   | `LogViewerScreen` - filterable app log viewer with export support    |
+| `performance_overlay.dart` | `FractalPerformanceOverlay` - real-time FPS and frame-time metrics   |
+| `shader_lab_screen.dart`   | `ShaderLabScreen` - isolated Flutter and fragment-shader diagnostics |
 
 ## For AI Agents
 
 ### Working In This Directory
-- Debug overlays only visible in debug builds (`kDebugMode`)
-- ShaderLab is a standalone screen for testing shader parameters
+
+- Shader Lab isolates solid-color, gradient, and runtime fragment-shader rendering
 - Performance overlay uses `PerformanceService` for metrics
+- Log viewer reads from `AppLogger` and exports through `ExportService`
 
 ### Testing Requirements
-- `test/debug_overlay_widget_test.dart`
+
+- `test/diagnostics/log_viewer_screen_test.dart`
+- `test/shaders/shader_lab_screen_test.dart`
+- `test/shaders/shader_lab_screen_a11y_test.dart`
 
 ## Dependencies
 
 ### Internal
-- `core/services/performance_service.dart` - Performance metrics
+
+- `core/services/diagnostics/performance_service.dart` - Performance metrics
+- `core/services/diagnostics/app_logger_service.dart` - App log stream
+- `core/services/export/export_service.dart` - Log export
 
 <!-- MANUAL: -->
 
 <!-- karpathy-guidelines:start -->
+
 ## Karpathy-Inspired Agent Guardrails
 
 Source: https://github.com/forrestchang/andrej-karpathy-skills at commit `2c60614`.
@@ -64,9 +72,11 @@ Tradeoff: they bias toward caution over speed for non-trivial work; use judgment
 - Convert the request into verifiable success criteria before editing.
 - For multi-step work, state a short plan with a verification check for each step.
 - Loop until the relevant tests, builds, or manual checks prove the goal is met.
+
 <!-- karpathy-guidelines:end -->
 
 <!-- karpathy-project-adjustment:start -->
+
 ## Project-Specific Karpathy Adjustment
 
 This section localizes the Karpathy guardrails for `workspace-sidon/trebuchet-dynamics/flutter-fractal-forge/lib/features/debug`. Source inspiration: https://github.com/forrestchang/andrej-karpathy-skills at commit `2c60614`.
@@ -77,4 +87,5 @@ This section localizes the Karpathy guardrails for `workspace-sidon/trebuchet-dy
 - Evidence to prefer: test output, analyzer/linter output, screenshot/pixel checks when relevant, shader compile logs, frame/performance metrics, and exact UI state text.
 - Surgical boundary: do not rely on visual vibes; validate rendering numerically and describe results in screen-reader-friendly text.
 - Stop and ask when: a visual requirement lacks measurable acceptance criteria or accessibility impact is uncertain.
+
 <!-- karpathy-project-adjustment:end -->

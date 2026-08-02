@@ -4,31 +4,39 @@
 # onboarding
 
 ## Purpose
-First-launch onboarding flow introducing users to the app's features and gestures.
+
+Animated startup splash shown before the home screen.
 
 ## Key Files
 
-| File | Description |
-|------|-------------|
-| `onboarding_screen.dart` | `OnboardingScreen` - multi-page onboarding carousel with gesture tutorials |
+| File                 | Description                                                                      |
+| -------------------- | -------------------------------------------------------------------------------- |
+| `splash_screen.dart` | `FractalSplashScreen` - timed animated fractal splash with a completion callback |
 
 ## For AI Agents
 
 ### Working In This Directory
-- Shown only on first launch (tracked by `OnboardingService`)
-- Calls `onComplete` callback when finished to transition to HomeScreen
+
+- `_AppBootstrap` skips the splash for automated tests, catalog smoke tests, or an explicit `skipSplash`
+- The splash selects and randomizes a 2D fractal when `ModuleRegistry` is available
+- `onFinished` transitions the app to `HomeScreen`
 
 ### Testing Requirements
-- `test/onboarding_screen_widget_test.dart`
+
+- `test/onboarding/splash_screen_widget_test.dart`
 
 ## Dependencies
 
 ### Internal
-- `core/services/onboarding_service.dart` - Completion state tracking
+
+- `app/flutter_fractals_app.dart` - Splash-to-home startup orchestration
+- `core/modules/module_registry.dart` - Splash fractal selection
+- `core/controllers/fractal_controller.dart` - Splash fractal state
 
 <!-- MANUAL: -->
 
 <!-- karpathy-guidelines:start -->
+
 ## Karpathy-Inspired Agent Guardrails
 
 Source: https://github.com/forrestchang/andrej-karpathy-skills at commit `2c60614`.
@@ -60,9 +68,11 @@ Tradeoff: they bias toward caution over speed for non-trivial work; use judgment
 - Convert the request into verifiable success criteria before editing.
 - For multi-step work, state a short plan with a verification check for each step.
 - Loop until the relevant tests, builds, or manual checks prove the goal is met.
+
 <!-- karpathy-guidelines:end -->
 
 <!-- karpathy-project-adjustment:start -->
+
 ## Project-Specific Karpathy Adjustment
 
 This section localizes the Karpathy guardrails for `workspace-sidon/trebuchet-dynamics/flutter-fractal-forge/lib/features/onboarding`. Source inspiration: https://github.com/forrestchang/andrej-karpathy-skills at commit `2c60614`.
@@ -73,4 +83,5 @@ This section localizes the Karpathy guardrails for `workspace-sidon/trebuchet-dy
 - Evidence to prefer: test output, analyzer/linter output, screenshot/pixel checks when relevant, shader compile logs, frame/performance metrics, and exact UI state text.
 - Surgical boundary: do not rely on visual vibes; validate rendering numerically and describe results in screen-reader-friendly text.
 - Stop and ask when: a visual requirement lacks measurable acceptance criteria or accessibility impact is uncertain.
+
 <!-- karpathy-project-adjustment:end -->

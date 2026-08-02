@@ -4,38 +4,43 @@
 # catalog
 
 ## Purpose
+
 Fractal catalog browser screen. Displays all available fractals in a searchable grid with thumbnail previews. Users select a fractal here to open the viewer.
 
 ## Key Files
 
-| File | Description |
-|------|-------------|
-| `fractal_catalog_screen.dart` | `FractalCatalogScreen` - grid of fractal cards with search, category filtering, and thumbnail display |
-| `catalog_entry.dart` | `CatalogEntry` - data model for a catalog item (module reference + thumbnail path + metadata) |
-| `catalog_repository.dart` | `CatalogRepository` - data layer for catalog entries, manages thumbnail lookup and category grouping |
+| File                           | Description                                                                                           |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------- |
+| `fractal_catalog_screen.dart`  | `FractalCatalogScreen` - grid of fractal cards with search, category filtering, and thumbnail display |
+| `data/catalog_entry.dart`      | `CatalogEntry` - data model for a catalog item (module reference + thumbnail path + metadata)         |
+| `data/catalog_repository.dart` | `CatalogRepository` - data layer for catalog entries, manages thumbnail lookup and category grouping  |
 
 ## For AI Agents
 
 ### Working In This Directory
+
 - Thumbnails are rendered at runtime via the fractal renderer; static `assets/catalog_thumbs/` PNGs are not bundled.
 - CPU/gradient fallback thumbnails can still show an approximate indicator (~) when runtime rendering is unavailable
 - Search filters by fractal name (localized)
 - Selecting a catalog entry navigates to FractalViewerScreen
 
 ### Testing Requirements
-- Widget tests: `test/fractal_catalog_screen_widget_test.dart`, `test/catalog_search_widget_test.dart`
-- Data tests: `test/catalog_repository_test.dart`
-- Thumbnail bundle audit: `test/catalog_thumbnail_audit_test.dart`
+
+- Widget tests: `test/fractal/fractal_catalog_screen_widget_test.dart`, `test/catalog/catalog_search_widget_test.dart`
+- Data tests: `test/catalog/catalog_repository_test.dart`
+- Thumbnail bundle audit: `test/catalog/catalog_thumbnail_audit_test.dart`
 
 ## Dependencies
 
 ### Internal
+
 - `core/modules/module_registry.dart` - Source of available fractals
 - `viewer/` - Navigation target when fractal selected
 
 <!-- MANUAL: -->
 
 <!-- karpathy-guidelines:start -->
+
 ## Karpathy-Inspired Agent Guardrails
 
 Source: https://github.com/forrestchang/andrej-karpathy-skills at commit `2c60614`.
@@ -67,9 +72,11 @@ Tradeoff: they bias toward caution over speed for non-trivial work; use judgment
 - Convert the request into verifiable success criteria before editing.
 - For multi-step work, state a short plan with a verification check for each step.
 - Loop until the relevant tests, builds, or manual checks prove the goal is met.
+
 <!-- karpathy-guidelines:end -->
 
 <!-- karpathy-project-adjustment:start -->
+
 ## Project-Specific Karpathy Adjustment
 
 This section localizes the Karpathy guardrails for `workspace-sidon/trebuchet-dynamics/flutter-fractal-forge/lib/features/catalog`. Source inspiration: https://github.com/forrestchang/andrej-karpathy-skills at commit `2c60614`.
@@ -80,4 +87,5 @@ This section localizes the Karpathy guardrails for `workspace-sidon/trebuchet-dy
 - Evidence to prefer: test output, analyzer/linter output, screenshot/pixel checks when relevant, shader compile logs, frame/performance metrics, and exact UI state text.
 - Surgical boundary: do not rely on visual vibes; validate rendering numerically and describe results in screen-reader-friendly text.
 - Stop and ask when: a visual requirement lacks measurable acceptance criteria or accessibility impact is uncertain.
+
 <!-- karpathy-project-adjustment:end -->

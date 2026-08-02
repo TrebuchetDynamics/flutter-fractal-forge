@@ -4,35 +4,40 @@
 # controls
 
 ## Purpose
+
 Parameter control panel for adjusting fractal parameters in real-time. Generates sliders, toggles, and dropdowns dynamically from the active module's parameter schema.
 
 ## Key Files
 
-| File | Description |
-|------|-------------|
+| File                    | Description                                                                                                                                                                 |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `fractal_controls.dart` | `FractalControls` - schema-driven control panel that renders sliders/toggles based on `FractalParameter` definitions. Handles float, int, boolean, and enum parameter types |
 
 ## For AI Agents
 
 ### Working In This Directory
+
 - Controls are generated dynamically from `FractalModule.parameters`
 - Each parameter type maps to a specific widget (Slider, Switch, DropdownButton)
 - Parameter values stored as `Object` in FractalController - use local variable for type promotion
 - Dart gotcha: `Object` fields do NOT type-promote; assign to `final v = value;` first
 
 ### Testing Requirements
-- `test/fractal_controls_comprehensive_test.dart`
-- `test/fractal_controls_sheet_widget_test.dart`
+
+- `test/fractal/fractal_controls_comprehensive_test.dart`
+- `test/fractal/fractal_controls_sheet_widget_test.dart`
 
 ## Dependencies
 
 ### Internal
+
 - `core/models/fractal_parameter.dart` - Parameter schema definitions
 - `core/controllers/fractal_controller.dart` - FractalController for state updates
 
 <!-- MANUAL: -->
 
 <!-- karpathy-guidelines:start -->
+
 ## Karpathy-Inspired Agent Guardrails
 
 Source: https://github.com/forrestchang/andrej-karpathy-skills at commit `2c60614`.
@@ -64,9 +69,11 @@ Tradeoff: they bias toward caution over speed for non-trivial work; use judgment
 - Convert the request into verifiable success criteria before editing.
 - For multi-step work, state a short plan with a verification check for each step.
 - Loop until the relevant tests, builds, or manual checks prove the goal is met.
+
 <!-- karpathy-guidelines:end -->
 
 <!-- karpathy-project-adjustment:start -->
+
 ## Project-Specific Karpathy Adjustment
 
 This section localizes the Karpathy guardrails for `workspace-sidon/trebuchet-dynamics/flutter-fractal-forge/lib/features/controls`. Source inspiration: https://github.com/forrestchang/andrej-karpathy-skills at commit `2c60614`.
@@ -77,4 +84,5 @@ This section localizes the Karpathy guardrails for `workspace-sidon/trebuchet-dy
 - Evidence to prefer: test output, analyzer/linter output, screenshot/pixel checks when relevant, shader compile logs, frame/performance metrics, and exact UI state text.
 - Surgical boundary: do not rely on visual vibes; validate rendering numerically and describe results in screen-reader-friendly text.
 - Stop and ask when: a visual requirement lacks measurable acceptance criteria or accessibility impact is uncertain.
+
 <!-- karpathy-project-adjustment:end -->

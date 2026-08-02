@@ -4,29 +4,32 @@
 # home
 
 ## Purpose
+
 Main home screen - the primary entry point after splash/onboarding. Creates a FractalController scoped to the Explore tab and handles deep link navigation.
 
 ## Key Files
 
-| File | Description |
-|------|-------------|
+| File               | Description                                                                                       |
+| ------------------ | ------------------------------------------------------------------------------------------------- |
 | `home_screen.dart` | `HomeScreen` - creates FractalController, sets up deep link handling, navigates to catalog/viewer |
 
 ## For AI Agents
 
 ### Working In This Directory
+
 - FractalController is created HERE (not at app root) and scoped per-tab
 - Deep links are handled by parsing `DeepLinkData` and applying to the controller
 - Navigation: HomeScreen embeds FractalCatalogScreen, navigates to FractalViewerScreen on selection
 - Safe mode flag skips deep link initialization
 
 ### Testing Requirements
-- `test/home_screen_widget_test.dart`
-- `test/home_ar_tab_opens_test.dart`
+
+- `test/screens/home_screen_widget_test.dart`
 
 ## Dependencies
 
 ### Internal
+
 - `core/modules/module_registry.dart` - Registry for controller initialization
 - `core/services/deep_link_service.dart` - Deep link handling
 - `catalog/` - Catalog screen
@@ -36,6 +39,7 @@ Main home screen - the primary entry point after splash/onboarding. Creates a Fr
 <!-- MANUAL: -->
 
 <!-- karpathy-guidelines:start -->
+
 ## Karpathy-Inspired Agent Guardrails
 
 Source: https://github.com/forrestchang/andrej-karpathy-skills at commit `2c60614`.
@@ -67,9 +71,11 @@ Tradeoff: they bias toward caution over speed for non-trivial work; use judgment
 - Convert the request into verifiable success criteria before editing.
 - For multi-step work, state a short plan with a verification check for each step.
 - Loop until the relevant tests, builds, or manual checks prove the goal is met.
+
 <!-- karpathy-guidelines:end -->
 
 <!-- karpathy-project-adjustment:start -->
+
 ## Project-Specific Karpathy Adjustment
 
 This section localizes the Karpathy guardrails for `workspace-sidon/trebuchet-dynamics/flutter-fractal-forge/lib/features/home`. Source inspiration: https://github.com/forrestchang/andrej-karpathy-skills at commit `2c60614`.
@@ -80,4 +86,5 @@ This section localizes the Karpathy guardrails for `workspace-sidon/trebuchet-dy
 - Evidence to prefer: test output, analyzer/linter output, screenshot/pixel checks when relevant, shader compile logs, frame/performance metrics, and exact UI state text.
 - Surgical boundary: do not rely on visual vibes; validate rendering numerically and describe results in screen-reader-friendly text.
 - Stop and ask when: a visual requirement lacks measurable acceptance criteria or accessibility impact is uncertain.
+
 <!-- karpathy-project-adjustment:end -->

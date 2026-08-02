@@ -4,28 +4,32 @@
 # viewer
 
 ## Purpose
+
 Full fractal viewer screen - the main interactive experience. Integrates the renderer, controls panel, presets, export options, and auto-explore into a cohesive viewing experience.
 
 ## Key Files
 
-| File | Description |
-|------|-------------|
+| File                         | Description                                                                                                                                                 |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `fractal_viewer_screen.dart` | `FractalViewerScreen` - full-screen fractal viewer with bottom sheet controls, toolbar buttons (presets, export), and overlay widgets (debug, auto-explore) |
 
 ## For AI Agents
 
 ### Working In This Directory
+
 - Requires FractalController provided via Provider ancestor
 - Known issue: `ProviderNotFoundException` if provider not wrapped around viewer route
 - Assembles multiple feature widgets: renderer, controls, presets, export
 - Toolbar provides access to presets sheet, export sheet
 
 ### Testing Requirements
-- `test/fractal_viewer_screen_widget_test.dart`
+
+- `test/fractal/fractal_viewer_screen_widget_test.dart`
 
 ## Dependencies
 
 ### Internal
+
 - `renderer/` - Fractal rendering
 - `controls/` - Parameter controls
 - `presets/` - Preset panel
@@ -36,6 +40,7 @@ Full fractal viewer screen - the main interactive experience. Integrates the ren
 <!-- MANUAL: -->
 
 <!-- karpathy-guidelines:start -->
+
 ## Karpathy-Inspired Agent Guardrails
 
 Source: https://github.com/forrestchang/andrej-karpathy-skills at commit `2c60614`.
@@ -67,9 +72,11 @@ Tradeoff: they bias toward caution over speed for non-trivial work; use judgment
 - Convert the request into verifiable success criteria before editing.
 - For multi-step work, state a short plan with a verification check for each step.
 - Loop until the relevant tests, builds, or manual checks prove the goal is met.
+
 <!-- karpathy-guidelines:end -->
 
 <!-- karpathy-project-adjustment:start -->
+
 ## Project-Specific Karpathy Adjustment
 
 This section localizes the Karpathy guardrails for `workspace-sidon/trebuchet-dynamics/flutter-fractal-forge/lib/features/viewer`. Source inspiration: https://github.com/forrestchang/andrej-karpathy-skills at commit `2c60614`.
@@ -80,4 +87,5 @@ This section localizes the Karpathy guardrails for `workspace-sidon/trebuchet-dy
 - Evidence to prefer: test output, analyzer/linter output, screenshot/pixel checks when relevant, shader compile logs, frame/performance metrics, and exact UI state text.
 - Surgical boundary: do not rely on visual vibes; validate rendering numerically and describe results in screen-reader-friendly text.
 - Stop and ask when: a visual requirement lacks measurable acceptance criteria or accessibility impact is uncertain.
+
 <!-- karpathy-project-adjustment:end -->

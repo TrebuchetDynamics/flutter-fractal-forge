@@ -7,20 +7,20 @@
 ## The curated set
 
 The app already ships a deterministic featured set in
-`lib/features/catalog/featured_launch_set.dart` (`kFeaturedLaunchSetModuleIds`).
+`lib/features/catalog/data/featured_launch_set.dart` (`kFeaturedLaunchSetModuleIds`).
 These are the launch-critical first-impression fractals:
 
-| Module ID | Family | One-line caption (for X / store) |
-|---|---|---|
-| `mandelbrot` | escape-time (2D) | The original — infinite detail at every zoom. |
-| `julia` | escape-time (2D) | Twist one constant, get a whole new universe. |
-| `burning_ship` | escape-time (2D) | Jagged, alien, unmistakable. |
-| `phoenix` | escape-time (2D) | Fractals with memory — each step remembers the last. |
-| `nova` | relaxation | Relaxation dynamics blooming into petals. |
-| `newton_z3` | Newton | Where root-finding turns into art. |
-| `koch_snowflake` | IFS / geometric | Infinite perimeter, finite area. |
-| `barnsley_fern` | IFS attractor | Chaos that grows a leaf. |
-| `lorenz_2d` | strange attractor | The butterfly effect, drawn. |
+| Module ID        | Family            | One-line caption (for X / store)                     |
+| ---------------- | ----------------- | ---------------------------------------------------- |
+| `mandelbrot`     | escape-time (2D)  | The original — infinite detail at every zoom.        |
+| `julia`          | escape-time (2D)  | Twist one constant, get a whole new universe.        |
+| `burning_ship`   | escape-time (2D)  | Jagged, alien, unmistakable.                         |
+| `phoenix`        | escape-time (2D)  | Fractals with memory — each step remembers the last. |
+| `nova`           | relaxation        | Relaxation dynamics blooming into petals.            |
+| `newton_z3`      | Newton            | Where root-finding turns into art.                   |
+| `koch_snowflake` | IFS / geometric   | Infinite perimeter, finite area.                     |
+| `barnsley_fern`  | IFS attractor     | Chaos that grows a leaf.                             |
+| `lorenz_2d`      | strange attractor | The butterfly effect, drawn.                         |
 
 ### Coverage gap to close for marketing
 
@@ -94,15 +94,15 @@ CATALOG_SMOKE_FILTER="mandelbrot|julia|burning_ship|phoenix|nova|newton_z3|koch_
 
 ## Target sizes per platform
 
-| Use | Size | Source |
-|---|---|---|
-| X / social, square | 1080×1080 | `capture-launch-media.sh` (default) |
-| X / social, landscape | 1600×900 (crop from 1440) | crop a 1440 still |
-| GitHub README stills | ≤1280 wide | downscale stills |
-| GitHub README / X GIF | ≤1280 wide, <15 MB | in-app Looper GIF |
-| Play feature graphic | 1024×500 | compose from a hero still (`store_listing/ASSET_SPECS.md`) |
-| Play phone screenshots | 1080×1920 (portrait, with UI) | `full_screenshots_test.dart` |
-| Web hero | 1920×1080 | compose / crop |
+| Use                    | Size                          | Source                                                     |
+| ---------------------- | ----------------------------- | ---------------------------------------------------------- |
+| X / social, square     | 1080×1080                     | `capture-launch-media.sh` (default)                        |
+| X / social, landscape  | 1600×900 (crop from 1440)     | crop a 1440 still                                          |
+| GitHub README stills   | ≤1280 wide                    | downscale stills                                           |
+| GitHub README / X GIF  | ≤1280 wide, <15 MB            | in-app Looper GIF                                          |
+| Play feature graphic   | 1024×500                      | compose from a hero still (`store_listing/ASSET_SPECS.md`) |
+| Play phone screenshots | 1080×1920 (portrait, with UI) | `full_screenshots_test.dart`                               |
+| Web hero               | 1920×1080                     | compose / crop                                             |
 
 ## Branding
 

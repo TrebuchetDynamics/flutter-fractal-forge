@@ -9,19 +9,19 @@ Use this lane for ordinary PR feedback before running the larger generated catal
 ```bash
 flutter analyze
 flutter test \
-  test/precision_ladder_policy_test.dart \
-  test/backend_policy_comprehensive_test.dart \
-  test/fractal_controller_behavior_test.dart \
-  test/export_service_test.dart \
-  test/export_options_sheet_widget_test.dart \
-  test/share_service_boundary_test.dart \
-  test/viewer_export_session_test.dart \
+  test/renderer/precision_ladder_policy_test.dart \
+  test/renderer/backend_policy_comprehensive_test.dart \
+  test/fractal/fractal_controller_behavior_test.dart \
+  test/export/export_service_test.dart \
+  test/export/export_options_sheet_widget_test.dart \
+  test/share/share_service_boundary_test.dart \
+  test/export/viewer_export_session_test.dart \
   test/features/viewer/viewer_export_feedback_test.dart \
-  test/catalog_id_integrity_test.dart \
+  test/catalog/catalog_id_integrity_test.dart \
   test/modules/generated_module_contract_test.dart \
   test/modules/escape_time_uniform_contract_test.dart \
   test/modules/escape_time_shader_manifest_test.dart \
-  test/shader_web_compat_test.dart
+  test/shaders/shader_web_compat_test.dart
 ```
 
 ## Full local test suite
@@ -35,7 +35,7 @@ flutter test
 ## Run a single test file
 
 ```bash
-flutter test test/fractal_controller_behavior_test.dart
+flutter test test/fractal/fractal_controller_behavior_test.dart
 ```
 
 ## Helpful notes
@@ -47,6 +47,7 @@ flutter test test/fractal_controller_behavior_test.dart
   ```
 
   so they don't read/write real device storage.
+
 - Some tests call:
 
   ```dart

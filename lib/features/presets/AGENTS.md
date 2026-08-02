@@ -4,36 +4,42 @@
 # presets
 
 ## Purpose
+
 Preset selection and management panel. Displays built-in and user-created presets for the current fractal module, with save/delete/rename functionality.
 
 ## Key Files
 
-| File | Description |
-|------|-------------|
+| File                | Description                                                                                           |
+| ------------------- | ----------------------------------------------------------------------------------------------------- |
 | `preset_sheet.dart` | `PresetSheet` - bottom sheet showing preset grid with thumbnails, save button, and management options |
 
 ## For AI Agents
 
 ### Working In This Directory
+
 - Built-in presets come from `FractalModule.builtInPresets`
 - User presets stored via `PresetStore` (SharedPreferences)
 - Applying a preset updates FractalController with the preset's params + view state
-- Randomize button generates random valid parameter values
 
 ### Testing Requirements
-- `test/preset_sheet_widget_test.dart`
-- `test/preset_sheet_comprehensive_test.dart`
+
+- `test/preset/preset_sheet_widget_test.dart`
+- `test/preset/preset_sheet_a11y_test.dart`
+- `test/preset/preset_dialogs_a11y_test.dart`
+- `test/preset/preset_store_test.dart`
 
 ## Dependencies
 
 ### Internal
-- `core/services/preset_store.dart` - User preset persistence
+
+- `core/services/storage/preset_store.dart` - User preset persistence
 - `core/models/fractal_preset.dart` - Preset data model
 - `core/controllers/fractal_controller.dart` - Apply preset to controller
 
 <!-- MANUAL: -->
 
 <!-- karpathy-guidelines:start -->
+
 ## Karpathy-Inspired Agent Guardrails
 
 Source: https://github.com/forrestchang/andrej-karpathy-skills at commit `2c60614`.
@@ -65,9 +71,11 @@ Tradeoff: they bias toward caution over speed for non-trivial work; use judgment
 - Convert the request into verifiable success criteria before editing.
 - For multi-step work, state a short plan with a verification check for each step.
 - Loop until the relevant tests, builds, or manual checks prove the goal is met.
+
 <!-- karpathy-guidelines:end -->
 
 <!-- karpathy-project-adjustment:start -->
+
 ## Project-Specific Karpathy Adjustment
 
 This section localizes the Karpathy guardrails for `workspace-sidon/trebuchet-dynamics/flutter-fractal-forge/lib/features/presets`. Source inspiration: https://github.com/forrestchang/andrej-karpathy-skills at commit `2c60614`.
@@ -78,4 +86,5 @@ This section localizes the Karpathy guardrails for `workspace-sidon/trebuchet-dy
 - Evidence to prefer: test output, analyzer/linter output, screenshot/pixel checks when relevant, shader compile logs, frame/performance metrics, and exact UI state text.
 - Surgical boundary: do not rely on visual vibes; validate rendering numerically and describe results in screen-reader-friendly text.
 - Stop and ask when: a visual requirement lacks measurable acceptance criteria or accessibility impact is uncertain.
+
 <!-- karpathy-project-adjustment:end -->

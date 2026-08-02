@@ -2,7 +2,7 @@
 #
 # Capture high-resolution marketing stills of the Featured Launch Set.
 #
-# Renders kFeaturedLaunchSetModuleIds (lib/features/catalog/featured_launch_set.dart)
+# Renders kFeaturedLaunchSetModuleIds (lib/features/catalog/data/featured_launch_set.dart)
 # through the GPU thumbnail harness at LAUNCH_MEDIA_SIZE resolution, into
 # build/test_output/launch_media/.
 #

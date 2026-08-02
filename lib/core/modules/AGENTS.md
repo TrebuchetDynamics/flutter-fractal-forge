@@ -47,7 +47,7 @@ Fractal module system - the heart of the rendering architecture. Defines `Fracta
 - `ModuleNameBuilder` - callback for localized display names
 
 ### Testing Requirements
-- Module registry tested in `test/module_registry_widget_test.dart`
+- Module registry tested in `test/modules/module_registry_widget_test.dart`
 - Individual modules tested via renderer and controller tests
 
 ## Dependencies

@@ -4,37 +4,42 @@
 # widgets
 
 ## Purpose
+
 Shared, reusable widgets used across multiple features. Provides accessibility wrappers, animation effects, and error handling boundaries.
 
 ## Key Files
 
-| File | Description |
-|------|-------------|
+| File                         | Description                                                                     |
+| ---------------------------- | ------------------------------------------------------------------------------- |
 | `accessibility_widgets.dart` | Widgets with built-in accessibility support (semantic labels, focus management) |
-| `animated_widgets.dart` | Pre-built animation widgets (fade, slide, scale transitions) |
-| `animation_effects.dart` | Celebration effects, morphing transitions, visual feedback animations |
-| `error_boundary.dart` | `ErrorBoundary` widget that catches and displays rendering errors gracefully |
+| `animated_widgets.dart`      | Pre-built animation widgets (fade, slide, scale transitions)                    |
+| `animation_effects.dart`     | Celebration effects, morphing transitions, visual feedback animations           |
+| `error_boundary.dart`        | `ErrorBoundary` widget that catches and displays rendering errors gracefully    |
 
 ## For AI Agents
 
 ### Working In This Directory
+
 - These widgets are feature-agnostic - usable from any screen
 - `ErrorBoundary` wraps the fractal renderer to catch GPU/shader errors
 - Animation effects include splash screen (`FractalSplashScreen`) and morph transitions
 - Accessibility widgets enforce proper semantic annotations
 
 ### Testing Requirements
-- Error boundary tested in `test/error_boundary_test.dart`
-- Accessibility tested in `test/accessibility_test.dart`
+
+- Error boundary tested in `test/app/error_boundary_test.dart`
+- Accessibility tested in `test/a11y/accessibility_test.dart`
 
 ## Dependencies
 
 ### Internal
+
 - `theme/` - AppColors and theme constants
 
 <!-- MANUAL: -->
 
 <!-- karpathy-guidelines:start -->
+
 ## Karpathy-Inspired Agent Guardrails
 
 Source: https://github.com/forrestchang/andrej-karpathy-skills at commit `2c60614`.
@@ -66,9 +71,11 @@ Tradeoff: they bias toward caution over speed for non-trivial work; use judgment
 - Convert the request into verifiable success criteria before editing.
 - For multi-step work, state a short plan with a verification check for each step.
 - Loop until the relevant tests, builds, or manual checks prove the goal is met.
+
 <!-- karpathy-guidelines:end -->
 
 <!-- karpathy-project-adjustment:start -->
+
 ## Project-Specific Karpathy Adjustment
 
 This section localizes the Karpathy guardrails for `workspace-sidon/trebuchet-dynamics/flutter-fractal-forge/lib/core/widgets`. Source inspiration: https://github.com/forrestchang/andrej-karpathy-skills at commit `2c60614`.
@@ -79,4 +86,5 @@ This section localizes the Karpathy guardrails for `workspace-sidon/trebuchet-dy
 - Evidence to prefer: test output, analyzer/linter output, screenshot/pixel checks when relevant, shader compile logs, frame/performance metrics, and exact UI state text.
 - Surgical boundary: do not rely on visual vibes; validate rendering numerically and describe results in screen-reader-friendly text.
 - Stop and ask when: a visual requirement lacks measurable acceptance criteria or accessibility impact is uncertain.
+
 <!-- karpathy-project-adjustment:end -->

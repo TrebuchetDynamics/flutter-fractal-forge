@@ -4,31 +4,33 @@
 # renderer
 
 ## Purpose
+
 Core fractal rendering engine. Contains the GPU-accelerated shader renderer, CPU fallback renderer, gesture handling, and render validation. It consumes FractalController from `core/controllers/`.
 
 ## Key Files
 
-| File | Description |
-|------|-------------|
-| `fractal_renderer.dart` | `FractalRenderer` - main widget: loads shaders, renders via CustomPainter, handles gestures (pan/zoom/rotate), adapts to FractalController state |
-| `widgets/fractal_canvas.dart` | `FractalCanvas` - CustomPainter that draws the fractal using FragmentShader |
-| `cpu/cpu_fractal_renderer.dart` | `CpuFractalRenderer` - software fallback when GPU shaders unavailable |
-| `policy/backend_policy.dart` | `BackendPolicy` - decides GPU vs CPU rendering based on device capabilities |
-| `policy/precision_ladder_policy.dart` | `PrecisionLadderPolicy` - manages precision ladder routing, extended GPU preview, and CPU Precision decisions |
-| `validation/render_validation.dart` | `RenderValidation` - validates render output correctness |
+| File                                  | Description                                                                                                                                      |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `fractal_renderer.dart`               | `FractalRenderer` - main widget: loads shaders, renders via CustomPainter, handles gestures (pan/zoom/rotate), adapts to FractalController state |
+| `widgets/fractal_canvas.dart`         | `FractalCanvas` - CustomPainter that draws the fractal using FragmentShader                                                                      |
+| `cpu/cpu_fractal_renderer.dart`       | `CpuFractalRenderer` - software fallback when GPU shaders unavailable                                                                            |
+| `policy/backend_policy.dart`          | `BackendPolicy` - decides GPU vs CPU rendering based on device capabilities                                                                      |
+| `policy/precision_ladder_policy.dart` | `PrecisionLadderPolicy` - manages precision ladder routing, extended GPU preview, and CPU Precision decisions                                    |
+| `validation/render_validation.dart`   | `RenderValidation` - validates render output correctness                                                                                         |
 
 ## Subdirectories
 
-| Directory | Purpose |
-|-----------|---------|
-| `widgets/` | Renderer UI, shader loading, painter, and gesture handling |
-| `cpu/` | CPU fallback formulas, iterators, isolates, tile workers, and viewport mapping |
-| `policy/` | Renderer backend and deep-zoom precision decisions |
-| `validation/` | Render output validation and convergence detection |
+| Directory     | Purpose                                                                        |
+| ------------- | ------------------------------------------------------------------------------ |
+| `widgets/`    | Renderer UI, shader loading, painter, and gesture handling                     |
+| `cpu/`        | CPU fallback formulas, iterators, isolates, tile workers, and viewport mapping |
+| `policy/`     | Renderer backend and deep-zoom precision decisions                             |
+| `validation/` | Render output validation and convergence detection                             |
 
 ## For AI Agents
 
 ### Working In This Directory
+
 - FractalRenderer requires `FractalController` via Provider ancestor
 - Shader loading is async; shows loading/error states while compiling
 - Gesture handling differs by dimension: pan+zoom for 2D, rotate+zoom for 3D
@@ -36,31 +38,36 @@ Core fractal rendering engine. Contains the GPU-accelerated shader renderer, CPU
 - Dynamic resolution scaling: 0.5x during gestures, 1.0x+ when static
 
 ### Gesture System
+
 - Single-finger drag: pan (2D) or rotate (3D)
 - Pinch-to-zoom: smooth zoom with momentum
 - Two-finger rotation: Z-axis rotation (3D)
 - Double-tap: reset view
 
 ### Testing Requirements
-- `test/fractal_renderer_widget_test.dart` - Widget lifecycle
-- `test/fractal_renderer_gesture_test.dart` - Gesture input
+
+- `test/fractal/fractal_renderer_widget_test.dart` - Widget lifecycle
+- `test/fractal/fractal_renderer_gesture_test.dart` - Gesture input
 - `test/fractal/fractal_render_audit_test.dart` - Render correctness
-- `test/renderer_backend_policy_test.dart` - Backend selection
-- `integration_test/render_validation_test.dart` - GPU validation
+- `test/renderer/renderer_backend_policy_test.dart` - Backend selection
+- `integration_test/rendering/render_validation_test.dart` - GPU validation
 
 ## Dependencies
 
 ### Internal
+
 - `core/modules/fractal_module.dart` - Module definitions
 - `core/widgets/error_boundary.dart` - Error handling
 - `core/widgets/animation_effects.dart` - Morph transitions
 
 ### External
+
 - `vector_math` - 3D transformations
 
 <!-- MANUAL: -->
 
 <!-- karpathy-guidelines:start -->
+
 ## Karpathy-Inspired Agent Guardrails
 
 Source: https://github.com/forrestchang/andrej-karpathy-skills at commit `2c60614`.
@@ -92,9 +99,11 @@ Tradeoff: they bias toward caution over speed for non-trivial work; use judgment
 - Convert the request into verifiable success criteria before editing.
 - For multi-step work, state a short plan with a verification check for each step.
 - Loop until the relevant tests, builds, or manual checks prove the goal is met.
+
 <!-- karpathy-guidelines:end -->
 
 <!-- karpathy-project-adjustment:start -->
+
 ## Project-Specific Karpathy Adjustment
 
 This section localizes the Karpathy guardrails for `workspace-sidon/trebuchet-dynamics/flutter-fractal-forge/lib/features/renderer`. Source inspiration: https://github.com/forrestchang/andrej-karpathy-skills at commit `2c60614`.
@@ -105,4 +114,5 @@ This section localizes the Karpathy guardrails for `workspace-sidon/trebuchet-dy
 - Evidence to prefer: test output, analyzer/linter output, screenshot/pixel checks when relevant, shader compile logs, frame/performance metrics, and exact UI state text.
 - Surgical boundary: do not rely on visual vibes; validate rendering numerically and describe results in screen-reader-friendly text.
 - Stop and ask when: a visual requirement lacks measurable acceptance criteria or accessibility impact is uncertain.
+
 <!-- karpathy-project-adjustment:end -->
