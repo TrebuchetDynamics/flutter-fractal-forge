@@ -26,12 +26,17 @@ class _LooperExportService extends ExportService {
     this.pickerDelay = Duration.zero,
     this.pickerThrows = false,
     this.shareThrows = false,
+    this.captureWidth = 2,
+    this.captureHeight = 2,
   });
 
   final Duration pickerDelay;
   final bool pickerThrows;
   final bool shareThrows;
+  final int captureWidth;
+  final int captureHeight;
   int saveCalls = 0;
+  Uint8List? savedBytes;
   String? sharedText;
 
   @override
@@ -46,11 +51,13 @@ class _LooperExportService extends ExportService {
     GlobalKey key, {
     double pixelRatio = 1.0,
   }) async =>
-      Uint8List.fromList(img.encodePng(img.Image(width: 2, height: 2)));
+      Uint8List.fromList(
+          img.encodePng(img.Image(width: captureWidth, height: captureHeight)));
 
   @override
   Future<File> saveBytes(Uint8List bytes, {required String filename}) async {
     saveCalls++;
+    savedBytes = bytes;
     return File('/tmp/$filename');
   }
 
@@ -492,12 +499,30 @@ void main() {
       await exportLooper(tester, exportService);
 
       expect(exportService.saveCalls, 1);
+      final gif = img.decodeGif(exportService.savedBytes!);
+      expect(gif, isNotNull);
+      expect(gif!.numFrames, 8);
+      expect(gif.frames.every((frame) => frame.frameDuration == 120), isTrue);
       expect(find.text('GIF en bucle exportado'), findsOneWidget);
       expect(find.text('Looper GIF exported'), findsNothing);
       final sharedUrl = exportService.sharedText!
           .split('\n')
           .firstWhere((line) => line.startsWith('https://'));
       expect(Uri.parse(sharedUrl).queryParameters['z'], '2');
+      historyProvider.cancelPendingRecord();
+    });
+
+    testWidgets('looper GIF caps its longest side at 480 pixels',
+        (tester) async {
+      final exportService = _LooperExportService(
+        captureWidth: 600,
+        captureHeight: 1000,
+      );
+      await exportLooper(tester, exportService);
+
+      final gif = img.decodeGif(exportService.savedBytes!)!;
+      expect(gif.width, 288);
+      expect(gif.height, 480);
       historyProvider.cancelPendingRecord();
     });
 

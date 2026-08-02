@@ -91,7 +91,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
 
     try {
       final frameMs = (1000 / LooperPlan.exportFps).round();
-      img.Image? animation;
+      final encoder = img.GifEncoder(samplingFactor: 12);
 
       for (var i = 0; i < plan.frameCount; i++) {
         final point = plan.stateAtFrame(i);
@@ -108,22 +108,15 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
         );
         var frame = img.decodePng(pngBytes);
         if (frame == null) throw StateError('Failed to decode loop frame');
-        if (frame.width > 640) {
+        if (frame.width > 480 || frame.height > 480) {
           frame = img.copyResize(
             frame,
-            width: 640,
+            width: frame.width >= frame.height ? 480 : null,
+            height: frame.height > frame.width ? 480 : null,
             interpolation: img.Interpolation.average,
           );
         }
-        frame.frameDuration = frameMs;
-
-        if (animation == null) {
-          animation = frame
-            ..frameType = img.FrameType.animation
-            ..loopCount = 0;
-        } else {
-          animation.addFrame(frame).frameDuration = frameMs;
-        }
+        encoder.addFrame(frame, duration: frameMs ~/ 10);
 
         if (mounted) {
           setState(() {
@@ -134,9 +127,8 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
         }
       }
 
-      final gif = animation;
-      if (gif == null) throw StateError('No loop frames captured');
-      final bytes = img.encodeGif(gif, samplingFactor: 12);
+      final bytes = encoder.finish();
+      if (bytes == null) throw StateError('No loop frames captured');
       final file = await _exportService.saveBytes(
         bytes,
         filename:
