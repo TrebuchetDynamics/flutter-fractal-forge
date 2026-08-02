@@ -169,7 +169,7 @@ All shaders compile and render correctly. Integration test confirms:
 
 Run the benchmark test:
 ```bash
-flutter test integration_test/shader_benchmark_test.dart -d linux
+flutter test integration_test/performance/shader_benchmark_test.dart -d linux
 ```
 
 ## Expected Performance Improvements

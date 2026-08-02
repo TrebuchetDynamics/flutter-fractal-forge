@@ -309,10 +309,10 @@ Use the performance overlay to identify specific scenarios that cause frame drop
 
 ```bash
 # Run integration test on a real device
-flutter test integration_test/shader_benchmark_test.dart -d <device_id>
+flutter test integration_test/performance/shader_benchmark_test.dart -d <device_id>
 
 # Example with Linux desktop
-flutter test integration_test/shader_benchmark_test.dart -d linux
+flutter test integration_test/performance/shader_benchmark_test.dart -d linux
 ```
 
 ### Benchmark Output Example

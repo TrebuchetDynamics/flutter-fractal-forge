@@ -25,7 +25,7 @@ set -euo pipefail
 #   WIPE_DATA=0                      Start with -wipe-data (default 0)
 #   PORT=auto                        Emulator port (default auto)
 #   KEEP_EMULATOR=0                  Keep emulator running even if started here (default 0)
-#   TEST_TARGET=integration_test/app_test.dart   Default test target when no args
+#   TEST_TARGET=integration_test/flows/app_test.dart   Default test target when no args
 #   REPORTER=expanded                Flutter test reporter (default expanded)
 #   ENABLE_GPU_ON_EMULATOR=0         Add dart define to bypass emulator CPU guard
 #   EMU_PROBE_TIMEOUT_MS=8000        Override GPU probe toImage timeout on emulator (default 8000)
@@ -47,7 +47,7 @@ GPU_MODE="${GPU_MODE:-swiftshader_indirect}"
 WIPE_DATA="${WIPE_DATA:-0}"
 PORT="${PORT:-auto}"
 KEEP_EMULATOR="${KEEP_EMULATOR:-0}"
-TEST_TARGET="${TEST_TARGET:-integration_test/app_test.dart}"
+TEST_TARGET="${TEST_TARGET:-integration_test/flows/app_test.dart}"
 REPORTER="${REPORTER:-expanded}"
 ENABLE_GPU_ON_EMULATOR="${ENABLE_GPU_ON_EMULATOR:-0}"
 EMU_PROBE_TIMEOUT_MS="${EMU_PROBE_TIMEOUT_MS:-8000}"

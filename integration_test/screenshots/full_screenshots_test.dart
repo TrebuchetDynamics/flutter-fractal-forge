@@ -27,14 +27,14 @@ import '../helpers/ui_test_helpers.dart';
 /// - Presets panel
 ///
 /// Run (Linux):
-///   flutter test integration_test/full_screenshots_test.dart -d linux --reporter expanded
+///   flutter test integration_test/screenshots/full_screenshots_test.dart -d linux --reporter expanded
 ///
 /// Run (Android):
-///   flutter test integration_test/full_screenshots_test.dart -d emulator-5554 --reporter expanded
+///   flutter test integration_test/screenshots/full_screenshots_test.dart -d emulator-5554 --reporter expanded
 ///
 /// Headless (Linux/CI):
 ///   xvfb-run -a -s "-screen 0 1080x1920x24" \
-///     flutter test integration_test/full_screenshots_test.dart -d linux --reporter expanded
+///     flutter test integration_test/screenshots/full_screenshots_test.dart -d linux --reporter expanded
 void main() {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 

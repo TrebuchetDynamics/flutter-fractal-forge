@@ -312,7 +312,7 @@ Note: this repo currently sets `io.flutter.embedding.android.EnableImpeller=fals
 **Single target:**
 
 ```bash
-flutter test integration_test/app_test.dart -d emulator-5554 --reporter expanded
+flutter test integration_test/flows/app_test.dart -d emulator-5554 --reporter expanded
 ```
 
 **Whole integration suite:**
@@ -323,9 +323,9 @@ flutter test integration_test/ -d emulator-5554 --reporter expanded
 
 **Useful GPU-focused targets in this repo:**
 
-- `integration_test/render_validation_test.dart`
-- `integration_test/perf_smoke_test.dart`
-- `integration_test/shader_benchmark_test.dart`
+- `integration_test/rendering/render_validation_test.dart`
+- `integration_test/performance/perf_smoke_test.dart`
+- `integration_test/performance/shader_benchmark_test.dart`
 
 **permission path checks:**
 
@@ -450,7 +450,7 @@ sudo apt-get install -y \
 ./scripts/desktop-screenshots.sh
 ```
 
-This runs `integration_test/screenshots_test.dart` on the `linux` device and copies `.png` files into:
+This runs `integration_test/screenshots/full_screenshots_test.dart` on the `linux` device and copies `.png` files into:
 
 ```
 ./screenshots/
@@ -474,7 +474,7 @@ Then run:
 
 ### 4. What gets captured
 
-See `integration_test/screenshots_test.dart`.
+See `integration_test/screenshots/full_screenshots_test.dart`.
 
 Currently captured:
 - `01_catalog`
@@ -482,6 +482,9 @@ Currently captured:
 - `03_viewer_mandelbrot`
 - `04_viewer_julia`
 - `05_viewer_burning_ship`
+- `06_viewer_phoenix`
+- `07_controls_panel`
+- `08_presets_panel`
 
 ### Notes / gotchas
 
@@ -615,7 +618,7 @@ jobs:
           api-level: 34
           target: google_apis
           arch: x86_64
-          script: flutter test integration_test/app_test.dart -d emulator-5554 --reporter expanded
+          script: flutter test integration_test/flows/app_test.dart -d emulator-5554 --reporter expanded
 ```
 
 ---

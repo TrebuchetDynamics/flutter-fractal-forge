@@ -61,7 +61,7 @@ png_re = re.compile(r"\[evidence\] frame_png fractal=(\S+) b64=(\S+)")
 cmd = [
     "flutter",
     "test",
-    "integration_test/emulator_gpu_proof_test.dart",
+    "integration_test/rendering/emulator_gpu_proof_test.dart",
     "-d",
     "emulator-5554",
 ]
@@ -117,7 +117,7 @@ FALLBACK_REMEDIATION = {
     "gpu_health_check_failed": "Inspect gpu_health stats for low nonBlackRatio/flat histogram; verify shader uniform layout and health probe behavior.",
     "forced_cpu_mode": "Set renderer backend mode to auto before running proof.",
     "emulator_guard": "Run with --dart-define=SKIP_EMULATOR_GUARD=true for emulator GPU validation.",
-    "deep_zoom_precision_cpu": "Use shallower zoom for GPU proof or accept CPU fallback for deep zoom precision protection.",
+    "deep_zoom_precision": "Use shallower zoom for GPU proof or accept CPU fallback for deep zoom precision protection.",
 }
 
 lines = log_file.read_text(errors="replace").splitlines()

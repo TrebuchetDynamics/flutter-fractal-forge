@@ -138,13 +138,13 @@ Size: 55.7 MB
 ## 4. Known P0/P1 Issues
 
 ### P1-001: `full_screenshots_test.dart:168` — Julia card not found
-**File:** `integration_test/full_screenshots_test.dart`  
+**File:** `integration_test/screenshots/full_screenshots_test.dart`<br>
 **Line:** 168  
 **Symptom:** `StateError: No element` when calling `findModuleCard('Julia').first`  
 **Root cause:** `findModuleCard` uses `find.text('Julia')` as an ancestor match. On emulator in default grid view, the "Julia" card is not in the initial viewport and `find.text` does not scroll to it. The finder returns empty.  
 **Reproduction:**
 ```bash
-scripts/headless-emulator-test.sh flutter test integration_test/full_screenshots_test.dart \
+scripts/headless-emulator-test.sh flutter test integration_test/screenshots/full_screenshots_test.dart \
   -d emulator-5554 --reporter expanded --plain-name 04_viewer_julia
 ```
 **Impact:** `04_viewer_julia`, `06_view_presets`, and any test that calls `findModuleCard('Julia')` fail.  
@@ -172,7 +172,7 @@ scripts/headless-emulator-test.sh flutter test integration_test/full_screenshots
 ---
 
 ### P2-002: `full_screenshots_test.dart` — Mandelbulb card not always visible
-**File:** `integration_test/full_screenshots_test.dart`  
+**File:** `integration_test/screenshots/full_screenshots_test.dart`<br>
 **Line:** 149  
 **Symptom:** `findModuleCard('Mandelbulb')` can fail if the 3D section header is not in viewport at pump time. Not consistently reproducible — depends on catalog initial scroll position.  
 **Impact:** `03_viewer_mandelbrot_3d` test is flaky.

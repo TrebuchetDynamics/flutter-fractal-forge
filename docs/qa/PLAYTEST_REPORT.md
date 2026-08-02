@@ -445,8 +445,8 @@ run on physical device or linux desktop for reliable baselines.
 - Fix: Either remove clearState or add onboarding skip steps to flows.
 
 ### W11. Integration test card finder keys don't match desktop layout (NEW)
-- Files: integration_test/perf_smoke_test.dart:57-63,
-  integration_test/shader_benchmark_test.dart (same pattern)
+- Files: integration_test/performance/perf_smoke_test.dart:57-63,
+  integration_test/performance/shader_benchmark_test.dart (same pattern)
 - Description: `catalogModuleCard_` / `catalogGridTile_` ValueKey patterns
   don't match the desktop layout widget keys.
 - Fix: Update finders to match actual desktop widget keys.
@@ -668,14 +668,14 @@ flutter test test/golden/ --update-goldens
 
 ### Integration tests (requires physical device or linux desktop)
 ```bash
-flutter test integration_test/app_test.dart -d linux
-flutter test integration_test/critical_journey_test.dart -d <device-id>
+flutter test integration_test/flows/app_test.dart -d linux
+flutter test integration_test/flows/critical_journey_test.dart -d <device-id>
 ```
 
 ### Performance benchmarks (requires finder fix first)
 ```bash
-flutter test integration_test/perf_smoke_test.dart -d linux
-flutter test integration_test/shader_benchmark_test.dart -d linux
+flutter test integration_test/performance/perf_smoke_test.dart -d linux
+flutter test integration_test/performance/shader_benchmark_test.dart -d linux
 ```
 
 ### Maestro flows (requires fix for onboarding -- see W10)
