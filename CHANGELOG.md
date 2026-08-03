@@ -5,6 +5,14 @@ All notable changes to Flutter Fractal Forge are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.84] - 2026-08-03
+
+### Fixed
+
+- Looper GIF exports now encode reliable frames from iteration data, preserve
+  successful saves when sharing fails, and report save and sharing failures
+  accurately.
+
 ## [1.1.83] - 2026-07-31
 
 ### Added

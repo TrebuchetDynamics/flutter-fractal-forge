@@ -1,1 +1,1 @@
-Added Fractint's YinFinite Julia fractal and a direct Source code link in Settings. Camera loops now ease smoothly between waypoints, with clearer accessible A/B guidance. Looper GIF export now reports save and sharing failures accurately.
+Looper GIF exports now encode reliable frames from iteration data. Successful saves are preserved when sharing fails, and save or sharing errors are reported accurately.
