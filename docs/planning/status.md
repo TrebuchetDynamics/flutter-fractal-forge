@@ -11,7 +11,7 @@
 - `lib/features/viewer/fractal_viewer_screen.dart`: shared_preferences import + safety confirmation helper.
 - `lib/l10n/app_en.arb`, `app_es.arb`, `app_localizations*.dart`: new strings.
 - `analysis_options.yaml`: exclude third_party.
-- `integration_test/generate_gpu_thumbnails_test.dart`: removed unused import.
+- `integration_test/catalog/generate_gpu_thumbnails_test.dart`: removed unused import.
 
 ### Validation
 - `flutter analyze` ✅

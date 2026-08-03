@@ -264,7 +264,7 @@ Broad coverage: accessibility service, animation controller, app logger, backend
 
 1. **Wire the 13 pipeline-emitted Newton modules into `ModuleRegistry`** (`lib/core/modules/module_registry.dart`) so they surface in the catalog UI.
 2. **Write real GLSL shaders** for the 13 Newton variants; promote each entry from `tier: reference` to `tier: implemented`.
-3. **Render real thumbnails** via the existing Flutter headless render pipeline (`integration_test/generate_gpu_thumbnails_test.dart`) to replace the placeholder gradients.
+3. **Render real thumbnails** via the existing Flutter headless render pipeline (`integration_test/catalog/generate_gpu_thumbnails_test.dart`) to replace the placeholder gradients.
 4. **Harmonize categories**: migrate legacy registry entries into the 19 canonical categories from spec §13.
 
 ### P2 — Grow the catalog (Stages C + D)
@@ -315,7 +315,7 @@ bash .maestro/run_all.sh
 ~/.maestro/bin/maestro test .maestro/05_every_fractal_smoke.yaml
 
 # Run only the new programmatic integration test
-flutter test integration_test/every_fractal_programmatic_test.dart
+flutter test integration_test/catalog/every_fractal_programmatic_test.dart
 ```
 
 ---
@@ -429,4 +429,4 @@ Stages C/D/E will add fresh test files under `tests/research/` when those stages
 2. *"Run Stage C + D overnight and triage the output."* — P2. Produces 10K candidate pipeline with human review queues.
 3. *"Consolidate to the 19 canonical categories."* — P4. Needed before the UI grouping/filtering can show the real shape of the catalog.
 4. *"Wire maintenance crons."* — P3. Low daily cost, high compounding value.
-5. *"Render real GPU thumbnails for all 357 legacy fractals that currently use placeholder tiles."* — Revisit of the thumbnail audit under `test/catalog_thumbnail_audit_test.dart`.
+5. *"Render real GPU thumbnails for all 357 legacy fractals that currently use placeholder tiles."* — Revisit of the thumbnail audit under `test/catalog/catalog_thumbnail_audit_test.dart`.

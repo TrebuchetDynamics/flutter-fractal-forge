@@ -21,7 +21,7 @@ This guide documents the complete automated playtesting and QA strategy for Flut
 **Why it's #1:** Full access to widget tree, semantics tree, and programmatic control. All output is text-based.
 
 ```dart
-// integration_test/critical_journey_test.dart
+// integration_test/flows/critical_journey_test.dart
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:flutter_fractal_forge/main.dart' as app;
@@ -440,7 +440,7 @@ jobs:
 
 | Hour | Task | Deliverable |
 |------|------|-------------|
-| 1 | Add `integration_test` to pubspec, write 1 smoke test | `integration_test/app_test.dart` |
+| 1 | Add `integration_test` to pubspec, write 1 smoke test | `integration_test/flows/app_test.dart` |
 | 2 | Add ValueKeys to 10 most important widgets | Stable selectors for testing |
 | 3 | Create semantics test helper + 1 semantic audit test | `test/helpers/semantics_test_helper.dart` |
 | 4 | Set up GitHub Actions workflow (unit tests only) | `.github/workflows/flutter_qa.yml` |

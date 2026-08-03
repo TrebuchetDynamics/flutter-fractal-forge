@@ -42,9 +42,9 @@ Scope: audit `/opensource` for CPU-side refinement opportunities, then map to cu
   - `lib/core/modules/nova_module.dart`
   - `lib/core/modules/builders/escape_time_catalog.dart`
 - Tests / audits:
-  - `test/cpu_formula_coverage_test.dart`
+  - `test/cpu/cpu_formula_coverage_test.dart`
   - `test/fractal/fractal_render_audit_test.dart`
-  - `test/iteration_buffer_golden_test.dart`
+  - `test/golden/iteration_buffer_golden_test.dart`
 
 ---
 

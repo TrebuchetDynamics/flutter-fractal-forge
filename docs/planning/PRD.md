@@ -27,7 +27,7 @@ Date: 2026-02-17 21:22 CST
 Result: No issues found! (ran in 2.9s)
 ```
 
-#### scripts/headless-emulator-test.sh (integration_test/app_test.dart)
+#### scripts/headless-emulator-test.sh (integration_test/flows/app_test.dart)
 ```
 Command: scripts/headless-emulator-test.sh
 Date: 2026-02-17 21:15 CST
@@ -194,7 +194,7 @@ scripts/headless-emulator-test.sh flutter test integration_test/screenshots/full
 
 ## 5. Render Quality Audit
 
-*Source: integration_test/app_test.dart run on emulator-5554, API 34, SwiftShader indirect, 2026-02-17 21:17–21:19 CST.*  
+*Source: integration_test/flows/app_test.dart run on emulator-5554, API 34, SwiftShader indirect, 2026-02-17 21:17–21:19 CST.*<br>
 *Source: fractal_render_audit_test.dart (CPU renderer), 196/196 modules passed the 2026-02 variance check. Current live catalog count is 977 production fractals (984 debug/test registry modules including 7 diagnostics).*
 
 ### 5.1 Mandelbrot Coloring

@@ -13,11 +13,11 @@
 - All interactive elements have semantic labels
 
 ### Catalog Screen ✅ (from widget tests)
-- 21 semantic label tests pass (`accessibility_test.dart`)
-- Each fractal card has a semantic label with module name
-- Touch targets meet 48x48 minimum (15 tests pass)
-- High contrast mode applies correct theme (3 tests pass)
-- Focus traversal works across interactive elements (1 test pass)
+- 3 semantic-label tests pass (`test/a11y/accessibility_test.dart`)
+- Fractal cards, navigation tabs, and the search field expose semantic labels or stable identifiers
+- 1 touch-target smoke test verifies interactive elements have nonzero dimensions; it does not enforce 48x48
+- High contrast mode applies the expected theme (2 tests pass)
+- Focusable elements are present (1 test pass)
 
 ### Viewer Screen ✅ (from widget tests)
 - Renderer surface has RepaintBoundary
@@ -25,7 +25,7 @@
 - Backend decision indicator (debug builds)
 
 ## Test Coverage for Accessibility
-- `test/accessibility_test.dart`: 21 Semantic Labels tests + 15 Touch Target tests + 3 High Contrast tests + 1 Focus Management test = **40 accessibility tests passing**
+- `test/a11y/accessibility_test.dart`: 3 Semantic Labels + 1 Touch Target smoke + 2 High Contrast + 2 Reduced Motion + 2 Accessibility Service + 2 Screen Reader Support + 1 Focus Management = **13 accessibility tests passing**
 
 ## Known Gaps
 1. **TalkBack live testing** could not complete on emulator (ANR under TalkBack + SwiftShader overhead)

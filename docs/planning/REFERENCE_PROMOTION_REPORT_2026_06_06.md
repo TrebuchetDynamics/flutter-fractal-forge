@@ -20,7 +20,7 @@ After owner approval on 2026-06-06, the first registry-sync slice was applied:
 - Subsequent frontier reference micro-batches added 15 reference-tier-only entries; current strict doctor receipt is tracked in `FRONTIER_REFERENCE_PROMOTION_REPORT_2026_06_06.md` at 1,610 entries.
 - Focused registry sync check: OK — the 10 approved app IDs are represented in the registry, marked implemented, and point to shader files that exist.
 - Focused shader asset tests: OK — root-finding, cellular/stochastic, IFS/geometric, and trigonometric/transcendental shader asset tests all passed.
-- Count-snapshot cleanup: `test/catalog_id_integrity_test.dart` now reflects the live catalog/module counts after the internal `escape_time_perturb` shader was removed from the user-visible escape-time catalog. Combined focused validation passes.
+- Count-snapshot cleanup: `test/catalog/catalog_id_integrity_test.dart` now reflects the live catalog/module counts after the internal `escape_time_perturb` shader was removed from the user-visible escape-time catalog. Combined focused validation passes.
 
 ## Initial evidence before approved sync slice
 

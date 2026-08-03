@@ -277,9 +277,9 @@ Key files that will act as regression guards:
 - `test/fractal_renderer_widget_test.dart` — renderer widget tests
 - `test/fractal_renderer_gesture_test.dart` — gesture handling tests
 - `test/fractal_controller_behavior_test.dart` — controller state tests
-- `test/module_registry_widget_test.dart` — module registry tests
-- `test/cpu_mandelbrot_visual_gate_test.dart` — CPU formula correctness
-- `test/cpu_formula_coverage_test.dart` — CPU formula coverage
+- `test/modules/module_registry_widget_test.dart` — module registry tests
+- `test/cpu/cpu_mandelbrot_visual_gate_test.dart` — CPU formula correctness
+- `test/cpu/cpu_formula_coverage_test.dart` — CPU formula coverage
 - `test/export_service_test.dart` — export logic
 - `test/ar_overlay_screen_widget_test.dart` — screen tests
 - `test/crash_reporter_test.dart` — crash reporter
@@ -289,12 +289,12 @@ Key files that will act as regression guards:
 | Step | Verify with |
 |---|---|
 | R3 (param reader) | `flutter test` — all existing tests pass unchanged |
-| R4 (dead modules) | `flutter test test/module_registry_widget_test.dart` — verify all modules still load |
+| R4 (dead modules) | `flutter test test/modules/module_registry_widget_test.dart` — verify all modules still load |
 | R1 (split viewer) | `flutter test test/fractal_viewer_screen_widget_test.dart` + `flutter test test/navigation_flow_widget_test.dart` |
 | R2 (split renderer) | `flutter test test/fractal_renderer_widget_test.dart` + `flutter test test/fractal_renderer_gesture_test.dart` |
-| R5 (CPU formulas) | `flutter test test/cpu_formula_coverage_test.dart` + `flutter test test/cpu_mandelbrot_visual_gate_test.dart` |
+| R5 (CPU formulas) | `flutter test test/cpu/cpu_formula_coverage_test.dart` + `flutter test test/cpu/cpu_mandelbrot_visual_gate_test.dart` |
 | R6 (shared UI) | `flutter test` — full suite |
-| R7 (flatten main) | `flutter test test/widget_test.dart` + `flutter test test/home_screen_widget_test.dart` |
+| R7 (flatten main) | `flutter test test/utilities/widget_test.dart` + `flutter test test/screens/home_screen_widget_test.dart` |
 
 ### Static Analysis Gate (before committing each step)
 
@@ -306,8 +306,8 @@ flutter analyze
 
 ```bash
 # Run on connected device or emulator
-flutter test integration_test/user_flows_test.dart
-flutter test integration_test/viewer_navigation_test.dart
+flutter test integration_test/flows/user_flows_test.dart
+flutter test integration_test/flows/viewer_navigation_test.dart
 ```
 
 ---
