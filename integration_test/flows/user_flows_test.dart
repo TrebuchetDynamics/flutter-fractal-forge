@@ -9,7 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
-import 'package:flutter_fractals/features/controls/fractal_controls.dart';
+import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dart';
+import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/features/presets/preset_sheet.dart';
 import 'package:flutter_fractals/main.dart';
 
@@ -120,7 +121,7 @@ void main() {
       expect(find.byKey(const Key('viewerRandomParamsButton')), findsOneWidget);
       expect(find.byKey(const Key('viewerExportButton')), findsOneWidget);
 
-      await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+      Navigator.of(tester.element(find.byType(FractalRenderer))).pop();
       await tester.pump();
       await tester.pump(const Duration(seconds: 1));
 
@@ -134,13 +135,16 @@ void main() {
       await tester.longPress(find.byKey(const Key('viewerRandomParamsButton')));
       await safeSettle(tester);
 
-      expect(find.byType(FractalControlsSheet), findsOneWidget);
+      expect(find.byType(FractalControlsHud), findsOneWidget);
       expect(find.byType(Slider), findsWidgets);
 
       await tester.drag(find.byType(Slider).first, const Offset(50, 0));
       await safeSettle(tester);
 
-      await tester.tap(find.byIcon(Icons.restart_alt_rounded));
+      final resetView = find.byIcon(Icons.home_filled);
+      await tester.ensureVisible(resetView);
+      await safeSettle(tester);
+      await tester.tap(resetView);
       await tester.pump();
       await tester.tap(find.byIcon(Icons.settings_backup_restore_rounded));
       await tester.pump();
@@ -149,7 +153,7 @@ void main() {
 
       await tester.tap(find.byIcon(Icons.close_rounded).last);
       await safeSettle(tester);
-      expect(find.byType(FractalControlsSheet), findsNothing);
+      expect(find.byType(FractalControlsHud), findsNothing);
     });
 
     testWidgets('presets sheet can save and apply user preset', (tester) async {
@@ -189,7 +193,7 @@ void main() {
 
       await tester.longPress(find.byKey(const Key('viewerRandomParamsButton')));
       await safeSettle(tester);
-      expect(find.byType(FractalControlsSheet), findsOneWidget);
+      expect(find.byType(FractalControlsHud), findsOneWidget);
       await tester.tap(find.byIcon(Icons.close_rounded).last);
       await safeSettle(tester);
 
@@ -199,7 +203,7 @@ void main() {
       await tester.tap(find.byIcon(Icons.close_rounded).last);
       await safeSettle(tester);
 
-      await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+      Navigator.of(tester.element(find.byType(FractalRenderer))).pop();
       await tester.pump();
       await tester.pump(const Duration(seconds: 1));
 
