@@ -74,12 +74,13 @@ void main() {
     late List<Map<String, dynamic>> implementedEntries;
 
     setUpAll(() async {
+      // Android integration tests run inside the app sandbox, which cannot
+      // read repository documentation files.
+      if (Platform.isAndroid) return;
       implementedEntries = _loadRegistryImplementedEntries();
       debugPrint(
         'Loaded ${implementedEntries.length} tier:implemented entries from registry',
       );
-      // Guard rail: the catalog should have grown, not shrunk. Keep this
-      // conservative; today it's exactly 357.
       expect(
         implementedEntries.length,
         greaterThanOrEqualTo(350),
@@ -131,7 +132,7 @@ void main() {
       expect(errors, isEmpty,
           reason: 'found ${errors.length} metadata errors across '
               '${implementedEntries.length} implemented entries');
-    });
+    }, skip: Platform.isAndroid);
 
     testWidgets('Every implemented entry declares a non-empty shader path',
         (tester) async {
@@ -153,7 +154,7 @@ void main() {
       expect(bad, isEmpty,
           reason:
               'shader paths must start with "shaders/" and end with ".frag"');
-    });
+    }, skip: Platform.isAndroid);
 
     testWidgets('Catalog screen renders without throwing exceptions',
         (tester) async {

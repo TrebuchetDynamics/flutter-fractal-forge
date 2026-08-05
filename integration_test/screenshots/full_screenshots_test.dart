@@ -50,6 +50,7 @@ void main() {
       presetStore = await PresetStore.create();
       accessibilityService = await AccessibilityService.create();
       rendererSettingsService = await RendererSettingsService.create();
+      androidScreenshotMode = false;
     });
 
     Future<void> pumpApp(WidgetTester tester) async {
@@ -115,6 +116,7 @@ void main() {
       try {
         if (!androidScreenshotMode) {
           await binding.convertFlutterSurfaceToImage();
+          await tester.pump();
           androidScreenshotMode = true;
         }
         await binding.takeScreenshot(safeName);

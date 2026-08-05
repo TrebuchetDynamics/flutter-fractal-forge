@@ -466,11 +466,9 @@ class ChunkedRenderer {
 |------|--------|----------|
 | `shaders/escape_time_family/core/escape_time_perturb_gpu.frag` | Add smoother fallback / series approx if needed | P1 |
 | `lib/core/modules/escape_time_perturb_module.dart` | Period detection, more polynomial IDs | P1 |
-| `lib/core/modules/julia_perturb_module.dart` | Maintain core Julia perturbation path | P1 |
 | `lib/core/modules/builders/escape_time_catalog.dart` | Add perturbation configs | P1 |
-| `lib/features/renderer/deep_zoom_precision_policy.dart` | Threshold tuning | P2 |
-| `lib/features/renderer/cpu_fractal_renderer.dart` | BigDecimal support | P3 |
-| `lib/core/modules/mandelbulb_module.dart` | 3D fix | ✅ DONE - SkSL issues in shaders fixed |
+| `lib/features/renderer/policy/precision_ladder_policy.dart` | Threshold tuning | P2 |
+| `lib/features/renderer/cpu/cpu_fractal_renderer.dart` | BigDecimal support | P3 |
 
 ### Files to Create
 

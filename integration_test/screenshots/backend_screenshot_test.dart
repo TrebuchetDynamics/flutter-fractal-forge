@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
+import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/main.dart';
 
 void main() {
@@ -90,13 +91,14 @@ void main() {
         await tester.pump(const Duration(seconds: 3));
 
         // Viewer should be present.
-        expect(find.byIcon(Icons.arrow_back_rounded), findsOneWidget);
+        expect(find.byType(FractalRenderer), findsOneWidget);
         await snapViewer(tester, 'viewer_$i');
 
         // Back to catalog.
-        await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+        await tester.binding.handlePopRoute();
         await tester.pump();
         await tester.pump(const Duration(seconds: 2));
+        expect(moduleCards(), findsWidgets);
       }
     }, timeout: const Timeout(Duration(minutes: 12)));
   });

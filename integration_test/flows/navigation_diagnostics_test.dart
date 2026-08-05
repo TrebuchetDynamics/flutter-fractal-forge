@@ -174,7 +174,7 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 700));
 
-      await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+      await binding.handlePopRoute();
       await tester.pump();
       await tester.pump(const Duration(seconds: 1));
       checkedRoutes.add('/catalog');

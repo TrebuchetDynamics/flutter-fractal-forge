@@ -3,7 +3,6 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:provider/provider.dart';
@@ -26,15 +25,7 @@ class _ViewerEvidenceFrame {
 }
 
 void main() {
-  final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-
-  setUpAll(() async {
-    try {
-      await binding.convertFlutterSurfaceToImage();
-    } on MissingPluginException {
-      debugPrint('Screenshot surface conversion unavailable on this platform');
-    }
-  });
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   Finder cardFinder(String catalogId) {
     final listCard = find.byKey(ValueKey('catalogModuleCard_$catalogId'));
@@ -42,20 +33,18 @@ void main() {
     return find.byKey(ValueKey('catalogGridTile_$catalogId'));
   }
 
-  Future<Finder> findCardByScrolling(
+  Future<Finder> findCardBySearch(
     WidgetTester tester,
     String catalogId,
   ) async {
-    final scrollable = find.byType(Scrollable).first;
-    for (var i = 0; i < 18; i++) {
-      final candidate = cardFinder(catalogId);
-      if (candidate.evaluate().isNotEmpty) {
-        return candidate;
-      }
-      await tester.drag(scrollable, const Offset(0, -320));
-      await tester.pump(const Duration(milliseconds: 350));
+    var candidate = cardFinder(catalogId);
+    if (candidate.evaluate().isEmpty) {
+      await enterCatalogSearch(tester, catalogId);
+      candidate = cardFinder(catalogId);
     }
-    fail('Catalog card not found after scrolling: $catalogId');
+    expect(candidate, findsOneWidget,
+        reason: 'Catalog card not found: $catalogId');
+    return candidate;
   }
 
   Future<_ViewerEvidenceFrame> waitForViewerReady(WidgetTester tester) async {
@@ -115,7 +104,7 @@ void main() {
     required String moduleId,
     required String screenshotName,
   }) async {
-    final card = await findCardByScrolling(tester, catalogId);
+    final card = await findCardBySearch(tester, catalogId);
 
     await tester.ensureVisible(card);
     await tester.tap(card);
@@ -123,7 +112,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 600));
 
     // Gate 1: viewer screen active.
-    expect(find.byIcon(Icons.arrow_back_rounded), findsOneWidget,
+    expect(find.byType(FractalViewerScreen), findsOneWidget,
         reason: 'Viewer screen did not open for $catalogId');
 
     // Gate 2: selected module identity matches expected fractal.
@@ -149,7 +138,7 @@ void main() {
     // Give host-side proof script a deterministic capture window after gate passes.
     await tester.pump(const Duration(milliseconds: 1600));
 
-    await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+    await tester.binding.handlePopRoute();
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 600));
   }

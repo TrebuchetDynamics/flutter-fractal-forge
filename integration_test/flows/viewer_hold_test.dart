@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
+import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/main.dart';
 
 void main() {
@@ -59,7 +60,7 @@ void main() {
       await tester.pump(const Duration(seconds: 6));
 
       // Viewer loaded.
-      expect(find.byIcon(Icons.arrow_back_rounded), findsOneWidget);
+      expect(find.byType(FractalViewerScreen), findsOneWidget);
 
       // Hold so the outer runner can capture a screenshot.
       await tester.pump(const Duration(seconds: 6));

@@ -41,13 +41,15 @@ void main() {
       await tester.pump(const Duration(seconds: 2));
     }
 
-    Future<void> prepareScreenshotSurfaceIfAvailable() async {
+    Future<void> prepareScreenshotSurfaceIfAvailable(
+        WidgetTester tester) async {
       // `convertFlutterSurfaceToImage` is required for Android screenshots, but
       // on Linux desktop it can leave the engine surface in a bad state for the
       // next integration-test process in a multi-file run.
       if (!Platform.isAndroid) return;
       try {
         await binding.convertFlutterSurfaceToImage();
+        await tester.pump();
       } on MissingPluginException {
         debugPrint(
             'Screenshot surface conversion unavailable on this platform');
@@ -79,7 +81,7 @@ void main() {
         await pumpApp(tester);
 
         // Required on Android for screenshot capture.
-        await prepareScreenshotSurfaceIfAvailable();
+        await prepareScreenshotSurfaceIfAvailable(tester);
 
         // If onboarding shows, try skip.
         final skip = find.text('Skip');

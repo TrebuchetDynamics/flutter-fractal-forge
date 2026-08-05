@@ -135,32 +135,30 @@ Size: 55.7 MB
 
 ---
 
-## 4. Known P0/P1 Issues
+## 4. P0/P1 Issue History
 
-### P1-001: `full_screenshots_test.dart:168` — Julia card not found
+### P1-001: `full_screenshots_test.dart` — Julia card finder (resolved)
 **File:** `integration_test/screenshots/full_screenshots_test.dart`<br>
-**Line:** 168  
-**Symptom:** `StateError: No element` when calling `findModuleCard('Julia').first`  
+**Former symptom:** `StateError: No element` when calling `findModuleCard('Julia').first`<br>
 **Root cause:** `findModuleCard` uses `find.text('Julia')` as an ancestor match. On emulator in default grid view, the "Julia" card is not in the initial viewport and `find.text` does not scroll to it. The finder returns empty.  
 **Reproduction:**
 ```bash
 scripts/headless-emulator-test.sh flutter test integration_test/screenshots/full_screenshots_test.dart \
   -d emulator-5554 --reporter expanded --plain-name 04_viewer_julia
 ```
-**Impact:** `04_viewer_julia`, `06_view_presets`, and any test that calls `findModuleCard('Julia')` fail.  
-**Fix needed:** Scroll to card before tapping; use `tester.scrollUntilVisible(find.text('Julia'), 200)` or use a ValueKey-based finder consistent with `app_test.dart`.
+**Former impact:** `04_viewer_julia`, `06_view_presets`, and any test that called `findModuleCard('Julia')` failed.<br>
+**Resolution:** The screenshot flow now searches by stable catalog ID (`core.julia`), scrolls the keyed card into view, and verifies that the viewer opened the `julia` module.
 
 ---
 
-### P1-002: `gpu_health_probe skipped reason=to_image_timeout` (emulator only)
-**File:** `lib/features/viewer/viewer_gpu_health.dart`  
-**Line:** 302  
-**Symptom:** GPU health probe's `RepaintBoundary.toImage()` times out on SwiftShader emulator. Probe logs `skipped reason=to_image_timeout` instead of pass/fail.  
+### P1-002: `gpu_health_probe skipped reason=to_image_timeout` (resolved)
+**File:** `lib/features/viewer/diagnostics/viewer_gpu_health.dart`<br>
+**Former symptom:** GPU health probe's `RepaintBoundary.toImage()` timed out on SwiftShader emulator. The probe logged `skipped reason=to_image_timeout` instead of pass/fail.<br>
 **Observed in:** Integration test run 2026-02-17 — appears on modules: mandelbrot (first open), burning_ship, multibrot3, nova_julia, fatou  
 **Reproduction:** Run any integration test on `emulator-5554` with `swiftshader_indirect`; GPU probe fires ~6 s after viewer opens; SwiftShader `toImage()` does not return within probe timeout.  
-**Impact on emulator:** Health probe cannot confirm GPU pass → subsequent probe fires → probe marked skipped (not failed). App does NOT fall back to CPU, so rendering continues GPU. This is correct behavior (probe timeout ≠ GPU failure) but produces noisy logs and delays accurate health confirmation.  
+**Former impact on emulator:** The health probe could not confirm GPU pass and was marked skipped (not failed). Rendering correctly remained on GPU, but logs were noisy and health confirmation was delayed.<br>
 **Impact on real device:** None observed — `toImage()` returns in < 200 ms on Vulkan/OpenGL hardware.  
-**Fix needed:** Increase probe `toImage()` timeout on emulator via `--dart-define=EMU_PROBE_TIMEOUT_MS=8000`, or detect SwiftShader via `gl_renderer` string and skip `toImage()` validation, relying on non-black ratio sampling only.
+**Resolution:** Emulator detection now enables a configurable `toImage()` timeout via `--dart-define=EMU_PROBE_TIMEOUT_MS=8000`; hardware keeps the 250 ms default.
 
 ---
 
@@ -211,7 +209,7 @@ scripts/headless-emulator-test.sh flutter test integration_test/screenshots/full
 - **First frame:** nova_julia 40 ms (shader compile 16 ms)
 - **Shape observation:** Julia and nova_julia modules visible in catalog at 320×320 thumbnail; render audit shows edge=0.93 for nova_julia — correct feature-rich output (edge density close to 1.0 means rich structure near the viewport edge)
 - **Direct viewer test:** Search→open Burning Ship Julia — `first_frame_ms=0` (cache hit), viewer loads correctly, `find.byType(FractalRenderer)` finds widget
-- **Concern:** `04_viewer_julia` integration screenshot test fails (P1-001) so we cannot confirm a live screenshot of Julia on emulator this cycle
+- **Current check:** `04_viewer_julia` opens Julia by stable catalog ID and passes on Linux; emulator screenshot capture remains device-specific
 
 ### 5.3 Tilt Feel
 - **Tested:** Unit test `fractal_renderer_gesture_test.dart` line 407 — "Two-finger tilt is clamped to max tilt angle"
@@ -256,8 +254,6 @@ scripts/headless-emulator-test.sh flutter test integration_test/screenshots/full
 | Perturbation theory for all escape-time fractals not shipped | Certain | P2 — deep zoom breaks for 9 non-Mandelbrot escape-time fractals | Prioritize; shared `escape_time_perturb_gpu.frag` with uFormula selector already planned |
 | Spanish translation quality | Medium | P2 — awkward localized UX | Key parity exists; schedule human language review before release |
 | History module regression | Low | P2 — navigation/persistence regressions | Unit coverage exists; add end-to-end viewer-history coverage if this becomes launch-critical |
-| `full_screenshots_test.dart` Julia finder bug | Certain | P1 — CI test fails | Fix scrollUntilVisible; low effort |
-| Emulator probe timeout noise | Certain (emulator only) | P3 — confusing logs | Add EMU_PROBE_TIMEOUT_MS dart define |
 
 ---
 
@@ -275,9 +271,9 @@ scripts/headless-emulator-test.sh flutter test integration_test/screenshots/full
 - [x] All 5 gesture types tested and passing
 
 ### M1: P0/P1 Bug Fixes (Target: 1 week)
-- [ ] Fix `full_screenshots_test.dart` Julia finder (P1-001) — `scrollUntilVisible` fix
+- [x] Fix `full_screenshots_test.dart` Julia finder (P1-001) — stable catalog-ID finder
 - [ ] Real-device export to MediaStore — test and confirm file creation + gallery write
-- [ ] Fix `gpu_health_probe` timeout on emulator (P1-002) — configurable timeout dart-define
+- [x] Fix `gpu_health_probe` timeout on emulator (P1-002) — configurable timeout dart-define
 - [x] Resolve Spanish localization key parity (P2-001)
 - [x] Add test coverage for history module
 
