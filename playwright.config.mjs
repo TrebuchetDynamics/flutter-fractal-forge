@@ -7,7 +7,7 @@ const useBundledWebServer = process.env.PLAYWRIGHT_SKIP_WEBSERVER !== '1' &&
 
 export default defineConfig({
   testDir: './test/playwright',
-  timeout: 20 * 60 * 1000,
+  timeout: 60 * 60 * 1000,
   expect: { timeout: 10_000 },
   fullyParallel: false,
   workers: 1,

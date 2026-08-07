@@ -1,17 +1,14 @@
 /// Every-Fractal Programmatic Smoke
 ///
-/// Reads `docs/catalog/fractal_registry.yaml` (370 entries), filters to the
-/// 357 `tier: implemented` entries, and verifies:
+/// Reads `docs/catalog/fractal_registry.yaml` (1610 tier entries, 367
+/// `tier: implemented`), filters to the `tier: implemented` entries, and
+/// verifies:
 ///   1. Each entry has the required metadata (id, name, shader, formula_hash).
 ///   2. The app launches and the catalog surface renders without exceptions.
 ///
-/// The exhaustive per-fractal viewer walkthrough is scaffolded below as a
-/// `skip:`-gated third test. It is currently skipped because navigating from
-/// the catalog into 357 viewers end-to-end is slow (~10-30 min) and the
-/// viewer does not yet expose a stable testID that works across every
-/// category (escape-time, 3D raymarched, IFS, attractors). Remove the
-/// `skip:` argument once a stable `Key('fractalViewerRoot')` lands in the
-/// viewer's root widget — see docs/planning/PIPELINE_STATE.md §4 gap #4.
+///   The exhaustive per-fractal viewer walkthrough now lives in
+///   `test/features/viewer/every_module_viewer_walk_test.dart` (fast widget
+///   sweep over the live ModuleRegistry, no device needed).
 library;
 
 import 'dart:io';
@@ -183,38 +180,16 @@ void main() {
     });
 
     testWidgets(
-      'Exhaustive: every implemented fractal opens in viewer without crash',
+      'Exhaustive viewer walkthrough lives in the widget-test suite',
       (tester) async {
-        // Placeholder for the full traversal. Enable by removing the
-        // `skip:` argument below once:
-        //   1. The viewer's root widget exposes Key('fractalViewerRoot')
-        //      (uniform across escape-time, 3D, IFS, attractors).
-        //   2. CI budget permits a ~30-minute test.
-        //
-        // Skeleton:
-        //   for (final entry in implementedEntries) {
-        //     await _openCatalog(tester);
-        //     await tester.enterText(
-        //       find.byKey(const Key('catalogSearchField')),
-        //       entry['name'] as String,
-        //     );
-        //     await tester.pumpAndSettle();
-        //     await tester.tap(find.text(entry['name']!).first);
-        //     await tester.pumpAndSettle(const Duration(seconds: 5));
-        //     expect(tester.takeException(), isNull,
-        //         reason: '${entry['id']} threw on open');
-        //     expect(find.byKey(const Key('fractalViewerRoot')),
-        //         findsOneWidget,
-        //         reason: '${entry['id']} did not reach viewer');
-        //     Navigator.of(tester.element(find.byType(Scaffold).first))
-        //         .pop();
-        //     await tester.pumpAndSettle();
-        //   }
-        fail('This is a skip-gated placeholder; see doc comment.');
+        // The full every-module viewer sweep runs as a fast widget test:
+        //   test/features/viewer/every_module_viewer_walk_test.dart
+        // It opens every ModuleRegistry module (escape-time, 3D, custom,
+        // diagnostics) in the real FractalViewerScreen tree and asserts no
+        // exception + the stable Key('fractalViewerRoot').
+        expect(true, isTrue,
+            reason: 'see every_module_viewer_walk_test.dart');
       },
-      // Enable by flipping to `false` once Key("fractalViewerRoot") is stable
-      // across all viewer variants (tracked in docs/planning/PIPELINE_STATE.md §4 gap #4).
-      skip: true,
     );
   });
 }

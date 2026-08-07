@@ -13,6 +13,25 @@ function extractConfigIds(relativePath, constructorName) {
   return [...source.matchAll(pattern)].map((match) => match[1]);
 }
 
+function extractConfigIdsFromDir(relativeDir, constructorName) {
+  // The escape-time catalog is a `part of` bundle: entries live across many
+  // files inside the directory (plus the facade that lists them).
+  const dir = path.join(repoRoot, relativeDir);
+  const files = fs
+    .readdirSync(dir)
+    .filter((f) => f.endsWith('.dart'))
+    .map((f) => path.join(dir, f));
+  const pattern = new RegExp(`${constructorName}\\(\\s*id:\\s*'([^']+)'`, 'g');
+  const ids = [];
+  for (const file of files) {
+    const source = fs.readFileSync(file, 'utf8');
+    for (const match of source.matchAll(pattern)) {
+      ids.push(match[1]);
+    }
+  }
+  return ids;
+}
+
 function uniqueInOrder(values) {
   const seen = new Set();
   const result = [];
@@ -25,12 +44,12 @@ function uniqueInOrder(values) {
 }
 
 function loadCatalogModuleIds() {
-  const escapeTimeIds = extractConfigIds(
-    'lib/core/modules/builders/escape_time_catalog.dart',
+  const escapeTimeIds = extractConfigIdsFromDir(
+    'lib/core/modules/builders/escape_time_catalog',
     'EscapeTimeConfig',
   );
   const raymarched3DIds = extractConfigIds(
-    'lib/core/modules/builders/raymarched_3d_catalog.dart',
+    'lib/core/modules/builders/raymarched_3d/catalog_impl.dart',
     'Raymarched3DConfig',
   );
   const customIds = [

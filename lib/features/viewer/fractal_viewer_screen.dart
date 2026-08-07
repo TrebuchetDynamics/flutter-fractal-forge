@@ -983,6 +983,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         focusNode: _keyboardFocusNode,
         onKeyEvent: (node, event) => _onKeyEvent(context, event),
         child: Scaffold(
+          key: const Key('fractalViewerRoot'),
           extendBody: true,
           body: LayoutBuilder(
             builder: (context, constraints) {

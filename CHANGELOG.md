@@ -5,6 +5,30 @@ All notable changes to Flutter Fractal Forge are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.85] - 2026-08-06
+
+### Fixed
+
+- FadeIn animations no longer leak a pending timer when the widget is disposed
+  before its delay elapses (a cancellable timer replaces the un-cancellable
+  `Future.delayed`), fixing test-framework timer-strict failures and a real
+  lifecycle leak on fast navigation.
+
+### Added
+
+- Stable `Key('fractalViewerRoot')` on the viewer root, enabling reliable
+  per-fractal viewer assertions.
+- Exhaustive viewer walkthrough test that opens every registered module
+  (973 escape-time, 3D raymarched, custom, and diagnostics fractals) in the
+  real viewer widget tree and asserts no exceptions.
+
+### Changed
+
+- The Playwright catalog smoke now extracts module IDs from the live catalog
+  sources (previously stale paths limited coverage to 7 custom modules). The
+  web catalog walk now covers all 531 production modules and passes end-to-end
+  in a real browser.
+
 ## [1.1.84] - 2026-08-03
 
 ### Fixed

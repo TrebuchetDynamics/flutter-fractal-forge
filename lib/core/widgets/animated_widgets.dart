@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
@@ -344,6 +345,7 @@ class _FadeInState extends State<FadeIn> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
+  Timer? _delayTimer;
 
   @override
   void initState() {
@@ -360,7 +362,9 @@ class _FadeInState extends State<FadeIn> with SingleTickerProviderStateMixin {
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _controller, curve: widget.curve));
 
-    Future.delayed(widget.delay, () {
+    // A cancellable Timer (Future.delayed would leak a pending timer when the
+    // widget is disposed before the delay elapses).
+    _delayTimer = Timer(widget.delay, () {
       if (mounted) {
         _controller.forward();
       }
@@ -369,6 +373,7 @@ class _FadeInState extends State<FadeIn> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
+    _delayTimer?.cancel();
     _controller.dispose();
     super.dispose();
   }
