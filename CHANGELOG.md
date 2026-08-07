@@ -5,6 +5,15 @@ All notable changes to Flutter Fractal Forge are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.86] - 2026-08-06
+
+### Changed
+
+- App icon now features a real full-set Mandelbrot render (2160×2160, from the
+  app's own shader at x=-0.5, zoom 0.35, 600 iterations), blended into the
+  brand background #0A0520, across every platform: Android adaptive + legacy
+  mipmaps, iOS AppIcon set, web, Windows, macOS, and the in-app logo.
+
 ## [1.1.85] - 2026-08-06
 
 ### Fixed
