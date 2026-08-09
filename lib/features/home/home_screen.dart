@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/platform/deep_link_service.dart';
 import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
+import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
@@ -360,6 +361,10 @@ class _PremiumAppBarState extends State<_PremiumAppBar>
 
   @override
   Widget build(BuildContext context) {
+    final minimumControlSize =
+        context.watch<AccessibilityService>().largeTargetsEnabled
+            ? const Size.square(56)
+            : null;
     return ClipRect(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
@@ -489,53 +494,87 @@ class _PremiumAppBarState extends State<_PremiumAppBar>
                                   ),
                                 ),
                               ),
-                            IconButton(
-                              key: const Key('catalogSearchToggleButton'),
-                              tooltip: l10n.catalogSearchHint,
-                              style: IconButton.styleFrom(
-                                foregroundColor: toolbar.isSearchVisible
-                                    ? AppColors.primary
-                                    : AppColors.textSecondary,
-                                backgroundColor: toolbar.isSearchVisible
-                                    ? AppColors.primary.withValues(alpha: 0.16)
-                                    : Colors.transparent,
+                            Semantics(
+                              label: l10n.catalogSearchHint,
+                              button: true,
+                              onTap: toolbar.toggleSearch,
+                              excludeSemantics: true,
+                              child: IconButton(
+                                key: const Key('catalogSearchToggleButton'),
+                                tooltip: l10n.catalogSearchHint,
+                                style: IconButton.styleFrom(
+                                  minimumSize: minimumControlSize,
+                                  foregroundColor: toolbar.isSearchVisible
+                                      ? AppColors.primary
+                                      : AppColors.textSecondary,
+                                  backgroundColor: toolbar.isSearchVisible
+                                      ? AppColors.primary
+                                          .withValues(alpha: 0.16)
+                                      : Colors.transparent,
+                                ),
+                                icon:
+                                    const Icon(Icons.search_rounded, size: 20),
+                                onPressed: toolbar.toggleSearch,
                               ),
-                              icon: const Icon(Icons.search_rounded, size: 20),
-                              onPressed: toolbar.toggleSearch,
                             ),
-                            IconButton(
-                              key: const Key('catalogViewToggleButton'),
-                              tooltip: switch (toolbar.viewMode) {
+                            Semantics(
+                              label: switch (toolbar.viewMode) {
                                 CatalogViewMode.grid =>
                                   l10n.catalogSwitchToList,
                                 CatalogViewMode.list =>
-                                  Localizations.localeOf(context)
-                                              .languageCode ==
-                                          'es'
-                                      ? 'Cambiar a miniaturas'
-                                      : 'Switch to miniatures',
+                                  l10n.catalogSwitchToMiniatures,
                                 CatalogViewMode.miniatures =>
                                   l10n.catalogSwitchToGrid,
                               },
-                              icon: Icon(
-                                switch (toolbar.viewMode) {
+                              button: true,
+                              onTap: toolbar.toggleViewMode,
+                              excludeSemantics: true,
+                              child: IconButton(
+                                key: const Key('catalogViewToggleButton'),
+                                style: IconButton.styleFrom(
+                                  minimumSize: minimumControlSize,
+                                ),
+                                tooltip: switch (toolbar.viewMode) {
                                   CatalogViewMode.grid =>
-                                    Icons.view_list_rounded,
+                                    l10n.catalogSwitchToList,
                                   CatalogViewMode.list =>
-                                    Icons.view_module_rounded,
+                                    Localizations.localeOf(context)
+                                                .languageCode ==
+                                            'es'
+                                        ? 'Cambiar a miniaturas'
+                                        : 'Switch to miniatures',
                                   CatalogViewMode.miniatures =>
-                                    Icons.grid_view_rounded,
+                                    l10n.catalogSwitchToGrid,
                                 },
-                                size: 20,
+                                icon: Icon(
+                                  switch (toolbar.viewMode) {
+                                    CatalogViewMode.grid =>
+                                      Icons.view_list_rounded,
+                                    CatalogViewMode.list =>
+                                      Icons.view_module_rounded,
+                                    CatalogViewMode.miniatures =>
+                                      Icons.grid_view_rounded,
+                                  },
+                                  size: 20,
+                                ),
+                                onPressed: toolbar.toggleViewMode,
                               ),
-                              onPressed: toolbar.toggleViewMode,
                             ),
-                            IconButton(
-                              key: const ValueKey('homeSettingsButton'),
-                              tooltip: l10n.tabSettings,
-                              icon:
-                                  const Icon(Icons.settings_rounded, size: 20),
-                              onPressed: widget.onSettingsTap,
+                            Semantics(
+                              label: l10n.tabSettings,
+                              button: true,
+                              onTap: widget.onSettingsTap,
+                              excludeSemantics: true,
+                              child: IconButton(
+                                key: const ValueKey('homeSettingsButton'),
+                                style: IconButton.styleFrom(
+                                  minimumSize: minimumControlSize,
+                                ),
+                                tooltip: l10n.tabSettings,
+                                icon: const Icon(Icons.settings_rounded,
+                                    size: 20),
+                                onPressed: widget.onSettingsTap,
+                              ),
                             ),
                           ],
                         );

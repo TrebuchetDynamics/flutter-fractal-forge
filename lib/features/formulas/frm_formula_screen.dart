@@ -180,20 +180,21 @@ class _FrmFormulaScreenState extends State<FrmFormulaScreen> {
 
   Widget _buildPreview(ThemeData theme, AppLocalizations l10n) {
     final error = _error;
-    if (error != null) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Text(
-            error,
-            textAlign: TextAlign.center,
-            style: theme.textTheme.bodyMedium
-                ?.copyWith(color: theme.colorScheme.error),
-          ),
-        ),
-      );
-    }
     final image = _image;
+    final errorView = error == null
+        ? null
+        : Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text(
+                error,
+                textAlign: TextAlign.center,
+                style: theme.textTheme.bodyMedium
+                    ?.copyWith(color: theme.colorScheme.error),
+              ),
+            ),
+          );
+    if (image == null && errorView != null) return errorView;
     if (image == null && !_rendering) {
       return Center(
         child: Text(
@@ -208,6 +209,8 @@ class _FrmFormulaScreenState extends State<FrmFormulaScreen> {
       children: [
         if (image != null) RawImage(image: image, fit: BoxFit.contain),
         if (_rendering) const Center(child: CircularProgressIndicator()),
+        if (errorView != null)
+          ColoredBox(color: Colors.black87, child: errorView),
       ],
     );
   }

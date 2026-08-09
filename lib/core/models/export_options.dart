@@ -298,7 +298,12 @@ class ExportOptions extends Equatable {
   }
 
   /// Calculate the pixel ratio needed to achieve target resolution
-  double calculatePixelRatio(double screenWidth, double screenHeight) {
+  double calculatePixelRatio(
+    double screenWidth,
+    double screenHeight, {
+    double? physicalScreenWidth,
+    double? physicalScreenHeight,
+  }) {
     final dims = _orientedPresetDimensions(screenWidth, screenHeight);
     if (dims != null) {
       // Use the larger ratio to ensure we meet target resolution
@@ -318,11 +323,29 @@ class ExportOptions extends Equatable {
           .clamp(1.0, 8.0);
     }
 
-    return 1.0; // Screen resolution
+    final targetDimensions = _screenTargetDimensions(
+      screenWidth,
+      screenHeight,
+      physicalScreenWidth: physicalScreenWidth,
+      physicalScreenHeight: physicalScreenHeight,
+    );
+    final safeScreenWidth =
+        screenWidth.isFinite && screenWidth > 0 ? screenWidth : 1.0;
+    final safeScreenHeight =
+        screenHeight.isFinite && screenHeight > 0 ? screenHeight : 1.0;
+    final widthRatio = targetDimensions.$1 / safeScreenWidth;
+    final heightRatio = targetDimensions.$2 / safeScreenHeight;
+    return (widthRatio > heightRatio ? widthRatio : heightRatio)
+        .clamp(1.0, 8.0);
   }
 
   /// Get the target dimensions for this export
-  (int, int) getTargetDimensions(double screenWidth, double screenHeight) {
+  (int, int) getTargetDimensions(
+    double screenWidth,
+    double screenHeight, {
+    double? physicalScreenWidth,
+    double? physicalScreenHeight,
+  }) {
     final dims = _orientedPresetDimensions(screenWidth, screenHeight);
     if (dims != null) {
       return dims;
@@ -335,10 +358,27 @@ class ExportOptions extends Equatable {
       );
     }
 
-    // Screen resolution
+    return _screenTargetDimensions(
+      screenWidth,
+      screenHeight,
+      physicalScreenWidth: physicalScreenWidth,
+      physicalScreenHeight: physicalScreenHeight,
+    );
+  }
+
+  (int, int) _screenTargetDimensions(
+    double screenWidth,
+    double screenHeight, {
+    double? physicalScreenWidth,
+    double? physicalScreenHeight,
+  }) {
     return (
-      ExportDimensionPolicy.positiveRoundedScreenDimension(screenWidth),
-      ExportDimensionPolicy.positiveRoundedScreenDimension(screenHeight),
+      ExportDimensionPolicy.positiveRoundedScreenDimension(
+        physicalScreenWidth ?? screenWidth,
+      ),
+      ExportDimensionPolicy.positiveRoundedScreenDimension(
+        physicalScreenHeight ?? screenHeight,
+      ),
     );
   }
 

@@ -253,7 +253,7 @@ void main() {
       'Fullscreen view',
       'Color Scheme. Long press for palette',
       'Kaleidoscope off',
-      'Randomize. Long press for Controls',
+      'Controls',
       'Random Fractal',
       'Camera looper',
       'Text overlay off. Tap to add text.',
@@ -338,7 +338,7 @@ void main() {
     expect(toggled, isTrue);
   });
 
-  testWidgets('randomize FAB long press opens controls', (tester) async {
+  testWidgets('controls FAB opens controls on tap', (tester) async {
     var opened = false;
     await _pumpControls(
       tester,
@@ -347,14 +347,40 @@ void main() {
       onOpenWallpaper: () {},
     );
 
-    await tester
-        .longPress(find.byKey(const ValueKey('viewerRandomParamsButton')));
+    await tester.tap(find.byKey(const ValueKey('viewerRandomParamsButton')));
     await tester.pump();
     expect(opened, isTrue);
   });
 
-  testWidgets('randomize FAB activates on Enter key when focused',
+  testWidgets('controls FAB activates on Enter key when focused',
       (tester) async {
+    var opened = false;
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      onOpenControls: () => opened = true,
+      onOpenWallpaper: () {},
+    );
+
+    final fabKey = const ValueKey('viewerRandomParamsButton');
+    Focus.of(
+      tester.element(
+        find.descendant(
+          of: find.byKey(fabKey),
+          matching: find.byType(GestureDetector),
+        ),
+      ),
+    ).requestFocus();
+    await tester.pump();
+
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+    await tester.pump();
+    expect(opened, isTrue);
+  });
+
+  testWidgets(
+      'controls FAB randomizes on Shift+Enter when focused (keyboard '
+      'equivalent of long press)', (tester) async {
     var randomized = false;
     await _pumpControls(
       tester,
@@ -374,38 +400,11 @@ void main() {
     ).requestFocus();
     await tester.pump();
 
-    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
-    await tester.pump();
-    expect(randomized, isTrue);
-  });
-
-  testWidgets(
-      'randomize FAB opens controls on Shift+Enter when focused (keyboard '
-      'equivalent of long press)', (tester) async {
-    var opened = false;
-    await _pumpControls(
-      tester,
-      isExporting: false,
-      onOpenControls: () => opened = true,
-      onOpenWallpaper: () {},
-    );
-
-    final fabKey = const ValueKey('viewerRandomParamsButton');
-    Focus.of(
-      tester.element(
-        find.descendant(
-          of: find.byKey(fabKey),
-          matching: find.byType(GestureDetector),
-        ),
-      ),
-    ).requestFocus();
-    await tester.pump();
-
     await tester.sendKeyDownEvent(LogicalKeyboardKey.shiftLeft);
     await tester.sendKeyEvent(LogicalKeyboardKey.enter);
     await tester.sendKeyUpEvent(LogicalKeyboardKey.shiftLeft);
     await tester.pump();
-    expect(opened, isTrue);
+    expect(randomized, isTrue);
   });
 
   testWidgets('palette FAB long press opens palette picker', (tester) async {

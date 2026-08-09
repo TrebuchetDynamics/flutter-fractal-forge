@@ -82,13 +82,17 @@ void main() {
       WidgetTester tester, {
       required String query,
       required String displayName,
+      required String catalogId,
     }) async {
       await enterCatalogSearch(tester, query);
 
       final moduleName = find.text(displayName);
       expect(moduleName, findsWidgets);
-
-      await tester.tap(moduleName.first);
+      final moduleCard = catalogModuleCard(catalogId);
+      expect(moduleCard, findsOneWidget);
+      await tester.ensureVisible(moduleCard);
+      await safeSettle(tester);
+      await tester.tap(moduleCard);
       await tester.pump(const Duration(seconds: 2));
       drainKnownShaderExceptions(tester);
     }
@@ -132,7 +136,7 @@ void main() {
       await pumpApp(tester);
       await openFirstModule(tester);
 
-      await tester.longPress(find.byKey(const Key('viewerRandomParamsButton')));
+      await tester.tap(find.byKey(const Key('viewerRandomParamsButton')));
       await safeSettle(tester);
 
       expect(find.byType(FractalControlsHud), findsOneWidget);
@@ -176,7 +180,15 @@ void main() {
 
       expect(find.text(presetName), findsWidgets);
 
-      await tester.tap(find.text(presetName).first);
+      final savedPresetChip = find.byWidgetPredicate((widget) {
+        final key = widget.key;
+        return key is ValueKey<String> &&
+            key.value.startsWith('userPresetChip_');
+      });
+      expect(savedPresetChip, findsOneWidget);
+      await tester.ensureVisible(savedPresetChip);
+      await safeSettle(tester);
+      await tester.tap(savedPresetChip);
       await safeSettle(tester);
       expect(find.byType(PresetSheet), findsNothing);
     });
@@ -187,11 +199,12 @@ void main() {
       await pumpApp(tester);
       await openModuleBySearch(
         tester,
-        query: 'Burning',
+        query: 'Burning Ship',
         displayName: 'Burning Ship',
+        catalogId: 'core.burning_ship',
       );
 
-      await tester.longPress(find.byKey(const Key('viewerRandomParamsButton')));
+      await tester.tap(find.byKey(const Key('viewerRandomParamsButton')));
       await safeSettle(tester);
       expect(find.byType(FractalControlsHud), findsOneWidget);
       await tester.tap(find.byIcon(Icons.close_rounded).last);

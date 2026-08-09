@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
@@ -21,6 +22,21 @@ class _FakePathProviderPlatform extends Fake
 
   @override
   Future<String?> getTemporaryPath() async => tempDir;
+}
+
+class _PhysicalPixelCaptureService extends ExportService {
+  double? capturedPixelRatio;
+
+  @override
+  Future<Uint8List> capturePng(
+    GlobalKey boundaryKey, {
+    double pixelRatio = 2.0,
+  }) async {
+    capturedPixelRatio = pixelRatio;
+    return Uint8List.fromList(
+      img.encodePng(img.Image(width: 108, height: 192)),
+    );
+  }
 }
 
 void main() {
@@ -90,6 +106,25 @@ void main() {
           .readAsStringSync();
 
       expect(source, isNot(contains('.debugNeedsPaint')));
+    });
+  });
+
+  group('ExportService.captureWithOptions', () {
+    test('screen mode captures and outputs the physical pixel size', () async {
+      final service = _PhysicalPixelCaptureService();
+
+      final bytes = await service.captureWithOptions(
+        GlobalKey(),
+        options: const ExportOptions(resolution: ExportResolution.screen),
+        screenWidth: 108 / 2.625,
+        screenHeight: 192 / 2.625,
+        physicalScreenWidth: 108,
+        physicalScreenHeight: 192,
+      );
+      final decoded = img.decodePng(bytes)!;
+
+      expect(service.capturedPixelRatio, closeTo(2.625, 0.0001));
+      expect((decoded.width, decoded.height), (108, 192));
     });
   });
 

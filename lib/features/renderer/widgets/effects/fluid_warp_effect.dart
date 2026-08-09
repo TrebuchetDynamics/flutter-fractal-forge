@@ -58,7 +58,15 @@ class _FluidWarpEffectState extends State<FluidWarpEffect> {
 
   @override
   void dispose() {
+    _shader?.dispose();
+    _shader = null;
     super.dispose();
+  }
+
+  void _ensureShader() {
+    if (_shader == null && _program != null) {
+      _shader = _program!.fragmentShader();
+    }
   }
 
   Future<void> _ensureProgram() async {
@@ -104,7 +112,8 @@ class _FluidWarpEffectState extends State<FluidWarpEffect> {
 
         Widget content = widget.child;
         if (ui.ImageFilter.isShaderFilterSupported && _program != null) {
-          _shader = _program!.fragmentShader()
+          _ensureShader();
+          _shader!
             ..setFloat(2, widget.time)
             ..setFloat(3, widget.strength.clamp(0.0, 2.0))
             ..setFloat(4, touchX)

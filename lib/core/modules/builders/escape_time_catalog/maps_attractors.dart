@@ -386,6 +386,7 @@ final List<EscapeTimeConfig> _mapsAttractorsCatalog = [
   EscapeTimeConfig(
     id: 'aizawa',
     name: 'Aizawa Attractor',
+    category: 'Strange Attractors',
     shaderAsset: 'shaders/strange_attractors/aizawa_gpu.frag',
     defaultIterations: 260,
     defaultBailout: 18.0,

@@ -504,15 +504,27 @@ class ExportService {
     required ExportOptions options,
     required double screenWidth,
     required double screenHeight,
+    double? physicalScreenWidth,
+    double? physicalScreenHeight,
     void Function(double progress)? onProgress,
   }) async {
     onProgress?.call(0.1);
 
-    final targetDims = options.getTargetDimensions(screenWidth, screenHeight);
+    final targetDims = options.getTargetDimensions(
+      screenWidth,
+      screenHeight,
+      physicalScreenWidth: physicalScreenWidth,
+      physicalScreenHeight: physicalScreenHeight,
+    );
     ExportSizePolicy.validateTargetDimensions(targetDims.$1, targetDims.$2);
 
     // Calculate pixel ratio for target resolution
-    final pixelRatio = options.calculatePixelRatio(screenWidth, screenHeight);
+    final pixelRatio = options.calculatePixelRatio(
+      screenWidth,
+      screenHeight,
+      physicalScreenWidth: physicalScreenWidth,
+      physicalScreenHeight: physicalScreenHeight,
+    );
 
     // Capture raw PNG from Flutter
     final rawPng = await capturePng(boundaryKey, pixelRatio: pixelRatio);
@@ -888,6 +900,8 @@ class ExportService {
     required ExportOptions options,
     required double screenWidth,
     required double screenHeight,
+    double? physicalScreenWidth,
+    double? physicalScreenHeight,
     required String fractalType,
     required Map<String, Object> parameters,
     void Function(double progress)? onProgress,
@@ -914,6 +928,8 @@ class ExportService {
       options: finalOptions,
       screenWidth: screenWidth,
       screenHeight: screenHeight,
+      physicalScreenWidth: physicalScreenWidth,
+      physicalScreenHeight: physicalScreenHeight,
       onProgress: onProgress,
     );
 
@@ -923,8 +939,12 @@ class ExportService {
       fractalType: fractalType,
     );
 
-    final targetDims =
-        finalOptions.getTargetDimensions(screenWidth, screenHeight);
+    final targetDims = finalOptions.getTargetDimensions(
+      screenWidth,
+      screenHeight,
+      physicalScreenWidth: physicalScreenWidth,
+      physicalScreenHeight: physicalScreenHeight,
+    );
 
     return saveExportBytes(
       bytes,

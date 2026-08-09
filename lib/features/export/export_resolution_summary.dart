@@ -22,9 +22,9 @@ final class ExportResolutionSummary {
     required double screenHeight,
   }) {
     if (options.resolution == ExportResolution.screen) {
-      return const ExportResolutionSummary._(
-        width: null,
-        height: null,
+      return ExportResolutionSummary._(
+        width: screenWidth.round(),
+        height: screenHeight.round(),
         usesScreenResolution: true,
       );
     }
@@ -41,7 +41,9 @@ final class ExportResolutionSummary {
   }
 
   String label({required String screenResolutionLabel}) {
-    if (usesScreenResolution) return screenResolutionLabel;
+    if (usesScreenResolution) {
+      return '$screenResolutionLabel ($width×$height)';
+    }
     return '$width×$height';
   }
 }

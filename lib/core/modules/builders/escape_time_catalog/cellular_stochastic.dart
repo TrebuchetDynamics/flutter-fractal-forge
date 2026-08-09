@@ -374,6 +374,7 @@ final List<EscapeTimeConfig> _cellularStochasticCatalog = [
   EscapeTimeConfig(
     id: 'sandpile',
     name: 'Abelian Sandpile',
+    category: 'Cellular Automata',
     shaderAsset: 'shaders/cellular_and_stochastic/sandpile_gpu.frag',
     defaultIterations: 280,
     defaultBailout: 4.0,

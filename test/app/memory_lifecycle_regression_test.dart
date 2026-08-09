@@ -90,8 +90,9 @@ void main() {
   });
 
   test('palette service dispose clears cached ui images', () {
-    final source = File('lib/core/services/rendering/palette/palette_service.dart')
-        .readAsStringSync();
+    final source =
+        File('lib/core/services/rendering/palette/palette_service.dart')
+            .readAsStringSync();
     final dispose = _methodBody(source, 'void dispose()');
 
     expect(dispose, contains('invalidatePaletteTextures();'));
@@ -100,8 +101,9 @@ void main() {
   });
 
   test('palette service create disposes replaced singleton instance', () {
-    final source = File('lib/core/services/rendering/palette/palette_service.dart')
-        .readAsStringSync();
+    final source =
+        File('lib/core/services/rendering/palette/palette_service.dart')
+            .readAsStringSync();
 
     expect(source, contains('final previous = _instance;'));
     expect(source, contains('previous.dispose();'));
@@ -187,6 +189,40 @@ void main() {
       expect(source, contains('void _notifyIfAlive()'), reason: path);
       expect(dispose, contains('_disposed = true;'), reason: path);
     }
+  });
+
+  test(
+      'renderer disposes cached FragmentShader before replacement and teardown',
+      () {
+    final source = File(
+      'lib/features/renderer/widgets/renderer/shaders/shader_loader.dart',
+    ).readAsStringSync();
+    final disposeHelper =
+        _methodBody(source, 'void _disposeCachedFragmentShader()');
+    final stateDispose = _methodBody(source, 'void dispose()');
+    final setProgram = _methodBody(
+      source,
+      'void _setLoadedProgram(String asset, ui.FragmentProgram program)',
+    );
+    final clearStale = _methodBody(source, 'void clearStaleShader()');
+
+    expect(disposeHelper, contains('_cachedFragmentShader?.dispose();'));
+    expect(stateDispose, contains('_disposeCachedFragmentShader();'));
+    expect(setProgram, contains('_disposeCachedFragmentShader();'));
+    expect(clearStale, contains('_disposeCachedFragmentShader();'));
+  });
+
+  test('fluid warp reuses and disposes one FragmentShader per state', () {
+    final source = File(
+      'lib/features/renderer/widgets/effects/fluid_warp_effect.dart',
+    ).readAsStringSync();
+    final build = _methodBody(source, 'Widget build(BuildContext context)');
+    final dispose = _methodBody(source, 'void dispose()');
+    final ensureShader = _methodBody(source, 'void _ensureShader()');
+
+    expect(build, isNot(contains('fragmentShader()')));
+    expect(ensureShader, contains('_program!.fragmentShader()'));
+    expect(dispose, contains('_shader?.dispose();'));
   });
 
   test('deferred startup disposes services it creates', () {

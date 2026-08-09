@@ -59,6 +59,8 @@ class _StubExportService extends ExportService {
     required ExportOptions options,
     required double screenWidth,
     required double screenHeight,
+    double? physicalScreenWidth,
+    double? physicalScreenHeight,
     void Function(double)? onProgress,
   }) async {
     throw UnimplementedError(
@@ -93,6 +95,8 @@ class _CapturingExportService extends _StubExportService {
     required ExportOptions options,
     required double screenWidth,
     required double screenHeight,
+    double? physicalScreenWidth,
+    double? physicalScreenHeight,
     void Function(double)? onProgress,
   }) async {
     capturedOptions.add(options);

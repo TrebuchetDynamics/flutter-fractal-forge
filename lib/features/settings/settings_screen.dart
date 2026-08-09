@@ -11,12 +11,27 @@ import 'package:flutter_fractals/features/settings/accessibility_settings_screen
 import 'package:flutter_fractals/features/formulas/frm_formula_screen.dart';
 
 /// Main settings screen with navigation to accessibility and other options.
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  String _appVersion = kAppVersion;
 
   static final _sourceCodeUri = Uri.parse(
     'https://github.com/TrebuchetDynamics/flutter-fractal-forge',
   );
+
+  @override
+  void initState() {
+    super.initState();
+    installedAppVersion().then((version) {
+      if (mounted) setState(() => _appVersion = version);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +86,7 @@ class SettingsScreen extends StatelessWidget {
                 _SettingsTile(
                   icon: Icons.info_outline_rounded,
                   title: l10n.settingsAbout,
-                  subtitle: l10n.settingsVersion(kAppVersion),
+                  subtitle: l10n.settingsVersion(_appVersion),
                   onTap: () {
                     _showAboutDialog(context);
                   },
@@ -212,7 +227,7 @@ class SettingsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                l10n.settingsVersion(kAppVersion),
+                l10n.settingsVersion(_appVersion),
                 style: AppTypography.bodyMedium.copyWith(
                   color: AppColors.textSecondary,
                 ),

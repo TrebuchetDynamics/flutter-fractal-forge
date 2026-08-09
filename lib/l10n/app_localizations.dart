@@ -2438,6 +2438,12 @@ abstract class AppLocalizations {
   /// **'Switch to list view'**
   String get catalogSwitchToList;
 
+  /// No description provided for @catalogSwitchToMiniatures.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to miniatures'**
+  String get catalogSwitchToMiniatures;
+
   /// No description provided for @catalogSwitchToGrid.
   ///
   /// In en, this message translates to:

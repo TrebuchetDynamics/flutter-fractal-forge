@@ -79,6 +79,10 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Mandelbrot saved'), findsOneWidget);
+    expect(
+      find.byKey(const ValueKey('userPresetChip_mandelbrot-saved')),
+      findsOneWidget,
+    );
 
     controller.selectModule(registry.byId('julia'));
     await tester.pumpAndSettle();

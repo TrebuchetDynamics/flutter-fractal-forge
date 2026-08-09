@@ -589,6 +589,7 @@
   "catalogSortAlphabetical": "Alphabetical A-Z",
   "catalogSortAlphabeticalShort": "A-Z",
   "catalogSwitchToList": "Switch to list view",
+  "catalogSwitchToMiniatures": "Switch to miniatures",
   "catalogSwitchToGrid": "Switch to grid view",
   "catalogListView": "List view",
   "catalogGridView": "Grid view",

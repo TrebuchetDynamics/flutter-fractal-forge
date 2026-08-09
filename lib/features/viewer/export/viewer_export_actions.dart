@@ -263,7 +263,8 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     final controller = _activeController(context);
     final boundaryKey = _activeBoundaryKey();
     final l10n = AppLocalizations.of(context)!;
-    final size = MediaQuery.of(context).size;
+    final boundarySize = MediaQuery.of(context).size;
+    final physicalScreenSize = View.of(context).physicalSize;
     final previousTransparency = controller.transparentBackground;
 
     if (!await _exportService.chooseLinuxExportDirectory()) {
@@ -291,8 +292,10 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
         result = await _exportService.exportWithOptions(
           boundaryKey,
           options: options,
-          screenWidth: size.width,
-          screenHeight: size.height,
+          screenWidth: boundarySize.width,
+          screenHeight: boundarySize.height,
+          physicalScreenWidth: physicalScreenSize.width,
+          physicalScreenHeight: physicalScreenSize.height,
           fractalType: controller.module.id,
           parameters: controller.params,
           onProgress: (progress) {
@@ -313,8 +316,10 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
         result = await _performFallbackPngExport(
           boundaryKey: boundaryKey,
           options: options,
-          screenWidth: size.width,
-          screenHeight: size.height,
+          screenWidth: boundarySize.width,
+          screenHeight: boundarySize.height,
+          physicalScreenWidth: physicalScreenSize.width,
+          physicalScreenHeight: physicalScreenSize.height,
           fractalType: controller.module.id,
         );
       }
@@ -553,15 +558,28 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     required ExportOptions options,
     required double screenWidth,
     required double screenHeight,
+    required double physicalScreenWidth,
+    required double physicalScreenHeight,
     required String fractalType,
   }) async {
-    final pixelRatio =
-        options.calculatePixelRatio(screenWidth, screenHeight).clamp(1.0, 8.0);
+    final pixelRatio = options
+        .calculatePixelRatio(
+          screenWidth,
+          screenHeight,
+          physicalScreenWidth: physicalScreenWidth,
+          physicalScreenHeight: physicalScreenHeight,
+        )
+        .clamp(1.0, 8.0);
     var bytes = await _exportService.capturePng(
       boundaryKey,
       pixelRatio: pixelRatio,
     );
-    final targetDims = options.getTargetDimensions(screenWidth, screenHeight);
+    final targetDims = options.getTargetDimensions(
+      screenWidth,
+      screenHeight,
+      physicalScreenWidth: physicalScreenWidth,
+      physicalScreenHeight: physicalScreenHeight,
+    );
     bytes = _exportService.resizePngToTargetDimensions(
       bytes,
       width: targetDims.$1,

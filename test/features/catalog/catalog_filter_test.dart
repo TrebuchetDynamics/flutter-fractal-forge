@@ -7,9 +7,12 @@ import 'package:flutter_fractals/features/catalog/data/catalog_filter.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-FractalModule _module({String displayName = 'Visible Name'}) {
+FractalModule _module({
+  String id = 'dummy_module',
+  String displayName = 'Visible Name',
+}) {
   return FractalModule(
-    id: 'dummy_module',
+    id: id,
     displayName: (_) => displayName,
     dimension: FractalDimension.twoD,
     shaderAsset: 'shaders/dummy.frag',
@@ -58,6 +61,28 @@ void main() {
           isTrue);
       expect(CatalogSearchQuery.fromText('mixedcaseid').matches(entry, l10n),
           isTrue);
+    });
+
+    test('exact display-name match ranks ahead of prefix and metadata matches',
+        () {
+      CatalogEntry entry(String id, String name, String category) =>
+          CatalogEntry(
+            catalogId: 'core.$id',
+            module: _module(id: id, displayName: name),
+            category: category,
+          );
+      final exact = entry('mandelbrot', 'Mandelbrot', 'Escape-Time');
+      final prefix =
+          entry('mandelbrot_cubic', 'Mandelbrot Cubic', 'Escape-Time');
+      final metadata = entry('unrelated', 'Unrelated', 'Mandelbrot Studies');
+
+      final result = CatalogFilter.apply(
+        entries: [metadata, prefix, exact],
+        criteria: const CatalogFilterCriteria(query: 'Mandelbrot'),
+        l10n: l10n,
+      );
+
+      expect(result.filteredEntries, [exact, prefix, metadata]);
     });
   });
 }

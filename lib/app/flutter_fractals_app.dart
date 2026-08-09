@@ -128,7 +128,7 @@ class _AppProviders extends StatelessWidget {
       ],
       child: _AppShell(
         locale: locale,
-          skipSplash: skipSplash,
+        skipSplash: skipSplash,
       ),
     );
   }
@@ -149,11 +149,26 @@ class _AppShell extends StatelessWidget {
     return Consumer<AccessibilityService>(
       builder: (context, accessibility, child) {
         // Determine which theme to use based on user selection
-        final theme = switch (accessibility.themeMode) {
+        final baseTheme = switch (accessibility.themeMode) {
           AppThemeMode.dark => AppTheme.dark,
           AppThemeMode.oled => AppTheme.oled,
           AppThemeMode.highContrast => AppTheme.highContrast,
         };
+        final theme = accessibility.largeTargetsEnabled
+            ? baseTheme.copyWith(
+                visualDensity: const VisualDensity(
+                  horizontal: VisualDensity.maximumDensity,
+                  vertical: VisualDensity.maximumDensity,
+                ),
+                materialTapTargetSize: MaterialTapTargetSize.padded,
+                iconButtonTheme: const IconButtonThemeData(
+                  style: ButtonStyle(
+                    minimumSize: WidgetStatePropertyAll(Size.square(56)),
+                    tapTargetSize: MaterialTapTargetSize.padded,
+                  ),
+                ),
+              )
+            : baseTheme;
 
         return MaterialApp(
           locale: locale,
@@ -162,7 +177,7 @@ class _AppShell extends StatelessWidget {
           supportedLocales: AppLocalizations.supportedLocales,
           theme: theme,
           home: _AppBootstrap(
-                  skipSplash: skipSplash,
+            skipSplash: skipSplash,
           ),
           debugShowCheckedModeBanner: false,
         );

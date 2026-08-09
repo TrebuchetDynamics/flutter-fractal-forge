@@ -60,6 +60,7 @@ class AccessibilityService extends ChangeNotifier {
   static const String _keyReducedMotion = 'accessibility_reduced_motion';
   static const String _keyLargeTargets = 'accessibility_large_targets';
   static const String _keyThemeMode = 'app_theme_mode';
+  static const String _keyPreviousThemeMode = 'app_previous_theme_mode';
 
   final SharedPreferences _prefs;
 
@@ -67,6 +68,7 @@ class AccessibilityService extends ChangeNotifier {
   bool _reducedMotionEnabled;
   bool _largeTargetsEnabled;
   AppThemeMode _themeMode;
+  AppThemeMode _previousThemeMode;
   bool _disposed = false;
 
   void _notifyIfAlive() {
@@ -75,11 +77,27 @@ class AccessibilityService extends ChangeNotifier {
 
   /// Creates an [AccessibilityService] with the given [SharedPreferences].
   AccessibilityService(this._prefs)
-      : _highContrastEnabled = _prefs.getBool(_keyHighContrast) ?? false,
+      : _highContrastEnabled = (_prefs.getBool(_keyHighContrast) ?? false) ||
+            _storedThemeMode(_prefs) == AppThemeMode.highContrast,
         _reducedMotionEnabled = _prefs.getBool(_keyReducedMotion) ?? false,
         _largeTargetsEnabled = _prefs.getBool(_keyLargeTargets) ?? false,
-        _themeMode = AppThemeMode.values[(_prefs.getInt(_keyThemeMode) ?? 0)
-            .clamp(0, AppThemeMode.values.length - 1)];
+        _themeMode = (_prefs.getBool(_keyHighContrast) ?? false)
+            ? AppThemeMode.highContrast
+            : _storedThemeMode(_prefs),
+        _previousThemeMode = _storedPreviousThemeMode(_prefs);
+
+  static AppThemeMode _storedThemeMode(SharedPreferences prefs) =>
+      AppThemeMode.values[(prefs.getInt(_keyThemeMode) ?? 0)
+          .clamp(0, AppThemeMode.values.length - 1)];
+
+  static AppThemeMode _storedPreviousThemeMode(SharedPreferences prefs) {
+    final previousIndex = prefs.getInt(_keyPreviousThemeMode);
+    final mode = previousIndex == null
+        ? _storedThemeMode(prefs)
+        : AppThemeMode
+            .values[previousIndex.clamp(0, AppThemeMode.values.length - 1)];
+    return mode == AppThemeMode.highContrast ? AppThemeMode.dark : mode;
+  }
 
   /// Creates an instance asynchronously by loading SharedPreferences.
   static Future<AccessibilityService> create() async {
@@ -111,8 +129,18 @@ class AccessibilityService extends ChangeNotifier {
   /// Enables or disables high contrast mode.
   Future<void> setHighContrast(bool enabled) async {
     if (_highContrastEnabled == enabled) return;
+    if (enabled) {
+      if (_themeMode != AppThemeMode.highContrast) {
+        _previousThemeMode = _themeMode;
+      }
+      _themeMode = AppThemeMode.highContrast;
+      await _prefs.setInt(_keyPreviousThemeMode, _previousThemeMode.index);
+    } else {
+      _themeMode = _previousThemeMode;
+    }
     _highContrastEnabled = enabled;
     await _prefs.setBool(_keyHighContrast, enabled);
+    await _prefs.setInt(_keyThemeMode, _themeMode.index);
     _notifyIfAlive();
   }
 
@@ -135,8 +163,16 @@ class AccessibilityService extends ChangeNotifier {
   /// Sets the app theme mode.
   Future<void> setThemeMode(AppThemeMode mode) async {
     if (_themeMode == mode) return;
+    if (mode == AppThemeMode.highContrast) {
+      await setHighContrast(true);
+      return;
+    }
     _themeMode = mode;
+    _previousThemeMode = mode;
+    _highContrastEnabled = false;
     await _prefs.setInt(_keyThemeMode, mode.index);
+    await _prefs.setInt(_keyPreviousThemeMode, mode.index);
+    await _prefs.setBool(_keyHighContrast, false);
     _notifyIfAlive();
   }
 

@@ -10,6 +10,16 @@ import 'complex.dart';
 import 'frm_ast.dart';
 import 'frm_parser.dart';
 
+/// A runtime failure while evaluating a syntactically valid FRM formula.
+final class FrmEvaluationException implements Exception {
+  const FrmEvaluationException(this.cause);
+
+  final Object cause;
+
+  @override
+  String toString() => 'Formula evaluation failed: $cause';
+}
+
 /// Escape-time interpreter for a parsed [FrmFormula], adapted to the CPU
 /// renderer's [CpuFormula] contract so FRM formulas reuse the existing
 /// (anti-aliased, NaN-safe) CPU pixel loop.
@@ -54,10 +64,8 @@ CpuFormula frmAsCpuFormula(FrmFormula formula) {
       if (it >= iterations) return kInsideColor;
       final z = ctx.vars['z'] ?? const Complex(0, 0);
       return palette(smoothEscape(it: it, mag2: z.abs2()));
-    } catch (_) {
-      // Eval errors (non-finite arithmetic, divide-by-zero, unknown variable)
-      // colour as interior so one bad pixel cannot abort the whole tile.
-      return kInsideColor;
+    } catch (error) {
+      throw FrmEvaluationException(error);
     }
   };
 }

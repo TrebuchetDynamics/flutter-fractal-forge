@@ -29,6 +29,41 @@ void main() {
     });
   });
 
+  testWidgets('keeps the valid preview when evaluation fails', (tester) async {
+    await tester.runAsync(() async {
+      await tester.pumpWidget(_app());
+      await tester.pump();
+
+      await tester.ensureVisible(find.text('Render'));
+      await tester.tap(find.text('Render'));
+      for (var attempt = 0;
+          attempt < 100 && find.byType(RawImage).evaluate().isEmpty;
+          attempt++) {
+        await Future<void>.delayed(const Duration(milliseconds: 20));
+        await tester.pump();
+      }
+      expect(find.byType(RawImage), findsOneWidget);
+
+      await tester.ensureVisible(find.byType(TextField));
+      await tester.enterText(
+        find.byType(TextField),
+        'Broken {\n  z=unknown\n:\n  z=z*z\n}\n',
+      );
+      await tester.ensureVisible(find.text('Render'));
+      await tester.tap(find.text('Render'));
+      for (var attempt = 0;
+          attempt < 100 &&
+              find.textContaining('Unknown var: unknown').evaluate().isEmpty;
+          attempt++) {
+        await Future<void>.delayed(const Duration(milliseconds: 20));
+        await tester.pump();
+      }
+
+      expect(find.textContaining('Unknown var: unknown'), findsOneWidget);
+      expect(find.byType(RawImage), findsOneWidget);
+    });
+  });
+
   testWidgets('shows a parse error for an invalid formula', (tester) async {
     await tester.runAsync(() async {
       await tester.pumpWidget(_app());

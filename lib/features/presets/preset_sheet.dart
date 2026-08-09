@@ -291,6 +291,7 @@ class _PresetSheetState extends State<PresetSheet> {
                           index: entry.key,
                           itemDelay: const Duration(milliseconds: 40),
                           child: _UserPresetChip(
+                            presetId: preset.id,
                             label: preset.name,
                             onTap: () {
                               controller.applyPreset(preset);
@@ -593,12 +594,14 @@ class _PresetChip extends StatelessWidget {
 }
 
 class _UserPresetChip extends StatelessWidget {
+  final String presetId;
   final String label;
   final VoidCallback onTap;
   final VoidCallback onDelete;
   final VoidCallback onRename;
 
   const _UserPresetChip({
+    required this.presetId,
     required this.label,
     required this.onTap,
     required this.onDelete,
@@ -609,6 +612,7 @@ class _UserPresetChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return PressableScale(
+      key: ValueKey('userPresetChip_$presetId'),
       onTap: onTap,
       builder: (isPressed) => AnimatedContainer(
         duration: AppAnimations.normal,

@@ -1287,6 +1287,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get catalogSwitchToList => 'Cambiar a vista de lista';
 
   @override
+  String get catalogSwitchToMiniatures => 'Cambiar a miniaturas';
+
+  @override
   String get catalogSwitchToGrid => 'Cambiar a vista de cuadrícula';
 
   @override

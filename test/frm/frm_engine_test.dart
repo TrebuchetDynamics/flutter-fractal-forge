@@ -74,6 +74,29 @@ Mandelbrot {
       expect(nonBlack, greaterThan(0));
     });
 
+    test('throws a typed evaluation error for an unknown variable', () {
+      expect(
+        () => renderFrmImageBytes(const FrmRenderRequest(
+          source: 'Broken {\n  z=unknown\n:\n  z=z*z\n}\n',
+          panX: 0,
+          panY: 0,
+          zoom: 1,
+          width: 4,
+          height: 4,
+          iterations: 10,
+          bailout: 2.0,
+        )),
+        throwsA(
+          allOf(
+            isA<FrmEvaluationException>(),
+            predicate<Object>(
+              (error) => error.toString().contains('Unknown var: unknown'),
+            ),
+          ),
+        ),
+      );
+    });
+
     test('throws FormatException for an unknown formula name', () {
       expect(
         () => renderFrmImageBytes(const FrmRenderRequest(

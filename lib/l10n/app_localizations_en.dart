@@ -1273,6 +1273,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get catalogSwitchToList => 'Switch to list view';
 
   @override
+  String get catalogSwitchToMiniatures => 'Switch to miniatures';
+
+  @override
   String get catalogSwitchToGrid => 'Switch to grid view';
 
   @override

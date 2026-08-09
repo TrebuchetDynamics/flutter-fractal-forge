@@ -338,7 +338,8 @@ final List<EscapeTimeConfig> _mandlebrotSfmlBatch2Catalog = [
 // with cubic radial growth; Julia sets appear to have pseudo-3D depth.
   EscapeTimeConfig(
     id: '3d_fractal',
-    name: '3D Fractal',
+    name: 'Radial Cubic Map',
+    category: 'Complex Dynamics',
     shaderAsset:
         'shaders/3d_and_hypercomplex/raymarched_volumes/3d_fractal_gpu.frag',
     defaultIterations: 200,

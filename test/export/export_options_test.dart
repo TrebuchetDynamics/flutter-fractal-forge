@@ -59,6 +59,29 @@ void main() {
       expect(options.getTargetDimensions(400, 800), (400, 800));
     });
 
+    test('screen resolution targets physical pixels at a noninteger DPR', () {
+      const options = ExportOptions(resolution: ExportResolution.screen);
+
+      expect(
+        options.getTargetDimensions(
+          1080 / 2.625,
+          1920 / 2.625,
+          physicalScreenWidth: 1080,
+          physicalScreenHeight: 1920,
+        ),
+        (1080, 1920),
+      );
+      expect(
+        options.calculatePixelRatio(
+          1080 / 2.625,
+          1920 / 2.625,
+          physicalScreenWidth: 1080,
+          physicalScreenHeight: 1920,
+        ),
+        closeTo(2.625, 0.0001),
+      );
+    });
+
     test('calculatePixelRatio returns correct ratio for preset resolutions',
         () {
       const options = ExportOptions(resolution: ExportResolution.fullHd);

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_fractals/core/app_version.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 void main() {
   test('kAppVersion matches pubspec.yaml', () {
@@ -20,5 +21,18 @@ void main() {
       reason: 'kAppVersion is stale — the About dialog will show the wrong '
           'version. Update lib/core/app_version.dart to $declared.',
     );
+  });
+
+  test('installedAppVersion uses metadata from the installed package',
+      () async {
+    PackageInfo.setMockInitialValues(
+      appName: 'Fractal Forge',
+      packageName: 'com.trebuchetdynamics.fractal.forge',
+      version: '1.1.86',
+      buildNumber: '86',
+      buildSignature: '',
+    );
+
+    expect(await installedAppVersion(), '1.1.86+86');
   });
 }

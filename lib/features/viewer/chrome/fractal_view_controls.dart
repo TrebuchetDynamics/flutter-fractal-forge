@@ -144,9 +144,9 @@ class FractalViewControls extends StatelessWidget {
       FloatingActionButtonWidget(
         key: const ValueKey('viewerRandomParamsButton'),
         icon: Icons.tune_rounded,
-        tooltip: l10n.tooltipRandomizeWithControls,
-        onPressed: isExporting ? null : actions.randomizeParams,
-        onLongPress: isExporting ? null : actions.openControls,
+        tooltip: l10n.tooltipOpenControls,
+        onPressed: isExporting ? null : actions.openControls,
+        onLongPress: isExporting ? null : actions.randomizeParams,
         isCompact: true,
         delay: const Duration(milliseconds: 100),
       ),

@@ -4,8 +4,8 @@ set -euo pipefail
 # Multi-platform release orchestrator for Flutter Fractal Forge.
 #
 # Usage:
-#   scripts/release.sh <stage> [<stage> ...] [--dry-run]
-#   scripts/release.sh all [--dry-run]
+#   scripts/release.sh <stage> [<stage> ...] [--publish=<version>]
+#   scripts/release.sh all [--publish=<version>]
 #
 # Stages:
 #   android    Build + upload an AAB to Google Play via
@@ -31,7 +31,9 @@ set -euo pipefail
 #   --dry-run  Do not publish or reach outside this machine. Prints what it
 #              WOULD do and skips Play Store upload, git tag push, GitHub
 #              Release creation, Windows workflow dispatch, and Wrangler deploy.
-#   --yes      Deprecated no-op; publishing is the default.
+#   --publish=<version>  Permit publishing only when <version> exactly matches
+#                        the resolved release version. Without this confirmation,
+#                        every network action is a dry run.
 #
 # Environment:
 #   FLUTTER_BIN            Path to the flutter binary
@@ -59,8 +61,15 @@ cd "$PROJECT_ROOT"
 FLUTTER_BIN="${FLUTTER_BIN:-flutter}"
 ARTIFACT_DIR="${RELEASE_ARTIFACT_DIR:-release-artifacts}"
 CLOUDFLARE_PAGES_PROJECT="${CLOUDFLARE_PAGES_PROJECT:-flutter-fractal-forge}"
-CONFIRMED=1
+PLAY_TRACK="${PLAY_TRACK:-internal}"
+PLAY_RELEASE_STATUS="${PLAY_RELEASE_STATUS:-draft}"
+CONFIRMED=0
+PUBLISH_VERSION=""
+DRY_RUN_FORCED=0
 STAGES=()
+RESOLVED_ANDROID_VERSION=""
+RESOLVED_ANDROID_BUILD_NUMBER=""
+RESOLVED_RELEASE_VERSION=""
 
 log() { echo "[release] $*"; }
 die() { echo "[release] ERROR: $*" >&2; exit 1; }
@@ -77,8 +86,9 @@ fi
 
 for arg in "$@"; do
   case "$arg" in
-    --yes) CONFIRMED=1 ;;
-    --dry-run) CONFIRMED=0 ;;
+    --publish=*) PUBLISH_VERSION="${arg#--publish=}" ;;
+    --yes) die "--yes is unsafe; use --publish=<version>" ;;
+    --dry-run) CONFIRMED=0; DRY_RUN_FORCED=1 ;;
     --help|-h) usage; exit 0 ;;
     all) STAGES+=(android linux windows github website) ;;
     android|linux|windows|github|website|fdroid) STAGES+=("$arg") ;;
@@ -121,6 +131,56 @@ release_version() {
   fi
   pubspec_version
 }
+
+stage_selected() {
+  local wanted="$1" stage
+  for stage in "${STAGES[@]}"; do
+    [[ "$stage" == "$wanted" ]] && return 0
+  done
+  return 1
+}
+
+# Resolve the exact Android artifact identity before the operator confirms a
+# publish. The build is then pinned to these values so a previous
+# LATEST_BUILD_INFO marker can never authorize a different upcoming version.
+resolve_upcoming_android_version() {
+  local resolved
+  resolved="$("$SCRIPT_DIR/build-play-console.sh" --print-version)"
+  RESOLVED_ANDROID_VERSION="$(awk -F= '$1=="versionName" {print $2}' <<< "$resolved")"
+  RESOLVED_ANDROID_BUILD_NUMBER="$(awk -F= '$1=="buildNumber" {print $2}' <<< "$resolved")"
+  [[ -n "$RESOLVED_ANDROID_VERSION" && -n "$RESOLVED_ANDROID_BUILD_NUMBER" ]] ||
+    die "Could not resolve the upcoming Android version"
+  RESOLVED_RELEASE_VERSION="$RESOLVED_ANDROID_VERSION"
+}
+
+preflight_publish() {
+  need git
+  [[ -z "$(git status --porcelain)" ]] ||
+    die "Publishing requires a clean working tree"
+
+  local branch remote_ref
+  branch="$(git symbolic-ref --quiet --short HEAD)" ||
+    die "Publishing from detached HEAD is not allowed"
+  remote_ref="origin/$branch"
+  git fetch --quiet origin "$branch"
+  [[ "$(git rev-parse HEAD)" == "$(git rev-parse "$remote_ref")" ]] ||
+    die "Local $branch is not synchronized with $remote_ref"
+
+  log "Running mandatory release gates"
+  "$FLUTTER_BIN" analyze
+  "$FLUTTER_BIN" test
+}
+
+if [[ -n "$PUBLISH_VERSION" && "$DRY_RUN_FORCED" -eq 0 ]]; then
+  RESOLVED_RELEASE_VERSION="$(release_version)"
+  if stage_selected android; then
+    resolve_upcoming_android_version
+  fi
+  [[ "$PUBLISH_VERSION" == "$RESOLVED_RELEASE_VERSION" ]] ||
+    die "Publish confirmation '$PUBLISH_VERSION' does not match release version '$RESOLVED_RELEASE_VERSION'"
+  CONFIRMED=1
+  preflight_publish
+fi
 
 changelog_notes() {
   local version="$1"
@@ -175,7 +235,12 @@ stage_android() {
   if ! guarded "run scripts/build-upload-playstore.sh (uploads a real AAB to Google Play)"; then
     return 0
   fi
-  "$SCRIPT_DIR/build-upload-playstore.sh"
+  PLAY_TRACK="$PLAY_TRACK" PLAY_RELEASE_STATUS="$PLAY_RELEASE_STATUS" \
+    "$SCRIPT_DIR/build-upload-playstore.sh" \
+      --build-name="$RESOLVED_ANDROID_VERSION" \
+      --build-number="$RESOLVED_ANDROID_BUILD_NUMBER"
+  [[ "$(release_version)" == "$RESOLVED_ANDROID_VERSION" ]] ||
+    die "Built Android version '$(release_version)' does not match confirmed version '$RESOLVED_ANDROID_VERSION'"
   log "android stage complete: $(release_version)"
 }
 
@@ -268,6 +333,7 @@ stage_github() {
   else
     gh release create "$tag" "${assets[@]}" \
       --title "Fractal Forge $version" \
+      --draft \
       --notes "$notes"
   fi
   log "github stage complete: $tag"

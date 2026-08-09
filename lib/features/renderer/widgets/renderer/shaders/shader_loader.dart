@@ -27,10 +27,15 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
 
   @override
   void dispose() {
-    _cachedFragmentShader = null;
-    _shaderForCachedFragment = null;
+    _disposeCachedFragmentShader();
     _program = null;
     super.dispose();
+  }
+
+  void _disposeCachedFragmentShader() {
+    _cachedFragmentShader?.dispose();
+    _cachedFragmentShader = null;
+    _shaderForCachedFragment = null;
   }
 
   ui.FragmentProgram? _takeProgramFromCache(String asset) {
@@ -58,9 +63,8 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
   }
 
   void _setLoadedProgram(String asset, ui.FragmentProgram program) {
+    _disposeCachedFragmentShader();
     _program = program;
-    _shaderForCachedFragment = null;
-    _cachedFragmentShader = null;
     _shaderAsset = asset;
     _shaderRetryCount = 0;
     _loading = false;
@@ -68,8 +72,7 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
 
   void clearStaleShader() {
     _program = null;
-    _shaderForCachedFragment = null;
-    _cachedFragmentShader = null;
+    _disposeCachedFragmentShader();
   }
 
   Future<ui.FragmentProgram> _loadProgramFromAsset(String asset) {
@@ -203,6 +206,7 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
 
   ui.FragmentShader _currentFragmentShader(ui.FragmentProgram program) {
     if (_cachedFragmentShader == null || _shaderForCachedFragment != program) {
+      _disposeCachedFragmentShader();
       _cachedFragmentShader = program.fragmentShader();
       _shaderForCachedFragment = program;
     }

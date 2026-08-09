@@ -123,6 +123,22 @@ void main() {
       expect(service.highContrastEnabled, isTrue);
     });
 
+    test('legacy high contrast state restores its persisted prior theme',
+        () async {
+      SharedPreferences.setMockInitialValues({
+        'accessibility_high_contrast': true,
+        'app_theme_mode': AppThemeMode.oled.index,
+      });
+      final prefs = await SharedPreferences.getInstance();
+      final service = AccessibilityService(prefs);
+
+      expect(service.themeMode, AppThemeMode.highContrast);
+
+      await service.setHighContrast(false);
+
+      expect(service.themeMode, AppThemeMode.oled);
+    });
+
     test('constructor restores persisted reduced motion value', () async {
       SharedPreferences.setMockInitialValues({
         'accessibility_reduced_motion': true,

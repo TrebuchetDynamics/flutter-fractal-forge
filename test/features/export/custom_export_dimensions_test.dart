@@ -101,15 +101,18 @@ void main() {
       expect(summary.label(screenResolutionLabel: 'Screen'), '1080×1920');
     });
 
-    test('preserves screen-resolution summary copy', () {
+    test('includes exact device-pixel dimensions in screen summary copy', () {
       final summary = ExportResolutionSummary.fromEffectiveOptions(
         options: const ExportOptions(resolution: ExportResolution.screen),
-        screenWidth: 800,
-        screenHeight: 1200,
+        screenWidth: 1080,
+        screenHeight: 1920,
       );
 
       expect(summary.usesScreenResolution, isTrue);
-      expect(summary.label(screenResolutionLabel: 'Screen'), 'Screen');
+      expect(
+        summary.label(screenResolutionLabel: 'Screen size'),
+        'Screen size (1080×1920)',
+      );
     });
   });
 }

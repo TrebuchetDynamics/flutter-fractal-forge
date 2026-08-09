@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
@@ -65,6 +66,106 @@ class _LooperExportService extends ExportService {
   Future<void> shareFile(File file, {String? text}) async {
     sharedText = text;
     if (shareThrows) throw StateError('share unavailable');
+  }
+}
+
+class _ScreenSizeExportService extends ExportService {
+  double? logicalWidth;
+  double? logicalHeight;
+  double? physicalScreenWidth;
+  double? physicalScreenHeight;
+
+  @override
+  Future<bool> chooseLinuxExportDirectory() async => true;
+
+  @override
+  Future<ExportResult> exportWithOptions(
+    GlobalKey boundaryKey, {
+    required ExportOptions options,
+    required double screenWidth,
+    required double screenHeight,
+    required String fractalType,
+    required Map<String, Object> parameters,
+    double? physicalScreenWidth,
+    double? physicalScreenHeight,
+    void Function(double progress)? onProgress,
+  }) async {
+    logicalWidth = screenWidth;
+    logicalHeight = screenHeight;
+    this.physicalScreenWidth = physicalScreenWidth;
+    this.physicalScreenHeight = physicalScreenHeight;
+    return ExportResult(
+      file: File('/tmp/screen.png'),
+      filename: 'screen.png',
+      format: ExportFormat.png,
+      width: 1080,
+      height: 1920,
+      fileSize: 0,
+    );
+  }
+
+  @override
+  Future<void> saveExportResult(ExportResult result) async {}
+}
+
+class _FallbackScreenSizeExportService extends ExportService {
+  double? capturedPixelRatio;
+  (int, int)? resizedDimensions;
+
+  @override
+  Future<bool> chooseLinuxExportDirectory() async => true;
+
+  @override
+  Future<ExportResult> exportWithOptions(
+    GlobalKey boundaryKey, {
+    required ExportOptions options,
+    required double screenWidth,
+    required double screenHeight,
+    double? physicalScreenWidth,
+    double? physicalScreenHeight,
+    required String fractalType,
+    required Map<String, Object> parameters,
+    void Function(double progress)? onProgress,
+  }) async {
+    throw StateError('force fallback');
+  }
+
+  @override
+  Future<Uint8List> capturePng(
+    GlobalKey key, {
+    double pixelRatio = 1.0,
+  }) async {
+    capturedPixelRatio = pixelRatio;
+    return Uint8List.fromList(<int>[1]);
+  }
+
+  @override
+  Uint8List resizePngToTargetDimensions(
+    Uint8List pngBytes, {
+    required int width,
+    required int height,
+    String? quoteText,
+  }) {
+    resizedDimensions = (width, height);
+    return pngBytes;
+  }
+
+  @override
+  Future<ExportResult> saveExportBytes(
+    Uint8List bytes, {
+    required String filename,
+    required ExportFormat format,
+    required int width,
+    required int height,
+  }) async {
+    return ExportResult(
+      file: File('/tmp/$filename'),
+      filename: filename,
+      format: format,
+      width: width,
+      height: height,
+      fileSize: bytes.length,
+    );
   }
 }
 
@@ -263,6 +364,44 @@ void main() {
       expect(find.byKey(const ValueKey('viewerExportButton')), findsOneWidget);
     });
 
+    testWidgets('screen export receives the view physical pixel dimensions',
+        (tester) async {
+      tester.view.devicePixelRatio = 2.625;
+      tester.view.physicalSize = const Size(1080, 1920);
+      addTearDown(tester.view.reset);
+      final exportService = _ScreenSizeExportService();
+
+      await tester.pumpWidget(buildTestWidget(exportService: exportService));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
+      await tester.pumpAndSettle();
+
+      expect(exportService.logicalWidth, closeTo(1080 / 2.625, 0.001));
+      expect(exportService.logicalHeight, closeTo(1920 / 2.625, 0.001));
+      expect(exportService.physicalScreenWidth, 1080);
+      expect(exportService.physicalScreenHeight, 1920);
+    });
+
+    testWidgets('fallback screen export keeps the physical pixel dimensions',
+        (tester) async {
+      tester.view.devicePixelRatio = 2.625;
+      tester.view.physicalSize = const Size(1080, 1920);
+      addTearDown(tester.view.reset);
+      final exportService = _FallbackScreenSizeExportService();
+
+      await tester.pumpWidget(buildTestWidget(exportService: exportService));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
+      await tester.pumpAndSettle();
+
+      expect(exportService.capturedPixelRatio, closeTo(2.625, 0.0001));
+      expect(exportService.resizedDimensions, (1080, 1920));
+    });
+
     testWidgets('performance family route hides core viewer chrome',
         (tester) async {
       await tester.pumpWidget(
@@ -363,8 +502,9 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      await tester
-          .longPress(find.byKey(const ValueKey('viewerRandomParamsButton')));
+      await tester.tap(
+        find.byKey(const ValueKey('viewerRandomParamsButton')),
+      );
       await tester.pumpAndSettle();
 
       expect(find.text('Controls'), findsOneWidget);
@@ -376,8 +516,9 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      await tester
-          .longPress(find.byKey(const ValueKey('viewerRandomParamsButton')));
+      await tester.tap(
+        find.byKey(const ValueKey('viewerRandomParamsButton')),
+      );
       await tester.pumpAndSettle();
 
       expect(tester.takeException(), isNull);

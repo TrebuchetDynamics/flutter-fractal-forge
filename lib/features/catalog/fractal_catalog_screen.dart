@@ -304,7 +304,10 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   }
 
   Map<String, List<CatalogEntry>> _groupAndSort(
-      List<CatalogEntry> entries, AppLocalizations l10n) {
+    List<CatalogEntry> entries,
+    AppLocalizations l10n, {
+    required CatalogSearchQuery query,
+  }) {
     final grouped = <String, List<CatalogEntry>>{};
     for (final entry in entries) {
       grouped.putIfAbsent(entry.category, () => []).add(entry);
@@ -312,6 +315,16 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
 
     final sortedEntries = grouped.entries.toList()
       ..sort((a, b) {
+        if (!query.isEmpty) {
+          final aScore = a.value
+              .map((entry) => query.relevanceScore(entry, l10n) ?? 999)
+              .reduce((left, right) => left < right ? left : right);
+          final bScore = b.value
+              .map((entry) => query.relevanceScore(entry, l10n) ?? 999)
+              .reduce((left, right) => left < right ? left : right);
+          final scoreCompare = aScore.compareTo(bScore);
+          if (scoreCompare != 0) return scoreCompare;
+        }
         final priorityCompare = _categorySortPriority(a.key)
             .compareTo(_categorySortPriority(b.key));
         if (priorityCompare != 0) return priorityCompare;
@@ -323,8 +336,16 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     return {
       for (final section in sortedEntries)
         section.key: List<CatalogEntry>.from(section.value)
-          ..sort((a, b) =>
-              a.module.displayName(l10n).compareTo(b.module.displayName(l10n))),
+          ..sort((a, b) {
+            if (!query.isEmpty) {
+              final scoreCompare = (query.relevanceScore(a, l10n) ?? 999)
+                  .compareTo(query.relevanceScore(b, l10n) ?? 999);
+              if (scoreCompare != 0) return scoreCompare;
+            }
+            return a.module
+                .displayName(l10n)
+                .compareTo(b.module.displayName(l10n));
+          }),
     };
   }
 
@@ -344,7 +365,11 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     );
     final query = filterCriteria.searchQuery.value;
     final filteredEntries = filterResult.filteredEntries;
-    final groupedEntries = _groupAndSort(filteredEntries, l10n);
+    final groupedEntries = _groupAndSort(
+      filteredEntries,
+      l10n,
+      query: filterCriteria.searchQuery,
+    );
     return GestureDetector(
       key: const Key('catalogCategorySwipeArea'),
       behavior: HitTestBehavior.opaque,

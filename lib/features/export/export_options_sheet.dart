@@ -178,7 +178,8 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
   Widget _buildSimpleModeCard(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
     final effectiveOptions = _effectiveOptionsForExport();
-    final screenSize = MediaQuery.sizeOf(context);
+    final screenSize =
+        MediaQuery.sizeOf(context) * MediaQuery.devicePixelRatioOf(context);
     final resolutionText = ExportResolutionSummary.fromEffectiveOptions(
       options: effectiveOptions,
       screenWidth: screenSize.width,
@@ -673,7 +674,8 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
   Widget _buildExportSummary(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
     final effectiveOptions = _effectiveOptionsForExport();
-    final screenSize = MediaQuery.sizeOf(context);
+    final screenSize =
+        MediaQuery.sizeOf(context) * MediaQuery.devicePixelRatioOf(context);
     final resolutionText = ExportResolutionSummary.fromEffectiveOptions(
       options: effectiveOptions,
       screenWidth: screenSize.width,

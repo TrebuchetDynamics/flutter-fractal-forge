@@ -21,11 +21,34 @@ final class CatalogSearchQuery {
   bool get isEmpty => value.isEmpty;
 
   bool matches(CatalogEntry entry, AppLocalizations l10n) {
-    if (isEmpty) return true;
+    return relevanceScore(entry, l10n) != null;
+  }
 
-    return _searchableFields(entry, l10n).any(
-      (field) => field.toLowerCase().contains(value),
-    );
+  /// Lower scores are more relevant. Returns `null` when [entry] does not
+  /// match this query.
+  int? relevanceScore(CatalogEntry entry, AppLocalizations l10n) {
+    if (isEmpty) return 0;
+
+    final displayName = entry.module.displayName(l10n).toLowerCase();
+    final aliases = entry.aliases.map((alias) => alias.toLowerCase()).toList();
+    final catalogId = entry.catalogId.toLowerCase();
+
+    if (displayName == value) return 0;
+    if (aliases.any((alias) => alias == value) ||
+        catalogId == value ||
+        catalogId.endsWith('.$value')) {
+      return 1;
+    }
+    if (displayName.startsWith(value)) return 2;
+    if (aliases.any((alias) => alias.startsWith(value))) return 3;
+    if (catalogId.contains(value)) return 4;
+    if (displayName.contains(value)) return 5;
+    if (aliases.any((alias) => alias.contains(value))) return 6;
+
+    return _searchableFields(entry, l10n)
+            .any((field) => field.toLowerCase().contains(value))
+        ? 7
+        : null;
   }
 
   Iterable<String> _searchableFields(
@@ -111,7 +134,15 @@ final class CatalogFilter {
     final query = criteria.searchQuery;
     final matchesSearch = entries
         .where((entry) => query.matches(entry, l10n))
-        .toList(growable: false);
+        .toList(growable: true);
+    if (!query.isEmpty) {
+      matchesSearch.sort((a, b) {
+        final scoreCompare = (query.relevanceScore(a, l10n) ?? 999)
+            .compareTo(query.relevanceScore(b, l10n) ?? 999);
+        if (scoreCompare != 0) return scoreCompare;
+        return a.module.displayName(l10n).compareTo(b.module.displayName(l10n));
+      });
+    }
 
     final dimensionBaseEntries = matchesSearch
         .where(
