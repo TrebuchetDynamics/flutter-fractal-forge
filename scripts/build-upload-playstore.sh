@@ -13,6 +13,7 @@ set -euo pipefail
 #   PLAY_RELEASE_STATUS=completed|draft        default: draft
 #   PLAY_SERVICE_ACCOUNT_JSON=path             default: play-console-upload/play-service-account.json
 #   PLAY_LISTING_LOCALE=locale                  default: en-US
+#   PLAY_LISTING_TITLE=title                    optional exact title update
 #   PLAY_LISTING_ICON=path                      optional exact approved 512px icon
 #   PLAY_LISTING_ICON_SHA256=hex                required with PLAY_LISTING_ICON
 #   PLAY_RECEIPT_PATH=path                      durable redacted receipt output
@@ -31,6 +32,7 @@ PREBUILT_AAB=""
 EXPECTED_VERSION=""
 EXPECTED_BUILD_NUMBER=""
 LISTING_LOCALE="${PLAY_LISTING_LOCALE:-en-US}"
+LISTING_TITLE="${PLAY_LISTING_TITLE:-}"
 LISTING_ICON="${PLAY_LISTING_ICON:-}"
 LISTING_ICON_SHA256="${PLAY_LISTING_ICON_SHA256:-}"
 RECEIPT_PATH="${PLAY_RECEIPT_PATH:-play-console-upload/play-publication-receipt.json}"
@@ -253,6 +255,21 @@ VERSION_CODE="$(printf '%s' "$BUNDLE_RESPONSE" | json_field versionCode)"
 [[ "$VERSION_CODE" == "$EXPECTED_BUILD_NUMBER" ]] ||
   die "Google Play versionCode mismatch: $VERSION_CODE != $EXPECTED_BUILD_NUMBER"
 
+if [[ -n "$LISTING_TITLE" ]]; then
+  [[ ${#LISTING_TITLE} -le 30 ]] || die "Play listing title exceeds 30 characters"
+  log "Updating listing title for locale $LISTING_LOCALE..."
+  LISTING_RESPONSE="$(request "${AUTH[@]}" "$API/edits/$EDIT_ID/listings/$LISTING_LOCALE")"
+  LISTING_BODY="$(mktemp)"; TMP_FILES+=("$LISTING_BODY")
+  LISTING_RESPONSE="$LISTING_RESPONSE" LISTING_TITLE="$LISTING_TITLE" python3 - "$LISTING_BODY" <<'PY'
+import json, os, pathlib, sys
+listing = json.loads(os.environ["LISTING_RESPONSE"])
+listing["title"] = os.environ["LISTING_TITLE"]
+pathlib.Path(sys.argv[1]).write_text(json.dumps(listing, separators=(",", ":")), encoding="utf-8")
+PY
+  request -X PUT "${AUTH[@]}" -H 'Content-Type: application/json' \
+    --data-binary "@$LISTING_BODY" "$API/edits/$EDIT_ID/listings/$LISTING_LOCALE" >/dev/null
+fi
+
 if [[ -n "$LISTING_ICON" ]]; then
   log "Uploading approved listing icon for locale $LISTING_LOCALE..."
   ICON_RESPONSE="$(request -X POST "${AUTH[@]}" \
@@ -296,6 +313,11 @@ if not any(expected in [str(v) for v in release.get("versionCodes", [])]
            for release in track.get("releases", [])):
     raise SystemExit("Committed Play track does not contain the expected version/status")
 PY
+if [[ -n "$LISTING_TITLE" ]]; then
+  VERIFY_LISTING_RESPONSE="$(request "${AUTH[@]}" "$API/edits/$VERIFY_EDIT_ID/listings/$LISTING_LOCALE")"
+  [[ "$(printf '%s' "$VERIFY_LISTING_RESPONSE" | json_field title)" == "$LISTING_TITLE" ]] ||
+    die "Committed Play listing title does not match '$LISTING_TITLE'"
+fi
 if [[ -n "$LISTING_ICON" ]]; then
   VERIFY_ICON_RESPONSE="$(request "${AUTH[@]}" "$API/edits/$VERIFY_EDIT_ID/listings/$LISTING_LOCALE/icon")"
   VERIFY_ICON_RESPONSE="$VERIFY_ICON_RESPONSE" EXPECTED_ICON_ID="$ICON_ID" python3 - <<'PY'
@@ -313,7 +335,7 @@ PACKAGE_NAME="$PACKAGE_NAME" EXPECTED_VERSION="$EXPECTED_VERSION" \
 EXPECTED_BUILD_NUMBER="$EXPECTED_BUILD_NUMBER" TRACK="$TRACK" \
 RELEASE_STATUS="$RELEASE_STATUS" EDIT_ID="$EDIT_ID" \
 AAB_SHA256="$AAB_SHA256" LISTING_LOCALE="$LISTING_LOCALE" \
-LISTING_ICON_SHA256="$LISTING_ICON_SHA256" ICON_ID="${ICON_ID:-}" \
+LISTING_TITLE="$LISTING_TITLE" LISTING_ICON_SHA256="$LISTING_ICON_SHA256" ICON_ID="${ICON_ID:-}" \
 COMMIT_RESPONSE="$COMMIT_RESPONSE" python3 - "$RECEIPT_TMP" <<'PY'
 import datetime, json, os, pathlib, sys
 receipt = {
@@ -327,6 +349,7 @@ receipt = {
     "postCommitVerified": True,
     "aabSha256": os.environ["AAB_SHA256"],
     "listingLocale": os.environ["LISTING_LOCALE"],
+    "listingTitle": os.environ["LISTING_TITLE"],
     "listingIconSha256": os.environ["LISTING_ICON_SHA256"],
     "listingIconId": os.environ["ICON_ID"],
     "timestampUtc": datetime.datetime.now(datetime.timezone.utc).isoformat(),

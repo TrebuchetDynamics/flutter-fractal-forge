@@ -35,7 +35,9 @@ void main() {
         File('scripts/build-upload-playstore.sh').readAsStringSync();
     expect(playUploadScript, contains('data.get("image", data).get("id", "")'));
     expect(playUploadScript, contains('images.get("images"'));
-    expect(releaseScript, contains('DRY_RUN_FORCED=0'));
+    expect(playUploadScript, contains('listing["title"] = os.environ["LISTING_TITLE"]'));
+    expect(playUploadScript, contains('Committed Play listing title does not match'));
+    expect(releaseScript, contains('PLAY_LISTING_TITLE="Fractal Forge"'));
     expect(
       releaseScript,
       contains(
