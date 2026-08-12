@@ -17,6 +17,8 @@ DRY_RUN=0
 SKIP_HOST=0
 PACKAGE="com.trebuchetdynamics.fractal.forge"
 COMPONENT="$PACKAGE/.MainActivity"
+DEVICE_ANDROID_ABI=""
+DEVICE_FLUTTER_TARGET=""
 LOG_DIR=""
 WIFI_WAS_ENABLED=""
 DATA_WAS_ENABLED=""
@@ -327,6 +329,16 @@ fi
 discover_device
 if [[ "$DRY_RUN" -eq 0 ]]; then
   adb connect "$DEVICE" >/dev/null 2>&1 || true
+  DEVICE_ANDROID_ABI="$(adb -s "$DEVICE" shell getprop ro.product.cpu.abi | tr -d '\r[:space:]')"
+  case "$DEVICE_ANDROID_ABI" in
+    arm64-v8a) DEVICE_FLUTTER_TARGET=android-arm64 ;;
+    armeabi-v7a) DEVICE_FLUTTER_TARGET=android-arm ;;
+    x86_64) DEVICE_FLUTTER_TARGET=android-x64 ;;
+    *) echo "Unsupported device ABI for release gate: $DEVICE_ANDROID_ABI" >&2; exit 2 ;;
+  esac
+else
+  DEVICE_ANDROID_ABI=x86_64
+  DEVICE_FLUTTER_TARGET=android-x64
 fi
 adb_gate "device readiness" get-state
 capture_network_state
@@ -344,11 +356,11 @@ for test_file in "${integration_files[@]}"; do
 done
 
 # Flutter's integration-test runner uses a debug-signed instrumented package.
-# Replace it with a production-mode x86_64 build before exercising deep links,
-# process death, trim-memory, and the long-running soak.
+# Replace it with a production-mode build matching the connected device before
+# exercising deep links, process death, trim-memory, and the long-running soak.
 run_gate "build production-mode device artifact" \
-  flutter build apk --release --target-platform android-x64 \
-    --android-project-arg release-abi=x86_64 \
+  flutter build apk --release --target-platform "$DEVICE_FLUTTER_TARGET" \
+    --android-project-arg "release-abi=$DEVICE_ANDROID_ABI" \
     --build-name="$BUILD_NAME" --build-number="$BUILD_NUMBER"
 install_production_app
 

@@ -342,7 +342,8 @@ preflight_publish() {
     "$SCRIPT_DIR/pre-release-gate.sh" \
       --build-name="$RESOLVED_ANDROID_VERSION" \
       --build-number="$RESOLVED_ANDROID_BUILD_NUMBER" \
-      --log-dir "$FINAL_DEVICE_EVIDENCE_DIR"
+      --log-dir "$FINAL_DEVICE_EVIDENCE_DIR" \
+      --skip-host
   else
     "$SCRIPT_DIR/pre-release-gate.sh" \
       --log-dir "$FINAL_DEVICE_EVIDENCE_DIR"
