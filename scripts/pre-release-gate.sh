@@ -351,9 +351,11 @@ integration_files=(
   "integration_test/performance/perf_smoke_test.dart"
   integration_test/accessibility/semantics_audit_test.dart
 )
-for test_file in "${integration_files[@]}"; do
-  run_gate "device integration: $test_file" flutter test "$test_file" -d "$DEVICE"
-done
+# One invocation produces one instrumented build. Running each file separately
+# recompiles the full shader catalog each time and can exceed bounded CI/agent
+# cgroups even though every individual test is healthy.
+run_gate "combined device integration suite" \
+  flutter test "${integration_files[@]}" -d "$DEVICE"
 
 # Flutter's integration-test runner uses a debug-signed instrumented package.
 # Replace it with a production-mode build matching the connected device before
