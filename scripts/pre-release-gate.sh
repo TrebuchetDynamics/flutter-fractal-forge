@@ -401,15 +401,16 @@ else
   # foreground-activity proof in that case instead of misreporting an app
   # restoration failure. When semantics are available, keep the stronger
   # route-and-controls assertion.
+  ui_dump="$LOG_DIR/process-restoration-ui.xml"
   if adb -s "$DEVICE" exec-out uiautomator dump /dev/tty \
-      >"$LOG_DIR/process-restoration-ui.xml" 2>"$LOG_DIR/process-restoration-uiautomator.log"; then
-    if ! grep -q 'Julia' "$LOG_DIR/process-restoration-ui.xml" || \
-       ! grep -q 'Controls' "$LOG_DIR/process-restoration-ui.xml"; then
+      >"$ui_dump" 2>"$LOG_DIR/process-restoration-uiautomator.log" && \
+      grep -q '<hierarchy' "$ui_dump"; then
+    if ! grep -q 'Julia' "$ui_dump" || ! grep -q 'Controls' "$ui_dump"; then
       echo 'Process-death restoration did not return to the Julia viewer.' >&2
       exit 1
     fi
   else
-    printf 'uiautomator unavailable; screenshot and foreground activity retained for review.\n' \
+    printf 'uiautomator unavailable or invalid; screenshot and foreground activity retained for review.\n' \
       | tee -a "$LOG_DIR/gate.log"
   fi
 fi
