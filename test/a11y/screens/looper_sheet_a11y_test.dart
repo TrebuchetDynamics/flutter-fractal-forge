@@ -35,6 +35,7 @@ void main() {
       Size? size,
       Locale locale = const Locale('en'),
       int points = 0,
+      bool mp4Supported = true,
     }) async {
       if (size != null) {
         await tester.binding.setSurfaceSize(size);
@@ -63,6 +64,8 @@ void main() {
               controller: looper,
               isExporting: false,
               onExportGif: () {},
+              onExportMp4: () {},
+              mp4Supported: mp4Supported,
             ),
           ),
         ),
@@ -110,6 +113,24 @@ void main() {
     // The slider carried only its value, so it announced "6s" and never said
     // what the six seconds were. findUnnamedSliders does not catch this: the
     // value string counts as a label, so the check has to name the label.
+    testWidgets('MP4 export is explicit and keeps GIF as a fallback',
+        (tester) async {
+      await pumpSheet(tester, points: 2);
+
+      expect(find.text('Export MP4 + music'), findsOneWidget);
+      expect(find.text('Export GIF'), findsOneWidget);
+      expect(
+          find.byKey(const ValueKey('looperExportMp4Button')), findsOneWidget);
+    });
+
+    testWidgets('unsupported platforms keep GIF but hide MP4', (tester) async {
+      await pumpSheet(tester, points: 2, mp4Supported: false);
+
+      expect(find.text('Export MP4 + music'), findsNothing);
+      expect(find.byKey(const ValueKey('looperExportMp4Button')), findsNothing);
+      expect(find.text('Export GIF'), findsOneWidget);
+    });
+
     testWidgets('the duration slider says what it adjusts', (tester) async {
       final handle = tester.ensureSemantics();
       await pumpSheet(tester);

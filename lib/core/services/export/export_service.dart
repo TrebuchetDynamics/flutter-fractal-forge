@@ -10,6 +10,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/services/export/download/export_download.dart';
+import 'package:flutter_fractals/core/services/export/export_worker.dart';
+import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
 import 'package:flutter_fractals/core/services/export/share_service.dart';
 import 'package:flutter_fractals/shared/utils/byte_format.dart';
 import 'package:flutter_fractals/shared/utils/slugify.dart';
@@ -234,18 +236,30 @@ class ExportService {
 
   final ShareFileCallback shareFileAdapter;
   final DirectoryPickerCallback directoryPicker;
+  final ExportWorker worker;
+  final ExportCoordinator? _coordinatorOverride;
 
   const ExportService({
     ShareFileCallback shareFile = _shareFileWithPlatform,
     DirectoryPickerCallback pickDirectory = _pickDirectoryWithPlatform,
+    this.worker = const IsolateExportWorker(),
+    ExportCoordinator? coordinator,
   })  : shareFileAdapter = shareFile,
-        directoryPicker = pickDirectory;
+        directoryPicker = pickDirectory,
+        _coordinatorOverride = coordinator;
+
+  ExportCoordinator get _coordinator =>
+      _coordinatorOverride ?? ExportCoordinator.shared;
+
+  /// Shared ownership/cancellation surface used by viewer-specific exports.
+  ExportCoordinator get coordinator => _coordinator;
+
+  bool cancelActiveExport() => _coordinator.cancelActive();
 
   /// Returns the actual format we can encode today.
   ///
-  /// WebP is exposed in the UI, but the current pure-Dart image pipeline
-  /// cannot encode WebP yet. We explicitly fall back to PNG so filename,
-  /// MIME expectations, and snackbar text stay truthful.
+  /// Legacy/deep-linked WebP options are normalized to PNG. WebP is not shown
+  /// in current UI because this pipeline cannot encode it truthfully.
   ExportFormat resolveEffectiveFormat(ExportFormat requested) {
     if (requested == ExportFormat.webp) {
       return ExportFormat.png;
@@ -507,7 +521,9 @@ class ExportService {
     double? physicalScreenWidth,
     double? physicalScreenHeight,
     void Function(double progress)? onProgress,
+    ExportCancellationToken? cancellationToken,
   }) async {
+    cancellationToken?.throwIfCancelled();
     onProgress?.call(0.1);
 
     final targetDims = options.getTargetDimensions(
@@ -531,17 +547,36 @@ class ExportService {
     ExportSizePolicy.validateEncodedByteLength(rawPng.lengthInBytes);
     onProgress?.call(0.4);
 
-    // Decode the PNG for processing
+    final encoded = await worker.run(
+      () => const ExportService()._processCapturedPng(
+        rawPng,
+        options: options,
+        targetWidth: targetDims.$1,
+        targetHeight: targetDims.$2,
+      ),
+      token: cancellationToken,
+    );
+    cancellationToken?.throwIfCancelled();
+    onProgress?.call(1.0);
+    return encoded;
+  }
+
+  Uint8List _processCapturedPng(
+    Uint8List rawPng, {
+    required ExportOptions options,
+    required int targetWidth,
+    required int targetHeight,
+  }) {
+    // Decode the PNG for processing.
     final decodedImage = img.decodePng(rawPng);
     if (decodedImage == null) {
       throw StateError('Failed to decode captured image');
     }
-    onProgress?.call(0.5);
 
     // Resize if needed for target resolution.
     img.Image processedImage;
-    final targetW = targetDims.$1;
-    final targetH = targetDims.$2;
+    final targetW = targetWidth;
+    final targetH = targetHeight;
 
     if (decodedImage.width != targetW || decodedImage.height != targetH) {
       // Center-crop to the target aspect ratio first, then scale to the exact
@@ -577,7 +612,6 @@ class ExportService {
     } else {
       processedImage = decodedImage;
     }
-    onProgress?.call(0.6);
 
     final quoteText = options.quoteText?.trim();
     if (quoteText != null && quoteText.isNotEmpty) {
@@ -588,20 +622,16 @@ class ExportService {
     if (options.addWatermark && options.watermarkText != null) {
       processedImage = _addWatermark(processedImage, options.watermarkText!);
     }
-    onProgress?.call(0.7);
 
     // Embed metadata
     if (options.embedMetadata && options.metadata != null) {
       processedImage = _embedMetadata(processedImage, options.metadata!);
     }
-    onProgress?.call(0.8);
 
     // Encode to target format
     final effectiveFormat = resolveEffectiveFormat(options.format);
     final encoded = _encodeToFormat(processedImage, options, effectiveFormat);
     ExportSizePolicy.validateEncodedByteLength(encoded.lengthInBytes);
-    onProgress?.call(1.0);
-
     return Uint8List.fromList(encoded);
   }
 
@@ -906,53 +936,57 @@ class ExportService {
     required Map<String, Object> parameters,
     void Function(double progress)? onProgress,
   }) async {
-    // Create metadata if embedding is enabled
-    final metadata = options.embedMetadata
-        ? ExportMetadata(
-            fractalType: fractalType,
-            parameters: parameters,
-            createdAt: DateTime.now(),
-          )
-        : null;
+    return _coordinator.run(ExportKind.image, (token) async {
+      // Create metadata if embedding is enabled
+      final metadata = options.embedMetadata
+          ? ExportMetadata(
+              fractalType: fractalType,
+              parameters: parameters,
+              createdAt: DateTime.now(),
+            )
+          : null;
 
-    final effectiveFormat = resolveEffectiveFormat(options.format);
+      final effectiveFormat = resolveEffectiveFormat(options.format);
 
-    final finalOptions = options.copyWith(
-      metadata: metadata,
-      format: effectiveFormat,
-    );
+      final finalOptions = options.copyWith(
+        metadata: metadata,
+        format: effectiveFormat,
+      );
 
-    // Capture and process the image
-    final bytes = await captureWithOptions(
-      boundaryKey,
-      options: finalOptions,
-      screenWidth: screenWidth,
-      screenHeight: screenHeight,
-      physicalScreenWidth: physicalScreenWidth,
-      physicalScreenHeight: physicalScreenHeight,
-      onProgress: onProgress,
-    );
+      // Capture and process the image
+      final bytes = await captureWithOptions(
+        boundaryKey,
+        options: finalOptions,
+        screenWidth: screenWidth,
+        screenHeight: screenHeight,
+        physicalScreenWidth: physicalScreenWidth,
+        physicalScreenHeight: physicalScreenHeight,
+        onProgress: onProgress,
+        cancellationToken: token,
+      );
 
-    // Generate filename and save
-    final filename = generateFilename(
-      format: effectiveFormat,
-      fractalType: fractalType,
-    );
+      // Generate filename and save
+      final filename = generateFilename(
+        format: effectiveFormat,
+        fractalType: fractalType,
+      );
 
-    final targetDims = finalOptions.getTargetDimensions(
-      screenWidth,
-      screenHeight,
-      physicalScreenWidth: physicalScreenWidth,
-      physicalScreenHeight: physicalScreenHeight,
-    );
+      final targetDims = finalOptions.getTargetDimensions(
+        screenWidth,
+        screenHeight,
+        physicalScreenWidth: physicalScreenWidth,
+        physicalScreenHeight: physicalScreenHeight,
+      );
 
-    return saveExportBytes(
-      bytes,
-      filename: filename,
-      format: effectiveFormat,
-      width: targetDims.$1,
-      height: targetDims.$2,
-    );
+      token.throwIfCancelled();
+      return saveExportBytes(
+        bytes,
+        filename: filename,
+        format: effectiveFormat,
+        width: targetDims.$1,
+        height: targetDims.$2,
+      );
+    });
   }
 }
 

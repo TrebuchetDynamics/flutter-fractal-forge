@@ -10,7 +10,10 @@ void main() {
     final shader = File(asset).readAsStringSync();
 
     expect(shader, contains('float cellCoord = (p.x + 0.5) * float(target);'));
-    expect(shader, contains('float pixelDetail = 1.0 - smoothstep(0.42, 0.50, cellEdge);'));
+    expect(
+        shader,
+        contains(
+            'float pixelDetail = 1.0 - smoothstep(0.42, 0.50, cellEdge);'));
     expect(shader, contains('rule90State(gen, cell)'));
   });
 

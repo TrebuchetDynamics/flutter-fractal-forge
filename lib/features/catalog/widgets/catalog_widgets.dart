@@ -766,8 +766,7 @@ class _ModuleCardState extends State<_ModuleCard>
     final name = widget.entry.module.displayName(widget.l10n);
     // See the sibling card: localized via the existing key rather than built
     // inline in English.
-    final semanticLabel =
-        widget.l10n.semanticFractalCard(name, dimensionLabel);
+    final semanticLabel = widget.l10n.semanticFractalCard(name, dimensionLabel);
 
     final reduceMotion = MediaQuery.of(context).disableAnimations ||
         (context.read<AccessibilityService?>()?.reducedMotionEnabled ?? false);

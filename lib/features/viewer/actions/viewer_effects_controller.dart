@@ -83,21 +83,42 @@ class ViewerEffectsController {
   Future<ViewerMusicToggleResult> restartFractalMusic(
     FractalController controller, {
     FractalMusicScanFrame? scanFrame,
+    double startProgress = 0,
+    double Function()? startProgressProvider,
+    bool Function()? shouldCommit,
   }) {
     return _enqueueMusicOperation(
-      () => _restartFractalMusicNow(controller, scanFrame: scanFrame),
+      () => _restartFractalMusicNow(
+        controller,
+        scanFrame: scanFrame,
+        startProgress: startProgress,
+        startProgressProvider: startProgressProvider,
+        shouldCommit: shouldCommit,
+      ),
     );
   }
+
+  Future<void> cancelPendingFractalMusicPlayback() =>
+      _musicService.cancelPendingPlayback();
 
   Future<ViewerMusicToggleResult> _restartFractalMusicNow(
     FractalController controller, {
     FractalMusicScanFrame? scanFrame,
+    required double startProgress,
+    required double Function()? startProgressProvider,
+    required bool Function()? shouldCommit,
   }) async {
     if (_disposed || !fractalMusicEnabled) {
       return const ViewerMusicToggleResult.disabled();
     }
     try {
-      await _musicService.play(controller, scanFrame: scanFrame);
+      await _musicService.play(
+        controller,
+        scanFrame: scanFrame,
+        startProgress: startProgress,
+        startProgressProvider: startProgressProvider,
+        shouldCommit: shouldCommit,
+      );
       if (_disposed) {
         fractalMusicEnabled = false;
         await _stopAfterDisposedPlay();
@@ -105,6 +126,11 @@ class ViewerEffectsController {
       }
       return const ViewerMusicToggleResult.enabled();
     } catch (error) {
+      if (shouldCommit != null && !shouldCommit()) {
+        return fractalMusicEnabled
+            ? const ViewerMusicToggleResult.enabled()
+            : const ViewerMusicToggleResult.disabled();
+      }
       fractalMusicEnabled = error is FractalMusicStopFailure;
       _log.warn('audio', 'Fractal Music restart failed',
           data: {'error': '$error'});

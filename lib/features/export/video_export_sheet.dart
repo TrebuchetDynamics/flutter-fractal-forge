@@ -43,7 +43,8 @@ class VideoExportSheet extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: Text('Export Video', style: AppTypography.headlineMedium),
+                  child:
+                      Text('Export Video', style: AppTypography.headlineMedium),
                 ),
                 IconButton(
                   tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
@@ -55,7 +56,8 @@ class VideoExportSheet extends StatelessWidget {
             const SizedBox(height: AppSpacing.sm),
             Text(
               'Video export UI is scaffolded. Tap Export to run with default options.',
-              style: AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
+              style:
+                  AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
             ),
             const SizedBox(height: AppSpacing.lg),
             SizedBox(

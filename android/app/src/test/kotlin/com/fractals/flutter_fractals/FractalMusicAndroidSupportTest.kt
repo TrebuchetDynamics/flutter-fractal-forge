@@ -56,6 +56,40 @@ class FractalMusicAndroidSupportTest {
         assertTrue(generation.isCurrent(newer))
     }
 
+    @Test
+    fun failedReplacementStartPreservesCurrentOwner() {
+        val released = mutableListOf<String>()
+
+        assertThrows(IllegalStateException::class.java) {
+            handoffFractalMusicTrack(
+                previous = "audible-old",
+                candidate = "broken-new",
+                isCurrent = { true },
+                start = { throw IllegalStateException("play failed") },
+                release = released::add,
+            )
+        }
+
+        assertFalse(released.contains("audible-old"))
+    }
+
+    @Test
+    fun successfulReplacementStartsBeforeRetiringCurrentOwner() {
+        val events = mutableListOf<String>()
+
+        val result = handoffFractalMusicTrack(
+            previous = "audible-old",
+            candidate = "ready-new",
+            isCurrent = { true },
+            start = { events.add("start:$it") },
+            release = { events.add("release:$it") },
+        )
+
+        assertTrue(result.accepted)
+        assertEquals("ready-new", result.owner)
+        assertEquals(listOf("start:ready-new", "release:audible-old"), events)
+    }
+
     private fun canonicalWav(
         channels: Int = 2,
         sampleRate: Int = 22_050,

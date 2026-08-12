@@ -556,16 +556,12 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       }
     }
 
-    if (kDebugMode) {
-      debugPrint(
-          '[gesture] double_tap trigger tap=$tapPosition zoom=$currentZoom'
-          ' target=$targetZoom targetPan=$targetPan');
-    }
-
     AppLogger.instance.debug('gesture', 'double_tap', data: {
       if (tapPosition != null) 'x': tapPosition.dx.toStringAsFixed(1),
       if (tapPosition != null) 'y': tapPosition.dy.toStringAsFixed(1),
       'zoom': currentZoom.toStringAsExponential(3),
+      'targetZoom': targetZoom,
+      'targetPan': '$targetPan',
     });
 
     _deferUserInteractionEndToAnimation = true;
@@ -614,9 +610,8 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
   }
 
   void _onDoubleTapGesture() {
-    if (kDebugMode) {
-      debugPrint('[gesture] detector_double_tap local=$_doubleTapDownLocal');
-    }
+    AppLogger.instance.debug('gesture', 'double_tap_detector',
+        data: {'local': '$_doubleTapDownLocal'});
     _triggerDoubleTapAt(_doubleTapDownLocal);
     _doubleTapDownLocal = null;
   }

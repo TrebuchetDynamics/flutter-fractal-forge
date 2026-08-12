@@ -480,7 +480,7 @@ class ExportPresets {
   );
 
   static const webOptimized = ExportOptions(
-    format: ExportFormat.webp,
+    format: ExportFormat.jpg,
     resolution: ExportResolution.fullHd,
     quality: 85,
     embedMetadata: true,

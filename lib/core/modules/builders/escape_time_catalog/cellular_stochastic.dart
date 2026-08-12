@@ -60,6 +60,7 @@ final List<EscapeTimeConfig> _cellularStochasticCatalog = [
     name: 'Cyclic Cellular Automaton',
     shaderAsset:
         'shaders/cellular_and_stochastic/cyclic_cellular_automaton_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 64,
     defaultBailout: 4.0,
     category: 'Cellular Automata',
@@ -87,6 +88,7 @@ final List<EscapeTimeConfig> _cellularStochasticCatalog = [
     name: 'Greenberg-Hastings CA',
     shaderAsset:
         'shaders/cellular_and_stochastic/greenberg_hastings_ca_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 64,
     defaultBailout: 4.0,
     category: 'Cellular Automata',
@@ -165,6 +167,7 @@ final List<EscapeTimeConfig> _cellularStochasticCatalog = [
     name: 'Gerhardt-Schuster-Tyson CA',
     shaderAsset:
         'shaders/cellular_and_stochastic/gerhardt_schuster_tyson_ca_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 64,
     defaultBailout: 4.0,
     category: 'Cellular Automata',
@@ -404,6 +407,7 @@ final List<EscapeTimeConfig> _cellularStochasticCatalog = [
     id: 'brian_brain',
     name: "Brian's Brain",
     shaderAsset: 'shaders/cellular_and_stochastic/brian_brain_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 260,
     defaultBailout: 4.0,
   ),
@@ -411,6 +415,7 @@ final List<EscapeTimeConfig> _cellularStochasticCatalog = [
     id: 'highlife',
     name: 'HighLife',
     shaderAsset: 'shaders/cellular_and_stochastic/highlife_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 260,
     defaultBailout: 4.0,
   ),
@@ -418,6 +423,7 @@ final List<EscapeTimeConfig> _cellularStochasticCatalog = [
     id: 'day_night',
     name: 'Day & Night',
     shaderAsset: 'shaders/cellular_and_stochastic/day_night_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 260,
     defaultBailout: 4.0,
   ),

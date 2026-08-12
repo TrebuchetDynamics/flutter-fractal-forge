@@ -41,8 +41,7 @@ class ViewerSessionTracker {
         prevZoom > 0 &&
         currentZoom > 0 &&
         prevZoom != currentZoom) {
-      _statsService
-          ?.addZoomDistance((math.log(currentZoom / prevZoom)).abs());
+      _statsService?.addZoomDistance((math.log(currentZoom / prevZoom)).abs());
     }
     _lastZoom = currentZoom;
 

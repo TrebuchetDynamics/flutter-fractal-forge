@@ -45,6 +45,12 @@ class MainActivity : FlutterFragmentActivity() {
         initialLink = intent?.dataString
     }
 
+    override fun onTrimMemory(level: Int) {
+        // FlutterFragmentActivity forwards this to SystemChannels.system,
+        // which invokes WidgetsBindingObserver.didHaveMemoryPressure in Dart.
+        super.onTrimMemory(level)
+    }
+
     @SuppressLint("WrongConstant")
     private fun enableEdgeToEdgeCompat() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -167,6 +173,12 @@ class MainActivity : FlutterFragmentActivity() {
                         }
                         playFractalMusic(bytes, result)
                     }
+                    "cancelPending" -> {
+                        synchronized(this@MainActivity) {
+                            fractalMusicGeneration.cancel()
+                        }
+                        result.success(null)
+                    }
                     "stop" -> {
                         stopFractalMusic()
                         result.success(null)
@@ -177,14 +189,20 @@ class MainActivity : FlutterFragmentActivity() {
     }
 
     private fun playFractalMusic(bytes: ByteArray, result: MethodChannel.Result) {
-        val request = fractalMusicGeneration.begin()
+        // Generation changes and AudioTrack owner publication share the same
+        // MainActivity monitor, so a newer request cannot slip between the
+        // final freshness check and replacement handoff.
+        val request = synchronized(this) { fractalMusicGeneration.begin() }
         Thread {
             val wav = try {
                 FractalMusicWavParser.parse(bytes)
             } catch (error: IllegalArgumentException) {
-                runOnUiThread {
-                    result.error("invalid_audio", error.message ?: "Invalid WAV bytes", null)
-                }
+                completeFractalMusicFailure(
+                    request,
+                    result,
+                    "invalid_audio",
+                    error.message ?: "Invalid WAV bytes",
+                )
                 return@Thread
             }
 
@@ -208,32 +226,43 @@ class MainActivity : FlutterFragmentActivity() {
                 if (written != wav.pcm.size) {
                     releaseFractalMusicTrack(track)
                     candidate = null
-                    runOnUiThread {
-                        result.error("audio_write_failed", "Failed to write complete audio buffer", null)
-                    }
+                    completeFractalMusicFailure(
+                        request,
+                        result,
+                        "audio_write_failed",
+                        "Failed to write complete audio buffer",
+                    )
                     return@Thread
                 }
                 if (track.setLoopPoints(0, wav.frameCount, -1) != AudioTrack.SUCCESS) {
                     releaseFractalMusicTrack(track)
                     candidate = null
-                    runOnUiThread {
-                        result.error("audio_loop_failed", "Failed to loop generated audio", null)
-                    }
+                    completeFractalMusicFailure(
+                        request,
+                        result,
+                        "audio_loop_failed",
+                        "Failed to loop generated audio",
+                    )
                     return@Thread
                 }
 
                 val accepted = synchronized(this) {
-                    if (!fractalMusicGeneration.isCurrent(request)) {
-                        false
-                    } else {
-                        fractalMusicTrack?.let(::releaseFractalMusicTrack)
-                        fractalMusicTrack = null
-                        track.playbackHeadPosition = 0
-                        track.play()
-                        fractalMusicTrack = track
+                    val previous = fractalMusicTrack
+                    val handoff = handoffFractalMusicTrack(
+                        previous = previous,
+                        candidate = track,
+                        isCurrent = { fractalMusicGeneration.isCurrent(request) },
+                        start = { next ->
+                            next.playbackHeadPosition = 0
+                            next.play()
+                        },
+                        release = ::releaseFractalMusicTrack,
+                    )
+                    if (handoff.accepted) {
+                        fractalMusicTrack = handoff.owner
                         candidate = null
-                        true
                     }
+                    handoff.accepted
                 }
                 if (!accepted) {
                     releaseFractalMusicTrack(track)
@@ -242,15 +271,31 @@ class MainActivity : FlutterFragmentActivity() {
                 runOnUiThread { result.success(accepted) }
             } catch (error: Throwable) {
                 candidate?.let(::releaseFractalMusicTrack)
-                runOnUiThread {
-                    result.error(
-                        "audio_play_failed",
-                        error.message ?: "Failed to play fractal music",
-                        null,
-                    )
-                }
+                completeFractalMusicFailure(
+                    request,
+                    result,
+                    "audio_play_failed",
+                    error.message ?: "Failed to play fractal music",
+                )
             }
         }.start()
+    }
+
+    private fun completeFractalMusicFailure(
+        request: Long,
+        result: MethodChannel.Result,
+        code: String,
+        message: String,
+    ) {
+        runOnUiThread {
+            synchronized(this@MainActivity) {
+                if (fractalMusicGeneration.isCurrent(request)) {
+                    result.error(code, message, null)
+                } else {
+                    result.success(false)
+                }
+            }
+        }
     }
 
     @Synchronized private fun stopFractalMusic() {

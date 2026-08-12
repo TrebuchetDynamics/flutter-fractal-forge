@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 
 const bool kForceCpuFallback =
@@ -318,7 +319,8 @@ Future<bool> detectAndroidEmulator() async {
     );
     if (signals.isEmulator) return true;
   } catch (e) {
-    if (kDebugMode) debugPrint('[FF] silent catch: $e');
+    AppLogger.instance.debug('renderer', 'Emulator detection probe unavailable',
+        data: {'error': '$e'});
   }
 
   // 2. getprop — most reliable on modern emulators
@@ -327,7 +329,8 @@ Future<bool> detectAndroidEmulator() async {
     signals = AndroidEmulatorSignals(hardware: result.stdout as String);
     if (signals.isEmulator) return true;
   } catch (e) {
-    if (kDebugMode) debugPrint('[FF] silent catch: $e');
+    AppLogger.instance.debug('renderer', 'Emulator detection probe unavailable',
+        data: {'error': '$e'});
   }
 
   try {
@@ -337,7 +340,8 @@ Future<bool> detectAndroidEmulator() async {
     );
     if (signals.isEmulator) return true;
   } catch (e) {
-    if (kDebugMode) debugPrint('[FF] silent catch: $e');
+    AppLogger.instance.debug('renderer', 'Emulator detection probe unavailable',
+        data: {'error': '$e'});
   }
 
   try {
@@ -345,7 +349,8 @@ Future<bool> detectAndroidEmulator() async {
     signals = AndroidEmulatorSignals(productModel: result.stdout as String);
     if (signals.isEmulator) return true;
   } catch (e) {
-    if (kDebugMode) debugPrint('[FF] silent catch: $e');
+    AppLogger.instance.debug('renderer', 'Emulator detection probe unavailable',
+        data: {'error': '$e'});
   }
 
   // 3. /system/build.prop — fallback file check
@@ -355,7 +360,8 @@ Future<bool> detectAndroidEmulator() async {
     );
     if (signals.isEmulator) return true;
   } catch (e) {
-    if (kDebugMode) debugPrint('[FF] silent catch: $e');
+    AppLogger.instance.debug('renderer', 'Emulator detection probe unavailable',
+        data: {'error': '$e'});
   }
 
   return false;

@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  const asset = 'shaders/trigonometric_and_transcendental/hyperbolic/tanh_mandelbrot_gpu.frag';
+  const asset =
+      'shaders/trigonometric_and_transcendental/hyperbolic/tanh_mandelbrot_gpu.frag';
 
   test('sech/tanh shader colors bounded no-image regions', () {
     final shader = File(asset).readAsStringSync();

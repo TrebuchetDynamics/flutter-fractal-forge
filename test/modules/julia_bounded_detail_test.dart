@@ -9,7 +9,10 @@ void main() {
     final shader = File(asset).readAsStringSync();
 
     expect(shader, contains('minDistSq = min(minDistSq, dSq);'));
-    expect(shader, contains('float trapGlow = exp(-8.0 * sqrt(minDistSq)) + exp(-10.0 * crossDist);'));
+    expect(
+        shader,
+        contains(
+            'float trapGlow = exp(-8.0 * sqrt(minDistSq)) + exp(-10.0 * crossDist);'));
     expect(shader, isNot(contains('vec4(0.0, 0.0, 0.0, 1.0)')));
   });
 }

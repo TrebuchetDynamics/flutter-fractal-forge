@@ -52,6 +52,8 @@ Future<void> openReportSheet(WidgetTester tester, Locale locale) async {
   ));
   await pumpAccessibilityTestFrames(tester);
 
+  await tester.tap(find.byKey(const ValueKey('viewerMoreActionsButton')));
+  await tester.pumpAndSettle();
   await tester.tap(find.byKey(const ValueKey('viewerReportFractalButton')));
   await tester.pumpAndSettle();
 }

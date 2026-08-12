@@ -17,6 +17,12 @@ if (localPropertiesFile.exists()) {
 
 val flutterVersionCode = (localProperties.getProperty("flutter.versionCode") ?: "2").toInt()
 val flutterVersionName = localProperties.getProperty("flutter.versionName") ?: "1.0.1"
+val releaseAbi = providers.gradleProperty("release-abi").orNull
+if (releaseAbi != null) {
+    require(releaseAbi in setOf("armeabi-v7a", "arm64-v8a", "x86_64")) {
+        "Unsupported release-abi: $releaseAbi"
+    }
+}
 
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
@@ -50,6 +56,21 @@ android {
         targetSdk = 36
         versionCode = flutterVersionCode
         versionName = flutterVersionName
+        if (releaseAbi != null) {
+            ndk {
+                abiFilters.add(releaseAbi)
+            }
+        }
+    }
+
+    if (releaseAbi != null) {
+        packaging {
+            jniLibs {
+                excludes += setOf("armeabi-v7a", "arm64-v8a", "x86_64")
+                    .filterNot { it == releaseAbi }
+                    .map { "**/$it/**" }
+            }
+        }
     }
 
     signingConfigs {

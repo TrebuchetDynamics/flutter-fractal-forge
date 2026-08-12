@@ -239,6 +239,7 @@ FractalModule _buildSharedFractalFlameModule(
     name: entry.name,
     shaderAsset:
         'shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     category: 'IFS / Geometric Fractals',
     defaultIterations: isFan ? 164 : 140,
     defaultBailout: isFan ? 2.6 : 8,

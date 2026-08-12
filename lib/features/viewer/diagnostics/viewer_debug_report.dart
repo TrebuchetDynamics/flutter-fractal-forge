@@ -151,8 +151,7 @@ mixin _DebugReportMixin on State<FractalViewerScreen>, _GpuHealthMixin {
                           ),
                           OutlinedButton(
                             onPressed: () => Navigator.of(context).pop(),
-                            child:
-                                Text(l10n.actionClose),
+                            child: Text(l10n.actionClose),
                           ),
                         ],
                       ),

@@ -130,6 +130,7 @@ FractalModule buildEscapeTimePerturbModule(FractalModule standardModule) {
     id: standardModule.id,
     displayName: standardModule.displayName,
     dimension: standardModule.dimension,
+    animationCapability: standardModule.animationCapability,
     shaderAsset: 'shaders/escape_time_family/core/escape_time_perturb_gpu.frag',
     parameters: parameters,
     defaultPreset: standardModule.defaultPreset,
@@ -239,7 +240,6 @@ class _EscapeTimePerturbOrbitCache {
     _lastKey = key;
     return image;
   }
-
 }
 
 /// Encode a double value in [-4, 4) into three uint8 channels (RGB).
@@ -320,7 +320,8 @@ PerturbOrbitResult computeEscapeTimePerturbOrbitBytes({
 
     // Detect an (approximate) cycle: Z(n) ≈ Z(n-p) and Z(n-1) ≈ Z(n-p-1).
     if (n >= 2) {
-      final maxP = n - 1 < _kMaxDetectablePeriod ? n - 1 : _kMaxDetectablePeriod;
+      final maxP =
+          n - 1 < _kMaxDetectablePeriod ? n - 1 : _kMaxDetectablePeriod;
       for (int p = 1; p <= maxP; p++) {
         final base = (n - p) * 2;
         if ((zr - orbit[base]).abs() < _kPeriodEpsilon &&
@@ -382,61 +383,61 @@ PerturbOrbitResult computeEscapeTimePerturbOrbitBytes({
   double phoenixP = 0.0,
 }) {
   switch (moduleId) {
-      case 'burning_ship':
-        // Z(n+1) = (|Re(z)| + i|Im(z)|)^2 + c
-        final wr = zr.abs();
-        final wi = zi.abs();
-        return (wr * wr - wi * wi + cx, 2.0 * wr * wi + cy);
+    case 'burning_ship':
+      // Z(n+1) = (|Re(z)| + i|Im(z)|)^2 + c
+      final wr = zr.abs();
+      final wi = zi.abs();
+      return (wr * wr - wi * wi + cx, 2.0 * wr * wi + cy);
 
-      case 'buffalo':
-        // Z(n+1) = (|Re(z^2)|, |Im(z^2)|) + c
-        final re2 = zr * zr - zi * zi;
-        final im2 = 2.0 * zr * zi;
-        return (re2.abs() + cx, im2.abs() + cy);
+    case 'buffalo':
+      // Z(n+1) = (|Re(z^2)|, |Im(z^2)|) + c
+      final re2 = zr * zr - zi * zi;
+      final im2 = 2.0 * zr * zi;
+      return (re2.abs() + cx, im2.abs() + cy);
 
-      case 'tricorn':
-        // Z(n+1) = conj(z)^2 + c
-        return (zr * zr - zi * zi + cx, -2.0 * zr * zi + cy);
+    case 'tricorn':
+      // Z(n+1) = conj(z)^2 + c
+      return (zr * zr - zi * zi + cx, -2.0 * zr * zi + cy);
 
-      case 'celtic':
-        // Z(n+1) = (|Re(z^2)|, Im(z^2)) + c
-        final re2 = zr * zr - zi * zi;
-        final im2 = 2.0 * zr * zi;
-        return (re2.abs() + cx, im2 + cy);
+    case 'celtic':
+      // Z(n+1) = (|Re(z^2)|, Im(z^2)) + c
+      final re2 = zr * zr - zi * zi;
+      final im2 = 2.0 * zr * zi;
+      return (re2.abs() + cx, im2 + cy);
 
-      case 'multibrot3':
-        // Z(n+1) = z^3 + c
-        // Re: zr^3 - 3*zr*zi^2
-        // Im: 3*zr^2*zi - zi^3
-        final nr3 = zr * zr * zr - 3.0 * zr * zi * zi + cx;
-        final ni3 = 3.0 * zr * zr * zi - zi * zi * zi + cy;
-        return (nr3, ni3);
+    case 'multibrot3':
+      // Z(n+1) = z^3 + c
+      // Re: zr^3 - 3*zr*zi^2
+      // Im: 3*zr^2*zi - zi^3
+      final nr3 = zr * zr * zr - 3.0 * zr * zi * zi + cx;
+      final ni3 = 3.0 * zr * zr * zi - zi * zi * zi + cy;
+      return (nr3, ni3);
 
-      case 'multibrot4':
-        // Z(n+1) = z^4 + c
-        final zr2 = zr * zr - zi * zi;
-        final zi2 = 2.0 * zr * zi;
-        final nr = zr2 * zr2 - zi2 * zi2 + cx;
-        final ni = 2.0 * zr2 * zi2 + cy;
-        return (nr, ni);
+    case 'multibrot4':
+      // Z(n+1) = z^4 + c
+      final zr2 = zr * zr - zi * zi;
+      final zi2 = 2.0 * zr * zi;
+      final nr = zr2 * zr2 - zi2 * zi2 + cx;
+      final ni = 2.0 * zr2 * zi2 + cy;
+      return (nr, ni);
 
-      case 'multibrot5':
-        // Z(n+1) = z^5 + c
-        final zr2 = zr * zr;
-        final zi2 = zi * zi;
-        final nr = zr * (zr2 * zr2 - 10.0 * zr2 * zi2 + 5.0 * zi2 * zi2) + cx;
-        final ni = zi * (5.0 * zr2 * zr2 - 10.0 * zr2 * zi2 + zi2 * zi2) + cy;
-        return (nr, ni);
+    case 'multibrot5':
+      // Z(n+1) = z^5 + c
+      final zr2 = zr * zr;
+      final zi2 = zi * zi;
+      final nr = zr * (zr2 * zr2 - 10.0 * zr2 * zi2 + 5.0 * zi2 * zi2) + cx;
+      final ni = zi * (5.0 * zr2 * zr2 - 10.0 * zr2 * zi2 + zi2 * zi2) + cy;
+      return (nr, ni);
 
-      case 'phoenix':
-        // Z(n+1) = z^2 + c + p * z_prev
-        final nr = zr * zr - zi * zi + cx + phoenixP * prevZr;
-        final ni = 2.0 * zr * zi + cy + phoenixP * prevZi;
-        return (nr, ni);
+    case 'phoenix':
+      // Z(n+1) = z^2 + c + p * z_prev
+      final nr = zr * zr - zi * zi + cx + phoenixP * prevZr;
+      final ni = 2.0 * zr * zi + cy + phoenixP * prevZi;
+      return (nr, ni);
 
-      default:
-        // Fallback: standard Mandelbrot
-        return (zr * zr - zi * zi + cx, 2.0 * zr * zi + cy);
+    default:
+      // Fallback: standard Mandelbrot
+      return (zr * zr - zi * zi + cx, 2.0 * zr * zi + cy);
   }
 }
 

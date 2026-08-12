@@ -9,9 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 double _luminance(Color c) {
   double channel(double v) =>
       v <= 0.03928 ? v / 12.92 : math.pow((v + 0.055) / 1.055, 2.4).toDouble();
-  return 0.2126 * channel(c.r) +
-      0.7152 * channel(c.g) +
-      0.0722 * channel(c.b);
+  return 0.2126 * channel(c.r) + 0.7152 * channel(c.g) + 0.0722 * channel(c.b);
 }
 
 double contrastRatio(Color a, Color b) {
@@ -60,8 +58,8 @@ void main() {
         greaterThanOrEqualTo(aaa),
       );
       expect(
-        contrastRatio(HighContrastColors.primaryLight,
-            HighContrastColors.surfaceVariant),
+        contrastRatio(
+            HighContrastColors.primaryLight, HighContrastColors.surfaceVariant),
         greaterThanOrEqualTo(aaa),
       );
     });
@@ -88,7 +86,8 @@ void main() {
     });
 
     test('textMuted is icon-only: clears 3:1 but not AA', () {
-      final ratio = contrastRatio(AppColors.textMuted, AppColors.surfaceVariant);
+      final ratio =
+          contrastRatio(AppColors.textMuted, AppColors.surfaceVariant);
       expect(ratio, greaterThanOrEqualTo(3.0));
       expect(ratio, lessThan(aa));
     });
@@ -134,8 +133,7 @@ void main() {
   // snack bars and two destructive buttons this replaced all rendered fine and
   // read at 2.55:1 to 3.49:1.
   group('status colours are only paired inside the helper', () {
-    final helper = File(
-        'lib/shared/widgets/app_feedback_snack_bar.dart');
+    final helper = File('lib/shared/widgets/app_feedback_snack_bar.dart');
 
     test('no call site sets a status colour as a background itself', () {
       final offenders = <String>[];

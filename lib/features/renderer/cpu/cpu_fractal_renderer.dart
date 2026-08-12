@@ -8,6 +8,7 @@ import 'package:vector_math/vector_math.dart' show Vector2;
 
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
+import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import '../validation/render_validation.dart';
 import '../validation/convergence_detector.dart';
 import 'cpu_render_isolate.dart';
@@ -148,9 +149,12 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
 
     // Log convergence state in debug mode.
     if (kDebugMode && result.changeRatio > 0.01) {
-      debugPrint('[cpu] convergence: converged=${result.converged} '
-          'change=${(result.changeRatio * 100).toStringAsFixed(1)}% '
-          'iter=$currentIterations->${result.suggestedIterations}');
+      AppLogger.instance.debug('renderer', 'CPU convergence', data: {
+        'converged': result.converged,
+        'changeRatio': result.changeRatio,
+        'iterations': currentIterations,
+        'suggestedIterations': result.suggestedIterations,
+      });
     }
 
     // Use suggested iterations for next render if not converged.
@@ -456,7 +460,8 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
             width: frame.width,
             height: frame.height,
           );
-          debugPrint(validation.summary('cpu'));
+          AppLogger.instance.debug('renderer', 'CPU render validation',
+              data: {'summary': validation.summary('cpu')});
         }
 
         if (!mounted || job != _job) {

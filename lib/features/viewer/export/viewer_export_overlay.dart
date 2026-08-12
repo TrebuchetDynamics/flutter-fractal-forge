@@ -12,11 +12,13 @@ import 'package:flutter_fractals/shared/widgets/app_feedback_snack_bar.dart';
 class ExportOverlay extends StatelessWidget {
   final double? progress;
   final AppLocalizations l10n;
+  final VoidCallback? onCancel;
 
   const ExportOverlay({
     super.key,
     required this.progress,
     required this.l10n,
+    this.onCancel,
   });
 
   @override
@@ -89,6 +91,15 @@ class ExportOverlay extends StatelessWidget {
                       ],
                     ),
                   ),
+                  if (onCancel != null) ...[
+                    const SizedBox(height: AppSpacing.lg),
+                    TextButton.icon(
+                      key: const ValueKey('cancelActiveExportButton'),
+                      onPressed: onCancel,
+                      icon: const Icon(Icons.close_rounded),
+                      label: Text(l10n.actionCancel),
+                    ),
+                  ],
                 ],
               ),
             ),

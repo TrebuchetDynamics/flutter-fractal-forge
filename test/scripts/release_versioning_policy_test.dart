@@ -7,6 +7,8 @@ void main() {
     final buildScript =
         File('scripts/build-play-console.sh').readAsStringSync();
     final releaseScript = File('scripts/release.sh').readAsStringSync();
+    final androidBuild =
+        File('android/app/build.gradle.kts').readAsStringSync();
 
     expect(buildScript, contains('version_name_from_build_number'));
     expect(buildScript, contains('1.1.0+38 and build number 58 => 1.1.58'));
@@ -56,7 +58,10 @@ void main() {
     expect(releaseScript, contains(r'"$FLUTTER_BIN" analyze'));
     expect(releaseScript, contains(r'"$FLUTTER_BIN" test'));
     expect(releaseScript, contains('preflight_publish'));
-    expect(releaseScript, contains(r'echo "$name"'));
+    expect(androidBuild, contains('release-abi'));
+    expect(androidBuild, contains('abiFilters.add(releaseAbi)'));
+    expect(androidBuild, contains(r'.map { "**/$it/**" }'));
+    expect(releaseScript, contains(r'echo "${version%%+*}"'));
     expect(releaseScript, isNot(contains(r'echo "${name}+${build}"')));
   });
 }

@@ -97,6 +97,7 @@ typedef FractalMusicProcessStart = Future<Process> Function(
 typedef FractalMusicTempDirFactory = Future<Directory> Function(String prefix);
 typedef FractalMusicWebPlay = Future<bool> Function(Uint8List bytes);
 typedef FractalMusicWebStop = Future<void> Function();
+typedef FractalMusicWebCancelPending = Future<void> Function();
 
 class FractalMusicStopFailure implements Exception {
   final Object error;
@@ -120,6 +121,65 @@ class FractalMusicScanFrame {
 
   bool get isValid =>
       width > 0 && height > 0 && rgba.length >= width * height * 4;
+}
+
+FractalMusicScanFrame weaveFractalMusicScanFrames(
+  Iterable<FractalMusicScanFrame> frames,
+) {
+  final valid = frames.where((frame) => frame.isValid).toList(growable: false);
+  if (valid.isEmpty) {
+    return FractalMusicScanFrame(rgba: Uint8List(0), width: 0, height: 0);
+  }
+  final width = valid.first.width;
+  final height = valid.first.height;
+  final compatible = valid
+      .where((frame) => frame.width == width && frame.height == height)
+      .toList(growable: false);
+  final rgba = Uint8List(width * height * 4);
+  final centerX = (width - 1) / 2;
+  final centerY = (height - 1) / 2;
+  for (var y = 0; y < height; y++) {
+    for (var x = 0; x < width; x++) {
+      final angle = math.atan2(y - centerY, x - centerX);
+      final phase = (angle + math.pi / 2) % (math.pi * 2) / (math.pi * 2);
+      final frameIndex =
+          (phase * compatible.length).floor().clamp(0, compatible.length - 1);
+      final offset = (y * width + x) * 4;
+      for (var channel = 0; channel < 4; channel++) {
+        rgba[offset + channel] = compatible[frameIndex].rgba[offset + channel];
+      }
+    }
+  }
+  return FractalMusicScanFrame(rgba: rgba, width: width, height: height);
+}
+
+/// Produces one deterministic score source from a complete camera path.
+/// Every valid frame contributes equally, so exported looper audio reflects
+/// both endpoints and all intermediate waypoints instead of only the last view.
+FractalMusicScanFrame blendFractalMusicScanFrames(
+  Iterable<FractalMusicScanFrame> frames,
+) {
+  final valid = frames.where((frame) => frame.isValid).toList(growable: false);
+  if (valid.isEmpty) {
+    return FractalMusicScanFrame(rgba: Uint8List(0), width: 0, height: 0);
+  }
+  final width = valid.first.width;
+  final height = valid.first.height;
+  final compatible = valid
+      .where((frame) => frame.width == width && frame.height == height)
+      .toList(growable: false);
+  final length = width * height * 4;
+  final sums = Uint32List(length);
+  for (final frame in compatible) {
+    for (var index = 0; index < length; index++) {
+      sums[index] += frame.rgba[index];
+    }
+  }
+  final rgba = Uint8List(length);
+  for (var index = 0; index < length; index++) {
+    rgba[index] = (sums[index] / compatible.length).round().clamp(0, 255);
+  }
+  return FractalMusicScanFrame(rgba: rgba, width: width, height: height);
 }
 
 /// The collapsed image features Fractal Music listens to. Cheaper to compare
@@ -150,8 +210,19 @@ class FractalMusicFeatures {
     double tolerance = 0.04,
   }) {
     if ((brightness - other.brightness).abs() > tolerance) return true;
-    if ((detail - other.detail).abs() > tolerance) return true;
-    if ((saturation - other.saturation).abs() > tolerance) return true;
+    // These dimensions use materially narrower musical bands than brightness.
+    // A single 0.04 blanket threshold skipped real mode, tempo, and progression
+    // changes, making pans feel delayed or unrelated to the visible image.
+    if ((contrast - other.contrast).abs() > math.min(tolerance, 0.02)) {
+      return true;
+    }
+    if ((detail - other.detail).abs() > math.min(tolerance, 0.004)) {
+      return true;
+    }
+    if ((saturation - other.saturation).abs() >
+        math.min(tolerance, _musicProgressionHysteresis)) {
+      return true;
+    }
     var hueDelta = (hue - other.hue).abs();
     if (hueDelta > 0.5) hueDelta = 1 - hueDelta;
     return hueDelta > tolerance;
@@ -325,6 +396,8 @@ class FractalMusicService {
 
   /// Previous features, so the next render can tell how far the view moved.
   FractalMusicFeatures? _lastFeatures;
+  int _operationGeneration = 0;
+  bool _disposed = false;
 
   FractalMusicService({
     Future<bool> Function(String command)? commandExists,
@@ -333,6 +406,7 @@ class FractalMusicService {
     MethodChannel? androidChannel,
     FractalMusicWebPlay? webPlay,
     FractalMusicWebStop? webStop,
+    FractalMusicWebCancelPending? webCancelPending,
     bool? isWeb,
     bool? isAndroid,
     bool? isLinux,
@@ -343,6 +417,7 @@ class FractalMusicService {
           androidChannel: androidChannel ?? _defaultAndroidChannel,
           webPlay: webPlay ?? playFractalMusicWeb,
           webStop: webStop ?? stopFractalMusicWeb,
+          webCancelPending: webCancelPending ?? cancelPendingFractalMusicWeb,
           isWeb: isWeb,
           isAndroid: isAndroid,
           isLinux: isLinux,
@@ -351,70 +426,117 @@ class FractalMusicService {
   Future<void> play(
     FractalController controller, {
     FractalMusicScanFrame? scanFrame,
+    double startProgress = 0,
+    double Function()? startProgressProvider,
+    bool Function()? shouldCommit,
   }) async {
+    if (_disposed) return;
     if (_playback is _UnsupportedFractalMusicPlayer) {
       throw StateError(
           'Fractal Music playback is supported on Web, Android, and Linux.');
     }
-    final playback = _playback;
-    if (playback is _LinuxFractalMusicPlayer) {
-      try {
-        await playback.ensurePlayerAvailable();
-      } catch (error, stackTrace) {
-        try {
-          await playback.stop();
-        } catch (stopError) {
-          throw FractalMusicStopFailure(stopError);
-        }
-        Error.throwWithStackTrace(error, stackTrace);
-      }
-    }
-    final Uint8List bytes;
-    if (scanFrame != null && scanFrame.isValid) {
-      // Carry the previous identity forward so a small pan re-voices the same
-      // piece instead of restarting a different one.
-      final features = fractalMusicFeaturesOf(scanFrame);
-      final identity = resolveFractalMusicIdentity(
-        features,
-        previous: _lastIdentity,
-      );
-      final previousFeatures = _lastFeatures;
-      final motion =
-          previousFeatures == null ? 0.0 : features.motionFrom(previousFeatures);
-      _lastIdentity = identity;
-      _lastFeatures = features;
-      bytes = buildFractalMusicScanWav(
-        scanFrame: scanFrame,
-        zoom: controller.view.zoom,
-        identity: identity,
-        motion: motion,
-      );
-    } else {
-      bytes = buildFractalMusicWav(
-        moduleId: controller.module.id,
-        params: controller.params,
-        panX: controller.view.pan.x,
-        panY: controller.view.pan.y,
-        zoom: controller.view.zoom,
-      );
+    final hadPriorOperation = _operationGeneration != 0;
+    final operation = ++_operationGeneration;
+    bool canCommit() =>
+        !_disposed &&
+        operation == _operationGeneration &&
+        (shouldCommit == null || shouldCommit());
+    if (hadPriorOperation) {
+      await _playback.cancelPending();
+      if (!canCommit()) return;
     }
     try {
-      await stop();
-    } catch (error) {
-      throw FractalMusicStopFailure(error);
+      final playback = _playback;
+      if (playback is _LinuxFractalMusicPlayer) {
+        try {
+          await playback.ensurePlayerAvailable();
+        } catch (error, stackTrace) {
+          if (!canCommit()) return;
+          try {
+            await playback.stop();
+          } catch (stopError) {
+            throw FractalMusicStopFailure(stopError);
+          }
+          Error.throwWithStackTrace(error, stackTrace);
+        }
+      }
+      Uint8List bytes;
+      FractalMusicIdentity? nextIdentity;
+      FractalMusicFeatures? nextFeatures;
+      if (scanFrame != null && scanFrame.isValid) {
+        // Carry the previous identity forward so a small pan re-voices the same
+        // piece instead of restarting a different one.
+        final features = fractalMusicFeaturesOf(scanFrame);
+        final identity = resolveFractalMusicIdentity(
+          features,
+          previous: _lastIdentity,
+        );
+        final previousFeatures = _lastFeatures;
+        final motion = previousFeatures == null
+            ? 0.0
+            : features.motionFrom(previousFeatures);
+        nextIdentity = identity;
+        nextFeatures = features;
+        bytes = await _buildFractalMusicScanWavAsync(
+          scanFrame: scanFrame,
+          zoom: controller.view.zoom,
+          identity: identity,
+          motion: motion,
+        );
+      } else {
+        bytes = await _buildFractalMusicWavAsync(
+          moduleId: controller.module.id,
+          params: controller.params,
+          panX: controller.view.pan.x,
+          panY: controller.view.pan.y,
+          zoom: controller.view.zoom,
+        );
+      }
+      if (!canCommit()) return;
+      // Sample only after the expensive composition. Reading the phase when the
+      // rescan started made replacement audio lag behind the continuously moving
+      // scanner by the complete queue + synthesis delay.
+      final progress = startProgressProvider?.call() ?? startProgress;
+      bytes = await _rotateFractalMusicWavAsync(bytes, progress);
+      // Each adapter prepares the replacement before retiring the current loop.
+      // Stopping here first created an audible hole while Android uploaded a
+      // two-megabyte static buffer and while browsers decoded the new WAV.
+      if (!canCommit()) return;
+      await _playback.play(bytes, shouldCommit: canCommit);
+      // Cancellation can race decoder/upload completion. Adapters prevent a
+      // stale candidate from taking ownership; this guard prevents stale
+      // hysteresis state from shaping the next score.
+      if (!canCommit()) return;
+      if (nextIdentity != null) _lastIdentity = nextIdentity;
+      if (nextFeatures != null) _lastFeatures = nextFeatures;
+    } catch (error, stackTrace) {
+      if (!canCommit()) return;
+      Error.throwWithStackTrace(error, stackTrace);
     }
-    await _playback.play(bytes);
   }
 
-  Future<void> stop() => _playback.stop();
+  Future<void> stop() {
+    _operationGeneration++;
+    return _playback.stop();
+  }
 
-  void dispose() => _playback.dispose();
+  Future<void> cancelPendingPlayback() {
+    _operationGeneration++;
+    return _playback.cancelPending();
+  }
+
+  void dispose() {
+    _disposed = true;
+    _operationGeneration++;
+    _playback.dispose();
+  }
 }
 
 abstract class _FractalMusicPlaybackAdapter {
   const _FractalMusicPlaybackAdapter();
 
-  Future<void> play(Uint8List bytes);
+  Future<void> play(Uint8List bytes, {bool Function()? shouldCommit});
+  Future<void> cancelPending();
   Future<void> stop();
 
   void dispose() {
@@ -428,12 +550,15 @@ abstract class _FractalMusicPlaybackAdapter {
     required MethodChannel androidChannel,
     required FractalMusicWebPlay webPlay,
     required FractalMusicWebStop webStop,
+    required FractalMusicWebCancelPending webCancelPending,
     required bool? isWeb,
     required bool? isAndroid,
     required bool? isLinux,
   }) {
     final web = isWeb ?? kIsWeb;
-    if (web) return _WebFractalMusicPlayer(webPlay, webStop);
+    if (web) {
+      return _WebFractalMusicPlayer(webPlay, webStop, webCancelPending);
+    }
 
     final android = isAndroid ?? Platform.isAndroid;
     if (android) return _AndroidFractalMusicPlayer(androidChannel);
@@ -454,19 +579,27 @@ abstract class _FractalMusicPlaybackAdapter {
 class _WebFractalMusicPlayer extends _FractalMusicPlaybackAdapter {
   final FractalMusicWebPlay _play;
   final FractalMusicWebStop _stop;
+  final FractalMusicWebCancelPending _cancelPending;
   bool _playing = false;
 
-  _WebFractalMusicPlayer(this._play, this._stop);
+  _WebFractalMusicPlayer(this._play, this._stop, this._cancelPending);
 
   @override
-  Future<void> play(Uint8List bytes) async {
+  Future<void> play(
+    Uint8List bytes, {
+    bool Function()? shouldCommit,
+  }) async {
     final ok = await _play(bytes);
     if (!ok) {
+      if (shouldCommit != null && !shouldCommit()) return;
       throw StateError(
           'Web audio playback failed; tap the music button again.');
     }
     _playing = true;
   }
+
+  @override
+  Future<void> cancelPending() => _cancelPending();
 
   @override
   Future<void> stop() async {
@@ -486,13 +619,20 @@ class _AndroidFractalMusicPlayer extends _FractalMusicPlaybackAdapter {
   _AndroidFractalMusicPlayer(this._channel);
 
   @override
-  Future<void> play(Uint8List bytes) async {
+  Future<void> play(
+    Uint8List bytes, {
+    bool Function()? shouldCommit,
+  }) async {
     final ok = await _channel.invokeMethod<bool>('play', {'bytes': bytes});
     if (ok != true) {
+      if (shouldCommit != null && !shouldCommit()) return;
       throw StateError('Android audio playback failed; check audio device.');
     }
     _playing = true;
   }
+
+  @override
+  Future<void> cancelPending() => _channel.invokeMethod<void>('cancelPending');
 
   @override
   Future<void> stop() async {
@@ -511,6 +651,7 @@ class _LinuxFractalMusicPlayer implements _FractalMusicPlaybackAdapter {
   final FractalMusicTempDirFactory _createTempDir;
   Process? _player;
   File? _wavFile;
+  int _generation = 0;
 
   _LinuxFractalMusicPlayer({
     required Future<bool> Function(String command)? commandExists,
@@ -529,19 +670,29 @@ class _LinuxFractalMusicPlayer implements _FractalMusicPlaybackAdapter {
   }
 
   @override
-  Future<void> play(Uint8List bytes) async {
+  Future<void> play(
+    Uint8List bytes, {
+    bool Function()? shouldCommit,
+  }) async {
+    final request = ++_generation;
     final dir = await _createTempDir('fractal_music_');
     final file = File('${dir.path}/loop.wav');
-    _wavFile = file;
     try {
       await file.writeAsBytes(bytes, flush: true);
     } catch (_) {
-      await _deleteTempAudio();
+      await _deleteAudioFile(file);
       rethrow;
     }
 
-    // ponytail: use common Linux players, add a real audio backend only when
-    // we need cross-platform playback or lower latency.
+    if (request != _generation || (shouldCommit != null && !shouldCommit())) {
+      await _deleteAudioFile(file);
+      return;
+    }
+
+    // paplay/aplay cannot preload a paused buffer. Start the candidate while the
+    // old loop still owns playback, then revalidate the generation before the
+    // synchronous ownership handoff. A canceled Process.start result is killed
+    // without touching the old loop.
     final Process player;
     try {
       player = await _startProcess('sh', [
@@ -551,10 +702,29 @@ class _LinuxFractalMusicPlayer implements _FractalMusicPlaybackAdapter {
         file.path,
       ]);
     } catch (_) {
-      await _deleteTempAudio();
+      await _deleteAudioFile(file);
       rethrow;
     }
+    if (request != _generation || (shouldCommit != null && !shouldCommit())) {
+      player.kill();
+      await _deleteAudioFile(file);
+      return;
+    }
+
+    final previousPlayer = _player;
+    final previousFile = _wavFile;
+    if (previousPlayer != null && !previousPlayer.kill()) {
+      player.kill();
+      await _deleteAudioFile(file);
+      throw FractalMusicStopFailure(
+        StateError('Linux audio player could not be stopped.'),
+      );
+    }
+    // No await is allowed between the final guard above and publication.
     _player = player;
+    _wavFile = file;
+    if (previousFile != null) await _deleteAudioFile(previousFile);
+
     final int earlyExitCode;
     try {
       earlyExitCode = await player.exitCode.timeout(
@@ -562,20 +732,47 @@ class _LinuxFractalMusicPlayer implements _FractalMusicPlaybackAdapter {
         onTimeout: () => -1,
       );
     } catch (_) {
+      final stale =
+          request != _generation || (shouldCommit != null && !shouldCommit());
+      if (stale && identical(_player, player)) {
+        // The candidate committed before cancellation. Keep the audible owner
+        // alive while the queued replacement composes.
+        return;
+      }
       player.kill();
-      _player = null;
-      await _deleteTempAudio();
+      _clearOwnership(player, file);
+      await _deleteAudioFile(file);
+      if (stale) return;
       rethrow;
     }
+    final stale =
+        request != _generation || (shouldCommit != null && !shouldCommit());
+    if (stale) {
+      if (earlyExitCode == -1 && identical(_player, player)) {
+        // A healthy, published candidate is current playback even though its
+        // caller was superseded. cancelPending must not turn that into silence.
+        return;
+      }
+      player.kill();
+      _clearOwnership(player, file);
+      await _deleteAudioFile(file);
+      return;
+    }
     if (earlyExitCode != -1) {
-      _player = null;
-      await _deleteTempAudio();
+      _clearOwnership(player, file);
+      await _deleteAudioFile(file);
       throw StateError('Linux audio playback failed; check audio device.');
     }
   }
 
   @override
+  Future<void> cancelPending() async {
+    _generation++;
+  }
+
+  @override
   Future<void> stop() async {
+    _generation++;
     final player = _player;
     _player = null;
     Object? killError;
@@ -596,6 +793,7 @@ class _LinuxFractalMusicPlayer implements _FractalMusicPlaybackAdapter {
 
   @override
   void dispose() {
+    _generation++;
     final player = _player;
     _player = null;
     try {
@@ -615,17 +813,24 @@ class _LinuxFractalMusicPlayer implements _FractalMusicPlaybackAdapter {
     _wavFile = null;
   }
 
+  void _clearOwnership(Process player, File file) {
+    if (identical(_player, player)) _player = null;
+    if (identical(_wavFile, file)) _wavFile = null;
+  }
+
   Future<void> _deleteTempAudio() async {
+    final file = _wavFile;
+    _wavFile = null;
+    if (file != null) await _deleteAudioFile(file);
+  }
+
+  Future<void> _deleteAudioFile(File file) async {
     try {
-      final file = _wavFile;
-      if (file != null) {
-        final parent = file.parent;
-        if (await parent.exists()) await parent.delete(recursive: true);
-      }
+      final parent = file.parent;
+      if (await parent.exists()) await parent.delete(recursive: true);
     } catch (_) {
       // Temp cleanup best-effort only.
     }
-    _wavFile = null;
   }
 
   Future<bool> _commandExists(String command) async {
@@ -642,13 +847,118 @@ class _LinuxFractalMusicPlayer implements _FractalMusicPlaybackAdapter {
 
 class _UnsupportedFractalMusicPlayer extends _FractalMusicPlaybackAdapter {
   @override
-  Future<void> play(Uint8List bytes) async {
+  Future<void> play(
+    Uint8List bytes, {
+    bool Function()? shouldCommit,
+  }) async {
     throw StateError(
         'Fractal Music playback is supported on Web, Android, and Linux.');
   }
 
   @override
+  Future<void> cancelPending() async {}
+
+  @override
   Future<void> stop() async {}
+}
+
+Future<Uint8List> _buildFractalMusicWavAsync({
+  required String moduleId,
+  required Map<String, Object> params,
+  required double panX,
+  required double panY,
+  required double zoom,
+}) =>
+    compute(_buildFractalMusicWavInBackground, <String, Object>{
+      'moduleId': moduleId,
+      'params': params,
+      'panX': panX,
+      'panY': panY,
+      'zoom': zoom,
+    });
+
+Uint8List _buildFractalMusicWavInBackground(Map<String, Object> request) =>
+    buildFractalMusicWav(
+      moduleId: request['moduleId']! as String,
+      params: (request['params']! as Map).cast<String, Object>(),
+      panX: request['panX']! as double,
+      panY: request['panY']! as double,
+      zoom: request['zoom']! as double,
+    );
+
+Future<Uint8List> _buildFractalMusicScanWavAsync({
+  required FractalMusicScanFrame scanFrame,
+  required double zoom,
+  required FractalMusicIdentity identity,
+  required double motion,
+}) =>
+    compute(_buildFractalMusicScanWavInBackground, <String, Object>{
+      'rgba': scanFrame.rgba,
+      'width': scanFrame.width,
+      'height': scanFrame.height,
+      'zoom': zoom,
+      'rootSemitones': identity.rootSemitones,
+      'major': identity.major,
+      'registerSemitones': identity.registerSemitones,
+      'bpm': identity.bpm,
+      'progressionIndex': identity.progressionIndex,
+      'motion': motion,
+    });
+
+Uint8List _buildFractalMusicScanWavInBackground(Map<String, Object> request) =>
+    buildFractalMusicScanWav(
+      scanFrame: FractalMusicScanFrame(
+        rgba: request['rgba']! as Uint8List,
+        width: request['width']! as int,
+        height: request['height']! as int,
+      ),
+      zoom: request['zoom']! as double,
+      identity: FractalMusicIdentity(
+        rootSemitones: request['rootSemitones']! as int,
+        major: request['major']! as bool,
+        registerSemitones: request['registerSemitones']! as int,
+        bpm: request['bpm']! as int,
+        progressionIndex: request['progressionIndex']! as int,
+      ),
+      motion: request['motion']! as double,
+    );
+
+Future<Uint8List> _rotateFractalMusicWavAsync(
+  Uint8List wav,
+  double startProgress,
+) =>
+    compute(_rotateFractalMusicWavInBackground, <String, Object>{
+      'wav': wav,
+      'startProgress': startProgress,
+    });
+
+Uint8List _rotateFractalMusicWavInBackground(Map<String, Object> request) =>
+    _rotateFractalMusicWav(
+      request['wav']! as Uint8List,
+      request['startProgress']! as double,
+    );
+
+Uint8List _rotateFractalMusicWav(Uint8List wav, double startProgress) {
+  final progress = startProgress.isFinite ? startProgress % 1.0 : 0.0;
+  if (progress == 0 || wav.length <= 44) return wav;
+  final header = ByteData.sublistView(wav);
+  final channels = header.getUint16(22, Endian.little);
+  final bitsPerSample = header.getUint16(34, Endian.little);
+  final dataBytes = header.getUint32(40, Endian.little);
+  final bytesPerFrame = channels * bitsPerSample ~/ 8;
+  if (bytesPerFrame <= 0 || dataBytes <= 0 || 44 + dataBytes > wav.length) {
+    return wav;
+  }
+  final frameCount = dataBytes ~/ bytesPerFrame;
+  final startFrame = (progress * frameCount).round() % frameCount;
+  if (startFrame == 0) return wav;
+  final split = 44 + startFrame * bytesPerFrame;
+  final out = Uint8List(wav.length);
+  out.setRange(0, 44, wav);
+  final tailBytes = 44 + dataBytes - split;
+  out.setRange(44, 44 + tailBytes, wav, split);
+  out.setRange(44 + tailBytes, 44 + dataBytes, wav, 44);
+  return out;
 }
 
 @visibleForTesting
@@ -706,14 +1016,13 @@ Uint8List buildFractalMusicWav({
         0.45;
     final leftGain = math.sqrt((1 - pan) * 0.5);
     final rightGain = math.sqrt((1 + pan) * 0.5);
-    left[i] = _toPcm16(wave, envelope * 0.52 * leftGain);
-    right[i] = _toPcm16(wave, envelope * 0.52 * rightGain);
+    left[i] = _toPcm16(wave, envelope * 0.52 * leftGain * _musicMasterGain);
+    right[i] = _toPcm16(wave, envelope * 0.52 * rightGain * _musicMasterGain);
   }
 
   return _wavFromPcm16Stereo(left, right, sampleRate);
 }
 
-@visibleForTesting
 Uint8List buildFractalMusicScanWav({
   required FractalMusicScanFrame scanFrame,
   required double zoom,
@@ -766,9 +1075,10 @@ Uint8List buildFractalMusicScanWav({
   );
 }
 
-/// The four fixed ensemble voices. The image chooses how they are played, not
-/// which instruments exist.
-enum _MusicVoice { bass, pad, lead, texture }
+/// Five fixed ensemble sections: electric/upright-style bass, warm strings,
+/// melodic lead, restrained high texture, and a compact drum kit. Rendered
+/// image features decide how each section plays.
+enum _MusicVoice { bass, pad, lead, texture, percussion }
 
 class _VoiceSpec {
   final double attackSeconds;
@@ -785,6 +1095,12 @@ class _VoiceSpec {
     required this.harmony,
   });
 }
+
+// Lift both score and fallback playback to an audible level. The score applies
+// this before its final soft limiter so PCM conversion never becomes the
+// limiter; the fallback oscillator is already mathematically bounded.
+const double _musicMasterGain = 3.0;
+const double _musicMasterLimiterStrength = 0.35;
 
 const Map<_MusicVoice, _VoiceSpec> _voiceSpecs = {
   _MusicVoice.bass: _VoiceSpec(
@@ -811,9 +1127,16 @@ const Map<_MusicVoice, _VoiceSpec> _voiceSpecs = {
   _MusicVoice.texture: _VoiceSpec(
     attackSeconds: 0.005,
     releaseSeconds: 0.10,
-    gain: 0.22,
+    gain: 0.16,
     harmonic: 0.30,
     harmony: 0.02,
+  ),
+  _MusicVoice.percussion: _VoiceSpec(
+    attackSeconds: 0.001,
+    releaseSeconds: 0.18,
+    gain: 0.22,
+    harmonic: 0,
+    harmony: 0,
   ),
 };
 
@@ -876,7 +1199,12 @@ List<_MusicEvent> _composeScanScore({
     major: major,
     index: identity.progressionIndex,
   );
-  final beatsPerLoop = math.max(1, (identity.bpm * seconds / 60).round());
+  final samplesPerBeat = sampleRate * 60 / identity.bpm;
+  // Preserve the selected tempo for arbitrary export lengths. Rounding a beat
+  // count and then stretching it across the whole buffer changes 80 BPM into
+  // 60 BPM for a one-second export. Generate the natural onset grid and clip
+  // events at the content boundary instead.
+  final beatsPerLoop = math.max(1, (sampleCount / samplesPerBeat).ceil());
   final steps = smoothedScans.length;
   if (steps == 0) return const [];
 
@@ -887,7 +1215,6 @@ List<_MusicEvent> _composeScanScore({
     math.max(1, (sampleRate * 0.4).round()),
   );
   final contentEnd = math.max(1, sampleCount - tailSamples);
-  final samplesPerBeat = sampleCount / beatsPerLoop;
 
   final beats = List.generate(beatsPerLoop, (beat) {
     final start = (beat * steps) ~/ beatsPerLoop;
@@ -937,7 +1264,11 @@ List<_MusicEvent> _composeScanScore({
   if (frameEnergy <= 0.001 && frameDetail <= 0.001) return const [];
 
   final events = <_MusicEvent>[];
+  int? firstLeadMidi;
+  int? previousLeadMidi;
   final barCount = (beatsPerLoop / _musicBeatsPerBar).ceil();
+
+  int? previousBassMidi;
 
   for (var bar = 0; bar < barCount; bar++) {
     final firstBeat = bar * _musicBeatsPerBar;
@@ -958,21 +1289,28 @@ List<_MusicEvent> _composeScanScore({
     if (barStart >= contentEnd) break;
     final barEnd = math.min((lastBeat * samplesPerBeat).round(), contentEnd);
     final barSustain = math.max(1, barEnd - barStart);
-    final chordRootSemitones =
-        rootSemitones + _chordRootSemitones(bar, barCount, progression);
+    final chordDegreeSemitones =
+        _chordRootSemitones(bar, barCount, progression);
+    final chordRootSemitones = rootSemitones + chordDegreeSemitones;
+    final chordTones = _diatonicChordTones(
+      major: major,
+      rootSemitones: chordDegreeSemitones,
+    );
     final chordRootMidi = 45 + zoomOctave * 12 + chordRootSemitones;
+    final bassMidi = _voiceBassMidi(chordRootMidi - 12, previousBassMidi);
+    previousBassMidi = bassMidi;
     final barVelocity = _musicVelocity(barEnergy, barDetail);
     final harmonicBoost = barEnergy.clamp(0.0, 1.0) * 0.22;
 
     events.add(_MusicEvent(
       startSample: barStart,
       sustainSamples: barSustain,
-      midi: chordRootMidi - 12,
+      midi: bassMidi,
       velocity: barVelocity,
       harmonicBoost: harmonicBoost * 0.5,
       voice: _MusicVoice.bass,
     ));
-    for (final tone in major ? const [0, 4, 7] : const [0, 3, 7]) {
+    for (final tone in chordTones) {
       // Open voicing. The pad's root stays at the chord root so it sits one
       // octave above the bass and bridges it; only the third and fifth take
       // the register lift. Lifting the whole triad left two full octaves of
@@ -999,8 +1337,40 @@ List<_MusicEvent> _composeScanScore({
           lastBeat - firstBeat == _musicBeatsPerBar;
       final beatStart = (beat * samplesPerBeat).round();
       if (beatStart >= contentEnd) break;
-      final beatEnd = math.min(((beat + 1) * samplesPerBeat).round(),
-          contentEnd);
+      final beatEnd =
+          math.min(((beat + 1) * samplesPerBeat).round(), contentEnd);
+
+      // Compact drum kit: General MIDI pitch numbers identify kick (36),
+      // snare (38), and closed hat (42). Energy keeps the pulse alive while
+      // rendered edge detail determines whether the restrained eighth-note hat
+      // subdivision appears. Motion gives the next bar a slightly stronger
+      // pickup without changing harmony.
+      final drumLength = math.max(1, (sampleRate * 0.16).round());
+      final drumVelocity = (0.30 + summary.energy * 0.48).clamp(0.0, 0.78);
+      events.add(_MusicEvent(
+        startSample: beatStart,
+        sustainSamples: drumLength,
+        midi: beatInBar.isEven ? 36 : 38,
+        velocity: drumVelocity,
+        harmonicBoost: summary.detail,
+        voice: _MusicVoice.percussion,
+      ));
+      if (summary.detail >= 0.08) {
+        final halfBeat = ((beatEnd - beatStart) * 0.5).round();
+        for (final offset in [0, halfBeat]) {
+          if (beatStart + offset >= contentEnd) continue;
+          events.add(_MusicEvent(
+            startSample: beatStart + offset,
+            sustainSamples: math.max(1, (sampleRate * 0.07).round()),
+            midi: 42,
+            velocity:
+                (0.16 + summary.detail * 0.30 + (closesBar ? motion * 0.10 : 0))
+                    .clamp(0.0, 0.52),
+            harmonicBoost: summary.detail,
+            voice: _MusicVoice.percussion,
+          ));
+        }
+      }
 
       if (closesBar) {
         // A still view leaves the bar's last beat empty so the cadence stays
@@ -1027,14 +1397,21 @@ List<_MusicEvent> _composeScanScore({
         );
         for (final (offset, midi) in [(0, lift), (half, approach)]) {
           if (beatStart + offset >= contentEnd) break;
+          final voicedMidi = _voiceLeadMidi(
+            targetMidi: midi + register,
+            previousMidi: previousLeadMidi,
+            anchorMidi: firstLeadMidi,
+          );
           events.add(_MusicEvent(
             startSample: beatStart + offset,
             sustainSamples: fillSustain,
-            midi: midi + register,
+            midi: voicedMidi,
             velocity: _musicVelocity(summary.energy, summary.detail) * 0.85,
             harmonicBoost: summary.energy.clamp(0.0, 1.0) * 0.14,
             voice: _MusicVoice.lead,
           ));
+          firstLeadMidi ??= voicedMidi;
+          previousLeadMidi = voicedMidi;
         }
         continue;
       }
@@ -1052,7 +1429,7 @@ List<_MusicEvent> _composeScanScore({
               midi: target,
               chordRootSemitones: chordRootSemitones,
               zoomOctave: zoomOctave,
-              major: major,
+              chordTones: chordTones,
             )
           : _nearestScaleToneMidi(
               midi: target,
@@ -1060,7 +1437,16 @@ List<_MusicEvent> _composeScanScore({
               scale: scale,
             );
 
-      final voicedLead = leadMidi + register;
+      // The radial scan selects pitch class and broad register. Fold only by
+      // octaves into the one-octave window around the phrase's first note, then
+      // prefer the candidate nearest the previous note. This preserves harmony
+      // and image mapping while preventing cumulative register drift and keeping
+      // the final note within six semitones of the loop's opening lead.
+      final voicedLead = _voiceLeadMidi(
+        targetMidi: leadMidi + register,
+        previousMidi: previousLeadMidi,
+        anchorMidi: firstLeadMidi,
+      );
       events.add(_MusicEvent(
         startSample: beatStart,
         sustainSamples: noteSustain,
@@ -1069,6 +1455,8 @@ List<_MusicEvent> _composeScanScore({
         harmonicBoost: summary.energy.clamp(0.0, 1.0) * 0.14,
         voice: _MusicVoice.lead,
       ));
+      firstLeadMidi ??= voicedLead;
+      previousLeadMidi = voicedLead;
       // A high melody carried by one near-sine reads as thin: at the top
       // register the lead sits around 1.8kHz with almost nothing under it.
       // Doubling an octave below puts body beneath the line without moving
@@ -1089,9 +1477,8 @@ List<_MusicEvent> _composeScanScore({
         events.add(_MusicEvent(
           startSample: beatStart,
           sustainSamples: math.max(1, (samplesPerBeat * 0.25).round()),
-          // Texture is a sparkle an octave over the lead, so it has to follow
-          // the lead's register rather than the unshifted pitch.
-          midi: leadMidi + register + 12,
+          // Texture stays one octave over the final voice-led melody note.
+          midi: voicedLead + 12,
           velocity: summary.detail.clamp(0.0, 1.0),
           harmonicBoost: 0.0,
           voice: _MusicVoice.texture,
@@ -1153,25 +1540,32 @@ Uint8List _renderScore(
         envelope = 1.0;
       }
       if (envelope <= 0) continue;
-      bus[i] += _softTone(
-            hz: hz,
-            sample: i,
-            sampleRate: sampleRate,
-            harmonic: spec.harmonic + event.harmonicBoost,
-            harmony: spec.harmony,
-            droneHz: 0,
-          ) *
-          envelope *
-          gain;
+      final tone = event.voice == _MusicVoice.percussion
+          ? _percussionTone(
+              midi: event.midi,
+              relativeSample: rel,
+              sampleRate: sampleRate,
+              detail: event.harmonicBoost,
+            )
+          : _softTone(
+              hz: hz,
+              sample: i,
+              sampleRate: sampleRate,
+              harmonic: spec.harmonic + event.harmonicBoost,
+              harmony: spec.harmony,
+              droneHz: 0,
+            );
+      bus[i] += tone * envelope * gain;
     }
   }
 
   for (var i = 0; i < sampleCount; i++) {
     final value = bus[i];
     if (value == 0) continue;
-    // Gentle limiting only. A harder curve squashes bright images back toward
-    // dim ones and costs the brightness-to-loudness mapping its range.
-    final limited = value / (1 + value.abs() * 0.25);
+    // Master before the final soft limiter. Its 1 / 0.35 asymptote keeps even
+    // an extreme score below the Int16 clamp after constant-power panning,
+    // while remaining monotonic so bright images still sound louder than dim.
+    final limited = _masterMusicBusValue(value);
     final angle = i / sampleCount * math.pi * 2 - math.pi / 2;
     final pan = math.cos(angle) * 0.72;
     left[i] = _toPcm16(limited, math.sqrt((1 - pan) * 0.5));
@@ -1180,6 +1574,74 @@ Uint8List _renderScore(
 
   return _wavFromPcm16Stereo(left, right, sampleRate);
 }
+
+@visibleForTesting
+double debugFractalMusicKickBodySample({
+  required int relativeSample,
+  required int sampleRate,
+}) =>
+    _kickBody(relativeSample: relativeSample, sampleRate: sampleRate);
+
+double _kickBody({required int relativeSample, required int sampleRate}) {
+  final t = relativeSample / sampleRate;
+  // Integrate the exponential frequency sweep into phase. Multiplying an
+  // instantaneous frequency by time differentiates to a different (and much
+  // faster) sweep, causing the kick to fall below its intended 48 Hz body.
+  final cycles = 48 * t + 82 / 24 * (1 - math.exp(-24 * t));
+  return math.sin(math.pi * 2 * cycles) * math.exp(-t * 12) * 0.92;
+}
+
+@visibleForTesting
+double debugFractalMusicPercussionSample({
+  required int midi,
+  required int relativeSample,
+  required int sampleRate,
+  required double detail,
+}) =>
+    _percussionTone(
+      midi: midi,
+      relativeSample: relativeSample,
+      sampleRate: sampleRate,
+      detail: detail,
+    );
+
+double _percussionTone({
+  required int midi,
+  required int relativeSample,
+  required int sampleRate,
+  required double detail,
+}) {
+  final t = relativeSample / sampleRate;
+  // Deterministic pseudo-noise keeps exports reproducible and is filtered by
+  // the short instrument envelopes above.
+  final noise = math.sin(
+      relativeSample * 12.9898 + math.sin(relativeSample * 0.123) * 78.233);
+  if (midi == 36) {
+    final click = noise * math.exp(-t * 70);
+    return _kickBody(
+          relativeSample: relativeSample,
+          sampleRate: sampleRate,
+        ) +
+        click * 0.12;
+  }
+  if (midi == 38) {
+    final body = math.sin(math.pi * 2 * 185 * t) * math.exp(-t * 18);
+    return body * 0.24 + noise * math.exp(-t * 22) * 0.72;
+  }
+  final brightness = 0.65 + detail.clamp(0.0, 1.0) * 0.30;
+  final metallic = math.sin(math.pi * 2 * 5400 * t) * 0.25 +
+      math.sin(math.pi * 2 * 7300 * t) * 0.18;
+  return (noise * brightness + metallic) * math.exp(-t * 48);
+}
+
+double _masterMusicBusValue(double value) {
+  final mastered = value * _musicMasterGain;
+  return mastered / (1 + mastered.abs() * _musicMasterLimiterStrength);
+}
+
+@visibleForTesting
+double debugFractalMusicMasterBusValue(double value) =>
+    _masterMusicBusValue(value);
 
 ({int step, double t}) _musicStepPosition(
     int sample, int sampleCount, int steps) {
@@ -1241,6 +1703,68 @@ List<int> debugFractalMusicProgression({
   required int index,
 }) =>
     _musicProgression(major: major, index: index);
+
+@visibleForTesting
+List<int> debugFractalMusicChordTones({
+  required bool major,
+  required int rootSemitones,
+}) =>
+    _diatonicChordTones(major: major, rootSemitones: rootSemitones);
+
+@visibleForTesting
+int debugFractalMusicVoiceLeadMidi({
+  required int targetMidi,
+  required int? previousMidi,
+  int? anchorMidi,
+}) =>
+    _voiceLeadMidi(
+      targetMidi: targetMidi,
+      previousMidi: previousMidi,
+      anchorMidi: anchorMidi,
+    );
+
+@visibleForTesting
+List<({int startSample, int midi, String voice})>
+    debugFractalMusicScanScoreEvents({
+  required FractalMusicScanFrame scanFrame,
+  required double zoom,
+  required FractalMusicIdentity identity,
+  double motion = 0,
+  int sampleRate = 22050,
+  double seconds = fractalMusicLoopSeconds,
+}) {
+  final steps = _scanMusicSteps;
+  final scans = List.generate(
+    steps,
+    (step) => debugFractalMusicScanDistanceProfile(
+      scanFrame: scanFrame,
+      step: step,
+      steps: steps,
+    ),
+  );
+  final smoothedScans = List.generate(
+    steps,
+    (step) => _smoothedScanDistanceProfile(scans, step),
+  );
+  final zoomOctave =
+      (math.log(zoom.clamp(0.25, 256)) / math.ln2).round().clamp(-1, 2);
+  final events = _composeScanScore(
+    smoothedScans: smoothedScans,
+    identity: identity,
+    motion: motion,
+    zoomOctave: zoomOctave,
+    sampleCount: (sampleRate * seconds).round(),
+    sampleRate: sampleRate,
+    seconds: seconds,
+  );
+  return events
+      .map((event) => (
+            startSample: event.startSample,
+            midi: event.midi,
+            voice: event.voice.name,
+          ))
+      .toList(growable: false);
+}
 
 @visibleForTesting
 int debugFractalMusicTempoBpm(double detail) => _musicTempoBpmBands[
@@ -1518,14 +2042,39 @@ int _chordRootSemitones(int step, int steps, List<int> progression) {
   return progression[chordIndex];
 }
 
+/// Triad intervals for a diatonic chord rooted at [rootSemitones] within the
+/// piece's major or natural-minor scale. Chord quality belongs to the scale
+/// degree, not to the piece as a whole: vi in major is minor, while VI in minor
+/// is major. Flattening every chord to the global mode introduces chromatic
+/// thirds that make otherwise diatonic progressions sound arbitrarily sour.
+List<int> _diatonicChordTones({
+  required bool major,
+  required int rootSemitones,
+}) {
+  final degree = rootSemitones % 12;
+  if (major) {
+    return switch (degree) {
+      0 || 5 || 7 => const [0, 4, 7],
+      2 || 4 || 9 => const [0, 3, 7],
+      11 => const [0, 3, 6],
+      _ => const [0, 4, 7],
+    };
+  }
+  return switch (degree) {
+    0 || 5 || 7 => const [0, 3, 7],
+    3 || 8 || 10 => const [0, 4, 7],
+    2 => const [0, 3, 6],
+    _ => const [0, 3, 7],
+  };
+}
+
 int _nearestChordToneMidi({
   required int midi,
   required int chordRootSemitones,
   required int zoomOctave,
-  required bool major,
+  required List<int> chordTones,
 }) {
   final rootMidi = 45 + zoomOctave * 12 + chordRootSemitones;
-  final chordTones = major ? const [0, 4, 7] : const [0, 3, 7];
   var closest = rootMidi;
   var closestDistance = (midi - closest).abs();
   for (var octave = -2; octave <= 2; octave++) {
@@ -1539,6 +2088,63 @@ int _nearestChordToneMidi({
     }
   }
   return closest;
+}
+
+int _voiceBassMidi(int targetMidi, int? previousMidi) {
+  const minimum = 28;
+  const maximum = 52;
+  final candidates = <int>[
+    for (var octave = -5; octave <= 5; octave++) targetMidi + octave * 12,
+  ].where((candidate) => candidate >= minimum && candidate <= maximum).toList();
+  if (candidates.isEmpty) return targetMidi;
+  if (previousMidi == null) {
+    return candidates
+        .reduce((a, b) => (a - 40).abs() <= (b - 40).abs() ? a : b);
+  }
+  return candidates.reduce(
+      (a, b) => (a - previousMidi).abs() <= (b - previousMidi).abs() ? a : b);
+}
+
+@visibleForTesting
+int debugFractalMusicVoiceBassMidi({
+  required int targetMidi,
+  required int? previousMidi,
+}) =>
+    _voiceBassMidi(targetMidi, previousMidi);
+
+int _voiceLeadMidi({
+  required int targetMidi,
+  required int? previousMidi,
+  int? anchorMidi,
+}) {
+  if (previousMidi == null) return targetMidi;
+  if (anchorMidi != null) {
+    final lower = anchorMidi - 6;
+    final upper = anchorMidi + 6;
+    var candidate = targetMidi;
+    while (candidate < lower) {
+      candidate += 12;
+    }
+    while (candidate > upper) {
+      candidate -= 12;
+    }
+    var closest = candidate;
+    for (final alternative in [candidate - 12, candidate + 12]) {
+      if (alternative < lower || alternative > upper) continue;
+      if ((alternative - previousMidi).abs() < (closest - previousMidi).abs()) {
+        closest = alternative;
+      }
+    }
+    return closest;
+  }
+  var voiced = targetMidi;
+  while (voiced - previousMidi > 6) {
+    voiced -= 12;
+  }
+  while (previousMidi - voiced > 6) {
+    voiced += 12;
+  }
+  return voiced;
 }
 
 int _nearestScaleToneMidi({

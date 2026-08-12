@@ -10,7 +10,10 @@ void main() {
     final shader = File(asset).readAsStringSync();
 
     expect(shader, contains('float trap = 1e9;'));
-    expect(shader, contains('trap = min(trap, abs(d * x * y - e * z) + 0.12 * abs(y - a * x));'));
+    expect(
+        shader,
+        contains(
+            'trap = min(trap, abs(d * x * y - e * z) + 0.12 * abs(y - a * x));'));
     expect(shader, contains('float strands = exp(-3.0 * trap);'));
   });
 

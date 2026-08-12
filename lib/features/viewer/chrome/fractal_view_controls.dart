@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
@@ -101,46 +102,6 @@ class FractalViewControls extends StatelessWidget {
     );
 
     final actionButtons = <Widget>[
-      if (showFractalReport)
-        FloatingActionButtonWidget(
-          key: const ValueKey('viewerReportFractalButton'),
-          icon: Icons.report_problem_rounded,
-          tooltip: l10n.tooltipReportFractal,
-          onPressed: isExporting ? null : actions.reportFractal,
-          onLongPress: isExporting ? null : actions.reportFractal,
-          isCompact: true,
-          delay: const Duration(milliseconds: 60),
-        ),
-      FloatingActionButtonWidget(
-        key: const ValueKey('viewerRandomButton'),
-        icon: Icons.shuffle_rounded,
-        tooltip: l10n.tooltipRandomFractal,
-        onPressed: isExporting ? null : actions.openRandomFractal,
-        onLongPress: isExporting
-            ? null
-            : () => _showActionModal(
-                  context,
-                  icon: Icons.shuffle_rounded,
-                  title: l10n.randomOptionsTitle,
-                  subtitle: l10n.randomOptionsSubtitle,
-                  children: [
-                    _ActionTile(
-                      icon: Icons.shuffle_rounded,
-                      label: l10n.tooltipRandomFractal,
-                      description: l10n.randomOptionsCatalogDescription,
-                      onTap: actions.openRandomFractal,
-                    ),
-                    _ActionTile(
-                      icon: Icons.tune_rounded,
-                      label: l10n.randomize,
-                      description: l10n.randomOptionsParamsDescription,
-                      onTap: actions.randomizeParams,
-                    ),
-                  ],
-                ),
-        isCompact: true,
-        delay: const Duration(milliseconds: 80),
-      ),
       FloatingActionButtonWidget(
         key: const ValueKey('viewerRandomParamsButton'),
         icon: Icons.tune_rounded,
@@ -148,7 +109,8 @@ class FractalViewControls extends StatelessWidget {
         onPressed: isExporting ? null : actions.openControls,
         onLongPress: isExporting ? null : actions.randomizeParams,
         isCompact: true,
-        delay: const Duration(milliseconds: 100),
+        delay: const Duration(milliseconds: 60),
+        sortOrder: 1,
       ),
       FloatingActionButtonWidget(
         key: const ValueKey('viewerColorCycleButton'),
@@ -157,7 +119,8 @@ class FractalViewControls extends StatelessWidget {
         onPressed: isExporting ? null : actions.cycleColorScheme,
         onLongPress: isExporting ? null : actions.openPalettePicker,
         isCompact: true,
-        delay: const Duration(milliseconds: 120),
+        delay: const Duration(milliseconds: 80),
+        sortOrder: 2,
       ),
       _ExportWallpaperFab(
         isExporting: isExporting,
@@ -169,49 +132,7 @@ class FractalViewControls extends StatelessWidget {
           l10n,
           supportsWallpaper: supportsWallpaper,
         ),
-      ),
-      FloatingActionButtonWidget(
-        key: const ValueKey('viewerTextOverlayButton'),
-        icon: Icons.format_quote_rounded,
-        tooltip: textOverlayEnabled
-            ? l10n.tooltipTextOverlayOn
-            : l10n.tooltipTextOverlayOff,
-        onPressed: isExporting ? null : actions.toggleTextOverlay,
-        onLongPress: isExporting ? null : actions.editTextOverlay,
-        isPrimary: textOverlayEnabled,
-        isCompact: true,
-        delay: const Duration(milliseconds: 170),
-      ),
-      FloatingActionButtonWidget(
-        key: const ValueKey('viewerLooperButton'),
-        icon: Icons.loop_rounded,
-        tooltip: l10n.tooltipCameraLooper,
-        onPressed: isExporting ? null : actions.openLooper,
-        isCompact: true,
-        delay: const Duration(milliseconds: 180),
-      ),
-      FloatingActionButtonWidget(
-        key: const ValueKey('viewerKaleidoscopeButton'),
-        icon: Icons.filter_vintage_rounded,
-        tooltip: kaleidoscopeEnabled
-            ? l10n.tooltipKaleidoscopeOn
-            : l10n.tooltipKaleidoscopeOff,
-        onPressed: isExporting ? null : actions.toggleKaleidoscope,
-        onLongPress: isExporting ? null : () => _showKaleidoscopeModal(context),
-        isPrimary: kaleidoscopeEnabled,
-        isCompact: true,
-        delay: const Duration(milliseconds: 200),
-      ),
-      FloatingActionButtonWidget(
-        key: const ValueKey('viewerFractalMusicButton'),
-        icon: Icons.music_note,
-        tooltip: fractalMusicEnabled
-            ? l10n.tooltipFractalMusicOn
-            : l10n.tooltipFractalMusicOff,
-        onPressed: isExporting ? null : actions.toggleFractalMusic,
-        isPrimary: fractalMusicEnabled,
-        isCompact: true,
-        delay: const Duration(milliseconds: 220),
+        sortOrder: 3,
       ),
       FloatingActionButtonWidget(
         key: const ValueKey('viewerFullscreenButton'),
@@ -219,7 +140,18 @@ class FractalViewControls extends StatelessWidget {
         tooltip: l10n.tooltipFullscreen,
         onPressed: isExporting ? null : actions.toggleFullscreen,
         isCompact: true,
-        delay: const Duration(milliseconds: 240),
+        delay: const Duration(milliseconds: 120),
+        sortOrder: 4,
+      ),
+      FloatingActionButtonWidget(
+        key: const ValueKey('viewerMoreActionsButton'),
+        icon: Icons.more_horiz_rounded,
+        tooltip: l10n.tooltipMoreOptions,
+        semanticHint: l10n.viewerMoreActionsHint,
+        onPressed: isExporting ? null : () => _showMoreActionsModal(context),
+        isCompact: true,
+        delay: const Duration(milliseconds: 140),
+        sortOrder: 5,
       ),
     ];
 
@@ -242,17 +174,110 @@ class FractalViewControls extends StatelessWidget {
               maxHeight: isLandscape ? 112 : maxFabColumnHeight,
               maxWidth: isLandscape ? maxFabRowWidth : 112,
             ),
-            child: Wrap(
-              direction: isLandscape ? Axis.horizontal : Axis.vertical,
-              alignment: WrapAlignment.end,
-              runAlignment: WrapAlignment.end,
-              spacing: AppSpacing.sm,
-              runSpacing: AppSpacing.sm,
-              children: actionButtons,
+            child: FocusTraversalGroup(
+              policy: OrderedTraversalPolicy(),
+              child: Wrap(
+                direction: isLandscape ? Axis.horizontal : Axis.vertical,
+                alignment: WrapAlignment.end,
+                runAlignment: WrapAlignment.end,
+                spacing: AppSpacing.sm,
+                runSpacing: AppSpacing.sm,
+                children: actionButtons,
+              ),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  void _showMoreActionsModal(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    _showActionModal(
+      context,
+      icon: Icons.more_horiz_rounded,
+      title: l10n.tooltipMoreOptions,
+      subtitle: l10n.viewerMoreActionsHint,
+      children: [
+        if (showFractalReport)
+          _ActionTile(
+            key: const ValueKey('viewerReportFractalButton'),
+            icon: Icons.report_problem_rounded,
+            label: l10n.tooltipReportFractal,
+            onTap: actions.reportFractal,
+          ),
+        _ActionTile(
+          key: const ValueKey('viewerRandomButton'),
+          secondaryActionKey: const ValueKey('viewerRandomOptionsButton'),
+          icon: Icons.shuffle_rounded,
+          label: l10n.tooltipRandomFractal,
+          description: l10n.randomOptionsCatalogDescription,
+          onTap: actions.openRandomFractal,
+          onLongPress: () => _showRandomOptionsModal(context),
+        ),
+        _ActionTile(
+          key: const ValueKey('viewerTextOverlayButton'),
+          secondaryActionKey: const ValueKey('viewerTextOverlayEditButton'),
+          secondaryIcon: Icons.edit_rounded,
+          icon: Icons.format_quote_rounded,
+          label: textOverlayEnabled
+              ? l10n.tooltipTextOverlayOn
+              : l10n.tooltipTextOverlayOff,
+          selected: textOverlayEnabled,
+          onTap: actions.toggleTextOverlay,
+          onLongPress: actions.editTextOverlay,
+        ),
+        _ActionTile(
+          key: const ValueKey('viewerLooperButton'),
+          icon: Icons.loop_rounded,
+          label: l10n.tooltipCameraLooper,
+          onTap: actions.openLooper,
+        ),
+        _ActionTile(
+          key: const ValueKey('viewerKaleidoscopeButton'),
+          secondaryActionKey: const ValueKey('viewerKaleidoscopeOptionsButton'),
+          icon: Icons.filter_vintage_rounded,
+          label: kaleidoscopeEnabled
+              ? l10n.tooltipKaleidoscopeOn
+              : l10n.tooltipKaleidoscopeOff,
+          selected: kaleidoscopeEnabled,
+          onTap: actions.toggleKaleidoscope,
+          onLongPress: () => _showKaleidoscopeModal(context),
+        ),
+        _ActionTile(
+          key: const ValueKey('viewerFractalMusicButton'),
+          icon: Icons.music_note,
+          label: fractalMusicEnabled
+              ? l10n.tooltipFractalMusicOn
+              : l10n.tooltipFractalMusicOff,
+          selected: fractalMusicEnabled,
+          onTap: actions.toggleFractalMusic,
+        ),
+      ],
+    );
+  }
+
+  void _showRandomOptionsModal(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    _showActionModal(
+      context,
+      icon: Icons.shuffle_rounded,
+      title: l10n.randomOptionsTitle,
+      subtitle: l10n.randomOptionsSubtitle,
+      children: [
+        _ActionTile(
+          icon: Icons.shuffle_rounded,
+          label: l10n.tooltipRandomFractal,
+          description: l10n.randomOptionsCatalogDescription,
+          onTap: actions.openRandomFractal,
+        ),
+        _ActionTile(
+          icon: Icons.tune_rounded,
+          label: l10n.randomize,
+          description: l10n.randomOptionsParamsDescription,
+          onTap: actions.randomizeParams,
+        ),
+      ],
     );
   }
 
@@ -446,69 +471,111 @@ class _ActionTile extends StatelessWidget {
   final IconData icon;
   final String label;
   final String? description;
+  final bool selected;
   final VoidCallback onTap;
+  final VoidCallback? onLongPress;
+  final Key? secondaryActionKey;
+  final IconData secondaryIcon;
 
   const _ActionTile({
+    super.key,
     required this.icon,
     required this.label,
     this.description,
+    this.selected = false,
     required this.onTap,
+    this.onLongPress,
+    this.secondaryActionKey,
+    this.secondaryIcon = Icons.tune_rounded,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-      child: Material(
-        color: AppColors.surfaceVariant.withValues(alpha: 0.72),
-        borderRadius: BorderRadius.circular(18),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(18),
-          onTap: () {
-            Navigator.of(context).pop();
-            onTap();
-          },
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 72),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.lg,
-                vertical: AppSpacing.md,
-              ),
-              child: Row(
-                children: [
-                  _ModalIconBadge(icon: icon),
-                  const SizedBox(width: AppSpacing.md),
-                  Expanded(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          label,
-                          style: AppTypography.bodyMedium.copyWith(
-                            color: AppColors.textPrimary,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        if (description != null) ...[
-                          const SizedBox(height: 2),
-                          Text(
-                            description!,
-                            style: AppTypography.bodySmall.copyWith(
-                              color: AppColors.textSecondary,
+    void activateSecondary() {
+      Navigator.of(context).pop();
+      onLongPress!();
+    }
+
+    return CallbackShortcuts(
+      bindings: onLongPress == null
+          ? const <ShortcutActivator, VoidCallback>{}
+          : <ShortcutActivator, VoidCallback>{
+              const SingleActivator(LogicalKeyboardKey.enter, shift: true):
+                  activateSecondary,
+            },
+      child: Semantics(
+        hint: onLongPress == null
+            ? null
+            : AppLocalizations.of(context)!.viewerSecondaryActionHint,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+          child: Material(
+            color: selected
+                ? AppColors.primary.withValues(alpha: 0.28)
+                : AppColors.surfaceVariant.withValues(alpha: 0.72),
+            borderRadius: BorderRadius.circular(18),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(18),
+              onTap: () {
+                Navigator.of(context).pop();
+                onTap();
+              },
+              onLongPress: onLongPress == null ? null : activateSecondary,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(minHeight: 72),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.lg,
+                    vertical: AppSpacing.md,
+                  ),
+                  child: Row(
+                    children: [
+                      _ModalIconBadge(icon: icon),
+                      const SizedBox(width: AppSpacing.md),
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              label,
+                              style: AppTypography.bodyMedium.copyWith(
+                                color: AppColors.textPrimary,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
+                            if (description != null) ...[
+                              const SizedBox(height: 2),
+                              Text(
+                                description!,
+                                style: AppTypography.bodySmall.copyWith(
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: AppSpacing.sm),
+                      if (onLongPress != null)
+                        IconButton(
+                          key: secondaryActionKey,
+                          tooltip:
+                              '${AppLocalizations.of(context)!.tooltipMoreOptions}: $label',
+                          onPressed: activateSecondary,
+                          icon: Icon(
+                            secondaryIcon,
+                            color: AppColors.primaryLight,
                           ),
-                        ],
-                      ],
-                    ),
+                        )
+                      else
+                        Icon(
+                          Icons.chevron_right_rounded,
+                          color: AppColors.textMuted,
+                        ),
+                    ],
                   ),
-                  const SizedBox(width: AppSpacing.sm),
-                  Icon(
-                    Icons.chevron_right_rounded,
-                    color: AppColors.textMuted,
-                  ),
-                ],
+                ),
               ),
             ),
           ),
@@ -620,6 +687,7 @@ class _ExportWallpaperFab extends StatelessWidget {
   final AppLocalizations l10n;
   final VoidCallback onOpenExport;
   final VoidCallback onLongPress;
+  final double sortOrder;
 
   const _ExportWallpaperFab({
     required this.isExporting,
@@ -627,6 +695,7 @@ class _ExportWallpaperFab extends StatelessWidget {
     required this.l10n,
     required this.onOpenExport,
     required this.onLongPress,
+    required this.sortOrder,
   });
 
   @override
@@ -641,6 +710,7 @@ class _ExportWallpaperFab extends StatelessWidget {
       onLongPress: isExporting ? null : onLongPress,
       isCompact: true,
       delay: const Duration(milliseconds: 150),
+      sortOrder: sortOrder,
     );
   }
 }
@@ -648,21 +718,25 @@ class _ExportWallpaperFab extends StatelessWidget {
 class FloatingActionButtonWidget extends StatefulWidget {
   final IconData icon;
   final String tooltip;
+  final String? semanticHint;
   final VoidCallback? onPressed;
   final VoidCallback? onLongPress;
   final bool isPrimary;
   final bool isCompact;
   final Duration delay;
+  final double? sortOrder;
 
   const FloatingActionButtonWidget({
     super.key,
     required this.icon,
     required this.tooltip,
+    this.semanticHint,
     this.onPressed,
     this.onLongPress,
     this.isPrimary = false,
     this.isCompact = false,
     this.delay = Duration.zero,
+    this.sortOrder,
   });
 
   @override
@@ -711,7 +785,7 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
     // no feedback at all (no press animation, no haptic, no action).
     final isDisabled = widget.onPressed == null && widget.onLongPress == null;
 
-    return FadeIn(
+    final button = FadeIn(
       delay: reduceMotion ? Duration.zero : widget.delay,
       // Without the merge this Semantics node (label + long press) and the
       // inner GestureDetector (tap) surface as two separate stops, so the
@@ -720,6 +794,10 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
       child: MergeSemantics(
         child: Semantics(
           label: widget.tooltip,
+          hint: widget.semanticHint,
+          sortKey: widget.sortOrder == null
+              ? null
+              : OrdinalSortKey(widget.sortOrder!),
           button: true,
           enabled: widget.onPressed != null,
           onLongPress: widget.onLongPress,
@@ -810,6 +888,12 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
           ),
         ),
       ),
+    );
+    final sortOrder = widget.sortOrder;
+    if (sortOrder == null) return button;
+    return FocusTraversalOrder(
+      order: NumericFocusOrder(sortOrder),
+      child: button,
     );
   }
 

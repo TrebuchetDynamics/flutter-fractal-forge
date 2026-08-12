@@ -6,6 +6,7 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/platform/deep_link_service.dart';
 import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
+import 'package:flutter_fractals/core/services/storage/viewer_session_store.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
@@ -49,6 +50,24 @@ class _HomeScreenState extends State<HomeScreen>
     if (RuntimeModeService.playwrightCatalogSmoke) {
       _initPlaywrightCatalogSmoke();
     }
+    _restoreInterruptedViewerSession();
+  }
+
+  void _restoreInterruptedViewerSession() {
+    final snapshot = context.read<ViewerSessionStore?>()?.load();
+    if (snapshot == null || !snapshot.viewerActive) return;
+    try {
+      // Validate renamed/removed module IDs before applying the snapshot.
+      _registry.byId(snapshot.moduleId);
+      snapshot.applyToController(_exploreController);
+    } on Object {
+      unawaited(context.read<ViewerSessionStore?>()?.markViewerInactive());
+      return;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _handledInitialLink) return;
+      _pushViewer(transitionDuration: Duration.zero);
+    });
   }
 
   @override
@@ -116,7 +135,10 @@ class _HomeScreenState extends State<HomeScreen>
       );
       _applyDeepLinkVisualState(data);
 
-      _pushViewer(transitionDuration: AppAnimations.normal);
+      _pushViewer(
+        transitionDuration: AppAnimations.normal,
+        restoreViewerSession: false,
+      );
     } catch (e) {
       // Module not found, show error
       ScaffoldMessenger.of(context).showSnackBar(
@@ -233,6 +255,7 @@ class _HomeScreenState extends State<HomeScreen>
   void _pushViewer({
     required Duration transitionDuration,
     bool captureMode = false,
+    bool restoreViewerSession = true,
   }) {
     Navigator.of(context).push(
       PageRouteBuilder(
@@ -240,7 +263,10 @@ class _HomeScreenState extends State<HomeScreen>
           providers: [
             ChangeNotifierProvider.value(value: _exploreController),
           ],
-          child: FractalViewerScreen(captureMode: captureMode),
+          child: FractalViewerScreen(
+            captureMode: captureMode,
+            restoreViewerSession: restoreViewerSession,
+          ),
         ),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           final curvedAnimation = CurvedAnimation(

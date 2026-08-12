@@ -123,15 +123,13 @@ mixin _GpuHealthMixin on State<FractalViewerScreen> {
       if (_gpuProbe.backendDecision.backend == RendererBackend.cpu) return;
 
       _gpuProbe.beginProbe();
-      if (kDebugMode) debugPrint('[renderer] gpu_health_probe start');
+      _log.debug('gpu', 'Health probe started');
 
       try {
         final controller = context.read<FractalController>();
         if (controller.module.dimension != FractalDimension.twoD) {
-          if (kDebugMode) {
-            debugPrint(
-                '[renderer] gpu_health_probe skipped reason=non_2d_module');
-          }
+          _log.debug('gpu', 'Health probe skipped',
+              data: {'reason': 'non_2d_module'});
           return;
         }
 
@@ -139,19 +137,15 @@ mixin _GpuHealthMixin on State<FractalViewerScreen> {
         if (boundaryContext == null) {
           _log.warn('gpu',
               'Health check skipped: no boundary context (renderer not mounted?)');
-          if (kDebugMode) {
-            debugPrint(
-                '[renderer] gpu_health_probe skipped reason=no_boundary_context');
-          }
+          _log.debug('gpu', 'Health probe skipped',
+              data: {'reason': 'no_boundary_context'});
           return;
         }
         final renderObject = boundaryContext.findRenderObject();
         if (renderObject is! RenderRepaintBoundary) {
           _log.warn('gpu', 'Health check skipped: no RenderRepaintBoundary');
-          if (kDebugMode) {
-            debugPrint(
-                '[renderer] gpu_health_probe skipped reason=no_repaint_boundary');
-          }
+          _log.debug('gpu', 'Health probe skipped',
+              data: {'reason': 'no_repaint_boundary'});
           return;
         }
 
@@ -164,16 +158,14 @@ mixin _GpuHealthMixin on State<FractalViewerScreen> {
           // params (no transient iteration bumps).
           imgA = await _captureProbeImage(renderObject);
           if (imgA == null) return;
-          final dataA =
-              await imgA.toByteData(format: ImageByteFormat.rawRgba);
+          final dataA = await imgA.toByteData(format: ImageByteFormat.rawRgba);
           if (dataA == null) return;
 
           await Future<void>.delayed(const Duration(milliseconds: 220));
 
           imgB = await _captureProbeImage(renderObject);
           if (imgB == null) return;
-          final dataB =
-              await imgB.toByteData(format: ImageByteFormat.rawRgba);
+          final dataB = await imgB.toByteData(format: ImageByteFormat.rawRgba);
           if (dataB == null) return;
 
           final width = imgB.width;
@@ -187,32 +179,22 @@ mixin _GpuHealthMixin on State<FractalViewerScreen> {
 
           _refreshBackendDecision();
 
-          if (kDebugMode) {
-            final moduleId = controller.module.id;
-            debugPrint(
-              '[renderer] gpu_health module=$moduleId'
-              ' nonBlackRatio=${result.nonBlackRatio.toStringAsFixed(3)}'
-              ' centerNonBlack=${result.centerNonBlack}'
-              ' histogramSane=${result.histogramSane}'
-              ' sampleCount=${result.sampleCount}'
-              ' backendSwitchesDuringProbe=${_gpuProbe.gpuProbeBackendSwitches}',
-            );
-            debugPrint(
-              '[renderer] gpu_health_probe side_effects'
-              ' backendSwitchesDuringProbe=${_gpuProbe.gpuProbeBackendSwitches}'
-              ' (expected 0 on healthy GPU)',
-            );
-          }
+          _log.debug('gpu', 'Health probe completed', data: {
+            'module': controller.module.id,
+            'nonBlackRatio': result.nonBlackRatio,
+            'centerNonBlack': result.centerNonBlack,
+            'histogramSane': result.histogramSane,
+            'sampleCount': result.sampleCount,
+            'backendSwitchesDuringProbe': _gpuProbe.gpuProbeBackendSwitches,
+          });
 
           // ignore: unused_local_variable
           final _ = dataA;
         } catch (e) {
           _gpuProbe.recordProbeError(e);
           if (e is TimeoutException) {
-            if (kDebugMode) {
-              debugPrint(
-                  '[renderer] gpu_health_probe skipped reason=to_image_timeout');
-            }
+            _log.debug('gpu', 'Health probe skipped',
+                data: {'reason': 'to_image_timeout'});
           } else {
             _log.error('gpu', 'Health check error',
                 data: {'error': e.toString()});

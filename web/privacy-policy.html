@@ -1,295 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - Fractal Forge</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f5f5f5;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        header {
-            margin-bottom: 40px;
-            border-bottom: 3px solid #2196F3;
-            padding-bottom: 20px;
-        }
-
-        h1 {
-            font-size: 2.5em;
-            color: #1976D2;
-            margin-bottom: 10px;
-        }
-
-        .last-updated {
-            font-size: 0.9em;
-            color: #666;
-            font-style: italic;
-        }
-
-        section {
-            margin-bottom: 30px;
-        }
-
-        h2 {
-            font-size: 1.5em;
-            color: #1976D2;
-            margin-bottom: 15px;
-            margin-top: 25px;
-        }
-
-        h3 {
-            font-size: 1.1em;
-            color: #333;
-            margin-bottom: 10px;
-            margin-top: 15px;
-        }
-
-        p {
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-
-        ul, ol {
-            margin-left: 30px;
-            margin-bottom: 15px;
-        }
-
-        li {
-            margin-bottom: 8px;
-        }
-
-        .highlight {
-            background-color: #E3F2FD;
-            padding: 15px;
-            border-left: 4px solid #2196F3;
-            margin: 20px 0;
-            border-radius: 4px;
-        }
-
-        .contact-section {
-            background-color: #F0F7FF;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 30px;
-        }
-
-        .contact-section p {
-            margin-bottom: 10px;
-        }
-
-        a {
-            color: #1976D2;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .section-intro {
-            color: #555;
-            font-style: italic;
-            margin-bottom: 15px;
-        }
-
-        strong {
-            color: #1976D2;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 25px;
-            }
-
-            h1 {
-                font-size: 2em;
-            }
-
-            h2 {
-                font-size: 1.3em;
-            }
-
-            body {
-                padding: 10px;
-            }
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy Policy — Fractal Forge</title>
+  <style>
+    body { margin: 0; background: #f5f5f5; color: #262626; font: 17px/1.65 system-ui, sans-serif; }
+    main { max-width: 850px; margin: 2rem auto; padding: 2rem 3rem; background: white; border-radius: 10px; }
+    h1, h2 { color: #185fa5; } code { overflow-wrap: anywhere; }
+    @media (max-width: 700px) { main { margin: 0; padding: 1.25rem; border-radius: 0; } }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Privacy Policy</h1>
-            <p class="last-updated">Fractal Forge</p>
-            <p class="last-updated">Last updated: February 2026</p>
-        </header>
+<main>
+  <h1>Privacy Policy — Fractal Forge</h1>
+  <p><strong>Effective date: 2026-08-09</strong><br>
+  <strong>Android package:</strong> <code>com.trebuchetdynamics.fractal.forge</code></p>
+  <p>Fractal Forge is designed to work offline and does not require an account.</p>
 
-        <section>
-            <h2>1. Introduction</h2>
-            <p>This app operates with a privacy-first philosophy: <strong>we do not collect, store, or transmit any personal data</strong> about you. All processing happens on your device.</p>
-        </section>
+  <h2>Data collection</h2>
+  <p>The production application does not include advertising, remote analytics, behavioral tracking, or a remote crash-reporting SDK. It does not sell or transmit personal information to Trebuchet Dynamics.</p>
+  <p>The release Android manifest does not request Internet access. Debug and profile builds request Internet access only for Flutter development tooling such as hot reload and debugging; those permissions are not part of the production release manifest.</p>
 
-        <section>
-            <h2>2. Information We Collect</h2>
-            <p class="section-intro">Short answer: We don't collect any personal information.</p>
+  <h2>Data stored on the device</h2>
+  <p>Fractal Forge may store the following locally:</p>
+  <ul>
+    <li>application settings and accessibility preferences;</li>
+    <li>saved fractal presets, viewing history, and exploration statistics;</li>
+    <li>the most recently restorable viewer state;</li>
+    <li>images, animations, or other exports that the user explicitly creates;</li>
+    <li>temporary files required while an export is in progress.</li>
+  </ul>
+  <p>The in-app crash reporter is local-only and keeps a bounded in-memory diagnostic buffer by default. Diagnostic information is shared only when the user explicitly chooses to export or share it.</p>
+  <p>Application-private settings are removed according to the operating system's app-data removal behavior. User-created exports remain in the selected media or file location until the user deletes them.</p>
 
-            <h3>What We Don't Collect:</h3>
-            <ul>
-                <li><strong>No personal data:</strong> We do not collect names, email addresses, phone numbers, or any identifying information</li>
-                <li><strong>No analytics:</strong> We do not use Firebase Analytics, Google Analytics, or any third-party analytics services</li>
-                <li><strong>No tracking:</strong> We do not track your app usage, behavior, or preferences</li>
-                <li><strong>No advertising data:</strong> We do not collect data for advertising purposes</li>
-                <li><strong>No network requests for data collection:</strong> The app does not send data to external servers for collection or analysis</li>
-            </ul>
+  <h2>Permissions and system integrations</h2>
+  <ul>
+    <li><strong>Set wallpaper:</strong> used only when the user explicitly applies a generated fractal as wallpaper.</li>
+    <li><strong>Media/file access:</strong> destinations are selected through Android media and file APIs when exporting.</li>
+    <li><strong>Share sheet:</strong> content is sent to another application only after the user invokes Share and selects a destination.</li>
+    <li><strong>Deep links:</strong> <code>fractalforge://</code> and <code>https://fractal.trebuchetdynamics.com/view</code> links can open a requested fractal state. Opening a universal link may involve the browser or operating system resolving that link before Fractal Forge receives it.</li>
+  </ul>
 
-            <div class="highlight">
-                <p><strong>Transparency Notice:</strong> Fractal Forge is completely ad-free, contains no in-app purchases, and does not require user accounts, login, or authentication of any kind.</p>
-            </div>
-        </section>
+  <h2>Children and sensitive information</h2>
+  <p>The application does not ask for names, contact details, precise location, payment information, health information, or other sensitive personal data. Users should avoid placing sensitive information in text overlays or files they choose to share.</p>
 
-        <section>
-            <h2>3. Permissions</h2>
-            <p class="section-intro">Fractal Forge requests a single permission: <strong>SET_WALLPAPER</strong> on Android.</p>
-
-            <ul>
-                <li><strong>Wallpaper:</strong> used only when you choose to set a rendered fractal as your device wallpaper. Nothing is read from your device.</li>
-            </ul>
-
-            <h3>Permissions we do not request:</h3>
-            <ul>
-                <li>Camera, microphone, or screen recording</li>
-                <li>Location, precise or approximate</li>
-                <li>Contacts, calendar, call logs, or messages</li>
-                <li>Media library or general file storage access</li>
-            </ul>
-
-            <div class="highlight">
-                <p><strong>Key Point:</strong> The app declares no data-access permissions. Exported images are written only where you choose to save or share them.</p>
-            </div>
-        </section>
-
-        <section>
-            <h2>4. Local Storage</h2>
-            <p class="section-intro">Fractal Forge stores data locally on your device only. No data is sent to external servers.</p>
-
-            <h3>What Is Stored Locally:</h3>
-            <ul>
-                <li><strong>User Presets:</strong> Fractal parameters and settings you create and save are stored locally using Android SharedPreferences. These are stored only on your device.</li>
-                <li><strong>Exports:</strong> Any images or videos you export (render and save) are stored in your device's local file system. You have full control over these files and can delete them at any time.</li>
-                <li><strong>App Configuration:</strong> Basic app preferences and UI settings are stored locally</li>
-            </ul>
-
-            <h3>Local Storage Privacy:</h3>
-            <ul>
-                <li>All local data remains on your device under your control</li>
-                <li>Exported images and videos are saved to your device's media library or storage location of your choice</li>
-                <li>No backup is automatically sent to cloud services or external servers</li>
-                <li>You can delete all app data by uninstalling the app or clearing the app's cache/storage through device settings</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>5. Internet Access and Connectivity</h2>
-            <p><strong>Core functionality does not require internet.</strong> Fractal Forge is designed to work completely offline. The app does not require an active internet connection to:</p>
-            <ul>
-                <li>Render fractals</li>
-                <li>Explore fractal parameters</li>
-                <li>Save presets and exports</li>
-            </ul>
-            <p>The app operates entirely on your device with no external server dependencies for its core features.</p>
-        </section>
-
-        <section>
-            <h2>6. Third-Party Services</h2>
-            <p class="section-intro">Fractal Forge does not use third-party services for data collection or sharing.</p>
-
-            <h3>No Third-Party Data Sharing:</h3>
-            <ul>
-                <li>We do not share any data with third parties</li>
-                <li>We do not integrate with advertising networks</li>
-                <li>We do not use social media SDKs that collect data</li>
-                <li>We do not use Firebase or other analytics platforms</li>
-                <li>We do not embed tracking libraries</li>
-            </ul>
-
-            <h3>Standard Android Permissions:</h3>
-        </section>
-
-        <section>
-            <h2>7. Children's Privacy</h2>
-            <p>Fractal Forge does not knowingly collect any information from children under the age of 13 (or the minimum age of digital consent in your jurisdiction). The app is designed for all ages but does not target children specifically.</p>
-            <p>Since Fractal Forge does not collect any personal information from any user regardless of age, children's privacy is fully protected by default. If you have concerns about your child's use of this app, you can:</p>
-            <ul>
-                <li>Review the app's functionality on your device</li>
-                <li>Manage permissions through device settings</li>
-                <li>Uninstall the app at any time</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>8. Security</h2>
-            <p>Since Fractal Forge does not collect, store, or transmit personal data to external servers, the primary security concern is the protection of files stored locally on your device.</p>
-            <p>To keep your device and data secure:</p>
-            <ul>
-                <li>Keep your Android device updated with the latest security patches</li>
-                <li>Use a strong lock screen PIN or biometric authentication on your device</li>
-                <li>Review app permissions regularly through device settings</li>
-                <li>Download the app only from official sources (Google Play Store)</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>9. Changes to This Privacy Policy</h2>
-            <p>We may update this Privacy Policy from time to time to reflect changes in our practices or for other operational, legal, or regulatory reasons. If we make material changes to this policy, we will update the "Last updated" date at the top of this document.</p>
-            <p>Your continued use of Fractal Forge after any changes signifies your acceptance of the updated Privacy Policy. We encourage you to review this policy periodically to stay informed about how we protect your privacy.</p>
-        </section>
-
-        <section>
-            <h2>10. Contact Us</h2>
-            <p>If you have any questions, concerns, or requests regarding this Privacy Policy or our privacy practices, please contact us:</p>
-
-            <div class="contact-section">
-                <p><strong>Fractal Forge Team</strong></p>
-                <p>Email: <a href="mailto:complexchaos@proton.me">complexchaos@proton.me</a></p>
-                <p style="margin-top: 15px; font-size: 0.95em;">We will make every effort to respond to your privacy inquiries within a reasonable timeframe.</p>
-            </div>
-        </section>
-
-        <section>
-            <h2>11. Summary</h2>
-            <div class="highlight">
-                <p><strong>Privacy at a Glance:</strong></p>
-                <ul style="margin-top: 10px;">
-                    <li>✓ No personal data collection</li>
-                    <li>✓ No tracking or analytics</li>
-                    <li>✓ No ads or advertising data</li>
-                    <li>✓ Camera data stays on your device</li>
-                    <li>✓ All exports stored locally</li>
-                    <li>✓ No internet required</li>
-                    <li>✓ No third-party data sharing</li>
-                    <li>✓ You are in control</li>
-                </ul>
-            </div>
-        </section>
-    </div>
+  <h2>Changes and contact</h2>
+  <p>Material privacy changes must be reflected in this policy and in the applicable store data-safety disclosure before release. Questions may be submitted through the <a href="https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues">repository issue tracker</a>.</p>
+</main>
 </body>
 </html>

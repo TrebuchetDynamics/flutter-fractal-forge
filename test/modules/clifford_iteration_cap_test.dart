@@ -9,6 +9,9 @@ void main() {
     final shader = File(asset).readAsStringSync();
 
     expect(shader, contains('const int MAX_ITERS = 500;'));
-    expect(shader, contains('int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)))'));
+    expect(
+        shader,
+        contains(
+            'int target = int(clamp(uIterations, 1.0, float(MAX_ITERS)))'));
   });
 }

@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
+import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import 'package:vector_math/vector_math.dart';
 
 /// Parsed deep link data containing fractal configuration.
@@ -642,7 +642,8 @@ class DeepLinkService {
       );
     } catch (e) {
       // Malformed URI, ignore.
-      if (kDebugMode) debugPrint('Failed to parse deep link URI: $e');
+      AppLogger.instance
+          .warn('deeplink', 'Failed to parse URI', data: {'error': '$e'});
       return null;
     }
   }
@@ -661,7 +662,8 @@ class DeepLinkService {
     try {
       query = _DeepLinkQuery.fromUri(uri);
     } on FormatException catch (e) {
-      if (kDebugMode) debugPrint('DeepLink: ${e.message} — rejecting link');
+      AppLogger.instance.warn('deeplink', 'Rejected malformed query',
+          data: {'error': e.message});
       return null;
     }
 
@@ -1070,15 +1072,19 @@ class DeepLinkService {
     if (v == null) return null;
     final d = double.tryParse(v);
     if (d == null || d.isNaN || d.isInfinite) {
-      if (kDebugMode)
-        debugPrint('DeepLink: invalid value for "$paramName": "$v" — ignoring');
+      AppLogger.instance.warn('deeplink', 'Ignored invalid numeric value',
+          data: {'parameter': paramName, 'value': v});
       return null;
     }
     final clamped = d.clamp(min, max);
     if (clamped != d) {
-      if (kDebugMode)
-        debugPrint(
-            'DeepLink: "$paramName" value $d out of [$min, $max] — clamped to $clamped');
+      AppLogger.instance.info('deeplink', 'Clamped numeric value', data: {
+        'parameter': paramName,
+        'value': d,
+        'min': min,
+        'max': max,
+        'clamped': clamped,
+      });
     }
     return clamped;
   }
@@ -1087,15 +1093,19 @@ class DeepLinkService {
     if (v == null) return null;
     final i = _DeepLinkIntegerValue.tryParseText(v);
     if (i == null) {
-      if (kDebugMode)
-        debugPrint('DeepLink: invalid value for "$paramName": "$v" — ignoring');
+      AppLogger.instance.warn('deeplink', 'Ignored invalid integer value',
+          data: {'parameter': paramName, 'value': v});
       return null;
     }
     final clamped = i.clamp(min, max);
     if (clamped != i) {
-      if (kDebugMode)
-        debugPrint(
-            'DeepLink: "$paramName" value $i out of [$min, $max] — clamped to $clamped');
+      AppLogger.instance.info('deeplink', 'Clamped integer value', data: {
+        'parameter': paramName,
+        'value': i,
+        'min': min,
+        'max': max,
+        'clamped': clamped,
+      });
     }
     return clamped;
   }

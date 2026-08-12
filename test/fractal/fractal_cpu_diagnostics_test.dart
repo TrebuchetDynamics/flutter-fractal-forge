@@ -25,7 +25,8 @@ const double _kBailout = 4.0;
   double y, {
   double zx0 = 0.0,
   double zy0 = 0.0,
-  required (double, double) Function(double zx, double zy, double cx, double cy) fn,
+  required (double, double) Function(double zx, double zy, double cx, double cy)
+      fn,
 }) {
   double zx = zx0;
   double zy = zy0;
@@ -40,7 +41,9 @@ const double _kBailout = 4.0;
   }
   if (it >= _kIter) return (0.0, false); // inside
   final mag2 = zx * zx + zy * zy;
-  final smooth = it - (math.log(math.log(math.max(1e-12, mag2)) / math.log(2)) / math.log(2)) + 1.0;
+  final smooth = it -
+      (math.log(math.log(math.max(1e-12, mag2)) / math.log(2)) / math.log(2)) +
+      1.0;
   final t = (smooth / _kIter).clamp(0.0, 1.0);
   return (t, true);
 }
@@ -83,7 +86,8 @@ const double _kBailout = 4.0;
   const cx = -0.8;
   const cy = 0.156;
   final (t, esc) = _escapeAndSmooth(x, y,
-      zx0: x, zy0: y,
+      zx0: x,
+      zy0: y,
       fn: (zx, zy, _, __) => (zx * zx - zy * zy + cx, 2.0 * zx * zy + cy));
   if (!esc) return (0, 0, 0);
   return _firePalette(t);

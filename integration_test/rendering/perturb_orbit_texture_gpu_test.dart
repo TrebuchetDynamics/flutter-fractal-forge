@@ -21,8 +21,7 @@ void main() {
     return data!.buffer.asUint8List();
   }
 
-  testWidgets('GPU rasterization returns orbit bytes exactly',
-      (tester) async {
+  testWidgets('GPU rasterization returns orbit bytes exactly', (tester) async {
     await tester.runAsync(() async {
       // Adversarial pattern: every byte value in every channel.
       const totalPx = 4000;
@@ -36,8 +35,7 @@ void main() {
       }
       final image = rasterizePerturbOrbitBytes(bytes, totalPx);
       final out = await readback(image);
-      expect(out, bytes,
-          reason: 'GPU rasterization altered orbit data bytes');
+      expect(out, bytes, reason: 'GPU rasterization altered orbit data bytes');
       image.dispose();
     });
   });

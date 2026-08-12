@@ -5,9 +5,12 @@ set -euo pipefail
 # No Ruby/Fastlane.
 # Usage:
 #   ./build-upload-playstore.sh [scripts/build-play-console.sh args...]
+#   ./build-upload-playstore.sh --skip-build  # upload LATEST_AAB only
+#   ./build-upload-playstore.sh --prebuilt-aab path/to/app.aab \
+#     --expected-version 1.2.3 --expected-build-number 123
 # Env:
-#   PLAY_TRACK=internal|alpha|beta|production   default: production
-#   PLAY_RELEASE_STATUS=completed|draft        default: completed
+#   PLAY_TRACK=internal|alpha|beta|production   default: internal
+#   PLAY_RELEASE_STATUS=completed|draft        default: draft
 #   PLAY_SERVICE_ACCOUNT_JSON=path             default: play-console-upload/play-service-account.json
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -15,10 +18,14 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 cd "$PROJECT_ROOT"
 
 PACKAGE_NAME="${PLAY_PACKAGE_NAME:-com.trebuchetdynamics.fractal.forge}"
-TRACK="${PLAY_TRACK:-production}"
-RELEASE_STATUS="${PLAY_RELEASE_STATUS:-completed}"
+TRACK="${PLAY_TRACK:-internal}"
+RELEASE_STATUS="${PLAY_RELEASE_STATUS:-draft}"
 KEY_JSON="${PLAY_SERVICE_ACCOUNT_JSON:-play-console-upload/play-service-account.json}"
 TMP_FILES=()
+SKIP_BUILD=0
+PREBUILT_AAB=""
+EXPECTED_VERSION=""
+EXPECTED_BUILD_NUMBER=""
 
 log() { echo "[build-upload-playstore] $*"; }
 die() { echo "[build-upload-playstore] ERROR: $*" >&2; exit 1; }
@@ -30,12 +37,72 @@ usage() {
 cleanup() { rm -f "${TMP_FILES[@]:-}"; }
 trap cleanup EXIT
 
-if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-  usage
-  exit 0
-fi
+BUILD_ARGS=()
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --help|-h)
+      usage
+      exit 0
+      ;;
+    --skip-build)
+      SKIP_BUILD=1
+      shift
+      ;;
+    --prebuilt-aab)
+      [[ $# -ge 2 ]] || die "--prebuilt-aab requires a path"
+      PREBUILT_AAB="$2"
+      SKIP_BUILD=1
+      shift 2
+      ;;
+    --prebuilt-aab=*)
+      PREBUILT_AAB="${1#*=}"
+      SKIP_BUILD=1
+      shift
+      ;;
+    --expected-version)
+      [[ $# -ge 2 ]] || die "--expected-version requires a value"
+      EXPECTED_VERSION="$2"
+      shift 2
+      ;;
+    --expected-version=*)
+      EXPECTED_VERSION="${1#*=}"
+      shift
+      ;;
+    --expected-build-number)
+      [[ $# -ge 2 ]] || die "--expected-build-number requires a value"
+      EXPECTED_BUILD_NUMBER="$2"
+      shift 2
+      ;;
+    --expected-build-number=*)
+      EXPECTED_BUILD_NUMBER="${1#*=}"
+      shift
+      ;;
+    *)
+      BUILD_ARGS+=("$1")
+      shift
+      ;;
+  esac
+done
 
 need() { command -v "$1" >/dev/null 2>&1 || die "$1 not found"; }
+ensure_bundletool() {
+  local version=1.18.3
+  local expected_sha256=a099cfa1543f55593bc2ed16a70a7c67fe54b1747bb7301f37fdfd6d91028e29
+  local jar="${BUNDLETOOL_JAR:-$HOME/.cache/fractal-forge/bundletool-all-${version}.jar}"
+  local download="${jar}.download"
+  if [[ ! -f "$jar" || "$(sha256sum "$jar" | awk '{ print $1 }')" != "$expected_sha256" ]]; then
+    mkdir -p "$(dirname "$jar")"
+    rm -f "$download"
+    curl -fL "https://github.com/google/bundletool/releases/download/${version}/bundletool-all-${version}.jar" \
+      -o "$download"
+    [[ "$(sha256sum "$download" | awk '{ print $1 }')" == "$expected_sha256" ]] || {
+      rm -f "$download"
+      die "bundletool checksum verification failed"
+    }
+    mv "$download" "$jar"
+  fi
+  printf '%s\n' "$jar"
+}
 json_field() { python3 -c 'import json,sys; print(json.load(sys.stdin)[sys.argv[1]])' "$1"; }
 b64url() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
 request() {
@@ -51,17 +118,61 @@ request() {
 
 [[ -f "$KEY_JSON" ]] || die "Missing service account JSON: $KEY_JSON"
 need curl
+need java
 need openssl
 need python3
+need sha256sum
 
-scripts/build-play-console.sh "$@"
+if [[ "$SKIP_BUILD" -eq 0 ]]; then
+  scripts/build-play-console.sh "${BUILD_ARGS[@]}"
+fi
 
-AAB="$(tr -d '\r\n' < play-console-upload/LATEST_AAB.txt)"
+if [[ -n "$PREBUILT_AAB" ]]; then
+  AAB="$PREBUILT_AAB"
+else
+  AAB="$(tr -d '\r\n' < play-console-upload/LATEST_AAB.txt)"
+fi
 [[ -f "$AAB" ]] || die "Built AAB not found: $AAB"
 
 INFO="play-console-upload/LATEST_BUILD_INFO.txt"
 VERSION_NAME="$(awk -F= '$1=="versionName" {print $2}' "$INFO")"
 BUILD_NUMBER="$(awk -F= '$1=="buildNumber" {print $2}' "$INFO")"
+if [[ -n "$PREBUILT_AAB" ]]; then
+  [[ -n "$EXPECTED_VERSION" && -n "$EXPECTED_BUILD_NUMBER" ]] ||
+    die "prebuilt uploads require --expected-version and --expected-build-number"
+else
+  EXPECTED_VERSION="${EXPECTED_VERSION:-$VERSION_NAME}"
+  EXPECTED_BUILD_NUMBER="${EXPECTED_BUILD_NUMBER:-$BUILD_NUMBER}"
+fi
+[[ "$EXPECTED_BUILD_NUMBER" =~ ^[0-9]+$ ]] ||
+  die "expected build number must be numeric: $EXPECTED_BUILD_NUMBER"
+[[ "$VERSION_NAME" == "$EXPECTED_VERSION" ]] ||
+  die "build marker version mismatch: $VERSION_NAME != $EXPECTED_VERSION"
+[[ "$BUILD_NUMBER" == "$EXPECTED_BUILD_NUMBER" ]] ||
+  die "build marker number mismatch: $BUILD_NUMBER != $EXPECTED_BUILD_NUMBER"
+
+UPLOAD_SNAPSHOT="$(mktemp --suffix=.aab)"; TMP_FILES+=("$UPLOAD_SNAPSHOT")
+cp -- "$AAB" "$UPLOAD_SNAPSHOT"
+[[ "$(sha256sum "$AAB" | awk '{ print $1 }')" == \
+   "$(sha256sum "$UPLOAD_SNAPSHOT" | awk '{ print $1 }')" ]] ||
+  die "prebuilt AAB changed while creating the upload snapshot"
+chmod 400 "$UPLOAD_SNAPSHOT"
+AAB_PATH="$UPLOAD_SNAPSHOT"
+BUNDLETOOL="$(ensure_bundletool)"
+java -jar "$BUNDLETOOL" validate --bundle="$AAB_PATH" >/dev/null ||
+  die "prebuilt AAB structure validation failed"
+AAB_VERSION_NAME="$(java -jar "$BUNDLETOOL" dump manifest \
+  --bundle="$AAB_PATH" --xpath='/manifest/@android:versionName')"
+AAB_VERSION_CODE="$(java -jar "$BUNDLETOOL" dump manifest \
+  --bundle="$AAB_PATH" --xpath='/manifest/@android:versionCode')"
+AAB_PACKAGE="$(java -jar "$BUNDLETOOL" dump manifest \
+  --bundle="$AAB_PATH" --xpath='/manifest/@package')"
+[[ "$AAB_VERSION_NAME" == "$EXPECTED_VERSION" ]] ||
+  die "prebuilt AAB version mismatch: $AAB_VERSION_NAME != $EXPECTED_VERSION"
+[[ "$AAB_VERSION_CODE" == "$EXPECTED_BUILD_NUMBER" ]] ||
+  die "prebuilt AAB build mismatch: $AAB_VERSION_CODE != $EXPECTED_BUILD_NUMBER"
+[[ "$AAB_PACKAGE" == "$PACKAGE_NAME" ]] ||
+  die "prebuilt AAB package mismatch: $AAB_PACKAGE != $PACKAGE_NAME"
 RELEASE_NAME="Fractal Forge ${VERSION_NAME:-unknown} (${BUILD_NUMBER:-unknown})"
 
 KEY_FILE="$(mktemp)"; TMP_FILES+=("$KEY_FILE")
@@ -107,12 +218,14 @@ log "Creating Play edit..."
 EDIT_RESPONSE="$(request -X POST "${AUTH[@]}" -H 'Content-Type: application/json' -d '{}' "$API/edits")"
 EDIT_ID="$(printf '%s' "$EDIT_RESPONSE" | json_field id)"
 
-log "Uploading bundle: $AAB"
+log "Uploading verified bundle snapshot for: $AAB"
 BUNDLE_RESPONSE="$(request -X POST "${AUTH[@]}" \
   -H 'Content-Type: application/octet-stream' \
-  --data-binary "@$AAB" \
+  --data-binary "@$AAB_PATH" \
   "$UPLOAD/edits/$EDIT_ID/bundles?uploadType=media")"
 VERSION_CODE="$(printf '%s' "$BUNDLE_RESPONSE" | json_field versionCode)"
+[[ "$VERSION_CODE" == "$EXPECTED_BUILD_NUMBER" ]] ||
+  die "Google Play versionCode mismatch: $VERSION_CODE != $EXPECTED_BUILD_NUMBER"
 
 TRACK_BODY="$(mktemp)"; TMP_FILES+=("$TRACK_BODY")
 VERSION_CODE="$VERSION_CODE" RELEASE_STATUS="$RELEASE_STATUS" RELEASE_NAME="$RELEASE_NAME" python3 - "$TRACK_BODY" <<'PY'

@@ -8,6 +8,8 @@ import 'package:vector_math/vector_math.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/models/video_export_options.dart';
 import 'package:flutter_fractals/core/services/export/video_export_service.dart';
+import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
+import 'package:flutter_fractals/core/services/export/export_worker.dart';
 
 class _FakePathProviderPlatform extends Fake
     with MockPlatformInterfaceMixin
@@ -18,6 +20,21 @@ class _FakePathProviderPlatform extends Fake
 
   @override
   Future<String?> getTemporaryPath() async => tempDir;
+}
+
+class _RecordingWorker implements ExportWorker {
+  int calls = 0;
+
+  @override
+  Future<T> run<T>(
+    ExportWorkerTask<T> task, {
+    ExportCancellationToken? token,
+    void Function()? onSpawned,
+  }) async {
+    calls++;
+    token?.throwIfCancelled();
+    return await task();
+  }
 }
 
 void main() {
@@ -958,6 +975,37 @@ void main() {
       expect(result.frameCount, 1);
       final writtenBytes = await result.file.readAsBytes();
       expect(String.fromCharCodes(writtenBytes.take(3)), 'GIF');
+    });
+
+    test('honours coordinator cancellation before encoding', () async {
+      final coordinator = ExportCoordinator();
+      final worker = _RecordingWorker();
+      final service = VideoExportService(
+        coordinator: coordinator,
+        worker: worker,
+      );
+      final frame = img.Image(width: 1, height: 1);
+      final frameBytes = Uint8List.fromList(img.encodePng(frame));
+
+      final result = service.exportVideo(
+        options: const VideoExportOptions(
+          format: VideoExportFormat.gif,
+          duration: Duration(milliseconds: 100),
+          frameRate: VideoFrameRate.fps15,
+        ),
+        startView: makeView(),
+        startParams: const {},
+        fractalType: 'mandelbrot',
+        updateView: (_, __) {},
+        captureFrame: () async {
+          coordinator.cancelActive();
+          return frameBytes;
+        },
+      );
+
+      await expectLater(result, throwsA(isA<ExportCancelledException>()));
+      expect(worker.calls, 0);
+      expect(coordinator.isBusy, isFalse);
     });
   });
 

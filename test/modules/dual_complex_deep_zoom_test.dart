@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  const asset = 'shaders/3d_and_hypercomplex/hypercomplex_escape_time/dual_complex_gpu.frag';
+  const asset =
+      'shaders/3d_and_hypercomplex/hypercomplex_escape_time/dual_complex_gpu.frag';
 
   test('Dual-Complex shader colors bounded deep-zoom points', () {
     final shader = File(asset).readAsStringSync();

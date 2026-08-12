@@ -10,6 +10,8 @@ import 'package:vector_math/vector_math.dart';
 import 'package:image/image.dart' as img;
 import 'package:flutter_fractals/core/models/video_export_options.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
+import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
+import 'package:flutter_fractals/core/services/export/export_worker.dart';
 import 'package:flutter_fractals/shared/utils/byte_format.dart';
 
 /// Result of a video export operation.
@@ -252,7 +254,16 @@ class VideoExportEncodingPlan {
 
 /// Service for exporting fractal animations as video.
 class VideoExportService {
-  const VideoExportService();
+  final ExportCoordinator? _coordinatorOverride;
+  final ExportWorker worker;
+
+  const VideoExportService({
+    ExportCoordinator? coordinator,
+    this.worker = const IsolateExportWorker(),
+  }) : _coordinatorOverride = coordinator;
+
+  ExportCoordinator get _coordinator =>
+      _coordinatorOverride ?? ExportCoordinator.shared;
 
   /// Returns the format this Dart-only exporter can encode today.
   VideoExportFormat resolveEffectiveFormat(VideoExportFormat requested) {
@@ -381,94 +392,114 @@ class VideoExportService {
     required Future<Uint8List> Function() captureFrame,
     void Function(double progress, String status)? onProgress,
   }) async {
-    if (kIsWeb) throw UnsupportedError('exportVideo is not supported on web');
-    final encodingPlan = encodingPlanFor(options);
-    final effectiveOptions = encodingPlan.applyTo(options);
-    final totalFrames = options.totalFrames;
+    return _coordinator.run(ExportKind.video, (token) async {
+      if (kIsWeb) throw UnsupportedError('exportVideo is not supported on web');
+      final encodingPlan = encodingPlanFor(options);
+      final effectiveOptions = encodingPlan.applyTo(options);
+      final totalFrames = options.totalFrames;
 
-    // Capture and decode frames incrementally to avoid RAM exhaustion
-    final decodedFrames = <img.Image>[];
+      // Capture and decode frames incrementally to avoid RAM exhaustion
+      final capturedFrames = <Uint8List>[];
 
-    for (var i = 0; i < totalFrames; i++) {
-      // Calculate view for this frame
-      final view = calculateAnimationFrame(
-        startView: startView,
-        options: options,
-        frameIndex: i,
-        totalFrames: totalFrames,
-      );
-
-      // Calculate parameter updates if doing a sweep
-      Map<String, double>? paramUpdates;
-      if (options.animationType == VideoAnimationType.parameterSweep) {
-        paramUpdates = calculateParameterFrame(
-          startParams: startParams,
+      for (var i = 0; i < totalFrames; i++) {
+        token.throwIfCancelled();
+        // Calculate view for this frame
+        final view = calculateAnimationFrame(
+          startView: startView,
           options: options,
           frameIndex: i,
           totalFrames: totalFrames,
         );
+
+        // Calculate parameter updates if doing a sweep
+        Map<String, double>? paramUpdates;
+        if (options.animationType == VideoAnimationType.parameterSweep) {
+          paramUpdates = calculateParameterFrame(
+            startParams: startParams,
+            options: options,
+            frameIndex: i,
+            totalFrames: totalFrames,
+          );
+        }
+
+        // Update the fractal
+        updateView(view, paramUpdates);
+
+        // Wait for render
+        await Future.delayed(const Duration(milliseconds: 16));
+        token.throwIfCancelled();
+
+        // Capture frame
+        final frameBytes = await captureFrame();
+        token.throwIfCancelled();
+        capturedFrames.add(frameBytes);
+
+        // Report progress
+        final progress = (i + 1) / totalFrames;
+        onProgress?.call(progress, 'Rendering frame ${i + 1} of $totalFrames');
       }
 
-      // Update the fractal
-      updateView(view, paramUpdates);
+      final bytes = await worker.run(
+        () => _encodeVideoFrames(
+          capturedFrames,
+          encodingPlan.effectiveFormat,
+        ),
+        token: token,
+      );
+      token.throwIfCancelled();
 
-      // Wait for render
-      await Future.delayed(const Duration(milliseconds: 16));
+      // Save to file
+      final dir = await getTemporaryDirectory();
+      token.throwIfCancelled();
+      final filename = generateFilename(effectiveOptions);
+      final outputPath = '${dir.path}/$filename';
+      final outputFile = File(outputPath);
+      try {
+        await outputFile.writeAsBytes(bytes);
+        token.throwIfCancelled();
 
-      // Capture frame
-      final frameBytes = await captureFrame();
+        final size = await outputFile.length();
+        token.throwIfCancelled();
 
-      // Decode immediately and release raw bytes
-      final decoded = img.decodePng(frameBytes);
-      if (decoded == null) {
-        throw Exception('Failed to decode frame $i');
+        return VideoExportResult(
+          file: outputFile,
+          filePath: outputFile.path,
+          frameCount: capturedFrames.length,
+          duration: options.duration,
+          fileSizeBytes: size,
+          resolution: options.resolution,
+          format: encodingPlan.effectiveFormat,
+        );
+      } on ExportCancelledException {
+        if (await outputFile.exists()) await outputFile.delete();
+        rethrow;
       }
-      decodedFrames.add(decoded);
+    });
+  }
+}
 
-      // Report progress
-      final progress = (i + 1) / totalFrames;
-      onProgress?.call(progress, 'Rendering frame ${i + 1} of $totalFrames');
-    }
-
-    final bytes = _encodeFrames(decodedFrames, encodingPlan.effectiveFormat);
-
-    // Save to file
-    final dir = await getTemporaryDirectory();
-    final filename = generateFilename(effectiveOptions);
-    final outputPath = '${dir.path}/$filename';
-    final outputFile = File(outputPath);
-    await outputFile.writeAsBytes(bytes);
-
-    final size = await outputFile.length();
-
-    return VideoExportResult(
-      file: outputFile,
-      filePath: outputFile.path,
-      frameCount: decodedFrames.length,
-      duration: options.duration,
-      fileSizeBytes: size,
-      resolution: options.resolution,
-      format: encodingPlan.effectiveFormat,
-    );
+Uint8List _encodeVideoFrames(
+  List<Uint8List> capturedFrames,
+  VideoExportFormat effectiveFormat,
+) {
+  if (capturedFrames.isEmpty) {
+    throw StateError('Cannot encode video export without frames');
+  }
+  final decodedFrames = <img.Image>[];
+  for (var i = 0; i < capturedFrames.length; i++) {
+    final decoded = img.decodePng(capturedFrames[i]);
+    if (decoded == null) throw StateError('Failed to decode frame $i');
+    decodedFrames.add(decoded);
   }
 
-  Uint8List _encodeFrames(
-    List<img.Image> decodedFrames,
-    VideoExportFormat effectiveFormat,
-  ) {
-    if (decodedFrames.isEmpty) {
-      throw StateError('Cannot encode video export without frames');
-    }
-
-    switch (effectiveFormat) {
-      case VideoExportFormat.gif:
-        final firstFrame = decodedFrames.first;
-        for (var i = 1; i < decodedFrames.length; i++) {
-          firstFrame.addFrame(decodedFrames[i]);
-        }
-        return Uint8List.fromList(img.encodeGif(firstFrame));
-      case VideoExportFormat.mp4:
-        throw UnsupportedError('MP4 encoding is not available');
-    }
+  switch (effectiveFormat) {
+    case VideoExportFormat.gif:
+      final firstFrame = decodedFrames.first;
+      for (var i = 1; i < decodedFrames.length; i++) {
+        firstFrame.addFrame(decodedFrames[i]);
+      }
+      return Uint8List.fromList(img.encodeGif(firstFrame));
+    case VideoExportFormat.mp4:
+      throw UnsupportedError('MP4 encoding is not available');
   }
 }

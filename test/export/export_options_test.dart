@@ -132,7 +132,8 @@ void main() {
       );
     });
 
-    test('Twitter preset adapts to the screen orientation (portrait capture '
+    test(
+        'Twitter preset adapts to the screen orientation (portrait capture '
         'shares as portrait)', () {
       const twitter = ExportOptions(resolution: ExportResolution.twitter);
 
@@ -345,7 +346,7 @@ void main() {
     });
 
     test('webOptimized preset has correct settings', () {
-      expect(ExportPresets.webOptimized.format, ExportFormat.webp);
+      expect(ExportPresets.webOptimized.format, ExportFormat.jpg);
       expect(ExportPresets.webOptimized.resolution, ExportResolution.fullHd);
       expect(ExportPresets.webOptimized.quality, 85);
     });

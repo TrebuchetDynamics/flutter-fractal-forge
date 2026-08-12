@@ -61,7 +61,8 @@ final FractalModule testGlFragCoordModule = FractalModule(
 /// Test 3: FlutterFragCoord shader - uses Flutter's FlutterFragCoord() helper
 final FractalModule testFlutterCoordModule = FractalModule(
   id: 'test_flutter_coord',
-  displayName: (AppLocalizations l10n) => 'Test: FlutterFragCoord (UV Gradient)',
+  displayName: (AppLocalizations l10n) =>
+      'Test: FlutterFragCoord (UV Gradient)',
   dimension: FractalDimension.twoD,
   shaderAsset: 'shaders/diagnostic/test_flutter_coord.frag',
   parameters: const <FractalParameter>[],

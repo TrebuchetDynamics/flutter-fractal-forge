@@ -529,7 +529,8 @@ class _FractalMorphTransitionState extends State<FractalMorphTransition>
                       gradient: RadialGradient(
                         colors: [
                           AppColors.primary.withValues(alpha: glowValue * 0.3),
-                          AppColors.secondary.withValues(alpha: glowValue * 0.15),
+                          AppColors.secondary
+                              .withValues(alpha: glowValue * 0.15),
                           Colors.transparent,
                         ],
                         stops: const [0.0, 0.5, 1.0],
@@ -685,7 +686,8 @@ class _ParameterTransitionState extends State<ParameterTransition>
                   child: Container(
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: _getTransitionColor().withValues(alpha: (1 - _controller.value) * 0.5),
+                        color: _getTransitionColor()
+                            .withValues(alpha: (1 - _controller.value) * 0.5),
                         width: 2,
                       ),
                       borderRadius:

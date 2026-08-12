@@ -10,7 +10,8 @@ void main() {
     late final Set<String> declaredShaders;
 
     setUpAll(() {
-      final pubspec = loadYaml(File('pubspec.yaml').readAsStringSync()) as YamlMap;
+      final pubspec =
+          loadYaml(File('pubspec.yaml').readAsStringSync()) as YamlMap;
       final flutter = pubspec['flutter'] as YamlMap;
       declaredShaders = (flutter['shaders'] as YamlList).cast<String>().toSet();
     });
@@ -18,15 +19,18 @@ void main() {
     test('catalog paths exist on disk and are declared in pubspec', () {
       final multijuliaAssets = escapeTimeCatalog
           .where((config) => config.id.startsWith('multijulia'))
-          .where((config) => config.shaderAsset.contains('/families/multijulia/'))
+          .where(
+              (config) => config.shaderAsset.contains('/families/multijulia/'))
           .map((config) => config.shaderAsset)
           .toSet();
 
       expect(multijuliaAssets, hasLength(10));
 
       for (final shaderAsset in multijuliaAssets) {
-        expect(File(shaderAsset).existsSync(), isTrue, reason: '$shaderAsset must exist');
-        expect(declaredShaders, contains(shaderAsset), reason: '$shaderAsset must be in pubspec.yaml');
+        expect(File(shaderAsset).existsSync(), isTrue,
+            reason: '$shaderAsset must exist');
+        expect(declaredShaders, contains(shaderAsset),
+            reason: '$shaderAsset must be in pubspec.yaml');
       }
     });
   });

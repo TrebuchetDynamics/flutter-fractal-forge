@@ -28,6 +28,7 @@ mixin _ViewerDialogsMixin on State<FractalViewerScreen>, _ExportActionsMixin {
         controller: looper,
         isExporting: _exporting,
         onExportGif: () => _exportLooperGif(context),
+        onExportMp4: () => _exportLooperMp4(context),
       ),
     );
   }

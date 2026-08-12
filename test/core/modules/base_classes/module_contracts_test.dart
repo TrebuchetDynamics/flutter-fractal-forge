@@ -46,7 +46,8 @@ void main() {
 void _expectEqual(Object? actual, Object? expected) {
   final matches = actual is List && expected is List
       ? actual.length == expected.length &&
-          Iterable.generate(actual.length).every((i) => actual[i] == expected[i])
+          Iterable.generate(actual.length)
+              .every((i) => actual[i] == expected[i])
       : actual == expected;
   if (!matches) {
     throw StateError('Expected <$expected>, got <$actual>.');
@@ -162,7 +163,8 @@ class _RecordingShaderParams implements ShaderParams {
   void setInt(String name, int value) => calls.add('int:$name=$value');
 
   @override
-  void setVec2(String name, double x, double y) => calls.add('vec2:$name=$x,$y');
+  void setVec2(String name, double x, double y) =>
+      calls.add('vec2:$name=$x,$y');
 
   @override
   void setVec3(String name, double x, double y, double z) =>

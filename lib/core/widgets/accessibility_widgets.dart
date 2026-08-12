@@ -142,7 +142,8 @@ class _AccessibleButtonState extends State<AccessibleButton> {
                       color: HighContrastColors.focusIndicator,
                       width: AccessibleSizing.focusIndicatorWidth,
                     ),
-                    borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
+                    borderRadius:
+                        BorderRadius.circular(AppSpacing.buttonRadius),
                   )
                 : null,
             child: Center(child: widget.child),
@@ -378,7 +379,7 @@ class LiveRegion extends StatelessWidget {
 ///
 /// Use sparingly - only for purely decorative elements that would
 /// clutter the accessibility tree.
-/// 
+///
 /// Note: Named differently from Flutter's built-in ExcludeSemantics
 /// to avoid import conflicts.
 class FractalExcludeSemantics extends StatelessWidget {

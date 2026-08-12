@@ -95,6 +95,7 @@ final List<EscapeTimeConfig> _lyapunovCatalog = [
     id: 'gauss_map',
     name: 'Gauss Map',
     shaderAsset: 'shaders/lyapunov_and_stability/gauss_map_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 220,
     defaultCenterX: 0.0,
     defaultCenterY: 0.0,

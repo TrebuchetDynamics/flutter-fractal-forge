@@ -90,8 +90,8 @@ void main() {
         final i = px * 4;
         final got = decodePerturbOrbitComponent(
             result.bytes[i], result.bytes[i + 1], result.bytes[i + 2]);
-        final want = decodePerturbOrbitComponent(
-            naive[i], naive[i + 1], naive[i + 2]);
+        final want =
+            decodePerturbOrbitComponent(naive[i], naive[i + 1], naive[i + 2]);
         final error = (got - want).abs();
         if (error > maxError) maxError = error;
       }

@@ -7,6 +7,7 @@ import 'package:flutter_fractals/core/services/storage/history_store.dart';
 import 'package:flutter_fractals/core/services/rendering/palette/palette_service.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
+import 'package:flutter_fractals/core/services/storage/viewer_session_store.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 
 /// Deep links are enabled by default so shared web URLs can open the app.
@@ -158,6 +159,7 @@ class _StartupServices {
   final HistoryStore historyStore;
   final AccessibilityService accessibilityService;
   final RendererSettingsService rendererSettingsService;
+  final ViewerSessionStore viewerSessionStore;
   final PaletteService paletteService;
   final DeepLinkService? deepLinkService;
 
@@ -166,6 +168,7 @@ class _StartupServices {
     required this.historyStore,
     required this.accessibilityService,
     required this.rendererSettingsService,
+    required this.viewerSessionStore,
     required this.paletteService,
     required this.deepLinkService,
   });
@@ -177,6 +180,7 @@ class _StartupServices {
       AccessibilityService.create(),
       RendererSettingsService.create(),
       PaletteService.create(),
+      ViewerSessionStore.create(),
     ]);
     DeepLinkService? deepLinkService;
     if (kEnableDeepLinks == 1) {
@@ -190,6 +194,7 @@ class _StartupServices {
       accessibilityService: results[2] as AccessibilityService,
       rendererSettingsService: results[3] as RendererSettingsService,
       paletteService: results[4] as PaletteService,
+      viewerSessionStore: results[5] as ViewerSessionStore,
       deepLinkService: deepLinkService,
     );
   }
@@ -198,6 +203,7 @@ class _StartupServices {
     return FlutterFractalsApp(
       presetStore: presetStore,
       historyStore: historyStore,
+      viewerSessionStore: viewerSessionStore,
       accessibilityService: accessibilityService,
       rendererSettingsService: rendererSettingsService,
       deepLinkService: deepLinkService,

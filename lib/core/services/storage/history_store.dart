@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
+import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/models/history/history_entry.dart';
 
@@ -138,15 +138,15 @@ class _HistoryEntryCodec {
           entries.add(entry);
         } catch (e) {
           // Skip corrupted entry, continue with others.
-          if (kDebugMode) {
-            debugPrint('Failed to parse $slotLabel entry: $e');
-          }
+          AppLogger.instance.warn('storage', 'Skipping invalid history entry',
+              data: {'slot': slotLabel, 'error': '$e'});
         }
       }
       return entries;
     } catch (e) {
       // Corrupted JSON, return empty list.
-      if (kDebugMode) debugPrint('Failed to parse $slotLabel JSON: $e');
+      AppLogger.instance.warn('storage', 'Failed to parse history JSON',
+          data: {'slot': slotLabel, 'error': '$e'});
       return [];
     }
   }

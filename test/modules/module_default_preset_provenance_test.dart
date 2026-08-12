@@ -36,7 +36,8 @@ void main() {
       expect(
         offenders,
         isEmpty,
-        reason: 'Built-in module default presets must use builtInPresetCreatedAt '
+        reason:
+            'Built-in module default presets must use builtInPresetCreatedAt '
             '(not DateTime.now() or a hand-typed instant):\n${offenders.join('\n')}',
       );
     });

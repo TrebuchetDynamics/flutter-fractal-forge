@@ -178,12 +178,12 @@ class LooperPlan {
 
   LooperPoint stateAtFrame(int frameIndex) {
     final count = frameCount;
-    if (count <= 1 || frameIndex >= count - 1) return points.first;
-    // Use frameCount as the period denominator so evenly spaced keyframes land
-    // exactly on frames (A at 0, B at count/2 for two-point loops). The final
-    // frame closes the loop at A separately to avoid an export seam.
-    final phase = frameIndex / count;
-    return stateAtPhase(phase);
+    if (count <= 1) return points.first;
+    // Sample one complete period on [0, 1). Playback supplies the wrap from the
+    // last sample back to A; storing A again as the final sample creates a
+    // duplicate-frame pause and skips the true final motion sample.
+    final clampedIndex = frameIndex.clamp(0, count - 1);
+    return stateAtPhase(clampedIndex / count);
   }
 
   LooperPoint stateAtPhase(double phase) {

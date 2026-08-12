@@ -49,6 +49,23 @@ import 'package:vector_math/vector_math.dart';
 /// controller.resetSession();
 /// ```
 class FractalController extends ChangeNotifier {
+  bool _notificationsSuppressed = false;
+
+  void runWithoutNotifications(VoidCallback mutation) {
+    final wasSuppressed = _notificationsSuppressed;
+    _notificationsSuppressed = true;
+    try {
+      mutation();
+    } finally {
+      _notificationsSuppressed = wasSuppressed;
+    }
+  }
+
+  @override
+  void notifyListeners() {
+    if (!_notificationsSuppressed) super.notifyListeners();
+  }
+
   static const bool _adaptiveIterationsEnabled = bool.fromEnvironment(
     'ADAPTIVE_ITERATIONS',
     defaultValue: true,

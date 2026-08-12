@@ -1,0 +1,4867 @@
+[
+  {
+    "id": "3d_fractal",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/3d_fractal_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "aizawa",
+    "shaderAsset": "shaders/strange_attractors/aizawa_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "alternated_iteration",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/coupled_orbits/alternated_iteration_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "amazing_box",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/amazing_box_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "ammann_beenker",
+    "shaderAsset": "shaders/ifs_and_geometric/ammann_beenker_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "angrybrot",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/iterative_maps/angrybrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "anti_buddhabrot",
+    "shaderAsset": "shaders/escape_time_family/families/buddhabrot/anti_buddhabrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "apollonian_gasket",
+    "shaderAsset": "shaders/ifs_and_geometric/apollonian_gasket_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "apollonian_sphere_packing_3d",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/apollonian_sphere_packing_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "arneodo",
+    "shaderAsset": "shaders/strange_attractors/arneodo_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "arnold_cat",
+    "shaderAsset": "shaders/strange_attractors/arnold_cat_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "arnoux_rauzy_fractal",
+    "shaderAsset": "shaders/ifs_and_geometric/arnoux_rauzy_fractal_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "arrowheadbrot_3d",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/arrowheadbrot_3d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "astroid",
+    "shaderAsset": "shaders/escape_time_family/polynomial_maps/astroid_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "barnsley_fern",
+    "shaderAsset": "shaders/ifs_and_geometric/barnsley_fern_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "barnsley_j1",
+    "shaderAsset": "shaders/ifs_and_geometric/barnsley_j1_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "barnsley_j2",
+    "shaderAsset": "shaders/ifs_and_geometric/barnsley_j2_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "barnsley_j3",
+    "shaderAsset": "shaders/ifs_and_geometric/barnsley_j3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "basin_entropy_uncertainty",
+    "shaderAsset": "shaders/root_finding/basin_entropy_map_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "bedford_mcmullen_carpet",
+    "shaderAsset": "shaders/ifs_and_geometric/bedford_mcmullen_carpet_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "bedhead",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/discrete_attractors/bedhead_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "benesi",
+    "shaderAsset": "shaders/escape_time_family/polynomial_maps/benesi_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "bicomplex",
+    "shaderAsset": "shaders/3d_and_hypercomplex/hypercomplex_escape_time/bicomplex_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "bifurcation_diagram_explorer",
+    "shaderAsset": "shaders/lyapunov_and_stability/bifurcation_diagram_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "biomorph",
+    "shaderAsset": "shaders/escape_time_family/julia_variants/biomorph_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "blaschke",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/blaschke_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "bogdanov_map",
+    "shaderAsset": "shaders/strange_attractors/bogdanov_map_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "bouali",
+    "shaderAsset": "shaders/strange_attractors/bouali_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "brian_brain",
+    "shaderAsset": "shaders/cellular_and_stochastic/brian_brain_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "brownian_tree_dla",
+    "shaderAsset": "shaders/cellular_and_stochastic/brownian_tree_dla_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "buddhabrot_approx",
+    "shaderAsset": "shaders/escape_time_family/families/buddhabrot/buddhabrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "buddhabrot_full",
+    "shaderAsset": "shaders/escape_time_family/families/buddhabrot/buddhabrot_full_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "buffalo",
+    "shaderAsset": "shaders/escape_time_family/families/buffalo/buffalo_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "buffalo2",
+    "shaderAsset": "shaders/escape_time_family/families/buffalo/buffalo2_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "buffalo_cubic",
+    "shaderAsset": "shaders/escape_time_family/families/buffalo/buffalo_cubic_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "buffalo_cubic_julia",
+    "shaderAsset": "shaders/escape_time_family/families/buffalo/buffalo_cubic_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "buffalo_julia",
+    "shaderAsset": "shaders/escape_time_family/families/buffalo/buffalo_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "buffalo_power4",
+    "shaderAsset": "shaders/escape_time_family/families/buffalo/buffalo_power4_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "buffalo_power4_julia",
+    "shaderAsset": "shaders/escape_time_family/families/buffalo/buffalo_power4_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "buffalo_power5",
+    "shaderAsset": "shaders/escape_time_family/families/buffalo/buffalo_power5_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "buffalo_power5_julia",
+    "shaderAsset": "shaders/escape_time_family/families/buffalo/buffalo_power5_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "buffalo_power6",
+    "shaderAsset": "shaders/escape_time_family/families/buffalo/buffalo_power6_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "buffalo_power6_julia",
+    "shaderAsset": "shaders/escape_time_family/families/buffalo/buffalo_power6_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "buffalo_power7",
+    "shaderAsset": "shaders/escape_time_family/families/buffalo/buffalo_power7_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "bulbils",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/bulbils_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "bullet_shot",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/polynomial_variants/bullet_shot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "burke_shaw",
+    "shaderAsset": "shaders/strange_attractors/burke_shaw_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "burning_ship",
+    "shaderAsset": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "burning_ship_cubic",
+    "shaderAsset": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_cubic_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "burning_ship_cubic_julia",
+    "shaderAsset": "shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_cubic_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "burning_ship_julia",
+    "shaderAsset": "shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "burning_ship_perp",
+    "shaderAsset": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_perp_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "burning_ship_perp_julia",
+    "shaderAsset": "shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_perp_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "burning_ship_power4",
+    "shaderAsset": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_power4_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "burning_ship_power4_julia",
+    "shaderAsset": "shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_power4_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "burning_ship_power5",
+    "shaderAsset": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_power5_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "burning_ship_power5_julia",
+    "shaderAsset": "shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_power5_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "burning_ship_power6",
+    "shaderAsset": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_power6_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "burning_ship_power6_julia",
+    "shaderAsset": "shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_power6_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "burning_ship_power7",
+    "shaderAsset": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_power7_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "burning_ship_power7_julia",
+    "shaderAsset": "shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_power7_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "cactus",
+    "shaderAsset": "shaders/escape_time_family/polynomial_maps/cactus_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "cantor_dust",
+    "shaderAsset": "shaders/ifs_and_geometric/cantor_dust_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "cantor_dust_3d",
+    "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "cantor_set",
+    "shaderAsset": "shaders/ifs_and_geometric/cantor_set_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "car_road",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/physical_simulation/car_road_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "cayley_graph",
+    "shaderAsset": "shaders/ifs_and_geometric/cayley_graph_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "celtic",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "celtic2",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic2_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "celtic_cubic",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_cubic_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "celtic_cubic_julia",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_cubic_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "celtic_heart",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_heart_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "celtic_julia",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "celtic_mandelbar",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_mandelbar_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "celtic_power4",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_power4_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "celtic_power4_julia",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_power4_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "celtic_power5",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_power5_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "celtic_power5_julia",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_power5_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "celtic_power6",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_power6_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "celtic_power6_julia",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_power6_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "celtic_power7",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_power7_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "cesaro_fractal",
+    "shaderAsset": "shaders/ifs_and_geometric/cesaro_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "chair_tiling",
+    "shaderAsset": "shaders/ifs_and_geometric/chair_tiling_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "chebyshev",
+    "shaderAsset": "shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/chebyshev_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "chebyshev_fractal",
+    "shaderAsset": "shaders/escape_time_family/newton_and_orthogonal/high_order_root_methods/chebyshev_fractal_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "chebyshev_halley_param",
+    "shaderAsset": "shaders/root_finding/chebyshev_halley_param_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "chen",
+    "shaderAsset": "shaders/strange_attractors/chen_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "chen_lee",
+    "shaderAsset": "shaders/strange_attractors/chen_lee_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "chua_circuit",
+    "shaderAsset": "shaders/strange_attractors/chua_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "circle_inversion_gasket",
+    "shaderAsset": "shaders/ifs_and_geometric/circle_inversion_gasket_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "circle_map_lyapunov",
+    "shaderAsset": "shaders/lyapunov_and_stability/circle_map_lyapunov_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "circle_packing_conformal_map",
+    "shaderAsset": "shaders/ifs_and_geometric/circle_packing_conformal_map_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "clifford",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "collatz",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/collatz_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "complex_henon_julia_slice",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/complex_henon_julia_slice_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "contused_fields",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/polynomial_variants/contused_fields_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "cosecant_julia",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/cosecant_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "cosecant_mandelbrot",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/cosecant_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "cosh_julia",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/hyperbolic/cosh_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "cosh_mandelbrot",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/hyperbolic/cosh_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "cosine_julia",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/cosine_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "cosine_mandelbrot",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/cosine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "cotangent_julia",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/cotangent_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "cotangent_mandelbrot",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/cotangent_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "coullet",
+    "shaderAsset": "shaders/strange_attractors/coullet_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "coupled_logistic_map_lattice",
+    "shaderAsset": "shaders/cellular_and_stochastic/coupled_logistic_map_lattice_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "crazybrot",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/iterative_maps/crazybrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "cyclic_ca",
+    "shaderAsset": "shaders/cellular_and_stochastic/cyclic_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "cyclic_cellular_automaton",
+    "shaderAsset": "shaders/cellular_and_stochastic/cyclic_cellular_automaton_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "cyclosorus_fern",
+    "shaderAsset": "shaders/ifs_and_geometric/cyclosorus_fern_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "dadras",
+    "shaderAsset": "shaders/strange_attractors/dadras_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "damaged_doublebrot",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/iterative_maps/damaged_doublebrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "damped_newton",
+    "shaderAsset": "shaders/root_finding/damped_newton_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "day_night",
+    "shaderAsset": "shaders/cellular_and_stochastic/day_night_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "deltoid",
+    "shaderAsset": "shaders/escape_time_family/polynomial_maps/deltoid_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "dequan_li",
+    "shaderAsset": "shaders/strange_attractors/dequan_li_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "dielectric_breakdown",
+    "shaderAsset": "shaders/cellular_and_stochastic/dielectric_breakdown_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "dirichlet_eta",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/special_functions/dirichlet_eta_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "dla",
+    "shaderAsset": "shaders/cellular_and_stochastic/dla_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "domain_coloring",
+    "shaderAsset": "shaders/escape_time_family/orbit_and_domain/domain_coloring_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "dragon_curve",
+    "shaderAsset": "shaders/ifs_and_geometric/dragon_curve_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "drill",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/polynomial_variants/drill_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "druid",
+    "shaderAsset": "shaders/escape_time_family/polynomial_maps/druid_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "dual_complex",
+    "shaderAsset": "shaders/3d_and_hypercomplex/hypercomplex_escape_time/dual_complex_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "dual_quaternion_julia",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/dual_quaternion_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "dual_substitution_tiling",
+    "shaderAsset": "shaders/ifs_and_geometric/dual_substitution_tiling_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "ducky",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/discrete_attractors/ducky_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "duffing",
+    "shaderAsset": "shaders/strange_attractors/duffing_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "durand_kerner",
+    "shaderAsset": "shaders/root_finding/durand_kerner_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "eaten",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/rational_singularities/eaten_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "eden_growth",
+    "shaderAsset": "shaders/cellular_and_stochastic/eden_growth_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "ehrlich_aberth",
+    "shaderAsset": "shaders/root_finding/ehrlich_aberth_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "eisenstein",
+    "shaderAsset": "shaders/escape_time_family/polynomial_maps/eisenstein_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "exp_additive_mandelbrot",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/iterative_maps/exp_additive_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "exponential",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/exponential_iteration/exponential_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "exponential_julia",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/exponential_iteration/exponential_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "external_rays_equipotential_overlay",
+    "shaderAsset": "shaders/escape_time_family/orbit_and_domain/external_rays_equipotential_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0014_sprott_a",
+    "shaderAsset": "shaders/strange_attractors/sprott_a_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0015_sprott_b",
+    "shaderAsset": "shaders/strange_attractors/sprott_b_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0016_sprott_c",
+    "shaderAsset": "shaders/strange_attractors/sprott_c_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0017_sprott_d",
+    "shaderAsset": "shaders/strange_attractors/sprott_d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0018_sprott_e",
+    "shaderAsset": "shaders/strange_attractors/sprott_e_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0019_sprott_f",
+    "shaderAsset": "shaders/strange_attractors/sprott_f_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0020_sprott_g",
+    "shaderAsset": "shaders/strange_attractors/sprott_g_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0021_sprott_h",
+    "shaderAsset": "shaders/strange_attractors/sprott_h_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0022_sprott_i",
+    "shaderAsset": "shaders/strange_attractors/sprott_i_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0024_sprott_k",
+    "shaderAsset": "shaders/strange_attractors/sprott_k_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0025_sprott_l",
+    "shaderAsset": "shaders/strange_attractors/sprott_l_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0026_sprott_m",
+    "shaderAsset": "shaders/strange_attractors/sprott_m_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0027_sprott_n",
+    "shaderAsset": "shaders/strange_attractors/sprott_n_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0028_sprott_o",
+    "shaderAsset": "shaders/strange_attractors/sprott_o_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0032_sprott_s",
+    "shaderAsset": "shaders/strange_attractors/sprott_s_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0047_lorenz_system",
+    "shaderAsset": "shaders/strange_attractors/lorenz_2d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0050_r_ssler_attractor",
+    "shaderAsset": "shaders/strange_attractors/rossler_2d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0052_chua_s_circuit_double_scroll",
+    "shaderAsset": "shaders/strange_attractors/chua_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0053_chen_attractor",
+    "shaderAsset": "shaders/strange_attractors/chen_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0054_l_system",
+    "shaderAsset": "shaders/strange_attractors/lu_chen_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0055_halvorsen_attractor",
+    "shaderAsset": "shaders/strange_attractors/halvorsen_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0056_aizawa_attractor",
+    "shaderAsset": "shaders/strange_attractors/aizawa_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0057_thomas_attractor",
+    "shaderAsset": "shaders/strange_attractors/thomas_attractor_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0059_shimizu_morioka",
+    "shaderAsset": "shaders/strange_attractors/shimizu_morioka_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0060_rabinovich_fabrikant",
+    "shaderAsset": "shaders/strange_attractors/rabinovich_fabrikant_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0061_dadras_attractor",
+    "shaderAsset": "shaders/strange_attractors/dadras_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0062_burke_shaw",
+    "shaderAsset": "shaders/strange_attractors/burke_shaw_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0063_moore_spiegel",
+    "shaderAsset": "shaders/strange_attractors/moore_spiegel_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0064_newton_leipnik",
+    "shaderAsset": "shaders/strange_attractors/newton_leipnik_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0065_rucklidge_attractor",
+    "shaderAsset": "shaders/strange_attractors/rucklidge_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0066_wang_sun_attractor",
+    "shaderAsset": "shaders/strange_attractors/wang_sun_cang_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0067_arneodo_attractor",
+    "shaderAsset": "shaders/strange_attractors/arneodo_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0068_nos_hoover",
+    "shaderAsset": "shaders/strange_attractors/nose_hoover_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0069_chen_lee",
+    "shaderAsset": "shaders/strange_attractors/chen_lee_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0070_dequan_li_attractor",
+    "shaderAsset": "shaders/strange_attractors/dequan_li_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0072_four_wing_chaotic",
+    "shaderAsset": "shaders/strange_attractors/four_wing_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0073_liu_chaotic_system",
+    "shaderAsset": "shaders/strange_attractors/liu_chen_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0074_qi_chaotic_system",
+    "shaderAsset": "shaders/strange_attractors/qi_chen_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0075_hadley_circulation",
+    "shaderAsset": "shaders/strange_attractors/hadley_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0076_sakarya_attractor",
+    "shaderAsset": "shaders/strange_attractors/sakarya_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0077_bouali_attractor",
+    "shaderAsset": "shaders/strange_attractors/bouali_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0078_yu_wang",
+    "shaderAsset": "shaders/strange_attractors/yu_wang_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0079_genesio_tesi",
+    "shaderAsset": "shaders/strange_attractors/genesio_tesi_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0080_coullet_system",
+    "shaderAsset": "shaders/strange_attractors/coullet_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0082_duffing_oscillator_forced",
+    "shaderAsset": "shaders/strange_attractors/duffing_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0088_multibrot_z_13",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0089_multibrot_z_14",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0090_multibrot_z_15",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0091_multibrot_z_16",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0092_multibrot_z_17",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0093_multibrot_z_18",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0094_multibrot_z_19",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0095_multibrot_z_20",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0096_multibrot_d_0_5",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0097_multibrot_d_3_5",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0098_multibrot_d_4_5",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0099_multibrot_d_5_5",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0100_multibrot_d_6_5",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0101_multibrot_d_7_5",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0102_multibrot_d_8_5",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0103_inverse_multibrot_d_3",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0104_inverse_multibrot_d_4",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0105_inverse_multibrot_d_5",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0106_tricorn_d_9",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0107_tricorn_d_10",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0108_tricorn_d_11",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0109_tricorn_d_12",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0110_tricorn_d_13",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0111_tricorn_d_14",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0112_tricorn_d_15",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0113_burning_ship_d_7",
+    "shaderAsset": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0114_burning_ship_d_8",
+    "shaderAsset": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0115_burning_ship_d_9",
+    "shaderAsset": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0116_burning_ship_d_10",
+    "shaderAsset": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0117_burning_ship_d_11",
+    "shaderAsset": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0118_burning_ship_d_12",
+    "shaderAsset": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0131_phoenix_d_2",
+    "shaderAsset": "shaders/escape_time_family/core/phoenix_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0132_phoenix_d_3",
+    "shaderAsset": "shaders/escape_time_family/core/phoenix_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0133_phoenix_d_4",
+    "shaderAsset": "shaders/escape_time_family/core/phoenix_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0134_mandelbrot_power_d_2_7",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0135_mandelbrot_power_d_1_25",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0138_tricorn_z_1_5",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0139_tricorn_z_2_5",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0140_burning_ship_z_2_5",
+    "shaderAsset": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0141_burning_ship_z_1_5",
+    "shaderAsset": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0143_dendrite_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0144_airplane_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0145_seahorse_valley_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0146_basilica_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0147_san_marco_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0148_kaleidoscope_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0149_cactus_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0150_fatou_dust_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0151_siegel_disk_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0152_galaxy_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0153_dragon_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0154_period_3_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0155_period_4_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0156_period_5_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0157_period_6_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0158_period_7_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0161_swirl_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0162_lightning_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0163_filigree_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0164_spiral_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0166_chebyshev_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0167_cauliflower_bulb_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0173_mini_brot_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0174_elephant_valley_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0175_near_elephant_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0176_dendritic_tree_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0177_mink_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0178_star_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0180_jumping_jack_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0181_twin_spiral_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0182_hyperbolic_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0184_centrally_symmetric_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0185_thistle_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0186_zig_zag_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0187_spider_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0188_flower_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0189_medusa_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0190_broccoli_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0191_spring_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0192_maze_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0193_gossamer_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0194_sparse_dust_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0195_period_8_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0196_period_9_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0197_near_boundary_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0198_grainy_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0199_flying_bird_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0200_infinity_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0201_northern_light_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0202_lacework_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0203_h_non_map",
+    "shaderAsset": "shaders/strange_attractors/henon_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0204_tinkerbell_map",
+    "shaderAsset": "shaders/strange_attractors/tinkerbell_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0205_lozi_map",
+    "shaderAsset": "shaders/strange_attractors/lozi_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0206_gingerbreadman_map",
+    "shaderAsset": "shaders/strange_attractors/gingerbreadman_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0207_bogdanov_map",
+    "shaderAsset": "shaders/strange_attractors/bogdanov_map_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0208_clifford_attractor",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0209_peter_de_jong_attractor",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0210_svensson_attractor",
+    "shaderAsset": "shaders/strange_attractors/svensson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0211_ikeda_map",
+    "shaderAsset": "shaders/strange_attractors/ikeda_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0212_standard_map_chirikov",
+    "shaderAsset": "shaders/strange_attractors/standard_map_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0214_zaslavskii_map",
+    "shaderAsset": "shaders/strange_attractors/zaslavsky_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0218_gumowski_mira_map",
+    "shaderAsset": "shaders/strange_attractors/gumowski_mira_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0319_conway_s_game_of_life",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0320_seeds_ca",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0321_day_and_night",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0322_highlife",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0323_life_without_death",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0324_move",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0326_serviettes",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0327_maze",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0338_clifford_tornado",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0339_clifford_butterfly",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0340_clifford_galaxy",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0341_clifford_nebula",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0342_clifford_spirals",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0343_clifford_shell",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0344_clifford_ribbon",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0345_clifford_flame",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0346_clifford_vortex",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0347_clifford_web",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0348_clifford_crystal",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0349_clifford_lace",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0350_clifford_mist",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0351_clifford_star",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0352_clifford_coral",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0353_clifford_rose",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0354_clifford_flower",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0355_clifford_disk",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0356_clifford_swirl",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0357_clifford_torus",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0358_clifford_arms",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0359_clifford_knot",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0360_clifford_whirl",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0361_clifford_infinity",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0362_clifford_tendrils",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0363_clifford_moth",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0364_clifford_scroll",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0365_clifford_fan",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0366_clifford_hearts",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0367_clifford_veil",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0368_clifford_ocean",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0369_clifford_dunes",
+    "shaderAsset": "shaders/strange_attractors/clifford_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0370_de_jong_classic",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0371_de_jong_peacock",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0372_de_jong_spirals",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0373_de_jong_crescent",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0374_de_jong_flow",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0375_de_jong_whirlpool",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0376_de_jong_petals",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0377_de_jong_filigree",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0378_de_jong_cloud",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0379_de_jong_mesh",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0380_de_jong_leaf",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0381_de_jong_double",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0382_de_jong_cascade",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0383_de_jong_maze",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0384_de_jong_web",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0385_de_jong_hurricane",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0386_de_jong_coral",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0387_de_jong_ribbon",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0388_de_jong_butterfly",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0389_de_jong_flame",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0390_de_jong_storm",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0391_de_jong_eye",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0409_gumowski_mira_butterfly",
+    "shaderAsset": "shaders/strange_attractors/gumowski_mira_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0410_gumowski_mira_shell",
+    "shaderAsset": "shaders/strange_attractors/gumowski_mira_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0411_gumowski_mira_flowers",
+    "shaderAsset": "shaders/strange_attractors/gumowski_mira_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0412_gumowski_mira_galaxy",
+    "shaderAsset": "shaders/strange_attractors/gumowski_mira_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0413_gumowski_mira_jellyfish",
+    "shaderAsset": "shaders/strange_attractors/gumowski_mira_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0414_gumowski_mira_skulls",
+    "shaderAsset": "shaders/strange_attractors/gumowski_mira_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0415_gumowski_mira_lamp",
+    "shaderAsset": "shaders/strange_attractors/gumowski_mira_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0416_gumowski_mira_storm",
+    "shaderAsset": "shaders/strange_attractors/gumowski_mira_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0417_gumowski_mira_peacock",
+    "shaderAsset": "shaders/strange_attractors/gumowski_mira_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0418_gumowski_mira_octopus",
+    "shaderAsset": "shaders/strange_attractors/gumowski_mira_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0419_gumowski_mira_spirals",
+    "shaderAsset": "shaders/strange_attractors/gumowski_mira_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0420_gumowski_mira_propeller",
+    "shaderAsset": "shaders/strange_attractors/gumowski_mira_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0421_gumowski_mira_lace",
+    "shaderAsset": "shaders/strange_attractors/gumowski_mira_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0422_gumowski_mira_sea_urchin",
+    "shaderAsset": "shaders/strange_attractors/gumowski_mira_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0423_gumowski_mira_coral_reef",
+    "shaderAsset": "shaders/strange_attractors/gumowski_mira_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0424_gumowski_mira_crown",
+    "shaderAsset": "shaders/strange_attractors/gumowski_mira_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0490_tangent_mandelbrot",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/tangent_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0491_hyperbolic_sine_mandelbrot",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/hyperbolic/sinh_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0492_hyperbolic_cosine_mandelbrot",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/hyperbolic/cosh_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0493_hyperbolic_tangent_mandelbrot",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/hyperbolic/tanh_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0498_sin_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0499_cos_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/cosine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0500_exp_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0501_log_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0502_sin_1_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0503_exp_1_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0504_z_tan_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0505_sin_z_cos_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0506_sinh_z_cosh_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0507_log_sin_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0508_log_cos_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/cosine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0509_sin_z_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0510_tan_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/tangent_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0511_sech_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/hyperbolic/tanh_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0512_csc_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/cosecant_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0513_sec_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/secant_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0514_cot_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/cotangent_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0515_z_exp_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0516_exp_i_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0517_sin_z_1_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0518_cos_z_1_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/cosine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0522_exp_z_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0524_tanh_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/hyperbolic/tanh_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0525_sinh_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0527_cos_z_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/cosine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0528_exp_z_sin_z_c",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0534_weierstrass_elliptic",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/special_functions/weierstrass_elliptic_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0537_newton_cos",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/cosine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0538_newton_sin",
+    "shaderAsset": "shaders/root_finding/newton_sin_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0597_sierpinski_carpet_3d_menger_cross",
+    "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0763_weierstrass_function_a_0_3_b_7",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/special_functions/weierstrass_function_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0821_standard_map_chirikov_k_0_97",
+    "shaderAsset": "shaders/strange_attractors/standard_map_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0822_standard_map_k_2_0",
+    "shaderAsset": "shaders/strange_attractors/standard_map_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0823_standard_map_k_6_0",
+    "shaderAsset": "shaders/strange_attractors/standard_map_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0980_replicator_b1357_s1357",
+    "shaderAsset": "shaders/cellular_and_stochastic/replicator_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0981_fredkin_s_replicator_b1357_s02468",
+    "shaderAsset": "shaders/cellular_and_stochastic/replicator_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0982_live_free_or_die_b2_s0",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0983_mazectric_b3_s1234",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0984_coagulations_b378",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0985_2x2_b36_s125",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0986_gnarl_b1_s1",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0987_stains_b3678_s235678",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0988_pseudo_life_b357_s238",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0989_long_life_b345_s5",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0990_anneal_b4678_s35678",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0991_diamoeba_b35678_s5678",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0992_dot_life_b3_s023",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0993_flock_b3_s12",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0994_iceballs_b25678_s5678",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0995_replicator_4_b1357_s03567",
+    "shaderAsset": "shaders/cellular_and_stochastic/replicator_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0996_walled_cities_b45678_s2345",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0998_3_4_life_b34_s34",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f0999_move_b368_s245",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1000_snowflakes_b1_s12345678",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1001_slow_blob_b367_s23478",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1002_bugs_b3567_s15678",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1003_plow_world_b378_s012345678",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1004_land_rush_b35_s234578",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1005_maze_with_mice_b37_s12345",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1006_slow_stains_b36_s378",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1007_highflock_b36_s12",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1008_honey_life_b38_s238",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1009_eightlife_b3_s238",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1010_pedestrian_life_b38_s23",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1011_lowlife_b3_s13",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1012_drigh_life_b367_s23",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1013_inverse_life_b0123478_s34678",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1014_wireworld",
+    "shaderAsset": "shaders/cellular_and_stochastic/wireworld_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1020_brian_s_brain",
+    "shaderAsset": "shaders/cellular_and_stochastic/brian_brain_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1021_cyclic_ca_n_4",
+    "shaderAsset": "shaders/cellular_and_stochastic/cyclic_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1022_cyclic_ca_n_16",
+    "shaderAsset": "shaders/cellular_and_stochastic/cyclic_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1023_hodgepodge_machine_spiral",
+    "shaderAsset": "shaders/cellular_and_stochastic/hodgepodge_machine_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1024_forest_fire_ca",
+    "shaderAsset": "shaders/cellular_and_stochastic/forest_fire_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1028_martin_hopalong_classic",
+    "shaderAsset": "shaders/strange_attractors/hopalong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1029_martin_hopalong_wide",
+    "shaderAsset": "shaders/strange_attractors/hopalong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1030_martin_hopalong_tight",
+    "shaderAsset": "shaders/strange_attractors/hopalong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1031_martin_hopalong_spiral",
+    "shaderAsset": "shaders/strange_attractors/hopalong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1032_martin_hopalong_galaxy",
+    "shaderAsset": "shaders/strange_attractors/hopalong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1033_martin_hopalong_cloud",
+    "shaderAsset": "shaders/strange_attractors/hopalong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1034_martin_hopalong_diamond",
+    "shaderAsset": "shaders/strange_attractors/hopalong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1035_martin_hopalong_spider",
+    "shaderAsset": "shaders/strange_attractors/hopalong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1036_martin_hopalong_crystal",
+    "shaderAsset": "shaders/strange_attractors/hopalong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1037_martin_hopalong_mosaic",
+    "shaderAsset": "shaders/strange_attractors/hopalong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1038_martin_hopalong_vortex",
+    "shaderAsset": "shaders/strange_attractors/hopalong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1039_martin_hopalong_storm",
+    "shaderAsset": "shaders/strange_attractors/hopalong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1040_martin_hopalong_rosette",
+    "shaderAsset": "shaders/strange_attractors/hopalong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1041_svensson_classic",
+    "shaderAsset": "shaders/strange_attractors/svensson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1042_svensson_bloom",
+    "shaderAsset": "shaders/strange_attractors/svensson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1043_svensson_storm",
+    "shaderAsset": "shaders/strange_attractors/svensson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1044_svensson_lace",
+    "shaderAsset": "shaders/strange_attractors/svensson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1045_svensson_iris",
+    "shaderAsset": "shaders/strange_attractors/svensson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1046_svensson_wave",
+    "shaderAsset": "shaders/strange_attractors/svensson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1047_svensson_coral",
+    "shaderAsset": "shaders/strange_attractors/svensson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1048_svensson_eye",
+    "shaderAsset": "shaders/strange_attractors/svensson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1049_svensson_net",
+    "shaderAsset": "shaders/strange_attractors/svensson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1050_svensson_bay",
+    "shaderAsset": "shaders/strange_attractors/svensson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1051_svensson_petals",
+    "shaderAsset": "shaders/strange_attractors/svensson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1052_svensson_arc",
+    "shaderAsset": "shaders/strange_attractors/svensson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1053_svensson_mandala",
+    "shaderAsset": "shaders/strange_attractors/svensson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1054_svensson_halo",
+    "shaderAsset": "shaders/strange_attractors/svensson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1055_svensson_cyclone",
+    "shaderAsset": "shaders/strange_attractors/svensson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1056_svensson_twist",
+    "shaderAsset": "shaders/strange_attractors/svensson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1057_svensson_disk",
+    "shaderAsset": "shaders/strange_attractors/svensson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1058_svensson_tornado",
+    "shaderAsset": "shaders/strange_attractors/svensson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1059_svensson_mist",
+    "shaderAsset": "shaders/strange_attractors/svensson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1060_svensson_fan",
+    "shaderAsset": "shaders/strange_attractors/svensson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1077_tinkerbell_classic",
+    "shaderAsset": "shaders/strange_attractors/tinkerbell_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1078_tinkerbell_distorted",
+    "shaderAsset": "shaders/strange_attractors/tinkerbell_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1079_tinkerbell_wing",
+    "shaderAsset": "shaders/strange_attractors/tinkerbell_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1080_tinkerbell_ring",
+    "shaderAsset": "shaders/strange_attractors/tinkerbell_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1095_lozi_classic",
+    "shaderAsset": "shaders/strange_attractors/lozi_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1096_lozi_saddle",
+    "shaderAsset": "shaders/strange_attractors/lozi_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1097_lozi_edge",
+    "shaderAsset": "shaders/strange_attractors/lozi_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1098_lozi_compact",
+    "shaderAsset": "shaders/strange_attractors/lozi_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1099_lozi_strange",
+    "shaderAsset": "shaders/strange_attractors/lozi_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1100_lozi_wide",
+    "shaderAsset": "shaders/strange_attractors/lozi_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1101_fractal_flame_v0_linear",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1102_fractal_flame_v1_sinusoidal",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1103_fractal_flame_v2_spherical",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1104_fractal_flame_v3_swirl",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1105_fractal_flame_v4_horseshoe",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1106_fractal_flame_v5_polar",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1107_fractal_flame_v6_handkerchief",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1108_fractal_flame_v7_heart",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1109_fractal_flame_v8_disc",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1110_fractal_flame_v9_spiral",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1111_fractal_flame_v10_hyperbolic",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1112_fractal_flame_v11_diamond",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1113_fractal_flame_v12_ex",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1114_fractal_flame_v13_julia",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1115_fractal_flame_v14_bent",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1116_fractal_flame_v15_waves",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1117_fractal_flame_v16_fisheye",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1118_fractal_flame_v17_popcorn",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1119_fractal_flame_v18_exponential",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1120_fractal_flame_v19_power",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1121_fractal_flame_v20_cosine",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1122_fractal_flame_v21_rings",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1123_fractal_flame_v22_fan",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1124_fractal_flame_v23_blob",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1125_fractal_flame_v24_pdj",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1126_fractal_flame_v25_fan2",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1127_fractal_flame_v26_rings2",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1128_fractal_flame_v27_eyefish",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1129_fractal_flame_v28_bubble",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1130_fractal_flame_v29_cylinder",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1131_fractal_flame_v30_perspective",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1132_fractal_flame_v31_noise",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1133_fractal_flame_v32_julian",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1134_fractal_flame_v33_juliascope",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1135_fractal_flame_v34_blur",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1136_fractal_flame_v35_gaussian_blur",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1137_fractal_flame_v36_radial_blur",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1138_fractal_flame_v37_pie",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1139_fractal_flame_v38_ngon",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1140_fractal_flame_v39_curl",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1141_fractal_flame_v40_rectangles",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "f1142_buddhabrot",
+    "shaderAsset": "shaders/escape_time_family/families/buddhabrot/buddhabrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1143_anti_buddhabrot",
+    "shaderAsset": "shaders/escape_time_family/families/buddhabrot/anti_buddhabrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1144_nebulabrot",
+    "shaderAsset": "shaders/escape_time_family/families/buddhabrot/nebulabrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1155_orbit_trap_circle_pickover_stalks",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1156_orbit_trap_cross",
+    "shaderAsset": "shaders/escape_time_family/orbit_and_domain/orbit_trap_cross_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1157_orbit_trap_square",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1158_orbit_trap_point_origin",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1159_orbit_trap_point_custom",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1160_orbit_trap_line_real_axis",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1161_orbit_trap_line_imaginary_axis",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1162_orbit_trap_multi_lines_cross",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1163_orbit_trap_heart_curve",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1164_orbit_trap_star_5_pointed",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1165_orbit_trap_spiral",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1166_orbit_trap_text_a",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1167_orbit_trap_text_m",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1168_orbit_trap_epicycloid",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1169_orbit_trap_rose_curve",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1170_orbit_trap_lima_on",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1171_orbit_trap_cardioid",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1172_orbit_trap_lemniscate",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1173_orbit_trap_astroid",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1174_orbit_trap_hypocycloid_3_cusp",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1175_orbit_trap_square_lattice",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1176_orbit_trap_hexagonal_lattice",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1177_orbit_trap_field_lines",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1178_orbit_trap_composite_multi_shape",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1179_orbit_trap_concentric_rings",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "f1220_m_bius_a_cos_i_sin_b_1_c_1_d_cos_i_sin",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "farey_diagram",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/farey_diagram_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "fatou",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/fatou_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "fatou_exp",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/fatou_exp_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "feather",
+    "shaderAsset": "shaders/escape_time_family/julia_variants/feather_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "feather_julia",
+    "shaderAsset": "shaders/escape_time_family/julia_variants/feather_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "feigenbaum",
+    "shaderAsset": "shaders/lyapunov_and_stability/feigenbaum_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "fibonacci_spiral",
+    "shaderAsset": "shaders/ifs_and_geometric/fibonacci_spiral_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "fibonacci_word",
+    "shaderAsset": "shaders/ifs_and_geometric/fibonacci_word_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "fish",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/discrete_attractors/fish_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "flow_lenia",
+    "shaderAsset": "shaders/cellular_and_stochastic/flow_lenia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "ford_circles",
+    "shaderAsset": "shaders/ifs_and_geometric/ford_circles_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "forest_fire",
+    "shaderAsset": "shaders/cellular_and_stochastic/forest_fire_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "four_wing",
+    "shaderAsset": "shaders/strange_attractors/four_wing_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "fractal_antenna_curves",
+    "shaderAsset": "shaders/ifs_and_geometric/fractal_antenna_curves_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "fractal_canopy",
+    "shaderAsset": "shaders/ifs_and_geometric/fractal_canopy_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "fractal_dream",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/discrete_attractors/fractal_dream_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "fractal_flame",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "fractal_interpolation_curves",
+    "shaderAsset": "shaders/number_theory/fractal_interpolation_curves_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "fractal_terrain_noise",
+    "shaderAsset": "shaders/cellular_and_stochastic/fractal_terrain_noise_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "fuchsian_limit_set_lace",
+    "shaderAsset": "shaders/ifs_and_geometric/fuchsian_limit_set_lace_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "gamma_fractal",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/gamma_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "gauss_map",
+    "shaderAsset": "shaders/lyapunov_and_stability/gauss_map_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "generalized_mcmullen",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/generalized_mcmullen_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "genesio_tesi",
+    "shaderAsset": "shaders/strange_attractors/genesio_tesi_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "gerhardt_schuster_tyson_ca",
+    "shaderAsset": "shaders/cellular_and_stochastic/gerhardt_schuster_tyson_ca_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "gingerbreadman",
+    "shaderAsset": "shaders/strange_attractors/gingerbreadman_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "globo_toroid",
+    "shaderAsset": "shaders/strange_attractors/globo_toroid_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "glynn",
+    "shaderAsset": "shaders/escape_time_family/polynomial_maps/glynn_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "golden_dragon",
+    "shaderAsset": "shaders/ifs_and_geometric/golden_dragon_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "gosper_curve",
+    "shaderAsset": "shaders/ifs_and_geometric/gosper_curve_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "gpu_gradient",
+    "shaderAsset": "shaders/diagnostic/diag_min.frag",
+    "capability": "static"
+  },
+  {
+    "id": "gpu_sampler_diag",
+    "shaderAsset": "shaders/diagnostic/diag_sampler.frag",
+    "capability": "static"
+  },
+  {
+    "id": "gray_scott_rd",
+    "shaderAsset": "shaders/cellular_and_stochastic/gray_scott_rd_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "greek_cross_fractal",
+    "shaderAsset": "shaders/ifs_and_geometric/greek_cross_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "greenberg_hastings_ca",
+    "shaderAsset": "shaders/cellular_and_stochastic/greenberg_hastings_ca_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "gumowski_mira",
+    "shaderAsset": "shaders/strange_attractors/gumowski_mira_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "hadley",
+    "shaderAsset": "shaders/strange_attractors/hadley_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "halley",
+    "shaderAsset": "shaders/root_finding/halley_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "halley_nova",
+    "shaderAsset": "shaders/root_finding/halley_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "halley_z4",
+    "shaderAsset": "shaders/root_finding/halley_z4_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "halvorsen",
+    "shaderAsset": "shaders/strange_attractors/halvorsen_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "hartverdrahtet",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/hartverdrahtet_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "hat_monotile",
+    "shaderAsset": "shaders/ifs_and_geometric/hat_monotile_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "heart",
+    "shaderAsset": "shaders/escape_time_family/julia_variants/heart_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "heart_julia",
+    "shaderAsset": "shaders/escape_time_family/julia_variants/heart_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "henon",
+    "shaderAsset": "shaders/strange_attractors/henon_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "hermite",
+    "shaderAsset": "shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/hermite_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "hexaflake",
+    "shaderAsset": "shaders/ifs_and_geometric/hexaflake_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "higher_order_root_basin_family",
+    "shaderAsset": "shaders/root_finding/higher_order_root_basin_family_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "highlife",
+    "shaderAsset": "shaders/cellular_and_stochastic/highlife_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "hilbert_curve",
+    "shaderAsset": "shaders/ifs_and_geometric/hilbert_curve_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "hodgepodge_machine",
+    "shaderAsset": "shaders/cellular_and_stochastic/hodgepodge_machine_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "hofstadter_butterfly",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/hofstadter_butterfly_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "hopalong",
+    "shaderAsset": "shaders/strange_attractors/hopalong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "hourglassbrot_3d",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/hourglassbrot_3d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "householder",
+    "shaderAsset": "shaders/root_finding/householder_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "householder_nova",
+    "shaderAsset": "shaders/root_finding/householder_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "hydrogen_orbital",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/hydrogen_orbital_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "hypercomplex_newton",
+    "shaderAsset": "shaders/3d_and_hypercomplex/hypercomplex_escape_time/hypercomplex_newton_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "ikeda",
+    "shaderAsset": "shaders/strange_attractors/ikeda_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "implicit_affine_fractal_surface",
+    "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/implicit_affine_fractal_surface_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "inverse_mandelbrot",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/iterative_maps/inverse_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "inverse_quadratic",
+    "shaderAsset": "shaders/escape_time_family/polynomial_maps/inverse_quadratic_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "inversive_limit_set_3d",
+    "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/inversive_limit_set_3d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "jacobi_sn",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/special_functions/jacobi_sn_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "jarratt",
+    "shaderAsset": "shaders/root_finding/jarratt_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "jason_rampe_1",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/discrete_attractors/jason_rampe_1_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "jason_rampe_2",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/discrete_attractors/jason_rampe_2_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "jerusalem_cube",
+    "shaderAsset": "shaders/ifs_and_geometric/jerusalem_cube_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "jerusalem_cube_3d",
+    "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "julia_de",
+    "shaderAsset": "shaders/escape_time_family/julia_variants/julia_de_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "julia_dual",
+    "shaderAsset": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "juliabulb_3d",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/juliabulb_3d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "kaleidoscope_basic",
+    "shaderAsset": "shaders/kaleidoscopes/classic_symmetry/kaleidoscope_basic_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "kaleidoscope_crystal",
+    "shaderAsset": "shaders/kaleidoscopes/classic_symmetry/kaleidoscope_crystal_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "kaleidoscope_flower",
+    "shaderAsset": "shaders/kaleidoscopes/radial_ornaments/kaleidoscope_flower_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "kaleidoscope_fractal",
+    "shaderAsset": "shaders/kaleidoscopes/textured_light/kaleidoscope_fractal_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "kaleidoscope_geometric",
+    "shaderAsset": "shaders/kaleidoscopes/classic_symmetry/kaleidoscope_geometric_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "kaleidoscope_jewel",
+    "shaderAsset": "shaders/kaleidoscopes/textured_light/kaleidoscope_jewel_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "kaleidoscope_mandala",
+    "shaderAsset": "shaders/kaleidoscopes/classic_symmetry/kaleidoscope_mandala_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "kaleidoscope_nebula",
+    "shaderAsset": "shaders/kaleidoscopes/textured_light/kaleidoscope_nebula_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "kaleidoscope_rays",
+    "shaderAsset": "shaders/kaleidoscopes/radial_ornaments/kaleidoscope_rays_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "kaleidoscope_ring",
+    "shaderAsset": "shaders/kaleidoscopes/radial_ornaments/kaleidoscope_ring_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "kaleidoscope_rosette",
+    "shaderAsset": "shaders/kaleidoscopes/classic_symmetry/kaleidoscope_rosette_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "kaleidoscope_snowflake",
+    "shaderAsset": "shaders/kaleidoscopes/classic_symmetry/kaleidoscope_snowflake_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "kaleidoscope_spiral",
+    "shaderAsset": "shaders/kaleidoscopes/radial_ornaments/kaleidoscope_spiral_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "kaleidoscope_star",
+    "shaderAsset": "shaders/kaleidoscopes/radial_ornaments/kaleidoscope_star_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "kaleidoscope_wave",
+    "shaderAsset": "shaders/kaleidoscopes/radial_ornaments/kaleidoscope_wave_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "kicked_rotator",
+    "shaderAsset": "shaders/strange_attractors/kicked_rotator_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "kifs_koch_fold",
+    "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_koch_fold_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "kifs_menger",
+    "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "kifs_sierpinski_tetra",
+    "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_sierpinski_tetra_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "kifs_snowflake_fold",
+    "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/kifs_snowflake_fold_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "king",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/discrete_attractors/king_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "klausmeier_vegetation",
+    "shaderAsset": "shaders/cellular_and_stochastic/klausmeier_vegetation_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "kleinian_limit_set",
+    "shaderAsset": "shaders/ifs_and_geometric/kleinian_limit_set_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "kleinian_schottky_necklace",
+    "shaderAsset": "shaders/ifs_and_geometric/kleinian_schottky_necklace_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "koch_anti_snowflake",
+    "shaderAsset": "shaders/ifs_and_geometric/koch_anti_snowflake_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "koch_snowflake",
+    "shaderAsset": "shaders/ifs_and_geometric/koch_snowflake_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "l_system_plants_trees",
+    "shaderAsset": "shaders/ifs_and_geometric/l_system_plants_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "laguerre",
+    "shaderAsset": "shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/laguerre_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "laguerre_fractal",
+    "shaderAsset": "shaders/escape_time_family/newton_and_orthogonal/high_order_root_methods/laguerre_fractal_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "lambda",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/lambda_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "lambda_julia",
+    "shaderAsset": "shaders/escape_time_family/julia_variants/lambda_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "lambda_w",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/lambda_w_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "langton_ant",
+    "shaderAsset": "shaders/cellular_and_stochastic/langton_ant_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "lattes_map_julia",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/lattes_map_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "legendre",
+    "shaderAsset": "shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/legendre_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "levy_brownian_paths",
+    "shaderAsset": "shaders/cellular_and_stochastic/levy_brownian_paths_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "levy_c_curve",
+    "shaderAsset": "shaders/ifs_and_geometric/levy_c_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "levy_tapestry",
+    "shaderAsset": "shaders/ifs_and_geometric/levy_tapestry_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "lichtenberg_growth",
+    "shaderAsset": "shaders/cellular_and_stochastic/lichtenberg_growth_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "life_like_b000_s000",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "life_like_b001_s000",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "life_like_b002_s000",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "life_like_b003_s000",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "life_like_b004_s000",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "life_like_b005_s000",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "life_like_b006_s000",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "life_like_b007_s000",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "life_like_b008_s000",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "life_like_b009_s000",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "life_like_b010_s000",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "life_like_b011_s000",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "life_like_b012_s000",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "life_like_b013_s000",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "life_like_b014_s000",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "life_like_b015_s000",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "life_like_b016_s000",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "life_like_b017_s000",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "lightningbrot",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/iterative_maps/lightningbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "liu_chen",
+    "shaderAsset": "shaders/strange_attractors/liu_chen_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "log_spiral",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/log_spiral_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "logistic_lyapunov",
+    "shaderAsset": "shaders/lyapunov_and_stability/logistic_lyapunov_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "lorenz_2d",
+    "shaderAsset": "shaders/strange_attractors/lorenz_2d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "lozi",
+    "shaderAsset": "shaders/strange_attractors/lozi_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "lu_chen",
+    "shaderAsset": "shaders/strange_attractors/lu_chen_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "lyapunov",
+    "shaderAsset": "shaders/lyapunov_and_stability/lyapunov_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "magnet1",
+    "shaderAsset": "shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet1_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "magnet1_julia",
+    "shaderAsset": "shaders/escape_time_family/julia_variants/magnet1_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "magnet2_julia",
+    "shaderAsset": "shaders/escape_time_family/julia_variants/magnet2_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "magnet_newton",
+    "shaderAsset": "shaders/root_finding/magnet_newton_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "magnet_type_1",
+    "shaderAsset": "shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet1_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "magnet_type_2",
+    "shaderAsset": "shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet2_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "magnet_type_3",
+    "shaderAsset": "shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "magnetic_pendulum",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/physical_simulation/magnetic_pendulum_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "manair_fire",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/physical_simulation/manair_fire_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandel_julia_dual",
+    "shaderAsset": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandel_step_escape",
+    "shaderAsset": "shaders/legacy/escape_time/mandel_step_escape.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandelbar_cubic",
+    "shaderAsset": "shaders/escape_time_family/families/mandelbar/mandelbar_cubic_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandelbar_power6",
+    "shaderAsset": "shaders/escape_time_family/families/mandelbar/mandelbar_power6_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandelbar_power7",
+    "shaderAsset": "shaders/escape_time_family/families/mandelbar/mandelbar_power7_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandelbar_power8",
+    "shaderAsset": "shaders/escape_time_family/families/mandelbar/mandelbar_power8_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandelbar_power9",
+    "shaderAsset": "shaders/escape_time_family/families/mandelbar/mandelbar_power9_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandelbox",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandelbox_shape_inversion",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_shape_inversion_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandelbrot",
+    "shaderAsset": "shaders/legacy/escape_time/mandel_step_smooth.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandelbrot_curvature_avg",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_curvature_avg_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandelbrot_de",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_de_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandelbrot_df2",
+    "shaderAsset": "shaders/legacy/precision/mandelbrot_df2.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandelbrot_et",
+    "shaderAsset": "shaders/legacy/escape_time/mandelbrot_et.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandelbrot_hardgrad",
+    "shaderAsset": "shaders/legacy/diagnostics/mandelbrot_hardgrad.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandelbrot_orbit_trap",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandelbrot_simple",
+    "shaderAsset": "shaders/legacy/diagnostics/mandelbrot_simple.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandelbrot_stripe_avg",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_stripe_avg_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandelbrot_tex",
+    "shaderAsset": "shaders/legacy/escape_time/mandelbrot_tex.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandelbrot_tia",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_tia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandelbulb",
+    "shaderAsset": "shaders/legacy/raymarched_3d/mandelbulb.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandelbulb_time_modulated",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "mandelpinski",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/singular_perturbations/mandelpinski_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "manowar",
+    "shaderAsset": "shaders/escape_time_family/polynomial_maps/manowar_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "matrix_logistic_spectrum",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/matrix_logistic_spectrum_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "maze_ca",
+    "shaderAsset": "shaders/cellular_and_stochastic/maze_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mcmullen_map",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/mcmullen_map_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mcworter_pentigree",
+    "shaderAsset": "shaders/ifs_and_geometric/mcworter_pentigree_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "menger_3d_slice",
+    "shaderAsset": "shaders/ifs_and_geometric/self_similar_sets/menger_3d_slice_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "menger_sponge_2d",
+    "shaderAsset": "shaders/ifs_and_geometric/self_similar_sets/menger_sponge_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mimura_murray_predator_prey",
+    "shaderAsset": "shaders/cellular_and_stochastic/mimura_murray_predator_prey_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mittag_leffler",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/special_functions/mittag_leffler_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "moore_curve",
+    "shaderAsset": "shaders/ifs_and_geometric/moore_curve_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "moore_spiegel",
+    "shaderAsset": "shaders/strange_attractors/moore_spiegel_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mousebrot_3d",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/mousebrot_3d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "muller",
+    "shaderAsset": "shaders/root_finding/muller_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multibrot10",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/multibrot10_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multibrot11",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/multibrot11_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multibrot12",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/multibrot12_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multibrot3",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multibrot4",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot4_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multibrot5",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/multibrot5_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multibrot6",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/multibrot6_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multibrot7",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/multibrot7_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multibrot8",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/multibrot8_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multibrot9",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/multibrot9_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multibrot_15",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/multibrot_15_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multibrot_25",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/multibrot_25_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multibrot_neg2",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/multibrot_neg2_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multifractal_plasma_cascade",
+    "shaderAsset": "shaders/cellular_and_stochastic/multifractal_plasma_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multijulia10",
+    "shaderAsset": "shaders/escape_time_family/families/multijulia/multijulia10_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multijulia11",
+    "shaderAsset": "shaders/escape_time_family/families/multijulia/multijulia11_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multijulia12",
+    "shaderAsset": "shaders/escape_time_family/families/multijulia/multijulia12_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multijulia3",
+    "shaderAsset": "shaders/escape_time_family/families/multijulia/multijulia3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multijulia4",
+    "shaderAsset": "shaders/escape_time_family/families/multijulia/multijulia4_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multijulia5",
+    "shaderAsset": "shaders/escape_time_family/families/multijulia/multijulia5_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multijulia6",
+    "shaderAsset": "shaders/escape_time_family/families/multijulia/multijulia6_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multijulia7",
+    "shaderAsset": "shaders/escape_time_family/families/multijulia/multijulia7_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multijulia8",
+    "shaderAsset": "shaders/escape_time_family/families/multijulia/multijulia8_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "multijulia9",
+    "shaderAsset": "shaders/escape_time_family/families/multijulia/multijulia9_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "nebulabrot",
+    "shaderAsset": "shaders/escape_time_family/families/buddhabrot/nebulabrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "neta_order16",
+    "shaderAsset": "shaders/root_finding/neta_order16_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "newton_flow_streamlines",
+    "shaderAsset": "shaders/root_finding/newton_flow_streamlines_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "newton_general",
+    "shaderAsset": "shaders/root_finding/newton_general_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "newton_leipnik",
+    "shaderAsset": "shaders/strange_attractors/newton_leipnik_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "newton_sin",
+    "shaderAsset": "shaders/root_finding/newton_sin_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "newton_z3",
+    "shaderAsset": "shaders/root_finding/newton_z3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "newton_z3_nova",
+    "shaderAsset": "shaders/root_finding/newton_z3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "newton_z4",
+    "shaderAsset": "shaders/root_finding/newton_z4_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "newton_z4_nova",
+    "shaderAsset": "shaders/root_finding/newton_z4_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "newton_z5",
+    "shaderAsset": "shaders/root_finding/newton_z5_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "newton_z5_nova",
+    "shaderAsset": "shaders/root_finding/newton_z5_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "newton_z6",
+    "shaderAsset": "shaders/root_finding/newton_z6_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "newton_z6_nova",
+    "shaderAsset": "shaders/root_finding/newton_z6_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "newton_z7",
+    "shaderAsset": "shaders/root_finding/newton_z7_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "newton_z8",
+    "shaderAsset": "shaders/root_finding/newton_z8_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "noor_newton",
+    "shaderAsset": "shaders/root_finding/noor_newton_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "nose_hoover",
+    "shaderAsset": "shaders/strange_attractors/nose_hoover_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "nova",
+    "shaderAsset": "shaders/escape_time_family/families/nova/parameter_plane/nova_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "nova_cubic",
+    "shaderAsset": "shaders/escape_time_family/families/nova/parameter_plane/nova_cubic_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "nova_cubic_julia",
+    "shaderAsset": "shaders/escape_time_family/families/nova/julia_sets/nova_cubic_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "nova_degree4",
+    "shaderAsset": "shaders/escape_time_family/families/nova/parameter_plane/nova_degree4_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "nova_degree4_julia",
+    "shaderAsset": "shaders/escape_time_family/families/nova/julia_sets/nova_degree4_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "nova_degree5",
+    "shaderAsset": "shaders/escape_time_family/families/nova/parameter_plane/nova_degree5_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "nova_degree5_julia",
+    "shaderAsset": "shaders/escape_time_family/families/nova/julia_sets/nova_degree5_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "nova_julia",
+    "shaderAsset": "shaders/escape_time_family/families/nova/julia_sets/nova_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "nova_mandelbrot",
+    "shaderAsset": "shaders/escape_time_family/families/nova/parameter_plane/nova_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "orbit_trap_cross",
+    "shaderAsset": "shaders/escape_time_family/orbit_and_domain/orbit_trap_cross_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "orbit_trap_point",
+    "shaderAsset": "shaders/escape_time_family/orbit_and_domain/orbit_trap_point_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "orbit_trap_ring",
+    "shaderAsset": "shaders/escape_time_family/orbit_and_domain/orbit_trap_ring_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "ostrowski",
+    "shaderAsset": "shaders/root_finding/ostrowski_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "pascal_ulam_number_fractals",
+    "shaderAsset": "shaders/number_theory/pascal_ulam_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "peano_curve",
+    "shaderAsset": "shaders/ifs_and_geometric/peano_curve_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "penrose_tiling",
+    "shaderAsset": "shaders/ifs_and_geometric/penrose_tiling_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "pentaflake",
+    "shaderAsset": "shaders/ifs_and_geometric/pentaflake_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "percolation",
+    "shaderAsset": "shaders/cellular_and_stochastic/percolation_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "perp_buffalo",
+    "shaderAsset": "shaders/escape_time_family/families/buffalo/perp_buffalo_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "perp_celtic",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/perp_celtic_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "perp_celtic_cubic",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/perp_celtic_cubic_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "perpendicular_bs_cubic",
+    "shaderAsset": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_cubic_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "perpendicular_bs_cubic_julia",
+    "shaderAsset": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_cubic_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "perpendicular_bs_power4",
+    "shaderAsset": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power4_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "perpendicular_bs_power5",
+    "shaderAsset": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power5_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "perpendicular_burning_ship",
+    "shaderAsset": "shaders/escape_time_family/families/perpendicular/perpendicular_burning_ship_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "perpendicular_burning_ship_julia",
+    "shaderAsset": "shaders/escape_time_family/families/perpendicular/perpendicular_burning_ship_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "perpendicular_julia",
+    "shaderAsset": "shaders/escape_time_family/families/perpendicular/perpendicular_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "perpendicular_mandelbrot",
+    "shaderAsset": "shaders/escape_time_family/families/perpendicular/perpendicular_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "peter_de_jong",
+    "shaderAsset": "shaders/strange_attractors/peter_de_jong_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "phase_portrait",
+    "shaderAsset": "shaders/escape_time_family/orbit_and_domain/phase_portrait_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "phoenix",
+    "shaderAsset": "shaders/escape_time_family/core/phoenix_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "phoenix_julia",
+    "shaderAsset": "shaders/escape_time_family/core/phoenix_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "picard_mann_newton",
+    "shaderAsset": "shaders/root_finding/picard_mann_newton_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "pickover_biomorph",
+    "shaderAsset": "shaders/strange_attractors/pickover_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "pinwheel_tiling",
+    "shaderAsset": "shaders/ifs_and_geometric/pinwheel_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "poincare_disk_tiling",
+    "shaderAsset": "shaders/ifs_and_geometric/poincare_disk_tiling_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "pola_sierpinski",
+    "shaderAsset": "shaders/ifs_and_geometric/pola_sierpinski_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "polar_cowlick",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/polynomial_variants/polar_cowlick_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "popcorn",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/popcorn_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "popcorn2",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/popcorn2_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "power_sum",
+    "shaderAsset": "shaders/escape_time_family/polynomial_maps/power_sum_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "prison",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/rational_singularities/prison_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "pseudo_kleinian",
+    "shaderAsset": "shaders/ifs_and_geometric/pseudo_kleinian_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "pythagorean_tree",
+    "shaderAsset": "shaders/ifs_and_geometric/pythagorean_tree_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "qi_chen",
+    "shaderAsset": "shaders/strange_attractors/qi_chen_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "quadratic_koch_island",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/quadratic_koch_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "quasicrystal_interference",
+    "shaderAsset": "shaders/ifs_and_geometric/quasicrystal_interference_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "quaternion_julia_2d",
+    "shaderAsset": "shaders/3d_and_hypercomplex/hypercomplex_escape_time/quaternion_julia_2d_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "quaternion_julia_3d",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "quaternion_mandelbrot_3d",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_mandelbrot_3d_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "rabinovich_fabrikant",
+    "shaderAsset": "shaders/strange_attractors/rabinovich_fabrikant_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "rational_map",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/rational_map_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "rauzy_fractal",
+    "shaderAsset": "shaders/ifs_and_geometric/rauzy_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "rayleigh_benard",
+    "shaderAsset": "shaders/strange_attractors/rayleigh_benard_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "replicator_ca",
+    "shaderAsset": "shaders/cellular_and_stochastic/replicator_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "riemann_zeta",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/special_functions/zeta_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "rikitake",
+    "shaderAsset": "shaders/strange_attractors/rikitake_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "robinson",
+    "shaderAsset": "shaders/strange_attractors/robinson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "rossler_2d",
+    "shaderAsset": "shaders/strange_attractors/rossler_2d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "rucklidge",
+    "shaderAsset": "shaders/strange_attractors/rucklidge_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "rule150_linear_ca",
+    "shaderAsset": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "rule90_linear_ca",
+    "shaderAsset": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sakarya",
+    "shaderAsset": "shaders/strange_attractors/sakarya_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sandpile",
+    "shaderAsset": "shaders/cellular_and_stochastic/sandpile_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "schottky_limit_set",
+    "shaderAsset": "shaders/ifs_and_geometric/schottky_limit_set_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "schroeder",
+    "shaderAsset": "shaders/root_finding/schroeder_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "schroeder_nova",
+    "shaderAsset": "shaders/root_finding/schroeder_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "schroeder_z3",
+    "shaderAsset": "shaders/root_finding/schroeder_z3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "schroeder_z4",
+    "shaderAsset": "shaders/root_finding/schroeder_z4_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "schroeder_z5",
+    "shaderAsset": "shaders/root_finding/schroeder_z5_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "schroeder_z6",
+    "shaderAsset": "shaders/root_finding/schroeder_z6_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "scroll_waves",
+    "shaderAsset": "shaders/strange_attractors/scroll_waves_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "secant_cosecant",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/secant_cosecant_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "secant_fractal",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/secant_fractal_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "secant_julia",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/secant_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "secant_mandelbrot",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/secant_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "seeds_ca",
+    "shaderAsset": "shaders/cellular_and_stochastic/seeds_ca_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "self_affine_finite_type",
+    "shaderAsset": "shaders/ifs_and_geometric/self_affine_finite_type_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "shape_modulus_julia",
+    "shaderAsset": "shaders/escape_time_family/julia_variants/shape_modulus_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "shark_fin",
+    "shaderAsset": "shaders/escape_time_family/polynomial_maps/shark_fin_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "shimizu_morioka",
+    "shaderAsset": "shaders/strange_attractors/shimizu_morioka_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sierpinski_arrowhead",
+    "shaderAsset": "shaders/ifs_and_geometric/sierpinski_arrowhead_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sierpinski_carpet",
+    "shaderAsset": "shaders/ifs_and_geometric/sierpinski_carpet_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sierpinski_julia_rational",
+    "shaderAsset": "shaders/ifs_and_geometric/sierpinski_julia_rational_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sierpinski_octahedron_3d",
+    "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sierpinski_pentagon",
+    "shaderAsset": "shaders/ifs_and_geometric/sierpinski_pentagon_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sierpinski_tetrahedron",
+    "shaderAsset": "shaders/ifs_and_geometric/sierpinski_tetrahedron_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sierpinski_triangle",
+    "shaderAsset": "shaders/ifs_and_geometric/sierpinski_triangle_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "simonbrot",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/iterative_maps/simonbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sin_z2",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/sin_z2_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sine_julia",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sine_mandelbrot",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/sine_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sine_map_lyapunov",
+    "shaderAsset": "shaders/lyapunov_and_stability/sine_map_lyapunov_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "singularity",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/rational_singularities/singularity_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sinh_cosh",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/hyperbolic/sinh_cosh_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sinh_julia",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/hyperbolic/sinh_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sinh_mandelbrot",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/hyperbolic/sinh_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "space_fractal",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/rational_singularities/space_fractal_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "spectre_monotile",
+    "shaderAsset": "shaders/ifs_and_geometric/spectre_monotile_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sphinx_tiling",
+    "shaderAsset": "shaders/ifs_and_geometric/sphinx_tiling_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "spider",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/coupled_orbits/spider_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "spider_x",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/coupled_orbits/spider_x_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "split_complex",
+    "shaderAsset": "shaders/3d_and_hypercomplex/hypercomplex_escape_time/split_complex_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sprott_a",
+    "shaderAsset": "shaders/strange_attractors/sprott_a_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sprott_b",
+    "shaderAsset": "shaders/strange_attractors/sprott_b_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sprott_c",
+    "shaderAsset": "shaders/strange_attractors/sprott_c_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sprott_d",
+    "shaderAsset": "shaders/strange_attractors/sprott_d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sprott_e",
+    "shaderAsset": "shaders/strange_attractors/sprott_e_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sprott_f",
+    "shaderAsset": "shaders/strange_attractors/sprott_f_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sprott_g",
+    "shaderAsset": "shaders/strange_attractors/sprott_g_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sprott_h",
+    "shaderAsset": "shaders/strange_attractors/sprott_h_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sprott_i",
+    "shaderAsset": "shaders/strange_attractors/sprott_i_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sprott_k",
+    "shaderAsset": "shaders/strange_attractors/sprott_k_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sprott_l",
+    "shaderAsset": "shaders/strange_attractors/sprott_l_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sprott_m",
+    "shaderAsset": "shaders/strange_attractors/sprott_m_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sprott_n",
+    "shaderAsset": "shaders/strange_attractors/sprott_n_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sprott_o",
+    "shaderAsset": "shaders/strange_attractors/sprott_o_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sprott_s",
+    "shaderAsset": "shaders/strange_attractors/sprott_s_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "stable_square_turing_model",
+    "shaderAsset": "shaders/cellular_and_stochastic/stable_square_turing_model_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "standard_map",
+    "shaderAsset": "shaders/strange_attractors/standard_map_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "steffensen",
+    "shaderAsset": "shaders/root_finding/steffensen_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "steffensen_order8",
+    "shaderAsset": "shaders/root_finding/steffensen_order8_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "steffensen_z3",
+    "shaderAsset": "shaders/root_finding/steffensen_z3_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "steffensen_z4",
+    "shaderAsset": "shaders/root_finding/steffensen_z4_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "steffensen_z5",
+    "shaderAsset": "shaders/root_finding/steffensen_z5_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "steiner_chain",
+    "shaderAsset": "shaders/ifs_and_geometric/steiner_chain_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "strange_nonchaotic_attractor",
+    "shaderAsset": "shaders/strange_attractors/strange_nonchaotic_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "super_halley",
+    "shaderAsset": "shaders/root_finding/super_halley_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "superexponential",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/exponential_iteration/superexponential_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "svensson",
+    "shaderAsset": "shaders/strange_attractors/svensson_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "symmetric_icon",
+    "shaderAsset": "shaders/escape_time_family/geometry_and_ifs/symmetric_icon_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "takagi_blancmange_staircase",
+    "shaderAsset": "shaders/number_theory/takagi_blancmange_staircase_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "talis",
+    "shaderAsset": "shaders/escape_time_family/polynomial_maps/talis_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tamari",
+    "shaderAsset": "shaders/strange_attractors/tamari_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tangent",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/tangent_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tangent_julia",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/tangent_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tangent_mandelbrot",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/tangent_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tanh_julia",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/hyperbolic/tanh_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tanh_mandelbrot",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/hyperbolic/tanh_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "taylor",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/taylor_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tent_map",
+    "shaderAsset": "shaders/lyapunov_and_stability/tent_map_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "terdragon",
+    "shaderAsset": "shaders/ifs_and_geometric/terdragon_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tessarine_julia",
+    "shaderAsset": "shaders/3d_and_hypercomplex/hypercomplex_escape_time/tessarine_julia_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "test_always_red",
+    "shaderAsset": "shaders/diagnostic/test_always_red.frag",
+    "capability": "static"
+  },
+  {
+    "id": "test_flutter_coord",
+    "shaderAsset": "shaders/diagnostic/test_flutter_coord.frag",
+    "capability": "static"
+  },
+  {
+    "id": "test_gl_fragcoord",
+    "shaderAsset": "shaders/diagnostic/test_gl_fragcoord.frag",
+    "capability": "static"
+  },
+  {
+    "id": "test_minimal",
+    "shaderAsset": "shaders/diagnostic/test_minimal.frag",
+    "capability": "static"
+  },
+  {
+    "id": "test_uniform_only",
+    "shaderAsset": "shaders/diagnostic/test_uniform_only.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tetrabrot_3d",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/tetrabrot_3d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tetration",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/exponential_iteration/tetration_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tglad_formula",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/tglad_formula_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "thomas_attractor",
+    "shaderAsset": "shaders/strange_attractors/thomas_attractor_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tinkerbell",
+    "shaderAsset": "shaders/strange_attractors/tinkerbell_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "transcendental_sin",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/transcendental_sin_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "traub_ostrowski",
+    "shaderAsset": "shaders/root_finding/traub_ostrowski_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tricorn",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tricorn_cubic",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_cubic_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tricorn_cubic_julia",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_cubic_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tricorn_julia",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tricorn_power4",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_power4_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tricorn_power4_julia",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power4_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tricorn_power5",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_power5_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tricorn_power5_julia",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power5_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tricorn_power6_julia",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power6_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tricorn_power7_julia",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power7_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tricorn_power8_julia",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power8_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "tsucs",
+    "shaderAsset": "shaders/strange_attractors/tsucs_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "turmite",
+    "shaderAsset": "shaders/cellular_and_stochastic/turmite_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "turtlebrot_3d",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/turtlebrot_3d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "twin_dragon",
+    "shaderAsset": "shaders/ifs_and_geometric/twin_dragon_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "ulam_warburton_toothpick",
+    "shaderAsset": "shaders/cellular_and_stochastic/ulam_warburton_toothpick_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "undefined",
+    "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/iterative_maps/undefined_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "vase",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/rational_singularities/vase_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "vicsek_3d",
+    "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "vicsek_fractal",
+    "shaderAsset": "shaders/ifs_and_geometric/vicsek_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "virial",
+    "shaderAsset": "shaders/escape_time_family/newton_and_orthogonal/series_maps/virial_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "voronoi_fractal_crackle",
+    "shaderAsset": "shaders/ifs_and_geometric/voronoi_fractal_crackle_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "wada_riddled_basin_visualizer",
+    "shaderAsset": "shaders/root_finding/wada_riddled_basins_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "wang_sun_cang",
+    "shaderAsset": "shaders/strange_attractors/wang_sun_cang_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "washed_away",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/polynomial_variants/washed_away_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "weierstrass_elliptic",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/special_functions/weierstrass_elliptic_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "weierstrass_function",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/special_functions/weierstrass_function_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "weierstrass_p",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/special_functions/weierstrass_p_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "weierstrass_roots",
+    "shaderAsset": "shaders/trigonometric_and_transcendental/special_functions/weierstrass_roots_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "wild_knot_pearl_limit_set",
+    "shaderAsset": "shaders/ifs_and_geometric/wild_knot_pearls_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "wireworld",
+    "shaderAsset": "shaders/cellular_and_stochastic/wireworld_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "wolfram_rule30",
+    "shaderAsset": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "yinfinite_julia",
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "yu_wang",
+    "shaderAsset": "shaders/strange_attractors/yu_wang_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "z_order_curve",
+    "shaderAsset": "shaders/ifs_and_geometric/z_order_curve_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "zaslavsky",
+    "shaderAsset": "shaders/strange_attractors/zaslavsky_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "zeta_newton",
+    "shaderAsset": "shaders/root_finding/zeta_newton_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "zhou_chen",
+    "shaderAsset": "shaders/strange_attractors/zhou_chen_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "zircon_zity",
+    "shaderAsset": "shaders/escape_time_family/polynomial_maps/zircon_zity_gpu.frag",
+    "capability": "static"
+  }
+]

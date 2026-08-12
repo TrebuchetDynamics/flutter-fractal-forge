@@ -12,5 +12,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   test('Shader benchmark placeholder (skipped)', () {
     // Intentionally empty.
-  }, skip: 'Benchmark requires a real device; see integration_test/shader_benchmark_test.dart');
+  },
+      skip:
+          'Benchmark requires a real device; see integration_test/shader_benchmark_test.dart');
 }

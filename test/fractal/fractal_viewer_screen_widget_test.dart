@@ -1,15 +1,22 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
+import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
 import 'package:flutter_fractals/core/services/export/export_service.dart';
+import 'package:flutter_fractals/core/services/export/wallpaper_service.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
 import 'package:flutter_fractals/core/services/storage/history_store.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
+import 'package:flutter_fractals/core/services/storage/viewer_session_store.dart';
 import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
@@ -66,6 +73,74 @@ class _LooperExportService extends ExportService {
   Future<void> shareFile(File file, {String? text}) async {
     sharedText = text;
     if (shareThrows) throw StateError('share unavailable');
+  }
+}
+
+class _BlockingLooperPublicationExportService extends _LooperExportService {
+  final ExportCoordinator _coordinator = ExportCoordinator();
+  final Completer<void> shareStarted = Completer<void>();
+  final Completer<void> releaseShare = Completer<void>();
+
+  @override
+  ExportCoordinator get coordinator => _coordinator;
+
+  @override
+  bool cancelActiveExport() => _coordinator.cancelActive();
+
+  @override
+  Future<void> shareFile(File file, {String? text}) async {
+    await super.shareFile(file, text: text);
+    shareStarted.complete();
+    await releaseShare.future;
+  }
+}
+
+class _BlockingWallpaperExportService extends ExportService {
+  final ExportCoordinator _coordinator = ExportCoordinator();
+  int saveCalls = 0;
+
+  @override
+  ExportCoordinator get coordinator => _coordinator;
+
+  @override
+  bool cancelActiveExport() => _coordinator.cancelActive();
+
+  @override
+  Future<bool> chooseLinuxExportDirectory() async => true;
+
+  @override
+  Future<Uint8List> capturePng(
+    GlobalKey key, {
+    double pixelRatio = 1.0,
+  }) async =>
+      Uint8List.fromList(img.encodePng(img.Image(width: 2, height: 2)));
+
+  @override
+  Uint8List applyWallpaperStyle(
+    Uint8List pngBytes, {
+    required String style,
+  }) =>
+      pngBytes;
+
+  @override
+  Future<File> saveBytes(Uint8List bytes, {required String filename}) async {
+    saveCalls++;
+    return File('/tmp/$filename');
+  }
+}
+
+class _BlockingWallpaperService extends WallpaperService {
+  final Completer<void> publicationStarted = Completer<void>();
+  final Completer<void> releasePublication = Completer<void>();
+
+  @override
+  Future<bool> setWallpaper(
+    Uint8List pngBytes, {
+    required WallpaperTarget target,
+  }) async {
+    publicationStarted.complete();
+    await releasePublication.future;
+    return true;
   }
 }
 
@@ -169,6 +244,187 @@ class _FallbackScreenSizeExportService extends ExportService {
   }
 }
 
+class _CancelledExportService extends _FallbackScreenSizeExportService {
+  int fallbackCaptures = 0;
+
+  @override
+  Future<ExportResult> exportWithOptions(
+    GlobalKey boundaryKey, {
+    required ExportOptions options,
+    required double screenWidth,
+    required double screenHeight,
+    double? physicalScreenWidth,
+    double? physicalScreenHeight,
+    required String fractalType,
+    required Map<String, Object> parameters,
+    void Function(double progress)? onProgress,
+  }) async {
+    throw const ExportCancelledException();
+  }
+
+  @override
+  Future<Uint8List> capturePng(
+    GlobalKey key, {
+    double pixelRatio = 1.0,
+  }) async {
+    fallbackCaptures++;
+    return super.capturePng(key, pixelRatio: pixelRatio);
+  }
+}
+
+class _BlockingExportService extends ExportService {
+  _BlockingExportService() : _coordinator = ExportCoordinator();
+
+  final ExportCoordinator _coordinator;
+
+  @override
+  ExportCoordinator get coordinator => _coordinator;
+
+  @override
+  bool cancelActiveExport() => _coordinator.cancelActive();
+
+  @override
+  Future<bool> chooseLinuxExportDirectory() async => true;
+
+  @override
+  Future<ExportResult> exportWithOptions(
+    GlobalKey boundaryKey, {
+    required ExportOptions options,
+    required double screenWidth,
+    required double screenHeight,
+    double? physicalScreenWidth,
+    double? physicalScreenHeight,
+    required String fractalType,
+    required Map<String, Object> parameters,
+    void Function(double progress)? onProgress,
+  }) {
+    return coordinator.run(ExportKind.image, (token) async {
+      await token.whenCancelled;
+      token.throwIfCancelled();
+      throw StateError('unreachable');
+    });
+  }
+}
+
+class _BlockingFallbackExportService extends ExportService {
+  _BlockingFallbackExportService(this.coordinatorOverride)
+      : super(coordinator: coordinatorOverride);
+
+  final ExportCoordinator coordinatorOverride;
+  final Completer<void> fallbackStarted = Completer<void>();
+  final Completer<void> releaseFallbackCapture = Completer<void>();
+  int resizeCalls = 0;
+  int saveCalls = 0;
+
+  @override
+  Future<bool> chooseLinuxExportDirectory() async => true;
+
+  @override
+  Future<ExportResult> exportWithOptions(
+    GlobalKey boundaryKey, {
+    required ExportOptions options,
+    required double screenWidth,
+    required double screenHeight,
+    double? physicalScreenWidth,
+    double? physicalScreenHeight,
+    required String fractalType,
+    required Map<String, Object> parameters,
+    void Function(double progress)? onProgress,
+  }) async {
+    throw StateError('ordinary primary failure');
+  }
+
+  @override
+  Future<Uint8List> capturePng(
+    GlobalKey key, {
+    double pixelRatio = 1.0,
+  }) async {
+    fallbackStarted.complete();
+    await releaseFallbackCapture.future;
+    return Uint8List.fromList(<int>[1]);
+  }
+
+  @override
+  Uint8List resizePngToTargetDimensions(
+    Uint8List pngBytes, {
+    required int width,
+    required int height,
+    String? quoteText,
+  }) {
+    resizeCalls++;
+    return pngBytes;
+  }
+
+  @override
+  Future<ExportResult> saveExportBytes(
+    Uint8List bytes, {
+    required String filename,
+    required ExportFormat format,
+    required int width,
+    required int height,
+  }) async {
+    saveCalls++;
+    return ExportResult(
+      file: File('/tmp/$filename'),
+      filename: filename,
+      format: format,
+      width: width,
+      height: height,
+      fileSize: bytes.length,
+    );
+  }
+}
+
+class _BlockingPublicationExportService extends ExportService {
+  _BlockingPublicationExportService(this.coordinatorOverride)
+      : super(coordinator: coordinatorOverride);
+
+  final ExportCoordinator coordinatorOverride;
+  final Completer<void> publicationStarted = Completer<void>();
+  final Completer<void> releasePublication = Completer<void>();
+
+  @override
+  Future<bool> chooseLinuxExportDirectory() async => true;
+
+  @override
+  Future<ExportResult> exportWithOptions(
+    GlobalKey boundaryKey, {
+    required ExportOptions options,
+    required double screenWidth,
+    required double screenHeight,
+    double? physicalScreenWidth,
+    double? physicalScreenHeight,
+    required String fractalType,
+    required Map<String, Object> parameters,
+    void Function(double progress)? onProgress,
+  }) async {
+    return ExportResult(
+      file: null,
+      bytes: Uint8List.fromList(<int>[1]),
+      filename: 'publication.png',
+      format: ExportFormat.png,
+      width: 1,
+      height: 1,
+      fileSize: 1,
+    );
+  }
+
+  @override
+  Future<void> saveExportResult(ExportResult result) async {
+    await _blockPublication();
+  }
+
+  @override
+  Future<void> shareExportResult(ExportResult result, {String? text}) async {
+    await _blockPublication();
+  }
+
+  Future<void> _blockPublication() async {
+    if (!publicationStarted.isCompleted) publicationStarted.complete();
+    await releasePublication.future;
+  }
+}
+
 void main() {
   group('FractalViewerScreen', () {
     late ModuleRegistry registry;
@@ -177,6 +433,7 @@ void main() {
     late RendererSettingsService rendererSettings;
     late HistoryStore historyStore;
     late HistoryProvider historyProvider;
+    late ViewerSessionStore viewerSessionStore;
 
     setUp(() async {
       TestWidgetsFlutterBinding.ensureInitialized();
@@ -189,6 +446,7 @@ void main() {
           RendererSettingsService(await SharedPreferences.getInstance());
       historyStore = await HistoryStore.create();
       historyProvider = HistoryProvider(store: historyStore);
+      viewerSessionStore = await ViewerSessionStore.create();
     });
 
     tearDown(() {
@@ -201,6 +459,9 @@ void main() {
       CatalogFamily catalogFamily = CatalogFamily.core,
       Locale locale = const Locale('en'),
       ExportService? exportService,
+      WallpaperService? wallpaperService,
+      bool provideViewerSessionStore = false,
+      bool restoreViewerSession = true,
     }) {
       return MultiProvider(
         providers: [
@@ -209,6 +470,8 @@ void main() {
           Provider.value(value: presetStore),
           ChangeNotifierProvider.value(value: rendererSettings),
           ChangeNotifierProvider.value(value: historyProvider),
+          if (provideViewerSessionStore)
+            Provider.value(value: viewerSessionStore),
         ],
         child: MaterialApp(
           locale: locale,
@@ -217,10 +480,186 @@ void main() {
           home: FractalViewerScreen(
             catalogFamily: catalogFamily,
             exportService: exportService,
+            wallpaperService: wallpaperService,
+            restoreViewerSession: restoreViewerSession,
           ),
         ),
       );
     }
+
+    testWidgets('lifecycle pause durably saves the exact viewer state',
+        (tester) async {
+      await tester.pumpWidget(
+        buildTestWidget(provideViewerSessionStore: true),
+      );
+      await tester.pumpAndSettle();
+
+      controller.selectModule(registry.byId('julia'), animate: false);
+      controller.updateParam('iterations', 321);
+      controller.updatePan(Vector2(-0.5, 0.25));
+      controller.updateZoom(8.0);
+      controller.setGlowEnabled(true);
+      final expectedIterations = controller.params['iterations'];
+      await tester.pump();
+
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+      await tester.pump();
+
+      final restored = viewerSessionStore.load();
+      expect(restored, isNotNull);
+      expect(restored!.viewerActive, isTrue);
+      expect(restored.moduleId, 'julia');
+      expect(restored.params['iterations'], expectedIterations);
+      expect(restored.params['colorScheme'], controller.params['colorScheme']);
+      expect(restored.view.pan.x, -0.5);
+      expect(restored.view.pan.y, 0.25);
+      expect(restored.view.zoom, 8.0);
+      expect(restored.glowEnabled, isTrue);
+      historyProvider.cancelPendingRecord();
+    });
+
+    testWidgets('restores a durable session before the viewer is rendered',
+        (tester) async {
+      await viewerSessionStore.save(
+        ViewerSessionSnapshot(
+          moduleId: 'julia',
+          params: const <String, Object>{
+            'iterations': 444,
+            'colorScheme': 5,
+          },
+          view: FractalViewState(
+            pan: Vector2(0.125, -0.75),
+            zoom: 12,
+            rotation: Vector3.zero(),
+          ),
+          transparentBackground: false,
+          rotationLocked: true,
+          glowEnabled: true,
+          glowSigma: 1.5,
+          glowIntensity: 0.7,
+          fluidModeEnabled: false,
+          fluidStrength: 1,
+          kaleidoscopeEnabled: false,
+          kaleidoscopeSectors: 8,
+          kaleidoscopeMirror: true,
+          kaleidoscopeRotation: 0,
+          kaleidoscopeMirrorMode: 0,
+          controlsVisible: true,
+          fullscreenUnobtrusive: false,
+          viewerActive: true,
+        ),
+      );
+
+      String? moduleAtFirstPostFrame;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        moduleAtFirstPostFrame = controller.module.id;
+      });
+
+      await tester.pumpWidget(
+        buildTestWidget(provideViewerSessionStore: true),
+      );
+
+      expect(moduleAtFirstPostFrame, 'julia');
+      expect(controller.module.id, 'julia');
+      expect(controller.params['iterations'], 444);
+      expect(controller.view.zoom, 12);
+      expect(controller.view.pan.y, -0.75);
+      expect(controller.rotationLocked, isTrue);
+      expect(controller.glowEnabled, isTrue);
+      expect(find.text('Julia'), findsOneWidget);
+      expect(find.text('Controls'), findsOneWidget);
+      await tester.pump(const Duration(milliseconds: 600));
+    });
+
+    testWidgets(
+        'unknown restored module is rejected without mutating the viewer',
+        (tester) async {
+      final initialZoom = controller.view.zoom;
+      await viewerSessionStore.save(
+        ViewerSessionSnapshot(
+          moduleId: 'removed_fractal_module',
+          params: const <String, Object>{'iterations': 999},
+          view: FractalViewState(
+            pan: Vector2(4, 5),
+            zoom: 77,
+            rotation: Vector3.zero(),
+          ),
+          transparentBackground: false,
+          rotationLocked: false,
+          glowEnabled: false,
+          glowSigma: 1,
+          glowIntensity: 1,
+          fluidModeEnabled: false,
+          fluidStrength: 1,
+          kaleidoscopeEnabled: false,
+          kaleidoscopeSectors: 6,
+          kaleidoscopeMirror: true,
+          kaleidoscopeRotation: 0,
+          kaleidoscopeMirrorMode: 0,
+          controlsVisible: true,
+          fullscreenUnobtrusive: false,
+          viewerActive: true,
+        ),
+      );
+
+      await tester.pumpWidget(
+        buildTestWidget(provideViewerSessionStore: true),
+      );
+      await tester.pump(const Duration(milliseconds: 600));
+
+      expect(controller.module.id, 'mandelbrot');
+      expect(controller.view.zoom, initialZoom);
+    });
+
+    testWidgets('launch deep link suppresses a stale viewer snapshot',
+        (tester) async {
+      await viewerSessionStore.save(
+        ViewerSessionSnapshot(
+          moduleId: 'julia',
+          params: const <String, Object>{'iterations': 444},
+          view: FractalViewState(
+            pan: Vector2(0.125, -0.75),
+            zoom: 12,
+            rotation: Vector3.zero(),
+          ),
+          transparentBackground: false,
+          rotationLocked: false,
+          glowEnabled: false,
+          glowSigma: 1,
+          glowIntensity: 1,
+          fluidModeEnabled: false,
+          fluidStrength: 1,
+          kaleidoscopeEnabled: false,
+          kaleidoscopeSectors: 8,
+          kaleidoscopeMirror: true,
+          kaleidoscopeRotation: 0,
+          kaleidoscopeMirrorMode: 0,
+          controlsVisible: false,
+          fullscreenUnobtrusive: false,
+          viewerActive: true,
+        ),
+      );
+      controller.loadState(
+        module: registry.byId('domain_coloring'),
+        params: const <String, Object>{'iterations': 77},
+        view: FractalViewState(
+          pan: Vector2(-0.25, 0.5),
+          zoom: 3,
+          rotation: Vector3.zero(),
+        ),
+        animateModule: false,
+      );
+
+      await tester.pumpWidget(buildTestWidget(
+        provideViewerSessionStore: true,
+        restoreViewerSession: false,
+      ));
+      await tester.pumpAndSettle();
+
+      expect(controller.module.id, 'domain_coloring');
+      expect(controller.params['iterations'], 77);
+      expect(controller.view.zoom, 3);
+    });
 
     testWidgets('displays current module name in app bar', (tester) async {
       await tester.pumpWidget(buildTestWidget());
@@ -251,12 +690,141 @@ void main() {
       expect(find.byTooltip('Fullscreen view'), findsOneWidget);
     });
 
-    testWidgets('fractal music FAB is immediately visible', (tester) async {
+    testWidgets(
+        'responsive action hierarchy keeps primary actions visible and secondary actions discoverable',
+        (tester) async {
+      for (final configuration in const [
+        (size: Size(320, 568), textScale: 1.0),
+        (size: Size(568, 320), textScale: 1.0),
+        (size: Size(768, 1024), textScale: 1.0),
+        (size: Size(320, 568), textScale: 2.0),
+      ]) {
+        await tester.binding.setSurfaceSize(configuration.size);
+        tester.platformDispatcher.textScaleFactorTestValue =
+            configuration.textScale;
+        await tester.pumpWidget(buildTestWidget());
+        await tester.pumpAndSettle();
+
+        for (final key in const [
+          'viewerRandomParamsButton',
+          'viewerColorCycleButton',
+          'viewerExportButton',
+          'viewerFullscreenButton',
+          'viewerMoreActionsButton',
+        ]) {
+          final finder = find.byKey(ValueKey(key));
+          expect(finder, findsOneWidget,
+              reason: '$key missing at $configuration');
+          final rect = tester.getRect(finder);
+          expect(rect.left, greaterThanOrEqualTo(0),
+              reason: '$key is left of the viewport at $configuration');
+          expect(rect.top, greaterThanOrEqualTo(0),
+              reason: '$key is above the viewport at $configuration');
+          expect(rect.right, lessThanOrEqualTo(configuration.size.width),
+              reason: '$key is right of the viewport at $configuration');
+          expect(rect.bottom, lessThanOrEqualTo(configuration.size.height),
+              reason: '$key is below the viewport at $configuration');
+        }
+        expect(find.byKey(const ValueKey('viewerRandomButton')), findsNothing);
+        expect(find.byKey(const ValueKey('viewerLooperButton')), findsNothing);
+
+        await tester.tap(
+          find.byKey(const ValueKey('viewerMoreActionsButton')),
+        );
+        await tester.pumpAndSettle();
+
+        expect(find.text('More options'), findsWidgets);
+        expect(
+            find.byKey(const ValueKey('viewerRandomButton')), findsOneWidget);
+        expect(
+            find.byKey(const ValueKey('viewerLooperButton')), findsOneWidget);
+        expect(tester.takeException(), isNull);
+
+        await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+        await tester.pumpAndSettle();
+      }
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+    });
+
+    testWidgets('primary viewer actions expose explicit semantic and tab order',
+        (tester) async {
+      final semantics = tester.ensureSemantics();
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
+      const orderedKeys = [
+        'viewerRandomParamsButton',
+        'viewerColorCycleButton',
+        'viewerExportButton',
+        'viewerFullscreenButton',
+        'viewerMoreActionsButton',
+      ];
+      for (var index = 0; index < orderedKeys.length; index++) {
+        final finder = find.byKey(ValueKey(orderedKeys[index]));
+        final semanticWidget = tester.widget<Semantics>(
+          find.descendant(
+            of: finder,
+            matching: find.byWidgetPredicate(
+              (widget) =>
+                  widget is Semantics && widget.properties.sortKey != null,
+            ),
+          ),
+        );
+        final sortKey = semanticWidget.properties.sortKey;
+        expect(sortKey, isA<OrdinalSortKey>());
+        expect((sortKey! as OrdinalSortKey).order, index + 1);
+        expect(tester.getSize(finder).width, greaterThanOrEqualTo(48));
+        expect(tester.getSize(finder).height, greaterThanOrEqualTo(48));
+
+        await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+        await tester.pump();
+        final focusable = find.descendant(
+          of: finder,
+          matching: find.byType(FocusableActionDetector),
+        );
+        expect(Focus.of(tester.element(focusable)).hasFocus, isTrue,
+            reason: '${orderedKeys[index]} was not tab stop ${index + 1}');
+      }
+      semantics.dispose();
+    });
+
+    testWidgets('overflow action exposes a localized label and hint',
+        (tester) async {
+      for (final locale in const [Locale('en'), Locale('es')]) {
+        await tester.pumpWidget(buildTestWidget(locale: locale));
+        await tester.pumpAndSettle();
+
+        final expectedLabel =
+            locale.languageCode == 'es' ? 'Más opciones' : 'More options';
+        final expectedHint = locale.languageCode == 'es'
+            ? 'Abre las acciones secundarias del visor.'
+            : 'Opens secondary viewer actions.';
+        final semantics = tester.widget<Semantics>(
+          find.descendant(
+            of: find.byKey(const ValueKey('viewerMoreActionsButton')),
+            matching: find.byWidgetPredicate(
+              (widget) =>
+                  widget is Semantics &&
+                  widget.properties.label == expectedLabel,
+            ),
+          ),
+        );
+        expect(semantics.properties.hint, expectedHint);
+      }
+    });
+
+    testWidgets('fractal music action is discoverable in overflow',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(const ValueKey('viewerMoreActionsButton')));
+      await tester.pumpAndSettle();
       final music = find.byKey(const ValueKey('viewerFractalMusicButton'));
       expect(music, findsOneWidget);
+      await tester.ensureVisible(music);
+      await tester.pumpAndSettle();
       final rect = tester.getRect(music);
       expect(rect.top, greaterThanOrEqualTo(0));
       expect(rect.bottom, lessThanOrEqualTo(600));
@@ -299,6 +867,8 @@ void main() {
 
       expect(controller.module.id, equals('mandelbrot'));
 
+      await tester.tap(find.byKey(const ValueKey('viewerMoreActionsButton')));
+      await tester.pumpAndSettle();
       final randomButton = find.byKey(const ValueKey('viewerRandomButton'));
       await tester.ensureVisible(randomButton);
       await tester.pumpAndSettle();
@@ -400,6 +970,137 @@ void main() {
 
       expect(exportService.capturedPixelRatio, closeTo(2.625, 0.0001));
       expect(exportService.resizedDimensions, (1080, 1920));
+    });
+
+    testWidgets('cancelled image export never starts the PNG fallback',
+        (tester) async {
+      final exportService = _CancelledExportService();
+
+      await tester.pumpWidget(buildTestWidget(exportService: exportService));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
+      await tester.pumpAndSettle();
+
+      expect(exportService.fallbackCaptures, 0);
+    });
+
+    testWidgets(
+        'ordinary failure fallback retains the image lease and honours Back cancellation',
+        (tester) async {
+      final coordinator = ExportCoordinator();
+      final exportService = _BlockingFallbackExportService(coordinator);
+
+      await tester.pumpWidget(buildTestWidget(exportService: exportService));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
+      await tester.pump();
+      await exportService.fallbackStarted.future;
+
+      expect(coordinator.activeKind, ExportKind.image);
+      await expectLater(
+        coordinator.run(ExportKind.video, (_) async => 1),
+        throwsA(isA<ExportBusyException>()),
+      );
+
+      await tester.binding.handlePopRoute();
+      exportService.releaseFallbackCapture.complete();
+      await tester.pumpAndSettle();
+
+      expect(coordinator.isBusy, isFalse);
+      expect(exportService.resizeCalls, 0);
+      expect(exportService.saveCalls, 0);
+      expect(find.byKey(const Key('fractalViewerRoot')), findsOneWidget);
+    });
+
+    testWidgets('publication retains the image lease and honours cancellation',
+        (tester) async {
+      final coordinator = ExportCoordinator();
+      final exportService = _BlockingPublicationExportService(coordinator);
+
+      await tester.pumpWidget(buildTestWidget(exportService: exportService));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
+      await tester.pump();
+      await exportService.publicationStarted.future;
+
+      expect(coordinator.activeKind, ExportKind.image);
+      await expectLater(
+        coordinator.run(ExportKind.video, (_) async => 1),
+        throwsA(isA<ExportBusyException>()),
+      );
+
+      await tester.binding.handlePopRoute();
+      exportService.releasePublication.complete();
+      await tester.pumpAndSettle();
+
+      expect(coordinator.isBusy, isFalse);
+      expect(find.byKey(const Key('fractalViewerRoot')), findsOneWidget);
+    });
+
+    testWidgets(
+        'wallpaper persistence and publication retain the image lease and cancel',
+        (tester) async {
+      final previousPlatform = debugDefaultTargetPlatformOverride;
+      debugDefaultTargetPlatformOverride = TargetPlatform.android;
+      addTearDown(() => debugDefaultTargetPlatformOverride = previousPlatform);
+      final exportService = _BlockingWallpaperExportService();
+      final wallpaperService = _BlockingWallpaperService();
+
+      await tester.pumpWidget(buildTestWidget(
+        exportService: exportService,
+        wallpaperService: wallpaperService,
+      ));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('exportWallpaperButton')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Apply'));
+      await tester.pump();
+      await wallpaperService.publicationStarted.future;
+
+      expect(exportService.saveCalls, 1);
+      expect(exportService.coordinator.activeKind, ExportKind.image);
+      await expectLater(
+        exportService.coordinator.run(ExportKind.video, (_) async => 1),
+        throwsA(isA<ExportBusyException>()),
+      );
+
+      await tester.binding.handlePopRoute();
+      wallpaperService.releasePublication.complete();
+      await tester.pumpAndSettle();
+      debugDefaultTargetPlatformOverride = previousPlatform;
+
+      expect(exportService.coordinator.isBusy, isFalse);
+      expect(find.text('Wallpaper ready'), findsNothing);
+      expect(find.byKey(const Key('fractalViewerRoot')), findsOneWidget);
+    });
+
+    testWidgets('system Back cancels an active image export before route pop',
+        (tester) async {
+      final exportService = _BlockingExportService();
+
+      await tester.pumpWidget(buildTestWidget(exportService: exportService));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
+      await tester.pump();
+
+      expect(exportService.coordinator.isBusy, isTrue);
+      expect(find.byKey(const Key('fractalViewerRoot')), findsOneWidget);
+
+      await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
+
+      expect(exportService.coordinator.isBusy, isFalse);
+      expect(find.byKey(const Key('fractalViewerRoot')), findsOneWidget);
     });
 
     testWidgets('performance family route hides core viewer chrome',
@@ -612,6 +1313,8 @@ void main() {
       ));
       await tester.pumpAndSettle();
 
+      await tester.tap(find.byKey(const ValueKey('viewerMoreActionsButton')));
+      await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('viewerLooperButton')));
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('looperSetAButton')));
@@ -629,7 +1332,18 @@ void main() {
       }
       final zoomAtExport = controller.view.zoom;
       await tester.tap(find.byKey(const ValueKey('looperExportGifButton')));
-      if (settleAfterExport) await tester.pumpAndSettle();
+      if (settleAfterExport) {
+        await tester.pumpAndSettle();
+        for (var attempt = 0;
+            attempt < 100 && exportService.coordinator.isBusy;
+            attempt++) {
+          await tester.runAsync(
+            () => Future<void>.delayed(const Duration(milliseconds: 10)),
+          );
+          await tester.pump();
+        }
+        await tester.pumpAndSettle();
+      }
       return zoomAtExport;
     }
 
@@ -679,6 +1393,40 @@ void main() {
         ),
         findsOneWidget,
       );
+      historyProvider.cancelPendingRecord();
+    });
+
+    testWidgets('looper publication retains its lease and honours cancellation',
+        (tester) async {
+      final exportService = _BlockingLooperPublicationExportService();
+      await exportLooper(
+        tester,
+        exportService,
+        settleAfterExport: false,
+      );
+      for (var attempt = 0;
+          attempt < 100 && !exportService.shareStarted.isCompleted;
+          attempt++) {
+        await tester.pump();
+        await tester.runAsync(
+          () => Future<void>.delayed(const Duration(milliseconds: 10)),
+        );
+      }
+      await exportService.shareStarted.future;
+
+      expect(exportService.coordinator.activeKind, ExportKind.looper);
+      await expectLater(
+        exportService.coordinator.run(ExportKind.video, (_) async => 1),
+        throwsA(isA<ExportBusyException>()),
+      );
+
+      await tester.binding.handlePopRoute();
+      exportService.releaseShare.complete();
+      await tester.pumpAndSettle();
+
+      expect(exportService.coordinator.isBusy, isFalse);
+      expect(find.text('Looper GIF exported'), findsNothing);
+      expect(find.byKey(const Key('fractalViewerRoot')), findsOneWidget);
       historyProvider.cancelPendingRecord();
     });
 

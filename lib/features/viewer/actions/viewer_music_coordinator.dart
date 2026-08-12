@@ -10,35 +10,46 @@ import 'package:flutter_fractals/features/viewer/audio/fractal_music_service.dar
 /// Widget-coupled concerns (AnimationController, mounted, context) are injected
 /// as callbacks so the coordination logic is testable without a widget tree.
 class ViewerMusicCoordinator {
-  static const _defaultRescanDelay = Duration(milliseconds: 700);
+  static const _defaultRescanDelay = Duration(milliseconds: 180);
+  static const _defaultMaxContinuousRescanDelay = Duration(milliseconds: 900);
 
   final ViewerEffectsController _effects;
   final Future<FractalMusicScanFrame?> Function() _captureFrame;
   final void Function(bool enabled) _syncAnimation;
   final VoidCallback _notifyState;
+  final double Function() _scanProgress;
   final Duration _rescanDelay;
+  final Duration _maxContinuousRescanDelay;
   final Duration _loopRefreshDelay;
 
   Timer? _rescanTimer;
+  DateTime? _rescanBurstStartedAt;
   Timer? _loopRefreshTimer;
   FractalMusicFeatures? _lastFeatures;
   double? _lastScanZoom;
   int _rescanGeneration = 0;
+  int _restartOperations = 0;
   bool _moduleRescanPending = false;
   FractalController? _deferredRescanController;
+  FractalController? _queuedMotionController;
 
   ViewerMusicCoordinator({
     required ViewerEffectsController effects,
     required Future<FractalMusicScanFrame?> Function() captureFrame,
     required void Function(bool enabled) syncAnimation,
     required VoidCallback notifyState,
+    required double Function() scanProgress,
     @visibleForTesting Duration rescanDelay = _defaultRescanDelay,
+    @visibleForTesting
+    Duration maxContinuousRescanDelay = _defaultMaxContinuousRescanDelay,
     @visibleForTesting Duration loopRefreshDelay = fractalMusicLoopDuration,
   })  : _effects = effects,
         _captureFrame = captureFrame,
         _syncAnimation = syncAnimation,
         _notifyState = notifyState,
+        _scanProgress = scanProgress,
         _rescanDelay = rescanDelay,
+        _maxContinuousRescanDelay = maxContinuousRescanDelay,
         _loopRefreshDelay = loopRefreshDelay;
 
   /// Arms a debounced restart. No-op when music is currently disabled.
@@ -53,15 +64,34 @@ class ViewerMusicCoordinator {
       return;
     }
     _loopRefreshTimer?.cancel();
+    final now = DateTime.now();
+    final burstStartedAt = _rescanBurstStartedAt ??= now;
     _rescanTimer?.cancel();
+    if (_restartOperations > 0 && !moduleChanged) {
+      _queuedMotionController = controller;
+      return;
+    }
     final generation = ++_rescanGeneration;
+    if (_restartOperations > 0) {
+      unawaited(_effects.cancelPendingFractalMusicPlayback());
+    }
     if (moduleChanged) {
       _moduleRescanPending = true;
       _deferredRescanController = null;
     }
+    final elapsed = now.difference(burstStartedAt);
+    final remainingDeadline = _maxContinuousRescanDelay - elapsed;
+    final delay = moduleChanged
+        ? Duration.zero
+        : remainingDeadline <= Duration.zero
+            ? Duration.zero
+            : remainingDeadline < _rescanDelay
+                ? remainingDeadline
+                : _rescanDelay;
     _rescanTimer = Timer(
-      moduleChanged ? Duration.zero : _rescanDelay,
+      delay,
       () async {
+        _rescanBurstStartedAt = null;
         await _doRestart(
           controller,
           generation: generation,
@@ -93,9 +123,14 @@ class ViewerMusicCoordinator {
   /// Cancels any pending debounced restart (called when music is disabled).
   void cancelRescan() {
     _rescanGeneration++;
+    if (_restartOperations > 0) {
+      unawaited(_effects.cancelPendingFractalMusicPlayback());
+    }
     _moduleRescanPending = false;
     _deferredRescanController = null;
+    _queuedMotionController = null;
     _rescanTimer?.cancel();
+    _rescanBurstStartedAt = null;
     _loopRefreshTimer?.cancel();
     _lastFeatures = null;
     _lastScanZoom = null;
@@ -133,8 +168,26 @@ class ViewerMusicCoordinator {
       _armLoopRefresh(controller);
       return;
     }
-    final result =
-        await _effects.restartFractalMusic(controller, scanFrame: scanFrame);
+    _restartOperations++;
+    late final ViewerMusicToggleResult result;
+    try {
+      result = await _effects.restartFractalMusic(
+        controller,
+        scanFrame: scanFrame,
+        startProgressProvider: _scanProgress,
+        shouldCommit: () =>
+            generation == _rescanGeneration && _effects.fractalMusicEnabled,
+      );
+    } finally {
+      _restartOperations--;
+      if (_restartOperations == 0) {
+        final queued = _queuedMotionController;
+        _queuedMotionController = null;
+        if (queued != null && _effects.fractalMusicEnabled) {
+          scheduleRescan(queued);
+        }
+      }
+    }
     if (generation != _rescanGeneration) return;
     if (result.failed) {
       _notifyState();
@@ -155,7 +208,8 @@ class ViewerMusicCoordinator {
     }
     _lastFeatures = features;
     _lastScanZoom = features == null ? null : scanZoom;
-    _syncAnimation(true);
+    // Playback is rotated to the current beam phase, so the visible scanner
+    // keeps moving instead of jumping back to twelve o'clock.
     _armLoopRefresh(controller, retryMissingScan: features == null);
   }
 
@@ -181,7 +235,9 @@ class ViewerMusicCoordinator {
     _rescanGeneration++;
     _moduleRescanPending = false;
     _deferredRescanController = null;
+    _queuedMotionController = null;
     _rescanTimer?.cancel();
+    _rescanBurstStartedAt = null;
     _loopRefreshTimer?.cancel();
     _lastFeatures = null;
     _lastScanZoom = null;

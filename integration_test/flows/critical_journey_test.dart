@@ -154,12 +154,24 @@ void main() {
           reason: 'Viewer export button (download) must be present',
         );
 
-        // Random fractal button (shuffle icon)
+        // Random fractal is a secondary action in the responsive More sheet.
+        final moreActions = find.byKey(const Key('viewerMoreActionsButton'));
         expect(
-          find.byKey(const Key('viewerRandomButton')),
+          moreActions,
           findsOneWidget,
-          reason: 'Viewer random button must be present',
+          reason: 'Viewer More actions button must be present',
         );
+        await tester.tap(moreActions);
+        await tester.pump(const Duration(milliseconds: 500));
+
+        final randomFractal = find.byKey(const Key('viewerRandomButton'));
+        expect(
+          randomFractal,
+          findsOneWidget,
+          reason: 'Viewer random action must be discoverable from More',
+        );
+        Navigator.of(tester.element(randomFractal)).pop();
+        await tester.pump(const Duration(milliseconds: 500));
 
         // ------------------------------------------------------------------
         // Step 6: Tap export button and verify export sheet appears

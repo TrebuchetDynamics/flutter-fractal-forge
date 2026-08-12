@@ -87,7 +87,8 @@ void main() {
       controller.dispose();
     });
 
-    Widget buildApp({double textScale = 1.0, Locale locale = const Locale('en')}) {
+    Widget buildApp(
+        {double textScale = 1.0, Locale locale = const Locale('en')}) {
       return MultiProvider(
         providers: [
           ChangeNotifierProvider<FractalController>.value(value: controller),

@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  const asset = 'shaders/escape_time_family/families/buddhabrot/buddhabrot_gpu.frag';
+  const asset =
+      'shaders/escape_time_family/families/buddhabrot/buddhabrot_gpu.frag';
 
   test('Buddhabrot shader colors bounded deep-zoom points', () {
     final shader = File(asset).readAsStringSync();

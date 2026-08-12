@@ -66,6 +66,27 @@ internal object FractalMusicWavParser {
     private const val WAV_HEADER_BYTES = 44
 }
 
+internal data class FractalMusicTrackHandoff<T>(
+    val accepted: Boolean,
+    val owner: T?,
+)
+
+internal fun <T> handoffFractalMusicTrack(
+    previous: T?,
+    candidate: T,
+    isCurrent: () -> Boolean,
+    start: (T) -> Unit,
+    release: (T) -> Unit,
+): FractalMusicTrackHandoff<T> {
+    if (!isCurrent()) return FractalMusicTrackHandoff(false, previous)
+    // The current owner stays audible until candidate startup succeeds. If
+    // start throws, ownership and audibility of [previous] are unchanged.
+    start(candidate)
+    if (!isCurrent()) return FractalMusicTrackHandoff(false, previous)
+    previous?.let(release)
+    return FractalMusicTrackHandoff(true, candidate)
+}
+
 internal class FractalMusicPlaybackGeneration {
     private var generation = 0L
 

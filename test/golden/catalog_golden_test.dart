@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
@@ -79,7 +78,7 @@ void main() {
   Future<void> goldenCatalogTest(
     WidgetTester tester, {
     required String goldenName,
-    required List<Device> devices,
+    required Size viewportSize,
     required ThemeData theme,
   }) async {
     // Suppress known image-load and overflow errors during golden capture.
@@ -98,25 +97,17 @@ void main() {
     };
 
     try {
-      final builder = DeviceBuilder()
-        ..overrideDevicesForAllScenarios(devices: devices)
-        ..addScenario(
-          name: goldenName,
-          widget: buildCatalogApp(theme: theme),
-        );
+      tester.view.devicePixelRatio = 1;
+      tester.view.physicalSize = viewportSize;
+      addTearDown(tester.view.resetDevicePixelRatio);
+      addTearDown(tester.view.resetPhysicalSize);
 
-      await tester.pumpDeviceBuilder(builder);
-
-      // Use screenMatchesGolden with no asset priming (skip: primeAssets).
-      await screenMatchesGolden(
-        tester,
-        goldenName,
-        // Skip default asset priming — catalog thumbnails are not available
-        // in the test bundle and cause hundreds of precache errors.
-        customPump: (tester) async {
-          await tester.pump();
-          await tester.pump(const Duration(seconds: 1));
-        },
+      await tester.pumpWidget(buildCatalogApp(theme: theme));
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+      await expectLater(
+        find.byType(Scaffold),
+        matchesGoldenFile('goldens/$goldenName.png'),
       );
     } finally {
       FlutterError.onError = originalHandler;
@@ -124,38 +115,38 @@ void main() {
   }
 
   group('Catalog Golden Tests', () {
-    testGoldens('catalog screen — phone (dark theme)', (tester) async {
+    testWidgets('catalog screen — phone (dark theme)', (tester) async {
       await goldenCatalogTest(
         tester,
         goldenName: 'catalog_phone_dark',
-        devices: [Device.phone],
+        viewportSize: const Size(375, 667),
         theme: AppTheme.dark,
       );
     });
 
-    testGoldens('catalog screen — tablet (dark theme)', (tester) async {
+    testWidgets('catalog screen — tablet (dark theme)', (tester) async {
       await goldenCatalogTest(
         tester,
         goldenName: 'catalog_tablet_dark',
-        devices: [Device.tabletLandscape],
+        viewportSize: const Size(1366, 1024),
         theme: AppTheme.dark,
       );
     });
 
-    testGoldens('catalog screen — phone (high contrast)', (tester) async {
+    testWidgets('catalog screen — phone (high contrast)', (tester) async {
       await goldenCatalogTest(
         tester,
         goldenName: 'catalog_phone_high_contrast',
-        devices: [Device.phone],
+        viewportSize: const Size(375, 667),
         theme: AppTheme.highContrast,
       );
     });
 
-    testGoldens('catalog screen — tablet (high contrast)', (tester) async {
+    testWidgets('catalog screen — tablet (high contrast)', (tester) async {
       await goldenCatalogTest(
         tester,
         goldenName: 'catalog_tablet_high_contrast',
-        devices: [Device.tabletLandscape],
+        viewportSize: const Size(1366, 1024),
         theme: AppTheme.highContrast,
       );
     });

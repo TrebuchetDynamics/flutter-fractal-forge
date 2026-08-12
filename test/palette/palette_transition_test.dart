@@ -2,6 +2,42 @@ import 'package:flutter_fractals/features/renderer/palette_transition.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  test('reports whether a palette change needs continuous frames', () {
+    final transition = PaletteTransition();
+    final start = DateTime(2026);
+
+    transition.valueFor(
+      target: 0,
+      now: start,
+      min: 0,
+      max: 63,
+      animate: true,
+    );
+    expect(transition.wouldAnimateTo(0), isFalse);
+    expect(transition.wouldAnimateTo(1), isTrue);
+
+    transition.valueFor(
+      target: 1,
+      now: start,
+      min: 0,
+      max: 63,
+      animate: true,
+    );
+    expect(transition.isActiveAt(start), isTrue);
+
+    transition.valueFor(
+      target: 1,
+      now: start.add(PaletteTransition.duration),
+      min: 0,
+      max: 63,
+      animate: true,
+    );
+    expect(
+      transition.isActiveAt(start.add(PaletteTransition.duration)),
+      isFalse,
+    );
+  });
+
   test('keeps target palette out of app state while returning render lerp', () {
     final transition = PaletteTransition();
     final start = DateTime(2026);

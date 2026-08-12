@@ -252,6 +252,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
     name: 'Quaternion Mandelbrot 3D',
     shaderAsset:
         'shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_mandelbrot_3d_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     category: '3D Fractals',
     exposePower: false,
     defaultIterations: 14,
@@ -480,6 +481,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
     name: 'Time-Modulated Mandelbulb',
     shaderAsset:
         'shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     category: '3D Fractals',
     defaultPower: 8.0,
     minPower: 2.0,
@@ -551,6 +553,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
     name: 'Bulbils',
     shaderAsset:
         'shaders/3d_and_hypercomplex/raymarched_volumes/bulbils_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     category: '3D Fractals',
     defaultPower: 6.0,
     minPower: 3.0,

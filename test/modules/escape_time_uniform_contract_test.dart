@@ -18,7 +18,8 @@ void main() {
         reason: 'Shader asset missing for ${config.id}: ${config.shaderAsset}',
       );
 
-      final floatSlotCount = _countFlutterFloatSlots(shaderFile.readAsStringSync());
+      final floatSlotCount =
+          _countFlutterFloatSlots(shaderFile.readAsStringSync());
       final requiredSlots =
           EscapeTimeUniformSlots.extraStart + config.extraParams.length;
       if (floatSlotCount < requiredSlots) {
@@ -43,7 +44,8 @@ int _countFlutterFloatSlots(String shaderSource) {
     'vec3': 3,
     'vec4': 4,
   };
-  final uniformPattern = RegExp(r'uniform\s+(float|int|bool|vec2|vec3|vec4)\s+\w+');
+  final uniformPattern =
+      RegExp(r'uniform\s+(float|int|bool|vec2|vec3|vec4)\s+\w+');
   return uniformPattern
       .allMatches(shaderSource)
       .map((match) => slotWidths[match.group(1)]!)

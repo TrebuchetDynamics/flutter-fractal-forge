@@ -32,6 +32,7 @@ class Raymarched3DConfig {
   final ModuleNameBuilder? displayName;
   final String shaderAsset;
   final String category;
+  final FractalAnimationCapability animationCapability;
 
   // Default parameter values
   final double defaultPower;
@@ -57,6 +58,7 @@ class Raymarched3DConfig {
     required this.shaderAsset,
     this.displayName,
     this.category = '3D Fractals',
+    this.animationCapability = FractalAnimationCapability.static,
     this.defaultPower = 8.0,
     this.minPower = 2.0,
     this.maxPower = 12.0,
@@ -151,6 +153,7 @@ FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
     id: config.id,
     displayName: config.displayName ?? ((_) => config.name),
     dimension: FractalDimension.threeD,
+    animationCapability: config.animationCapability,
     shaderAsset: config.shaderAsset,
     parameters: parameters,
     defaultPreset: defaultPreset,

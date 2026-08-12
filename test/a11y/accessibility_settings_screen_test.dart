@@ -145,7 +145,8 @@ void main() {
       expect(service.highContrastEnabled, isFalse);
     });
 
-    testWidgets('Switch reflects pre-enabled state from service', (tester) async {
+    testWidgets('Switch reflects pre-enabled state from service',
+        (tester) async {
       SharedPreferences.setMockInitialValues({
         'accessibility_high_contrast': true,
         'accessibility_reduced_motion': true,
@@ -156,9 +157,9 @@ void main() {
       await tester.pumpAndSettle();
 
       final switches = tester.widgetList<Switch>(find.byType(Switch)).toList();
-      expect(switches[0].value, isTrue);   // High Contrast
-      expect(switches[1].value, isTrue);   // Reduced Motion
-      expect(switches[2].value, isFalse);  // Large Touch Targets
+      expect(switches[0].value, isTrue); // High Contrast
+      expect(switches[1].value, isTrue); // Reduced Motion
+      expect(switches[2].value, isFalse); // Large Touch Targets
     });
 
     testWidgets('uses l10n subtitle strings for hint text', (tester) async {
@@ -191,7 +192,8 @@ void main() {
       expect(backButton.tooltip, 'Go back to previous screen');
     });
 
-    testWidgets('setting tiles have Semantics toggled property', (tester) async {
+    testWidgets('setting tiles have Semantics toggled property',
+        (tester) async {
       final service = await _makeService();
       await tester.pumpWidget(_buildScreen(service));
       await tester.pumpAndSettle();

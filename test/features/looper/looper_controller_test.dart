@@ -38,7 +38,21 @@ void main() {
 
     expect(plan.poseAtFrame(0).x, 0);
     expect(plan.poseAtFrame(plan.frameCount ~/ 2).x, closeTo(2, 0.3));
-    expect(plan.poseAtFrame(plan.frameCount - 1).x, 0);
+    expect(plan.poseAtFrame(plan.frameCount - 1).x, isNot(0));
+  });
+
+  test('export frames sample the full loop without duplicating A', () {
+    final plan = _plan(a, b, const Duration(seconds: 2));
+    final last = plan.poseAtFrame(plan.frameCount - 1);
+    final expectedLast = plan
+        .stateAtPhase(
+          (plan.frameCount - 1) / plan.frameCount,
+        )
+        .pose;
+
+    expect(last.x, closeTo(expectedLast.x, 1e-12));
+    expect(last.x, isNot(0),
+        reason: 'playback wraps to A; storing A twice pauses the loop seam');
   });
 
   test('camera eases into and out of waypoints', () {

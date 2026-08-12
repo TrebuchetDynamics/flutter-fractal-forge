@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math' as math;
 import 'dart:typed_data';
@@ -58,6 +59,16 @@ double _pcmRms(Uint8List wav) {
     count++;
   }
   return count == 0 ? 0 : math.sqrt(sumSquares / count);
+}
+
+int _pcmClippedSamples(Uint8List wav) {
+  final data = ByteData.sublistView(wav);
+  var clipped = 0;
+  for (var offset = 44; offset + 1 < wav.length; offset += 2) {
+    final sample = data.getInt16(offset, Endian.little);
+    if (sample == -32768 || sample == 32767) clipped++;
+  }
+  return clipped;
 }
 
 int _pcmZeroCrossings(Uint8List wav) {
@@ -172,18 +183,25 @@ class _FakeProcess implements Process {
   _FakeProcess(
     this.code, {
     this.exitError,
+    this.exitFuture,
+    this.onExitCodeRead,
     this.killError,
     this.killResult = true,
   });
 
   final int code;
   final Object? exitError;
+  final Future<int>? exitFuture;
+  final void Function()? onExitCodeRead;
   final Object? killError;
   final bool killResult;
   bool killed = false;
 
   @override
   Future<int> get exitCode {
+    onExitCodeRead?.call();
+    final future = exitFuture;
+    if (future != null) return future;
     final error = exitError;
     return error == null ? Future.value(code) : Future.error(error);
   }
@@ -320,6 +338,21 @@ void main() {
     );
   });
 
+  test('fallback state audio has audible playback level', () {
+    final wav = buildFractalMusicWav(
+      moduleId: 'mandelbrot',
+      params: const {'iterations': 180, 'colorScheme': 5},
+      panX: -0.7435,
+      panY: 0.1314,
+      zoom: 12,
+      sampleRate: 8000,
+      seconds: 1,
+    );
+
+    expect(_pcmRms(wav), inInclusiveRange(1200, 4000));
+    expect(_pcmClippedSamples(wav), 0);
+  });
+
   test('generated loops start and end silent to avoid loop clicks', () {
     final stateLoop = buildFractalMusicWav(
       moduleId: 'mandelbrot',
@@ -347,6 +380,57 @@ void main() {
     expect(_pcmSample(stateLoop, 7999, channel: 1), 0);
     expect(_pcmSample(scanLoop, 0), 0);
     expect(_pcmSample(scanLoop, 7999), 0);
+  });
+
+  test('looper music blend includes every captured camera state', () {
+    FractalMusicScanFrame solid(int red, int green, int blue) =>
+        FractalMusicScanFrame(
+          rgba: Uint8List.fromList([
+            for (var i = 0; i < 4; i++) ...[red, green, blue, 255],
+          ]),
+          width: 2,
+          height: 2,
+        );
+
+    final blended = blendFractalMusicScanFrames([
+      solid(240, 0, 0),
+      solid(0, 0, 240),
+    ]);
+
+    expect(blended.width, 2);
+    expect(blended.height, 2);
+    expect(blended.rgba.sublist(0, 4), [120, 0, 120, 255]);
+    expect(
+      buildFractalMusicScanWav(
+        scanFrame: blended,
+        zoom: 1,
+        seconds: 2,
+      ),
+      isNotEmpty,
+    );
+  });
+
+  test('looper music timeline follows camera frames around scanner phase', () {
+    FractalMusicScanFrame solid(int red, int green, int blue) =>
+        FractalMusicScanFrame(
+          rgba: Uint8List.fromList([
+            for (var i = 0; i < 25; i++) ...[red, green, blue, 255],
+          ]),
+          width: 5,
+          height: 5,
+        );
+
+    final woven = weaveFractalMusicScanFrames([
+      solid(240, 0, 0),
+      solid(0, 0, 240),
+    ]);
+    List<int> pixel(int x, int y) => woven.rgba
+        .sublist((y * woven.width + x) * 4, (y * woven.width + x) * 4 + 4);
+
+    expect(pixel(2, 0), [240, 0, 0, 255],
+        reason: 'scanner phase zero starts at the first camera frame');
+    expect(pixel(2, 4), [0, 0, 240, 255],
+        reason: 'half a turn uses the later camera frame');
   });
 
   test('buildFractalMusicScanWav leaves empty space silent', () {
@@ -573,6 +657,79 @@ void main() {
     expect(_pcmSample(wav, 7999, channel: 1), 0);
   });
 
+  test('scan audio has audible playback level with safe headroom', () {
+    final wav = buildFractalMusicScanWav(
+      scanFrame: FractalMusicScanFrame(
+        rgba: _solidFrame(8, 8, 120, 80, 200),
+        width: 8,
+        height: 8,
+      ),
+      zoom: 1,
+      sampleRate: 8000,
+      seconds: 1,
+    );
+
+    expect(_pcmRms(wav), inInclusiveRange(1200, 4000));
+    expect(_pcmPeak(wav), lessThan(20000));
+  });
+
+  test('master bus stays monotonic, symmetric, and below PCM clamp', () {
+    const largestFiniteFloat32 = 3.4028234663852886e38;
+    final positiveInputs = [1.0, 10.0, 100.0, largestFiniteFloat32];
+    final positiveOutputs = positiveInputs
+        .map(debugFractalMusicMasterBusValue)
+        .toList(growable: false);
+    final negativeOutputs = positiveInputs
+        .map((value) => debugFractalMusicMasterBusValue(-value))
+        .toList(growable: false);
+
+    for (var i = 0; i < positiveOutputs.length; i++) {
+      expect(positiveOutputs[i], greaterThan(0));
+      expect(negativeOutputs[i], lessThan(0));
+      expect(negativeOutputs[i], closeTo(-positiveOutputs[i], 1e-12));
+      if (i > 0) {
+        expect(positiveOutputs[i], greaterThan(positiveOutputs[i - 1]));
+        expect(negativeOutputs[i], lessThan(negativeOutputs[i - 1]));
+      }
+    }
+
+    final asymptoticOutput = positiveOutputs.last;
+    // At Float32's largest finite input, IEEE-754 rounding may land exactly on
+    // the mathematical asymptote even though all practical inputs stay below it.
+    expect(asymptoticOutput, lessThanOrEqualTo(1 / 0.35));
+    final maximumPanGain = math.sqrt((1 + 0.72) * 0.5);
+    const pcmScale = 10000.0;
+    final worstCasePcm = asymptoticOutput * maximumPanGain * pcmScale;
+    expect(worstCasePcm, lessThan(32767));
+  });
+
+  test('high-energy production scan audio never reaches PCM clamp', () {
+    const size = 64;
+    final frame = Uint8List(size * size * 4);
+    for (var y = 0; y < size; y++) {
+      for (var x = 0; x < size; x++) {
+        final offset = (y * size + x) * 4;
+        final value = (x + y).isEven ? 255 : 96;
+        frame[offset] = value;
+        frame[offset + 1] = value;
+        frame[offset + 2] = value;
+        frame[offset + 3] = 255;
+      }
+    }
+    final wav = buildFractalMusicScanWav(
+      scanFrame: FractalMusicScanFrame(
+        rgba: frame,
+        width: size,
+        height: size,
+      ),
+      zoom: 256,
+      motion: 1,
+    );
+
+    expect(_pcmClippedSamples(wav), 0);
+    expect(_pcmPeak(wav), lessThan(30000));
+  });
+
   test('sustained voices carry across beat boundaries', () {
     const sampleRate = 8000;
     const seconds = 4;
@@ -608,7 +765,8 @@ void main() {
       expect(
         boundaryRms,
         greaterThan(overall * 0.25),
-        reason: 'beat $beat boundary ducked to $boundaryRms vs overall $overall',
+        reason:
+            'beat $beat boundary ducked to $boundaryRms vs overall $overall',
       );
     }
   });
@@ -656,32 +814,35 @@ void main() {
     expect(_pcmPeak(detailedWav), lessThan(7000));
   });
 
-  test('scan audio maps visual brightness to loudness and harmony', () {
-    final dim = buildFractalMusicScanWav(
-      scanFrame: FractalMusicScanFrame(
-        rgba: _solidFrame(8, 8, 40, 40, 40),
-        width: 8,
-        height: 8,
-      ),
-      zoom: 1,
-      sampleRate: 8000,
-      seconds: 1,
-    );
-    final bright = buildFractalMusicScanWav(
-      scanFrame: FractalMusicScanFrame(
-        rgba: _solidFrame(8, 8, 220, 220, 220),
-        width: 8,
-        height: 8,
-      ),
-      zoom: 1,
-      sampleRate: 8000,
-      seconds: 1,
-    );
+  test('scan audio maps visual brightness monotonically to loudness', () {
+    final levels = [40, 80, 120, 160, 220];
+    final wavs = levels
+        .map((level) => buildFractalMusicScanWav(
+              scanFrame: FractalMusicScanFrame(
+                rgba: _solidFrame(8, 8, level, level, level),
+                width: 8,
+                height: 8,
+              ),
+              zoom: 1,
+              sampleRate: 8000,
+              seconds: 1,
+            ))
+        .toList(growable: false);
+    final loudness = wavs.map(_pcmRms).toList(growable: false);
 
+    for (var i = 1; i < loudness.length; i++) {
+      expect(
+        loudness[i],
+        greaterThan(loudness[i - 1]),
+        reason: 'brightness ${levels[i]} must be louder than ${levels[i - 1]}',
+      );
+    }
+    final dim = wavs.first;
+    final bright = wavs.last;
     expect(_pcmRms(bright), greaterThan(_pcmRms(dim) * 2));
     expect(
         _pcmZeroCrossings(bright), greaterThan(_pcmZeroCrossings(dim) * 1.03));
-    expect(_pcmPeak(bright), lessThan(7000));
+    expect(_pcmPeak(bright), lessThan(20000));
   });
 
   test('scan audio maps dominant hue to a chromatic root', () {
@@ -875,6 +1036,50 @@ void main() {
     expect(of(120).differsFrom(of(220)), isTrue);
   });
 
+  test('feature comparison catches every identity-driving dimension', () {
+    const base = FractalMusicFeatures(
+      brightness: 0.40,
+      contrast: 0.10,
+      detail: 0.020,
+      hue: 0.20,
+      saturation: 0.20,
+    );
+
+    expect(
+      base.differsFrom(const FractalMusicFeatures(
+        brightness: 0.40,
+        contrast: 0.17,
+        detail: 0.020,
+        hue: 0.20,
+        saturation: 0.20,
+      )),
+      isTrue,
+      reason: 'contrast can change mode',
+    );
+    expect(
+      base.differsFrom(const FractalMusicFeatures(
+        brightness: 0.40,
+        contrast: 0.10,
+        detail: 0.050,
+        hue: 0.20,
+        saturation: 0.20,
+      )),
+      isTrue,
+      reason: 'a sub-0.04 detail move can cross several tempo bands',
+    );
+    expect(
+      base.differsFrom(const FractalMusicFeatures(
+        brightness: 0.40,
+        contrast: 0.10,
+        detail: 0.020,
+        hue: 0.20,
+        saturation: 0.22,
+      )),
+      isTrue,
+      reason: 'a sub-0.04 saturation move can cross a progression band',
+    );
+  });
+
   test('an explicit identity overrides what the frame would have chosen', () {
     final frame = FractalMusicScanFrame(
       rgba: _solidFrame(8, 8, 120, 80, 200),
@@ -927,6 +1132,312 @@ void main() {
             reason: 'index $index duplicates an earlier progression');
       }
     }
+  });
+
+  test('lead voice keeps pitch class while folding octave jumps', () {
+    expect(
+      debugFractalMusicVoiceLeadMidi(targetMidi: 84, previousMidi: 61),
+      60,
+      reason: 'the selected C folds toward the previous C-sharp',
+    );
+    expect(
+      debugFractalMusicVoiceLeadMidi(targetMidi: 48, previousMidi: 71),
+      72,
+      reason: 'upward folding works symmetrically',
+    );
+    expect(
+      debugFractalMusicVoiceLeadMidi(targetMidi: 66, previousMidi: 60),
+      66,
+      reason: 'a tritone-sized phrase move remains intact',
+    );
+    expect(
+      debugFractalMusicVoiceLeadMidi(targetMidi: 84, previousMidi: null),
+      84,
+      reason: 'the first phrase note retains the image-selected register',
+    );
+  });
+
+  test('lead voice stays anchored across long cyclic phrases', () {
+    const targets = [60, 67, 62, 69, 64, 71, 65, 60];
+    const anchor = 60;
+    var previous = anchor;
+    final voiced = <int>[anchor];
+
+    for (var cycle = 0; cycle < 8; cycle++) {
+      for (final target in targets.skip(1)) {
+        final next = debugFractalMusicVoiceLeadMidi(
+          targetMidi: target,
+          previousMidi: previous,
+          anchorMidi: anchor,
+        );
+        expect(next % 12, target % 12, reason: 'pitch class must survive');
+        voiced.add(next);
+        previous = next;
+      }
+    }
+
+    expect(voiced, everyElement(inInclusiveRange(anchor - 6, anchor + 6)));
+    expect((voiced.last - voiced.first).abs(), lessThanOrEqualTo(6));
+    for (var i = 1; i < voiced.length; i++) {
+      expect((voiced[i] - voiced[i - 1]).abs(), lessThanOrEqualTo(12));
+    }
+  });
+
+  test('anchored lead exhaustively chooses nearest in-window pitch class', () {
+    for (var anchor = 48; anchor < 60; anchor++) {
+      final lower = anchor - 6;
+      final upper = anchor + 6;
+      for (var previous = lower; previous <= upper; previous++) {
+        for (var target = 24; target <= 108; target++) {
+          final voiced = debugFractalMusicVoiceLeadMidi(
+            targetMidi: target,
+            previousMidi: previous,
+            anchorMidi: anchor,
+          );
+          final targetPitchClass = ((target % 12) + 12) % 12;
+          final candidates = [
+            for (var midi = lower; midi <= upper; midi++)
+              if (((midi % 12) + 12) % 12 == targetPitchClass) midi,
+          ];
+          final nearestDistance = candidates
+              .map((candidate) => (candidate - previous).abs())
+              .reduce(math.min);
+
+          expect(voiced, inInclusiveRange(lower, upper));
+          expect(((voiced % 12) + 12) % 12, targetPitchClass);
+          expect((voiced - previous).abs(), nearestDistance);
+        }
+      }
+    }
+
+    expect(
+      debugFractalMusicVoiceLeadMidi(
+        targetMidi: 54,
+        previousMidi: 53,
+        anchorMidi: 60,
+      ),
+      54,
+      reason: 'the lower tritone boundary wins when it is nearer',
+    );
+    expect(
+      debugFractalMusicVoiceLeadMidi(
+        targetMidi: 54,
+        previousMidi: 67,
+        anchorMidi: 60,
+      ),
+      66,
+      reason: 'the upper tritone boundary wins when it is nearer',
+    );
+  });
+
+  test('generated normal and pickup leads share one anchor and texture octave',
+      () {
+    const size = 64;
+    final rgba = Uint8List(size * size * 4);
+    for (var y = 0; y < size; y++) {
+      for (var x = 0; x < size; x++) {
+        final offset = (y * size + x) * 4;
+        final value = (x + y).isEven ? 255 : 48;
+        rgba[offset] = value;
+        rgba[offset + 1] = 255 - value;
+        rgba[offset + 2] = value;
+        rgba[offset + 3] = 255;
+      }
+    }
+
+    final events = debugFractalMusicScanScoreEvents(
+      scanFrame: FractalMusicScanFrame(
+        rgba: rgba,
+        width: size,
+        height: size,
+      ),
+      zoom: 1,
+      identity: const FractalMusicIdentity(
+        rootSemitones: 0,
+        major: true,
+        registerSemitones: 0,
+        bpm: 60,
+        progressionIndex: 0,
+      ),
+      motion: 1,
+      sampleRate: 8000,
+      seconds: 16,
+    );
+    final leads = events.where((event) => event.voice == 'lead').toList();
+    final textures = events.where((event) => event.voice == 'texture').toList();
+    final pickups = leads.where((event) {
+      final positionInBar = event.startSample % (4 * 8000);
+      return positionInBar == 3 * 8000 || positionInBar == 7 * 4000;
+    }).toList();
+    final normalLeads =
+        leads.where((event) => !pickups.contains(event)).toList();
+
+    expect(normalLeads, isNotEmpty);
+    expect(pickups, isNotEmpty);
+    expect(textures, isNotEmpty);
+    final anchor = leads.first.midi;
+    expect(leads.map((event) => event.midi),
+        everyElement(inInclusiveRange(anchor - 6, anchor + 6)));
+    for (var i = 1; i < leads.length; i++) {
+      expect((leads[i].midi - leads[i - 1].midi).abs(), lessThanOrEqualTo(12));
+    }
+    for (final texture in textures) {
+      final lead = normalLeads.singleWhere(
+        (event) => event.startSample == texture.startSample,
+      );
+      expect(texture.midi, lead.midi + 12);
+    }
+  });
+
+  test('short export keeps the selected tempo instead of stretching beats', () {
+    final frame = FractalMusicScanFrame(
+      rgba: _solidFrame(16, 16, 220, 120, 200),
+      width: 16,
+      height: 16,
+    );
+    final events = debugFractalMusicScanScoreEvents(
+      scanFrame: frame,
+      zoom: 8,
+      identity: const FractalMusicIdentity(
+        rootSemitones: 0,
+        major: false,
+        registerSemitones: 12,
+        bpm: 80,
+        progressionIndex: 0,
+      ),
+      sampleRate: 8000,
+      seconds: 2,
+    );
+    final kickOrSnare = events
+        .where((event) =>
+            event.voice == 'percussion' &&
+            (event.midi == 36 || event.midi == 38))
+        .toList();
+
+    expect(kickOrSnare.length, greaterThanOrEqualTo(2));
+    expect(kickOrSnare[1].startSample - kickOrSnare[0].startSample, 6000,
+        reason: '80 BPM is one onset every 0.75 seconds at 8 kHz');
+  });
+
+  test('kick pitch sweep preserves low-frequency drum body', () {
+    const sampleRate = 22050;
+    double estimateHz(double startSeconds, double endSeconds) {
+      final start = (startSeconds * sampleRate).round();
+      final end = (endSeconds * sampleRate).round();
+      var crossings = 0;
+      var previous = debugFractalMusicKickBodySample(
+        relativeSample: start,
+        sampleRate: sampleRate,
+      );
+      for (var sample = start + 1; sample < end; sample++) {
+        final current = debugFractalMusicKickBodySample(
+          relativeSample: sample,
+          sampleRate: sampleRate,
+        );
+        if (previous <= 0 && current > 0) crossings++;
+        previous = current;
+      }
+      return crossings / (endSeconds - startSeconds);
+    }
+
+    expect(estimateHz(0.0, 0.04), inInclusiveRange(80, 140));
+    expect(estimateHz(0.08, 0.18), inInclusiveRange(45, 70));
+  });
+
+  test('fractal detail orchestrates a drum kit around bass and harmony', () {
+    const size = 64;
+    FractalMusicScanFrame frame({required bool detailed}) {
+      final rgba = Uint8List(size * size * 4);
+      for (var y = 0; y < size; y++) {
+        for (var x = 0; x < size; x++) {
+          final offset = (y * size + x) * 4;
+          final value = detailed && (x + y).isEven ? 245 : 120;
+          rgba[offset] = value;
+          rgba[offset + 1] = detailed ? 80 : 100;
+          rgba[offset + 2] = detailed && x.isEven ? 220 : 130;
+          rgba[offset + 3] = 255;
+        }
+      }
+      return FractalMusicScanFrame(rgba: rgba, width: size, height: size);
+    }
+
+    List<({int startSample, int midi, String voice})> score(bool detailed) =>
+        debugFractalMusicScanScoreEvents(
+          scanFrame: frame(detailed: detailed),
+          zoom: 8,
+          identity: const FractalMusicIdentity(
+            rootSemitones: 0,
+            major: false,
+            registerSemitones: 12,
+            bpm: 80,
+            progressionIndex: 0,
+          ),
+          motion: 0.4,
+          sampleRate: 8000,
+          seconds: 16,
+        );
+
+    final detailed = score(true);
+    final flat = score(false);
+    final drums =
+        detailed.where((event) => event.voice == 'percussion').toList();
+    expect(drums.map((event) => event.midi), containsAll([36, 38, 42]));
+    expect(detailed.any((event) => event.voice == 'bass'), isTrue);
+    expect(detailed.any((event) => event.voice == 'pad'), isTrue);
+    expect(detailed.any((event) => event.voice == 'lead'), isTrue);
+    expect(
+      drums.length,
+      greaterThan(flat.where((event) => event.voice == 'percussion').length),
+      reason: 'rendered edge detail should add restrained hi-hat activity',
+    );
+  });
+
+  test('bass progression uses nearest octave instead of block jumps', () {
+    expect(debugFractalMusicVoiceBassMidi(targetMidi: 54, previousMidi: 45), 42,
+        reason: 'I to vi should move down three, not jump up nine');
+    expect(
+        debugFractalMusicVoiceBassMidi(targetMidi: 50, previousMidi: 42), 38);
+    expect(
+        debugFractalMusicVoiceBassMidi(targetMidi: 52, previousMidi: 38), 40);
+    expect(debugFractalMusicVoiceBassMidi(targetMidi: 66, previousMidi: 60), 42,
+        reason: 'octave folding must preserve pitch class instead of clamping');
+    expect(
+        debugFractalMusicVoiceBassMidi(targetMidi: 66, previousMidi: null), 42,
+        reason: 'the first bass note must also enter the playable register');
+  });
+
+  test('progression chords use each diatonic degree quality', () {
+    expect(
+      debugFractalMusicChordTones(major: true, rootSemitones: 0),
+      [0, 4, 7],
+      reason: 'I is major',
+    );
+    expect(
+      debugFractalMusicChordTones(major: true, rootSemitones: 9),
+      [0, 3, 7],
+      reason: 'vi is minor, not an out-of-key major chord',
+    );
+    expect(
+      debugFractalMusicChordTones(major: true, rootSemitones: 11),
+      [0, 3, 6],
+      reason: 'vii is diminished',
+    );
+
+    expect(
+      debugFractalMusicChordTones(major: false, rootSemitones: 0),
+      [0, 3, 7],
+      reason: 'i is minor',
+    );
+    expect(
+      debugFractalMusicChordTones(major: false, rootSemitones: 8),
+      [0, 4, 7],
+      reason: 'VI is major, not an out-of-key minor chord',
+    );
+    expect(
+      debugFractalMusicChordTones(major: false, rootSemitones: 2),
+      [0, 3, 6],
+      reason: 'ii is diminished',
+    );
   });
 
   test('saturation selects the progression and holds through a nudge', () {
@@ -1212,7 +1723,7 @@ void main() {
     expect(createdDir!.existsSync(), isFalse);
   });
 
-  test('play generates replacement audio before stopping the current loop',
+  test('replacement playback never stops the current loop before handoff',
       () async {
     final controller = FractalController(ModuleRegistry());
     addTearDown(controller.dispose);
@@ -1229,12 +1740,189 @@ void main() {
     );
     addTearDown(service.dispose);
 
+    await service.play(controller);
+    await service.play(controller);
+
+    expect(calls, ['play', 'play']);
+    await service.stop();
+    expect(calls, ['play', 'play', 'stop']);
+  });
+
+  test('superseded composition never replaces the audible loop', () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    var playCount = 0;
+    final service = FractalMusicService(
+      isWeb: true,
+      isAndroid: false,
+      isLinux: false,
+      webPlay: (_) async {
+        playCount++;
+        return true;
+      },
+      webStop: () async {},
+    );
+    addTearDown(service.dispose);
+
     await service.play(
       controller,
-      scanFrame: _TrackingScanFrame(() => calls.add('generate')),
+      scanFrame: FractalMusicScanFrame(
+        rgba: _solidFrame(16, 16, 120, 80, 200),
+        width: 16,
+        height: 16,
+      ),
+      shouldCommit: () => false,
     );
 
-    expect(calls.take(3), ['generate', 'stop', 'play']);
+    expect(playCount, 0);
+  });
+
+  test('cancelling an in-flight handoff reaches the playback adapter',
+      () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    final playEntered = Completer<void>();
+    final finishPlay = Completer<bool>();
+    var cancelCount = 0;
+    var current = true;
+    final service = FractalMusicService(
+      isWeb: true,
+      isAndroid: false,
+      isLinux: false,
+      webPlay: (_) {
+        playEntered.complete();
+        return finishPlay.future;
+      },
+      webStop: () async {},
+      webCancelPending: () async => cancelCount++,
+    );
+    addTearDown(service.dispose);
+
+    final play = service.play(controller, shouldCommit: () => current);
+    await playEntered.future;
+    current = false;
+    await service.cancelPendingPlayback();
+    finishPlay.complete(false);
+    await play;
+
+    expect(cancelCount, 1);
+  });
+
+  test('dispose during composition never publishes a late audio candidate',
+      () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    var playCalls = 0;
+    final service = FractalMusicService(
+      isWeb: true,
+      isAndroid: false,
+      isLinux: false,
+      webPlay: (_) async {
+        playCalls++;
+        return true;
+      },
+    );
+    final frame = FractalMusicScanFrame(
+      rgba: Uint8List(128 * 128 * 4)..fillRange(0, 128 * 128 * 4, 180),
+      width: 128,
+      height: 128,
+    );
+
+    final playing = service.play(controller, scanFrame: frame);
+    service.dispose();
+    await playing;
+
+    expect(playCalls, 0);
+  });
+
+  test('replacement starts at the current scanner phase', () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    final frame = FractalMusicScanFrame(
+      rgba: _solidFrame(16, 16, 120, 80, 200),
+      width: 16,
+      height: 16,
+    );
+    Uint8List? played;
+    final service = FractalMusicService(
+      isWeb: true,
+      isAndroid: false,
+      isLinux: false,
+      webPlay: (bytes) async {
+        played = bytes;
+        return true;
+      },
+      webStop: () async {},
+    );
+    addTearDown(service.dispose);
+    final identity = resolveFractalMusicIdentity(fractalMusicFeaturesOf(frame));
+    final original = buildFractalMusicScanWav(
+      scanFrame: frame,
+      zoom: controller.view.zoom,
+      identity: identity,
+    );
+    final frameCount = _wavDataBytes(original) ~/ (_wavChannels(original) * 2);
+    final quarterFrame = frameCount ~/ 4;
+
+    var progressReads = 0;
+    await service.play(
+      controller,
+      scanFrame: frame,
+      startProgressProvider: () {
+        progressReads++;
+        return 0.25;
+      },
+    );
+
+    expect(_pcmSample(played!, 0), _pcmSample(original, quarterFrame));
+    expect(_pcmSample(played!, 0, channel: 1),
+        _pcmSample(original, quarterFrame, channel: 1));
+    expect(_wavDataBytes(played!), _wavDataBytes(original));
+    expect(progressReads, 1);
+  });
+
+  test('production scan composition yields before doing CPU-heavy work',
+      () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    const width = 270;
+    const height = 480;
+    final rgba = Uint8List(width * height * 4);
+    for (var y = 0; y < height; y++) {
+      for (var x = 0; x < width; x++) {
+        final offset = (y * width + x) * 4;
+        rgba[offset] = (x * 13 + y * 3) & 255;
+        rgba[offset + 1] = (x * 5 + y * 11) & 255;
+        rgba[offset + 2] = (x * 7 + y * 17) & 255;
+        rgba[offset + 3] = 255;
+      }
+    }
+    final service = FractalMusicService(
+      isWeb: true,
+      isAndroid: false,
+      isLinux: false,
+      webPlay: (_) async => true,
+      webStop: () async {},
+    );
+    addTearDown(service.dispose);
+
+    final stopwatch = Stopwatch()..start();
+    final playback = service.play(
+      controller,
+      scanFrame: FractalMusicScanFrame(
+        rgba: rgba,
+        width: width,
+        height: height,
+      ),
+    );
+    stopwatch.stop();
+
+    expect(
+      stopwatch.elapsedMilliseconds,
+      lessThan(50),
+      reason: 'play() must yield before composing a 24-second WAV',
+    );
+    await playback;
   });
 
   test('web play sends generated wav bytes to browser audio player', () async {
@@ -1258,7 +1946,7 @@ void main() {
     await service.play(controller);
     await service.stop();
 
-    expect(calls, ['stop', 'play', 'stop']);
+    expect(calls, ['play', 'stop']);
     expect(String.fromCharCodes(playedBytes!.take(4)), 'RIFF');
   });
 
@@ -1291,9 +1979,10 @@ void main() {
     addTearDown(service.dispose);
 
     await service.play(controller);
+    await service.cancelPendingPlayback();
     await service.stop();
 
-    expect(calls, ['stop', 'play', 'stop']);
+    expect(calls, ['play', 'cancelPending', 'stop']);
     expect(String.fromCharCodes(playedBytes!.take(4)), 'RIFF');
     expect(_wavChannels(playedBytes!), 2);
     expect(_wavDataBytes(playedBytes!), playedBytes!.length - 44);
@@ -1355,6 +2044,116 @@ void main() {
     await expectLater(service.stop(), throwsStateError);
 
     expect(createdDir!.existsSync(), isFalse);
+  });
+
+  test('Linux cancellation during process start preserves the old owner',
+      () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    final tempRoot = Directory.systemTemp.createTempSync('fractal_music_test_');
+    addTearDown(() {
+      if (tempRoot.existsSync()) tempRoot.deleteSync(recursive: true);
+    });
+    final oldProcess = _FakeProcess(-1);
+    final candidateProcess = _FakeProcess(-1);
+    final startEntered = Completer<void>();
+    final releaseStart = Completer<Process>();
+    var starts = 0;
+    final service = FractalMusicService(
+      commandExists: (_) async => true,
+      createTempDir: (prefix) => tempRoot.createTemp(prefix),
+      startProcess: (_, __) async {
+        starts++;
+        if (starts == 1) return oldProcess;
+        startEntered.complete();
+        return releaseStart.future;
+      },
+    );
+    addTearDown(service.dispose);
+
+    await service.play(controller);
+    final replacement = service.play(controller);
+    await startEntered.future;
+    await service.cancelPendingPlayback();
+    releaseStart.complete(candidateProcess);
+    await replacement;
+
+    expect(oldProcess.killed, isFalse,
+        reason: 'cancellation must preserve the currently audible loop');
+    expect(candidateProcess.killed, isTrue,
+        reason: 'the canceled candidate must never acquire ownership');
+  });
+
+  test('Linux cancellation after publication preserves audible candidate',
+      () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    final tempRoot = Directory.systemTemp.createTempSync('fractal_music_test_');
+    addTearDown(() {
+      if (tempRoot.existsSync()) tempRoot.deleteSync(recursive: true);
+    });
+    final oldProcess = _FakeProcess(-1);
+    final probeEntered = Completer<void>();
+    final candidateProcess = _FakeProcess(
+      -1,
+      exitFuture: Completer<int>().future,
+      onExitCodeRead: () {
+        if (!probeEntered.isCompleted) probeEntered.complete();
+      },
+    );
+    var starts = 0;
+    final service = FractalMusicService(
+      commandExists: (_) async => true,
+      createTempDir: (prefix) => tempRoot.createTemp(prefix),
+      startProcess: (_, __) async {
+        starts++;
+        return starts == 1 ? oldProcess : candidateProcess;
+      },
+    );
+    addTearDown(service.dispose);
+
+    await service.play(controller);
+    final replacement = service.play(controller);
+    await probeEntered.future;
+    await service.cancelPendingPlayback();
+    await replacement;
+
+    expect(oldProcess.killed, isTrue,
+        reason: 'the prepared candidate already completed the handoff');
+    expect(candidateProcess.killed, isFalse,
+        reason: 'cancelPending must preserve the published audible owner');
+  });
+
+  test('Linux replacement kill failure keeps music logically enabled',
+      () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    final tempRoot = Directory.systemTemp.createTempSync('fractal_music_test_');
+    addTearDown(() {
+      if (tempRoot.existsSync()) tempRoot.deleteSync(recursive: true);
+    });
+    final oldProcess = _FakeProcess(-1, killResult: false);
+    final candidateProcess = _FakeProcess(-1);
+    var starts = 0;
+    final service = FractalMusicService(
+      commandExists: (_) async => true,
+      createTempDir: (prefix) => tempRoot.createTemp(prefix),
+      startProcess: (_, __) async {
+        starts++;
+        return starts == 1 ? oldProcess : candidateProcess;
+      },
+    );
+    addTearDown(service.dispose);
+
+    await service.play(controller);
+    await expectLater(
+      service.play(controller),
+      throwsA(isA<FractalMusicStopFailure>()),
+    );
+
+    expect(starts, 2, reason: 'candidate preparation happens before handoff');
+    expect(candidateProcess.killed, isTrue,
+        reason: 'failed handoff must retire the uncommitted candidate');
   });
 
   test('Linux dispose tolerates kill errors and cleans temp audio', () async {

@@ -268,7 +268,8 @@ void main() {
       exportService = _FakeExportService(saveThrows: true);
       await applyWallpaper(tester, locale: const Locale('es'));
 
-      expect(find.textContaining('no se pudo guardar la copia'), findsOneWidget);
+      expect(
+          find.textContaining('no se pudo guardar la copia'), findsOneWidget);
       expect(find.textContaining('copy couldn’t be saved'), findsNothing);
       await disposeAccessibilityTestWidget(tester);
     });

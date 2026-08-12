@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 
 class FluidWarpEffect extends StatefulWidget {
   final Widget child;
@@ -77,7 +78,8 @@ class _FluidWarpEffectState extends State<FluidWarpEffect> {
       _program = await _load;
     } catch (e) {
       // ponytail: single attempt; re-toggle fluid mode to retry
-      debugPrint('[fluid_warp] shader load failed: $e');
+      AppLogger.instance.error('renderer', 'Fluid warp shader load failed',
+          data: {'error': '$e'});
       return;
     }
     if (mounted) setState(() {});

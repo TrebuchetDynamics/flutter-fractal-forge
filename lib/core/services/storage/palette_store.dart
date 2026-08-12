@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/models/fractal_palette.dart';
 
@@ -49,7 +49,8 @@ class PaletteStore {
     try {
       return FractalPalette.fromJsonString(encoded);
     } catch (e) {
-      if (kDebugMode) debugPrint('[FF] skipping palette entry: $e');
+      AppLogger.instance.warn('storage', 'Skipping invalid palette entry',
+          data: {'error': '$e'});
       return null;
     }
   }
@@ -69,12 +70,14 @@ class PaletteStore {
           );
           if (palette.id.isNotEmpty) palettes.add(palette);
         } catch (e) {
-          if (kDebugMode) debugPrint('[FF] skipping legacy palette entry: $e');
+          AppLogger.instance.warn('storage', 'Skipping invalid legacy palette',
+              data: {'error': '$e'});
         }
       }
       return palettes;
     } catch (e) {
-      if (kDebugMode) debugPrint('[FF] silent catch: $e');
+      AppLogger.instance.warn('storage', 'Failed to decode legacy palettes',
+          data: {'error': '$e'});
       return const [];
     }
   }

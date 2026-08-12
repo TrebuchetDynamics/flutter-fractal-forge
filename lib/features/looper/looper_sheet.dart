@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/looper/looper_controller.dart';
@@ -8,12 +9,16 @@ class LooperSheet extends StatelessWidget {
   final LooperController controller;
   final bool isExporting;
   final VoidCallback onExportGif;
+  final VoidCallback onExportMp4;
+  final bool mp4Supported;
 
   const LooperSheet({
     super.key,
     required this.controller,
     required this.isExporting,
     required this.onExportGif,
+    required this.onExportMp4,
+    this.mp4Supported = !kIsWeb,
   });
 
   @override
@@ -212,20 +217,38 @@ class LooperSheet extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: AppSpacing.sm),
-                        Expanded(
-                          child: FilledButton.icon(
-                            key: const ValueKey('looperExportGifButton'),
-                            onPressed: controller.canLoop && !isExporting
-                                ? () {
-                                    Navigator.of(context).pop();
-                                    onExportGif();
-                                  }
-                                : null,
-                            icon: const Icon(Icons.movie_creation_rounded),
-                            label: Text(l10n.looperExportGif),
+                        if (mp4Supported) ...[
+                          Expanded(
+                            child: FilledButton.icon(
+                              key: const ValueKey('looperExportMp4Button'),
+                              onPressed: controller.canLoop && !isExporting
+                                  ? () {
+                                      Navigator.of(context).pop();
+                                      onExportMp4();
+                                    }
+                                  : null,
+                              icon: const Icon(Icons.video_file_rounded),
+                              label: Text(l10n.looperExportMp4),
+                            ),
                           ),
-                        ),
+                        ] else
+                          const Spacer(),
                       ],
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton.icon(
+                        key: const ValueKey('looperExportGifButton'),
+                        onPressed: controller.canLoop && !isExporting
+                            ? () {
+                                Navigator.of(context).pop();
+                                onExportGif();
+                              }
+                            : null,
+                        icon: const Icon(Icons.gif_box_rounded),
+                        label: Text(l10n.looperExportGif),
+                      ),
                     ),
                   ],
                 ),

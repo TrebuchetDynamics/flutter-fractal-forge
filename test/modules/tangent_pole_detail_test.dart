@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  const asset = 'shaders/trigonometric_and_transcendental/elementary_trig/tangent_gpu.frag';
+  const asset =
+      'shaders/trigonometric_and_transcendental/elementary_trig/tangent_gpu.frag';
 
   test('Tangent shader highlights tan pole structure', () {
     final shader = File(asset).readAsStringSync();

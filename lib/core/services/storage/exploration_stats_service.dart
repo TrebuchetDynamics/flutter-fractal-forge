@@ -1,6 +1,7 @@
 import 'dart:async' show unawaited;
 import 'dart:math';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/models/exploration_stats.dart';
 
@@ -83,7 +84,8 @@ class ExplorationStatsService extends ChangeNotifier {
           try {
             return Achievement.values.firstWhere((a) => a.name == name);
           } catch (e) {
-            if (kDebugMode) debugPrint('[FF] silent catch: $e');
+            AppLogger.instance.warn('storage', 'Skipping unknown achievement',
+                data: {'name': name, 'error': '$e'});
             return null;
           }
         })

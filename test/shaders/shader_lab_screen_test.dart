@@ -60,7 +60,8 @@ void main() {
       // updates _loadError; it must not rethrow.
       await tester.pumpWidget(_buildTestWidget());
       await tester.pump(); // let scheduleMicrotask queue fire
-      await tester.pump(const Duration(milliseconds: 500)); // past the 400 ms delay
+      await tester
+          .pump(const Duration(milliseconds: 500)); // past the 400 ms delay
 
       // No exception should propagate out of the widget.
       expect(tester.takeException(), isNull);

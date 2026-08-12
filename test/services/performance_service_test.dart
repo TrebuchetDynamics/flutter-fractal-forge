@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_fractals/core/services/diagnostics/performance_service.dart';
 
@@ -243,6 +245,238 @@ void main() {
   });
 
   group('PerformanceService', () {
+    test(
+        'retains every frame but samples memory metrics and listeners at cadence',
+        () {
+      final timingSource = _FakeFrameTimingSource();
+      var memoryReads = 0;
+      final service = PerformanceService(
+        frameTimingSource: timingSource,
+        memoryReader: () {
+          memoryReads++;
+          return 64 * 1024 * 1024;
+        },
+      );
+      var notifications = 0;
+      service.addListener(() => notifications++);
+
+      service.start();
+      timingSource.emit([
+        for (var index = 0; index < 29; index++)
+          _timing(
+            vsyncStartUs: index * 20000,
+            buildUs: 1000,
+            rasterUs: 2000,
+            totalUs: 5000,
+          ),
+      ]);
+
+      expect(service.samples, hasLength(29));
+      expect(service.metrics.frameCount, 0);
+      expect(memoryReads, 0);
+      expect(notifications, 1, reason: 'start notification only');
+
+      timingSource.emit([
+        _timing(
+          vsyncStartUs: 29 * 20000,
+          buildUs: 1000,
+          rasterUs: 2000,
+          totalUs: 5000,
+        ),
+      ]);
+
+      expect(service.samples, hasLength(30));
+      expect(service.metrics.frameCount, 30);
+      expect(service.metrics.memoryUsageMb, 64);
+      expect(memoryReads, 1);
+      expect(notifications, 2);
+    });
+
+    test('pause excludes background time and resume starts a new FPS interval',
+        () {
+      final timingSource = _FakeFrameTimingSource();
+      var now = DateTime(2026);
+      final service = PerformanceService(
+        frameTimingSource: timingSource,
+        memoryReader: () => null,
+        now: () => now,
+      );
+
+      service.start();
+      timingSource.emit([
+        for (var index = 0; index < 30; index++)
+          _timing(
+            vsyncStartUs: index * 20000,
+            buildUs: 1000,
+            rasterUs: 2000,
+            totalUs: 5000,
+          ),
+      ]);
+      now = now.add(const Duration(seconds: 2));
+      service.pause();
+
+      now = now.add(const Duration(hours: 1));
+      service.resume();
+      timingSource.emit([
+        for (var index = 0; index < 30; index++)
+          _timing(
+            vsyncStartUs: 3600000000 + index * 20000,
+            buildUs: 1000,
+            rasterUs: 2000,
+            totalUs: 5000,
+          ),
+      ]);
+      now = now.add(const Duration(seconds: 3));
+      service.pause();
+
+      expect(service.metrics.fps, closeTo(50, 0.001));
+      expect(service.metrics.durationSeconds, 5);
+      expect(timingSource.callbackCount, 0);
+      expect(service.isRunning, isFalse);
+    });
+
+    test('aggregates engine build raster and total frame timings', () {
+      final timingSource = _FakeFrameTimingSource();
+      final service = PerformanceService(frameTimingSource: timingSource);
+
+      service.start();
+      timingSource.emit([
+        for (var index = 0; index < 15; index++) ...[
+          _timing(buildUs: 4000, rasterUs: 6000, totalUs: 12000),
+          _timing(buildUs: 18000, rasterUs: 8000, totalUs: 30000),
+        ],
+      ]);
+
+      expect(service.metrics.frameCount, 30);
+      expect(service.metrics.avgBuildTimeMs, 11);
+      expect(service.metrics.avgRasterTimeMs, 7);
+      expect(service.metrics.avgFrameTimeMs, 21);
+      expect(service.metrics.longFrames, 15);
+      expect(service.metrics.slowBuildFrames, 15);
+      expect(service.metrics.slowRasterFrames, 0);
+      expect(service.samples.first.buildTimeMs, 4);
+      expect(service.samples.first.rasterTimeMs, 6);
+      expect(service.samples.first.frameTimeMs, 12);
+    });
+
+    test('derives FPS from engine vsync cadence instead of workload duration',
+        () {
+      final timingSource = _FakeFrameTimingSource();
+      final service = PerformanceService(frameTimingSource: timingSource);
+
+      service.start();
+      timingSource.emit([
+        for (var index = 0; index < 30; index++)
+          _timing(
+            vsyncStartUs: 100000 + index * 20000,
+            buildUs: 1000,
+            rasterUs: 2000,
+            totalUs: 5000,
+          ),
+      ]);
+
+      expect(service.metrics.fps, 50);
+    });
+
+    test('owns exactly one scheduler callback across start stop and dispose',
+        () {
+      final timingSource = _FakeFrameTimingSource();
+      final service = PerformanceService(frameTimingSource: timingSource);
+
+      service.start();
+      service.start();
+      expect(timingSource.addedCallbacks, 1);
+      expect(timingSource.callbackCount, 1);
+
+      service.stop();
+      service.stop();
+      expect(timingSource.removedCallbacks, 1);
+      expect(timingSource.callbackCount, 0);
+
+      service.start();
+      service.dispose();
+      expect(timingSource.addedCallbacks, 2);
+      expect(timingSource.removedCallbacks, 2);
+      expect(timingSource.callbackCount, 0);
+    });
+
+    test('retains only the configured number of real frame samples', () {
+      final timingSource = _FakeFrameTimingSource();
+      final service = PerformanceService(
+        frameTimingSource: timingSource,
+        maxSamples: 2,
+      );
+
+      service.start();
+      timingSource.emit([
+        for (var index = 0; index < 28; index++)
+          _timing(buildUs: 1000, rasterUs: 2000, totalUs: 5000),
+        _timing(buildUs: 2000, rasterUs: 3000, totalUs: 7000),
+        _timing(buildUs: 3000, rasterUs: 4000, totalUs: 9000),
+      ]);
+
+      expect(service.samples.map((sample) => sample.frameTimeMs), [7, 9]);
+      expect(service.metrics.frameCount, 2);
+    });
+
+    test('reports injected process memory and tracks its observed peak', () {
+      final timingSource = _FakeFrameTimingSource();
+      final readings = <int?>[100 * 1024 * 1024, 120 * 1024 * 1024];
+      final service = PerformanceService(
+        frameTimingSource: timingSource,
+        memoryReader: () => readings.removeAt(0),
+      );
+
+      service.start();
+      timingSource.emit([
+        for (var index = 0; index < 30; index++)
+          _timing(buildUs: 1000, rasterUs: 2000, totalUs: 5000),
+      ]);
+      expect(service.metrics.memoryUsageMb, 100);
+      expect(service.metrics.peakMemoryMb, 100);
+
+      timingSource.emit([
+        for (var index = 0; index < 30; index++)
+          _timing(buildUs: 1000, rasterUs: 2000, totalUs: 5000),
+      ]);
+      expect(service.metrics.memoryUsageMb, 120);
+      expect(service.metrics.peakMemoryMb, 120);
+    });
+
+    test('keeps unavailable process memory explicitly null', () {
+      final timingSource = _FakeFrameTimingSource();
+      final service = PerformanceService(
+        frameTimingSource: timingSource,
+        memoryReader: () => null,
+      );
+
+      service.start();
+      timingSource.emit([
+        _timing(buildUs: 1000, rasterUs: 2000, totalUs: 5000),
+      ]);
+
+      expect(service.metrics.memoryUsageMb, isNull);
+      expect(service.metrics.peakMemoryMb, isNull);
+      expect(service.getSummary(), contains('Memory: Unavailable'));
+    });
+
+    test('presents unsupported shader compilation metric as unavailable', () {
+      final timingSource = _FakeFrameTimingSource();
+      final service = PerformanceService(frameTimingSource: timingSource);
+
+      service.start();
+      timingSource.emit([
+        for (var index = 0; index < 30; index++)
+          _timing(buildUs: 1000, rasterUs: 2000, totalUs: 5000),
+      ]);
+
+      expect(
+        service.getSummary(),
+        contains('Shader Compilations: Unavailable'),
+      );
+      expect(service.getSummary(), isNot(contains('Shader Compilations: 0')));
+    });
+
     test('starts in stopped state', () {
       final service = PerformanceService();
 
@@ -306,4 +540,46 @@ void main() {
       expect(0.0.sqrt(), 0);
     });
   });
+}
+
+FrameTiming _timing({
+  int vsyncStartUs = 0,
+  required int buildUs,
+  required int rasterUs,
+  required int totalUs,
+}) {
+  return FrameTiming(
+    vsyncStart: vsyncStartUs,
+    buildStart: vsyncStartUs + 1000,
+    buildFinish: vsyncStartUs + 1000 + buildUs,
+    rasterStart: vsyncStartUs + totalUs - rasterUs,
+    rasterFinish: vsyncStartUs + totalUs,
+    rasterFinishWallTime: vsyncStartUs + totalUs,
+  );
+}
+
+class _FakeFrameTimingSource implements FrameTimingSource {
+  final List<TimingsCallback> _callbacks = [];
+  int addedCallbacks = 0;
+  int removedCallbacks = 0;
+
+  int get callbackCount => _callbacks.length;
+
+  @override
+  void addTimingsCallback(TimingsCallback callback) {
+    addedCallbacks++;
+    _callbacks.add(callback);
+  }
+
+  @override
+  void removeTimingsCallback(TimingsCallback callback) {
+    removedCallbacks++;
+    _callbacks.remove(callback);
+  }
+
+  void emit(List<FrameTiming> timings) {
+    for (final callback in List<TimingsCallback>.of(_callbacks)) {
+      callback(timings);
+    }
+  }
 }

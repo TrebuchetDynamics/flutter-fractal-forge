@@ -1163,11 +1163,22 @@ class AppLocalizationsEs extends AppLocalizations {
   String get looperExportGif => 'Exportar GIF';
 
   @override
+  String get looperExportMp4 => 'Exportar MP4 + música';
+
+  @override
   String get looperExportSuccess => 'GIF en bucle exportado';
+
+  @override
+  String get looperExportMp4Success => 'MP4 en bucle con música exportado';
 
   @override
   String looperExportFailed(Object error) {
     return 'Error al exportar el GIF en bucle: $error';
+  }
+
+  @override
+  String looperExportMp4Failed(Object error) {
+    return 'Error al exportar el MP4 en bucle: $error';
   }
 
   @override
@@ -1359,6 +1370,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get tooltipMoreOptions => 'Más opciones';
+
+  @override
+  String get viewerMoreActionsHint =>
+      'Abre las acciones secundarias del visor.';
+
+  @override
+  String get viewerSecondaryActionHint =>
+      'Mayús+Intro abre la acción secundaria.';
 
   @override
   String get tooltipFullscreen => 'Pantalla completa';

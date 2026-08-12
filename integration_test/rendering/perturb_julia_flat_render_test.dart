@@ -65,8 +65,8 @@ void main() {
       final recorder = ui.PictureRecorder();
       final canvas =
           ui.Canvas(recorder, const ui.Rect.fromLTWH(0, 0, 256, 256));
-      canvas.drawRect(const ui.Rect.fromLTWH(0, 0, 256, 256),
-          ui.Paint()..shader = shader);
+      canvas.drawRect(
+          const ui.Rect.fromLTWH(0, 0, 256, 256), ui.Paint()..shader = shader);
       final picture = recorder.endRecording();
       final image = picture.toImageSync(256, 256);
       picture.dispose();

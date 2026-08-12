@@ -133,8 +133,8 @@ void main() {
       // The platform appends its own activation instruction for a button, so
       // the label must not carry one of its own.
       expect(
-        names.where((n) =>
-            n.contains('Double tap') || n.contains('Toca dos veces')),
+        names.where(
+            (n) => n.contains('Double tap') || n.contains('Toca dos veces')),
         isEmpty,
         reason: 'a label still spells out the activation gesture',
       );

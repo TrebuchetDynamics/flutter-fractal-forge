@@ -9,6 +9,7 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     category: 'Kaleidoscopes',
     shaderAsset:
         'shaders/kaleidoscopes/classic_symmetry/kaleidoscope_basic_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 1,
     defaultBailout: 4.0,
     defaultColorScheme: 0,
@@ -23,6 +24,7 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     category: 'Kaleidoscopes',
     shaderAsset:
         'shaders/kaleidoscopes/radial_ornaments/kaleidoscope_rays_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 1,
     defaultBailout: 4.0,
     defaultColorScheme: 1,
@@ -37,6 +39,7 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     category: 'Kaleidoscopes',
     shaderAsset:
         'shaders/kaleidoscopes/classic_symmetry/kaleidoscope_mandala_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 1,
     defaultBailout: 4.0,
     defaultColorScheme: 2,
@@ -51,6 +54,7 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     category: 'Kaleidoscopes',
     shaderAsset:
         'shaders/kaleidoscopes/radial_ornaments/kaleidoscope_star_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 1,
     defaultBailout: 4.0,
     defaultColorScheme: 0,
@@ -65,6 +69,7 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     category: 'Kaleidoscopes',
     shaderAsset:
         'shaders/kaleidoscopes/classic_symmetry/kaleidoscope_snowflake_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 1,
     defaultBailout: 4.0,
     defaultColorScheme: 3,
@@ -79,6 +84,7 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     category: 'Kaleidoscopes',
     shaderAsset:
         'shaders/kaleidoscopes/radial_ornaments/kaleidoscope_flower_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 1,
     defaultBailout: 4.0,
     defaultColorScheme: 1,
@@ -93,6 +99,7 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     category: 'Kaleidoscopes',
     shaderAsset:
         'shaders/kaleidoscopes/textured_light/kaleidoscope_jewel_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 1,
     defaultBailout: 4.0,
     defaultColorScheme: 2,
@@ -107,6 +114,7 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     category: 'Kaleidoscopes',
     shaderAsset:
         'shaders/kaleidoscopes/radial_ornaments/kaleidoscope_spiral_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 1,
     defaultBailout: 4.0,
     defaultColorScheme: 0,
@@ -121,6 +129,7 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     category: 'Kaleidoscopes',
     shaderAsset:
         'shaders/kaleidoscopes/classic_symmetry/kaleidoscope_geometric_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 1,
     defaultBailout: 4.0,
     defaultColorScheme: 1,
@@ -135,6 +144,7 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     category: 'Kaleidoscopes',
     shaderAsset:
         'shaders/kaleidoscopes/classic_symmetry/kaleidoscope_crystal_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 1,
     defaultBailout: 4.0,
     defaultColorScheme: 2,
@@ -149,6 +159,7 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     category: 'Kaleidoscopes',
     shaderAsset:
         'shaders/kaleidoscopes/radial_ornaments/kaleidoscope_wave_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 1,
     defaultBailout: 4.0,
     defaultColorScheme: 0,
@@ -163,6 +174,7 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     category: 'Kaleidoscopes',
     shaderAsset:
         'shaders/kaleidoscopes/textured_light/kaleidoscope_fractal_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 1,
     defaultBailout: 4.0,
     defaultColorScheme: 1,
@@ -177,6 +189,7 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     category: 'Kaleidoscopes',
     shaderAsset:
         'shaders/kaleidoscopes/classic_symmetry/kaleidoscope_rosette_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 1,
     defaultBailout: 4.0,
     defaultColorScheme: 2,
@@ -191,6 +204,7 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     category: 'Kaleidoscopes',
     shaderAsset:
         'shaders/kaleidoscopes/radial_ornaments/kaleidoscope_ring_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 1,
     defaultBailout: 4.0,
     defaultColorScheme: 0,
@@ -205,6 +219,7 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     category: 'Kaleidoscopes',
     shaderAsset:
         'shaders/kaleidoscopes/textured_light/kaleidoscope_nebula_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 1,
     defaultBailout: 4.0,
     defaultColorScheme: 3,
@@ -467,6 +482,7 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     name: 'Domain Coloring',
     shaderAsset:
         'shaders/escape_time_family/orbit_and_domain/domain_coloring_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
@@ -493,6 +509,7 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     id: 'gray_scott_rd',
     name: 'Gray Scott Rd',
     shaderAsset: 'shaders/cellular_and_stochastic/gray_scott_rd_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',

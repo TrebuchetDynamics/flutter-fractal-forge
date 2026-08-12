@@ -53,7 +53,9 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
   @override
   void initState() {
     super.initState();
-    _options = widget.initialOptions;
+    final initialFormat = const ExportService()
+        .resolveEffectiveFormat(widget.initialOptions.format);
+    _options = widget.initialOptions.copyWith(format: initialFormat);
     _customWidthController = TextEditingController(
       text: _options.customWidth?.toString() ??
           defaultCustomExportWidth.toString(),
@@ -410,11 +412,6 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
                 value: ExportFormat.jpg,
                 label: Text(l10n.exportFormatJpg),
                 icon: const Icon(Icons.photo),
-              ),
-              ButtonSegment(
-                value: ExportFormat.webp,
-                label: Text(l10n.exportFormatWebp),
-                icon: const Icon(Icons.web_asset),
               ),
             ],
             selected: {_options.format},

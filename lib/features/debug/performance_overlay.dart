@@ -47,7 +47,7 @@ class _CompactOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fpsColor = _getFpsColor(metrics.fps);
-    
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
@@ -114,7 +114,7 @@ class _FullOverlay extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
-          width: 220,
+          width: 260,
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             color: Colors.black.withValues(alpha: 0.75),
@@ -287,18 +287,19 @@ class _FrameTimeGraphPainter extends CustomPainter {
     // Draw warn zone (16.67-33.34ms)
     final warnHeight = (16.67 / maxFrameTime) * size.height;
     canvas.drawRect(
-      Rect.fromLTWH(0, size.height - targetHeight - warnHeight, size.width, warnHeight),
+      Rect.fromLTWH(
+          0, size.height - targetHeight - warnHeight, size.width, warnHeight),
       warnPaint,
     );
 
     // Draw frame times
     final barWidth = size.width / samples.length;
-    
+
     for (int i = 0; i < samples.length; i++) {
       final sample = samples[i];
       final clampedTime = sample.frameTimeMs.clamp(0.0, maxFrameTime);
       final barHeight = (clampedTime / maxFrameTime) * size.height;
-      
+
       Color barColor;
       if (sample.hadShaderCompile) {
         barColor = Colors.purple;
@@ -322,7 +323,7 @@ class _FrameTimeGraphPainter extends CustomPainter {
     final linePaint = Paint()
       ..color = Colors.white.withValues(alpha: 0.5)
       ..strokeWidth = 1;
-    
+
     final lineY = size.height - targetHeight;
     canvas.drawLine(Offset(0, lineY), Offset(size.width, lineY), linePaint);
   }
@@ -338,14 +339,35 @@ class _StatsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final memoryValue = metrics.memoryUsageMb == null
+        ? 'Unavailable'
+        : '${metrics.memoryUsageMb!.toStringAsFixed(1)} MB';
     return Column(
       children: [
         Row(
           children: [
             Expanded(
               child: _StatItem(
-                label: 'AVG',
+                label: 'BUILD',
+                value: '${metrics.avgBuildTimeMs.toStringAsFixed(1)}ms',
+              ),
+            ),
+            Expanded(
+              child: _StatItem(
+                label: 'RASTER',
+                value: '${metrics.avgRasterTimeMs.toStringAsFixed(1)}ms',
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 6),
+        Row(
+          children: [
+            Expanded(
+              child: _StatItem(
+                label: 'TOTAL',
                 value: '${metrics.avgFrameTimeMs.toStringAsFixed(1)}ms',
+                highlight: metrics.avgFrameTimeMs > 16.67,
               ),
             ),
             Expanded(
@@ -362,16 +384,15 @@ class _StatsGrid extends StatelessWidget {
           children: [
             Expanded(
               child: _StatItem(
-                label: 'DROPS',
-                value: '${metrics.droppedFrames}',
-                highlight: metrics.droppedFrames > 5,
+                label: 'LONG',
+                value: '${metrics.longFrames}',
+                highlight: metrics.longFrames > 0,
               ),
             ),
             Expanded(
               child: _StatItem(
-                label: 'STABLE',
-                value: '${metrics.stabilityScore.toStringAsFixed(0)}%',
-                highlight: metrics.stabilityScore < 80,
+                label: 'MEMORY',
+                value: memoryValue,
               ),
             ),
           ],

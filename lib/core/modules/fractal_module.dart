@@ -43,6 +43,15 @@ enum FractalDimension {
   threeD,
 }
 
+/// Declares whether rendering this module requires advancing shader time.
+///
+/// This is explicit metadata rather than an inference from shader source so
+/// static shaders can render on demand without freezing known animated ones.
+enum FractalAnimationCapability {
+  static,
+  timeDriven,
+}
+
 /// Defines a complete fractal type with its rendering configuration.
 ///
 /// A [FractalModule] encapsulates everything needed to render a specific
@@ -90,6 +99,9 @@ class FractalModule {
   /// Affects gesture handling and rendering approach.
   final FractalDimension dimension;
 
+  /// Whether this module's shader output changes as elapsed time advances.
+  final FractalAnimationCapability animationCapability;
+
   /// Path to the GLSL fragment shader asset.
   ///
   /// The shader must be registered in `pubspec.yaml` under `flutter.shaders`.
@@ -126,6 +138,7 @@ class FractalModule {
     required this.id,
     required this.displayName,
     required this.dimension,
+    this.animationCapability = FractalAnimationCapability.static,
     required this.shaderAsset,
     required this.parameters,
     required this.defaultPreset,

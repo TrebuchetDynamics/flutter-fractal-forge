@@ -187,8 +187,7 @@ void main() {
         // It opens every ModuleRegistry module (escape-time, 3D, custom,
         // diagnostics) in the real FractalViewerScreen tree and asserts no
         // exception + the stable Key('fractalViewerRoot').
-        expect(true, isTrue,
-            reason: 'see every_module_viewer_walk_test.dart');
+        expect(true, isTrue, reason: 'see every_module_viewer_walk_test.dart');
       },
     );
   });

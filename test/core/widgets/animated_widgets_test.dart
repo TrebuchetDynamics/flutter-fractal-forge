@@ -32,14 +32,19 @@ void main() {
         ),
       ),
     );
-    expect(tester.widget<FadeTransition>(find.byType(FadeTransition)).opacity
+    expect(
+        tester
+            .widget<FadeTransition>(find.byType(FadeTransition))
+            .opacity
             .value,
         closeTo(0.0, 0.01),
         reason: 'hidden before the delay elapses');
     await tester.pump(const Duration(milliseconds: 50));
     await tester.pump(const Duration(milliseconds: 300));
     expect(
-        tester.widget<FadeTransition>(find.byType(FadeTransition)).opacity
+        tester
+            .widget<FadeTransition>(find.byType(FadeTransition))
+            .opacity
             .value,
         closeTo(1.0, 0.01),
         reason: 'visible after the delay + animation');

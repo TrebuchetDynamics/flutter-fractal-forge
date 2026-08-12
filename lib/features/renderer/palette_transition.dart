@@ -8,6 +8,17 @@ class PaletteTransition {
   DateTime? _startedAt;
   double? _lastValue;
 
+  /// Whether changing to [target] would start a transition.
+  bool wouldAnimateTo(Object? target) {
+    return target is num && _to != null && _to != target.toDouble();
+  }
+
+  /// Whether the current transition still needs intermediate frames at [now].
+  bool isActiveAt(DateTime now) {
+    final startedAt = _startedAt;
+    return startedAt != null && now.difference(startedAt) < duration;
+  }
+
   double valueFor({
     required Object? target,
     required DateTime now,

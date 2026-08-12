@@ -58,7 +58,8 @@ void main() {
       );
     });
 
-    test('rejects tile rectangles outside the full viewport before sampling', () {
+    test('rejects tile rectangles outside the full viewport before sampling',
+        () {
       const request = CpuTileRenderRequest(
         moduleId: 'mandelbrot',
         panX: 0.0,

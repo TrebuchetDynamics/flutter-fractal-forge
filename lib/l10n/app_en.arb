@@ -521,8 +521,16 @@
   "looperPreview": "Preview",
   "looperStop": "Stop",
   "looperExportGif": "Export GIF",
+  "looperExportMp4": "Export MP4 + music",
   "looperExportSuccess": "Looper GIF exported",
+  "looperExportMp4Success": "Looper MP4 with music exported",
   "looperExportFailed": "Looper GIF export failed: {error}",
+  "looperExportMp4Failed": "Looper MP4 export failed: {error}",
+  "@looperExportMp4Failed": {
+    "placeholders": {
+      "error": {}
+    }
+  },
   "@looperExportFailed": {
     "placeholders": {
       "error": {}
@@ -621,6 +629,8 @@
   },
 
   "tooltipMoreOptions": "More options",
+  "viewerMoreActionsHint": "Opens secondary viewer actions.",
+  "viewerSecondaryActionHint": "Shift+Enter opens the secondary action.",
   "tooltipFullscreen": "Fullscreen view",
 
   "semanticSliderAdjust": "Adjust from {min} to {max}",

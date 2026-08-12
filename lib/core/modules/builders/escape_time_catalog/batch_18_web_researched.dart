@@ -400,6 +400,7 @@ final List<EscapeTimeConfig> _batch18WebResearchedCatalog = [
     name: 'Fractal Flame',
     shaderAsset:
         'shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     category: 'IFS / Geometric Fractals',
     defaultIterations: 140,
     defaultBailout: 8.0,
@@ -558,6 +559,7 @@ final List<EscapeTimeConfig> _batch18WebResearchedCatalog = [
     id: 'lichtenberg_growth',
     name: 'Lichtenberg Growth',
     shaderAsset: 'shaders/cellular_and_stochastic/lichtenberg_growth_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     category: 'Cellular & Stochastic Growth',
     defaultIterations: 30,
     defaultBailout: 4.0,

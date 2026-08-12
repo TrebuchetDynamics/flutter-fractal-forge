@@ -1278,8 +1278,7 @@ double _cosh(double x) => (math.exp(x) + math.exp(-x)) * 0.5;
     final n = iterations <= 0
         ? 0.0
         : math.max(0.0, math.min(1.0, orbit / iterations));
-    final t = fract(
-        0.62 - 0.18 * math.log(math.max(trap, 1e-6)) + 0.70 * n);
+    final t = fract(0.62 - 0.18 * math.log(math.max(trap, 1e-6)) + 0.70 * n);
     final base = palette(t);
     final shade = 0.35 + 0.65 * n;
     return (base.$1 * shade, base.$2 * shade, base.$3 * shade);

@@ -1,5 +1,45 @@
 part of '../fractal_viewer_screen.dart';
 
+Uint8List _buildLooperMusicWav(
+  (List<FractalMusicScanFrame>, List<double>, double) input,
+) {
+  final (frames, zoomSamples, seconds) = input;
+  final zoom = zoomSamples.isEmpty
+      ? 1.0
+      : math.exp(
+          zoomSamples
+                  .map((sample) => math.log(sample.clamp(1e-12, 1e12)))
+                  .reduce((a, b) => a + b) /
+              zoomSamples.length,
+        );
+  return buildFractalMusicScanWav(
+    scanFrame: weaveFractalMusicScanFrames(frames),
+    zoom: zoom,
+    seconds: seconds,
+  );
+}
+
+Uint8List _encodeLooperGifFrames((List<Uint8List>, int) input) {
+  final (pngFrames, frameDurationMs) = input;
+  final encoder = img.GifEncoder(samplingFactor: 12);
+  for (final pngBytes in pngFrames) {
+    var frame = img.decodePng(pngBytes);
+    if (frame == null) throw StateError('Failed to decode loop frame');
+    if (frame.width > 480 || frame.height > 480) {
+      frame = img.copyResize(
+        frame,
+        width: frame.width >= frame.height ? 480 : null,
+        height: frame.height > frame.width ? 480 : null,
+        interpolation: img.Interpolation.average,
+      );
+    }
+    encoder.addFrame(frame, duration: frameDurationMs ~/ 10);
+  }
+  final bytes = encoder.finish();
+  if (bytes == null) throw StateError('No loop frames captured');
+  return Uint8List.fromList(bytes);
+}
+
 /// Mixin that owns export/wallpaper action state and orchestration.
 ///
 /// Apply to `State<FractalViewerScreen>`.
@@ -12,6 +52,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
   LooperController? get _looperController;
   FractalController _activeController(BuildContext context);
   GlobalKey _activeBoundaryKey();
+  Future<FractalMusicScanFrame?> captureFractalMusicScanFrame();
 
   ViewerExportSession _exportSession = const ViewerExportSession();
 
@@ -54,6 +95,141 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     _exportSession = _exportSession.finish();
   }
 
+  Future<void> _exportLooperMp4(BuildContext context) async {
+    final looper = _looperController;
+    final plan = looper?.plan;
+    if (looper == null || plan == null) return;
+
+    _log.info('action', 'Export looper MP4 with music');
+    final controller = _activeController(context);
+    final boundaryKey = _activeBoundaryKey();
+    final l10n = AppLocalizations.of(context)!;
+    final originalView = controller.view;
+    final originalParams = controller.params;
+    final originalTransparency = controller.transparentBackground;
+    looper.stop();
+    try {
+      if (!await _exportService.chooseLinuxExportDirectory()) return;
+    } catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(appFeedbackSnackBar(
+          message: l10n.looperExportMp4Failed(error.toString()),
+          success: false,
+        ));
+      }
+      return;
+    }
+    if (!mounted) return;
+    final shouldResumeAutoExplore = _pauseAutoExploreForExportFlow();
+    setState(() {
+      _exportSession = _exportSession
+          .openSheet(resumeAutoExploreWhenFinished: shouldResumeAutoExplore)
+          .startExport();
+    });
+
+    try {
+      await _exportService.coordinator.run<File>(
+        ExportKind.looper,
+        (token) async {
+          final pngFrames = <Uint8List>[];
+          final musicFrames = <FractalMusicScanFrame>[];
+          final zoomSamples = <double>[];
+          for (var i = 0; i < plan.frameCount; i++) {
+            token.throwIfCancelled();
+            final point = plan.stateAtFrame(i);
+            controller.loadState(
+              params: point.params,
+              view: point.view,
+              transparentBackground: controller.transparentBackground,
+            );
+            await WidgetsBinding.instance.endOfFrame;
+            token.throwIfCancelled();
+            pngFrames.add(await _exportService.capturePng(
+              boundaryKey,
+              pixelRatio: 1.0,
+            ));
+            final scan = await captureFractalMusicScanFrame();
+            if (scan != null && scan.isValid) {
+              musicFrames.add(scan);
+              zoomSamples.add(point.view.zoom);
+            }
+            if (mounted) {
+              setState(() => _exportSession = _exportSession.updateProgress(
+                    (i + 1) / plan.frameCount * 0.8,
+                  ));
+            }
+          }
+
+          token.throwIfCancelled();
+          Uint8List? musicWav;
+          if (musicFrames.isNotEmpty) {
+            musicWav = await _exportService.worker.runWithInput<
+                (List<FractalMusicScanFrame>, List<double>, double), Uint8List>(
+              _buildLooperMusicWav,
+              (
+                musicFrames,
+                zoomSamples,
+                plan.duration.inMilliseconds / 1000,
+              ),
+              token: token,
+            );
+          }
+          final bytes = await LooperMp4Encoder().encode(
+            pngFrames: pngFrames,
+            fps: LooperPlan.exportFps,
+            wavAudio: musicWav,
+            token: token,
+          );
+          token.throwIfCancelled();
+          if (mounted) {
+            setState(
+                () => _exportSession = _exportSession.updateProgress(0.95));
+          }
+          final savedFile = await _exportService.saveBytes(
+            bytes,
+            filename:
+                'looper_${controller.module.id}_${DateTime.now().millisecondsSinceEpoch}.mp4',
+          );
+          final file = await token.retainSavedFileUnlessCancelled(savedFile);
+          try {
+            await _exportService.shareFile(file);
+          } catch (_) {
+            // The file is already durable; users can share it manually.
+          }
+          await token.retainSavedFileUnlessCancelled(file);
+          return file;
+        },
+      );
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.looperExportMp4Success)),
+        );
+      }
+    } on ExportCancelledException {
+      _log.info('export', 'Looper MP4 export cancelled');
+    } catch (error, stackTrace) {
+      _log.error(
+        'export',
+        'Looper MP4 export failed',
+        data: {'error': '$error', 'stackTrace': '$stackTrace'},
+      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(appFeedbackSnackBar(
+          message: l10n.looperExportMp4Failed(error.toString()),
+          success: false,
+        ));
+      }
+    } finally {
+      controller.loadState(
+        params: originalParams,
+        view: originalView,
+        transparentBackground: originalTransparency,
+      );
+      if (mounted) setState(_finishExportFlow);
+    }
+  }
+
   Future<void> _exportLooperGif(BuildContext context) async {
     final looper = _looperController;
     final plan = looper?.plan;
@@ -90,77 +266,78 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     });
 
     try {
-      final frameMs = (1000 / LooperPlan.exportFps).round();
-      final encoder = img.GifEncoder(samplingFactor: 12);
-
-      for (var i = 0; i < plan.frameCount; i++) {
-        final point = plan.stateAtFrame(i);
-        controller.loadState(
-          params: point.params,
-          view: point.view,
-          transparentBackground: controller.transparentBackground,
-        );
-        await WidgetsBinding.instance.endOfFrame;
-
-        final pngBytes = await _exportService.capturePng(
-          boundaryKey,
-          pixelRatio: 1.0,
-        );
-        var frame = img.decodePng(pngBytes);
-        if (frame == null) throw StateError('Failed to decode loop frame');
-        if (frame.width > 480 || frame.height > 480) {
-          frame = img.copyResize(
-            frame,
-            width: frame.width >= frame.height ? 480 : null,
-            height: frame.height > frame.width ? 480 : null,
-            interpolation: img.Interpolation.average,
-          );
-        }
-        encoder.addFrame(frame, duration: frameMs ~/ 10);
-
-        if (mounted) {
-          setState(() {
-            _exportSession = _exportSession.updateProgress(
-              (i + 1) / plan.frameCount,
+      final shareFailed = await _exportService.coordinator.run<bool>(
+        ExportKind.looper,
+        (token) async {
+          final pngFrames = <Uint8List>[];
+          for (var i = 0; i < plan.frameCount; i++) {
+            token.throwIfCancelled();
+            final point = plan.stateAtFrame(i);
+            controller.loadState(
+              params: point.params,
+              view: point.view,
+              transparentBackground: controller.transparentBackground,
             );
-          });
-        }
-      }
+            await WidgetsBinding.instance.endOfFrame;
+            token.throwIfCancelled();
+            pngFrames.add(await _exportService.capturePng(
+              boundaryKey,
+              pixelRatio: 1.0,
+            ));
+            if (mounted) {
+              setState(() {
+                _exportSession = _exportSession.updateProgress(
+                  (i + 1) / plan.frameCount,
+                );
+              });
+            }
+          }
 
-      final bytes = encoder.finish();
-      if (bytes == null) throw StateError('No loop frames captured');
-      final file = await _exportService.saveBytes(
-        bytes,
-        filename:
-            'looper_${controller.module.id}_${DateTime.now().millisecondsSinceEpoch}.gif',
+          final frameMs = (1000 / LooperPlan.exportFps).round();
+          final bytes = await _exportService.worker
+              .runWithInput<(List<Uint8List>, int), Uint8List>(
+            _encodeLooperGifFrames,
+            (pngFrames, frameMs),
+            token: token,
+          );
+          token.throwIfCancelled();
+          final file = await _exportService.saveBytes(
+            bytes,
+            filename:
+                'looper_${controller.module.id}_${DateTime.now().millisecondsSinceEpoch}.gif',
+          );
+          token.throwIfCancelled();
+
+          try {
+            await _exportService.shareFile(
+              file,
+              text: ViewerShareCaption.build(
+                fractalName: controller.module.displayName(l10n),
+                shareUrl: DeepLinkService.buildWebUri(
+                  moduleId: controller.module.id,
+                  params: originalParams,
+                  view: originalView,
+                  transparentBackground: originalTransparency,
+                  rotationLocked: controller.rotationLocked,
+                  glowEnabled: controller.glowEnabled,
+                  glowSigma: controller.glowSigma,
+                  glowIntensity: controller.glowIntensity,
+                  kaleidoscopeEnabled: controller.kaleidoscopeEnabled,
+                  kaleidoscopeSectors: controller.kaleidoscopeSectors,
+                  kaleidoscopeMirror: controller.kaleidoscopeMirror,
+                  kaleidoscopeRotation: controller.kaleidoscopeRotation,
+                  kaleidoscopeMirrorMode: controller.kaleidoscopeMirrorMode,
+                ).toString(),
+              ),
+            );
+            token.throwIfCancelled();
+            return false;
+          } catch (_) {
+            token.throwIfCancelled();
+            return true;
+          }
+        },
       );
-
-      var shareFailed = false;
-      try {
-        await _exportService.shareFile(
-          file,
-          text: ViewerShareCaption.build(
-            fractalName: controller.module.displayName(l10n),
-            shareUrl: DeepLinkService.buildWebUri(
-              moduleId: controller.module.id,
-              params: originalParams,
-              view: originalView,
-              transparentBackground: originalTransparency,
-              rotationLocked: controller.rotationLocked,
-              glowEnabled: controller.glowEnabled,
-              glowSigma: controller.glowSigma,
-              glowIntensity: controller.glowIntensity,
-              kaleidoscopeEnabled: controller.kaleidoscopeEnabled,
-              kaleidoscopeSectors: controller.kaleidoscopeSectors,
-              kaleidoscopeMirror: controller.kaleidoscopeMirror,
-              kaleidoscopeRotation: controller.kaleidoscopeRotation,
-              kaleidoscopeMirrorMode: controller.kaleidoscopeMirrorMode,
-            ).toString(),
-          ),
-        );
-      } catch (_) {
-        shareFailed = true;
-      }
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -171,7 +348,14 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
           ),
         );
       }
-    } catch (error) {
+    } on ExportCancelledException {
+      _log.info('export', 'Looper export cancelled');
+    } catch (error, stackTrace) {
+      _log.error(
+        'export',
+        'Looper export failed',
+        data: {'error': '$error', 'stackTrace': '$stackTrace'},
+      );
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           appFeedbackSnackBar(
@@ -285,84 +469,97 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
         await Future.delayed(const Duration(milliseconds: 100));
       }
 
-      ExportResult result;
-      var usedFallback = false;
+      final (result, usedFallback, shareError) =
+          await _exportService.coordinator.run<(ExportResult, bool, Object?)>(
+        ExportKind.image,
+        (token) async {
+          late final ExportResult result;
+          var usedFallback = false;
+          try {
+            result = await _exportService.exportWithOptions(
+              boundaryKey,
+              options: options,
+              screenWidth: boundarySize.width,
+              screenHeight: boundarySize.height,
+              physicalScreenWidth: physicalScreenSize.width,
+              physicalScreenHeight: physicalScreenSize.height,
+              fractalType: controller.module.id,
+              parameters: controller.params,
+              onProgress: (progress) {
+                if (mounted) {
+                  setState(() {
+                    _exportSession = _exportSession.updateProgress(progress);
+                  });
+                }
+              },
+            );
+          } on ExportCancelledException {
+            rethrow;
+          } catch (primaryError) {
+            _log.error(
+              'export',
+              'Primary export failed, trying PNG fallback',
+              data: {'error': primaryError.toString()},
+            );
+            result = await _performFallbackPngExport(
+              boundaryKey: boundaryKey,
+              options: options,
+              screenWidth: boundarySize.width,
+              screenHeight: boundarySize.height,
+              physicalScreenWidth: physicalScreenSize.width,
+              physicalScreenHeight: physicalScreenSize.height,
+              fractalType: controller.module.id,
+              cancellationToken: token,
+            );
+            usedFallback = true;
+          }
 
-      try {
-        result = await _exportService.exportWithOptions(
-          boundaryKey,
-          options: options,
-          screenWidth: boundarySize.width,
-          screenHeight: boundarySize.height,
-          physicalScreenWidth: physicalScreenSize.width,
-          physicalScreenHeight: physicalScreenSize.height,
-          fractalType: controller.module.id,
-          parameters: controller.params,
-          onProgress: (progress) {
-            if (mounted) {
-              setState(() {
-                _exportSession = _exportSession.updateProgress(progress);
-              });
+          token.throwIfCancelled();
+          Object? shareError;
+          if (shareAfterSave) {
+            try {
+              await _exportService.shareExportResult(
+                result,
+                text: ViewerShareCaption.build(
+                  fractalName: controller.module.displayName(l10n),
+                  shareUrl: DeepLinkService.buildWebUri(
+                    moduleId: controller.module.id,
+                    params: controller.params,
+                    view: controller.view,
+                    transparentBackground: controller.transparentBackground,
+                    rotationLocked: controller.rotationLocked,
+                    glowEnabled: controller.glowEnabled,
+                    glowSigma: controller.glowSigma,
+                    glowIntensity: controller.glowIntensity,
+                    kaleidoscopeEnabled: controller.kaleidoscopeEnabled,
+                    kaleidoscopeSectors: controller.kaleidoscopeSectors,
+                    kaleidoscopeMirror: controller.kaleidoscopeMirror,
+                    kaleidoscopeRotation: controller.kaleidoscopeRotation,
+                    kaleidoscopeMirrorMode: controller.kaleidoscopeMirrorMode,
+                  ).toString(),
+                ),
+              );
+            } on ExportCancelledException {
+              rethrow;
+            } catch (error) {
+              shareError = error;
+              _log.warn(
+                'export',
+                'Share failed after export saved',
+                data: {'error': error.toString()},
+              );
             }
-          },
-        );
-      } catch (primaryError) {
-        _log.error(
-          'export',
-          'Primary export failed, trying PNG fallback',
-          data: {'error': primaryError.toString()},
-        );
-        usedFallback = true;
-        result = await _performFallbackPngExport(
-          boundaryKey: boundaryKey,
-          options: options,
-          screenWidth: boundarySize.width,
-          screenHeight: boundarySize.height,
-          physicalScreenWidth: physicalScreenSize.width,
-          physicalScreenHeight: physicalScreenSize.height,
-          fractalType: controller.module.id,
-        );
-      }
+          } else {
+            await _exportService.saveExportResult(result);
+          }
+          token.throwIfCancelled();
+          return (result, usedFallback, shareError);
+        },
+      );
 
       if (mounted) {
         await HapticService.heavy();
         context.read<ExplorationStatsService?>()?.recordScreenshot();
-
-        Object? shareError;
-        if (shareAfterSave) {
-          try {
-            await _exportService.shareExportResult(
-              result,
-              text: ViewerShareCaption.build(
-                fractalName: controller.module.displayName(l10n),
-                shareUrl: DeepLinkService.buildWebUri(
-                  moduleId: controller.module.id,
-                  params: controller.params,
-                  view: controller.view,
-                  transparentBackground: controller.transparentBackground,
-                  rotationLocked: controller.rotationLocked,
-                  glowEnabled: controller.glowEnabled,
-                  glowSigma: controller.glowSigma,
-                  glowIntensity: controller.glowIntensity,
-                  kaleidoscopeEnabled: controller.kaleidoscopeEnabled,
-                  kaleidoscopeSectors: controller.kaleidoscopeSectors,
-                  kaleidoscopeMirror: controller.kaleidoscopeMirror,
-                  kaleidoscopeRotation: controller.kaleidoscopeRotation,
-                  kaleidoscopeMirrorMode: controller.kaleidoscopeMirrorMode,
-                ).toString(),
-              ),
-            );
-          } catch (error) {
-            shareError = error;
-            _log.warn(
-              'export',
-              'Share failed after export saved',
-              data: {'error': error.toString()},
-            );
-          }
-        } else {
-          await _exportService.saveExportResult(result);
-        }
 
         if (!mounted) return;
         _showExportCompletionSnackBar(
@@ -375,6 +572,8 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
           ),
         );
       }
+    } on ExportCancelledException {
+      _log.info('export', 'Image export cancelled');
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -488,37 +687,55 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
           options.saveCopy && await _exportService.chooseLinuxExportDirectory();
       if (!mounted) return;
 
-      // Capture the current frame at the device's native resolution (capped),
-      // apply the legibility overlay, then hand it to the platform.
-      final pngBytes = await _exportService.capturePng(
-        boundaryKey,
-        pixelRatio: devicePixelRatio.clamp(1.0, 3.0).toDouble(),
-      );
-      final styled = _exportService.applyWallpaperStyle(
-        pngBytes,
-        style: options.style.name,
-      );
+      final (ok, copyFailed) =
+          await _exportService.coordinator.run<(bool, bool)>(
+        ExportKind.image,
+        (token) async {
+          token.throwIfCancelled();
+          // Capture the current frame at the device's native resolution
+          // (capped), apply the legibility overlay, then hand it to the
+          // platform while retaining the global image-export lease.
+          final pngBytes = await _exportService.capturePng(
+            boundaryKey,
+            pixelRatio: devicePixelRatio.clamp(1.0, 3.0).toDouble(),
+          );
+          token.throwIfCancelled();
+          final styled = _exportService.applyWallpaperStyle(
+            pngBytes,
+            style: options.style.name,
+          );
+          token.throwIfCancelled();
 
-      // Tracked, not just logged. The copy is something the user asked for,
-      // so a failure has to reach them rather than only the log — the same
-      // rule ViewerExportFeedback states for export's two phases.
-      var copyFailed = false;
-      if (saveCopy) {
-        final filename = _exportService.generateFilename(
-          format: ExportFormat.png,
-          fractalType: controller.module.id,
-        );
-        try {
-          await _exportService.saveBytes(styled, filename: filename);
-        } catch (error) {
-          copyFailed = true;
-          _log.warn('wallpaper', 'Save wallpaper copy failed',
-              data: {'error': error.toString()});
-        }
-      }
+          // Tracked, not just logged. The copy is something the user asked
+          // for, so a failure has to reach them rather than only the log.
+          var copyFailed = false;
+          if (saveCopy) {
+            final filename = _exportService.generateFilename(
+              format: ExportFormat.png,
+              fractalType: controller.module.id,
+            );
+            try {
+              await _exportService.saveBytes(styled, filename: filename);
+            } catch (error) {
+              copyFailed = true;
+              _log.warn(
+                'wallpaper',
+                'Save wallpaper copy failed',
+                data: {'error': error.toString()},
+              );
+            }
+            token.throwIfCancelled();
+          }
 
-      final ok = await _wallpaperService.setWallpaper(styled,
-          target: options.target);
+          token.throwIfCancelled();
+          final ok = await _wallpaperService.setWallpaper(
+            styled,
+            target: options.target,
+          );
+          token.throwIfCancelled();
+          return (ok, copyFailed);
+        },
+      );
 
       if (!mounted) return;
       await HapticService.heavy();
@@ -536,6 +753,8 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
           success: ok,
         ),
       );
+    } on ExportCancelledException {
+      _log.info('wallpaper', 'Wallpaper export cancelled');
     } catch (e) {
       _log.warn('wallpaper', 'Set wallpaper failed',
           data: {'error': e.toString()});
@@ -561,7 +780,9 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     required double physicalScreenWidth,
     required double physicalScreenHeight,
     required String fractalType,
+    required ExportCancellationToken cancellationToken,
   }) async {
+    cancellationToken.throwIfCancelled();
     final pixelRatio = options
         .calculatePixelRatio(
           screenWidth,
@@ -574,6 +795,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
       boundaryKey,
       pixelRatio: pixelRatio,
     );
+    cancellationToken.throwIfCancelled();
     final targetDims = options.getTargetDimensions(
       screenWidth,
       screenHeight,
@@ -586,11 +808,13 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
       height: targetDims.$2,
       quoteText: options.quoteText,
     );
+    cancellationToken.throwIfCancelled();
 
     final filename = _exportService.generateFilename(
       format: ExportFormat.png,
       fractalType: fractalType,
     );
+    cancellationToken.throwIfCancelled();
     return _exportService.saveExportBytes(
       bytes,
       filename: filename,

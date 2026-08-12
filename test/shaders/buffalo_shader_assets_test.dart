@@ -8,8 +8,8 @@ void main() {
     final pubspec = File('pubspec.yaml').readAsStringSync();
     final buffaloShaderAssets = escapeTimeCatalog
         .map((config) => config.shaderAsset)
-        .where((asset) => asset
-            .contains('shaders/escape_time_family/families/buffalo/'))
+        .where((asset) =>
+            asset.contains('shaders/escape_time_family/families/buffalo/'))
         .toSet();
 
     expect(buffaloShaderAssets, isNotEmpty);

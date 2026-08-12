@@ -176,7 +176,8 @@ void main() {
       harness.controller.updateParam('iterations', 350);
       await tester.pumpAndSettle();
 
-      await tester.tapAt(Offset(rect.left + rect.width * 0.75, rect.bottom - 3));
+      await tester
+          .tapAt(Offset(rect.left + rect.width * 0.75, rect.bottom - 3));
       await tester.pumpAndSettle();
 
       expect(

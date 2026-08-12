@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -7,6 +8,7 @@ import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/export/batch_export_service.dart';
+import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
 import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
@@ -98,6 +100,39 @@ class _FakeBatchExportService implements BatchExportService {
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
+class _BlockingCancelledBatchExportService implements BatchExportService {
+  final Completer<void> started = Completer<void>();
+  final Completer<void> cancelled = Completer<void>();
+
+  @override
+  Future<BatchExportResult> exportPresets({
+    required GlobalKey boundaryKey,
+    required Future<void> Function(FractalPreset preset) applyPreset,
+    required List<FractalPreset> presets,
+    required ExportOptions options,
+    required double screenWidth,
+    required double screenHeight,
+    required String moduleId,
+    required String moduleDisplayName,
+    required Map<String, Object> Function() currentParameters,
+    required void Function(double overallProgress, String status)? onProgress,
+    required void Function(BatchExportItemResult item)? onItemDone,
+    required bool Function() isCancelled,
+  }) async {
+    started.complete();
+    await cancelled.future;
+    throw const ExportCancelledException();
+  }
+
+  @override
+  void cancelActiveExport() {
+    if (!cancelled.isCompleted) cancelled.complete();
+  }
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
 void main() {
   group('BatchExportDialog accessibility', () {
     late Directory dir;
@@ -126,6 +161,7 @@ void main() {
       int itemCount = 9,
       bool throwError = false,
       bool withContactSheet = true,
+      BatchExportService? batchExportService,
     }) async {
       if (size != null) {
         await tester.binding.setSurfaceSize(size);
@@ -150,13 +186,14 @@ void main() {
           home: BatchExportDialog(
             boundaryKey: GlobalKey(),
             exportService: const _FakeExportService(),
-            batchExportService: _FakeBatchExportService(
-              directory: dir,
-              itemCount: itemCount,
-              throwError: throwError,
-              contactSheet:
-                  withContactSheet ? File('${dir.path}/contact.png') : null,
-            ),
+            batchExportService: batchExportService ??
+                _FakeBatchExportService(
+                  directory: dir,
+                  itemCount: itemCount,
+                  throwError: throwError,
+                  contactSheet:
+                      withContactSheet ? File('${dir.path}/contact.png') : null,
+                ),
           ),
         ),
       ));
@@ -225,8 +262,8 @@ void main() {
         testWidgets('no overflow reporting a failure at ${scale}x on $size',
             (tester) async {
           await expectNoOverflow(
-            () => pumpDialog(
-                tester, textScale: scale, size: size, throwError: true),
+            () => pumpDialog(tester,
+                textScale: scale, size: size, throwError: true),
             reason: 'error state at ${scale}x on $size',
           );
           await disposeAccessibilityTestWidget(tester);
@@ -242,6 +279,20 @@ void main() {
 
       expect(find.textContaining('Export failed'), findsOneWidget);
       expect(find.text('Preparing…'), findsNothing);
+      expect(find.text('Done'), findsNothing);
+      await disposeAccessibilityTestWidget(tester);
+    });
+
+    testWidgets('cancelling before the first item never reports done',
+        (tester) async {
+      final service = _BlockingCancelledBatchExportService();
+      await pumpDialog(tester, batchExportService: service);
+      await service.started.future;
+
+      await tester.binding.handlePopRoute();
+      await tester.pump();
+
+      expect(find.text('Cancelled'), findsOneWidget);
       expect(find.text('Done'), findsNothing);
       await disposeAccessibilityTestWidget(tester);
     });

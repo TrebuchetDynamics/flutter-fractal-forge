@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import 'package:vector_math/vector_math.dart';
 import 'fractal_view_state.dart';
 
@@ -245,13 +246,15 @@ class FractalPreset {
           presets.add(preset);
         } catch (e) {
           // Skip corrupted preset, continue with others
-          if (kDebugMode) debugPrint('Failed to parse preset: $e');
+          AppLogger.instance
+              .warn('storage', 'Failed to parse preset', data: {'error': '$e'});
         }
       }
       return presets;
     } catch (e) {
       // Corrupted JSON, return empty list
-      if (kDebugMode) debugPrint('Failed to parse presets JSON: $e');
+      AppLogger.instance.warn('storage', 'Failed to parse presets JSON',
+          data: {'error': '$e'});
       return [];
     }
   }

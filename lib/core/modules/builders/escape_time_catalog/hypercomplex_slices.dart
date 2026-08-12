@@ -7,6 +7,7 @@ final List<EscapeTimeConfig> _hypercomplexSlicesCatalog = [
     name: 'Quaternion Julia (2D Slice)',
     shaderAsset:
         'shaders/3d_and_hypercomplex/hypercomplex_escape_time/quaternion_julia_2d_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 160,
     defaultBailout: 8.0,
     extraPresets: [
@@ -25,6 +26,7 @@ final List<EscapeTimeConfig> _hypercomplexSlicesCatalog = [
     name: 'Tessarine Julia',
     shaderAsset:
         'shaders/3d_and_hypercomplex/hypercomplex_escape_time/tessarine_julia_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 160,
     defaultBailout: 8.0,
     extraPresets: [
@@ -61,6 +63,7 @@ final List<EscapeTimeConfig> _hypercomplexSlicesCatalog = [
     name: 'Dual-Complex Fractal',
     shaderAsset:
         'shaders/3d_and_hypercomplex/hypercomplex_escape_time/dual_complex_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 170,
     defaultBailout: 10.0,
   ),
@@ -69,6 +72,7 @@ final List<EscapeTimeConfig> _hypercomplexSlicesCatalog = [
     name: 'Bicomplex Mandelbrot',
     shaderAsset:
         'shaders/3d_and_hypercomplex/hypercomplex_escape_time/bicomplex_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 180,
     defaultBailout: 12.0,
     extraPresets: [

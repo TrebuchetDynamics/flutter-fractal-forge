@@ -4,7 +4,8 @@ import 'dart:ui' as ui;
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  const asset = 'shaders/ifs_and_geometric/raymarched_3d/kifs_snowflake_fold_gpu.frag';
+  const asset =
+      'shaders/ifs_and_geometric/raymarched_3d/kifs_snowflake_fold_gpu.frag';
 
   test('KIFS Snowflake keeps closest-hit glow for miss views', () {
     final shader = File(asset).readAsStringSync();

@@ -5,11 +5,14 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   const shaderAsset = 'shaders/strange_attractors/aizawa_gpu.frag';
 
-  test('Aizawa shader maps world projection to screen with normal pan direction', () {
+  test(
+      'Aizawa shader maps world projection to screen with normal pan direction',
+      () {
     final shader = File(shaderAsset).readAsStringSync();
 
     expect(shader, contains('vec2 screenPos = (proj.xy - uCenter) * uZoom;'));
-    expect(shader, isNot(contains('vec2 screenPos = proj.xy / uZoom + uCenter;')));
+    expect(
+        shader, isNot(contains('vec2 screenPos = proj.xy / uZoom + uCenter;')));
   });
 
   test('Aizawa shader keeps per-pixel RK4 work bounded for performance', () {

@@ -53,7 +53,8 @@ class ErrorBoundaryConfig {
   /// Default configuration for shader-related errors.
   static const shader = ErrorBoundaryConfig(
     title: 'Shader Error',
-    message: 'Failed to compile or load the shader. Try a different fractal or restart the app.',
+    message:
+        'Failed to compile or load the shader. Try a different fractal or restart the app.',
     showRetry: true,
     showDetails: true,
     severity: ErrorSeverity.error,
@@ -363,7 +364,9 @@ class _DefaultErrorDisplay extends StatelessWidget {
           action.isPrimary
               ? ElevatedButton.icon(
                   onPressed: action.onPressed,
-                  icon: action.icon != null ? Icon(action.icon, size: 18) : const SizedBox.shrink(),
+                  icon: action.icon != null
+                      ? Icon(action.icon, size: 18)
+                      : const SizedBox.shrink(),
                   label: Text(action.label),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
@@ -379,11 +382,14 @@ class _DefaultErrorDisplay extends StatelessWidget {
                 )
               : OutlinedButton.icon(
                   onPressed: action.onPressed,
-                  icon: action.icon != null ? Icon(action.icon, size: 18) : const SizedBox.shrink(),
+                  icon: action.icon != null
+                      ? Icon(action.icon, size: 18)
+                      : const SizedBox.shrink(),
                   label: Text(action.label),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.textSecondary,
-                    side: BorderSide(color: AppColors.border.withValues(alpha: 0.5)),
+                    side: BorderSide(
+                        color: AppColors.border.withValues(alpha: 0.5)),
                     padding: const EdgeInsets.symmetric(
                       horizontal: AppSpacing.lg,
                       vertical: AppSpacing.md,
@@ -436,7 +442,9 @@ class _DefaultErrorDisplay extends StatelessWidget {
         // Details panel
         AnimatedCrossFade(
           duration: AppAnimations.fast,
-          crossFadeState: showDetails ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+          crossFadeState: showDetails
+              ? CrossFadeState.showSecond
+              : CrossFadeState.showFirst,
           firstChild: const SizedBox.shrink(),
           secondChild: Container(
             margin: const EdgeInsets.only(top: AppSpacing.sm),
@@ -445,7 +453,8 @@ class _DefaultErrorDisplay extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.surface,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.border.withValues(alpha: 0.3)),
+              border:
+                  Border.all(color: AppColors.border.withValues(alpha: 0.3)),
             ),
             constraints: const BoxConstraints(maxHeight: 200),
             child: SingleChildScrollView(

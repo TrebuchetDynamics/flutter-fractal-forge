@@ -8,6 +8,13 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
   static final LinkedHashMap<String, ui.FragmentProgram> _programCache =
       LinkedHashMap<String, ui.FragmentProgram>();
   static final Map<String, Future<ui.FragmentProgram>> _programLoads = {};
+  static final ShaderLoadEpoch _programLoadEpoch = ShaderLoadEpoch();
+
+  static void clearProgramCache() {
+    _programLoadEpoch.invalidate();
+    _programCache.clear();
+    _programLoads.clear();
+  }
 
   /// Maximum number of shader load retries before showing error.
   static const int _maxShaderRetries = 3;
@@ -33,7 +40,10 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
   }
 
   void _disposeCachedFragmentShader() {
-    _cachedFragmentShader?.dispose();
+    final shader = _cachedFragmentShader;
+    if (shader != null) {
+      _rendererShaderCache.release(shader);
+    }
     _cachedFragmentShader = null;
     _shaderForCachedFragment = null;
   }
@@ -54,11 +64,10 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
     while (_programCache.length > _maxProgramCacheEntries) {
       final oldestKey = _programCache.keys.first;
       _programCache.remove(oldestKey);
-      if (kDebugMode) {
-        debugPrint(
-          '[renderer] shader_cache_evict asset=$oldestKey size=${_programCache.length}',
-        );
-      }
+      AppLogger.instance.debug('gpu', 'Shader program cache eviction', data: {
+        'asset': oldestKey,
+        'size': _programCache.length,
+      });
     }
   }
 
@@ -76,13 +85,17 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
   }
 
   Future<ui.FragmentProgram> _loadProgramFromAsset(String asset) {
-    return _programLoads.putIfAbsent(asset, () async {
-      try {
-        return await ui.FragmentProgram.fromAsset(asset);
-      } finally {
+    final existing = _programLoads[asset];
+    if (existing != null) return existing;
+
+    late final Future<ui.FragmentProgram> load;
+    load = ui.FragmentProgram.fromAsset(asset).whenComplete(() {
+      if (identical(_programLoads[asset], load)) {
         _programLoads.remove(asset);
       }
     });
+    _programLoads[asset] = load;
+    return load;
   }
 
   /// Loads a shader with retry logic and error reporting.
@@ -107,9 +120,6 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
       final dt = DateTime.now()
           .difference(_shaderLoadStartedAt ?? DateTime.now())
           .inMilliseconds;
-      if (kDebugMode)
-        debugPrint(
-            '[renderer] shader_cache_hit asset=$asset load_ms=$dt cache_size=${_programCache.length}');
       AppLogger.instance.logState('gpu', 'Shader loaded', {
         'asset': asset,
         'compileMs': dt,
@@ -119,7 +129,11 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
     }
 
     _loading = true;
-    if (kDebugMode) debugPrint('[renderer] shader_load_start asset=$asset');
+    AppLogger.instance.debug(
+      'gpu',
+      'Shader load started',
+      data: {'asset': asset},
+    );
     clearStaleShader();
     _shaderAsset = asset;
     _shaderError = null;
@@ -128,7 +142,20 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
 
     for (var attempt = 1; attempt <= _maxShaderRetries; attempt++) {
       try {
+        final loadEpoch = _programLoadEpoch.capture();
         final program = await _loadProgramFromAsset(asset);
+        if (!_programLoadEpoch.isCurrent(loadEpoch)) {
+          _loading = false;
+          if (mounted) {
+            setState(() {});
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted && !_loading && _program == null) {
+                _loadShader(asset);
+              }
+            });
+          }
+          return;
+        }
         _storeProgramInCache(asset, program);
         if (mounted) {
           setState(() => _setLoadedProgram(asset, program));
@@ -136,17 +163,12 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
         final dt = DateTime.now()
             .difference(_shaderLoadStartedAt ?? DateTime.now())
             .inMilliseconds;
-        if (kDebugMode)
-          debugPrint('[renderer] shader_load_ok asset=$asset compile_ms=$dt');
         AppLogger.instance.logState(
             'gpu', 'Shader loaded', {'asset': asset, 'compileMs': dt});
         _loading = false;
         return;
       } catch (e, stack) {
         final errorType = _shaderErrorPolicy.categorize(e);
-        if (kDebugMode)
-          debugPrint(
-              '[renderer] shader_load_fail asset=$asset attempt=$attempt type=$errorType err=$e');
         AppLogger.instance.logState(
             'gpu',
             'Shader load failed',
@@ -207,7 +229,12 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
   ui.FragmentShader _currentFragmentShader(ui.FragmentProgram program) {
     if (_cachedFragmentShader == null || _shaderForCachedFragment != program) {
       _disposeCachedFragmentShader();
-      _cachedFragmentShader = program.fragmentShader();
+      final asset = _shaderAsset;
+      assert(asset != null);
+      _cachedFragmentShader = _rendererShaderCache.acquire(
+        '$asset#${identityHashCode(program)}',
+        program.fragmentShader,
+      );
       _shaderForCachedFragment = program;
     }
     return _cachedFragmentShader!;

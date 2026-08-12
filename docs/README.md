@@ -7,8 +7,8 @@ The documentation tree is organized by responsibility:
 - `analysis/` — fractal technique, Giulia, and open-source renderer research.
 - `qa/` — accessibility, playtesting, gestures, and UI/UX capture artifacts.
 - `deployment/` — deployment runbooks for website/web-preview hosting.
-- `release/` — release evidence, handoff, and manifest artifacts.
-- `store/` — Play Store metadata, checklist, privacy policy, and screenshots.
+- `release/` — release evidence, handoff, manifest artifacts, SBOM, checksums, and provenance.
+- `store_listing/` — Play Store metadata, checklists, privacy policy, and screenshots.
 - `catalog/` — fractal registry source data.
 - `opensource_audits/` — harvested formula/audit packs.
 - `superpowers/` — pipeline plans and specs.

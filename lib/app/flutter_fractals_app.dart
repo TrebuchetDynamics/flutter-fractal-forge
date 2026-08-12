@@ -2,17 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/shaders/shader_memory_pressure_observer.dart';
+import 'package:flutter_fractals/core/services/diagnostics/performance_service.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/platform/deep_link_service.dart';
 import 'package:flutter_fractals/core/services/storage/history_store.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
+import 'package:flutter_fractals/core/services/storage/viewer_session_store.dart';
 import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/features/home/home_screen.dart';
 import 'package:flutter_fractals/features/onboarding/splash_screen.dart'
     show FractalSplashScreen;
+import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 /// The root widget for Flutter Fractal Forge.
@@ -41,6 +45,9 @@ class FlutterFractalsApp extends StatelessWidget {
   /// Storage service for exploration history.
   final HistoryStore? historyStore;
 
+  /// Durable storage for restoring an interrupted viewer route.
+  final ViewerSessionStore? viewerSessionStore;
+
   /// Service for accessibility settings.
   final AccessibilityService accessibilityService;
 
@@ -49,6 +56,9 @@ class FlutterFractalsApp extends StatelessWidget {
 
   /// Service for handling deep links.
   final DeepLinkService? deepLinkService;
+
+  /// Optional factory seam for deterministic telemetry lifecycle tests.
+  final PerformanceService Function()? performanceServiceFactory;
 
   /// Optional locale override for testing.
   ///
@@ -64,9 +74,11 @@ class FlutterFractalsApp extends StatelessWidget {
     Key? key,
     required this.presetStore,
     this.historyStore,
+    this.viewerSessionStore,
     required this.accessibilityService,
     required this.rendererSettingsService,
     this.deepLinkService,
+    this.performanceServiceFactory,
     this.locale,
     this.skipSplash = false,
   }) : super(key: key);
@@ -76,9 +88,11 @@ class FlutterFractalsApp extends StatelessWidget {
     return _AppProviders(
       presetStore: presetStore,
       historyStore: historyStore,
+      viewerSessionStore: viewerSessionStore,
       accessibilityService: accessibilityService,
       rendererSettingsService: rendererSettingsService,
       deepLinkService: deepLinkService,
+      performanceServiceFactory: performanceServiceFactory,
       locale: locale,
       skipSplash: skipSplash,
     );
@@ -89,18 +103,22 @@ class FlutterFractalsApp extends StatelessWidget {
 class _AppProviders extends StatelessWidget {
   final PresetStore presetStore;
   final HistoryStore? historyStore;
+  final ViewerSessionStore? viewerSessionStore;
   final AccessibilityService accessibilityService;
   final RendererSettingsService rendererSettingsService;
   final DeepLinkService? deepLinkService;
+  final PerformanceService Function()? performanceServiceFactory;
   final Locale? locale;
   final bool skipSplash;
 
   const _AppProviders({
     required this.presetStore,
     required this.historyStore,
+    required this.viewerSessionStore,
     required this.accessibilityService,
     required this.rendererSettingsService,
     required this.deepLinkService,
+    required this.performanceServiceFactory,
     required this.locale,
     this.skipSplash = false,
   });
@@ -110,9 +128,17 @@ class _AppProviders extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<ModuleRegistry>(create: (_) => ModuleRegistry()),
+        ChangeNotifierProvider<PerformanceService>(
+          lazy: false,
+          create: (_) =>
+              (performanceServiceFactory?.call() ?? PerformanceService())
+                ..start(),
+        ),
         Provider<PresetStore>.value(value: presetStore),
         if (historyStore != null)
           Provider<HistoryStore>.value(value: historyStore!),
+        if (viewerSessionStore != null)
+          Provider<ViewerSessionStore>.value(value: viewerSessionStore!),
         if (historyStore != null)
           ChangeNotifierProvider<HistoryProvider>(
             create: (_) => HistoryProvider(store: historyStore!),
@@ -135,7 +161,7 @@ class _AppProviders extends StatelessWidget {
 }
 
 /// Owns MaterialApp/theme/localization shell.
-class _AppShell extends StatelessWidget {
+class _AppShell extends StatefulWidget {
   final Locale? locale;
   final bool skipSplash;
 
@@ -145,43 +171,74 @@ class _AppShell extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Consumer<AccessibilityService>(
-      builder: (context, accessibility, child) {
-        // Determine which theme to use based on user selection
-        final baseTheme = switch (accessibility.themeMode) {
-          AppThemeMode.dark => AppTheme.dark,
-          AppThemeMode.oled => AppTheme.oled,
-          AppThemeMode.highContrast => AppTheme.highContrast,
-        };
-        final theme = accessibility.largeTargetsEnabled
-            ? baseTheme.copyWith(
-                visualDensity: const VisualDensity(
-                  horizontal: VisualDensity.maximumDensity,
-                  vertical: VisualDensity.maximumDensity,
-                ),
-                materialTapTargetSize: MaterialTapTargetSize.padded,
-                iconButtonTheme: const IconButtonThemeData(
-                  style: ButtonStyle(
-                    minimumSize: WidgetStatePropertyAll(Size.square(56)),
-                    tapTargetSize: MaterialTapTargetSize.padded,
-                  ),
-                ),
-              )
-            : baseTheme;
+  State<_AppShell> createState() => _AppShellState();
+}
 
-        return MaterialApp(
-          locale: locale,
-          onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          theme: theme,
-          home: _AppBootstrap(
-            skipSplash: skipSplash,
-          ),
-          debugShowCheckedModeBanner: false,
-        );
-      },
+class _AppShellState extends State<_AppShell> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    final performance = context.read<PerformanceService>();
+    if (state == AppLifecycleState.resumed) {
+      performance.resume();
+    } else {
+      performance.pause();
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ShaderMemoryPressureObserver(
+      onMemoryPressure: FractalRenderer.clearShaderCacheForMemoryPressure,
+      child: Consumer<AccessibilityService>(
+        builder: (context, accessibility, child) {
+          // Determine which theme to use based on user selection
+          final baseTheme = switch (accessibility.themeMode) {
+            AppThemeMode.dark => AppTheme.dark,
+            AppThemeMode.oled => AppTheme.oled,
+            AppThemeMode.highContrast => AppTheme.highContrast,
+          };
+          final theme = accessibility.largeTargetsEnabled
+              ? baseTheme.copyWith(
+                  visualDensity: const VisualDensity(
+                    horizontal: VisualDensity.maximumDensity,
+                    vertical: VisualDensity.maximumDensity,
+                  ),
+                  materialTapTargetSize: MaterialTapTargetSize.padded,
+                  iconButtonTheme: const IconButtonThemeData(
+                    style: ButtonStyle(
+                      minimumSize: WidgetStatePropertyAll(Size.square(56)),
+                      tapTargetSize: MaterialTapTargetSize.padded,
+                    ),
+                  ),
+                )
+              : baseTheme;
+
+          return MaterialApp(
+            locale: widget.locale,
+            onGenerateTitle: (context) =>
+                AppLocalizations.of(context)!.appTitle,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            theme: theme,
+            home: _AppBootstrap(
+              skipSplash: widget.skipSplash,
+            ),
+            debugShowCheckedModeBanner: false,
+          );
+        },
+      ),
     );
   }
 }

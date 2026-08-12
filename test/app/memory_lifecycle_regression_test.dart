@@ -192,7 +192,7 @@ void main() {
   });
 
   test(
-      'renderer disposes cached FragmentShader before replacement and teardown',
+      'renderer releases cached FragmentShader before replacement and teardown',
       () {
     final source = File(
       'lib/features/renderer/widgets/renderer/shaders/shader_loader.dart',
@@ -206,7 +206,7 @@ void main() {
     );
     final clearStale = _methodBody(source, 'void clearStaleShader()');
 
-    expect(disposeHelper, contains('_cachedFragmentShader?.dispose();'));
+    expect(disposeHelper, contains('_rendererShaderCache.release(shader);'));
     expect(stateDispose, contains('_disposeCachedFragmentShader();'));
     expect(setProgram, contains('_disposeCachedFragmentShader();'));
     expect(clearStale, contains('_disposeCachedFragmentShader();'));

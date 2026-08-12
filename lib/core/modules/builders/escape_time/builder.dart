@@ -21,6 +21,7 @@ class EscapeTimeConfig {
   final double defaultIterations;
   final double defaultBailout;
   final int defaultColorScheme;
+
   /// Null means "not configured, pick an automatic framing". An explicit 0.0
   /// means the module is deliberately centred on the origin, which matters for
   /// attractors whose orbit sits there; the two cannot be told apart if this
@@ -31,6 +32,7 @@ class EscapeTimeConfig {
   final int maxIterations;
   final String category;
   final bool usesPaletteSampler;
+  final FractalAnimationCapability animationCapability;
   final List<FractalParameter> extraParams;
   final List<FractalPreset> extraPresets;
 
@@ -50,6 +52,7 @@ class EscapeTimeConfig {
     this.maxIterations = 500,
     this.category = 'Escape-Time',
     this.usesPaletteSampler = false,
+    this.animationCapability = FractalAnimationCapability.static,
     this.extraParams = const [],
     this.extraPresets = const [],
   });
@@ -114,6 +117,7 @@ FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
     id: config.id,
     displayName: config.displayName ?? ((_) => config.name),
     dimension: FractalDimension.twoD,
+    animationCapability: config.animationCapability,
     shaderAsset: config.shaderAsset,
     parameters: parameters,
     defaultPreset: defaultPreset,

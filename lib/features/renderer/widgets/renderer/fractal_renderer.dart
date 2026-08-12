@@ -10,6 +10,8 @@ import 'package:provider/provider.dart';
 import 'package:vector_math/vector_math.dart' hide Colors;
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/shaders/shader_load_epoch.dart';
+import 'package:flutter_fractals/core/shaders/shader_resource_cache.dart';
 import 'package:flutter_fractals/core/services/diagnostics/crash_reporter.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animation_effects.dart';
@@ -19,6 +21,7 @@ import '../../cpu/cpu_fractal_renderer.dart';
 import 'input/gesture_view_bounds.dart';
 import 'input/gesture_tap_classification.dart';
 import '../../palette_transition.dart';
+import '../../renderer_ticker_policy.dart';
 import '../../policy/precision_ladder_policy.dart';
 import '../../policy/render_plan.dart';
 import '../canvas/fractal_canvas.dart';
@@ -31,6 +34,12 @@ export 'shaders/shader_error_policy.dart' show ShaderErrorType;
 part 'input/gesture_handler.dart';
 part 'shaders/shader_loader.dart';
 part 'errors/shader_error_display.dart';
+
+final ShaderResourceCache<ui.FragmentShader> _rendererShaderCache =
+    ShaderResourceCache<ui.FragmentShader>(
+  maximumSize: 24,
+  disposeResource: (shader) => shader.dispose(),
+);
 
 class GpuIterationPolicy {
   static const int webMaxGpuIterations = 160;
@@ -93,6 +102,19 @@ class GpuIterationPolicy {
 /// )
 /// ```
 class FractalRenderer extends StatefulWidget {
+  /// Current reusable shader cache health, exposed for diagnostics and tests.
+  static ShaderCacheMetrics get shaderCacheMetrics =>
+      _rendererShaderCache.metrics;
+
+  /// Releases idle GPU shader instances after an OS low-memory notification.
+  ///
+  /// Instances leased by an actively painting renderer are retired when that
+  /// renderer next releases them, never while they may still be on a canvas.
+  static void clearShaderCacheForMemoryPressure() {
+    _ShaderLoaderMixin.clearProgramCache();
+    _rendererShaderCache.clear(ShaderCacheClearReason.memoryPressure);
+  }
+
   /// Optional key for a [RepaintBoundary] that wraps the renderer.
   ///
   /// When provided, can be used to capture the rendered fractal
@@ -185,6 +207,7 @@ class _FractalRendererState extends State<FractalRenderer>
   FractalController? _gestureController;
   String? _lastGestureModuleId;
   final PaletteTransition _paletteTransition = PaletteTransition();
+  bool _tickerSyncScheduled = false;
 
   @override
   void initState() {
@@ -194,12 +217,56 @@ class _FractalRendererState extends State<FractalRenderer>
       duration: const Duration(days: 1),
       vsync: this,
     );
+  }
 
-    // Avoid an always-running ticker in widget tests; it makes `pumpAndSettle`
-    // time out.
-    if (!_isAutomatedTest) {
-      _animationController.repeat();
+  void _syncAnimationTicker({
+    required FractalModule module,
+    required FractalController controller,
+    required bool paletteTransitionActive,
+  }) {
+    final shouldTick = !_isAutomatedTest &&
+        RendererTickerPolicy.shouldTick(
+          animationEnabled: widget.animationEnabled,
+          moduleUsesTime: module.animationCapability ==
+              FractalAnimationCapability.timeDriven,
+          fluidEffectActive: controller.fluidModeEnabled,
+          paletteTransitionActive: paletteTransitionActive,
+          morphTransitionActive: controller.isMorphing,
+          celebrationActive: controller.isCelebrating,
+        );
+    if (shouldTick) {
+      if (!_animationController.isAnimating) {
+        _animationController.repeat();
+      }
+      return;
     }
+    _stopAnimationTicker(reset: !widget.animationEnabled);
+  }
+
+  void _stopAnimationTicker({bool reset = false}) {
+    if (_animationController.isAnimating) {
+      _animationController.stop();
+    }
+    if (reset && _animationController.value != 0.0) {
+      _animationController.value = 0.0;
+    }
+  }
+
+  void _scheduleTickerSync({
+    required FractalModule module,
+    required FractalController controller,
+  }) {
+    if (_tickerSyncScheduled) return;
+    _tickerSyncScheduled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _tickerSyncScheduled = false;
+      if (!mounted) return;
+      _syncAnimationTicker(
+        module: module,
+        controller: controller,
+        paletteTransitionActive: _paletteTransition.isActiveAt(DateTime.now()),
+      );
+    });
   }
 
   @override
@@ -300,19 +367,6 @@ class _FractalRendererState extends State<FractalRenderer>
 
   @override
   Widget build(BuildContext context) {
-    if (widget.animationEnabled) {
-      if (!_isAutomatedTest && !_animationController.isAnimating) {
-        _animationController.repeat();
-      }
-    } else {
-      if (_animationController.isAnimating) {
-        _animationController.stop();
-      }
-      if (_animationController.value != 0.0) {
-        _animationController.value = 0.0;
-      }
-    }
-
     final controller = context.watch<FractalController>();
     final module = controller.module;
 
@@ -320,6 +374,7 @@ class _FractalRendererState extends State<FractalRenderer>
     // Provide a lightweight placeholder surface so gesture + UI behavior can be
     // exercised in CI without a device/emulator.
     if (_usePlaceholderSurface) {
+      _stopAnimationTicker(reset: !widget.animationEnabled);
       final content = RepaintBoundary(
         key: widget.boundaryKey,
         child: const SizedBox.expand(
@@ -333,6 +388,7 @@ class _FractalRendererState extends State<FractalRenderer>
     }
 
     if (widget.overrideChild != null) {
+      _stopAnimationTicker(reset: !widget.animationEnabled);
       return _wrapWithGestures(widget.overrideChild!);
     }
 
@@ -348,6 +404,7 @@ class _FractalRendererState extends State<FractalRenderer>
 
     if (precisionDecision.usesCpuRenderer &&
         module.dimension == FractalDimension.twoD) {
+      _stopAnimationTicker(reset: !widget.animationEnabled);
       final cpuContent = _withRendererIndicator(
         mode: 'CPU',
         highPrecisionActive: true,
@@ -394,6 +451,7 @@ class _FractalRendererState extends State<FractalRenderer>
 
     // Show error if shader failed to load
     if (_shaderError != null) {
+      _stopAnimationTicker(reset: !widget.animationEnabled);
       return _ShaderErrorDisplay(
         errorMessage: _shaderError!,
         errorDetails: _shaderErrorDetails,
@@ -408,6 +466,7 @@ class _FractalRendererState extends State<FractalRenderer>
     // Wait for shader to load before rendering
     // This prevents race condition where shader is used before it's ready
     if (_program == null || _loading) {
+      _stopAnimationTicker(reset: !widget.animationEnabled);
       if (!widget.showRendererIndicator) return const SizedBox.expand();
       final l10n = AppLocalizations.of(context);
       return Center(
@@ -450,6 +509,16 @@ class _FractalRendererState extends State<FractalRenderer>
       }
     }
 
+    final paletteTransitionActive = hasColorParam &&
+        widget.animationEnabled &&
+        (_paletteTransition.wouldAnimateTo(controllerParams['colorScheme']) ||
+            _paletteTransition.isActiveAt(DateTime.now()));
+    _syncAnimationTicker(
+      module: module,
+      controller: controller,
+      paletteTransitionActive: paletteTransitionActive,
+    );
+
     final staticRenderState = hasColorParam
         ? null
         : FractalRenderState(
@@ -471,9 +540,13 @@ class _FractalRendererState extends State<FractalRenderer>
             _firstFrameLogged = true;
             final dt =
                 now.difference(_shaderLoadStartedAt ?? now).inMilliseconds;
-            if (kDebugMode)
-              debugPrint(
-                  '[renderer] first_frame_ms=$dt module=${controller.module.id} backend=gpu');
+            if (kDebugMode) {
+              AppLogger.instance.debug('perf', 'gpu_first_frame', data: {
+                'first_frame_ms': dt,
+                'module': controller.module.id,
+                'backend': 'gpu',
+              });
+            }
             if (RuntimeModeService.playwrightCatalogSmoke) {
               print(
                   'PLAYWRIGHT_CATALOG_SMOKE_FIRST_FRAME:${controller.module.id}');
@@ -506,6 +579,14 @@ class _FractalRendererState extends State<FractalRenderer>
                 view: controllerView,
                 transparentBackground: controller.transparentBackground,
               );
+
+          if (paletteTransitionActive &&
+              !_paletteTransition.isActiveAt(now) &&
+              !_paletteTransition.wouldAnimateTo(
+                controllerParams['colorScheme'],
+              )) {
+            _scheduleTickerSync(module: module, controller: controller);
+          }
 
           final paint = CustomPaint(
             painter: FractalCanvas(

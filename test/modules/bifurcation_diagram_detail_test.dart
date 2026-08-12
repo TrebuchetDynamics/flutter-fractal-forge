@@ -8,7 +8,9 @@ void main() {
   test('Bifurcation diagram shader keeps nearest-orbit ridge detail', () {
     final shader = File(asset).readAsStringSync();
 
-    expect(shader, contains('float ridge = exp(-nearest * 1400.0 / max(uZoom, 0.35));'));
-    expect(shader, contains('palette(fract(xNorm + 0.23), uColorScheme) * ridge * 0.42'));
+    expect(shader,
+        contains('float ridge = exp(-nearest * 1400.0 / max(uZoom, 0.35));'));
+    expect(shader,
+        contains('palette(fract(xNorm + 0.23), uColorScheme) * ridge * 0.42'));
   });
 }

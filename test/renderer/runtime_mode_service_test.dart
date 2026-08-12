@@ -29,7 +29,9 @@ void main() {
       expect(RuntimeModeService.isIntegrationTest, isFalse);
     });
 
-    test('useRendererPlaceholderSurface is consistent with isAutomatedTest when forceGpuRender is false', () {
+    test(
+        'useRendererPlaceholderSurface is consistent with isAutomatedTest when forceGpuRender is false',
+        () {
       // When forceGpuRender is false, useRendererPlaceholderSurface == isAutomatedTest.
       if (!RuntimeModeService.forceGpuRender) {
         expect(

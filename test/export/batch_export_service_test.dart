@@ -11,6 +11,7 @@
 //   - The empty-presets path also never reaches endOfFrame.
 //   - Value-type tests (BatchExportItemResult, BatchExportResult, ExportOptions)
 //     are pure synchronous tests.
+import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
@@ -22,6 +23,8 @@ import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/services/export/batch_export_service.dart';
 import 'package:flutter_fractals/core/services/export/export_service.dart';
+import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
+import 'package:flutter_fractals/core/services/export/export_worker.dart';
 import 'package:image/image.dart' as img;
 import 'package:vector_math/vector_math.dart';
 
@@ -62,6 +65,7 @@ class _StubExportService extends ExportService {
     double? physicalScreenWidth,
     double? physicalScreenHeight,
     void Function(double)? onProgress,
+    ExportCancellationToken? cancellationToken,
   }) async {
     throw UnimplementedError(
         'captureWithOptions should not be reached in these tests');
@@ -84,6 +88,22 @@ class _NoopBatchExportFramePump implements BatchExportFramePump {
   Future<void> waitForPresetRender() async {}
 }
 
+class _CoordinatorCancellationWorker implements ExportWorker {
+  final Completer<void> started = Completer<void>();
+
+  @override
+  Future<T> run<T>(
+    ExportWorkerTask<T> task, {
+    ExportCancellationToken? token,
+    void Function()? onSpawned,
+  }) async {
+    onSpawned?.call();
+    started.complete();
+    await token!.whenCancelled;
+    throw const ExportCancelledException();
+  }
+}
+
 class _CapturingExportService extends _StubExportService {
   final capturedOptions = <ExportOptions>[];
 
@@ -98,6 +118,7 @@ class _CapturingExportService extends _StubExportService {
     double? physicalScreenWidth,
     double? physicalScreenHeight,
     void Function(double)? onProgress,
+    ExportCancellationToken? cancellationToken,
   }) async {
     capturedOptions.add(options);
     final image = img.Image(width: 1, height: 1);
@@ -567,6 +588,58 @@ void main() {
       expect(capturingService.capturedOptions.single.format, ExportFormat.png);
       expect(result.items.single.file.path, endsWith('.png'));
       expect(result.items.single.file.path, isNot(endsWith('.webp')));
+    });
+
+    test('shared coordinator rejects a concurrent batch export', () async {
+      final coordinator = ExportCoordinator();
+      final capturingService = _CapturingExportService(tmpDir.path);
+      final service = BatchExportService(
+        exportService: capturingService,
+        framePump: const _NoopBatchExportFramePump(),
+        coordinator: coordinator,
+      );
+      final applied = Completer<void>();
+      final release = Completer<void>();
+
+      final first = runBatchExport(
+        usingService: service,
+        presets: [_makePreset('First')],
+        applyPreset: (_) async {
+          applied.complete();
+          await release.future;
+        },
+      );
+      await applied.future;
+
+      await expectLater(
+        runBatchExport(usingService: service),
+        throwsA(isA<ExportBusyException>()),
+      );
+      release.complete();
+      await first;
+      expect(coordinator.isBusy, isFalse);
+    });
+
+    test('coordinator cancellation during contact sheet is propagated',
+        () async {
+      final coordinator = ExportCoordinator();
+      final worker = _CoordinatorCancellationWorker();
+      final service = BatchExportService(
+        exportService: _CapturingExportService(tmpDir.path),
+        framePump: const _NoopBatchExportFramePump(),
+        coordinator: coordinator,
+        worker: worker,
+      );
+
+      final export = runBatchExport(
+        usingService: service,
+        presets: [_makePreset('Contact Sheet')],
+      );
+      await worker.started.future;
+      expect(coordinator.cancelActive(), isTrue);
+
+      await expectLater(export, throwsA(isA<ExportCancelledException>()));
+      expect(coordinator.isBusy, isFalse);
     });
 
     test('mid-export cancellation reports partial progress instead of done',

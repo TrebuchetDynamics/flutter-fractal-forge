@@ -27,12 +27,15 @@ class _FakeMusicService extends FractalMusicService {
   Future<void> play(
     FractalController controller, {
     FractalMusicScanFrame? scanFrame,
+    double startProgress = 0,
+    double Function()? startProgressProvider,
+    bool Function()? shouldCommit,
   }) async {
     playCount++;
+    await playGate;
     final error = playError;
     if (error != null) throw error;
     if (failPlay) throw StateError('no audio');
-    await playGate;
   }
 
   @override
@@ -105,6 +108,31 @@ void main() {
 
     expect(restarted.failed, isTrue);
     expect(restarted.enabled, isTrue);
+    expect(effects.fractalMusicEnabled, isTrue);
+  });
+
+  test('superseded restart failure cannot disable newer music state', () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    final barrier = Completer<void>();
+    final music = _FakeMusicService(playGate: barrier.future)
+      ..playError = StateError('stale upload failure');
+    final effects = ViewerEffectsController(musicService: music)
+      ..fractalMusicEnabled = true;
+    addTearDown(effects.dispose);
+    var current = true;
+
+    final restarting = effects.restartFractalMusic(
+      controller,
+      shouldCommit: () => current,
+    );
+    await Future<void>.delayed(Duration.zero);
+    current = false;
+    barrier.complete();
+    final result = await restarting;
+
+    expect(result.enabled, isTrue);
+    expect(result.failed, isFalse);
     expect(effects.fractalMusicEnabled, isTrue);
   });
 

@@ -25,6 +25,7 @@ dependencies:
   m3_carousel: ^2.1.0
   meta: ^1.16.0
   package_info_plus: ^10.2.1
+  ffmpeg_kit_flutter_new_min: 3.6.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -34,17 +35,16 @@ dev_dependencies:
   plugin_platform_interface: ^2.1.0
   permission_handler_platform_interface: ^4.2.3
   flutter_lints: ^4.0.0
-  golden_toolkit: ^0.15.0
   flutter_launcher_icons: ^0.14.3
-  alchemist: ^0.10.0
   accessibility_tools: ^2.0.0
   yaml: ^3.1.2
 flutter_launcher_icons:
   android: true
   ios: true
   image_path: assets/icon/ic_launcher.png
-  adaptive_icon_background: "#0A0520"
+  adaptive_icon_background: "#160847"
   adaptive_icon_foreground: assets/icon/ic_launcher_foreground.png
+  adaptive_icon_foreground_inset: 0
   min_sdk_android: 21
   remove_alpha_ios: true
   web:

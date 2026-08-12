@@ -23,6 +23,9 @@ import 'package:flutter_fractals/core/services/platform/accessibility_service.da
 import 'package:flutter_fractals/core/services/diagnostics/debug_runner_service.dart';
 import 'package:flutter_fractals/core/services/platform/deep_link_service.dart';
 import 'package:flutter_fractals/core/services/export/export_service.dart';
+import 'package:flutter_fractals/core/services/export/looper_mp4_encoder.dart';
+import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
+import 'package:flutter_fractals/core/services/export/export_worker.dart';
 import 'package:flutter_fractals/core/services/export/wallpaper_service.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/rendering/palette/palette_service.dart';
@@ -42,6 +45,7 @@ import 'package:flutter_fractals/features/looper/looper_sheet.dart';
 import 'package:flutter_fractals/features/presets/preset_sheet.dart';
 import 'package:flutter_fractals/features/renderer/policy/backend_policy.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
+import 'package:flutter_fractals/core/services/storage/viewer_session_store.dart';
 import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
@@ -139,12 +143,19 @@ class FractalViewerScreen extends StatefulWidget {
   /// Platform wallpaper backend, overridable for the same reason.
   final WallpaperService? wallpaperService;
 
+  /// Whether this route may apply an interrupted viewer snapshot.
+  ///
+  /// Launch deep links pass false because their explicit state must take
+  /// precedence over any stale process-restoration snapshot.
+  final bool restoreViewerSession;
+
   const FractalViewerScreen({
     Key? key,
     this.captureMode = false,
     this.catalogFamily = CatalogFamily.core,
     this.exportService,
     this.wallpaperService,
+    this.restoreViewerSession = true,
   }) : super(key: key);
 
   @override
@@ -202,6 +213,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   String? _lastBackendDecisionLogged;
   Timer? _backendDebounceTimer;
   bool _appVisible = true;
+  ViewerSessionStore? _viewerSessionStore;
+  bool _viewerSessionRestored = false;
+  bool _viewerSessionRestorePending = false;
 
   bool get _liveRenderingEnabled => _appVisible && !_freezeFrameForExport;
 
@@ -238,6 +252,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         if (!mounted) return;
         _syncFractalMusicScanAnimation(enabled);
       },
+      scanProgress: () => _musicScanController.value,
       notifyState: () {
         if (!mounted) return;
         setState(() {});
@@ -249,6 +264,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed) {
+      _persistViewerSession();
+    }
     final visible = state == AppLifecycleState.resumed;
     if (_appVisible == visible) return;
     setState(() {
@@ -259,6 +277,12 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _viewerSessionStore ??= context.read<ViewerSessionStore?>();
+    final controller = context.read<FractalController>();
+    if (!_viewerSessionRestored && widget.restoreViewerSession) {
+      _viewerSessionRestored = true;
+      _restoreViewerSession(controller);
+    }
     if (kDebugMode && _debugRunner == null) {
       _debugRunner = DebugRunnerService(
         controller: context.read<FractalController>(),
@@ -271,7 +295,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     );
 
     // Set up history + stats tracking
-    final controller = context.read<FractalController>();
     if (_lastController != controller) {
       _lastController?.removeListener(_onControllerChanged);
       _lastController = controller;
@@ -279,8 +302,11 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       _sessionTracker!.attach(controller);
 
       controller.addListener(_onControllerChanged);
-      // Record initial state
-      _recordHistory(context);
+      // Record initial state unless an interrupted session is still being
+      // applied after this frame.
+      if (!_viewerSessionRestorePending) {
+        _recordHistory(context);
+      }
 
       _gpuProbe.resetHealth();
       _refreshPrecisionDecision(controller);
@@ -293,6 +319,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       _autoExploreService = AutoExploreService(controller: controller);
       _looperController?.dispose();
       _looperController = LooperController(controller: controller);
+      if (!_viewerSessionRestorePending) {
+        _persistViewerSession();
+      }
     }
   }
 
@@ -312,6 +341,11 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     if (!mounted) return;
 
     final controller = _lastController!;
+    if (_viewerSessionRestorePending) {
+      _refreshPrecisionDecision(controller);
+      _refreshBackendDecision();
+      return;
+    }
     final prevModuleId = _sessionTracker?.lastModuleId;
     final moduleChanged =
         prevModuleId != null && prevModuleId != controller.module.id;
@@ -341,10 +375,54 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     }
 
     _sessionTracker?.onControllerChanged(controller);
+    _persistViewerSession();
+  }
+
+  void _restoreViewerSession(FractalController controller) {
+    final snapshot = _viewerSessionStore?.load();
+    if (snapshot == null || !snapshot.viewerActive) return;
+    _showControlsHud = snapshot.controlsVisible;
+    _fullscreenUnobtrusive = snapshot.fullscreenUnobtrusive;
+    _viewerSessionRestorePending = true;
+    try {
+      snapshot.applyToController(controller, notifyListeners: false);
+    } on Object {
+      unawaited(_viewerSessionStore?.markViewerInactive());
+    } finally {
+      _viewerSessionRestorePending = false;
+    }
+  }
+
+  void _persistViewerSession() {
+    final store = _viewerSessionStore;
+    final controller = _lastController;
+    if (store == null || controller == null) return;
+    unawaited(store.save(ViewerSessionSnapshot(
+      moduleId: controller.module.id,
+      params: controller.params,
+      view: controller.view,
+      transparentBackground: controller.transparentBackground,
+      rotationLocked: controller.rotationLocked,
+      glowEnabled: controller.glowEnabled,
+      glowSigma: controller.glowSigma,
+      glowIntensity: controller.glowIntensity,
+      fluidModeEnabled: controller.fluidModeEnabled,
+      fluidStrength: controller.fluidStrength,
+      kaleidoscopeEnabled: controller.kaleidoscopeEnabled,
+      kaleidoscopeSectors: controller.kaleidoscopeSectors,
+      kaleidoscopeMirror: controller.kaleidoscopeMirror,
+      kaleidoscopeRotation: controller.kaleidoscopeRotation,
+      kaleidoscopeMirrorMode: controller.kaleidoscopeMirrorMode,
+      controlsVisible: _showControlsHud,
+      fullscreenUnobtrusive: _fullscreenUnobtrusive,
+      viewerActive: true,
+    )));
   }
 
   @override
   void dispose() {
+    unawaited(
+        _viewerSessionStore?.markViewerInactive() ?? Future<void>.value());
     WidgetsBinding.instance.removeObserver(this);
     _gpuHealthTimer?.cancel();
     _backendDebounceTimer?.cancel();
@@ -376,6 +454,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     if (_showControlsHud) {
       HapticService.medium();
     }
+    _persistViewerSession();
   }
 
   Future<void> _toggleTextOverlay() async {
@@ -469,6 +548,11 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   Future<void> _toggleFractalMusic() async {
     final controller = _activeController(context);
     final enabling = !_viewerEffects.fractalMusicEnabled;
+    if (!enabling) {
+      // Invalidate decoder/upload work immediately; the serialized stop still
+      // follows, but a candidate can no longer take ownership after the tap.
+      _musicCoordinator.cancelRescan();
+    }
     final scanFrame = enabling ? await _captureFractalMusicScanFrame() : null;
     final result = await _viewerEffects.toggleFractalMusic(
       controller,
@@ -515,6 +599,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     }
   }
 
+  @override
+  Future<FractalMusicScanFrame?> captureFractalMusicScanFrame() =>
+      _captureFractalMusicScanFrame();
+
   Future<FractalMusicScanFrame?> _captureFractalMusicScanFrame() async {
     try {
       final renderObject =
@@ -555,6 +643,23 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
           : (l10n?.announceExitedFullscreen ?? 'Exited fullscreen view'),
     );
     HapticService.light();
+    _persistViewerSession();
+  }
+
+  void _handleViewerBack(bool didPop) {
+    if (didPop) return;
+    if (_exporting) {
+      _exportService.cancelActiveExport();
+      return;
+    }
+    if (_showControlsHud) {
+      setState(() => _showControlsHud = false);
+      _persistViewerSession();
+      return;
+    }
+    if (_fullscreenUnobtrusive && !widget.captureMode) {
+      _toggleFullscreenUnobtrusive();
+    }
   }
 
   @override
@@ -971,14 +1076,20 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     final decision = _backendDecision.toLogLine(moduleId: controller.module.id);
     if (_lastBackendDecisionLogged != decision) {
       _lastBackendDecisionLogged = decision;
-      if (kDebugMode) debugPrint(decision);
+      _log.debug('renderer', 'Backend decision', data: {'decision': decision});
     }
 
     if (_compareMode) {
       _ensureCompareController(context);
     }
 
-    return Focus(
+    final handlesBack = _exporting ||
+        _showControlsHud ||
+        (_fullscreenUnobtrusive && !widget.captureMode);
+    return PopScope(
+      canPop: !handlesBack,
+      onPopInvokedWithResult: (didPop, result) => _handleViewerBack(didPop),
+      child: Focus(
         autofocus: true,
         focusNode: _keyboardFocusNode,
         onKeyEvent: (node, event) => _onKeyEvent(context, event),
@@ -1136,8 +1247,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                       child: ConstrainedBox(
                         constraints: BoxConstraints(
                           maxWidth: 240,
-                          maxHeight:
-                              math.max(0, constraints.maxHeight - overlayTop - 12),
+                          maxHeight: math.max(
+                              0, constraints.maxHeight - overlayTop - 12),
                         ),
                         child: SingleChildScrollView(
                           child: CpuFallbackBanner(
@@ -1292,13 +1403,16 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                       child: ExportOverlay(
                         progress: _exportProgress,
                         l10n: l10n,
+                        onCancel: _exportService.cancelActiveExport,
                       ),
                     ),
                 ],
               );
             },
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
 

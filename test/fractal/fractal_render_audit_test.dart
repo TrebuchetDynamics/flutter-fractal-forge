@@ -32,13 +32,15 @@ const double _minEntropyBits = 1.00; // tuned empirically
 const int _histBins = 32;
 
 void main() {
-  test('Render audit: all catalog fractals produce non-gradient output', () async {
+  test('Render audit: all catalog fractals produce non-gradient output',
+      () async {
     int total = 0;
     int passed = 0;
     int gradientOnly = 0;
     int allBlack = 0;
     final failures = <String>[];
-    final results = <({String id, String status, double variance, String shader})>[];
+    final results =
+        <({String id, String status, double variance, String shader})>[];
     final stopwatch = Stopwatch()..start();
 
     for (final config in escapeTimeCatalog) {
@@ -52,7 +54,8 @@ void main() {
         // Default render for scoring (64x64 for most, 128x128 for the two edge cases).
         final iters = await renderCpuIterationBuffer(
           moduleId: config.id,
-          viewPan: Vector2(config.defaultCenterX ?? 0.0, config.defaultCenterY ?? 0.0),
+          viewPan: Vector2(
+              config.defaultCenterX ?? 0.0, config.defaultCenterY ?? 0.0),
           viewZoom: config.defaultZoom,
           iterations: iterCap,
           bailout: config.defaultBailout,
@@ -65,24 +68,29 @@ void main() {
         // fall back to the RGB structural metric.
         final stats = iters != null
             ? _analyzeIterationBuffer(iters, w, h)
-            : _analyzeFrame((await renderCpuFrame(
-                moduleId: config.id,
-                viewPan: Vector2(config.defaultCenterX ?? 0.0, config.defaultCenterY ?? 0.0),
-                viewZoom: config.defaultZoom,
-                iterations: iterCap,
-                bailout: config.defaultBailout,
-                juliaC: Vector2(-0.8, 0.156),
-                width: w,
-                height: h,
-                sampleCount: 1,
-              ))
-                .rgba, w, h);
+            : _analyzeFrame(
+                (await renderCpuFrame(
+                  moduleId: config.id,
+                  viewPan: Vector2(config.defaultCenterX ?? 0.0,
+                      config.defaultCenterY ?? 0.0),
+                  viewZoom: config.defaultZoom,
+                  iterations: iterCap,
+                  bailout: config.defaultBailout,
+                  juliaC: Vector2(-0.8, 0.156),
+                  width: w,
+                  height: h,
+                  sampleCount: 1,
+                ))
+                    .rgba,
+                w,
+                h);
 
         // Debug print for resolution artifact investigation.
         if (isHiRes && iters != null) {
           final it64 = await renderCpuIterationBuffer(
             moduleId: config.id,
-            viewPan: Vector2(config.defaultCenterX ?? 0.0, config.defaultCenterY ?? 0.0),
+            viewPan: Vector2(
+                config.defaultCenterX ?? 0.0, config.defaultCenterY ?? 0.0),
             viewZoom: config.defaultZoom,
             iterations: iterCap,
             bailout: config.defaultBailout,
@@ -90,7 +98,8 @@ void main() {
             width: _size,
             height: _size,
           );
-          final s64 = it64 == null ? null : _analyzeIterationBuffer(it64, _size, _size);
+          final s64 =
+              it64 == null ? null : _analyzeIterationBuffer(it64, _size, _size);
           final s128 = _analyzeIterationBuffer(iters, _hiSize, _hiSize);
 
           print(
@@ -105,7 +114,11 @@ void main() {
           // artifact (common for some formulas).
           if ((s64?.uniqueColors ?? 0) <= 1 && s128.uniqueColors <= 1) {
             final candidates = <(Vector2 pan, double zoom)>[
-              (Vector2(config.defaultCenterX ?? 0.0, config.defaultCenterY ?? 0.0), config.defaultZoom),
+              (
+                Vector2(
+                    config.defaultCenterX ?? 0.0, config.defaultCenterY ?? 0.0),
+                config.defaultZoom
+              ),
               (Vector2(0.0, 0.0), 0.25),
               (Vector2(0.0, 0.0), 0.5),
               (Vector2(0.0, 0.0), 1.0),
@@ -117,7 +130,13 @@ void main() {
             ];
 
             double bestScore = -1;
-            ({Vector2 pan, double zoom, double edge, double ent, int bins})? best;
+            ({
+              Vector2 pan,
+              double zoom,
+              double edge,
+              double ent,
+              int bins
+            })? best;
 
             for (final c in candidates) {
               final itTry = await renderCpuIterationBuffer(
@@ -135,7 +154,13 @@ void main() {
               final score = st.edgeDensity + 0.25 * st.entropyBits;
               if (score > bestScore) {
                 bestScore = score;
-                best = (pan: c.$1, zoom: c.$2, edge: st.edgeDensity, ent: st.entropyBits, bins: st.uniqueColors);
+                best = (
+                  pan: c.$1,
+                  zoom: c.$2,
+                  edge: st.edgeDensity,
+                  ent: st.entropyBits,
+                  bins: st.uniqueColors
+                );
               }
             }
 
@@ -155,7 +180,11 @@ void main() {
         var scored = stats;
         if (isHiRes && iters != null && !stats.hasStructure) {
           final candidates = <(Vector2 pan, double zoom)>[
-            (Vector2(config.defaultCenterX ?? 0.0, config.defaultCenterY ?? 0.0), config.defaultZoom),
+            (
+              Vector2(
+                  config.defaultCenterX ?? 0.0, config.defaultCenterY ?? 0.0),
+              config.defaultZoom
+            ),
             (Vector2(0.0, 0.0), 0.5),
             (Vector2(0.0, 0.0), 1.0),
             (Vector2(-0.5, 0.0), 0.7),
@@ -191,7 +220,8 @@ void main() {
         if (scored.nonBlackRatio < 0.01) {
           status = 'ALL_BLACK';
           allBlack++;
-          failures.add('${config.id} (ALL_BLACK, shader: ${config.shaderAsset})');
+          failures
+              .add('${config.id} (ALL_BLACK, shader: ${config.shaderAsset})');
         } else if (!scored.hasStructure) {
           status = 'GRADIENT_ONLY';
           gradientOnly++;
@@ -230,7 +260,8 @@ void main() {
 
     // Print full results table
     print('\n=== FRACTAL RENDER AUDIT ===');
-    print('${'ID'.padRight(35)} ${'STATUS'.padRight(15)} ${'EDGE'.padRight(10)} SHADER');
+    print(
+        '${'ID'.padRight(35)} ${'STATUS'.padRight(15)} ${'EDGE'.padRight(10)} SHADER');
     print('-' * 100);
     for (final r in results) {
       print(
@@ -267,7 +298,6 @@ void main() {
   int width,
   int height,
 ) {
-
   final colors = <int>{};
 
   // Full-frame non-black ratio + luminance buffer.
@@ -318,7 +348,8 @@ void main() {
     entropy -= p * (math.log(p) / math.ln2);
   }
 
-  final hasStructure = edgeDensity >= _minEdgeDensity || entropy >= _minEntropyBits;
+  final hasStructure =
+      edgeDensity >= _minEdgeDensity || entropy >= _minEntropyBits;
 
   return (
     edgeDensity: edgeDensity,
@@ -377,7 +408,8 @@ void main() {
     entropy -= p * (math.log(p) / math.ln2);
   }
 
-  final hasStructure = edgeDensity >= _minEdgeDensity || entropy >= _minEntropyBits;
+  final hasStructure =
+      edgeDensity >= _minEdgeDensity || entropy >= _minEntropyBits;
   return (
     edgeDensity: edgeDensity,
     entropyBits: entropy,
@@ -386,4 +418,3 @@ void main() {
     hasStructure: hasStructure,
   );
 }
-

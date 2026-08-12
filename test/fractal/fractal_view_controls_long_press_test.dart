@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:ui' show Tristate;
 
 import 'package:flutter/semantics.dart';
@@ -12,6 +13,7 @@ void main() {
       (tester) async {
     await _pumpHarness(tester);
 
+    await _openMoreActions(tester);
     await tester.longPress(find.byKey(const ValueKey('viewerRandomButton')));
     await tester.pumpAndSettle();
 
@@ -23,6 +25,36 @@ void main() {
     );
     expect(find.text('Switch to another catalog entry.'), findsOneWidget);
     expect(find.byTooltip('Close'), findsOneWidget);
+  });
+
+  testWidgets('overflow secondary actions announce and support Shift+Enter',
+      (tester) async {
+    final handle = tester.ensureSemantics();
+    await _pumpHarness(tester);
+    await _openMoreActions(tester);
+
+    final randomTile = find.byKey(const ValueKey('viewerRandomButton'));
+    final semantics = tester.getSemantics(randomTile);
+    expect(semantics.hint, contains('Shift+Enter'));
+
+    for (var presses = 0;
+        presses < 10 &&
+            !Focus.of(tester.element(find.text('Random Fractal'))).hasFocus;
+        presses++) {
+      await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+      await tester.pump();
+    }
+    expect(
+      Focus.of(tester.element(find.text('Random Fractal'))).hasFocus,
+      isTrue,
+    );
+    await tester.sendKeyDownEvent(LogicalKeyboardKey.shiftLeft);
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+    await tester.sendKeyUpEvent(LogicalKeyboardKey.shiftLeft);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Random options'), findsOneWidget);
+    handle.dispose();
   });
 
   testWidgets('long-pressing export FAB opens polished export sheet',
@@ -37,8 +69,7 @@ void main() {
       find.text('Save, share, or fit the current render to your device.'),
       findsOneWidget,
     );
-    expect(
-        find.text('Set this view as your home or lock screen wallpaper.'),
+    expect(find.text('Set this view as your home or lock screen wallpaper.'),
         findsOneWidget);
   });
 
@@ -84,8 +115,7 @@ void main() {
     expect(find.text('Export'), findsNWidgets(2));
     expect(find.text('Save or share the current render.'), findsOneWidget);
     expect(find.text('Wallpaper'), findsNothing);
-    expect(
-        find.text('Set this view as your home or lock screen wallpaper.'),
+    expect(find.text('Set this view as your home or lock screen wallpaper.'),
         findsNothing);
     debugDefaultTargetPlatformOverride = null;
   });
@@ -99,6 +129,7 @@ void main() {
       onSetSectors: (value) => selectedSectors = value,
     );
 
+    await _openMoreActions(tester);
     await tester
         .longPress(find.byKey(const ValueKey('viewerKaleidoscopeButton')));
     await tester.pumpAndSettle();
@@ -131,6 +162,7 @@ void main() {
         onSetSectors: (value) => selectedSectors = value,
       );
 
+      await _openMoreActions(tester);
       await tester
           .longPress(find.byKey(const ValueKey('viewerKaleidoscopeButton')));
       await tester.pumpAndSettle();
@@ -159,6 +191,7 @@ void main() {
     final handle = tester.ensureSemantics();
     await _pumpHarness(tester);
 
+    await _openMoreActions(tester);
     await tester
         .longPress(find.byKey(const ValueKey('viewerKaleidoscopeButton')));
     await tester.pumpAndSettle();
@@ -182,7 +215,8 @@ void main() {
     // ignore: deprecated_member_use
     collect(tester.binding.pipelineOwner.semanticsOwner!.rootSemanticsNode!);
 
-    expect(toggles, hasLength(1), reason: 'switch and row announced separately');
+    expect(toggles, hasLength(1),
+        reason: 'switch and row announced separately');
     expect(toggles.single.getSemanticsData().label, contains('Mirror wedges'));
     expect(
       toggles.single.getSemanticsData().flagsCollection.isToggled,
@@ -202,6 +236,9 @@ void main() {
       'viewerFullscreenButton',
     ]) {
       await _pumpHarness(tester);
+      if (key != 'viewerFullscreenButton') {
+        await _openMoreActions(tester);
+      }
       await tester.longPress(find.byKey(ValueKey(key)));
       await tester.pumpAndSettle();
 
@@ -239,6 +276,7 @@ void main() {
   testWidgets('long-press sheet copy localizes to Spanish', (tester) async {
     await _pumpHarness(tester, locale: const Locale('es'));
 
+    await _openMoreActions(tester);
     await tester.longPress(find.byKey(const ValueKey('viewerRandomButton')));
     await tester.pumpAndSettle();
 
@@ -256,6 +294,7 @@ void main() {
     await tester.tap(find.byTooltip('Cerrar'));
     await tester.pumpAndSettle();
 
+    await _openMoreActions(tester);
     await tester
         .longPress(find.byKey(const ValueKey('viewerKaleidoscopeButton')));
     await tester.pumpAndSettle();
@@ -269,6 +308,11 @@ void main() {
 }
 
 void _noop() {}
+
+Future<void> _openMoreActions(WidgetTester tester) async {
+  await tester.tap(find.byKey(const ValueKey('viewerMoreActionsButton')));
+  await tester.pumpAndSettle();
+}
 
 Future<void> _pumpHarness(
   WidgetTester tester, {

@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart' show kDebugMode, debugPrint;
+import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import 'package:flutter/widgets.dart';
 
 /// Centralized runtime mode detection used by renderer/viewer/controller.
@@ -38,7 +38,8 @@ class RuntimeModeService {
     try {
       return WidgetsBinding.instance.runtimeType.toString();
     } catch (e) {
-      if (kDebugMode) debugPrint('[FF] silent catch: $e');
+      AppLogger.instance
+          .debug('runtime', 'Binding type unavailable', data: {'error': '$e'});
       return '';
     }
   }

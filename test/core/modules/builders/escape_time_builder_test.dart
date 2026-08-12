@@ -4,9 +4,26 @@ import 'package:vector_math/vector_math.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/builders/escape_time_builder.dart';
+import 'package:flutter_fractals/core/modules/fractal_module.dart';
 
 void main() {
   group('buildEscapeTimeModule', () {
+    test('propagates explicit time-driven animation capability', () {
+      const config = EscapeTimeConfig(
+        id: 'animated-test',
+        name: 'Animated Test',
+        shaderAsset: 'shaders/animated_test.frag',
+        animationCapability: FractalAnimationCapability.timeDriven,
+      );
+
+      final module = buildEscapeTimeModule(config);
+
+      expect(
+        module.animationCapability,
+        FractalAnimationCapability.timeDriven,
+      );
+    });
+
     test('built-in generated presets are replayable', () {
       const config = EscapeTimeConfig(
         id: 'replayable-test',

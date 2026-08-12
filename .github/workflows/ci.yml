@@ -7,9 +7,9 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Tracked artifact audit
         run: scripts/audit-tracked-artifacts.sh
       - name: Install script test dependencies
@@ -18,31 +18,15 @@ jobs:
           sudo apt-get install -y bats
       - name: Script tests
         run: bats test/scripts/*.bats
-      - uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
+          flutter-version: '3.44.6'
           channel: stable
           cache: true
       - run: flutter pub get
       - name: Analyze
         run: flutter analyze
-      - name: Fast safety tests
-        run: >-
-          flutter test
-          test/android/android_edge_to_edge_boundary_test.dart
-          test/renderer/precision_ladder_policy_test.dart
-          test/renderer/backend_policy_comprehensive_test.dart
-          test/fractal/fractal_controller_behavior_test.dart
-          test/export/export_service_test.dart
-          test/export/export_options_sheet_widget_test.dart
-          test/share/share_service_boundary_test.dart
-          test/export/viewer_export_session_test.dart
-          test/features/viewer/viewer_export_feedback_test.dart
-          test/catalog/catalog_id_integrity_test.dart
-          test/catalog/catalog_search_widget_test.dart
-          test/features/catalog/generate_live_registry_ledger_test.dart
-          test/modules/generated_module_contract_test.dart
-          test/app/memory_lifecycle_regression_test.dart
-          test/modules/escape_time_shader_manifest_test.dart
-          test/modules/escape_time_uniform_contract_test.dart
-          test/shaders/standalone_shader_catalogs/cellular_and_stochastic_shader_assets_test.dart
-          test/shaders/shader_web_compat_test.dart
+      - name: Full host test suite
+        run: flutter test
+      - name: Release evidence generator tests
+        run: python3 -m unittest test/scripts/test_generate_release_evidence.py

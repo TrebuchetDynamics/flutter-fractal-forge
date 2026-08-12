@@ -16,6 +16,7 @@ class SharedResidualCaCatalogEntry {
   final String name;
   final String shaderAsset;
   final SharedResidualCaKind kind;
+  final FractalAnimationCapability animationCapability;
   final double? states;
   final double? birthMask;
   final double? survivalMask;
@@ -24,6 +25,7 @@ class SharedResidualCaCatalogEntry {
     required this.id,
     required this.name,
     required this.shaderAsset,
+    this.animationCapability = FractalAnimationCapability.static,
   })  : kind = SharedResidualCaKind.fixedRule,
         states = null,
         birthMask = null,
@@ -35,6 +37,7 @@ class SharedResidualCaCatalogEntry {
     required this.states,
   })  : shaderAsset = 'shaders/cellular_and_stochastic/cyclic_ca_gpu.frag',
         kind = SharedResidualCaKind.cyclicStates,
+        animationCapability = FractalAnimationCapability.static,
         birthMask = null,
         survivalMask = null;
 
@@ -45,6 +48,7 @@ class SharedResidualCaCatalogEntry {
     required this.birthMask,
     required this.survivalMask,
   })  : kind = SharedResidualCaKind.birthSurvival,
+        animationCapability = FractalAnimationCapability.static,
         states = null;
 }
 
@@ -355,6 +359,7 @@ const List<SharedResidualCaCatalogEntry> sharedResidualCaCatalogEntries = [
     id: 'f1020_brian_s_brain',
     name: "Brian's Brain",
     shaderAsset: 'shaders/cellular_and_stochastic/brian_brain_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
   ),
   SharedResidualCaCatalogEntry.fixedRule(
     id: 'f1023_hodgepodge_machine_spiral',
@@ -403,6 +408,7 @@ FractalModule _buildSharedResidualCaModule(SharedResidualCaCatalogEntry entry) {
     id: entry.id,
     displayName: (_) => entry.name,
     dimension: FractalDimension.twoD,
+    animationCapability: entry.animationCapability,
     shaderAsset: entry.shaderAsset,
     parameters: [
       CommonFractalParams.iterations(defaultValue: defaultIterations),

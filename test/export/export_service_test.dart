@@ -6,7 +6,9 @@ import 'package:image/image.dart' as img;
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
 import 'package:flutter_fractals/core/services/export/export_service.dart';
+import 'package:flutter_fractals/core/services/export/export_worker.dart';
 import 'package:flutter_fractals/core/services/export/share_service.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 
@@ -24,8 +26,25 @@ class _FakePathProviderPlatform extends Fake
   Future<String?> getTemporaryPath() async => tempDir;
 }
 
+class _RecordingExportWorker implements ExportWorker {
+  int calls = 0;
+
+  @override
+  Future<T> run<T>(
+    ExportWorkerTask<T> task, {
+    ExportCancellationToken? token,
+    void Function()? onSpawned,
+  }) async {
+    calls++;
+    token?.throwIfCancelled();
+    return await task();
+  }
+}
+
 class _PhysicalPixelCaptureService extends ExportService {
   double? capturedPixelRatio;
+
+  _PhysicalPixelCaptureService({super.worker});
 
   @override
   Future<Uint8List> capturePng(
@@ -111,7 +130,8 @@ void main() {
 
   group('ExportService.captureWithOptions', () {
     test('screen mode captures and outputs the physical pixel size', () async {
-      final service = _PhysicalPixelCaptureService();
+      final worker = _RecordingExportWorker();
+      final service = _PhysicalPixelCaptureService(worker: worker);
 
       final bytes = await service.captureWithOptions(
         GlobalKey(),
@@ -125,6 +145,7 @@ void main() {
 
       expect(service.capturedPixelRatio, closeTo(2.625, 0.0001));
       expect((decoded.width, decoded.height), (108, 192));
+      expect(worker.calls, 1);
     });
   });
 

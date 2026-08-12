@@ -4,7 +4,8 @@ import 'dart:ui' as ui;
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  const asset = 'shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag';
+  const asset =
+      'shaders/escape_time_family/geometry_and_ifs/fractal_flame_gpu.frag';
 
   test('Fractal Flame shader honors catalog iteration settings', () {
     final shader = File(asset).readAsStringSync();

@@ -124,8 +124,7 @@ void main() {
 
     expect(find.text('JPG • Instagram (1080×1080)'), findsOneWidget);
     expect(find.text('PNG • 4K (3840×2160)'), findsOneWidget);
-    expect(
-        find.text('PNG (PNG fallback) • Full HD (1920×1080)'), findsOneWidget);
+    expect(find.text('JPG • Full HD (1920×1080)'), findsOneWidget);
     expect(find.text('PNG • Full HD (1920×1080)'), findsOneWidget);
   });
 
@@ -159,7 +158,7 @@ void main() {
     expect(find.byKey(const ValueKey('exportQuoteTextField')), findsNothing);
   });
 
-  testWidgets('WebP preset summary advertises PNG fallback truthfully',
+  testWidgets('web optimized preset advertises its actual JPG output',
       (tester) async {
     await pumpSheet(
       tester,
@@ -169,16 +168,21 @@ void main() {
     // The sheet has two scrollables now — the options list and the capped
     // action area beneath it — so name the one that holds the summary.
     await tester.scrollUntilVisible(
-      find.text('PNG (PNG fallback)'),
+      find.text('JPG'),
       120,
       scrollable: find.byType(Scrollable).first,
     );
-    expect(find.text('PNG (PNG fallback)'), findsOneWidget);
-    expect(
-      find.text('WebP is not encoded yet; exports use PNG fallback.'),
-      findsOneWidget,
-    );
-    expect(find.text('85%'), findsNothing);
+    expect(find.text('JPG'), findsOneWidget);
+    expect(find.text('85%'), findsOneWidget);
+    expect(find.textContaining('WebP'), findsNothing);
+  });
+
+  testWidgets('manual format controls do not offer unsupported WebP',
+      (tester) async {
+    await pumpSheet(tester);
+    await tester.tap(find.text('Customize'));
+    await tester.pumpAndSettle();
+    expect(find.text('WebP'), findsNothing);
   });
 
   testWidgets('save action triggers saveOnly export action', (tester) async {

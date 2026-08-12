@@ -7,8 +7,7 @@ void main() {
     double decodeAt(List<int> bytes, int px) => decodePerturbOrbitComponent(
         bytes[px * 4], bytes[px * 4 + 1], bytes[px * 4 + 2]);
 
-    test('z0 = center, c fixed; stores Z0 first; matches direct iteration',
-        () {
+    test('z0 = center, c fixed; stores Z0 first; matches direct iteration', () {
       const cr = -1.0; // basilica: 0 -> -1 -> 0 exact 2-cycle from z0=0
       const ci = 0.0;
       const centerX = 0.3;
@@ -111,8 +110,7 @@ void main() {
         final (zrn, zin) = zn[n];
         final ndzr =
             2.0 * (zrn * odzr - zin * odzi) + (odzr * odzr - odzi * odzi);
-        final ndzi =
-            2.0 * (zrn * odzi + zin * odzr) + 2.0 * odzr * odzi;
+        final ndzi = 2.0 * (zrn * odzi + zin * odzr) + 2.0 * odzr * odzi;
         odzr = ndzr;
         odzi = ndzi;
       }

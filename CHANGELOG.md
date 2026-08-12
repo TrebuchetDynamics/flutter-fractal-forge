@@ -5,6 +5,56 @@ All notable changes to Flutter Fractal Forge are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.87] - 2026-08-10
+
+### Added
+
+- Durable, versioned viewer-session restoration with lifecycle, process-death,
+  deep-link, and stale-work safeguards.
+- Coordinated, cancellable image, batch, video, and looper exports with
+  background processing and partial-output cleanup.
+- Measured frame, memory, long-frame, and first-frame diagnostics, plus bounded
+  shader-resource caching and Android memory-pressure handling.
+- Deterministic Android release evidence: signed AAB and target-specific APK
+  validation, checksums, SBOM, third-party notices, provenance, and a
+  manifest-bound publication snapshot.
+
+### Changed
+
+- Renderer ticking now follows explicit reviewed module capabilities and active
+  runtime effects, so static modules settle while animated effects keep moving.
+- Viewer controls, Back behavior, focus traversal, semantics, high-contrast
+  presentation, large-text layouts, and touch targets were hardened.
+- Catalog metadata, aliases, ranking, taxonomy, stable preset identities, and
+  reviewed native Flutter goldens were updated.
+- The app, adaptive launcher, and Play Store icons now use a high-detail Julia
+  render produced by Fractal Forge itself, zoomed into one infinite spiral,
+  rotated 180 degrees, and graded purple/blue with green and red accents.
+- Web export now truthfully uses JPEG instead of presenting PNG bytes as WebP.
+- CI actions are pinned to immutable revisions and release workflows use
+  Flutter 3.44.6.
+
+### Fixed
+
+- Physical image exports now preserve device-pixel dimensions.
+- Formula Lab keeps the last valid preview and reports invalid formulas without
+  corrupting renderer state.
+- Shader loading, cache ownership, export cancellation, offline recovery,
+  lifecycle restoration, and publication failure propagation no longer leave
+  stale work or silently accept incomplete release evidence.
+- Fractal Music now composes off the UI isolate, hands replacement loops over
+  without an avoidable stop gap, preserves the rotating scanner phase across
+  view changes, rejects stale rescans, reacts to all identity-driving image
+  features with a shorter settled-view debounce, uses diatonic chord qualities
+  and phrase-anchored lead voice-leading without cumulative register drift,
+  preserves tempo in short exports, and performs as a five-part ensemble with
+  bass, warm pad/strings, lead, high texture, and a fractal-driven kick, snare,
+  and closed-hi-hat section while retaining safe headroom.
+- Camera Looper can export synchronized MPEG-4/AAC video with deterministic
+  render-derived music, cancellation cleanup, codec-safe dimensions, seamless
+  loop sampling, and an explicit GIF fallback; unsupported Web MP4 export is
+  hidden rather than failing after selection.
+
 ## [1.1.86] - 2026-08-06
 
 ### Changed

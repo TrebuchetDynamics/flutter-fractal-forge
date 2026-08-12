@@ -1,0 +1,113 @@
+{
+  "source": "Fractal Forge production CPU renderer",
+  "moduleId": "julia",
+  "view": {
+    "panX": 0.43924829363822937,
+    "panY": 0.1480879932641983,
+    "zoom": 14.580000000000002
+  },
+  "parameters": {
+    "juliaCReal": 0.285,
+    "juliaCImag": 0.01,
+    "iterations": 800,
+    "bailout": 4.0,
+    "sampleCount": 4
+  },
+  "capture": {
+    "width": 2048,
+    "height": 2048,
+    "format": "PNG",
+    "untouchedAsset": "assets/fractal-forge-icon-source.png",
+    "sha256": "f37c9c034f3c074c488d09a686e5c4e661a8752428b71fa48fa902d9826c2944"
+  },
+  "colorGrade": {
+    "name": "Purple Blue Infinite Pivot",
+    "mapping": "0.76*luminance + 0.24*saturation, exponent 1.12",
+    "subjectStops": [
+      {
+        "position": 0.0,
+        "color": "#08042C"
+      },
+      {
+        "position": 0.33,
+        "color": "#160847"
+      },
+      {
+        "position": 0.4,
+        "color": "#6425D1"
+      },
+      {
+        "position": 0.52,
+        "color": "#4230D8"
+      },
+      {
+        "position": 0.65,
+        "color": "#193FD5"
+      },
+      {
+        "position": 0.735,
+        "color": "#116FE4"
+      },
+      {
+        "position": 0.765,
+        "color": "#1599E8"
+      },
+      {
+        "position": 0.78,
+        "color": "#26CB72"
+      },
+      {
+        "position": 0.788,
+        "color": "#26CB72"
+      },
+      {
+        "position": 0.794,
+        "color": "#6A25D1"
+      },
+      {
+        "position": 0.798,
+        "color": "#EF3051"
+      },
+      {
+        "position": 1.0,
+        "color": "#EF3051"
+      }
+    ],
+    "geometryModified": false
+  },
+  "composition": {
+    "effectiveCropZoom": 9.0,
+    "rotationDegrees": 180,
+    "pivotPlacement": "upper-left, halfway from center to circumference",
+    "pivotTargetNormalizedX": -0.3535533905932738,
+    "pivotTargetNormalizedY": -0.3535533905932738,
+    "fullIconPixels": 1024,
+    "playStorePixels": 512,
+    "adaptiveForegroundPixels": 1024,
+    "adaptiveCanvasPixels": 1024,
+    "adaptiveForegroundInset": 0
+  },
+  "allowedAdaptations": [
+    "palette grading",
+    "contrast",
+    "uniform zoom",
+    "viewport translation",
+    "180-degree rotation",
+    "adaptive foreground conversion"
+  ],
+  "syntheticGeometryAdded": false,
+  "rendererSourceFiles": [
+    {
+      "path": "lib/features/renderer/cpu/cpu_fractal_renderer.dart",
+      "sha256": "2c791271bc6c20b322f4409be98911b2f7c95d17a92cf90f0c47cf5747921154"
+    },
+    {
+      "path": "lib/features/renderer/cpu/cpu_render_isolate.dart",
+      "sha256": "c4950339783c5f0039564cff4508c529b154b017ae19382a85a1e042aca028bb"
+    },
+    {
+      "path": "lib/features/renderer/cpu/cpu_formulas.dart",
+      "sha256": "de5650c303bc34ac8adc5093f0f0b8ca4455279db6d9e1e907aae188b52b16ca"
+    }
+  ]
+}

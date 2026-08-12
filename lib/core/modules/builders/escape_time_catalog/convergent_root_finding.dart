@@ -69,6 +69,7 @@ final List<EscapeTimeConfig> _convergentRootFindingCatalog = [
     name: 'Hypercomplex Newton (Quaternion z³ - 1)',
     shaderAsset:
         'shaders/3d_and_hypercomplex/hypercomplex_escape_time/hypercomplex_newton_gpu.frag',
+    animationCapability: FractalAnimationCapability.timeDriven,
     defaultIterations: 100,
     defaultBailout: 8.0,
   ),

@@ -16,13 +16,19 @@ class _FakeMusicService extends FractalMusicService {
   final Future<void>? playBarrier;
   int playCount = 0;
   int stopCount = 0;
+  int cancelPendingCount = 0;
+  final startProgresses = <double>[];
 
   @override
   Future<void> play(
     FractalController controller, {
     FractalMusicScanFrame? scanFrame,
+    double startProgress = 0,
+    double Function()? startProgressProvider,
+    bool Function()? shouldCommit,
   }) async {
     playCount++;
+    startProgresses.add(startProgressProvider?.call() ?? startProgress);
     final barrier = playBarrier;
     if (barrier != null) await barrier;
     final error = playError;
@@ -33,6 +39,11 @@ class _FakeMusicService extends FractalMusicService {
   @override
   Future<void> stop() async {
     stopCount++;
+  }
+
+  @override
+  Future<void> cancelPendingPlayback() async {
+    cancelPendingCount++;
   }
 
   @override
@@ -56,8 +67,10 @@ void main() {
     List<Object>? stateCalls,
     int? captureCallCount,
     Duration? rescanDelay = const Duration(milliseconds: 1),
+    Duration maxContinuousRescanDelay = const Duration(milliseconds: 40),
     Duration loopRefreshDelay = const Duration(seconds: 4),
     List<FractalMusicScanFrame?> scanFrames = const [null],
+    double Function()? scanProgress,
   }) {
     final syncs = syncCalls ?? [];
     final states = stateCalls ?? [];
@@ -75,6 +88,8 @@ void main() {
         captureFrame: captureFrame,
         syncAnimation: syncs.add,
         notifyState: () => states.add(Object()),
+        scanProgress: scanProgress ?? () => 0,
+        maxContinuousRescanDelay: maxContinuousRescanDelay,
         loopRefreshDelay: loopRefreshDelay,
       );
     }
@@ -83,7 +98,9 @@ void main() {
       captureFrame: captureFrame,
       syncAnimation: syncs.add,
       notifyState: () => states.add(Object()),
+      scanProgress: scanProgress ?? () => 0,
       rescanDelay: rescanDelay,
+      maxContinuousRescanDelay: maxContinuousRescanDelay,
       loopRefreshDelay: loopRefreshDelay,
     );
   }
@@ -143,7 +160,7 @@ void main() {
       await Future<void>.delayed(const Duration(milliseconds: 20));
 
       expect(music.playCount, 1);
-      expect(syncs, [true]);
+      expect(syncs, isEmpty);
       coord.dispose();
     });
 
@@ -160,11 +177,11 @@ void main() {
       await Future<void>.delayed(const Duration(milliseconds: 20));
 
       expect(music.playCount, 1);
-      expect(syncs.length, 1);
+      expect(syncs, isEmpty);
       coord.dispose();
     });
 
-    test('default rescan waits for visual state to settle', () async {
+    test('default rescan coalesces input but updates within 350ms', () async {
       final music = _FakeMusicService();
       final effects = ViewerEffectsController(musicService: music);
       effects.fractalMusicEnabled = true;
@@ -173,13 +190,64 @@ void main() {
         effects: effects,
         syncCalls: syncs,
         rescanDelay: null,
+        maxContinuousRescanDelay: const Duration(milliseconds: 900),
       );
 
       coord.scheduleRescan(controller);
-      await Future<void>.delayed(const Duration(milliseconds: 250));
-
+      await Future<void>.delayed(const Duration(milliseconds: 100));
       expect(music.playCount, 0);
+
+      await Future<void>.delayed(const Duration(milliseconds: 250));
+      expect(music.playCount, 1);
       expect(syncs, isEmpty);
+      coord.dispose();
+    });
+
+    test('continuous camera motion cannot postpone music forever', () async {
+      final music = _FakeMusicService();
+      final effects = ViewerEffectsController(musicService: music)
+        ..fractalMusicEnabled = true;
+      final coord = makeCoordinator(
+        effects: effects,
+        rescanDelay: const Duration(milliseconds: 30),
+        maxContinuousRescanDelay: const Duration(milliseconds: 70),
+      );
+
+      for (var i = 0; i < 8; i++) {
+        coord.scheduleRescan(controller);
+        await Future<void>.delayed(const Duration(milliseconds: 15));
+      }
+
+      expect(music.playCount, greaterThanOrEqualTo(1),
+          reason: 'a 30fps looper must refresh music while still moving');
+      coord.dispose();
+    });
+
+    test('continuous motion does not cancel every in-flight handoff', () async {
+      final releasePlay = Completer<void>();
+      final music = _FakeMusicService(playBarrier: releasePlay.future);
+      final effects = ViewerEffectsController(musicService: music)
+        ..fractalMusicEnabled = true;
+      final coord = makeCoordinator(
+        effects: effects,
+        rescanDelay: Duration.zero,
+        maxContinuousRescanDelay: const Duration(milliseconds: 20),
+      );
+
+      coord.scheduleRescan(controller);
+      await waitUntil(() => music.playCount == 1);
+      for (var i = 0; i < 10; i++) {
+        coord.scheduleRescan(controller);
+      }
+
+      expect(music.cancelPendingCount, 0,
+          reason: 'motion should queue the latest score, not starve playback');
+      releasePlay.complete();
+      await waitUntil(() => music.playCount == 2);
+
+      expect(music.playCount, 2,
+          reason:
+              'the latest camera state should follow the committed handoff');
       coord.dispose();
     });
 
@@ -230,6 +298,7 @@ void main() {
         },
         syncAnimation: (_) {},
         notifyState: () {},
+        scanProgress: () => 0,
         rescanDelay: Duration.zero,
         loopRefreshDelay: const Duration(seconds: 1),
       );
@@ -293,7 +362,7 @@ void main() {
       coord.dispose();
     });
 
-    test('successful restart syncs animation to true', () async {
+    test('successful replacement preserves scanner phase', () async {
       final music = _FakeMusicService();
       final effects = ViewerEffectsController(musicService: music);
       effects.fractalMusicEnabled = true;
@@ -303,12 +372,14 @@ void main() {
         effects: effects,
         syncCalls: syncs,
         stateCalls: states,
+        scanProgress: () => 0.375,
       );
 
       coord.scheduleRescan(controller);
       await Future<void>.delayed(const Duration(milliseconds: 20));
 
-      expect(syncs, [true]);
+      expect(music.startProgresses, [0.375]);
+      expect(syncs, isEmpty);
       expect(states, isEmpty); // no state notification on success
       coord.dispose();
     });
@@ -328,10 +399,12 @@ void main() {
         );
 
         coord.scheduleRescan(controller);
-        await Future<void>.delayed(const Duration(milliseconds: 18));
+        // Allow the first asynchronous synthesis to finish before the 5 ms
+        // refresh timer is armed; wall-clock CI load must not make this a race.
+        await Future<void>.delayed(const Duration(milliseconds: 60));
 
         expect(music.playCount, greaterThanOrEqualTo(2));
-        expect(syncs.length, greaterThanOrEqualTo(2));
+        expect(syncs, isEmpty);
         coord.dispose();
       },
     );
@@ -355,7 +428,7 @@ void main() {
         await Future<void>.delayed(const Duration(milliseconds: 12));
 
         expect(music.playCount, 1);
-        expect(syncs, [true]);
+        expect(syncs, isEmpty);
         coord.dispose();
       },
     );
@@ -378,7 +451,7 @@ void main() {
         await Future<void>.delayed(const Duration(milliseconds: 18));
 
         expect(music.playCount, 2);
-        expect(syncs, contains(true));
+        expect(syncs, isEmpty);
         coord.dispose();
       },
     );
@@ -463,7 +536,7 @@ void main() {
         await Future<void>.delayed(const Duration(milliseconds: 12));
 
         expect(music.playCount, 1);
-        expect(syncs, contains(true));
+        expect(syncs, isEmpty);
         coord.dispose();
       },
     );
@@ -508,7 +581,7 @@ void main() {
         await Future<void>.delayed(const Duration(milliseconds: 18));
 
         expect(music.playCount, 1);
-        expect(syncs, contains(true));
+        expect(syncs, isEmpty);
         coord.dispose();
       },
     );
@@ -528,6 +601,7 @@ void main() {
       expect(music.playCount, 1);
 
       coord.cancelRescan();
+      expect(music.cancelPendingCount, 1);
       barrier.complete();
       await Future<void>.delayed(const Duration(milliseconds: 5));
 
@@ -570,7 +644,7 @@ void main() {
       await Future<void>.delayed(const Duration(milliseconds: 12));
 
       expect(music.playCount, 1);
-      expect(syncs, [true]);
+      expect(syncs, isEmpty);
       coord.dispose();
     });
   });
