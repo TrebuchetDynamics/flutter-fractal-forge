@@ -12,6 +12,10 @@ set -euo pipefail
 #   PLAY_TRACK=internal|alpha|beta|production   default: internal
 #   PLAY_RELEASE_STATUS=completed|draft        default: draft
 #   PLAY_SERVICE_ACCOUNT_JSON=path             default: play-console-upload/play-service-account.json
+#   PLAY_LISTING_LOCALE=locale                  default: en-US
+#   PLAY_LISTING_ICON=path                      optional exact approved 512px icon
+#   PLAY_LISTING_ICON_SHA256=hex                required with PLAY_LISTING_ICON
+#   PLAY_RECEIPT_PATH=path                      durable redacted receipt output
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
@@ -26,6 +30,10 @@ SKIP_BUILD=0
 PREBUILT_AAB=""
 EXPECTED_VERSION=""
 EXPECTED_BUILD_NUMBER=""
+LISTING_LOCALE="${PLAY_LISTING_LOCALE:-en-US}"
+LISTING_ICON="${PLAY_LISTING_ICON:-}"
+LISTING_ICON_SHA256="${PLAY_LISTING_ICON_SHA256:-}"
+RECEIPT_PATH="${PLAY_RECEIPT_PATH:-play-console-upload/play-publication-receipt.json}"
 
 log() { echo "[build-upload-playstore] $*"; }
 die() { echo "[build-upload-playstore] ERROR: $*" >&2; exit 1; }
@@ -173,6 +181,24 @@ AAB_PACKAGE="$(java -jar "$BUNDLETOOL" dump manifest \
   die "prebuilt AAB build mismatch: $AAB_VERSION_CODE != $EXPECTED_BUILD_NUMBER"
 [[ "$AAB_PACKAGE" == "$PACKAGE_NAME" ]] ||
   die "prebuilt AAB package mismatch: $AAB_PACKAGE != $PACKAGE_NAME"
+AAB_SHA256="$(sha256sum "$AAB_PATH" | awk '{ print $1 }')"
+if [[ -n "$LISTING_ICON" ]]; then
+  [[ -f "$LISTING_ICON" ]] || die "Listing icon not found: $LISTING_ICON"
+  [[ "$LISTING_ICON_SHA256" =~ ^[0-9a-fA-F]{64}$ ]] ||
+    die "PLAY_LISTING_ICON_SHA256 is required with PLAY_LISTING_ICON"
+  [[ "$(sha256sum "$LISTING_ICON" | awk '{ print $1 }')" == "${LISTING_ICON_SHA256,,}" ]] ||
+    die "Listing icon does not match its approved SHA-256"
+  python3 - "$LISTING_ICON" <<'PY'
+from PIL import Image
+import pathlib, sys
+p = pathlib.Path(sys.argv[1])
+with Image.open(p) as image:
+    if image.format != "PNG" or image.size != (512, 512):
+        raise SystemExit("Listing icon must be a 512x512 PNG")
+    if image.mode != "RGB":
+        raise SystemExit("Listing icon must be opaque RGB")
+PY
+fi
 RELEASE_NAME="Fractal Forge ${VERSION_NAME:-unknown} (${BUILD_NUMBER:-unknown})"
 
 KEY_FILE="$(mktemp)"; TMP_FILES+=("$KEY_FILE")
@@ -227,6 +253,16 @@ VERSION_CODE="$(printf '%s' "$BUNDLE_RESPONSE" | json_field versionCode)"
 [[ "$VERSION_CODE" == "$EXPECTED_BUILD_NUMBER" ]] ||
   die "Google Play versionCode mismatch: $VERSION_CODE != $EXPECTED_BUILD_NUMBER"
 
+if [[ -n "$LISTING_ICON" ]]; then
+  log "Uploading approved listing icon for locale $LISTING_LOCALE..."
+  ICON_RESPONSE="$(request -X POST "${AUTH[@]}" \
+    -H 'Content-Type: image/png' \
+    --data-binary "@$LISTING_ICON" \
+    "$UPLOAD/edits/$EDIT_ID/listings/$LISTING_LOCALE/icon?uploadType=media")"
+  ICON_ID="$(printf '%s' "$ICON_RESPONSE" | json_field id)"
+  [[ -n "$ICON_ID" ]] || die "Play listing icon upload returned no image ID"
+fi
+
 TRACK_BODY="$(mktemp)"; TMP_FILES+=("$TRACK_BODY")
 VERSION_CODE="$VERSION_CODE" RELEASE_STATUS="$RELEASE_STATUS" RELEASE_NAME="$RELEASE_NAME" python3 - "$TRACK_BODY" <<'PY'
 import json, os, sys
@@ -244,6 +280,58 @@ log "Assigning versionCode $VERSION_CODE to track '$TRACK' as '$RELEASE_STATUS'.
 request -X PUT "${AUTH[@]}" -H 'Content-Type: application/json' --data-binary "@$TRACK_BODY" "$API/edits/$EDIT_ID/tracks/$TRACK" >/dev/null
 
 log "Committing Play edit..."
-request -X POST "${AUTH[@]}" "$API/edits/$EDIT_ID:commit" >/dev/null
+COMMIT_RESPONSE="$(request -X POST "${AUTH[@]}" "$API/edits/$EDIT_ID:commit")"
 
-log "Upload complete: $PACKAGE_NAME versionCode $VERSION_CODE -> $TRACK ($RELEASE_STATUS)"
+log "Verifying committed track and listing icon in a fresh edit..."
+VERIFY_EDIT_RESPONSE="$(request -X POST "${AUTH[@]}" -H 'Content-Type: application/json' -d '{}' "$API/edits")"
+VERIFY_EDIT_ID="$(printf '%s' "$VERIFY_EDIT_RESPONSE" | json_field id)"
+VERIFY_TRACK_RESPONSE="$(request "${AUTH[@]}" "$API/edits/$VERIFY_EDIT_ID/tracks/$TRACK")"
+VERIFY_TRACK_RESPONSE="$VERIFY_TRACK_RESPONSE" EXPECTED_BUILD_NUMBER="$EXPECTED_BUILD_NUMBER" RELEASE_STATUS="$RELEASE_STATUS" python3 - <<'PY'
+import json, os
+track = json.loads(os.environ["VERIFY_TRACK_RESPONSE"])
+expected = os.environ["EXPECTED_BUILD_NUMBER"]
+status = os.environ["RELEASE_STATUS"]
+if not any(expected in [str(v) for v in release.get("versionCodes", [])]
+           and release.get("status") == status
+           for release in track.get("releases", [])):
+    raise SystemExit("Committed Play track does not contain the expected version/status")
+PY
+if [[ -n "$LISTING_ICON" ]]; then
+  VERIFY_ICON_RESPONSE="$(request "${AUTH[@]}" "$API/edits/$VERIFY_EDIT_ID/listings/$LISTING_LOCALE/icon")"
+  VERIFY_ICON_RESPONSE="$VERIFY_ICON_RESPONSE" EXPECTED_ICON_ID="$ICON_ID" python3 - <<'PY'
+import json, os
+images = json.loads(os.environ["VERIFY_ICON_RESPONSE"])
+if not any(str(image.get("id")) == os.environ["EXPECTED_ICON_ID"] for image in images):
+    raise SystemExit("Committed Play listing icon ID was not found in verification edit")
+PY
+fi
+request -X DELETE "${AUTH[@]}" "$API/edits/$VERIFY_EDIT_ID" >/dev/null
+
+RECEIPT_TMP="$(mktemp)"; TMP_FILES+=("$RECEIPT_TMP")
+PACKAGE_NAME="$PACKAGE_NAME" EXPECTED_VERSION="$EXPECTED_VERSION" \
+EXPECTED_BUILD_NUMBER="$EXPECTED_BUILD_NUMBER" TRACK="$TRACK" \
+RELEASE_STATUS="$RELEASE_STATUS" EDIT_ID="$EDIT_ID" \
+AAB_SHA256="$AAB_SHA256" LISTING_LOCALE="$LISTING_LOCALE" \
+LISTING_ICON_SHA256="$LISTING_ICON_SHA256" ICON_ID="${ICON_ID:-}" \
+COMMIT_RESPONSE="$COMMIT_RESPONSE" python3 - "$RECEIPT_TMP" <<'PY'
+import datetime, json, os, pathlib, sys
+receipt = {
+    "package": os.environ["PACKAGE_NAME"],
+    "versionName": os.environ["EXPECTED_VERSION"],
+    "versionCode": os.environ["EXPECTED_BUILD_NUMBER"],
+    "track": os.environ["TRACK"],
+    "status": os.environ["RELEASE_STATUS"],
+    "publicationEditId": os.environ["EDIT_ID"],
+    "commitResponse": json.loads(os.environ["COMMIT_RESPONSE"] or "{}"),
+    "postCommitVerified": True,
+    "aabSha256": os.environ["AAB_SHA256"],
+    "listingLocale": os.environ["LISTING_LOCALE"],
+    "listingIconSha256": os.environ["LISTING_ICON_SHA256"],
+    "listingIconId": os.environ["ICON_ID"],
+    "timestampUtc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+}
+pathlib.Path(sys.argv[1]).write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
+PY
+mkdir -p "$(dirname "$RECEIPT_PATH")"
+mv "$RECEIPT_TMP" "$RECEIPT_PATH"
+log "Upload complete: $PACKAGE_NAME versionCode $VERSION_CODE -> $TRACK ($RELEASE_STATUS); receipt: $RECEIPT_PATH"
