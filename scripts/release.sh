@@ -42,8 +42,10 @@ set -euo pipefail
 #   --publish=<version>  Permit publishing only when <version> exactly matches
 #                        the resolved release version. Without this confirmation,
 #                        every network action is a dry run.
-#   --build-number=NUMBER  Required with --publish for invocations that do not
-#                          include the Android stage.
+#   --prepare=<version>  Permit only artifact-build/evidence stages for exactly
+#                        <version>, reusing already completed release gates.
+#   --build-number=NUMBER  Required with --publish/--prepare for invocations
+#                          that do not include the Android stage.
 #
 # Environment:
 #   FLUTTER_BIN            Path to the flutter binary
@@ -76,6 +78,7 @@ PLAY_TRACK="${PLAY_TRACK:-internal}"
 PLAY_RELEASE_STATUS="${PLAY_RELEASE_STATUS:-draft}"
 CONFIRMED=0
 PUBLISH_VERSION=""
+PREPARE_VERSION=""
 PUBLISH_BUILD_NUMBER=""
 DRY_RUN_FORCED=0
 STAGES=()
@@ -231,6 +234,7 @@ fi
 for arg in "$@"; do
   case "$arg" in
     --publish=*) PUBLISH_VERSION="${arg#--publish=}" ;;
+    --prepare=*) PREPARE_VERSION="${arg#--prepare=}" ;;
     --build-number=*) PUBLISH_BUILD_NUMBER="${arg#--build-number=}" ;;
     --yes) die "--yes is unsafe; use --publish=<version>" ;;
     --dry-run) CONFIRMED=0; DRY_RUN_FORCED=1 ;;
@@ -349,6 +353,49 @@ preflight_publish() {
       --log-dir "$FINAL_DEVICE_EVIDENCE_DIR"
   fi
 }
+
+preflight_prepare() {
+  need git
+  [[ -z "$(git status --porcelain)" ]] ||
+    die "Artifact preparation requires a clean working tree"
+  local branch remote_ref stage
+  branch="$(git symbolic-ref --quiet --short HEAD)" ||
+    die "Preparing from detached HEAD is not allowed"
+  remote_ref="origin/$branch"
+  git fetch --quiet origin "$branch"
+  [[ "$(git rev-parse HEAD)" == "$(git rev-parse "$remote_ref")" ]] ||
+    die "Local $branch is not synchronized with $remote_ref"
+  for stage in "${STAGES[@]}"; do
+    case "$stage" in
+      android_build|linux|windows|evidence) ;;
+      *) die "--prepare permits only android-build, linux, windows, and evidence" ;;
+    esac
+  done
+}
+
+if [[ -n "$PUBLISH_VERSION" && -n "$PREPARE_VERSION" ]]; then
+  die "Use either --publish or --prepare, not both"
+fi
+
+if [[ -n "$PREPARE_VERSION" && "$DRY_RUN_FORCED" -eq 0 ]]; then
+  if stage_selected android_build; then
+    resolve_upcoming_android_version
+  else
+    [[ "$PUBLISH_BUILD_NUMBER" =~ ^[0-9]+$ ]] ||
+      die "Non-Android preparation requires --build-number=NUMBER"
+    RESOLVED_RELEASE_VERSION="$PREPARE_VERSION"
+    RESOLVED_ANDROID_VERSION="$PREPARE_VERSION"
+    RESOLVED_ANDROID_BUILD_NUMBER="$PUBLISH_BUILD_NUMBER"
+  fi
+  [[ "$PREPARE_VERSION" == "$RESOLVED_RELEASE_VERSION" ]] ||
+    die "Prepare confirmation '$PREPARE_VERSION' does not match release version '$RESOLVED_RELEASE_VERSION'"
+  if [[ -n "$PUBLISH_BUILD_NUMBER" &&
+        "$PUBLISH_BUILD_NUMBER" != "$RESOLVED_ANDROID_BUILD_NUMBER" ]]; then
+    die "Confirmed build number does not match resolved Android build number"
+  fi
+  preflight_prepare
+  CONFIRMED=1
+fi
 
 if [[ -n "$PUBLISH_VERSION" && "$DRY_RUN_FORCED" -eq 0 ]]; then
   if stage_selected android || stage_selected android_build; then

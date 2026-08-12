@@ -25,6 +25,12 @@ void main() {
       contains(r'PLAY_RELEASE_STATUS="${PLAY_RELEASE_STATUS:-draft}"'),
     );
     expect(releaseScript, contains('--publish=<version>'));
+    expect(releaseScript, contains('--prepare=<version>'));
+    expect(
+      releaseScript,
+      contains('--prepare permits only android-build, linux, windows, and evidence'),
+    );
+    expect(releaseScript, contains('preflight_prepare'));
     expect(releaseScript, contains('DRY_RUN_FORCED=0'));
     expect(
       releaseScript,
