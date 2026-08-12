@@ -29,4 +29,4 @@ jobs:
       - name: Full host test suite
         run: flutter test
       - name: Release evidence generator tests
-        run: python3 -m unittest test/scripts/test_generate_release_evidence.py
+        run: python3 -m unittest discover -s test/scripts -p 'test_generate_release_evidence.py'
