@@ -39,6 +39,13 @@ void main() {
       ),
     );
     expect(releaseScript, contains('resolve_upcoming_android_version'));
+    expect(releaseScript, contains('git tag --list'));
+    expect(
+      releaseScript,
+      contains(
+        'LAST_BUILD_NUMBER.txt (which records the last local script run',
+      ),
+    );
     expect(
       releaseScript.indexOf('resolve_upcoming_android_version'),
       lessThan(releaseScript.indexOf('preflight_publish')),

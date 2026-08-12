@@ -310,16 +310,28 @@ verify_privacy_policy() {
   done
 }
 
-# Resolve the exact Android artifact identity before the operator confirms a
-# publish. The build is then pinned to these values so a previous
-# LATEST_BUILD_INFO marker can never authorize a different upcoming version.
+# Resolve the exact Android release identity from immutable published tags, not
+# LAST_BUILD_NUMBER.txt (which records the last local script run and advances
+# during artifact preparation). The version policy is pubspec major.minor plus
+# the next numeric vMAJOR.MINOR.BUILD tag.
 resolve_upcoming_android_version() {
-  local resolved
-  resolved="$("$SCRIPT_DIR/build-play-console.sh" --print-version)"
-  RESOLVED_ANDROID_VERSION="$(awk -F= '$1=="versionName" {print $2}' <<< "$resolved")"
-  RESOLVED_ANDROID_BUILD_NUMBER="$(awk -F= '$1=="buildNumber" {print $2}' <<< "$resolved")"
-  [[ -n "$RESOLVED_ANDROID_VERSION" && -n "$RESOLVED_ANDROID_BUILD_NUMBER" ]] ||
-    die "Could not resolve the upcoming Android version"
+  local pubspec_version major minor latest_tag latest_build
+  pubspec_version="$(awk '/^version:[[:space:]]*/ { print $2; exit }' pubspec.yaml)"
+  pubspec_version="${pubspec_version%%+*}"
+  [[ "$pubspec_version" =~ ^([0-9]+)\.([0-9]+)\.[0-9]+$ ]] ||
+    die "Unsupported pubspec version policy: $pubspec_version"
+  major="${BASH_REMATCH[1]}"
+  minor="${BASH_REMATCH[2]}"
+  latest_tag="$(git tag --list "v${major}.${minor}.*" --sort=-version:refname | head -n 1)"
+  if [[ -n "$latest_tag" ]]; then
+    [[ "$latest_tag" =~ ^v${major}\.${minor}\.([0-9]+)$ ]] ||
+      die "Latest release tag does not match numeric version policy: $latest_tag"
+    latest_build="$((10#${BASH_REMATCH[1]}))"
+  else
+    latest_build="0"
+  fi
+  RESOLVED_ANDROID_BUILD_NUMBER="$((latest_build + 1))"
+  RESOLVED_ANDROID_VERSION="${major}.${minor}.${RESOLVED_ANDROID_BUILD_NUMBER}"
   RESOLVED_RELEASE_VERSION="$RESOLVED_ANDROID_VERSION"
 }
 
