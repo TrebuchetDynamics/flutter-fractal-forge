@@ -1,5 +1,27 @@
 #!/usr/bin/env bats
 
+@test "jank evaluation uses the final mature cumulative sample" {
+  frames_file="$BATS_TEST_TMPDIR/frames.log"
+  cat >"$frames_file" <<'EOF'
+Total frames rendered: 62
+Janky frames: 7 (11.29%)
+Total frames rendered: 150
+Janky frames: 9 (6.00%)
+EOF
+
+  run awk -v min_frames=10 '
+    /Total frames rendered:/ { frames = $4 + 0; next }
+    frames >= min_frames && match($0, /Janky frames:.*\(([0-9]+([.][0-9]+)?)%\)/, value) {
+      final = value[1] + 0
+      count++
+    }
+    END { if (count) print final + 0 }
+  ' "$frames_file"
+
+  [ "$status" -eq 0 ]
+  [ "$output" = "6" ]
+}
+
 @test "pre-release gate dry run includes every mandatory host and device gate" {
   run "$BATS_TEST_DIRNAME/../../scripts/pre-release-gate.sh" \
     --dry-run --device=192.0.2.1:5555 --soak-seconds=60 \

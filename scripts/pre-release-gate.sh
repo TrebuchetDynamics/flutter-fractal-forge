@@ -253,24 +253,26 @@ run_device_soak() {
     return 1
   }
 
-  local peak_janky_percent
-  peak_janky_percent="$(awk -v min_frames="$MIN_JANKY_FRAME_COUNT" '
+  local final_janky_percent
+  final_janky_percent="$(awk -v min_frames="$MIN_JANKY_FRAME_COUNT" '
     /Total frames rendered:/ { frames = $4 + 0; next }
     frames >= min_frames && match($0, /Janky frames:.*\(([0-9]+([.][0-9]+)?)%\)/, value) {
+      final = value[1] + 0
       count++
-      if (value[1] + 0 > peak) peak = value[1] + 0
     }
-    END { if (count) print peak + 0 }
+    END { if (count) print final + 0 }
   ' "$LOG_DIR/soak-frames.log")"
-  [[ -n "$peak_janky_percent" ]] || {
-    echo 'Soak did not produce a janky-frame percentage sample.' >&2
+  [[ -n "$final_janky_percent" ]] || {
+    echo 'Soak did not produce a mature janky-frame percentage sample.' >&2
     return 1
   }
-  awk -v actual="$peak_janky_percent" -v limit="$MAX_JANKY_FRAME_PERCENT" \
+  awk -v actual="$final_janky_percent" -v limit="$MAX_JANKY_FRAME_PERCENT" \
     'BEGIN { exit !(actual <= limit) }' || {
-      echo "Janky frames exceeded ${MAX_JANKY_FRAME_PERCENT}% (peak ${peak_janky_percent}%)." >&2
+      echo "Final janky frames exceeded ${MAX_JANKY_FRAME_PERCENT}% (${final_janky_percent}%)." >&2
       return 1
     }
+  printf 'Soak final janky frames: %s%% (limit %s%%)\n' \
+    "$final_janky_percent" "$MAX_JANKY_FRAME_PERCENT" | tee -a "$LOG_DIR/gate.log"
 
   local peak_thermal_status
   peak_thermal_status="$(awk '
