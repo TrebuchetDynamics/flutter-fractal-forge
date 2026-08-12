@@ -345,6 +345,16 @@ fi
 adb_gate "device readiness" get-state
 capture_network_state
 
+# Interrupted Flutter integration runs can leave device-scoped VM-service port
+# forwards behind. Reusing one connects the runner to a dead socket and fails
+# before tests load with "Connection closed before full header was received".
+# Clear only this device's forwards before creating the suite's fresh tunnel.
+if [[ "$DRY_RUN" -eq 1 ]]; then
+  print_command adb -s "$DEVICE" forward --remove-all
+else
+  adb -s "$DEVICE" forward --remove-all
+fi
+
 integration_files=(
   integration_test/flows/user_flows_test.dart
   integration_test/flows/critical_journey_test.dart
