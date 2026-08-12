@@ -31,6 +31,10 @@ void main() {
       contains('--prepare permits only android-build, linux, windows, and evidence'),
     );
     expect(releaseScript, contains('preflight_prepare'));
+    final playUploadScript =
+        File('scripts/build-upload-playstore.sh').readAsStringSync();
+    expect(playUploadScript, contains('data.get("image", data).get("id", "")'));
+    expect(playUploadScript, contains('images.get("images"'));
     expect(releaseScript, contains('DRY_RUN_FORCED=0'));
     expect(
       releaseScript,

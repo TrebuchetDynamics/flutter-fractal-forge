@@ -259,7 +259,7 @@ if [[ -n "$LISTING_ICON" ]]; then
     -H 'Content-Type: image/png' \
     --data-binary "@$LISTING_ICON" \
     "$UPLOAD/edits/$EDIT_ID/listings/$LISTING_LOCALE/icon?uploadType=media")"
-  ICON_ID="$(printf '%s' "$ICON_RESPONSE" | json_field id)"
+  ICON_ID="$(printf '%s' "$ICON_RESPONSE" | python3 -c 'import json,sys; data=json.load(sys.stdin); print(data.get("image", data).get("id", ""))')"
   [[ -n "$ICON_ID" ]] || die "Play listing icon upload returned no image ID"
 fi
 
@@ -301,6 +301,7 @@ if [[ -n "$LISTING_ICON" ]]; then
   VERIFY_ICON_RESPONSE="$VERIFY_ICON_RESPONSE" EXPECTED_ICON_ID="$ICON_ID" python3 - <<'PY'
 import json, os
 images = json.loads(os.environ["VERIFY_ICON_RESPONSE"])
+images = images.get("images", images if isinstance(images, list) else [])
 if not any(str(image.get("id")) == os.environ["EXPECTED_ICON_ID"] for image in images):
     raise SystemExit("Committed Play listing icon ID was not found in verification edit")
 PY
