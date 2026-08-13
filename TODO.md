@@ -111,7 +111,10 @@ Older 370-count planning rows are retired.
 - [ ] **Improve catalog thumbnails** — Larger view size, higher-quality renders
 - [ ] **Visual playtest audit** — Test every fractal (GPU + CPU), log failures
 - [x] GPU deep zoom not switching to CPU at all; adjust fallback thresholds/hysteresis
-- [ ] **Panning bugs at high zoom** — Precision/gesture/transform issues
+- [x] **Panning bugs at high zoom** — Fixed 2026-08-12 by migrating
+  camera/render vectors from Float32-backed `vector_math` to
+  `vector_math_64`; verified at `1e12` zoom and from viewport-edge gestures
+  (`fractal_view_state_test.dart`, `fractal_renderer_gesture_test.dart`)
 - [ ] **Auto-zoom not continuous** — Navigation too slow at high zoom levels
 
 ### P0-3: Dynamic Iteration Adjustment
@@ -304,7 +307,9 @@ float t = fract(smoothVal / 64.0);
 - [ ] **Controls snap/collapse** — More aggressive
 - [ ] **Overflow menu** — Move non-critical actions
 - [ ] **Auto-pilot improvements** — Smooth path, dwell behavior
-- [ ] **Manual corrections** — Accept pan/zoom while auto runs
+- [x] **Manual corrections** — Auto-explore yields to continuous gestures,
+  adopts the corrected zoom/direction, and replans one-shot wheel/keyboard
+  corrections (`auto_explore_service_test.dart`)
 
 ### P2-3: Preset & Export
 
