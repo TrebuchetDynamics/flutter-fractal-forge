@@ -26,7 +26,7 @@ import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
 import 'package:flutter_fractals/core/services/export/export_worker.dart';
 import 'package:image/image.dart' as img;
-import 'package:vector_math/vector_math.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 class _FakePathProviderPlatform extends Fake
     with MockPlatformInterfaceMixin

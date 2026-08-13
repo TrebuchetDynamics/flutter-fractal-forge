@@ -16,7 +16,7 @@ import 'package:flutter_fractals/core/controllers/params/fractal_param_randomize
 import 'package:flutter_fractals/core/controllers/params/fractal_param_value_normalizer.dart';
 import 'package:flutter_fractals/core/controllers/input/fractal_view_input_bounds.dart';
 import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
-import 'package:vector_math/vector_math.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 /// Manages the state of fractal rendering and user interactions.
 ///

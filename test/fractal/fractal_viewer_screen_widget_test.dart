@@ -27,7 +27,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../a11y/shared/permission_test_harness.dart';
-import 'package:vector_math/vector_math.dart' show Vector2, Vector3;
+import 'package:vector_math/vector_math_64.dart' show Vector2, Vector3;
 
 class _LooperExportService extends ExportService {
   _LooperExportService({

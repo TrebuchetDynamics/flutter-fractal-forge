@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_fractals/features/viewer/actions/text_overlay_controller.dart';
 import 'package:flutter_fractals/features/viewer/actions/viewer_music_coordinator.dart';
 import 'package:flutter_fractals/features/viewer/actions/viewer_session_tracker.dart';
-import 'package:vector_math/vector_math.dart' show Vector2;
+import 'package:vector_math/vector_math_64.dart' show Vector2;
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/wallpaper/wallpaper_options.dart';

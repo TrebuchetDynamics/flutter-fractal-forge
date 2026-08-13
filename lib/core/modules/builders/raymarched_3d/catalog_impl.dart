@@ -3,7 +3,7 @@ import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/builders/built_in_preset_contract.dart';
 import 'package:flutter_fractals/core/modules/builders/raymarched_3d_builder.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-import 'package:vector_math/vector_math.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 /// All 3D ray-marched fractals defined declaratively.
 ///

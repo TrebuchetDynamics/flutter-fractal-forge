@@ -2,7 +2,7 @@ import 'package:flutter_fractals/features/renderer/cpu/cpu_fractal_renderer.dart
 import 'package:flutter_fractals/features/renderer/cpu/cpu_render_isolate.dart';
 import 'package:flutter_fractals/features/renderer/cpu/cpu_viewport_mapping.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:vector_math/vector_math.dart' show Vector2;
+import 'package:vector_math/vector_math_64.dart' show Vector2;
 
 void main() {
   group('CPU viewport mapping', () {

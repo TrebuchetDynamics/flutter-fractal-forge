@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
-import 'package:vector_math/vector_math.dart';
+import 'package:vector_math/vector_math_64.dart';
 import 'fractal_view_state.dart';
 
 FractalViewState _snapshotPresetView(FractalViewState view) {

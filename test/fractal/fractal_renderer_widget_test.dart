@@ -7,7 +7,7 @@ import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../helpers/fractal_controller_widget_harness.dart';
-import 'package:vector_math/vector_math.dart' hide Colors;
+import 'package:vector_math/vector_math_64.dart' hide Colors;
 
 void main() {
   group('FractalRenderer', () {

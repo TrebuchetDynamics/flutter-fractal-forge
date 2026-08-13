@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/services/rendering/fractal_report_service.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:vector_math/vector_math.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 void main() {
   test('exposes required study tags and portable default directory name', () {

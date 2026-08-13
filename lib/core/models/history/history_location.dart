@@ -1,4 +1,4 @@
-import 'package:vector_math/vector_math.dart';
+import 'package:vector_math/vector_math_64.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 
 /// Creates an immutable-by-convention history snapshot of a mutable view state.

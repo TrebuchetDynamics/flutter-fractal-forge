@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:vector_math/vector_math.dart' show Vector2;
+import 'package:vector_math/vector_math_64.dart' show Vector2;
 
 import 'package:flutter_fractals/core/modules/builders/escape_time_catalog.dart';
 import 'package:flutter_fractals/features/renderer/cpu/cpu_formulas.dart';

@@ -7,7 +7,7 @@ import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/controllers/params/fractal_param_value_normalizer.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
-import 'package:vector_math/vector_math.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 @immutable
 class LooperPose {

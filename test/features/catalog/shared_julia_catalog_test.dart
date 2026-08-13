@@ -2,7 +2,7 @@ import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_ju
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/renderer/cpu/cpu_fractal_renderer.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:vector_math/vector_math.dart' show Vector2;
+import 'package:vector_math/vector_math_64.dart' show Vector2;
 
 void main() {
   test('registers reviewed shared Julia formula identities', () {

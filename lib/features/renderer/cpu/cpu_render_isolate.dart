@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:vector_math/vector_math.dart' show Vector2;
+import 'package:vector_math/vector_math_64.dart' show Vector2;
 
 import 'cpu_formulas.dart';
 import 'cpu_viewport_mapping.dart';

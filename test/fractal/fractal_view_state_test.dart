@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:vector_math/vector_math.dart';
+import 'package:vector_math/vector_math_64.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 
 void main() {
@@ -102,6 +102,19 @@ void main() {
     });
 
     group('constructor', () {
+      test('preserves deep-zoom pan coordinates at Float64 precision', () {
+        const x = -0.743643887037151;
+        const y = 0.13182590420533;
+        final state = FractalViewState(
+          pan: Vector2(x, y),
+          zoom: 1e12,
+          rotation: Vector3.zero(),
+        );
+
+        expect(state.pan.x, x);
+        expect(state.pan.y, y);
+      });
+
       test('stores all provided values', () {
         final pan = Vector2(1.0, 2.0);
         final rotation = Vector3(0.3, 0.6, 0.9);

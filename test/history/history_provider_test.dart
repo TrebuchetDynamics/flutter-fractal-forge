@@ -8,7 +8,7 @@ import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vector_math/vector_math.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 FractalViewState _view(double zoom) {
   return FractalViewState(

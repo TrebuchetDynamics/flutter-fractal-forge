@@ -1,4 +1,4 @@
-import 'package:vector_math/vector_math.dart' show Vector2, Vector3, Vector4;
+import 'package:vector_math/vector_math_64.dart' show Vector2, Vector3, Vector4;
 
 import 'package:flutter_fractals/features/renderer/cpu/cpu_iterators.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
-import 'package:vector_math/vector_math.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 /// Read-only snapshot of controller parameters for public exposure.
 ///

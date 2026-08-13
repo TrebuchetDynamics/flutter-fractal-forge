@@ -9,7 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
-import 'package:vector_math/vector_math.dart' show Vector2, Vector3;
+import 'package:vector_math/vector_math_64.dart' show Vector2, Vector3;
 
 void main() {
   Widget buildTestWidget(
@@ -82,6 +82,62 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(controller.view.zoom, isNot(equals(initialZoom)));
+  });
+
+  testWidgets('high-zoom drag preserves one-to-one world-space precision',
+      (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final controller = FractalController(ModuleRegistry());
+    const startX = -0.743643887037151;
+    const startY = 0.13182590420533;
+    const zoom = 1e12;
+    controller.updateView(
+      controller.view.copyWith(
+        pan: Vector2(startX, startY),
+        zoom: zoom,
+      ),
+      adaptIterationsForZoom: false,
+    );
+
+    await tester.pumpWidget(buildTestWidget(controller));
+    await tester.pumpAndSettle();
+
+    final renderer = find.byType(FractalRenderer);
+    final start = tester.getCenter(renderer);
+    final gesture = await tester.startGesture(start);
+    // First move lets the scale recognizer win the gesture arena; Flutter
+    // reports zero focalPointDelta for that transition frame.
+    await gesture.moveBy(const Offset(20, 0));
+    await tester.pump();
+    await gesture.moveBy(const Offset(30, -15));
+    await tester.pump();
+    await gesture.up();
+    await tester.pump(const Duration(milliseconds: 50));
+
+    expect(controller.view.pan.x, closeTo(startX - 30 / 300 / zoom, 1e-16));
+    expect(controller.view.pan.y, closeTo(startY + 15 / 300 / zoom, 1e-16));
+  });
+
+  testWidgets('gesture surface accepts drags from the viewport edge',
+      (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final controller = FractalController(ModuleRegistry());
+    await tester.pumpWidget(buildTestWidget(controller));
+    await tester.pumpAndSettle();
+
+    final renderer = find.byType(FractalRenderer);
+    final initialPan = controller.view.pan;
+    final topLeft = tester.getTopLeft(renderer);
+    final gesture = await tester.startGesture(topLeft + const Offset(1, 1));
+    await gesture.moveBy(const Offset(30, 20));
+    await tester.pump();
+    await gesture.up();
+    await tester.pump(const Duration(milliseconds: 50));
+
+    expect(controller.view.pan.x, lessThan(initialPan.x));
+    expect(controller.view.pan.y, lessThan(initialPan.y));
   });
 
   testWidgets('Ford Circles drag follows screen axes when view has rotZ',

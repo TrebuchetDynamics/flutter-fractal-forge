@@ -5,7 +5,7 @@ import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/services/storage/viewer_session_store.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vector_math/vector_math.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 class _DelayedSharedPreferences implements SharedPreferences {
   _DelayedSharedPreferences(String initialValue) : _value = initialValue;

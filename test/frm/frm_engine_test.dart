@@ -2,7 +2,7 @@ import 'package:flutter_fractals/features/formulas/frm/frm_engine.dart';
 import 'package:flutter_fractals/features/formulas/frm/frm_parser.dart';
 import 'package:flutter_fractals/features/renderer/cpu/cpu_formulas.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:vector_math/vector_math.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 void main() {
   group('frmAsCpuFormula', () {

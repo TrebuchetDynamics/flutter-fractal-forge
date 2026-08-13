@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:image/image.dart' as img;
-import 'package:vector_math/vector_math.dart' show Vector2;
+import 'package:vector_math/vector_math_64.dart' show Vector2;
 
 import 'package:flutter_fractals/features/renderer/cpu/cpu_fractal_renderer.dart';
 

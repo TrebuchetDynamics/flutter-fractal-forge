@@ -6,7 +6,7 @@ import 'dart:typed_data';
 // ignore: depend_on_referenced_packages
 import 'package:crypto/crypto.dart' show sha256;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:vector_math/vector_math.dart' show Vector2;
+import 'package:vector_math/vector_math_64.dart' show Vector2;
 
 import 'package:flutter_fractals/features/renderer/cpu/cpu_fractal_renderer.dart';
 
@@ -35,7 +35,7 @@ void main() {
         zoom: 1.4,
         juliaC: Vector2(-0.8, 0.156),
         sha256:
-            '9d78a1e17f1c522d00cf364255cf6e27d53de35ddac636198ca7c3fd6093492f',
+            'a9a4a386ae613b62c5a100d17e24e5953693b304a41764b53a1a616701eef7b3',
       ),
       'tricorn': (
         pan: Vector2(-0.5, 0.0),
@@ -49,7 +49,7 @@ void main() {
         zoom: 1.2,
         juliaC: Vector2(-0.8, 0.156),
         sha256:
-            'c03aa8feab73ec6691dd8402fd53a7ce9f2d12ecff53e1b5cd1fe72a402d0886',
+            'c215c629f9385f6039771aafa5c01249f67232be48ee1a023c544db3c4e3361e',
       ),
     };
 
