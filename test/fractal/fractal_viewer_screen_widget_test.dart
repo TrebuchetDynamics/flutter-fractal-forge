@@ -763,6 +763,22 @@ void main() {
       addTearDown(() => tester.binding.setSurfaceSize(null));
     });
 
+    testWidgets('auto-explore is reachable from the viewer chrome',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      final autoExplore = find.byKey(const ValueKey('viewerAutoExploreButton'));
+      expect(autoExplore, findsOneWidget);
+      expect(find.byTooltip('Start auto-explore'), findsOneWidget);
+      expect(
+        tester.getRect(autoExplore).overlaps(
+              tester.getRect(find.text('Mandelbrot')),
+            ),
+        isFalse,
+      );
+    });
+
     testWidgets('primary viewer actions expose explicit semantic and tab order',
         (tester) async {
       final semantics = tester.ensureSemantics();
@@ -770,6 +786,7 @@ void main() {
       await tester.pumpAndSettle();
 
       const orderedKeys = [
+        'viewerAutoExploreButton',
         'viewerRandomParamsButton',
         'viewerColorCycleButton',
         'viewerRandomFractalFab',
@@ -794,7 +811,7 @@ void main() {
         );
         final sortKey = semanticWidget.properties.sortKey;
         expect(sortKey, isA<OrdinalSortKey>());
-        expect((sortKey! as OrdinalSortKey).order, index + 1);
+        expect((sortKey! as OrdinalSortKey).order, index);
         expect(tester.getSize(finder).width, greaterThanOrEqualTo(48));
         expect(tester.getSize(finder).height, greaterThanOrEqualTo(48));
 

@@ -338,6 +338,26 @@ class AutoExploreFrameTiming {
   }
 }
 
+class AutoExploreElapsedProgress {
+  final Duration elapsed;
+  final Duration duration;
+
+  const AutoExploreElapsedProgress({
+    required this.elapsed,
+    required this.duration,
+  });
+
+  double get raw {
+    final durationMicros = duration.inMicroseconds;
+    if (durationMicros <= 0) return 1.0;
+    final elapsedMicros = elapsed.inMicroseconds;
+    if (elapsedMicros <= 0) return 0.0;
+    return (elapsedMicros / durationMicros).clamp(0.0, 1.0);
+  }
+
+  bool get reachedEnd => raw >= 1.0;
+}
+
 /// Replayable frame timing and zoom endpoints for one auto-explore animation.
 class AutoExploreZoomAnimationPlan {
   static const Duration defaultFrameInterval = Duration(milliseconds: 16);
@@ -365,6 +385,13 @@ class AutoExploreZoomAnimationPlan {
     return AutoExploreFrameProgress(
       frame: frame,
       totalFrames: totalFrames,
+    );
+  }
+
+  AutoExploreElapsedProgress progressForElapsed(Duration elapsed) {
+    return AutoExploreElapsedProgress(
+      elapsed: elapsed,
+      duration: duration,
     );
   }
 

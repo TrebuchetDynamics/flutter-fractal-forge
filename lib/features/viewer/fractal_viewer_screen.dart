@@ -1320,6 +1320,28 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                     ),
                   ),
 
+                  if (_showCoreViewerChrome && _autoExploreService != null)
+                    Positioned(
+                      top: overlayTop + 64,
+                      left: AppSpacing.lg,
+                      child: ChangeNotifierProvider<AutoExploreService>.value(
+                        value: _autoExploreService!,
+                        child: AutoExploreButton(
+                          key: const ValueKey('viewerAutoExploreButton'),
+                          onLongPress: () => showModalBottomSheet<void>(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            builder: (_) => ChangeNotifierProvider<
+                                AutoExploreService>.value(
+                              value: _autoExploreService!,
+                              child: const AutoExploreSettingsSheet(),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
                   // Floating action buttons.
                   // Bound the region vertically (top + bottom) so the inner
                   // SingleChildScrollView gets a finite height and can actually

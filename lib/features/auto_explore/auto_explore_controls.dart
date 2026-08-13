@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
@@ -71,123 +72,128 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
       _runPrimaryAction(status.primaryAction, svc);
     }
 
-    return FadeIn(
-      delay: widget.delay,
-      child: Semantics(
-        label: tooltip,
-        button: true,
-        onTap: activate,
-        onLongPress: widget.onLongPress,
-        child: Tooltip(
-          message: tooltip,
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              FocusableActionDetector(
-                onShowFocusHighlight: (focused) {
-                  if (_isFocused == focused) return;
-                  setState(() => _isFocused = focused);
-                },
-                shortcuts: const {
-                  SingleActivator(LogicalKeyboardKey.enter): ActivateIntent(),
-                  SingleActivator(LogicalKeyboardKey.space): ActivateIntent(),
-                  SingleActivator(LogicalKeyboardKey.enter, shift: true):
-                      _LongPressActivateIntent(),
-                },
-                actions: {
-                  ActivateIntent: CallbackAction<ActivateIntent>(
-                    onInvoke: (_) {
-                      activate();
-                      return null;
-                    },
-                  ),
-                  _LongPressActivateIntent:
-                      CallbackAction<_LongPressActivateIntent>(
-                    onInvoke: (_) {
-                      widget.onLongPress?.call();
-                      return null;
-                    },
-                  ),
-                },
-                child: GestureDetector(
-                  onTap: activate,
-                  onLongPress: widget.onLongPress,
-                  child: AnimatedBuilder(
-                    animation: _pulse,
-                    builder: (context, child) {
-                      final scale = active ? (1.0 + _pulse.value * 0.12) : 1.0;
-                      return Transform.scale(
-                        scale: scale,
-                        child: Container(
-                          padding: const EdgeInsets.all(2),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: _isFocused
-                                  ? HighContrastColors.focusIndicator
-                                  : Colors.transparent,
-                              width: AccessibleSizing.focusIndicatorWidth,
-                            ),
-                            borderRadius: BorderRadius.circular(18),
-                          ),
+    return FocusTraversalOrder(
+      order: const NumericFocusOrder(0),
+      child: FadeIn(
+        delay: widget.delay,
+        child: Semantics(
+          sortKey: OrdinalSortKey(0),
+          label: tooltip,
+          button: true,
+          onTap: activate,
+          onLongPress: widget.onLongPress,
+          child: Tooltip(
+            message: tooltip,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                FocusableActionDetector(
+                  onShowFocusHighlight: (focused) {
+                    if (_isFocused == focused) return;
+                    setState(() => _isFocused = focused);
+                  },
+                  shortcuts: const {
+                    SingleActivator(LogicalKeyboardKey.enter): ActivateIntent(),
+                    SingleActivator(LogicalKeyboardKey.space): ActivateIntent(),
+                    SingleActivator(LogicalKeyboardKey.enter, shift: true):
+                        _LongPressActivateIntent(),
+                  },
+                  actions: {
+                    ActivateIntent: CallbackAction<ActivateIntent>(
+                      onInvoke: (_) {
+                        activate();
+                        return null;
+                      },
+                    ),
+                    _LongPressActivateIntent:
+                        CallbackAction<_LongPressActivateIntent>(
+                      onInvoke: (_) {
+                        widget.onLongPress?.call();
+                        return null;
+                      },
+                    ),
+                  },
+                  child: GestureDetector(
+                    onTap: activate,
+                    onLongPress: widget.onLongPress,
+                    child: AnimatedBuilder(
+                      animation: _pulse,
+                      builder: (context, child) {
+                        final scale =
+                            active ? (1.0 + _pulse.value * 0.12) : 1.0;
+                        return Transform.scale(
+                          scale: scale,
                           child: Container(
-                            width: 52,
-                            height: 52,
+                            padding: const EdgeInsets.all(2),
                             decoration: BoxDecoration(
-                              gradient:
-                                  active ? AppColors.primaryGradient : null,
-                              color: active ? null : AppColors.surface,
-                              borderRadius: BorderRadius.circular(16),
-                              border: active
-                                  ? null
-                                  : Border.all(
-                                      color: AppColors.border
-                                          .withValues(alpha: 0.5)),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: active
-                                      ? AppColors.primary
-                                          .withValues(alpha: 0.35)
-                                      : Colors.black.withValues(alpha: 0.18),
-                                  blurRadius: active ? 16 : 12,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ],
+                              border: Border.all(
+                                color: _isFocused
+                                    ? HighContrastColors.focusIndicator
+                                    : Colors.transparent,
+                                width: AccessibleSizing.focusIndicatorWidth,
+                              ),
+                              borderRadius: BorderRadius.circular(18),
                             ),
-                            child: Icon(
-                              active
-                                  ? Icons.pause_rounded
-                                  : Icons.explore_rounded,
-                              color: active
-                                  ? Colors.white
-                                  : AppColors.textSecondary,
-                              size: 24,
+                            child: Container(
+                              width: 52,
+                              height: 52,
+                              decoration: BoxDecoration(
+                                gradient:
+                                    active ? AppColors.primaryGradient : null,
+                                color: active ? null : AppColors.surface,
+                                borderRadius: BorderRadius.circular(16),
+                                border: active
+                                    ? null
+                                    : Border.all(
+                                        color: AppColors.border
+                                            .withValues(alpha: 0.5)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: active
+                                        ? AppColors.primary
+                                            .withValues(alpha: 0.35)
+                                        : Colors.black.withValues(alpha: 0.18),
+                                    blurRadius: active ? 16 : 12,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: Icon(
+                                active
+                                    ? Icons.pause_rounded
+                                    : Icons.explore_rounded,
+                                color: active
+                                    ? Colors.white
+                                    : AppColors.textSecondary,
+                                size: 24,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              if (status.showsYieldBadge)
-                Positioned(
-                  right: -8,
-                  top: -8,
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.72),
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.white12),
-                    ),
-                    child: const Text(
-                      'Auto-pilot paused',
-                      style: TextStyle(fontSize: 10, color: Colors.white70),
+                        );
+                      },
                     ),
                   ),
                 ),
-            ],
+                if (status.showsYieldBadge)
+                  Positioned(
+                    right: -8,
+                    top: -8,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.72),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.white12),
+                      ),
+                      child: const Text(
+                        'Auto-pilot paused',
+                        style: TextStyle(fontSize: 10, color: Colors.white70),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ),

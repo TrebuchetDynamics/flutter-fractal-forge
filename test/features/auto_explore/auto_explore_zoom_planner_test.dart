@@ -1,7 +1,48 @@
+import 'dart:math' as math;
+
 import 'package:flutter_fractals/features/auto_explore/auto_explore_zoom_planner.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  group('AutoExploreZoomAnimationPlan elapsed progress', () {
+    final plan = AutoExploreZoomAnimationPlan(
+      startZoom: 1e6,
+      endZoom: 1e9,
+      duration: Duration(seconds: 10),
+    );
+
+    test('uses elapsed time rather than callback count', () {
+      expect(
+        plan.progressForElapsed(const Duration(seconds: 5)).raw,
+        closeTo(0.5, 1e-12),
+      );
+      expect(
+        plan.progressForElapsed(const Duration(seconds: 15)).raw,
+        1.0,
+      );
+    });
+
+    test('equal elapsed fractions produce equal decade progress', () {
+      for (final endpoints in [
+        (start: 1.0, end: 120.0),
+        (start: 1e6, end: 1e9),
+        (start: 1e9, end: 1e12),
+      ]) {
+        final samplePlan = AutoExploreZoomAnimationPlan(
+          startZoom: endpoints.start,
+          endZoom: endpoints.end,
+          duration: const Duration(seconds: 8),
+        );
+        final progress =
+            samplePlan.progressForElapsed(const Duration(seconds: 4)).raw;
+        final sample = samplePlan.interpolate(progress);
+        final expected = math.sqrt(endpoints.start * endpoints.end).toDouble();
+
+        expect(sample, closeTo(expected, expected * 1e-12));
+      }
+    });
+  });
+
   group('AutoExploreZoomPlanner.hardMaxZoomFor', () {
     const planner = AutoExploreZoomPlanner(config: AutoExploreConfig());
 
@@ -361,7 +402,7 @@ void main() {
       expect(plan.interpolate(1.0), plan.endZoom);
     });
 
-    test('exposes replayable frame progress for timer-driven animation', () {
+    test('exposes replayable elapsed progress for timer-driven animation', () {
       const config = AutoExploreConfig(
         travelDuration: Duration(milliseconds: 1000),
       );
@@ -373,14 +414,23 @@ void main() {
         speed: 1.0,
       );
 
-      expect(plan.totalFrames, 63);
-      expect(plan.progressForFrame(0).raw, 0.0);
-      expect(plan.progressForFrame(1).raw, closeTo(1 / 63, 1e-12));
-      expect(plan.progressForFrame(62).reachedEnd, isFalse);
-      expect(plan.progressForFrame(63).raw, 1.0);
-      expect(plan.progressForFrame(63).reachedEnd, isTrue);
-      expect(plan.progressForFrame(64).raw, 1.0);
-      expect(plan.progressForFrame(64).reachedEnd, isTrue);
+      expect(plan.progressForElapsed(Duration.zero).raw, 0.0);
+      expect(
+        plan.progressForElapsed(const Duration(milliseconds: 500)).raw,
+        closeTo(0.5, 1e-12),
+      );
+      expect(
+        plan.progressForElapsed(const Duration(milliseconds: 999)).reachedEnd,
+        isFalse,
+      );
+      expect(
+        plan.progressForElapsed(const Duration(milliseconds: 1000)).reachedEnd,
+        isTrue,
+      );
+      expect(
+        plan.progressForElapsed(const Duration(milliseconds: 1100)).raw,
+        1.0,
+      );
     });
 
     test('counts sub-millisecond frame intervals without division by zero', () {

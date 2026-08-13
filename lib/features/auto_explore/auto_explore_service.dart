@@ -298,7 +298,7 @@ class AutoExploreService extends ChangeNotifier {
       endZoom: targetZoom,
       speed: _speed,
     );
-    var step = 0;
+    final stopwatch = Stopwatch()..start();
 
     final completer = Completer<bool>();
     _animCompleter = completer;
@@ -311,12 +311,13 @@ class AutoExploreService extends ChangeNotifier {
         return;
       }
 
-      step++;
-      final progress = plan.progressForFrame(step);
+      final progress = plan.progressForElapsed(stopwatch.elapsed);
       final eased = _cinematicCurve.transform(progress.raw);
 
       controller.updateView(
-        controller.view.copyWith(zoom: plan.interpolate(eased)),
+        controller.view.copyWith(
+          zoom: progress.reachedEnd ? plan.endZoom : plan.interpolate(eased),
+        ),
         adaptIterationsForZoom: true,
       );
       _lastCorrectionZoom = _clampZoom(controller.view.zoom);
