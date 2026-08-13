@@ -950,6 +950,12 @@ abstract class AppLocalizations {
   /// **'Share to X / Reddit'**
   String get shareToSocialTargets;
 
+  /// No description provided for @tooltipShareImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Share image'**
+  String get tooltipShareImage;
+
   /// No description provided for @wallpaperTitle.
   ///
   /// In en, this message translates to:

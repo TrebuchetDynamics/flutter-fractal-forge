@@ -453,6 +453,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get shareToSocialTargets => 'Share to X / Reddit';
 
   @override
+  String get tooltipShareImage => 'Share image';
+
+  @override
   String get wallpaperTitle => 'Wallpaper';
 
   @override

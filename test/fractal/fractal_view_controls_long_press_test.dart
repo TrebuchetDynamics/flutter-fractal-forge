@@ -13,8 +13,8 @@ void main() {
       (tester) async {
     await _pumpHarness(tester);
 
-    await _openMoreActions(tester);
-    await tester.longPress(find.byKey(const ValueKey('viewerRandomButton')));
+    await tester
+        .longPress(find.byKey(const ValueKey('viewerRandomFractalFab')));
     await tester.pumpAndSettle();
 
     expect(find.text('Random options'), findsOneWidget);
@@ -129,9 +129,7 @@ void main() {
       onSetSectors: (value) => selectedSectors = value,
     );
 
-    await _openMoreActions(tester);
-    await tester
-        .longPress(find.byKey(const ValueKey('viewerKaleidoscopeButton')));
+    await tester.longPress(find.byKey(const ValueKey('viewerKaleidoscopeFab')));
     await tester.pumpAndSettle();
 
     expect(find.text('Kaleidoscope sections'), findsOneWidget);
@@ -162,9 +160,8 @@ void main() {
         onSetSectors: (value) => selectedSectors = value,
       );
 
-      await _openMoreActions(tester);
       await tester
-          .longPress(find.byKey(const ValueKey('viewerKaleidoscopeButton')));
+          .longPress(find.byKey(const ValueKey('viewerKaleidoscopeFab')));
       await tester.pumpAndSettle();
 
       final chip = find.widgetWithText(ChoiceChip, '$sectors');
@@ -191,9 +188,7 @@ void main() {
     final handle = tester.ensureSemantics();
     await _pumpHarness(tester);
 
-    await _openMoreActions(tester);
-    await tester
-        .longPress(find.byKey(const ValueKey('viewerKaleidoscopeButton')));
+    await tester.longPress(find.byKey(const ValueKey('viewerKaleidoscopeFab')));
     await tester.pumpAndSettle();
 
     // Only nodes the platform actually surfaces — a node merged into an
@@ -231,14 +226,12 @@ void main() {
     // These three toggle or open something directly; a sheet whose only tile
     // repeats that action just costs a second tap.
     for (final key in const [
-      'viewerLooperButton',
-      'viewerFractalMusicButton',
+      'viewerLooperFab',
+      'viewerFractalMusicFab',
+      'viewerShareImageButton',
       'viewerFullscreenButton',
     ]) {
       await _pumpHarness(tester);
-      if (key != 'viewerFullscreenButton') {
-        await _openMoreActions(tester);
-      }
       await tester.longPress(find.byKey(ValueKey(key)));
       await tester.pumpAndSettle();
 
@@ -276,8 +269,8 @@ void main() {
   testWidgets('long-press sheet copy localizes to Spanish', (tester) async {
     await _pumpHarness(tester, locale: const Locale('es'));
 
-    await _openMoreActions(tester);
-    await tester.longPress(find.byKey(const ValueKey('viewerRandomButton')));
+    await tester
+        .longPress(find.byKey(const ValueKey('viewerRandomFractalFab')));
     await tester.pumpAndSettle();
 
     expect(find.text('Opciones aleatorias'), findsOneWidget);
@@ -294,9 +287,7 @@ void main() {
     await tester.tap(find.byTooltip('Cerrar'));
     await tester.pumpAndSettle();
 
-    await _openMoreActions(tester);
-    await tester
-        .longPress(find.byKey(const ValueKey('viewerKaleidoscopeButton')));
+    await tester.longPress(find.byKey(const ValueKey('viewerKaleidoscopeFab')));
     await tester.pumpAndSettle();
 
     expect(find.text('Secciones del kaleidoscopio'), findsOneWidget);

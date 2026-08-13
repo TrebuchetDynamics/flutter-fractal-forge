@@ -147,6 +147,7 @@
   "tooltipFractalMusicOff": "Música fractal desactivada",
   "fractalMusicUnavailable": "Música fractal no disponible. Revisa el dispositivo de audio.",
   "shareToSocialTargets": "Compartir en X / Reddit",
+  "tooltipShareImage": "Compartir imagen",
   "wallpaperTitle": "Fondo de pantalla",
   "wallpaperAndroidNote": "Exporta a la resolución nativa del dispositivo y lo establece como fondo.",
   "wallpaperIosNote": "iOS no permite que las apps establezcan el fondo directamente. Guardaremos la imagen en Fotos para que la configures desde ahí.",

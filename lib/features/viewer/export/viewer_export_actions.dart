@@ -58,6 +58,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
 
   String? get _activeQuoteText;
   bool get _exporting => _exportSession.isExporting;
+  bool get _exportFlowActive => _exportSession.phase != ViewerExportPhase.idle;
   bool get _freezeFrameForExport => _exportSession.freezeFrame;
   double? get _exportProgress => _exportSession.progress;
 
@@ -379,6 +380,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
   }
 
   Future<void> _shareCurrentImage(BuildContext context) async {
+    if (_exportSession.phase != ViewerExportPhase.idle) return;
     _log.info('action', 'Quick share image');
     final shouldResumeAutoExplore = _pauseAutoExploreForExportFlow();
     setState(() {

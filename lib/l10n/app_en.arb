@@ -147,6 +147,7 @@
   "tooltipFractalMusicOff": "Fractal Music off",
   "fractalMusicUnavailable": "Fractal Music unavailable. Check your audio device.",
   "shareToSocialTargets": "Share to X / Reddit",
+  "tooltipShareImage": "Share image",
   "wallpaperTitle": "Wallpaper",
   "wallpaperAndroidNote": "Exports at your device’s native resolution and sets it as wallpaper.",
   "wallpaperIosNote": "iOS doesn’t allow apps to set wallpapers directly. We’ll save the image to Photos so you can set it from there.",

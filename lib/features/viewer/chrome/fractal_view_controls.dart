@@ -122,6 +122,60 @@ class FractalViewControls extends StatelessWidget {
         delay: const Duration(milliseconds: 80),
         sortOrder: 2,
       ),
+      FloatingActionButtonWidget(
+        key: const ValueKey('viewerRandomFractalFab'),
+        icon: Icons.shuffle_rounded,
+        tooltip: l10n.tooltipRandomFractal,
+        onPressed: isExporting ? null : actions.openRandomFractal,
+        onLongPress:
+            isExporting ? null : () => _showRandomOptionsModal(context),
+        isCompact: true,
+        delay: const Duration(milliseconds: 100),
+        sortOrder: 3,
+      ),
+      FloatingActionButtonWidget(
+        key: const ValueKey('viewerLooperFab'),
+        icon: Icons.loop_rounded,
+        tooltip: l10n.tooltipCameraLooper,
+        onPressed: isExporting ? null : actions.openLooper,
+        isCompact: true,
+        delay: const Duration(milliseconds: 120),
+        sortOrder: 4,
+      ),
+      FloatingActionButtonWidget(
+        key: const ValueKey('viewerFractalMusicFab'),
+        icon: Icons.music_note,
+        tooltip: fractalMusicEnabled
+            ? l10n.tooltipFractalMusicOn
+            : l10n.tooltipFractalMusicOff,
+        onPressed: isExporting ? null : actions.toggleFractalMusic,
+        selected: fractalMusicEnabled,
+        isCompact: true,
+        delay: const Duration(milliseconds: 140),
+        sortOrder: 5,
+      ),
+      FloatingActionButtonWidget(
+        key: const ValueKey('viewerKaleidoscopeFab'),
+        icon: Icons.filter_vintage_rounded,
+        tooltip: kaleidoscopeEnabled
+            ? l10n.tooltipKaleidoscopeOn
+            : l10n.tooltipKaleidoscopeOff,
+        onPressed: isExporting ? null : actions.toggleKaleidoscope,
+        selected: kaleidoscopeEnabled,
+        onLongPress: isExporting ? null : () => _showKaleidoscopeModal(context),
+        isCompact: true,
+        delay: const Duration(milliseconds: 160),
+        sortOrder: 6,
+      ),
+      FloatingActionButtonWidget(
+        key: const ValueKey('viewerShareImageButton'),
+        icon: Icons.share_rounded,
+        tooltip: l10n.tooltipShareImage,
+        onPressed: isExporting ? null : actions.shareImage,
+        isCompact: true,
+        delay: const Duration(milliseconds: 180),
+        sortOrder: 7,
+      ),
       _ExportWallpaperFab(
         isExporting: isExporting,
         supportsWallpaper: supportsWallpaper,
@@ -132,7 +186,7 @@ class FractalViewControls extends StatelessWidget {
           l10n,
           supportsWallpaper: supportsWallpaper,
         ),
-        sortOrder: 3,
+        sortOrder: 8,
       ),
       FloatingActionButtonWidget(
         key: const ValueKey('viewerFullscreenButton'),
@@ -140,8 +194,8 @@ class FractalViewControls extends StatelessWidget {
         tooltip: l10n.tooltipFullscreen,
         onPressed: isExporting ? null : actions.toggleFullscreen,
         isCompact: true,
-        delay: const Duration(milliseconds: 120),
-        sortOrder: 4,
+        delay: const Duration(milliseconds: 220),
+        sortOrder: 9,
       ),
       FloatingActionButtonWidget(
         key: const ValueKey('viewerMoreActionsButton'),
@@ -150,8 +204,8 @@ class FractalViewControls extends StatelessWidget {
         semanticHint: l10n.viewerMoreActionsHint,
         onPressed: isExporting ? null : () => _showMoreActionsModal(context),
         isCompact: true,
-        delay: const Duration(milliseconds: 140),
-        sortOrder: 5,
+        delay: const Duration(milliseconds: 240),
+        sortOrder: 10,
       ),
     ];
 
@@ -723,6 +777,7 @@ class FloatingActionButtonWidget extends StatefulWidget {
   final VoidCallback? onLongPress;
   final bool isPrimary;
   final bool isCompact;
+  final bool? selected;
   final Duration delay;
   final double? sortOrder;
 
@@ -735,6 +790,7 @@ class FloatingActionButtonWidget extends StatefulWidget {
     this.onLongPress,
     this.isPrimary = false,
     this.isCompact = false,
+    this.selected,
     this.delay = Duration.zero,
     this.sortOrder,
   });
@@ -799,6 +855,7 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
               ? null
               : OrdinalSortKey(widget.sortOrder!),
           button: true,
+          selected: widget.selected,
           enabled: widget.onPressed != null,
           onLongPress: widget.onLongPress,
           child: Tooltip(
@@ -910,13 +967,15 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
       width: _fabVisualSize,
       height: _fabVisualSize,
       decoration: BoxDecoration(
-        gradient: widget.isPrimary ? AppColors.primaryGradient : null,
-        color: widget.isPrimary
+        gradient: widget.isPrimary || widget.selected == true
+            ? AppColors.primaryGradient
+            : null,
+        color: widget.isPrimary || widget.selected == true
             ? null
             : AppColors.surface.withValues(alpha: _isPressed ? 0.86 : 0.74),
         shape: BoxShape.circle,
         border: Border.all(
-          color: widget.isPrimary
+          color: widget.isPrimary || widget.selected == true
               ? Colors.white.withValues(alpha: 0.22)
               : (_isPressed
                   ? AppColors.primaryLight.withValues(alpha: 0.62)
@@ -933,7 +992,7 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
       child: Icon(
         widget.icon,
         size: _fabIconSize,
-        color: widget.isPrimary
+        color: widget.isPrimary || widget.selected == true
             ? Colors.white
             : (_isPressed ? AppColors.primaryLight : AppColors.textPrimary),
       ),

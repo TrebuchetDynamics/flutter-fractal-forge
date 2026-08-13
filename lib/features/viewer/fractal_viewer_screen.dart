@@ -1336,7 +1336,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                           MediaQuery.of(context).padding.bottom + AppSpacing.xl,
                       child: FractalViewControls(
                         fabController: _fabController,
-                        isExporting: _exporting,
+                        isExporting: _exportFlowActive,
                         kaleidoscopeEnabled:
                             activeController.kaleidoscopeEnabled,
                         kaleidoscopeSectors:

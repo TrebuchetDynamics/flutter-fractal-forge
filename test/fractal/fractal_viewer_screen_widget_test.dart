@@ -33,6 +33,7 @@ class _LooperExportService extends ExportService {
   _LooperExportService({
     this.pickerDelay = Duration.zero,
     this.pickerThrows = false,
+    this.pickerResult = true,
     this.shareThrows = false,
     this.captureWidth = 2,
     this.captureHeight = 2,
@@ -40,18 +41,21 @@ class _LooperExportService extends ExportService {
 
   final Duration pickerDelay;
   final bool pickerThrows;
+  final bool pickerResult;
   final bool shareThrows;
   final int captureWidth;
   final int captureHeight;
   int saveCalls = 0;
+  int pickerCalls = 0;
   Uint8List? savedBytes;
   String? sharedText;
 
   @override
   Future<bool> chooseLinuxExportDirectory() async {
+    pickerCalls++;
     if (pickerDelay > Duration.zero) await Future<void>.delayed(pickerDelay);
     if (pickerThrows) throw StateError('picker unavailable');
-    return true;
+    return pickerResult;
   }
 
   @override
@@ -710,6 +714,11 @@ void main() {
           'viewerColorCycleButton',
           'viewerExportButton',
           'viewerFullscreenButton',
+          'viewerRandomFractalFab',
+          'viewerLooperFab',
+          'viewerFractalMusicFab',
+          'viewerKaleidoscopeFab',
+          'viewerShareImageButton',
           'viewerMoreActionsButton',
         ]) {
           final finder = find.byKey(ValueKey(key));
@@ -725,8 +734,15 @@ void main() {
           expect(rect.bottom, lessThanOrEqualTo(configuration.size.height),
               reason: '$key is below the viewport at $configuration');
         }
-        expect(find.byKey(const ValueKey('viewerRandomButton')), findsNothing);
-        expect(find.byKey(const ValueKey('viewerLooperButton')), findsNothing);
+        expect(find.byKey(const ValueKey('viewerRandomFractalFab')),
+            findsOneWidget);
+        expect(find.byKey(const ValueKey('viewerLooperFab')), findsOneWidget);
+        expect(find.byKey(const ValueKey('viewerFractalMusicFab')),
+            findsOneWidget);
+        expect(find.byKey(const ValueKey('viewerKaleidoscopeFab')),
+            findsOneWidget);
+        expect(find.byKey(const ValueKey('viewerShareImageButton')),
+            findsOneWidget);
 
         await tester.tap(
           find.byKey(const ValueKey('viewerMoreActionsButton')),
@@ -756,6 +772,11 @@ void main() {
       const orderedKeys = [
         'viewerRandomParamsButton',
         'viewerColorCycleButton',
+        'viewerRandomFractalFab',
+        'viewerLooperFab',
+        'viewerFractalMusicFab',
+        'viewerKaleidoscopeFab',
+        'viewerShareImageButton',
         'viewerExportButton',
         'viewerFullscreenButton',
         'viewerMoreActionsButton',
@@ -828,7 +849,9 @@ void main() {
       final rect = tester.getRect(music);
       expect(rect.top, greaterThanOrEqualTo(0));
       expect(rect.bottom, lessThanOrEqualTo(600));
-      expect(find.byIcon(Icons.music_note), findsOneWidget);
+      expect(
+          find.descendant(of: music, matching: find.byIcon(Icons.music_note)),
+          findsOneWidget);
     });
 
     testWidgets('FAB column stays on-screen and scrolls on short viewports',
@@ -867,11 +890,7 @@ void main() {
 
       expect(controller.module.id, equals('mandelbrot'));
 
-      await tester.tap(find.byKey(const ValueKey('viewerMoreActionsButton')));
-      await tester.pumpAndSettle();
-      final randomButton = find.byKey(const ValueKey('viewerRandomButton'));
-      await tester.ensureVisible(randomButton);
-      await tester.pumpAndSettle();
+      final randomButton = find.byKey(const ValueKey('viewerRandomFractalFab'));
       await tester.tap(randomButton);
       await tester.pumpAndSettle();
 
@@ -932,6 +951,30 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byKey(const ValueKey('viewerExportButton')), findsOneWidget);
+    });
+
+    testWidgets('share image FAB rejects re-entry during export setup',
+        (tester) async {
+      final exportService = _LooperExportService(
+        pickerDelay: const Duration(milliseconds: 250),
+        pickerResult: false,
+      );
+      await tester.pumpWidget(buildTestWidget(exportService: exportService));
+      await tester.pumpAndSettle();
+
+      final share = find.byKey(const ValueKey('viewerShareImageButton'));
+      await tester.tap(share);
+      await tester.pump();
+      final shareGesture = tester.widget<GestureDetector>(find.descendant(
+        of: share,
+        matching: find.byType(GestureDetector),
+      ));
+      expect(shareGesture.onTap, isNull);
+      await tester.tap(share);
+      await tester.pump(const Duration(milliseconds: 300));
+      await tester.pumpAndSettle();
+
+      expect(exportService.pickerCalls, 1);
     });
 
     testWidgets('screen export receives the view physical pixel dimensions',

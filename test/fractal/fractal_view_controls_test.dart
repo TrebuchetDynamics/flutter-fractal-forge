@@ -137,7 +137,7 @@ void main() {
     expect(find.byKey(const ValueKey('viewerExportMenuItem')), findsNothing);
   });
 
-  testWidgets('primary actions stay visible and secondary actions use overflow',
+  testWidgets('promoted actions stay visible and More retains option access',
       (tester) async {
     await _pumpControls(tester, isExporting: false, onOpenWallpaper: () {});
 
@@ -145,17 +145,18 @@ void main() {
       'viewerFullscreenButton',
       'viewerColorCycleButton',
       'viewerRandomParamsButton',
+      'viewerRandomFractalFab',
+      'viewerLooperFab',
+      'viewerFractalMusicFab',
+      'viewerKaleidoscopeFab',
+      'viewerShareImageButton',
       'viewerExportButton',
       'viewerMoreActionsButton',
     ]) {
       expect(find.byKey(ValueKey(key)), findsOneWidget, reason: key);
     }
     for (final key in const [
-      'viewerKaleidoscopeButton',
-      'viewerRandomButton',
-      'viewerLooperButton',
       'viewerTextOverlayButton',
-      'viewerFractalMusicButton',
       'viewerReportFractalButton',
     ]) {
       expect(find.byKey(ValueKey(key)), findsNothing, reason: key);
@@ -170,6 +171,38 @@ void main() {
       'viewerFractalMusicButton',
     ]) {
       expect(find.byKey(ValueKey(key)), findsOneWidget, reason: key);
+    }
+  });
+
+  testWidgets('promoted FABs invoke their distinct primary actions',
+      (tester) async {
+    var random = 0;
+    var looper = 0;
+    var music = 0;
+    var kaleidoscope = 0;
+    var shareImage = 0;
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      onOpenRandomFractal: () => random++,
+      onOpenLooper: () => looper++,
+      onToggleFractalMusic: () => music++,
+      onToggleKaleidoscope: () => kaleidoscope++,
+      onShareImage: () => shareImage++,
+      onOpenWallpaper: () {},
+    );
+
+    for (final entry in const [
+      (key: 'viewerRandomFractalFab', expected: [1, 0, 0, 0, 0]),
+      (key: 'viewerLooperFab', expected: [1, 1, 0, 0, 0]),
+      (key: 'viewerFractalMusicFab', expected: [1, 1, 1, 0, 0]),
+      (key: 'viewerKaleidoscopeFab', expected: [1, 1, 1, 1, 0]),
+      (key: 'viewerShareImageButton', expected: [1, 1, 1, 1, 1]),
+    ]) {
+      await tester.tap(find.byKey(ValueKey(entry.key)));
+      await tester.pump();
+      expect([random, looper, music, kaleidoscope, shareImage], entry.expected,
+          reason: entry.key);
     }
   });
 
@@ -269,10 +302,15 @@ void main() {
     await _pumpControls(tester, isExporting: false, onOpenWallpaper: () {});
 
     const fabKeys = [
-      ValueKey('viewerFullscreenButton'),
-      ValueKey('viewerColorCycleButton'),
       ValueKey('viewerRandomParamsButton'),
+      ValueKey('viewerColorCycleButton'),
+      ValueKey('viewerRandomFractalFab'),
+      ValueKey('viewerLooperFab'),
+      ValueKey('viewerFractalMusicFab'),
+      ValueKey('viewerKaleidoscopeFab'),
+      ValueKey('viewerShareImageButton'),
       ValueKey('viewerExportButton'),
+      ValueKey('viewerFullscreenButton'),
       ValueKey('viewerMoreActionsButton'),
     ];
 
@@ -318,6 +356,11 @@ void main() {
     for (final key in const [
       'viewerRandomParamsButton',
       'viewerColorCycleButton',
+      'viewerRandomFractalFab',
+      'viewerLooperFab',
+      'viewerFractalMusicFab',
+      'viewerKaleidoscopeFab',
+      'viewerShareImageButton',
       'viewerExportButton',
       'viewerFullscreenButton',
       'viewerMoreActionsButton',
@@ -366,34 +409,60 @@ void main() {
         colorFor(const ValueKey('viewerFractalMusicButton')), isNot(musicOff));
   });
 
+  testWidgets('promoted toggle FABs visibly expose their selected state',
+      (tester) async {
+    BoxDecoration decorationFor(String key) => tester
+        .widgetList<Container>(find.descendant(
+          of: find.byKey(ValueKey(key)),
+          matching: find.byType(Container),
+        ))
+        .map((container) => container.decoration)
+        .whereType<BoxDecoration>()
+        .firstWhere((decoration) => decoration.shape == BoxShape.circle);
+
+    await _pumpControls(tester, isExporting: false, onOpenWallpaper: () {});
+    final musicOff = decorationFor('viewerFractalMusicFab');
+    final kaleidoscopeOff = decorationFor('viewerKaleidoscopeFab');
+
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      fractalMusicEnabled: true,
+      kaleidoscopeEnabled: true,
+      onOpenWallpaper: () {},
+    );
+
+    expect(decorationFor('viewerFractalMusicFab').gradient,
+        isNot(musicOff.gradient));
+    expect(decorationFor('viewerKaleidoscopeFab').gradient,
+        isNot(kaleidoscopeOff.gradient));
+  });
+
   testWidgets('quick control FABs expose screen-reader labels', (tester) async {
     final semantics = tester.ensureSemantics();
 
     await _pumpControls(tester, isExporting: false, onOpenWallpaper: () {});
 
     for (final label in const [
-      'Fullscreen view',
-      'Color Scheme. Long press for palette',
       'Controls',
+      'Color Scheme. Long press for palette',
+      'Random Fractal',
+      'Camera looper',
+      'Fractal Music off',
+      'Kaleidoscope off',
+      'Share image',
       'Export / Wallpaper',
+      'Fullscreen view',
       'More options',
     ]) {
       expect(find.bySemanticsLabel(label), findsOneWidget, reason: label);
     }
     await _openMoreActions(tester);
-    for (final label in const [
-      'Kaleidoscope off',
-      'Random Fractal',
-      'Camera looper',
-      'Text overlay off. Tap to add text.',
-      'Fractal Music off',
-    ]) {
-      expect(
-        find.bySemanticsLabel(RegExp(RegExp.escape(label))),
-        findsOneWidget,
-        reason: label,
-      );
-    }
+    expect(
+      find.bySemanticsLabel(
+          RegExp(RegExp.escape('Text overlay off. Tap to add text.'))),
+      findsOneWidget,
+    );
 
     semantics.dispose();
   });
@@ -410,15 +479,12 @@ void main() {
 
     for (final label in const [
       'Esquema de color. Mantén presionado para paleta',
-      'Exportar / Fondo de pantalla',
-    ]) {
-      expect(find.bySemanticsLabel(label), findsOneWidget, reason: label);
-    }
-    await _openMoreActions(tester);
-    for (final label in const [
-      'Kaleidoscopio desactivado',
+      'Fractal aleatorio',
       'Bucle de cámara',
       'Música fractal desactivada',
+      'Kaleidoscopio desactivado',
+      'Compartir imagen',
+      'Exportar / Fondo de pantalla',
     ]) {
       expect(find.bySemanticsLabel(label), findsOneWidget, reason: label);
     }
@@ -641,8 +707,8 @@ void main() {
       0,
       reason: 'the GestureDetector carrying onTap became its own bare stop',
     );
-    expect(labels, hasLength(5), reason: 'one stop per visible FAB');
-    expect(labels.toSet(), hasLength(5), reason: 'labels must be distinct');
+    expect(labels, hasLength(10), reason: 'one stop per visible FAB');
+    expect(labels.toSet(), hasLength(10), reason: 'labels must be distinct');
 
     handle.dispose();
   });
