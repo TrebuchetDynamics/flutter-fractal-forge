@@ -6,6 +6,7 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/viewer/actions/viewer_effects_controller.dart';
 import 'package:flutter_fractals/features/viewer/actions/viewer_music_coordinator.dart';
 import 'package:flutter_fractals/features/viewer/audio/fractal_music_service.dart';
+import 'package:flutter_fractals/features/viewer/audio/fourier_music_features.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vector_math/vector_math_64.dart';
 
@@ -23,6 +24,7 @@ class _FakeMusicService extends FractalMusicService {
   Future<void> play(
     FractalController controller, {
     FractalMusicScanFrame? scanFrame,
+    FourierMusicFeatures? fourierFeatures,
     double startProgress = 0,
     double Function()? startProgressProvider,
     bool Function()? shouldCommit,

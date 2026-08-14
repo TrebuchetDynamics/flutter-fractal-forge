@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -58,9 +59,11 @@ void main() {
 
     Future<void> takeScreenshotIfAvailable(String name) async {
       try {
-        await binding.takeScreenshot(name);
+        await binding.takeScreenshot(name).timeout(const Duration(seconds: 15));
       } on MissingPluginException {
         debugPrint('Screenshot plugin unavailable, skipping "$name"');
+      } on TimeoutException {
+        debugPrint('Screenshot capture timed out, skipping "$name"');
       }
     }
 

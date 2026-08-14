@@ -32,6 +32,8 @@ class FractalViewControlActions {
   final VoidCallback editTextOverlay;
   final VoidCallback openLooper;
   final VoidCallback toggleFractalMusic;
+  final VoidCallback toggleFourier;
+  final VoidCallback openFourierSettings;
   final VoidCallback reportFractal;
   final VoidCallback openWallpaper;
 
@@ -52,6 +54,8 @@ class FractalViewControlActions {
     required this.editTextOverlay,
     required this.openLooper,
     required this.toggleFractalMusic,
+    required this.toggleFourier,
+    required this.openFourierSettings,
     required this.reportFractal,
     required this.openWallpaper,
   });
@@ -64,6 +68,7 @@ class FractalViewControls extends StatelessWidget {
   final int kaleidoscopeSectors;
   final bool kaleidoscopeMirror;
   final bool fractalMusicEnabled;
+  final bool fourierEnabled;
   final bool textOverlayEnabled;
   final bool showFractalReport;
   final FractalViewControlActions actions;
@@ -76,6 +81,7 @@ class FractalViewControls extends StatelessWidget {
     required this.kaleidoscopeSectors,
     required this.kaleidoscopeMirror,
     required this.fractalMusicEnabled,
+    required this.fourierEnabled,
     required this.textOverlayEnabled,
     this.showFractalReport = false,
     required this.actions,
@@ -306,6 +312,18 @@ class FractalViewControls extends StatelessWidget {
               : l10n.tooltipFractalMusicOff,
           selected: fractalMusicEnabled,
           onTap: actions.toggleFractalMusic,
+        ),
+        _ActionTile(
+          key: const ValueKey('viewerFourierButton'),
+          secondaryActionKey: const ValueKey('viewerFourierOptionsButton'),
+          secondaryIcon: Icons.tune_rounded,
+          icon: Icons.blur_on_rounded,
+          label:
+              fourierEnabled ? l10n.tooltipFourierOn : l10n.tooltipFourierOff,
+          description: l10n.fourierOptionsDescription,
+          selected: fourierEnabled,
+          onTap: actions.toggleFourier,
+          onLongPress: actions.openFourierSettings,
         ),
       ],
     );

@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
+import 'fourier_music_features.dart';
 import 'fractal_music_web_player_stub.dart'
     if (dart.library.html) 'fractal_music_web_player_html.dart';
 
@@ -426,6 +427,7 @@ class FractalMusicService {
   Future<void> play(
     FractalController controller, {
     FractalMusicScanFrame? scanFrame,
+    FourierMusicFeatures? fourierFeatures,
     double startProgress = 0,
     double Function()? startProgressProvider,
     bool Function()? shouldCommit,
@@ -482,6 +484,7 @@ class FractalMusicService {
           zoom: controller.view.zoom,
           identity: identity,
           motion: motion,
+          fourierFeatures: fourierFeatures,
         );
       } else {
         bytes = await _buildFractalMusicWavAsync(
@@ -891,19 +894,35 @@ Future<Uint8List> _buildFractalMusicScanWavAsync({
   required double zoom,
   required FractalMusicIdentity identity,
   required double motion,
-}) =>
-    compute(_buildFractalMusicScanWavInBackground, <String, Object>{
-      'rgba': scanFrame.rgba,
-      'width': scanFrame.width,
-      'height': scanFrame.height,
-      'zoom': zoom,
-      'rootSemitones': identity.rootSemitones,
-      'major': identity.major,
-      'registerSemitones': identity.registerSemitones,
-      'bpm': identity.bpm,
-      'progressionIndex': identity.progressionIndex,
-      'motion': motion,
-    });
+  FourierMusicFeatures? fourierFeatures,
+}) {
+  final request = <String, Object>{
+    'rgba': scanFrame.rgba,
+    'width': scanFrame.width,
+    'height': scanFrame.height,
+    'zoom': zoom,
+    'rootSemitones': identity.rootSemitones,
+    'major': identity.major,
+    'registerSemitones': identity.registerSemitones,
+    'bpm': identity.bpm,
+    'progressionIndex': identity.progressionIndex,
+    'motion': motion,
+  };
+  if (fourierFeatures != null && !fourierFeatures.isSilent) {
+    request['fourierFeatures'] = <double>[
+      fourierFeatures.bassWeight,
+      fourierFeatures.padOpenness,
+      fourierFeatures.highTexture,
+      fourierFeatures.leadRegister,
+      fourierFeatures.rhythmicComplexity,
+      fourierFeatures.stereoBias,
+      fourierFeatures.transitionStrength,
+      fourierFeatures.orientation,
+      fourierFeatures.anisotropy,
+    ];
+  }
+  return compute(_buildFractalMusicScanWavInBackground, request);
+}
 
 Uint8List _buildFractalMusicScanWavInBackground(Map<String, Object> request) =>
     buildFractalMusicScanWav(
@@ -921,6 +940,21 @@ Uint8List _buildFractalMusicScanWavInBackground(Map<String, Object> request) =>
         progressionIndex: request['progressionIndex']! as int,
       ),
       motion: request['motion']! as double,
+      fourierFeatures: switch (request['fourierFeatures']) {
+        final List<Object?> values => FourierMusicFeatures(
+            bassWeight: values[0]! as double,
+            padOpenness: values[1]! as double,
+            highTexture: values[2]! as double,
+            leadRegister: values[3]! as double,
+            rhythmicComplexity: values[4]! as double,
+            stereoBias: values[5]! as double,
+            transitionStrength: values[6]! as double,
+            orientation: values[7]! as double,
+            anisotropy: values[8]! as double,
+            isSilent: false,
+          ),
+        _ => null,
+      },
     );
 
 Future<Uint8List> _rotateFractalMusicWavAsync(
@@ -1027,6 +1061,7 @@ Uint8List buildFractalMusicScanWav({
   required FractalMusicScanFrame scanFrame,
   required double zoom,
   FractalMusicIdentity? identity,
+  FourierMusicFeatures? fourierFeatures,
   double motion = 0,
   int sampleRate = 22050,
   double seconds = fractalMusicLoopSeconds,
@@ -1067,11 +1102,13 @@ Uint8List buildFractalMusicScanWav({
     sampleCount: sampleCount,
     sampleRate: sampleRate,
     seconds: seconds,
+    fourierFeatures: fourierFeatures,
   );
   return _renderScore(
     score,
     sampleCount: sampleCount,
     sampleRate: sampleRate,
+    stereoBias: fourierFeatures?.stereoBias ?? 0,
   );
 }
 
@@ -1180,6 +1217,7 @@ List<_MusicEvent> _composeScanScore({
   required int sampleCount,
   required int sampleRate,
   required double seconds,
+  FourierMusicFeatures? fourierFeatures,
 }) {
   if (sampleCount <= 0) return const [];
   final rootSemitones = identity.rootSemitones;
@@ -1187,7 +1225,21 @@ List<_MusicEvent> _composeScanScore({
   final scale = major ? _visualMajorDiatonic : _visualMinorDiatonic;
   // Brighter images sing higher. Octave steps only, so the chord keeps its
   // pitch classes; the bass stays anchored so the low end does not move.
-  final register = identity.registerSemitones;
+  final register = identity.registerSemitones +
+      (fourierFeatures == null
+          ? 0
+          : ((fourierFeatures.leadRegister - 0.5) * 2).round() * 12);
+  final bassScale =
+      fourierFeatures == null ? 1.0 : 0.7 + fourierFeatures.bassWeight * 0.6;
+  final padScale =
+      fourierFeatures == null ? 1.0 : 0.7 + fourierFeatures.padOpenness * 0.6;
+  final textureScale =
+      fourierFeatures == null ? 1.0 : 0.55 + fourierFeatures.highTexture * 0.9;
+  final rhythmComplexity = fourierFeatures?.rhythmicComplexity ?? 0.5;
+  final effectiveMotion = math.max(
+    motion,
+    (fourierFeatures?.transitionStrength ?? 0) * 0.4,
+  );
   // The pad is the bridge between the anchored bass and the melody, so it only
   // follows the register lift as far as one octave. Letting it take the full
   // two leaves a hole in the middle of the spectrum: measured on a bright
@@ -1306,7 +1358,7 @@ List<_MusicEvent> _composeScanScore({
       startSample: barStart,
       sustainSamples: barSustain,
       midi: bassMidi,
-      velocity: barVelocity,
+      velocity: (barVelocity * bassScale).clamp(0.0, 1.15),
       harmonicBoost: harmonicBoost * 0.5,
       voice: _MusicVoice.bass,
     ));
@@ -1320,7 +1372,7 @@ List<_MusicEvent> _composeScanScore({
         startSample: barStart,
         sustainSamples: barSustain,
         midi: chordRootMidi + lift + tone,
-        velocity: barVelocity * 0.8,
+        velocity: (barVelocity * 0.8 * padScale).clamp(0.0, 1.15),
         harmonicBoost: harmonicBoost,
         voice: _MusicVoice.pad,
       ));
@@ -1346,7 +1398,9 @@ List<_MusicEvent> _composeScanScore({
       // subdivision appears. Motion gives the next bar a slightly stronger
       // pickup without changing harmony.
       final drumLength = math.max(1, (sampleRate * 0.16).round());
-      final drumVelocity = (0.30 + summary.energy * 0.48).clamp(0.0, 0.78);
+      final drumVelocity =
+          (0.26 + summary.energy * 0.42 + rhythmComplexity * 0.12)
+              .clamp(0.0, 0.80);
       events.add(_MusicEvent(
         startSample: beatStart,
         sustainSamples: drumLength,
@@ -1355,7 +1409,7 @@ List<_MusicEvent> _composeScanScore({
         harmonicBoost: summary.detail,
         voice: _MusicVoice.percussion,
       ));
-      if (summary.detail >= 0.08) {
+      if (summary.detail >= 0.12 * (1 - rhythmComplexity * 0.65)) {
         final halfBeat = ((beatEnd - beatStart) * 0.5).round();
         for (final offset in [0, halfBeat]) {
           if (beatStart + offset >= contentEnd) continue;
@@ -1363,9 +1417,10 @@ List<_MusicEvent> _composeScanScore({
             startSample: beatStart + offset,
             sustainSamples: math.max(1, (sampleRate * 0.07).round()),
             midi: 42,
-            velocity:
-                (0.16 + summary.detail * 0.30 + (closesBar ? motion * 0.10 : 0))
-                    .clamp(0.0, 0.52),
+            velocity: (0.16 +
+                    summary.detail * 0.30 +
+                    (closesBar ? effectiveMotion * 0.10 : 0))
+                .clamp(0.0, 0.52),
             harmonicBoost: summary.detail,
             voice: _MusicVoice.percussion,
           ));
@@ -1375,7 +1430,7 @@ List<_MusicEvent> _composeScanScore({
       if (closesBar) {
         // A still view leaves the bar's last beat empty so the cadence stays
         // audible. A moving one fills it with a pickup into the next chord.
-        if (motion < _musicFillMotionThreshold) continue;
+        if (effectiveMotion < _musicFillMotionThreshold) continue;
         final tonicMidi = 45 + zoomOctave * 12 + rootSemitones;
         final nextBar = barCount <= 1 ? 0 : (bar + 1) % barCount;
         final nextChordRoot =
@@ -1473,13 +1528,13 @@ List<_MusicEvent> _composeScanScore({
         ));
       }
 
-      if (summary.detail >= 0.08) {
+      if (summary.detail >= 0.12 * (1 - rhythmComplexity * 0.65)) {
         events.add(_MusicEvent(
           startSample: beatStart,
           sustainSamples: math.max(1, (samplesPerBeat * 0.25).round()),
           // Texture stays one octave over the final voice-led melody note.
           midi: voicedLead + 12,
-          velocity: summary.detail.clamp(0.0, 1.0),
+          velocity: (summary.detail * textureScale).clamp(0.0, 1.0),
           harmonicBoost: 0.0,
           voice: _MusicVoice.texture,
         ));
@@ -1502,6 +1557,7 @@ Uint8List _renderScore(
   List<_MusicEvent> events, {
   required int sampleCount,
   required int sampleRate,
+  double stereoBias = 0,
 }) {
   final left = Int16List(sampleCount);
   final right = Int16List(sampleCount);
@@ -1567,7 +1623,8 @@ Uint8List _renderScore(
     // while remaining monotonic so bright images still sound louder than dim.
     final limited = _masterMusicBusValue(value);
     final angle = i / sampleCount * math.pi * 2 - math.pi / 2;
-    final pan = math.cos(angle) * 0.72;
+    final pan = (math.cos(angle) * 0.72 + stereoBias.clamp(-1.0, 1.0) * 0.2)
+        .clamp(-0.92, 0.92);
     left[i] = _toPcm16(limited, math.sqrt((1 - pan) * 0.5));
     right[i] = _toPcm16(limited, math.sqrt((1 + pan) * 0.5));
   }
@@ -1729,6 +1786,7 @@ List<({int startSample, int midi, String voice})>
   required FractalMusicScanFrame scanFrame,
   required double zoom,
   required FractalMusicIdentity identity,
+  FourierMusicFeatures? fourierFeatures,
   double motion = 0,
   int sampleRate = 22050,
   double seconds = fractalMusicLoopSeconds,
@@ -1756,6 +1814,7 @@ List<({int startSample, int midi, String voice})>
     sampleCount: (sampleRate * seconds).round(),
     sampleRate: sampleRate,
     seconds: seconds,
+    fourierFeatures: fourierFeatures,
   );
   return events
       .map((event) => (

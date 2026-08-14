@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
+import 'package:flutter_fractals/features/viewer/audio/fourier_music_features.dart';
 import 'package:flutter_fractals/features/viewer/audio/fractal_music_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -697,7 +698,8 @@ void main() {
     // At Float32's largest finite input, IEEE-754 rounding may land exactly on
     // the mathematical asymptote even though all practical inputs stay below it.
     expect(asymptoticOutput, lessThanOrEqualTo(1 / 0.35));
-    final maximumPanGain = math.sqrt((1 + 0.72) * 0.5);
+    // Base panning can reach 0.72 and bounded Fourier modulation adds 0.20.
+    final maximumPanGain = math.sqrt((1 + 0.92) * 0.5);
     const pcmScale = 10000.0;
     final worstCasePcm = asymptoticOutput * maximumPanGain * pcmScale;
     expect(worstCasePcm, lessThan(32767));
@@ -728,6 +730,45 @@ void main() {
 
     expect(_pcmClippedSamples(wav), 0);
     expect(_pcmPeak(wav), lessThan(30000));
+  });
+
+  test('hostile Fourier stereo extremes preserve PCM headroom', () {
+    const size = 64;
+    final frame = Uint8List(size * size * 4);
+    for (var offset = 0; offset < frame.length; offset += 4) {
+      final value = (offset ~/ 4).isEven ? 255 : 96;
+      frame[offset] = value;
+      frame[offset + 1] = value;
+      frame[offset + 2] = value;
+      frame[offset + 3] = 255;
+    }
+    final scan = FractalMusicScanFrame(
+      rgba: frame,
+      width: size,
+      height: size,
+    );
+
+    for (final stereoBias in const [-1.0, 1.0]) {
+      final wav = buildFractalMusicScanWav(
+        scanFrame: scan,
+        zoom: 256,
+        motion: 1,
+        fourierFeatures: FourierMusicFeatures(
+          bassWeight: 1,
+          padOpenness: 1,
+          highTexture: 1,
+          leadRegister: 1,
+          rhythmicComplexity: 1,
+          stereoBias: stereoBias,
+          transitionStrength: 1,
+          orientation: 0,
+          anisotropy: 1,
+          isSilent: false,
+        ),
+      );
+      expect(_pcmClippedSamples(wav), 0, reason: 'stereoBias=$stereoBias');
+      expect(_pcmPeak(wav), lessThan(30000), reason: 'stereoBias=$stereoBias');
+    }
   });
 
   test('sustained voices carry across beat boundaries', () {

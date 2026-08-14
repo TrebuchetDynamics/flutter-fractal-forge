@@ -47,6 +47,7 @@ import 'package:flutter_fractals/features/renderer/policy/backend_policy.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import 'package:flutter_fractals/core/services/storage/viewer_session_store.dart';
 import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
+import 'package:flutter_fractals/features/renderer/models/fractal_render_snapshot.dart';
 import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
@@ -58,9 +59,17 @@ import 'package:flutter_fractals/features/viewer/export/viewer_export_feedback.d
 import 'package:flutter_fractals/features/viewer/export/viewer_export_overlay.dart';
 import 'package:flutter_fractals/features/viewer/rendering/compare_renderer.dart';
 import 'package:flutter_fractals/features/viewer/rendering/cpu_fallback_pane.dart';
+import 'package:flutter_fractals/features/fourier/lab/fractal_uncertainty_lab_screen.dart';
+import 'package:flutter_fractals/features/fourier/services/fourier_analysis_backend.dart';
+import 'package:flutter_fractals/features/fourier/services/fourier_analysis_controller.dart';
+import 'package:flutter_fractals/features/fourier/services/fourier_backend_lease.dart';
+import 'package:flutter_fractals/features/fourier/services/fourier_offscreen_renderer.dart';
+import 'package:flutter_fractals/features/fourier/widgets/fourier_settings_sheet.dart';
+import 'package:flutter_fractals/features/fourier/widgets/fourier_spectrum_view.dart';
 import 'package:flutter_fractals/features/viewer/actions/viewer_effects_controller.dart';
 import 'package:flutter_fractals/features/viewer/audio/fractal_music_scan_overlay.dart';
 import 'package:flutter_fractals/features/viewer/audio/fractal_music_service.dart';
+import 'package:flutter_fractals/features/viewer/audio/fourier_music_features.dart';
 import 'package:flutter_fractals/features/viewer/export/viewer_export_session.dart';
 import 'package:flutter_fractals/features/viewer/overlays/auto_pilot_alignment_overlay.dart';
 import 'package:flutter_fractals/features/viewer/diagnostics/gpu_health_probe.dart';
@@ -115,6 +124,9 @@ String _reportTagLabel(AppLocalizations l10n, String tag) {
   }
 }
 
+typedef FourierAnalysisBackendFactory = Future<FourierAnalysisBackend>
+    Function();
+
 class FractalViewerScreen extends StatefulWidget {
   /// Chrome-free capture mode for marketing/launch stills.
   ///
@@ -149,6 +161,9 @@ class FractalViewerScreen extends StatefulWidget {
   /// precedence over any stale process-restoration snapshot.
   final bool restoreViewerSession;
 
+  /// Worker seam used by lifecycle tests; production uses one isolate backend.
+  final FourierAnalysisBackendFactory fourierBackendFactory;
+
   const FractalViewerScreen({
     Key? key,
     this.captureMode = false,
@@ -156,6 +171,7 @@ class FractalViewerScreen extends StatefulWidget {
     this.exportService,
     this.wallpaperService,
     this.restoreViewerSession = true,
+    this.fourierBackendFactory = IsolateFourierAnalysisBackend.spawn,
   }) : super(key: key);
 
   @override
@@ -198,6 +214,31 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   bool _fullscreenUnobtrusive = false;
   bool _showControlsHud = false;
   final TextOverlayController _textOverlay = TextOverlayController();
+  bool _fourierEnabled = false;
+  bool _fourierMusicEnabled = false;
+  bool _fourierApplyHann = true;
+  bool _fourierRemoveDc = true;
+  FourierDisplayMode _fourierDisplayMode = FourierDisplayMode.split;
+  FourierResolution _fourierResolution = FourierResolution.auto;
+  FourierAnalysisController? _fourierController;
+  final FourierBackendLease _fourierBackendLease = FourierBackendLease();
+  final FourierOffscreenRenderer _fourierOffscreenRenderer =
+      FourierOffscreenRenderer();
+  final FractalRenderSnapshotSink _fourierRenderSnapshotSink =
+      FractalRenderSnapshotSink();
+  Timer? _fourierCaptureTimer;
+  ui.Image? _fourierSpectrumImage;
+  int _fourierGeneration = 0;
+  int _displayedFourierGeneration = -1;
+  int _loggedFourierAttemptGeneration = -1;
+  bool _fourierCaptureInFlight = false;
+  DateTime? _lastFourierCaptureAt;
+  final FourierMusicFeatureSmoother _fourierMusicSmoother =
+      FourierMusicFeatureSmoother();
+  final FourierMusicDecisionController _fourierMusicDecisionController =
+      FourierMusicDecisionController();
+  FourierMusicFeatures? _currentFourierMusicFeatures;
+  int _lastFourierMusicBar = -1;
 
   // History tracking
   FractalController? _lastController;
@@ -253,6 +294,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         _syncFractalMusicScanAnimation(enabled);
       },
       scanProgress: () => _musicScanController.value,
+      currentFourierFeatures: () =>
+          _fourierMusicEnabled ? _currentFourierMusicFeatures : null,
       notifyState: () {
         if (!mounted) return;
         setState(() {});
@@ -269,9 +312,19 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     }
     final visible = state == AppLifecycleState.resumed;
     if (_appVisible == visible) return;
+    if (!visible) {
+      _fourierCaptureTimer?.cancel();
+      _fourierCaptureTimer = null;
+    }
     setState(() {
       _appVisible = visible;
     });
+    if (visible && _fourierEnabled && _fourierController != null) {
+      _startFourierCaptureTimer();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        unawaited(_captureFourierFrame());
+      });
+    }
   }
 
   @override
@@ -366,6 +419,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       controller,
       moduleChanged: moduleChanged,
     );
+    if (_fourierEnabled) {
+      unawaited(_captureFourierFrame(throttled: true));
+    }
 
     if (moduleChanged) {
       _log.logState('action', 'Module changed', {
@@ -426,6 +482,12 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     WidgetsBinding.instance.removeObserver(this);
     _gpuHealthTimer?.cancel();
     _backendDebounceTimer?.cancel();
+    _fourierBackendLease.invalidate();
+    _fourierCaptureTimer?.cancel();
+    _fourierController?.removeListener(_onFourierAnalysisChanged);
+    _fourierController?.dispose();
+
+    _fourierSpectrumImage?.dispose();
     _musicCoordinator.dispose();
     _lastController?.removeListener(_onControllerChanged);
     _sessionTracker?.end();
@@ -557,6 +619,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     final result = await _viewerEffects.toggleFractalMusic(
       controller,
       scanFrame: scanFrame,
+      fourierFeatures:
+          _fourierMusicEnabled ? _currentFourierMusicFeatures : null,
     );
     if (!mounted) return;
 
@@ -630,6 +694,392 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     } catch (_) {
       return null;
     }
+  }
+
+  Future<void> _toggleFourier() async {
+    if (_fourierEnabled) {
+      _disableFourier();
+      return;
+    }
+    final activationGeneration = _fourierBackendLease.begin();
+    setState(() => _fourierEnabled = true);
+    try {
+      final backend = await _fourierBackendLease.acquire(
+        generation: activationGeneration,
+        factory: widget.fourierBackendFactory,
+        isActive: () => mounted && _fourierEnabled,
+      );
+      if (backend == null) return;
+      final controller = FourierAnalysisController(backend: backend)
+        ..addListener(_onFourierAnalysisChanged);
+      _log.debug('fourier', 'Analysis worker ready');
+      setState(() => _fourierController = controller);
+      _startFourierCaptureTimer();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        unawaited(_captureFourierFrame());
+      });
+      AccessibilityService.announce(
+        AppLocalizations.of(context)?.tooltipFourierOn ?? 'Fourier view on',
+      );
+    } catch (error) {
+      if (!mounted) return;
+      _disableFourier();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            '${AppLocalizations.of(context)?.fourierUnavailable ?? 'Fourier analysis unavailable'}: $error',
+          ),
+        ),
+      );
+    }
+  }
+
+  void _disableFourier() {
+    _fourierBackendLease.invalidate();
+    _fourierCaptureTimer?.cancel();
+    _fourierCaptureTimer = null;
+    final controller = _fourierController;
+    controller?.removeListener(_onFourierAnalysisChanged);
+    controller?.dispose();
+    _fourierController = null;
+    _fourierCaptureInFlight = false;
+    _displayedFourierGeneration = -1;
+    final image = _fourierSpectrumImage;
+    _fourierSpectrumImage = null;
+    image?.dispose();
+    _fourierMusicEnabled = false;
+    _clearFourierMusicModulation();
+    if (mounted) setState(() => _fourierEnabled = false);
+  }
+
+  void _startFourierCaptureTimer() {
+    _fourierCaptureTimer?.cancel();
+    if (!_appVisible || !_fourierEnabled || _fourierController == null) return;
+    _fourierCaptureTimer = Timer.periodic(
+      const Duration(milliseconds: 450),
+      (_) => unawaited(_captureFourierFrame()),
+    );
+  }
+
+  void _clearFourierMusicModulation() {
+    final hadFeatures = _currentFourierMusicFeatures != null;
+    _fourierMusicSmoother.reset();
+    _fourierMusicDecisionController.reset();
+    _lastFourierMusicBar = -1;
+    _currentFourierMusicFeatures = null;
+    if (hadFeatures &&
+        mounted &&
+        _viewerEffects.fractalMusicEnabled &&
+        _lastController != null) {
+      _musicCoordinator.scheduleRescan(_lastController!);
+    }
+  }
+
+  Future<ui.Image?> _captureBoundaryAfterPaint(
+    GlobalKey boundaryKey,
+    double pixelRatio,
+  ) {
+    final completer = Completer<ui.Image?>();
+    var remainingAttempts = 4;
+
+    void attempt(Duration _) {
+      if (!mounted || !_fourierEnabled) {
+        if (!completer.isCompleted) completer.complete();
+        return;
+      }
+      final renderObject = boundaryKey.currentContext?.findRenderObject();
+      if (renderObject is! RenderRepaintBoundary ||
+          !renderObject.attached ||
+          !renderObject.hasSize) {
+        if (!completer.isCompleted) completer.complete();
+        return;
+      }
+      if (renderObject.debugNeedsPaint && remainingAttempts-- > 0) {
+        WidgetsBinding.instance.addPostFrameCallback(attempt);
+        WidgetsBinding.instance.scheduleFrame();
+        return;
+      }
+      if (renderObject.debugNeedsPaint) {
+        completer.completeError(StateError('analysis boundary stayed dirty'));
+        return;
+      }
+      try {
+        renderObject.toImage(pixelRatio: pixelRatio).then(
+              completer.complete,
+              onError: completer.completeError,
+            );
+      } catch (error, stackTrace) {
+        completer.completeError(error, stackTrace);
+      }
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback(attempt);
+    WidgetsBinding.instance.scheduleFrame();
+    return completer.future.timeout(const Duration(seconds: 2));
+  }
+
+  Future<void> _captureFourierFrame({bool throttled = false}) async {
+    final controller = _fourierController;
+    if (!_fourierEnabled ||
+        !_appVisible ||
+        controller == null ||
+        controller.processing ||
+        _fourierCaptureInFlight) {
+      return;
+    }
+    final now = DateTime.now();
+    if (throttled &&
+        _lastFourierCaptureAt != null &&
+        now.difference(_lastFourierCaptureAt!) <
+            const Duration(milliseconds: 250)) {
+      return;
+    }
+    _fourierCaptureInFlight = true;
+    _lastFourierCaptureAt = now;
+    try {
+      if (!mounted || !_fourierEnabled) return;
+      ui.Image? image;
+      if (_backendDecision.backend == RendererBackend.gpu) {
+        final snapshot = _fourierRenderSnapshotSink.snapshot;
+        if (snapshot == null) return;
+        final targetDimension = _fourierResolution.pixels ?? 128;
+        final screen = MediaQuery.sizeOf(context);
+        final landscape = screen.width > screen.height;
+        final paneWidth =
+            _fourierDisplayMode == FourierDisplayMode.split && landscape
+                ? screen.width / 2
+                : screen.width;
+        final paneHeight =
+            _fourierDisplayMode == FourierDisplayMode.split && !landscape
+                ? screen.height / 2
+                : screen.height;
+        final width = paneWidth >= paneHeight
+            ? targetDimension
+            : math.max(8, (targetDimension * paneWidth / paneHeight).round());
+        final height = paneHeight > paneWidth
+            ? targetDimension
+            : math.max(8, (targetDimension * paneHeight / paneWidth).round());
+        image = await _fourierOffscreenRenderer.render(
+          snapshot: snapshot,
+          width: width,
+          height: height,
+        );
+      } else {
+        final pixelRatio = switch (_fourierResolution) {
+          FourierResolution.pixels256 => 0.5,
+          _ => 0.25,
+        };
+        image = await _captureBoundaryAfterPaint(
+          _activeBoundaryKey(),
+          pixelRatio,
+        );
+      }
+      if (image == null) return;
+      try {
+        final data = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
+        if (data == null || !mounted || !_fourierEnabled) return;
+        final generation = ++_fourierGeneration;
+        _log.debug('fourier', 'Submitting viewport spectrum', data: {
+          'generation': generation,
+          'width': image.width,
+          'height': image.height,
+        });
+        controller.submit(
+          FourierWorkerRequest(
+            generation: generation,
+            rgba: Uint8List.fromList(
+              data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
+            ),
+            width: image.width,
+            height: image.height,
+            maxDimension: _fourierResolution.pixels ?? 128,
+            removeDc: _fourierRemoveDc,
+            applyHann: _fourierApplyHann,
+          ),
+        );
+      } finally {
+        image.dispose();
+      }
+    } catch (error) {
+      _log.debug('fourier', 'Viewport capture failed',
+          data: {'error': '$error'});
+    } finally {
+      _fourierCaptureInFlight = false;
+    }
+  }
+
+  void _onFourierAnalysisChanged() {
+    final analysisController = _fourierController;
+    final result = analysisController?.result;
+    final attempt = analysisController?.latestAttempt;
+    if (attempt != null &&
+        attempt.generation > _loggedFourierAttemptGeneration) {
+      _loggedFourierAttemptGeneration = attempt.generation;
+      _log.debug('fourier', 'Analysis attempt complete', data: {
+        'generation': attempt.generation,
+        'blank': attempt.blank,
+        'elapsedMicroseconds': attempt.elapsedMicroseconds,
+        'captureMean': attempt.features.captureMean,
+        'captureVariance': attempt.features.captureVariance,
+        'alphaCoverage': attempt.features.alphaCoverage,
+      });
+    }
+    if (analysisController?.error case final error?) {
+      _log.debug('fourier', 'Analysis failed', data: {'error': '$error'});
+      _clearFourierMusicModulation();
+    }
+    if (attempt != null &&
+        attempt.blank &&
+        attempt.generation > (result?.generation ?? -1)) {
+      _clearFourierMusicModulation();
+    }
+    if (!mounted ||
+        result == null ||
+        result.generation <= _displayedFourierGeneration) {
+      if (mounted) setState(() {});
+      return;
+    }
+    _displayedFourierGeneration = result.generation;
+    _log.debug('fourier', 'Analysis complete', data: {
+      'generation': result.generation,
+      'blank': result.blank,
+      'elapsedMicroseconds': result.elapsedMicroseconds,
+      'width': result.width,
+      'height': result.height,
+    });
+    if (_fourierMusicEnabled && !result.blank) {
+      final measured = result.features;
+      final mapped = const FourierMusicFeatureMapper().map(
+        FourierMusicSpectrumFrame(
+          lowPowerRatio: measured.lowPowerRatio,
+          midPowerRatio: measured.midPowerRatio,
+          highPowerRatio: measured.highPowerRatio,
+          centroid: measured.centroid,
+          entropy: measured.entropy,
+          flatness: measured.flatness,
+          orientation: measured.dominantOrientation,
+          anisotropy: measured.orientationStrength,
+          spectralFlux: measured.spectralFlux,
+        ),
+      );
+      final smoothed = _fourierMusicSmoother.update(mapped);
+      // The 24-second loop has four musical bars. Structural Fourier choices
+      // commit only when the scanner enters a new bar, preventing capture noise
+      // from regenerating the score between bar boundaries.
+      final bar = (_musicScanController.value * 4).floor().clamp(0, 3);
+      if (bar != _lastFourierMusicBar) {
+        _lastFourierMusicBar = bar;
+        final decisions = _fourierMusicDecisionController.update(
+          smoothed,
+          isBarBoundary: true,
+        );
+        final next = FourierMusicFeatures(
+          bassWeight: smoothed.bassWeight,
+          padOpenness: smoothed.padOpenness,
+          highTexture: smoothed.highTexture,
+          leadRegister: decisions.registerBand.index / 2,
+          rhythmicComplexity: decisions.rhythmDensity.index / 2,
+          stereoBias: smoothed.stereoBias,
+          transitionStrength: smoothed.transitionStrength,
+          orientation: smoothed.orientation,
+          anisotropy: smoothed.anisotropy,
+          isSilent: smoothed.isSilent,
+        );
+        final previous = _currentFourierMusicFeatures;
+        _currentFourierMusicFeatures = next;
+        if (_viewerEffects.fractalMusicEnabled &&
+            _fourierMusicDiffers(previous, next)) {
+          _musicCoordinator.scheduleRescan(_activeController(context));
+        }
+      }
+    }
+    ui.decodeImageFromPixels(
+      result.spectrumRgba,
+      result.width,
+      result.height,
+      ui.PixelFormat.rgba8888,
+      (image) {
+        if (!mounted ||
+            !_fourierEnabled ||
+            result.generation != _displayedFourierGeneration) {
+          image.dispose();
+          return;
+        }
+        final previous = _fourierSpectrumImage;
+        setState(() => _fourierSpectrumImage = image);
+        previous?.dispose();
+      },
+    );
+  }
+
+  bool _fourierMusicDiffers(
+    FourierMusicFeatures? previous,
+    FourierMusicFeatures next,
+  ) {
+    if (previous == null || previous.isSilent != next.isSilent) return true;
+    final before = previous.normalizedValues;
+    final after = next.normalizedValues;
+    for (var index = 0; index < before.length; index++) {
+      if ((before[index] - after[index]).abs() >= 0.04) return true;
+    }
+    return (previous.stereoBias - next.stereoBias).abs() >= 0.08;
+  }
+
+  Future<void> _openFourierSettings() async {
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (sheetContext) => StatefulBuilder(
+        builder: (sheetContext, setSheetState) {
+          void update(VoidCallback change) {
+            setState(change);
+            setSheetState(() {});
+            if (_fourierEnabled) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                unawaited(_captureFourierFrame());
+              });
+            }
+          }
+
+          return FourierSettingsSheet(
+            displayMode: _fourierDisplayMode,
+            resolution: _fourierResolution,
+            applyHann: _fourierApplyHann,
+            removeDc: _fourierRemoveDc,
+            fourierMusicEnabled: _fourierMusicEnabled,
+            onDisplayModeChanged: (value) =>
+                update(() => _fourierDisplayMode = value),
+            onResolutionChanged: (value) =>
+                update(() => _fourierResolution = value),
+            onApplyHannChanged: (value) =>
+                update(() => _fourierApplyHann = value),
+            onRemoveDcChanged: (value) =>
+                update(() => _fourierRemoveDc = value),
+            onFourierMusicChanged: (value) {
+              update(() {
+                _fourierMusicEnabled = value;
+                if (!value) {
+                  _fourierMusicSmoother.reset();
+                  _currentFourierMusicFeatures = null;
+                }
+              });
+              if (_viewerEffects.fractalMusicEnabled) {
+                _musicCoordinator.scheduleRescan(_activeController(context));
+              }
+            },
+            onOpenUncertaintyLab: () {
+              Navigator.of(sheetContext).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => const FractalUncertaintyLabScreen(),
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
   }
 
   void _toggleFullscreenUnobtrusive() {
@@ -1099,13 +1549,26 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
           body: LayoutBuilder(
             builder: (context, constraints) {
               final activeController = _activeController(context);
+              final landscape = constraints.maxWidth > constraints.maxHeight;
               final topInset = MediaQuery.of(context).padding.top;
               final overlayTop = topInset + 56;
 
               return Stack(
                 children: [
                   // Fractal renderer (single or compare)
-                  Positioned.fill(
+                  Positioned(
+                    left: 0,
+                    top: 0,
+                    right: _fourierEnabled &&
+                            _fourierDisplayMode == FourierDisplayMode.split &&
+                            landscape
+                        ? constraints.maxWidth / 2
+                        : 0,
+                    bottom: _fourierEnabled &&
+                            _fourierDisplayMode == FourierDisplayMode.split &&
+                            !landscape
+                        ? constraints.maxHeight / 2
+                        : 0,
                     child: _compareMode
                         ? CompareRenderer(
                             keyA: _fractalKeyA,
@@ -1162,6 +1625,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                                 boundaryKey: _fractalKeyA,
                                 renderPlan: _currentRendererPlan(controller),
                                 animationEnabled: _liveRenderingEnabled,
+                                renderSnapshotSink: _fourierRenderSnapshotSink,
                                 onOpenControls: _usesCoreViewerChrome
                                     ? () => _toggleControlsHud()
                                     : null,
@@ -1178,6 +1642,55 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                                     _onAutoExploreUserInteractionEnd,
                               )),
                   ),
+
+                  if (_fourierEnabled)
+                    Positioned(
+                      left: 12,
+                      top: 12,
+                      child: _FourierPaneLabel(l10n.fourierSpatialPane),
+                    ),
+
+                  if (_fourierEnabled)
+                    Positioned(
+                      left: _fourierDisplayMode == FourierDisplayMode.split &&
+                              landscape
+                          ? constraints.maxWidth / 2
+                          : 0,
+                      top: _fourierDisplayMode == FourierDisplayMode.split &&
+                              !landscape
+                          ? constraints.maxHeight / 2
+                          : 0,
+                      right: 0,
+                      bottom: 0,
+                      child: AbsorbPointer(
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            border: Border.all(color: Colors.white24),
+                          ),
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              FourierSpectrumView(
+                                image: _fourierSpectrumImage,
+                                features: _fourierController?.result?.features,
+                                processing:
+                                    _fourierController?.processing ?? true,
+                                unavailable:
+                                    _fourierController?.unavailable ?? false,
+                              ),
+                              Positioned(
+                                left: 12,
+                                top: 12,
+                                child: _FourierPaneLabel(
+                                  l10n.fourierSpectrumPane,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
 
                   if (_viewerEffects.fractalMusicEnabled)
                     Positioned.fill(
@@ -1365,6 +1878,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                             activeController.kaleidoscopeSectors,
                         kaleidoscopeMirror: activeController.kaleidoscopeMirror,
                         fractalMusicEnabled: _viewerEffects.fractalMusicEnabled,
+                        fourierEnabled: _fourierEnabled,
                         textOverlayEnabled: _textOverlay.enabled,
                         showFractalReport:
                             !kIsWeb && (Platform.isLinux || Platform.isAndroid),
@@ -1398,6 +1912,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                           editTextOverlay: _editTextOverlay,
                           openLooper: () => _openLooper(context),
                           toggleFractalMusic: _toggleFractalMusic,
+                          toggleFourier: _toggleFourier,
+                          openFourierSettings: _openFourierSettings,
                           reportFractal: () => _reportFractal(context),
                           openWallpaper: () => _openWallpaper(context),
                         ),
@@ -1555,6 +2071,33 @@ class _PaletteChoiceTile extends StatelessWidget {
       colors: [Color(0xFF2B0B0B), Color(0xFFFF5E3A), Color(0xFFFFC857)],
     );
   }
+}
+
+class _FourierPaneLabel extends StatelessWidget {
+  const _FourierPaneLabel(this.label);
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) => IgnorePointer(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Colors.black.withValues(alpha: 0.72),
+            borderRadius: BorderRadius.circular(999),
+            border: Border.all(color: Colors.white24),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            child: Text(
+              label,
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                  ),
+            ),
+          ),
+        ),
+      );
 }
 
 class _ReportTagChip extends StatelessWidget {

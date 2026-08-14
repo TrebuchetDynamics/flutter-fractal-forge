@@ -4,6 +4,7 @@ import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.da
 import 'package:flutter_fractals/core/services/rendering/fractal_report_service.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/features/viewer/audio/fractal_music_service.dart';
+import 'package:flutter_fractals/features/viewer/audio/fourier_music_features.dart';
 
 class ViewerMusicToggleResult {
   final bool enabled;
@@ -43,20 +44,30 @@ class ViewerEffectsController {
   Future<ViewerMusicToggleResult> toggleFractalMusic(
     FractalController controller, {
     FractalMusicScanFrame? scanFrame,
+    FourierMusicFeatures? fourierFeatures,
   }) {
     return _enqueueMusicOperation(
-      () => _toggleFractalMusicNow(controller, scanFrame: scanFrame),
+      () => _toggleFractalMusicNow(
+        controller,
+        scanFrame: scanFrame,
+        fourierFeatures: fourierFeatures,
+      ),
     );
   }
 
   Future<ViewerMusicToggleResult> _toggleFractalMusicNow(
     FractalController controller, {
     FractalMusicScanFrame? scanFrame,
+    FourierMusicFeatures? fourierFeatures,
   }) async {
     final next = !fractalMusicEnabled;
     try {
       if (next) {
-        await _musicService.play(controller, scanFrame: scanFrame);
+        await _musicService.play(
+          controller,
+          scanFrame: scanFrame,
+          fourierFeatures: fourierFeatures,
+        );
       } else {
         await _musicService.stop();
       }
@@ -83,6 +94,7 @@ class ViewerEffectsController {
   Future<ViewerMusicToggleResult> restartFractalMusic(
     FractalController controller, {
     FractalMusicScanFrame? scanFrame,
+    FourierMusicFeatures? fourierFeatures,
     double startProgress = 0,
     double Function()? startProgressProvider,
     bool Function()? shouldCommit,
@@ -91,6 +103,7 @@ class ViewerEffectsController {
       () => _restartFractalMusicNow(
         controller,
         scanFrame: scanFrame,
+        fourierFeatures: fourierFeatures,
         startProgress: startProgress,
         startProgressProvider: startProgressProvider,
         shouldCommit: shouldCommit,
@@ -104,6 +117,7 @@ class ViewerEffectsController {
   Future<ViewerMusicToggleResult> _restartFractalMusicNow(
     FractalController controller, {
     FractalMusicScanFrame? scanFrame,
+    FourierMusicFeatures? fourierFeatures,
     required double startProgress,
     required double Function()? startProgressProvider,
     required bool Function()? shouldCommit,
@@ -115,6 +129,7 @@ class ViewerEffectsController {
       await _musicService.play(
         controller,
         scanFrame: scanFrame,
+        fourierFeatures: fourierFeatures,
         startProgress: startProgress,
         startProgressProvider: startProgressProvider,
         shouldCommit: shouldCommit,

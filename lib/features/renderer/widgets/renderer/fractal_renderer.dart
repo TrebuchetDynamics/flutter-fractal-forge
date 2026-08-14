@@ -18,6 +18,7 @@ import 'package:flutter_fractals/core/widgets/animation_effects.dart';
 import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
 import '../../cpu/cpu_fractal_renderer.dart';
+import '../../models/fractal_render_snapshot.dart';
 import 'input/gesture_view_bounds.dart';
 import 'input/gesture_tap_classification.dart';
 import '../../palette_transition.dart';
@@ -163,6 +164,9 @@ class FractalRenderer extends StatefulWidget {
   /// Whether to show backend/high-precision badges over the rendered image.
   final bool showRendererIndicator;
 
+  /// Stable sink for the effective base-field state used by visible GPU frames.
+  final FractalRenderSnapshotSink? renderSnapshotSink;
+
   /// Creates a [FractalRenderer] widget.
   const FractalRenderer({
     Key? key,
@@ -178,6 +182,7 @@ class FractalRenderer extends StatefulWidget {
     this.overrideChild,
     this.renderPlan,
     this.showRendererIndicator = true,
+    this.renderSnapshotSink,
   }) : super(key: key);
 
   @override
@@ -444,8 +449,11 @@ class _FractalRendererState extends State<FractalRenderer>
       module: module,
     );
 
-    // Check if we need to load a new shader
+    // Check if we need to load a new shader. The previous module's snapshot
+    // must not be replayed while this asset is loading; retaining the displayed
+    // spectrum is truthful, but resubmitting stale pixels as current is not.
     if (_shaderAsset != effectiveModule.shaderAsset && !_loading) {
+      widget.renderSnapshotSink?.snapshot = null;
       _loadShader(effectiveModule.shaderAsset);
     }
 
@@ -588,11 +596,28 @@ class _FractalRendererState extends State<FractalRenderer>
             _scheduleTickerSync(module: module, controller: controller);
           }
 
+          final frameTime = _animationController.value * 1000.0;
+          final snapshotSink = widget.renderSnapshotSink;
+          if (snapshotSink != null) {
+            snapshotSink.snapshot = FractalRenderSnapshot(
+              module: effectiveModule,
+              state: renderState,
+              time: frameTime,
+              glowEnabled: controller.glowEnabled,
+              glowSigma: controller.glowSigma,
+              glowIntensity: controller.glowIntensity,
+              kaleidoscopeEnabled: controller.kaleidoscopeEnabled,
+              kaleidoscopeSectors: controller.kaleidoscopeSectors,
+              kaleidoscopeMirror: controller.kaleidoscopeMirror,
+              kaleidoscopeRotation: controller.kaleidoscopeRotation,
+              kaleidoscopeMirrorMode: controller.kaleidoscopeMirrorMode,
+            );
+          }
           final paint = CustomPaint(
             painter: FractalCanvas(
               module: effectiveModule,
               state: renderState,
-              time: _animationController.value * 1000.0,
+              time: frameTime,
               shader: _currentFragmentShader(_program!),
               glowEnabled: controller.glowEnabled,
               glowSigma: controller.glowSigma,
@@ -609,7 +634,7 @@ class _FractalRendererState extends State<FractalRenderer>
           return FluidWarpEffect(
             enabled: controller.fluidModeEnabled,
             strength: controller.fluidStrength,
-            time: _animationController.value * 1000.0,
+            time: frameTime,
             touchPosition: _fluidPointerLocal,
             touchVelocity: _fluidPointerVelocity,
             secondaryTouchPosition: _fluidSecondaryPointer,

@@ -65,63 +65,69 @@ class _CpuFallbackPaneState extends State<CpuFallbackPane> {
       transparentBackground: controller.transparentBackground,
     );
 
-    return RepaintBoundary(
-      key: widget.boundaryKey,
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: _DeterministicVisibleFallbackScene(
-              transparentBackground: controller.transparentBackground,
-            ),
-          ),
-          Positioned.fill(
-            child: CpuFractalRenderer(
-              module: module,
-              state: state,
-              onPartial: _handlePartial,
-            ),
-          ),
-          if (widget.initialSnapshot != null)
-            Positioned.fill(
-              child: IgnorePointer(
-                child: AnimatedOpacity(
-                  opacity: _showSnapshot ? 1.0 : 0.0,
-                  duration: const Duration(milliseconds: 400),
-                  onEnd: () {
-                    if (!_showSnapshot) {
-                      widget.onSnapshotFadeComplete?.call();
-                    }
-                  },
-                  child: RawImage(
-                    image: widget.initialSnapshot,
-                    fit: BoxFit.cover,
-                    filterQuality: FilterQuality.medium,
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: RepaintBoundary(
+            key: widget.boundaryKey,
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: _DeterministicVisibleFallbackScene(
+                    transparentBackground: controller.transparentBackground,
                   ),
                 ),
-              ),
-            ),
-          Positioned(
-            top: 8,
-            left: 8,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.68),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.white24),
-              ),
-              child: const Text(
-                'Stable renderer active',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w700,
+                Positioned.fill(
+                  child: CpuFractalRenderer(
+                    module: module,
+                    state: state,
+                    onPartial: _handlePartial,
+                  ),
                 ),
+                if (widget.initialSnapshot != null)
+                  Positioned.fill(
+                    child: IgnorePointer(
+                      child: AnimatedOpacity(
+                        opacity: _showSnapshot ? 1.0 : 0.0,
+                        duration: const Duration(milliseconds: 400),
+                        onEnd: () {
+                          if (!_showSnapshot) {
+                            widget.onSnapshotFadeComplete?.call();
+                          }
+                        },
+                        child: RawImage(
+                          image: widget.initialSnapshot,
+                          fit: BoxFit.cover,
+                          filterQuality: FilterQuality.medium,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          top: 8,
+          left: 8,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+            decoration: BoxDecoration(
+              color: Colors.black.withValues(alpha: 0.68),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.white24),
+            ),
+            child: const Text(
+              'Stable renderer active',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

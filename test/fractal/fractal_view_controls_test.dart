@@ -41,6 +41,8 @@ Future<bool> _pumpControls(
   VoidCallback? onShareImage,
   VoidCallback? onOpenLooper,
   VoidCallback? onToggleFractalMusic,
+  VoidCallback? onToggleFourier,
+  VoidCallback? onOpenFourierSettings,
   VoidCallback? onOpenPalettePicker,
   VoidCallback? onOpenRandomFractal,
   VoidCallback? onOpenControls,
@@ -50,6 +52,7 @@ Future<bool> _pumpControls(
   int kaleidoscopeSectors = 8,
   bool kaleidoscopeMirror = true,
   bool fractalMusicEnabled = false,
+  bool fourierEnabled = false,
   bool textOverlayEnabled = false,
   bool showFractalReport = false,
   bool reduceMotion = false,
@@ -79,6 +82,7 @@ Future<bool> _pumpControls(
             kaleidoscopeSectors: kaleidoscopeSectors,
             kaleidoscopeMirror: kaleidoscopeMirror,
             fractalMusicEnabled: fractalMusicEnabled,
+            fourierEnabled: fourierEnabled,
             textOverlayEnabled: textOverlayEnabled,
             showFractalReport: showFractalReport,
             actions: FractalViewControlActions(
@@ -98,6 +102,8 @@ Future<bool> _pumpControls(
               editTextOverlay: onEditTextOverlay ?? () {},
               openLooper: onOpenLooper ?? () {},
               toggleFractalMusic: onToggleFractalMusic ?? () {},
+              toggleFourier: onToggleFourier ?? () {},
+              openFourierSettings: onOpenFourierSettings ?? () {},
               reportFractal: onReportFractal ?? () {},
               openWallpaper: onOpenWallpaper,
             ),
@@ -169,9 +175,44 @@ void main() {
       'viewerLooperButton',
       'viewerTextOverlayButton',
       'viewerFractalMusicButton',
+      'viewerFourierButton',
     ]) {
       expect(find.byKey(ValueKey(key)), findsOneWidget, reason: key);
     }
+  });
+
+  testWidgets('Fourier More tile toggles and exposes distinct settings action',
+      (tester) async {
+    var toggles = 0;
+    var settings = 0;
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      fourierEnabled: true,
+      onToggleFourier: () => toggles++,
+      onOpenFourierSettings: () => settings++,
+      onOpenWallpaper: () {},
+    );
+
+    await _openMoreActions(tester);
+    final tile = find.byKey(const ValueKey('viewerFourierButton'));
+    final options = find.byKey(const ValueKey('viewerFourierOptionsButton'));
+    expect(tile, findsOneWidget);
+    expect(options, findsOneWidget);
+
+    await tester.ensureVisible(tile);
+    await tester.pump();
+    await tester.tap(tile);
+    await tester.pump();
+    expect(toggles, 1);
+    expect(settings, 0);
+
+    await _openMoreActions(tester);
+    await tester.ensureVisible(options);
+    await tester.pump();
+    await tester.tap(options);
+    await tester.pumpAndSettle();
+    expect(settings, 1);
   });
 
   testWidgets('promoted FABs invoke their distinct primary actions',

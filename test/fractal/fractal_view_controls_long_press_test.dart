@@ -359,6 +359,7 @@ class _HarnessState extends State<_Harness>
       kaleidoscopeSectors: widget.sectors,
       kaleidoscopeMirror: true,
       fractalMusicEnabled: false,
+      fourierEnabled: false,
       textOverlayEnabled: false,
       actions: FractalViewControlActions(
         toggleFullscreen: () {},
@@ -377,6 +378,8 @@ class _HarnessState extends State<_Harness>
         editTextOverlay: () {},
         openLooper: () {},
         toggleFractalMusic: () {},
+        toggleFourier: () {},
+        openFourierSettings: () {},
         reportFractal: () {},
         openWallpaper: () {},
       ),

@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/features/viewer/actions/viewer_effects_controller.dart';
 import 'package:flutter_fractals/features/viewer/audio/fractal_music_service.dart';
+import 'package:flutter_fractals/features/viewer/audio/fourier_music_features.dart';
 
 /// Owns the music rescan debounce timer and the on-change restart policy.
 ///
@@ -18,6 +19,7 @@ class ViewerMusicCoordinator {
   final void Function(bool enabled) _syncAnimation;
   final VoidCallback _notifyState;
   final double Function() _scanProgress;
+  final FourierMusicFeatures? Function()? _currentFourierFeatures;
   final Duration _rescanDelay;
   final Duration _maxContinuousRescanDelay;
   final Duration _loopRefreshDelay;
@@ -39,6 +41,7 @@ class ViewerMusicCoordinator {
     required void Function(bool enabled) syncAnimation,
     required VoidCallback notifyState,
     required double Function() scanProgress,
+    FourierMusicFeatures? Function()? currentFourierFeatures,
     @visibleForTesting Duration rescanDelay = _defaultRescanDelay,
     @visibleForTesting
     Duration maxContinuousRescanDelay = _defaultMaxContinuousRescanDelay,
@@ -48,6 +51,7 @@ class ViewerMusicCoordinator {
         _syncAnimation = syncAnimation,
         _notifyState = notifyState,
         _scanProgress = scanProgress,
+        _currentFourierFeatures = currentFourierFeatures,
         _rescanDelay = rescanDelay,
         _maxContinuousRescanDelay = maxContinuousRescanDelay,
         _loopRefreshDelay = loopRefreshDelay;
@@ -174,6 +178,7 @@ class ViewerMusicCoordinator {
       result = await _effects.restartFractalMusic(
         controller,
         scanFrame: scanFrame,
+        fourierFeatures: _currentFourierFeatures?.call(),
         startProgressProvider: _scanProgress,
         shouldCommit: () =>
             generation == _rescanGeneration && _effects.fractalMusicEnabled,
