@@ -616,6 +616,67 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
     defaultBailout: 5.0,
   ),
 
+  // ── Recursive Toroidal Fiber Systems ───────────
+
+  Raymarched3DConfig(
+    id: 'tortoise_toroidal_fractal',
+    name: 'TORTOISE Toroidal Fractal',
+    shaderAsset:
+        'shaders/ifs_and_geometric/raymarched_3d/tortoise_toroidal_fractal_gpu.frag',
+    category: '3D Fractals',
+    animationCapability: FractalAnimationCapability.timeDriven,
+    defaultPower: 6.0,
+    minPower: 3.0,
+    maxPower: 12.0,
+    powerLabel: 'Fiber Winding',
+    defaultIterations: 2,
+    minIterations: 1,
+    maxIterations: 3,
+    defaultSteps: 140,
+    defaultBailout: 5.0,
+    defaultColorScheme: 0,
+    maxColorScheme: 3,
+    defaultZoom: 0.95,
+    defaultRotationX: 0.06,
+    defaultRotationY: 0.0,
+    extraPresets: [
+      catalogPreset(
+        id: 'tortoise_toroidal_fractal-opening-rosette',
+        moduleId: 'tortoise_toroidal_fractal',
+        name: 'Opening Rosette',
+        params: const {
+          'power': 6.0,
+          'iterations': 3.0,
+          'steps': 160.0,
+          'bailout': 5.0,
+          'colorScheme': 0,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.0,
+          rotation: Vector3(0.08, 0.0, 0.0),
+        ),
+      ),
+      catalogPreset(
+        id: 'tortoise_toroidal_fractal-woven-shell',
+        moduleId: 'tortoise_toroidal_fractal',
+        name: 'Woven Shell',
+        params: const {
+          'power': 9.0,
+          'iterations': 2.0,
+          'steps': 150.0,
+          'bailout': 5.0,
+          'colorScheme': 1,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 0.88,
+          rotation: Vector3(0.58, -0.72, 0.12),
+        ),
+      ),
+    ],
+  ),
+
   // ── Mandelbulb Family ──────────────────────────
 
   Raymarched3DConfig(

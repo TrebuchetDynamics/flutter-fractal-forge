@@ -43,6 +43,7 @@ void main() {
       'bulbils',
       'hartverdrahtet',
       'tglad_formula',
+      'tortoise_toroidal_fractal',
       'mandelbulb',
     });
 

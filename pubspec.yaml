@@ -486,6 +486,7 @@ flutter:
     - shaders/ifs_and_geometric/raymarched_3d/kifs_sierpinski_tetra_gpu.frag
     - shaders/ifs_and_geometric/raymarched_3d/kifs_koch_fold_gpu.frag
     - shaders/ifs_and_geometric/raymarched_3d/implicit_affine_fractal_surface_gpu.frag
+    - shaders/ifs_and_geometric/raymarched_3d/tortoise_toroidal_fractal_gpu.frag
     - shaders/ifs_and_geometric/raymarched_3d/kifs_snowflake_fold_gpu.frag
     - shaders/ifs_and_geometric/raymarched_3d/polyhedral_ifs_3d_gpu.frag
     - shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag

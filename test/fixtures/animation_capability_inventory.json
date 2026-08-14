@@ -4660,6 +4660,11 @@
     "capability": "static"
   },
   {
+    "id": "tortoise_toroidal_fractal",
+    "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/tortoise_toroidal_fractal_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
     "id": "transcendental_sin",
     "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/transcendental_sin_gpu.frag",
     "capability": "static"

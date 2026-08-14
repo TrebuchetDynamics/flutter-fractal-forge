@@ -41,6 +41,7 @@ class Raymarched3DConfig {
   final String powerLabel;
   final bool exposePower;
   final double defaultIterations;
+  final double minIterations;
   final double maxIterations;
   final double defaultSteps;
   final double defaultBailout;
@@ -49,6 +50,9 @@ class Raymarched3DConfig {
   final int defaultFractalType;
   final int maxFractalType;
   final double defaultZoom;
+  final double defaultRotationX;
+  final double defaultRotationY;
+  final double defaultRotationZ;
   final List<FractalParamOption> fractalTypeOptions;
   final List<FractalPreset> extraPresets;
 
@@ -65,6 +69,7 @@ class Raymarched3DConfig {
     this.powerLabel = 'Power',
     this.exposePower = true,
     this.defaultIterations = 50,
+    this.minIterations = 5,
     this.maxIterations = 100,
     this.defaultSteps = 120,
     this.defaultBailout = 2.0,
@@ -73,6 +78,9 @@ class Raymarched3DConfig {
     this.defaultFractalType = 0,
     this.maxFractalType = 0,
     this.defaultZoom = 1.0,
+    this.defaultRotationX = 0.3,
+    this.defaultRotationY = -0.4,
+    this.defaultRotationZ = 0.0,
     this.fractalTypeOptions = const [],
     this.extraPresets = const [],
   });
@@ -93,7 +101,7 @@ FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
       ),
     CommonFractalParams.iterations(
       defaultValue: config.defaultIterations,
-      min: 5,
+      min: config.minIterations,
       max: config.maxIterations,
     ),
     FractalParameter(
@@ -145,7 +153,11 @@ FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
     view: FractalViewState(
       pan: Vector2.zero(),
       zoom: config.defaultZoom,
-      rotation: Vector3(0.3, -0.4, 0.0),
+      rotation: Vector3(
+        config.defaultRotationX,
+        config.defaultRotationY,
+        config.defaultRotationZ,
+      ),
     ),
   );
 
