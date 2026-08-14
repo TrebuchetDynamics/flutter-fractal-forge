@@ -446,6 +446,214 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tooltipFractalMusicOff => 'Fractal Music off';
 
   @override
+  String get tooltipFourierOn => 'Fourier view on';
+
+  @override
+  String get tooltipFourierOff => 'Fourier view off';
+
+  @override
+  String get fourierOptionsDescription =>
+      'View the current fractal in spatial and frequency domains.';
+
+  @override
+  String get fourierSettingsTitle => 'Fourier view';
+
+  @override
+  String get fourierDisplay => 'Display';
+
+  @override
+  String get fourierSplit => 'Split';
+
+  @override
+  String get fourierSpectrum => 'Spectrum';
+
+  @override
+  String get fourierResolution => 'Resolution';
+
+  @override
+  String get fourierResolutionAuto => 'Auto';
+
+  @override
+  String get fourierWindowHann => 'Window rendered image (Hann)';
+
+  @override
+  String get fourierRemoveDc => 'Remove average level (DC)';
+
+  @override
+  String get fourierMusic => 'Fourier Music';
+
+  @override
+  String get fourierMusicDescription =>
+      'Use measured spectrum features to modulate Fractal Music while playback is on.';
+
+  @override
+  String get fourierOpenLab => 'Open Fractal Uncertainty Lab';
+
+  @override
+  String get fourierSpatialUnitsNote =>
+      'Spatial frequencies are cycles per viewport, not Hertz.';
+
+  @override
+  String get fourierFiniteDisclaimer =>
+      'Finite numerical experiment—not a mathematical proof.';
+
+  @override
+  String get fourierUnavailable => 'Fourier analysis unavailable';
+
+  @override
+  String get fourierUpdatingSpectrum => 'Updating spectrum…';
+
+  @override
+  String get fourierFrameUnavailable => 'Spectrum unavailable for this frame';
+
+  @override
+  String get fourierFrameUnavailableRetained =>
+      'Spectrum unavailable for the current frame. Showing the last available result.';
+
+  @override
+  String get fourierSpectrumSemantic => 'Fourier spectrum';
+
+  @override
+  String get fourierLowPower => 'low-frequency power';
+
+  @override
+  String get fourierMidPower => 'mid-frequency power';
+
+  @override
+  String get fourierHighPower => 'high-frequency power';
+
+  @override
+  String get fourierDominantVariation => 'Dominant Fourier-energy axis';
+
+  @override
+  String get fourierNoStrongDirectionalAxis =>
+      'No strong directional axis detected';
+
+  @override
+  String get fourierOrientationHorizontal => 'horizontal';
+
+  @override
+  String get fourierOrientationVertical => 'vertical';
+
+  @override
+  String get fourierOrientationDiagonal => 'diagonal';
+
+  @override
+  String get fourierDegrees => 'degrees';
+
+  @override
+  String get fourierAt => 'at';
+
+  @override
+  String get fourierPercent => 'percent';
+
+  @override
+  String get fourierEntropy => 'spectral entropy';
+
+  @override
+  String get fourierFlatness => 'spectral flatness';
+
+  @override
+  String get fourierAnisotropy => 'anisotropy';
+
+  @override
+  String get fourierFlux => 'spectral flux';
+
+  @override
+  String get fourierViewportAnalysis =>
+      'Finite numerical base-field analysis of the current viewport.';
+
+  @override
+  String get fourierBaseFieldNote =>
+      'Analysis replays the visible renderer\'s effective base field. Fluid, morph, celebration, and interface overlays are excluded.';
+
+  @override
+  String get fourierSpatialPane => 'Rendered spatial base field';
+
+  @override
+  String get fourierSpectrumPane => 'Sampled Fourier magnitude';
+
+  @override
+  String get uncertaintyLabTitle => 'Fractal Uncertainty Lab';
+
+  @override
+  String get uncertaintyLabIntro =>
+      'Estimate how strongly a finite signal can remain concentrated in both selected spatial and Fourier masks. Spectrum coordinates are finite grid frequencies, not audible Hertz.';
+
+  @override
+  String get uncertaintyExperiment => 'Experiment';
+
+  @override
+  String get uncertaintyProductDust => 'Middle-thirds product dust';
+
+  @override
+  String get uncertaintySierpinski => 'Sierpiński carpet';
+
+  @override
+  String get uncertaintyOrthogonalLines => 'Orthogonal line pair';
+
+  @override
+  String get uncertaintyLineObstruction => 'Known orthogonal-line obstruction';
+
+  @override
+  String get uncertaintyLineObstructionExplanation =>
+      'Ball porosity alone does not exclude straight frequency highways. Cohen’s higher-dimensional theorem assumes physical-space ball porosity and frequency-space line porosity across the relevant scales.';
+
+  @override
+  String get uncertaintyRecursionDepth => 'Recursion depth';
+
+  @override
+  String get uncertaintyBaseGrid => 'Base 3 grid';
+
+  @override
+  String get uncertaintySpatialMask => 'Spatial mask X';
+
+  @override
+  String get uncertaintyFourierMask => 'Fourier mask Y';
+
+  @override
+  String get uncertaintyOccupiedCells => 'occupied cells';
+
+  @override
+  String get uncertaintyTotalCells => 'total cells';
+
+  @override
+  String get uncertaintyEstimating => 'Estimating…';
+
+  @override
+  String get uncertaintyRun => 'Run finite experiment';
+
+  @override
+  String get uncertaintyUnavailable => 'Experiment unavailable';
+
+  @override
+  String get uncertaintyEstimatedNorm => 'Estimated restricted Fourier norm';
+
+  @override
+  String get uncertaintyRetainedEnergy => 'Estimated maximum retained energy';
+
+  @override
+  String get uncertaintyWorstLeakage => 'Estimated minimum leakage';
+
+  @override
+  String get uncertaintyHilbertSchmidt => 'Hilbert–Schmidt bound';
+
+  @override
+  String get uncertaintyConvergenceResidual => 'Convergence residual';
+
+  @override
+  String get uncertaintyAfterIterations => 'after iterations';
+
+  @override
+  String get uncertaintyConverged => 'converged';
+
+  @override
+  String get uncertaintyNotConverged => 'not converged';
+
+  @override
+  String get uncertaintyFiniteEstimate => 'Finite empirical estimate.';
+
+  @override
   String get fractalMusicUnavailable =>
       'Fractal Music unavailable. Check your audio device.';
 

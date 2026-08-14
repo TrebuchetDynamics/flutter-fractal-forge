@@ -449,6 +449,217 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tooltipFractalMusicOff => 'Música fractal desactivada';
 
   @override
+  String get tooltipFourierOn => 'Vista de Fourier activada';
+
+  @override
+  String get tooltipFourierOff => 'Vista de Fourier desactivada';
+
+  @override
+  String get fourierOptionsDescription =>
+      'Muestra el fractal actual en los dominios espacial y de frecuencia.';
+
+  @override
+  String get fourierSettingsTitle => 'Vista de Fourier';
+
+  @override
+  String get fourierDisplay => 'Visualización';
+
+  @override
+  String get fourierSplit => 'Dividida';
+
+  @override
+  String get fourierSpectrum => 'Espectro';
+
+  @override
+  String get fourierResolution => 'Resolución';
+
+  @override
+  String get fourierResolutionAuto => 'Automática';
+
+  @override
+  String get fourierWindowHann => 'Aplicar ventana a la imagen (Hann)';
+
+  @override
+  String get fourierRemoveDc => 'Eliminar nivel promedio (DC)';
+
+  @override
+  String get fourierMusic => 'Música de Fourier';
+
+  @override
+  String get fourierMusicDescription =>
+      'Usa características medidas del espectro para modular la música fractal mientras está sonando.';
+
+  @override
+  String get fourierOpenLab => 'Abrir Laboratorio de Incertidumbre Fractal';
+
+  @override
+  String get fourierSpatialUnitsNote =>
+      'Las frecuencias espaciales son ciclos por vista, no hercios.';
+
+  @override
+  String get fourierFiniteDisclaimer =>
+      'Finite numerical experiment—not a mathematical proof.';
+
+  @override
+  String get fourierUnavailable => 'El análisis de Fourier no está disponible';
+
+  @override
+  String get fourierUpdatingSpectrum => 'Actualizando el espectro…';
+
+  @override
+  String get fourierFrameUnavailable =>
+      'Espectro no disponible para este fotograma';
+
+  @override
+  String get fourierFrameUnavailableRetained =>
+      'El espectro no está disponible para el fotograma actual. Se muestra el último resultado disponible.';
+
+  @override
+  String get fourierSpectrumSemantic => 'Espectro de Fourier';
+
+  @override
+  String get fourierLowPower => 'potencia de baja frecuencia';
+
+  @override
+  String get fourierMidPower => 'potencia de frecuencia media';
+
+  @override
+  String get fourierHighPower => 'potencia de alta frecuencia';
+
+  @override
+  String get fourierDominantVariation => 'Eje dominante de energía de Fourier';
+
+  @override
+  String get fourierNoStrongDirectionalAxis =>
+      'No se detectó un eje direccional fuerte';
+
+  @override
+  String get fourierOrientationHorizontal => 'horizontal';
+
+  @override
+  String get fourierOrientationVertical => 'vertical';
+
+  @override
+  String get fourierOrientationDiagonal => 'diagonal';
+
+  @override
+  String get fourierDegrees => 'grados';
+
+  @override
+  String get fourierAt => 'a';
+
+  @override
+  String get fourierPercent => 'por ciento';
+
+  @override
+  String get fourierEntropy => 'entropía espectral';
+
+  @override
+  String get fourierFlatness => 'planitud espectral';
+
+  @override
+  String get fourierAnisotropy => 'anisotropía';
+
+  @override
+  String get fourierFlux => 'flujo espectral';
+
+  @override
+  String get fourierViewportAnalysis =>
+      'Análisis numérico finito del campo base de la vista actual.';
+
+  @override
+  String get fourierBaseFieldNote =>
+      'El análisis reproduce el campo base efectivo del renderizador visible. Se excluyen los efectos de fluido, transformación, celebración y la interfaz.';
+
+  @override
+  String get fourierSpatialPane => 'Campo base espacial renderizado';
+
+  @override
+  String get fourierSpectrumPane => 'Magnitud de Fourier muestreada';
+
+  @override
+  String get uncertaintyLabTitle => 'Laboratorio de incertidumbre fractal';
+
+  @override
+  String get uncertaintyLabIntro =>
+      'Estima cuánto puede permanecer concentrada una señal finita en las máscaras espaciales y de Fourier seleccionadas. Las coordenadas del espectro son frecuencias de una cuadrícula finita, no hercios audibles.';
+
+  @override
+  String get uncertaintyExperiment => 'Experimento';
+
+  @override
+  String get uncertaintyProductDust => 'Polvo producto de tercios medios';
+
+  @override
+  String get uncertaintySierpinski => 'Alfombra de Sierpiński';
+
+  @override
+  String get uncertaintyOrthogonalLines => 'Par de líneas ortogonales';
+
+  @override
+  String get uncertaintyLineObstruction =>
+      'Obstrucción conocida por líneas ortogonales';
+
+  @override
+  String get uncertaintyLineObstructionExplanation =>
+      'La porosidad en bolas por sí sola no excluye corredores rectos de frecuencia. El teorema de Cohen en dimensiones superiores supone porosidad en bolas del espacio físico y porosidad en líneas del espacio de frecuencias a través de las escalas relevantes.';
+
+  @override
+  String get uncertaintyRecursionDepth => 'Profundidad de recursión';
+
+  @override
+  String get uncertaintyBaseGrid => 'Cuadrícula de base 3';
+
+  @override
+  String get uncertaintySpatialMask => 'Máscara espacial X';
+
+  @override
+  String get uncertaintyFourierMask => 'Máscara de Fourier Y';
+
+  @override
+  String get uncertaintyOccupiedCells => 'celdas ocupadas';
+
+  @override
+  String get uncertaintyTotalCells => 'celdas totales';
+
+  @override
+  String get uncertaintyEstimating => 'Estimando…';
+
+  @override
+  String get uncertaintyRun => 'Ejecutar experimento finito';
+
+  @override
+  String get uncertaintyUnavailable => 'Experimento no disponible';
+
+  @override
+  String get uncertaintyEstimatedNorm =>
+      'Norma de Fourier restringida estimada';
+
+  @override
+  String get uncertaintyRetainedEnergy => 'Energía máxima retenida estimada';
+
+  @override
+  String get uncertaintyWorstLeakage => 'Fuga mínima estimada';
+
+  @override
+  String get uncertaintyHilbertSchmidt => 'Cota de Hilbert–Schmidt';
+
+  @override
+  String get uncertaintyConvergenceResidual => 'Residuo de convergencia';
+
+  @override
+  String get uncertaintyAfterIterations => 'después de iteraciones';
+
+  @override
+  String get uncertaintyConverged => 'convergió';
+
+  @override
+  String get uncertaintyNotConverged => 'no convergió';
+
+  @override
+  String get uncertaintyFiniteEstimate => 'Estimación empírica finita.';
+
+  @override
   String get fractalMusicUnavailable =>
       'Música fractal no disponible. Revisa el dispositivo de audio.';
 

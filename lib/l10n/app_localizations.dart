@@ -938,6 +938,402 @@ abstract class AppLocalizations {
   /// **'Fractal Music off'**
   String get tooltipFractalMusicOff;
 
+  /// No description provided for @tooltipFourierOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Fourier view on'**
+  String get tooltipFourierOn;
+
+  /// No description provided for @tooltipFourierOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Fourier view off'**
+  String get tooltipFourierOff;
+
+  /// No description provided for @fourierOptionsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'View the current fractal in spatial and frequency domains.'**
+  String get fourierOptionsDescription;
+
+  /// No description provided for @fourierSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fourier view'**
+  String get fourierSettingsTitle;
+
+  /// No description provided for @fourierDisplay.
+  ///
+  /// In en, this message translates to:
+  /// **'Display'**
+  String get fourierDisplay;
+
+  /// No description provided for @fourierSplit.
+  ///
+  /// In en, this message translates to:
+  /// **'Split'**
+  String get fourierSplit;
+
+  /// No description provided for @fourierSpectrum.
+  ///
+  /// In en, this message translates to:
+  /// **'Spectrum'**
+  String get fourierSpectrum;
+
+  /// No description provided for @fourierResolution.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolution'**
+  String get fourierResolution;
+
+  /// No description provided for @fourierResolutionAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto'**
+  String get fourierResolutionAuto;
+
+  /// No description provided for @fourierWindowHann.
+  ///
+  /// In en, this message translates to:
+  /// **'Window rendered image (Hann)'**
+  String get fourierWindowHann;
+
+  /// No description provided for @fourierRemoveDc.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove average level (DC)'**
+  String get fourierRemoveDc;
+
+  /// No description provided for @fourierMusic.
+  ///
+  /// In en, this message translates to:
+  /// **'Fourier Music'**
+  String get fourierMusic;
+
+  /// No description provided for @fourierMusicDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Use measured spectrum features to modulate Fractal Music while playback is on.'**
+  String get fourierMusicDescription;
+
+  /// No description provided for @fourierOpenLab.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Fractal Uncertainty Lab'**
+  String get fourierOpenLab;
+
+  /// No description provided for @fourierSpatialUnitsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Spatial frequencies are cycles per viewport, not Hertz.'**
+  String get fourierSpatialUnitsNote;
+
+  /// No description provided for @fourierFiniteDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Finite numerical experiment—not a mathematical proof.'**
+  String get fourierFiniteDisclaimer;
+
+  /// No description provided for @fourierUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Fourier analysis unavailable'**
+  String get fourierUnavailable;
+
+  /// No description provided for @fourierUpdatingSpectrum.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating spectrum…'**
+  String get fourierUpdatingSpectrum;
+
+  /// No description provided for @fourierFrameUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Spectrum unavailable for this frame'**
+  String get fourierFrameUnavailable;
+
+  /// No description provided for @fourierFrameUnavailableRetained.
+  ///
+  /// In en, this message translates to:
+  /// **'Spectrum unavailable for the current frame. Showing the last available result.'**
+  String get fourierFrameUnavailableRetained;
+
+  /// No description provided for @fourierSpectrumSemantic.
+  ///
+  /// In en, this message translates to:
+  /// **'Fourier spectrum'**
+  String get fourierSpectrumSemantic;
+
+  /// No description provided for @fourierLowPower.
+  ///
+  /// In en, this message translates to:
+  /// **'low-frequency power'**
+  String get fourierLowPower;
+
+  /// No description provided for @fourierMidPower.
+  ///
+  /// In en, this message translates to:
+  /// **'mid-frequency power'**
+  String get fourierMidPower;
+
+  /// No description provided for @fourierHighPower.
+  ///
+  /// In en, this message translates to:
+  /// **'high-frequency power'**
+  String get fourierHighPower;
+
+  /// No description provided for @fourierDominantVariation.
+  ///
+  /// In en, this message translates to:
+  /// **'Dominant Fourier-energy axis'**
+  String get fourierDominantVariation;
+
+  /// No description provided for @fourierNoStrongDirectionalAxis.
+  ///
+  /// In en, this message translates to:
+  /// **'No strong directional axis detected'**
+  String get fourierNoStrongDirectionalAxis;
+
+  /// No description provided for @fourierOrientationHorizontal.
+  ///
+  /// In en, this message translates to:
+  /// **'horizontal'**
+  String get fourierOrientationHorizontal;
+
+  /// No description provided for @fourierOrientationVertical.
+  ///
+  /// In en, this message translates to:
+  /// **'vertical'**
+  String get fourierOrientationVertical;
+
+  /// No description provided for @fourierOrientationDiagonal.
+  ///
+  /// In en, this message translates to:
+  /// **'diagonal'**
+  String get fourierOrientationDiagonal;
+
+  /// No description provided for @fourierDegrees.
+  ///
+  /// In en, this message translates to:
+  /// **'degrees'**
+  String get fourierDegrees;
+
+  /// No description provided for @fourierAt.
+  ///
+  /// In en, this message translates to:
+  /// **'at'**
+  String get fourierAt;
+
+  /// No description provided for @fourierPercent.
+  ///
+  /// In en, this message translates to:
+  /// **'percent'**
+  String get fourierPercent;
+
+  /// No description provided for @fourierEntropy.
+  ///
+  /// In en, this message translates to:
+  /// **'spectral entropy'**
+  String get fourierEntropy;
+
+  /// No description provided for @fourierFlatness.
+  ///
+  /// In en, this message translates to:
+  /// **'spectral flatness'**
+  String get fourierFlatness;
+
+  /// No description provided for @fourierAnisotropy.
+  ///
+  /// In en, this message translates to:
+  /// **'anisotropy'**
+  String get fourierAnisotropy;
+
+  /// No description provided for @fourierFlux.
+  ///
+  /// In en, this message translates to:
+  /// **'spectral flux'**
+  String get fourierFlux;
+
+  /// No description provided for @fourierViewportAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'Finite numerical base-field analysis of the current viewport.'**
+  String get fourierViewportAnalysis;
+
+  /// No description provided for @fourierBaseFieldNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Analysis replays the visible renderer\'s effective base field. Fluid, morph, celebration, and interface overlays are excluded.'**
+  String get fourierBaseFieldNote;
+
+  /// No description provided for @fourierSpatialPane.
+  ///
+  /// In en, this message translates to:
+  /// **'Rendered spatial base field'**
+  String get fourierSpatialPane;
+
+  /// No description provided for @fourierSpectrumPane.
+  ///
+  /// In en, this message translates to:
+  /// **'Sampled Fourier magnitude'**
+  String get fourierSpectrumPane;
+
+  /// No description provided for @uncertaintyLabTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fractal Uncertainty Lab'**
+  String get uncertaintyLabTitle;
+
+  /// No description provided for @uncertaintyLabIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimate how strongly a finite signal can remain concentrated in both selected spatial and Fourier masks. Spectrum coordinates are finite grid frequencies, not audible Hertz.'**
+  String get uncertaintyLabIntro;
+
+  /// No description provided for @uncertaintyExperiment.
+  ///
+  /// In en, this message translates to:
+  /// **'Experiment'**
+  String get uncertaintyExperiment;
+
+  /// No description provided for @uncertaintyProductDust.
+  ///
+  /// In en, this message translates to:
+  /// **'Middle-thirds product dust'**
+  String get uncertaintyProductDust;
+
+  /// No description provided for @uncertaintySierpinski.
+  ///
+  /// In en, this message translates to:
+  /// **'Sierpiński carpet'**
+  String get uncertaintySierpinski;
+
+  /// No description provided for @uncertaintyOrthogonalLines.
+  ///
+  /// In en, this message translates to:
+  /// **'Orthogonal line pair'**
+  String get uncertaintyOrthogonalLines;
+
+  /// No description provided for @uncertaintyLineObstruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Known orthogonal-line obstruction'**
+  String get uncertaintyLineObstruction;
+
+  /// No description provided for @uncertaintyLineObstructionExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'Ball porosity alone does not exclude straight frequency highways. Cohen’s higher-dimensional theorem assumes physical-space ball porosity and frequency-space line porosity across the relevant scales.'**
+  String get uncertaintyLineObstructionExplanation;
+
+  /// No description provided for @uncertaintyRecursionDepth.
+  ///
+  /// In en, this message translates to:
+  /// **'Recursion depth'**
+  String get uncertaintyRecursionDepth;
+
+  /// No description provided for @uncertaintyBaseGrid.
+  ///
+  /// In en, this message translates to:
+  /// **'Base 3 grid'**
+  String get uncertaintyBaseGrid;
+
+  /// No description provided for @uncertaintySpatialMask.
+  ///
+  /// In en, this message translates to:
+  /// **'Spatial mask X'**
+  String get uncertaintySpatialMask;
+
+  /// No description provided for @uncertaintyFourierMask.
+  ///
+  /// In en, this message translates to:
+  /// **'Fourier mask Y'**
+  String get uncertaintyFourierMask;
+
+  /// No description provided for @uncertaintyOccupiedCells.
+  ///
+  /// In en, this message translates to:
+  /// **'occupied cells'**
+  String get uncertaintyOccupiedCells;
+
+  /// No description provided for @uncertaintyTotalCells.
+  ///
+  /// In en, this message translates to:
+  /// **'total cells'**
+  String get uncertaintyTotalCells;
+
+  /// No description provided for @uncertaintyEstimating.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimating…'**
+  String get uncertaintyEstimating;
+
+  /// No description provided for @uncertaintyRun.
+  ///
+  /// In en, this message translates to:
+  /// **'Run finite experiment'**
+  String get uncertaintyRun;
+
+  /// No description provided for @uncertaintyUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Experiment unavailable'**
+  String get uncertaintyUnavailable;
+
+  /// No description provided for @uncertaintyEstimatedNorm.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated restricted Fourier norm'**
+  String get uncertaintyEstimatedNorm;
+
+  /// No description provided for @uncertaintyRetainedEnergy.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated maximum retained energy'**
+  String get uncertaintyRetainedEnergy;
+
+  /// No description provided for @uncertaintyWorstLeakage.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated minimum leakage'**
+  String get uncertaintyWorstLeakage;
+
+  /// No description provided for @uncertaintyHilbertSchmidt.
+  ///
+  /// In en, this message translates to:
+  /// **'Hilbert–Schmidt bound'**
+  String get uncertaintyHilbertSchmidt;
+
+  /// No description provided for @uncertaintyConvergenceResidual.
+  ///
+  /// In en, this message translates to:
+  /// **'Convergence residual'**
+  String get uncertaintyConvergenceResidual;
+
+  /// No description provided for @uncertaintyAfterIterations.
+  ///
+  /// In en, this message translates to:
+  /// **'after iterations'**
+  String get uncertaintyAfterIterations;
+
+  /// No description provided for @uncertaintyConverged.
+  ///
+  /// In en, this message translates to:
+  /// **'converged'**
+  String get uncertaintyConverged;
+
+  /// No description provided for @uncertaintyNotConverged.
+  ///
+  /// In en, this message translates to:
+  /// **'not converged'**
+  String get uncertaintyNotConverged;
+
+  /// No description provided for @uncertaintyFiniteEstimate.
+  ///
+  /// In en, this message translates to:
+  /// **'Finite empirical estimate.'**
+  String get uncertaintyFiniteEstimate;
+
   /// No description provided for @fractalMusicUnavailable.
   ///
   /// In en, this message translates to:
