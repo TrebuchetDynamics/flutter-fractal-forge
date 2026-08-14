@@ -77,6 +77,7 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
       child: FadeIn(
         delay: widget.delay,
         child: Semantics(
+          excludeSemantics: true,
           sortKey: OrdinalSortKey(0),
           label: tooltip,
           button: true,

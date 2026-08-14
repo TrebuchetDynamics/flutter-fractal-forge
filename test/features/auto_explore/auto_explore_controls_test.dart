@@ -58,9 +58,10 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      final data = _semanticsDataForLabel(tester, 'Start auto-explore');
-      expect(data, isNotNull);
-      expect(data!.hasAction(SemanticsAction.tap), isTrue);
+      final matches = _semanticsDataForLabel(tester, 'Start auto-explore');
+      expect(matches, hasLength(1));
+      final data = matches.single;
+      expect(data.hasAction(SemanticsAction.tap), isTrue);
       // ignore: deprecated_member_use
       expect(data.hasFlag(SemanticsFlag.isButton), isTrue);
 
@@ -93,9 +94,9 @@ void main() {
       final yieldedData = _semanticsDataForLabel(tester, 'Auto-pilot paused');
       final activeData = _semanticsDataForLabel(tester, 'Pause auto-explore');
 
-      expect(yieldedData, isNotNull);
-      expect(yieldedData!.hasAction(SemanticsAction.tap), isTrue);
-      expect(activeData, isNull);
+      expect(yieldedData, hasLength(1));
+      expect(yieldedData.single.hasAction(SemanticsAction.tap), isTrue);
+      expect(activeData, isEmpty);
 
       semanticsHandle.dispose();
     });
@@ -177,19 +178,21 @@ void main() {
   });
 }
 
-SemanticsData? _semanticsDataForLabel(WidgetTester tester, String label) {
+List<SemanticsData> _semanticsDataForLabel(
+  WidgetTester tester,
+  String label,
+) {
   // ignore: deprecated_member_use
   final root = tester.binding.pipelineOwner.semanticsOwner?.rootSemanticsNode;
-  SemanticsData? result;
+  final result = <SemanticsData>[];
 
   bool visit(SemanticsNode node) {
     final data = node.getSemanticsData();
     if (data.label == label) {
-      result = data;
-      return false;
+      result.add(data);
     }
     node.visitChildren(visit);
-    return result == null;
+    return true;
   }
 
   if (root != null) visit(root);
