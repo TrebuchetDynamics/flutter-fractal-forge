@@ -34,6 +34,8 @@ class ViewerMusicCoordinator {
   bool _moduleRescanPending = false;
   FractalController? _deferredRescanController;
   FractalController? _queuedMotionController;
+  bool _deferredRescanAlignToBar = false;
+  bool _queuedMotionAlignToBar = false;
 
   ViewerMusicCoordinator({
     required ViewerEffectsController effects,
@@ -61,10 +63,12 @@ class ViewerMusicCoordinator {
     FractalController controller, {
     bool moduleChanged = false,
     bool skipMissingScan = false,
+    bool alignToBar = false,
   }) {
     if (!_effects.fractalMusicEnabled) return;
     if (!moduleChanged && _moduleRescanPending) {
       _deferredRescanController = controller;
+      _deferredRescanAlignToBar |= alignToBar;
       return;
     }
     _loopRefreshTimer?.cancel();
@@ -73,6 +77,7 @@ class ViewerMusicCoordinator {
     _rescanTimer?.cancel();
     if (_restartOperations > 0 && !moduleChanged) {
       _queuedMotionController = controller;
+      _queuedMotionAlignToBar |= alignToBar;
       return;
     }
     final generation = ++_rescanGeneration;
@@ -100,12 +105,17 @@ class ViewerMusicCoordinator {
           controller,
           generation: generation,
           skipMissingScan: skipMissingScan,
+          alignToBar: alignToBar,
         );
         if (!moduleChanged || generation != _rescanGeneration) return;
         _moduleRescanPending = false;
         final deferred = _deferredRescanController;
+        final deferredAlignToBar = _deferredRescanAlignToBar;
         _deferredRescanController = null;
-        if (deferred != null) scheduleRescan(deferred);
+        _deferredRescanAlignToBar = false;
+        if (deferred != null) {
+          scheduleRescan(deferred, alignToBar: deferredAlignToBar);
+        }
       },
     );
   }
@@ -118,6 +128,7 @@ class ViewerMusicCoordinator {
     _rescanGeneration++;
     _moduleRescanPending = false;
     _deferredRescanController = null;
+    _deferredRescanAlignToBar = false;
     final hasValidScan = scanFrame != null && scanFrame.isValid;
     _lastFeatures = hasValidScan ? fractalMusicFeaturesOf(scanFrame) : null;
     _lastScanZoom = hasValidScan ? controller.view.zoom : null;
@@ -133,6 +144,8 @@ class ViewerMusicCoordinator {
     _moduleRescanPending = false;
     _deferredRescanController = null;
     _queuedMotionController = null;
+    _deferredRescanAlignToBar = false;
+    _queuedMotionAlignToBar = false;
     _rescanTimer?.cancel();
     _rescanBurstStartedAt = null;
     _loopRefreshTimer?.cancel();
@@ -144,6 +157,7 @@ class ViewerMusicCoordinator {
     FractalController controller, {
     required int generation,
     bool skipMissingScan = false,
+    bool alignToBar = false,
   }) async {
     if (!_effects.fractalMusicEnabled) return;
     final scanFrame = await _captureFrame();
@@ -182,14 +196,18 @@ class ViewerMusicCoordinator {
         startProgressProvider: _scanProgress,
         shouldCommit: () =>
             generation == _rescanGeneration && _effects.fractalMusicEnabled,
+        beforeCommit:
+            alignToBar ? () => _waitForNextBarBoundary(generation) : null,
       );
     } finally {
       _restartOperations--;
       if (_restartOperations == 0) {
         final queued = _queuedMotionController;
+        final queuedAlignToBar = _queuedMotionAlignToBar;
         _queuedMotionController = null;
+        _queuedMotionAlignToBar = false;
         if (queued != null && _effects.fractalMusicEnabled) {
-          scheduleRescan(queued);
+          scheduleRescan(queued, alignToBar: queuedAlignToBar);
         }
       }
     }
@@ -218,6 +236,20 @@ class ViewerMusicCoordinator {
     _armLoopRefresh(controller, retryMissingScan: features == null);
   }
 
+  Future<void> _waitForNextBarBoundary(int generation) async {
+    final initialBar = _barAt(_scanProgress());
+    while (generation == _rescanGeneration && _effects.fractalMusicEnabled) {
+      await Future<void>.delayed(const Duration(milliseconds: 8));
+      if (_barAt(_scanProgress()) != initialBar) return;
+    }
+  }
+
+  int _barAt(double progress) {
+    if (!progress.isFinite) return 0;
+    final wrapped = ((progress % 1) + 1) % 1;
+    return (wrapped * 4).floor().clamp(0, 3);
+  }
+
   void _armLoopRefresh(
     FractalController controller, {
     bool retryMissingScan = false,
@@ -241,6 +273,8 @@ class ViewerMusicCoordinator {
     _moduleRescanPending = false;
     _deferredRescanController = null;
     _queuedMotionController = null;
+    _deferredRescanAlignToBar = false;
+    _queuedMotionAlignToBar = false;
     _rescanTimer?.cancel();
     _rescanBurstStartedAt = null;
     _loopRefreshTimer?.cancel();

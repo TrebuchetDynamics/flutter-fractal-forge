@@ -18,11 +18,17 @@ final class FourierBackendLease {
     required Future<FourierAnalysisBackend> Function() factory,
     required bool Function() isActive,
   }) async {
-    final backend = await factory();
-    if (generation != _generation || !isActive()) {
-      await backend.close();
-      return null;
+    late final FourierAnalysisBackend backend;
+    try {
+      backend = await factory();
+    } catch (error, stackTrace) {
+      // An obsolete activation is allowed to finish failing, but it must not
+      // tear down a newer on→off→on session through the viewer's catch path.
+      if (generation != _generation || !isActive()) return null;
+      Error.throwWithStackTrace(error, stackTrace);
     }
-    return backend;
+    if (generation == _generation && isActive()) return backend;
+    await backend.close();
+    return null;
   }
 }

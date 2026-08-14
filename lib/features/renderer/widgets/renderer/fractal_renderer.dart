@@ -452,9 +452,9 @@ class _FractalRendererState extends State<FractalRenderer>
     // Check if we need to load a new shader. The previous module's snapshot
     // must not be replayed while this asset is loading; retaining the displayed
     // spectrum is truthful, but resubmitting stale pixels as current is not.
-    if (_shaderAsset != effectiveModule.shaderAsset && !_loading) {
+    if (_shaderAsset != effectiveModule.shaderAsset) {
       widget.renderSnapshotSink?.snapshot = null;
-      _loadShader(effectiveModule.shaderAsset);
+      if (!_loading) _loadShader(effectiveModule.shaderAsset);
     }
 
     // Show error if shader failed to load

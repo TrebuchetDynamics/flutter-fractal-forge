@@ -28,7 +28,9 @@ class _FakeMusicService extends FractalMusicService {
     double startProgress = 0,
     double Function()? startProgressProvider,
     bool Function()? shouldCommit,
+    Future<void> Function()? beforeCommit,
   }) async {
+    if (beforeCommit != null) await beforeCommit();
     playCount++;
     startProgresses.add(startProgressProvider?.call() ?? startProgress);
     final barrier = playBarrier;
@@ -587,6 +589,28 @@ void main() {
         coord.dispose();
       },
     );
+  });
+
+  test('aligned Fourier restart publishes only after a real bar transition',
+      () async {
+    final music = _FakeMusicService();
+    final effects = ViewerEffectsController(musicService: music);
+    effects.fractalMusicEnabled = true;
+    var progress = 0.10;
+    final coord = makeCoordinator(
+      effects: effects,
+      scanProgress: () => progress,
+    );
+
+    coord.scheduleRescan(controller, alignToBar: true);
+    await Future<void>.delayed(const Duration(milliseconds: 30));
+    expect(music.playCount, 0);
+
+    progress = 0.26;
+    await waitUntil(() => music.playCount == 1);
+    expect(music.playCount, 1);
+    expect(music.startProgresses.single, closeTo(0.26, 1e-9));
+    coord.dispose();
   });
 
   group('ViewerMusicCoordinator.cancelRescan', () {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
+import 'package:flutter_fractals/features/renderer/models/fractal_render_snapshot.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 
 class CompareRenderer extends StatelessWidget {
@@ -20,6 +21,7 @@ class CompareRenderer extends StatelessWidget {
   final VoidCallback? onUserInteractionStart;
   final VoidCallback? onUserInteractionEnd;
   final bool freezeFrame;
+  final FractalRenderSnapshotSink? activeSnapshotSink;
 
   const CompareRenderer({
     super.key,
@@ -38,20 +40,25 @@ class CompareRenderer extends StatelessWidget {
     this.onUserInteractionStart,
     this.onUserInteractionEnd,
     required this.freezeFrame,
+    this.activeSnapshotSink,
   });
 
   @override
   Widget build(BuildContext context) {
-    final a = context.read<FractalController>();
+    // A rebuild can transfer active ownership to the other pane. Clear first so
+    // capture cannot replay the previous pane before the new owner publishes.
+    activeSnapshotSink?.snapshot = null;
+    final controllerA = context.watch<FractalController>();
 
     Widget paneA = _ComparePane(
       isActive: activePane == 0,
       label: 'A',
       onTap: () => onOpenPane(0),
       child: ChangeNotifierProvider.value(
-        value: a,
+        value: controllerA,
         child: FractalRenderer(
           boundaryKey: keyA,
+          renderSnapshotSink: activePane == 0 ? activeSnapshotSink : null,
           animationEnabled: !freezeFrame,
           gesturesEnabled: activePane == 0,
           onOpenControls: onOpenControls,
@@ -72,6 +79,7 @@ class CompareRenderer extends StatelessWidget {
         value: controllerB,
         child: FractalRenderer(
           boundaryKey: keyB,
+          renderSnapshotSink: activePane == 1 ? activeSnapshotSink : null,
           animationEnabled: !freezeFrame,
           gesturesEnabled: activePane == 1,
           onOpenControls: onOpenControls,

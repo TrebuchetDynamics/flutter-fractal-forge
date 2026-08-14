@@ -65,4 +65,29 @@ void main() {
     expect(acquired, isNull);
     expect(backend.closeCount, 1);
   });
+
+  test('stale factory failure cannot disable a newer activation', () async {
+    final lease = FourierBackendLease();
+    final staleFactory = Completer<FourierAnalysisBackend>();
+    final staleGeneration = lease.begin();
+    final staleAcquire = lease.acquire(
+      generation: staleGeneration,
+      factory: () => staleFactory.future,
+      isActive: () => true,
+    );
+
+    lease.invalidate();
+    final currentGeneration = lease.begin();
+    final currentBackend = _FakeBackend();
+    final currentAcquire = await lease.acquire(
+      generation: currentGeneration,
+      factory: () async => currentBackend,
+      isActive: () => true,
+    );
+    staleFactory.completeError(StateError('obsolete spawn failed'));
+
+    expect(await staleAcquire, isNull);
+    expect(currentAcquire, same(currentBackend));
+    expect(currentBackend.closeCount, 0);
+  });
 }

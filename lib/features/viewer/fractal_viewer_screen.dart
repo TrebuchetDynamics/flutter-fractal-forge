@@ -232,13 +232,13 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   int _displayedFourierGeneration = -1;
   int _loggedFourierAttemptGeneration = -1;
   bool _fourierCaptureInFlight = false;
+  int _fourierCaptureSession = 0;
   DateTime? _lastFourierCaptureAt;
   final FourierMusicFeatureSmoother _fourierMusicSmoother =
       FourierMusicFeatureSmoother();
   final FourierMusicDecisionController _fourierMusicDecisionController =
       FourierMusicDecisionController();
   FourierMusicFeatures? _currentFourierMusicFeatures;
-  int _lastFourierMusicBar = -1;
 
   // History tracking
   FractalController? _lastController;
@@ -701,6 +701,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       _disableFourier();
       return;
     }
+    _fourierCaptureSession++;
     final activationGeneration = _fourierBackendLease.begin();
     setState(() => _fourierEnabled = true);
     try {
@@ -723,11 +724,14 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       );
     } catch (error) {
       if (!mounted) return;
+      _log.debug('fourier', 'Analysis worker activation failed',
+          data: {'error': '$error'});
       _disableFourier();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            '${AppLocalizations.of(context)?.fourierUnavailable ?? 'Fourier analysis unavailable'}: $error',
+            AppLocalizations.of(context)?.fourierUnavailable ??
+                'Fourier analysis unavailable',
           ),
         ),
       );
@@ -735,6 +739,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   }
 
   void _disableFourier() {
+    _fourierCaptureSession++;
     _fourierBackendLease.invalidate();
     _fourierCaptureTimer?.cancel();
     _fourierCaptureTimer = null;
@@ -765,12 +770,12 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     final hadFeatures = _currentFourierMusicFeatures != null;
     _fourierMusicSmoother.reset();
     _fourierMusicDecisionController.reset();
-    _lastFourierMusicBar = -1;
     _currentFourierMusicFeatures = null;
     if (hadFeatures &&
         mounted &&
         _viewerEffects.fractalMusicEnabled &&
         _lastController != null) {
+      _musicCoordinator.cancelRescan();
       _musicCoordinator.scheduleRescan(_lastController!);
     }
   }
@@ -778,12 +783,16 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   Future<ui.Image?> _captureBoundaryAfterPaint(
     GlobalKey boundaryKey,
     double pixelRatio,
+    int captureSession,
   ) {
     final completer = Completer<ui.Image?>();
     var remainingAttempts = 4;
 
     void attempt(Duration _) {
-      if (!mounted || !_fourierEnabled) {
+      if (captureSession != _fourierCaptureSession ||
+          !mounted ||
+          !_fourierEnabled ||
+          !_appVisible) {
         if (!completer.isCompleted) completer.complete();
         return;
       }
@@ -819,6 +828,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   }
 
   Future<void> _captureFourierFrame({bool throttled = false}) async {
+    final captureSession = _fourierCaptureSession;
     final controller = _fourierController;
     if (!_fourierEnabled ||
         !_appVisible ||
@@ -836,12 +846,21 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     }
     _fourierCaptureInFlight = true;
     _lastFourierCaptureAt = now;
+    bool isCurrentCapture() =>
+        captureSession == _fourierCaptureSession &&
+        mounted &&
+        _fourierEnabled &&
+        _appVisible;
     try {
-      if (!mounted || !_fourierEnabled) return;
+      if (!isCurrentCapture()) return;
       ui.Image? image;
       if (_backendDecision.backend == RendererBackend.gpu) {
         final snapshot = _fourierRenderSnapshotSink.snapshot;
-        if (snapshot == null) return;
+        if (snapshot == null) {
+          if (!isCurrentCapture()) return;
+          _clearFourierMusicModulation();
+          return;
+        }
         final targetDimension = _fourierResolution.pixels ?? 128;
         final screen = MediaQuery.sizeOf(context);
         final landscape = screen.width > screen.height;
@@ -872,12 +891,22 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         image = await _captureBoundaryAfterPaint(
           _activeBoundaryKey(),
           pixelRatio,
+          captureSession,
         );
       }
-      if (image == null) return;
+      if (image == null) {
+        if (!isCurrentCapture()) return;
+        _clearFourierMusicModulation();
+        return;
+      }
       try {
+        if (!isCurrentCapture()) return;
         final data = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
-        if (data == null || !mounted || !_fourierEnabled) return;
+        if (!isCurrentCapture()) return;
+        if (data == null) {
+          _clearFourierMusicModulation();
+          return;
+        }
         final generation = ++_fourierGeneration;
         _log.debug('fourier', 'Submitting viewport spectrum', data: {
           'generation': generation,
@@ -901,10 +930,15 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         image.dispose();
       }
     } catch (error) {
-      _log.debug('fourier', 'Viewport capture failed',
-          data: {'error': '$error'});
+      if (isCurrentCapture()) {
+        _clearFourierMusicModulation();
+        _log.debug('fourier', 'Viewport capture failed',
+            data: {'error': '$error'});
+      }
     } finally {
-      _fourierCaptureInFlight = false;
+      if (captureSession == _fourierCaptureSession) {
+        _fourierCaptureInFlight = false;
+      }
     }
   }
 
@@ -963,34 +997,30 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         ),
       );
       final smoothed = _fourierMusicSmoother.update(mapped);
-      // The 24-second loop has four musical bars. Structural Fourier choices
-      // commit only when the scanner enters a new bar, preventing capture noise
-      // from regenerating the score between bar boundaries.
-      final bar = (_musicScanController.value * 4).floor().clamp(0, 3);
-      if (bar != _lastFourierMusicBar) {
-        _lastFourierMusicBar = bar;
-        final decisions = _fourierMusicDecisionController.update(
-          smoothed,
-          isBarBoundary: true,
+      final decisions = _fourierMusicDecisionController.update(
+        smoothed,
+        isBarBoundary: true,
+      );
+      final next = FourierMusicFeatures(
+        bassWeight: smoothed.bassWeight,
+        padOpenness: smoothed.padOpenness,
+        highTexture: smoothed.highTexture,
+        leadRegister: decisions.registerBand.index / 2,
+        rhythmicComplexity: decisions.rhythmDensity.index / 2,
+        stereoBias: smoothed.stereoBias,
+        transitionStrength: smoothed.transitionStrength,
+        orientation: smoothed.orientation,
+        anisotropy: smoothed.anisotropy,
+        isSilent: smoothed.isSilent,
+      );
+      final previous = _currentFourierMusicFeatures;
+      _currentFourierMusicFeatures = next;
+      if (_viewerEffects.fractalMusicEnabled &&
+          _fourierMusicDiffers(previous, next)) {
+        _musicCoordinator.scheduleRescan(
+          _activeController(context),
+          alignToBar: true,
         );
-        final next = FourierMusicFeatures(
-          bassWeight: smoothed.bassWeight,
-          padOpenness: smoothed.padOpenness,
-          highTexture: smoothed.highTexture,
-          leadRegister: decisions.registerBand.index / 2,
-          rhythmicComplexity: decisions.rhythmDensity.index / 2,
-          stereoBias: smoothed.stereoBias,
-          transitionStrength: smoothed.transitionStrength,
-          orientation: smoothed.orientation,
-          anisotropy: smoothed.anisotropy,
-          isSilent: smoothed.isSilent,
-        );
-        final previous = _currentFourierMusicFeatures;
-        _currentFourierMusicFeatures = next;
-        if (_viewerEffects.fractalMusicEnabled &&
-            _fourierMusicDiffers(previous, next)) {
-          _musicCoordinator.scheduleRescan(_activeController(context));
-        }
       }
     }
     ui.decodeImageFromPixels(
@@ -1590,6 +1620,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                             onUserInteractionEnd:
                                 _onAutoExploreUserInteractionEnd,
                             freezeFrame: !_liveRenderingEnabled,
+                            activeSnapshotSink: _fourierRenderSnapshotSink,
                           )
                         : (_backendDecision.backend == RendererBackend.cpu
                             ? FractalRenderer(

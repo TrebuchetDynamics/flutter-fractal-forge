@@ -32,7 +32,9 @@ class _FakeMusicService extends FractalMusicService {
     double startProgress = 0,
     double Function()? startProgressProvider,
     bool Function()? shouldCommit,
+    Future<void> Function()? beforeCommit,
   }) async {
+    if (beforeCommit != null) await beforeCommit();
     playCount++;
     await playGate;
     final error = playError;

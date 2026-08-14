@@ -98,6 +98,7 @@ class ViewerEffectsController {
     double startProgress = 0,
     double Function()? startProgressProvider,
     bool Function()? shouldCommit,
+    Future<void> Function()? beforeCommit,
   }) {
     return _enqueueMusicOperation(
       () => _restartFractalMusicNow(
@@ -107,6 +108,7 @@ class ViewerEffectsController {
         startProgress: startProgress,
         startProgressProvider: startProgressProvider,
         shouldCommit: shouldCommit,
+        beforeCommit: beforeCommit,
       ),
     );
   }
@@ -121,6 +123,7 @@ class ViewerEffectsController {
     required double startProgress,
     required double Function()? startProgressProvider,
     required bool Function()? shouldCommit,
+    required Future<void> Function()? beforeCommit,
   }) async {
     if (_disposed || !fractalMusicEnabled) {
       return const ViewerMusicToggleResult.disabled();
@@ -133,6 +136,7 @@ class ViewerEffectsController {
         startProgress: startProgress,
         startProgressProvider: startProgressProvider,
         shouldCommit: shouldCommit,
+        beforeCommit: beforeCommit,
       );
       if (_disposed) {
         fractalMusicEnabled = false;

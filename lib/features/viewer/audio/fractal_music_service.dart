@@ -431,6 +431,7 @@ class FractalMusicService {
     double startProgress = 0,
     double Function()? startProgressProvider,
     bool Function()? shouldCommit,
+    Future<void> Function()? beforeCommit,
   }) async {
     if (_disposed) return;
     if (_playback is _UnsupportedFractalMusicPlayer) {
@@ -496,6 +497,7 @@ class FractalMusicService {
         );
       }
       if (!canCommit()) return;
+
       // Sample only after the expensive composition. Reading the phase when the
       // rescan started made replacement audio lag behind the continuously moving
       // scanner by the complete queue + synthesis delay.
@@ -505,7 +507,11 @@ class FractalMusicService {
       // Stopping here first created an audible hole while Android uploaded a
       // two-megabyte static buffer and while browsers decoded the new WAV.
       if (!canCommit()) return;
-      await _playback.play(bytes, shouldCommit: canCommit);
+      await _playback.play(
+        bytes,
+        shouldCommit: canCommit,
+        beforePublish: beforeCommit,
+      );
       // Cancellation can race decoder/upload completion. Adapters prevent a
       // stale candidate from taking ownership; this guard prevents stale
       // hysteresis state from shaping the next score.
@@ -538,7 +544,11 @@ class FractalMusicService {
 abstract class _FractalMusicPlaybackAdapter {
   const _FractalMusicPlaybackAdapter();
 
-  Future<void> play(Uint8List bytes, {bool Function()? shouldCommit});
+  Future<void> play(
+    Uint8List bytes, {
+    bool Function()? shouldCommit,
+    Future<void> Function()? beforePublish,
+  });
   Future<void> cancelPending();
   Future<void> stop();
 
@@ -591,7 +601,10 @@ class _WebFractalMusicPlayer extends _FractalMusicPlaybackAdapter {
   Future<void> play(
     Uint8List bytes, {
     bool Function()? shouldCommit,
+    Future<void> Function()? beforePublish,
   }) async {
+    if (beforePublish != null) await beforePublish();
+    if (shouldCommit != null && !shouldCommit()) return;
     final ok = await _play(bytes);
     if (!ok) {
       if (shouldCommit != null && !shouldCommit()) return;
@@ -625,7 +638,10 @@ class _AndroidFractalMusicPlayer extends _FractalMusicPlaybackAdapter {
   Future<void> play(
     Uint8List bytes, {
     bool Function()? shouldCommit,
+    Future<void> Function()? beforePublish,
   }) async {
+    if (beforePublish != null) await beforePublish();
+    if (shouldCommit != null && !shouldCommit()) return;
     final ok = await _channel.invokeMethod<bool>('play', {'bytes': bytes});
     if (ok != true) {
       if (shouldCommit != null && !shouldCommit()) return;
@@ -676,6 +692,7 @@ class _LinuxFractalMusicPlayer implements _FractalMusicPlaybackAdapter {
   Future<void> play(
     Uint8List bytes, {
     bool Function()? shouldCommit,
+    Future<void> Function()? beforePublish,
   }) async {
     final request = ++_generation;
     final dir = await _createTempDir('fractal_music_');
@@ -687,6 +704,12 @@ class _LinuxFractalMusicPlayer implements _FractalMusicPlaybackAdapter {
       rethrow;
     }
 
+    if (request != _generation || (shouldCommit != null && !shouldCommit())) {
+      await _deleteAudioFile(file);
+      return;
+    }
+
+    if (beforePublish != null) await beforePublish();
     if (request != _generation || (shouldCommit != null && !shouldCommit())) {
       await _deleteAudioFile(file);
       return;
@@ -853,6 +876,7 @@ class _UnsupportedFractalMusicPlayer extends _FractalMusicPlaybackAdapter {
   Future<void> play(
     Uint8List bytes, {
     bool Function()? shouldCommit,
+    Future<void> Function()? beforePublish,
   }) async {
     throw StateError(
         'Fractal Music playback is supported on Web, Android, and Linux.');
