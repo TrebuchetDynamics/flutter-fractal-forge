@@ -5,6 +5,38 @@ All notable changes to Flutter Fractal Forge are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.88] - 2026-08-14
+
+### Added
+
+- Live renderer-derived Fourier spectra for the effective visible frame, with
+  responsive spatial/spectrum layouts, localized accessibility labels, and
+  truthful retained-frame status when a current capture is unavailable.
+- A finite-grid uncertainty laboratory with exact Cantor and Sierpiński masks,
+  arbitrary-size unitary FFT support, and explicit numerical-experiment limits.
+- Optional bounded Fourier Music modulation that preserves deterministic score
+  identity and requests replacement handoffs at observed music-bar transitions.
+
+### Changed
+
+- GPU Fourier analysis now renders immutable effective renderer snapshots,
+  including precision routing, palette transitions, animation time, fluid state,
+  active compare pane, and current module state, in a long-lived latest-wins
+  analysis worker.
+- English and Spanish Fourier and uncertainty guidance now document the transform
+  convention, finite viewport interpretation, and the exact disclaimer:
+  “Finite numerical experiment—not a mathematical proof.”
+
+### Fixed
+
+- Generation-scoped activation, capture, compare-pane, lifecycle, and music
+  publication ownership prevent stale asynchronous results from replacing newer
+  renderer or score state.
+- Blank, failed, hidden-app, and shader-transition captures retain the last valid
+  displayed spectrum while clearing stale Fourier Music modulation.
+- Release integration tests no longer acquire an unused semantics handle across
+  multi-file physical-device runs.
+
 ## [1.1.87] - 2026-08-10
 
 ### Added
