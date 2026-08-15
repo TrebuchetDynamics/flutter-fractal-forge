@@ -152,7 +152,7 @@ run_device_soak() {
   if [[ "$DRY_RUN" -eq 1 ]]; then
     print_command timeout --signal=INT --kill-after=10 "${SOAK_SECONDS}s" \
       adb -s "$DEVICE" shell monkey -p "$PACKAGE" \
-      --pct-syskeys 0 --throttle 200 --ignore-crashes --ignore-timeouts "$events"
+      --pct-syskeys 0 --pct-flip 0 --throttle 200 --ignore-crashes --ignore-timeouts "$events"
     print_command adb -s "$DEVICE" shell dumpsys meminfo "$PACKAGE"
     print_command adb -s "$DEVICE" shell dumpsys gfxinfo "$PACKAGE"
     print_command adb -s "$DEVICE" shell dumpsys battery
@@ -169,7 +169,7 @@ run_device_soak() {
   local soak_started_at=$SECONDS
   timeout --signal=INT --kill-after=10 "${SOAK_SECONDS}s" \
     adb -s "$DEVICE" shell monkey -p "$PACKAGE" \
-    --pct-syskeys 0 --throttle 200 --ignore-crashes --ignore-timeouts "$events" \
+    --pct-syskeys 0 --pct-flip 0 --throttle 200 --ignore-crashes --ignore-timeouts "$events" \
     2>&1 | tee "$LOG_DIR/soak-monkey.log" &
   local soak_pid=$!
   local collection_failed=0
