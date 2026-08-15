@@ -529,75 +529,12 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   }
 
   Future<void> _editTextOverlay() async {
-    final l10n = AppLocalizations.of(context)!;
-    final controller = TextEditingController(text: _textOverlay.text);
     final text = await showModalBottomSheet<String>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (sheetContext) => Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(sheetContext).viewInsets.bottom,
-        ),
-        child: AppBottomSheet(
-          maxHeightFactor: 0.52,
-          children: [
-            AppBottomSheetHeader(
-              icon: Icons.format_quote_rounded,
-              title: l10n.textOverlayTitle,
-              subtitle: 'Add a short caption over the rendered image.',
-              onClose: () => Navigator.of(sheetContext).pop(),
-            ),
-            const Divider(height: 1, color: AppColors.divider),
-            Padding(
-              padding: const EdgeInsets.all(AppSpacing.md),
-              child: TextField(
-                key: const ValueKey('viewerTextOverlayField'),
-                controller: controller,
-                autofocus: true,
-                minLines: 1,
-                maxLines: 3,
-                decoration: InputDecoration(
-                  hintText: l10n.exportQuoteOverlayPlaceholder,
-                  filled: true,
-                  fillColor: AppColors.surfaceVariant,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                AppSpacing.md,
-                0,
-                AppSpacing.md,
-                AppSpacing.md,
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () => Navigator.of(sheetContext).pop(),
-                      child: Text(l10n.actionCancel),
-                    ),
-                  ),
-                  const SizedBox(width: AppSpacing.sm),
-                  Expanded(
-                    child: FilledButton(
-                      onPressed: () =>
-                          Navigator.of(sheetContext).pop(controller.text),
-                      child: Text(l10n.actionApply),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+      builder: (_) => _TextOverlayEditorSheet(initialText: _textOverlay.text),
     );
-    controller.dispose();
     if (text == null) return;
 
     setState(() => _textOverlay.applyEdit(text));
@@ -1980,6 +1917,97 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
             },
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _TextOverlayEditorSheet extends StatefulWidget {
+  const _TextOverlayEditorSheet({required this.initialText});
+
+  final String initialText;
+
+  @override
+  State<_TextOverlayEditorSheet> createState() =>
+      _TextOverlayEditorSheetState();
+}
+
+class _TextOverlayEditorSheetState extends State<_TextOverlayEditorSheet> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.initialText);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return Padding(
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: AppBottomSheet(
+        maxHeightFactor: 0.52,
+        children: [
+          AppBottomSheetHeader(
+            icon: Icons.format_quote_rounded,
+            title: l10n.textOverlayTitle,
+            subtitle: 'Add a short caption over the rendered image.',
+            onClose: () => Navigator.of(context).pop(),
+          ),
+          const Divider(height: 1, color: AppColors.divider),
+          Padding(
+            padding: const EdgeInsets.all(AppSpacing.md),
+            child: TextField(
+              key: const ValueKey('viewerTextOverlayField'),
+              controller: _controller,
+              autofocus: true,
+              minLines: 1,
+              maxLines: 3,
+              decoration: InputDecoration(
+                hintText: l10n.exportQuoteOverlayPlaceholder,
+                filled: true,
+                fillColor: AppColors.surfaceVariant,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.md,
+              0,
+              AppSpacing.md,
+              AppSpacing.md,
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text(l10n.actionCancel),
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: FilledButton(
+                    onPressed: () =>
+                        Navigator.of(context).pop(_controller.text),
+                    child: Text(l10n.actionApply),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
