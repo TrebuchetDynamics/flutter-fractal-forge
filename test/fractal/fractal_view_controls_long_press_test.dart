@@ -185,7 +185,7 @@ void main() {
 
   testWidgets('phone wedge choices use a balanced four plus three grid',
       (tester) async {
-    await tester.binding.setSurfaceSize(const Size(411, 731));
+    await tester.binding.setSurfaceSize(const Size(360, 640));
     addTearDown(() => tester.binding.setSurfaceSize(null));
     await _pumpHarness(tester);
 

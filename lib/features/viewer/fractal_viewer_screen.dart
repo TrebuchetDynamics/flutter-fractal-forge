@@ -1142,142 +1142,137 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (sheetContext) => StatefulBuilder(
-        builder: (context, setSheetState) => Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(sheetContext).viewInsets.bottom,
-          ),
-          child: AppBottomSheet(
-            maxHeightFactor: 0.66,
-            children: [
-              AppBottomSheetHeader(
-                icon: Icons.report_problem_rounded,
-                iconGradient: const LinearGradient(
-                  colors: [AppColors.warning, Color(0xFFFF7A45)],
-                ),
-                title: l10n.reportDialogTitle,
-                subtitle: controller.module.displayName(l10n),
-                onClose: () => Navigator.of(sheetContext).pop(false),
+        builder: (context, setSheetState) => AppBottomSheet(
+          maxHeightFactor: 0.66,
+          children: [
+            AppBottomSheetHeader(
+              icon: Icons.report_problem_rounded,
+              iconGradient: const LinearGradient(
+                colors: [AppColors.warning, Color(0xFFFF7A45)],
               ),
-              const Divider(height: 1, color: AppColors.divider),
-              Flexible(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(
-                    AppSpacing.md,
-                    AppSpacing.md,
-                    AppSpacing.md,
-                    AppSpacing.lg,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        l10n.reportDialogNotes,
-                        style: AppTypography.labelMedium.copyWith(
-                          color: AppColors.textSecondary,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      const SizedBox(height: AppSpacing.xs),
-                      TextField(
-                        controller: notes,
-                        minLines: 3,
-                        maxLines: 4,
-                        style: AppTypography.bodyMedium.copyWith(
-                          color: AppColors.textPrimary,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: l10n.reportDialogNotesHint,
-                          hintStyle: AppTypography.bodyMedium.copyWith(
-                            color: AppColors.textMuted,
-                          ),
-                          filled: true,
-                          fillColor:
-                              AppColors.surfaceVariant.withValues(alpha: 0.72),
-                          contentPadding: const EdgeInsets.all(AppSpacing.md),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18),
-                            borderSide: BorderSide(
-                              color: AppColors.border.withValues(alpha: 0.7),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18),
-                            borderSide: const BorderSide(
-                              color: AppColors.primaryLight,
-                              width: 1.4,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: AppSpacing.lg),
-                      Text(
-                        l10n.reportDialogSymptoms,
-                        style: AppTypography.labelLarge.copyWith(
-                          color: AppColors.textPrimary,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      const SizedBox(height: AppSpacing.xs),
-                      Text(
-                        l10n.reportDialogSymptomsHint,
-                        style: AppTypography.bodySmall.copyWith(
-                          color: AppColors.textMuted,
-                        ),
-                      ),
-                      const SizedBox(height: AppSpacing.md),
-                      Wrap(
-                        spacing: AppSpacing.sm,
-                        runSpacing: AppSpacing.sm,
-                        children: [
-                          for (final tag in tags)
-                            _ReportTagChip(
-                              label: _reportTagLabel(l10n, tag),
-                              selected: selected.contains(tag),
-                              onTap: () => setSheetState(() {
-                                if (!selected.remove(tag)) selected.add(tag);
-                              }),
-                            ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
+              title: l10n.reportDialogTitle,
+              subtitle: controller.module.displayName(l10n),
+              onClose: () => Navigator.of(sheetContext).pop(false),
+            ),
+            const Divider(height: 1, color: AppColors.divider),
+            Flexible(
+              child: SingleChildScrollView(
                 padding: const EdgeInsets.fromLTRB(
                   AppSpacing.md,
-                  AppSpacing.xs,
                   AppSpacing.md,
                   AppSpacing.md,
+                  AppSpacing.lg,
                 ),
-                child: Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: AppColors.textPrimary,
-                          side: BorderSide(
-                            color: AppColors.borderLight.withValues(alpha: 0.7),
-                          ),
-                        ),
-                        onPressed: () => Navigator.of(sheetContext).pop(false),
-                        child: Text(l10n.buttonCancel),
+                    Text(
+                      l10n.reportDialogNotes,
+                      style: AppTypography.labelMedium.copyWith(
+                        color: AppColors.textSecondary,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    const SizedBox(width: AppSpacing.sm),
-                    Expanded(
-                      child: FilledButton(
-                        onPressed: selected.isEmpty
-                            ? null
-                            : () => Navigator.of(sheetContext).pop(true),
-                        child: Text(l10n.reportDialogSave),
+                    const SizedBox(height: AppSpacing.xs),
+                    TextField(
+                      controller: notes,
+                      minLines: 3,
+                      maxLines: 4,
+                      style: AppTypography.bodyMedium.copyWith(
+                        color: AppColors.textPrimary,
                       ),
+                      decoration: InputDecoration(
+                        hintText: l10n.reportDialogNotesHint,
+                        hintStyle: AppTypography.bodyMedium.copyWith(
+                          color: AppColors.textMuted,
+                        ),
+                        filled: true,
+                        fillColor:
+                            AppColors.surfaceVariant.withValues(alpha: 0.72),
+                        contentPadding: const EdgeInsets.all(AppSpacing.md),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(18),
+                          borderSide: BorderSide(
+                            color: AppColors.border.withValues(alpha: 0.7),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(18),
+                          borderSide: const BorderSide(
+                            color: AppColors.primaryLight,
+                            width: 1.4,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.lg),
+                    Text(
+                      l10n.reportDialogSymptoms,
+                      style: AppTypography.labelLarge.copyWith(
+                        color: AppColors.textPrimary,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.xs),
+                    Text(
+                      l10n.reportDialogSymptomsHint,
+                      style: AppTypography.bodySmall.copyWith(
+                        color: AppColors.textMuted,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    Wrap(
+                      spacing: AppSpacing.sm,
+                      runSpacing: AppSpacing.sm,
+                      children: [
+                        for (final tag in tags)
+                          _ReportTagChip(
+                            label: _reportTagLabel(l10n, tag),
+                            selected: selected.contains(tag),
+                            onTap: () => setSheetState(() {
+                              if (!selected.remove(tag)) selected.add(tag);
+                            }),
+                          ),
+                      ],
                     ),
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.md,
+                AppSpacing.xs,
+                AppSpacing.md,
+                AppSpacing.md,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: AppColors.textPrimary,
+                        side: BorderSide(
+                          color: AppColors.borderLight.withValues(alpha: 0.7),
+                        ),
+                      ),
+                      onPressed: () => Navigator.of(sheetContext).pop(false),
+                      child: Text(l10n.buttonCancel),
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  Expanded(
+                    child: FilledButton(
+                      onPressed: selected.isEmpty
+                          ? null
+                          : () => Navigator.of(sheetContext).pop(true),
+                      child: Text(l10n.reportDialogSave),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -1956,7 +1951,7 @@ class _TextOverlayEditorSheetState extends State<_TextOverlayEditorSheet> {
         AppBottomSheetHeader(
           icon: Icons.format_quote_rounded,
           title: l10n.textOverlayTitle,
-          subtitle: 'Add a short caption over the rendered image.',
+          subtitle: l10n.textOverlaySubtitle,
           onClose: () => Navigator.of(context).pop(),
         ),
         const Divider(height: 1, color: AppColors.divider),

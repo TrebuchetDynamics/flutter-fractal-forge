@@ -85,6 +85,7 @@
   "exportQuoteOverlayHint": "El texto se exporta invirtiendo cada píxel del glifo sobre el fractal.",
   "exportQuoteOverlayPlaceholder": "Escribe una cita para centrarla",
   "textOverlayTitle": "Texto superpuesto",
+  "textOverlaySubtitle": "Añade un texto breve sobre la imagen fractal renderizada.",
   "tooltipTextOverlayOn": "Texto superpuesto activado. Mantén presionado para editar.",
   "tooltipTextOverlayOff": "Texto superpuesto desactivado. Toca para añadir texto.",
   "exportScreenResolution": "Tamaño de pantalla",

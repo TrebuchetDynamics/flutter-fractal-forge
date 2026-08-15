@@ -436,7 +436,7 @@ class FractalViewControls extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   crossAxisSpacing: AppSpacing.sm,
                   mainAxisSpacing: AppSpacing.sm,
-                  childAspectRatio: 1.6,
+                  mainAxisExtent: 48,
                   children: [
                     // Every value FractalController.setKaleidoscopeSectors can
                     // hold: it clamps to 4..16 and snaps odd inputs down to even,

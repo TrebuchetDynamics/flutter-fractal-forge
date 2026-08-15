@@ -85,6 +85,7 @@
   "exportQuoteOverlayHint": "Text exports with each glyph pixel inverted against the fractal.",
   "exportQuoteOverlayPlaceholder": "Type a quote to place in the center",
   "textOverlayTitle": "Text overlay",
+  "textOverlaySubtitle": "Add a short caption over the rendered image.",
   "tooltipTextOverlayOn": "Text overlay on. Long press to edit.",
   "tooltipTextOverlayOff": "Text overlay off. Tap to add text.",
   "exportScreenResolution": "Screen size",

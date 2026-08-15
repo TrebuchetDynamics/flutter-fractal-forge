@@ -261,6 +261,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get textOverlayTitle => 'Texto superpuesto';
 
   @override
+  String get textOverlaySubtitle =>
+      'Añade un texto breve sobre la imagen fractal renderizada.';
+
+  @override
   String get tooltipTextOverlayOn =>
       'Texto superpuesto activado. Mantén presionado para editar.';
 

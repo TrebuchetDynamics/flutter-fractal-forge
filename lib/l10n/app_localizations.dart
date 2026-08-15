@@ -578,6 +578,12 @@ abstract class AppLocalizations {
   /// **'Text overlay'**
   String get textOverlayTitle;
 
+  /// No description provided for @textOverlaySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a short caption over the rendered image.'**
+  String get textOverlaySubtitle;
+
   /// No description provided for @tooltipTextOverlayOn.
   ///
   /// In en, this message translates to:

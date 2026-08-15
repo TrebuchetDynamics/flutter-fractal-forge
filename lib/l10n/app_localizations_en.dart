@@ -260,6 +260,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get textOverlayTitle => 'Text overlay';
 
   @override
+  String get textOverlaySubtitle =>
+      'Add a short caption over the rendered image.';
+
+  @override
   String get tooltipTextOverlayOn => 'Text overlay on. Long press to edit.';
 
   @override

@@ -163,6 +163,25 @@ void main() {
         greaterThanOrEqualTo(48),
         reason: 'field=$fieldRect viewport=$viewportRect',
       );
+
+      tester.view.viewInsets = const FakeViewPadding(bottom: 1500);
+      tester.binding.handleMetricsChanged();
+      await tester.pump();
+
+      final fieldContext = tester.element(field);
+      expect(MediaQuery.viewInsetsOf(fieldContext).bottom, 500);
+      final keyboardInsetOwners = find
+          .ancestor(of: field, matching: find.byType(Padding))
+          .evaluate()
+          .map((element) => element.widget as Padding)
+          .where((padding) =>
+              padding.padding.resolve(TextDirection.ltr).bottom >= 500)
+          .length;
+      expect(
+        keyboardInsetOwners,
+        1,
+        reason: 'Report and AppBottomSheet must not both apply the IME inset',
+      );
       await disposeAccessibilityTestWidget(tester);
     });
 
