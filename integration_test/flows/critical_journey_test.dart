@@ -60,8 +60,6 @@ void main() {
     testWidgets(
       'launch -> catalog -> tap Mandelbrot -> viewer controls -> export -> back',
       (WidgetTester tester) async {
-        final semantics = tester.ensureSemantics();
-
         // ------------------------------------------------------------------
         // Step 1: App launches and catalog screen appears
         // ------------------------------------------------------------------
@@ -230,8 +228,6 @@ void main() {
           findsWidgets,
           reason: 'Must return to the catalog module list after pressing back',
         );
-
-        semantics.dispose();
       },
     );
   });
