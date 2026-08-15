@@ -258,16 +258,20 @@ class FractalViewControls extends StatelessWidget {
       icon: Icons.more_horiz_rounded,
       title: l10n.tooltipMoreOptions,
       subtitle: l10n.viewerMoreActionsHint,
+      maxHeightFactor: 0.92,
+      contentBottomPadding: 0,
       children: [
         if (showFractalReport)
           _ActionTile(
             key: const ValueKey('viewerReportFractalButton'),
+            compact: true,
             icon: Icons.report_problem_rounded,
             label: l10n.tooltipReportFractal,
             onTap: actions.reportFractal,
           ),
         _ActionTile(
           key: const ValueKey('viewerRandomButton'),
+          compact: true,
           secondaryActionKey: const ValueKey('viewerRandomOptionsButton'),
           icon: Icons.shuffle_rounded,
           label: l10n.tooltipRandomFractal,
@@ -277,6 +281,7 @@ class FractalViewControls extends StatelessWidget {
         ),
         _ActionTile(
           key: const ValueKey('viewerTextOverlayButton'),
+          compact: true,
           secondaryActionKey: const ValueKey('viewerTextOverlayEditButton'),
           secondaryIcon: Icons.edit_rounded,
           icon: Icons.format_quote_rounded,
@@ -289,12 +294,14 @@ class FractalViewControls extends StatelessWidget {
         ),
         _ActionTile(
           key: const ValueKey('viewerLooperButton'),
+          compact: true,
           icon: Icons.loop_rounded,
           label: l10n.tooltipCameraLooper,
           onTap: actions.openLooper,
         ),
         _ActionTile(
           key: const ValueKey('viewerKaleidoscopeButton'),
+          compact: true,
           secondaryActionKey: const ValueKey('viewerKaleidoscopeOptionsButton'),
           icon: Icons.filter_vintage_rounded,
           label: kaleidoscopeEnabled
@@ -306,6 +313,7 @@ class FractalViewControls extends StatelessWidget {
         ),
         _ActionTile(
           key: const ValueKey('viewerFractalMusicButton'),
+          compact: true,
           icon: Icons.music_note,
           label: fractalMusicEnabled
               ? l10n.tooltipFractalMusicOn
@@ -315,6 +323,7 @@ class FractalViewControls extends StatelessWidget {
         ),
         _ActionTile(
           key: const ValueKey('viewerFourierButton'),
+          compact: true,
           secondaryActionKey: const ValueKey('viewerFourierOptionsButton'),
           secondaryIcon: Icons.tune_rounded,
           icon: Icons.blur_on_rounded,
@@ -418,42 +427,52 @@ class FractalViewControls extends StatelessWidget {
               ),
             ),
             const SizedBox(height: AppSpacing.sm),
-            Wrap(
-              spacing: AppSpacing.sm,
-              runSpacing: AppSpacing.sm,
-              children: [
-                // Every value FractalController.setKaleidoscopeSectors can
-                // hold: it clamps to 4..16 and snaps odd inputs down to even,
-                // so a gap here means an unselectable, unreachable-by-chip
-                // state rather than a missing shortcut.
-                for (final sectors in const [4, 6, 8, 10, 12, 14, 16])
-                  ChoiceChip(
-                    label: Text('$sectors'),
-                    selected: selectedSectors == sectors,
-                    showCheckmark: false,
-                    selectedColor: AppColors.primary.withValues(alpha: 0.28),
-                    backgroundColor:
-                        AppColors.surfaceVariant.withValues(alpha: 0.9),
-                    side: BorderSide(
-                      color: selectedSectors == sectors
-                          ? AppColors.primaryLight
-                          : AppColors.glassBorder,
-                    ),
-                    labelStyle: AppTypography.labelMedium.copyWith(
-                      color: selectedSectors == sectors
-                          ? AppColors.textPrimary
-                          : AppColors.textSecondary,
-                      fontWeight: selectedSectors == sectors
-                          ? FontWeight.w700
-                          : FontWeight.w500,
-                    ),
-                    onSelected: (_) {
-                      selectedSectors = sectors;
-                      actions.setKaleidoscopeSectors(sectors);
-                      setSheetState(() {});
-                    },
-                  ),
-              ],
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final columns = constraints.maxWidth >= 560 ? 7 : 4;
+                return GridView.count(
+                  crossAxisCount: columns,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisSpacing: AppSpacing.sm,
+                  mainAxisSpacing: AppSpacing.sm,
+                  childAspectRatio: 1.6,
+                  children: [
+                    // Every value FractalController.setKaleidoscopeSectors can
+                    // hold: it clamps to 4..16 and snaps odd inputs down to even,
+                    // so a gap here means an unselectable, unreachable-by-chip
+                    // state rather than a missing shortcut.
+                    for (final sectors in const [4, 6, 8, 10, 12, 14, 16])
+                      ChoiceChip(
+                        label: Text('$sectors'),
+                        selected: selectedSectors == sectors,
+                        showCheckmark: false,
+                        selectedColor:
+                            AppColors.primary.withValues(alpha: 0.28),
+                        backgroundColor:
+                            AppColors.surfaceVariant.withValues(alpha: 0.9),
+                        side: BorderSide(
+                          color: selectedSectors == sectors
+                              ? AppColors.primaryLight
+                              : AppColors.glassBorder,
+                        ),
+                        labelStyle: AppTypography.labelMedium.copyWith(
+                          color: selectedSectors == sectors
+                              ? AppColors.textPrimary
+                              : AppColors.textSecondary,
+                          fontWeight: selectedSectors == sectors
+                              ? FontWeight.w700
+                              : FontWeight.w500,
+                        ),
+                        onSelected: (_) {
+                          selectedSectors = sectors;
+                          actions.setKaleidoscopeSectors(sectors);
+                          setSheetState(() {});
+                        },
+                      ),
+                  ],
+                );
+              },
             ),
             const SizedBox(height: AppSpacing.md),
             _SwitchActionTile(
@@ -478,6 +497,8 @@ class FractalViewControls extends StatelessWidget {
     required IconData icon,
     required String title,
     String? subtitle,
+    double maxHeightFactor = 0.78,
+    double contentBottomPadding = AppSpacing.xxxl,
     required List<Widget> children,
   }) {
     showModalBottomSheet<void>(
@@ -488,6 +509,8 @@ class FractalViewControls extends StatelessWidget {
         icon: icon,
         title: title,
         subtitle: subtitle,
+        maxHeightFactor: maxHeightFactor,
+        contentBottomPadding: contentBottomPadding,
         children: children,
       ),
     );
@@ -498,19 +521,23 @@ class _FabOptionsSheet extends StatelessWidget {
   final IconData icon;
   final String title;
   final String? subtitle;
+  final double maxHeightFactor;
+  final double contentBottomPadding;
   final List<Widget> children;
 
   const _FabOptionsSheet({
     required this.icon,
     required this.title,
     this.subtitle,
+    this.maxHeightFactor = 0.78,
+    this.contentBottomPadding = AppSpacing.xxxl,
     required this.children,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBottomSheet(
-      maxHeightFactor: 0.78,
+      maxHeightFactor: maxHeightFactor,
       children: [
         AppBottomSheetHeader(
           icon: icon,
@@ -521,11 +548,11 @@ class _FabOptionsSheet extends StatelessWidget {
         const Divider(height: 1, color: AppColors.divider),
         Flexible(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(
+            padding: EdgeInsets.fromLTRB(
               AppSpacing.lg,
               AppSpacing.md,
               AppSpacing.lg,
-              AppSpacing.xxxl,
+              contentBottomPadding,
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -548,6 +575,7 @@ class _ActionTile extends StatelessWidget {
   final VoidCallback? onLongPress;
   final Key? secondaryActionKey;
   final IconData secondaryIcon;
+  final bool compact;
 
   const _ActionTile({
     super.key,
@@ -559,6 +587,7 @@ class _ActionTile extends StatelessWidget {
     this.onLongPress,
     this.secondaryActionKey,
     this.secondaryIcon = Icons.tune_rounded,
+    this.compact = false,
   });
 
   @override
@@ -580,7 +609,7 @@ class _ActionTile extends StatelessWidget {
             ? null
             : AppLocalizations.of(context)!.viewerSecondaryActionHint,
         child: Padding(
-          padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+          padding: EdgeInsets.only(bottom: compact ? 2 : AppSpacing.sm),
           child: Material(
             color: selected
                 ? AppColors.primary.withValues(alpha: 0.28)
@@ -594,11 +623,11 @@ class _ActionTile extends StatelessWidget {
               },
               onLongPress: onLongPress == null ? null : activateSecondary,
               child: ConstrainedBox(
-                constraints: const BoxConstraints(minHeight: 72),
+                constraints: BoxConstraints(minHeight: compact ? 56 : 72),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: AppSpacing.lg,
-                    vertical: AppSpacing.md,
+                    vertical: compact ? 7 : AppSpacing.md,
                   ),
                   child: Row(
                     children: [
@@ -620,6 +649,9 @@ class _ActionTile extends StatelessWidget {
                               const SizedBox(height: 2),
                               Text(
                                 description!,
+                                maxLines: compact ? 1 : null,
+                                overflow:
+                                    compact ? TextOverflow.ellipsis : null,
                                 style: AppTypography.bodySmall.copyWith(
                                   color: AppColors.textSecondary,
                                 ),

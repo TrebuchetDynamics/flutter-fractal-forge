@@ -531,7 +531,7 @@ class AppTheme {
         dragHandleColor: AppColors.border,
         dragHandleSize: const Size(40, 4),
         elevation: AppSpacing.modalElevation,
-        showDragHandle: true,
+        showDragHandle: false,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -784,7 +784,7 @@ class AppTheme {
         dragHandleColor: HighContrastColors.textPrimary,
         dragHandleSize: Size(40, 4),
         elevation: 0,
-        showDragHandle: true,
+        showDragHandle: false,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -998,7 +998,7 @@ class AppTheme {
         dragHandleColor: OledColors.border,
         dragHandleSize: const Size(40, 4),
         elevation: AppSpacing.modalElevation,
-        showDragHandle: true,
+        showDragHandle: false,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(

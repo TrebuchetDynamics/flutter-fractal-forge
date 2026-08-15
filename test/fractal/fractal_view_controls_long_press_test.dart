@@ -183,6 +183,28 @@ void main() {
     }
   });
 
+  testWidgets('phone wedge choices use a balanced four plus three grid',
+      (tester) async {
+    await tester.binding.setSurfaceSize(const Size(411, 731));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await _pumpHarness(tester);
+
+    await tester.longPress(find.byKey(const ValueKey('viewerKaleidoscopeFab')));
+    await tester.pumpAndSettle();
+
+    final rects = <Rect>[
+      for (final sectors in const [4, 6, 8, 10, 12, 14, 16])
+        tester.getRect(find.widgetWithText(ChoiceChip, '$sectors')),
+    ];
+    final rows = <double, int>{};
+    for (final rect in rects) {
+      rows.update(rect.top, (count) => count + 1, ifAbsent: () => 1);
+      expect(rect.height, greaterThanOrEqualTo(48));
+    }
+
+    expect(rows.values.toList(), [4, 3]);
+  });
+
   testWidgets('mirror toggle exposes its label and state on one node',
       (tester) async {
     final handle = tester.ensureSemantics();

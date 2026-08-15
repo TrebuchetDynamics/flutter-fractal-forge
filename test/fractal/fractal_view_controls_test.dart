@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_view_controls.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -57,12 +58,14 @@ Future<bool> _pumpControls(
   bool showFractalReport = false,
   bool reduceMotion = false,
   double textScale = 1,
+  ThemeData? theme,
   VoidCallback? onToggleKaleidoscope,
   VoidCallback? onReportFractal,
   required VoidCallback onOpenWallpaper,
 }) async {
   await tester.pumpWidget(
     MaterialApp(
+      theme: theme,
       locale: locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
@@ -178,6 +181,40 @@ void main() {
       'viewerFourierButton',
     ]) {
       expect(find.byKey(ValueKey(key)), findsOneWidget, reason: key);
+    }
+  });
+
+  testWidgets('More opens with every action fully inside a phone viewport',
+      (tester) async {
+    await tester.binding.setSurfaceSize(const Size(360, 640));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      showFractalReport: true,
+      theme: AppTheme.dark,
+      onOpenWallpaper: () {},
+    );
+
+    await _openMoreActions(tester);
+
+    final viewportHeight = tester.getSize(find.byType(Scaffold).first).height;
+    for (final key in const [
+      'viewerReportFractalButton',
+      'viewerRandomButton',
+      'viewerTextOverlayButton',
+      'viewerLooperButton',
+      'viewerKaleidoscopeButton',
+      'viewerFractalMusicButton',
+      'viewerFourierButton',
+    ]) {
+      final rect = tester.getRect(find.byKey(ValueKey(key)));
+      expect(rect.top, greaterThanOrEqualTo(0), reason: key);
+      expect(
+        rect.bottom,
+        lessThanOrEqualTo(viewportHeight),
+        reason: '$key rect=$rect viewportHeight=$viewportHeight',
+      );
     }
   });
 
