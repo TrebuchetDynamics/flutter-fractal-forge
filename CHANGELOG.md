@@ -5,6 +5,25 @@ All notable changes to Flutter Fractal Forge are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.89] - 2026-08-15
+
+### Changed
+
+- Viewer bottom sheets now fit phone viewports more consistently, use one drag
+  handle, present a balanced Kaleidoscope grid, and keep all More actions
+  reachable with accessible touch targets.
+- Report Notes appears as a complete field before symptom choices, and Export
+  guidance now matches the visible Save image and Save & share actions.
+
+### Fixed
+
+- The Text Overlay editor and Report sheet remain visible and usable while the
+  Android keyboard is open, with one shared keyboard-inset owner.
+- Opening the Controls HUD removes the overlapping floating-action rail from
+  both painting and accessibility semantics.
+- Kaleidoscope choices retain 48 dp targets at narrow 360-pixel phone widths,
+  and the Text Overlay subtitle is localized in English and Spanish.
+
 ## [1.1.88] - 2026-08-14
 
 ### Added

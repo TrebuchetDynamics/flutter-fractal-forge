@@ -1,1 +1,1 @@
-Looper GIF exports now encode reliable frames from iteration data. Successful saves are preserved when sharing fails, and save or sharing errors are reported accurately.
+Improved Android viewer sheets: Text Overlay and Report stay usable with the keyboard open, Controls no longer overlaps floating actions, and Report Notes opens fully visible. Kaleidoscope, Export, More options, drag handles, touch targets, and English/Spanish guidance now fit phone layouts more cleanly.
