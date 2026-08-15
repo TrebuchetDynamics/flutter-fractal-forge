@@ -642,7 +642,7 @@
   "logTooltipExport": "Exportar",
   "logTooltipClear": "Limpiar",
 
-  "exportSimpleModeHint": "Modo simple — elige un preset rápido, luego toca Exportar o Compartir.",
+  "exportSimpleModeHint": "Modo simple — elige un preset rápido, luego toca Guardar imagen o Guardar y compartir.",
   "exportCustomizeModeHint": "Personalización activada — todos los controles de exportación visibles.",
   "exportButtonSimple": "Simple",
   "exportButtonCustomize": "Personalizar",

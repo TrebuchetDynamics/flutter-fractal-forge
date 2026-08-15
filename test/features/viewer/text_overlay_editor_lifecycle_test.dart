@@ -54,6 +54,30 @@ void main() {
     expect(
         find.byKey(const ValueKey('viewerTextOverlayField')), findsOneWidget);
 
+    tester.view.viewInsets = const FakeViewPadding(bottom: 1100);
+    tester.binding.handleMetricsChanged();
+    await tester.pump();
+
+    final fieldContext = tester.element(
+      find.byKey(const ValueKey('viewerTextOverlayField')),
+    );
+    expect(MediaQuery.viewInsetsOf(fieldContext).bottom, 1100);
+    final keyboardInsetOwners = find
+        .ancestor(
+          of: find.byKey(const ValueKey('viewerTextOverlayField')),
+          matching: find.byType(Padding),
+        )
+        .evaluate()
+        .map((element) => element.widget as Padding)
+        .where((padding) =>
+            padding.padding.resolve(TextDirection.ltr).bottom >= 1100)
+        .length;
+    expect(
+      keyboardInsetOwners,
+      1,
+      reason: 'applying the IME inset twice moves the painted sheet offscreen',
+    );
+
     expect(await tester.binding.handlePopRoute(), isTrue);
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 500));

@@ -113,7 +113,42 @@ void main() {
     expect(find.text('Wallpaper'), findsOneWidget);
     expect(
       find.text(
+        'Simple mode — choose a quick preset, then tap Save image or '
+        'Save & share.',
+      ),
+      findsOneWidget,
+    );
+    expect(find.textContaining('tap Export or Share'), findsNothing);
+    expect(
+      find.text(
           'Saves to Pictures/FractalForge. No storage permission prompt.'),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('simple phone sheet hugs actions above its safe area',
+      (tester) async {
+    await tester.binding.setSurfaceSize(const Size(411, 731));
+    tester.view.padding = const FakeViewPadding(bottom: 24);
+    tester.binding.handleMetricsChanged();
+    addTearDown(() async {
+      tester.view.padding = FakeViewPadding.zero;
+      tester.binding.handleMetricsChanged();
+      await tester.binding.setSurfaceSize(null);
+    });
+    await pumpSheet(tester);
+
+    final wallpaper = tester.getRect(
+      find.byKey(const ValueKey('exportWallpaperButton')),
+    );
+    final screenBottom = tester.getRect(find.byType(Scaffold).first).bottom;
+
+    expect(screenBottom - wallpaper.bottom, lessThanOrEqualTo(48));
+    expect(
+      find.ancestor(
+        of: find.byKey(const ValueKey('exportWallpaperButton')),
+        matching: find.byType(SafeArea),
+      ),
       findsOneWidget,
     );
   });

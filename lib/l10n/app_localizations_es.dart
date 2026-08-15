@@ -1461,7 +1461,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get exportSimpleModeHint =>
-      'Modo simple — elige un preset rápido, luego toca Exportar o Compartir.';
+      'Modo simple — elige un preset rápido, luego toca Guardar imagen o Guardar y compartir.';
 
   @override
   String get exportCustomizeModeHint =>

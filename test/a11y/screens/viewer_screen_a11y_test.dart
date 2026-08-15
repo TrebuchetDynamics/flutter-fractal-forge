@@ -5,6 +5,7 @@ import 'package:flutter_fractals/core/services/storage/exploration_stats_service
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
+import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -92,6 +93,24 @@ void main() {
       expect(findUnnamedControls(root).map((c) => '$c').toList(), isEmpty);
       expect(findStackedStops(root), isEmpty);
       expect(findUnnamedSliders(root), isEmpty);
+
+      handle.dispose();
+      await disposeAccessibilityTestWidget(tester);
+    });
+
+    testWidgets('Controls HUD removes the overlapping FAB rail and semantics',
+        (tester) async {
+      final handle = tester.ensureSemantics();
+      await tester.pumpWidget(buildApp());
+      await pumpAccessibilityTestFrames(tester);
+
+      await tester.tap(find.byKey(const ValueKey('viewerRandomParamsButton')));
+      await pumpAccessibilityTestFrames(tester);
+
+      expect(find.byType(FractalControlsHud), findsOneWidget);
+      expect(
+          find.byKey(const ValueKey('viewerMoreActionsButton')), findsNothing);
+      expect(find.bySemanticsLabel('More options'), findsNothing);
 
       handle.dispose();
       await disposeAccessibilityTestWidget(tester);

@@ -641,7 +641,7 @@
   "logTooltipExport": "Export",
   "logTooltipClear": "Clear",
 
-  "exportSimpleModeHint": "Simple mode — choose a quick preset, then tap Export or Share.",
+  "exportSimpleModeHint": "Simple mode — choose a quick preset, then tap Save image or Save & share.",
   "exportCustomizeModeHint": "Customization enabled — full export controls visible.",
   "exportButtonSimple": "Simple",
   "exportButtonCustomize": "Customize",

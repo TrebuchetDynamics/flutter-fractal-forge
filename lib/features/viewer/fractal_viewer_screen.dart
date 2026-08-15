@@ -1171,36 +1171,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        l10n.reportDialogSymptoms,
-                        style: AppTypography.labelLarge.copyWith(
-                          color: AppColors.textPrimary,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      const SizedBox(height: AppSpacing.xs),
-                      Text(
-                        l10n.reportDialogSymptomsHint,
-                        style: AppTypography.bodySmall.copyWith(
-                          color: AppColors.textMuted,
-                        ),
-                      ),
-                      const SizedBox(height: AppSpacing.md),
-                      Wrap(
-                        spacing: AppSpacing.sm,
-                        runSpacing: AppSpacing.sm,
-                        children: [
-                          for (final tag in tags)
-                            _ReportTagChip(
-                              label: _reportTagLabel(l10n, tag),
-                              selected: selected.contains(tag),
-                              onTap: () => setSheetState(() {
-                                if (!selected.remove(tag)) selected.add(tag);
-                              }),
-                            ),
-                        ],
-                      ),
-                      const SizedBox(height: AppSpacing.lg),
-                      Text(
                         l10n.reportDialogNotes,
                         style: AppTypography.labelMedium.copyWith(
                           color: AppColors.textSecondary,
@@ -1238,6 +1208,36 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                             ),
                           ),
                         ),
+                      ),
+                      const SizedBox(height: AppSpacing.lg),
+                      Text(
+                        l10n.reportDialogSymptoms,
+                        style: AppTypography.labelLarge.copyWith(
+                          color: AppColors.textPrimary,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.xs),
+                      Text(
+                        l10n.reportDialogSymptomsHint,
+                        style: AppTypography.bodySmall.copyWith(
+                          color: AppColors.textMuted,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      Wrap(
+                        spacing: AppSpacing.sm,
+                        runSpacing: AppSpacing.sm,
+                        children: [
+                          for (final tag in tags)
+                            _ReportTagChip(
+                              label: _reportTagLabel(l10n, tag),
+                              selected: selected.contains(tag),
+                              onTap: () => setSheetState(() {
+                                if (!selected.remove(tag)) selected.add(tag);
+                              }),
+                            ),
+                        ],
                       ),
                     ],
                   ),
@@ -1830,7 +1830,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                   // unbounded height and overflowed off the top of short
                   // viewports (landscape phones / small web windows), pushing
                   // the upper buttons off-screen and over the status chips.
-                  if (_showCoreViewerChrome)
+                  if (_showCoreViewerChrome && !_showControlsHud)
                     Positioned(
                       top: overlayTop,
                       left: AppSpacing.lg,
@@ -1950,65 +1950,60 @@ class _TextOverlayEditorSheetState extends State<_TextOverlayEditorSheet> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return Padding(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: AppBottomSheet(
-        maxHeightFactor: 0.52,
-        children: [
-          AppBottomSheetHeader(
-            icon: Icons.format_quote_rounded,
-            title: l10n.textOverlayTitle,
-            subtitle: 'Add a short caption over the rendered image.',
-            onClose: () => Navigator.of(context).pop(),
-          ),
-          const Divider(height: 1, color: AppColors.divider),
-          Padding(
-            padding: const EdgeInsets.all(AppSpacing.md),
-            child: TextField(
-              key: const ValueKey('viewerTextOverlayField'),
-              controller: _controller,
-              autofocus: true,
-              minLines: 1,
-              maxLines: 3,
-              decoration: InputDecoration(
-                hintText: l10n.exportQuoteOverlayPlaceholder,
-                filled: true,
-                fillColor: AppColors.surfaceVariant,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
+    return AppBottomSheet(
+      maxHeightFactor: 0.52,
+      children: [
+        AppBottomSheetHeader(
+          icon: Icons.format_quote_rounded,
+          title: l10n.textOverlayTitle,
+          subtitle: 'Add a short caption over the rendered image.',
+          onClose: () => Navigator.of(context).pop(),
+        ),
+        const Divider(height: 1, color: AppColors.divider),
+        Padding(
+          padding: const EdgeInsets.all(AppSpacing.md),
+          child: TextField(
+            key: const ValueKey('viewerTextOverlayField'),
+            controller: _controller,
+            autofocus: true,
+            minLines: 1,
+            maxLines: 3,
+            decoration: InputDecoration(
+              hintText: l10n.exportQuoteOverlayPlaceholder,
+              filled: true,
+              fillColor: AppColors.surfaceVariant,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.md,
-              0,
-              AppSpacing.md,
-              AppSpacing.md,
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: Text(l10n.actionCancel),
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.sm),
-                Expanded(
-                  child: FilledButton(
-                    onPressed: () =>
-                        Navigator.of(context).pop(_controller.text),
-                    child: Text(l10n.actionApply),
-                  ),
-                ),
-              ],
-            ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.md,
+            0,
+            AppSpacing.md,
+            AppSpacing.md,
           ),
-        ],
-      ),
+          child: Row(
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(l10n.actionCancel),
+                ),
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(
+                child: FilledButton(
+                  onPressed: () => Navigator.of(context).pop(_controller.text),
+                  child: Text(l10n.actionApply),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

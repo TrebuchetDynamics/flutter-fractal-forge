@@ -808,7 +808,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
     );
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(20, 14, 20, 20),
+      padding: const EdgeInsets.fromLTRB(20, 14, 20, 8),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         border: Border(
@@ -818,59 +818,57 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
           ),
         ),
       ),
-      child: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            LayoutBuilder(
-              builder: (context, constraints) {
-                if (constraints.maxWidth < 420) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      saveButton,
-                      const SizedBox(height: 10),
-                      shareButton,
-                    ],
-                  );
-                }
-                return Row(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          LayoutBuilder(
+            builder: (context, constraints) {
+              if (constraints.maxWidth < 420) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Expanded(child: saveButton),
-                    const SizedBox(width: 12),
-                    Expanded(child: shareButton),
+                    saveButton,
+                    const SizedBox(height: 10),
+                    shareButton,
                   ],
                 );
-              },
-            ),
-            if (canSetWallpaper) ...[
-              const SizedBox(height: 10),
-              SizedBox(
-                width: double.infinity,
-                child: Semantics(
-                  button: true,
-                  label: l10n.wallpaperTitle,
-                  child: OutlinedButton.icon(
-                    key: const ValueKey('exportWallpaperButton'),
-                    onPressed: () {
-                      Navigator.of(context).pop(
-                        ExportSheetSubmission(
-                          options: effectiveOptions,
-                          action: ExportAction.setWallpaper,
-                        ),
-                      );
-                    },
-                    icon: const Icon(Icons.wallpaper_rounded),
-                    label: Text(l10n.wallpaperTitle),
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                    ),
+              }
+              return Row(
+                children: [
+                  Expanded(child: saveButton),
+                  const SizedBox(width: 12),
+                  Expanded(child: shareButton),
+                ],
+              );
+            },
+          ),
+          if (canSetWallpaper) ...[
+            const SizedBox(height: 10),
+            SizedBox(
+              width: double.infinity,
+              child: Semantics(
+                button: true,
+                label: l10n.wallpaperTitle,
+                child: OutlinedButton.icon(
+                  key: const ValueKey('exportWallpaperButton'),
+                  onPressed: () {
+                    Navigator.of(context).pop(
+                      ExportSheetSubmission(
+                        options: effectiveOptions,
+                        action: ExportAction.setWallpaper,
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.wallpaper_rounded),
+                  label: Text(l10n.wallpaperTitle),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
                 ),
               ),
-            ],
+            ),
           ],
-        ),
+        ],
       ),
     );
   }

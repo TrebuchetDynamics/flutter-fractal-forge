@@ -2765,7 +2765,7 @@ abstract class AppLocalizations {
   /// No description provided for @exportSimpleModeHint.
   ///
   /// In en, this message translates to:
-  /// **'Simple mode — choose a quick preset, then tap Export or Share.'**
+  /// **'Simple mode — choose a quick preset, then tap Save image or Save & share.'**
   String get exportSimpleModeHint;
 
   /// No description provided for @exportCustomizeModeHint.

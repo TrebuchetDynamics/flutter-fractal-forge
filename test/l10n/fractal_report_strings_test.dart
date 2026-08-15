@@ -20,10 +20,14 @@ import '../a11y/shared/a11y_test_helpers.dart';
 ///
 /// Nothing touches the filesystem until "Save report" is pressed, so the sheet
 /// itself renders without needing a seam for FractalReportService.
-Future<void> openReportSheet(WidgetTester tester, Locale locale) async {
+Future<void> openReportSheet(
+  WidgetTester tester,
+  Locale locale, {
+  Size surfaceSize = const Size(400, 800),
+}) async {
   TestWidgetsFlutterBinding.ensureInitialized();
   SharedPreferences.setMockInitialValues({});
-  await tester.binding.setSurfaceSize(const Size(400, 800));
+  await tester.binding.setSurfaceSize(surfaceSize);
   addTearDown(() => tester.binding.setSurfaceSize(null));
 
   final registry = ModuleRegistry();
@@ -131,6 +135,34 @@ void main() {
       expect(find.text(en.reportDialogSymptoms), findsOneWidget);
       expect(find.text(en.reportDialogNotes), findsOneWidget);
       expect(find.text(en.reportDialogSave), findsOneWidget);
+      await disposeAccessibilityTestWidget(tester);
+    });
+
+    testWidgets('Notes opens with a complete touch target on a phone',
+        (tester) async {
+      await openReportSheet(
+        tester,
+        const Locale('en'),
+        surfaceSize: const Size(411, 731),
+      );
+
+      final field = find.byType(TextField);
+      final scrollable = find.ancestor(
+        of: field,
+        matching: find.byType(SingleChildScrollView),
+      );
+      final fieldRect = tester.getRect(field);
+      final viewportRect = tester.getRect(scrollable);
+      final visibleTop =
+          fieldRect.top.clamp(viewportRect.top, viewportRect.bottom);
+      final visibleBottom =
+          fieldRect.bottom.clamp(viewportRect.top, viewportRect.bottom);
+
+      expect(
+        visibleBottom - visibleTop,
+        greaterThanOrEqualTo(48),
+        reason: 'field=$fieldRect viewport=$viewportRect',
+      );
       await disposeAccessibilityTestWidget(tester);
     });
 
