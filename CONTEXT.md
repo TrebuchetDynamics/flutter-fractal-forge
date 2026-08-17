@@ -48,6 +48,14 @@ _Avoid_: Listening path, beam explains every note, exact shader readback
 A separate catalog family for reactive, instrument-like fractal visuals whose parameters may be driven by time, gestures, or modulation. They do not change the behavior, controls, presets, or render contracts of existing mathematical fractal modules.
 _Avoid_: Global perform mode, retrofitted modulator, all-fractal audio mode
 
+**Fourier View**:
+A viewer overlay that samples the effective rendered frame and shows its discrete Fourier spectrum, exposing dominant spatial-frequency energy, orientation, and radial shape of the visible fractal. It is readback-from-renderer evidence; the spectrum reflects the actual displayed frame, not a separate analysis pass that can disagree with what the user sees.
+_Avoid_: Instrument-loop animation, marketing visualiser, off-frame spectrum
+
+**Finite Uncertainty Laboratory**:
+A bounded, finite-grid experimentation mode with exact Cantor and Sierpiński masks and arbitrary-size unitary FFT support, used to study spectral uncertainty on constructible fractals rather than claim open-ended numerical power. It documents explicit limits and finite experiments.
+_Avoid_: Infinite grid, unbounded FFT promise, exact infinity claim
+
 **Launch Thumbnail Standard**:
 The thumbnail contract for bundled catalog assets used in launch-critical browsing and screenshots: 320×320 PNGs. Smaller staged smoke outputs are allowed only as generation-test artifacts, not as bundled catalog assets.
 _Avoid_: Smoke thumbnail size, arbitrary thumbnail size, per-run asset size

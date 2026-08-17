@@ -38,7 +38,8 @@ Fractal Forge is an open-source Flutter explorer for mathematical systems and ge
 - **Broad mathematical range** — 966 production fractals across escape-time formulas, root-finding basins, strange attractors, IFS, cellular systems, tilings, space-filling curves, and ray-marched 3D forms.
 - **GPU-first interaction** — Flutter fragment shaders keep ordinary exploration responsive, with deeper preview and CPU paths where the module supports them.
 - **A real creative toolset** — presets, randomizer, looper, auto-explore, dual Mandelbrot/Julia viewing, wallpaper tools, sharing, and Fractal Music experiments.
-- **Color as a first-class control** — 60+ color schemes plus smooth coloring, orbit traps, distance estimation, stripe and curvature averaging, and normal-map relief.
+- **Live Fourier analysis** — renderer-derived spectra, a finite-grid uncertainty laboratory (Cantor and Sierpiński masks, arbitrary-size FFT), and Fourier Music that composes deterministically from measured image features.
+- **Color as a first-class control** — 64 color schemes plus smooth coloring, orbit traps, distance estimation, stripe and curvature averaging, and normal-map relief.
 - **Private by design** — no ads, tracking, account requirement, or data collection.
 - **Accessible controls** — high contrast, reduced motion, screen-reader labels, and configurable touch targets.
 

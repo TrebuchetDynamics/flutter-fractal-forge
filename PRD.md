@@ -229,22 +229,19 @@ Each new fractal must pass:
 ## 15) Status (as of 2026-02-07)
 
 ### Implemented
-- 964 production fractal modules plus 1 scientific visualization in the live catalog (972 debug/test registry modules including 7 diagnostics), including Mandelbrot, Julia, Burning Ship, Phoenix, Mandelbulb, and many more
-- In-app FFmpeg via `ffmpeg_kit_flutter_min_gpl` for video export
+- 966 production fractal modules plus 1 scientific visualization in the live catalog (974 debug/test registry modules including 7 diagnostics), including Mandelbrot, Julia, Burning Ship, Phoenix, Mandelbulb, and many more (counts are locked by `test/catalog/catalog_id_integrity_test.dart`)
+- In-app FFmpeg via `ffmpeg_kit_flutter_new_min` for video export
 - Dedicated export directory (Android Pictures/FlutterFractals)
 - Schema-driven controls per fractal
 - Minimap navigation overlay
 - Debug overlay for shader troubleshooting
+- Live Fourier analysis, finite-grid uncertainty laboratory, and Fourier Music
 - 50+ sub-agent improvements (haptics, stats, video export, accessibility)
 
 ### Known Issues
-- **CRITICAL: Flutter 3.38+ Impeller shader rendering**
-  - Fragment shaders show black screen on both emulator and real devices
-  - Impeller opt-out deprecated (Flutter ignores manifest setting)
-  - Options: downgrade Flutter to 3.19, CPU fallback, or wait for fix
+- ~~**CRITICAL: Flutter 3.38+ Impeller shader rendering**~~ — **RESOLVED** (2026-04-05). The black-screen was caused by SkSL-incompatible `%` and `clamp(int, int, int)` operators in shaders; replaced with integer-division modulo and `float(clamp(...))` patterns. All 3D and escape-time shaders compile and render on GPU.
 
 ### Remaining / TODO
-- Fix Impeller shader compatibility issue
-- Add 99 more fractals per roadmap (Section 14)
+- See `docs/planning/PRD.md` (maintained) and `TODO.md` for current gaps; the status block below is a 2026-02-07 historical snapshot
 - Verify FFmpeg kit on real Android devices
 - MediaStore integration for Android 10+ gallery visibility

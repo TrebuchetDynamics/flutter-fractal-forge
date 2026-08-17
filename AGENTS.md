@@ -48,7 +48,7 @@ Navigation: HomeScreen -> Catalog -> Viewer (with FractalController per tab)
 
 ### Working In This Directory
 - Build with: `flutter run -d linux`
-- Dart SDK 3.10.7, Flutter desktop (Linux primary)
+- Flutter 3.44.6 stable / Dart 3.12.2, Flutter desktop (Linux primary)
 - If local linker tooling is needed, keep it outside the repo and on `PATH`.
 - Provider is used for DI; FractalController is the primary state holder
 - Most fractals use the escape-time builder pattern (declarative config + shader)
@@ -75,11 +75,14 @@ Navigation: HomeScreen -> Catalog -> Viewer (with FractalController per tab)
 - `provider` ^6.1.2 - State management
 - `vector_math` ^2.1.4 - Math for 3D transforms
 - `image` ^4.0.0 - Image encoding/export
-- `shared_preferences` ^2.2.0 - Local persistence
-- `camera` ^0.10.6 - overlay camera feed
+- `shared_preferences` ^2.5.5 - Local persistence
 - `path_provider` ^2.1.0 - File system paths
-- `share_plus` ^7.0.0 - Share/export
-- `permission_handler` ^11.0.0 - Runtime permissions
+- `share_plus` ^13.2.0 - Share/export
+- `url_launcher` ^6.3.2 - External links and deep links
+- `package_info_plus` ^10.2.1 - App version metadata
+- `ffmpeg_kit_flutter_new_min` 3.6.2 - In-app video export
+- `fftea` ^1.5.0 - Fourier analysis
+- `web` ^1.1.1 - Web target support
 
 <!-- MANUAL: -->
 
