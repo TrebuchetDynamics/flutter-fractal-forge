@@ -24,6 +24,52 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def select_artifacts_for_identity(
+    artifact_dir: Path,
+    *,
+    version: str,
+    build_number: str,
+    commit: str,
+    required_names: set[str] | None = None,
+) -> list[Path]:
+    """Return only staged artifacts bound to the requested release identity."""
+    artifact_dir = artifact_dir.resolve()
+    selected: list[Path] = []
+    for artifact in sorted(artifact_dir.iterdir()):
+        if not artifact.name.endswith((".aab", ".apk", ".tar.gz", ".zip")):
+            continue
+        if artifact.is_symlink():
+            raise ValueError(f"release artifact must not be a symbolic link: {artifact}")
+        if not artifact.is_file():
+            continue
+        provenance = Path(f"{artifact}.provenance")
+        if not provenance.is_file():
+            continue
+        if provenance.is_symlink():
+            raise ValueError(f"artifact provenance must not be a symbolic link: {provenance}")
+        fields: dict[str, str] = {}
+        for line in provenance.read_text(encoding="utf-8").splitlines():
+            if "=" in line:
+                key, value = line.split("=", 1)
+                fields[key] = value
+        if (
+            fields.get("version") == version
+            and fields.get("build_number") == build_number
+            and fields.get("commit") == commit
+        ):
+            selected.append(artifact.resolve())
+    if required_names is not None:
+        selected_by_name = {artifact.name: artifact for artifact in selected}
+        missing = sorted(required_names - selected_by_name.keys())
+        if missing:
+            raise ValueError(
+                "required artifact set mismatch: "
+                f"missing={missing}"
+            )
+        selected = [selected_by_name[name] for name in sorted(required_names)]
+    return selected
+
+
 def project_version(project_root: Path) -> str:
     for line in (project_root / "pubspec.yaml").read_text(encoding="utf-8").splitlines():
         if line.startswith("version:"):
@@ -136,7 +182,11 @@ def git_commit(project_root: Path) -> str:
 def generate(args: argparse.Namespace) -> None:
     project_root = Path(args.project_root).resolve()
     output_dir = Path(args.output_dir).resolve()
-    artifacts = [Path(value).resolve() for value in args.artifact]
+    artifact_inputs = [Path(value) for value in args.artifact]
+    for artifact in artifact_inputs:
+        if artifact.is_symlink():
+            raise ValueError(f"release artifact must not be a symbolic link: {artifact}")
+    artifacts = [artifact.resolve() for artifact in artifact_inputs]
     for artifact in artifacts:
         if not artifact.is_file():
             raise FileNotFoundError(f"Release artifact not found: {artifact}")
@@ -150,7 +200,12 @@ def generate(args: argparse.Namespace) -> None:
             raise ValueError("--evidence must use NAME=PATH") from error
         if not name or not name.replace("-", "").replace("_", "").isalnum():
             raise ValueError(f"invalid evidence name: {name!r}")
-        source = Path(source_value).resolve()
+        source_input = Path(source_value)
+        if source_input.is_symlink():
+            raise ValueError(
+                f"release evidence must not be a symbolic link: {source_input}"
+            )
+        source = source_input.resolve()
         if not source.is_file():
             raise FileNotFoundError(f"Evidence file not found: {source}")
         destination_name = f"{name}{source.suffix or '.txt'}"
@@ -526,16 +581,28 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--list-assets", type=Path)
     parser.add_argument("--snapshot-assets", type=Path)
     parser.add_argument("--snapshot-dir", type=Path)
+    parser.add_argument("--select-artifacts", type=Path)
+    parser.add_argument("--required-artifact", action="append", default=[])
     args = parser.parse_args()
-    if (args.list_assets or args.snapshot_assets) and not (
+    if (args.list_assets or args.snapshot_assets or args.select_artifacts) and not (
         args.version and args.build_number and args.commit
     ):
         parser.error(
-            "--list-assets/--snapshot-assets require --version, --build-number, and --commit"
+            "asset selection requires --version, --build-number, and --commit"
         )
     if args.snapshot_assets and not args.snapshot_dir:
         parser.error("--snapshot-assets requires --snapshot-dir")
-    if not args.verify and not args.list_assets and not args.snapshot_assets and not args.artifact:
+    if args.select_artifacts and not args.required_artifact:
+        parser.error("--select-artifacts requires --required-artifact")
+    if args.required_artifact and not args.select_artifacts:
+        parser.error("--required-artifact requires --select-artifacts")
+    if (
+        not args.verify
+        and not args.list_assets
+        and not args.snapshot_assets
+        and not args.select_artifacts
+        and not args.artifact
+    ):
         parser.error(
             "at least one --artifact is required unless --verify or --list-assets is used"
         )
@@ -554,6 +621,15 @@ def main() -> int:
                 expected_commit=args.commit,
             ):
                 print(asset)
+        elif args.select_artifacts:
+            for artifact in select_artifacts_for_identity(
+                args.select_artifacts,
+                version=args.version,
+                build_number=args.build_number,
+                commit=args.commit,
+                required_names=set(args.required_artifact) or None,
+            ):
+                print(artifact)
         elif args.list_assets:
             for asset in verified_asset_paths(
                 args.list_assets,

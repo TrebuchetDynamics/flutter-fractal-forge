@@ -249,6 +249,8 @@ done
 [[ ${#STAGES[@]} -gt 0 ]] || die "No stage selected (see --help)"
 
 mkdir -p "$ARTIFACT_DIR"
+ARTIFACT_DIR="$(cd "$ARTIFACT_DIR" && pwd -P)"
+FINAL_DEVICE_EVIDENCE_DIR="$ARTIFACT_DIR/final-device-gate"
 
 guarded() {
   # guarded <description...> -- prints what would happen and returns 1
@@ -684,19 +686,51 @@ PY
 stage_evidence() {
   log "=== evidence: manifest + SBOM + notices + checksums ==="
   need python3
-  local artifacts=() evidence_args=() relative_artifacts=() artifact version build_number info_version info_build_number evidence_bundle provenance_index=0 evidence_file evidence_name device_evidence_count=0
+  local artifacts=() evidence_args=() relative_artifacts=() required_artifact_args=() artifact version build_number commit artifacts_output info_version info_build_number evidence_bundle provenance_index=0 evidence_file evidence_name device_evidence_count=0
   rm -f "$ARTIFACT_DIR"/fractal-forge-release-evidence-v*.tar.gz
-  shopt -s nullglob
-  artifacts+=("$ARTIFACT_DIR"/*.aab "$ARTIFACT_DIR"/*.apk \
-    "$ARTIFACT_DIR"/*.tar.gz "$ARTIFACT_DIR"/*.zip)
-  shopt -u nullglob
+  version="$(release_version)"
+  build_number="$(release_build_number)"
+  commit="$(git rev-parse HEAD)"
+  if stage_selected android_build || stage_selected android; then
+    required_artifact_args+=(
+      --required-artifact "fractal-forge-android-v${version}.aab"
+      --required-artifact "fractal-forge-android-armeabi-v7a-v${version}.apk"
+      --required-artifact "fractal-forge-android-arm64-v8a-v${version}.apk"
+      --required-artifact "fractal-forge-android-x86_64-v${version}.apk"
+    )
+  fi
+  if stage_selected linux; then
+    required_artifact_args+=(--required-artifact "fractal-forge-linux-x64-v${version}.tar.gz")
+  fi
+  if stage_selected windows; then
+    required_artifact_args+=(--required-artifact "fractal-forge-windows-x64.zip")
+  fi
+  if [[ ${#required_artifact_args[@]} -eq 0 ]]; then
+    required_artifact_args+=(
+      --required-artifact "fractal-forge-android-v${version}.aab"
+      --required-artifact "fractal-forge-android-armeabi-v7a-v${version}.apk"
+      --required-artifact "fractal-forge-android-arm64-v8a-v${version}.apk"
+      --required-artifact "fractal-forge-android-x86_64-v${version}.apk"
+      --required-artifact "fractal-forge-linux-x64-v${version}.tar.gz"
+      --required-artifact "fractal-forge-windows-x64.zip"
+    )
+  fi
+  artifacts_output="$(
+    "$SCRIPT_DIR/generate_release_evidence.py" \
+      --select-artifacts "$ARTIFACT_DIR" \
+      --version "$version" \
+      --build-number "$build_number" \
+      --commit "$commit" \
+      "${required_artifact_args[@]}"
+  )" || die "Could not select artifacts for ${version}+${build_number} at $commit"
+  [[ -n "$artifacts_output" ]] ||
+    die "No staged release artifacts found in $ARTIFACT_DIR"
+  mapfile -t artifacts <<< "$artifacts_output"
   [[ ${#artifacts[@]} -gt 0 ]] || die "No staged release artifacts found in $ARTIFACT_DIR"
   for artifact in "${artifacts[@]}"; do
     evidence_args+=(--artifact "$artifact")
     relative_artifacts+=("${artifact#"$ARTIFACT_DIR"/}")
   done
-  version="$(release_version)"
-  build_number="$(release_build_number)"
   evidence_args+=(--build-number "$build_number")
   for artifact in "${artifacts[@]}"; do
     verify_artifact_provenance "$artifact" "$version" "$build_number" \
@@ -708,6 +742,8 @@ stage_evidence() {
   [[ -d "$FINAL_DEVICE_EVIDENCE_DIR" ]] ||
     die "Final device-gate evidence is missing: $FINAL_DEVICE_EVIDENCE_DIR"
   for evidence_file in "$FINAL_DEVICE_EVIDENCE_DIR"/*; do
+    [[ ! -L "$evidence_file" ]] ||
+      die "Final device-gate evidence must not be a symbolic link: $evidence_file"
     [[ -f "$evidence_file" ]] || continue
     evidence_name="$(basename "$evidence_file")"
     evidence_name="${evidence_name%.*}"

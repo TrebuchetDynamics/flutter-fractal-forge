@@ -9,6 +9,226 @@ from pathlib import Path
 
 
 class ReleaseEvidenceTest(unittest.TestCase):
+    def test_artifact_selection_excludes_stale_release_archives(self):
+        root = Path(__file__).resolve().parents[2]
+        script = root / "scripts" / "generate_release_evidence.py"
+        specification = importlib.util.spec_from_file_location(
+            "release_evidence_artifact_selection_test", script
+        )
+        if specification is None or specification.loader is None:
+            self.fail("could not load release evidence module")
+        module = importlib.util.module_from_spec(specification)
+        specification.loader.exec_module(module)
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            artifact_dir = Path(temp_dir)
+            current = artifact_dir / "fractal-forge-android-v1.1.89.aab"
+            stale = artifact_dir / "fractal-forge-web-v1.1.88.zip"
+            for artifact, version, build, commit in (
+                (current, "1.1.89", "89", "current-commit"),
+                (stale, "1.1.88", "88", "old-commit"),
+            ):
+                artifact.write_bytes(version.encode())
+                Path(f"{artifact}.provenance").write_text(
+                    f"version={version}\n"
+                    f"build_number={build}\n"
+                    f"commit={commit}\n"
+                    f"sha256={hashlib.sha256(artifact.read_bytes()).hexdigest()}\n"
+                )
+
+            selected = module.select_artifacts_for_identity(
+                artifact_dir,
+                version="1.1.89",
+                build_number="89",
+                commit="current-commit",
+            )
+
+            self.assertEqual(selected, [current.resolve()])
+
+    def test_artifact_selection_rejects_symlink_escape(self):
+        root = Path(__file__).resolve().parents[2]
+        script = root / "scripts" / "generate_release_evidence.py"
+        specification = importlib.util.spec_from_file_location(
+            "release_evidence_symlink_selection_test", script
+        )
+        if specification is None or specification.loader is None:
+            self.fail("could not load release evidence module")
+        module = importlib.util.module_from_spec(specification)
+        specification.loader.exec_module(module)
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp = Path(temp_dir)
+            artifact_dir = temp / "artifacts"
+            artifact_dir.mkdir()
+            outside = temp / "outside.zip"
+            outside.write_bytes(b"outside")
+            linked = artifact_dir / "fractal-forge-windows-x64.zip"
+            linked.symlink_to(outside)
+            Path(f"{linked}.provenance").write_text(
+                "version=1.1.89\nbuild_number=89\ncommit=current-commit\n"
+            )
+
+            with self.assertRaisesRegex(ValueError, "symbolic link"):
+                module.select_artifacts_for_identity(
+                    artifact_dir,
+                    version="1.1.89",
+                    build_number="89",
+                    commit="current-commit",
+                )
+
+    def test_artifact_selection_requires_exact_expected_set(self):
+        root = Path(__file__).resolve().parents[2]
+        script = root / "scripts" / "generate_release_evidence.py"
+        specification = importlib.util.spec_from_file_location(
+            "release_evidence_required_selection_test", script
+        )
+        if specification is None or specification.loader is None:
+            self.fail("could not load release evidence module")
+        module = importlib.util.module_from_spec(specification)
+        specification.loader.exec_module(module)
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            artifact_dir = Path(temp_dir)
+            current = artifact_dir / "fractal-forge-linux-x64-v1.1.89.tar.gz"
+            current.write_bytes(b"linux")
+            Path(f"{current}.provenance").write_text(
+                "version=1.1.89\nbuild_number=89\ncommit=current-commit\n"
+            )
+
+            with self.assertRaisesRegex(ValueError, "required artifact set mismatch"):
+                module.select_artifacts_for_identity(
+                    artifact_dir,
+                    version="1.1.89",
+                    build_number="89",
+                    commit="current-commit",
+                    required_names={
+                        current.name,
+                        "fractal-forge-windows-x64.zip",
+                    },
+                )
+
+    def test_required_artifact_selection_ignores_other_current_artifacts(self):
+        root = Path(__file__).resolve().parents[2]
+        script = root / "scripts" / "generate_release_evidence.py"
+        specification = importlib.util.spec_from_file_location(
+            "release_evidence_required_filter_test", script
+        )
+        if specification is None or specification.loader is None:
+            self.fail("could not load release evidence module")
+        module = importlib.util.module_from_spec(specification)
+        specification.loader.exec_module(module)
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            artifact_dir = Path(temp_dir)
+            required = artifact_dir / "fractal-forge-android-v1.1.89.aab"
+            unrelated = artifact_dir / "fractal-forge-windows-x64.zip"
+            for artifact in (required, unrelated):
+                artifact.write_bytes(artifact.name.encode())
+                Path(f"{artifact}.provenance").write_text(
+                    "version=1.1.89\nbuild_number=89\ncommit=current-commit\n"
+                )
+
+            selected = module.select_artifacts_for_identity(
+                artifact_dir,
+                version="1.1.89",
+                build_number="89",
+                commit="current-commit",
+                required_names={required.name},
+            )
+
+            self.assertEqual(selected, [required.resolve()])
+
+    def test_generation_rejects_symlinked_artifact(self):
+        root = Path(__file__).resolve().parents[2]
+        script = root / "scripts" / "generate_release_evidence.py"
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp = Path(temp_dir)
+            outside = temp / "outside.zip"
+            outside.write_bytes(b"outside")
+            linked = temp / "linked.zip"
+            linked.symlink_to(outside)
+
+            result = subprocess.run(
+                [
+                    str(script),
+                    "--project-root",
+                    str(root),
+                    "--artifact",
+                    str(linked),
+                    "--output-dir",
+                    str(temp / "evidence"),
+                    "--version",
+                    "1.1.89",
+                    "--build-number",
+                    "89",
+                ],
+                capture_output=True,
+                text=True,
+            )
+
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("symbolic link", result.stderr)
+
+    def test_generation_rejects_symlinked_evidence(self):
+        root = Path(__file__).resolve().parents[2]
+        script = root / "scripts" / "generate_release_evidence.py"
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp = Path(temp_dir)
+            artifact = temp / "app.zip"
+            artifact.write_bytes(b"artifact")
+            outside = temp / "outside.txt"
+            outside.write_text("host-only")
+            linked = temp / "device.txt"
+            linked.symlink_to(outside)
+
+            result = subprocess.run(
+                [
+                    str(script),
+                    "--project-root",
+                    str(root),
+                    "--artifact",
+                    str(artifact),
+                    "--evidence",
+                    f"device-gate={linked}",
+                    "--output-dir",
+                    str(temp / "evidence"),
+                    "--version",
+                    "1.1.89",
+                    "--build-number",
+                    "89",
+                ],
+                capture_output=True,
+                text=True,
+            )
+
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("symbolic link", result.stderr)
+
+    def test_selector_cli_requires_canonical_artifact_names(self):
+        root = Path(__file__).resolve().parents[2]
+        script = root / "scripts" / "generate_release_evidence.py"
+        with tempfile.TemporaryDirectory() as temp_dir:
+            result = subprocess.run(
+                [
+                    str(script),
+                    "--select-artifacts",
+                    temp_dir,
+                    "--version",
+                    "1.1.89",
+                    "--build-number",
+                    "89",
+                    "--commit",
+                    "current-commit",
+                ],
+                capture_output=True,
+                text=True,
+            )
+
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn(
+                "--select-artifacts requires --required-artifact", result.stderr
+            )
+
     def test_release_pipeline_stages_and_attaches_evidence(self):
         root = Path(__file__).resolve().parents[2]
         release_script = (root / "scripts" / "release.sh").read_text()
@@ -17,7 +237,14 @@ class ReleaseEvidenceTest(unittest.TestCase):
         ).read_text()
         self.assertIn("stage_evidence", release_script)
         self.assertIn("generate_release_evidence.py", release_script)
-        self.assertIn('artifacts+=("$ARTIFACT_DIR"/*.aab', release_script)
+        self.assertIn(
+            'ARTIFACT_DIR="$(cd "$ARTIFACT_DIR" && pwd -P)"', release_script
+        )
+        self.assertIn('--select-artifacts "$ARTIFACT_DIR"', release_script)
+        self.assertIn('--required-artifact "fractal-forge-windows-x64.zip"', release_script)
+        self.assertIn('if [[ ${#required_artifact_args[@]} -eq 0 ]]', release_script)
+        self.assertIn('[[ ! -L "$evidence_file" ]] ||', release_script)
+        self.assertIn('[[ -n "$artifacts_output" ]]', release_script)
         for target in (
             "android-arm:armeabi-v7a",
             "android-arm64:arm64-v8a",
