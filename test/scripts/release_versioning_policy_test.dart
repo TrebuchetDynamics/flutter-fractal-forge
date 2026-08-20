@@ -98,6 +98,10 @@ void main() {
     expect(preReleaseGate, contains(r'shell kill -INT "$pid"'));
     expect(preReleaseGate, contains(r'shell kill -KILL "$pid"'));
     expect(preReleaseGate, isNot(contains('pkill')));
+    expect(preReleaseGate, contains('close stale system dialogs'));
+    expect(preReleaseGate, contains('close system dialogs after restoration'));
+    expect(
+        preReleaseGate, contains('android.intent.action.CLOSE_SYSTEM_DIALOGS'));
     expect(preReleaseGate, contains('trap cleanup_device EXIT'));
   });
 }

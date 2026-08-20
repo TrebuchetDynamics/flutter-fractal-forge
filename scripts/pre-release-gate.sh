@@ -356,6 +356,10 @@ capture_network_state() {
 }
 cleanup_device() {
   stop_device_monkey || true
+  if [[ "$DRY_RUN" -eq 0 && -n "$DEVICE" ]]; then
+    adb -s "$DEVICE" shell am broadcast \
+      -a android.intent.action.CLOSE_SYSTEM_DIALOGS >/dev/null 2>&1 || true
+  fi
   restore_network
 }
 trap cleanup_device EXIT
@@ -394,6 +398,8 @@ else
   adb -s "$DEVICE" forward --remove-all
 fi
 run_gate "clear stale monkey input" stop_device_monkey
+adb_gate "close stale system dialogs" shell am broadcast \
+  -a android.intent.action.CLOSE_SYSTEM_DIALOGS
 
 integration_files=(
   integration_test/flows/user_flows_test.dart
@@ -431,6 +437,8 @@ run_gate "wait for durable session write" sleep 3
 adb_gate "critical memory pressure" shell am send-trim-memory "$PACKAGE" RUNNING_CRITICAL
 adb_gate "process death" shell am force-stop "$PACKAGE"
 adb_gate "process restoration launch" shell am start -W -n "$COMPONENT"
+adb_gate "close system dialogs after restoration" shell am broadcast \
+  -a android.intent.action.CLOSE_SYSTEM_DIALOGS
 run_gate "wait for restored viewer" sleep 3
 if [[ "$DRY_RUN" -eq 1 ]]; then
   print_command adb -s "$DEVICE" exec-out screencap -p
