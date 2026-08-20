@@ -93,8 +93,8 @@ void main() {
     expect(preReleaseGate, isNot(contains(r'match($0,')));
     expect(preReleaseGate, contains(r'sub(/^.*Janky frames:.*\(/'));
     expect(preReleaseGate, contains('clear stale monkey input'));
-    expect(
-        preReleaseGate, contains('pkill -INT -f com.android.commands.monkey'));
+    expect(preReleaseGate, contains('pkill -INT com.android.commands.monkey'));
+    expect(preReleaseGate, isNot(contains('pkill -INT -f')));
     expect(preReleaseGate, contains('trap cleanup_device EXIT'));
   });
 }

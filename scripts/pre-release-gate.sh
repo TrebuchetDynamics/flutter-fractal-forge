@@ -146,14 +146,14 @@ collect_soak_sample() {
 
 stop_device_monkey() {
   if [[ "$DRY_RUN" -eq 1 ]]; then
-    print_command adb -s "$DEVICE" shell pkill -INT -f com.android.commands.monkey
+    print_command adb -s "$DEVICE" shell pkill -INT com.android.commands.monkey
     return 0
   fi
-  adb -s "$DEVICE" shell 'pkill -INT -f com.android.commands.monkey || true' \
+  adb -s "$DEVICE" shell 'pkill -INT com.android.commands.monkey || true' \
     >/dev/null 2>&1
   sleep 1
   if adb -s "$DEVICE" shell ps -A | grep -q 'com.android.commands.monkey'; then
-    adb -s "$DEVICE" shell 'pkill -KILL -f com.android.commands.monkey || true' \
+    adb -s "$DEVICE" shell 'pkill -KILL com.android.commands.monkey || true' \
       >/dev/null 2>&1
     sleep 1
   fi
