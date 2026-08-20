@@ -144,6 +144,22 @@ collect_soak_sample() {
   [[ "$output" == *"$required_marker"* ]]
 }
 
+stop_device_monkey() {
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    print_command adb -s "$DEVICE" shell pkill -INT -f com.android.commands.monkey
+    return 0
+  fi
+  adb -s "$DEVICE" shell 'pkill -INT -f com.android.commands.monkey || true' \
+    >/dev/null 2>&1
+  sleep 1
+  if adb -s "$DEVICE" shell ps -A | grep -q 'com.android.commands.monkey'; then
+    adb -s "$DEVICE" shell 'pkill -KILL -f com.android.commands.monkey || true' \
+      >/dev/null 2>&1
+    sleep 1
+  fi
+  ! adb -s "$DEVICE" shell ps -A | grep -q 'com.android.commands.monkey'
+}
+
 run_device_soak() {
   # Monkey can discard unsupported event categories and finish a nominal event
   # count early. Use a generous count plus a host wall-clock deadline so the
@@ -192,6 +208,10 @@ run_device_soak() {
   else
     soak_status=$?
   fi
+  stop_device_monkey || {
+    echo 'Could not stop Android monkey after the soak timeout.' >&2
+    return 1
+  }
   local soak_elapsed=$((SECONDS - soak_started_at))
   [[ "$soak_status" -eq 124 ]] || {
     echo "Soak ended without the expected wall-clock timeout (exit ${soak_status})." >&2
@@ -325,7 +345,11 @@ capture_network_state() {
   [[ "$DATA_WAS_ENABLED" == "0" || "$DATA_WAS_ENABLED" == "1" ]] ||
     DATA_WAS_ENABLED=""
 }
-trap restore_network EXIT
+cleanup_device() {
+  stop_device_monkey || true
+  restore_network
+}
+trap cleanup_device EXIT
 
 export PATH="$HOME/flutter/bin:$PATH"
 
@@ -360,6 +384,7 @@ if [[ "$DRY_RUN" -eq 1 ]]; then
 else
   adb -s "$DEVICE" forward --remove-all
 fi
+run_gate "clear stale monkey input" stop_device_monkey
 
 integration_files=(
   integration_test/flows/user_flows_test.dart

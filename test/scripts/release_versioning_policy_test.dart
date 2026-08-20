@@ -92,5 +92,9 @@ void main() {
     expect(releaseScript, isNot(contains(r'echo "${name}+${build}"')));
     expect(preReleaseGate, isNot(contains(r'match($0,')));
     expect(preReleaseGate, contains(r'sub(/^.*Janky frames:.*\(/'));
+    expect(preReleaseGate, contains('clear stale monkey input'));
+    expect(
+        preReleaseGate, contains('pkill -INT -f com.android.commands.monkey'));
+    expect(preReleaseGate, contains('trap cleanup_device EXIT'));
   });
 }
