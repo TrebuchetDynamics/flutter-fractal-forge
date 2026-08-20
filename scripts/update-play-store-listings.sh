@@ -76,8 +76,8 @@ for locale, listing in sorted(locales.items()):
     title = listing.get('title', '')
     short = listing.get('shortDescription', '')
     full = listing.get('fullDescription', '')
-    if len(title) > 50:
-        raise SystemExit(f'{locale}: title too long ({len(title)} > 50)')
+    if len(title) > 30:
+        raise SystemExit(f'{locale}: title too long ({len(title)} > 30)')
     if len(short) > 80:
         raise SystemExit(f'{locale}: shortDescription too long ({len(short)} > 80)')
     if len(full) > 4000:

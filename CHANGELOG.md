@@ -5,6 +5,24 @@ All notable changes to Flutter Fractal Forge are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.90] - 2026-08-20
+
+### Changed
+
+- Viewer tools are now direct, accessible floating actions instead of being
+  hidden behind a secondary More menu, with Auto Explore settings available
+  from the same action rail.
+- Google Play copy across all 15 supported locales now leads with the app’s
+  completely free, ad-free, offline experience and documents the current
+  export, creative, privacy, and accessibility capabilities.
+- Play publication now preserves the optimized localized title and applies all
+  localized listing text atomically with the verified production bundle.
+
+### Fixed
+
+- Auto Explore animation-controller initialization now follows the widget
+  lifecycle explicitly.
+
 ## [1.1.89] - 2026-08-15
 
 ### Changed

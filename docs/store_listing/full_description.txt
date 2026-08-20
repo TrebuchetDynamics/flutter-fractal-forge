@@ -1,27 +1,26 @@
-Fractal Forge is a fast, private fractal explorer for creating generative math art, fractal wallpapers, and visual studies. Explore 977 production fractals with GPU-accelerated GLSL shaders where supported, deep zoom, and real-time controls.
+Fractal Forge is a 100% free, GPU-powered fractal explorer and generative art studio. Explore 966 production fractals — Mandelbrot, Julia, Burning Ship, Newton basins, strange attractors, and ray-marched 3D worlds — with real-time rendering, deep zoom, and full creative control.
 
-Discover classic and modern fractal families:
-• Mandelbrot and Julia sets, Burning Ship, Tricorn, Celtic, Buffalo, Nova, Phoenix, and Lyapunov maps
-• Newton, Halley, Householder, Schroeder, and other root-finding basins
-• Strange attractors, cellular automata, space-filling curves, tilings, and IFS systems
-• 3D ray-marched worlds such as Mandelbulb, Mandelbox, and quaternion-style fractals
+No ads. No tracking. No account. Works fully offline.
 
-Use curated presets to jump to rich regions, adjust iterations, palettes, color styles, orbit traps, distance estimation, normal-map relief, and visual parameters, then export high-resolution PNG images for wallpaper, sharing, teaching, or study.
+EXPLORE & CREATE
+• 966 fractals: escape-time classics, root-finding basins, strange attractors, IFS, cellular automata, tilings, and 3D forms like Mandelbulb and Mandelbox
+• Smooth GPU rendering with deep zoom and pan, plus CPU precision paths for extreme detail
+• 60+ color schemes with smooth coloring, orbit traps, distance estimation, and normal-map relief
+• Dual Mandelbrot / Julia viewer, curated presets, randomizer, and auto-explore mode
+• Formula Lab: write and preview your own custom fractal formulas
+• Kaleidoscope and text overlay tools for unique compositions
 
-Features:
-• 977 production fractal modules
-• GPU-powered rendering where supported
-• Deep zoom and pan controls
-• 60+ color schemes with smooth coloring
-• Dual Mandelbrot / Julia viewer
-• Auto-explore mode for discovering interesting regions
-• Randomizer for instant new looks
-• Looper for animated parameter motion
-• Fractal Music generation from visual scans
-• Wallpaper apply/save tools
-• Export and share tools
-• Accessibility support with high contrast, reduced motion, labels, and configurable touch targets
+EXPORT & SHARE
+• Save high-resolution PNG images up to 4K, including batch export
+• Looper: animate zoom, pan, and parameters, then export looping GIF or MP4 video
+• Fractal Music: original soundtracks generated from your fractal’s visual patterns
+• Live Fourier spectra of the current render
+• Set any fractal as your wallpaper in one tap
+• Share images, or links that reopen your exact view
 
-Private by design: no ads, no tracking, no account required, and no data collection.
+ACCESSIBLE & PRIVATE BY DESIGN
+• High contrast, reduced motion, screen-reader labels, and configurable touch targets
+• No ads, no tracking, no data collection — the only permission is setting your wallpaper
+• Open source (Apache 2.0) and completely free
 
-Use Fractal Forge to create fractal art, study nonlinear systems, teach math patterns, make unique wallpapers, or relax with infinite visual worlds.
+Perfect for fractal wallpapers, generative art, math and physics education, studying nonlinear systems, or relaxing with infinite mathematical beauty. Every view is unique — and yours to keep.

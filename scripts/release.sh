@@ -558,7 +558,7 @@ stage_play() {
   need git
   need python3
 
-  local manifest staged_aab
+  local manifest staged_aab listing_title
   manifest="$ARTIFACT_DIR/evidence/release-manifest.json"
   [[ -f "$manifest" ]] ||
     die "Play publication requires final verified evidence: $manifest"
@@ -571,8 +571,17 @@ stage_play() {
   verify_android_aab "$staged_aab" "$RESOLVED_ANDROID_VERSION" \
     "$RESOLVED_ANDROID_BUILD_NUMBER"
 
+  listing_title="$(python3 - "$PROJECT_ROOT/docs/play-store-localized-listings.json" <<'PY'
+import json, sys
+with open(sys.argv[1], encoding='utf-8') as source:
+    print(json.load(source)['locales']['en-US']['title'])
+PY
+)"
+  [[ -n "$listing_title" ]] || die "en-US Play listing title is empty"
+
   PLAY_TRACK="$PLAY_TRACK" PLAY_RELEASE_STATUS="$PLAY_RELEASE_STATUS" \
-    PLAY_LISTING_TITLE="Fractal Forge" \
+    PLAY_LISTING_TITLE="$listing_title" \
+    PLAY_LISTINGS_JSON="$PROJECT_ROOT/docs/play-store-localized-listings.json" \
     PLAY_LISTING_ICON="$PROJECT_ROOT/assets/icon/ic_launcher_512.png" \
     PLAY_LISTING_ICON_SHA256="df076d811b34dd754e718ebfce3264cf0e35789e9ea7a1147bf246e79c1e9bb7" \
     PLAY_RECEIPT_PATH="$ARTIFACT_DIR/play-publication-receipt.json" \

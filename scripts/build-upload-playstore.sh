@@ -14,6 +14,7 @@ set -euo pipefail
 #   PLAY_SERVICE_ACCOUNT_JSON=path             default: play-console-upload/play-service-account.json
 #   PLAY_LISTING_LOCALE=locale                  default: en-US
 #   PLAY_LISTING_TITLE=title                    optional exact title update
+#   PLAY_LISTINGS_JSON=path                     optional all-locale listing update in the release edit
 #   PLAY_LISTING_ICON=path                      optional exact approved 512px icon
 #   PLAY_LISTING_ICON_SHA256=hex                required with PLAY_LISTING_ICON
 #   PLAY_RECEIPT_PATH=path                      durable redacted receipt output
@@ -27,12 +28,14 @@ TRACK="${PLAY_TRACK:-internal}"
 RELEASE_STATUS="${PLAY_RELEASE_STATUS:-draft}"
 KEY_JSON="${PLAY_SERVICE_ACCOUNT_JSON:-play-console-upload/play-service-account.json}"
 TMP_FILES=()
+TMP_DIRS=()
 SKIP_BUILD=0
 PREBUILT_AAB=""
 EXPECTED_VERSION=""
 EXPECTED_BUILD_NUMBER=""
 LISTING_LOCALE="${PLAY_LISTING_LOCALE:-en-US}"
 LISTING_TITLE="${PLAY_LISTING_TITLE:-}"
+LISTINGS_JSON="${PLAY_LISTINGS_JSON:-}"
 LISTING_ICON="${PLAY_LISTING_ICON:-}"
 LISTING_ICON_SHA256="${PLAY_LISTING_ICON_SHA256:-}"
 RECEIPT_PATH="${PLAY_RECEIPT_PATH:-play-console-upload/play-publication-receipt.json}"
@@ -44,7 +47,10 @@ usage() {
   echo
   scripts/build-play-console.sh --help
 }
-cleanup() { rm -f "${TMP_FILES[@]:-}"; }
+cleanup() {
+  rm -f "${TMP_FILES[@]:-}"
+  rm -rf "${TMP_DIRS[@]:-}"
+}
 trap cleanup EXIT
 
 BUILD_ARGS=()
@@ -201,6 +207,30 @@ with Image.open(p) as image:
         raise SystemExit("Listing icon must be opaque RGB")
 PY
 fi
+if [[ -n "$LISTINGS_JSON" ]]; then
+  [[ -f "$LISTINGS_JSON" ]] || die "Localized listings JSON not found: $LISTINGS_JSON"
+  python3 - "$LISTINGS_JSON" "$PACKAGE_NAME" <<'PY'
+import json, re, sys
+path, package = sys.argv[1:3]
+data = json.load(open(path, encoding='utf-8'))
+if data.get('packageName') != package:
+    raise SystemExit(f"listing package mismatch: {data.get('packageName')} != {package}")
+locales = data.get('locales') or {}
+if not locales:
+    raise SystemExit('no locales in listings JSON')
+for locale, listing in sorted(locales.items()):
+    if not re.fullmatch(r'[A-Za-z0-9-]+', locale):
+        raise SystemExit(f'invalid listing locale: {locale}')
+    for field in ('title', 'shortDescription', 'fullDescription'):
+        if not isinstance(listing.get(field), str) or not listing[field]:
+            raise SystemExit(f'{locale}: missing {field}')
+    limits = {'title': 30, 'shortDescription': 80, 'fullDescription': 4000}
+    for field, limit in limits.items():
+        if len(listing[field]) > limit:
+            raise SystemExit(f'{locale}: {field} too long ({len(listing[field])} > {limit})')
+print(f'validated {len(locales)} localized Play listing(s) for atomic publication')
+PY
+fi
 RELEASE_NAME="Fractal Forge ${VERSION_NAME:-unknown} (${BUILD_NUMBER:-unknown})"
 
 KEY_FILE="$(mktemp)"; TMP_FILES+=("$KEY_FILE")
@@ -254,6 +284,48 @@ BUNDLE_RESPONSE="$(request -X POST "${AUTH[@]}" \
 VERSION_CODE="$(printf '%s' "$BUNDLE_RESPONSE" | json_field versionCode)"
 [[ "$VERSION_CODE" == "$EXPECTED_BUILD_NUMBER" ]] ||
   die "Google Play versionCode mismatch: $VERSION_CODE != $EXPECTED_BUILD_NUMBER"
+
+LISTING_LOCALES=()
+LISTING_PAYLOAD_DIR=""
+if [[ -n "$LISTINGS_JSON" ]]; then
+  log "Preparing all localized listings in the same Play edit..."
+  CURRENT_LISTINGS="$(mktemp)"; TMP_FILES+=("$CURRENT_LISTINGS")
+  request "${AUTH[@]}" "$API/edits/$EDIT_ID/listings" > "$CURRENT_LISTINGS"
+  LISTING_PAYLOAD_DIR="$(mktemp -d)"; TMP_DIRS+=("$LISTING_PAYLOAD_DIR")
+  LISTING_LOCALES_OUTPUT="$(python3 - "$LISTINGS_JSON" "$CURRENT_LISTINGS" "$LISTING_PAYLOAD_DIR" <<'PY'
+import json, pathlib, sys
+local_path, current_path, output_dir = sys.argv[1:4]
+local = json.load(open(local_path, encoding='utf-8'))['locales']
+current = json.load(open(current_path, encoding='utf-8')).get('listings', [])
+if not current:
+    raise SystemExit('Play API returned no existing listings')
+current_by_locale = {item['language']: item for item in current}
+missing = sorted(set(current_by_locale) - set(local))
+if missing:
+    raise SystemExit('missing local copy for Play locale(s): ' + ', '.join(missing))
+root = pathlib.Path(output_dir)
+for locale, source in sorted(local.items()):
+    body = dict(source)
+    video = current_by_locale.get(locale, {}).get('video')
+    if video:
+        body['video'] = video
+    (root / f'{locale}.json').write_text(
+        json.dumps(body, ensure_ascii=False, separators=(',', ':')),
+        encoding='utf-8',
+    )
+    print(locale)
+PY
+  )" || die "Could not prepare localized listing payloads"
+  mapfile -t LISTING_LOCALES <<< "$LISTING_LOCALES_OUTPUT"
+  [[ ${#LISTING_LOCALES[@]} -gt 0 && -n "${LISTING_LOCALES[0]}" ]] ||
+    die "No localized listing payloads were prepared"
+  for locale in "${LISTING_LOCALES[@]}"; do
+    request -X PUT "${AUTH[@]}" -H 'Content-Type: application/json; charset=utf-8' \
+      --data-binary "@$LISTING_PAYLOAD_DIR/$locale.json" \
+      "$API/edits/$EDIT_ID/listings/$locale" >/dev/null
+    log "Updated locale in release edit: $locale"
+  done
+fi
 
 if [[ -n "$LISTING_TITLE" ]]; then
   [[ ${#LISTING_TITLE} -le 30 ]] || die "Play listing title exceeds 30 characters"
@@ -318,6 +390,19 @@ if [[ -n "$LISTING_TITLE" ]]; then
   [[ "$(printf '%s' "$VERIFY_LISTING_RESPONSE" | json_field title)" == "$LISTING_TITLE" ]] ||
     die "Committed Play listing title does not match '$LISTING_TITLE'"
 fi
+if [[ -n "$LISTINGS_JSON" ]]; then
+  for locale in "${LISTING_LOCALES[@]}"; do
+    VERIFY_LOCALIZED_RESPONSE="$(request "${AUTH[@]}" "$API/edits/$VERIFY_EDIT_ID/listings/$locale")"
+    VERIFY_LOCALIZED_RESPONSE="$VERIFY_LOCALIZED_RESPONSE" python3 - "$LISTING_PAYLOAD_DIR/$locale.json" "$locale" <<'PY'
+import json, os, sys
+expected = json.load(open(sys.argv[1], encoding='utf-8'))
+actual = json.loads(os.environ['VERIFY_LOCALIZED_RESPONSE'])
+for field in ('title', 'shortDescription', 'fullDescription'):
+    if actual.get(field) != expected.get(field):
+        raise SystemExit(f"Committed Play listing {sys.argv[2]} has mismatched {field}")
+PY
+  done
+fi
 if [[ -n "$LISTING_ICON" ]]; then
   VERIFY_ICON_RESPONSE="$(request "${AUTH[@]}" "$API/edits/$VERIFY_EDIT_ID/listings/$LISTING_LOCALE/icon")"
   VERIFY_ICON_RESPONSE="$VERIFY_ICON_RESPONSE" EXPECTED_ICON_ID="$ICON_ID" python3 - <<'PY'
@@ -330,12 +415,14 @@ PY
 fi
 request -X DELETE "${AUTH[@]}" "$API/edits/$VERIFY_EDIT_ID" >/dev/null
 
+LISTING_LOCALES_CSV="$(IFS=,; echo "${LISTING_LOCALES[*]:-}")"
 RECEIPT_TMP="$(mktemp)"; TMP_FILES+=("$RECEIPT_TMP")
 PACKAGE_NAME="$PACKAGE_NAME" EXPECTED_VERSION="$EXPECTED_VERSION" \
 EXPECTED_BUILD_NUMBER="$EXPECTED_BUILD_NUMBER" TRACK="$TRACK" \
 RELEASE_STATUS="$RELEASE_STATUS" EDIT_ID="$EDIT_ID" \
 AAB_SHA256="$AAB_SHA256" LISTING_LOCALE="$LISTING_LOCALE" \
-LISTING_TITLE="$LISTING_TITLE" LISTING_ICON_SHA256="$LISTING_ICON_SHA256" ICON_ID="${ICON_ID:-}" \
+LISTING_LOCALES_CSV="$LISTING_LOCALES_CSV" LISTING_TITLE="$LISTING_TITLE" \
+LISTING_ICON_SHA256="$LISTING_ICON_SHA256" ICON_ID="${ICON_ID:-}" \
 COMMIT_RESPONSE="$COMMIT_RESPONSE" python3 - "$RECEIPT_TMP" <<'PY'
 import datetime, json, os, pathlib, sys
 receipt = {
@@ -349,6 +436,7 @@ receipt = {
     "postCommitVerified": True,
     "aabSha256": os.environ["AAB_SHA256"],
     "listingLocale": os.environ["LISTING_LOCALE"],
+    "listingLocales": [locale for locale in os.environ["LISTING_LOCALES_CSV"].split(",") if locale],
     "listingTitle": os.environ["LISTING_TITLE"],
     "listingIconSha256": os.environ["LISTING_ICON_SHA256"],
     "listingIconId": os.environ["ICON_ID"],

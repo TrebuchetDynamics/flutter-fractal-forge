@@ -28,16 +28,22 @@ void main() {
     expect(releaseScript, contains('--prepare=<version>'));
     expect(
       releaseScript,
-      contains('--prepare permits only android-build, linux, windows, and evidence'),
+      contains(
+          '--prepare permits only android-build, linux, windows, and evidence'),
     );
     expect(releaseScript, contains('preflight_prepare'));
     final playUploadScript =
         File('scripts/build-upload-playstore.sh').readAsStringSync();
     expect(playUploadScript, contains('data.get("image", data).get("id", "")'));
     expect(playUploadScript, contains('images.get("images"'));
-    expect(playUploadScript, contains('listing["title"] = os.environ["LISTING_TITLE"]'));
-    expect(playUploadScript, contains('Committed Play listing title does not match'));
-    expect(releaseScript, contains('PLAY_LISTING_TITLE="Fractal Forge"'));
+    expect(playUploadScript,
+        contains('listing["title"] = os.environ["LISTING_TITLE"]'));
+    expect(playUploadScript,
+        contains('Committed Play listing title does not match'));
+    expect(releaseScript, contains('play-store-localized-listings.json'));
+    expect(releaseScript, contains(r'PLAY_LISTING_TITLE="$listing_title"'));
+    expect(releaseScript, contains('PLAY_LISTINGS_JSON='));
+    expect(playUploadScript, contains('PLAY_LISTINGS_JSON'));
     expect(
       releaseScript,
       contains(
