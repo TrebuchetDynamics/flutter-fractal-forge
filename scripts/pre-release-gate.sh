@@ -256,8 +256,11 @@ run_device_soak() {
   local final_janky_percent
   final_janky_percent="$(awk -v min_frames="$MIN_JANKY_FRAME_COUNT" '
     /Total frames rendered:/ { frames = $4 + 0; next }
-    frames >= min_frames && match($0, /Janky frames:.*\(([0-9]+([.][0-9]+)?)%\)/, value) {
-      final = value[1] + 0
+    frames >= min_frames && /Janky frames:.*\([0-9]+([.][0-9]+)?%\)/ {
+      value = $0
+      sub(/^.*Janky frames:.*\(/, "", value)
+      sub(/%.*/, "", value)
+      final = value + 0
       count++
     }
     END { if (count) print final + 0 }
@@ -276,9 +279,12 @@ run_device_soak() {
 
   local peak_thermal_status
   peak_thermal_status="$(awk '
-    match($0, /[Ss]tatus:[[:space:]]*([0-9]+)/, value) {
+    /[Ss]tatus:[[:space:]]*[0-9]+/ {
+      value = $0
+      sub(/^.*[Ss]tatus:[[:space:]]*/, "", value)
+      sub(/[^0-9].*$/, "", value)
       count++
-      if (value[1] + 0 > peak) peak = value[1] + 0
+      if (value + 0 > peak) peak = value + 0
     }
     END { if (count) print peak + 0 }
   ' "$LOG_DIR/soak-thermal.log")"

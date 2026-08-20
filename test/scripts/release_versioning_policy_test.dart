@@ -7,6 +7,8 @@ void main() {
     final buildScript =
         File('scripts/build-play-console.sh').readAsStringSync();
     final releaseScript = File('scripts/release.sh').readAsStringSync();
+    final preReleaseGate =
+        File('scripts/pre-release-gate.sh').readAsStringSync();
     final androidBuild =
         File('android/app/build.gradle.kts').readAsStringSync();
 
@@ -88,5 +90,7 @@ void main() {
     expect(androidBuild, contains(r'.map { "**/$it/**" }'));
     expect(releaseScript, contains(r'echo "${version%%+*}"'));
     expect(releaseScript, isNot(contains(r'echo "${name}+${build}"')));
+    expect(preReleaseGate, isNot(contains(r'match($0,')));
+    expect(preReleaseGate, contains(r'sub(/^.*Janky frames:.*\(/'));
   });
 }
