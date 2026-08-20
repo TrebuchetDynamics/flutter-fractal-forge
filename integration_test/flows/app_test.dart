@@ -89,7 +89,7 @@ void main() {
       // Should be on viewer screen with the compact action set.
       expect(find.byKey(const Key('viewerRandomParamsButton')), findsOneWidget);
       expect(find.byKey(const Key('viewerExportButton')), findsOneWidget);
-      expect(find.byKey(const Key('viewerRandomButton')), findsOneWidget);
+      expect(find.byKey(const Key('viewerRandomFractalFab')), findsOneWidget);
 
       logger.logNavigation('Navigated to viewer');
 

@@ -27,33 +27,43 @@ void main() {
     expect(find.byTooltip('Close'), findsOneWidget);
   });
 
-  testWidgets('overflow secondary actions announce and support Shift+Enter',
+  testWidgets('secondary actions announce and support Shift+Enter on the FAB',
       (tester) async {
     final handle = tester.ensureSemantics();
-    await _pumpHarness(tester);
-    await _openMoreActions(tester);
-
-    final randomTile = find.byKey(const ValueKey('viewerRandomButton'));
-    final semantics = tester.getSemantics(randomTile);
-    expect(semantics.hint, contains('Shift+Enter'));
-
-    for (var presses = 0;
-        presses < 10 &&
-            !Focus.of(tester.element(find.text('Random Fractal'))).hasFocus;
-        presses++) {
-      await tester.sendKeyEvent(LogicalKeyboardKey.tab);
-      await tester.pump();
-    }
-    expect(
-      Focus.of(tester.element(find.text('Random Fractal'))).hasFocus,
-      isTrue,
+    var editInvoked = false;
+    await _pumpHarness(
+      tester,
+      onEditTextOverlay: () => editInvoked = true,
     );
+    await tester.pumpAndSettle();
+
+    // The overflow modal is gone; the text-overlay edit affordance now rides
+    // the long press (and Shift+Enter) of the text-overlay FAB itself.
+    final tooltip = find.byTooltip('Text overlay off. Tap to add text.');
+    final fab = find.byKey(const ValueKey('viewerTextOverlayFab'));
+    expect(fab, findsOneWidget);
+    final semantics =
+        find.bySemanticsLabel('Text overlay off. Tap to add text.');
+    expect(semantics, findsOneWidget);
+    expect(
+      tester.getSemantics(semantics).getSemanticsData().hint,
+      'Long press or Shift+Enter opens the secondary action.',
+    );
+
+    final gesture = find.descendant(
+      of: fab,
+      matching: find.byType(GestureDetector),
+    );
+    Focus.of(tester.element(gesture)).requestFocus();
+    await tester.pump();
+    expect(Focus.of(tester.element(tooltip)).hasFocus, isTrue);
+
     await tester.sendKeyDownEvent(LogicalKeyboardKey.shiftLeft);
     await tester.sendKeyEvent(LogicalKeyboardKey.enter);
     await tester.sendKeyUpEvent(LogicalKeyboardKey.shiftLeft);
-    await tester.pumpAndSettle();
-
-    expect(find.text('Random options'), findsOneWidget);
+    await tester.pump();
+    expect(editInvoked, isTrue);
+    expect(find.byKey(const ValueKey('viewerTextOverlayFab')), findsOneWidget);
     handle.dispose();
   });
 
@@ -245,8 +255,10 @@ void main() {
   });
 
   testWidgets('single-action FABs open no sheet on long press', (tester) async {
-    // These three toggle or open something directly; a sheet whose only tile
-    // repeats that action just costs a second tap.
+    // These toggle or open something directly; a sheet whose only tile
+    // repeats that action just costs a second tap. Text-overlay and Fourier
+    // are intentionally excluded: their long press runs the edit/settings
+    // secondary action instead of opening a sheet.
     for (final key in const [
       'viewerLooperFab',
       'viewerFractalMusicFab',
@@ -322,14 +334,10 @@ void main() {
 
 void _noop() {}
 
-Future<void> _openMoreActions(WidgetTester tester) async {
-  await tester.tap(find.byKey(const ValueKey('viewerMoreActionsButton')));
-  await tester.pumpAndSettle();
-}
-
 Future<void> _pumpHarness(
   WidgetTester tester, {
   ValueChanged<int>? onSetSectors,
+  VoidCallback? onEditTextOverlay,
   Locale locale = const Locale('en'),
   int sectors = 8,
 }) async {
@@ -341,6 +349,7 @@ Future<void> _pumpHarness(
       home: Scaffold(
         body: _Harness(
           onSetSectors: onSetSectors ?? (_) {},
+          onEditTextOverlay: onEditTextOverlay ?? () {},
           sectors: sectors,
         ),
       ),
@@ -351,9 +360,14 @@ Future<void> _pumpHarness(
 
 class _Harness extends StatefulWidget {
   final ValueChanged<int> onSetSectors;
+  final VoidCallback onEditTextOverlay;
   final int sectors;
 
-  const _Harness({required this.onSetSectors, required this.sectors});
+  const _Harness({
+    required this.onSetSectors,
+    required this.onEditTextOverlay,
+    required this.sectors,
+  });
 
   @override
   State<_Harness> createState() => _HarnessState();
@@ -397,7 +411,7 @@ class _HarnessState extends State<_Harness>
         shareLink: () {},
         shareImage: () {},
         toggleTextOverlay: () {},
-        editTextOverlay: () {},
+        editTextOverlay: widget.onEditTextOverlay,
         openLooper: () {},
         toggleFractalMusic: () {},
         toggleFourier: () {},

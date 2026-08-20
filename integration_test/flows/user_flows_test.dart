@@ -136,7 +136,9 @@ void main() {
       await pumpApp(tester);
       await openFirstModule(tester);
 
-      await tester.tap(find.byKey(const Key('viewerRandomParamsButton')));
+      await tester.longPress(
+        find.byKey(const Key('viewerRandomParamsButton')),
+      );
       await safeSettle(tester);
 
       expect(find.byType(FractalControlsHud), findsOneWidget);
@@ -204,7 +206,9 @@ void main() {
         catalogId: 'core.burning_ship',
       );
 
-      await tester.tap(find.byKey(const Key('viewerRandomParamsButton')));
+      await tester.longPress(
+        find.byKey(const Key('viewerRandomParamsButton')),
+      );
       await safeSettle(tester);
       expect(find.byType(FractalControlsHud), findsOneWidget);
       await tester.tap(find.byIcon(Icons.close_rounded).last);

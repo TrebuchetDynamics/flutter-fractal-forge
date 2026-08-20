@@ -718,8 +718,9 @@ void main() {
           'viewerLooperFab',
           'viewerFractalMusicFab',
           'viewerKaleidoscopeFab',
+          'viewerTextOverlayFab',
+          'viewerFourierFab',
           'viewerShareImageButton',
-          'viewerMoreActionsButton',
         ]) {
           final finder = find.byKey(ValueKey(key));
           expect(finder, findsOneWidget,
@@ -734,30 +735,7 @@ void main() {
           expect(rect.bottom, lessThanOrEqualTo(configuration.size.height),
               reason: '$key is below the viewport at $configuration');
         }
-        expect(find.byKey(const ValueKey('viewerRandomFractalFab')),
-            findsOneWidget);
-        expect(find.byKey(const ValueKey('viewerLooperFab')), findsOneWidget);
-        expect(find.byKey(const ValueKey('viewerFractalMusicFab')),
-            findsOneWidget);
-        expect(find.byKey(const ValueKey('viewerKaleidoscopeFab')),
-            findsOneWidget);
-        expect(find.byKey(const ValueKey('viewerShareImageButton')),
-            findsOneWidget);
-
-        await tester.tap(
-          find.byKey(const ValueKey('viewerMoreActionsButton')),
-        );
-        await tester.pumpAndSettle();
-
-        expect(find.text('More options'), findsWidgets);
-        expect(
-            find.byKey(const ValueKey('viewerRandomButton')), findsOneWidget);
-        expect(
-            find.byKey(const ValueKey('viewerLooperButton')), findsOneWidget);
         expect(tester.takeException(), isNull);
-
-        await tester.sendKeyEvent(LogicalKeyboardKey.escape);
-        await tester.pumpAndSettle();
       }
       addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
       addTearDown(() => tester.binding.setSurfaceSize(null));
@@ -793,10 +771,12 @@ void main() {
         'viewerLooperFab',
         'viewerFractalMusicFab',
         'viewerKaleidoscopeFab',
+        'viewerTextOverlayFab',
+        'viewerFourierFab',
         'viewerShareImageButton',
         'viewerExportButton',
         'viewerFullscreenButton',
-        'viewerMoreActionsButton',
+        'viewerReportFractalFab',
       ];
       for (var index = 0; index < orderedKeys.length; index++) {
         final finder = find.byKey(ValueKey(orderedKeys[index]));
@@ -827,20 +807,23 @@ void main() {
       semantics.dispose();
     });
 
-    testWidgets('overflow action exposes a localized label and hint',
+    testWidgets('promoted actions expose localized labels and hints',
         (tester) async {
       for (final locale in const [Locale('en'), Locale('es')]) {
         await tester.pumpWidget(buildTestWidget(locale: locale));
         await tester.pumpAndSettle();
 
-        final expectedLabel =
-            locale.languageCode == 'es' ? 'Más opciones' : 'More options';
+        final expectedLabel = locale.languageCode == 'es'
+            ? 'Vista de Fourier desactivada'
+            : 'Fourier view off';
         final expectedHint = locale.languageCode == 'es'
-            ? 'Abre las acciones secundarias del visor.'
-            : 'Opens secondary viewer actions.';
+            ? 'Muestra el fractal actual en los dominios espacial y de frecuencia. '
+                'Mantén pulsado o usa Mayús+Intro para abrir la acción secundaria.'
+            : 'View the current fractal in spatial and frequency domains. '
+                'Long press or Shift+Enter opens the secondary action.';
         final semantics = tester.widget<Semantics>(
           find.descendant(
-            of: find.byKey(const ValueKey('viewerMoreActionsButton')),
+            of: find.byKey(const ValueKey('viewerFourierFab')),
             matching: find.byWidgetPredicate(
               (widget) =>
                   widget is Semantics &&
@@ -852,14 +835,12 @@ void main() {
       }
     });
 
-    testWidgets('fractal music action is discoverable in overflow',
+    testWidgets('fractal music action is directly discoverable',
         (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(const ValueKey('viewerMoreActionsButton')));
-      await tester.pumpAndSettle();
-      final music = find.byKey(const ValueKey('viewerFractalMusicButton'));
+      final music = find.byKey(const ValueKey('viewerFractalMusicFab'));
       expect(music, findsOneWidget);
       await tester.ensureVisible(music);
       await tester.pumpAndSettle();
@@ -1171,12 +1152,13 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byKey(const Key('fractalTestSurface')), findsOneWidget);
-      expect(find.byKey(const ValueKey('viewerRandomButton')), findsNothing);
+      expect(
+          find.byKey(const ValueKey('viewerRandomFractalFab')), findsNothing);
       expect(
           find.byKey(const ValueKey('viewerRandomParamsButton')), findsNothing);
+      expect(find.byKey(const ValueKey('viewerFractalMusicFab')), findsNothing);
       expect(
-          find.byKey(const ValueKey('viewerFractalMusicButton')), findsNothing);
-      expect(find.byTooltip('Controls'), findsNothing);
+          find.byTooltip('Randomize. Long press for Controls'), findsNothing);
       expect(find.text('Mandelbrot'), findsNothing);
 
       historyProvider.cancelPendingRecord();
@@ -1259,16 +1241,31 @@ void main() {
           findsOneWidget);
     });
 
-    testWidgets('controls FAB opens controls sheet', (tester) async {
+    testWidgets('controls FAB long press opens controls sheet', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
+      // A single press randomizes the parameters instead of opening the panel;
+      // long press is what reveals the Controls HUD.
       await tester.tap(
+        find.byKey(const ValueKey('viewerRandomParamsButton')),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Controls'), findsNothing);
+
+      await tester.longPress(
         find.byKey(const ValueKey('viewerRandomParamsButton')),
       );
       await tester.pumpAndSettle();
 
       expect(find.text('Controls'), findsOneWidget);
+
+      // The randomize tap queues a history-record debounce timer; drain it so
+      // the test harness does not see a pending timer at teardown.
+      await tester.pump(const Duration(milliseconds: 400));
+      historyProvider.cancelPendingRecord();
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pump(const Duration(milliseconds: 50));
     });
 
     testWidgets('controls HUD supports modules without core params',
@@ -1277,7 +1274,7 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      await tester.tap(
+      await tester.longPress(
         find.byKey(const ValueKey('viewerRandomParamsButton')),
       );
       await tester.pumpAndSettle();
@@ -1373,9 +1370,7 @@ void main() {
       ));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(const ValueKey('viewerMoreActionsButton')));
-      await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const ValueKey('viewerLooperButton')));
+      await tester.tap(find.byKey(const ValueKey('viewerLooperFab')));
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('looperSetAButton')));
       controller.updateZoom(2);

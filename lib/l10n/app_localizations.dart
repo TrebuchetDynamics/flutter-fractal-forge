@@ -3002,22 +3002,10 @@ abstract class AppLocalizations {
   /// **'Quick navigation. Current zoom {zoom}. Actions: zoom out, reset view, zoom in, random fractal.'**
   String navDockQuickNavLabel(Object zoom);
 
-  /// No description provided for @tooltipMoreOptions.
-  ///
-  /// In en, this message translates to:
-  /// **'More options'**
-  String get tooltipMoreOptions;
-
-  /// No description provided for @viewerMoreActionsHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Opens secondary viewer actions.'**
-  String get viewerMoreActionsHint;
-
   /// No description provided for @viewerSecondaryActionHint.
   ///
   /// In en, this message translates to:
-  /// **'Shift+Enter opens the secondary action.'**
+  /// **'Long press or Shift+Enter opens the secondary action.'**
   String get viewerSecondaryActionHint;
 
   /// No description provided for @tooltipFullscreen.

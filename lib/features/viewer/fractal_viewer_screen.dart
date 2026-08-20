@@ -1796,28 +1796,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                     ),
                   ),
 
-                  if (_showCoreViewerChrome && _autoExploreService != null)
-                    Positioned(
-                      top: overlayTop + 64,
-                      left: AppSpacing.lg,
-                      child: ChangeNotifierProvider<AutoExploreService>.value(
-                        value: _autoExploreService!,
-                        child: AutoExploreButton(
-                          key: const ValueKey('viewerAutoExploreButton'),
-                          onLongPress: () => showModalBottomSheet<void>(
-                            context: context,
-                            isScrollControlled: true,
-                            backgroundColor: Colors.transparent,
-                            builder: (_) => ChangeNotifierProvider<
-                                AutoExploreService>.value(
-                              value: _autoExploreService!,
-                              child: const AutoExploreSettingsSheet(),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-
                   // Floating action buttons.
                   // Bound the region vertically (top + bottom) so the inner
                   // SingleChildScrollView gets a finite height and can actually
@@ -1825,60 +1803,83 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                   // unbounded height and overflowed off the top of short
                   // viewports (landscape phones / small web windows), pushing
                   // the upper buttons off-screen and over the status chips.
-                  if (_showCoreViewerChrome && !_showControlsHud)
+                  if (_showCoreViewerChrome &&
+                      !_showControlsHud &&
+                      _autoExploreService != null)
                     Positioned(
                       top: overlayTop,
                       left: AppSpacing.lg,
                       right: AppSpacing.lg,
                       bottom:
                           MediaQuery.of(context).padding.bottom + AppSpacing.xl,
-                      child: FractalViewControls(
-                        fabController: _fabController,
-                        isExporting: _exportFlowActive,
-                        kaleidoscopeEnabled:
-                            activeController.kaleidoscopeEnabled,
-                        kaleidoscopeSectors:
-                            activeController.kaleidoscopeSectors,
-                        kaleidoscopeMirror: activeController.kaleidoscopeMirror,
-                        fractalMusicEnabled: _viewerEffects.fractalMusicEnabled,
-                        fourierEnabled: _fourierEnabled,
-                        textOverlayEnabled: _textOverlay.enabled,
-                        showFractalReport:
-                            !kIsWeb && (Platform.isLinux || Platform.isAndroid),
-                        actions: FractalViewControlActions(
-                          toggleFullscreen: _toggleFullscreenUnobtrusive,
-                          openRandomFractal: () => _onRandomFractalFab(context),
-                          openControls: () => _toggleControlsHud(),
-                          randomizeParams: () {
-                            HapticFeedback.mediumImpact();
-                            final activeController = _activeController(context);
-                            activeController.randomizeParams();
-                          },
-                          cycleColorScheme: () => _cycleColorScheme(context),
-                          openPalettePicker: () => _openPalettePicker(context),
-                          toggleKaleidoscope: () =>
-                              _toggleKaleidoscope(context),
-                          setKaleidoscopeSectors: (sectors) {
-                            final activeController = _activeController(context);
-                            activeController.setKaleidoscopeEnabled(true);
-                            activeController.setKaleidoscopeSectors(sectors);
-                          },
-                          setKaleidoscopeMirror: (value) {
-                            final activeController = _activeController(context);
-                            activeController.setKaleidoscopeEnabled(true);
-                            activeController.setKaleidoscopeMirror(value);
-                          },
-                          openExport: () => _openExport(context),
-                          shareLink: () => _openShareLink(context),
-                          shareImage: () => _shareCurrentImage(context),
-                          toggleTextOverlay: _toggleTextOverlay,
-                          editTextOverlay: _editTextOverlay,
-                          openLooper: () => _openLooper(context),
-                          toggleFractalMusic: _toggleFractalMusic,
-                          toggleFourier: _toggleFourier,
-                          openFourierSettings: _openFourierSettings,
-                          reportFractal: () => _reportFractal(context),
-                          openWallpaper: () => _openWallpaper(context),
+                      child: ChangeNotifierProvider<AutoExploreService>.value(
+                        value: _autoExploreService!,
+                        child: FractalViewControls(
+                          fabController: _fabController,
+                          isExporting: _exportFlowActive,
+                          kaleidoscopeEnabled:
+                              activeController.kaleidoscopeEnabled,
+                          kaleidoscopeSectors:
+                              activeController.kaleidoscopeSectors,
+                          kaleidoscopeMirror:
+                              activeController.kaleidoscopeMirror,
+                          fractalMusicEnabled:
+                              _viewerEffects.fractalMusicEnabled,
+                          fourierEnabled: _fourierEnabled,
+                          textOverlayEnabled: _textOverlay.enabled,
+                          showFractalReport: !kIsWeb &&
+                              (Platform.isLinux || Platform.isAndroid),
+                          actions: FractalViewControlActions(
+                            toggleFullscreen: _toggleFullscreenUnobtrusive,
+                            openRandomFractal: () =>
+                                _onRandomFractalFab(context),
+                            openControls: () => _toggleControlsHud(),
+                            randomizeParams: () {
+                              HapticFeedback.mediumImpact();
+                              final activeController =
+                                  _activeController(context);
+                              activeController.randomizeParams();
+                            },
+                            cycleColorScheme: () => _cycleColorScheme(context),
+                            openPalettePicker: () =>
+                                _openPalettePicker(context),
+                            toggleKaleidoscope: () =>
+                                _toggleKaleidoscope(context),
+                            setKaleidoscopeSectors: (sectors) {
+                              final activeController =
+                                  _activeController(context);
+                              activeController.setKaleidoscopeEnabled(true);
+                              activeController.setKaleidoscopeSectors(sectors);
+                            },
+                            setKaleidoscopeMirror: (value) {
+                              final activeController =
+                                  _activeController(context);
+                              activeController.setKaleidoscopeEnabled(true);
+                              activeController.setKaleidoscopeMirror(value);
+                            },
+                            openExport: () => _openExport(context),
+                            shareLink: () => _openShareLink(context),
+                            shareImage: () => _shareCurrentImage(context),
+                            toggleTextOverlay: _toggleTextOverlay,
+                            editTextOverlay: _editTextOverlay,
+                            openLooper: () => _openLooper(context),
+                            toggleFractalMusic: _toggleFractalMusic,
+                            toggleFourier: _toggleFourier,
+                            openFourierSettings: _openFourierSettings,
+                            reportFractal: () => _reportFractal(context),
+                            openWallpaper: () => _openWallpaper(context),
+                            openAutoExploreSettings: () =>
+                                showModalBottomSheet<void>(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (_) => ChangeNotifierProvider<
+                                  AutoExploreService>.value(
+                                value: _autoExploreService!,
+                                child: const AutoExploreSettingsSheet(),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),

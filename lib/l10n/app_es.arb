@@ -697,9 +697,7 @@
     }
   },
 
-  "tooltipMoreOptions": "Más opciones",
-  "viewerMoreActionsHint": "Abre las acciones secundarias del visor.",
-  "viewerSecondaryActionHint": "Mayús+Intro abre la acción secundaria.",
+  "viewerSecondaryActionHint": "Mantén pulsado o usa Mayús+Intro para abrir la acción secundaria.",
   "tooltipFullscreen": "Pantalla completa",
 
   "semanticSliderAdjust": "Ajustar de {min} a {max}",

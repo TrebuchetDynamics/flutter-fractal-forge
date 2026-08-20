@@ -1587,15 +1587,8 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get tooltipMoreOptions => 'Más opciones';
-
-  @override
-  String get viewerMoreActionsHint =>
-      'Abre las acciones secundarias del visor.';
-
-  @override
   String get viewerSecondaryActionHint =>
-      'Mayús+Intro abre la acción secundaria.';
+      'Mantén pulsado o usa Mayús+Intro para abrir la acción secundaria.';
 
   @override
   String get tooltipFullscreen => 'Pantalla completa';

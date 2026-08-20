@@ -44,12 +44,7 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(seconds: 2));
 
-    await tester.tap(find.byKey(const ValueKey('viewerMoreActionsButton')));
-    await tester.pump(const Duration(milliseconds: 500));
-    final edit = find.byKey(const ValueKey('viewerTextOverlayEditButton'));
-    final editButton = tester.widget<IconButton>(edit);
-    expect(editButton.onPressed, isNotNull);
-    editButton.onPressed!();
+    await tester.longPress(find.byKey(const ValueKey('viewerTextOverlayFab')));
     await tester.pump(const Duration(milliseconds: 500));
     expect(
         find.byKey(const ValueKey('viewerTextOverlayField')), findsOneWidget);

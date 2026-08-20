@@ -48,13 +48,8 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(seconds: 2));
 
-    await _openMore(tester);
-    final fourier = find.byKey(const ValueKey('viewerFourierButton'));
-    await tester.scrollUntilVisible(
-      fourier,
-      260,
-      scrollable: find.byType(Scrollable).last,
-    );
+    final fourier = find.byKey(const ValueKey('viewerFourierFab'));
+    expect(fourier, findsOneWidget);
     await tester.tap(fourier);
     await tester.pump(const Duration(milliseconds: 500));
     expect(find.byType(FourierSpectrumView), findsOneWidget);
@@ -105,19 +100,8 @@ void main() {
     expect(maximum - minimum, greaterThan(100));
     expect(unique.length, greaterThan(8));
 
-    await _openMore(tester);
-    await tester.scrollUntilVisible(
-      fourier,
-      260,
-      scrollable: find.byType(Scrollable).last,
-    );
     await tester.tap(fourier);
     await tester.pump(const Duration(milliseconds: 300));
     expect(find.byType(FourierSpectrumView), findsNothing);
   }, skip: !RuntimeModeService.forceGpuRender);
-}
-
-Future<void> _openMore(WidgetTester tester) async {
-  await tester.tap(find.byKey(const ValueKey('viewerMoreActionsButton')));
-  await tester.pump(const Duration(milliseconds: 400));
 }

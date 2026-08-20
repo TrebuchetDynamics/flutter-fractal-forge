@@ -1570,14 +1570,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get tooltipMoreOptions => 'More options';
-
-  @override
-  String get viewerMoreActionsHint => 'Opens secondary viewer actions.';
-
-  @override
   String get viewerSecondaryActionHint =>
-      'Shift+Enter opens the secondary action.';
+      'Long press or Shift+Enter opens the secondary action.';
 
   @override
   String get tooltipFullscreen => 'Fullscreen view';

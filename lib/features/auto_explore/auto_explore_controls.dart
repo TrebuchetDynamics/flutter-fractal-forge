@@ -29,11 +29,17 @@ class AutoExploreButton extends StatefulWidget {
 
 class _AutoExploreButtonState extends State<AutoExploreButton>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _pulse = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 1400),
-  );
+  late final AnimationController _pulse;
   bool _isFocused = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _pulse = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1400),
+    );
+  }
 
   @override
   void dispose() {
@@ -80,6 +86,10 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
           excludeSemantics: true,
           sortKey: OrdinalSortKey(0),
           label: tooltip,
+          hint: widget.onLongPress == null
+              ? null
+              : (l10n?.viewerSecondaryActionHint ??
+                  'Long press or Shift+Enter opens the secondary action.'),
           button: true,
           onTap: activate,
           onLongPress: widget.onLongPress,

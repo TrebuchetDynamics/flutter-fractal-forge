@@ -104,13 +104,13 @@ void main() {
       await tester.pumpWidget(buildApp());
       await pumpAccessibilityTestFrames(tester);
 
-      await tester.tap(find.byKey(const ValueKey('viewerRandomParamsButton')));
+      await tester
+          .longPress(find.byKey(const ValueKey('viewerRandomParamsButton')));
       await pumpAccessibilityTestFrames(tester);
 
       expect(find.byType(FractalControlsHud), findsOneWidget);
-      expect(
-          find.byKey(const ValueKey('viewerMoreActionsButton')), findsNothing);
-      expect(find.bySemanticsLabel('More options'), findsNothing);
+      expect(find.byKey(const ValueKey('viewerFourierFab')), findsNothing);
+      expect(find.bySemanticsLabel('Fourier view off'), findsNothing);
 
       handle.dispose();
       await disposeAccessibilityTestWidget(tester);

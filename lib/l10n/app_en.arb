@@ -696,9 +696,7 @@
     }
   },
 
-  "tooltipMoreOptions": "More options",
-  "viewerMoreActionsHint": "Opens secondary viewer actions.",
-  "viewerSecondaryActionHint": "Shift+Enter opens the secondary action.",
+  "viewerSecondaryActionHint": "Long press or Shift+Enter opens the secondary action.",
   "tooltipFullscreen": "Fullscreen view",
 
   "semanticSliderAdjust": "Adjust from {min} to {max}",

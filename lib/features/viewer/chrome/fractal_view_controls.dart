@@ -7,6 +7,7 @@ import 'package:flutter_fractals/core/services/platform/accessibility_service.da
 import 'package:flutter_fractals/core/services/platform/haptic_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
+import 'package:flutter_fractals/features/auto_explore/auto_explore.dart';
 import 'package:flutter_fractals/features/export/export_actions.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
@@ -36,6 +37,7 @@ class FractalViewControlActions {
   final VoidCallback openFourierSettings;
   final VoidCallback reportFractal;
   final VoidCallback openWallpaper;
+  final VoidCallback? openAutoExploreSettings;
 
   const FractalViewControlActions({
     required this.toggleFullscreen,
@@ -58,6 +60,7 @@ class FractalViewControlActions {
     required this.openFourierSettings,
     required this.reportFractal,
     required this.openWallpaper,
+    this.openAutoExploreSettings,
   });
 }
 
@@ -108,12 +111,21 @@ class FractalViewControls extends StatelessWidget {
     );
 
     final actionButtons = <Widget>[
+      // Auto-explore lives in the FAB column with the other quick actions so
+      // the primary play/pause control is reachable from the same cluster. It
+      // renders as a no-op (SizedBox.shrink) when no AutoExploreService is
+      // provided, so hosts without the feature keep the previous button count.
+      AutoExploreButton(
+        key: const ValueKey('viewerAutoExploreButton'),
+        onLongPress: actions.openAutoExploreSettings,
+        delay: const Duration(milliseconds: 40),
+      ),
       FloatingActionButtonWidget(
         key: const ValueKey('viewerRandomParamsButton'),
         icon: Icons.tune_rounded,
-        tooltip: l10n.tooltipOpenControls,
-        onPressed: isExporting ? null : actions.openControls,
-        onLongPress: isExporting ? null : actions.randomizeParams,
+        tooltip: l10n.tooltipRandomizeWithControls,
+        onPressed: isExporting ? null : actions.randomizeParams,
+        onLongPress: isExporting ? null : actions.openControls,
         isCompact: true,
         delay: const Duration(milliseconds: 60),
         sortOrder: 1,
@@ -174,13 +186,40 @@ class FractalViewControls extends StatelessWidget {
         sortOrder: 6,
       ),
       FloatingActionButtonWidget(
+        key: const ValueKey('viewerTextOverlayFab'),
+        icon: Icons.format_quote_rounded,
+        tooltip: textOverlayEnabled
+            ? l10n.tooltipTextOverlayOn
+            : l10n.tooltipTextOverlayOff,
+        onPressed: isExporting ? null : actions.toggleTextOverlay,
+        selected: textOverlayEnabled,
+        onLongPress: isExporting ? null : actions.editTextOverlay,
+        isCompact: true,
+        delay: const Duration(milliseconds: 180),
+        sortOrder: 7,
+      ),
+      FloatingActionButtonWidget(
+        key: const ValueKey('viewerFourierFab'),
+        icon: Icons.blur_on_rounded,
+        tooltip:
+            fourierEnabled ? l10n.tooltipFourierOn : l10n.tooltipFourierOff,
+        semanticHint:
+            '${l10n.fourierOptionsDescription} ${l10n.viewerSecondaryActionHint}',
+        onPressed: isExporting ? null : actions.toggleFourier,
+        selected: fourierEnabled,
+        onLongPress: isExporting ? null : actions.openFourierSettings,
+        isCompact: true,
+        delay: const Duration(milliseconds: 200),
+        sortOrder: 8,
+      ),
+      FloatingActionButtonWidget(
         key: const ValueKey('viewerShareImageButton'),
         icon: Icons.share_rounded,
         tooltip: l10n.tooltipShareImage,
         onPressed: isExporting ? null : actions.shareImage,
         isCompact: true,
-        delay: const Duration(milliseconds: 180),
-        sortOrder: 7,
+        delay: const Duration(milliseconds: 220),
+        sortOrder: 9,
       ),
       _ExportWallpaperFab(
         isExporting: isExporting,
@@ -192,7 +231,7 @@ class FractalViewControls extends StatelessWidget {
           l10n,
           supportsWallpaper: supportsWallpaper,
         ),
-        sortOrder: 8,
+        sortOrder: 10,
       ),
       FloatingActionButtonWidget(
         key: const ValueKey('viewerFullscreenButton'),
@@ -200,19 +239,19 @@ class FractalViewControls extends StatelessWidget {
         tooltip: l10n.tooltipFullscreen,
         onPressed: isExporting ? null : actions.toggleFullscreen,
         isCompact: true,
-        delay: const Duration(milliseconds: 220),
-        sortOrder: 9,
-      ),
-      FloatingActionButtonWidget(
-        key: const ValueKey('viewerMoreActionsButton'),
-        icon: Icons.more_horiz_rounded,
-        tooltip: l10n.tooltipMoreOptions,
-        semanticHint: l10n.viewerMoreActionsHint,
-        onPressed: isExporting ? null : () => _showMoreActionsModal(context),
-        isCompact: true,
         delay: const Duration(milliseconds: 240),
-        sortOrder: 10,
+        sortOrder: 11,
       ),
+      if (showFractalReport)
+        FloatingActionButtonWidget(
+          key: const ValueKey('viewerReportFractalFab'),
+          icon: Icons.report_problem_rounded,
+          tooltip: l10n.tooltipReportFractal,
+          onPressed: isExporting ? null : actions.reportFractal,
+          isCompact: true,
+          delay: const Duration(milliseconds: 260),
+          sortOrder: 12,
+        ),
     ];
 
     return FadeTransition(
@@ -231,7 +270,11 @@ class FractalViewControls extends StatelessWidget {
           child: ConstrainedBox(
             key: const ValueKey('viewerFabColumn'),
             constraints: BoxConstraints(
-              maxHeight: isLandscape ? 112 : maxFabColumnHeight,
+              // Landscape: the column stacks 48px FAB rows plus the slightly
+              // taller auto-explore button (62px). Three rows need
+              // 62 + 2*(48 + 8) = 174px; the previous 112px cap fit only two
+              // rows, so the eleventh button overflowed the viewport bottom.
+              maxHeight: isLandscape ? 176 : maxFabColumnHeight,
               maxWidth: isLandscape ? maxFabRowWidth : 112,
             ),
             child: FocusTraversalGroup(
@@ -248,93 +291,6 @@ class FractalViewControls extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  void _showMoreActionsModal(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    _showActionModal(
-      context,
-      icon: Icons.more_horiz_rounded,
-      title: l10n.tooltipMoreOptions,
-      subtitle: l10n.viewerMoreActionsHint,
-      maxHeightFactor: 0.92,
-      contentBottomPadding: 0,
-      children: [
-        if (showFractalReport)
-          _ActionTile(
-            key: const ValueKey('viewerReportFractalButton'),
-            compact: true,
-            icon: Icons.report_problem_rounded,
-            label: l10n.tooltipReportFractal,
-            onTap: actions.reportFractal,
-          ),
-        _ActionTile(
-          key: const ValueKey('viewerRandomButton'),
-          compact: true,
-          secondaryActionKey: const ValueKey('viewerRandomOptionsButton'),
-          icon: Icons.shuffle_rounded,
-          label: l10n.tooltipRandomFractal,
-          description: l10n.randomOptionsCatalogDescription,
-          onTap: actions.openRandomFractal,
-          onLongPress: () => _showRandomOptionsModal(context),
-        ),
-        _ActionTile(
-          key: const ValueKey('viewerTextOverlayButton'),
-          compact: true,
-          secondaryActionKey: const ValueKey('viewerTextOverlayEditButton'),
-          secondaryIcon: Icons.edit_rounded,
-          icon: Icons.format_quote_rounded,
-          label: textOverlayEnabled
-              ? l10n.tooltipTextOverlayOn
-              : l10n.tooltipTextOverlayOff,
-          selected: textOverlayEnabled,
-          onTap: actions.toggleTextOverlay,
-          onLongPress: actions.editTextOverlay,
-        ),
-        _ActionTile(
-          key: const ValueKey('viewerLooperButton'),
-          compact: true,
-          icon: Icons.loop_rounded,
-          label: l10n.tooltipCameraLooper,
-          onTap: actions.openLooper,
-        ),
-        _ActionTile(
-          key: const ValueKey('viewerKaleidoscopeButton'),
-          compact: true,
-          secondaryActionKey: const ValueKey('viewerKaleidoscopeOptionsButton'),
-          icon: Icons.filter_vintage_rounded,
-          label: kaleidoscopeEnabled
-              ? l10n.tooltipKaleidoscopeOn
-              : l10n.tooltipKaleidoscopeOff,
-          selected: kaleidoscopeEnabled,
-          onTap: actions.toggleKaleidoscope,
-          onLongPress: () => _showKaleidoscopeModal(context),
-        ),
-        _ActionTile(
-          key: const ValueKey('viewerFractalMusicButton'),
-          compact: true,
-          icon: Icons.music_note,
-          label: fractalMusicEnabled
-              ? l10n.tooltipFractalMusicOn
-              : l10n.tooltipFractalMusicOff,
-          selected: fractalMusicEnabled,
-          onTap: actions.toggleFractalMusic,
-        ),
-        _ActionTile(
-          key: const ValueKey('viewerFourierButton'),
-          compact: true,
-          secondaryActionKey: const ValueKey('viewerFourierOptionsButton'),
-          secondaryIcon: Icons.tune_rounded,
-          icon: Icons.blur_on_rounded,
-          label:
-              fourierEnabled ? l10n.tooltipFourierOn : l10n.tooltipFourierOff,
-          description: l10n.fourierOptionsDescription,
-          selected: fourierEnabled,
-          onTap: actions.toggleFourier,
-          onLongPress: actions.openFourierSettings,
-        ),
-      ],
     );
   }
 
@@ -430,13 +386,18 @@ class FractalViewControls extends StatelessWidget {
             LayoutBuilder(
               builder: (context, constraints) {
                 final columns = constraints.maxWidth >= 560 ? 7 : 4;
-                return GridView.count(
-                  crossAxisCount: columns,
+                // gridDelegate form instead of GridView.count:
+                // mainAxisExtent is not a GridView.count parameter on all
+                // supported SDK versions.
+                return GridView(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: columns,
+                    crossAxisSpacing: AppSpacing.sm,
+                    mainAxisSpacing: AppSpacing.sm,
+                    mainAxisExtent: 48,
+                  ),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  crossAxisSpacing: AppSpacing.sm,
-                  mainAxisSpacing: AppSpacing.sm,
-                  mainAxisExtent: 48,
                   children: [
                     // Every value FractalController.setKaleidoscopeSectors can
                     // hold: it clamps to 4..16 and snaps odd inputs down to even,
@@ -570,116 +531,69 @@ class _ActionTile extends StatelessWidget {
   final IconData icon;
   final String label;
   final String? description;
-  final bool selected;
   final VoidCallback onTap;
-  final VoidCallback? onLongPress;
-  final Key? secondaryActionKey;
-  final IconData secondaryIcon;
-  final bool compact;
 
   const _ActionTile({
-    super.key,
     required this.icon,
     required this.label,
     this.description,
-    this.selected = false,
     required this.onTap,
-    this.onLongPress,
-    this.secondaryActionKey,
-    this.secondaryIcon = Icons.tune_rounded,
-    this.compact = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    void activateSecondary() {
-      Navigator.of(context).pop();
-      onLongPress!();
-    }
-
-    return CallbackShortcuts(
-      bindings: onLongPress == null
-          ? const <ShortcutActivator, VoidCallback>{}
-          : <ShortcutActivator, VoidCallback>{
-              const SingleActivator(LogicalKeyboardKey.enter, shift: true):
-                  activateSecondary,
-            },
-      child: Semantics(
-        hint: onLongPress == null
-            ? null
-            : AppLocalizations.of(context)!.viewerSecondaryActionHint,
-        child: Padding(
-          padding: EdgeInsets.only(bottom: compact ? 2 : AppSpacing.sm),
-          child: Material(
-            color: selected
-                ? AppColors.primary.withValues(alpha: 0.28)
-                : AppColors.surfaceVariant.withValues(alpha: 0.72),
-            borderRadius: BorderRadius.circular(18),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(18),
-              onTap: () {
-                Navigator.of(context).pop();
-                onTap();
-              },
-              onLongPress: onLongPress == null ? null : activateSecondary,
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: compact ? 56 : 72),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg,
-                    vertical: compact ? 7 : AppSpacing.md,
-                  ),
-                  child: Row(
-                    children: [
-                      _ModalIconBadge(icon: icon),
-                      const SizedBox(width: AppSpacing.md),
-                      Expanded(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              label,
-                              style: AppTypography.bodyMedium.copyWith(
-                                color: AppColors.textPrimary,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            if (description != null) ...[
-                              const SizedBox(height: 2),
-                              Text(
-                                description!,
-                                maxLines: compact ? 1 : null,
-                                overflow:
-                                    compact ? TextOverflow.ellipsis : null,
-                                style: AppTypography.bodySmall.copyWith(
-                                  color: AppColors.textSecondary,
-                                ),
-                              ),
-                            ],
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: AppSpacing.sm),
-                      if (onLongPress != null)
-                        IconButton(
-                          key: secondaryActionKey,
-                          tooltip:
-                              '${AppLocalizations.of(context)!.tooltipMoreOptions}: $label',
-                          onPressed: activateSecondary,
-                          icon: Icon(
-                            secondaryIcon,
-                            color: AppColors.primaryLight,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+      child: Material(
+        color: AppColors.surfaceVariant.withValues(alpha: 0.72),
+        borderRadius: BorderRadius.circular(18),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(18),
+          onTap: () {
+            Navigator.of(context).pop();
+            onTap();
+          },
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 72),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg,
+                vertical: AppSpacing.md,
+              ),
+              child: Row(
+                children: [
+                  _ModalIconBadge(icon: icon),
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          label,
+                          style: AppTypography.bodyMedium.copyWith(
+                            color: AppColors.textPrimary,
+                            fontWeight: FontWeight.w700,
                           ),
-                        )
-                      else
-                        Icon(
-                          Icons.chevron_right_rounded,
-                          color: AppColors.textMuted,
                         ),
-                    ],
+                        if (description != null) ...[
+                          const SizedBox(height: 2),
+                          Text(
+                            description!,
+                            style: AppTypography.bodySmall.copyWith(
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
                   ),
-                ),
+                  const SizedBox(width: AppSpacing.sm),
+                  Icon(
+                    Icons.chevron_right_rounded,
+                    color: AppColors.textMuted,
+                  ),
+                ],
               ),
             ),
           ),
@@ -890,23 +804,28 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
     // column looks identical to its live state, so taps land on nothing with
     // no feedback at all (no press animation, no haptic, no action).
     final isDisabled = widget.onPressed == null && widget.onLongPress == null;
+    final semanticHint = widget.semanticHint ??
+        (widget.onLongPress == null
+            ? null
+            : AppLocalizations.of(context)!.viewerSecondaryActionHint);
 
     final button = FadeIn(
       delay: reduceMotion ? Duration.zero : widget.delay,
-      // Without the merge this Semantics node (label + long press) and the
-      // inner GestureDetector (tap) surface as two separate stops, so the
-      // column reads as nine labelled buttons interleaved with nine unlabelled
-      // ones, and the tap action sits on the unlabelled half.
+      // Own the complete accessibility contract here. Excluding descendant
+      // gesture semantics prevents a second, unlabelled focus stop and keeps
+      // the localized secondary-action hint on the actionable node.
       child: MergeSemantics(
         child: Semantics(
+          excludeSemantics: true,
           label: widget.tooltip,
-          hint: widget.semanticHint,
+          hint: semanticHint,
           sortKey: widget.sortOrder == null
               ? null
               : OrdinalSortKey(widget.sortOrder!),
           button: true,
           selected: widget.selected,
           enabled: widget.onPressed != null,
+          onTap: widget.onPressed,
           onLongPress: widget.onLongPress,
           child: Tooltip(
             message: widget.tooltip,

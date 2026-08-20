@@ -39,8 +39,10 @@ void main() {
   });
 
   group('AutoExploreButton semantics', () {
-    testWidgets('exposes tap action for assistive activation', (tester) async {
+    testWidgets('exposes primary and secondary assistive actions',
+        (tester) async {
       final semanticsHandle = tester.ensureSemantics();
+      var settingsOpened = false;
       final controller = FractalController(ModuleRegistry());
       final service = AutoExploreService(controller: controller);
       addTearDown(service.dispose);
@@ -50,8 +52,10 @@ void main() {
         MaterialApp(
           home: ChangeNotifierProvider<AutoExploreService?>.value(
             value: service,
-            child: const Scaffold(
-              body: AutoExploreButton(),
+            child: Scaffold(
+              body: AutoExploreButton(
+                onLongPress: () => settingsOpened = true,
+              ),
             ),
           ),
         ),
@@ -62,8 +66,16 @@ void main() {
       expect(matches, hasLength(1));
       final data = matches.single;
       expect(data.hasAction(SemanticsAction.tap), isTrue);
+      expect(data.hasAction(SemanticsAction.longPress), isTrue);
+      expect(
+        data.hint,
+        'Long press or Shift+Enter opens the secondary action.',
+      );
       // ignore: deprecated_member_use
       expect(data.hasFlag(SemanticsFlag.isButton), isTrue);
+
+      await tester.longPress(find.byType(AutoExploreButton));
+      expect(settingsOpened, isTrue);
 
       semanticsHandle.dispose();
     });
