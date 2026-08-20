@@ -144,20 +144,29 @@ collect_soak_sample() {
   [[ "$output" == *"$required_marker"* ]]
 }
 
+device_monkey_pids() {
+  adb -s "$DEVICE" shell ps -A 2>/dev/null |
+    awk '$NF == "com.android.commands.monkey" { print $2 }' |
+    tr -d '\r'
+}
+
 stop_device_monkey() {
   if [[ "$DRY_RUN" -eq 1 ]]; then
-    print_command adb -s "$DEVICE" shell pkill -INT com.android.commands.monkey
+    printf '+ stop Android monkey processes by exact PID\n'
     return 0
   fi
-  adb -s "$DEVICE" shell 'pkill -INT com.android.commands.monkey || true' \
-    >/dev/null 2>&1
-  sleep 1
-  if adb -s "$DEVICE" shell ps -A | grep -q 'com.android.commands.monkey'; then
-    adb -s "$DEVICE" shell 'pkill -KILL com.android.commands.monkey || true' \
-      >/dev/null 2>&1
-    sleep 1
-  fi
-  ! adb -s "$DEVICE" shell ps -A | grep -q 'com.android.commands.monkey'
+  local pid pids
+  pids="$(device_monkey_pids)"
+  for pid in $pids; do
+    adb -s "$DEVICE" shell kill -INT "$pid" >/dev/null 2>&1 || true
+  done
+  [[ -z "$pids" ]] || sleep 1
+  pids="$(device_monkey_pids)"
+  for pid in $pids; do
+    adb -s "$DEVICE" shell kill -KILL "$pid" >/dev/null 2>&1 || true
+  done
+  [[ -z "$pids" ]] || sleep 1
+  [[ -z "$(device_monkey_pids)" ]]
 }
 
 run_device_soak() {
