@@ -1,0 +1,8 @@
+Research tooling status (2026-08-19)
+- rforge: unavailable in PATH; no installation attempted because setup was not authorized.
+- Search Hub web_search: 4 batches / 16 query variants attempted; provider searxng unavailable for every batch.
+- Direct source URL verification: 7 authoritative DOI/DLMF URLs checked with curl; 4 returned 200/302, 3 returned publisher 403/405 responses after DOI resolution.
+- Local evidence reused: comprehensive sixth-, seventh-, eighth-, and ninth-wave rforge packages; canonical alias ledger; 70,730-line source-backed catalog registry; fractals-library stubs.
+- Candidate duplicate scan: lib/**/*.dart, shaders/**/*.frag, pubspec.yaml, and research/canonical/canonical_aliases.yaml.
+- Live scholarly API records added: 0 (tooling unavailable).
+- Copyrighted full text fetched: 0.

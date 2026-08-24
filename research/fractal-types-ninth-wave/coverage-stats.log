@@ -1,0 +1,16 @@
+Source coverage for research/fractal-types-ninth-wave
+  arxiv                    160 records (8 files)
+  crossref                 160 records (8 files)
+  openalex                 95 records (8 files)
+  semantic-scholar         30 records (2 files)
+
+Total unique DOIs: 319
+Library (results.jsonl): 445 records
+
+Failed queries (6):
+  [semantic-scholar] "Truchet tiles Smith curves recursive tiling fractal visualization" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "quasifuchsian groups limit sets deformation space fractal rendering" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "p-adic Mandelbrot set arithmetic dynamics visualization fractal" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "fractal interpolation surfaces self-affine heightfield rendering" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "Baker domains wandering domains transcendental entire functions visualization" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "Bessel function zeros fields fractal visualization special functions" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)

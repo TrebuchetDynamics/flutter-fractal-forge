@@ -1,0 +1,27 @@
+Source coverage for research/log-polar-fractal-tessellation
+  arxiv                    500 records (25 files)
+  openalex                 425 records (25 files)
+  semantic-scholar         100 records (7 files)
+
+Total unique DOIs: 533
+Library (results.jsonl): 1025 records
+
+Failed queries (18):
+  [semantic-scholar] "complex logarithm texture mapping fractal escape time" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "Mandelbrot texture mapping final iterate polar coordinates" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "fractal image tessellation logarithmic polar coordinates" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "complex dynamics texture mapping escape radius angle" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "conformal texture mapping complex logarithm" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "escape-time fractal domain coloring argument modulus" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "smooth escape time logarithm modulus Mandelbrot" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "procedural tessellation fractal shader GLSL" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "polar texture coordinates angular radial periodic mapping" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "log-polar image warping computer graphics" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "complex exponential logarithm tiling visualization" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "Julia set texture mapping final iterate" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "fractal kaleidoscope texture mapping complex plane" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "Mandelbrot set image trap coloring" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "orbit trap coloring fractal procedural patterns" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "complex domain coloring phase magnitude periodic patterns" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "shader polar coordinate seamless tiling" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "logarithmic radius periodic texture mapping" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)

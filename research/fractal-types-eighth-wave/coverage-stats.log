@@ -1,0 +1,16 @@
+Source coverage for research/fractal-types-eighth-wave
+  arxiv                    160 records (8 files)
+  crossref                 160 records (8 files)
+  openalex                 91 records (8 files)
+  semantic-scholar         8 records (2 files)
+
+Total unique DOIs: 300
+Library (results.jsonl): 419 records
+
+Failed queries (6):
+  [semantic-scholar] "modular forms Dedekind eta function fractal visualization rendering" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "Klein j-invariant modular group fundamental domain fractal rendering" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "hidden attractors multistability chaotic systems fractal visualization" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "meromorphic functions essential singularity Julia sets iteration z sin z composition" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "kaleidoscopic iterated function systems KIFS 3D fractal rendering" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "Schwarz-Christoffel conformal mapping fractal visualization" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
