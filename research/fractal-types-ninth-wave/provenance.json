@@ -36,7 +36,7 @@
     "provenance.json",
     "queries.txt",
     "queries-gap.txt",
-    "coverage-stats.log",
+    "coverage-stats.txt",
     "search-stats.txt",
     "manifest.json",
     "results.jsonl",

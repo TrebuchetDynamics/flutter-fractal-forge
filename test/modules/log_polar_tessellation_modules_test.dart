@@ -161,7 +161,7 @@ void main() {
     for (final name in const [
       'queries.txt',
       'results-deduped.jsonl',
-      'coverage-stats.log',
+      'coverage-stats.txt',
       'source-inventory.md',
       'report.md',
       'provenance.json',

@@ -143,7 +143,7 @@ void main() {
     const base = 'research/fractal-types-tenth-wave';
     for (final name in const [
       'queries.txt',
-      'coverage-stats.log',
+      'coverage-stats.txt',
       'source-inventory.md',
       'report.md',
       'provenance.json',

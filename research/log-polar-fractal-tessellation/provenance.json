@@ -88,7 +88,7 @@
     "failures.jsonl",
     "manifest.json",
     "search-stats.txt",
-    "coverage-stats.log",
+    "coverage-stats.txt",
     "source-inventory.md",
     "report.md",
     "provenance.json"

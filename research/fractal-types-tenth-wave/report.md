@@ -4,7 +4,7 @@
 
 This is a comprehensive synthesis-and-implementation pass over the repository's four preceding comprehensive ResearchForge waves, the world's-largest-catalog evidence package, the canonical alias ledger, and the 70,730-line source-backed reference registry. Those earlier packages searched OpenAlex, Crossref, arXiv, and Semantic Scholar with broad and gap passes; their overlapping totals range from 390–485 records per pass and 275–422 unique DOI-bearing records per pass. Counts are not summed because the packages overlap.
 
-For this wave I wrote 24 additional query variants, checked every proposed identity against active Dart catalog IDs, shader names, and the pubspec manifest, and verified seven primary/authoritative URLs directly. Fresh `rforge` was unavailable in PATH and Search Hub's configured provider failed all four attempted batches, so no fresh scholarly API records were added. No PDFs or copyrighted full text were fetched. Exact failures and the reused evidence boundary are recorded in `coverage-stats.log`, `source-inventory.md`, and `provenance.json`.
+For this wave I wrote 24 additional query variants, checked every proposed identity against active Dart catalog IDs, shader names, and the pubspec manifest, and verified seven primary/authoritative URLs directly. Fresh `rforge` was unavailable in PATH and Search Hub's configured provider failed all four attempted batches, so no fresh scholarly API records were added. No PDFs or copyrighted full text were fetched. Exact failures and the reused evidence boundary are recorded in `coverage-stats.txt`, `source-inventory.md`, and `provenance.json`.
 
 ## Bottom line
 
