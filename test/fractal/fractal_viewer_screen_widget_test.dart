@@ -720,7 +720,6 @@ void main() {
           'viewerKaleidoscopeFab',
           'viewerTextOverlayFab',
           'viewerFourierFab',
-          'viewerShareImageButton',
         ]) {
           final finder = find.byKey(ValueKey(key));
           expect(finder, findsOneWidget,
@@ -773,10 +772,8 @@ void main() {
         'viewerKaleidoscopeFab',
         'viewerTextOverlayFab',
         'viewerFourierFab',
-        'viewerShareImageButton',
         'viewerExportButton',
         'viewerFullscreenButton',
-        'viewerReportFractalFab',
       ];
       for (var index = 0; index < orderedKeys.length; index++) {
         final finder = find.byKey(ValueKey(orderedKeys[index]));
@@ -887,6 +884,15 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(controller.module.id, equals('mandelbrot'));
+      final publishedPalettes = <Object?>[];
+      void recordPublishedPalette() {
+        if (controller.module.id != 'mandelbrot') {
+          publishedPalettes.add(controller.params['colorScheme']);
+        }
+      }
+
+      controller.addListener(recordPublishedPalette);
+      addTearDown(() => controller.removeListener(recordPublishedPalette));
 
       final randomButton = find.byKey(const ValueKey('viewerRandomFractalFab'));
       await tester.tap(randomButton);
@@ -896,10 +902,22 @@ void main() {
       final paletteParam = controller.module.parameters.firstWhere(
         (param) => param.id == 'colorScheme',
       );
+      final selectedPalette = controller.params['colorScheme'];
       expect(
-        controller.params['colorScheme'],
+        selectedPalette,
         isNot(paletteParam.defaultValue),
         reason: 'Random fractal must also choose a new palette',
+      );
+      expect(publishedPalettes, isNotEmpty);
+      expect(
+        publishedPalettes.first,
+        selectedPalette,
+        reason: 'The first published frame must already use the chosen palette',
+      );
+      expect(
+        publishedPalettes,
+        everyElement(selectedPalette),
+        reason: 'No intermediate default-palette frame may be published',
       );
 
       // Let delayed FAB fade-in timers complete before teardown.
@@ -951,7 +969,21 @@ void main() {
       expect(find.byKey(const ValueKey('viewerExportButton')), findsOneWidget);
     });
 
-    testWidgets('share image FAB rejects re-entry during export setup',
+    testWidgets('Android viewer hides the debug report FAB', (tester) async {
+      final previousPlatform = debugDefaultTargetPlatformOverride;
+      debugDefaultTargetPlatformOverride = TargetPlatform.android;
+      addTearDown(() => debugDefaultTargetPlatformOverride = previousPlatform);
+
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      expect(
+          find.byKey(const ValueKey('viewerReportFractalFab')), findsNothing);
+      expect(find.byKey(const ValueKey('viewerExportButton')), findsOneWidget);
+      debugDefaultTargetPlatformOverride = previousPlatform;
+    });
+
+    testWidgets('combined share and export FAB rejects share re-entry',
         (tester) async {
       final exportService = _LooperExportService(
         pickerDelay: const Duration(milliseconds: 250),
@@ -960,15 +992,18 @@ void main() {
       await tester.pumpWidget(buildTestWidget(exportService: exportService));
       await tester.pumpAndSettle();
 
-      final share = find.byKey(const ValueKey('viewerShareImageButton'));
-      await tester.tap(share);
+      final combined = find.byKey(const ValueKey('viewerExportButton'));
+      await tester.tap(combined);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Share image'));
       await tester.pump();
-      final shareGesture = tester.widget<GestureDetector>(find.descendant(
-        of: share,
+
+      final combinedGesture = tester.widget<GestureDetector>(find.descendant(
+        of: combined,
         matching: find.byType(GestureDetector),
       ));
-      expect(shareGesture.onTap, isNull);
-      await tester.tap(share);
+      expect(combinedGesture.onTap, isNull);
+      await tester.tap(combined, warnIfMissed: false);
       await tester.pump(const Duration(milliseconds: 300));
       await tester.pumpAndSettle();
 
@@ -985,6 +1020,8 @@ void main() {
       await tester.pumpWidget(buildTestWidget(exportService: exportService));
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Export'));
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
       await tester.pumpAndSettle();
@@ -1006,6 +1043,8 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
       await tester.pumpAndSettle();
+      await tester.tap(find.text('Export'));
+      await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
       await tester.pumpAndSettle();
 
@@ -1020,6 +1059,8 @@ void main() {
       await tester.pumpWidget(buildTestWidget(exportService: exportService));
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Export'));
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
       await tester.pumpAndSettle();
@@ -1036,6 +1077,8 @@ void main() {
       await tester.pumpWidget(buildTestWidget(exportService: exportService));
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Export'));
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
       await tester.pump();
@@ -1065,6 +1108,8 @@ void main() {
       await tester.pumpWidget(buildTestWidget(exportService: exportService));
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Export'));
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
       await tester.pump();
@@ -1100,6 +1145,8 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
       await tester.pumpAndSettle();
+      await tester.tap(find.text('Export'));
+      await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('exportWallpaperButton')));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Apply'));
@@ -1130,6 +1177,8 @@ void main() {
       await tester.pumpWidget(buildTestWidget(exportService: exportService));
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Export'));
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
       await tester.pump();

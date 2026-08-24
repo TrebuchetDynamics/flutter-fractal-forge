@@ -1,0 +1,109 @@
+{
+  "question": "How can log-polar coordinates and escape-time iterates support original, sampler-free fractal tessellation visualizations without copying third-party imagery?",
+  "topic": "log-polar fractal image tessellation",
+  "rforge_version": "0.1.20",
+  "timestamp": "2026-08-24T20:18:12Z",
+  "depth": "comprehensive",
+  "queries": [
+    "complex logarithm texture mapping fractal escape time",
+    "log-polar mapping repeating texture complex plane",
+    "Mandelbrot texture mapping final iterate polar coordinates",
+    "fractal image tessellation logarithmic polar coordinates",
+    "complex dynamics texture mapping escape radius angle",
+    "orbit trap texture mapping Mandelbrot set",
+    "conformal texture mapping complex logarithm",
+    "logarithmic spiral tiling complex plane shader",
+    "escape-time fractal domain coloring argument modulus",
+    "smooth escape time logarithm modulus Mandelbrot",
+    "external rays equipotential coordinates Mandelbrot set",
+    "Böttcher coordinate texture mapping Mandelbrot",
+    "procedural tessellation fractal shader GLSL",
+    "repeating image mapped to complex iteration orbits",
+    "polar texture coordinates angular radial periodic mapping",
+    "log-polar image warping computer graphics",
+    "complex exponential logarithm tiling visualization",
+    "Julia set texture mapping final iterate",
+    "fractal kaleidoscope texture mapping complex plane",
+    "Mandelbrot set image trap coloring",
+    "orbit trap coloring fractal procedural patterns",
+    "complex domain coloring phase magnitude periodic patterns",
+    "shader polar coordinate seamless tiling",
+    "logarithmic radius periodic texture mapping",
+    "fractal rendering photosensitive flashing accessibility"
+  ],
+  "sources": [
+    "openalex",
+    "arxiv",
+    "semantic-scholar"
+  ],
+  "search_stats": {
+    "openalex": 425,
+    "arxiv": 500,
+    "semantic-scholar": 100,
+    "records": 1025,
+    "deduplicated_records": 742,
+    "total_unique_dois": 533,
+    "failed_source_queries": 18
+  },
+  "citation_expand_attempted": [],
+  "citation_expand_succeeded": [],
+  "primary_lead": {
+    "type": "user-supplied public post excerpt",
+    "title": "I wrote some code that made these",
+    "author_handle": "_BryceGuy_",
+    "community": "r/trippyart",
+    "license": "unknown",
+    "usage": "The mathematical sketch was studied; no source image or third-party code is bundled.",
+    "linked_examples": [
+      "https://www.youtube.com/watch?v=dXJa-v01SZI",
+      "https://www.youtube.com/watch?v=WRq42L4pgTY",
+      "https://www.youtube.com/watch?v=WHsyn8N9N24",
+      "https://www.youtube.com/watch?v=tH5TucwHDAE",
+      "https://www.youtube.com/watch?v=-wpJ01GqZyI",
+      "https://www.deviantart.com/bryceguy72/gallery/70771007/image-tessellations"
+    ]
+  },
+  "supporting_sources": [
+    {
+      "title": "On Böttcher coordinates and quasiregular maps",
+      "url": "https://arxiv.org/abs/1205.1978",
+      "role": "Supports natural conjugate magnitude and angle coordinates near polynomial infinity."
+    },
+    {
+      "title": "Rational parameter rays of the Mandelbrot set",
+      "url": "https://arxiv.org/abs/math/9711213",
+      "role": "Supports external angular coordinates in Mandelbrot dynamics."
+    },
+    {
+      "title": "A Method to Solve the Limitations in Drawing External Rays of the Mandelbrot Set",
+      "url": "https://doi.org/10.1155/2013/105283",
+      "role": "Supports computational use of Böttcher coordinates for external-ray rendering."
+    }
+  ],
+  "outputs": [
+    "queries.txt",
+    "results.jsonl",
+    "results-deduped.jsonl",
+    "results.md",
+    "failures.jsonl",
+    "manifest.json",
+    "search-stats.txt",
+    "coverage-stats.log",
+    "source-inventory.md",
+    "report.md",
+    "provenance.json"
+  ],
+  "errors": [
+    "Semantic Scholar returned HTTP 429 for 18 query/source combinations; OpenAlex and arXiv completed all 25 queries.",
+    "No archival full source or known license for the exact public-post implementation was found.",
+    "No human screening, full-text acquisition, extraction acceptance, claim approval, or package export was performed."
+  ],
+  "human_gates": {
+    "full_text_acquisition": "not requested",
+    "screening_approval": "not requested",
+    "extraction_acceptance": "not requested",
+    "final_claim_approval": "not requested",
+    "package_export": "not requested"
+  },
+  "weakest_evidence_gap": "No archival full source for the exact public-post implementation or its license was found."
+}

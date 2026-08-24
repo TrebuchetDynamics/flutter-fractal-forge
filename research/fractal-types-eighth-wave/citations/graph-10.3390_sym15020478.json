@@ -1,0 +1,184 @@
+{
+  "nodes": [
+    {
+      "id": "0386f853463b1f915ef7cc2115d34cbbbff6310e"
+    },
+    {
+      "id": "06215a4e9fc5e81c9f3c3b2da63db45bd5a668ed"
+    },
+    {
+      "id": "073fca671d7991596d36d6b357d85de493dea5db"
+    },
+    {
+      "id": "10.3390/sym15020478"
+    },
+    {
+      "id": "2085cd9c4f95ff29d405131477083f5dafde1776"
+    },
+    {
+      "id": "24ad7c1ef8321357ec7984c1c3e39c0ca61b3a27"
+    },
+    {
+      "id": "31738bd65d0f89c625ba0dce048db74320a47bc9"
+    },
+    {
+      "id": "4e5cd0b38fd5d965da33ad514eecfa1aecc2b16f"
+    },
+    {
+      "id": "568aee1b841bb455ae0c7af16e1e6159e8cba5c7"
+    },
+    {
+      "id": "5fd6daac2ec942e24978297564c9df5fde0d9bc2"
+    },
+    {
+      "id": "641779794225fc06e5ca49c502e0b0c9b05095b8"
+    },
+    {
+      "id": "6a113568e0484241fa776d36463fa931032fed6b"
+    },
+    {
+      "id": "6d71843b3d0f29b86ff99575aa9d2253178e7751"
+    },
+    {
+      "id": "7201da8db1b19db9561d97619d1c18811f389d37"
+    },
+    {
+      "id": "7b7ba91e87d29771ee7ebb206c643bdac7f3d142"
+    },
+    {
+      "id": "8553e5575452fb85e9542fdcc3eacf60ed16baa2"
+    },
+    {
+      "id": "89066b127fe7aab9fa4ca99819391d74ba0e520c"
+    },
+    {
+      "id": "a9bff69733e1b75bd3e58ca0083d9d179894740f"
+    },
+    {
+      "id": "ad6023731fa0e9cff88fc15a2e5bc29d4e40e7e7"
+    },
+    {
+      "id": "b8127ed8f936124b14ba56e539da7cc1ffd0c7e4"
+    },
+    {
+      "id": "cd54718d67de31a94574baaff44e1db9febcd660"
+    },
+    {
+      "id": "d493184faceee0f766edb94036b1e3dbc07a0692"
+    },
+    {
+      "id": "dc132748be97fcf17888b09f927ac81a25af8fc3"
+    },
+    {
+      "id": "e71a353c728e75bc32dd9e70bad8cc040857f0b1"
+    },
+    {
+      "id": "e7e387894a06346d8576798a658e99dba9d26356"
+    },
+    {
+      "id": "f2fc9af7ecebdbfd2622000184a7fe36e2819f4c"
+    }
+  ],
+  "edges": [
+    {
+      "source": "10.3390/sym15020478",
+      "target": "0386f853463b1f915ef7cc2115d34cbbbff6310e"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "06215a4e9fc5e81c9f3c3b2da63db45bd5a668ed"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "073fca671d7991596d36d6b357d85de493dea5db"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "2085cd9c4f95ff29d405131477083f5dafde1776"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "24ad7c1ef8321357ec7984c1c3e39c0ca61b3a27"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "31738bd65d0f89c625ba0dce048db74320a47bc9"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "4e5cd0b38fd5d965da33ad514eecfa1aecc2b16f"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "568aee1b841bb455ae0c7af16e1e6159e8cba5c7"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "5fd6daac2ec942e24978297564c9df5fde0d9bc2"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "641779794225fc06e5ca49c502e0b0c9b05095b8"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "6a113568e0484241fa776d36463fa931032fed6b"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "6d71843b3d0f29b86ff99575aa9d2253178e7751"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "7201da8db1b19db9561d97619d1c18811f389d37"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "7b7ba91e87d29771ee7ebb206c643bdac7f3d142"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "8553e5575452fb85e9542fdcc3eacf60ed16baa2"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "89066b127fe7aab9fa4ca99819391d74ba0e520c"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "a9bff69733e1b75bd3e58ca0083d9d179894740f"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "ad6023731fa0e9cff88fc15a2e5bc29d4e40e7e7"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "b8127ed8f936124b14ba56e539da7cc1ffd0c7e4"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "cd54718d67de31a94574baaff44e1db9febcd660"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "d493184faceee0f766edb94036b1e3dbc07a0692"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "dc132748be97fcf17888b09f927ac81a25af8fc3"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "e71a353c728e75bc32dd9e70bad8cc040857f0b1"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "e7e387894a06346d8576798a658e99dba9d26356"
+    },
+    {
+      "source": "10.3390/sym15020478",
+      "target": "f2fc9af7ecebdbfd2622000184a7fe36e2819f4c"
+    }
+  ]
+}

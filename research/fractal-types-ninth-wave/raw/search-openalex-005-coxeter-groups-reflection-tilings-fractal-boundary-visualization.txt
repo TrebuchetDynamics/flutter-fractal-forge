@@ -1,0 +1,20 @@
+10.1007/s00454-005-1196-9	Apollonian Circle Packings: Geometry and Group Theory I. The Apollonian Group
+10.17169/refubium-4830	Polyhedral Combinatorics of Coxeter Groups
+10.4236/wjnse.2015.51004	The Casimir Topological Effect and a Proposal for a Casimir-Dark Energy Nano Reactor
+10.4236/ns.2015.74024	Kerr Black Hole Geometry Leading to Dark Matter and Dark Energy via E-Infinity Theory and the Possibility of a Nano Spacetime Singularities Reactor
+10.4236/ns.2015.76032	A Casimir-Dark Energy Nano Reactor Design—Phase One
+10.37236/4989	Even More Infinite Ball Packings from Lorentzian Root Systems
+10.17169/refubium-5349	Ball Packings and Lorentzian Discrete Geometry
+10.1016/0898-1221(86)90434-7	A course in the mathematics of design
+10.3389/fphy.2026.1699796	Fractal rep-tiles of the plane via reflections and integer matrices
+	Discrete extremal lengths of graph approximations of Sierpinski carpets
+10.1007/978-3-319-57259-8_1	Bridging Art and Mathematics: Introduction
+10.1090/bull/1782	Billiards and Teichmüller curves
+10.1007/978-3-319-59511-5_15	An Algorithmic Approach for Simulating Realistic Irregular Lattices
+10.48550/arxiv.1912.10007	CAT(0) geometry, robots, and society
+10.48550/arxiv.0906.0290	PIGTIKAL (puzzles in geometry that I know and love)
+10.48550/arxiv.2408.15316	Holographic Foliations: Self-Similar Quasicrystals from Hyperbolic Honeycombs
+10.48550/arxiv.2608.09197	Growth in affine Hecke categories
+10.4171/owr/2024/53	Mini-Workshop: Infinite-Dimensional Kac-Moody Lie Algebras in Supergravity and M Theory
+10.5281/zenodo.5015650	A Formal Connection between Napier's Logarithm and the Bernoulli Numbers
+10.5281/zenodo.5144036	A Recursive Algorithm for Calculating Natural Logarithms using Bernoulli Numbers

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "1",
+  "createdAt": "2026-08-19T04:45:13Z",
+  "queries": [
+    "modular forms Dedekind eta function fractal visualization rendering",
+    "Klein j-invariant modular group fundamental domain fractal rendering",
+    "parabolic implosion Leau Fatou petals Julia set visualization complex dynamics",
+    "hidden attractors multistability chaotic systems fractal visualization",
+    "meromorphic functions essential singularity Julia sets iteration z sin z composition",
+    "faster fixed point iterative methods Mann Ishikawa Noor fractal visualization",
+    "kaleidoscopic iterated function systems KIFS 3D fractal rendering",
+    "Schwarz-Christoffel conformal mapping fractal visualization"
+  ],
+  "sources": [
+    "openalex",
+    "crossref",
+    "arxiv",
+    "semantic-scholar"
+  ],
+  "limit": 20,
+  "results": 419,
+  "deduped": 400,
+  "failures": 6
+}

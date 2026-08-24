@@ -1,0 +1,8 @@
+10.1155/2014/979418	View-Dependent Tessellation and Simulation of Ocean Surfaces
+10.1515/amcs-2017-0058	Procedural generation of aesthetic patterns from dynamics and iteration processes
+	Enhancing the HPC-Lab Snow Simulator with More Realistic Terrains and Other Interactive Features
+	Unlimited object instancing in real-time
+	Hardware accelerated computer graphics algorithms
+10.17918/etd-4245	Art Directing Visual Complexity through Smart Textures
+	Kosmos : a virtual 3-D universe
+10.5821/dissertation-2117-95993	Enhancing detailed haptic relief for real-time interaction

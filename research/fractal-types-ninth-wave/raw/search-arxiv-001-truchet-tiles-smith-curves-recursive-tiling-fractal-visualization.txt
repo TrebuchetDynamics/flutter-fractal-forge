@@ -1,0 +1,20 @@
+	Hinged Truchet tiling fractals
+	Truchet Tilings and Renormalization
+10.4171/jfg/37	Fractal dual substitution tilings
+	Truchet-tile structure of a topologically aperiodic metal-organic framework
+	Recursive tilings and space-filling curves with little fragmentation
+	Triangle Tiling V: Tilings by a tile with integer sides
+10.1103/qg97-s1vt	Electron Model on Truchet Tiling: Extended-to-Localized Transitions, Mobility Edge, and Asymmetric Spectrum
+	A fractal version of the pinwheel tiling
+	Paperfolding morphisms, planefilling curves, and fractal tiles
+	Fractal Tiling
+	Combinatorics of a fractal tiling family
+10.1016/j.aim.2010.06.010	Fractal tiles associated with shift radix systems
+10.1103/physrevb.108.224109	Quasicrystalline structure of the Smith monotile tilings
+	Rep-Tiles
+	Infinite families of monohedral disk tilings
+	Neighbors of self-affine tiles and Rauzy Fractals
+10.1016/j.geomphys.2016.11.010	Fractal spectral triples on Kellendonk's $C^*$-algebra of a substitution tiling
+	Pair Correlation and Gap Distributions for Substitution Tilings and Generalized Ulam Sets in the Plane
+	A single fractal pinwheel tile
+	Active Tile Self-assembly, Self-similar Structures and Recursion

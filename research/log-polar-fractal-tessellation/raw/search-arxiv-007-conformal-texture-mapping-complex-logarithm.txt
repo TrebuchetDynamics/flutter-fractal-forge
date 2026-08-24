@@ -1,0 +1,20 @@
+	Texture image analysis and texture classification methods - A review
+10.1080/17476933.2022.2076842	Holomorphic maps from complex discs intersecting families of hypersurfaces
+10.1080/02781070310001634610	Ullemar's formula for the Jacobian of the complex moment mapping
+10.1002/hbm.70548	Improved Multiscale Structural Mapping with Supervertex Vision Transformer for the Detection of Alzheimer's Disease Neurodegeneration
+10.13140/rg.2.2.33612.46722	A New Benchmark Dataset for Texture Image Analysis and Surface Defect Detection
+	Cohomological aspects on complex and symplectic manifolds
+	Make-A-Texture: Fast Shape-Aware Texture Generation in 3 Seconds
+	Describing Textures using Natural Language
+	Texture Synthesis Using Convolutional Neural Networks
+10.1142/s0217751x03016859	Bits and Pieces in Logarithmic Conformal Field Theory
+	Analytical Error Estimation of Conformal Mappings Using Complex Bessel Functions under Perturbed Boundaries
+10.1142/s0217751x03016914	Use of Nilpotent weights in Logarithmic Conformal Field Theories
+10.1142/s0217751x03016884	Logarithmic conformal field theory with boundary
+	Enhancing Monocular 3D Hand Reconstruction with Learned Texture Priors
+	FFHQ-UV: Normalized Facial UV-Texture Dataset for 3D Face Reconstruction
+	A second-order theory of texture for depth from focus
+	Evaluating Urbanization from Satellite and Aerial Images by means of a statistical approach to the texture analysis
+10.1007/978-3-032-16649-4_25	Is star complexity a proxy for information based complexity of graphs?
+10.1016/j.cam.2020.113354	New conformal map for the trapezoidal formula for infinite integrals of unilateral rapidly decreasing functions
+	Computing boundary extensions of conformal maps part 2

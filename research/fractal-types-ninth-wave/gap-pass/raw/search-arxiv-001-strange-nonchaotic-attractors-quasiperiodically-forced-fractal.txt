@@ -1,0 +1,20 @@
+10.1103/physreve.57.1576	Strange Nonchaotic Attractors in the Quasiperiodically forced Logistic Map
+10.1103/physreve.58.3008	Different routes to chaos via strange nonchaotic attractor in a quasiperiodically forced system
+10.1103/physreve.74.036205	Experimental realization of strange nonchaotic attractors in a quasiperiodically forced electronic circuit
+10.1142/s0218127401002195	Strange Nonchaotic Attractors
+	Bubble doubling route to strange nonchaotic attractor in a quasiperiodically forced Chua's circuit
+10.1088/1751-8113/42/26/265103	Strange Nonchaotic Oscillations in The Quasiperiodically Forced Hodgkin-Huxley Neuron
+10.1103/physreve.54.6114	Fractalization of Torus Revisited as a Strange Nonchaotic Attractor
+10.1103/physreve.61.3641	Intermittency transitions to strange nonchaotic attractors in a quasiperiodically driven Duffing oscillator
+10.1103/physreve.63.026219	Interruption of torus doubling bifurcation and genesis of strange nonchaotic attractors in a quasiperiodically forced map : Mechanisms and their characterizations
+10.1103/physreve.56.7294	Synchronization of Strange Nonchaotic Attractors
+	A Plethora of Strange Nonchaotic Attractors
+10.1103/physreve.67.036211	Fractal Properties of Robust Strange Nonchaotic Attractors in Maps of Two or More Dimensions
+10.1063/5.0017725	Route to logical strange nonchaotic attractors with single periodic force and noise
+10.1016/j.cnsns.2024.108562	Resonance and Weak Chaos in Quasiperiodically-Forced Circle Maps
+10.1088/0951-7715/19/9/001	How chaotic are strange nonchaotic attractors
+	Finite-time Lyapunov exponents of Strange Nonchaotic Attractors
+	Strange non-chaotic attractors in quasiperiodically forced circle maps
+10.1103/physrevlett.79.4127	Intermittency Route to Strange Nonchaotic Attractors
+10.1063/1.4808254	Applicability of 0-1 Test for Strange Nonchaotic Attractors
+	Strange nonchaotic attractors in driven delay--dynamics

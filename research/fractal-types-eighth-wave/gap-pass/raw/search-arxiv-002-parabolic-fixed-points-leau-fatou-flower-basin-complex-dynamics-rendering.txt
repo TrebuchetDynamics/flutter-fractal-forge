@@ -1,0 +1,20 @@
+	Fatou flowers and parabolic curves
+	Dynamics of surface homeomorphisms Topological versions of the Leau-Fatou flower theorem and the stable manifold theorem
+	Supercharging Federated Learning with Flower and NVIDIA FLARE
+10.1007/s11071-016-2782-5	Fractal basin boundaries and escape dynamics in a multiwell potential
+	Dynamics on immediate basins for parabolic Newton maps
+	The Distribution of Unstable Fixed Points in Chaotic Neural Networks
+10.1007/s11071-015-1930-7	Escape dynamics and fractal basin boundaries in Seyfert galaxies
+	Fixed points, descents, and inversions in parabolic double cosets of the symmetric group
+10.1007/s11071-021-07167-8	A Parametric and Feasibility Study for Data Sampling of the Dynamic Mode Decomposition--Range, Resolution, and Universal Convergence States
+	The fixed point of the parabolic renormalization operator
+	Fixed Point Indices and Manifolds with Collars
+10.1142/s0219525911003451	The Dynamics of Internet Traffic: Self-Similarity, Self-Organization, and Complex Phenomena
+	Evolutive Rendering Models
+10.1017/etds.2025.14	A flower theorem in dimension two
+	Common fixed points for set-valued contraction on a metric space with graph
+10.46298/fi.12374	Relative fixed points of functors
+	Fixed Point for Uniformly Local Asymptotic Nonexpansive Map
+10.1016/j.procs.2013.05.251	Multi-objective Flower Algorithm for Optimization
+10.1080/17476933.2022.2076842	Holomorphic maps from complex discs intersecting families of hypersurfaces
+10.1016/j.physd.2006.09.012	Dynamics on Complex Networks and Applications

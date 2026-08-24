@@ -1,0 +1,20 @@
+10.3390/sym15020478	Fractals as Julia and Mandelbrot Sets of Complex Cosine Functions via Fixed Point Iterations
+10.1109/access.2020.3018090	Fixed Point Results for Fractal Generation of Complex Polynomials Involving Sine Function via Non-Standard Iterations
+10.1109/access.2019.2892013	Mandelbrot and Julia Sets via Jungck–CR Iteration With $s$ –Convexity
+10.1109/access.2019.2951385	Fixed Point Results for Fractal Generation in Extended Jungck–SP Orbit
+10.3390/fractalfract7010076	Escape Criteria for Generating Fractals of Complex Functions Using DK-Iterative Scheme
+10.21817/ijet/2017/v9i3/1709030282	Generation of New Fractals via SP Orbit with s-Convexity
+10.3390/fractalfract8020116	Escape Criteria Using Hybrid Picard S-Iteration Leading to a Comparative Analysis of Fractal Mandelbrot Sets Generated with S-Iteration
+10.1007/s00010-022-00908-z	An Application of Viscosity Approximation Type Iterative Method in the Generation of Mandelbrot and Julia Fractals
+10.3390/fractalfract8070414	On the Application of Mann-Iterative Scheme with h-Convexity in the Generation of Fractals
+10.1109/access.2019.2928796	Tricorns and Multicorns in Noor Orbit With s-Convexity
+10.3390/math8122172	Some Escape Time Results for General Complex Polynomials and Biomorphs Generation by a New Iteration Process
+10.3934/math.2025437	Fractal generation and analysis using modified fixed-point iteration
+10.3934/math.2024985	Generation of Julia and Mandelbrot fractals for a generalized rational type mapping via viscosity approximation type iterative method extended with $ s $-convexity
+10.1007/s11075-023-01644-4	On the viscosity approximation type iterative method and its non-linear behaviour in the generation of Mandelbrot and Julia sets
+10.3390/axioms12030271	Strong and Δ-Convergence Fixed-Point Theorems Using Noor Iterations
+10.1109/access.2019.2920026	Boundaries of Filled Julia Sets in Generalized Jungck Mann Orbit
+10.1371/journal.pone.0312197	On escape criterion of an orbit with s−convexity and illustrations of the behavior shifts in Mandelbrot and Julia set fractals
+10.3390/fractalfract7100768	Mandelbrot and Julia Sets of Transcendental Functions Using Picard–Thakur Iteration
+10.1016/j.cola.2023.101222	Minimum modulus visualization of algebraic fractals
+10.3934/math.20251148	Role of $ s $-convexity in the generation of fractals as Julia and Mandelbrot sets via three-step fixed point iteration

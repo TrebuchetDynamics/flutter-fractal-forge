@@ -1,0 +1,20 @@
+10.1111/j.1467-8659.2010.01828.x	A Survey of Ocean Simulation and Rendering Techniques in Computer Graphics
+10.1561/0600000106	Towards Better User Studies in Computer Graphics and Vision
+10.1007/978-3-031-16446-0_10	DSR: Direct Simultaneous Registration for Multiple 3D Images
+	Text/Graphics Separation for Business Card Images for Mobile Devices
+10.1007/978-3-031-16446-0_13	Privacy Preserving Image Registration
+	Groebner bases in Java with applications in computer graphics
+10.1111/cgf.14784	TACHYON: Efficient Shared Memory Parallel Computation of Extremum Graphs
+10.1145/3386569.3392413	Code Replicability in Computer Graphics
+10.1007/978-3-030-34110-7_44	FU-net: Multi-class Image Segmentation Using Feedback Weighted U-net
+	Temperature Illusions in Mixed Reality using Color and Dynamic Graphics
+	Spatio-temporal Manifold Learning for Human Motions via Long-horizon Modeling
+10.1145/3731209.	MoVer: Motion Verification for Motion Graphics Animations
+10.1007/978-3-030-32254-0_67	Attenuation Imaging with Pulse-Echo Ultrasound based on an Acoustic Reflector
+10.1016/j.cviu.2022.103519	Global Adaptive Filtering Layer for Computer Vision
+10.1016/j.image.2020.116119	BINet: a binary inpainting network for deep patch-based image compression
+10.1016/j.cviu.2023.103866	Patch-Based Stochastic Attention for Image Editing
+10.1016/j.media.2026.103943	Fréchet Radiomic Distance (FRD): A Versatile Metric for Comparing Medical Imaging Datasets
+	Geoglyphs of Titicaca as an ancient example of graphic design
+10.1007/978-3-031-16440-8_18	TransEM:Residual Swin-Transformer based regularized PET image reconstruction
+	Token Warping Helps MLLMs Look from Nearby Viewpoints

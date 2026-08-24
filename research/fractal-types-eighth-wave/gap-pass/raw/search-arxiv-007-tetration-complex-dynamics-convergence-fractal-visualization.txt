@@ -1,0 +1,20 @@
+10.1142/12644	Conjectures on Convergence and Scalar Curvature
+10.1007/s11071-021-07167-8	A Parametric and Feasibility Study for Data Sampling of the Dynamic Mode Decomposition--Range, Resolution, and Universal Convergence States
+	The Limits of a Family; of Asymptotic Solutions to The Tetration Equation
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	On the last digits of tetrations of base $2^{k}$ and $5^{k}$
+	An Overview of Complex Fractal Dimensions: From Fractal Strings to Fractal Drums, and Back
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+10.4171/jfg/57	Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality
+	Beyond English: Centering Multilingualism in Data Visualization
+	Fractal atom-photon dynamics in a cavity
+10.1109/vis49827.2021.9623305	Towards a Survey on Static and Dynamic Hypergraph Visualizations
+	Fractal Zeta Functions and Complex Dimensions of Ahlfors Metric Measure Spaces
+10.1109/tvcg.2025.3633909	Reframing Pattern: A Comprehensive Approach to a Composite Visual Variable
+10.1007/s11071-016-2782-5	Fractal basin boundaries and escape dynamics in a multiwell potential
+10.1007/978-3-319-18660-3_13	Fractal zeta functions and complex dimensions: A general higher-dimensional theory
+10.3390/fractalfract9090584	Chaotic Dynamics and Fractal Geometry in Ring Lattice Systems of Nonchaotic Rulkov Neurons
+10.1109/tvcg.2017.2772237	LMap: Shape-Preserving Local Mappings for Biomedical Visualization
+10.1007/s11071-015-1930-7	Escape dynamics and fractal basin boundaries in Seyfert galaxies
+	Complex-network approach for visualizing and quantifying the evolution of a scientific topic
+10.1142/s0219525911003451	The Dynamics of Internet Traffic: Self-Similarity, Self-Organization, and Complex Phenomena

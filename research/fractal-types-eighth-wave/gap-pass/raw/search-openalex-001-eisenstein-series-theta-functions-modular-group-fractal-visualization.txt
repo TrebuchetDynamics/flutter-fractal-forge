@@ -1,0 +1,7 @@
+10.1088/1367-2630/10/8/083023	Nodal domain statistics for quantum chaotic maps
+10.1090/bull/1770	The isospectral problem for flat tori from three perspectives
+10.1090/bull/1782	Billiards and Teichmüller curves
+10.48550/arxiv.1603.00959	Biological hierarchies emerged from natural characteristics of number theory
+10.59973/ipil.307	Why Current AI Architectures are Not Conscious: Neural Networks as Spinfoam Networks in a Theory of Quantum Gravity
+10.21203/rs.3.rs-8443771/v1	Why Current AI Architectures are Not Conscious:Neural Networks as Spinfoam Networks in a Theory ofQuantum Gravity
+	統合数理科学 : 現象解明を通した数学の発展 : 平成15年度成果報告書

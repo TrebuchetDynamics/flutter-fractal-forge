@@ -1,0 +1,20 @@
+10.1142/s0218127401002195	STRANGE NONCHAOTIC ATTRACTORS
+10.1103/physreve.54.6114	Fractalization of a torus as a strange nonchaotic attractor
+10.1103/physreve.58.3008	Different routes to chaos via strange nonchaotic attractors in a quasiperiodically forced system
+10.1103/physrevlett.87.254101	Fractal Properties of Robust Strange Nonchaotic Attractors
+10.1007/s11071-024-09678-6	Strange nonchaotic attractors in a class of quasiperiodically forced piecewise smooth systems
+10.1142/9789814360258_0007	Strange Nonchaotic Attractors
+10.1103/physreve.70.046203	Fractalization route to strange nonchaotic dynamics
+10.1142/s0218348x21501036	STRANGE NONCHAOTIC ATTRACTORS AND MULTISTABILITY IN A TWO-DEGREE-OF-FREEDOM QUASIPERIODICALLY FORCED VIBRO-IMPACT SYSTEM
+10.1142/s0218348x19501184	STRANGE NONCHAOTIC ATTRACTORS IN A QUASIPERIODICALLY-FORCED PIECEWISE SMOOTH SYSTEM WITH FAREY TREE
+10.1142/s0218127420500637	A New Route to Strange Nonchaotic Attractors in an Interval Map
+10.1103/physreve.67.036211	Fractal properties of robust strange nonchaotic attractors in maps of two or more dimensions
+10.1103/revmodphys.81.333	Fractal structures in nonlinear dynamics
+10.1016/j.cnsns.2019.105165	Multistability in a quasiperiodically forced piecewise smooth dynamical system
+10.1063/5.0096959	Birth of strange nonchaotic attractors in a piecewise linear oscillator
+10.1142/s0218127420501837	Coexistence of Strange Nonchaotic Attractors in a Quasiperiodically Forced Dynamical Map
+10.1142/s0218348x21502650	STRANGE NONCHAOTIC ATTRACTORS IN A QUASIPERIODICALLY FORCED ARTICULATED MOORING TOWER MODEL
+10.3390/math9060652	Hidden Strange Nonchaotic Attractors
+10.1088/0305-4470/37/25/004	Universal mechanism for the intermittent route to strange nonchaotic attractors in quasiperiodically forced systems
+10.1016/j.chaos.2015.02.006	Multilayered bubbling route to SNA in a quasiperiodically forced electronic circuit with experimental and analytical confirmation
+10.1017/jfm.2019.680	Forced synchronization of quasiperiodic oscillations in a thermoacoustic system

@@ -1,0 +1,20 @@
+10.1016/s0006-3495(92)81821-0	Lateral diffusion and aggregation. A Monte Carlo study
+10.1088/0031-9155/58/16/5613	Simulation and assessment of realistic breast lesions using fractal growth models
+10.1038/srep19505	Fractality à la carte: a general particle aggregation model
+10.1063/1.4926467	Latent heat induced rotation limited aggregation in 2D ice nanocrystals
+10.1088/0965-0393/2/3/001	Cluster-cluster aggregation and calculated SAXS patterns: application to concentration dependence of fractal parameters
+10.1039/c8sm00707a	Visualization of diffusion limited antimicrobial peptide attack on supported lipid membranes
+10.1103/physreva.41.971	Scaling of negative moments of the growth probability of diffusion-limited aggregates
+10.3390/land11040475	An Overview of Fractal Geometry Applied to Urban Planning
+10.1155/2010/974917	Exploring the Fractal Parameters of Urban Growth and Form with Wave‐Spectrum Analysis
+10.3390/fractalfract7120866	Models for Simulation of Fractal-like Particle Clusters with Prescribed Fractal Dimension
+10.1021/acs.energyfuels.7b01170	Experimental Study on Kinetics of Asphaltene Aggregation in a Microcapillary
+10.3390/ijgi9110672	Fractal-Based Modeling and Spatial Analysis of Urban Form and Growth: A Case Study of Shenzhen in China
+10.1103/physreve.77.041409	Structure development of resorcinol-formaldehyde gels: Microphase separation or colloid aggregation
+10.1080/02786829408959698	Monte Carlo Simulation of Particle Coagulation and Sintering
+10.1209/0295-5075/106/68005	Dynamics of colloidal aggregation in microgravity by critical Casimir forces
+10.1039/d4nr02389g	Understanding the nanoscale phenomena of nucleation and crystal growth in electrodeposition
+10.3390/batteries10100352	Simulation of Dendrite Growth with a Diffusion-Limited Aggregation Model Validated by MRI of a Lithium Symmetric Cell during Charging
+10.3390/s140406056	Electroless Deposition and Nanolithography Can Control the Formation of Materials at the Nano-Scale for Plasmonic Applications
+10.52842/conf.caadria.2000.055	A Simulation Study of Urban Growth Patterns with Fractal Geometry
+10.1371/journal.pcbi.1005516	An aggregation-removal model for the formation and size determination of post-synaptic scaffold domains

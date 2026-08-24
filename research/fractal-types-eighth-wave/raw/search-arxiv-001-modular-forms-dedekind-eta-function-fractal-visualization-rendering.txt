@@ -1,0 +1,20 @@
+10.1007/978-3-030-04480-0_14	Interpolated sequences and critical $L$-values of modular forms
+	Analytic surgery and gluing of the Bismut-Lott torsion form and eta form
+	Eta forms and the odd pseudodifferential families index
+	A class of non-holomorphic modular forms I
+	Exceptional theta functions and arithmeticity of modular forms on $G_2$
+	An Elementary Proof of the Transformation Formula for the Dedekind Eta Function
+10.1016/j.top.2007.03.004	Limiting modular symbols and their fractal geometry
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	From modular forms to differential equations for Feynman integrals
+	On a class of Feynman integrals evaluating to iterated integrals of modular forms
+	An Analogue of the Dedekind Eta Function for Hecke Groups $H(\sqrt{D})$
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+10.1086/382716	Eta Carinae's Brightness Variations Since 1998: HST Observations of the Central Star
+	Vertex Operators and Modular Forms
+	Adjoint motives of modular forms and the Tamagawa number conjecture
+	Modular forms, deformation of punctured spheres, and extensions of symmetric tensor representations
+	Beyond English: Centering Multilingualism in Data Visualization
+10.1007/s40993-018-0125-y	Records on the vanishing of Fourier coefficients of Powers Of the Dedekind Eta Function
+	The Analogue of the Dedekind Eta Function for CY Manifolds I
+	The conundrum of functional brain networks: small-world efficiency or fractal modularity

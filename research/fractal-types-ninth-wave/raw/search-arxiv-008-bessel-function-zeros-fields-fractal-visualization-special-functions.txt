@@ -1,0 +1,20 @@
+	On the order derivatives of Bessel functions
+	Theory of Fundamental Bessel Functions of High Rank
+	Zeros and the functional equation of the quadrilateral zeta function
+	Simple Zeros Of The Zeta Function
+10.1002/asna.18260041601	Über die Berechnung der geographischen Längen und Breiten aus geodätischen Vermessungen
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	Products of Bessel functions and associated polynomials
+10.1016/j.jmaa.2014.08.014	On an identity for zeros of Bessel functions
+10.1090/proc/13725	Zeros of Bessel function derivatives
+	Fractal properties of Bessel functions
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+	On the interlacing property for zeros of Bessel functions
+	Magnetic field dynamics in isolated neutron stars with an external dipole field
+	Asymptotic behavior of zeros of Bessel function derivatives
+	Beyond English: Centering Multilingualism in Data Visualization
+	Dunkl Operators and Related Special Functions
+10.1080/10652469.2014.975419	Van der Corput inequalities for Bessel functions
+	Preperiodic points for rational functions defined over a rational function field of characteristic zero
+	The radius of $α$-convexity of normalized Bessel functions of the first kind
+	Uniform asymptotic expansions for the zeros of Bessel functions

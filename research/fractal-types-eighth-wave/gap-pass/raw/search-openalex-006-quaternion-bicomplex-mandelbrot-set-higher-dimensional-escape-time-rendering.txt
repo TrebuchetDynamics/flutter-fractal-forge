@@ -1,0 +1,3 @@
+10.1007/s11071-023-08785-0	On the quaternion Julia sets via Picard–Mann iteration
+10.1007/s11075-023-01644-4	On the viscosity approximation type iterative method and its non-linear behaviour in the generation of Mandelbrot and Julia sets
+10.1016/j.cnsns.2026.110572	Julia sets within generalized quaternionic and multiquaternionic tensor product algebras

@@ -1,0 +1,5 @@
+10.3390/bios15040255	Diabetes: Non-Invasive Blood Glucose Monitoring Using Federated Learning with Biosensor Signals
+10.2307/2902463	The Cryptographic Imagination: Secret Writing from Edgar Poe to the Internet
+10.7494/978-83-68219-45-6	Earthbound visual cultures Experiments in machine vision and image processing
+	Integrating the Arts and Sciences in the Museum Setting
+	Machine Sensation

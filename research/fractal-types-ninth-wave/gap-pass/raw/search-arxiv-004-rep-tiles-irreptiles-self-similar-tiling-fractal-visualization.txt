@@ -1,0 +1,20 @@
+	Rep-Tiles
+	Three-dimensional Rep-tiles
+	Solving Rep-tile by Computers: Performance of Solvers and Analyses of Solutions
+10.1109/tap.2023.3243793	A Self-Replicating Single-Shape Tiling Technique for the Design of Highly Modular Planar Phased Arrays -- The Case of L-Shaped Rep-Tiles
+10.4171/jfg/37	Fractal dual substitution tilings
+	Modeling Self-Similar Traffic for Network Simulation
+	Minkowski content and fractal curvatures of self-similar tilings and generator formulas for self-similar sets
+	Computer geometry: Rep-tiles with a hole
+10.1090/conm/600	Minkowski measurability results for self-similar tilings and fractals with monophase generators
+	Fractality, Self-Similarity and Complex Dimensions
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1587/transfun.e94.a.846	An approximative calculation of the fractal structure in self-similar tilings
+	Self-Similar Tilings of Fractal Blow-Ups
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+	Pointwise tube formulas for fractal sprays and self-similar tilings with arbitrary generators
+	Beyond English: Centering Multilingualism in Data Visualization
+	Self-Assembly of Discrete Self-Similar Fractals
+	Tube formulas and complex dimensions of self-similar tilings
+	Self-Assembly of a Statistically Self-Similar Fractal
+10.1109/vis49827.2021.9623305	Towards a Survey on Static and Dynamic Hypergraph Visualizations

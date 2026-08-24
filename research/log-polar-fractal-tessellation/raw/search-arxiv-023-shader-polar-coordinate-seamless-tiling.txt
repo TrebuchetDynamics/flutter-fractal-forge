@@ -1,0 +1,20 @@
+10.22323/1.395.0585	Polarization measurements of the Crab Pulsar with POLAR
+10.22323/1.301.0820	POLAR measurements of the Crab pulsar
+	Seamless: Multilingual Expressive and Streaming Speech Translation
+	Triangle Tiling V: Tilings by a tile with integer sides
+	Infinite families of monohedral disk tilings
+	Pair Correlation and Gap Distributions for Substitution Tilings and Generalized Ulam Sets in the Plane
+	Bitwise Triangular Coordinates for Central Products of Quaternion Groups: Floretion Base Vectors, Digitwise S3-Actions, and Centralizer Tiles
+10.3390/sym9020019	Cyclotomic Aperiodic Substitution Tilings
+10.1016/j.crma.2018.03.005	On the number of non-hexagons in a planar tiling
+	A Tool for the Procedural Generation of Shaders using Interactive Evolutionary Algorithms
+	Triangle Tiling: The case $3α+ 2β= π$
+	Tromino Tiling Deficient Cubes of Any Side Length
+	A General Construction and Encoder Implementation of Polar Codes
+	An Adaptive Framework to Tune the Coordinate Systems in Evolutionary Algorithms
+	Learning from Shader Program Traces
+10.1109/ismar-adjunct68609.2025.00267	ShadAR: LLM-driven shader generation to transform visual perception in Augmented Reality
+10.1080/14786430500269022	Averaged coordination numbers of planar aperiodic tilings
+10.1007/s10586-013-0264-9	Seamless Paxos Coordinators
+10.1142/s0129054108006078	The finite tiling problem is undecidable in the hyperbolic plane
+	Fast Simplified Successive-Cancellation List Decoding of Polar Codes

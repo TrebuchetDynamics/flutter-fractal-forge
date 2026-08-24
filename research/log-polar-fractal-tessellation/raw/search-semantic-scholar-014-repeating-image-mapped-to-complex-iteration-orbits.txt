@@ -1,0 +1,20 @@
+10.1007/s11785-024-01647-6	Iteration of Some Topologically Hyperbolic Meromorphic Maps with Infinitely Many Singular Values
+	APPLICATIONS OF PICARD ISHIKAWA TYPE FIXED POINT ITERATION FOR CONSTRUCTION OF FRACTALS
+10.1109/ccdc69976.2026.11560662	Vector Field-Based Visual Guidance of UAVs for Wind Turbine Inspection
+10.1007/s00222-002-0243-x	Equivalence and topological invariance of conditions for non-uniform hyperbolicity in the iteration of rational maps
+10.1142/s0129167x15500731	Reconstruction theorem for complex polynomials
+10.1002/mop.32861	Recognition of orbital angular momentum vortex beam based on convolutional neural network
+	Discrete Chaos: With Applications in Science and Engineering
+10.1097/prs.0000000000010331	Comparison of Internal and External Distraction in Frontofacial Monobloc Advancement: A Three-Dimensional Quantification
+10.69564/able.en.26038.elasticruler	The Elastic Ruler
+10.1073/pnas.1315716110	Imaging the wave functions of adsorbed molecules
+	An Image Based Approach to Recovering the Gravitational Field of Asteroids
+10.1080/07468342.2022.2122670	George Pólya Awards for 2022
+	IDENTIFICATION OF MARTIAN SURFACE MINERALS IN CRISM IMAGERY USING A DEEP NEURAL NETWORK
+10.1016/0378-4371(91)90178-f	The iterative evolution of complex systems
+	Spacecraft Orbit Design in the Circular Restricted Three-Body Problem Using Higher-Dimensional Poincare Maps
+	MONOCULAR VISUAL-INERTIAL ODOMETRY WITH DYNAMIC LIDAR SCALING FOR SAFE AND PRECISE LANDING ON UNMAPPED PLANETARY BODIES
+	Just a little calculation in dynamics B ¦ dlewo , 13-19 August 2017 Abstracts of talks Elements of thermodynamic formalism for transcendental meromorphic maps
+	Fatou components : doctoral thesis
+	Data access layer optimization of the Gaia data processing in Barcelona for spatially arranged data
+10.1109/igarss.2003.1294031	Geometric performance of ENVISAT ASAR products

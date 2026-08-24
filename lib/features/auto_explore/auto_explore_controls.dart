@@ -8,6 +8,7 @@ import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_control_status.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_service.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 
 /// Keyboard-only alternate activation for [AutoExploreButton]'s long-press
 /// secondary action (mirrors Shift+Click conventions).
@@ -131,52 +132,61 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
                       animation: _pulse,
                       builder: (context, child) {
                         final scale =
-                            active ? (1.0 + _pulse.value * 0.12) : 1.0;
+                            active ? (1.0 + _pulse.value * 0.04) : 1.0;
                         return Transform.scale(
                           scale: scale,
-                          child: Container(
-                            padding: const EdgeInsets.all(2),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: _isFocused
-                                    ? HighContrastColors.focusIndicator
-                                    : Colors.transparent,
-                                width: AccessibleSizing.focusIndicatorWidth,
-                              ),
-                              borderRadius: BorderRadius.circular(18),
-                            ),
-                            child: Container(
-                              width: 52,
-                              height: 52,
-                              decoration: BoxDecoration(
-                                gradient:
-                                    active ? AppColors.primaryGradient : null,
-                                color: active ? null : AppColors.surface,
-                                borderRadius: BorderRadius.circular(16),
-                                border: active
-                                    ? null
-                                    : Border.all(
-                                        color: AppColors.border
-                                            .withValues(alpha: 0.5)),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: active
-                                        ? AppColors.primary
-                                            .withValues(alpha: 0.35)
-                                        : Colors.black.withValues(alpha: 0.18),
-                                    blurRadius: active ? 16 : 12,
-                                    offset: const Offset(0, 4),
+                          child: SizedBox.square(
+                            dimension: AccessibleSizing.minTouchTarget,
+                            child: Center(
+                              child: Container(
+                                padding: const EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: _isFocused
+                                        ? HighContrastColors.focusIndicator
+                                        : Colors.transparent,
+                                    width: AccessibleSizing.focusIndicatorWidth,
                                   ),
-                                ],
-                              ),
-                              child: Icon(
-                                active
-                                    ? Icons.pause_rounded
-                                    : Icons.explore_rounded,
-                                color: active
-                                    ? Colors.white
-                                    : AppColors.textSecondary,
-                                size: 24,
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                                child: AnimatedContainer(
+                                  duration: AppAnimations.fast,
+                                  width: 44,
+                                  height: 44,
+                                  decoration: BoxDecoration(
+                                    gradient: active
+                                        ? AppColors.primaryGradient
+                                        : null,
+                                    color: active
+                                        ? null
+                                        : AppColors.surface
+                                            .withValues(alpha: 0.74),
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: active
+                                          ? Colors.white.withValues(alpha: 0.22)
+                                          : Colors.white
+                                              .withValues(alpha: 0.14),
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black
+                                            .withValues(alpha: 0.18),
+                                        blurRadius: 10,
+                                        offset: const Offset(0, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Icon(
+                                    active
+                                        ? Icons.pause_rounded
+                                        : Icons.explore_rounded,
+                                    color: active
+                                        ? Colors.white
+                                        : AppColors.textPrimary,
+                                    size: 20,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -241,125 +251,186 @@ class AutoExploreSettingsSheet extends StatelessWidget {
     );
     final l10n = AppLocalizations.of(context);
 
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-        border: Border.all(color: AppColors.border.withValues(alpha: 0.3)),
+    final primaryAction = ElevatedButton.icon(
+      onPressed: () => _runPrimaryAction(status.primaryAction, svc),
+      icon: Icon(status.showsPauseAction
+          ? Icons.pause_rounded
+          : Icons.play_arrow_rounded),
+      label: Text(
+        status.primaryActionLabel(
+          startLabel: l10n?.actionPlay ?? 'Play',
+          pauseLabel: l10n?.actionPause ?? 'Pause',
+          resumeLabel: l10n?.actionResume ?? 'Resume',
+        ),
       ),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.xl),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Center(
-                child: Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: AppColors.textMuted.withValues(alpha: 0.3),
-                    borderRadius: BorderRadius.circular(2),
+    );
+    final stopAction = OutlinedButton.icon(
+      onPressed: svc.stop,
+      icon: const Icon(Icons.stop_rounded),
+      label: Text(l10n?.actionStop ?? 'Stop'),
+    );
+
+    return AppBottomSheet(
+      maxHeightFactor: 0.82,
+      children: [
+        AppBottomSheetHeader(
+          icon: Icons.explore_rounded,
+          title: l10n?.autoExploreTitle ?? 'Auto-Explore',
+          subtitle: l10n?.autoExploreSubtitle ??
+              'Automatically discover interesting areas',
+          onClose: () => Navigator.of(context).pop(),
+        ),
+        const Divider(height: 1, color: AppColors.divider),
+        Flexible(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              AppSpacing.md,
+              AppSpacing.lg,
+              AppSpacing.xxxl,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (status.showsYieldBadge) ...[
+                  _AutoExploreInfoCard(
+                    icon: Icons.pause_circle_outline_rounded,
+                    text: l10n?.autoExplorePausedUserCorrection ??
+                        'Auto-pilot paused while you adjust the view.',
+                    emphasized: true,
                   ),
-                ),
-              ),
-              const SizedBox(height: AppSpacing.lg),
-              Text(l10n?.autoExploreTitle ?? 'Auto-Explore',
-                  style: AppTypography.titleLarge),
-              const SizedBox(height: AppSpacing.xs),
-              Text(
-                l10n?.autoExploreSubtitle ??
-                    'Automatically discover interesting areas',
-                style: AppTypography.bodySmall
-                    .copyWith(color: AppColors.textMuted),
-              ),
-              const SizedBox(height: AppSpacing.md),
-              if (status.showsYieldBadge)
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.04),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                        color: AppColors.border.withValues(alpha: 0.35)),
-                  ),
-                  child: const Text(
-                    'Auto-pilot paused (user correction)',
-                    style: TextStyle(fontSize: 12, color: Colors.white70),
-                  ),
-                ),
-              const SizedBox(height: AppSpacing.md),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.04),
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                      color: AppColors.border.withValues(alpha: 0.35)),
-                ),
-                child: const Text(
-                  'Auto mode: Zoom-only (no auto-pan). You can pan freely.',
-                  style: TextStyle(fontSize: 12, color: Colors.white70),
-                ),
-              ),
-              const SizedBox(height: AppSpacing.md),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(l10n?.speedLabel ?? 'Speed',
-                      style: AppTypography.labelLarge),
-                  Text('${svc.speed.toStringAsFixed(1)}x',
-                      style: AppTypography.labelLarge
-                          .copyWith(color: AppColors.primary)),
+                  const SizedBox(height: AppSpacing.sm),
                 ],
-              ),
-              Slider(
-                value: svc.speed,
-                min: AutoExploreSpeed.min,
-                max: AutoExploreSpeed.max,
-                divisions: AutoExploreSpeed.sliderDivisions,
-                onChanged: (v) {
-                  HapticFeedback.selectionClick();
-                  svc.speed = v;
-                },
-              ),
-              const SizedBox(height: AppSpacing.md),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: () =>
-                          _runPrimaryAction(status.primaryAction, svc),
-                      icon: Icon(status.showsPauseAction
-                          ? Icons.pause_rounded
-                          : Icons.play_arrow_rounded),
-                      label: Text(
-                        status.primaryActionLabel(
-                          startLabel: l10n?.actionPlay ?? 'Play',
-                          pauseLabel: l10n?.actionPause ?? 'Pause',
-                          resumeLabel: 'Resume',
-                        ),
+                _AutoExploreInfoCard(
+                  icon: Icons.zoom_in_map_rounded,
+                  text: l10n?.autoExploreZoomOnlyDescription ??
+                      'Zoom-only mode. Auto Explore leaves panning in your control.',
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    final label = Text(
+                      l10n?.speedLabel ?? 'Speed',
+                      style: AppTypography.labelLarge,
+                    );
+                    final value = Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.sm,
+                        vertical: AppSpacing.xs,
                       ),
-                    ),
-                  ),
-                  if (svc.isExploring) ...[
-                    const SizedBox(width: AppSpacing.md),
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: svc.stop,
-                        icon: const Icon(Icons.stop_rounded),
-                        label: Text(l10n?.actionStop ?? 'Stop'),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withValues(alpha: 0.14),
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                    ),
-                  ],
-                ],
-              ),
-            ],
+                      child: Text(
+                        '${svc.speed.toStringAsFixed(1)}x',
+                        style: AppTypography.labelLarge
+                            .copyWith(color: AppColors.primaryLight),
+                      ),
+                    );
+                    if (MediaQuery.textScalerOf(context).scale(14) >= 21) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          label,
+                          const SizedBox(height: AppSpacing.xs),
+                          Align(alignment: Alignment.centerRight, child: value),
+                        ],
+                      );
+                    }
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [label, value],
+                    );
+                  },
+                ),
+                Slider(
+                  value: svc.speed,
+                  min: AutoExploreSpeed.min,
+                  max: AutoExploreSpeed.max,
+                  divisions: AutoExploreSpeed.sliderDivisions,
+                  onChanged: (v) {
+                    HapticFeedback.selectionClick();
+                    svc.speed = v;
+                  },
+                ),
+                const SizedBox(height: AppSpacing.md),
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    final stackActions = constraints.maxWidth < 340 ||
+                        MediaQuery.textScalerOf(context).scale(14) >= 21;
+                    if (!svc.isExploring) return primaryAction;
+                    if (stackActions) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          primaryAction,
+                          const SizedBox(height: AppSpacing.sm),
+                          stopAction,
+                        ],
+                      );
+                    }
+                    return Row(
+                      children: [
+                        Expanded(child: primaryAction),
+                        const SizedBox(width: AppSpacing.md),
+                        Expanded(child: stopAction),
+                      ],
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
+      ],
+    );
+  }
+}
+
+class _AutoExploreInfoCard extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  final bool emphasized;
+
+  const _AutoExploreInfoCard({
+    required this.icon,
+    required this.text,
+    this.emphasized = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final accent =
+        emphasized ? AppColors.primaryLight : AppColors.textSecondary;
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: emphasized
+            ? AppColors.primary.withValues(alpha: 0.1)
+            : AppColors.surfaceVariant.withValues(alpha: 0.72),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: emphasized
+              ? AppColors.primaryLight.withValues(alpha: 0.4)
+              : AppColors.glassBorder,
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, size: 20, color: accent),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(
+            child: Text(
+              text,
+              style: AppTypography.bodySmall.copyWith(
+                color: AppColors.textSecondary,
+                height: 1.35,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

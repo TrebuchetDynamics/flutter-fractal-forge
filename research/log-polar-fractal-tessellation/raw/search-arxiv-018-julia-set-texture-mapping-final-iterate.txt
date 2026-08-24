@@ -1,0 +1,20 @@
+	World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)
+10.1063/5.0089436	NQCDynamics.jl: A Julia Package for Nonadiabatic Quantum Classical Molecular Dynamics in the Condensed Phase
+	Kernels, Data & Physics
+	Decompositions of set-valued mappings
+	Texture image analysis and texture classification methods - A review
+10.1103/physrevd.107.055015	Internal force distributions in 't Hooft-Polyakov monopole and Julia-Zee dyon
+10.1145/3485527	Type Stability in Julia: Avoiding Performance Pathologies in JIT Compilation (Extended Version)
+10.1063/5.0051387	NetworkDynamics.jl -- Composing and simulating complex networks in Julia
+10.1002/hbm.70548	Improved Multiscale Structural Mapping with Supervertex Vision Transformer for the Detection of Alzheimer's Disease Neurodegeneration
+	Julia sets of Zorich maps
+10.1017/s0305004111000478	Julia sets of uniformly quasiregular mappings are uniformly perfect
+	Julia sets of rational maps with rotational symmetries
+10.13140/rg.2.2.33612.46722	A New Benchmark Dataset for Texture Image Analysis and Surface Defect Detection
+	The Inverse Iteration Method for Julia Sets in the 3-Dimensional Space
+	Boundary Julia theory for slice regular functions
+10.1017/etds.2013.53	Rational maps whose Julia sets are Cantor circles
+10.1007/s40315-014-0051-5	The Julia set and the fast escaping set of a quasiregular mapping
+	Rigidity of the Julia set for Hénon-Sibony maps
+	Quasiregular maps of Sierpiński carpet Julia sets
+	Quasisymmetric geometry of the Cantor circles as the Julia sets of rational maps

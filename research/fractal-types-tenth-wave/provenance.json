@@ -1,0 +1,63 @@
+{
+  "question": "Which mathematically distinct, GPU-feasible fractals and fractal-inspired visualizations should be added after the ninth research wave to expand Fractal Forge without catalog alias spam?",
+  "rforge_version": "not available in PATH",
+  "timestamp": "2026-08-19",
+  "depth": "comprehensive",
+  "queries": [
+    "paperfolding morphisms plane-filling curves fractal tiles",
+    "regular paperfolding sequence dragon curve GPU rendering",
+    "de Rham self-affine curve functional equation fractal visualization",
+    "Okamoto continuous nowhere differentiable function parameter family",
+    "H-fractal tree recursive geometric construction",
+    "T-square fractal recursive geometry distance field",
+    "Thue-Morse diffraction singular continuous spectrum visualization",
+    "Rudin-Shapiro diffraction autocorrelation spectrum visualization",
+    "Gaussian primes spiral lattice fractal pattern visualization",
+    "Klein j-invariant modular fundamental domain visualization",
+    "Jacobi theta functions complex plane domain coloring",
+    "Eisenstein series modular forms upper half-plane visualization",
+    "Talbot carpet integer fractional fractal Talbot effect",
+    "Henon-Heiles escape basins fractal basin boundaries",
+    "three-disk chaotic scattering fractal exit basins",
+    "kicked Harper map phase space fractal transport",
+    "Arnold tongues circle map phase-locking bifurcation fractal",
+    "self-affine curves fractal interpolation GPU shader",
+    "automatic sequences diffraction fractal spectra survey",
+    "modular forms q-series GPU numerical approximation",
+    "Hamiltonian chaotic scattering basin entropy visualization",
+    "scientific fractal visualization finite iteration shader",
+    "fractal curve distance field rendering paperfolding H-tree T-square",
+    "new fractal catalog families beyond escape-time Julia sets"
+  ],
+  "sources": [
+    "local rforge packages: fractal-types-sixth-wave through fractal-types-ninth-wave",
+    "local worlds-largest-fractal-catalog evidence package",
+    "local source-backed docs/catalog/fractal_registry.yaml",
+    "NIST DLMF",
+    "DOI resolver direct verification",
+    "MathWorld sequence references"
+  ],
+  "search_stats": {
+    "fresh_live_records": 0,
+    "fresh_query_variants_attempted_via_search_hub": 16,
+    "fresh_search_hub_batches_failed": 4,
+    "direct_authoritative_urls_checked": 7,
+    "reused_packages": 5
+  },
+  "citation_expand_attempted": [],
+  "citation_expand_succeeded": [],
+  "outputs": [
+    "queries.txt",
+    "coverage-stats.log",
+    "source-inventory.md",
+    "report.md",
+    "provenance.json"
+  ],
+  "errors": [
+    "rforge executable was unavailable; no installation was attempted because setup was not authorized",
+    "configured Search Hub provider searxng was unavailable for all four attempted query batches",
+    "direct DOI checks received publisher-side HTTP 403/405 for three resolved sources",
+    "no fresh citation expansion was possible",
+    "no full text or PDFs were fetched; claims use prior retrieved metadata and authoritative formula references"
+  ]
+}

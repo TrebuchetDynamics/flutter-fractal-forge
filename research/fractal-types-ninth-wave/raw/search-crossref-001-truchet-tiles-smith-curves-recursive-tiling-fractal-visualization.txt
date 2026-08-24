@@ -1,0 +1,20 @@
+10.32614/cran.package.truchet	truchet: Tiles and Random Mosaics Truchet Style Using the 'sf' Framework
+10.3840/000481	Truchet Tiles
+10.3840/07000481	Truchet Tiles
+10.2307/1578535	The Tiling Patterns of Sebastien Truchet and the Topology of Structural Hierarchy
+10.2307/j.ctvh8qxtt.5	Truchet Tiles
+10.1090/mbk/117/04	Templeton square truchet tiles
+10.3403/30369460u	Ceramic tiling systems. Sustainability for ceramic tiles and installation materials
+10.3403/30369460	Ceramic tiling systems. Sustainability for ceramic tiles and installation materials
+10.1515/9780691197036-003	CHAPTER 2. Truchet Tiles
+10.1016/j.tcs.2011.09.025	Paperfolding morphisms, planefilling curves, and fractal tiles
+10.3403/bsiso17889	Ceramic tiling systems. Sustainability for ceramic tiles and installation materials
+10.3403/00203803u	Workmanship on building sites. Code of practice for wall and floor tiling
+10.3403/00203803	Workmanship on building sites. Code of practice for wall and floor tiling
+10.1201/9781003240211-28	What are Truchet tiles?
+10.3403/00213132u	Workmanship on building sites. Code of practice for wall and floor tiling
+10.1016/j.patter.2020.100084	Infinitely Variable Tiling Patterns: From Truchet to Sol LeWitt Revisited
+10.3403/02221552	Wall and floor tiling
+10.3403/30380353u	Ceramic tiling systems. Sustainability for ceramic tiles and installation materials
+10.3403/30380353	Ceramic tiling systems. Sustainability for ceramic tiles and installation materials
+10.3403/00213132	Workmanship on building sites. Code of practice for wall and floor tiling

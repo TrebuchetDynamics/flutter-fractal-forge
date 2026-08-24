@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "1",
+  "createdAt": "2026-08-19T16:46:56Z",
+  "queries": [
+    "strange nonchaotic attractors quasiperiodically forced fractal",
+    "diffusion limited aggregation DLA fractal growth clusters visualization",
+    "superfractals random iterated function systems chaos game rendering",
+    "rep-tiles irreptiles self-similar tiling fractal visualization",
+    "Eulerian walkers active rotors growing aggregate structures",
+    "iterated circle inversions inversive geometry fractal limit sets",
+    "model sets cut and project quasiperiodic tilings fractal",
+    "Newton basins Chebyshev polynomials root finding fractal visualization"
+  ],
+  "sources": [
+    "openalex",
+    "crossref",
+    "arxiv",
+    "semantic-scholar"
+  ],
+  "limit": 20,
+  "results": 434,
+  "deduped": 412,
+  "failures": 8
+}

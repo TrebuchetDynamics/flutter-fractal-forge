@@ -1,0 +1,20 @@
+10.1038/s41598-017-00825-1	Vertex coloring of graphs via phase dynamics of coupled oscillatory networks
+10.1103/revmodphys.88.035006	Control principles of complex systems
+10.1103/revmodphys.95.025001	Topological phases in polar oxide nanostructures
+10.1088/0034-4885/80/1/016502	Quantum spin liquids: a review
+10.1103/physrevb.96.205429	Mechanism of single-pulse ablative generation of laser-induced periodic surface structures
+10.1109/tvcg.2015.2467851	Time Curves: Folding Time to Visualize Patterns of Temporal Evolution in Data
+10.1515/polyeng-2012-0122	Molecular iodine/polymer complexes
+10.1109/jproc.2021.3067593	Advancing Neuromorphic Computing With Loihi: A Survey of Results and Outlook
+10.1016/j.bpj.2022.05.039	Simulating the chromatin-mediated phase separation of model proteins with multiple domains
+10.1007/s10596-015-9542-3	Multiphase lattice Boltzmann simulations for porous media applications
+10.1038/s41467-021-25112-6	Retention and Deformation of the Blue Phases in Liquid Crystalline Elastomers
+10.1016/j.physrep.2022.08.003	The Variational Quantum Eigensolver: A review of methods and best practices
+10.2741/1236	Proton and electron transfer in the acceptor quinone complex of photosynthetic reaction centers from Rhodobacter Sphaeroides
+10.1175/1520-0442(2000)013<1697:asieva>2.0.co;2	Antarctic Sea Ice Extent Variability and Its Global Connectivity*
+10.1016/j.preteyeres.2017.11.003	Optical coherence tomography angiography
+10.3389/fphys.2020.00929	Understanding the Principles of Pattern Formation Driven by Notch Signaling by Integrating Experiments and Theoretical Models
+10.3389/fphy.2019.00021	Bernaise: A Flexible Framework for Simulating Two-Phase Electrohydrodynamic Flows in Complex Domains
+10.1186/1556-276x-9-591	Preparation of periodic surface structures on doped poly(methyl metacrylate) films by irradiation with KrF excimer laser
+10.1002/dneu.22405	Gap junctional signaling in pattern regulation: Physiological network connectivity instructs growth and form
+10.21203/rs.3.rs-55125/v1	Universal Differential Equations for Scientific Machine Learning

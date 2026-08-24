@@ -1,0 +1,20 @@
+10.1002/2014gc005264	Helium isotopic textures in Earth's upper mantle
+10.1103/physrevb.103.l100302	Deterministic chaos and fractal entropy scaling in Floquet conformal field theories
+10.1007/s00418-023-02248-8	Local fractal dimension of collagen detects increased spatial complexity in fibrosis
+	Fractal-based texture segmentation of digital X-ray mammograms
+10.1103/revmodphys.89.025007	Frontiers of chaotic advection
+10.5962/bhl.title.15368	Contributions to morphometrics
+10.1088/1367-2630/13/3/035016	Nuclear magnetic relaxation of liquids in porous media
+10.1109/access.2020.2970105	Quantum Optimization and Quantum Learning: A Survey
+10.1007/s00521-016-2801-y	Optimisation of ANN topology for predicting the rehydrated apple cubes colour change using RSM and GA
+10.1214/ss/1032209661	A conversation with I. J. Good
+10.48550/arxiv.1907.12022	DAR-Net: Dynamic Aggregation Network for Semantic Scene Segmentation
+10.21427/d7vh04	Multi-algorithmic Cryptography using Deterministic Chaos with Applications to Mobile Communications.
+	Characterization of anisotropy in organic-rich shales: Shear and tensile failure, wave velocity, matrix and fracture permeability
+10.3390/electronics10243116	Emerging Applications of Bio-Inspired Algorithms in Image Segmentation
+10.13140/rg.2.2.25131.23847	Initial porosity of random packing: Computer simulation of grain rearrangement
+10.1575/1912/4752	Computational imaging and automated identification for aqueous environments
+10.21203/rs.3.rs-3873106/v1	Study on spatial distribution and network connectivity characteristics of buildings in Qingyan Ancient Town in Guiyang
+10.1093/gji/ggz570	Geostatistical characterization of internal structure of mass-transport deposits from seismic reflection images and borehole logs
+10.14288/1.0051301	Animation of reactive fluids
+10.37055/nsz/132943	O TEORETYCZNYCH KORZENIACH ZARZĄDZANIA ZOBRAZOWANIEM TRZECIEGO ŚRODKA PRZY UŻYCIU DYNAMIKI COVID-19 WE FRANCJI

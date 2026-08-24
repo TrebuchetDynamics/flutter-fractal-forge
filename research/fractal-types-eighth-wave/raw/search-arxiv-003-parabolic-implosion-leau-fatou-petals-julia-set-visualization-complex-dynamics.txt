@@ -1,0 +1,20 @@
+10.1007/s00208-023-02725-4	Bounded Fatou and Julia components of meromorphic functions
+	World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)
+	Fatou Set, Julia Set and Escaping Set in Holomorphic Subsemigroup Dynamics
+10.1063/5.0089436	NQCDynamics.jl: A Julia Package for Nonadiabatic Quantum Classical Molecular Dynamics in the Condensed Phase
+	The leaves of the Fatou set accumulate on the leaves of the Julia set
+	On Fatou and Julia sets of foliations
+	On the parabolic Fatou domains
+	Fatou and Julia like sets II
+	Fatou and Julia like sets
+	A Study of Fatou Set, Julia set and Escaping Set in Conjugate Transcendental Semigroup
+	Wandering Fatou Components and Algebraic Julia Sets
+	Fatou flowers and parabolic curves
+	Dynamics of surface homeomorphisms Topological versions of the Leau-Fatou flower theorem and the stable manifold theorem
+	Fatou directions along the Julia set for endomorphisms of CP^k
+	Invariant Properties of Fatou Set, Julia Set and Escaping Set of Holomorphic Semigroup
+	Dynamics of groups of automorphisms of character varieties and Fatou/Julia decomposition for Painlevé 6
+10.1063/5.0051387	NetworkDynamics.jl -- Composing and simulating complex networks in Julia
+	A Study of Fatou Set, Julia set and Escaping Set in Nearly Abelian Transcendental Semigroup
+	Parabolic Implosion in the Parameter Space of Cubic Polynomials
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference

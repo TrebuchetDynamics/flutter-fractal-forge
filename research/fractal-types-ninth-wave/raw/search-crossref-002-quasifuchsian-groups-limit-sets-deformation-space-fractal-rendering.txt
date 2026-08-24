@@ -1,0 +1,20 @@
+10.2996/kmj/1123767011	The limit sets of quasifuchsian punctured surface groups and the Teichmüller distances
+10.4171/jfg/93	On horospheric limit sets of Kleinian groups
+10.1017/9781108526203.004	Limit Sets for Modules over Groups Acting on a CAT(0) Space
+10.1007/978-1-4757-4017-2_15	Introduction to papers on Kleinian groups, their fractal limit sets, and IFS: history, recollections, and acknowledgments
+10.1090/conm/731/14674	Dimensions of limit sets of Kleinian groups
+10.1007/bf02559716	Fractal dimensions for Jarník limit sets of geometrically finite Kleinian groups; the semi-classical approach
+10.1007/978-3-0348-7755-8_8	Remarks on Weak Limit Laws for Fractal Sets
+10.1007/bfb0084452	Fractal dimensions of limit sets of some Kleinian groups
+10.1007/978-3-0348-8380-1_11	On Limit Theorems for Brownian Motions on Unbounded Fractal Sets
+10.1017/9781108778459.010	Further Examples: Attractors and Limit Sets
+10.2140/agt.2023.23.3615	Pressure metrics for deformation spaces of quasifuchsian groups with parabolics
+10.1007/978-3-540-71807-9_1	Jorgensen's picture of quasifuchsian punctured torus groups
+10.1007/978-3-0348-8014-5_2	From Fractal Groups to Fractal Sets
+10.1093/imrn/rnag026	The Universal 2D Menger Space as Limit Sets of Higher-Dimensional Kleinian Groups
+10.1007/bf02392542	The laplacian for domains in hyperbolic space and limit sets of Kleinian groups
+10.46569/20.500.12680/v118rm53p	The Hausdorff Dimension of Limit Sets of Well-distributed Schottky Groups
+10.1515/9783110765304-004	4 The deformation space for nilpotent Lie groups
+10.1016/s0304-0208(08)73734-4	Domains in Hyperbolic Space and Limit Sets of Kleinian Groups
+10.1109/ascc.2013.6606127	Rendering of unfalsified PID gain sets for parameter space control design
+10.4171/ggd/917	Horocycles in hyperbolic 3-manifolds with round Sierpiński limit sets

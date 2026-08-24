@@ -1,0 +1,441 @@
+# Search batch results
+
+Deduped records: 428
+
+- On Philosophical Problems in the Foundations of Chaos theory
+- truchet: Tiles and Random Mosaics Truchet Style Using the 'sf' Framework — DOI: `10.32614/cran.package.truchet`
+- Truchet Tiles — DOI: `10.3840/000481`
+- Truchet Tiles — DOI: `10.3840/07000481`
+- The Tiling Patterns of Sebastien Truchet and the Topology of Structural Hierarchy — DOI: `10.2307/1578535`
+- Truchet Tiles — DOI: `10.2307/j.ctvh8qxtt.5`
+- Templeton square truchet tiles — DOI: `10.1090/mbk/117/04`
+- Ceramic tiling systems. Sustainability for ceramic tiles and installation materials — DOI: `10.3403/30369460u`
+- Ceramic tiling systems. Sustainability for ceramic tiles and installation materials — DOI: `10.3403/30369460`
+- CHAPTER 2. Truchet Tiles — DOI: `10.1515/9780691197036-003`
+- Paperfolding morphisms, planefilling curves, and fractal tiles — DOI: `10.1016/j.tcs.2011.09.025`
+- Ceramic tiling systems. Sustainability for ceramic tiles and installation materials — DOI: `10.3403/bsiso17889`
+- Workmanship on building sites. Code of practice for wall and floor tiling — DOI: `10.3403/00203803u`
+- Workmanship on building sites. Code of practice for wall and floor tiling — DOI: `10.3403/00203803`
+- What are Truchet tiles? — DOI: `10.1201/9781003240211-28`
+- Workmanship on building sites. Code of practice for wall and floor tiling — DOI: `10.3403/00213132u`
+- Infinitely Variable Tiling Patterns: From Truchet to Sol LeWitt Revisited — DOI: `10.1016/j.patter.2020.100084`
+- Wall and floor tiling — DOI: `10.3403/02221552`
+- Ceramic tiling systems. Sustainability for ceramic tiles and installation materials — DOI: `10.3403/30380353u`
+- Ceramic tiling systems. Sustainability for ceramic tiles and installation materials — DOI: `10.3403/30380353`
+- Workmanship on building sites. Code of practice for wall and floor tiling — DOI: `10.3403/00213132`
+- Hinged Truchet tiling fractals
+- Truchet Tilings and Renormalization
+- Fractal dual substitution tilings — DOI: `10.4171/jfg/37`
+- Truchet-tile structure of a topologically aperiodic metal-organic framework
+- Recursive tilings and space-filling curves with little fragmentation
+- Triangle Tiling V: Tilings by a tile with integer sides
+- Electron Model on Truchet Tiling: Extended-to-Localized Transitions, Mobility Edge, and Asymmetric Spectrum — DOI: `10.1103/qg97-s1vt`
+- A fractal version of the pinwheel tiling
+- Paperfolding morphisms, planefilling curves, and fractal tiles
+- Fractal Tiling
+- Combinatorics of a fractal tiling family
+- Fractal tiles associated with shift radix systems — DOI: `10.1016/j.aim.2010.06.010`
+- Quasicrystalline structure of the Smith monotile tilings — DOI: `10.1103/physrevb.108.224109`
+- Rep-Tiles
+- Infinite families of monohedral disk tilings
+- Neighbors of self-affine tiles and Rauzy Fractals
+- Fractal spectral triples on Kellendonk's $C^*$-algebra of a substitution tiling — DOI: `10.1016/j.geomphys.2016.11.010`
+- Pair Correlation and Gap Distributions for Substitution Tilings and Generalized Ulam Sets in the Plane
+- A single fractal pinwheel tile
+- Active Tile Self-assembly, Self-similar Structures and Recursion
+- The limit sets of quasifuchsian punctured surface groups and the Teichmüller distances — DOI: `10.2996/kmj/1123767011`
+- On horospheric limit sets of Kleinian groups — DOI: `10.4171/jfg/93`
+- Limit Sets for Modules over Groups Acting on a CAT(0) Space — DOI: `10.1017/9781108526203.004`
+- Introduction to papers on Kleinian groups, their fractal limit sets, and IFS: history, recollections, and acknowledgments — DOI: `10.1007/978-1-4757-4017-2_15`
+- Dimensions of limit sets of Kleinian groups — DOI: `10.1090/conm/731/14674`
+- Fractal dimensions for Jarník limit sets of geometrically finite Kleinian groups; the semi-classical approach — DOI: `10.1007/bf02559716`
+- Remarks on Weak Limit Laws for Fractal Sets — DOI: `10.1007/978-3-0348-7755-8_8`
+- Fractal dimensions of limit sets of some Kleinian groups — DOI: `10.1007/bfb0084452`
+- On Limit Theorems for Brownian Motions on Unbounded Fractal Sets — DOI: `10.1007/978-3-0348-8380-1_11`
+- Further Examples: Attractors and Limit Sets — DOI: `10.1017/9781108778459.010`
+- Pressure metrics for deformation spaces of quasifuchsian groups with parabolics — DOI: `10.2140/agt.2023.23.3615`
+- Jorgensen's picture of quasifuchsian punctured torus groups — DOI: `10.1007/978-3-540-71807-9_1`
+- From Fractal Groups to Fractal Sets — DOI: `10.1007/978-3-0348-8014-5_2`
+- The Universal 2D Menger Space as Limit Sets of Higher-Dimensional Kleinian Groups — DOI: `10.1093/imrn/rnag026`
+- The laplacian for domains in hyperbolic space and limit sets of Kleinian groups — DOI: `10.1007/bf02392542`
+- The Hausdorff Dimension of Limit Sets of Well-distributed Schottky Groups — DOI: `10.46569/20.500.12680/v118rm53p`
+- 4 The deformation space for nilpotent Lie groups — DOI: `10.1515/9783110765304-004`
+- Domains in Hyperbolic Space and Limit Sets of Kleinian Groups — DOI: `10.1016/s0304-0208(08)73734-4`
+- Rendering of unfalsified PID gain sets for parameter space control design — DOI: `10.1109/ascc.2013.6606127`
+- Horocycles in hyperbolic 3-manifolds with round Sierpiński limit sets — DOI: `10.4171/ggd/917`
+- Limits of quasifuchsian groups with small bending
+- Minkowski dimension and explicit tube formulas for $p$-adic fractal strings — DOI: `10.3390/fractalfract2040026`
+- A generalized model for Yang-Fourier transforms in fractal space
+- SPACE: the SPectroscopic All-sky Cosmic Explorer — DOI: `10.1007/s10686-008-9096-7`
+- Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality — DOI: `10.4171/jfg/57`
+- Advancing Heliophysics and Space Weather Modeling through Open Science — DOI: `10.1029/2025sw004922`
+- Hausdorff dimension and the Weil-Petersson extension to quasifuchsian space — DOI: `10.2140/gt.2010.14.799`
+- Deforming solutions of geometric variational problems with varying symmetry groups — DOI: `10.1007/s00031-014-9277-6`
+- Whistler instability stimulated by the suprathermal electrons present in space plasmas — DOI: `10.1007/s10509-019-3661-6`
+- Verification of Space Weather Forecasts issued by the Met Office Space Weather Operations Centre — DOI: `10.1002/2017sw001683`
+- On integer sequences for rendering limit sets of Kleinian groups
+- Evolutive Rendering Models
+- The importance of ensemble techniques for operational space weather forecasting — DOI: `10.1029/2018sw001861`
+- Collapsing and the Differential Form Laplacian : The Case of a Smooth Limit Space
+- Rauzy fractals with countable fundamental group — DOI: `10.4171/jfg/13`
+- From fractal groups to fractal sets
+- Space Weather Observations, Modeling, and Alerts in Support of Human Exploration of Mars — DOI: `10.3389/fspas.2022.1023305`
+- Network efficiency of spatial systems with fractal morphology: a geometric graphs approach — DOI: `10.1038/s41598-023-45962-y`
+- Classification of finite groups generated by reflections and rotations
+- An Overview of the SPACE Mission Proposal — DOI: `10.1393/ncb/i2008-10496-7`
+- On the dynamics of polynomial-like mappings — DOI: `10.24033/asens.1491`
+- Bounds on the radius of the p-adic Mandelbrot set — DOI: `10.4064/aa158-3-5`
+- Dynamics of the generalized 3x+1 function determined by its fractal images — DOI: `10.1016/j.pnsc.2007.07.013`
+- Fractal Zeta Functions in Metric Spaces
+- Fractal Property for A Novel Function generated by Generalized Approximate 3x+1 Functions — DOI: `10.2991/mce-14.2014.82`
+- Stochastic Analysis of the Time Continuum — DOI: `10.3390/math9121452`
+- Toward a Constructive and Spectral Embedding of 3D Kakeya Sets via Octonionic Triality and the Riemann Zeta Function — DOI: `10.20944/preprints202511.1066.v1`
+- Biological hierarchies emerged from natural characteristics of number theory — DOI: `10.48550/arxiv.1603.00959`
+- A Formal Connection between Napier's Logarithm and the Bernoulli Numbers — DOI: `10.5281/zenodo.5015650`
+- A Formal Connection between Napier's Logarithm and the Bernoulli Numbers — DOI: `10.5281/zenodo.5029496`
+- Mathematics Magazine Front Matter — DOI: `10.4169/002557010x494797`
+- Rigorous Analytic Solutions of Univariate Real-Power Equations in Transcendental Differential Algebraic Closure — DOI: `10.33774/coe-2025-qjx62`
+- A Recursive Algorithm for Calculating Natural Logarithms using Bernoulli Numbers — DOI: `10.5281/zenodo.5144036`
+- $p$-adic path set fractals and arithmetic — DOI: `10.4171/jfg/2`
+- Mandelbrot Set as a Particular Julia Set of Fractional Order, Equipotential Lines and External Rays of Mandelbrot and Julia Sets of Fractional Order — DOI: `10.3390/fractalfract8010069`
+- On the Dynamics of Iterated Maps V: Conjecture That the Boundary of the M-Set Has a Fractal Dimension Equal to 2 — DOI: `10.1201/9781003072676-18`
+- On the Dynamics of Iterated Maps IV: The Notion of “Normalized Radical” R of the M-Set, and the Fractal Dimension of the Boundary of R — DOI: `10.1201/9781003072676-17`
+- Fractal Foundations of Artificial Intelligence Through Julia and Mandelbrot Dynamics — DOI: `10.2139/ssrn.7202782`
+- Visualization of Mandelbrot and Julia Sets of Möbius Transformations — DOI: `10.3390/fractalfract5030073`
+- 11 Convergence and dynamics — DOI: `10.1515/9783111689685-011`
+- Dynamics of Entire Functions — DOI: `10.1515/9783111689685`
+- Iterated Galois towers, their associated martingales, and the $p$-adic Mandelbrot set — DOI: `10.1112/s0010437x07002667`
+- Mandelbrot Set Fractal Accelerator — DOI: `10.1002/9781118146538.ch21`
+- Mandelbrot Set Fractal Accelerator — DOI: `10.1002/9781118309728.ch22`
+- Analysis of Mandelbrot set fractal images using a machine learning based approach — DOI: `10.1016/b978-0-44-318468-0.00008-8`
+- WHAT IS...the p-adic Mandelbrot Set? — DOI: `10.1090/noti1038`
+- Contents — DOI: `10.1515/9783111689685-toc`
+- Bibliography — DOI: `10.1515/9783111689685-016`
+- Preface — DOI: `10.1515/9783111689685-201`
+- Frontmatter — DOI: `10.1515/9783111689685-fm`
+- Algorithms for classifying points in a 2-adic Mandelbrot set — DOI: `10.2140/involve.2019.12.969`
+- C Computer graphics of complex dynamics — DOI: `10.1515/9783111689685-014`
+- On Phase Transitions for $P$-Adic Potts Model with Competing Interactions on a Cayley Tree — DOI: `10.1063/1.2193118`
+- The Geometry of p-Adic Fractal Strings: A Comparative Survey
+- p-Adic TGD: Mathematical Ideas
+- p-adic Equiangular Lines and p-adic van Lint-Seidel Relative Bound — DOI: `10.4064/ba240825-18-10`
+- p-Adic description of Higgs mechanism I: p-Adic square root and p-adic light cone
+- ($p$-adic) $L$-functions and ($p$-adic) (multiple) zeta values
+- Fundamentals of p-adic multiple L-functions and evaluation of their special values
+- Surgery sequences and self-similarity of the Mandelbrot set — DOI: `10.2140/agt.2025.25.2807`
+- An introduction to p-adic period rings
+- On p-adic lattices and Grassmannians — DOI: `10.1007/s00209-013-1225-y`
+- p-Adic and Adelic Cosmology: p-Adic Origin of Dark Energy and Dark Matter — DOI: `10.1063/1.2193108`
+- On Benford's Law and the Coefficients of the Riemann Mapping Function for the Exterior of the Mandelbrot Set — DOI: `10.3390/fractalfract6100534`
+- p-Adic and Adelic Quantum Mechanics
+- On the p-adic Beilinson conjecture for number fields
+- Homotopies and Maps between Eigenvalues of some Generalized Lucas Sequences and the Mandelbrot Set
+- On integrality of $p$-adic iterated integrals
+- On unitarity of some representatations of classical p-adic groups I
+- Finite-time Lyapunov dimension and hidden attractor of the Rabinovich system — DOI: `10.1007/s11071-018-4054-z`
+- Self‐Excited and Hidden Chaotic Attractors in Matouk’s Hyperchaotic Systems — DOI: `10.1155/2022/6458027`
+- Fuzzy Synchronization of Chaotic Systems with Hidden Attractors — DOI: `10.3390/e25030495`
+- A new four-dimensional hyperchaotic system with hidden attractors and multistablity — DOI: `10.1088/1402-4896/ad0e55`
+- Lyapunov Exponents of a Discontinuous 4D Hyperchaotic System of Integer or Fractional Order — DOI: `10.3390/e20050337`
+- Chaotic attractors that exist only in fractional-order case — DOI: `10.1016/j.jare.2022.03.008`
+- Scenarios for the appearance of strange attractors in a model of three interacting microbubble contrast agents — DOI: `10.1016/j.chaos.2024.114785`
+- Chaotic and Hyperchaotic Dynamics of a Clapp Oscillator — DOI: `10.3390/math10111868`
+- Fractal structures in nonlinear dynamics — DOI: `10.1103/revmodphys.81.333`
+- A new chaotic jerk system with hidden heart-shaped attractor: dynamical analysis, multistability, connecting curves and its application in image encryption — DOI: `10.1088/1402-4896/acfac6`
+- A Novel Megastable Chaotic System with Hidden Attractors and Its Parameter Estimation Using the Sparrow Search Algorithm — DOI: `10.3390/computation12120245`
+- Multistable dynamics and control of a new 4D memristive chaotic Sprott B system — DOI: `10.1016/j.chaos.2022.111834`
+- A Weak Signal Detection Application Based on Hyperchaotic Lorenz System — DOI: `10.17559/tv-20150825113651`
+- Hyperchaotic System-Based PRNG and S-Box Design for a Novel Secure Image Encryption — DOI: `10.3390/e27030299`
+- Hyperchaotic System for Secure Communication: A Modified 4D Model and its Dynamics — DOI: `10.1007/s44198-025-00348-8`
+- Dynamic analysis and circuit realization of a new controllable hyperchaotic system — DOI: `10.1088/1402-4896/ad274e`
+- Simple Chaotic Jerk Flows With Families of Self-Excited and Hidden Attractors: Free Control of Amplitude, Frequency, and Polarity — DOI: `10.1109/access.2020.2978660`
+- Generation of multi-scroll attractors in a new 4D memristor-based hyperchaotic system using fractal transformations: from simulation to microcontroller design — DOI: `10.36227/techrxiv.176522719.95864495/v1`
+- Abundant Coexisting Multiple Attractors’ Behaviors in Three‐Dimensional Sine Chaotic System — DOI: `10.1155/2019/3687635`
+- Bifurcation, Hidden Chaos, Entropy and Control in Hénon-Based Fractional Memristor Map with Commensurate and Incommensurate Orders — DOI: `10.3390/math11194166`
+- Hyperchaotic Systems with Hidden Attractors — DOI: `10.1007/978-3-030-75821-9_8`
+- Numerical Visualization of Attractors: Self-Exciting and Hidden Attractors — DOI: `10.1201/b20232-8`
+- Generating Hyperchaotic Multiscroll Attractors — DOI: `10.1007/978-3-032-09854-2_9`
+- STRANGE ATTRACTORS — DOI: `10.2307/j.ctvc5pczn.12`
+- Strange attractors and chaotic motions of dynamical systems — DOI: `10.1007/978-0-387-21830-4_9`
+- Memristive Chaotic Systems with Hidden Attractors — DOI: `10.1007/978-3-030-75821-9_10`
+- Systems with hidden attractors — DOI: `10.1142/9789811274121_0003`
+- Fractional-Order Chaotic Systems with Hidden Attractors — DOI: `10.1007/978-3-030-75821-9_9`
+- Globally Attracting Hidden Attractors — DOI: `10.1007/978-3-030-75821-9_25`
+- Chaotic Jerk Systems with Hidden Attractors — DOI: `10.1007/978-3-030-75821-9_11`
+- Attracting sets and attractors — DOI: `10.1017/cbo9780511608773.007`
+- Unconventional Algorithms and Hidden Chaotic Attractors — DOI: `10.1007/978-3-030-75821-9_18`
+- Synchronization of Systems with Hidden Attractors — DOI: `10.1007/978-3-319-53721-4_5`
+- STRANGE NONCHAOTIC ATTRACTORS — DOI: `10.1142/9789812798756_0003`
+- Attractors, Strange Attractors and Fractals — DOI: `10.1081/e-epap2-22`
+- Strange attractors and fractal dimension — DOI: `10.1017/cbo9780511803260.005`
+- Statistical properties of chaotic dynamical systems which exhibit strange attractors — DOI: `10.2172/6441057`
+- Preturbulence, Strange Attractors and Geometric Models — DOI: `10.1007/978-1-4612-5767-7_3`
+- 9. Strange Attractors — DOI: `10.1515/9780691189390-010`
+- Complex Dynamics and Hidden Attractors in Delayed Impulsive Systems — DOI: `10.1007/978-3-030-75821-9_17`
+- A 3D Strange Attractor with a Distinctive Silhouette. The Butterfly Effect Revisited
+- A New Hyperchaotic Attractor with Complex Patterns
+- Complex dynamics, hidden attractors and continuous approximation of a fractional-order hyperchaotic PWC system — DOI: `10.1007/s11071-017-4029-5`
+- Is a hyperchaotic attractor superposition of two multifractals? — DOI: `10.1016/j.chaos.2017.06.031`
+- BICEP/Keck and Cosmological Attractors — DOI: `10.1088/1475-7516/2021/12/008`
+- Existence and smoothness of the stable foliation for sectional hyperbolic attractors — DOI: `10.1112/blms.12037`
+- Coexistence of hidden attractors and self-excited attractors through breaking heteroclinic-like orbits of switched systems
+- Therapeutic target discovery using Boolean network attractors: avoiding pathological phenotypes — DOI: `10.1016/j.crvi.2014.10.002`
+- Hydrodynamic attractors for Gubser flow — DOI: `10.1016/j.physletb.2020.135481`
+- Scenarios for the Creation of Hyperchaotic Attractors of 3D Maps
+- Decay of Correlations for some Non-Uniformly Hyperbolic Attractors — DOI: `10.3934/dcds.2023128`
+- A model for dynamical systems with strange attractors
+- Symmetry breaking perturbations and strange attractors — DOI: `10.1103/physreve.55.4964`
+- Templex: a bridge between homologies and templates for chaotic attractors — DOI: `10.1063/5.0092933`
+- Bifurcations and strange attractors
+- Strange nonchaotic attractors in noise driven systems — DOI: `10.1103/physrevlett.92.074102`
+- Strange Nonchaotic Attractors — DOI: `10.1142/s0218127401002195`
+- Hidden attractors in fundamental problems and engineering models — DOI: `10.1007/978-3-319-27247-4_2`
+- Coexisting Hidden and self-excited attractors in an economic system of integer or fractional order — DOI: `10.1142/s0218127421500620`
+- Hidden Attractors in a New 4D Memristor-Based Hyperchaotic System: Dynamical Analysis, Circuit Design, Synchronization, and Its Applications — DOI: `10.3390/math13172838`
+- Applications of a New 6D Hyperchaotic System with Hidden Attractors in Secure Communication and Wheeled Mobile Robot Navigation — DOI: `10.51537/chaos.1619566`
+- Generating Multi-Wing Hidden Hyperchaotic Attractors With a Single Stable Equilibrium — DOI: `10.1109/tcsii.2023.3335096`
+- Dynamics, periodic orbits of a novel four-dimensional hyperchaotic system with hidden attractors — DOI: `10.1088/1402-4896/ad61cc`
+- Design and Analysis of a Novel Fractional-Order System with Hidden Dynamics, Hyperchaotic Behavior and Multi-Scroll Attractors — DOI: `10.3390/math12142227`
+- Rotation Switching for Generating Multiplex Multiwing Hyperchaotic Hidden Attractors — DOI: `10.1109/tie.2024.3451192`
+- Quantum signatures of strange attractors. — DOI: `10.1063/5.0304784`
+- Strange attractors in complex networks. — DOI: `10.1103/physreve.111.l042301`
+- Coexisting of self-excited and hidden attractors in a new 4D hyperchaotic Sprott-S system with a single equilibrium point — DOI: `10.24425/acs.2022.140863`
+- Dynamics analysis of a four-dimensional hyperchaotic hidden system and its application in image encryption — DOI: `10.1038/s41598-025-24879-8`
+- Hidden multistability in a hyperchaotic memristive system: theoretical analysis and electronic circuit implementation — DOI: `10.1088/1402-4896/ae0fcb`
+- Synchronization of Hidden Hyperchaotic Attractors in Fractional-Order Complex-Valued Systems with Application to Secure Communications — DOI: `10.1109/elconrus51938.2021.9396284`
+- A novel double-memristor-based hyperchaotic system with hidden attractors: Memristor initial boosting, unstable cycles analysis, and synchronization — DOI: `10.1016/j.cjph.2025.03.047`
+- 9D fractional-order memristive neural network with hidden attractors for secure remote sensing image encryption — DOI: `10.1088/1402-4896/ae6bc3`
+- Fixed points, periodic orbits, torus, chaos, hyperchaos, and busting firing activities in a novel 4D system with self-excited and hidden attractors: theory and digital circuit realization — DOI: `10.1140/epjp/s13360-026-07526-7`
+- Existence of hidden attractors in nonlinear hydro-turbine governing systems and its stability analysis — DOI: `10.1088/1674-1056/acc8c4`
+- Multi-scroll hidden hyperchaotic attractor and extreme multistability with offset boosting in a memristor-coupled complex-valued laser network — DOI: `10.1140/epjp/s13360-024-04958-x`
+- Apollonian Circle Packings: Geometry and Group Theory I. The Apollonian Group — DOI: `10.1007/s00454-005-1196-9`
+- Polyhedral Combinatorics of Coxeter Groups — DOI: `10.17169/refubium-4830`
+- The Casimir Topological Effect and a Proposal for a Casimir-Dark Energy Nano Reactor — DOI: `10.4236/wjnse.2015.51004`
+- Kerr Black Hole Geometry Leading to Dark Matter and Dark Energy via E-Infinity Theory and the Possibility of a Nano Spacetime Singularities Reactor — DOI: `10.4236/ns.2015.74024`
+- A Casimir-Dark Energy Nano Reactor Design—Phase One — DOI: `10.4236/ns.2015.76032`
+- Even More Infinite Ball Packings from Lorentzian Root Systems — DOI: `10.37236/4989`
+- Ball Packings and Lorentzian Discrete Geometry — DOI: `10.17169/refubium-5349`
+- A course in the mathematics of design — DOI: `10.1016/0898-1221(86)90434-7`
+- Fractal rep-tiles of the plane via reflections and integer matrices — DOI: `10.3389/fphy.2026.1699796`
+- Discrete extremal lengths of graph approximations of Sierpinski carpets
+- Bridging Art and Mathematics: Introduction — DOI: `10.1007/978-3-319-57259-8_1`
+- Billiards and Teichmüller curves — DOI: `10.1090/bull/1782`
+- An Algorithmic Approach for Simulating Realistic Irregular Lattices — DOI: `10.1007/978-3-319-59511-5_15`
+- CAT(0) geometry, robots, and society — DOI: `10.48550/arxiv.1912.10007`
+- PIGTIKAL (puzzles in geometry that I know and love) — DOI: `10.48550/arxiv.0906.0290`
+- Holographic Foliations: Self-Similar Quasicrystals from Hyperbolic Honeycombs — DOI: `10.48550/arxiv.2408.15316`
+- Growth in affine Hecke categories — DOI: `10.48550/arxiv.2608.09197`
+- Mini-Workshop: Infinite-Dimensional Kac-Moody Lie Algebras in Supergravity and M Theory — DOI: `10.4171/owr/2024/53`
+- Coxeter groups — DOI: `10.1017/cbo9780511623646.006`
+- Affine reflection groups — DOI: `10.1017/cbo9780511623646.005`
+- Finite reflection groups — DOI: `10.1017/cbo9780511623646.002`
+- Coxeter groups and reflection arrangements — DOI: `10.1017/9781009243759.003`
+- Classification of finite reflection groups — DOI: `10.1017/cbo9780511623646.003`
+- Polynomial invariants of finite reflection groups — DOI: `10.1017/cbo9780511623646.004`
+- Complements — DOI: `10.1017/cbo9780511623646.009`
+- Reflection Groups and Coxeter Groups — DOI: `10.1007/978-1-4612-2066-4_5`
+- References — DOI: `10.1017/cbo9780511623646.010`
+- Preface — DOI: `10.1017/cbo9780511623646.001`
+- Aperiodic colorings and tilings of Coxeter groups — DOI: `10.4171/ggd/15`
+- Special cases — DOI: `10.1017/cbo9780511623646.007`
+- Reflection Groups and Coxeter Groups — DOI: `10.1017/cbo9780511623646`
+- Coxeter groups as automorphism groups of solid transitive 3-simplex tilings — DOI: `10.2298/fil1403557s`
+- Hecke algebras and Kazhdan–Lusztig polynomials — DOI: `10.1017/cbo9780511623646.008`
+- The Boundary of Rauzy Fractal and Discrete Tilings — DOI: `10.2139/ssrn.4924604`
+- Reflection centralizers in Coxeter groups — DOI: `10.1007/s00031-013-9236-7`
+- Reflection groups and Coxeter systems — DOI: `10.1007/978-1-4757-3542-0_7`
+- Chapter Six. GEOMETRIC REFLECTION GROUPS — DOI: `10.1515/9781400845941.72`
+- Classification of Coxeter systems and reflection groups — DOI: `10.1007/978-1-4757-3542-0_9`
+- A characterization of finitely generated reflection subgroups of Coxeter groups orthogonal to a reflection
+- On boundaries of parabolic subgroups of Coxeter groups
+- Zero Excess and Minimal Length in Finite Coxeter Groups
+- Right-angled Coxeter groups with Menger curve boundary — DOI: `10.1112/blms.12609`
+- Involution Products in Coxeter Groups
+- Topological boundaries of connected graphs and Coxeter groups
+- On Reflection Orders Compatible with a Coxeter Element
+- Homogeneity in Coxeter groups and split crystallographic groups
+- In which it is proven that, for each parabolic quasi-Coxeter element in a finite real reflection group, the orbits of the Hurwitz action on its reflection factorizations are distinguished by the two obvious invariants — DOI: `10.37236/11787`
+- Reflection centralizers in Coxeter groups
+- Coxeter Pairs, Ammann Patterns and Penrose-like Tilings — DOI: `10.1103/physrevb.106.144113`
+- Affine reflection subgroups of Coxeter groups
+- On boundaries of Coxeter groups and topological fractal structures
+- Defining sequences for fundamental root systems and Coxeter graphs for super Weyl groups
+- Matching theorems for systems of a finitely generated Coxeter group — DOI: `10.2140/agt.2007.7.919`
+- A quasi-isometry invariant and thickness bounds for right-angled Coxeter groups
+- Coxeter-Chein Loops
+- On the central limit theorem for the two-sided descent statistics in Coxeter groups
+- Malnormality and join-free subgroups in right-angled Coxeter groups
+- Visualization of Sphere and Horosphere Packings Related to Coxeter Tilings by Simply Truncated Orthoschemes with Parallel Faces — DOI: `10.31896/k.25.7`
+- Reflection length at infinity in hyperbolic reflection groups — DOI: `10.1515/jgth-2023-0073`
+- 9 – Fractal surfaces — DOI: `10.1016/b978-0-12-804408-7.00009-6`
+- My way to non-Euclidean and fractal kaleidoscopes — DOI: `10.1080/17513472.2020.1734280`
+- Title of Thesis : PROJECTIVE DEFORMATIONS OF TRIANGLE TILINGS
+- "Harmonic Analysis: Smooth and Non-smooth."1em Introduction to the Conference: Historical context, Reading list, Basic definitions, some relevant results, and an Outline of the Ten Lectures by Jorgensen. 1em CBMS conference to be held at Iowa State University, June 4–8, 2018 — DOI: `10.1007/978-981-10-4786-2_5`
+- Bending Hyperbolic Kaleidoscopes
+- POLYTOPES AND SYMMETRY BY STEWART A ROBERTSON%0D Download PDF Ebook and Read OnlinePolytopes And Symmetry By Stewart A Robertson%0D. Get Polytopes And Symmetry By Stewart A Robertson%0D Polytopes and symmetry Robertson
+- Human-computer interaction : INTERACT 2005 : IFIP TC13 International Conference, Rome, Italy, September 12-16, 2005 : proceedings
+- The Use of Subdivision Surfaces in the Modeling of Plants — DOI: `10.11575/prism/17444`
+- On the Bernstein Affine Fractal Interpolation Curved Lines and Surfaces — DOI: `10.3390/axioms9040119`
+- GROWING SELF-AFFINE SURFACES — DOI: `10.1142/9789814415798_0007`
+- Self-affine analysis on curved reference surfaces: Self-affine fractal characterization of a TNT surface — DOI: `10.1063/1.1303576`
+- GROWING SELF-AFFINE SURFACES — DOI: `10.1142/9789814360234_0007`
+- On Self‐Affine and Self‐Similar Graphs of Fractal Interpolation Functions Generated from Iterated Function Systems — DOI: `10.5772/intechopen.68499`
+- DYNAMICS OF SELF-AFFINE SURFACES — DOI: `10.1142/9789814360234_0012`
+- FRACTAL INTERPOLATION FUNCTIONS ON AFFINE FRACTAL INTERPOLATION CURVES — DOI: `10.1142/s0218348x21500468`
+- Multi-dimensional piece-wise self-affine fractal interpolation model — DOI: `10.1016/s1007-0214(07)70036-6`
+- Roughness-Induced Adhesive Hysteresis in Self-Affine Fractal Surfaces — DOI: `10.3390/lubricants9010007`
+- Self-affine fractal dimensions of film surfaces — DOI: `10.1103/physrevb.41.12268`
+- MULTI-DIMENSIONAL SELF-AFFINE FRACTAL INTERPOLATION MODEL — DOI: `10.1142/s0219525906000641`
+- Reproduction of highly fluctuated water levels of affine fractal shape using fractal interpolation functions with tolerance limit — DOI: `10.2139/ssrn.5174176`
+- Slip boundary condition on self-affine fractal surfaces via molecular dynamics — DOI: `10.1063/5.0274607`
+- SELF-AFFINE FRACTAL MEASUREMENTS ON FRACTURE SURFACES OF POLYMERS AND OPAL-GLASS — DOI: `10.1142/9789812777720_0035`
+- Aging Characteristics of Self-Affine Fractal Solid Surfaces — DOI: `10.1134/s0025654423602501`
+- Self-Affine Fractal Surfaces — DOI: `10.1016/s1079-4042(01)80064-3`
+- Multi-dimensional self-affine fractal interpolation model in tensor form — DOI: `10.1007/s11071-007-9259-5`
+- The growth of self-affine fractal surfaces — DOI: `10.1016/0167-2789(89)90202-9`
+- Self-affine fractal geometry of agate — DOI: `10.1127/ejm/10/1/0149`
+- Multi-affine surfaces — DOI: `10.1017/cbo9780511599798.026`
+- An Attempt of Adaptive Heightfield Rendering with Complex Interpolants Using Ray Casting
+- FI-KAN: Fractal Interpolation Kolmogorov-Arnold Networks
+- Non-singular affine surfaces with self-maps
+- Construction of Fractal Surfaces by Recurrent Fractal Interpolation Curves — DOI: `10.1016/j.chaos.2014.06.001`
+- A simple method to estimate fractal dimension of mountain surfaces
+- Ge growth on ion-irradiated Si self-affine fractal surfaces — DOI: `10.1016/j.susc.2004.06.201`
+- Fractal Dimension of Self-Affine Signals: Four Methods of Estimation
+- Projections of self-affine fractals
+- Stability of Coalescence Hidden variable Fractal Interpolation Surfaces — DOI: `10.1142/s0218127409024098`
+- Recurrence to shrinking targets on typical self-affine fractals
+- Bergman interpolation on finite Riemann surfaces. Part II: Poincaré-Hyperbolic Case
+- Covers of fractal interpolation surfaces with finite families of octahedrons
+- Construction and box dimension of recurrent fractal interpolation surfaces
+- Effect of self-affine fractal characteristics of surfaces on wetting
+- Asymptotic order of the quantization errors for self-affine measures on Bedford-McMullen carpets — DOI: `10.1090/proc/13756`
+- Graph Directed Coalescence Hidden Variable Fractal Interpolation Functions
+- The Calculus Of Bivariate Fractal Interpolation Surfaces — DOI: `10.1142/s0218348x21500663`
+- Near-field EM wave scattering from random self-affine fractal metal surfaces: spectral dependence of local field enhancements and their statistics in connection with SERS — DOI: `10.1103/physrevb.62.10515`
+- Constructing entire functions by quasiconformal folding — DOI: `10.1007/s11511-015-0122-0`
+- Dynamics of entire functions near the essential singularity — DOI: `10.1017/s0143385700003655`
+- Mind the Hype: A Critical Evaluation and Prescriptive Agenda for Research on Mindfulness and Meditation — DOI: `10.1177/1745691617709589`
+- Future directions in meditation research: Recommendations for expanding the field of contemplative science — DOI: `10.1371/journal.pone.0205740`
+- The role of cytoplasmic streaming in symplastic transport — DOI: `10.1046/j.1365-3040.2003.00845.x`
+- Iteration of some topologically hyperbolic maps in the family $ λ+z+\tan z$ — DOI: `10.48550/arxiv.2106.02832`
+- Deformations on Entire Transcendental Functions — DOI: `10.48550/arxiv.2305.10291`
+- ON SOME ADVANCES IN DYNAMICS OF ONE VARIABLE COMPLEX FUNCTIONS — DOI: `10.12732/ijam.v34i6.3`
+- An effective algorithm to compute Mandelbrot sets in parameter planes — DOI: `10.1007/s11075-017-0270-8`
+- The Work of Art Criticism: Collaboration, Communication, Community — DOI: `10.3390/arts9040101`
+- A description of practising Christians’ experience of profound sexual and spiritual encounters — DOI: `10.14288/1.0053957`
+- Primary States of Consciousness: A Review of Historical and Contemporary Developments — DOI: `10.31234/osf.io/r8pmk`
+- Integrating the ineffable: a social phenomenological analysis of the psychedelic experience — DOI: `10.58088/dyjg-0344`
+- Digital Creativity Tools Framework
+- Multiresolution and Explicit Methods for Vector Field Analysis and Visualization
+- Simulation studies and analysis of migration dynamics
+- BEETHOVEN DEAF: THE BEETHOVEN MYTH AND NINETEENTH-CENTURY CONSTRUCTIONS OF DEAFNESS
+- Thai street imaginaries : Bangkok during the Thaksin era (2001-2010)
+- An Analysis of Adventist Mission Methods in Brazil in Relationship to a Christian Movement Ethos — DOI: `10.32597/dissertations/1598`
+- The Shift in Coaching Dynamics during Long-Term Business Coaching Relationships
+- On multiply connected wandering domains of entire functions — DOI: `10.1017/cbo9780511735233.012`
+- ON WANDERING AND BAKER DOMAINS OF TRANSCENDENTAL ENTIRE FUNCTIONS — DOI: `10.1142/s021812740400903x`
+- Julia Components of Transcendental Entire Functions with Multiply-Connected Wandering Domains — DOI: `10.1007/s40315-024-00521-y`
+- Some entire functions with multiply-connected wandering domains — DOI: `10.1017/s0143385700002832`
+- Wandering Domains in the Iteration of Entire Functions — DOI: `10.1112/plms/s3-49.3.563`
+- An entire function which has wandering domains — DOI: `10.1017/s1446788700015287`
+- Baker domains — DOI: `10.1017/cbo9780511735233.015`
+- Deformation of entire functions with Baker domains — DOI: `10.3934/dcds.2006.15.379`
+- Wandering domains in the transcendental dynamics — DOI: `10.1007/bf03183203`
+- Absence of wandering domains for some real entire functions with bounded singular sets — DOI: `10.1007/s00208-013-0936-z`
+- Multiply connected wandering domains of entire functions — DOI: `10.1112/plms/pdt010`
+- Oscillating wandering domains for p$p$‐adic transcendental entire maps — DOI: `10.1112/blms.12709`
+- Permutable entire functions and multiply connected wandering domains — DOI: `10.1016/j.aim.2015.04.031`
+- A family of entire functions with Baker domains — DOI: `10.1017/s0143385708080383`
+- Permutable entire functions and Baker domains — DOI: `10.1017/s0305004198002928`
+- An Entire Function with Simply and Multiply Connected Wandering Domains — DOI: `10.4310/pamq.2011.v7.n1.a6`
+- On the Stability of Julia Sets of Functions having Baker Domains — DOI: `10.53846/goediss-2450`
+- Meromorphic functions with two completely invariant domains — DOI: `10.1017/cbo9780511735233.005`
+- Iterates of Meromorphic Functions II: Examples of Wandering Domains — DOI: `10.1112/jlms/s2-42.2.267`
+- The Carathéodory Convergence of Fatou Components of Polynomials to Baker Domains or Wandering Domains — DOI: `10.1007/978-1-4613-0269-8_41`
+- Classifying multiply connected wandering domains
+- A Survey of Baker Wandering Domains
+- A new family of entire functions with no wandering domains
+- Dynamics on the Wandering Components of the Fatou Set of Three Transcendental Entire Functions and Their Composites
+- Commuting functions in class K and families of wandering Baker domains
+- Wandering domains for entire functions of finite order in the Eremenko-Lyubich class — DOI: `10.1112/plms.12288`
+- Permutable entire functions and multiply connected wandering domains
+- Sum of the exponential and a polynomial: Singular values and Baker wandering domains
+- Wandering domains for composition of entire functions
+- Thermodynamic formalism for entire transcendental maps with hyperbolic Baker Domains
+- Connectivity of Fatou Components of Meromorphic Functions
+- The limit set of iterations of entire functions on wandering domains
+- Boundaries of Baker domains of entire functions. A finer approach
+- Exotic Baker and wandering domains for Ahlfors islands maps — DOI: `10.1007/s11854-012-0023-5`
+- Simply Connected Wandering Domains of Small Order Entire Functions
+- Unbounded fast escaping wandering domains
+- Oscillating Wandering Domains for p-Adic Transcendental Entire Maps
+- The dynamics of semigroups of transcendental entire functions I
+- An Explicit Link between Gaussian Fields and Gaussian Markov Random Fields: The Stochastic Partial Differential Equation Approach — DOI: `10.1111/j.1467-9868.2011.00777.x`
+- Topological photonics — DOI: `10.1103/revmodphys.91.015006`
+- Optical vortices 30 years on: OAM manipulation from topological charge to multiple singularities — DOI: `10.1038/s41377-019-0194-2`
+- Anomalous transport in the crowded world of biological cells — DOI: `10.1088/0034-4885/76/4/046602`
+- Some Novel Fractional Integral Inequalities over a New Class of Generalized Convex Function — DOI: `10.3390/fractalfract6010042`
+- Random Fields Simplified: Preserving Marginal Distributions, Correlations, and Intermittency, With Applications From Rainfall to Humidity — DOI: `10.1029/2019wr026331`
+- Self-Similar Functional Circuit Models of Arteries and Deterministic Fractal Operators: Theoretical Revelation for Biomimetic Materials — DOI: `10.3390/ijms222312897`
+- Optical skyrmions and other topological quasiparticles of light — DOI: `10.1038/s41566-023-01325-7`
+- Acoustic Fractional Propagation in Terms of Porous Xerogel and Fractal Parameters — DOI: `10.3390/gels10010083`
+- Plasmonics: visit the past to know the future — DOI: `10.1088/0022-3727/45/43/433001`
+- Axonal Velocity Distributions in Neural Field Equations — DOI: `10.1371/journal.pcbi.1000653`
+- Finite-temperature transport in one-dimensional quantum lattice models — DOI: `10.1103/revmodphys.93.025003`
+- A review of liquid crystal spatial light modulators: devices and applications — DOI: `10.29026/oes.2023.230026`
+- Optical Measurements: Polarization and Coherence of Light Fields — DOI: `10.5772/36553`
+- Analysis of Random Fields Using<b>CompRandFld</b> — DOI: `10.18637/jss.v063.i09`
+- Recent developments in the theory of the fractional Fourier and linear canonical transforms — DOI: `10.36045/bbms/1170347822`
+- Some New Integral Inequalities for Generalized Preinvex Functions in Interval-Valued Settings — DOI: `10.3390/axioms11110622`
+- Implicit surface visualization of reconstructed biological molecules — DOI: `10.1016/j.tcs.2005.08.027`
+- Magnetohydrodynamic electroosmotic flow of Maxwell fluids with Caputo–Fabrizio derivatives through circular tubes — DOI: `10.1016/j.camwa.2017.07.040`
+- Space from Hilbert space: Recovering geometry from bulk entanglement — DOI: `10.1103/physrevd.95.024031`
+- On the zeros of the hyper-Bessel function — DOI: `10.1080/10652469.2014.973191`
+- The Bessel function over finite fields — DOI: `10.1080/1065246042000272081`
+- Bessel Function Example — DOI: `10.1117/3.885484.ch74`
+- The Bessel Function Jv(z) — DOI: `10.1201/9781439864548-26`
+- Error bounds for mcmahon's asympotic approximations of the zeros of the bessel functions — DOI: `10.1080/10652460008819270`
+- On the zeros of derivatives of Bessel functions — DOI: `10.1080/10652469.2024.2325435`
+- The Modified Bessel Function Iv(z) — DOI: `10.1201/9781439864548-27`
+- Common Properties of Riemann Zeta Function, Bessel Functions and Gauss Function Concerning Their Zeros — DOI: `10.4236/apm.2019.93013`
+- Note on power sums of the zeros of certain Laguerre and Bessel polynomials — DOI: `10.1080/10652469.2019.1709455`
+- Uniform asymptotic expansions for Bessel functions of imaginary order and their zeros — DOI: `10.1080/10652469.2025.2524721`
+- EVALUATION OF THE ZEROS OF CROSS-PRODUCT BESSEL FUNCTIONS — DOI: `10.2172/4101889`
+- Automatic Computation of Zeros of Bessel Functions and Other Special Functions — DOI: `10.1137/s1064827598339074`
+- Zeros of a special type of function associated with Hecke <i>L</i> -functions of imaginary quadratic fields — DOI: `10.1070/im1997v061n01abeh000104`
+- A generalized Bessel function — DOI: `10.1080/1065246031000074362`
+- THE ZEROS OF BESSEL FUNCTIONS AND x Jy + 1 (%)/Jy (x) = CONSTANT — DOI: `10.2172/4360349`
+- Bessel Functions and Modified Bessel Functions of Real Order and Argument — DOI: `10.1201/9781439864548-143`
+- The zeros of a certain function involving Bessel Functions — DOI: `10.5962/p.360739`
+- Bessel Function — DOI: `10.1201/9781003339595-4`
+- INEQUALITIES FOR THE ZEROS OF BESSEL FUNCTIONS — DOI: `10.1016/b978-0-12-083750-2.50049-7`
+- On the distribution of zeros of the wright function — DOI: `10.1080/10652460108819311`
+- On the order derivatives of Bessel functions
+- Theory of Fundamental Bessel Functions of High Rank
+- Zeros and the functional equation of the quadrilateral zeta function
+- Simple Zeros Of The Zeta Function
+- Über die Berechnung der geographischen Längen und Breiten aus geodätischen Vermessungen — DOI: `10.1002/asna.18260041601`
+- Products of Bessel functions and associated polynomials
+- On an identity for zeros of Bessel functions — DOI: `10.1016/j.jmaa.2014.08.014`
+- Zeros of Bessel function derivatives — DOI: `10.1090/proc/13725`
+- Fractal properties of Bessel functions
+- An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference — DOI: `10.1177/14738716241229437`
+- On the interlacing property for zeros of Bessel functions
+- Magnetic field dynamics in isolated neutron stars with an external dipole field
+- Asymptotic behavior of zeros of Bessel function derivatives
+- Beyond English: Centering Multilingualism in Data Visualization
+- Dunkl Operators and Related Special Functions
+- Van der Corput inequalities for Bessel functions — DOI: `10.1080/10652469.2014.975419`
+- Preperiodic points for rational functions defined over a rational function field of characteristic zero
+- The radius of $α$-convexity of normalized Bessel functions of the first kind
+- Uniform asymptotic expansions for the zeros of Bessel functions
+
+## Failures
+
+- semantic-scholar / "Truchet tiles Smith curves recursive tiling fractal visualization": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "quasifuchsian groups limit sets deformation space fractal rendering": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "p-adic Mandelbrot set arithmetic dynamics visualization fractal": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "fractal interpolation surfaces self-affine heightfield rendering": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "Baker domains wandering domains transcendental entire functions visualization": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "Bessel function zeros fields fractal visualization special functions": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)

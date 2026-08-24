@@ -1,0 +1,20 @@
+10.1007/978-3-030-75821-9_8	Hyperchaotic Systems with Hidden Attractors
+10.1201/b20232-8	Numerical Visualization of Attractors: Self-Exciting and Hidden Attractors
+10.1007/978-3-032-09854-2_9	Generating Hyperchaotic Multiscroll Attractors
+10.2307/j.ctvc5pczn.12	STRANGE ATTRACTORS
+10.1007/978-0-387-21830-4_9	Strange attractors and chaotic motions of dynamical systems
+10.1007/978-3-030-75821-9_10	Memristive Chaotic Systems with Hidden Attractors
+10.1142/9789811274121_0003	Systems with hidden attractors
+10.1007/978-3-030-75821-9_9	Fractional-Order Chaotic Systems with Hidden Attractors
+10.1007/978-3-030-75821-9_25	Globally Attracting Hidden Attractors
+10.1007/978-3-030-75821-9_11	Chaotic Jerk Systems with Hidden Attractors
+10.1017/cbo9780511608773.007	Attracting sets and attractors
+10.1007/978-3-030-75821-9_18	Unconventional Algorithms and Hidden Chaotic Attractors
+10.1007/978-3-319-53721-4_5	Synchronization of Systems with Hidden Attractors
+10.1142/9789812798756_0003	STRANGE NONCHAOTIC ATTRACTORS
+10.1081/e-epap2-22	Attractors, Strange Attractors and Fractals
+10.1017/cbo9780511803260.005	Strange attractors and fractal dimension
+10.2172/6441057	Statistical properties of chaotic dynamical systems which exhibit strange attractors
+10.1007/978-1-4612-5767-7_3	Preturbulence, Strange Attractors and Geometric Models
+10.1515/9780691189390-010	9. Strange Attractors
+10.1007/978-3-030-75821-9_17	Complex Dynamics and Hidden Attractors in Delayed Impulsive Systems

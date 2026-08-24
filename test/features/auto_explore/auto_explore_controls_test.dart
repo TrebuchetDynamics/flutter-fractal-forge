@@ -5,6 +5,7 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_controls.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_service.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
+import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
@@ -31,14 +32,90 @@ void main() {
         ),
       );
 
-      expect(find.text('Auto-pilot paused (user correction)'), findsOneWidget);
+      expect(
+        find.text('Auto-pilot paused while you adjust the view.'),
+        findsOneWidget,
+      );
       expect(find.text('Resume'), findsOneWidget);
       expect(find.text('Play'), findsNothing);
       expect(find.text('Pause'), findsNothing);
     });
+
+    testWidgets('uses the shared scrollable sheet at 3x phone text scale',
+        (tester) async {
+      await tester.binding.setSurfaceSize(const Size(320, 568));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+      final controller = FractalController(ModuleRegistry());
+      final service = AutoExploreService(controller: controller);
+      addTearDown(service.dispose);
+      addTearDown(controller.dispose);
+      service.start();
+
+      await tester.pumpWidget(
+        MaterialApp(
+          builder: (context, child) => MediaQuery(
+            data: MediaQuery.of(context).copyWith(
+              textScaler: const TextScaler.linear(3),
+            ),
+            child: child!,
+          ),
+          home: ChangeNotifierProvider<AutoExploreService>.value(
+            value: service,
+            child: const Scaffold(body: AutoExploreSettingsSheet()),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(AppBottomSheet), findsOneWidget);
+      expect(find.byType(SingleChildScrollView), findsOneWidget);
+      expect(find.text('Pause'), findsOneWidget);
+      expect(find.text('Stop'), findsOneWidget);
+      expect(tester.getTopLeft(find.text('Stop')).dy,
+          greaterThan(tester.getTopLeft(find.text('Pause')).dy));
+      expect(tester.takeException(), isNull);
+
+      service.stop();
+      await tester.pump();
+    });
   });
 
   group('AutoExploreButton semantics', () {
+    testWidgets('matches the viewer FAB size and circular treatment',
+        (tester) async {
+      final controller = FractalController(ModuleRegistry());
+      final service = AutoExploreService(controller: controller);
+      addTearDown(service.dispose);
+      addTearDown(controller.dispose);
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: ChangeNotifierProvider<AutoExploreService?>.value(
+            value: service,
+            child: const Scaffold(body: AutoExploreButton()),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(
+          tester.getSize(find.byType(AutoExploreButton)), const Size(48, 48));
+      final surface = tester.widget<AnimatedContainer>(
+        find.descendant(
+          of: find.byType(AutoExploreButton),
+          matching: find.byWidgetPredicate(
+            (widget) =>
+                widget is AnimatedContainer &&
+                widget.decoration is BoxDecoration &&
+                (widget.decoration! as BoxDecoration).shape == BoxShape.circle,
+          ),
+        ),
+      );
+      expect(surface.constraints?.maxWidth, 44);
+      expect(surface.constraints?.maxHeight, 44);
+      expect((surface.decoration! as BoxDecoration).shape, BoxShape.circle);
+    });
+
     testWidgets('exposes primary and secondary assistive actions',
         (tester) async {
       final semanticsHandle = tester.ensureSemantics();

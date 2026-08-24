@@ -1,0 +1,13 @@
+10.1088/1361-648x/adac98	The 2025 motile active matter roadmap
+10.1016/j.cocis.2018.10.002	Leveraging collective effects in externally driven colloidal suspensions: experiments and simulations
+10.1016/j.cep.2023.109441	Opportunities for process intensification technologies in nuclear effluent treatment: A review of precipitators, adsorbers and separators
+10.1111/fog.12619	Modern technologies and integrated observing systems are “instrumental” to fisheries oceanography: A brief history of ocean data collection
+10.3390/app11062624	3D DNA Nanostructures: The Nanoscale Architect
+10.2172/1338668	Turbulent Flow Simulation at the Exascale: Opportunities and Challenges Workshop: August 4-5, 2015, Washington, D.C.
+10.1103/64b1-lfmc	Modeling complex particle suspensions: Perspectives on the rigid multiblob method
+10.1080/03036758.2024.2406829	Environmental implications of future offshore renewable energy development in Aotearoa New Zealand
+10.48550/arxiv.2411.19783	The 2024 Motile Active Matter Roadmap
+10.26083/tuprints-00008112	Optimization of Damping in Self-Excited Mechanical Systems
+10.22028/d291-26004	Randomized rounding and rumor spreading with stochastic dependencies
+10.31390/gradschool_dissertations.4750	Effective Visualization Approaches For Ultra-High Dimensional Datasets
+10.2172/884747	Computer Science Research Institute 2003 annual report of activities.

@@ -1,0 +1,8 @@
+Truchet tiles Smith curves recursive tiling fractal visualization
+quasifuchsian groups limit sets deformation space fractal rendering
+p-adic Mandelbrot set arithmetic dynamics visualization fractal
+hidden attractors hyperchaotic systems strange attractors visualization
+Coxeter groups reflection tilings fractal boundary visualization
+fractal interpolation surfaces self-affine heightfield rendering
+Baker domains wandering domains transcendental entire functions visualization
+Bessel function zeros fields fractal visualization special functions

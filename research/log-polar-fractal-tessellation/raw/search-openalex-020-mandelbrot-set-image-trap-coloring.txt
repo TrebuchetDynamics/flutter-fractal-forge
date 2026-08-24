@@ -1,0 +1,20 @@
+10.24033/asens.1491	On the dynamics of polynomial-like mappings
+10.3390/fractalfract6020089	Fractals: An Eclectic Survey, Part-I
+10.1007/s11071-017-3813-6	Fractal patterns from the dynamics of combined polynomial root finding methods
+10.4064/fm222-2-1	A combinatorial invariant for escape time Sierpiński rational maps
+10.1515/dema-2024-0070	Signal recovery and polynomiographic visualization of modified Noor iteration of operators with property ( E )
+10.5120/9302-3521	New Escape Time Koch Curve in Complex Plane
+10.1016/j.cola.2023.101222	Minimum modulus visualization of algebraic fractals
+10.7202/1005470ar	Diagramming Duration : Bergsonian Multiplicity and Chaos Theory
+10.32388/gij3ri.3	Actual problems of creative activity and new cognitive possibilities: a transdisciplinary approach
+10.3389/fams.2026.1826475	Generation of new batik floral patterns via chaotic modulation and Julia-Mandelbrot fractal transformations
+10.32388/gij3ri	Actual problems of creative activity and new cognitive possibilities: a transdisciplinary approach
+	Quantitative Optical Studies of Oxidative Stress in Rodent Models of Eye and Lung Injuries
+10.32388/gij3ri.2	Actual problems of creative activity and new cognitive possibilities: a transdisciplinary approach
+10.1155/2022/2116403	[Retracted] Pattern Generation and Design of Floral Patterns Based on Newton’s Iterative Algorithm
+10.1038/s41746-025-01984-6	A dynamical systems framework for precision psychiatry
+10.21203/rs.3.rs-4927086/v1	A QR Code for the Brain: A dynamical systems framework for computing neurophysiological biomarkers
+	Shape and size characterization of crystals using image analysis and neural networks
+10.5120/9334-3644	New Sierpenski Curves in Complex Plane
+10.48550/arxiv.2408.01353	Finite Dynamical Laminations
+	Effective computation of topological and analytical classes of unidimensional holomorphic polynomial flows

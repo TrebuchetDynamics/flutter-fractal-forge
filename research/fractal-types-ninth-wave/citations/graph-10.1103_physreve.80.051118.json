@@ -1,0 +1,184 @@
+{
+  "nodes": [
+    {
+      "id": "07a333cf0c75ad7ba4321f24af1a49b98b725792"
+    },
+    {
+      "id": "10.1103/physreve.80.051118"
+    },
+    {
+      "id": "15292903d854a7791111c24b05cdc92184bf163e"
+    },
+    {
+      "id": "251ba838797e5bb9ff542a6a1b0e1cb5803c1c31"
+    },
+    {
+      "id": "29d76a4263b4e1a4a7bdd7d9d09cf3f18479399d"
+    },
+    {
+      "id": "340fdbd506d898adcb9544b7efaee4922000c086"
+    },
+    {
+      "id": "3cd6a9c35f478bc2771b713929bfa3ea59b07b15"
+    },
+    {
+      "id": "4a72d4953a1175d859bbbbb3d441f02f59c02b00"
+    },
+    {
+      "id": "53620c631ecd953cc77b2dcfa907dcb0540d1904"
+    },
+    {
+      "id": "5d15dfec66dc250f686579d1475c106c8b646e9a"
+    },
+    {
+      "id": "654ae1b7ef244e90d09cf909035c5a4ef314af8b"
+    },
+    {
+      "id": "6665afd5f9624d8b0b95b5c028d76fbd523b7fb3"
+    },
+    {
+      "id": "6a6234218879002ef968ec948f33ab2814eb5c9d"
+    },
+    {
+      "id": "7a0b588e365ad29605710ff9b8650fa889647b6c"
+    },
+    {
+      "id": "8822a06c2d01b35634c01051c3bd022876e980dc"
+    },
+    {
+      "id": "8be1e621e83b8fd7603a981ce23c30277852da24"
+    },
+    {
+      "id": "8ee184b22fa02d93262bbb45ae9b4c69010ebb65"
+    },
+    {
+      "id": "95af6aa9900161a04c6283cf0a915c7f170986d8"
+    },
+    {
+      "id": "a804a3d07917fa4c5689216c2c1347b0a8447440"
+    },
+    {
+      "id": "c2f5fef7af69ba1ecf3ffcd94dba0d28594e1a34"
+    },
+    {
+      "id": "c8c97e63edd01eb6da7cc2c4b2ce4ac3da8199e1"
+    },
+    {
+      "id": "cd598c30e8d4a69dc6cd54ebda7d13199bbb26a7"
+    },
+    {
+      "id": "cebbefe367207d7899fb48586cacf98dd87baec3"
+    },
+    {
+      "id": "d7877c7a8256177432e6a5f4a4903d99a505bed0"
+    },
+    {
+      "id": "f204f634bdd99eab0e7e054e63390b4256903ece"
+    },
+    {
+      "id": "f73ce8b20c451e88e9eeac0e55478fae2063bfbb"
+    }
+  ],
+  "edges": [
+    {
+      "source": "10.1103/physreve.80.051118",
+      "target": "07a333cf0c75ad7ba4321f24af1a49b98b725792"
+    },
+    {
+      "source": "10.1103/physreve.80.051118",
+      "target": "15292903d854a7791111c24b05cdc92184bf163e"
+    },
+    {
+      "source": "10.1103/physreve.80.051118",
+      "target": "251ba838797e5bb9ff542a6a1b0e1cb5803c1c31"
+    },
+    {
+      "source": "10.1103/physreve.80.051118",
+      "target": "29d76a4263b4e1a4a7bdd7d9d09cf3f18479399d"
+    },
+    {
+      "source": "10.1103/physreve.80.051118",
+      "target": "340fdbd506d898adcb9544b7efaee4922000c086"
+    },
+    {
+      "source": "10.1103/physreve.80.051118",
+      "target": "4a72d4953a1175d859bbbbb3d441f02f59c02b00"
+    },
+    {
+      "source": "10.1103/physreve.80.051118",
+      "target": "53620c631ecd953cc77b2dcfa907dcb0540d1904"
+    },
+    {
+      "source": "10.1103/physreve.80.051118",
+      "target": "5d15dfec66dc250f686579d1475c106c8b646e9a"
+    },
+    {
+      "source": "10.1103/physreve.80.051118",
+      "target": "654ae1b7ef244e90d09cf909035c5a4ef314af8b"
+    },
+    {
+      "source": "10.1103/physreve.80.051118",
+      "target": "6a6234218879002ef968ec948f33ab2814eb5c9d"
+    },
+    {
+      "source": "10.1103/physreve.80.051118",
+      "target": "7a0b588e365ad29605710ff9b8650fa889647b6c"
+    },
+    {
+      "source": "10.1103/physreve.80.051118",
+      "target": "8be1e621e83b8fd7603a981ce23c30277852da24"
+    },
+    {
+      "source": "10.1103/physreve.80.051118",
+      "target": "8ee184b22fa02d93262bbb45ae9b4c69010ebb65"
+    },
+    {
+      "source": "10.1103/physreve.80.051118",
+      "target": "95af6aa9900161a04c6283cf0a915c7f170986d8"
+    },
+    {
+      "source": "10.1103/physreve.80.051118",
+      "target": "a804a3d07917fa4c5689216c2c1347b0a8447440"
+    },
+    {
+      "source": "10.1103/physreve.80.051118",
+      "target": "c8c97e63edd01eb6da7cc2c4b2ce4ac3da8199e1"
+    },
+    {
+      "source": "10.1103/physreve.80.051118",
+      "target": "cebbefe367207d7899fb48586cacf98dd87baec3"
+    },
+    {
+      "source": "10.1103/physreve.80.051118",
+      "target": "d7877c7a8256177432e6a5f4a4903d99a505bed0"
+    },
+    {
+      "source": "10.1103/physreve.80.051118",
+      "target": "f204f634bdd99eab0e7e054e63390b4256903ece"
+    },
+    {
+      "source": "10.1103/physreve.80.051118",
+      "target": "f73ce8b20c451e88e9eeac0e55478fae2063bfbb"
+    },
+    {
+      "source": "3cd6a9c35f478bc2771b713929bfa3ea59b07b15",
+      "target": "10.1103/physreve.80.051118"
+    },
+    {
+      "source": "6665afd5f9624d8b0b95b5c028d76fbd523b7fb3",
+      "target": "10.1103/physreve.80.051118"
+    },
+    {
+      "source": "8822a06c2d01b35634c01051c3bd022876e980dc",
+      "target": "10.1103/physreve.80.051118"
+    },
+    {
+      "source": "c2f5fef7af69ba1ecf3ffcd94dba0d28594e1a34",
+      "target": "10.1103/physreve.80.051118"
+    },
+    {
+      "source": "cd598c30e8d4a69dc6cd54ebda7d13199bbb26a7",
+      "target": "10.1103/physreve.80.051118"
+    }
+  ]
+}

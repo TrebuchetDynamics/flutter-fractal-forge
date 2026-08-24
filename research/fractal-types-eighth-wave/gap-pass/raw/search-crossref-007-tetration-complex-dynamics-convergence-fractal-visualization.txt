@@ -1,0 +1,20 @@
+10.1515/9783111689685-011	11 Convergence and dynamics
+10.7717/peerj.16195/fig-6	Figure 6: Docking visualization and dynamics simulations of the solasonine-ACHE complex.
+10.1007/s10444-018-9615-7	Tetration for complex bases
+10.3390/fractalfract7050412	Special Issue: Nonlinear Dynamics in Complex Systems via Fractals and Fractional Calculus
+10.3390/books978-3-7258-4782-2	Recent Advances in Chaos, Fractal and Complex Dynamics in Nonlinear Systems
+10.1515/9783111689685-014	C Computer graphics of complex dynamics
+10.3390/fractalfract7020163	Order of Convergence, Extensions of Newton–Simpson Method for Solving Nonlinear Equations and Their Dynamics
+10.3390/fractalfract7020185	Order of Convergence and Dynamics of Newton–Gauss-Type Methods
+10.2139/ssrn.6030214	Fractal Dynamics and Entropic Efficiency in Financial Markets: A Theoretical Framework for Complex Adaptive Systems
+10.1007/978-3-7908-1937-3_11	Fractal Geometry for Measuring and Modelling Urban Patterns
+10.2139/ssrn.4332984	On Complex Dynamics of a Chemostat Model Under Fractal Fractional Derivative
+10.18127/j19997493-202602-07	Visualization of the temporal dynamics of complex systems in virtual reality based on a modified space metaphor
+10.22541/au.176336525.52517641/v1	A Study of Complex Financial Dynamics Using Fractal--Fractional Operators with Exponential Memory
+10.1007/978-94-015-7931-5_2	Complex dynamics: an informal discussion
+10.1007/s11785-025-01699-2	On G-Norm Hutchinson–Barnsley Operators and Their Convergence to Fractal Attractors
+10.1007/s11785-025-01717-3	On the Statistical Convergence of Sequences of Fractal Integrable Functions
+10.1007/978-3-0348-7755-8_9	A Rigidity Theorem in Complex Dynamics
+10.1109/visual.1995.480798	IFS fractal interpolation for 2D and 3D visualization
+10.1007/978-3-642-78463-7_10	Complex Dynamics and Fractal Urban Form
+10.18127/j19997493-202204-05	Cesium framework for developing a 3D visualization subsystem of air travel simulation

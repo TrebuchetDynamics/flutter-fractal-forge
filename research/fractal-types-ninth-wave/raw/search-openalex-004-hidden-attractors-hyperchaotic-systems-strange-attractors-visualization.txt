@@ -1,0 +1,20 @@
+10.1007/s11071-018-4054-z	Finite-time Lyapunov dimension and hidden attractor of the Rabinovich system
+10.1155/2022/6458027	Self‐Excited and Hidden Chaotic Attractors in Matouk’s Hyperchaotic Systems
+10.3390/e25030495	Fuzzy Synchronization of Chaotic Systems with Hidden Attractors
+10.1088/1402-4896/ad0e55	A new four-dimensional hyperchaotic system with hidden attractors and multistablity
+10.3390/e20050337	Lyapunov Exponents of a Discontinuous 4D Hyperchaotic System of Integer or Fractional Order
+10.1016/j.jare.2022.03.008	Chaotic attractors that exist only in fractional-order case
+10.1016/j.chaos.2024.114785	Scenarios for the appearance of strange attractors in a model of three interacting microbubble contrast agents
+10.3390/math10111868	Chaotic and Hyperchaotic Dynamics of a Clapp Oscillator
+10.1103/revmodphys.81.333	Fractal structures in nonlinear dynamics
+10.1088/1402-4896/acfac6	A new chaotic jerk system with hidden heart-shaped attractor: dynamical analysis, multistability, connecting curves and its application in image encryption
+10.3390/computation12120245	A Novel Megastable Chaotic System with Hidden Attractors and Its Parameter Estimation Using the Sparrow Search Algorithm
+10.1016/j.chaos.2022.111834	Multistable dynamics and control of a new 4D memristive chaotic Sprott B system
+10.17559/tv-20150825113651	A Weak Signal Detection Application Based on Hyperchaotic Lorenz System
+10.3390/e27030299	Hyperchaotic System-Based PRNG and S-Box Design for a Novel Secure Image Encryption
+10.1007/s44198-025-00348-8	Hyperchaotic System for Secure Communication: A Modified 4D Model and its Dynamics
+10.1088/1402-4896/ad274e	Dynamic analysis and circuit realization of a new controllable hyperchaotic system
+10.1109/access.2020.2978660	Simple Chaotic Jerk Flows With Families of Self-Excited and Hidden Attractors: Free Control of Amplitude, Frequency, and Polarity
+10.36227/techrxiv.176522719.95864495/v1	Generation of multi-scroll attractors in a new 4D memristor-based hyperchaotic system using fractal transformations: from simulation to microcontroller design
+10.1155/2019/3687635	Abundant Coexisting Multiple Attractors’ Behaviors in Three‐Dimensional Sine Chaotic System
+10.3390/math11194166	Bifurcation, Hidden Chaos, Entropy and Control in Hénon-Based Fractional Memristor Map with Commensurate and Incommensurate Orders

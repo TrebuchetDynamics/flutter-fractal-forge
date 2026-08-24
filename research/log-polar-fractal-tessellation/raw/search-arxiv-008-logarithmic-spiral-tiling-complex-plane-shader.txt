@@ -1,0 +1,20 @@
+10.1142/s0129054108006078	The finite tiling problem is undecidable in the hyperbolic plane
+	Pair Correlation and Gap Distributions for Substitution Tilings and Generalized Ulam Sets in the Plane
+	Roman Galactic Plane Survey Definition Committee Report
+	Triangle Tiling V: Tilings by a tile with integer sides
+10.1080/02781070310001634610	Ullemar's formula for the Jacobian of the complex moment mapping
+	Homotopy groups of generic leaves of logarithmic foliations
+	Infinite families of monohedral disk tilings
+10.1080/17476933.2022.2076842	Holomorphic maps from complex discs intersecting families of hypersurfaces
+10.3390/sym9020019	Cyclotomic Aperiodic Substitution Tilings
+	Cohomological aspects on complex and symplectic manifolds
+	Topology of leaves of generic logarithmic foliations on $\mathbb{CP}^2$
+10.1016/j.crma.2018.03.005	On the number of non-hexagons in a planar tiling
+	Noncommutative complex analytic geometry of a contractive quantum plane
+	Balayage of Measures on the Complex Plane with respect to Harmonic Polynomials and Logarithmic Kernels
+	Plane square tilings
+10.1007/978-3-032-16649-4_25	Is star complexity a proxy for information based complexity of graphs?
+	Undecidability of Translational Tiling of the Plane with Four Tiles
+	SPIRAL: Self-Play on Zero-Sum Games Incentivizes Reasoning via Multi-Agent Multi-Turn Reinforcement Learning
+10.2178/jsl/1208359062	Complex Tilings
+	Well-posedness of logarithmic spiral vortex sheets

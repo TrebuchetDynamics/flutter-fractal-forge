@@ -1,0 +1,2 @@
+10.1201/b14857	Computer Graphics: From Pixels to Programmable Graphics Hardware
+10.1007/978-1-4471-0297-7	Computer Graphics through Key Mathematics

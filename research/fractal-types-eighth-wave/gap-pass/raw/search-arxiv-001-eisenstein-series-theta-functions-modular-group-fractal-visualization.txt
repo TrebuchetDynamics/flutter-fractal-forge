@@ -1,0 +1,20 @@
+10.2140/pjm.2022.317.207	Poles of Eisenstein series and theta lifts for unitary groups
+	Evaluations of certain theta functions in Ramanujan theory of alternative modular bases
+	Properties of Lerch Sums and Ramanujan's Mock Theta Functions
+	Renormalization and quantum modular forms, part II: Mock theta functions
+	Eisenstein classes and generating series of modular symbols in $\mathrm{SL}_N$
+	An Eisenstein series of rational weight
+10.1016/j.jnt.2017.12.013	Products of Eisenstein series and Fourier expansions of modular forms at cusps
+10.1007/s00023-025-01607-6	Modular Features of Superstring Scattering Amplitudes: Generalised Eisenstein Series and Theta Lifts
+10.1016/j.top.2007.03.004	Limiting modular symbols and their fractal geometry
+	The $L^2$ restriction of the Eisenstein series to a geodesic segment
+	Tevatron-for-LHC Report of the QCD Working Group
+10.1515/jgth-2020-0174	On the Modular Isomorphism Problem for groups of class 3 and obelisks
+	Eisenstein series and an asymptotic for the $K$-Bessel function
+10.1007/jhep04(2019)136	Modular graph functions and odd cuspidal functions -- Fourier and Poincaré series
+	Mock modular Eisenstein series with Nebentypus
+	On the modulo $p$ zeros of modular forms congruent to theta series
+	On the mod $p$ kernel of the theta operator and Eisenstein series
+	Special cycles and derivatives of Eisenstein series
+	Depth Two Mock Modularity by Eisenstein Series Coupling
+	Modular Dedekind symbols associated to Fuchsian groups and higher-order Eisenstein series

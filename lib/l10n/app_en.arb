@@ -374,6 +374,8 @@
     }
   },
   "tooltipShare": "Share",
+  "shareExportTitle": "Share & export",
+  "shareLinkAction": "Copy view link",
   "actionCopy": "Copy",
   "actionShare": "Share",
   "linkCopied": "Link copied to clipboard",
@@ -450,6 +452,9 @@
 
   "autoExploreTitle": "Auto-Explore",
   "autoExploreSubtitle": "Automatically discover interesting areas",
+  "autoExplorePausedUserCorrection": "Auto-pilot paused while you adjust the view.",
+  "autoExploreZoomOnlyDescription": "Zoom-only mode. Auto Explore leaves panning in your control.",
+  "actionResume": "Resume",
   "tooltipStartExplore": "Start auto-explore",
   "tooltipPauseExplore": "Pause auto-explore",
   "statusIdle": "Ready to explore",
@@ -656,7 +661,7 @@
       "type": {}
     }
   },
-  "homeFractalCountBadge": "966 fractals",
+  "homeFractalCountBadge": "1004 fractals",
 
   "catalogAllFractals": "All Fractals",
   "catalogFilterAll": "All",
@@ -759,7 +764,7 @@
   },
   "settingsColorTheme": "Color Theme",
   "settingsColorThemeSubtitle": "Choose a contrast and surface style.",
-  "settingsAboutBlurb": "GPU-accelerated exploration of 966 production fractals, with deep zoom and real-time rendering.",
+  "settingsAboutBlurb": "GPU-accelerated exploration of 1004 production fractals, with deep zoom and real-time rendering.",
   "settingsSourceCode": "Source code",
   "settingsSourceCodeSubtitle": "View Fractal Forge on GitHub ↗",
   "settingsSourceCodeOpenFailed": "Unable to open source code.",

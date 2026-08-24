@@ -1,0 +1,20 @@
+10.3390/sym8070062	Image Region Duplication Forgery Detection Based on Angular Radial Partitioning and Harris Key-Points
+10.1103/physrevlett.129.204301	Observation of Polarization Singularities and Topological Textures in Sound Waves
+10.1109/83.902274	Approximate orientation steerability based on angular Gaussians
+10.1088/0034-4885/72/3/036502	X-ray diffraction of III-nitrides
+10.1155/2019/8097213	Image Processing-Based Detection of Pipe Corrosion Using Texture Analysis and Metaheuristic-Optimized Machine Learning Approach
+10.1126/sciadv.aba4171	Mapping the 3D orientation of nanocrystals and nanostructures in human bone: Indications of novel structural features
+10.1063/1.4960122	Texture in thin film silicides and germanides: A review
+10.1039/c7lc00914c	Wearable sensors: modalities, challenges, and prospects
+10.1186/s42492-021-00100-1	Comparative analysis of proficiencies of various textures and geometric features in breast mass classification using k-nearest neighbor
+10.1111/j.1365-2664.2005.01097.x	Predicting tropical forest stand structure parameters from Fourier transform of very high‐resolution remotely sensed canopy images
+10.1051/epjconf/201715500005	Crystallographic textures
+10.3390/rs9121261	Ocean Wind and Wave Measurements Using X-Band Marine Radar: A Comprehensive Review
+10.1038/ncomms9193	Dynamically stabilized magnetic skyrmions
+10.1088/2051-672x/2/2/025005	On the characterisation of periodic patterns in tessellated surfaces
+10.1038/s41467-025-55827-9	Periodic splay Fréedericksz transitions in a ferroelectric nematic
+10.3389/fnana.2015.00098	Histological validation of high-resolution DTI in human post mortem tissue
+10.1038/s41699-020-00193-x	Elastic flow instabilities and macroscopic textures in graphene oxide lyotropic liquid crystals
+10.1007/s11831-016-9206-z	Plant Species Identification Using Computer Vision Techniques: A Systematic Literature Review
+10.11371/iieej.39.399	Fast Polar Harmonic Transforms
+10.1149/1.1738137	Alkaline Etching for Reflectance Reduction in Multicrystalline Silicon Solar Cells

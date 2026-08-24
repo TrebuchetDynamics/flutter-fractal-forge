@@ -1,0 +1,20 @@
+10.53555/ecb/2022.11.11.91	ROOT FINDING ASPECTS OF QUADRATIC POLYNOMIALS AND THEIR PRACTICAL SIGNIFICANCES: DISCUSSION WITH APPLICATION OF NEWTON RATIONAL MAPPING
+10.1201/9781420036114-10	Integration Using Chebyshev Polynomials
+10.2172/4477697	ROOT-CUBING AND THE GENERAL ROOT-POWERING METHODS FOR FINDING THE ZEROS OF POLYNOMIALS.
+10.1201/9781420036114.ch8	Integration Using Chebyshev Polynomials
+10.5120/8821-2742	Enhancing Computational Thinking with Spreadsheet and Fractal Geometry: Part 2 Root-finding using Newton Method and Creation of Newton Fractals
+10.3390/fractalfract6100572	Parametric Family of Root-Finding Iterative Methods: Fractals of the Basins of Attraction
+10.21136/panm.2024.09	Finding a Hamiltonian cycle using the Chebyshev polynomials
+10.3390/fractalfract7010074	Numerical Treatment of Multi-Term Fractional Differential Equations via New Kind of Generalized Chebyshev Polynomials
+10.1216/rmj-2018-48-1-59	Root power sums and Chebyshev polynomials
+10.1201/9781420036114-8	Chebyshev Interpolation
+10.1201/9781420036114-7	Chebyshev Series
+10.3390/fractalfract5020053	Novel Expressions for the Derivatives of Sixth Kind Chebyshev Polynomials: Spectral Solution of the Non-Linear One-Dimensional Burgers’ Equation
+10.3390/fractalfract5040165	Approximating Real-Life BVPs via Chebyshev Polynomials’ First Derivative Pseudo-Galerkin Method
+10.1007/s00209-023-03232-7	Correction to: On the basins of attraction of a one-dimensional family of root finding algorithms: from Newton to Traub
+10.3390/fractalfract5030103	Numerical Solutions for Systems of Fractional and Classical Integro-Differential Equations via Finite Integration Method Based on Shifted Chebyshev Polynomials
+10.1007/s00209-023-03215-8	On the basins of attraction of a one-dimensional family of root finding algorithms: from Newton to Traub
+10.1201/9781420036114.ch6	Chebyshev Interpolation
+10.1201/9781420036114.ch5	Chebyshev Series
+10.3390/fractalfract6060296	Properties of q-Differential Equations of Higher Order and Visualization of Fractal Using q-Bernoulli Polynomials
+10.15393/j3.art.2021.8530	Generating functions of the product of 2-orthogonal Chebyshev polynomials with some numbers and the other Chebyshev polynomials

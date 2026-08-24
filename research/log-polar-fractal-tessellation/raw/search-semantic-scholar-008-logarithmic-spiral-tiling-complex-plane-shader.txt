@@ -1,0 +1,20 @@
+10.1088/1742-6596/1212/1/012014	Numerical Conformal Mapping onto the Entire Complex Plane Bounded with Finite Straight Slit and Logarithmic Spiral Slits
+10.1016/j.jde.2024.02.019	Well-posedness of logarithmic spiral vortex sheets
+10.1063/1.4980981	Conformal mapping of unbounded multiply connected regions onto logarithmic spiral slit with infinite straight slit
+10.31548/machenergy2020.01.051	Continuous bending of minimal surfaces, formed by means of plane curves of complex curvature
+10.1007/bf01393995	Factoring the logarithmic spiral
+	The Design of Form Milling Cutter as the Curve of the Back of Tooth Is Logarithmic Spiral
+	Spectra of random graphs with discrete scale invariance
+	Geometric Analysis of the Damped Harmonic Oscillator via the Lambert W Function
+10.1364/ol.44.003673	Orbital angular momentum of a laser beam behind an off-axis spiral phase plate.
+10.1109/mmet.2000.890494	Complex waves in planar spiral with three-layered dielectric
+10.1016/j.physd.2016.12.003	Spiral disk packings
+	Analysis of active earth pressure on retaining wall with complex fracture plane of soil
+	Three-Dimensional Generalized Logarithmic Spirals
+10.18287/2412-6179-2018-42-2-212-218	Orbital angular momentum of an arbitrary axisymmetric light field after passing through an off-axis spiral phase plate
+	Voderberg Deconstructed & Triangle Substitution Tiling
+10.1080/17513472.2022.2115797	Quadrilateral tilings for the construction of renzuru origami
+10.1088/0951-7715/28/4/1077	Voronoi spiral tilings
+10.18287/2412-6179-2018-42-2-212-218	Орбитальный угловой момент произвольного осесимметричного светового поля, прошедшего смещённую с оси спиральную фазовую пластинку
+10.1051/0004-6361:20021504	Star-forming complexes and the spiral structure of our Galaxy
+	STRESS FIELDS IN PLANE IRROTATIONAL FLOWS OF VISCOUS AND PERFECTLY PLASTIC CONTINUA *

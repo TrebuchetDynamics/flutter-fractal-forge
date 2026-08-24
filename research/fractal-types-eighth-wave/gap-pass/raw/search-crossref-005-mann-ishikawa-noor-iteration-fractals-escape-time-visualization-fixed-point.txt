@@ -1,0 +1,20 @@
+10.1155/fpta/2006/49615	Mann iteration converges faster than Ishikawa iteration for the class of Zamfirescu operators
+10.1155/2007/97986	Erratum to: Mann Iteration Converges Faster than Ishikawa Iteration for the Class of Zamfirescu Operators
+10.14712/1213-7243.2020.031	Fixed point approximation under Mann iteration beyond Ishikawa
+10.1155/2010/169062	Comparison of the Rate of Convergence among Picard, Mann, Ishikawa, and Noor Iterations Applied to Quasicontractive Maps
+10.1155/s1687182004311058	Picard iteration converges faster than Mann iteration for a class of quasi-contractive operators
+10.28919/afpt/8568	Ishikawa iteration convergence to fixed points of a multi-valued mapping in modular function spaces
+10.3934/math.2022611	Variants of Julia and Mandelbrot sets as fractals via Jungck-Ishikawa fixed point iteration system with $ s $-convexity
+10.1186/1687-1812-2014-224	Convergence and stability of modified Ishikawa iteration sequence with errors
+10.1186/1687-1812-2013-347	A modified Mann iteration for zero points of accretive operators
+10.1155/2008/242916	Data Dependence for Ishikawa Iteration When Dealing with Contractive-Like Operators
+10.1186/1687-1812-2014-1	On the Ishikawa iteration processes for multivalued mappings in some CAT ( κ ) spaces
+10.1186/1687-1812-2013-98	Ishikawa iteration process for asymptotic pointwise nonexpansive mappings in metric spaces
+10.28919/afpt/9489	Ishikawa iteration for double sequences via predecessor paths and RH-regular matrix transforms
+10.1155/2010/140530	Mann Type Implicit Iteration Approximation for Multivalued Mappings in Banach Spaces
+10.69829/fpmo-026-0302-ta05	Accelerated Krasnosel'skiĭ-Mann--Mann iteration via convex combination and inertial techniques
+10.1186/s13663-015-0391-5	Modified Picard-Mann hybrid iteration process for total asymptotically nonexpansive mappings
+10.1155/2007/61434	Remarks of Equivalence among Picard, Mann, and Ishikawa Iterations in Normed Spaces
+10.1007/s11784-018-0643-1	The Fibonacci–Mann iteration for monotone asymptotically pointwise nonexpansive mappings
+10.1186/s13663-015-0416-0	Mann iteration process for monotone nonexpansive mappings
+10.1186/1687-1812-2013-52	The new modified Ishikawa iteration method for the approximate solution of different types of differential equations

@@ -1,0 +1,20 @@
+10.1103/physreve.58.5449	Dynamics of Eulerian walkers
+10.1088/0305-4470/33/48/318	Vicious walkers, friendly walkers and Young tableaux II: With a wall
+10.1103/physreve.80.051118	Asymptotic shape of the region visited by an Eulerian Walker
+10.1039/c2sm06952k	Cooperative Self-Propulsion of Active and Passive Rotors
+10.1103/physreve.55.3686	Critical Dynamics of Self-Organizing Eulerian Walkers
+10.1103/physrevresearch.3.043229	Emergent Stripes of Active Rotors in Shear Flows
+	Rotor-Router Aggregation on the Comb
+10.1103/physreve.107.064607	Mathematical modeling for the synchronization of two interacting active rotors
+	Active chiral rotors: hydrodynamics and chemotaxis
+10.1002/agt2.590	Bimerons create bimerons: proliferation and aggregation induced by currents and magnetic fields
+10.1007/978-3-032-16955-6_2	Cognitive Effort in the Two-Step Task: An Active Inference Drift-Diffusion Model Approach
+10.1103/physreve.66.021104	Passive Random Walkers and River-like Networks on Growing Surfaces
+10.1007/s10485-021-09630-4	(Lack of) Model Structures on the Category of Graphs
+	Hydrodynamic Spin-Pairing and Active Polymerization of Oppositely Spinning Rotors
+	Caught Active Walkers
+10.1016/j.physa.2019.121117	Modeling random walkers on growing random networks
+10.1016/j.knosys.2008.03.030	Grammar-Based Random Walkers in Semantic Networks
+10.1007/s10485-026-09876-w	Abstract Cluster Structures
+	Rotor-router aggregation on the layered square lattice
+10.1073/pnas.1116334109	Phase separation and rotor self-assembly in active particle suspensions

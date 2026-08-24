@@ -1,0 +1,20 @@
+	On Böttcher coordinates and quasiregular maps
+	Texture image analysis and texture classification methods - A review
+	Homotopies and Maps between Eigenvalues of some Generalized Lucas Sequences and the Mandelbrot Set
+	Böttcher coordinates at superattracting fixed points of holomorphic skew products
+10.1002/hbm.70548	Improved Multiscale Structural Mapping with Supervertex Vision Transformer for the Detection of Alzheimer's Disease Neurodegeneration
+	The Dynamics of Financial Markets -- Mandelbrot's multifractal cascades, and beyond
+10.2140/agt.2025.25.2807	Surgery sequences and self-similarity of the Mandelbrot set
+	On Fibers and Local Connectivity of Mandelbrot and Multibrot Sets
+10.13140/rg.2.2.33612.46722	A New Benchmark Dataset for Texture Image Analysis and Surface Defect Detection
+	Make-A-Texture: Fast Shape-Aware Texture Generation in 3 Seconds
+	Describing Textures using Natural Language
+	Bialgebraic geometry of Böttcher coordinates
+	Texture Synthesis Using Convolutional Neural Networks
+	Spanning embeddings of arrangeable graphs with sublinear bandwidth
+10.1137/090765481	Embedding into bipartite graphs
+10.1112/blms.13021	Böttcher coordinates at wild superattracting fixed points
+	Enhancing Monocular 3D Hand Reconstruction with Learned Texture Priors
+	FFHQ-UV: Normalized Facial UV-Texture Dataset for 3D Face Reconstruction
+	A second-order theory of texture for depth from focus
+	Evaluating Urbanization from Satellite and Aerial Images by means of a statistical approach to the texture analysis

@@ -1,0 +1,20 @@
+	Modular elliptic curves and hyperbolic uniformization
+	C*-algebras of Penrose's hyperbolic tilings
+10.4171/jfg/37	Fractal dual substitution tilings
+10.1016/j.top.2007.03.004	Limiting modular symbols and their fractal geometry
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	On the $K_4$ group of modular curves
+10.1103/physrevresearch.6.013227	Entropy and chirality in sphinx tilings
+	Plane Curves with Hyperbolic and C-hyperbolic Complements
+	Tilings of the Sphere by Congruent Quadrilaterals or Triangles
+	Hinged Truchet tiling fractals
+	On the residual finiteness of outer automorphisms of relatively hyperbolic groups
+10.1007/978-3-030-04480-0_14	Interpolated sequences and critical $L$-values of modular forms
+	Tilings of the Sphere by Congruent Pentagons IV: Edge Combination $a^4b$
+10.1007/978-3-031-28428-1	A guide to Penrose tilings
+	The conundrum of functional brain networks: small-world efficiency or fractal modularity
+	Fractal Tiling
+	Infinite families of monohedral disk tilings
+	Evolutive Rendering Models
+	Universal covering spaces and fundamental groups in algebraic geometry as schemes
+	Triangle Tiling V: Tilings by a tile with integer sides

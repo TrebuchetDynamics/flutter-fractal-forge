@@ -1,0 +1,20 @@
+10.24033/ast.477	Periodic Orbits, Externals Rays and the Mandelbrot Set: An Expository Account
+10.1007/bf02392901	Self-similarity of Siegel disks and Hausdorff dimension of Julia sets
+10.1090/s1088-4173-01-00069-8	Extensions of homeomorphisms between limbs of the Mandelbrot set
+10.48550/arxiv.1703.01206	Pacman renormalization and self-similarity of the Mandelbrot set near\n Siegel parameters
+	Homeomorphisms on Edges of the Mandelbrot Set
+10.4007/annals.2008.168.127	On local connectivity for the Julia set of rational maps: Newton’s famous example
+10.4171/jems/243	Parapuzzle of the multibrot set and typical dynamics of unimodal maps
+10.1016/j.aim.2012.07.014	Combinatorics and topology of straightening maps, I: Compactness and bijectivity
+10.48550/arxiv.1808.10425	Local connectivity of the Mandelbrot set at some satellite parameters of bounded type
+10.4007/annals.2009.170.783	Combinatorial rigidity for unicritical polynomials
+10.4007/annals.2007.165.749	Rigidity for real polynomials
+10.1090/s0894-0347-00-00348-9	Mating Siegel quadratic polynomials
+10.1090/tran/7061	Semi-parabolic tools for hyperbolic Hénon maps and continuity of Julia sets in $\mathbb {C}^{2}$
+10.48550/arxiv.math/0609280	Tessellation and Lyubich-Minsky laminations associated with quadratic maps, I: Pinching semiconjugacies
+10.1090/s1088-4173-2010-00216-x	Combinatorial rigidity for some infinitely renormalizable unicritical polynomials
+10.1090/s1088-4173-09-00186-6	Tessellation and Lyubich–Minsky laminations associated with quadratic maps, II: Topological structures of 3-laminations
+	HéNon Maps, Discrete Groups And Continuity Of Julia Sets
+10.1016/j.aim.2015.10.020	An extended Fatou–Shishikura inequality and wandering branch continua for polynomials
+	On the dynamics of quasi-self-matings of generalized starlike complex quadratics and the structure of the mated Julia sets
+10.48550/arxiv.0809.1262	Combinatorics and topology of straightening maps I: compactness and bijectivity

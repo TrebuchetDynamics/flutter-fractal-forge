@@ -1,0 +1,20 @@
+	A contemporary inversive geometry solution of the three-circle problem of Steiner
+	Assouad dimension and fractal geometry
+	Extending Mandelbox Fractals with Shape Inversions
+10.1063/5.0257273	A fractal geometry immersed in a hierarchical magnetic flux distribution
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	Inverse problem for Moebius geometry on the circle
+10.1016/j.top.2007.03.004	Limiting modular symbols and their fractal geometry
+	An Optical Demonstration of Fractal Geometry
+	Limit theorems for multidimensional renewal sets
+	Rigidity of inversive distance circle packings revisited
+	Rigidity of infinite inversive distance circle packings in the plane
+	Geometric Limits of Julia Sets with Parameters on the Circle
+	The convergence of inversive distance circle packings to the Riemann mapping
+	Fractal Zeta Functions and Complex Dimensions of Ahlfors Metric Measure Spaces
+	Asymptotic Properties of Hilbert Geometry
+	Fractal dimension of discrete sets and percolation
+	Sasakian Geometry and Einstein Metrics on Spheres
+	On the deformation of inversive distance circle packings
+	Non-rigidity of spherical inversive distance circle packings
+	Anisotropic Quadratic Forms and Inversive Geometry

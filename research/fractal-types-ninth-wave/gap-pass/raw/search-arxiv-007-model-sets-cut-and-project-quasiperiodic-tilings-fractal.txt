@@ -1,0 +1,20 @@
+10.1002/ijch.202300100	Hexagonal and trigonal quasiperiodic tilings
+10.4171/jfg/37	Fractal dual substitution tilings
+	The Araucaria Project: Improving the cosmic distance scale
+10.1016/j.geomphys.2005.12.008	Discrete quasiperiodic sets with predefined local structure
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	The ATLAS Pixel Project
+	Efficient algorithm for simulating particles in real quasiperiodic environments
+10.1103/physreve.107.024137	Self-dual quasiperiodic percolation
+10.1103/physrevresearch.6.013227	Entropy and chirality in sphinx tilings
+	Point processes for decagonal quasiperiodic tilings
+10.1103/physrevb.106.144113	Coxeter Pairs, Ammann Patterns and Penrose-like Tilings
+	When is a cut and project set substitutional?
+	Quasiperiodicity and non-computability in tilings
+	A generalized model for Yang-Fourier transforms in fractal space
+	Complexity and cohomology for cut and projection tilings
+10.1007/s40840-023-01509-y	Quasiperiodic sets at infinity and meromorphic extensions of their fractal zeta functions
+	Metallic mean fractal systems and their tilings
+	Tilings of the Sphere by Congruent Quadrilaterals or Triangles
+	Tiling an Equilateral Triangle
+	About quasiperiodic tilings, possessing five-fold symmetry

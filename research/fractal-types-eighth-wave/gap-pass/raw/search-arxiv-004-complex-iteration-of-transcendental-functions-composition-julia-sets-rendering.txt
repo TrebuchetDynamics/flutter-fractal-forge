@@ -1,0 +1,20 @@
+	Dynamics on Bungee set, Escaping set and Filled Julia set of Composite Transcendental Entire Functions
+	World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)
+	Local connectivity of Julia sets of some transcendental entire functions with Siegel disks
+	Boundary Julia theory for slice regular functions
+	Escaping set and Julia set of transcendental semigroups
+	On Dynamics of the Bungee set and the Filled Julia set of a Transcendental Semigroup
+	Spiders' webs and locally connected Julia sets of transcendental entire functions
+	A generalized family of transcendental functions with one dimensional Julia sets
+	Transcendental Julia Sets with Fractional Packing Dimension
+10.1063/5.0089436	NQCDynamics.jl: A Julia Package for Nonadiabatic Quantum Classical Molecular Dynamics in the Condensed Phase
+	Transcendental Julia sets of positive finite Lebesgue measure
+10.1063/5.0051387	NetworkDynamics.jl -- Composing and simulating complex networks in Julia
+10.1017/s0305004108001564	Complex asymptotics of Poincaré functions and properties of Julia sets
+	On Bungee Set of Composition of Transcendental Entire Functions
+	A Study of Fatou Set, Julia set and Escaping Set in Conjugate Transcendental Semigroup
+	Kernels, Data & Physics
+10.1017/etds.2024.124	Transcendental Julia Sets of Minimal Hausdorff Dimension
+	Results on the postsingular set of compositions of transcendental entire functions
+	A Study of Fatou Set, Julia set and Escaping Set in Nearly Abelian Transcendental Semigroup
+10.1145/3485527	Type Stability in Julia: Avoiding Performance Pathologies in JIT Compilation (Extended Version)

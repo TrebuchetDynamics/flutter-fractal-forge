@@ -1,0 +1,20 @@
+	Static Fatigue: A Key Cause of Time Effects in Sand.
+10.1371/journal.pone.0012869	Near Scale-Free Dynamics in Neural Population Activity of Waking/Sleeping Rats Revealed by Multiscale Analysis
+	Arc-like continua, Julia sets of entire functions, and Eremenko's Conjecture
+10.48550/arxiv.2608.07560	The Exponent Set: A Third Natural Extension of the Mandelbrot-Julia Framework
+10.48550/arxiv.math/9205209	Problems in holomorphic dynamics
+10.48550/arxiv.quant-ph/9911107	75 Years of Matter Wave: Louis de Broglie and Renaissance of the Causally Complete Knowledge
+10.1002/j.2040-4603.2011.tb00341.x	Complexity and Emergent Phenomena
+10.3390/ma17215363	Fractal Modelling of Heterogeneous Catalytic Materials and Processes
+10.48550/arxiv.1108.2801	The fixed point of the parabolic renormalization operator
+10.48550/arxiv.1111.3989	Bifurcation currents and equidistribution on parameter space
+10.21711/217504322012/em211	Some properties of the Cremona group
+	Extreme value theory for dynamical systems, with applications in climate and neuroscience
+10.12794/metadc271768	Real Analyticity of Hausdorff Dimension of Disconnected Julia Sets of Cubic Parabolic Polynomials
+10.48550/arxiv.quant-ph/9911107	75 Years of Matter Wave: Louis de Broglie and Renaissance of the\n Causally Complete Knowledge
+10.48550/arxiv.1506.07113	Around the boundary of complex dynamics
+10.7488/era/382	Active interfaces, a universal approach
+10.11606/t.43.2021.tde-10032021-171732	Estudo do comportamento da entropia em bilhares
+10.32614/cran.package.viscomplexr	viscomplexr: Phase Portraits of Functions in the Complex Number Plane
+	Nature's statistical symmetries and asymmetries, a characterization by wavelets and an illustration with clouds
+10.48550/arxiv.2209.00385	Speiser meets Misiurewicz

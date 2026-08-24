@@ -1,0 +1,20 @@
+10.22323/1.395.0585	Polarization measurements of the Crab Pulsar with POLAR
+10.22323/1.301.0820	POLAR measurements of the Crab pulsar
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1016/j.image.2020.116119	BINet: a binary inpainting network for deep patch-based image compression
+10.1007/978-3-031-16446-0_13	Privacy Preserving Image Registration
+10.1007/978-3-030-27202-9_11	Locally Linear Image Structural Embedding for Image Structure Manifold Learning
+10.1016/j.media.2023.102945	A Generic Fundus Image Enhancement Network Boosted by Frequency Self-supervised Representation Learning
+	A Fractal Comparison of Escher and Koch Tessellations
+10.1109/tip.2022.3203562	FlexHDR: Modelling Alignment and Exposure Uncertainties for Flexible HDR Imaging
+10.1016/j.media.2026.103943	Fréchet Radiomic Distance (FRD): A Versatile Metric for Comparing Medical Imaging Datasets
+10.1109/tip.2024.3374074	Neuromorphic Imaging with Joint Image Deblurring and Event Denoising
+10.1016/j.media.2022.102704	Data synthesis and adversarial networks: A review and meta-analysis in cancer imaging
+10.1016/j.media.2024.103358	A Flow-based Truncated Denoising Diffusion Model for Super-resolution Magnetic Resonance Spectroscopic Imaging
+10.1109/tip.2026.3673957	Underdetermined Blind Source Separation via Weighted Simplex Shrinkage Regularization and Quantum Deep Image Prior
+10.1109/tip.2020.3020389	Learning a Single Model with a Wide Range of Quality Factors for JPEG Image Artifacts Removal
+10.1016/j.media.2022.102615	TransMorph: Transformer for unsupervised medical image registration
+	Topological Veech dichotomy and tessellations of the hyperbolic plane
+10.1007/978-3-030-27202-9_7	Principal Component Analysis Using Structural Similarity Index for Images
+10.1049/iet-ipr.2017.0790	Fractal triangular search: a metaheuristic for image content search
+10.1109/icip46576.2022.9897591	MMGL: Multi-Scale Multi-View Global-Local Contrastive learning for Semi-supervised Cardiac Image Segmentation

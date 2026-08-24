@@ -1,0 +1,20 @@
+10.1007/s11263-018-1125-z	From BoW to CNN: Two Decades of Texture Representation for Texture Classification
+10.1145/331499.331504	Data clustering
+10.1038/s41467-021-24922-y	Engineering polar vortex from topologically trivial domain architecture
+10.3847/1538-3881/ac9ab1	The Robotic Multiobject Focal Plane System of the Dark Energy Spectroscopic Instrument (DESI)
+10.1039/d3nr04608g	Unveiling the crystal and magnetic texture of iron oxide nanoflowers
+10.5772/49050	3D Probabilistic Occupancy Grid to Robotic Mapping with Stereo Vision
+10.1088/0022-3727/49/50/505305	Fabrication of diisopropylammonium bromide aligned microcrystals with in-plane uniaxial polarization
+10.1007/s13735-012-0024-2	High-level event recognition in unconstrained videos
+10.15607/rss.2012.viii.009	FFT-based Terrain Segmentation for Underwater Mapping
+10.1523/jneurosci.1422-12.2012	Form and Function of the M4 Cell, an Intrinsically Photosensitive Retinal Ganglion Cell Type Contributing to Geniculocortical Vision
+10.1038/s41588-024-01664-3	BANKSY unifies cell typing and tissue domain segmentation for scalable spatial omics data analysis
+10.1371/journal.pone.0146484	Visual Perception-Based Statistical Modeling of Complex Grain Image for Product Quality Monitoring and Supervision on Assembly Production Line
+10.5194/tc-10-385-2016	Tremor during ice-stream stick slip
+	Human Performance Models for Computer-Aided Engineering
+10.1111/cgf.12867	BRDF Representation and Acquisition
+10.1515/revac.2009.28.3-4.151	A complex analytical method for parchment characterization
+10.1007/s41095-022-0306-4	Foveated rendering: A state-of-the-art survey
+10.1007/s11214-020-00704-8	SIMBIO-SYS: Scientific Cameras and Spectrometer for the BepiColombo Mission
+10.1093/acprof:oso/9780199228676.001.0001	Elementary Scattering Theory
+10.25772/55p1-g789	Development of a Multiple Contact Haptic Display with Texture-Enhanced Graphics

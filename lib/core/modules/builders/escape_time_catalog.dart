@@ -27,6 +27,10 @@ part 'escape_time_catalog/batch_20_next_wave_research.dart';
 part 'escape_time_catalog/batch_21_third_wave_research.dart';
 part 'escape_time_catalog/batch_22_fourth_wave_research.dart';
 part 'escape_time_catalog/batch_23_fifth_wave_research.dart';
+part 'escape_time_catalog/batch_24_eighth_wave_research.dart';
+part 'escape_time_catalog/batch_25_ninth_wave_research.dart';
+part 'escape_time_catalog/batch_26_tenth_wave_research.dart';
+part 'escape_time_catalog/batch_27_log_polar_tessellations.dart';
 part 'escape_time_catalog/kaleidoscopes.dart';
 
 FractalParameter _floatParam({
@@ -82,6 +86,10 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   ..._batch21ThirdWaveResearchCatalog,
   ..._batch22FourthWaveResearchCatalog,
   ..._batch23FifthWaveResearchCatalog,
+  ..._batch24EighthWaveResearchCatalog,
+  ..._batch25NinthWaveResearchCatalog,
+  ..._batch26TenthWaveResearchCatalog,
+  ..._batch27LogPolarTessellationsCatalog,
   ..._kaleidoscopesCatalog,
 ];
 

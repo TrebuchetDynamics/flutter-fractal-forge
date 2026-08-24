@@ -1,0 +1,8 @@
+10.1007/s41478-022-00485-z	A note on a faster fixed point iterative method
+10.1016/j.cam.2010.12.022	On the rate of convergence of Mann, Ishikawa, Noor and SP-iterations for continuous functions on an arbitrary interval
+10.12697/acutm.2026.30.05	AT algorithm for fractal polynomiographs: a study on fast convergence under weak contraction mappings
+10.18514/mmn.2023.3978	Convergence theorem and convergence rate of a new faster iteration method for continuous functions on an arbitrary interval
+10.3390/math14091433	A Novel Inertial-Type Iteration Algorithm: Convergence, Data Dependence, and Applications in Image Deblurring and Fractal Generation
+	A PICARD-S HYBRID TYPE ITERATION METHOD FOR SOLVING A DIFFERENTIAL EQUATION WITH RETARDED ARGUMENT
+10.29020/nybg.ejpam.v13i5.3756	Solution of Delay Differential Equation via N^v_1 Iteration Algorithm
+	Journal of Computational and Applied Mathematics

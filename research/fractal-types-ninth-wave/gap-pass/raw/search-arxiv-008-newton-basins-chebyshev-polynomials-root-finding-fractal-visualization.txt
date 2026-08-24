@@ -1,0 +1,20 @@
+	Chebyshev polynomials in the complex plane and on the real line
+10.3906/mat-1501-44	Generalized Chebyshev polynomials of the second kind
+	Computing Chebyshev polynomials using the complex Remez algorithm
+	Gamma vectors as inverted Chebyshev expansions, type A to B transformations, and connections to algebraic structures
+	Improved error bound for multivariate Chebyshev polynomial interpolation
+10.1007/s00209-023-03215-8	On the basins of attraction of a one-dimensional family of root finding algorithms: from Newton to Traub
+	Coherent states and Chebyshev polynomials
+	Evaluation of Chebyshev polynomials on intervals and application to root finding
+	Polynomial root clustering and explicit deflation
+10.1142/s0218127422502005	Characterization of Fractal Basins Using Deep Convolutional Neural Networks
+10.1016/j.cam.2023.115427	Newton's method in practice II: The iterated refinement Newton method and near-optimal complexity for finding all roots of some polynomials of very large degrees
+	Chebyshev polynomials involved in the Householder's method for square roots
+	On Filter Banks and Wavelets Based on Chebyshev Polynomials
+	Fractal Basins of Attraction Associated with a Damped Newton's Method
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+10.1088/0264-9381/33/7/075002	The Dynamics of the Schrodinger-Newton System with Self-Field Coupling
+10.1109/lsp.2021.3120327	l1-Norm Minimization with Regula Falsi Type Root Finding Methods
+10.1142/s0218127417300439	Basins of convergence of equilibrium points in the generalized Hill problem
+	Beyond English: Centering Multilingualism in Data Visualization

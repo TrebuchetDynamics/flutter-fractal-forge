@@ -212,26 +212,20 @@ class FractalViewControls extends StatelessWidget {
         delay: const Duration(milliseconds: 200),
         sortOrder: 8,
       ),
-      FloatingActionButtonWidget(
-        key: const ValueKey('viewerShareImageButton'),
-        icon: Icons.share_rounded,
-        tooltip: l10n.tooltipShareImage,
-        onPressed: isExporting ? null : actions.shareImage,
-        isCompact: true,
-        delay: const Duration(milliseconds: 220),
-        sortOrder: 9,
-      ),
       _ExportWallpaperFab(
         isExporting: isExporting,
-        supportsWallpaper: supportsWallpaper,
         l10n: l10n,
-        onOpenExport: actions.openExport,
+        onOpenActions: () => _showExportModal(
+          context,
+          l10n,
+          supportsWallpaper: supportsWallpaper,
+        ),
         onLongPress: () => _showExportModal(
           context,
           l10n,
           supportsWallpaper: supportsWallpaper,
         ),
-        sortOrder: 10,
+        sortOrder: 9,
       ),
       FloatingActionButtonWidget(
         key: const ValueKey('viewerFullscreenButton'),
@@ -239,8 +233,8 @@ class FractalViewControls extends StatelessWidget {
         tooltip: l10n.tooltipFullscreen,
         onPressed: isExporting ? null : actions.toggleFullscreen,
         isCompact: true,
-        delay: const Duration(milliseconds: 240),
-        sortOrder: 11,
+        delay: const Duration(milliseconds: 220),
+        sortOrder: 10,
       ),
       if (showFractalReport)
         FloatingActionButtonWidget(
@@ -249,8 +243,8 @@ class FractalViewControls extends StatelessWidget {
           tooltip: l10n.tooltipReportFractal,
           onPressed: isExporting ? null : actions.reportFractal,
           isCompact: true,
-          delay: const Duration(milliseconds: 260),
-          sortOrder: 12,
+          delay: const Duration(milliseconds: 240),
+          sortOrder: 11,
         ),
     ];
 
@@ -270,10 +264,8 @@ class FractalViewControls extends StatelessWidget {
           child: ConstrainedBox(
             key: const ValueKey('viewerFabColumn'),
             constraints: BoxConstraints(
-              // Landscape: the column stacks 48px FAB rows plus the slightly
-              // taller auto-explore button (62px). Three rows need
-              // 62 + 2*(48 + 8) = 174px; the previous 112px cap fit only two
-              // rows, so the eleventh button overflowed the viewport bottom.
+              // Landscape wraps the uniform 48px FABs into at most three rows.
+              // Keep room for all rows plus their 8px gaps on short viewports.
               maxHeight: isLandscape ? 176 : maxFabColumnHeight,
               maxWidth: isLandscape ? maxFabRowWidth : 112,
             ),
@@ -326,9 +318,7 @@ class FractalViewControls extends StatelessWidget {
     _showActionModal(
       context,
       icon: Icons.ios_share_rounded,
-      title: supportsWallpaper
-          ? '${l10n.tooltipExport} / ${l10n.wallpaperTitle}'
-          : l10n.tooltipExport,
+      title: l10n.shareExportTitle,
       subtitle: supportsWallpaper
           ? l10n.exportOptionsSubtitleWithWallpaper
           : l10n.exportOptionsSubtitle,
@@ -341,13 +331,13 @@ class FractalViewControls extends StatelessWidget {
         ),
         _ActionTile(
           icon: Icons.link_rounded,
-          label: l10n.tooltipShare,
+          label: l10n.shareLinkAction,
           description: l10n.exportOptionsLinkDescription,
           onTap: actions.shareLink,
         ),
         _ActionTile(
           icon: Icons.share_rounded,
-          label: l10n.shareToSocialTargets,
+          label: l10n.tooltipShareImage,
           description: l10n.exportOptionsImageDescription,
           onTap: actions.shareImage,
         ),
@@ -701,17 +691,15 @@ class _ModalIconBadge extends StatelessWidget {
 
 class _ExportWallpaperFab extends StatelessWidget {
   final bool isExporting;
-  final bool supportsWallpaper;
   final AppLocalizations l10n;
-  final VoidCallback onOpenExport;
+  final VoidCallback onOpenActions;
   final VoidCallback onLongPress;
   final double sortOrder;
 
   const _ExportWallpaperFab({
     required this.isExporting,
-    required this.supportsWallpaper,
     required this.l10n,
-    required this.onOpenExport,
+    required this.onOpenActions,
     required this.onLongPress,
     required this.sortOrder,
   });
@@ -721,10 +709,8 @@ class _ExportWallpaperFab extends StatelessWidget {
     return FloatingActionButtonWidget(
       key: const ValueKey('viewerExportButton'),
       icon: Icons.ios_share_rounded,
-      tooltip: supportsWallpaper
-          ? '${l10n.tooltipExport} / ${l10n.wallpaperTitle}'
-          : l10n.tooltipExport,
-      onPressed: isExporting ? null : onOpenExport,
+      tooltip: l10n.shareExportTitle,
+      onPressed: isExporting ? null : onOpenActions,
       onLongPress: isExporting ? null : onLongPress,
       isCompact: true,
       delay: const Duration(milliseconds: 150),

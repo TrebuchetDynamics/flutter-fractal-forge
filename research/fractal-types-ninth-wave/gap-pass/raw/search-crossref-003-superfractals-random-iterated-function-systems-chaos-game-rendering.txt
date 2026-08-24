@@ -1,0 +1,20 @@
+10.1016/b978-044450002-1/50063-1	Modeling and rendering of nonlinear iterated function systems
+10.1142/s0218127401002237	ITERATED FUNCTION SYSTEMS FOR OBJECT GENERATION AND RENDERING
+10.1016/j.chaos.2026.117996	Fractal attractors in random nonlinear iterated function systems: Existence, stability, and dimensional properties
+10.1063/1.4929387	Random iteration for infinite nonexpansive iterated function systems
+10.1016/j.chaos.2025.117211	Wasserstein ergodicity and phase transitions in iterated function systems on sparse random graphs
+10.1016/b978-044450002-1/50058-8	Iterated Function Systems
+10.1016/j.fss.2024.109173	Chaos game algorithm for fuzzy iterated function systems
+10.4064/fm635-9-2019	Non-hyperbolic iterated function systems: semifractals and the chaos game
+10.1007/1-84628-686-7_5	IFS Rendering Algorithms
+10.12775/tmna.2016.064	On the chaos game of iterated function systems
+10.1016/j.amc.2013.08.049	A Chaos game algorithm for generalized iterated function systems
+10.3934/math.2019.6.1824	Fractal approximation of chaos game representations using recurrent iterated function systems
+10.1016/b978-044450002-1/50062-x	Automatic generation of iterated function systems
+10.1017/s0143385710000428	The chaos game on a general iterated function system
+10.1142/s0218127400000062	RIGOROUS NUMERICAL ESTIMATION OF LYAPUNOV EXPONENTS AND INVARIANT MEASURES OF ITERATED FUNCTION SYSTEMS AND RANDOM MATRIX PRODUCTS
+10.12775/tmna.2019.107	Addendum and corrigendum to "On the chaos game of iterated function systems"
+10.35290/ro.v1n2.2020.302	Visualization of the Chaos Game for non-hyperbolic iterated function system
+10.1016/b978-044450002-1/50059-x	Some nonlinear iterated function systems
+10.1109/icbbe.2008.17	Chaos Game Representation of Genomes and their Simulation by Recurrent Iterated Function Systems
+10.1016/j.chaos.2015.09.015	Homoclinic attractors in discontinuos iterated function systems

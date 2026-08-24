@@ -1,0 +1,12 @@
+10.1186/s13677-020-00208-4	Distributed data hiding in multi-cloud storage environment
+10.1007/978-981-15-4810-9	Functional Nanomaterials
+10.48550/arxiv.2302.12032	Extension of General Relativity with MOND limit predicts novel orbital structure in and around galaxies
+10.5445/ir/1000045310	Mechanisms of Dendrite Growth in Lithium Metal Batteries
+	LegUp: Open-source High-level Synthesis Research Framework
+	Volumetric particle modeling
+	Accuracy of Computer Generated Approximations to Julia Sets
+10.32614/cran.package.viscomplexr	viscomplexr: Phase Portraits of Functions in the Complex Number Plane
+	Using timescale as a state coordinate reveals the metastable geometry of behavior
+	Graph Theory
+	Dynamique du piégeage par capillarité pour le stockage géologique du CO₂ : microfluidique expérimentale et numérique
+	Vakonomic Fluids

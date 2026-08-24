@@ -1,0 +1,20 @@
+10.1146/annurev.es.04.110173.000245	Resilience and Stability of Ecological Systems
+10.1086/382125	The Three‐Dimensional Power Spectrum of Galaxies from the Sloan Digital Sky Survey
+10.1093/mnras/stv1833	The JCMT Plane Survey: early results from the ℓ = 30° field
+10.1109/access.2019.2909530	Unmanned Aerial Vehicles (UAVs): A Survey on Civil Applications and Key Research Challenges
+10.1093/mnras/stz1448	WALLABY early science – III. An H i study of the spiral galaxy NGC 1566
+10.1093/mnras/stv1436	Galaxy And Mass Assembly (GAMA): end of survey report and data release 2
+10.1007/s00371-021-02232-0	Generation of advanced Escher-like spiral tessellations
+10.15781/t2qj84	Overview Of The SDSS-IV Manga Survey: Mapping Nearby Galaxies At Apache Point Observatory
+10.5642/jhummath.201201.04	Logarithmic Spirals and Projective Geometry in M.C. Escher's "Path of Life III"
+10.1002/cplx.21562	Promoting convergence: The Phi spiral in abduction of mouse corneal behaviors
+10.1111/j.1365-2966.2008.13634.x	Foreground simulations for the LOFAR-epoch of reionization experiment
+10.1090/s0273-0979-2011-01334-9	The classical theory of minimal surfaces
+10.1051/0004-6361/201629862	The anatomy of the Orion B giant molecular cloud: A local template for studies of nearby galaxies
+10.5962/bhl.title.6427	Problems of relative growth
+10.1371/journal.pone.0232376	Deep learning in rare disease. Detection of tubers in tuberous sclerosis complex
+10.1140/epje/i2016-16007-8	Phyllotaxis: a framework for foam topological evolution
+10.1093/mnras/stx1357	The Hi-GAL compact source catalogue – I. The physical properties of the clumps in the inner Galaxy (−71$_{.}^{\circ}$0 < ℓ < 67$_{.}^{\circ}$0)
+10.1088/1475-7516/2008/07/013	Pre-launch estimates for GLAST sensitivity to dark matter annihilation signals
+10.5281/zenodo.3765414	The Canadian Hydrogen Observatory and Radio-transient Detector (CHORD)
+10.1016/j.newar.2020.101525	The quest for dual and binary supermassive black holes: A multi-messenger view

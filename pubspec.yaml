@@ -1,5 +1,5 @@
 name: flutter_fractals
-description: GPU-accelerated exploration of 966 production fractals with deep zoom and real-time rendering.
+description: GPU-accelerated exploration of 1004 production fractals with deep zoom and real-time rendering.
 publish_to: none
 version: 1.1.0+38
 environment:
@@ -600,3 +600,38 @@ flutter:
     - shaders/kaleidoscopes/classic_symmetry/kaleidoscope_rosette_gpu.frag
     - shaders/kaleidoscopes/radial_ornaments/kaleidoscope_ring_gpu.frag
     - shaders/kaleidoscopes/textured_light/kaleidoscope_nebula_gpu.frag
+    - shaders/escape_time_family/families/iteration_schemes/fixed_point_iteration_gpu.frag
+    - shaders/number_theory/minkowski_question_mark_gpu.frag
+    - shaders/escape_time_family/julia_variants/mobius_transformation_julia_gpu.frag
+    - shaders/escape_time_family/transcendental_maps/fractional_complex_cosine_gpu.frag
+    - shaders/escape_time_family/julia_variants/parabolic_petal_julia_gpu.frag
+    - shaders/escape_time_family/transcendental_maps/herman_ring_julia_gpu.frag
+    - shaders/escape_time_family/transcendental_maps/sierpinski_curve_julia_gpu.frag
+    - shaders/escape_time_family/transcendental_maps/meromorphic_sine_julia_gpu.frag
+    - shaders/cellular_and_stochastic/mandelbrot_percolation_carpet_gpu.frag
+    - shaders/number_theory/dedekind_eta_field_gpu.frag
+    - shaders/ifs_and_geometric/truchet_fractal_mosaic_gpu.frag
+    - shaders/number_theory/bessel_zero_field_gpu.frag
+    - shaders/ifs_and_geometric/fractal_interpolation_relief_gpu.frag
+    - shaders/strange_attractors/hidden_hyperchaotic_attractor_gpu.frag
+    - shaders/ifs_and_geometric/rep_tile_explorer_gpu.frag
+    - shaders/escape_time_family/transcendental_maps/baker_wandering_domain_gpu.frag
+    - shaders/ifs_and_geometric/superfractal_morph_gpu.frag
+    - shaders/number_theory/p_adic_mandelbrot_gpu.frag
+    - shaders/escape_time_family/polynomial_maps/cubic_connectedness_locus_gpu.frag
+    - shaders/root_finding/newton_parameter_plane_gpu.frag
+    - shaders/escape_time_family/transcendental_maps/polylogarithm_julia_gpu.frag
+    - shaders/escape_time_family/transcendental_maps/q_exponential_julia_gpu.frag
+    - shaders/number_theory/klein_j_invariant_gpu.frag
+    - shaders/number_theory/jacobi_theta_field_gpu.frag
+    - shaders/number_theory/eisenstein_series_field_gpu.frag
+    - shaders/number_theory/gaussian_prime_lattice_gpu.frag
+    - shaders/number_theory/thomae_popcorn_field_gpu.frag
+    - shaders/lyapunov_and_stability/arnold_tongues_gpu.frag
+    - shaders/lyapunov_and_stability/kicked_harper_map_gpu.frag
+    - shaders/lyapunov_and_stability/henon_heiles_escape_basin_gpu.frag
+    - shaders/number_theory/talbot_fractal_carpet_gpu.frag
+    - shaders/ifs_and_geometric/paperfolding_curve_atlas_gpu.frag
+    - shaders/ifs_and_geometric/de_rham_curve_family_gpu.frag
+    - shaders/number_theory/substitution_diffraction_field_gpu.frag
+    - shaders/escape_time_family/textured/log_polar_tessellation_gpu.frag

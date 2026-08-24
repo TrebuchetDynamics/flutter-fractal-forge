@@ -1,0 +1,184 @@
+{
+  "nodes": [
+    {
+      "id": "10.1038/srep19505"
+    },
+    {
+      "id": "121645285bdf2a571bd4fd51286d057b307ce794"
+    },
+    {
+      "id": "19eff1a68f35fd639300442e26382ba11df0fea9"
+    },
+    {
+      "id": "1ada0081d75381d532705497655d073524152038"
+    },
+    {
+      "id": "3a4577012662790a137eb20f36c6c5dadc6edaef"
+    },
+    {
+      "id": "4a71a1211e4dd86b7c728e6dff9e9545919877a3"
+    },
+    {
+      "id": "4c54750147d15a9b562f779837c7ad1e3c03c643"
+    },
+    {
+      "id": "53a72bbb70400d471c16a4534bf66e3482758575"
+    },
+    {
+      "id": "5794acad005e25e5dff72b3f07df2083fd9b3955"
+    },
+    {
+      "id": "58f483265f03c65ac58590b666de50ecb2adc1a3"
+    },
+    {
+      "id": "5b0982eeb7b91be182d302129898886378a5f056"
+    },
+    {
+      "id": "5e3b9a27372228b792416f6f625d9eae112c5ff1"
+    },
+    {
+      "id": "693f679b0780544220449537f2555b0f138451fe"
+    },
+    {
+      "id": "75a40f3709258a75366c14242a5e74a8d00cbd2f"
+    },
+    {
+      "id": "8823061b991a2db6f74fdc53ee2cca19911c6250"
+    },
+    {
+      "id": "8fc888c5e2c3a6b0a6efff4288f8adf7df1b59ef"
+    },
+    {
+      "id": "9712240d9c2dc8d96e09b1a426e5b065e0036fab"
+    },
+    {
+      "id": "9de26ffdfe87fa044483cd2ca674a5b4b5371a88"
+    },
+    {
+      "id": "a597e1275aaa78ad6ae1bf19453357bf95dc0990"
+    },
+    {
+      "id": "aad3fb23ffd1e20fdc6ea75d89c050d7fac0b9d3"
+    },
+    {
+      "id": "c13bfa3be4a28918d34386e417374e2a7d6e81c9"
+    },
+    {
+      "id": "d25b83918d235e9ed58bd3457c4c2699547d9a00"
+    },
+    {
+      "id": "d4faaed16cfe5f58e7c7451d5e062e49379e2198"
+    },
+    {
+      "id": "d695059e9bc5e15077be590f86a1ad47f2035235"
+    },
+    {
+      "id": "f7b83a9f1b8089e4c17a83afc2502f561cc64ece"
+    },
+    {
+      "id": "fef38226bd2a2a6d711b97ad536c8de189a6ac0a"
+    }
+  ],
+  "edges": [
+    {
+      "source": "10.1038/srep19505",
+      "target": "121645285bdf2a571bd4fd51286d057b307ce794"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "19eff1a68f35fd639300442e26382ba11df0fea9"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "1ada0081d75381d532705497655d073524152038"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "3a4577012662790a137eb20f36c6c5dadc6edaef"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "4a71a1211e4dd86b7c728e6dff9e9545919877a3"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "4c54750147d15a9b562f779837c7ad1e3c03c643"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "53a72bbb70400d471c16a4534bf66e3482758575"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "5794acad005e25e5dff72b3f07df2083fd9b3955"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "58f483265f03c65ac58590b666de50ecb2adc1a3"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "5b0982eeb7b91be182d302129898886378a5f056"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "5e3b9a27372228b792416f6f625d9eae112c5ff1"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "693f679b0780544220449537f2555b0f138451fe"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "75a40f3709258a75366c14242a5e74a8d00cbd2f"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "8823061b991a2db6f74fdc53ee2cca19911c6250"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "8fc888c5e2c3a6b0a6efff4288f8adf7df1b59ef"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "9712240d9c2dc8d96e09b1a426e5b065e0036fab"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "9de26ffdfe87fa044483cd2ca674a5b4b5371a88"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "a597e1275aaa78ad6ae1bf19453357bf95dc0990"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "aad3fb23ffd1e20fdc6ea75d89c050d7fac0b9d3"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "c13bfa3be4a28918d34386e417374e2a7d6e81c9"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "d25b83918d235e9ed58bd3457c4c2699547d9a00"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "d4faaed16cfe5f58e7c7451d5e062e49379e2198"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "d695059e9bc5e15077be590f86a1ad47f2035235"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "f7b83a9f1b8089e4c17a83afc2502f561cc64ece"
+    },
+    {
+      "source": "10.1038/srep19505",
+      "target": "fef38226bd2a2a6d711b97ad536c8de189a6ac0a"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+10.1016/j.rse.2018.08.005	The Collection 6 MODIS burned area mapping algorithm and product
+10.3133/pp358	Primary textures and mineral associations in the ultramafic zone of the Stillwater complex, Montana
+10.1103/revmodphys.82.729	Light passing through subwavelength apertures
+10.1145/3528223.3530127	Instant neural graphics primitives with a multiresolution hash encoding
+10.1080/00018739400101505	Theory of phase-ordering kinetics
+10.1088/0965-0393/23/6/065009	A FFT-based formulation for efficient mechanical fields computation in isotropic and anisotropic periodic discrete dislocation dynamics
+10.1038/s41467-019-12502-0	Scale-invariant magnetic textures in the strongly correlated oxide NdNiO3
+10.1103/physrevb.104.214501	Majorana bound states induced by antiferromagnetic skyrmion textures
+10.1016/0045-7825(95)00904-3	The simulation of texture evolution with finite elements over orientation space I. Development
+10.1103/physrevb.96.094430	Mapping the magnonic landscape in patterned magnetic structures
+10.1034/j.1600-0587.2002.250507.x	Illustrations and guidelines for selecting statistical methods for quantifying spatial pattern in ecological data
+10.1080/07303300310001634952	High‐Energy X‐Rays: A tool for Advanced Bulk Investigations in Materials Science and Physics
+10.1038/scientificamerican0687-108	The Connection Machine
+10.1016/j.physrep.2012.07.005	Spinor Bose–Einstein condensates
+10.1080/00018730110117433	Theory of phase-ordering kinetics
+10.3133/wsp1473	Study and interpretation of the chemical characteristics of natural water
+10.1016/j.preteyeres.2017.11.003	Optical coherence tomography angiography
+10.1214/10-aos839	Detection of an anomalous cluster in a network
+10.1016/j.triboint.2018.02.005	Modeling and simulation in tribology across scales: An overview
+10.14279/depositonce-3515	Optical modeling of thin film silicon solar cells with random and periodic light management textures

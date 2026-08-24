@@ -1,0 +1,20 @@
+	The Extreme-ultraviolet Stellar Characterization for Atmospheric Physics and Evolution (ESCAPE) Mission: Motivation and Overview
+	Space-time distributions
+	The Dynamics of Financial Markets -- Mandelbrot's multifractal cascades, and beyond
+	Extreme Narrow Escape: shortest paths for the first particles to escape through a small window
+	On Fibers and Local Connectivity of Mandelbrot and Multibrot Sets
+10.1088/0022-3727/48/45/455305	Elastic Bending Modulus for Single-Layer Black Phosphorus
+10.2140/agt.2025.25.2807	Surgery sequences and self-similarity of the Mandelbrot set
+	Arithmetic Cycles with Modulus
+	Homotopies and Maps between Eigenvalues of some Generalized Lucas Sequences and the Mandelbrot Set
+10.1086/317775	Escape of Ionizing Radiation from High-Redshift Galaxies
+	Minimum modulus for the unique multiset-sum problem
+10.1103/physrevd.86.063006	Shear modulus of the hadron-quark mixed phase
+10.1093/mnras/stx2113	Recoiling Supermassive Black Hole Escape Velocities from Dark Matter Halos
+	On the logarithmic type boundary modulus of continuity for the Stefan problem
+	From 2N to infinitely many escape orbits
+	Normal Smoothings for Smooth Cube Manifolds
+	Smooth blowup square for motives with modulus
+	Mandelbrot cascades on random weighted trees and nonlinear smoothing transforms
+	Modulus of supporting convexity and supporting smoothness
+	Mandelbrot set and Julia sets of fractional order

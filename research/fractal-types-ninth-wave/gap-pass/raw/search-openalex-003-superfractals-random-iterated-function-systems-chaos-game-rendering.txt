@@ -1,0 +1,3 @@
+	Composable function systems as a general-purpose rendering framework
+10.48550/arxiv.2410.15139	The discrete charm of iterated function systems. A computer scientist's perspective on approximation of IFS invariant sets and measures
+	3D Fractal Flame Wisps

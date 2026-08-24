@@ -67,14 +67,14 @@ void main() {
     handle.dispose();
   });
 
-  testWidgets('long-pressing export FAB opens polished export sheet',
+  testWidgets('combined share and export FAB opens the action sheet',
       (tester) async {
     await _pumpHarness(tester);
 
     await tester.longPress(find.byKey(const ValueKey('viewerExportButton')));
     await tester.pumpAndSettle();
 
-    expect(find.text('Export / Wallpaper'), findsOneWidget);
+    expect(find.text('Share & export'), findsOneWidget);
     expect(
       find.text('Save, share, or fit the current render to your device.'),
       findsOneWidget,
@@ -122,7 +122,8 @@ void main() {
     await tester.longPress(find.byKey(const ValueKey('viewerExportButton')));
     await tester.pumpAndSettle();
 
-    expect(find.text('Export'), findsNWidgets(2));
+    expect(find.text('Share & export'), findsOneWidget);
+    expect(find.text('Export'), findsOneWidget);
     expect(find.text('Save or share the current render.'), findsOneWidget);
     expect(find.text('Wallpaper'), findsNothing);
     expect(find.text('Set this view as your home or lock screen wallpaper.'),
@@ -262,7 +263,6 @@ void main() {
     for (final key in const [
       'viewerLooperFab',
       'viewerFractalMusicFab',
-      'viewerShareImageButton',
       'viewerFullscreenButton',
     ]) {
       await _pumpHarness(tester);

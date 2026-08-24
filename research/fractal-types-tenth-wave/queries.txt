@@ -1,0 +1,24 @@
+paperfolding morphisms plane-filling curves fractal tiles
+regular paperfolding sequence dragon curve GPU rendering
+de Rham self-affine curve functional equation fractal visualization
+Okamoto continuous nowhere differentiable function parameter family
+H-fractal tree recursive geometric construction
+T-square fractal recursive geometry distance field
+Thue-Morse diffraction singular continuous spectrum visualization
+Rudin-Shapiro diffraction autocorrelation spectrum visualization
+Gaussian primes spiral lattice fractal pattern visualization
+Klein j-invariant modular fundamental domain visualization
+Jacobi theta functions complex plane domain coloring
+Eisenstein series modular forms upper half-plane visualization
+Talbot carpet integer fractional fractal Talbot effect
+Henon-Heiles escape basins fractal basin boundaries
+three-disk chaotic scattering fractal exit basins
+kicked Harper map phase space fractal transport
+Arnold tongues circle map phase-locking bifurcation fractal
+self-affine curves fractal interpolation GPU shader
+automatic sequences diffraction fractal spectra survey
+modular forms q-series GPU numerical approximation
+Hamiltonian chaotic scattering basin entropy visualization
+scientific fractal visualization finite iteration shader
+fractal curve distance field rendering paperfolding H-tree T-square
+new fractal catalog families beyond escape-time Julia sets

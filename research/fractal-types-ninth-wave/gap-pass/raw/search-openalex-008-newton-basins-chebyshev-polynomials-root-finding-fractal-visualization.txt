@@ -1,0 +1,20 @@
+10.1007/s11075-023-01625-7	A new optimal root-finding iterative algorithm: local and semilocal analysis with polynomiography
+10.1155/2014/539707	Basins of Attraction for Various Steffensen-Type Methods
+10.1109/access.2021.3131498	Real-World Applications of a Newly Designed Root-Finding Algorithm and Its Polynomiography
+10.1155/2014/601205	Multipoint Iterative Methods for Finding All the Simple Zeros in an Interval
+10.22436/jnsa.009.03.25	Polynomiography via an iterative method corresponding to Simpsons 13 rule
+10.48550/arxiv.2208.08530	Survey of Methods for Solving Systems of Nonlinear Equations, Part I: Root-finding Approaches
+10.3390/fractalfract8030150	A Class of Fifth-Order Chebyshev–Halley-Type Iterative Methods and Its Stability Analysis
+10.3390/math14050879	Finite-Time Contractivity Profiling of a Two-Parameter Parallel Root-Finding Scheme via a kNN–LLE Proxy
+10.3390/appliedmath6030043	A High-Order Parallel Framework for Simultaneous Root-Finding in Nonlinear Systems with Multiple Solutions
+10.3390/axioms13070458	Achieving Optimal Order in a Novel Family of Numerical Methods: Insights from Convergence and Dynamical Analysis Results
+10.1155/2022/9705690	Optimal Algorithms for Nonlinear Equations with Applications and Their Dynamics
+10.1016/j.aml.2024.109122	Inverse matrix estimations by iterative methods with weight functions and their stability analysis
+10.3390/a17030121	Modeling of Some Classes of Extended Oscillators: Simulations, Algorithms, Generating Chaos, and Open Problems
+10.3390/math13020275	Convergence and Dynamics of Schröder’s Method for Zeros of Analytic Functions with Unknown Multiplicity
+10.3390/math9192510	Convergence Analysis and Dynamical Nature of an Efficient Iterative Method in Banach Spaces
+10.3390/sym16020253	Nonlinear Dynamics of a New Class of Micro-Electromechanical Oscillators—Open Problems
+10.3390/foundations2020023	Extending the Local Convergence of a Seventh Convergence Order Method without Derivatives
+10.1115/1.4056808	Krylov Methods for Large-Scale Dynamical Systems: Application in Fluid Dynamics
+10.48550/arxiv.2311.06374	Higher-Order Newton Methods with Polynomial Work per Iteration
+10.3390/axioms13120880	Efficient Newton-Type Solvers Based on for Finding the Solution of Nonlinear Algebraic Problems

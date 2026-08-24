@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "1",
+  "createdAt": "2026-08-19T16:44:52Z",
+  "queries": [
+    "Truchet tiles Smith curves recursive tiling fractal visualization",
+    "quasifuchsian groups limit sets deformation space fractal rendering",
+    "p-adic Mandelbrot set arithmetic dynamics visualization fractal",
+    "hidden attractors hyperchaotic systems strange attractors visualization",
+    "Coxeter groups reflection tilings fractal boundary visualization",
+    "fractal interpolation surfaces self-affine heightfield rendering",
+    "Baker domains wandering domains transcendental entire functions visualization",
+    "Bessel function zeros fields fractal visualization special functions"
+  ],
+  "sources": [
+    "openalex",
+    "crossref",
+    "arxiv",
+    "semantic-scholar"
+  ],
+  "limit": 20,
+  "results": 445,
+  "deduped": 428,
+  "failures": 6
+}

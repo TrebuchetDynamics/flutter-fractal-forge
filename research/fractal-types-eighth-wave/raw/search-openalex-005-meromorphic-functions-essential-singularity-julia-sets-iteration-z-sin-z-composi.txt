@@ -1,0 +1,20 @@
+10.1090/s0273-0979-1993-00432-4	Iteration of meromorphic functions
+10.4007/annals.2011.173.1.3	Dynamic rays of bounded-type entire functions
+10.2748/tmj/1113234832	Iteration of functions which are meromorphic outside a small set
+10.1007/s11511-015-0122-0	Constructing entire functions by quasiconformal folding
+10.1007/s11511-009-0042-y	Rigidity of escaping dynamics for transcendental entire functions
+	Arc-like continua, Julia sets of entire functions, and Eremenko's Conjecture
+10.1007/s00039-020-00551-3	A landing theorem for entire functions with bounded post-singular sets
+10.1088/0951-7715/20/2/008	Coding trees and boundaries of attracting basins for some entire maps
+10.4171/cmh/371	Hyperbolic entire functions with bounded Fatou components
+10.1090/s0002-9939-08-09609-3	The escaping set of a quasiregular mapping
+10.1112/jlms.12516	Geometrically finite transcendental entire functions
+10.1090/s0002-9939-2010-10611-1	On the connectivity of the escaping set for complex exponential Misiurewicz parameters
+10.1088/1126-6708/2003/01/004	Wedge states in string field theory
+10.48550/arxiv.1807.04499	Fatou Set, Julia Set and Escaping Set in Holomorphic Subsemigroup Dynamics
+	Lebesgue Measure of Escaping Sets of Entire Functions in the Eremenko-Lyubich Class
+10.48550/arxiv.1006.0222	On the connectivity of the escaping set for complex exponential Misiurewicz parameters
+10.21954/ou.ro.0000ef54	Structural Theorems for Holomorphic Self-Maps of the Punctured Plane
+10.48550/arxiv.math/9205209	Problems in holomorphic dynamics
+10.1090/s0002-9947-03-03160-x	Rigidity in holomorphic and quasiregular dynamics
+10.1007/s00208-018-1643-6	Dynamics of transcendental Hénon maps

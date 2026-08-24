@@ -1,0 +1,20 @@
+10.1007/978-3-319-20337-9_11	Fatou Coordinates for Parabolic Dynamics
+10.1007/978-3-663-09197-4_6	The Flower Theorem of Fatou and Julia
+10.1007/978-1-4612-4364-9_2	Fixed Points and Conjugations
+10.1017/cbo9780511569159.018	Bifurcation of parabolic fixed points
+10.1186/s40627-018-0011-3	Parametrization of unstable manifolds and Fatou disks for parabolic skew-products
+10.1007/978-3-642-14509-4_6	Computing Differential Invariants as Fixed Points
+10.1080/10236190903203838	Complex Hénon maps with semi-parabolic fixed points
+10.26481/umamer.1995005	Evolution, dynamics, and fixed points
+10.1201/b10617-9	The Connectivity of the Julia Set and Fixed Points
+10.24033/ast.619	Homéomorphismes de surfaces Théorèmes de la ﬂeur de Leau-Fatou et de la variété stable
+10.1353/ajm.2004.0015	The dynamics near quasi-parabolic fixed points of holomorphic diffeomorphisms in [inline-graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="01i" /]
+10.1142/s0218127411030568	DYNAMICS AND BIFURCATIONS OF A FAMILY OF RATIONAL MAPS WITH PARABOLIC FIXED POINTS
+10.1007/978-3-663-09197-4_5	Iteration in the 1890’s: Leau
+10.1007/978-3-663-08092-3_5	Structure of the Fatou Set
+10.1017/cbo9780511735233.011	Entire functions with bounded Fatou components
+10.28919/afpt/9200	Soft fuzzy b-fixed points in complex-valued b-metric spaces with applications
+10.1007/978-1-4612-4364-9_7	Local Geometry of the Fatou Set
+10.2996/kmj/1106168782	Kleinian groups with singly cusped parabolic fixed points
+10.17323/1609-4514-2023-23-2-271-282	Accesses to Parabolic Fixed Point from its Immediate Basin
+10.21203/rs.3.rs-70238/v1	Evidence for complex fixed points in pandemic data

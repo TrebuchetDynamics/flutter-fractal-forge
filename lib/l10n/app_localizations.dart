@@ -1850,6 +1850,18 @@ abstract class AppLocalizations {
   /// **'Share'**
   String get tooltipShare;
 
+  /// No description provided for @shareExportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share & export'**
+  String get shareExportTitle;
+
+  /// No description provided for @shareLinkAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy view link'**
+  String get shareLinkAction;
+
   /// No description provided for @actionCopy.
   ///
   /// In en, this message translates to:
@@ -2113,6 +2125,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Automatically discover interesting areas'**
   String get autoExploreSubtitle;
+
+  /// No description provided for @autoExplorePausedUserCorrection.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-pilot paused while you adjust the view.'**
+  String get autoExplorePausedUserCorrection;
+
+  /// No description provided for @autoExploreZoomOnlyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom-only mode. Auto Explore leaves panning in your control.'**
+  String get autoExploreZoomOnlyDescription;
+
+  /// No description provided for @actionResume.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume'**
+  String get actionResume;
 
   /// No description provided for @tooltipStartExplore.
   ///
@@ -2819,7 +2849,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeFractalCountBadge.
   ///
   /// In en, this message translates to:
-  /// **'966 fractals'**
+  /// **'1004 fractals'**
   String get homeFractalCountBadge;
 
   /// No description provided for @catalogAllFractals.
@@ -3251,7 +3281,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsAboutBlurb.
   ///
   /// In en, this message translates to:
-  /// **'GPU-accelerated exploration of 966 production fractals, with deep zoom and real-time rendering.'**
+  /// **'GPU-accelerated exploration of 1004 production fractals, with deep zoom and real-time rendering.'**
   String get settingsAboutBlurb;
 
   /// No description provided for @settingsSourceCode.

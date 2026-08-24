@@ -1,0 +1,20 @@
+10.1107/s0907444910007493	Features and development of Coot
+10.1109/tmi.2013.2265603	Deformable Medical Image Registration: A Survey
+10.1016/j.media.2016.08.008	Gland segmentation in colon histology images: The glas challenge contest
+10.1016/s0165-1684(98)00012-7	Rotation, scale and translation invariant spread spectrum digital image watermarking
+10.1145/1103900.1103907	Point-based computer graphics
+10.1007/s11831-016-9206-z	Plant Species Identification Using Computer Vision Techniques: A Systematic Literature Review
+10.1016/j.media.2023.102762	Transforming medical imaging with Transformers? A comparative review of key properties, current progresses, and future perspectives
+10.1007/s40747-023-01173-6	Computer vision-based hand gesture recognition for human-robot interaction: a review
+10.1111/cgf.14778	A survey of Optimal Transport for Computer Graphics and Computer Vision
+10.1090/s0273-0979-06-01104-9	Mathematical methods in medical image processing
+10.1109/tpami.2021.3059968	Image Segmentation Using Deep Learning: A Survey
+10.1371/journal.pcbi.1007699	Near-optimal combination of disparity across a log-polar scaled visual field
+10.1111/cgf.14176	Time‐Warped Foveated Rendering for Virtual Reality Headsets
+10.5962/bhl.title.15368	Contributions to morphometrics
+10.1007/978-1-4302-5930-5	Computer Vision Metrics: Survey, Taxonomy, and Analysis
+10.1088/0957-0233/20/10/104015	A survey on evaluation methods for image interpolation
+10.48550/arxiv.1709.01889	Polar Transformer Networks
+10.1007/s10851-017-0765-x	Modified Rodrigues Parameters: An Efficient Representation of Orientation in 3D Vision and Graphics
+10.1007/s11263-013-0644-x	A Quantitative Analysis of Current Practices in Optical Flow Estimation and the Principles Behind Them
+10.48550/arxiv.2211.14830	Medical Image Segmentation Review: The success of U-Net

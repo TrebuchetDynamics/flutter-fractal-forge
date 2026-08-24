@@ -1,0 +1,20 @@
+	Texture image analysis and texture classification methods - A review
+10.1080/17476933.2022.2076842	Holomorphic maps from complex discs intersecting families of hypersurfaces
+10.1080/02781070310001634610	Ullemar's formula for the Jacobian of the complex moment mapping
+	Roman Galactic Plane Survey Definition Committee Report
+10.1002/hbm.70548	Improved Multiscale Structural Mapping with Supervertex Vision Transformer for the Detection of Alzheimer's Disease Neurodegeneration
+10.13140/rg.2.2.33612.46722	A New Benchmark Dataset for Texture Image Analysis and Surface Defect Detection
+	Cohomological aspects on complex and symplectic manifolds
+	Noncommutative complex analytic geometry of a contractive quantum plane
+	Make-A-Texture: Fast Shape-Aware Texture Generation in 3 Seconds
+	Describing Textures using Natural Language
+	Texture Synthesis Using Convolutional Neural Networks
+10.1109/3dv.2018.00067	Plane-Based Optimization of Geometry and Texture for RGB-D Reconstruction of Indoor Scenes
+	Enhancing Monocular 3D Hand Reconstruction with Learned Texture Priors
+	FFHQ-UV: Normalized Facial UV-Texture Dataset for 3D Face Reconstruction
+	A second-order theory of texture for depth from focus
+	Evaluating Urbanization from Satellite and Aerial Images by means of a statistical approach to the texture analysis
+10.1007/978-3-032-16649-4_25	Is star complexity a proxy for information based complexity of graphs?
+10.1002/asna.70083	Repeating Nuclear Transients from Repeating Partial Tidal Disruption Events
+10.1007/bf02884709	Ritt's theorem and the Heins map in hyperbolic complex manifolds
+	Cluster Haptic Texture Dataset: Haptic Texture Dataset with Varied Velocity-Direction Sliding Contacts

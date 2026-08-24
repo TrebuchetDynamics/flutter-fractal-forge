@@ -1,0 +1,20 @@
+10.3390/fractalfract9090584	Chaotic Dynamics and Fractal Geometry in Ring Lattice Systems of Nonchaotic Rulkov Neurons
+10.1063/5.0092933	Templex: a bridge between homologies and templates for chaotic attractors
+10.1007/s11071-016-2962-3	Hidden transient chaotic attractors of Rabinovich-Fabrikant system
+10.1063/1.5007925	Approximating hidden chaotic attractors via parameter switching
+	Chaotic hidden attractor in a fractional order system modelling the interaction between dark matter and dark energy
+10.1088/1742-6596/1205/1/012034	Numerical analysis of dynamical systems: unstable periodic orbits, hidden transient chaotic sets, hidden attractors, and finite-time Lyapunov dimension
+	Multistability, noise and attractor-hopping: The crucial role of chaotic saddles
+10.1088/0305-4470/38/49/014	Fractal Weyl laws in discrete models of chaotic scattering
+	Transient hidden chaotic attractors in a Hopfield neural system
+10.1007/978-3-030-04414-5_8	Visualizing the Template of a Chaotic Attractor
+	Multiple Chaotic Attractors in Coupled Lorenz Systems
+	A 3D Strange Attractor with a Distinctive Silhouette. The Butterfly Effect Revisited
+10.1016/j.cnsns.2019.03.008	Hidden chaotic attractors and chaos suppression in an impulsive discrete economical supply and demand dynamical system
+	Coexistence of hidden attractors and self-excited attractors through breaking heteroclinic-like orbits of switched systems
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1007/s11071-018-4054-z	Finite-time Lyapunov dimension and hidden attractor of the Rabinovich system
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+	Beyond English: Centering Multilingualism in Data Visualization
+10.1142/s0218348x22500578	A scaling law chaotic system
+10.1103/physreve.54.3149	Effect of Chaotic Noise on Multistable Systems

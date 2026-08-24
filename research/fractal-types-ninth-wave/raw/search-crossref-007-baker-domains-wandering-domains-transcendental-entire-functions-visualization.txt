@@ -1,0 +1,20 @@
+10.1017/cbo9780511735233.012	On multiply connected wandering domains of entire functions
+10.1142/s021812740400903x	ON WANDERING AND BAKER DOMAINS OF TRANSCENDENTAL ENTIRE FUNCTIONS
+10.1007/s40315-024-00521-y	Julia Components of Transcendental Entire Functions with Multiply-Connected Wandering Domains
+10.1017/s0143385700002832	Some entire functions with multiply-connected wandering domains
+10.1112/plms/s3-49.3.563	Wandering Domains in the Iteration of Entire Functions
+10.1017/s1446788700015287	An entire function which has wandering domains
+10.1017/cbo9780511735233.015	Baker domains
+10.3934/dcds.2006.15.379	Deformation of entire functions with Baker domains
+10.1007/bf03183203	Wandering domains in the transcendental dynamics
+10.1007/s00208-013-0936-z	Absence of wandering domains for some real entire functions with bounded singular sets
+10.1112/plms/pdt010	Multiply connected wandering domains of entire functions
+10.1112/blms.12709	Oscillating wandering domains for p$p$‐adic transcendental entire maps
+10.1016/j.aim.2015.04.031	Permutable entire functions and multiply connected wandering domains
+10.1017/s0143385708080383	A family of entire functions with Baker domains
+10.1017/s0305004198002928	Permutable entire functions and Baker domains
+10.4310/pamq.2011.v7.n1.a6	An Entire Function with Simply and Multiply Connected Wandering Domains
+10.53846/goediss-2450	On the Stability of Julia Sets of Functions having Baker Domains
+10.1017/cbo9780511735233.005	Meromorphic functions with two completely invariant domains
+10.1112/jlms/s2-42.2.267	Iterates of Meromorphic Functions II: Examples of Wandering Domains
+10.1007/978-1-4613-0269-8_41	The Carathéodory Convergence of Fatou Components of Polynomials to Baker Domains or Wandering Domains

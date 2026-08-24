@@ -1,0 +1,20 @@
+10.3390/math13172838	Hidden Attractors in a New 4D Memristor-Based Hyperchaotic System: Dynamical Analysis, Circuit Design, Synchronization, and Its Applications
+10.51537/chaos.1619566	Applications of a New 6D Hyperchaotic System with Hidden Attractors in Secure Communication and Wheeled Mobile Robot Navigation
+10.1155/2022/6458027	Self-Excited and Hidden Chaotic Attractors in Matouk’s Hyperchaotic Systems
+10.1109/tcsii.2023.3335096	Generating Multi-Wing Hidden Hyperchaotic Attractors With a Single Stable Equilibrium
+10.1088/1402-4896/ad61cc	Dynamics, periodic orbits of a novel four-dimensional hyperchaotic system with hidden attractors
+10.3390/math12142227	Design and Analysis of a Novel Fractional-Order System with Hidden Dynamics, Hyperchaotic Behavior and Multi-Scroll Attractors
+10.1109/tie.2024.3451192	Rotation Switching for Generating Multiplex Multiwing Hyperchaotic Hidden Attractors
+10.1007/978-3-030-75821-9_8	Hyperchaotic Systems with Hidden Attractors
+10.1016/j.chaos.2024.114785	Scenarios for the appearance of strange attractors in a model of three interacting microbubble contrast agents
+10.1063/5.0304784	Quantum signatures of strange attractors.
+10.1103/physreve.111.l042301	Strange attractors in complex networks.
+10.24425/acs.2022.140863	Coexisting of self-excited and hidden attractors in a new 4D hyperchaotic Sprott-S system with a single equilibrium point
+10.1038/s41598-025-24879-8	Dynamics analysis of a four-dimensional hyperchaotic hidden system and its application in image encryption
+10.1088/1402-4896/ae0fcb	Hidden multistability in a hyperchaotic memristive system: theoretical analysis and electronic circuit implementation
+10.1109/elconrus51938.2021.9396284	Synchronization of Hidden Hyperchaotic Attractors in Fractional-Order Complex-Valued Systems with Application to Secure Communications
+10.1016/j.cjph.2025.03.047	A novel double-memristor-based hyperchaotic system with hidden attractors: Memristor initial boosting, unstable cycles analysis, and synchronization
+10.1088/1402-4896/ae6bc3	9D fractional-order memristive neural network with hidden attractors for secure remote sensing image encryption
+10.1140/epjp/s13360-026-07526-7	Fixed points, periodic orbits, torus, chaos, hyperchaos, and busting firing activities in a novel 4D system with self-excited and hidden attractors: theory and digital circuit realization
+10.1088/1674-1056/acc8c4	Existence of hidden attractors in nonlinear hydro-turbine governing systems and its stability analysis
+10.1140/epjp/s13360-024-04958-x	Multi-scroll hidden hyperchaotic attractor and extreme multistability with offset boosting in a memristor-coupled complex-valued laser network

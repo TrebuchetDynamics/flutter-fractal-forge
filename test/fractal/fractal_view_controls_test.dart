@@ -120,7 +120,8 @@ Future<bool> _pumpControls(
 }
 
 void main() {
-  testWidgets('export FAB opens export directly', (tester) async {
+  testWidgets('combined share and export FAB opens one action menu',
+      (tester) async {
     var exported = false;
     await _pumpControls(
       tester,
@@ -131,17 +132,43 @@ void main() {
 
     final fab = find.byKey(const ValueKey('viewerExportButton'));
     expect(fab, findsOneWidget);
-    expect(find.byKey(const ValueKey('viewerWallpaperButton')), findsNothing);
+    expect(find.byKey(const ValueKey('viewerShareImageButton')), findsNothing);
 
     await tester.ensureVisible(fab);
-    await tester.pumpAndSettle();
     await tester.tap(fab);
     await tester.pumpAndSettle();
-    expect(exported, isTrue);
-    expect(find.byKey(const ValueKey('viewerExportMenuItem')), findsNothing);
+
+    expect(exported, isFalse);
+    expect(find.text('Share & export'), findsOneWidget);
+    expect(find.text('Export'), findsOneWidget);
+    expect(find.text('Copy view link'), findsOneWidget);
+    expect(find.text('Share image'), findsOneWidget);
   });
 
-  testWidgets('all viewer actions render as direct FABs', (tester) async {
+  testWidgets('combined action sheet stays usable at 3x phone text scale',
+      (tester) async {
+    await tester.binding.setSurfaceSize(const Size(320, 568));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      textScale: 3,
+      onOpenWallpaper: () {},
+    );
+
+    await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Share & export'), findsOneWidget);
+    expect(find.text('Export'), findsOneWidget);
+    expect(find.text('Copy view link'), findsOneWidget);
+    expect(find.text('Share image'), findsOneWidget);
+    expect(find.byType(SingleChildScrollView), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('viewer quick actions render without a duplicate share FAB',
+      (tester) async {
     await _pumpControls(tester, isExporting: false, onOpenWallpaper: () {});
 
     for (final key in const [
@@ -154,7 +181,6 @@ void main() {
       'viewerKaleidoscopeFab',
       'viewerTextOverlayFab',
       'viewerFourierFab',
-      'viewerShareImageButton',
       'viewerExportButton',
     ]) {
       expect(find.byKey(ValueKey(key)), findsOneWidget, reason: key);
@@ -197,7 +223,6 @@ void main() {
       'viewerKaleidoscopeFab',
       'viewerTextOverlayFab',
       'viewerFourierFab',
-      'viewerShareImageButton',
       'viewerExportButton',
       'viewerFullscreenButton',
       'viewerReportFractalFab',
@@ -245,7 +270,6 @@ void main() {
     var looper = 0;
     var music = 0;
     var kaleidoscope = 0;
-    var shareImage = 0;
     await _pumpControls(
       tester,
       isExporting: false,
@@ -253,20 +277,18 @@ void main() {
       onOpenLooper: () => looper++,
       onToggleFractalMusic: () => music++,
       onToggleKaleidoscope: () => kaleidoscope++,
-      onShareImage: () => shareImage++,
       onOpenWallpaper: () {},
     );
 
     for (final entry in const [
-      (key: 'viewerRandomFractalFab', expected: [1, 0, 0, 0, 0]),
-      (key: 'viewerLooperFab', expected: [1, 1, 0, 0, 0]),
-      (key: 'viewerFractalMusicFab', expected: [1, 1, 1, 0, 0]),
-      (key: 'viewerKaleidoscopeFab', expected: [1, 1, 1, 1, 0]),
-      (key: 'viewerShareImageButton', expected: [1, 1, 1, 1, 1]),
+      (key: 'viewerRandomFractalFab', expected: [1, 0, 0, 0]),
+      (key: 'viewerLooperFab', expected: [1, 1, 0, 0]),
+      (key: 'viewerFractalMusicFab', expected: [1, 1, 1, 0]),
+      (key: 'viewerKaleidoscopeFab', expected: [1, 1, 1, 1]),
     ]) {
       await tester.tap(find.byKey(ValueKey(entry.key)));
       await tester.pump();
-      expect([random, looper, music, kaleidoscope, shareImage], entry.expected,
+      expect([random, looper, music, kaleidoscope], entry.expected,
           reason: entry.key);
     }
   });
@@ -368,7 +390,6 @@ void main() {
       ValueKey('viewerKaleidoscopeFab'),
       ValueKey('viewerTextOverlayFab'),
       ValueKey('viewerFourierFab'),
-      ValueKey('viewerShareImageButton'),
       ValueKey('viewerExportButton'),
       ValueKey('viewerFullscreenButton'),
     ];
@@ -408,7 +429,6 @@ void main() {
       'viewerKaleidoscopeFab',
       'viewerTextOverlayFab',
       'viewerFourierFab',
-      'viewerShareImageButton',
       'viewerExportButton',
       'viewerFullscreenButton',
     ]) {
@@ -501,8 +521,7 @@ void main() {
       'Kaleidoscope off',
       'Text overlay off. Tap to add text.',
       'Fourier view off',
-      'Share image',
-      'Export / Wallpaper',
+      'Share & export',
       'Fullscreen view',
     ]) {
       expect(find.bySemanticsLabel(label), findsOneWidget, reason: label);
@@ -527,8 +546,7 @@ void main() {
       'Bucle de cámara',
       'Música fractal desactivada',
       'Kaleidoscopio desactivado',
-      'Compartir imagen',
-      'Exportar / Fondo de pantalla',
+      'Compartir y exportar',
     ]) {
       expect(find.bySemanticsLabel(label), findsOneWidget, reason: label);
     }
@@ -690,7 +708,7 @@ void main() {
     );
     await tester.pump();
     expect(tapped, isFalse);
-    expect(find.text('Export / Wallpaper'), findsNothing);
+    expect(find.text('Share & export'), findsNothing);
   });
 
   testWidgets('FABs dim while exporting so the inert state is visible',
@@ -758,8 +776,8 @@ void main() {
       0,
       reason: 'the GestureDetector carrying onTap became its own bare stop',
     );
-    expect(labels, hasLength(11), reason: 'one stop per visible FAB');
-    expect(labels.toSet(), hasLength(11), reason: 'labels must be distinct');
+    expect(labels, hasLength(10), reason: 'one stop per visible FAB');
+    expect(labels.toSet(), hasLength(10), reason: 'labels must be distinct');
 
     handle.dispose();
   });

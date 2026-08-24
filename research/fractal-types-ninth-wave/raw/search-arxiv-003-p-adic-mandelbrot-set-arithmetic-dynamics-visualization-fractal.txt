@@ -1,0 +1,20 @@
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1063/1.2193118	On Phase Transitions for $P$-Adic Potts Model with Competing Interactions on a Cayley Tree
+	The Geometry of p-Adic Fractal Strings: A Comparative Survey
+	p-Adic TGD: Mathematical Ideas
+10.4064/ba240825-18-10	p-adic Equiangular Lines and p-adic van Lint-Seidel Relative Bound
+	p-Adic description of Higgs mechanism I: p-Adic square root and p-adic light cone
+	($p$-adic) $L$-functions and ($p$-adic) (multiple) zeta values
+	Fundamentals of p-adic multiple L-functions and evaluation of their special values
+10.2140/agt.2025.25.2807	Surgery sequences and self-similarity of the Mandelbrot set
+	An introduction to p-adic period rings
+10.4064/aa158-3-5	Bounds on the radius of the p-adic Mandelbrot set
+10.1007/s00209-013-1225-y	On p-adic lattices and Grassmannians
+10.1063/1.2193108	p-Adic and Adelic Cosmology: p-Adic Origin of Dark Energy and Dark Matter
+10.3390/fractalfract6100534	On Benford's Law and the Coefficients of the Riemann Mapping Function for the Exterior of the Mandelbrot Set
+	p-Adic and Adelic Quantum Mechanics
+	On the p-adic Beilinson conjecture for number fields
+	Homotopies and Maps between Eigenvalues of some Generalized Lucas Sequences and the Mandelbrot Set
+	On integrality of $p$-adic iterated integrals
+	On unitarity of some representatations of classical p-adic groups I
+10.4171/jfg/2	p-adic path set fractals and arithmetic

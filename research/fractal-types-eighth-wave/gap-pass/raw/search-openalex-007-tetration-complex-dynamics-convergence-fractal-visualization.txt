@@ -1,0 +1,3 @@
+10.1002/mma.10634	Unified Predefined‐Time Stability Theorem and Sliding Mode Control for Fractional‐Order Nonlinear Systems
+10.48550/arxiv.2208.05328	Asymptotic Solutions of the Tetration Equation
+10.48550/arxiv.1806.00331	On ordinal dynamics and the multiplicity of transfinite cardinality

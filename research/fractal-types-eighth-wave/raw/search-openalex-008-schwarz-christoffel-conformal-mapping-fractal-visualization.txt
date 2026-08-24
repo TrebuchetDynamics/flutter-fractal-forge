@@ -1,0 +1,14 @@
+10.1145/229473.229475	Algorithm 756: a MATLAB toolbox for Schwarz-Christoffel mapping
+10.1007/s00454-010-9269-9	Conformal Mapping in Linear Time
+10.1073/pnas.1809731116	Linear variational principle for Riemann mappings and discrete conformality
+10.1103/physreva.41.971	Scaling of negative moments of the growth probability of diffusion-limited aggregates
+10.1088/1742-5468/2010/08/p08004	Numerical study of Schramm–Loewner evolution in the random 3-state Potts model
+10.1101/780882	Induction of hierarchy and time through one-dimensional probability space with certain topologies
+10.1109/tmag.2022.3228714	2022 Index IEEE Transactions on Magnetics Vol. 58
+10.1101/2022.11.28.518154	Neuregulin-1 regulates cardiomyocyte dynamics, cell cycle progression, and maturation during ventricular chamber morphogenesis
+	Development of hardware and algorithms for a multi-functional capacitive proximity sensing system
+10.13140/rg.2.2.35055.48808	Virtual Network Slice Planning
+10.22215/etd/2014-10422	Plasmon Excitation in Waveguide and in Metal Particles Embedded in Glass
+10.25781/kaust-38j04	Discrete Curvature Theories and Applications
+10.3929/ethz-b-000460877	On the Geometry of Data Representations
+10.6092/unibo/amsdottorato/7100	Interfacial interactions, charge transport and growth phenomena in Organic Field Effect Transistors

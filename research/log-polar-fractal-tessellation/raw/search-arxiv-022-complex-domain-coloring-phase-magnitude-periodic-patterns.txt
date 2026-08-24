@@ -1,0 +1,20 @@
+	Design Patterns for Complex Event Processing
+	Unavoidable patterns in $2$-colorings of the complete bipartite graph
+10.1080/02781070310001634610	Ullemar's formula for the Jacobian of the complex moment mapping
+	Domain Structures and Zig-Zag Patterns Modeled by a Fourth-Order Ginzburg-Landau Equation
+10.1103/physrevb.93.174120	Nanoscale periodic domain patterns in tetragonal ferroelectrics: A phase-field study
+10.1080/17476933.2022.2076842	Holomorphic maps from complex discs intersecting families of hypersurfaces
+	Cohomological aspects on complex and symplectic manifolds
+	A note on the network coloring game: A randomized distributed $(Δ+1)$-coloring algorithm
+10.1080/01411594.2018.1506878	Driven spin wave modes in XY ferromagnet: Nonequilibrium phase transition
+	Room temperature reversible colossal volto-magnetic effect in all-oxide metallicmagnet/topotactic-phase-transition material heterostructures
+10.46298/dmtcs.1344	Right-jumps and pattern avoiding permutations
+10.1016/j.patcog.2025.112108	Recognition of near-duplicate periodic patterns by continuous metrics with approximation guarantees
+10.1080/17476933.2022.2084538	Submanifolds of some Hartogs domain and the complex Euclidean space
+10.1080/01411594.2023.2246623	Monte Carlo study of the phase transitions in the classical XY ferromagnets with random anisotropy
+	Symmetric periodic orbits and uniruled real Liouville domains
+10.1007/978-3-032-16649-4_25	Is star complexity a proxy for information based complexity of graphs?
+	Bridging Phases at the Morphotropic Boundaries of Lead-Oxide Solid Solutions
+10.46298/dmtcs.12752	Pattern Avoidance for Fibonacci Sequences using $k$-Regular Words
+	A Generalization Method of Partitioned Activation Function for Complex Number
+	Finding Sequential Patterns from Large Sequence Data

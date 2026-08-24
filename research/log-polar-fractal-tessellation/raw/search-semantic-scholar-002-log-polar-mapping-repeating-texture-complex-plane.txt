@@ -1,0 +1,18 @@
+10.1016/j.neucom.2010.02.027	Thermal condition monitoring system using log-polar mapping, quaternion correlation and max-product fuzzy neural network classification
+	ESTIMATION OF DISTANCE TO TEXTURE SURFACE USING COMPLEX LOG MAPPING
+	Motion Estimation-based Self-Calibration of a Log-polar Pan-Tilt Camera
+10.1109/icpr.1988.28331	3D cuboid scene understanding by a mixed cognitive graph and log-complex mapping paradigm
+10.1088/2040-8986/ae7581	Shift-invariant simultaneous depth and rotation estimation through an optical correlator
+10.3390/electronics14224494	Robust Watermarking Algorithm Based on QGT and Neighborhood Coefficient Statistical Features
+	Saccadic Search with Gabor features applied to Eye Detection
+10.1002/adfm.202510314	Vortex‐Antivortex Network Formation in BiFeO3/SrTiO3/BiFeO3 Multilayers
+10.1007/978-4-431-53868-4_40	Quaternion Based Thermal Condition Monitoring System
+	Chapter 17 : Quaternion Based Machine Condition Monitoring System
+10.2113/gsecongeo.73.7.1326	Skarn formation and mineralization in the contact aureole at Carr Fork, Bingham, Utah
+10.1017/s1431927610059155	Spatio-Time-Resolved Cathodoluminescence Spectroscopy Imaging: Microscopic Recombination Kinetics in Semi-Polar InGaN Quantum Wells
+	ROBUST FFT BASED SCALE INVARIANT IMAGE REGISTRATION USING IMAGE GRADIENTS
+10.1007/978-3-030-26972-2_6	Foveated Vision for Biologically Inspired Continuous Face Authentication
+	Computer Vision, Accv'98: Third Asian Conference on Computer Vision, Hong Kong, China, January 8-10, 1998 : Proceedings
+10.5772/15330	Hybrid Optical Neural Network-Type Filters for Multiple Objects Recognition within Cluttered Scenes
+10.1007/978-1-4471-0297-7	Computer Graphics through Key Mathematics
+	Image analysis : 15th Scandinavian Conference, SCIA 2007, Aalborg, Denmark, June 10-14, 2007 : proceedings

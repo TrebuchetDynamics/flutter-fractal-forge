@@ -1,0 +1,20 @@
+10.1142/s0218348x95000618	FRACTAL GEOMETRY OF RESTRICTED SETS OF CIRCLE INVERSIONS
+10.1017/cbo9780511543050.007	Conformal Iterated Function Systems
+10.1017/cbo9780511543050.009	Parabolic Iterated Function Systems
+10.1007/978-3-0348-7755-8_8	Remarks on Weak Limit Laws for Fractal Sets
+10.1017/9781108778459.010	Further Examples: Attractors and Limit Sets
+10.1007/978-3-0348-8380-1_11	On Limit Theorems for Brownian Motions on Unbounded Fractal Sets
+10.1002/0470013850.ch9	Iterated Function Systems—Self‐Similar and Self‐Affine Sets
+10.2140/gt.2004.8.1	Modular circle quotients and PL limit sets
+10.1007/978-3-319-71743-2_4	Inversive Geometry
+10.4171/jfg/93	On horospheric limit sets of Kleinian groups
+10.4171/jfg/50	Attractors of iterated function systems with uncountably many maps and infinite sums of Cantor sets
+10.1017/9781108778459.007	Iterated Function Systems
+10.1017/cbo9780511623738.011	Miscellaneous examples of fractal sets
+10.1090/conm/731/14674	Dimensions of limit sets of Kleinian groups
+10.1017/cbo9781139003001.007	Inversive Geometry
+10.1017/cbo9780511807503.007	Inversive Geometry
+10.1017/cbo9780511623738.010	Besicovitch and Kakeya sets
+10.1007/978-94-015-7931-5_9	Rectifiable and fractal sets
+10.1080/00255572.2026.2705454	An inversive geometry solution of the three-circle problem of Steiner
+10.5948/upo9780883859346.009	An Introduction to Inversive Geometry

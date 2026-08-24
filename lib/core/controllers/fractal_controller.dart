@@ -272,7 +272,9 @@ class FractalController extends ChangeNotifier {
   /// Switches to a different fractal module.
   ///
   /// The [module] must be a valid module from the registry.
-  /// Applies the module's default preset after switching.
+  /// Applies the module's default preset after switching. Values in
+  /// [initialParams] replace preset values before listeners are notified, so a
+  /// renderer never observes a partially configured module.
   /// Triggers a smooth morph transition animation.
   ///
   /// No-op if [module] is already the current module, unless [resetView] is true.
@@ -280,6 +282,7 @@ class FractalController extends ChangeNotifier {
     FractalModule module, {
     bool animate = true,
     bool resetView = false,
+    Map<String, Object> initialParams = const {},
   }) {
     if (_module.id == module.id) {
       if (resetView) {
@@ -291,7 +294,7 @@ class FractalController extends ChangeNotifier {
     _paramLerpTimer?.cancel();
     final previousId = _module.id;
     _module = module;
-    _applyPreset(module.defaultPreset);
+    _applyPreset(module.defaultPreset, paramOverrides: initialParams);
     if (resetView) {
       _resetViewState();
     }
@@ -769,12 +772,21 @@ class FractalController extends ChangeNotifier {
     super.dispose();
   }
 
-  void _applyPreset(FractalPreset preset) {
-    _params = _normalizedParamsForPreset(preset);
+  void _applyPreset(
+    FractalPreset preset, {
+    Map<String, Object> paramOverrides = const {},
+  }) {
+    _params = _normalizedParamsForPreset(
+      preset,
+      paramOverrides: paramOverrides,
+    );
     _applyPresetView(preset.view);
   }
 
-  Map<String, Object> _normalizedParamsForPreset(FractalPreset preset) {
+  Map<String, Object> _normalizedParamsForPreset(
+    FractalPreset preset, {
+    Map<String, Object> paramOverrides = const {},
+  }) {
     final defaults = <String, Object>{
       for (final param in _module.parameters) param.id: param.defaultValue,
     };
@@ -782,6 +794,7 @@ class FractalController extends ChangeNotifier {
     final merged = {
       ...defaults,
       ...preset.params,
+      ...paramOverrides,
     };
 
     final clamped = <String, Object>{};

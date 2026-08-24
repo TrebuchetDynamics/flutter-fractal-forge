@@ -1,0 +1,19 @@
+10.1007/3-540-28849-x_16	Extending Escher’s Recognizable-Motif Tilings to Multiple-Solution Tilings and Fractal Tilings
+10.1109/wct.2003.1321518	A new design methodology for modular broadband arrays based on fractal tilings
+10.1201/9780429197123-9	Fractal Tiles and Fractal Tilings
+10.1007/978-3-642-36663-5_5	In the Tilings {p, 3}
+10.18638/scieconf.2017.5.1.425	Some properties of fractal tilings
+10.4310/jdg/1214444322	The hyperbolic metric and the geometry of the universal curve
+10.4171/jfg/170	Metallic mean fractal systems and their tilings
+10.2307/1575861	Automatic Generation of Hyperbolic Tilings
+10.1142/s0218348x09004533	HOW TO MAKE FRACTAL TILINGS AND FRACTAL REPTILES
+10.1016/0012-365x(86)90189-5	Universal tilings and universal (0,1)-matrices
+10.2139/ssrn.4924604	The Boundary of Rauzy Fractal and Discrete Tilings
+10.4171/jfg/37	Fractal dual substitution tilings
+10.1142/9789812832061_0129	Hyperbolic Tilings
+10.1017/9781316285572.014	Real Linear Transformations, the Hénon Map and Hyperbolic Toral Automorphisms
+10.1090/conm/731/14672	Self-similar tilings of fractal blow-ups
+10.36890/iejg.829766	Canal Surface Whose Center Curve is a Hyperbolic Curve with Hyperbolic Frame
+10.3842/sigma.2017.089	A Universal Genus-Two Curve from Siegel Modular Forms
+10.2307/3618577	78.13 Fractal tilings
+10.4171/jfg/192	Tilings from tops of overlapping iterated function systems

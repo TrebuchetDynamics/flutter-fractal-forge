@@ -1,0 +1,184 @@
+{
+  "nodes": [
+    {
+      "id": "0ea441ffe518bb87800867feecd070dc5bd336ae"
+    },
+    {
+      "id": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "id": "10138e35dab7ef1e2e56fe99e90baeb0da1572bf"
+    },
+    {
+      "id": "20bca8ec4d0752294996ae60d36c12ce951d06f3"
+    },
+    {
+      "id": "21414e4873fd7b44286057771ae3fdd06f5034c4"
+    },
+    {
+      "id": "22194e32659dd035296765cd48487cd85cddfa83"
+    },
+    {
+      "id": "2f333bcc7c0238441e669322a3047becead2d52c"
+    },
+    {
+      "id": "3a0722b625ba4b2136cfb1dc959116fbbb119cea"
+    },
+    {
+      "id": "45a845a484e51629e2951ff0883fc5fe0a4b7411"
+    },
+    {
+      "id": "4b4df871147bf0962258d9f103740801f5d9c8f1"
+    },
+    {
+      "id": "50e9706abd162744409c1a89e9125000cb27536c"
+    },
+    {
+      "id": "59306ad097312155639043d961430c8aa1187de0"
+    },
+    {
+      "id": "63a76329c654ddbbac5d7f85bd50ce66e882ab96"
+    },
+    {
+      "id": "8928d826f070606cfa6cff5e64af434a53a953f5"
+    },
+    {
+      "id": "a036232793aa64a82a468f4a58f2008bfa7dc284"
+    },
+    {
+      "id": "a3cbc0253505af03d7c3e21570c2cd63e2453bc1"
+    },
+    {
+      "id": "a74dea80a7876d4f987346cc11b2e7f2e4f20c93"
+    },
+    {
+      "id": "ab4edd6218cdf3fe4029a68788ecf61fe535d1f7"
+    },
+    {
+      "id": "b4a717c2ddbd08786f0a23c016c7dc9675f7a27b"
+    },
+    {
+      "id": "c0f0ea1e8b2f3ee8d86679a6ed184ba88b4c7a69"
+    },
+    {
+      "id": "c8edb31a98a54fcb19599fa553b5e530f1dc208c"
+    },
+    {
+      "id": "d25be8b6d2f0e815ec9f355d057d0d38f88c8b4e"
+    },
+    {
+      "id": "e69e64ebd1cefc21b352c4d06102ac96a938b1ab"
+    },
+    {
+      "id": "e767b09ac681d831a7f52cd0361a8da6c163e566"
+    },
+    {
+      "id": "f6ad342928d1f08c878129b818eea6b62f9aca9b"
+    },
+    {
+      "id": "fd1add9e24e001e2319519f7f36672e6b6b3c66c"
+    }
+  ],
+  "edges": [
+    {
+      "source": "0ea441ffe518bb87800867feecd070dc5bd336ae",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "10138e35dab7ef1e2e56fe99e90baeb0da1572bf",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "20bca8ec4d0752294996ae60d36c12ce951d06f3",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "21414e4873fd7b44286057771ae3fdd06f5034c4",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "22194e32659dd035296765cd48487cd85cddfa83",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "2f333bcc7c0238441e669322a3047becead2d52c",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "3a0722b625ba4b2136cfb1dc959116fbbb119cea",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "45a845a484e51629e2951ff0883fc5fe0a4b7411",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "4b4df871147bf0962258d9f103740801f5d9c8f1",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "50e9706abd162744409c1a89e9125000cb27536c",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "59306ad097312155639043d961430c8aa1187de0",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "63a76329c654ddbbac5d7f85bd50ce66e882ab96",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "8928d826f070606cfa6cff5e64af434a53a953f5",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "a036232793aa64a82a468f4a58f2008bfa7dc284",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "a3cbc0253505af03d7c3e21570c2cd63e2453bc1",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "a74dea80a7876d4f987346cc11b2e7f2e4f20c93",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "ab4edd6218cdf3fe4029a68788ecf61fe535d1f7",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "b4a717c2ddbd08786f0a23c016c7dc9675f7a27b",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "c0f0ea1e8b2f3ee8d86679a6ed184ba88b4c7a69",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "c8edb31a98a54fcb19599fa553b5e530f1dc208c",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "d25be8b6d2f0e815ec9f355d057d0d38f88c8b4e",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "e69e64ebd1cefc21b352c4d06102ac96a938b1ab",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "e767b09ac681d831a7f52cd0361a8da6c163e566",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "f6ad342928d1f08c878129b818eea6b62f9aca9b",
+      "target": "10.1103/physrevlett.87.254101"
+    },
+    {
+      "source": "fd1add9e24e001e2319519f7f36672e6b6b3c66c",
+      "target": "10.1103/physrevlett.87.254101"
+    }
+  ]
+}

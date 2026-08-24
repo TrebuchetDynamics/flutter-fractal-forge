@@ -1,0 +1,20 @@
+10.1103/physrevb.111.064413	Mapping Rashba and Dresselhaus spin-orbit interactions to inversion asymmetry in perovskite oxide heterostructures
+	Utilizing Barnsley Fern as Orbit Trap to Construct Virtual Three-Dimension Generalized Mandelbrot-Julia Sets of Newton Transform
+	ON THE COEFFICIENTS OF THE RIEMANN MAPPING FUNCTION FOR THE EXTERIOR OF THE MANDELBROT SET (Integrated Research on Complex Dynamics)
+10.3390/fractalfract9010040	An Effective Iterative Process Utilizing Transcendental Sine Functions for the Generation of Julia and Mandelbrot Sets
+10.1145/1900354.1900409	Complex mapping with the interpolated Julia set and Mandelbrot set
+10.1088/1674-1056/abbbe8	Ground-state phases and spin textures of spin–orbit-coupled dipolar Bose–Einstein condensates in a rotating toroidal trap
+	Homeomorphisms on edges of the Mandelbrot set
+10.1002/rcm.10047	Sonified Signals From a Compact FT-ICR Instrument: A Feasibility Study. I-Data Mapping to an Equal-Tempered Chromatic Scale.
+10.3390/rs17233786	Geological Map of the Proclus Crater: A Study Case to Integrate Composition and Morpho-Stratigraphic Mapping on the Moon
+10.1088/0953-4075/46/13/134003	Three-dimensional spin–orbit coupling in a trap
+10.3390/axioms14060404	Generalized Logistic Maps in the Complex Plane: Structure, Symmetry, and Escape-Time Dynamics
+10.29020/nybg.ejpam.v18i4.6896	Mathematical Visualization of Fractal-Based Batik Designs
+	Quaternion Mandelbrot sets on mapping z←z~2+c with multiple critical points
+10.1142/s0217984907013560	RESEARCH ON BROWNIAN MOVEMENT BASED ON GENERALIZED MANDELBROT–JULIA SETS FROM A CLASS COMPLEX MAPPING SYSTEM
+10.48550/arxiv.2606.29821	Learning Cross-view Correspondences for Geo-localization on Planetary Surfaces
+10.5194/isprs-archives-xlviii-1-w2-2023-1575-2023	FLOOD MAPPING IN MOUNTAINOUS AREAS USING SENTINEL-1 & 2 DATA AND GLCM FEATURES
+10.1029/2020ea001291	Accessibility Data Set for Large Permanent Cold Traps at the Lunar Poles
+10.1186/s12967-026-07892-x	A pathology-to-single-cell framework links SPP1+ M2 macrophages with NETs-prone high-risk niches in HCC
+10.1515/geo-2025-0816	Mantle dynamics and petrogenesis of Gomer basalts in the Northwestern Ethiopia: A geochemical perspective
+10.3390/rs12030466	An Improved Mapping with Super-Resolved Multispectral Images for Geostationary Satellites

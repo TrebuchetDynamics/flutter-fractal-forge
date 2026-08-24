@@ -1,0 +1,20 @@
+10.1007/jhep10(2014)027	Mass-deformed brane tilings
+10.1101/gad.1781909	Dynamic and complex transcription factor binding during an inducible response in yeast
+10.1098/rspa.2023.0663	Super band gaps and periodic approximants of generalised Fibonacci tilings
+10.1101/120378	Visualizing Structure and Transitions for Biological Data Exploration
+10.1111/j.1467-8659.2008.01156.x	Detail‐In‐Context Visualization for Satellite Imagery
+10.1038/s41586-021-04268-7	Toroidal topology of population activity in grid cells
+10.3733/hilg.v42n07p215	Spatial variability of field-measured soil-water properties
+10.48550/arxiv.1009.3799	Tilings by translation
+10.1117/12.909111	Curvelet transform with adaptive tiling
+10.7554/elife.23496	Angular velocity integration in a fly heading circuit
+10.1145/311535.311544	LCIS
+10.1016/j.compbiomed.2020.104129	The impact of pre- and post-image processing techniques on deep learning frameworks: A comprehensive review for digital pathology image analysis
+10.1007/jhep05(2018)183	The soft mode in the Sachdev-Ye-Kitaev model and its gravity dual
+10.1371/journal.pcbi.1003711	Enhanced Regulatory Sequence Prediction Using Gapped k-mer Features
+10.15837/ijccc.2012.4.1362	Nondeterministic Algorithm for Breaking Diffie-Hellman Key Exchange using Self-Assembly of DNA Tiles
+10.1016/j.acha.2010.02.001	Angular synchronization by eigenvectors and semidefinite programming
+10.1088/0031-9155/42/1/001	X-ray detectors for digital radiography
+10.48550/arxiv.1206.5533	Practical recommendations for gradient-based training of deep architectures
+10.1088/1367-2630/10/12/125005	Visualizing a silicon quantum computer
+10.1371/journal.pgen.1004001	Base Pairing Interaction between 5′- and 3′-UTRs Controls icaR mRNA Translation in Staphylococcus aureus

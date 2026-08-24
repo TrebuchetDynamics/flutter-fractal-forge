@@ -1,0 +1,20 @@
+	An Attempt of Adaptive Heightfield Rendering with Complex Interpolants Using Ray Casting
+	FI-KAN: Fractal Interpolation Kolmogorov-Arnold Networks
+	Non-singular affine surfaces with self-maps
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1016/j.chaos.2014.06.001	Construction of Fractal Surfaces by Recurrent Fractal Interpolation Curves
+	A simple method to estimate fractal dimension of mountain surfaces
+10.1016/j.susc.2004.06.201	Ge growth on ion-irradiated Si self-affine fractal surfaces
+	Fractal Dimension of Self-Affine Signals: Four Methods of Estimation
+	Evolutive Rendering Models
+	Projections of self-affine fractals
+10.1142/s0218127409024098	Stability of Coalescence Hidden variable Fractal Interpolation Surfaces
+	Recurrence to shrinking targets on typical self-affine fractals
+	Bergman interpolation on finite Riemann surfaces. Part II: Poincaré-Hyperbolic Case
+	Covers of fractal interpolation surfaces with finite families of octahedrons
+	Construction and box dimension of recurrent fractal interpolation surfaces
+	Effect of self-affine fractal characteristics of surfaces on wetting
+10.1090/proc/13756	Asymptotic order of the quantization errors for self-affine measures on Bedford-McMullen carpets
+	Graph Directed Coalescence Hidden Variable Fractal Interpolation Functions
+10.1142/s0218348x21500663	The Calculus Of Bivariate Fractal Interpolation Surfaces
+10.1103/physrevb.62.10515	Near-field EM wave scattering from random self-affine fractal metal surfaces: spectral dependence of local field enhancements and their statistics in connection with SERS

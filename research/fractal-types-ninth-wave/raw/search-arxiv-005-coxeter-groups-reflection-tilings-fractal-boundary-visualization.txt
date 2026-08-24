@@ -1,0 +1,20 @@
+	A characterization of finitely generated reflection subgroups of Coxeter groups orthogonal to a reflection
+	On boundaries of parabolic subgroups of Coxeter groups
+	Zero Excess and Minimal Length in Finite Coxeter Groups
+10.1112/blms.12609	Right-angled Coxeter groups with Menger curve boundary
+	Involution Products in Coxeter Groups
+	Topological boundaries of connected graphs and Coxeter groups
+	On Reflection Orders Compatible with a Coxeter Element
+	Homogeneity in Coxeter groups and split crystallographic groups
+10.37236/11787	In which it is proven that, for each parabolic quasi-Coxeter element in a finite real reflection group, the orbits of the Hurwitz action on its reflection factorizations are distinguished by the two obvious invariants
+	Reflection centralizers in Coxeter groups
+10.1103/physrevb.106.144113	Coxeter Pairs, Ammann Patterns and Penrose-like Tilings
+	Affine reflection subgroups of Coxeter groups
+	On boundaries of Coxeter groups and topological fractal structures
+10.4171/jfg/37	Fractal dual substitution tilings
+	Defining sequences for fundamental root systems and Coxeter graphs for super Weyl groups
+10.2140/agt.2007.7.919	Matching theorems for systems of a finitely generated Coxeter group
+	A quasi-isometry invariant and thickness bounds for right-angled Coxeter groups
+	Coxeter-Chein Loops
+	On the central limit theorem for the two-sided descent statistics in Coxeter groups
+	Malnormality and join-free subgroups in right-angled Coxeter groups

@@ -1,0 +1,20 @@
+10.1016/j.physrep.2006.11.001	Recurrence plots for the analysis of complex systems
+10.1051/0004-6361/201935325	The Polarimetric and Helioseismic Imager on Solar Orbiter
+10.1038/lsa.2016.251	Orbital angular momentum complex spectrum analyzer for vortex light based on the rotational Doppler effect
+10.1017/fmp.2022.8	Almost all orbits of the Collatz map attain almost bounded values
+10.1007/s11207-014-0516-8	The Helioseismic and Magnetic Imager (HMI) Vector Magnetic Field Pipeline: Overview and Performance
+10.1109/access.2019.2893538	2D Logistic-Modulated-Sine-Coupling-Logistic Chaotic Map for Image Encryption
+10.1007/bf02392761	The iteration of cubic polynomials Part II: patterns and parapatterns
+10.1007/s12350-018-1283-y	Single Photon Emission Computed Tomography (SPECT) Myocardial Perfusion Imaging Guidelines: Instrumentation, Acquisition, Processing, and Interpretation
+10.1017/s0263574714000289	Algorithms for collision-free navigation of mobile robots in complex cluttered environments: a survey
+10.1063/5.0007045	CP2K: An electronic structure and molecular dynamics software package - Quickstep: Efficient and accurate electronic structure calculations
+10.1073/pnas.0805234105	Ventral and dorsal pathways for language
+10.1088/0951-7715/16/3/314	Symbolic dynamics and periodic orbits of the Lorenz attractor*
+10.1007/s10240-003-0007-1	Hyperbolicity of renormalization of critical circle maps
+10.1145/282918.282923	Primitives for the manipulation of general subdivisions and the computation of Voronoi
+10.1086/508556	The WASP Project and the SuperWASP Cameras
+10.1038/s41565-020-0649-x	Time-resolved imaging of three-dimensional nanoscale magnetization dynamics
+10.1090/s0894-0347-04-00463-1	Real bounds, ergodicity and negative Schwarzian for multimodal maps
+10.3390/rs70100530	PSI Deformation Map Retrieval by Means of Temporal Sublook Coherence on Reduced Sets of SAR Images
+10.1086/378122	Stellar Dynamics in the Central Arcsecond of Our Galaxy
+10.1016/j.neuroimage.2010.12.049	Diffeomorphic registration using geodesic shooting and Gauss–Newton optimisation

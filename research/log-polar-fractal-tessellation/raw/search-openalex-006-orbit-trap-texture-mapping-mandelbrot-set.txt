@@ -1,0 +1,19 @@
+10.3389/fmicb.2018.01929	Emergent Properties of Microbial Activity in Heterogeneous Soil Microenvironments: Different Research Approaches Are Slowly Converging, Yet Major Challenges Remain
+10.1007/s11071-017-3813-6	Fractal patterns from the dynamics of combined polynomial root finding methods
+	The use of the texture and motion of clouds from geostationary satellite images in rain rate estimation and prediction
+10.1515/amcs-2017-0058	Procedural generation of aesthetic patterns from dynamics and iteration processes
+10.1016/j.camwa.2012.11.023	Complexities in modeling of heterogeneous catalytic reactions
+10.1002/2017je005287	Investigation of Charon's Craters With Abrupt Terminus Ejecta, Comparisons With Other Icy Bodies, and Formation Implications
+10.3389/fams.2026.1826475	Generation of new batik floral patterns via chaotic modulation and Julia-Mandelbrot fractal transformations
+	Developing a flexible and expressive realtime polyphonic wave terrain synthesis instrument based on a visual and multidimensional methodology
+10.1155/2022/2116403	[Retracted] Pattern Generation and Design of Floral Patterns Based on Newton’s Iterative Algorithm
+10.7202/1005470ar	Diagramming Duration : Bergsonian Multiplicity and Chaos Theory
+10.48550/arxiv.2310.04780	IPMix: Label-Preserving Data Augmentation Method for Training Robust Classifiers
+	Fractal Dimensions in Classical and Quantum Mechanical Open Chaotic Systems
+	Taste, teaching and the Utah teapot : creative, gender, aesthetic and pedagogical issues surrounding the use of electronic media in art and design education : with particular reference to hypertext applications
+10.1109/mcg.2023.3266086	The Big 50: Celebrating 50 ACM SIGGRAPH Conferences
+	Complexity and dissipation, chaos and information in the technological novel
+10.25904/1912/3225	Assessing Structural Complexity of Mangroves and its Implications for Ecosystem Services
+	Science and art in flux| The interaction between chaos theory and Alain Robbe-Grillet's early novels
+	Gas emission centres on Mars surface and putative biological contribution: insights on hydrothermal fluid circulation in the upper crust
+10.1515/9783839447307-016	Combinatorial Explorations

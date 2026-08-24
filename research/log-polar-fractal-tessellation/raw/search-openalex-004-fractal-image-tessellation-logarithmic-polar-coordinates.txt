@@ -1,0 +1,20 @@
+10.1034/j.1600-0587.2002.250507.x	Illustrations and guidelines for selecting statistical methods for quantifying spatial pattern in ecological data
+10.1073/pnas.1612964114	Mermin–Wagner fluctuations in 2D amorphous solids
+10.1007/s00371-021-02232-0	Generation of advanced Escher-like spiral tessellations
+10.1038/srep10226	Characterizing the size and shape of sea ice floes
+10.1088/0034-4885/75/3/036502	Exploiting aperiodic designs in nanophotonic devices
+10.36227/techrxiv.176522719.95864495/v1	Generation of multi-scroll attractors in a new 4D memristor-based hyperchaotic system using fractal transformations: from simulation to microcontroller design
+10.5772/intechopen.1001929	Placental Growth and Development Analyzed through 2D and 3D Fractals
+10.1088/1361-6633/ab85ba	A review on role of tetra-rings in graphene systems and their possible applications
+10.1109/access.2022.3196788	Textural Analysis for Medicinal Plants Identification Using Log Gabor Filters
+10.1007/978-1-4302-5930-5	Computer Vision Metrics: Survey, Taxonomy, and Analysis
+10.1186/s40645-020-00401-8	Visualizing heterogeneities of earthquake hypocenter catalogs: modeling, analysis, and compensation
+	Offline signature verification with user-based and global classifiers of local features
+	Pore-scale petrophysical models for the simulation and combined interpretation of nuclear magnetic resonance and wide -band electromagnetic measurements of saturated rocks
+10.1017/jfm.2019.355	Velocity and spatial distribution of inertial particles in a turbulent channel flow
+10.1007/s00371-025-04257-1	Using transfer learning to determine the type of mathematical fractals image of Islamic geometric patterns
+10.21203/rs.3.rs-6760751/v1	Using Transfer Learning To Determine The Type Of Mathematical Fractals Image Of Islamic Geometric Patterns
+10.1002/rsa.21136	Phase transitions and noise sensitivity on the Poisson space via stopping sets and decision trees
+10.48550/arxiv.2404.16533	AMEP: The Active Matter Evaluation Package for Python
+10.48550/arxiv.2101.07180	Phase transitions and noise sensitivity on the Poisson space via stopping sets and decision trees
+10.1101/315853	Self-similarity and multifractality in human brain activity: a wavelet-based analysis of scale-free brain dynamics ☆

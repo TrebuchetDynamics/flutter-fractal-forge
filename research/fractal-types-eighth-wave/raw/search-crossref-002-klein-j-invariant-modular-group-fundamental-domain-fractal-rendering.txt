@@ -1,0 +1,20 @@
+10.3840/08003679	The Action of the Modular Group on the Fundamental Domain
+10.1016/b978-1-4832-3276-8.50010-x	THE FUNDAMENTAL DOMAIN OF THE MODULAR GROUP
+10.1016/b978-1-4832-3276-8.50012-3	THE VOLUME OF THE FUNDAMENTAL DOMAIN OF THE MODULAR GROUP
+10.1007/bfb0075948	Modular group and fundamental domain
+10.1007/bfb0058637	The fundamental domain of the modular group
+10.1007/bf02788697	On the fundamental domain for the Teichmüller modular group
+10.1007/s11139-007-9094-9	H-convex standard fundamental domain of a subgroup of a modular group
+10.1016/j.camwa.2009.10.023	Conjectures on the fundamental domain of the Hilbert modular group
+10.1090/pspum/008/9997	On the shape of the fundamental domain of the Hilbert modular group
+10.1070/im8783	The discrete spectrum of the Laplace operator on the fundamental domain of the modular group and the Chebyshev psi-function
+10.2140/gtm.1998.1.167	At most 27 length inequalities define Maskit's fundamental domain for the modular group in genus 2
+10.1016/0960-0779(94)90005-1	Fractal features of invariant sets in a three-dimensional map
+10.1017/s0027763000021218	A zeta function connected with the eigenvalues of the Laplace-Beltrami operator on the fundamental domain of the modular group
+10.70675/5b473152z6494z42cdza773z8505ec38d8bf	Reflective modular forms and Weyl invariant E8 Jacobi modular forms
+10.21136/cmj.1985.102044	Profinite completions of the fundamental group of the Klein bottle
+10.1090/conm/368/06780	A semi-explicit fundamental domain for a Picard modular group in complex hyperbolic space
+10.1109/vis.2005.88	Scale-Invariant Volume Rendering
+10.1016/b978-0-12-044850-0.50023-x	On Fundamental Domains and the Teichmüller Modular Group
+10.1109/visual.2005.1532808	Scale-Invariant Volume Rendering
+10.1007/978-3-642-17404-9_7	The Cyclic Group C p

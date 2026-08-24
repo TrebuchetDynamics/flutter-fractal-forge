@@ -1,0 +1,20 @@
+10.3390/rs70708489	On the Importance of Training Data Sample Selection in Random Forest Image Classification: A Case Study in Peatland Ecosystem Mapping
+10.1145/2893356	A Survey of Techniques for Approximate Computing
+10.1145/965145.801263	Generation and display of geometric fractals in 3-D
+10.1109/access.2021.3086020	U-Net and Its Variants for Medical Image Segmentation: A Review of Theory and Applications
+10.1038/s41586-022-05433-2	Additive manufacturing of micro-architected metals via hydrogel infusion
+10.1515/amcs-2017-0058	Procedural generation of aesthetic patterns from dynamics and iteration processes
+10.1080/17538947.2024.2402418	Mapping the fine spatial distribution of global offshore surface seawater mariculture using remote sensing big data
+10.13140/rg.2.1.3268.5049	REAL-TIME IMAGE-BASED RGB-D CAMERA MOTION TRACKING AND ENVIRONMENT MAPPING
+10.1371/journal.pone.0101697	A Novel Fractal Coding Method Based on M-J Sets
+10.1155/2020/6623049	Improved Newton Iterative Algorithm for Fractal Art Graphic Design
+10.1145/3173574.3173612	Design Patterns for Data Comics
+10.1016/j.ajpath.2019.05.007	Pathology Image Analysis Using Segmentation Deep Learning Algorithms
+10.1371/journal.pone.0181665	Novel fine-scale aerial mapping approach quantifies grassland weed cover dynamics and response to management
+10.3998/mpub.8295270	Sounds of the Underground: A Cultural, Political and Aesthetic Mapping of Underground and Fringe Music
+10.1007/s10606-017-9268-y	Tying Knots: Participatory Infrastructuring at Work
+10.3389/fsufs.2022.759076	Mapping Inequity: The Campus Foodscape as Pedagogy and Practice
+10.3390/rs12111838	Wheat Lodging Detection from UAS Imagery Using Machine Learning Algorithms
+	On Simultaneous Localization and Mapping inside the Human Body (Body-SLAM)
+10.1016/j.rse.2024.114417	Unlocking the full potential of Sentinel-1 for flood detection in arid regions
+10.1101/2020.08.02.233197	Dense, high-resolution mapping of cells and tissues from pathology images for the interpretable prediction of molecular phenotypes in cancer

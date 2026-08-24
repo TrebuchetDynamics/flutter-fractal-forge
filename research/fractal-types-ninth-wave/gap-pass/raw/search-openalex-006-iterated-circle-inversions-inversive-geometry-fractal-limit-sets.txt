@@ -1,0 +1,20 @@
+10.1007/978-3-0348-8014-5_2	From Fractal Groups to Fractal Sets
+10.1088/0266-5611/14/4/001	Synthetic aperture radar interferometry
+10.1088/0951-7715/3/2/005	Recycling of strange sets: I. Cycle expansions
+10.1088/0953-8984/17/32/r02	Computer simulations of supercooled polymer melts in the bulk and in confined geometry
+10.1016/0148-9062(96)84006-x	Fractals in petroleum geology and Earth processes
+10.1088/0305-4470/24/9/006	Precise determination of the fractal dimensions of Apollonian packing and space-filling bearings
+	Wavelets and Subband Coding
+10.1111/j.1467-9868.2011.00777.x	An Explicit Link between Gaussian Fields and Gaussian Markov Random Fields: The Stochastic Partial Differential Equation Approach
+10.1029/94wr00585	Hydrologic characterization of heterogeneous geologic media with an inverse method based on iterated function systems
+10.36890/iejg.1244520	Inversions and Fractal Patterns in Alpha Plane
+10.1029/2021wr030608	Thermal Experiments for Fractured Rock Characterization: Theoretical Analysis and Inverse Modeling
+10.1002/2015wr017412	Sequential approach to joint flow‐seismic inversion for improved characterization of fractured media
+10.48550/arxiv.math/0202001	From fractal groups to fractal sets
+10.1029/2019gl086258	The Southern Zagros Collisional Orogen: New Insights From Transdimensional Trees Inversion of Seismic Noise
+10.1007/s00010-020-00720-7	Starshaped sets
+10.21468/scipostphyscodeb.8	A comprehensive guide to the physics and usage of PYTHIA 8.3
+10.1038/ncomms9339	Strong interface-induced spin–orbit interaction in graphene on WS2
+10.1184/r1/6721193	Quadric-Based Polygonal Surface Simplification
+10.1039/c9na00656g	Deep learning: a new tool for photonic nanostructure design
+10.1007/s11242-012-0022-0	On the Permeability of Fractal Tube Bundles

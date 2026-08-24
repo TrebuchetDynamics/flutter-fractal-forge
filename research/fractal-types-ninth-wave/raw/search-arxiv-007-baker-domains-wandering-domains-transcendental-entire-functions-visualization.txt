@@ -1,0 +1,20 @@
+	Classifying multiply connected wandering domains
+	A Survey of Baker Wandering Domains
+	A new family of entire functions with no wandering domains
+	Dynamics on the Wandering Components of the Fatou Set of Three Transcendental Entire Functions and Their Composites
+	Commuting functions in class K and families of wandering Baker domains
+10.1112/plms.12288	Wandering domains for entire functions of finite order in the Eremenko-Lyubich class
+	Permutable entire functions and multiply connected wandering domains
+	Sum of the exponential and a polynomial: Singular values and Baker wandering domains
+	Wandering domains for composition of entire functions
+	Thermodynamic formalism for entire transcendental maps with hyperbolic Baker Domains
+	Connectivity of Fatou Components of Meromorphic Functions
+	The limit set of iterations of entire functions on wandering domains
+	Boundaries of Baker domains of entire functions. A finer approach
+10.1007/s11854-012-0023-5	Exotic Baker and wandering domains for Ahlfors islands maps
+	Simply Connected Wandering Domains of Small Order Entire Functions
+10.1007/s00208-013-0936-z	Absence of wandering domains for some real entire functions with bounded singular sets
+	Unbounded fast escaping wandering domains
+	Oscillating Wandering Domains for p-Adic Transcendental Entire Maps
+10.1112/plms/pdt010	Multiply connected wandering domains of entire functions
+	The dynamics of semigroups of transcendental entire functions I

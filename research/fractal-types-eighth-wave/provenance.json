@@ -1,0 +1,56 @@
+{
+  "question": "Which new fractal types can be added to Flutter Fractal Forge beyond the prior third-to-seventh research waves, grounded in retrieved scholarly evidence, and which of the unimplemented sixth/seventh-wave candidates remain genuinely absent from the app?",
+  "rforge_version": "v0.1.20 (35aa065, 2026-08-17T17:46:45Z)",
+  "timestamp": "2026-08-19",
+  "depth": "comprehensive",
+  "queries": [
+    "broad pass (research/fractal-types-eighth-wave/queries.txt, 8 queries): modular forms Dedekind eta function fractal visualization rendering; Klein j-invariant modular group fundamental domain fractal rendering; parabolic implosion Leau Fatou petals Julia set visualization complex dynamics; hidden attractors multistability chaotic systems fractal visualization; meromorphic functions essential singularity Julia sets iteration z sin z composition; faster fixed point iterative methods Mann Ishikawa Noor fractal visualization; kaleidoscopic iterated function systems KIFS 3D fractal rendering; Schwarz-Christoffel conformal mapping fractal visualization",
+    "gap pass (research/fractal-types-eighth-wave/queries-gap.txt, 8 queries): Eisenstein series theta functions modular group fractal visualization; parabolic fixed points Leau-Fatou flower basin complex dynamics rendering; hidden chaotic attractors Sprott systems multistability fractal rendering; complex iteration of transcendental functions composition Julia sets rendering; Mann Ishikawa Noor iteration fractals escape time visualization fixed point; quaternion bicomplex mandelbrot set higher dimensional escape time rendering; tetration complex dynamics convergence fractal visualization; hyperbolic tilings universal cover modular curve fractal rendering"
+  ],
+  "sources": ["openalex", "crossref", "arxiv", "semantic-scholar"],
+  "search_stats": {
+    "broad_pass": {"arxiv": 160, "crossref": 160, "openalex": 91, "semantic-scholar": 8, "total_unique_dois": 300},
+    "gap_pass": {"arxiv": 160, "crossref": 155, "openalex": 75, "semantic-scholar": 0, "total_unique_dois": 275}
+  },
+  "citation_expand_attempted": [
+    "10.3390/sym15020478",
+    "10.3390/fractalfract8020116",
+    "10.1155/2022/2592573",
+    "10.1090/s0273-0979-1993-00432-4",
+    "10.4064/aa-54-4-273-300",
+    "10.1007/978-3-319-20337-9_11",
+    "10.1007/s11071-022-08078-y",
+    "10.3390/fractalfract7100768"
+  ],
+  "citation_expand_succeeded": [
+    "10.3390/sym15020478",
+    "10.3390/fractalfract8020116",
+    "10.1155/2022/2592573",
+    "10.1090/s0273-0979-1993-00432-4",
+    "10.4064/aa-54-4-273-300",
+    "10.1007/s11071-022-08078-y",
+    "10.3390/fractalfract7100768"
+  ],
+  "outputs": [
+    "report.md",
+    "provenance.json",
+    "queries.txt",
+    "queries-gap.txt",
+    "coverage-stats.log",
+    "search-stats.txt",
+    "manifest.json",
+    "results.jsonl",
+    "results-deduped.jsonl",
+    "results.md",
+    "failures.jsonl",
+    "raw/",
+    "citations/graph-*.json",
+    "citations/expand-*.log",
+    "citations/*-report.md"
+  ],
+  "errors": [
+    "semantic-scholar returned HTTP 429 rate-limit for 6/8 broad queries and 8/8 gap queries; its coverage is the weakest evidence area",
+    "citation expansion for seed 10.1007/978-3-319-20337-9_11 returned 0 graph edges",
+    "no full text or PDFs fetched; all claims rest on retrieved bibliographic metadata (consistent with prior waves)"
+  ]
+}

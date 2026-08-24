@@ -1,0 +1,57 @@
+{
+  "question": "Which new fractal types can be added to Flutter Fractal Forge beyond the eighth research wave, grounded in retrieved scholarly evidence, with candidates verified as genuine gaps against the current app?",
+  "rforge_version": "v0.1.20 (35aa065, 2026-08-17T17:46:45Z)",
+  "timestamp": "2026-08-19",
+  "depth": "comprehensive",
+  "queries": [
+    "broad pass (research/fractal-types-ninth-wave/queries.txt, 8 queries): Truchet tiles Smith curves recursive tiling fractal visualization; quasifuchsian groups limit sets deformation space fractal rendering; p-adic Mandelbrot set arithmetic dynamics visualization fractal; hidden attractors hyperchaotic systems strange attractors visualization; Coxeter groups reflection tilings fractal boundary visualization; fractal interpolation surfaces self-affine heightfield rendering; Baker domains wandering domains transcendental entire functions visualization; Bessel function zeros fields fractal visualization special functions",
+    "gap pass (research/fractal-types-ninth-wave/queries-gap.txt, 8 queries): strange nonchaotic attractors quasiperiodically forced fractal; diffusion limited aggregation DLA fractal growth clusters visualization; superfractals random iterated function systems chaos game rendering; rep-tiles irreptiles self-similar tiling fractal visualization; Eulerian walkers active rotors growing aggregate structures; iterated circle inversions inversive geometry fractal limit sets; model sets cut and project quasiperiodic tilings fractal; Newton basins Chebyshev polynomials root finding fractal visualization"
+  ],
+  "sources": ["openalex", "crossref", "arxiv", "semantic-scholar"],
+  "search_stats": {
+    "broad_pass": {"arxiv": 160, "crossref": 160, "openalex": 95, "semantic-scholar": 30, "total_unique_dois": 319},
+    "gap_pass": {"arxiv": 160, "crossref": 158, "openalex": 116, "semantic-scholar": 0, "total_unique_dois": 336}
+  },
+  "citation_expand_attempted": [
+    "10.1142/s0218127401002195",
+    "10.1103/physrevlett.87.254101",
+    "10.1038/srep19505",
+    "10.1007/978-3-0348-9096-0_10",
+    "10.1103/physreve.80.051118",
+    "10.1016/b978-044450002-1/50063-1",
+    "10.4064/aa158-3-5",
+    "10.2996/kmj/1123767011"
+  ],
+  "citation_expand_succeeded": [
+    "10.1142/s0218127401002195",
+    "10.1103/physrevlett.87.254101",
+    "10.1038/srep19505",
+    "10.1103/physreve.80.051118",
+    "10.1016/b978-044450002-1/50063-1",
+    "10.4064/aa158-3-5",
+    "10.2996/kmj/1123767011"
+  ],
+  "outputs": [
+    "report.md",
+    "provenance.json",
+    "queries.txt",
+    "queries-gap.txt",
+    "coverage-stats.log",
+    "search-stats.txt",
+    "manifest.json",
+    "results.jsonl",
+    "results-deduped.jsonl",
+    "results.md",
+    "failures.jsonl",
+    "raw/",
+    "gap-pass/",
+    "citations/graph-*.json",
+    "citations/expand-*.log"
+  ],
+  "errors": [
+    "semantic-scholar returned HTTP 429 rate-limit for 6/8 broad queries and 8/8 gap queries",
+    "citation expansion failed with HTTP 404 for seed 10.1007/978-3-0348-9096-0_10 (rep-tiling chapter)",
+    "citation expansion returned 0 edges for 10.1016/b978-044450002-1/50063-1 (nonlinear IFS chapter) and 1 edge for 10.2996/kmj/1123767011",
+    "no full text or PDFs fetched; all claims rest on retrieved bibliographic metadata (consistent with prior waves)"
+  ]
+}

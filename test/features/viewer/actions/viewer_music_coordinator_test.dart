@@ -221,6 +221,7 @@ void main() {
         coord.scheduleRescan(controller);
         await Future<void>.delayed(const Duration(milliseconds: 15));
       }
+      await waitUntil(() => music.playCount >= 1);
 
       expect(music.playCount, greaterThanOrEqualTo(1),
           reason: 'a 30fps looper must refresh music while still moving');

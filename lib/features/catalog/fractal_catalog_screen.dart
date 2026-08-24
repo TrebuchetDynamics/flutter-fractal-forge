@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
+import 'package:flutter/rendering.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +17,8 @@ import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_filter.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_search_debouncer.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_thumbnail_cache.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_thumbnail_render_gate.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_thumbnail_plan.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';

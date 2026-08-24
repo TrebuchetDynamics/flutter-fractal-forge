@@ -1,0 +1,20 @@
+10.1017/cbo9780511735233.017	Dimensions of Julia sets of transcendental meromorphic functions
+10.1017/cbo9780511735233.008	Residual Julia sets of rational and transcendental functions
+10.3390/fractalfract7100768	Mandelbrot and Julia Sets of Transcendental Functions Using Picard–Thakur Iteration
+10.1002/0470013850.ch14	Iteration of Complex Functions—Julia Sets
+10.1201/9780203759011-5	Geometry of Julia Sets
+10.1201/9780203759011-3	The Fatou and Julia sets
+10.1201/9780203759011-6	Hausdorff Dimension of Julia Sets
+10.1080/17476939708814991	Connectedness properties of julia sets of transcendental entire functions
+10.1017/cbo9780511735233.003	Iteration of inner functions and boundaries of components of the Fatou set
+10.3934/dcds.2019217	Transcendental entire functions whose Julia sets contain any infinite collection of quasiconformal copies of quadratic Julia sets
+10.2139/ssrn.6182174	Complex Dynamical Behavior of Mandelbrot and Julia Sets Generated via two Polynomials Khan Iteration
+10.1090/suga/425	On topological properties of Fatou sets and Julia sets of transcendental entire functions
+10.4018/ijncr.2018040104	Control of Dynamic Noise in Transcendental Julia and Mandelbrot Sets by Superior Iteration Method
+10.1007/978-1-4612-4422-6_3	The Fatou and Julia Sets
+10.18311/jims/2021/27840	Escaping Sets of Composition of Transcendental Entire Functions
+10.2307/2008220	Julia Sets and Mandelbrot-Like Sets Associated With Higher Order Schroder Rational Iteration Functions: A Computer Assisted Study
+10.1155/2022/2592573	Julia and Mandelbrot Sets of Transcendental Function via Fibonacci-Mann Iteration
+10.1090/conm/048/838099	A simple proof of a theorem of Fatou on the iteration and fix-points of transcendental entire functions
+10.4236/apm.2022.129040	The Lebesgue Measure of the Julia Sets of Permutable Transcendental Entire Functions
+10.1017/s0143385798097570	On the connectivity of Julia sets of transcendental entire functions

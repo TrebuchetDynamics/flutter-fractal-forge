@@ -55,6 +55,11 @@
     "capability": "static"
   },
   {
+    "id": "arnold_tongues",
+    "shaderAsset": "shaders/lyapunov_and_stability/arnold_tongues_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "arnoux_rauzy_fractal",
     "shaderAsset": "shaders/ifs_and_geometric/arnoux_rauzy_fractal_gpu.frag",
     "capability": "static"
@@ -67,6 +72,11 @@
   {
     "id": "astroid",
     "shaderAsset": "shaders/escape_time_family/polynomial_maps/astroid_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "baker_wandering_domain",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/baker_wandering_domain_gpu.frag",
     "capability": "static"
   },
   {
@@ -107,6 +117,11 @@
   {
     "id": "benesi",
     "shaderAsset": "shaders/escape_time_family/polynomial_maps/benesi_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "bessel_zero_field",
+    "shaderAsset": "shaders/number_theory/bessel_zero_field_gpu.frag",
     "capability": "static"
   },
   {
@@ -252,6 +267,11 @@
   {
     "id": "burning_ship_julia",
     "shaderAsset": "shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "burning_ship_log_polar_tessellation",
+    "shaderAsset": "shaders/escape_time_family/textured/log_polar_tessellation_gpu.frag",
     "capability": "static"
   },
   {
@@ -535,6 +555,11 @@
     "capability": "static"
   },
   {
+    "id": "cubic_connectedness_locus",
+    "shaderAsset": "shaders/escape_time_family/polynomial_maps/cubic_connectedness_locus_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "cyclic_ca",
     "shaderAsset": "shaders/cellular_and_stochastic/cyclic_ca_gpu.frag",
     "capability": "static"
@@ -568,6 +593,16 @@
     "id": "day_night",
     "shaderAsset": "shaders/cellular_and_stochastic/day_night_gpu.frag",
     "capability": "timeDriven"
+  },
+  {
+    "id": "de_rham_curve_family",
+    "shaderAsset": "shaders/ifs_and_geometric/de_rham_curve_family_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "dedekind_eta_field",
+    "shaderAsset": "shaders/number_theory/dedekind_eta_field_gpu.frag",
+    "capability": "static"
   },
   {
     "id": "deltoid",
@@ -662,6 +697,11 @@
   {
     "id": "eisenstein",
     "shaderAsset": "shaders/escape_time_family/polynomial_maps/eisenstein_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "eisenstein_series_field",
+    "shaderAsset": "shaders/number_theory/eisenstein_series_field_gpu.frag",
     "capability": "static"
   },
   {
@@ -2805,6 +2845,11 @@
     "capability": "static"
   },
   {
+    "id": "fixed_point_iteration",
+    "shaderAsset": "shaders/escape_time_family/families/iteration_schemes/fixed_point_iteration_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "flow_lenia",
     "shaderAsset": "shaders/cellular_and_stochastic/flow_lenia_gpu.frag",
     "capability": "static"
@@ -2850,8 +2895,18 @@
     "capability": "static"
   },
   {
+    "id": "fractal_interpolation_relief",
+    "shaderAsset": "shaders/ifs_and_geometric/fractal_interpolation_relief_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "fractal_terrain_noise",
     "shaderAsset": "shaders/cellular_and_stochastic/fractal_terrain_noise_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "fractional_complex_cosine",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/fractional_complex_cosine_gpu.frag",
     "capability": "static"
   },
   {
@@ -2868,6 +2923,11 @@
     "id": "gauss_map",
     "shaderAsset": "shaders/lyapunov_and_stability/gauss_map_gpu.frag",
     "capability": "timeDriven"
+  },
+  {
+    "id": "gaussian_prime_lattice",
+    "shaderAsset": "shaders/number_theory/gaussian_prime_lattice_gpu.frag",
+    "capability": "static"
   },
   {
     "id": "generalized_mcmullen",
@@ -2990,6 +3050,16 @@
     "capability": "static"
   },
   {
+    "id": "henon_heiles_escape_basin",
+    "shaderAsset": "shaders/lyapunov_and_stability/henon_heiles_escape_basin_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "herman_ring_julia",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/herman_ring_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "hermite",
     "shaderAsset": "shaders/escape_time_family/newton_and_orthogonal/orthogonal_polynomial_maps/hermite_gpu.frag",
     "capability": "static"
@@ -2997,6 +3067,11 @@
   {
     "id": "hexaflake",
     "shaderAsset": "shaders/ifs_and_geometric/hexaflake_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "hidden_hyperchaotic_attractor",
+    "shaderAsset": "shaders/strange_attractors/hidden_hyperchaotic_attractor_gpu.frag",
     "capability": "static"
   },
   {
@@ -3085,6 +3160,11 @@
     "capability": "static"
   },
   {
+    "id": "jacobi_theta_field",
+    "shaderAsset": "shaders/number_theory/jacobi_theta_field_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "jarratt",
     "shaderAsset": "shaders/root_finding/jarratt_gpu.frag",
     "capability": "static"
@@ -3122,6 +3202,11 @@
   {
     "id": "julia_dual",
     "shaderAsset": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "julia_log_polar_tessellation",
+    "shaderAsset": "shaders/escape_time_family/textured/log_polar_tessellation_gpu.frag",
     "capability": "static"
   },
   {
@@ -3205,6 +3290,11 @@
     "capability": "timeDriven"
   },
   {
+    "id": "kicked_harper_map",
+    "shaderAsset": "shaders/lyapunov_and_stability/kicked_harper_map_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "kicked_rotator",
     "shaderAsset": "shaders/strange_attractors/kicked_rotator_gpu.frag",
     "capability": "static"
@@ -3237,6 +3327,11 @@
   {
     "id": "klausmeier_vegetation",
     "shaderAsset": "shaders/cellular_and_stochastic/klausmeier_vegetation_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "klein_j_invariant",
+    "shaderAsset": "shaders/number_theory/klein_j_invariant_gpu.frag",
     "capability": "static"
   },
   {
@@ -3575,8 +3670,18 @@
     "capability": "static"
   },
   {
+    "id": "mandelbrot_log_polar_tessellation",
+    "shaderAsset": "shaders/escape_time_family/textured/log_polar_tessellation_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "mandelbrot_orbit_trap",
     "shaderAsset": "shaders/escape_time_family/mandelbrot_variants/exterior_coloring/mandelbrot_orbit_trap_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mandelbrot_percolation_carpet",
+    "shaderAsset": "shaders/cellular_and_stochastic/mandelbrot_percolation_carpet_gpu.frag",
     "capability": "static"
   },
   {
@@ -3650,13 +3755,28 @@
     "capability": "static"
   },
   {
+    "id": "meromorphic_sine_julia",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/meromorphic_sine_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "mimura_murray_predator_prey",
     "shaderAsset": "shaders/cellular_and_stochastic/mimura_murray_predator_prey_gpu.frag",
     "capability": "static"
   },
   {
+    "id": "minkowski_question_mark",
+    "shaderAsset": "shaders/number_theory/minkowski_question_mark_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "mittag_leffler",
     "shaderAsset": "shaders/trigonometric_and_transcendental/special_functions/mittag_leffler_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mobius_transformation_julia",
+    "shaderAsset": "shaders/escape_time_family/julia_variants/mobius_transformation_julia_gpu.frag",
     "capability": "static"
   },
   {
@@ -3825,6 +3945,11 @@
     "capability": "static"
   },
   {
+    "id": "newton_parameter_plane",
+    "shaderAsset": "shaders/root_finding/newton_parameter_plane_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "newton_sin",
     "shaderAsset": "shaders/root_finding/newton_sin_gpu.frag",
     "capability": "static"
@@ -3952,6 +4077,21 @@
   {
     "id": "ostrowski",
     "shaderAsset": "shaders/root_finding/ostrowski_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "p_adic_mandelbrot",
+    "shaderAsset": "shaders/number_theory/p_adic_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "paperfolding_curve_atlas",
+    "shaderAsset": "shaders/ifs_and_geometric/paperfolding_curve_atlas_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "parabolic_petal_julia",
+    "shaderAsset": "shaders/escape_time_family/julia_variants/parabolic_petal_julia_gpu.frag",
     "capability": "static"
   },
   {
@@ -4085,6 +4225,11 @@
     "capability": "static"
   },
   {
+    "id": "polylogarithm_julia",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/polylogarithm_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "popcorn",
     "shaderAsset": "shaders/escape_time_family/transcendental_maps/popcorn_gpu.frag",
     "capability": "static"
@@ -4112,6 +4257,11 @@
   {
     "id": "pythagorean_tree",
     "shaderAsset": "shaders/ifs_and_geometric/pythagorean_tree_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "q_exponential_julia",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/q_exponential_julia_gpu.frag",
     "capability": "static"
   },
   {
@@ -4162,6 +4312,11 @@
   {
     "id": "rayleigh_benard",
     "shaderAsset": "shaders/strange_attractors/rayleigh_benard_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "rep_tile_explorer",
+    "shaderAsset": "shaders/ifs_and_geometric/rep_tile_explorer_gpu.frag",
     "capability": "static"
   },
   {
@@ -4307,6 +4462,11 @@
   {
     "id": "sierpinski_carpet",
     "shaderAsset": "shaders/ifs_and_geometric/sierpinski_carpet_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "sierpinski_curve_julia",
+    "shaderAsset": "shaders/escape_time_family/transcendental_maps/sierpinski_curve_julia_gpu.frag",
     "capability": "static"
   },
   {
@@ -4530,6 +4690,11 @@
     "capability": "static"
   },
   {
+    "id": "substitution_diffraction_field",
+    "shaderAsset": "shaders/number_theory/substitution_diffraction_field_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "super_halley",
     "shaderAsset": "shaders/root_finding/super_halley_gpu.frag",
     "capability": "static"
@@ -4537,6 +4702,11 @@
   {
     "id": "superexponential",
     "shaderAsset": "shaders/trigonometric_and_transcendental/exponential_iteration/superexponential_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "superfractal_morph",
+    "shaderAsset": "shaders/ifs_and_geometric/superfractal_morph_gpu.frag",
     "capability": "static"
   },
   {
@@ -4552,6 +4722,11 @@
   {
     "id": "takagi_blancmange_staircase",
     "shaderAsset": "shaders/number_theory/takagi_blancmange_staircase_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "talbot_fractal_carpet",
+    "shaderAsset": "shaders/number_theory/talbot_fractal_carpet_gpu.frag",
     "capability": "static"
   },
   {
@@ -4650,6 +4825,11 @@
     "capability": "static"
   },
   {
+    "id": "thomae_popcorn_field",
+    "shaderAsset": "shaders/number_theory/thomae_popcorn_field_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "thomas_attractor",
     "shaderAsset": "shaders/strange_attractors/thomas_attractor_gpu.frag",
     "capability": "static"
@@ -4695,6 +4875,11 @@
     "capability": "static"
   },
   {
+    "id": "tricorn_log_polar_tessellation",
+    "shaderAsset": "shaders/escape_time_family/textured/log_polar_tessellation_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "tricorn_power4",
     "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_power4_gpu.frag",
     "capability": "static"
@@ -4727,6 +4912,11 @@
   {
     "id": "tricorn_power8_julia",
     "shaderAsset": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power8_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "truchet_fractal_mosaic",
+    "shaderAsset": "shaders/ifs_and_geometric/truchet_fractal_mosaic_gpu.frag",
     "capability": "static"
   },
   {

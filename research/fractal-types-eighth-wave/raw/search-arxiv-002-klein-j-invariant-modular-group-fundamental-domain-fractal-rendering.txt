@@ -1,0 +1,20 @@
+10.1016/j.top.2007.03.004	Limiting modular symbols and their fractal geometry
+10.1103/physrevc.69.034338	Kerman-Klein-Donau-Frauendorf model for odd-odd nuclei: formal theory
+	Tevatron-for-LHC Report of the QCD Working Group
+10.1515/jgth-2020-0174	On the Modular Isomorphism Problem for groups of class 3 and obelisks
+10.4171/jfg/13	Rauzy fractals with countable fundamental group
+10.1103/physrevd.80.015015	Supersymmetric and Kaluza-Klein Particles Multiple Scattering in the Earth
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1515/jgth-2019-0045	Schur multipliers of special p-groups of rank 2
+	On Automorphisms of Finite $p$-groups
+10.1007/jhep09(2017)043	Modular Inflation Observables and $j$-Inflation Phenomenology
+	Computing the fundamental group of a higher-rank graph
+	The fundamental group of a locally finite graph with ends
+	Andrews-Curtis and Nielsen equivalence relations on some infinite groups
+	Quotients and subgroups of Baumslag-Solitar groups
+	Graphs, free groups and the Hanna Neumann conjecture
+	Groups acting on spaces of non-positive curvature
+10.1080/00927872.2025.2481092	On an extension of Nori and local fundamental group schemes
+10.1103/physrevlett.78.4347	Application of the Kerman-Klein method to the solution of a spherical shell model for a deformed rare-earth nucleus
+	Fundamental groups of symplectic singularities
+10.1515/jgt.2010.040	Solomon's induction in quasi-elementary groups

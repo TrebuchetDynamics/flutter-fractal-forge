@@ -1,0 +1,19 @@
+10.1017/9781009225199.006	Lagrangian and Objective Eulerian Coherent Structures
+10.1017/9781009225199.003	Eulerian and Lagrangian Fundamentals
+10.1103/physreve.58.5449	Dynamics of Eulerian walkers
+10.1016/j.ijsolstr.2025.113364	An Eulerian formulation of a constrained variable thickness growing Cosserat shell
+10.1103/physreve.55.3686	Critical dynamics of self-organizing Eulerian walkers
+10.1117/12.775748	Bistable mechanisms for morphing rotors
+10.2514/6.1992-2451	Vibration reduction in helicopter rotors using an active control surface located on the blade
+10.1103/physrevlett.77.5079	Eulerian Walkers as a Model of Self-Organized Criticality
+10.2514/6.2013-1774	New Hybrid Optimization for Design of Active Twist Rotors
+10.1117/12.239021	&lt;title&gt;Adaptive flight control surfaces, wings, rotors, and active aerodynamics&lt;/title&gt;
+10.2139/ssrn.5087197	An Eulerian Formulation of a Constrained Variable Thickness Growing Cosserat Shells
+10.5281/zenodo.168442	Data for Wind Energy Science paper "Modal dynamics of structures with bladed isotropic rotors and its complexity for 2-bladed rotors''
+10.1103/physreve.66.021104	Passive random walkers and riverlike networks on growing surfaces
+10.5194/wes-2016-27	Modal dynamics of structures with bladed isotropic rotors and its complexity for 2-bladed rotors
+10.1177/1045389x05053916	System Identification Technique for Active Helicopter Rotors
+10.2514/6.2011-1824	Development of Active Twist Rotors at the German Aerospace Center (DLR)
+10.1109/acc.2006.1657558	MILP control of aggregate Eulerian network airspace models
+10.1117/12.815472	A bistable mechanism for chord extension morphing rotors
+10.1115/94-gt-111	Identification and Monitoring of Turbo Rotors in Active Magnetic Bearings

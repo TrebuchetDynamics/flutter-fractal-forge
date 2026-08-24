@@ -1,0 +1,20 @@
+10.4064/aa-54-4-273-300	The construction of modular forms as products of transforms of the Dedekind eta function
+10.1007/978-1-4684-9910-0_3	The Dedekind eta function
+10.1007/978-1-4612-0999-7_3	The Dedekind eta function
+10.1007/978-3-642-16152-0_1	Dedekind’s Eta Function and Modular Forms
+10.1017/9781316671504.011	Modular Forms and Invariant Theory
+10.1017/9781316671504.003	Gauss's Contributions to Modular Forms
+10.1023/a:1013991704758	Modular Equations for the Rogers-Ramanujan Continued Fraction and the Dedekind Eta-Function
+10.1017/9781316671504.014	Ramanujan's Euler Products and Modular Forms
+10.1017/9781316671504.015	Dirichlet Series and Modular Forms
+10.1007/bf02941667	Certain Modular Functions Similar to the Dedekind eta Function
+10.18052/www.scipress.com/bmsa.7.34	Exploring Prime Numbers and Modular Functions III: On the Exponential of Prime Number via Dedekind Eta Function
+10.1017/9781316671504.013	The Theory of Modular Forms as Reworked by Hurwitz
+10.18052/www.scipress.com/bmsa.7.22	Exploring Prime Numbers and Modular Functions I: On the Exponential of Prime Number via Dedekind Eta Function
+10.1017/9781316671504.002	The Basic Modular Forms of the Nineteenth Century
+10.1017/9781316671504.010	The <i>η</i> Function and Dedekind Sums
+10.1007/978-3-642-51447-0_9	The Dedekind Formalism
+10.1090/conm/166/01627	Application of Dedekind eta-multipliers to modular equations
+10.1007/s002080050138	Modular forms, generalized Dedekind symbols and period polynomials
+10.32614/cran.package.jacobi	jacobi: Jacobi Theta Functions and Related Functions
+10.1515/crll.1976.288.24	Modular quadratic and Hermitian forms over Dedekind rings.

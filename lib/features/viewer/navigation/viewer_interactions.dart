@@ -181,29 +181,37 @@ void _viewerJumpToRandomFractal(
   if (candidates.isEmpty) return;
   final rng = math.Random();
   final pick = candidates[rng.nextInt(candidates.length)];
-  controller.selectModule(pick, resetView: true);
-
   final paletteParams = pick.parameters.where(
     (param) => param.id == 'colorScheme',
   );
-  if (paletteParams.isEmpty) return;
-
-  final paletteParam = paletteParams.first;
-  final paletteValues = paletteParam.options.isNotEmpty
-      ? [for (final option in paletteParam.options) option.value]
-      : [
-          for (var value = paletteParam.min.ceil();
-              value <= paletteParam.max.floor();
-              value++)
-            value,
-        ];
-  paletteValues.remove(controller.params['colorScheme']);
-  if (paletteValues.isNotEmpty) {
-    controller.updateParam(
-      'colorScheme',
-      paletteValues[rng.nextInt(paletteValues.length)],
-    );
+  final initialParams = <String, Object>{};
+  if (paletteParams.isNotEmpty) {
+    final paletteParam = paletteParams.first;
+    final paletteValues = paletteParam.options.isNotEmpty
+        ? [for (final option in paletteParam.options) option.value]
+        : [
+            for (var value = paletteParam.min.ceil();
+                value <= paletteParam.max.floor();
+                value++)
+              value,
+          ];
+    final defaultPalette =
+        pick.defaultPreset.params['colorScheme'] ?? paletteParam.defaultValue;
+    paletteValues.remove(defaultPalette);
+    if (paletteValues.isNotEmpty) {
+      initialParams['colorScheme'] =
+          paletteValues[rng.nextInt(paletteValues.length)];
+    }
   }
+
+  // Publish the module and palette together. A second update here briefly
+  // renders the default palette first, producing a rapid full-screen color
+  // flash that is especially unsafe for photosensitive users.
+  controller.selectModule(
+    pick,
+    resetView: true,
+    initialParams: initialParams,
+  );
 }
 
 void _viewerOnRandomFractalFab(

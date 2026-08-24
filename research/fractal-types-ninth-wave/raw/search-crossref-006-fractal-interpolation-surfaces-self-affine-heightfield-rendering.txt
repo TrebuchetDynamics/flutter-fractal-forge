@@ -1,0 +1,20 @@
+10.3390/axioms9040119	On the Bernstein Affine Fractal Interpolation Curved Lines and Surfaces
+10.1142/9789814415798_0007	GROWING SELF-AFFINE SURFACES
+10.1063/1.1303576	Self-affine analysis on curved reference surfaces: Self-affine fractal characterization of a TNT surface
+10.1142/9789814360234_0007	GROWING SELF-AFFINE SURFACES
+10.5772/intechopen.68499	On Self‐Affine and Self‐Similar Graphs of Fractal Interpolation Functions Generated from Iterated Function Systems
+10.1142/9789814360234_0012	DYNAMICS OF SELF-AFFINE SURFACES
+10.1142/s0218348x21500468	FRACTAL INTERPOLATION FUNCTIONS ON AFFINE FRACTAL INTERPOLATION CURVES
+10.1016/s1007-0214(07)70036-6	Multi-dimensional piece-wise self-affine fractal interpolation model
+10.3390/lubricants9010007	Roughness-Induced Adhesive Hysteresis in Self-Affine Fractal Surfaces
+10.1103/physrevb.41.12268	Self-affine fractal dimensions of film surfaces
+10.1142/s0219525906000641	MULTI-DIMENSIONAL SELF-AFFINE FRACTAL INTERPOLATION MODEL
+10.2139/ssrn.5174176	Reproduction of highly fluctuated water levels of affine fractal shape using fractal interpolation functions with tolerance limit
+10.1063/5.0274607	Slip boundary condition on self-affine fractal surfaces via molecular dynamics
+10.1142/9789812777720_0035	SELF-AFFINE FRACTAL MEASUREMENTS ON FRACTURE SURFACES OF POLYMERS AND OPAL-GLASS
+10.1134/s0025654423602501	Aging Characteristics of Self-Affine Fractal Solid Surfaces
+10.1016/s1079-4042(01)80064-3	Self-Affine Fractal Surfaces
+10.1007/s11071-007-9259-5	Multi-dimensional self-affine fractal interpolation model in tensor form
+10.1016/0167-2789(89)90202-9	The growth of self-affine fractal surfaces
+10.1127/ejm/10/1/0149	Self-affine fractal geometry of agate
+10.1017/cbo9780511599798.026	Multi-affine surfaces

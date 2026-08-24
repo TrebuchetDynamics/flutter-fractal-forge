@@ -1,0 +1,767 @@
+# Search batch results
+
+Deduped records: 742
+
+- Helium isotopic textures in Earth's upper mantle — DOI: `10.1002/2014gc005264`
+- Deterministic chaos and fractal entropy scaling in Floquet conformal field theories — DOI: `10.1103/physrevb.103.l100302`
+- Local fractal dimension of collagen detects increased spatial complexity in fibrosis — DOI: `10.1007/s00418-023-02248-8`
+- Fractal-based texture segmentation of digital X-ray mammograms
+- Frontiers of chaotic advection — DOI: `10.1103/revmodphys.89.025007`
+- Contributions to morphometrics — DOI: `10.5962/bhl.title.15368`
+- Nuclear magnetic relaxation of liquids in porous media — DOI: `10.1088/1367-2630/13/3/035016`
+- Quantum Optimization and Quantum Learning: A Survey — DOI: `10.1109/access.2020.2970105`
+- Optimisation of ANN topology for predicting the rehydrated apple cubes colour change using RSM and GA — DOI: `10.1007/s00521-016-2801-y`
+- A conversation with I. J. Good — DOI: `10.1214/ss/1032209661`
+- DAR-Net: Dynamic Aggregation Network for Semantic Scene Segmentation — DOI: `10.48550/arxiv.1907.12022`
+- Multi-algorithmic Cryptography using Deterministic Chaos with Applications to Mobile Communications. — DOI: `10.21427/d7vh04`
+- Characterization of anisotropy in organic-rich shales: Shear and tensile failure, wave velocity, matrix and fracture permeability
+- Emerging Applications of Bio-Inspired Algorithms in Image Segmentation — DOI: `10.3390/electronics10243116`
+- Initial porosity of random packing: Computer simulation of grain rearrangement — DOI: `10.13140/rg.2.2.25131.23847`
+- Computational imaging and automated identification for aqueous environments — DOI: `10.1575/1912/4752`
+- Study on spatial distribution and network connectivity characteristics of buildings in Qingyan Ancient Town in Guiyang — DOI: `10.21203/rs.3.rs-3873106/v1`
+- Geostatistical characterization of internal structure of mass-transport deposits from seismic reflection images and borehole logs — DOI: `10.1093/gji/ggz570`
+- Animation of reactive fluids — DOI: `10.14288/1.0051301`
+- O TEORETYCZNYCH KORZENIACH ZARZĄDZANIA ZOBRAZOWANIEM TRZECIEGO ŚRODKA PRZY UŻYCIU DYNAMIKI COVID-19 WE FRANCJI — DOI: `10.37055/nsz/132943`
+- The Extreme-ultraviolet Stellar Characterization for Atmospheric Physics and Evolution (ESCAPE) Mission: Motivation and Overview
+- Texture analysis using volume-radius fractal dimension — DOI: `10.1016/j.amc.2012.11.092`
+- Minkowski dimension and explicit tube formulas for $p$-adic fractal strings — DOI: `10.3390/fractalfract2040026`
+- An Overview of Complex Fractal Dimensions: From Fractal Strings to Fractal Drums, and Back
+- Space-time distributions
+- Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality — DOI: `10.4171/jfg/57`
+- Texture image analysis and texture classification methods - A review
+- Holomorphic maps from complex discs intersecting families of hypersurfaces — DOI: `10.1080/17476933.2022.2076842`
+- Fractal Zeta Functions and Complex Dimensions of Ahlfors Metric Measure Spaces
+- Extreme Narrow Escape: shortest paths for the first particles to escape through a small window
+- Ullemar's formula for the Jacobian of the complex moment mapping — DOI: `10.1080/02781070310001634610`
+- Improved Multiscale Structural Mapping with Supervertex Vision Transformer for the Detection of Alzheimer's Disease Neurodegeneration — DOI: `10.1002/hbm.70548`
+- Fractal zeta functions and complex dimensions: A general higher-dimensional theory — DOI: `10.1007/978-3-319-18660-3_13`
+- Fractality, Self-Similarity and Complex Dimensions
+- A New Benchmark Dataset for Texture Image Analysis and Surface Defect Detection — DOI: `10.13140/rg.2.2.33612.46722`
+- Scaling theory of fractal complex networks — DOI: `10.1038/s41598-024-59765-2`
+- Cohomological aspects on complex and symplectic manifolds
+- Make-A-Texture: Fast Shape-Aware Texture Generation in 3 Seconds
+- Describing Textures using Natural Language
+- Network efficiency of spatial systems with fractal morphology: a geometric graphs approach — DOI: `10.1038/s41598-023-45962-y`
+- From BoW to CNN: Two Decades of Texture Representation for Texture Classification — DOI: `10.1007/s11263-018-1125-z`
+- Data clustering — DOI: `10.1145/331499.331504`
+- Engineering polar vortex from topologically trivial domain architecture — DOI: `10.1038/s41467-021-24922-y`
+- The Robotic Multiobject Focal Plane System of the Dark Energy Spectroscopic Instrument (DESI) — DOI: `10.3847/1538-3881/ac9ab1`
+- Unveiling the crystal and magnetic texture of iron oxide nanoflowers — DOI: `10.1039/d3nr04608g`
+- 3D Probabilistic Occupancy Grid to Robotic Mapping with Stereo Vision — DOI: `10.5772/49050`
+- Fabrication of diisopropylammonium bromide aligned microcrystals with in-plane uniaxial polarization — DOI: `10.1088/0022-3727/49/50/505305`
+- High-level event recognition in unconstrained videos — DOI: `10.1007/s13735-012-0024-2`
+- FFT-based Terrain Segmentation for Underwater Mapping — DOI: `10.15607/rss.2012.viii.009`
+- Form and Function of the M4 Cell, an Intrinsically Photosensitive Retinal Ganglion Cell Type Contributing to Geniculocortical Vision — DOI: `10.1523/jneurosci.1422-12.2012`
+- BANKSY unifies cell typing and tissue domain segmentation for scalable spatial omics data analysis — DOI: `10.1038/s41588-024-01664-3`
+- Visual Perception-Based Statistical Modeling of Complex Grain Image for Product Quality Monitoring and Supervision on Assembly Production Line — DOI: `10.1371/journal.pone.0146484`
+- Tremor during ice-stream stick slip — DOI: `10.5194/tc-10-385-2016`
+- Human Performance Models for Computer-Aided Engineering
+- BRDF Representation and Acquisition — DOI: `10.1111/cgf.12867`
+- A complex analytical method for parchment characterization — DOI: `10.1515/revac.2009.28.3-4.151`
+- Foveated rendering: A state-of-the-art survey — DOI: `10.1007/s41095-022-0306-4`
+- SIMBIO-SYS: Scientific Cameras and Spectrometer for the BepiColombo Mission — DOI: `10.1007/s11214-020-00704-8`
+- Elementary Scattering Theory — DOI: `10.1093/acprof:oso/9780199228676.001.0001`
+- Development of a Multiple Contact Haptic Display with Texture-Enhanced Graphics — DOI: `10.25772/55p1-g789`
+- Roman Galactic Plane Survey Definition Committee Report
+- Noncommutative complex analytic geometry of a contractive quantum plane
+- Texture Synthesis Using Convolutional Neural Networks
+- Plane-Based Optimization of Geometry and Texture for RGB-D Reconstruction of Indoor Scenes — DOI: `10.1109/3dv.2018.00067`
+- Enhancing Monocular 3D Hand Reconstruction with Learned Texture Priors
+- FFHQ-UV: Normalized Facial UV-Texture Dataset for 3D Face Reconstruction
+- A second-order theory of texture for depth from focus
+- Evaluating Urbanization from Satellite and Aerial Images by means of a statistical approach to the texture analysis
+- Is star complexity a proxy for information based complexity of graphs? — DOI: `10.1007/978-3-032-16649-4_25`
+- Repeating Nuclear Transients from Repeating Partial Tidal Disruption Events — DOI: `10.1002/asna.70083`
+- Ritt's theorem and the Heins map in hyperbolic complex manifolds — DOI: `10.1007/bf02884709`
+- Cluster Haptic Texture Dataset: Haptic Texture Dataset with Varied Velocity-Direction Sliding Contacts
+- Thermal condition monitoring system using log-polar mapping, quaternion correlation and max-product fuzzy neural network classification — DOI: `10.1016/j.neucom.2010.02.027`
+- ESTIMATION OF DISTANCE TO TEXTURE SURFACE USING COMPLEX LOG MAPPING
+- Motion Estimation-based Self-Calibration of a Log-polar Pan-Tilt Camera
+- 3D cuboid scene understanding by a mixed cognitive graph and log-complex mapping paradigm — DOI: `10.1109/icpr.1988.28331`
+- Shift-invariant simultaneous depth and rotation estimation through an optical correlator — DOI: `10.1088/2040-8986/ae7581`
+- Robust Watermarking Algorithm Based on QGT and Neighborhood Coefficient Statistical Features — DOI: `10.3390/electronics14224494`
+- Saccadic Search with Gabor features applied to Eye Detection
+- Vortex‐Antivortex Network Formation in BiFeO3/SrTiO3/BiFeO3 Multilayers — DOI: `10.1002/adfm.202510314`
+- Quaternion Based Thermal Condition Monitoring System — DOI: `10.1007/978-4-431-53868-4_40`
+- Chapter 17 : Quaternion Based Machine Condition Monitoring System
+- Skarn formation and mineralization in the contact aureole at Carr Fork, Bingham, Utah — DOI: `10.2113/gsecongeo.73.7.1326`
+- Spatio-Time-Resolved Cathodoluminescence Spectroscopy Imaging: Microscopic Recombination Kinetics in Semi-Polar InGaN Quantum Wells — DOI: `10.1017/s1431927610059155`
+- ROBUST FFT BASED SCALE INVARIANT IMAGE REGISTRATION USING IMAGE GRADIENTS
+- Foveated Vision for Biologically Inspired Continuous Face Authentication — DOI: `10.1007/978-3-030-26972-2_6`
+- Computer Vision, Accv'98: Third Asian Conference on Computer Vision, Hong Kong, China, January 8-10, 1998 : Proceedings
+- Hybrid Optical Neural Network-Type Filters for Multiple Objects Recognition within Cluttered Scenes — DOI: `10.5772/15330`
+- Computer Graphics through Key Mathematics — DOI: `10.1007/978-1-4471-0297-7`
+- Image analysis : 15th Scandinavian Conference, SCIA 2007, Aalborg, Denmark, June 10-14, 2007 : proceedings
+- Survey of Procedural Methods for Two-Dimensional Texture Generation — DOI: `10.3390/s20041135`
+- Transform texture classification — DOI: `10.1575/1912/5690`
+- Weighted linde-buzo-gray stippling — DOI: `10.1145/3130800.3130819`
+- Conditional simulation of Thwaites Glacier (Antarctica) bed topography for flow models: Incorporating inhomogeneous statistics and channelized morphology — DOI: `10.3189/2014jog13j200`
+- The use of the texture and motion of clouds from geostationary satellite images in rain rate estimation and prediction
+- ETOPO1 raster verisinden sentetik SYM fraktal yüzeylerinin GRASS GIS r.surf.fractal modülü ile elde edilmesi
+- Particle Identification by Image Processing — DOI: `10.14356/kona.1996017`
+- Filtering of pulsed lidar data using spatial information and a clustering algorithm — DOI: `10.5194/amt-13-6237-2020`
+- Solid spaces: a unified approach to describing object attributes
+- Analysis and synthesis of iris images — DOI: `10.33915/etd.1605`
+- Studies on Modeling Angular Soil Particles Using the Discrete Element Method
+- Fractal surfaces of synthetical DEM generated by GRASS GIS module r.surf.fractal from ETOPO1 raster grid — DOI: `10.9733/jgg.2020r0006.e`
+- Developing a flexible and expressive realtime polyphonic wave terrain synthesis instrument based on a visual and multidimensional methodology
+- Proceedings of the 13th Conference on "Data analysis methods for software systems — DOI: `10.15388/damss.13.2022`
+- Generation of new batik floral patterns via chaotic modulation and Julia-Mandelbrot fractal transformations — DOI: `10.3389/fams.2026.1826475`
+- Application of a quantitative precipitation estimation algorithm for the s-band radar at Irene, South Africa.
+- Multiresolution image modelling and estimation
+- Green-function and information–geometric correspondences between inverse eigenvalue loci of generalized Lucas sequences and the Mandelbrot set — DOI: `10.1016/j.chaos.2026.118191`
+- Estimating the permeability of reservoir sandstones using image analysis of pore structure — DOI: `10.25560/37117`
+- Ambiente de gerenciamento de imagens e dados espaciais para desenvolvimento de aplicações em biodiversidade — DOI: `10.47749/t/unicamp.2004.318094`
+- Polarization measurements of the Crab Pulsar with POLAR — DOI: `10.22323/1.395.0585`
+- POLAR measurements of the Crab pulsar — DOI: `10.22323/1.301.0820`
+- Homotopies and Maps between Eigenvalues of some Generalized Lucas Sequences and the Mandelbrot Set
+- The Dynamics of Financial Markets -- Mandelbrot's multifractal cascades, and beyond
+- Surgery sequences and self-similarity of the Mandelbrot set — DOI: `10.2140/agt.2025.25.2807`
+- On Fibers and Local Connectivity of Mandelbrot and Multibrot Sets
+- On the injectivity of mean value mappings between quadrilaterals
+- Template iterations of quadratic maps and hybrid Mandelbrot sets
+- Lazutkin coordinates and the conjugation problem for billiard maps
+- New Julia and Mandelbrot Sets for Jungck Ishikawa Iterates
+- Illustrations and guidelines for selecting statistical methods for quantifying spatial pattern in ecological data — DOI: `10.1034/j.1600-0587.2002.250507.x`
+- Mermin–Wagner fluctuations in 2D amorphous solids — DOI: `10.1073/pnas.1612964114`
+- Generation of advanced Escher-like spiral tessellations — DOI: `10.1007/s00371-021-02232-0`
+- Characterizing the size and shape of sea ice floes — DOI: `10.1038/srep10226`
+- Exploiting aperiodic designs in nanophotonic devices — DOI: `10.1088/0034-4885/75/3/036502`
+- Generation of multi-scroll attractors in a new 4D memristor-based hyperchaotic system using fractal transformations: from simulation to microcontroller design — DOI: `10.36227/techrxiv.176522719.95864495/v1`
+- Placental Growth and Development Analyzed through 2D and 3D Fractals — DOI: `10.5772/intechopen.1001929`
+- A review on role of tetra-rings in graphene systems and their possible applications — DOI: `10.1088/1361-6633/ab85ba`
+- Textural Analysis for Medicinal Plants Identification Using Log Gabor Filters — DOI: `10.1109/access.2022.3196788`
+- Computer Vision Metrics: Survey, Taxonomy, and Analysis — DOI: `10.1007/978-1-4302-5930-5`
+- Visualizing heterogeneities of earthquake hypocenter catalogs: modeling, analysis, and compensation — DOI: `10.1186/s40645-020-00401-8`
+- Offline signature verification with user-based and global classifiers of local features
+- Pore-scale petrophysical models for the simulation and combined interpretation of nuclear magnetic resonance and wide -band electromagnetic measurements of saturated rocks
+- Velocity and spatial distribution of inertial particles in a turbulent channel flow — DOI: `10.1017/jfm.2019.355`
+- Using transfer learning to determine the type of mathematical fractals image of Islamic geometric patterns — DOI: `10.1007/s00371-025-04257-1`
+- Using Transfer Learning To Determine The Type Of Mathematical Fractals Image Of Islamic Geometric Patterns — DOI: `10.21203/rs.3.rs-6760751/v1`
+- Phase transitions and noise sensitivity on the Poisson space via stopping sets and decision trees — DOI: `10.1002/rsa.21136`
+- AMEP: The Active Matter Evaluation Package for Python — DOI: `10.48550/arxiv.2404.16533`
+- Phase transitions and noise sensitivity on the Poisson space via stopping sets and decision trees — DOI: `10.48550/arxiv.2101.07180`
+- Self-similarity and multifractality in human brain activity: a wavelet-based analysis of scale-free brain dynamics ☆ — DOI: `10.1101/315853`
+- BINet: a binary inpainting network for deep patch-based image compression — DOI: `10.1016/j.image.2020.116119`
+- Privacy Preserving Image Registration — DOI: `10.1007/978-3-031-16446-0_13`
+- Locally Linear Image Structural Embedding for Image Structure Manifold Learning — DOI: `10.1007/978-3-030-27202-9_11`
+- A Generic Fundus Image Enhancement Network Boosted by Frequency Self-supervised Representation Learning — DOI: `10.1016/j.media.2023.102945`
+- A Fractal Comparison of Escher and Koch Tessellations
+- FlexHDR: Modelling Alignment and Exposure Uncertainties for Flexible HDR Imaging — DOI: `10.1109/tip.2022.3203562`
+- Fréchet Radiomic Distance (FRD): A Versatile Metric for Comparing Medical Imaging Datasets — DOI: `10.1016/j.media.2026.103943`
+- Neuromorphic Imaging with Joint Image Deblurring and Event Denoising — DOI: `10.1109/tip.2024.3374074`
+- Data synthesis and adversarial networks: A review and meta-analysis in cancer imaging — DOI: `10.1016/j.media.2022.102704`
+- A Flow-based Truncated Denoising Diffusion Model for Super-resolution Magnetic Resonance Spectroscopic Imaging — DOI: `10.1016/j.media.2024.103358`
+- Underdetermined Blind Source Separation via Weighted Simplex Shrinkage Regularization and Quantum Deep Image Prior — DOI: `10.1109/tip.2026.3673957`
+- Learning a Single Model with a Wide Range of Quality Factors for JPEG Image Artifacts Removal — DOI: `10.1109/tip.2020.3020389`
+- TransMorph: Transformer for unsupervised medical image registration — DOI: `10.1016/j.media.2022.102615`
+- Topological Veech dichotomy and tessellations of the hyperbolic plane
+- Principal Component Analysis Using Structural Similarity Index for Images — DOI: `10.1007/978-3-030-27202-9_7`
+- Fractal triangular search: a metaheuristic for image content search — DOI: `10.1049/iet-ipr.2017.0790`
+- MMGL: Multi-Scale Multi-View Global-Local Contrastive learning for Semi-supervised Cardiac Image Segmentation — DOI: `10.1109/icip46576.2022.9897591`
+- Nematic textures in spherical shells — DOI: `10.1103/physreve.74.021711`
+- Soft matter in hard confinement: phase transition thermodynamics, structure, texture, diffusion and flow in nanoporous media — DOI: `10.1088/0953-8984/27/10/103102`
+- Theory of phase-ordering kinetics — DOI: `10.1080/00018739400101505`
+- Angle-resolved photoemission spectroscopy — DOI: `10.1038/s43586-022-00133-7`
+- Mapping vegetation and fuels for fire management on the Gila National Forest Complex, New Mexico — DOI: `10.2737/rmrs-gtr-46`
+- Intermittency, nonlinear dynamics and dissipation in the solar wind and astrophysical plasmas — DOI: `10.1098/rsta.2014.0154`
+- The dynamics of pattern matching in camouflaging cuttlefish — DOI: `10.1038/s41586-023-06259-2`
+- Synchrotron X‐Ray and Neutron Diffraction, Total Scattering, and Small‐Angle Scattering Techniques for Rechargeable Battery Research — DOI: `10.1002/smtd.201800064`
+- Operando Imaging of All-Electric Spin Texture Manipulation in Ferroelectric and Multiferroic Rashba Semiconductors — DOI: `10.1103/physrevx.8.021067`
+- Operando Imaging of All-Electric Spin Texture Manipulation in Ferroelectric and Multiferroic Rashba Semiconductors — DOI: `10.3929/ethz-b-000334069`
+- Theory of phase-ordering kinetics — DOI: `10.1080/00018730110117433`
+- 4D texture of circular dichroism in soft-x-ray photoemission from tungsten — DOI: `10.1088/1367-2630/aaf4cd`
+- A quantitative comparison of time-of-flight momentum microscopes and hemispherical analyzers for time- and angle-resolved photoemission spectroscopy experiments — DOI: `10.1063/5.0024493`
+- Computer Vision and Machine Learning Methods for Heat Transfer and Fluid Flow in Complex Structural Microchannels: A Review — DOI: `10.3390/en16031500`
+- Regulation and control of wet friction of soft materials using surface texturing: A review — DOI: `10.1007/s40544-022-0617-6`
+- OSIRIS – The Scientific Camera System Onboard Rosetta — DOI: `10.1007/s11214-006-9128-4`
+- Atom Probe Tomography — DOI: `10.1016/b978-0-443-21710-4.00015-x`
+- Regressed Terrain Traversability Cost for Autonomous Navigation Based on Image Textures — DOI: `10.3390/app10041195`
+- Modeling Slab‐Slab Interactions: Dynamics of Outward Dipping Double‐Sided Subduction Systems — DOI: `10.1002/2017gc007199`
+- Elucidating the escape dynamics of the four hill potential — DOI: `10.1007/s11071-017-3441-1`
+- Escape dynamics and fractal basin boundaries in Seyfert galaxies — DOI: `10.1007/s11071-015-1930-7`
+- Fractal basin boundaries and escape dynamics in a multiwell potential — DOI: `10.1007/s11071-016-2782-5`
+- A Parametric and Feasibility Study for Data Sampling of the Dynamic Mode Decomposition--Range, Resolution, and Universal Convergence States — DOI: `10.1007/s11071-021-07167-8`
+- The Dynamics of Internet Traffic: Self-Similarity, Self-Organization, and Complex Phenomena — DOI: `10.1142/s0219525911003451`
+- Dynamics on Complex Networks and Applications — DOI: `10.1016/j.physd.2006.09.012`
+- Flow instabilities in complex fluids: Nonlinear rheology and slow relaxations — DOI: `10.1063/1.1764067`
+- Some connections of complex dynamics — DOI: `10.1007/978-3-030-40120-7`
+- Emergent Properties of Microbial Activity in Heterogeneous Soil Microenvironments: Different Research Approaches Are Slowly Converging, Yet Major Challenges Remain — DOI: `10.3389/fmicb.2018.01929`
+- Fractal patterns from the dynamics of combined polynomial root finding methods — DOI: `10.1007/s11071-017-3813-6`
+- Procedural generation of aesthetic patterns from dynamics and iteration processes — DOI: `10.1515/amcs-2017-0058`
+- Complexities in modeling of heterogeneous catalytic reactions — DOI: `10.1016/j.camwa.2012.11.023`
+- Investigation of Charon's Craters With Abrupt Terminus Ejecta, Comparisons With Other Icy Bodies, and Formation Implications — DOI: `10.1002/2017je005287`
+- [Retracted] Pattern Generation and Design of Floral Patterns Based on Newton’s Iterative Algorithm — DOI: `10.1155/2022/2116403`
+- Diagramming Duration : Bergsonian Multiplicity and Chaos Theory — DOI: `10.7202/1005470ar`
+- IPMix: Label-Preserving Data Augmentation Method for Training Robust Classifiers — DOI: `10.48550/arxiv.2310.04780`
+- Fractal Dimensions in Classical and Quantum Mechanical Open Chaotic Systems
+- Taste, teaching and the Utah teapot : creative, gender, aesthetic and pedagogical issues surrounding the use of electronic media in art and design education : with particular reference to hypertext applications
+- The Big 50: Celebrating 50 ACM SIGGRAPH Conferences — DOI: `10.1109/mcg.2023.3266086`
+- Complexity and dissipation, chaos and information in the technological novel
+- Assessing Structural Complexity of Mangroves and its Implications for Ecosystem Services — DOI: `10.25904/1912/3225`
+- Science and art in flux| The interaction between chaos theory and Alain Robbe-Grillet's early novels
+- Gas emission centres on Mars surface and putative biological contribution: insights on hydrothermal fluid circulation in the upper crust
+- Combinatorial Explorations — DOI: `10.1515/9783839447307-016`
+- Decompositions of set-valued mappings
+- Geometrical representation of real and reactive powers of load demand by orbit diagrams in the Mandelbrot set
+- Newton-Mandelbrot set and Murase-Mandelbrot set
+- Sharkovsky's Ordering in the Mandelbrot Set
+- On a Slice of the Cubic 2-adic Mandelbrot Set
+- Julia sets appear quasiconformally in the Mandelbrot set
+- Mandelbrot set and Julia sets of fractional order
+- The Decoration Theorem for Mandelbrot and Multibrot Sets
+- On quasi-conformal (in-) compatibility of satellite copies of the Mandelbrot set: I — DOI: `10.1007/s00222-017-0737-1`
+- Mapping Rashba and Dresselhaus spin-orbit interactions to inversion asymmetry in perovskite oxide heterostructures — DOI: `10.1103/physrevb.111.064413`
+- Utilizing Barnsley Fern as Orbit Trap to Construct Virtual Three-Dimension Generalized Mandelbrot-Julia Sets of Newton Transform
+- ON THE COEFFICIENTS OF THE RIEMANN MAPPING FUNCTION FOR THE EXTERIOR OF THE MANDELBROT SET (Integrated Research on Complex Dynamics)
+- An Effective Iterative Process Utilizing Transcendental Sine Functions for the Generation of Julia and Mandelbrot Sets — DOI: `10.3390/fractalfract9010040`
+- Complex mapping with the interpolated Julia set and Mandelbrot set — DOI: `10.1145/1900354.1900409`
+- Ground-state phases and spin textures of spin–orbit-coupled dipolar Bose–Einstein condensates in a rotating toroidal trap — DOI: `10.1088/1674-1056/abbbe8`
+- Homeomorphisms on edges of the Mandelbrot set
+- Sonified Signals From a Compact FT-ICR Instrument: A Feasibility Study. I-Data Mapping to an Equal-Tempered Chromatic Scale. — DOI: `10.1002/rcm.10047`
+- Geological Map of the Proclus Crater: A Study Case to Integrate Composition and Morpho-Stratigraphic Mapping on the Moon — DOI: `10.3390/rs17233786`
+- Three-dimensional spin–orbit coupling in a trap — DOI: `10.1088/0953-4075/46/13/134003`
+- Generalized Logistic Maps in the Complex Plane: Structure, Symmetry, and Escape-Time Dynamics — DOI: `10.3390/axioms14060404`
+- Mathematical Visualization of Fractal-Based Batik Designs — DOI: `10.29020/nybg.ejpam.v18i4.6896`
+- Quaternion Mandelbrot sets on mapping z←z~2+c with multiple critical points
+- RESEARCH ON BROWNIAN MOVEMENT BASED ON GENERALIZED MANDELBROT–JULIA SETS FROM A CLASS COMPLEX MAPPING SYSTEM — DOI: `10.1142/s0217984907013560`
+- Learning Cross-view Correspondences for Geo-localization on Planetary Surfaces — DOI: `10.48550/arxiv.2606.29821`
+- FLOOD MAPPING IN MOUNTAINOUS AREAS USING SENTINEL-1 & 2 DATA AND GLCM FEATURES — DOI: `10.5194/isprs-archives-xlviii-1-w2-2023-1575-2023`
+- Accessibility Data Set for Large Permanent Cold Traps at the Lunar Poles — DOI: `10.1029/2020ea001291`
+- A pathology-to-single-cell framework links SPP1+ M2 macrophages with NETs-prone high-risk niches in HCC — DOI: `10.1186/s12967-026-07892-x`
+- Mantle dynamics and petrogenesis of Gomer basalts in the Northwestern Ethiopia: A geochemical perspective — DOI: `10.1515/geo-2025-0816`
+- An Improved Mapping with Super-Resolved Multispectral Images for Geostationary Satellites — DOI: `10.3390/rs12030466`
+- Conformal quantum dot–SnO 2 layers as electron transporters for efficient perovskite solar cells — DOI: `10.1126/science.abh1885`
+- Wearable sensors: modalities, challenges, and prospects — DOI: `10.1039/c7lc00914c`
+- Morphometric Analysis for Soil Erosion Susceptibility Mapping Using Novel GIS-Based Ensemble Model — DOI: `10.3390/rs12050874`
+- Discrete conformal equivalence of polyhedral surfaces — DOI: `10.1145/3450626.3459763`
+- Hyperbolic Planforms in Relation to Visual Edges and Textures Perception — DOI: `10.1371/journal.pcbi.1000625`
+- Multi-area visuotopic map complexes in macaque striate and extra-striate cortex — DOI: `10.1016/j.visres.2006.03.006`
+- Model-Based 3D Hand Pose Estimation from Monocular Video — DOI: `10.1109/tpami.2011.33`
+- Spatial variability and mapping of soil fertility status in a high-potential smallholder farming area under sub-humid conditions in Zimbabwe — DOI: `10.1007/s42452-021-04367-0`
+- Research progress in improving the performance of PEDOT:PSS/Micro- and Nano-textured Si heterojunction for hybrid solar cells — DOI: `10.1016/j.jmat.2020.12.013`
+- Discrete Complex Structure on Surfel Surfaces — DOI: `10.1007/978-3-540-79126-3_15`
+- Potential flood frequency analysis and susceptibility mapping using CMIP5 of MIROC5 and HEC-RAS model: a case study of lower Dwarkeswar River, Eastern India — DOI: `10.1007/s42452-020-04104-z`
+- Object-centered surface reconstruction: Combining multi-image stereo and shading — DOI: `10.1007/bf01428192`
+- Floodplain wetland mapping in the White Volta River Basin of Ghana — DOI: `10.1080/15481603.2015.1026555`
+- Controlling electromagnetic surface waves with conformal transformation optics — DOI: `10.1038/s42005-023-01322-w`
+- Colloids in two-dimensional active nematics: conformal cogs and controllable spontaneous rotation — DOI: `10.1088/1367-2630/ad0acf`
+- EHPE: Skeleton Cues-Based Gaussian Coordinate Encoding for Efficient Human Pose Estimation — DOI: `10.1109/tmm.2022.3197364`
+- Origin, structure, and role of background EEG activity. Part 4: Neural frame simulation — DOI: `10.1016/j.clinph.2005.10.025`
+- Soil Science-Informed Machine Learning — DOI: `10.1016/j.geoderma.2024.117094`
+- Bits and Pieces in Logarithmic Conformal Field Theory — DOI: `10.1142/s0217751x03016859`
+- Analytical Error Estimation of Conformal Mappings Using Complex Bessel Functions under Perturbed Boundaries
+- Use of Nilpotent weights in Logarithmic Conformal Field Theories — DOI: `10.1142/s0217751x03016914`
+- Logarithmic conformal field theory with boundary — DOI: `10.1142/s0217751x03016884`
+- New conformal map for the trapezoidal formula for infinite integrals of unilateral rapidly decreasing functions — DOI: `10.1016/j.cam.2020.113354`
+- Computing boundary extensions of conformal maps part 2
+- Resilience and Stability of Ecological Systems — DOI: `10.1146/annurev.es.04.110173.000245`
+- The Three‐Dimensional Power Spectrum of Galaxies from the Sloan Digital Sky Survey — DOI: `10.1086/382125`
+- The JCMT Plane Survey: early results from the ℓ = 30° field — DOI: `10.1093/mnras/stv1833`
+- Unmanned Aerial Vehicles (UAVs): A Survey on Civil Applications and Key Research Challenges — DOI: `10.1109/access.2019.2909530`
+- WALLABY early science – III. An H i study of the spiral galaxy NGC 1566 — DOI: `10.1093/mnras/stz1448`
+- Galaxy And Mass Assembly (GAMA): end of survey report and data release 2 — DOI: `10.1093/mnras/stv1436`
+- Overview Of The SDSS-IV Manga Survey: Mapping Nearby Galaxies At Apache Point Observatory — DOI: `10.15781/t2qj84`
+- Logarithmic Spirals and Projective Geometry in M.C. Escher's "Path of Life III" — DOI: `10.5642/jhummath.201201.04`
+- Promoting convergence: The Phi spiral in abduction of mouse corneal behaviors — DOI: `10.1002/cplx.21562`
+- Foreground simulations for the LOFAR-epoch of reionization experiment — DOI: `10.1111/j.1365-2966.2008.13634.x`
+- The classical theory of minimal surfaces — DOI: `10.1090/s0273-0979-2011-01334-9`
+- The anatomy of the Orion B giant molecular cloud: A local template for studies of nearby galaxies — DOI: `10.1051/0004-6361/201629862`
+- Problems of relative growth — DOI: `10.5962/bhl.title.6427`
+- Deep learning in rare disease. Detection of tubers in tuberous sclerosis complex — DOI: `10.1371/journal.pone.0232376`
+- Phyllotaxis: a framework for foam topological evolution — DOI: `10.1140/epje/i2016-16007-8`
+- The Hi-GAL compact source catalogue – I. The physical properties of the clumps in the inner Galaxy (−71$_{.}^{\circ}$0 < ℓ < 67$_{.}^{\circ}$0) — DOI: `10.1093/mnras/stx1357`
+- Pre-launch estimates for GLAST sensitivity to dark matter annihilation signals — DOI: `10.1088/1475-7516/2008/07/013`
+- The Canadian Hydrogen Observatory and Radio-transient Detector (CHORD) — DOI: `10.5281/zenodo.3765414`
+- The quest for dual and binary supermassive black holes: A multi-messenger view — DOI: `10.1016/j.newar.2020.101525`
+- The finite tiling problem is undecidable in the hyperbolic plane — DOI: `10.1142/s0129054108006078`
+- Pair Correlation and Gap Distributions for Substitution Tilings and Generalized Ulam Sets in the Plane
+- Triangle Tiling V: Tilings by a tile with integer sides
+- Homotopy groups of generic leaves of logarithmic foliations
+- Infinite families of monohedral disk tilings
+- Cyclotomic Aperiodic Substitution Tilings — DOI: `10.3390/sym9020019`
+- Topology of leaves of generic logarithmic foliations on $\mathbb{CP}^2$
+- On the number of non-hexagons in a planar tiling — DOI: `10.1016/j.crma.2018.03.005`
+- Balayage of Measures on the Complex Plane with respect to Harmonic Polynomials and Logarithmic Kernels
+- Plane square tilings
+- Undecidability of Translational Tiling of the Plane with Four Tiles
+- SPIRAL: Self-Play on Zero-Sum Games Incentivizes Reasoning via Multi-Agent Multi-Turn Reinforcement Learning
+- Complex Tilings — DOI: `10.2178/jsl/1208359062`
+- Well-posedness of logarithmic spiral vortex sheets
+- Numerical Conformal Mapping onto the Entire Complex Plane Bounded with Finite Straight Slit and Logarithmic Spiral Slits — DOI: `10.1088/1742-6596/1212/1/012014`
+- Well-posedness of logarithmic spiral vortex sheets — DOI: `10.1016/j.jde.2024.02.019`
+- Conformal mapping of unbounded multiply connected regions onto logarithmic spiral slit with infinite straight slit — DOI: `10.1063/1.4980981`
+- Continuous bending of minimal surfaces, formed by means of plane curves of complex curvature — DOI: `10.31548/machenergy2020.01.051`
+- Factoring the logarithmic spiral — DOI: `10.1007/bf01393995`
+- The Design of Form Milling Cutter as the Curve of the Back of Tooth Is Logarithmic Spiral
+- Spectra of random graphs with discrete scale invariance
+- Geometric Analysis of the Damped Harmonic Oscillator via the Lambert W Function
+- Orbital angular momentum of a laser beam behind an off-axis spiral phase plate. — DOI: `10.1364/ol.44.003673`
+- Complex waves in planar spiral with three-layered dielectric — DOI: `10.1109/mmet.2000.890494`
+- Spiral disk packings — DOI: `10.1016/j.physd.2016.12.003`
+- Analysis of active earth pressure on retaining wall with complex fracture plane of soil
+- Three-Dimensional Generalized Logarithmic Spirals
+- Orbital angular momentum of an arbitrary axisymmetric light field after passing through an off-axis spiral phase plate — DOI: `10.18287/2412-6179-2018-42-2-212-218`
+- Voderberg Deconstructed & Triangle Substitution Tiling
+- Quadrilateral tilings for the construction of renzuru origami — DOI: `10.1080/17513472.2022.2115797`
+- Voronoi spiral tilings — DOI: `10.1088/0951-7715/28/4/1077`
+- Star-forming complexes and the spiral structure of our Galaxy — DOI: `10.1051/0004-6361:20021504`
+- STRESS FIELDS IN PLANE IRROTATIONAL FLOWS OF VISCOUS AND PERFECTLY PLASTIC CONTINUA *
+- Distributed data hiding in multi-cloud storage environment — DOI: `10.1186/s13677-020-00208-4`
+- Functional Nanomaterials — DOI: `10.1007/978-981-15-4810-9`
+- Extension of General Relativity with MOND limit predicts novel orbital structure in and around galaxies — DOI: `10.48550/arxiv.2302.12032`
+- Mechanisms of Dendrite Growth in Lithium Metal Batteries — DOI: `10.5445/ir/1000045310`
+- LegUp: Open-source High-level Synthesis Research Framework
+- Volumetric particle modeling
+- Accuracy of Computer Generated Approximations to Julia Sets
+- viscomplexr: Phase Portraits of Functions in the Complex Number Plane — DOI: `10.32614/cran.package.viscomplexr`
+- Using timescale as a state coordinate reveals the metastable geometry of behavior
+- Graph Theory
+- Dynamique du piégeage par capillarité pour le stockage géologique du CO₂ : microfluidique expérimentale et numérique
+- Vakonomic Fluids
+- Elastic Bending Modulus for Single-Layer Black Phosphorus — DOI: `10.1088/0022-3727/48/45/455305`
+- Arithmetic Cycles with Modulus
+- A note on the network coloring game: A randomized distributed $(Δ+1)$-coloring algorithm
+- Fractal Interpretation of Bacterial Light Harvesters — DOI: `10.1142/s0218348x21500249`
+- Variable Topology on Fractal Manifold
+- FI-KAN: Fractal Interpolation Kolmogorov-Arnold Networks
+- Minimum modulus for the unique multiset-sum problem
+- Shear modulus of the hadron-quark mixed phase — DOI: `10.1103/physrevd.86.063006`
+- Anomalous diffusion by fractal homogenization
+- Fractal Properties of the Cosmic Web
+- Aspect-Based Argument Mining
+- A fractal geometry immersed in a hierarchical magnetic flux distribution — DOI: `10.1063/5.0257273`
+- A generalized model for Yang-Fourier transforms in fractal space
+- Characterization of Fractal Basins Using Deep Convolutional Neural Networks — DOI: `10.1142/s0218127422502005`
+- Theory of Carry Value Transformation (CVT) and its Application in Fractal formation
+- Fractal formation and ordering in Random Sequential Adsorption
+- Static Fatigue: A Key Cause of Time Effects in Sand.
+- Near Scale-Free Dynamics in Neural Population Activity of Waking/Sleeping Rats Revealed by Multiscale Analysis — DOI: `10.1371/journal.pone.0012869`
+- Arc-like continua, Julia sets of entire functions, and Eremenko's Conjecture
+- The Exponent Set: A Third Natural Extension of the Mandelbrot-Julia Framework — DOI: `10.48550/arxiv.2608.07560`
+- Problems in holomorphic dynamics — DOI: `10.48550/arxiv.math/9205209`
+- 75 Years of Matter Wave: Louis de Broglie and Renaissance of the Causally Complete Knowledge — DOI: `10.48550/arxiv.quant-ph/9911107`
+- Complexity and Emergent Phenomena — DOI: `10.1002/j.2040-4603.2011.tb00341.x`
+- Fractal Modelling of Heterogeneous Catalytic Materials and Processes — DOI: `10.3390/ma17215363`
+- The fixed point of the parabolic renormalization operator — DOI: `10.48550/arxiv.1108.2801`
+- Bifurcation currents and equidistribution on parameter space — DOI: `10.48550/arxiv.1111.3989`
+- Some properties of the Cremona group — DOI: `10.21711/217504322012/em211`
+- Extreme value theory for dynamical systems, with applications in climate and neuroscience
+- Real Analyticity of Hausdorff Dimension of Disconnected Julia Sets of Cubic Parabolic Polynomials — DOI: `10.12794/metadc271768`
+- Around the boundary of complex dynamics — DOI: `10.48550/arxiv.1506.07113`
+- Active interfaces, a universal approach — DOI: `10.7488/era/382`
+- Estudo do comportamento da entropia em bilhares — DOI: `10.11606/t.43.2021.tde-10032021-171732`
+- Nature's statistical symmetries and asymmetries, a characterization by wavelets and an illustration with clouds
+- Speiser meets Misiurewicz — DOI: `10.48550/arxiv.2209.00385`
+- Escape of Ionizing Radiation from High-Redshift Galaxies — DOI: `10.1086/317775`
+- Recoiling Supermassive Black Hole Escape Velocities from Dark Matter Halos — DOI: `10.1093/mnras/stx2113`
+- On the logarithmic type boundary modulus of continuity for the Stefan problem
+- From 2N to infinitely many escape orbits
+- Normal Smoothings for Smooth Cube Manifolds
+- Smooth blowup square for motives with modulus
+- Mandelbrot cascades on random weighted trees and nonlinear smoothing transforms
+- Modulus of supporting convexity and supporting smoothness
+- Periodic Orbits, Externals Rays and the Mandelbrot Set: An Expository Account — DOI: `10.24033/ast.477`
+- Self-similarity of Siegel disks and Hausdorff dimension of Julia sets — DOI: `10.1007/bf02392901`
+- Extensions of homeomorphisms between limbs of the Mandelbrot set — DOI: `10.1090/s1088-4173-01-00069-8`
+- Pacman renormalization and self-similarity of the Mandelbrot set near\n Siegel parameters — DOI: `10.48550/arxiv.1703.01206`
+- On local connectivity for the Julia set of rational maps: Newton’s famous example — DOI: `10.4007/annals.2008.168.127`
+- Parapuzzle of the multibrot set and typical dynamics of unimodal maps — DOI: `10.4171/jems/243`
+- Combinatorics and topology of straightening maps, I: Compactness and bijectivity — DOI: `10.1016/j.aim.2012.07.014`
+- Local connectivity of the Mandelbrot set at some satellite parameters of bounded type — DOI: `10.48550/arxiv.1808.10425`
+- Combinatorial rigidity for unicritical polynomials — DOI: `10.4007/annals.2009.170.783`
+- Rigidity for real polynomials — DOI: `10.4007/annals.2007.165.749`
+- Mating Siegel quadratic polynomials — DOI: `10.1090/s0894-0347-00-00348-9`
+- Semi-parabolic tools for hyperbolic Hénon maps and continuity of Julia sets in $\mathbb {C}^{2}$ — DOI: `10.1090/tran/7061`
+- Tessellation and Lyubich-Minsky laminations associated with quadratic maps, I: Pinching semiconjugacies — DOI: `10.48550/arxiv.math/0609280`
+- Combinatorial rigidity for some infinitely renormalizable unicritical polynomials — DOI: `10.1090/s1088-4173-2010-00216-x`
+- Tessellation and Lyubich–Minsky laminations associated with quadratic maps, II: Topological structures of 3-laminations — DOI: `10.1090/s1088-4173-09-00186-6`
+- HéNon Maps, Discrete Groups And Continuity Of Julia Sets
+- An extended Fatou–Shishikura inequality and wandering branch continua for polynomials — DOI: `10.1016/j.aim.2015.10.020`
+- On the dynamics of quasi-self-matings of generalized starlike complex quadratics and the structure of the mated Julia sets
+- Combinatorics and topology of straightening maps I: compactness and bijectivity — DOI: `10.48550/arxiv.0809.1262`
+- Mandelbrot set as a particular Julia set of Fractional Order, echipotential lines and external rays of Mandelbrot and Julia sets of Fractional Order
+- Measurement of the properites of cosmic rays with the LOFAR radio telescope
+- Rational parameter rays of the Mandelbrot set
+- Periodic Orbits, Externals Rays and the Mandelbrot Set: An Expository Account
+- External rays and the real slice of the Mandelbrot set
+- Topological entropy of quadratic polynomials and dimension of sections of the Mandelbrot set
+- Higher Order Mandelbrot Sets and their Varying Shapes
+- Homeomorphisms between limbs of the Mandelbrot set
+- Internal addresses in the Mandelbrot set and Galois groups of polynomials
+- Pseudo-monodromy and the Mandelbrot set
+- Mandelbrot Set as a Particular Julia Set of Fractional Order, Equipotential Lines and External Rays of Mandelbrot and Julia Sets of Fractional Order — DOI: `10.3390/fractalfract8010069`
+- The near-parabolic geometry of external rays
+- External rays and the real slice of the Mandelbrot set — DOI: `10.1017/s0143385702001335`
+- Rational External Rays of the Mandelbrot Set Dierk Schleicher
+- Drawing and computing external rays in the multiple-spiral medallions of the Mandelbrot set — DOI: `10.1016/j.cag.2008.04.005`
+- Extension of the Douady-Hubbard's theorem on convergence of periodic external rays of the Mandelbrot set to polynomials of type E_d — DOI: `10.12988/imf.2007.07131`
+- A Method to Solve the Limitations in Drawing External Rays of the Mandelbrot Set — DOI: `10.1155/2013/105283`
+- An algorithm to draw external rays of the Mandelbrot set
+- From Cantor to semi-hyperbolic parameters along external rays — DOI: `10.1090/tran/7839`
+- Rational Parameter Rays of the Mandelbrot Set — DOI: `10.24033/ast.481`
+- External arguments of Douady cauliflowers in the Mandelbrot set — DOI: `10.1016/j.cag.2004.03.011`
+- An Abstract Mandelbrot Set Algorithm for zn + c — DOI: `10.1142/s0218348x9800002x`
+- Convergence of external rays in parameter spaces of symmetric polynomials — DOI: `10.12988/ijcms.2007.07023`
+- Local Connectivity of the Mandelbrot Set at Some Satellite Parameters of Bounded Type — DOI: `10.1007/s00039-023-00637-8`
+- From Hyperbolic to Parabolic Parameters along Internal Rays
+- Families of Homeomorphic Subsets of the Mandelbrot Set
+- On the combinatorics of external rays in the dynamics of the complex henon map
+- ALEXIS: Recreating the X-Ray Emission from the Full Solar Disk as a Linear Combination of Discrete Regions in the Extreme Ultraviolet and Soft X-Rays — DOI: `10.3847/1538-4365/adbe35`
+- On Böttcher coordinates and quasiregular maps
+- Böttcher coordinates at superattracting fixed points of holomorphic skew products
+- Bialgebraic geometry of Böttcher coordinates
+- Spanning embeddings of arrangeable graphs with sublinear bandwidth
+- Embedding into bipartite graphs — DOI: `10.1137/090765481`
+- Böttcher coordinates at wild superattracting fixed points — DOI: `10.1112/blms.13021`
+- Computer Graphics: From Pixels to Programmable Graphics Hardware — DOI: `10.1201/b14857`
+- View-Dependent Tessellation and Simulation of Ocean Surfaces — DOI: `10.1155/2014/979418`
+- Enhancing the HPC-Lab Snow Simulator with More Realistic Terrains and Other Interactive Features
+- Unlimited object instancing in real-time
+- Hardware accelerated computer graphics algorithms
+- Art Directing Visual Complexity through Smart Textures — DOI: `10.17918/etd-4245`
+- Kosmos : a virtual 3-D universe
+- Enhancing detailed haptic relief for real-time interaction — DOI: `10.5821/dissertation-2117-95993`
+- Tabletop Roleplaying Games as Procedural Content Generators
+- AI Co-Artist: A LLM-Powered Framework for Interactive GLSL Shader Animation Evolution
+- A Tool for the Procedural Generation of Shaders using Interactive Evolutionary Algorithms
+- Design and Implementation of a Procedural Content Generation Web Application for Vertex Shaders
+- Machine Learning-Driven Volumetric Cloud Rendering: Procedural Shader Optimization and Dynamic Lighting in Unreal Engine for Realistic Atmospheric Simulation
+- Approximate Program Smoothing Using Mean-Variance Statistics, with Application to Procedural Shader Bandlimiting
+- Efficient computational noise in GLSL — DOI: `10.1080/2151237x.2012.649621`
+- Procedural Pretraining: Warming Up Language Models with Abstract Data
+- Learning from Shader Program Traces
+- Recurrence plots for the analysis of complex systems — DOI: `10.1016/j.physrep.2006.11.001`
+- The Polarimetric and Helioseismic Imager on Solar Orbiter — DOI: `10.1051/0004-6361/201935325`
+- Orbital angular momentum complex spectrum analyzer for vortex light based on the rotational Doppler effect — DOI: `10.1038/lsa.2016.251`
+- Almost all orbits of the Collatz map attain almost bounded values — DOI: `10.1017/fmp.2022.8`
+- The Helioseismic and Magnetic Imager (HMI) Vector Magnetic Field Pipeline: Overview and Performance — DOI: `10.1007/s11207-014-0516-8`
+- 2D Logistic-Modulated-Sine-Coupling-Logistic Chaotic Map for Image Encryption — DOI: `10.1109/access.2019.2893538`
+- The iteration of cubic polynomials Part II: patterns and parapatterns — DOI: `10.1007/bf02392761`
+- Single Photon Emission Computed Tomography (SPECT) Myocardial Perfusion Imaging Guidelines: Instrumentation, Acquisition, Processing, and Interpretation — DOI: `10.1007/s12350-018-1283-y`
+- Algorithms for collision-free navigation of mobile robots in complex cluttered environments: a survey — DOI: `10.1017/s0263574714000289`
+- CP2K: An electronic structure and molecular dynamics software package - Quickstep: Efficient and accurate electronic structure calculations — DOI: `10.1063/5.0007045`
+- Ventral and dorsal pathways for language — DOI: `10.1073/pnas.0805234105`
+- Symbolic dynamics and periodic orbits of the Lorenz attractor* — DOI: `10.1088/0951-7715/16/3/314`
+- Hyperbolicity of renormalization of critical circle maps — DOI: `10.1007/s10240-003-0007-1`
+- Primitives for the manipulation of general subdivisions and the computation of Voronoi — DOI: `10.1145/282918.282923`
+- The WASP Project and the SuperWASP Cameras — DOI: `10.1086/508556`
+- Time-resolved imaging of three-dimensional nanoscale magnetization dynamics — DOI: `10.1038/s41565-020-0649-x`
+- Real bounds, ergodicity and negative Schwarzian for multimodal maps — DOI: `10.1090/s0894-0347-04-00463-1`
+- PSI Deformation Map Retrieval by Means of Temporal Sublook Coherence on Reduced Sets of SAR Images — DOI: `10.3390/rs70100530`
+- Stellar Dynamics in the Central Arcsecond of Our Galaxy — DOI: `10.1086/378122`
+- Diffeomorphic registration using geodesic shooting and Gauss–Newton optimisation — DOI: `10.1016/j.neuroimage.2010.12.049`
+- The image complexity of an analytic map germ
+- Non-iterative Coarse-to-fine Transformer Networks for Joint Affine and Deformable Image Registration — DOI: `10.1007/978-3-031-43999-5_71`
+- TransEM:Residual Swin-Transformer based regularized PET image reconstruction — DOI: `10.1007/978-3-031-16440-8_18`
+- Rain Removal from Light Field Images with 4D Convolution and Multi-scale Gaussian Process — DOI: `10.1109/tap.2022.3218759`
+- Iteration of Some Topologically Hyperbolic Meromorphic Maps with Infinitely Many Singular Values — DOI: `10.1007/s11785-024-01647-6`
+- APPLICATIONS OF PICARD ISHIKAWA TYPE FIXED POINT ITERATION FOR CONSTRUCTION OF FRACTALS
+- Vector Field-Based Visual Guidance of UAVs for Wind Turbine Inspection — DOI: `10.1109/ccdc69976.2026.11560662`
+- Equivalence and topological invariance of conditions for non-uniform hyperbolicity in the iteration of rational maps — DOI: `10.1007/s00222-002-0243-x`
+- Reconstruction theorem for complex polynomials — DOI: `10.1142/s0129167x15500731`
+- Recognition of orbital angular momentum vortex beam based on convolutional neural network — DOI: `10.1002/mop.32861`
+- Discrete Chaos: With Applications in Science and Engineering
+- Comparison of Internal and External Distraction in Frontofacial Monobloc Advancement: A Three-Dimensional Quantification — DOI: `10.1097/prs.0000000000010331`
+- The Elastic Ruler — DOI: `10.69564/able.en.26038.elasticruler`
+- Imaging the wave functions of adsorbed molecules — DOI: `10.1073/pnas.1315716110`
+- An Image Based Approach to Recovering the Gravitational Field of Asteroids
+- George Pólya Awards for 2022 — DOI: `10.1080/07468342.2022.2122670`
+- IDENTIFICATION OF MARTIAN SURFACE MINERALS IN CRISM IMAGERY USING A DEEP NEURAL NETWORK
+- The iterative evolution of complex systems — DOI: `10.1016/0378-4371(91)90178-f`
+- Spacecraft Orbit Design in the Circular Restricted Three-Body Problem Using Higher-Dimensional Poincare Maps
+- MONOCULAR VISUAL-INERTIAL ODOMETRY WITH DYNAMIC LIDAR SCALING FOR SAFE AND PRECISE LANDING ON UNMAPPED PLANETARY BODIES
+- Just a little calculation in dynamics B ¦ dlewo , 13-19 August 2017 Abstracts of talks Elements of thermodynamic formalism for transcendental meromorphic maps
+- Fatou components : doctoral thesis
+- Data access layer optimization of the Gaia data processing in Barcelona for spatially arranged data
+- Geometric performance of ENVISAT ASAR products — DOI: `10.1109/igarss.2003.1294031`
+- Image Region Duplication Forgery Detection Based on Angular Radial Partitioning and Harris Key-Points — DOI: `10.3390/sym8070062`
+- Observation of Polarization Singularities and Topological Textures in Sound Waves — DOI: `10.1103/physrevlett.129.204301`
+- Approximate orientation steerability based on angular Gaussians — DOI: `10.1109/83.902274`
+- X-ray diffraction of III-nitrides — DOI: `10.1088/0034-4885/72/3/036502`
+- Image Processing-Based Detection of Pipe Corrosion Using Texture Analysis and Metaheuristic-Optimized Machine Learning Approach — DOI: `10.1155/2019/8097213`
+- Mapping the 3D orientation of nanocrystals and nanostructures in human bone: Indications of novel structural features — DOI: `10.1126/sciadv.aba4171`
+- Texture in thin film silicides and germanides: A review — DOI: `10.1063/1.4960122`
+- Comparative analysis of proficiencies of various textures and geometric features in breast mass classification using k-nearest neighbor — DOI: `10.1186/s42492-021-00100-1`
+- Predicting tropical forest stand structure parameters from Fourier transform of very high‐resolution remotely sensed canopy images — DOI: `10.1111/j.1365-2664.2005.01097.x`
+- Crystallographic textures — DOI: `10.1051/epjconf/201715500005`
+- Ocean Wind and Wave Measurements Using X-Band Marine Radar: A Comprehensive Review — DOI: `10.3390/rs9121261`
+- Dynamically stabilized magnetic skyrmions — DOI: `10.1038/ncomms9193`
+- On the characterisation of periodic patterns in tessellated surfaces — DOI: `10.1088/2051-672x/2/2/025005`
+- Periodic splay Fréedericksz transitions in a ferroelectric nematic — DOI: `10.1038/s41467-025-55827-9`
+- Histological validation of high-resolution DTI in human post mortem tissue — DOI: `10.3389/fnana.2015.00098`
+- Elastic flow instabilities and macroscopic textures in graphene oxide lyotropic liquid crystals — DOI: `10.1038/s41699-020-00193-x`
+- Plant Species Identification Using Computer Vision Techniques: A Systematic Literature Review — DOI: `10.1007/s11831-016-9206-z`
+- Fast Polar Harmonic Transforms — DOI: `10.11371/iieej.39.399`
+- Alkaline Etching for Reflectance Reduction in Multicrystalline Silicon Solar Cells — DOI: `10.1149/1.1738137`
+- On angular momentum balance for particle systems with periodic boundary conditions — DOI: `10.1002/zamm.201400045`
+- Non-hermitian radial momentum operator and path integrals in polar coordinates — DOI: `10.1143/ptp.120.181`
+- Radial velocity follow-up of CoRoT transiting exoplanets — DOI: `10.1051/epjconf/20101102001`
+- The two-dimensional OLCT of angularly periodic functions in polar coordinates
+- Coordinate families for the Schwarzschild geometry based on radial timelike geodesics — DOI: `10.1007/s10714-015-1891-7`
+- Quadratic maps with a periodic critical point of period 2
+- Laplacians in polar matrix coordinates and radial fermionization in higher dimensions — DOI: `10.1063/1.3553456`
+- Features and development of Coot — DOI: `10.1107/s0907444910007493`
+- Deformable Medical Image Registration: A Survey — DOI: `10.1109/tmi.2013.2265603`
+- Gland segmentation in colon histology images: The glas challenge contest — DOI: `10.1016/j.media.2016.08.008`
+- Rotation, scale and translation invariant spread spectrum digital image watermarking — DOI: `10.1016/s0165-1684(98)00012-7`
+- Point-based computer graphics — DOI: `10.1145/1103900.1103907`
+- Transforming medical imaging with Transformers? A comparative review of key properties, current progresses, and future perspectives — DOI: `10.1016/j.media.2023.102762`
+- Computer vision-based hand gesture recognition for human-robot interaction: a review — DOI: `10.1007/s40747-023-01173-6`
+- A survey of Optimal Transport for Computer Graphics and Computer Vision — DOI: `10.1111/cgf.14778`
+- Mathematical methods in medical image processing — DOI: `10.1090/s0273-0979-06-01104-9`
+- Image Segmentation Using Deep Learning: A Survey — DOI: `10.1109/tpami.2021.3059968`
+- Near-optimal combination of disparity across a log-polar scaled visual field — DOI: `10.1371/journal.pcbi.1007699`
+- Time‐Warped Foveated Rendering for Virtual Reality Headsets — DOI: `10.1111/cgf.14176`
+- A survey on evaluation methods for image interpolation — DOI: `10.1088/0957-0233/20/10/104015`
+- Polar Transformer Networks — DOI: `10.48550/arxiv.1709.01889`
+- Modified Rodrigues Parameters: An Efficient Representation of Orientation in 3D Vision and Graphics — DOI: `10.1007/s10851-017-0765-x`
+- A Quantitative Analysis of Current Practices in Optical Flow Estimation and the Principles Behind Them — DOI: `10.1007/s11263-013-0644-x`
+- Medical Image Segmentation Review: The success of U-Net — DOI: `10.48550/arxiv.2211.14830`
+- A Survey of Ocean Simulation and Rendering Techniques in Computer Graphics — DOI: `10.1111/j.1467-8659.2010.01828.x`
+- Towards Better User Studies in Computer Graphics and Vision — DOI: `10.1561/0600000106`
+- DSR: Direct Simultaneous Registration for Multiple 3D Images — DOI: `10.1007/978-3-031-16446-0_10`
+- Text/Graphics Separation for Business Card Images for Mobile Devices
+- Groebner bases in Java with applications in computer graphics
+- TACHYON: Efficient Shared Memory Parallel Computation of Extremum Graphs — DOI: `10.1111/cgf.14784`
+- Code Replicability in Computer Graphics — DOI: `10.1145/3386569.3392413`
+- FU-net: Multi-class Image Segmentation Using Feedback Weighted U-net — DOI: `10.1007/978-3-030-34110-7_44`
+- Temperature Illusions in Mixed Reality using Color and Dynamic Graphics
+- Spatio-temporal Manifold Learning for Human Motions via Long-horizon Modeling
+- MoVer: Motion Verification for Motion Graphics Animations — DOI: `10.1145/3731209.`
+- Attenuation Imaging with Pulse-Echo Ultrasound based on an Acoustic Reflector — DOI: `10.1007/978-3-030-32254-0_67`
+- Global Adaptive Filtering Layer for Computer Vision — DOI: `10.1016/j.cviu.2022.103519`
+- Patch-Based Stochastic Attention for Image Editing — DOI: `10.1016/j.cviu.2023.103866`
+- Geoglyphs of Titicaca as an ancient example of graphic design
+- Token Warping Helps MLLMs Look from Nearby Viewpoints
+- Mass-deformed brane tilings — DOI: `10.1007/jhep10(2014)027`
+- Dynamic and complex transcription factor binding during an inducible response in yeast — DOI: `10.1101/gad.1781909`
+- Super band gaps and periodic approximants of generalised Fibonacci tilings — DOI: `10.1098/rspa.2023.0663`
+- Visualizing Structure and Transitions for Biological Data Exploration — DOI: `10.1101/120378`
+- Detail‐In‐Context Visualization for Satellite Imagery — DOI: `10.1111/j.1467-8659.2008.01156.x`
+- Toroidal topology of population activity in grid cells — DOI: `10.1038/s41586-021-04268-7`
+- Spatial variability of field-measured soil-water properties — DOI: `10.3733/hilg.v42n07p215`
+- Tilings by translation — DOI: `10.48550/arxiv.1009.3799`
+- Curvelet transform with adaptive tiling — DOI: `10.1117/12.909111`
+- Angular velocity integration in a fly heading circuit — DOI: `10.7554/elife.23496`
+- LCIS — DOI: `10.1145/311535.311544`
+- The impact of pre- and post-image processing techniques on deep learning frameworks: A comprehensive review for digital pathology image analysis — DOI: `10.1016/j.compbiomed.2020.104129`
+- The soft mode in the Sachdev-Ye-Kitaev model and its gravity dual — DOI: `10.1007/jhep05(2018)183`
+- Enhanced Regulatory Sequence Prediction Using Gapped k-mer Features — DOI: `10.1371/journal.pcbi.1003711`
+- Nondeterministic Algorithm for Breaking Diffie-Hellman Key Exchange using Self-Assembly of DNA Tiles — DOI: `10.15837/ijccc.2012.4.1362`
+- Angular synchronization by eigenvectors and semidefinite programming — DOI: `10.1016/j.acha.2010.02.001`
+- X-ray detectors for digital radiography — DOI: `10.1088/0031-9155/42/1/001`
+- Practical recommendations for gradient-based training of deep architectures — DOI: `10.48550/arxiv.1206.5533`
+- Visualizing a silicon quantum computer — DOI: `10.1088/1367-2630/10/12/125005`
+- Base Pairing Interaction between 5′- and 3′-UTRs Controls icaR mRNA Translation in Staphylococcus aureus — DOI: `10.1371/journal.pgen.1004001`
+- An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference — DOI: `10.1177/14738716241229437`
+- Beyond English: Centering Multilingualism in Data Visualization
+- Reframing Pattern: A Comprehensive Approach to a Composite Visual Variable — DOI: `10.1109/tvcg.2025.3633909`
+- Towards a Survey on Static and Dynamic Hypergraph Visualizations — DOI: `10.1109/vis49827.2021.9623305`
+- Complex-network approach for visualizing and quantifying the evolution of a scientific topic
+- LMap: Shape-Preserving Local Mappings for Biomedical Visualization — DOI: `10.1109/tvcg.2017.2772237`
+- NL2INTERFACE: Interactive Visualization Interface Generation from Natural Language Queries
+- Reclaiming the Horizon: Novel Visualization Designs for Time-Series Data with Large Value Ranges — DOI: `10.1109/tvcg.2023.3326576`
+- Beware of Validation by Eye: Visual Validation of Linear Trends in Scatterplots — DOI: `10.1109/tvcg.2024.3456305`
+- Visual Analytics for Temporal Hypergraph Model Exploration — DOI: `10.1109/tvcg.2020.3030408`
+- What Would a Graph Look Like in This Layout? A Machine Learning Approach to Large Graph Visualization — DOI: `10.1109/tvcg.2017.2743858`
+- VisRuler: Visual Analytics for Extracting Decision Rules from Bagged and Boosted Decision Trees — DOI: `10.1177/14738716221142005`
+- Charts-of-Thought: Enhancing LLM Visualization Literacy Through Structured Data Extraction — DOI: `10.1109/tvcg.2025.3634813`
+- Corresponding Supine and Prone Colon Visualization Using Eigenfunction Analysis and Fold Modeling — DOI: `10.1109/tvcg.2016.2598791`
+- On the Importance of Training Data Sample Selection in Random Forest Image Classification: A Case Study in Peatland Ecosystem Mapping — DOI: `10.3390/rs70708489`
+- A Survey of Techniques for Approximate Computing — DOI: `10.1145/2893356`
+- Generation and display of geometric fractals in 3-D — DOI: `10.1145/965145.801263`
+- U-Net and Its Variants for Medical Image Segmentation: A Review of Theory and Applications — DOI: `10.1109/access.2021.3086020`
+- Additive manufacturing of micro-architected metals via hydrogel infusion — DOI: `10.1038/s41586-022-05433-2`
+- Mapping the fine spatial distribution of global offshore surface seawater mariculture using remote sensing big data — DOI: `10.1080/17538947.2024.2402418`
+- REAL-TIME IMAGE-BASED RGB-D CAMERA MOTION TRACKING AND ENVIRONMENT MAPPING — DOI: `10.13140/rg.2.1.3268.5049`
+- A Novel Fractal Coding Method Based on M-J Sets — DOI: `10.1371/journal.pone.0101697`
+- Improved Newton Iterative Algorithm for Fractal Art Graphic Design — DOI: `10.1155/2020/6623049`
+- Design Patterns for Data Comics — DOI: `10.1145/3173574.3173612`
+- Pathology Image Analysis Using Segmentation Deep Learning Algorithms — DOI: `10.1016/j.ajpath.2019.05.007`
+- Novel fine-scale aerial mapping approach quantifies grassland weed cover dynamics and response to management — DOI: `10.1371/journal.pone.0181665`
+- Sounds of the Underground: A Cultural, Political and Aesthetic Mapping of Underground and Fringe Music — DOI: `10.3998/mpub.8295270`
+- Tying Knots: Participatory Infrastructuring at Work — DOI: `10.1007/s10606-017-9268-y`
+- Mapping Inequity: The Campus Foodscape as Pedagogy and Practice — DOI: `10.3389/fsufs.2022.759076`
+- Wheat Lodging Detection from UAS Imagery Using Machine Learning Algorithms — DOI: `10.3390/rs12111838`
+- On Simultaneous Localization and Mapping inside the Human Body (Body-SLAM)
+- Unlocking the full potential of Sentinel-1 for flood detection in arid regions — DOI: `10.1016/j.rse.2024.114417`
+- Dense, high-resolution mapping of cells and tissues from pathology images for the interpretable prediction of molecular phenotypes in cancer — DOI: `10.1101/2020.08.02.233197`
+- World Age in Julia: Optimizing Method Dispatch in the Presence of Eval (Extended Version)
+- NQCDynamics.jl: A Julia Package for Nonadiabatic Quantum Classical Molecular Dynamics in the Condensed Phase — DOI: `10.1063/5.0089436`
+- Kernels, Data & Physics
+- Internal force distributions in 't Hooft-Polyakov monopole and Julia-Zee dyon — DOI: `10.1103/physrevd.107.055015`
+- Type Stability in Julia: Avoiding Performance Pathologies in JIT Compilation (Extended Version) — DOI: `10.1145/3485527`
+- NetworkDynamics.jl -- Composing and simulating complex networks in Julia — DOI: `10.1063/5.0051387`
+- Julia sets of Zorich maps
+- Julia sets of uniformly quasiregular mappings are uniformly perfect — DOI: `10.1017/s0305004111000478`
+- Julia sets of rational maps with rotational symmetries
+- The Inverse Iteration Method for Julia Sets in the 3-Dimensional Space
+- Boundary Julia theory for slice regular functions
+- Rational maps whose Julia sets are Cantor circles — DOI: `10.1017/etds.2013.53`
+- The Julia set and the fast escaping set of a quasiregular mapping — DOI: `10.1007/s40315-014-0051-5`
+- Rigidity of the Julia set for Hénon-Sibony maps
+- Quasiregular maps of Sierpiński carpet Julia sets
+- Quasisymmetric geometry of the Cantor circles as the Julia sets of rational maps
+- A Review on Metasurface: From Principle to Smart Metadevices — DOI: `10.3389/fphy.2020.586087`
+- SIX FRACTAL CODES OF LIFE FROM BIOATOMS ATOMIC MASS TO CHROMOSOMES NUMERICAL STANDING WAVES: THREE BREAKTHOUGHS IN ASTROBIOLOGY, CANCERS AND ARTIFICIAL INTELLIGENCE — DOI: `10.29121/granthaalayah.v9.i9.2021.4191`
+- Camera Models and Fundamental Concepts Used in Geometric Computer Vision — DOI: `10.1561/0600000023`
+- The Future-Making Assessment Approach as a Tool for E-Planning and Community Development — DOI: `10.4018/978-1-61520-929-3.ch004`
+- A course in the mathematics of design — DOI: `10.1016/0898-1221(86)90434-7`
+- A Review of Methods for Trustworthy AI in Medical Imaging: The FUTURE-AI Guidelines — DOI: `10.1109/jbhi.2025.3614546`
+- Maurice Ravel’s “Color Counterpoint” through the Perspective of Japonisme — DOI: `10.30535/mto.21.1.7`
+- Use of knowledge based systems for the detection and monitoring of unplanned developments — DOI: `10.15488/6036`
+- Managing urban complexity - Participatory planning, self-organization and co-production of urban space
+- Near Death Experiences: Falling Down a Very Deep Well — DOI: `10.4236/oalib.1104985`
+- Is Experience Stored in the Brain? A Current Model of Memory and the Temporal Metaphysic of Bergson — DOI: `10.1007/s10516-020-09483-x`
+- At the threshold : liminality, architecture, and the hidden language of space
+- Spatial Ecologies of Not-Belonging: Dwelling as Drift in M. Wylie Blanchet’s The Curve of Time — DOI: `10.1093/isle/isab008`
+- Illiteracy as Immanent: The (Re)Writing of Rhetoric's Nature
+- Un/Grounded: Representing the Experience of Contemporary Space — DOI: `10.25904/1912/2836`
+- Pattern, the visual mathematics: A search for logical connections in design through mathematics, science, and multicultural arts
+- Big History, Chaos Theory, and the Solar-Induced Aurora: Illustrating the Entangled Phases of Human Development with Cosmic Plasma at the Geospace Interface — DOI: `10.22339/jbh.v7i4.7404`
+- Music in motion: the synthesis of album design and motion graphics for downloadable music
+- An introduction to project N
+- Actor and technology : appropriating digital media into the creative process
+- Complex patterns on the plane: different types of basin fractalization in a two-dimensional mapping — DOI: `10.1142/s0218127403006558`
+- Bespoke Fractal Sampling Patterns for Discrete Fourier Space via the Kaleidoscope Transform — DOI: `10.1109/lsp.2021.3116510`
+- On the dynamics of polynomial-like mappings — DOI: `10.24033/asens.1491`
+- Fractals: An Eclectic Survey, Part-I — DOI: `10.3390/fractalfract6020089`
+- A combinatorial invariant for escape time Sierpiński rational maps — DOI: `10.4064/fm222-2-1`
+- Signal recovery and polynomiographic visualization of modified Noor iteration of operators with property ( E ) — DOI: `10.1515/dema-2024-0070`
+- New Escape Time Koch Curve in Complex Plane — DOI: `10.5120/9302-3521`
+- Minimum modulus visualization of algebraic fractals — DOI: `10.1016/j.cola.2023.101222`
+- Actual problems of creative activity and new cognitive possibilities: a transdisciplinary approach — DOI: `10.32388/gij3ri.3`
+- Actual problems of creative activity and new cognitive possibilities: a transdisciplinary approach — DOI: `10.32388/gij3ri`
+- Quantitative Optical Studies of Oxidative Stress in Rodent Models of Eye and Lung Injuries
+- Actual problems of creative activity and new cognitive possibilities: a transdisciplinary approach — DOI: `10.32388/gij3ri.2`
+- A dynamical systems framework for precision psychiatry — DOI: `10.1038/s41746-025-01984-6`
+- A QR Code for the Brain: A dynamical systems framework for computing neurophysiological biomarkers — DOI: `10.21203/rs.3.rs-4927086/v1`
+- Shape and size characterization of crystals using image analysis and neural networks
+- New Sierpenski Curves in Complex Plane — DOI: `10.5120/9334-3644`
+- Finite Dynamical Laminations — DOI: `10.48550/arxiv.2408.01353`
+- Effective computation of topological and analytical classes of unidimensional holomorphic polynomial flows
+- Colored HOMFLY and Generalized Mandelbrot set — DOI: `10.1007/jhep11(2015)151`
+- Style transfer between Microscopy and Magnetic Resonance Imaging via Generative Adversarial Network in small sample size settings — DOI: `10.1109/icip49359.2023.10222546`
+- Unavoidable patterns in $2$-colorings of the complete bipartite graph
+- An investigation on the skewness patterns and fractal nature of research productivity distributions at field and discipline level — DOI: `10.1016/j.joi.2017.02.001`
+- Right-jumps and pattern avoiding permutations — DOI: `10.46298/dmtcs.1344`
+- Pattern Avoidance for Fibonacci Sequences using $k$-Regular Words — DOI: `10.46298/dmtcs.12752`
+- Perfect colorings of the infinite square grid: coverings and twin colors — DOI: `10.37236/10005`
+- Zeeman spin-orbit coupling in antiferromagnetic conductors — DOI: `10.1016/j.jpcs.2018.09.033`
+- Finding Sequential Patterns from Large Sequence Data
+- Vertex coloring of graphs via phase dynamics of coupled oscillatory networks — DOI: `10.1038/s41598-017-00825-1`
+- Control principles of complex systems — DOI: `10.1103/revmodphys.88.035006`
+- Topological phases in polar oxide nanostructures — DOI: `10.1103/revmodphys.95.025001`
+- Quantum spin liquids: a review — DOI: `10.1088/0034-4885/80/1/016502`
+- Mechanism of single-pulse ablative generation of laser-induced periodic surface structures — DOI: `10.1103/physrevb.96.205429`
+- Time Curves: Folding Time to Visualize Patterns of Temporal Evolution in Data — DOI: `10.1109/tvcg.2015.2467851`
+- Molecular iodine/polymer complexes — DOI: `10.1515/polyeng-2012-0122`
+- Advancing Neuromorphic Computing With Loihi: A Survey of Results and Outlook — DOI: `10.1109/jproc.2021.3067593`
+- Simulating the chromatin-mediated phase separation of model proteins with multiple domains — DOI: `10.1016/j.bpj.2022.05.039`
+- Multiphase lattice Boltzmann simulations for porous media applications — DOI: `10.1007/s10596-015-9542-3`
+- Retention and Deformation of the Blue Phases in Liquid Crystalline Elastomers — DOI: `10.1038/s41467-021-25112-6`
+- The Variational Quantum Eigensolver: A review of methods and best practices — DOI: `10.1016/j.physrep.2022.08.003`
+- Proton and electron transfer in the acceptor quinone complex of photosynthetic reaction centers from Rhodobacter Sphaeroides — DOI: `10.2741/1236`
+- Antarctic Sea Ice Extent Variability and Its Global Connectivity* — DOI: `10.1175/1520-0442(2000)013<1697:asieva>2.0.co;2`
+- Optical coherence tomography angiography — DOI: `10.1016/j.preteyeres.2017.11.003`
+- Understanding the Principles of Pattern Formation Driven by Notch Signaling by Integrating Experiments and Theoretical Models — DOI: `10.3389/fphys.2020.00929`
+- Bernaise: A Flexible Framework for Simulating Two-Phase Electrohydrodynamic Flows in Complex Domains — DOI: `10.3389/fphy.2019.00021`
+- Preparation of periodic surface structures on doped poly(methyl metacrylate) films by irradiation with KrF excimer laser — DOI: `10.1186/1556-276x-9-591`
+- Gap junctional signaling in pattern regulation: Physiological network connectivity instructs growth and form — DOI: `10.1002/dneu.22405`
+- Universal Differential Equations for Scientific Machine Learning — DOI: `10.21203/rs.3.rs-55125/v1`
+- Design Patterns for Complex Event Processing
+- Domain Structures and Zig-Zag Patterns Modeled by a Fourth-Order Ginzburg-Landau Equation
+- Nanoscale periodic domain patterns in tetragonal ferroelectrics: A phase-field study — DOI: `10.1103/physrevb.93.174120`
+- Driven spin wave modes in XY ferromagnet: Nonequilibrium phase transition — DOI: `10.1080/01411594.2018.1506878`
+- Room temperature reversible colossal volto-magnetic effect in all-oxide metallicmagnet/topotactic-phase-transition material heterostructures
+- Recognition of near-duplicate periodic patterns by continuous metrics with approximation guarantees — DOI: `10.1016/j.patcog.2025.112108`
+- Submanifolds of some Hartogs domain and the complex Euclidean space — DOI: `10.1080/17476933.2022.2084538`
+- Monte Carlo study of the phase transitions in the classical XY ferromagnets with random anisotropy — DOI: `10.1080/01411594.2023.2246623`
+- Symmetric periodic orbits and uniruled real Liouville domains
+- Bridging Phases at the Morphotropic Boundaries of Lead-Oxide Solid Solutions
+- A Generalization Method of Partitioned Activation Function for Complex Number
+- Real-time optimal adaptation for planetary geometry and texture: 4-8 tile hierarchies — DOI: `10.1109/tvcg.2005.65`
+- The ACCESS coupled model: description, control climate and evaluation — DOI: `10.1071/es13004`
+- Quantitative Remote Sensing at Ultra-High Resolution with UAV Spectroscopy: A Review of Sensor Technology, Measurement Procedures, and Data Correction Workflows — DOI: `10.3390/rs10071091`
+- Ultrahigh resolution topographic mapping of Mars with MRO HiRISE stereo images: Meter‐scale slopes of candidate Phoenix landing sites — DOI: `10.1029/2007je003000`
+- Virtual Reality in Cartography: Immersive 3D Visualization of the Arctic Clyde Inlet (Canada) Using Digital Elevation Models and Bathymetric Data — DOI: `10.3390/mti3010009`
+- Free-form shape design using triangulated surfaces — DOI: `10.1145/192161.192216`
+- Evaluation of Copernicus DEM and Comparison to the DEM Used for Landsat Collection-2 Processing — DOI: `10.3390/rs15102509`
+- Climate model configurations of the ECMWF Integrated Forecasting System (ECMWF-IFS cycle 43r1) for HighResMIP — DOI: `10.5194/gmd-11-3681-2018`
+- A Comprehensive Exploration of 6G Wireless Communication Technologies — DOI: `10.3390/computers14010015`
+- TanDEM-X Ground Segment – DEM Products Specification Document
+- Discrete Global Grids: A Web Book
+- HighResMIP versions of EC-Earth: EC-Earth3P and EC-Earth3P-HR – description, model computational performance and basic validation — DOI: `10.5194/gmd-13-3507-2020`
+- Early 21st century snow cover state over the western river basins of the Indus River system — DOI: `10.5194/hess-18-4077-2014`
+- Bridging cytoskeletal intersections — DOI: `10.1101/gad.861501`
+- Test-beam measurements and simulation studies of thin pixel sensors for the CLIC vertex detector — DOI: `10.3929/ethz-b-000164813`
+- Massive stereo-based DTM production for Mars on cloud computers — DOI: `10.1016/j.pss.2018.02.012`
+- A bibliography of terrain modeling (geomorphometry), the quantitative representation of topography: Supplement 4.0 — DOI: `10.3133/ofr02465`
+- Helicopter-borne RGB orthomosaics and photogrammetric digital elevation models from the MOSAiC Expedition — DOI: `10.1038/s41597-023-02318-5`
+- Smart textiles for self-powered biomonitoring — DOI: `10.1007/s44258-023-00001-3`
+- Seamless: Multilingual Expressive and Streaming Speech Translation
+- Bitwise Triangular Coordinates for Central Products of Quaternion Groups: Floretion Base Vectors, Digitwise S3-Actions, and Centralizer Tiles
+- Triangle Tiling: The case $3α+ 2β= π$
+- Tromino Tiling Deficient Cubes of Any Side Length
+- A General Construction and Encoder Implementation of Polar Codes
+- An Adaptive Framework to Tune the Coordinate Systems in Evolutionary Algorithms
+- ShadAR: LLM-driven shader generation to transform visual perception in Augmented Reality — DOI: `10.1109/ismar-adjunct68609.2025.00267`
+- Averaged coordination numbers of planar aperiodic tilings — DOI: `10.1080/14786430500269022`
+- Seamless Paxos Coordinators — DOI: `10.1007/s10586-013-0264-9`
+- Fast Simplified Successive-Cancellation List Decoding of Polar Codes
+- The Collection 6 MODIS burned area mapping algorithm and product — DOI: `10.1016/j.rse.2018.08.005`
+- Primary textures and mineral associations in the ultramafic zone of the Stillwater complex, Montana — DOI: `10.3133/pp358`
+- Light passing through subwavelength apertures — DOI: `10.1103/revmodphys.82.729`
+- Instant neural graphics primitives with a multiresolution hash encoding — DOI: `10.1145/3528223.3530127`
+- A FFT-based formulation for efficient mechanical fields computation in isotropic and anisotropic periodic discrete dislocation dynamics — DOI: `10.1088/0965-0393/23/6/065009`
+- Scale-invariant magnetic textures in the strongly correlated oxide NdNiO3 — DOI: `10.1038/s41467-019-12502-0`
+- Majorana bound states induced by antiferromagnetic skyrmion textures — DOI: `10.1103/physrevb.104.214501`
+- The simulation of texture evolution with finite elements over orientation space I. Development — DOI: `10.1016/0045-7825(95)00904-3`
+- Mapping the magnonic landscape in patterned magnetic structures — DOI: `10.1103/physrevb.96.094430`
+- High‐Energy X‐Rays: A tool for Advanced Bulk Investigations in Materials Science and Physics — DOI: `10.1080/07303300310001634952`
+- The Connection Machine — DOI: `10.1038/scientificamerican0687-108`
+- Spinor Bose–Einstein condensates — DOI: `10.1016/j.physrep.2012.07.005`
+- Study and interpretation of the chemical characteristics of natural water — DOI: `10.3133/wsp1473`
+- Detection of an anomalous cluster in a network — DOI: `10.1214/10-aos839`
+- Modeling and simulation in tribology across scales: An overview — DOI: `10.1016/j.triboint.2018.02.005`
+- Optical modeling of thin film silicon solar cells with random and periodic light management textures — DOI: `10.14279/depositonce-3515`
+- Local Estimate on Convexity Radius and decay of injectivity radius in a Riemannian manifold — DOI: `10.1142/s0219199717500602`
+- Existence and Global Logarithmic Stability of Impulsive Neural Networks with Time Delay
+- Moduli of morphisms of logarithmic schemes — DOI: `10.2140/ant.2016.10.695`
+- The monodromy pairing for logarithmic 1-motifs — DOI: `10.2140/tunis.2022.4.587`
+- Confronting predictive texture zeros in lepton mass matrices with current data — DOI: `10.1103/physrevd.92.025005`
+- Trapped in texture bias? A large scale comparison of deep instance segmentation — DOI: `10.1007/978-3-031-20074-8_35`
+- Diabetes: Non-Invasive Blood Glucose Monitoring Using Federated Learning with Biosensor Signals — DOI: `10.3390/bios15040255`
+- The Cryptographic Imagination: Secret Writing from Edgar Poe to the Internet — DOI: `10.2307/2902463`
+- Earthbound visual cultures Experiments in machine vision and image processing — DOI: `10.7494/978-83-68219-45-6`
+- Integrating the Arts and Sciences in the Museum Setting
+- Machine Sensation
+- Evolutive Rendering Models
+- Photosensitive materials for neutron optics — DOI: `10.1117/12.3022432`
+- The dimensions of accessibility: proximity, opportunities, values — DOI: `10.1140/epjds/s13688-026-00623-8`
+- Accessibility Literacy: Increasing accessibility awareness among young content creators
+- Adaptive Frameless Rendering — DOI: `10.2312/egwr/egsr05/265-275`
+- Fractal dimension of discrete sets and percolation
+- Differentiable Inverse Rendering with Interpretable Basis BRDFs
+
+## Failures
+
+- semantic-scholar / "complex logarithm texture mapping fractal escape time": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "Mandelbrot texture mapping final iterate polar coordinates": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "fractal image tessellation logarithmic polar coordinates": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "complex dynamics texture mapping escape radius angle": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "conformal texture mapping complex logarithm": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "escape-time fractal domain coloring argument modulus": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "smooth escape time logarithm modulus Mandelbrot": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "procedural tessellation fractal shader GLSL": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "polar texture coordinates angular radial periodic mapping": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "log-polar image warping computer graphics": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "complex exponential logarithm tiling visualization": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "Julia set texture mapping final iterate": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "fractal kaleidoscope texture mapping complex plane": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "Mandelbrot set image trap coloring": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "orbit trap coloring fractal procedural patterns": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "complex domain coloring phase magnitude periodic patterns": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "shader polar coordinate seamless tiling": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "logarithmic radius periodic texture mapping": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)

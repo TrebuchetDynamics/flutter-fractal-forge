@@ -958,6 +958,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tooltipShare => 'Compartir';
 
   @override
+  String get shareExportTitle => 'Compartir y exportar';
+
+  @override
+  String get shareLinkAction => 'Copiar enlace de la vista';
+
+  @override
   String get actionCopy => 'Copiar';
 
   @override
@@ -1097,6 +1103,17 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get autoExploreSubtitle =>
       'Descubre automáticamente áreas interesantes';
+
+  @override
+  String get autoExplorePausedUserCorrection =>
+      'El piloto automático está en pausa mientras ajustas la vista.';
+
+  @override
+  String get autoExploreZoomOnlyDescription =>
+      'Modo de solo zoom. Auto-Explorar deja el desplazamiento bajo tu control.';
+
+  @override
+  String get actionResume => 'Reanudar';
 
   @override
   String get tooltipStartExplore => 'Iniciar auto-exploración';
@@ -1492,7 +1509,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get homeFractalCountBadge => '966 fractales';
+  String get homeFractalCountBadge => '1004 fractales';
 
   @override
   String get catalogAllFractals => 'Todos los fractales';
@@ -1733,7 +1750,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settingsAboutBlurb =>
-      'Exploración acelerada por GPU de 966 fractales de producción, con zoom profundo y renderizado en tiempo real.';
+      'Exploración acelerada por GPU de 1004 fractales de producción, con zoom profundo y renderizado en tiempo real.';
 
   @override
   String get settingsSourceCode => 'Código fuente';

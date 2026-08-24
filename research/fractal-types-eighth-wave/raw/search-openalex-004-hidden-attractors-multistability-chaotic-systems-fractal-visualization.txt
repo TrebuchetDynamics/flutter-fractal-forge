@@ -1,0 +1,20 @@
+10.1140/epjst/e2015-02470-3	Homoclinic orbits, and self-excited and hidden attractors in a Lorenz-like system describing convective fluid motion
+10.1007/s11071-018-4054-z	Finite-time Lyapunov dimension and hidden attractor of the Rabinovich system
+10.1016/j.chaos.2022.111834	Multistable dynamics and control of a new 4D memristive chaotic Sprott B system
+10.1007/s00521-020-05451-z	Window of multistability and its control in a simple 3D Hopfield neural network: application to biomedical image encryption
+10.1155/2020/5859273	Secure Communication Scheme Based on a New 5D Multistable Four-Wing Memristive Hyperchaotic System with Disturbance Inputs
+10.1007/s11571-022-09866-3	Extreme multistability and phase synchronization in a heterogeneous bi-neuron Rulkov network with memristive electromagnetic induction
+10.1007/s11071-022-08078-y	Hidden attractors in Chua circuit: mathematical theory meets physical experiments
+10.3390/e25030495	Fuzzy Synchronization of Chaotic Systems with Hidden Attractors
+10.1109/access.2019.2938513	A New S-Box Generation Algorithm Based on Multistability Behavior of a Plasma Perturbation Model
+10.1109/access.2024.3351693	A New Hyperjerk System With a Half Line Equilibrium: Multistability, Period Doubling Reversals, Antimonotonocity, Electronic Circuit, FPGA Design, and an Application to Image Encryption
+10.1063/1.5007925	Approximating hidden chaotic attractors via parameter switching
+10.1155/2020/8175639	Infinitely Many Coexisting Attractors in No-Equilibrium Chaotic System
+10.1088/1402-4896/acfac6	A new chaotic jerk system with hidden heart-shaped attractor: dynamical analysis, multistability, connecting curves and its application in image encryption
+10.1140/epjst/e2017-70037-1	Megastability: Coexistence of a countable infinity of nested attractors in a periodically-forced oscillator with spatially-periodic damping
+10.1109/access.2020.3026676	Extreme Multistability in Simple Area-Preserving Map
+10.1088/0951-7715/15/4/312	Bifurcations and strange attractors in the Lorenz-84 climate model with seasonal forcing
+10.1016/j.physrep.2020.05.004	Networks beyond pairwise interactions: Structure and dynamics
+10.1007/s00521-021-06130-3	Multistability and circuit implementation of tabu learning two-neuron model: application to secure biomedical images in IoMT
+10.3390/electronics9060880	Multistability Emergence through Fractional-Order-Derivatives in a PWL Multi-Scroll System
+10.1109/tcsi.2024.3439869	Memristive Tabu Learning Neuron Generated Multi-Wing Attractor With FPGA Implementation and Application in Encryption

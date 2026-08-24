@@ -1,0 +1,20 @@
+	Playing a 2D Game Indefinitely using NEAT and Reinforcement Learning
+10.12775/tmna.2016.064	On the chaos game of Iterated Function Systems
+10.1007/s00182-012-0345-7	Optimal strategies for a game on amenable semigroups
+	The Chaos Game on a General Iterated Function System
+10.1063/1.4768666	Topological chaos, braiding and bifurcation of almost-cyclic sets
+10.1063/1.5062364	Computational capabilities at the edge of chaos for one dimensional system undergoing continuous transitions
+10.1142/s0218127420502211	Chaos predictability in a chemical reactor
+10.1007/978-3-642-04629-2	Stable chaos
+10.21638/11701/spbu31.2022.26	Dynamic Structure in Four-strategy Game: Theory and Experiment
+	Non-deterministic chaos
+	Consensus Game Acceptors and Iterated Transductions
+10.1063/1.166463	Anomalous spatio-temporal chaos in a two-dimensional system of non-locally coupled oscillators
+10.1142/s0218127425500154	Dense uniform Li-Yorke chaos for linear operators on a Banach space
+10.3390/math10183338	Advanced Drone Swarm Security by Using Blockchain Governance Game
+10.1016/j.chaos.2008.04.017	Works on an information geometrodynamical approach to chaos
+10.1063/1.1849131	Weak and strong chaos in FPU models and beyond
+	Application of chaos degree to some dynamical systems
+10.1142/s0218127411029367	Experimental observation of a chaos-to-chaos transition in laser droplet generation
+10.1063/1.1626392	Ray chaos and ray clustering in an ocean waveguide
+10.1016/j.chaos.2018.10.027	Relativistic chaos in the anisotropic harmonic oscillator

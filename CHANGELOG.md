@@ -5,6 +5,35 @@ All notable changes to Flutter Fractal Forge are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.92] - 2026-08-24
+
+### Added
+
+- Thirty-four research-backed production fractals across complex dynamics,
+  number theory, dynamical systems, geometric constructions, and stochastic
+  fields, bringing the verified production catalog to 1000 fractals.
+- Dedicated GPU shaders, formula/render regression tests, and provenance
+  packages for the eighth, ninth, and tenth catalog research waves.
+- Four static log-polar tessellation fractals with original procedural motifs,
+  bringing the verified production catalog to 1004 fractals without bundling
+  third-party image tiles.
+- A bounded runtime-thumbnail render queue and reusable memory/disk thumbnail
+  cache for smoother catalog browsing.
+
+### Changed
+
+- Share, image export, link sharing, and wallpaper actions now use one
+  accessible Share & export menu, while Auto Explore uses the shared responsive
+  bottom-sheet layout.
+- Random fractal selection publishes its chosen module and palette atomically,
+  preventing an intermediate default-palette flash.
+
+### Fixed
+
+- Android production viewers no longer expose the desktop fractal-report FAB.
+- Continuous Fractal Music camera motion tests now wait for the bounded rescan
+  deadline instead of depending on an unloaded event loop.
+
 ## [1.1.90] - 2026-08-20
 
 ### Changed

@@ -1,0 +1,20 @@
+10.2140/agt.2025.25.2807	Surgery sequences and self-similarity of the Mandelbrot set
+	Homotopies and Maps between Eigenvalues of some Generalized Lucas Sequences and the Mandelbrot Set
+	On Fibers and Local Connectivity of Mandelbrot and Multibrot Sets
+	Decompositions of set-valued mappings
+	Texture image analysis and texture classification methods - A review
+10.1002/hbm.70548	Improved Multiscale Structural Mapping with Supervertex Vision Transformer for the Detection of Alzheimer's Disease Neurodegeneration
+	The Dynamics of Financial Markets -- Mandelbrot's multifractal cascades, and beyond
+10.13140/rg.2.2.33612.46722	A New Benchmark Dataset for Texture Image Analysis and Surface Defect Detection
+	Geometrical representation of real and reactive powers of load demand by orbit diagrams in the Mandelbrot set
+	Newton-Mandelbrot set and Murase-Mandelbrot set
+	Sharkovsky's Ordering in the Mandelbrot Set
+	On a Slice of the Cubic 2-adic Mandelbrot Set
+	Julia sets appear quasiconformally in the Mandelbrot set
+	Mandelbrot set and Julia sets of fractional order
+	Template iterations of quadratic maps and hybrid Mandelbrot sets
+	Make-A-Texture: Fast Shape-Aware Texture Generation in 3 Seconds
+	The Decoration Theorem for Mandelbrot and Multibrot Sets
+	Describing Textures using Natural Language
+10.1007/s00222-017-0737-1	On quasi-conformal (in-) compatibility of satellite copies of the Mandelbrot set: I
+	Texture Synthesis Using Convolutional Neural Networks

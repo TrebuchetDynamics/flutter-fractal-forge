@@ -1,0 +1,16 @@
+10.1142/s0218348x24500610	3D RENDERING OF THE QUATERNION MANDELBROT SET WITH MEMORY
+10.1142/s0218348x0000041x	A GENERALIZED MANDELBROT SET FOR BICOMPLEX NUMBERS
+10.1142/9789812778604_0006	Quaternion Mandelbrot Sets
+10.1515/gmj.2008.189	A Generalized Mandelbrot Set of Polynomials of Type 𝐸<sub>𝑑</sub> for Bicomplex Numbers
+10.1016/j.amc.2006.09.090	The divisor periodic point of escape-time N of the Mandelbrot set
+10.2307/3219143	Plotting the Escape: An Animation of Parabolic Bifurcations in the Mandelbrot Set
+10.32614/cran.package.mandelbrot	mandelbrot: Generates Views on the Mandelbrot Set
+10.1017/cbo9780511569159.003	The Mandelbrot set is universal
+10.1080/0025570x.2002.11953112	Plotting the Escape—An Animation of Parabolic Bifurcations in the Mandelbrot Set
+10.1007/s00454-012-9431-7	Mandelbrot Set + Symmetry Groups ∗ Higher Dimensions = ?
+10.1017/cbo9780511569159.008	Local properties of the Mandelbrot set at parabolic points
+10.3840/07001482	Mandelbrot Set Print
+10.3840/001482	Mandelbrot Set Print
+10.55277/researchhub.br88fx0d.1	Natural Maths - Mandelbrot Set
+10.3840/07001478	Mandelbrot Set Doodle
+10.1371/journal.pone.0320234	Correction: On escape criterion of an orbit with s−convexity and illustrations of the behavior shifts in Mandelbrot and Julia set fractals

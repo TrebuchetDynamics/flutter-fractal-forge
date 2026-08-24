@@ -1,0 +1,20 @@
+10.3390/sym15020478	Fractals as Julia and Mandelbrot Sets of Complex Cosine Functions via Fixed Point Iterations
+10.1109/access.2019.2951385	Fixed Point Results for Fractal Generation in Extended Jungck–SP Orbit
+10.21817/ijet/2017/v9i3/1709030282	Generation of New Fractals via SP Orbit with s-Convexity
+10.1155/2022/2592573	Julia and Mandelbrot Sets of Transcendental Function via Fibonacci-Mann Iteration
+10.3390/fractalfract8020116	Escape Criteria Using Hybrid Picard S-Iteration Leading to a Comparative Analysis of Fractal Mandelbrot Sets Generated with S-Iteration
+10.1007/s11075-023-01644-4	On the viscosity approximation type iterative method and its non-linear behaviour in the generation of Mandelbrot and Julia sets
+10.3934/math.2025437	Fractal generation and analysis using modified fixed-point iteration
+10.1109/access.2019.2920026	Boundaries of Filled Julia Sets in Generalized Jungck Mann Orbit
+10.1155/2015/797594	Polynomiography Based on the Nonstandard Newton-Like Root Finding Methods
+10.3934/math.20251148	Role of $ s $-convexity in the generation of fractals as Julia and Mandelbrot sets via three-step fixed point iteration
+10.3390/math8122172	Some Escape Time Results for General Complex Polynomials and Biomorphs Generation by a New Iteration Process
+10.3390/axioms13080502	Efficiency of a New Iterative Algorithm Using Fixed-Point Approach in the Settings of Uniformly Convex Banach Spaces
+10.1038/s41598-025-04700-2	Secure data transmission through fractal-based cryptosystem: a Noor iteration approach
+10.3390/fractalfract9010040	An Effective Iterative Process Utilizing Transcendental Sine Functions for the Generation of Julia and Mandelbrot Sets
+10.1007/s00009-020-1491-y	Higher Order Methods of the Basic Family of Iterations via S-Iteration Scheme with s-Convexity
+10.1155/2021/8886056	Fractals via Generalized Jungck–S Iterative Scheme
+10.1371/journal.pone.0312197	On escape criterion of an orbit with s−convexity and illustrations of the behavior shifts in Mandelbrot and Julia set fractals
+10.3390/axioms14110830	An Efficient Iteration Method for Fixed-Point Approximation and Its Application to Fractional Volterra–Fredholm Integro–Differential Equations
+10.1109/access.2020.3033733	Anti Mandelbrot Sets via Jungck-M Iteration
+10.3390/axioms13030204	Generating Geometric Patterns Using Complex Polynomials and Iterative Schemes

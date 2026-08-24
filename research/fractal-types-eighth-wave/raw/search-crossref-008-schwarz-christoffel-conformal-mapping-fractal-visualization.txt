@@ -1,0 +1,20 @@
+10.1017/cbo9781316036549.022	Conformal mapping II: the Schwarz—Christoffel mapping
+10.1007/978-1-4612-2002-2_4	Schwarz—Christoffel Integrals
+10.1017/cbo9780511546808.003	Essentials of Schwarz–Christoffel mapping
+10.1017/cbo9780511546808.001	Preface
+10.1017/cbo9780511546808.005	Variations
+10.1017/cbo9780511546808.008	Bibliography
+10.1017/cbo9780511546808.006	Applications
+10.1017/cbo9780511546808.002	Introduction
+10.1017/cbo9780511546808.004	Numerical methods
+10.1201/9781315180236-8	Schwarz-Christoffel Integrals
+10.1201/9781315180236-7	Schwarz-Christoffel Transformations
+10.1017/cbo9780511546808.007	Appendix: Using the SC Toolbox
+10.1109/sceecs61402.2024.10481835	Gain Improvement of Patch Antenna Using Joukowsky and Schwarz-Christoffel Conformal Mapping on Feed Line Section
+10.1017/cbo9780511546808	Schwarz-Christoffel Mapping
+10.1016/0377-0427(93)90288-m	Schwarz-Christoffel methods for conformal mapping of regions with a periodic boundary
+10.1186/2251-7456-6-37	Conformal mapping: Schwarz-Christoffel method for flux-switching PM machines
+10.1049/elp2.70006	Analytical model for ring winding axial flux permanent magnet motor using Schwarz–Christoffel conformal mapping
+10.1093/oso/9780198759874.005.0014	Schwarz-Christoffel mapping
+10.1002/nme.2589	Numerical integration over arbitrary polygonal domains based on Schwarz–Christoffel conformal mapping
+10.1016/j.sna.2004.02.038	Electrostatic analysis of a comb-finger actuator with Schwarz–Christoffel conformal mapping

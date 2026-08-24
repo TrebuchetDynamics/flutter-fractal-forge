@@ -1,0 +1,20 @@
+10.1090/crmp/001/02	Eisenstein series and theta functions on the metaplectic group
+10.32614/cran.package.jacobi	jacobi: Jacobi Theta Functions and Related Functions
+10.1007/978-3-642-65663-7_3	Eisenstein Series
+10.1007/978-3-642-65663-7_9	Theta Series
+10.5353/th_991044046591503414	Some results on modular forms : valence formulas, Eisenstein series, vector-valued L-functions
+10.1007/978-3-642-65663-7_7	Eisenstein Series of Higher Level
+10.1007/bfb0083566	Some conjectured relationships between theta functions and eisenstein series on the metaplectic group
+10.1007/978-0-8176-4639-4_9	Arithmetic Aspects of the Theta Correspondence and Periods of Modular Forms
+10.1017/cbo9780511623691.006	Elliptic modular forms and their <i>L</i>-functions
+10.1017/cbo9780511623691.007	Modular forms and cohomology groups
+10.1142/9789812774415_0011	GENUS THETA SERIES, HECKE OPERATORS AND THE BASIS PROBLEM FOR EISENSTEIN SERIES
+10.1007/bfb0058639	Report on Eisenstein series of the modular group
+10.1090/gsm/037/02	Theta functions with characteristics
+10.1090/pspum/049.2/1013165	Siegel modular forms and theta series
+10.1515/crll.1978.303-304.332	Analytic Eisenstein series, theta-functions, and series relations in the spirit of Ramanujan.
+10.1515/math-2023-0126	On average theta functions of certain quadratic forms as sums of Eisenstein series
+10.1007/s40590-014-0044-4	Theta functions and Eisenstein series
+10.1007/978-3-662-71224-5_5	Theta series
+10.1016/j.jnt.2007.08.015	Eisenstein series and theta functions to the septic base
+10.1017/cbo9780511623691.003	Classical <i>L</i>-functions and Eisenstein series

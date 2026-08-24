@@ -1,0 +1,20 @@
+10.1103/physrevlett.131.177001	Graded Quasiperiodic Metamaterials Perform Fractal Rainbow Trapping
+10.1088/0022-3727/40/13/r01	Photonic and phononic quasicrystals
+10.21468/scipostphys.6.4.050	Many-body localization in a quasiperiodic Fibonacci chain
+10.1103/physrevb.106.094202	Statistical mechanics of dimers on quasiperiodic Ammann-Beenker tilings
+10.24033/msmf.430	Topological properties of Rauzy fractals
+10.1155/2014/165943	On the Nature of Electronic Wave Functions in One-Dimensional Self-Similar and Quasiperiodic Systems
+10.4171/dm/799	Fourier Transform of Rauzy Fractals and Point Spectrum of 1D Pisot Inflation Tilings
+10.1103/physrevb.104.155126	Topological charge pumping in quasiperiodic systems characterized by the Bott index
+10.1209/0295-5075/111/37008	Quasiperiodicity and 2D topology in 1D charge-ordered materials
+10.1103/revmodphys.93.045001	The Fibonacci quasicrystal: case study of hidden dimensions and multifractality
+10.1088/0305-4470/36/24/305	Self-avoiding walks and polygons on quasiperiodic tilings
+10.1103/physrevlett.123.196401	Topological Phases without Crystalline Counterparts
+10.1103/physrevx.10.011005	Classical Dimers on Penrose Tilings
+10.46298/dmtcs.2291	Tilings, Quasicrystals, Discrete Planes, Generalized Substitutions, and Multidimensional Continued Fractions
+10.1524/zkri.219.7.391.35643	Twenty years of structure research on quasicrystals. Part I. Pentagonal, octagonal, decagonal and dodecagonal quasicrystals
+10.1107/s2053273317016540	Quasicrystals: What do we know? What do we want to know? What can we know?
+10.48550/arxiv.2201.11848	Hexagonal and trigonal quasiperiodic tilings
+10.48550/arxiv.2305.05639	Dynamics and topology of the Hat family of tilings
+10.1098/rspa.2023.0663	Super band gaps and periodic approximants of generalised Fibonacci tilings
+10.1007/s00222-016-0660-x	The Fibonacci Hamiltonian

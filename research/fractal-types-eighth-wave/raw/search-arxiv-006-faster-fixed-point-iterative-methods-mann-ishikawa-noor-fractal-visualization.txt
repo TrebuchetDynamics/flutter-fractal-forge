@@ -1,0 +1,20 @@
+	Convergence of algorithms for fixed points of relatively nonexpansive mappings via Ishikawa iteration
+10.1007/s11784-016-0300-5	Applications of uniform asymptotic regularity to fixed point theorems
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+	Beyond English: Centering Multilingualism in Data Visualization
+10.24193/fpt-ro.2019.2.47	A new contribution to discontinuity at fixed point
+	Fixed point theorems for Meir-Keeler type contractions in metric spaces
+10.1088/1538-3873/aa5fa6	Editorial: Techniques and Methods for Astrophysical Data Visualization
+	Fixed Point Diffusion Models
+10.22075/ijnaa.2021.21435.2259	Convexity in G-metric spaces and approximation of fixed points by Mann iterative proces
+10.62780/ejaam/2025-005	A polynomially accelerated fixed-point iteration for vector problems
+	New directions in fixed point theory in $G$-metric spaces and applications to mappings contracting perimeters of triangles
+	Asian option as a fixed-point
+	A Class of Extended Ishikawa Iterative Processes in Banach Spaces for Nonexpansive Mappings
+10.1109/vis49827.2021.9623305	Towards a Survey on Static and Dynamic Hypergraph Visualizations
+	Fast Krasnosel'skii-Mann algorithm with a convergence rate of the fixed point iteration of $o\left(\frac{1}{k}\right)$
+	Applications of fixed point theorems in the theory of invariant subspaces
+	Fixed Point Indices and Manifolds with Collars
+10.1109/tvcg.2025.3633909	Reframing Pattern: A Comprehensive Approach to a Composite Visual Variable
+	String-Averaging Methods for Best Approximation to Common Fixed Point Sets of Operators: The Finite and Infinite Cases

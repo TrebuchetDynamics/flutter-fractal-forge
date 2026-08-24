@@ -1,0 +1,20 @@
+10.1080/10652469.2014.973191	On the zeros of the hyper-Bessel function
+10.1080/1065246042000272081	The Bessel function over finite fields
+10.1117/3.885484.ch74	Bessel Function Example
+10.1201/9781439864548-26	The Bessel Function Jv(z)
+10.1080/10652460008819270	Error bounds for mcmahon's asympotic approximations of the zeros of the bessel functions
+10.1080/10652469.2024.2325435	On the zeros of derivatives of Bessel functions
+10.1201/9781439864548-27	The Modified Bessel Function Iv(z)
+10.4236/apm.2019.93013	Common Properties of Riemann Zeta Function, Bessel Functions and Gauss Function Concerning Their Zeros
+10.1080/10652469.2019.1709455	Note on power sums of the zeros of certain Laguerre and Bessel polynomials
+10.1080/10652469.2025.2524721	Uniform asymptotic expansions for Bessel functions of imaginary order and their zeros
+10.2172/4101889	EVALUATION OF THE ZEROS OF CROSS-PRODUCT BESSEL FUNCTIONS
+10.1137/s1064827598339074	Automatic Computation of Zeros of Bessel Functions and Other Special Functions
+10.1070/im1997v061n01abeh000104	Zeros of a special type of function associated with Hecke <i>L</i> -functions of imaginary quadratic fields
+10.1080/1065246031000074362	A generalized Bessel function
+10.2172/4360349	THE ZEROS OF BESSEL FUNCTIONS AND x Jy + 1 (%)/Jy (x) = CONSTANT
+10.1201/9781439864548-143	Bessel Functions and Modified Bessel Functions of Real Order and Argument
+10.5962/p.360739	The zeros of a certain function involving Bessel Functions
+10.1201/9781003339595-4	Bessel Function
+10.1016/b978-0-12-083750-2.50049-7	INEQUALITIES FOR THE ZEROS OF BESSEL FUNCTIONS
+10.1080/10652460108819311	On the distribution of zeros of the wright function

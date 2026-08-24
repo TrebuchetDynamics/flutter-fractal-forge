@@ -1,0 +1,20 @@
+	Mandelbrot set as a particular Julia set of Fractional Order, echipotential lines and external rays of Mandelbrot and Julia sets of Fractional Order
+10.2140/agt.2025.25.2807	Surgery sequences and self-similarity of the Mandelbrot set
+	Measurement of the properites of cosmic rays with the LOFAR radio telescope
+	Homotopies and Maps between Eigenvalues of some Generalized Lucas Sequences and the Mandelbrot Set
+	Rational parameter rays of the Mandelbrot set
+	Periodic Orbits, Externals Rays and the Mandelbrot Set: An Expository Account
+	On Fibers and Local Connectivity of Mandelbrot and Multibrot Sets
+	External rays and the real slice of the Mandelbrot set
+	The Dynamics of Financial Markets -- Mandelbrot's multifractal cascades, and beyond
+	Topological entropy of quadratic polynomials and dimension of sections of the Mandelbrot set
+	Newton-Mandelbrot set and Murase-Mandelbrot set
+	Mandelbrot set and Julia sets of fractional order
+	The Decoration Theorem for Mandelbrot and Multibrot Sets
+	Julia sets appear quasiconformally in the Mandelbrot set
+	Higher Order Mandelbrot Sets and their Varying Shapes
+	On a Slice of the Cubic 2-adic Mandelbrot Set
+	Homeomorphisms between limbs of the Mandelbrot set
+10.1007/s00222-017-0737-1	On quasi-conformal (in-) compatibility of satellite copies of the Mandelbrot set: I
+	Internal addresses in the Mandelbrot set and Galois groups of polynomials
+	Pseudo-monodromy and the Mandelbrot set

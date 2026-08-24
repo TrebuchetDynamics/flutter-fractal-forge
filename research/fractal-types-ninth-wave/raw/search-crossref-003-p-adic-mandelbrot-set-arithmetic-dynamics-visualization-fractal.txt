@@ -1,0 +1,20 @@
+10.4171/jfg/2	$p$-adic path set fractals and arithmetic
+10.3390/fractalfract8010069	Mandelbrot Set as a Particular Julia Set of Fractional Order, Equipotential Lines and External Rays of Mandelbrot and Julia Sets of Fractional Order
+10.1201/9781003072676-18	On the Dynamics of Iterated Maps V: Conjecture That the Boundary of the M-Set Has a Fractal Dimension Equal to 2
+10.1201/9781003072676-17	On the Dynamics of Iterated Maps IV: The Notion of “Normalized Radical” R of the M-Set, and the Fractal Dimension of the Boundary of R
+10.4064/aa158-3-5	Bounds on the radius of the p-adic Mandelbrot set
+10.2139/ssrn.7202782	Fractal Foundations of Artificial Intelligence Through Julia and Mandelbrot Dynamics
+10.3390/fractalfract5030073	Visualization of Mandelbrot and Julia Sets of Möbius Transformations
+10.1515/9783111689685-011	11 Convergence and dynamics
+10.1515/9783111689685	Dynamics of Entire Functions
+10.1112/s0010437x07002667	Iterated Galois towers, their associated martingales, and the $p$-adic Mandelbrot set
+10.1002/9781118146538.ch21	Mandelbrot Set Fractal Accelerator
+10.1002/9781118309728.ch22	Mandelbrot Set Fractal Accelerator
+10.1016/b978-0-44-318468-0.00008-8	Analysis of Mandelbrot set fractal images using a machine learning based approach
+10.1090/noti1038	WHAT IS...the p-adic Mandelbrot Set?
+10.1515/9783111689685-toc	Contents
+10.1515/9783111689685-016	Bibliography
+10.1515/9783111689685-201	Preface
+10.1515/9783111689685-fm	Frontmatter
+10.2140/involve.2019.12.969	Algorithms for classifying points in a 2-adic Mandelbrot set
+10.1515/9783111689685-014	C Computer graphics of complex dynamics

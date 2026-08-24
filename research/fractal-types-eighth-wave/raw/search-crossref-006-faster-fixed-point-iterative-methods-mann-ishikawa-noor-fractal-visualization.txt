@@ -1,0 +1,20 @@
+10.1155/fpta/2006/49615	Mann iteration converges faster than Ishikawa iteration for the class of Zamfirescu operators
+10.1155/2007/97986	Erratum to: Mann Iteration Converges Faster than Ishikawa Iteration for the Class of Zamfirescu Operators
+10.1155/2010/169062	Comparison of the Rate of Convergence among Picard, Mann, Ishikawa, and Noor Iterations Applied to Quasicontractive Maps
+10.22541/au.159144324.43453139	A note on a faster fixed point iterative method
+10.69829/fpmo-026-0301-ta03	Modified inertial-type Krasnosel'skii-Mann iterative algorithm involving total asymptotically nonexpansive mappings
+10.1186/1687-1812-2013-69	A Picard-Mann hybrid iterative process
+10.1007/978-3-031-85841-3_2	Iterative Methods
+10.28919/afpt/5665	Convergence of an inertial-type Krasnosel’skii-Mann-type iterative sequence to fixed points of nonexpansive mappings in Hilbert spaces
+10.1186/1687-1812-2013-288	Alternating mann iterative algorithms for the split common fixed-point problem of quasi-nonexpansive mappings
+10.1155/s1687182004311058	Picard iteration converges faster than Mann iteration for a class of quasi-contractive operators
+10.1515/9783110667097-004	4 Fixed point theory and iterative methods for fixed points of nonexpansive mappings in Banach spaces
+10.3934/math.2023149	Approximation of fixed point of generalized non-expansive mapping via new faster iterative scheme in metric domain
+10.1186/1687-1812-2013-244	Fixed point problems of the Picard-Mann hybrid iterative process for continuous functions on an arbitrary interval
+10.1155/2007/61434	Remarks of Equivalence among Picard, Mann, and Ishikawa Iterations in Normed Spaces
+10.1155/2010/914702	Convergence Theorems of Modified Ishikawa Iterative Scheme for Two Nonexpansive Semigroups
+10.1186/1687-1812-2013-227	Some results on a modified Mann iterative scheme in a reflexive Banach space
+10.1186/1687-1812-2014-58	A modified Picard-Mann hybrid iterative algorithm for common fixed points of countable families of nonexpansive mappings
+10.1017/cbo9780511811357.022	Fixed Point Iterative Methods
+10.1007/978-3-319-01586-6_8	Some Iterative Methods for Fixed Point Problems
+10.1155/2010/513956	Some Krasnonsel'skiĭ-Mann Algorithms and the Multiple-Set Split Feasibility Problem

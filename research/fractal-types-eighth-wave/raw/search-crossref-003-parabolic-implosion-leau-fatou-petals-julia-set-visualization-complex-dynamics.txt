@@ -1,0 +1,20 @@
+10.1007/978-3-663-08092-3_6	Using the Fatou Set to Study the Julia Set
+10.2307/j.ctt7rnxn.11	USING THE FATOU SET TO STUDY THE JULIA SET
+10.1515/9781400835539.174	Using the Fatou Set to Study the Julia Set
+10.1007/978-3-663-08092-3_5	Structure of the Fatou Set
+10.1007/978-3-319-20337-9_11	Fatou Coordinates for Parabolic Dynamics
+10.1007/978-1-4612-4364-9_7	Local Geometry of the Fatou Set
+10.2307/j.ctt7rnxn.10	STRUCTURE OF THE FATOU SET
+10.1515/9781400835539.161	Structure of the Fatou Set
+10.1007/978-3-663-09197-4_11	Fatou and Julia
+10.1017/cbo9780511735233.003	Iteration of inner functions and boundaries of components of the Fatou set
+10.1007/978-94-015-9299-4_1	Fatou-Julia type theory
+10.1090/conm/303/05239	The parabolic implosion: Lavaurs maps and strong convergence for rational maps
+10.1090/ulect/058/06	Complex dynamics: The Fatou-Julia-Baker theorem
+10.1007/978-3-663-09197-4_6	The Flower Theorem of Fatou and Julia
+10.1090/hmath/038/11	Branching out: Fatou and Julia in the 1920s
+10.1515/9783110889314.46	3 The Fatou Set
+10.1186/s40627-018-0011-3	Parametrization of unstable manifolds and Fatou disks for parabolic skew-products
+10.1137/1036156	A History of Complex Dynamics from Schröder to Fatou and Julia (Daniel S. Alexander)
+10.24033/ast.619	Homéomorphismes de surfaces Théorèmes de la ﬂeur de Leau-Fatou et de la variété stable
+10.1007/s00605-006-0426-4	Parabolic Implosion and Julia-Lavaurs Sets in the Exponential Family

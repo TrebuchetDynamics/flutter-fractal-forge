@@ -1,0 +1,20 @@
+10.1109/tvcg.2005.65	Real-time optimal adaptation for planetary geometry and texture: 4-8 tile hierarchies
+10.1071/es13004	The ACCESS coupled model: description, control climate and evaluation
+10.3390/rs10071091	Quantitative Remote Sensing at Ultra-High Resolution with UAV Spectroscopy: A Review of Sensor Technology, Measurement Procedures, and Data Correction Workflows
+10.1029/2007je003000	Ultrahigh resolution topographic mapping of Mars with MRO HiRISE stereo images: Meter‐scale slopes of candidate Phoenix landing sites
+10.3390/mti3010009	Virtual Reality in Cartography: Immersive 3D Visualization of the Arctic Clyde Inlet (Canada) Using Digital Elevation Models and Bathymetric Data
+10.1145/192161.192216	Free-form shape design using triangulated surfaces
+10.3390/rs15102509	Evaluation of Copernicus DEM and Comparison to the DEM Used for Landsat Collection-2 Processing
+10.5194/gmd-11-3681-2018	Climate model configurations of the ECMWF Integrated Forecasting System (ECMWF-IFS cycle 43r1) for HighResMIP
+10.3390/computers14010015	A Comprehensive Exploration of 6G Wireless Communication Technologies
+	TanDEM-X Ground Segment – DEM Products Specification Document
+	Discrete Global Grids: A Web Book
+10.5194/gmd-13-3507-2020	HighResMIP versions of EC-Earth: EC-Earth3P and EC-Earth3P-HR – description, model computational performance and basic validation
+10.5194/hess-18-4077-2014	Early 21st century snow cover state over the western river basins of the Indus River system
+10.1101/gad.861501	Bridging cytoskeletal intersections
+10.3929/ethz-b-000164813	Test-beam measurements and simulation studies of thin pixel sensors for the CLIC vertex detector
+10.1016/j.pss.2018.02.012	Massive stereo-based DTM production for Mars on cloud computers
+10.1111/j.1467-8659.2008.01156.x	Detail‐In‐Context Visualization for Satellite Imagery
+10.3133/ofr02465	A bibliography of terrain modeling (geomorphometry), the quantitative representation of topography: Supplement 4.0
+10.1038/s41597-023-02318-5	Helicopter-borne RGB orthomosaics and photogrammetric digital elevation models from the MOSAiC Expedition
+10.1007/s44258-023-00001-3	Smart textiles for self-powered biomonitoring

@@ -1,0 +1,15 @@
+10.1088/1742-6596/437/1/012024	Klein bottle logophysics: a unified principle for non-linear systems, cosmology, geophysics, biology, biomechanics and perception
+10.1038/s41422-024-00956-x	System-level time computation and representation in the suprachiasmatic nucleus revealed by large-scale calcium imaging and machine learning
+10.3389/fpsyg.2024.1354719	Forgetting ourselves in flow: an active inference account of flow states and how we experience ourselves within them
+10.3390/philosophies3040029	Sciences of Observation
+10.5281/zenodo.18752630	Adaptive Pedagogical Systems with Invariant Kernels: A Formal Theory of Genre Persistence, Applied to the Medieval Latin Bestiary
+10.7275/10090707.0	Conducting Polyelectrolyte Complexes: Assembly, Structure, and Transport
+10.21203/rs.3.rs-7286125/v1	3D Electron Cloud Descriptors for Enhanced QSAR Modeling of Anti-Colorectal Cancer Compounds
+	Creativity in Darwin's diagram of the evolutionary process
+10.1016/j.ymssp.2026.114635	Beyond static models: Hypernetworks for adaptive and generalizable forecasting in complex parametric dynamical systems
+10.59973/ipil.307	Why Current AI Architectures are Not Conscious: Neural Networks as Spinfoam Networks in a Theory of Quantum Gravity
+10.21203/rs.3.rs-8443771/v1	Why Current AI Architectures are Not Conscious:Neural Networks as Spinfoam Networks in a Theory ofQuantum Gravity
+10.48550/arxiv.2410.11942	Operator algebra and algorithmic construction of boundaries and defects in (2+1)D topological Pauli stabilizer codes
+	Applications of novel programming languages and compilation techniques to accelerating quantum many-body science
+10.32657/10356/65643	Dynamic equity theory : modeling pay for performance's cross-level effect
+	Mathematics Outreach via the ETSU STEM Center

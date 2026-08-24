@@ -1,0 +1,20 @@
+10.1126/science.abh1885	Conformal quantum dot–SnO 2 layers as electron transporters for efficient perovskite solar cells
+10.1103/physreve.74.021711	Nematic textures in spherical shells
+10.1039/c7lc00914c	Wearable sensors: modalities, challenges, and prospects
+10.3390/rs12050874	Morphometric Analysis for Soil Erosion Susceptibility Mapping Using Novel GIS-Based Ensemble Model
+10.1145/3450626.3459763	Discrete conformal equivalence of polyhedral surfaces
+10.1371/journal.pcbi.1000625	Hyperbolic Planforms in Relation to Visual Edges and Textures Perception
+10.1016/j.visres.2006.03.006	Multi-area visuotopic map complexes in macaque striate and extra-striate cortex
+10.1109/tpami.2011.33	Model-Based 3D Hand Pose Estimation from Monocular Video
+10.1103/physrevb.103.l100302	Deterministic chaos and fractal entropy scaling in Floquet conformal field theories
+10.1007/s42452-021-04367-0	Spatial variability and mapping of soil fertility status in a high-potential smallholder farming area under sub-humid conditions in Zimbabwe
+10.1016/j.jmat.2020.12.013	Research progress in improving the performance of PEDOT:PSS/Micro- and Nano-textured Si heterojunction for hybrid solar cells
+10.1007/978-3-540-79126-3_15	Discrete Complex Structure on Surfel Surfaces
+10.1007/s42452-020-04104-z	Potential flood frequency analysis and susceptibility mapping using CMIP5 of MIROC5 and HEC-RAS model: a case study of lower Dwarkeswar River, Eastern India
+10.1007/bf01428192	Object-centered surface reconstruction: Combining multi-image stereo and shading
+10.1080/15481603.2015.1026555	Floodplain wetland mapping in the White Volta River Basin of Ghana
+10.1038/s42005-023-01322-w	Controlling electromagnetic surface waves with conformal transformation optics
+10.1088/1367-2630/ad0acf	Colloids in two-dimensional active nematics: conformal cogs and controllable spontaneous rotation
+10.1109/tmm.2022.3197364	EHPE: Skeleton Cues-Based Gaussian Coordinate Encoding for Efficient Human Pose Estimation
+10.1016/j.clinph.2005.10.025	Origin, structure, and role of background EEG activity. Part 4: Neural frame simulation
+10.1016/j.geoderma.2024.117094	Soil Science-Informed Machine Learning

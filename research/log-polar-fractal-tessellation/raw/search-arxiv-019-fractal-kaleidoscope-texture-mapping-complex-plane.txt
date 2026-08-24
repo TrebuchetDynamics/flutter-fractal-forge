@@ -1,0 +1,20 @@
+10.1016/j.amc.2012.11.092	Texture analysis using volume-radius fractal dimension
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	An Overview of Complex Fractal Dimensions: From Fractal Strings to Fractal Drums, and Back
+10.4171/jfg/57	Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality
+	Texture image analysis and texture classification methods - A review
+10.1080/17476933.2022.2076842	Holomorphic maps from complex discs intersecting families of hypersurfaces
+	Fractal Zeta Functions and Complex Dimensions of Ahlfors Metric Measure Spaces
+10.1080/02781070310001634610	Ullemar's formula for the Jacobian of the complex moment mapping
+10.1002/hbm.70548	Improved Multiscale Structural Mapping with Supervertex Vision Transformer for the Detection of Alzheimer's Disease Neurodegeneration
+10.1142/s0218127403006558	Complex patterns on the plane: different types of basin fractalization in a two-dimensional mapping
+	Roman Galactic Plane Survey Definition Committee Report
+10.1007/978-3-319-18660-3_13	Fractal zeta functions and complex dimensions: A general higher-dimensional theory
+	Fractality, Self-Similarity and Complex Dimensions
+10.13140/rg.2.2.33612.46722	A New Benchmark Dataset for Texture Image Analysis and Surface Defect Detection
+10.1038/s41598-024-59765-2	Scaling theory of fractal complex networks
+	Cohomological aspects on complex and symplectic manifolds
+10.1109/lsp.2021.3116510	Bespoke Fractal Sampling Patterns for Discrete Fourier Space via the Kaleidoscope Transform
+	Noncommutative complex analytic geometry of a contractive quantum plane
+	Make-A-Texture: Fast Shape-Aware Texture Generation in 3 Seconds
+	Describing Textures using Natural Language

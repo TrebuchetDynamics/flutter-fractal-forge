@@ -14,12 +14,18 @@ Fractal catalog browser screen. Displays all available fractals in a searchable 
 | `fractal_catalog_screen.dart`  | `FractalCatalogScreen` - grid of fractal cards with search, category filtering, and thumbnail display |
 | `data/catalog_entry.dart`      | `CatalogEntry` - data model for a catalog item (module reference + thumbnail path + metadata)         |
 | `data/catalog_repository.dart` | `CatalogRepository` - data layer for catalog entries, manages thumbnail lookup and category grouping  |
+| `data/catalog_thumbnail_cache.dart` | `CatalogThumbnailCache` - runtime-produced image cache (in-memory + on-disk) for rendered thumbnail PNGs, keyed by a render signature |
+| `data/catalog_thumbnail_render_gate.dart` | `CatalogThumbnailRenderGate` - bounds concurrent live thumbnail renders (default 4, `RUNTIME_CATALOG_THUMBNAILS_MAX_CONCURRENT` dart-define); freed slots are handed to the next queued tile |
 
 ## For AI Agents
 
 ### Working In This Directory
 
-- Thumbnails are rendered at runtime via the fractal renderer; static `assets/catalog_thumbs/` PNGs are not bundled.
+- Thumbnails are rendered at runtime via the fractal renderer; static `assets/catalog_thumbs/` PNGs are deliberately not bundled (see `assets/AGENTS.md`).
+- The first live GPU render of a thumbnail is captured and stored by `CatalogThumbnailCache` (in-memory for the session, best-effort on-disk in the app support dir for later launches/scroll-back/filter reuse). Entries are keyed by a render signature (catalogId + effective iteration/color caps + palette + schema version) so changing rendering invalidates stale artifacts.
+- Live thumbnail renders are concurrency-bounded by `CatalogThumbnailRenderGate`: only `RUNTIME_CATALOG_THUMBNAILS_MAX_CONCURRENT` (default 4) renderers are live at once and freed slots pass straight to the next queued tile, so a full screen never compiles a grid of shaders simultaneously.
+- The disk layer is production-only: `CatalogThumbnailCache` skips disk entirely under `RuntimeModeService.isAutomatedTest` (the path_provider channel never answers in tests, which would park futures forever). Widget tests exercise the in-memory layer; `CatalogRuntimeThumbnailCache.clearForTesting()` clears ready-marks, cached bytes, and queued render slots together.
+- The disk cache is bounded: at most 1200 PNGs (the catalog has ~1000 modules) are kept; beyond that the oldest files are pruned (`CatalogThumbnailCache.diskPruneVictims`, unit-tested without a filesystem) so schema bumps do not orphan old generations forever.
 - CPU/gradient fallback thumbnails can still show an approximate indicator (~) when runtime rendering is unavailable
 - Search filters by fractal name (localized)
 - Selecting a catalog entry navigates to FractalViewerScreen

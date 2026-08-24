@@ -1,0 +1,20 @@
+	A 3D Strange Attractor with a Distinctive Silhouette. The Butterfly Effect Revisited
+	A New Hyperchaotic Attractor with Complex Patterns
+10.1007/s11071-017-4029-5	Complex dynamics, hidden attractors and continuous approximation of a fractional-order hyperchaotic PWC system
+10.1016/j.chaos.2017.06.031	Is a hyperchaotic attractor superposition of two multifractals?
+10.1088/1475-7516/2021/12/008	BICEP/Keck and Cosmological Attractors
+10.1112/blms.12037	Existence and smoothness of the stable foliation for sectional hyperbolic attractors
+	Coexistence of hidden attractors and self-excited attractors through breaking heteroclinic-like orbits of switched systems
+10.1016/j.crvi.2014.10.002	Therapeutic target discovery using Boolean network attractors: avoiding pathological phenotypes
+10.1016/j.physletb.2020.135481	Hydrodynamic attractors for Gubser flow
+	Scenarios for the Creation of Hyperchaotic Attractors of 3D Maps
+10.3934/dcds.2023128	Decay of Correlations for some Non-Uniformly Hyperbolic Attractors
+10.1016/j.chaos.2024.114785	Scenarios for the appearance of strange attractors in a model of three interacting microbubble contrast agents
+	A model for dynamical systems with strange attractors
+10.1103/physreve.55.4964	Symmetry breaking perturbations and strange attractors
+10.1063/5.0092933	Templex: a bridge between homologies and templates for chaotic attractors
+	Bifurcations and strange attractors
+10.1103/physrevlett.92.074102	Strange nonchaotic attractors in noise driven systems
+10.1142/s0218127401002195	Strange Nonchaotic Attractors
+10.1007/978-3-319-27247-4_2	Hidden attractors in fundamental problems and engineering models
+10.1142/s0218127421500620	Coexisting Hidden and self-excited attractors in an economic system of integer or fractional order

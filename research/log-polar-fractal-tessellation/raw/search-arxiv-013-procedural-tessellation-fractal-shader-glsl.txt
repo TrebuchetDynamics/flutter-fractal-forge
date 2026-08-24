@@ -1,0 +1,20 @@
+	Tabletop Roleplaying Games as Procedural Content Generators
+	AI Co-Artist: A LLM-Powered Framework for Interactive GLSL Shader Animation Evolution
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	A Tool for the Procedural Generation of Shaders using Interactive Evolutionary Algorithms
+	Design and Implementation of a Procedural Content Generation Web Application for Vertex Shaders
+	A Fractal Comparison of Escher and Koch Tessellations
+	Topological Veech dichotomy and tessellations of the hyperbolic plane
+	Machine Learning-Driven Volumetric Cloud Rendering: Procedural Shader Optimization and Dynamic Lighting in Unreal Engine for Realistic Atmospheric Simulation
+	Approximate Program Smoothing Using Mean-Variance Statistics, with Application to Procedural Shader Bandlimiting
+10.1080/2151237x.2012.649621	Efficient computational noise in GLSL
+10.1038/s41598-023-45962-y	Network efficiency of spatial systems with fractal morphology: a geometric graphs approach
+10.4171/jfg/57	Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality
+10.1142/s0218348x21500249	Fractal Interpretation of Bacterial Light Harvesters
+	Variable Topology on Fractal Manifold
+	An Overview of Complex Fractal Dimensions: From Fractal Strings to Fractal Drums, and Back
+	Procedural Pretraining: Warming Up Language Models with Abstract Data
+	Theory of Carry Value Transformation (CVT) and its Application in Fractal formation
+	FI-KAN: Fractal Interpolation Kolmogorov-Arnold Networks
+	Fractal Properties of the Cosmic Web
+	Learning from Shader Program Traces

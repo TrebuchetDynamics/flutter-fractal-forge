@@ -1,0 +1,20 @@
+	Harmonic morphisms and bicomplex manifolds
+10.2140/agt.2025.25.2807	Surgery sequences and self-similarity of the Mandelbrot set
+	The Extreme-ultraviolet Stellar Characterization for Atmospheric Physics and Evolution (ESCAPE) Mission: Motivation and Overview
+	Space-time distributions
+	Homotopies and Maps between Eigenvalues of some Generalized Lucas Sequences and the Mandelbrot Set
+	On Fibers and Local Connectivity of Mandelbrot and Multibrot Sets
+	q-Fibonacci bicomplex quaternions
+	Bicomplex k-Fibonacci quaternions
+	Quaternion Hardy Functions for Local Images Feature Representation
+10.1080/17476933.2021.1975113	Bicomplex Third-order Jacobsthal Quaternions
+	Extreme Narrow Escape: shortest paths for the first particles to escape through a small window
+	Higher Order Mandelbrot Sets and their Varying Shapes
+	The Dynamics of Financial Markets -- Mandelbrot's multifractal cascades, and beyond
+10.1016/j.physleta.2018.04.046	Higher order nonclassicalities of finite dimensional coherent states: A comparative study
+10.1007/jhep05(2021)108	A comparison of optimisation algorithms for high-dimensional particle and astrophysics applications
+	Mandelbrot set and Julia sets of fractional order
+	Evolutive Rendering Models
+10.1080/03081087.2022.2094863	Sampling expansions associated with quaternion difference equations
+	Linear Mappings of Quaternion Algebra
+	Newton-Mandelbrot set and Murase-Mandelbrot set

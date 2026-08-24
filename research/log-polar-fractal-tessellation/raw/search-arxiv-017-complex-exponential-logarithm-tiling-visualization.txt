@@ -1,0 +1,20 @@
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+	Beyond English: Centering Multilingualism in Data Visualization
+10.1109/tvcg.2025.3633909	Reframing Pattern: A Comprehensive Approach to a Composite Visual Variable
+10.1109/vis49827.2021.9623305	Towards a Survey on Static and Dynamic Hypergraph Visualizations
+	Complex-network approach for visualizing and quantifying the evolution of a scientific topic
+10.1109/tvcg.2017.2772237	LMap: Shape-Preserving Local Mappings for Biomedical Visualization
+	NL2INTERFACE: Interactive Visualization Interface Generation from Natural Language Queries
+10.1109/tvcg.2023.3326576	Reclaiming the Horizon: Novel Visualization Designs for Time-Series Data with Large Value Ranges
+10.1109/tvcg.2024.3456305	Beware of Validation by Eye: Visual Validation of Linear Trends in Scatterplots
+10.1109/tvcg.2020.3030408	Visual Analytics for Temporal Hypergraph Model Exploration
+	Triangle Tiling V: Tilings by a tile with integer sides
+10.1080/02781070310001634610	Ullemar's formula for the Jacobian of the complex moment mapping
+10.1109/tvcg.2017.2743858	What Would a Graph Look Like in This Layout? A Machine Learning Approach to Large Graph Visualization
+	Infinite families of monohedral disk tilings
+10.1177/14738716221142005	VisRuler: Visual Analytics for Extracting Decision Rules from Bagged and Boosted Decision Trees
+10.1080/17476933.2022.2076842	Holomorphic maps from complex discs intersecting families of hypersurfaces
+10.1109/tvcg.2025.3634813	Charts-of-Thought: Enhancing LLM Visualization Literacy Through Structured Data Extraction
+	Cohomological aspects on complex and symplectic manifolds
+	Pair Correlation and Gap Distributions for Substitution Tilings and Generalized Ulam Sets in the Plane
+10.1109/tvcg.2016.2598791	Corresponding Supine and Prone Colon Visualization Using Eigenfunction Analysis and Fold Modeling

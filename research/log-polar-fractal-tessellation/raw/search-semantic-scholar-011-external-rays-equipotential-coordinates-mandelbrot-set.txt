@@ -1,0 +1,20 @@
+10.3390/fractalfract8010069	Mandelbrot Set as a Particular Julia Set of Fractional Order, Equipotential Lines and External Rays of Mandelbrot and Julia Sets of Fractional Order
+	The near-parabolic geometry of external rays
+10.1016/j.chaos.2026.118191	Green-function and information–geometric correspondences between inverse eigenvalue loci of generalized Lucas sequences and the Mandelbrot set
+10.1017/s0143385702001335	External rays and the real slice of the Mandelbrot set
+	Rational External Rays of the Mandelbrot Set Dierk Schleicher
+10.1016/j.cag.2008.04.005	Drawing and computing external rays in the multiple-spiral medallions of the Mandelbrot set
+10.12988/imf.2007.07131	Extension of the Douady-Hubbard's theorem on convergence of periodic external rays of the Mandelbrot set to polynomials of type E_d
+10.1155/2013/105283	A Method to Solve the Limitations in Drawing External Rays of the Mandelbrot Set
+	An algorithm to draw external rays of the Mandelbrot set
+10.1090/tran/7839	From Cantor to semi-hyperbolic parameters along external rays
+10.24033/ast.477	Periodic Orbits, Externals Rays and the Mandelbrot Set: An Expository Account
+10.24033/ast.481	Rational Parameter Rays of the Mandelbrot Set
+10.1016/j.cag.2004.03.011	External arguments of Douady cauliflowers in the Mandelbrot set
+10.1142/s0218348x9800002x	An Abstract Mandelbrot Set Algorithm for zn + c
+10.12988/ijcms.2007.07023	Convergence of external rays in parameter spaces of symmetric polynomials
+10.1007/s00039-023-00637-8	Local Connectivity of the Mandelbrot Set at Some Satellite Parameters of Bounded Type
+	From Hyperbolic to Parabolic Parameters along Internal Rays
+	Families of Homeomorphic Subsets of the Mandelbrot Set
+	On the combinatorics of external rays in the dynamics of the complex henon map
+10.3847/1538-4365/adbe35	ALEXIS: Recreating the X-Ray Emission from the Full Solar Disk as a Linear Combination of Discrete Regions in the Extreme Ultraviolet and Soft X-Rays

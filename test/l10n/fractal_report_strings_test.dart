@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
@@ -26,6 +27,7 @@ Future<void> openReportSheet(
   Size surfaceSize = const Size(400, 800),
 }) async {
   TestWidgetsFlutterBinding.ensureInitialized();
+  debugDefaultTargetPlatformOverride = TargetPlatform.linux;
   SharedPreferences.setMockInitialValues({});
   await tester.binding.setSurfaceSize(surfaceSize);
   addTearDown(() => tester.binding.setSurfaceSize(null));
@@ -58,6 +60,7 @@ Future<void> openReportSheet(
 
   await tester.tap(find.byKey(const ValueKey('viewerReportFractalFab')));
   await tester.pumpAndSettle();
+  debugDefaultTargetPlatformOverride = null;
 }
 
 void main() {

@@ -1,0 +1,20 @@
+10.1017/cbo9780511623646.006	Coxeter groups
+10.1017/cbo9780511623646.005	Affine reflection groups
+10.1017/cbo9780511623646.002	Finite reflection groups
+10.1017/9781009243759.003	Coxeter groups and reflection arrangements
+10.1017/cbo9780511623646.003	Classification of finite reflection groups
+10.1017/cbo9780511623646.004	Polynomial invariants of finite reflection groups
+10.1017/cbo9780511623646.009	Complements
+10.1007/978-1-4612-2066-4_5	Reflection Groups and Coxeter Groups
+10.1017/cbo9780511623646.010	References
+10.1017/cbo9780511623646.001	Preface
+10.4171/ggd/15	Aperiodic colorings and tilings of Coxeter groups
+10.1017/cbo9780511623646.007	Special cases
+10.1017/cbo9780511623646	Reflection Groups and Coxeter Groups
+10.2298/fil1403557s	Coxeter groups as automorphism groups of solid transitive 3-simplex tilings
+10.1017/cbo9780511623646.008	Hecke algebras and Kazhdan–Lusztig polynomials
+10.2139/ssrn.4924604	The Boundary of Rauzy Fractal and Discrete Tilings
+10.1007/s00031-013-9236-7	Reflection centralizers in Coxeter groups
+10.1007/978-1-4757-3542-0_7	Reflection groups and Coxeter systems
+10.1515/9781400845941.72	Chapter Six. GEOMETRIC REFLECTION GROUPS
+10.1007/978-1-4757-3542-0_9	Classification of Coxeter systems and reflection groups

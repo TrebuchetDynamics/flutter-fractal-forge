@@ -1,0 +1,20 @@
+10.1017/cbo9780511599934.016	Quasiperiodic tilings: cut and projection
+10.1007/3-540-45805-0_4	Voronoi and Delone Clusters in Dual Quasiperiodic Tilings
+10.1088/1742-6596/2461/1/012013	Equivalence between pure point diffractive sets and cut-and-project sets on substitution tilings
+10.4036/iis.2009.99	Asymmetries of Cut-and-Project Sets and Related Tilings
+10.1007/3-540-45805-0_8	Tilings and Coverings of Quasicrystal Surfaces
+10.1007/3-540-45805-0_5	The Efficiency of Delone Coverings of the Canonical Tilings Τ *(a4) and Τ *(d6)
+10.1051/jp1:1993221	Fractal atomic surfaces of self-similar quasiperiodic tilings of the plane
+10.1016/j.indag.2018.05.012	Pisot substitution sequences, one dimensional cut-and-project sets and bounded remainder sets with fractal boundary
+10.1007/3-540-28849-x_16	Extending Escher’s Recognizable-Motif Tilings to Multiple-Solution Tilings and Fractal Tilings
+10.1051/jp1:1994234	Representation of certain self-similar quasiperiodic tilings with perfect matching rules by discrete point sets
+10.20944/preprints201809.0366.v1	Cut-and-Project Schemes for Pisot Family Substitution Tilings
+10.1109/intmag.1998.735618	Monte Carlo Investigation of the Eight-State Potts Model on Quasiperiodic Tilings
+10.1201/9780429197123-9	Fractal Tiles and Fractal Tilings
+10.1007/3-540-45805-0_1	Covering of Discrete Quasiperiodic Sets: Concepts and Theory
+10.2307/2048752	Self-Similar Sets 5. Integer Matrices and Fractal Tilings of ℝ n
+10.18638/scieconf.2017.5.1.425	Some properties of fractal tilings
+10.1103/physreve.61.2281	Thermodynamics of fractal spectra: Cantor sets and quasiperiodic sequences
+10.1063/1.367594	Monte Carlo investigation of the eight-state Potts model on quasiperiodic tilings
+10.1007/978-94-007-6431-6_12	Quantum Diffusion in Separable d-Dimensional Quasiperiodic Tilings
+10.3390/sym5010001	Taylor–Socolar Hexagonal Tilings as Model Sets

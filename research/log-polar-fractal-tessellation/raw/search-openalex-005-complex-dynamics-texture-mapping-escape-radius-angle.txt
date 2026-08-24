@@ -1,0 +1,20 @@
+10.1103/physreve.74.021711	Nematic textures in spherical shells
+10.1088/0953-8984/27/10/103102	Soft matter in hard confinement: phase transition thermodynamics, structure, texture, diffusion and flow in nanoporous media
+10.1080/00018739400101505	Theory of phase-ordering kinetics
+10.1038/s43586-022-00133-7	Angle-resolved photoemission spectroscopy
+10.2737/rmrs-gtr-46	Mapping vegetation and fuels for fire management on the Gila National Forest Complex, New Mexico
+10.1098/rsta.2014.0154	Intermittency, nonlinear dynamics and dissipation in the solar wind and astrophysical plasmas
+10.1038/s41586-023-06259-2	The dynamics of pattern matching in camouflaging cuttlefish
+10.1002/smtd.201800064	Synchrotron X‐Ray and Neutron Diffraction, Total Scattering, and Small‐Angle Scattering Techniques for Rechargeable Battery Research
+10.1103/physrevx.8.021067	Operando Imaging of All-Electric Spin Texture Manipulation in Ferroelectric and Multiferroic Rashba Semiconductors
+10.3929/ethz-b-000334069	Operando Imaging of All-Electric Spin Texture Manipulation in Ferroelectric and Multiferroic Rashba Semiconductors
+10.1080/00018730110117433	Theory of phase-ordering kinetics
+10.1088/1367-2630/aaf4cd	4D texture of circular dichroism in soft-x-ray photoemission from tungsten
+10.1063/5.0024493	A quantitative comparison of time-of-flight momentum microscopes and hemispherical analyzers for time- and angle-resolved photoemission spectroscopy experiments
+10.3390/en16031500	Computer Vision and Machine Learning Methods for Heat Transfer and Fluid Flow in Complex Structural Microchannels: A Review
+10.1007/s40544-022-0617-6	Regulation and control of wet friction of soft materials using surface texturing: A review
+10.1007/s11214-006-9128-4	OSIRIS – The Scientific Camera System Onboard Rosetta
+10.1103/revmodphys.89.025007	Frontiers of chaotic advection
+10.1016/b978-0-443-21710-4.00015-x	Atom Probe Tomography
+10.3390/app10041195	Regressed Terrain Traversability Cost for Autonomous Navigation Based on Image Textures
+10.1002/2017gc007199	Modeling Slab‐Slab Interactions: Dynamics of Outward Dipping Double‐Sided Subduction Systems

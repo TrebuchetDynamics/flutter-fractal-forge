@@ -1,0 +1,20 @@
+10.1007/978-3-0348-9096-0_10	Rep-tiling Euclidean space
+10.3403/30369460u	Ceramic tiling systems. Sustainability for ceramic tiles and installation materials
+10.3403/30369460	Ceramic tiling systems. Sustainability for ceramic tiles and installation materials
+10.3403/bsiso17889	Ceramic tiling systems. Sustainability for ceramic tiles and installation materials
+10.3403/00203803u	Workmanship on building sites. Code of practice for wall and floor tiling
+10.1007/s00454-011-9327-y	Equivalence of Self-similar and Pseudo-self-similar Tiling Spaces in ℝ2
+10.1112/s0024610706022915	NATURAL TILING, LATTICE TILING AND LEBESGUE MEASURE OF INTEGRAL SELF-AFFINE TILES
+10.3403/00203803	Workmanship on building sites. Code of practice for wall and floor tiling
+10.4171/jfg/82	A p.c.f. self-similar set with no self-similar energy
+10.1002/9780470062098.ch1	Principal Concepts of Fractal Theory and Self‐Similar Processes
+10.1093/oso/9780195080131.003.0007	The Fractal Dimension: Self-Similar and Self-Affine Scaling
+10.1007/978-1-4614-7572-9_3	The Fractal Dimension: Self-Similar and Self-Affine Scaling
+10.4171/jfg/154	Self-similar sets and self-similar measures in the $p$-adics
+10.1088/0951-7715/18/2/006	Computability of the Hausdorff and packing measures on self-similar sets and the self-similar tiling principle
+10.52845/cs/2025-5-3-78	Diamond Hierarchical Network with Discrete, Unrelated, Self-Similar and Fractal Feature
+10.1017/9781108778459.008	Self-Similar Sets
+10.3403/00213132u	Workmanship on building sites. Code of practice for wall and floor tiling
+10.2139/ssrn.6011775	Fractal Governance: How Self-Similar Architectures Enable Multi-Level Coordination
+10.1080/10724117.2022.2088009	Fractal Rep-tiles and Geometric Series
+10.3403/02221552	Wall and floor tiling

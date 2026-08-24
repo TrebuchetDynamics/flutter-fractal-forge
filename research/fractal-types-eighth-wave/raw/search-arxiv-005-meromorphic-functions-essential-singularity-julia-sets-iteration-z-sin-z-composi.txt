@@ -1,0 +1,20 @@
+	Measurement of the CKM angle $γ$ in $B^{\pm} \rightarrow D(\rightarrow K^{0}_{\rm S} h^{\prime+}h^{\prime-})h^{\pm}$ decays with a novel approach
+	Precise measurement of the CKM angle $γ$ with a novel approach
+	Associated $Z$ + $J/ψ$ production as a probe of multiparton interactions in the forward region
+10.1103/ydn7-qx1d	Measurement of the Z-boson mass
+	Observation of $η_c(1S)\to Σ^0\bar Σ^0$ and search for $h_c(1P)\to Σ^0\bar Σ^0$ via $ψ(3686)$ transitions
+	Study of the $e^+e^-\to π^+π^-D_s^+D_s^-$ process from $\sqrt{s}$ = 4.42 to 4.95 GeV at BESIII
+10.1103/physrevd.103.012001	Measurements of $W$ and $Z/γ^*$ cross sections and their ratios in $p+p$ collisions at RHIC
+	High-precision measurement of the space-like $η^\prime$ transition form factor
+10.1007/jhep05(2026)073	Search for a massless particle beyond the Standard Model in the $Ξ^0\toΛ+ \text{invisible}$ decay
+	Search for the charged lepton flavour violating decay $η'\to eμ$
+	Observation of the $X(2370)$ in $J/ψ\rightarrowγK^{0}_{S}K^{0}_{S}π^{0}$ and $J/ψ\rightarrowγπ^{0}π^{0}η$
+	Observation of $η_{c} \to p\bar{p}η$ via $ψ(3686) \to γp\bar{p}η$
+	Amplitude analysis and branching fraction measurement of the decay $D^0 \to K^+K^-π^0π^0$
+	First measurements of the branching fractions of $J/ψ$ and $ψ(3686) \to Σ^{0} \barΣ^{0}η$
+	Precision Measurement of Decay Dynamics in $D^{0(+)}\to π^{-(0)}\ell^+ν_\ell$
+	Observation of the $χ_{cJ}$ decays into $pK^{-}\barΛη+\mathrm{c.c.}$
+	First observation of the $η_{c}\toΞ^{0} \barΞ^{0}$ decay
+	Study of $φ\to K\bar{K}$ in the amplitude analysis of $D^{+}\to K_{S}^{0}K_{L}^{0}π^{+}$
+	Search for $ψ_0(4360)\rightarrow ηψ(2S)$ through the process $e^+e^- \rightarrow ηηψ(2S)$
+	Unexpected large relative strong phase and search for isospin breaking and $CP$ asymmetries in $J/ψ\to K^*(892)\bar K

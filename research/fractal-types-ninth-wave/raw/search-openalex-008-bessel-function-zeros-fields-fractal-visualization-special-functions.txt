@@ -1,0 +1,20 @@
+10.1111/j.1467-9868.2011.00777.x	An Explicit Link between Gaussian Fields and Gaussian Markov Random Fields: The Stochastic Partial Differential Equation Approach
+10.1103/revmodphys.91.015006	Topological photonics
+10.1038/s41377-019-0194-2	Optical vortices 30 years on: OAM manipulation from topological charge to multiple singularities
+10.1088/0034-4885/76/4/046602	Anomalous transport in the crowded world of biological cells
+10.3390/fractalfract6010042	Some Novel Fractional Integral Inequalities over a New Class of Generalized Convex Function
+10.1029/2019wr026331	Random Fields Simplified: Preserving Marginal Distributions, Correlations, and Intermittency, With Applications From Rainfall to Humidity
+10.3390/ijms222312897	Self-Similar Functional Circuit Models of Arteries and Deterministic Fractal Operators: Theoretical Revelation for Biomimetic Materials
+10.1038/s41566-023-01325-7	Optical skyrmions and other topological quasiparticles of light
+10.3390/gels10010083	Acoustic Fractional Propagation in Terms of Porous Xerogel and Fractal Parameters
+10.1088/0022-3727/45/43/433001	Plasmonics: visit the past to know the future
+10.1371/journal.pcbi.1000653	Axonal Velocity Distributions in Neural Field Equations
+10.1103/revmodphys.93.025003	Finite-temperature transport in one-dimensional quantum lattice models
+10.29026/oes.2023.230026	A review of liquid crystal spatial light modulators: devices and applications
+10.5772/36553	Optical Measurements: Polarization and Coherence of Light Fields
+10.18637/jss.v063.i09	Analysis of Random Fields Using<b>CompRandFld</b>
+10.36045/bbms/1170347822	Recent developments in the theory of the fractional Fourier and linear canonical transforms
+10.3390/axioms11110622	Some New Integral Inequalities for Generalized Preinvex Functions in Interval-Valued Settings
+10.1016/j.tcs.2005.08.027	Implicit surface visualization of reconstructed biological molecules
+10.1016/j.camwa.2017.07.040	Magnetohydrodynamic electroosmotic flow of Maxwell fluids with Caputo–Fabrizio derivatives through circular tubes
+10.1103/physrevd.95.024031	Space from Hilbert space: Recovering geometry from bulk entanglement

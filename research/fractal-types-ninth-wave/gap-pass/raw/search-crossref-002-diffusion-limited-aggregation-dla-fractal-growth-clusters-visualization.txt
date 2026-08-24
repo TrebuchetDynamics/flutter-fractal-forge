@@ -1,0 +1,19 @@
+10.15760/etd.5931	A fractal analysis of diffusion limited aggregation
+10.1103/physrevlett.51.1119	Formation of Fractal Clusters and Networks by Irreversible Diffusion-Limited Aggregation
+10.1103/physreva.38.6396	Effect of growing interface on the diffusion-limited aggregation: Crossover from the diffusion-limited-aggregation fractal
+10.1103/physreva.40.4716	Aggregation growth in a gas of finite density: Velocity selection via fractal dimension of diffusion-limited aggregation
+10.1142/9789814360234_0006	DIFFUSION-LIMITED GROWTH
+10.1142/9789814415798_0006	DIFFUSION-LIMITED GROWTH
+10.1007/978-1-4615-2852-4_24	Scaling Properties of Average Diffusion Limited Aggregation Clusters
+10.13053/cys-21-1-2582	Simulating the Fractal growth of Quintana Roo’s Subaquatic Caves by the Diffusion Limited Aggregation Model
+10.23919/nrsm68586.2026.11551135	Using Numerical Fractal Process of Diffusion-Limited Aggregation (DLA) for Generating Simulated Scenarios of Equatorial Plasma Bubbles (EPB) Plume Geometry
+10.1103/physrevlett.56.336	Radial viscous fingers and diffusion-limited aggregation: Fractal dimension and growth sites
+10.1016/0375-9601(89)90892-x	Two-dimensional fractal growth by diffusion limited aggregation of copper
+10.1103/physreva.40.7286	Laplacian growth phenomena with the third boundary condition: Crossover from dense structure to diffusion-limited aggregation fractal
+10.1103/physreve.47.1448	Size dependence of the minimum-growth probabilities of typical diffusion-limited-aggregation clusters
+10.1246/bcsj.20100258	Growth of Diffusion Limited Aggregation (DLA)-Like Branched Patterns in a Belousov–Zhabotinskii Type Reaction System
+10.3390/fractalfract1010012	Fractal Simulation of Flocculation Processes Using a Diffusion-Limited Aggregation Model
+10.1007/bfb0106848	Shape and selfsimilarity of diffusion-limited aggregation clusters
+10.1103/physreva.43.888	Growth histories and overlap distributions of diffusion-limited-aggregation clusters
+10.1016/b978-0-444-86912-8.50039-0	THE STRUCTURE AND FRACTAL DIMENSION OF GENERALIZED DIFFUSION-LIMITED AGGREGATES
+10.1063/5.0023785	Erratum: “Growth diffusion-limited aggregation for basin fractal river network evolution model” [AIP Adv. 10, 075317 (2020)]

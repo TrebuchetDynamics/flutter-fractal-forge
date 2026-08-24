@@ -962,7 +962,13 @@ class CatalogRuntimeThumbnailCache {
     _PreviewThumbnail._thumbnailAssetIds = Future.value(ids);
   }
 
-  static void clearForTesting() => _readyCatalogIds.clear();
+  static void clearForTesting() {
+    _readyCatalogIds.clear();
+    // One hook keeps the whole runtime-thumbnail pipeline isolated between
+    // tests: ready marks, cached pixels, and queued render slots.
+    CatalogThumbnailCache.clearForTesting();
+    CatalogThumbnailRenderGate.resetForTesting();
+  }
 }
 
 class _PreviewThumbnail extends StatefulWidget {
@@ -974,13 +980,8 @@ class _PreviewThumbnail extends StatefulWidget {
     'FORCE_RUNTIME_CATALOG_THUMBNAILS',
     defaultValue: false,
   );
-  static const int _immediateRuntimeThumbnailSlots = int.fromEnvironment(
-    'RUNTIME_CATALOG_THUMBNAIL_IMMEDIATE_SLOTS',
-    defaultValue: 4,
-  );
   static Set<String>? _cachedThumbnailAssetIds;
   static Future<Set<String>> _thumbnailAssetIds = _loadThumbnailAssetIds();
-  static int _runtimeThumbnailSlotsUsed = 0;
 
   static Future<Set<String>> _loadThumbnailAssetIds() =>
       loadCatalogThumbnailAssetIds().then((ids) {
@@ -1013,14 +1014,21 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
     with SingleTickerProviderStateMixin {
   late final AnimationController _localShimmerController;
   Timer? _fallbackTimer;
-  Timer? _runtimePreviewTimer;
   bool _imageLoaded = false;
   bool _imageError = false;
   bool _runtimePreviewEnabled = false;
+  Uint8List? _cachedPreviewBytes;
+  bool _cacheLoadStarted = false;
+
+  /// Deterministic cache key for this entry's rendered pixels.
+  String get _thumbnailSignature =>
+      CatalogThumbnailCache.renderSignatureForModule(
+          widget.catalogId, widget.module);
 
   @override
   void initState() {
     super.initState();
+    _maybeLoadCachedPreview();
     // Use global controller if available, otherwise local fallback
     if (widget.shimmerController != null) {
       _localShimmerController = widget.shimmerController!.controller;
@@ -1048,7 +1056,6 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
   @override
   void dispose() {
     _fallbackTimer?.cancel();
-    _runtimePreviewTimer?.cancel();
     // Only dispose local controller, not the global one
     if (widget.shimmerController == null) {
       _localShimmerController.dispose();
@@ -1063,12 +1070,14 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
       _imageLoaded = false;
       _imageError = false;
       _runtimePreviewEnabled = false;
+      _cachedPreviewBytes = null;
+      _cacheLoadStarted = false;
       _scheduleRuntimePreview();
+      _maybeLoadCachedPreview();
     }
   }
 
   void _scheduleRuntimePreview() {
-    _runtimePreviewTimer?.cancel();
     if (!_PreviewThumbnail._useRuntimeThumbnails ||
         (RuntimeModeService.isAutomatedTest &&
             !_PreviewThumbnail._forceRuntimeThumbnailsInTests)) {
@@ -1080,23 +1089,11 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
       return;
     }
 
-    // Only start a few shader thumbnails immediately. The rest keep the cheap
-    // gradient preview briefly so first catalog paint does not compile/render a
-    // grid of shaders at once.
-    if (_PreviewThumbnail._runtimeThumbnailSlotsUsed <
-        _PreviewThumbnail._immediateRuntimeThumbnailSlots) {
-      _PreviewThumbnail._runtimeThumbnailSlotsUsed++;
-      _enableRuntimePreview(notify: false);
-      return;
-    }
-    _runtimePreviewEnabled = false;
-    final hash = _stableCatalogHash(widget.catalogId);
-    final baseMs = kIsWeb ? 1200 : 450;
-    final staggerMs = hash % (kIsWeb ? 2200 : 900);
-    _runtimePreviewTimer =
-        Timer(Duration(milliseconds: baseMs + staggerMs), () {
-      _enableRuntimePreview();
-    });
+    // Live-render concurrency is bounded by CatalogThumbnailRenderGate inside
+    // each runtime thumbnail, so every visible tile can request its preview
+    // right away: the gate queues renderers instead of staggering blind
+    // timers, and a tile renders as soon as a slot frees.
+    _enableRuntimePreview(notify: false);
   }
 
   void _enableRuntimePreview({bool notify = true}) {
@@ -1109,10 +1106,53 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
     }
   }
 
+  /// Loads a previously-rendered thumbnail from the in-memory cache (instant)
+  /// or the on-disk cache (second+ launch), so a reused tile does not re-render
+  /// on the GPU. Only the first cache miss falls through to a live render.
+  void _maybeLoadCachedPreview() {
+    if (_cacheLoadStarted) return;
+    _cacheLoadStarted = true;
+
+    final mem = CatalogThumbnailCache.inMemory(_thumbnailSignature);
+    if (mem != null) {
+      _cachedPreviewBytes = mem;
+      return;
+    }
+
+    // Capture the signature at request time: the grid recycles elements, so
+    // this state may be showing a different module by the time the disk read
+    // resolves. Storing under the *current* signature would poison the cache
+    // with another module's pixels.
+    final signature = _thumbnailSignature;
+    CatalogThumbnailCache.diskBytes(signature).then((Uint8List? bytes) {
+      if (bytes != null) {
+        // Promote to the in-memory cache for the rest of the session.
+        CatalogThumbnailCache.store(signature, bytes);
+        final stillCurrent = mounted &&
+            signature ==
+                CatalogThumbnailCache.renderSignatureForModule(
+                    widget.catalogId, widget.module);
+        if (stillCurrent) {
+          setState(() => _cachedPreviewBytes = bytes);
+        }
+      }
+    }).catchError((Object _) {});
+  }
+
   void _markImageLoaded() {
     if (_imageLoaded) return;
     if (!mounted) return;
     setState(() => _imageLoaded = true);
+  }
+
+  /// Called once a runtime thumbnail has finished its first paint. The child
+  /// has already cached the PNG bytes under its own render signature; the
+  /// parent only swaps the live renderer for the cached image, which lets the
+  /// child (and its GPU renderer) be disposed.
+  void _onRuntimePreviewRendered(String signature, Uint8List bytes) {
+    if (signature != _thumbnailSignature) return;
+    if (!mounted) return;
+    setState(() => _cachedPreviewBytes = bytes);
   }
 
   void _markImageError() {
@@ -1135,11 +1175,39 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
           imageError: _imageError,
         );
         final isApproximate = thumbnail.isApproximatePreview;
+
+        // Serve previously-rendered pixels (in-memory or on-disk) instead of
+        // re-rendering on the GPU: a tile that was already rendered stays
+        // instant across scroll-back, filters, and second+ launches.
+        final cachedBytes = _cachedPreviewBytes;
+        if (cachedBytes != null) {
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Image.memory(
+              cachedBytes,
+              key: Key('catalogCachedThumbnail_${widget.catalogId}'),
+              fit: BoxFit.cover,
+              gaplessPlayback: true,
+              filterQuality: FilterQuality.medium,
+              width: 256,
+              height: 256,
+              cacheWidth: 256,
+              cacheHeight: 256,
+            ),
+          );
+        }
+
         if (_runtimePreviewEnabled && thumbnail.showsFallbackPreview) {
           return _RuntimePreviewThumbnail(
+            // Keyed so a recycled tile never reuses another module's render
+            // state: the capture below stores under the signature the child
+            // was built with.
+            key: ValueKey('runtimePreview_${widget.catalogId}'),
             catalogId: widget.catalogId,
             module: widget.module,
             category: widget.category,
+            signature: _thumbnailSignature,
+            onRendered: _onRuntimePreviewRendered,
           );
         }
 
@@ -1224,42 +1292,139 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
   }
 }
 
-class _RuntimePreviewThumbnail extends StatelessWidget {
+class _RuntimePreviewThumbnail extends StatefulWidget {
   final String catalogId;
   final FractalModule module;
   final String category;
 
+  /// Render signature this instance was built with. Captured pixels are
+  /// always cached under this key, even if the tile is recycled mid-render.
+  final String signature;
+
+  /// Reports the PNG bytes of the first fully-painted frame. The parent swaps
+  /// this live GPU render for the cached image, disposing the renderer.
+  final void Function(String signature, Uint8List png)? onRendered;
+
   const _RuntimePreviewThumbnail({
+    super.key,
     required this.catalogId,
     required this.module,
     required this.category,
+    required this.signature,
+    this.onRendered,
   });
+
+  @override
+  State<_RuntimePreviewThumbnail> createState() =>
+      _RuntimePreviewThumbnailState();
+}
+
+class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
+  final GlobalKey _captureKey = GlobalKey();
+  bool _slotAcquired = false;
+  bool _slotHeld = false;
+  bool _slotReleased = false;
+  bool _reported = false;
+  int _attempt = 0;
+  static const int _maxAttempts = 20;
+  static const double _targetCaptureWidth = 320;
+
+  @override
+  void initState() {
+    super.initState();
+    // Wait for a bounded-concurrency slot before mounting a live renderer, so
+    // a full screen of tiles never compiles a grid of shaders at once.
+    CatalogThumbnailRenderGate.acquire().then((_) {
+      // The slot is ours now, even if this tile scrolled away before the
+      // future resolved; release it right away in that case.
+      _slotHeld = true;
+      if (!mounted) {
+        _releaseSlot();
+        return;
+      }
+      setState(() => _slotAcquired = true);
+      // Capture the first fully-painted frame for the cache.
+      WidgetsBinding.instance.addPostFrameCallback((_) => _captureFrame());
+    });
+  }
+
+  void _releaseSlot() {
+    if (!_slotHeld || _slotReleased) return;
+    _slotReleased = true;
+    CatalogThumbnailRenderGate.release();
+  }
+
+  @override
+  void dispose() {
+    // No-op while still queued for a slot; the acquire completion releases a
+    // handed-over slot instead, passing it to the next waiter.
+    _releaseSlot();
+    super.dispose();
+  }
+
+  Future<void> _captureFrame() async {
+    if (_reported || !mounted || _attempt >= _maxAttempts) return;
+    _attempt++;
+    final boundary = _captureKey.currentContext?.findRenderObject();
+    if (boundary is! RenderRepaintBoundary ||
+        !boundary.attached ||
+        !boundary.hasSize ||
+        boundary.debugNeedsPaint) {
+      // The renderer may still be painting; retry on a later frame.
+      WidgetsBinding.instance.addPostFrameCallback((_) => _captureFrame());
+      return;
+    }
+    try {
+      // Capture at a bounded resolution: enough for crisp display at any tile
+      // size without writing oversized PNGs to the disk cache.
+      final ratio = (_targetCaptureWidth / boundary.size.width).clamp(1.0, 2.0);
+      final image = await boundary.toImage(pixelRatio: ratio);
+      final png = await CatalogThumbnailCache.encodePng(image);
+      image.dispose();
+      if (png == null) return;
+      _reported = true;
+      // The pixels are already paid for, so cache them even if this tile went
+      // off-screen mid-capture - the render is never wasted.
+      await CatalogThumbnailCache.store(widget.signature, png);
+      if (mounted) widget.onRendered?.call(widget.signature, png);
+    } catch (_) {
+      // Non-fatal: fall back to the gradient placeholder for this frame.
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      key: Key('catalogRuntimeThumbnail_$catalogId'),
+      key: Key('catalogRuntimeThumbnail_${widget.catalogId}'),
       borderRadius: BorderRadius.circular(12),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          _GradientFallback(catalogId: catalogId, category: category),
-          ChangeNotifierProvider<FractalController>(
-            key: ValueKey('runtimeThumb_$catalogId'),
-            create: (context) =>
-                _thumbnailController(context, catalogId, module),
-            child: const IgnorePointer(
-              child: RepaintBoundary(
-                child: FractalRenderer(
-                  gesturesEnabled: false,
-                  animationEnabled: false,
-                  showRendererIndicator: false,
+      // Until a concurrency slot frees up, only the cheap gradient shows.
+      child: _slotAcquired
+          ? Stack(
+              fit: StackFit.expand,
+              children: [
+                _GradientFallback(
+                  catalogId: widget.catalogId,
+                  category: widget.category,
                 ),
-              ),
+                ChangeNotifierProvider<FractalController>(
+                  key: ValueKey('runtimeThumb_${widget.catalogId}'),
+                  create: (context) => _thumbnailController(
+                      context, widget.catalogId, widget.module),
+                  child: IgnorePointer(
+                    child: FractalRenderer(
+                      boundaryKey: _captureKey,
+                      gesturesEnabled: false,
+                      animationEnabled: false,
+                      showRendererIndicator: false,
+                    ),
+                  ),
+                ),
+              ],
+            )
+          : _GradientFallback(
+              catalogId: widget.catalogId,
+              category: widget.category,
             ),
-          ),
-        ],
-      ),
     );
   }
 

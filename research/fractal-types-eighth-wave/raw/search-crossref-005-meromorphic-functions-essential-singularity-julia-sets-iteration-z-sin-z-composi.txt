@@ -1,0 +1,20 @@
+10.1515/crll.1976.282.35	Cluster sets and essential cluster sets of meromorphic functions.
+10.1017/cbo9780511735233.017	Dimensions of Julia sets of transcendental meromorphic functions
+10.1080/10236190903203879	Residual Julia sets for meromorphic functions with countably many essential singularities
+10.11650/twjm/1500404865	ON RADIAL DISTRIBUTION OF JULIA SETS OF MEROMORPHIC FUNCTIONS
+10.2969/jmsj/04810169	On the capacity of singularity sets admitting no exceptionally ramified meromorphic functions
+10.1002/0470013850.ch14	Iteration of Complex Functions—Julia Sets
+10.1007/978-94-017-3626-8_10	Meromorphic functions sharing sets
+10.1017/s0027763000015543	Meromorphic Functions with Large Sets of Julia Points
+10.1007/978-94-017-3626-8_6	Three-value sets of meromorphic functions
+10.1524/anly.1996.16.4.385	ON THE JULIA SET OF THE COMPOSITION OF MEROMORPHIC FUNCTIONS
+10.1007/978-1-4612-4422-6_3	The Fatou and Julia Sets
+10.21136/mb.2009.140664	On the uniqueness of meromorphic functions that share three sets
+10.1090/s0002-9939-08-09788-8	Meromorphic functions with linearly distributed values and Julia sets of rational functions
+10.2307/2008220	Julia Sets and Mandelbrot-Like Sets Associated With Higher Order Schroder Rational Iteration Functions: A Computer Assisted Study
+10.2174/9789811498701121010009	Minkowski content and removable sets for subharmonic functions
+10.1112/s0024609301008426	DIMENSIONS OF JULIA SETS OF HYPERBOLIC MEROMORPHIC FUNCTIONS
+10.1112/jlms/49.2.281	The Hausdorff Dimension of Julia Sets of Meromorphic Functions
+10.1112/s0024610799008029	The Hausdorff Dimension of Julia Sets of Meromorphic Functions II
+10.1017/s0143385700000481	The Hausdorff dimension of Julia sets of hyperbolic meromorphic functions II
+10.1017/s0004972700038387	Uniformly perfect Julia sets of meromorphic functions

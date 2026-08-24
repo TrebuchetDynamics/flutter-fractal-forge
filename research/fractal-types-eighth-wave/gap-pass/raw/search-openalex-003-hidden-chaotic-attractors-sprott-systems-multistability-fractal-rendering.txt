@@ -1,0 +1,18 @@
+10.1038/s41467-024-49190-4	Reservoir-computing based associative memory and itinerancy for complex dynamical attractors
+10.1038/s41598-023-46161-5	Dynamics, circuit design, feedback control of a new hyperchaotic system and its application in audio encryption
+10.1103/physrevresearch.6.013181	Inferring attracting basins of power system with machine learning
+10.1038/s41598-022-24142-4	Chaotic systems with variable indexs for image encryption application
+10.1088/1402-4896/ad0e55	A new four-dimensional hyperchaotic system with hidden attractors and multistablity
+10.1515/phys-2018-0037	A new three-dimensional chaotic flow with one stable equilibrium: dynamical properties and complexity analysis
+10.1088/1402-4896/ad8d3c	Multistable dynamics and chaos in a system consisting of an inertial neuron coupled to a van der Pol oscillator
+10.1016/j.chaos.2023.113412	Orbit quantization in a retarded harmonic oscillator
+10.1002/cnl2.70089	Chaotic Current Waveforms in Electrodeposition: Modulating Joule Heating and Current Efficiency Toward Carbon Neutrality
+10.1063/5.0058332	Chaos: From theory to applications for the 80th birthday of Otto E. Rössler
+10.48550/arxiv.2410.05215	Path planning for multi-quadrotor 3D boundary surveillance using non-autonomous discrete memristor hyperchaotic system
+10.48550/arxiv.2406.03906	Driven transitions between megastable quantized orbits
+10.3390/math13223642	Dynamic, Bifurcation, and Lyapunov Analysis of Fractional Rössler Chaos Using Two Numerical Methods
+10.48550/arxiv.2412.16189	Asymmetric coupling of nonchaotic Rulkov neurons: Fractal attractors, quasimultistability, and final state sensitivity
+10.48550/arxiv.2305.14374	Inferring Attracting Basins of Power System with Machine Learning
+10.1088/1402-4896/ae92dc	A memristive parameter-driven chaotic map: design, analysis, implementation, and PRNG application
+10.21203/rs.3.rs-3454804/v1	Reservoir-computing based associative memory for complex dynamical attractors
+10.48550/arxiv.2301.13608	Orbit quantization in a retarded harmonic oscillator
