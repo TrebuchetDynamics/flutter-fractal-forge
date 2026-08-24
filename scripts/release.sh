@@ -314,10 +314,11 @@ verify_privacy_policy() {
 
 # Resolve the exact Android release identity from immutable published tags, not
 # LAST_BUILD_NUMBER.txt (which records the last local script run and advances
-# during artifact preparation). The version policy is pubspec major.minor plus
-# the next numeric vMAJOR.MINOR.BUILD tag.
+# during artifact preparation). Normally this selects the next numeric
+# vMAJOR.MINOR.BUILD tag. An explicitly confirmed higher build number may skip a
+# consumed but untagged Play version; reusing or moving behind a tag is rejected.
 resolve_upcoming_android_version() {
-  local pubspec_version major minor latest_tag latest_build
+  local pubspec_version major minor latest_tag latest_build requested_build
   pubspec_version="$(awk '/^version:[[:space:]]*/ { print $2; exit }' pubspec.yaml)"
   pubspec_version="${pubspec_version%%+*}"
   [[ "$pubspec_version" =~ ^([0-9]+)\.([0-9]+)\.[0-9]+$ ]] ||
@@ -332,7 +333,14 @@ resolve_upcoming_android_version() {
   else
     latest_build="0"
   fi
-  RESOLVED_ANDROID_BUILD_NUMBER="$((latest_build + 1))"
+
+  requested_build="${PUBLISH_BUILD_NUMBER:-$((latest_build + 1))}"
+  [[ "$requested_build" =~ ^[0-9]+$ ]] ||
+    die "Confirmed build number must be numeric"
+  ((10#$requested_build > latest_build)) ||
+    die "Confirmed build number $requested_build must be newer than $latest_tag"
+
+  RESOLVED_ANDROID_BUILD_NUMBER="$((10#$requested_build))"
   RESOLVED_ANDROID_VERSION="${major}.${minor}.${RESOLVED_ANDROID_BUILD_NUMBER}"
   RESOLVED_RELEASE_VERSION="$RESOLVED_ANDROID_VERSION"
 }
