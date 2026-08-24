@@ -162,9 +162,23 @@ void main() {
         );
 
         // ------------------------------------------------------------------
-        // Step 6: Tap export button and verify export sheet appears
+        // Step 6: Open the shared action menu, then choose Export
         // ------------------------------------------------------------------
         await tester.tap(find.byKey(const Key('viewerExportButton')));
+        await tester.pump(const Duration(seconds: 1));
+
+        expect(
+          find.text('Share & export'),
+          findsOneWidget,
+          reason: 'Shared export action menu must appear after tapping the FAB',
+        );
+        final exportAction = find.text('Export');
+        expect(
+          exportAction,
+          findsOneWidget,
+          reason: 'Shared action menu must include the image export action',
+        );
+        await tester.tap(exportAction);
         await tester.pump(const Duration(seconds: 1));
         await tester.pump(const Duration(milliseconds: 500));
 
