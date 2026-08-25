@@ -86,12 +86,14 @@ const _dataDrivenAttractorFormulaIds = <String>{
 
 void main() {
   group('CPU Formula Registry', () {
-    test('data-driven approximations stay native and cached', () {
+    test('data-driven approximations stay curated and cached, but not native',
+        () {
       for (final id in {
         ..._dataDrivenIfsFormulaIds,
         ..._dataDrivenAttractorFormulaIds,
       }) {
-        expect(hasNativeCpuFormula(id), isTrue, reason: id);
+        expect(hasNativeCpuFormula(id), isFalse, reason: id);
+        expect(hasCuratedCpuFormula(id), isTrue, reason: id);
         expect(
           identical(
             cpuFormulaForModuleId(id),

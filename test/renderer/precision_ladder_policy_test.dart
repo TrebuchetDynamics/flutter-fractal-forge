@@ -156,6 +156,22 @@ void main() {
       expect(decision.showPrecisionIndicator, isFalse);
     });
 
+    test('keeps curated synthetic previews off the CPU Precision path', () {
+      for (final moduleId in ['sierpinski_triangle', 'aizawa']) {
+        final decision = policy.decide(
+          moduleId: moduleId,
+          dimension: FractalDimension.twoD,
+          zoom: 1e9,
+        );
+
+        expect(decision.renderPath, PrecisionLadderRenderPath.gpuFloat,
+            reason: moduleId);
+        expect(decision.exactness, PrecisionLadderExactness.approximate,
+            reason: moduleId);
+        expect(decision.cpuFallbackPending, isFalse, reason: moduleId);
+      }
+    });
+
     test('commits native non-extended deep zoom to CPU when fallback is active',
         () {
       final below = policy.decide(

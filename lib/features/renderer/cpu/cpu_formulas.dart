@@ -303,9 +303,15 @@ final Map<String, CpuFormula> cpuFormulasByModuleId = <String, CpuFormula>{
 final Map<String, CpuFormula> _syntheticFallbackByModuleId =
     <String, CpuFormula>{};
 
-/// True when [moduleId] has an explicit or curated synthetic CPU implementation.
+/// True when [moduleId] has an explicit CPU implementation that mirrors its
+/// native recurrence closely enough for the deep-zoom precision ladder.
 bool hasNativeCpuFormula(String moduleId) =>
-    cpuFormulasByModuleId.containsKey(moduleId) ||
+    cpuFormulasByModuleId.containsKey(moduleId);
+
+/// True when [moduleId] has either a native implementation or a curated,
+/// deterministic approximation suitable for CPU-only fallback rendering.
+bool hasCuratedCpuFormula(String moduleId) =>
+    hasNativeCpuFormula(moduleId) ||
     _syntheticSeedByModuleId.containsKey(moduleId);
 
 /// Resolves a CPU formula for [moduleId].
