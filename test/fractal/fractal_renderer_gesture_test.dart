@@ -84,7 +84,7 @@ void main() {
     expect(controller.view.zoom, isNot(equals(initialZoom)));
   });
 
-  testWidgets('high-zoom drag preserves one-to-one world-space precision',
+  testWidgets('high-zoom drag preserves full one-to-one world-space movement',
       (tester) async {
     TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -106,8 +106,8 @@ void main() {
     final renderer = find.byType(FractalRenderer);
     final start = tester.getCenter(renderer);
     final gesture = await tester.startGesture(start);
-    // First move lets the scale recognizer win the gesture arena; Flutter
-    // reports zero focalPointDelta for that transition frame.
+    // The first move crosses touch slop and lets the scale recognizer win.
+    // Its accepted distance must still contribute to the one-to-one pan.
     await gesture.moveBy(const Offset(20, 0));
     await tester.pump();
     await gesture.moveBy(const Offset(30, -15));
@@ -115,8 +115,48 @@ void main() {
     await gesture.up();
     await tester.pump(const Duration(milliseconds: 50));
 
-    expect(controller.view.pan.x, closeTo(startX - 30 / 300 / zoom, 1e-16));
+    expect(controller.view.pan.x, closeTo(startX - 50 / 300 / zoom, 1e-16));
     expect(controller.view.pan.y, closeTo(startY + 15 / 300 / zoom, 1e-16));
+  });
+
+  testWidgets('pinch to pan handoff resumes without a focal-point jump',
+      (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final controller = FractalController(ModuleRegistry());
+    await tester.pumpWidget(buildTestWidget(controller));
+    await tester.pumpAndSettle();
+
+    final renderer = find.byType(FractalRenderer);
+    final center = tester.getCenter(renderer);
+    final first = await tester.createGesture();
+    final second = await tester.createGesture();
+    await first.down(center + const Offset(-40, 0));
+    await second.down(center + const Offset(40, 0));
+    await tester.pump();
+    await first.moveTo(center + const Offset(-60, 0));
+    await second.moveTo(center + const Offset(60, 0));
+    await tester.pump();
+    final panBeforeHandoff = controller.view.pan;
+
+    await second.up();
+    await tester.pump();
+    final panAfterHandoff = controller.view.pan;
+    final zoomAfterHandoff = controller.view.zoom;
+
+    await first.moveBy(const Offset(30, 0));
+    await tester.pump();
+    final panAfterDrag = controller.view.pan;
+    await first.up();
+    await tester.pump(const Duration(milliseconds: 50));
+
+    expect(panAfterHandoff.x, closeTo(panBeforeHandoff.x, 1e-9));
+    expect(panAfterHandoff.y, closeTo(panBeforeHandoff.y, 1e-9));
+    expect(
+      panAfterDrag.x,
+      closeTo(panAfterHandoff.x - 30 / 300 / zoomAfterHandoff, 1e-9),
+    );
+    expect(panAfterDrag.y, closeTo(panAfterHandoff.y, 1e-9));
   });
 
   testWidgets('gesture surface accepts drags from the viewport edge',
@@ -164,7 +204,7 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 50));
 
-    final expectedDx = 20 / 300 / 5.405464206556574;
+    final expectedDx = 40 / 300 / 5.405464206556574;
     expect(controller.view.pan.x, closeTo(initialPan.x - expectedDx, 1e-6));
     expect(controller.view.pan.y, closeTo(initialPan.y, 1e-6));
   });

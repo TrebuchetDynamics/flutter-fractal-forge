@@ -31,6 +31,10 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
   double _startZoom = 1.0;
   Vector2 _startPan = Vector2.zero();
   Offset _startFocalPoint = Offset.zero;
+  Offset _panStartFocalPoint = Offset.zero;
+  Offset? _primaryPointerDownLocal;
+  int _lastScalePointerCount = 0;
+  bool _singlePanDeltaAccepted = false;
   double _startRotationZ = 0.0;
   double _startTiltX = 0.0;
 
@@ -214,6 +218,11 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     _startZoom = controller.view.zoom;
     _startPan = controller.view.pan;
     _startFocalPoint = localFocal;
+    _panStartFocalPoint = details.pointerCount == 1
+        ? (_primaryPointerDownLocal ?? localFocal)
+        : localFocal;
+    _lastScalePointerCount = details.pointerCount;
+    _singlePanDeltaAccepted = false;
     _startRotationZ = controller.view.rotation.z;
     _startTiltX = controller.view.rotation.x;
     _isTilting = false;
@@ -343,14 +352,28 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
 
     // --- 1 finger: pan (2D) or rotate (3D) ---
     if (details.pointerCount == 1) {
+      var panDelta = details.focalPointDelta;
+      if (_lastScalePointerCount != 1) {
+        // A lifted pinch finger moves the focal point discontinuously. Ignore
+        // that handoff frame, then resume incremental one-finger movement.
+        panDelta = Offset.zero;
+        _singlePanDeltaAccepted = true;
+        _panStartFocalPoint = localFocal;
+      } else if (!_singlePanDeltaAccepted) {
+        // ScaleGestureRecognizer starts only after touch slop. Its first update
+        // reports a zero delta, so recover the accepted distance from the raw
+        // pointer-down position instead of making every drag feel sticky.
+        panDelta = localFocal - _panStartFocalPoint;
+        _singlePanDeltaAccepted = true;
+      }
+
       if (module.dimension == FractalDimension.threeD) {
         if (!rotationLocked) {
-          // Use incremental deltas to avoid jumps when pointer count changes.
-          final d = details.focalPointDelta;
           controller.updateView(
             view.copyWith(
               rotation: _bounded3DRotation(
-                view.rotation + Vector3(d.dy * 0.0009, d.dx * 0.0009, 0),
+                view.rotation +
+                    Vector3(panDelta.dy * 0.0009, panDelta.dx * 0.0009, 0),
               ),
             ),
           );
@@ -358,7 +381,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       } else {
         // Use incremental deltas to avoid large jumps after pinch→pan handoff.
         final worldDelta = _screenDeltaToWorldDelta(
-          deltaPx: details.focalPointDelta,
+          deltaPx: panDelta,
           scalePx: scalePx,
           rotationZ: _screenMappingRotationZFor2d(view.rotation.z),
           zoom: view.zoom,
@@ -372,6 +395,8 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
           ),
         );
       }
+
+      _lastScalePointerCount = details.pointerCount;
 
       // Track velocity history for Google Maps fling.
       final now = DateTime.now().millisecondsSinceEpoch;
@@ -442,6 +467,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       _lastRotation = details.rotation;
     }
 
+    _lastScalePointerCount = details.pointerCount;
     controller.updateView(
       view.copyWith(pan: nextPan, zoom: newZoom, rotation: nextRotation),
       adaptIterationsForZoom: true,
@@ -477,8 +503,8 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       // Pan end: log final position and delta from start
       final endFocal =
           _velHistory.isNotEmpty ? _velHistory.last.pos : _startFocalPoint;
-      final dx = endFocal.dx - _startFocalPoint.dx;
-      final dy = endFocal.dy - _startFocalPoint.dy;
+      final dx = endFocal.dx - _panStartFocalPoint.dx;
+      final dy = endFocal.dy - _panStartFocalPoint.dy;
       AppLogger.instance.debug('gesture', 'pan_end', data: {
         'x': endFocal.dx.toStringAsFixed(1),
         'y': endFocal.dy.toStringAsFixed(1),
@@ -633,6 +659,9 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
   }
 
   void _onPointerDown(PointerDownEvent event) {
+    if (_activePointers.isEmpty) {
+      _primaryPointerDownLocal = event.localPosition;
+    }
     _activePointers[event.pointer] = event.localPosition;
     _fluidPointerLocal = event.localPosition;
     _fluidPointerVelocity = Offset.zero;
@@ -747,8 +776,14 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
 
     _activePointers.remove(event.pointer);
     if (_activePointers.isEmpty) {
+      _primaryPointerDownLocal = null;
       _fluidSecondaryActive = false;
     } else {
+      if (_activePointers.length == 1) {
+        // If a pinch ends with one finger still down, its current location is
+        // the origin for the next one-finger gesture—not its pre-pinch down.
+        _primaryPointerDownLocal = _activePointers.values.single;
+      }
       _updateFluidSecondaryPointer(_activePointers.keys.first);
     }
     if (_activePointers.length < 2) {
