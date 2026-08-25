@@ -164,6 +164,26 @@ void main() {
       }
     }
 
+    testWidgets('Palette menu does not overflow at 3.0x on a small phone',
+        (tester) async {
+      await tester.binding.setSurfaceSize(const Size(320, 568));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+
+      await expectNoOverflow(
+        () async {
+          await tester.pumpWidget(buildApp(textScale: 3.0));
+          await pumpAccessibilityTestFrames(tester);
+          await tester.longPress(
+            find.byKey(const ValueKey('viewerColorCycleButton')),
+          );
+          await pumpAccessibilityTestFrames(tester);
+        },
+        reason: 'Palette menu at 3.0x on Size(320, 568)',
+      );
+      expect(find.byType(GridView), findsOneWidget);
+      await disposeAccessibilityTestWidget(tester);
+    });
+
     for (final size in const [Size(360, 640), Size(640, 360)]) {
       testWidgets('meets guidelines at 2.0x on $size', (tester) async {
         await tester.binding.setSurfaceSize(size);

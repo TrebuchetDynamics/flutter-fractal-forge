@@ -1384,8 +1384,14 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     final current = controller.params['colorScheme'];
     final selectedIndex =
         options.indexWhere((option) => option.value == current);
-    const columnCount = 4;
-    final gridWidth = MediaQuery.sizeOf(context).width -
+    final mediaQuery = MediaQuery.of(context);
+    final textScale = mediaQuery.textScaler.scale(1);
+    final columnCount = textScale >= 2.5
+        ? 2
+        : textScale >= 1.5
+            ? 3
+            : 4;
+    final gridWidth = mediaQuery.size.width -
         AppSpacing.md * 2 -
         AppSpacing.sm * (columnCount - 1);
     final tileWidth = math.max(1.0, gridWidth / columnCount);
@@ -1419,8 +1425,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                     AppSpacing.md,
                     AppSpacing.lg,
                   ),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: columnCount,
                     mainAxisSpacing: AppSpacing.sm,
                     crossAxisSpacing: AppSpacing.sm,
                     childAspectRatio: 0.86,
