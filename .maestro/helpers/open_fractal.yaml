@@ -1,0 +1,32 @@
+appId: com.trebuchetdynamics.fractal.forge
+name: "Helper — Open Fractal"
+env:
+  FRACTAL_QUERY: ${FRACTAL_QUERY || "Aizawa Attractor"}
+  FRACTAL_CARD_REGEX: ${FRACTAL_CARD_REGEX || ".*Aizawa Attractor fractal, .*2D.*"}
+---
+- tapOn:
+    text: "Search fractals"
+    retryTapIfNoChange: true
+    waitToSettleTimeoutMs: 500
+- eraseText: 160
+- setClipboard: ${FRACTAL_QUERY}
+- pasteText
+- pressKey: back
+
+- extendedWaitUntil:
+    visible:
+      text: ${FRACTAL_CARD_REGEX}
+    timeout: 20000
+
+- tapOn:
+    text: ${FRACTAL_CARD_REGEX}
+    retryTapIfNoChange: true
+    waitToSettleTimeoutMs: 750
+
+- extendedWaitUntil:
+    visible:
+      text: ".*Randomize.*Controls.*"
+    timeout: 25000
+
+- assertVisible:
+    text: ".*Share & export.*"

@@ -10,35 +10,11 @@ tags:
 ---
 - runFlow: helpers/ensure_catalog.yaml
 
-- tapOn:
-    text: "Search fractals"
-    retryTapIfNoChange: true
-    waitToSettleTimeoutMs: 500
-- extendedWaitUntil:
-    visible:
-      text: "Search fractals"
-    timeout: 10000
-- eraseText: 160
-- setClipboard: ${FRACTAL_QUERY}
-- pasteText
-- pressKey: back
-
-- extendedWaitUntil:
-    visible:
-      text: ${FRACTAL_CARD_REGEX}
-    timeout: 20000
-
-- tapOn:
-    text: ${FRACTAL_CARD_REGEX}
-    retryTapIfNoChange: true
-    waitToSettleTimeoutMs: 750
-
-- extendedWaitUntil:
-    visible:
-      text: ".*Randomize.*Controls.*"
-    timeout: 25000
-
-- assertVisible: "Export / Wallpaper"
+- runFlow:
+    file: helpers/open_fractal.yaml
+    env:
+      FRACTAL_QUERY: ${FRACTAL_QUERY}
+      FRACTAL_CARD_REGEX: ${FRACTAL_CARD_REGEX}
 
 - pressKey: back
 

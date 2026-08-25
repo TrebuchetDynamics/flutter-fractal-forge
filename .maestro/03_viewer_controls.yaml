@@ -6,39 +6,14 @@ tags:
 ---
 - runFlow: helpers/ensure_catalog.yaml
 
-- tapOn:
-    text: "Search fractals"
-    retryTapIfNoChange: true
-    waitToSettleTimeoutMs: 500
-
-- extendedWaitUntil:
-    visible:
-      text: "Search fractals"
-    timeout: 10000
-
-- eraseText: 160
-- setClipboard: "Aizawa Attractor"
-- pasteText
-- pressKey: back
-
-- extendedWaitUntil:
-    visible:
-      text: ".*Aizawa Attractor fractal, .*2D.*"
-    timeout: 15000
-
-- tapOn:
-    text: ".*Aizawa Attractor fractal, .*2D.*"
-    retryTapIfNoChange: true
-    waitToSettleTimeoutMs: 750
-
-- extendedWaitUntil:
-    visible:
-      text: ".*Randomize.*Controls.*"
-    timeout: 20000
+- runFlow:
+    file: helpers/open_fractal.yaml
+    env:
+      FRACTAL_QUERY: "Aizawa Attractor"
+      FRACTAL_CARD_REGEX: ".*Aizawa Attractor fractal, .*2D.*"
 
 - assertVisible:
     text: ".*Randomize.*Controls.*"
-- assertVisible: "Export / Wallpaper"
 
 - takeScreenshot: "03_viewer_active"
 
@@ -76,7 +51,8 @@ tags:
       text: ".*Randomize.*Controls.*"
     timeout: 20000
 
-- assertVisible: "Export / Wallpaper"
+- assertVisible:
+    text: ".*Share & export.*"
 
 - takeScreenshot: "03_random_fractal"
 

@@ -27,12 +27,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   bottom-sheet layout.
 - Random fractal selection publishes its chosen module and palette atomically,
   preventing an intermediate default-palette flash.
+- The CPU fallback renderer now shares optimized formula, viewport, iteration,
+  and raster helpers to reduce duplicate work while retaining deterministic
+  output across the supported catalog.
 
 ### Fixed
 
 - Android production viewers no longer expose the desktop fractal-report FAB.
 - Continuous Fractal Music camera motion tests now wait for the bounded rescan
   deadline instead of depending on an unloaded event loop.
+- Physical-device integration gates now run serially with the configured Flutter
+  toolchain, and Maestro flows follow the shared Share & export interaction
+  without cross-device or stale-APK ambiguity.
 
 ## [1.1.90] - 2026-08-20
 

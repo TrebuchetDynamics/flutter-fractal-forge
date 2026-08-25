@@ -11,10 +11,6 @@ tags:
     text: "Search fractals"
     retryTapIfNoChange: true
     waitToSettleTimeoutMs: 500
-- extendedWaitUntil:
-    visible:
-      text: "Search fractals"
-    timeout: 10000
 - eraseText: 160
 - setClipboard: "Aizawa Attractor"
 - pasteText
@@ -37,7 +33,8 @@ tags:
       text: ".*Randomize.*Controls.*"
     timeout: 20000
 
-- assertVisible: "Export / Wallpaper"
+- assertVisible:
+    text: ".*Share & export.*"
 - takeScreenshot: "02_viewer_opened"
 
 - pressKey: back

@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Development coverage runner for the documented registry subset. Canonical
+# release-artifact/device evidence comes from scripts/pre-release-gate.sh.
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -7,12 +9,12 @@ APP_ID="com.trebuchetdynamics.fractal.forge"
 FLUTTER_BIN="${FLUTTER_BIN:-flutter}"
 MAESTRO_BIN="${MAESTRO_BIN:-$HOME/.maestro/bin/maestro}"
 REPORT_ROOT="${REPORT_ROOT:-$ROOT_DIR/maestro_reports/physical_$(date +%Y%m%d_%H%M%S)}"
+# The documented-registry sweep below subsumes the curated 05 smoke flow.
 FEATURE_FLOWS=(
   ".maestro/01_app_launch.yaml"
   ".maestro/02_catalog_navigation.yaml"
   ".maestro/03_viewer_controls.yaml"
   ".maestro/04_export_flow.yaml"
-  ".maestro/05_every_fractal_smoke.yaml"
 )
 
 mkdir -p "$REPORT_ROOT/flows" "$REPORT_ROOT/all_fractals"
@@ -142,15 +144,17 @@ for flow in "${FEATURE_FLOWS[@]:1}"; do
   fi
 done
 
-echo "Running full fractal sweep..."
-while IFS=$'\t' read -r fractal_name fractal_dimension; do
-  [[ -n "$fractal_name" ]] || continue
+echo "Running documented-registry fractal sweep..."
+while IFS=$'\t' read -r fractal_id fractal_name fractal_dimension; do
+  [[ -n "$fractal_id" && -n "$fractal_name" ]] || continue
+  id_slug="$(printf '%s' "$fractal_id" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g; s/__\\+/_/g; s/^_//; s/_$//')"
   slug="$(printf '%s' "$fractal_name" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g; s/__\\+/_/g; s/^_//; s/_$//')"
   probe_query="$(probe_query_for_name "$fractal_name")"
   probe_regex="$(probe_regex_for_name "$fractal_name" "$fractal_dimension")"
-  log_path="$REPORT_ROOT/all_fractals/${slug}.log"
-  echo "  -> $fractal_name"
+  log_path="$REPORT_ROOT/all_fractals/${id_slug}__${slug}.log"
+  echo "  -> $fractal_id ($fractal_name)"
   if maestro_cmd test --no-reinstall-driver \
+    -e FRACTAL_ID="$fractal_id" \
     -e FRACTAL_NAME="$fractal_name" \
     -e FRACTAL_QUERY="$probe_query" \
     -e FRACTAL_CARD_REGEX="$probe_regex" \
@@ -163,7 +167,8 @@ while IFS=$'\t' read -r fractal_name fractal_dimension; do
 done < <(
   awk '
     /^  - id:/ {
-      if (name != "" && implemented == "true") print name "\t" dimension;
+      if (id != "" && name != "" && implemented == "true") print id "\t" name "\t" dimension;
+      id = $3;
       name = "";
       dimension = "";
       implemented = "";
@@ -181,7 +186,7 @@ done < <(
       implemented = $2;
     }
     END {
-      if (name != "" && implemented == "true") print name "\t" dimension;
+      if (id != "" && name != "" && implemented == "true") print id "\t" name "\t" dimension;
     }
   ' "$ROOT_DIR/docs/catalog/fractal_registry.yaml"
 )
@@ -191,8 +196,8 @@ summary_path="$REPORT_ROOT/summary.txt"
   echo "Device: $DEVICE_SERIAL"
   echo "Feature flows passed: $FEATURE_PASS"
   echo "Feature flows failed: $FEATURE_FAIL"
-  echo "Fractals passed: $ALL_PASS"
-  echo "Fractals failed: $ALL_FAIL"
+  echo "Documented registry probes passed: $ALL_PASS"
+  echo "Documented registry probes failed: $ALL_FAIL"
   echo "Report root: $REPORT_ROOT"
   if [[ "${#FAILURES[@]}" -gt 0 ]]; then
     echo
@@ -200,3 +205,5 @@ summary_path="$REPORT_ROOT/summary.txt"
     printf '  %s\n' "${FAILURES[@]}"
   fi
 } | tee "$summary_path"
+
+((FEATURE_FAIL == 0 && ALL_FAIL == 0))
