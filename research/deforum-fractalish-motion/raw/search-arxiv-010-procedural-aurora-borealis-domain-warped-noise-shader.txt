@@ -1,0 +1,20 @@
+	Tabletop Roleplaying Games as Procedural Content Generators
+	Vertex Shader Domain Warping with Automatic Differentiation
+	A Tool for the Procedural Generation of Shaders using Interactive Evolutionary Algorithms
+	Aurora: Unified Video Editing with a Tool-Using Agent
+10.1016/j.asr.2015.08.026	The Grand Aurorae Borealis Seen in Colombia in 1859
+	Design and Implementation of a Procedural Content Generation Web Application for Vertex Shaders
+10.1142/s0219477510000320	Noise and Bell's inequality
+10.1142/s0219477516020016	Quantum and Classical Frontiers of Noise
+	Mode Converting Alfvén Waves from Magnetic Reconnection Enhancing the Energy Source for the Aurora Borealis
+	Noise based logic: why noise? A comparative study of the necessity of randomness out of orthogonality
+	Machine Learning-Driven Volumetric Cloud Rendering: Procedural Shader Optimization and Dynamic Lighting in Unreal Engine for Realistic Atmospheric Simulation
+	Warped product rigidity
+10.1142/s0219477516400034	Decoherence and noise in open quantum system dynamics
+10.1142/s0219477510000253	Instantaneous noise-based logic
+10.1109/icnf57520.2023.10472766	Noise Dynamics in the Quantum Regime
+10.1142/s0219477524500597	Simple Cracking of (Noise-Based) Dynamic Watermarking in Smart Grids
+	Stokes' Drift and Hypersensitive Response with Dichotomous Markov Noise
+	Dihedral rigidity for submanifolds of warped product manifolds
+10.1007/s11207-013-0413-6	Long-term Spatial and Temporal Variations of Aurora Borealis Events in the Period 1700--1905
+	Approximate Program Smoothing Using Mean-Variance Statistics, with Application to Procedural Shader Bandlimiting

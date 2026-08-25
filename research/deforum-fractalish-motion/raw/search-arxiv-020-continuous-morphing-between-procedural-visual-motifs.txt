@@ -1,0 +1,20 @@
+	Tabletop Roleplaying Games as Procedural Content Generators
+	Visual gesture variability between talkers in continuous visual speech
+	Morphing Contact Representations of Graphs
+10.1016/j.medengphy.2024.104136	Automated 2D and 3D Finite Element Overclosure Adjustment and Mesh Morphing Using Generalized Regression Neural Networks
+10.2312/eurova.20261004	Visual Boosting Techniques for Spatiotemporal Dense Pixel Visualizations
+	VIANA: Visual Interactive Annotation of Argumentation
+	Functional Motifs in Foodwebs and Networks
+	Action Motifs: Self-Supervised Hierarchical Representation of Human Body Movements
+	Procedural Pretraining: Warming Up Language Models with Abstract Data
+	Continuous Indexed Points for Multivariate Volume Visualization
+10.1007/s00371-026-04584-x	polyDAG: Polynomial Acyclicity Constraints for Efficient Continuous Causal Discovery in Visual Semantic Graphs
+	Blind Visual Motif Removal from a Single Image
+	Self-supervised Learning of Contextualized Local Visual Embeddings
+	Does empirical evidence from healthy aging studies predict a practical difference between visualizations for different age groups?
+	An Efficient Procedure for Mining Egocentric Temporal Motifs
+	Multipartite Greenberger-Horne-Zeilinger paradoxes for continuous variables
+	Understanding Visual Concepts Across Models
+	Visual-ERM: Reward Modeling for Visual Equivalence
+	Motif-Based Visual Analysis of Dynamic Networks
+	Learning Task-Agnostic Motifs to Capture the Continuous Nature of Animal Behavior

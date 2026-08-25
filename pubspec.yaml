@@ -1,5 +1,5 @@
 name: flutter_fractals
-description: GPU-accelerated exploration of 1004 production fractals with deep zoom and real-time rendering.
+description: GPU-accelerated exploration of 1009 production fractals with deep zoom and real-time rendering.
 publish_to: none
 version: 1.1.0+38
 environment:
@@ -635,3 +635,4 @@ flutter:
     - shaders/ifs_and_geometric/de_rham_curve_family_gpu.frag
     - shaders/number_theory/substitution_diffraction_field_gpu.frag
     - shaders/escape_time_family/textured/log_polar_tessellation_gpu.frag
+    - shaders/escape_time_family/experimental_named/procedural_motion/fractalish_motion_gpu.frag

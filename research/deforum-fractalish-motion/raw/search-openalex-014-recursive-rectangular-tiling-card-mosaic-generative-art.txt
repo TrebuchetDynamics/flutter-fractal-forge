@@ -1,0 +1,2 @@
+	Synthetic steganography: Methods for generating and detecting covert channels in generated media
+10.3390/rs18010056	An Enhanced CycleGAN to Derive Temporally Continuous NDVI from Sentinel-1 SAR Images

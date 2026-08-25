@@ -661,7 +661,7 @@
       "type": {}
     }
   },
-  "homeFractalCountBadge": "1004 fractals",
+  "homeFractalCountBadge": "1009 fractals",
 
   "catalogAllFractals": "All Fractals",
   "catalogFilterAll": "All",
@@ -764,7 +764,7 @@
   },
   "settingsColorTheme": "Color Theme",
   "settingsColorThemeSubtitle": "Choose a contrast and surface style.",
-  "settingsAboutBlurb": "GPU-accelerated exploration of 1004 production fractals, with deep zoom and real-time rendering.",
+  "settingsAboutBlurb": "GPU-accelerated exploration of 1009 production fractals, with deep zoom and real-time rendering.",
   "settingsSourceCode": "Source code",
   "settingsSourceCodeSubtitle": "View Fractal Forge on GitHub ↗",
   "settingsSourceCodeOpenFailed": "Unable to open source code.",

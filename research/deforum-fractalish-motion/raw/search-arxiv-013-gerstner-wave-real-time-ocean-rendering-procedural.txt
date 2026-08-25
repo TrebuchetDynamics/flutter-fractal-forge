@@ -1,0 +1,20 @@
+	Real time state monitoring and fault diagnosis system for motor based on LabVIEW
+10.1109/rtss66672.2025.00023	Real-Time Service Subscription and Adaptive Offloading Control in Vehicular Edge Computing
+	Tabletop Roleplaying Games as Procedural Content Generators
+	Real-Time-Data Analytics in Raw Materials Handling
+	Real-time volumetric rendering of dynamic humans
+10.1007/s11554-022-01210-6	Toward Real-Time Image Annotation Using Marginalized Coupled Dictionary Learning
+10.1111/cgf.70540	A Hybrid Neural-Microfacet BRDF Model for Real-Time Rendering
+10.1080/00036811.2013.833609	Internal Gerstner waves: applications to dead water
+10.1016/j.wavemoti.2012.10.008	Wave dispersion under finite deformation
+	Evolutive Rendering Models
+10.1109/tns.2015.2409783	Real-Time Discrete SPAD Array Readout Architecture for Time of Flight PET
+10.1016/j.wavemoti.2013.02.009	Two new standing solitary waves in shallow water
+10.1016/j.oceaneng.2023.116059	Machine learning for phase-resolved reconstruction of nonlinear ocean wave surface elevations from sparse remote sensing data
+	Semi-analytical and numerical methods for computing transient waves in 2D acoustic / poroelastic stratified media
+10.1111/j.1467-8659.2010.01828.x	A Survey of Ocean Simulation and Rendering Techniques in Computer Graphics
+	Level-crossing distributions of kinematic variables in multidirectional second-order ocean waves
+	EAST Real-Time VOD System Based on MDSplus
+	Real-Time Seizure Detection using EEG: A Comprehensive Comparison of Recent Approaches under a Realistic Setting
+	Bridging ocean wave physics and deep learning: Physics-informed neural operators for nonlinear wavefield reconstruction in real-time
+10.1016/j.wavemoti.2024.103451	Analytical and numerical study of plane-progressive thermoacoustic shock waves in complex plasmas

@@ -1,0 +1,20 @@
+10.1145/1360612.1360696	Articulated mesh animation from multi-view silhouettes
+10.1145/218380.218422	Motion warping
+10.1145/1037957.1037965	Controllable smoke animation with guiding objects
+10.1109/mis.2002.1024753	Creating interactive virtual humans: some assembly required
+10.1007/s00371-020-01953-y	A survey of modeling, rendering and animation of clouds in computer graphics
+	Stylised procedural animation
+	Physical, Behavioral, and Sensor-Based Animation
+10.1109/tcsvt.2007.909974	Scene Representation Technologies for 3DTV—A Survey
+10.48550/arxiv.1910.08685	Real-Time Lip Sync for Live 2D Animation
+	Computer animation in future technologies
+10.3390/technologies13040157	Exploring Heart Rate Variability and Mental Effects of Gameplay in Virtual Reality and 3D Morphing Animation
+10.48550/arxiv.2312.00870	3DiFACE: Diffusion-based Speech-driven 3D Facial Animation and Editing
+	A tutorial on motion capture driven character animation
+10.32657/10356/2598	Computer-assisted in between generation for cel animation
+10.1145/3715336.3735766	Narrative Motion Blocks: Combining Direct Manipulation and Natural Language Interactions for Animation Creation
+10.3390/s25072314	Sensing the Inside Out: An Embodied Perspective on Digital Animation Through Motion Capture and Wearables
+10.1007/978-3-540-72532-9_7	Modeling, Animation, and Rendering of Human Figures
+10.48550/arxiv.2401.15687	Media2Face: Co-speech Facial Animation Generation With Multi-Modality Guidance
+10.1145/3414685.3417801	Stormscapes
+10.3990/1.9789036532334	Behavior generation for interpersonal coordination with virtual humans : on specifying, scheduling and realizing multimodal virtual human behavior

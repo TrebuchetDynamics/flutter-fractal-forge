@@ -1,0 +1,83 @@
+{
+  "topic": "Deforum-style fractalish motion translated to original procedural shaders",
+  "depth": "comprehensive",
+  "tool": {
+    "name": "rforge",
+    "version": "0.1.20",
+    "commit": "35aa065"
+  },
+  "queries": [
+    "Deforum Stable Diffusion animation prompt scheduling keyframes",
+    "latent diffusion animation temporal coherence prompt interpolation",
+    "text-to-video diffusion animation optical flow temporal consistency",
+    "procedural fractal spider web radial symmetry generative art",
+    "computational geometry procedural spider web generation",
+    "D8 dihedral symmetry generative patterns radial webs",
+    "fractal flame transformations rotational symmetry animation",
+    "iterated function systems radial symmetry generative art",
+    "log-polar conformal mapping kaleidoscope texture patterns",
+    "procedural aurora borealis domain warped noise shader",
+    "multi-scale fractal Brownian motion aurora rendering",
+    "ocean wave procedural rendering layered sine noise shader",
+    "Gerstner wave real-time ocean rendering procedural",
+    "recursive rectangular tiling card mosaic generative art",
+    "hyperbolic tiling recursive ornament card patterns",
+    "signed distance fields repeated 2D motifs generative shader",
+    "reaction diffusion branching network web patterns",
+    "flow field particle animation temporal coherence generative art",
+    "keyframe interpolation parameter morphing procedural animation",
+    "continuous morphing between procedural visual motifs",
+    "complex domain coloring animated parameter interpolation",
+    "fractal texture synthesis multiscale recursive patterns",
+    "kaleidoscopic feedback animation radial symmetry",
+    "procedural fantasy visual effects sigils glyphs radial symmetry"
+  ],
+  "sources_requested": [
+    "openalex",
+    "arxiv",
+    "semantic-scholar"
+  ],
+  "search_stats": {
+    "retrieved_records": 767,
+    "deduplicated_records": 627,
+    "total_unique_dois": 367,
+    "openalex_records": 287,
+    "arxiv_records": 480,
+    "semantic_scholar_records": 0
+  },
+  "public_lead": {
+    "title": "Deforum, SDXL, spiders and such",
+    "source": "user-supplied Reddit post text",
+    "license": "unknown",
+    "assets_imported": false
+  },
+  "oss_reference": {
+    "url": "https://github.com/deforum/sd-webui-deforum",
+    "license": "AGPL-3.0",
+    "use": "architecture and documentation reference only",
+    "source_code_imported": false
+  },
+  "asset_policy": "original-procedural-only",
+  "human_gates": {
+    "screening_decisions": "not performed",
+    "full_text_acquisition": "not requested",
+    "extraction_acceptance": "not performed",
+    "final_scientific_claim_approval": "not applicable; no scientific efficacy claim"
+  },
+  "outputs": [
+    "queries.txt",
+    "results.jsonl",
+    "results-deduped.jsonl",
+    "failures.jsonl",
+    "search-stats.txt",
+    "coverage-stats.txt",
+    "oss-search-plan.txt",
+    "source-inventory.md",
+    "report.md",
+    "provenance.json"
+  ],
+  "errors": [
+    "Semantic Scholar returned HTTP 429 for all 24 query variants."
+  ],
+  "weakest_evidence_gap": "No directly matched scholarly source covers the exact combination of Deforum prompt scheduling, fractal spider aesthetics, recursive card motifs, and procedural aurora; design translation is therefore explicitly original and implementation-led."
+}

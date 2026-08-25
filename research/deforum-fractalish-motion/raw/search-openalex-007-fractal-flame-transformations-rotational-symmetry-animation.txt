@@ -1,0 +1,19 @@
+10.1186/1742-4682-8-4	The self-organizing fractal theory as a universal discovery method: the phenomenon of life
+10.3390/fractalfract6020089	Fractals: An Eclectic Survey, Part-I
+10.1145/218380.218427	Creation and rendering of realistic trees
+	Stylised procedural animation
+10.1038/s41598-025-95519-4	Fractal and chaotic map-enhanced grey wolf optimization for robust fire detection in deep convolutional neural networks
+10.1007/s11071-018-4358-z	Non-feedback technique to directly control multistability in nonlinear oscillators by dual-frequency driving
+10.3390/f14122431	Physics-Based Modeling and Fluttering Dynamic Process Simulation for Catkins
+10.5167/uzh-163660	Knowledge-based 4D visualization of amorphous phenomena in complex terrain
+10.25772/9swe-7n54	Hydrophobicity of Low Temperature Vibrating Surfaces
+	Evolved Virtual Creatures as Content: Increasing Behavioral and Morphological Complexity
+	Large Eddy Simulation of High-Density Ratio Jets
+	Research Reports: 1984 NASA/ASEE Summer Faculty Fellowship Program
+	UT Austin|Portugal CoLab Year 4 Report to the External Review Committee
+10.22339/jbh.v7i4.7404	Big History, Chaos Theory, and the Solar-Induced Aurora: Illustrating the Entangled Phases of Human Development with Cosmic Plasma at the Geospace Interface
+10.25959/23225153	Beyond Linearity: Contemporary Drawing and the Naturalistic Representation of Experience
+	Catching the Next Wave: Resonance, Integration, and the Analog Future
+	On the Mathematical Justification of the total Quasi-Steady State Approximation in Enzyme Kinetics
+	The WELPA project : improving equine welfare in riding schools and livery yards through human behavioural change (HBC)
+	Autoorthography: an exploration of identity poetics with poetry

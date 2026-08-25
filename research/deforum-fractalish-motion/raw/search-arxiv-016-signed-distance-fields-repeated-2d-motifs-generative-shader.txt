@@ -1,0 +1,20 @@
+	Magnetic field dynamics in isolated neutron stars with an external dipole field
+	SDF-SRN: Learning Signed Distance 3D Object Reconstruction from Static Images
+	Magnetic Field Configurations in Binary Neutron Star Mergers II: Inspiral, Merger and Ejecta
+	Magnetic Field Configurations in Binary Neutron Star Mergers I: Post-merger Remnant and Disk
+	A sign pattern that allows oppositely signed orthogonal matrices
+10.1098/rspa.2023.0080	Orthogonal signed-distance coordinates and vector calculus near evolving curves and surfaces
+	Towards Improving Speaker Distance Estimation through Generative Impulse Response Augmentation
+10.1088/2053-1583/aceb05	Fermi level depinning via insertion of a graphene buffer layer at the gold-2D tin monoxide contact
+10.1038/s41598-020-58471-z	Detecting coalitions by optimally partitioning signed networks of political collaboration
+	Functional Motifs in Foodwebs and Networks
+	Action Motifs: Self-Supervised Hierarchical Representation of Human Body Movements
+10.1016/j.physa.2025.131096	A generalized motif-based Naïve Bayes model for sign prediction in complex networks
+	Sign and Search: Sign Search Functionality for Sign Language Lexica
+	Testing for Repeated Motifs and Hierarchical Structure in Stochastic Blockmodels
+10.1109/ismar-adjunct68609.2025.00267	ShadAR: LLM-driven shader generation to transform visual perception in Augmented Reality
+	Generative Adversarial Shaders for Real-Time Realism Enhancement
+10.1007/s40042-021-00058-6	Motif Dynamics in Signed Directional Complex Networks
+	Design and Implementation of a Procedural Content Generation Web Application for Vertex Shaders
+	A Tool for the Procedural Generation of Shaders using Interactive Evolutionary Algorithms
+10.1088/2053-1583/aa7034	Electric Field Effect in Multilayer Cr2Ge2Te6: a Ferromagnetic Two-Dimensional Material

@@ -1,0 +1,20 @@
+	A surprising regularizing effect of the nonlinear semigroup associated to the semilinear heat equation and applications to reaction diffusion systems
+10.1145/3231466	You, the Web and Your Device: Longitudinal Characterization of Browsing Habits
+10.1145/2908131.2908175	Analyzing Web Archives Through Topic and Event Focused Sub-collections
+	Midterm Status Report of the ILC Technology Network Activities
+10.5121/ijwsc	A Composite Design Pattern for Service Injection and Composition of Web Services for Peer-To-Peer Computing with Service Oriented Architecture
+10.1007/s41109-019-0214-4	Gender and collaboration patterns in a temporal scientific authorship network
+	Confinement determines transport of a reaction-diffusion active matter front
+	Long-time shadow limit for reaction-diffusion-ODE systems
+	Global Existence of Solutions to Reaction Diffusion Systems with Mass Transport Type Boundary Conditions
+10.1145/3308558.3313652	SaGe: Web Preemption for Public SPARQL Query Services
+	Neural Network Diffusion
+	Enabling Semantic Analysis of User Browsing Patterns in the Web of Data
+	Significant Interval and Frequent Pattern Discovery in Web Log Data
+	Unsupervised Multi-label Dataset Generation from Web Data
+10.21105/joss.00588	pynucastro: an interface to nuclear reaction rates and code generator for reaction network equations
+10.1145/3717867.3717925	Not Here, Go There: Analyzing Redirection Patterns on the Web
+10.1051/0004-6361:20053678	On the Ionisation Fraction in Protoplanetary Disks I: Comparing Different Reaction Networks
+	Inertial manifolds for 1D reaction-diffusion-advection systems. Part I: Dirichlet and Neumann boundary conditions
+	Diffusion in LanCoIn3n+2 phases studied by perturbed angular correlation
+	Lookahead Branching for Neural Network Verification

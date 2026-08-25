@@ -70,6 +70,11 @@
     "capability": "static"
   },
   {
+    "id": "astral_sigil_loom",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/procedural_motion/fractalish_motion_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
     "id": "astroid",
     "shaderAsset": "shaders/escape_time_family/polynomial_maps/astroid_gpu.frag",
     "capability": "static"
@@ -458,6 +463,11 @@
     "id": "chen_lee",
     "shaderAsset": "shaders/strange_attractors/chen_lee_gpu.frag",
     "capability": "static"
+  },
+  {
+    "id": "chromatic_arachnid_lattice",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/procedural_motion/fractalish_motion_gpu.frag",
+    "capability": "timeDriven"
   },
   {
     "id": "chua_circuit",
@@ -2870,6 +2880,11 @@
     "capability": "static"
   },
   {
+    "id": "fourfold_motif_metamorphosis",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/procedural_motion/fractalish_motion_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
     "id": "fractal_antenna_curves",
     "shaderAsset": "shaders/ifs_and_geometric/fractal_antenna_curves_gpu.frag",
     "capability": "static"
@@ -4315,6 +4330,11 @@
     "capability": "static"
   },
   {
+    "id": "recursive_arcana_frames",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/procedural_motion/fractalish_motion_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
     "id": "rep_tile_explorer",
     "shaderAsset": "shaders/ifs_and_geometric/rep_tile_explorer_gpu.frag",
     "capability": "static"
@@ -4768,6 +4788,11 @@
     "id": "taylor",
     "shaderAsset": "shaders/escape_time_family/transcendental_maps/taylor_gpu.frag",
     "capability": "static"
+  },
+  {
+    "id": "tempest_aurora_tides",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/procedural_motion/fractalish_motion_gpu.frag",
+    "capability": "timeDriven"
   },
   {
     "id": "tent_map",

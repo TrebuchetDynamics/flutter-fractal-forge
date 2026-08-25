@@ -1,0 +1,10 @@
+Source coverage for research/deforum-fractalish-motion
+  arxiv                    480 records (24 files)
+  openalex                 287 records (24 files)
+  semantic-scholar           0 records (24 rate-limited queries)
+
+Total unique DOIs: 367
+Library (results.jsonl): 767 records
+Deduplicated records: 627
+
+Failures: all 24 Semantic Scholar searches returned HTTP 429. OpenAlex and arXiv completed for all 24 query variants. No full text was acquired and no human-gated screening or extraction decision was made.

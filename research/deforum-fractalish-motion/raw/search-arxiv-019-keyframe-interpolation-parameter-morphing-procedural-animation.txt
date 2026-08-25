@@ -1,0 +1,20 @@
+	Tabletop Roleplaying Games as Procedural Content Generators
+	Generative Inbetweening: Adapting Image-to-Video Models for Keyframe Interpolation
+10.1016/j.medengphy.2024.104136	Automated 2D and 3D Finite Element Overclosure Adjustment and Mesh Morphing Using Generalized Regression Neural Networks
+10.1145/3799902.3811157	Adaptive Interpolation-Synthesis for Motion In-Betweening on Keyframe-Based Animation
+	Morphing Contact Representations of Graphs
+	KeyframeFace: Language-Driven Facial Animation via Semantic Keyframes
+	Evaluating Animation Parameters for Morphing Edge Drawings
+	KeyFace: Expressive Audio-Driven Facial Animation for Long Sequences via KeyFrame Interpolation
+	Controllable Human-centric Keyframe Interpolation with Generative Prior
+10.5121/ijcga.2015.5104	Analysis of Design Principles and Requirements for Procedural Rigging of Bipeds and Quadrupeds Characters with Custom Manipulators for Animation
+	KeyVID: Keyframe-Aware Video Diffusion for Audio-Synchronized Visual Animation
+	Using multimodal speech production data to evaluate articulatory animation for audiovisual speech synthesis
+10.1145/3772318.3790707	Notational Animating: An Interactive Approach to Creating and Editing Animation Keyframes
+	One-to-All Animation: Alignment-Free Character Animation and Image Pose Transfer
+	Interp3D: Correspondence-aware Interpolation for Generative Textured 3D Morphing
+10.1016/s1384-1076(00)00007-5	Morphing the CMB: a technique for interpolating power spectra
+	Astro-animation - A Case Study of Art and Science Education
+	Spatial Morphing Kernel Regression For Feature Interpolation
+	Deep Animation Video Interpolation in the Wild
+	Analysis of Interpolation based Image In-painting Approaches

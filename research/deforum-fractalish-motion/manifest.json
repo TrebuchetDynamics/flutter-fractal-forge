@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "1",
+  "createdAt": "2026-08-25T15:33:33Z",
+  "queries": [
+    "Deforum Stable Diffusion animation prompt scheduling keyframes",
+    "latent diffusion animation temporal coherence prompt interpolation",
+    "text-to-video diffusion animation optical flow temporal consistency",
+    "procedural fractal spider web radial symmetry generative art",
+    "computational geometry procedural spider web generation",
+    "D8 dihedral symmetry generative patterns radial webs",
+    "fractal flame transformations rotational symmetry animation",
+    "iterated function systems radial symmetry generative art",
+    "log-polar conformal mapping kaleidoscope texture patterns",
+    "procedural aurora borealis domain warped noise shader",
+    "multi-scale fractal Brownian motion aurora rendering",
+    "ocean wave procedural rendering layered sine noise shader",
+    "Gerstner wave real-time ocean rendering procedural",
+    "recursive rectangular tiling card mosaic generative art",
+    "hyperbolic tiling recursive ornament card patterns",
+    "signed distance fields repeated 2D motifs generative shader",
+    "reaction diffusion branching network web patterns",
+    "flow field particle animation temporal coherence generative art",
+    "keyframe interpolation parameter morphing procedural animation",
+    "continuous morphing between procedural visual motifs",
+    "complex domain coloring animated parameter interpolation",
+    "fractal texture synthesis multiscale recursive patterns",
+    "kaleidoscopic feedback animation radial symmetry",
+    "procedural fantasy visual effects sigils glyphs radial symmetry"
+  ],
+  "sources": [
+    "openalex",
+    "arxiv",
+    "semantic-scholar"
+  ],
+  "limit": 20,
+  "results": 767,
+  "deduped": 627,
+  "failures": 24
+}

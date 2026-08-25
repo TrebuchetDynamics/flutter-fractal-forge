@@ -1,0 +1,20 @@
+	Prompt-Free Diffusion: Taking "Text" out of Text-to-Image Diffusion Models
+	MirrorDiffusion: Stabilizing Diffusion Process in Zero-shot Image Translation by Prompts Redescription and Beyond
+10.1007/s10951-016-0478-9	A parameterized complexity view on non-preemptively scheduling interval-constrained jobs: few machines, small looseness, and small slack
+	KeyframeFace: Language-Driven Facial Animation via Semantic Keyframes
+	Sprite Sheet Diffusion: Generate Game Character for Animation
+	KSDiff: Keyframe-Augmented Speech-Aware Dual-Path Diffusion for Facial Animation
+	Stable Diffusion Segmentation for Biomedical Images with Single-step Reverse Process
+10.1145/3772318.3790707	Notational Animating: An Interactive Approach to Creating and Editing Animation Keyframes
+	One-to-All Animation: Alignment-Free Character Animation and Image Pose Transfer
+	Gemini2: Generating Keyframe-Oriented Animated Transitions Between Statistical Graphics
+10.1109/wacv56688.2023.00038	Placing Human Animations into 3D Scenes by Learning Interaction- and Geometry-Driven Keyframes
+	KeyVID: Keyframe-Aware Video Diffusion for Audio-Synchronized Visual Animation
+	Keyframer: Empowering Animation Design using Large Language Models
+	Less is More: Improving Motion Diffusion Models with Sparse Keyframes
+	Diffusion in LanCoIn3n+2 phases studied by perturbed angular correlation
+	On Discrete Prompt Optimization for Diffusion Models
+	Astro-animation - A Case Study of Art and Science Education
+	EPIG: Emotion-Based Prompting for Personalised Image Generation
+	KeyFace: Expressive Audio-Driven Facial Animation for Long Sequences via KeyFrame Interpolation
+	Reverse Stable Diffusion: What prompt was used to generate this image?

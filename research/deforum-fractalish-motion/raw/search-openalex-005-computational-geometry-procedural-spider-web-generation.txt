@@ -1,0 +1,20 @@
+10.1098/rsif.2020.0569	Spider webs inspiring soft robotics
+10.1016/j.compag.2017.12.001	Data synthesis methods for semantic segmentation in agriculture: A Capsicum annuum dataset
+10.48550/arxiv.1807.04724	Computational Complexity of Games and Puzzles
+10.1016/j.cirpj.2018.03.003	Biologicalisation: Biological transformation in manufacturing
+	Procedural Destruction of Objects for Computer Games
+10.1088/0034-4885/76/1/016101	History and progress on accurate measurements of the Planck constant
+10.1007/978-3-642-31830-6_2	Towards Creative Information Exploration Based on Koestler’s Concept of Bisociation
+10.3390/buildings11100481	Fiber-Reinforced Polymers in Freeform Structures: A Review
+10.3389/fphys.2010.00015	Fractals in the nervous system: conceptual implications for theoretical neuroscience
+10.1016/j.comnet.2024.110350	A comprehensive survey on digital twin for future networks and emerging Internet of Things industry
+10.36227/techrxiv.176289261.16802577/v1	A Survey of Unified Multimodal Understanding and Generation: Advances and Challenges
+10.31235/osf.io/rfejg	Sorting schools: A computational analysis of charter school identities and stratification
+10.1145/3451984	A Comprehensive Survey of the Key Technologies and Challenges Surrounding Vehicular Ad Hoc Networks
+10.1115/1.4051720	Challenges and Opportunities in Geometric Modeling of Complex Bio-Inspired Three-Dimensional Objects Designed for Additive Manufacturing
+	An introduction to educational design research: Proceedings of the seminar conducted at the East China Normal University, Shanghai (PR China), November 23-26, 2007
+10.52842/conf.acadia.2017.248	Multi-Machine Fabrication: An Integrative Design Process Utilising an Autonomous UAV and Industrial Robots for the Fabrication of Long-Span Composite Structures
+10.3390/rs13234807	The Austrian Semantic EO Data Cube Infrastructure
+10.1098/rsif.2022.0736	Beyond collective intelligence: Collective adaptation
+10.3390/systems14020175	Game Knowledge Management System: Schema-Governed LLM Pipeline for Executable Narrative Generation in RPGs
+10.14722/ndss.2020.24262	NoJITsu: Locking Down JavaScript Engines

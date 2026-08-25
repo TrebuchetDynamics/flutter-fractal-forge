@@ -1,0 +1,20 @@
+10.48550/arxiv.2309.15103	LAVIE: High-Quality Video Generation with Cascaded Latent Diffusion Models
+10.3390/fi15080260	The Power of Generative AI: A Review of Requirements, Models, Input–Output Formats, Evaluation Metrics, and Challenges
+10.1145/3610548.3618160	Rerender A Video: Zero-Shot Text-Guided Video-to-Video Translation
+10.1609/aaai.v38i3.27973	AMD: Autoregressive Motion Diffusion
+10.1145/3680528.3687688	Anim-Director: A Large Multimodal Model Powered Agent for Controllable Animation Video Generation
+10.1109/tpami.2024.3350004	Face Generation and Editing With StyleGAN: A Survey
+10.1007/s11263-024-02306-1	AniClipart: Clipart Animation with Text-to-Video Priors
+10.1007/s10462-025-11331-6	Video diffusion generation: comprehensive review and open problems
+10.48550/arxiv.2305.04919	DiffuseStyleGesture: Stylized Audio-Driven Co-Speech Gesture Generation with Diffusion Models
+10.48550/arxiv.2303.13744	Conditional Image-to-Video Generation with Latent Flow Diffusion Models
+10.48550/arxiv.2411.10836	AnimateAnything: Consistent and Controllable Animation for Video Generation
+10.36227/techrxiv.23589741.v4	Large Language Models: A Comprehensive Survey of its Applications, Challenges, Limitations, and Future Prospects
+10.48550/arxiv.2312.08459	FaceTalk: Audio-Driven Motion Diffusion for Neural Parametric Head Models
+10.24963/ijcai.2025/141	Exploring the Frontiers of Animation Video Generation in the Sora Era: Method, Dataset and Benchmark
+10.48550/arxiv.2405.11794	ViViD: Video Virtual Try-on using Diffusion Models
+10.48550/arxiv.2405.03150	Video Diffusion Models: A Survey
+10.48550/arxiv.2208.05617	Language-Guided Face Animation by Recurrent StyleGAN-based Generator
+10.3390/app16052482	A Survey of Diffusion Models: Methods and Applications
+10.1145/3664191	Computer Science Curricula 2023
+10.48550/arxiv.2410.04738	Diffusion Models in 3D Vision: A Survey

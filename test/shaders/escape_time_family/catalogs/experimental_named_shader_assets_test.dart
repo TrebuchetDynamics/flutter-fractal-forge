@@ -9,6 +9,7 @@ void main() {
     'discrete_attractors',
     'physical_simulation',
     'polynomial_variants',
+    'procedural_motion',
     'rational_singularities',
     'root_finding',
     'transcendental_deformations',

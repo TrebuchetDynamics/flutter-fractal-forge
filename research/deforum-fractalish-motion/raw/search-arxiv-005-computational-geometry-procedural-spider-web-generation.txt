@@ -1,0 +1,20 @@
+	Tabletop Roleplaying Games as Procedural Content Generators
+10.1145/3472538.3472600	Ensemble Learning For Mega Man Level Generation
+10.1145/3472538.3472601	Toward Co-creative Dungeon Generation via Transfer Learning
+10.1145/3472538.3472602	Generating Lode Runner Levels by Learning Player Paths with LSTMs
+10.3847/1538-4357/ad900c	Analysis of Polarized Dust Emission Using Data from the First Flight of SPIDER
+	A Constraint on Primordial $B$-Modes from the First Flight of the SPIDER Balloon-Borne Telescope
+10.1145/3472538.3472589	TaikoNation: Patterning-focused Chart Generation for Rhythm Action Games
+	Unsupervised Multi-label Dataset Generation from Web Data
+	SPIDER: Scalable Physics-Informed Dexterous Retargeting
+	Asymptotic Properties of Hilbert Geometry
+10.1145/2908131.2908175	Analyzing Web Archives Through Topic and Event Focused Sub-collections
+	Spider Evaluation and Representations of Web Groups
+	Sasakian Geometry and Einstein Metrics on Spheres
+10.1007/s00454-025-00780-z	Optimal Volume-Sensitive Bounds for Polytope Approximation
+10.1145/3308558.3313652	SaGe: Web Preemption for Public SPARQL Query Services
+10.36890/iejg.1362006	Differential geometry using quaternions
+10.1162/coli_a_00276	Argumentation Mining in User-Generated Web Discourse
+10.1145/3231466	You, the Web and Your Device: Longitudinal Characterization of Browsing Habits
+	Dilatation structures in sub-riemannian geometry
+10.1007/s00454-005-1202-2	Computational Approaches to Lattice Packing and Covering Problems

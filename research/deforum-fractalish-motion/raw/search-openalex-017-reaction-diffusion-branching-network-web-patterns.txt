@@ -1,0 +1,20 @@
+10.1103/revmodphys.87.925	Epidemic processes in complex networks
+10.3847/1538-4365/aaa5a8	Modules for Experiments in Stellar Astrophysics ( ): Convective Boundaries, Element Diffusion, and Massive Star Explosions
+10.1039/c4cp03465a	Anomalous diffusion models and their properties: non-stationarity, non-ergodicity, and ageing at the centenary of single particle tracking
+10.48550/arxiv.1812.08434	Graph Neural Networks: A Review of Methods and Applications
+10.1086/421508	Network Dynamics and Field Evolution: The Growth of Interorganizational Collaboration in the Life Sciences
+10.1007/s10462-023-10562-9	A survey of uncertainty in deep neural networks
+10.1257/jep.8.2.133	Network Externality: An Uncommon Tragedy
+10.1167/11.5.13	Peripheral vision and pattern recognition: A review
+10.1038/s42254-021-00314-5	Physics-informed machine learning
+10.1038/s43246-022-00315-6	Graph neural networks for materials science and chemistry
+10.1002/nbm.3841	Imaging brain microstructure with diffusion MRI: practicality and applications
+10.1016/j.jconhyd.2016.07.002	Review of pore network modelling of porous media: Experimental characterisations, network constructions and applications to reactive transport
+10.1093/aob/mcf118	Antioxidants, Oxidative Damage and Oxygen Deprivation Stress: a Review
+10.1088/0067-0049/220/1/15	MODULES FOR EXPERIMENTS IN STELLAR ASTROPHYSICS (MESA): BINARIES, PULSATIONS, AND EXPLOSIONS
+10.1111/j.1742-4658.2010.07633.x	Sugar signalling and antioxidant network connections in plant cells
+10.1016/j.bbamcr.2012.05.016	The zinc homeostasis network of land plants
+10.1016/j.physrep.2023.03.005	Signal propagation in complex networks
+10.1038/s41586-022-05688-9	Dissecting cell identity via network inference and in silico gene perturbation
+10.1093/mnras/stt1034	Evolution of thermally pulsing asymptotic giant branch stars – I. The colibri code
+10.35833/mpce.2021.000058	A Review of Graph Neural Networks and Their Applications in Power Systems

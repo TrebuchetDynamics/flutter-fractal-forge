@@ -1,0 +1,16 @@
+10.1145/2714572	Water Wave Animation via Wavefront Parameter Interpolation
+	Survey on Automated LEGO Assembly Construction
+	Solid spaces: a unified approach to describing object attributes
+10.2307/j.ctt1x07z9t	The Message is Murder
+	Real time vehicle detection and tracking on multiple lanes
+	Fast and Robust Tessellation-Based Silhouette Shadows
+10.14288/1.0051301	Animation of reactive fluids
+	Visualizing multi-channel networks
+10.31390/gradschool_dissertations.2654	Biologically inspired learning system
+10.21203/rs.3.rs-9463162/v1	Assessing the Feasibility of Real-Time Neural FluidRendering Using NVIDIA RTX Neural Shaders
+10.13140/rg.2.2.10863.79525	Computational Analysis of Melodic Contour and Body Movement
+	Human-Computer Interaction Using Robust Gesture Recognition
+	Echoes of silence: writing into reverberations of trauma
+	Generic Catastrophes: Case Studies on the Use of Language in Postwar Sound Art
+	Implementation of a virtual environment system based on geographical information system and environmental models
+10.1353/book.71933	Sacred Men

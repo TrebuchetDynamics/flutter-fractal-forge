@@ -1,0 +1,20 @@
+	Generative AI for Character Animation: A Comprehensive Survey of Techniques, Applications, and Future Directions
+	Astro-animation - A Case Study of Art and Science Education
+10.1016/j.ijmultiphaseflow.2012.05.007	DNS of vertical plane channel flow with finite-size particles: Voronoi analysis, acceleration statistics and particle-conditioned averaging
+10.1017/flo.2022.2	Time-averaged velocity and scalar fields of the flow surrounding a group of cylinders
+10.1007/s10915-015-9995-5	Fast evaluation of far-field signals for time-domain wave propagation
+10.1016/j.ijheatfluidflow.2018.04.007	Relative dispersion of particle pairs in turbulent channel flow
+	Space-time transformation properties of inter-charge forces and dipole radiation: Breakdown of the classical field concept in relativistic electrodynamics
+	A map of approaches to temporal networks
+10.1016/j.ijmultiphaseflow.2019.04.027	Phase-field simulation of core-annular pipe flow
+10.1109/sbgames56371.2022.9961078	Line Art Colorization of Fakemon using Generative Adversarial Neural Networks
+	Retarded electric and magnetic fields of a moving charge: Feynman's derivation of Liénard-Wiechert potentials revisited
+10.1088/0031-8949/73/6/018	Derivation of the Lorentz Force Law, the Magnetic Field Concept and the Faraday-Lenz Law using an Invariant Formulation of the Lorentz Transformation
+	Comment on "Measuring propagation speed of Coulomb fields" [R. de Sangro {\it et al.} Eur. Phys. J.C (2015) 75:137]
+	Derivation of the Lorentz Force Law and the Magnetic Field Concept using an Invariant Formulation of the Lorentz Transformation
+10.1017/s0263034614000500	Comparison between illumination model and hydrodynamic simulation for a Direct Drive laser irradiated target
+	Radiation outer boundary conditions and near-to-far field signal transformations for the Bardeen-Press equation
+10.1016/j.ijmultiphaseflow.2023.104476	Physics-informed neural networks for understanding shear migration of particles in viscous flow
+10.1103/physrevd.58.017301	Coherence of neutrino oscillations in the wave packet approach
+10.1103/physrevd.85.084004	Numerical simulations with a first order BSSN formulation of Einstein's field equations
+	One-to-All Animation: Alignment-Free Character Animation and Image Pose Transfer

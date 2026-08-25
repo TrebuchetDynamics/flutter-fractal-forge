@@ -1,0 +1,20 @@
+	Tabletop Roleplaying Games as Procedural Content Generators
+	Machine Learning-Driven Volumetric Cloud Rendering: Procedural Shader Optimization and Dynamic Lighting in Unreal Engine for Realistic Atmospheric Simulation
+	A Tool for the Procedural Generation of Shaders using Interactive Evolutionary Algorithms
+	Design and Implementation of a Procedural Content Generation Web Application for Vertex Shaders
+10.1142/s0219477510000320	Noise and Bell's inequality
+10.1142/s0219477510000253	Instantaneous noise-based logic
+10.1142/s0219477516020016	Quantum and Classical Frontiers of Noise
+	Rendering Point Clouds with Compute Shaders
+10.1016/j.wavemoti.2012.10.008	Wave dispersion under finite deformation
+	Noise based logic: why noise? A comparative study of the necessity of randomness out of orthogonality
+	Evolutive Rendering Models
+10.1142/s0219477516400034	Decoherence and noise in open quantum system dynamics
+10.1016/j.wavemoti.2013.02.009	Two new standing solitary waves in shallow water
+10.1109/icnf57520.2023.10472766	Noise Dynamics in the Quantum Regime
+10.1142/s0219477524500597	Simple Cracking of (Noise-Based) Dynamic Watermarking in Smart Grids
+	Stokes' Drift and Hypersensitive Response with Dichotomous Markov Noise
+	Semi-analytical and numerical methods for computing transient waves in 2D acoustic / poroelastic stratified media
+10.1111/j.1467-8659.2010.01828.x	A Survey of Ocean Simulation and Rendering Techniques in Computer Graphics
+	Level-crossing distributions of kinematic variables in multidirectional second-order ocean waves
+	Approximate Program Smoothing Using Mean-Variance Statistics, with Application to Procedural Shader Bandlimiting

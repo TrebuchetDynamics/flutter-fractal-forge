@@ -1,0 +1,20 @@
+10.1145/3610548.3618160	Rerender A Video: Zero-Shot Text-Guided Video-to-Video Translation
+10.1609/aaai.v38i5.28206	Follow Your Pose: Pose-Guided Text-to-Video Generation Using Pose-Free Videos
+10.1016/j.cviu.2024.104160	Estimating optical flow: A comprehensive review of the state of the art
+10.48550/arxiv.2305.10874	Swap Attention in Spatiotemporal Diffusions for Text-to-Video Generation
+10.1609/aaai.v38i2.27899	MeDM: Mediating Image Diffusion Models for Video-to-Video Translation with Temporal Correspondence Guidance
+10.3390/fi15080260	The Power of Generative AI: A Review of Requirements, Models, Input–Output Formats, Evaluation Metrics, and Challenges
+10.1109/access.2021.3140175	A Metaverse: Taxonomy, Components, Applications, and Open Challenges
+10.48550/arxiv.2311.16498	MagicAnimate: Temporally Consistent Human Image Animation using Diffusion Model
+10.1145/3680528.3687656	I2VEdit: First-Frame-Guided Video Editing via Image-to-Video Diffusion Models
+10.48550/arxiv.2311.17117	Animate Anyone: Consistent and Controllable Image-to-Video Synthesis for Character Animation
+10.1145/3721238.3730607	Diffusion as Shader: 3D-aware Video Diffusion for Versatile Video Generation Control
+10.1007/s11263-024-02306-1	AniClipart: Clipart Animation with Text-to-Video Priors
+10.1177/0278364903022006003	Estimating Articulated Human Motion with Covariance Scaled Sampling
+10.1109/tvcg.2022.3146000	Reference-Based Deep Line Art Video Colorization
+10.1609/aaai.v39i7.32763	VE-Bench: Subjective-Aligned Benchmark Suite for Text-Driven Video Editing Quality Assessment
+10.1063/1.1755664	Adsorption and diffusion on a stepped surface: Atomic hydrogen on Pt(211)
+10.48550/arxiv.2403.05131	Sora as a World Model? A Complete Survey on Text-to-Video Generation
+10.48550/arxiv.2310.10647	A Survey on Video Diffusion Models
+10.1609/aaai.v39i6.32643	Follow-Your-Click: Open-domain Regional Image Animation via Motion Prompts
+10.1145/3355089.3356571	The relightables

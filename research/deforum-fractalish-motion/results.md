@@ -1,0 +1,658 @@
+# Search batch results
+
+Deduped records: 627
+
+- Prompt-Free Diffusion: Taking "Text" out of Text-to-Image Diffusion Models
+- MirrorDiffusion: Stabilizing Diffusion Process in Zero-shot Image Translation by Prompts Redescription and Beyond
+- A parameterized complexity view on non-preemptively scheduling interval-constrained jobs: few machines, small looseness, and small slack — DOI: `10.1007/s10951-016-0478-9`
+- KeyframeFace: Language-Driven Facial Animation via Semantic Keyframes
+- Sprite Sheet Diffusion: Generate Game Character for Animation
+- KSDiff: Keyframe-Augmented Speech-Aware Dual-Path Diffusion for Facial Animation
+- Stable Diffusion Segmentation for Biomedical Images with Single-step Reverse Process
+- Notational Animating: An Interactive Approach to Creating and Editing Animation Keyframes — DOI: `10.1145/3772318.3790707`
+- One-to-All Animation: Alignment-Free Character Animation and Image Pose Transfer
+- Gemini2: Generating Keyframe-Oriented Animated Transitions Between Statistical Graphics
+- Placing Human Animations into 3D Scenes by Learning Interaction- and Geometry-Driven Keyframes — DOI: `10.1109/wacv56688.2023.00038`
+- KeyVID: Keyframe-Aware Video Diffusion for Audio-Synchronized Visual Animation
+- Keyframer: Empowering Animation Design using Large Language Models
+- Less is More: Improving Motion Diffusion Models with Sparse Keyframes
+- Diffusion in LanCoIn3n+2 phases studied by perturbed angular correlation
+- On Discrete Prompt Optimization for Diffusion Models
+- Astro-animation - A Case Study of Art and Science Education
+- EPIG: Emotion-Based Prompting for Personalised Image Generation
+- KeyFace: Expressive Audio-Driven Facial Animation for Long Sequences via KeyFrame Interpolation
+- Reverse Stable Diffusion: What prompt was used to generate this image?
+- LAVIE: High-Quality Video Generation with Cascaded Latent Diffusion Models — DOI: `10.48550/arxiv.2309.15103`
+- The Power of Generative AI: A Review of Requirements, Models, Input–Output Formats, Evaluation Metrics, and Challenges — DOI: `10.3390/fi15080260`
+- Rerender A Video: Zero-Shot Text-Guided Video-to-Video Translation — DOI: `10.1145/3610548.3618160`
+- AMD: Autoregressive Motion Diffusion — DOI: `10.1609/aaai.v38i3.27973`
+- Anim-Director: A Large Multimodal Model Powered Agent for Controllable Animation Video Generation — DOI: `10.1145/3680528.3687688`
+- Face Generation and Editing With StyleGAN: A Survey — DOI: `10.1109/tpami.2024.3350004`
+- AniClipart: Clipart Animation with Text-to-Video Priors — DOI: `10.1007/s11263-024-02306-1`
+- Video diffusion generation: comprehensive review and open problems — DOI: `10.1007/s10462-025-11331-6`
+- DiffuseStyleGesture: Stylized Audio-Driven Co-Speech Gesture Generation with Diffusion Models — DOI: `10.48550/arxiv.2305.04919`
+- Conditional Image-to-Video Generation with Latent Flow Diffusion Models — DOI: `10.48550/arxiv.2303.13744`
+- AnimateAnything: Consistent and Controllable Animation for Video Generation — DOI: `10.48550/arxiv.2411.10836`
+- Large Language Models: A Comprehensive Survey of its Applications, Challenges, Limitations, and Future Prospects — DOI: `10.36227/techrxiv.23589741.v4`
+- FaceTalk: Audio-Driven Motion Diffusion for Neural Parametric Head Models — DOI: `10.48550/arxiv.2312.08459`
+- Exploring the Frontiers of Animation Video Generation in the Sora Era: Method, Dataset and Benchmark — DOI: `10.24963/ijcai.2025/141`
+- ViViD: Video Virtual Try-on using Diffusion Models — DOI: `10.48550/arxiv.2405.11794`
+- Video Diffusion Models: A Survey — DOI: `10.48550/arxiv.2405.03150`
+- Language-Guided Face Animation by Recurrent StyleGAN-based Generator — DOI: `10.48550/arxiv.2208.05617`
+- A Survey of Diffusion Models: Methods and Applications — DOI: `10.3390/app16052482`
+- Computer Science Curricula 2023 — DOI: `10.1145/3664191`
+- Diffusion Models in 3D Vision: A Survey — DOI: `10.48550/arxiv.2410.04738`
+- Latent-Y: A Lab-Validated Autonomous Agent for De Novo Drug Design
+- Latent-X: An Atom-level Frontier Model for De Novo Protein Binder Design
+- Drug-like antibodies with low immunogenicity in human panels designed with Latent-X2
+- Latent-Shift: Latent Diffusion with Temporal Shift for Efficient Text-to-Video Generation
+- Text-driven Visual Synthesis with Latent Diffusion Prior
+- Blended Latent Diffusion — DOI: `10.1145/3592450`
+- A Simple Latent Diffusion Approach for Panoptic Segmentation and Mask Inpainting
+- Smooth Diffusion: Crafting Smooth Latent Spaces in Diffusion Models
+- Bidirectional Temporal Diffusion Model for Temporally Consistent Human Animation
+- Simultaneous Latent Budget Trees for Stratified Classification
+- NaturalSpeech 2: Latent Diffusion Models are Natural and Zero-Shot Speech and Singing Synthesizers
+- A map of approaches to temporal networks
+- TLB-VFI: Temporal-Aware Latent Brownian Bridge Diffusion for Video Frame Interpolation
+- Comparison between illumination model and hydrodynamic simulation for a Direct Drive laser irradiated target — DOI: `10.1017/s0263034614000500`
+- Latent-Reframe: Enabling Camera Control for Video Diffusion Model without Training
+- DiscDiff: Latent Diffusion Model for DNA Sequence Generation
+- Follow Your Pose: Pose-Guided Text-to-Video Generation Using Pose-Free Videos — DOI: `10.1609/aaai.v38i5.28206`
+- Estimating optical flow: A comprehensive review of the state of the art — DOI: `10.1016/j.cviu.2024.104160`
+- Swap Attention in Spatiotemporal Diffusions for Text-to-Video Generation — DOI: `10.48550/arxiv.2305.10874`
+- MeDM: Mediating Image Diffusion Models for Video-to-Video Translation with Temporal Correspondence Guidance — DOI: `10.1609/aaai.v38i2.27899`
+- A Metaverse: Taxonomy, Components, Applications, and Open Challenges — DOI: `10.1109/access.2021.3140175`
+- MagicAnimate: Temporally Consistent Human Image Animation using Diffusion Model — DOI: `10.48550/arxiv.2311.16498`
+- I2VEdit: First-Frame-Guided Video Editing via Image-to-Video Diffusion Models — DOI: `10.1145/3680528.3687656`
+- Animate Anyone: Consistent and Controllable Image-to-Video Synthesis for Character Animation — DOI: `10.48550/arxiv.2311.17117`
+- Diffusion as Shader: 3D-aware Video Diffusion for Versatile Video Generation Control — DOI: `10.1145/3721238.3730607`
+- Estimating Articulated Human Motion with Covariance Scaled Sampling — DOI: `10.1177/0278364903022006003`
+- Reference-Based Deep Line Art Video Colorization — DOI: `10.1109/tvcg.2022.3146000`
+- VE-Bench: Subjective-Aligned Benchmark Suite for Text-Driven Video Editing Quality Assessment — DOI: `10.1609/aaai.v39i7.32763`
+- Adsorption and diffusion on a stepped surface: Atomic hydrogen on Pt(211) — DOI: `10.1063/1.1755664`
+- Sora as a World Model? A Complete Survey on Text-to-Video Generation — DOI: `10.48550/arxiv.2403.05131`
+- A Survey on Video Diffusion Models — DOI: `10.48550/arxiv.2310.10647`
+- Follow-Your-Click: Open-domain Regional Image Animation via Motion Prompts — DOI: `10.1609/aaai.v39i6.32643`
+- The relightables — DOI: `10.1145/3355089.3356571`
+- FLATTEN: optical FLow-guided ATTENtion for consistent text-to-video editing
+- Photovoltaic-ferroelectric materials for the realization of all-optical devices — DOI: `10.1002/adom.202102353`
+- Enhancing Sketch Animation: Text-to-Video Diffusion Models with Temporal Consistency and Rigidity Constraints — DOI: `10.5220/0013304800003912`
+- Video Diffusion Models: A Survey
+- Upscale-A-Video: Temporal-Consistent Diffusion Model for Real-World Video Super-Resolution
+- VMC: Video Motion Customization using Temporal Attention Adaption for Text-to-Video Diffusion Models
+- Video Forgery Detection with Optical Flow Residuals and Spatial-Temporal Consistency
+- Temporal Cycle-Consistency Learning
+- ActionMesh: Animated 3D Mesh Generation with Temporal 3D Diffusion
+- Using phase instead of optical flow for action recognition
+- MagicAnimate: Temporally Consistent Human Image Animation using Diffusion Model
+- DA-Flow: Degradation-Aware Optical Flow Estimation with Diffusion Models
+- Inflation with Diffusion: Efficient Temporal Adaptation for Text-to-Video Super-Resolution
+- AnimateZero: Video Diffusion Models are Zero-Shot Image Animators
+- AniClipart: Clipart Animation with Text-to-Video Priors
+- Temporal Reasoning Transfer from Text to Video
+- Consistent and Controllable Image Animation with Motion Linear Diffusion Transformers
+- Text-Animator: Controllable Visual Text Video Generation
+- ModelScope Text-to-Video Technical Report
+- Tabletop Roleplaying Games as Procedural Content Generators
+- Fractal Properties of the Cosmic Web
+- Analysis of Polarized Dust Emission Using Data from the First Flight of SPIDER — DOI: `10.3847/1538-4357/ad900c`
+- Minkowski dimension and explicit tube formulas for $p$-adic fractal strings — DOI: `10.3390/fractalfract2040026`
+- A Constraint on Primordial $B$-Modes from the First Flight of the SPIDER Balloon-Borne Telescope
+- Radial velocity follow-up of CoRoT transiting exoplanets — DOI: `10.1051/epjconf/20101102001`
+- SPIDER: Scalable Physics-Informed Dexterous Retargeting
+- Analyzing Web Archives Through Topic and Event Focused Sub-collections — DOI: `10.1145/2908131.2908175`
+- Unsupervised Multi-label Dataset Generation from Web Data
+- Spider Evaluation and Representations of Web Groups
+- SaGe: Web Preemption for Public SPARQL Query Services — DOI: `10.1145/3308558.3313652`
+- You, the Web and Your Device: Longitudinal Characterization of Browsing Habits — DOI: `10.1145/3231466`
+- Symmetry and Variance: Generative Parametric Modelling of Historical Brick Wall Patterns
+- Corrections to Wigner-Eckart Relations by Spontaneous Symmetry Breaking — DOI: `10.3390/sym12071120`
+- A uniqueness result on detecting a prey in a spider orb-web
+- Modeling and design of heterogeneous hierarchical bioinspired spider web structures using generative deep learning and additive manufacturing
+- Line Art Colorization of Fakemon using Generative Adversarial Neural Networks — DOI: `10.1109/sbgames56371.2022.9961078`
+- Network efficiency of spatial systems with fractal morphology: a geometric graphs approach — DOI: `10.1038/s41598-023-45962-y`
+- Construction of higher-order metric fluctuation terms in spacetime symmetry-breaking effective field theory — DOI: `10.3390/sym13050834`
+- Projective collineations of decomposable spacetimes generated by the Lie point symmetries of geodesic equations — DOI: `10.3390/sym13061018`
+- Spider webs inspiring soft robotics — DOI: `10.1098/rsif.2020.0569`
+- Data synthesis methods for semantic segmentation in agriculture: A Capsicum annuum dataset — DOI: `10.1016/j.compag.2017.12.001`
+- Computational Complexity of Games and Puzzles — DOI: `10.48550/arxiv.1807.04724`
+- Biologicalisation: Biological transformation in manufacturing — DOI: `10.1016/j.cirpj.2018.03.003`
+- Procedural Destruction of Objects for Computer Games
+- History and progress on accurate measurements of the Planck constant — DOI: `10.1088/0034-4885/76/1/016101`
+- Towards Creative Information Exploration Based on Koestler’s Concept of Bisociation — DOI: `10.1007/978-3-642-31830-6_2`
+- Fiber-Reinforced Polymers in Freeform Structures: A Review — DOI: `10.3390/buildings11100481`
+- Fractals in the nervous system: conceptual implications for theoretical neuroscience — DOI: `10.3389/fphys.2010.00015`
+- A comprehensive survey on digital twin for future networks and emerging Internet of Things industry — DOI: `10.1016/j.comnet.2024.110350`
+- A Survey of Unified Multimodal Understanding and Generation: Advances and Challenges — DOI: `10.36227/techrxiv.176289261.16802577/v1`
+- Sorting schools: A computational analysis of charter school identities and stratification — DOI: `10.31235/osf.io/rfejg`
+- A Comprehensive Survey of the Key Technologies and Challenges Surrounding Vehicular Ad Hoc Networks — DOI: `10.1145/3451984`
+- Challenges and Opportunities in Geometric Modeling of Complex Bio-Inspired Three-Dimensional Objects Designed for Additive Manufacturing — DOI: `10.1115/1.4051720`
+- An introduction to educational design research: Proceedings of the seminar conducted at the East China Normal University, Shanghai (PR China), November 23-26, 2007
+- Multi-Machine Fabrication: An Integrative Design Process Utilising an Autonomous UAV and Industrial Robots for the Fabrication of Long-Span Composite Structures — DOI: `10.52842/conf.acadia.2017.248`
+- The Austrian Semantic EO Data Cube Infrastructure — DOI: `10.3390/rs13234807`
+- Beyond collective intelligence: Collective adaptation — DOI: `10.1098/rsif.2022.0736`
+- Game Knowledge Management System: Schema-Governed LLM Pipeline for Executable Narrative Generation in RPGs — DOI: `10.3390/systems14020175`
+- NoJITsu: Locking Down JavaScript Engines — DOI: `10.14722/ndss.2020.24262`
+- Ensemble Learning For Mega Man Level Generation — DOI: `10.1145/3472538.3472600`
+- Toward Co-creative Dungeon Generation via Transfer Learning — DOI: `10.1145/3472538.3472601`
+- Generating Lode Runner Levels by Learning Player Paths with LSTMs — DOI: `10.1145/3472538.3472602`
+- TaikoNation: Patterning-focused Chart Generation for Rhythm Action Games — DOI: `10.1145/3472538.3472589`
+- Asymptotic Properties of Hilbert Geometry
+- Sasakian Geometry and Einstein Metrics on Spheres
+- Optimal Volume-Sensitive Bounds for Polytope Approximation — DOI: `10.1007/s00454-025-00780-z`
+- Differential geometry using quaternions — DOI: `10.36890/iejg.1362006`
+- Argumentation Mining in User-Generated Web Discourse — DOI: `10.1162/coli_a_00276`
+- Dilatation structures in sub-riemannian geometry
+- Computational Approaches to Lattice Packing and Covering Problems — DOI: `10.1007/s00454-005-1202-2`
+- The reflection invariant bispectrum: signal recovery in the dihedral model
+- Dihedral Linking Invariants
+- Center Symmetry Breaking in Calabi--Yau Compactifications — DOI: `10.3390/sym17040490`
+- Is there any symmetry left in gravity theories with explicit Lorentz violation? — DOI: `10.3390/sym10100433`
+- The Noether Symmetry Approach: Foundation and applications. The case of scalar-tensor Gauss-Bonnet gravity — DOI: `10.3390/sym15091625`
+- Right-jumps and pattern avoiding permutations — DOI: `10.46298/dmtcs.1344`
+- Mirror symmetry for new physics beyond the Standard Model in $4D$ spacetime — DOI: `10.3390/sym15071415`
+- Hawking radiation as a manifestation of spontaneous symmetry breaking — DOI: `10.3390/sym16050519`
+- Algebra of the symmetry operators of the Klein-Gordon-Fock equation for the case when groups of motions $G_3$ act transitively on null subsurfaces of spacetime — DOI: `10.3390/sym14020346`
+- BRST Symmetry Violation and Fundamental Limitations of Asymptotic Safety in Quantum Gravity — DOI: `10.3390/sym18010140`
+- A Classification and Examples of Four-Dimensional Nonisoclinic Three-Webs
+- Finding Sequential Patterns from Large Sequence Data
+- Spontaneous Symmetry Breaking: The Case of Crazy Clock and Beyond — DOI: `10.3390/sym14020413`
+- Why Poincare symmetry is a good approximate symmetry in particle theory — DOI: `10.3390/sym17030338`
+- Baryogenesis: A Symmetry Breaking in the Primordial Universe Revisited — DOI: `10.3390/sym16010013`
+- The self-organizing fractal theory as a universal discovery method: the phenomenon of life — DOI: `10.1186/1742-4682-8-4`
+- Fractals: An Eclectic Survey, Part-I — DOI: `10.3390/fractalfract6020089`
+- Creation and rendering of realistic trees — DOI: `10.1145/218380.218427`
+- Stylised procedural animation
+- Fractal and chaotic map-enhanced grey wolf optimization for robust fire detection in deep convolutional neural networks — DOI: `10.1038/s41598-025-95519-4`
+- Non-feedback technique to directly control multistability in nonlinear oscillators by dual-frequency driving — DOI: `10.1007/s11071-018-4358-z`
+- Physics-Based Modeling and Fluttering Dynamic Process Simulation for Catkins — DOI: `10.3390/f14122431`
+- Knowledge-based 4D visualization of amorphous phenomena in complex terrain — DOI: `10.5167/uzh-163660`
+- Hydrophobicity of Low Temperature Vibrating Surfaces — DOI: `10.25772/9swe-7n54`
+- Evolved Virtual Creatures as Content: Increasing Behavioral and Morphological Complexity
+- Large Eddy Simulation of High-Density Ratio Jets
+- Research Reports: 1984 NASA/ASEE Summer Faculty Fellowship Program
+- UT Austin|Portugal CoLab Year 4 Report to the External Review Committee
+- Big History, Chaos Theory, and the Solar-Induced Aurora: Illustrating the Entangled Phases of Human Development with Cosmic Plasma at the Geospace Interface — DOI: `10.22339/jbh.v7i4.7404`
+- Beyond Linearity: Contemporary Drawing and the Naturalistic Representation of Experience — DOI: `10.25959/23225153`
+- Catching the Next Wave: Resonance, Integration, and the Analog Future
+- On the Mathematical Justification of the total Quasi-Steady State Approximation in Enzyme Kinetics
+- The WELPA project : improving equine welfare in riding schools and livery yards through human behavioural change (HBC)
+- Autoorthography: an exploration of identity poetics with poetry
+- The Interaction of High-Speed Turbulence with Flames: Turbulent Flame Speed — DOI: `10.1016/j.combustflame.2010.09.002`
+- The Interaction of High-Speed Turbulence with Flames: Global Properties and Internal Flame Structure — DOI: `10.1016/j.combustflame.2009.11.018`
+- Fractal dimension of premixed flames in multifractal turbulence
+- Precise surface temperature measurements at kHz-rates using phosphor thermometry to study flame-wall interactions in narrow passages — DOI: `10.1016/j.combustflame.2022.111984`
+- Deep learning-based denoising for fast time-resolved flame emission spectroscopy in high-pressure combustion environment — DOI: `10.1016/j.combustflame.2022.112583`
+- Flame-wall interaction of thermodiffusively unstable hydrogen/air flames -- Part I: Characterization of governing physical phenomena — DOI: `10.1016/j.combustflame.2025.114320`
+- Quantitative 3D Morphology of Cellular H2/O2/N2 Flames on a Porous-Plug Burner: Spatially Resolved Measurements of Temperature and OH Radical
+- Theory of DDT in Unconfined Flames
+- A multidimensional combustion model for oblique, wrinkled premixed flames
+- Thermoacoustic Instability Suppression and Heat-Release Forcing of a Laminar Flame Using Ionic Wind
+- Physics-Aware Neural Network Flame Closure for Combustion Instability Modeling in a Single-Injector Engine
+- Flame interactions in a stratified swirl burner: flame stabilization, combustion instabilities and beating oscillations — DOI: `10.1016/j.combustflame.2019.11.020`
+- Flame-wall interaction of thermodiffusively unstable hydrogen/air flames -- Part II: Parametric variations of equivalence ratio, temperature, and pressure — DOI: `10.1016/j.combustflame.2025.114319`
+- Ignition of Deflagration and Detonation Ahead of the Flame due to Radiative Preheating of Suspended Micro Particles
+- Experimental study of the structure of a lean premixed indane/CH4/O2/Ar flame
+- A generalized model for Yang-Fourier transforms in fractal space
+- Thermodiffusively unstable laminar hydrogen flame in a sufficiently large 3D computational domain -- Part I: Characteristic patterns
+- How "mixing" affects propagation and structure of intensely turbulent, lean, hydrogen-air premixed flames — DOI: `10.1016/j.combustflame.2024.113903`
+- The Multimodal Brain Tumor Image Segmentation Benchmark (BRATS) — DOI: `10.1109/tmi.2014.2377694`
+- Machine Learning: Algorithms, Real-World Applications and Research Directions — DOI: `10.1007/s42979-021-00592-x`
+- Generative models for graph-based protein design
+- Deep Learning: A Comprehensive Overview on Techniques, Taxonomy, Applications and Research Directions — DOI: `10.1007/s42979-021-00815-1`
+- Recent advances and applications of machine learning in solid-state materials science — DOI: `10.1038/s41524-019-0221-0`
+- Illuminating protein space with a programmable generative model — DOI: `10.1101/2022.12.01.518682`
+- Metal additive manufacturing in aerospace: A review — DOI: `10.1016/j.matdes.2021.110008`
+- A Survey on Knowledge Graphs: Representation, Acquisition, and Applications — DOI: `10.1109/tnnls.2021.3070843`
+- DScribe: Library of descriptors for machine learning in materials science — DOI: `10.1016/j.cpc.2019.106949`
+- Digital Twin: Values, Challenges and Enablers From a Modeling Perspective — DOI: `10.1109/access.2020.2970143`
+- A Review of Generative Adversarial Networks (GANs) and Its Applications in a Wide Variety of Disciplines: From Medical to Remote Sensing — DOI: `10.1109/access.2023.3346273`
+- Implicit Neural Representations with Periodic Activation Functions — DOI: `10.48550/arxiv.2006.09661`
+- Artificial Intelligence and Structural Health Monitoring of Bridges: A Review of the State-of-the-Art — DOI: `10.1109/access.2022.3199443`
+- Machine Learning With Data Assimilation and Uncertainty Quantification for Dynamical Systems: A Review — DOI: `10.1109/jas.2023.123537`
+- Recent advances and applications of deep learning methods in materials science — DOI: `10.1038/s41524-022-00734-6`
+- Structure of Bénard convection cells, phyllotaxis and crystallography in cylindrical symmetry — DOI: `10.1051/jphys:0198400450104900`
+- Graph neural networks for materials science and chemistry — DOI: `10.1038/s43246-022-00315-6`
+- The symmetries of image formation by scattering I Theoretical framework — DOI: `10.1364/oe.20.012799`
+- Data‐Driven Design for Metamaterials and Multiscale Systems: A Review — DOI: `10.1002/adma.202305254`
+- Iterative Refinement Graph Neural Network for Antibody Sequence-Structure Co-design — DOI: `10.48550/arxiv.2110.04624`
+- Symmetries and periodic orbits in simple hybrid Routhian systems — DOI: `10.1016/j.nahs.2020.100857`
+- Infinitely many holes in connectedness loci for collinear affine iterated function systems
+- On affine iterated function systems which robustly admit an invariant affine subspace
+- A New Radial Function
+- Partial symmetries of iterated plethysms — DOI: `10.1007/s00026-023-00652-4`
+- Geometrical formulation for adjoint-symmetries of partial differential equations
+- A Smooth and Compactly Supported Radial Function
+- Quantum Local Symmetry of the D-Dimensional Non-Linear Sigma Model: A Functional Approach — DOI: `10.3390/sym6020234`
+- The Hutchinson-Barnsley theory for generalized iterated function systems by means of infinite iterated function systems
+- Camera Models and Fundamental Concepts Used in Geometric Computer Vision — DOI: `10.1561/0600000023`
+- The Public Value of the Humanities — DOI: `10.5040/9781849662451`
+- Near Death Experiences: Falling Down a Very Deep Well — DOI: `10.4236/oalib.1104985`
+- Order of Our Lady Cicada and mapping (non)representations of metamorphoses, tricksters and insects through seven stories
+- Texture image analysis and texture classification methods - A review
+- Security Patterns: A Systematic Mapping Study
+- Improved Multiscale Structural Mapping with Supervertex Vision Transformer for the Detection of Alzheimer's Disease Neurodegeneration — DOI: `10.1002/hbm.70548`
+- A New Benchmark Dataset for Texture Image Analysis and Surface Defect Detection — DOI: `10.13140/rg.2.2.33612.46722`
+- Make-A-Texture: Fast Shape-Aware Texture Generation in 3 Seconds
+- Describing Textures using Natural Language
+- Texture Synthesis Using Convolutional Neural Networks
+- Enhancing Monocular 3D Hand Reconstruction with Learned Texture Priors
+- FFHQ-UV: Normalized Facial UV-Texture Dataset for 3D Face Reconstruction
+- A second-order theory of texture for depth from focus
+- Evaluating Urbanization from Satellite and Aerial Images by means of a statistical approach to the texture analysis
+- New conformal map for the trapezoidal formula for infinite integrals of unilateral rapidly decreasing functions — DOI: `10.1016/j.cam.2020.113354`
+- Quantum Kaleidoscopes and Bell's theorem — DOI: `10.1142/s0217979206034248`
+- Pattern Avoidance for Fibonacci Sequences using $k$-Regular Words — DOI: `10.46298/dmtcs.12752`
+- Confronting predictive texture zeros in lepton mass matrices with current data — DOI: `10.1103/physrevd.92.025005`
+- Computing boundary extensions of conformal maps part 2
+- Kaleidoscopic Background Attack: Disrupting Pose Estimation with Multi-Fold Radial Symmetry Textures
+- Cluster Haptic Texture Dataset: Haptic Texture Dataset with Varied Velocity-Direction Sliding Contacts
+- The process of designing animation and motion graphics as a visual response to surveyed opinions on hyperreality, reality, and film
+- Vertex Shader Domain Warping with Automatic Differentiation
+- A Tool for the Procedural Generation of Shaders using Interactive Evolutionary Algorithms
+- Aurora: Unified Video Editing with a Tool-Using Agent
+- The Grand Aurorae Borealis Seen in Colombia in 1859 — DOI: `10.1016/j.asr.2015.08.026`
+- Design and Implementation of a Procedural Content Generation Web Application for Vertex Shaders
+- Noise and Bell's inequality — DOI: `10.1142/s0219477510000320`
+- Quantum and Classical Frontiers of Noise — DOI: `10.1142/s0219477516020016`
+- Mode Converting Alfvén Waves from Magnetic Reconnection Enhancing the Energy Source for the Aurora Borealis
+- Noise based logic: why noise? A comparative study of the necessity of randomness out of orthogonality
+- Machine Learning-Driven Volumetric Cloud Rendering: Procedural Shader Optimization and Dynamic Lighting in Unreal Engine for Realistic Atmospheric Simulation
+- Warped product rigidity
+- Decoherence and noise in open quantum system dynamics — DOI: `10.1142/s0219477516400034`
+- Instantaneous noise-based logic — DOI: `10.1142/s0219477510000253`
+- Noise Dynamics in the Quantum Regime — DOI: `10.1109/icnf57520.2023.10472766`
+- Simple Cracking of (Noise-Based) Dynamic Watermarking in Smart Grids — DOI: `10.1142/s0219477524500597`
+- Stokes' Drift and Hypersensitive Response with Dichotomous Markov Noise
+- Dihedral rigidity for submanifolds of warped product manifolds
+- Long-term Spatial and Temporal Variations of Aurora Borealis Events in the Period 1700--1905 — DOI: `10.1007/s11207-013-0413-6`
+- Approximate Program Smoothing Using Mean-Variance Statistics, with Application to Procedural Shader Bandlimiting
+- 25 Years of Self-organized Criticality: Concepts and Controversies — DOI: `10.1007/s11214-015-0155-x`
+- A short history of computer use at Faculty of Physics – University of Bucharest — DOI: `10.24193/subbdigitalia.2017.2.06`
+- The Vervaat transform of Brownian bridges and Brownian motion — DOI: `10.1214/ejp.v20-3744`
+- Weak-consistent dynamic correlation estimators for Brownian motion pairs and for Geometric Brownian motion pairs — DOI: `10.31390/josa.3.1.02`
+- 100 Years of Brownian motion
+- On Vervaat transform of Brownian bridges and Brownian motion
+- Embedding of Walsh Brownian Motion
+- Quantum Brownian Motion With Large Friction — DOI: `10.1063/1.1855731`
+- Brownian motion and diffusion: from stochastic processes to chaos and beyond — DOI: `10.1063/1.1832773`
+- On a Brownian motion with a hard membrane — DOI: `10.1016/j.spl.2016.02.005`
+- Brownian motion and affine Kac-Moody algebras
+- Reflected Brownian Motion in a Convex Polyhedral Cone: Tail Estimates for the Stationary Distribution
+- A note on the exact simulation of spherical Brownian motion — DOI: `10.1016/j.spl.2020.108836`
+- A Rough Super-Brownian Motion
+- Brownian Motion, "Diverse and Undulating"
+- Brownian-motion approach to statistical mechanics: Langevin equations, fluctuations, and timescales — DOI: `10.1063/5.0255687`
+- Brownian Motion on the Unitary Quantum Group: Construction and Cutoff
+- Effective dimension of points visited by Brownian motion — DOI: `10.1016/j.tcs.2008.09.045`
+- Multi-Scale Implicit Transformer with Re-parameterize for Arbitrary-Scale Super-Resolution
+- A Direct Proof of the Reflection Principle for Brownian Motion
+- Water Wave Animation via Wavefront Parameter Interpolation — DOI: `10.1145/2714572`
+- Survey on Automated LEGO Assembly Construction
+- Solid spaces: a unified approach to describing object attributes
+- The Message is Murder — DOI: `10.2307/j.ctt1x07z9t`
+- Real time vehicle detection and tracking on multiple lanes
+- Fast and Robust Tessellation-Based Silhouette Shadows
+- Animation of reactive fluids — DOI: `10.14288/1.0051301`
+- Visualizing multi-channel networks
+- Biologically inspired learning system — DOI: `10.31390/gradschool_dissertations.2654`
+- Assessing the Feasibility of Real-Time Neural FluidRendering Using NVIDIA RTX Neural Shaders — DOI: `10.21203/rs.3.rs-9463162/v1`
+- Computational Analysis of Melodic Contour and Body Movement — DOI: `10.13140/rg.2.2.10863.79525`
+- Human-Computer Interaction Using Robust Gesture Recognition
+- Echoes of silence: writing into reverberations of trauma
+- Generic Catastrophes: Case Studies on the Use of Language in Postwar Sound Art
+- Implementation of a virtual environment system based on geographical information system and environmental models
+- Sacred Men — DOI: `10.1353/book.71933`
+- Rendering Point Clouds with Compute Shaders
+- Wave dispersion under finite deformation — DOI: `10.1016/j.wavemoti.2012.10.008`
+- Evolutive Rendering Models
+- Two new standing solitary waves in shallow water — DOI: `10.1016/j.wavemoti.2013.02.009`
+- Semi-analytical and numerical methods for computing transient waves in 2D acoustic / poroelastic stratified media
+- A Survey of Ocean Simulation and Rendering Techniques in Computer Graphics — DOI: `10.1111/j.1467-8659.2010.01828.x`
+- Level-crossing distributions of kinematic variables in multidirectional second-order ocean waves
+- A simple model of ocean waves — DOI: `10.1145/15886.15894`
+- Interactive animation of ocean waves — DOI: `10.1145/545261.545288`
+- Fast Simulation Method for Ocean Wave Base on Ocean Wave Spectrum and Improved Gerstner Model with GPU — DOI: `10.1088/1742-6596/787/1/012027`
+- Water wave packets — DOI: `10.1145/3072959.3073678`
+- Ocean Wave Simulation Based on Wind Field — DOI: `10.1371/journal.pone.0147123`
+- Dynamic ocean inverse modeling based on differentiable rendering — DOI: `10.1007/s41095-023-0338-4`
+- Amplitude Malformation in the IFFT Ocean Wave Rendering under the Influence of the Fourier Coefficient — DOI: `10.7251/els1418089c`
+- View-Dependent Tessellation and Simulation of Ocean Surfaces — DOI: `10.1155/2014/979418`
+- Ocean surface generation and rendering — DOI: `10.34726/hss.2018.57880`
+- Procedural Generation and Rendering of Large-Scale Open-World Environments — DOI: `10.15368/theses.2016.163`
+- Automatic Optimization for Large-Scale Real-Time Coastal Water Simulation — DOI: `10.1155/2016/9034649`
+- Generalizing Shallow Water Simulations with Dispersive Surface Waves — DOI: `10.1145/3592098`
+- Computer Graphics Techniques for Realistic Modeling, Rendering and Animation of Water. Part I: 1980–88 — DOI: `10.1007/3-540-46080-2_19`
+- Physics-Based Watercraft Simulator in Virtual Reality — DOI: `10.3390/virtualworlds2040024`
+- Physically-based visualization of residential building damage process in hurricane
+- Fast, interactive water wave simulation in gpu for games — DOI: `10.32657/10356/47488`
+- FEATURES OF PROVIDING PRIMARY HEALTH CARE TO FOREIGN WORKERS IN RURAL AREAS: BARRIERS AND WAYS TO OVERCOME THEM — DOI: `10.34660/inf.2025.45.31.088`
+- Real time state monitoring and fault diagnosis system for motor based on LabVIEW
+- Real-Time Service Subscription and Adaptive Offloading Control in Vehicular Edge Computing — DOI: `10.1109/rtss66672.2025.00023`
+- Real-Time-Data Analytics in Raw Materials Handling
+- Real-time volumetric rendering of dynamic humans
+- Toward Real-Time Image Annotation Using Marginalized Coupled Dictionary Learning — DOI: `10.1007/s11554-022-01210-6`
+- A Hybrid Neural-Microfacet BRDF Model for Real-Time Rendering — DOI: `10.1111/cgf.70540`
+- Internal Gerstner waves: applications to dead water — DOI: `10.1080/00036811.2013.833609`
+- Real-Time Discrete SPAD Array Readout Architecture for Time of Flight PET — DOI: `10.1109/tns.2015.2409783`
+- Machine learning for phase-resolved reconstruction of nonlinear ocean wave surface elevations from sparse remote sensing data — DOI: `10.1016/j.oceaneng.2023.116059`
+- EAST Real-Time VOD System Based on MDSplus
+- Real-Time Seizure Detection using EEG: A Comprehensive Comparison of Recent Approaches under a Realistic Setting
+- Bridging ocean wave physics and deep learning: Physics-informed neural operators for nonlinear wavefield reconstruction in real-time
+- Analytical and numerical study of plane-progressive thermoacoustic shock waves in complex plasmas — DOI: `10.1016/j.wavemoti.2024.103451`
+- Synthetic steganography: Methods for generating and detecting covert channels in generated media
+- An Enhanced CycleGAN to Derive Temporally Continuous NDVI from Sentinel-1 SAR Images — DOI: `10.3390/rs18010056`
+- MOSAIC: a Multi-Object Spectrograph for the E-ELT
+- Simulating Surveys for ELT-MOSAIC: Status of the MOSAIC Science Case after Phase A
+- Rectangular mosaics for virtual knots
+- MOSAIC: Multi-Objective Slice-Aware Iterative Curation for Alignment
+- Pair Correlation and Gap Distributions for Substitution Tilings and Generalized Ulam Sets in the Plane
+- The excitable fluid mosaic — DOI: `10.1016/j.bbamem.2022.184104`
+- Mosaic number and Tile number of Corner Connection Tiles
+- Knot Mosaics with Corner Connection Tiles
+- Triangle Tiling V: Tilings by a tile with integer sides
+- Mosaic: A Benchmark Suite for Differentiable Physics Solvers
+- Tile Number and Space-Efficient Knot Mosaics — DOI: `10.1142/s0218216518500414`
+- Tile Numbers of Knot Corner Mosaics
+- Infinite families of monohedral disk tilings
+- S-AI-Recursive: Convergent Recursive Reasoning
+- MoSAIC: Aligned Intervention Supervision for Part-Local Motion Style Transfer
+- Memory of Quark Matter Card Game
+- Weak rectangular diagrams, multi-crossing number, and arc index — DOI: `10.1142/s0218216525500646`
+- Tilings of Rectangular Regions by Rectangular Tiles: Counts Derived from Transfer Matrices
+- The minimum length of an axis-aligned rectangular tiling of a flat torus
+- The finite tiling problem is undecidable in the hyperbolic plane — DOI: `10.1142/s0129054108006078`
+- Identifying Human Mobility Patterns using Smart Card Data
+- Coxeter Pairs, Ammann Patterns and Penrose-like Tilings — DOI: `10.1103/physrevb.106.144113`
+- C*-algebras of Penrose's hyperbolic tilings
+- Analysis of planar ornament patterns via motif asymmetry assumption and local connections — DOI: `10.1007/s10851-018-0835-8`
+- On the residual finiteness of outer automorphisms of relatively hyperbolic groups
+- Spherical and hyperbolic orthogonal ring patterns: integrability and variational principles
+- The Sommerfeld-Rellich Framework for Scattering on Hyperbolic Space: Far-Field Patterns and Inverse Problems
+- Recursive tilings and space-filling curves with little fragmentation
+- Cyclotomic Aperiodic Substitution Tilings — DOI: `10.3390/sym9020019`
+- MESURE Tool to benchmark Java Card platforms
+- Credit Card Fraud Detection in the Nigerian Financial Sector: A Comparison of Unsupervised TensorFlow-Based Anomaly Detection Techniques, Autoencoders and PCA Algorithm
+- Bank Card Usage Prediction Exploiting Geolocation Information
+- Looping Back to Move Forward: Recursive Transformers for Efficient and Flexible Large Multimodal Models
+- Identifying temporal and spatial patterns of variation from multimodal data using MEFISTO — DOI: `10.1038/s41592-021-01343-9`
+- Keypoint-MoSeq: parsing behavior by linking point tracking to pose dynamics — DOI: `10.1101/2023.03.16.532307`
+- Generative emergence of non-local representations in the hippocampus — DOI: `10.1038/s41467-025-63346-w`
+- Tuning landscapes of the ventral stream — DOI: `10.1016/j.celrep.2022.111595`
+- The architecture of the human default mode network explored through cytoarchitecture, wiring and signal flow — DOI: `10.1038/s41593-024-01868-0`
+- Explaining pre-emptive acclimation by linking information to plant phenotype — DOI: `10.1093/jxb/erab537`
+- Friction on demand: A generative framework for the inverse design of metainterfaces — DOI: `10.1016/j.triboint.2026.111724`
+- Cortical cell assemblies and their underlying connectivity: An in silico study — DOI: `10.1371/journal.pcbi.1011891`
+- A Connectome and Analysis of the Adult Drosophila Central Brain — DOI: `10.1101/2020.04.07.030213`
+- Machine Learning for the Discovery, Design, and Engineering of Materials — DOI: `10.1146/annurev-chembioeng-092320-120230`
+- Geographic-style maps with a local novelty distance help navigate in the materials space — DOI: `10.1038/s41598-025-10672-0`
+- The Unreasonable Effectiveness of Reaction Diffusion in Vertebrate Skin Color Patterning — DOI: `10.1146/annurev-cellbio-120319-024414`
+- Transforming Graph Data for Statistical Relational Learning — DOI: `10.1613/jair.3659`
+- Relating natural image statistics to patterns of response covariability in macaque primary visual cortex — DOI: `10.1038/s41467-025-62086-1`
+- Geographic-style maps with a local novelty distance help navigate the materials space — DOI: `10.48550/arxiv.2410.13796`
+- Recent Advances in Multifunctional Reticular Framework Nanoparticles: A Paradigm Shift in Materials Science Road to a Structured Future — DOI: `10.1007/s40820-023-01180-9`
+- A neural circuit architecture for rapid behavioral flexibility in goal-directed navigation — DOI: `10.1101/2021.08.18.456004`
+- Application-based principles of islamic geometric patterns; state-of-the-art, and future trends in computer science/technologies: a review — DOI: `10.1186/s40494-022-00852-w`
+- Latent evolutionary signatures: a general framework for analysing music and cultural evolution — DOI: `10.1098/rsif.2023.0647`
+- Magnetic field dynamics in isolated neutron stars with an external dipole field
+- SDF-SRN: Learning Signed Distance 3D Object Reconstruction from Static Images
+- Magnetic Field Configurations in Binary Neutron Star Mergers II: Inspiral, Merger and Ejecta
+- Magnetic Field Configurations in Binary Neutron Star Mergers I: Post-merger Remnant and Disk
+- A sign pattern that allows oppositely signed orthogonal matrices
+- Orthogonal signed-distance coordinates and vector calculus near evolving curves and surfaces — DOI: `10.1098/rspa.2023.0080`
+- Towards Improving Speaker Distance Estimation through Generative Impulse Response Augmentation
+- Fermi level depinning via insertion of a graphene buffer layer at the gold-2D tin monoxide contact — DOI: `10.1088/2053-1583/aceb05`
+- Detecting coalitions by optimally partitioning signed networks of political collaboration — DOI: `10.1038/s41598-020-58471-z`
+- Functional Motifs in Foodwebs and Networks
+- Action Motifs: Self-Supervised Hierarchical Representation of Human Body Movements
+- A generalized motif-based Naïve Bayes model for sign prediction in complex networks — DOI: `10.1016/j.physa.2025.131096`
+- Sign and Search: Sign Search Functionality for Sign Language Lexica
+- Testing for Repeated Motifs and Hierarchical Structure in Stochastic Blockmodels
+- ShadAR: LLM-driven shader generation to transform visual perception in Augmented Reality — DOI: `10.1109/ismar-adjunct68609.2025.00267`
+- Generative Adversarial Shaders for Real-Time Realism Enhancement
+- Motif Dynamics in Signed Directional Complex Networks — DOI: `10.1007/s40042-021-00058-6`
+- Electric Field Effect in Multilayer Cr2Ge2Te6: a Ferromagnetic Two-Dimensional Material — DOI: `10.1088/2053-1583/aa7034`
+- Epidemic processes in complex networks — DOI: `10.1103/revmodphys.87.925`
+- Modules for Experiments in Stellar Astrophysics ( ): Convective Boundaries, Element Diffusion, and Massive Star Explosions — DOI: `10.3847/1538-4365/aaa5a8`
+- Anomalous diffusion models and their properties: non-stationarity, non-ergodicity, and ageing at the centenary of single particle tracking — DOI: `10.1039/c4cp03465a`
+- Graph Neural Networks: A Review of Methods and Applications — DOI: `10.48550/arxiv.1812.08434`
+- Network Dynamics and Field Evolution: The Growth of Interorganizational Collaboration in the Life Sciences — DOI: `10.1086/421508`
+- A survey of uncertainty in deep neural networks — DOI: `10.1007/s10462-023-10562-9`
+- Network Externality: An Uncommon Tragedy — DOI: `10.1257/jep.8.2.133`
+- Peripheral vision and pattern recognition: A review — DOI: `10.1167/11.5.13`
+- Physics-informed machine learning — DOI: `10.1038/s42254-021-00314-5`
+- Imaging brain microstructure with diffusion MRI: practicality and applications — DOI: `10.1002/nbm.3841`
+- Review of pore network modelling of porous media: Experimental characterisations, network constructions and applications to reactive transport — DOI: `10.1016/j.jconhyd.2016.07.002`
+- Antioxidants, Oxidative Damage and Oxygen Deprivation Stress: a Review — DOI: `10.1093/aob/mcf118`
+- MODULES FOR EXPERIMENTS IN STELLAR ASTROPHYSICS (MESA): BINARIES, PULSATIONS, AND EXPLOSIONS — DOI: `10.1088/0067-0049/220/1/15`
+- Sugar signalling and antioxidant network connections in plant cells — DOI: `10.1111/j.1742-4658.2010.07633.x`
+- The zinc homeostasis network of land plants — DOI: `10.1016/j.bbamcr.2012.05.016`
+- Signal propagation in complex networks — DOI: `10.1016/j.physrep.2023.03.005`
+- Dissecting cell identity via network inference and in silico gene perturbation — DOI: `10.1038/s41586-022-05688-9`
+- Evolution of thermally pulsing asymptotic giant branch stars – I. The colibri code — DOI: `10.1093/mnras/stt1034`
+- A Review of Graph Neural Networks and Their Applications in Power Systems — DOI: `10.35833/mpce.2021.000058`
+- A surprising regularizing effect of the nonlinear semigroup associated to the semilinear heat equation and applications to reaction diffusion systems
+- Midterm Status Report of the ILC Technology Network Activities
+- A Composite Design Pattern for Service Injection and Composition of Web Services for Peer-To-Peer Computing with Service Oriented Architecture — DOI: `10.5121/ijwsc`
+- Gender and collaboration patterns in a temporal scientific authorship network — DOI: `10.1007/s41109-019-0214-4`
+- Confinement determines transport of a reaction-diffusion active matter front
+- Long-time shadow limit for reaction-diffusion-ODE systems
+- Global Existence of Solutions to Reaction Diffusion Systems with Mass Transport Type Boundary Conditions
+- Neural Network Diffusion
+- Enabling Semantic Analysis of User Browsing Patterns in the Web of Data
+- Significant Interval and Frequent Pattern Discovery in Web Log Data
+- pynucastro: an interface to nuclear reaction rates and code generator for reaction network equations — DOI: `10.21105/joss.00588`
+- Not Here, Go There: Analyzing Redirection Patterns on the Web — DOI: `10.1145/3717867.3717925`
+- On the Ionisation Fraction in Protoplanetary Disks I: Comparing Different Reaction Networks — DOI: `10.1051/0004-6361:20053678`
+- Inertial manifolds for 1D reaction-diffusion-advection systems. Part I: Dirichlet and Neumann boundary conditions
+- Lookahead Branching for Neural Network Verification
+- Generative artificial intelligence: a systematic review and applications — DOI: `10.1007/s11042-024-20016-1`
+- Unleashing the Power of Edge-Cloud Generative AI in Mobile Networks: A Survey of AIGC Services — DOI: `10.48550/arxiv.2303.16129`
+- A review of Generative Adversarial Networks (GANs) and its applications in a wide variety of disciplines -- From Medical to Remote Sensing — DOI: `10.48550/arxiv.2110.01442`
+- Property, Substance and Effect: Anthropological Essays on Persons and Things
+- Learning Parallel Dense Correspondence from Spatio-Temporal Descriptors for Efficient and Robust 4D Reconstruction — DOI: `10.1109/cvpr46437.2021.00596`
+- A Comprehensive Performance Evaluation of Deformable Face Tracking “In-the-Wild” — DOI: `10.1007/s11263-017-0999-5`
+- DreamGaussian4D: Generative 4D Gaussian Splatting — DOI: `10.48550/arxiv.2312.17142`
+- Interaction Design for Complex Cognitive Activities with Visual Representations: A Pattern-Based Approach — DOI: `10.17705/1thci.00055`
+- Computer Animation: a Key Issue for Time Visualization
+- Predicting the aesthetics of dynamic generative artwork based on statistical image features: A time-dependent model — DOI: `10.1371/journal.pone.0291647`
+- Basics of animation How to transform a planet into a Ze system — DOI: `10.65649/y2kpw351`
+- Towards Accurate Markerless Human Shape and Pose Estimation over Time — DOI: `10.48550/arxiv.1707.07548`
+- A Survey of Synthetic Data Augmentation Methods in Machine Vision — DOI: `10.1007/s11633-022-1411-7`
+- A review of morphogenetic engineering — DOI: `10.1007/s11047-013-9398-1`
+- 3D storyboarding for modern animation
+- Fusion of motion smoothing algorithm and motion segmentation algorithm for human animation generation — DOI: `10.1371/journal.pone.0318979`
+- Urban Generative Intelligence (UGI): A Foundational Platform for Agents in Embodied City Environment — DOI: `10.48550/arxiv.2312.11813`
+- Generative AI for Character Animation: A Comprehensive Survey of Techniques, Applications, and Future Directions
+- DNS of vertical plane channel flow with finite-size particles: Voronoi analysis, acceleration statistics and particle-conditioned averaging — DOI: `10.1016/j.ijmultiphaseflow.2012.05.007`
+- Time-averaged velocity and scalar fields of the flow surrounding a group of cylinders — DOI: `10.1017/flo.2022.2`
+- Fast evaluation of far-field signals for time-domain wave propagation — DOI: `10.1007/s10915-015-9995-5`
+- Relative dispersion of particle pairs in turbulent channel flow — DOI: `10.1016/j.ijheatfluidflow.2018.04.007`
+- Space-time transformation properties of inter-charge forces and dipole radiation: Breakdown of the classical field concept in relativistic electrodynamics
+- Phase-field simulation of core-annular pipe flow — DOI: `10.1016/j.ijmultiphaseflow.2019.04.027`
+- Retarded electric and magnetic fields of a moving charge: Feynman's derivation of Liénard-Wiechert potentials revisited
+- Derivation of the Lorentz Force Law, the Magnetic Field Concept and the Faraday-Lenz Law using an Invariant Formulation of the Lorentz Transformation — DOI: `10.1088/0031-8949/73/6/018`
+- Comment on "Measuring propagation speed of Coulomb fields" [R. de Sangro {\it et al.} Eur. Phys. J.C (2015) 75:137]
+- Derivation of the Lorentz Force Law and the Magnetic Field Concept using an Invariant Formulation of the Lorentz Transformation
+- Radiation outer boundary conditions and near-to-far field signal transformations for the Bardeen-Press equation
+- Physics-informed neural networks for understanding shear migration of particles in viscous flow — DOI: `10.1016/j.ijmultiphaseflow.2023.104476`
+- Coherence of neutrino oscillations in the wave packet approach — DOI: `10.1103/physrevd.58.017301`
+- Numerical simulations with a first order BSSN formulation of Einstein's field equations — DOI: `10.1103/physrevd.85.084004`
+- Articulated mesh animation from multi-view silhouettes — DOI: `10.1145/1360612.1360696`
+- Motion warping — DOI: `10.1145/218380.218422`
+- Controllable smoke animation with guiding objects — DOI: `10.1145/1037957.1037965`
+- Creating interactive virtual humans: some assembly required — DOI: `10.1109/mis.2002.1024753`
+- A survey of modeling, rendering and animation of clouds in computer graphics — DOI: `10.1007/s00371-020-01953-y`
+- Physical, Behavioral, and Sensor-Based Animation
+- Scene Representation Technologies for 3DTV—A Survey — DOI: `10.1109/tcsvt.2007.909974`
+- Real-Time Lip Sync for Live 2D Animation — DOI: `10.48550/arxiv.1910.08685`
+- Computer animation in future technologies
+- Exploring Heart Rate Variability and Mental Effects of Gameplay in Virtual Reality and 3D Morphing Animation — DOI: `10.3390/technologies13040157`
+- 3DiFACE: Diffusion-based Speech-driven 3D Facial Animation and Editing — DOI: `10.48550/arxiv.2312.00870`
+- A tutorial on motion capture driven character animation
+- Computer-assisted in between generation for cel animation — DOI: `10.32657/10356/2598`
+- Narrative Motion Blocks: Combining Direct Manipulation and Natural Language Interactions for Animation Creation — DOI: `10.1145/3715336.3735766`
+- Sensing the Inside Out: An Embodied Perspective on Digital Animation Through Motion Capture and Wearables — DOI: `10.3390/s25072314`
+- Modeling, Animation, and Rendering of Human Figures — DOI: `10.1007/978-3-540-72532-9_7`
+- Media2Face: Co-speech Facial Animation Generation With Multi-Modality Guidance — DOI: `10.48550/arxiv.2401.15687`
+- Stormscapes — DOI: `10.1145/3414685.3417801`
+- Behavior generation for interpersonal coordination with virtual humans : on specifying, scheduling and realizing multimodal virtual human behavior — DOI: `10.3990/1.9789036532334`
+- Generative Inbetweening: Adapting Image-to-Video Models for Keyframe Interpolation
+- Automated 2D and 3D Finite Element Overclosure Adjustment and Mesh Morphing Using Generalized Regression Neural Networks — DOI: `10.1016/j.medengphy.2024.104136`
+- Adaptive Interpolation-Synthesis for Motion In-Betweening on Keyframe-Based Animation — DOI: `10.1145/3799902.3811157`
+- Morphing Contact Representations of Graphs
+- Evaluating Animation Parameters for Morphing Edge Drawings
+- Controllable Human-centric Keyframe Interpolation with Generative Prior
+- Analysis of Design Principles and Requirements for Procedural Rigging of Bipeds and Quadrupeds Characters with Custom Manipulators for Animation — DOI: `10.5121/ijcga.2015.5104`
+- Using multimodal speech production data to evaluate articulatory animation for audiovisual speech synthesis
+- Interp3D: Correspondence-aware Interpolation for Generative Textured 3D Morphing
+- Morphing the CMB: a technique for interpolating power spectra — DOI: `10.1016/s1384-1076(00)00007-5`
+- Spatial Morphing Kernel Regression For Feature Interpolation
+- Deep Animation Video Interpolation in the Wild
+- Analysis of Interpolation based Image In-painting Approaches
+- Glyph-based Visualization: Foundations, Design Guidelines, Techniques and Applications — DOI: `10.2312/conf/eg2013/stars/039-063`
+- Interactive evolutionary computation: fusion of the capabilities of EC optimization and human evaluation — DOI: `10.1109/5.949485`
+- Pad++: A Zoomable Graphical Sketchpad For Exploring Alternate Interface Physics — DOI: `10.1006/jvlc.1996.0002`
+- Reinforcement learning for neural architecture search: A review — DOI: `10.1016/j.imavis.2019.06.005`
+- A Compositional Neural Architecture for Language — DOI: `10.1162/jocn_a_01552`
+- AI Methods in Algorithmic Composition: A Comprehensive Survey — DOI: `10.1613/jair.3908`
+- Assembly of Reconfigurable Colloidal Structures by Multidirectional Field-Induced Interactions — DOI: `10.1021/la504793y`
+- Practice-based design thinking for form development and detailing — DOI: `10.13140/2.1.3429.7921`
+- Computational Creativity and Music Generation Systems: An Introduction to the State of the Art — DOI: `10.3389/frai.2020.00014`
+- FARMING AND FIGHTING AS PRACTICE AND PEDAGOGY: A PROCEDURAL FIELD ANALYSIS OF DIGITAL GAMES
+- The style of video games graphics: analyzing the functions of visual styles in storytelling and gameplay in video games
+- The Emergence of the Digital Humanities — DOI: `10.4324/9780203093085`
+- Phenomenology of rhythm in design — DOI: `10.1016/j.foar.2012.06.003`
+- Forms of saturation: Discrete and continuous events in architectural design — DOI: `10.5937/saj1302170b`
+- The line model of form and emotion: Perspectives on Western design — DOI: `10.17011/ht/urn.201805242751`
+- Algorithmic Translations — DOI: `10.14321/crnewcentrevi.16.1.0115`
+- Artistic Research and Literature — DOI: `10.30965/9783846763339`
+- Proceedings of the 2021 DigitalFUTURES — DOI: `10.1007/978-981-16-5983-6`
+- Biomorphic Clothing Sculpture Interface as an Emotional Communication Space — DOI: `10.3389/fpsyg.2020.00117`
+- Cinematic Algorithms — DOI: `10.1201/9781003601128`
+- Visual gesture variability between talkers in continuous visual speech
+- Visual Boosting Techniques for Spatiotemporal Dense Pixel Visualizations — DOI: `10.2312/eurova.20261004`
+- VIANA: Visual Interactive Annotation of Argumentation
+- Procedural Pretraining: Warming Up Language Models with Abstract Data
+- Continuous Indexed Points for Multivariate Volume Visualization
+- polyDAG: Polynomial Acyclicity Constraints for Efficient Continuous Causal Discovery in Visual Semantic Graphs — DOI: `10.1007/s00371-026-04584-x`
+- Blind Visual Motif Removal from a Single Image
+- Self-supervised Learning of Contextualized Local Visual Embeddings
+- Does empirical evidence from healthy aging studies predict a practical difference between visualizations for different age groups?
+- An Efficient Procedure for Mining Egocentric Temporal Motifs
+- Multipartite Greenberger-Horne-Zeilinger paradoxes for continuous variables
+- Understanding Visual Concepts Across Models
+- Visual-ERM: Reward Modeling for Visual Equivalence
+- Motif-Based Visual Analysis of Dynamic Networks
+- Learning Task-Agnostic Motifs to Capture the Continuous Nature of Animal Behavior
+- Using text animated transitions to support navigation in document histories — DOI: `10.1145/1753326.1753427`
+- Animating Arbitrary Objects via Deep Motion Transfer — DOI: `10.1109/cvpr.2019.00248`
+- Artificial intelligence in the creative industries: a review — DOI: `10.1007/s10462-021-10039-7`
+- Time Curves: Folding Time to Visualize Patterns of Temporal Evolution in Data — DOI: `10.1109/tvcg.2015.2467851`
+- From Quantification to Visualization: A Taxonomy of Uncertainty Visualization Approaches — DOI: `10.1007/978-3-642-32677-6_15`
+- Deepfakes and beyond: A Survey of face manipulation and fake detection — DOI: `10.1016/j.inffus.2020.06.014`
+- Interactive information visualization of a million items — DOI: `10.1109/infvis.2002.1173156`
+- State of the Art in Transfer Functions for Direct Volume Rendering — DOI: `10.1111/cgf.12934`
+- HandNeRF: Neural Radiance Fields for Animatable Interacting Hands — DOI: `10.48550/arxiv.2303.13825`
+- Metaverse: Perspectives from graphics, interactions and visualization — DOI: `10.1016/j.visinf.2022.03.002`
+- Stylized rendering techniques for scalable real-time 3D animation — DOI: `10.1145/340916.340918`
+- A Review of Temporal Data Visualizations Based on Space-Time Cube Operations — DOI: `10.2312/eurovisstar.20141171`
+- Virtual and augmented reality: New tools for visualizing, analyzing, and communicating complex morphology — DOI: `10.1002/jmor.21421`
+- Animación de la evolución de la revista Social networks en el tiempo utilizando una extensión din´mica del escalado multidimensional — DOI: `10.3145/epi.2008.nov.04`
+- Interpolation Search for Point Cloud Intersection
+- Computational Studies of Human Motion: Part 1, Tracking and Motion Synthesis — DOI: `10.1561/0600000005`
+- Fire dynamics simulator (version 5) : — DOI: `10.6028/nist.sp.1019-5`
+- Multi-scale capture of facial geometry and motion — DOI: `10.1145/1275808.1276419`
+- Animating Landscape: Self-Supervised Learning of Decoupled Motion and\n Appearance for Single-Image Video Synthesis — DOI: `10.48550/arxiv.1910.07192`
+- Interpolation in the Presence of Domain Inhomogeneity
+- Ullemar's formula for the Jacobian of the complex moment mapping — DOI: `10.1080/02781070310001634610`
+- A note on interpolation series in the complex domain
+- The Patterson-Sullivan Interpolation of Pluriharmonic Functions for Determinantal Point Processes on Complex Hyperbolic Spaces
+- Holomorphic maps from complex discs intersecting families of hypersurfaces — DOI: `10.1080/17476933.2022.2076842`
+- Cohomological aspects on complex and symplectic manifolds
+- A note on the network coloring game: A randomized distributed $(Δ+1)$-coloring algorithm
+- From Interpolating Formulas to Separating Languages and Back Again
+- Submanifolds of some Hartogs domain and the complex Euclidean space — DOI: `10.1080/17476933.2022.2084538`
+- Is star complexity a proxy for information based complexity of graphs? — DOI: `10.1007/978-3-032-16649-4_25`
+- Type, cotype and twisted sums induced by complex interpolation
+- Improved error bound for multivariate Chebyshev polynomial interpolation
+- Node Diversification in Complex Networks by Decentralized Coloring — DOI: `10.1093/comnet/cny031`
+- Proof Complexity and Feasible Interpolation
+- The distance backbone of complex networks — DOI: `10.1093/comnet/cnab021`
+- The Nash Equilibrium Revisited: Chaos and Complexity Hidden in Simplicity
+- Groebner basis structure of ideal interpolation
+- Complex quaternionic manifolds and c-projective structures — DOI: `10.1515/coma-2025-0018`
+- A Review of Recent Advances in Surface Defect Detection using Texture analysis Techniques — DOI: `10.5565/rev/elcvia.268`
+- FRACTAL SURFACES: MEASUREMENT AND APPLICATIONS IN THE EARTH SCIENCES — DOI: `10.1142/s0218348x93000125`
+- Three-dimensional solid texture analysis in biomedical imaging: Review and opportunities — DOI: `10.1016/j.media.2013.10.005`
+- A panorama on multiscale geometric representations, intertwining spatial, directional and frequency selectivity — DOI: `10.1016/j.sigpro.2011.04.025`
+- Wavelets on graphs via spectral graph theory — DOI: `10.1016/j.acha.2010.04.005`
+- The design and applications of superomniphobic surfaces — DOI: `10.1038/am.2014.34`
+- Modeling and estimation of multiresolution stochastic processes — DOI: `10.1109/18.119735`
+- Design, microstructure and mechanical characterization of Ti6Al4V reinforcing elements for cement composites with fractal architecture — DOI: `10.1016/j.matdes.2019.107758`
+- Multiscale Analysis for Characterization of Remotely Sensed Images. — DOI: `10.31390/gradschool_disstheses.389`
+- Dynamic Texture Recognition Using Time-Causal and Time-Recursive Spatio-Temporal Receptive Fields — DOI: `10.1007/s10851-018-0826-9`
+- A hierarchical, multiscale texture segmentation algorithm for real-world scenes
+- Learning How to Extract Rotation-Invariant and Scale-Invariant Features from Texture Images — DOI: `10.1155/2008/691924`
+- A Review of Wavelet Analysis and Its Applications: Challenges and Opportunities — DOI: `10.1109/access.2022.3179517`
+- Defect Detection in Textures through the Use of Entropy as a Means for Automatically Selecting the Wavelet Decomposition Level — DOI: `10.3390/s16081178`
+- Survey of Procedural Methods for Two-Dimensional Texture Generation — DOI: `10.3390/s20041135`
+- Fractal Modelling of Heterogeneous Catalytic Materials and Processes — DOI: `10.3390/ma17215363`
+- Exploring the Role of Fractal Geometry in Engineering Image Processing Based on Similarity and Symmetry: A Review — DOI: `10.3390/sym16121658`
+- Fractal Scaling or Scale-invariant Radar: A Breakthrough into the Future — DOI: `10.13189/ujpa.2017.110103`
+- Brain tumor detection and classification using machine learning: a comprehensive survey — DOI: `10.1007/s40747-021-00563-y`
+- Texture analysis using volume-radius fractal dimension — DOI: `10.1016/j.amc.2012.11.092`
+- Multiscale Fractal Descriptors Applied to Texture Classification — DOI: `10.1088/1742-6596/410/1/012022`
+- Particle-based Multiscale Modeling of Calcium Puff Dynamics — DOI: `10.1137/15m1015030`
+- Synthesis of Reversible Functions Beyond Gate Count and Quantum Cost
+- Texture synthesis via projection onto multiscale, multilayer statistics
+- Synth-by-Reg (SbR): Contrastive learning for synthesis-based registration of paired images — DOI: `10.1007/978-3-030-87592-3_5`
+- Texture Analysis And Characterization Using Probability Fractal Descriptors
+- Online multiscale model reduction for nonlinear stochastic PDEs with multiplicative noise
+- Time complexity analysis of quantum difference methods for the multiscale transport equations
+- Fractal Descriptors Based on Fourier Spectrum Applied to Texture Analysis
+- Fractal measures of image local features: an application to texture recognition
+- An investigation on the skewness patterns and fractal nature of research productivity distributions at field and discipline level — DOI: `10.1016/j.joi.2017.02.001`
+- Multiscale texture separation — DOI: `10.1137/120881579`
+- A fractal geometry immersed in a hierarchical magnetic flux distribution — DOI: `10.1063/5.0257273`
+- The dream of the butterfly: experimental illusions in motion graphics
+- The Time of the Thriller: Suspense and Continuity after World War II
+- The Kaleidoscopic Filter: A Structural Resolution of Restricted Integer Partitions
+- Kaleidoscopic Symmetries and Self-Similarity of Integral Apollonian Gaskets
+- Symmetries shared by the Poincaré Group and the Poincaré Sphere
+- Pose Representations for Deep Skeletal Animation — DOI: `10.1111/cgf.14632`
+- Science Fiction and Fantasy in Wikipedia: Exploring Structural and Semantic Cues
+- Glyph Sorting: Interactive Visualization for Multi-dimensional Data — DOI: `10.1177/1473871613511959`
+- Bivariate Separable-Dimension Glyphs can Improve Visual Analysis of Holistic Features
+- Glyph-Based Uncertainty Visualization and Analysis of Time-Varying Vector Fields — DOI: `10.1109/uncertaintyvisualization63963.2024.00014`
+- Glyph from Icon -- Automated Generation of Metaphoric Glyphs
+- Extremely Fine-Grained Visual Classification over Resembling Glyphs in the Wild
+- MARVisT: Authoring Glyph-based Visualization in Mobile Augmented Reality — DOI: `10.1109/tvcg.2019.2892415`
+
+## Failures
+
+- semantic-scholar / "Deforum Stable Diffusion animation prompt scheduling keyframes": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "latent diffusion animation temporal coherence prompt interpolation": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "text-to-video diffusion animation optical flow temporal consistency": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "procedural fractal spider web radial symmetry generative art": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "computational geometry procedural spider web generation": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "D8 dihedral symmetry generative patterns radial webs": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "fractal flame transformations rotational symmetry animation": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "iterated function systems radial symmetry generative art": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "log-polar conformal mapping kaleidoscope texture patterns": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "procedural aurora borealis domain warped noise shader": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "multi-scale fractal Brownian motion aurora rendering": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "ocean wave procedural rendering layered sine noise shader": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "Gerstner wave real-time ocean rendering procedural": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "recursive rectangular tiling card mosaic generative art": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "hyperbolic tiling recursive ornament card patterns": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "signed distance fields repeated 2D motifs generative shader": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "reaction diffusion branching network web patterns": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "flow field particle animation temporal coherence generative art": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "keyframe interpolation parameter morphing procedural animation": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "continuous morphing between procedural visual motifs": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "complex domain coloring animated parameter interpolation": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "fractal texture synthesis multiscale recursive patterns": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "kaleidoscopic feedback animation radial symmetry": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "procedural fantasy visual effects sigils glyphs radial symmetry": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)

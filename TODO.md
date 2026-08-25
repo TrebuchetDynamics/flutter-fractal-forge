@@ -1,8 +1,8 @@
 # Flutter Fractal Forge — Execution TODO
 
-> **Last comprehensive update:** 2026-08-24 log-polar tessellation expansion to 1004 production fractals.
+> **Last comprehensive update:** 2026-08-25 fractalish-motion expansion to 1009 production fractals.
 >
-> **Source anchors for this refresh:** `test/catalog/catalog_id_integrity_test.dart` (539 escape-time entries, 1004 production fractals, 1 scientific visualization, and 1012 debug/test registry modules including 7 diagnostics), `lib/features/viewer/fractal_viewer_screen.dart` (controls HUD), `lib/core/services/rendering/palette_service.dart` + `palette_shader_adapter.dart` (palette textures).
+> **Source anchors for this refresh:** `test/catalog/catalog_id_integrity_test.dart` (544 escape-time entries, 1009 production fractals, 1 scientific visualization, and 1017 debug/test registry modules including 7 diagnostics), `lib/features/viewer/fractal_viewer_screen.dart` (controls HUD), `lib/core/services/rendering/palette_service.dart` + `palette_shader_adapter.dart` (palette textures).
 
 ---
 
@@ -10,7 +10,7 @@
 
 **GPU-primary, CPU safety net.**
 - GPU is the default renderer; many catalog modules share reviewed shader families rather than one shader per fractal
-- Live registry lock: 539 escape-time catalog entries, 28 raymarched-3D entries, 9 custom hand-built modules, 1004 production fractals plus 1 scientific visualization (1012 debug/test `ModuleRegistry` modules including 7 diagnostics)
+- Live registry lock: 544 escape-time catalog entries, 28 raymarched-3D entries, 9 custom hand-built modules, 1009 production fractals plus 1 scientific visualization (1017 debug/test `ModuleRegistry` modules including 7 diagnostics)
 - CPU fallback auto-activates via renderer health/precision policy when GPU output or precision is invalid
 - CPU path is maintenance-only (no further performance investment)
 - GPU investment: coloring quality, smooth iteration, deep zoom, new formulas
@@ -47,18 +47,18 @@ These fractals use differentiable formulas where `dz_next = f(z+dz, c+dc) - f(z,
 | Stochastic | Random sampling, not deterministic | Buddhabrot, DLA |
 | Tilings | Substitution rules, not iteration | Penrose, Ammann-Beenker |
 
-**Most of the 1004-production-fractal catalog is still NOT suitable for perturbation; exact category counts need a fresh catalog audit.**
+**Most of the 1009-production-fractal catalog is still NOT suitable for perturbation; exact category counts need a fresh catalog audit.**
 
-### 📊 Module Registry Breakdown (1004 production fractals; 1012 debug/test modules)
+### 📊 Module Registry Breakdown (1009 production fractals; 1017 debug/test modules)
 
 ```
 Live locks from test/catalog/catalog_id_integrity_test.dart:
-├── Escape-time catalog raw unique IDs: 539
+├── Escape-time catalog raw unique IDs: 544
 Raymarched-3D catalog IDs: 28
 ├── Custom hand-built modules: 9
-├── Production fractals: 1004
+├── Production fractals: 1009
 ├── Scientific visualizations: 1
-└── Debug/test ModuleRegistry modules including diagnostics: 1012
+└── Debug/test ModuleRegistry modules including diagnostics: 1017
 
 Perturbation-capable target remains ~70-80 polynomial escape-time fractals.
 Currently routed to GPU perturbation: 9 IDs (julia + 8 generic escape-time IDs).
@@ -321,7 +321,7 @@ float t = fract(smoothVal / 64.0);
 
 ### P2-4: Catalog Hardening
 
-- [x] Registry covers 539 escape-time entries + 28 raymarched 3D + shared/custom promotions = 1004 production fractals plus 1 scientific visualization (1012 debug/test modules including diagnostics)
+- [x] Registry covers 544 escape-time entries + 28 raymarched 3D + shared/custom promotions = 1009 production fractals plus 1 scientific visualization (1017 debug/test modules including diagnostics)
 - [ ] **PRD manifest loader** — `assets/catalog/prd_catalog.json`
 - [x] ID lock/integrity tests
 - [x] Filter/sort + list/grid toggle
@@ -390,7 +390,7 @@ class ChunkedRenderer {
 
 ### P4-1: New Escape-Time Fractals
 
-- [x] **Target met:** Catalog grew beyond the old 370 baseline to 1004 production fractals.
+- [x] **Target met:** Catalog grew beyond the old 370 baseline to 1009 production fractals.
 - [ ] Next formula work should be quality-gated: only add researched formulas with tests, stable IDs, and shader assets.
 
 ### P4-2: New 3D Fractals

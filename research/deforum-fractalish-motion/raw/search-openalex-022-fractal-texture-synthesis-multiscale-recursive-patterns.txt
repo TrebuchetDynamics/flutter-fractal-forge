@@ -1,0 +1,20 @@
+10.5565/rev/elcvia.268	A Review of Recent Advances in Surface Defect Detection using Texture analysis Techniques
+10.1142/s0218348x93000125	FRACTAL SURFACES: MEASUREMENT AND APPLICATIONS IN THE EARTH SCIENCES
+10.1016/j.media.2013.10.005	Three-dimensional solid texture analysis in biomedical imaging: Review and opportunities
+10.1016/j.sigpro.2011.04.025	A panorama on multiscale geometric representations, intertwining spatial, directional and frequency selectivity
+10.1109/tmi.2014.2377694	The Multimodal Brain Tumor Image Segmentation Benchmark (BRATS)
+10.1016/j.acha.2010.04.005	Wavelets on graphs via spectral graph theory
+10.1038/am.2014.34	The design and applications of superomniphobic surfaces
+10.1109/18.119735	Modeling and estimation of multiresolution stochastic processes
+10.1016/j.matdes.2019.107758	Design, microstructure and mechanical characterization of Ti6Al4V reinforcing elements for cement composites with fractal architecture
+10.31390/gradschool_disstheses.389	Multiscale Analysis for Characterization of Remotely Sensed Images.
+10.1007/s10851-018-0826-9	Dynamic Texture Recognition Using Time-Causal and Time-Recursive Spatio-Temporal Receptive Fields
+	A hierarchical, multiscale texture segmentation algorithm for real-world scenes
+10.1155/2008/691924	Learning How to Extract Rotation-Invariant and Scale-Invariant Features from Texture Images
+10.1109/access.2022.3179517	A Review of Wavelet Analysis and Its Applications: Challenges and Opportunities
+10.3390/s16081178	Defect Detection in Textures through the Use of Entropy as a Means for Automatically Selecting the Wavelet Decomposition Level
+10.3390/s20041135	Survey of Procedural Methods for Two-Dimensional Texture Generation
+10.3390/ma17215363	Fractal Modelling of Heterogeneous Catalytic Materials and Processes
+10.3390/sym16121658	Exploring the Role of Fractal Geometry in Engineering Image Processing Based on Similarity and Symmetry: A Review
+10.13189/ujpa.2017.110103	Fractal Scaling or Scale-invariant Radar: A Breakthrough into the Future
+10.1007/s40747-021-00563-y	Brain tumor detection and classification using machine learning: a comprehensive survey

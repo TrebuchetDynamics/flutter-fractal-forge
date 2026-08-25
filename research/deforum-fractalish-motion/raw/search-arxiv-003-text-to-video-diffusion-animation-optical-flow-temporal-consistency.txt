@@ -1,0 +1,20 @@
+	FLATTEN: optical FLow-guided ATTENtion for consistent text-to-video editing
+10.1002/adom.202102353	Photovoltaic-ferroelectric materials for the realization of all-optical devices
+10.5220/0013304800003912	Enhancing Sketch Animation: Text-to-Video Diffusion Models with Temporal Consistency and Rigidity Constraints
+	Video Diffusion Models: A Survey
+	Upscale-A-Video: Temporal-Consistent Diffusion Model for Real-World Video Super-Resolution
+	VMC: Video Motion Customization using Temporal Attention Adaption for Text-to-Video Diffusion Models
+	Video Forgery Detection with Optical Flow Residuals and Spatial-Temporal Consistency
+	Temporal Cycle-Consistency Learning
+	ActionMesh: Animated 3D Mesh Generation with Temporal 3D Diffusion
+	Using phase instead of optical flow for action recognition
+	MagicAnimate: Temporally Consistent Human Image Animation using Diffusion Model
+	DA-Flow: Degradation-Aware Optical Flow Estimation with Diffusion Models
+	Sprite Sheet Diffusion: Generate Game Character for Animation
+	Inflation with Diffusion: Efficient Temporal Adaptation for Text-to-Video Super-Resolution
+	AnimateZero: Video Diffusion Models are Zero-Shot Image Animators
+	AniClipart: Clipart Animation with Text-to-Video Priors
+	Temporal Reasoning Transfer from Text to Video
+	Consistent and Controllable Image Animation with Motion Linear Diffusion Transformers
+	Text-Animator: Controllable Visual Text Video Generation
+	ModelScope Text-to-Video Technical Report

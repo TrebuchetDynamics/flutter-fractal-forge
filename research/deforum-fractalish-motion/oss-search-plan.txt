@@ -1,0 +1,14 @@
+# OSS search plan: Deforum Stable Diffusion animation prompt scheduling temporal coherence
+
+Generated with `rforge oss search-plan --ecosystem all` using rforge v0.1.20.
+
+- Codeberg: search public repositories; inspect stars, forks, activity, and license.
+- GitHub: search public repositories; inspect maintenance, issues, license, and topics.
+- GitLab: inspect project activity, license, and CI.
+- OpenSSF Scorecard: review security posture before any integration.
+- PyPI/npm/crates.io/pkg.go.dev: dependency metadata only; dependency approval required before import.
+- Software Heritage: archive/reference check.
+- SourceHut: repository and mailing-list activity.
+- Zenodo: DOI and archived software releases.
+
+Decision: pattern-reference only. No Deforum, Stable Diffusion, SDXL, or LoRA dependency/model is imported. The app additions will be original procedural GLSL inspired only by abstract structural motifs: keyframed interpolation, radial webs, recursive frames, and domain-warped sea/aurora layers.

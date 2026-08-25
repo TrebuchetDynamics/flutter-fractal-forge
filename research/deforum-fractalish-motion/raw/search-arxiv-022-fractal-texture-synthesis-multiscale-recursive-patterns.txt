@@ -1,0 +1,20 @@
+	Texture image analysis and texture classification methods - A review
+10.1016/j.amc.2012.11.092	Texture analysis using volume-radius fractal dimension
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1088/1742-6596/410/1/012022	Multiscale Fractal Descriptors Applied to Texture Classification
+	Texture Synthesis Using Convolutional Neural Networks
+10.1137/15m1015030	Particle-based Multiscale Modeling of Calcium Puff Dynamics
+	Synthesis of Reversible Functions Beyond Gate Count and Quantum Cost
+	Texture synthesis via projection onto multiscale, multilayer statistics
+10.1007/978-3-030-87592-3_5	Synth-by-Reg (SbR): Contrastive learning for synthesis-based registration of paired images
+	Texture Analysis And Characterization Using Probability Fractal Descriptors
+10.13140/rg.2.2.33612.46722	A New Benchmark Dataset for Texture Image Analysis and Surface Defect Detection
+	Online multiscale model reduction for nonlinear stochastic PDEs with multiplicative noise
+	Time complexity analysis of quantum difference methods for the multiscale transport equations
+	S-AI-Recursive: Convergent Recursive Reasoning
+	Fractal Descriptors Based on Fourier Spectrum Applied to Texture Analysis
+	Fractal measures of image local features: an application to texture recognition
+10.1016/j.joi.2017.02.001	An investigation on the skewness patterns and fractal nature of research productivity distributions at field and discipline level
+10.1137/120881579	Multiscale texture separation
+	Describing Textures using Natural Language
+10.1063/5.0257273	A fractal geometry immersed in a hierarchical magnetic flux distribution

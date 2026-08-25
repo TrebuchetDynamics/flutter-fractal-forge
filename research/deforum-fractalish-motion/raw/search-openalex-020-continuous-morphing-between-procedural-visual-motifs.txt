@@ -1,0 +1,20 @@
+10.2312/conf/eg2013/stars/039-063	Glyph-based Visualization: Foundations, Design Guidelines, Techniques and Applications
+10.1109/5.949485	Interactive evolutionary computation: fusion of the capabilities of EC optimization and human evaluation
+10.1006/jvlc.1996.0002	Pad++: A Zoomable Graphical Sketchpad For Exploring Alternate Interface Physics
+10.1016/j.imavis.2019.06.005	Reinforcement learning for neural architecture search: A review
+10.1162/jocn_a_01552	A Compositional Neural Architecture for Language
+10.1613/jair.3908	AI Methods in Algorithmic Composition: A Comprehensive Survey
+10.1021/la504793y	Assembly of Reconfigurable Colloidal Structures by Multidirectional Field-Induced Interactions
+10.13140/2.1.3429.7921	Practice-based design thinking for form development and detailing
+10.3389/frai.2020.00014	Computational Creativity and Music Generation Systems: An Introduction to the State of the Art
+	FARMING AND FIGHTING AS PRACTICE AND PEDAGOGY: A PROCEDURAL FIELD ANALYSIS OF DIGITAL GAMES
+	The style of video games graphics: analyzing the functions of visual styles in storytelling and gameplay in video games
+10.4324/9780203093085	The Emergence of the Digital Humanities
+10.1016/j.foar.2012.06.003	Phenomenology of rhythm in design
+10.5937/saj1302170b	Forms of saturation: Discrete and continuous events in architectural design
+10.17011/ht/urn.201805242751	The line model of form and emotion: Perspectives on Western design
+10.14321/crnewcentrevi.16.1.0115	Algorithmic Translations
+10.30965/9783846763339	Artistic Research and Literature
+10.1007/978-981-16-5983-6	Proceedings of the 2021 DigitalFUTURES
+10.3389/fpsyg.2020.00117	Biomorphic Clothing Sculpture Interface as an Emotional Communication Space
+10.1201/9781003601128	Cinematic Algorithms

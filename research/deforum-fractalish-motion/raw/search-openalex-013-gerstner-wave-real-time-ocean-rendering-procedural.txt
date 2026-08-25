@@ -1,0 +1,20 @@
+10.1145/15886.15894	A simple model of ocean waves
+10.1145/545261.545288	Interactive animation of ocean waves
+10.1088/1742-6596/787/1/012027	Fast Simulation Method for Ocean Wave Base on Ocean Wave Spectrum and Improved Gerstner Model with GPU
+10.1145/3072959.3073678	Water wave packets
+10.1371/journal.pone.0147123	Ocean Wave Simulation Based on Wind Field
+10.1145/2714572	Water Wave Animation via Wavefront Parameter Interpolation
+10.1007/s41095-023-0338-4	Dynamic ocean inverse modeling based on differentiable rendering
+10.7251/els1418089c	Amplitude Malformation in the IFFT Ocean Wave Rendering under the Influence of the Fourier Coefficient
+10.1155/2014/979418	View-Dependent Tessellation and Simulation of Ocean Surfaces
+10.34726/hss.2018.57880	Ocean surface generation and rendering
+10.15368/theses.2016.163	Procedural Generation and Rendering of Large-Scale Open-World Environments
+	Stylised procedural animation
+10.1155/2016/9034649	Automatic Optimization for Large-Scale Real-Time Coastal Water Simulation
+10.1145/3592098	Generalizing Shallow Water Simulations with Dispersive Surface Waves
+10.1007/3-540-46080-2_19	Computer Graphics Techniques for Realistic Modeling, Rendering and Animation of Water. Part I: 1980–88
+10.3390/virtualworlds2040024	Physics-Based Watercraft Simulator in Virtual Reality
+	Physically-based visualization of residential building damage process in hurricane
+10.21203/rs.3.rs-9463162/v1	Assessing the Feasibility of Real-Time Neural FluidRendering Using NVIDIA RTX Neural Shaders
+10.32657/10356/47488	Fast, interactive water wave simulation in gpu for games
+10.34660/inf.2025.45.31.088	FEATURES OF PROVIDING PRIMARY HEALTH CARE TO FOREIGN WORKERS IN RURAL AREAS: BARRIERS AND WAYS TO OVERCOME THEM

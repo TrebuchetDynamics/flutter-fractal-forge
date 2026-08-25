@@ -1,0 +1,20 @@
+10.1016/j.cpc.2019.106949	DScribe: Library of descriptors for machine learning in materials science
+10.1038/s41592-021-01343-9	Identifying temporal and spatial patterns of variation from multimodal data using MEFISTO
+10.1101/2023.03.16.532307	Keypoint-MoSeq: parsing behavior by linking point tracking to pose dynamics
+10.1038/s41467-025-63346-w	Generative emergence of non-local representations in the hippocampus
+10.1016/j.celrep.2022.111595	Tuning landscapes of the ventral stream
+10.1038/s41593-024-01868-0	The architecture of the human default mode network explored through cytoarchitecture, wiring and signal flow
+10.1093/jxb/erab537	Explaining pre-emptive acclimation by linking information to plant phenotype
+10.1016/j.triboint.2026.111724	Friction on demand: A generative framework for the inverse design of metainterfaces
+10.1371/journal.pcbi.1011891	Cortical cell assemblies and their underlying connectivity: An in silico study
+10.1101/2020.04.07.030213	A Connectome and Analysis of the Adult Drosophila Central Brain
+10.1146/annurev-chembioeng-092320-120230	Machine Learning for the Discovery, Design, and Engineering of Materials
+10.1038/s41598-025-10672-0	Geographic-style maps with a local novelty distance help navigate in the materials space
+10.1146/annurev-cellbio-120319-024414	The Unreasonable Effectiveness of Reaction Diffusion in Vertebrate Skin Color Patterning
+10.1613/jair.3659	Transforming Graph Data for Statistical Relational Learning
+10.1038/s41467-025-62086-1	Relating natural image statistics to patterns of response covariability in macaque primary visual cortex
+10.48550/arxiv.2410.13796	Geographic-style maps with a local novelty distance help navigate the materials space
+10.1007/s40820-023-01180-9	Recent Advances in Multifunctional Reticular Framework Nanoparticles: A Paradigm Shift in Materials Science Road to a Structured Future
+10.1101/2021.08.18.456004	A neural circuit architecture for rapid behavioral flexibility in goal-directed navigation
+10.1186/s40494-022-00852-w	Application-based principles of islamic geometric patterns; state-of-the-art, and future trends in computer science/technologies: a review
+10.1098/rsif.2023.0647	Latent evolutionary signatures: a general framework for analysing music and cultural evolution

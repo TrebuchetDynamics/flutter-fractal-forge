@@ -1,0 +1,20 @@
+10.1109/tmi.2014.2377694	The Multimodal Brain Tumor Image Segmentation Benchmark (BRATS)
+10.1007/s42979-021-00592-x	Machine Learning: Algorithms, Real-World Applications and Research Directions
+	Generative models for graph-based protein design
+10.1007/s42979-021-00815-1	Deep Learning: A Comprehensive Overview on Techniques, Taxonomy, Applications and Research Directions
+10.1038/s41524-019-0221-0	Recent advances and applications of machine learning in solid-state materials science
+10.1101/2022.12.01.518682	Illuminating protein space with a programmable generative model
+10.1016/j.matdes.2021.110008	Metal additive manufacturing in aerospace: A review
+10.1109/tnnls.2021.3070843	A Survey on Knowledge Graphs: Representation, Acquisition, and Applications
+10.1016/j.cpc.2019.106949	DScribe: Library of descriptors for machine learning in materials science
+10.1109/access.2020.2970143	Digital Twin: Values, Challenges and Enablers From a Modeling Perspective
+10.1109/access.2023.3346273	A Review of Generative Adversarial Networks (GANs) and Its Applications in a Wide Variety of Disciplines: From Medical to Remote Sensing
+10.48550/arxiv.2006.09661	Implicit Neural Representations with Periodic Activation Functions
+10.1109/access.2022.3199443	Artificial Intelligence and Structural Health Monitoring of Bridges: A Review of the State-of-the-Art
+10.1109/jas.2023.123537	Machine Learning With Data Assimilation and Uncertainty Quantification for Dynamical Systems: A Review
+10.1038/s41524-022-00734-6	Recent advances and applications of deep learning methods in materials science
+10.1051/jphys:0198400450104900	Structure of Bénard convection cells, phyllotaxis and crystallography in cylindrical symmetry
+10.1038/s43246-022-00315-6	Graph neural networks for materials science and chemistry
+10.1364/oe.20.012799	The symmetries of image formation by scattering I Theoretical framework
+10.1002/adma.202305254	Data‐Driven Design for Metamaterials and Multiscale Systems: A Review
+10.48550/arxiv.2110.04624	Iterative Refinement Graph Neural Network for Antibody Sequence-Structure Co-design

@@ -5,6 +5,24 @@ All notable changes to Flutter Fractal Forge are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Five original, sampler-free fractalish-motion visualizations spanning a
+  chromatic arachnid lattice, radial sigils, recursive arcana frames, aurora
+  tides, and a smoothly keyframed four-motif metamorphosis, bringing the
+  working production catalog to 1009 fractals.
+- Comprehensive ResearchForge provenance for the Deforum-inspired structural
+  study, with an explicit boundary against third-party frames, prompts, LoRAs,
+  model code, and media assets.
+
+### Fixed
+
+- One-finger panning now includes the movement used to cross touch slop, so
+  deep-zoom drags start immediately and pinch-to-pan handoffs neither jump nor
+  discard the next movement.
+
 ## [1.1.92] - 2026-08-24
 
 ### Added

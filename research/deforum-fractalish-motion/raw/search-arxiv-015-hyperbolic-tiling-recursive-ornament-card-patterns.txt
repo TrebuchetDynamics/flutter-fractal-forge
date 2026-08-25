@@ -1,0 +1,20 @@
+10.1142/s0129054108006078	The finite tiling problem is undecidable in the hyperbolic plane
+	Identifying Human Mobility Patterns using Smart Card Data
+10.1103/physrevb.106.144113	Coxeter Pairs, Ammann Patterns and Penrose-like Tilings
+	C*-algebras of Penrose's hyperbolic tilings
+10.1007/s10851-018-0835-8	Analysis of planar ornament patterns via motif asymmetry assumption and local connections
+	On the residual finiteness of outer automorphisms of relatively hyperbolic groups
+	Triangle Tiling V: Tilings by a tile with integer sides
+	Pair Correlation and Gap Distributions for Substitution Tilings and Generalized Ulam Sets in the Plane
+	Infinite families of monohedral disk tilings
+	S-AI-Recursive: Convergent Recursive Reasoning
+	Memory of Quark Matter Card Game
+	Spherical and hyperbolic orthogonal ring patterns: integrability and variational principles
+	The Sommerfeld-Rellich Framework for Scattering on Hyperbolic Space: Far-Field Patterns and Inverse Problems
+	Recursive tilings and space-filling curves with little fragmentation
+10.46298/dmtcs.1344	Right-jumps and pattern avoiding permutations
+10.3390/sym9020019	Cyclotomic Aperiodic Substitution Tilings
+	MESURE Tool to benchmark Java Card platforms
+	Credit Card Fraud Detection in the Nigerian Financial Sector: A Comparison of Unsupervised TensorFlow-Based Anomaly Detection Techniques, Autoencoders and PCA Algorithm
+	Bank Card Usage Prediction Exploiting Geolocation Information
+	Looping Back to Move Forward: Recursive Transformers for Efficient and Flexible Large Multimodal Models

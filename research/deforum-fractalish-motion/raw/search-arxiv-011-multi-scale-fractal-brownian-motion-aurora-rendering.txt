@@ -1,0 +1,20 @@
+10.1214/ejp.v20-3744	The Vervaat transform of Brownian bridges and Brownian motion
+10.31390/josa.3.1.02	Weak-consistent dynamic correlation estimators for Brownian motion pairs and for Geometric Brownian motion pairs
+	100 Years of Brownian motion
+	On Vervaat transform of Brownian bridges and Brownian motion
+	Embedding of Walsh Brownian Motion
+10.1063/1.1855731	Quantum Brownian Motion With Large Friction
+10.1063/1.1832773	Brownian motion and diffusion: from stochastic processes to chaos and beyond
+10.1016/j.spl.2016.02.005	On a Brownian motion with a hard membrane
+	Brownian motion and affine Kac-Moody algebras
+	Reflected Brownian Motion in a Convex Polyhedral Cone: Tail Estimates for the Stationary Distribution
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1016/j.spl.2020.108836	A note on the exact simulation of spherical Brownian motion
+	Aurora: Unified Video Editing with a Tool-Using Agent
+	A Rough Super-Brownian Motion
+	Brownian Motion, "Diverse and Undulating"
+10.1063/5.0255687	Brownian-motion approach to statistical mechanics: Langevin equations, fluctuations, and timescales
+	Brownian Motion on the Unitary Quantum Group: Construction and Cutoff
+10.1016/j.tcs.2008.09.045	Effective dimension of points visited by Brownian motion
+	Multi-Scale Implicit Transformer with Re-parameterize for Arbitrary-Scale Super-Resolution
+	A Direct Proof of the Reflection Principle for Brownian Motion

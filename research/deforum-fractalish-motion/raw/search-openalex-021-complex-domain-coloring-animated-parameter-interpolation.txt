@@ -1,0 +1,20 @@
+10.1145/1753326.1753427	Using text animated transitions to support navigation in document histories
+10.1109/cvpr.2019.00248	Animating Arbitrary Objects via Deep Motion Transfer
+10.1007/s10462-021-10039-7	Artificial intelligence in the creative industries: a review
+10.1109/tvcg.2015.2467851	Time Curves: Folding Time to Visualize Patterns of Temporal Evolution in Data
+10.1007/978-3-642-32677-6_15	From Quantification to Visualization: A Taxonomy of Uncertainty Visualization Approaches
+10.1016/j.inffus.2020.06.014	Deepfakes and beyond: A Survey of face manipulation and fake detection
+10.1109/infvis.2002.1173156	Interactive information visualization of a million items
+10.1111/cgf.12934	State of the Art in Transfer Functions for Direct Volume Rendering
+10.48550/arxiv.2303.13825	HandNeRF: Neural Radiance Fields for Animatable Interacting Hands
+10.1016/j.visinf.2022.03.002	Metaverse: Perspectives from graphics, interactions and visualization
+10.1145/340916.340918	Stylized rendering techniques for scalable real-time 3D animation
+10.2312/eurovisstar.20141171	A Review of Temporal Data Visualizations Based on Space-Time Cube Operations
+10.1109/tcsvt.2007.909974	Scene Representation Technologies for 3DTV—A Survey
+10.1002/jmor.21421	Virtual and augmented reality: New tools for visualizing, analyzing, and communicating complex morphology
+10.3145/epi.2008.nov.04	Animación de la evolución de la revista Social networks en el tiempo utilizando una extensión din´mica del escalado multidimensional
+	Interpolation Search for Point Cloud Intersection
+10.1561/0600000005	Computational Studies of Human Motion: Part 1, Tracking and Motion Synthesis
+10.6028/nist.sp.1019-5	Fire dynamics simulator (version 5) :
+10.1145/1275808.1276419	Multi-scale capture of facial geometry and motion
+10.48550/arxiv.1910.07192	Animating Landscape: Self-Supervised Learning of Decoupled Motion and\n Appearance for Single-Image Video Synthesis

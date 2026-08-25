@@ -1,0 +1,20 @@
+	MOSAIC: a Multi-Object Spectrograph for the E-ELT
+	Simulating Surveys for ELT-MOSAIC: Status of the MOSAIC Science Case after Phase A
+	Rectangular mosaics for virtual knots
+	MOSAIC: Multi-Objective Slice-Aware Iterative Curation for Alignment
+	Pair Correlation and Gap Distributions for Substitution Tilings and Generalized Ulam Sets in the Plane
+10.1016/j.bbamem.2022.184104	The excitable fluid mosaic
+	Mosaic number and Tile number of Corner Connection Tiles
+	Knot Mosaics with Corner Connection Tiles
+10.1109/sbgames56371.2022.9961078	Line Art Colorization of Fakemon using Generative Adversarial Neural Networks
+	Triangle Tiling V: Tilings by a tile with integer sides
+	Mosaic: A Benchmark Suite for Differentiable Physics Solvers
+10.1142/s0218216518500414	Tile Number and Space-Efficient Knot Mosaics
+	Tile Numbers of Knot Corner Mosaics
+	Infinite families of monohedral disk tilings
+	S-AI-Recursive: Convergent Recursive Reasoning
+	MoSAIC: Aligned Intervention Supervision for Part-Local Motion Style Transfer
+	Memory of Quark Matter Card Game
+10.1142/s0218216525500646	Weak rectangular diagrams, multi-crossing number, and arc index
+	Tilings of Rectangular Regions by Rectangular Tiles: Counts Derived from Transfer Matrices
+	The minimum length of an axis-aligned rectangular tiling of a flat torus

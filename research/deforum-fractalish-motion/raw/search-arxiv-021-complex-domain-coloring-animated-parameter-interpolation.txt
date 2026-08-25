@@ -1,0 +1,20 @@
+	Interpolation in the Presence of Domain Inhomogeneity
+10.1080/02781070310001634610	Ullemar's formula for the Jacobian of the complex moment mapping
+	A note on interpolation series in the complex domain
+	The Patterson-Sullivan Interpolation of Pluriharmonic Functions for Determinantal Point Processes on Complex Hyperbolic Spaces
+10.1080/17476933.2022.2076842	Holomorphic maps from complex discs intersecting families of hypersurfaces
+	Cohomological aspects on complex and symplectic manifolds
+	A note on the network coloring game: A randomized distributed $(Δ+1)$-coloring algorithm
+	Analysis of Interpolation based Image In-painting Approaches
+	From Interpolating Formulas to Separating Languages and Back Again
+10.1080/17476933.2022.2084538	Submanifolds of some Hartogs domain and the complex Euclidean space
+10.1007/978-3-032-16649-4_25	Is star complexity a proxy for information based complexity of graphs?
+	Type, cotype and twisted sums induced by complex interpolation
+	Improved error bound for multivariate Chebyshev polynomial interpolation
+10.1093/comnet/cny031	Node Diversification in Complex Networks by Decentralized Coloring
+	Proof Complexity and Feasible Interpolation
+10.1093/comnet/cnab021	The distance backbone of complex networks
+	Deep Animation Video Interpolation in the Wild
+	The Nash Equilibrium Revisited: Chaos and Complexity Hidden in Simplicity
+	Groebner basis structure of ideal interpolation
+10.1515/coma-2025-0018	Complex quaternionic manifolds and c-projective structures

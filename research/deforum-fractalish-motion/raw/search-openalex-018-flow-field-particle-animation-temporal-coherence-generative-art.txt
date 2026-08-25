@@ -1,0 +1,20 @@
+10.1007/s11042-024-20016-1	Generative artificial intelligence: a systematic review and applications
+10.1109/access.2023.3346273	A Review of Generative Adversarial Networks (GANs) and Its Applications in a Wide Variety of Disciplines: From Medical to Remote Sensing
+10.1016/j.cviu.2024.104160	Estimating optical flow: A comprehensive review of the state of the art
+10.48550/arxiv.2303.16129	Unleashing the Power of Edge-Cloud Generative AI in Mobile Networks: A Survey of AIGC Services
+10.48550/arxiv.2110.01442	A review of Generative Adversarial Networks (GANs) and its applications in a wide variety of disciplines -- From Medical to Remote Sensing
+	Property, Substance and Effect: Anthropological Essays on Persons and Things
+10.1109/cvpr46437.2021.00596	Learning Parallel Dense Correspondence from Spatio-Temporal Descriptors for Efficient and Robust 4D Reconstruction
+10.1007/s11263-017-0999-5	A Comprehensive Performance Evaluation of Deformable Face Tracking “In-the-Wild”
+10.48550/arxiv.2312.17142	DreamGaussian4D: Generative 4D Gaussian Splatting
+10.17705/1thci.00055	Interaction Design for Complex Cognitive Activities with Visual Representations: A Pattern-Based Approach
+	Computer Animation: a Key Issue for Time Visualization
+10.1371/journal.pone.0291647	Predicting the aesthetics of dynamic generative artwork based on statistical image features: A time-dependent model
+10.65649/y2kpw351	Basics of animation How to transform a planet into a Ze system
+10.48550/arxiv.1707.07548	Towards Accurate Markerless Human Shape and Pose Estimation over Time
+10.1007/s11633-022-1411-7	A Survey of Synthetic Data Augmentation Methods in Machine Vision
+10.1609/aaai.v38i2.27899	MeDM: Mediating Image Diffusion Models for Video-to-Video Translation with Temporal Correspondence Guidance
+10.1007/s11047-013-9398-1	A review of morphogenetic engineering
+	3D storyboarding for modern animation
+10.1371/journal.pone.0318979	Fusion of motion smoothing algorithm and motion segmentation algorithm for human animation generation
+10.48550/arxiv.2312.11813	Urban Generative Intelligence (UGI): A Foundational Platform for Agents in Embodied City Environment

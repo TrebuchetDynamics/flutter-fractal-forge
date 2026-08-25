@@ -1,0 +1,20 @@
+	Latent-Y: A Lab-Validated Autonomous Agent for De Novo Drug Design
+	Latent-X: An Atom-level Frontier Model for De Novo Protein Binder Design
+	Drug-like antibodies with low immunogenicity in human panels designed with Latent-X2
+	Latent-Shift: Latent Diffusion with Temporal Shift for Efficient Text-to-Video Generation
+	Text-driven Visual Synthesis with Latent Diffusion Prior
+10.1145/3592450	Blended Latent Diffusion
+	Prompt-Free Diffusion: Taking "Text" out of Text-to-Image Diffusion Models
+	MirrorDiffusion: Stabilizing Diffusion Process in Zero-shot Image Translation by Prompts Redescription and Beyond
+	A Simple Latent Diffusion Approach for Panoptic Segmentation and Mask Inpainting
+	Smooth Diffusion: Crafting Smooth Latent Spaces in Diffusion Models
+	Sprite Sheet Diffusion: Generate Game Character for Animation
+	Bidirectional Temporal Diffusion Model for Temporally Consistent Human Animation
+	Simultaneous Latent Budget Trees for Stratified Classification
+	NaturalSpeech 2: Latent Diffusion Models are Natural and Zero-Shot Speech and Singing Synthesizers
+	A map of approaches to temporal networks
+	TLB-VFI: Temporal-Aware Latent Brownian Bridge Diffusion for Video Frame Interpolation
+10.1017/s0263034614000500	Comparison between illumination model and hydrodynamic simulation for a Direct Drive laser irradiated target
+	Latent-Reframe: Enabling Camera Control for Video Diffusion Model without Training
+	DiscDiff: Latent Diffusion Model for DNA Sequence Generation
+	One-to-All Animation: Alignment-Free Character Animation and Image Pose Transfer
