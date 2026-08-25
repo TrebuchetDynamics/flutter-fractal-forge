@@ -16,6 +16,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comprehensive ResearchForge provenance for the Deforum-inspired structural
   study, with an explicit boundary against third-party frames, prompts, LoRAs,
   model code, and media assets.
+- Five original ray-marched recursive objects spanning ternary Cayley branching,
+  multiscale gyroid membranes, Möbius echoes, Fibonacci cone IFS buds, and
+  Chebyshev nodal sheets, bringing the working production catalog to 1014.
+- A comprehensive MilkDrop/Carpathian structural study with an observation-only
+  boundary: no preset, source shader, feedback texture, frame, music, or media
+  asset is imported.
 
 ### Fixed
 

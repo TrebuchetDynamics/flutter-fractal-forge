@@ -455,6 +455,11 @@
     "capability": "static"
   },
   {
+    "id": "chebyshev_nodal_lantern",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
     "id": "chen",
     "shaderAsset": "shaders/strange_attractors/chen_gpu.frag",
     "capability": "static"
@@ -2840,6 +2845,11 @@
     "capability": "static"
   },
   {
+    "id": "fibonacci_cone_bloom",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
     "id": "fibonacci_spiral",
     "shaderAsset": "shaders/ifs_and_geometric/fibonacci_spiral_gpu.frag",
     "capability": "static"
@@ -3013,6 +3023,11 @@
     "id": "gumowski_mira",
     "shaderAsset": "shaders/strange_attractors/gumowski_mira_gpu.frag",
     "capability": "static"
+  },
+  {
+    "id": "gyroid_echo_reliquary",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag",
+    "capability": "timeDriven"
   },
   {
     "id": "hadley",
@@ -3788,6 +3803,11 @@
     "id": "mittag_leffler",
     "shaderAsset": "shaders/trigonometric_and_transcendental/special_functions/mittag_leffler_gpu.frag",
     "capability": "static"
+  },
+  {
+    "id": "mobius_echo_nest",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag",
+    "capability": "timeDriven"
   },
   {
     "id": "mobius_transformation_julia",
@@ -4803,6 +4823,11 @@
     "id": "terdragon",
     "shaderAsset": "shaders/ifs_and_geometric/terdragon_gpu.frag",
     "capability": "static"
+  },
+  {
+    "id": "ternary_cayley_lumen",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag",
+    "capability": "timeDriven"
   },
   {
     "id": "tessarine_julia",

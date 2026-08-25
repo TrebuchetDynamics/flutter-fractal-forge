@@ -19,7 +19,7 @@
   <a href="#run-it-locally">Build locally</a>
 </p>
 
-Fractal Forge is an open-source Flutter explorer for mathematical systems and generative art. Browse **1009 production fractals**, tune parameters in real time, move through deep-zoom render paths, and export the views worth keeping.
+Fractal Forge is an open-source Flutter explorer for mathematical systems and generative art. Browse **1014 production fractals**, tune parameters in real time, move through deep-zoom render paths, and export the views worth keeping.
 
 ## See it in motion
 
@@ -35,7 +35,7 @@ Fractal Forge is an open-source Flutter explorer for mathematical systems and ge
 
 ## What makes it useful
 
-- **Broad mathematical range** — 1009 production fractals across escape-time formulas, root-finding basins, strange attractors, IFS, cellular systems, tilings, space-filling curves, and ray-marched 3D forms.
+- **Broad mathematical range** — 1014 production fractals across escape-time formulas, root-finding basins, strange attractors, IFS, cellular systems, tilings, space-filling curves, and ray-marched 3D forms.
 - **GPU-first interaction** — Flutter fragment shaders keep ordinary exploration responsive, with deeper preview and CPU paths where the module supports them.
 - **A real creative toolset** — presets, randomizer, looper, auto-explore, dual Mandelbrot/Julia viewing, wallpaper tools, sharing, and Fractal Music experiments.
 - **Live Fourier analysis** — renderer-derived spectra, a finite-grid uncertainty laboratory (Cantor and Sierpiński masks, arbitrary-size FFT), and Fourier Music that composes deterministically from measured image features.
@@ -53,7 +53,7 @@ Fractal Forge is an open-source Flutter explorer for mathematical systems and ge
 | IFS and geometry | Sierpiński, Koch, Barnsley Fern, Hilbert, Peano, Gosper, circle inversion |
 | Cellular and number systems | Wolfram rules, Life-like families, Langton systems, Wireworld, Farey and Ulam views |
 | Fractalish motion | Arachnid lattices, radial sigils, recursive arcana frames, aurora tides, keyframed metamorphosis |
-| 3D and hypercomplex | Mandelbulb, Mandelbox, pseudo-Kleinian, quaternion Julia, KIFS |
+| 3D and hypercomplex | Mandelbulb, Mandelbox, pseudo-Kleinian, quaternion Julia, KIFS, gyroid/Möbius/Cayley recursive objects |
 
 The catalog counts stable renderable identities—not palettes, camera angles, presets, or thumbnails as separate fractals.
 

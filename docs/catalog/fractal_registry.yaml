@@ -303,6 +303,178 @@ fractals:
         approved_by: retrofit
         batch: stage_a_retrofit_2026_04
       confidence: 1.0
+  - id: ternary_cayley_lumen
+    name: Ternary Cayley Lumen
+    shader: shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag
+    category: 3D Fractals
+    dimension: 3D
+    defaultPower: 0.63
+    defaultIterations: 4.0
+    defaultSteps: 100.0
+    defaultBailout: 5.5
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: true
+    presets:
+      - ternary_cayley_lumen-classic
+    variants: []
+    references: []
+    tier: implemented
+    formula_hash: sha256:ac17c159888867e6ccffa429ebab38c01e4bc274427eabeb92bc88ecb29919d0
+    quality:
+      formula_hash: sha256:ac17c159888867e6ccffa429ebab38c01e4bc274427eabeb92bc88ecb29919d0
+      citation_health:
+        last_checked: '2026-08-25'
+        status: unchecked
+      shader_compile:
+        sksl: unchecked
+        glsl: unchecked
+        checked: '2026-08-25'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-08-25'
+      review:
+        approved_by: implementation_validation
+        batch: recursive_objects_2026_08
+      confidence: 1.0
+  - id: gyroid_echo_reliquary
+    name: Gyroid Echo Reliquary
+    shader: shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag
+    category: 3D Fractals
+    dimension: 3D
+    defaultPower: 2.35
+    defaultIterations: 3.0
+    defaultSteps: 112.0
+    defaultBailout: 6.0
+    defaultColorScheme: 1
+    hasThumbnail: false
+    implemented: true
+    presets:
+      - gyroid_echo_reliquary-classic
+    variants: []
+    references:
+      - https://ntrs.nasa.gov/citations/19700020472
+    tier: implemented
+    formula_hash: sha256:ac17c159888867e6ccffa429ebab38c01e4bc274427eabeb92bc88ecb29919d0
+    quality:
+      formula_hash: sha256:ac17c159888867e6ccffa429ebab38c01e4bc274427eabeb92bc88ecb29919d0
+      citation_health:
+        last_checked: '2026-08-25'
+        status: unchecked
+      shader_compile:
+        sksl: unchecked
+        glsl: unchecked
+        checked: '2026-08-25'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-08-25'
+      review:
+        approved_by: implementation_validation
+        batch: recursive_objects_2026_08
+      confidence: 1.0
+  - id: mobius_echo_nest
+    name: Möbius Echo Nest
+    shader: shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag
+    category: 3D Fractals
+    dimension: 3D
+    defaultPower: 0.62
+    defaultIterations: 4.0
+    defaultSteps: 96.0
+    defaultBailout: 5.0
+    defaultColorScheme: 3
+    hasThumbnail: false
+    implemented: true
+    presets:
+      - mobius_echo_nest-classic
+    variants: []
+    references: []
+    tier: implemented
+    formula_hash: sha256:ac17c159888867e6ccffa429ebab38c01e4bc274427eabeb92bc88ecb29919d0
+    quality:
+      formula_hash: sha256:ac17c159888867e6ccffa429ebab38c01e4bc274427eabeb92bc88ecb29919d0
+      citation_health:
+        last_checked: '2026-08-25'
+        status: unchecked
+      shader_compile:
+        sksl: unchecked
+        glsl: unchecked
+        checked: '2026-08-25'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-08-25'
+      review:
+        approved_by: implementation_validation
+        batch: recursive_objects_2026_08
+      confidence: 1.0
+  - id: fibonacci_cone_bloom
+    name: Fibonacci Cone Bloom
+    shader: shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag
+    category: 3D Fractals
+    dimension: 3D
+    defaultPower: 0.39
+    defaultIterations: 3.0
+    defaultSteps: 115.0
+    defaultBailout: 6.0
+    defaultColorScheme: 2
+    hasThumbnail: false
+    implemented: true
+    presets:
+      - fibonacci_cone_bloom-classic
+    variants: []
+    references: []
+    tier: implemented
+    formula_hash: sha256:ac17c159888867e6ccffa429ebab38c01e4bc274427eabeb92bc88ecb29919d0
+    quality:
+      formula_hash: sha256:ac17c159888867e6ccffa429ebab38c01e4bc274427eabeb92bc88ecb29919d0
+      citation_health:
+        last_checked: '2026-08-25'
+        status: unchecked
+      shader_compile:
+        sksl: unchecked
+        glsl: unchecked
+        checked: '2026-08-25'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-08-25'
+      review:
+        approved_by: implementation_validation
+        batch: recursive_objects_2026_08
+      confidence: 1.0
+  - id: chebyshev_nodal_lantern
+    name: Chebyshev Nodal Lantern
+    shader: shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag
+    category: 3D Fractals
+    dimension: 3D
+    defaultPower: 3.4
+    defaultIterations: 2.0
+    defaultSteps: 100.0
+    defaultBailout: 5.5
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: true
+    presets:
+      - chebyshev_nodal_lantern-classic
+    variants: []
+    references:
+      - https://dlmf.nist.gov/18.3
+    tier: implemented
+    formula_hash: sha256:ac17c159888867e6ccffa429ebab38c01e4bc274427eabeb92bc88ecb29919d0
+    quality:
+      formula_hash: sha256:ac17c159888867e6ccffa429ebab38c01e4bc274427eabeb92bc88ecb29919d0
+      citation_health:
+        last_checked: '2026-08-25'
+        status: unchecked
+      shader_compile:
+        sksl: unchecked
+        glsl: unchecked
+        checked: '2026-08-25'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-08-25'
+      review:
+        approved_by: implementation_validation
+        batch: recursive_objects_2026_08
+      confidence: 1.0
   - id: generalized_mcmullen
     name: Generalized McMullen
     shader: shaders/escape_time_family/geometry_and_ifs/generalized_mcmullen_gpu.frag

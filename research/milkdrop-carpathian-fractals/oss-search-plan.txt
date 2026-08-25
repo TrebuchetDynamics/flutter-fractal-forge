@@ -1,0 +1,24 @@
+ResearchForge OSS study plan
+
+Public lead
+- Reddit post: https://www.reddit.com/r/Fractalish/comments/1vxdukc/the_kind_of_raw_pure_majestic_mathematically/
+- Reddit-hosted media: https://v.redd.it/7q7jb4t4qdlh1
+- The author's public RSS comment identifies the renderer as MilkDrop3.
+
+Authoritative leads to inspect
+- MilkDrop3 source repository, README, release metadata, and license.
+- ProjectM documentation and source history for independent descriptions of MilkDrop-compatible preset mechanics.
+- Original or archived MilkDrop documentation describing coordinate feedback and preset equations.
+
+Boundaries
+- Architecture, mathematics, and public documentation references only.
+- Do not clone, install, execute, translate, or import MilkDrop/MilkDrop3/projectM source or presets.
+- Do not retain or ship the Reddit video, extracted frames, music, thumbnails, preset strings, textures, or screenshots.
+- New visuals must be sampler-free, original GLSL and use only analytic geometry, deterministic iteration, and generated color.
+
+Questions
+1. Which structural mechanisms explain the observed isolated glowing rotating recursive objects?
+2. Which mechanisms are generic mathematical ideas rather than protectable preset expression?
+3. Which unused mathematical families fit Fractal Forge without duplicating its catalog?
+4. Which parameter ranges are measurable, responsive, and performant on Flutter runtime effects?
+5. What licensing and provenance facts must be recorded before implementation?

@@ -1,0 +1,119 @@
+{
+  "topic": "MilkDrop-observed isolated recursive objects translated to original ray-marched fractals",
+  "depth": "comprehensive",
+  "tool": {
+    "name": "rforge",
+    "version": "0.1.20",
+    "commit": "35aa065"
+  },
+  "queries": [
+    "MilkDrop music visualization feedback coordinate transformations equations",
+    "MilkDrop preset warp feedback temporal coherence visualization",
+    "MilkDrop3 open source architecture shader preset licensing",
+    "audio reactive procedural shader fractal object visualization",
+    "real-time ray marching isolated fractal object distance estimator",
+    "kaleidoscopic iterated function systems three-dimensional polyhedral symmetry",
+    "KIFS distance estimation three-dimensional fractal rendering",
+    "Sierpinski tetrahedron distance estimator ray marching",
+    "octahedral iterated function system fractal folding three dimensional",
+    "dodecahedral iterated function system limit set visualization",
+    "polyhedral inversion fractals three dimensional rendering",
+    "Kleinian group limit sets sphere inversion three dimensional",
+    "Hopf fibration procedural visualization signed distance field",
+    "gyroid recursive fractal minimal surface rendering",
+    "Vicsek fractal three-dimensional distance field",
+    "kaleidoscopic polyhedron recursive folding shader",
+    "fractal foam recursive sphere packing procedural rendering",
+    "orbit trap surface coloring ray marched fractals",
+    "distance estimator glow rendering real time fractals",
+    "procedural neon halo signed distance field visualization",
+    "temporal coherence animated signed distance fields",
+    "quasiconformal deformation animated fractal geometry",
+    "Clifford algebra Julia set three dimensional visualization",
+    "fractal surface curvature coloring real time rendering"
+  ],
+  "sources_requested": [
+    "openalex",
+    "arxiv",
+    "semantic-scholar"
+  ],
+  "search_stats": {
+    "retrieved_records": 735,
+    "deduplicated_records": 583,
+    "total_unique_dois": 372,
+    "openalex_records": 224,
+    "arxiv_records": 480,
+    "semantic_scholar_records": 31
+  },
+  "public_lead": {
+    "title": "The kind of raw, pure, majestic, mathematically accurate, beautiful, hand crafted, toasted, longitudinal, Carpathian fractals you just can't get anywhere else on Reddit",
+    "url": "https://www.reddit.com/r/Fractalish/comments/1vxdukc/the_kind_of_raw_pure_majestic_mathematically/",
+    "media_url": "https://v.redd.it/7q7jb4t4qdlh1",
+    "license": "unknown",
+    "observation_only": true
+  },
+  "reference_renderer": "MilkDrop3",
+  "renderer_references": [
+    {
+      "url": "https://github.com/milkdrop2077/MilkDrop3",
+      "license_assessment": "mixed-or-ambiguous; no root GitHub license",
+      "use": "architecture and public documentation reference only"
+    },
+    {
+      "url": "https://www.geisswerks.com/milkdrop/milkdrop_preset_authoring.html",
+      "license_assessment": "documentation reference",
+      "use": "distinguish feedback architecture from original implementation"
+    },
+    {
+      "url": "https://github.com/projectM-visualizer/projectm",
+      "license_assessment": "LGPL-2.1 core with component-level nuances",
+      "use": "comparative architecture reference only"
+    }
+  ],
+  "asset_policy": "observation-only-original-code",
+  "assets_imported": false,
+  "prohibited_imports": [
+    "Reddit frames or video",
+    "music or audio",
+    "MilkDrop presets or expressions",
+    "MilkDrop or projectM source code",
+    "external shaders",
+    "sprites, images, textures, binaries, or models"
+  ],
+  "implemented_identities": [
+    "ternary_cayley_lumen",
+    "gyroid_echo_reliquary",
+    "mobius_echo_nest",
+    "fibonacci_cone_bloom",
+    "chebyshev_nodal_lantern"
+  ],
+  "corpus_policy": {
+    "format": "bibliographic metadata only",
+    "abstracts_included": false,
+    "raw_api_payloads_included": false,
+    "content_access": "follow source URLs and DOI links"
+  },
+  "human_gates": {
+    "screening_decisions": "not performed",
+    "full_text_acquisition": "not requested",
+    "extraction_acceptance": "not performed",
+    "analysis_method_selection": "not applicable; no quantitative evidence synthesis",
+    "final_claim_approval": "not applicable; no scientific efficacy claim"
+  },
+  "outputs": [
+    "queries.txt",
+    "results.jsonl",
+    "results-deduped.jsonl",
+    "failures.jsonl",
+    "search-stats.txt",
+    "coverage-stats.txt",
+    "oss-search-plan.txt",
+    "source-inventory.md",
+    "report.md",
+    "provenance.json"
+  ],
+  "errors": [
+    "Semantic Scholar returned HTTP 429 for 20 of 24 query variants."
+  ],
+  "weakest_evidence_gap": "No single source covers the exact combined reference aesthetic and all five selected constructions; the translation is explicitly original and implementation-led."
+}

@@ -1,0 +1,29 @@
+Source coverage for research/milkdrop-carpathian-fractals
+  arxiv                    480 records (24 files)
+  openalex                 224 records (24 files)
+  semantic-scholar         31 records (4 files)
+
+Total unique DOIs: 372
+Library (results.jsonl): 735 records
+
+Failed queries (20):
+  [semantic-scholar] "MilkDrop music visualization feedback coordinate transformations equations" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "MilkDrop preset warp feedback temporal coherence visualization" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "MilkDrop3 open source architecture shader preset licensing" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "audio reactive procedural shader fractal object visualization" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "kaleidoscopic iterated function systems three-dimensional polyhedral symmetry" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "KIFS distance estimation three-dimensional fractal rendering" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "octahedral iterated function system fractal folding three dimensional" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "dodecahedral iterated function system limit set visualization" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "polyhedral inversion fractals three dimensional rendering" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "gyroid recursive fractal minimal surface rendering" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "Vicsek fractal three-dimensional distance field" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "kaleidoscopic polyhedron recursive folding shader" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "fractal foam recursive sphere packing procedural rendering" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "orbit trap surface coloring ray marched fractals" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "distance estimator glow rendering real time fractals" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "procedural neon halo signed distance field visualization" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "temporal coherence animated signed distance fields" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "quasiconformal deformation animated fractal geometry" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "Clifford algebra Julia set three dimensional visualization" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+  [semantic-scholar] "fractal surface curvature coloring real time rendering" — source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)

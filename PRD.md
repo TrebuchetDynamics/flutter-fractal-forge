@@ -229,7 +229,7 @@ Each new fractal must pass:
 ## 15) Status (as of 2026-08-25)
 
 ### Implemented
-- 1009 production fractal modules plus 1 scientific visualization in the live catalog (1017 debug/test registry modules including 7 diagnostics), including Mandelbrot, Julia, Burning Ship, Phoenix, Mandelbulb, and many more (counts are locked by `test/catalog/catalog_id_integrity_test.dart`)
+- 1014 production fractal modules plus 1 scientific visualization in the live catalog (1022 debug/test registry modules including 7 diagnostics), including Mandelbrot, Julia, Burning Ship, Phoenix, Mandelbulb, and many more (counts are locked by `test/catalog/catalog_id_integrity_test.dart`)
 - In-app FFmpeg via `ffmpeg_kit_flutter_new_min` for video export
 - Dedicated export directory (Android Pictures/FlutterFractals)
 - Schema-driven controls per fractal
