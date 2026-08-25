@@ -156,6 +156,9 @@ class ShareSheet extends StatelessWidget {
         border: Border.all(color: AppColors.border.withValues(alpha: 0.3)),
       ),
       child: SafeArea(
+        minimum: EdgeInsets.only(
+          bottom: MediaQuery.systemGestureInsetsOf(context).bottom,
+        ),
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.xl),
           child: Column(

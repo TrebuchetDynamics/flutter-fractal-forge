@@ -22,6 +22,26 @@ void main() {
     expect(directShareImports, isEmpty);
   });
 
+  testWidgets('ShareSheet stays above Android gesture navigation',
+      (tester) async {
+    await tester.binding.setSurfaceSize(const Size(360, 640));
+    tester.view.devicePixelRatio = 1;
+    tester.view.systemGestureInsets = const FakeViewPadding(bottom: 48);
+    addTearDown(() async {
+      tester.view.reset();
+      await tester.binding.setSurfaceSize(null);
+    });
+
+    await _pumpShareSheet(
+      tester,
+      shareText: (_, {subject}) async {},
+    );
+
+    final screenBottom = tester.getRect(find.byType(Scaffold)).bottom;
+    final shareBottom = tester.getRect(find.text('Share')).bottom;
+    expect(shareBottom, lessThanOrEqualTo(screenBottom - 48));
+  });
+
   testWidgets('ShareSheet reports share failures instead of dropping them',
       (tester) async {
     await _pumpShareSheet(

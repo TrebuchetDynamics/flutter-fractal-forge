@@ -29,13 +29,18 @@ class AppBottomSheet extends StatelessWidget {
     final isLandscape = mq.orientation == Orientation.landscape;
     final effectiveFactor =
         isLandscape ? maxHeightFactor.clamp(0.85, 0.92) : maxHeightFactor;
-    // Inset content above the system navigation bar / gesture area so the
-    // bottom of the sheet never merges with the phone's on-screen buttons.
+    // Inset content above either form of Android navigation. Edge-to-edge
+    // devices may report only systemGestureInsets while classic navigation
+    // buttons are exposed through viewPadding.
     // The surface still extends to the screen edge — only the content is
     // padded — and the extra inset is added to the height budget so the
     // visible content area is unchanged.
+    final systemBottomInset = math.max(
+      mq.viewPadding.bottom,
+      mq.systemGestureInsets.bottom,
+    );
     final bottomInset =
-        math.max(mq.viewPadding.bottom, AppSpacing.xl) + mq.viewInsets.bottom;
+        math.max(systemBottomInset, AppSpacing.xl) + mq.viewInsets.bottom;
     return Container(
       constraints: BoxConstraints(
         maxHeight:
@@ -125,8 +130,12 @@ class AppDraggableBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context);
+    final systemBottomInset = math.max(
+      mq.viewPadding.bottom,
+      mq.systemGestureInsets.bottom,
+    );
     final bottomInset =
-        math.max(mq.viewPadding.bottom, AppSpacing.xl) + mq.viewInsets.bottom;
+        math.max(systemBottomInset, AppSpacing.xl) + mq.viewInsets.bottom;
 
     return DraggableScrollableSheet(
       initialChildSize: initialChildSize,

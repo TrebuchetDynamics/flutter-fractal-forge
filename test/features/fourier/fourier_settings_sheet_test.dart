@@ -4,6 +4,46 @@ import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  testWidgets('settings stay above Android gesture navigation', (tester) async {
+    await tester.binding.setSurfaceSize(const Size(360, 640));
+    tester.view.devicePixelRatio = 1;
+    tester.view.systemGestureInsets = const FakeViewPadding(bottom: 48);
+    addTearDown(() async {
+      tester.view.reset();
+      await tester.binding.setSurfaceSize(null);
+    });
+
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Scaffold(
+          body: FourierSettingsSheet(
+            displayMode: FourierDisplayMode.split,
+            resolution: FourierResolution.auto,
+            applyHann: true,
+            removeDc: true,
+            fourierMusicEnabled: false,
+            onDisplayModeChanged: (_) {},
+            onResolutionChanged: (_) {},
+            onApplyHannChanged: (_) {},
+            onRemoveDcChanged: (_) {},
+            onFourierMusicChanged: (_) {},
+            onOpenUncertaintyLab: () {},
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final openLab = find.text('Open Fractal Uncertainty Lab');
+    await tester.ensureVisible(openLab);
+    await tester.pump();
+    final screenBottom = tester.getRect(find.byType(Scaffold)).bottom;
+    expect(
+        tester.getRect(openLab).bottom, lessThanOrEqualTo(screenBottom - 48));
+  });
+
   testWidgets('settings expose finite-analysis controls and lab disclaimer',
       (tester) async {
     var display = FourierDisplayMode.split;

@@ -47,6 +47,9 @@ class FourierSettingsSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return SafeArea(
+      minimum: EdgeInsets.only(
+        bottom: MediaQuery.systemGestureInsetsOf(context).bottom,
+      ),
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(AppSpacing.lg),
         child: Column(
