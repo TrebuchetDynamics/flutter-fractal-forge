@@ -1,6 +1,9 @@
 appId: com.trebuchetdynamics.fractal.forge
 name: "Helper — Ensure Catalog"
 ---
+# Foreground the app after Maestro installs its Android driver.
+- openLink: "fractalforge://view"
+
 - extendedWaitUntil:
     visible:
       text: ".*(Fractal Forge|Skip onboarding).*"
