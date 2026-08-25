@@ -31,7 +31,7 @@ EOF
   [[ "$output" == *"flutter analyze"* ]]
   [[ "$output" == *"flutter test"* ]]
   [[ "$output" == *"adb -s 192.0.2.1:5555 forward --remove-all"* ]]
-  [[ "$output" == *"integration_test/flows/user_flows_test.dart"* ]]
+  [[ "$output" == *"flutter test --concurrency=1 integration_test/flows/user_flows_test.dart"* ]]
   [[ "$output" == *"integration_test/flows/critical_journey_test.dart"* ]]
   [[ "$output" == *"integration_test/rendering/render_validation_test.dart"* ]]
   [[ "$output" == *"integration_test/performance/perf_smoke_test.dart"* ]]

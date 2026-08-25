@@ -4,6 +4,7 @@ set -euo pipefail
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_ROOT"
 
+FLUTTER_BIN="${FLUTTER_BIN:-flutter}"
 DEVICE="${ANDROID_DEVICE:-}"
 BUILD_NAME="${RELEASE_BUILD_NAME:-}"
 BUILD_NUMBER="${RELEASE_BUILD_NUMBER:-}"
@@ -364,11 +365,9 @@ cleanup_device() {
 }
 trap cleanup_device EXIT
 
-export PATH="$HOME/flutter/bin:$PATH"
-
 if [[ "$SKIP_HOST" -eq 0 ]]; then
-  run_gate "analyzer" flutter analyze
-  run_gate "full host suite" flutter test
+  run_gate "analyzer" "$FLUTTER_BIN" analyze
+  run_gate "full host suite" "$FLUTTER_BIN" test
 fi
 
 discover_device
@@ -413,13 +412,13 @@ integration_files=(
 # recompiles the full shader catalog each time and can exceed bounded CI/agent
 # cgroups even though every individual test is healthy.
 run_gate "combined device integration suite" \
-  flutter test "${integration_files[@]}" -d "$DEVICE"
+  "$FLUTTER_BIN" test --concurrency=1 "${integration_files[@]}" -d "$DEVICE"
 
 # Flutter's integration-test runner uses a debug-signed instrumented package.
 # Replace it with a production-mode build matching the connected device before
 # exercising deep links, process death, trim-memory, and the long-running soak.
 run_gate "build production-mode device artifact" \
-  flutter build apk --release --target-platform "$DEVICE_FLUTTER_TARGET" \
+  "$FLUTTER_BIN" build apk --release --target-platform "$DEVICE_FLUTTER_TARGET" \
     --android-project-arg "release-abi=$DEVICE_ANDROID_ABI" \
     --build-name="$BUILD_NAME" --build-number="$BUILD_NUMBER"
 install_production_app
@@ -477,7 +476,7 @@ fi
 
 if [[ -f integration_test/flows/lifecycle_restoration_test.dart || "$DRY_RUN" -eq 1 ]]; then
   run_gate "lifecycle restoration" \
-    flutter test integration_test/flows/lifecycle_restoration_test.dart -d "$DEVICE"
+    "$FLUTTER_BIN" test integration_test/flows/lifecycle_restoration_test.dart -d "$DEVICE"
 fi
 
 # The production manifest has no Internet permission. Explicitly disable
@@ -485,7 +484,7 @@ fi
 adb_gate "offline: wifi off" shell svc wifi disable
 adb_gate "offline: mobile data off" shell svc data disable
 run_gate "offline critical journey" \
-  flutter test integration_test/flows/critical_journey_test.dart -d "$DEVICE"
+  "$FLUTTER_BIN" test integration_test/flows/critical_journey_test.dart -d "$DEVICE"
 restore_network
 
 # The lifecycle and offline integration runners remove their instrumented app.
