@@ -26,6 +26,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 export PATH="$HOME/.local/bin${FLUTTER_HOME:+:$FLUTTER_HOME/bin}:$PATH"
+FLUTTER_BIN="${FLUTTER_BIN:-flutter}"
 
 OUTPUT_DIR="play-console-upload"
 RUN_PUB_GET=1
@@ -465,7 +466,7 @@ if [[ "$RUN_PUB_GET" -eq 1 ]]; then
   log "Cleaning stale Flutter build cache..."
   flutter clean
   log "Running flutter pub get..."
-  flutter pub get
+  "$FLUTTER_BIN" pub get
 fi
 
 # Always force --no-pub for the build step so generated plugin registrants
@@ -483,7 +484,7 @@ sanitize_release_plugin_deps
 sanitize_release_registrant
 
 log "Building release app bundle..."
-flutter build appbundle --release "${FORWARDED_ARGS[@]}"
+"$FLUTTER_BIN" build appbundle --release "${FORWARDED_ARGS[@]}"
 
 python3 - <<'PYSHADERS'
 from pathlib import Path

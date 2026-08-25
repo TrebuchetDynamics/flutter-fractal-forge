@@ -136,3 +136,25 @@ EOF_SED
   [ "$status" -ne 0 ]
   grep -q 'dev.flutter.plugins.integration_test.IntegrationTestPlugin()' "$registrant"
 }
+
+@test "honors an explicit FLUTTER_BIN toolchain" {
+  pinned_flutter="$FAKE_HOME/pinned-flutter"
+  cp "$FAKE_HOME/.local/bin/flutter" "$pinned_flutter"
+  cat > "$FAKE_HOME/.local/bin/flutter" <<'EOF_WRONG_FLUTTER'
+#!/usr/bin/env bash
+printf 'PATH flutter must not be used when FLUTTER_BIN is set\n' >&2
+exit 99
+EOF_WRONG_FLUTTER
+  chmod +x "$FAKE_HOME/.local/bin/flutter" "$pinned_flutter"
+
+  run env \
+    HOME="$FAKE_HOME" \
+    FLUTTER_BIN="$pinned_flutter" \
+    FAKE_FLUTTER_LOG="$FAKE_FLUTTER_LOG" \
+    PLAY_UPLOAD_CERT_SHA1="AABBCCDDEEFF00112233445566778899AABBCCDD" \
+    "$PROJECT_UNDER_TEST/scripts/build-play-console.sh" \
+      --skip-pub-get --output-dir "$PROJECT_UNDER_TEST/out"
+
+  [ "$status" -eq 0 ]
+  grep -q -- 'build appbundle --release' "$FAKE_FLUTTER_LOG"
+}
