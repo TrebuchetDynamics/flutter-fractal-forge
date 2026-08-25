@@ -1303,7 +1303,7 @@ class _RuntimePreviewThumbnail extends StatefulWidget {
 
   /// Reports the PNG bytes of the first fully-painted frame. The parent swaps
   /// this live GPU render for the cached image, disposing the renderer.
-  final void Function(String signature, Uint8List png)? onRendered;
+  final void Function(String signature, Uint8List png) onRendered;
 
   const _RuntimePreviewThumbnail({
     super.key,
@@ -1311,7 +1311,7 @@ class _RuntimePreviewThumbnail extends StatefulWidget {
     required this.module,
     required this.category,
     required this.signature,
-    this.onRendered,
+    required this.onRendered,
   });
 
   @override
@@ -1325,8 +1325,10 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
   bool _slotHeld = false;
   bool _slotReleased = false;
   bool _reported = false;
+  Timer? _captureTimeoutTimer;
   int _attempt = 0;
   static const int _maxAttempts = 20;
+  static const Duration _captureTimeout = Duration(seconds: 2);
   static const double _targetCaptureWidth = 320;
 
   @override
@@ -1356,39 +1358,119 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
 
   @override
   void dispose() {
+    _captureTimeoutTimer?.cancel();
     // No-op while still queued for a slot; the acquire completion releases a
     // handed-over slot instead, passing it to the next waiter.
     _releaseSlot();
     super.dispose();
   }
 
+  void _releaseAfterReplacementFrame() {
+    // Keep the slot until the parent has replaced this live renderer (or this
+    // widget has switched back to its cheap fallback), so the gate continues
+    // to bound the number of mounted GPU renderers rather than only captures.
+    WidgetsBinding.instance.addPostFrameCallback((_) => _releaseSlot());
+  }
+
+  void _abandonCapture() {
+    if (_reported || !mounted) return;
+    _reported = true;
+    setState(() => _slotAcquired = false);
+    _releaseAfterReplacementFrame();
+  }
+
+  void _retryOrAbandonCapture() {
+    if (_reported || !mounted) return;
+    if (_attempt >= _maxAttempts) {
+      _abandonCapture();
+      return;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) => _captureFrame());
+  }
+
+  static Future<Uint8List?> _capturePng(
+    RenderRepaintBoundary boundary,
+    double pixelRatio,
+  ) async {
+    final image = await boundary.toImage(pixelRatio: pixelRatio);
+    try {
+      return await CatalogThumbnailCache.encodePng(image);
+    } finally {
+      image.dispose();
+    }
+  }
+
+  Future<Uint8List?> _capturePngWithTimeout(
+    RenderRepaintBoundary boundary,
+    double pixelRatio,
+  ) {
+    final result = Completer<Uint8List?>();
+    final capture = _capturePng(boundary, pixelRatio);
+    _captureTimeoutTimer?.cancel();
+    _captureTimeoutTimer = Timer(_captureTimeout, () {
+      if (!result.isCompleted) {
+        result.completeError(
+          TimeoutException('Catalog thumbnail capture timed out'),
+        );
+      }
+    });
+    capture.then<void>(
+      (png) {
+        if (!result.isCompleted) result.complete(png);
+      },
+      onError: (Object error, StackTrace stack) {
+        if (!result.isCompleted) result.completeError(error, stack);
+      },
+    ).whenComplete(() {
+      if (!result.isCompleted) return;
+      _captureTimeoutTimer?.cancel();
+      _captureTimeoutTimer = null;
+    });
+    return result.future;
+  }
+
   Future<void> _captureFrame() async {
-    if (_reported || !mounted || _attempt >= _maxAttempts) return;
+    if (_reported || !mounted) return;
+    if (_attempt >= _maxAttempts) {
+      _retryOrAbandonCapture();
+      return;
+    }
     _attempt++;
     final boundary = _captureKey.currentContext?.findRenderObject();
     if (boundary is! RenderRepaintBoundary ||
         !boundary.attached ||
         !boundary.hasSize ||
         boundary.debugNeedsPaint) {
-      // The renderer may still be painting; retry on a later frame.
-      WidgetsBinding.instance.addPostFrameCallback((_) => _captureFrame());
+      // The renderer may still be painting; retry on a later frame. Exhausted
+      // retries return the gate slot instead of permanently blocking the queue.
+      _retryOrAbandonCapture();
       return;
     }
     try {
       // Capture at a bounded resolution: enough for crisp display at any tile
       // size without writing oversized PNGs to the disk cache.
       final ratio = (_targetCaptureWidth / boundary.size.width).clamp(1.0, 2.0);
-      final image = await boundary.toImage(pixelRatio: ratio);
-      final png = await CatalogThumbnailCache.encodePng(image);
-      image.dispose();
-      if (png == null) return;
+      final png = await _capturePngWithTimeout(boundary, ratio);
+      if (png == null) {
+        _retryOrAbandonCapture();
+        return;
+      }
       _reported = true;
-      // The pixels are already paid for, so cache them even if this tile went
-      // off-screen mid-capture - the render is never wasted.
-      await CatalogThumbnailCache.store(widget.signature, png);
-      if (mounted) widget.onRendered?.call(widget.signature, png);
+      // Memory is populated synchronously inside store(). Disk persistence is
+      // best-effort and must not keep a scarce live-render slot occupied.
+      unawaited(CatalogThumbnailCache.store(widget.signature, png));
+      if (mounted) {
+        widget.onRendered(widget.signature, png);
+        _releaseAfterReplacementFrame();
+      }
+    } on TimeoutException {
+      // Some platform readbacks never complete. Stop spending the scarce slot
+      // on this tile so the rest of the visible catalog can keep progressing.
+      _abandonCapture();
     } catch (_) {
-      // Non-fatal: fall back to the gradient placeholder for this frame.
+      // A failed readback must retry or release its slot; swallowing the error
+      // here used to leave all later catalog thumbnails queued forever.
+      _retryOrAbandonCapture();
     }
   }
 
