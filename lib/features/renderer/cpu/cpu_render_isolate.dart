@@ -254,34 +254,50 @@ Uint8List renderCpuRectRgba({
     height: fullHeight,
   );
 
-  for (int ty = 0; ty < h; ty++) {
-    final y = y0 + ty;
-    for (int tx = 0; tx < w; tx++) {
-      final x = x0 + tx;
+  // Each X sample is reused for every row and each Y sample for every column.
+  // Cache their mapped coordinates once instead of repeating normalization,
+  // clamping, division, and record allocation in the per-sample hot loop.
+  final samplesPerAxis = sampleGrid.samplesPerAxis;
+  final xCoordinates = Float64List(w * samplesPerAxis);
+  final yCoordinates = Float64List(h * samplesPerAxis);
+  for (var tx = 0; tx < w; tx++) {
+    final pixel = x0 + tx;
+    for (var sx = 0; sx < samplesPerAxis; sx++) {
+      final normalized = viewport.normalizedSample(
+        pixel: pixel,
+        extent: fullWidth,
+        sample: sx,
+        samplesPerAxis: samplesPerAxis,
+      );
+      xCoordinates[tx * samplesPerAxis + sx] = viewport.xCoordinate(normalized);
+    }
+  }
+  for (var ty = 0; ty < h; ty++) {
+    final pixel = y0 + ty;
+    for (var sy = 0; sy < samplesPerAxis; sy++) {
+      final normalized = viewport.normalizedSample(
+        pixel: pixel,
+        extent: fullHeight,
+        sample: sy,
+        samplesPerAxis: samplesPerAxis,
+      );
+      yCoordinates[ty * samplesPerAxis + sy] = viewport.yCoordinate(normalized);
+    }
+  }
 
+  for (int ty = 0; ty < h; ty++) {
+    for (int tx = 0; tx < w; tx++) {
       double rAcc = 0;
       double gAcc = 0;
       double bAcc = 0;
 
-      for (int sy = 0; sy < sampleGrid.samplesPerAxis; sy++) {
-        for (int sx = 0; sx < sampleGrid.samplesPerAxis; sx++) {
-          final nx = viewport.normalizedSample(
-            pixel: x,
-            extent: fullWidth,
-            sample: sx,
-            samplesPerAxis: sampleGrid.samplesPerAxis,
-          );
-          final ny = viewport.normalizedSample(
-            pixel: y,
-            extent: fullHeight,
-            sample: sy,
-            samplesPerAxis: sampleGrid.samplesPerAxis,
-          );
-          final coordinate = viewport.coordinate(nx: nx, ny: ny);
-
+      for (int sy = 0; sy < samplesPerAxis; sy++) {
+        final coordinateY = yCoordinates[ty * samplesPerAxis + sy];
+        for (int sx = 0; sx < samplesPerAxis; sx++) {
+          final coordinateX = xCoordinates[tx * samplesPerAxis + sx];
           final color = formula(
-            coordinate.$1,
-            coordinate.$2,
+            coordinateX,
+            coordinateY,
             iterations,
             bailout,
             juliaC,

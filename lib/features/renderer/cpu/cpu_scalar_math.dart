@@ -8,6 +8,12 @@
 
 import 'dart:math' as math;
 
+/// Normalizes replayed CPU zoom values to a finite positive scale.
+double normalizeCpuZoom(double zoom) {
+  if (!zoom.isFinite || zoom <= 0.0) return 1.0;
+  return zoom;
+}
+
 /// Base-2 logarithm, guarded against non-positive input.
 ///
 /// Returns `log2(max(1e-16, x))`. The clamp prevents NaN/-Infinity from
@@ -49,8 +55,12 @@ double sinh(double x) => (math.exp(x) - math.exp(-x)) * 0.5;
 /// Hyperbolic cosine.
 double cosh(double x) => (math.exp(x) + math.exp(-x)) * 0.5;
 
-/// Hyperbolic tangent, computed in a numerically stable form.
+/// Hyperbolic tangent, computed without overflowing for large magnitudes.
 double tanh(double x) {
-  final e2x = math.exp(2.0 * x);
-  return (e2x - 1.0) / (e2x + 1.0);
+  if (x >= 0.0) {
+    final decay = math.exp(-2.0 * x);
+    return (1.0 - decay) / (1.0 + decay);
+  }
+  final growth = math.exp(2.0 * x);
+  return (growth - 1.0) / (growth + 1.0);
 }

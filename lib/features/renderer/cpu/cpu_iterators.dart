@@ -17,6 +17,7 @@ import 'dart:math' as math;
 import 'package:vector_math/vector_math_64.dart' show Vector2;
 
 import 'cpu_formulas.dart';
+import 'cpu_seed_hash.dart';
 
 final class CpuIteratorResult {
   const CpuIteratorResult({
@@ -96,10 +97,10 @@ CpuIterator proxyIteratorForModule(String moduleId) {
 }
 
 CpuIterator _proxyFromColor(String moduleId) {
-  final seed = _fnv1a32(moduleId);
+  final seed = fnv1a32(moduleId);
+  final formula = cpuFormulaForModuleId(moduleId);
   return (x, y, iterations, bailout, juliaC) {
-    final f = cpuFormulaForModuleId(moduleId);
-    final c = f(x, y, iterations, bailout, juliaC);
+    final c = formula(x, y, iterations, bailout, juliaC);
 
     // Proxy scalar from color.
     final lum =
@@ -464,15 +465,6 @@ CpuIteratorResult _iterEisenstein(
 
   return CpuIteratorResult(
       it: iterations, smoothIt: iterations.toDouble(), escaped: false);
-}
-
-int _fnv1a32(String s) {
-  int h = 0x811c9dc5;
-  for (final cu in s.codeUnits) {
-    h ^= cu;
-    h = (h * 0x01000193) & 0xFFFFFFFF;
-  }
-  return h;
 }
 
 int _mix32(int x) {

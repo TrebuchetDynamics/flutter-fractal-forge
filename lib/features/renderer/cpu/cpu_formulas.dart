@@ -11,6 +11,7 @@ import 'package:vector_math/vector_math_64.dart' show Vector2;
 import 'cpu_coloring.dart';
 import 'cpu_complex_math.dart';
 import 'cpu_scalar_math.dart';
+import 'cpu_seed_hash.dart';
 
 part 'academic_expansion_formula_helpers.dart';
 
@@ -23,6 +24,87 @@ typedef CpuFormula = (double r, double g, double b) Function(
 );
 
 typedef CpuFormulaPlanePoint = ({double x, double y});
+
+/// Stable seeds for formulas that intentionally use the generic CPU
+/// approximation instead of a native recurrence.
+///
+/// Keeping these entries as data avoids one identical wrapper function per
+/// module and lets the resolver instantiate only formulas used by CPU fallback.
+const Map<String, int> _syntheticSeedByModuleId = <String, int>{
+  'sierpinski_triangle': 0x2929b303,
+  'sierpinski_carpet': 0x228b196c,
+  'koch_snowflake': 0xa1e241db,
+  'dragon_curve': 0xbca4f542,
+  'barnsley_fern': 0x4a15aae7,
+  'pythagorean_tree': 0xa731e992,
+  'hilbert_curve': 0x249cef55,
+  'peano_curve': 0x30541266,
+  'gosper_curve': 0x975e1adb,
+  'levy_c_curve': 0x59f2294d,
+  'levy_tapestry': 0x0e5c80ba,
+  'golden_dragon': 0xdb63929a,
+  'twin_dragon': 0xb1a9736f,
+  'terdragon': 0xd918bb0b,
+  'chair_tiling': 0x6df0635c,
+  'koch_anti_snowflake': 0xb25939aa,
+  'quadratic_koch_island': 0x25e42215,
+  'cyclosorus_fern': 0x23408147,
+  'menger_sponge_2d': 0x6bf8831d,
+  'vicsek_fractal': 0xd698c050,
+  'penrose_tiling': 0x0700c77f,
+  'fibonacci_word': 0x7c59a41c,
+  'rauzy_fractal': 0x91060bc0,
+  'pinwheel_tiling': 0x54bebb73,
+  'z_order_curve': 0xe59246f2,
+  'greek_cross_fractal': 0x6a12870e,
+  'sierpinski_pentagon': 0xdc1fdb63,
+  'hexaflake': 0x1a63cbae,
+  'pentaflake': 0xefbe3f78,
+  'cantor_dust': 0x02059a93,
+  'apollonian_gasket': 0x8eb91af6,
+  'ford_circles': 0x401fd4ea,
+  'steiner_chain': 0xc4008f3f,
+  'cesaro_fractal': 0xcd174b2c,
+  'cantor_set': 0xa034897d,
+  'fractal_canopy': 0x765007ef,
+  'benesi': 0x364b1039,
+  'pseudo_kleinian': 0x60267e4f,
+  'henon': 0x778c7111,
+  'tinkerbell': 0x79a9dc77,
+  'gingerbreadman': 0x29b691a7,
+  'lozi': 0xc91e8591,
+  'duffing': 0x525c6922,
+  'ikeda': 0x7fcf50bf,
+  'clifford': 0x883a29c4,
+  'gumowski_mira': 0x03455e2f,
+  'arnold_cat': 0xd0b6c8ee,
+  'standard_map': 0xe53c3d61,
+  'zaslavsky': 0x757769a5,
+  'kicked_rotator': 0x0c05a364,
+  'chua_circuit': 0x3256308c,
+  'sprott_a': 0xa2a64769,
+  'burke_shaw': 0xd291672c,
+  'arneodo': 0xd9b29cc5,
+  'thomas_attractor': 0x712de09a,
+  'four_wing': 0xbb996add,
+  'lorenz_2d': 0xfb24036c,
+  'rossler_2d': 0x0a237dbe,
+  'dadras': 0x1c54426c,
+  'chen': 0xac430f0d,
+  'lu_chen': 0x55739177,
+  'halvorsen': 0x7b5bd02d,
+  'scroll_waves': 0xff11a9b9,
+  'rikitake': 0xcb8f281f,
+  'aizawa': 0xe6972862,
+  'rabinovich_fabrikant': 0x5dda0b45,
+  'nose_hoover': 0x72ca1fa4,
+  'moore_spiegel': 0x8c0ad47f,
+  'hadley': 0xbb31a2bc,
+  'genesio_tesi': 0xe96eaf75,
+  'liu_chen': 0x375d0986,
+  'newton_leipnik': 0x1b6c9c59,
+  'bouali': 0xea9799a7,
+};
 
 /// Maps app/display coordinates to the Burning Ship shader parameter plane.
 ///
@@ -66,87 +148,14 @@ final Map<String, CpuFormula> cpuFormulasByModuleId = <String, CpuFormula>{
   'popcorn': _cpu_popcorn,
   'talis': _cpu_talis,
   'tetration': _cpu_tetration,
-  'sierpinski_triangle': _cpu_sierpinski_triangle,
-  'sierpinski_carpet': _cpu_sierpinski_carpet,
-  'koch_snowflake': _cpu_koch_snowflake,
-  'dragon_curve': _cpu_dragon_curve,
-  'barnsley_fern': _cpu_barnsley_fern,
-  'pythagorean_tree': _cpu_pythagorean_tree,
-  'hilbert_curve': _cpu_hilbert_curve,
-  'peano_curve': _cpu_peano_curve,
-  'gosper_curve': _cpu_gosper_curve,
-  'levy_c_curve': _cpu_levy_c_curve,
-  'levy_tapestry': _cpu_levy_tapestry,
-  'golden_dragon': _cpu_golden_dragon,
-  'twin_dragon': _cpu_twin_dragon,
-  'terdragon': _cpu_terdragon,
-  'chair_tiling': _cpu_chair_tiling,
-  'koch_anti_snowflake': _cpu_koch_anti_snowflake,
-  'quadratic_koch_island': _cpu_quadratic_koch_island,
-  'cyclosorus_fern': _cpu_cyclosorus_fern,
-  'menger_sponge_2d': _cpu_menger_sponge_2d,
-  'vicsek_fractal': _cpu_vicsek_fractal,
-  'penrose_tiling': _cpu_penrose_tiling,
-  'fibonacci_word': _cpu_fibonacci_word,
-  'rauzy_fractal': _cpu_rauzy_fractal,
   'arnoux_rauzy_fractal': _cpu_arnoux_rauzy_fractal,
   'dual_substitution_tiling': _cpu_dual_substitution_tiling,
   'bedford_mcmullen_carpet': _cpu_bedford_mcmullen_carpet,
   'self_affine_finite_type': _cpu_self_affine_finite_type,
-  'pinwheel_tiling': _cpu_pinwheel_tiling,
-  'z_order_curve': _cpu_z_order_curve,
-  'greek_cross_fractal': _cpu_greek_cross_fractal,
-  'sierpinski_pentagon': _cpu_sierpinski_pentagon,
-  'hexaflake': _cpu_hexaflake,
-  'pentaflake': _cpu_pentaflake,
-  'cantor_dust': _cpu_cantor_dust,
-  'apollonian_gasket': _cpu_apollonian_gasket,
-  'ford_circles': _cpu_ford_circles,
-  'steiner_chain': _cpu_steiner_chain,
-  'cesaro_fractal': _cpu_cesaro_fractal,
-  'cantor_set': _cpu_cantor_set,
-  'fractal_canopy': _cpu_fractal_canopy,
-  'benesi': _cpu_benesi,
-  'pseudo_kleinian': _cpu_pseudo_kleinian,
-  'henon': _cpu_henon,
-  'tinkerbell': _cpu_tinkerbell,
-  'gingerbreadman': _cpu_gingerbreadman,
-  'lozi': _cpu_lozi,
-  'duffing': _cpu_duffing,
-  'ikeda': _cpu_ikeda,
-  'clifford': _cpu_clifford,
   'peter_de_jong': _cpu_peter_de_jong,
   'f0381_de_jong_double': _cpu_de_jong_double,
   'svensson': _cpu_svensson,
   'f1044_svensson_lace': _cpu_svensson_lace,
-  'gumowski_mira': _cpu_gumowski_mira,
-  'arnold_cat': _cpu_arnold_cat,
-  'standard_map': _cpu_standard_map,
-  'zaslavsky': _cpu_zaslavsky,
-  'kicked_rotator': _cpu_kicked_rotator,
-  'chua_circuit': _cpu_chua_circuit,
-  'sprott_a': _cpu_sprott_a,
-  'burke_shaw': _cpu_burke_shaw,
-  'arneodo': _cpu_arneodo,
-  'thomas_attractor': _cpu_thomas_attractor,
-  'four_wing': _cpu_four_wing,
-  'lorenz_2d': _cpu_lorenz_2d,
-  'rossler_2d': _cpu_rossler_2d,
-  'dadras': _cpu_dadras,
-  'chen': _cpu_chen,
-  'lu_chen': _cpu_lu_chen,
-  'halvorsen': _cpu_halvorsen,
-  'scroll_waves': _cpu_scroll_waves,
-  'rikitake': _cpu_rikitake,
-  'aizawa': _cpu_aizawa,
-  'rabinovich_fabrikant': _cpu_rabinovich_fabrikant,
-  'nose_hoover': _cpu_nose_hoover,
-  'moore_spiegel': _cpu_moore_spiegel,
-  'hadley': _cpu_hadley,
-  'genesio_tesi': _cpu_genesio_tesi,
-  'liu_chen': _cpu_liu_chen,
-  'newton_leipnik': _cpu_newton_leipnik,
-  'bouali': _cpu_bouali,
   'newton_z3': _cpu_newton_z3,
   'halley': _cpu_halley,
   'householder': _cpu_householder,
@@ -294,9 +303,10 @@ final Map<String, CpuFormula> cpuFormulasByModuleId = <String, CpuFormula>{
 final Map<String, CpuFormula> _syntheticFallbackByModuleId =
     <String, CpuFormula>{};
 
-/// True when [moduleId] has an explicit CPU implementation in this file.
+/// True when [moduleId] has an explicit or curated synthetic CPU implementation.
 bool hasNativeCpuFormula(String moduleId) =>
-    cpuFormulasByModuleId.containsKey(moduleId);
+    cpuFormulasByModuleId.containsKey(moduleId) ||
+    _syntheticSeedByModuleId.containsKey(moduleId);
 
 /// Resolves a CPU formula for [moduleId].
 ///
@@ -307,7 +317,7 @@ CpuFormula cpuFormulaForModuleId(String moduleId) {
   if (direct != null) return direct;
 
   return _syntheticFallbackByModuleId.putIfAbsent(moduleId, () {
-    final seed = _fnv1a32(moduleId);
+    final seed = _syntheticSeedByModuleId[moduleId] ?? fnv1a32(moduleId);
     return (
       double x,
       double y,
@@ -317,15 +327,6 @@ CpuFormula cpuFormulaForModuleId(String moduleId) {
     ) =>
         _cpu_synthetic(seed, x, y, iterations, bailout);
   });
-}
-
-int _fnv1a32(String s) {
-  int h = 0x811c9dc5;
-  for (final cu in s.codeUnits) {
-    h ^= cu;
-    h = (h * 0x01000193) & 0xFFFFFFFF;
-  }
-  return h;
 }
 
 (double x, double y) _gammaStirling(double zx, double zy) {
@@ -456,14 +457,10 @@ int _fnv1a32(String s) {
 }
 
 (double re, double im) _csin(double x, double y) =>
-    (math.sin(x) * _cosh(y), math.cos(x) * _sinh(y));
+    (math.sin(x) * cosh(y), math.cos(x) * sinh(y));
 
 (double re, double im) _ccos(double x, double y) =>
-    (math.cos(x) * _cosh(y), -math.sin(x) * _sinh(y));
-
-double _sinh(double x) => (math.exp(x) - math.exp(-x)) * 0.5;
-
-double _cosh(double x) => (math.exp(x) + math.exp(-x)) * 0.5;
+    (math.cos(x) * cosh(y), -math.sin(x) * sinh(y));
 
 (double r, double g, double b) _cpu_three_d_fractal(
   double x,
@@ -1547,501 +1544,6 @@ double _cosh(double x) => (math.exp(x) + math.exp(-x)) * 0.5;
   return palette(t);
 }
 
-(double r, double g, double b) _cpu_sierpinski_triangle(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/sierpinski_family/sierpinski_triangle_gpu.frag (CPU approximation, seed=0x2929b303)
-  return _cpu_synthetic(0x2929b303, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_sierpinski_carpet(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/sierpinski_family/sierpinski_carpet_gpu.frag (CPU approximation, seed=0x228b196c)
-  return _cpu_synthetic(0x228b196c, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_koch_snowflake(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/fractal_curves/koch_snowflake_gpu.frag (CPU approximation, seed=0xa1e241db)
-  return _cpu_synthetic(0xa1e241db, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_dragon_curve(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/fractal_curves/dragon_curve_gpu.frag (CPU approximation, seed=0xbca4f542)
-  return _cpu_synthetic(0xbca4f542, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_barnsley_fern(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/botanical_structures/barnsley_fern_gpu.frag (CPU approximation, seed=0x4a15aae7)
-  return _cpu_synthetic(0x4a15aae7, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_pythagorean_tree(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/botanical_structures/pythagorean_tree_gpu.frag (CPU approximation, seed=0xa731e992)
-  return _cpu_synthetic(0xa731e992, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_hilbert_curve(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/fractal_curves/hilbert_curve_gpu.frag (CPU approximation, seed=0x249cef55)
-  return _cpu_synthetic(0x249cef55, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_peano_curve(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/fractal_curves/peano_curve_gpu.frag (CPU approximation, seed=0x30541266)
-  return _cpu_synthetic(0x30541266, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_gosper_curve(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/fractal_curves/gosper_curve_gpu.frag (CPU approximation, seed=0x975e1adb)
-  return _cpu_synthetic(0x975e1adb, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_levy_c_curve(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/fractal_curves/levy_c_gpu.frag (CPU approximation, seed=0x59f2294d)
-  return _cpu_synthetic(0x59f2294d, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_levy_tapestry(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/fractal_curves/levy_tapestry_gpu.frag (CPU approximation, seed=0x0e5c80ba)
-  return _cpu_synthetic(0x0e5c80ba, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_golden_dragon(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/fractal_curves/golden_dragon_gpu.frag (CPU approximation, seed=0xdb63929a)
-  return _cpu_synthetic(0xdb63929a, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_twin_dragon(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/fractal_curves/twin_dragon_gpu.frag (CPU approximation, seed=0xb1a9736f)
-  return _cpu_synthetic(0xb1a9736f, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_terdragon(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/fractal_curves/terdragon_gpu.frag (CPU approximation, seed=0xd918bb0b)
-  return _cpu_synthetic(0xd918bb0b, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_chair_tiling(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/tilings_and_monotiles/chair_tiling_gpu.frag (CPU approximation, seed=0x6df0635c)
-  return _cpu_synthetic(0x6df0635c, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_koch_anti_snowflake(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/fractal_curves/koch_anti_snowflake_gpu.frag (CPU approximation, seed=0xb25939aa)
-  return _cpu_synthetic(0xb25939aa, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_quadratic_koch_island(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/escape_time_family/geometry_and_ifs/quadratic_koch_gpu.frag (CPU approximation, seed=0x25e42215)
-  return _cpu_synthetic(0x25e42215, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_cyclosorus_fern(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/botanical_structures/cyclosorus_fern_gpu.frag (CPU approximation, seed=0x23408147)
-  return _cpu_synthetic(0x23408147, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_menger_sponge_2d(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/self_similar_sets/menger_sponge_gpu.frag (CPU approximation, seed=0x6bf8831d)
-  return _cpu_synthetic(0x6bf8831d, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_vicsek_fractal(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/self_similar_sets/vicsek_gpu.frag (CPU approximation, seed=0xd698c050)
-  return _cpu_synthetic(0xd698c050, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_penrose_tiling(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/tilings_and_monotiles/penrose_tiling_gpu.frag (CPU approximation, seed=0x0700c77f)
-  return _cpu_synthetic(0x0700c77f, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_fibonacci_word(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/fractal_curves/fibonacci_word_gpu.frag (CPU approximation, seed=0x7c59a41c)
-  return _cpu_synthetic(0x7c59a41c, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_rauzy_fractal(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/fractal_curves/rauzy_gpu.frag (CPU approximation, seed=0x91060bc0)
-  return _cpu_synthetic(0x91060bc0, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_pinwheel_tiling(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/tilings_and_monotiles/pinwheel_gpu.frag (CPU approximation, seed=0x54bebb73)
-  return _cpu_synthetic(0x54bebb73, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_z_order_curve(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/fractal_curves/z_order_curve_gpu.frag (CPU approximation, seed=0xe59246f2)
-  return _cpu_synthetic(0xe59246f2, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_greek_cross_fractal(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/tilings_and_monotiles/greek_cross_gpu.frag (CPU approximation, seed=0x6a12870e)
-  return _cpu_synthetic(0x6a12870e, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_sierpinski_pentagon(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/sierpinski_family/sierpinski_pentagon_gpu.frag (CPU approximation, seed=0xdc1fdb63)
-  return _cpu_synthetic(0xdc1fdb63, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_hexaflake(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/self_similar_sets/hexaflake_gpu.frag (CPU approximation, seed=0x1a63cbae)
-  return _cpu_synthetic(0x1a63cbae, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_pentaflake(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/self_similar_sets/pentaflake_gpu.frag (CPU approximation, seed=0xefbe3f78)
-  return _cpu_synthetic(0xefbe3f78, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_cantor_dust(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/self_similar_sets/cantor_dust_gpu.frag (CPU approximation, seed=0x02059a93)
-  return _cpu_synthetic(0x02059a93, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_apollonian_gasket(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/circle_inversion_limit_sets/apollonian_gasket_gpu.frag (CPU approximation, seed=0x8eb91af6)
-  return _cpu_synthetic(0x8eb91af6, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_ford_circles(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/circle_inversion_limit_sets/ford_circles_gpu.frag (CPU approximation, seed=0x401fd4ea)
-  return _cpu_synthetic(0x401fd4ea, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_steiner_chain(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/circle_inversion_limit_sets/steiner_chain_gpu.frag (CPU approximation, seed=0xc4008f3f)
-  return _cpu_synthetic(0xc4008f3f, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_cesaro_fractal(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/fractal_curves/cesaro_gpu.frag (CPU approximation, seed=0xcd174b2c)
-  return _cpu_synthetic(0xcd174b2c, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_cantor_set(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/self_similar_sets/cantor_set_gpu.frag (CPU approximation, seed=0xa034897d)
-  return _cpu_synthetic(0xa034897d, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_fractal_canopy(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/botanical_structures/fractal_canopy_gpu.frag (CPU approximation, seed=0x765007ef)
-  return _cpu_synthetic(0x765007ef, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_benesi(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/escape_time_family/polynomial_maps/hypercomplex_maps/benesi_gpu.frag (CPU approximation, seed=0x364b1039)
-  return _cpu_synthetic(0x364b1039, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_pseudo_kleinian(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/ifs_and_geometric/circle_inversion_limit_sets/pseudo_kleinian_gpu.frag (CPU approximation, seed=0x60267e4f)
-  return _cpu_synthetic(0x60267e4f, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_henon(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/discrete_maps/henon_gpu.frag (CPU approximation, seed=0x778c7111)
-  return _cpu_synthetic(0x778c7111, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_tinkerbell(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/discrete_maps/tinkerbell_gpu.frag (CPU approximation, seed=0x79a9dc77)
-  return _cpu_synthetic(0x79a9dc77, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_gingerbreadman(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/discrete_maps/gingerbreadman_gpu.frag (CPU approximation, seed=0x29b691a7)
-  return _cpu_synthetic(0x29b691a7, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_lozi(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/discrete_maps/lozi_gpu.frag (CPU approximation, seed=0xc91e8591)
-  return _cpu_synthetic(0xc91e8591, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_duffing(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/discrete_maps/duffing_gpu.frag (CPU approximation, seed=0x525c6922)
-  return _cpu_synthetic(0x525c6922, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_ikeda(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/discrete_maps/ikeda_gpu.frag (CPU approximation, seed=0x7fcf50bf)
-  return _cpu_synthetic(0x7fcf50bf, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_clifford(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/discrete_maps/clifford_gpu.frag (CPU approximation, seed=0x883a29c4)
-  return _cpu_synthetic(0x883a29c4, x, y, iterations, bailout);
-}
-
 (double r, double g, double b) _cpu_peter_de_jong(
   double x,
   double y,
@@ -2179,314 +1681,6 @@ double _cosh(double x) => (math.exp(x) + math.exp(-x)) * 0.5;
     (color.$2 * detail).clamp(0.0, 255.0),
     (color.$3 * detail).clamp(0.0, 255.0),
   );
-}
-
-(double r, double g, double b) _cpu_gumowski_mira(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/discrete_maps/gumowski_mira_gpu.frag (CPU approximation, seed=0x03455e2f)
-  return _cpu_synthetic(0x03455e2f, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_arnold_cat(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/discrete_maps/arnold_cat_gpu.frag (CPU approximation, seed=0xd0b6c8ee)
-  return _cpu_synthetic(0xd0b6c8ee, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_standard_map(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/discrete_maps/standard_map_gpu.frag (CPU approximation, seed=0xe53c3d61)
-  return _cpu_synthetic(0xe53c3d61, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_zaslavsky(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/discrete_maps/zaslavsky_gpu.frag (CPU approximation, seed=0x757769a5)
-  return _cpu_synthetic(0x757769a5, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_kicked_rotator(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/discrete_maps/kicked_rotator_gpu.frag (CPU approximation, seed=0x0c05a364)
-  return _cpu_synthetic(0x0c05a364, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_chua_circuit(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/continuous_flows/chua_gpu.frag (CPU approximation, seed=0x3256308c)
-  return _cpu_synthetic(0x3256308c, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_sprott_a(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/sprott_systems/sprott_a_gpu.frag (CPU approximation, seed=0xa2a64769)
-  return _cpu_synthetic(0xa2a64769, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_burke_shaw(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/continuous_flows/burke_shaw_gpu.frag (CPU approximation, seed=0xd291672c)
-  return _cpu_synthetic(0xd291672c, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_arneodo(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/continuous_flows/arneodo_gpu.frag (CPU approximation, seed=0xd9b29cc5)
-  return _cpu_synthetic(0xd9b29cc5, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_thomas_attractor(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/continuous_flows/thomas_attractor_gpu.frag (CPU approximation, seed=0x712de09a)
-  return _cpu_synthetic(0x712de09a, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_four_wing(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/continuous_flows/four_wing_gpu.frag (CPU approximation, seed=0xbb996add)
-  return _cpu_synthetic(0xbb996add, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_lorenz_2d(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/continuous_flows/lorenz_2d_gpu.frag (CPU approximation, seed=0xfb24036c)
-  return _cpu_synthetic(0xfb24036c, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_rossler_2d(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/continuous_flows/rossler_2d_gpu.frag (CPU approximation, seed=0x0a237dbe)
-  return _cpu_synthetic(0x0a237dbe, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_dadras(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/continuous_flows/dadras_gpu.frag (CPU approximation, seed=0x1c54426c)
-  return _cpu_synthetic(0x1c54426c, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_chen(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/continuous_flows/chen_gpu.frag (CPU approximation, seed=0xac430f0d)
-  return _cpu_synthetic(0xac430f0d, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_lu_chen(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/continuous_flows/lu_chen_gpu.frag (CPU approximation, seed=0x55739177)
-  return _cpu_synthetic(0x55739177, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_halvorsen(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/continuous_flows/halvorsen_gpu.frag (CPU approximation, seed=0x7b5bd02d)
-  return _cpu_synthetic(0x7b5bd02d, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_scroll_waves(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/continuous_flows/scroll_waves_gpu.frag (CPU approximation, seed=0xff11a9b9)
-  return _cpu_synthetic(0xff11a9b9, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_rikitake(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/continuous_flows/rikitake_gpu.frag (CPU approximation, seed=0xcb8f281f)
-  return _cpu_synthetic(0xcb8f281f, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_aizawa(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/continuous_flows/aizawa_gpu.frag (CPU approximation, seed=0xe6972862)
-  return _cpu_synthetic(0xe6972862, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_rabinovich_fabrikant(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/continuous_flows/rabinovich_fabrikant_gpu.frag (CPU approximation, seed=0x5dda0b45)
-  return _cpu_synthetic(0x5dda0b45, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_nose_hoover(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/continuous_flows/nose_hoover_gpu.frag (CPU approximation, seed=0x72ca1fa4)
-  return _cpu_synthetic(0x72ca1fa4, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_moore_spiegel(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/continuous_flows/moore_spiegel_gpu.frag (CPU approximation, seed=0x8c0ad47f)
-  return _cpu_synthetic(0x8c0ad47f, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_hadley(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/continuous_flows/hadley_gpu.frag (CPU approximation, seed=0xbb31a2bc)
-  return _cpu_synthetic(0xbb31a2bc, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_genesio_tesi(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/continuous_flows/genesio_tesi_gpu.frag (CPU approximation, seed=0xe96eaf75)
-  return _cpu_synthetic(0xe96eaf75, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_liu_chen(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/continuous_flows/liu_chen_gpu.frag (CPU approximation, seed=0x375d0986)
-  return _cpu_synthetic(0x375d0986, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_newton_leipnik(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/continuous_flows/newton_leipnik_gpu.frag (CPU approximation, seed=0x1b6c9c59)
-  return _cpu_synthetic(0x1b6c9c59, x, y, iterations, bailout);
-}
-
-(double r, double g, double b) _cpu_bouali(
-  double x,
-  double y,
-  int iterations,
-  double bailout,
-  Vector2 juliaC,
-) {
-  // Ported from shaders/strange_attractors/continuous_flows/bouali_gpu.frag (CPU approximation, seed=0xea9799a7)
-  return _cpu_synthetic(0xea9799a7, x, y, iterations, bailout);
 }
 
 (double r, double g, double b) _cpu_newton_z3(

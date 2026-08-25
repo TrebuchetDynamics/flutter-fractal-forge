@@ -99,7 +99,12 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
     if (oldWidget.module.id != widget.module.id ||
         oldWidget.state.view.zoom != widget.state.view.zoom ||
         oldWidget.state.view.pan != widget.state.view.pan ||
-        oldWidget.state.params != widget.state.params) {
+        oldWidget.state.params != widget.state.params ||
+        oldWidget.width != widget.width ||
+        oldWidget.height != widget.height) {
+      // Invalidate in-flight tiles immediately. Waiting for the debounce timer
+      // allowed an old job to keep publishing tiles from a newer widget state.
+      _job++;
       _markInteraction();
       _scheduleRender();
     }
@@ -547,12 +552,20 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         zoom: widget.state.view.zoom,
       );
 
-      for (int row = 0; row < h; row++) {
+      // Match the existing row 0/8/16/... publication cadence while batching
+      // the intervening rows into one isolate request. This removes thousands
+      // of mobile IPC round trips from a high-resolution slow-mode render.
+      var row = 0;
+      while (row < h) {
         if (!mounted || job != _job) {
           _setSlowModeActive(false);
           return;
         }
 
+        final remainingRows = h - row;
+        final tileHeight =
+            row == 0 ? 1 : (remainingRows < 8 ? remainingRows : 8);
+        final completedRow = row + tileHeight - 1;
         final req = CpuTileRenderRequest(
           moduleId: widget.module.id,
           panX: widget.state.view.pan.x,
@@ -567,7 +580,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
           x0: 0,
           y0: row,
           w: w,
-          h: 1,
+          h: tileHeight,
           sampleCount: 4,
         );
 
@@ -579,26 +592,29 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         final resp = await worker.renderTile(req);
 
         final dstOffset = row * w * 4;
-        buffer.setRange(dstOffset, dstOffset + w * 4, resp.rgba);
+        buffer.setRange(
+          dstOffset,
+          dstOffset + w * tileHeight * 4,
+          resp.rgba,
+        );
 
-        if (row % 8 == 0 || row == h - 1) {
-          final img =
-              await CpuRenderFrame(rgba: buffer, width: w, height: h).toImage();
-          if (!mounted || job != _job) {
-            img.dispose();
-            _setSlowModeActive(false);
-            return;
-          }
-          final oldImage = _image;
-          setState(() {
-            _image = img;
-            _slowModeRow = row;
-            _slowModeTotal = h;
-            _error = null;
-          });
-          oldImage?.dispose();
-          widget.onPartial?.call();
+        final img =
+            await CpuRenderFrame(rgba: buffer, width: w, height: h).toImage();
+        if (!mounted || job != _job) {
+          img.dispose();
+          _setSlowModeActive(false);
+          return;
         }
+        final oldImage = _image;
+        setState(() {
+          _image = img;
+          _slowModeRow = completedRow;
+          _slowModeTotal = h;
+          _error = null;
+        });
+        oldImage?.dispose();
+        widget.onPartial?.call();
+        row += tileHeight;
       }
 
       if (mounted && job == _job) {
@@ -820,13 +836,23 @@ Future<Uint16List?> renderCpuIterationBuffer({
 
   final itFn = proxyIteratorForModule(moduleId);
 
+  final xCoordinates = Float64List(width);
+  for (var x = 0; x < width; x++) {
+    xCoordinates[x] = viewport.xCoordinate(viewport.normalizedPixel(x, width));
+  }
+
   final out = Uint16List(width * height);
   for (int y = 0; y < height; y++) {
-    final ny = viewport.normalizedPixel(y, height);
+    final coordinateY =
+        viewport.yCoordinate(viewport.normalizedPixel(y, height));
     for (int x = 0; x < width; x++) {
-      final nx = viewport.normalizedPixel(x, width);
-      final c = viewport.coordinate(nx: nx, ny: ny);
-      final r = itFn(c.$1, c.$2, iterations, bailout, juliaC);
+      final r = itFn(
+        xCoordinates[x],
+        coordinateY,
+        iterations,
+        bailout,
+        juliaC,
+      );
       out[y * width + x] = r.it.clamp(0, iterations);
     }
   }

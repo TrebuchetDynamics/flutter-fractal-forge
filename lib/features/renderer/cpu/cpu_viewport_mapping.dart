@@ -2,6 +2,8 @@ import 'dart:math' as math;
 
 import 'package:vector_math/vector_math_64.dart' show Vector2;
 
+import 'cpu_scalar_math.dart';
+
 /// Replayable viewport dimensions for CPU coordinate mapping.
 ///
 /// Render requests should provide positive dimensions. When a direct mapping
@@ -180,10 +182,7 @@ final class CpuViewportMapping {
           height: height,
         ).aspect;
 
-  static double normalizeZoom(double zoom) {
-    if (!zoom.isFinite || zoom <= 0.0) return 1.0;
-    return zoom;
-  }
+  static double normalizeZoom(double zoom) => normalizeCpuZoom(zoom);
 
   double normalizedPixel(int pixel, int extent) {
     if (extent <= 1) return 0.0;
@@ -218,8 +217,15 @@ final class CpuViewportMapping {
     return (subPixel / extent) * 2.0 - 1.0;
   }
 
+  @pragma('vm:prefer-inline')
+  double xCoordinate(double normalizedX) =>
+      centerX + normalizedX * scale * aspect;
+
+  @pragma('vm:prefer-inline')
+  double yCoordinate(double normalizedY) => centerY + normalizedY * scale;
+
   (double x, double y) coordinate({required double nx, required double ny}) {
-    return (centerX + nx * scale * aspect, centerY + ny * scale);
+    return (xCoordinate(nx), yCoordinate(ny));
   }
 }
 

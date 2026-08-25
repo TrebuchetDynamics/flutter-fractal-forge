@@ -5,8 +5,104 @@ import 'package:flutter_fractals/core/modules/builders/escape_time_catalog.dart'
 import 'package:flutter_fractals/features/renderer/cpu/cpu_formulas.dart';
 import 'package:flutter_fractals/features/renderer/cpu/cpu_fractal_renderer.dart';
 
+const _dataDrivenIfsFormulaIds = <String>{
+  'sierpinski_triangle',
+  'sierpinski_carpet',
+  'koch_snowflake',
+  'dragon_curve',
+  'barnsley_fern',
+  'pythagorean_tree',
+  'hilbert_curve',
+  'peano_curve',
+  'gosper_curve',
+  'levy_c_curve',
+  'levy_tapestry',
+  'golden_dragon',
+  'twin_dragon',
+  'terdragon',
+  'chair_tiling',
+  'koch_anti_snowflake',
+  'quadratic_koch_island',
+  'cyclosorus_fern',
+  'menger_sponge_2d',
+  'vicsek_fractal',
+  'penrose_tiling',
+  'fibonacci_word',
+  'rauzy_fractal',
+  'pinwheel_tiling',
+  'z_order_curve',
+  'greek_cross_fractal',
+  'sierpinski_pentagon',
+  'hexaflake',
+  'pentaflake',
+  'cantor_dust',
+  'apollonian_gasket',
+  'ford_circles',
+  'steiner_chain',
+  'cesaro_fractal',
+  'cantor_set',
+  'fractal_canopy',
+};
+
+const _dataDrivenAttractorFormulaIds = <String>{
+  'benesi',
+  'pseudo_kleinian',
+  'henon',
+  'tinkerbell',
+  'gingerbreadman',
+  'lozi',
+  'duffing',
+  'ikeda',
+  'clifford',
+  'gumowski_mira',
+  'arnold_cat',
+  'standard_map',
+  'zaslavsky',
+  'kicked_rotator',
+  'chua_circuit',
+  'sprott_a',
+  'burke_shaw',
+  'arneodo',
+  'thomas_attractor',
+  'four_wing',
+  'lorenz_2d',
+  'rossler_2d',
+  'dadras',
+  'chen',
+  'lu_chen',
+  'halvorsen',
+  'scroll_waves',
+  'rikitake',
+  'aizawa',
+  'rabinovich_fabrikant',
+  'nose_hoover',
+  'moore_spiegel',
+  'hadley',
+  'genesio_tesi',
+  'liu_chen',
+  'newton_leipnik',
+  'bouali',
+};
+
 void main() {
   group('CPU Formula Registry', () {
+    test('data-driven approximations stay native and cached', () {
+      for (final id in {
+        ..._dataDrivenIfsFormulaIds,
+        ..._dataDrivenAttractorFormulaIds,
+      }) {
+        expect(hasNativeCpuFormula(id), isTrue, reason: id);
+        expect(
+          identical(
+            cpuFormulaForModuleId(id),
+            cpuFormulaForModuleId(id),
+          ),
+          isTrue,
+          reason: '$id should reuse its lazily created formula',
+        );
+      }
+    });
+
     test('resolves every escape-time catalog module id', () {
       final unresolved = <String>[];
       for (final cfg in escapeTimeCatalog) {

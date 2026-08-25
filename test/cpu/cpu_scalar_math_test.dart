@@ -83,6 +83,10 @@ void main() {
     test('tanh saturates without overflow at large magnitudes', () {
       expect(tanh(50.0), closeTo(1.0, 1e-9));
       expect(tanh(-50.0), closeTo(-1.0, 1e-9));
+      expect(tanh(400.0), 1.0);
+      expect(tanh(-400.0), -1.0);
+      expect(tanh(double.infinity), 1.0);
+      expect(tanh(double.negativeInfinity), -1.0);
     });
   });
 }

@@ -1,5 +1,7 @@
 import 'dart:math' as math;
 
+import 'cpu_scalar_math.dart';
+
 /// Replayable CPU iteration budget policy for zoom-dependent refinement.
 ///
 /// CPU rendering has preview/refine/slow-mode entry points that must agree on
@@ -12,10 +14,7 @@ final class CpuIterationBudget {
 
   const CpuIterationBudget._();
 
-  static double normalizeZoom(double zoom) {
-    if (!zoom.isFinite || zoom <= 0.0) return 1.0;
-    return zoom;
-  }
+  static double normalizeZoom(double zoom) => normalizeCpuZoom(zoom);
 
   static int forZoom({
     required int baseIterations,
