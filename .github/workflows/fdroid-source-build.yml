@@ -83,18 +83,25 @@ jobs:
             --commit="$RELEASE_COMMIT" \
             --output-dir=release-artifacts/fdroid \
             --reproducible
-      - name: Lint submission metadata against current fdroiddata
+      - name: Lint and source-scan against current fdroiddata
         shell: bash
         run: |
           set -euo pipefail
           git clone --depth=1 https://gitlab.com/fdroid/fdroiddata.git /tmp/fdroiddata
           cp release-artifacts/fdroid/fdroiddata/metadata/com.trebuchetdynamics.fractal.forge.yml \
             /tmp/fdroiddata/metadata/
+          image=registry.gitlab.com/fdroid/docker-executable-fdroidserver@sha256:e58538106529863d504f686e3a51189aec1d24e17d9fee87048f7ae5c9cee706
           docker run --rm \
             -v /tmp/fdroiddata:/repo \
             -w /repo \
-            registry.gitlab.com/fdroid/docker-executable-fdroidserver@sha256:e58538106529863d504f686e3a51189aec1d24e17d9fee87048f7ae5c9cee706 \
+            "$image" \
             lint com.trebuchetdynamics.fractal.forge
+          docker run --rm \
+            -v /tmp/fdroiddata:/repo \
+            -w /repo \
+            "$image" \
+            scanner --exit-code \
+            "com.trebuchetdynamics.fractal.forge:${{ steps.release.outputs.build_number }}"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: fdroid-source-build-${{ steps.release.outputs.version }}

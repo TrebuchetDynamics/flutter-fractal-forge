@@ -22,8 +22,8 @@ teardown() {
 @test "metadata-only mode produces an official fdroiddata recipe bound to the release commit" {
   run "$REPO_ROOT/scripts/build-fdroid.sh" \
     --metadata-only \
-    --version=1.1.94 \
-    --build-number=94 \
+    --version=1.1.95 \
+    --build-number=95 \
     --commit="$COMMIT" \
     --output-dir="$OUTPUT_DIR"
 
@@ -31,26 +31,31 @@ teardown() {
   metadata="$OUTPUT_DIR/fdroiddata/metadata/com.trebuchetdynamics.fractal.forge.yml"
   [ -f "$metadata" ]
   grep -Fq 'RepoType: git' "$metadata"
-  grep -Fq 'versionName: 1.1.94' "$metadata"
-  grep -Fq 'versionCode: 94' "$metadata"
+  grep -Fq 'versionName: 1.1.95' "$metadata"
+  grep -Fq 'versionCode: 95' "$metadata"
   grep -Fq "commit: $COMMIT" "$metadata"
   grep -Fq 'flutter@3.44.6' "$metadata"
   grep -Fq 'UpdateCheckMode: Tags' "$metadata"
   grep -Fq "version_name=\$(sed -n 's/^versionName=//p' fdroid/version.properties)" "$metadata"
-  ! grep -Fq -- '--build-name=1.1.94' "$metadata"
-  [ -f "$OUTPUT_DIR/fractal-forge-fdroiddata-v1.1.94.tar.gz" ]
+  grep -Fq 'export PUB_CACHE="$(pwd)/.pub-cache"' "$metadata"
+  grep -Fq -- '- docs/qa/fractal-audits' "$metadata"
+  ! grep -Fq 'PUB_CACHE=\"' "$metadata"
+  ! grep -Fq -- '--build-name=1.1.95' "$metadata"
+  ! grep -Fq -- '- node_modules' "$metadata"
+  ! grep -Fq -- '- opensource' "$metadata"
+  [ -f "$OUTPUT_DIR/fractal-forge-fdroiddata-v1.1.95.tar.gz" ]
 }
 
 @test "pipeline rejects a release identity absent from the tracked F-Droid marker" {
   run "$REPO_ROOT/scripts/build-fdroid.sh" \
     --metadata-only \
-    --version=1.1.95 \
-    --build-number=95 \
+    --version=1.1.96 \
+    --build-number=96 \
     --commit="$COMMIT" \
     --output-dir="$OUTPUT_DIR"
 
   [ "$status" -ne 0 ]
-  [[ "$output" == *"fdroid/version.properties does not match 1.1.95+95"* ]]
+  [[ "$output" == *"fdroid/version.properties does not match 1.1.96+96"* ]]
 }
 
 @test "F-Droid APK verifier rejects an upstream-signed package" {
@@ -99,7 +104,7 @@ exit 64
 SH
   cat >"$tools/aapt" <<'SH'
 #!/usr/bin/env bash
-echo "package: name='com.trebuchetdynamics.fractal.forge' versionCode='94' versionName='1.1.94'"
+echo "package: name='com.trebuchetdynamics.fractal.forge' versionCode='95' versionName='1.1.95'"
 SH
   cat >"$tools/apksigner" <<'SH'
 #!/usr/bin/env bash
@@ -113,13 +118,13 @@ SH
 
   run env PATH="$tools:$PATH" "$REPO_ROOT/scripts/build-fdroid.sh" \
     --flutter-bin="$tools/flutter" \
-    --version=1.1.94 \
-    --build-number=94 \
+    --version=1.1.95 \
+    --build-number=95 \
     --commit="$COMMIT" \
     --output-dir="$OUTPUT_DIR"
 
   [ "$status" -eq 0 ]
-  apk="$OUTPUT_DIR/fractal-forge-fdroid-v1.1.94-unsigned.apk"
+  apk="$OUTPUT_DIR/fractal-forge-fdroid-v1.1.95-unsigned.apk"
   [ -f "$apk" ]
   [ -f "$apk.provenance" ]
   grep -Fq 'unsigned=true' "$apk.provenance"
@@ -141,6 +146,7 @@ SH
   grep -Fq "flutter-version: '3.44.6'" "$workflow"
   grep -Fq 'scripts/build-fdroid.sh' "$workflow"
   grep -Fq -- '--reproducible' "$workflow"
+  grep -Fq 'scanner --exit-code' "$workflow"
   grep -Fq 'release-artifacts/fdroid' "$workflow"
   grep -Fq 'actions/upload-artifact@' "$workflow"
 }

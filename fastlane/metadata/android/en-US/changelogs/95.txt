@@ -1,0 +1,1 @@
+Adds official F-Droid source-scanner validation and fixes clean-checkout metadata for the first catalog submission. Bundled FFmpeg remains removed; Looper GIF export remains available.

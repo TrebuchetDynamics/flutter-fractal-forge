@@ -124,6 +124,7 @@ Builds:
     srclibs:
       - flutter@$FLUTTER_VERSION
     rm:
+      - docs/qa/fractal-audits
       - integration_test
       - ios
       - linux
@@ -131,21 +132,19 @@ Builds:
       - test
       - web
       - windows
-      - node_modules
-      - opensource
       - research
     prebuild:
-      - export PUB_CACHE=\"\$(pwd)/.pub-cache\"
+      - export PUB_CACHE="\$(pwd)/.pub-cache"
       - \$\$flutter\$\$/bin/flutter config --no-analytics
       - \$\$flutter\$\$/bin/flutter pub get --enforce-lockfile
     scandelete:
       - .pub-cache
     build:
-      - export PUB_CACHE=\"\$(pwd)/.pub-cache\"
+      - export PUB_CACHE="\$(pwd)/.pub-cache"
       - export FDROID_BUILD=1
       - version_name=\$(sed -n 's/^versionName=//p' fdroid/version.properties)
       - version_code=\$(sed -n 's/^versionCode=//p' fdroid/version.properties)
-      - \$\$flutter\$\$/bin/flutter build apk --release --build-name=\"\$version_name\" --build-number=\"\$version_code\"
+      - \$\$flutter\$\$/bin/flutter build apk --release --build-name="\$version_name" --build-number="\$version_code"
 
 AutoUpdateMode: Version
 UpdateCheckMode: Tags ^v[0-9]+\\.[0-9]+\\.[0-9]+$

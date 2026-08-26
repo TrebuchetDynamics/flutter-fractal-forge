@@ -10,8 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Official F-Droid catalog pipeline with unsigned universal APK validation,
-  byte-for-byte reproducibility checks, tag CI, fdroiddata metadata generation,
-  and Fastlane listing metadata.
+  byte-for-byte reproducibility checks, tag CI, official source-scanner gates,
+  fdroiddata metadata generation, and Fastlane listing metadata.
 
 ### Removed
 

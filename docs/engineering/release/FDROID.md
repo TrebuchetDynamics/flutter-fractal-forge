@@ -13,15 +13,15 @@ Fractal Forge targets the official F-Droid catalog. F-Droid builds the Android p
 5. deletes build output, builds a second time with the release commit timestamp as `SOURCE_DATE_EPOCH`, and requires byte-for-byte equality;
 6. creates a deterministic fdroiddata metadata archive bound to the full release commit.
 
-The tag workflow in `.github/workflows/fdroid-source-build.yml` repeats the same source-build and reproducibility gate for every `vX.Y.Z` tag.
+The tag workflow in `.github/workflows/fdroid-source-build.yml` repeats the source-build and reproducibility gates, then runs official `fdroid lint` and `fdroid scanner` checks for every `vX.Y.Z` tag.
 
 Run the stage directly while preparing a release:
 
 ```bash
 FLUTTER_BIN=/path/to/flutter \
   scripts/release.sh fdroid \
-  --prepare=1.1.94 \
-  --build-number=94
+  --prepare=1.1.95 \
+  --build-number=95
 ```
 
 Outputs are written below `release-artifacts/fdroid/`:
@@ -40,7 +40,7 @@ Before creating each release tag:
 3. Update the Fastlane title/descriptions when store-facing text changes. The short description must be at most 80 characters and must not end with a period.
 4. Commit these changes before running the release orchestrator. The official metadata uses the full tagged commit, never a branch name.
 
-The first release containing this pipeline is intended to be `1.1.94`; `v1.1.93` predates unsigned source-build support and must not be submitted as the initial F-Droid build.
+The first release eligible for catalog submission is `1.1.95`. `v1.1.93` predates unsigned source-build support, and `v1.1.94` was superseded before submission after the official source scanner rejected optional removal paths that were absent from a clean checkout. Neither tag should be submitted as the initial F-Droid build.
 
 ## One-time official catalog submission
 
