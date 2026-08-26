@@ -1398,22 +1398,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get looperExportGif => 'Exportar GIF';
 
   @override
-  String get looperExportMp4 => 'Exportar MP4 + música';
-
-  @override
   String get looperExportSuccess => 'GIF en bucle exportado';
-
-  @override
-  String get looperExportMp4Success => 'MP4 en bucle con música exportado';
 
   @override
   String looperExportFailed(Object error) {
     return 'Error al exportar el GIF en bucle: $error';
-  }
-
-  @override
-  String looperExportMp4Failed(Object error) {
-    return 'Error al exportar el MP4 en bucle: $error';
   }
 
   @override

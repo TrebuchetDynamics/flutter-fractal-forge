@@ -1381,22 +1381,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get looperExportGif => 'Export GIF';
 
   @override
-  String get looperExportMp4 => 'Export MP4 + music';
-
-  @override
   String get looperExportSuccess => 'Looper GIF exported';
-
-  @override
-  String get looperExportMp4Success => 'Looper MP4 with music exported';
 
   @override
   String looperExportFailed(Object error) {
     return 'Looper GIF export failed: $error';
-  }
-
-  @override
-  String looperExportMp4Failed(Object error) {
-    return 'Looper MP4 export failed: $error';
   }
 
   @override

@@ -25,7 +25,6 @@ dependencies:
   m3_carousel: ^2.1.0
   meta: ^1.16.0
   package_info_plus: ^10.2.1
-  ffmpeg_kit_flutter_new_min: 3.6.2
   fftea: ^1.5.0+1
 dev_dependencies:
   flutter_test:

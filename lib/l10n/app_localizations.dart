@@ -2654,35 +2654,17 @@ abstract class AppLocalizations {
   /// **'Export GIF'**
   String get looperExportGif;
 
-  /// No description provided for @looperExportMp4.
-  ///
-  /// In en, this message translates to:
-  /// **'Export MP4 + music'**
-  String get looperExportMp4;
-
   /// No description provided for @looperExportSuccess.
   ///
   /// In en, this message translates to:
   /// **'Looper GIF exported'**
   String get looperExportSuccess;
 
-  /// No description provided for @looperExportMp4Success.
-  ///
-  /// In en, this message translates to:
-  /// **'Looper MP4 with music exported'**
-  String get looperExportMp4Success;
-
   /// No description provided for @looperExportFailed.
   ///
   /// In en, this message translates to:
   /// **'Looper GIF export failed: {error}'**
   String looperExportFailed(Object error);
-
-  /// No description provided for @looperExportMp4Failed.
-  ///
-  /// In en, this message translates to:
-  /// **'Looper MP4 export failed: {error}'**
-  String looperExportMp4Failed(Object error);
 
   /// No description provided for @looperExportSavedShareFailed.
   ///

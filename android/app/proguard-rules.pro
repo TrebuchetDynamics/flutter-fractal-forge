@@ -9,10 +9,6 @@
 # Keep app classes
 -keep class com.trebuchetdynamics.fractal.forge.** { *; }
 
-# FFmpeg Kit
--keep class com.arthenica.ffmpegkit.** { *; }
--keep class com.arthenica.mobileffmpeg.** { *; }
-
 # Camera plugin
 -keep class io.flutter.plugins.camera.** { *; }
 

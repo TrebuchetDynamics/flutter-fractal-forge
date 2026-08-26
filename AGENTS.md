@@ -80,7 +80,6 @@ Navigation: HomeScreen -> Catalog -> Viewer (with FractalController per tab)
 - `share_plus` ^13.2.0 - Share/export
 - `url_launcher` ^6.3.2 - External links and deep links
 - `package_info_plus` ^10.2.1 - App version metadata
-- `ffmpeg_kit_flutter_new_min` 3.6.2 - In-app video export
 - `fftea` ^1.5.0 - Fourier analysis
 - `web` ^1.1.1 - Web target support
 

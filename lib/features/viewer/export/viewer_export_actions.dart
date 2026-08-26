@@ -1,24 +1,5 @@
 part of '../fractal_viewer_screen.dart';
 
-Uint8List _buildLooperMusicWav(
-  (List<FractalMusicScanFrame>, List<double>, double) input,
-) {
-  final (frames, zoomSamples, seconds) = input;
-  final zoom = zoomSamples.isEmpty
-      ? 1.0
-      : math.exp(
-          zoomSamples
-                  .map((sample) => math.log(sample.clamp(1e-12, 1e12)))
-                  .reduce((a, b) => a + b) /
-              zoomSamples.length,
-        );
-  return buildFractalMusicScanWav(
-    scanFrame: weaveFractalMusicScanFrames(frames),
-    zoom: zoom,
-    seconds: seconds,
-  );
-}
-
 Uint8List _encodeLooperGifFrames((List<Uint8List>, int) input) {
   final (pngFrames, frameDurationMs) = input;
   final encoder = img.GifEncoder(samplingFactor: 12);
@@ -52,7 +33,6 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
   LooperController? get _looperController;
   FractalController _activeController(BuildContext context);
   GlobalKey _activeBoundaryKey();
-  Future<FractalMusicScanFrame?> captureFractalMusicScanFrame();
 
   ViewerExportSession _exportSession = const ViewerExportSession();
 
@@ -94,141 +74,6 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     final shouldResume = _exportSession.resumeAutoExploreWhenFinished;
     _resumeAutoExploreAfterExportFlowIfNeeded(shouldResume);
     _exportSession = _exportSession.finish();
-  }
-
-  Future<void> _exportLooperMp4(BuildContext context) async {
-    final looper = _looperController;
-    final plan = looper?.plan;
-    if (looper == null || plan == null) return;
-
-    _log.info('action', 'Export looper MP4 with music');
-    final controller = _activeController(context);
-    final boundaryKey = _activeBoundaryKey();
-    final l10n = AppLocalizations.of(context)!;
-    final originalView = controller.view;
-    final originalParams = controller.params;
-    final originalTransparency = controller.transparentBackground;
-    looper.stop();
-    try {
-      if (!await _exportService.chooseLinuxExportDirectory()) return;
-    } catch (error) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(appFeedbackSnackBar(
-          message: l10n.looperExportMp4Failed(error.toString()),
-          success: false,
-        ));
-      }
-      return;
-    }
-    if (!mounted) return;
-    final shouldResumeAutoExplore = _pauseAutoExploreForExportFlow();
-    setState(() {
-      _exportSession = _exportSession
-          .openSheet(resumeAutoExploreWhenFinished: shouldResumeAutoExplore)
-          .startExport();
-    });
-
-    try {
-      await _exportService.coordinator.run<File>(
-        ExportKind.looper,
-        (token) async {
-          final pngFrames = <Uint8List>[];
-          final musicFrames = <FractalMusicScanFrame>[];
-          final zoomSamples = <double>[];
-          for (var i = 0; i < plan.frameCount; i++) {
-            token.throwIfCancelled();
-            final point = plan.stateAtFrame(i);
-            controller.loadState(
-              params: point.params,
-              view: point.view,
-              transparentBackground: controller.transparentBackground,
-            );
-            await WidgetsBinding.instance.endOfFrame;
-            token.throwIfCancelled();
-            pngFrames.add(await _exportService.capturePng(
-              boundaryKey,
-              pixelRatio: 1.0,
-            ));
-            final scan = await captureFractalMusicScanFrame();
-            if (scan != null && scan.isValid) {
-              musicFrames.add(scan);
-              zoomSamples.add(point.view.zoom);
-            }
-            if (mounted) {
-              setState(() => _exportSession = _exportSession.updateProgress(
-                    (i + 1) / plan.frameCount * 0.8,
-                  ));
-            }
-          }
-
-          token.throwIfCancelled();
-          Uint8List? musicWav;
-          if (musicFrames.isNotEmpty) {
-            musicWav = await _exportService.worker.runWithInput<
-                (List<FractalMusicScanFrame>, List<double>, double), Uint8List>(
-              _buildLooperMusicWav,
-              (
-                musicFrames,
-                zoomSamples,
-                plan.duration.inMilliseconds / 1000,
-              ),
-              token: token,
-            );
-          }
-          final bytes = await LooperMp4Encoder().encode(
-            pngFrames: pngFrames,
-            fps: LooperPlan.exportFps,
-            wavAudio: musicWav,
-            token: token,
-          );
-          token.throwIfCancelled();
-          if (mounted) {
-            setState(
-                () => _exportSession = _exportSession.updateProgress(0.95));
-          }
-          final savedFile = await _exportService.saveBytes(
-            bytes,
-            filename:
-                'looper_${controller.module.id}_${DateTime.now().millisecondsSinceEpoch}.mp4',
-          );
-          final file = await token.retainSavedFileUnlessCancelled(savedFile);
-          try {
-            await _exportService.shareFile(file);
-          } catch (_) {
-            // The file is already durable; users can share it manually.
-          }
-          await token.retainSavedFileUnlessCancelled(file);
-          return file;
-        },
-      );
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.looperExportMp4Success)),
-        );
-      }
-    } on ExportCancelledException {
-      _log.info('export', 'Looper MP4 export cancelled');
-    } catch (error, stackTrace) {
-      _log.error(
-        'export',
-        'Looper MP4 export failed',
-        data: {'error': '$error', 'stackTrace': '$stackTrace'},
-      );
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(appFeedbackSnackBar(
-          message: l10n.looperExportMp4Failed(error.toString()),
-          success: false,
-        ));
-      }
-    } finally {
-      controller.loadState(
-        params: originalParams,
-        view: originalView,
-        transparentBackground: originalTransparency,
-      );
-      if (mounted) setState(_finishExportFlow);
-    }
   }
 
   Future<void> _exportLooperGif(BuildContext context) async {

@@ -107,7 +107,7 @@ Additionally in MVP:
 ### 7.2 Nice-to-have: overlay-only alpha video
 - Only if straightforward; otherwise defer.
 
-- Method: frame-by-frame off-screen rendering + FFmpeg stitching (`ffmpeg_kit` or similar).
+- Method: deferred. If revisited, use a platform-native video encoder rather than bundling FFmpeg.
 - Benefit: perfect 60fps loops even if the device lags during live preview.
 - Format: MP4 (H.264), seamless loop.
 
@@ -146,7 +146,7 @@ Suggested `FractalModule` interface:
 ## 11) Risks / constraints
 - GPU-heavy fractals + camera can overheat devices -> implement quality presets + throttling.
 - Android device camera quirks -> need robust start/stop + fallback.
-- Video export (view capture + off-screen rendering + FFmpeg) is the highest technical risk and will require device-specific tuning.
+- Native MP4 export is deferred; if revisited, platform encoder integration will require device-specific tuning.
 
 ## 12) Analytics & Privacy
 - Privacy: no collection of camera data or personal images. All processing is on-device.
@@ -157,7 +157,7 @@ Suggested `FractalModule` interface:
 2. Fractals: port Mandelbrot and Julia first to test the engine.
 3. UI: build the dynamic slider system based on the schema.
 4. Export: implement image export (easy).
-6. Video: implement FFmpeg binding for video export (hardest).
+6. Video: evaluate platform-native MP4 encoding after the GIF workflow proves insufficient.
 
 ## 14) Fractal Catalog Roadmap (100+ Fractals)
 
@@ -230,7 +230,7 @@ Each new fractal must pass:
 
 ### Implemented
 - 1014 production fractal modules plus 1 scientific visualization in the live catalog (1022 debug/test registry modules including 7 diagnostics), including Mandelbrot, Julia, Burning Ship, Phoenix, Mandelbulb, and many more (counts are locked by `test/catalog/catalog_id_integrity_test.dart`)
-- In-app FFmpeg via `ffmpeg_kit_flutter_new_min` for video export
+- Camera Looper GIF export; native MP4 encoding is deferred
 - Dedicated export directory (Android Pictures/FlutterFractals)
 - Schema-driven controls per fractal
 - Minimap navigation overlay
@@ -243,5 +243,5 @@ Each new fractal must pass:
 
 ### Remaining / TODO
 - See `docs/planning/PRD.md` (maintained) and `TODO.md` for current gaps; the status block below is a 2026-02-07 historical snapshot
-- Verify FFmpeg kit on real Android devices
+- Evaluate platform-native Android MP4 encoding only if GIF export proves insufficient
 - MediaStore integration for Android 10+ gallery visibility

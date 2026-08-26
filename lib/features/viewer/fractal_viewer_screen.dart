@@ -23,7 +23,6 @@ import 'package:flutter_fractals/core/services/platform/accessibility_service.da
 import 'package:flutter_fractals/core/services/diagnostics/debug_runner_service.dart';
 import 'package:flutter_fractals/core/services/platform/deep_link_service.dart';
 import 'package:flutter_fractals/core/services/export/export_service.dart';
-import 'package:flutter_fractals/core/services/export/looper_mp4_encoder.dart';
 import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
 import 'package:flutter_fractals/core/services/export/export_worker.dart';
 import 'package:flutter_fractals/core/services/export/wallpaper_service.dart';
@@ -599,10 +598,6 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       _musicScanController.value = 0;
     }
   }
-
-  @override
-  Future<FractalMusicScanFrame?> captureFractalMusicScanFrame() =>
-      _captureFractalMusicScanFrame();
 
   Future<FractalMusicScanFrame?> _captureFractalMusicScanFrame() async {
     try {

@@ -124,65 +124,6 @@ class FractalMusicScanFrame {
       width > 0 && height > 0 && rgba.length >= width * height * 4;
 }
 
-FractalMusicScanFrame weaveFractalMusicScanFrames(
-  Iterable<FractalMusicScanFrame> frames,
-) {
-  final valid = frames.where((frame) => frame.isValid).toList(growable: false);
-  if (valid.isEmpty) {
-    return FractalMusicScanFrame(rgba: Uint8List(0), width: 0, height: 0);
-  }
-  final width = valid.first.width;
-  final height = valid.first.height;
-  final compatible = valid
-      .where((frame) => frame.width == width && frame.height == height)
-      .toList(growable: false);
-  final rgba = Uint8List(width * height * 4);
-  final centerX = (width - 1) / 2;
-  final centerY = (height - 1) / 2;
-  for (var y = 0; y < height; y++) {
-    for (var x = 0; x < width; x++) {
-      final angle = math.atan2(y - centerY, x - centerX);
-      final phase = (angle + math.pi / 2) % (math.pi * 2) / (math.pi * 2);
-      final frameIndex =
-          (phase * compatible.length).floor().clamp(0, compatible.length - 1);
-      final offset = (y * width + x) * 4;
-      for (var channel = 0; channel < 4; channel++) {
-        rgba[offset + channel] = compatible[frameIndex].rgba[offset + channel];
-      }
-    }
-  }
-  return FractalMusicScanFrame(rgba: rgba, width: width, height: height);
-}
-
-/// Produces one deterministic score source from a complete camera path.
-/// Every valid frame contributes equally, so exported looper audio reflects
-/// both endpoints and all intermediate waypoints instead of only the last view.
-FractalMusicScanFrame blendFractalMusicScanFrames(
-  Iterable<FractalMusicScanFrame> frames,
-) {
-  final valid = frames.where((frame) => frame.isValid).toList(growable: false);
-  if (valid.isEmpty) {
-    return FractalMusicScanFrame(rgba: Uint8List(0), width: 0, height: 0);
-  }
-  final width = valid.first.width;
-  final height = valid.first.height;
-  final compatible = valid
-      .where((frame) => frame.width == width && frame.height == height)
-      .toList(growable: false);
-  final length = width * height * 4;
-  final sums = Uint32List(length);
-  for (final frame in compatible) {
-    for (var index = 0; index < length; index++) {
-      sums[index] += frame.rgba[index];
-    }
-  }
-  final rgba = Uint8List(length);
-  for (var index = 0; index < length; index++) {
-    rgba[index] = (sums[index] / compatible.length).round().clamp(0, 255);
-  }
-  return FractalMusicScanFrame(rgba: rgba, width: width, height: height);
-}
-
 /// The collapsed image features Fractal Music listens to. Cheaper to compare
 /// than the raw frame, and it is what the musical decisions actually depend on.
 @immutable

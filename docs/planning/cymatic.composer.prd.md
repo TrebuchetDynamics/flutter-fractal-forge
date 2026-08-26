@@ -120,7 +120,7 @@ Audio engine:
 - Flutter + GLSL fragment shaders (`FragmentProgram`).
 - Shader asset pipeline from Fractal Forge.
 - Audio: Prefer Android Oboe / AAudio via platform channel; fallback AudioTrack.
-- Export: MediaCodec + MediaMuxer (Android native), or reuse FFmpeg kit pipeline used by Fractal Forge.
+- Export: MediaCodec + MediaMuxer (Android native); Fractal Forge no longer bundles FFmpeg.
 
 ## 8) Architecture
 ### 8.1 Data Model

@@ -379,8 +379,8 @@ class VideoExportService {
 
   /// Export video with the given options.
   ///
-  /// This method captures frames and encodes them. For full video encoding,
-  /// use a native plugin or FFmpeg.
+  /// This method captures frames and encodes them. Full MP4 encoding remains
+  /// deferred to a future platform-native implementation.
   Future<VideoExportResult> exportVideo({
     required VideoExportOptions options,
     required FractalViewState startView,

@@ -383,57 +383,6 @@ void main() {
     expect(_pcmSample(scanLoop, 7999), 0);
   });
 
-  test('looper music blend includes every captured camera state', () {
-    FractalMusicScanFrame solid(int red, int green, int blue) =>
-        FractalMusicScanFrame(
-          rgba: Uint8List.fromList([
-            for (var i = 0; i < 4; i++) ...[red, green, blue, 255],
-          ]),
-          width: 2,
-          height: 2,
-        );
-
-    final blended = blendFractalMusicScanFrames([
-      solid(240, 0, 0),
-      solid(0, 0, 240),
-    ]);
-
-    expect(blended.width, 2);
-    expect(blended.height, 2);
-    expect(blended.rgba.sublist(0, 4), [120, 0, 120, 255]);
-    expect(
-      buildFractalMusicScanWav(
-        scanFrame: blended,
-        zoom: 1,
-        seconds: 2,
-      ),
-      isNotEmpty,
-    );
-  });
-
-  test('looper music timeline follows camera frames around scanner phase', () {
-    FractalMusicScanFrame solid(int red, int green, int blue) =>
-        FractalMusicScanFrame(
-          rgba: Uint8List.fromList([
-            for (var i = 0; i < 25; i++) ...[red, green, blue, 255],
-          ]),
-          width: 5,
-          height: 5,
-        );
-
-    final woven = weaveFractalMusicScanFrames([
-      solid(240, 0, 0),
-      solid(0, 0, 240),
-    ]);
-    List<int> pixel(int x, int y) => woven.rgba
-        .sublist((y * woven.width + x) * 4, (y * woven.width + x) * 4 + 4);
-
-    expect(pixel(2, 0), [240, 0, 0, 255],
-        reason: 'scanner phase zero starts at the first camera frame');
-    expect(pixel(2, 4), [0, 0, 240, 255],
-        reason: 'half a turn uses the later camera frame');
-  });
-
   test('buildFractalMusicScanWav leaves empty space silent', () {
     final dark = Uint8List(4 * 4 * 4);
     final bright = Uint8List.fromList(List.filled(4 * 4 * 4, 255));

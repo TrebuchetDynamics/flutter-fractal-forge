@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/looper/looper_controller.dart';
@@ -9,16 +8,12 @@ class LooperSheet extends StatelessWidget {
   final LooperController controller;
   final bool isExporting;
   final VoidCallback onExportGif;
-  final VoidCallback onExportMp4;
-  final bool mp4Supported;
 
   const LooperSheet({
     super.key,
     required this.controller,
     required this.isExporting,
     required this.onExportGif,
-    required this.onExportMp4,
-    this.mp4Supported = !kIsWeb,
   });
 
   @override
@@ -200,40 +195,20 @@ class LooperSheet extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: AppSpacing.sm),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: FilledButton.tonalIcon(
-                            key: const ValueKey('looperPreviewButton'),
-                            onPressed: controller.canLoop
-                                ? controller.togglePreview
-                                : null,
-                            icon: Icon(controller.isPlaying
-                                ? Icons.stop_rounded
-                                : Icons.play_arrow_rounded),
-                            label: Text(controller.isPlaying
-                                ? l10n.looperStop
-                                : l10n.looperPreview),
-                          ),
-                        ),
-                        const SizedBox(width: AppSpacing.sm),
-                        if (mp4Supported) ...[
-                          Expanded(
-                            child: FilledButton.icon(
-                              key: const ValueKey('looperExportMp4Button'),
-                              onPressed: controller.canLoop && !isExporting
-                                  ? () {
-                                      Navigator.of(context).pop();
-                                      onExportMp4();
-                                    }
-                                  : null,
-                              icon: const Icon(Icons.video_file_rounded),
-                              label: Text(l10n.looperExportMp4),
-                            ),
-                          ),
-                        ] else
-                          const Spacer(),
-                      ],
+                    SizedBox(
+                      width: double.infinity,
+                      child: FilledButton.tonalIcon(
+                        key: const ValueKey('looperPreviewButton'),
+                        onPressed: controller.canLoop
+                            ? controller.togglePreview
+                            : null,
+                        icon: Icon(controller.isPlaying
+                            ? Icons.stop_rounded
+                            : Icons.play_arrow_rounded),
+                        label: Text(controller.isPlaying
+                            ? l10n.looperStop
+                            : l10n.looperPreview),
+                      ),
                     ),
                     const SizedBox(height: AppSpacing.sm),
                     SizedBox(
