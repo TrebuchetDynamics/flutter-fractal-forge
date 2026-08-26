@@ -120,7 +120,7 @@ Builds:
     commit: $COMMIT
     output: build/app/outputs/flutter-apk/app-release.apk
     timeout: 3600
-    ndk: r28b
+    ndk: r28c
     srclibs:
       - flutter@$FLUTTER_VERSION
     rm:

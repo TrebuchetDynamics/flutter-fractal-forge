@@ -59,6 +59,7 @@ After that merge, `UpdateCheckMode: Tags` and `fdroid/version.properties` allow 
 
 - The source tree includes `pubspec.lock`, and the recipe uses `flutter pub get --enforce-lockfile` with a build-local `PUB_CACHE` so dependencies are scanned.
 - Flutter is pinned to `3.44.6` through F-Droid's official Flutter srclib.
+- Android builds use F-Droid NDK alias `r28c`, corresponding to upstream NDK `28.2.13676358`.
 - The unused Google Play Feature Delivery dependency was removed so both Play and F-Droid builds avoid a non-free runtime dependency. Android dependencies resolve only from Google Maven or Maven Central.
 - Flutter 3.44.6's official Android embedding retains unused Play Store deferred-component type references. The app declares no deferred components and `releaseRuntimeClasspath` contains no Play Core dependency; this is recorded in the generated `MaintainerNotes` for packager review.
 - F-Droid's default signature differs from the Google Play signature. Users switching between Play and F-Droid builds must uninstall the existing app first. Reproducible upstream-signed publishing is intentionally not enabled until cross-builder byte identity is independently established with F-Droid infrastructure.

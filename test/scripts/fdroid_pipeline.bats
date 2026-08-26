@@ -35,6 +35,7 @@ teardown() {
   grep -Fq 'versionCode: 95' "$metadata"
   grep -Fq "commit: $COMMIT" "$metadata"
   grep -Fq 'flutter@3.44.6' "$metadata"
+  grep -Fq 'ndk: r28c' "$metadata"
   grep -Fq 'UpdateCheckMode: Tags' "$metadata"
   grep -Fq "version_name=\$(sed -n 's/^versionName=//p' fdroid/version.properties)" "$metadata"
   grep -Fq 'export PUB_CACHE="$(pwd)/.pub-cache"' "$metadata"
