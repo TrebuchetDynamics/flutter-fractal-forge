@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Official F-Droid catalog pipeline with unsigned universal APK validation,
+  byte-for-byte reproducibility checks, tag CI, fdroiddata metadata generation,
+  and Fastlane listing metadata.
+
+### Removed
+
+- Bundled FFmpeg and the Camera Looper MP4-with-music export. GIF export remains,
+  avoiding FFmpeg's large native footprint and simplifying F-Droid review.
+
 ## [1.1.93] - 2026-08-26
 
 ### Added

@@ -1,0 +1,1 @@
+Adds ten original animated fractals spanning chromatic lattices, recursive arcana, Cayley branching, gyroid membranes, Möbius echoes, Fibonacci cone blooms, and Chebyshev nodal lanterns. Deep-zoom panning now starts immediately and remains stable through pinch-to-pan transitions.

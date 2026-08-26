@@ -1,0 +1,5 @@
+Fractal Forge is a free, open-source fractal explorer and generative art studio. Explore 1,014 production fractals including Mandelbrot and Julia sets, Newton basins, strange attractors, cellular automata, tilings, and ray-marched 3D worlds.
+
+Render in real time with GPU acceleration, deep zoom and pan, curated presets, more than 60 color schemes, orbit traps, distance estimation, and normal-map relief. Create high-resolution PNG images, looping GIF animations, fractal music, kaleidoscopic compositions, and wallpapers.
+
+Fractal Forge works fully offline and includes no advertising, tracking, accounts, analytics, or data collection. Accessibility features include screen-reader labels, high contrast, reduced motion, and configurable touch targets.

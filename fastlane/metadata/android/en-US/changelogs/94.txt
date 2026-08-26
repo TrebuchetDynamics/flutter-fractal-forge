@@ -1,0 +1,1 @@
+Adds verifiable source-build support for the official F-Droid catalog, including unsigned APK validation and reproducibility checks. Removes bundled FFmpeg and Looper MP4 export; GIF export remains.

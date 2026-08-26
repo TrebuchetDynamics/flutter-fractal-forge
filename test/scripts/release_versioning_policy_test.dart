@@ -31,7 +31,7 @@ void main() {
     expect(
       releaseScript,
       contains(
-          '--prepare permits only android-build, linux, windows, and evidence'),
+          '--prepare permits only android-build, fdroid, linux, windows, and evidence'),
     );
     expect(releaseScript, contains('preflight_prepare'));
     final playUploadScript =
@@ -88,6 +88,19 @@ void main() {
     expect(androidBuild, contains('release-abi'));
     expect(androidBuild, contains('abiFilters.add(releaseAbi)'));
     expect(androidBuild, contains(r'.map { "**/$it/**" }'));
+    expect(androidBuild, contains('isFdroidBuild'));
+    expect(androidBuild, contains('FDROID_BUILD'));
+    expect(
+      androidBuild,
+      isNot(contains('com.google.android.play:feature-delivery')),
+    );
+    expect(
+      releaseScript,
+      contains(
+          'STAGES+=(android_build fdroid linux windows evidence github website play)'),
+    );
+    expect(releaseScript, contains(r'"$SCRIPT_DIR/build-fdroid.sh"'));
+    expect(releaseScript, contains('--reproducible'));
     expect(releaseScript, contains(r'echo "${version%%+*}"'));
     expect(releaseScript, isNot(contains(r'echo "${name}+${build}"')));
     expect(preReleaseGate, isNot(contains(r'match($0,')));

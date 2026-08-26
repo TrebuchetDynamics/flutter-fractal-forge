@@ -29,11 +29,11 @@ set -euo pipefail
 #   website    Build the Flutter web app and deploy it to the
 #              flutter-fractal-forge Cloudflare Pages project
 #              (fractal.trebuchetdynamics.com) via `wrangler pages deploy`
-#   fdroid     Not implemented -- see TODO below. Exits 0 without doing
-#              anything so `all` isn't blocked by it.
-#   all        android-build, linux, windows, evidence, GitHub, website, then
-#              Play. Every artifact and final evidence gate completes before
-#              publication starts (fdroid is intentionally excluded).
+#   fdroid     Build and verify the unsigned universal APK that official
+#              F-Droid will build and sign, then package fdroiddata metadata.
+#   all        android-build, F-Droid, Linux, Windows, evidence, GitHub,
+#              website, then Play. Every artifact and final evidence gate
+#              completes before publication starts.
 #
 # Flags:
 #   --dry-run  Do not publish or reach outside this machine. Prints what it
@@ -59,12 +59,10 @@ set -euo pipefail
 #                          the project root (legacy Cloudflare Global API
 #                          Key, which this project's .env already has).
 #
-# TODO(fdroid): F-Droid has no "upload your APK" API. The official F-Droid
-# catalog builds and signs from source on F-Droid's own servers after a
-# one-time metadata-recipe PR to the fdroiddata repo -- that's not a
-# repeatable release step. A self-hosted F-Droid repo (fdroidserver's
-# `fdroid build/update/deploy`) IS repeatable, but needs its own signing key
-# and a static hosting destination. Pick one before scripting this stage.
+# F-Droid's official catalog has no APK upload API. This pipeline validates
+# the exact unsigned source build and emits fdroiddata metadata; F-Droid's
+# isolated infrastructure performs signing and publication after the one-time
+# upstream metadata merge.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
@@ -239,7 +237,7 @@ for arg in "$@"; do
     --yes) die "--yes is unsafe; use --publish=<version>" ;;
     --dry-run) CONFIRMED=0; DRY_RUN_FORCED=1 ;;
     --help|-h) usage; exit 0 ;;
-    all) STAGES+=(android_build linux windows evidence github website play) ;;
+    all) STAGES+=(android_build fdroid linux windows evidence github website play) ;;
     android-build) STAGES+=(android_build) ;;
     android|play|linux|windows|evidence|github|website|fdroid) STAGES+=("$arg") ;;
     *) die "Unknown argument: $arg (see --help)" ;;
@@ -389,8 +387,8 @@ preflight_prepare() {
     die "Local $branch is not synchronized with $remote_ref"
   for stage in "${STAGES[@]}"; do
     case "$stage" in
-      android_build|linux|windows|evidence) ;;
-      *) die "--prepare permits only android-build, linux, windows, and evidence" ;;
+      android_build|fdroid|linux|windows|evidence) ;;
+      *) die "--prepare permits only android-build, fdroid, linux, windows, and evidence" ;;
     esac
   done
 }
@@ -920,11 +918,24 @@ stage_website() {
 }
 
 stage_fdroid() {
-  log "=== fdroid: not implemented ==="
-  log "See the TODO(fdroid) comment at the top of this script -- decide"
-  log "between the official F-Droid catalog (metadata PR, F-Droid builds it)"
-  log "and a self-hosted fdroidserver repo (needs its own signing key +"
-  log "static hosting) before scripting this stage."
+  log "=== fdroid: official catalog source-build readiness ==="
+  if ! guarded "build an unsigned reproducible APK and package fdroiddata submission metadata"; then
+    return 0
+  fi
+  need git
+  need sha256sum
+  local version build_number commit
+  version="$(release_build_name)"
+  build_number="$(release_build_number)"
+  commit="$(git rev-parse HEAD)"
+  "$SCRIPT_DIR/build-fdroid.sh" \
+    --flutter-bin="$FLUTTER_BIN" \
+    --version="$version" \
+    --build-number="$build_number" \
+    --commit="$commit" \
+    --output-dir="$ARTIFACT_DIR/fdroid" \
+    --reproducible
+  log "fdroid stage complete: $ARTIFACT_DIR/fdroid"
 }
 
 for stage in "${STAGES[@]}"; do
