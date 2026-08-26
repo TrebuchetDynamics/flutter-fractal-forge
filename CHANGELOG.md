@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.93] - 2026-08-26
+
 ### Added
 
 - Five original, sampler-free fractalish-motion visualizations spanning a
