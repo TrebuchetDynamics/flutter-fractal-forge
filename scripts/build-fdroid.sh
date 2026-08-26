@@ -158,7 +158,10 @@ archive="$OUTPUT_DIR/fractal-forge-fdroiddata-v$VERSION.tar.gz"
 rm -f "$archive"
 TZ=UTC tar --sort=name --mtime="@$source_epoch" --owner=0 --group=0 --numeric-owner \
   -C "$OUTPUT_DIR" -cf - fdroiddata | gzip -n >"$archive"
-sha256sum "$archive" >"$archive.sha256"
+(
+  cd "$(dirname "$archive")"
+  sha256sum "$(basename "$archive")" >"$(basename "$archive").sha256"
+)
 
 if (( METADATA_ONLY == 1 )); then
   echo "[fdroid] metadata bundle: $archive"
@@ -237,6 +240,9 @@ unsigned=true
 flutter_version=$FLUTTER_VERSION
 source_date_epoch=$source_epoch
 EOF
-sha256sum "$staged_apk" >"$staged_apk.sha256"
+(
+  cd "$(dirname "$staged_apk")"
+  sha256sum "$(basename "$staged_apk")" >"$(basename "$staged_apk").sha256"
+)
 echo "[fdroid] unsigned APK: $staged_apk"
 echo "[fdroid] metadata bundle: $archive"

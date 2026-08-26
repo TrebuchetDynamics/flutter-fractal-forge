@@ -44,7 +44,9 @@ teardown() {
   ! grep -Fq -- '--build-name=1.1.95' "$metadata"
   ! grep -Fq -- '- node_modules' "$metadata"
   ! grep -Fq -- '- opensource' "$metadata"
-  [ -f "$OUTPUT_DIR/fractal-forge-fdroiddata-v1.1.95.tar.gz" ]
+  archive="$OUTPUT_DIR/fractal-forge-fdroiddata-v1.1.95.tar.gz"
+  [ -f "$archive" ]
+  ! grep -Fq "$OUTPUT_DIR/" "$archive.sha256"
 }
 
 @test "pipeline rejects a release identity absent from the tracked F-Droid marker" {
@@ -128,6 +130,7 @@ SH
   apk="$OUTPUT_DIR/fractal-forge-fdroid-v1.1.95-unsigned.apk"
   [ -f "$apk" ]
   [ -f "$apk.provenance" ]
+  ! grep -Fq "$OUTPUT_DIR/" "$apk.sha256"
   grep -Fq 'unsigned=true' "$apk.provenance"
   grep -Fq "commit=$COMMIT" "$apk.provenance"
 }
