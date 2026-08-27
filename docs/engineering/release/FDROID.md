@@ -1,6 +1,6 @@
 # Official F-Droid release pipeline
 
-Fractal Forge targets the official F-Droid catalog. F-Droid builds the Android package from the public source commit, signs it with an isolated per-app F-Droid key, and publishes it. This repository does not upload or sign an APK for F-Droid.
+Fractal Forge targets the official F-Droid catalog with reproducible builds. F-Droid builds each Android ABI package from the public source commit, verifies it against the developer-signed reference APK, and publishes the verified developer-signed package.
 
 ## Automated release contract
 
@@ -8,10 +8,10 @@ Fractal Forge targets the official F-Droid catalog. F-Droid builds the Android p
 
 1. verifies `fdroid/version.properties` matches `X.Y.Z` and the Android version code;
 2. validates the upstream Fastlane listing and version-code changelog;
-3. builds a universal release APK with `FDROID_BUILD=1`, which disables upstream signing;
-4. checks the application ID, version name, version code, all three supported ABIs, and absence of an APK signature;
-5. deletes build output, builds a second time with the release commit timestamp as `SOURCE_DATE_EPOCH`, and requires byte-for-byte equality;
-6. creates a deterministic fdroiddata metadata archive bound to the full release commit.
+3. builds `armeabi-v7a`, `arm64-v8a`, and `x86_64` release APKs with `FDROID_BUILD=1`, which disables upstream signing;
+4. checks each APK's application ID, version name, ABI, derived version code (`base * 10 + {1,2,3}`), and absence of a signature;
+5. deletes build output, builds all three a second time with the release commit timestamp as `SOURCE_DATE_EPOCH`, and requires byte-for-byte equality;
+6. creates a deterministic fdroiddata metadata archive bound to the full release commit and the upstream reference-binary URLs.
 
 The tag workflow in `.github/workflows/fdroid-source-build.yml` repeats the source-build and reproducibility gates, then runs official `fdroid lint` and `fdroid scanner` checks for every `vX.Y.Z` tag.
 
@@ -20,14 +20,14 @@ Run the stage directly while preparing a release:
 ```bash
 FLUTTER_BIN=/path/to/flutter \
   scripts/release.sh fdroid \
-  --prepare=1.1.95 \
-  --build-number=95
+  --prepare=1.1.96 \
+  --build-number=96
 ```
 
 Outputs are written below `release-artifacts/fdroid/`:
 
-- `fractal-forge-fdroid-vX.Y.Z-unsigned.apk` — verification artifact only; do not distribute it;
-- `fractal-forge-fdroid-vX.Y.Z-unsigned.apk.provenance` and `.sha256`;
+- `fractal-forge-fdroid-vX.Y.Z-ABI-unsigned.apk` — three verification artifacts; do not distribute them;
+- matching `.provenance` and `.sha256` files for each unsigned ABI APK;
 - `fractal-forge-fdroiddata-vX.Y.Z.tar.gz` and `.sha256`;
 - `fdroiddata/metadata/com.trebuchetdynamics.fractal.forge.yml`.
 
@@ -40,7 +40,7 @@ Before creating each release tag:
 3. Update the Fastlane title/descriptions when store-facing text changes. The short description must be at most 80 characters and must not end with a period.
 4. Commit these changes before running the release orchestrator. The official metadata uses the full tagged commit, never a branch name.
 
-The first release eligible for catalog submission is `1.1.95`. `v1.1.93` predates unsigned source-build support, and `v1.1.94` was superseded before submission after the official source scanner rejected optional removal paths that were absent from a clean checkout. Neither tag should be submitted as the initial F-Droid build.
+The first release eligible for catalog submission is `1.1.96`. `v1.1.93` predates unsigned source-build support, `v1.1.94` was superseded after a clean-checkout scanner failure, and `v1.1.95` was superseded during packager review when ABI splits and reproducible reference binaries became requirements. Earlier tags must not be submitted as the initial F-Droid build.
 
 ## One-time official catalog submission
 
@@ -51,18 +51,19 @@ Official publication requires one human-reviewed fdroiddata merge:
 3. Extract `fractal-forge-fdroiddata-vX.Y.Z.tar.gz`.
 4. Copy `fdroiddata/metadata/com.trebuchetdynamics.fractal.forge.yml` into a fork of [fdroid/fdroiddata](https://gitlab.com/fdroid/fdroiddata).
 5. Run `fdroid readmeta`, `fdroid lint`, `fdroid scanner`, and `fdroid build com.trebuchetdynamics.fractal.forge` using the current F-Droid buildserver image.
-6. Open a `New App: com.trebuchetdynamics.fractal.forge` merge request and address packager review.
+6. Open a `New app: Fractal Forge` merge request using the App Inclusion template and address packager review.
 
 After that merge, `UpdateCheckMode: Tags` and `fdroid/version.properties` allow F-Droid's update checker to discover later release tags and create update merge requests.
 
 ## Policy and signing notes
 
 - The source tree includes `pubspec.lock`, and the recipe uses `flutter pub get --enforce-lockfile` with a build-local `PUB_CACHE` so dependencies are scanned.
-- Flutter is pinned to `3.44.6` through F-Droid's official Flutter srclib.
+- Flutter `3.44.6` is pinned in `.github/workflows/fdroid-source-build.yml`; the fdroiddata recipe extracts that pin and checks out the same revision from F-Droid's `flutter@stable` srclib.
 - Android builds use F-Droid NDK alias `r28c`, corresponding to upstream NDK `28.2.13676358`.
 - The unused Google Play Feature Delivery dependency was removed so both Play and F-Droid builds avoid a non-free runtime dependency. Android dependencies resolve only from Google Maven or Maven Central.
 - Flutter 3.44.6's official Android embedding retains unused Play Store deferred-component type references. The app declares no deferred components and `releaseRuntimeClasspath` contains no Play Core dependency; this is recorded in the generated `MaintainerNotes` for packager review.
-- F-Droid's default signature differs from the Google Play signature. Users switching between Play and F-Droid builds must uninstall the existing app first. Reproducible upstream-signed publishing is intentionally not enabled until cross-builder byte identity is independently established with F-Droid infrastructure.
+- Reference APKs are signed with the dedicated upstream upload key whose certificate SHA-256 is pinned as `AllowedAPKSigningKeys`. Keep the private key and credentials outside the repository, with tested offline backups.
+- Google Play App Signing may use a different distribution key. Users switching between Play and F-Droid builds may therefore need to uninstall the existing app first.
 
 Authoritative references:
 

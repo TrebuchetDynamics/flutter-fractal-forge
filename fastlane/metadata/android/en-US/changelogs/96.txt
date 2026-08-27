@@ -1,0 +1,1 @@
+Adds smaller ABI-specific Android packages, pins the Flutter toolchain for verifiable source builds, and publishes reproducible signed APK references for F-Droid.

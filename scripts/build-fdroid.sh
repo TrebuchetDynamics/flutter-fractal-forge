@@ -4,7 +4,10 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 PACKAGE_ID="com.trebuchetdynamics.fractal.forge"
-FLUTTER_VERSION="3.44.6"
+FLUTTER_WORKFLOW="$PROJECT_ROOT/.github/workflows/fdroid-source-build.yml"
+FLUTTER_VERSION="$(sed -n -E "s/.*flutter-version: '(.*)'/\1/p" "$FLUTTER_WORKFLOW" | head -n1)"
+SIGNING_CERT_SHA256="8d5f69b91dd44476ceaad141f1fa9f6abeccdfa20cd3f7bcdfe709df623878fd"
+REPRO_BUILD_ROOT="/tmp/fractal-forge-reproducible"
 VERSION=""
 BUILD_NUMBER=""
 COMMIT=""
@@ -15,8 +18,8 @@ usage() {
   cat <<'EOF'
 Usage: scripts/build-fdroid.sh --version=X.Y.Z --build-number=N --commit=SHA [options]
 
-Build and verify the unsigned APK that the official F-Droid buildserver will
-produce, then create a ready-to-submit fdroiddata metadata bundle.
+Build and verify the unsigned ABI APKs that the official F-Droid buildserver
+will reproduce, then create a ready-to-submit fdroiddata metadata bundle.
 
 Options:
   --metadata-only      Render and package fdroiddata metadata without building.
@@ -43,6 +46,9 @@ for arg in "$@"; do
   esac
 done
 
+[[ "$FLUTTER_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || {
+  echo "[fdroid] ERROR: could not extract pinned Flutter version from $FLUTTER_WORKFLOW" >&2; exit 1;
+}
 [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || {
   echo "[fdroid] ERROR: --version must be X.Y.Z" >&2; exit 1;
 }
@@ -92,12 +98,14 @@ METADATA_DIR="$FDROIDDATA_DIR/metadata"
 rm -rf "$FDROIDDATA_DIR"
 mkdir -p "$METADATA_DIR"
 
-cat >"$METADATA_DIR/$PACKAGE_ID.yml" <<EOF
+metadata="$METADATA_DIR/$PACKAGE_ID.yml"
+cat >"$metadata" <<EOF
 Categories:
   - Graphics
   - Multimedia
 License: Apache-2.0
 AuthorName: Trebuchet Dynamics
+AuthorWebSite: https://trebuchetdynamics.com
 AutoName: Fractal Forge
 WebSite: https://fractal.trebuchetdynamics.com
 SourceCode: https://github.com/TrebuchetDynamics/flutter-fractal-forge
@@ -108,21 +116,31 @@ RepoType: git
 Repo: https://github.com/TrebuchetDynamics/flutter-fractal-forge.git
 
 MaintainerNotes: |-
-  FDROID_BUILD disables the upstream signing configuration; F-Droid signs the
-  resulting universal APK. Flutter's official Android embedding retains unused
-  Play Store deferred-component type references even though this app declares
-  no deferred components and its releaseRuntimeClasspath contains no Play Core
-  dependency.
+  FDROID_BUILD disables upstream signing so F-Droid can verify the three
+  ABI-specific APKs against the developer-signed reference binaries. Flutter's
+  official Android embedding retains unused Play Store deferred-component type
+  references even though this app declares no deferred components and its
+  releaseRuntimeClasspath contains no Play Core dependency.
 
 Builds:
+EOF
+
+render_build_block() {
+  local abi="$1"
+  local target="$2"
+  local abi_code="$3"
+  local version_code=$((BUILD_NUMBER * 10 + abi_code))
+
+  cat >>"$metadata" <<EOF
   - versionName: $VERSION
-    versionCode: $BUILD_NUMBER
+    versionCode: $version_code
     commit: $COMMIT
-    output: build/app/outputs/flutter-apk/app-release.apk
+    output: build/app/outputs/flutter-apk/app-$abi-release.apk
+    binary: https://github.com/TrebuchetDynamics/flutter-fractal-forge/releases/download/v%v/fractal-forge-android-$abi-v%v.apk
     timeout: 3600
     ndk: r28c
     srclibs:
-      - flutter@$FLUTTER_VERSION
+      - flutter@stable
     rm:
       - docs/qa/fractal-audits
       - integration_test
@@ -134,23 +152,56 @@ Builds:
       - windows
       - research
     prebuild:
+      - flutterVersion=\$(sed -n -E "s/.*flutter-version:\ '(.*)'/\\1/p" .github/workflows/fdroid-source-build.yml)
+      - '[[ \$flutterVersion ]]'
+      - git -C \$\$flutter\$\$ checkout -f \$flutterVersion
+      - export repo=$REPRO_BUILD_ROOT
+      - rm -rf \$repo
+      - cd ..
+      - mv $PACKAGE_ID \$repo
+      - pushd \$repo
       - export PUB_CACHE="\$(pwd)/.pub-cache"
       - \$\$flutter\$\$/bin/flutter config --no-analytics
       - \$\$flutter\$\$/bin/flutter pub get --enforce-lockfile
+      - popd
+      - mv \$repo $PACKAGE_ID
     scandelete:
       - .pub-cache
     build:
+      - export repo=$REPRO_BUILD_ROOT
+      - rm -rf \$repo
+      - cd ..
+      - mv $PACKAGE_ID \$repo
+      - pushd \$repo
       - export PUB_CACHE="\$(pwd)/.pub-cache"
       - export FDROID_BUILD=1
+      - export SOURCE_DATE_EPOCH=\$(git show -s --format=%ct HEAD)
       - version_name=\$(sed -n 's/^versionName=//p' fdroid/version.properties)
       - version_code=\$(sed -n 's/^versionCode=//p' fdroid/version.properties)
-      - \$\$flutter\$\$/bin/flutter build apk --release --build-name="\$version_name" --build-number="\$version_code"
+      - \$\$flutter\$\$/bin/flutter build apk --release --split-per-abi --target-platform="$target" --build-name="\$version_name" --build-number="\$version_code"
+      - popd
+      - mv \$repo $PACKAGE_ID
+
+EOF
+}
+
+render_build_block "armeabi-v7a" "android-arm" 1
+render_build_block "arm64-v8a" "android-arm64" 2
+render_build_block "x86_64" "android-x64" 3
+
+current_version_code=$((BUILD_NUMBER * 10 + 3))
+cat >>"$metadata" <<EOF
+AllowedAPKSigningKeys: $SIGNING_CERT_SHA256
 
 AutoUpdateMode: Version
 UpdateCheckMode: Tags ^v[0-9]+\\.[0-9]+\\.[0-9]+$
+VercodeOperation:
+  - '%c * 10 + 1'
+  - '%c * 10 + 2'
+  - '%c * 10 + 3'
 UpdateCheckData: fdroid/version.properties|versionCode=(\\d+)|.|versionName=(.+)
 CurrentVersion: $VERSION
-CurrentVersionCode: $BUILD_NUMBER
+CurrentVersionCode: $current_version_code
 EOF
 
 source_epoch="$(git -C "$PROJECT_ROOT" show -s --format=%ct "$COMMIT")"
@@ -179,70 +230,90 @@ command -v "$FLUTTER_BIN" >/dev/null 2>&1 || {
   echo "[fdroid] ERROR: official recipe requires Flutter $FLUTTER_VERSION" >&2; exit 1;
 }
 
-build_apk() {
+ABIS=("armeabi-v7a" "arm64-v8a" "x86_64")
+ABI_CODES=(1 2 3)
+
+built_apk_for() {
+  printf '%s/build/app/outputs/flutter-apk/app-%s-release.apk' "$PROJECT_ROOT" "$1"
+}
+
+build_apks() {
   local clean_output="${1:-0}"
   if (( clean_output == 1 )); then
     rm -rf "$PROJECT_ROOT/build"
   else
-    rm -f "$PROJECT_ROOT/build/app/outputs/flutter-apk/app-release.apk" \
-      "$PROJECT_ROOT/build/app/outputs/flutter-apk/app-release-unsigned.apk"
+    rm -f "$PROJECT_ROOT"/build/app/outputs/flutter-apk/app-*-release.apk
   fi
   (
     cd "$PROJECT_ROOT"
     env SOURCE_DATE_EPOCH="$source_epoch" FDROID_BUILD=1 \
-      "$FLUTTER_BIN" build apk --release \
+      "$FLUTTER_BIN" build apk --release --split-per-abi \
         --build-name="$VERSION" --build-number="$BUILD_NUMBER"
   )
+}
+
+verify_built_apks() {
+  local index abi version_code built_apk
+  for index in "${!ABIS[@]}"; do
+    abi="${ABIS[$index]}"
+    version_code=$((BUILD_NUMBER * 10 + ABI_CODES[$index]))
+    built_apk="$(built_apk_for "$abi")"
+    [[ -f "$built_apk" ]] || {
+      echo "[fdroid] ERROR: Flutter did not produce $abi release APK" >&2; exit 1;
+    }
+    "$SCRIPT_DIR/verify-fdroid-apk.sh" "$built_apk" "$VERSION" "$version_code" "$abi"
+  done
 }
 
 (
   cd "$PROJECT_ROOT"
   "$FLUTTER_BIN" pub get --enforce-lockfile
 )
-build_apk "$REPRODUCIBLE"
-built_apk="$PROJECT_ROOT/build/app/outputs/flutter-apk/app-release.apk"
-if [[ ! -f "$built_apk" ]]; then
-  built_apk="$PROJECT_ROOT/build/app/outputs/flutter-apk/app-release-unsigned.apk"
-fi
-[[ -f "$built_apk" ]] || {
-  echo "[fdroid] ERROR: Flutter did not produce a release APK" >&2; exit 1;
-}
-"$SCRIPT_DIR/verify-fdroid-apk.sh" "$built_apk" "$VERSION" "$BUILD_NUMBER"
+build_apks "$REPRODUCIBLE"
+verify_built_apks
 
 if (( REPRODUCIBLE == 1 )); then
-  first_apk="$OUTPUT_DIR/.first-fdroid-build.apk"
-  cp "$built_apk" "$first_apk"
-  build_apk 1
-  built_apk="$PROJECT_ROOT/build/app/outputs/flutter-apk/app-release.apk"
-  if [[ ! -f "$built_apk" ]]; then
-    built_apk="$PROJECT_ROOT/build/app/outputs/flutter-apk/app-release-unsigned.apk"
-  fi
-  "$SCRIPT_DIR/verify-fdroid-apk.sh" "$built_apk" "$VERSION" "$BUILD_NUMBER"
-  if ! cmp -s "$first_apk" "$built_apk"; then
-    echo "[fdroid] ERROR: clean F-Droid builds are not byte-for-byte reproducible" >&2
-    sha256sum "$first_apk" "$built_apk" >&2
-    rm -f "$first_apk"
-    exit 1
-  fi
-  rm -f "$first_apk"
-  echo "[fdroid] reproducibility check passed"
+  for abi in "${ABIS[@]}"; do
+    cp "$(built_apk_for "$abi")" "$OUTPUT_DIR/.first-fdroid-build-$abi.apk"
+  done
+  build_apks 1
+  verify_built_apks
+  for abi in "${ABIS[@]}"; do
+    first_apk="$OUTPUT_DIR/.first-fdroid-build-$abi.apk"
+    built_apk="$(built_apk_for "$abi")"
+    if ! cmp -s "$first_apk" "$built_apk"; then
+      echo "[fdroid] ERROR: clean $abi F-Droid builds are not byte-for-byte reproducible" >&2
+      sha256sum "$first_apk" "$built_apk" >&2
+      rm -f "$OUTPUT_DIR"/.first-fdroid-build-*.apk
+      exit 1
+    fi
+  done
+  rm -f "$OUTPUT_DIR"/.first-fdroid-build-*.apk
+  echo "[fdroid] reproducibility checks passed for all ABI APKs"
 fi
 
-staged_apk="$OUTPUT_DIR/fractal-forge-fdroid-v$VERSION-unsigned.apk"
-cp "$built_apk" "$staged_apk"
-sha256="$(sha256sum "$staged_apk" | awk '{ print $1 }')"
-cat >"$staged_apk.provenance" <<EOF
+for index in "${!ABIS[@]}"; do
+  abi="${ABIS[$index]}"
+  version_code=$((BUILD_NUMBER * 10 + ABI_CODES[$index]))
+  built_apk="$(built_apk_for "$abi")"
+  staged_apk="$OUTPUT_DIR/fractal-forge-fdroid-v$VERSION-$abi-unsigned.apk"
+  cp "$built_apk" "$staged_apk"
+  sha256="$(sha256sum "$staged_apk" | awk '{ print $1 }')"
+  cat >"$staged_apk.provenance" <<EOF
 version=$VERSION
-build_number=$BUILD_NUMBER
+base_build_number=$BUILD_NUMBER
+version_code=$version_code
+abi=$abi
 commit=$COMMIT
 sha256=$sha256
 unsigned=true
 flutter_version=$FLUTTER_VERSION
 source_date_epoch=$source_epoch
 EOF
-(
-  cd "$(dirname "$staged_apk")"
-  sha256sum "$(basename "$staged_apk")" >"$(basename "$staged_apk").sha256"
-)
-echo "[fdroid] unsigned APK: $staged_apk"
+  (
+    cd "$(dirname "$staged_apk")"
+    sha256sum "$(basename "$staged_apk")" >"$(basename "$staged_apk").sha256"
+  )
+  echo "[fdroid] unsigned APK: $staged_apk"
+done
 echo "[fdroid] metadata bundle: $archive"

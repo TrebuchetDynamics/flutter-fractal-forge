@@ -29,8 +29,8 @@ set -euo pipefail
 #   website    Build the Flutter web app and deploy it to the
 #              flutter-fractal-forge Cloudflare Pages project
 #              (fractal.trebuchetdynamics.com) via `wrangler pages deploy`
-#   fdroid     Build and verify the unsigned universal APK that official
-#              F-Droid will build and sign, then package fdroiddata metadata.
+#   fdroid     Build and verify unsigned ABI APKs that official F-Droid will
+#              reproduce, then package fdroiddata metadata.
 #   all        android-build, F-Droid, Linux, Windows, evidence, GitHub,
 #              website, then Play. Every artifact and final evidence gate
 #              completes before publication starts.
@@ -60,9 +60,8 @@ set -euo pipefail
 #                          Key, which this project's .env already has).
 #
 # F-Droid's official catalog has no APK upload API. This pipeline validates
-# the exact unsigned source build and emits fdroiddata metadata; F-Droid's
-# isolated infrastructure performs signing and publication after the one-time
-# upstream metadata merge.
+# exact unsigned ABI source builds and emits fdroiddata metadata; F-Droid then
+# verifies them against upstream-signed reference APKs before publication.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
@@ -508,7 +507,8 @@ stage_android_build() {
      "$built_number" == "$RESOLVED_ANDROID_BUILD_NUMBER" ]] ||
     die "Built Android identity '${built_name}+${built_number}' does not match confirmed '${RESOLVED_ANDROID_VERSION}+${RESOLVED_ANDROID_BUILD_NUMBER}'"
 
-  local latest_aab staged_aab target_spec target abi artifact preflight_evidence
+  local latest_aab staged_aab target_spec abi abi_code artifact preflight_evidence
+  local repro_root source_epoch
   local android_evidence_args=()
   latest_aab="$(tr -d '\r\n' < play-console-upload/LATEST_AAB.txt)"
   [[ -f "$latest_aab" ]] || die "Built AAB not found: $latest_aab"
@@ -522,24 +522,36 @@ stage_android_build() {
   android_evidence_args+=(--artifact "$staged_aab")
 
   rm -f "$ARTIFACT_DIR"/fractal-forge-android-*-v*.apk
+  repro_root=/tmp/fractal-forge-reproducible
+  source_epoch="$(git show -s --format=%ct HEAD)"
+  rm -rf "$repro_root"
+  git clone --no-local "$PROJECT_ROOT" "$repro_root"
+  git -C "$repro_root" checkout --detach "$(git rev-parse HEAD)"
+  cp android/key.properties "$repro_root/android/key.properties"
+  (
+    cd "$repro_root"
+    export PUB_CACHE="$(pwd)/.pub-cache"
+    "$FLUTTER_BIN" pub get --enforce-lockfile
+    env SOURCE_DATE_EPOCH="$source_epoch" \
+      "$FLUTTER_BIN" build apk --release --split-per-abi \
+        --build-name="$RESOLVED_ANDROID_VERSION" \
+        --build-number="$RESOLVED_ANDROID_BUILD_NUMBER"
+  )
   for target_spec in \
-    android-arm:armeabi-v7a \
-    android-arm64:arm64-v8a \
-    android-x64:x86_64; do
-    target="${target_spec%%:*}"
-    abi="${target_spec##*:}"
-    "$FLUTTER_BIN" build apk --release --target-platform="$target" \
-      --android-project-arg="release-abi=$abi" \
-      --build-name="$RESOLVED_ANDROID_VERSION" \
-      --build-number="$RESOLVED_ANDROID_BUILD_NUMBER"
+    armeabi-v7a:1 \
+    arm64-v8a:2 \
+    x86_64:3; do
+    abi="${target_spec%%:*}"
+    abi_code="${target_spec##*:}"
     artifact="$ARTIFACT_DIR/fractal-forge-android-${abi}-v${RESOLVED_ANDROID_VERSION}.apk"
-    cp build/app/outputs/flutter-apk/app-release.apk "$artifact"
+    cp "$repro_root/build/app/outputs/flutter-apk/app-${abi}-release.apk" "$artifact"
     verify_android_apk "$artifact" "$abi" "$RESOLVED_ANDROID_VERSION" \
-      "$RESOLVED_ANDROID_BUILD_NUMBER"
+      "$((RESOLVED_ANDROID_BUILD_NUMBER * 10 + abi_code))"
     write_artifact_provenance "$artifact" "$RESOLVED_ANDROID_VERSION" \
       "$RESOLVED_ANDROID_BUILD_NUMBER" "$(git rev-parse HEAD)"
     android_evidence_args+=(--artifact "$artifact")
   done
+  rm -rf "$repro_root"
 
   preflight_evidence="$ARTIFACT_DIR/.android-preflight-evidence"
   rm -rf "$preflight_evidence"
@@ -919,7 +931,7 @@ stage_website() {
 
 stage_fdroid() {
   log "=== fdroid: official catalog source-build readiness ==="
-  if ! guarded "build an unsigned reproducible APK and package fdroiddata submission metadata"; then
+  if ! guarded "build unsigned reproducible ABI APKs and package fdroiddata submission metadata"; then
     return 0
   fi
   need git

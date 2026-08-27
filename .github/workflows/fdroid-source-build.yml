@@ -96,12 +96,15 @@ jobs:
             -w /repo \
             "$image" \
             lint com.trebuchetdynamics.fractal.forge
+          base_code=${{ steps.release.outputs.build_number }}
           docker run --rm \
             -v /tmp/fdroiddata:/repo \
             -w /repo \
             "$image" \
             scanner --exit-code \
-            "com.trebuchetdynamics.fractal.forge:${{ steps.release.outputs.build_number }}"
+            "com.trebuchetdynamics.fractal.forge:$((base_code * 10 + 1))" \
+            "com.trebuchetdynamics.fractal.forge:$((base_code * 10 + 2))" \
+            "com.trebuchetdynamics.fractal.forge:$((base_code * 10 + 3))"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: fdroid-source-build-${{ steps.release.outputs.version }}

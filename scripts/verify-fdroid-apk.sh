@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ $# -ne 3 ]]; then
-  echo "Usage: scripts/verify-fdroid-apk.sh APK VERSION BUILD_NUMBER" >&2
+if [[ $# -ne 4 ]]; then
+  echo "Usage: scripts/verify-fdroid-apk.sh APK VERSION VERSION_CODE ABI" >&2
   exit 2
 fi
 
 APK="$1"
 EXPECTED_VERSION="$2"
 EXPECTED_BUILD="$3"
+EXPECTED_ABI="$4"
 EXPECTED_PACKAGE="com.trebuchetdynamics.fractal.forge"
 
 [[ -f "$APK" ]] || { echo "[fdroid] ERROR: APK not found: $APK" >&2; exit 1; }
@@ -35,8 +36,8 @@ version_name="$(sed -n "s/^package:.*versionName='\([^']*\)'.*/\1/p" <<<"$badgin
 }
 
 abis="$(unzip -Z1 "$APK" | sed -n 's#^lib/\([^/]*\)/.*#\1#p' | sort -u | paste -sd, -)"
-[[ "$abis" == "arm64-v8a,armeabi-v7a,x86_64" ]] || {
-  echo "[fdroid] ERROR: universal APK ABI set mismatch: $abis" >&2; exit 1;
+[[ "$abis" == "$EXPECTED_ABI" ]] || {
+  echo "[fdroid] ERROR: APK ABI mismatch: $abis != $EXPECTED_ABI" >&2; exit 1;
 }
 
 if apksigner verify "$APK" >/dev/null 2>&1; then
@@ -44,4 +45,4 @@ if apksigner verify "$APK" >/dev/null 2>&1; then
   exit 1
 fi
 
-echo "[fdroid] verified unsigned universal APK: $EXPECTED_PACKAGE $EXPECTED_VERSION+$EXPECTED_BUILD ($abis)"
+echo "[fdroid] verified unsigned ABI APK: $EXPECTED_PACKAGE $EXPECTED_VERSION+$EXPECTED_BUILD ($abis)"
