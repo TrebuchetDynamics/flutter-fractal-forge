@@ -1,113 +1,48 @@
 {
-  "source": "Fractal Forge production CPU renderer",
-  "moduleId": "julia",
-  "view": {
-    "panX": 0.43924829363822937,
-    "panY": 0.1480879932641983,
-    "zoom": 14.580000000000002
+  "name": "Recursive Ember",
+  "concept": "Three self-similar spiral arms orbit a hot geometric forge core, combining recursion, motion, and making in one scalable mark.",
+  "source": {
+    "type": "SVG vector artwork",
+    "path": "assets/icon/fractal_forge_mark.svg",
+    "sha256": "abfbd25e5bdbd75151dffe9e6650b57302a8c69ba6ad52b0c730195a2692a248"
   },
-  "parameters": {
-    "juliaCReal": 0.285,
-    "juliaCImag": 0.01,
-    "iterations": 800,
-    "bailout": 4.0,
-    "sampleCount": 4
-  },
-  "capture": {
-    "width": 2048,
-    "height": 2048,
-    "format": "PNG",
-    "untouchedAsset": "assets/fractal-forge-icon-source.png",
-    "sha256": "f37c9c034f3c074c488d09a686e5c4e661a8752428b71fa48fa902d9826c2944"
-  },
-  "colorGrade": {
-    "name": "Purple Blue Infinite Pivot",
-    "mapping": "0.76*luminance + 0.24*saturation, exponent 1.12",
-    "subjectStops": [
-      {
-        "position": 0.0,
-        "color": "#08042C"
-      },
-      {
-        "position": 0.33,
-        "color": "#160847"
-      },
-      {
-        "position": 0.4,
-        "color": "#6425D1"
-      },
-      {
-        "position": 0.52,
-        "color": "#4230D8"
-      },
-      {
-        "position": 0.65,
-        "color": "#193FD5"
-      },
-      {
-        "position": 0.735,
-        "color": "#116FE4"
-      },
-      {
-        "position": 0.765,
-        "color": "#1599E8"
-      },
-      {
-        "position": 0.78,
-        "color": "#26CB72"
-      },
-      {
-        "position": 0.788,
-        "color": "#26CB72"
-      },
-      {
-        "position": 0.794,
-        "color": "#6A25D1"
-      },
-      {
-        "position": 0.798,
-        "color": "#EF3051"
-      },
-      {
-        "position": 1.0,
-        "color": "#EF3051"
-      }
-    ],
-    "geometryModified": false
+  "palette": {
+    "backgroundEdge": "#040412",
+    "backgroundCore": "#220A52",
+    "cyan": "#22E7FF",
+    "indigo": "#6975FF",
+    "violet": "#B64CFF",
+    "coral": "#FF477E",
+    "ember": "#FFD36A"
   },
   "composition": {
-    "effectiveCropZoom": 9.0,
-    "rotationDegrees": 180,
-    "pivotPlacement": "upper-left, halfway from center to circumference",
-    "pivotTargetNormalizedX": -0.3535533905932738,
-    "pivotTargetNormalizedY": -0.3535533905932738,
-    "fullIconPixels": 1024,
+    "masterPixels": 1024,
     "playStorePixels": 512,
-    "adaptiveForegroundPixels": 1024,
-    "adaptiveCanvasPixels": 1024,
-    "adaptiveForegroundInset": 0
+    "legacyMarkScale": 1.24,
+    "adaptiveForegroundScale": 1.0,
+    "adaptiveBackground": "#160847",
+    "safeZone": "All primary geometry remains within the Android adaptive icon safe region."
   },
-  "allowedAdaptations": [
-    "palette grading",
-    "contrast",
-    "uniform zoom",
-    "viewport translation",
-    "180-degree rotation",
-    "adaptive foreground conversion"
-  ],
-  "syntheticGeometryAdded": false,
-  "rendererSourceFiles": [
+  "outputs": [
     {
-      "path": "lib/features/renderer/cpu/cpu_fractal_renderer.dart",
-      "sha256": "2c791271bc6c20b322f4409be98911b2f7c95d17a92cf90f0c47cf5747921154"
+      "path": "assets/icon/ic_launcher.png",
+      "purpose": "Legacy, iOS, desktop, and web launcher source",
+      "sha256": "91637c5bc60e7aca4cf5a583504246109dd940050f668c9d51d3f055635ea2df"
     },
     {
-      "path": "lib/features/renderer/cpu/cpu_render_isolate.dart",
-      "sha256": "c4950339783c5f0039564cff4508c529b154b017ae19382a85a1e042aca028bb"
+      "path": "assets/icon/ic_launcher_foreground.png",
+      "purpose": "Transparent Android adaptive foreground",
+      "sha256": "a82662649b79566ac2a16cb22503390df07620c87def1fefe7825d1085c77706"
     },
     {
-      "path": "lib/features/renderer/cpu/cpu_formulas.dart",
-      "sha256": "de5650c303bc34ac8adc5093f0f0b8ca4455279db6d9e1e907aae188b52b16ca"
+      "path": "assets/icon/ic_launcher_512.png",
+      "purpose": "Google Play Store icon",
+      "sha256": "bcb7ccc833272f090541e7b7b825f63a21753248a4023370198e2dbb84b4437f"
+    },
+    {
+      "path": "assets/icon/logo_64.png",
+      "purpose": "Small in-app brand mark",
+      "sha256": "0bbd43935f2acac85fe75e0c7c9a1f1ef128460221fe07513e6e05dbf298edfe"
     }
   ]
 }
