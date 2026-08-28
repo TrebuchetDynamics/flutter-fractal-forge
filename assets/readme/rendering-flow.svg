@@ -9,7 +9,7 @@
   </defs>
   <rect width="1200" height="330" rx="24" fill="#0a0a12"/>
   <text x="56" y="52" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="28" font-weight="700">From formula to finished image</text>
-  <text x="1144" y="50" text-anchor="end" fill="#77758b" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">ONE SHARED VIEW STATE</text>
+  <text x="1144" y="50" text-anchor="end" fill="#858397" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">ONE SHARED VIEW STATE</text>
 
   <path d="M146 138 H1052" stroke="#343247" stroke-width="2"/>
   <path d="M146 138 H1052" stroke="url(#flow)" stroke-width="3" stroke-dasharray="210 28" opacity="0.75"/>
@@ -49,12 +49,12 @@
   </g>
 
   <g transform="translate(56 286)" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">
-    <text x="0" y="0" fill="#77758b">PRECISION LADDER</text>
+    <text x="0" y="0" fill="#858397">PRECISION LADDER</text>
     <text x="164" y="0" fill="#c4b5fd">REALTIME GPU</text>
-    <text x="294" y="0" fill="#57556a">→</text>
+    <text x="294" y="0" fill="#858397">→</text>
     <text x="326" y="0" fill="#a5f3fc">EXTENDED GPU PREVIEW</text>
-    <text x="526" y="0" fill="#57556a">→</text>
+    <text x="526" y="0" fill="#858397">→</text>
     <text x="558" y="0" fill="#d4d4dc">CPU PRECISION*</text>
-    <text x="1144" y="0" text-anchor="end" fill="#77758b">*SUPPORTED MODULES</text>
+    <text x="1144" y="0" text-anchor="end" fill="#858397">*SUPPORTED MODULES</text>
   </g>
 </svg>

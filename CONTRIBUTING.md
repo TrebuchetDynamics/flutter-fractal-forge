@@ -10,6 +10,7 @@ Thank you for your interest in contributing! This document provides guidelines a
 - [Project Structure](#project-structure)
 - [Coding Standards](#coding-standards)
 - [Submitting Changes](#submitting-changes)
+- [Building Release Artifacts](#building-release-artifacts)
 - [Adding New Fractals](#adding-new-fractals)
 - [Reporting Bugs](#reporting-bugs)
 - [Feature Requests](#feature-requests)
@@ -221,9 +222,37 @@ test: add widget tests for preset sheet
 - [ ] Localization strings added (if applicable)
 - [ ] Tested on at least one platform
 
+## Building Release Artifacts
+
+Use Flutter's release targets for local artifacts:
+
+```bash
+flutter build apk --release
+flutter build appbundle --release
+flutter build web --release
+flutter build linux --release
+```
+
+Equivalent targets exist for macOS, Windows, and iOS. Linux Fractal Music uses `paplay` or `aplay` when available.
+
+For a Google Play upload build:
+
+1. Copy `android/key.properties.example` to `android/key.properties`.
+2. Point `storeFile` to a private upload keystore, preferably outside the repository.
+3. Never commit signing files, upload keystores, or `android/key.properties`.
+4. Run `scripts/build-play-console.sh`.
+
 ## Adding New Fractals
 
-To add a new fractal type:
+A typical shader-backed addition should stay focused:
+
+1. Add or update the `.frag` shader.
+2. Register the asset under `flutter.shaders` in `pubspec.yaml`.
+3. Add the module config or builder mapping.
+4. Add a focused contract or renderer test.
+5. Run a GPU thumbnail/render audit for visual changes.
+
+The detailed steps below show where those pieces live.
 
 ### 1. Create the Shader
 
@@ -231,17 +260,17 @@ Add a new fragment shader in `shaders/`:
 
 ```glsl
 // shaders/my_fractal.frag
-#version 320 es
+#include <flutter/runtime_effect.glsl>
+
 precision highp float;
-
-uniform float uTime;
 uniform vec2 uResolution;
-// Add your uniforms...
-
+uniform vec2 uCenter;
+uniform float uZoom;
 out vec4 fragColor;
 
 void main() {
-    // Your fractal algorithm
+  vec2 uv = (FlutterFragCoord().xy - 0.5 * uResolution) / uResolution.y;
+  fragColor = vec4(uv * 0.5 + 0.5, 0.2, 1.0);
 }
 ```
 

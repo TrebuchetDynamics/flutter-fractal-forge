@@ -21,27 +21,20 @@
 
 Fractal Forge is an open-source Flutter explorer for mathematical systems and generative art. Browse **1014 production fractals**, tune parameters in real time, move through deep-zoom render paths, and export the views worth keeping.
 
-## See it in motion
+## See what it renders
 
 <p align="center">
-  <a href="https://fractal.trebuchetdynamics.com"><img src="docs/assets/launch/web_preview_loop.gif" width="760" alt="Browser preview moving from the Fractal Forge catalog into an interactive viewer"></a>
+  <a href="https://fractal.trebuchetdynamics.com"><img src="assets/readme/catalog-grid.webp" width="100%" alt="A grid of colorful Fractal Forge catalog renders from several mathematical families"></a>
 </p>
 
-<p align="center">
-  <img src="assets/readme/catalog-grid.webp" width="100%" alt="A grid of colorful Fractal Forge catalog renders from several mathematical families">
-</p>
-
-> The loop and catalog grid are browser smoke evidence, not a claim of full web/app parity. Export, sharing, CPU precision, and hardware GPU behavior are most complete in the installable app; see the [renderer backend matrix](docs/engineering/rendering/renderer_backend_matrix.md).
+> The static gallery is representative project output, not a claim of full web/app parity. Export, sharing, CPU precision, and hardware GPU behavior are most complete in the installable app; see the [renderer backend matrix](docs/engineering/rendering/renderer_backend_matrix.md).
 
 ## What makes it useful
 
-- **Broad mathematical range** — 1014 production fractals across escape-time formulas, root-finding basins, strange attractors, IFS, cellular systems, tilings, space-filling curves, and ray-marched 3D forms.
-- **GPU-first interaction** — Flutter fragment shaders keep ordinary exploration responsive, with deeper preview and CPU paths where the module supports them.
-- **A real creative toolset** — presets, randomizer, looper, auto-explore, dual Mandelbrot/Julia viewing, wallpaper tools, sharing, and Fractal Music experiments.
-- **Live Fourier analysis** — renderer-derived spectra, a finite-grid uncertainty laboratory (Cantor and Sierpiński masks, arbitrary-size FFT), and Fourier Music that composes deterministically from measured image features.
-- **Color as a first-class control** — 64 color schemes plus smooth coloring, orbit traps, distance estimation, stripe and curvature averaging, and normal-map relief.
-- **Private by design** — no ads, tracking, account requirement, or data collection.
-- **Accessible controls** — high contrast, reduced motion, screen-reader labels, and configurable touch targets.
+- **Explore a broad mathematical catalog** — 1014 production fractals spanning escape-time formulas, root-finding basins, attractors, IFS, cellular systems, tilings, and ray-marched 3D forms.
+- **Tune and render interactively** — GPU-first controls cover pan, zoom, presets, animation, 64 color schemes, and formula-specific parameters, with deeper preview and CPU paths where supported.
+- **Keep and extend the work** — export, share, set wallpapers, or experiment with dual Mandelbrot/Julia views, Fractal Music, and live Fourier analysis.
+- **Use it on your terms** — [no ads, tracking, account requirement, or data collection](https://fractal.trebuchetdynamics.com/privacy-policy), with high contrast, reduced motion, screen-reader labels, and configurable touch targets.
 
 ## Explore the catalog
 
@@ -102,17 +95,17 @@ Install **[Fractal Forge from Google Play](https://play.google.com/store/apps/de
 git clone https://github.com/TrebuchetDynamics/flutter-fractal-forge.git
 cd flutter-fractal-forge
 flutter pub get
-flutter run -d chrome
+flutter run -d chrome    # fastest preview; some app features are unavailable
 ```
 
-Choose another target with:
+For the fuller app feature set, choose an installable target:
 
 ```bash
 flutter devices
 flutter run -d linux     # or android, macos, windows, ios
 ```
 
-Chrome and Android are the most useful first targets when diagnosing device-specific shader behavior.
+Chrome is the quickest first render check; use Android or a desktop target when diagnosing platform-specific shaders, export, sharing, wallpaper, or precision behavior.
 
 ## Controls
 
@@ -133,24 +126,6 @@ Common controls include iterations, bailout, power, color scheme, Julia seed, or
 | Web | Preview | JavaScript/WebGL 2.0; not full app parity |
 | Linux, macOS, Windows | Development targets | Shader support depends on GPU and driver behavior |
 | iOS | Build target | Requires Apple signing and Metal-backed Flutter rendering |
-
-## Build release artifacts
-
-```bash
-flutter build apk --release
-flutter build appbundle --release
-flutter build web --release
-flutter build linux --release
-```
-
-For a Google Play upload build:
-
-1. Copy `android/key.properties.example` to `android/key.properties`.
-2. Point `storeFile` to a private upload keystore, preferably outside the repository.
-3. Never commit signing files or `android/key.properties`.
-4. Run `scripts/build-play-console.sh`.
-
-Equivalent Flutter build targets exist for macOS, Windows, and iOS. Linux Fractal Music uses `paplay` or `aplay` when available.
 
 ## Architecture
 
@@ -198,33 +173,6 @@ flutter test integration_test/flows/critical_journey_test.dart
 ```
 
 See [`test/README.md`](test/README.md) for the fast safety lane and test conventions.
-
-## Shader development
-
-Shaders live in [`shaders/`](shaders/) and must be declared under `flutter.shaders` in [`pubspec.yaml`](pubspec.yaml).
-
-A typical addition is deliberately small:
-
-1. Add or update the `.frag` shader.
-2. Register the asset in `pubspec.yaml`.
-3. Add the module config or builder mapping.
-4. Add a focused contract or renderer test.
-5. Run a GPU thumbnail/render audit for visual changes.
-
-```glsl
-#include <flutter/runtime_effect.glsl>
-
-precision highp float;
-uniform vec2 uResolution;
-uniform vec2 uCenter;
-uniform float uZoom;
-out vec4 fragColor;
-
-void main() {
-  vec2 uv = (FlutterFragCoord().xy - 0.5 * uResolution) / uResolution.y;
-  fragColor = vec4(uv * 0.5 + 0.5, 0.2, 1.0);
-}
-```
 
 ## Project references
 
