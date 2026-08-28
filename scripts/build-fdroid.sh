@@ -99,6 +99,7 @@ rm -rf "$FDROIDDATA_DIR"
 mkdir -p "$METADATA_DIR"
 
 metadata="$METADATA_DIR/$PACKAGE_ID.yml"
+yaml_space=" "
 cat >"$metadata" <<EOF
 Categories:
   - Graphics
@@ -106,21 +107,16 @@ Categories:
 License: Apache-2.0
 AuthorName: Trebuchet Dynamics
 AuthorWebSite: https://trebuchetdynamics.com
-AutoName: Fractal Forge
 WebSite: https://fractal.trebuchetdynamics.com
 SourceCode: https://github.com/TrebuchetDynamics/flutter-fractal-forge
 IssueTracker: https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues
-Changelog: https://github.com/TrebuchetDynamics/flutter-fractal-forge/blob/main/CHANGELOG.md
+Changelog:$yaml_space
+  https://github.com/TrebuchetDynamics/flutter-fractal-forge/blob/main/CHANGELOG.md
+
+AutoName: Fractal Forge
 
 RepoType: git
 Repo: https://github.com/TrebuchetDynamics/flutter-fractal-forge.git
-
-MaintainerNotes: |-
-  FDROID_BUILD disables upstream signing so F-Droid can verify the three
-  ABI-specific APKs against the developer-signed reference binaries. Flutter's
-  official Android embedding retains unused Play Store deferred-component type
-  references even though this app declares no deferred components and its
-  releaseRuntimeClasspath contains no Play Core dependency.
 
 Builds:
 EOF
@@ -135,10 +131,10 @@ render_build_block() {
   - versionName: $VERSION
     versionCode: $version_code
     commit: $COMMIT
-    output: build/app/outputs/flutter-apk/app-$abi-release.apk
-    binary: https://github.com/TrebuchetDynamics/flutter-fractal-forge/releases/download/v%v/fractal-forge-android-$abi-v%v.apk
     timeout: 3600
-    ndk: r28c
+    output: build/app/outputs/flutter-apk/app-$abi-release.apk
+    binary:$yaml_space
+      https://github.com/TrebuchetDynamics/flutter-fractal-forge/releases/download/v%v/fractal-forge-android-$abi-v%v.apk
     srclibs:
       - flutter@stable
     rm:
@@ -178,9 +174,11 @@ render_build_block() {
       - export SOURCE_DATE_EPOCH=\$(git show -s --format=%ct HEAD)
       - version_name=\$(sed -n 's/^versionName=//p' fdroid/version.properties)
       - version_code=\$(sed -n 's/^versionCode=//p' fdroid/version.properties)
-      - \$\$flutter\$\$/bin/flutter build apk --release --split-per-abi --target-platform="$target" --build-name="\$version_name" --build-number="\$version_code"
+      - \$\$flutter\$\$/bin/flutter build apk --release --split-per-abi --target-platform="$target"
+        --build-name="\$version_name" --build-number="\$version_code"
       - popd
       - mv \$repo $PACKAGE_ID
+    ndk: r28c
 
 EOF
 }
@@ -192,6 +190,12 @@ render_build_block "x86_64" "android-x64" 3
 current_version_code=$((BUILD_NUMBER * 10 + 3))
 cat >>"$metadata" <<EOF
 AllowedAPKSigningKeys: $SIGNING_CERT_SHA256
+
+MaintainerNotes: |-
+  FDROID_BUILD disables upstream signing so F-Droid can verify the three
+  ABI-specific APKs against the developer-signed reference binaries. Release
+  minification removes Flutter's unused Play Store deferred-component
+  implementation; the app declares no deferred components or Play Core dependency.
 
 AutoUpdateMode: Version
 UpdateCheckMode: Tags ^v[0-9]+\\.[0-9]+\\.[0-9]+$

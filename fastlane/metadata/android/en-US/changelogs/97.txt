@@ -1,0 +1,1 @@
+Removes unused Play Store deferred-component bytecode and APK dependency metadata so F-Droid can verify clean, reproducible ABI packages.

@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   byte-for-byte reproducibility checks, signed reference binaries, pinned
   toolchains, tag CI, source-scanner gates, and Fastlane listing metadata.
 
+### Fixed
+
+- Android release minification now removes unused Flutter Play Store deferred-component
+  references and omits APK dependency metadata so F-Droid binary scans remain clean.
+
 ### Removed
 
 - Bundled FFmpeg and the Camera Looper MP4-with-music export. GIF export remains,

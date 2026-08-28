@@ -20,8 +20,8 @@ Run the stage directly while preparing a release:
 ```bash
 FLUTTER_BIN=/path/to/flutter \
   scripts/release.sh fdroid \
-  --prepare=1.1.96 \
-  --build-number=96
+  --prepare=1.1.97 \
+  --build-number=97
 ```
 
 Outputs are written below `release-artifacts/fdroid/`:
@@ -40,7 +40,7 @@ Before creating each release tag:
 3. Update the Fastlane title/descriptions when store-facing text changes. The short description must be at most 80 characters and must not end with a period.
 4. Commit these changes before running the release orchestrator. The official metadata uses the full tagged commit, never a branch name.
 
-The first release eligible for catalog submission is `1.1.96`. `v1.1.93` predates unsigned source-build support, `v1.1.94` was superseded after a clean-checkout scanner failure, and `v1.1.95` was superseded during packager review when ABI splits and reproducible reference binaries became requirements. Earlier tags must not be submitted as the initial F-Droid build.
+The first release eligible for catalog submission is `1.1.97`. `v1.1.93` predates unsigned source-build support, `v1.1.94` was superseded after a clean-checkout scanner failure, `v1.1.95` was superseded when ABI splits and reproducible reference binaries became requirements, and `v1.1.96` was superseded after the catalog binary scan exposed retained unused Play Core references and APK dependency metadata. Earlier tags must not be submitted as the initial F-Droid build.
 
 ## One-time official catalog submission
 
