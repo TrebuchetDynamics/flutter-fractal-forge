@@ -12,10 +12,12 @@ class CatalogThumbnailRenderGate {
   CatalogThumbnailRenderGate._();
 
   /// Configurable ceiling for concurrent live thumbnail renders.
-  static const int maxConcurrent = int.fromEnvironment(
+  static const int _configuredMaxConcurrent = int.fromEnvironment(
     'RUNTIME_CATALOG_THUMBNAILS_MAX_CONCURRENT',
     defaultValue: 4,
   );
+  static const int maxConcurrent =
+      _configuredMaxConcurrent < 1 ? 1 : _configuredMaxConcurrent;
 
   static int _active = 0;
   static final List<Completer<void>> _waiters = <Completer<void>>[];

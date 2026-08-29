@@ -5,7 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
-import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_thumbnail_cache.dart';
 import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -112,15 +111,13 @@ void main() {
   testWidgets('every visible tile serves cached pixels on a warm cache',
       (tester) async {
     final registry = ModuleRegistry();
-    final repo = CatalogRepository.fromRegistry(registry);
-    // Seed every entry: the whole catalog behaves like a second visit.
-    for (final entry in repo.entries) {
-      final signature = CatalogThumbnailCache.renderSignatureForModule(
-        entry.catalogId,
-        entry.module,
-      );
-      await CatalogThumbnailCache.store(signature, kTinyPng);
-    }
+    final module = registry.byId('alternated_iteration');
+    final signature = CatalogThumbnailCache.renderSignatureForModule(
+      'core.alternated_iteration',
+      module,
+      layout: CatalogThumbnailLayout.gridPortrait,
+    );
+    await CatalogThumbnailCache.store(signature, kTinyPng);
 
     await pumpCatalog(tester, registry);
 
@@ -133,7 +130,33 @@ void main() {
     expect(
       cachedTiles,
       findsWidgets,
-      reason: 'a fully seeded cache should serve visible tiles from memory',
+      reason: 'a warm visible entry should be served from memory',
+    );
+  });
+
+  testWidgets('corrupt cached bytes fall back without a decode exception',
+      (tester) async {
+    final registry = ModuleRegistry();
+    final module = registry.byId('alternated_iteration');
+    final signature = CatalogThumbnailCache.renderSignatureForModule(
+      'core.alternated_iteration',
+      module,
+      layout: CatalogThumbnailLayout.gridPortrait,
+    );
+    await CatalogThumbnailCache.store(
+      signature,
+      Uint8List.fromList(<int>[1, 2, 3]),
+    );
+
+    await pumpCatalog(tester, registry);
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull);
+    expect(
+      find.byKey(
+        const Key('catalogCachedThumbnail_core.alternated_iteration'),
+      ),
+      findsNothing,
     );
   });
 

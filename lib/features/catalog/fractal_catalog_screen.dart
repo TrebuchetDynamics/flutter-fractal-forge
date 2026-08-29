@@ -131,6 +131,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
 
   // Cached catalog — rebuilt only when registry changes.
   CatalogRepository? _catalog;
+  ModuleRegistry? _catalogRegistry;
 
   // Global shimmer controller
   late final _GlobalShimmerController _shimmerController;
@@ -211,8 +212,11 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   void didChangeDependencies() {
     super.didChangeDependencies();
     final registry = context.read<ModuleRegistry>();
-    // Only rebuild if not yet initialised (registry is effectively immutable
-    // after app start, so identity check is sufficient).
+    // Locale, text scale, and window changes can all revisit this hook. Avoid
+    // reconstructing and regrouping all ~1000 entries unless the provider
+    // actually supplies a different registry.
+    if (identical(_catalogRegistry, registry)) return;
+    _catalogRegistry = registry;
     _catalog = CatalogRepository.fromRegistry(registry);
   }
 
@@ -220,7 +224,9 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     if (!mounted) return;
     final prefs = await SharedPreferences.getInstance();
     final modeIndex = prefs.getInt(_viewModePrefKey);
-    final mode = modeIndex != null && modeIndex < CatalogViewMode.values.length
+    final mode = modeIndex != null &&
+            modeIndex >= 0 &&
+            modeIndex < CatalogViewMode.values.length
         ? CatalogViewMode.values[modeIndex]
         : (prefs.getBool(_viewPrefKey) ?? true
             ? CatalogViewMode.grid
@@ -803,7 +809,10 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
           providers: [
             ChangeNotifierProvider.value(value: controller),
           ],
-          child: FractalViewerScreen(catalogFamily: catalogFamily),
+          child: FractalViewerScreen(
+            catalogFamily: catalogFamily,
+            restoreViewerSession: false,
+          ),
         ),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           final curvedAnimation = CurvedAnimation(

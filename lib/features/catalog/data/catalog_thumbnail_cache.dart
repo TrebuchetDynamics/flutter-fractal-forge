@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 import 'dart:io';
 import 'dart:ui' as ui;
 
@@ -27,6 +28,9 @@ import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dar
 /// This intentionally does NOT re-introduce bundled assets/catalog_thumbs/
 /// PNGs (see assets/AGENTS.md); it is a runtime-produced cache, not bundled
 /// artwork.
+/// Thumbnail shapes that produce incompatible framing and cached pixels.
+enum CatalogThumbnailLayout { square, gridPortrait, gridWide }
+
 /// One cached file on disk, used for prune decisions.
 class DiskEntry {
   final String path;
@@ -37,6 +41,13 @@ class DiskEntry {
 
 class CatalogThumbnailCache {
   CatalogThumbnailCache._();
+
+  /// Shared quality profile used by both the renderer and cache signature.
+  /// These modest bounds preserve thumbnail detail without approaching the
+  /// substantially heavier full-viewer settings.
+  static const int targetWidth = 384;
+  static const int maxIterations = kIsWeb ? 24 : 40;
+  static const int maxColorCount = 24;
 
   /// Bump when thumbnail rendering changes (resolution, caps, palette logic)
   /// so existing on-disk artifacts are keyed apart instead of served stale.
@@ -54,14 +65,23 @@ class CatalogThumbnailCache {
   static const int _pruneInterval = 64;
   static int _storesSincePrune = 0;
 
-  /// signature -> PNG bytes (in-memory).
-  static final Map<String, Uint8List> _memory = <String, Uint8List>{};
+  /// A viewport-and-scroll-buffer-sized working set avoids retaining PNGs for
+  /// all ~1000 catalog entries in RAM; native evictions remain on disk.
+  static const int _maxMemoryEntries = 256;
+
+  /// signature -> PNG bytes, ordered least-recently-used to most-recently-used.
+  static final LinkedHashMap<String, Uint8List> _memory =
+      LinkedHashMap<String, Uint8List>();
 
   /// Disk is a production-only optimization. In automated tests the
   /// path_provider platform channel never answers, which would park pending
   /// futures forever; tests exercise the in-memory layer instead.
   static bool get _diskEnabled =>
       !kIsWeb && !RuntimeModeService.isAutomatedTest;
+
+  /// Whether callers should wait briefly for a native warm-cache lookup before
+  /// mounting a GPU renderer. Web and tests have no persistent cache layer.
+  static bool get usesPersistentStorage => _diskEnabled;
 
   /// Deterministic key for a thumbnail's pixels. Must be identical at check
   /// time and store time for the same rendered entry.
@@ -72,6 +92,7 @@ class CatalogThumbnailCache {
     required int? paletteIndex,
     required int width,
     required int height,
+    CatalogThumbnailLayout layout = CatalogThumbnailLayout.square,
   }) {
     final raw = <String>[
       catalogId,
@@ -80,6 +101,7 @@ class CatalogThumbnailCache {
       'maxColors=$maxColorCount',
       'palette=$paletteIndex',
       'size=$width|$height',
+      'layout=${layout.name}',
     ].join('|');
     return '$catalogId-${_fnv1a(raw).toRadixString(36)}';
   }
@@ -92,11 +114,10 @@ class CatalogThumbnailCache {
   static String renderSignatureForModule(
     String catalogId,
     FractalModule module, {
-    int width = 256,
-    int height = 256,
+    int width = targetWidth,
+    int height = targetWidth,
+    CatalogThumbnailLayout layout = CatalogThumbnailLayout.square,
   }) {
-    final maxIterations = kIsWeb ? 18 : 32;
-    const maxColorCount = 16;
     int? paletteIndex;
     for (final param in module.parameters) {
       if (param.id != 'colorScheme') continue;
@@ -112,6 +133,7 @@ class CatalogThumbnailCache {
       paletteIndex: paletteIndex,
       width: width,
       height: height,
+      layout: layout,
     );
   }
 
@@ -137,7 +159,12 @@ class CatalogThumbnailCache {
   // Memory
   // ---------------------------------------------------------------------------
 
-  static Uint8List? inMemory(String signature) => _memory[signature];
+  static Uint8List? inMemory(String signature) {
+    final bytes = _memory.remove(signature);
+    if (bytes == null || !_looksLikePng(bytes)) return null;
+    _memory[signature] = bytes;
+    return bytes;
+  }
 
   // ---------------------------------------------------------------------------
   // Disk (web-guarded, best-effort)
@@ -148,7 +175,10 @@ class CatalogThumbnailCache {
     try {
       final file = await _fileFor(signature);
       if (file == null || !await file.exists()) return null;
-      return await file.readAsBytes();
+      final bytes = await file.readAsBytes();
+      if (_looksLikePng(bytes)) return bytes;
+      await file.delete();
+      return null;
     } catch (_) {
       return null;
     }
@@ -156,7 +186,11 @@ class CatalogThumbnailCache {
 
   /// Best-effort: memory is authoritative; disk write is fire-and-forget.
   static Future<void> store(String signature, Uint8List png) async {
+    _memory.remove(signature);
     _memory[signature] = png;
+    while (_memory.length > _maxMemoryEntries) {
+      _memory.remove(_memory.keys.first);
+    }
     if (!_diskEnabled) return;
     try {
       final file = await _fileFor(signature);
@@ -171,6 +205,18 @@ class CatalogThumbnailCache {
       }
     } catch (_) {
       // Disk is best-effort; in-memory still holds the entry.
+    }
+  }
+
+  /// Removes a bad or obsolete entry from both cache layers.
+  static Future<void> evict(String signature) async {
+    _memory.remove(signature);
+    if (!_diskEnabled) return;
+    try {
+      final file = await _fileFor(signature);
+      if (file != null && await file.exists()) await file.delete();
+    } catch (_) {
+      // Eviction is best-effort; dropping memory still permits a rerender.
     }
   }
 
@@ -225,6 +271,22 @@ class CatalogThumbnailCache {
   // ---------------------------------------------------------------------------
   // ui.Image <-> PNG helpers
   // ---------------------------------------------------------------------------
+
+  static bool _looksLikePng(Uint8List bytes) {
+    if (bytes.length < 24) return false;
+    const signature = <int>[137, 80, 78, 71, 13, 10, 26, 10];
+    for (var i = 0; i < signature.length; i++) {
+      if (bytes[i] != signature[i]) return false;
+    }
+    return bytes[8] == 0 &&
+        bytes[9] == 0 &&
+        bytes[10] == 0 &&
+        bytes[11] == 13 &&
+        bytes[12] == 73 &&
+        bytes[13] == 72 &&
+        bytes[14] == 68 &&
+        bytes[15] == 82;
+  }
 
   static Future<Uint8List?> encodePng(ui.Image image) async {
     final bytes = await image.toByteData(format: ui.ImageByteFormat.png);

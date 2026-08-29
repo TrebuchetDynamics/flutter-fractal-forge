@@ -108,7 +108,10 @@ Older 370-count planning rows are retired.
   - **Root cause:** SkSL `%` and `clamp(int, int, int)` not supported
   - **Fix:** See P0-1 items above
 - [ ] **App icon overhaul** — Adaptive icon + Play Store asset needed
-- [ ] **Improve catalog thumbnails** — Larger view size, higher-quality renders
+- [x] **Improve catalog thumbnails** — Larger view size, higher-quality renders ✅ 2026-08-29
+  - Raised bounded capture/decode width to 384 px with high-quality filtering
+  - Increased thumbnail detail caps to 24 web / 40 native iterations and 24 colors
+  - Added layout-aware cache keys so portrait grids never reuse square captures
 - [ ] **Visual playtest audit** — Test every fractal (GPU + CPU), log failures
 - [x] GPU deep zoom not switching to CPU at all; adjust fallback thresholds/hysteresis
 - [x] **Panning bugs at high zoom** — Fixed 2026-08-12 by migrating

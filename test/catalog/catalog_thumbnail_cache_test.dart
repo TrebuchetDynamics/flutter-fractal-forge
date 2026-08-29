@@ -11,6 +11,12 @@ void main() {
   });
 
   group('CatalogThumbnailCache', () {
+    test('runtime render profile preserves useful thumbnail detail', () {
+      expect(CatalogThumbnailCache.targetWidth, greaterThanOrEqualTo(384));
+      expect(CatalogThumbnailCache.maxIterations, greaterThanOrEqualTo(24));
+      expect(CatalogThumbnailCache.maxColorCount, greaterThanOrEqualTo(24));
+    });
+
     test('renderSignature is deterministic per input', () {
       final a = CatalogThumbnailCache.renderSignature(
         catalogId: 'core.mandelbrot',
@@ -52,6 +58,29 @@ void main() {
       expect(lowIter, isNot(highIter));
     });
 
+    test('renderSignature changes across incompatible layouts', () {
+      final portrait = CatalogThumbnailCache.renderSignature(
+        catalogId: 'core.mandelbrot',
+        maxIterations: 32,
+        maxColorCount: 16,
+        paletteIndex: 3,
+        width: 256,
+        height: 256,
+        layout: CatalogThumbnailLayout.gridPortrait,
+      );
+      final square = CatalogThumbnailCache.renderSignature(
+        catalogId: 'core.mandelbrot',
+        maxIterations: 32,
+        maxColorCount: 16,
+        paletteIndex: 3,
+        width: 256,
+        height: 256,
+        layout: CatalogThumbnailLayout.square,
+      );
+
+      expect(portrait, isNot(square));
+    });
+
     test('renderSignature changes per catalogId/palette', () {
       final a = CatalogThumbnailCache.renderSignature(
         catalogId: 'core.mandelbrot',
@@ -83,11 +112,32 @@ void main() {
       );
       expect(CatalogThumbnailCache.inMemory(sig), isNull);
 
-      await CatalogThumbnailCache.store(sig, Uint8List.fromList([1, 2, 3]));
+      final pngHeader = Uint8List.fromList(<int>[
+        137, 80, 78, 71, 13, 10, 26, 10,
+        0, 0, 0, 13, 73, 72, 68, 82,
+        0, 0, 0, 1, 0, 0, 0, 1,
+      ]);
+      await CatalogThumbnailCache.store(sig, pngHeader);
 
       final bytes = CatalogThumbnailCache.inMemory(sig);
       expect(bytes, isNotNull);
-      expect(bytes, [1, 2, 3]);
+      expect(bytes, pngHeader);
+    });
+
+    test('memory cache evicts old thumbnails after its bounded capacity',
+        () async {
+      final pngHeader = Uint8List.fromList(<int>[
+        137, 80, 78, 71, 13, 10, 26, 10,
+        0, 0, 0, 13, 73, 72, 68, 82,
+        0, 0, 0, 1, 0, 0, 0, 1,
+      ]);
+      const capacity = 256;
+      for (var i = 0; i <= capacity; i++) {
+        await CatalogThumbnailCache.store('catalog-$i', pngHeader);
+      }
+
+      expect(CatalogThumbnailCache.inMemory('catalog-0'), isNull);
+      expect(CatalogThumbnailCache.inMemory('catalog-$capacity'), isNotNull);
     });
 
     test('signature key isolates entries from each other', () async {

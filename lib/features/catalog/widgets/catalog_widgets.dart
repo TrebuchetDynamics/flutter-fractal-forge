@@ -450,6 +450,11 @@ class _ModuleGridTileState extends State<_ModuleGridTile>
     final name = widget.entry.module.displayName(widget.l10n);
     final presetCount = widget.entry.module.builtInPresets.length + 1;
     final accentColor = _categoryAccentColor(widget.entry.category);
+    final thumbnailLayout = widget.miniatures
+        ? CatalogThumbnailLayout.square
+        : MediaQuery.sizeOf(context).width >= 1024
+            ? CatalogThumbnailLayout.gridWide
+            : CatalogThumbnailLayout.gridPortrait;
 
     return Semantics(
       // semanticFractalCard, not an inline string: the label was built in
@@ -515,6 +520,7 @@ class _ModuleGridTileState extends State<_ModuleGridTile>
                               catalogId: widget.entry.catalogId,
                               module: widget.entry.module,
                               category: widget.entry.category,
+                              layout: thumbnailLayout,
                               shimmerController: widget.shimmerController,
                             ),
                             // Gradient overlay for text
@@ -860,6 +866,7 @@ class _ModuleCardState extends State<_ModuleCard>
                     catalogId: widget.entry.catalogId,
                     module: widget.entry.module,
                     category: widget.entry.category,
+                    layout: CatalogThumbnailLayout.square,
                     shimmerController: widget.shimmerController,
                   ),
                 ),
@@ -997,12 +1004,14 @@ class _PreviewThumbnail extends StatefulWidget {
   final String catalogId;
   final FractalModule module;
   final String category;
+  final CatalogThumbnailLayout layout;
   final _GlobalShimmerController? shimmerController;
 
   const _PreviewThumbnail({
     required this.catalogId,
     required this.module,
     required this.category,
+    required this.layout,
     this.shimmerController,
   });
 
@@ -1023,12 +1032,14 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
   /// Deterministic cache key for this entry's rendered pixels.
   String get _thumbnailSignature =>
       CatalogThumbnailCache.renderSignatureForModule(
-          widget.catalogId, widget.module);
+        widget.catalogId,
+        widget.module,
+        layout: widget.layout,
+      );
 
   @override
   void initState() {
     super.initState();
-    _maybeLoadCachedPreview();
     // Use global controller if available, otherwise local fallback
     if (widget.shimmerController != null) {
       _localShimmerController = widget.shimmerController!.controller;
@@ -1050,7 +1061,11 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
         }
       });
     }
-    _scheduleRuntimePreview();
+    _maybeLoadCachedPreview();
+    if (!CatalogThumbnailCache.usesPersistentStorage &&
+        _cachedPreviewBytes == null) {
+      _scheduleRuntimePreview();
+    }
   }
 
   @override
@@ -1066,18 +1081,22 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
   @override
   void didUpdateWidget(_PreviewThumbnail oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.catalogId != widget.catalogId) {
+    if (oldWidget.catalogId != widget.catalogId ||
+        oldWidget.layout != widget.layout) {
       _imageLoaded = false;
       _imageError = false;
       _runtimePreviewEnabled = false;
       _cachedPreviewBytes = null;
       _cacheLoadStarted = false;
-      _scheduleRuntimePreview();
       _maybeLoadCachedPreview();
+      if (!CatalogThumbnailCache.usesPersistentStorage &&
+          _cachedPreviewBytes == null) {
+        _scheduleRuntimePreview();
+      }
     }
   }
 
-  void _scheduleRuntimePreview() {
+  void _scheduleRuntimePreview({bool notify = false}) {
     if (!_PreviewThumbnail._useRuntimeThumbnails ||
         (RuntimeModeService.isAutomatedTest &&
             !_PreviewThumbnail._forceRuntimeThumbnailsInTests)) {
@@ -1085,7 +1104,7 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
       return;
     }
     if (CatalogRuntimeThumbnailCache.isReady(widget.catalogId)) {
-      _runtimePreviewEnabled = true;
+      _enableRuntimePreview(notify: notify);
       return;
     }
 
@@ -1093,7 +1112,7 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
     // each runtime thumbnail, so every visible tile can request its preview
     // right away: the gate queues renderers instead of staggering blind
     // timers, and a tile renders as soon as a slot frees.
-    _enableRuntimePreview(notify: false);
+    _enableRuntimePreview(notify: notify);
   }
 
   void _enableRuntimePreview({bool notify = true}) {
@@ -1119,24 +1138,33 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
       return;
     }
 
+    if (!CatalogThumbnailCache.usesPersistentStorage) return;
+
     // Capture the signature at request time: the grid recycles elements, so
     // this state may be showing a different module by the time the disk read
     // resolves. Storing under the *current* signature would poison the cache
     // with another module's pixels.
-    final signature = _thumbnailSignature;
-    CatalogThumbnailCache.diskBytes(signature).then((Uint8List? bytes) {
+    unawaited(_loadPersistentPreview(_thumbnailSignature));
+  }
+
+  Future<void> _loadPersistentPreview(String signature) async {
+    try {
+      final bytes = await CatalogThumbnailCache.diskBytes(signature)
+          .timeout(const Duration(milliseconds: 250));
+      if (!mounted || signature != _thumbnailSignature) return;
       if (bytes != null) {
         // Promote to the in-memory cache for the rest of the session.
-        CatalogThumbnailCache.store(signature, bytes);
-        final stillCurrent = mounted &&
-            signature ==
-                CatalogThumbnailCache.renderSignatureForModule(
-                    widget.catalogId, widget.module);
-        if (stillCurrent) {
-          setState(() => _cachedPreviewBytes = bytes);
-        }
+        unawaited(CatalogThumbnailCache.store(signature, bytes));
+        setState(() => _cachedPreviewBytes = bytes);
+        return;
       }
-    }).catchError((Object _) {});
+    } catch (_) {
+      if (!mounted || signature != _thumbnailSignature) return;
+    }
+
+    // Only a native cache miss/timeout reaches the GPU. Warm cache hits avoid
+    // creating a controller, loading a shader, or taking a render-gate slot.
+    _scheduleRuntimePreview(notify: true);
   }
 
   void _markImageLoaded() {
@@ -1153,6 +1181,12 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
     if (signature != _thumbnailSignature) return;
     if (!mounted) return;
     setState(() => _cachedPreviewBytes = bytes);
+  }
+
+  void _discardCachedPreview(String signature) {
+    if (!mounted || signature != _thumbnailSignature) return;
+    unawaited(CatalogThumbnailCache.evict(signature));
+    setState(() => _cachedPreviewBytes = null);
   }
 
   void _markImageError() {
@@ -1181,6 +1215,7 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
         // instant across scroll-back, filters, and second+ launches.
         final cachedBytes = _cachedPreviewBytes;
         if (cachedBytes != null) {
+          final signature = _thumbnailSignature;
           return ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: Image.memory(
@@ -1188,11 +1223,19 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
               key: Key('catalogCachedThumbnail_${widget.catalogId}'),
               fit: BoxFit.cover,
               gaplessPlayback: true,
-              filterQuality: FilterQuality.medium,
+              filterQuality: FilterQuality.high,
               width: 256,
               height: 256,
-              cacheWidth: 256,
-              cacheHeight: 256,
+              cacheWidth: CatalogThumbnailCache.targetWidth,
+              errorBuilder: (context, error, stackTrace) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  _discardCachedPreview(signature);
+                });
+                return _GradientFallback(
+                  catalogId: widget.catalogId,
+                  category: widget.category,
+                );
+              },
             ),
           );
         }
@@ -1202,7 +1245,7 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
             // Keyed so a recycled tile never reuses another module's render
             // state: the capture below stores under the signature the child
             // was built with.
-            key: ValueKey('runtimePreview_${widget.catalogId}'),
+            key: ValueKey('runtimePreview_$_thumbnailSignature'),
             catalogId: widget.catalogId,
             module: widget.module,
             category: widget.category,
@@ -1331,7 +1374,6 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
   static const int _maxAttempts = 20;
   static const Duration _captureTimeout = Duration(seconds: 2);
   static const Duration _webCompileSlotHold = Duration(milliseconds: 750);
-  static const double _targetCaptureWidth = 320;
 
   @override
   void initState() {
@@ -1460,7 +1502,9 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
     try {
       // Capture at a bounded resolution: enough for crisp display at any tile
       // size without writing oversized PNGs to the disk cache.
-      final ratio = (_targetCaptureWidth / boundary.size.width).clamp(1.0, 2.0);
+      final ratio =
+          (CatalogThumbnailCache.targetWidth / boundary.size.width)
+              .clamp(1.0, 3.0);
       final png = await _capturePngWithTimeout(boundary, ratio);
       if (png == null) {
         _retryOrAbandonCapture();
@@ -1528,7 +1572,7 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
   ) {
     final controller = FractalController(context.read<ModuleRegistry>());
     controller.selectModule(module, animate: false);
-    final maxIterations = kIsWeb ? 18 : 32;
+    const maxIterations = CatalogThumbnailCache.maxIterations;
     final iterations = controller.params['iterations'];
     if (iterations is int && iterations > maxIterations) {
       controller.updateParam('iterations', maxIterations);
@@ -1536,11 +1580,12 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
       controller.updateParam('iterations', maxIterations.toDouble());
     }
 
+    const maxColorCount = CatalogThumbnailCache.maxColorCount;
     final colorCount = controller.params['colorCount'];
-    if (colorCount is int && colorCount > 16) {
-      controller.updateParam('colorCount', 16);
-    } else if (colorCount is double && colorCount > 16) {
-      controller.updateParam('colorCount', 16.0);
+    if (colorCount is int && colorCount > maxColorCount) {
+      controller.updateParam('colorCount', maxColorCount);
+    } else if (colorCount is double && colorCount > maxColorCount) {
+      controller.updateParam('colorCount', maxColorCount.toDouble());
     }
 
     final paletteIndex = _thumbnailPaletteIndex(catalogId, module);

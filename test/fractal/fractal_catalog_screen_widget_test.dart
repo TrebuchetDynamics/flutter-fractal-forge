@@ -3,6 +3,7 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
+import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -213,6 +214,10 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(controller.module.id, 'julia_dual');
+      final viewer = tester.widget<FractalViewerScreen>(
+        find.byType(FractalViewerScreen),
+      );
+      expect(viewer.restoreViewerSession, isFalse);
     });
 
     testWidgets('renders without error', (tester) async {
@@ -297,6 +302,22 @@ void main() {
       // And the grid-to-list icon should not be the active toggle icon.
       expect(find.byIcon(Icons.view_list_rounded), findsNothing);
       expect(find.textContaining(RegExp(r'\d+ params:')), findsWidgets);
+    });
+
+    testWidgets('ignores an invalid negative saved view mode', (tester) async {
+      SharedPreferences.setMockInitialValues({'catalog_view_mode': -1});
+
+      registry = ModuleRegistry();
+      controller = FractalController(registry);
+      presetStore = await PresetStore.create();
+      rendererSettings =
+          RendererSettingsService(await SharedPreferences.getInstance());
+
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      expect(find.byIcon(Icons.view_list_rounded), findsOneWidget);
     });
 
     testWidgets('view toggle switches to list mode and persists preference',
