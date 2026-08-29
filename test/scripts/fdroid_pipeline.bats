@@ -38,8 +38,8 @@ teardown() {
 @test "metadata-only mode produces an official fdroiddata recipe bound to the release commit" {
   run "$REPO_ROOT/scripts/build-fdroid.sh" \
     --metadata-only \
-    --version=1.1.97 \
-    --build-number=97 \
+    --version=1.1.98 \
+    --build-number=98 \
     --commit="$COMMIT" \
     --output-dir="$OUTPUT_DIR"
 
@@ -47,10 +47,10 @@ teardown() {
   metadata="$OUTPUT_DIR/fdroiddata/metadata/com.trebuchetdynamics.fractal.forge.yml"
   [ -f "$metadata" ]
   grep -Fq 'RepoType: git' "$metadata"
-  [ "$(grep -Fc 'versionName: 1.1.97' "$metadata")" -eq 3 ]
-  grep -Fq 'versionCode: 971' "$metadata"
-  grep -Fq 'versionCode: 972' "$metadata"
-  grep -Fq 'versionCode: 973' "$metadata"
+  [ "$(grep -Fc 'versionName: 1.1.98' "$metadata")" -eq 3 ]
+  grep -Fq 'versionCode: 981' "$metadata"
+  grep -Fq 'versionCode: 982' "$metadata"
+  grep -Fq 'versionCode: 983' "$metadata"
   grep -Fq "commit: $COMMIT" "$metadata"
   grep -Fq 'flutter@stable' "$metadata"
   grep -Fq 'flutterVersion=$(sed' "$metadata"
@@ -60,17 +60,17 @@ teardown() {
   grep -Fq 'fractal-forge-android-armeabi-v7a-v%v.apk' "$metadata"
   grep -Fq 'fractal-forge-android-arm64-v8a-v%v.apk' "$metadata"
   grep -Fq 'fractal-forge-android-x86_64-v%v.apk' "$metadata"
-  grep -Fq 'CurrentVersionCode: 973' "$metadata"
+  grep -Fq 'CurrentVersionCode: 983' "$metadata"
   grep -Fq -- "- '%c * 10 + 3'" "$metadata"
   grep -Fq 'UpdateCheckMode: Tags' "$metadata"
   grep -Fq "version_name=\$(sed -n 's/^versionName=//p' fdroid/version.properties)" "$metadata"
   grep -Fq 'export PUB_CACHE="$(pwd)/.pub-cache"' "$metadata"
   grep -Fq -- '- docs/qa/fractal-audits' "$metadata"
   ! grep -Fq 'PUB_CACHE=\"' "$metadata"
-  ! grep -Fq -- '--build-name=1.1.97' "$metadata"
+  ! grep -Fq -- '--build-name=1.1.98' "$metadata"
   ! grep -Fq -- '- node_modules' "$metadata"
   ! grep -Fq -- '- opensource' "$metadata"
-  archive="$OUTPUT_DIR/fractal-forge-fdroiddata-v1.1.97.tar.gz"
+  archive="$OUTPUT_DIR/fractal-forge-fdroiddata-v1.1.98.tar.gz"
   [ -f "$archive" ]
   ! grep -Fq "$OUTPUT_DIR/" "$archive.sha256"
 }
@@ -78,13 +78,13 @@ teardown() {
 @test "pipeline rejects a release identity absent from the tracked F-Droid marker" {
   run "$REPO_ROOT/scripts/build-fdroid.sh" \
     --metadata-only \
-    --version=1.1.97 \
+    --version=1.1.98 \
     --build-number=96 \
     --commit="$COMMIT" \
     --output-dir="$OUTPUT_DIR"
 
   [ "$status" -ne 0 ]
-  [[ "$output" == *"fdroid/version.properties does not match 1.1.97+96"* ]]
+  [[ "$output" == *"fdroid/version.properties does not match 1.1.98+96"* ]]
 }
 
 @test "F-Droid APK verifier rejects an upstream-signed package" {
@@ -136,12 +136,12 @@ SH
   cat >"$tools/aapt" <<'SH'
 #!/usr/bin/env bash
 case "$*" in
-  *armeabi-v7a*) code=971 ;;
-  *arm64-v8a*) code=972 ;;
-  *x86_64*) code=973 ;;
+  *armeabi-v7a*) code=981 ;;
+  *arm64-v8a*) code=982 ;;
+  *x86_64*) code=983 ;;
   *) exit 64 ;;
 esac
-echo "package: name='com.trebuchetdynamics.fractal.forge' versionCode='$code' versionName='1.1.97'"
+echo "package: name='com.trebuchetdynamics.fractal.forge' versionCode='$code' versionName='1.1.98'"
 SH
   cat >"$tools/apksigner" <<'SH'
 #!/usr/bin/env bash
@@ -161,14 +161,14 @@ SH
 
   run env PATH="$tools:$PATH" "$REPO_ROOT/scripts/build-fdroid.sh" \
     --flutter-bin="$tools/flutter" \
-    --version=1.1.97 \
-    --build-number=97 \
+    --version=1.1.98 \
+    --build-number=98 \
     --commit="$COMMIT" \
     --output-dir="$OUTPUT_DIR"
 
   [ "$status" -eq 0 ]
   for abi in armeabi-v7a arm64-v8a x86_64; do
-    apk="$OUTPUT_DIR/fractal-forge-fdroid-v1.1.97-$abi-unsigned.apk"
+    apk="$OUTPUT_DIR/fractal-forge-fdroid-v1.1.98-$abi-unsigned.apk"
     [ -f "$apk" ]
     [ -f "$apk.provenance" ]
     ! grep -Fq "$OUTPUT_DIR/" "$apk.sha256"
