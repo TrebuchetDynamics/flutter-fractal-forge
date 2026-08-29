@@ -246,13 +246,15 @@ class ReleaseEvidenceTest(unittest.TestCase):
         self.assertIn('[[ ! -L "$evidence_file" ]] ||', release_script)
         self.assertIn('[[ -n "$artifacts_output" ]]', release_script)
         for target in (
-            "android-arm:armeabi-v7a",
-            "android-arm64:arm64-v8a",
-            "android-x64:x86_64",
+            "armeabi-v7a:1",
+            "arm64-v8a:2",
+            "x86_64:3",
         ):
             self.assertIn(target, release_script)
-        self.assertIn('--target-platform="$target"', release_script)
-        self.assertIn('--build-number "$build_number"', release_script)
+        self.assertIn("build apk --release --split-per-abi", release_script)
+        self.assertIn(
+            '--build-number "$RESOLVED_ANDROID_BUILD_NUMBER"', release_script
+        )
         android_build_stage = release_script.split(
             "stage_android_build() {", 1
         )[1].split("stage_play() {", 1)[0]
@@ -261,7 +263,7 @@ class ReleaseEvidenceTest(unittest.TestCase):
         )[0]
         self.assertLess(
             android_build_stage.index("build-play-console.sh"),
-            android_build_stage.index('build apk --release --target-platform="$target"'),
+            android_build_stage.index("build apk --release --split-per-abi"),
         )
         self.assertIn("--verify", android_build_stage)
         self.assertNotIn("build-upload-playstore.sh", android_build_stage)
@@ -273,7 +275,8 @@ class ReleaseEvidenceTest(unittest.TestCase):
         self.assertIn('jarsigner -verify "$aab"', release_script)
         self.assertIn('android/play-upload-cert-sha1.txt', release_script)
         self.assertIn('verify_android_apk "$artifact" "$abi"', android_build_stage)
-        self.assertIn('--android-project-arg="release-abi=$abi"', android_build_stage)
+        self.assertIn('app-${abi}-release.apk', android_build_stage)
+        self.assertNotIn('--android-project-arg="release-abi=$abi"', android_build_stage)
         self.assertIn('dump badging "$apk"', release_script)
         self.assertIn('"$apksigner" verify --print-certs "$apk"', release_script)
         self.assertIn('native_abis', release_script)
