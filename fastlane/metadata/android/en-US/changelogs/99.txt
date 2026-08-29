@@ -1,0 +1,1 @@
+Fixes web catalog thumbnail loading, improves thumbnail sharpness and caching, and hardens catalog navigation and saved-view recovery.

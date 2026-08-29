@@ -23,6 +23,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bundled FFmpeg and the Camera Looper MP4-with-music export. GIF export remains,
   avoiding FFmpeg's large native footprint and simplifying F-Droid review.
 
+## [1.1.99] - 2026-08-29
+
+### Changed
+
+- Catalog thumbnails now render at a sharper bounded resolution with higher
+  iteration and color detail across web, mobile, and desktop targets.
+- Runtime thumbnail caches now distinguish square, portrait, and wide layouts
+  and keep a bounded least-recently-used in-memory working set.
+
+### Fixed
+
+- Web catalog scrolling no longer stalls after the first four live thumbnails.
+- Corrupt cached thumbnails are evicted and regenerated instead of remaining
+  broken, while native warm-cache hits avoid unnecessary GPU startup.
+- Catalog navigation now preserves the selected fractal instead of restoring a
+  stale viewer session, and malformed saved view modes no longer crash startup.
+
 ## [1.1.98] - 2026-08-28
 
 ### Added
