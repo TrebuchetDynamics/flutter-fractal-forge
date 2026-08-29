@@ -1326,9 +1326,11 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
   bool _slotReleased = false;
   bool _reported = false;
   Timer? _captureTimeoutTimer;
+  Timer? _webSlotReleaseTimer;
   int _attempt = 0;
   static const int _maxAttempts = 20;
   static const Duration _captureTimeout = Duration(seconds: 2);
+  static const Duration _webCompileSlotHold = Duration(milliseconds: 750);
   static const double _targetCaptureWidth = 320;
 
   @override
@@ -1345,7 +1347,15 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
         return;
       }
       setState(() => _slotAcquired = true);
-      // Capture the first fully-painted frame for the cache.
+      if (kIsWeb) {
+        // WebGL readback through RenderRepaintBoundary.toImage can block the
+        // browser's main thread indefinitely. Keep the static live render, but
+        // release the gate after a short compile window so later tiles render.
+        _reported = true;
+        _webSlotReleaseTimer = Timer(_webCompileSlotHold, _releaseSlot);
+        return;
+      }
+      // Capture the first fully-painted frame for the native cache.
       WidgetsBinding.instance.addPostFrameCallback((_) => _captureFrame());
     });
   }
@@ -1359,6 +1369,7 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
   @override
   void dispose() {
     _captureTimeoutTimer?.cancel();
+    _webSlotReleaseTimer?.cancel();
     // No-op while still queued for a slot; the acquire completion releases a
     // handed-over slot instead, passing it to the next waiter.
     _releaseSlot();
