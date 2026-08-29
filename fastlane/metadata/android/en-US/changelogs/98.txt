@@ -1,0 +1,1 @@
+Refreshes the launcher icon and project documentation, and improves release ABI filtering and catalog integrity.
