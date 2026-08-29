@@ -23,6 +23,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bundled FFmpeg and the Camera Looper MP4-with-music export. GIF export remains,
   avoiding FFmpeg's large native footprint and simplifying F-Droid review.
 
+## [1.1.98] - 2026-08-28
+
+### Added
+
+- A redesigned cross-platform launcher icon and refreshed generated platform assets.
+- Static catalog and viewer proof in the project README, with clearer platform,
+  privacy, architecture, and contributor guidance.
+
+### Fixed
+
+- Distinct canonical registry hashes for the five shared-shader recursive objects,
+  restoring the strict catalog deduplication invariant.
+- Release ABI filtering and Play listing icon verification now match the current
+  Android build pipeline and redesigned launcher icon.
+
 ## [1.1.93] - 2026-08-26
 
 ### Added

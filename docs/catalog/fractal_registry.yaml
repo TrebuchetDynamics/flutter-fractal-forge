@@ -320,9 +320,9 @@ fractals:
     variants: []
     references: []
     tier: implemented
-    formula_hash: sha256:ac17c159888867e6ccffa429ebab38c01e4bc274427eabeb92bc88ecb29919d0
+    formula_hash: sha256:6412651165c15622bba6e111579aebdf8d4bc2de09fbc28d3706b9537cc27057
     quality:
-      formula_hash: sha256:ac17c159888867e6ccffa429ebab38c01e4bc274427eabeb92bc88ecb29919d0
+      formula_hash: sha256:6412651165c15622bba6e111579aebdf8d4bc2de09fbc28d3706b9537cc27057
       citation_health:
         last_checked: '2026-08-25'
         status: unchecked
@@ -355,9 +355,9 @@ fractals:
     references:
       - https://ntrs.nasa.gov/citations/19700020472
     tier: implemented
-    formula_hash: sha256:ac17c159888867e6ccffa429ebab38c01e4bc274427eabeb92bc88ecb29919d0
+    formula_hash: sha256:6505f8284d06714d7bffae92b1660227500e1d276b977009535f2a5054454b58
     quality:
-      formula_hash: sha256:ac17c159888867e6ccffa429ebab38c01e4bc274427eabeb92bc88ecb29919d0
+      formula_hash: sha256:6505f8284d06714d7bffae92b1660227500e1d276b977009535f2a5054454b58
       citation_health:
         last_checked: '2026-08-25'
         status: unchecked
@@ -389,9 +389,9 @@ fractals:
     variants: []
     references: []
     tier: implemented
-    formula_hash: sha256:ac17c159888867e6ccffa429ebab38c01e4bc274427eabeb92bc88ecb29919d0
+    formula_hash: sha256:77622d46e7bdb0fd3ecd846ef0e10bec4dd8c4e739ee4ffa46d2a68144a33702
     quality:
-      formula_hash: sha256:ac17c159888867e6ccffa429ebab38c01e4bc274427eabeb92bc88ecb29919d0
+      formula_hash: sha256:77622d46e7bdb0fd3ecd846ef0e10bec4dd8c4e739ee4ffa46d2a68144a33702
       citation_health:
         last_checked: '2026-08-25'
         status: unchecked
@@ -423,9 +423,9 @@ fractals:
     variants: []
     references: []
     tier: implemented
-    formula_hash: sha256:ac17c159888867e6ccffa429ebab38c01e4bc274427eabeb92bc88ecb29919d0
+    formula_hash: sha256:a022156ad1cbc8d4ba03a912c8a1f372e409071ac83b93f3bffb6674c25a81a6
     quality:
-      formula_hash: sha256:ac17c159888867e6ccffa429ebab38c01e4bc274427eabeb92bc88ecb29919d0
+      formula_hash: sha256:a022156ad1cbc8d4ba03a912c8a1f372e409071ac83b93f3bffb6674c25a81a6
       citation_health:
         last_checked: '2026-08-25'
         status: unchecked
@@ -458,9 +458,9 @@ fractals:
     references:
       - https://dlmf.nist.gov/18.3
     tier: implemented
-    formula_hash: sha256:ac17c159888867e6ccffa429ebab38c01e4bc274427eabeb92bc88ecb29919d0
+    formula_hash: sha256:a100dde9c21c4f6dae411a8d26be3a9e067a3fb193470bde5c3d6c8d49863107
     quality:
-      formula_hash: sha256:ac17c159888867e6ccffa429ebab38c01e4bc274427eabeb92bc88ecb29919d0
+      formula_hash: sha256:a100dde9c21c4f6dae411a8d26be3a9e067a3fb193470bde5c3d6c8d49863107
       citation_health:
         last_checked: '2026-08-25'
         status: unchecked

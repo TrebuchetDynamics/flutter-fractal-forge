@@ -601,7 +601,7 @@ PY
     PLAY_LISTING_TITLE="$listing_title" \
     PLAY_LISTINGS_JSON="$PROJECT_ROOT/docs/play-store-localized-listings.json" \
     PLAY_LISTING_ICON="$PROJECT_ROOT/assets/icon/ic_launcher_512.png" \
-    PLAY_LISTING_ICON_SHA256="df076d811b34dd754e718ebfce3264cf0e35789e9ea7a1147bf246e79c1e9bb7" \
+    PLAY_LISTING_ICON_SHA256="bcb7ccc833272f090541e7b7b825f63a21753248a4023370198e2dbb84b4437f" \
     PLAY_RECEIPT_PATH="$ARTIFACT_DIR/play-publication-receipt.json" \
     "$SCRIPT_DIR/build-upload-playstore.sh" --skip-build \
       --prebuilt-aab "$staged_aab" \

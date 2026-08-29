@@ -24,17 +24,23 @@ Fractal Forge is an open-source Flutter explorer for mathematical systems and ge
 ## See what it renders
 
 <p align="center">
-  <a href="https://fractal.trebuchetdynamics.com"><img src="assets/readme/catalog-grid.webp" width="100%" alt="A grid of colorful Fractal Forge catalog renders from several mathematical families"></a>
+  <a href="https://fractal.trebuchetdynamics.com"><img src="assets/readme/catalog-grid.webp" width="100%" alt="Two complete rows of colorful Fractal Forge catalog renders from several mathematical families"></a>
 </p>
 
-> The static gallery is representative project output, not a claim of full web/app parity. Export, sharing, CPU precision, and hardware GPU behavior are most complete in the installable app; see the [renderer backend matrix](docs/engineering/rendering/renderer_backend_matrix.md).
+<p align="center">
+  <a href="https://fractal.trebuchetdynamics.com"><img src="assets/readme/viewer-controls.webp" width="100%" alt="Fractal Forge Mandelbulb viewer with the rendered form centered above its controls"></a>
+</p>
+
+> These static browser captures show the catalog and viewer, not full web/app parity. Export, sharing, CPU precision, and hardware GPU behavior are most complete in the installable app; see the [renderer backend matrix](docs/engineering/rendering/renderer_backend_matrix.md).
 
 ## What makes it useful
 
-- **Explore a broad mathematical catalog** — 1014 production fractals spanning escape-time formulas, root-finding basins, attractors, IFS, cellular systems, tilings, and ray-marched 3D forms.
+- **Explore a broad mathematical catalog** — move across escape-time formulas, root-finding basins, attractors, IFS, cellular systems, tilings, and ray-marched 3D forms.
 - **Tune and render interactively** — GPU-first controls cover pan, zoom, presets, animation, 64 color schemes, and formula-specific parameters, with deeper preview and CPU paths where supported.
-- **Keep and extend the work** — export, share, set wallpapers, or experiment with dual Mandelbrot/Julia views, Fractal Music, and live Fourier analysis.
+- **Keep the views worth keeping** — export images, share results, or set a render as wallpaper.
 - **Use it on your terms** — [no ads, tracking, account requirement, or data collection](https://fractal.trebuchetdynamics.com/privacy-policy), with high contrast, reduced motion, screen-reader labels, and configurable touch targets.
+
+Beyond the core workflow, experimental tools include dual Mandelbrot/Julia views, Fractal Music, and live Fourier analysis.
 
 ## Explore the catalog
 
@@ -89,7 +95,7 @@ Install **[Fractal Forge from Google Play](https://play.google.com/store/apps/de
 
 - Flutter SDK 3.x ([installation guide](https://docs.flutter.dev/get-started/install))
 - Dart 3.x, included with Flutter
-- A GPU or emulator with shader support; OpenGL ES 3.0+ is recommended
+- A GPU or emulator with shader support: WebGL 2.0 for browsers, or compatible GPU drivers for installable targets
 
 ```bash
 git clone https://github.com/TrebuchetDynamics/flutter-fractal-forge.git
@@ -140,21 +146,9 @@ main.dart
               └─ export + wallpaper + share + Fractal Music
 ```
 
-```text
-lib/
-├── app/              app composition and startup
-├── core/             models, controllers, modules, services, theme
-├── features/         catalog, viewer, renderer, controls, export, looper
-├── l10n/             generated localization output
-├── shared/           cross-feature widgets and utilities
-└── main.dart         entry point and compatibility facade
-
-shaders/              Flutter GLSL fragment shaders
-integration_test/     device and GPU rendering flows
-test/                 unit, widget, contract, and golden tests
-```
-
 `ModuleRegistry` assembles the catalog from declarative configs, shared catalogs, custom builders, and debug-only diagnostics. Every viewer feature consumes the selected module and the same controller state.
+
+For the directory structure, release builds, and shader contribution workflow, see the [`CONTRIBUTING.md`](CONTRIBUTING.md) guide.
 
 ## Testing
 
