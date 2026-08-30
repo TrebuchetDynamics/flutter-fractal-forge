@@ -17,7 +17,7 @@ import 'package:flutter_fractals/main.dart';
 import '../helpers/ui_test_helpers.dart';
 
 void main() {
-  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+  final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('User Flow Integration Tests', () {
     late PresetStore presetStore;
@@ -25,6 +25,11 @@ void main() {
     late RendererSettingsService rendererSettingsService;
 
     setUp(() async {
+      // Device accessibility can attach its platform semantics client after a
+      // test starts, which looks like a leaked tester-owned handle. These flows
+      // do not exercise screen-reader integration; dedicated accessibility
+      // tests opt into semantics explicitly.
+      binding.platformDispatcher.semanticsEnabledTestValue = false;
       SharedPreferences.setMockInitialValues({});
       presetStore = await PresetStore.create();
       accessibilityService = await AccessibilityService.create();
@@ -71,9 +76,11 @@ void main() {
       }
     }
 
-    Future<void> openFirstModule(WidgetTester tester) async {
-      expect(catalogModuleCards(), findsWidgets);
-      await tester.tap(catalogModuleCards().first);
+    Future<void> openMandelbrotModule(WidgetTester tester) async {
+      await enterCatalogSearch(tester, 'Mandelbrot');
+      final moduleCard = catalogModuleCard('core.mandelbrot');
+      expect(moduleCard, findsOneWidget);
+      await tester.tap(moduleCard);
       await tester.pump(const Duration(seconds: 2));
       drainKnownShaderExceptions(tester);
     }
@@ -120,7 +127,7 @@ void main() {
 
     testWidgets('open viewer and return to catalog', (tester) async {
       await pumpApp(tester);
-      await openFirstModule(tester);
+      await openMandelbrotModule(tester);
 
       expect(find.byKey(const Key('viewerRandomParamsButton')), findsOneWidget);
       expect(find.byKey(const Key('viewerExportButton')), findsOneWidget);
@@ -134,7 +141,7 @@ void main() {
 
     testWidgets('controls sheet actions are interactive', (tester) async {
       await pumpApp(tester);
-      await openFirstModule(tester);
+      await openMandelbrotModule(tester);
 
       await tester.longPress(
         find.byKey(const Key('viewerRandomParamsButton')),
@@ -164,7 +171,7 @@ void main() {
 
     testWidgets('presets sheet can save and apply user preset', (tester) async {
       await pumpApp(tester);
-      await openFirstModule(tester);
+      await openMandelbrotModule(tester);
 
       await openViewerPresets(tester);
       await safeSettle(tester);
