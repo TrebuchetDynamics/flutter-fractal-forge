@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
@@ -41,7 +43,9 @@ void main() {
       await tester.pumpAndSettle();
     }
 
-    Widget buildTestWidget() {
+    Widget buildTestWidget({
+      Future<CatalogViewMode> Function()? viewModeLoader,
+    }) {
       return MultiProvider(
         providers: [
           Provider.value(value: registry),
@@ -53,7 +57,9 @@ void main() {
           locale: const Locale('en'),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          home: const Scaffold(body: FractalCatalogScreen()),
+          home: Scaffold(
+            body: FractalCatalogScreen(viewModeLoader: viewModeLoader),
+          ),
         ),
       );
     }
@@ -302,6 +308,23 @@ void main() {
       // And the grid-to-list icon should not be the active toggle icon.
       expect(find.byIcon(Icons.view_list_rounded), findsNothing);
       expect(find.textContaining(RegExp(r'\d+ params:')), findsWidgets);
+    });
+
+    testWidgets('initial preference load does not overwrite a user view toggle',
+        (tester) async {
+      final loadedMode = Completer<CatalogViewMode>();
+
+      await tester.pumpWidget(buildTestWidget(
+        viewModeLoader: () => loadedMode.future,
+      ));
+      await tester.tap(find.byKey(const Key('catalogViewToggleButton')));
+      await tester.pump();
+      loadedMode.complete(CatalogViewMode.miniatures);
+      await tester.pump();
+
+      // The screen was interactable in its initial grid mode, so the user's
+      // first toggle selects list even if the older preference read completes.
+      expect(find.byIcon(Icons.view_module_rounded), findsOneWidget);
     });
 
     testWidgets('ignores an invalid negative saved view mode', (tester) async {

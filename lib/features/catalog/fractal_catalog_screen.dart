@@ -103,9 +103,13 @@ class _GlobalShimmerController {
 
 class FractalCatalogScreen extends StatefulWidget {
   final CatalogToolbarController? toolbarController;
+  final Future<CatalogViewMode> Function()? viewModeLoader;
 
-  const FractalCatalogScreen({Key? key, this.toolbarController})
-      : super(key: key);
+  const FractalCatalogScreen({
+    Key? key,
+    this.toolbarController,
+    this.viewModeLoader,
+  }) : super(key: key);
 
   @override
   State<FractalCatalogScreen> createState() => _FractalCatalogScreenState();
@@ -122,6 +126,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   bool get _isSearchFocused => _focusNode.hasFocus;
   bool _isSearchVisible = false;
   CatalogViewMode _viewMode = CatalogViewMode.grid;
+  int _viewModeRevision = 0;
   String? _selectedCategory;
   final Set<String> _collapsedCategories = <String>{};
 
@@ -222,6 +227,15 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
 
   Future<void> _loadViewPreference() async {
     if (!mounted) return;
+    final revision = _viewModeRevision;
+    final loader = widget.viewModeLoader;
+    if (loader != null) {
+      final mode = await loader();
+      if (!mounted || revision != _viewModeRevision) return;
+      setState(() => _viewMode = mode);
+      _publishToolbarState();
+      return;
+    }
     final prefs = await SharedPreferences.getInstance();
     final modeIndex = prefs.getInt(_viewModePrefKey);
     final mode = modeIndex != null &&
@@ -231,12 +245,13 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
         : (prefs.getBool(_viewPrefKey) ?? true
             ? CatalogViewMode.grid
             : CatalogViewMode.list);
-    if (!mounted) return;
+    if (!mounted || revision != _viewModeRevision) return;
     setState(() => _viewMode = mode);
     _publishToolbarState();
   }
 
   Future<void> _setViewMode(CatalogViewMode mode) async {
+    _viewModeRevision++;
     setState(() => _viewMode = mode);
     _publishToolbarState();
     final prefs = await SharedPreferences.getInstance();
