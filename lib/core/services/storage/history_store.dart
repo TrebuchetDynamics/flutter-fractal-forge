@@ -13,18 +13,20 @@ import 'package:flutter_fractals/core/models/history/history_entry.dart';
 /// {@category Services}
 class HistoryStore {
   final SharedPreferences _prefs;
+  Future<void>? _writeQueue;
 
   static const String _historyKey = 'exploration_history';
+  static const String historyKey = _historyKey;
   static const String _favoritesKey = 'exploration_favorites';
   static const int maxHistoryEntries = 100;
   static const int maxFavoriteEntries = 500;
 
-  HistoryStore._(this._prefs);
+  HistoryStore(this._prefs);
 
   /// Creates a new [HistoryStore] instance.
   static Future<HistoryStore> create() async {
     final prefs = await SharedPreferences.getInstance();
-    return HistoryStore._(prefs);
+    return HistoryStore(prefs);
   }
 
   /// Loads the navigation history.
@@ -36,7 +38,7 @@ class HistoryStore {
   ///
   /// Automatically trims to [maxHistoryEntries].
   Future<void> saveHistory(List<HistoryEntry> entries) async {
-    await _saveEntries(_historySlot, entries);
+    await _enqueueWrite(() => _saveEntries(_historySlot, entries));
   }
 
   /// Loads the user's favorite locations.
@@ -46,7 +48,7 @@ class HistoryStore {
   ///
   /// Capped at [maxFavoriteEntries] to prevent unbounded storage growth.
   Future<void> saveFavorites(List<HistoryEntry> favorites) async {
-    await _saveEntries(_favoritesSlot, favorites);
+    await _enqueueWrite(() => _saveEntries(_favoritesSlot, favorites));
   }
 
   /// Adds an entry to favorites.
@@ -67,12 +69,16 @@ class HistoryStore {
 
   /// Clears all navigation history.
   Future<void> clearHistory() async {
-    await _prefs.remove(_historyKey);
+    await _enqueueWrite(() async {
+      await _prefs.remove(_historyKey);
+    });
   }
 
   /// Clears all favorites.
   Future<void> clearFavorites() async {
-    await _prefs.remove(_favoritesKey);
+    await _enqueueWrite(() async {
+      await _prefs.remove(_favoritesKey);
+    });
   }
 
   List<HistoryEntry> _loadEntries(_HistoryStoreSlot slot) {
@@ -86,6 +92,19 @@ class HistoryStore {
   ) async {
     final bounded = slot.mostRecent(entries);
     await _prefs.setString(slot.key, _HistoryEntryCodec.serialize(bounded));
+  }
+
+  Future<void> _enqueueWrite(Future<void> Function() write) {
+    final previous = _writeQueue;
+    final result = previous == null
+        ? Future<void>.sync(write)
+        : previous.then((_) => write());
+    late final Future<void> tracked;
+    tracked = result.catchError((Object _, StackTrace __) {}).whenComplete(() {
+      if (identical(_writeQueue, tracked)) _writeQueue = null;
+    });
+    _writeQueue = tracked;
+    return result;
   }
 }
 

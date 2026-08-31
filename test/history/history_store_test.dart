@@ -1,9 +1,42 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vector_math/vector_math_64.dart';
 import 'package:flutter_fractals/core/services/storage/history_store.dart';
 import 'package:flutter_fractals/features/history/history_entry.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
+
+class _DelayedHistoryPreferences implements SharedPreferences {
+  String? _value;
+  final List<({String value, Completer<bool> completer})> _writes = [];
+
+  void completeNewestPendingWrite() {
+    final write = _writes.lastWhere((write) => !write.completer.isCompleted);
+    _value = write.value;
+    write.completer.complete(true);
+  }
+
+  @override
+  String? getString(String key) =>
+      key == HistoryStore.historyKey ? _value : null;
+
+  @override
+  Future<bool> setString(String key, String value) {
+    final completer = Completer<bool>();
+    _writes.add((value: value, completer: completer));
+    return completer.future;
+  }
+
+  @override
+  Future<bool> remove(String key) async {
+    if (key == HistoryStore.historyKey) _value = null;
+    return true;
+  }
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
 
 HistoryEntry _makeEntry(String id, {String moduleId = 'mandelbrot'}) {
   return HistoryEntry(
@@ -146,6 +179,21 @@ void main() {
       await store.saveHistory([_makeEntry('1'), _makeEntry('2')]);
 
       await store.clearHistory();
+      expect(store.loadHistory(), isEmpty);
+    });
+
+    test('clearHistory stays durable after an earlier save completes',
+        () async {
+      final preferences = _DelayedHistoryPreferences();
+      final store = HistoryStore(preferences);
+
+      final save = store.saveHistory([_makeEntry('stale')]);
+      final clear = store.clearHistory();
+      await Future<void>.delayed(Duration.zero);
+
+      preferences.completeNewestPendingWrite();
+      await Future.wait([save, clear]);
+
       expect(store.loadHistory(), isEmpty);
     });
 
