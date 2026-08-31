@@ -32,6 +32,23 @@ class FractalCanvas extends CustomPainter {
     this.kaleidoscopeMirrorMode = 0,
   });
 
+  /// Returns the reflection scale for one kaleidoscope sector.
+  static Offset kaleidoscopeSectorScale({
+    required bool mirror,
+    required int mode,
+    required int sector,
+  }) {
+    if (!mirror) return const Offset(1.0, 1.0);
+    if (mode == 0 && sector.isEven) return const Offset(-1.0, 1.0);
+    if (mode == 1) return const Offset(-1.0, 1.0);
+    if (mode == 2) {
+      final m = sector % 3;
+      if (m == 1) return const Offset(-1.0, 1.0);
+      if (m == 2) return const Offset(1.0, -1.0);
+    }
+    return const Offset(1.0, 1.0);
+  }
+
   @override
   void paint(Canvas canvas, Size size) {
     module.setUniforms(shader, state, size, time);
@@ -89,16 +106,12 @@ class FractalCanvas extends CustomPainter {
       canvas.translate(center.dx, center.dy);
       canvas.rotate(rot + i * sectorAngle);
 
-      // Mirror per mode.
-      if (mode == 0) {
-        if (i % 2 == 0) canvas.scale(-1.0, 1.0);
-      } else if (mode == 1) {
-        canvas.scale(-1.0, 1.0);
-      } else if (mode == 2) {
-        final m = i % 3;
-        if (m == 1) canvas.scale(-1.0, 1.0);
-        if (m == 2) canvas.scale(1.0, -1.0);
-      }
+      final scale = kaleidoscopeSectorScale(
+        mirror: kaleidoscopeMirror,
+        mode: mode,
+        sector: i,
+      );
+      canvas.scale(scale.dx, scale.dy);
 
       canvas.translate(-center.dx, -center.dy);
 
