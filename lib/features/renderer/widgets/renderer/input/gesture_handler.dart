@@ -50,6 +50,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
   Offset? _lastRawTapPos;
   DateTime? _lastDoubleTapTriggeredAt;
   bool _deferUserInteractionEndToAnimation = false;
+  bool _gestureEndPending = false;
   Offset _fluidPointerLocal = Offset.zero;
   Offset _fluidSecondaryPointer = Offset.zero;
   Offset _fluidPointerVelocity = Offset.zero;
@@ -69,6 +70,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     _zoomVelocity = 0.0;
     _panVelocity = Offset.zero;
     _deferUserInteractionEndToAnimation = false;
+    _gestureEndPending = false;
   }
 
   @override
@@ -83,12 +85,16 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     _zoomMomentumController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: vsync,
-    )..addListener(_applyZoomMomentum);
+    )
+      ..addListener(_applyZoomMomentum)
+      ..addStatusListener(_onMomentumStatusChanged);
 
     _panMomentumController = AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: vsync,
-    )..addListener(_applyPanMomentum);
+    )
+      ..addListener(_applyPanMomentum)
+      ..addStatusListener(_onMomentumStatusChanged);
   }
 
   @override
@@ -117,6 +123,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     if (_zoomVelocity.abs() < 0.0001) {
       _zoomMomentumController.stop();
       _zoomVelocity = 0.0;
+      _completeGestureEndIfIdle();
       return;
     }
 
@@ -135,6 +142,28 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     );
   }
 
+  void _onMomentumStatusChanged(AnimationStatus _) {
+    _completeGestureEndIfIdle();
+  }
+
+  void _completeGestureEndIfIdle() {
+    if (!_gestureEndPending ||
+        _zoomMomentumController.isAnimating ||
+        _panMomentumController.isAnimating) {
+      return;
+    }
+    _gestureEndPending = false;
+    _notifyUserInteractionEnd();
+  }
+
+  void _notifyUserInteractionEnd() {
+    if (widget.onUserInteractionEnd != null) {
+      widget.onUserInteractionEnd!.call();
+    } else {
+      widget.onUserInteraction?.call();
+    }
+  }
+
   void _applyPanMomentum() {
     if (!mounted) return;
     if (!_panMomentumController.isAnimating) return;
@@ -150,6 +179,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     if (_panVelocity.distance < 0.1) {
       _panMomentumController.stop();
       _panVelocity = Offset.zero;
+      _completeGestureEndIfIdle();
       return;
     }
 
@@ -199,6 +229,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       widget.onUserInteraction?.call();
     }
 
+    _gestureEndPending = false;
     _zoomMomentumController.stop();
     _panMomentumController.stop();
 
@@ -483,18 +514,11 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
   }
 
   void _onScaleEnd(ScaleEndDetails details) {
-    if (!_deferUserInteractionEndToAnimation) {
-      if (widget.onUserInteractionEnd != null) {
-        widget.onUserInteractionEnd!.call();
-      } else {
-        widget.onUserInteraction?.call();
-      }
-    }
-
     if (_isTilting) {
       _isTilting = false;
       _velHistory.clear();
       _zoomVelocity = 0.0;
+      if (!_deferUserInteractionEndToAnimation) _notifyUserInteractionEnd();
       return;
     }
 
@@ -542,6 +566,15 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     if (_zoomVelocity.abs() > 0.01) {
       _zoomMomentumController.duration = const Duration(seconds: 2);
       _zoomMomentumController.forward(from: 0);
+    }
+
+    if (!_deferUserInteractionEndToAnimation) {
+      if (_zoomMomentumController.isAnimating ||
+          _panMomentumController.isAnimating) {
+        _gestureEndPending = true;
+      } else {
+        _notifyUserInteractionEnd();
+      }
     }
   }
 

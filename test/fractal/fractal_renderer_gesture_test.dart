@@ -17,6 +17,8 @@ void main() {
     VoidCallback? onOpenControls,
     VoidCallback? onOpenPresets,
     VoidCallback? onOpenExport,
+    VoidCallback? onUserInteractionStart,
+    VoidCallback? onUserInteractionEnd,
   }) {
     return ChangeNotifierProvider.value(
       value: controller,
@@ -35,6 +37,8 @@ void main() {
               onOpenControls: onOpenControls,
               onOpenPresets: onOpenPresets,
               onOpenExport: onOpenExport,
+              onUserInteractionStart: onUserInteractionStart,
+              onUserInteractionEnd: onUserInteractionEnd,
             ),
           ),
         ),
@@ -82,6 +86,42 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(controller.view.zoom, isNot(equals(initialZoom)));
+  });
+
+  testWidgets('interaction end waits until pinch momentum stops',
+      (tester) async {
+    final controller = FractalController(ModuleRegistry());
+    double? zoomAtInteractionEnd;
+
+    await tester.pumpWidget(buildTestWidget(
+      controller,
+      onUserInteractionEnd: () {
+        zoomAtInteractionEnd = controller.view.zoom;
+      },
+    ));
+    await tester.pumpAndSettle();
+
+    final center = tester.getCenter(find.byType(FractalRenderer));
+    final first = await tester.createGesture();
+    final second = await tester.createGesture();
+    await first.down(center + const Offset(-40, 0));
+    await second.down(center + const Offset(40, 0));
+    await tester.pump();
+    await first.moveTo(center + const Offset(-70, 0));
+    await second.moveTo(center + const Offset(70, 0));
+    await tester.pump(const Duration(milliseconds: 16));
+    await first.moveTo(center + const Offset(-90, 0));
+    await second.moveTo(center + const Offset(90, 0));
+    await tester.pump(const Duration(milliseconds: 16));
+    await first.up();
+    await second.up();
+    await tester.pump();
+
+    expect(zoomAtInteractionEnd, isNull);
+    await tester.pump(const Duration(milliseconds: 80));
+    expect(zoomAtInteractionEnd, isNull);
+    await tester.pumpAndSettle();
+    expect(zoomAtInteractionEnd, controller.view.zoom);
   });
 
   testWidgets('high-zoom drag preserves full one-to-one world-space movement',
