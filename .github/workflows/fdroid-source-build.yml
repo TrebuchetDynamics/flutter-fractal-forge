@@ -90,6 +90,7 @@ jobs:
           git clone --depth=1 https://gitlab.com/fdroid/fdroiddata.git /tmp/fdroiddata
           cp release-artifacts/fdroid/fdroiddata/metadata/com.trebuchetdynamics.fractal.forge.yml \
             /tmp/fdroiddata/metadata/
+          rm -f /tmp/fdroiddata/config.yml
           image=registry.gitlab.com/fdroid/docker-executable-fdroidserver@sha256:2ad114edee50aad92fcc83fe7d801d8922780a021db070ae9f4c49f6f647c037
           docker run --rm \
             -v /tmp/fdroiddata:/repo \
