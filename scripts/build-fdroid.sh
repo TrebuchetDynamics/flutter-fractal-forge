@@ -99,7 +99,6 @@ rm -rf "$FDROIDDATA_DIR"
 mkdir -p "$METADATA_DIR"
 
 metadata="$METADATA_DIR/$PACKAGE_ID.yml"
-yaml_space=" "
 cat >"$metadata" <<EOF
 Categories:
   - Graphics
@@ -110,8 +109,8 @@ AuthorWebSite: https://trebuchetdynamics.com
 WebSite: https://fractal.trebuchetdynamics.com
 SourceCode: https://github.com/TrebuchetDynamics/flutter-fractal-forge
 IssueTracker: https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues
-Changelog:$yaml_space
-  https://github.com/TrebuchetDynamics/flutter-fractal-forge/blob/main/CHANGELOG.md
+Changelog:
+  https://github.com/TrebuchetDynamics/flutter-fractal-forge/blob/HEAD/CHANGELOG.md
 
 AutoName: Fractal Forge
 
@@ -133,7 +132,7 @@ render_build_block() {
     commit: $COMMIT
     timeout: 3600
     output: build/app/outputs/flutter-apk/app-$abi-release.apk
-    binary:$yaml_space
+    binary:
       https://github.com/TrebuchetDynamics/flutter-fractal-forge/releases/download/v%v/fractal-forge-android-$abi-v%v.apk
     srclibs:
       - flutter@stable
