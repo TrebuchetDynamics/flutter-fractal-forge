@@ -4,6 +4,8 @@ setup() {
   REPO_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
   OUTPUT_DIR="$BATS_TEST_TMPDIR/fdroid-output"
   COMMIT="$(git -C "$REPO_ROOT" rev-parse HEAD)"
+  RELEASE_VERSION="$(sed -n 's/^versionName=//p' "$REPO_ROOT/fdroid/version.properties")"
+  RELEASE_BUILD_NUMBER="$(sed -n 's/^versionCode=//p' "$REPO_ROOT/fdroid/version.properties")"
   BUILT_APK="$REPO_ROOT/build/app/outputs/flutter-apk/app-release.apk"
   if [[ -f "$BUILT_APK" ]]; then
     cp "$BUILT_APK" "$BATS_TEST_TMPDIR/original-app-release.apk"
@@ -38,8 +40,8 @@ teardown() {
 @test "metadata-only mode produces an official fdroiddata recipe bound to the release commit" {
   run "$REPO_ROOT/scripts/build-fdroid.sh" \
     --metadata-only \
-    --version=1.1.99 \
-    --build-number=99 \
+    --version="$RELEASE_VERSION" \
+    --build-number="$RELEASE_BUILD_NUMBER" \
     --commit="$COMMIT" \
     --output-dir="$OUTPUT_DIR"
 
@@ -47,10 +49,10 @@ teardown() {
   metadata="$OUTPUT_DIR/fdroiddata/metadata/com.trebuchetdynamics.fractal.forge.yml"
   [ -f "$metadata" ]
   grep -Fq 'RepoType: git' "$metadata"
-  [ "$(grep -Fc 'versionName: 1.1.99' "$metadata")" -eq 3 ]
-  grep -Fq 'versionCode: 991' "$metadata"
-  grep -Fq 'versionCode: 992' "$metadata"
-  grep -Fq 'versionCode: 993' "$metadata"
+  [ "$(grep -Fc "versionName: $RELEASE_VERSION" "$metadata")" -eq 3 ]
+  grep -Fq "versionCode: ${RELEASE_BUILD_NUMBER}1" "$metadata"
+  grep -Fq "versionCode: ${RELEASE_BUILD_NUMBER}2" "$metadata"
+  grep -Fq "versionCode: ${RELEASE_BUILD_NUMBER}3" "$metadata"
   grep -Fq "commit: $COMMIT" "$metadata"
   grep -Fq 'flutter@stable' "$metadata"
   grep -Fq 'flutterVersion=$(sed' "$metadata"
@@ -60,17 +62,17 @@ teardown() {
   grep -Fq 'fractal-forge-android-armeabi-v7a-v%v.apk' "$metadata"
   grep -Fq 'fractal-forge-android-arm64-v8a-v%v.apk' "$metadata"
   grep -Fq 'fractal-forge-android-x86_64-v%v.apk' "$metadata"
-  grep -Fq 'CurrentVersionCode: 993' "$metadata"
+  grep -Fq "CurrentVersionCode: ${RELEASE_BUILD_NUMBER}3" "$metadata"
   grep -Fq -- "- '%c * 10 + 3'" "$metadata"
   grep -Fq 'UpdateCheckMode: Tags' "$metadata"
   grep -Fq "version_name=\$(sed -n 's/^versionName=//p' fdroid/version.properties)" "$metadata"
   grep -Fq 'export PUB_CACHE="$(pwd)/.pub-cache"' "$metadata"
   grep -Fq -- '- docs/qa/fractal-audits' "$metadata"
   ! grep -Fq 'PUB_CACHE=\"' "$metadata"
-  ! grep -Fq -- '--build-name=1.1.99' "$metadata"
+  ! grep -Fq -- "--build-name=$RELEASE_VERSION" "$metadata"
   ! grep -Fq -- '- node_modules' "$metadata"
   ! grep -Fq -- '- opensource' "$metadata"
-  archive="$OUTPUT_DIR/fractal-forge-fdroiddata-v1.1.99.tar.gz"
+  archive="$OUTPUT_DIR/fractal-forge-fdroiddata-v$RELEASE_VERSION.tar.gz"
   [ -f "$archive" ]
   ! grep -Fq "$OUTPUT_DIR/" "$archive.sha256"
 }
@@ -133,15 +135,15 @@ if [[ "${1:-}" == "build" && "${2:-}" == "apk" ]]; then
 fi
 exit 64
 SH
-  cat >"$tools/aapt" <<'SH'
+  cat >"$tools/aapt" <<SH
 #!/usr/bin/env bash
-case "$*" in
-  *armeabi-v7a*) code=991 ;;
-  *arm64-v8a*) code=992 ;;
-  *x86_64*) code=993 ;;
+case "\$*" in
+  *armeabi-v7a*) code="${RELEASE_BUILD_NUMBER}1" ;;
+  *arm64-v8a*) code="${RELEASE_BUILD_NUMBER}2" ;;
+  *x86_64*) code="${RELEASE_BUILD_NUMBER}3" ;;
   *) exit 64 ;;
 esac
-echo "package: name='com.trebuchetdynamics.fractal.forge' versionCode='$code' versionName='1.1.99'"
+echo "package: name='com.trebuchetdynamics.fractal.forge' versionCode='\$code' versionName='$RELEASE_VERSION'"
 SH
   cat >"$tools/apksigner" <<'SH'
 #!/usr/bin/env bash
@@ -161,14 +163,14 @@ SH
 
   run env PATH="$tools:$PATH" "$REPO_ROOT/scripts/build-fdroid.sh" \
     --flutter-bin="$tools/flutter" \
-    --version=1.1.99 \
-    --build-number=99 \
+    --version="$RELEASE_VERSION" \
+    --build-number="$RELEASE_BUILD_NUMBER" \
     --commit="$COMMIT" \
     --output-dir="$OUTPUT_DIR"
 
   [ "$status" -eq 0 ]
   for abi in armeabi-v7a arm64-v8a x86_64; do
-    apk="$OUTPUT_DIR/fractal-forge-fdroid-v1.1.99-$abi-unsigned.apk"
+    apk="$OUTPUT_DIR/fractal-forge-fdroid-v$RELEASE_VERSION-$abi-unsigned.apk"
     [ -f "$apk" ]
     [ -f "$apk.provenance" ]
     ! grep -Fq "$OUTPUT_DIR/" "$apk.sha256"
