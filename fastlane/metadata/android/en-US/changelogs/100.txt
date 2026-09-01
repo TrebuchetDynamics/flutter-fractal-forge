@@ -1,0 +1,1 @@
+Fixes catalog navigation and saved-view races, gesture momentum handling, history persistence ordering, and the Kaleidoscope Mirror wedges GPU toggle.
