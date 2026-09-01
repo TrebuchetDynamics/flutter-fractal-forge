@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.100] - 2026-09-01
+
 ### Added
 
 - Official F-Droid catalog pipeline with ABI-specific APK validation,
@@ -17,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Android release minification now removes unused Flutter Play Store deferred-component
   references and omits APK dependency metadata so F-Droid binary scans remain clean.
+- Android catalog thumbnails now wait for asynchronous shader startup, use
+  release-safe visibility checks, and allow concurrent PNG readbacks to finish.
 
 ### Removed
 
@@ -35,8 +39,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Web catalog scrolling no longer stalls after the first four live thumbnails.
-- Android catalog thumbnails now wait for asynchronous shader startup, use
-  release-safe visibility checks, and allow concurrent PNG readbacks to finish.
 - Corrupt cached thumbnails are evicted and regenerated instead of remaining
   broken, while native warm-cache hits avoid unnecessary GPU startup.
 - Catalog navigation now preserves the selected fractal instead of restoring a
