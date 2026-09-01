@@ -53,6 +53,7 @@ EOF
   [[ "$output" == *"--pct-nav 0"* ]]
   [[ "$output" == *"--pct-majornav 0"* ]]
   [[ "$output" == *"--pct-appswitch 0"* ]]
+  [[ "$output" == *"--throttle 500"* ]]
   [[ "$output" == *"timeout --signal=INT --kill-after=10"* ]]
   [[ "$output" == *"dumpsys meminfo"* ]]
   [[ "$output" == *"dumpsys gfxinfo"* ]]
