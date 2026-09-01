@@ -1,0 +1,1 @@
+Fixes Android catalog thumbnails, catalog navigation and saved-view races, gesture momentum, history persistence ordering, and the Kaleidoscope Mirror GPU toggle.
