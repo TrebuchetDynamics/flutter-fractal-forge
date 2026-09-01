@@ -1,5 +1,16 @@
 import 'dart:async';
 
+/// Bounded native capture timing that tolerates asynchronous shader startup.
+class CatalogThumbnailCapturePolicy {
+  const CatalogThumbnailCapturePolicy._();
+
+  static const Duration retryInterval = Duration(milliseconds: 100);
+  static const Duration readinessTimeout = Duration(seconds: 10);
+  static const Duration readbackTimeout = Duration(seconds: 5);
+
+  static bool readinessExpired(Duration elapsed) => elapsed >= readinessTimeout;
+}
+
 /// Bounds how many catalog thumbnails keep a live GPU renderer at once.
 ///
 /// Without a gate, every visible tile mounted its own FractalRenderer almost

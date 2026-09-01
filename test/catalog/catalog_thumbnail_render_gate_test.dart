@@ -115,4 +115,33 @@ void main() {
       expect(order, [0, 1, 2]);
     });
   });
+
+  group('CatalogThumbnailCapturePolicy', () {
+    test('allows slow Android shader startup before abandoning capture', () {
+      expect(
+        CatalogThumbnailCapturePolicy.readinessExpired(
+          CatalogThumbnailCapturePolicy.readinessTimeout -
+              CatalogThumbnailCapturePolicy.retryInterval,
+        ),
+        isFalse,
+      );
+      expect(
+        CatalogThumbnailCapturePolicy.readinessExpired(
+          CatalogThumbnailCapturePolicy.readinessTimeout,
+        ),
+        isTrue,
+      );
+      expect(
+        CatalogThumbnailCapturePolicy.readinessTimeout,
+        greaterThanOrEqualTo(const Duration(seconds: 10)),
+      );
+    });
+
+    test('allows concurrent Android PNG readbacks to finish', () {
+      expect(
+        CatalogThumbnailCapturePolicy.readbackTimeout,
+        greaterThanOrEqualTo(const Duration(seconds: 5)),
+      );
+    });
+  });
 }

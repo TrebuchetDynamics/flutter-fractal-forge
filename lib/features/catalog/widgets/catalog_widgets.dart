@@ -1369,10 +1369,9 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
   bool _slotReleased = false;
   bool _reported = false;
   Timer? _captureTimeoutTimer;
+  Timer? _captureRetryTimer;
   Timer? _webSlotReleaseTimer;
-  int _attempt = 0;
-  static const int _maxAttempts = 20;
-  static const Duration _captureTimeout = Duration(seconds: 2);
+  final Stopwatch _readinessWait = Stopwatch();
   static const Duration _webCompileSlotHold = Duration(milliseconds: 750);
 
   @override
@@ -1397,6 +1396,7 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
         _webSlotReleaseTimer = Timer(_webCompileSlotHold, _releaseSlot);
         return;
       }
+      _readinessWait.start();
       // Capture the first fully-painted frame for the native cache.
       WidgetsBinding.instance.addPostFrameCallback((_) => _captureFrame());
     });
@@ -1411,6 +1411,7 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
   @override
   void dispose() {
     _captureTimeoutTimer?.cancel();
+    _captureRetryTimer?.cancel();
     _webSlotReleaseTimer?.cancel();
     // No-op while still queued for a slot; the acquire completion releases a
     // handed-over slot instead, passing it to the next waiter.
@@ -1432,13 +1433,24 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
     _releaseAfterReplacementFrame();
   }
 
-  void _retryOrAbandonCapture() {
+  void _retryOrAbandonCapture({bool enforceReadinessTimeout = true}) {
     if (_reported || !mounted) return;
-    if (_attempt >= _maxAttempts) {
+    if (enforceReadinessTimeout &&
+        CatalogThumbnailCapturePolicy.readinessExpired(
+          _readinessWait.elapsed,
+        )) {
       _abandonCapture();
       return;
     }
-    WidgetsBinding.instance.addPostFrameCallback((_) => _captureFrame());
+    _captureRetryTimer?.cancel();
+    _captureRetryTimer = Timer(
+      CatalogThumbnailCapturePolicy.retryInterval,
+      () {
+        if (!mounted || _reported) return;
+        WidgetsBinding.instance.addPostFrameCallback((_) => _captureFrame());
+        WidgetsBinding.instance.scheduleFrame();
+      },
+    );
   }
 
   static Future<Uint8List?> _capturePng(
@@ -1460,7 +1472,8 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
     final result = Completer<Uint8List?>();
     final capture = _capturePng(boundary, pixelRatio);
     _captureTimeoutTimer?.cancel();
-    _captureTimeoutTimer = Timer(_captureTimeout, () {
+    _captureTimeoutTimer =
+        Timer(CatalogThumbnailCapturePolicy.readbackTimeout, () {
       if (!result.isCompleted) {
         result.completeError(
           TimeoutException('Catalog thumbnail capture timed out'),
@@ -1484,27 +1497,30 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
 
   Future<void> _captureFrame() async {
     if (_reported || !mounted) return;
-    if (_attempt >= _maxAttempts) {
-      _retryOrAbandonCapture();
-      return;
-    }
-    _attempt++;
     final boundary = _captureKey.currentContext?.findRenderObject();
     if (boundary is! RenderRepaintBoundary ||
         !boundary.attached ||
-        !boundary.hasSize ||
-        boundary.debugNeedsPaint) {
-      // The renderer may still be painting; retry on a later frame. Exhausted
-      // retries return the gate slot instead of permanently blocking the queue.
+        !boundary.hasSize) {
+      // The renderer may still be compiling its shader. Retry on a bounded
+      // timer so high frame rates cannot exhaust the readiness budget before
+      // Android has had time to create the capture boundary.
       _retryOrAbandonCapture();
+      return;
+    }
+    final screenBounds = Offset.zero & MediaQuery.sizeOf(context);
+    final boundaryBounds = boundary.localToGlobal(Offset.zero) & boundary.size;
+    if (!boundaryBounds.overlaps(screenBounds)) {
+      // Sliver cache-extent children can have a valid boundary before they are
+      // on screen. Keep their slot until scrolling paints them; abandoning here
+      // would leave the tile permanently on its gradient fallback.
+      _retryOrAbandonCapture(enforceReadinessTimeout: false);
       return;
     }
     try {
       // Capture at a bounded resolution: enough for crisp display at any tile
       // size without writing oversized PNGs to the disk cache.
-      final ratio =
-          (CatalogThumbnailCache.targetWidth / boundary.size.width)
-              .clamp(1.0, 3.0);
+      final ratio = (CatalogThumbnailCache.targetWidth / boundary.size.width)
+          .clamp(1.0, 3.0);
       final png = await _capturePngWithTimeout(boundary, ratio);
       if (png == null) {
         _retryOrAbandonCapture();

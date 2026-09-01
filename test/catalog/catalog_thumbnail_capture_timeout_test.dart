@@ -45,7 +45,10 @@ void main() {
       expect(queuedBeforeTimeout, greaterThan(0));
 
       await tester.runAsync(
-        () => Future<void>.delayed(const Duration(milliseconds: 2200)),
+        () => Future<void>.delayed(
+          CatalogThumbnailCapturePolicy.readbackTimeout +
+              const Duration(milliseconds: 200),
+        ),
       );
       await tester.pump();
       await tester.pump();
