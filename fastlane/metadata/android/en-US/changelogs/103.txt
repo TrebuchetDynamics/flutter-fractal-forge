@@ -1,0 +1,1 @@
+Catalog thumbnails now load quickly and reliably during rapid scrolling by prioritizing images currently visible on screen.

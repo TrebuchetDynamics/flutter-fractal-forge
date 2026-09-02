@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.103] - 2026-09-02
+
+### Fixed
+
+- Rapid Android catalog scrolling now prioritizes thumbnails currently visible
+  on screen instead of letting off-screen sliver-cache tiles occupy every GPU
+  render slot indefinitely.
+
 ## [1.1.102] - 2026-09-01
 
 ### Added
