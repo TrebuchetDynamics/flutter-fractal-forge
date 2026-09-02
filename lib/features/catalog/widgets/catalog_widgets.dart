@@ -1363,10 +1363,11 @@ class _RuntimePreviewThumbnail extends StatefulWidget {
 }
 
 class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
+  final GlobalKey _tileKey = GlobalKey();
   final GlobalKey _captureKey = GlobalKey();
+  bool _slotAcquirePending = false;
   bool _slotAcquired = false;
   bool _slotHeld = false;
-  bool _slotReleased = false;
   bool _reported = false;
   Timer? _captureTimeoutTimer;
   Timer? _captureRetryTimer;
@@ -1377,14 +1378,51 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
   @override
   void initState() {
     super.initState();
-    // Wait for a bounded-concurrency slot before mounting a live renderer, so
-    // a full screen of tiles never compiles a grid of shaders at once.
+    // Slivers also build cache-extent children outside the viewport. Only
+    // visible tiles may join the render queue; otherwise those hidden children
+    // can occupy every bounded-concurrency slot and starve a rapid scroll.
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _acquireSlotWhenVisible(),
+    );
+  }
+
+  bool _isTileVisible() {
+    if (!mounted) return false;
+    final tile = _tileKey.currentContext?.findRenderObject();
+    if (tile is! RenderBox || !tile.attached || !tile.hasSize) return false;
+    final screenBounds = Offset.zero & MediaQuery.sizeOf(context);
+    final tileBounds = tile.localToGlobal(Offset.zero) & tile.size;
+    return tileBounds.overlaps(screenBounds);
+  }
+
+  void _scheduleVisibilityCheck() {
+    if (_reported || !mounted) return;
+    _captureRetryTimer?.cancel();
+    _captureRetryTimer = Timer(
+      CatalogThumbnailCapturePolicy.retryInterval,
+      _acquireSlotWhenVisible,
+    );
+  }
+
+  void _acquireSlotWhenVisible() {
+    if (_reported || !mounted || _slotHeld || _slotAcquirePending) return;
+    if (!_isTileVisible()) {
+      _scheduleVisibilityCheck();
+      return;
+    }
+    _slotAcquirePending = true;
     CatalogThumbnailRenderGate.acquire().then((_) {
-      // The slot is ours now, even if this tile scrolled away before the
-      // future resolved; release it right away in that case.
+      _slotAcquirePending = false;
       _slotHeld = true;
       if (!mounted) {
         _releaseSlot();
+        return;
+      }
+      // The tile can leave the viewport while waiting behind other renderers.
+      // Return that slot immediately instead of mounting hidden GPU work.
+      if (!_isTileVisible()) {
+        _releaseSlot();
+        _scheduleVisibilityCheck();
         return;
       }
       setState(() => _slotAcquired = true);
@@ -1396,15 +1434,17 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
         _webSlotReleaseTimer = Timer(_webCompileSlotHold, _releaseSlot);
         return;
       }
-      _readinessWait.start();
+      _readinessWait
+        ..reset()
+        ..start();
       // Capture the first fully-painted frame for the native cache.
       WidgetsBinding.instance.addPostFrameCallback((_) => _captureFrame());
     });
   }
 
   void _releaseSlot() {
-    if (!_slotHeld || _slotReleased) return;
-    _slotReleased = true;
+    if (!_slotHeld) return;
+    _slotHeld = false;
     CatalogThumbnailRenderGate.release();
   }
 
@@ -1419,11 +1459,21 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
     super.dispose();
   }
 
-  void _releaseAfterReplacementFrame() {
+  void _releaseAfterReplacementFrame({bool retryWhenVisible = false}) {
     // Keep the slot until the parent has replaced this live renderer (or this
     // widget has switched back to its cheap fallback), so the gate continues
     // to bound the number of mounted GPU renderers rather than only captures.
-    WidgetsBinding.instance.addPostFrameCallback((_) => _releaseSlot());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _releaseSlot();
+      if (retryWhenVisible) _scheduleVisibilityCheck();
+    });
+  }
+
+  void _yieldSlotUntilVisible() {
+    if (_reported || !mounted) return;
+    _readinessWait.stop();
+    setState(() => _slotAcquired = false);
+    _releaseAfterReplacementFrame(retryWhenVisible: true);
   }
 
   void _abandonCapture() {
@@ -1497,6 +1547,13 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
 
   Future<void> _captureFrame() async {
     if (_reported || !mounted) return;
+    if (!_isTileVisible()) {
+      // A rapid scroll can move a renderer off-screen while its shader is
+      // compiling. Yield immediately so newly visible tiles get the slot, then
+      // reacquire if this tile comes back into view.
+      _yieldSlotUntilVisible();
+      return;
+    }
     final boundary = _captureKey.currentContext?.findRenderObject();
     if (boundary is! RenderRepaintBoundary ||
         !boundary.attached ||
@@ -1505,15 +1562,6 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
       // timer so high frame rates cannot exhaust the readiness budget before
       // Android has had time to create the capture boundary.
       _retryOrAbandonCapture();
-      return;
-    }
-    final screenBounds = Offset.zero & MediaQuery.sizeOf(context);
-    final boundaryBounds = boundary.localToGlobal(Offset.zero) & boundary.size;
-    if (!boundaryBounds.overlaps(screenBounds)) {
-      // Sliver cache-extent children can have a valid boundary before they are
-      // on screen. Keep their slot until scrolling paints them; abandoning here
-      // would leave the tile permanently on its gradient fallback.
-      _retryOrAbandonCapture(enforceReadinessTimeout: false);
       return;
     }
     try {
@@ -1547,37 +1595,40 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
+    return KeyedSubtree(
       key: Key('catalogRuntimeThumbnail_${widget.catalogId}'),
-      borderRadius: BorderRadius.circular(12),
-      // Until a concurrency slot frees up, only the cheap gradient shows.
-      child: _slotAcquired
-          ? Stack(
-              fit: StackFit.expand,
-              children: [
-                _GradientFallback(
-                  catalogId: widget.catalogId,
-                  category: widget.category,
-                ),
-                ChangeNotifierProvider<FractalController>(
-                  key: ValueKey('runtimeThumb_${widget.catalogId}'),
-                  create: (context) => _thumbnailController(
-                      context, widget.catalogId, widget.module),
-                  child: IgnorePointer(
-                    child: FractalRenderer(
-                      boundaryKey: _captureKey,
-                      gesturesEnabled: false,
-                      animationEnabled: false,
-                      showRendererIndicator: false,
+      child: ClipRRect(
+        key: _tileKey,
+        borderRadius: BorderRadius.circular(12),
+        // Until a concurrency slot frees up, only the cheap gradient shows.
+        child: _slotAcquired
+            ? Stack(
+                fit: StackFit.expand,
+                children: [
+                  _GradientFallback(
+                    catalogId: widget.catalogId,
+                    category: widget.category,
+                  ),
+                  ChangeNotifierProvider<FractalController>(
+                    key: ValueKey('runtimeThumb_${widget.catalogId}'),
+                    create: (context) => _thumbnailController(
+                        context, widget.catalogId, widget.module),
+                    child: IgnorePointer(
+                      child: FractalRenderer(
+                        boundaryKey: _captureKey,
+                        gesturesEnabled: false,
+                        animationEnabled: false,
+                        showRendererIndicator: false,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            )
-          : _GradientFallback(
-              catalogId: widget.catalogId,
-              category: widget.category,
-            ),
+                ],
+              )
+            : _GradientFallback(
+                catalogId: widget.catalogId,
+                category: widget.category,
+              ),
+      ),
     );
   }
 
