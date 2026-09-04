@@ -23,6 +23,7 @@ DEVICE_FLUTTER_TARGET=""
 LOG_DIR=""
 WIFI_WAS_ENABLED=""
 DATA_WAS_ENABLED=""
+FOREGROUND_GUARD_PID=""
 
 usage() {
   cat <<'EOF'
@@ -131,6 +132,64 @@ install_production_app() {
 adb_gate() {
   local label="$1"; shift
   run_gate "$label" adb -s "$DEVICE" "$@"
+}
+
+foreground_package() {
+  adb -s "$DEVICE" shell dumpsys activity activities 2>/dev/null |
+    sed -n -E 's/.* u[0-9]+ ([[:alnum:]_.]+)\/[^ ]+.*/\1/p' |
+    head -n1 |
+    tr -d '\r'
+}
+
+foreground_guard_loop() {
+  local current armed=0
+  while true; do
+    if ! adb -s "$DEVICE" shell pm path "$PACKAGE" 2>/dev/null |
+        grep -q '^package:'; then
+      armed=0
+      sleep 1
+      continue
+    fi
+    current="$(foreground_package || true)"
+    if [[ "$current" == "$PACKAGE" ]]; then
+      armed=1
+    elif [[ "$armed" -eq 1 && -n "$current" ]]; then
+      printf '%s foreign_foreground=%s action=restore_%s\n' \
+        "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$current" "$PACKAGE" \
+        >>"$LOG_DIR/foreground-guard.log"
+      adb -s "$DEVICE" shell am start -n "$COMPONENT" \
+        >>"$LOG_DIR/foreground-guard.log" 2>&1 || true
+    fi
+    sleep 1
+  done
+}
+
+start_foreground_guard() {
+  touch "$LOG_DIR/foreground-guard.log"
+  foreground_guard_loop &
+  FOREGROUND_GUARD_PID=$!
+}
+
+stop_foreground_guard() {
+  if [[ -n "$FOREGROUND_GUARD_PID" ]]; then
+    kill "$FOREGROUND_GUARD_PID" >/dev/null 2>&1 || true
+    wait "$FOREGROUND_GUARD_PID" 2>/dev/null || true
+    FOREGROUND_GUARD_PID=""
+  fi
+}
+
+run_foreground_guarded_gate() {
+  local label="$1" status=0
+  shift
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    printf '+ guard foreground package %s while command runs\n' "$PACKAGE"
+    run_gate "$label" "$@"
+    return
+  fi
+  start_foreground_guard
+  run_gate "$label" "$@" || status=$?
+  stop_foreground_guard
+  return "$status"
 }
 
 collect_soak_sample() {
@@ -335,6 +394,19 @@ run_device_soak() {
   }
 }
 
+run_guarded_device_soak() {
+  local status=0
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    printf '+ guard foreground package %s while soak runs\n' "$PACKAGE"
+    run_device_soak
+    return
+  fi
+  start_foreground_guard
+  run_device_soak || status=$?
+  stop_foreground_guard
+  return "$status"
+}
+
 restore_network() {
   if [[ "$DRY_RUN" -eq 0 ]]; then
     if [[ "$WIFI_WAS_ENABLED" == "1" ]]; then
@@ -363,6 +435,7 @@ capture_network_state() {
     DATA_WAS_ENABLED=""
 }
 cleanup_device() {
+  stop_foreground_guard
   stop_device_monkey || true
   if [[ "$DRY_RUN" -eq 0 && -n "$DEVICE" ]]; then
     adb -s "$DEVICE" shell am broadcast \
@@ -418,8 +491,18 @@ integration_files=(
 # One invocation produces one instrumented build. Running each file separately
 # recompiles the full shader catalog each time and can exceed bounded CI/agent
 # cgroups even though every individual test is healthy.
-run_gate "combined device integration suite" \
+run_foreground_guarded_gate "combined device integration suite" \
   "$FLUTTER_BIN" test --concurrency=1 "${integration_files[@]}" -d "$DEVICE"
+
+# Exercise the production runtime-thumbnail path separately: normal integration
+# runs deliberately use lightweight test surfaces, while this gate needs real
+# GPU rendering and readback after a rapid catalog scroll.
+run_foreground_guarded_gate "rapid-scroll catalog thumbnail performance" \
+  "$FLUTTER_BIN" test \
+    --dart-define=FORCE_RUNTIME_CATALOG_THUMBNAILS=true \
+    --dart-define=FORCE_GPU_RENDER=true \
+    integration_test/performance/catalog_thumbnail_performance_test.dart \
+    -d "$DEVICE"
 
 # Flutter's integration-test runner uses a debug-signed instrumented package.
 # Replace it with a production-mode build matching the connected device before
@@ -482,7 +565,7 @@ else
 fi
 
 if [[ -f integration_test/flows/lifecycle_restoration_test.dart || "$DRY_RUN" -eq 1 ]]; then
-  run_gate "lifecycle restoration" \
+  run_foreground_guarded_gate "lifecycle restoration" \
     "$FLUTTER_BIN" test integration_test/flows/lifecycle_restoration_test.dart -d "$DEVICE"
 fi
 
@@ -490,7 +573,7 @@ fi
 # device networking and rerun the reliability flow to keep that promise true.
 adb_gate "offline: wifi off" shell svc wifi disable
 adb_gate "offline: mobile data off" shell svc data disable
-run_gate "offline critical journey" \
+run_foreground_guarded_gate "offline critical journey" \
   "$FLUTTER_BIN" test integration_test/flows/critical_journey_test.dart -d "$DEVICE"
 restore_network
 
@@ -501,7 +584,7 @@ adb_gate "launch production app for soak" shell am start -W -n "$COMPONENT"
 
 # Constrained random interaction catches lifecycle, route, and renderer leaks.
 adb_gate "clear logcat before soak" logcat -c
-run_device_soak
+run_guarded_device_soak
 
 adb_gate "memory evidence" shell dumpsys meminfo "$PACKAGE"
 adb_gate "frame evidence" shell dumpsys gfxinfo "$PACKAGE"

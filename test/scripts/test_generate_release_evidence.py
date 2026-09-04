@@ -320,12 +320,45 @@ class ReleaseEvidenceTest(unittest.TestCase):
         self.assertIn('TRACK="${PLAY_TRACK:-internal}"', upload_script)
         self.assertIn('RELEASE_STATUS="${PLAY_RELEASE_STATUS:-draft}"', upload_script)
 
+    def test_all_release_can_resume_at_publication_stage_without_repeating_gates(self):
+        root = Path(__file__).resolve().parents[2]
+        script = root / "scripts/release.sh"
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            fake_wrangler = Path(temp_dir) / "wrangler"
+            fake_wrangler.write_text("#!/usr/bin/env bash\nexit 0\n", encoding="utf-8")
+            fake_wrangler.chmod(0o755)
+            resumed = subprocess.run(
+                ["bash", str(script), "all", "--resume-from=website", "--dry-run"],
+                cwd=root,
+                capture_output=True,
+                text=True,
+                env={**os.environ, "PATH": f"{temp_dir}:{os.environ['PATH']}"},
+            )
+
+        self.assertEqual(resumed.returncode, 0, resumed.stderr)
+        self.assertIn("Resuming release from website: website play", resumed.stdout)
+        self.assertIn("Done: website play", resumed.stdout)
+        self.assertNotIn("mandatory release gates", resumed.stdout)
+        self.assertNotIn("=== android-build", resumed.stdout)
+
+        invalid = subprocess.run(
+            ["bash", str(script), "all", "--resume-from=linux", "--dry-run"],
+            cwd=root,
+            capture_output=True,
+            text=True,
+        )
+        self.assertNotEqual(invalid.returncode, 0)
+        self.assertIn(
+            "--resume-from accepts github, website, or play", invalid.stderr
+        )
+
     def test_all_builds_and_evidence_before_any_publication(self):
         root = Path(__file__).resolve().parents[2]
         release_script = (root / "scripts" / "release.sh").read_text()
 
         self.assertIn(
-            "all) STAGES+=(android_build fdroid linux windows evidence github website play)",
+            "all) ALL_SELECTED=1; STAGES+=(android_build fdroid linux windows evidence github website play)",
             release_script,
         )
         android_build_stage = release_script.split(
@@ -367,6 +400,8 @@ class ReleaseEvidenceTest(unittest.TestCase):
             )
             artifact = temp / "app-release.aab"
             artifact.write_bytes(b"verified-aab")
+            empty_device_log = temp / "device-log.txt"
+            empty_device_log.write_bytes(b"")
             output = temp / "evidence"
             license_dir = temp / ".pub-cache/hosted/pub.dev/alpha-1.2.3"
             license_dir.mkdir(parents=True)
@@ -383,6 +418,8 @@ class ReleaseEvidenceTest(unittest.TestCase):
                     str(temp),
                     "--artifact",
                     str(artifact),
+                    "--evidence",
+                    f"device-gate-empty={empty_device_log}",
                     "--output-dir",
                     str(output),
                     "--commit",
@@ -455,6 +492,7 @@ class ReleaseEvidenceTest(unittest.TestCase):
                     str((output / "ANDROID_NATIVE_INVENTORY.txt").resolve()),
                     str((output / "THIRD_PARTY_NOTICES.txt").resolve()),
                     str((output / "SHA256SUMS").resolve()),
+                    str((output / "device-gate-empty.txt").resolve()),
                 },
             )
             snapshot = temp / "snapshot"
@@ -482,6 +520,10 @@ class ReleaseEvidenceTest(unittest.TestCase):
             self.assertTrue(
                 all(path.is_relative_to(snapshot) for path in snapshot_assets)
             )
+            snapshot_empty_log = snapshot / "evidence/device-gate-empty.txt"
+            self.assertTrue(snapshot_empty_log.is_file())
+            self.assertEqual(snapshot_empty_log.stat().st_size, 0)
+            self.assertNotIn(snapshot_empty_log, snapshot_assets)
             snapshot_artifact = snapshot / artifact.name
             self.assertEqual(snapshot_artifact.read_bytes(), b"verified-aab")
             artifact.write_bytes(b"changed-after-snapshot")

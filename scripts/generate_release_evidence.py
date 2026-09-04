@@ -620,6 +620,12 @@ def main() -> int:
                 expected_build_number=args.build_number,
                 expected_commit=args.commit,
             ):
+                if asset.stat().st_size == 0:
+                    print(
+                        f"release-evidence: skipping zero-byte GitHub asset: {asset.name}",
+                        file=sys.stderr,
+                    )
+                    continue
                 print(asset)
         elif args.select_artifacts:
             for artifact in select_artifacts_for_identity(

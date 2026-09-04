@@ -5,7 +5,7 @@ set -euo pipefail
 #
 # Usage:
 #   scripts/release.sh <stage> [<stage> ...] [--publish=<version>]
-#   scripts/release.sh all [--publish=<version>]
+#   scripts/release.sh all [--publish=<version>] [--resume-from=<stage>]
 #
 # Stages:
 #   android    Convenience stage: build + verify Android artifacts, generate
@@ -46,6 +46,9 @@ set -euo pipefail
 #                        <version>, reusing already completed release gates.
 #   --build-number=NUMBER  Required with --publish/--prepare for invocations
 #                          that do not include the Android stage.
+#   --resume-from=STAGE    With `all --publish`, resume at github, website, or
+#                          play using the already verified release manifest.
+#                          This skips completed build and device gates.
 #
 # Environment:
 #   FLUTTER_BIN            Path to the flutter binary
@@ -78,6 +81,8 @@ PUBLISH_VERSION=""
 PREPARE_VERSION=""
 PUBLISH_BUILD_NUMBER=""
 DRY_RUN_FORCED=0
+ALL_SELECTED=0
+RESUME_FROM=""
 STAGES=()
 RESOLVED_ANDROID_VERSION=""
 RESOLVED_ANDROID_BUILD_NUMBER=""
@@ -220,7 +225,8 @@ verify_artifact_provenance() {
 }
 
 usage() {
-  sed -n '3,44p' "$SCRIPT_DIR/$(basename "$0")" | sed 's/^# \{0,1\}//'
+  sed -n '3,/^# Environment:/p' "$SCRIPT_DIR/$(basename "$0")" |
+    sed '$d; s/^# \{0,1\}//'
 }
 
 if [[ $# -eq 0 ]]; then
@@ -233,10 +239,11 @@ for arg in "$@"; do
     --publish=*) PUBLISH_VERSION="${arg#--publish=}" ;;
     --prepare=*) PREPARE_VERSION="${arg#--prepare=}" ;;
     --build-number=*) PUBLISH_BUILD_NUMBER="${arg#--build-number=}" ;;
+    --resume-from=*) RESUME_FROM="${arg#--resume-from=}" ;;
     --yes) die "--yes is unsafe; use --publish=<version>" ;;
     --dry-run) CONFIRMED=0; DRY_RUN_FORCED=1 ;;
     --help|-h) usage; exit 0 ;;
-    all) STAGES+=(android_build fdroid linux windows evidence github website play) ;;
+    all) ALL_SELECTED=1; STAGES+=(android_build fdroid linux windows evidence github website play) ;;
     android-build) STAGES+=(android_build) ;;
     android|play|linux|windows|evidence|github|website|fdroid) STAGES+=("$arg") ;;
     *) die "Unknown argument: $arg (see --help)" ;;
@@ -244,6 +251,18 @@ for arg in "$@"; do
 done
 
 [[ ${#STAGES[@]} -gt 0 ]] || die "No stage selected (see --help)"
+
+if [[ -n "$RESUME_FROM" ]]; then
+  [[ "$ALL_SELECTED" -eq 1 && ${#STAGES[@]} -eq 8 ]] ||
+    die '--resume-from requires the `all` stage without additional stages'
+  case "$RESUME_FROM" in
+    github) STAGES=(github website play) ;;
+    website) STAGES=(website play) ;;
+    play) STAGES=(play) ;;
+    *) die "--resume-from accepts github, website, or play" ;;
+  esac
+  log "Resuming release from $RESUME_FROM: ${STAGES[*]}"
+fi
 
 mkdir -p "$ARTIFACT_DIR"
 ARTIFACT_DIR="$(cd "$ARTIFACT_DIR" && pwd -P)"
@@ -373,6 +392,33 @@ preflight_publish() {
   fi
 }
 
+preflight_publish_resume() {
+  need git
+  need python3
+  [[ -z "$(git status --porcelain)" ]] ||
+    die "Resuming publication requires a clean working tree"
+
+  local branch remote_ref manifest commit
+  branch="$(git symbolic-ref --quiet --short HEAD)" ||
+    die "Resuming publication from detached HEAD is not allowed"
+  remote_ref="origin/$branch"
+  git fetch --quiet origin "$branch"
+  [[ "$(git rev-parse HEAD)" == "$(git rev-parse "$remote_ref")" ]] ||
+    die "Local $branch is not synchronized with $remote_ref"
+
+  manifest="$ARTIFACT_DIR/evidence/release-manifest.json"
+  [[ -f "$manifest" ]] ||
+    die "Resuming publication requires verified evidence: $manifest"
+  commit="$(git rev-parse HEAD)"
+  "$SCRIPT_DIR/generate_release_evidence.py" \
+    --list-assets "$manifest" \
+    --version "$RESOLVED_RELEASE_VERSION" \
+    --build-number "$RESOLVED_ANDROID_BUILD_NUMBER" \
+    --commit "$commit" >/dev/null ||
+    die "Existing release evidence does not match the resumed release"
+  log "Verified existing release evidence; completed build and device gates will not rerun"
+}
+
 preflight_prepare() {
   need git
   [[ -z "$(git status --porcelain)" ]] ||
@@ -433,7 +479,11 @@ if [[ -n "$PUBLISH_VERSION" && "$DRY_RUN_FORCED" -eq 0 ]]; then
   [[ "$PUBLISH_VERSION" == "$RESOLVED_RELEASE_VERSION" ]] ||
     die "Publish confirmation '$PUBLISH_VERSION' does not match release version '$RESOLVED_RELEASE_VERSION'"
   CONFIRMED=1
-  preflight_publish
+  if [[ -n "$RESUME_FROM" ]]; then
+    preflight_publish_resume
+  else
+    preflight_publish
+  fi
 fi
 
 changelog_notes() {
