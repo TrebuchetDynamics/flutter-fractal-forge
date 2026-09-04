@@ -1,0 +1,1 @@
+Faster catalog search with words matched across names, dimensions, and categories. Smoother palette animation with bounded texture memory. Kaleidoscope artwork fills every sector without missing wedges. Double-tap zoom holds the tapped detail steady, and pan momentum stays consistent across display refresh rates.

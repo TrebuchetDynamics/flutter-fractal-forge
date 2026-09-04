@@ -72,6 +72,12 @@ import Photos
     }
 
     private func saveImageToPhotos(image: UIImage, completion: @escaping (Bool, Error?) -> Void) {
+        guard #available(iOS 14, *) else {
+            // On iOS 13 the write requests add-only permission using
+            // NSPhotoLibraryAddUsageDescription, without asking to read Photos.
+            performSave(image: image, completion: completion)
+            return
+        }
         let status = PHPhotoLibrary.authorizationStatus(for: .addOnly)
         if status == .authorized || status == .limited {
             performSave(image: image, completion: completion)
