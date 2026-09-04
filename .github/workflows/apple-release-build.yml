@@ -51,9 +51,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          args=()
+          args=("$APPLE_PLATFORM" --release)
           if [[ "$APPLE_PLATFORM" == ios ]]; then args+=(--no-codesign); fi
-          flutter build "$APPLE_PLATFORM" --release "${args[@]}" \
+          flutter build "${args[@]}" \
             --build-name="$RELEASE_VERSION" --build-number="$RELEASE_BUILD_NUMBER" \
             --dart-define="RELEASE_VERSION=$RELEASE_VERSION" \
             --dart-define="RELEASE_BUILD_NUMBER=$RELEASE_BUILD_NUMBER" \
