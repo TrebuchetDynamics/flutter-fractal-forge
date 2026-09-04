@@ -1,0 +1,58 @@
+{
+  "package": "shadertoy-scySRd-glowmarcher",
+  "created": "2026-09-03",
+  "depth": "limited",
+  "coverage": "unverified_source_lead",
+  "search_stats": null,
+  "asset_policy": "observation-only-original-code",
+  "assets_imported": false,
+  "public_visual_lead": {
+    "platform": "shadertoy",
+    "author": "mrange",
+    "shader_id": "scySRd",
+    "url": "https://www.shadertoy.com/view/scySRd",
+    "reddit_context": "r/Fractalish post: Another glowmarcher FTW? (2026-09)",
+    "license": "unknown",
+    "retrieval_status": "unavailable_fetch_blocked",
+    "observation_only": true
+  },
+  "implementation": {
+    "shader": "shaders/3d_and_hypercomplex/raymarched_volumes/luminous_fold_lattice_gpu.frag",
+    "catalog_id": "luminous_fold_lattice",
+    "display_name": "Luminous Fold Lattice",
+    "original_code": true,
+    "ported_source": false,
+    "samplers": 0
+  },
+  "construction_sources": [
+    {
+      "title": "Sphere tracing: A geometric method for the antialiased ray tracing of implicit surfaces",
+      "author": "John C. Hart",
+      "venue": "The Visual Computer 12(10), 1996",
+      "role": "sphere-tracing method"
+    },
+    {
+      "title": "Distance functions",
+      "author": "Inigo Quilez",
+      "url": "https://iquilezles.org/articles/distfunctions/",
+      "role": "primitive/operator SDF context"
+    },
+    {
+      "title": "3D orbit traps",
+      "author": "Inigo Quilez",
+      "url": "https://iquilezles.org/articles/orbittraps3d/",
+      "role": "orbit-trap coloring context"
+    },
+    {
+      "title": "Raymarching Distance Fields with CUDA",
+      "authors": ["Avelina Hadji-Kyriacou", "Ognjen Arandjelović"],
+      "venue": "Electronics 10(22):2730, 2021",
+      "license": "CC BY",
+      "role": "raymarching background"
+    }
+  ],
+  "corpus_policy": {
+    "abstracts_included": false,
+    "raw_api_payloads_included": false
+  }
+}

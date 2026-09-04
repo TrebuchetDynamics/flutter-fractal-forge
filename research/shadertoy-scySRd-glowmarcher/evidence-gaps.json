@@ -1,0 +1,29 @@
+{
+  "package": "shadertoy-scySRd-glowmarcher",
+  "gaps": [
+    {
+      "id": "source_unavailable",
+      "statement": "The referenced Shadertoy page scySRd could not be retrieved (HTTP 403; no accessible mirror). Its source text, title, behavior, and assets are unverified.",
+      "impact": "Prevents code-level attribution and any comparison to the referenced implementation.",
+      "mitigation": "Clean-room implementation: formula, constants, palette, camera, and timing authored for Fractal Forge. Source-contract tests forbid samplers and assert original construction helpers."
+    },
+    {
+      "id": "license_unknown",
+      "statement": "The visual lead's license is unknown and unknown licensing grants no reusable-source rights.",
+      "impact": "No shader text, constants, media, or palettes may be copied from the lead.",
+      "mitigation": "Observation-only policy recorded in provenance.json; nothing was downloaded or translated."
+    },
+    {
+      "id": "no_scholarly_sweep",
+      "statement": "No systematic database search was run; rforge-style query/result artifacts are intentionally absent.",
+      "impact": "Coverage of academic glow/raymarching literature is incomplete.",
+      "mitigation": "Authoritative sphere-tracing and SDF references are cited for the construction that was actually used."
+    },
+    {
+      "id": "device_performance_unverified",
+      "statement": "Host renders prove correctness but not mobile GPU cost.",
+      "impact": "Frame-time on Waydroid/x86_64 is unproven by this package.",
+      "mitigation": "Bounded loops (<= 180 march steps, <= 9 fold levels) and the release gate cover device behavior."
+    }
+  ]
+}

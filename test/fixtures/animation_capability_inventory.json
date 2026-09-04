@@ -3575,6 +3575,11 @@
     "capability": "static"
   },
   {
+    "id": "luminous_fold_lattice",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/luminous_fold_lattice_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
     "id": "lyapunov",
     "shaderAsset": "shaders/lyapunov_and_stability/lyapunov_gpu.frag",
     "capability": "static"

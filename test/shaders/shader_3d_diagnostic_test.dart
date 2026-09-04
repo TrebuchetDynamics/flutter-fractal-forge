@@ -25,6 +25,7 @@ void main() {
       'shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_shape_inversion_gpu.frag',
       'shaders/ifs_and_geometric/raymarched_3d/inversive_limit_set_3d_gpu.frag',
       'shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag',
+      'shaders/3d_and_hypercomplex/raymarched_volumes/luminous_fold_lattice_gpu.frag',
       'shaders/3d_and_hypercomplex/raymarched_volumes/amazing_box_gpu.frag',
       'shaders/3d_and_hypercomplex/raymarched_volumes/bulbils_gpu.frag',
       'shaders/3d_and_hypercomplex/raymarched_volumes/hartverdrahtet_gpu.frag',

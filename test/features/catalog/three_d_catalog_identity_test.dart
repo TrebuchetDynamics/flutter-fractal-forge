@@ -39,6 +39,7 @@ void main() {
       'apollonian_sphere_packing_3d',
       'inversive_limit_set_3d',
       'mandelbulb_time_modulated',
+      'luminous_fold_lattice',
       'ternary_cayley_lumen',
       'gyroid_echo_reliquary',
       'mobius_echo_nest',

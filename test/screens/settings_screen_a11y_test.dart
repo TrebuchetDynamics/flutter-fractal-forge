@@ -123,7 +123,7 @@ void main() {
       await tester.tap(find.text('About').hitTestable().first);
       await tester.pumpAndSettle();
       expect(find.text('Version $kAppVersion'), findsWidgets);
-      expect(find.textContaining('1014 production fractals'), findsOneWidget);
+      expect(find.textContaining('1015 production fractals'), findsOneWidget);
       expect(find.text('Source code'), findsOneWidget);
       expect(find.text('View Fractal Forge on GitHub ↗'), findsOneWidget);
     });

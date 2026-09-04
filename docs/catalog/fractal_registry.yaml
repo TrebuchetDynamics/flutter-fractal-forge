@@ -303,6 +303,45 @@ fractals:
         approved_by: retrofit
         batch: stage_a_retrofit_2026_04
       confidence: 1.0
+  - id: luminous_fold_lattice
+    name: Luminous Fold Lattice
+    shader: shaders/3d_and_hypercomplex/raymarched_volumes/luminous_fold_lattice_gpu.frag
+    category: 3D Fractals
+    dimension: 3D
+    defaultPower: 1.9
+    defaultIterations: 6.0
+    defaultSteps: 128.0
+    defaultBailout: 6.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: true
+    presets:
+      - luminous_fold_lattice-ember-vault
+      - luminous_fold_lattice-violet-cathedral
+      - luminous_fold_lattice-ice-lantern
+    variants: []
+    references:
+      - https://www.shadertoy.com/view/scySRd
+      - https://iquilezles.org/articles/distfunctions/
+      - https://iquilezles.org/articles/orbittraps3d/
+    tier: implemented
+    formula_hash: sha256:6588dbc28f07bb60ca61a11551123241e833ca082462204b03330b4a7d88bdc5
+    quality:
+      formula_hash: sha256:6588dbc28f07bb60ca61a11551123241e833ca082462204b03330b4a7d88bdc5
+      citation_health:
+        last_checked: '2026-09-03'
+        status: visual_lead_unverified_license_unknown
+      shader_compile:
+        sksl: unchecked
+        glsl: checked
+        checked: '2026-09-03'
+      thumbnail:
+        entropy: 0.0
+        checked: '2026-09-03'
+      review:
+        approved_by: implementation_validation
+        batch: glowmarcher_2026_09
+      confidence: 1.0
   - id: ternary_cayley_lumen
     name: Ternary Cayley Lumen
     shader: shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag

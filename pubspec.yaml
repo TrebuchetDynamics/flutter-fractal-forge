@@ -1,5 +1,5 @@
 name: flutter_fractals
-description: GPU-accelerated exploration of 1014 production fractals with deep zoom and real-time rendering.
+description: GPU-accelerated exploration of 1015 production fractals with deep zoom and real-time rendering.
 publish_to: none
 version: 1.1.0+38
 environment:
@@ -503,6 +503,7 @@ flutter:
     - shaders/3d_and_hypercomplex/raymarched_volumes/apollonian_sphere_packing_gpu.frag
     - shaders/3d_and_hypercomplex/raymarched_volumes/mandelbulb_time_modulated_gpu.frag
     - shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag
+    - shaders/3d_and_hypercomplex/raymarched_volumes/luminous_fold_lattice_gpu.frag
     - shaders/3d_and_hypercomplex/raymarched_volumes/amazing_box_gpu.frag
     - shaders/3d_and_hypercomplex/raymarched_volumes/bulbils_gpu.frag
     - shaders/3d_and_hypercomplex/raymarched_volumes/hartverdrahtet_gpu.frag

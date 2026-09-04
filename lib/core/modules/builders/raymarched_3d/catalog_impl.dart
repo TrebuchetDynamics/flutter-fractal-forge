@@ -677,6 +677,84 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
     ],
   ),
 
+  // ── Glowmarched Recursive Lattices ────────────
+
+  Raymarched3DConfig(
+    id: 'luminous_fold_lattice',
+    name: 'Luminous Fold Lattice',
+    shaderAsset:
+        'shaders/3d_and_hypercomplex/raymarched_volumes/luminous_fold_lattice_gpu.frag',
+    category: '3D Fractals',
+    animationCapability: FractalAnimationCapability.timeDriven,
+    defaultPower: 1.9,
+    minPower: 1.45,
+    maxPower: 2.8,
+    powerLabel: 'Fold Scale',
+    defaultIterations: 6,
+    minIterations: 2,
+    maxIterations: 9,
+    defaultSteps: 128,
+    defaultBailout: 6.0,
+    defaultColorScheme: 0,
+    maxColorScheme: 3,
+    defaultZoom: 1.1,
+    defaultRotationX: 0.30,
+    defaultRotationY: -0.35,
+    extraPresets: [
+      catalogPreset(
+        id: 'luminous_fold_lattice-ember-vault',
+        moduleId: 'luminous_fold_lattice',
+        name: 'Ember Vault',
+        params: const {
+          'power': 1.72,
+          'iterations': 5.0,
+          'steps': 112.0,
+          'bailout': 7.0,
+          'colorScheme': 1,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.02,
+          rotation: Vector3(0.48, -0.20, 0.08),
+        ),
+      ),
+      catalogPreset(
+        id: 'luminous_fold_lattice-violet-cathedral',
+        moduleId: 'luminous_fold_lattice',
+        name: 'Violet Cathedral',
+        params: const {
+          'power': 2.16,
+          'iterations': 7.0,
+          'steps': 144.0,
+          'bailout': 5.2,
+          'colorScheme': 2,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.22,
+          rotation: Vector3(0.22, -0.54, 0.15),
+        ),
+      ),
+      catalogPreset(
+        id: 'luminous_fold_lattice-ice-lantern',
+        moduleId: 'luminous_fold_lattice',
+        name: 'Ice Lantern',
+        params: const {
+          'power': 2.54,
+          'iterations': 8.0,
+          'steps': 156.0,
+          'bailout': 6.4,
+          'colorScheme': 3,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.34,
+          rotation: Vector3(0.62, -0.38, -0.12),
+        ),
+      ),
+    ],
+  ),
+
   // ── Isolated Recursive Object Systems ─────────
 
   Raymarched3DConfig(

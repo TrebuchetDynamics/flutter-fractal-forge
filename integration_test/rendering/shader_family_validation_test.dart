@@ -55,6 +55,7 @@ void main() {
       'zeta_newton',
       'lyapunov',
       'mandelbulb',
+      'luminous_fold_lattice',
     ];
 
     for (final moduleId in representatives) {

@@ -125,6 +125,7 @@ void main() {
       'f1141_fractal_flame_v40_rectangles',
       'gauss_map',
       'tortoise_toroidal_fractal',
+      'luminous_fold_lattice',
     ]) {
       expect(
         registry.byId(id).animationCapability,
@@ -232,7 +233,8 @@ void main() {
 
     // The dark component oracle counts the carrier aperture plus at least six
     // first-generation torus apertures. A collapsed/four-handle geometry fails.
-    expect(_countEnclosedDarkComponents(oneGeneration), greaterThanOrEqualTo(7));
+    expect(
+        _countEnclosedDarkComponents(oneGeneration), greaterThanOrEqualTo(7));
 
     var differingPixels = 0;
     for (var offset = 0; offset < oneGeneration.length; offset += 4) {
