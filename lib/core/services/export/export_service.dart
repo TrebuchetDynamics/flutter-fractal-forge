@@ -11,10 +11,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/services/export/download/export_download.dart';
 import 'package:flutter_fractals/core/services/export/export_worker.dart';
+import 'package:flutter_fractals/core/services/export/export_image_resampler.dart';
 import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
 import 'package:flutter_fractals/core/services/export/share_service.dart';
 import 'package:flutter_fractals/shared/utils/byte_format.dart';
 import 'package:flutter_fractals/shared/utils/slugify.dart';
+
+Uint8List _resizeExportPng((Uint8List, int, int, String?) input) {
+  final (bytes, width, height, quoteText) = input;
+  return const ExportService().resizePngToTargetDimensions(
+    bytes,
+    width: width,
+    height: height,
+    quoteText: quoteText,
+  );
+}
 
 /// Replayable filename contract for exported files.
 ///
@@ -460,6 +471,22 @@ class ExportService {
     throw StateError('Failed to capture PNG: $lastError');
   }
 
+  /// Resizes fallback captures off the UI isolate with export cancellation.
+  Future<Uint8List> resizePngInWorker(
+    Uint8List pngBytes, {
+    required int width,
+    required int height,
+    String? quoteText,
+    ExportCancellationToken? cancellationToken,
+  }) {
+    ExportSizePolicy.validateTargetDimensions(width, height);
+    return worker.runWithInput(
+      _resizeExportPng,
+      (pngBytes, width, height, quoteText),
+      token: cancellationToken,
+    );
+  }
+
   Uint8List resizePngToTargetDimensions(
     Uint8List pngBytes, {
     required int width,
@@ -492,11 +519,10 @@ class ExportService {
             );
       processedImage = (cropped.width == width && cropped.height == height)
           ? cropped
-          : img.copyResize(
+          : resizeExportImage(
               cropped,
               width: width,
               height: height,
-              interpolation: img.Interpolation.average,
             );
     } else {
       processedImage = decodedImage;
@@ -601,13 +627,10 @@ class ExportService {
             );
       processedImage = (cropped.width == targetW && cropped.height == targetH)
           ? cropped
-          : img.copyResize(
+          : resizeExportImage(
               cropped,
               width: targetW,
               height: targetH,
-              // Avoid cubic on mobile: Play Console ANRs showed
-              // Image.getPixelCubic.cubic blocking input dispatch.
-              interpolation: img.Interpolation.average,
             );
     } else {
       processedImage = decodedImage;

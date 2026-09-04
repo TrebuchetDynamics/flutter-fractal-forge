@@ -649,11 +649,12 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
       physicalScreenWidth: physicalScreenWidth,
       physicalScreenHeight: physicalScreenHeight,
     );
-    bytes = _exportService.resizePngToTargetDimensions(
+    bytes = await _exportService.resizePngInWorker(
       bytes,
       width: targetDims.$1,
       height: targetDims.$2,
       quoteText: options.quoteText,
+      cancellationToken: cancellationToken,
     );
     cancellationToken.throwIfCancelled();
 

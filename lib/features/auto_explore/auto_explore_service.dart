@@ -64,7 +64,9 @@ class AutoExploreService extends ChangeNotifier {
 
   double get speed => _speed;
   set speed(double v) {
-    _speed = AutoExploreSpeed.normalize(v);
+    final normalized = AutoExploreSpeed.normalize(v);
+    if (_speed == normalized) return;
+    _speed = normalized;
     notifyListeners();
   }
 
@@ -293,12 +295,15 @@ class AutoExploreService extends ChangeNotifier {
     _anim?.cancel();
     _anim = null;
 
+    final initialSpeed = _speed;
     final plan = _zoomPlanner.animationPlanForZoomLeg(
       startZoom: controller.view.zoom,
       endZoom: targetZoom,
-      speed: _speed,
+      speed: initialSpeed,
     );
     final stopwatch = Stopwatch()..start();
+    var previousElapsedMicros = 0;
+    var scaledElapsedMicros = 0.0;
 
     final completer = Completer<bool>();
     _animCompleter = completer;
@@ -311,7 +316,15 @@ class AutoExploreService extends ChangeNotifier {
         return;
       }
 
-      final progress = plan.progressForElapsed(stopwatch.elapsed);
+      final elapsedMicros = stopwatch.elapsedMicroseconds;
+      // Apply live speed changes to subsequent frames without restarting the
+      // easing curve or rescaling progress already travelled at another speed.
+      scaledElapsedMicros +=
+          (elapsedMicros - previousElapsedMicros) * (_speed / initialSpeed);
+      previousElapsedMicros = elapsedMicros;
+      final progress = plan.progressForElapsed(
+        Duration(microseconds: scaledElapsedMicros.round()),
+      );
       final eased = _cinematicCurve.transform(progress.raw);
 
       controller.updateView(

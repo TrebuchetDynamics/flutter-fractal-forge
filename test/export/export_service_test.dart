@@ -43,8 +43,9 @@ class _RecordingExportWorker implements ExportWorker {
 
 class _PhysicalPixelCaptureService extends ExportService {
   double? capturedPixelRatio;
+  final Uint8List? captureBytes;
 
-  _PhysicalPixelCaptureService({super.worker});
+  _PhysicalPixelCaptureService({super.worker, this.captureBytes});
 
   @override
   Future<Uint8List> capturePng(
@@ -52,9 +53,10 @@ class _PhysicalPixelCaptureService extends ExportService {
     double pixelRatio = 2.0,
   }) async {
     capturedPixelRatio = pixelRatio;
-    return Uint8List.fromList(
-      img.encodePng(img.Image(width: 108, height: 192)),
-    );
+    return captureBytes ??
+        Uint8List.fromList(
+          img.encodePng(img.Image(width: 108, height: 192)),
+        );
   }
 }
 
@@ -129,6 +131,33 @@ void main() {
   });
 
   group('ExportService.captureWithOptions', () {
+    test('worker export preserves highlight brightness and alpha', () async {
+      final source = img.Image(width: 2, height: 2, numChannels: 4);
+      source.setPixelRgba(0, 0, 255, 255, 255, 255);
+      source.setPixelRgba(1, 0, 0, 0, 0, 255);
+      source.setPixelRgba(0, 1, 255, 0, 255, 0);
+      source.setPixelRgba(1, 1, 0, 255, 0, 0);
+      final service = _PhysicalPixelCaptureService(
+        captureBytes: Uint8List.fromList(img.encodePng(source)),
+      );
+      // Uses the real isolate worker, capture processing, and PNG encoder.
+      final bytes = await service.captureWithOptions(
+        GlobalKey(),
+        options: const ExportOptions(
+          resolution: ExportResolution.custom,
+          customWidth: 1,
+          customHeight: 1,
+          transparentBackground: true,
+        ),
+        screenWidth: 2,
+        screenHeight: 2,
+      );
+      final output = img.decodePng(bytes)!;
+      expect((output.width, output.height), (1, 1));
+      final pixel = output.getPixel(0, 0);
+      expect([pixel.r, pixel.g, pixel.b, pixel.a], [188, 188, 188, 128]);
+    });
+
     test('screen mode captures and outputs the physical pixel size', () async {
       final worker = _RecordingExportWorker();
       final service = _PhysicalPixelCaptureService(worker: worker);
@@ -150,6 +179,47 @@ void main() {
   });
 
   group('ExportService.resizePngToTargetDimensions', () {
+    test('fallback worker retains color-correct output', () async {
+      final source = img.Image(width: 2, height: 2);
+      source.setPixelRgb(0, 0, 255, 255, 255);
+      source.setPixelRgb(1, 1, 255, 255, 255);
+      final output = img.decodePng(await service.resizePngInWorker(
+        Uint8List.fromList(img.encodePng(source)),
+        width: 1,
+        height: 1,
+      ))!;
+      expect(output.getPixel(0, 0).r, 188);
+    });
+
+    test('fallback worker respects cancellation before processing', () async {
+      final token = ExportCancellationToken()..cancel();
+      await expectLater(
+        service.resizePngInWorker(
+          Uint8List(0),
+          width: 1,
+          height: 1,
+          cancellationToken: token,
+        ),
+        throwsA(isA<ExportCancelledException>()),
+      );
+    });
+
+    test('preserves fine-detail brightness when shrinking artwork', () {
+      final source = img.Image(width: 2, height: 2);
+      source.setPixelRgb(0, 0, 255, 255, 255);
+      source.setPixelRgb(1, 1, 255, 255, 255);
+      final output = img.decodePng(service.resizePngToTargetDimensions(
+        Uint8List.fromList(img.encodePng(source)),
+        width: 1,
+        height: 1,
+      ))!;
+
+      final pixel = output.getPixel(0, 0);
+      expect(pixel.r, closeTo(188, 1));
+      expect(pixel.g, closeTo(188, 1));
+      expect(pixel.b, closeTo(188, 1));
+    });
+
     test('resizes fallback exports to the requested high-res target', () {
       final source = img.Image(width: 40, height: 20);
       img.fill(source, color: img.ColorRgb8(12, 34, 56));

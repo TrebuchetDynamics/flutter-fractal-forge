@@ -219,12 +219,14 @@ class _FallbackScreenSizeExportService extends ExportService {
   }
 
   @override
-  Uint8List resizePngToTargetDimensions(
+  Future<Uint8List> resizePngInWorker(
     Uint8List pngBytes, {
     required int width,
     required int height,
     String? quoteText,
-  }) {
+    ExportCancellationToken? cancellationToken,
+  }) async {
+    cancellationToken?.throwIfCancelled();
     resizedDimensions = (width, height);
     return pngBytes;
   }
@@ -349,12 +351,14 @@ class _BlockingFallbackExportService extends ExportService {
   }
 
   @override
-  Uint8List resizePngToTargetDimensions(
+  Future<Uint8List> resizePngInWorker(
     Uint8List pngBytes, {
     required int width,
     required int height,
     String? quoteText,
-  }) {
+    ExportCancellationToken? cancellationToken,
+  }) async {
+    cancellationToken?.throwIfCancelled();
     resizeCalls++;
     return pngBytes;
   }

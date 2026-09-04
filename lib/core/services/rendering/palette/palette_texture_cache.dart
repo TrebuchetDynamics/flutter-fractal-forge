@@ -13,8 +13,9 @@ class PaletteTextureCache {
     final cached = _cache[key];
     if (cached != null) return cached;
 
+    final stops = normalizeFractalPaletteStops(palette.stops);
     return _cache[key] = _drawPaletteTexture(
-      normalizeFractalPaletteStops(palette.stops),
+      (t) => _colorAt(stops, t),
       colorCount: count,
     );
   }
@@ -31,6 +32,7 @@ class PaletteTextureCache {
     if (mix256 == 0) return paletteTexture(a, colorCount: count);
 
     final b = paletteAtIndex(from + 1);
+    if (mix256 == 256) return paletteTexture(b, colorCount: count);
     final key = 'blend:${a.id}:${b.id}:$mix256:$count';
     final cached = _cache[key];
     if (cached != null) return cached;
@@ -38,19 +40,15 @@ class PaletteTextureCache {
     final t = mix256 / 256.0;
     final stopsA = normalizeFractalPaletteStops(a.stops);
     final stopsB = normalizeFractalPaletteStops(b.stops);
-    final stops = [
-      for (var i = 0; i < maxFractalPaletteStops; i++)
-        FractalColorStop(
-          position: i / (maxFractalPaletteStops - 1),
-          colorArgb: Color.lerp(
-            _colorAt(stopsA, i / (maxFractalPaletteStops - 1)),
-            _colorAt(stopsB, i / (maxFractalPaletteStops - 1)),
-            t,
-          )!
-              .toARGB32(),
-        ),
-    ];
-    return _cache[key] = _drawPaletteTexture(stops, colorCount: count);
+    // Sample the original gradients so narrow highlights survive transitions.
+    return _cache[key] = _drawPaletteTexture(
+      (position) => Color.lerp(
+        _colorAt(stopsA, position),
+        _colorAt(stopsB, position),
+        t,
+      )!,
+      colorCount: count,
+    );
   }
 
   void clear() {
@@ -61,7 +59,7 @@ class PaletteTextureCache {
   }
 
   ui.Image _drawPaletteTexture(
-    List<FractalColorStop> stops, {
+    Color Function(double) colorAt, {
     required int colorCount,
   }) {
     final rec = ui.PictureRecorder();
@@ -75,7 +73,7 @@ class PaletteTextureCache {
       final band = (t * colorCount).floor().clamp(0, colorCount - 1);
       final sampled =
           colorCount >= textureWidth ? t : (band + 0.5) / colorCount;
-      paint.color = _colorAt(stops, sampled.clamp(0.0, 1.0));
+      paint.color = colorAt(sampled.clamp(0.0, 1.0));
       canvas.drawRect(Rect.fromLTWH(x.toDouble(), 0, 1, 1), paint);
     }
     final picture = rec.endRecording();
