@@ -1,4 +1,4 @@
-# Fractal Forge: Art & Zoom
+# Fractal Forge
 
 Explore 1,000+ fractals. Make 4K wallpapers and animated art, all offline.
 

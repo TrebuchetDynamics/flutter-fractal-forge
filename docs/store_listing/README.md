@@ -1,6 +1,6 @@
 # Fractal Forge store listing
 
-The September 2026 campaign leads with exploration and creative output: **Fractal Forge: Art & Zoom**. It replaces technical sales copy, stale catalog counts, and a feature graphic that misspelled the app name and advertised unsupported AR.
+The September 2026 campaign leads with exploration and creative output: **Fractal Forge**. It replaces technical sales copy, stale catalog counts, and a feature graphic that misspelled the app name and advertised unsupported AR.
 
 [Preview the campaign](PREVIEW.md).
 
