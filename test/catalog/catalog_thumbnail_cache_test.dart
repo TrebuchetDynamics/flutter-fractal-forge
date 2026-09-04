@@ -17,6 +17,25 @@ void main() {
       expect(CatalogThumbnailCache.maxColorCount, greaterThanOrEqualTo(24));
     });
 
+    test('sparse modules use bounded module-specific framing and detail', () {
+      expect(
+        CatalogThumbnailCache.maxIterationsFor('core.barnsley_fern'),
+        120,
+      );
+      expect(
+        CatalogThumbnailCache.maxIterationsFor('core.mandelbrot'),
+        CatalogThumbnailCache.maxIterations,
+      );
+      expect(
+        CatalogThumbnailCache.viewOverrideFor('core.barnsley_fern'),
+        (centerX: 0.0, centerY: 0.5, zoom: 1.0),
+      );
+      expect(
+        CatalogThumbnailCache.viewOverrideFor('core.mandelbrot'),
+        isNull,
+      );
+    });
+
     test('renderSignature is deterministic per input', () {
       final a = CatalogThumbnailCache.renderSignature(
         catalogId: 'core.mandelbrot',
@@ -113,9 +132,30 @@ void main() {
       expect(CatalogThumbnailCache.inMemory(sig), isNull);
 
       final pngHeader = Uint8List.fromList(<int>[
-        137, 80, 78, 71, 13, 10, 26, 10,
-        0, 0, 0, 13, 73, 72, 68, 82,
-        0, 0, 0, 1, 0, 0, 0, 1,
+        137,
+        80,
+        78,
+        71,
+        13,
+        10,
+        26,
+        10,
+        0,
+        0,
+        0,
+        13,
+        73,
+        72,
+        68,
+        82,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
       ]);
       await CatalogThumbnailCache.store(sig, pngHeader);
 
@@ -127,9 +167,30 @@ void main() {
     test('memory cache evicts old thumbnails after its bounded capacity',
         () async {
       final pngHeader = Uint8List.fromList(<int>[
-        137, 80, 78, 71, 13, 10, 26, 10,
-        0, 0, 0, 13, 73, 72, 68, 82,
-        0, 0, 0, 1, 0, 0, 0, 1,
+        137,
+        80,
+        78,
+        71,
+        13,
+        10,
+        26,
+        10,
+        0,
+        0,
+        0,
+        13,
+        73,
+        72,
+        68,
+        82,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
       ]);
       const capacity = 256;
       for (var i = 0; i <= capacity; i++) {

@@ -10,10 +10,14 @@ final class LaunchVisualMetrics {
   static const double _lowDetailThreshold = 0.08;
   static const double _dominantColorThreshold = 0.92;
   static const double _lowLuminanceStdDevThreshold = 3.0;
+  static const double _nearBlackMeanLuminanceThreshold = 18.0;
+  static const double _nearBlackPixelRatioThreshold = 0.90;
 
   final double centerDetailScore;
   final double edgeDetailScore;
   final double luminanceStdDev;
+  final double meanLuminance;
+  final double darkPixelRatio;
   final double dominantColorRatio;
   final double nonTransparentRatio;
   final String verdict;
@@ -22,6 +26,8 @@ final class LaunchVisualMetrics {
     required this.centerDetailScore,
     required this.edgeDetailScore,
     required this.luminanceStdDev,
+    required this.meanLuminance,
+    required this.darkPixelRatio,
     required this.dominantColorRatio,
     required this.nonTransparentRatio,
     required this.verdict,
@@ -35,6 +41,8 @@ final class LaunchVisualMetrics {
       centerDetailScore: centerDetailScore,
       edgeDetailScore: edgeDetailScore,
       luminanceStdDev: stats.luminanceStdDev,
+      meanLuminance: stats.meanLuminance,
+      darkPixelRatio: stats.darkPixelRatio,
       dominantColorRatio: stats.dominantColorRatio,
       nonTransparentRatio: stats.nonTransparentRatio,
     );
@@ -43,6 +51,8 @@ final class LaunchVisualMetrics {
       centerDetailScore: centerDetailScore,
       edgeDetailScore: edgeDetailScore,
       luminanceStdDev: stats.luminanceStdDev,
+      meanLuminance: stats.meanLuminance,
+      darkPixelRatio: stats.darkPixelRatio,
       dominantColorRatio: stats.dominantColorRatio,
       nonTransparentRatio: stats.nonTransparentRatio,
       verdict: verdict,
@@ -53,6 +63,8 @@ final class LaunchVisualMetrics {
         'centerDetailScore': _round(centerDetailScore),
         'edgeDetailScore': _round(edgeDetailScore),
         'luminanceStdDev': _round(luminanceStdDev),
+        'meanLuminance': _round(meanLuminance),
+        'darkPixelRatio': _round(darkPixelRatio),
         'dominantColorRatio': _round(dominantColorRatio),
         'nonTransparentRatio': _round(nonTransparentRatio),
         'verdict': verdict,
@@ -62,10 +74,16 @@ final class LaunchVisualMetrics {
     required double centerDetailScore,
     required double edgeDetailScore,
     required double luminanceStdDev,
+    required double meanLuminance,
+    required double darkPixelRatio,
     required double dominantColorRatio,
     required double nonTransparentRatio,
   }) {
     if (nonTransparentRatio <= 0.0) return 'fallback-preview';
+    if (meanLuminance < _nearBlackMeanLuminanceThreshold &&
+        darkPixelRatio > _nearBlackPixelRatioThreshold) {
+      return 'near-black';
+    }
     if (centerDetailScore < _lowDetailThreshold &&
         edgeDetailScore < _lowDetailThreshold) {
       return 'needs-framing';
@@ -82,6 +100,8 @@ final class _ImageMetricStats {
   final double centerLuminanceStdDev;
   final double edgeLuminanceStdDev;
   final double luminanceStdDev;
+  final double meanLuminance;
+  final double darkPixelRatio;
   final double dominantColorRatio;
   final double nonTransparentRatio;
 
@@ -89,6 +109,8 @@ final class _ImageMetricStats {
     required this.centerLuminanceStdDev,
     required this.edgeLuminanceStdDev,
     required this.luminanceStdDev,
+    required this.meanLuminance,
+    required this.darkPixelRatio,
     required this.dominantColorRatio,
     required this.nonTransparentRatio,
   });
@@ -99,6 +121,7 @@ final class _ImageMetricStats {
     final edge = _RunningStats();
     final buckets = <int, int>{};
     var nonTransparent = 0;
+    var darkPixels = 0;
 
     final centerLeft = image.width ~/ 4;
     final centerTop = image.height ~/ 4;
@@ -114,6 +137,7 @@ final class _ImageMetricStats {
         final b = pixel.b.toInt();
         final luminance = _luminance(r, g, b);
         all.add(luminance);
+        if (luminance <= 16.0) darkPixels++;
 
         if (x >= centerLeft &&
             x < centerRight &&
@@ -142,6 +166,8 @@ final class _ImageMetricStats {
       centerLuminanceStdDev: center.stdDev,
       edgeLuminanceStdDev: edge.stdDev,
       luminanceStdDev: all.stdDev,
+      meanLuminance: all.mean,
+      darkPixelRatio: total == 0 ? 0.0 : darkPixels / total,
       dominantColorRatio: nonTransparent == 0 ? 0.0 : dominant / nonTransparent,
       nonTransparentRatio: total == 0 ? 0.0 : nonTransparent / total,
     );
@@ -159,9 +185,10 @@ final class _RunningStats {
     _squaredSum += value * value;
   }
 
+  double get mean => _count == 0 ? 0.0 : _sum / _count;
+
   double get stdDev {
     if (_count == 0) return 0.0;
-    final mean = _sum / _count;
     return math.sqrt(math.max(0.0, _squaredSum / _count - mean * mean));
   }
 }

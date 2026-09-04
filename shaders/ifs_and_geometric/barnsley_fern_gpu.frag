@@ -85,7 +85,10 @@ void main() {
     }
   }
 
-  float ink = smoothstep(0.045, 0.0, trap);
+  // The orbit is intentionally sampled rather than accumulated in a buffer.
+  // A wider module-local stroke keeps the curated catalog view informative at
+  // thumbnail scale without raising the renderer's global iteration budget.
+  float ink = smoothstep(0.14, 0.0, trap);
   if (ink <= 0.001) {
     fragColor = (uTransparentBg > 0.5) ? vec4(0.0) : vec4(0.0, 0.0, 0.0, 1.0);
     return;

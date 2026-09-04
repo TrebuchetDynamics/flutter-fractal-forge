@@ -2,6 +2,41 @@ import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_entry.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
+String _normalizeSearchText(String text) {
+  const replacements = <String, String>{
+    'á': 'a',
+    'à': 'a',
+    'ä': 'a',
+    'â': 'a',
+    'ã': 'a',
+    'å': 'a',
+    'é': 'e',
+    'è': 'e',
+    'ë': 'e',
+    'ê': 'e',
+    'í': 'i',
+    'ì': 'i',
+    'ï': 'i',
+    'î': 'i',
+    'ó': 'o',
+    'ò': 'o',
+    'ö': 'o',
+    'ô': 'o',
+    'õ': 'o',
+    'ú': 'u',
+    'ù': 'u',
+    'ü': 'u',
+    'û': 'u',
+    'ñ': 'n',
+    'ç': 'c',
+  };
+  var normalized = text.trim().toLowerCase();
+  for (final replacement in replacements.entries) {
+    normalized = normalized.replaceAll(replacement.key, replacement.value);
+  }
+  return normalized;
+}
+
 /// Replayable catalog search query used by the catalog screen.
 ///
 /// The UI debounces text input, then filters entries by localized display name,
@@ -12,7 +47,7 @@ final class CatalogSearchQuery {
   const CatalogSearchQuery._(this.value);
 
   factory CatalogSearchQuery.fromText(String text) {
-    return CatalogSearchQuery._(text.trim().toLowerCase());
+    return CatalogSearchQuery._(_normalizeSearchText(text));
   }
 
   /// Lower-case, trimmed query text.
@@ -29,9 +64,9 @@ final class CatalogSearchQuery {
   int? relevanceScore(CatalogEntry entry, AppLocalizations l10n) {
     if (isEmpty) return 0;
 
-    final displayName = entry.module.displayName(l10n).toLowerCase();
-    final aliases = entry.aliases.map((alias) => alias.toLowerCase()).toList();
-    final catalogId = entry.catalogId.toLowerCase();
+    final displayName = _normalizeSearchText(entry.module.displayName(l10n));
+    final aliases = entry.aliases.map(_normalizeSearchText).toList();
+    final catalogId = _normalizeSearchText(entry.catalogId);
 
     if (displayName == value) return 0;
     if (aliases.any((alias) => alias == value) ||
@@ -41,13 +76,16 @@ final class CatalogSearchQuery {
     }
     if (displayName.startsWith(value)) return 2;
     if (aliases.any((alias) => alias.startsWith(value))) return 3;
-    if (catalogId.contains(value)) return 4;
-    if (displayName.contains(value)) return 5;
-    if (aliases.any((alias) => alias.contains(value))) return 6;
+    final tokens = value.split(RegExp(r'\s+'));
+    if (tokens.length > 1 && tokens.every(displayName.contains)) return 4;
+    if (catalogId.contains(value)) return 5;
+    if (displayName.contains(value)) return 6;
+    if (aliases.any((alias) => alias.contains(value))) return 7;
 
     return _searchableFields(entry, l10n)
-            .any((field) => field.toLowerCase().contains(value))
-        ? 7
+            .map(_normalizeSearchText)
+            .any((field) => field.contains(value))
+        ? 8
         : null;
   }
 

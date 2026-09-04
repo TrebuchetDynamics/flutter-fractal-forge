@@ -103,6 +103,10 @@ class _SectionHeader extends StatelessWidget {
 
 class _CategoryFilterRail extends StatelessWidget {
   final String allCategoriesLabel;
+  final String favoritesLabel;
+  final String recentLabel;
+  final int favoriteCount;
+  final int recentCount;
   final int totalCategoryCount;
   final List<String> categories;
   final Map<String, int> categoryCounts;
@@ -111,6 +115,10 @@ class _CategoryFilterRail extends StatelessWidget {
 
   const _CategoryFilterRail({
     required this.allCategoriesLabel,
+    required this.favoritesLabel,
+    required this.recentLabel,
+    required this.favoriteCount,
+    required this.recentCount,
     required this.totalCategoryCount,
     required this.categories,
     required this.categoryCounts,
@@ -131,6 +139,25 @@ class _CategoryFilterRail extends StatelessWidget {
             count: totalCategoryCount,
             selected: selectedCategory == null,
             onTap: () => onSelect(null),
+          ),
+          const SizedBox(width: AppSpacing.xs),
+          _DimChip(
+            chipKey: const Key('catalogCategoryChip_favorites'),
+            label: favoritesLabel,
+            count: favoriteCount,
+            selected: selectedCategory ==
+                _FractalCatalogScreenState._favoritesCategory,
+            onTap: () =>
+                onSelect(_FractalCatalogScreenState._favoritesCategory),
+          ),
+          const SizedBox(width: AppSpacing.xs),
+          _DimChip(
+            chipKey: const Key('catalogCategoryChip_recent'),
+            label: recentLabel,
+            count: recentCount,
+            selected:
+                selectedCategory == _FractalCatalogScreenState._recentCategory,
+            onTap: () => onSelect(_FractalCatalogScreenState._recentCategory),
           ),
           for (final category in categories) ...[
             const SizedBox(width: AppSpacing.xs),
@@ -390,6 +417,8 @@ class _ModuleGridTile extends StatefulWidget {
   final CatalogEntry entry;
   final AppLocalizations l10n;
   final VoidCallback onTap;
+  final VoidCallback onFavoriteToggle;
+  final bool isFavorite;
   final bool miniatures;
   final _GlobalShimmerController? shimmerController;
 
@@ -397,6 +426,8 @@ class _ModuleGridTile extends StatefulWidget {
     required this.entry,
     required this.l10n,
     required this.onTap,
+    required this.onFavoriteToggle,
+    required this.isFavorite,
     this.miniatures = false,
     this.shimmerController,
   });
@@ -581,6 +612,36 @@ class _ModuleGridTileState extends State<_ModuleGridTile>
                                 ),
                               ),
                             ),
+                            Positioned(
+                              top: 6,
+                              right: 6,
+                              child: IconButton(
+                                key: Key(
+                                  'catalogFavorite_${widget.entry.catalogId}',
+                                ),
+                                tooltip: widget.isFavorite
+                                    ? 'Remove from favorites'
+                                    : 'Add to favorites',
+                                constraints: const BoxConstraints.tightFor(
+                                  width: 48,
+                                  height: 48,
+                                ),
+                                style: IconButton.styleFrom(
+                                  backgroundColor:
+                                      Colors.black.withValues(alpha: 0.48),
+                                  foregroundColor: widget.isFavorite
+                                      ? const Color(0xFFFFD166)
+                                      : Colors.white70,
+                                ),
+                                iconSize: widget.miniatures ? 16 : 20,
+                                onPressed: widget.onFavoriteToggle,
+                                icon: Icon(
+                                  widget.isFavorite
+                                      ? Icons.star_rounded
+                                      : Icons.star_border_rounded,
+                                ),
+                              ),
+                            ),
                             // Press darkening overlay
                             if (_isPressed)
                               Positioned.fill(
@@ -726,12 +787,16 @@ class _EmptyState extends StatelessWidget {
 class _ModuleCard extends StatefulWidget {
   final CatalogEntry entry;
   final VoidCallback onTap;
+  final VoidCallback onFavoriteToggle;
+  final bool isFavorite;
   final AppLocalizations l10n;
   final _GlobalShimmerController? shimmerController;
 
   const _ModuleCard({
     required this.entry,
     required this.onTap,
+    required this.onFavoriteToggle,
+    required this.isFavorite,
     required this.l10n,
     this.shimmerController,
   });
@@ -907,6 +972,21 @@ class _ModuleCardState extends State<_ModuleCard>
                     ],
                   ),
                 ),
+                IconButton(
+                  key: Key('catalogFavorite_${widget.entry.catalogId}'),
+                  tooltip: widget.isFavorite
+                      ? 'Remove from favorites'
+                      : 'Add to favorites',
+                  onPressed: widget.onFavoriteToggle,
+                  icon: Icon(
+                    widget.isFavorite
+                        ? Icons.star_rounded
+                        : Icons.star_border_rounded,
+                    color: widget.isFavorite
+                        ? AppColors.primary
+                        : AppColors.textMuted,
+                  ),
+                ),
                 AnimatedContainer(
                   duration: AppAnimations.fast,
                   padding: const EdgeInsets.all(8),
@@ -997,6 +1077,7 @@ class _PreviewThumbnail extends StatefulWidget {
       });
 
   static void beginCatalogSession() {
+    CatalogThumbnailTelemetry.instance.beginSession();
     _cachedThumbnailAssetIds = null;
     _thumbnailAssetIds = _loadThumbnailAssetIds();
   }
@@ -1132,19 +1213,30 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
     if (_cacheLoadStarted) return;
     _cacheLoadStarted = true;
 
-    final mem = CatalogThumbnailCache.inMemory(_thumbnailSignature);
+    final signature = _thumbnailSignature;
+    final mem = CatalogThumbnailCache.inMemory(signature);
     if (mem != null) {
+      CatalogThumbnailTelemetry.instance
+          .recordCacheLookup(signature, hit: true);
+      CatalogThumbnailTelemetry.instance.recordDisplayed(
+        signature,
+        source: CatalogThumbnailSource.memoryCache,
+      );
       _cachedPreviewBytes = mem;
       return;
     }
 
-    if (!CatalogThumbnailCache.usesPersistentStorage) return;
+    if (!CatalogThumbnailCache.usesPersistentStorage) {
+      CatalogThumbnailTelemetry.instance
+          .recordCacheLookup(signature, hit: false);
+      return;
+    }
 
     // Capture the signature at request time: the grid recycles elements, so
     // this state may be showing a different module by the time the disk read
     // resolves. Storing under the *current* signature would poison the cache
     // with another module's pixels.
-    unawaited(_loadPersistentPreview(_thumbnailSignature));
+    unawaited(_loadPersistentPreview(signature));
   }
 
   Future<void> _loadPersistentPreview(String signature) async {
@@ -1153,6 +1245,12 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
           .timeout(const Duration(milliseconds: 250));
       if (!mounted || signature != _thumbnailSignature) return;
       if (bytes != null) {
+        CatalogThumbnailTelemetry.instance
+            .recordCacheLookup(signature, hit: true);
+        CatalogThumbnailTelemetry.instance.recordDisplayed(
+          signature,
+          source: CatalogThumbnailSource.diskCache,
+        );
         // Promote to the in-memory cache for the rest of the session.
         unawaited(CatalogThumbnailCache.store(signature, bytes));
         setState(() => _cachedPreviewBytes = bytes);
@@ -1162,6 +1260,7 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
       if (!mounted || signature != _thumbnailSignature) return;
     }
 
+    CatalogThumbnailTelemetry.instance.recordCacheLookup(signature, hit: false);
     // Only a native cache miss/timeout reaches the GPU. Warm cache hits avoid
     // creating a controller, loading a shader, or taking a render-gate slot.
     _scheduleRuntimePreview(notify: true);
@@ -1170,6 +1269,10 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
   void _markImageLoaded() {
     if (_imageLoaded) return;
     if (!mounted) return;
+    CatalogThumbnailTelemetry.instance.recordDisplayed(
+      _thumbnailSignature,
+      source: CatalogThumbnailSource.asset,
+    );
     setState(() => _imageLoaded = true);
   }
 
@@ -1410,6 +1513,8 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
       _scheduleVisibilityCheck();
       return;
     }
+    CatalogThumbnailTelemetry.instance
+        .recordVisibleRenderQueued(widget.signature);
     _slotAcquirePending = true;
     CatalogThumbnailRenderGate.acquire().then((_) {
       _slotAcquirePending = false;
@@ -1421,6 +1526,9 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
       // The tile can leave the viewport while waiting behind other renderers.
       // Return that slot immediately instead of mounting hidden GPU work.
       if (!_isTileVisible()) {
+        CatalogThumbnailTelemetry.instance.recordNoLongerVisible(
+          widget.signature,
+        );
         _releaseSlot();
         _scheduleVisibilityCheck();
         return;
@@ -1450,6 +1558,7 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
 
   @override
   void dispose() {
+    CatalogThumbnailTelemetry.instance.recordNoLongerVisible(widget.signature);
     _captureTimeoutTimer?.cancel();
     _captureRetryTimer?.cancel();
     _webSlotReleaseTimer?.cancel();
@@ -1471,25 +1580,33 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
 
   void _yieldSlotUntilVisible() {
     if (_reported || !mounted) return;
+    CatalogThumbnailTelemetry.instance.recordNoLongerVisible(widget.signature);
     _readinessWait.stop();
     setState(() => _slotAcquired = false);
     _releaseAfterReplacementFrame(retryWhenVisible: true);
   }
 
-  void _abandonCapture() {
+  void _abandonCapture(String reason) {
     if (_reported || !mounted) return;
+    CatalogThumbnailTelemetry.instance.recordRenderFailure(
+      widget.signature,
+      reason: reason,
+    );
     _reported = true;
     setState(() => _slotAcquired = false);
     _releaseAfterReplacementFrame();
   }
 
-  void _retryOrAbandonCapture({bool enforceReadinessTimeout = true}) {
+  void _retryOrAbandonCapture({
+    bool enforceReadinessTimeout = true,
+    String terminalReason = 'readiness_timeout',
+  }) {
     if (_reported || !mounted) return;
     if (enforceReadinessTimeout &&
         CatalogThumbnailCapturePolicy.readinessExpired(
           _readinessWait.elapsed,
         )) {
-      _abandonCapture();
+      _abandonCapture(terminalReason);
       return;
     }
     _captureRetryTimer?.cancel();
@@ -1571,10 +1688,14 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
           .clamp(1.0, 3.0);
       final png = await _capturePngWithTimeout(boundary, ratio);
       if (png == null) {
-        _retryOrAbandonCapture();
+        _retryOrAbandonCapture(terminalReason: 'empty_readback');
         return;
       }
       _reported = true;
+      CatalogThumbnailTelemetry.instance.recordDisplayed(
+        widget.signature,
+        source: CatalogThumbnailSource.render,
+      );
       // Memory is populated synchronously inside store(). Disk persistence is
       // best-effort and must not keep a scarce live-render slot occupied.
       unawaited(CatalogThumbnailCache.store(widget.signature, png));
@@ -1585,11 +1706,11 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
     } on TimeoutException {
       // Some platform readbacks never complete. Stop spending the scarce slot
       // on this tile so the rest of the visible catalog can keep progressing.
-      _abandonCapture();
+      _abandonCapture('readback_timeout');
     } catch (_) {
       // A failed readback must retry or release its slot; swallowing the error
       // here used to leave all later catalog thumbnails queued forever.
-      _retryOrAbandonCapture();
+      _retryOrAbandonCapture(terminalReason: 'readback_error');
     }
   }
 
@@ -1639,7 +1760,7 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
   ) {
     final controller = FractalController(context.read<ModuleRegistry>());
     controller.selectModule(module, animate: false);
-    const maxIterations = CatalogThumbnailCache.maxIterations;
+    final maxIterations = CatalogThumbnailCache.maxIterationsFor(catalogId);
     final iterations = controller.params['iterations'];
     if (iterations is int && iterations > maxIterations) {
       controller.updateParam('iterations', maxIterations);
@@ -1658,6 +1779,14 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
     final paletteIndex = _thumbnailPaletteIndex(catalogId, module);
     if (paletteIndex != null) {
       controller.updateParam('colorScheme', paletteIndex);
+    }
+    final viewOverride = CatalogThumbnailCache.viewOverrideFor(catalogId);
+    if (viewOverride != null) {
+      final pan = controller.view.pan
+        ..setValues(viewOverride.centerX, viewOverride.centerY);
+      controller.updateView(
+        controller.view.copyWith(pan: pan, zoom: viewOverride.zoom),
+      );
     }
     return controller;
   }

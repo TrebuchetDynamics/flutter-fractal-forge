@@ -38,6 +38,25 @@ void main() {
       expect(metrics.edgeDetailScore, 0.0);
     });
 
+    test('flags a sparse near-black image before palette or framing advice',
+        () {
+      final image = img.Image(width: 32, height: 32);
+      img.fill(image, color: img.ColorRgb8(0, 0, 0));
+      for (var y = 0; y < image.height; y += 4) {
+        for (var x = 0; x < image.width; x += 4) {
+          image.setPixelRgb(x, y, 80, 255, 120);
+        }
+      }
+
+      final metrics = LaunchVisualMetrics.fromImage(image);
+
+      expect(metrics.verdict, 'near-black');
+      expect(metrics.meanLuminance, lessThan(18));
+      expect(metrics.darkPixelRatio, greaterThan(0.9));
+      expect(
+          metrics.toJson(), containsPair('darkPixelRatio', greaterThan(0.9)));
+    });
+
     test('flags a transparent image as fallback preview', () {
       final image = img.Image(width: 16, height: 16, numChannels: 4);
       img.fill(image, color: img.ColorRgba8(0, 0, 0, 0));

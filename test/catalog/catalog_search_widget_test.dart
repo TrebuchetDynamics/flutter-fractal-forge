@@ -65,6 +65,87 @@ void main() {
     await tester.pump(const Duration(seconds: 3));
   });
 
+  testWidgets('Catalog restores persisted search and filter state',
+      (tester) async {
+    SharedPreferences.setMockInitialValues({
+      'catalog_browse_query': 'Mandelbrot',
+      'catalog_browse_category': 'Escape-Time',
+    });
+
+    await pumpCatalog(tester);
+    await tester.pump(const Duration(milliseconds: 300));
+
+    expect(find.byKey(const Key('catalogSearchField')), findsOneWidget);
+    expect(
+      tester
+          .widget<TextField>(find.byKey(const Key('catalogSearchField')))
+          .controller!
+          .text,
+      'Mandelbrot',
+    );
+    expect(find.text('Mandelbrot'), findsWidgets);
+    expect(find.text('Barnsley Fern'), findsNothing);
+  });
+
+  testWidgets('Catalog persists category and scroll position', (tester) async {
+    await pumpCatalog(tester);
+
+    await tester.tap(find.byKey(const Key('catalogCategoryChip_escape_time')));
+    await tester.pump();
+    final scrollable = find.byWidgetPredicate(
+      (widget) =>
+          widget is Scrollable && widget.axisDirection == AxisDirection.down,
+    );
+    tester.state<ScrollableState>(scrollable).position.jumpTo(600);
+    await tester.pump(const Duration(milliseconds: 300));
+
+    final prefs = await SharedPreferences.getInstance();
+    expect(prefs.getString('catalog_browse_category'), 'Escape-Time');
+    expect(prefs.getDouble('catalog_browse_scroll_offset'), closeTo(600, 0.1));
+  });
+
+  testWidgets('Catalog favorites persist and filter the grid', (tester) async {
+    await pumpCatalog(tester);
+    await showSearch(tester);
+    await tester.enterText(
+      find.byKey(const Key('catalogSearchField')),
+      'Mandelbrot',
+    );
+    await tester.pump(const Duration(milliseconds: 300));
+
+    await tester.tap(
+      find.byKey(const Key('catalogFavorite_core.mandelbrot')),
+    );
+    await tester.pump();
+    await tester.tap(find.byKey(const Key('catalogSearchToggleButton')));
+    await tester.pump();
+    await tester.tap(find.byKey(const Key('catalogCategoryChip_favorites')));
+    await tester.pump();
+
+    expect(find.text('Mandelbrot'), findsWidgets);
+    final prefs = await SharedPreferences.getInstance();
+    expect(prefs.getStringList('catalog_favorite_ids'), ['core.mandelbrot']);
+  });
+
+  testWidgets('Opening a module records it in the recent filter',
+      (tester) async {
+    await pumpCatalog(tester);
+    await showSearch(tester);
+    await tester.enterText(
+      find.byKey(const Key('catalogSearchField')),
+      'Mandelbrot',
+    );
+    await tester.pump(const Duration(milliseconds: 300));
+
+    await tester
+        .tap(find.byKey(const Key('catalogModuleCard_core.mandelbrot')));
+    await tester.runAsync(() async {
+      await Future<void>.delayed(Duration.zero);
+    });
+    final prefs = await SharedPreferences.getInstance();
+    expect(prefs.getStringList('catalog_recent_ids'), ['core.mandelbrot']);
+  });
+
   testWidgets('Catalog renders category chips in a separate rail',
       (tester) async {
     await pumpCatalog(tester);

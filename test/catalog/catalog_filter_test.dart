@@ -76,6 +76,12 @@ void main() {
       category: '3D Fractals',
     ),
     entry(
+      id: 'levy_c_curve',
+      name: 'Lévy C Curve',
+      dimension: FractalDimension.twoD,
+      category: 'Other',
+    ),
+    entry(
       id: 'mirror',
       name: 'Mirror',
       dimension: FractalDimension.twoD,
@@ -112,6 +118,23 @@ void main() {
       expect(result.filteredEntries.map((entry) => entry.catalogId), [
         'core.mandelbrot',
       ]);
+    });
+
+    test('search ignores accents and ranks unordered name tokens', () {
+      final accentResult = CatalogFilter.apply(
+        entries: entries,
+        criteria: const CatalogFilterCriteria(query: 'levy'),
+        l10n: l10n,
+      );
+      final tokenResult = CatalogFilter.apply(
+        entries: entries,
+        criteria: const CatalogFilterCriteria(query: 'curve levy'),
+        l10n: l10n,
+      );
+
+      expect(
+          accentResult.filteredEntries.single.catalogId, 'core.levy_c_curve');
+      expect(tokenResult.filteredEntries.single.catalogId, 'core.levy_c_curve');
     });
 
     test('keeps selected category visible even when current dimension hides it',

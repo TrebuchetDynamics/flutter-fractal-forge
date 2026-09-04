@@ -49,9 +49,21 @@ class CatalogThumbnailCache {
   static const int maxIterations = kIsWeb ? 24 : 40;
   static const int maxColorCount = 24;
 
+  /// Sparse point-orbit modules need a denser, curated thumbnail profile while
+  /// the rest of the catalog retains the inexpensive shared cap.
+  static int maxIterationsFor(String catalogId) =>
+      catalogId == 'core.barnsley_fern' ? (kIsWeb ? 64 : 120) : maxIterations;
+
+  static ({double centerX, double centerY, double zoom})? viewOverrideFor(
+    String catalogId,
+  ) =>
+      catalogId == 'core.barnsley_fern'
+          ? (centerX: 0.0, centerY: 0.5, zoom: 1.0)
+          : null;
+
   /// Bump when thumbnail rendering changes (resolution, caps, palette logic)
   /// so existing on-disk artifacts are keyed apart instead of served stale.
-  static const int _schemaVersion = 1;
+  static const int _schemaVersion = 2;
 
   static const String _dirName = 'catalog_thumbs';
 
@@ -128,7 +140,7 @@ class CatalogThumbnailCache {
     }
     return renderSignature(
       catalogId: catalogId,
-      maxIterations: maxIterations,
+      maxIterations: maxIterationsFor(catalogId),
       maxColorCount: maxColorCount,
       paletteIndex: paletteIndex,
       width: width,

@@ -19,6 +19,7 @@ import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_search_debouncer.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_thumbnail_cache.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_thumbnail_render_gate.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_thumbnail_telemetry.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_thumbnail_plan.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
@@ -119,15 +120,27 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     with TickerProviderStateMixin {
   static const _viewPrefKey = 'catalog_view_grid';
   static const _viewModePrefKey = 'catalog_view_mode';
+  static const _queryPrefKey = 'catalog_browse_query';
+  static const _categoryPrefKey = 'catalog_browse_category';
+  static const _scrollOffsetPrefKey = 'catalog_browse_scroll_offset';
+  static const _favoritesPrefKey = 'catalog_favorite_ids';
+  static const _recentPrefKey = 'catalog_recent_ids';
+  static const _favoritesCategory = '@favorites';
+  static const _recentCategory = '@recent';
   static const _categorySwipeVelocity = 350.0;
 
   final _searchController = TextEditingController();
   final _focusNode = FocusNode();
+  final _scrollController = ScrollController();
+  Timer? _scrollSaveDebounce;
+  int _browseStateRevision = 0;
   bool get _isSearchFocused => _focusNode.hasFocus;
   bool _isSearchVisible = false;
   CatalogViewMode _viewMode = CatalogViewMode.grid;
   int _viewModeRevision = 0;
   String? _selectedCategory;
+  final Set<String> _favoriteCatalogIds = <String>{};
+  final List<String> _recentCatalogIds = <String>[];
   final Set<String> _collapsedCategories = <String>{};
 
   // Search debounce - prevents rebuild on every keystroke
@@ -148,8 +161,10 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     _shimmerController = _GlobalShimmerController.of(this);
     _searchController.addListener(_onSearchChanged);
     _focusNode.addListener(_onSearchFocusChanged);
+    _scrollController.addListener(_onCatalogScrolled);
     _attachToolbarController();
     _loadViewPreference();
+    _loadBrowsingState();
   }
 
   @override
@@ -176,12 +191,73 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     );
   }
 
+  Future<void> _loadBrowsingState() async {
+    final revision = _browseStateRevision;
+    final prefs = await SharedPreferences.getInstance();
+    final query = prefs.getString(_queryPrefKey) ?? '';
+    final category = prefs.getString(_categoryPrefKey);
+    final favorites =
+        prefs.getStringList(_favoritesPrefKey) ?? const <String>[];
+    final recent = prefs.getStringList(_recentPrefKey) ?? const <String>[];
+    final offset = prefs.getDouble(_scrollOffsetPrefKey) ?? 0.0;
+    if (!mounted || revision != _browseStateRevision) return;
+    setState(() {
+      _debouncedQuery = query;
+      _searchController.text = query;
+      _isSearchVisible = query.isNotEmpty;
+      _selectedCategory = category;
+      _favoriteCatalogIds
+        ..clear()
+        ..addAll(favorites);
+      _recentCatalogIds
+        ..clear()
+        ..addAll(recent);
+    });
+    _publishToolbarState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_scrollController.hasClients) return;
+      _scrollController.jumpTo(
+        offset.clamp(0.0, _scrollController.position.maxScrollExtent),
+      );
+    });
+  }
+
+  void _onCatalogScrolled() {
+    _scrollSaveDebounce?.cancel();
+    _scrollSaveDebounce = Timer(const Duration(milliseconds: 250), () {
+      unawaited(_persistBrowsingState());
+    });
+  }
+
+  Future<void> _persistBrowsingState() async {
+    final query = _debouncedQuery;
+    final category = _selectedCategory;
+    final favorites = _favoriteCatalogIds.toList(growable: false);
+    final recent = _recentCatalogIds.toList(growable: false);
+    final offset =
+        _scrollController.hasClients ? _scrollController.offset : null;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_queryPrefKey, query);
+    if (category == null) {
+      await prefs.remove(_categoryPrefKey);
+    } else {
+      await prefs.setString(_categoryPrefKey, category);
+    }
+    await prefs.setStringList(_favoritesPrefKey, favorites);
+    await prefs.setStringList(_recentPrefKey, recent);
+    if (offset != null) {
+      await prefs.setDouble(_scrollOffsetPrefKey, offset);
+    }
+  }
+
   void _onSearchChanged() {
     _searchDebouncer.schedule(() {
       if (!mounted) return;
       final nextQuery = _searchController.text;
       if (nextQuery == _debouncedQuery) return;
+      _browseStateRevision++;
       setState(() => _debouncedQuery = nextQuery);
+      unawaited(_persistBrowsingState());
     });
   }
 
@@ -206,10 +282,14 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     widget.toolbarController?.detach();
     _shimmerController.dispose();
     _searchDebouncer.dispose();
+    _scrollSaveDebounce?.cancel();
+    unawaited(_persistBrowsingState());
     _searchController.removeListener(_onSearchChanged);
     _focusNode.removeListener(_onSearchFocusChanged);
+    _scrollController.removeListener(_onCatalogScrolled);
     _searchController.dispose();
     _focusNode.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -261,13 +341,18 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
 
   CatalogFilterCriteria get _currentFilterCriteria => CatalogFilterCriteria(
         query: _debouncedQuery,
-        selectedCategory: _selectedCategory,
+        selectedCategory: _selectedCategory == _favoritesCategory ||
+                _selectedCategory == _recentCategory
+            ? null
+            : _selectedCategory,
       );
 
   void _toggleSearch() {
+    final wasVisible = _isSearchVisible;
     setState(() {
       _isSearchVisible = !_isSearchVisible;
       if (!_isSearchVisible) {
+        _browseStateRevision++;
         _resetSearchInputState();
       } else {
         // Auto focus the search field
@@ -278,6 +363,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
       }
     });
     _publishToolbarState();
+    if (wasVisible) unawaited(_persistBrowsingState());
   }
 
   void _toggleViewMode() => _setViewMode(_nextViewMode(_viewMode));
@@ -318,6 +404,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   }
 
   void _clearCatalogRefinements() {
+    _browseStateRevision++;
     setState(() {
       _resetSearchInputState();
       _isSearchVisible = false;
@@ -325,6 +412,35 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
       _collapsedCategories.clear();
     });
     _publishToolbarState();
+    unawaited(_persistBrowsingState());
+  }
+
+  void _setSelectedCategory(String? category) {
+    if (category == _selectedCategory) return;
+    _browseStateRevision++;
+    setState(() => _selectedCategory = category);
+    unawaited(_persistBrowsingState());
+  }
+
+  void _toggleFavorite(String catalogId) {
+    setState(() {
+      if (!_favoriteCatalogIds.add(catalogId)) {
+        _favoriteCatalogIds.remove(catalogId);
+      }
+    });
+    unawaited(_persistBrowsingState());
+  }
+
+  void _recordRecentlyViewed(String catalogId) {
+    setState(() {
+      _recentCatalogIds
+        ..remove(catalogId)
+        ..insert(0, catalogId);
+      if (_recentCatalogIds.length > 20) {
+        _recentCatalogIds.removeRange(20, _recentCatalogIds.length);
+      }
+    });
+    unawaited(_persistBrowsingState());
   }
 
   Map<String, List<CatalogEntry>> _groupAndSort(
@@ -388,7 +504,17 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
       l10n: l10n,
     );
     final query = filterCriteria.searchQuery.value;
-    final filteredEntries = filterResult.filteredEntries;
+    final baseEntries = filterResult.filteredEntries;
+    final filteredEntries = switch (_selectedCategory) {
+      _favoritesCategory => baseEntries
+          .where((entry) => _favoriteCatalogIds.contains(entry.catalogId))
+          .toList(growable: false),
+      _recentCategory => <CatalogEntry>[
+          for (final catalogId in _recentCatalogIds)
+            ...baseEntries.where((entry) => entry.catalogId == catalogId),
+        ],
+      _ => baseEntries,
+    };
     final groupedEntries = _groupAndSort(
       filteredEntries,
       l10n,
@@ -404,6 +530,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
       child: DecoratedBox(
         decoration: const BoxDecoration(gradient: AppColors.cosmicGradient),
         child: CustomScrollView(
+          controller: _scrollController,
           slivers: [
             SliverPersistentHeader(
               key: const Key('catalogPinnedFilterBar'),
@@ -454,8 +581,18 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     final nextIndex = math.max(0, math.min(choices.length - 1, index + offset));
     final nextCategory = choices[nextIndex];
     if (nextCategory == _selectedCategory) return;
-    setState(() => _selectedCategory = nextCategory);
-    AccessibilityService.announce(nextCategory ?? _allCategoriesLabel(context));
+    _setSelectedCategory(nextCategory);
+    AccessibilityService.announce(_categoryDisplayLabel(nextCategory));
+  }
+
+  String _categoryDisplayLabel(String? category) {
+    if (category == null) return _allCategoriesLabel(context);
+    final isSpanish = Localizations.localeOf(context).languageCode == 'es';
+    if (category == _favoritesCategory) {
+      return isSpanish ? 'Favoritos' : 'Favorites';
+    }
+    if (category == _recentCategory) return isSpanish ? 'Recientes' : 'Recent';
+    return category;
   }
 
   void _toggleCategorySection(String category) {
@@ -474,7 +611,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
         if (countCompare != 0) return countCompare;
         return a.compareTo(b);
       });
-    return [null, ...categories];
+    return [null, _favoritesCategory, _recentCategory, ...categories];
   }
 
   /// Height of the pinned filter bar.
@@ -543,16 +680,23 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
                   ? _buildCompactSearchField(context, l10n)
                   : _CategoryFilterRail(
                       allCategoriesLabel: allCategoriesLabel,
+                      favoritesLabel:
+                          Localizations.localeOf(context).languageCode == 'es'
+                              ? 'Favoritos'
+                              : 'Favorites',
+                      recentLabel:
+                          Localizations.localeOf(context).languageCode == 'es'
+                              ? 'Recientes'
+                              : 'Recent',
+                      favoriteCount: _favoriteCatalogIds.length,
+                      recentCount: _recentCatalogIds.length,
                       totalCategoryCount: totalCategoryCount,
                       categories: categories,
                       categoryCounts: categoryCounts,
                       selectedCategory: _selectedCategory,
-                      onSelect: (category) {
-                        setState(() {
-                          _selectedCategory =
-                              category == _selectedCategory ? null : category;
-                        });
-                      },
+                      onSelect: (category) => _setSelectedCategory(
+                        category == _selectedCategory ? null : category,
+                      ),
                     ),
             ),
             if (showLocalActions) ...[
@@ -692,6 +836,8 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
               child: RepaintBoundary(
                 child: _ModuleCard(
                   entry: entry,
+                  isFavorite: _favoriteCatalogIds.contains(entry.catalogId),
+                  onFavoriteToggle: () => _toggleFavorite(entry.catalogId),
                   onTap: () => _openViewer(
                     context,
                     entry.module,
@@ -771,6 +917,8 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
                   child: _ModuleGridTile(
                     entry: entry,
                     l10n: l10n,
+                    isFavorite: _favoriteCatalogIds.contains(entry.catalogId),
+                    onFavoriteToggle: () => _toggleFavorite(entry.catalogId),
                     miniatures: miniatures,
                     shimmerController: _shimmerController,
                     onTap: () => _openViewer(
@@ -816,6 +964,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     String? heroTag,
     CatalogFamily catalogFamily = CatalogFamily.core,
   }) {
+    if (heroTag != null) _recordRecentlyViewed(heroTag);
     final controller = context.read<FractalController>();
     controller.selectModule(module, resetView: true);
     Navigator.of(context).push(
