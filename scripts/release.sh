@@ -504,14 +504,20 @@ watch_github_run() {
   local label="$2"
   local interval="${3:-10}"
   local started next_log last_status line status conclusion url now elapsed
+  local read_failures=0
   started="$(date +%s)"
   next_log=0
   last_status=""
 
   while true; do
     if ! line="$(gh run view "$run_id" --json status,conclusion,url -q '[.status, (.conclusion // ""), .url] | @tsv')"; then
-      die "Could not read GitHub Actions run $run_id"
+      read_failures=$((read_failures + 1))
+      (( read_failures < 4 )) || die "Could not read GitHub Actions run $run_id after 4 attempts"
+      log "Transient GitHub read failure for $run_id; retry $read_failures/3"
+      sleep "$interval"
+      continue
     fi
+    read_failures=0
     IFS=$'\t' read -r status conclusion url <<< "$line"
     [[ -n "$status" ]] || die "GitHub Actions run $run_id returned no status"
     now="$(date +%s)"

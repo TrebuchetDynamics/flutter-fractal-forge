@@ -31,7 +31,7 @@ void main() {
     expect(
       releaseScript,
       contains(
-          '--prepare permits only android-build, fdroid, linux, windows, and evidence'),
+          '--prepare permits only android-build, fdroid, linux, windows, apple, and evidence'),
     );
     expect(releaseScript, contains('preflight_prepare'));
     final playUploadScript =
@@ -97,7 +97,7 @@ void main() {
     expect(
       releaseScript,
       contains(
-          'STAGES+=(android_build fdroid linux windows evidence github website play)'),
+          'STAGES+=(android_build fdroid linux windows apple evidence github website play)'),
     );
     expect(releaseScript, contains(r'"$SCRIPT_DIR/build-fdroid.sh"'));
     expect(releaseScript, contains('--reproducible'));
