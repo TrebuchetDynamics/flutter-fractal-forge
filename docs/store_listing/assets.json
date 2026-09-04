@@ -1,0 +1,30 @@
+{
+  "images": {
+    "icon": [
+      "assets/icon/ic_launcher_512.png"
+    ],
+    "featureGraphic": [
+      "assets/feature-graphic.png"
+    ],
+    "phoneScreenshots": [
+      "docs/store_listing/screenshots/phone/01-explore.png",
+      "docs/store_listing/screenshots/phone/02-catalog.png",
+      "docs/store_listing/screenshots/phone/03-color.png",
+      "docs/store_listing/screenshots/phone/04-3d.png",
+      "docs/store_listing/screenshots/phone/05-export.png",
+      "docs/store_listing/screenshots/phone/06-animation.png"
+    ],
+    "sevenInchScreenshots": [
+      "docs/store_listing/screenshots/tablet/01-catalog.png",
+      "docs/store_listing/screenshots/tablet/02-explore.png",
+      "docs/store_listing/screenshots/tablet/03-color.png",
+      "docs/store_listing/screenshots/tablet/04-3d.png"
+    ],
+    "tenInchScreenshots": [
+      "docs/store_listing/screenshots/tablet/01-catalog.png",
+      "docs/store_listing/screenshots/tablet/02-explore.png",
+      "docs/store_listing/screenshots/tablet/03-color.png",
+      "docs/store_listing/screenshots/tablet/04-3d.png"
+    ]
+  }
+}

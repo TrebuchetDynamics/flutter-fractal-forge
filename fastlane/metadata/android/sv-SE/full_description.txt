@@ -1,0 +1,23 @@
+Hitta ett mönster. Utforska detaljerna. Gör det till ditt.
+
+Fractal Forge är en fraktalutforskare och studio för generativ konst med över 1 000 fraktaler. Utforska Mandelbrot- och Juliamängder, upptäck 3D-former och förvandla matematik till bilder.
+
+Utforska och upptäck
+• Sök på namn eller bläddra bland kategorier: Burning Ship, Newtonbassänger, attraktorer, tesselleringar, cellulära automater, Mandelbulb och Mandelbox.
+• Zooma, panorera och rotera fraktaler med 3D-stöd. Börja med en förinställning eller prova ett slumpmässigt val.
+
+Skapa din egen stil
+• Byt palett, skapa färgövergångar och justera parametrar i realtid.
+• Bygg symmetriska kompositioner med kalejdoskopeffekter och lägg till text.
+• Testa egna formler i Formula Lab.
+
+Spara och dela
+• Exportera PNG-bilder upp till 4K för bakgrunder, utskrifter och delning.
+• Animera zoom, rörelse och parametrar med Looper och exportera GIF-loopar.
+• Spara förinställningar och dela länkar som öppnar din vy igen.
+• Utforska Fractal Music och Fourieranalys.
+
+Din studio fungerar offline
+Ingen reklam, inget konto och ingen spårning. Utforska och skapa utan internet. Gratis och med öppen källkod under Apache 2.0.
+
+Hög kontrast, minskad rörelse, skärmläsaretiketter och justerbara tryckytor. Hastighet och zoomdjup beror på fraktalen och enheten.

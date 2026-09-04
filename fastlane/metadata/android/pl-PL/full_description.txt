@@ -1,0 +1,23 @@
+Znajdź wzór. Odkryj jego szczegóły. Stwórz coś swojego.
+
+Fractal Forge to przeglądarka fraktali i studio sztuki generatywnej z ponad 1000 fraktali. Odkrywaj zbiory Mandelbrota i Julii, poznawaj formy 3D i zamieniaj matematykę w obrazy.
+
+Odkrywaj i eksperymentuj
+• Szukaj po nazwie lub przeglądaj kategorie: Burning Ship, baseny Newtona, atraktory, parkietaże, automaty komórkowe, Mandelbulb i Mandelbox.
+• Przybliżaj, przesuwaj widok i obracaj obsługiwane fraktale 3D. Zacznij od presetu lub losowego wyboru.
+
+Nadaj obrazom swój styl
+• Zmieniaj palety, twórz gradienty i dostosowuj parametry w czasie rzeczywistym.
+• Buduj symetryczne kompozycje efektami kalejdoskopu i dodawaj tekst.
+• Wypróbuj własne wzory w Formula Lab.
+
+Zapisuj i udostępniaj
+• Eksportuj obrazy PNG do 4K na tapety, do druku lub udostępniania.
+• Animuj zoom, przesunięcie i parametry w Looper, a potem eksportuj pętle GIF.
+• Zapisuj presety i udostępniaj linki otwierające Twój widok.
+• Poznaj Fractal Music i analizę Fouriera.
+
+Studio bez internetu
+Bez reklam, konta i śledzenia. Odkrywanie i tworzenie działa offline. Bezpłatna aplikacja z otwartym kodem na licencji Apache 2.0.
+
+Wysoki kontrast, ograniczenie ruchu, etykiety czytników ekranu i regulowane obszary dotyku. Szybkość i głębokość zoomu zależą od fraktala i urządzenia.

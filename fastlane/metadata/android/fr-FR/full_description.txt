@@ -1,0 +1,23 @@
+Trouvez un motif. Explorez ses détails. Faites-en votre création.
+
+Fractal Forge réunit un explorateur de fractales et un atelier d’art génératif. Découvrez plus de 1 000 fractales, des ensembles de Mandelbrot et Julia aux formes 3D, et transformez les mathématiques en images.
+
+Explorez à votre rythme
+• Recherchez un nom ou parcourez les catégories : Burning Ship, bassins de Newton, attracteurs, pavages, automates cellulaires, Mandelbulb et Mandelbox.
+• Zoomez, déplacez la vue et faites pivoter les fractales 3D compatibles. Essayez un préréglage ou une découverte aléatoire.
+
+Créez votre style
+• Changez de palette, créez des dégradés et ajustez les paramètres en temps réel.
+• Composez avec les effets kaléidoscope et ajoutez du texte.
+• Expérimentez vos propres formules dans Formula Lab.
+
+Gardez vos découvertes
+• Exportez des PNG jusqu’en 4K pour vos fonds d’écran, impressions et partages.
+• Animez le zoom, le déplacement et les paramètres avec Looper, puis exportez des boucles GIF.
+• Enregistrez vos préréglages et partagez un lien qui rouvre votre vue.
+• Explorez Fractal Music et l’analyse de Fourier.
+
+Un atelier hors ligne
+Sans publicité, sans compte et sans pistage. L’exploration et la création fonctionnent hors ligne. Gratuit et open source sous licence Apache 2.0.
+
+Contraste élevé, mouvements réduits, libellés pour lecteurs d’écran et cibles tactiles réglables. La vitesse et la profondeur du zoom varient selon la fractale et l’appareil.

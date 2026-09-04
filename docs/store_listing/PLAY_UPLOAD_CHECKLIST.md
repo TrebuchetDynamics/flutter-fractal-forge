@@ -1,5 +1,6 @@
 # Play Console Upload Checklist
 
+> Current listing copy, images, validation and publishing: [Store listing guide](README.md). Binary-release notes below may describe older releases.
 Updated: 2026-06-05 CST (America/Monterrey)
 
 This checklist is for Google Play Console maintenance releases. The app is published on Google Play; keep all signing material private and outside the public repository.
@@ -21,9 +22,9 @@ This checklist is for Google Play Console maintenance releases. The app is publi
 - [DONE] Feature graphic (exact 1024x500)
   - Path: `store_listing/feature_graphic.png`
 - [DONE] Phone screenshots (portrait 9:16)
-  - `store_listing/screenshots/01_catalog_9x16.png`
-  - `store_listing/screenshots/02_mandelbrot_9x16.png`
-  - `store_listing/screenshots/03_second_module_9x16.png`
+  - `docs/store_listing/screenshots/phone/02-catalog.png`
+  - `docs/store_listing/screenshots/phone/01-explore.png`
+  - `docs/store_listing/screenshots/phone/04-3d.png`
 
 ### Policy and questionnaire docs
 - [DONE] Content rating answers
@@ -76,7 +77,7 @@ See `UPLOAD_CHECKLIST.md` for current hosting status.
    - Full description from `store_listing/full_description.txt`
 4. [JUAN-ACTION-NEEDED] Upload graphics:
    - Feature graphic `store_listing/feature_graphic.png`
-   - Screenshots from `store_listing/screenshots/*_9x16.png`
+   - Screenshots from `docs/store_listing/screenshots/phone/*.png`
 5. [JUAN-ACTION-NEEDED] Complete Content Rating using `store_listing/content_rating_readiness.md`.
 6. [JUAN-ACTION-NEEDED] Enter Privacy Policy URL (published from `web/privacy-policy.html`).
 7. [JUAN-ACTION-NEEDED] Complete Data Safety and other policy declarations.

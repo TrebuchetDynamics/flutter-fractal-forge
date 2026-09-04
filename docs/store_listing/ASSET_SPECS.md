@@ -1,16 +1,16 @@
-# Google Play Store Listing Asset Specs
+# Google Play listing assets
 
-## Required graphic sizes
-- **Feature Graphic:** 1024 x 500 px (JPEG or 24-bit PNG, no alpha)
-- **App Icon (Play listing):** 512 x 512 px (32-bit PNG)
+The current delivery files and their order are defined in [assets.json](assets.json). See [README.md](README.md) for publishing and capture provenance.
 
-## Screenshot guidance (phone)
-- Minimum width: 320 px
-- Maximum width: 3840 px
-- Aspect ratio: between 16:9 and 9:16
-- At least 2 screenshots recommended per device type
+| Asset | Campaign dimensions | Encoding |
+|---|---|---|
+| Feature graphic | 1024×500 | Opaque RGB PNG |
+| Existing app icon | 512×512, under 1 MB | RGB PNG |
+| Phone screenshots | 1080×1920 | RGB PNG |
+| Tablet screenshots | 1600×2560 | RGB PNG |
 
-## Draft assets to prepare
-- `feature_graphic_1024x500.png`
-- `phone_screenshot_01.png`
-- `phone_screenshot_02.png`
+Google Play screenshots must be between 320 and 3840 pixels on each side, with the long side no more than twice the short side. Use actual app captures and up to eight images per device group. This campaign supplies at least four per group.
+
+Title: at most 30 characters. Short description: at most 80. Full description: at most 4000. All fields must be nonempty.
+
+Source: [Google Play preview assets](https://support.google.com/googleplay/android-developer/answer/9866151).

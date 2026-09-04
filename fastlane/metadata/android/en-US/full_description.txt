@@ -1,5 +1,26 @@
-Fractal Forge is a free, open-source fractal explorer and generative art studio. Explore 1,014 production fractals including Mandelbrot and Julia sets, Newton basins, strange attractors, cellular automata, tilings, and ray-marched 3D worlds.
+Find a pattern. Follow it deeper. Make it yours.
 
-Render in real time with GPU acceleration, deep zoom and pan, curated presets, more than 60 color schemes, orbit traps, distance estimation, and normal-map relief. Create high-resolution PNG images, looping GIF animations, fractal music, kaleidoscopic compositions, and wallpapers.
+Fractal Forge is a fractal explorer and generative art studio with more than 1,000 fractals to discover. Travel through Mandelbrot and Julia sets, explore intricate 3D forms, and turn mathematical patterns into art for your screen.
 
-Fractal Forge works fully offline and includes no advertising, tracking, accounts, analytics, or data collection. Accessibility features include screen-reader labels, high contrast, reduced motion, and configurable touch targets.
+Explore beyond the familiar
+• Browse by category or search for a fractal by name.
+• Discover Mandelbrot, Julia, Burning Ship, Newton basins, strange attractors, tilings, cellular automata, Mandelbulb and Mandelbox.
+• Zoom, pan and rotate supported 3D fractals. Start with a preset or try the randomizer when you want a surprise.
+
+Make the colors your own
+• Switch palettes, create your own gradients and adjust fractal parameters in real time.
+• Build symmetrical compositions with kaleidoscope effects, or add a text overlay.
+• Experiment with your own formulas in Formula Lab.
+
+Keep what you create
+• Export PNG images up to 4K for wallpapers, prints and sharing.
+• Animate zoom, pan and parameters with Looper, then export GIF loops.
+• Save presets so you can return to a favorite look. Share a link that reopens your view.
+• Explore Fractal Music and Fourier analysis for another way to experience a pattern.
+
+Your studio, offline
+No ads, no account and no tracking. Core exploration and creation work offline. Fractal Forge is free and open source under Apache 2.0.
+
+High contrast, reduced motion, screen-reader labels and adjustable touch targets help you explore your way. Rendering speed and the depth of available zoom depend on the fractal and your device.
+
+Open a fractal. Change one thing. See where it takes you.

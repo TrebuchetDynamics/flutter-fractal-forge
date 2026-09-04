@@ -1,0 +1,23 @@
+Temukan pola. Jelajahi detailnya. Jadikan karya Anda.
+
+Fractal Forge adalah penjelajah fraktal dan studio seni generatif dengan lebih dari 1.000 fraktal. Jelajahi himpunan Mandelbrot dan Julia, temukan bentuk 3D, lalu ubah pola matematika menjadi gambar untuk layar Anda.
+
+Jelajahi dan temukan
+• Cari berdasarkan nama atau telusuri kategori: Burning Ship, basin Newton, atraktor, tiling, automata seluler, Mandelbulb dan Mandelbox.
+• Perbesar, geser, dan putar fraktal 3D yang didukung. Mulai dari preset atau coba pilihan acak.
+
+Buat gaya Anda
+• Ganti palet, buat gradasi, dan sesuaikan parameter secara langsung.
+• Susun komposisi simetris dengan efek kaleidoskop dan tambahkan teks.
+• Bereksperimen dengan rumus sendiri di Formula Lab.
+
+Simpan dan bagikan
+• Ekspor gambar PNG hingga 4K untuk wallpaper, cetakan, dan berbagi.
+• Animasikan zoom, pergeseran, dan parameter dengan Looper, lalu ekspor loop GIF.
+• Simpan preset dan bagikan tautan yang membuka kembali tampilan Anda.
+• Jelajahi Fractal Music dan analisis Fourier.
+
+Studio offline Anda
+Tanpa iklan, akun, atau pelacakan. Fitur utama untuk menjelajah dan berkarya dapat digunakan offline. Gratis dan sumber terbuka dengan lisensi Apache 2.0.
+
+Kontras tinggi, pengurangan gerakan, label pembaca layar, dan area sentuh yang dapat diatur. Kecepatan render dan kedalaman zoom bergantung pada fraktal dan perangkat.

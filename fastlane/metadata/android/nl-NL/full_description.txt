@@ -1,0 +1,23 @@
+Vind een patroon. Duik in de details. Maak het van jou.
+
+Fractal Forge is een fractalverkenner en studio voor generatieve kunst met meer dan 1.000 fractals. Verken Mandelbrot- en Julia-verzamelingen, ontdek 3D-vormen en maak kunst voor je scherm.
+
+Verkennen en ontdekken
+• Zoek op naam of blader door categorieën: Burning Ship, Newton-bekkens, attractoren, betegelingen, cellulaire automaten, Mandelbulb en Mandelbox.
+• Zoom, verschuif en draai ondersteunde 3D-fractals. Begin met een preset of laat je verrassen door de willekeurige selectie.
+
+Je eigen kleuren
+• Wissel paletten, maak kleurverlopen en pas parameters direct aan.
+• Maak symmetrische composities met caleidoscoopeffecten en voeg tekst toe.
+• Probeer eigen formules in Formula Lab.
+
+Bewaren en delen
+• Exporteer PNG-afbeeldingen tot 4K voor achtergronden, afdrukken en delen.
+• Animeer zoom, beweging en parameters met Looper en exporteer GIF-loops.
+• Bewaar presets en deel links die jouw weergave opnieuw openen.
+• Ontdek Fractal Music en Fourier-analyse.
+
+Je studio werkt offline
+Geen advertenties, account of tracking. Verkennen en creëren kan offline. Gratis en open source onder Apache 2.0.
+
+Met hoog contrast, minder beweging, schermlezerlabels en instelbare aanraakdoelen. Snelheid en zoomdiepte hangen af van de fractal en je apparaat.

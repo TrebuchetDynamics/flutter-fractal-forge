@@ -1,0 +1,23 @@
+Entdecke ein Muster. Geh ins Detail. Mach es zu deinem Bild.
+
+Fractal Forge ist Fraktal-Explorer und Studio für generative Kunst. Entdecke über 1.000 Fraktale: von Mandelbrot- und Julia-Mengen bis zu komplexen 3D-Formen. Verwandle Mathematik in Kunst für deinen Bildschirm.
+
+Entdecken und experimentieren
+• Suche nach Namen oder stöbere in Kategorien: Burning Ship, Newton-Becken, Attraktoren, Parkettierungen, zelluläre Automaten, Mandelbulb und Mandelbox.
+• Zoome, verschiebe die Ansicht und drehe unterstützte 3D-Fraktale. Starte mit einer Vorlage oder dem Zufallsgenerator.
+
+Deine Farben, dein Stil
+• Wechsle Paletten, erstelle Farbverläufe und ändere Parameter in Echtzeit.
+• Gestalte Symmetrien mit Kaleidoskop-Effekten und füge Text hinzu.
+• Probiere eigene Formeln in Formula Lab aus.
+
+Speichern und teilen
+• Exportiere PNG-Bilder bis 4K für Hintergründe, Drucke und zum Teilen.
+• Animiere Zoom, Bewegung und Parameter mit Looper und exportiere GIF-Schleifen.
+• Speichere Vorlagen und teile Links, die deine Ansicht wieder öffnen.
+• Erkunde Fractal Music und Fourier-Analyse.
+
+Dein Studio funktioniert offline
+Keine Werbung, kein Konto, kein Tracking. Erkunden und Gestalten sind offline möglich. Kostenlos und quelloffen unter Apache 2.0.
+
+Mit hohem Kontrast, reduzierter Bewegung, Screenreader-Beschriftungen und einstellbaren Touch-Zielen. Geschwindigkeit und Zoomtiefe hängen vom Fraktal und deinem Gerät ab.

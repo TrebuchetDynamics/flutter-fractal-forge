@@ -1,5 +1,6 @@
 # Google Play First Upload Checklist — Flutter Fractal Forge
 
+> Current listing copy, images, validation and publishing: [Store listing guide](README.md). Binary-release notes below may describe older releases.
 Updated: 2026-02-17 02:18 CST (America/Monterrey)
 
 Legend:
@@ -21,7 +22,7 @@ Legend:
 ## 3) Store listing assets and text
 - ✅ Short description prepared (`store_listing/short_description.txt`)
 - ✅ Full description prepared (`store_listing/full_description.txt`)
-- ✅ Phone screenshots prepared (`store_listing/screenshots/*_9x16.png`)
+- ✅ Phone screenshots prepared (`docs/store_listing/screenshots/phone/*.png`)
 - ✅ Feature graphic prepared (`store_listing/feature_graphic.png`, 1024x500)
 - ✅ Content rating answers finalized (`store_listing/content_rating_readiness.md`)
 
