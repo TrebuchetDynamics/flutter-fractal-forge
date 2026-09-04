@@ -260,6 +260,54 @@ void main() {
       expect(box.size.height, greaterThan(box.size.width));
     });
 
+    testWidgets('favorite has compact artwork and a full touch target',
+        (tester) async {
+      await tester.binding.setSurfaceSize(const Size(390, 844));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+      final favorites = find.byWidgetPredicate((widget) =>
+          widget.key is ValueKey<String> &&
+          (widget.key as ValueKey<String>)
+              .value
+              .startsWith('catalogFavorite_'));
+      final button = favorites.first;
+      final id = (tester.widget(button).key as ValueKey<String>)
+          .value
+          .replaceFirst('catalogFavorite_', '');
+      final visual = find.byKey(Key('catalogFavoriteVisual_$id'));
+      expect(tester.getSize(button), const Size(48, 48));
+      expect(tester.getSize(visual), const Size(32, 32));
+      // Tap the transparent padding, outside the visible 32px button.
+      await tester.tapAt(tester.getTopLeft(button) + const Offset(3, 24));
+      await tester.pumpAndSettle();
+      expect(
+          tester.widget<IconButton>(button).tooltip, 'Remove from favorites');
+      expect(find.byType(FractalViewerScreen), findsNothing);
+      await tester.tap(button);
+      await tester.pumpAndSettle();
+      expect(tester.widget<IconButton>(button).tooltip, 'Add to favorites');
+    });
+
+    testWidgets('grid uses its panel width rather than the full window',
+        (tester) async {
+      await tester.binding.setSurfaceSize(const Size(1366, 1024));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+      await tester.pumpWidget(Align(
+        alignment: Alignment.topLeft,
+        child: SizedBox(width: 390, child: buildTestWidget()),
+      ));
+      await tester.pumpAndSettle();
+      final cards = visibleModuleCards();
+      final first = tester.getRect(cards.at(0));
+      final second = tester.getRect(cards.at(1));
+      final third = tester.getRect(cards.at(2));
+      expect(first.width, greaterThan(150));
+      expect(second.top, first.top);
+      expect(third.top, greaterThan(first.bottom));
+      expect(tester.takeException(), isNull);
+    });
+
     testWidgets('renders list tiles for modules (smoke)', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();

@@ -861,101 +861,113 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     AppLocalizations l10n, {
     bool miniatures = false,
   }) {
-    final width = MediaQuery.of(context).size.width;
-    final crossAxisCount = miniatures
-        ? 4
-        : width >= 1024
-            ? 5
-            : width >= 840
-                ? 4
-                : width >= 600
-                    ? 3
-                    : 2;
-    final childAspectRatio = miniatures ? 1.0 : (width >= 1024 ? 0.95 : 0.82);
-    final spacing = miniatures ? AppSpacing.xs : AppSpacing.md;
-    final children = <Widget>[];
-    var sectionIndex = 0;
+    return SliverLayoutBuilder(builder: (context, constraints) {
+      final width = constraints.crossAxisExtent;
+      final crossAxisCount = miniatures
+          ? 4
+          : width >= 1024
+              ? 5
+              : width >= 840
+                  ? 4
+                  : width >= 600
+                      ? 3
+                      : 2;
+      final textScale = MediaQuery.textScalerOf(context).scale(13) / 13;
+      final accessibleColumns =
+          textScale >= 2 ? math.max(1, crossAxisCount ~/ 2) : crossAxisCount;
+      final tileWidth = (width -
+              AppSpacing.lg * 2 -
+              (accessibleColumns - 1) *
+                  (miniatures ? AppSpacing.xs : AppSpacing.md)) /
+          accessibleColumns;
+      final tileHeight = miniatures
+          ? tileWidth
+          : tileWidth * 0.9 + _catalogCaptionHeight(context);
+      final spacing = miniatures ? AppSpacing.xs : AppSpacing.md;
+      final children = <Widget>[];
+      var sectionIndex = 0;
 
-    for (final section in groupedEntries.entries) {
-      final sectionSlug = slugify(section.key);
-      final sectionKey = '${sectionSlug}_$sectionIndex';
-      sectionIndex += 1;
-      children.add(
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: AppSpacing.lg,
-              right: AppSpacing.lg,
-              top: AppSpacing.md,
-            ),
-            child: _SectionHeader(
-              title: section.key,
-              count: section.value.length,
-              collapsed: _collapsedCategories.contains(section.key),
-              onToggle: () => _toggleCategorySection(section.key),
-            ),
-          ),
-        ),
-      );
-      if (_collapsedCategories.contains(section.key)) {
+      for (final section in groupedEntries.entries) {
+        final sectionSlug = slugify(section.key);
+        final sectionKey = '${sectionSlug}_$sectionIndex';
+        sectionIndex += 1;
         children.add(
-          const SliverToBoxAdapter(
-            child: SizedBox(height: AppSpacing.sm),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: AppSpacing.lg,
+                right: AppSpacing.lg,
+                top: AppSpacing.md,
+              ),
+              child: _SectionHeader(
+                title: section.key,
+                count: section.value.length,
+                collapsed: _collapsedCategories.contains(section.key),
+                onToggle: () => _toggleCategorySection(section.key),
+              ),
+            ),
           ),
         );
-        continue;
-      }
-      children.add(
-        SliverPadding(
-          key: Key('catalogSectionGrid_$sectionKey'),
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-          sliver: SliverGrid(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                final entry = section.value[index];
-                return RepaintBoundary(
-                  child: _ModuleGridTile(
-                    entry: entry,
-                    l10n: l10n,
-                    isFavorite: _favoriteCatalogIds.contains(entry.catalogId),
-                    onFavoriteToggle: () => _toggleFavorite(entry.catalogId),
-                    miniatures: miniatures,
-                    shimmerController: _shimmerController,
-                    onTap: () => _openViewer(
-                      context,
-                      entry.module,
-                      heroTag: entry.catalogId,
-                      catalogFamily: entry.family,
-                    ),
-                  ),
-                );
-              },
-              childCount: section.value.length,
+        if (_collapsedCategories.contains(section.key)) {
+          children.add(
+            const SliverToBoxAdapter(
+              child: SizedBox(height: AppSpacing.sm),
             ),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: crossAxisCount,
-              mainAxisSpacing: spacing,
-              crossAxisSpacing: spacing,
-              childAspectRatio: childAspectRatio,
+          );
+          continue;
+        }
+        children.add(
+          SliverPadding(
+            key: Key('catalogSectionGrid_$sectionKey'),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+            sliver: SliverGrid(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  final entry = section.value[index];
+                  return RepaintBoundary(
+                    child: _ModuleGridTile(
+                      entry: entry,
+                      l10n: l10n,
+                      isFavorite: _favoriteCatalogIds.contains(entry.catalogId),
+                      onFavoriteToggle: () => _toggleFavorite(entry.catalogId),
+                      miniatures: miniatures,
+                      shimmerController: _shimmerController,
+                      onTap: () => _openViewer(
+                        context,
+                        entry.module,
+                        heroTag: entry.catalogId,
+                        catalogFamily: entry.family,
+                      ),
+                    ),
+                  );
+                },
+                childCount: section.value.length,
+              ),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: accessibleColumns,
+                mainAxisSpacing: spacing,
+                crossAxisSpacing: spacing,
+                mainAxisExtent: tileHeight,
+              ),
             ),
           ),
-        ),
-      );
+        );
+        children.add(
+          const SliverToBoxAdapter(
+            child: SizedBox(height: AppSpacing.md),
+          ),
+        );
+      }
+
+      // Add bottom padding
       children.add(
-        const SliverToBoxAdapter(
-          child: SizedBox(height: AppSpacing.md),
+        SliverToBoxAdapter(
+          child: SizedBox(height: MediaQuery.of(context).padding.bottom + 100),
         ),
       );
-    }
 
-    // Add bottom padding
-    children.add(
-      SliverToBoxAdapter(
-        child: SizedBox(height: MediaQuery.of(context).padding.bottom + 100),
-      ),
-    );
-
-    return SliverMainAxisGroup(slivers: children);
+      return SliverMainAxisGroup(slivers: children);
+    });
   }
 
   void _openViewer(

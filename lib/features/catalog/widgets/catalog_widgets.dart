@@ -247,7 +247,11 @@ class _FocusableTapRegionState extends State<_FocusableTapRegion> {
         setState(() => _isFocused = isFocused);
       },
       child: AnimatedContainer(
-        duration: AppAnimations.fast,
+        duration: MediaQuery.disableAnimationsOf(context) ||
+                (context.read<AccessibilityService?>()?.reducedMotionEnabled ??
+                    false)
+            ? Duration.zero
+            : AppAnimations.fast,
         foregroundDecoration: _isFocused
             ? BoxDecoration(
                 borderRadius: widget.borderRadius,
@@ -410,7 +414,7 @@ class _DimChip extends StatelessWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Grid tile with elevation, gradient overlay, and better text readability
+// Artwork-first grid tile with a readable caption and compact favorite action
 // ---------------------------------------------------------------------------
 
 class _ModuleGridTile extends StatefulWidget {
@@ -436,42 +440,9 @@ class _ModuleGridTile extends StatefulWidget {
   State<_ModuleGridTile> createState() => _ModuleGridTileState();
 }
 
-class _ModuleGridTileState extends State<_ModuleGridTile>
-    with SingleTickerProviderStateMixin {
+class _ModuleGridTileState extends State<_ModuleGridTile> {
   bool _isHovered = false;
   bool _isPressed = false;
-  late final AnimationController _glowController;
-  late final Animation<double> _glowAnim;
-
-  @override
-  void initState() {
-    super.initState();
-    _glowController = AnimationController(
-      vsync: this,
-      duration: AppAnimations.fast,
-    );
-    _glowAnim = CurvedAnimation(
-      parent: _glowController,
-      curve: AppAnimations.snappyCurve,
-    );
-  }
-
-  @override
-  void dispose() {
-    _glowController.dispose();
-    super.dispose();
-  }
-
-  void _setHighlight(bool on) {
-    setState(() {
-      _isHovered = on;
-    });
-    if (on) {
-      _glowController.forward();
-    } else {
-      _glowController.reverse();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -480,7 +451,12 @@ class _ModuleGridTileState extends State<_ModuleGridTile>
         is3D ? widget.l10n.dimension3d : widget.l10n.dimension2d;
     final name = widget.entry.module.displayName(widget.l10n);
     final presetCount = widget.entry.module.builtInPresets.length + 1;
-    final accentColor = _categoryAccentColor(widget.entry.category);
+    final isSpanish = Localizations.localeOf(context).languageCode == 'es';
+    final presetLabel =
+        isSpanish ? '$presetCount ajustes' : '$presetCount presets';
+    final reduceMotion = MediaQuery.disableAnimationsOf(context) ||
+        (context.read<AccessibilityService?>()?.reducedMotionEnabled ?? false);
+    final highlighted = _isHovered || _isPressed;
     final thumbnailLayout = widget.miniatures
         ? CatalogThumbnailLayout.square
         : MediaQuery.sizeOf(context).width >= 1024
@@ -488,15 +464,6 @@ class _ModuleGridTileState extends State<_ModuleGridTile>
             : CatalogThumbnailLayout.gridPortrait;
 
     return Semantics(
-      // semanticFractalCard, not an inline string: the label was built in
-      // English here, so every card in the catalogue announced in English
-      // regardless of locale — the section headers above them localized, which
-      // made the gap easy to miss. The key already existed and was translated.
-      //
-      // It also drops the category and preset count, which shortens the label
-      // from 133 characters to about 54. The category is already announced by
-      // the section header when the group is entered, so repeating it on all
-      // 430 cards was pure redundancy.
       label: widget.l10n.semanticFractalCard(name, dimensionLabel),
       button: true,
       child: _FocusableTapRegion(
@@ -504,180 +471,119 @@ class _ModuleGridTileState extends State<_ModuleGridTile>
         onActivate: widget.onTap,
         borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
         child: MouseRegion(
-          onEnter: (_) => _setHighlight(true),
-          onExit: (_) => _setHighlight(false),
+          cursor: SystemMouseCursors.click,
+          onEnter: (_) => setState(() => _isHovered = true),
+          onExit: (_) => setState(() => _isHovered = false),
           child: GestureDetector(
             onTapDown: (_) => setState(() => _isPressed = true),
             onTapUp: (_) => setState(() => _isPressed = false),
             onTapCancel: () => setState(() => _isPressed = false),
             onTap: widget.onTap,
-            child: AnimatedBuilder(
-              animation: _glowAnim,
-              builder: (context, child) {
-                final glow = _glowAnim.value;
-                return AnimatedContainer(
-                  duration: AppAnimations.fast,
-                  decoration: BoxDecoration(
-                    color: AppColors.surfaceElevated.withValues(alpha: 0.55),
-                    borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-                    border: Border.all(
-                      color: accentColor.withValues(alpha: 0.18),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.3),
-                        blurRadius: 14,
-                        offset: const Offset(0, 6),
-                      ),
-                      if (_isHovered || _isPressed)
-                        BoxShadow(
-                          color: accentColor.withValues(alpha: 0.35 * glow),
-                          blurRadius: 16,
-                          spreadRadius: 1,
-                          offset: Offset.zero,
+            child: AnimatedContainer(
+              duration: reduceMotion ? Duration.zero : AppAnimations.fast,
+              decoration: BoxDecoration(
+                color:
+                    highlighted ? AppColors.surfaceElevated : AppColors.surface,
+                borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+                border: Border.all(
+                  color:
+                      highlighted ? AppColors.primary : AppColors.borderLight,
+                ),
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        _PreviewThumbnail(
+                          catalogId: widget.entry.catalogId,
+                          module: widget.entry.module,
+                          category: widget.entry.category,
+                          layout: thumbnailLayout,
+                          shimmerController: widget.shimmerController,
                         ),
-                    ],
-                  ),
-                  child: Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius:
-                            BorderRadius.circular(AppSpacing.cardRadius),
-                        child: Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            // Thumbnail
-                            _PreviewThumbnail(
-                              catalogId: widget.entry.catalogId,
-                              module: widget.entry.module,
-                              category: widget.entry.category,
-                              layout: thumbnailLayout,
-                              shimmerController: widget.shimmerController,
-                            ),
-                            // Gradient overlay for text
-                            Positioned(
-                              left: 0,
-                              right: 0,
-                              bottom: 0,
-                              child: Container(
-                                padding: widget.miniatures
-                                    ? const EdgeInsets.fromLTRB(6, 14, 6, 6)
-                                    : const EdgeInsets.fromLTRB(10, 26, 10, 10),
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: [
-                                      Colors.transparent,
-                                      Colors.black.withValues(alpha: 0.55),
-                                      Colors.black.withValues(alpha: 0.9),
-                                    ],
-                                  ),
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      name,
-                                      maxLines: widget.miniatures ? 1 : 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.left,
-                                      style: AppTypography.labelSmall.copyWith(
-                                        color: Colors.white,
-                                        fontSize: widget.miniatures ? 9 : 12,
-                                        height: widget.miniatures ? 1.0 : 1.15,
-                                        fontWeight: FontWeight.w700,
-                                        shadows: const [
-                                          Shadow(
-                                            color: Colors.black87,
-                                            blurRadius: 5,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    if (!widget.miniatures) ...[
-                                      const SizedBox(height: 6),
-                                      Wrap(
-                                        spacing: 6,
-                                        runSpacing: 4,
-                                        children: [
-                                          _TileMetaPill(label: dimensionLabel),
-                                          _TileMetaPill(
-                                              label: '$presetCount presets'),
-                                        ],
-                                      ),
-                                    ],
-                                  ],
+                        if (widget.miniatures)
+                          Positioned(
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            child: Container(
+                              padding: const EdgeInsets.fromLTRB(6, 16, 6, 6),
+                              decoration: const BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [Colors.transparent, Colors.black87],
                                 ),
                               ),
-                            ),
-                            Positioned(
-                              top: 6,
-                              right: 6,
-                              child: IconButton(
-                                key: Key(
-                                  'catalogFavorite_${widget.entry.catalogId}',
-                                ),
-                                tooltip: widget.isFavorite
-                                    ? 'Remove from favorites'
-                                    : 'Add to favorites',
-                                constraints: const BoxConstraints.tightFor(
-                                  width: 48,
-                                  height: 48,
-                                ),
-                                style: IconButton.styleFrom(
-                                  backgroundColor:
-                                      Colors.black.withValues(alpha: 0.48),
-                                  foregroundColor: widget.isFavorite
-                                      ? const Color(0xFFFFD166)
-                                      : Colors.white70,
-                                ),
-                                iconSize: widget.miniatures ? 16 : 20,
-                                onPressed: widget.onFavoriteToggle,
-                                icon: Icon(
-                                  widget.isFavorite
-                                      ? Icons.star_rounded
-                                      : Icons.star_border_rounded,
-                                ),
-                              ),
-                            ),
-                            // Press darkening overlay
-                            if (_isPressed)
-                              Positioned.fill(
-                                child: DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    color: Colors.black.withValues(alpha: 0.15),
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
-                      // Animated shimmer border overlay on hover/press
-                      if (_isHovered || _isPressed)
-                        Positioned.fill(
-                          child: IgnorePointer(
-                            child: AnimatedOpacity(
-                              opacity: glow,
-                              duration: AppAnimations.fast,
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(
-                                      AppSpacing.cardRadius),
-                                  border: Border.all(
-                                    color: accentColor.withValues(alpha: 0.75),
-                                    width: 1.5,
-                                  ),
+                              child: Text(
+                                name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppTypography.labelSmall.copyWith(
+                                  color: Colors.white,
+                                  fontSize: 10,
                                 ),
                               ),
                             ),
                           ),
+                        PositionedDirectional(
+                          top: 0,
+                          end: 0,
+                          child: _CatalogFavoriteButton(
+                            catalogId: widget.entry.catalogId,
+                            isFavorite: widget.isFavorite,
+                            onPressed: widget.onFavoriteToggle,
+                          ),
                         ),
-                    ],
+                      ],
+                    ),
                   ),
-                );
-              },
+                  if (!widget.miniatures)
+                    SizedBox(
+                      key: Key('catalogCaption_${widget.entry.catalogId}'),
+                      height: _catalogCaptionHeight(context),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Align(
+                                alignment: AlignmentDirectional.topStart,
+                                child: Text(
+                                  name,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppTypography.labelSmall.copyWith(
+                                    color: AppColors.textPrimary,
+                                    fontSize: 13,
+                                    height: 1.25,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              '$dimensionLabel · $presetLabel',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTypography.labelSmall.copyWith(
+                                color: AppColors.textSecondary,
+                                fontSize: 11,
+                                height: 1.2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
         ),
@@ -686,29 +592,60 @@ class _ModuleGridTileState extends State<_ModuleGridTile>
   }
 }
 
-class _TileMetaPill extends StatelessWidget {
-  final String label;
+// Reserve two title lines at the user's actual text size, rather than forcing
+// accessible text into a fixed-aspect tile and letting it cover the artwork.
+double _catalogCaptionHeight(BuildContext context) {
+  final scaler = MediaQuery.textScalerOf(context);
+  return scaler.scale(13) * 1.25 * 2 + scaler.scale(11) * 1.2 + 24;
+}
 
-  const _TileMetaPill({required this.label});
+class _CatalogFavoriteButton extends StatelessWidget {
+  final String catalogId;
+  final bool isFavorite;
+  final VoidCallback onPressed;
+
+  const _CatalogFavoriteButton({
+    required this.catalogId,
+    required this.isFavorite,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-      decoration: BoxDecoration(
-        color: Colors.black.withValues(alpha: 0.42),
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.18)),
-      ),
-      child: Text(
-        label,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: AppTypography.labelSmall.copyWith(
-          color: Colors.white.withValues(alpha: 0.86),
-          fontSize: 9,
-          letterSpacing: 0.1,
-          height: 1,
+    final isSpanish = Localizations.localeOf(context).languageCode == 'es';
+    final label = isFavorite
+        ? (isSpanish ? 'Quitar de favoritos' : 'Remove from favorites')
+        : (isSpanish ? 'Añadir a favoritos' : 'Add to favorites');
+    return Semantics(
+      toggled: isFavorite,
+      child: IconButton(
+        key: Key('catalogFavorite_$catalogId'),
+        tooltip: label,
+        onPressed: onPressed,
+        constraints: const BoxConstraints.tightFor(width: 48, height: 48),
+        padding: const EdgeInsets.all(8),
+        style: IconButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          minimumSize: const Size.square(48),
+          maximumSize: const Size.square(48),
+          padding: const EdgeInsets.all(8),
+          tapTargetSize: MaterialTapTargetSize.padded,
+          visualDensity: VisualDensity.standard,
+        ),
+        icon: Container(
+          key: Key('catalogFavoriteVisual_$catalogId'),
+          width: 32,
+          height: 32,
+          decoration: BoxDecoration(
+            color: const Color(0xE6101018),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.white24),
+          ),
+          child: Icon(
+            isFavorite ? Icons.star_rounded : Icons.star_border_rounded,
+            size: 18,
+            color: isFavorite ? const Color(0xFFFFD166) : Colors.white,
+          ),
         ),
       ),
     );
@@ -1009,23 +946,6 @@ class _ModuleCardState extends State<_ModuleCard>
       ),
     );
   }
-}
-
-// ---------------------------------------------------------------------------
-// Category color helpers
-// ---------------------------------------------------------------------------
-
-/// Returns the accent color for a given fractal category string.
-Color _categoryAccentColor(String category) {
-  final cat = category.toLowerCase();
-  if (cat.contains('escape')) return const Color(0xFF5B6FD4);
-  if (cat.contains('complex')) return const Color(0xFF9B59B6);
-  if (cat.contains('rational')) return const Color(0xFFE67E22);
-  if (cat.contains('attract')) return const Color(0xFF27AE60);
-  if (cat.contains('cellular') || cat.contains('automata')) {
-    return const Color(0xFF7F8C8D);
-  }
-  return const Color(0xFF2980B9);
 }
 
 // ---------------------------------------------------------------------------
