@@ -2,6 +2,7 @@
 set -euo pipefail
 
 BASE_HREF="${1:-/flutter-fractal-forge/}"
+if [[ $# -gt 0 ]]; then shift; fi
 
 if [[ "${BASE_HREF}" != "/" && ! "${BASE_HREF}" =~ ^/.*/$ ]]; then
   echo "Base href must be '/' or start and end with '/'; got: ${BASE_HREF}" >&2
@@ -13,8 +14,7 @@ if [[ ! -x "${FLUTTER_BIN}" ]]; then
   FLUTTER_BIN="flutter"
 fi
 
-"${FLUTTER_BIN}" clean
-"${FLUTTER_BIN}" build web --release --no-wasm-dry-run --base-href "${BASE_HREF}"
+"${FLUTTER_BIN}" build web --release --no-wasm-dry-run --base-href "${BASE_HREF}" "$@"
 
 export BASE_HREF
 python3 - <<'PY'

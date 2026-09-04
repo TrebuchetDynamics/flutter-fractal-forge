@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.104] - 2026-09-04
+
+### Improved
+
+- Catalog search combines words across names, dimensions, aliases, and metadata,
+  with faster relevance ranking and accent normalization.
+- Palette animation textures use a bounded cache and avoid redundant band draws.
+- Kaleidoscope sectors cover the full canvas without missing wedges or dark seams.
+- Double-tap zoom keeps the tapped detail anchored throughout the animation;
+  starting a drag stops an unfinished zoom.
+- Pan and 3D rotation momentum use elapsed time for consistent travel across
+  display refresh rates and delayed frames.
+- Release automation preserves web build identity, makes Linux dry runs inert,
+  and adds explicitly unsigned macOS/iOS build artifacts.
+
 ## [1.1.103] - 2026-09-02
 
 ### Fixed

@@ -23,6 +23,8 @@ set -euo pipefail
 #              stage requires the `gh` CLI and network access to GitHub.
 #   evidence   Generate checksums, a CycloneDX SBOM, third-party notices, and
 #              a release manifest bound to the staged artifacts.
+#   apple      Build unsigned macOS/iOS archives on macOS CI. These require
+#              Apple signing/notarization before device or store distribution.
 #   github     Tag the release and create a GitHub Release, attaching
 #              only artifacts and evidence verified by the current release
 #              manifest (run build stages and evidence first)
@@ -31,7 +33,7 @@ set -euo pipefail
 #              (fractal.trebuchetdynamics.com) via `wrangler pages deploy`
 #   fdroid     Build and verify unsigned ABI APKs that official F-Droid will
 #              reproduce, then package fdroiddata metadata.
-#   all        android-build, F-Droid, Linux, Windows, evidence, GitHub,
+#   all        android-build, F-Droid, Linux, Windows, Apple, evidence, GitHub,
 #              website, then Play. Every artifact and final evidence gate
 #              completes before publication starts.
 #
@@ -243,9 +245,9 @@ for arg in "$@"; do
     --yes) die "--yes is unsafe; use --publish=<version>" ;;
     --dry-run) CONFIRMED=0; DRY_RUN_FORCED=1 ;;
     --help|-h) usage; exit 0 ;;
-    all) ALL_SELECTED=1; STAGES+=(android_build fdroid linux windows evidence github website play) ;;
+    all) ALL_SELECTED=1; STAGES+=(android_build fdroid linux windows apple evidence github website play) ;;
     android-build) STAGES+=(android_build) ;;
-    android|play|linux|windows|evidence|github|website|fdroid) STAGES+=("$arg") ;;
+    android|play|linux|windows|apple|evidence|github|website|fdroid) STAGES+=("$arg") ;;
     *) die "Unknown argument: $arg (see --help)" ;;
   esac
 done
@@ -253,7 +255,7 @@ done
 [[ ${#STAGES[@]} -gt 0 ]] || die "No stage selected (see --help)"
 
 if [[ -n "$RESUME_FROM" ]]; then
-  [[ "$ALL_SELECTED" -eq 1 && ${#STAGES[@]} -eq 8 ]] ||
+  [[ "$ALL_SELECTED" -eq 1 && ${#STAGES[@]} -eq 9 ]] ||
     die '--resume-from requires the `all` stage without additional stages'
   case "$RESUME_FROM" in
     github) STAGES=(github website play) ;;
@@ -432,8 +434,8 @@ preflight_prepare() {
     die "Local $branch is not synchronized with $remote_ref"
   for stage in "${STAGES[@]}"; do
     case "$stage" in
-      android_build|fdroid|linux|windows|evidence) ;;
-      *) die "--prepare permits only android-build, fdroid, linux, windows, and evidence" ;;
+      android_build|fdroid|linux|windows|apple|evidence) ;;
+      *) die "--prepare permits only android-build, fdroid, linux, windows, apple, and evidence" ;;
     esac
   done
 }
@@ -668,6 +670,9 @@ stage_android() {
 
 stage_linux() {
   log "=== linux: build + package release bundle ==="
+  if ! guarded "build and package the Linux release bundle"; then
+    return 0
+  fi
   need tar
   need git
   local version build_number commit
@@ -702,11 +707,11 @@ stage_linux() {
 
 stage_windows() {
   log "=== windows: dispatch CI build, download artifact ==="
-  need gh
-  need python3
   if ! guarded "dispatch .github/workflows/windows-release-build.yml on a windows-latest runner"; then
     return 0
   fi
+  need gh
+  need python3
 
   local before after run_id version build_number commit branch run_metadata
   version="$(release_build_name)"
@@ -760,8 +765,55 @@ PY
   log "windows stage complete: $ARTIFACT_DIR/fractal-forge-windows-x64.zip"
 }
 
+stage_apple() {
+  log "=== apple: unsigned macOS/iOS CI builds ==="
+  if ! guarded "dispatch unsigned Apple builds (not App Store-ready)"; then return 0; fi
+  need gh
+  need python3
+  local version build_number commit branch before after run_id metadata platform archive
+  version="$(release_build_name)"
+  build_number="$(release_build_number)"
+  commit="$(git rev-parse HEAD)"
+  branch="$(git symbolic-ref --quiet --short HEAD)" || die "Apple dispatch requires a branch"
+  before="$(gh run list --workflow=apple-release-build.yml --commit "$commit" \
+    --event workflow_dispatch --limit 1 --json databaseId -q '.[0].databaseId // empty')"
+  gh workflow run apple-release-build.yml --ref "$branch" \
+    -f release_version="$version" -f release_build_number="$build_number" -f release_commit="$commit"
+  after=""
+  for _ in $(seq 1 30); do
+    after="$(gh run list --workflow=apple-release-build.yml --commit "$commit" \
+      --event workflow_dispatch --limit 1 --json databaseId -q '.[0].databaseId // empty')"
+    [[ -n "$after" && "$after" != "$before" ]] && break
+    sleep 2
+  done
+  [[ -n "$after" && "$after" != "$before" ]] || die "Timed out waiting for Apple build dispatch"
+  run_id="$after"
+  metadata="$(gh run view "$run_id" --json headSha,event -q '[.headSha, .event] | @tsv')"
+  [[ "$metadata" == "$commit"$'\t'workflow_dispatch ]] || die "Apple run identity mismatch"
+  watch_github_run "$run_id" "apple" 10
+  for platform in macos ios; do
+    archive="$ARTIFACT_DIR/fractal-forge-$platform-unsigned.zip"
+    rm -f "$archive" "${archive%.zip}.json"
+    gh run download "$run_id" -n "apple-build-$platform" -D "$ARTIFACT_DIR"
+    python3 - "$archive" "$version" "$build_number" "$commit" "$platform" <<'PY'
+import hashlib, json, pathlib, sys
+archive = pathlib.Path(sys.argv[1])
+metadata = json.loads(archive.with_suffix('.json').read_text())
+expected = dict(zip(('version', 'buildNumber', 'commit', 'platform'), sys.argv[2:]))
+for key, value in expected.items():
+    if str(metadata.get(key)) != value:
+        raise SystemExit(f'Apple artifact {key} mismatch')
+if metadata.get('sha256') != hashlib.sha256(archive.read_bytes()).hexdigest():
+    raise SystemExit('Apple artifact checksum mismatch')
+PY
+    write_artifact_provenance "$archive" "$version" "$build_number" "$commit"
+  done
+  log "Apple build artifacts staged; Apple signing/notarization is still required"
+}
+
 stage_evidence() {
   log "=== evidence: manifest + SBOM + notices + checksums ==="
+  if ! guarded "generate and verify release evidence for staged artifacts"; then return 0; fi
   need python3
   local artifacts=() evidence_args=() relative_artifacts=() required_artifact_args=() artifact version build_number commit artifacts_output info_version info_build_number evidence_bundle provenance_index=0 evidence_file evidence_name device_evidence_count=0
   rm -f "$ARTIFACT_DIR"/fractal-forge-release-evidence-v*.tar.gz
@@ -781,6 +833,10 @@ stage_evidence() {
   fi
   if stage_selected windows; then
     required_artifact_args+=(--required-artifact "fractal-forge-windows-x64.zip")
+  fi
+  if stage_selected apple; then
+    required_artifact_args+=(--required-artifact "fractal-forge-macos-unsigned.zip"
+      --required-artifact "fractal-forge-ios-unsigned.zip")
   fi
   if [[ ${#required_artifact_args[@]} -eq 0 ]]; then
     required_artifact_args+=(
@@ -939,13 +995,18 @@ stage_github() {
 
 stage_website() {
   log "=== website: build + deploy to Cloudflare Pages ($CLOUDFLARE_PAGES_PROJECT) ==="
-  need wrangler
   if ! guarded "build the web app and run wrangler pages deploy build/web --project-name=$CLOUDFLARE_PAGES_PROJECT (deploys the live site at fractal.trebuchetdynamics.com)"; then
     return 0
   fi
+  need wrangler
 
   # Root-domain deploy, not the GitHub Pages "/flutter-fractal-forge/" subpath.
-  "$SCRIPT_DIR/build-web-preview.sh" /
+  "$SCRIPT_DIR/build-web-preview.sh" / \
+    --build-name="$(release_build_name)" \
+    --build-number="$(release_build_number)" \
+    --dart-define="RELEASE_VERSION=$(release_version)" \
+    --dart-define="RELEASE_BUILD_NUMBER=$(release_build_number)" \
+    --dart-define="RELEASE_COMMIT=$(git rev-parse HEAD)"
 
   local cloudflare_auth=()
   if [[ -n "${CLOUDFLARE_API_TOKEN:-}" ]]; then

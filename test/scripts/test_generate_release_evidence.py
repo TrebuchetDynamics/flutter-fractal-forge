@@ -358,7 +358,7 @@ class ReleaseEvidenceTest(unittest.TestCase):
         release_script = (root / "scripts" / "release.sh").read_text()
 
         self.assertIn(
-            "all) ALL_SELECTED=1; STAGES+=(android_build fdroid linux windows evidence github website play)",
+            "all) ALL_SELECTED=1; STAGES+=(android_build fdroid linux windows apple evidence github website play)",
             release_script,
         )
         android_build_stage = release_script.split(
