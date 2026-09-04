@@ -113,16 +113,19 @@ class PaletteService extends ChangeNotifier {
   int get builtInCount => _builtIn.length;
 
   FractalPalette paletteAtIndex(int index) {
-    final all = allPalettes;
-    if (all.isEmpty) {
+    if (_builtIn.isEmpty && _user.isEmpty) {
       return FractalPalette(
         id: 'fallback',
         name: 'Fallback',
         stops: _fallbackPaletteStops,
       );
     }
-    if (index < 0 || index >= all.length) return all.first;
-    return all[index];
+    if (index < 0 || index >= _builtIn.length + _user.length) {
+      return _builtIn.isNotEmpty ? _builtIn.first : _user.first;
+    }
+    return index < _builtIn.length
+        ? _builtIn[index]
+        : _user[index - _builtIn.length];
   }
 
   bool isBuiltInIndex(int index) => index >= 0 && index < builtInCount;
@@ -178,11 +181,13 @@ class PaletteService extends ChangeNotifier {
   ///
   /// The image is cached per palette id and reused across frames.
   /// Use with `shader.setImageSampler(0, image)` to pass palette as texture.
+  /// Bind immediately; clone the borrowed image to retain it across cache calls.
   ui.Image paletteTexture(FractalPalette palette) {
     return _paletteTextures.paletteTexture(palette);
   }
 
   /// Returns a palette texture blended from index N into N+1 by fractional part.
+  /// Bind immediately; clone the borrowed image to retain it across cache calls.
   ui.Image paletteTextureForIndex(double index, {int colorCount = 64}) {
     return _paletteTextures.paletteTextureForIndex(
       index,

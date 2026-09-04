@@ -88,6 +88,30 @@ void main() {
       expect(service.paletteAtIndex(-1).id, equals(first.id));
     });
 
+    test(
+        'indexed user palettes follow edits and deletion at the built-in boundary',
+        () async {
+      final service = await PaletteService.create();
+      addTearDown(service.dispose);
+      final boundary = service.builtInCount;
+      for (final name in ['First', 'Second']) {
+        await service.addPalette(service.createEmptyPalette(name: name));
+      }
+      expect(service.paletteAtIndex(boundary - 1),
+          same(service.builtInPalettes.last));
+      final first = service.paletteAtIndex(boundary);
+      final second = service.paletteAtIndex(boundary + 1);
+      expect(first.name, 'First');
+      expect(second.name, 'Second');
+      await service.updatePalette(second.copyWith(name: 'Edited'));
+      expect(service.paletteAtIndex(boundary + 1).name, 'Edited');
+      await service.deletePalette(first.id);
+      expect(service.paletteAtIndex(boundary).id, second.id);
+      expect(service.paletteAtIndex(boundary).name, 'Edited');
+      expect(service.paletteAtIndex(boundary + 1),
+          same(service.builtInPalettes.first));
+    });
+
     test('paletteAtIndex returns first palette for out-of-bounds index',
         () async {
       final service = await PaletteService.create();

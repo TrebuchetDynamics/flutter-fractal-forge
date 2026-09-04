@@ -88,6 +88,58 @@ void main() {
     expect(controller.view.zoom, isNot(equals(initialZoom)));
   });
 
+  testWidgets('pan and 3D fling travel do not depend on display cadence',
+      (tester) async {
+    for (final moduleId in ['mandelbrot', 'mandelbulb']) {
+      for (final total in [320000, 2000000]) {
+        Vector2? expectedPan;
+        Vector3? expectedRotation;
+        for (final cadence in [8333, 16667, 33333, 100000]) {
+          final registry = ModuleRegistry();
+          final controller = FractalController(registry);
+          controller.selectModule(
+              registry.modules.firstWhere((module) => module.id == moduleId));
+          controller.updateView(controller.view.copyWith(
+              zoom: 10, pan: Vector2.zero(), rotation: Vector3.zero()));
+          await tester.pumpWidget(buildTestWidget(controller));
+          await tester.pumpAndSettle();
+          final center = tester.getCenter(find.byType(FractalRenderer));
+          final gesture = await tester.startGesture(center);
+          for (var i = 1; i <= 3; i++) {
+            await gesture.moveBy(const Offset(100, 0),
+                timeStamp: Duration(milliseconds: i * 20));
+            await tester.pump(const Duration(milliseconds: 20));
+          }
+          await gesture.up(timeStamp: const Duration(milliseconds: 60));
+          await tester.pump();
+          final releasedPan = controller.view.pan.clone();
+          final releasedRotation = controller.view.rotation.clone();
+          var elapsed = 0;
+          while (elapsed < total) {
+            final dt = (total - elapsed).clamp(0, cadence);
+            await tester.pump(Duration(microseconds: dt));
+            elapsed += dt;
+          }
+          final pan = controller.view.pan - releasedPan;
+          final rotation = controller.view.rotation - releasedRotation;
+          if (moduleId == 'mandelbrot') {
+            expect(pan.x.abs(), greaterThan(0.01));
+          } else {
+            expect(rotation.y.abs(), greaterThan(0.01));
+          }
+          expectedPan ??= pan;
+          expectedRotation ??= rotation;
+          expect((pan - expectedPan).length, lessThan(1e-8),
+              reason: '$moduleId total=$total cadence=$cadence');
+          expect((rotation - expectedRotation).length, lessThan(1e-8),
+              reason: '$moduleId total=$total cadence=$cadence');
+          await tester.pumpWidget(const SizedBox.shrink());
+          controller.dispose();
+        }
+      }
+    }
+  });
+
   testWidgets('interaction end waits until pinch momentum stops',
       (tester) async {
     final controller = FractalController(ModuleRegistry());
@@ -288,6 +340,69 @@ void main() {
 
     // Drain fling/double-tap timers created by the synthetic large drag.
     await tester.pump(const Duration(seconds: 3));
+  });
+
+  testWidgets('double-tap keeps the tapped detail fixed throughout zoom',
+      (tester) async {
+    final controller = FractalController(ModuleRegistry());
+    await tester.pumpWidget(buildTestWidget(controller));
+    await tester.pumpAndSettle();
+    final surface = find.byType(FractalRenderer);
+    final center = tester.getCenter(surface);
+    final scale = tester.getSize(surface).shortestSide;
+    const offset = Offset(90, -60);
+    final initialZoom = controller.view.zoom;
+    final world = controller.view.pan +
+        Vector2(offset.dx, offset.dy) / (scale * initialZoom);
+
+    await tester.tapAt(center + offset);
+    await tester.pump(const Duration(milliseconds: 50));
+    await tester.tapAt(center + offset);
+    await tester.pump();
+    for (var frame = 0; frame < 13; frame++) {
+      await tester.pump(const Duration(milliseconds: 16));
+      final screenOffset =
+          (world - controller.view.pan) * (scale * controller.view.zoom);
+      expect(screenOffset.x, closeTo(offset.dx, 0.01),
+          reason: 'Horizontal drift at frame $frame');
+      expect(screenOffset.y, closeTo(offset.dy, 0.01),
+          reason: 'Vertical drift at frame $frame');
+    }
+    expect(controller.view.zoom, closeTo(initialZoom * 2, 1e-8));
+    await tester.pumpAndSettle();
+  });
+
+  testWidgets('a new drag takes control from an in-flight tap zoom',
+      (tester) async {
+    final controller = FractalController(ModuleRegistry());
+    var interactionEnds = 0;
+    await tester.pumpWidget(buildTestWidget(controller,
+        onUserInteractionEnd: () => interactionEnds++));
+    await tester.pumpAndSettle();
+    final center = tester.getCenter(find.byType(FractalRenderer));
+    final initialZoom = controller.view.zoom;
+    await tester.tapAt(center);
+    await tester.pump(const Duration(milliseconds: 50));
+    await tester.tapAt(center);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 32));
+    expect(controller.view.zoom, greaterThan(initialZoom));
+    expect(controller.view.zoom, lessThan(initialZoom * 2));
+
+    final drag = await tester.startGesture(center);
+    await drag.moveBy(const Offset(40, 25));
+    await tester.pump();
+    final heldZoom = controller.view.zoom;
+    final heldPan = controller.view.pan.clone();
+    final endsWhileDragging = interactionEnds;
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(controller.view.zoom, heldZoom);
+    expect(controller.view.pan, heldPan);
+    expect(interactionEnds, endsWhileDragging,
+        reason: 'Interrupted zoom must not end the active drag');
+    await drag.up();
+    await tester.pumpAndSettle();
+    expect(interactionEnds, greaterThan(endsWhileDragging));
   });
 
   testWidgets('Module switch stops in-flight zoom animation', (tester) async {

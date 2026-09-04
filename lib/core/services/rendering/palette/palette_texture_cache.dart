@@ -3,20 +3,45 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/fractal_palette.dart';
 
+/// Owns reusable palette textures, including transient animation blends.
+///
+/// Returned images are borrowed: bind immediately, or clone and dispose the
+/// clone if retaining a handle across cache calls. Already-bound shaders retain
+/// their native image reference when a cache handle is evicted.
 class PaletteTextureCache {
   static const int textureWidth = 256;
+  // 256 KiB of RGBA texels, excluding backend allocation overhead and images
+  // retained by active shaders. Keeps a transition's working set bounded.
+  static const int maxEntries = 256;
   final Map<String, ui.Image> _cache = {};
+
+  ui.Image? _get(String key) {
+    final image = _cache.remove(key);
+    if (image != null) _cache[key] = image;
+    return image;
+  }
+
+  ui.Image _store(String key, ui.Image image) {
+    if (_cache.length >= maxEntries) {
+      _cache.remove(_cache.keys.first)!.dispose();
+    }
+    _cache[key] = image;
+    return image;
+  }
 
   ui.Image paletteTexture(FractalPalette palette, {int colorCount = 64}) {
     final count = colorCount.clamp(2, 64);
     final key = 'palette:${palette.id}:$count';
-    final cached = _cache[key];
+    final cached = _get(key);
     if (cached != null) return cached;
 
     final stops = normalizeFractalPaletteStops(palette.stops);
-    return _cache[key] = _drawPaletteTexture(
-      (t) => _colorAt(stops, t),
-      colorCount: count,
+    return _store(
+      key,
+      _drawPaletteTexture(
+        (t) => _colorAt(stops, t),
+        colorCount: count,
+      ),
     );
   }
 
@@ -34,20 +59,23 @@ class PaletteTextureCache {
     final b = paletteAtIndex(from + 1);
     if (mix256 == 256) return paletteTexture(b, colorCount: count);
     final key = 'blend:${a.id}:${b.id}:$mix256:$count';
-    final cached = _cache[key];
+    final cached = _get(key);
     if (cached != null) return cached;
 
     final t = mix256 / 256.0;
     final stopsA = normalizeFractalPaletteStops(a.stops);
     final stopsB = normalizeFractalPaletteStops(b.stops);
     // Sample the original gradients so narrow highlights survive transitions.
-    return _cache[key] = _drawPaletteTexture(
-      (position) => Color.lerp(
-        _colorAt(stopsA, position),
-        _colorAt(stopsB, position),
-        t,
-      )!,
-      colorCount: count,
+    return _store(
+      key,
+      _drawPaletteTexture(
+        (position) => Color.lerp(
+          _colorAt(stopsA, position),
+          _colorAt(stopsB, position),
+          t,
+        )!,
+        colorCount: count,
+      ),
     );
   }
 
@@ -68,13 +96,25 @@ class PaletteTextureCache {
       Rect.fromLTWH(0, 0, textureWidth.toDouble(), 1),
     );
     final paint = Paint();
-    for (var x = 0; x < textureWidth; x++) {
-      final t = x / (textureWidth - 1);
-      final band = (t * colorCount).floor().clamp(0, colorCount - 1);
-      final sampled =
-          colorCount >= textureWidth ? t : (band + 0.5) / colorCount;
-      paint.color = colorAt(sampled.clamp(0.0, 1.0));
-      canvas.drawRect(Rect.fromLTWH(x.toDouble(), 0, 1, 1), paint);
+    var start = 0;
+    var band = 0;
+    for (var x = 1; x <= textureWidth; x++) {
+      // Preserve the original floating-point band boundaries, including the
+      // final pixel. Integer division differs at count=51, pixel=155.
+      final nextBand = x == textureWidth
+          ? colorCount
+          : (x / (textureWidth - 1) * colorCount)
+              .floor()
+              .clamp(0, colorCount - 1);
+      if (nextBand == band) continue;
+      // Each band is constant: sample and draw it once instead of per pixel.
+      paint.color = colorAt((band + 0.5) / colorCount);
+      canvas.drawRect(
+        Rect.fromLTWH(start.toDouble(), 0, (x - start).toDouble(), 1),
+        paint,
+      );
+      start = x;
+      band = nextBand;
     }
     final picture = rec.endRecording();
     try {

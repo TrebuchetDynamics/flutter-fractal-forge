@@ -194,9 +194,8 @@ class FractalController extends ChangeNotifier {
   }
 
   void setKaleidoscopeSectors(int sectors) {
-    // Sectors must be even: the reflective mirror modes flip every other wedge
-    // to the opposite side of the circle, which only tiles the plane without
-    // gaps/overlaps when the sector count is even. Snap odd inputs down.
+    // Preserve the controls' even-sector contract. Reflections affect artwork
+    // inside each sector; the renderer keeps destination wedges fixed.
     final clamped = sectors.clamp(4, 16);
     final even = clamped - (clamped % 2);
     if (_kaleidoscopeSectors != even) {

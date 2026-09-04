@@ -17,10 +17,14 @@ void main() {
     required String category,
     List<String> aliases = const [],
     List<FractalParameter> parameters = const [],
+    void Function()? onNameRead,
   }) {
     final module = FractalModule(
       id: id,
-      displayName: (_) => name,
+      displayName: (_) {
+        onNameRead?.call();
+        return name;
+      },
       dimension: dimension,
       shaderAsset: 'unused.frag',
       parameters: parameters,
@@ -90,6 +94,58 @@ void main() {
   ];
 
   group('CatalogFilter.apply', () {
+    test('broad search evaluates localized names at most twice per entry', () {
+      var nameReads = 0;
+      final manyEntries = List.generate(
+        256,
+        (i) => entry(
+          id: 'fractal_$i',
+          name: 'Fractal ${255 - i}',
+          dimension: FractalDimension.twoD,
+          category: 'Other',
+          onNameRead: () => nameReads++,
+        ),
+      );
+      final result = CatalogFilter.apply(
+        entries: manyEntries,
+        criteria: const CatalogFilterCriteria(query: 'fractal'),
+        l10n: l10n,
+      );
+      expect(result.filteredEntries, hasLength(256));
+      expect(nameReads, lessThanOrEqualTo(2 * manyEntries.length));
+      expect(result.filteredEntries.first.catalogId, 'core.fractal_255');
+    });
+
+    test('matches all query words across name, dimension, alias and parameters',
+        () {
+      for (final query in ['3D mandelbulb', 'mandelbulb 3D']) {
+        final result = CatalogFilter.apply(
+          entries: entries,
+          criteria: CatalogFilterCriteria(query: query),
+          l10n: l10n,
+        );
+        expect(result.filteredEntries.map((entry) => entry.catalogId),
+            ['core.mandelbulb']);
+        expect(result.countForDimension(CatalogDimensionFilter.threeD), 1);
+        expect(result.categoryCounts, {'3D Fractals': 1});
+      }
+      final result = CatalogFilter.apply(
+        entries: entries,
+        criteria: const CatalogFilterCriteria(query: 'classic bailout 2D'),
+        l10n: l10n,
+      );
+      expect(result.filteredEntries.map((entry) => entry.catalogId),
+          ['core.mandelbrot']);
+      expect(
+        CatalogFilter.apply(
+          entries: entries,
+          criteria: const CatalogFilterCriteria(query: 'mandelbulb 2D'),
+          l10n: l10n,
+        ).filteredEntries,
+        isEmpty,
+      );
+    });
+
     test('filters cards, dimension counts, and category counts from one query',
         () {
       final result = CatalogFilter.apply(
@@ -118,6 +174,42 @@ void main() {
       expect(result.filteredEntries.map((entry) => entry.catalogId), [
         'core.mandelbrot',
       ]);
+    });
+
+    test('complete phrases outrank words spread across metadata', () {
+      final rankedEntries = [
+        entry(
+            id: 'cross_field',
+            name: 'Mandelbulb',
+            dimension: FractalDimension.threeD,
+            category: 'Other'),
+        entry(
+            id: 'metadata_phrase',
+            name: 'Study',
+            dimension: FractalDimension.threeD,
+            category: '3D Mandelbulb Studies'),
+        entry(
+            id: 'unordered_name',
+            name: 'Mandelbulb 3D',
+            dimension: FractalDimension.threeD,
+            category: 'Other'),
+        entry(
+            id: 'prefix',
+            name: '3D Mandelbulb Slice',
+            dimension: FractalDimension.threeD,
+            category: 'Other'),
+        entry(
+            id: 'exact',
+            name: '3D Mandelbulb',
+            dimension: FractalDimension.threeD,
+            category: 'Other'),
+      ];
+      final result = CatalogFilter.apply(
+        entries: rankedEntries,
+        criteria: const CatalogFilterCriteria(query: '3D Mandelbulb'),
+        l10n: l10n,
+      );
+      expect(result.filteredEntries, orderedEquals(rankedEntries.reversed));
     });
 
     test('search ignores accents and ranks unordered name tokens', () {

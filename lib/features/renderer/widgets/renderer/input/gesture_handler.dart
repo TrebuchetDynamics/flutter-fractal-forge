@@ -24,6 +24,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
   late AnimationController _panMomentumController;
   double _zoomVelocity = 0.0;
   Offset _panVelocity = Offset.zero;
+  Duration _panMomentumElapsed = Duration.zero;
   double _lastScale = 1.0;
   double _lastRotation = 0.0;
 
@@ -166,19 +167,28 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
 
   void _applyPanMomentum() {
     if (!mounted) return;
-    if (!_panMomentumController.isAnimating) return;
+    if (!_panMomentumController.isAnimating &&
+        _panMomentumController.status != AnimationStatus.completed) return;
 
     final controller = context.read<FractalController>();
     final view = controller.view;
     final module = controller.module;
 
-    // Google Maps spec: friction 0.95 per frame at 60fps
-    _panVelocity = _panVelocity * 0.95;
-
-    // Stop threshold: 0.1 px/frame
-    if (_panVelocity.distance < 0.1) {
+    // Integrate elapsed time, including the final tick at the animation limit.
+    // The controller clears elapsed time before its completion notification.
+    final elapsed = _panMomentumController.lastElapsedDuration ??
+        (_panMomentumController.status == AnimationStatus.completed
+            ? _panMomentumController.duration!
+            : Duration.zero);
+    final step = RendererPanMomentum.advance(
+      _panVelocity,
+      elapsed - _panMomentumElapsed,
+    );
+    _panMomentumElapsed = elapsed;
+    _panVelocity = step.velocity;
+    if (step.displacement == Offset.zero) {
+      if (_panVelocity != Offset.zero) return;
       _panMomentumController.stop();
-      _panVelocity = Offset.zero;
       _completeGestureEndIfIdle();
       return;
     }
@@ -188,7 +198,8 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
         view.copyWith(
           rotation: _bounded3DRotation(
             view.rotation +
-                Vector3(_panVelocity.dy * 0.0008, _panVelocity.dx * 0.0008, 0),
+                Vector3(step.displacement.dy * 0.0008,
+                    step.displacement.dx * 0.0008, 0),
           ),
         ),
       );
@@ -202,7 +213,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
           ? 1.0
           : math.max(1.0, math.min(size.width, size.height));
       final worldDelta = _screenDeltaToWorldDelta(
-        deltaPx: _panVelocity,
+        deltaPx: step.displacement,
         scalePx: scalePx,
         rotationZ: _screenMappingRotationZFor2d(view.rotation.z),
         zoom: view.zoom,
@@ -220,6 +231,10 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       }
       controller.updateView(view.copyWith(pan: boundedPan));
     }
+    if (_panVelocity == Offset.zero) {
+      _panMomentumController.stop();
+      _completeGestureEndIfIdle();
+    }
   }
 
   void _onScaleStart(ScaleStartDetails details) {
@@ -232,6 +247,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     _gestureEndPending = false;
     _zoomMomentumController.stop();
     _panMomentumController.stop();
+    _zoomAnimation?.stop();
 
     _lastScale = 1.0;
     _lastRotation = 0.0;
@@ -430,7 +446,8 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       _lastScalePointerCount = details.pointerCount;
 
       // Track velocity history for Google Maps fling.
-      final now = DateTime.now().millisecondsSinceEpoch;
+      final now = details.sourceTimeStamp?.inMilliseconds ??
+          DateTime.now().millisecondsSinceEpoch;
       _velHistory.add((pos: localFocal, ms: now));
       if (_velHistory.length > _velHistorySize) _velHistory.removeAt(0);
 
@@ -555,6 +572,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
         _panVelocity = Offset(vx, vy);
         // Only fling if fast enough: 5 px/frame (equiv to 0.3 px/ms)
         if (_panVelocity.distance > 5.0) {
+          _panMomentumElapsed = Duration.zero;
           _panMomentumController.duration = const Duration(seconds: 2);
           _panMomentumController.forward(from: 0);
         }
@@ -904,13 +922,17 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
         CurvedAnimation(parent: _zoomAnimation!, curve: Curves.easeOutCubic);
     _zoomAnimation!.addListener(() {
       final t = curve.value;
+      final zoom = fromZoom + (toZoom - fromZoom) * t;
+      // Screen position depends on inverse zoom. Interpolating pan with the
+      // same t as zoom makes the tapped detail drift between the endpoints.
+      final panT = t * toZoom / zoom;
       controller.updateView(
         controller.view.copyWith(
           pan: Vector2(
-            startPan.x + (targetPan.x - startPan.x) * t,
-            startPan.y + (targetPan.y - startPan.y) * t,
+            startPan.x + (targetPan.x - startPan.x) * panT,
+            startPan.y + (targetPan.y - startPan.y) * panT,
           ),
-          zoom: fromZoom + (toZoom - fromZoom) * t,
+          zoom: zoom,
         ),
         adaptIterationsForZoom: true,
       );

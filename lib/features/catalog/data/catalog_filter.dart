@@ -2,39 +2,42 @@ import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_entry.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
+const _searchAccentReplacements = <String, String>{
+  'á': 'a',
+  'à': 'a',
+  'ä': 'a',
+  'â': 'a',
+  'ã': 'a',
+  'å': 'a',
+  'é': 'e',
+  'è': 'e',
+  'ë': 'e',
+  'ê': 'e',
+  'í': 'i',
+  'ì': 'i',
+  'ï': 'i',
+  'î': 'i',
+  'ó': 'o',
+  'ò': 'o',
+  'ö': 'o',
+  'ô': 'o',
+  'õ': 'o',
+  'ú': 'u',
+  'ù': 'u',
+  'ü': 'u',
+  'û': 'u',
+  'ñ': 'n',
+  'ç': 'c',
+};
+
+final _searchAccentPattern =
+    RegExp('[${_searchAccentReplacements.keys.join()}]');
+
 String _normalizeSearchText(String text) {
-  const replacements = <String, String>{
-    'á': 'a',
-    'à': 'a',
-    'ä': 'a',
-    'â': 'a',
-    'ã': 'a',
-    'å': 'a',
-    'é': 'e',
-    'è': 'e',
-    'ë': 'e',
-    'ê': 'e',
-    'í': 'i',
-    'ì': 'i',
-    'ï': 'i',
-    'î': 'i',
-    'ó': 'o',
-    'ò': 'o',
-    'ö': 'o',
-    'ô': 'o',
-    'õ': 'o',
-    'ú': 'u',
-    'ù': 'u',
-    'ü': 'u',
-    'û': 'u',
-    'ñ': 'n',
-    'ç': 'c',
-  };
-  var normalized = text.trim().toLowerCase();
-  for (final replacement in replacements.entries) {
-    normalized = normalized.replaceAll(replacement.key, replacement.value);
-  }
-  return normalized;
+  return text.trim().toLowerCase().replaceAllMapped(
+        _searchAccentPattern,
+        (match) => _searchAccentReplacements[match[0]]!,
+      );
 }
 
 /// Replayable catalog search query used by the catalog screen.
@@ -44,14 +47,16 @@ String _normalizeSearchText(String text) {
 /// normalization in one pure value object makes search behavior testable without
 /// pumping the whole catalog widget.
 final class CatalogSearchQuery {
-  const CatalogSearchQuery._(this.value);
+  const CatalogSearchQuery._(this.value, this._tokens);
 
   factory CatalogSearchQuery.fromText(String text) {
-    return CatalogSearchQuery._(_normalizeSearchText(text));
+    final value = _normalizeSearchText(text);
+    return CatalogSearchQuery._(value, value.split(RegExp(r'\s+')));
   }
 
   /// Lower-case, trimmed query text.
   final String value;
+  final List<String> _tokens;
 
   bool get isEmpty => value.isEmpty;
 
@@ -76,26 +81,31 @@ final class CatalogSearchQuery {
     }
     if (displayName.startsWith(value)) return 2;
     if (aliases.any((alias) => alias.startsWith(value))) return 3;
-    final tokens = value.split(RegExp(r'\s+'));
-    if (tokens.length > 1 && tokens.every(displayName.contains)) return 4;
+    if (_tokens.length > 1 && _tokens.every(displayName.contains)) return 4;
     if (catalogId.contains(value)) return 5;
     if (displayName.contains(value)) return 6;
     if (aliases.any((alias) => alias.contains(value))) return 7;
 
-    return _searchableFields(entry, l10n)
-            .map(_normalizeSearchText)
-            .any((field) => field.contains(value))
-        ? 8
-        : null;
+    // Every word must match this entry, but words may span fields (for example
+    // "3D Menger"). Complete phrases retain priority over these broad matches.
+    final remaining = _tokens.length > 1 ? _tokens.toSet() : null;
+    if (remaining != null) {
+      for (final field in [displayName, ...aliases, catalogId]) {
+        remaining.removeWhere(field.contains);
+      }
+    }
+    for (final rawField in _searchableMetadata(entry, l10n)) {
+      final field = _normalizeSearchText(rawField);
+      if (field.contains(value)) return 8;
+      remaining?.removeWhere(field.contains);
+    }
+    return remaining != null && remaining.isEmpty ? 9 : null;
   }
 
-  Iterable<String> _searchableFields(
+  Iterable<String> _searchableMetadata(
     CatalogEntry entry,
     AppLocalizations l10n,
   ) sync* {
-    yield entry.module.displayName(l10n);
-    yield* entry.aliases;
-    yield entry.catalogId;
     yield entry.category;
     yield entry.module.dimension == FractalDimension.threeD
         ? l10n.dimension3d
@@ -170,16 +180,26 @@ final class CatalogFilter {
     required AppLocalizations l10n,
   }) {
     final query = criteria.searchQuery;
-    final matchesSearch = entries
-        .where((entry) => query.matches(entry, l10n))
-        .toList(growable: true);
-    if (!query.isEmpty) {
-      matchesSearch.sort((a, b) {
-        final scoreCompare = (query.relevanceScore(a, l10n) ?? 999)
-            .compareTo(query.relevanceScore(b, l10n) ?? 999);
-        if (scoreCompare != 0) return scoreCompare;
-        return a.module.displayName(l10n).compareTo(b.module.displayName(l10n));
+    final List<CatalogEntry> matchesSearch;
+    if (query.isEmpty) {
+      matchesSearch = entries.toList();
+    } else {
+      // Resolve expensive localized metadata once, never inside the comparator.
+      final ranked = <({CatalogEntry entry, int score, String name})>[];
+      for (final entry in entries) {
+        final score = query.relevanceScore(entry, l10n);
+        if (score == null) continue;
+        ranked.add((
+          entry: entry,
+          score: score,
+          name: entry.module.displayName(l10n),
+        ));
+      }
+      ranked.sort((a, b) {
+        final scoreCompare = a.score.compareTo(b.score);
+        return scoreCompare != 0 ? scoreCompare : a.name.compareTo(b.name);
       });
+      matchesSearch = ranked.map((match) => match.entry).toList();
     }
 
     final dimensionBaseEntries = matchesSearch

@@ -101,46 +101,50 @@ class FractalCanvas extends CustomPainter {
         math.sqrt(size.width * size.width + size.height * size.height) * 2.0;
     final double sectorAngle = 2 * math.pi / sectors;
 
+    // Share exact destination endpoints between adjacent sectors. Independently
+    // transformed clip edges can round apart and leave single-pixel holes.
+    // At the supported 4–16 sectors this radius also keeps each triangle's
+    // outer chord beyond every viewport corner.
+    final edges = List<Offset>.generate(sectors, (i) {
+      final angle = rot + (i - 0.5) * sectorAngle;
+      return center + Offset(math.cos(angle), math.sin(angle)) * diagRadius;
+    });
+    final wedgePath = Path();
+    final fillRect = Rect.fromCenter(
+      center: center,
+      width: diagRadius * 4,
+      height: diagRadius * 4,
+    );
+
     for (int i = 0; i < sectors; i++) {
       canvas.save();
-      canvas.translate(center.dx, center.dy);
-      canvas.rotate(rot + i * sectorAngle);
+      // Clip the destination sector before reflecting its content. Reflecting
+      // the clip too moves wedges to the opposite side, causing holes and
+      // overlaps (notably with 6, 10 or 14 sectors in alternating mode).
+      // Adjacent wedges tile the surface: independently antialiasing their
+      // shared edges would leave translucent hairlines in opaque artwork.
+      final start = edges[i];
+      final end = edges[(i + 1) % sectors];
+      wedgePath
+        ..reset()
+        ..moveTo(center.dx, center.dy)
+        ..lineTo(start.dx, start.dy)
+        ..lineTo(end.dx, end.dy)
+        ..close();
+      canvas.clipPath(wedgePath, doAntiAlias: false);
 
       final scale = kaleidoscopeSectorScale(
         mirror: kaleidoscopeMirror,
         mode: mode,
         sector: i,
       );
+      canvas.translate(center.dx, center.dy);
+      canvas.rotate(rot + i * sectorAngle);
       canvas.scale(scale.dx, scale.dy);
-
       canvas.translate(-center.dx, -center.dy);
 
-      // Wedge covering exactly 1/sectors of the screen, with a curved outer edge
-      // (arcTo) instead of a straight chord.
-      final double startAngle = -sectorAngle / 2;
-      final Rect arcRect = Rect.fromCircle(center: center, radius: diagRadius);
-      final Path wedgePath = Path()
-        ..moveTo(center.dx, center.dy)
-        ..lineTo(
-          center.dx + diagRadius * math.cos(startAngle),
-          center.dy + diagRadius * math.sin(startAngle),
-        )
-        ..arcTo(arcRect, startAngle, sectorAngle, false)
-        ..close();
-
-      canvas.save();
-      canvas.clipPath(wedgePath);
       // Rect large enough to fill the clip region regardless of canvas rotation.
-      // The shader renders in screen-space, so the fractal content is unaffected.
-      canvas.drawRect(
-        Rect.fromCenter(
-          center: center,
-          width: diagRadius * 4,
-          height: diagRadius * 4,
-        ),
-        paint,
-      );
-      canvas.restore();
+      canvas.drawRect(fillRect, paint);
       canvas.restore();
     }
   }

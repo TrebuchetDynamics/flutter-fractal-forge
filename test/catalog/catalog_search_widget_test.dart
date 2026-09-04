@@ -87,6 +87,21 @@ void main() {
     expect(find.text('Barnsley Fern'), findsNothing);
   });
 
+  testWidgets('Catalog searches dimension and name together', (tester) async {
+    await pumpCatalog(tester);
+    await showSearch(tester);
+    await tester.enterText(
+      find.byKey(const Key('catalogSearchField')),
+      '3d mandelbulb',
+    );
+    await tester.pump(const Duration(milliseconds: 300));
+
+    expect(find.text('Mandelbulb'), findsWidgets);
+    expect(find.text('Mandelbrot'), findsNothing);
+    expect(tester.takeException(), isNull);
+    await tester.pump(const Duration(seconds: 3));
+  });
+
   testWidgets('Catalog persists category and scroll position', (tester) async {
     await pumpCatalog(tester);
 
