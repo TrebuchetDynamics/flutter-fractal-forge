@@ -17,4 +17,11 @@ if git rev-parse --verify "refs/tags/v$RELEASE_VERSION" >/dev/null 2>&1; then
   [[ "$(git rev-list -n1 "v$RELEASE_VERSION")" == "$RELEASE_COMMIT" ]] || {
     echo 'Existing release tag points to different code' >&2; exit 1;
   }
+else
+  latest_tag="$(git tag --list "v${RELEASE_VERSION%.*}.*" --sort=-version:refname |
+    sed -n '/^v[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$/ {p;q;}')"
+  latest_build="${latest_tag##*.}"
+  [[ -z "$latest_tag" ]] || (( RELEASE_BUILD_NUMBER > latest_build )) || {
+    echo "Release build must be newer than $latest_tag" >&2; exit 1;
+  }
 fi

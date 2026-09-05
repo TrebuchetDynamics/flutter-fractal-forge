@@ -76,7 +76,8 @@ checks. This migration preserves the existing unsigned Apple build behavior.
 
 ## Runner setup
 
-- Linux jobs: GitLab hosted `saas-linux-medium-amd64`, Flutter image **3.44.6**.
+- Linux jobs: GitLab hosted `saas-linux-medium-amd64`, a digest-pinned
+  Android toolchain image; bootstrap installs Flutter **3.44.6** from the official Git tag.
 - Windows: GitLab hosted `saas-windows-medium-amd64`; Git Bash and Visual Studio
   must be available. The job installs the pinned Flutter checkout.
 - Apple: GitLab hosted `saas-macos-medium-m1`, `macos-15-xcode-16`. Hosted macOS
@@ -87,11 +88,13 @@ checks. This migration preserves the existing unsigned Apple build behavior.
   Android device (or the existing Waydroid environment). Disable untagged jobs.
   The device gate is serialized. Do not run untrusted merge-request jobs on it.
 
-Runner access and GitLab compute quota must be configured before a full release
+GitLab account identity verification is required before CI jobs can run (this is
+separate from `glab` login). Runner access and compute quota must be configured
+before a full release
 can finish. Missing native/device runners leave jobs pending; they are not
 silently skipped. `fdroid/flutter.version` is the canonical SDK pin used by
-native bootstrap and F-Droid metadata; update the Linux image/pin assertion in
-`.gitlab-ci.yml` alongside it when upgrading Flutter.
+Linux/native bootstrap and F-Droid metadata. The container supplies Android
+build tools; its bundled Flutter version is replaced by the canonical pin.
 
 ## Protected CI variables
 

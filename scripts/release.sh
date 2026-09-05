@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Multi-platform release orchestrator for Flutter Fractal Forge.
+# GitLab release-job worker for Flutter Fractal Forge.
+# Public entry point: ./release.sh all --prepare=X.Y.Z or --publish=X.Y.Z.
+# Individual stages below are CI internals; local execution supports dry runs.
 #
 # Usage:
 #   scripts/release.sh <stage> [<stage> ...] [--publish=<version>]
