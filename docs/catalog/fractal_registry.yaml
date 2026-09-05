@@ -1,4 +1,94 @@
 fractals:
+  - id: octahedral_crystal_bloom
+    name: Octahedral Crystal Bloom
+    shader: shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag
+    category: 3D Fractals
+    dimension: 3D
+    defaultPower: 2.7
+    defaultIterations: 4.0
+    defaultSteps: 140.0
+    defaultBailout: 5.5
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: true
+    presets: [octahedral_crystal_bloom-classic]
+    variants: []
+    references: []
+    tier: implemented
+    formula_hash: sha256:ec3f01727c76f8ac9b414835d259c150ed6b9b266f9dfd4f408cf3ff7b1cc7b1
+    quality:
+      formula_hash: sha256:ec3f01727c76f8ac9b414835d259c150ed6b9b266f9dfd4f408cf3ff7b1cc7b1
+      citation_health:
+        last_checked: '2026-09-05'
+        status: unchecked
+      shader_compile:
+        sksl: ok
+        glsl: unchecked
+        checked: '2026-09-05'
+      review:
+        approved_by: pixel_regression_tests
+        batch: recursive_crystals_2026_09
+      confidence: 1.0
+  - id: tetrahedral_orbit_lantern
+    name: Tetrahedral Orbit Lantern
+    shader: shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag
+    category: 3D Fractals
+    dimension: 3D
+    defaultPower: 2.0
+    defaultIterations: 4.0
+    defaultSteps: 140.0
+    defaultBailout: 5.5
+    defaultColorScheme: 2
+    hasThumbnail: false
+    implemented: true
+    presets: [tetrahedral_orbit_lantern-classic]
+    variants: []
+    references: []
+    tier: implemented
+    formula_hash: sha256:746984279f79b1f63466b1feb06f551939c9301b0d6f498573e41825f2af8d35
+    quality:
+      formula_hash: sha256:746984279f79b1f63466b1feb06f551939c9301b0d6f498573e41825f2af8d35
+      citation_health:
+        last_checked: '2026-09-05'
+        status: unchecked
+      shader_compile:
+        sksl: ok
+        glsl: unchecked
+        checked: '2026-09-05'
+      review:
+        approved_by: pixel_regression_tests
+        batch: recursive_crystals_2026_09
+      confidence: 1.0
+  - id: cantor_cross_crystal
+    name: Cantor Cross Crystal
+    shader: shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag
+    category: 3D Fractals
+    dimension: 3D
+    defaultPower: 3.0
+    defaultIterations: 4.0
+    defaultSteps: 140.0
+    defaultBailout: 5.5
+    defaultColorScheme: 1
+    hasThumbnail: false
+    implemented: true
+    presets: [cantor_cross_crystal-classic]
+    variants: []
+    references: []
+    tier: implemented
+    formula_hash: sha256:14f4015c968c939275749c65725b31b9f78d43053c8e571915b2bc38e77a44bd
+    quality:
+      formula_hash: sha256:14f4015c968c939275749c65725b31b9f78d43053c8e571915b2bc38e77a44bd
+      citation_health:
+        last_checked: '2026-09-05'
+        status: unchecked
+      shader_compile:
+        sksl: ok
+        glsl: unchecked
+        checked: '2026-09-05'
+      review:
+        approved_by: pixel_regression_tests
+        batch: recursive_crystals_2026_09
+      confidence: 1.0
   - id: dual_quaternion_julia
     name: Dual-Quaternion Julia
     shader: shaders/3d_and_hypercomplex/raymarched_volumes/dual_quaternion_julia_gpu.frag
@@ -330,10 +420,10 @@ fractals:
       formula_hash: sha256:6588dbc28f07bb60ca61a11551123241e833ca082462204b03330b4a7d88bdc5
       citation_health:
         last_checked: '2026-09-03'
-        status: visual_lead_unverified_license_unknown
+        status: warn # Visual lead remains unverified; license unknown
       shader_compile:
         sksl: unchecked
-        glsl: checked
+        glsl: unchecked # Prior metadata recorded a check without a pass/fail result
         checked: '2026-09-03'
       thumbnail:
         entropy: 0.0

@@ -2,7 +2,7 @@
 
 precision highp float;
 
-// Five original, sampler-free recursive objects. The common visual grammar is
+// Eight original, sampler-free recursive objects. The common visual grammar is
 // intentionally simple: one mathematical sculpture, slow object-space motion,
 // dense analytic detail, an emissive near-miss halo, and genuine black space.
 // No preset, feedback texture, waveform, FFT, media frame, or external asset is
@@ -17,7 +17,7 @@ uniform float uIterations;    // 10: recursive depth
 uniform float uSteps;         // 11: sphere-tracing budget
 uniform float uBailout;       // 12: march reach and halo response
 uniform float uColorScheme;   // 13
-uniform float uFractalType;   // 14: 0 Cayley, 1 gyroid, 2 Mobius, 3 Fibonacci, 4 Chebyshev
+uniform float uFractalType;   // 14: 0-4 original objects, 5 octahedral, 6 tetrahedral, 7 Cantor cross
 uniform float uTransparentBg; // 15
 
 out vec4 fragColor;
@@ -292,6 +292,76 @@ float chebyshevLanternDistance(vec3 point, out float orbit) {
   return max(distanceValue, length(point) - 1.04);
 }
 
+// Six-branch octahedral IFS with a faceted seed. Reflections and axis sorting
+// select the nearest branch without enumerating an exponential tree.
+float octahedralCrystalDistance(vec3 point, out float orbit) {
+  vec3 q = point;
+  float scale = clamp(uPower, 2.2, 3.4);
+  float inverseScale = 1.0;
+  orbit = 10.0;
+  int depth = int(clamp(floor(uIterations + 0.5), 2.0, 6.0));
+  for (int level = 0; level < 6; level++) {
+    if (level >= depth) break;
+    q = abs(q);
+    if (q.x < q.y) q.xy = q.yx;
+    if (q.x < q.z) q.xz = q.zx;
+    orbit = min(orbit, length(q.yz) * inverseScale);
+    q = q * scale - vec3(scale - 1.0, 0.0, 0.0);
+    inverseScale /= scale;
+  }
+  return (dot(abs(q), vec3(1.0)) - 1.0) * 0.577350269 * inverseScale;
+}
+
+// Tetrahedral fold IFS with a hollow triangular-frame seed instead of a solid
+// tetrahedron. The recursion creates nested illuminated triangular chambers.
+float tetrahedralLanternDistance(vec3 point, out float orbit) {
+  vec3 q = point;
+  float scale = clamp(uPower, 1.9, 2.6);
+  float inverseScale = 1.0;
+  orbit = 10.0;
+  int depth = int(clamp(floor(uIterations + 0.5), 2.0, 6.0));
+  for (int level = 0; level < 6; level++) {
+    if (level >= depth) break;
+    if (q.x + q.y < 0.0) q.xy = -q.yx;
+    if (q.x + q.z < 0.0) q.xz = -q.zx;
+    if (q.y + q.z < 0.0) q.zy = -q.yz;
+    orbit = min(orbit, length(q) * inverseScale);
+    q = scale * q - vec3(scale - 1.0) * 0.58;
+    inverseScale /= scale;
+  }
+  vec3 a = vec3(0.58, 0.58, 0.58);
+  vec3 b = vec3(-0.58, -0.58, 0.58);
+  vec3 c = vec3(-0.58, 0.58, -0.58);
+  vec3 d = vec3(0.58, -0.58, -0.58);
+  float edge = min(sdCapsule(q, a, b, 0.14), sdCapsule(q, a, c, 0.14));
+  edge = min(edge, sdCapsule(q, a, d, 0.14));
+  edge = min(edge, sdCapsule(q, b, c, 0.14));
+  edge = min(edge, sdCapsule(q, b, d, 0.14));
+  edge = min(edge, sdCapsule(q, c, d, 0.14));
+  return edge * inverseScale;
+}
+
+// Corner-folded Cantor construction with a three-axis capsule cross at each
+// level. The union retains large ribs while adding successively smaller ones.
+float cantorCrossDistance(vec3 point, out float orbit) {
+  vec3 q = point;
+  float scale = clamp(uPower, 2.5, 3.5);
+  float inverseScale = 1.0;
+  float distanceValue = 10.0;
+  orbit = 10.0;
+  int depth = int(clamp(floor(uIterations + 0.5), 2.0, 6.0));
+  for (int level = 0; level < 6; level++) {
+    if (level >= depth) break;
+    float crossDistance = min(length(q.xy), min(length(q.xz), length(q.yz))) - 0.09;
+    crossDistance = max(crossDistance, max(abs(q.x), max(abs(q.y), abs(q.z))) - 0.82);
+    distanceValue = min(distanceValue, crossDistance * inverseScale);
+    orbit = min(orbit, abs(crossDistance) * inverseScale);
+    q = abs(q) * scale - vec3(1.35);
+    inverseScale /= scale;
+  }
+  return max(distanceValue, length(point) - 1.15);
+}
+
 float objectDistance(vec3 point, out float orbit) {
   float spin = uTime * 3.2;
   mat3 automaticTurn = rotationMatrix(vec3(
@@ -300,7 +370,10 @@ float objectDistance(vec3 point, out float orbit) {
     spin * 0.23
   ));
   vec3 q = automaticTurn * point;
-  int construction = int(clamp(floor(uFractalType + 0.5), 0.0, 4.0));
+  int construction = int(clamp(floor(uFractalType + 0.5), 0.0, 7.0));
+  if (construction == 5) return octahedralCrystalDistance(q, orbit);
+  if (construction == 6) return tetrahedralLanternDistance(q, orbit);
+  if (construction == 7) return cantorCrossDistance(q, orbit);
   if (construction == 1) return gyroidReliquaryDistance(q, orbit);
   if (construction == 2) return mobiusEchoDistance(q, orbit);
   if (construction == 3) return fibonacciConeDistance(q, orbit);
@@ -385,7 +458,10 @@ void main() {
     float diffuse = max(dot(normal, lightDirection), 0.0);
     float rim = pow(1.0 - max(dot(normal, viewDirection), 0.0), 2.2);
     float specular = pow(max(dot(normal, halfDirection), 0.0), 54.0);
-    float phase = hitOrbit * 1.9 + 0.10 * length(samplePoint) + hitStep / max(uSteps, 1.0);
+    // Material coordinates come from geometry, never solver convergence speed.
+    // Otherwise increasing the quality budget recolors a converged surface and
+    // neighboring rays acquire noisy, unrelated hues.
+    float phase = hitOrbit * 1.9 + 0.10 * length(samplePoint);
     vec3 base = palette(phase, uColorScheme);
     float sparkle = pow(
       max(0.0, 0.5 + 0.5 * sin(hitOrbit * 93.0 + dot(samplePoint, vec3(31.0, 37.0, 43.0)))),

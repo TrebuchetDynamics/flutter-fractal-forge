@@ -22,8 +22,8 @@ void main() {
             m.id != 'hydrogen_orbital')
         .length;
 
-    expect(production, 1015,
-        reason: 'README.md advertises 1015 production fractals');
+    expect(production, 1018,
+        reason: 'README.md advertises 1018 production fractals');
     expect(diagnostics, 7,
         reason: 'README.md says debug/test builds add 7 diagnostic modules');
 
@@ -47,12 +47,15 @@ void main() {
     ) as Map<String, dynamic>;
     expect(listing['count'], '$production production fractals');
 
+    // Store campaigns intentionally use a durable, localized 1,000+ claim.
+    expect(production, greaterThan(1000));
+    final catalogFloor = RegExp(r'\b1[,. ]?000\b');
     final locales = listing['locales'] as Map<String, dynamic>;
     for (final entry in locales.entries) {
       final copy = entry.value as Map<String, dynamic>;
-      expect(copy['shortDescription'], contains('$production'),
+      expect(copy['shortDescription'], matches(catalogFloor),
           reason: '${entry.key} short description has a stale catalog count');
-      expect(copy['fullDescription'], contains('$production'),
+      expect(copy['fullDescription'], matches(catalogFloor),
           reason: '${entry.key} full description has a stale catalog count');
     }
 

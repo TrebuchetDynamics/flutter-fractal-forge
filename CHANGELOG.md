@@ -7,7 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Octahedral Crystal Bloom, Tetrahedral Orbit Lantern, and Cantor Cross Crystal:
+  three animated 3D recursive constructions with adjustable scale and depth.
+  The production catalog now contains 1,018 fractals.
+
 ### Improved
+
+- Recursive 3D sculpture colors now follow geometry instead of ray-march step
+  counts, reducing speckling and preventing quality changes from recoloring surfaces.
+- Missing palette services now use a readable grayscale gradient instead of a
+  solid-black sampler, preserving fractal structure during fallback rendering.
 
 - Pinch-zoom inertia uses elapsed time across the fractal viewer, preserving
   consistent travel on high-refresh displays and delayed frames. 2D zoom keeps

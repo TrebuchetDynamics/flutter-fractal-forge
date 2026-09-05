@@ -8,6 +8,7 @@ import 'package:flutter_fractals/core/modules/builders/raymarched_3d/catalog.dar
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:image/image.dart' as img;
 
 import '../helpers/render_test_shader.dart';
 
@@ -19,6 +20,9 @@ const _ids = <String>[
   'mobius_echo_nest',
   'fibonacci_cone_bloom',
   'chebyshev_nodal_lantern',
+  'octahedral_crystal_bloom',
+  'tetrahedral_orbit_lantern',
+  'cantor_cross_crystal',
 ];
 const _productionSecond = 1000.0 / 86400.0;
 
@@ -88,7 +92,7 @@ int _differingAlphaPixels(Uint8List a, Uint8List b) {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  test('catalog exposes five fixed recursive-object identities', () {
+  test('catalog exposes eight fixed recursive-object identities', () {
     final configs = raymarched3DCatalog
         .where((config) => _ids.contains(config.id))
         .toList(growable: false);
@@ -97,7 +101,7 @@ void main() {
     expect(configs.map((config) => config.id), _ids);
     expect(
       configs.map((config) => config.defaultFractalType),
-      orderedEquals([0, 1, 2, 3, 4]),
+      orderedEquals([0, 1, 2, 3, 4, 5, 6, 7]),
     );
     for (final config in configs) {
       final module = registry.byId(config.id);
@@ -331,6 +335,31 @@ void main() {
       expect(visible, greaterThan(size * size ~/ 100), reason: id);
     }
   }, timeout: const Timeout(Duration(minutes: 2)));
+
+  test('converged surface colors do not change with a larger march budget',
+      () async {
+    const size = 64;
+    final program = await ui.FragmentProgram.fromAsset(_shaderAsset);
+    final config = raymarched3DCatalog
+        .singleWhere((entry) => entry.id == 'cantor_cross_crystal');
+    final first = await _render(program, config, size: size, steps: 180);
+    final second = await _render(program, config, size: size, steps: 200);
+    expect(_differingPixels(first, second), lessThan(size * size ~/ 20));
+  });
+
+  test('export recursive crystal review images', () async {
+    const size = 384;
+    final program = await ui.FragmentProgram.fromAsset(_shaderAsset);
+    final directory = Directory('test/results/recursive-crystals')
+      ..createSync(recursive: true);
+    for (final id in _ids.skip(5)) {
+      final config = raymarched3DCatalog.singleWhere((entry) => entry.id == id);
+      final bytes = await _render(program, config, size: size);
+      final image = img.Image.fromBytes(
+          width: size, height: size, bytes: bytes.buffer, numChannels: 4);
+      File('${directory.path}/$id.png').writeAsBytesSync(img.encodePng(image));
+    }
+  }, skip: !const bool.fromEnvironment('EXPORT_CRYSTAL_REVIEW'));
 
   test('research package records source coverage and asset boundaries', () {
     const base = 'research/milkdrop-carpathian-fractals';

@@ -872,6 +872,76 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
     defaultFractalType: 4,
   ),
 
+  // Recursive crystal constructions.
+  Raymarched3DConfig(
+    id: 'octahedral_crystal_bloom',
+    name: 'Octahedral Crystal Bloom',
+    shaderAsset:
+        'shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag',
+    category: '3D Fractals',
+    animationCapability: FractalAnimationCapability.timeDriven,
+    defaultPower: 2.7,
+    minPower: 2.2,
+    maxPower: 3.4,
+    powerLabel: 'Branch Scale',
+    defaultIterations: 4,
+    minIterations: 2,
+    maxIterations: 6,
+    defaultSteps: 140,
+    defaultBailout: 5.5,
+    defaultColorScheme: 0,
+    defaultZoom: 1.02,
+    defaultRotationX: 0.26,
+    defaultRotationY: -0.38,
+    defaultFractalType: 5,
+  ),
+
+  Raymarched3DConfig(
+    id: 'tetrahedral_orbit_lantern',
+    name: 'Tetrahedral Orbit Lantern',
+    shaderAsset:
+        'shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag',
+    category: '3D Fractals',
+    animationCapability: FractalAnimationCapability.timeDriven,
+    defaultPower: 2.0,
+    minPower: 1.9,
+    maxPower: 2.6,
+    powerLabel: 'Branch Scale',
+    defaultIterations: 4,
+    minIterations: 2,
+    maxIterations: 6,
+    defaultSteps: 140,
+    defaultBailout: 5.5,
+    defaultColorScheme: 2,
+    defaultZoom: 1.02,
+    defaultRotationX: 0.26,
+    defaultRotationY: -0.38,
+    defaultFractalType: 6,
+  ),
+
+  Raymarched3DConfig(
+    id: 'cantor_cross_crystal',
+    name: 'Cantor Cross Crystal',
+    shaderAsset:
+        'shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag',
+    category: '3D Fractals',
+    animationCapability: FractalAnimationCapability.timeDriven,
+    defaultPower: 3.0,
+    minPower: 2.5,
+    maxPower: 3.5,
+    powerLabel: 'Branch Scale',
+    defaultIterations: 4,
+    minIterations: 2,
+    maxIterations: 6,
+    defaultSteps: 140,
+    defaultBailout: 5.5,
+    defaultColorScheme: 1,
+    defaultZoom: 1.02,
+    defaultRotationX: 0.26,
+    defaultRotationY: -0.38,
+    defaultFractalType: 7,
+  ),
+
   // ── Mandelbulb Family ──────────────────────────
 
   Raymarched3DConfig(

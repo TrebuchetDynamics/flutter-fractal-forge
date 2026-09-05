@@ -83,13 +83,21 @@ class PaletteShaderAdapter {
   ui.Image _createFallbackSamplerTexture() {
     final rec = ui.PictureRecorder();
     final canvas = ui.Canvas(rec);
+    // A missing palette must preserve fractal structure instead of turning
+    // every sampler lookup black. Match the model's black-to-white fallback.
+    const rect = ui.Rect.fromLTWH(0, 0, 256, 1);
     canvas.drawRect(
-      const ui.Rect.fromLTWH(0, 0, 1, 1),
-      ui.Paint()..color = const ui.Color(0xFF000000),
-    );
+        rect,
+        ui.Paint()
+          ..shader = ui.Gradient.linear(
+            const ui.Offset(0, 0),
+            const ui.Offset(256, 0),
+            fallbackFractalPaletteStops.map((stop) => stop.color).toList(),
+            fallbackFractalPaletteStops.map((stop) => stop.position).toList(),
+          ));
     final picture = rec.endRecording();
     try {
-      return picture.toImageSync(1, 1);
+      return picture.toImageSync(256, 1);
     } finally {
       picture.dispose();
     }
