@@ -22,6 +22,7 @@ import '../../models/fractal_render_snapshot.dart';
 import 'input/gesture_view_bounds.dart';
 import 'input/gesture_tap_classification.dart';
 import 'input/pan_momentum.dart';
+import 'input/zoom_momentum.dart';
 import '../../palette_transition.dart';
 import '../../renderer_ticker_policy.dart';
 import '../../policy/precision_ladder_policy.dart';

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Improved
+
+- Pinch-zoom inertia uses elapsed time across the fractal viewer, preserving
+  consistent travel on high-refresh displays and delayed frames. 2D zoom keeps
+  the released pinch midpoint anchored; inertia stops cleanly at zoom limits.
+
 ## [1.1.104] - 2026-09-04
 
 ### Improved

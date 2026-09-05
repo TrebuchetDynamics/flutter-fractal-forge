@@ -23,6 +23,8 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
   late AnimationController _zoomMomentumController;
   late AnimationController _panMomentumController;
   double _zoomVelocity = 0.0;
+  Duration _zoomMomentumElapsed = Duration.zero;
+  Offset _zoomMomentumFocal = Offset.zero;
   Offset _panVelocity = Offset.zero;
   Duration _panMomentumElapsed = Duration.zero;
   double _lastScale = 1.0;
@@ -112,35 +114,48 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
 
   void _applyZoomMomentum() {
     if (!mounted) return;
-    if (!_zoomMomentumController.isAnimating) return;
+    if (!_zoomMomentumController.isAnimating &&
+        _zoomMomentumController.status != AnimationStatus.completed) return;
 
-    final controller = context.read<FractalController>();
-    final view = controller.view;
-
-    // Google Maps spec: zoom friction 0.92 per frame
-    _zoomVelocity = _zoomVelocity * 0.92;
-
-    // Stop threshold: 0.0001 zoom levels/ms
-    if (_zoomVelocity.abs() < 0.0001) {
+    final elapsed = _zoomMomentumController.lastElapsedDuration ??
+        (_zoomMomentumController.status == AnimationStatus.completed
+            ? _zoomMomentumController.duration!
+            : Duration.zero);
+    final step = RendererZoomMomentum.advance(
+      _zoomVelocity,
+      elapsed - _zoomMomentumElapsed,
+    );
+    _zoomMomentumElapsed = elapsed;
+    _zoomVelocity = step.velocity;
+    if (step.logZoomDelta == 0) {
+      if (_zoomVelocity != 0) return;
       _zoomMomentumController.stop();
-      _zoomVelocity = 0.0;
       _completeGestureEndIfIdle();
       return;
     }
 
-    // Apply zoom velocity (in zoom levels)
-    final proposedZoom = view.zoom * math.pow(2, _zoomVelocity * 0.016);
-    final boundedZoom =
-        _rubberBand(proposedZoom.toDouble(), _kMinZoom, _kMaxZoom);
-    final hitZoomBoundary =
-        boundedZoom <= _kMinZoom || boundedZoom >= _kMaxZoom;
-    if (hitZoomBoundary) {
-      _zoomVelocity *= 0.5;
+    final controller = context.read<FractalController>();
+    final view = controller.view;
+    final targetZoom = (view.zoom * math.pow(2, step.logZoomDelta))
+        .clamp(_kMinZoom, _kMaxZoom)
+        .toDouble();
+    if (controller.module.dimension == FractalDimension.threeD) {
+      // 3D pinch controls camera distance, not a point in the complex plane.
+      controller.updateView(view.copyWith(zoom: targetZoom),
+          adaptIterationsForZoom: true);
+    } else {
+      _applyZoomAroundFocal(
+          controller: controller,
+          targetZoom: targetZoom,
+          focalPoint: _zoomMomentumFocal);
     }
-    controller.updateView(
-      view.copyWith(zoom: boundedZoom),
-      adaptIterationsForZoom: true,
-    );
+    if (_zoomVelocity == 0 ||
+        targetZoom == _kMinZoom ||
+        targetZoom == _kMaxZoom) {
+      _zoomMomentumController.stop();
+      _zoomVelocity = 0;
+      _completeGestureEndIfIdle();
+    }
   }
 
   void _onMomentumStatusChanged(AnimationStatus _) {
@@ -455,6 +470,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     }
 
     // --- 2+ fingers: pinch zoom + rotate + tilt ---
+    _zoomMomentumFocal = localFocal;
     final newZoom =
         _rubberBand(_startZoom * details.scale, _kMinZoom, _kMaxZoom);
 
@@ -582,6 +598,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
 
     // Zoom momentum - spec threshold 0.01 zoom levels/ms
     if (_zoomVelocity.abs() > 0.01) {
+      _zoomMomentumElapsed = Duration.zero;
       _zoomMomentumController.duration = const Duration(seconds: 2);
       _zoomMomentumController.forward(from: 0);
     }

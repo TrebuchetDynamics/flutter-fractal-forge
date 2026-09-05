@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
+import 'package:flutter_fractals/features/renderer/widgets/renderer/input/gesture_view_bounds.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -138,6 +139,130 @@ void main() {
         }
       }
     }
+  });
+
+  testWidgets('pinch inertia is frame-independent and keeps its 2D focal point',
+      (tester) async {
+    for (final moduleId in ['mandelbrot', 'mandelbulb']) {
+      for (final total in [320000, 2000000]) {
+        double? expectedZoom;
+        for (final cadence in [8333, 16667, 33333, 100000]) {
+          final registry = ModuleRegistry();
+          final controller = FractalController(registry);
+          controller.selectModule(
+              registry.modules.firstWhere((module) => module.id == moduleId));
+          controller.updateView(controller.view.copyWith(
+              zoom: 10, pan: Vector2.zero(), rotation: Vector3.zero()));
+          await tester.pumpWidget(buildTestWidget(controller));
+          await tester.pumpAndSettle();
+          final renderer = find.byType(FractalRenderer);
+          final detector = tester
+              .widgetList<GestureDetector>(find.descendant(
+                of: renderer,
+                matching: find.byType(GestureDetector),
+              ))
+              .firstWhere((widget) => widget.onScaleUpdate != null);
+          final focal = tester.getCenter(renderer) + const Offset(50, -30);
+          detector.onScaleStart!(
+              ScaleStartDetails(focalPoint: focal, pointerCount: 2));
+          detector.onScaleUpdate!(
+              ScaleUpdateDetails(focalPoint: focal, pointerCount: 2, scale: 2));
+          final releasedZoom = controller.view.zoom;
+          final n = Vector2(50 / 300, -30 / 300);
+          final world = controller.view.pan + n / releasedZoom;
+          detector.onScaleEnd!(ScaleEndDetails());
+          await tester.pump();
+          var elapsed = 0;
+          while (elapsed < total) {
+            final dt = (total - elapsed).clamp(0, cadence);
+            await tester.pump(Duration(microseconds: dt));
+            elapsed += dt;
+          }
+          expect(controller.view.zoom, greaterThan(releasedZoom));
+          expectedZoom ??= controller.view.zoom;
+          expect(controller.view.zoom, closeTo(expectedZoom, 1e-9),
+              reason: '$moduleId total=$total cadence=$cadence');
+          if (moduleId == 'mandelbrot') {
+            expect(
+                (controller.view.pan + n / controller.view.zoom - world).length,
+                lessThan(1e-12),
+                reason: 'the released focal point must not drift');
+          }
+          await tester.pumpWidget(const SizedBox.shrink());
+          controller.dispose();
+        }
+      }
+    }
+  });
+
+  testWidgets('pinch inertia stops at zoom limits and ends interaction once',
+      (tester) async {
+    for (final zoomIn in [true, false]) {
+      final controller = FractalController(ModuleRegistry());
+      final limit = zoomIn
+          ? RendererGestureViewBounds.maxZoom
+          : RendererGestureViewBounds.minZoom;
+      controller.updateView(
+          controller.view.copyWith(zoom: zoomIn ? limit / 2 : limit * 2));
+      var ends = 0;
+      await tester.pumpWidget(
+          buildTestWidget(controller, onUserInteractionEnd: () => ends++));
+      await tester.pumpAndSettle();
+      final renderer = find.byType(FractalRenderer);
+      final detector = tester
+          .widgetList<GestureDetector>(find.descendant(
+              of: renderer, matching: find.byType(GestureDetector)))
+          .firstWhere((widget) => widget.onScaleUpdate != null);
+      final focal = tester.getCenter(renderer);
+      detector
+          .onScaleStart!(ScaleStartDetails(focalPoint: focal, pointerCount: 2));
+      detector.onScaleUpdate!(ScaleUpdateDetails(
+          focalPoint: focal, pointerCount: 2, scale: zoomIn ? 2 : 0.5));
+      detector.onScaleEnd!(ScaleEndDetails());
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 16));
+      expect(controller.view.zoom, limit);
+      expect(ends, 1);
+      await tester.pump(const Duration(seconds: 2));
+      expect(controller.view.zoom, limit);
+      expect(ends, 1);
+      await tester.pumpWidget(const SizedBox.shrink());
+      controller.dispose();
+    }
+  });
+
+  testWidgets(
+      'a new gesture cancels pinch inertia without ending the new gesture',
+      (tester) async {
+    final controller = FractalController(ModuleRegistry());
+    var ends = 0;
+    await tester.pumpWidget(
+        buildTestWidget(controller, onUserInteractionEnd: () => ends++));
+    await tester.pumpAndSettle();
+    final renderer = find.byType(FractalRenderer);
+    final detector = tester
+        .widgetList<GestureDetector>(find.descendant(
+            of: renderer, matching: find.byType(GestureDetector)))
+        .firstWhere((widget) => widget.onScaleUpdate != null);
+    final focal = tester.getCenter(renderer);
+    detector
+        .onScaleStart!(ScaleStartDetails(focalPoint: focal, pointerCount: 2));
+    detector.onScaleUpdate!(
+        ScaleUpdateDetails(focalPoint: focal, pointerCount: 2, scale: 2));
+    detector.onScaleEnd!(ScaleEndDetails());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 80));
+    expect(ends, 0);
+    detector
+        .onScaleStart!(ScaleStartDetails(focalPoint: focal, pointerCount: 1));
+    final held = controller.view.zoom;
+    await tester.pump(const Duration(seconds: 2));
+    expect(controller.view.zoom, held);
+    expect(ends, 0);
+    detector.onScaleEnd!(ScaleEndDetails());
+    expect(ends, 1);
+    await tester.pumpWidget(const SizedBox.shrink());
+    controller.dispose();
   });
 
   testWidgets('interaction end waits until pinch momentum stops',
