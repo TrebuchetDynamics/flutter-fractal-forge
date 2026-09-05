@@ -10,7 +10,7 @@ Fractal Forge targets the official F-Droid catalog with reproducible builds. F-D
 2. validates the upstream Fastlane listing and version-code changelog;
 3. builds `armeabi-v7a`, `arm64-v8a`, and `x86_64` release APKs with `FDROID_BUILD=1`, which disables upstream signing;
 4. checks each APK's application ID, version name, ABI, derived version code (`base * 10 + {1,2,3}`), and absence of a signature;
-5. deletes build output, builds all three a second time with the release commit timestamp as `SOURCE_DATE_EPOCH`, and requires byte-for-byte equality;
+5. deletes build output, builds all three a second time, and requires byte-for-byte equality;
 6. creates a deterministic fdroiddata metadata archive bound to the full release commit and the upstream reference-binary URLs.
 
 The GitLab `fdroid` and `fdroid-scan` jobs repeat the source-build and reproducibility gates, then run official `fdroid lint` and `fdroid scanner` checks before release publication. Start the pipeline with root `release.sh`.

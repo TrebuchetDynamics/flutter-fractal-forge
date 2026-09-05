@@ -550,7 +550,7 @@ stage_android_build() {
     die "Built Android identity '${built_name}+${built_number}' does not match confirmed '${RESOLVED_ANDROID_VERSION}+${RESOLVED_ANDROID_BUILD_NUMBER}'"
 
   local latest_aab staged_aab target_spec abi abi_code artifact preflight_evidence
-  local repro_root source_epoch
+  local repro_root
   local android_evidence_args=()
   latest_aab="$(tr -d '\r\n' < play-console-upload/LATEST_AAB.txt)"
   [[ -f "$latest_aab" ]] || die "Built AAB not found: $latest_aab"
@@ -565,7 +565,6 @@ stage_android_build() {
 
   rm -f "$ARTIFACT_DIR"/fractal-forge-android-*-v*.apk
   repro_root=/tmp/fractal-forge-reproducible
-  source_epoch="$(git show -s --format=%ct HEAD)"
   rm -rf "$repro_root"
   git clone --no-local "$PROJECT_ROOT" "$repro_root"
   git -C "$repro_root" checkout --detach "$(git rev-parse HEAD)"
@@ -574,8 +573,7 @@ stage_android_build() {
     cd "$repro_root"
     export PUB_CACHE="$(pwd)/.pub-cache"
     "$FLUTTER_BIN" pub get --enforce-lockfile
-    env SOURCE_DATE_EPOCH="$source_epoch" \
-      "$FLUTTER_BIN" build apk --release --split-per-abi \
+    "$FLUTTER_BIN" build apk --release --split-per-abi \
         --build-name="$RESOLVED_ANDROID_VERSION" \
         --build-number="$RESOLVED_ANDROID_BUILD_NUMBER"
   )

@@ -130,7 +130,6 @@ render_build_block() {
   - versionName: $VERSION
     versionCode: $version_code
     commit: $COMMIT
-    timeout: 3600
     output: build/app/outputs/flutter-apk/app-$abi-release.apk
     binary:
       https://github.com/TrebuchetDynamics/flutter-fractal-forge/releases/download/v%v/fractal-forge-android-$abi-v%v.apk
@@ -170,11 +169,8 @@ render_build_block() {
       - pushd \$repo
       - export PUB_CACHE="\$(pwd)/.pub-cache"
       - export FDROID_BUILD=1
-      - export SOURCE_DATE_EPOCH=\$(git show -s --format=%ct HEAD)
-      - version_name=\$(sed -n 's/^versionName=//p' fdroid/version.properties)
-      - version_code=\$(sed -n 's/^versionCode=//p' fdroid/version.properties)
       - \$\$flutter\$\$/bin/flutter build apk --release --split-per-abi --target-platform="$target"
-        --build-name="\$version_name" --build-number="\$version_code"
+        --build-name=\$\$VERSION\$\$ --build-number=\$(( \$\$VERCODE\$\$ / 10 ))
       - popd
       - mv \$repo $PACKAGE_ID
     ndk: r28c
@@ -249,8 +245,7 @@ build_apks() {
   fi
   (
     cd "$PROJECT_ROOT"
-    env SOURCE_DATE_EPOCH="$source_epoch" FDROID_BUILD=1 \
-      "$FLUTTER_BIN" build apk --release --split-per-abi \
+    env FDROID_BUILD=1 "$FLUTTER_BIN" build apk --release --split-per-abi \
         --build-name="$VERSION" --build-number="$BUILD_NUMBER"
   )
 }
