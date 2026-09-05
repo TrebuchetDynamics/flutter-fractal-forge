@@ -1,0 +1,219 @@
+# GitLab is the only CI executor. GitHub is a source/release mirror.
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_OPEN_MERGE_REQUESTS && $CI_COMMIT_BRANCH'
+      when: never
+    - if: '$CI_COMMIT_BRANCH'
+
+stages: [validate, build, evidence, publish, deploy]
+
+variables:
+  GIT_DEPTH: "0"
+  PUB_CACHE: "$CI_PROJECT_DIR/.pub-cache"
+  RELEASE_MODE: "none"
+  PLAY_TRACK: "internal"
+  PLAY_RELEASE_STATUS: "draft"
+  GH_REPO: "TrebuchetDynamics/flutter-fractal-forge"
+  GITHUB_RELEASE_REMOTE: "https://github.com/TrebuchetDynamics/flutter-fractal-forge.git"
+  CLOUDFLARE_PAGES_PROJECT: "flutter-fractal-forge"
+
+default:
+  image: ghcr.io/cirruslabs/flutter:3.44.6
+  tags: [saas-linux-medium-amd64]
+  timeout: 1h
+  interruptible: true
+
+.linux:
+  before_script:
+    - git config --global --add safe.directory "$CI_PROJECT_DIR"
+    - test "$(cat fdroid/flutter.version)" = 3.44.6
+    - flutter --version
+    - apt-get update -qq && apt-get install -y --no-install-recommends bats clang cmake ninja-build pkg-config libgtk-3-dev python3-venv unzip
+  cache:
+    key:
+      files: [pubspec.lock, fdroid/flutter.version]
+      prefix: linux-flutter
+    paths: [.pub-cache/]
+
+.release:
+  interruptible: false
+  rules:
+    - if: '$CI_COMMIT_REF_PROTECTED == "true" && ($CI_PIPELINE_SOURCE == "api" || $CI_PIPELINE_SOURCE == "web") && ($RELEASE_MODE == "prepare" || $RELEASE_MODE == "publish")'
+  artifacts:
+    expire_in: 7 days
+    paths: [release-artifacts/]
+
+.publish:
+  extends: [.linux, .release]
+  rules:
+    - if: '$CI_COMMIT_REF_PROTECTED == "true" && ($CI_PIPELINE_SOURCE == "api" || $CI_PIPELINE_SOURCE == "web") && $RELEASE_MODE == "publish"'
+  resource_group: production-release
+
+validate:
+  extends: .linux
+  stage: validate
+  script:
+    - scripts/audit-tracked-artifacts.sh
+    - env -u GITLAB_CI bats test/scripts/*.bats
+    - python3 -m unittest discover -s test/scripts -p 'test_*.py'
+    - flutter pub get --enforce-lockfile
+    - flutter analyze
+    - flutter test
+
+research:
+  extends: .linux
+  stage: validate
+  script:
+    - python3 -m venv /tmp/research-venv
+    - source /tmp/research-venv/bin/activate
+    - pip install -r scripts/research/requirements.txt
+    - pytest test/research -v --tb=short
+    - python3 scripts/research/forge.py doctor -v
+    - python3 scripts/research/forge.py doctor --strict-app-catalog
+    - flutter pub get --enforce-lockfile
+    - bash scripts/ci/research-emit.sh
+
+integration:
+  inherit:
+    default: [timeout, interruptible]
+  stage: validate
+  tags: [fractal-android-device]
+  resource_group: android-device
+  interruptible: false
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_REF_PROTECTED == "true"'
+  script:
+    - flutter pub get --enforce-lockfile
+    - flutter test integration_test/flows/user_flows_test.dart integration_test/flows/critical_journey_test.dart integration_test/rendering/render_validation_test.dart integration_test/performance/perf_smoke_test.dart integration_test/accessibility/semantics_audit_test.dart
+
+release-preflight:
+  extends: [.linux, .release]
+  stage: validate
+  script:
+    - source scripts/ci/identity.sh
+    - test -n "$ANDROID_KEYSTORE_BASE64" && test -f "$ANDROID_KEY_PROPERTIES_FILE"
+    - |
+      if [[ "$RELEASE_MODE" == publish ]]; then
+        test -f "$PLAY_SERVICE_ACCOUNT_JSON"
+        test -n "$GH_TOKEN" && test -n "$CLOUDFLARE_API_TOKEN"
+      fi
+
+android:
+  extends: [.linux, .release]
+  stage: build
+  script: ["bash scripts/ci/build.sh android"]
+  artifacts:
+    expire_in: 7 days
+    paths: [release-artifacts/, play-console-upload/LATEST_BUILD_INFO.txt]
+
+device-gate:
+  inherit:
+    default: [timeout, interruptible]
+  extends: .release
+  stage: build
+  # A protected shell runner with Flutter, Android SDK, signing access and a
+  # connected Android device. Never allow untrusted MR jobs on this runner.
+  tags: [fractal-android-device]
+  resource_group: android-device
+  timeout: 2h
+  script: ["bash scripts/ci/build.sh device"]
+  artifacts:
+    when: always
+    expire_in: 7 days
+    paths: [release-artifacts/final-device-gate/]
+
+linux:
+  extends: [.linux, .release]
+  stage: build
+  script: ["bash scripts/ci/build.sh linux"]
+
+web:
+  extends: [.linux, .release]
+  stage: build
+  script: ["bash scripts/ci/build.sh web"]
+
+fdroid:
+  extends: [.linux, .release]
+  stage: build
+  script: ["bash scripts/ci/build.sh fdroid"]
+
+windows:
+  inherit:
+    default: [timeout, interruptible]
+  extends: .release
+  stage: build
+  tags: [saas-windows-medium-amd64]
+  script:
+    - '& "C:\Program Files\Git\bin\bash.exe" scripts/ci/native-build.sh windows'
+    - 'if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }'
+
+apple:
+  extends: .release
+  stage: build
+  image: macos-15-xcode-16
+  tags: [saas-macos-medium-m1]
+  parallel:
+    matrix:
+      - APPLE_PLATFORM: [macos, ios]
+  script: ['bash scripts/ci/native-build.sh "$APPLE_PLATFORM"']
+
+fdroid-scan:
+  extends: .release
+  stage: evidence
+  image:
+    name: registry.gitlab.com/fdroid/docker-executable-fdroidserver@sha256:2ad114edee50aad92fcc83fe7d801d8922780a021db070ae9f4c49f6f647c037
+    entrypoint: [""]
+  needs: [fdroid]
+  script: ["bash scripts/ci/fdroid-scan.sh"]
+  artifacts:
+    paths: [release-artifacts/fdroid/]
+
+evidence:
+  extends: [.linux, .release]
+  stage: evidence
+  # Stage barrier waits for ALL builds, including the Android device gate.
+  script:
+    - source scripts/ci/identity.sh
+    - scripts/release.sh evidence --prepare="$RELEASE_VERSION" --build-number="$RELEASE_BUILD_NUMBER"
+
+publish:
+  extends: .publish
+  stage: publish
+  # Both evidence and F-Droid scanning must succeed before any publication.
+  dependencies: [evidence]
+  script:
+    - source scripts/ci/identity.sh
+    - apt-get install -y --no-install-recommends gh
+    - gh auth setup-git
+    - python3 scripts/ci/publish-gitlab.py
+    - scripts/release.sh github --publish="$RELEASE_VERSION" --build-number="$RELEASE_BUILD_NUMBER"
+  artifacts:
+    expire_in: 7 days
+    paths: [release-artifacts/]
+
+deploy-web:
+  extends: .publish
+  image: node:22-bookworm
+  before_script:
+    - apt-get update -qq && apt-get install -y --no-install-recommends git python3
+  stage: deploy
+  dependencies: [evidence]
+  environment: production/web
+  script:
+    - source scripts/ci/identity.sh
+    - npm install --global wrangler@4.61.1
+    - scripts/release.sh website --publish="$RELEASE_VERSION" --build-number="$RELEASE_BUILD_NUMBER"
+
+deploy-play:
+  extends: .publish
+  stage: deploy
+  dependencies: [evidence]
+  environment: production/play
+  script:
+    - source scripts/ci/identity.sh
+    - scripts/release.sh play --publish="$RELEASE_VERSION" --build-number="$RELEASE_BUILD_NUMBER"
+  artifacts:
+    when: always
+    expire_in: 30 days
+    paths: [release-artifacts/play-publication-receipt.json]

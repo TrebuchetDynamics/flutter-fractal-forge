@@ -116,3 +116,6 @@ docs/store_listing/screenshots/*
 !docs/store_listing/screenshots/phone/
 !docs/store_listing/screenshots/tablet/
 research/fraksl-app-analysis/*play-store-page.html
+
+# Job-local Flutter checkout for native GitLab runners
+.ci-flutter/

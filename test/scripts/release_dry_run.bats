@@ -16,7 +16,7 @@ setup() {
   [ "$status" -eq 0 ]
   [[ "$output" != *BUILD_WAS_INVOKED* ]]
   [[ "$output" == *"DRY RUN: build and package the Linux release bundle"* ]]
-  [[ "$output" == *"DRY RUN: dispatch unsigned Apple builds"* ]]
+  [[ "$output" == *"DRY RUN: verify unsigned Apple builds"* ]]
   [[ "$output" == *"DRY RUN: generate and verify release evidence"* ]]
   [ "$(cat "$existing")" = 'keep this artifact' ]
   [ ! -e "$RELEASE_ARTIFACT_DIR/evidence" ]

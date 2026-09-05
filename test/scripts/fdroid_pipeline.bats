@@ -55,7 +55,7 @@ teardown() {
   grep -Fq "versionCode: ${RELEASE_BUILD_NUMBER}3" "$metadata"
   grep -Fq "commit: $COMMIT" "$metadata"
   grep -Fq 'flutter@stable' "$metadata"
-  grep -Fq 'flutterVersion=$(sed' "$metadata"
+  grep -Fq 'flutterVersion=$(cat fdroid/flutter.version)' "$metadata"
   grep -Fq 'git -C $$flutter$$ checkout -f $flutterVersion' "$metadata"
   grep -Fq 'ndk: r28c' "$metadata"
   grep -Fq 'AllowedAPKSigningKeys: 8d5f69b91dd44476ceaad141f1fa9f6abeccdfa20cd3f7bcdfe709df623878fd' "$metadata"
@@ -208,14 +208,12 @@ SH
   grep -Fq 'repro_root=/tmp/fractal-forge-reproducible' "$REPO_ROOT/scripts/release.sh"
 }
 
-@test "tag workflow performs the same reproducible source build in CI" {
-  workflow="$REPO_ROOT/.github/workflows/fdroid-source-build.yml"
-  [ -f "$workflow" ]
-  grep -Fq "flutter-version: '3.44.6'" "$workflow"
-  grep -Fq 'scripts/build-fdroid.sh' "$workflow"
-  grep -Fq -- '--reproducible' "$workflow"
-  grep -Fq 'scanner --exit-code' "$workflow"
-  grep -Fq 'base_code * 10 + 3' "$workflow"
-  grep -Fq 'release-artifacts/fdroid' "$workflow"
-  grep -Fq 'actions/upload-artifact@' "$workflow"
+@test "GitLab performs reproducible source builds and official scans" {
+  [ "$(cat "$REPO_ROOT/fdroid/flutter.version")" = 3.44.6 ]
+  grep -Fq 'scripts/build-fdroid.sh' "$REPO_ROOT/scripts/ci/build.sh"
+  grep -Fq -- '--reproducible' "$REPO_ROOT/scripts/ci/build.sh"
+  grep -Fq 'scanner --exit-code' "$REPO_ROOT/scripts/ci/fdroid-scan.sh"
+  grep -Fq 'base_code * 10 + 3' "$REPO_ROOT/scripts/ci/fdroid-scan.sh"
+  grep -Fq 'release-artifacts/fdroid' "$REPO_ROOT/.gitlab-ci.yml"
+  [ ! -d "$REPO_ROOT/.github/workflows" ] || [ -z "$(ls -A "$REPO_ROOT/.github/workflows")" ]
 }

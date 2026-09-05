@@ -18,12 +18,9 @@ class Sprint3ReleaseBlockersTest(unittest.TestCase):
         windows = release.split("stage_windows() {", 1)[1].split("stage_evidence() {", 1)[0]
         for marker in ("--build-name", "--build-number", "RELEASE_COMMIT"):
             self.assertIn(marker, linux)
-        for marker in ("--ref", "release_version", "release_build_number", "release_commit"):
-            self.assertIn(marker, windows)
-        self.assertIn("windows-build-metadata.json", windows)
-        self.assertIn("headSha", windows)
-        self.assertIn('branch="$(git symbolic-ref --quiet --short HEAD)"', windows)
-        self.assertIn('gh workflow run windows-release-build.yml --ref "$branch"', windows)
+        self.assertIn('verify_artifact_provenance', windows)
+        self.assertIn('fractal-forge-windows-x64.zip', windows)
+        self.assertNotIn('gh workflow', release)
 
     def test_publish_preflight_runs_the_device_release_gate(self):
         release = (ROOT / "scripts/release.sh").read_text(encoding="utf-8")
@@ -77,14 +74,15 @@ class Sprint3ReleaseBlockersTest(unittest.TestCase):
         self.assertLess(host, discovery)
         self.assertLess(discovery, readiness)
 
-    def test_windows_workflow_checks_out_immutable_ref_and_emits_metadata(self):
-        workflow = (ROOT / ".github/workflows/windows-release-build.yml").read_text(encoding="utf-8")
-        for input_name in ("release_version", "release_build_number", "release_commit"):
-            self.assertIn(f"{input_name}:", workflow)
-        self.assertIn('ref: ${{ inputs.release_commit }}', workflow)
-        self.assertIn('--build-name="$RELEASE_VERSION"', workflow)
-        self.assertIn('--build-number="$RELEASE_BUILD_NUMBER"', workflow)
-        self.assertIn("windows-build-metadata.json", workflow)
+    def test_native_gitlab_builds_validate_identity_and_emit_provenance(self):
+        native = (ROOT / "scripts/ci/native-build.sh").read_text()
+        self.assertIn('source scripts/ci/identity.sh', native)
+        self.assertIn('--build-name="$RELEASE_VERSION"', native)
+        self.assertIn('--build-number="$RELEASE_BUILD_NUMBER"', native)
+        self.assertIn('$archive.provenance', native)
+        identity = (ROOT / "scripts/ci/identity.sh").read_text()
+        self.assertIn('"$RELEASE_COMMIT" == "$CI_COMMIT_SHA"', identity)
+        self.assertIn('"$(git rev-parse HEAD)"', identity)
 
     def test_deployed_privacy_policy_matches_canonical_release_contract(self):
         html = (ROOT / "web/privacy-policy.html").read_text(encoding="utf-8")

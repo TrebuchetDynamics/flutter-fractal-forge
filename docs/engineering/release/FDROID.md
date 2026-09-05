@@ -4,7 +4,7 @@ Fractal Forge targets the official F-Droid catalog with reproducible builds. F-D
 
 ## Automated release contract
 
-`scripts/release.sh all --publish=X.Y.Z` includes the `fdroid` stage before publication. The stage:
+`./release.sh all --publish=X.Y.Z` includes the `fdroid` stage before publication. The stage:
 
 1. verifies `fdroid/version.properties` matches `X.Y.Z` and the Android version code;
 2. validates the upstream Fastlane listing and version-code changelog;
@@ -13,15 +13,12 @@ Fractal Forge targets the official F-Droid catalog with reproducible builds. F-D
 5. deletes build output, builds all three a second time with the release commit timestamp as `SOURCE_DATE_EPOCH`, and requires byte-for-byte equality;
 6. creates a deterministic fdroiddata metadata archive bound to the full release commit and the upstream reference-binary URLs.
 
-The tag workflow in `.github/workflows/fdroid-source-build.yml` repeats the source-build and reproducibility gates, then runs official `fdroid lint` and `fdroid scanner` checks for every `vX.Y.Z` tag.
+The GitLab `fdroid` and `fdroid-scan` jobs repeat the source-build and reproducibility gates, then run official `fdroid lint` and `fdroid scanner` checks before release publication. Start the pipeline with root `release.sh`.
 
-Run the stage directly while preparing a release:
+Prepare the next release through GitLab (including F-Droid):
 
 ```bash
-FLUTTER_BIN=/path/to/flutter \
-  scripts/release.sh fdroid \
-  --prepare=1.1.97 \
-  --build-number=97
+./release.sh all --prepare=1.1.105
 ```
 
 Outputs are written below `release-artifacts/fdroid/`:
@@ -58,7 +55,7 @@ After that merge, `UpdateCheckMode: Tags` and `fdroid/version.properties` allow 
 ## Policy and signing notes
 
 - The source tree includes `pubspec.lock`, and the recipe uses `flutter pub get --enforce-lockfile` with a build-local `PUB_CACHE` so dependencies are scanned.
-- Flutter `3.44.6` is pinned in `.github/workflows/fdroid-source-build.yml`; the fdroiddata recipe extracts that pin and checks out the same revision from F-Droid's `flutter@stable` srclib.
+- Flutter `3.44.6` is pinned in `fdroid/flutter.version`; the fdroiddata recipe extracts that pin and checks out the same revision from F-Droid's `flutter@stable` srclib.
 - Android builds use F-Droid NDK alias `r28c`, corresponding to upstream NDK `28.2.13676358`.
 - The unused Google Play Feature Delivery dependency was removed so both Play and F-Droid builds avoid a non-free runtime dependency. Android dependencies resolve only from Google Maven or Maven Central.
 - Flutter 3.44.6's official Android embedding retains unused Play Store deferred-component type references. The app declares no deferred components and `releaseRuntimeClasspath` contains no Play Core dependency; this is recorded in the generated `MaintainerNotes` for packager review.

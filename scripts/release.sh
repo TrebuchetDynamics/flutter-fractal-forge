@@ -17,10 +17,7 @@ set -euo pipefail
 #   play       Verify final release evidence and upload its exact AAB to Play.
 #   linux      flutter build linux --release, packaged as a tarball
 #              (runs directly on this machine)
-#   windows    Dispatch .github/workflows/windows-release-build.yml on a
-#              windows-latest runner and download its artifact. Flutter's
-#              Windows target cannot be cross-compiled from Linux, so this
-#              stage requires the `gh` CLI and network access to GitHub.
+#   windows    Verify the native Windows artifact supplied by GitLab CI.
 #   evidence   Generate checksums, a CycloneDX SBOM, third-party notices, and
 #              a release manifest bound to the staged artifacts.
 #   apple      Build unsigned macOS/iOS archives on macOS CI. These require
@@ -71,6 +68,15 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 cd "$PROJECT_ROOT"
+
+# Real release requests go through GitLab; local dry runs remain available.
+if [[ "${GITLAB_CI:-}" != true ]]; then
+  for argument in "$@"; do
+    case "$argument" in
+      --publish=*|--prepare=*) exec "$PROJECT_ROOT/release.sh" "$@" ;;
+    esac
+  done
+fi
 
 FLUTTER_BIN="${FLUTTER_BIN:-flutter}"
 ARTIFACT_DIR="${RELEASE_ARTIFACT_DIR:-release-artifacts}"
@@ -336,6 +342,13 @@ verify_privacy_policy() {
 # vMAJOR.MINOR.BUILD tag. An explicitly confirmed higher build number may skip a
 # consumed but untagged Play version; reusing or moving behind a tag is rejected.
 resolve_upcoming_android_version() {
+  if [[ "${GITLAB_CI:-}" == true ]]; then
+    source "$SCRIPT_DIR/ci/identity.sh"
+    RESOLVED_RELEASE_VERSION="$RELEASE_VERSION"
+    RESOLVED_ANDROID_VERSION="$RELEASE_VERSION"
+    RESOLVED_ANDROID_BUILD_NUMBER="$RELEASE_BUILD_NUMBER"
+    return
+  fi
   local pubspec_version major minor latest_tag latest_build requested_build
   pubspec_version="$(awk '/^version:[[:space:]]*/ { print $2; exit }' pubspec.yaml)"
   pubspec_version="${pubspec_version%%+*}"
@@ -364,6 +377,10 @@ resolve_upcoming_android_version() {
 }
 
 preflight_publish() {
+  if [[ "${GITLAB_CI:-}" == true ]]; then
+    source "$SCRIPT_DIR/ci/identity.sh"
+    return
+  fi
   need git
   [[ -z "$(git status --porcelain)" ]] ||
     die "Publishing requires a clean working tree"
@@ -395,6 +412,10 @@ preflight_publish() {
 }
 
 preflight_publish_resume() {
+  if [[ "${GITLAB_CI:-}" == true ]]; then
+    source "$SCRIPT_DIR/ci/identity.sh"
+    return
+  fi
   need git
   need python3
   [[ -z "$(git status --porcelain)" ]] ||
@@ -422,6 +443,10 @@ preflight_publish_resume() {
 }
 
 preflight_prepare() {
+  if [[ "${GITLAB_CI:-}" == true ]]; then
+    source "$SCRIPT_DIR/ci/identity.sh"
+    return
+  fi
   need git
   [[ -z "$(git status --porcelain)" ]] ||
     die "Artifact preparation requires a clean working tree"
@@ -497,49 +522,6 @@ changelog_notes() {
     found && /^## \[/ { exit }
     found { print }
   ' "$PROJECT_ROOT/CHANGELOG.md"
-}
-
-watch_github_run() {
-  local run_id="$1"
-  local label="$2"
-  local interval="${3:-10}"
-  local started next_log last_status line status conclusion url now elapsed
-  local read_failures=0
-  started="$(date +%s)"
-  next_log=0
-  last_status=""
-
-  while true; do
-    if ! line="$(gh run view "$run_id" --json status,conclusion,url -q '[.status, (.conclusion // ""), .url] | @tsv')"; then
-      read_failures=$((read_failures + 1))
-      (( read_failures < 4 )) || die "Could not read GitHub Actions run $run_id after 4 attempts"
-      log "Transient GitHub read failure for $run_id; retry $read_failures/3"
-      sleep "$interval"
-      continue
-    fi
-    read_failures=0
-    IFS=$'\t' read -r status conclusion url <<< "$line"
-    [[ -n "$status" ]] || die "GitHub Actions run $run_id returned no status"
-    now="$(date +%s)"
-    elapsed=$((now - started))
-
-    if [[ "$status" != "$last_status" || "$now" -ge "$next_log" ]]; then
-      log "$label run $run_id: $status${conclusion:+/$conclusion} (${elapsed}s elapsed) ${url:-}"
-      last_status="$status"
-      next_log=$((now + 60))
-    fi
-
-    if [[ "$status" == "completed" ]]; then
-      if [[ "$conclusion" == "success" ]]; then
-        return 0
-      fi
-      log "$label run $run_id failed; failed-step logs follow."
-      gh run view "$run_id" --log-failed || true
-      return 1
-    fi
-
-    sleep "$interval"
-  done
 }
 
 stage_android_build() {
@@ -712,109 +694,18 @@ stage_linux() {
 }
 
 stage_windows() {
-  log "=== windows: dispatch CI build, download artifact ==="
-  if ! guarded "dispatch .github/workflows/windows-release-build.yml on a windows-latest runner"; then
-    return 0
-  fi
-  need gh
-  need python3
-
-  local before after run_id version build_number commit branch run_metadata
-  version="$(release_build_name)"
-  build_number="$(release_build_number)"
-  commit="$(git rev-parse HEAD)"
-  branch="$(git symbolic-ref --quiet --short HEAD)" ||
-    die "Windows dispatch requires a branch"
-  before="$(gh run list --workflow=windows-release-build.yml --commit "$commit" \
-    --event workflow_dispatch --limit 1 --json databaseId -q '.[0].databaseId // empty')"
-  gh workflow run windows-release-build.yml --ref "$branch" \
-    -f confirm_windows_build=build-windows-release \
-    -f release_version="$version" \
-    -f release_build_number="$build_number" \
-    -f release_commit="$commit"
-
-  log "Waiting for the dispatched run to appear..."
-  for _ in $(seq 1 30); do
-    after="$(gh run list --workflow=windows-release-build.yml --commit "$commit" \
-      --event workflow_dispatch --limit 1 --json databaseId -q '.[0].databaseId // empty')"
-    [[ -n "$after" && "$after" != "$before" ]] && break
-    sleep 2
-  done
-  [[ -n "$after" && "$after" != "$before" ]] || die "Timed out waiting for the windows-release-build run to start"
-  run_id="$after"
-  run_metadata="$(gh run view "$run_id" --json headSha,event -q '[.headSha, .event] | @tsv')"
-  [[ "$run_metadata" == "$commit"$'\t'workflow_dispatch ]] ||
-    die "Windows run $run_id identity mismatch: $run_metadata"
-
-  log "Watching run $run_id (this builds Flutter for Windows, expect several minutes)..."
-  watch_github_run "$run_id" "windows" 10
-
-  rm -f "$ARTIFACT_DIR/fractal-forge-windows-x64.zip"
-  rm -f "$ARTIFACT_DIR/windows-build-metadata.json"
-  gh run download "$run_id" -n windows-build -D "$ARTIFACT_DIR"
-  python3 - "$ARTIFACT_DIR/windows-build-metadata.json" \
-    "$ARTIFACT_DIR/fractal-forge-windows-x64.zip" "$version" "$build_number" "$commit" <<'PY'
-import hashlib, json, pathlib, sys
-metadata_path, archive_path = map(pathlib.Path, sys.argv[1:3])
-expected_version, expected_build, expected_commit = sys.argv[3:]
-metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
-expected = {"version": expected_version, "buildNumber": expected_build, "commit": expected_commit}
-for key, value in expected.items():
-    if str(metadata.get(key)) != value:
-        raise SystemExit(f"Windows artifact {key} mismatch: {metadata.get(key)!r} != {value!r}")
-actual_hash = hashlib.sha256(archive_path.read_bytes()).hexdigest()
-if metadata.get("sha256") != actual_hash:
-    raise SystemExit("Windows artifact SHA-256 does not match workflow metadata")
-PY
-  write_artifact_provenance "$ARTIFACT_DIR/fractal-forge-windows-x64.zip" \
-    "$version" "$build_number" "$commit"
-  log "windows stage complete: $ARTIFACT_DIR/fractal-forge-windows-x64.zip"
+  if ! guarded "verify the Windows artifact built by GitLab CI"; then return 0; fi
+  verify_artifact_provenance "$ARTIFACT_DIR/fractal-forge-windows-x64.zip" \
+    "$(release_version)" "$(release_build_number)" "$(git rev-parse HEAD)"
 }
 
 stage_apple() {
-  log "=== apple: unsigned macOS/iOS CI builds ==="
-  if ! guarded "dispatch unsigned Apple builds (not App Store-ready)"; then return 0; fi
-  need gh
-  need python3
-  local version build_number commit branch before after run_id metadata platform archive
-  version="$(release_build_name)"
-  build_number="$(release_build_number)"
-  commit="$(git rev-parse HEAD)"
-  branch="$(git symbolic-ref --quiet --short HEAD)" || die "Apple dispatch requires a branch"
-  before="$(gh run list --workflow=apple-release-build.yml --commit "$commit" \
-    --event workflow_dispatch --limit 1 --json databaseId -q '.[0].databaseId // empty')"
-  gh workflow run apple-release-build.yml --ref "$branch" \
-    -f release_version="$version" -f release_build_number="$build_number" -f release_commit="$commit"
-  after=""
-  for _ in $(seq 1 30); do
-    after="$(gh run list --workflow=apple-release-build.yml --commit "$commit" \
-      --event workflow_dispatch --limit 1 --json databaseId -q '.[0].databaseId // empty')"
-    [[ -n "$after" && "$after" != "$before" ]] && break
-    sleep 2
-  done
-  [[ -n "$after" && "$after" != "$before" ]] || die "Timed out waiting for Apple build dispatch"
-  run_id="$after"
-  metadata="$(gh run view "$run_id" --json headSha,event -q '[.headSha, .event] | @tsv')"
-  [[ "$metadata" == "$commit"$'\t'workflow_dispatch ]] || die "Apple run identity mismatch"
-  watch_github_run "$run_id" "apple" 10
+  if ! guarded "verify unsigned Apple builds (not App Store-ready) from GitLab CI"; then return 0; fi
+  local platform
   for platform in macos ios; do
-    archive="$ARTIFACT_DIR/fractal-forge-$platform-unsigned.zip"
-    rm -f "$archive" "${archive%.zip}.json"
-    gh run download "$run_id" -n "apple-build-$platform" -D "$ARTIFACT_DIR"
-    python3 - "$archive" "$version" "$build_number" "$commit" "$platform" <<'PY'
-import hashlib, json, pathlib, sys
-archive = pathlib.Path(sys.argv[1])
-metadata = json.loads(archive.with_suffix('.json').read_text())
-expected = dict(zip(('version', 'buildNumber', 'commit', 'platform'), sys.argv[2:]))
-for key, value in expected.items():
-    if str(metadata.get(key)) != value:
-        raise SystemExit(f'Apple artifact {key} mismatch')
-if metadata.get('sha256') != hashlib.sha256(archive.read_bytes()).hexdigest():
-    raise SystemExit('Apple artifact checksum mismatch')
-PY
-    write_artifact_provenance "$archive" "$version" "$build_number" "$commit"
+    verify_artifact_provenance "$ARTIFACT_DIR/fractal-forge-$platform-unsigned.zip" \
+      "$(release_version)" "$(release_build_number)" "$(git rev-parse HEAD)"
   done
-  log "Apple build artifacts staged; Apple signing/notarization is still required"
 }
 
 stage_evidence() {
@@ -852,6 +743,10 @@ stage_evidence() {
       --required-artifact "fractal-forge-android-x86_64-v${version}.apk"
       --required-artifact "fractal-forge-linux-x64-v${version}.tar.gz"
       --required-artifact "fractal-forge-windows-x64.zip"
+      --required-artifact "fractal-forge-macos-unsigned.zip"
+      --required-artifact "fractal-forge-ios-unsigned.zip"
+      --required-artifact "fractal-forge-web-v${version}.tar.gz"
+      --required-artifact "fractal-forge-fdroid-v${version}.tar.gz"
     )
   fi
   artifacts_output="$(
@@ -950,16 +845,16 @@ stage_github() {
     [[ "$(git rev-list -n1 "$tag")" == "$commit" ]] ||
       die "Existing local tag $tag does not point to release commit $commit"
     local remote_tag_commit
-    remote_tag_commit="$(git ls-remote origin "refs/tags/$tag" | awk 'NR == 1 { print $1 }')"
+    remote_tag_commit="$(git ls-remote "${GITHUB_RELEASE_REMOTE:-origin}" "refs/tags/$tag" | awk 'NR == 1 { print $1 }')"
     if [[ -n "$remote_tag_commit" ]]; then
       [[ "$remote_tag_commit" == "$commit" ]] ||
         die "Existing remote tag $tag does not point to release commit $commit"
     else
-      git push origin "$tag"
+      git push "${GITHUB_RELEASE_REMOTE:-origin}" "$tag"
     fi
   else
     git tag "$tag"
-    git push origin "$tag"
+    git push "${GITHUB_RELEASE_REMOTE:-origin}" "$tag"
   fi
 
   notes="$(changelog_notes "$version")"
@@ -1006,13 +901,18 @@ stage_website() {
   fi
   need wrangler
 
-  # Root-domain deploy, not the GitHub Pages "/flutter-fractal-forge/" subpath.
-  "$SCRIPT_DIR/build-web-preview.sh" / \
-    --build-name="$(release_build_name)" \
-    --build-number="$(release_build_number)" \
-    --dart-define="RELEASE_VERSION=$(release_version)" \
-    --dart-define="RELEASE_BUILD_NUMBER=$(release_build_number)" \
-    --dart-define="RELEASE_COMMIT=$(git rev-parse HEAD)"
+  if [[ "${GITLAB_CI:-}" == true ]]; then
+    local archive="$ARTIFACT_DIR/fractal-forge-web-v$(release_version).tar.gz"
+    "$SCRIPT_DIR/generate_release_evidence.py" --list-assets \
+      "$ARTIFACT_DIR/evidence/release-manifest.json" --version "$(release_version)" \
+      --build-number "$(release_build_number)" --commit "$(git rev-parse HEAD)" >/dev/null
+    verify_artifact_provenance "$archive" "$(release_version)" "$(release_build_number)" "$(git rev-parse HEAD)"
+    mkdir -p build/web
+    tar -xzf "$archive" -C build/web
+  else
+    "$SCRIPT_DIR/build-web-preview.sh" / --build-name="$(release_build_name)" \
+      --build-number="$(release_build_number)"
+  fi
 
   local cloudflare_auth=()
   if [[ -n "${CLOUDFLARE_API_TOKEN:-}" ]]; then

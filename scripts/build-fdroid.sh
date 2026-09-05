@@ -4,8 +4,8 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 PACKAGE_ID="com.trebuchetdynamics.fractal.forge"
-FLUTTER_WORKFLOW="$PROJECT_ROOT/.github/workflows/fdroid-source-build.yml"
-FLUTTER_VERSION="$(sed -n -E "s/.*flutter-version: '(.*)'/\1/p" "$FLUTTER_WORKFLOW" | head -n1)"
+FLUTTER_PIN="$PROJECT_ROOT/fdroid/flutter.version"
+FLUTTER_VERSION="$(cat "$FLUTTER_PIN")"
 SIGNING_CERT_SHA256="8d5f69b91dd44476ceaad141f1fa9f6abeccdfa20cd3f7bcdfe709df623878fd"
 REPRO_BUILD_ROOT="/tmp/fractal-forge-reproducible"
 VERSION=""
@@ -47,7 +47,7 @@ for arg in "$@"; do
 done
 
 [[ "$FLUTTER_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || {
-  echo "[fdroid] ERROR: could not extract pinned Flutter version from $FLUTTER_WORKFLOW" >&2; exit 1;
+  echo "[fdroid] ERROR: could not extract pinned Flutter version from $FLUTTER_PIN" >&2; exit 1;
 }
 [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || {
   echo "[fdroid] ERROR: --version must be X.Y.Z" >&2; exit 1;
@@ -147,7 +147,7 @@ render_build_block() {
       - windows
       - research
     prebuild:
-      - flutterVersion=\$(sed -n -E "s/.*flutter-version:\ '(.*)'/\\1/p" .github/workflows/fdroid-source-build.yml)
+      - flutterVersion=\$(cat fdroid/flutter.version)
       - '[[ \$flutterVersion ]]'
       - git -C \$\$flutter\$\$ checkout -f \$flutterVersion
       - export repo=$REPRO_BUILD_ROOT
