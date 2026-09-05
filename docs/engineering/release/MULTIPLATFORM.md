@@ -1,19 +1,28 @@
 # GitLab releases
 
-Run releases from the repository root:
+Run the complete release from the repository root:
 
 ```bash
-./release.sh all --dry-run
-./release.sh all --prepare=1.1.105   # build and verify, without publishing
-./release.sh all --publish=1.1.105   # build, verify, publish; waits for completion
+./release.sh                       # detect next patch, prepare, push, release, wait
+./release.sh --dry-run             # preview next patch using cached tags; no changes/network
+./release.sh --prepare             # automatically prepare/build/verify without publication
+./release.sh --publish=1.1.105      # dispatch an explicitly prepared version
 ```
 
-Replace the example version with the next unused release. The patch is the
-Android build number. Commit `fdroid/version.properties` with the same identity,
-update release notes, and push that commit to **both** GitHub and GitLab first.
-The script refuses a dirty tree, unprotected branch, mismatched remote commit,
-or mismatched version marker. An existing tag cannot be moved to another commit.
-`--build-number=105` is optional when it matches the version patch.
+No arguments means the full publishing pipeline. The script requires committed
+app changes, fetches tags from `origin` and `gitlab`, then increments the highest
+numeric `vMAJOR.MINOR.PATCH` tag. An already prepared version newer than the tags
+is reused after a failed preparation/dispatch. The patch is the Android build
+number. The script updates `fdroid/version.properties`, generates missing
+Fastlane and changelog notes from commit subjects, commits only those metadata
+files, and pushes both remotes before dispatching CI. Existing authored release
+notes are preserved. `pubspec.yaml` remains the development version.
+
+Both remotes must exist and the GitLab branch must be protected. A dirty tree,
+divergent/behind branch, failed push, or mismatched pipeline commit stops the
+release; the script never force-pushes. If a release tag already exists and a
+publication job fails, retry that job in GitLab using its verified artifacts.
+The no-argument command starts the next patch after a tagged release.
 
 GitLab project: <https://gitlab.com/tamez.jm/flutter-fractal-forge>.
 Configure `glab auth login --hostname gitlab.com`; `GLAB_BIN` can select an
@@ -30,7 +39,8 @@ git remote add gitlab https://gitlab.com/tamez.jm/flutter-fractal-forge.git
 git push gitlab main --tags
 ```
 
-Push subsequent changes to both remotes. GitHub is the upstream source and draft
+The automatic release command pushes both remotes. For ordinary development CI,
+push the branch to GitLab. GitHub is the upstream source and draft
 release mirror; GitLab is the **only CI executor**. `.gitlab-ci.yml` runs analyzer,
 full Flutter host tests, shell/Python regression tests, research tests, and the
 emitted Dart integration check for branches and merge requests. The protected
