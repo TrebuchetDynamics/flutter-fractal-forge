@@ -9,11 +9,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Automated full-catalog Linux profile audit with two screenshots per fractal,
+  engine frame timings, visual critiques, crash recovery, and a searchable HTML
+  fix/review queue. GitLab can run it manually or on a schedule.
+
 - Octahedral Crystal Bloom, Tetrahedral Orbit Lantern, and Cantor Cross Crystal:
   three animated 3D recursive constructions with adjustable scale and depth.
-  The production catalog now contains 1,018 fractals.
+  The production catalog now contains 1,017 fractals after retiring the broken
+  standalone DF2 entry.
+
+### Removed
+
+- The incorrectly bound standalone Mandelbrot DF2 entry from the catalog: its split
+  coordinate uniforms did not match its generic module binding. The dedicated
+  precision module remains available to the normal Mandelbrot deep-zoom path.
 
 ### Improved
+
+- Shape Modulus Julia now initializes its shape/seed uniforms and exposes those
+  controls. Six blank alternate presets receive corrected framing, depth, or
+  lighting while retaining their identities.
+
+- Baker Wandering Domain uses a stable complex tangent and the actual bailout
+  radius, restoring detail that previously collapsed into a flat field.
+- Tricorn powers handle the zero orbit without an undefined angle. High-power
+  catalog entries start wide enough to show the boundary
+  and colored exterior instead of an entirely black interior. Multibrot d=5
+  Multijulia⁹, and Tricorn⁷ Julia defaults receive the same framing correction.
 
 - Recursive 3D sculpture colors now follow geometry instead of ray-march step
   counts, reducing speckling and preventing quality changes from recoloring surfaces.

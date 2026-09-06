@@ -126,8 +126,11 @@ FractalModule _buildSharedEscapePowerModule(
         entry.family == SharedEscapePowerFamily.burningShip ? -0.5 : 0.0,
     defaultCenterY:
         entry.family == SharedEscapePowerFamily.burningShip ? -0.5 : 0.0,
-    defaultZoom:
-        entry.family == SharedEscapePowerFamily.burningShip ? 0.5 : 1.0,
+    // High powers approach a unit disk; the old +/-0.5 default view was
+    // entirely inside the set. Include its boundary and colored exterior.
+    defaultZoom: entry.family == SharedEscapePowerFamily.burningShip
+        ? 0.5
+        : (entry.power >= 9 ? 0.4 : 1.0),
     extraParams: [
       FractalParameter(
         id: 'power',

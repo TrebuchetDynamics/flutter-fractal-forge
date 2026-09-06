@@ -89,7 +89,7 @@ FractalModule buildPhoenixModule() {
         },
         view: FractalViewState(
           pan: Vector2.zero(),
-          zoom: 1.2,
+          zoom: 0.35,
           rotation: Vector3.zero(),
         ),
       ),

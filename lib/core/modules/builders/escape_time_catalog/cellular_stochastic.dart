@@ -593,7 +593,7 @@ final List<EscapeTimeConfig> _cellularStochasticCatalog = [
         id: 'riemann_zeta-relief',
         moduleId: 'riemann_zeta',
         name: 'Zeta Relief',
-        params: {'iterations': 120, 'bailout': 8.0, 'colorScheme': 51},
+        params: {'iterations': 120, 'bailout': 8.0, 'colorScheme': 63},
         view: FractalViewState(
             pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
       ),
@@ -726,6 +726,7 @@ final List<EscapeTimeConfig> _cellularStochasticCatalog = [
     name: 'Multibrot d=5',
     shaderAsset:
         'shaders/escape_time_family/families/multibrot/multibrot5_gpu.frag',
+    defaultZoom: 0.4, // Frame the boundary, not only the bounded interior.
     defaultIterations: 170,
     extraPresets: [
       catalogPreset(
@@ -734,7 +735,7 @@ final List<EscapeTimeConfig> _cellularStochasticCatalog = [
         name: 'Bas-Relief: Quint',
         params: {'iterations': 200, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
-            pan: Vector2(0.0, 0.0), zoom: 1.0, rotation: Vector3.zero()),
+            pan: Vector2(0.0, 0.0), zoom: 0.4, rotation: Vector3.zero()),
       ),
     ],
   ),

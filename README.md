@@ -19,7 +19,7 @@
   <a href="#run-it-locally">Build locally</a>
 </p>
 
-Fractal Forge is an open-source Flutter explorer for mathematical systems and generative art. Browse **1018 production fractals**, tune parameters in real time, move through deep-zoom render paths, and export the views worth keeping.
+Fractal Forge is an open-source Flutter explorer for mathematical systems and generative art. Browse **1017 production fractals**, tune parameters in real time, move through deep-zoom render paths, and export the views worth keeping.
 
 ## See what it renders
 
@@ -166,7 +166,16 @@ flutter test test/catalog/
 flutter test integration_test/flows/critical_journey_test.dart
 ```
 
-See [`test/README.md`](test/README.md) for the fast safety lane and test conventions.
+Audit every production fractal in the real Linux renderer, with screenshots,
+frame timings, and an HTML fix/review report:
+
+```bash
+python3 scripts/audit-linux-fractals.py
+```
+
+See the [Linux audit guide](docs/engineering/performance/LINUX_FRACTAL_AUDIT.md)
+for headless runs, focused reruns, and GitLab artifacts. See
+[`test/README.md`](test/README.md) for test conventions.
 
 ## Project references
 

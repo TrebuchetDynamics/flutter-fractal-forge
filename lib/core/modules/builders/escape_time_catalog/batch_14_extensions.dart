@@ -540,6 +540,7 @@ final List<EscapeTimeConfig> _batch14ExtensionsCatalog = [
     name: 'Multijulia⁹',
     shaderAsset:
         'shaders/escape_time_family/families/multijulia/multijulia9_gpu.frag',
+    defaultZoom: 0.4, // Frame the boundary, not only the bounded interior.
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),
@@ -680,6 +681,7 @@ final List<EscapeTimeConfig> _batch14ExtensionsCatalog = [
     name: 'Tricorn⁷ Julia',
     shaderAsset:
         'shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power7_julia_gpu.frag',
+    defaultZoom: 0.4, // Include the Julia boundary and exterior.
     defaultIterations: 200,
     defaultBailout: 4.0,
   ),

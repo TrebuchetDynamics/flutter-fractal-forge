@@ -426,7 +426,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
         name: 'Golden Bubbles',
         params: const {
           'power': 1.85,
-          'iterations': 20,
+          'iterations': 18,
           'steps': 150,
           'bailout': 4.0,
           'colorScheme': 0,
@@ -434,7 +434,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
         },
         view: FractalViewState(
           pan: Vector2.zero(),
-          zoom: 1.35,
+          zoom: 0.55,
           rotation: Vector3(0.42, -0.38, 0.08),
         ),
       ),
@@ -541,7 +541,7 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
         },
         view: FractalViewState(
           pan: Vector2.zero(),
-          zoom: 1.4,
+          zoom: 0.55,
           rotation: Vector3(0.45, 0.35, 0.0),
         ),
       ),

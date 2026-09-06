@@ -335,6 +335,11 @@
     "capability": "static"
   },
   {
+    "id": "cantor_cross_crystal",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
     "id": "cantor_dust",
     "shaderAsset": "shaders/ifs_and_geometric/cantor_dust_gpu.frag",
     "capability": "static"
@@ -3690,11 +3695,6 @@
     "capability": "static"
   },
   {
-    "id": "mandelbrot_df2",
-    "shaderAsset": "shaders/legacy/precision/mandelbrot_df2.frag",
-    "capability": "static"
-  },
-  {
     "id": "mandelbrot_et",
     "shaderAsset": "shaders/legacy/escape_time/mandelbrot_et.frag",
     "capability": "static"
@@ -4098,6 +4098,11 @@
     "id": "nova_mandelbrot",
     "shaderAsset": "shaders/escape_time_family/families/nova/parameter_plane/nova_mandelbrot_gpu.frag",
     "capability": "static"
+  },
+  {
+    "id": "octahedral_crystal_bloom",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag",
+    "capability": "timeDriven"
   },
   {
     "id": "orbit_trap_cross",
@@ -4868,6 +4873,11 @@
     "id": "tetrabrot_3d",
     "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/tetrabrot_3d_gpu.frag",
     "capability": "static"
+  },
+  {
+    "id": "tetrahedral_orbit_lantern",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag",
+    "capability": "timeDriven"
   },
   {
     "id": "tetration",

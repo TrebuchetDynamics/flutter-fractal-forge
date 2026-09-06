@@ -6,7 +6,7 @@ precision highp float;
 // Iterates the family z -> lambda + z + tan(z), whose topologically
 // hyperbolic members exhibit Baker and wandering domains: nested escaping
 // tracts and web-like Julia structure near the tan poles. Escape coloring
-// uses log-radius growth (transcendental orbits grow fast).
+// uses log-radius growth and the exposed finite escape horizon.
 uniform float uTime;          // 0
 uniform vec2  uResolution;    // 1-2
 uniform vec2  uCenter;        // 3-4
@@ -29,14 +29,12 @@ vec3 linearToSRGB(vec3 lin) {
 }
 
 vec2 ctan(vec2 z) {
-  // tan(z) = sin(z)/cos(z); use sin/cos split formulas.
-  float s = sin(z.x) * cosh(z.y);
-  float c = cos(z.x) * cosh(z.y);
-  float ss = cos(z.x) * sinh(z.y);
-  float cc = -sin(z.x) * sinh(z.y);
-  // (s + i ss) / (c + i cc)
-  float den = c * c + cc * cc;
-  return vec2((s * c + ss * cc) / max(den, 1e-9), (ss * c - s * cc) / max(den, 1e-9));
+  // Divide the double-angle formula by exp(2*abs(y)). Unlike squaring
+  // cosh/sinh, this stays finite as escaping orbits approach tan(z) -> +/-i.
+  float e = exp(-2.0 * abs(z.y));
+  float e2 = e * e;
+  float den = max(1.0 + e2 + 2.0 * e * cos(2.0 * z.x), 1e-9);
+  return vec2(2.0 * e * sin(2.0 * z.x), sign(z.y) * (1.0 - e2)) / den;
 }
 
 vec3 palette(float t, float s) {
@@ -71,7 +69,9 @@ void main() {
     z = lam + z + t;
     float r2 = dot(z, z);
     float lr = 0.5 * log(max(r2, 1e-12));
-    if (lr > log(bail) * 4.0) break;
+    // Bailout is a radius, not radius^4. A 4096-unit default horizon
+    // hides the slow escaping tracts behind the same iteration-limit color.
+    if (lr > log(bail)) break;
     growth = lr;
     iter += 1.0;
   }

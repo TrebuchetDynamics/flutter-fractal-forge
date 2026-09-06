@@ -322,7 +322,7 @@ final List<EscapeTimeConfig> _coreEscapeTimeFamilyCatalog = [
         name: 'Bas-Relief: Plains',
         params: {'iterations': 240, 'bailout': 4.0, 'colorScheme': 50},
         view: FractalViewState(
-            pan: Vector2(-0.5, -0.5), zoom: 1.5, rotation: Vector3.zero()),
+            pan: Vector2(-0.5, 0.0), zoom: 0.35, rotation: Vector3.zero()),
       ),
       catalogPreset(
         id: 'buffalo-relief-stampede',

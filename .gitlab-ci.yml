@@ -85,6 +85,28 @@ integration:
     - flutter pub get --enforce-lockfile
     - flutter test integration_test/flows/user_flows_test.dart integration_test/flows/critical_journey_test.dart integration_test/rendering/render_validation_test.dart integration_test/performance/perf_smoke_test.dart integration_test/accessibility/semantics_audit_test.dart
 
+# Full catalog evidence is expensive; run manually or in a scheduled audit.
+linux-fractal-audit:
+  extends: .linux
+  stage: evidence
+  needs: []
+  timeout: 2h
+  variables:
+    LIBGL_ALWAYS_SOFTWARE: "1"
+  rules:
+    - if: '$FRACTAL_AUDIT == "1"'
+    - when: manual
+      allow_failure: true
+  script:
+    - apt-get install -y --no-install-recommends xvfb xauth mesa-utils libgl1-mesa-dri
+    - python3 scripts/audit-linux-fractals.py --output build/fractal-audit/ci
+  artifacts:
+    when: always
+    expire_in: 14 days
+    paths: [build/fractal-audit/ci/]
+    reports:
+      junit: build/fractal-audit/ci/junit.xml
+
 release-preflight:
   extends: [.linux, .release]
   stage: validate

@@ -677,14 +677,6 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     category: 'Escape-Time',
   ),
   EscapeTimeConfig(
-    id: 'mandelbrot_df2',
-    name: 'Mandelbrot Df2',
-    shaderAsset: 'shaders/legacy/precision/mandelbrot_df2.frag',
-    defaultIterations: 120,
-    defaultBailout: 4.0,
-    category: 'Escape-Time',
-  ),
-  EscapeTimeConfig(
     id: 'mandelbrot_et',
     name: 'Mandelbrot Et',
     shaderAsset: 'shaders/legacy/escape_time/mandelbrot_et.frag',
@@ -958,6 +950,37 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',
+    defaultZoom: 0.4,
+    extraParams: [
+      _floatParam(
+          id: 'shapeType',
+          label: 'Shape',
+          min: 0,
+          max: 3,
+          step: 1,
+          defaultValue: 0),
+      _floatParam(
+          id: 'shapeScale',
+          label: 'Shape Scale',
+          min: 0,
+          max: 2,
+          step: 0.01,
+          defaultValue: 0.5),
+      _floatParam(
+          id: 'seedReal',
+          label: 'Seed Real',
+          min: -2,
+          max: 2,
+          step: 0.01,
+          defaultValue: -0.7),
+      _floatParam(
+          id: 'seedImag',
+          label: 'Seed Imaginary',
+          min: -2,
+          max: 2,
+          step: 0.01,
+          defaultValue: 0.27),
+    ],
   ),
   EscapeTimeConfig(
     id: 'sierpinski_julia_rational',

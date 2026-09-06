@@ -1,5 +1,5 @@
 name: flutter_fractals
-description: GPU-accelerated exploration of 1018 production fractals with deep zoom and real-time rendering.
+description: GPU-accelerated exploration of 1017 production fractals with deep zoom and real-time rendering.
 publish_to: none
 version: 1.1.0+38
 environment:

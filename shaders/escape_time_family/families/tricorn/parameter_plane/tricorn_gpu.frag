@@ -30,6 +30,12 @@ vec2 cmul(vec2 a, vec2 b) {
 }
 
 vec2 cpowReal(vec2 z, float p) {
+  // Every parameter-plane orbit starts at zero. atan(0, 0) is undefined;
+  // at high powers the radial term also underflows, allowing 0 * NaN to
+  // poison the entire orbit on some backends. Handle the exact origin first.
+  if (z.x == 0.0 && z.y == 0.0 && p >= 0.0) {
+    return p == 0.0 ? vec2(1.0, 0.0) : vec2(0.0);
+  }
   float r = max(length(z), 1e-12);
   float theta = atan(z.y, z.x);
   float rp = pow(r, p);

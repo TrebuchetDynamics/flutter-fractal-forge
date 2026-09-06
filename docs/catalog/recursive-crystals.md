@@ -25,7 +25,7 @@ Validation lives in `test/modules/carpathian_recursive_objects_test.dart`: shade
 compilation and pixel checks cover all eight objects sharing this shader, including
 visible structure, distinct common-view silhouettes, active controls, motion,
 maximum zoom, and alpha correctness. Registry identity tests lock the production
-count at 1,018 fractals (plus one scientific visualization and seven diagnostics).
+count at 1,017 fractals (plus one scientific visualization and seven diagnostics).
 The new entries' formula hashes are SHA-256 of their distance-function source.
 
 To export 384 px review images without adding generated files to Git:
