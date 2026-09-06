@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="https://gitlab.com/tamez.jm/flutter-fractal-forge/-/pipelines"><img src="https://gitlab.com/tamez.jm/flutter-fractal-forge/badges/main/pipeline.svg" alt="CI status"></a>
+  <a href="https://gitlab.com/trebuchetdynamics/flutter-fractal-forge/-/pipelines"><img src="https://gitlab.com/trebuchetdynamics/flutter-fractal-forge/badges/main/pipeline.svg" alt="CI status"></a>
   <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter" alt="Flutter 3.x"></a>
   <a href="https://dart.dev"><img src="https://img.shields.io/badge/Dart-3.x-0175C2?logo=dart" alt="Dart 3.x"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-7C4DFF.svg" alt="Apache 2.0 license"></a>

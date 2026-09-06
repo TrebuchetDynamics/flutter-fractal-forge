@@ -79,14 +79,14 @@ class GitLabReleaseTest(unittest.TestCase):
         def fake_git(*args):
             calls.append(args)
             if args[:3] == ('remote', 'get-url', 'gitlab'):
-                return 'https://gitlab.com/tamez.jm/flutter-fractal-forge.git'
+                return 'https://gitlab.com/trebuchetdynamics/flutter-fractal-forge.git'
             return ''
         with patch.object(release, 'api', return_value={'protected': True}), \
              patch.object(release, 'git', side_effect=fake_git), \
              patch.object(release, 'glab_binary', return_value='/tmp/glab'), \
              patch.object(release, 'next_version', return_value=('1.1.105', 'v1.1.104')), \
              patch.object(release, 'prepare_metadata', side_effect=lambda *args: calls.append(('metadata', *args))):
-            self.assertEqual(release.automatic_release('tamez.jm%2Fflutter-fractal-forge', 'main'), '1.1.105')
+            self.assertEqual(release.automatic_release('trebuchetdynamics%2Fflutter-fractal-forge', 'main'), '1.1.105')
         metadata_index = next(i for i, call in enumerate(calls) if call[0] == 'metadata')
         self.assertEqual(sum('fetch' in call for call in calls[:metadata_index]), 2)
         pushes = [call for call in calls[metadata_index:] if 'push' in call]
@@ -99,7 +99,7 @@ class GitLabReleaseTest(unittest.TestCase):
     def test_behind_remote_stops_before_metadata_or_push(self):
         def fake_git(*args):
             if args[:2] == ('remote', 'get-url'):
-                return 'https://gitlab.com/tamez.jm/flutter-fractal-forge.git'
+                return 'https://gitlab.com/trebuchetdynamics/flutter-fractal-forge.git'
             if args[0] == 'merge-base':
                 raise subprocess.CalledProcessError(1, ['git', *args])
             return ''
@@ -108,7 +108,7 @@ class GitLabReleaseTest(unittest.TestCase):
              patch.object(release, 'glab_binary', return_value='/tmp/glab'), \
              patch.object(release, 'prepare_metadata') as metadata:
             with self.assertRaisesRegex(RuntimeError, 'synchronize the branch'):
-                release.automatic_release('tamez.jm%2Fflutter-fractal-forge', 'main')
+                release.automatic_release('trebuchetdynamics%2Fflutter-fractal-forge', 'main')
             metadata.assert_not_called()
             self.assertFalse(any('push' in call.args for call in git.call_args_list))
 
