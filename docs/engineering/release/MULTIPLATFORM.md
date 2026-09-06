@@ -24,7 +24,7 @@ release; the script never force-pushes. If a release tag already exists and a
 publication job fails, retry that job in GitLab using its verified artifacts.
 The no-argument command starts the next patch after a tagged release.
 
-GitLab project: <https://gitlab.com/trebuchetdynamics/flutter-fractal-forge>.
+GitLab project: <https://gitlab.com/TrebuchetDynamics/flutter-fractal-forge>.
 Configure `glab auth login --hostname gitlab.com`; `GLAB_BIN` can select an
 installation outside PATH. `GITLAB_RELEASE_PROJECT` or `--project` selects another
 GitLab project. The CLI checks authentication and submits one pipeline; it never
@@ -35,7 +35,7 @@ wait is four hours, adjustable with `--timeout=SECONDS`.
 For the first mirror setup:
 
 ```bash
-git remote add gitlab https://gitlab.com/trebuchetdynamics/flutter-fractal-forge.git
+git remote add gitlab https://gitlab.com/TrebuchetDynamics/flutter-fractal-forge.git
 git push gitlab main --tags
 ```
 

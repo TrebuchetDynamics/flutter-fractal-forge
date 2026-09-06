@@ -153,7 +153,7 @@ def main(argv=None):
     parser.add_argument('--dry-run', action='store_true', help='Print plan without network access or builds')
     parser.add_argument('--no-wait', action='store_true')
     parser.add_argument('--timeout', type=int, default=14400, help='Maximum seconds to wait (default 4 hours)')
-    parser.add_argument('--project', default=os.environ.get('GITLAB_RELEASE_PROJECT', 'trebuchetdynamics/flutter-fractal-forge'))
+    parser.add_argument('--project', default=os.environ.get('GITLAB_RELEASE_PROJECT', 'TrebuchetDynamics/flutter-fractal-forge'))
     args = parser.parse_args(argv)
     version = args.publish or args.prepare or 'auto'
     automatic = version == 'auto'
