@@ -41,6 +41,8 @@ The first release eligible for catalog submission is `1.1.97`. `v1.1.93` predate
 
 ## One-time official catalog submission
 
+The active submission is [fdroiddata !46920](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/46920). Update that merge request in place; do not open a duplicate. Its source repository is [TrebuchetDynamics/flutter-fractal-forge on GitLab](https://gitlab.com/TrebuchetDynamics/flutter-fractal-forge). Published reference APKs remain hosted on GitHub.
+
 Official publication requires one human-reviewed fdroiddata merge:
 
 1. Complete and push the first eligible release tag.
@@ -48,7 +50,7 @@ Official publication requires one human-reviewed fdroiddata merge:
 3. Extract `fractal-forge-fdroiddata-vX.Y.Z.tar.gz`.
 4. Copy `fdroiddata/metadata/com.trebuchetdynamics.fractal.forge.yml` into a fork of [fdroid/fdroiddata](https://gitlab.com/fdroid/fdroiddata).
 5. Run `fdroid readmeta`, `fdroid lint`, `fdroid scanner`, and `fdroid build com.trebuchetdynamics.fractal.forge` using the current F-Droid buildserver image.
-6. Open a `New app: Fractal Forge` merge request using the App Inclusion template and address packager review.
+6. Update the existing `New app: Fractal Forge` merge request (!46920) and address packager review.
 
 After that merge, `UpdateCheckMode: Tags` and `fdroid/version.properties` allow F-Droid's update checker to discover later release tags and create update merge requests.
 

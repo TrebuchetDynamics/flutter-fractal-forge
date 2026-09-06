@@ -107,15 +107,15 @@ License: Apache-2.0
 AuthorName: Trebuchet Dynamics
 AuthorWebSite: https://trebuchetdynamics.com
 WebSite: https://fractal.trebuchetdynamics.com
-SourceCode: https://github.com/TrebuchetDynamics/flutter-fractal-forge
-IssueTracker: https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues
+SourceCode: https://gitlab.com/TrebuchetDynamics/flutter-fractal-forge
+IssueTracker: https://gitlab.com/TrebuchetDynamics/flutter-fractal-forge/-/issues
 Changelog:
-  https://github.com/TrebuchetDynamics/flutter-fractal-forge/blob/HEAD/CHANGELOG.md
+  https://gitlab.com/TrebuchetDynamics/flutter-fractal-forge/-/blob/HEAD/CHANGELOG.md
 
 AutoName: Fractal Forge
 
 RepoType: git
-Repo: https://github.com/TrebuchetDynamics/flutter-fractal-forge.git
+Repo: https://gitlab.com/TrebuchetDynamics/flutter-fractal-forge.git
 
 Builds:
 EOF
