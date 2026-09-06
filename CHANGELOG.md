@@ -46,6 +46,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   consistent travel on high-refresh displays and delayed frames. 2D zoom keeps
   the released pinch midpoint anchored; inertia stops cleanly at zoom limits.
 
+## [1.1.105] - 2026-09-05
+
+- Audit every Linux fractal and repair broken catalog renders
+- Add recursive crystal fractals and stabilize shared rendering
+- Improve shared fractal zoom inertia and preserve pinch focus
+- fix(fdroid): simplify reviewed build metadata
+- Automatically prepare and publish the next patch with release.sh
+- Pin available CI base and bootstrap the canonical Flutter SDK
+- Move all CI and multi-platform releases to GitLab
+- Refine catalog cards with compact favorites and accessible captions
+- Use Fractal Forge as the store title in every locale
+- Refresh localized store campaign and verify atomic image publishing
+
 ## [1.1.104] - 2026-09-04
 
 ### Improved

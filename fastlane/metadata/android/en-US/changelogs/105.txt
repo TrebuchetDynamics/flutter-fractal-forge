@@ -1,0 +1,9 @@
+- Audit every Linux fractal and repair broken catalog renders
+- Add recursive crystal fractals and stabilize shared rendering
+- Improve shared fractal zoom inertia and preserve pinch focus
+- fix(fdroid): simplify reviewed build metadata
+- Automatically prepare and publish the next patch with release.sh
+- Pin available CI base and bootstrap the canonical Flutter SDK
+- Move all CI and multi-platform releases to GitLab
+- Refine catalog cards with compact favorites and accessible captions
+- Use Fra
