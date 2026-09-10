@@ -4365,6 +4365,16 @@
     "capability": "timeDriven"
   },
   {
+    "id": "recursive_octagram_field",
+    "shaderAsset": "shaders/ifs_and_geometric/plane_tilings/recursive_octagram_field_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "relativistic_black_hole_lensing",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/physical_simulation/relativistic_black_hole_lensing_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
     "id": "rep_tile_explorer",
     "shaderAsset": "shaders/ifs_and_geometric/rep_tile_explorer_gpu.frag",
     "capability": "static"

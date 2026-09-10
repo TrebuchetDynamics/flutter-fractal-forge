@@ -58,7 +58,14 @@ void main() {
             .evaluate()
             .isNotEmpty;
       }).length;
-      if (rendered == visibleCatalogIds.length) break;
+      // The viewport can include more cards than the four Barnsley entries.
+      // Wait for their telemetry too before asserting full-grid completion.
+      if (rendered == visibleCatalogIds.length &&
+          CatalogThumbnailTelemetry.instance.snapshot
+                  .visibleGridCompletionTime !=
+              null) {
+        break;
+      }
       await tester.pump(const Duration(milliseconds: 100));
     }
     scrollTimer.stop();

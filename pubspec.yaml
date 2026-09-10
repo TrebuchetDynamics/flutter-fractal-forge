@@ -1,5 +1,5 @@
 name: flutter_fractals
-description: GPU-accelerated exploration of 1017 production fractals with deep zoom and real-time rendering.
+description: GPU-accelerated exploration of 1019 production fractals with deep zoom and real-time rendering.
 publish_to: none
 version: 1.1.0+38
 environment:
@@ -601,6 +601,8 @@ flutter:
     - shaders/kaleidoscopes/classic_symmetry/kaleidoscope_rosette_gpu.frag
     - shaders/kaleidoscopes/radial_ornaments/kaleidoscope_ring_gpu.frag
     - shaders/kaleidoscopes/textured_light/kaleidoscope_nebula_gpu.frag
+    - shaders/escape_time_family/experimental_named/physical_simulation/relativistic_black_hole_lensing_gpu.frag
+    - shaders/ifs_and_geometric/plane_tilings/recursive_octagram_field_gpu.frag
     - shaders/escape_time_family/families/iteration_schemes/fixed_point_iteration_gpu.frag
     - shaders/number_theory/minkowski_question_mark_gpu.frag
     - shaders/escape_time_family/julia_variants/mobius_transformation_julia_gpu.frag

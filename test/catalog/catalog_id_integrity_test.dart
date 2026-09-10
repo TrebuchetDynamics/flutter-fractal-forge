@@ -11,17 +11,17 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 ///
 /// ## Expected counts (update when catalog intentionally grows)
 ///
-/// - Escape-time catalog raw unique IDs       : 543
+/// - Escape-time catalog raw unique IDs       : 545
 /// - Raymarched-3D catalog unique IDs         :  37
 /// - Custom hand-built modules                :   9
 ///   (julia, julia_dual, phoenix, nova, mandelbulb, mandelbox,
 ///    hydrogen_orbital, quaternion_julia_3d, juliabulb_3d)
-/// - Total ModuleRegistry modules (debug/test) : 1025
-/// - Production modules excluding diagnostics  : 1018
-/// - Production fractals (excluding Hydrogen)  : 1017
+/// - Total ModuleRegistry modules (debug/test) : 1027
+/// - Production modules excluding diagnostics  : 1020
+/// - Production fractals (excluding Hydrogen)  : 1019
 ///
 /// The debug/test registry includes 7 diagnostic shader modules; public copy
-/// should use 1017 production fractals. The "196 GPU shaders" figure in TODO.md refers to fragment shader
+/// should use 1019 production fractals. The "196 GPU shaders" figure in TODO.md refers to fragment shader
 /// assets compiled at build time; it predates the full catalog expansion.
 void main() {
   // ---------------------------------------------------------------------------
@@ -34,8 +34,8 @@ void main() {
       catalog = escapeTimeCatalog;
     });
 
-    test('total entry count is 543', () {
-      expect(catalog.length, 543,
+    test('total entry count is 545', () {
+      expect(catalog.length, 545,
           reason: 'Update this constant when entries are intentionally '
               'added to or removed from escape_time_catalog.dart.');
     });
@@ -119,10 +119,10 @@ void main() {
       registry = ModuleRegistry();
     });
 
-    test('total module count is 1025 in debug/test', () {
+    test('total module count is 1027 in debug/test', () {
       // Debug/test builds include 7 diagnostic modules and one non-fractal
-      // scientific visualization. Public docs count 1017 production fractals.
-      expect(registry.modules.length, 1025,
+      // scientific visualization. Public docs count 1019 production fractals.
+      expect(registry.modules.length, 1027,
           reason: 'Update this constant when modules are intentionally '
               'added to or removed from the de-duplicated registry.');
     });
