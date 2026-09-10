@@ -20,6 +20,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
 import 'package:flutter_fractals/app/diagnostic_apps.dart';
 import 'package:flutter_fractals/app/startup.dart';
@@ -38,6 +39,8 @@ Future<void> main() async {
   // All Flutter initialization must happen in the same zone as runApp
   // to avoid zone mismatch errors.
   await runZonedGuarded(() async {
+    DeepLinkService.captureInitialBrowserUri();
+    usePathUrlStrategy();
     WidgetsFlutterBinding.ensureInitialized();
 
     // Lightweight, local-only crash/error reporting.

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -24,6 +25,60 @@ void main() {
       expect(
           find.byKey(const Key('catalogSearchToggleButton')), findsOneWidget);
     });
+
+    for (final mode in ['normal', 'controls', 'fullscreen']) {
+      testWidgets('returns directly to the filtered catalog from $mode view',
+          (tester) async {
+        await tester.binding.setSurfaceSize(const Size(390, 844));
+        addTearDown(() => tester.binding.setSurfaceSize(null));
+        final semantics = tester.ensureSemantics();
+
+        await tester.pumpWidget(buildTestWidget());
+        await tester.pumpAndSettle();
+        await tester.tap(find.byKey(const Key('catalogSearchToggleButton')));
+        await tester.pumpAndSettle();
+        await tester.enterText(find.byType(TextField), 'Mandelbrot');
+        await tester.pumpAndSettle(const Duration(milliseconds: 400));
+        final card = find.byWidgetPredicate((widget) =>
+            widget.key is ValueKey<String> &&
+            (widget.key! as ValueKey<String>)
+                .value
+                .startsWith('catalogModuleCard_'));
+        await tester.tap(card.first);
+        await tester.pumpAndSettle();
+        expect(find.byKey(const Key('fractalViewerRoot')), findsOneWidget);
+        if (mode == 'fullscreen') {
+          await tester.tap(find.byTooltip('Fullscreen view'));
+          await tester.pumpAndSettle();
+        } else if (mode == 'controls') {
+          await tester.longPress(
+              find.byKey(const ValueKey('viewerRandomParamsButton')));
+          await tester.pumpAndSettle();
+        }
+        final back = find.byKey(const Key('viewerBackToCatalogButton'));
+        expect(back, findsOneWidget);
+        expect(find.bySemanticsLabel('Back to catalog'), findsOneWidget);
+        expect(tester.getSemantics(back).rect.height, greaterThanOrEqualTo(48));
+        expect(tester.getSize(back).height,
+            greaterThanOrEqualTo(48));
+        if (mode == 'normal') {
+          Focus.of(tester.element(find.text('Back to catalog'))).requestFocus();
+          await tester.pump();
+          await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+        } else {
+          await tester.tap(back);
+        }
+        await tester.pumpAndSettle();
+        expect(find.byKey(const Key('fractalViewerRoot')), findsNothing);
+        expect(
+            tester.widget<TextField>(find.byType(TextField)).controller!.text,
+            'Mandelbrot');
+        expect(tester.takeException(), isNull);
+        semantics.dispose();
+        await tester.pumpWidget(const SizedBox.shrink());
+        await tester.pumpAndSettle();
+      });
+    }
 
     testWidgets('displays fractal modules in catalog', (tester) async {
       await tester.pumpWidget(buildTestWidget());

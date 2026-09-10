@@ -22,6 +22,7 @@ import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/diagnostics/debug_runner_service.dart';
 import 'package:flutter_fractals/core/services/platform/deep_link_service.dart';
+import 'package:flutter_fractals/core/services/platform/browser_view_url_sync.dart';
 import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
 import 'package:flutter_fractals/core/services/export/export_worker.dart';
@@ -331,6 +332,11 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     super.didChangeDependencies();
     _viewerSessionStore ??= context.read<ViewerSessionStore?>();
     final controller = context.read<FractalController>();
+    if (kIsWeb && !widget.captureMode) {
+      _browserUrlSync ??= BrowserViewUrlSync(
+        readUri: () => _shareUriFor(_activeController(context)),
+      );
+    }
     if (!_viewerSessionRestored && widget.restoreViewerSession) {
       _viewerSessionRestored = true;
       _restoreViewerSession(controller);
@@ -388,6 +394,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   void _onAutoExploreUserInteractionEnd() {
     _autoExploreService?.onUserInteractionEnd();
   }
+
+  BrowserViewUrlSync? _browserUrlSync;
 
   void _onControllerChanged() {
     if (!mounted) return;
@@ -476,6 +484,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
   @override
   void dispose() {
+    _browserUrlSync?.dispose();
     unawaited(
         _viewerSessionStore?.markViewerInactive() ?? Future<void>.value());
     WidgetsBinding.instance.removeObserver(this);
@@ -1059,7 +1068,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   }
 
   void _handleViewerBack(bool didPop) {
-    if (didPop) return;
+    if (didPop) {
+      _browserUrlSync?.dispose();
+      return;
+    }
     if (_exporting) {
       _exportService.cancelActiveExport();
       return;
@@ -1103,12 +1115,15 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       glowEnabled: controller.glowEnabled,
       glowSigma: controller.glowSigma,
       glowIntensity: controller.glowIntensity,
+      fluidModeEnabled: controller.fluidModeEnabled,
+      fluidStrength: controller.fluidStrength,
       kaleidoscopeEnabled: controller.kaleidoscopeEnabled,
       kaleidoscopeSectors: controller.kaleidoscopeSectors,
       kaleidoscopeMirror: controller.kaleidoscopeMirror,
       kaleidoscopeRotation: controller.kaleidoscopeRotation,
       kaleidoscopeMirrorMode: controller.kaleidoscopeMirrorMode,
       includeDefaults: true,
+      readable: kIsWeb,
     );
   }
 
@@ -1483,6 +1498,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
   @override
   Widget build(BuildContext context) {
+    _browserUrlSync?.schedule();
     final controller = context.watch<FractalController>();
     final l10n = AppLocalizations.of(context)!;
 
@@ -1514,7 +1530,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
               final activeController = _activeController(context);
               final landscape = constraints.maxWidth > constraints.maxHeight;
               final topInset = MediaQuery.of(context).padding.top;
-              final overlayTop = topInset + 56;
+              final overlayTop = topInset + 80;
 
               return Stack(
                 children: [
@@ -1899,6 +1915,45 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         value: controller,
                         child: FractalControlsHud(
                           onClose: _toggleControlsHud,
+                        ),
+                      ),
+                    ),
+
+                  if (!widget.captureMode && Navigator.of(context).canPop())
+                    Positioned(
+                      top: topInset + 8,
+                      left: 12,
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: constraints.maxWidth - 24,
+                        ),
+                        child: TextButton.icon(
+                          key: const Key('viewerBackToCatalogButton'),
+                          style: TextButton.styleFrom(
+                            visualDensity: VisualDensity.standard,
+                            foregroundColor: Colors.white,
+                            backgroundColor: AppColors.surface,
+                            minimumSize: Size(
+                              48,
+                              context
+                                          .watch<AccessibilityService?>()
+                                          ?.largeTargetsEnabled ==
+                                      true
+                                  ? 56
+                                  : 48,
+                            ),
+                          ),
+                          // An explicit catalog destination closes the viewer
+                          // directly; system Back still dismisses its HUD first.
+                          onPressed: _exporting
+                              ? null
+                              : () => Navigator.of(context).pop(),
+                          icon: const Icon(Icons.arrow_back_rounded),
+                          label: Text(
+                            l10n.viewerBackToCatalog,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ),
                     ),

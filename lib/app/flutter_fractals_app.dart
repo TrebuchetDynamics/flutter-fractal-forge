@@ -226,6 +226,8 @@ class _AppShellState extends State<_AppShell> with WidgetsBindingObserver {
               : baseTheme;
 
           return MaterialApp(
+            // Home applies the captured launch URL once services are ready.
+            initialRoute: '/',
             locale: widget.locale,
             onGenerateTitle: (context) =>
                 AppLocalizations.of(context)!.appTitle,

@@ -6,6 +6,7 @@
   "tabSettings": "Ajustes",
   "settingsTitle": "Ajustes",
   "catalogTitle": "Catálogo de fractales",
+  "viewerBackToCatalog": "Volver al catálogo",
   "catalogSearchHint": "Buscar fractales",
   "catalogSearchEmpty": "No hay fractales que coincidan con tu búsqueda.",
   "actionClearSearch": "Borrar búsqueda",
@@ -654,7 +655,7 @@
       "type": {}
     }
   },
-  "homeFractalCountBadge": "1017 fractales",
+  "homeFractalCountBadge": "1019 fractales",
 
   "catalogAllFractals": "Todos los fractales",
   "catalogFilterAll": "Todos",
@@ -757,7 +758,7 @@
   },
   "settingsColorTheme": "Tema de color",
   "settingsColorThemeSubtitle": "Elige un estilo de contraste y superficie.",
-  "settingsAboutBlurb": "Exploración acelerada por GPU de 1017 fractales de producción, con zoom profundo y renderizado en tiempo real.",
+  "settingsAboutBlurb": "Exploración acelerada por GPU de 1019 fractales de producción, con zoom profundo y renderizado en tiempo real.",
   "settingsSourceCode": "Código fuente",
   "settingsSourceCodeSubtitle": "Ver Fractal Forge en GitHub ↗",
   "settingsSourceCodeOpenFailed": "No se pudo abrir el código fuente.",

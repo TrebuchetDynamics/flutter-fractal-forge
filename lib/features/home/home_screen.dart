@@ -104,7 +104,8 @@ class _HomeScreenState extends State<HomeScreen>
   void _initPlaywrightCatalogSmoke() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted || _handledPlaywrightSmokeModule) return;
-      final moduleId = Uri.base.queryParameters['smokeModule'];
+      final moduleId =
+          DeepLinkService.initialBrowserUri.queryParameters['smokeModule'];
       if (moduleId == null || moduleId.isEmpty) return;
       _handledPlaywrightSmokeModule = true;
       _openSmokeModule(moduleId);
@@ -114,7 +115,8 @@ class _HomeScreenState extends State<HomeScreen>
   void _initBrowserDeepLink() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted || _handledInitialLink) return;
-      final data = DeepLinkService.parseUri(Uri.base);
+      final data =
+          DeepLinkService.parseBrowserUri(DeepLinkService.initialBrowserUri);
       if (data == null) return;
       _handledInitialLink = true;
       _handleDeepLink(data);
@@ -163,6 +165,12 @@ class _HomeScreenState extends State<HomeScreen>
     }
     if (data.glowIntensity != null) {
       _exploreController.setGlowIntensity(data.glowIntensity!);
+    }
+    if (data.fluidModeEnabled != null) {
+      _exploreController.setFluidModeEnabled(data.fluidModeEnabled!);
+    }
+    if (data.fluidStrength != null) {
+      _exploreController.setFluidStrength(data.fluidStrength!);
     }
     if (data.kaleidoscopeEnabled != null) {
       _exploreController.setKaleidoscopeEnabled(data.kaleidoscopeEnabled!);
@@ -233,7 +241,7 @@ class _HomeScreenState extends State<HomeScreen>
   /// for a smoke capture, reusing the deep-link bounds/validation. Returns null
   /// when no override keys are present (keep the module's default framing).
   DeepLinkData? _smokeViewOverrides(String moduleId) {
-    final base = Uri.base.queryParameters;
+    final base = DeepLinkService.initialBrowserUri.queryParameters;
     if (!base.keys.any(_smokeOverrideKeys.contains)) return null;
     final query = Map<String, String>.from(base)
       ..remove('smokeModule')
@@ -248,7 +256,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   /// Whether the smoke capture should open chrome-free (`?capture=1`).
   bool _smokeCaptureMode() {
-    final value = Uri.base.queryParameters['capture'];
+    final value = DeepLinkService.initialBrowserUri.queryParameters['capture'];
     return value == '1' || value == 'true';
   }
 
@@ -294,7 +302,7 @@ class _HomeScreenState extends State<HomeScreen>
     final l10n = AppLocalizations.of(context)!;
 
     final smokeModuleId = RuntimeModeService.playwrightCatalogSmoke
-        ? Uri.base.queryParameters['smokeModule']
+        ? DeepLinkService.initialBrowserUri.queryParameters['smokeModule']
         : null;
 
     return Scaffold(

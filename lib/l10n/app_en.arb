@@ -6,6 +6,7 @@
   "tabSettings": "Settings",
   "settingsTitle": "Settings",
   "catalogTitle": "Fractal Catalog",
+  "viewerBackToCatalog": "Back to catalog",
   "catalogSearchHint": "Search fractals",
   "catalogSearchEmpty": "No fractals match your search.",
   "actionClearSearch": "Clear search",
@@ -653,7 +654,7 @@
       "type": {}
     }
   },
-  "homeFractalCountBadge": "1017 fractals",
+  "homeFractalCountBadge": "1019 fractals",
 
   "catalogAllFractals": "All Fractals",
   "catalogFilterAll": "All",
@@ -756,7 +757,7 @@
   },
   "settingsColorTheme": "Color Theme",
   "settingsColorThemeSubtitle": "Choose a contrast and surface style.",
-  "settingsAboutBlurb": "GPU-accelerated exploration of 1017 production fractals, with deep zoom and real-time rendering.",
+  "settingsAboutBlurb": "GPU-accelerated exploration of 1019 production fractals, with deep zoom and real-time rendering.",
   "settingsSourceCode": "Source code",
   "settingsSourceCodeSubtitle": "View Fractal Forge on GitHub ↗",
   "settingsSourceCodeOpenFailed": "Unable to open source code.",

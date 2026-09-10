@@ -27,6 +27,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get catalogTitle => 'Fractal Catalog';
 
   @override
+  String get viewerBackToCatalog => 'Back to catalog';
+
+  @override
   String get catalogSearchHint => 'Search fractals';
 
   @override
@@ -1481,7 +1484,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get homeFractalCountBadge => '1017 fractals';
+  String get homeFractalCountBadge => '1019 fractals';
 
   @override
   String get catalogAllFractals => 'All Fractals';
@@ -1722,7 +1725,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsAboutBlurb =>
-      'GPU-accelerated exploration of 1017 production fractals, with deep zoom and real-time rendering.';
+      'GPU-accelerated exploration of 1019 production fractals, with deep zoom and real-time rendering.';
 
   @override
   String get settingsSourceCode => 'Source code';

@@ -658,7 +658,85 @@ void main() {
       });
     });
 
+    test('browser locations support previews without loosening native links',
+        () {
+      final uri = Uri.parse('http://localhost:8880/?type=julia&zoom=7');
+      expect(DeepLinkService.parseUri(uri), isNull);
+      final parsed = DeepLinkService.parseBrowserUri(uri)!;
+      expect(parsed.type, 'julia');
+      expect(parsed.zoom, 7);
+    });
+
     group('buildWebUri', () {
+      test('readable web URLs preserve every parameter and visual setting', () {
+        final params = <String, Object>{
+          'iterations': 321,
+          'power': 42.5,
+          'orbitTrapEnabled': true,
+          'label': 'blue & gold = #1',
+          'custom': 0.123456789012345,
+        };
+        final view = FractalViewState(
+          pan: Vector2(-0.743643887037151, 0.13182590420533),
+          zoom: 1e9,
+          rotation: Vector3(0.123456789, -0.25, 0.5),
+        );
+        final uri = DeepLinkService.buildWebUri(
+          moduleId: 'mandelbrot',
+          params: params,
+          view: view,
+          readable: true,
+          includeDefaults: true,
+          fluidModeEnabled: true,
+          fluidStrength: 1.75,
+          glowEnabled: true,
+          glowSigma: 2.123456789,
+          glowIntensity: 0.7123456789,
+          kaleidoscopeEnabled: true,
+          kaleidoscopeSectors: 12,
+          kaleidoscopeMirror: false,
+          kaleidoscopeRotation: 0.75123456789,
+          kaleidoscopeMirrorMode: 2,
+          rotationLocked: true,
+          transparentBackground: true,
+        );
+        expect(uri.queryParameters['type'], 'mandelbrot');
+        expect(uri.queryParameters['zoom'], '1000000000');
+        expect(uri.queryParameters['param.iterations'], '321');
+        expect(uri.queryParameters['p'], isNull);
+        final restored = DeepLinkService.parseUri(uri)!;
+        expect(restored.toParams(), params);
+        expect(restored.toViewState().pan, view.pan);
+        expect(restored.toViewState().zoom, view.zoom);
+        expect(restored.toViewState().rotation, view.rotation);
+        expect(restored.fluidModeEnabled, isTrue);
+        expect(restored.fluidStrength, 1.75);
+        expect(restored.glowEnabled, isTrue);
+        expect(restored.glowSigma, 2.123456789);
+        expect(restored.glowIntensity, 0.7123456789);
+        expect(restored.kaleidoscopeEnabled, isTrue);
+        expect(restored.kaleidoscopeSectors, 12);
+        expect(restored.kaleidoscopeMirror, isFalse);
+        expect(restored.kaleidoscopeRotation, 0.75123456789);
+        expect(restored.kaleidoscopeMirrorMode, 2);
+        expect(restored.rotationLocked, isTrue);
+        expect(restored.transparentBackground, isTrue);
+      });
+
+      test(
+          'readable parameters reject duplicate keys and ignore invalid values',
+          () {
+        expect(
+            DeepLinkService.parseUri(Uri.parse(
+              'https://fractal.trebuchetdynamics.com/?type=julia&param.a=1&param.a=2',
+            )),
+            isNull);
+        final parsed = DeepLinkService.parseUri(Uri.parse(
+          'https://fractal.trebuchetdynamics.com/?type=julia&param.a=%5B1%5D&param.b=NaN&param.c=false',
+        ))!;
+        expect(parsed.toParams(), {'c': false});
+      });
+
       test('creates https URL with fractal.trebuchetdynamics.com host', () {
         final uri = DeepLinkService.buildWebUri(
           moduleId: 'mandelbrot',

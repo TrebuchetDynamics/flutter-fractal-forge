@@ -52,7 +52,7 @@ class DeepLinkData {
   /// Julia set imaginary constant (c.y) from the public `juliaY` URL alias.
   final double? juliaY;
 
-  /// Full runtime parameter payload from the compact `p` query value.
+  /// Runtime parameters from compact `p` or readable `param.*` query values.
   final Map<String, Object> extraParams;
 
   /// Transparent background export/rendering flag.
@@ -65,6 +65,8 @@ class DeepLinkData {
   final bool? glowEnabled;
   final double? glowSigma;
   final double? glowIntensity;
+  final bool? fluidModeEnabled;
+  final double? fluidStrength;
 
   /// Kaleidoscope post-effect controls.
   final bool? kaleidoscopeEnabled;
@@ -93,6 +95,8 @@ class DeepLinkData {
     this.glowEnabled,
     this.glowSigma,
     this.glowIntensity,
+    this.fluidModeEnabled,
+    this.fluidStrength,
     this.kaleidoscopeEnabled,
     this.kaleidoscopeSectors,
     this.kaleidoscopeMirror,
@@ -287,7 +291,10 @@ class _DeepLinkQuery {
 
   factory _DeepLinkQuery.fromUri(Uri uri) {
     final duplicatedRecognizedKeys = uri.queryParametersAll.entries.where(
-      (entry) => recognizedNames.contains(entry.key) && entry.value.length > 1,
+      (entry) =>
+          (recognizedNames.contains(entry.key) ||
+              entry.key.startsWith('param.')) &&
+          entry.value.length > 1,
     );
     if (duplicatedRecognizedKeys.isNotEmpty) {
       throw FormatException(
@@ -472,6 +479,11 @@ class _DeepLinkViewQueryBounds {
 }
 
 class DeepLinkService {
+  // Capture before Flutter announces its initial '/' route to the browser.
+  static Uri? _initialBrowserUri;
+  static Uri get initialBrowserUri => _initialBrowserUri ?? Uri.base;
+  static void captureInitialBrowserUri() => _initialBrowserUri = Uri.base;
+
   static const String scheme = 'fractalforge';
   static const String host = 'view';
 
@@ -527,6 +539,9 @@ class DeepLinkService {
       _BoundedDoubleQueryParam('glowSigma', 0.1, 5.0);
   static const _glowIntensityParam =
       _BoundedDoubleQueryParam('glowIntensity', 0.0, 1.0);
+  static const _fluidModeEnabledParam = _BoolQueryParam('fluidModeEnabled');
+  static const _fluidStrengthParam =
+      _BoundedDoubleQueryParam('fluidStrength', 0.0, 2.0);
   static const _kaleidoscopeEnabledParam =
       _BoolQueryParam('kaleidoscopeEnabled');
   static const _kaleidoscopeSectorsParam =
@@ -565,6 +580,8 @@ class DeepLinkService {
     _glowEnabledParam,
     _glowSigmaParam,
     _glowIntensityParam,
+    _fluidModeEnabledParam,
+    _fluidStrengthParam,
     _kaleidoscopeEnabledParam,
     _kaleidoscopeSectorsParam,
     _kaleidoscopeMirrorParam,
@@ -648,6 +665,13 @@ class DeepLinkService {
     }
   }
 
+  /// Parses the address of this web app, including localhost/preview hosts.
+  /// Native/universal-link inputs still go through the strict host allowlist.
+  static DeepLinkData? parseBrowserUri(Uri uri) {
+    if (uri.scheme != 'https' && uri.scheme != 'http') return parseUri(uri);
+    return parseUri(Uri(scheme: scheme, host: host, query: uri.query));
+  }
+
   /// Parses a URI into [DeepLinkData].
   ///
   /// Returns null if the URI is not a valid fractalforge deep link or
@@ -697,12 +721,17 @@ class DeepLinkService {
       power: _powerParam.parse(query),
       juliaX: _juliaXParam.parse(query),
       juliaY: _juliaYParam.parse(query),
-      extraParams: _decodeParamsPayload(query[_paramsPayloadName]),
+      extraParams: {
+        ..._decodeParamsPayload(query[_paramsPayloadName]),
+        ..._decodeReadableParams(query),
+      },
       transparentBackground: _transparentParam.parse(query),
       rotationLocked: _rotationLockedParam.parse(query),
       glowEnabled: _glowEnabledParam.parse(query),
       glowSigma: _glowSigmaParam.parse(query),
       glowIntensity: _glowIntensityParam.parse(query),
+      fluidModeEnabled: _fluidModeEnabledParam.parse(query),
+      fluidStrength: _fluidStrengthParam.parse(query),
       kaleidoscopeEnabled: _kaleidoscopeEnabledParam.parse(query),
       kaleidoscopeSectors: _kaleidoscopeSectorsParam.parse(query),
       kaleidoscopeMirror: _kaleidoscopeMirrorParam.parse(query),
@@ -724,6 +753,8 @@ class DeepLinkService {
     bool glowEnabled = false,
     double glowSigma = 1.0,
     double glowIntensity = 0.35,
+    bool fluidModeEnabled = false,
+    double fluidStrength = 1.0,
     bool kaleidoscopeEnabled = false,
     int kaleidoscopeSectors = 8,
     bool kaleidoscopeMirror = true,
@@ -777,6 +808,10 @@ class DeepLinkService {
       _addBoundedDoubleQueryParam(queryParams, _glowSigmaParam, glowSigma);
       _addBoundedDoubleQueryParam(
           queryParams, _glowIntensityParam, glowIntensity);
+      _addBoolQueryParam(queryParams, _fluidModeEnabledParam, fluidModeEnabled);
+      _addBoundedDoubleQueryParam(
+          queryParams, _fluidStrengthParam, fluidStrength,
+          preservePrecision: true);
       _addBoolQueryParam(
           queryParams, _kaleidoscopeEnabledParam, kaleidoscopeEnabled);
       _addBoundedIntQueryParam(
@@ -815,6 +850,11 @@ class DeepLinkService {
         glowIntensity,
         defaultValue: 0.35,
       );
+      _addNonDefaultBoolQueryParam(
+          queryParams, _fluidModeEnabledParam, fluidModeEnabled);
+      _addNonDefaultBoundedDoubleQueryParam(
+          queryParams, _fluidStrengthParam, fluidStrength,
+          defaultValue: 1.0, preservePrecision: true);
       _addNonDefaultBoolQueryParam(
         queryParams,
         _kaleidoscopeEnabledParam,
@@ -952,6 +992,8 @@ class DeepLinkService {
   /// Builds a web-compatible URL for sharing.
   ///
   /// Uses the verified web domain for universal link support.
+  /// With [readable], parameter names and typed JSON scalar values replace the
+  /// compact payload, so address-bar links can be inspected and edited.
   static Uri buildWebUri({
     required String moduleId,
     required Map<String, Object> params,
@@ -961,12 +1003,15 @@ class DeepLinkService {
     bool glowEnabled = false,
     double glowSigma = 1.0,
     double glowIntensity = 0.35,
+    bool fluidModeEnabled = false,
+    double fluidStrength = 1.0,
     bool kaleidoscopeEnabled = false,
     int kaleidoscopeSectors = 8,
     bool kaleidoscopeMirror = true,
     double kaleidoscopeRotation = 0.0,
     int kaleidoscopeMirrorMode = 0,
     bool includeDefaults = false,
+    bool readable = false,
   }) {
     final customUri = buildUri(
       moduleId: moduleId,
@@ -977,6 +1022,8 @@ class DeepLinkService {
       glowEnabled: glowEnabled,
       glowSigma: glowSigma,
       glowIntensity: glowIntensity,
+      fluidModeEnabled: fluidModeEnabled,
+      fluidStrength: fluidStrength,
       kaleidoscopeEnabled: kaleidoscopeEnabled,
       kaleidoscopeSectors: kaleidoscopeSectors,
       kaleidoscopeMirror: kaleidoscopeMirror,
@@ -985,11 +1032,38 @@ class DeepLinkService {
       includeDefaults: includeDefaults,
       includeReadableParams: false,
     );
+    final query = Map<String, String>.of(customUri.queryParameters);
+    if (readable) {
+      query.remove(_paramsPayloadName);
+      for (final (param, value) in [
+        (_rotXParam, view.rotation.x),
+        (_rotYParam, view.rotation.y),
+        (_rotZParam, view.rotation.z),
+        (_glowSigmaParam, glowSigma),
+        (_glowIntensityParam, glowIntensity),
+        (_kaleidoscopeRotationParam, kaleidoscopeRotation),
+      ]) {
+        if (query.containsKey(param.name)) {
+          _addBoundedDoubleQueryParam(query, param, value,
+              preservePrecision: true);
+        }
+      }
+      for (final entry in params.entries.toList()
+        ..sort((a, b) => a.key.compareTo(b.key))) {
+        final value = entry.value;
+        if (value is bool ||
+            value is int ||
+            value is String ||
+            (value is double && value.isFinite)) {
+          query['param.${entry.key}'] = jsonEncode(value);
+        }
+      }
+    }
     return Uri(
       scheme: 'https',
       host: 'fractal.trebuchetdynamics.com',
       path: '/',
-      queryParameters: _compactWebQueryParameters(customUri.queryParameters),
+      queryParameters: readable ? query : _compactWebQueryParameters(query),
     );
   }
 
@@ -1041,6 +1115,25 @@ class DeepLinkService {
   static final Map<String, String> _payloadKeyAliasesReversed = {
     for (final entry in _payloadKeyAliases.entries) entry.value: entry.key,
   };
+
+  static Map<String, Object> _decodeReadableParams(_DeepLinkQuery query) {
+    final result = <String, Object>{};
+    for (final entry in query._params.entries) {
+      if (!entry.key.startsWith('param.') || entry.key.length == 6) continue;
+      try {
+        final value = jsonDecode(entry.value);
+        if (value is bool ||
+            value is int ||
+            value is String ||
+            (value is double && value.isFinite)) {
+          result[entry.key.substring(6)] = value;
+        }
+      } on FormatException {
+        // Ignore malformed values just like the legacy compact payload.
+      }
+    }
+    return result;
+  }
 
   static Map<String, Object> _decodeParamsPayload(String? value) {
     if (value == null || value.isEmpty) return const {};

@@ -134,6 +134,12 @@ abstract class AppLocalizations {
   /// **'Fractal Catalog'**
   String get catalogTitle;
 
+  /// No description provided for @viewerBackToCatalog.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to catalog'**
+  String get viewerBackToCatalog;
+
   /// No description provided for @catalogSearchHint.
   ///
   /// In en, this message translates to:
@@ -2831,7 +2837,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeFractalCountBadge.
   ///
   /// In en, this message translates to:
-  /// **'1017 fractals'**
+  /// **'1019 fractals'**
   String get homeFractalCountBadge;
 
   /// No description provided for @catalogAllFractals.
@@ -3263,7 +3269,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsAboutBlurb.
   ///
   /// In en, this message translates to:
-  /// **'GPU-accelerated exploration of 1017 production fractals, with deep zoom and real-time rendering.'**
+  /// **'GPU-accelerated exploration of 1019 production fractals, with deep zoom and real-time rendering.'**
   String get settingsAboutBlurb;
 
   /// No description provided for @settingsSourceCode.
