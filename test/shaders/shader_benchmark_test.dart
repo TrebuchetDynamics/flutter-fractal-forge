@@ -2,7 +2,7 @@
 //
 // A device/real engine is required for meaningful shader performance numbers.
 // Use the integration test version instead:
-//   integration_test/shader_benchmark_test.dart
+//   integration_test/performance/shader_benchmark_test.dart
 //
 // NOTE: We still include a skipped test so the file is not reported as
 // "No tests were found" (exit code 79) by CI/cron quality checks.
@@ -14,5 +14,5 @@ void main() {
     // Intentionally empty.
   },
       skip:
-          'Benchmark requires a real device; see integration_test/shader_benchmark_test.dart');
+          'Benchmark requires a real device; see integration_test/performance/shader_benchmark_test.dart');
 }

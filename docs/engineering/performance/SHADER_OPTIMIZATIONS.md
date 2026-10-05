@@ -1,183 +1,30 @@
-# Shader Performance Optimizations
+# Shader Source and Optimization Notes
 
-## Summary
+This document records current shader structure and evidence limits. It does not claim that every shader uses the same optimization or meets a fixed frame rate.
 
-All `.frag` shader files in `/shaders/` have been optimized for improved GPU performance.
+## Asset and uniform ownership
 
-## Changes Applied
+Flutter shader assets are declared under `flutter.shaders` in `pubspec.yaml`. The shader contribution workflow is in [`CONTRIBUTING.md`](../../../CONTRIBUTING.md).
 
-### 1. Reduced Branching (All Shaders)
+Standard escape-time modules use the slot definitions in `lib/core/modules/builders/uniform_layout.dart` and the setter in `lib/core/modules/builders/escape_time/builder.dart`. Slots 0 through 9 hold the shared values. Extra parameters start at slot 10. The 3D and double-float layouts use different slots. Do not copy a uniform index between shader families without checking its matching builder.
 
-**Before:**
-```glsl
-vec3 palette(float t, float scheme) {
-    if (scheme < 0.5) {
-        return vec3(0.2 + 0.8 * t, ...);
-    } else if (scheme < 1.5) {
-        return vec3(0.05 + 0.3 * t, ...);
-    } else if (scheme < 2.5) {
-        return vec3(0.5 + 0.5 * sin(...));
-    }
-    return vec3(t);
-}
-```
+## Coloring coverage
 
-**After:**
-```glsl
-vec3 palette(float t, float scheme) {
-    vec3 fire = vec3(0.2 + 0.8 * t, ...);
-    vec3 ocean = vec3(0.05 + 0.3 * t, ...);
-    vec3 psychedelic = vec3(0.5 + 0.5 * sin(...));
-    vec3 gray = vec3(t);
-    
-    float s0 = step(0.5, scheme);
-    float s1 = step(1.5, scheme);
-    float s2 = step(2.5, scheme);
-    
-    vec3 result = fire;
-    result = mix(result, ocean, s0 * (1.0 - s1));
-    result = mix(result, psychedelic, s1 * (1.0 - s2));
-    result = mix(result, gray, s2);
-    return result;
-}
-```
+The smooth-iteration expression in `shaders/escape_time_family/core/escape_time_perturb_gpu.frag` is one implementation. Other shaders use their own coloring code. The repository does not have a test that proves smooth coloring is present in every applicable polynomial escape-time shader. The coverage goal in `TODO.md` under P1-3 remains open.
 
-**Impact:** Eliminates branch divergence on GPU, which can cause significant performance penalties on parallel architectures.
+Do not apply one coloring formula to every recurrence without checking its iteration and magnitude values. Shader families can require different formulas.
 
-### 2. Precomputed Constants
+## Optimization evidence
 
-**Before:**
-```glsl
-for (int i = 0; i < 1000; i++) {
-    if (dot(z, z) > uBailout * uBailout) { ... }
-}
-```
+Earlier versions of this document described global level-of-detail and branchless-palette optimizations, and included performance-improvement estimates. The current sources and retained test receipts do not support those statements as project-wide claims. This document does not report a controlled before/after shader performance result.
 
-**After:**
-```glsl
-float bailoutSq = uBailout * uBailout;  // Computed once
-for (int i = 0; i < 1000; i++) {
-    if (dot(z, z) > bailoutSq) { ... }
-}
-```
+For source compatibility checks, run:
 
-**Impact:** Reduces redundant multiplication from O(n) to O(1).
-
-### 3. Level of Detail (LOD)
-
-Added zoom-based iteration reduction:
-
-```glsl
-float lodFactor = clamp(log2(uZoom + 1.0) * 0.5 + 0.5, 0.3, 1.0);
-float maxIter = max(uIterations * lodFactor, 1.0);
-```
-
-**Impact:** At low zoom levels, reduces iteration count by up to 70%, significantly improving frame rates during navigation.
-
-### 4. Smooth Iteration Coloring
-
-Added anti-aliased iteration counting:
-
-```glsl
-float smoothIter = iter;
-if (zMagSq > bailoutSq) {
-    smoothIter = iter + 1.0 - log2(log2(zMagSq) * 0.5);
-}
-```
-
-**Impact:** Reduces color banding artifacts without additional iterations.
-
-### 5. Branchless Alpha (Mode)
-
-**Before:**
-```glsl
-if (uTransparentBg > 0.5) {
-    bool inside = iter >= (maxIter - 1.0);
-    alpha = inside ? 0.0 : 1.0;
-}
-```
-
-**After:**
-```glsl
-float inside = step(maxIter - 1.0, iter);
-float alpha = mix(1.0, 1.0 - inside, step(0.5, uTransparentBg));
-```
-
-### 6. Mandelbulb 3D Optimizations
-
-#### a. Combined Rotation Matrix
-Combined three separate rotation matrices into one efficient computation.
-
-#### b. Forward Differences for Normals
-**Before:** 6 distance function calls (central differences)
-**After:** 4 distance function calls (forward differences)
-
-```glsl
-vec3 getNormal(vec3 pos) {
-    float eps = 0.001;
-    float d = getDistance(pos);
-    return normalize(vec3(
-        getDistance(pos + vec3(eps, 0.0, 0.0)) - d,
-        getDistance(pos + vec3(0.0, eps, 0.0)) - d,
-        getDistance(pos + vec3(0.0, 0.0, eps)) - d
-    ));
-}
-```
-
-**Impact:** 33% reduction in normal calculation cost.
-
-#### c. Adaptive Raymarching
-- LOD-based step count reduction
-- Adaptive minimum distance based on zoom level
-
-#### d. Branchless Mandelbox Fold
-Replaced conditional box/sphere folds with clamp operations:
-
-```glsl
-z = clamp(z, -1.0, 1.0) * 2.0 - z;  // Box fold
-float factor = max(1.0 / max(r, 0.25), 1.0);  // Sphere fold
-factor = min(factor, 4.0);
-```
-
-### 7. SkSL Compatibility Fixes
-
-Fixed `max(int, int)` calls which aren't supported in SkSL:
-```glsl
-// Before (fails):
-int maxSteps = max(int(uSteps * lodFactor), 10);
-
-// After (works):
-float fMaxSteps = max(uSteps * lodFactor, 10.0);
-int maxSteps = int(fMaxSteps);
-```
-
-## Benchmark Results
-
-All shaders compile and render correctly. Integration test confirms:
-- Load time: < 2ms for all shaders
-- All shaders maintain stable frame timing
-- No shader compilation errors
-
-## Files Modified
-
-- `shaders/mandelbrot.frag` - 2D Mandelbrot set
-- `shaders/julia.frag` - 2D Julia set
-- `shaders/burning_ship.frag` - 2D Burning Ship fractal
-- `shaders/mandelbulb.frag` - 3D Mandelbulb/Mandelbox/Julia/Sierpinski
-
-## Testing
-
-Run the benchmark test:
 ```bash
-flutter test integration_test/performance/shader_benchmark_test.dart -d linux
+flutter test test/shaders/shader_web_compat_test.dart
+flutter test test/modules/escape_time_shader_manifest_test.dart
 ```
 
-## Expected Performance Improvements
+For runtime behavior, use the device-specific checks in [`PERFORMANCE.md`](PERFORMANCE.md). For the broader Linux catalog audit and its limits, see [`LINUX_FRACTAL_AUDIT.md`](LINUX_FRACTAL_AUDIT.md).
 
-| Optimization | Estimated Impact |
-|--------------|------------------|
-| Branchless palette | 5-15% on branching GPUs |
-| Precomputed bailout | 1-3% |
-| LOD iterations | 30-70% at low zoom |
-| Forward diff normals | 10-15% for 3D shaders |
-| Adaptive raymarching | 20-40% for distant views |
+A performance comparison must identify its device, GPU and driver, renderer, resolution, fractal, iteration or ray-step settings, and warm-up procedure. Compare runs made with the same settings. Do not report a software-rendered run as a hardware-GPU result.

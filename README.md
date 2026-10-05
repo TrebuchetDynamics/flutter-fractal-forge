@@ -180,9 +180,10 @@ for headless runs, focused reruns, and GitLab artifacts. See
 ## Project references
 
 - [Renderer backend matrix](docs/engineering/rendering/renderer_backend_matrix.md)
-- [Performance notes](docs/engineering/performance/PERFORMANCE.md)
+- [Performance engineering docs](docs/engineering/performance/README.md)
 - [Shader optimization notes](docs/engineering/performance/SHADER_OPTIMIZATIONS.md)
 - [Formula coverage limitation](docs/engineering/rendering/formula_coverage_limitation.md)
+- [Current tasks and status](TODO.md)
 - [Launch ladder](docs/planning/LAUNCH_LADDER.md)
 - [Contributing guide](CONTRIBUTING.md)
 - [Security policy](SECURITY.md)

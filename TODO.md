@@ -107,18 +107,38 @@ Older 370-count planning rows are retired.
 - [x] **3D fractals not working** — Investigate 3D pipeline/shaders and fix ✅ FIXED 2026-04-05
   - **Root cause:** SkSL `%` and `clamp(int, int, int)` not supported
   - **Fix:** See P0-1 items above
-- [ ] **App icon overhaul** — Adaptive icon + Play Store asset needed
+- **App icon visual sign-off** — adaptive launcher and store-art inputs exist; visual presentation acceptance remains open (details in Launch Visual Audit Handoff below).
 - [x] **Improve catalog thumbnails** — Larger view size, higher-quality renders ✅ 2026-08-29
   - Raised bounded capture/decode width to 384 px with high-quality filtering
   - Increased thumbnail detail caps to 24 web / 40 native iterations and 24 colors
   - Added layout-aware cache keys so portrait grids never reuse square captures
-- [ ] **Visual playtest audit** — Test every fractal (GPU + CPU), log failures
+- [ ] **Visual playtest audit** — test the full fractal catalog on GPU + CPU and log failures. The filtered Featured Launch Set checks below do not complete this wider audit.
 - [x] GPU deep zoom not switching to CPU at all; adjust fallback thresholds/hysteresis
 - [x] **Panning bugs at high zoom** — Fixed 2026-08-12 by migrating
   camera/render vectors from Float32-backed `vector_math` to
   `vector_math_64`; verified at `1e12` zoom and from viewport-edge gestures
   (`fractal_view_state_test.dart`, `fractal_renderer_gesture_test.dart`)
-- [ ] **Auto-zoom not continuous** — Navigation too slow at high zoom levels
+- [x] **Auto-zoom not continuous** — fixed: zero-dwell transitions between zoom legs; elapsed-time animation, speed changes, and interruption/resume are covered by auto-explore service/planner tests ✅ verified 2026-10-03
+  - **Verified:** `flutter test test/features/auto_explore/auto_explore_service_test.dart test/features/auto_explore/auto_explore_zoom_planner_test.dart` (48 tests passed)
+
+## Launch Visual Audit Handoff
+
+Canonical plan: [`docs/planning/visual-fidelity-audit-next.md`](docs/planning/visual-fidelity-audit-next.md). The thumbnail decision is resolved: 320×320 launch-set thumbnail media outputs, no static catalog thumbnail bundle; 256×256 staged smoke is allowed. High-resolution hero stills remain a separate configurable output.
+
+### Now
+
+None: all remaining launch-visual checks have an unmet environment prerequisite or require human visual selection/sign-off.
+
+### Blocked / Needs decision
+
+- [ ] **WEB-001 — Run the Featured Launch Set Chromium smoke.** Scope: local Flutter web build and Chromium smoke for `mandelbrot`, `julia`, `burning_ship`, `phoenix`, `nova`, `newton_z3`, `koch_snowflake`, `barnsley_fern`, and `lorenz_2d`; no deployment or asset changes. Acceptance: run `PLAYWRIGHT_PROJECT=chromium CATALOG_SMOKE_FILTER='^(mandelbrot|julia|burning_ship|phoenix|nova|newton_z3|koch_snowflake|barnsley_fern|lorenz_2d)$' npm run test:web:catalog`; verify all nine per-module results in `test/results/catalog-smoke-chromium.json` and the overall result in `test/results/playwright-results.json`. Dependencies: Flutter, Node, npm, and `node_modules` are present; the Playwright-managed Chromium binary is absent, and the project config does not select system Chromium. Blocker: provision the browser before execution; no install was performed. Ownership: no active claim found in the root task ledger; coordinate before starting if another smoke is underway. References: `package.json`, `scripts/playwright-catalog-smoke.sh`, `playwright.config.mjs`, and [`docs/planning/LAUNCH_MEDIA.md`](docs/planning/LAUNCH_MEDIA.md).
+- [ ] **MEDIA-001 — Verify 320×320 launch-thumbnail captures.** Scope: run `LAUNCH_MEDIA_SIZE=320 ./scripts/capture-launch-media.sh` for the Featured Launch Set on a real GPU, writing only to `build/test_output/launch_media/`; do not set `UPDATE_CATALOG_THUMBS` or add files to the app bundle. Acceptance: report all nine captures at 320×320, no failed renders or `qualityWarnings`, and inspect each `launchVisualMetrics`/failure entry. Dependency/blocker: real-GPU display availability is not verified; the script explicitly warns that headless runs use software GL. Ownership: no active claim recorded.
+- [ ] **MEDIA-002 — Select launch hero stills.** Scope: choose 6–8 from the captured Featured Launch Set plus separate 3D/tiling candidates (`mandelbulb` and `spectre_monotile` or `hat_monotile`); no source asset publication. Acceptance: record the selected module IDs and artifact paths, covering 2D escape-time, Newton, IFS, attractor, tiling, and one 3D example as required by the runbook. Dependency: candidate output from MEDIA-001 and supplemental high-resolution captures must exist. Blocker: selection is taste-based and requires product-owner judgment; owner not recorded. See [`docs/planning/LAUNCH_MEDIA.md`](docs/planning/LAUNCH_MEDIA.md).
+- [ ] **VIS-003 — App icon visual sign-off.** Scope: inspect the existing adaptive launcher and store artwork in representative device masks; do not treat missing files as the issue or redesign without approval. Acceptance: product owner records accept/request-change and any exact crop/design correction. Blocker: visual acceptance criteria/approval are owner-controlled; inputs and dimensions were checked, but visual acceptance is not claimed. Ownership: owner decision required.
+
+### Done
+
+- [x] **VIS-000 — Correct thumbnail policy and classify catalog golden artifacts.** PRD and CONTEXT now reflect the resolved 320×320 launch-media scope; runtime catalog rendering remains the shipped policy. The audit plan records the tracked golden-failure images separately from the four passing golden comparisons.
 
 ### P0-3: Dynamic Iteration Adjustment
 
@@ -246,22 +266,22 @@ List<Complex> computeSeriesCoefficients(Complex c, int terms) {
 
 ### P1-3: Smooth Coloring in ALL Shaders
 
-**Current State:** Only `escape_time_perturb_gpu.frag` has smooth coloring.
+**Current State:** Smooth-coloring code appears in multiple shaders, including `shaders/escape_time_family/core/escape_time_perturb_gpu.frag`. No complete inventory or regression test verifies coverage across the applicable polynomial escape-time shader set.
 
-**Target:** Add smooth coloring to all polynomial escape-time shaders (~80).
+**Target:** Audit all applicable polynomial escape-time shaders and add or confirm formula-appropriate smooth coloring. The earlier estimate of approximately 80 shaders has not been rechecked.
 
-**Standard Formula:**
+**Example Formula:** This expression is used by the perturbation shader. Check each recurrence and magnitude value before applying it to another shader.
 ```glsl
-// Smooth escape-time coloring
 float smoothVal = float(it) - log2(log2(max(1e-12, finalMag2))) + 4.0;
-float t = fract(smoothVal / 64.0);
 ```
 
-**Shader Files to Update:** (Priority order)
-1. `shaders/mandelbrot_gpu.frag`
-2. `shaders/julia_gpu.frag`
-3. `shaders/burning_ship_gpu.frag`
-4. All `*_gpu.frag` in `shaders/` for escape-time fractals
+**Shader Files to Audit:** (Priority order; these are review targets, not confirmed failures)
+1. `shaders/legacy/escape_time/mandel_step_smooth.frag`
+2. `shaders/legacy/escape_time/julia.frag`
+3. `shaders/legacy/escape_time/burning_ship.frag`
+4. Applicable files under `shaders/escape_time_family/`
+
+See [`docs/engineering/performance/SHADER_OPTIMIZATIONS.md`](docs/engineering/performance/SHADER_OPTIMIZATIONS.md) for current coverage limits and checks.
 
 ### P1-4: Arbitrary Precision for Extreme Zoom (CPU)
 

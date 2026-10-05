@@ -40,7 +40,19 @@ is a human judgment call (`LAUNCH_LADDER.md`: "select manually by taste").
 
 ## Capture commands
 
-### 1. High-res stills (clean, full-frame) — the workhorse
+### 1. Launch Thumbnail Standard output (square review media)
+
+```bash
+# Featured Launch Set @ 320x320 → build/test_output/launch_media/<id>.png
+LAUNCH_MEDIA_SIZE=320 ./scripts/capture-launch-media.sh
+```
+
+These are launch-set media outputs, not bundled catalog assets; in-app catalog
+thumbnails remain runtime-rendered. A staged generation smoke may use 256×256.
+For clean, higher-resolution hero stills, continue with the separate capture mode
+below (1080×1080 by default).
+
+### 2. High-res stills (clean, full-frame) — the workhorse
 
 ```bash
 # Whole featured set @ 1080x1080 → build/test_output/launch_media/<id>.png
@@ -59,7 +71,7 @@ density, color uniqueness) and writes a `thumbnail_report.json` next to the PNGs
 > software GL — usable as a smoke, but not launch-quality, and some shaders may
 > render differently. This is the `LAUNCH_LADDER.md` "hardware GPU" gate.
 
-### 2. Hero zoom GIF — simplest path is in-app
+### 3. Hero zoom GIF — simplest path is in-app
 
 The app already has a camera **Looper** + GIF export. For the headline motion
 clip:
@@ -73,7 +85,7 @@ This avoids new code and produces a genuine interactive-zoom clip. For a longer
 15–30s "catalog → viewer → zoom" walkthrough (`LAUNCH_LADDER.md` Stage 1), screen
 -record the running app/web preview.
 
-### 3. UI-context screenshots (for the Play Store)
+### 4. UI-context screenshots (for the Play Store)
 
 Play Store phone screenshots need app chrome, not bare fractals:
 
@@ -83,19 +95,27 @@ flutter test integration_test/screenshots/full_screenshots_test.dart -d linux
 ./scripts/desktop-screenshots.sh   # → ./screenshots/
 ```
 
-### 4. Web-preview gallery + quality analysis
+### 5. Web-preview gallery + quality analysis
+
+Use the focused Flutter-web/Playwright smoke to build the app, open the selected
+catalog entries in Chromium, inspect renderer health, and write a report/gallery.
+For the Featured Launch Set, run from the repository root:
 
 ```bash
-flutter build web --release --dart-define=PLAYWRIGHT_CATALOG_SMOKE=true
-CATALOG_SMOKE_FILTER="mandelbrot|julia|burning_ship|phoenix|nova|newton_z3|koch_snowflake|barnsley_fern|lorenz_2d" \
-  npx playwright test test/playwright/catalog-smoke.spec.mjs --workers=1
-# → test/results/catalog-smoke-visual-*/ (PNGs + an HTML gallery + metrics)
+PLAYWRIGHT_PROJECT=chromium CATALOG_SMOKE_FILTER='^(mandelbrot|julia|burning_ship|phoenix|nova|newton_z3|koch_snowflake|barnsley_fern|lorenz_2d)$' npm run test:web:catalog
 ```
+
+Prerequisites include Flutter, Node/npm dependencies, and the Playwright-managed
+Chromium browser. The filtered run is not a full-catalog audit. Per-module results
+are written to `test/results/catalog-smoke-chromium.json`; the Playwright summary
+is `test/results/playwright-results.json`, with failure screenshots/traces and a
+visual gallery under `test/results/`.
 
 ## Target sizes per platform
 
 | Use                    | Size                          | Source                                                     |
 | ---------------------- | ----------------------------- | ---------------------------------------------------------- |
+| Launch-set thumbnails  | 320×320                       | `LAUNCH_MEDIA_SIZE=320` (build/test output, not app bundle) |
 | X / social, square     | 1080×1080                     | `capture-launch-media.sh` (default)                        |
 | X / social, landscape  | 1600×900 (crop from 1440)     | crop a 1440 still                                          |
 | GitHub README stills   | ≤1280 wide                    | downscale stills                                           |

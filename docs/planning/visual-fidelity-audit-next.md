@@ -7,46 +7,38 @@ Prioritize the launch-critical **Visual Fidelity Audit** for the **Featured Laun
 ## Evidence checked
 
 - `CONTEXT.md`: defines Featured Launch Set, Trust-Breaking First-Impression Defect, Visual Fidelity Audit, Seeded Thumbnail Palette.
-- `TODO.md`: P0 still lists app icon overhaul, improved catalog thumbnails, visual playtest audit, high-zoom panning, continuous auto-zoom.
-- `docs/planning/PRD.md`: says catalog thumbnails are shipped at 320×320 and 199 PNGs, but current repo has many more thumbnails.
-- `integration_test/catalog/generate_gpu_thumbnails_test.dart`: GPU thumbnail generator stages 256×256 smoke output by default and writes 320×320 bundled assets only with `UPDATE_CATALOG_THUMBS=true`.
+- `TODO.md`: app icon visual sign-off and the full visual playtest audit remain open; catalog thumbnail improvements and continuous auto-zoom are marked complete.
+- `docs/planning/PRD.md`: current policy keeps catalog thumbnails runtime-rendered, with no static catalog PNGs in the bundle. The 320×320 Launch Thumbnail Standard applies to launch-set thumbnail media outputs; 256×256 remains valid for staged smoke output.
+- `integration_test/catalog/generate_gpu_thumbnails_test.dart`: stages 256×256 smoke output by default, can capture launch media at `LAUNCH_MEDIA_SIZE`, and has a separate opt-in catalog-asset write path (`UPDATE_CATALOG_THUMBS=true`) that is not the current shipping policy.
 - `test/features/catalog/catalog_thumbnail_plan_test.dart`: protects exact asset mapping and approximate-preview labels.
-- `assets/catalog_thumbs/`: current checkout has 1347 PNG thumbnails.
-- Dirty worktree: icon assets, thumbnail generator, renderer/provider/viewer files, and golden failure artifacts are already modified; treat as in-scope launch-work evidence, not permission to overwrite.
+- `assets/catalog_thumbs/`: the static thumbnail directory is absent in this checkout; `test/catalog/catalog_thumbnail_audit_test.dart` protects that state.
+- `test/golden/failures/catalog_*` contains tracked failure-output images. `test/golden/catalog_golden_test.dart` passed all four phone/tablet dark/high-contrast cases in the inspected run; those stored artifacts were not reproduced by that run.
 
 ## Findings
 
-### 1. Featured Launch Set is a glossary term, not an executable manifest
+### 1. Featured Launch Set manifest — resolved
 
-The docs say first-time screenshots, GIFs, website copy, and soft-launch guidance should use the Featured Launch Set, but code/tests do not expose a small canonical list. This makes visual QA drift likely: audits can accidentally test whatever is visible in the catalog rather than the launch path.
+The canonical list now exists as `kFeaturedLaunchSetModuleIds` in `lib/features/catalog/data/featured_launch_set.dart`. `test/features/catalog/featured_launch_set_test.dart` checks registry presence, exact thumbnail mapping, non-diagnostic modules, and controller selection.
 
-**Improve:** add a tiny manifest/test fixture for launch IDs, e.g. Mandelbrot, Julia, Burning Ship, Newton/Nova, Mandelbulb/Mandelbox, Barnsley/Koch or another non-escape-time exemplar if supported.
+The manifest is intentionally scoped for visual QA; the broader marketing set still has separate coverage requirements below.
 
-### 2. Thumbnail quality docs conflicted with generator settings
+### 2. Thumbnail standard — scope resolved
 
-`docs/planning/PRD.md` records 320×320 thumbnails, while the GPU generator previously wrote 256×256 for every output. `TODO.md` still says “Improve catalog thumbnails,” and the repo now has 1347 PNGs, not the older 199-record state.
+The owner confirmed that 320×320 applies to launch-set thumbnail media outputs, not bundled catalog thumbnails. `assets/AGENTS.md` and `test/catalog/catalog_thumbnail_audit_test.dart` continue to require the static catalog PNG bundle to remain absent; catalog thumbnails are rendered at runtime. The generator's `LAUNCH_MEDIA_SIZE=320` mode produces launch-set thumbnail-sized output under `build/test_output/launch_media/`; its default high-resolution capture remains 1080×1080. Staged smoke output may use 256×256. The separate `UPDATE_CATALOG_THUMBS=true` path can write catalog assets, but is not the current shipping policy.
 
-**Improve:** keep the accepted Launch Thumbnail Standard: 320×320 for bundled catalog assets; 256×256 only for staged smoke output.
+Do not treat the opt-in catalog-asset write path as permission to add static catalog thumbnails. The 320×320 launch-media thumbnail target is not yet verified by a dedicated capture run.
 
-### 3. Current thumbnail quality gates catch blank images, not launch aesthetics
+### 3. Launch visual metrics — implemented, descriptive only
 
-The generator checks PNG size, unique RGB colors, luminance standard deviation, and non-transparent pixel ratio. Useful, but it does not catch bad framing, low-detail center, edge crowding, palette sameness, text contrast, or “all thumbnails look alike.”
+`lib/features/catalog/data/launch_visual_metrics.dart` implements center-detail, edge-detail, luminance, dominant-color, non-transparent, and verdict metrics for Featured Launch Set entries. The audit report schema emits these metrics, but they are descriptive rather than an acceptance threshold.
 
-**Improve:** add audit metrics per Featured Launch Set thumbnail:
+They do not automatically judge subjective framing or visual variety. Do not claim those are enforced quality gates; any enforcement change needs explicit measurable criteria.
 
-- center-detail score
-- edge-detail score
-- luminance stddev
-- palette diversity / dominant-color ratio
-- non-transparent ratio
-- perceptual hash delta from previous blessed image
-- human-readable verdict: `pass`, `needs-framing`, `needs-palette`, `shader-error`, `fallback-preview`
+### 4. Stored golden failure artifacts are not currently reproduced
 
-### 4. Golden failure artifacts are currently present
+The tracked `test/golden/failures/catalog_*` images remain in the repository, but `test/golden/catalog_golden_test.dart` passed all four configured comparisons in the inspected run. Treat these as stored failure-output artifacts, not evidence of a currently failing golden test. Their retention or removal is a repository-maintenance decision; do not regenerate baselines merely to clear the files.
 
-`test/golden/failures/catalog_*` files are modified in the worktree. They may be useful evidence, but the audit should not approve a launch path until these are either resolved, archived as known failures, or regenerated with a deliberate baseline decision.
-
-**Improve:** make Visual Fidelity Audit closeout require “no unexplained golden failure artifacts.”
+Visual-audit closeout should distinguish retained failure-output artifacts from failures reproduced by the golden test; the inspected run passes, while the stored images remain tracked.
 
 ### 5. Visual playtest should be family-stratified, not catalog-wide first
 
@@ -56,9 +48,9 @@ Research and TODO both show many fractal families need different render paths: e
 
 ## Recommended implementation slices
 
-### Slice A — Launch visual manifest (smallest safe next code change)
+### Slice A — Launch visual manifest (implemented)
 
-Status: implemented in `lib/features/catalog/featured_launch_set.dart` with coverage in `test/features/catalog/featured_launch_set_test.dart`.
+Status: implemented in `lib/features/catalog/data/featured_launch_set.dart` with coverage in `test/features/catalog/featured_launch_set_test.dart`.
 
 The test asserts:
 
@@ -71,18 +63,20 @@ Validation target: a fast unit/widget test, no GPU required.
 
 ### Slice B — Thumbnail standard alignment
 
-Status: implemented as **Launch Thumbnail Standard** in `CONTEXT.md` and aligned in `integration_test/catalog/generate_gpu_thumbnails_test.dart`.
+Status: scope is documented and the generator supports it, but a 320×320 launch-media capture has not yet been verified.
 
-Accepted standard:
+Launch Thumbnail Standard:
 
-- bundled catalog assets: 320×320 PNGs
-- staged smoke output: 256×256 PNGs
+- launch-set thumbnail media output: 320×320 PNG, generated under `build/test_output/launch_media/` with `LAUNCH_MEDIA_SIZE=320`
+- staged generation smoke output: 256×256 PNG
+- static catalog PNGs: not bundled; catalog thumbnails remain runtime-rendered
+- separate high-resolution hero stills: 1080×1080 by default, configurable per capture run
 
-Validation target: `flutter test test/features/catalog/catalog_thumbnail_plan_test.dart` plus a 3–5 item staged generation smoke when GPU test runner is available.
+Validation target: `LAUNCH_MEDIA_SIZE=320 ./scripts/capture-launch-media.sh` on a real GPU; confirm the report lists the Featured Launch Set entries at 320×320 with no failed renders. The catalog asset-update path is out of scope.
 
 ### Slice C — Audit report schema
 
-Status: implemented as **Launch Visual Metrics** in `CONTEXT.md` and `lib/features/catalog/launch_visual_metrics.dart`; generated reports now include `launchVisualMetrics` for Featured Launch Set entries only.
+Status: implemented as **Launch Visual Metrics** in `CONTEXT.md` and `lib/features/catalog/data/launch_visual_metrics.dart`; generated reports now include `launchVisualMetrics` for Featured Launch Set entries only.
 
 Metrics included:
 
@@ -99,10 +93,10 @@ Validation target: strict mode fails only on existing measurable generation defe
 
 Before launch screenshots:
 
-- classify current golden failure images
-- verify app icon adaptive assets
-- rerun catalog/web smoke path
-- record final Visual Fidelity Audit verdict
+- [x] classify stored catalog golden-failure images against the four passing current golden comparisons; leave the tracked artifacts unchanged
+- [x] verify launcher/store source files (1024×1024 launcher and adaptive foreground, 512×512 store icon, 1024×500 feature graphic), `pubspec.yaml` launcher inputs, and Android adaptive-icon XML/resources; visual presentation sign-off remains open
+- [ ] rerun catalog/web smoke path and inspect the report
+- [ ] record final Visual Fidelity Audit verdict
 
 ## Stop conditions
 

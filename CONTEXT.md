@@ -57,8 +57,8 @@ A bounded, finite-grid experimentation mode with exact Cantor and Sierpiński ma
 _Avoid_: Infinite grid, unbounded FFT promise, exact infinity claim
 
 **Launch Thumbnail Standard**:
-The thumbnail contract for bundled catalog assets used in launch-critical browsing and screenshots: 320×320 PNGs. Smaller staged smoke outputs are allowed only as generation-test artifacts, not as bundled catalog assets.
-_Avoid_: Smoke thumbnail size, arbitrary thumbnail size, per-run asset size
+Launch-set thumbnail media uses 320×320 PNGs as build/test outputs; these are not bundled catalog assets. Catalog thumbnails are rendered at runtime, and static catalog PNGs remain excluded from the app bundle. Staged generation smoke outputs may use 256×256. Separate high-resolution hero stills use the resolution configured for their capture run (1080×1080 by default).
+_Avoid_: treating staged-smoke dimensions as the launch standard, arbitrary launch-thumbnail dimensions, bundling catalog thumbnails
 
 **Launch Visual Metrics**:
 The objective thumbnail measurements used during a Visual Fidelity Audit for the Featured Launch Set. They describe first-impression image health without making long-tail catalog visuals fail by default.

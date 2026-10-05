@@ -83,7 +83,7 @@ Size: 55.7 MB
 | Feature | Current Status | Acceptance Criteria | Priority |
 |---|---|---|---|
 | Catalog grid/list view | ✅ Shipped | 209 modules, search, category headers, preference persisted | P0 |
-| Catalog thumbnails | ⚠️ Audit aligned | Launch Thumbnail Standard: 320×320 bundled PNGs; staged smoke output may use 256×256 | P0 |
+| Catalog thumbnails | ⚠️ Runtime rendered | Catalog entries are rendered at runtime; no static thumbnails are bundled. The 320×320 Launch Thumbnail Standard applies to launch-set thumbnail media outputs; 256×256 may be used for staged smoke output. | P0 |
 | GPU renderer (escape-time) | ✅ Shipped | 196 shaders pass audit (196/196 PASS, edge 0.01–0.99) | P0 |
 | CPU fallback auto-switch | ✅ Shipped | GPU health fallback triggers after 2 invalid frames; deep-zoom CPU Precision is routed by `PrecisionLadderPolicy` | P0 |
 | Smooth escape-time coloring | ✅ Shipped | `float(it) - log2(log2(...))` on 10 core shaders | P0 |
@@ -264,7 +264,7 @@ scripts/headless-emulator-test.sh flutter test integration_test/screenshots/full
 - [x] flutter analyze: No issues
 - [x] Headless emulator integration test: 7/7 pass (API 34)
 - [x] AAB builds clean at 55.7 MB
-- [x] Launch Thumbnail Standard aligned: bundled catalog assets target 320×320; staged smoke output may use 256×256
+- [x] Launch Thumbnail Standard aligned in the historical M0 snapshot: 320×320 bundled catalog assets; current owner-confirmed scope is 320×320 launch-set media output, with catalog thumbnails runtime-rendered and not bundled
 - [x] GPU-primary rendering + CPU auto-fallback
 - [x] Smooth escape-time coloring on 10 core shaders
 - [x] Perturbation theory (Mandelbrot)

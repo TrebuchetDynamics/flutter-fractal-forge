@@ -1,6 +1,6 @@
 # Visual Fidelity Audit and Fix Plan
 
-Status: implementation planning note for the approved next slice. The owner accepted a Featured Launch Set–scoped Visual Fidelity Audit before broad shader rewrites or new visual features.
+Status: historical implementation-planning note. The current scoped audit, canonical nine-module set, asset policy, and remaining checks are maintained in [`docs/planning/visual-fidelity-audit-next.md`](../../docs/planning/visual-fidelity-audit-next.md). The broad audit-first direction remains useful, but this note's static-thumbnail requirements and proposed 10–20-item set are superseded or unconfirmed. Current policy renders catalog thumbnails at runtime; 320×320 applies to launch-set media outputs only. Do not execute its asset-bundling steps under the current policy.
 
 ## Decision
 

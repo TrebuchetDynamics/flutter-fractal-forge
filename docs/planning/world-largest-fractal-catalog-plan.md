@@ -99,7 +99,7 @@ Non-counted mode target:
 3. **Formula/rule schema** — mathematical identity and parameter bounds.
 4. **Renderer assignment** — shader, raymarch, point accumulation, grid simulation, turtle/mesh, or CPU precision path.
 5. **Catalog identity** — stable ID, family, display name, aliases, accessibility label.
-6. **Thumbnail plan** — Launch Thumbnail Standard for bundled assets when promoted.
+6. **Thumbnail plan** — runtime-rendered catalog thumbnails by default; launch-set thumbnail media may be generated at 320×320 when needed. Do not bundle static catalog PNGs under the current asset policy.
 7. **Validation** — compile/render smoke, visual metrics, family-specific invariant, and catalog lookup test.
 8. **Promotion** — count as curated renderable entry only after validation passes.
 

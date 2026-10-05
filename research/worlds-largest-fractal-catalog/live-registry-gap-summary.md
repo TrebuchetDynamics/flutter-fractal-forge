@@ -4,6 +4,10 @@
 
 Measure the current production `ModuleRegistry` against the 5,000–10,000 curated renderable entry objective without counting random presets.
 
+## Current app asset-policy note
+
+This research summary preserves historical ledger-generation results and receipts; its `assets/catalog_thumbs/` counts are not a statement that static catalog thumbnails are currently shipped. The current app policy renders catalog thumbnails at runtime and keeps that bundle absent. Launch-set thumbnail media may be rendered at 320×320 to `build/test_output/launch_media/`. The `--update-assets` examples below are historical opt-in research workflows, not currently authorized app-bundle changes; do not run them without a new policy decision.
+
 ## Probe command
 
 A temporary Flutter test probe and the committed guardrail test inspect:
