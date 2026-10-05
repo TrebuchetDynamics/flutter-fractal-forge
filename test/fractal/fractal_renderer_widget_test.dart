@@ -283,5 +283,31 @@ void main() {
       expect(source, contains('_cachedFragmentShader = null;'));
       expect(source, contains('_shaderAsset = asset;'));
     });
+
+    test('module switch resets first-frame reporting before cache lookup', () {
+      final rendererSource = File(
+        'lib/features/renderer/widgets/renderer/fractal_renderer.dart',
+      ).readAsStringSync();
+      final loaderSource = File(
+        'lib/features/renderer/widgets/renderer/shaders/shader_loader.dart',
+      ).readAsStringSync();
+      final moduleSwitch = rendererSource.indexOf(
+        'if (_shaderAsset != effectiveModule.shaderAsset)',
+      );
+      final reset =
+          rendererSource.indexOf('_firstFrameLogged = false;', moduleSwitch);
+      final load = rendererSource.indexOf(
+        '_loadShader(effectiveModule.shaderAsset)',
+        moduleSwitch,
+      );
+      final cachedEarlyReturn = loaderSource.indexOf(
+        'final cached = _takeProgramFromCache(asset);',
+      );
+
+      expect(moduleSwitch, isNonNegative);
+      expect(reset, greaterThan(moduleSwitch));
+      expect(load, greaterThan(reset));
+      expect(cachedEarlyReturn, isNonNegative);
+    });
   });
 }

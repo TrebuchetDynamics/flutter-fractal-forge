@@ -456,6 +456,7 @@ class _FractalRendererState extends State<FractalRenderer>
     // spectrum is truthful, but resubmitting stale pixels as current is not.
     if (_shaderAsset != effectiveModule.shaderAsset) {
       widget.renderSnapshotSink?.snapshot = null;
+      _firstFrameLogged = false;
       if (!_loading) _loadShader(effectiveModule.shaderAsset);
     }
 
