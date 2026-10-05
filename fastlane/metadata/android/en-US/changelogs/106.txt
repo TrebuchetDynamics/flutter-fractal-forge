@@ -1,0 +1,2 @@
+- Added clean-room fractal visuals and readable viewer deep links.
+- Fixed first-frame diagnostics after switching fractal modules.

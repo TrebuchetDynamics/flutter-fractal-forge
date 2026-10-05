@@ -46,6 +46,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   consistent travel on high-refresh displays and delayed frames. 2D zoom keeps
   the released pinch midpoint anchored; inertia stops cleanly at zoom limits.
 
+## [1.1.106] - 2026-10-04
+
+### Added
+
+- Add batch 29 clean-room fractal visuals to the catalog.
+- Sync viewer state to the web address bar with readable deep links.
+
+### Fixed
+
+- Reset first-frame renderer diagnostics after switching fractal modules.
+
 ## [1.1.105] - 2026-09-05
 
 - Audit every Linux fractal and repair broken catalog renders
