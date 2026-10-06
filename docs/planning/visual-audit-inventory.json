@@ -2575,8 +2575,8 @@
       "status": "renderer_registered",
       "module_id": "four_wing",
       "shader": "shaders/strange_attractors/four_wing_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006: build/test_output/vis006-four-wing-defaults/four_wing.png (256x256; 785 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; verdict pass) and build/test_output/vis006-four-wing/runtime_catalog_preview.png (384x346; 481 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; verdict pass); both show smooth broad color gradients and sharp sector/wedge boundaries rather than a recognizable four-wing orbit; module config bailout=12 is normalized to 8 by the shared parameter schema before shader mapping; formulas preserved",
+      "cpu_formula": "NOT_CHECKED: no native CPU formula registered for four_wing (cpu_formulas.dart supports no four_wing entry); GPU harness math oracle skipped: no reference oracle for this formula family",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
