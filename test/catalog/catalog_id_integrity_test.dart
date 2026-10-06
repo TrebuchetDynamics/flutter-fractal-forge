@@ -1,8 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_fractals/core/modules/builders/catalog_id_collisions.dart';
 import 'package:flutter_fractals/core/modules/builders/escape_time_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/escape_time_builder.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
 
 /// Catalog ID integrity tests (P0 #4).
 ///
@@ -11,7 +15,7 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 ///
 /// ## Expected counts (update when catalog intentionally grows)
 ///
-/// - Escape-time catalog raw unique IDs       : 545
+/// - Escape-time catalog raw unique IDs       : 543
 /// - Raymarched-3D catalog unique IDs         :  37
 /// - Custom hand-built modules                :   9
 ///   (julia, julia_dual, phoenix, nova, mandelbulb, mandelbox,
@@ -34,8 +38,8 @@ void main() {
       catalog = escapeTimeCatalog;
     });
 
-    test('total entry count is 545', () {
-      expect(catalog.length, 545,
+    test('total entry count is 543', () {
+      expect(catalog.length, 543,
           reason: 'Update this constant when entries are intentionally '
               'added to or removed from escape_time_catalog.dart.');
     });
@@ -239,6 +243,36 @@ void main() {
       expect(missing, isEmpty,
           reason: 'Previously-present module IDs are missing: $missing. '
               'If intentional, update this snapshot.');
+    });
+  });
+
+  group('VIS-005 Explore inventory', () {
+    test('inventory IDs and families match the live Explore repository', () {
+      final inventory = jsonDecode(
+        File('docs/planning/visual-audit-inventory.json').readAsStringSync(),
+      ) as Map<String, dynamic>;
+      final byGroup =
+          (inventory['explore_ids_by_group'] as Map<String, dynamic>).map(
+              (key, value) =>
+                  MapEntry(key, (value as List).cast<String>().toSet()));
+      final repository = CatalogRepository.fromRegistry(ModuleRegistry());
+      final liveByGroup = <String, Set<String>>{};
+      for (final entry in repository.entries) {
+        liveByGroup.putIfAbsent(entry.family.name, () => <String>{});
+        expect(
+          liveByGroup[entry.family.name]!.add(entry.catalogId),
+          isTrue,
+          reason: 'Duplicate live Explore ID ${entry.catalogId}',
+        );
+      }
+      for (final group in byGroup.keys) {
+        liveByGroup.putIfAbsent(group, () => <String>{});
+      }
+
+      expect(byGroup, liveByGroup);
+      expect(inventory['counts']['explore_core'], liveByGroup['core']!.length);
+      expect(inventory['counts']['explore_performance'],
+          liveByGroup['performance']?.length ?? 0);
     });
   });
 }

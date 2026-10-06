@@ -978,7 +978,12 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   }) {
     if (heroTag != null) _recordRecentlyViewed(heroTag);
     final controller = context.read<FractalController>();
-    controller.selectModule(module, resetView: true);
+    if (controller.module.id == module.id) {
+      // Preserve same-module parameters, but launch with its curated framing.
+      controller.updateView(module.defaultPreset.view);
+    } else {
+      controller.selectModule(module);
+    }
     Navigator.of(context).push(
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) => MultiProvider(

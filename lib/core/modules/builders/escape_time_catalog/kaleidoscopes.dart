@@ -616,14 +616,6 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     ],
   ),
   EscapeTimeConfig(
-    id: 'julia',
-    name: 'Julia',
-    shaderAsset: 'shaders/escape_time_family/core/julia_gpu.frag',
-    defaultIterations: 120,
-    defaultBailout: 4.0,
-    category: 'Escape-Time',
-  ),
-  EscapeTimeConfig(
     id: 'king',
     name: 'King',
     shaderAsset:
@@ -808,15 +800,6 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     name: 'Nova Degree5 Julia',
     shaderAsset:
         'shaders/escape_time_family/families/nova/julia_sets/nova_degree5_julia_gpu.frag',
-    defaultIterations: 120,
-    defaultBailout: 4.0,
-    category: 'Escape-Time',
-  ),
-  EscapeTimeConfig(
-    id: 'nova',
-    name: 'Nova',
-    shaderAsset:
-        'shaders/escape_time_family/families/nova/parameter_plane/nova_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
     category: 'Escape-Time',

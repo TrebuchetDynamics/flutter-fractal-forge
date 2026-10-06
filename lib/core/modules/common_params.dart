@@ -88,7 +88,7 @@ class CommonFractalParams {
       label: (l10n) => l10n.paramBailout,
       type: FractalParamType.float,
       min: min,
-      max: max,
+      max: max < defaultValue ? defaultValue : max,
       step: 0.1,
       defaultValue: defaultValue,
     );

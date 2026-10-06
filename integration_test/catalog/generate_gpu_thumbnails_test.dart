@@ -7,18 +7,22 @@
 /// health verdict for broken-fractal triage.
 ///
 /// Run a small smoke pass:
-///   CATALOG_THUMB_LIMIT=5 flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux
+///   CATALOG_THUMB_LIMIT=5 flutter test --dart-define=FORCE_GPU_RENDER=true \
+///     integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux
 ///
 /// Useful environment controls:
 ///   CATALOG_THUMB_SEED=20260616
+///   CATALOG_THUMB_USE_MODULE_DEFAULTS=true
+///   CATALOG_THUMB_OUTPUT_DIR=build/test_output/catalog-initial-defaults
 ///   CATALOG_THUMB_LIMIT=20
 ///   CATALOG_THUMB_OFFSET=0
 ///   CATALOG_THUMB_ONLY=mandelbrot,julia,core.phoenix
+///   CATALOG_THUMB_PRESET_ID=phoenix-wings (with one CATALOG_THUMB_ONLY entry)
 ///   UPDATE_CATALOG_THUMBS=true
 ///   STRICT_CATALOG_THUMBS=true
 ///
 /// Marketing capture (high-res stills of the featured launch set):
-///   LAUNCH_MEDIA_SIZE=1080 flutter test \
+///   LAUNCH_MEDIA_SIZE=1080 flutter test --dart-define=FORCE_GPU_RENDER=true \
 ///     integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux
 ///   # Renders kFeaturedLaunchSetModuleIds at 1080x1080 into
 ///   # build/test_output/launch_media/. Combine with CATALOG_THUMB_ONLY to
@@ -42,6 +46,7 @@ import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/rendering/palette/palette_service.dart';
+import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_entry.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
 import 'package:flutter_fractals/features/catalog/data/featured_launch_set.dart';
@@ -67,6 +72,9 @@ void main() {
     final updateAssets = _envBool(env, 'UPDATE_CATALOG_THUMBS');
     final strict = _envBool(env, 'STRICT_CATALOG_THUMBS');
     final seed = env['CATALOG_THUMB_SEED'] ?? 'catalog-thumbnails-v1';
+    final useModuleDefaults =
+        _envBool(env, 'CATALOG_THUMB_USE_MODULE_DEFAULTS');
+    final requestedPresetId = env['CATALOG_THUMB_PRESET_ID']?.trim();
     // LAUNCH_MEDIA_SIZE=<px> switches this run into marketing mode: render the
     // curated featured launch set at a high (square) resolution into a separate
     // launch_media output directory, instead of catalog thumbnails.
@@ -87,9 +95,23 @@ void main() {
       env,
       defaultToFeatured: launchMedia,
     );
+    if (requestedPresetId != null && requestedPresetId.isNotEmpty) {
+      expect(
+        useModuleDefaults,
+        isFalse,
+        reason: 'A preset comparison cannot also be a module-default capture.',
+      );
+      expect(
+        entries,
+        hasLength(1),
+        reason: 'CATALOG_THUMB_PRESET_ID requires exactly one selected entry.',
+      );
+    }
 
     final report = <String, Object>{
       'seed': seed,
+      'useModuleDefaults': useModuleDefaults,
+      'requestedPresetId': requestedPresetId ?? '',
       'updateAssets': updateAssets,
       'strict': strict,
       'thumbnailSize': thumbSize,
@@ -118,14 +140,35 @@ void main() {
       'launchVisualMetrics': <Map<String, Object>>[],
     };
 
-    final outDir =
-        _outputDirectory(updateAssets: updateAssets, launchMedia: launchMedia);
+    final stagedOutputOverride = env['CATALOG_THUMB_OUTPUT_DIR']?.trim();
+    final outDir = _outputDirectory(
+      updateAssets: updateAssets,
+      launchMedia: launchMedia,
+      stagedOutputOverride: stagedOutputOverride,
+    );
+    if (!updateAssets &&
+        !launchMedia &&
+        stagedOutputOverride != null &&
+        stagedOutputOverride.isNotEmpty) {
+      expect(
+        outDir.path,
+        stagedOutputOverride,
+        reason: 'CATALOG_THUMB_OUTPUT_DIR must isolate staged captures.',
+      );
+    }
     outDir.createSync(recursive: true);
     if (_envBool(env, 'CATALOG_THUMB_LIST_ONLY')) {
       _writeReport(outDir, report);
       debugPrint('Catalog list written: ${entries.length} entries.');
       return;
     }
+
+    expect(
+      RuntimeModeService.useRendererPlaceholderSurface,
+      isFalse,
+      reason: 'GPU thumbnail capture requires real shader rendering; run with '
+          '--dart-define=FORCE_GPU_RENDER=true.',
+    );
 
     // Required for takeScreenshot on Android. Some desktop runners do not
     // expose this plugin; record a skipped report rather than failing setup.
@@ -160,7 +203,30 @@ void main() {
         final selectStopwatch = Stopwatch()..start();
         controller = FractalController(registry);
         controller.selectModule(module, animate: false);
-        _applySeededColorScheme(controller, module, seed);
+        if (requestedPresetId != null && requestedPresetId.isNotEmpty) {
+          final matchingPresets = module.builtInPresets
+              .where((preset) => preset.id == requestedPresetId);
+          if (matchingPresets.isEmpty) {
+            throw StateError(
+              'Module ${module.id} has no built-in preset $requestedPresetId.',
+            );
+          }
+          controller.applyPreset(matchingPresets.first);
+        }
+        final selectedDefaults = Map<String, Object>.from(controller.params);
+        if (!useModuleDefaults &&
+            (requestedPresetId == null || requestedPresetId.isEmpty)) {
+          _applySeededColorScheme(controller, module, seed);
+        }
+        if (useModuleDefaults &&
+            (requestedPresetId == null || requestedPresetId.isEmpty)) {
+          expect(
+            controller.params,
+            equals(selectedDefaults),
+            reason: 'Module-default capture must preserve the selected module '
+                'state, including its default color scheme.',
+          );
+        }
         selectStopwatch.stop();
 
         final frameTimings = <ui.FrameTiming>[];
@@ -237,6 +303,22 @@ void main() {
           pngBytes: pngBytes.length,
           expectedSize: thumbSize,
         );
+        if (strict && useModuleDefaults && module.id == 'nova') {
+          expect(
+            renderMetrics.uniqueRgbColors,
+            greaterThan(500),
+            reason:
+                'Nova defaults must show the parameter-plane structure instead of treating the initial z=1 zero-step as convergence.',
+          );
+        }
+        if (strict && useModuleDefaults && module.id == 'koch_snowflake') {
+          expect(
+            renderMetrics.blackPixelRatio,
+            lessThan(0.2),
+            reason:
+                'The Koch Snowflake default should keep black background below 20% so the fractal occupies most of the canvas.',
+          );
+        }
         final mathOracle = RenderMathOracle.evaluate(module.id);
         final mathOracleJson = mathOracle.toJson();
         (report['mathOracle']! as List<Map<String, Object>>)
@@ -248,6 +330,16 @@ void main() {
           'catalogId': entry.catalogId,
           'moduleId': module.id,
           'shaderAsset': module.shaderAsset,
+          'renderParams': Map<String, Object>.from(controller.params),
+          'renderView': {
+            'pan': [controller.view.pan.x, controller.view.pan.y],
+            'zoom': controller.view.zoom,
+            'rotation': [
+              controller.view.rotation.x,
+              controller.view.rotation.y,
+              controller.view.rotation.z,
+            ],
+          },
           'shaderLoadMs': _elapsedMs(shaderLoadStopwatch),
           'shaderLoadMode': shaderLoadMode,
           'moduleSelectMs': _elapsedMs(selectStopwatch),
@@ -375,6 +467,7 @@ void main() {
 Directory _outputDirectory({
   required bool updateAssets,
   bool launchMedia = false,
+  String? stagedOutputOverride,
 }) {
   if (launchMedia) {
     if (Platform.isAndroid) {
@@ -384,6 +477,9 @@ Directory _outputDirectory({
   }
   if (updateAssets) {
     return Directory('assets/catalog_thumbs');
+  }
+  if (stagedOutputOverride != null && stagedOutputOverride.isNotEmpty) {
+    return Directory(stagedOutputOverride);
   }
   if (Platform.isAndroid) {
     return Directory('/sdcard/Download/catalog_thumbs_seeded');

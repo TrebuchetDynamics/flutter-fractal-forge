@@ -85,9 +85,10 @@ void main() {
     vec2 fz = z3 - vec2(1.0, 0.0);
     vec2 fpz = 3.0 * z2;
     vec2 step_val = cdiv(fz, fpz);
-    z = z - R * step_val + c;
+    vec2 update = -R * step_val + c;
+    z += update;
 
-    float d = dot(step_val, step_val);
+    float d = dot(update, update);
     if (d < 1e-10) { it = j; conv = d; break; }
     it = j + 1;
   }

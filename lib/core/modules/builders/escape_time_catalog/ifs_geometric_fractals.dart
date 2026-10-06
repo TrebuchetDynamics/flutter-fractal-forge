@@ -21,6 +21,9 @@ final List<EscapeTimeConfig> _ifsGeometricFractalsCatalog = [
     name: 'Koch Snowflake',
     shaderAsset: 'shaders/ifs_and_geometric/koch_snowflake_gpu.frag',
     defaultIterations: 120,
+    defaultCenterX: 0.0,
+    defaultCenterY: 0.3,
+    defaultZoom: 1.5,
     defaultBailout: 6.0,
   ),
   EscapeTimeConfig(

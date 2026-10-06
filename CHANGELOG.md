@@ -46,6 +46,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   consistent travel on high-refresh displays and delayed frames. 2D zoom keeps
   the released pinch midpoint anchored; inertia stops cleanly at zoom limits.
 
+- Explore launches now use each fractal's configured default view. Formula-preserving
+  fixes correct Julia and Nova module selection, Newton z³ relaxation, Nova
+  convergence, and Koch Snowflake framing. Focused real-GPU default and
+  runtime-preview checks cover ten modules. First-view checks cover all nine
+  Featured Launch Set modules. The wider visual audit remains in progress; see
+  `TODO.md` for the current coverage and open findings.
+
 ## [1.1.106] - 2026-10-04
 
 ### Added

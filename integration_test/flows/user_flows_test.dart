@@ -4,9 +4,12 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
+import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dart';
@@ -233,5 +236,123 @@ void main() {
 
       expect(catalogModuleCards(), findsWidgets);
     });
+
+    // Run this case with --dart-define=FORCE_GPU_RENDER=true to exercise the
+    // actual first viewer frame instead of the automated-test placeholder.
+    testWidgets(
+      'Julia viewer starts from its configured seed and view',
+      (tester) async {
+        await pumpApp(tester);
+        await openModuleBySearch(
+          tester,
+          query: 'Julia',
+          displayName: 'Julia',
+          catalogId: 'core.julia',
+        );
+
+        final renderer = find.byType(FractalRenderer);
+        expect(renderer, findsOneWidget);
+        final controller = Provider.of<FractalController>(
+          tester.element(renderer),
+          listen: false,
+        );
+        expect(controller.module.id, 'julia');
+        expect(controller.params['juliaCReal'], -0.8);
+        expect(controller.params['juliaCImag'], 0.156);
+        expect(controller.view.pan.x, 0.0);
+        expect(controller.view.pan.y, 0.0);
+        expect(controller.view.zoom, 1.0);
+        drainKnownShaderExceptions(tester);
+      },
+      skip: RuntimeModeService.useRendererPlaceholderSurface,
+    );
+
+    // Run this case with --dart-define=FORCE_GPU_RENDER=true to exercise the
+    // actual first viewer frame instead of the automated-test placeholder.
+    testWidgets(
+      'Koch Snowflake viewer starts from its framed default view',
+      (tester) async {
+        await pumpApp(tester);
+        await openModuleBySearch(
+          tester,
+          query: 'Koch Snowflake',
+          displayName: 'Koch Snowflake',
+          catalogId: 'core.koch_snowflake',
+        );
+
+        final renderer = find.byType(FractalRenderer);
+        expect(renderer, findsOneWidget);
+        final controller = Provider.of<FractalController>(
+          tester.element(renderer),
+          listen: false,
+        );
+        expect(controller.module.id, 'koch_snowflake');
+        expect(controller.view.pan.x, 0.0);
+        expect(controller.view.pan.y, 0.3);
+        expect(controller.view.zoom, 1.2);
+        drainKnownShaderExceptions(tester);
+      },
+      skip: RuntimeModeService.useRendererPlaceholderSurface,
+    );
+
+    for (final launch in [
+      (
+        query: 'Mandelbrot',
+        name: 'Mandelbrot',
+        id: 'core.mandelbrot',
+        moduleId: 'mandelbrot'
+      ),
+      (
+        query: 'Burning Ship',
+        name: 'Burning Ship',
+        id: 'core.burning_ship',
+        moduleId: 'burning_ship'
+      ),
+      (
+        query: 'Phoenix',
+        name: 'Phoenix',
+        id: 'core.phoenix',
+        moduleId: 'phoenix'
+      ),
+      (
+        query: 'Barnsley Fern',
+        name: 'Barnsley Fern',
+        id: 'core.barnsley_fern',
+        moduleId: 'barnsley_fern'
+      ),
+      (
+        query: 'Lorenz Attractor',
+        name: 'Lorenz Attractor (2D)',
+        id: 'core.lorenz_2d',
+        moduleId: 'lorenz_2d'
+      ),
+    ]) {
+      testWidgets(
+        '${launch.name} viewer starts from its configured default view',
+        (tester) async {
+          await pumpApp(tester);
+          await openModuleBySearch(
+            tester,
+            query: launch.query,
+            displayName: launch.name,
+            catalogId: launch.id,
+          );
+
+          final renderer = find.byType(FractalRenderer);
+          expect(renderer, findsOneWidget);
+          final controller = Provider.of<FractalController>(
+            tester.element(renderer),
+            listen: false,
+          );
+          expect(controller.module.id, launch.moduleId);
+          final defaultView = controller.module.defaultPreset.view;
+          expect(controller.view.pan.x, defaultView.pan.x);
+          expect(controller.view.pan.y, defaultView.pan.y);
+          expect(controller.view.zoom, defaultView.zoom);
+          drainKnownShaderExceptions(tester);
+        },
+        skip: RuntimeModeService.useRendererPlaceholderSurface,
+      );
+    }
   });
 }

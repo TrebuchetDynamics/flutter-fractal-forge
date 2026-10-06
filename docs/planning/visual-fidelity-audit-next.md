@@ -2,7 +2,9 @@
 
 ## Accepted focus
 
-Prioritize the launch-critical **Visual Fidelity Audit** for the **Featured Launch Set** and catalog thumbnails before adding more fractal families or broad shader polish.
+Prioritize the launch-critical **Visual Fidelity Audit** for the **Featured Launch Set** and catalog thumbnails. The owner-approved visual-improvement task extends the work beyond that first tranche. It includes both Explore groups and all 200 research-library definitions. The Featured Launch Set remains the first audit phase; this extension does not make a blanket shader rewrite part of scope.
+
+Review true module defaults, runtime catalog previews, and first viewer renders. Preserve established formulas. Tune defaults and rendering, or fix demonstrated implementation bugs.
 
 ## Evidence checked
 
@@ -13,6 +15,18 @@ Prioritize the launch-critical **Visual Fidelity Audit** for the **Featured Laun
 - `test/features/catalog/catalog_thumbnail_plan_test.dart`: protects exact asset mapping and approximate-preview labels.
 - `assets/catalog_thumbs/`: the static thumbnail directory is absent in this checkout; `test/catalog/catalog_thumbnail_audit_test.dart` protects that state.
 - `test/golden/failures/catalog_*` contains tracked failure-output images. `test/golden/catalog_golden_test.dart` passed all four phone/tablet dark/high-contrast cases in the inspected run; those stored artifacts were not reproduced by that run.
+
+## Current implementation evidence — partial
+
+The working tree has formula-preserving fixes across four module paths. Julia and Nova now resolve to their dedicated modules. Newton z³ supplies the relaxation uniform at `1.0`. Nova convergence checks the full parameter-plane update. Koch Snowflake uses center `(0, 0.3)` and zoom `1.2`. Catalog launches now use a module's configured default view.
+
+VIS-006-BATCH-04 executed real-GPU defaults and actual runtime catalog previews for the next ten source-ordered Explore IDs. All ten runtime previews passed the image-health verdict. The strict default harness reconciled selected/generated/failed/skipped as 10/9/1/0 because Koch Snowflake exceeded the existing black-ratio limit (0.3013 vs <0.2); a non-strict run captured all ten and every rendered image's health verdict was pass. No shader, formula, or default was changed. All ten CPU oracle checks were skipped because no reference oracle is available; tetration is the only selected module with a registered native CPU formula.
+
+Real-GPU checks use `--dart-define=FORCE_GPU_RENDER=true`. Default and runtime-preview checks now have evidence for Julia, Nova, Newton z³, Koch Snowflake, Burning Ship, Four-Wing, Lorenz 2D, Mandelbrot, Rössler 2D, and Thomas Attractor. Viewer-start checks cover all nine Featured Launch Set IDs: seven in `user_flows_test.dart`, plus dedicated Nova and Newton z³ tests. Koch's 256×256 default capture reports 1,591 unique RGB colors and 17.09% black pixels. Its runtime preview is 384×346. These are focused samples, not full-catalog coverage.
+
+The visual inventory reconciles 1,027 Explore IDs (core=1,027; performance=0) and 200 research-manifest IDs. It records default capture/runtime-preview evidence for 47 Explore rows; 980 remain uncaptured. All 200 research rows are explicitly marked `missing_app_renderer`, so no app preview or first viewer render is available for them. The `first_view` field is populated for nine Explore rows. Its `cpu_formula` field is `not audited` in 1,184 of the 1,227 rows (984 Explore and 200 research rows); the other 43 rows have recorded statuses, not necessarily complete CPU verification.
+
+An earlier 1,020-entry GPU capture timed out. Its report did not reconcile with the 907 PNG files found. It is not complete-coverage evidence. Four-Wing, Lorenz, Rössler, and Thomas captures also have documented visual findings that need follow-up. Keep their established formulas unchanged unless an implementation defect is demonstrated.
 
 ## Findings
 
@@ -26,7 +40,7 @@ The manifest is intentionally scoped for visual QA; the broader marketing set st
 
 The owner confirmed that 320×320 applies to launch-set thumbnail media outputs, not bundled catalog thumbnails. `assets/AGENTS.md` and `test/catalog/catalog_thumbnail_audit_test.dart` continue to require the static catalog PNG bundle to remain absent; catalog thumbnails are rendered at runtime. The generator's `LAUNCH_MEDIA_SIZE=320` mode produces launch-set thumbnail-sized output under `build/test_output/launch_media/`; its default high-resolution capture remains 1080×1080. Staged smoke output may use 256×256. The separate `UPDATE_CATALOG_THUMBS=true` path can write catalog assets, but is not the current shipping policy.
 
-Do not treat the opt-in catalog-asset write path as permission to add static catalog thumbnails. The 320×320 launch-media thumbnail target is not yet verified by a dedicated capture run.
+Do not treat the opt-in catalog-asset write path as permission to add static catalog thumbnails. The dedicated 320×320 Featured Launch Set capture is verified; see the MEDIA-001 evidence in `TODO.md`.
 
 ### 3. Launch visual metrics — implemented, descriptive only
 
@@ -63,7 +77,7 @@ Validation target: a fast unit/widget test, no GPU required.
 
 ### Slice B — Thumbnail standard alignment
 
-Status: scope is documented and the generator supports it, but a 320×320 launch-media capture has not yet been verified.
+Status: scope is documented and the 320×320 launch-media capture is verified by the MEDIA-001 evidence in `TODO.md`.
 
 Launch Thumbnail Standard:
 
@@ -72,7 +86,7 @@ Launch Thumbnail Standard:
 - static catalog PNGs: not bundled; catalog thumbnails remain runtime-rendered
 - separate high-resolution hero stills: 1080×1080 by default, configurable per capture run
 
-Validation target: `LAUNCH_MEDIA_SIZE=320 ./scripts/capture-launch-media.sh` on a real GPU; confirm the report lists the Featured Launch Set entries at 320×320 with no failed renders. The catalog asset-update path is out of scope.
+Validation target met: `LAUNCH_MEDIA_SIZE=320 ./scripts/capture-launch-media.sh` ran on a real GPU; the MEDIA-001 report lists all nine Featured Launch Set entries at 320×320 with no failed renders or quality warnings. The catalog asset-update path remains out of scope.
 
 ### Slice C — Audit report schema
 
@@ -95,8 +109,19 @@ Before launch screenshots:
 
 - [x] classify stored catalog golden-failure images against the four passing current golden comparisons; leave the tracked artifacts unchanged
 - [x] verify launcher/store source files (1024×1024 launcher and adaptive foreground, 512×512 store icon, 1024×500 feature graphic), `pubspec.yaml` launcher inputs, and Android adaptive-icon XML/resources; visual presentation sign-off remains open
-- [ ] rerun catalog/web smoke path and inspect the report
+- [x] rerun catalog/web smoke path and inspect the report (Featured Launch Set Chromium smoke: 9/9 modules, zero failures or warnings; see `TODO.md` WEB-001 evidence)
 - [ ] record final Visual Fidelity Audit verdict
+
+## Extended audit scope — in progress
+
+The accepted visual-improvement task also covers both Explore groups and the 200 reference definitions in `research/fractals-library/data/fractal_manifest.json`. This is separate from the Featured Launch Set media policy above. The ID inventory is reconciled, but rendering, CPU-formula, and first-view evidence is partial. The 200 reference definitions have no app renderer in the current inventory.
+
+The next bounded steps are tracked in [`TODO.md`](../../TODO.md):
+
+- `VIS-004`: the nine Featured Launch Set first-view checks have executed evidence, including dedicated Nova and Newton z³ tests.
+- `VIS-005`: ID and renderer-status reconciliation is complete. It does not prove visual output or CPU-formula coverage.
+
+`VIS-006` in `TODO.md` tracks the remaining GPU captures, runtime previews, first viewer renders, and supported CPU checks. The next batch should name ten uncaptured Explore IDs. Do not count a batch as complete until its selected, generated, failed, and skipped counts reconcile. Keep formula redesign and static catalog assets out of scope.
 
 ## Stop conditions
 

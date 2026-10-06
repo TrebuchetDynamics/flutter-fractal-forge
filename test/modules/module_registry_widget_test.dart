@@ -13,6 +13,15 @@ void main() {
       registry = ModuleRegistry();
     });
 
+    test('Rossler bailout schema preserves configured default', () {
+      final module = registry.byId('rossler_2d');
+      final bailout =
+          module.parameters.firstWhere((param) => param.id == 'bailout');
+
+      expect(bailout.defaultValue, 12.0);
+      expect(bailout.max, 12.0);
+    });
+
     testWidgets('all module display names render correctly', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -199,6 +208,14 @@ void main() {
     });
 
     testWidgets('Julia module has additional parameters', (tester) async {
+      final juliaModule = registry.byId('julia');
+      expect(
+        juliaModule.parameters.map((param) => param.id),
+        containsAll(['juliaCReal', 'juliaCImag']),
+      );
+      expect(juliaModule.defaultPreset.params['juliaCReal'], -0.8);
+      expect(juliaModule.defaultPreset.params['juliaCImag'], 0.156);
+
       await tester.pumpWidget(
         MaterialApp(
           locale: const Locale('en'),
@@ -223,6 +240,28 @@ void main() {
 
       // Julia should have c_real and c_imag parameters
       expect(find.byType(Text), findsWidgets);
+    });
+
+    test('Nova registry entry uses the purpose-built relaxation module', () {
+      final novaModule = registry.byId('nova');
+
+      expect(novaModule.parameters.map((param) => param.id),
+          contains('relaxation'));
+      expect(novaModule.defaultPreset.params['relaxation'], 1.0);
+      expect(
+        novaModule.shaderAsset,
+        'shaders/escape_time_family/families/nova/parameter_plane/nova_gpu.frag',
+      );
+    });
+
+    test('Newton z3 module exposes its shader relaxation value', () {
+      final newtonModule = registry.byId('newton_z3');
+
+      expect(
+        newtonModule.parameters.map((param) => param.id),
+        contains('relaxation'),
+      );
+      expect(newtonModule.defaultPreset.params['relaxation'], 1.0);
     });
 
     testWidgets('Mandelbulb has 3D-specific parameters', (tester) async {

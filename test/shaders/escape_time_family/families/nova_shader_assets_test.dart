@@ -36,9 +36,9 @@ void main() {
   test('catalog Nova shader assets are declared in pubspec', () {
     final catalogAssets = escapeTimeShaderAssetsStartingWith(shaderRoot);
 
-    expect(catalogAssets, hasLength(9));
+    expect(catalogAssets, hasLength(8));
     expect(catalogAssets.where((asset) => asset.startsWith(parameterPlaneRoot)),
-        hasLength(5));
+        hasLength(4));
     expect(catalogAssets.where((asset) => asset.startsWith(juliaSetsRoot)),
         hasLength(4));
     expectAssetsDeclaredAndExist(catalogAssets, declaredShaderAssets);
