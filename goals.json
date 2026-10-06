@@ -78,6 +78,21 @@
         },
         {
           "kind": "executed",
+          "ref": "FRESH 2026-10-06: CATALOG_THUMB_ONLY=core.four_wing CATALOG_THUMB_USE_MODULE_DEFAULTS=true CATALOG_THUMB_OUTPUT_DIR=build/test_output/vis006-four-wing-defaults STRICT_CATALOG_THUMBS=true flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded (selected/generated/failed/skipped=1/1/0/0; 256x256, 785 colors, verdict pass)",
+          "result": "pass"
+        },
+        {
+          "kind": "executed",
+          "ref": "FRESH 2026-10-06: dart format --output=none --set-exit-if-changed integration_test/catalog/vis006_four_wing_runtime_preview_test.dart (0 changed) && flutter analyze integration_test/catalog/vis006_four_wing_runtime_preview_test.dart (no issues) && python research/fractals-library/scripts/validate_visual_inventory.py (1027 Explore, 200 manifest; pass) && git diff --check (pass)",
+          "result": "pass"
+        },
+        {
+          "kind": "executed",
+          "ref": "FRESH 2026-10-06: flutter test integration_test/catalog/vis006_four_wing_runtime_preview_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --dart-define=FORCE_RUNTIME_CATALOG_THUMBNAILS=true --reporter expanded (384x346; 481 colors; verdict pass)",
+          "result": "pass"
+        },
+        {
+          "kind": "executed",
           "ref": "VIS-006 scope closure check: requested all mapped Explore definitions and first-view behavior are not covered by this Four Wing-only batch",
           "result": "fail"
         },
