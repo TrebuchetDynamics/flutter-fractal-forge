@@ -11,7 +11,7 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 ///
 /// ## Expected counts (update when catalog intentionally grows)
 ///
-/// - Escape-time catalog raw unique IDs       : 545
+/// - Escape-time catalog raw unique IDs       : 543
 /// - Raymarched-3D catalog unique IDs         :  37
 /// - Custom hand-built modules                :   9
 ///   (julia, julia_dual, phoenix, nova, mandelbulb, mandelbox,
@@ -34,8 +34,8 @@ void main() {
       catalog = escapeTimeCatalog;
     });
 
-    test('total entry count is 545', () {
-      expect(catalog.length, 545,
+    test('total entry count is 543', () {
+      expect(catalog.length, 543,
           reason: 'Update this constant when entries are intentionally '
               'added to or removed from escape_time_catalog.dart.');
     });
