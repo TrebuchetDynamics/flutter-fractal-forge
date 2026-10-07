@@ -45,6 +45,50 @@ void main() {
       expect(find.text('Randomize'), findsOneWidget);
     });
 
+    testWidgets('collapse hides controls and expand restores current values',
+        (tester) async {
+      harness.controller.updateParam('iterations', 420);
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      expect(find.text('Iterations'), findsOneWidget);
+      expect(find.text('420'), findsOneWidget);
+      await tester.tap(find.byIcon(Icons.expand_more_rounded));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Controls'), findsOneWidget);
+      expect(find.text('Iterations'), findsNothing);
+      expect(find.byIcon(Icons.close_rounded), findsOneWidget);
+      expect(find.byIcon(Icons.expand_less_rounded), findsOneWidget);
+
+      await tester.tap(find.byIcon(Icons.expand_less_rounded));
+      await tester.pumpAndSettle();
+      expect(find.text('Iterations'), findsOneWidget);
+      expect(find.text('420'), findsOneWidget);
+    });
+
+    testWidgets('collapse action labels are localized and semantic',
+        (tester) async {
+      final handle = tester.ensureSemantics();
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+      expect(find.bySemanticsLabel('Collapse'), findsOneWidget);
+      await tester.tap(find.byIcon(Icons.expand_more_rounded));
+      await tester.pumpAndSettle();
+      expect(find.bySemanticsLabel('Expand'), findsOneWidget);
+
+      await tester.pumpWidget(harness.wrapScaffold(
+        const FractalControlsHud(),
+        locale: const Locale('es'),
+      ));
+      await tester.pumpAndSettle();
+      expect(find.bySemanticsLabel('Expandir'), findsOneWidget);
+      await tester.tap(find.byIcon(Icons.expand_less_rounded));
+      await tester.pumpAndSettle();
+      expect(find.bySemanticsLabel('Contraer'), findsOneWidget);
+      handle.dispose();
+    });
+
     testWidgets('fluid mode exposes intensity control when enabled',
         (tester) async {
       await tester.pumpWidget(buildTestWidget());

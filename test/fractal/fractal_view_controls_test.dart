@@ -139,7 +139,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(exported, isFalse);
-    expect(find.text('Share & export'), findsOneWidget);
+    expect(find.text('Share & export'), findsNothing);
     expect(find.text('Export'), findsOneWidget);
     expect(find.text('Copy view link'), findsOneWidget);
     expect(find.text('Share image'), findsOneWidget);
@@ -159,7 +159,7 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
     await tester.pumpAndSettle();
 
-    expect(find.text('Share & export'), findsOneWidget);
+    expect(find.text('Share & export'), findsNothing);
     expect(find.text('Export'), findsOneWidget);
     expect(find.text('Copy view link'), findsOneWidget);
     expect(find.text('Share image'), findsOneWidget);
@@ -521,7 +521,7 @@ void main() {
       'Kaleidoscope off',
       'Text overlay off. Tap to add text.',
       'Fourier view off',
-      'Share & export',
+      'Viewer actions',
       'Fullscreen view',
     ]) {
       expect(find.bySemanticsLabel(label), findsOneWidget, reason: label);
@@ -546,7 +546,7 @@ void main() {
       'Bucle de cámara',
       'Música fractal desactivada',
       'Kaleidoscopio desactivado',
-      'Compartir y exportar',
+      'Acciones del visor',
     ]) {
       expect(find.bySemanticsLabel(label), findsOneWidget, reason: label);
     }

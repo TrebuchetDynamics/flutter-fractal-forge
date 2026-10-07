@@ -67,67 +67,65 @@ void main() {
     handle.dispose();
   });
 
-  testWidgets('combined share and export FAB opens the action sheet',
+  testWidgets('viewer overflow exposes localized actions and dispatches each',
       (tester) async {
-    await _pumpHarness(tester);
-
-    await tester.longPress(find.byKey(const ValueKey('viewerExportButton')));
-    await tester.pumpAndSettle();
-
-    expect(find.text('Share & export'), findsOneWidget);
-    expect(
-      find.text('Save, share, or fit the current render to your device.'),
-      findsOneWidget,
+    final invoked = <String>[];
+    await _pumpHarness(
+      tester,
+      onExport: () => invoked.add('export'),
+      onShareLink: () => invoked.add('link'),
+      onShareImage: () => invoked.add('image'),
+      onWallpaper: () => invoked.add('wallpaper'),
     );
-    expect(find.text('Set this view as your home or lock screen wallpaper.'),
-        findsOneWidget);
-  });
 
-  // The wallpaper tile used to be described as "Preview crops for phone
-  // wallpaper sizes." There is no preview anywhere in the flow: the tile opens
-  // WallpaperOptionsSheet and applying from there hands the capture straight to
-  // the platform. The old copy was asserted by this very file, which is part of
-  // why it survived.
-  testWidgets('the wallpaper tile does not promise a preview', (tester) async {
-    await _pumpHarness(tester);
-
-    await tester.longPress(find.byKey(const ValueKey('viewerExportButton')));
+    final menu = find.byKey(const ValueKey('viewerOverflowMenu'));
+    expect(menu, findsOneWidget);
+    expect(find.byTooltip('Viewer actions'), findsOneWidget);
+    await tester.tap(menu);
     await tester.pumpAndSettle();
+    expect(find.text('Export'), findsOneWidget);
+    expect(find.text('Copy view link'), findsOneWidget);
+    expect(find.text('Share image'), findsOneWidget);
+    expect(find.text('Wallpaper'), findsOneWidget);
 
-    expect(find.textContaining('Preview'), findsNothing);
+    for (final entry in const {
+      'Export': 'export',
+      'Copy view link': 'link',
+      'Share image': 'image',
+      'Wallpaper': 'wallpaper',
+    }.entries) {
+      await tester.tap(find.text(entry.key));
+      await tester.pumpAndSettle();
+      expect(invoked, contains(entry.value));
+      if (entry.key != 'Wallpaper') {
+        await tester.tap(menu);
+        await tester.pumpAndSettle();
+      }
+    }
   });
 
-  testWidgets('the wallpaper tile localizes and promises no preview in Spanish',
+  testWidgets('viewer overflow localizes its accessible label in Spanish',
       (tester) async {
     await _pumpHarness(tester, locale: const Locale('es'));
-
-    await tester.longPress(find.byKey(const ValueKey('viewerExportButton')));
+    expect(find.byTooltip('Acciones del visor'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
     await tester.pumpAndSettle();
-
-    expect(
-      find.text(
-          'Establece esta vista como fondo de la pantalla de inicio o de bloqueo.'),
-      findsOneWidget,
-    );
-    expect(find.textContaining('Previsualiza'), findsNothing);
-    expect(find.textContaining('Preview'), findsNothing);
+    expect(find.text('Exportar'), findsOneWidget);
+    expect(find.text('Compartir imagen'), findsOneWidget);
+    expect(find.text('Export'), findsNothing);
   });
 
-  testWidgets('desktop export sheet omits unsupported wallpaper actions',
+  testWidgets('desktop overflow omits unsupported wallpaper action',
       (tester) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.linux;
     addTearDown(() => debugDefaultTargetPlatformOverride = null);
     await _pumpHarness(tester);
 
-    await tester.longPress(find.byKey(const ValueKey('viewerExportButton')));
+    await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
     await tester.pumpAndSettle();
 
-    expect(find.text('Share & export'), findsOneWidget);
     expect(find.text('Export'), findsOneWidget);
-    expect(find.text('Save or share the current render.'), findsOneWidget);
     expect(find.text('Wallpaper'), findsNothing);
-    expect(find.text('Set this view as your home or lock screen wallpaper.'),
-        findsNothing);
     debugDefaultTargetPlatformOverride = null;
   });
 
@@ -340,6 +338,10 @@ Future<void> _pumpHarness(
   VoidCallback? onEditTextOverlay,
   Locale locale = const Locale('en'),
   int sectors = 8,
+  VoidCallback? onExport,
+  VoidCallback? onShareLink,
+  VoidCallback? onShareImage,
+  VoidCallback? onWallpaper,
 }) async {
   await tester.pumpWidget(
     MaterialApp(
@@ -350,6 +352,10 @@ Future<void> _pumpHarness(
         body: _Harness(
           onSetSectors: onSetSectors ?? (_) {},
           onEditTextOverlay: onEditTextOverlay ?? () {},
+          onExport: onExport ?? () {},
+          onShareLink: onShareLink ?? () {},
+          onShareImage: onShareImage ?? () {},
+          onWallpaper: onWallpaper ?? () {},
           sectors: sectors,
         ),
       ),
@@ -361,11 +367,19 @@ Future<void> _pumpHarness(
 class _Harness extends StatefulWidget {
   final ValueChanged<int> onSetSectors;
   final VoidCallback onEditTextOverlay;
+  final VoidCallback onExport;
+  final VoidCallback onShareLink;
+  final VoidCallback onShareImage;
+  final VoidCallback onWallpaper;
   final int sectors;
 
   const _Harness({
     required this.onSetSectors,
     required this.onEditTextOverlay,
+    required this.onExport,
+    required this.onShareLink,
+    required this.onShareImage,
+    required this.onWallpaper,
     required this.sectors,
   });
 
@@ -407,9 +421,9 @@ class _HarnessState extends State<_Harness>
         toggleKaleidoscope: () {},
         setKaleidoscopeSectors: widget.onSetSectors,
         setKaleidoscopeMirror: (_) {},
-        openExport: () {},
-        shareLink: () {},
-        shareImage: () {},
+        openExport: widget.onExport,
+        shareLink: widget.onShareLink,
+        shareImage: widget.onShareImage,
         toggleTextOverlay: () {},
         editTextOverlay: widget.onEditTextOverlay,
         openLooper: () {},
@@ -417,7 +431,7 @@ class _HarnessState extends State<_Harness>
         toggleFourier: () {},
         openFourierSettings: () {},
         reportFractal: () {},
-        openWallpaper: () {},
+        openWallpaper: widget.onWallpaper,
       ),
     );
   }

@@ -21,10 +21,17 @@ import 'package:flutter_fractals/l10n/app_localizations.dart';
 /// - Collapsible kaleidoscope section
 /// - Quick action buttons (reset, randomize)
 /// - Animated slide-in/out
-class FractalControlsHud extends StatelessWidget {
+class FractalControlsHud extends StatefulWidget {
   final VoidCallback? onClose;
 
   const FractalControlsHud({super.key, this.onClose});
+
+  @override
+  State<FractalControlsHud> createState() => _FractalControlsHudState();
+}
+
+class _FractalControlsHudState extends State<FractalControlsHud> {
+  bool _isCollapsed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -76,107 +83,117 @@ class FractalControlsHud extends StatelessWidget {
                     ),
                   ),
                 ),
+                _HudIconButton(
+                  icon: _isCollapsed
+                      ? Icons.expand_less_rounded
+                      : Icons.expand_more_rounded,
+                  tooltip:
+                      _isCollapsed ? l10n.tooltipExpand : l10n.tooltipCollapse,
+                  onPressed: () => setState(() => _isCollapsed = !_isCollapsed),
+                ),
                 // Close button
                 _HudIconButton(
                   icon: Icons.close_rounded,
                   tooltip: l10n.semanticCloseButton,
-                  onPressed: onClose ?? () => Navigator.of(context).pop(),
+                  onPressed:
+                      widget.onClose ?? () => Navigator.of(context).pop(),
                 ),
               ],
             ),
           ),
-          // Scrollable controls content
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(12, 4, 12, 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Core params are optional: custom modules can expose a
-                  // different schema (for example Nova uses relaxation,
-                  // not bailout).
-                  ...controller.module.parameters
-                      .where((p) => p.id == 'iterations' || p.id == 'bailout')
-                      .map((param) {
-                    final value =
-                        controller.params[param.id] ?? param.defaultValue;
-                    return _buildExtraParamControl(
-                      context,
-                      controller,
-                      param,
-                      value,
-                      l10n,
-                    );
-                  }),
+          if (!_isCollapsed)
+            // Scrollable controls content
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(12, 4, 12, 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Core params are optional: custom modules can expose a
+                    // different schema (for example Nova uses relaxation,
+                    // not bailout).
+                    ...controller.module.parameters
+                        .where((p) => p.id == 'iterations' || p.id == 'bailout')
+                        .map((param) {
+                      final value =
+                          controller.params[param.id] ?? param.defaultValue;
+                      return _buildExtraParamControl(
+                        context,
+                        controller,
+                        param,
+                        value,
+                        l10n,
+                      );
+                    }),
 
-                  // Color scheme - compact horizontal chip row
-                  if (_hasParam(controller, 'colorScheme')) ...[
-                    _CompactColorSchemeRow(
-                      currentValue: _intParam(controller, 'colorScheme', 0),
-                      onChanged: (v) =>
-                          controller.updateParam('colorScheme', v),
-                    ),
-                    const SizedBox(height: 8),
-                  ],
+                    // Color scheme - compact horizontal chip row
+                    if (_hasParam(controller, 'colorScheme')) ...[
+                      _CompactColorSchemeRow(
+                        currentValue: _intParam(controller, 'colorScheme', 0),
+                        onChanged: (v) =>
+                            controller.updateParam('colorScheme', v),
+                      ),
+                      const SizedBox(height: 8),
+                    ],
 
-                  // Extra params (per-fractal)
-                  ...controller.module.parameters
-                      .where((p) =>
-                          p.id != 'iterations' &&
-                          p.id != 'bailout' &&
-                          p.id != 'colorScheme')
-                      .map((param) {
-                    final value =
-                        controller.params[param.id] ?? param.defaultValue;
-                    return _buildExtraParamControl(
-                      context,
-                      controller,
-                      param,
-                      value,
-                      l10n,
-                    );
-                  }),
+                    // Extra params (per-fractal)
+                    ...controller.module.parameters
+                        .where((p) =>
+                            p.id != 'iterations' &&
+                            p.id != 'bailout' &&
+                            p.id != 'colorScheme')
+                        .map((param) {
+                      final value =
+                          controller.params[param.id] ?? param.defaultValue;
+                      return _buildExtraParamControl(
+                        context,
+                        controller,
+                        param,
+                        value,
+                        l10n,
+                      );
+                    }),
 
-                  const SizedBox(height: 4),
-
-                  // Kaleidoscope toggle + controls
-                  _KaleidoscopeSection(controller: controller, l10n: l10n),
-
-                  const SizedBox(height: 4),
-                  _HudToggleRow(
-                    label: l10n.hudFluidMode,
-                    value: controller.fluidModeEnabled,
-                    onChanged: controller.setFluidModeEnabled,
-                  ),
-                  if (controller.fluidModeEnabled) ...[
                     const SizedBox(height: 4),
-                    _CompactHudSliderRow(
-                      label: l10n.hudFluidIntensity,
-                      value: controller.fluidStrength,
-                      min: FractalEffectInputBounds.minFluidStrength,
-                      max: FractalEffectInputBounds.maxFluidStrength,
-                      divisions: 20,
-                      valueLabel: controller.fluidStrength.toStringAsFixed(1),
-                      semanticLabel: l10n.hudFluidIntensity,
-                      onChanged: controller.setFluidStrength,
+
+                    // Kaleidoscope toggle + controls
+                    _KaleidoscopeSection(controller: controller, l10n: l10n),
+
+                    const SizedBox(height: 4),
+                    _HudToggleRow(
+                      label: l10n.hudFluidMode,
+                      value: controller.fluidModeEnabled,
+                      onChanged: controller.setFluidModeEnabled,
+                    ),
+                    if (controller.fluidModeEnabled) ...[
+                      const SizedBox(height: 4),
+                      _CompactHudSliderRow(
+                        label: l10n.hudFluidIntensity,
+                        value: controller.fluidStrength,
+                        min: FractalEffectInputBounds.minFluidStrength,
+                        max: FractalEffectInputBounds.maxFluidStrength,
+                        divisions: 20,
+                        valueLabel: controller.fluidStrength.toStringAsFixed(1),
+                        semanticLabel: l10n.hudFluidIntensity,
+                        onChanged: controller.setFluidStrength,
+                      ),
+                    ],
+
+                    const SizedBox(height: 8),
+
+                    // Quick action buttons row
+                    _ActionButtonsRow(
+                      onResetView: controller.resetView,
+                      onResetParams: controller.resetParams,
+                      onRandomize: () {
+                        HapticFeedback.mediumImpact();
+                        controller.randomizeParams();
+                      },
                     ),
                   ],
-
-                  const SizedBox(height: 8),
-
-                  // Quick action buttons row
-                  _ActionButtonsRow(
-                    onResetView: controller.resetView,
-                    onResetParams: controller.resetParams,
-                    onRandomize: () {
-                      HapticFeedback.mediumImpact();
-                      controller.randomizeParams();
-                    },
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
         ],
       ),
     );

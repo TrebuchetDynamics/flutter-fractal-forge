@@ -137,6 +137,7 @@
   "tooltipOpenControls": "Controls",
   "tooltipOpenPresets": "Presets",
   "tooltipExport": "Export",
+  "viewerActionsMenu": "Viewer actions",
   "tooltipWallpaper": "Set as Wallpaper",
   "tooltipResetViewWithParams": "Reset View. Long press for Reset Params",
   "tooltipIncreaseIterationsWithDecrease": "Iterations +. Long press for −",

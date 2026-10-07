@@ -422,6 +422,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tooltipExport => 'Exportar';
 
   @override
+  String get viewerActionsMenu => 'Acciones del visor';
+
+  @override
   String get tooltipWallpaper => 'Establecer como Fondo';
 
   @override

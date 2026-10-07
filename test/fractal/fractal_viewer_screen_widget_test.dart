@@ -800,7 +800,9 @@ void main() {
         await tester.pump();
         final focusable = find.descendant(
           of: finder,
-          matching: find.byType(FocusableActionDetector),
+          matching: index == orderedKeys.indexOf('viewerExportButton')
+              ? find.byType(Focus)
+              : find.byType(FocusableActionDetector),
         );
         expect(Focus.of(tester.element(focusable)).hasFocus, isTrue,
             reason: '${orderedKeys[index]} was not tab stop ${index + 1}');

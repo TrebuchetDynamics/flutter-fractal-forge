@@ -212,19 +212,11 @@ class FractalViewControls extends StatelessWidget {
         delay: const Duration(milliseconds: 200),
         sortOrder: 8,
       ),
-      _ExportWallpaperFab(
+      _ViewerOverflowMenu(
         isExporting: isExporting,
         l10n: l10n,
-        onOpenActions: () => _showExportModal(
-          context,
-          l10n,
-          supportsWallpaper: supportsWallpaper,
-        ),
-        onLongPress: () => _showExportModal(
-          context,
-          l10n,
-          supportsWallpaper: supportsWallpaper,
-        ),
+        supportsWallpaper: supportsWallpaper,
+        actions: actions,
         sortOrder: 9,
       ),
       FloatingActionButtonWidget(
@@ -306,48 +298,6 @@ class FractalViewControls extends StatelessWidget {
           description: l10n.randomOptionsParamsDescription,
           onTap: actions.randomizeParams,
         ),
-      ],
-    );
-  }
-
-  void _showExportModal(
-    BuildContext context,
-    AppLocalizations l10n, {
-    required bool supportsWallpaper,
-  }) {
-    _showActionModal(
-      context,
-      icon: Icons.ios_share_rounded,
-      title: l10n.shareExportTitle,
-      subtitle: supportsWallpaper
-          ? l10n.exportOptionsSubtitleWithWallpaper
-          : l10n.exportOptionsSubtitle,
-      children: [
-        _ActionTile(
-          icon: Icons.download_rounded,
-          label: l10n.tooltipExport,
-          description: l10n.exportOptionsExportDescription,
-          onTap: actions.openExport,
-        ),
-        _ActionTile(
-          icon: Icons.link_rounded,
-          label: l10n.shareLinkAction,
-          description: l10n.exportOptionsLinkDescription,
-          onTap: actions.shareLink,
-        ),
-        _ActionTile(
-          icon: Icons.share_rounded,
-          label: l10n.tooltipShareImage,
-          description: l10n.exportOptionsImageDescription,
-          onTap: actions.shareImage,
-        ),
-        if (supportsWallpaper)
-          _ActionTile(
-            icon: Icons.wallpaper_rounded,
-            label: l10n.wallpaperTitle,
-            description: l10n.exportOptionsWallpaperDescription,
-            onTap: actions.openWallpaper,
-          ),
       ],
     );
   }
@@ -689,32 +639,76 @@ class _ModalIconBadge extends StatelessWidget {
   }
 }
 
-class _ExportWallpaperFab extends StatelessWidget {
+class _ViewerOverflowMenu extends StatelessWidget {
   final bool isExporting;
   final AppLocalizations l10n;
-  final VoidCallback onOpenActions;
-  final VoidCallback onLongPress;
+  final bool supportsWallpaper;
+  final FractalViewControlActions actions;
   final double sortOrder;
 
-  const _ExportWallpaperFab({
+  const _ViewerOverflowMenu({
     required this.isExporting,
     required this.l10n,
-    required this.onOpenActions,
-    required this.onLongPress,
+    required this.supportsWallpaper,
+    required this.actions,
     required this.sortOrder,
   });
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButtonWidget(
-      key: const ValueKey('viewerExportButton'),
-      icon: Icons.ios_share_rounded,
-      tooltip: l10n.shareExportTitle,
-      onPressed: isExporting ? null : onOpenActions,
-      onLongPress: isExporting ? null : onLongPress,
-      isCompact: true,
-      delay: const Duration(milliseconds: 150),
-      sortOrder: sortOrder,
+    return FocusTraversalOrder(
+      order: NumericFocusOrder(sortOrder),
+      child: SizedBox(
+        key: const ValueKey('viewerExportButton'),
+        child: Opacity(
+          opacity: isExporting ? 0.38 : 1,
+          child: MergeSemantics(
+            child: Semantics(
+              label: l10n.viewerActionsMenu,
+              button: true,
+              enabled: !isExporting,
+              sortKey: OrdinalSortKey(sortOrder),
+              child: PopupMenuButton<String>(
+                key: const ValueKey('viewerOverflowMenu'),
+                tooltip: l10n.viewerActionsMenu,
+                enabled: !isExporting,
+                icon: const Icon(Icons.more_vert_rounded),
+                onSelected: (action) {
+                  switch (action) {
+                    case 'export':
+                      actions.openExport();
+                    case 'link':
+                      actions.shareLink();
+                    case 'image':
+                      actions.shareImage();
+                    case 'wallpaper':
+                      actions.openWallpaper();
+                  }
+                },
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: 'export',
+                    child: Text(l10n.tooltipExport),
+                  ),
+                  PopupMenuItem(
+                    value: 'link',
+                    child: Text(l10n.shareLinkAction),
+                  ),
+                  PopupMenuItem(
+                    value: 'image',
+                    child: Text(l10n.tooltipShareImage),
+                  ),
+                  if (supportsWallpaper)
+                    PopupMenuItem(
+                      value: 'wallpaper',
+                      child: Text(l10n.wallpaperTitle),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -419,6 +419,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tooltipExport => 'Export';
 
   @override
+  String get viewerActionsMenu => 'Viewer actions';
+
+  @override
   String get tooltipWallpaper => 'Set as Wallpaper';
 
   @override

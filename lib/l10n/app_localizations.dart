@@ -890,6 +890,12 @@ abstract class AppLocalizations {
   /// **'Export'**
   String get tooltipExport;
 
+  /// No description provided for @viewerActionsMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Viewer actions'**
+  String get viewerActionsMenu;
+
   /// No description provided for @tooltipWallpaper.
   ///
   /// In en, this message translates to:

@@ -147,16 +147,11 @@ void main() {
       ));
       await pumpAccessibilityTestFrames(tester);
 
-      // The user's route: export FAB long-press, wallpaper tile, then Apply.
-      // The action sheet scrolls, so the tile needs bringing into view before
-      // it can be tapped at anything above the smallest text scale.
-      await tester.longPress(find.byKey(const ValueKey('viewerExportButton')));
+      // The user's route: open the viewer actions menu, choose Wallpaper, then Apply.
+      await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
       await tester.pumpAndSettle();
       final es = locale.languageCode == 'es';
-      final tile = find.text(es ? 'Fondo de pantalla' : 'Wallpaper').last;
-      await tester.ensureVisible(tile);
-      await tester.pumpAndSettle();
-      await tester.tap(tile);
+      await tester.tap(find.text(es ? 'Fondo de pantalla' : 'Wallpaper'));
       await tester.pumpAndSettle();
       final apply = find.text(es ? 'Aplicar' : 'Apply');
       await tester.ensureVisible(apply);
