@@ -1090,6 +1090,7 @@
       "module_id": "julia_dual",
       "shader": "shaders/escape_time_family/core/mandel_julia_dual_gpu.frag",
       "runtime_preview": "captured in VIS-006-BATCH-01: defaults build/test_output/vis006-batch01-defaults/julia_dual.png; runtime GPU preview build/test_output/vis006-julia-dual/runtime_catalog_preview.png (384x346; 363 RGB colors; blackPixelRatio=0.5495; verdict pass). Reconciliation, defaults, metrics in build/test_output/vis006-batch01-defaults/thumbnail_report.json (10/10/0/0); runtime test integration_test/catalog/vis006_julia_dual_runtime_preview_test.dart; CPU math oracle skipped: no reference oracle for this formula family yet.",
+
       "cpu_formula": "no native CPU formula registered for module ID julia_dual in lib/features/renderer/cpu/cpu_formulas.dart",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -1140,6 +1141,7 @@
       "module_id": "tricorn",
       "shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
       "runtime_preview": "captured in VIS-006-BATCH-01: defaults build/test_output/vis006-batch01-defaults/tricorn.png; runtime GPU preview build/test_output/vis006-tricorn/runtime_catalog_preview.png (384x346; 497 RGB colors; blackPixelRatio=0.2941; verdict pass). Defaults, metrics, and selected/generated/failed/skipped reconciliation in build/test_output/vis006-batch01-defaults/thumbnail_report.json (10/10/0/0); runtime test integration_test/catalog/vis006_batch01_runtime_preview_test.dart; CPU math oracle pass (origin bounded; far point escapes).",
+
       "cpu_formula": "native CPU formula _cpu_tricorn registered for module ID tricorn in lib/features/renderer/cpu/cpu_formulas.dart",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -1156,6 +1158,7 @@
       "module_id": "celtic",
       "shader": "shaders/escape_time_family/families/celtic/celtic_gpu.frag",
       "runtime_preview": "captured in VIS-006-BATCH-01: defaults build/test_output/vis006-batch01-defaults/celtic.png; runtime GPU preview build/test_output/vis006-celtic/runtime_catalog_preview.png (384x346; 674 RGB colors; blackPixelRatio=0.1821; verdict pass). Defaults, metrics, and selected/generated/failed/skipped reconciliation in build/test_output/vis006-batch01-defaults/thumbnail_report.json (10/10/0/0); runtime test integration_test/catalog/vis006_batch01_runtime_preview_test.dart; CPU math oracle skipped: no reference oracle for this formula family yet.",
+
       "cpu_formula": "native CPU formula _cpu_celtic registered for module ID celtic in lib/features/renderer/cpu/cpu_formulas.dart",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -1172,6 +1175,7 @@
       "module_id": "buffalo",
       "shader": "shaders/escape_time_family/families/buffalo/buffalo_gpu.frag",
       "runtime_preview": "captured in VIS-006-BATCH-01: defaults build/test_output/vis006-batch01-defaults/buffalo.png; runtime GPU preview build/test_output/vis006-buffalo/runtime_catalog_preview.png (384x346; 896 RGB colors; blackPixelRatio=0.2858; verdict pass). Defaults, metrics, and selected/generated/failed/skipped reconciliation in build/test_output/vis006-batch01-defaults/thumbnail_report.json (10/10/0/0); runtime test integration_test/catalog/vis006_batch01_runtime_preview_test.dart; CPU math oracle skipped: no reference oracle for this formula family yet.",
+
       "cpu_formula": "native CPU formula _cpu_buffalo registered for module ID buffalo in lib/features/renderer/cpu/cpu_formulas.dart",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -1188,6 +1192,7 @@
       "module_id": "multibrot3",
       "shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
       "runtime_preview": "captured in VIS-006-BATCH-01: defaults build/test_output/vis006-batch01-defaults/multibrot3.png; runtime GPU preview build/test_output/vis006-multibrot3/runtime_catalog_preview.png (384x346; 2318 RGB colors; blackPixelRatio=0.0; verdict pass). Defaults, metrics, and selected/generated/failed/skipped reconciliation in build/test_output/vis006-batch01-defaults/thumbnail_report.json (10/10/0/0); runtime test integration_test/catalog/vis006_batch01_runtime_preview_test.dart; CPU math oracle skipped: no reference oracle for this formula family yet.",
+
       "cpu_formula": "native CPU formula _cpu_multibrot3 registered for module ID multibrot3 in lib/features/renderer/cpu/cpu_formulas.dart",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -1221,6 +1226,7 @@
       "module_id": "nova_julia",
       "shader": "shaders/escape_time_family/families/nova/julia_sets/nova_julia_gpu.frag",
       "runtime_preview": "captured in VIS-006-BATCH-01: defaults build/test_output/vis006-batch01-defaults/nova_julia.png; runtime GPU preview build/test_output/vis006-nova-julia/runtime_catalog_preview.png (384x346; 54 RGB colors; blackPixelRatio=0.4427; verdict pass). Defaults, metrics, and selected/generated/failed/skipped reconciliation in build/test_output/vis006-batch01-defaults/thumbnail_report.json (10/10/0/0); runtime test integration_test/catalog/vis006_batch01_runtime_preview_test.dart; CPU math oracle skipped: no reference oracle for this formula family yet.",
+
       "cpu_formula": "native CPU formula _cpu_nova_julia registered for module ID nova_julia in lib/features/renderer/cpu/cpu_formulas.dart",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -1237,6 +1243,7 @@
       "module_id": "fatou",
       "shader": "shaders/escape_time_family/transcendental_maps/fatou_gpu.frag",
       "runtime_preview": "captured in VIS-006-BATCH-01: defaults build/test_output/vis006-batch01-defaults/fatou.png; runtime GPU preview build/test_output/vis006-fatou/runtime_catalog_preview.png (384x346; 1621 RGB colors; blackPixelRatio=0.0; verdict pass). Defaults, metrics, and selected/generated/failed/skipped reconciliation in build/test_output/vis006-batch01-defaults/thumbnail_report.json (10/10/0/0); runtime test integration_test/catalog/vis006_batch01_runtime_preview_test.dart; CPU math oracle skipped: no reference oracle for this formula family yet.",
+
       "cpu_formula": "native CPU formula _cpu_fatou registered for module ID fatou in lib/features/renderer/cpu/cpu_formulas.dart",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -1253,6 +1260,7 @@
       "module_id": "gamma_fractal",
       "shader": "shaders/escape_time_family/transcendental_maps/gamma_gpu.frag",
       "runtime_preview": "captured in VIS-006-BATCH-01: defaults build/test_output/vis006-batch01-defaults/gamma_fractal.png; runtime GPU preview build/test_output/vis006-gamma-fractal/runtime_catalog_preview.png (384x346; 256 RGB colors; blackPixelRatio=0.6236; verdict pass). Defaults, metrics, and selected/generated/failed/skipped reconciliation in build/test_output/vis006-batch01-defaults/thumbnail_report.json (10/10/0/0); runtime test integration_test/catalog/vis006_batch01_runtime_preview_test.dart; CPU math oracle skipped: no reference oracle for this formula family yet.",
+
       "cpu_formula": "native CPU formula _cpu_gamma_fractal registered for module ID gamma_fractal in lib/features/renderer/cpu/cpu_formulas.dart",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -1269,6 +1277,7 @@
       "module_id": "perpendicular_mandelbrot",
       "shader": "shaders/escape_time_family/families/perpendicular/perpendicular_gpu.frag",
       "runtime_preview": "captured in VIS-006-BATCH-02: defaults build/test_output/vis006-batch02-defaults/perpendicular_mandelbrot.png (256x256; 1240 RGB colors; blackPixelRatio=0.7543; nonBlack=0.2457; luminanceMean=33.1558; luminanceStdDev=61.85; pass); runtime build/test_output/vis006-batch02/perpendicular_mandelbrot_runtime_catalog_preview.png (384x346; 546 colors; blackPixelRatio=0.7681; pass). Defaults iterations=200; bailout=4; colorScheme=0; pan=(-0.5,0); zoom=1.0. GPU; math oracle skipped (no stable reference).",
+
       "cpu_formula": "native CPU formula _cpu_perpendicular_mandelbrot registered for module ID perpendicular_mandelbrot in lib/features/renderer/cpu/cpu_formulas.dart",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -1285,6 +1294,7 @@
       "module_id": "lambda",
       "shader": "shaders/escape_time_family/transcendental_maps/lambda_gpu.frag",
       "runtime_preview": "captured in VIS-006-BATCH-02: defaults build/test_output/vis006-batch02-defaults/lambda.png (256x256; 975 RGB colors; blackPixelRatio=0.5684; nonBlack=0.4316; luminanceMean=56.0665; luminanceStdDev=65.9699; pass); runtime build/test_output/vis006-batch02/lambda_runtime_catalog_preview.png (384x346; 623 colors; blackPixelRatio=0.5526; pass). Defaults iterations=180; bailout=4; colorScheme=0; pan=(0.3,0.3); zoom=0.5. GPU; math oracle skipped (no stable reference).",
+
       "cpu_formula": "native CPU formula _cpu_lambda registered for module ID lambda in lib/features/renderer/cpu/cpu_formulas.dart",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -1301,6 +1311,7 @@
       "module_id": "magnet_type_1",
       "shader": "shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet1_gpu.frag",
       "runtime_preview": "captured in VIS-006-BATCH-02: defaults build/test_output/vis006-batch02-defaults/magnet_type_1.png (256x256; 582 RGB colors; blackPixelRatio=0.9747; nonBlack=0.0253; luminanceMean=3.4359; luminanceStdDev=22.3334; pass); runtime build/test_output/vis006-batch02/magnet_type_1_runtime_catalog_preview.png (384x346; 440 colors; blackPixelRatio=0.9674; pass). Defaults iterations=150; bailout=4; colorScheme=0; pan=(1,0); zoom=1.2. GPU; math oracle skipped (no stable reference).",
+      "first_view": "executed GPU first-view evidence: integration_test/flows/vis006_first_view_test.dart; observed gpu_first_frame module=magnet_type_1 backend=gpu; controller module/default params/view matched module default preset.",
       "cpu_formula": "native CPU formula _cpu_magnet_type_1 registered for module ID magnet_type_1 in lib/features/renderer/cpu/cpu_formulas.dart",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -1317,6 +1328,7 @@
       "module_id": "magnet_type_2",
       "shader": "shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet2_gpu.frag",
       "runtime_preview": "captured in VIS-006-BATCH-02: defaults build/test_output/vis006-batch02-defaults/magnet_type_2.png (256x256; 4920 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceMean=127.6035; luminanceStdDev=35.5494; pass); runtime build/test_output/vis006-batch02/magnet_type_2_runtime_catalog_preview.png (384x346; 27122 colors; blackPixelRatio=0.1759; pass). Defaults iterations=150; bailout=4; colorScheme=0; pan=(0,0); zoom=1.0. GPU; math oracle skipped (no stable reference).",
+      "first_view": "executed GPU first-view evidence: integration_test/flows/vis006_first_view_test.dart; observed gpu_first_frame module=magnet_type_2 backend=gpu; controller module/default params/view matched module default preset.",
       "cpu_formula": "native CPU formula _cpu_magnet_type_2 registered for module ID magnet_type_2 in lib/features/renderer/cpu/cpu_formulas.dart",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -1333,6 +1345,7 @@
       "module_id": "magnet_type_3",
       "shader": "shaders/escape_time_family/newton_and_orthogonal/magnet_maps/magnet3_gpu.frag",
       "runtime_preview": "captured in VIS-006-BATCH-02: defaults build/test_output/vis006-batch02-defaults/magnet_type_3.png (256x256; 3049 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceMean=150.035; luminanceStdDev=12.0699; pass); runtime build/test_output/vis006-batch02/magnet_type_3_runtime_catalog_preview.png (384x346; 4310 colors; blackPixelRatio=0; pass). Defaults iterations=150; bailout=4; colorScheme=0; pan=(0,0); zoom=1.0. GPU; math oracle skipped (no stable reference).",
+      "first_view": "executed GPU first-view evidence: integration_test/flows/vis006_first_view_test.dart; observed gpu_first_frame module=magnet_type_3 backend=gpu; controller module/default params/view matched module default preset.",
       "cpu_formula": "native CPU formula _cpu_magnet_type_3 registered for module ID magnet_type_3 in lib/features/renderer/cpu/cpu_formulas.dart",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -1349,6 +1362,7 @@
       "module_id": "power_sum",
       "shader": "shaders/escape_time_family/polynomial_maps/power_sum_gpu.frag",
       "runtime_preview": "captured in VIS-006-BATCH-02: defaults build/test_output/vis006-batch02-defaults/power_sum.png (256x256; 758 RGB colors; blackPixelRatio=0.7809; nonBlack=0.2191; luminanceMean=24.7509; luminanceStdDev=48.4719; pass); runtime build/test_output/vis006-batch02/power_sum_runtime_catalog_preview.png (384x346; 251 colors; blackPixelRatio=0.959; pass). Defaults iterations=200; bailout=4; colorScheme=0; pan=(0,0); zoom=1.0. GPU; math oracle skipped (no stable reference).",
+      "first_view": "executed GPU first-view evidence: integration_test/flows/vis006_first_view_test.dart; observed gpu_first_frame module=power_sum backend=gpu; controller module/default params/view matched module default preset.",
       "cpu_formula": "native CPU formula _cpu_power_sum registered for module ID power_sum in lib/features/renderer/cpu/cpu_formulas.dart",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -1365,6 +1379,7 @@
       "module_id": "cactus",
       "shader": "shaders/escape_time_family/polynomial_maps/cactus_gpu.frag",
       "runtime_preview": "captured in VIS-006-BATCH-02: defaults build/test_output/vis006-batch02-defaults/cactus.png (256x256; 1185 RGB colors; blackPixelRatio=0.5114; nonBlack=0.4886; luminanceMean=53.865; luminanceStdDev=61.2577; pass); runtime build/test_output/vis006-batch02/cactus_runtime_catalog_preview.png (384x346; 1116 colors; blackPixelRatio=0.5766; pass). Defaults iterations=200; bailout=4; colorScheme=0; pan=(0,0); zoom=1.0. GPU; math oracle skipped (no stable reference).",
+      "first_view": "executed GPU first-view evidence: integration_test/flows/vis006_first_view_test.dart; observed gpu_first_frame module=cactus backend=gpu; controller module/default params/view matched module default preset.",
       "cpu_formula": "native CPU formula _cpu_cactus registered for module ID cactus in lib/features/renderer/cpu/cpu_formulas.dart",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -1750,8 +1765,8 @@
       "status": "renderer_registered",
       "module_id": "levy_c_curve",
       "shader": "shaders/ifs_and_geometric/levy_c_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006: build/test_output/vis006-batch06-defaults/levy_c_curve.png (256x256; 610 RGB colors; blackPixelRatio=0.5927; nonBlack=0.4073; luminanceStdDev=92.7762; verdict pass; math oracle skipped: no reference oracle for this formula family yet) and build/test_output/vis006-batch06/levy_c_curve_runtime_catalog_preview.png (384x346; 166 RGB colors; blackPixelRatio=0.8688; nonBlack=0.1312; luminanceStdDev=59.1152; verdict pass)",
+      "cpu_formula": "native CPU formula registered; no reference math oracle available",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -1766,8 +1781,8 @@
       "status": "renderer_registered",
       "module_id": "levy_tapestry",
       "shader": "shaders/ifs_and_geometric/levy_tapestry_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006: build/test_output/vis006-batch06-defaults/levy_tapestry.png (256x256; 643 RGB colors; blackPixelRatio=0.4198; nonBlack=0.5802; luminanceStdDev=35.4425; verdict pass; math oracle skipped: no reference oracle for this formula family yet) and build/test_output/vis006-batch06/levy_tapestry_runtime_catalog_preview.png (384x346; 496 RGB colors; blackPixelRatio=0.5903; nonBlack=0.4097; luminanceStdDev=44.0618; verdict pass)",
+      "cpu_formula": "native CPU formula registered; no reference math oracle available",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -1782,8 +1797,8 @@
       "status": "renderer_registered",
       "module_id": "golden_dragon",
       "shader": "shaders/ifs_and_geometric/golden_dragon_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006: build/test_output/vis006-batch06-defaults/golden_dragon.png (256x256; 2323 RGB colors; blackPixelRatio=0.8921; nonBlack=0.1079; luminanceStdDev=43.1893; verdict pass; math oracle skipped: no reference oracle for this formula family yet) and build/test_output/vis006-batch06/golden_dragon_runtime_catalog_preview.png (384x346; 2680 RGB colors; blackPixelRatio=0.8527; nonBlack=0.1473; luminanceStdDev=59.493; verdict pass)",
+      "cpu_formula": "native CPU formula registered; no reference math oracle available",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -1798,8 +1813,8 @@
       "status": "renderer_registered",
       "module_id": "twin_dragon",
       "shader": "shaders/ifs_and_geometric/twin_dragon_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006: build/test_output/vis006-batch06-defaults/twin_dragon.png (256x256; 137 RGB colors; blackPixelRatio=0.8636; nonBlack=0.1364; luminanceStdDev=41.6795; verdict pass; math oracle skipped: no reference oracle for this formula family yet) and build/test_output/vis006-batch06/twin_dragon_runtime_catalog_preview.png (384x346; 29 RGB colors; blackPixelRatio=0.9104; nonBlack=0.0896; luminanceStdDev=35.7469; verdict pass)",
+      "cpu_formula": "native CPU formula registered; no reference math oracle available",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -1814,8 +1829,8 @@
       "status": "renderer_registered",
       "module_id": "terdragon",
       "shader": "shaders/ifs_and_geometric/terdragon_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006: build/test_output/vis006-batch06-defaults/terdragon.png (256x256; 4586 RGB colors; blackPixelRatio=0.7881; nonBlack=0.2119; luminanceStdDev=66.9502; verdict pass; math oracle skipped: no reference oracle for this formula family yet) and build/test_output/vis006-batch06/terdragon_runtime_catalog_preview.png (384x346; 2782 RGB colors; blackPixelRatio=0.8025; nonBlack=0.1975; luminanceStdDev=51.4314; verdict pass)",
+      "cpu_formula": "native CPU formula registered; no reference math oracle available",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -1830,8 +1845,8 @@
       "status": "renderer_registered",
       "module_id": "chair_tiling",
       "shader": "shaders/ifs_and_geometric/chair_tiling_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006: build/test_output/vis006-batch06-defaults/chair_tiling.png (256x256; 360 RGB colors; blackPixelRatio=0.7216; nonBlack=0.2784; luminanceStdDev=66.1537; verdict pass; math oracle skipped: no reference oracle for this formula family yet) and build/test_output/vis006-batch06/chair_tiling_runtime_catalog_preview.png (384x346; 484 RGB colors; blackPixelRatio=0.8568; nonBlack=0.1432; luminanceStdDev=75.0125; verdict pass)",
+      "cpu_formula": "native CPU formula registered; no reference math oracle available",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -1846,8 +1861,8 @@
       "status": "renderer_registered",
       "module_id": "koch_anti_snowflake",
       "shader": "shaders/ifs_and_geometric/koch_anti_snowflake_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006: build/test_output/vis006-batch06-defaults/koch_anti_snowflake.png (256x256; 421 RGB colors; blackPixelRatio=0.9329; nonBlack=0.0671; luminanceStdDev=43.3088; verdict pass; math oracle skipped: no reference oracle for this formula family yet) and build/test_output/vis006-batch06/koch_anti_snowflake_runtime_catalog_preview.png (384x346; 292 RGB colors; blackPixelRatio=0.93; nonBlack=0.07; luminanceStdDev=38.7783; verdict pass)",
+      "cpu_formula": "native CPU formula registered; no reference math oracle available",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -1862,8 +1877,8 @@
       "status": "renderer_registered",
       "module_id": "quadratic_koch_island",
       "shader": "shaders/escape_time_family/geometry_and_ifs/quadratic_koch_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006: build/test_output/vis006-batch06-defaults/quadratic_koch_island.png (256x256; 485 RGB colors; blackPixelRatio=0.3053; nonBlack=0.6947; luminanceStdDev=87.7956; verdict pass; math oracle skipped: no reference oracle for this formula family yet) and build/test_output/vis006-batch06/quadratic_koch_island_runtime_catalog_preview.png (384x346; 342 RGB colors; blackPixelRatio=0.3037; nonBlack=0.6963; luminanceStdDev=65.2855; verdict pass)",
+      "cpu_formula": "native CPU formula registered; no reference math oracle available",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -1878,8 +1893,8 @@
       "status": "renderer_registered",
       "module_id": "cyclosorus_fern",
       "shader": "shaders/ifs_and_geometric/cyclosorus_fern_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006: build/test_output/vis006-batch06-defaults/cyclosorus_fern.png (256x256; 2140 RGB colors; blackPixelRatio=0.6999; nonBlack=0.3001; luminanceStdDev=22.1476; verdict pass; math oracle skipped: no reference oracle for this formula family yet) and build/test_output/vis006-batch06/cyclosorus_fern_runtime_catalog_preview.png (384x346; 1118 RGB colors; blackPixelRatio=0.8202; nonBlack=0.1798; luminanceStdDev=21.3044; verdict pass)",
+      "cpu_formula": "native CPU formula registered; no reference math oracle available",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -1894,8 +1909,8 @@
       "status": "renderer_registered",
       "module_id": "menger_sponge_2d",
       "shader": "shaders/ifs_and_geometric/self_similar_sets/menger_sponge_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006: build/test_output/vis006-batch06-defaults/menger_sponge_2d.png (256x256; 655 RGB colors; blackPixelRatio=0.0005; nonBlack=0.9995; luminanceStdDev=60.4577; verdict pass; math oracle skipped: no reference oracle for this formula family yet) and build/test_output/vis006-batch06/menger_sponge_2d_runtime_catalog_preview.png (384x346; 303 RGB colors; blackPixelRatio=0.0933; nonBlack=0.9067; luminanceStdDev=82.2162; verdict pass)",
+      "cpu_formula": "native CPU formula registered; no reference math oracle available",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -1910,7 +1925,7 @@
       "status": "renderer_registered",
       "module_id": "vicsek_fractal",
       "shader": "shaders/ifs_and_geometric/vicsek_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-07: defaults build/test_output/vis006-batch07-defaults/vicsek_fractal.png (256x256; 608 colors; black=0.0; luminanceStdDev=21.4509; pass; params iterations=140,bailout=4,colorScheme=0); runtime build/test_output/vis006-batch07/vicsek_fractal_runtime_catalog_preview.png (384x346; 644 colors; black=0.0; luminanceStdDev=27.7718; pass); CPU oracle skipped (none registered).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -1926,7 +1941,7 @@
       "status": "renderer_registered",
       "module_id": "penrose_tiling",
       "shader": "shaders/ifs_and_geometric/penrose_tiling_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-07: defaults build/test_output/vis006-batch07-defaults/penrose_tiling.png (256x256; 361 colors; black=0.5269; luminanceStdDev=53.2859; pass; params iterations=180,bailout=4,colorScheme=0); runtime build/test_output/vis006-batch07/penrose_tiling_runtime_catalog_preview.png (384x346; 531 colors; black=0.1131; luminanceStdDev=62.2959; pass); CPU oracle skipped (none registered).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -1942,7 +1957,7 @@
       "status": "renderer_registered",
       "module_id": "fibonacci_word",
       "shader": "shaders/ifs_and_geometric/fibonacci_word_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-07: defaults build/test_output/vis006-batch07-defaults/fibonacci_word.png (256x256; 8858 colors; black=0.0; luminanceStdDev=22.9114; pass; params iterations=160,bailout=4,colorScheme=0; pan=(0.2,0),zoom=0.4); runtime build/test_output/vis006-batch07/fibonacci_word_runtime_catalog_preview.png (384x346; 2549 colors; black=0.0; luminanceStdDev=4.7121; pass); CPU oracle skipped (none registered).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -1958,7 +1973,7 @@
       "status": "renderer_registered",
       "module_id": "rauzy_fractal",
       "shader": "shaders/ifs_and_geometric/rauzy_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-07: defaults build/test_output/vis006-batch07-defaults/rauzy_fractal.png (256x256; 1694 colors; black=0.0; luminanceStdDev=50.4387; pass; params iterations=200,bailout=4,colorScheme=0); runtime build/test_output/vis006-batch07/rauzy_fractal_runtime_catalog_preview.png (384x346; 8893 colors; black=0.0; luminanceStdDev=23.057; pass); CPU oracle skipped (none registered).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -1974,7 +1989,7 @@
       "status": "renderer_registered",
       "module_id": "arnoux_rauzy_fractal",
       "shader": "shaders/ifs_and_geometric/arnoux_rauzy_fractal_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-07: defaults build/test_output/vis006-batch07-defaults/arnoux_rauzy_fractal.png (256x256; 583 colors; black=0.0; luminanceStdDev=59.6049; pass; params iterations=160,bailout=4,colorScheme=0,depth=12); runtime build/test_output/vis006-batch07/arnoux_rauzy_fractal_runtime_catalog_preview.png (384x346; 659 colors; black=0.0; luminanceStdDev=53.6558; pass); CPU oracle skipped (none registered).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -1990,7 +2005,7 @@
       "status": "renderer_registered",
       "module_id": "dual_substitution_tiling",
       "shader": "shaders/ifs_and_geometric/dual_substitution_tiling_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-07: defaults build/test_output/vis006-batch07-defaults/dual_substitution_tiling.png (256x256; 26846 colors; black=0.0; luminanceStdDev=34.6441; pass; params iterations=20,bailout=4,colorScheme=0,depth=8); runtime build/test_output/vis006-batch07/dual_substitution_tiling_runtime_catalog_preview.png (384x346; 34049 colors; black=0.0; luminanceStdDev=34.4834; pass); CPU oracle skipped (none registered).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2006,7 +2021,7 @@
       "status": "renderer_registered",
       "module_id": "bedford_mcmullen_carpet",
       "shader": "shaders/ifs_and_geometric/bedford_mcmullen_carpet_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-07: defaults build/test_output/vis006-batch07-defaults/bedford_mcmullen_carpet.png (256x256; 43 colors; black=0.0; luminanceStdDev=10.3205; pass; params iterations=20,bailout=4,colorScheme=0,depth=10); runtime build/test_output/vis006-batch07/bedford_mcmullen_carpet_runtime_catalog_preview.png (384x346; 81 colors; black=0.0; luminanceStdDev=15.731; pass); CPU oracle skipped (none registered).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2022,7 +2037,7 @@
       "status": "renderer_registered",
       "module_id": "self_affine_finite_type",
       "shader": "shaders/ifs_and_geometric/self_affine_finite_type_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-07: defaults build/test_output/vis006-batch07-defaults/self_affine_finite_type.png (256x256; 482 colors; black=0.0; luminanceStdDev=39.5294; pass; params iterations=20,bailout=4,colorScheme=0,depth=12); runtime build/test_output/vis006-batch07/self_affine_finite_type_runtime_catalog_preview.png (384x346; 421 colors; black=0.0; luminanceStdDev=12.04; pass); CPU oracle skipped (none registered).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2038,7 +2053,7 @@
       "status": "renderer_registered",
       "module_id": "pinwheel_tiling",
       "shader": "shaders/ifs_and_geometric/pinwheel_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-07: defaults build/test_output/vis006-batch07-defaults/pinwheel_tiling.png (256x256; 389 colors; black=0.2639; luminanceStdDev=49.2131; pass; params iterations=180,bailout=4,colorScheme=0); runtime build/test_output/vis006-batch07/pinwheel_tiling_runtime_catalog_preview.png (384x346; 577 colors; black=0.3472; luminanceStdDev=97.2465; pass); CPU oracle skipped (none registered).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2054,7 +2069,7 @@
       "status": "renderer_registered",
       "module_id": "z_order_curve",
       "shader": "shaders/ifs_and_geometric/z_order_curve_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-07: defaults build/test_output/vis006-batch07-defaults/z_order_curve.png (256x256; 5970 colors; black=0.4011; luminanceStdDev=67.4959; pass; params iterations=180,bailout=4,colorScheme=0); runtime build/test_output/vis006-batch07/z_order_curve_runtime_catalog_preview.png (384x346; 640 colors; black=0.3335; luminanceStdDev=75.0633; pass); CPU oracle skipped (none registered).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2070,7 +2085,7 @@
       "status": "renderer_registered",
       "module_id": "greek_cross_fractal",
       "shader": "shaders/ifs_and_geometric/greek_cross_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-08: default build/test_output/vis006-batch08-defaults/greek_cross_fractal.png (256x256; iterations=160, bailout=4, colorScheme=0; 796 colors; blackPixelRatio=0; luminanceStdDev=23.905; pass); runtime GPU build/test_output/vis006-batch08/greek_cross_fractal_runtime_catalog_preview.png (384x346; 519 colors; blackPixelRatio=0; luminanceStdDev=28.3217; pass). CPU math oracle skipped.",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2086,7 +2101,7 @@
       "status": "renderer_registered",
       "module_id": "sierpinski_pentagon",
       "shader": "shaders/ifs_and_geometric/sierpinski_pentagon_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-08: default build/test_output/vis006-batch08-defaults/sierpinski_pentagon.png (256x256; iterations=140, bailout=4, colorScheme=0; 1270 colors; blackPixelRatio=0; luminanceStdDev=5.3402; pass); runtime GPU build/test_output/vis006-batch08/sierpinski_pentagon_runtime_catalog_preview.png (384x346; 1282 colors; blackPixelRatio=0; luminanceStdDev=15.1518; pass). CPU math oracle skipped.",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2102,7 +2117,7 @@
       "status": "renderer_registered",
       "module_id": "hexaflake",
       "shader": "shaders/ifs_and_geometric/hexaflake_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-08: default build/test_output/vis006-batch08-defaults/hexaflake.png (256x256; iterations=140, bailout=4, colorScheme=0; 645 colors; blackPixelRatio=0; luminanceStdDev=25.6139; pass); runtime GPU build/test_output/vis006-batch08/hexaflake_runtime_catalog_preview.png (384x346; 937 colors; blackPixelRatio=0; luminanceStdDev=59.0564; pass). CPU math oracle skipped.",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2118,7 +2133,7 @@
       "status": "renderer_registered",
       "module_id": "pentaflake",
       "shader": "shaders/ifs_and_geometric/pentaflake_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-08: default build/test_output/vis006-batch08-defaults/pentaflake.png (256x256; iterations=140, bailout=4, colorScheme=0; 626 colors; blackPixelRatio=0; luminanceStdDev=22.0309; pass); runtime GPU build/test_output/vis006-batch08/pentaflake_runtime_catalog_preview.png (384x346; 409 colors; blackPixelRatio=0; luminanceStdDev=39.7684; pass). CPU math oracle skipped.",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2134,7 +2149,7 @@
       "status": "renderer_registered",
       "module_id": "cantor_dust",
       "shader": "shaders/ifs_and_geometric/cantor_dust_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-08: default build/test_output/vis006-batch08-defaults/cantor_dust.png (256x256; iterations=160, bailout=4, colorScheme=0; 737 colors; blackPixelRatio=0; luminanceStdDev=22.2202; pass); runtime GPU build/test_output/vis006-batch08/cantor_dust_runtime_catalog_preview.png (384x346; 549 colors; blackPixelRatio=0; luminanceStdDev=31.8168; pass). CPU math oracle skipped.",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2150,7 +2165,7 @@
       "status": "renderer_registered",
       "module_id": "apollonian_gasket",
       "shader": "shaders/ifs_and_geometric/apollonian_gasket_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-08: default build/test_output/vis006-batch08-defaults/apollonian_gasket.png (256x256; iterations=180, bailout=4, colorScheme=0; 2409 colors; blackPixelRatio=0.618; luminanceStdDev=55.2; pass); runtime GPU build/test_output/vis006-batch08/apollonian_gasket_runtime_catalog_preview.png (384x346; 1840 colors; blackPixelRatio=0.6045; luminanceStdDev=97.6291; pass). CPU math oracle skipped.",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2166,7 +2181,7 @@
       "status": "renderer_registered",
       "module_id": "ford_circles",
       "shader": "shaders/ifs_and_geometric/ford_circles_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-08: default build/test_output/vis006-batch08-defaults/ford_circles.png (256x256; iterations=140, bailout=4, colorScheme=0; 770 colors; blackPixelRatio=0.739; luminanceStdDev=31.0595; pass); runtime GPU build/test_output/vis006-batch08/ford_circles_runtime_catalog_preview.png (384x346; 1311 colors; blackPixelRatio=0.73; luminanceStdDev=42.0989; pass). CPU math oracle skipped.",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2182,7 +2197,7 @@
       "status": "renderer_registered",
       "module_id": "steiner_chain",
       "shader": "shaders/ifs_and_geometric/steiner_chain_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-08: default build/test_output/vis006-batch08-defaults/steiner_chain.png (256x256; iterations=160, bailout=4, colorScheme=0; 4119 colors; blackPixelRatio=0.8787; luminanceStdDev=49.6136; pass); runtime GPU build/test_output/vis006-batch08/steiner_chain_runtime_catalog_preview.png (384x346; 2440 colors; blackPixelRatio=0.873; luminanceStdDev=58.0318; pass). CPU math oracle skipped.",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2198,7 +2213,7 @@
       "status": "renderer_registered",
       "module_id": "cesaro_fractal",
       "shader": "shaders/ifs_and_geometric/cesaro_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-08: default build/test_output/vis006-batch08-defaults/cesaro_fractal.png (256x256; iterations=180, bailout=4, colorScheme=0; 3238 colors; blackPixelRatio=0.7925; luminanceStdDev=48.7132; pass); runtime GPU build/test_output/vis006-batch08/cesaro_fractal_runtime_catalog_preview.png (384x346; 1781 colors; blackPixelRatio=0.7896; luminanceStdDev=54.6135; pass). CPU math oracle skipped.",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2214,7 +2229,7 @@
       "status": "renderer_registered",
       "module_id": "cantor_set",
       "shader": "shaders/ifs_and_geometric/cantor_set_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-08: default build/test_output/vis006-batch08-defaults/cantor_set.png (256x256; iterations=130, bailout=4, colorScheme=0; 245 colors; blackPixelRatio=0; luminanceStdDev=33.9799; pass); runtime GPU build/test_output/vis006-batch08/cantor_set_runtime_catalog_preview.png (384x346; 281 colors; blackPixelRatio=0; luminanceStdDev=36.4059; pass). CPU math oracle skipped.",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2230,7 +2245,7 @@
       "status": "renderer_registered",
       "module_id": "fractal_canopy",
       "shader": "shaders/ifs_and_geometric/fractal_canopy_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-09: defaults build/test_output/vis006-batch09-defaults/fractal_canopy.png (256x256; 1621 RGB colors; blackPixelRatio=0.8672; luminanceStdDev=41.8292; verdict pass; math oracle skipped: no reference oracle) and runtime build/test_output/vis006-batch09/fractal_canopy_runtime_catalog_preview.png (384x346; 1174 RGB colors; blackPixelRatio=0.8109; luminanceStdDev=41.8276; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2246,7 +2261,7 @@
       "status": "renderer_registered",
       "module_id": "benesi",
       "shader": "shaders/escape_time_family/polynomial_maps/benesi_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-09: defaults build/test_output/vis006-batch09-defaults/benesi.png (256x256; 1508 RGB colors; blackPixelRatio=0.0; luminanceStdDev=36.491; verdict pass; math oracle skipped: no reference oracle) and runtime build/test_output/vis006-batch09/benesi_runtime_catalog_preview.png (384x346; 548 RGB colors; blackPixelRatio=0; luminanceStdDev=14.6916; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2262,7 +2277,7 @@
       "status": "renderer_registered",
       "module_id": "schottky_limit_set",
       "shader": "shaders/ifs_and_geometric/schottky_limit_set_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-09: defaults build/test_output/vis006-batch09-defaults/schottky_limit_set.png (256x256; 693 RGB colors; blackPixelRatio=0.0; luminanceStdDev=7.9922; verdict pass; math oracle skipped: no reference oracle) and runtime build/test_output/vis006-batch09/schottky_limit_set_runtime_catalog_preview.png (384x346; 3310 RGB colors; blackPixelRatio=0; luminanceStdDev=60.3755; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2278,7 +2293,7 @@
       "status": "renderer_registered",
       "module_id": "henon",
       "shader": "shaders/strange_attractors/henon_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-09: defaults build/test_output/vis006-batch09-defaults/henon.png (256x256; 156 RGB colors; blackPixelRatio=0.1471; luminanceStdDev=62.11; verdict pass; math oracle skipped: no reference oracle) and runtime build/test_output/vis006-batch09/henon_runtime_catalog_preview.png (384x346; 132 RGB colors; blackPixelRatio=0.0407; luminanceStdDev=27.3374; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2294,7 +2309,7 @@
       "status": "renderer_registered",
       "module_id": "tinkerbell",
       "shader": "shaders/strange_attractors/tinkerbell_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-09: defaults build/test_output/vis006-batch09-defaults/tinkerbell.png (256x256; 302 RGB colors; blackPixelRatio=0.1005; luminanceStdDev=52.2965; verdict pass; math oracle skipped: no reference oracle) and runtime build/test_output/vis006-batch09/tinkerbell_runtime_catalog_preview.png (384x346; 181 RGB colors; blackPixelRatio=0.0659; luminanceStdDev=42.7885; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2310,7 +2325,7 @@
       "status": "renderer_registered",
       "module_id": "gingerbreadman",
       "shader": "shaders/strange_attractors/gingerbreadman_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-09: defaults build/test_output/vis006-batch09-defaults/gingerbreadman.png (256x256; 1506 RGB colors; blackPixelRatio=0.0; luminanceStdDev=42.3705; verdict pass; math oracle skipped: no reference oracle) and runtime build/test_output/vis006-batch09/gingerbreadman_runtime_catalog_preview.png (384x346; 1472 RGB colors; blackPixelRatio=0; luminanceStdDev=37.127; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2326,7 +2341,7 @@
       "status": "renderer_registered",
       "module_id": "lozi",
       "shader": "shaders/strange_attractors/lozi_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-09: defaults build/test_output/vis006-batch09-defaults/lozi.png (256x256; 199 RGB colors; blackPixelRatio=0.0; luminanceStdDev=19.9271; verdict pass; math oracle skipped: no reference oracle) and runtime build/test_output/vis006-batch09/lozi_runtime_catalog_preview.png (384x346; 214 RGB colors; blackPixelRatio=0; luminanceStdDev=22.3094; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2342,7 +2357,7 @@
       "status": "renderer_registered",
       "module_id": "duffing",
       "shader": "shaders/strange_attractors/duffing_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-09: defaults build/test_output/vis006-batch09-defaults/duffing.png (256x256; 1199 RGB colors; blackPixelRatio=0.0; luminanceStdDev=55.3821; verdict pass; math oracle skipped: no reference oracle) and runtime build/test_output/vis006-batch09/duffing_runtime_catalog_preview.png (384x346; 743 RGB colors; blackPixelRatio=0; luminanceStdDev=26.331; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2358,7 +2373,7 @@
       "status": "renderer_registered",
       "module_id": "ikeda",
       "shader": "shaders/strange_attractors/ikeda_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-09: defaults build/test_output/vis006-batch09-defaults/ikeda.png (256x256; 824 RGB colors; blackPixelRatio=0.0; luminanceStdDev=40.8856; verdict pass; math oracle skipped: no reference oracle) and runtime build/test_output/vis006-batch09/ikeda_runtime_catalog_preview.png (384x346; 959 RGB colors; blackPixelRatio=0; luminanceStdDev=21.8147; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2374,7 +2389,7 @@
       "status": "renderer_registered",
       "module_id": "clifford",
       "shader": "shaders/strange_attractors/clifford_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-09: defaults build/test_output/vis006-batch09-defaults/clifford.png (256x256; 947 RGB colors; blackPixelRatio=0.0; luminanceStdDev=30.8225; verdict pass; math oracle skipped: no reference oracle) and runtime build/test_output/vis006-batch09/clifford_runtime_catalog_preview.png (384x346; 960 RGB colors; blackPixelRatio=0; luminanceStdDev=20.3021; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2390,7 +2405,7 @@
       "status": "renderer_registered",
       "module_id": "peter_de_jong",
       "shader": "shaders/strange_attractors/peter_de_jong_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-10: defaults build/test_output/vis006-batch10-defaults/peter_de_jong.png (256x256; 1472 RGB colors; blackPixelRatio=0.0; luminanceStdDev=41.0172; verdict pass; math oracle skipped: no reference oracle) and runtime build/test_output/vis006-batch10/peter_de_jong_runtime_catalog_preview.png (384x346; 2392 RGB colors; blackPixelRatio=0.0; luminanceStdDev=76.5619; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2406,7 +2421,7 @@
       "status": "renderer_registered",
       "module_id": "svensson",
       "shader": "shaders/strange_attractors/svensson_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-10: defaults build/test_output/vis006-batch10-defaults/svensson.png (256x256; 4247 RGB colors; blackPixelRatio=0.0; luminanceStdDev=19.5724; verdict pass; math oracle skipped: no reference oracle) and runtime build/test_output/vis006-batch10/svensson_runtime_catalog_preview.png (384x346; 16858 RGB colors; blackPixelRatio=0.0; luminanceStdDev=64.8784; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2422,7 +2437,7 @@
       "status": "renderer_registered",
       "module_id": "gumowski_mira",
       "shader": "shaders/strange_attractors/gumowski_mira_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-10: defaults build/test_output/vis006-batch10-defaults/gumowski_mira.png (256x256; 685 RGB colors; blackPixelRatio=0.0; luminanceStdDev=38.1967; verdict pass; math oracle skipped: no reference oracle) and runtime build/test_output/vis006-batch10/gumowski_mira_runtime_catalog_preview.png (384x346; 474 RGB colors; blackPixelRatio=0.0; luminanceStdDev=17.5913; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2438,7 +2453,7 @@
       "status": "renderer_registered",
       "module_id": "arnold_cat",
       "shader": "shaders/strange_attractors/arnold_cat_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-10: defaults build/test_output/vis006-batch10-defaults/arnold_cat.png (256x256; 1513 RGB colors; blackPixelRatio=0.0; luminanceStdDev=45.8059; verdict pass; math oracle skipped: no reference oracle) and runtime build/test_output/vis006-batch10/arnold_cat_runtime_catalog_preview.png (384x346; 2155 RGB colors; blackPixelRatio=0.0; luminanceStdDev=58.7396; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2454,7 +2469,7 @@
       "status": "renderer_registered",
       "module_id": "standard_map",
       "shader": "shaders/strange_attractors/standard_map_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-10: defaults build/test_output/vis006-batch10-defaults/standard_map.png (256x256; 1096 RGB colors; blackPixelRatio=0.0; luminanceStdDev=32.8388; verdict pass; math oracle skipped: no reference oracle) and runtime build/test_output/vis006-batch10/standard_map_runtime_catalog_preview.png (384x346; 671 RGB colors; blackPixelRatio=0.0; luminanceStdDev=68.7444; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2470,7 +2485,7 @@
       "status": "renderer_registered",
       "module_id": "zaslavsky",
       "shader": "shaders/strange_attractors/zaslavsky_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-10: defaults build/test_output/vis006-batch10-defaults/zaslavsky.png (256x256; 2551 RGB colors; blackPixelRatio=0.0; luminanceStdDev=43.5305; verdict pass; math oracle skipped: no reference oracle) and runtime build/test_output/vis006-batch10/zaslavsky_runtime_catalog_preview.png (384x346; 3673 RGB colors; blackPixelRatio=0.0; luminanceStdDev=31.3545; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2486,7 +2501,7 @@
       "status": "renderer_registered",
       "module_id": "kicked_rotator",
       "shader": "shaders/strange_attractors/kicked_rotator_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-10: defaults build/test_output/vis006-batch10-defaults/kicked_rotator.png (256x256; 778 RGB colors; blackPixelRatio=0.0; luminanceStdDev=15.1915; verdict pass; math oracle skipped: no reference oracle) and runtime build/test_output/vis006-batch10/kicked_rotator_runtime_catalog_preview.png (384x346; 410 RGB colors; blackPixelRatio=0.0; luminanceStdDev=4.8802; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2502,7 +2517,7 @@
       "status": "renderer_registered",
       "module_id": "chua_circuit",
       "shader": "shaders/strange_attractors/chua_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-10: defaults build/test_output/vis006-batch10-defaults/chua_circuit.png (256x256; 148 RGB colors; blackPixelRatio=0.0; luminanceStdDev=28.8318; verdict pass; math oracle skipped: no reference oracle) and runtime build/test_output/vis006-batch10/chua_circuit_runtime_catalog_preview.png (384x346; 1213 RGB colors; blackPixelRatio=0.0; luminanceStdDev=40.1725; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2518,7 +2533,7 @@
       "status": "renderer_registered",
       "module_id": "sprott_a",
       "shader": "shaders/strange_attractors/sprott_a_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-10: defaults build/test_output/vis006-batch10-defaults/sprott_a.png (256x256; 1498 RGB colors; blackPixelRatio=0.0; luminanceStdDev=35.2703; verdict pass; math oracle skipped: no reference oracle) and runtime build/test_output/vis006-batch10/sprott_a_runtime_catalog_preview.png (384x346; 1550 RGB colors; blackPixelRatio=0.0; luminanceStdDev=30.4005; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2534,7 +2549,7 @@
       "status": "renderer_registered",
       "module_id": "burke_shaw",
       "shader": "shaders/strange_attractors/burke_shaw_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-10: defaults build/test_output/vis006-batch10-defaults/burke_shaw.png (256x256; 1515 RGB colors; blackPixelRatio=0.0; luminanceStdDev=43.0194; verdict pass; math oracle skipped: no reference oracle) and runtime build/test_output/vis006-batch10/burke_shaw_runtime_catalog_preview.png (384x346; 776 RGB colors; blackPixelRatio=0.0; luminanceStdDev=15.7397; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2550,7 +2565,7 @@
       "status": "renderer_registered",
       "module_id": "arneodo",
       "shader": "shaders/strange_attractors/arneodo_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-11: defaults build/test_output/vis006-batch11-defaults/arneodo.png (256x256; 12051 RGB colors; blackPixelRatio=0.0; luminanceStdDev=40.7123; verdict pass; math oracle skipped: no reference oracle) and actual runtime GPU preview build/test_output/vis006-batch11/arneodo_runtime_catalog_preview.png (384x346; 16367 RGB colors; blackPixelRatio=0.0; luminanceStdDev=44.2591; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2631,7 +2646,7 @@
       "status": "renderer_registered",
       "module_id": "dadras",
       "shader": "shaders/strange_attractors/dadras_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-11: defaults build/test_output/vis006-batch11-defaults/dadras.png (256x256; 23860 RGB colors; blackPixelRatio=0.0; luminanceStdDev=45.5171; verdict pass; math oracle skipped: no reference oracle) and actual runtime GPU preview build/test_output/vis006-batch11/dadras_runtime_catalog_preview.png (384x346; 12153 RGB colors; blackPixelRatio=0.0; luminanceStdDev=26.1994; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2647,7 +2662,7 @@
       "status": "renderer_registered",
       "module_id": "chen",
       "shader": "shaders/strange_attractors/chen_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-11: defaults build/test_output/vis006-batch11-defaults/chen.png (256x256; 109 RGB colors; blackPixelRatio=0.0; luminanceStdDev=39.4694; verdict pass; math oracle skipped: no reference oracle) and actual runtime GPU preview build/test_output/vis006-batch11/chen_runtime_catalog_preview.png (384x346; 4930 RGB colors; blackPixelRatio=0.0; luminanceStdDev=26.8237; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2663,7 +2678,7 @@
       "status": "renderer_registered",
       "module_id": "lu_chen",
       "shader": "shaders/strange_attractors/lu_chen_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-11: defaults build/test_output/vis006-batch11-defaults/lu_chen.png (256x256; 129 RGB colors; blackPixelRatio=0.0; luminanceStdDev=17.4356; verdict pass; math oracle skipped: no reference oracle) and actual runtime GPU preview build/test_output/vis006-batch11/lu_chen_runtime_catalog_preview.png (384x346; 197 RGB colors; blackPixelRatio=0.0; luminanceStdDev=14.4871; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2679,7 +2694,7 @@
       "status": "renderer_registered",
       "module_id": "halvorsen",
       "shader": "shaders/strange_attractors/halvorsen_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-11: defaults build/test_output/vis006-batch11-defaults/halvorsen.png (256x256; 1509 RGB colors; blackPixelRatio=0.0; luminanceStdDev=45.3285; verdict pass; math oracle skipped: no reference oracle) and actual runtime GPU preview build/test_output/vis006-batch11/halvorsen_runtime_catalog_preview.png (384x346; 731 RGB colors; blackPixelRatio=0.0; luminanceStdDev=12.9485; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2695,7 +2710,7 @@
       "status": "renderer_registered",
       "module_id": "scroll_waves",
       "shader": "shaders/strange_attractors/scroll_waves_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-11: defaults build/test_output/vis006-batch11-defaults/scroll_waves.png (256x256; 775 RGB colors; blackPixelRatio=0.0; luminanceStdDev=33.8162; verdict pass; math oracle skipped: no reference oracle) and actual runtime GPU preview build/test_output/vis006-batch11/scroll_waves_runtime_catalog_preview.png (384x346; 550 RGB colors; blackPixelRatio=0.0; luminanceStdDev=77.4928; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2711,7 +2726,7 @@
       "status": "renderer_registered",
       "module_id": "rikitake",
       "shader": "shaders/strange_attractors/rikitake_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-11: defaults build/test_output/vis006-batch11-defaults/rikitake.png (256x256; 7741 RGB colors; blackPixelRatio=0.0; luminanceStdDev=37.5044; verdict pass; math oracle skipped: no reference oracle) and actual runtime GPU preview build/test_output/vis006-batch11/rikitake_runtime_catalog_preview.png (384x346; 3117 RGB colors; blackPixelRatio=0.0; luminanceStdDev=17.3584; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2727,7 +2742,7 @@
       "status": "renderer_registered",
       "module_id": "aizawa",
       "shader": "shaders/strange_attractors/aizawa_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-11: defaults build/test_output/vis006-batch11-defaults/aizawa.png (256x256; 9583 RGB colors; blackPixelRatio=0.0; luminanceStdDev=19.8004; verdict pass; math oracle skipped: no reference oracle) and actual runtime GPU preview build/test_output/vis006-batch11/aizawa_runtime_catalog_preview.png (384x346; 6123 RGB colors; blackPixelRatio=0.0; luminanceStdDev=12.6433; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2743,7 +2758,7 @@
       "status": "renderer_registered",
       "module_id": "rabinovich_fabrikant",
       "shader": "shaders/strange_attractors/rabinovich_fabrikant_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-11: defaults build/test_output/vis006-batch11-defaults/rabinovich_fabrikant.png (256x256; 6176 RGB colors; blackPixelRatio=0.0; luminanceStdDev=36.2295; verdict pass; math oracle skipped: no reference oracle) and actual runtime GPU preview build/test_output/vis006-batch11/rabinovich_fabrikant_runtime_catalog_preview.png (384x346; 7298 RGB colors; blackPixelRatio=0.0; luminanceStdDev=20.0187; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2759,7 +2774,7 @@
       "status": "renderer_registered",
       "module_id": "nose_hoover",
       "shader": "shaders/strange_attractors/nose_hoover_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-11: defaults build/test_output/vis006-batch11-defaults/nose_hoover.png (256x256; 1521 RGB colors; blackPixelRatio=0.0; luminanceStdDev=44.272; verdict pass; math oracle skipped: no reference oracle) and actual runtime GPU preview build/test_output/vis006-batch11/nose_hoover_runtime_catalog_preview.png (384x346; 256 RGB colors; blackPixelRatio=0.0472; luminanceStdDev=82.0157; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2775,7 +2790,7 @@
       "status": "renderer_registered",
       "module_id": "moore_spiegel",
       "shader": "shaders/strange_attractors/moore_spiegel_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-12: default build/test_output/vis006-batch12-defaults/moore_spiegel.png (256x256; 1515 RGB colors; blackPixelRatio=0; luminanceStdDev=51.3197; pass; params iterations=260, bailout=24, colorScheme=0; pan=(-0.55098,0.13255), zoom=0.68529); runtime GPU build/test_output/vis006-batch12/moore_spiegel_runtime_catalog_preview.png (384x346; 772 colors; blackPixelRatio=0; luminanceStdDev=22.8898; pass). Math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2791,7 +2806,7 @@
       "status": "renderer_registered",
       "module_id": "hadley",
       "shader": "shaders/strange_attractors/hadley_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-12: build/test_output/vis006-batch12-defaults/hadley.png 256x256 (1511 colors; pass; effective defaults/view in default report); actual runtime GPU build/test_output/vis006-batch12/hadley_runtime_catalog_preview.png (384x346;1107 colors;stddev 50.3466; blackPixelRatio=0; pass). Math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2807,7 +2822,7 @@
       "status": "renderer_registered",
       "module_id": "genesio_tesi",
       "shader": "shaders/strange_attractors/genesio_tesi_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-12: build/test_output/vis006-batch12-defaults/genesio_tesi.png 256x256 (1508 colors; pass; effective defaults/view in default report); actual runtime GPU build/test_output/vis006-batch12/genesio_tesi_runtime_catalog_preview.png (384x346;1563 colors;stddev 36.4406; blackPixelRatio=0; pass). Math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2823,7 +2838,7 @@
       "status": "renderer_registered",
       "module_id": "liu_chen",
       "shader": "shaders/strange_attractors/liu_chen_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-12: build/test_output/vis006-batch12-defaults/liu_chen.png 256x256 (1505 colors; pass; effective defaults/view in default report); actual runtime GPU build/test_output/vis006-batch12/liu_chen_runtime_catalog_preview.png (384x346;701 colors;stddev 14.9949; blackPixelRatio=0; pass). Math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2839,7 +2854,7 @@
       "status": "renderer_registered",
       "module_id": "newton_leipnik",
       "shader": "shaders/strange_attractors/newton_leipnik_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-12: build/test_output/vis006-batch12-defaults/newton_leipnik.png 256x256 (1515 colors; pass; effective defaults/view in default report); actual runtime GPU build/test_output/vis006-batch12/newton_leipnik_runtime_catalog_preview.png (384x346;850 colors;stddev 22.7058; blackPixelRatio=0; pass). Math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2855,7 +2870,7 @@
       "status": "renderer_registered",
       "module_id": "bouali",
       "shader": "shaders/strange_attractors/bouali_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-12: build/test_output/vis006-batch12-defaults/bouali.png 256x256 (1475 colors; pass; effective defaults/view in default report); actual runtime GPU build/test_output/vis006-batch12/bouali_runtime_catalog_preview.png (384x346;1878 colors;stddev 53.3382; blackPixelRatio=0; pass). Math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2871,7 +2886,7 @@
       "status": "renderer_registered",
       "module_id": "dequan_li",
       "shader": "shaders/strange_attractors/dequan_li_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-12: build/test_output/vis006-batch12-defaults/dequan_li.png 256x256 (1512 colors; pass; effective defaults/view in default report); actual runtime GPU build/test_output/vis006-batch12/dequan_li_runtime_catalog_preview.png (384x346;1593 colors;stddev 40.8999; blackPixelRatio=0; pass). Math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2887,7 +2902,7 @@
       "status": "renderer_registered",
       "module_id": "coullet",
       "shader": "shaders/strange_attractors/coullet_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-12: build/test_output/vis006-batch12-defaults/coullet.png 256x256 (1495 colors; pass; effective defaults/view in default report); actual runtime GPU build/test_output/vis006-batch12/coullet_runtime_catalog_preview.png (384x346;1163 colors;stddev 13.9312; blackPixelRatio=0; pass). Math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2903,7 +2918,7 @@
       "status": "renderer_registered",
       "module_id": "sakarya",
       "shader": "shaders/strange_attractors/sakarya_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-12: build/test_output/vis006-batch12-defaults/sakarya.png 256x256 (1405 colors; pass; effective defaults/view in default report); actual runtime GPU build/test_output/vis006-batch12/sakarya_runtime_catalog_preview.png (384x346;676 colors;stddev 18.1947; blackPixelRatio=0; pass). Math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2919,7 +2934,7 @@
       "status": "renderer_registered",
       "module_id": "qi_chen",
       "shader": "shaders/strange_attractors/qi_chen_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-12: build/test_output/vis006-batch12-defaults/qi_chen.png 256x256 (120 colors; pass; effective defaults/view in default report); actual runtime GPU build/test_output/vis006-batch12/qi_chen_runtime_catalog_preview.png (384x346;1478 colors;stddev 47.7928; blackPixelRatio=0; pass). Math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2935,7 +2950,7 @@
       "status": "renderer_registered",
       "module_id": "yu_wang",
       "shader": "shaders/strange_attractors/yu_wang_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-13: default GPU build/test_output/vis006-batch13-defaults/yu_wang.png (256x256; 881 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=46.8934; verdict pass; math oracle skipped: no reference oracle) and actual runtime catalog preview build/test_output/vis006-batch13/yu_wang_runtime_catalog_preview.png (384x346; 1102 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=74.1714; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2951,7 +2966,7 @@
       "status": "renderer_registered",
       "module_id": "zhou_chen",
       "shader": "shaders/strange_attractors/zhou_chen_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-13: default GPU build/test_output/vis006-batch13-defaults/zhou_chen.png (256x256; 1516 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=46.9764; verdict pass; math oracle skipped: no reference oracle) and actual runtime catalog preview build/test_output/vis006-batch13/zhou_chen_runtime_catalog_preview.png (384x346; 675 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=9.0729; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2967,7 +2982,7 @@
       "status": "renderer_registered",
       "module_id": "tsucs",
       "shader": "shaders/strange_attractors/tsucs_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-13: default GPU build/test_output/vis006-batch13-defaults/tsucs.png (256x256; 1290 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=46.2569; verdict pass; math oracle skipped: no reference oracle) and actual runtime catalog preview build/test_output/vis006-batch13/tsucs_runtime_catalog_preview.png (384x346; 1268 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=61.8366; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2983,7 +2998,7 @@
       "status": "renderer_registered",
       "module_id": "rayleigh_benard",
       "shader": "shaders/strange_attractors/rayleigh_benard_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-13: default GPU build/test_output/vis006-batch13-defaults/rayleigh_benard.png (256x256; 1075 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=23.6974; verdict pass; math oracle skipped: no reference oracle) and actual runtime catalog preview build/test_output/vis006-batch13/rayleigh_benard_runtime_catalog_preview.png (384x346; 832 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=46.5762; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -2999,7 +3014,7 @@
       "status": "renderer_registered",
       "module_id": "robinson",
       "shader": "shaders/strange_attractors/robinson_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-13: default GPU build/test_output/vis006-batch13-defaults/robinson.png (256x256; 1508 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=48.1595; verdict pass; math oracle skipped: no reference oracle) and actual runtime catalog preview build/test_output/vis006-batch13/robinson_runtime_catalog_preview.png (384x346; 722 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=20.2788; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3015,7 +3030,7 @@
       "status": "renderer_registered",
       "module_id": "globo_toroid",
       "shader": "shaders/strange_attractors/globo_toroid_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-13: default GPU build/test_output/vis006-batch13-defaults/globo_toroid.png (256x256; 1001 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=35.3768; verdict pass; math oracle skipped: no reference oracle) and actual runtime catalog preview build/test_output/vis006-batch13/globo_toroid_runtime_catalog_preview.png (384x346; 768 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=20.2324; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3031,7 +3046,7 @@
       "status": "renderer_registered",
       "module_id": "tamari",
       "shader": "shaders/strange_attractors/tamari_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-13: default GPU build/test_output/vis006-batch13-defaults/tamari.png (256x256; 1510 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=37.9258; verdict pass; math oracle skipped: no reference oracle) and actual runtime catalog preview build/test_output/vis006-batch13/tamari_runtime_catalog_preview.png (384x346; 1101 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=15.6317; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3047,7 +3062,7 @@
       "status": "renderer_registered",
       "module_id": "wang_sun_cang",
       "shader": "shaders/strange_attractors/wang_sun_cang_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-13: default GPU build/test_output/vis006-batch13-defaults/wang_sun_cang.png (256x256; 891 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=41.5317; verdict pass; math oracle skipped: no reference oracle) and actual runtime catalog preview build/test_output/vis006-batch13/wang_sun_cang_runtime_catalog_preview.png (384x346; 1313 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=35.7942; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3063,7 +3078,7 @@
       "status": "renderer_registered",
       "module_id": "newton_z3",
       "shader": "shaders/root_finding/newton_z3_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-13: default GPU build/test_output/vis006-batch13-defaults/newton_z3.png (256x256; 1511 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=38.3833; verdict pass; math oracle skipped: no reference oracle) and actual runtime catalog preview build/test_output/vis006-batch13/newton_z3_runtime_catalog_preview.png (384x346; 813 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=33.5151; verdict pass)",
       "first_view": "executed GPU viewer-start evidence: integration_test/flows/vis004_newton_z3_first_view_test.dart; see VIS-004 executed command/output in goals.json",
       "cpu_formula": "not audited",
       "references": [
@@ -3080,7 +3095,7 @@
       "status": "renderer_registered",
       "module_id": "halley",
       "shader": "shaders/root_finding/halley_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-13: default GPU build/test_output/vis006-batch13-defaults/halley.png (256x256; 1449 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=37.5995; verdict pass; math oracle skipped: no reference oracle) and actual runtime catalog preview build/test_output/vis006-batch13/halley_runtime_catalog_preview.png (384x346; 2046 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=76.8703; verdict pass)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3096,8 +3111,8 @@
       "status": "renderer_registered",
       "module_id": "householder",
       "shader": "shaders/root_finding/householder_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-14: build/test_output/vis006-batch14-defaults/householder.png (256x256; 2380 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=67.8408; verdict pass; math oracle NOT_CHECKED: no reference oracle) and build/test_output/vis006-batch14/householder_runtime_catalog_preview.png (384x346; 2659 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=49.439; verdict pass)",
+      "cpu_formula": "native CPU formula registered; correctness NOT_CHECKED",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -3112,8 +3127,8 @@
       "status": "renderer_registered",
       "module_id": "zeta_newton",
       "shader": "shaders/root_finding/zeta_newton_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-14: build/test_output/vis006-batch14-defaults/zeta_newton.png (256x256; 1356 RGB colors; blackPixelRatio=0.1172; nonBlack=0.8828; luminanceStdDev=62.211; verdict pass; math oracle NOT_CHECKED: no reference oracle) and build/test_output/vis006-batch14/zeta_newton_runtime_catalog_preview.png (384x346; 1420 RGB colors; blackPixelRatio=0.0434; nonBlack=0.9566; luminanceStdDev=50.4634; verdict pass)",
+      "cpu_formula": "no native CPU formula registered",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -3128,8 +3143,8 @@
       "status": "renderer_registered",
       "module_id": "magnet_newton",
       "shader": "shaders/root_finding/magnet_newton_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-14: build/test_output/vis006-batch14-defaults/magnet_newton.png (256x256; 83 RGB colors; blackPixelRatio=0.622; nonBlack=0.378; luminanceStdDev=89.087; verdict pass; math oracle NOT_CHECKED: no reference oracle) and build/test_output/vis006-batch14/magnet_newton_runtime_catalog_preview.png (384x346; 114 RGB colors; blackPixelRatio=0.7617; nonBlack=0.2383; luminanceStdDev=75.895; verdict pass)",
+      "cpu_formula": "native CPU formula registered; correctness NOT_CHECKED",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -3144,8 +3159,8 @@
       "status": "renderer_registered",
       "module_id": "hypercomplex_newton",
       "shader": "shaders/3d_and_hypercomplex/hypercomplex_escape_time/hypercomplex_newton_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-14: build/test_output/vis006-batch14-defaults/hypercomplex_newton.png (256x256; 90 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=27.6304; verdict pass; math oracle NOT_CHECKED: no reference oracle) and build/test_output/vis006-batch14/hypercomplex_newton_runtime_catalog_preview.png (384x346; 88 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=11.4899; verdict pass)",
+      "cpu_formula": "native CPU formula registered; correctness NOT_CHECKED",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -3160,8 +3175,8 @@
       "status": "renderer_registered",
       "module_id": "quaternion_julia_2d",
       "shader": "shaders/3d_and_hypercomplex/hypercomplex_escape_time/quaternion_julia_2d_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-14: build/test_output/vis006-batch14-defaults/quaternion_julia_2d.png (256x256; 1082 RGB colors; blackPixelRatio=0.2249; nonBlack=0.7751; luminanceStdDev=53.801; verdict pass; math oracle NOT_CHECKED: no reference oracle) and build/test_output/vis006-batch14/quaternion_julia_2d_runtime_catalog_preview.png (384x346; 255 RGB colors; blackPixelRatio=0.591; nonBlack=0.409; luminanceStdDev=98.3514; verdict pass)",
+      "cpu_formula": "native CPU formula registered; correctness NOT_CHECKED",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -3176,8 +3191,8 @@
       "status": "renderer_registered",
       "module_id": "tessarine_julia",
       "shader": "shaders/3d_and_hypercomplex/hypercomplex_escape_time/tessarine_julia_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-14: build/test_output/vis006-batch14-defaults/tessarine_julia.png (256x256; 747 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=24.218; verdict pass; math oracle NOT_CHECKED: no reference oracle) and build/test_output/vis006-batch14/tessarine_julia_runtime_catalog_preview.png (384x346; 1098 RGB colors; blackPixelRatio=0.0007; nonBlack=0.9993; luminanceStdDev=25.8005; verdict pass)",
+      "cpu_formula": "native CPU formula registered; correctness NOT_CHECKED",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -3192,8 +3207,8 @@
       "status": "renderer_registered",
       "module_id": "split_complex",
       "shader": "shaders/3d_and_hypercomplex/hypercomplex_escape_time/split_complex_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-14: build/test_output/vis006-batch14-defaults/split_complex.png (256x256; 226 RGB colors; blackPixelRatio=0.502; nonBlack=0.498; luminanceStdDev=59.9303; verdict pass; math oracle NOT_CHECKED: no reference oracle) and build/test_output/vis006-batch14/split_complex_runtime_catalog_preview.png (384x346; 148 RGB colors; blackPixelRatio=0.5052; nonBlack=0.4948; luminanceStdDev=71.2445; verdict pass)",
+      "cpu_formula": "native CPU formula registered; correctness NOT_CHECKED",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -3208,8 +3223,8 @@
       "status": "renderer_registered",
       "module_id": "dual_complex",
       "shader": "shaders/3d_and_hypercomplex/hypercomplex_escape_time/dual_complex_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-14: build/test_output/vis006-batch14-defaults/dual_complex.png (256x256; 10236 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=41.3288; verdict pass; math oracle NOT_CHECKED: no reference oracle) and build/test_output/vis006-batch14/dual_complex_runtime_catalog_preview.png (384x346; 10606 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=22.4418; verdict pass)",
+      "cpu_formula": "native CPU formula registered; correctness NOT_CHECKED",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -3224,8 +3239,8 @@
       "status": "renderer_registered",
       "module_id": "bicomplex",
       "shader": "shaders/3d_and_hypercomplex/hypercomplex_escape_time/bicomplex_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-14: build/test_output/vis006-batch14-defaults/bicomplex.png (256x256; 1480 RGB colors; blackPixelRatio=0.4332; nonBlack=0.5668; luminanceStdDev=83.435; verdict pass; math oracle NOT_CHECKED: no reference oracle) and build/test_output/vis006-batch14/bicomplex_runtime_catalog_preview.png (384x346; 1833 RGB colors; blackPixelRatio=0.6715; nonBlack=0.3285; luminanceStdDev=66.1879; verdict pass)",
+      "cpu_formula": "native CPU formula registered; correctness NOT_CHECKED",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -3240,8 +3255,8 @@
       "status": "renderer_registered",
       "module_id": "sine_julia",
       "shader": "shaders/trigonometric_and_transcendental/elementary_trig/sine_julia_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-14: build/test_output/vis006-batch14-defaults/sine_julia.png (256x256; 50 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=46.7285; verdict pass; math oracle NOT_CHECKED: no reference oracle) and build/test_output/vis006-batch14/sine_julia_runtime_catalog_preview.png (384x346; 5576 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=25.0479; verdict pass)",
+      "cpu_formula": "native CPU formula registered; correctness NOT_CHECKED",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -3256,8 +3271,8 @@
       "status": "renderer_registered",
       "module_id": "cosine_julia",
       "shader": "shaders/trigonometric_and_transcendental/elementary_trig/cosine_julia_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-15: defaults build/test_output/vis006-batch15-defaults/cosine_julia.png (256x256; 25 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=47.2092; verdict pass; math oracle skipped: no supported reference) and runtime GPU preview build/test_output/vis006-batch15/cosine_julia_runtime_catalog_preview.png (384x346; 36 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=3.6722; verdict pass)",
+      "cpu_formula": "native CPU formula not registered; oracle skipped",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -3272,8 +3287,8 @@
       "status": "renderer_registered",
       "module_id": "tangent",
       "shader": "shaders/trigonometric_and_transcendental/elementary_trig/tangent_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-15: defaults build/test_output/vis006-batch15-defaults/tangent.png (256x256; 10525 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=42.4603; verdict pass; math oracle skipped: no supported reference) and runtime GPU preview build/test_output/vis006-batch15/tangent_runtime_catalog_preview.png (384x346; 9133 RGB colors; blackPixelRatio=0.0052; nonBlack=0.9948; luminanceStdDev=63.0639; verdict pass)",
+      "cpu_formula": "native CPU formula not registered; oracle skipped",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -3288,8 +3303,8 @@
       "status": "renderer_registered",
       "module_id": "sinh_cosh",
       "shader": "shaders/trigonometric_and_transcendental/hyperbolic/sinh_cosh_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-15: defaults build/test_output/vis006-batch15-defaults/sinh_cosh.png (256x256; 64 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=30.237; verdict pass; math oracle skipped: no supported reference) and runtime GPU preview build/test_output/vis006-batch15/sinh_cosh_runtime_catalog_preview.png (384x346; 9177 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=36.2; verdict pass)",
+      "cpu_formula": "native CPU formula not registered; oracle skipped",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -3304,8 +3319,8 @@
       "status": "renderer_registered",
       "module_id": "exponential",
       "shader": "shaders/trigonometric_and_transcendental/exponential_iteration/exponential_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-15: defaults build/test_output/vis006-batch15-defaults/exponential.png (256x256; 133 RGB colors; blackPixelRatio=0.1635; nonBlack=0.8365; luminanceStdDev=50.0022; verdict pass; math oracle skipped: no supported reference) and runtime GPU preview build/test_output/vis006-batch15/exponential_runtime_catalog_preview.png (384x346; 2857 RGB colors; blackPixelRatio=0.0543; nonBlack=0.9457; luminanceStdDev=28.5825; verdict pass)",
+      "cpu_formula": "native CPU formula not registered; oracle skipped",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -3320,8 +3335,8 @@
       "status": "renderer_registered",
       "module_id": "zircon_zity",
       "shader": "shaders/escape_time_family/polynomial_maps/zircon_zity_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-15: defaults build/test_output/vis006-batch15-defaults/zircon_zity.png (256x256; 894 RGB colors; blackPixelRatio=0.5927; nonBlack=0.4073; luminanceStdDev=58.3887; verdict pass; math oracle skipped: no supported reference) and runtime GPU preview build/test_output/vis006-batch15/zircon_zity_runtime_catalog_preview.png (384x346; 330 RGB colors; blackPixelRatio=0.9461; nonBlack=0.0539; luminanceStdDev=47.1974; verdict pass)",
+      "cpu_formula": "native CPU formula not registered; oracle skipped",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -3336,8 +3351,8 @@
       "status": "renderer_registered",
       "module_id": "barnsley_j1",
       "shader": "shaders/ifs_and_geometric/barnsley_j1_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-15: defaults build/test_output/vis006-batch15-defaults/barnsley_j1.png (256x256; 6586 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=22.5941; verdict pass; math oracle skipped: no supported reference) and runtime GPU preview build/test_output/vis006-batch15/barnsley_j1_runtime_catalog_preview.png (384x346; 5487 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=33.6555; verdict pass)",
+      "cpu_formula": "native CPU formula not registered; oracle skipped",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -3352,8 +3367,8 @@
       "status": "renderer_registered",
       "module_id": "fish",
       "shader": "shaders/escape_time_family/experimental_named/discrete_attractors/fish_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-15: defaults build/test_output/vis006-batch15-defaults/fish.png (256x256; 1022 RGB colors; blackPixelRatio=0.4964; nonBlack=0.5036; luminanceStdDev=57.9932; verdict pass; math oracle skipped: no supported reference) and runtime GPU preview build/test_output/vis006-batch15/fish_runtime_catalog_preview.png (384x346; 386 RGB colors; blackPixelRatio=0.6299; nonBlack=0.3701; luminanceStdDev=95.1575; verdict pass)",
+      "cpu_formula": "native CPU formula not registered; oracle skipped",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -3368,8 +3383,8 @@
       "status": "renderer_registered",
       "module_id": "ducky",
       "shader": "shaders/escape_time_family/experimental_named/discrete_attractors/ducky_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-15: defaults build/test_output/vis006-batch15-defaults/ducky.png (256x256; 1001 RGB colors; blackPixelRatio=0.734; nonBlack=0.266; luminanceStdDev=60.2457; verdict pass; math oracle skipped: no supported reference) and runtime GPU preview build/test_output/vis006-batch15/ducky_runtime_catalog_preview.png (384x346; 804 RGB colors; blackPixelRatio=0.9099; nonBlack=0.0901; luminanceStdDev=45.0726; verdict pass)",
+      "cpu_formula": "native CPU formula not registered; oracle skipped",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -3384,8 +3399,8 @@
       "status": "renderer_registered",
       "module_id": "schroeder",
       "shader": "shaders/root_finding/schroeder_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-15: defaults build/test_output/vis006-batch15-defaults/schroeder.png (256x256; 1153 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=26.082; verdict pass; math oracle skipped: no supported reference) and runtime GPU preview build/test_output/vis006-batch15/schroeder_runtime_catalog_preview.png (384x346; 486 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=59.5537; verdict pass)",
+      "cpu_formula": "native CPU formula not registered; oracle skipped",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -3400,8 +3415,8 @@
       "status": "renderer_registered",
       "module_id": "secant_fractal",
       "shader": "shaders/trigonometric_and_transcendental/elementary_trig/secant_fractal_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-15: defaults build/test_output/vis006-batch15-defaults/secant_fractal.png (256x256; 109 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=46.2132; verdict pass; math oracle skipped: no supported reference) and runtime GPU preview build/test_output/vis006-batch15/secant_fractal_runtime_catalog_preview.png (384x346; 113 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=63.3147; verdict pass)",
+      "cpu_formula": "native CPU formula not registered; oracle skipped",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
@@ -3416,7 +3431,7 @@
       "status": "renderer_registered",
       "module_id": "secant_cosecant",
       "shader": "shaders/trigonometric_and_transcendental/elementary_trig/secant_cosecant_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-16: default GPU build/test_output/vis006-batch16-defaults/secant_cosecant.png (256x256; 7224 RGB colors; blackPixelRatio=0.0; luminanceStdDev=55.9109; verdict pass); actual runtime GPU preview build/test_output/vis006-batch16/secant_cosecant_runtime_catalog_preview.png (384x346; 217 colors; blackPixelRatio=0.0195; luminanceStdDev=51.9944; verdict pass). Strict report selected/generated/failed/skipped=10/10/0/0; math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3432,7 +3447,7 @@
       "status": "renderer_registered",
       "module_id": "taylor",
       "shader": "shaders/escape_time_family/transcendental_maps/taylor_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-16: default GPU build/test_output/vis006-batch16-defaults/taylor.png (256x256; 10719 RGB colors; blackPixelRatio=0.0; luminanceStdDev=44.2064; verdict pass); actual runtime GPU preview build/test_output/vis006-batch16/taylor_runtime_catalog_preview.png (384x346; 18951 colors; blackPixelRatio=0; luminanceStdDev=33.0631; verdict pass). Strict report selected/generated/failed/skipped=10/10/0/0; math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3448,7 +3463,7 @@
       "status": "renderer_registered",
       "module_id": "rational_map",
       "shader": "shaders/escape_time_family/transcendental_maps/rational_map_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-16: default GPU build/test_output/vis006-batch16-defaults/rational_map.png (256x256; 210 RGB colors; blackPixelRatio=0.0118; luminanceStdDev=26.6795; verdict pass); actual runtime GPU preview build/test_output/vis006-batch16/rational_map_runtime_catalog_preview.png (384x346; 187 colors; blackPixelRatio=0.0289; luminanceStdDev=41.1798; verdict pass). Strict report selected/generated/failed/skipped=10/10/0/0; math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3464,7 +3479,7 @@
       "status": "renderer_registered",
       "module_id": "lattes_map_julia",
       "shader": "shaders/escape_time_family/transcendental_maps/lattes_map_julia_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-16: default GPU build/test_output/vis006-batch16-defaults/lattes_map_julia.png (256x256; 7890 RGB colors; blackPixelRatio=0.0; luminanceStdDev=47.6487; verdict pass); actual runtime GPU preview build/test_output/vis006-batch16/lattes_map_julia_runtime_catalog_preview.png (384x346; 17551 colors; blackPixelRatio=0; luminanceStdDev=46.961; verdict pass). Strict report selected/generated/failed/skipped=10/10/0/0; math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3480,7 +3495,7 @@
       "status": "renderer_registered",
       "module_id": "complex_henon_julia_slice",
       "shader": "shaders/escape_time_family/transcendental_maps/complex_henon_julia_slice_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-16: default GPU build/test_output/vis006-batch16-defaults/complex_henon_julia_slice.png (256x256; 758 RGB colors; blackPixelRatio=0.0; luminanceStdDev=33.3646; verdict pass); actual runtime GPU preview build/test_output/vis006-batch16/complex_henon_julia_slice_runtime_catalog_preview.png (384x346; 1120 colors; blackPixelRatio=0; luminanceStdDev=24.6922; verdict pass). Strict report selected/generated/failed/skipped=10/10/0/0; math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3496,7 +3511,7 @@
       "status": "renderer_registered",
       "module_id": "matrix_logistic_spectrum",
       "shader": "shaders/escape_time_family/transcendental_maps/matrix_logistic_spectrum_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-16: default GPU build/test_output/vis006-batch16-defaults/matrix_logistic_spectrum.png (256x256; 1508 RGB colors; blackPixelRatio=0.0; luminanceStdDev=44.5972; verdict pass); actual runtime GPU preview build/test_output/vis006-batch16/matrix_logistic_spectrum_runtime_catalog_preview.png (384x346; 1724 colors; blackPixelRatio=0; luminanceStdDev=42.7676; verdict pass). Strict report selected/generated/failed/skipped=10/10/0/0; math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3512,7 +3527,7 @@
       "status": "renderer_registered",
       "module_id": "barnsley_j2",
       "shader": "shaders/ifs_and_geometric/barnsley_j2_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-16: default GPU build/test_output/vis006-batch16-defaults/barnsley_j2.png (256x256; 301 RGB colors; blackPixelRatio=0.0; luminanceStdDev=22.1818; verdict pass); actual runtime GPU preview build/test_output/vis006-batch16/barnsley_j2_runtime_catalog_preview.png (384x346; 311 colors; blackPixelRatio=0.0003; luminanceStdDev=28.8146; verdict pass). Strict report selected/generated/failed/skipped=10/10/0/0; math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3528,7 +3543,7 @@
       "status": "renderer_registered",
       "module_id": "barnsley_j3",
       "shader": "shaders/ifs_and_geometric/barnsley_j3_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-16: default GPU build/test_output/vis006-batch16-defaults/barnsley_j3.png (256x256; 156 RGB colors; blackPixelRatio=0.0; luminanceStdDev=19.9428; verdict pass); actual runtime GPU preview build/test_output/vis006-batch16/barnsley_j3_runtime_catalog_preview.png (384x346; 116 colors; blackPixelRatio=0.0001; luminanceStdDev=5.7842; verdict pass). Strict report selected/generated/failed/skipped=10/10/0/0; math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3544,7 +3559,7 @@
       "status": "renderer_registered",
       "module_id": "celtic_julia",
       "shader": "shaders/escape_time_family/families/celtic/celtic_julia_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-16: default GPU build/test_output/vis006-batch16-defaults/celtic_julia.png (256x256; 5407 RGB colors; blackPixelRatio=0.0; luminanceStdDev=29.9019; verdict pass); actual runtime GPU preview build/test_output/vis006-batch16/celtic_julia_runtime_catalog_preview.png (384x346; 6417 colors; blackPixelRatio=0; luminanceStdDev=13.3854; verdict pass). Strict report selected/generated/failed/skipped=10/10/0/0; math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3560,7 +3575,7 @@
       "status": "renderer_registered",
       "module_id": "buffalo_julia",
       "shader": "shaders/escape_time_family/families/buffalo/buffalo_julia_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-16: default GPU build/test_output/vis006-batch16-defaults/buffalo_julia.png (256x256; 4225 RGB colors; blackPixelRatio=0.0; luminanceStdDev=26.1958; verdict pass); actual runtime GPU preview build/test_output/vis006-batch16/buffalo_julia_runtime_catalog_preview.png (384x346; 4823 colors; blackPixelRatio=0; luminanceStdDev=6.6261; verdict pass). Strict report selected/generated/failed/skipped=10/10/0/0; math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3576,7 +3591,7 @@
       "status": "renderer_registered",
       "module_id": "perpendicular_julia",
       "shader": "shaders/escape_time_family/families/perpendicular/perpendicular_julia_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-17: defaults build/test_output/vis006-batch17-defaults/perpendicular_julia.png (256x256; 5351 RGB colors; blackPixelRatio=0.0; luminanceStdDev=34.1295; pass; iterations=220, bailout=4.0, colorScheme=0, pan=(0.0,0.0), zoom=1.0); runtime GPU preview build/test_output/vis006-batch17/perpendicular_julia_runtime_catalog_preview.png (384x346; 1099 RGB colors; blackPixelRatio=0.0; luminanceStdDev=13.4478; pass). Math oracle skipped: no reference oracle.",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3592,7 +3607,7 @@
       "status": "renderer_registered",
       "module_id": "tricorn_julia",
       "shader": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_julia_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-17: defaults build/test_output/vis006-batch17-defaults/tricorn_julia.png (256x256; 5494 RGB colors; blackPixelRatio=0.0; luminanceStdDev=28.9495; pass; iterations=220, bailout=4.0, colorScheme=0, pan=(0.0,0.0), zoom=1.0); runtime GPU preview build/test_output/vis006-batch17/tricorn_julia_runtime_catalog_preview.png (384x346; 2257 RGB colors; blackPixelRatio=0.0; luminanceStdDev=26.1629; pass). Math oracle skipped: no reference oracle.",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3608,7 +3623,7 @@
       "status": "renderer_registered",
       "module_id": "burning_ship_julia",
       "shader": "shaders/escape_time_family/families/burning_ship/julia_sets/burning_ship_julia_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-17: defaults build/test_output/vis006-batch17-defaults/burning_ship_julia.png (256x256; 238 RGB colors; blackPixelRatio=0.0; luminanceStdDev=18.4079; pass; iterations=220, bailout=4.0, colorScheme=0, pan=(0.0,0.0), zoom=1.0); runtime GPU preview build/test_output/vis006-batch17/burning_ship_julia_runtime_catalog_preview.png (384x346; 226 RGB colors; blackPixelRatio=0.0; luminanceStdDev=0.575; pass). Math oracle skipped: no reference oracle.",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3624,7 +3639,7 @@
       "status": "renderer_registered",
       "module_id": "multibrot_neg2",
       "shader": "shaders/escape_time_family/families/multibrot/multibrot_neg2_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-17: defaults build/test_output/vis006-batch17-defaults/multibrot_neg2.png (256x256; 968 RGB colors; blackPixelRatio=0.4647; luminanceStdDev=80.3352; pass; iterations=140, bailout=4.0, colorScheme=0, pan=(-0.6000000000000001,-0.1215686274509804), zoom=0.7594117647058823); runtime GPU preview build/test_output/vis006-batch17/multibrot_neg2_runtime_catalog_preview.png (384x346; 551 RGB colors; blackPixelRatio=0.4488; luminanceStdDev=98.2419; pass). Math oracle skipped: no reference oracle.",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3640,7 +3655,7 @@
       "status": "renderer_registered",
       "module_id": "heart",
       "shader": "shaders/escape_time_family/julia_variants/heart_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-17: defaults build/test_output/vis006-batch17-defaults/heart.png (256x256; 9175 RGB colors; blackPixelRatio=0.0; luminanceStdDev=47.3551; pass; iterations=140, bailout=4.0, colorScheme=0, pan=(-0.3549019607843138,-0.14196078431372547), zoom=1.25); runtime GPU preview build/test_output/vis006-batch17/heart_runtime_catalog_preview.png (384x346; 12477 RGB colors; blackPixelRatio=0.0; luminanceStdDev=32.6879; pass). Math oracle skipped: no reference oracle.",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3656,7 +3671,7 @@
       "status": "renderer_registered",
       "module_id": "cosine_mandelbrot",
       "shader": "shaders/trigonometric_and_transcendental/elementary_trig/cosine_mandelbrot_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-17: defaults build/test_output/vis006-batch17-defaults/cosine_mandelbrot.png (256x256; 17207 RGB colors; blackPixelRatio=0.0; luminanceStdDev=37.8954; pass; iterations=180, bailout=4.0, colorScheme=0, variant=0, pan=(-0.4,0.0), zoom=0.3); runtime GPU preview build/test_output/vis006-batch17/cosine_mandelbrot_runtime_catalog_preview.png (384x346; 5063 RGB colors; blackPixelRatio=0.0; luminanceStdDev=14.4793; pass). Math oracle skipped: no reference oracle.",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3672,7 +3687,7 @@
       "status": "renderer_registered",
       "module_id": "tangent_mandelbrot",
       "shader": "shaders/trigonometric_and_transcendental/elementary_trig/tangent_mandelbrot_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-17: defaults build/test_output/vis006-batch17-defaults/tangent_mandelbrot.png (256x256; 1261 RGB colors; blackPixelRatio=0.0; luminanceStdDev=46.3595; pass; iterations=160, bailout=4.0, colorScheme=0, variant=0, pan=(0.0,0.0), zoom=1.0); runtime GPU preview build/test_output/vis006-batch17/tangent_mandelbrot_runtime_catalog_preview.png (384x346; 1922 RGB colors; blackPixelRatio=0.0053; luminanceStdDev=61.7674; pass). Math oracle skipped: no reference oracle.",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3688,7 +3703,7 @@
       "status": "renderer_registered",
       "module_id": "sinh_mandelbrot",
       "shader": "shaders/trigonometric_and_transcendental/hyperbolic/sinh_mandelbrot_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-17: defaults build/test_output/vis006-batch17-defaults/sinh_mandelbrot.png (256x256; 312 RGB colors; blackPixelRatio=0.5477; luminanceStdDev=76.4995; pass; iterations=180, bailout=4.0, colorScheme=0, pan=(0.0,0.0), zoom=1.0); runtime GPU preview build/test_output/vis006-batch17/sinh_mandelbrot_runtime_catalog_preview.png (384x346; 221 RGB colors; blackPixelRatio=0.7973; luminanceStdDev=68.4517; pass). Math oracle skipped: no reference oracle.",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3704,7 +3719,7 @@
       "status": "renderer_registered",
       "module_id": "cosh_mandelbrot",
       "shader": "shaders/trigonometric_and_transcendental/hyperbolic/cosh_mandelbrot_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-17: defaults build/test_output/vis006-batch17-defaults/cosh_mandelbrot.png (256x256; 943 RGB colors; blackPixelRatio=0.3753; luminanceStdDev=78.6961; pass; iterations=180, bailout=4.0, colorScheme=0, pan=(0.0,0.0), zoom=1.0); runtime GPU preview build/test_output/vis006-batch17/cosh_mandelbrot_runtime_catalog_preview.png (384x346; 7521 RGB colors; blackPixelRatio=0.8289; luminanceStdDev=57.791; pass). Math oracle skipped: no reference oracle.",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3720,7 +3735,7 @@
       "status": "renderer_registered",
       "module_id": "tanh_mandelbrot",
       "shader": "shaders/trigonometric_and_transcendental/hyperbolic/tanh_mandelbrot_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured in VIS-006-BATCH-17: defaults build/test_output/vis006-batch17-defaults/tanh_mandelbrot.png (256x256; 25114 RGB colors; blackPixelRatio=0.0; luminanceStdDev=39.328; pass; iterations=180, bailout=4.0, colorScheme=0, variant=0, pan=(0.0,0.0), zoom=1.0); runtime GPU preview build/test_output/vis006-batch17/tanh_mandelbrot_runtime_catalog_preview.png (384x346; 31876 RGB colors; blackPixelRatio=0.0; luminanceStdDev=36.0197; pass). Math oracle skipped: no reference oracle.",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3736,7 +3751,7 @@
       "status": "renderer_registered",
       "module_id": "log_spiral",
       "shader": "shaders/escape_time_family/transcendental_maps/log_spiral_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured GPU module-default and runtime preview in VIS-006-BATCH-18: defaults build/test_output/vis006-batch18-defaults/log_spiral.png (256x256; 9666 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=43.956; verdict pass); runtime build/test_output/vis006-batch18/log_spiral_runtime_catalog_preview.png (384x346; 11944 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=42.3702; verdict pass). Defaults iterations=140, bailout=4, colorScheme=0, pan=(-0.4804,0.1984), zoom=1.2359. GPU capture; math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3752,7 +3767,7 @@
       "status": "renderer_registered",
       "module_id": "lyapunov",
       "shader": "shaders/lyapunov_and_stability/lyapunov_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured GPU module-default and runtime preview in VIS-006-BATCH-18: defaults build/test_output/vis006-batch18-defaults/lyapunov.png (256x256; 834 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=32.6151; verdict pass); runtime build/test_output/vis006-batch18/lyapunov_runtime_catalog_preview.png (384x346; 275 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=19.9232; verdict pass). Defaults iterations=200, bailout=4, colorScheme=0, pan=(3,3), zoom=1.2888. GPU capture; math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3768,7 +3783,7 @@
       "status": "renderer_registered",
       "module_id": "logistic_lyapunov",
       "shader": "shaders/lyapunov_and_stability/logistic_lyapunov_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured GPU module-default and runtime preview in VIS-006-BATCH-18: defaults build/test_output/vis006-batch18-defaults/logistic_lyapunov.png (256x256; 247 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=28.6073; verdict pass); runtime build/test_output/vis006-batch18/logistic_lyapunov_runtime_catalog_preview.png (384x346; 187 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=4.4053; verdict pass). Defaults iterations=220, bailout=4, colorScheme=0, pan=(3,0.5), zoom=1.49. GPU capture; math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3784,7 +3799,7 @@
       "status": "renderer_registered",
       "module_id": "circle_map_lyapunov",
       "shader": "shaders/lyapunov_and_stability/circle_map_lyapunov_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured GPU module-default and runtime preview in VIS-006-BATCH-18: defaults build/test_output/vis006-batch18-defaults/circle_map_lyapunov.png (256x256; 814 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=47.7096; verdict pass); runtime build/test_output/vis006-batch18/circle_map_lyapunov_runtime_catalog_preview.png (384x346; 636 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=16.1896; verdict pass). Defaults iterations=220, bailout=4, colorScheme=0, pan=(0,1), zoom=1.2076. GPU capture; math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3800,7 +3815,7 @@
       "status": "renderer_registered",
       "module_id": "sine_map_lyapunov",
       "shader": "shaders/lyapunov_and_stability/sine_map_lyapunov_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured GPU module-default and runtime preview in VIS-006-BATCH-18: defaults build/test_output/vis006-batch18-defaults/sine_map_lyapunov.png (256x256; 437 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=62.923; verdict pass); runtime build/test_output/vis006-batch18/sine_map_lyapunov_runtime_catalog_preview.png (384x346; 497 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=61.429; verdict pass). Defaults iterations=220, bailout=4, colorScheme=0, pan=(0.85,0.5), zoom=1.3382. GPU capture; math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3816,7 +3831,7 @@
       "status": "renderer_registered",
       "module_id": "tent_map",
       "shader": "shaders/lyapunov_and_stability/tent_map_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured GPU module-default and runtime preview in VIS-006-BATCH-18: defaults build/test_output/vis006-batch18-defaults/tent_map.png (256x256; 465 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=17.873; verdict pass); runtime build/test_output/vis006-batch18/tent_map_runtime_catalog_preview.png (384x346; 374 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=20.7244; verdict pass). Defaults iterations=220, bailout=4, colorScheme=0, pan=(1,0.5), zoom=0.8159. GPU capture; math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3832,7 +3847,7 @@
       "status": "renderer_registered",
       "module_id": "hopalong",
       "shader": "shaders/strange_attractors/hopalong_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured GPU module-default and runtime preview in VIS-006-BATCH-18: defaults build/test_output/vis006-batch18-defaults/hopalong.png (256x256; 11453 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=42.8326; verdict pass); runtime build/test_output/vis006-batch18/hopalong_runtime_catalog_preview.png (384x346; 8137 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=25.9714; verdict pass). Defaults iterations=180, bailout=32, colorScheme=0, a=2, b=1, c=7.5, pan=(-0.4451,-0.0369), zoom=1.4265. GPU capture; math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3848,7 +3863,7 @@
       "status": "renderer_registered",
       "module_id": "pickover_biomorph",
       "shader": "shaders/strange_attractors/pickover_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured GPU module-default and runtime preview in VIS-006-BATCH-18: defaults build/test_output/vis006-batch18-defaults/pickover_biomorph.png (256x256; 208 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=42.4135; verdict pass); runtime build/test_output/vis006-batch18/pickover_biomorph_runtime_catalog_preview.png (384x346; 65 RGB colors; blackPixelRatio=0.0002; nonBlack=0.9998; luminanceStdDev=8.4658; verdict pass). Defaults iterations=220, bailout=64, colorScheme=0, pan=(-0.449,0.1294), zoom=0.9253. GPU capture; math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3864,7 +3879,7 @@
       "status": "renderer_registered",
       "module_id": "feigenbaum",
       "shader": "shaders/lyapunov_and_stability/feigenbaum_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured GPU module-default and runtime preview in VIS-006-BATCH-18: defaults build/test_output/vis006-batch18-defaults/feigenbaum.png (256x256; 820 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=16.1397; verdict pass); runtime build/test_output/vis006-batch18/feigenbaum_runtime_catalog_preview.png (384x346; 1218 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=64.5315; verdict pass). Defaults iterations=260, bailout=4, colorScheme=0, pan=(0.25,0), zoom=1.4688. GPU capture; math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -3880,7 +3895,7 @@
       "status": "renderer_registered",
       "module_id": "gauss_map",
       "shader": "shaders/lyapunov_and_stability/gauss_map_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
+      "runtime_preview": "captured GPU module-default and runtime preview in VIS-006-BATCH-18: defaults build/test_output/vis006-batch18-defaults/gauss_map.png (256x256; 359 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=27.7671; verdict pass); runtime build/test_output/vis006-batch18/gauss_map_runtime_catalog_preview.png (384x346; 302 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=17.4168; verdict pass). Defaults iterations=220, bailout=8, colorScheme=0, pan=(0,0), zoom=0.95. GPU capture; math oracle skipped (no reference oracle).",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
@@ -17941,7 +17956,7 @@
       "source_id": "f029_halleys_fractal",
       "source": "research_manifest",
       "group": "convergent_and_root_finding",
-      "name": "Halley\u2019s Fractal",
+      "name": "Halley’s Fractal",
       "status": "missing_app_renderer",
       "module_id": null,
       "shader": null,
@@ -17957,7 +17972,7 @@
       "source_id": "f030_schr_ders_fractal",
       "source": "research_manifest",
       "group": "convergent_and_root_finding",
-      "name": "Schr\u00f6der\u2019s Fractal",
+      "name": "Schröder’s Fractal",
       "status": "missing_app_renderer",
       "module_id": null,
       "shader": null,
@@ -18069,7 +18084,7 @@
       "source_id": "f037_r_ssler_attractor",
       "source": "research_manifest",
       "group": "strange_attractors",
-      "name": "R\u00f6ssler Attractor",
+      "name": "Rössler Attractor",
       "status": "missing_app_renderer",
       "module_id": null,
       "shader": null,
@@ -18085,7 +18100,7 @@
       "source_id": "f038_h_non_map",
       "source": "research_manifest",
       "group": "strange_attractors",
-      "name": "H\u00e9non Map",
+      "name": "Hénon Map",
       "status": "missing_app_renderer",
       "module_id": null,
       "shader": null,
@@ -18293,7 +18308,7 @@
       "source_id": "f051_l_chen_attractor",
       "source": "research_manifest",
       "group": "strange_attractors",
-      "name": "L\u00fc Chen Attractor",
+      "name": "Lü Chen Attractor",
       "status": "missing_app_renderer",
       "module_id": null,
       "shader": null,
@@ -18517,7 +18532,7 @@
       "source_id": "f065_ces_ro_fractal",
       "source": "research_manifest",
       "group": "ifs_and_geometric_construction",
-      "name": "Ces\u00e0ro Fractal",
+      "name": "Cesàro Fractal",
       "status": "missing_app_renderer",
       "module_id": null,
       "shader": null,
@@ -19077,7 +19092,7 @@
       "source_id": "f100_tglads_formula",
       "source": "research_manifest",
       "group": "3d_raymarching_and_hypercomplex",
-      "name": "Tglad\u2019s Formula",
+      "name": "Tglad’s Formula",
       "status": "missing_app_renderer",
       "module_id": null,
       "shader": null,
@@ -19493,7 +19508,7 @@
       "source_id": "f126_barnsleys_j1_j2_j3",
       "source": "research_manifest",
       "group": "advanced_rational_and_polynomial",
-      "name": "Barnsley\u2019s J1/J2/J3",
+      "name": "Barnsley’s J1/J2/J3",
       "status": "missing_app_renderer",
       "module_id": null,
       "shader": null,
@@ -19733,7 +19748,7 @@
       "source_id": "f141_chuas_circuit",
       "source": "research_manifest",
       "group": "deep_chaos_and_flows",
-      "name": "Chua\u2019s Circuit",
+      "name": "Chua’s Circuit",
       "status": "missing_app_renderer",
       "module_id": null,
       "shader": null,
@@ -20517,7 +20532,7 @@
       "source_id": "f190_langtons_ant",
       "source": "research_manifest",
       "group": "cellular_and_stochastic",
-      "name": "Langton\u2019s Ant",
+      "name": "Langton’s Ant",
       "status": "missing_app_renderer",
       "module_id": null,
       "shader": null,
@@ -20565,7 +20580,7 @@
       "source_id": "f193_brians_brain",
       "source": "research_manifest",
       "group": "cellular_and_stochastic",
-      "name": "Brian\u2019s Brain",
+      "name": "Brian’s Brain",
       "status": "missing_app_renderer",
       "module_id": null,
       "shader": null,
