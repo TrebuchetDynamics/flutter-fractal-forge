@@ -54,6 +54,16 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   void _restoreInterruptedViewerSession() {
+    final smokeModuleId = RuntimeModeService.playwrightCatalogSmoke
+        ? DeepLinkService.initialBrowserUri.queryParameters['smokeModule']
+        : null;
+    if (smokeModuleId != null && smokeModuleId.isNotEmpty) {
+      // The explicit smoke route owns the initial viewer state. Restoring a
+      // prior interactive session here would race _openSmokeModule and replace
+      // its selected module before the renderer's first frame.
+      return;
+    }
+
     final snapshot = context.read<ViewerSessionStore?>()?.load();
     if (snapshot == null || !snapshot.viewerActive) return;
     try {
@@ -211,6 +221,7 @@ class _HomeScreenState extends State<HomeScreen>
       _pushViewer(
         transitionDuration: Duration.zero,
         captureMode: _smokeCaptureMode(),
+        restoreViewerSession: false,
       );
     } catch (e) {
       print('PLAYWRIGHT_CATALOG_SMOKE_UNKNOWN_MODULE:$moduleId');
