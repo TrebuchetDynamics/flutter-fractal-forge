@@ -7,12 +7,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Planned
+
+- Smooth coloring across the remaining escape-time shaders (done in the
+  perturbation shader)
+- Improved auto-pilot navigation with manual correction acceptance
+- Enhanced preset management (delete, rename, thumbnail generation)
+- User-defined color palette support
+- Bookmark/favorites system for fractal locations
+
+Perturbation for GPU deep zoom beyond float32 has shipped and is no longer
+planned work; see the Extended GPU Preview entry in CONTEXT.md.
+
+## [1.1.107] - 2026-10-07
+
+### Improved
+
+- Explore launches now use each fractal's configured default view. Corrected
+  Julia and Nova module selection, Newton z³ relaxation, Nova convergence, and
+  Koch Snowflake framing.
+
+## [1.1.106] - 2026-10-04
+
+### Added
+
+- Add batch 29 clean-room fractal visuals to the catalog.
+- Sync viewer state to the web address bar with readable deep links.
+
+### Fixed
+
+- Reset first-frame renderer diagnostics after switching fractal modules.
+
 ### Added
 
 - Automated full-catalog Linux profile audit with two screenshots per fractal,
   engine frame timings, visual critiques, crash recovery, and a searchable HTML
   fix/review queue. GitLab can run it manually or on a schedule.
-
 - Octahedral Crystal Bloom, Tetrahedral Orbit Lantern, and Cantor Cross Crystal:
   three animated 3D recursive constructions with adjustable scale and depth.
   The production catalog now contains 1,017 fractals after retiring the broken
@@ -29,40 +59,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Shape Modulus Julia now initializes its shape/seed uniforms and exposes those
   controls. Six blank alternate presets receive corrected framing, depth, or
   lighting while retaining their identities.
-
 - Baker Wandering Domain uses a stable complex tangent and the actual bailout
   radius, restoring detail that previously collapsed into a flat field.
 - Tricorn powers handle the zero orbit without an undefined angle. High-power
-  catalog entries start wide enough to show the boundary
-  and colored exterior instead of an entirely black interior. Multibrot d=5
-  Multijulia⁹, and Tricorn⁷ Julia defaults receive the same framing correction.
-
+  catalog entries start wide enough to show the boundary and colored exterior
+  instead of an entirely black interior. Multibrot d=5, Multijulia⁹, and
+  Tricorn⁷ Julia defaults receive the same framing correction.
 - Recursive 3D sculpture colors now follow geometry instead of ray-march step
   counts, reducing speckling and preventing quality changes from recoloring surfaces.
 - Missing palette services now use a readable grayscale gradient instead of a
   solid-black sampler, preserving fractal structure during fallback rendering.
-
 - Pinch-zoom inertia uses elapsed time across the fractal viewer, preserving
   consistent travel on high-refresh displays and delayed frames. 2D zoom keeps
   the released pinch midpoint anchored; inertia stops cleanly at zoom limits.
-
-- Explore launches now use each fractal's configured default view. Formula-preserving
-  fixes correct Julia and Nova module selection, Newton z³ relaxation, Nova
-  convergence, and Koch Snowflake framing. Focused real-GPU default and
-  runtime-preview checks cover ten modules. First-view checks cover all nine
-  Featured Launch Set modules. The wider visual audit remains in progress; see
-  `TODO.md` for the current coverage and open findings.
-
-## [1.1.106] - 2026-10-04
-
-### Added
-
-- Add batch 29 clean-room fractal visuals to the catalog.
-- Sync viewer state to the web address bar with readable deep links.
-
-### Fixed
-
-- Reset first-frame renderer diagnostics after switching fractal modules.
 
 ## [1.1.105] - 2026-09-05
 
@@ -597,17 +606,3 @@ instead of reconstructed one by one.
 - Adaptive quality rendering for various device capabilities
 - In-app diagnostic logging with export functionality
 - Persistent history and preset management
-
-## [Unreleased]
-
-### Planned
-
-- Smooth coloring across the remaining escape-time shaders (done in the
-  perturbation shader)
-- Improved auto-pilot navigation with manual correction acceptance
-- Enhanced preset management (delete, rename, thumbnail generation)
-- User-defined color palette support
-- Bookmark/favorites system for fractal locations
-
-Perturbation for GPU deep zoom beyond float32 has shipped and is no longer
-planned work; see the Extended GPU Preview entry in CONTEXT.md.

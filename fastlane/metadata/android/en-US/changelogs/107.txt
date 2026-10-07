@@ -1,0 +1,1 @@
+- Improved fractal default views and rendering, including Julia, Nova, Newton z³, and Koch Snowflake.
