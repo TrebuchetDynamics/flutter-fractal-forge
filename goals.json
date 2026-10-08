@@ -63,12 +63,12 @@
       "evidence": [
         {
           "kind": "executed",
-          "ref": "CATALOG_THUMB_ONLY=core.lorenz_2d CATALOG_THUMB_USE_MODULE_DEFAULTS=true CATALOG_THUMB_OUTPUT_DIR=build/test_output/vis006-lorenz-defaults STRICT_CATALOG_THUMBS=true flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded (selected/generated/failed=1/1/0; image 256x256, 641 colors, nonBlack=1.0)",
+          "ref": "CATALOG_THUMB_ONLY=core.four_wing CATALOG_THUMB_USE_MODULE_DEFAULTS=true CATALOG_THUMB_OUTPUT_DIR=build/test_output/vis006-four-wing-defaults STRICT_CATALOG_THUMBS=true flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded (selected/generated/failed/skipped=1/1/0/0; 256x256, 785 colors, blackPixelRatio=0.0, nonBlack=1.0, verdict pass; shader receives bailout=8; oracle skipped)",
           "result": "pass"
         },
         {
           "kind": "executed",
-          "ref": "flutter test integration_test/catalog/vis006_lorenz_runtime_preview_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --dart-define=FORCE_RUNTIME_CATALOG_THUMBNAILS=true --reporter expanded (runtime catalog preview 384x346; 3008 colors; nonBlack=1.0)",
+          "ref": "CATALOG_THUMB_ONLY=core.lorenz_2d CATALOG_THUMB_USE_MODULE_DEFAULTS=true CATALOG_THUMB_OUTPUT_DIR=build/test_output/vis006-lorenz-defaults STRICT_CATALOG_THUMBS=true flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded (selected/generated/failed=1/1/0; image 256x256, 641 colors, nonBlack=1.0)",
           "result": "pass"
         },
         {
@@ -78,17 +78,77 @@
         },
         {
           "kind": "executed",
+          "ref": "FRESH 2026-10-06: CATALOG_THUMB_ONLY=core.four_wing CATALOG_THUMB_USE_MODULE_DEFAULTS=true CATALOG_THUMB_OUTPUT_DIR=build/test_output/vis006-four-wing-defaults STRICT_CATALOG_THUMBS=true flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded (selected/generated/failed/skipped=1/1/0/0; 256x256, 785 colors, verdict pass)",
+          "result": "pass"
+        },
+        {
+          "kind": "executed",
+          "ref": "FRESH 2026-10-06: dart format --output=none --set-exit-if-changed integration_test/catalog/vis006_four_wing_runtime_preview_test.dart (0 changed) && flutter analyze integration_test/catalog/vis006_four_wing_runtime_preview_test.dart (no issues) && python research/fractals-library/scripts/validate_visual_inventory.py (1027 Explore, 200 manifest; pass) && git diff --check (pass)",
+          "result": "pass"
+        },
+        {
+          "kind": "executed",
+          "ref": "FRESH 2026-10-06: flutter test integration_test/catalog/vis006_four_wing_runtime_preview_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --dart-define=FORCE_RUNTIME_CATALOG_THUMBNAILS=true --reporter expanded (384x346; 481 colors; verdict pass)",
+          "result": "pass"
+        },
+        {
+          "kind": "executed",
+          "ref": "VIS-006 scope closure check: requested all mapped Explore definitions and first-view behavior are not covered by this Four Wing-only batch",
+          "result": "fail"
+        },
+        {
+          "kind": "executed",
+          "ref": "dart format integration_test/catalog/vis006_four_wing_runtime_preview_test.dart (Formatted 1 file; 0 changed)",
+          "result": "pass"
+        },
+        {
+          "kind": "executed",
+          "ref": "flutter analyze integration_test/catalog/vis006_four_wing_runtime_preview_test.dart (No issues found)",
+          "result": "pass"
+        },
+        {
+          "kind": "executed",
+          "ref": "flutter test integration_test/catalog/vis006_four_wing_runtime_preview_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --dart-define=FORCE_RUNTIME_CATALOG_THUMBNAILS=true --reporter expanded (core.four_wing runtime preview 384x346; 481 colors, blackPixelRatio=0.0, nonBlack=1.0, verdict pass)",
+          "result": "pass"
+        },
+        {
+          "kind": "executed",
+          "ref": "flutter test integration_test/catalog/vis006_lorenz_runtime_preview_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --dart-define=FORCE_RUNTIME_CATALOG_THUMBNAILS=true --reporter expanded (runtime catalog preview 384x346; 3008 colors; nonBlack=1.0)",
+          "result": "pass"
+        },
+        {
+          "kind": "executed",
           "ref": "flutter test integration_test/catalog/vis006_rossler_runtime_preview_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --dart-define=FORCE_RUNTIME_CATALOG_THUMBNAILS=true --reporter expanded (runtime catalog preview 384x346; 421 colors; blackPixelRatio=0.0; nonBlack=1.0; verdict pass)",
           "result": "pass"
         },
         {
+          "kind": "executed",
+          "ref": "git diff --check",
+          "result": "pass"
+        },
+        {
+          "kind": "executed",
+          "ref": "python -c \"import json; d=json.load(open('docs/planning/visual-audit-inventory.json')); r=d['rows']; x=[i for i in r if i.get('source')=='Explore' and i.get('group')=='core']; captured=[i for i in x if i.get('runtime_preview','').startswith('captured in VIS-006:') or i.get('runtime_preview','').startswith('captured in VIS-006 ')]; print(f'Explore core rows={len(x)}; captured entries={len(captured)}; remaining={len(x)-len(captured)}'); assert len(captured)==len(x), 'VIS-006 has remaining mapped entries'\" (exit 1: 1027 Explore core rows; 3 captured; 1024 remaining)",
+          "result": "fail"
+        },
+        {
+          "kind": "executed",
+          "ref": "python research/fractals-library/scripts/validate_visual_inventory.py (OK: 1027 Explore IDs + 200 manifest IDs; 1227 unique rows)",
+          "result": "pass"
+        },
+        {
           "kind": "inspection",
-          "ref": "Rossler defaults/runtime captures are mostly smooth gradients with a sharp triangular boundary rather than a recognizable orbit; additionally configured bailout=12 is normalized to 8 by shared parameter max=8 before shader uniform mapping; visual/default follow-up warranted, formula preserved",
+          "ref": "Inspected default and actual runtime-preview PNGs for core.four_wing: both are smooth broad color gradients with sharp sector/wedge boundaries, not a recognizable four-wing orbit; preserve formula pending follow-up",
           "result": "fail"
         },
         {
           "kind": "inspection",
           "ref": "Lorenz captures show a narrow diagonal band over a smooth gradient rather than a recognizable two-lobed silhouette; visual follow-up warranted, formula preserved",
+          "result": "fail"
+        },
+        {
+          "kind": "inspection",
+          "ref": "Rossler defaults/runtime captures are mostly smooth gradients with a sharp triangular boundary rather than a recognizable orbit; additionally configured bailout=12 is normalized to 8 by shared parameter max=8 before shader uniform mapping; visual/default follow-up warranted, formula preserved",
           "result": "fail"
         },
         {
@@ -100,7 +160,7 @@
       "id": "VIS-006",
       "priority": 3,
       "source": "TODO.md#Visual Fidelity Audit — current queue",
-      "status": "unverified",
+      "status": "partial",
       "tasks": [
         "VIS-006"
       ],
@@ -199,16 +259,6 @@
       "title": "Run or add focused smooth-coloring regression coverage"
     },
     {
-      "depends_on": [
-        "VIS-005"
-      ],
-      "goal": "VIS-006",
-      "id": "VIS-006",
-      "section": "Next",
-      "status": "in_progress",
-      "title": "Audit mapped fractals in reconciled batches"
-    },
-    {
       "depends_on": [],
       "goal": "DOC-PRD-001",
       "id": "DOC-PRD-001",
@@ -247,6 +297,16 @@
       "section": "Done",
       "status": "done",
       "title": "Reconcile the complete visual-audit inventory"
+    },
+    {
+      "depends_on": [
+        "VIS-005"
+      ],
+      "goal": "VIS-006",
+      "id": "VIS-006",
+      "section": "Done",
+      "status": "in_progress",
+      "title": "Audit mapped fractals in reconciled batches"
     }
   ],
   "version": 1
