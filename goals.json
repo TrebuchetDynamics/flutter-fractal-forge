@@ -518,6 +518,11 @@
         },
         {
           "kind": "executed",
+          "ref": "flutter test integration_test/catalog/vis006_batch19_runtime_preview_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --dart-define=FORCE_RUNTIME_CATALOG_THUMBNAILS=true --reporter expanded",
+          "result": "pass"
+        },
+        {
+          "kind": "executed",
           "ref": "flutter test integration_test/catalog/vis006_batch19_runtime_preview_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --dart-define=FORCE_RUNTIME_CATALOG_THUMBNAILS=true --reporter expanded (10/10 actual runtime GPU previews, 384x346; all image verdicts pass)",
           "result": "pass"
         },
@@ -628,6 +633,11 @@
         },
         {
           "kind": "executed",
+          "ref": "python -m json.tool docs/planning/visual-audit-inventory.json >/dev/null",
+          "result": "pass"
+        },
+        {
+          "kind": "executed",
           "ref": "python /home/xel/.hermes/shared-skills/repo-docs/scripts/goals.py fmt . && python /home/xel/.hermes/shared-skills/repo-docs/scripts/goals.py validate . && python /home/xel/.hermes/shared-skills/repo-docs/scripts/goals.py render . && python research/fractals-library/scripts/validate_visual_inventory.py && python -m json.tool docs/planning/visual-audit-inventory.json >/dev/null && git diff --check HEAD",
           "result": "pass"
         },
@@ -699,6 +709,11 @@
         {
           "kind": "executed",
           "ref": "python research/fractals-library/scripts/validate_visual_inventory.py && python -m json.tool docs/planning/visual-audit-inventory.json >/dev/null && dart format --output=none --set-exit-if-changed integration_test/catalog/vis006_batch14_runtime_preview_test.dart && flutter analyze integration_test/catalog/vis006_batch14_runtime_preview_test.dart && git diff --check",
+          "result": "pass"
+        },
+        {
+          "kind": "executed",
+          "ref": "python research/fractals-library/scripts/validate_visual_inventory.py && python -m json.tool docs/planning/visual-audit-inventory.json >/dev/null && dart format --output=none --set-exit-if-changed integration_test/catalog/vis006_batch19_runtime_preview_test.dart && flutter analyze integration_test/catalog/vis006_batch19_runtime_preview_test.dart && git diff --check",
           "result": "pass"
         },
         {
@@ -919,14 +934,6 @@
       "title": "Capture and inspect the next ten uncaptured Explore modules"
     },
     {
-      "depends_on": [],
-      "goal": "VIS-006",
-      "id": "VIS-006-BATCH-19-INVENTORY",
-      "section": "Now",
-      "status": "in_progress",
-      "title": "Reconcile VIS-006-BATCH-19 captured evidence into inventory"
-    },
-    {
       "depends_on": [
         "VIS-006"
       ],
@@ -1137,6 +1144,14 @@
       "section": "Done",
       "status": "done",
       "title": "Capture defaults and runtime previews for the next ten uncaptured Explore modules"
+    },
+    {
+      "depends_on": [],
+      "goal": "VIS-006",
+      "id": "VIS-006-BATCH-19-INVENTORY",
+      "section": "Done",
+      "status": "done",
+      "title": "Reconcile VIS-006-BATCH-19 captured evidence into inventory"
     },
     {
       "depends_on": [],

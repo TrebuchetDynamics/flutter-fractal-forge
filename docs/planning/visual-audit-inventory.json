@@ -3911,12 +3911,13 @@
       "status": "renderer_registered",
       "module_id": "buddhabrot_approx",
       "shader": "shaders/escape_time_family/families/buddhabrot/buddhabrot_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-19: build/test_output/vis006-batch19-defaults/buddhabrot_approx.png (256x256; 15807 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=40.2936; verdict pass; math oracle skipped: no reference oracle) and build/test_output/vis006-batch19/buddhabrot_approx_runtime_catalog_preview.png (384x346; 14948 RGB colors; 98683 bytes; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=26.6566; verdict pass); evidence test: integration_test/catalog/vis006_batch19_runtime_preview_test.dart; CPU implementation registered; independent correctness oracle unavailable",
+      "cpu_formula": "native CPU approximation registered in lib/features/renderer/cpu/cpu_formulas.dart; independent correctness not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/buddhabrot/buddhabrot_gpu.frag"
+        "shaders/escape_time_family/families/buddhabrot/buddhabrot_gpu.frag",
+        "lib/features/renderer/cpu/cpu_formulas.dart"
       ]
     },
     {
@@ -3927,12 +3928,13 @@
       "status": "renderer_registered",
       "module_id": "anti_buddhabrot",
       "shader": "shaders/escape_time_family/families/buddhabrot/anti_buddhabrot_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-19: build/test_output/vis006-batch19-defaults/anti_buddhabrot.png (256x256; 481 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=61.1314; verdict pass; math oracle skipped: no reference oracle) and build/test_output/vis006-batch19/anti_buddhabrot_runtime_catalog_preview.png (384x346; 783 RGB colors; 60445 bytes; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=72.9974; verdict pass); evidence test: integration_test/catalog/vis006_batch19_runtime_preview_test.dart; CPU implementation registered; independent correctness oracle unavailable",
+      "cpu_formula": "native CPU approximation registered in lib/features/renderer/cpu/cpu_formulas.dart; independent correctness not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/buddhabrot/anti_buddhabrot_gpu.frag"
+        "shaders/escape_time_family/families/buddhabrot/anti_buddhabrot_gpu.frag",
+        "lib/features/renderer/cpu/cpu_formulas.dart"
       ]
     },
     {
@@ -3943,12 +3945,13 @@
       "status": "renderer_registered",
       "module_id": "nebulabrot",
       "shader": "shaders/escape_time_family/families/buddhabrot/nebulabrot_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-19: build/test_output/vis006-batch19-defaults/nebulabrot.png (256x256; 6553 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=51.1081; verdict pass; math oracle skipped: no reference oracle) and build/test_output/vis006-batch19/nebulabrot_runtime_catalog_preview.png (384x346; 10779 RGB colors; 132663 bytes; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=56.4121; verdict pass); evidence test: integration_test/catalog/vis006_batch19_runtime_preview_test.dart; CPU implementation registered; independent correctness oracle unavailable",
+      "cpu_formula": "native CPU approximation registered in lib/features/renderer/cpu/cpu_formulas.dart; independent correctness not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/buddhabrot/nebulabrot_gpu.frag"
+        "shaders/escape_time_family/families/buddhabrot/nebulabrot_gpu.frag",
+        "lib/features/renderer/cpu/cpu_formulas.dart"
       ]
     },
     {
@@ -3959,12 +3962,13 @@
       "status": "renderer_registered",
       "module_id": "wolfram_rule30",
       "shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-19: build/test_output/vis006-batch19-defaults/wolfram_rule30.png (256x256; 8377 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=78.9868; verdict pass; math oracle skipped: no reference oracle) and build/test_output/vis006-batch19/wolfram_rule30_runtime_catalog_preview.png (384x346; 1968 RGB colors; 12954 bytes; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=72.3799; verdict pass); evidence test: integration_test/catalog/vis006_batch19_runtime_preview_test.dart; CPU implementation registered; independent correctness oracle unavailable",
+      "cpu_formula": "native CPU approximation registered in lib/features/renderer/cpu/cpu_formulas.dart; independent correctness not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag"
+        "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+        "lib/features/renderer/cpu/cpu_formulas.dart"
       ]
     },
     {
@@ -3975,12 +3979,13 @@
       "status": "renderer_registered",
       "module_id": "rule90_linear_ca",
       "shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-19: build/test_output/vis006-batch19-defaults/rule90_linear_ca.png (256x256; 1922 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=35.7735; verdict pass; math oracle skipped: no reference oracle) and build/test_output/vis006-batch19/rule90_linear_ca_runtime_catalog_preview.png (384x346; 526 RGB colors; 5784 bytes; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=51.4197; verdict pass); evidence test: integration_test/catalog/vis006_batch19_runtime_preview_test.dart; CPU implementation registered; independent correctness oracle unavailable",
+      "cpu_formula": "native CPU approximation registered in lib/features/renderer/cpu/cpu_formulas.dart; independent correctness not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag"
+        "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+        "lib/features/renderer/cpu/cpu_formulas.dart"
       ]
     },
     {
@@ -3991,12 +3996,13 @@
       "status": "renderer_registered",
       "module_id": "rule150_linear_ca",
       "shader": "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-19: build/test_output/vis006-batch19-defaults/rule150_linear_ca.png (256x256; 2272 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=41.0597; verdict pass; math oracle skipped: no reference oracle) and build/test_output/vis006-batch19/rule150_linear_ca_runtime_catalog_preview.png (384x346; 889 RGB colors; 7890 bytes; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=56.5967; verdict pass); evidence test: integration_test/catalog/vis006_batch19_runtime_preview_test.dart; CPU implementation registered; independent correctness oracle unavailable",
+      "cpu_formula": "native CPU approximation registered in lib/features/renderer/cpu/cpu_formulas.dart; independent correctness not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag"
+        "shaders/cellular_and_stochastic/wolfram_rule30_gpu.frag",
+        "lib/features/renderer/cpu/cpu_formulas.dart"
       ]
     },
     {
@@ -4007,12 +4013,13 @@
       "status": "renderer_registered",
       "module_id": "cyclic_cellular_automaton",
       "shader": "shaders/cellular_and_stochastic/cyclic_cellular_automaton_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-19: build/test_output/vis006-batch19-defaults/cyclic_cellular_automaton.png (256x256; 1987 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=45.7868; verdict pass; math oracle skipped: no reference oracle) and build/test_output/vis006-batch19/cyclic_cellular_automaton_runtime_catalog_preview.png (384x346; 1247 RGB colors; 90331 bytes; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=24.6897; verdict pass); evidence test: integration_test/catalog/vis006_batch19_runtime_preview_test.dart; CPU implementation registered; independent correctness oracle unavailable",
+      "cpu_formula": "native CPU approximation registered in lib/features/renderer/cpu/cpu_formulas.dart; independent correctness not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/cellular_and_stochastic/cyclic_cellular_automaton_gpu.frag"
+        "shaders/cellular_and_stochastic/cyclic_cellular_automaton_gpu.frag",
+        "lib/features/renderer/cpu/cpu_formulas.dart"
       ]
     },
     {
@@ -4023,12 +4030,13 @@
       "status": "renderer_registered",
       "module_id": "greenberg_hastings_ca",
       "shader": "shaders/cellular_and_stochastic/greenberg_hastings_ca_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-19: build/test_output/vis006-batch19-defaults/greenberg_hastings_ca.png (256x256; 326 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=19.7873; verdict pass; math oracle skipped: no reference oracle) and build/test_output/vis006-batch19/greenberg_hastings_ca_runtime_catalog_preview.png (384x346; 324 RGB colors; 22453 bytes; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=74.4038; verdict pass); evidence test: integration_test/catalog/vis006_batch19_runtime_preview_test.dart; CPU implementation registered; independent correctness oracle unavailable",
+      "cpu_formula": "native CPU approximation registered in lib/features/renderer/cpu/cpu_formulas.dart; independent correctness not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/cellular_and_stochastic/greenberg_hastings_ca_gpu.frag"
+        "shaders/cellular_and_stochastic/greenberg_hastings_ca_gpu.frag",
+        "lib/features/renderer/cpu/cpu_formulas.dart"
       ]
     },
     {
@@ -4039,12 +4047,13 @@
       "status": "renderer_registered",
       "module_id": "klausmeier_vegetation",
       "shader": "shaders/cellular_and_stochastic/klausmeier_vegetation_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-19: build/test_output/vis006-batch19-defaults/klausmeier_vegetation.png (256x256; 819 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=6.6272; verdict pass; math oracle skipped: no reference oracle) and build/test_output/vis006-batch19/klausmeier_vegetation_runtime_catalog_preview.png (384x346; 1543 RGB colors; 82926 bytes; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=6.5816; verdict pass); evidence test: integration_test/catalog/vis006_batch19_runtime_preview_test.dart; CPU implementation registered; independent correctness oracle unavailable",
+      "cpu_formula": "native CPU approximation registered in lib/features/renderer/cpu/cpu_formulas.dart; independent correctness not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/cellular_and_stochastic/klausmeier_vegetation_gpu.frag"
+        "shaders/cellular_and_stochastic/klausmeier_vegetation_gpu.frag",
+        "lib/features/renderer/cpu/cpu_formulas.dart"
       ]
     },
     {
@@ -4055,12 +4064,13 @@
       "status": "renderer_registered",
       "module_id": "gerhardt_schuster_tyson_ca",
       "shader": "shaders/cellular_and_stochastic/gerhardt_schuster_tyson_ca_gpu.frag",
-      "runtime_preview": "runtime-renderable (not captured in VIS-005)",
-      "cpu_formula": "not audited",
+      "runtime_preview": "captured in VIS-006-BATCH-19: build/test_output/vis006-batch19-defaults/gerhardt_schuster_tyson_ca.png (256x256; 4648 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=68.7239; verdict pass; math oracle skipped: no reference oracle) and build/test_output/vis006-batch19/gerhardt_schuster_tyson_ca_runtime_catalog_preview.png (384x346; 7348 RGB colors; 66044 bytes; blackPixelRatio=0.0; nonBlack=1.0; luminanceStdDev=68.4713; verdict pass); evidence test: integration_test/catalog/vis006_batch19_runtime_preview_test.dart; CPU implementation registered; independent correctness oracle unavailable",
+      "cpu_formula": "native CPU approximation registered in lib/features/renderer/cpu/cpu_formulas.dart; independent correctness not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/cellular_and_stochastic/gerhardt_schuster_tyson_ca_gpu.frag"
+        "shaders/cellular_and_stochastic/gerhardt_schuster_tyson_ca_gpu.frag",
+        "lib/features/renderer/cpu/cpu_formulas.dart"
       ]
     },
     {
