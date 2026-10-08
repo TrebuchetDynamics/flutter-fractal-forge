@@ -169,7 +169,7 @@ class FractalPreset {
 
 - `feature/description` — New features
 - `fix/description` — Bug fixes
-- `docs/description` — Documentation updates
+- `docs-*` — Documentation updates (for example, `docs-engineering` or `docs-planning`)
 - `refactor/description` — Code refactoring
 
 ### Commit Messages

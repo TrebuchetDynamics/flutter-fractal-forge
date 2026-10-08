@@ -245,3 +245,12 @@ Each new fractal must pass:
 - See `docs/planning/PRD.md` (maintained) and `TODO.md` for current gaps; the status block below is a 2026-02-07 historical snapshot
 - Evaluate platform-native Android MP4 encoding only if GIF export proves insufficient
 - MediaStore integration for Android 10+ gallery visibility
+
+### Open question: active product scope
+
+`PRD.md` lists short-video export and iOS as MVP scope/non-goals, while the
+current backlog defers video recording and the application now has additional
+platform targets. Which document owns current product scope? **Default:** treat
+conflicting, unimplemented root-PRD items as historical until revalidated; do
+not add product scope. See `BLK-20261005-004` in `BLOCKERS.md` and task
+`DOC-PRD-001` in `TODO.md`.

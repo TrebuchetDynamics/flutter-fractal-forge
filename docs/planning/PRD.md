@@ -4,7 +4,9 @@
 
 ---
 
-## 1. Current State Audit
+## 1. Current State Audit (historical snapshot)
+
+This audit records evidence collected in February 2026; its counts and pass claims are not current verification. Current architecture and verification guidance is in [`../engineering/spec.md`](../engineering/spec.md) and [`../engineering/test-plan.md`](../engineering/test-plan.md). The current backlog is [`../../TODO.md`](../../TODO.md).
 
 ### 1.1 Validation Runs
 
@@ -102,7 +104,7 @@ Size: 55.7 MB
 | Export to MediaStore (gallery) | ⚠️ Untested | Needs real-device test — MediaStore write not in emulator suite | P0 |
 | Wallpaper set | ⚠️ Partial | WallpaperManager code exists; no integration test | P1 |
 | Onboarding | ✅ Shipped | 3-step walkthrough; skippable; version-gated | P0 |
-| Minimap | ❌ Not present | No active `lib/features/minimap` module found in the current tree | P2 |
+| Minimap | ❌ Not present | No minimap feature is present in the current tree; restoration is not an accepted active scope | P2 |
 | Settings (renderer backend) | ✅ Shipped | Auto/CPU/GPU modes; persisted in SharedPreferences | P1 |
 | Settings (accessibility) | ✅ Shipped | High contrast + reduced motion | P1 |
 | Localization EN | ✅ Shipped | Complete | P0 |
@@ -185,8 +187,8 @@ scripts/headless-emulator-test.sh flutter test integration_test/screenshots/full
 ---
 
 ### P2-004: Minimap gap — feature not present in current tree
-**File:** `lib/features/minimap/minimap_widget.dart` is not present.  
-**Impact:** Do not spend test/polish work here unless the minimap feature is restored.
+**Current state:** No minimap feature is present in the current tree.
+**Impact:** Do not spend test/polish work here unless the feature is restored.
 
 ---
 
@@ -196,7 +198,7 @@ scripts/headless-emulator-test.sh flutter test integration_test/screenshots/full
 *Source: fractal_render_audit_test.dart (CPU renderer), 196/196 modules passed the 2026-02 variance check. Current live catalog count is 977 production fractals (984 debug/test registry modules including 7 diagnostics).*
 
 ### 5.1 Mandelbrot Coloring
-- **Backend:** GPU (`shaders/mandel_step_smooth.frag`)
+- **Backend:** GPU (historical path: `shaders/legacy/escape_time/mandel_step_smooth.frag`)
 - **First frame:** 89 ms (cold, includes shader compile 58 ms)
 - **Cache hit frame:** 1 ms
 - **Center pixel on emulator:** RGB(244, 0, 211) — purple/magenta — smooth escape-time coloring is active
@@ -205,7 +207,7 @@ scripts/headless-emulator-test.sh flutter test integration_test/screenshots/full
 - **Observation:** Smooth coloring eliminates iteration banding completely. Color is palette-driven via `sampler2D uPalette`. On emulator the purple/magenta hue is specific to the default palette at the initial zoom; this is expected and correct.
 
 ### 5.2 Julia Shapes
-- **Backend:** GPU (`shaders/nova_julia_gpu.frag` and others)
+- **Backend:** GPU (historical path: `shaders/escape_time_family/families/nova/julia_sets/nova_julia_gpu.frag` and others)
 - **First frame:** nova_julia 40 ms (shader compile 16 ms)
 - **Shape observation:** Julia and nova_julia modules visible in catalog at 320×320 thumbnail; render audit shows edge=0.93 for nova_julia — correct feature-rich output (edge density close to 1.0 means rich structure near the viewport edge)
 - **Direct viewer test:** Search→open Burning Ship Julia — `first_frame_ms=0` (cache hit), viewer loads correctly, `find.byType(FractalRenderer)` finds widget
@@ -231,12 +233,12 @@ scripts/headless-emulator-test.sh flutter test integration_test/screenshots/full
 ### 5.5 Shader Compile Times (emulator baseline)
 | Shader | Cold compile (ms) | Cache hit (ms) |
 |---|---|---|
-| mandel_step_smooth.frag | 58 | 0 |
+| `shaders/legacy/escape_time/mandel_step_smooth.frag` | 58 | 0 |
 | burning_ship_gpu.frag | 32 | 0 |
 | tricorn_gpu.frag | 32 | 0 |
 | celtic_gpu.frag | 18 | 0 |
 | buffalo_gpu.frag | 17 | 0 |
-| nova_julia_gpu.frag | 16 | 0 |
+| `shaders/escape_time_family/families/nova/julia_sets/nova_julia_gpu.frag` | 16 | 0 |
 | multibrot3_gpu.frag | 216 | 0 |
 | fatou_gpu.frag | 98 | 0 |
 

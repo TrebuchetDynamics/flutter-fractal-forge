@@ -1,0 +1,7 @@
+CONTRIBUTING.md: path android/key.properties
+CONTRIBUTING.md: path docs/description
+docs/planning/PRD.md: path lib/features/minimap
+docs/planning/PRD.md: path lib/features/minimap/minimap_widget.dart
+docs/planning/PRD.md: path shaders/mandel_step_smooth.frag
+docs/planning/PRD.md: path shaders/nova_julia_gpu.frag
+docs/store_listing/README.md: path play-console-upload/play-service-account.json

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Preserve an explicitly requested Playwright catalog smoke module when a
+  previous viewer session is stored in the browser. The smoke route now owns
+  the initial viewer state instead of restoring the prior module first.
+
 ### Planned
 
 - Smooth coloring across the remaining escape-time shaders (done in the
