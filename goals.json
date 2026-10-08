@@ -1,0 +1,253 @@
+{
+  "goals": [
+    {
+      "depends_on": [],
+      "evidence": [
+        {
+          "kind": "executed",
+          "ref": "flutter test integration_test/flows/user_flows_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded",
+          "result": "pass"
+        },
+        {
+          "kind": "inspection",
+          "ref": "TODO.md#VIS-004: prior real-GPU and viewer-start checks cover four modules",
+          "result": "pass"
+        }
+      ],
+      "id": "VIS-004",
+      "priority": 1,
+      "source": "TODO.md#Visual Fidelity Audit — current queue",
+      "status": "met",
+      "tasks": [
+        "VIS-004"
+      ],
+      "title": "Verify the Featured Launch Set default and viewer-start flow"
+    },
+    {
+      "depends_on": [],
+      "evidence": [
+        {
+          "kind": "executed",
+          "ref": "flutter test test/catalog/catalog_id_integrity_test.dart --reporter expanded (15 tests passed; includes live Explore inventory reconciliation)",
+          "result": "pass"
+        },
+        {
+          "kind": "executed",
+          "ref": "python research/fractals-library/scripts/validate_manifest.py",
+          "result": "pass"
+        },
+        {
+          "kind": "executed",
+          "ref": "python research/fractals-library/scripts/validate_visual_inventory.py",
+          "result": "pass"
+        },
+        {
+          "kind": "inspection",
+          "ref": "TODO.md#VIS-005: prior broad audit timed out and research definitions are not mapped",
+          "result": "fail"
+        }
+      ],
+      "id": "VIS-005",
+      "priority": 2,
+      "source": "TODO.md#Visual Fidelity Audit — current queue",
+      "status": "met",
+      "tasks": [
+        "VIS-005"
+      ],
+      "title": "Reconcile the visual audit across Explore and the research library"
+    },
+    {
+      "depends_on": [
+        "VIS-005"
+      ],
+      "evidence": [
+        {
+          "kind": "executed",
+          "ref": "CATALOG_THUMB_ONLY=core.lorenz_2d CATALOG_THUMB_USE_MODULE_DEFAULTS=true CATALOG_THUMB_OUTPUT_DIR=build/test_output/vis006-lorenz-defaults STRICT_CATALOG_THUMBS=true flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded (selected/generated/failed=1/1/0; image 256x256, 641 colors, nonBlack=1.0)",
+          "result": "pass"
+        },
+        {
+          "kind": "executed",
+          "ref": "flutter test integration_test/catalog/vis006_lorenz_runtime_preview_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --dart-define=FORCE_RUNTIME_CATALOG_THUMBNAILS=true --reporter expanded (runtime catalog preview 384x346; 3008 colors; nonBlack=1.0)",
+          "result": "pass"
+        },
+        {
+          "kind": "executed",
+          "ref": "CATALOG_THUMB_ONLY=core.rossler_2d CATALOG_THUMB_USE_MODULE_DEFAULTS=true CATALOG_THUMB_OUTPUT_DIR=build/test_output/vis006-rossler-defaults STRICT_CATALOG_THUMBS=true flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded (selected/generated/failed/skipped=1/1/0/0; image 256x256, 1245 colors, blackPixelRatio=0.0, nonBlack=1.0, verdict pass; math oracle skipped: no reference oracle)",
+          "result": "pass"
+        },
+        {
+          "kind": "executed",
+          "ref": "flutter test integration_test/catalog/vis006_rossler_runtime_preview_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --dart-define=FORCE_RUNTIME_CATALOG_THUMBNAILS=true --reporter expanded (runtime catalog preview 384x346; 421 colors; blackPixelRatio=0.0; nonBlack=1.0; verdict pass)",
+          "result": "pass"
+        },
+        {
+          "kind": "inspection",
+          "ref": "Rossler defaults/runtime captures are mostly smooth gradients with a sharp triangular boundary rather than a recognizable orbit; additionally configured bailout=12 is normalized to 8 by shared parameter max=8 before shader uniform mapping; visual/default follow-up warranted, formula preserved",
+          "result": "fail"
+        },
+        {
+          "kind": "inspection",
+          "ref": "Lorenz captures show a narrow diagonal band over a smooth gradient rather than a recognizable two-lobed silhouette; visual follow-up warranted, formula preserved",
+          "result": "fail"
+        },
+        {
+          "kind": "inspection",
+          "ref": "TODO.md#VIS-006: broad batch audit remains to be completed; Lorenz batch only captured",
+          "result": "fail"
+        }
+      ],
+      "id": "VIS-006",
+      "priority": 3,
+      "source": "TODO.md#Visual Fidelity Audit — current queue",
+      "status": "unverified",
+      "tasks": [
+        "VIS-006"
+      ],
+      "title": "Audit mapped fractals in reconciled batches"
+    },
+    {
+      "depends_on": [],
+      "evidence": [
+        {
+          "kind": "executed",
+          "ref": "flutter test test/shaders/smooth_coloring_family_coverage_test.dart test/shaders/smooth_coloring_regression_test.dart test/shaders/escape_time_perturb_smooth_coloring_test.dart test/shaders/mcmullen_map_smooth_coloring_test.dart",
+          "result": "pass"
+        },
+        {
+          "kind": "inspection",
+          "ref": "TODO.md#P1-3: four families (7 shaders) covered; complete applicable polynomial escape-time inventory remains open",
+          "result": "fail"
+        },
+        {
+          "kind": "inspection",
+          "ref": "docs/engineering/performance/SHADER_OPTIMIZATIONS.md",
+          "result": "pass"
+        }
+      ],
+      "id": "SMOOTH-001",
+      "priority": 4,
+      "source": "TODO.md#P1-3: Smooth Coloring in ALL Shaders",
+      "status": "partial",
+      "tasks": [
+        "SMOOTH-001"
+      ],
+      "title": "Prove smooth-coloring coverage for supported escape-time shaders"
+    },
+    {
+      "depends_on": [],
+      "evidence": [
+        {
+          "kind": "inspection",
+          "ref": "TODO.md#MEDIA-002: owner selection remains open",
+          "result": "fail"
+        }
+      ],
+      "id": "MEDIA-002",
+      "priority": 8,
+      "source": "TODO.md#Launch Visual Audit Handoff",
+      "status": "unmet",
+      "tasks": [
+        "MEDIA-002"
+      ],
+      "title": "Select launch hero stills from qualified captures"
+    },
+    {
+      "depends_on": [],
+      "evidence": [
+        {
+          "kind": "inspection",
+          "ref": "TODO.md#VIS-003: owner sign-off remains open",
+          "result": "fail"
+        }
+      ],
+      "id": "VIS-003",
+      "priority": 9,
+      "source": "TODO.md#Launch Visual Audit Handoff",
+      "status": "unmet",
+      "tasks": [
+        "VIS-003"
+      ],
+      "title": "Obtain app icon visual sign-off"
+    },
+    {
+      "depends_on": [],
+      "evidence": [
+        {
+          "kind": "inspection",
+          "ref": "BLOCKERS.md#BLK-20261005-004: conflicting scope statements require owner decision",
+          "result": "fail"
+        }
+      ],
+      "id": "DOC-PRD-001",
+      "priority": 10,
+      "source": "PRD.md#Open question: active product scope",
+      "status": "unverified",
+      "tasks": [
+        "DOC-PRD-001"
+      ],
+      "title": "Resolve which documents own active product scope"
+    }
+  ],
+  "tasks": [
+    {
+      "depends_on": [],
+      "goal": "SMOOTH-001",
+      "id": "SMOOTH-001",
+      "section": "Next",
+      "status": "open",
+      "title": "Run or add focused smooth-coloring regression coverage"
+    },
+    {
+      "depends_on": [
+        "VIS-005"
+      ],
+      "goal": "VIS-006",
+      "id": "VIS-006",
+      "section": "Next",
+      "status": "in_progress",
+      "title": "Audit mapped fractals in reconciled batches"
+    },
+    {
+      "depends_on": [],
+      "goal": "DOC-PRD-001",
+      "id": "DOC-PRD-001",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Reconcile current product-scope ownership"
+    },
+    {
+      "depends_on": [],
+      "goal": "MEDIA-002",
+      "id": "MEDIA-002",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Select launch hero stills"
+    },
+    {
+      "depends_on": [],
+      "goal": "VIS-003",
+      "id": "VIS-003",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Review app icon presentation and record sign-off"
+    },
+    {
+      "depends_on": [],
+      "goal": "VIS-004",
+      "id": "VIS-004",
+      "section": "Done",
+      "status": "done",
+      "title": "Verify remaining Featured Launch Set viewer starts"
+    },
+    {
+      "depends_on": [],
+      "goal": "VIS-005",
+      "id": "VIS-005",
+      "section": "Done",
+      "status": "done",
+      "title": "Reconcile the complete visual-audit inventory"
+    }
+  ],
+  "version": 1
+}

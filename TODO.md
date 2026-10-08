@@ -4,6 +4,24 @@
 >
 > **Source anchors for this refresh:** `test/catalog/catalog_id_integrity_test.dart` (545 escape-time entries, 1019 production fractals, 1 scientific visualization, and 1027 debug/test registry modules including 7 diagnostics), `lib/features/viewer/fractal_viewer_screen.dart` (controls HUD), `lib/core/services/rendering/palette_service.dart` + `palette_shader_adapter.dart` (palette textures).
 
+## Goal coverage — visual-fidelity scope
+
+<!-- goals:coverage:begin -->
+
+Generated from `goals.json` by `goals.py render`. `met` requires an executed, passing check.
+
+| Goal | Status | Evidence | Task |
+| --- | --- | --- | --- |
+| VIS-004: Verify the Featured Launch Set default and viewer-start flow | met | executed `flutter test integration_test/flows/user_flows_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded` → pass; inspection `TODO.md#VIS-004: prior real-GPU and viewer-start checks cover four modules` → pass | — |
+| VIS-005: Reconcile the visual audit across Explore and the research library | met | executed `flutter test test/catalog/catalog_id_integrity_test.dart --reporter expanded (15 tests passed; includes live Explore inventory reconciliation)` → pass; executed `python research/fractals-library/scripts/validate_manifest.py` → pass; executed `python research/fractals-library/scripts/validate_visual_inventory.py` → pass; inspection `TODO.md#VIS-005: prior broad audit timed out and research definitions are not mapped` → fail | — |
+| VIS-006: Audit mapped fractals in reconciled batches | unverified | executed `CATALOG_THUMB_ONLY=core.lorenz_2d CATALOG_THUMB_USE_MODULE_DEFAULTS=true CATALOG_THUMB_OUTPUT_DIR=build/test_output/vis006-lorenz-defaults STRICT_CATALOG_THUMBS=true flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded (selected/generated/failed=1/1/0; image 256x256, 641 colors, nonBlack=1.0)` → pass; executed `flutter test integration_test/catalog/vis006_lorenz_runtime_preview_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --dart-define=FORCE_RUNTIME_CATALOG_THUMBNAILS=true --reporter expanded (runtime catalog preview 384x346; 3008 colors; nonBlack=1.0)` → pass; executed Rossler default/runtime captures (selected/generated/failed/skipped=1/1/0/0; default 256x256/1245 colors, runtime 384x346/421 colors; both nonBlack=1.0) → pass; inspection `Lorenz and Rossler captures appear as smooth gradients/triangular color boundaries rather than recognizable attractor orbits; Rossler configured bailout=12 is clamped to 8 by generic parameter max=8; visual/default follow-up warranted, formulas preserved` → fail; inspection `TODO.md#VIS-006: broad batch audit remains to be completed; Lorenz and Rossler batches only captured` → fail | VIS-006 |
+| SMOOTH-001: Prove smooth-coloring coverage for supported escape-time shaders | partial | executed `flutter test test/shaders/smooth_coloring_family_coverage_test.dart test/shaders/smooth_coloring_regression_test.dart test/shaders/escape_time_perturb_smooth_coloring_test.dart test/shaders/mcmullen_map_smooth_coloring_test.dart` → pass; inspection `TODO.md#P1-3: four families (7 shaders) covered; complete applicable polynomial escape-time inventory remains open` → fail; inspection `docs/engineering/performance/SHADER_OPTIMIZATIONS.md` → pass | SMOOTH-001 |
+| MEDIA-002: Select launch hero stills from qualified captures | unmet | inspection `TODO.md#MEDIA-002: owner selection remains open` → fail | MEDIA-002 |
+| VIS-003: Obtain app icon visual sign-off | unmet | inspection `TODO.md#VIS-003: owner sign-off remains open` → fail | VIS-003 |
+| DOC-PRD-001: Resolve which documents own active product scope | unverified | inspection `BLOCKERS.md#BLK-20261005-004: conflicting scope statements require owner decision` → fail | DOC-PRD-001 |
+
+<!-- goals:coverage:end -->
+
 ---
 
 ## Architecture Direction (decided 2026-02-15, reaffirmed 2026-04-05)
@@ -112,7 +130,36 @@ Older 370-count planning rows are retired.
   - Raised bounded capture/decode width to 384 px with high-quality filtering
   - Increased thumbnail detail caps to 24 web / 40 native iterations and 24 colors
   - Added layout-aware cache keys so portrait grids never reuse square captures
-- [ ] **Visual playtest audit** — test the full fractal catalog on GPU + CPU and log failures. The filtered Featured Launch Set checks below do not complete this wider audit.
+- [ ] **Visual playtest audit** — cover both Explore groups and all 200 research-library definitions. Check true module defaults, runtime previews, and first viewer renders. Run CPU checks where a native CPU formula exists. Preserve formulas and log failures. Four-module evidence is partial. See `VIS-004` and `VIS-005` below.
+
+### Visual Fidelity Audit — current queue
+
+#### Now
+
+- [x] **VIS-004 — Verify the Featured Launch Set viewer starts.** The real-GPU integration run verified configured default-view starts for `mandelbrot`, `burning_ship`, `phoenix`, `barnsley_fern`, `lorenz_2d`, `julia`, and `koch_snowflake`; the test also covers catalog search, viewer navigation, controls, and presets. Evidence: `flutter test integration_test/flows/user_flows_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded` (12 tests passed, GPU backend observed). `nova` and `newton_z3` still require separate launch-flow coverage under the broader visual audit.
+
+- [x] **VIS-005 — Reconcile the complete visual-audit inventory.** Goal: visual playtest audit across both Explore groups and the research library. The inventory validator and catalog integrity test passed; see `goals.json` for executed evidence.
+  - Goal: VIS-005.
+  - Scope: map every Explore ID and all 200 definitions in `research/fractals-library/data/fractal_manifest.json` to an app module, shader, preview path, and CPU formula where one exists. Mark definitions with no app renderer as missing rather than treating them as rendered. Do not change formulas or implement missing modules during inventory.
+  - Sources: `research/fractals-library/AGENTS.md`, `research/fractals-library/data/fractal_manifest.json`, `test/catalog/catalog_id_integrity_test.dart`, and [`docs/planning/visual-fidelity-audit-next.md`](docs/planning/visual-fidelity-audit-next.md).
+  - Acceptance: counts reconcile to both Explore groups and all 200 manifest IDs. Each ID has one explicit status and an artifact or mapping reference. Use `research/fractals-library/scripts/validate_manifest.py` as the manifest source check.
+  - Dependencies: none. Ownership: repository backlog; check the active task ledger before dispatch.
+
+**Remaining:** `VIS-006` — audit the mapped modules and definitions in bounded batches. Compare module defaults, runtime previews, and first viewer renders. Run CPU checks where a native CPU formula exists. Reconcile selected, generated, and failed counts for each batch. Lorenz and Rossler default/runtime previews are captured; neither produces a recognizable attractor silhouette on inspection. Rossler's configured bailout (12) is reduced to 8 by the shared parameter schema max, and its math oracle is unavailable (no reference oracle for this family). The timed-out 1,020-entry run is not completion evidence. Record the final verdict only after the requested scope is reconciled.
+
+#### Next
+
+- [ ] **VIS-006 — Audit mapped fractals in reconciled batches.** Goal: complete the visual playtest audit after the inventory is mapped.
+  - Scope: audit mapped Explore and research-library entries in bounded batches. Compare configured defaults, runtime previews, and first viewer renders; run CPU checks only where a native CPU formula exists. Preserve formulas and record failures/artifact paths.
+  - Sources: [`docs/planning/visual-fidelity-audit-next.md`](docs/planning/visual-fidelity-audit-next.md), `research/fractals-library/data/fractal_manifest.json`, and VIS-005 inventory output.
+  - Acceptance: each batch reconciles selected, generated, and failed counts and links every result to an ID and artifact or explicit unsupported status. No full-audit verdict until all requested entries are accounted for.
+  - Dependencies: VIS-005. Ownership: repository backlog; check active work before starting.
+
+- [ ] **SMOOTH-001 — Prove smooth-coloring coverage for supported escape-time shaders.** Goal: smooth escape-time coloring without visible banding.
+  - Scope: inspect `docs/engineering/performance/SHADER_OPTIMIZATIONS.md` and run/add focused regression coverage for the shader families named there. Do not change shader formulas or claim every shader is covered without inventory evidence.
+  - Acceptance: an executed focused test covers each currently declared applicable family and reports no banding regression; update the documented coverage from that evidence.
+  - Sources: `PRD.md` quality criteria, `TODO.md` P1-3, and `docs/engineering/performance/SHADER_OPTIMIZATIONS.md`. Dependencies: none.
+
 - [x] GPU deep zoom not switching to CPU at all; adjust fallback thresholds/hysteresis
 - [x] **Panning bugs at high zoom** — Fixed 2026-08-12 by migrating
   camera/render vectors from Float32-backed `vector_math` to
@@ -127,18 +174,27 @@ Canonical plan: [`docs/planning/visual-fidelity-audit-next.md`](docs/planning/vi
 
 ### Now
 
-None: all remaining launch-visual checks have an unmet environment prerequisite or require human visual selection/sign-off.
+None: the current Featured Launch Set Chromium smoke and 320×320 GPU capture gates are complete. Remaining launch-media selection and icon visual sign-off require product-owner judgment.
 
 ### Blocked / Needs decision
 
-- [ ] **WEB-001 — Run the Featured Launch Set Chromium smoke.** Scope: local Flutter web build and Chromium smoke for `mandelbrot`, `julia`, `burning_ship`, `phoenix`, `nova`, `newton_z3`, `koch_snowflake`, `barnsley_fern`, and `lorenz_2d`; no deployment or asset changes. Acceptance: run `PLAYWRIGHT_PROJECT=chromium CATALOG_SMOKE_FILTER='^(mandelbrot|julia|burning_ship|phoenix|nova|newton_z3|koch_snowflake|barnsley_fern|lorenz_2d)$' npm run test:web:catalog`; verify all nine per-module results in `test/results/catalog-smoke-chromium.json` and the overall result in `test/results/playwright-results.json`. Dependencies: Flutter, Node, npm, and `node_modules` are present; the Playwright-managed Chromium binary is absent, and the project config does not select system Chromium. Blocker: provision the browser before execution; no install was performed. Ownership: no active claim found in the root task ledger; coordinate before starting if another smoke is underway. References: `package.json`, `scripts/playwright-catalog-smoke.sh`, `playwright.config.mjs`, and [`docs/planning/LAUNCH_MEDIA.md`](docs/planning/LAUNCH_MEDIA.md).
-- [ ] **MEDIA-001 — Verify 320×320 launch-thumbnail captures.** Scope: run `LAUNCH_MEDIA_SIZE=320 ./scripts/capture-launch-media.sh` for the Featured Launch Set on a real GPU, writing only to `build/test_output/launch_media/`; do not set `UPDATE_CATALOG_THUMBS` or add files to the app bundle. Acceptance: report all nine captures at 320×320, no failed renders or `qualityWarnings`, and inspect each `launchVisualMetrics`/failure entry. Dependency/blocker: real-GPU display availability is not verified; the script explicitly warns that headless runs use software GL. Ownership: no active claim recorded.
+
 - [ ] **MEDIA-002 — Select launch hero stills.** Scope: choose 6–8 from the captured Featured Launch Set plus separate 3D/tiling candidates (`mandelbulb` and `spectre_monotile` or `hat_monotile`); no source asset publication. Acceptance: record the selected module IDs and artifact paths, covering 2D escape-time, Newton, IFS, attractor, tiling, and one 3D example as required by the runbook. Dependency: candidate output from MEDIA-001 and supplemental high-resolution captures must exist. Blocker: selection is taste-based and requires product-owner judgment; owner not recorded. See [`docs/planning/LAUNCH_MEDIA.md`](docs/planning/LAUNCH_MEDIA.md).
+  - Goal: MEDIA-002.
 - [ ] **VIS-003 — App icon visual sign-off.** Scope: inspect the existing adaptive launcher and store artwork in representative device masks; do not treat missing files as the issue or redesign without approval. Acceptance: product owner records accept/request-change and any exact crop/design correction. Blocker: visual acceptance criteria/approval are owner-controlled; inputs and dimensions were checked, but visual acceptance is not claimed. Ownership: owner decision required.
+  - Goal: VIS-003.
 
 ### Done
 
+- [x] **WEB-001 — Run the Featured Launch Set Chromium smoke.** The exact filtered Chromium smoke passed all nine modules with zero failures or warnings; independent review confirmed the runtime regression fixture and smoke result. Evidence: native task `t_411791c4`, review run 135; reports `test/results/catalog-smoke-chromium.json` and `test/results/playwright-results.json`.
+- [x] **MEDIA-001 — Verify 320×320 launch-thumbnail captures.** Forwarded `FORCE_GPU_RENDER=true` to avoid the integration placeholder, then captured all nine Featured Launch Set images on the AMD Radeon RX 6800 XT. All nine PNGs are 320×320 with zero failed renders and zero `qualityWarnings`; each render audit passed. Evidence: native task `t_8b02fb11`, run 165; `build/test_output/launch_media/thumbnail_report.json`. The descriptive launch metric flags `barnsley_fern` as near-black (mean luminance 12.9604, dark-pixel ratio 0.9365); this is not a formal quality warning and remains relevant to owner selection.
 - [x] **VIS-000 — Correct thumbnail policy and classify catalog golden artifacts.** PRD and CONTEXT now reflect the resolved 320×320 launch-media scope; runtime catalog rendering remains the shipped policy. The audit plan records the tracked golden-failure images separately from the four passing golden comparisons.
+
+## Documentation scope questions
+
+### Blocked / Needs decision
+
+- [ ] **DOC-PRD-001 — Reconcile current product-scope ownership.** Goal: resolve `BLK-20261005-004` and identify whether root `PRD.md` or the current backlog/README owns active scope where they differ. Default applied: treat conflicting, unimplemented root-PRD items as historical until revalidated; do not add product scope meanwhile. Scope: documentation and goal records only; no feature implementation. Acceptance: owner chooses A or B in `BLOCKERS.md`, then the PRD/backlog mark each affected item as active, deferred, or out of scope with consistent links. Source: [`PRD.md`](PRD.md), [`docs/planning/PRD.md`](docs/planning/PRD.md), and [`BLOCKERS.md`](BLOCKERS.md). Ownership: repository backlog.
 
 ### P0-3: Dynamic Iteration Adjustment
 
