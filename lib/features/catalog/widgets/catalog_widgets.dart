@@ -103,10 +103,6 @@ class _SectionHeader extends StatelessWidget {
 
 class _CategoryFilterRail extends StatelessWidget {
   final String allCategoriesLabel;
-  final String favoritesLabel;
-  final String recentLabel;
-  final int favoriteCount;
-  final int recentCount;
   final int totalCategoryCount;
   final List<String> categories;
   final Map<String, int> categoryCounts;
@@ -115,10 +111,6 @@ class _CategoryFilterRail extends StatelessWidget {
 
   const _CategoryFilterRail({
     required this.allCategoriesLabel,
-    required this.favoritesLabel,
-    required this.recentLabel,
-    required this.favoriteCount,
-    required this.recentCount,
     required this.totalCategoryCount,
     required this.categories,
     required this.categoryCounts,
@@ -141,31 +133,13 @@ class _CategoryFilterRail extends StatelessWidget {
             onTap: () => onSelect(null),
           ),
           const SizedBox(width: AppSpacing.xs),
-          _DimChip(
-            chipKey: const Key('catalogCategoryChip_favorites'),
-            label: favoritesLabel,
-            count: favoriteCount,
-            selected: selectedCategory ==
-                _FractalCatalogScreenState._favoritesCategory,
-            onTap: () =>
-                onSelect(_FractalCatalogScreenState._favoritesCategory),
-          ),
-          const SizedBox(width: AppSpacing.xs),
-          _DimChip(
-            chipKey: const Key('catalogCategoryChip_recent'),
-            label: recentLabel,
-            count: recentCount,
-            selected:
-                selectedCategory == _FractalCatalogScreenState._recentCategory,
-            onTap: () => onSelect(_FractalCatalogScreenState._recentCategory),
-          ),
           for (final category in categories) ...[
             const SizedBox(width: AppSpacing.xs),
             _DimChip(
               chipKey: Key(
                 'catalogCategoryChip_${slugify(category, emptyFallback: '')!}',
               ),
-              label: category,
+              label: mathematicalLabel(context, category),
               count: categoryCounts[category] ?? 0,
               selected: selectedCategory == category,
               onTap: () => onSelect(category),
@@ -450,10 +424,6 @@ class _ModuleGridTileState extends State<_ModuleGridTile> {
     final dimensionLabel =
         is3D ? widget.l10n.dimension3d : widget.l10n.dimension2d;
     final name = widget.entry.module.displayName(widget.l10n);
-    final presetCount = widget.entry.module.builtInPresets.length + 1;
-    final isSpanish = Localizations.localeOf(context).languageCode == 'es';
-    final presetLabel =
-        isSpanish ? '$presetCount ajustes' : '$presetCount presets';
     final reduceMotion = MediaQuery.disableAnimationsOf(context) ||
         (context.read<AccessibilityService?>()?.reducedMotionEnabled ?? false);
     final highlighted = _isHovered || _isPressed;
@@ -567,9 +537,13 @@ class _ModuleGridTileState extends State<_ModuleGridTile> {
                                 ),
                               ),
                             ),
+                            FractalMathSummary(
+                                module: widget.entry.module,
+                                category: widget.entry.category,
+                                compact: true),
                             const SizedBox(height: 4),
                             Text(
-                              '$dimensionLabel · $presetLabel',
+                              '$dimensionLabel · ${Localizations.localeOf(context).languageCode == 'es' ? 'Vista previa aproximada' : 'Approximate preview'}',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: AppTypography.labelSmall.copyWith(
@@ -596,7 +570,7 @@ class _ModuleGridTileState extends State<_ModuleGridTile> {
 // accessible text into a fixed-aspect tile and letting it cover the artwork.
 double _catalogCaptionHeight(BuildContext context) {
   final scaler = MediaQuery.textScalerOf(context);
-  return scaler.scale(13) * 1.25 * 2 + scaler.scale(11) * 1.2 + 24;
+  return scaler.scale(13) * 1.25 * 2 + scaler.scale(11) * 1.4 * 4 + 32;
 }
 
 class _CatalogFavoriteButton extends StatelessWidget {
@@ -820,17 +794,6 @@ class _ModuleCardState extends State<_ModuleCard>
     );
   }
 
-  String _mathSummary() {
-    final module = widget.entry.module;
-    final params = module.parameters.take(3).map((param) {
-      final value = param.defaultValue;
-      return '${param.label(widget.l10n)} $value';
-    }).join(', ');
-    final presetCount = module.builtInPresets.length + 1;
-    if (params.isEmpty) return '$presetCount presets';
-    return '${module.parameters.length} params: $params · $presetCount presets';
-  }
-
   Widget _buildCardContent(String dimensionLabel) {
     return AnimatedContainer(
       duration: AppAnimations.fast,
@@ -856,7 +819,6 @@ class _ModuleCardState extends State<_ModuleCard>
         padding: const EdgeInsets.all(AppSpacing.sm),
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final showMathInfo = constraints.maxWidth >= 360;
             final thumbnailSize = constraints.maxWidth >= 420 ? 112.0 : 88.0;
 
             return Row(
@@ -889,40 +851,30 @@ class _ModuleCardState extends State<_ModuleCard>
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '$dimensionLabel / ${widget.entry.category}',
+                        '$dimensionLabel / ${mathematicalLabel(context, widget.entry.category)}',
                         style: AppTypography.bodySmall.copyWith(
                           color: AppColors.textMuted,
                         ),
                       ),
-                      if (showMathInfo) ...[
-                        const SizedBox(height: 4),
-                        Text(
-                          _mathSummary(),
-                          maxLines: constraints.maxWidth >= 520 ? 2 : 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppTypography.labelSmall.copyWith(
-                            color: AppColors.textSecondary,
-                            height: 1.25,
-                          ),
-                        ),
-                      ],
+                      const SizedBox(height: 4),
+                      FractalMathSummary(
+                          module: widget.entry.module,
+                          category: widget.entry.category,
+                          compact: true),
+                      Text(
+                        Localizations.localeOf(context).languageCode == 'es'
+                            ? 'Vista previa aproximada; calidad reducida'
+                            : 'Approximate preview; reduced quality',
+                        style: AppTypography.labelSmall
+                            .copyWith(color: AppColors.textSecondary),
+                      ),
                     ],
                   ),
                 ),
-                IconButton(
-                  key: Key('catalogFavorite_${widget.entry.catalogId}'),
-                  tooltip: widget.isFavorite
-                      ? 'Remove from favorites'
-                      : 'Add to favorites',
+                _CatalogFavoriteButton(
+                  catalogId: widget.entry.catalogId,
+                  isFavorite: widget.isFavorite,
                   onPressed: widget.onFavoriteToggle,
-                  icon: Icon(
-                    widget.isFavorite
-                        ? Icons.star_rounded
-                        : Icons.star_border_rounded,
-                    color: widget.isFavorite
-                        ? AppColors.primary
-                        : AppColors.textMuted,
-                  ),
                 ),
                 AnimatedContainer(
                   duration: AppAnimations.fast,
@@ -1220,140 +1172,146 @@ class _PreviewThumbnailState extends State<_PreviewThumbnail>
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Set<String>>(
-      future: _PreviewThumbnail._thumbnailAssetIds,
-      initialData: _PreviewThumbnail._cachedThumbnailAssetIds,
-      builder: (context, snapshot) {
-        final thumbnail = CatalogThumbnailAvailability.fromCatalogId(
-          catalogId: widget.catalogId,
-          availableThumbnailIds: snapshot.data,
-          manifestFailed: snapshot.hasError,
-          imageLoaded: _imageLoaded,
-          imageError: _imageError,
-        );
-        final isApproximate = thumbnail.isApproximatePreview;
+    return Tooltip(
+      message: Localizations.localeOf(context).languageCode == 'es'
+          ? 'Vista previa aproximada; calidad reducida'
+          : 'Approximate preview; reduced quality',
+      child: FutureBuilder<Set<String>>(
+        future: _PreviewThumbnail._thumbnailAssetIds,
+        initialData: _PreviewThumbnail._cachedThumbnailAssetIds,
+        builder: (context, snapshot) {
+          final thumbnail = CatalogThumbnailAvailability.fromCatalogId(
+            catalogId: widget.catalogId,
+            availableThumbnailIds: snapshot.data,
+            manifestFailed: snapshot.hasError,
+            imageLoaded: _imageLoaded,
+            imageError: _imageError,
+          );
+          final isApproximate = thumbnail.isApproximatePreview;
 
-        // Serve previously-rendered pixels (in-memory or on-disk) instead of
-        // re-rendering on the GPU: a tile that was already rendered stays
-        // instant across scroll-back, filters, and second+ launches.
-        final cachedBytes = _cachedPreviewBytes;
-        if (cachedBytes != null) {
-          final signature = _thumbnailSignature;
+          // Serve previously-rendered pixels (in-memory or on-disk) instead of
+          // re-rendering on the GPU: a tile that was already rendered stays
+          // instant across scroll-back, filters, and second+ launches.
+          final cachedBytes = _cachedPreviewBytes;
+          if (cachedBytes != null) {
+            final signature = _thumbnailSignature;
+            return ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.memory(
+                cachedBytes,
+                key: Key('catalogCachedThumbnail_${widget.catalogId}'),
+                fit: BoxFit.cover,
+                gaplessPlayback: true,
+                filterQuality: FilterQuality.high,
+                width: 256,
+                height: 256,
+                cacheWidth: CatalogThumbnailCache.targetWidth,
+                errorBuilder: (context, error, stackTrace) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    _discardCachedPreview(signature);
+                  });
+                  return _GradientFallback(
+                    catalogId: widget.catalogId,
+                    category: widget.category,
+                  );
+                },
+              ),
+            );
+          }
+
+          if (_runtimePreviewEnabled && thumbnail.showsFallbackPreview) {
+            return _RuntimePreviewThumbnail(
+              // Keyed so a recycled tile never reuses another module's render
+              // state: the capture below stores under the signature the child
+              // was built with.
+              key: ValueKey('runtimePreview_$_thumbnailSignature'),
+              catalogId: widget.catalogId,
+              module: widget.module,
+              category: widget.category,
+              signature: _thumbnailSignature,
+              onRendered: _onRuntimePreviewRendered,
+            );
+          }
+
           return ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Image.memory(
-              cachedBytes,
-              key: Key('catalogCachedThumbnail_${widget.catalogId}'),
-              fit: BoxFit.cover,
-              gaplessPlayback: true,
-              filterQuality: FilterQuality.high,
-              width: 256,
-              height: 256,
-              cacheWidth: CatalogThumbnailCache.targetWidth,
-              errorBuilder: (context, error, stackTrace) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  _discardCachedPreview(signature);
-                });
-                return _GradientFallback(
-                  catalogId: widget.catalogId,
-                  category: widget.category,
-                );
-              },
-            ),
-          );
-        }
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                // Show shimmer while loading OR show gradient fallback on error.
+                if (thumbnail.showsLoadingPlaceholder)
+                  _ShimmerSkeleton(controller: _localShimmerController)
+                else if (thumbnail.showsFallbackPreview)
+                  _GradientFallback(
+                    catalogId: widget.catalogId,
+                    category: widget.category,
+                  ),
 
-        if (_runtimePreviewEnabled && thumbnail.showsFallbackPreview) {
-          return _RuntimePreviewThumbnail(
-            // Keyed so a recycled tile never reuses another module's render
-            // state: the capture below stores under the signature the child
-            // was built with.
-            key: ValueKey('runtimePreview_$_thumbnailSignature'),
-            catalogId: widget.catalogId,
-            module: widget.module,
-            category: widget.category,
-            signature: _thumbnailSignature,
-            onRendered: _onRuntimePreviewRendered,
-          );
-        }
-
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              // Show shimmer while loading OR show gradient fallback on error.
-              if (thumbnail.showsLoadingPlaceholder)
-                _ShimmerSkeleton(controller: _localShimmerController)
-              else if (thumbnail.showsFallbackPreview)
-                _GradientFallback(
-                  catalogId: widget.catalogId,
-                  category: widget.category,
-                ),
-
-              // Only load images that are present in the asset manifest. This
-              // avoids browser-console 404s for entries that use fallbacks.
-              if (thumbnail.shouldLoadImage)
-                Image.asset(
-                  thumbnail.assetPath,
-                  width: 256,
-                  height: 256,
-                  cacheWidth: 256,
-                  cacheHeight: 256,
-                  fit: BoxFit.cover,
-                  filterQuality: FilterQuality.medium,
-                  gaplessPlayback: true,
-                  frameBuilder:
-                      (context, child, frame, wasSynchronouslyLoaded) {
-                    final imageReady = wasSynchronouslyLoaded || frame != null;
-                    if (imageReady && !_imageLoaded) {
+                // Only load images that are present in the asset manifest. This
+                // avoids browser-console 404s for entries that use fallbacks.
+                if (thumbnail.shouldLoadImage)
+                  Image.asset(
+                    thumbnail.assetPath,
+                    width: 256,
+                    height: 256,
+                    cacheWidth: 256,
+                    cacheHeight: 256,
+                    fit: BoxFit.cover,
+                    filterQuality: FilterQuality.medium,
+                    gaplessPlayback: true,
+                    frameBuilder:
+                        (context, child, frame, wasSynchronouslyLoaded) {
+                      final imageReady =
+                          wasSynchronouslyLoaded || frame != null;
+                      if (imageReady && !_imageLoaded) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          _markImageLoaded();
+                        });
+                      }
+                      return AnimatedOpacity(
+                        opacity: imageReady ? 1.0 : 0.0,
+                        duration: imageReady
+                            ? Duration.zero
+                            : const Duration(milliseconds: 250),
+                        child: child,
+                      );
+                    },
+                    errorBuilder: (context, error, stack) {
                       WidgetsBinding.instance.addPostFrameCallback((_) {
-                        _markImageLoaded();
+                        _markImageError();
                       });
-                    }
-                    return AnimatedOpacity(
-                      opacity: imageReady ? 1.0 : 0.0,
-                      duration: imageReady
-                          ? Duration.zero
-                          : const Duration(milliseconds: 250),
-                      child: child,
-                    );
-                  },
-                  errorBuilder: (context, error, stack) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      _markImageError();
-                    });
-                    return const SizedBox.shrink();
-                  },
-                ),
+                      return const SizedBox.shrink();
+                    },
+                  ),
 
-              // "Preview approximate" label
-              if (isApproximate)
-                Positioned(
-                  bottom: 4,
-                  left: 4,
-                  right: 4,
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.6),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Text(
-                      'Preview approximate',
-                      textAlign: TextAlign.center,
-                      style: AppTypography.labelSmall.copyWith(
-                        color: Colors.white70,
-                        fontSize: 9,
+                // "Preview approximate" label
+                if (isApproximate)
+                  Positioned(
+                    bottom: 4,
+                    left: 4,
+                    right: 4,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 4, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.6),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        'Preview approximate',
+                        textAlign: TextAlign.center,
+                        style: AppTypography.labelSmall.copyWith(
+                          color: Colors.white70,
+                          fontSize: 9,
+                        ),
                       ),
                     ),
                   ),
-                ),
-            ],
-          ),
-        );
-      },
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }
@@ -1696,7 +1654,7 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
       controller.updateParam('colorCount', maxColorCount.toDouble());
     }
 
-    final paletteIndex = _thumbnailPaletteIndex(catalogId, module);
+    final paletteIndex = CatalogThumbnailCache.paletteIndexForModule(module);
     if (paletteIndex != null) {
       controller.updateParam('colorScheme', paletteIndex);
     }
@@ -1710,26 +1668,6 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
     }
     return controller;
   }
-
-  static int? _thumbnailPaletteIndex(String catalogId, FractalModule module) {
-    for (final param in module.parameters) {
-      if (param.id != 'colorScheme') continue;
-      final min = param.min.ceil();
-      final max = param.max.floor();
-      final range = (max - min + 1).clamp(1, CommonFractalParams.paletteCount);
-      return min + (_stableCatalogHash(catalogId) % range);
-    }
-    return null;
-  }
-}
-
-int _stableCatalogHash(String value) {
-  var hash = 0x811C9DC5;
-  for (final unit in value.codeUnits) {
-    hash ^= unit;
-    hash = (hash * 0x01000193) & 0x7FFFFFFF;
-  }
-  return hash;
 }
 
 // ---------------------------------------------------------------------------

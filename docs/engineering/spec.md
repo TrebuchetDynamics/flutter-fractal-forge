@@ -6,7 +6,7 @@ This document describes the current Flutter application architecture. Product in
 
 ## Components and data flow
 
-- `lib/main.dart` initializes the application and Provider dependencies.
+- `lib/main.dart` launches `DeferredStartupApp`; `lib/app/startup.dart` initializes services, and `FlutterFractalsApp` installs Provider dependencies.
 - `ModuleRegistry` assembles `FractalModule` instances from declarative escape-time configs and dedicated builders.
 - The catalog opens a selected module in `FractalViewerScreen`. The viewer's `FractalController` owns current module parameters and view state.
 - Renderer policy selects a supported GPU path, an extended-precision GPU path, or CPU precision where a native CPU formula is available. GPU shaders are declared as assets in `pubspec.yaml`.

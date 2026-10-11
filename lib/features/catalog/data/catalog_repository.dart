@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/modules/builders/escape_time/catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/raymarched_3d/catalog.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/modules/fractal_mathematics.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_entry.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
@@ -63,22 +64,11 @@ class CatalogRepository {
       catalogId: family.catalogIdFor(module),
       module: module,
       category: family.forcedCategory ??
-          categoriesById[module.id] ??
-          _categoryForModule(module),
+          FractalMathematics.forModule(module,
+                  category: categoriesById[module.id])
+              .family,
       family: family,
     );
-  }
-
-  static String _categoryForModule(FractalModule module) {
-    if (module.id.startsWith('life_like_b')) {
-      return 'Cellular & Stochastic';
-    }
-    if (const {'julia', 'julia_dual', 'phoenix', 'nova'}.contains(module.id)) {
-      return 'Escape-Time';
-    }
-    return module.dimension == FractalDimension.threeD
-        ? '3D Fractals'
-        : 'Other';
   }
 
   CatalogEntry byCatalogId(String catalogId) {

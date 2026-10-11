@@ -47,18 +47,15 @@ void main() {
     );
   });
 
-  test('catalog search autofocus post-frame callback checks mounted', () {
+  test(
+      'persistent catalog search focuses synchronously without a stale callback',
+      () {
     final source = File('lib/features/catalog/fractal_catalog_screen.dart')
         .readAsStringSync();
 
-    expect(
-      source,
-      contains(
-        'WidgetsBinding.instance.addPostFrameCallback((_) {\n'
-        '          if (!mounted) return;\n'
-        '          _focusNode.requestFocus();',
-      ),
-    );
+    final toggle = _methodBody(source, 'void _toggleSearch()');
+    expect(toggle, contains('_focusNode.requestFocus();'));
+    expect(toggle, isNot(contains('addPostFrameCallback')));
   });
 
   test('log viewer autoscroll post-frame callback checks mounted', () {

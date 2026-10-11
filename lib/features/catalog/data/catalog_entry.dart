@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/modules/fractal_mathematics.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
 
 /// Stable catalog entry used by the redesigned browser.
@@ -25,6 +26,9 @@ class CatalogEntry {
 
   /// Optional search aliases used by catalog filtering.
   final List<String> aliases;
+
+  FractalMathematics get mathematics =>
+      FractalMathematics.forModule(module, category: category);
 
   const CatalogEntry({
     required this.catalogId,

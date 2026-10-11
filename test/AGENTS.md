@@ -38,7 +38,7 @@ Unit tests and widget tests for the Flutter Fractal Forge application. Tests cov
 
 | Directory | Purpose |
 |-----------|---------|
-| `helpers/` | Test utilities and helpers (accessibility_test_helper) |
+| `helpers/` | Shared test utilities |
 
 ## For AI Agents
 

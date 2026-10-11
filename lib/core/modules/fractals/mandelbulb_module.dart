@@ -20,15 +20,7 @@ FractalModule buildMandelbulbModule() {
       defaultValue: 8.0,
     ),
     CommonFractalParams.iterations(defaultValue: 50, min: 10, max: 100),
-    FractalParameter(
-      id: 'steps',
-      label: (l10n) => l10n.paramSteps,
-      type: FractalParamType.integer,
-      min: 20,
-      max: 200,
-      step: 1,
-      defaultValue: 120,
-    ),
+    CommonFractalParams.raySteps(defaultValue: 120),
     CommonFractalParams.bailout(defaultValue: 2.0, min: 1.0, max: 4.0),
     CommonFractalParams.colorScheme4(defaultValue: 0),
     FractalParameter(
@@ -264,26 +256,23 @@ FractalModule buildMandelbulbModule() {
       final colorScheme = readDouble(state.params, 'colorScheme', 0);
       final fractalType = readDouble(state.params, 'fractalType', 0);
 
-      shader.setFloat(Raymarched3DUniformSlots.time, time);
-      shader.setFloat(Raymarched3DUniformSlots.resolutionX, size.width);
-      shader.setFloat(Raymarched3DUniformSlots.resolutionY, size.height);
-      shader.setFloat(Raymarched3DUniformSlots.mouseX, 0.0);
-      shader.setFloat(Raymarched3DUniformSlots.mouseY, 0.0);
-      shader.setFloat(Raymarched3DUniformSlots.zoom, state.view.zoom);
-      shader.setFloat(
-          Raymarched3DUniformSlots.rotationX, state.view.rotation.x);
-      shader.setFloat(
-          Raymarched3DUniformSlots.rotationY, state.view.rotation.y);
-      shader.setFloat(
-          Raymarched3DUniformSlots.rotationZ, state.view.rotation.z);
-      shader.setFloat(Raymarched3DUniformSlots.power, power);
-      shader.setFloat(Raymarched3DUniformSlots.iterations, iterations);
-      shader.setFloat(Raymarched3DUniformSlots.steps, steps);
-      shader.setFloat(Raymarched3DUniformSlots.bailout, bailout);
-      shader.setFloat(Raymarched3DUniformSlots.colorScheme, colorScheme);
-      shader.setFloat(Raymarched3DUniformSlots.fractalType, fractalType);
-      shader.setFloat(Raymarched3DUniformSlots.transparentBackground,
-          state.transparentBackground ? 1.0 : 0.0);
+      setRaymarched3DFrameUniforms(
+        setFloat: shader.setFloat,
+        time: time,
+        width: size.width,
+        height: size.height,
+        view: state.view,
+      );
+      setRaymarched3DParameterUniforms(
+        setFloat: shader.setFloat,
+        power: power,
+        iterations: iterations,
+        steps: steps,
+        bailout: bailout,
+        colorScheme: colorScheme,
+        fractalType: fractalType,
+        transparentBackground: state.transparentBackground,
+      );
 
       PaletteShaderAdapter.instance.bindUniformPalette(shader, 16, colorScheme);
     },

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:flutter/gestures.dart';
@@ -10,11 +11,38 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
-import 'package:vector_math/vector_math_64.dart' show Vector2, Vector3;
+import 'package:vector_math/vector_math_64.dart' show Matrix3, Vector2, Vector3;
+
+// Invert the registered shaders' rays, independently of the gesture helper.
+Offset project3DTarget({
+  required String moduleId,
+  required Vector3 point,
+  required Vector2 pan,
+  required Vector3 rotation,
+  required double zoom,
+  required Size size,
+}) {
+  final turn = Matrix3.rotationX(-rotation.x)
+    ..multiply(Matrix3.rotationY(-rotation.y))
+    ..multiply(Matrix3.rotationZ(-rotation.z));
+  final camera =
+      Vector3(pan.x, pan.y, 0) + turn * Vector3(0, 0, 3 / math.max(zoom, 0.1));
+  final forward = turn * Vector3(0, 0, -1);
+  final right = moduleId == 'mandelbox'
+      ? Vector3(0, 1, 0).cross(forward).normalized()
+      : turn * Vector3(1, 0, 0);
+  final down =
+      moduleId == 'mandelbox' ? forward.cross(right) : turn * Vector3(0, 1, 0);
+  final relative = point - camera;
+  final depth = relative.dot(forward);
+  return Offset(relative.dot(right), relative.dot(down)) *
+      (size.height / (2 * depth));
+}
 
 void main() {
   Widget buildTestWidget(
     FractalController controller, {
+    Size surfaceSize = const Size(300, 300),
     VoidCallback? onOpenControls,
     VoidCallback? onOpenPresets,
     VoidCallback? onOpenExport,
@@ -32,8 +60,8 @@ void main() {
         supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           body: SizedBox(
-            width: 300,
-            height: 300,
+            width: surfaceSize.width,
+            height: surfaceSize.height,
             child: FractalRenderer(
               onOpenControls: onOpenControls,
               onOpenPresets: onOpenPresets,
@@ -444,6 +472,60 @@ void main() {
     expect(controller.view.zoom, greaterThan(initialZoom));
   });
 
+  testWidgets('sized 3D twist survives updates unless rotation is locked',
+      (tester) async {
+    for (final moduleId in ['mandelbulb', 'mandelbox']) {
+      for (final locked in [false, true]) {
+        final registry = ModuleRegistry();
+        final controller = FractalController(registry);
+        controller.selectModule(registry.byId(moduleId), animate: false);
+        controller.setRotationLocked(locked);
+        controller.updateView(controller.view.copyWith(
+          rotation: Vector3(0.3, -0.4, 0.2),
+        ));
+        await tester.pumpWidget(buildTestWidget(controller));
+        await tester.pumpAndSettle();
+        final renderer = find.byType(FractalRenderer);
+        expect(tester.getSize(renderer), const Size(300, 300));
+        final detector = tester
+            .widgetList<GestureDetector>(find.descendant(
+                of: renderer, matching: find.byType(GestureDetector)))
+            .firstWhere((widget) => widget.onScaleUpdate != null);
+        final focal = tester.getCenter(renderer);
+        detector.onScaleStart!(
+            ScaleStartDetails(focalPoint: focal, pointerCount: 2));
+        for (final twist in [0.08, 0.3, 0.45]) {
+          detector.onScaleUpdate!(ScaleUpdateDetails(
+              focalPoint: focal, pointerCount: 2, rotation: twist));
+          expect(controller.view.rotation.z,
+              closeTo(0.2 + (locked || twist < 0.12 ? 0 : twist), 1e-9),
+              reason: '$moduleId locked=$locked twist=$twist');
+          expect(controller.view.rotation.x, closeTo(0.3, 1e-9));
+          expect(controller.view.rotation.y, closeTo(-0.4, 1e-9));
+        }
+        controller.updateView(controller.view.copyWith(
+            pan: Vector2.zero(), zoom: 1, rotation: Vector3(0.3, -0.4, 0.2)));
+        final first = await tester.createGesture(pointer: 21);
+        final second = await tester.createGesture(pointer: 22);
+        await first.down(focal + const Offset(-40, 0));
+        await second.down(focal + const Offset(40, 0));
+        await tester.pump();
+        final axis = Offset(40 * math.cos(0.8), 40 * math.sin(0.8));
+        await first.moveTo(focal - axis);
+        await second.moveTo(focal + axis);
+        await tester.pump();
+        expect(controller.view.rotation.z, closeTo(locked ? 0.2 : 1.0, 1e-9),
+            reason: '$moduleId raw-pointer twist locked=$locked');
+        expect(controller.view.zoom, closeTo(1, 1e-9));
+        await first.up();
+        await second.up();
+        await tester.pumpAndSettle();
+        await tester.pumpWidget(const SizedBox.shrink());
+        controller.dispose();
+      }
+    }
+  });
+
   testWidgets('3D drag clamps pitch before rotation feels off-axis',
       (tester) async {
     TestWidgetsFlutterBinding.ensureInitialized();
@@ -465,6 +547,40 @@ void main() {
 
     // Drain fling/double-tap timers created by the synthetic large drag.
     await tester.pump(const Duration(seconds: 3));
+  });
+
+  testWidgets('3D single-finger orbit scales to each viewport axis',
+      (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final registry = ModuleRegistry();
+    final controller = FractalController(registry);
+    controller.selectModule(registry.byId('mandelbulb'), animate: false);
+
+    await tester.pumpWidget(buildTestWidget(
+      controller,
+      surfaceSize: const Size(300, 600),
+    ));
+    await tester.pumpAndSettle();
+
+    final surface = find.byType(FractalRenderer);
+    final center = tester.getCenter(surface);
+    final size = tester.getSize(surface);
+    final startRotation = controller.view.rotation;
+    const drag = Offset(30, 20);
+    final gesture = await tester.startGesture(center);
+    await gesture.moveBy(drag, timeStamp: const Duration(milliseconds: 16));
+    await tester.pump();
+
+    final radiansPerPixelX = math.pi / size.width;
+    final radiansPerPixelY = math.pi / size.height;
+    expect(controller.view.rotation.x,
+        closeTo(startRotation.x - drag.dy * radiansPerPixelY, 1e-6));
+    expect(controller.view.rotation.y,
+        closeTo(startRotation.y - drag.dx * radiansPerPixelX, 1e-6));
+
+    await gesture.up();
+    await tester.pumpAndSettle();
   });
 
   testWidgets('double-tap keeps the tapped detail fixed throughout zoom',
@@ -913,33 +1029,232 @@ void main() {
     expect(after, lessThanOrEqualTo(before * 3.0));
   });
 
-  testWidgets('Two-finger tilt is clamped to max tilt angle', (tester) async {
+  for (final moduleId in ['mandelbulb', 'mandelbox']) {
+    testWidgets('$moduleId pan follows source-projected screen motion',
+        (tester) async {
+      final registry = ModuleRegistry();
+      final module = registry.byId(moduleId);
+      final source = File(module.shaderAsset)
+          .readAsStringSync()
+          .replaceAll(RegExp(r'\s+'), ' ');
+      expect(source,
+          contains('(fragCoord - 0.5 * uResolution) * 2.0 / uResolution.y'));
+      expect(source,
+          contains('cy * cz, sx * sy * cz - cx * sz, cx * sy * cz + sx * sz,'));
+      expect(source,
+          contains('cy * sz, sx * sy * sz + cx * cz, cx * sy * sz - sx * cz,'));
+      expect(source, contains('vec3(uMousePos, 0.0)'));
+      expect(source, contains('vec3(0.0, 0.0, 3.0 / max(uZoom, 0.1))'));
+      if (moduleId == 'mandelbulb') {
+        expect(
+            source, contains('normalize(gRotation * vec3(uv.x, uv.y, -1.0))'));
+      } else {
+        expect(source, contains('normalize(target - camPos)'));
+        expect(
+            source, contains('normalize(cross(vec3(0.0, 1.0, 0.0), forward))'));
+        expect(source, contains('cross(forward, right)'));
+        expect(
+            source, contains('normalize(forward + uv.x * right + uv.y * up)'));
+      }
+      final controller = FractalController(registry);
+      controller.selectModule(module, animate: false);
+      controller.setRotationLocked(true);
+      await tester.pumpWidget(
+          buildTestWidget(controller, surfaceSize: const Size(300, 600)));
+      await tester.pumpAndSettle();
+      final renderer = find.byType(FractalRenderer);
+      final size = tester.getSize(renderer);
+      final focal = tester.getCenter(renderer);
+      final detector = tester
+          .widgetList<GestureDetector>(find.descendant(
+              of: renderer, matching: find.byType(GestureDetector)))
+          .firstWhere((widget) => widget.onScaleUpdate != null);
+      for (final rotation in [
+        Vector3.zero(),
+        Vector3(0, 0, math.pi / 2),
+        Vector3(0.6, -0.7, 0.8),
+        Vector3(-0.5, 0.9, -0.4),
+      ]) {
+        for (final drag in [
+          const Offset(4, 0),
+          const Offset(0, 4),
+          const Offset(-3, 4)
+        ]) {
+          controller.updateView(controller.view
+              .copyWith(pan: Vector2.zero(), zoom: 1.7, rotation: rotation));
+          detector.onScaleStart!(
+              ScaleStartDetails(focalPoint: focal, pointerCount: 2));
+          detector.onScaleUpdate!(
+              ScaleUpdateDetails(focalPoint: focal + drag, pointerCount: 2));
+          final motion = project3DTarget(
+              moduleId: moduleId,
+              point: Vector3.zero(),
+              pan: controller.view.pan,
+              rotation: controller.view.rotation,
+              zoom: controller.view.zoom,
+              size: size);
+          final reason =
+              '$moduleId rotation=$rotation drag=$drag motion=$motion';
+          expect(motion.dx * drag.dx + motion.dy * drag.dy, greaterThan(0),
+              reason: reason);
+          expect(motion.dx * drag.dy - motion.dy * drag.dx, closeTo(0, 1e-8),
+              reason: reason);
+          expect(controller.view.rotation, rotation);
+          expect(controller.view.zoom, 1.7);
+        }
+      }
+      controller.updateView(controller.view
+          .copyWith(pan: Vector2.zero(), rotation: Vector3(0, math.pi / 2, 0)));
+      detector
+          .onScaleStart!(ScaleStartDetails(focalPoint: focal, pointerCount: 2));
+      detector.onScaleUpdate!(ScaleUpdateDetails(
+          focalPoint: focal + const Offset(4, 4), pointerCount: 2));
+      expect(controller.view.pan, Vector2.zero(),
+          reason:
+              'An edge-on XY target plane cannot represent both screen axes');
+      await tester.pumpWidget(const SizedBox.shrink());
+      controller.dispose();
+    });
+  }
+
+  testWidgets('two-finger drag pans a 3D camera without tilt or zoom',
+      (tester) async {
     TestWidgetsFlutterBinding.ensureInitialized();
 
-    final controller = FractalController(ModuleRegistry());
+    final registry = ModuleRegistry();
+    final controller = FractalController(registry);
+    controller.selectModule(registry.byId('mandelbulb'), animate: false);
+
     await tester.pumpWidget(buildTestWidget(controller));
     await tester.pumpAndSettle();
 
+    final initialPan = controller.view.pan;
+    final initialRotation = controller.view.rotation;
+    final initialZoom = controller.view.zoom;
     final center = tester.getCenter(find.byType(FractalRenderer));
-    final g1 = await tester.createGesture();
-    final g2 = await tester.createGesture();
+    final g1 = await tester.createGesture(pointer: 1);
+    final g2 = await tester.createGesture(pointer: 2);
 
     await g1.down(center + const Offset(-40, 0));
     await g2.down(center + const Offset(40, 0));
     await tester.pump();
 
-    // Keep distance/rotation stable and move both fingers vertically
-    // to trigger tilt gesture path with a very large delta.
-    await g1.moveTo(center + const Offset(-40, 700));
-    await g2.moveTo(center + const Offset(40, 700));
-    await tester.pumpAndSettle();
+    const drag = Offset(0, 36);
+    await g1.moveTo(center + const Offset(-40, 0) + drag);
+    await g2.moveTo(center + const Offset(40, 0) + drag);
+    await tester.pump();
+
+    final projected = project3DTarget(
+      moduleId: 'mandelbulb',
+      point: Vector3(initialPan.x, initialPan.y, 0),
+      pan: controller.view.pan,
+      rotation: controller.view.rotation,
+      zoom: controller.view.zoom,
+      size: tester.getSize(find.byType(FractalRenderer)),
+    );
+    expect(projected.dx, closeTo(drag.dx, 1e-6));
+    expect(projected.dy, greaterThan(0));
+    expect(controller.view.rotation.x, closeTo(initialRotation.x, 1e-6));
+    expect(controller.view.rotation.y, closeTo(initialRotation.y, 1e-6));
+    expect(controller.view.rotation.z, closeTo(initialRotation.z, 1e-6));
+    expect(controller.view.zoom, closeTo(initialZoom, 1e-6));
 
     await g1.up();
     await g2.up();
     await tester.pumpAndSettle();
+  });
 
-    // 67.5 degrees in radians = 1.1780972450961724
-    expect(controller.view.rotation.x, inInclusiveRange(0.0, 1.1782));
+  testWidgets('3D horizontal pan follows the rotated camera-right axis',
+      (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final registry = ModuleRegistry();
+    final controller = FractalController(registry);
+    controller.selectModule(registry.byId('mandelbulb'), animate: false);
+    controller.updateView(
+      controller.view.copyWith(rotation: Vector3(0, 0, math.pi / 2)),
+    );
+
+    await tester.pumpWidget(buildTestWidget(controller));
+    await tester.pumpAndSettle();
+
+    final initialPan = controller.view.pan;
+    final center = tester.getCenter(find.byType(FractalRenderer));
+    final g1 = await tester.createGesture(pointer: 11);
+    final g2 = await tester.createGesture(pointer: 12);
+    await g1.down(center + const Offset(0, -40));
+    await g2.down(center + const Offset(0, 40));
+    await tester.pump();
+    const drag = Offset(36, 0);
+    await g1.moveTo(center + const Offset(0, -40) + drag);
+    await g2.moveTo(center + const Offset(0, 40) + drag);
+    await tester.pump();
+
+    expect(controller.view.pan.x, closeTo(initialPan.x, 1e-6));
+    final projected = project3DTarget(
+      moduleId: 'mandelbulb',
+      point: Vector3(initialPan.x, initialPan.y, 0),
+      pan: controller.view.pan,
+      rotation: controller.view.rotation,
+      zoom: controller.view.zoom,
+      size: tester.getSize(find.byType(FractalRenderer)),
+    );
+    expect(projected.dx, closeTo(drag.dx, 1e-6));
+    expect(projected.dy, closeTo(drag.dy, 1e-6));
+
+    await g1.up();
+    await g2.up();
+    await tester.pumpAndSettle();
+  });
+
+  testWidgets('3D pan uses shader height for portrait scaling', (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final registry = ModuleRegistry();
+    final controller = FractalController(registry);
+    controller.selectModule(registry.byId('mandelbulb'), animate: false);
+    await tester.pumpWidget(buildTestWidget(
+      controller,
+      surfaceSize: const Size(300, 600),
+    ));
+    await tester.pumpAndSettle();
+
+    controller.updateView(
+      controller.view.copyWith(
+        pan: Vector2.zero(),
+        zoom: 1,
+        rotation: Vector3.zero(),
+      ),
+    );
+    final initialPan = controller.view.pan;
+    final initialZoom = controller.view.zoom;
+    final size = tester.getSize(find.byType(FractalRenderer));
+    final center = tester.getCenter(find.byType(FractalRenderer));
+    final g1 = await tester.createGesture(pointer: 13);
+    final g2 = await tester.createGesture(pointer: 14);
+    await g1.down(center + const Offset(-40, 0));
+    await g2.down(center + const Offset(40, 0));
+    await tester.pump();
+    const drag = Offset(0, 36);
+    await g1.moveTo(center + const Offset(-40, 0) + drag);
+    await g2.moveTo(center + const Offset(40, 0) + drag);
+    await tester.pump();
+
+    final expectedPanY = 36 * 6 / (size.height * math.max(initialZoom, 0.1));
+    expect(controller.view.pan.y, closeTo(initialPan.y - expectedPanY, 1e-6));
+    final projected = project3DTarget(
+      moduleId: 'mandelbulb',
+      point: Vector3(initialPan.x, initialPan.y, 0),
+      pan: controller.view.pan,
+      rotation: controller.view.rotation,
+      zoom: controller.view.zoom,
+      size: size,
+    );
+    expect(projected.dy, closeTo(drag.dy, 1e-6));
+
+    await g1.up();
+    await g2.up();
+    await tester.pumpAndSettle();
   });
 
   testWidgets('Mouse wheel zoom-out respects minimum clamp', (tester) async {

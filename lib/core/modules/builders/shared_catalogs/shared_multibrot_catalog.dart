@@ -21,26 +21,40 @@ class SharedMultibrotCatalogEntry {
 const List<SharedMultibrotCatalogEntry> sharedMultibrotCatalogEntries = [
   SharedMultibrotCatalogEntry(
       id: 'f0135_mandelbrot_power_d_1_25',
-      name: 'Mandelbrot power d=1.25',
+      name: 'Branch-selected power z^1.25 + c',
       power: 1.25),
   SharedMultibrotCatalogEntry(
       id: 'f0134_mandelbrot_power_d_2_7',
-      name: 'Mandelbrot power d=2.7',
+      name: 'Branch-selected power z^2.7 + c',
       power: 2.7),
   SharedMultibrotCatalogEntry(
-      id: 'f0096_multibrot_d_0_5', name: "Multibrot d=0.5", power: 0.5),
+      id: 'f0096_multibrot_d_0_5',
+      name: "Branch-selected power z^0.5 + c",
+      power: 0.5),
   SharedMultibrotCatalogEntry(
-      id: 'f0097_multibrot_d_3_5', name: "Multibrot d=3.5", power: 3.5),
+      id: 'f0097_multibrot_d_3_5',
+      name: "Branch-selected power z^3.5 + c",
+      power: 3.5),
   SharedMultibrotCatalogEntry(
-      id: 'f0098_multibrot_d_4_5', name: "Multibrot d=4.5", power: 4.5),
+      id: 'f0098_multibrot_d_4_5',
+      name: "Branch-selected power z^4.5 + c",
+      power: 4.5),
   SharedMultibrotCatalogEntry(
-      id: 'f0099_multibrot_d_5_5', name: "Multibrot d=5.5", power: 5.5),
+      id: 'f0099_multibrot_d_5_5',
+      name: "Branch-selected power z^5.5 + c",
+      power: 5.5),
   SharedMultibrotCatalogEntry(
-      id: 'f0100_multibrot_d_6_5', name: "Multibrot d=6.5", power: 6.5),
+      id: 'f0100_multibrot_d_6_5',
+      name: "Branch-selected power z^6.5 + c",
+      power: 6.5),
   SharedMultibrotCatalogEntry(
-      id: 'f0101_multibrot_d_7_5', name: "Multibrot d=7.5", power: 7.5),
+      id: 'f0101_multibrot_d_7_5',
+      name: "Branch-selected power z^7.5 + c",
+      power: 7.5),
   SharedMultibrotCatalogEntry(
-      id: 'f0102_multibrot_d_8_5', name: "Multibrot d=8.5", power: 8.5),
+      id: 'f0102_multibrot_d_8_5',
+      name: "Branch-selected power z^8.5 + c",
+      power: 8.5),
   SharedMultibrotCatalogEntry(
       id: 'f0088_multibrot_z_13', name: "Multibrot z^13", power: 13.0),
   SharedMultibrotCatalogEntry(
@@ -59,15 +73,15 @@ const List<SharedMultibrotCatalogEntry> sharedMultibrotCatalogEntries = [
       id: 'f0095_multibrot_z_20', name: "Multibrot z^20", power: 20.0),
   SharedMultibrotCatalogEntry(
       id: 'f0105_inverse_multibrot_d_5',
-      name: "Inverse Multibrot d=-5",
+      name: "Rational map z^-5 + c",
       power: -5.0),
   SharedMultibrotCatalogEntry(
       id: 'f0104_inverse_multibrot_d_4',
-      name: "Inverse Multibrot d=-4",
+      name: "Rational map z^-4 + c",
       power: -4.0),
   SharedMultibrotCatalogEntry(
       id: 'f0103_inverse_multibrot_d_3',
-      name: "Inverse Multibrot d=-3",
+      name: "Rational map z^-3 + c",
       power: -3.0),
 ];
 

@@ -1,92 +1,25 @@
-import 'dart:io';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:image/image.dart' as img;
+import 'runtime_preview_harness.dart';
 
-import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
-import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
-import 'package:flutter_fractals/core/services/storage/preset_store.dart';
-import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
-import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
-import 'package:flutter_fractals/features/renderer/diagnostics/render_audit_metrics.dart';
-import 'package:flutter_fractals/main.dart';
-
-import '../helpers/ui_test_helpers.dart';
+const _targets = <RuntimePreviewTarget>[
+  RuntimePreviewTarget('core.cosine_julia', 'Cosine Julia', 'cosine_julia'),
+  RuntimePreviewTarget('core.tangent', 'Tangent', 'tangent'),
+  RuntimePreviewTarget('core.sinh_cosh', 'Sinh Cosh', 'sinh_cosh'),
+  RuntimePreviewTarget('core.exponential', 'Exponential', 'exponential'),
+  RuntimePreviewTarget('core.zircon_zity', 'Zircon Zity', 'zircon_zity'),
+  RuntimePreviewTarget('core.barnsley_j1', 'Barnsley J1', 'barnsley_j1'),
+  RuntimePreviewTarget('core.fish', 'Fish Fractal', 'fish'),
+  RuntimePreviewTarget('core.ducky', 'Ducky Fractal', 'ducky'),
+  RuntimePreviewTarget('core.schroeder', 'Schroeder', 'schroeder'),
+  RuntimePreviewTarget(
+      'core.secant_fractal', 'Secant Fractal', 'secant_fractal'),
+];
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-
-  testWidgets('VIS-006 batch 15 runtime catalog previews capture GPU pixels',
-      (tester) async {
-    CatalogRuntimeThumbnailCache.clearForTesting();
-    SharedPreferences.setMockInitialValues({});
-    final presetStore = await PresetStore.create();
-    final accessibilityService = await AccessibilityService.create();
-    final rendererSettingsService = await RendererSettingsService.create();
-
-    await tester.pumpWidget(
-      FlutterFractalsApp(
-        presetStore: presetStore,
-        accessibilityService: accessibilityService,
-        rendererSettingsService: rendererSettingsService,
-        locale: const Locale('en'),
-      ),
-    );
-    await tester.pump();
-
-    const entries = <(String, String)>[
-      ('core.cosine_julia', 'Cosine Julia'),
-      ('core.tangent', 'Tangent'),
-      ('core.sinh_cosh', 'Sinh Cosh'),
-      ('core.exponential', 'Exponential'),
-      ('core.zircon_zity', 'Zircon Zity'),
-      ('core.barnsley_j1', 'Barnsley J1'),
-      ('core.fish', 'Fish Fractal'),
-      ('core.ducky', 'Ducky Fractal'),
-      ('core.schroeder', 'Schroeder'),
-      ('core.secant_fractal', 'Secant Fractal'),
-    ];
-
-    for (final (catalogId, searchText) in entries) {
-      await enterCatalogSearch(tester, searchText);
-      final thumbnail = find.byKey(Key('catalogCachedThumbnail_$catalogId'));
-      final deadline = DateTime.now().add(const Duration(seconds: 20));
-      while (
-          thumbnail.evaluate().isEmpty && DateTime.now().isBefore(deadline)) {
-        await tester.pump(const Duration(milliseconds: 250));
-      }
-      expect(thumbnail, findsOneWidget,
-          reason: 'Missing preview for $catalogId');
-
-      final imageWidget = tester.widget<Image>(thumbnail);
-      var provider = imageWidget.image;
-      while (provider is ResizeImage) {
-        provider = provider.imageProvider;
-      }
-      final bytes = (provider as MemoryImage).bytes;
-      expect(bytes, isNotEmpty, reason: 'Empty preview for $catalogId');
-      final image = img.decodeImage(bytes);
-      expect(image, isNotNull, reason: 'Undecodable preview for $catalogId');
-      final metrics =
-          RenderAuditMetrics.fromImage(image!, pngBytes: bytes.length);
-      expect(metrics.verdict, 'pass', reason: 'Preview quality for $catalogId');
-
-      const outputDirectory = 'build/test_output/vis006-batch15';
-      await Directory(outputDirectory).create(recursive: true);
-      final output = File(
-        '$outputDirectory/${catalogId.split('.').last}_runtime_catalog_preview.png',
-      );
-      await output.writeAsBytes(bytes, flush: true);
-      // ignore: avoid_print
-      print(
-        'runtime_catalog_preview=${output.path} catalogId=$catalogId '
-        'dimensions=${image.width}x${image.height} metrics=${metrics.toJson()}',
-      );
-    }
-  },
-      skip: !const bool.fromEnvironment('FORCE_RUNTIME_CATALOG_THUMBNAILS') ||
-          RuntimeModeService.useRendererPlaceholderSurface);
+  registerRuntimePreview(
+    _targets,
+    'build/test_output/vis006-batch15',
+    description: 'VIS-006 batch 15 runtime catalog previews capture GPU pixels',
+  );
 }

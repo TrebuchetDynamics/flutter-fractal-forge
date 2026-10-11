@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
@@ -103,14 +104,14 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.byKey(const Key('catalogSectionGrid_escape_time_0')),
+      expect(find.byKey(const Key('catalogSectionGrid_complex_dynamics_0')),
           findsOneWidget);
 
       await tester
-          .tap(find.byKey(const Key('catalogSectionHeader_escape_time')));
+          .tap(find.byKey(const Key('catalogSectionHeader_complex_dynamics')));
       await tester.pumpAndSettle();
 
-      expect(find.byKey(const Key('catalogSectionGrid_escape_time_0')),
+      expect(find.byKey(const Key('catalogSectionGrid_complex_dynamics_0')),
           findsNothing);
     });
 
@@ -192,13 +193,14 @@ void main() {
       expect(find.byKey(const Key('catalogCategoryChip_all')), findsOneWidget);
     });
 
-    testWidgets('omits dimension filter chips', (tester) async {
+    testWidgets('offers dimension filters independently of families',
+        (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.byKey(const Key('catalogDimensionChip_all')), findsNothing);
-      expect(find.byKey(const Key('catalogDimensionChip_2d')), findsNothing);
-      expect(find.byKey(const Key('catalogDimensionChip_3d')), findsNothing);
+      expect(find.byKey(const Key('catalogDimensionChip_all')), findsOneWidget);
+      expect(find.byKey(const Key('catalogDimensionChip_2d')), findsOneWidget);
+      expect(find.byKey(const Key('catalogDimensionChip_3d')), findsOneWidget);
       expect(find.byKey(const Key('catalogDimensionChip_kaleidoscope')),
           findsNothing);
     });
@@ -225,6 +227,55 @@ void main() {
       );
       expect(viewer.restoreViewerSession, isFalse);
     });
+
+    testWidgets('opening the current module reapplies its starting formula',
+        (tester) async {
+      final module = registry.byId('julia');
+      controller.selectModule(module, animate: false);
+      controller.updateParam('juliaCReal', 0.5);
+      controller.updateParam('iterations', 99);
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+      await tester.enterText(
+          find.byKey(const Key('catalogSearchField')), 'core.julia');
+      await tester.pump(const Duration(milliseconds: 350));
+      await tester.pumpAndSettle();
+      await tester.tap(moduleCard('julia'));
+      await tester.pumpAndSettle();
+      expect(controller.params['juliaCReal'],
+          module.defaultPreset.params['juliaCReal']);
+      expect(controller.params['iterations'],
+          module.defaultPreset.params['iterations']);
+      expect(controller.view.zoom, module.defaultPreset.view.zoom);
+    });
+
+    for (final mode in CatalogViewMode.values) {
+      testWidgets(
+          'favorite keyboard activation does not open the card in ${mode.name}',
+          (tester) async {
+        SharedPreferences.setMockInitialValues({
+          'catalog_browse_query': 'core.mandelbrot',
+          'catalog_view_mode': mode.index,
+        });
+        await tester.pumpWidget(buildTestWidget());
+        await tester.pumpAndSettle();
+        final button = find.byKey(const Key('catalogFavorite_core.mandelbrot'));
+        final icon = find.descendant(of: button, matching: find.byType(Icon));
+        Focus.of(tester.element(icon)).requestFocus();
+        await tester.pump();
+        await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+        await tester.pumpAndSettle();
+        expect(
+            tester.widget<IconButton>(button).tooltip, 'Remove from favorites');
+        expect(find.byType(FractalViewerScreen), findsNothing);
+        Focus.of(tester.element(icon)).requestFocus();
+        await tester.pump();
+        await tester.sendKeyEvent(LogicalKeyboardKey.space);
+        await tester.pumpAndSettle();
+        expect(tester.widget<IconButton>(button).tooltip, 'Add to favorites');
+        expect(find.byType(FractalViewerScreen), findsNothing);
+      });
+    }
 
     testWidgets('renders without error', (tester) async {
       await tester.pumpWidget(buildTestWidget());
@@ -355,7 +406,7 @@ void main() {
       expect(find.byIcon(Icons.view_module_rounded), findsOneWidget);
       // And the grid-to-list icon should not be the active toggle icon.
       expect(find.byIcon(Icons.view_list_rounded), findsNothing);
-      expect(find.textContaining(RegExp(r'\d+ params:')), findsWidgets);
+      expect(find.text('Approximate preview; reduced quality'), findsWidgets);
     });
 
     testWidgets('initial preference load does not overwrite a user view toggle',

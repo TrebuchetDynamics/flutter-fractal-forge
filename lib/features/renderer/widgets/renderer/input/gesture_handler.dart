@@ -39,14 +39,14 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
   int _lastScalePointerCount = 0;
   bool _singlePanDeltaAccepted = false;
   double _startRotationZ = 0.0;
-  double _startTiltX = 0.0;
 
   // Raw pointer tracking for two-finger-tap and wheel gestures.
   final Map<int, Offset> _activePointers = <int, Offset>{};
   final Map<int, Offset> _twoFingerTapDownPositions = <int, Offset>{};
   DateTime? _twoFingerTapStartedAt;
   bool _twoFingerTapCandidate = false;
-  bool _isTilting = false;
+  Vector2 _twoFingerStartPan = Vector2.zero();
+  double _twoFingerStartZoom = 1.0;
   bool _rotationGestureActive = false;
   Offset? _doubleTapDownLocal;
   DateTime? _lastRawTapAt;
@@ -209,12 +209,19 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     }
 
     if (module.dimension == FractalDimension.threeD) {
+      final renderBox = context.findRenderObject() as RenderBox?;
+      final size = renderBox?.size;
+      final scalePx = (size == null)
+          ? 1.0
+          : math.max(1.0, math.min(size.width, size.height));
+      final radiansPerPixelX = math.pi / math.max(1.0, size?.width ?? scalePx);
+      final radiansPerPixelY = math.pi / math.max(1.0, size?.height ?? scalePx);
       controller.updateView(
         view.copyWith(
           rotation: _bounded3DRotation(
             view.rotation +
-                Vector3(step.displacement.dy * 0.0008,
-                    step.displacement.dx * 0.0008, 0),
+                Vector3(-step.displacement.dy * radiansPerPixelY,
+                    -step.displacement.dx * radiansPerPixelX, 0),
           ),
         ),
       );
@@ -286,8 +293,6 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     _lastScalePointerCount = details.pointerCount;
     _singlePanDeltaAccepted = false;
     _startRotationZ = controller.view.rotation.z;
-    _startTiltX = controller.view.rotation.x;
-    _isTilting = false;
     _rotationGestureActive = false;
     _deferUserInteractionEndToAnimation = false;
 
@@ -359,6 +364,63 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     );
   }
 
+  Vector2 _screenDeltaTo3DCameraTarget({
+    required String moduleId,
+    required Offset deltaPx,
+    required double scalePx,
+    required double zoom,
+    required Vector3 rotation,
+  }) {
+    final x = rotation.x;
+    final y = rotation.y;
+    final z = rotation.z;
+    final cx = math.cos(x);
+    final sx = math.sin(x);
+    final cy = math.cos(y);
+    final sy = math.sin(y);
+    final cz = math.cos(z);
+    final sz = math.sin(z);
+
+    // Match the shared raymarch shader rotation matrix's camera-right and
+    // camera-up columns, then move the target opposite the finger so the
+    // fractal follows the drag. Camera distance scales inversely with zoom.
+    final worldUnitsPerPixel = 6.0 / (scalePx * math.max(zoom, 0.1));
+    final targetRight = -deltaPx.dx * worldUnitsPerPixel;
+    final targetUp = deltaPx.dy * worldUnitsPerPixel;
+    // GLSL mat3 constructors are column-major: these are the XY components
+    // of gRotation * cameraRight and gRotation * cameraUp, respectively.
+    final rightX = cy * cz;
+    final rightY = sx * sy * cz - cx * sz;
+    final upX = cy * sz;
+    final upY = sx * sy * sz + cx * cz;
+
+    if (moduleId == 'mandelbulb' || moduleId == 'mandelbox') {
+      var right = Vector3(rightX, rightY, cx * sy * cz + sx * sz);
+      var down = Vector3(upX, upY, cx * sy * sz - sx * cz);
+      if (moduleId == 'mandelbox') {
+        // Mandelbox rebuilds a world-up basis; its rays do not use camera roll.
+        final forward = Vector3(sy, -sx * cy, -cx * cy);
+        right = Vector3(0, 1, 0).cross(forward).normalized();
+        down = forward.cross(right);
+      }
+      // Invert screen projection onto the XY-only target, rather than dropping Z.
+      final determinant = right.x * down.y - right.y * down.x;
+      // shortcut: edge-on XY targets cannot pan in both axes, needs a 3D target.
+      if (determinant.abs() < 1e-6) return Vector2.zero();
+      final targetDown = -deltaPx.dy * worldUnitsPerPixel;
+      return Vector2(
+        (down.y * targetRight - right.y * targetDown) / determinant,
+        (right.x * targetDown - down.x * targetRight) / determinant,
+      );
+    }
+    // Other registered shaders have different focal lengths/target scales;
+    // retain their existing mapping pending a separate camera-contract change.
+    return Vector2(
+      rightX * targetRight + upX * targetUp,
+      rightY * targetRight + upY * targetUp,
+    );
+  }
+
   void _applyZoomAroundFocal({
     required FractalController controller,
     required double targetZoom,
@@ -408,6 +470,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     final size = renderBox?.size;
     final scalePx =
         (size == null) ? 1.0 : math.max(1.0, math.min(size.width, size.height));
+    final cameraScalePx = (size == null) ? 1.0 : math.max(1.0, size.height);
     final localFocal = (renderBox != null)
         ? renderBox.globalToLocal(details.focalPoint)
         : details.focalPoint;
@@ -431,11 +494,16 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
 
       if (module.dimension == FractalDimension.threeD) {
         if (!rotationLocked) {
+          final radiansPerPixelX =
+              math.pi / math.max(1.0, size?.width ?? scalePx);
+          final radiansPerPixelY =
+              math.pi / math.max(1.0, size?.height ?? scalePx);
           controller.updateView(
             view.copyWith(
               rotation: _bounded3DRotation(
                 view.rotation +
-                    Vector3(panDelta.dy * 0.0009, panDelta.dx * 0.0009, 0),
+                    Vector3(-panDelta.dy * radiansPerPixelY,
+                        -panDelta.dx * radiansPerPixelX, 0),
               ),
             ),
           );
@@ -469,44 +537,65 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       return;
     }
 
-    // --- 2+ fingers: pinch zoom + rotate + tilt ---
+    // --- 2+ fingers: pinch zoom + camera pan + optional twist ---
     _zoomMomentumFocal = localFocal;
+    var gestureScale = details.scale;
+    var gestureRotation = details.rotation;
+    var gestureStartPan = _startPan;
+    var gestureStartZoom = _startZoom;
+    var gestureStartFocalPoint = _startFocalPoint;
+    var gestureFocalPoint = localFocal;
+    if (module.dimension == FractalDimension.threeD &&
+        details.pointerCount == 2 &&
+        _twoFingerTapDownPositions.length == 2 &&
+        _activePointers.length == 2) {
+      final startPointers = _twoFingerTapDownPositions.values.toList();
+      final currentPointers = _activePointers.values.toList();
+      final startSpan = (startPointers[0] - startPointers[1]).distance;
+      if (startSpan > 0) {
+        final startAxis = startPointers[1] - startPointers[0];
+        final currentAxis = currentPointers[1] - currentPointers[0];
+        gestureScale = currentAxis.distance / startSpan;
+        // Use the same pre-slop anchor as pan/zoom, not the recognizer's late start.
+        gestureRotation = math.atan2(
+          startAxis.dx * currentAxis.dy - startAxis.dy * currentAxis.dx,
+          startAxis.dx * currentAxis.dx + startAxis.dy * currentAxis.dy,
+        );
+        gestureStartPan = _twoFingerStartPan;
+        gestureStartZoom = _twoFingerStartZoom;
+        gestureStartFocalPoint = (startPointers[0] + startPointers[1]) / 2;
+        gestureFocalPoint = (currentPointers[0] + currentPointers[1]) / 2;
+      }
+    }
     final newZoom =
-        _rubberBand(_startZoom * details.scale, _kMinZoom, _kMaxZoom);
+        _rubberBand(gestureStartZoom * gestureScale, _kMinZoom, _kMaxZoom);
 
     var nextPan = view.pan;
     var nextRotation = view.rotation;
 
-    if (size != null && details.pointerCount >= 2) {
-      final verticalDelta = localFocal.dy - _startFocalPoint.dy;
-      final horizontalDelta = localFocal.dx - _startFocalPoint.dx;
-      final rotationDeltaFromStart = details.rotation;
-      final isVerticalSwipe =
-          verticalDelta.abs() > (horizontalDelta.abs() * 1.25);
-      final isStablePinch = (details.scale - 1.0).abs() < 0.08;
-      final isStableRotate = rotationDeltaFromStart.abs() < 0.08;
-
-      if (!_isTilting && isVerticalSwipe && isStablePinch && isStableRotate) {
-        _isTilting = true;
-      }
-
-      if (_isTilting) {
-        final tilt =
-            (_startTiltX + (verticalDelta * 0.01)).clamp(0.0, _kTiltMaxRadians);
-        nextRotation = Vector3(tilt, nextRotation.y, nextRotation.z);
-      }
-    }
-
     if (!rotationLocked &&
         !_rotationGestureActive &&
-        details.rotation.abs() > _kIntentionalRotationThreshold) {
+        gestureRotation.abs() > _kIntentionalRotationThreshold) {
       _rotationGestureActive = true;
     }
     final effectiveRotationDelta =
-        (!rotationLocked && _rotationGestureActive) ? details.rotation : 0.0;
+        (!rotationLocked && _rotationGestureActive) ? gestureRotation : 0.0;
     final newRotationZ = _startRotationZ + effectiveRotationDelta;
 
-    if (size != null && module.dimension != FractalDimension.threeD) {
+    if (size != null && module.dimension == FractalDimension.threeD) {
+      nextRotation = Vector3(nextRotation.x, nextRotation.y, newRotationZ);
+      final targetDelta = _screenDeltaTo3DCameraTarget(
+        moduleId: module.id,
+        deltaPx: gestureFocalPoint - gestureStartFocalPoint,
+        scalePx: cameraScalePx,
+        zoom: gestureStartZoom,
+        rotation: nextRotation,
+      );
+      nextPan = Vector2(
+        _rubberBand(gestureStartPan.x + targetDelta.x, _kPanMin, _kPanMax),
+        _rubberBand(gestureStartPan.y + targetDelta.y, _kPanMin, _kPanMax),
+      );
+    } else if (size != null) {
       // Keep the world point under the midpoint fixed while zooming/rotating.
       final startN = _normalizedPoint(_startFocalPoint, size, scalePx);
       final curN = _normalizedPoint(localFocal, size, scalePx);
@@ -538,23 +627,15 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
     );
 
     // Track zoom velocity in zoom levels per ms (logarithmic)
-    final scaleChange = details.scale / _lastScale;
+    final scaleChange = gestureScale / _lastScale;
     if (scaleChange > 0) {
       final zoomLevelChange = math.log(scaleChange) / math.ln2; // log2(scale)
       _zoomVelocity = zoomLevelChange / 16; // per frame, convert to per-ms
     }
-    _lastScale = details.scale;
+    _lastScale = gestureScale;
   }
 
   void _onScaleEnd(ScaleEndDetails details) {
-    if (_isTilting) {
-      _isTilting = false;
-      _velHistory.clear();
-      _zoomVelocity = 0.0;
-      if (!_deferUserInteractionEndToAnimation) _notifyUserInteractionEnd();
-      return;
-    }
-
     final controller = context.read<FractalController>();
     if (_activePointers.isEmpty || _activePointers.length == 1) {
       // Pan end: log final position and delta from start
@@ -747,6 +828,9 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       _twoFingerTapDownPositions
         ..clear()
         ..addAll(_activePointers);
+      final controller = context.read<FractalController>();
+      _twoFingerStartPan = controller.view.pan;
+      _twoFingerStartZoom = controller.view.zoom;
     } else if (_activePointers.length > 2) {
       _twoFingerTapCandidate = false;
     }

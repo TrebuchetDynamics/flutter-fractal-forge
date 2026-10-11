@@ -2,6 +2,10 @@
 
 ## Accepted focus
 
+Status: Accepted
+
+Authority: the owner-approved visual-improvement scope recorded below and in `BLOCKERS.md` resolution `BLK-20261005-002`. Documentation maintenance does not authorize dispatch or new product scope.
+
 Prioritize the launch-critical **Visual Fidelity Audit** for the **Featured Launch Set** and catalog thumbnails. The owner-approved visual-improvement task extends the work beyond that first tranche. It includes both Explore groups and all 200 research-library definitions. The Featured Launch Set remains the first audit phase; this extension does not make a blanket shader rewrite part of scope.
 
 Review true module defaults, runtime catalog previews, and first viewer renders. Preserve established formulas. Tune defaults and rendering, or fix demonstrated implementation bugs.
@@ -34,7 +38,7 @@ VIS-006-BATCH-13 executed strict real-GPU module-default captures and actual run
 
 Real-GPU checks use `--dart-define=FORCE_GPU_RENDER=true`. Default and runtime-preview checks now have evidence for Julia, Nova, Newton z³, Koch Snowflake, Burning Ship, Four-Wing, Lorenz 2D, Mandelbrot, Rössler 2D, and Thomas Attractor. Viewer-start checks cover all nine Featured Launch Set IDs: seven in `user_flows_test.dart`, plus dedicated Nova and Newton z³ tests. Koch's 256×256 default capture reports 1,591 unique RGB colors and 17.09% black pixels. Its runtime preview is 384×346. These are focused samples, not full-catalog coverage.
 
-The visual inventory reconciles 1,027 Explore IDs (core=1,027; performance=0) and 200 research-manifest IDs. It records default capture/runtime-preview evidence for 127 Explore rows; 900 remain uncaptured. All 200 research rows are explicitly marked `missing_app_renderer`, so no app preview or first viewer render is available for them. The `first_view` field is populated for nine Explore rows. Its `cpu_formula` field is `not audited` in 1,164 of the 1,227 rows. The visual-inventory validator checks references and shader paths, not render quality. The remaining coverage is tracked in [`TODO.md`](../../TODO.md).
+The visual inventory reconciles 1,028 Explore IDs (core=1,028; performance=0) and 200 research-manifest IDs. It records default capture/runtime-preview evidence for 187 Explore rows; 841 remain uncaptured. All 200 research rows are `missing_app_renderer`. The `first_view` field is populated for 14 Explore rows. `cpu_formula` is `not audited` in 1,145 of 1,228 rows. These are recorded inventory values, not fresh artifact checks. The validator checks references and shader paths, not render quality. Remaining coverage is tracked in [`TODO.md`](../../TODO.md).
 
 An earlier 1,020-entry GPU capture timed out. Its report did not reconcile with the 907 PNG files found. It is not complete-coverage evidence. Four-Wing, Lorenz, Rössler, and Thomas captures also have documented visual findings that need follow-up. Keep their established formulas unchanged unless an implementation defect is demonstrated.
 
@@ -132,6 +136,17 @@ The next bounded steps are tracked in [`TODO.md`](../../TODO.md):
 - `VIS-005`: ID and renderer-status reconciliation is complete. It does not prove visual output or CPU-formula coverage.
 
 `VIS-006` in `TODO.md` tracks the remaining GPU captures, runtime previews, first viewer renders, and supported CPU checks. The next batch should name ten uncaptured Explore IDs. Do not count a batch as complete until its selected, generated, failed, and skipped counts reconcile. Keep formula redesign and static catalog assets out of scope.
+
+## Current execution frontier
+
+- Now: retain the active `VIS-006` worker. `VIS-006-BATCH-20` is Next and depends on that worker's completion. These capture slices do not complete first-view or CPU coverage.
+- Next: `VIS-006-FIRST-VIEW-04` checks five captured modules after batch 20; `VIS-006-CPU-01` then checks five native CPU formulas. Keep unsupported research rows explicit; this plan does not authorize their implementation.
+- Independent Now: `SMOOTH-001-INVENTORY-01` reconciles the integer-power family and the uncovered Multibrot d=4 assertion. `SMOOTH-001-INVENTORY-02` is its accepted coverage successor under TODO P1-3. Completed sample tasks stay done.
+- Needs decision: `DOC-PRD-001`, `MEDIA-002`, and `VIS-003` remain owner-controlled. Root-PRD scope conflicts do not become implementation commitments.
+
+Decision: preserve existing worker ownership and priorities, and add qualification successors rather than reopening completed batches. Evidence: current inventory and the failed d=4 coverage assertion. Check: canonical ledger validation, body/status reconciliation, and consumer backlog gate. Readiness is not dispatch authorization.
+
+Skill application: `planning-and-task-breakdown` produced bounded Now/Next bodies with explicit dependencies and observable checks. `documentation-and-adrs` kept implementation, historical receipts, and current qualification separate. No new architectural decision was needed.
 
 ## Stop conditions
 

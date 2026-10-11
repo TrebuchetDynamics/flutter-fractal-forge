@@ -17,15 +17,13 @@ void main() {
     expect(shader, isNot(contains('cross(vec3(0.0, 1.0, 0.0)')));
   });
 
-  test('raymarched 3D builder sends view pan through shared pan slots', () {
+  test('raymarched 3D builder delegates view pan to the shared writer', () {
     final builder = File(
       'lib/core/modules/builders/raymarched_3d/builder.dart',
     ).readAsStringSync();
 
-    expect(
-        builder, contains('Raymarched3DUniformSlots.mouseX, state.view.pan.x'));
-    expect(
-        builder, contains('Raymarched3DUniformSlots.mouseY, state.view.pan.y'));
+    expect(builder, contains('setRaymarched3DFrameUniforms('));
+    expect(builder, contains('view: state.view,'));
   });
 
   test('Hartverdrahtet default params stay below bad-performance issue values',

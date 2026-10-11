@@ -13,6 +13,7 @@ Declarative escape-time fractal builder system. Provides a pattern where standar
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `escape_time_builder.dart` | `buildEscapeTimeModule()` - creates a `FractalModule` from an `EscapeTimeConfig`. Handles standard uniform layout (resolution, center, zoom, iterations, bailout, colorScheme, time) |
 | `escape_time_catalog.dart` | `buildEscapeTimeCatalogModules()` - master list of all declarative fractal configs. Each `EscapeTimeConfig` entry = one fractal                                                      |
+| `uniform_layout.dart` | Shared escape-time, ray-marched 3D camera-prefix, and Mandelbrot DF2 uniform slot contracts |
 
 ## For AI Agents
 

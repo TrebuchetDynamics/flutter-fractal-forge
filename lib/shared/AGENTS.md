@@ -4,7 +4,7 @@
 # shared
 
 ## Purpose
-Cross-cutting utilities shared across features. Contains navigation management and other utilities that don't belong to a specific feature or core layer.
+Cross-cutting utilities shared across features that don't belong to a specific feature or core layer.
 
 ## Subdirectories
 

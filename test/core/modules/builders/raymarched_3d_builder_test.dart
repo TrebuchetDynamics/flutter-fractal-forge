@@ -1,10 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vector_math/vector_math_64.dart';
 
+import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/builders/raymarched_3d_builder.dart';
 import 'package:flutter_fractals/core/modules/builders/raymarched_3d_catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/uniform_layout.dart';
 
 void main() {
   group('buildRaymarched3DModule', () {
@@ -67,6 +69,33 @@ void main() {
         module.builtInPresets.map((preset) => preset.moduleId),
         everyElement('ray-module-id-test'),
       );
+    });
+
+    test('declared extra shader parameters are part of the module defaults',
+        () {
+      final config = Raymarched3DConfig(
+        id: 'ray-extra-parameter-test',
+        name: 'Ray Extra Parameter Test',
+        shaderAsset: 'shaders/ray_extra_parameter_test.frag',
+        extraParams: [
+          FractalParameter(
+            id: 'seed',
+            label: (_) => 'Random Seed',
+            type: FractalParamType.integer,
+            min: 0,
+            max: 9999,
+            step: 1,
+            defaultValue: 37,
+          ),
+        ],
+      );
+
+      final module = buildRaymarched3DModule(config);
+
+      expect(
+          module.parameters.map((parameter) => parameter.id), contains('seed'));
+      expect(module.defaultPreset.params['seed'], 37);
+      expect(Raymarched3DUniformSlots.extraStart, 16);
     });
 
     test('catalog modules expose unique built-in preset ids', () {

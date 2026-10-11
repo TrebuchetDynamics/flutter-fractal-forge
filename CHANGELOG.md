@@ -7,11 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add seeded, DLAF-inspired Coral Growth fractals in 2D and 3D.
+
 ### Fixed
 
 - Preserve an explicitly requested Playwright catalog smoke module when a
   previous viewer session is stored in the browser. The smoke route now owns
   the initial viewer state instead of restoring the prior module first.
+- Correct KIFS Menger Sponge folding and early-out on removed cells to avoid
+  repeatedly evaluating its full iteration loop; leave Menger Cross's path intact.
 
 ### Planned
 

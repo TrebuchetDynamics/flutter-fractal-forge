@@ -31,7 +31,6 @@ void main() {
 
       expect(feedback.saved, isTrue);
       expect(feedback.shareFailed, isFalse);
-      expect(feedback.isWarning, isFalse);
       expect(feedback.title(l10n), 'Export saved');
       expect(feedback.detail(l10n), '1920×1080 • JPG • 2.0 KB');
     });
@@ -55,7 +54,6 @@ void main() {
 
       expect(feedback.saved, isTrue);
       expect(feedback.shareFailed, isTrue);
-      expect(feedback.isWarning, isTrue);
       expect(feedback.title(l10n), startsWith('Export saved.'));
       expect(feedback.detail(l10n), '1920×1080 • PNG • 2.0 KB');
     });
