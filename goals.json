@@ -56,7 +56,7 @@
       ],
       "id": "VIS-004",
       "priority": 1,
-      "source": "TODO.md#Visual Fidelity Audit — current queue",
+      "source": "TODO.md#visual-fidelity-audit--current-queue",
       "status": "met",
       "tasks": [
         "VIS-004"
@@ -94,7 +94,7 @@
       ],
       "id": "VIS-005",
       "priority": 2,
-      "source": "TODO.md#Visual Fidelity Audit — current queue",
+      "source": "TODO.md#visual-fidelity-audit--current-queue",
       "status": "met",
       "tasks": [
         "VIS-005"
@@ -784,7 +784,7 @@
       ],
       "id": "VIS-006",
       "priority": 3,
-      "source": "TODO.md#Visual Fidelity Audit — current queue",
+      "source": "TODO.md#visual-fidelity-audit--current-queue",
       "status": "partial",
       "tasks": [
         "VIS-006",
@@ -805,9 +805,11 @@
         "VIS-006-BATCH-19",
         "VIS-006-BATCH-19-INVENTORY",
         "VIS-006-BATCH-20",
+        "VIS-006-CPU-01",
         "VIS-006-FIRST-VIEW-01",
         "VIS-006-FIRST-VIEW-02",
-        "VIS-006-FIRST-VIEW-03"
+        "VIS-006-FIRST-VIEW-03",
+        "VIS-006-FIRST-VIEW-04"
       ],
       "title": "Audit mapped fractals in reconciled batches"
     },
@@ -855,6 +857,11 @@
           "result": "pass"
         },
         {
+          "kind": "executed",
+          "ref": "python3 -c 'from pathlib import Path; p=\"shaders/escape_time_family/families/multibrot/integer_powers/multibrot4_gpu.frag\"; assert Path(p).is_file(); assert p in Path(\"test/shaders/smooth_coloring_family_coverage_test.dart\").read_text(), \"SMOOTH-001 incomplete: supported Multibrot d=4 is absent from the family coverage test\"'",
+          "result": "fail"
+        },
+        {
           "kind": "inspection",
           "ref": "TODO.md#P1-3: four families (7 shaders) covered; complete applicable polynomial escape-time inventory remains open",
           "result": "fail"
@@ -867,13 +874,15 @@
       ],
       "id": "SMOOTH-001",
       "priority": 4,
-      "source": "TODO.md#P1-3: Smooth Coloring in ALL Shaders",
-      "status": "met",
+      "source": "TODO.md#p1-3-smooth-coloring-in-all-shaders",
+      "status": "partial",
       "tasks": [
         "SMOOTH-001",
         "SMOOTH-001-COVERAGE-01",
         "SMOOTH-001-COVERAGE-02",
-        "SMOOTH-001-COVERAGE-03"
+        "SMOOTH-001-COVERAGE-03",
+        "SMOOTH-001-INVENTORY-01",
+        "SMOOTH-001-INVENTORY-02"
       ],
       "title": "Prove smooth-coloring coverage for supported escape-time shaders"
     },
@@ -888,7 +897,7 @@
       ],
       "id": "MEDIA-002",
       "priority": 8,
-      "source": "TODO.md#Launch Visual Audit Handoff",
+      "source": "TODO.md#launch-visual-audit-handoff",
       "status": "unmet",
       "tasks": [
         "MEDIA-002"
@@ -906,7 +915,7 @@
       ],
       "id": "VIS-003",
       "priority": 9,
-      "source": "TODO.md#Launch Visual Audit Handoff",
+      "source": "TODO.md#launch-visual-audit-handoff",
       "status": "unmet",
       "tasks": [
         "VIS-003"
@@ -917,6 +926,12 @@
       "depends_on": [],
       "evidence": [
         {
+          "kind": "executed",
+          "ran_at": "2026-10-11",
+          "ref": "python3 \"$HERMES_PROFILE/cache/scratch/repo-interview-release-20261011/check_interview_docs.py\" \"$REPO\" (interview documentation/ledger only)",
+          "result": "pass"
+        },
+        {
           "kind": "inspection",
           "ref": "BLOCKERS.md#BLK-20261005-004: conflicting scope statements require owner decision",
           "result": "fail"
@@ -924,15 +939,51 @@
       ],
       "id": "DOC-PRD-001",
       "priority": 10,
-      "source": "PRD.md#Open question: active product scope",
-      "status": "unverified",
+      "source": "PRD.md#open-question-active-product-scope",
+      "status": "met",
       "tasks": [
         "DOC-PRD-001"
       ],
       "title": "Resolve which documents own active product scope"
+    },
+    {
+      "depends_on": [],
+      "evidence": [
+        {
+          "kind": "inspection",
+          "ref": "PRD.md#active-release-contract: owner accepted the cross-platform journey; complete platform qualification remains unverified",
+          "result": "pass"
+        }
+      ],
+      "id": "REL-JOURNEY-001",
+      "priority": 11,
+      "source": "PRD.md#active-release-contract",
+      "status": "unverified",
+      "tasks": [
+        "REL-JOURNEY-01-WEB",
+        "REL-JOURNEY-02-LINUX",
+        "REL-JOURNEY-03-ANDROID"
+      ],
+      "title": "Qualify the complete image-creation journey on Android, web and Linux"
     }
   ],
   "tasks": [
+    {
+      "depends_on": [],
+      "goal": "REL-JOURNEY-001",
+      "id": "REL-JOURNEY-01-WEB",
+      "section": "Now",
+      "status": "open",
+      "title": "Qualify the complete web image-creation journey"
+    },
+    {
+      "depends_on": [],
+      "goal": "SMOOTH-001",
+      "id": "SMOOTH-001-INVENTORY-01",
+      "section": "Now",
+      "status": "open",
+      "title": "Reconcile integer-power smooth-coloring inventory and the d=4 regression gap"
+    },
     {
       "depends_on": [
         "VIS-005"
@@ -942,6 +993,32 @@
       "section": "Now",
       "status": "in_progress",
       "title": "Capture and inspect the next ten uncaptured Explore modules"
+    },
+    {
+      "depends_on": [],
+      "goal": "REL-JOURNEY-001",
+      "id": "REL-JOURNEY-02-LINUX",
+      "section": "Next",
+      "status": "open",
+      "title": "Qualify the complete Linux image-creation journey"
+    },
+    {
+      "depends_on": [],
+      "goal": "REL-JOURNEY-001",
+      "id": "REL-JOURNEY-03-ANDROID",
+      "section": "Next",
+      "status": "open",
+      "title": "Qualify the complete Android image-creation journey"
+    },
+    {
+      "depends_on": [
+        "SMOOTH-001-INVENTORY-01"
+      ],
+      "goal": "SMOOTH-001",
+      "id": "SMOOTH-001-INVENTORY-02",
+      "section": "Next",
+      "status": "open",
+      "title": "Verify the next uncovered polynomial smooth-coloring family"
     },
     {
       "depends_on": [
@@ -954,12 +1031,24 @@
       "title": "Capture defaults and runtime previews for the following ten uncaptured Explore modules"
     },
     {
-      "depends_on": [],
-      "goal": "DOC-PRD-001",
-      "id": "DOC-PRD-001",
-      "section": "Needs decision",
+      "depends_on": [
+        "VIS-006-FIRST-VIEW-04"
+      ],
+      "goal": "VIS-006",
+      "id": "VIS-006-CPU-01",
+      "section": "Next",
       "status": "open",
-      "title": "Reconcile current product-scope ownership"
+      "title": "Verify native CPU behavior for five audited Explore modules"
+    },
+    {
+      "depends_on": [
+        "VIS-006-BATCH-20"
+      ],
+      "goal": "VIS-006",
+      "id": "VIS-006-FIRST-VIEW-04",
+      "section": "Next",
+      "status": "open",
+      "title": "Verify five captured Explore modules without first-view evidence"
     },
     {
       "depends_on": [],
@@ -976,6 +1065,14 @@
       "section": "Needs decision",
       "status": "open",
       "title": "Review app icon presentation and record sign-off"
+    },
+    {
+      "depends_on": [],
+      "goal": "DOC-PRD-001",
+      "id": "DOC-PRD-001",
+      "section": "Done",
+      "status": "done",
+      "title": "Reconcile current product-scope ownership"
     },
     {
       "depends_on": [],
