@@ -23,8 +23,9 @@ import 'package:flutter_fractals/l10n/app_localizations.dart';
 /// - Animated slide-in/out
 class FractalControlsHud extends StatefulWidget {
   final VoidCallback? onClose;
+  final Widget? content;
 
-  const FractalControlsHud({super.key, this.onClose});
+  const FractalControlsHud({super.key, this.onClose, this.content});
 
   @override
   State<FractalControlsHud> createState() => _FractalControlsHudState();
@@ -92,16 +93,19 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
                   onPressed: () => setState(() => _isCollapsed = !_isCollapsed),
                 ),
                 // Close button
-                _HudIconButton(
-                  icon: Icons.close_rounded,
-                  tooltip: l10n.semanticCloseButton,
-                  onPressed:
-                      widget.onClose ?? () => Navigator.of(context).pop(),
-                ),
+                if (widget.onClose != null || widget.content == null)
+                  _HudIconButton(
+                    icon: Icons.close_rounded,
+                    tooltip: l10n.semanticCloseButton,
+                    onPressed:
+                        widget.onClose ?? () => Navigator.of(context).pop(),
+                  ),
               ],
             ),
           ),
-          if (!_isCollapsed)
+          if (!_isCollapsed && widget.content != null)
+            Expanded(child: widget.content!)
+          else if (!_isCollapsed)
             // Scrollable controls content
             Expanded(
               child: SingleChildScrollView(

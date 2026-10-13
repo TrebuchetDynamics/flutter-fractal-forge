@@ -110,6 +110,132 @@ abstract class AppLocalizations {
   /// **'Explore'**
   String get tabExplore;
 
+  /// No description provided for @gaussianWalk.
+  ///
+  /// In en, this message translates to:
+  /// **'Walk'**
+  String get gaussianWalk;
+
+  /// No description provided for @gaussianZoomIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom in'**
+  String get gaussianZoomIn;
+
+  /// No description provided for @gaussianZoomOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom out'**
+  String get gaussianZoomOut;
+
+  /// No description provided for @gaussianMapOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Exact bounded map — walking and component search are not available yet.'**
+  String get gaussianMapOnly;
+
+  /// No description provided for @gaussianDomain.
+  ///
+  /// In en, this message translates to:
+  /// **'Computed domain B={bound}: −B ≤ a,b ≤ B; outside is uncomputed'**
+  String gaussianDomain(int bound);
+
+  /// No description provided for @gaussianComputing.
+  ///
+  /// In en, this message translates to:
+  /// **'Computing exact primes…'**
+  String get gaussianComputing;
+
+  /// No description provided for @gaussianReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready: {count} exact primes'**
+  String gaussianReady(int count);
+
+  /// No description provided for @gaussianError.
+  ///
+  /// In en, this message translates to:
+  /// **'Computation failed. Retry or reduce the domain.'**
+  String get gaussianError;
+
+  /// No description provided for @gaussianBound.
+  ///
+  /// In en, this message translates to:
+  /// **'Domain half-width B (1–128)'**
+  String get gaussianBound;
+
+  /// No description provided for @gaussianInvalidBound.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an integer from 1 to 128.'**
+  String get gaussianInvalidBound;
+
+  /// No description provided for @gaussianCoordinates.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter integer coordinates a and b.'**
+  String get gaussianCoordinates;
+
+  /// No description provided for @gaussianSelect.
+  ///
+  /// In en, this message translates to:
+  /// **'Select candidate'**
+  String get gaussianSelect;
+
+  /// No description provided for @gaussianSetStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Set start'**
+  String get gaussianSetStart;
+
+  /// No description provided for @gaussianRoot.
+  ///
+  /// In en, this message translates to:
+  /// **'Start: ({a}, {b}) · 0 steps'**
+  String gaussianRoot(int a, int b);
+
+  /// No description provided for @gaussianCandidate.
+  ///
+  /// In en, this message translates to:
+  /// **'Candidate: ({a}, {b}) · norm {norm} · {state}'**
+  String gaussianCandidate(int a, int b, int norm, String state);
+
+  /// No description provided for @gaussianPrime.
+  ///
+  /// In en, this message translates to:
+  /// **'Gaussian prime'**
+  String get gaussianPrime;
+
+  /// No description provided for @gaussianComposite.
+  ///
+  /// In en, this message translates to:
+  /// **'not a Gaussian prime'**
+  String get gaussianComposite;
+
+  /// No description provided for @gaussianUncomputed.
+  ///
+  /// In en, this message translates to:
+  /// **'uncomputed — outside domain'**
+  String get gaussianUncomputed;
+
+  /// No description provided for @gaussianUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Effects, compare and Fourier are available only in Explore mode.'**
+  String get gaussianUnavailable;
+
+  /// No description provided for @gaussianAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'About the math'**
+  String get gaussianAbout;
+
+  /// No description provided for @gaussianMath.
+  ///
+  /// In en, this message translates to:
+  /// **'Off-axis a+bi is prime when a²+b² is an ordinary prime. On an axis, the absolute coordinate must be prime and 3 modulo 4. Origin and units are excluded. This finite map cannot certify an infinite moat theorem.'**
+  String get gaussianMath;
+
   /// No description provided for @tabFavorites.
   ///
   /// In en, this message translates to:

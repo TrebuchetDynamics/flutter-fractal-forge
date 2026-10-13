@@ -54,6 +54,7 @@ import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dart';
+import 'package:flutter_fractals/features/viewer/gaussian_moat_map.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_view_controls.dart';
 import 'package:flutter_fractals/features/viewer/export/viewer_export_feedback.dart';
 import 'package:flutter_fractals/features/viewer/export/viewer_export_overlay.dart';
@@ -213,6 +214,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   // Visual simplification state
   bool _fullscreenUnobtrusive = false;
   bool _showControlsHud = false;
+  bool _gaussianWalk = false;
   final TextOverlayController _textOverlay = TextOverlayController();
   bool _fourierEnabled = false;
   bool _fourierMusicEnabled = false;
@@ -1521,12 +1523,32 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       child: Focus(
         autofocus: true,
         focusNode: _keyboardFocusNode,
-        onKeyEvent: (node, event) => _onKeyEvent(context, event),
+        onKeyEvent: (node, event) => _gaussianWalk
+            ? KeyEventResult.ignored
+            : _onKeyEvent(context, event),
         child: Scaffold(
           key: const Key('fractalViewerRoot'),
           extendBody: true,
           body: LayoutBuilder(
             builder: (context, constraints) {
+              if (_gaussianWalk &&
+                  controller.module.id == 'gaussian_prime_lattice') {
+                return Stack(children: [
+                  Positioned.fill(
+                      child: GaussianMoatMap(
+                    boundaryKey: _fractalKeyA,
+                    onExplore: () => setState(() => _gaussianWalk = false),
+                    onExport: () => _openExport(context),
+                  )),
+                  if (_exporting)
+                    Positioned.fill(
+                        child: ExportOverlay(
+                      progress: _exportProgress,
+                      l10n: l10n,
+                      onCancel: _exportService.cancelActiveExport,
+                    )),
+                ]);
+              }
               final activeController = _activeController(context);
               final landscape = constraints.maxWidth > constraints.maxHeight;
               final topInset = MediaQuery.of(context).padding.top;
@@ -1723,6 +1745,20 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildViewerTitleChip(context, controller),
+                          if (controller.module.id == 'gaussian_prime_lattice')
+                            FilledButton(
+                              style: FilledButton.styleFrom(
+                                  minimumSize: const Size(48, 48)),
+                              onPressed: () {
+                                if (_fourierEnabled) _toggleFourier();
+                                _autoExploreService?.stop();
+                                setState(() {
+                                  _showControlsHud = false;
+                                  _gaussianWalk = true;
+                                });
+                              },
+                              child: Text(l10n.gaussianWalk),
+                            ),
                         ],
                       ),
                     ),

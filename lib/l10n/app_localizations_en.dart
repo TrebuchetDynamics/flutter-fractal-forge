@@ -15,6 +15,80 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tabExplore => 'Explore';
 
   @override
+  String get gaussianWalk => 'Walk';
+
+  @override
+  String get gaussianZoomIn => 'Zoom in';
+
+  @override
+  String get gaussianZoomOut => 'Zoom out';
+
+  @override
+  String get gaussianMapOnly =>
+      'Exact bounded map — walking and component search are not available yet.';
+
+  @override
+  String gaussianDomain(int bound) {
+    return 'Computed domain B=$bound: −B ≤ a,b ≤ B; outside is uncomputed';
+  }
+
+  @override
+  String get gaussianComputing => 'Computing exact primes…';
+
+  @override
+  String gaussianReady(int count) {
+    return 'Ready: $count exact primes';
+  }
+
+  @override
+  String get gaussianError => 'Computation failed. Retry or reduce the domain.';
+
+  @override
+  String get gaussianBound => 'Domain half-width B (1–128)';
+
+  @override
+  String get gaussianInvalidBound => 'Enter an integer from 1 to 128.';
+
+  @override
+  String get gaussianCoordinates => 'Enter integer coordinates a and b.';
+
+  @override
+  String get gaussianSelect => 'Select candidate';
+
+  @override
+  String get gaussianSetStart => 'Set start';
+
+  @override
+  String gaussianRoot(int a, int b) {
+    return 'Start: ($a, $b) · 0 steps';
+  }
+
+  @override
+  String gaussianCandidate(int a, int b, int norm, String state) {
+    return 'Candidate: ($a, $b) · norm $norm · $state';
+  }
+
+  @override
+  String get gaussianPrime => 'Gaussian prime';
+
+  @override
+  String get gaussianComposite => 'not a Gaussian prime';
+
+  @override
+  String get gaussianUncomputed => 'uncomputed — outside domain';
+
+  @override
+  String get gaussianUnavailable =>
+      'Effects, compare and Fourier are available only in Explore mode.';
+
+  @override
+  String get gaussianAbout => 'About the math';
+
+  @override
+  String get gaussianMath =>
+      'Off-axis a+bi is prime when a²+b² is an ordinary prime. On an axis, the absolute coordinate must be prime and 3 modulo 4. Origin and units are excluded. This finite map cannot certify an infinite moat theorem.';
+
+  @override
   String get tabFavorites => 'Favorites';
 
   @override

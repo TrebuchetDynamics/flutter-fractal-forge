@@ -15,6 +15,81 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tabExplore => 'Explorar';
 
   @override
+  String get gaussianWalk => 'Caminar';
+
+  @override
+  String get gaussianZoomIn => 'Acercar';
+
+  @override
+  String get gaussianZoomOut => 'Alejar';
+
+  @override
+  String get gaussianMapOnly =>
+      'Mapa exacto acotado — caminar y buscar componentes aún no están disponibles.';
+
+  @override
+  String gaussianDomain(int bound) {
+    return 'Dominio calculado B=$bound: −B ≤ a,b ≤ B; el exterior no está calculado';
+  }
+
+  @override
+  String get gaussianComputing => 'Calculando primos exactos…';
+
+  @override
+  String gaussianReady(int count) {
+    return 'Listo: $count primos exactos';
+  }
+
+  @override
+  String get gaussianError =>
+      'El cálculo falló. Reintenta o reduce el dominio.';
+
+  @override
+  String get gaussianBound => 'Semiancho del dominio B (1–128)';
+
+  @override
+  String get gaussianInvalidBound => 'Introduce un entero de 1 a 128.';
+
+  @override
+  String get gaussianCoordinates => 'Introduce coordenadas enteras a y b.';
+
+  @override
+  String get gaussianSelect => 'Seleccionar candidato';
+
+  @override
+  String get gaussianSetStart => 'Fijar inicio';
+
+  @override
+  String gaussianRoot(int a, int b) {
+    return 'Inicio: ($a, $b) · 0 pasos';
+  }
+
+  @override
+  String gaussianCandidate(int a, int b, int norm, String state) {
+    return 'Candidato: ($a, $b) · norma $norm · $state';
+  }
+
+  @override
+  String get gaussianPrime => 'primo gaussiano';
+
+  @override
+  String get gaussianComposite => 'no es primo gaussiano';
+
+  @override
+  String get gaussianUncomputed => 'sin calcular — fuera del dominio';
+
+  @override
+  String get gaussianUnavailable =>
+      'Los efectos, la comparación y Fourier solo están disponibles en Explorar.';
+
+  @override
+  String get gaussianAbout => 'Acerca de las matemáticas';
+
+  @override
+  String get gaussianMath =>
+      'Fuera de los ejes, a+bi es primo cuando a²+b² es un primo ordinario. En un eje, la coordenada absoluta debe ser prima y congruente con 3 módulo 4. Se excluyen el origen y las unidades. Este mapa finito no certifica un teorema de fosos infinitos.';
+
+  @override
   String get tabFavorites => 'Favoritos';
 
   @override

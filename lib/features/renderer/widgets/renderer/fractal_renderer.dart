@@ -157,6 +157,7 @@ class FractalRenderer extends StatefulWidget {
   /// Optional child override that keeps full gesture handling while
   /// replacing the visual renderer content.
   final Widget? overrideChild;
+  final GestureTapUpCallback? onPlotTap;
 
   /// Optional render plan supplied by the viewer.
   ///
@@ -182,6 +183,7 @@ class FractalRenderer extends StatefulWidget {
     this.onUserInteractionEnd,
     this.animationEnabled = true,
     this.overrideChild,
+    this.onPlotTap,
     this.renderPlan,
     this.showRendererIndicator = true,
     this.renderSnapshotSink,
@@ -377,6 +379,12 @@ class _FractalRendererState extends State<FractalRenderer>
     final controller = context.watch<FractalController>();
     final module = controller.module;
 
+    if (widget.overrideChild != null) {
+      _stopAnimationTicker(reset: !widget.animationEnabled);
+      return _wrapWithGestures(widget.overrideChild!,
+          onTapUp: widget.onPlotTap);
+    }
+
     // Widget tests run on a stripped-down engine that doesn't support GPU shaders.
     // Provide a lightweight placeholder surface so gesture + UI behavior can be
     // exercised in CI without a device/emulator.
@@ -392,11 +400,6 @@ class _FractalRendererState extends State<FractalRenderer>
         ),
       );
       return _wrapWithGestures(content);
-    }
-
-    if (widget.overrideChild != null) {
-      _stopAnimationTicker(reset: !widget.animationEnabled);
-      return _wrapWithGestures(widget.overrideChild!);
     }
 
     final renderPlan = widget.renderPlan ??

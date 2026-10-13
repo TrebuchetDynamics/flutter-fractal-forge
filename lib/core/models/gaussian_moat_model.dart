@@ -1,0 +1,84 @@
+import 'package:flutter/foundation.dart';
+
+typedef GaussianInteger = ({int a, int b});
+
+/// Exact membership only within a finite square; outside is uncomputed.
+@immutable
+class GaussianPrimeMap {
+  static const defaultBound = 32;
+  static const maxBound = 128;
+  final int bound;
+  final List<GaussianInteger> points;
+  final Uint8List _membership;
+
+  GaussianPrimeMap._(this.bound, List<GaussianInteger> points, this._membership)
+      : points = List.unmodifiable(points);
+
+  static int validateBound(num value) {
+    if (!value.isFinite ||
+        value < 1 ||
+        value > maxBound ||
+        value != value.truncate()) {
+      throw ArgumentError.value(
+          value, 'bound', 'Expected an integer in 1..128');
+    }
+    return value.toInt();
+  }
+
+  bool contains(GaussianInteger p) =>
+      p.a >= -bound && p.a <= bound && p.b >= -bound && p.b <= bound;
+
+  bool isPrime(GaussianInteger p) =>
+      contains(p) &&
+      _membership[(p.a + bound) * (2 * bound + 1) + p.b + bound] == 1;
+
+  /// Returns null on cancellation, never publishes a partially generated map.
+  static Future<GaussianPrimeMap?> generate(
+    num value, {
+    bool Function()? isCancelled,
+    Future<void> Function()? yieldChunk,
+  }) async {
+    final bound = validateBound(value);
+    if (isCancelled?.call() ?? false) return null;
+    final limit = 2 * bound * bound;
+    final sieve = Uint8List(limit + 1)..fillRange(2, limit + 1, 1);
+    final membership = Uint8List((2 * bound + 1) * (2 * bound + 1));
+    final points = <GaussianInteger>[];
+    final clock = Stopwatch()..start();
+    var probes = 0;
+    bool chunkDue() => ++probes >= 1024 || clock.elapsedMicroseconds >= 8000;
+    Future<bool> pause() async {
+      if (isCancelled?.call() ?? false) return true;
+      await (yieldChunk?.call() ?? Future<void>.delayed(Duration.zero));
+      probes = 0;
+      clock.reset();
+      return isCancelled?.call() ?? false;
+    }
+
+    for (var p = 2; p * p <= limit; p++) {
+      if (sieve[p] != 0) {
+        for (var n = p * p; n <= limit; n += p) {
+          sieve[n] = 0;
+          if (chunkDue() && await pause()) return null;
+        }
+      }
+      if (chunkDue() && await pause()) return null;
+    }
+    for (var a = -bound; a <= bound; a++) {
+      for (var b = -bound; b <= bound; b++) {
+        final axis = a == 0 ? b.abs() : a.abs();
+        final prime = a != 0 && b != 0
+            ? sieve[a * a + b * b] == 1
+            : axis % 4 == 3 && sieve[axis] == 1;
+        if (prime) {
+          final point = (a: a, b: b);
+          points.add(point);
+          membership[(a + bound) * (2 * bound + 1) + b + bound] = 1;
+        }
+        if (chunkDue() && await pause()) return null;
+      }
+    }
+    if (isCancelled?.call() ?? false) return null;
+    return GaussianPrimeMap._(bound, points, membership);
+  }
+}
