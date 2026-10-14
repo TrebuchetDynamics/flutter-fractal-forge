@@ -2,7 +2,114 @@
 
 ## 1) Product statement
 
-## 2) Goals / Non-goals
+Fractal Forge is a Flutter application for exploring mathematical systems, tuning views, and exporting images. The owner selected the current README/backlog as the active scope baseline on 2026-10-11. The accepted release contract below adds the shared Android/web/Linux journey. Older conflicting requirements remain historical or deferred until explicitly reaccepted.
+
+## Active release contract
+
+Status: Accepted
+
+Owner decision: Juan Tamez accepted this contract in the 2026-10-11 repository interview. The current `README.md` and `TODO.md` govern active scope. Conflicting older PRD requirements remain historical or deferred until explicitly accepted again. This section records the newly accepted release outcome. It does not claim that qualification is complete.
+
+### Outcome and users
+
+People exploring Fractal Forge must be able to find a compelling system, customize its view, understand its mathematics or stated limits, and export an image. Visual appeal, trustworthy descriptions, and reliable precise controls are all required. None replaces the others.
+
+### Acceptance example
+
+On Android, web, and Linux desktop, a user can:
+
+1. Browse and search the catalog, then open representative 2D and 3D systems.
+2. Change parameters and navigate predictably.
+3. Inspect accurate current-formula text or an explicit unverified/inspired qualification.
+4. Export a nonblank PNG matching the edited view and selected export settings.
+
+The journey must complete without a crash or silent placeholder substitution. Existing IDs, favorites, and saved presets must remain intact. An approximate catalog preview is not proof of an exported mathematical render.
+
+### Scope and exclusions
+
+- Android, web, and Linux must each meet the complete journey bar. Platform-specific save mechanisms can differ.
+- Unverified and inspired entries can remain available with clear qualifications. Do not imply that they are certified formulas or exact geometric constructions.
+- This contract does not require certification of every shader, macOS/Windows qualification, new historical MVP features, or a product rename.
+- Existing accepted backlog work, privacy policy, compatibility guarantees, and active ownership remain in force. The interview does not authorize implementation, publication, or deployment of the new qualification tasks.
+
+### Legacy requirement classification
+
+| Requirement or historical claim | Current classification |
+|---|---|
+| Browse, customize, mathematical descriptions and PNG export | Active release outcome. Verify through `REL-JOURNEY-01-WEB`, `REL-JOURNEY-02-LINUX`, and `REL-JOURNEY-03-ANDROID` in `TODO.md`. |
+| Stable IDs, favorites and saved presets | Active compatibility constraint in those same tasks. |
+| Parameter locking, a premultiplied-alpha UI toggle, and at least five built-in presets for each required fractal | Historical requirements unless independently present in the current backlog. This decision adds no new implementation obligation. Existing controls and presets remain supported. |
+| Startup shader compilation below 200 ms and ten-minute animation memory stability | Historical numerical gates. Reliable controls and crash-free completion remain active, but this interview accepts no new latency or endurance threshold. |
+| Remote usage analytics/Firebase Crashlytics | Historical proposal, not approved. The current README privacy promise remains active. |
+| Camera overlays, short-video/MP4 export and deferred AR work | Historical or deferred. Not added to this release journey. Existing implemented tools are not removed. |
+| Physical Android PNG destination/gallery verification | Active verification for the Android journey. Existing MediaStore behavior must be observed rather than inferred from widget tests. |
+| Wallpaper verification and expanded viewer-history integration | Preserve their existing backlog classification. They are not newly required by this image-export journey. |
+| Human Spanish review | Historical qualification remains unclaimed. Existing EN/ES support is preserved. This interview does not add a human-review release gate. |
+| Every catalog fractal individually certified before release | Superseded for this release by the owner's explicit permission to retain clearly qualified unverified/inspired entries. New-formula quality gates in the current backlog remain unchanged. |
+
+### Execution frontier
+
+- Web first within this plan: the backend matrix records browser export as unqualified. Prove the complete journey rather than another build-only smoke.
+- Linux next: reuse native integration and export checks, then verify actual saved artifacts and current-formula behavior.
+- Android next: verify the same journey and actual device storage/gallery output. An emulator-only result must not be presented as physical-device qualification.
+- These platform slices are independent and have no fabricated cross-platform dependencies. Existing global queue priorities and active workers are unchanged.
+- Completion requires recorded per-platform results. A source check, passing widget test, or successful build alone does not close this release goal.
+
+### Evidence and remaining gaps
+
+`docs/engineering/test-plan.md#accepted-cross-platform-release-journey` owns the acceptance checks. `docs/engineering/rendering/renderer_backend_matrix.md` records dated backend evidence, not current full parity. The new journey is unverified on all three targets as a complete release contract.
+
+Graph evidence: a fresh local code-only Graphify scan of `lib/features/export/` queried `ExportOptionsSheet`, `ExportOptions`, `ExportResolutionSummary`, and `ExportSheetSubmission`. It found the option/submission/summary relationships at `export_options_sheet.dart:13,28,46` and `export_resolution_summary.dart:8,19`. Coverage is partial: services, journey tests, and document semantics are outside that graph. The extractor reported duplicate labels and two self-loops. Source checks, not graph inference, establish the qualification gaps.
+
+Skill application: `interview-me` resolved the scope, combined outcome, platform set and review threshold one question at a time. `spec-driven-development` turns the owner-approved PNG example and failure boundaries into an observable acceptance contract without adding a competing spec. `documentation-and-adrs` records these product decisions here without a new architectural ADR. `planning-and-task-breakdown` creates bounded platform outcome tasks with artifact checks. `frontend-ui-engineering` preserves responsive interaction, honest captions and saved-state compatibility. `repo-docs` reconciles the canonical ledger and runs its consumer gate. The optional `hard-blockers` skill was unavailable, so blocker reconciliation uses the installed repo-docs contract and existing entry format.
+
+## Quality-first planning priority
+
+Owner decision from the current repository interview: prioritize existing quality, with viewer fixes first and a diverse polished catalog pilot next. `VIEW-UI-001` is now the primary milestone; follow with `CAT-QUALITY-01` and `CAT-QUALITY-02`. Preserve Gaussian implementation/review evidence and existing tasks; do not cancel workers or reopen completed work. OpenAI-math candidates remain Proposed/Needs decision. This answer changes planning priority only, not implementation, publication or timed-scheduling authority. Pilot success, explicitly selected by the owner: each selected entry opens at an attractive default, offers useful exploration controls, and exports a matching PNG without requiring the user to hunt for good settings. Mathematical honesty, accessibility, supported-platform qualification and saved-state compatibility remain mandatory. Attractive framing requires artifact-based visual assessment; colorful/nonblank pixel metrics alone are insufficient.
+
+## Catalog quality and variety
+
+Status: Accepted
+
+Owner outcome: improve catalog quality without losing variety, requested through `/autoresearch plan`. Preserve the supported catalog, stable identities and saved state. The accepted release journey already requires visual appeal, truthful mathematical descriptions, reliable controls and accurate PNG export.
+
+The [quality plan](docs/planning/visual-fidelity-audit-next.md#quality-without-losing-variety) separates recorded coverage from actual quality. Assess a bounded diverse pilot, then repair demonstrated first-impression defects. Curated discovery, the precise promotion rubric and intake policy remain Proposed. This is planning authorization only; it does not approve a new UI, numeric release threshold, implementation, scheduling or focus change.
+
+Existing `VIS-006` qualification and `MEDIA-002` marketing-selection tasks are reused. `CAT-QUALITY-01` and `CAT-QUALITY-02` cover the new bounded assessment/repair outcomes; `CAT-QUALITY-03` records the proposed discovery decision. The existing Gaussian priority and active workers remain intact.
+
+## Gaussian moat walking visualization
+
+Status: Accepted
+
+Source: Owner request in this conversation: `/autoresearch_plan /repo_docs we need to add gaussian moat walking on primes visualization to our app`.
+
+Accepted outcome: extend the app with a Gaussian-prime map that lets a user explore bounded-step walking and reachable clusters. This is planned work, not an implemented or released feature. Preserve the pending Play release obligation separately; this request does not add an unimplemented feature to a release candidate.
+
+- Reuse the existing `gaussian_prime_lattice` catalog identity, favorites and normal viewer navigation. Do not create a second Gaussian lattice or promote the historical spiral candidate as a separate system.
+- Show exact Gaussian primes within an explicitly bounded integer domain. Let a user select a prime, set a maximum Euclidean step, follow a path without revisiting points, undo/reset it, and inspect the starting prime's full reachable component.
+- Label the computation domain separately from the visible viewport. A trapped chosen path, an exhausted finite search and a search cut off at the domain limit are different outcomes. No finite image or search proves the infinite Gaussian moat theorem.
+- Preserve Android, web and Linux support, local/offline processing, EN/ES descriptions, keyboard/screen-reader alternatives, existing view controls, and PNG export of the displayed primes and overlays.
+- Explain Gaussian primes, fixed step lengths and the moat question. Attribute the linked OpenAI manuscript and reported formal verification without claiming an independently rebuilt Lean proof or established peer review.
+
+Acceptance: exact positive/negative primality fixtures pass; every accepted path step meets the inclusive distance bound and avoids repeats; reachable-component results match independent small-domain fixtures; boundary status is honest; navigation, accessibility and PNG artifact checks pass separately on the supported targets.
+
+Refined experience: separate candidate selection from the Step action; preserve pan/zoom gestures; use the existing mobile HUD/sheets and a responsive wide-screen control panel. Show computation-boundary and component states continuously. Apply finite work caps, cancellable chunks and serialized radius playback. Export one completed, paused graph snapshot. The [UI and performance contract](docs/engineering/spec.md#ui-layout-and-interaction-contract) is planned engineering detail, not measured device qualification.
+
+Implementation defaults, bounded architecture, planned checks and research sources are in [the feature specification](docs/engineering/spec.md#gaussian-moat-walking-visualization). Ordered tasks are `GAUSS-MOAT-01-MAP`, `GAUSS-MOAT-02-WALK`, `GAUSS-MOAT-04-GROWTH`, and `GAUSS-MOAT-03-QUALIFY` in `TODO.md`. Existing focus, queue priorities, active workers and release gates remain unchanged.
+
+## Prime-norm quaternion companion
+
+Status: Accepted
+
+Source: the owner's follow-up `/autoresearch_plan` requests a 2D-to-higher-dimensional prime-walking exploration. Deliver bounded Gaussian radius growth first, followed by a companion prime-norm Lipschitz-integer slice.
+
+Show integer quaternions `a+bi+cj+dk` with ordinary-prime norm in a fixed-d, rotatable 3D slice. Make the chosen predicate and slice value visible. Users can select a point, make bounded nonrepeating steps, inspect a component, and export the visible graph. This is not a claim to classify all quaternion primes or demonstrate a Gaussian-style moat theorem in 4D. Half-integer Hurwitz points and full 4D walking are deferred.
+
+Refined companion: display a fixed-d orthographic slice with manual rotation, deterministic depth-aware candidate selection and a coordinate-list alternative. Keep graph distances independent of the camera. Reuse the same selection/Step/status/export behavior and bounded scheduling, with the smaller quaternion limits. The [quaternion layout contract](docs/engineering/spec.md#quaternion-layout-and-picking-details) preserves slice-only disclosure.
+
+Reuse app navigation, styling, localization and capture. Preserve existing quaternion Julia/Mandelbrot identities; an iteration fractal is not this prime cloud. The [companion specification](docs/engineering/spec.md#prime-norm-quaternion-companion) owns finite bounds, transforms, dependencies and planned proof. Tasks `QUAT-NORM-01-SLICE`, `QUAT-NORM-02-WALK`, and `QUAT-NORM-03-QUALIFY` remain planned/unimplemented and do not change release gates or existing focus.
+
+## 2) Goals / Non-goals (historical MVP)
 ### Goals
 - Large catalog of fractal "modes" with consistent UI patterns.
 - Smooth navigation (pan/zoom/rotate) + responsive parameter changes.
@@ -152,6 +259,8 @@ Suggested `FractalModule` interface:
 - Privacy: no collection of camera data or personal images. All processing is on-device.
 - Analytics: track "Most Used Fractal" and crash reports (Firebase Crashlytics) to prioritize optimization.
 
+Current implementation differs: `CrashReporter` stores local diagnostics, and `pubspec.yaml` declares no remote analytics or crash-reporting SDK. The owner resolved `BLK-20261005-004` in favor of the current README/backlog. The remote-analytics proposal is historical and remains unapproved.
+
 ## 13) Implementation priority (MVP roadmap)
 1. Core engine: set up `GlslFragmentProgram` boilerplates and the `FractalModule` architecture.
 2. Fractals: port Mandelbrot and Julia first to test the engine.
@@ -163,7 +272,7 @@ Suggested `FractalModule` interface:
 
 Long-term goal: Comprehensive fractal encyclopedia. Each fractal validated individually before release.
 
-### Current Implementation: 6/105
+### Historical implementation checklist (not current catalog coverage)
 - ✅ Mandelbrot (2D)
 - ✅ Julia (2D)
 - ✅ Burning Ship (2D)
@@ -231,9 +340,9 @@ Each new fractal must pass:
 ### Implemented
 - 1014 production fractal modules plus 1 scientific visualization in the live catalog (1022 debug/test registry modules including 7 diagnostics), including Mandelbrot, Julia, Burning Ship, Phoenix, Mandelbulb, and many more (counts are locked by `test/catalog/catalog_id_integrity_test.dart`)
 - Camera Looper GIF export; native MP4 encoding is deferred
-- Dedicated export directory (Android Pictures/FlutterFractals)
+- Android image export uses MediaStore (Pictures/FractalForge); physical-device gallery verification remains unverified
 - Schema-driven controls per fractal
-- Minimap navigation overlay
+- No minimap feature is present in the current tree
 - Debug overlay for shader troubleshooting
 - Live Fourier analysis, finite-grid uncertainty laboratory, and Fourier Music
 - 50+ sub-agent improvements (haptics, stats, video export, accessibility)
@@ -242,15 +351,10 @@ Each new fractal must pass:
 - ~~**CRITICAL: Flutter 3.38+ Impeller shader rendering**~~ — **RESOLVED** (2026-04-05). The black-screen was caused by SkSL-incompatible `%` and `clamp(int, int, int)` operators in shaders; replaced with integer-division modulo and `float(clamp(...))` patterns. All 3D and escape-time shaders compile and render on GPU.
 
 ### Remaining / TODO
-- See `docs/planning/PRD.md` (maintained) and `TODO.md` for current gaps; the status block below is a 2026-02-07 historical snapshot
+- See `TODO.md` for current gaps and `docs/planning/PRD.md` for the historical readiness snapshot; this status section is dated 2026-08-25
 - Evaluate platform-native Android MP4 encoding only if GIF export proves insufficient
-- MediaStore integration for Android 10+ gallery visibility
+- Physical Android device verification of MediaStore export and gallery visibility
 
 ### Open question: active product scope
 
-`PRD.md` lists short-video export and iOS as MVP scope/non-goals, while the
-current backlog defers video recording and the application now has additional
-platform targets. Which document owns current product scope? **Default:** treat
-conflicting, unimplemented root-PRD items as historical until revalidated; do
-not add product scope. See `BLK-20261005-004` in `BLOCKERS.md` and task
-`DOC-PRD-001` in `TODO.md`.
+**Resolved 2026-10-11:** the owner chose the current backlog/README as the active baseline. Conflicting older requirements remain historical or deferred. See [Active release contract](#active-release-contract), resolved `BLK-20261005-004` in `BLOCKERS.md`, and `DOC-PRD-001` in `TODO.md`.
