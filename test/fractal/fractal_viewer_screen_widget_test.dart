@@ -586,6 +586,73 @@ void main() {
       expect(find.text('Catalog route'), findsOneWidget);
     });
 
+    for (final systemBack in [false, true]) {
+      testWidgets(
+          '${systemBack ? 'system' : 'catalog'} Back with the controls HUD open',
+          (tester) async {
+        await tester.pumpWidget(buildTestWidget(startAtCatalog: true));
+        tester.state<NavigatorState>(find.byType(Navigator)).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const FractalViewerScreen(),
+              ),
+            );
+        await tester.pumpAndSettle();
+        await tester.longPress(
+          find.byKey(const ValueKey('viewerRandomParamsButton')),
+        );
+        await tester.pumpAndSettle();
+        expect(find.text('Controls'), findsOneWidget);
+
+        if (systemBack) {
+          await tester.binding.handlePopRoute();
+          await tester.pumpAndSettle();
+          expect(find.text('Controls'), findsNothing);
+          expect(find.byType(FractalViewerScreen), findsOneWidget);
+          await tester.binding.handlePopRoute();
+        } else {
+          await tester.tap(find.byKey(const Key('viewerBackToCatalogButton')));
+        }
+        await tester.pumpAndSettle();
+        expect(find.text('Catalog route'), findsOneWidget);
+        expect(find.byType(FractalViewerScreen), findsNothing);
+        expect(tester.takeException(), isNull);
+      });
+    }
+
+    testWidgets('catalog Back is disabled until system Back cancels export',
+        (tester) async {
+      final exportService = _BlockingExportService();
+      await tester.pumpWidget(buildTestWidget(startAtCatalog: true));
+      tester.state<NavigatorState>(find.byType(Navigator)).push(
+            MaterialPageRoute<void>(
+              builder: (_) => FractalViewerScreen(exportService: exportService),
+            ),
+          );
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Export'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
+      await tester.pump();
+
+      final back = find.byKey(const Key('viewerBackToCatalogButton'));
+      expect(exportService.coordinator.isBusy, isTrue);
+      expect(tester.widget<IconButton>(back).onPressed, isNull);
+      expect(find.byType(FractalViewerScreen), findsOneWidget);
+
+      await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
+      expect(exportService.coordinator.isBusy, isFalse);
+      expect(find.byType(FractalViewerScreen), findsOneWidget);
+      expect(tester.widget<IconButton>(back).onPressed, isNotNull);
+      await tester.tap(back);
+      await tester.pumpAndSettle();
+      expect(find.text('Catalog route'), findsOneWidget);
+      expect(find.byType(FractalViewerScreen), findsNothing);
+      expect(tester.takeException(), isNull);
+    });
+
     testWidgets('catalog Back stays hidden in capture mode', (tester) async {
       await tester.pumpWidget(buildTestWidget(startAtCatalog: true));
       tester.state<NavigatorState>(find.byType(Navigator)).push(
