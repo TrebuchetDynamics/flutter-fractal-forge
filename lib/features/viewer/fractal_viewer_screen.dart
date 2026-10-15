@@ -1717,8 +1717,11 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
                   if (_showCoreViewerChrome)
                     Positioned(
-                      top: overlayTop,
-                      left: 12,
+                      // Keep long titles above the action rail, beside Back.
+                      top: topInset + 8,
+                      left: MediaQuery.of(context).padding.left +
+                          (Navigator.of(context).canPop() ? 80 : 12),
+                      right: MediaQuery.of(context).padding.right + 12,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -1825,8 +1828,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                       _autoExploreService != null)
                     Positioned(
                       top: overlayTop,
-                      left: AppSpacing.lg,
-                      right: AppSpacing.lg,
+                      left: MediaQuery.of(context).padding.left + AppSpacing.lg,
+                      right:
+                          MediaQuery.of(context).padding.right + AppSpacing.lg,
                       bottom:
                           MediaQuery.of(context).padding.bottom + AppSpacing.xl,
                       child: ChangeNotifierProvider<AutoExploreService>.value(
@@ -1922,38 +1926,32 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                   if (!widget.captureMode && Navigator.of(context).canPop())
                     Positioned(
                       top: topInset + 8,
-                      left: 12,
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxWidth: constraints.maxWidth - 24,
+                      left: MediaQuery.of(context).padding.left + 12,
+                      child: IconButton(
+                        key: const Key('viewerBackToCatalogButton'),
+                        tooltip: l10n.viewerBackToCatalog,
+                        style: IconButton.styleFrom(
+                          visualDensity: VisualDensity.standard,
+                          foregroundColor: Colors.white,
+                          backgroundColor: AppColors.surface,
+                          shape: const CircleBorder(),
+                          fixedSize: Size.square(
+                            context
+                                        .watch<AccessibilityService?>()
+                                        ?.largeTargetsEnabled ==
+                                    true
+                                ? 56
+                                : 48,
+                          ),
                         ),
-                        child: TextButton.icon(
-                          key: const Key('viewerBackToCatalogButton'),
-                          style: TextButton.styleFrom(
-                            visualDensity: VisualDensity.standard,
-                            foregroundColor: Colors.white,
-                            backgroundColor: AppColors.surface,
-                            minimumSize: Size(
-                              48,
-                              context
-                                          .watch<AccessibilityService?>()
-                                          ?.largeTargetsEnabled ==
-                                      true
-                                  ? 56
-                                  : 48,
-                            ),
-                          ),
-                          // An explicit catalog destination closes the viewer
-                          // directly; system Back still dismisses its HUD first.
-                          onPressed: _exporting
-                              ? null
-                              : () => Navigator.of(context).pop(),
-                          icon: const Icon(Icons.arrow_back_rounded),
-                          label: Text(
-                            l10n.viewerBackToCatalog,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                        // An explicit catalog destination closes the viewer
+                        // directly; system Back still dismisses its HUD first.
+                        onPressed: _exporting
+                            ? null
+                            : () => Navigator.of(context).pop(),
+                        icon: Icon(
+                          Icons.arrow_back_rounded,
+                          semanticLabel: l10n.viewerBackToCatalog,
                         ),
                       ),
                     ),

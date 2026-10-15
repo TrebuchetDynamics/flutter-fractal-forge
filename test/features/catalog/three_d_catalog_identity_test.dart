@@ -10,11 +10,14 @@ void main() {
     final catalog = CatalogRepository.fromRegistry(registry);
     final ids = {
       for (final entry in catalog.entries)
-        if (entry.category == '3D Fractals') entry.module.id,
+        if (entry.module.dimension == FractalDimension.threeD &&
+            entry.module.id != 'hydrogen_orbital')
+          entry.module.id,
     };
 
     expect(ids, {
       'mandelbox',
+      'coral_growth_3d',
       'f0597_sierpinski_carpet_3d_menger_cross',
       'kifs_menger',
       'kifs_sierpinski_tetra',
@@ -113,6 +116,6 @@ void main() {
       (entry) => entry.module.id == 'hydrogen_orbital',
     );
 
-    expect(hydrogen.category, 'Scientific Visualization');
+    expect(hydrogen.category, 'Fields, spectra and scientific visualization');
   });
 }

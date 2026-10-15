@@ -120,6 +120,204 @@ Future<bool> _pumpControls(
 }
 
 void main() {
+  for (final locale in const [Locale('en'), Locale('es')]) {
+    for (final highContrast in [false, true]) {
+      testWidgets(
+          'overflow circle and keyboard actions ${locale.languageCode} '
+          'contrast=$highContrast', (tester) async {
+        final calls = <String>[];
+        await _pumpControls(
+          tester,
+          locale: locale,
+          theme: highContrast ? AppTheme.highContrast : AppTheme.dark,
+          isExporting: false,
+          onOpenExport: () => calls.add('export'),
+          onShareLink: () => calls.add('link'),
+          onShareImage: () => calls.add('image'),
+          onOpenWallpaper: () => calls.add('wallpaper'),
+        );
+        final menu = find.byKey(const ValueKey('viewerOverflowMenu'));
+        final popup = tester.widget<PopupMenuButton<String>>(menu);
+        expect(popup.style?.shape?.resolve({}), isA<CircleBorder>());
+        expect(popup.style?.backgroundColor?.resolve({}), AppColors.surface);
+        expect(popup.style?.foregroundColor?.resolve({}), Colors.white);
+        expect(
+          popup.style?.side?.resolve({WidgetState.focused})?.color,
+          HighContrastColors.focusIndicator,
+        );
+        expect(tester.getSize(menu), const Size.square(48));
+
+        // Pointer opening does not select an action.
+        await tester.ensureVisible(menu);
+        await tester.tap(menu);
+        await tester.pumpAndSettle();
+        expect(calls, isEmpty);
+        expect(find.byType(PopupMenuItem<String>), findsNWidgets(4));
+        await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+        await tester.pumpAndSettle();
+        expect(find.byType(PopupMenuItem<String>), findsNothing);
+
+        final gesture = find.descendant(
+          of: menu,
+          matching: find.byType(GestureDetector),
+        );
+        Focus.of(tester.element(gesture)).requestFocus();
+        await tester.pumpAndSettle();
+        for (final action in ['export', 'link', 'image', 'wallpaper']) {
+          await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+          await tester.pumpAndSettle();
+          expect(find.byType(PopupMenuItem<String>), findsNWidgets(4));
+          // Navigate from the menu route's initial focus to the chosen item.
+          for (var i = 0;
+              i <= ['export', 'link', 'image', 'wallpaper'].indexOf(action);
+              i++) {
+            await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
+          }
+          await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+          await tester.pumpAndSettle();
+          expect(calls.last, action);
+          expect(calls.length,
+              ['export', 'link', 'image', 'wallpaper'].indexOf(action) + 1);
+          expect(Focus.of(tester.element(gesture)).hasFocus, isTrue);
+        }
+        await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+        await tester.pumpAndSettle();
+        await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+        await tester.pumpAndSettle();
+        expect(Focus.of(tester.element(gesture)).hasFocus, isTrue);
+        expect(calls, ['export', 'link', 'image', 'wallpaper']);
+        expect(tester.takeException(), isNull);
+      });
+    }
+  }
+
+  testWidgets('overflow omits wallpaper on Linux', (tester) async {
+    await _pumpControls(tester, isExporting: false, onOpenWallpaper: () {});
+    await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+    await tester.pumpAndSettle();
+    expect(
+        tester
+            .widgetList<PopupMenuItem<String>>(
+              find.byType(PopupMenuItem<String>),
+            )
+            .map((item) => item.value),
+        ['export', 'link', 'image']);
+  }, variant: TargetPlatformVariant.only(TargetPlatform.linux));
+
+  testWidgets('short landscape rail scrolls to a tappable report action',
+      (tester) async {
+    tester.view.devicePixelRatio = 1;
+    tester.view.physicalSize = const Size(320, 100);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    addTearDown(tester.view.resetPhysicalSize);
+    var reports = 0;
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      showFractalReport: true,
+      onReportFractal: () => reports++,
+      onOpenWallpaper: () {},
+    );
+    final report = find.byKey(const ValueKey('viewerReportFractalFab'));
+    expect(report.hitTestable(), findsNothing);
+    await tester.drag(
+        find.byType(SingleChildScrollView), const Offset(0, -160));
+    await tester.pumpAndSettle();
+    expect(report.hitTestable(), findsOneWidget);
+    await tester.tap(report);
+    await tester.pumpAndSettle();
+    expect(reports, 1);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('short landscape keyboard traversal reveals and activates report',
+      (tester) async {
+    tester.view.devicePixelRatio = 1;
+    tester.view.physicalSize = const Size(320, 100);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    addTearDown(tester.view.resetPhysicalSize);
+    var reports = 0;
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      showFractalReport: true,
+      onReportFractal: () => reports++,
+      onOpenWallpaper: () {},
+    );
+    final report = find.byKey(const ValueKey('viewerReportFractalFab'));
+    expect(report.hitTestable(), findsNothing);
+    for (final key in const [
+      'viewerRandomParamsButton',
+      'viewerColorCycleButton',
+      'viewerRandomFractalFab',
+      'viewerLooperFab',
+      'viewerFractalMusicFab',
+      'viewerKaleidoscopeFab',
+      'viewerTextOverlayFab',
+      'viewerFourierFab',
+      'viewerExportButton',
+      'viewerFullscreenButton',
+      'viewerReportFractalFab',
+    ]) {
+      await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+      await tester.pumpAndSettle();
+      final action = find.byKey(ValueKey(key));
+      final gesture = find.descendant(
+        of: action,
+        matching: find.byType(GestureDetector),
+      );
+      expect(Focus.of(tester.element(gesture)).hasFocus, isTrue, reason: key);
+      expect(action.hitTestable(), findsOneWidget, reason: key);
+    }
+    expect(reports, 0);
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+    await tester.pumpAndSettle();
+    expect(reports, 1);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('short landscape semantics can scroll to and activate report',
+      (tester) async {
+    tester.view.devicePixelRatio = 1;
+    tester.view.physicalSize = const Size(320, 100);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    addTearDown(tester.view.resetPhysicalSize);
+    final semantics = tester.ensureSemantics();
+    var reports = 0;
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      showFractalReport: true,
+      onReportFractal: () => reports++,
+      onOpenWallpaper: () {},
+    );
+    final report = find.byKey(const ValueKey('viewerReportFractalFab'));
+    expect(report.hitTestable(), findsNothing);
+    var scrollNode = tester.getSemantics(report);
+    while (!scrollNode.getSemanticsData().hasAction(SemanticsAction.scrollUp) &&
+        scrollNode.parent != null) {
+      scrollNode = scrollNode.parent!;
+    }
+    expect(scrollNode.getSemanticsData().hasAction(SemanticsAction.scrollUp),
+        isTrue);
+    tester.binding.renderViews.single.owner!.semanticsOwner!
+        .performAction(scrollNode.id, SemanticsAction.scrollUp);
+    await tester.pumpAndSettle();
+    expect(report.hitTestable(), findsOneWidget);
+    final reportNode =
+        tester.getSemantics(find.bySemanticsLabel('Report fractal'));
+    expect(reportNode.getSemanticsData().label, 'Report fractal');
+    expect(
+        reportNode.getSemanticsData().hasAction(SemanticsAction.tap), isTrue);
+    expect(reports, 0);
+    tester.binding.renderViews.single.owner!.semanticsOwner!
+        .performAction(reportNode.id, SemanticsAction.tap);
+    await tester.pumpAndSettle();
+    expect(reports, 1);
+    expect(tester.takeException(), isNull);
+    semantics.dispose();
+  });
+
   testWidgets('combined share and export FAB opens one action menu',
       (tester) async {
     var exported = false;
@@ -163,7 +361,13 @@ void main() {
     expect(find.text('Export'), findsOneWidget);
     expect(find.text('Copy view link'), findsOneWidget);
     expect(find.text('Share image'), findsOneWidget);
-    expect(find.byType(SingleChildScrollView), findsOneWidget);
+    expect(
+      find.ancestor(
+        of: find.text('Export'),
+        matching: find.byType(SingleChildScrollView),
+      ),
+      findsOneWidget,
+    );
     expect(tester.takeException(), isNull);
   });
 
@@ -709,6 +913,26 @@ void main() {
     await tester.pump();
     expect(tapped, isFalse);
     expect(find.text('Share & export'), findsNothing);
+    expect(find.byType(PopupMenuItem<String>), findsNothing);
+    final menu = find.byKey(const ValueKey('viewerOverflowMenu'));
+    expect(tester.widget<PopupMenuButton<String>>(menu).enabled, isFalse);
+    final opacity = tester.widget<Opacity>(find
+        .ancestor(
+          of: menu,
+          matching: find.byType(Opacity),
+        )
+        .first);
+    expect(opacity.opacity, 0.38);
+    final gesture = find.descendant(
+      of: menu,
+      matching: find.byType(GestureDetector),
+    );
+    Focus.of(tester.element(gesture)).requestFocus();
+    await tester.pumpAndSettle();
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+    await tester.pumpAndSettle();
+    expect(find.byType(PopupMenuItem<String>), findsNothing);
+    expect(tapped, isFalse);
   });
 
   testWidgets('FABs dim while exporting so the inert state is visible',

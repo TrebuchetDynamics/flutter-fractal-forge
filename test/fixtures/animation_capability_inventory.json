@@ -520,6 +520,11 @@
     "capability": "static"
   },
   {
+    "id": "coral_growth_3d",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/coral_growth_3d_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "cosecant_julia",
     "shaderAsset": "shaders/trigonometric_and_transcendental/elementary_trig/cosecant_julia_gpu.frag",
     "capability": "static"

@@ -10,7 +10,7 @@
     "module_registry": "lib/core/modules/module_registry.dart"
   },
   "counts": {
-    "explore_core": 1027,
+    "explore_core": 1028,
     "explore_performance": 0,
     "manifest": 200
   },
@@ -120,6 +120,7 @@
       "core.collatz",
       "core.complex_henon_julia_slice",
       "core.contused_fields",
+      "core.coral_growth_3d",
       "core.cosecant_julia",
       "core.cosecant_mandelbrot",
       "core.cosh_julia",
@@ -7255,6 +7256,22 @@
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
         "shaders/cellular_and_stochastic/brownian_tree_dla_gpu.frag"
+      ]
+    },
+    {
+      "id": "core.coral_growth_3d",
+      "source_id": "coral_growth_3d",
+      "source": "Explore",
+      "group": "core",
+      "status": "renderer_registered",
+      "module_id": "coral_growth_3d",
+      "shader": "shaders/3d_and_hypercomplex/raymarched_volumes/coral_growth_3d_gpu.frag",
+      "runtime_preview": "runtime-renderable (GPU runtime preview not captured)",
+      "cpu_formula": "not audited",
+      "references": [
+        "lib/features/catalog/data/catalog_repository.dart",
+        "lib/core/modules/module_registry.dart",
+        "shaders/3d_and_hypercomplex/raymarched_volumes/coral_growth_3d_gpu.frag"
       ]
     },
     {

@@ -198,45 +198,7 @@ class AppBottomSheetHeader extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              gradient: iconGradient ?? AppColors.primaryGradient,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Icon(icon, color: Colors.white, size: 18),
-          ),
-          const SizedBox(width: AppSpacing.md),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Bounded: this header is a fixed child of the sheet's Column,
-                // so anything it takes comes off the scrollable body. Left to
-                // wrap freely it reached 195px of a 352px sheet at a 3x text
-                // scale, starving the body to zero height and overflowing.
-                Text(
-                  title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTypography.titleMedium,
-                ),
-                if (subtitle != null)
-                  Text(
-                    subtitle!,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    // textSecondary, not textMuted: this is prose a user reads,
-                    // and textMuted measures 3.70:1 on surface, below the 4.5
-                    // AA floor. textSecondary gives 8.63:1. Keep textMuted for
-                    // icons and decoration, where 3:1 is the bar.
-                    style: AppTypography.bodySmall.copyWith(
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-              ],
-            ),
-          ),
+          _buildAppHeaderTitle(icon, iconGradient, title, subtitle),
           if (onClose != null)
             IconButton(
               tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
@@ -294,45 +256,7 @@ class AppDialog extends StatelessWidget {
       ),
       title: Row(
         children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              gradient: iconGradient ?? AppColors.primaryGradient,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Icon(icon, color: Colors.white, size: 18),
-          ),
-          const SizedBox(width: AppSpacing.md),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Bounded: this header is a fixed child of the sheet's Column,
-                // so anything it takes comes off the scrollable body. Left to
-                // wrap freely it reached 195px of a 352px sheet at a 3x text
-                // scale, starving the body to zero height and overflowing.
-                Text(
-                  title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTypography.titleMedium,
-                ),
-                if (subtitle != null)
-                  Text(
-                    subtitle!,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    // textSecondary, not textMuted: this is prose a user reads,
-                    // and textMuted measures 3.70:1 on surface, below the 4.5
-                    // AA floor. textSecondary gives 8.63:1. Keep textMuted for
-                    // icons and decoration, where 3:1 is the bar.
-                    style: AppTypography.bodySmall.copyWith(
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-              ],
-            ),
-          ),
+          _buildAppHeaderTitle(icon, iconGradient, title, subtitle),
         ],
       ),
       content: content == null
@@ -346,4 +270,47 @@ class AppDialog extends StatelessWidget {
       actions: actions,
     );
   }
+}
+
+Widget _buildAppHeaderTitle(
+  IconData icon,
+  Gradient? iconGradient,
+  String title,
+  String? subtitle,
+) {
+  return Expanded(
+    child: Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            gradient: iconGradient ?? AppColors.primaryGradient,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(icon, color: Colors.white, size: 18),
+        ),
+        const SizedBox(width: AppSpacing.md),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Keep sheet titles bounded so large text scales leave room for
+              // body content.
+              Text(title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTypography.titleMedium),
+              if (subtitle != null)
+                Text(subtitle,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTypography.bodySmall.copyWith(
+                      color: AppColors.textSecondary,
+                    )),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
 }

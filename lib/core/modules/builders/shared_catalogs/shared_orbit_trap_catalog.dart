@@ -17,8 +17,8 @@ class SharedOrbitTrapCatalogEntry {
   });
 }
 
-// Cross (mode 0) is already represented by the generic mandelbrot_orbit_trap
-// module and f1156 is intentionally omitted by the duplicate-risk gate.
+// Cross modes 0 and 7 share a distance expression; mode 7 keeps its legacy ID.
+// Mode 0 is represented by the generic module; f1156 uses a separate shader.
 const List<SharedOrbitTrapCatalogEntry> sharedOrbitTrapCatalogEntries = [
   SharedOrbitTrapCatalogEntry(
       id: 'f1155_orbit_trap_circle_pickover_stalks',
@@ -44,7 +44,7 @@ const List<SharedOrbitTrapCatalogEntry> sharedOrbitTrapCatalogEntries = [
       trapMode: 6),
   SharedOrbitTrapCatalogEntry(
       id: 'f1162_orbit_trap_multi_lines_cross',
-      name: 'Orbit Trap: Multi-Line Cross',
+      name: 'Orbit Trap: Cross',
       trapMode: 7),
   SharedOrbitTrapCatalogEntry(
       id: 'f1163_orbit_trap_heart_curve',

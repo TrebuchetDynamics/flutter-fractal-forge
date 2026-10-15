@@ -6,6 +6,7 @@ import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/builders/built_in_preset_contract.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/modules/life_like_rule.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
 import 'package:vector_math/vector_math_64.dart';
 
@@ -40,7 +41,7 @@ List<SharedLifeLikeCatalogEntry> get sharedLifeLikeCatalogEntries =>
             '_s${survivalMask.toString().padLeft(3, '0')}';
         return SharedLifeLikeCatalogEntry(
           id: id,
-          name: 'Life-like B$birthMask/S$survivalMask',
+          name: 'Life-like ${lifeLikeRuleName(birthMask, survivalMask)}',
           birthMask: birthMask.toDouble(),
           survivalMask: survivalMask.toDouble(),
         );

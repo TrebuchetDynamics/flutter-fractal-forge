@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/modules/builders/escape_time/catalog.dart';
+import 'package:flutter_fractals/core/modules/builders/raymarched_3d/catalog.dart';
+import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
 
 const outputPath =
@@ -10,6 +13,16 @@ const thumbnailWorklistPath =
     'research/worlds-largest-fractal-catalog/thumbnail-worklist.live-registry.json';
 
 const categoryToTargetFamily = {
+  'Complex dynamics': 'escape_time_polynomial_complex',
+  'Root finding': 'root_finding_polynomiography',
+  'Maps, flows and attractors': 'strange_attractors_maps',
+  'IFS and geometric constructions': 'ifs_geometric',
+  'Tilings, substitutions and L-systems': 'tilings_substitution_graphs',
+  'Cellular automata and growth': 'cellular_automata',
+  'Fields, spectra and scientific visualization':
+      'number_theory_special_functions',
+  'Procedural and artistic systems': 'ifs_geometric',
+  'Unclassified': 'escape_time_polynomial_complex',
   'Escape-Time': 'escape_time_polynomial_complex',
   'Escape-Time (Complex Plane)': 'escape_time_polynomial_complex',
   'Convergent/Root-Finding': 'root_finding_polynomiography',
@@ -105,6 +118,11 @@ Map<String, String> parameterSchema(Iterable<dynamic> parameters) {
 Map<String, Object> buildLiveRegistryLedger({DateTime? generatedAt}) {
   final registry = ModuleRegistry();
   final catalog = CatalogRepository.fromRegistry(registry);
+  // The ledger schema uses source categories, not the independent browse families.
+  final sourceCategories = {
+    for (final config in escapeTimeCatalog) config.id: config.category,
+    for (final config in raymarched3DCatalog) config.id: config.category,
+  };
   final entries = <Map<String, Object>>[];
   var skippedDiagnostic = 0;
   var skippedNonFractal = 0;
@@ -125,7 +143,11 @@ Map<String, Object> buildLiveRegistryLedger({DateTime? generatedAt}) {
       throw StateError(
           'Live registry shader missing for ${module.id}: ${module.shaderAsset}');
     }
-    final targetFamily = categoryToTargetFamily[entry.category];
+    final category = sourceCategories[module.id] ??
+        (module.dimension == FractalDimension.threeD
+            ? '3D Fractals'
+            : entry.category);
+    final targetFamily = categoryToTargetFamily[category];
     if (targetFamily == null) {
       skippedUnknownFamily++;
       unknownFamilies.add({
@@ -141,9 +163,9 @@ Map<String, Object> buildLiveRegistryLedger({DateTime? generatedAt}) {
       'stable_id': module.id,
       'display_name': module.id.replaceAll('_', ' '),
       'family': targetFamily,
-      'mathematical_identity_type': identityTypeFor(entry.category),
+      'mathematical_identity_type': identityTypeFor(category),
       'formula_or_rule':
-          'Live app FractalModule identity: ${module.id}; catalog category: ${entry.category}; shader asset: ${module.shaderAsset}. Counts the module formula/rule identity only, not presets, palettes, or camera views.',
+          'Live app FractalModule identity: ${module.id}; source category: $category; shader asset: ${module.shaderAsset}. Counts the module formula/rule identity only, not presets, palettes, or camera views.',
       'renderer_path': module.shaderAsset,
       'parameter_schema': parameterSchema(module.parameters),
       'provenance': {

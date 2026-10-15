@@ -23,7 +23,6 @@ final class ViewerExportFeedback {
 
   bool get saved => true;
   bool get shareFailed => shareError != null;
-  bool get isWarning => shareFailed;
 
   String formatLabel(AppLocalizations l10n) {
     if (usedFallback || result.format == ExportFormat.webp) {

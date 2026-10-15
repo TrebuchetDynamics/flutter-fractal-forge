@@ -131,7 +131,7 @@ const List<SharedJuliaCatalogEntry> sharedJuliaCatalogEntries = [
   SharedJuliaCatalogEntry(
       id: 'f0166_chebyshev_julia',
       name: "Chebyshev Julia",
-      cReal: 2.0,
+      cReal: -2.0,
       cImag: 0.0),
   SharedJuliaCatalogEntry(
       id: 'f0167_cauliflower_bulb_julia',

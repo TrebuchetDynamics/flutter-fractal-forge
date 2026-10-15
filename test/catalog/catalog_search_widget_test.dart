@@ -105,7 +105,8 @@ void main() {
   testWidgets('Catalog persists category and scroll position', (tester) async {
     await pumpCatalog(tester);
 
-    await tester.tap(find.byKey(const Key('catalogCategoryChip_escape_time')));
+    await tester
+        .tap(find.byKey(const Key('catalogCategoryChip_complex_dynamics')));
     await tester.pump();
     final scrollable = find.byWidgetPredicate(
       (widget) =>
@@ -115,7 +116,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
 
     final prefs = await SharedPreferences.getInstance();
-    expect(prefs.getString('catalog_browse_category'), 'Escape-Time');
+    expect(prefs.getString('catalog_browse_category'), 'Complex dynamics');
     expect(prefs.getDouble('catalog_browse_scroll_offset'), closeTo(600, 0.1));
   });
 
@@ -167,15 +168,161 @@ void main() {
 
     expect(find.byKey(const Key('catalogCategoryChip_all')), findsOneWidget);
     expect(find.byKey(const Key('catalogCategoryScroll')), findsOneWidget);
-    expect(find.byKey(const Key('catalogDimensionChip_all')), findsNothing);
-    expect(find.byKey(const Key('catalogDimensionChip_2d')), findsNothing);
-    expect(find.byKey(const Key('catalogDimensionChip_3d')), findsNothing);
+    expect(find.byKey(const Key('catalogDimensionChip_all')), findsOneWidget);
+    expect(find.byKey(const Key('catalogDimensionChip_2d')), findsOneWidget);
+    expect(find.byKey(const Key('catalogDimensionChip_3d')), findsOneWidget);
     expect(find.byKey(const Key('catalogDimensionChip_kaleidoscope')),
         findsNothing);
     expect(find.text('All categories'), findsOneWidget);
 
     await tester.pump(const Duration(seconds: 3));
   });
+
+  testWidgets('search remains visible and toolbar close preserves the query',
+      (tester) async {
+    await pumpCatalog(tester);
+    final field = find.byKey(const Key('catalogSearchField'));
+    expect(field, findsOneWidget);
+    await showSearch(tester);
+    await tester.enterText(field, 'Mandelbrot');
+    await tester.pump(const Duration(milliseconds: 300));
+    await tester.tap(find.byKey(const Key('catalogSearchToggleButton')));
+    await tester.pump();
+    expect(tester.widget<TextField>(field).controller!.text, 'Mandelbrot');
+    expect(tester.widget<TextField>(field).focusNode!.hasFocus, isFalse);
+    expect(find.byKey(const Key('catalogCategoryScroll')), findsOneWidget);
+    expect(find.byKey(const Key('catalogCategoryChip_root_finding')),
+        findsOneWidget);
+    final prefs = await SharedPreferences.getInstance();
+    expect(prefs.getString('catalog_browse_query'), 'Mandelbrot');
+  });
+
+  testWidgets('family, favorites and search are independent refinements',
+      (tester) async {
+    SharedPreferences.setMockInitialValues({
+      'catalog_browse_query': 'Mandelbrot',
+      'catalog_favorite_ids': ['core.mandelbrot', 'core.barnsley_fern'],
+    });
+    await pumpCatalog(tester);
+    await tester
+        .tap(find.byKey(const Key('catalogCategoryChip_complex_dynamics')));
+    await tester.pump();
+    await tester.tap(find.byKey(const Key('catalogCategoryChip_favorites')));
+    await tester.pump();
+    expect(find.byKey(const Key('catalogModuleCard_core.mandelbrot')),
+        findsOneWidget);
+    expect(find.byKey(const Key('catalogModuleCard_core.barnsley_fern')),
+        findsNothing);
+    final prefs = await SharedPreferences.getInstance();
+    expect(prefs.getString('catalog_browse_category'), 'Complex dynamics');
+    expect(prefs.getString('catalog_browse_collection'), '@favorites');
+    expect(prefs.getString('catalog_browse_query'), 'Mandelbrot');
+    await tester.tap(find.byKey(const Key('catalogCollectionChip_explore')));
+    await tester.pump();
+    expect(prefs.getString('catalog_browse_category'), 'Complex dynamics');
+    expect(prefs.getString('catalog_browse_collection'), isNull);
+  });
+
+  testWidgets('dimension filter intersects the collection and family',
+      (tester) async {
+    SharedPreferences.setMockInitialValues({
+      'catalog_browse_category': 'IFS and geometric constructions',
+      'catalog_browse_collection': '@favorites',
+      'catalog_favorite_ids': [
+        'core.apollonian_gasket',
+        'core.apollonian_sphere_packing_3d'
+      ],
+    });
+    await pumpCatalog(tester);
+    final dimension = find.byKey(const Key('catalogDimensionChip_3d'));
+    await tester.ensureVisible(dimension);
+    await tester.tap(dimension);
+    await tester.pump();
+    expect(
+        find.byKey(
+            const Key('catalogModuleCard_core.apollonian_sphere_packing_3d')),
+        findsOneWidget);
+    expect(find.byKey(const Key('catalogModuleCard_core.apollonian_gasket')),
+        findsNothing);
+    final prefs = await SharedPreferences.getInstance();
+    expect(prefs.getInt('catalog_browse_dimension'), 2);
+    expect(prefs.getString('catalog_browse_collection'), '@favorites');
+    expect(prefs.getString('catalog_browse_category'),
+        'IFS and geometric constructions');
+  });
+
+  for (final collection in ['@favorites', '@recent']) {
+    testWidgets('legacy $collection category migrates without losing IDs',
+        (tester) async {
+      SharedPreferences.setMockInitialValues({
+        'catalog_browse_category': collection,
+        'catalog_favorite_ids': ['core.mandelbrot', 'missing.saved.id'],
+        'catalog_recent_ids': ['core.barnsley_fern', 'missing.recent.id'],
+      });
+      await pumpCatalog(tester);
+      final expected =
+          collection == '@favorites' ? 'mandelbrot' : 'barnsley_fern';
+      expect(
+          find.byKey(Key('catalogModuleCard_core.$expected')), findsOneWidget);
+      await tester
+          .tap(find.byKey(const Key('catalogCategoryChip_complex_dynamics')));
+      await tester.pump();
+      final prefs = await SharedPreferences.getInstance();
+      expect(prefs.getString('catalog_browse_collection'), collection);
+      expect(prefs.getStringList('catalog_favorite_ids'),
+          ['core.mandelbrot', 'missing.saved.id']);
+      expect(prefs.getStringList('catalog_recent_ids'),
+          ['core.barnsley_fern', 'missing.recent.id']);
+    });
+  }
+
+  testWidgets('stale category clears only the obsolete refinement',
+      (tester) async {
+    SharedPreferences.setMockInitialValues({
+      'catalog_browse_category': 'Obsolete category',
+      'catalog_browse_query': 'Mandelbrot',
+      'catalog_favorite_ids': ['core.mandelbrot'],
+      'catalog_recent_ids': ['core.julia'],
+    });
+    await pumpCatalog(tester);
+    expect(find.byKey(const Key('catalogModuleCard_core.mandelbrot')),
+        findsOneWidget);
+    await tester.tap(find.byKey(const Key('catalogCategoryChip_favorites')));
+    await tester.pump();
+    final prefs = await SharedPreferences.getInstance();
+    expect(prefs.getString('catalog_browse_category'), isNull);
+    expect(prefs.getString('catalog_browse_query'), 'Mandelbrot');
+    expect(prefs.getStringList('catalog_favorite_ids'), ['core.mandelbrot']);
+    expect(prefs.getStringList('catalog_recent_ids'), ['core.julia']);
+  });
+
+  for (final mode in CatalogViewMode.values) {
+    testWidgets('Recent stays newest first across families in ${mode.name}',
+        (tester) async {
+      await tester.binding.setSurfaceSize(const Size(800, 1600));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+      const recent = ['core.julia', 'core.barnsley_fern', 'core.mandelbrot'];
+      SharedPreferences.setMockInitialValues({
+        'catalog_browse_collection': '@recent',
+        'catalog_view_mode': mode.index,
+        'catalog_recent_ids': recent,
+      });
+      await pumpCatalog(tester);
+      final cards = find.byWidgetPredicate((widget) =>
+          widget.key is ValueKey<String> &&
+          (widget.key as ValueKey<String>)
+              .value
+              .startsWith('catalogModuleCard_'));
+      expect(
+          tester
+              .widgetList(cards)
+              .map((widget) => (widget.key as ValueKey<String>)
+                  .value
+                  .replaceFirst('catalogModuleCard_', ''))
+              .toList(),
+          recent);
+    });
+  }
 
   test('runtime thumbnail previews keep ready state for scroll reuse', () {
     CatalogRuntimeThumbnailCache.clearForTesting();

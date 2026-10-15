@@ -1,6 +1,6 @@
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
-import 'package:flutter_fractals/features/history/history_entry.dart';
-import 'package:flutter_fractals/features/history/history_location.dart';
+import 'package:flutter_fractals/core/models/history/history_entry.dart';
+import 'package:flutter_fractals/core/models/history/history_location.dart';
 
 /// Replayable controller mutation plan for one history entry.
 ///

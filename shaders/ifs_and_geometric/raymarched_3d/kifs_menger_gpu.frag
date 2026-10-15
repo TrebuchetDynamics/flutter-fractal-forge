@@ -10,7 +10,7 @@ precision highp float;
 
 uniform float uTime;          // 0
 uniform vec2  uResolution;    // 1-2
-uniform vec2  uMousePos;      // 3-4  (layout compat, unused)
+uniform vec2  uMousePos;      // 3-4, shared camera pan target
 uniform float uZoom;          // 5
 uniform vec3  uRotation;      // 6-8
 uniform float uPower;         // 9   scale factor (default 3.0)
@@ -45,43 +45,78 @@ mat3 rotationMatrix(vec3 angles) {
 }
 
 // ── Menger sponge distance estimator (KIFS) ────────────────────────────
-// Folds the point into positive octant, sorts axes to bring the largest
-// coordinate first, scales by 3, translates, and folds back the Z cross.
-// The running scale divisor gives the true world-space distance.
-float mengerDE(vec3 p, int maxIter) {
-    float scale = max(uPower, 1.5); // default 3.0
-    float d = max(max(abs(p.x), abs(p.y)), abs(p.z)) - 1.0; // initial box
+const int MAX_KIFS_ITERATIONS = 8;
+
+float boxSDF(vec3 p) {
+    vec3 q = abs(p) - vec3(1.0);
+    vec3 outside = max(q, vec3(0.0));
+    return length(outside) + min(max(q.x, max(q.y, q.z)), 0.0);
+}
+
+// Keep the previously working Menger Cross variant unchanged.
+float mengerCrossDE(vec3 p, int maxIter) {
+    float scale = max(uPower, 1.5);
+    float d = max(max(abs(p.x), abs(p.y)), abs(p.z)) - 1.0;
     float s = 1.0;
 
     for (int i = 0; i < 20; i++) {
         if (i >= maxIter) break;
 
-        // Fold: bring into positive octant
         p = abs(p);
-
-        // Sort axes so p.x >= p.y >= p.z (conditional swaps)
         if (p.x < p.y) p.xy = p.yx;
         if (p.x < p.z) p.xz = p.zx;
         if (p.y < p.z) p.yz = p.zy;
 
         s *= scale;
         p = p * scale - vec3(scale - 1.0);
-
-        // Fold back the z-cross. Type 1 keeps a stronger paired-axis cross
-        // term, matching the Sierpinski-carpet/Menger-cross family identity.
         if (p.z < -1.0) p.z += 2.0;
 
         float boxD = max(max(abs(p.x), abs(p.y)), abs(p.z));
-        if (int(uFractalType) == 1) {
-            float crossD = min(
-                max(abs(p.x), abs(p.y)),
-                min(max(abs(p.x), abs(p.z)), max(abs(p.y), abs(p.z)))
-            );
-            boxD = max(boxD, -crossD + 0.35);
-        }
+        float crossD = min(
+            max(abs(p.x), abs(p.y)),
+            min(max(abs(p.x), abs(p.z)), max(abs(p.y), abs(p.z)))
+        );
+        boxD = max(boxD, -crossD + 0.35);
         d = min(d, boxD / s);
     }
     return d;
+}
+
+// Fold into the retained Menger cells, then measure distance to the final
+// cell. A positive distance marks a removed cell; return its conservative
+// current-scale bound instead of evaluating deeper folds.
+float mengerSpongeDE(vec3 p, int maxIter) {
+    float scale = max(uPower, 1.5);
+    float accumulatedScale = 1.0;
+    int iterations = maxIter;
+    if (iterations > MAX_KIFS_ITERATIONS) {
+        iterations = MAX_KIFS_ITERATIONS;
+    }
+
+    for (int i = 0; i < MAX_KIFS_ITERATIONS; i++) {
+        if (i >= iterations) break;
+
+        p = abs(p);
+        if (p.x < p.y) p.xy = p.yx;
+        if (p.x < p.z) p.xz = p.zx;
+        if (p.y < p.z) p.yz = p.zy;
+
+        p = p * scale - vec3(scale - 1.0);
+        accumulatedScale *= scale;
+        if (p.z < -1.0) p.z += 2.0;
+
+        float cellDistance = boxSDF(p);
+        if (cellDistance > 0.0) {
+            return cellDistance / accumulatedScale;
+        }
+    }
+
+    return boxSDF(p) / accumulatedScale;
+}
+
+float mengerDE(vec3 p, int maxIter) {
+    if (int(uFractalType) == 1) return mengerCrossDE(p, maxIter);
+    return mengerSpongeDE(p, maxIter);
 }
 
 // ── Colour palette (4 schemes) ─────────────────────────────────────────
@@ -173,9 +208,10 @@ void main() {
     int maxIter = int(uIterations);
 
     // Camera setup
+    vec3 target = vec3(uMousePos, 0.0);
     mat3 rot     = rotationMatrix(uRotation);
-    vec3 camPos  = rot * vec3(0.0, 0.0, 3.0 / max(uZoom, 0.1));
-    vec3 forward = normalize(-camPos);
+    vec3 camPos  = target + rot * vec3(0.0, 0.0, 3.0 / max(uZoom, 0.1));
+    vec3 forward = normalize(target - camPos);
     vec3 right   = normalize(cross(vec3(0.0, 1.0, 0.0), forward));
     vec3 up      = cross(forward, right);
     vec3 rayDir  = normalize(forward + uv.x * right + uv.y * up);

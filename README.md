@@ -19,7 +19,7 @@
   <a href="#run-it-locally">Build locally</a>
 </p>
 
-Fractal Forge is an open-source Flutter explorer for mathematical systems and generative art. Browse **1019 production fractals**, tune parameters in real time, move through deep-zoom render paths, and export the views worth keeping.
+Fractal Forge is an open-source Flutter explorer for mathematical systems and generative art. Browse **1020 production fractals**, tune parameters in real time, move through deep-zoom render paths, and export the views worth keeping.
 
 ## See what it renders
 
@@ -32,6 +32,12 @@ Fractal Forge is an open-source Flutter explorer for mathematical systems and ge
 </p>
 
 > These static browser captures show the catalog and viewer, not full web/app parity. Export, sharing, CPU precision, and hardware GPU behavior are most complete in the installable app; see the [renderer backend matrix](docs/engineering/rendering/renderer_backend_matrix.md).
+
+**Planned next-release gate:** the complete browse → customize → understand → PNG-export journey must pass on Android, web and Linux. Unverified/inspired entries can remain with clear qualifications. This target is not a claim of current platform parity. See the [accepted release contract](PRD.md#active-release-contract).
+
+## Current development priority
+
+Improve existing quality before expanding the catalog: compact viewer navigation first, then a diverse pilot with attractive defaults, useful controls and matching PNG export. The OpenAI-math shortlist is proposed, not implemented. Local Gaussian MAP review does not establish main integration or platform qualification. See [the owner decision](PRD.md#quality-first-planning-priority), [live work queue](TODO.md), and [verification plan](docs/engineering/test-plan.md).
 
 ## What makes it useful
 
@@ -93,7 +99,7 @@ Install **[Fractal Forge from Google Play](https://play.google.com/store/apps/de
 
 ### Prerequisites
 
-- Flutter SDK 3.x ([installation guide](https://docs.flutter.dev/get-started/install))
+- Flutter SDK 3.44.6 (repository toolchain pin in `fdroid/flutter.version`; [installation guide](https://docs.flutter.dev/get-started/install))
 - Dart 3.x, included with Flutter
 - A GPU or emulator with shader support: WebGL 2.0 for browsers, or compatible GPU drivers for installable targets
 
@@ -119,7 +125,7 @@ Chrome is the quickest first render check; use Android or a desktop target when 
 | --- | --- | --- |
 | Drag | Pan | Rotate |
 | Pinch / scroll | Zoom | Zoom |
-| Double tap | Reset view | Reset view |
+| Double tap | 2× zoom anchored to tap | 2× zoom anchored to tap |
 | Long press | Set the Julia seed in the dual viewer | Not used |
 
 Common controls include iterations, bailout, power, color scheme, Julia seed, orbit traps, rendering technique, and family-specific coefficients.

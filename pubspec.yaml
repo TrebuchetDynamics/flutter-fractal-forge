@@ -1,5 +1,5 @@
 name: flutter_fractals
-description: GPU-accelerated exploration of 1019 production fractals with deep zoom and real-time rendering.
+description: GPU-accelerated exploration of 1020 production fractals with deep zoom and real-time rendering.
 publish_to: none
 version: 1.1.0+38
 environment:
@@ -13,7 +13,6 @@ dependencies:
     sdk: flutter
   provider: ^6.1.2
   vector_math: ^2.1.4
-  cupertino_icons: ^1.0.8
   equatable: ^2.0.5
   intl: ^0.20.2
   shared_preferences: ^2.5.5
@@ -23,8 +22,6 @@ dependencies:
   url_launcher: ^6.3.2
   image: ^4.0.0
   web: ^1.1.1
-  google_fonts: ^6.2.1
-  m3_carousel: ^2.1.0
   meta: ^1.16.0
   package_info_plus: ^10.2.1
   fftea: ^1.5.0+1
@@ -38,7 +35,6 @@ dev_dependencies:
   permission_handler_platform_interface: ^4.2.3
   flutter_lints: ^4.0.0
   flutter_launcher_icons: ^0.14.3
-  accessibility_tools: ^2.0.0
   yaml: ^3.1.2
 flutter_launcher_icons:
   android: true
@@ -511,6 +507,7 @@ flutter:
     - shaders/3d_and_hypercomplex/raymarched_volumes/hartverdrahtet_gpu.frag
     - shaders/3d_and_hypercomplex/raymarched_volumes/tglad_formula_gpu.frag
     - shaders/3d_and_hypercomplex/raymarched_volumes/hydrogen_orbital_gpu.frag
+    - shaders/3d_and_hypercomplex/raymarched_volumes/coral_growth_3d_gpu.frag
     - shaders/escape_time_family/experimental_named/coupled_orbits/alternated_iteration_gpu.frag
     - shaders/escape_time_family/experimental_named/discrete_attractors/bedhead_gpu.frag
     - shaders/strange_attractors/bogdanov_map_gpu.frag
