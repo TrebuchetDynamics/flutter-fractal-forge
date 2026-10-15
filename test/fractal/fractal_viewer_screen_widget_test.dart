@@ -567,6 +567,14 @@ void main() {
                   );
                   await tester.binding.setSurfaceSize(size);
                   addTearDown(() => tester.binding.setSurfaceSize(null));
+                  final l10n = await AppLocalizations.delegate.load(locale);
+                  final longestTitleModule = registry.modules.reduce((a, b) =>
+                      a.displayName(l10n).length >= b.displayName(l10n).length
+                          ? a
+                          : b);
+                  final title = longestTitleModule.displayName(l10n);
+                  expect(title.length, greaterThan(30));
+                  controller.selectModule(longestTitleModule);
                   final accessibility = await AccessibilityService.create();
                   addTearDown(accessibility.dispose);
                   await accessibility.setLargeTargets(largeTargets);
@@ -580,6 +588,7 @@ void main() {
                         MaterialPageRoute<void>(
                           builder: (context) => MediaQuery(
                             data: MediaQuery.of(context).copyWith(
+                              size: size,
                               textScaler: TextScaler.linear(textScale),
                               padding: padding,
                             ),
@@ -600,15 +609,30 @@ void main() {
                   expect(rect.left, greaterThanOrEqualTo(padding.left));
                   expect(rect.right,
                       lessThanOrEqualTo(size.width - padding.right));
+                  final titleChip = find.byKey(const Key('viewerTitleChip'));
+                  final titleText = tester.widget<Text>(
+                      find.byKey(const Key('viewerTitleChipText')));
+                  expect(titleText.data, title);
+                  expect(titleText.maxLines, 1);
+                  expect(titleText.overflow, TextOverflow.ellipsis);
+                  final titleRect = tester.getRect(titleChip);
+                  expect(titleRect.left, greaterThanOrEqualTo(padding.left));
+                  expect(titleRect.right,
+                      lessThanOrEqualTo(size.width - padding.right));
+                  expect(titleRect.top, greaterThanOrEqualTo(padding.top));
+                  expect(titleRect.bottom,
+                      lessThanOrEqualTo(size.height - padding.bottom));
+                  expect(rect.overlaps(titleRect), isFalse);
                   final actions =
                       find.byType(FloatingActionButtonWidget).evaluate();
                   expect(actions, isNotEmpty);
                   for (final action in actions) {
-                    expect(
-                        rect.overlaps(
-                            tester.getRect(find.byWidget(action.widget))),
-                        isFalse,
+                    final actionRect =
+                        tester.getRect(find.byWidget(action.widget));
+                    expect(rect.overlaps(actionRect), isFalse,
                         reason: 'Back overlaps ${action.widget.key}');
+                    expect(titleRect.overlaps(actionRect), isFalse,
+                        reason: 'Title overlaps ${action.widget.key}');
                   }
                   expect(tester.takeException(), isNull);
                   await tester.tap(back);

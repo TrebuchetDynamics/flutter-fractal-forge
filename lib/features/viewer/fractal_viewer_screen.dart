@@ -1717,8 +1717,11 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
                   if (_showCoreViewerChrome)
                     Positioned(
-                      top: overlayTop,
-                      left: 12,
+                      // Keep long titles above the action rail, beside Back.
+                      top: topInset + 8,
+                      left: MediaQuery.of(context).padding.left +
+                          (Navigator.of(context).canPop() ? 80 : 12),
+                      right: MediaQuery.of(context).padding.right + 12,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
