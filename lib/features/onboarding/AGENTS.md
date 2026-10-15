@@ -47,8 +47,8 @@ Tradeoff: they bias toward caution over speed for non-trivial work; use judgment
 
 ### Think Before Coding
 
-- State assumptions before implementing; ask when uncertainty would change the solution.
-- Surface multiple interpretations and tradeoffs instead of silently picking one.
+- State assumptions and choose the simplest reversible solution supported by repository evidence. Ask only when a missing decision prevents safe, authorized work; continue independent work meanwhile.
+- Briefly record material tradeoffs and select a reasonable default for routine local work.
 - Push back when a simpler approach meets the goal.
 
 ### Simplicity First
@@ -82,6 +82,12 @@ This section localizes the Karpathy guardrails for `workspace-sidon/trebuchet-dy
 - Stack cues: Flutter/Dart.
 - Evidence to prefer: test output, analyzer/linter output, screenshot/pixel checks when relevant, shader compile logs, frame/performance metrics, and exact UI state text.
 - Surgical boundary: do not rely on visual vibes; validate rendering numerically and describe results in screen-reader-friendly text.
-- Stop and ask when: a visual requirement lacks measurable acceptance criteria or accessibility impact is uncertain.
+- For underspecified visual work, derive measurable acceptance criteria from existing patterns and accessibility requirements, implement a reversible improvement, and validate it. Escalate only a material unresolved product decision; continue other work.
 
 <!-- karpathy-project-adjustment:end -->
+
+## Autowork local execution
+
+Follow the repository-root Autowork policy for autonomous local planning,
+implementation, verification and scoped commits. Keep this directory’s technical
+contracts and live-operation limits; ordinary local work needs no owner reply.

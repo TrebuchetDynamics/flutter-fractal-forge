@@ -90,11 +90,7 @@ Only after explicit owner approval to deploy and after the pre-deploy hardware s
    scripts/release.sh website --dry-run
    ```
 
-3. Publish:
-
-   ```bash
-   scripts/release.sh website
-   ```
+3. Use root `release.sh` with the approved release version and build number to trigger the protected publication pipeline. Follow its confirmation and evidence gates. Bare `scripts/release.sh website` is a dry run, not publication. Do not set `GITLAB_CI=true` locally to bypass the public entry point.
 
 4. Wait for the deploy job to finish.
 5. Open the canonical landing URL and smoke test:

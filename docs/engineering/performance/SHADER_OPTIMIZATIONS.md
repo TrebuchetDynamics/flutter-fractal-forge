@@ -6,7 +6,7 @@ This document records current shader structure and evidence limits. It does not 
 
 Flutter shader assets are declared under `flutter.shaders` in `pubspec.yaml`. The shader contribution workflow is in [`CONTRIBUTING.md`](../../../CONTRIBUTING.md).
 
-Standard escape-time modules use the slot definitions in `lib/core/modules/builders/uniform_layout.dart` and the setter in `lib/core/modules/builders/escape_time/builder.dart`. Slots 0 through 9 hold the shared values. Extra parameters start at slot 10. The 3D and double-float layouts use different slots. Do not copy a uniform index between shader families without checking its matching builder.
+Standard escape-time modules use the slot definitions in `lib/core/modules/builders/uniform_layout.dart` and the setter in `lib/core/modules/builders/escape_time/builder.dart`. Slots 0 through 9 hold shared values. Extra parameters start at slot 10. Ray-marched 3D modules share a frame/camera prefix through `setRaymarched3DFrameUniforms()`: time at slot 0, resolution at 1–2, pan target (`uMousePos`) at 3–4, zoom at 5, and rotation at 6–8. Module-specific 3D parameters follow that prefix. Mandelbrot double-float has its own layout. Do not reuse an index across shader families without checking its matching builder and shader declarations.
 
 ## Coloring coverage
 
