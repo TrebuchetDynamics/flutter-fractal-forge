@@ -1828,8 +1828,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                       _autoExploreService != null)
                     Positioned(
                       top: overlayTop,
-                      left: AppSpacing.lg,
-                      right: AppSpacing.lg,
+                      left: MediaQuery.of(context).padding.left + AppSpacing.lg,
+                      right:
+                          MediaQuery.of(context).padding.right + AppSpacing.lg,
                       bottom:
                           MediaQuery.of(context).padding.bottom + AppSpacing.xl,
                       child: ChangeNotifierProvider<AutoExploreService>.value(

@@ -120,6 +120,32 @@ Future<bool> _pumpControls(
 }
 
 void main() {
+  testWidgets('short landscape rail scrolls to a tappable report action',
+      (tester) async {
+    tester.view.devicePixelRatio = 1;
+    tester.view.physicalSize = const Size(320, 100);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    addTearDown(tester.view.resetPhysicalSize);
+    var reports = 0;
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      showFractalReport: true,
+      onReportFractal: () => reports++,
+      onOpenWallpaper: () {},
+    );
+    final report = find.byKey(const ValueKey('viewerReportFractalFab'));
+    expect(report.hitTestable(), findsNothing);
+    await tester.drag(
+        find.byType(SingleChildScrollView), const Offset(0, -160));
+    await tester.pumpAndSettle();
+    expect(report.hitTestable(), findsOneWidget);
+    await tester.tap(report);
+    await tester.pumpAndSettle();
+    expect(reports, 1);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('combined share and export FAB opens one action menu',
       (tester) async {
     var exported = false;
@@ -163,7 +189,13 @@ void main() {
     expect(find.text('Export'), findsOneWidget);
     expect(find.text('Copy view link'), findsOneWidget);
     expect(find.text('Share image'), findsOneWidget);
-    expect(find.byType(SingleChildScrollView), findsOneWidget);
+    expect(
+      find.ancestor(
+        of: find.text('Export'),
+        matching: find.byType(SingleChildScrollView),
+      ),
+      findsOneWidget,
+    );
     expect(tester.takeException(), isNull);
   });
 

@@ -623,16 +623,33 @@ void main() {
                   expect(titleRect.bottom,
                       lessThanOrEqualTo(size.height - padding.bottom));
                   expect(rect.overlaps(titleRect), isFalse);
-                  final actions =
-                      find.byType(FloatingActionButtonWidget).evaluate();
+                  final actions = <Finder>[
+                    for (final action
+                        in find.byType(FloatingActionButtonWidget).evaluate())
+                      find.byWidget(action.widget),
+                    find.byKey(const Key('viewerOverflowMenu')),
+                    find.byKey(const Key('viewerAutoExploreButton')),
+                  ];
                   expect(actions, isNotEmpty);
                   for (final action in actions) {
-                    final actionRect =
-                        tester.getRect(find.byWidget(action.widget));
+                    await tester.ensureVisible(action);
+                    await tester.pumpAndSettle();
+                    final actionRect = tester.getRect(action);
+                    expect(action.hitTestable(), findsOneWidget);
+                    expect(actionRect.left, greaterThanOrEqualTo(padding.left),
+                        reason: '$action left safe bound');
+                    expect(actionRect.right,
+                        lessThanOrEqualTo(size.width - padding.right),
+                        reason: '$action right safe bound');
+                    expect(actionRect.top, greaterThanOrEqualTo(padding.top),
+                        reason: '$action top safe bound');
+                    expect(actionRect.bottom,
+                        lessThanOrEqualTo(size.height - padding.bottom),
+                        reason: '$action bottom safe bound');
                     expect(rect.overlaps(actionRect), isFalse,
-                        reason: 'Back overlaps ${action.widget.key}');
+                        reason: 'Back overlaps $action');
                     expect(titleRect.overlaps(actionRect), isFalse,
-                        reason: 'Title overlaps ${action.widget.key}');
+                        reason: 'Title overlaps $action');
                   }
                   expect(tester.takeException(), isNull);
                   await tester.tap(back);

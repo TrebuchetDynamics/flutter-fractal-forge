@@ -253,23 +253,26 @@ class FractalViewControls extends StatelessWidget {
         child: Align(
           alignment:
               isLandscape ? Alignment.bottomCenter : Alignment.bottomRight,
-          child: ConstrainedBox(
-            key: const ValueKey('viewerFabColumn'),
-            constraints: BoxConstraints(
-              // Landscape wraps the uniform 48px FABs into at most three rows.
-              // Keep room for all rows plus their 8px gaps on short viewports.
-              maxHeight: isLandscape ? 176 : maxFabColumnHeight,
-              maxWidth: isLandscape ? maxFabRowWidth : 112,
-            ),
-            child: FocusTraversalGroup(
-              policy: OrderedTraversalPolicy(),
-              child: Wrap(
-                direction: isLandscape ? Axis.horizontal : Axis.vertical,
-                alignment: WrapAlignment.end,
-                runAlignment: WrapAlignment.end,
-                spacing: AppSpacing.sm,
-                runSpacing: AppSpacing.sm,
-                children: actionButtons,
+          child: SingleChildScrollView(
+            scrollDirection: isLandscape ? Axis.vertical : Axis.horizontal,
+            child: ConstrainedBox(
+              key: const ValueKey('viewerFabColumn'),
+              constraints: BoxConstraints(
+                // Landscape wraps the uniform 48px FABs into at most three rows.
+                // Keep room for all rows plus their 8px gaps on short viewports.
+                maxHeight: isLandscape ? 176 : maxFabColumnHeight,
+                maxWidth: maxFabRowWidth,
+              ),
+              child: FocusTraversalGroup(
+                policy: OrderedTraversalPolicy(),
+                child: Wrap(
+                  direction: isLandscape ? Axis.horizontal : Axis.vertical,
+                  alignment: WrapAlignment.end,
+                  runAlignment: WrapAlignment.end,
+                  spacing: AppSpacing.sm,
+                  runSpacing: AppSpacing.sm,
+                  children: actionButtons,
+                ),
               ),
             ),
           ),
