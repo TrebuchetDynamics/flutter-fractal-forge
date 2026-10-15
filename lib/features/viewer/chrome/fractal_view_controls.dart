@@ -675,6 +675,27 @@ class _ViewerOverflowMenu extends StatelessWidget {
                 key: const ValueKey('viewerOverflowMenu'),
                 tooltip: l10n.viewerActionsMenu,
                 enabled: !isExporting,
+                style: IconButton.styleFrom(
+                  visualDensity: VisualDensity.standard,
+                  foregroundColor: Colors.white,
+                  backgroundColor: AppColors.surface,
+                  shape: const CircleBorder(),
+                  fixedSize: Size.square(
+                    context
+                                .watch<AccessibilityService?>()
+                                ?.largeTargetsEnabled ==
+                            true
+                        ? 56
+                        : 48,
+                  ),
+                ).copyWith(
+                  side: WidgetStateProperty.resolveWith((states) => BorderSide(
+                        color: states.contains(WidgetState.focused)
+                            ? HighContrastColors.focusIndicator
+                            : Colors.transparent,
+                        width: AccessibleSizing.focusIndicatorWidth,
+                      )),
+                ),
                 icon: const Icon(Icons.more_vert_rounded),
                 onSelected: (action) {
                   switch (action) {

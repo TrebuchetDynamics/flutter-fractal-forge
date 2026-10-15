@@ -623,6 +623,13 @@ void main() {
                   expect(titleRect.bottom,
                       lessThanOrEqualTo(size.height - padding.bottom));
                   expect(rect.overlaps(titleRect), isFalse);
+                  final overflow = find.byKey(const Key('viewerOverflowMenu'));
+                  expect(tester.getSize(overflow),
+                      Size.square(largeTargets ? 56 : 48));
+                  final overflowButton =
+                      tester.widget<PopupMenuButton<String>>(overflow);
+                  expect(overflowButton.style?.shape?.resolve({}),
+                      isA<CircleBorder>());
                   final actions = <Finder>[
                     for (final action
                         in find.byType(FloatingActionButtonWidget).evaluate())
