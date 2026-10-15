@@ -1922,7 +1922,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                   if (!widget.captureMode && Navigator.of(context).canPop())
                     Positioned(
                       top: topInset + 8,
-                      left: 12,
+                      left: MediaQuery.of(context).padding.left + 12,
                       child: IconButton(
                         key: const Key('viewerBackToCatalogButton'),
                         tooltip: l10n.viewerBackToCatalog,

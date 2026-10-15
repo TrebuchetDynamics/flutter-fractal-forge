@@ -13,6 +13,8 @@ import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
 import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_fractals/core/services/export/wallpaper_service.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
+import 'package:flutter_fractals/core/theme/app_theme.dart';
+import 'package:flutter_fractals/features/viewer/chrome/fractal_view_controls.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
 import 'package:flutter_fractals/core/services/storage/history_store.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
@@ -473,6 +475,7 @@ void main() {
       bool restoreViewerSession = true,
       bool startAtCatalog = false,
       AccessibilityService? accessibility,
+      ThemeData? theme,
     }) {
       return MultiProvider(
         providers: [
@@ -487,6 +490,7 @@ void main() {
             Provider.value(value: viewerSessionStore),
         ],
         child: MaterialApp(
+          theme: theme,
           locale: locale,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
@@ -540,6 +544,82 @@ void main() {
           expect(find.text('Catalog route'), findsOneWidget);
           expect(find.byType(FractalViewerScreen), findsNothing);
         });
+      }
+    }
+
+    for (final locale in const [Locale('en'), Locale('es')]) {
+      for (final width in const [320.0, 768.0, 1024.0, 1440.0]) {
+        for (final landscape in [false, true]) {
+          for (final textScale in [1.0, 2.0]) {
+            for (final highContrast in [false, true]) {
+              for (final largeTargets in [false, true]) {
+                testWidgets(
+                    'catalog Back layout ${locale.languageCode} width=$width '
+                    'landscape=$landscape scale=$textScale '
+                    'contrast=$highContrast large=$largeTargets',
+                    (tester) async {
+                  final size = Size(width, width * (landscape ? 0.625 : 1.25));
+                  final padding = EdgeInsets.fromLTRB(
+                    landscape ? 44 : 16,
+                    24,
+                    landscape ? 0 : 16,
+                    16,
+                  );
+                  await tester.binding.setSurfaceSize(size);
+                  addTearDown(() => tester.binding.setSurfaceSize(null));
+                  final accessibility = await AccessibilityService.create();
+                  addTearDown(accessibility.dispose);
+                  await accessibility.setLargeTargets(largeTargets);
+                  await tester.pumpWidget(buildTestWidget(
+                    locale: locale,
+                    startAtCatalog: true,
+                    accessibility: accessibility,
+                    theme: highContrast ? AppTheme.highContrast : AppTheme.dark,
+                  ));
+                  tester.state<NavigatorState>(find.byType(Navigator)).push(
+                        MaterialPageRoute<void>(
+                          builder: (context) => MediaQuery(
+                            data: MediaQuery.of(context).copyWith(
+                              textScaler: TextScaler.linear(textScale),
+                              padding: padding,
+                            ),
+                            child: const FractalViewerScreen(
+                              restoreViewerSession: false,
+                            ),
+                          ),
+                        ),
+                      );
+                  await tester.pumpAndSettle();
+                  final back =
+                      find.byKey(const Key('viewerBackToCatalogButton'));
+                  final rect = tester.getRect(back);
+                  expect(rect.size, Size.square(largeTargets ? 56 : 48));
+                  expect(rect.top, greaterThanOrEqualTo(padding.top));
+                  expect(rect.bottom,
+                      lessThanOrEqualTo(size.height - padding.bottom));
+                  expect(rect.left, greaterThanOrEqualTo(padding.left));
+                  expect(rect.right,
+                      lessThanOrEqualTo(size.width - padding.right));
+                  final actions =
+                      find.byType(FloatingActionButtonWidget).evaluate();
+                  expect(actions, isNotEmpty);
+                  for (final action in actions) {
+                    expect(
+                        rect.overlaps(
+                            tester.getRect(find.byWidget(action.widget))),
+                        isFalse,
+                        reason: 'Back overlaps ${action.widget.key}');
+                  }
+                  expect(tester.takeException(), isNull);
+                  await tester.tap(back);
+                  await tester.pumpAndSettle();
+                  expect(find.text('Catalog route'), findsOneWidget);
+                  expect(tester.takeException(), isNull);
+                });
+              }
+            }
+          }
+        }
       }
     }
 
