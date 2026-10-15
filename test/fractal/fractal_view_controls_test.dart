@@ -146,6 +146,94 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('short landscape keyboard traversal reveals and activates report',
+      (tester) async {
+    tester.view.devicePixelRatio = 1;
+    tester.view.physicalSize = const Size(320, 100);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    addTearDown(tester.view.resetPhysicalSize);
+    var reports = 0;
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      showFractalReport: true,
+      onReportFractal: () => reports++,
+      onOpenWallpaper: () {},
+    );
+    final report = find.byKey(const ValueKey('viewerReportFractalFab'));
+    expect(report.hitTestable(), findsNothing);
+    for (final key in const [
+      'viewerRandomParamsButton',
+      'viewerColorCycleButton',
+      'viewerRandomFractalFab',
+      'viewerLooperFab',
+      'viewerFractalMusicFab',
+      'viewerKaleidoscopeFab',
+      'viewerTextOverlayFab',
+      'viewerFourierFab',
+      'viewerExportButton',
+      'viewerFullscreenButton',
+      'viewerReportFractalFab',
+    ]) {
+      await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+      await tester.pumpAndSettle();
+      final action = find.byKey(ValueKey(key));
+      final gesture = find.descendant(
+        of: action,
+        matching: find.byType(GestureDetector),
+      );
+      expect(Focus.of(tester.element(gesture)).hasFocus, isTrue, reason: key);
+      expect(action.hitTestable(), findsOneWidget, reason: key);
+    }
+    expect(reports, 0);
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+    await tester.pumpAndSettle();
+    expect(reports, 1);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('short landscape semantics can scroll to and activate report',
+      (tester) async {
+    tester.view.devicePixelRatio = 1;
+    tester.view.physicalSize = const Size(320, 100);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    addTearDown(tester.view.resetPhysicalSize);
+    final semantics = tester.ensureSemantics();
+    var reports = 0;
+    await _pumpControls(
+      tester,
+      isExporting: false,
+      showFractalReport: true,
+      onReportFractal: () => reports++,
+      onOpenWallpaper: () {},
+    );
+    final report = find.byKey(const ValueKey('viewerReportFractalFab'));
+    expect(report.hitTestable(), findsNothing);
+    var scrollNode = tester.getSemantics(report);
+    while (!scrollNode.getSemanticsData().hasAction(SemanticsAction.scrollUp) &&
+        scrollNode.parent != null) {
+      scrollNode = scrollNode.parent!;
+    }
+    expect(scrollNode.getSemanticsData().hasAction(SemanticsAction.scrollUp),
+        isTrue);
+    tester.binding.renderViews.single.owner!.semanticsOwner!
+        .performAction(scrollNode.id, SemanticsAction.scrollUp);
+    await tester.pumpAndSettle();
+    expect(report.hitTestable(), findsOneWidget);
+    final reportNode =
+        tester.getSemantics(find.bySemanticsLabel('Report fractal'));
+    expect(reportNode.getSemanticsData().label, 'Report fractal');
+    expect(
+        reportNode.getSemanticsData().hasAction(SemanticsAction.tap), isTrue);
+    expect(reports, 0);
+    tester.binding.renderViews.single.owner!.semanticsOwner!
+        .performAction(reportNode.id, SemanticsAction.tap);
+    await tester.pumpAndSettle();
+    expect(reports, 1);
+    expect(tester.takeException(), isNull);
+    semantics.dispose();
+  });
+
   testWidgets('combined share and export FAB opens one action menu',
       (tester) async {
     var exported = false;
