@@ -7,20 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+Play candidate **1.1.108 (108)** is prepared from the reconciled source. Publication
+remains pending all release gates and a verified Play readback. Play-only dispatch
+retains the existing gates without deploying the website or publishing other releases.
+
+### Added
+
+- Add seeded, DLAF-inspired Coral Growth fractals in 2D and 3D.
+
 ### Fixed
 
+- Make catalog Back a compact localized circular control with 48/56px touch
+  targets, retaining direct navigation and capture/export behavior. Keep Back
+  outside side cutouts and long viewer titles clear of navigation and controls.
+  These local fixes do not complete VIEW-UI-01: native/production-font captures
+  and device/GPU visual qualification remain open.
+
+- Keep Coral Growth (2D) antialiasing edges ordered at high zoom, including
+  zoom 6 and 10, without changing its default-view ramp.
 - Preserve an explicitly requested Playwright catalog smoke module when a
   previous viewer session is stored in the browser. The smoke route now owns
   the initial viewer state instead of restoring the prior module first.
+- Correct KIFS Menger Sponge folding and early-out on removed cells to avoid
+  repeatedly evaluating its full iteration loop; leave Menger Cross's path intact.
 
 ### Planned
 
 - Smooth coloring across the remaining escape-time shaders (done in the
   perturbation shader)
-- Improved auto-pilot navigation with manual correction acceptance
 - Enhanced preset management (delete, rename, thumbnail generation)
-- User-defined color palette support
 - Bookmark/favorites system for fractal locations
+
+Manual correction acceptance and user-defined palette support are already recorded as completed in TODO.md. Their former planned entries are retained in todo.archive.md; this correction is not a new release or a fresh runtime qualification.
 
 Perturbation for GPU deep zoom beyond float32 has shipped and is no longer
 planned work; see the Extended GPU Preview entry in CONTEXT.md.
