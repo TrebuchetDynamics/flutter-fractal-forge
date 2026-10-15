@@ -1923,37 +1923,31 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                     Positioned(
                       top: topInset + 8,
                       left: 12,
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxWidth: constraints.maxWidth - 24,
+                      child: IconButton(
+                        key: const Key('viewerBackToCatalogButton'),
+                        tooltip: l10n.viewerBackToCatalog,
+                        style: IconButton.styleFrom(
+                          visualDensity: VisualDensity.standard,
+                          foregroundColor: Colors.white,
+                          backgroundColor: AppColors.surface,
+                          shape: const CircleBorder(),
+                          fixedSize: Size.square(
+                            context
+                                        .watch<AccessibilityService?>()
+                                        ?.largeTargetsEnabled ==
+                                    true
+                                ? 56
+                                : 48,
+                          ),
                         ),
-                        child: TextButton.icon(
-                          key: const Key('viewerBackToCatalogButton'),
-                          style: TextButton.styleFrom(
-                            visualDensity: VisualDensity.standard,
-                            foregroundColor: Colors.white,
-                            backgroundColor: AppColors.surface,
-                            minimumSize: Size(
-                              48,
-                              context
-                                          .watch<AccessibilityService?>()
-                                          ?.largeTargetsEnabled ==
-                                      true
-                                  ? 56
-                                  : 48,
-                            ),
-                          ),
-                          // An explicit catalog destination closes the viewer
-                          // directly; system Back still dismisses its HUD first.
-                          onPressed: _exporting
-                              ? null
-                              : () => Navigator.of(context).pop(),
-                          icon: const Icon(Icons.arrow_back_rounded),
-                          label: Text(
-                            l10n.viewerBackToCatalog,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                        // An explicit catalog destination closes the viewer
+                        // directly; system Back still dismisses its HUD first.
+                        onPressed: _exporting
+                            ? null
+                            : () => Navigator.of(context).pop(),
+                        icon: Icon(
+                          Icons.arrow_back_rounded,
+                          semanticLabel: l10n.viewerBackToCatalog,
                         ),
                       ),
                     ),
