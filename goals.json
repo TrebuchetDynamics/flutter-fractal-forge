@@ -970,6 +970,7 @@
       "tasks": [
         "REL-JOURNEY-01-WEB",
         "REL-JOURNEY-02-LINUX",
+        "REL-JOURNEY-02-LINUX-LIVE",
         "REL-JOURNEY-03-ANDROID"
       ],
       "title": "Qualify the complete image-creation journey on Android, web and Linux"
@@ -1077,7 +1078,6 @@
       "GAUSS-MOAT-03-QUALIFY",
       "QUAT-NORM-02-WALK",
       "QUAT-NORM-03-QUALIFY",
-      "REL-JOURNEY-02-LINUX",
       "REL-JOURNEY-03-ANDROID",
       "SMOOTH-001-INVENTORY-02",
       "VIS-006-BATCH-20",
@@ -1097,7 +1097,8 @@
       "VIEW-UI-01-LIVE",
       "VIEW-UI-02-LIVE",
       "GAUSS-MOAT-02-WALK-LIVE",
-      "QUAT-NORM-01-SLICE-LIVE"
+      "QUAT-NORM-01-SLICE-LIVE",
+      "REL-JOURNEY-02-LINUX-LIVE"
     ]
   },
   "tasks": [
@@ -1197,14 +1198,6 @@
       "section": "Next",
       "status": "open",
       "title": "Qualify accessible quaternion walking and frozen-state exports on all three targets"
-    },
-    {
-      "depends_on": [],
-      "goal": "REL-JOURNEY-001",
-      "id": "REL-JOURNEY-02-LINUX",
-      "section": "Next",
-      "status": "open",
-      "title": "Qualify the complete Linux image-creation journey"
     },
     {
       "depends_on": [],
@@ -1355,6 +1348,16 @@
     },
     {
       "depends_on": [
+        "REL-JOURNEY-02-LINUX"
+      ],
+      "goal": "REL-JOURNEY-001",
+      "id": "REL-JOURNEY-02-LINUX-LIVE",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Live checks for REL-JOURNEY-02-LINUX"
+    },
+    {
+      "depends_on": [
         "VIEW-UI-01"
       ],
       "goal": "VIEW-UI-001",
@@ -1432,6 +1435,14 @@
       "section": "Done",
       "status": "done",
       "title": "Open a bounded fixed-d prime-norm quaternion view with deterministic picking"
+    },
+    {
+      "depends_on": [],
+      "goal": "REL-JOURNEY-001",
+      "id": "REL-JOURNEY-02-LINUX",
+      "section": "Done",
+      "status": "done",
+      "title": "Qualify the complete Linux image-creation journey"
     },
     {
       "depends_on": [],

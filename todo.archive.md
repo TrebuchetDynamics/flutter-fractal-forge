@@ -453,3 +453,21 @@ Source section: Next
   - Dependencies: GAUSS-MOAT-01-MAP.
   - Decision: fixed-d induced slice before full 4D graphs; no false certified-prime label or reused Julia shader as an oracle.
   - Skill application: spec-driven-development, precise predicate/slice contract; frontend-ui-engineering, projection and explicit legend; planning-and-task-breakdown, bounded first slice.
+
+
+<!-- archived from TODO.md -->
+
+Source section: Next
+
+- [x] **REL-JOURNEY-02-LINUX — Qualify the complete Linux image-creation journey.**
+  - Goal: REL-JOURNEY-001. Payoff: meet the accepted complete user journey on this platform without false parity claims.
+  - Sources: [Accepted release contract](PRD.md#active-release-contract), [Journey verification](docs/engineering/test-plan.md#accepted-cross-platform-release-journey), `docs/engineering/rendering/renderer_backend_matrix.md`, `lib/features/export/export_options_sheet.dart`, and `test/export/viewer_export_session_test.dart`.
+  - Graph evidence: fresh partial code-only export graph, `ExportOptionsSheet` → `ExportSheetSubmission` and `ExportOptions` at `export_options_sheet.dart:13,28,46`; `ExportResolutionSummary.fromEffectiveOptions` at `export_resolution_summary.dart:19`. Services, journey tests and doc semantics are unindexed; two self-loops/duplicate-label warnings require source corroboration.
+  - Touches: integration_test/flows/, test/export/, lib/features/export/, lib/features/viewer/export/, lib/core/services/export/, docs/engineering/test-plan.md, docs/engineering/rendering/renderer_backend_matrix.md
+  - Scope: Extend the existing native user-flow and export tests to browse/open 2D and 3D examples, edit the viewer, inspect current mathematics/qualifications and save PNG files. Reuse native export capture and storage Preserve formulas, IDs, favorites, presets, EN/ES support, preview quality caps and renderer gates. Exclude publication, deployment, historical MVP expansion and other platforms.
+  - Acceptance: Both dimensional examples produce readable PNGs with selected dimensions and edited view/settings, accurate disclosure and no crash/placeholder substitution; saved data remains intact. Record every failure, skip and remaining gap. A build or widget-only pass does not close the task.
+  - Checks: `flutter test integration_test/flows/user_flows_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded`; `flutter test test/export/viewer_export_session_test.dart test/export/export_service_test.dart --reporter expanded`; record/run the exact added artifact-export test, formatter and analyzer. Hardware/backend identity must accompany the result.
+  - Dependencies: none. Platform slices are independent; no existing active worker is superseded.
+  - Ownership: repository backlog, unassigned. Check live ownership before any dispatch.
+  - Decision: reuse existing journey/export components and fix only reproduced in-scope defects; no speculative renderer redesign or new dependencies.
+  - Skill application: planning-and-task-breakdown, bounded end-to-end slice; frontend-ui-engineering, interaction and saved-state regressions; documentation-and-adrs, distinguish accepted target from observed qualification.

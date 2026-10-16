@@ -124,19 +124,6 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Decision: qualify displayed geometry and exported artifacts separately from the quaternion predicate.
   - Skill application: frontend-ui-engineering, localized accessible 3D journey; planning-and-task-breakdown, dependent platform qualification; documentation-and-adrs, unrun checks are not evidence.
 
-- [ ] **REL-JOURNEY-02-LINUX — Qualify the complete Linux image-creation journey.**
-  - Goal: REL-JOURNEY-001. Payoff: meet the accepted complete user journey on this platform without false parity claims.
-  - Sources: [Accepted release contract](PRD.md#active-release-contract), [Journey verification](docs/engineering/test-plan.md#accepted-cross-platform-release-journey), `docs/engineering/rendering/renderer_backend_matrix.md`, `lib/features/export/export_options_sheet.dart`, and `test/export/viewer_export_session_test.dart`.
-  - Graph evidence: fresh partial code-only export graph, `ExportOptionsSheet` → `ExportSheetSubmission` and `ExportOptions` at `export_options_sheet.dart:13,28,46`; `ExportResolutionSummary.fromEffectiveOptions` at `export_resolution_summary.dart:19`. Services, journey tests and doc semantics are unindexed; two self-loops/duplicate-label warnings require source corroboration.
-  - Touches: integration_test/flows/, test/export/, lib/features/export/, lib/features/viewer/export/, lib/core/services/export/, docs/engineering/test-plan.md, docs/engineering/rendering/renderer_backend_matrix.md
-  - Scope: Extend the existing native user-flow and export tests to browse/open 2D and 3D examples, edit the viewer, inspect current mathematics/qualifications and save PNG files. Reuse native export capture and storage Preserve formulas, IDs, favorites, presets, EN/ES support, preview quality caps and renderer gates. Exclude publication, deployment, historical MVP expansion and other platforms.
-  - Acceptance: Both dimensional examples produce readable PNGs with selected dimensions and edited view/settings, accurate disclosure and no crash/placeholder substitution; saved data remains intact. Record every failure, skip and remaining gap. A build or widget-only pass does not close the task.
-  - Checks: `flutter test integration_test/flows/user_flows_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded`; `flutter test test/export/viewer_export_session_test.dart test/export/export_service_test.dart --reporter expanded`; record/run the exact added artifact-export test, formatter and analyzer. Hardware/backend identity must accompany the result.
-  - Dependencies: none. Platform slices are independent; no existing active worker is superseded.
-  - Ownership: repository backlog, unassigned. Check live ownership before any dispatch.
-  - Decision: reuse existing journey/export components and fix only reproduced in-scope defects; no speculative renderer redesign or new dependencies.
-  - Skill application: planning-and-task-breakdown, bounded end-to-end slice; frontend-ui-engineering, interaction and saved-state regressions; documentation-and-adrs, distinguish accepted target from observed qualification.
-
 - [ ] **REL-JOURNEY-03-ANDROID — Qualify the complete Android image-creation journey.**
   - Release routing: The owner deferred GitLab for the current full release. Do not request GitLab login or dispatch its mirror/CI/release operations. Preserve all build/device/journey/evidence gates. Existing release commands remain GitLab-dependent; establish and verify an alternative execution route before publication. See `PRD.md#active-release-contract` and `docs/engineering/release/MULTIPLATFORM.md#current-release-override`. This does not mark any qualification complete or authorize publication.
   - Release defaults: Production is the owner-selected default for all releases, with explicit overrides required for test/draft destinations. This changes neither qualification status nor publication authority.
@@ -334,6 +321,14 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Human review and device/visual qualification of responsive layout, screen-reader/list selection, and rendered quaternion points remain pending; offline mathematical and regression tests do not qualify device behavior.
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: QUAT-NORM-01-SLICE.
+  Status: open
+
+- [ ] REL-JOURNEY-02-LINUX-LIVE — Live checks for REL-JOURNEY-02-LINUX
+  Scope: Run the live checks the offline work for REL-JOURNEY-02-LINUX left pending.
+  Acceptance: Each check passes on the real target:
+  - Human visual review of exported image composition/readability; the integration test deletes its temporary PNGs after numerical checks.
+  Checks: Live qualification by an authorized person; offline evidence does not count.
+  Dependencies: REL-JOURNEY-02-LINUX.
   Status: open
 
 ## Done
