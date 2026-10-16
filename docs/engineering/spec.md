@@ -219,7 +219,7 @@ Skill application: frontend-ui-engineering separates screenshot observations fro
 
 ## Local MAP completion and canonical adoption boundary
 
-The existing MAP ledger record is done for the locally committed and independently reviewed slice at `6e671957a30ea7b44a80f8cfc4a8d5d31c73dd73` (original card t_a925ef4e, review run 96). Canonical HEAD still lacks the model/plot files. The unchecked live body was corrected to match that local completion; this is not integration, milestone completion or platform qualification. Preserve the reviewed branch and require exact reviewed predecessor inputs for WALK/SLICE admission. The current viewer-first planning focus is recorded in PRD.md#quality-first-planning-priority. No acceptance metadata is restored over a changed nested scope: viewer styling is accepted only within its existing two-correction contract, quality discovery remains Proposed, and OpenAI candidates remain Proposed.
+The existing MAP ledger record is done for the locally committed and independently reviewed slice at `6e671957a30ea7b44a80f8cfc4a8d5d31c73dd73` (original card t_a925ef4e, review run 96). Merging this record onto main brings the model/plot files onto canonical HEAD; that local integration is not milestone completion or platform qualification. Preserve the reviewed branch and require exact reviewed predecessor inputs for WALK/SLICE admission. The current viewer-first planning focus is recorded in PRD.md#quality-first-planning-priority. No acceptance metadata is restored over a changed nested scope: viewer styling is accepted only within its existing two-correction contract, quality discovery remains Proposed, and OpenAI candidates remain Proposed.
 
 
 ## App-derived Zig-Zag Julia icon
