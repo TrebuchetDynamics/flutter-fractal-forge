@@ -182,7 +182,7 @@ def main(argv=None):
     print(f'[release] GitLab {args.project}: {mode_name} {version or "<version>"} at {sha}', flush=True)
     print('[release] validate → Android device gate + Android/F-Droid/Linux/Windows/macOS/iOS/web builds'
           ' → F-Droid scan + verified evidence' +
-          ((' → Play only' if args.target == 'play' else ' → GitLab release + GitHub draft + Cloudflare + Play') if mode_name == 'publish' else ' (no publication)'), flush=True)
+          ((' → Play only' if args.target == 'play' else ' → GitLab release + GitHub release + Cloudflare + Play') if mode_name == 'publish' else ' (no publication)'), flush=True)
     print('[release] Apple archives are unsigned; Apple signing/store submission and F-Droid acceptance remain external.', flush=True)
     if args.dry_run:
         print('[release] DRY RUN: cached tags only; no edits, commits, pushes, builds or publication.')
@@ -205,9 +205,8 @@ def main(argv=None):
         'RELEASE_BUILD_NUMBER': str(build), 'RELEASE_COMMIT': sha,
         'RELEASE_TARGET': args.target,
     }.items()]}
-    if args.target == 'play':
-        payload['variables'] += [{'key': key, 'value': os.environ.get(key, default)} for key, default in
-                                 [('PLAY_TRACK', 'internal'), ('PLAY_RELEASE_STATUS', 'draft')]]
+    payload['variables'] += [{'key': key, 'value': os.environ.get(key) or default} for key, default in
+                             [('PLAY_TRACK', 'production'), ('PLAY_RELEASE_STATUS', 'completed')]]
     # Never retry POST: an ambiguous response must not produce duplicate releases.
     pipeline = api(f'projects/{project}/pipeline', payload)
     print(f'[release] {pipeline["web_url"]}', flush=True)

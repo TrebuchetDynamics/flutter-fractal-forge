@@ -112,6 +112,8 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
 
   @override
   void dispose() {
+    // Worker cancellation can resume a render while mounted is still true.
+    _job++;
     _debounce?.cancel();
     _refineTimer?.cancel();
     _setSlowModeActive(false);

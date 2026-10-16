@@ -26,6 +26,12 @@ retains the existing gates without deploying the website or publishing other rel
 
 ### Fixed
 
+- Invalidate CPU render jobs before worker cancellation during widget disposal,
+  preventing a resumed render from updating an already-defunct element.
+
+- Default release publication to Play production/completed and published GitHub
+  releases, retaining explicit test/draft overrides and all qualification gates.
+
 - Make catalog Back a compact localized circular control with 48/56px touch
   targets, retaining direct navigation and capture/export behavior. Keep Back
   outside side cutouts and long viewer titles clear of navigation and controls.

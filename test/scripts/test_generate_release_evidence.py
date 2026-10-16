@@ -317,8 +317,8 @@ class ReleaseEvidenceTest(unittest.TestCase):
         self.assertIn("package: name='com.trebuchetdynamics.fractal.forge'", release_script)
         self.assertIn('Authorization: Bearer $' + 'ACCESS_TOKEN', upload_script)
         self.assertNotIn('Authorization: Bearer ' + '*' * 3, upload_script)
-        self.assertIn('TRACK="${PLAY_TRACK:-internal}"', upload_script)
-        self.assertIn('RELEASE_STATUS="${PLAY_RELEASE_STATUS:-draft}"', upload_script)
+        self.assertIn('TRACK="${PLAY_TRACK:-production}"', upload_script)
+        self.assertIn('RELEASE_STATUS="${PLAY_RELEASE_STATUS:-completed}"', upload_script)
 
     def test_all_release_can_resume_at_publication_stage_without_repeating_gates(self):
         root = Path(__file__).resolve().parents[2]

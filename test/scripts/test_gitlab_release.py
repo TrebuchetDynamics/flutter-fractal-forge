@@ -92,6 +92,37 @@ class GitLabReleaseTest(unittest.TestCase):
             self.assertIn({'key': 'RELEASE_MODE', 'value': 'publish'}, payload['variables'])
             watch.assert_called_once()
 
+    def test_release_targets_default_to_production_and_allow_explicit_test_override(self):
+        marker = dict(line.split('=', 1) for line in (ROOT / 'fdroid/version.properties').read_text().splitlines()
+                      if line and not line.startswith('#'))
+        sha = 'a' * 40
+        def fake_git(*args):
+            return {('rev-parse', 'HEAD'): sha, ('status', '--porcelain'): '',
+                    ('symbolic-ref', '--quiet', '--short', 'HEAD'): 'main'}[args]
+        for target in ['all', 'play']:
+            for environment, expected in [({}, ('production', 'completed')),
+                                          ({'PLAY_TRACK': '', 'PLAY_RELEASE_STATUS': ''}, ('production', 'completed')),
+                                          ({'PLAY_TRACK': 'internal', 'PLAY_RELEASE_STATUS': 'draft'}, ('internal', 'draft'))]:
+                with self.subTest(target=target, environment=environment), \
+                     patch.dict(release.os.environ, environment, clear=True), \
+                     patch.object(release, 'git', side_effect=fake_git), \
+                     patch.object(release, 'api', side_effect=[{'commit': {'id': sha}, 'protected': True},
+                                      {'sha': sha, 'id': 42, 'web_url': 'url'}]) as api:
+                    release.main(['--target', target, '--publish=' + marker['versionName'], '--no-wait'])
+                    variables = {v['key']: v['value'] for v in api.call_args.args[1]['variables']}
+                    self.assertEqual((variables['PLAY_TRACK'], variables['PLAY_RELEASE_STATUS']), expected)
+
+    def test_shell_and_ci_defaults_are_production(self):
+        for name in ['scripts/release.sh', 'scripts/build-upload-playstore.sh']:
+            source = (ROOT / name).read_text()
+            self.assertIn('${PLAY_TRACK:-production}', source)
+            self.assertIn('${PLAY_RELEASE_STATUS:-completed}', source)
+        ci = (ROOT / '.gitlab-ci.yml').read_text()
+        self.assertIn('PLAY_TRACK: "production"', ci)
+        self.assertIn('PLAY_RELEASE_STATUS: "completed"', ci)
+        source = (ROOT / 'scripts/release.sh').read_text()
+        self.assertIn('--draft="${GITHUB_RELEASE_DRAFT:-false}"', source)
+
     def test_next_patch_uses_numeric_tags_and_reuses_prepared_version(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

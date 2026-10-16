@@ -27,6 +27,8 @@ The journey must complete without a crash or silent placeholder substitution. Ex
 
 ### Scope and exclusions
 
+- Owner update: skip GitLab for the current full release, until explicitly resumed. GitLab login, mirroring, CI execution and GitLab release publication are deferred, not completed. Preserve all existing build, device, cross-platform journey and evidence gates; a non-GitLab execution path must satisfy them before publication. This update does not itself authorize publication or scheduling.
+- Owner release policy: all releases target production by default. Play defaults to the production track with completed status; GitHub releases default to published rather than draft. Nonproduction/draft output requires an explicit override. Default destination is not authorization to publish or permission to waive qualification.
 - Android, web, and Linux must each meet the complete journey bar. Platform-specific save mechanisms can differ.
 - Unverified and inspired entries can remain available with clear qualifications. Do not imply that they are certified formulas or exact geometric constructions.
 - This contract does not require certification of every shader, macOS/Windows qualification, new historical MVP features, or a product rename.

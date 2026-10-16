@@ -1,5 +1,17 @@
 # Verification plan
 
+## Production release defaults
+
+The release dispatcher, shell publisher and CI configuration default to Play
+`production`/`completed`; GitHub creation defaults to a published release.
+`test/scripts/test_gitlab_release.py` covers both release targets, unset/empty
+values, explicit internal/draft overrides and consistent shell/CI defaults.
+`test/scripts/test_generate_release_evidence.py` retains the artifact/device gates.
+Run `python3 -m unittest discover -s test/scripts -p 'test_*.py'` and
+`env -u GITLAB_CI bats test/scripts/*.bats` for offline verification.
+These checks make no live publication and do not qualify installed-device behavior.
+GitLab execution remains deferred under the current release override.
+
 ## Current quality-first verification frontier
 
 Owner order: verify the compact catalog-back control and circular overflow surface (`VIEW-UI-01`, `VIEW-UI-02`), then assess the diverse catalog pilot (`CAT-QUALITY-01`) before its defect repairs (`CAT-QUALITY-02`). UI changes require actual-viewer layout/interaction and same-state image checks; pilot promotion requires attractive defaults, useful controls and matching PNG output with honest mathematics and accessibility. Both viewer corrections have local implementations; the wrapped-rail and keyboard/semantics follow-ups are `d79b2eb0` and `72d08ba1`, and circular overflow is `06f6ec46`. The 247-test home/viewer/control/coral union passes on Flutter 3.44.6 / Dart 3.12.2, including the corrected compact-Back keyboard selector and coral render checks at zoom 0.85, 6 and 10. This is focused host evidence, not a whole-suite, device or store pass. Earlier widget captures used substituted Roboto and a blank renderer. Matched native Linux/Xvfb evidence now covers 16 EN/ES pairs at widths 320/768/1024/1440, portrait/default and landscape/2× text/high contrast/large targets, using the real alternated_iteration shader and native font fallback without test-font loading. The baseline selectively restores the two viewer chrome files from `14a9eca4` on otherwise current `f90a3681` sources; it is not a complete historical app build. Both sides initialize accessibility before mounting: the original attempt with live toggling failed on the historical text pill's TextStyle interpolation and remains failed evidence, not a fixed production bug. The historical observation harness omits the absent tooltip and current overflow-size acceptance; the current harness retains its stronger assertions. All 32 capture cases and 228 viewer/control tests pass; full candidate analysis, formatting and independent source review pass on Flutter 3.44.2 / Dart 3.12.2. All 32 PNGs decode at expected dimensions. Back widths measure 157.7–264.6px historically versus current 48/56px; inspected 320px comparisons show the title beside Back, the portrait rail no longer clipped at the right edge, and a matching circular overflow. Enlarged landscape titles still ellipsize. Xvfb reports Mesa llvmpipe, not hardware acceleration; synthetic viewport states, native font fallback and selective historical chrome do not establish bundled production typography, full historical pixel equivalence, live accessibility-setting transitions, device rotation or screen-reader acceptance. Long-title/cutout/native interaction and device qualification remain required. Viewer task acceptance and the quality pilot remain open. Existing regressions cover direct/system Back, capture/export states, safe areas and longest localized titles across the 128-case widget layout matrix; 16 paired widget-chrome captures used substituted Roboto and a blank renderer and are not production-typography, device or GPU acceptance.
@@ -9,6 +21,13 @@ The Play-only 1.1.108 candidate retains every release gate. The proposed camera-
 The existing completed manual-correction and palette items must not be treated as fresh planned features. Manual-correction regressions have an existing target at `test/features/auto_explore/auto_explore_service_test.dart`; their prior completion is not a new test pass here. Retain regression coverage when refining those controls, and keep full platform/export qualification separate.
 
 ## Automated checks
+
+CPU renderer teardown: `test/a11y/screens/viewer_debug_report_a11y_test.dart`
+retains contrast, tap-target and naming assertions and checks that cancellation
+during unmount emits no exception. The reproduced failure is fixed by invalidating
+the render job before cancelling the worker in `CpuFractalRenderer.dispose`.
+Focused candidate verification passed all 28 tests and five repeated contrast
+cases on Flutter 3.44.6; full host qualification is recorded separately.
 
 The release-dispatch regressions in `test/scripts/test_gitlab_release.py` cover
 Play-only target/track/commit binding and the retained protected-ref, build and

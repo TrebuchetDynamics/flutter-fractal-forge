@@ -1,5 +1,16 @@
 # GitLab releases
 
+## Current release override
+
+The owner deferred GitLab for the current full release. Do not request GitLab
+login or perform GitLab mirroring, pipeline dispatch or release publication unless
+the owner resumes that scope. All existing build, Android-device, cross-platform
+journey and evidence gates remain required; this is not a qualification waiver.
+The commands below describe the existing GitLab-dependent implementation, not a
+working GitLab-free route. Even `--target play` still depends on GitLab CI. A
+non-GitLab release path must be implemented and verified before using it; do not
+bypass guards or pretend that this documentation changes script behavior.
+
 Run the complete release from the repository root:
 
 ```bash
@@ -14,8 +25,9 @@ No arguments means the full publishing pipeline. The script requires committed
 app changes. `--target play` limits publication to Play: it does not deploy the
 website or publish GitLab/GitHub releases, and keeps every existing validation,
 platform-build, Android-device, F-Droid-scan and evidence gate. Play defaults to
-internal/draft unless the existing track/status environment variables are set
-explicitly as above. Play-only preflight does not need GitHub/Cloudflare credentials.
+production/completed. Explicitly set `PLAY_TRACK=internal PLAY_RELEASE_STATUS=draft`
+only when a nonproduction release is requested. Play-only preflight does not need
+GitHub/Cloudflare credentials.
 
 For automatic version preparation, the script requires committed
 app changes, fetches tags from `origin` and `gitlab`, then increments the highest
@@ -48,7 +60,7 @@ git push gitlab main --tags
 ```
 
 The automatic release command pushes both remotes. For ordinary development CI,
-push the branch to GitLab. GitHub is the upstream source and draft
+push the branch to GitLab. GitHub is the upstream source and published
 release mirror; GitLab is the **only CI executor**. `.gitlab-ci.yml` runs analyzer,
 full Flutter host tests, shell/Python regression tests, research tests, and the
 emitted Dart integration check for branches and merge requests. The protected
@@ -69,7 +81,7 @@ the same branch to GitLab and review its pipeline there.
 | fdroid | Twice-built reproducible unsigned APKs and fdroiddata metadata |
 | fdroid-scan | Official metadata lint and source scan for all three ABIs |
 | evidence | Complete artifact set, commit/version/checksum verification, SBOM, notices, device evidence |
-| publish | GitLab packages/release plus existing GitHub draft release |
+| publish | GitLab packages/release plus published GitHub release |
 | deploy-web / deploy-play | Deploy the verified web archive and upload the verified AAB |
 
 Release jobs run only for an explicit API/web pipeline on a protected branch.
@@ -77,11 +89,11 @@ Ordinary pushes and tags never publish. Every build and the Android device gate
 must succeed before evidence can pass. Both evidence and F-Droid scanning must
 succeed before publication. There are no optional platform failures.
 
-Publication jobs share a resource group. Play defaults remain `internal` and
-`draft`; set protected GitLab variables `PLAY_TRACK=production` and
-`PLAY_RELEASE_STATUS=completed` when production rollout is intended. Google Play
-listing metadata is updated by the existing uploader. GitHub releases remain
-**drafts**, matching the prior release policy. GitLab releases are published with
+Publication jobs share a resource group. Play defaults to `production` and
+`completed`; explicit `PLAY_TRACK` and `PLAY_RELEASE_STATUS` overrides remain
+available for owner-requested test releases. Google Play listing metadata is updated
+by the existing uploader. GitHub releases are published by default; explicitly set
+`GITHUB_RELEASE_DRAFT=true` for a requested draft. GitLab releases are published with
 checksummed downloads. Deployment retries reuse the same pipeline's evidence;
 retry failed jobs in GitLab instead of rebuilding already-published binaries.
 Artifacts expire after seven days; published GitLab packages remain available.
@@ -124,7 +136,7 @@ refs. Use GitLab **File** type where specified. Do not commit their contents.
 | `ANDROID_KEYSTORE_BASE64` | Masked variable | Base64-encoded Android upload keystore (same pinned certificate) |
 | `ANDROID_KEY_PROPERTIES_FILE` | File | `storePassword`, `keyPassword`, `keyAlias`; job adds absolute `storeFile` |
 | `PLAY_SERVICE_ACCOUNT_JSON` | File | Existing Play service account JSON |
-| `GH_TOKEN` | Masked variable | GitHub repo contents write for release draft and tag |
+| `GH_TOKEN` | Masked variable | GitHub repo contents write for release and tag |
 | `CLOUDFLARE_API_TOKEN` | Masked variable | Scoped Pages deployment token |
 | `CLOUDFLARE_ACCOUNT_ID` | Variable | Account containing the Pages project, if account discovery is ambiguous |
 

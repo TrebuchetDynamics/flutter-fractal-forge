@@ -172,7 +172,10 @@ void main() {
       await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
 
       handle.dispose();
+      // Contrast capture lets the CPU worker start; teardown must cancel it
+      // without publishing an error to its already-defunct element.
       await disposeAccessibilityTestWidget(tester);
+      expect(tester.takeException(), isNull);
     });
 
     // The sheet stacks a header, two saved-path lines, a scrollable JSON block
