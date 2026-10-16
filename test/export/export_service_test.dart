@@ -697,6 +697,25 @@ void main() {
       expect(seenInitialDirectory, '${tmpDir.path}/exports');
       expect(dir.path, chosen.path);
     });
+
+    test('reuses the saved Linux directory without reopening the picker',
+        () async {
+      final chosen = Directory('${tmpDir.path}/chosen');
+      await service.setPreferredExportDirectory(chosen);
+      var pickerCalls = 0;
+      final pickingService = ExportService(
+        pickDirectory: ({confirmButtonText, initialDirectory}) async {
+          pickerCalls++;
+          return null;
+        },
+      );
+
+      final ok = await pickingService.chooseLinuxExportDirectory();
+
+      expect(ok, isTrue);
+      expect(pickerCalls, 0);
+      expect((await pickingService.getExportDirectory()).path, chosen.path);
+    });
   });
 
   group('ExportService image encoding', () {
