@@ -10,7 +10,7 @@ values, explicit internal/draft overrides and consistent shell/CI defaults.
 Run `python3 -m unittest discover -s test/scripts -p 'test_*.py'` and
 `env -u GITLAB_CI bats test/scripts/*.bats` for offline verification.
 These checks make no live publication and do not qualify installed-device behavior.
-GitLab execution remains deferred under the current release override.
+GitLab release execution is resumed under the current owner scope; publication waits on GitLab runners and device availability (see `docs/engineering/release/MULTIPLATFORM.md#current-release-status`).
 
 ## Current quality-first verification frontier
 
