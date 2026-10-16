@@ -1065,13 +1065,11 @@
   "priority_order": {
     "schema": 1,
     "tasks": [
-      "VIEW-UI-01",
       "VIEW-UI-02",
       "CAT-QUALITY-01",
       "REL-JOURNEY-01-WEB",
       "SMOOTH-001-INVENTORY-01",
       "VIS-006",
-      "ICON-ZJ-01",
       "CAT-QUALITY-02",
       "GAUSS-MOAT-02-WALK",
       "GAUSS-MOAT-04-GROWTH",
@@ -1095,7 +1093,8 @@
       "OAI-VIS-04-UST",
       "OAI-VIS-05-DIMER",
       "OAI-VIS-06-HEIGHT",
-      "OAI-VIS-07-FK"
+      "OAI-VIS-07-FK",
+      "VIEW-UI-01-LIVE"
     ]
   },
   "tasks": [
