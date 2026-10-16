@@ -13,6 +13,15 @@ retains the existing gates without deploying the website or publishing other rel
 
 ### Added
 
+- Apply the owner-selected app-derived open-spiral logo to launcher/in-app assets
+  and the Play listing icon. Add icon-only publishing that preserves live listing
+  text/video and other image groups, with opaque-RGBA icon validation. This does
+  not publish an app binary or qualify installed-device appearance.
+
+- Add real-app Julia icon capture, saved-state viewer verification and deterministic
+  derivative/mask-proof tooling. Prepare the owner-selected open-spiral candidate
+  and isolated Android preview without replacing current branding or publishing it.
+
 - Add seeded, DLAF-inspired Coral Growth fractals in 2D and 3D.
 
 ### Fixed
@@ -20,11 +29,13 @@ retains the existing gates without deploying the website or publishing other rel
 - Make catalog Back a compact localized circular control with 48/56px touch
   targets, retaining direct navigation and capture/export behavior. Keep Back
   outside side cutouts and long viewer titles clear of navigation and controls.
-  These local fixes do not complete VIEW-UI-01: native/production-font captures
-  and device/GPU visual qualification remain open.
+  These local fixes do not complete VIEW-UI-01: narrow-screen action-rail
+  clipping and native/production-font captures, together with device/GPU
+  visual qualification, remain open.
 
 - Keep Coral Growth (2D) antialiasing edges ordered at high zoom, including
   zoom 6 and 10, without changing its default-view ramp.
+
 - Preserve an explicitly requested Playwright catalog smoke module when a
   previous viewer session is stored in the browser. The smoke route now owns
   the initial viewer state instead of restoring the prior module first.

@@ -1,0 +1,23 @@
+{
+  "id": "zigzag-app-icon-candidate",
+  "moduleId": "f0186_zig_zag_julia",
+  "name": "Zig-Zag Julia icon candidate",
+  "params": {
+    "iterations": 280,
+    "bailout": 4.0,
+    "colorScheme": 0.0,
+    "juliaCReal": -0.8,
+    "juliaCImag": 0.156
+  },
+  "view": {
+    "panX": 0.0,
+    "panY": 0.0,
+    "zoom": 0.35,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "createdAt": "2026-10-15T20:54:41.335987Z",
+  "isBuiltIn": false,
+  "thumbnailPath": null
+}

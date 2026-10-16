@@ -1,48 +1,138 @@
 {
-  "name": "Recursive Ember",
-  "concept": "Three self-similar spiral arms orbit a hot geometric forge core, combining recursion, motion, and making in one scalable mark.",
-  "source": {
-    "type": "SVG vector artwork",
-    "path": "assets/icon/fractal_forge_mark.svg",
-    "sha256": "abfbd25e5bdbd75151dffe9e6650b57302a8c69ba6ad52b0c730195a2692a248"
-  },
-  "palette": {
-    "backgroundEdge": "#040412",
-    "backgroundCore": "#220A52",
-    "cyan": "#22E7FF",
-    "indigo": "#6975FF",
-    "violet": "#B64CFF",
-    "coral": "#FF477E",
-    "ember": "#FFD36A"
-  },
-  "composition": {
-    "masterPixels": 1024,
-    "playStorePixels": 512,
-    "legacyMarkScale": 1.24,
-    "adaptiveForegroundScale": 1.0,
-    "adaptiveBackground": "#160847",
-    "safeZone": "All primary geometry remains within the Android adaptive icon safe region."
-  },
-  "outputs": [
-    {
-      "path": "assets/icon/ic_launcher.png",
-      "purpose": "Legacy, iOS, desktop, and web launcher source",
-      "sha256": "91637c5bc60e7aca4cf5a583504246109dd940050f668c9d51d3f055635ea2df"
-    },
-    {
-      "path": "assets/icon/ic_launcher_foreground.png",
-      "purpose": "Transparent Android adaptive foreground",
-      "sha256": "a82662649b79566ac2a16cb22503390df07620c87def1fefe7825d1085c77706"
-    },
-    {
-      "path": "assets/icon/ic_launcher_512.png",
-      "purpose": "Google Play Store icon",
-      "sha256": "bcb7ccc833272f090541e7b7b825f63a21753248a4023370198e2dbb84b4437f"
-    },
-    {
-      "path": "assets/icon/logo_64.png",
-      "purpose": "Small in-app brand mark",
-      "sha256": "0bbd43935f2acac85fe75e0c7c9a1f1ef128460221fe07513e6e05dbf298edfe"
+  "androidBackgroundHex": "#f300d3",
+  "androidBackgroundSample": [
+    0,
+    0
+  ],
+  "approval": {
+    "applicationAndStoreIcon": "Owner explicitly requested application and Play Store replacement",
+    "composition": "B — open spiral, selected by owner",
+    "installedDeviceCheck": "not performed; no attached device",
+    "publication": {
+      "committed": true,
+      "freshEditReadbackVerified": true,
+      "locales": 15,
+      "publicPropagation": "not checked",
+      "scope": "Play icon only",
+      "sha256": "c22c4fde194800588d21ad3ef2047749bb6335ce4b3fff605c00b1a054396c41",
+      "textVideoAndOtherImageGroups": "preserved"
     }
-  ]
+  },
+  "captureEnvironment": {
+    "approval": "Owner selected B composition; installed-device sign-off pending",
+    "baseCommit": "4261d087f479fd53a212fb3e241e1ef92d708366",
+    "commands": [
+      "flutter test --no-pub integration_test/catalog/zigzag_icon_capture_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded",
+      "ICON_VIEW_STATE=build/test_output/zigzag-icon/raw/zigzag-revised-classic.json flutter test --no-pub integration_test/flows/zigzag_icon_viewer_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded",
+      "python3 scripts/prepare_app_icon.py --source build/test_output/zigzag-icon/raw/zigzag-revised-classic.png --state build/test_output/zigzag-icon/raw/zigzag-revised-classic.json --rotate-clockwise-45 --output build/test_output/zigzag-icon/candidate-b"
+    ],
+    "dart": "3.12.2",
+    "device": "Linux desktop; DISPLAY=:0; AMD Radeon RX 6800 XT; accelerated Mesa GL",
+    "fixedTime": 0,
+    "flutter": "3.44.6",
+    "ownedSourceSha256": {
+      "integration_test/catalog/zigzag_icon_capture_test.dart": "a0b851f4bf6a881d2a9d2d45dc75e8e409c108eb0e1f9ac774a838c2152c9c25",
+      "integration_test/flows/zigzag_icon_viewer_test.dart": "ab41ac5a1fa3f0056d45ef833c8e65ac1cbb29fea81e0fb159d8d8e29aa13a49",
+      "scripts/prepare_app_icon.py": "3fd7fa899656ec3d28e82f7463fdac73469cfe1521d68e333d2f62cf59342164",
+      "test/scripts/test_app_icon_assets.py": "f64d7b84f75ead8ebd63dec864025ac4b4ede6a31c7f3145a6d5900a9209116d"
+    },
+    "pubspecLockSha256": "22b29dbd8f71276012a54b9bdc62ba88408f967a86b34075986c17e1c4506ec3"
+  },
+  "name": "Zig-Zag Julia — Open Spiral",
+  "outputs": {
+    "assets/icon/fractal-forge-icon.png": {
+      "height": 1024,
+      "mode": "RGB",
+      "sha256": "76a1b68e7de18752ffbb66643e4c70dea019a41928362e0cea6a6a547c41fee8",
+      "width": 1024
+    },
+    "assets/icon/ic_launcher.png": {
+      "height": 1024,
+      "mode": "RGB",
+      "sha256": "76a1b68e7de18752ffbb66643e4c70dea019a41928362e0cea6a6a547c41fee8",
+      "width": 1024
+    },
+    "assets/icon/ic_launcher_512.png": {
+      "height": 512,
+      "mode": "RGBA",
+      "sha256": "c22c4fde194800588d21ad3ef2047749bb6335ce4b3fff605c00b1a054396c41",
+      "width": 512
+    },
+    "assets/icon/ic_launcher_foreground.png": {
+      "height": 1024,
+      "mode": "RGBA",
+      "sha256": "c6a0b2e47ed9a174fb548b0562570efb47316991a812b307a7a472b98238e191",
+      "width": 1024
+    },
+    "assets/icon/logo_64.png": {
+      "height": 64,
+      "mode": "RGB",
+      "sha256": "e458c1c940c27a0e1aa0ed18d1008927f82b99cfacb7a1f49eadfdddd7055e6f",
+      "width": 64
+    },
+    "assets/icon/zig_zag_julia/proof.png": {
+      "sha256": "e1b9e6f7f14222c80f907de5264f0d25b261137e2c347d42255c484941b664f4"
+    }
+  },
+  "presetPath": "assets/icon/zig_zag_julia/preset.json",
+  "recipe": {
+    "adaptiveForeground": "Opaque full image; mask and 66/108 safe-circle guide only in proof.png",
+    "crop": [
+      727,
+      727,
+      2171,
+      2171
+    ],
+    "geometry": "Recorded rotation/crop, then uniform downsampling; no padding, recoloring or extraction",
+    "playColorSpace": "sRGB ICC",
+    "proofMasks": "circle; superellipse exponent 4 squircle; rounded-square radius 20%",
+    "resampling": "Pillow LANCZOS",
+    "rotationDegreesCounterclockwise": -45,
+    "rotationResampling": "Pillow BICUBIC, expand=True",
+    "workingSize": [
+      1444,
+      1444
+    ]
+  },
+  "source": {
+    "path": "assets/icon/zig_zag_julia/source.png",
+    "sha256": "f3a09c882b732b9ea4d166db068373643aa0f2453057a3fa395db8d904c53f60",
+    "type": "Untouched production app renderer PNG"
+  },
+  "sourceState": {
+    "animationEnabled": false,
+    "capture": "FractalRenderer RepaintBoundary.toImage(pixelRatio: 1)",
+    "fluidModeEnabled": false,
+    "glowEnabled": false,
+    "glowIntensity": 0.35,
+    "glowSigma": 1.0,
+    "height": 2048,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeMirror": true,
+    "kaleidoscopeMirrorMode": 0,
+    "kaleidoscopeRotation": 0.0,
+    "kaleidoscopeSectors": 8,
+    "moduleId": "f0186_zig_zag_julia",
+    "params": {
+      "bailout": 4.0,
+      "colorScheme": 0.0,
+      "iterations": 280,
+      "juliaCImag": 0.156,
+      "juliaCReal": -0.8
+    },
+    "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+    "time": 0.0,
+    "transparentBackground": false,
+    "view": {
+      "panX": 0.0,
+      "panY": 0.0,
+      "rotX": 0.0,
+      "rotY": 0.0,
+      "rotZ": 0.0,
+      "zoom": 0.35
+    },
+    "width": 2048
+  },
+  "sourceStatePath": "assets/icon/zig_zag_julia/source-state.json",
+  "sourceStateSha256": "1ca0aeb3411b48ff6297087e6610c3fc92d390851c9cea6e67b872088e28222c"
 }

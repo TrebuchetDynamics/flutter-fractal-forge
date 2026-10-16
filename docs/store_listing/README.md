@@ -13,7 +13,7 @@ The September 2026 campaign leads with exploration and creative output: **Fracta
 - [Tablet screenshots](screenshots/tablet): actual Android release captures at 1600×2560, using its responsive tablet layout. Used for both tablet listing groups.
 - [Artwork provenance and prompt](artwork/PROMPTS.md).
 
-The existing launcher icon is retained for brand continuity. Screenshots show the English app UI in every locale; the copy is localized. Screenshots are direct captures, without generated UI or retouching. PNG encoding is normalized to opaque RGB; the generated feature illustration is resized to the required delivery dimensions.
+The owner-approved B/open-spiral app-derived Julia icon now supplies the app logo and generated launcher resources. Its [provenance](../../assets/fractal-forge-icon-source.json) retains the untouched app capture and exact transformation. An icon-only Play update was committed and verified across all 15 existing locales, preserving their live text/video and non-icon images. This does not publish an app binary or qualify installed-device appearance; existing installed apps receive the launcher change with a future app update. Screenshots remain English actual captures; localized copy, feature graphic and screenshots are unchanged by this icon-only operation.
 
 ## Publish
 
@@ -21,6 +21,9 @@ Requires Python 3 with Pillow, OpenSSL, and a Google Play service account with l
 
 ```sh
 scripts/update-play-store-listings.sh --validate-only
+# Icon-only changes preserve live text/video and all other image groups:
+scripts/update-play-store-listings.sh --icon-only --validate-only
+scripts/update-play-store-listings.sh --icon-only --commit
 python3 -m unittest test/scripts/test_play_store_listing.py
 scripts/update-play-store-listings.sh --audit
 scripts/update-play-store-listings.sh --dry-run
@@ -45,4 +48,4 @@ Exploration view: `/view?type=mandelbrot&zoom=100&x=-0.743643887037151&y=0.13182
 
 ## Reference requirements
 
-[Google Play listing text](https://support.google.com/googleplay/android-developer/answer/9859152) and [preview assets](https://support.google.com/googleplay/android-developer/answer/9866151). The local validator enforces text limits, image dimensions, RGB PNG encoding, image counts and duplicate prevention before authentication.
+[Google Play listing text](https://support.google.com/googleplay/android-developer/answer/9859152) and [preview assets](https://support.google.com/googleplay/android-developer/answer/9866151). The local validator enforces text limits, dimensions, opaque RGB encoding (also fully opaque RGBA for icons), image counts and duplicate prevention before authentication. `--icon-only` validates only the icon and discovers the locale set live; it never PUTs listing text or writes any other image group, and verifies unchanged live metadata before commit and in fresh readback.

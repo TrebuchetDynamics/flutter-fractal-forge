@@ -924,6 +924,8 @@
       "source": "TODO.md#launch-visual-audit-handoff",
       "status": "unmet",
       "tasks": [
+        "ICON-ZJ-01",
+        "ICON-ZJ-02",
         "VIS-003"
       ],
       "title": "Obtain app icon visual sign-off"
@@ -1068,6 +1070,7 @@
       "REL-JOURNEY-01-WEB",
       "SMOOTH-001-INVENTORY-01",
       "VIS-006",
+      "ICON-ZJ-01",
       "CAT-QUALITY-02",
       "GAUSS-MOAT-02-WALK",
       "GAUSS-MOAT-04-GROWTH",
@@ -1081,6 +1084,7 @@
       "VIS-006-BATCH-20",
       "VIS-006-CPU-01",
       "VIS-006-FIRST-VIEW-04",
+      "ICON-ZJ-02",
       "CAT-QUALITY-03",
       "MEDIA-002",
       "VIS-003",
@@ -1184,6 +1188,17 @@
       "section": "Next",
       "status": "open",
       "title": "Scrub and animate jump-radius growth without queued or stale computations"
+    },
+    {
+      "depends_on": [
+        "ICON-ZJ-01",
+        "VIS-003"
+      ],
+      "goal": "VIS-003",
+      "id": "ICON-ZJ-02",
+      "section": "Next",
+      "status": "open",
+      "title": "Replace app and store icon assets with the approved app capture"
     },
     {
       "depends_on": [
@@ -1374,6 +1389,14 @@
       "section": "Done",
       "status": "done",
       "title": "Open the exact Gaussian-prime map with responsive controls and explicit bounds"
+    },
+    {
+      "depends_on": [],
+      "goal": "VIS-003",
+      "id": "ICON-ZJ-01",
+      "section": "Done",
+      "status": "done",
+      "title": "Prepare an app-rendered Zig-Zag Julia icon candidate and proof"
     },
     {
       "depends_on": [],
