@@ -1038,7 +1038,8 @@
       "tasks": [
         "VIEW-UI-01",
         "VIEW-UI-01-LIVE",
-        "VIEW-UI-02"
+        "VIEW-UI-02",
+        "VIEW-UI-02-LIVE"
       ],
       "title": "Reduce intrusive viewer navigation chrome and style overflow consistently"
     },
@@ -1065,7 +1066,6 @@
   "priority_order": {
     "schema": 1,
     "tasks": [
-      "VIEW-UI-02",
       "CAT-QUALITY-01",
       "REL-JOURNEY-01-WEB",
       "SMOOTH-001-INVENTORY-01",
@@ -1094,7 +1094,8 @@
       "OAI-VIS-05-DIMER",
       "OAI-VIS-06-HEIGHT",
       "OAI-VIS-07-FK",
-      "VIEW-UI-01-LIVE"
+      "VIEW-UI-01-LIVE",
+      "VIEW-UI-02-LIVE"
     ]
   },
   "tasks": [
@@ -1121,14 +1122,6 @@
       "section": "Now",
       "status": "open",
       "title": "Reconcile integer-power smooth-coloring inventory and the d=4 regression gap"
-    },
-    {
-      "depends_on": [],
-      "goal": "VIEW-UI-001",
-      "id": "VIEW-UI-02",
-      "section": "Now",
-      "status": "open",
-      "title": "Give the existing overflow menu a matching circular surface"
     },
     {
       "depends_on": [
@@ -1369,6 +1362,16 @@
       "title": "Live checks for VIEW-UI-01"
     },
     {
+      "depends_on": [
+        "VIEW-UI-02"
+      ],
+      "goal": "VIEW-UI-001",
+      "id": "VIEW-UI-02-LIVE",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Live checks for VIEW-UI-02"
+    },
+    {
       "depends_on": [],
       "goal": "VIS-003",
       "id": "VIS-003",
@@ -1449,6 +1452,14 @@
       "section": "Done",
       "status": "done",
       "title": "Make catalog Back compact without weakening navigation accessibility"
+    },
+    {
+      "depends_on": [],
+      "goal": "VIEW-UI-001",
+      "id": "VIEW-UI-02",
+      "section": "Done",
+      "status": "done",
+      "title": "Give the existing overflow menu a matching circular surface"
     },
     {
       "depends_on": [],

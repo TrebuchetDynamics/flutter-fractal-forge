@@ -396,3 +396,21 @@ Source section: Now
   - Checks: add actual-viewer/control RED/GREEN tests in `test/fractal/fractal_viewer_screen_widget_test.dart` and `test/fractal/fractal_view_controls_test.dart`; run both via `flutter test ... --reporter expanded`, formatter and `flutter analyze`. Capture same-state before/after screenshots; test 320/768/1024/1440 logical widths, portrait/landscape, text scale 1/2, long title and accessibility states. Partial execution is recorded under Progress; remaining checks are NOT_RUN.
   - Dependencies: none.
   - Ownership: repository backlog, unassigned; preserve active workers and check live ownership before implementation. Planning does not dispatch.
+
+
+<!-- archived from TODO.md -->
+
+Source section: Now
+
+- [x] **VIEW-UI-02 — Give the existing overflow menu a matching circular surface.**
+  - Current verification: Exact Flutter 3.44.6 viewer/control regressions pass within the 247-test home/viewer/coral union. The implementation is present; native screenshots, production typography and device/screen-reader qualification remain outstanding.
+  - Goal: VIEW-UI-001. Payoff: show more artwork without losing discoverable accessible navigation.
+  - Sources: [Accepted correction](docs/engineering/spec.md#viewer-chrome-footprint-and-action-consistency), supplied Android screenshot, `lib/features/viewer/fractal_viewer_screen.dart`, `lib/features/viewer/chrome/fractal_view_controls.dart`, `BLOCKERS.md`.
+  - Graph evidence: fresh partial seven-file Graphify graph; FractalViewerScreen at viewer_screen:130 and _ViewerOverflowMenu/FloatingActionButtonWidget at view_controls:642,716. Source-corroborated; truncated query and unindexed renderer/theme/service/doc semantics.
+  - Touches: lib/features/viewer/chrome/, test/fractal/fractal_view_controls_test.dart, test/fractal/fractal_viewer_screen_widget_test.dart
+  - Scope: Style existing PopupMenuButton only. Preserve menu items, platform wallpaper availability, callbacks, keys, export disabling and traversal. Keep looper/Fourier/report directly accessible; no new actions or dependencies.
+  - Progress: Offline implementation committed locally as `06f6ec46` gives the existing popup a circular dark surface, white icon, 48/56px accessibility targets and an explicit focus border. Added EN/ES dark/high-contrast pointer opening, keyboard selection of every action, Escape dismissal and focus-return regressions; Linux omits wallpaper and export-busy cannot open the menu by pointer or Enter. Extended all 128 actual-viewer layout cases to assert the circular 48/56px overflow target. Complete isolated candidate passes 228 viewer/control tests, formatting and analysis on Flutter 3.44.2 / Dart 3.12.2; independent review approves the offline slice. Task stays open: same-state native screenshots, production-font/device screen-reader acceptance and documented Flutter 3.44.6 verification remain unproved. No push or live acceptance is claimed.
+  - Acceptance: Circular dark button with consistent enabled/disabled/focus states and accessible target; pointer/keyboard open/select/dismiss work, dismissal restores focus, each action fires once and export-busy cannot invoke it. Required responsive/EN/ES/high-contrast states pass.
+  - Checks: actual-viewer/control regressions in `test/fractal/fractal_viewer_screen_widget_test.dart` and `test/fractal/fractal_view_controls_test.dart` pass via `flutter test ... --reporter expanded`; formatter and `flutter analyze` pass. The 128-case matrix covers 320/768/1024/1440 logical widths, portrait/landscape, text scale 1/2, long localized titles and accessibility states. Same-state native before/after screenshots and device checks remain NOT_RUN.
+  - Dependencies: none.
+  - Ownership: repository backlog, unassigned; preserve active workers and check live ownership before implementation. Planning does not dispatch.
