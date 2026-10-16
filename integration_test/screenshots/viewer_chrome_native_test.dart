@@ -111,10 +111,21 @@ void main() {
           } finally {
             image.dispose();
           }
+          final randomize =
+              find.byKey(const ValueKey('viewerRandomParamsButton'));
+          await tester.ensureVisible(randomize);
+          await tester.pumpAndSettle();
+          await tester.longPress(randomize);
+          await tester.pumpAndSettle();
+          expect(find.text(l10n.controlsTitle), findsOneWidget);
+
+          // Explicit catalog Back pops directly, unlike system Back, which
+          // dismisses the open controls HUD first.
           await tester.tap(back);
           await tester.pump();
           await tester.pump(const Duration(seconds: 1));
           expect(find.byType(FractalViewerScreen), findsNothing);
+          expect(tester.takeException(), isNull);
         });
       }
     }
