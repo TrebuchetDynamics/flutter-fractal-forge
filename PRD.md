@@ -360,3 +360,23 @@ Each new fractal must pass:
 ### Open question: active product scope
 
 **Resolved 2026-10-11:** the owner chose the current backlog/README as the active baseline. Conflicting older requirements remain historical or deferred. See [Active release contract](#active-release-contract), resolved `BLK-20261005-004` in `BLOCKERS.md`, and `DOC-PRD-001` in `TODO.md`.
+
+## Number walls catalog category
+
+Status: Accepted
+
+Owner scope: research and plan a Number Walls category inspired by Mathologer’s sequence/divisibility patterns, including multiple sequences, custom prime selection, exploration parameters, optional manual randomization and foreground/background shader-style colouring. The follow-up explicitly expands prime choice beyond a fixed small-prime list. Persist the plan; do not implement, commit, publish or resume cron from this request.
+
+Planner calls: begin with one stable mathematical construction and six sequence choices; genuine exact modular computation with separate shader presentation; custom decimal primes validated exactly with visible resource limits/cancellation; manual rather than continuous randomization. The randomizer wording was dictated and is interpreted as optional manual control, not autoplay. Very large prime validation can remain unverified, never silently rounded or substituted. These implementation defaults are recommendations within the requested outcome, not claims of owner selection or existing capability.
+
+Success: find the category, open attractive honest defaults, change sequence/prime, inspect divisibility windows, colour/randomize/restore settings and export the same completed wall on Android, web and Linux. Preserve existing IDs/favorites/presets and viewer/pilot order. Do not promise all walls are fractals or all input sizes finish instantly. See [the decided plan](docs/engineering/spec.md#number-walls-and-modular-windows) and NUM-WALL-01 through NUM-WALL-05 in TODO.md.
+
+## Academic research library
+
+Status: Accepted
+
+Owner request: improve academic research across all catalog fractals; plan a dedicated research folder gathering articles/references and connecting their mathematics to implementation, using a specialized tool such as the owner's ResearchForge or the likely Feynman open-source research agent. The request is planning/documentation authority, not installation, full-text acquisition approval, paid computation, shader implementation, publication or scheduling.
+
+Planner recommendation: use `research/academic/` as the shared paper/evidence hub, ResearchForge as the primary retrieval/provenance workflow, and Feynman only as optional source-checked synthesis/review assistance. Preserve existing topic packages and the 200-definition library. Map sources and exact equations to effective formulas/builders/shaders/CPU paths and tests; distinguish discovery, accessible text, human-reviewed claims, numerical fidelity and visual quality. Account for every scoped stable identity without pretending that a filled coverage row certifies its mathematics. Reuse existing IDs, source groups and visual-quality evidence.
+
+See [the library plan](research/academic/README.md), [integration contract](docs/engineering/spec.md#academic-source-to-renderer-evidence) and ACAD-01 through ACAD-05 in TODO.md. Initial rollout is a representative pilot followed by bounded family batches, not an unbounded all-papers scrape. Existing viewer/pilot and Number Walls priorities remain intact. ResearchForge's human screening, legal acquisition and accepted-claim gates remain; no owner approval is invented.

@@ -1058,6 +1058,38 @@
         "OAI-VIS-07-FK"
       ],
       "title": "Select a mathematically distinct quality-gated visual candidate from OpenAI math"
+    },
+    {
+      "depends_on": [],
+      "evidence": [],
+      "id": "NUM-WALL-001",
+      "priority": 17,
+      "source": "PRD.md#number-walls-catalog-category",
+      "status": "unverified",
+      "tasks": [
+        "NUM-WALL-01",
+        "NUM-WALL-02",
+        "NUM-WALL-03",
+        "NUM-WALL-04",
+        "NUM-WALL-05"
+      ],
+      "title": "Explore exact modular number walls with custom primes and matching artwork export"
+    },
+    {
+      "depends_on": [],
+      "evidence": [],
+      "id": "ACAD-001",
+      "priority": 18,
+      "source": "PRD.md#academic-research-library",
+      "status": "unverified",
+      "tasks": [
+        "ACAD-01",
+        "ACAD-02",
+        "ACAD-03",
+        "ACAD-04",
+        "ACAD-05"
+      ],
+      "title": "Build a traceable academic source-to-mathematics library across all catalog identities"
     }
   ],
   "primary_milestone": "VIEW-UI-001",
@@ -1070,7 +1102,6 @@
       "REL-JOURNEY-01-WEB",
       "SMOOTH-001-INVENTORY-01",
       "VIS-006",
-      "ICON-ZJ-01",
       "CAT-QUALITY-02",
       "GAUSS-MOAT-02-WALK",
       "GAUSS-MOAT-04-GROWTH",
@@ -1085,6 +1116,15 @@
       "VIS-006-CPU-01",
       "VIS-006-FIRST-VIEW-04",
       "ICON-ZJ-02",
+      "NUM-WALL-01",
+      "NUM-WALL-02",
+      "NUM-WALL-03",
+      "NUM-WALL-04",
+      "NUM-WALL-05",
+      "ACAD-01",
+      "ACAD-02",
+      "ACAD-04",
+      "ACAD-05",
       "CAT-QUALITY-03",
       "MEDIA-002",
       "VIS-003",
@@ -1094,7 +1134,8 @@
       "OAI-VIS-04-UST",
       "OAI-VIS-05-DIMER",
       "OAI-VIS-06-HEIGHT",
-      "OAI-VIS-07-FK"
+      "OAI-VIS-07-FK",
+      "ACAD-03"
     ]
   },
   "tasks": [
@@ -1149,6 +1190,44 @@
       "title": "Capture and inspect the next ten uncaptured Explore modules"
     },
     {
+      "depends_on": [],
+      "goal": "ACAD-001",
+      "id": "ACAD-01",
+      "section": "Next",
+      "status": "open",
+      "title": "Build the shared academic evidence index and all-identity coverage import"
+    },
+    {
+      "depends_on": [
+        "ACAD-01"
+      ],
+      "goal": "ACAD-001",
+      "id": "ACAD-02",
+      "section": "Next",
+      "status": "open",
+      "title": "Run a reproducible ResearchForge literature pilot and queue source review"
+    },
+    {
+      "depends_on": [
+        "ACAD-03"
+      ],
+      "goal": "ACAD-001",
+      "id": "ACAD-04",
+      "section": "Next",
+      "status": "open",
+      "title": "Backfill academic evidence across every scoped catalog identity in bounded batches"
+    },
+    {
+      "depends_on": [
+        "ACAD-01"
+      ],
+      "goal": "ACAD-001",
+      "id": "ACAD-05",
+      "section": "Next",
+      "status": "open",
+      "title": "Bind reviewed evidence to existing catalog metadata and admission safeguards"
+    },
+    {
       "depends_on": [
         "CAT-QUALITY-01"
       ],
@@ -1199,6 +1278,54 @@
       "section": "Next",
       "status": "open",
       "title": "Replace app and store icon assets with the approved app capture"
+    },
+    {
+      "depends_on": [],
+      "goal": "NUM-WALL-001",
+      "id": "NUM-WALL-01",
+      "section": "Next",
+      "status": "open",
+      "title": "Compute exact sequence walls and validate custom prime fields"
+    },
+    {
+      "depends_on": [
+        "NUM-WALL-01"
+      ],
+      "goal": "NUM-WALL-001",
+      "id": "NUM-WALL-02",
+      "section": "Next",
+      "status": "open",
+      "title": "Open real Number Walls from their catalog category with restorable controls"
+    },
+    {
+      "depends_on": [
+        "NUM-WALL-02"
+      ],
+      "goal": "NUM-WALL-001",
+      "id": "NUM-WALL-03",
+      "section": "Next",
+      "status": "open",
+      "title": "Colour, randomize and export the same completed wall"
+    },
+    {
+      "depends_on": [
+        "NUM-WALL-03"
+      ],
+      "goal": "NUM-WALL-001",
+      "id": "NUM-WALL-04",
+      "section": "Next",
+      "status": "open",
+      "title": "Qualify Number Walls on Linux and web with real artifacts"
+    },
+    {
+      "depends_on": [
+        "NUM-WALL-03"
+      ],
+      "goal": "NUM-WALL-001",
+      "id": "NUM-WALL-05",
+      "section": "Next",
+      "status": "open",
+      "title": "Qualify installed Android Number Walls and accessible interaction"
     },
     {
       "depends_on": [
@@ -1289,6 +1416,16 @@
       "section": "Next",
       "status": "open",
       "title": "Verify five captured Explore modules without first-view evidence"
+    },
+    {
+      "depends_on": [
+        "ACAD-02"
+      ],
+      "goal": "ACAD-001",
+      "id": "ACAD-03",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Review approved source mathematics against a representative renderer pilot"
     },
     {
       "depends_on": [
