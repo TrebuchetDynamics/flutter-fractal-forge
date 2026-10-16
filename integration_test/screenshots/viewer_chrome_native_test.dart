@@ -29,6 +29,8 @@ void main() {
             (tester) async {
           SharedPreferences.setMockInitialValues({});
           final accessibility = await AccessibilityService.create();
+          await accessibility.setHighContrast(accessibleLandscape);
+          await accessibility.setLargeTargets(accessibleLandscape);
           final boundaryKey = GlobalKey();
           await tester.pumpWidget(
             RepaintBoundary(
@@ -56,8 +58,6 @@ void main() {
             tester.platformDispatcher.clearTextScaleFactorTestValue();
             await tester.binding.setSurfaceSize(null);
           });
-          await accessibility.setHighContrast(accessibleLandscape);
-          await accessibility.setLargeTargets(accessibleLandscape);
           // Advance entrance animations without waiting for the live renderer to idle.
           for (var frame = 0; frame < 30; frame++) {
             await tester.pump(const Duration(milliseconds: 100));
