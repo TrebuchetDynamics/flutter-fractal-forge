@@ -9,8 +9,8 @@ set -euo pipefail
 #   ./build-upload-playstore.sh --prebuilt-aab path/to/app.aab \
 #     --expected-version 1.2.3 --expected-build-number 123
 # Env:
-#   PLAY_TRACK=internal|alpha|beta|production   default: internal
-#   PLAY_RELEASE_STATUS=completed|draft        default: draft
+#   PLAY_TRACK=internal|alpha|beta|production   default: production
+#   PLAY_RELEASE_STATUS=completed|draft        default: completed
 #   PLAY_SERVICE_ACCOUNT_JSON=path             default: play-console-upload/play-service-account.json
 #   PLAY_LISTING_LOCALE=locale                  default: en-US
 #   PLAY_LISTING_TITLE=title                    optional exact title update
@@ -24,8 +24,8 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 cd "$PROJECT_ROOT"
 
 PACKAGE_NAME="${PLAY_PACKAGE_NAME:-com.trebuchetdynamics.fractal.forge}"
-TRACK="${PLAY_TRACK:-internal}"
-RELEASE_STATUS="${PLAY_RELEASE_STATUS:-draft}"
+TRACK="${PLAY_TRACK:-production}"
+RELEASE_STATUS="${PLAY_RELEASE_STATUS:-completed}"
 KEY_JSON="${PLAY_SERVICE_ACCOUNT_JSON:-play-console-upload/play-service-account.json}"
 TMP_FILES=()
 TMP_DIRS=()

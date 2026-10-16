@@ -84,8 +84,8 @@ FLUTTER_BIN="${FLUTTER_BIN:-flutter}"
 ARTIFACT_DIR="${RELEASE_ARTIFACT_DIR:-release-artifacts}"
 FINAL_DEVICE_EVIDENCE_DIR="$ARTIFACT_DIR/final-device-gate"
 CLOUDFLARE_PAGES_PROJECT="${CLOUDFLARE_PAGES_PROJECT:-flutter-fractal-forge}"
-PLAY_TRACK="${PLAY_TRACK:-internal}"
-PLAY_RELEASE_STATUS="${PLAY_RELEASE_STATUS:-draft}"
+PLAY_TRACK="${PLAY_TRACK:-production}"
+PLAY_RELEASE_STATUS="${PLAY_RELEASE_STATUS:-completed}"
 CONFIRMED=0
 PUBLISH_VERSION=""
 PREPARE_VERSION=""
@@ -811,7 +811,7 @@ stage_evidence() {
 
 stage_github() {
   log "=== github: tag + release ==="
-  if ! guarded "validate exact release evidence, create a tag, and publish a draft GitHub Release"; then
+  if ! guarded "validate exact release evidence, create a tag, and publish a GitHub Release"; then
     return 0
   fi
   need git
@@ -888,7 +888,7 @@ stage_github() {
     "$SCRIPT_DIR/generate_release_evidence.py" --verify "$snapshot_manifest"
     gh release create "$tag" "${assets[@]}" \
       --title "Fractal Forge $version" \
-      --draft \
+      --draft="${GITHUB_RELEASE_DRAFT:-false}" \
       --notes "$notes"
   fi
   log "github stage complete: $tag"

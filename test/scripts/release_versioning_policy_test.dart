@@ -21,10 +21,10 @@ void main() {
     expect(buildScript, contains('major.minor + build'));
     expect(releaseScript, contains('CONFIRMED=0'));
     expect(releaseScript, contains('--dry-run'));
-    expect(releaseScript, contains(r'PLAY_TRACK="${PLAY_TRACK:-internal}"'));
+    expect(releaseScript, contains(r'PLAY_TRACK="${PLAY_TRACK:-production}"'));
     expect(
       releaseScript,
-      contains(r'PLAY_RELEASE_STATUS="${PLAY_RELEASE_STATUS:-draft}"'),
+      contains(r'PLAY_RELEASE_STATUS="${PLAY_RELEASE_STATUS:-completed}"'),
     );
     expect(releaseScript, contains('--publish=<version>'));
     expect(releaseScript, contains('--prepare=<version>'));
