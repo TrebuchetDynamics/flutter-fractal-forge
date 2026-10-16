@@ -1,5 +1,7 @@
 import 'dart:ui' as ui;
 
+import 'package:image/image.dart' as img;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
@@ -239,6 +241,60 @@ void main() {
     await tester.pumpWidget(const SizedBox());
   });
 
+  testWidgets('candidate selection does not move until a valid Step',
+      (tester) async {
+    await tester.binding.setSurfaceSize(const Size(1024, 700));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await open(tester);
+    final a = find.byKey(const Key('gaussianCoordinateA'));
+    final b = find.byKey(const Key('gaussianCoordinateB'));
+    await tester.enterText(a, '-1');
+    await tester.enterText(b, '1');
+    await tester.ensureVisible(find.text('Select candidate'));
+    await tester.tap(find.text('Select candidate'));
+    await tester.pumpAndSettle();
+    expect(painter(tester).root, (a: 1, b: 1));
+    expect(find.textContaining('Path: 0 steps'), findsOneWidget);
+    await tester.ensureVisible(find.text('Step to candidate'));
+    await tester.tap(find.text('Step to candidate'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Path: 1 steps'), findsOneWidget);
+    for (final point in [(1, 1), (2, 0), (1000, -1)]) {
+      await tester.enterText(a, '${point.$1}');
+      await tester.enterText(b, '${point.$2}');
+      final select = find.text('Select candidate');
+      await tester.ensureVisible(select);
+      Focus.of(tester.element(select)).requestFocus();
+      await tester.pump();
+      await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+      await tester.pumpAndSettle();
+      expect(painter(tester).candidate, (a: point.$1, b: point.$2));
+      final step = tester.widget<TextButton>(
+          find.widgetWithText(TextButton, 'Step to candidate'));
+      expect(step.onPressed, isNull,
+          reason: 'Repeated, composite and outside points cannot extend path');
+      expect(find.textContaining('Path: 1 steps'), findsOneWidget);
+    }
+    await tester.ensureVisible(find.text('Undo step'));
+    await tester.tap(find.text('Undo step'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Path: 0 steps'), findsOneWidget);
+    await tester.ensureVisible(find.text('Step to candidate'));
+    expect(
+        tester
+            .widget<TextButton>(
+                find.widgetWithText(TextButton, 'Step to candidate'))
+            .onPressed,
+        isNull,
+        reason:
+            'Undo restores the origin path and the current outside choice is invalid');
+    await tester.ensureVisible(find.text('Reset path'));
+    await tester.tap(find.text('Reset path'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Path: 0 steps'), findsOneWidget);
+    await tester.pumpWidget(const SizedBox());
+  });
+
   testWidgets('coordinate limits reject both axes without changing selection',
       (tester) async {
     await tester.binding.setSurfaceSize(const Size(1024, 700));
@@ -290,19 +346,47 @@ void main() {
       'real host capture contains the exact plot, domain and selected overlay',
       (tester) async {
     await open(tester);
+    await tester.ensureVisible(find.text('Domain half-width B (1–128)'));
+    await tester.tap(find.text('Domain half-width B (1–128)'));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byKey(const Key('gaussianBoundInput')), '1');
+    await tester.tap(find.text('Apply'));
+    await tester.pumpAndSettle();
     final plot = find.byKey(const Key('gaussianMoatPlot'));
     final boundary = tester.renderObject<RenderRepaintBoundary>(
         find.ancestor(of: plot, matching: find.byType(RepaintBoundary)).first);
-    final transform =
-        GaussianMapTransform(tester.getSize(plot), painter(tester).view, 32);
+    var transform = GaussianMapTransform(
+        tester.getSize(plot), painter(tester).view, painter(tester).map.bound);
     await tester.tapAt(
-        tester.getTopLeft(plot) + transform.toScreen(const Offset(10, -10)));
+        tester.getTopLeft(plot) + transform.toScreen(const Offset(1, -1)));
     await tester.pump(const Duration(milliseconds: 350));
     await tester.pumpAndSettle();
-    expect(painter(tester).candidate, (a: 10, b: -10));
+    await tester.ensureVisible(find.text('Step to candidate'));
+    await tester.tap(find.text('Step to candidate'));
+    await tester.pumpAndSettle();
+    expect(painter(tester).path, [(a: 1, b: 1), (a: 1, b: -1)]);
+    expect(painter(tester).component, {
+      (a: 1, b: 1),
+      (a: 1, b: -1),
+      (a: -1, b: 1),
+      (a: -1, b: -1),
+    });
+    expect(find.textContaining('boundary may continue'), findsOneWidget);
+    final coordinateA = find.byKey(const Key('gaussianCoordinateA'));
+    final coordinateB = find.byKey(const Key('gaussianCoordinateB'));
+    await tester.enterText(coordinateA, '1');
+    await tester.enterText(coordinateB, '-1');
+    final select = find.text('Select candidate');
+    await tester.ensureVisible(select);
+    Focus.of(tester.element(select)).requestFocus();
+    await tester.pump();
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+    await tester.pumpAndSettle();
+    expect(painter(tester).candidate, (a: 1, b: -1));
     final image = await tester.runAsync(() => boundary.toImage());
-    final bytes = await tester
-        .runAsync(() => image!.toByteData(format: ui.ImageByteFormat.rawRgba));
+    final capturedImage = image!;
+    final bytes = await tester.runAsync(
+        () => capturedImage.toByteData(format: ui.ImageByteFormat.rawRgba));
     final pixels = bytes!.buffer.asUint8List();
     final colors = <int>{};
     for (var i = 0; i < pixels.length; i += 4) {
@@ -312,14 +396,45 @@ void main() {
           pixels[i + 3]);
     }
     expect(colors.length, greaterThan(3));
-    final center =
-        GaussianMapTransform(tester.getSize(plot), painter(tester).view, 32)
-            .toScreen(const Offset(10, -10));
+    final png = await tester.runAsync(
+        () => capturedImage.toByteData(format: ui.ImageByteFormat.png));
+    final decoded = img.decodePng(png!.buffer.asUint8List());
+    expect(decoded, isNotNull);
+    final decodedPng = decoded!;
+    expect(decodedPng.width, capturedImage.width);
+    expect(decodedPng.height, capturedImage.height);
+    final captureTransform = GaussianMapTransform(
+        tester.getSize(plot), painter(tester).view, painter(tester).map.bound);
+    final componentCenter = captureTransform.toScreen(const Offset(-1, -1));
+    final componentPixel = decodedPng.getPixel(
+        componentCenter.dx.round(), componentCenter.dy.round());
+    final activePainter = painter(tester);
+    int blendChannel(double overlay, double base) =>
+        (overlay * 0.35 + base * 0.65).round();
+    expect(
+        componentPixel.r,
+        closeTo(
+            blendChannel(activePainter.highlight.r * 255,
+                activePainter.foreground.r * 255),
+            5));
+    expect(
+        componentPixel.g,
+        closeTo(
+            blendChannel(activePainter.highlight.g * 255,
+                activePainter.foreground.g * 255),
+            5));
+    expect(
+        componentPixel.b,
+        closeTo(
+            blendChannel(activePainter.highlight.b * 255,
+                activePainter.foreground.b * 255),
+            5));
+    final center = captureTransform.toScreen(const Offset(1, -1));
     final color = painter(tester).highlight;
     var markedPixels = 0;
     for (var y = center.dy.round() - 10; y <= center.dy.round() + 10; y++) {
       for (var x = center.dx.round() - 10; x <= center.dx.round() + 10; x++) {
-        final i = (y * image!.width + x) * 4;
+        final i = (y * capturedImage.width + x) * 4;
         if ((pixels[i] - (color.r * 255).round()).abs() < 3 &&
             (pixels[i + 1] - (color.g * 255).round()).abs() < 3 &&
             (pixels[i + 2] - (color.b * 255).round()).abs() < 3) markedPixels++;
@@ -327,8 +442,8 @@ void main() {
     }
     expect(markedPixels, greaterThan(0),
         reason: 'Candidate ring must be in the captured plot');
-    expect(image!.width, tester.getSize(plot).width.round());
-    image.dispose();
+    expect(capturedImage.width, tester.getSize(plot).width.round());
+    capturedImage.dispose();
     await tester.pumpWidget(const SizedBox());
   });
 }

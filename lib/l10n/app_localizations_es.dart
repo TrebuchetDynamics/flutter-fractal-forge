@@ -60,8 +60,31 @@ class AppLocalizationsEs extends AppLocalizations {
   String get gaussianSetStart => 'Fijar inicio';
 
   @override
-  String gaussianRoot(int a, int b) {
-    return 'Inicio: ($a, $b) · 0 pasos';
+  String get gaussianStepLimit => 'Paso máximo al cuadrado';
+
+  @override
+  String get gaussianStep => 'Avanzar al candidato';
+
+  @override
+  String get gaussianUndo => 'Deshacer paso';
+
+  @override
+  String get gaussianResetPath => 'Reiniciar recorrido';
+
+  @override
+  String get gaussianBoundaryUnknown => ' · puede continuar fuera del límite';
+
+  @override
+  String get gaussianBoundaryContained => ' · sin contacto con el límite';
+
+  @override
+  String gaussianPathState(int steps, int size, String truncated) {
+    return 'Recorrido: $steps pasos · componente: $size primos$truncated';
+  }
+
+  @override
+  String gaussianRoot(int a, int b, int steps) {
+    return 'Inicio: ($a, $b) · $steps pasos';
   }
 
   @override
