@@ -995,6 +995,7 @@
       "tasks": [
         "GAUSS-MOAT-01-MAP",
         "GAUSS-MOAT-02-WALK",
+        "GAUSS-MOAT-02-WALK-LIVE",
         "GAUSS-MOAT-03-QUALIFY",
         "GAUSS-MOAT-04-GROWTH"
       ],
@@ -1071,7 +1072,6 @@
       "SMOOTH-001-INVENTORY-01",
       "VIS-006",
       "CAT-QUALITY-02",
-      "GAUSS-MOAT-02-WALK",
       "GAUSS-MOAT-04-GROWTH",
       "GAUSS-MOAT-03-QUALIFY",
       "QUAT-NORM-01-SLICE",
@@ -1095,7 +1095,8 @@
       "OAI-VIS-06-HEIGHT",
       "OAI-VIS-07-FK",
       "VIEW-UI-01-LIVE",
-      "VIEW-UI-02-LIVE"
+      "VIEW-UI-02-LIVE",
+      "GAUSS-MOAT-02-WALK-LIVE"
     ]
   },
   "tasks": [
@@ -1142,16 +1143,6 @@
       "section": "Next",
       "status": "open",
       "title": "Repair three demonstrated pilot first-impression defects"
-    },
-    {
-      "depends_on": [
-        "GAUSS-MOAT-01-MAP"
-      ],
-      "goal": "GAUSS-MOAT-001",
-      "id": "GAUSS-MOAT-02-WALK",
-      "section": "Next",
-      "status": "open",
-      "title": "Validate Gaussian-prime steps and display truthful component state"
     },
     {
       "depends_on": [
@@ -1287,6 +1278,16 @@
     },
     {
       "depends_on": [
+        "GAUSS-MOAT-02-WALK"
+      ],
+      "goal": "GAUSS-MOAT-001",
+      "id": "GAUSS-MOAT-02-WALK-LIVE",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Live checks for GAUSS-MOAT-02-WALK"
+    },
+    {
+      "depends_on": [
         "MEDIA-001"
       ],
       "goal": "MEDIA-002",
@@ -1394,6 +1395,16 @@
       "section": "Done",
       "status": "done",
       "title": "Open the exact Gaussian-prime map with responsive controls and explicit bounds"
+    },
+    {
+      "depends_on": [
+        "GAUSS-MOAT-01-MAP"
+      ],
+      "goal": "GAUSS-MOAT-001",
+      "id": "GAUSS-MOAT-02-WALK",
+      "section": "Done",
+      "status": "done",
+      "title": "Validate Gaussian-prime steps and display truthful component state"
     },
     {
       "depends_on": [],

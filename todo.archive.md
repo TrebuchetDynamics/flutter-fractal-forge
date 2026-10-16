@@ -414,3 +414,23 @@ Source section: Now
   - Checks: actual-viewer/control regressions in `test/fractal/fractal_viewer_screen_widget_test.dart` and `test/fractal/fractal_view_controls_test.dart` pass via `flutter test ... --reporter expanded`; formatter and `flutter analyze` pass. The 128-case matrix covers 320/768/1024/1440 logical widths, portrait/landscape, text scale 1/2, long localized titles and accessibility states. Same-state native before/after screenshots and device checks remain NOT_RUN.
   - Dependencies: none.
   - Ownership: repository backlog, unassigned; preserve active workers and check live ownership before implementation. Planning does not dispatch.
+
+
+<!-- archived from TODO.md -->
+
+Source section: Next
+
+- [x] **GAUSS-MOAT-02-WALK — Validate Gaussian-prime steps and display truthful component state.**
+  - Payoff: demonstrate the moat question with truthful path/component/boundary states.
+  - Goal: GAUSS-MOAT-001.
+  - Sources: [Accepted scope](PRD.md#gaussian-moat-walking-visualization), [bounded design](docs/engineering/spec.md#gaussian-moat-walking-visualization), [verification](docs/engineering/test-plan.md#gaussian-moat-visualization), `lib/core/modules/builders/escape_time_catalog/batch_26_tenth_wave_research.dart`, and `shaders/number_theory/gaussian_prime_lattice_gpu.frag`. [Refined UI/budgets](docs/engineering/spec.md#ui-layout-and-interaction-contract) and [per-task fixture matrix](docs/engineering/test-plan.md#prime-walking-refined-acceptance-matrix).
+  - Graph evidence: fresh scoped code-only Graphify graph; `ModuleRegistry` at `lib/core/modules/module_registry.dart:64`, `FractalRenderer` at `lib/features/renderer/widgets/renderer/fractal_renderer.dart:107`, and `FractalCanvas` at `lib/features/renderer/widgets/canvas/fractal_canvas.dart:6`. Extracted `FractalCanvas` inherits `CustomPainter`. Queries: `ModuleRegistry buildEscapeTimeCatalogModules FractalModule`, `FractalViewerScreen FractalRenderer FractalCanvas`, `_wrapWithGestures _onJuliaDualTap FractalCanvas`. Coverage is partial: 272 copied Dart files; shaders, docs, external proofs and controller semantics were read separately. The graph has 20 self-loops and duplicate-label normalization warnings; source corroboration governs behavior claims.
+  - Ownership: repository backlog, unassigned. Check live ownership before dispatch. This planning pass dispatches no implementation worker.
+  - Touches: lib/core/models/gaussian_moat_model.dart, lib/features/viewer/gaussian_moat_map.dart, lib/features/viewer/gaussian_moat_plot.dart, lib/features/viewer/fractal_viewer_screen.dart, lib/l10n/, test/modules/gaussian_moat_model_test.dart, test/features/viewer/gaussian_moat_walk_test.dart
+  - Scope: inclusive integer-squared step adjacency, nonrepeating manual path, undo/reset, full-component overlay, conservative search-boundary status, stale-result handling and capture inclusion. Keep transient history outside saved shader uniforms. No longest-path optimization, autoplay, infinite search or proof certificate.
+  - Acceptance: candidate selection alone never moves; inclusive 1+i → 1-i fixture accepts k=4 and rejects k=3; invalid/repeated/outside moves leave history intact; undo/reset and keyboard/list alternative work; B=1 components match independent k=2/k=4 expectations with truncated status. Stale work cannot publish and a completed-state PNG contains the enabled overlays.
+  - Checks: add/run `flutter test test/modules/gaussian_moat_model_test.dart test/features/viewer/gaussian_moat_walk_test.dart --reporter expanded`; run affected gesture/export regressions and `flutter analyze`; decode an actual representative PNG before claiming capture inclusion. New tests and PNG evidence remain planned.
+  - UI/performance: follow the shared HUD/panel layout, preview-then-Step interaction, visible bounded-state labels, hard workload caps, cooperative chunks and completed-snapshot capture. This is planned acceptance, not a measured pass.
+  - Dependencies: GAUSS-MOAT-01-MAP.
+  - Decision: bounded neighbor offsets instead of all-pairs edges; component search independent of path history; place overlays inside the real capture boundary or explicitly explain unsupported combinations.
+  - Skill application: planning-and-task-breakdown, bounded interaction slice; frontend-ui-engineering, semantics, transforms and capture; documentation-and-adrs, finite search is not theorem verification.

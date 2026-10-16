@@ -68,21 +68,6 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Ownership: Repository backlog, unassigned; coordinate with existing VIS-006 and formula workers before edits.
 
 
-- [ ] **GAUSS-MOAT-02-WALK — Validate Gaussian-prime steps and display truthful component state.**
-  - Payoff: demonstrate the moat question with truthful path/component/boundary states.
-  - Goal: GAUSS-MOAT-001.
-  - Sources: [Accepted scope](PRD.md#gaussian-moat-walking-visualization), [bounded design](docs/engineering/spec.md#gaussian-moat-walking-visualization), [verification](docs/engineering/test-plan.md#gaussian-moat-visualization), `lib/core/modules/builders/escape_time_catalog/batch_26_tenth_wave_research.dart`, and `shaders/number_theory/gaussian_prime_lattice_gpu.frag`. [Refined UI/budgets](docs/engineering/spec.md#ui-layout-and-interaction-contract) and [per-task fixture matrix](docs/engineering/test-plan.md#prime-walking-refined-acceptance-matrix).
-  - Graph evidence: fresh scoped code-only Graphify graph; `ModuleRegistry` at `lib/core/modules/module_registry.dart:64`, `FractalRenderer` at `lib/features/renderer/widgets/renderer/fractal_renderer.dart:107`, and `FractalCanvas` at `lib/features/renderer/widgets/canvas/fractal_canvas.dart:6`. Extracted `FractalCanvas` inherits `CustomPainter`. Queries: `ModuleRegistry buildEscapeTimeCatalogModules FractalModule`, `FractalViewerScreen FractalRenderer FractalCanvas`, `_wrapWithGestures _onJuliaDualTap FractalCanvas`. Coverage is partial: 272 copied Dart files; shaders, docs, external proofs and controller semantics were read separately. The graph has 20 self-loops and duplicate-label normalization warnings; source corroboration governs behavior claims.
-  - Ownership: repository backlog, unassigned. Check live ownership before dispatch. This planning pass dispatches no implementation worker.
-  - Touches: lib/core/models/gaussian_moat_model.dart, lib/features/viewer/gaussian_moat_map.dart, lib/features/viewer/gaussian_moat_plot.dart, lib/features/viewer/fractal_viewer_screen.dart, lib/l10n/, test/modules/gaussian_moat_model_test.dart, test/features/viewer/gaussian_moat_walk_test.dart
-  - Scope: inclusive integer-squared step adjacency, nonrepeating manual path, undo/reset, full-component overlay, conservative search-boundary status, stale-result handling and capture inclusion. Keep transient history outside saved shader uniforms. No longest-path optimization, autoplay, infinite search or proof certificate.
-  - Acceptance: candidate selection alone never moves; inclusive 1+i → 1-i fixture accepts k=4 and rejects k=3; invalid/repeated/outside moves leave history intact; undo/reset and keyboard/list alternative work; B=1 components match independent k=2/k=4 expectations with truncated status. Stale work cannot publish and a completed-state PNG contains the enabled overlays.
-  - Checks: add/run `flutter test test/modules/gaussian_moat_model_test.dart test/features/viewer/gaussian_moat_walk_test.dart --reporter expanded`; run affected gesture/export regressions and `flutter analyze`; decode an actual representative PNG before claiming capture inclusion. New tests and PNG evidence remain planned.
-  - UI/performance: follow the shared HUD/panel layout, preview-then-Step interaction, visible bounded-state labels, hard workload caps, cooperative chunks and completed-snapshot capture. This is planned acceptance, not a measured pass.
-  - Dependencies: GAUSS-MOAT-01-MAP.
-  - Decision: bounded neighbor offsets instead of all-pairs edges; component search independent of path history; place overlays inside the real capture boundary or explicitly explain unsupported combinations.
-  - Skill application: planning-and-task-breakdown, bounded interaction slice; frontend-ui-engineering, semantics, transforms and capture; documentation-and-adrs, finite search is not theorem verification.
-
 - [ ] **GAUSS-MOAT-04-GROWTH — Scrub and animate jump-radius growth without queued or stale computations.**
   - Goal: GAUSS-MOAT-001. Payoff: show changing connectivity without suggesting a finite plot proves the theorem.
   - Sources: [Accepted Gaussian scope](PRD.md#gaussian-moat-walking-visualization), [accepted growth plan](docs/engineering/spec.md#gaussian-moat-walking-visualization), [growth details](docs/engineering/spec.md#bounded-radius-growth-and-visual-direction), and [verification](docs/engineering/test-plan.md#prime-walking-growth-and-quaternion-slice-checks). [Refined UI/budgets](docs/engineering/spec.md#ui-layout-and-interaction-contract) and [per-task fixture matrix](docs/engineering/test-plan.md#prime-walking-refined-acceptance-matrix).
@@ -345,6 +330,14 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Same-state native screenshots, production typography validation, and physical-device/screen-reader acceptance remain outstanding. Flutter 3.44.6 qualification was not run; this environment provides Flutter 3.44.2.
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: VIEW-UI-02.
+  Status: open
+
+- [ ] GAUSS-MOAT-02-WALK-LIVE — Live checks for GAUSS-MOAT-02-WALK
+  Scope: Run the live checks the offline work for GAUSS-MOAT-02-WALK left pending.
+  Acceptance: Each check passes on the real target:
+  - Physical-device visual, accessibility, and performance qualification.
+  Checks: Live qualification by an authorized person; offline evidence does not count.
+  Dependencies: GAUSS-MOAT-02-WALK.
   Status: open
 
 ## Done
