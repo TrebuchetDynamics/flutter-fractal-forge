@@ -94,3 +94,21 @@ Coverage:
 
 - Logs directory: `agent_test_logs/release_pipeline_20260212/`
 - Screenshots directory: `agent_test_logs/release_pipeline_20260212/screens/`
+
+## Linux image-creation journey (2026-10-16)
+
+Verdict: **PARTIAL** for the accepted Linux journey. This is local desktop GPU evidence, not cross-platform parity or overall release qualification.
+
+Host/backend identity:
+
+- Ubuntu 24.04.4 LTS, Linux 7.0.0-31-generic; Flutter 3.44.2 / Dart 3.12.2.
+- AMD Radeon RX 6800 XT (`amdgpu`, PCI `1002:73bf`), Mesa 25.2.8, OpenGL 4.6. `glxinfo` reported `AMD Radeon RX 6800 XT (radeonsi, navi21, LLVM 20.1.2, DRM 3.64, 7.0.0-31-generic)`; this is accelerated rendering, not llvmpipe/software.
+- Integration logs reported `backend=gpu` and successful shader loads for Mandelbrot and Mandelbulb. Mandelbrot passed its GPU health probe; Mandelbulb used the logged `3d_gpu_path` and appropriately skipped the 2D-only health probe.
+
+Executed evidence:
+
+- `flutter test integration_test/flows/user_flows_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded` -> 12 passed, 1 explicit skip. Barnsley Fern's runtime `pan.y=0.5` disagrees with its declared `defaultCenterY=0.2`; its default-view assertion is skipped and remains a separately identified gap.
+- `flutter test integration_test/flows/user_flows_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded --plain-name 'Linux 2D and 3D journey saves edited mathematical PNG artifacts'` -> passed. The test browses to Mandelbrot (`core.mandelbrot`) and Mandelbulb (`core.mandelbulb`), edits each viewer by gesture, inspects the current formula and qualification, saves through the viewer export UI, decodes the PNG at selected HD dimensions (1280×720), and asserts sampled image color variation. It also checks the edited pan/zoom/rotation remain unchanged and that the pre-existing favorite IDs and user preset survive. Placeholder renderer mode is required to be disabled; backend and shader logs confirmed the GPU paths.
+- The journey uses a fresh temporary Linux export directory and removes it after numerical checks; no PNGs are retained for composition review.
+
+Remaining qualification gaps: no inspired/unverified representative was exported; the journey was English-only; no saved artifact was retained for human visual review. Device and fallback backends, alternate locales, and broader catalog mathematical correctness are not implied by this evidence. The Linux accepted journey therefore remains partial, not a parity claim.

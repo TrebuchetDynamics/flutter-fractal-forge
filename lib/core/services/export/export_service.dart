@@ -373,8 +373,8 @@ class ExportService {
 
   Future<bool> chooseLinuxExportDirectory() async {
     if (kIsWeb || !Platform.isLinux) return true;
-    final initial = await getPreferredExportDirectoryPath() ??
-        (await getExportDirectory()).path;
+    if (await getPreferredExportDirectoryPath() != null) return true;
+    final initial = (await getExportDirectory()).path;
     final selected = await directoryPicker(
       initialDirectory: initial,
       confirmButtonText: 'Save Here',
