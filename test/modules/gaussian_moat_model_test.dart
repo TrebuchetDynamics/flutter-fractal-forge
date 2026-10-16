@@ -80,6 +80,32 @@ void main() {
     print(
         'B=128 points=${map.points.length} yields=$yields oracleElapsedMs=${clock.elapsedMilliseconds}');
   });
+  test('step adjacency includes k=4 and rejects k=3, repeats and composites',
+      () async {
+    final map = (await GaussianPrimeMap.generate(4))!;
+    expect(map.isAdjacent((a: 1, b: 1), (a: 1, b: -1), 4), isTrue);
+    expect(map.isAdjacent((a: 1, b: 1), (a: 1, b: -1), 3), isFalse);
+    expect(map.isAdjacent((a: 1, b: 1), (a: 1, b: 1), 4), isFalse);
+    expect(map.isAdjacent((a: 1, b: 1), (a: 2, b: 0), 4), isFalse);
+    expect(map.isAdjacent((a: 1, b: 1), (a: 1, b: -1), 0), isFalse);
+  });
+
+  test('inclusive squared-step components distinguish k=4 from k=3', () async {
+    final map = (await GaussianPrimeMap.generate(1))!;
+    expect(map.component((a: 1, b: 1), maxSquaredStep: 2), {
+      (a: 1, b: 1),
+    });
+    expect(map.component((a: 1, b: 1), maxSquaredStep: 4), {
+      (a: 1, b: 1),
+      (a: 1, b: -1),
+      (a: -1, b: 1),
+      (a: -1, b: -1),
+    });
+    expect(map.component((a: 1, b: 1), maxSquaredStep: 3), {
+      (a: 1, b: 1),
+    });
+  });
+
   test('exact finite field includes signed and axis primes, not units',
       () async {
     final map = (await GaussianPrimeMap.generate(4))!;

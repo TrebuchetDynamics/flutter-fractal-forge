@@ -32,6 +32,41 @@ class GaussianPrimeMap {
       contains(p) &&
       _membership[(p.a + bound) * (2 * bound + 1) + p.b + bound] == 1;
 
+  /// Complete connected component inside this finite map, using inclusive
+  /// squared Euclidean distance. This is a bounded component, not a proof.
+  Set<GaussianInteger> component(
+    GaussianInteger start, {
+    required int maxSquaredStep,
+  }) {
+    if (maxSquaredStep < 1 || maxSquaredStep > 16) {
+      throw ArgumentError.value(maxSquaredStep, 'maxSquaredStep');
+    }
+    if (!isPrime(start)) return const {};
+    final found = <GaussianInteger>{start};
+    final queue = <GaussianInteger>[start];
+    for (var head = 0; head < queue.length; head++) {
+      final current = queue[head];
+      for (var da = -4; da <= 4; da++) {
+        for (var db = -4; db <= 4; db++) {
+          final distance = da * da + db * db;
+          if (distance == 0 || distance > maxSquaredStep) continue;
+          final next = (a: current.a + da, b: current.b + db);
+          if (isPrime(next) && found.add(next)) queue.add(next);
+        }
+      }
+    }
+    return Set.unmodifiable(found);
+  }
+
+  bool isAdjacent(GaussianInteger from, GaussianInteger to, int limit) {
+    if (limit < 1 || limit > 16 || !isPrime(from) || !isPrime(to)) {
+      return false;
+    }
+    final da = from.a - to.a;
+    final db = from.b - to.b;
+    return (da != 0 || db != 0) && da * da + db * db <= limit;
+  }
+
   /// Returns null on cancellation, never publishes a partially generated map.
   static Future<GaussianPrimeMap?> generate(
     num value, {

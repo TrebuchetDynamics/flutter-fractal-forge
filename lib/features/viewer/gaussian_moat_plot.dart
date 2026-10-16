@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/models/gaussian_moat_model.dart';
@@ -39,6 +40,8 @@ class GaussianMoatPainter extends CustomPainter {
   final FractalViewState view;
   final GaussianInteger root;
   final GaussianInteger? candidate;
+  final List<GaussianInteger> path;
+  final Set<GaussianInteger> component;
   final Color foreground;
   final Color background;
   final Color highlight;
@@ -47,6 +50,8 @@ class GaussianMoatPainter extends CustomPainter {
       required this.view,
       required this.root,
       required this.candidate,
+      required this.path,
+      required this.component,
       required this.foreground,
       required this.background,
       required this.highlight});
@@ -85,6 +90,18 @@ class GaussianMoatPainter extends CustomPainter {
           ..color = foreground
           ..strokeWidth = 3
           ..strokeCap = StrokeCap.round);
+    for (final p in component) {
+      if (visible.contains(screen(p))) {
+        canvas.drawCircle(
+            screen(p), 4, Paint()..color = highlight.withValues(alpha: 0.35));
+      }
+    }
+    final route = Paint()
+      ..color = highlight
+      ..strokeWidth = 2;
+    for (var i = 1; i < path.length; i++) {
+      canvas.drawLine(screen(path[i - 1]), screen(path[i]), route);
+    }
     final start = screen(root);
     final mark = Paint()
       ..color = highlight
@@ -102,6 +119,8 @@ class GaussianMoatPainter extends CustomPainter {
       old.view != view ||
       old.root != root ||
       old.candidate != candidate ||
+      !listEquals(old.path, path) ||
+      !setEquals(old.component, component) ||
       old.foreground != foreground ||
       old.background != background ||
       old.highlight != highlight;

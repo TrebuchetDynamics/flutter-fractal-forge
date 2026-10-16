@@ -188,11 +188,53 @@ abstract class AppLocalizations {
   /// **'Set start'**
   String get gaussianSetStart;
 
+  /// No description provided for @gaussianStepLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum squared step'**
+  String get gaussianStepLimit;
+
+  /// No description provided for @gaussianStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Step to candidate'**
+  String get gaussianStep;
+
+  /// No description provided for @gaussianUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo step'**
+  String get gaussianUndo;
+
+  /// No description provided for @gaussianResetPath.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset path'**
+  String get gaussianResetPath;
+
+  /// No description provided for @gaussianBoundaryUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **' · boundary may continue'**
+  String get gaussianBoundaryUnknown;
+
+  /// No description provided for @gaussianBoundaryContained.
+  ///
+  /// In en, this message translates to:
+  /// **' · no boundary contact found'**
+  String get gaussianBoundaryContained;
+
+  /// No description provided for @gaussianPathState.
+  ///
+  /// In en, this message translates to:
+  /// **'Path: {steps} steps · component: {size} primes{truncated}'**
+  String gaussianPathState(int steps, int size, String truncated);
+
   /// No description provided for @gaussianRoot.
   ///
   /// In en, this message translates to:
-  /// **'Start: ({a}, {b}) · 0 steps'**
-  String gaussianRoot(int a, int b);
+  /// **'Start: ({a}, {b}) · {steps} steps'**
+  String gaussianRoot(int a, int b, int steps);
 
   /// No description provided for @gaussianCandidate.
   ///

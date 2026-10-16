@@ -28,6 +28,9 @@ class _GaussianMoatMapState extends State<GaussianMoatMap> {
   GaussianPrimeMap? _map;
   GaussianInteger _root = (a: 1, b: 1);
   GaussianInteger? _candidate;
+  final List<GaussianInteger> _path = [(a: 1, b: 1)];
+  Set<GaussianInteger> _component = const {};
+  int _maxSquaredStep = 4;
   final _a = TextEditingController(text: '1');
   final _b = TextEditingController(text: '1');
   int _bound = GaussianPrimeMap.defaultBound;
@@ -56,6 +59,10 @@ class _GaussianMoatMapState extends State<GaussianMoatMap> {
     _map = null;
     _candidate = null;
     _root = (a: 1, b: 1);
+    _path
+      ..clear()
+      ..add(_root);
+    _component = const {};
     _error = false;
     if (!_running) _generate();
   }
@@ -70,7 +77,10 @@ class _GaussianMoatMapState extends State<GaussianMoatMap> {
         final map = await GaussianPrimeMap.generate(bound,
             isCancelled: () => !mounted || generation != _generation);
         if (mounted && generation == _generation && map != null) {
-          setState(() => _map = map);
+          setState(() {
+            _map = map;
+            _refreshComponent();
+          });
         }
       } catch (_) {
         if (mounted && generation == _generation) setState(() => _error = true);
@@ -92,6 +102,26 @@ class _GaussianMoatMapState extends State<GaussianMoatMap> {
         _candidate = p;
         _invalidCoordinates = false;
       });
+
+  bool get _canStep {
+    final map = _map;
+    final candidate = _candidate;
+    return map != null &&
+        candidate != null &&
+        !_path.contains(candidate) &&
+        map.isAdjacent(_path.last, candidate, _maxSquaredStep);
+  }
+
+  void _step() {
+    if (!_canStep) return;
+    setState(() => _path.add(_candidate!));
+  }
+
+  void _refreshComponent() {
+    final map = _map;
+    if (map == null) return;
+    _component = map.component(_root, maxSquaredStep: _maxSquaredStep);
+  }
 
   String _candidateState(AppLocalizations l10n, GaussianInteger p) {
     final map = _map;
@@ -183,8 +213,33 @@ class _GaussianMoatMapState extends State<GaussianMoatMap> {
         _button(
             l10n.gaussianSetStart,
             _candidate != null && (_map?.isPrime(_candidate!) ?? false)
-                ? () => setState(() => _root = _candidate!)
+                ? () => setState(() {
+                      _root = _candidate!;
+                      _path
+                        ..clear()
+                        ..add(_root);
+                      _refreshComponent();
+                    })
                 : null),
+        Text('${l10n.gaussianStepLimit}: $_maxSquaredStep'),
+        Wrap(children: [
+          _button(
+              'K−',
+              _maxSquaredStep > 1
+                  ? () => setState(() {
+                        _maxSquaredStep--;
+                        _refreshComponent();
+                      })
+                  : null),
+          _button(
+              'K+',
+              _maxSquaredStep < 16
+                  ? () => setState(() {
+                        _maxSquaredStep++;
+                        _refreshComponent();
+                      })
+                  : null),
+        ]),
         _button(l10n.resetView, () => _camera!.resetView()),
         _button(
             l10n.gaussianZoomIn,
@@ -238,6 +293,8 @@ class _GaussianMoatMapState extends State<GaussianMoatMap> {
                           view: view,
                           root: _root,
                           candidate: _candidate,
+                          path: _path,
+                          component: _component,
                           foreground: colors.onSurface,
                           background: colors.surface,
                           highlight: colors.primary),
@@ -265,7 +322,13 @@ class _GaussianMoatMapState extends State<GaussianMoatMap> {
               : _map == null
                   ? l10n.gaussianComputing
                   : l10n.gaussianReady(_map!.points.length))),
-      Text(l10n.gaussianRoot(_root.a, _root.b)),
+      Text(l10n.gaussianRoot(_root.a, _root.b, _path.length - 1)),
+      Text(l10n.gaussianPathState(
+          _path.length - 1,
+          _component.length,
+          _component.any((p) => p.a.abs() == _bound || p.b.abs() == _bound)
+              ? l10n.gaussianBoundaryUnknown
+              : l10n.gaussianBoundaryContained)),
       if (p != null)
         Text(l10n.gaussianCandidate(
             p.a, p.b, p.a * p.a + p.b * p.b, _candidateState(l10n, p))),
@@ -280,35 +343,47 @@ class _GaussianMoatMapState extends State<GaussianMoatMap> {
                 onClose: wide ? null : () => setState(() => _controls = false),
                 content: _controlsContent(l10n));
             final plot = _plot();
-            return Column(children: [
-              ConstrainedBox(
-                  constraints:
-                      BoxConstraints(maxHeight: constraints.maxHeight * 0.45),
-                  child: SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: status)),
-              Expanded(
-                  child: wide
-                      ? Row(children: [
-                          Expanded(child: plot),
-                          SizedBox(width: 300, child: controls)
-                        ])
-                      : Stack(children: [
-                          Positioned.fill(child: plot),
-                          if (_controls)
-                            Positioned.fill(
-                                child: ColoredBox(
-                                    color:
-                                        Theme.of(context).colorScheme.surface,
-                                    child: controls)),
-                        ])),
-              Wrap(alignment: WrapAlignment.center, children: [
-                if (!wide)
-                  _button(l10n.controlsTitle,
-                      () => setState(() => _controls = !_controls)),
-                _button(
-                    l10n.exportTitle, _map == null ? null : widget.onExport),
+            return Stack(children: [
+              Column(children: [
+                ConstrainedBox(
+                    constraints:
+                        BoxConstraints(maxHeight: constraints.maxHeight * 0.45),
+                    child: SingleChildScrollView(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: status)),
+                Expanded(
+                    child: wide
+                        ? Row(children: [
+                            Expanded(child: plot),
+                            SizedBox(width: 300, child: controls)
+                          ])
+                        : plot),
+                Wrap(alignment: WrapAlignment.center, children: [
+                  _button(l10n.gaussianStep, _canStep ? _step : null),
+                  _button(
+                      l10n.gaussianUndo,
+                      _path.length > 1
+                          ? () => setState(() => _path.removeLast())
+                          : null),
+                  _button(
+                      l10n.gaussianResetPath,
+                      () => setState(() {
+                            _path
+                              ..clear()
+                              ..add(_root);
+                          })),
+                  if (!wide)
+                    _button(l10n.controlsTitle,
+                        () => setState(() => _controls = !_controls)),
+                  _button(
+                      l10n.exportTitle, _map == null ? null : widget.onExport),
+                ]),
               ]),
+              if (!wide && _controls)
+                Positioned.fill(
+                    child: ColoredBox(
+                        color: Theme.of(context).colorScheme.surface,
+                        child: controls)),
             ]);
           }),
         ));
