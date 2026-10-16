@@ -67,6 +67,32 @@ void main() {
       expect(find.text('420'), findsOneWidget);
     });
 
+    testWidgets('dragging the handle snaps controls closed and open',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+
+      final handle = find.byKey(const ValueKey('controlsHudDragHandle'));
+      expect(handle, findsOneWidget);
+      final size = tester.getSize(handle);
+      expect(size.width, greaterThanOrEqualTo(48));
+      expect(size.height, greaterThanOrEqualTo(48));
+
+      await tester.drag(handle, const Offset(0, 20));
+      await tester.pumpAndSettle();
+      expect(find.text('Iterations'), findsOneWidget);
+
+      await tester.drag(handle, const Offset(0, 64));
+      await tester.pumpAndSettle();
+      expect(find.text('Iterations'), findsNothing);
+      expect(find.byIcon(Icons.expand_less_rounded), findsOneWidget);
+
+      await tester.drag(handle, const Offset(0, -64));
+      await tester.pumpAndSettle();
+      expect(find.text('Iterations'), findsOneWidget);
+      expect(find.byIcon(Icons.expand_more_rounded), findsOneWidget);
+    });
+
     testWidgets('collapse action labels are localized and semantic',
         (tester) async {
       final handle = tester.ensureSemantics();
@@ -155,8 +181,10 @@ void main() {
 
         await expectNoOverflow(
           () async {
+            await tester.ensureVisible(find.text('Kaleidoscope'));
             await tester.tap(find.text('Kaleidoscope'));
             await tester.pumpAndSettle();
+            expect(find.text('Sectors'), findsOneWidget);
           },
           reason: 'expanded at $scale x',
         );

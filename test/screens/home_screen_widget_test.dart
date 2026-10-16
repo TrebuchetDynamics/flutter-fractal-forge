@@ -59,10 +59,11 @@ void main() {
         expect(back, findsOneWidget);
         expect(find.bySemanticsLabel('Back to catalog'), findsOneWidget);
         expect(tester.getSemantics(back).rect.height, greaterThanOrEqualTo(48));
-        expect(tester.getSize(back).height,
-            greaterThanOrEqualTo(48));
+        expect(tester.getSize(back).height, greaterThanOrEqualTo(48));
         if (mode == 'normal') {
-          Focus.of(tester.element(find.text('Back to catalog'))).requestFocus();
+          Focus.of(tester.element(
+            find.descendant(of: back, matching: find.byType(Icon)),
+          )).requestFocus();
           await tester.pump();
           await tester.sendKeyEvent(LogicalKeyboardKey.enter);
         } else {

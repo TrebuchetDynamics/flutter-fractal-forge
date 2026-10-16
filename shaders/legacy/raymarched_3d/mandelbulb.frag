@@ -250,9 +250,10 @@ vec3 getColor(float t, int scheme) {
 }
 
 // Optimized lighting with single light source
-vec3 calculateLighting(vec3 position, vec3 normal, vec3 color) {
+vec3 calculateLighting(
+    vec3 position, vec3 normal, vec3 color, vec3 cameraPosition) {
     vec3 lightDir = normalize(vec3(5.0, 5.0, 5.0) - position);
-    vec3 viewDir = normalize(-position);
+    vec3 viewDir = normalize(cameraPosition - position);
     vec3 halfDir = normalize(lightDir + viewDir);
     
     // Combined Blinn-Phong
@@ -269,14 +270,11 @@ void main() {
     // Compute rotation matrix once
     gRotation = rotationMatrix(uRotation);
     
-    // Camera setup
-    vec3 cameraPos = gRotation * vec3(0.0, 0.0, 3.0 / max(uZoom, 0.1));
-    
-    vec3 forward = normalize(-cameraPos);
-    vec3 right = normalize(cross(vec3(0.0, 1.0, 0.0), forward));
-    vec3 up = cross(forward, right);
-    
-    vec3 direction = normalize(forward + uv.x * right + uv.y * up);
+    // Camera target follows the shared 3D pan uniform. Transform the entire
+    // camera-space ray so pitch, yaw, and roll all affect the view consistently.
+    vec3 target = vec3(uMousePos, 0.0);
+    vec3 cameraPos = target + gRotation * vec3(0.0, 0.0, 3.0 / max(uZoom, 0.1));
+    vec3 direction = normalize(gRotation * vec3(uv.x, uv.y, -1.0));
     
     vec4 hit = rayMarch(cameraPos, direction);
     
@@ -285,7 +283,7 @@ void main() {
         vec3 normal = getNormal(hit.xyz);
         float t = hit.w / uIterations;
         vec3 color = getColor(t, int(uColorScheme));
-        color = calculateLighting(hit.xyz, normal, color);
+        color = calculateLighting(hit.xyz, normal, color, cameraPos);
         
         // Distance fog
         float dist = length(hit.xyz - cameraPos);

@@ -15,6 +15,8 @@ void main() {
       expect(repo.entries.length, registry.modules.length);
       expect(repo.entries.first.catalogId, startsWith('core.'));
       expect(repo.byCatalogId('core.mandelbrot').module.id, 'mandelbrot');
+      expect(
+          repo.allIds(), registry.modules.map((m) => 'core.${m.id}').toSet());
     });
 
     test('catalog IDs are unique', () {
@@ -27,9 +29,11 @@ void main() {
     test('classifies representative modules by mathematical family', () {
       final repo = CatalogRepository.fromRegistry(ModuleRegistry());
 
-      expect(repo.byCatalogId('core.aizawa').category, 'Strange Attractors');
-      expect(repo.byCatalogId('core.sandpile').category, 'Cellular Automata');
-      expect(repo.byCatalogId('core.3d_fractal').category, 'Complex Dynamics');
+      expect(repo.byCatalogId('core.aizawa').category,
+          'Maps, flows and attractors');
+      expect(repo.byCatalogId('core.sandpile').category,
+          'Cellular automata and growth');
+      expect(repo.byCatalogId('core.3d_fractal').category, 'Complex dynamics');
       expect(
         repo.byCatalogId('core.3d_fractal').module.displayName(
               lookupAppLocalizations(const Locale('en')),

@@ -1,93 +1,28 @@
-import 'dart:io';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:image/image.dart' as img;
+import 'runtime_preview_harness.dart';
 
-import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
-import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
-import 'package:flutter_fractals/core/services/storage/preset_store.dart';
-import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
-import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
-import 'package:flutter_fractals/features/renderer/diagnostics/render_audit_metrics.dart';
-import 'package:flutter_fractals/main.dart';
-
-import '../helpers/ui_test_helpers.dart';
+const _targets = <RuntimePreviewTarget>[
+  RuntimePreviewTarget('core.perpendicular_mandelbrot',
+      'Perpendicular Mandelbrot', 'perpendicular_mandelbrot'),
+  RuntimePreviewTarget('core.lambda', 'Lambda Fractal', 'lambda'),
+  RuntimePreviewTarget(
+      'core.magnet_type_1', 'Magnet Fractal (Type I)', 'magnet_type_1'),
+  RuntimePreviewTarget(
+      'core.magnet_type_2', 'Magnet Fractal (Type II)', 'magnet_type_2'),
+  RuntimePreviewTarget(
+      'core.magnet_type_3', 'Magnet Fractal (Type III)', 'magnet_type_3'),
+  RuntimePreviewTarget('core.power_sum', 'Power Sum Fractal', 'power_sum'),
+  RuntimePreviewTarget('core.cactus', 'Cactus Fractal', 'cactus'),
+  RuntimePreviewTarget('core.astroid', 'Astroid Fractal', 'astroid'),
+  RuntimePreviewTarget('core.deltoid', 'Deltoid Fractal', 'deltoid'),
+  RuntimePreviewTarget('core.eisenstein', 'Eisenstein Fractal', 'eisenstein'),
+];
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-
-  testWidgets('VIS-006 batch 02 runtime catalog previews capture GPU pixels',
-      (tester) async {
-    CatalogRuntimeThumbnailCache.clearForTesting();
-    SharedPreferences.setMockInitialValues({});
-    final presetStore = await PresetStore.create();
-    final accessibilityService = await AccessibilityService.create();
-    final rendererSettingsService = await RendererSettingsService.create();
-
-    await tester.pumpWidget(
-      FlutterFractalsApp(
-        presetStore: presetStore,
-        accessibilityService: accessibilityService,
-        rendererSettingsService: rendererSettingsService,
-        locale: const Locale('en'),
-      ),
-    );
-    await tester.pump();
-
-    const entries = <(String, String)>[
-      ('core.perpendicular_mandelbrot', 'Perpendicular Mandelbrot'),
-      ('core.lambda', 'Lambda Fractal'),
-      ('core.magnet_type_1', 'Magnet Fractal (Type I)'),
-      ('core.magnet_type_2', 'Magnet Fractal (Type II)'),
-      ('core.magnet_type_3', 'Magnet Fractal (Type III)'),
-      ('core.power_sum', 'Power Sum Fractal'),
-      ('core.cactus', 'Cactus Fractal'),
-      ('core.astroid', 'Astroid Fractal'),
-      ('core.deltoid', 'Deltoid Fractal'),
-      ('core.eisenstein', 'Eisenstein Fractal'),
-    ];
-
-    for (final (catalogId, searchText) in entries) {
-      await enterCatalogSearch(tester, searchText);
-      final thumbnail = find.byKey(
-        Key('catalogCachedThumbnail_$catalogId'),
-      );
-      final deadline = DateTime.now().add(const Duration(seconds: 20));
-      while (
-          thumbnail.evaluate().isEmpty && DateTime.now().isBefore(deadline)) {
-        await tester.pump(const Duration(milliseconds: 250));
-      }
-      expect(thumbnail, findsOneWidget,
-          reason: 'Missing preview for $catalogId');
-
-      final imageWidget = tester.widget<Image>(thumbnail);
-      var provider = imageWidget.image;
-      while (provider is ResizeImage) {
-        provider = provider.imageProvider;
-      }
-      final bytes = (provider as MemoryImage).bytes;
-      expect(bytes, isNotEmpty, reason: 'Empty preview for $catalogId');
-      final image = img.decodeImage(bytes);
-      expect(image, isNotNull, reason: 'Undecodable preview for $catalogId');
-      final metrics =
-          RenderAuditMetrics.fromImage(image!, pngBytes: bytes.length);
-      expect(metrics.verdict, 'pass', reason: 'Preview quality for $catalogId');
-
-      final outputDirectory = Directory('build/test_output/vis006-batch02');
-      await outputDirectory.create(recursive: true);
-      final output = File(
-          '${outputDirectory.path}/${catalogId.split('.').last}_runtime_catalog_preview.png');
-      await output.writeAsBytes(bytes, flush: true);
-      // ignore: avoid_print
-      print(
-        'runtime_catalog_preview=${output.path} catalogId=$catalogId '
-        'dimensions=${image.width}x${image.height} metrics=${metrics.toJson()}',
-      );
-    }
-  },
-      skip: !const bool.fromEnvironment('FORCE_RUNTIME_CATALOG_THUMBNAILS') ||
-          RuntimeModeService.useRendererPlaceholderSurface);
+  registerRuntimePreview(
+    _targets,
+    'build/test_output/vis006-batch02',
+    description: 'VIS-006 batch 02 runtime catalog previews capture GPU pixels',
+  );
 }

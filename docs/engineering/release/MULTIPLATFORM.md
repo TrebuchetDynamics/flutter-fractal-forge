@@ -7,9 +7,17 @@ Run the complete release from the repository root:
 ./release.sh --dry-run             # preview next patch using cached tags; no changes/network
 ./release.sh --prepare             # automatically prepare/build/verify without publication
 ./release.sh --publish=1.1.105      # dispatch an explicitly prepared version
+PLAY_TRACK=production PLAY_RELEASE_STATUS=completed ./release.sh --target play --publish=1.1.108
 ```
 
 No arguments means the full publishing pipeline. The script requires committed
+app changes. `--target play` limits publication to Play: it does not deploy the
+website or publish GitLab/GitHub releases, and keeps every existing validation,
+platform-build, Android-device, F-Droid-scan and evidence gate. Play defaults to
+internal/draft unless the existing track/status environment variables are set
+explicitly as above. Play-only preflight does not need GitHub/Cloudflare credentials.
+
+For automatic version preparation, the script requires committed
 app changes, fetches tags from `origin` and `gitlab`, then increments the highest
 numeric `vMAJOR.MINOR.PATCH` tag. An already prepared version newer than the tags
 is reused after a failed preparation/dispatch. The patch is the Android build

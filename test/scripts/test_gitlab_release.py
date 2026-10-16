@@ -13,6 +13,60 @@ spec.loader.exec_module(release)
 
 
 class GitLabReleaseTest(unittest.TestCase):
+    def test_play_only_dispatch_preserves_gates_and_explicit_track(self):
+        marker = dict(line.split('=', 1) for line in (ROOT / 'fdroid/version.properties').read_text().splitlines()
+                      if line and not line.startswith('#'))
+        sha = 'a' * 40
+        def fake_git(*args):
+            return {('rev-parse', 'HEAD'): sha, ('status', '--porcelain'): '',
+                    ('symbolic-ref', '--quiet', '--short', 'HEAD'): 'main'}[args]
+        with patch.object(release, 'git', side_effect=fake_git), \
+             patch.dict(release.os.environ, {'PLAY_TRACK': 'production', 'PLAY_RELEASE_STATUS': 'completed'}), \
+             patch.object(release, 'api', side_effect=[{'commit': {'id': sha}, 'protected': True},
+                              {'sha': sha, 'id': 42, 'web_url': 'url'}]) as api:
+            release.main(['--target', 'play', '--publish=' + marker['versionName'], '--no-wait'])
+            variables = {v['key']: v['value'] for v in api.call_args.args[1]['variables']}
+            self.assertEqual(variables['RELEASE_TARGET'], 'play')
+            self.assertEqual(variables['PLAY_TRACK'], 'production')
+            self.assertEqual(variables['PLAY_RELEASE_STATUS'], 'completed')
+            self.assertEqual(variables['RELEASE_COMMIT'], sha)
+
+    def test_play_only_ci_keeps_all_gates_but_excludes_other_publishers(self):
+        import re
+        ci = (ROOT / '.gitlab-ci.yml').read_text()
+        def block(name):
+            match = re.search(r'^' + re.escape(name) + r':\n(.*?)(?=^\S|\Z)', ci, re.M | re.S)
+            assert match is not None, name
+            return match.group(1)
+        self.assertIn('RELEASE_TARGET: "all"', block('variables'))
+        for job in ['publish', 'deploy-web']:
+            self.assertIn('extends: .publish-all', block(job))
+        self.assertIn('extends: .publish', block('deploy-play'))
+        self.assertIn('$RELEASE_TARGET == "all"', block('.publish-all'))
+        self.assertIn('$CI_COMMIT_REF_PROTECTED == "true"', block('.publish-all'))
+        for gate in ['validate', 'research', 'android', 'device-gate', 'linux', 'web',
+                     'fdroid', 'windows', 'apple', 'fdroid-scan', 'evidence']:
+            self.assertNotIn('RELEASE_TARGET', block(gate))
+        self.assertNotIn('needs:', block('evidence'))
+        self.assertNotIn('needs:', block('deploy-play'))
+
+    def test_play_only_preflight_does_not_require_other_publishers_credentials(self):
+        import re
+        ci = (ROOT / '.gitlab-ci.yml').read_text()
+        match = re.search(r'    - \|\n(.*?)\n\nandroid:', ci, re.S)
+        assert match is not None
+        script = '\n'.join(line[6:] for line in match.group(1).splitlines())
+        with tempfile.TemporaryDirectory() as tmp:
+            account = Path(tmp) / 'service-account.json'
+            account.touch()
+            environment = {'RELEASE_MODE': 'publish', 'RELEASE_TARGET': 'play',
+                           'PLAY_SERVICE_ACCOUNT_JSON': str(account)}
+            result = subprocess.run(['bash', '-ec', script], env=environment)
+            self.assertEqual(result.returncode, 0)
+            environment['RELEASE_TARGET'] = 'all'
+            result = subprocess.run(['bash', '-ec', script], env=environment)
+            self.assertNotEqual(result.returncode, 0)
+
     def test_dry_run_never_uses_api(self):
         with patch.object(release, 'api', side_effect=AssertionError('network forbidden')):
             release.main(['all', '--publish=1.1.105', '--dry-run'])

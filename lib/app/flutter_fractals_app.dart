@@ -85,46 +85,6 @@ class FlutterFractalsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _AppProviders(
-      presetStore: presetStore,
-      historyStore: historyStore,
-      viewerSessionStore: viewerSessionStore,
-      accessibilityService: accessibilityService,
-      rendererSettingsService: rendererSettingsService,
-      deepLinkService: deepLinkService,
-      performanceServiceFactory: performanceServiceFactory,
-      locale: locale,
-      skipSplash: skipSplash,
-    );
-  }
-}
-
-/// Provides app-scoped dependencies and stores.
-class _AppProviders extends StatelessWidget {
-  final PresetStore presetStore;
-  final HistoryStore? historyStore;
-  final ViewerSessionStore? viewerSessionStore;
-  final AccessibilityService accessibilityService;
-  final RendererSettingsService rendererSettingsService;
-  final DeepLinkService? deepLinkService;
-  final PerformanceService Function()? performanceServiceFactory;
-  final Locale? locale;
-  final bool skipSplash;
-
-  const _AppProviders({
-    required this.presetStore,
-    required this.historyStore,
-    required this.viewerSessionStore,
-    required this.accessibilityService,
-    required this.rendererSettingsService,
-    required this.deepLinkService,
-    required this.performanceServiceFactory,
-    required this.locale,
-    this.skipSplash = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         Provider<ModuleRegistry>(create: (_) => ModuleRegistry()),

@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/shared/widgets/fractal_math_summary.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
@@ -122,6 +122,8 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   static const _viewModePrefKey = 'catalog_view_mode';
   static const _queryPrefKey = 'catalog_browse_query';
   static const _categoryPrefKey = 'catalog_browse_category';
+  static const _collectionPrefKey = 'catalog_browse_collection';
+  static const _dimensionPrefKey = 'catalog_browse_dimension';
   static const _scrollOffsetPrefKey = 'catalog_browse_scroll_offset';
   static const _favoritesPrefKey = 'catalog_favorite_ids';
   static const _recentPrefKey = 'catalog_recent_ids';
@@ -139,6 +141,8 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   CatalogViewMode _viewMode = CatalogViewMode.grid;
   int _viewModeRevision = 0;
   String? _selectedCategory;
+  String? _selectedCollection;
+  CatalogDimensionFilter _dimensionFilter = CatalogDimensionFilter.all;
   final Set<String> _favoriteCatalogIds = <String>{};
   final List<String> _recentCatalogIds = <String>[];
   final Set<String> _collapsedCategories = <String>{};
@@ -195,7 +199,18 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     final revision = _browseStateRevision;
     final prefs = await SharedPreferences.getInstance();
     final query = prefs.getString(_queryPrefKey) ?? '';
-    final category = prefs.getString(_categoryPrefKey);
+    final storedCategory = prefs.getString(_categoryPrefKey);
+    final collection = prefs.getString(_collectionPrefKey) ??
+        (storedCategory == _favoritesCategory ||
+                storedCategory == _recentCategory
+            ? storedCategory
+            : null);
+    final category = _normalizeCategory(storedCategory);
+    final dimensionIndex = prefs.getInt(_dimensionPrefKey) ?? 0;
+    final dimension = dimensionIndex >= 0 &&
+            dimensionIndex < CatalogDimensionFilter.values.length
+        ? CatalogDimensionFilter.values[dimensionIndex]
+        : CatalogDimensionFilter.all;
     final favorites =
         prefs.getStringList(_favoritesPrefKey) ?? const <String>[];
     final recent = prefs.getStringList(_recentPrefKey) ?? const <String>[];
@@ -204,8 +219,12 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     setState(() {
       _debouncedQuery = query;
       _searchController.text = query;
-      _isSearchVisible = query.isNotEmpty;
       _selectedCategory = category;
+      _selectedCollection =
+          collection == _favoritesCategory || collection == _recentCategory
+              ? collection
+              : null;
+      _dimensionFilter = dimension;
       _favoriteCatalogIds
         ..clear()
         ..addAll(favorites);
@@ -230,14 +249,22 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   }
 
   Future<void> _persistBrowsingState() async {
-    final query = _debouncedQuery;
+    final query = _searchController.text;
     final category = _selectedCategory;
+    final collection = _selectedCollection;
+    final dimension = _dimensionFilter.index;
     final favorites = _favoriteCatalogIds.toList(growable: false);
     final recent = _recentCatalogIds.toList(growable: false);
     final offset =
         _scrollController.hasClients ? _scrollController.offset : null;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_queryPrefKey, query);
+    await prefs.setInt(_dimensionPrefKey, dimension);
+    if (collection == null) {
+      await prefs.remove(_collectionPrefKey);
+    } else {
+      await prefs.setString(_collectionPrefKey, collection);
+    }
     if (category == null) {
       await prefs.remove(_categoryPrefKey);
     } else {
@@ -269,12 +296,15 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   }
 
   void _clearSearchInput() {
+    _browseStateRevision++;
     setState(_resetSearchInputState);
+    unawaited(_persistBrowsingState());
   }
 
   void _onSearchFocusChanged() {
     if (!mounted) return;
-    setState(() {});
+    setState(() => _isSearchVisible = _isSearchFocused);
+    _publishToolbarState();
   }
 
   @override
@@ -341,29 +371,16 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
 
   CatalogFilterCriteria get _currentFilterCriteria => CatalogFilterCriteria(
         query: _debouncedQuery,
-        selectedCategory: _selectedCategory == _favoritesCategory ||
-                _selectedCategory == _recentCategory
-            ? null
-            : _selectedCategory,
+        selectedCategory: _selectedCategory,
+        dimensionFilter: _dimensionFilter,
       );
 
   void _toggleSearch() {
-    final wasVisible = _isSearchVisible;
-    setState(() {
-      _isSearchVisible = !_isSearchVisible;
-      if (!_isSearchVisible) {
-        _browseStateRevision++;
-        _resetSearchInputState();
-      } else {
-        // Auto focus the search field
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (!mounted) return;
-          _focusNode.requestFocus();
-        });
-      }
-    });
-    _publishToolbarState();
-    if (wasVisible) unawaited(_persistBrowsingState());
+    if (_isSearchFocused) {
+      _focusNode.unfocus();
+    } else {
+      _focusNode.requestFocus();
+    }
   }
 
   void _toggleViewMode() => _setViewMode(_nextViewMode(_viewMode));
@@ -409,9 +426,45 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
       _resetSearchInputState();
       _isSearchVisible = false;
       _selectedCategory = null;
+      _selectedCollection = null;
+      _dimensionFilter = CatalogDimensionFilter.all;
       _collapsedCategories.clear();
     });
     _publishToolbarState();
+    unawaited(_persistBrowsingState());
+  }
+
+  String? _normalizeCategory(String? category) {
+    final categories =
+        _catalog?.entries.map((entry) => entry.category).toSet() ?? <String>{};
+    if (categories.contains(category)) return category;
+    final normalized = switch (category) {
+      'Escape-Time' ||
+      'Complex Visualization' ||
+      'Rational Maps' ||
+      'Hypercomplex' =>
+        'Complex dynamics',
+      'Root Finding' ||
+      'Root-Finding' ||
+      'Convergent & Root-Finding' =>
+        'Root finding',
+      'IFS' || 'IFS & Geometric' => 'IFS and geometric constructions',
+      'Attractors' ||
+      'Maps & Attractors' ||
+      'Strange Attractors' =>
+        'Maps, flows and attractors',
+      'Cellular & Stochastic' ||
+      'Cellular Automata' =>
+        'Cellular automata and growth',
+      _ => null,
+    };
+    return categories.contains(normalized) ? normalized : null;
+  }
+
+  void _setSelectedCollection(String? collection) {
+    if (collection == _selectedCollection) return;
+    _browseStateRevision++;
+    setState(() => _selectedCollection = collection);
     unawaited(_persistBrowsingState());
   }
 
@@ -423,6 +476,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   }
 
   void _toggleFavorite(String catalogId) {
+    _browseStateRevision++;
     setState(() {
       if (!_favoriteCatalogIds.add(catalogId)) {
         _favoriteCatalogIds.remove(catalogId);
@@ -432,6 +486,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   }
 
   void _recordRecentlyViewed(String catalogId) {
+    _browseStateRevision++;
     setState(() {
       _recentCatalogIds
         ..remove(catalogId)
@@ -448,6 +503,10 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     AppLocalizations l10n, {
     required CatalogSearchQuery query,
   }) {
+    final relevance = {
+      for (final entry in entries)
+        entry: query.isEmpty ? 0 : query.relevanceScore(entry, l10n) ?? 999,
+    };
     final grouped = <String, List<CatalogEntry>>{};
     for (final entry in entries) {
       grouped.putIfAbsent(entry.category, () => []).add(entry);
@@ -457,10 +516,10 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
       ..sort((a, b) {
         if (!query.isEmpty) {
           final aScore = a.value
-              .map((entry) => query.relevanceScore(entry, l10n) ?? 999)
+              .map((entry) => relevance[entry] ?? 999)
               .reduce((left, right) => left < right ? left : right);
           final bScore = b.value
-              .map((entry) => query.relevanceScore(entry, l10n) ?? 999)
+              .map((entry) => relevance[entry] ?? 999)
               .reduce((left, right) => left < right ? left : right);
           final scoreCompare = aScore.compareTo(bScore);
           if (scoreCompare != 0) return scoreCompare;
@@ -473,24 +532,51 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
         return a.key.compareTo(b.key);
       });
 
-    return {
-      for (final section in sortedEntries)
-        section.key: List<CatalogEntry>.from(section.value)
-          ..sort((a, b) {
-            if (!query.isEmpty) {
-              final scoreCompare = (query.relevanceScore(a, l10n) ?? 999)
-                  .compareTo(query.relevanceScore(b, l10n) ?? 999);
-              if (scoreCompare != 0) return scoreCompare;
-            }
-            return a.module
-                .displayName(l10n)
-                .compareTo(b.module.displayName(l10n));
-          }),
-    };
+    final sections = <String, List<CatalogEntry>>{};
+    for (final section in sortedEntries) {
+      final sorted = List<CatalogEntry>.from(section.value)
+        ..sort((a, b) {
+          if (!query.isEmpty) {
+            final scoreCompare =
+                (relevance[a] ?? 999).compareTo(relevance[b] ?? 999);
+            if (scoreCompare != 0) return scoreCompare;
+          }
+          return a.module
+              .displayName(l10n)
+              .compareTo(b.module.displayName(l10n));
+        });
+      final variants = <String, List<CatalogEntry>>{};
+      for (final entry in sorted) {
+        final groupId = entry.mathematics.groupId;
+        variants.putIfAbsent(groupId, () => []).add(entry);
+      }
+      final familyLabel = mathematicalLabel(context, section.key);
+      final independent = variants.values
+          .where((group) => group.length == 1)
+          .expand((group) => group)
+          .toList();
+      if (independent.isNotEmpty) sections[familyLabel] = independent;
+      for (final group in variants.values.where((group) => group.length > 1)) {
+        final math = group.first.mathematics;
+        // groupId is an explicit reviewed recurrence, never a shader-path guess.
+        final title =
+            '$familyLabel · ${mathematicalLabel(context, math.relationship)}';
+        sections[title] = group;
+      }
+    }
+    if (query.isEmpty) return sections;
+    final matchOrder = {for (var i = 0; i < entries.length; i++) entries[i]: i};
+    final rankedSections = sections.entries.toList()
+      ..sort((a, b) {
+        int firstMatch(List<CatalogEntry> group) =>
+            group.map((entry) => matchOrder[entry]!).reduce(math.min);
+        return firstMatch(a.value).compareTo(firstMatch(b.value));
+      });
+    return Map.fromEntries(rankedSections);
   }
 
   int _categorySortPriority(String category) {
-    if (category == 'Escape-Time') return 0;
+    if (category == 'Complex dynamics') return 0;
     return 1;
   }
 
@@ -499,13 +585,19 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     final l10n = AppLocalizations.of(context)!;
     final filterCriteria = _currentFilterCriteria;
     final filterResult = CatalogFilter.apply(
-      entries: _catalog!.entries,
+      entries: switch (_selectedCollection) {
+        _favoritesCategory => _catalog!.entries
+            .where((entry) => _favoriteCatalogIds.contains(entry.catalogId)),
+        _recentCategory => _catalog!.entries
+            .where((entry) => _recentCatalogIds.contains(entry.catalogId)),
+        _ => _catalog!.entries,
+      },
       criteria: filterCriteria,
       l10n: l10n,
     );
     final query = filterCriteria.searchQuery.value;
     final baseEntries = filterResult.filteredEntries;
-    final filteredEntries = switch (_selectedCategory) {
+    final filteredEntries = switch (_selectedCollection) {
       _favoritesCategory => baseEntries
           .where((entry) => _favoriteCatalogIds.contains(entry.catalogId))
           .toList(growable: false),
@@ -515,11 +607,12 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
         ],
       _ => baseEntries,
     };
-    final groupedEntries = _groupAndSort(
-      filteredEntries,
-      l10n,
-      query: filterCriteria.searchQuery,
-    );
+    final groupedEntries = _selectedCollection == _recentCategory
+        ? <String, List<CatalogEntry>>{
+            _categoryDisplayLabel(_recentCategory): filteredEntries
+          }
+        : _groupAndSort(filteredEntries, l10n,
+            query: filterCriteria.searchQuery);
     return GestureDetector(
       key: const Key('catalogCategorySwipeArea'),
       behavior: HitTestBehavior.opaque,
@@ -567,7 +660,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     DragEndDetails details,
     CatalogFilterResult filterResult,
   ) {
-    if (_isSearchVisible) return;
+    if (_isSearchFocused) return;
     final velocity = details.primaryVelocity ?? 0;
     if (velocity.abs() < _categorySwipeVelocity) return;
     _selectRelativeCategory(filterResult, velocity < 0 ? 1 : -1);
@@ -592,7 +685,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
       return isSpanish ? 'Favoritos' : 'Favorites';
     }
     if (category == _recentCategory) return isSpanish ? 'Recientes' : 'Recent';
-    return category;
+    return mathematicalLabel(context, category);
   }
 
   void _toggleCategorySection(String category) {
@@ -604,14 +697,14 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   }
 
   List<String?> _categoryChoices(CatalogFilterResult filterResult) {
-    final counts = filterResult.categoryCounts;
+    final counts = CatalogFilter.countCategories(_catalog!.entries);
     final categories = counts.keys.toList()
       ..sort((a, b) {
         final countCompare = (counts[b] ?? 0).compareTo(counts[a] ?? 0);
         if (countCompare != 0) return countCompare;
         return a.compareTo(b);
       });
-    return [null, _favoritesCategory, _recentCategory, ...categories];
+    return [null, ...categories];
   }
 
   /// Height of the pinned filter bar.
@@ -623,10 +716,10 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   /// than by the whole scale factor, which would reserve 240px for content
   /// needing 82.
   static double _pinnedFilterBarHeight(BuildContext context) {
-    const base = 80.0;
+    const base = 200.0;
     const chipFontSize = 12.0;
     final scaled = MediaQuery.textScalerOf(context).scale(chipFontSize);
-    return base + (scaled - chipFontSize).clamp(0.0, 48.0);
+    return base + (scaled - chipFontSize).clamp(0.0, 48.0) * 4;
   }
 
   Widget _buildPinnedTopBar(
@@ -644,7 +737,86 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          _buildSearchAndCollections(context, l10n, filterResult),
           _buildFilterAndSortBar(context, l10n, filterResult),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSearchAndCollections(
+    BuildContext context,
+    AppLocalizations l10n,
+    CatalogFilterResult result,
+  ) {
+    final isSpanish = Localizations.localeOf(context).languageCode == 'es';
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+          AppSpacing.lg, AppSpacing.xs, AppSpacing.lg, 0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildCompactSearchField(context, l10n),
+          const SizedBox(height: AppSpacing.xs),
+          SingleChildScrollView(
+            key: const Key('catalogCollectionAndDimensionScroll'),
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                _DimChip(
+                  chipKey: const Key('catalogCollectionChip_explore'),
+                  label: isSpanish ? 'Explorar' : 'Explore',
+                  count: _catalog!.entries.length,
+                  selected: _selectedCollection == null,
+                  onTap: () => _setSelectedCollection(null),
+                ),
+                const SizedBox(width: AppSpacing.xs),
+                _DimChip(
+                  chipKey: const Key('catalogCategoryChip_favorites'),
+                  label: _categoryDisplayLabel(_favoritesCategory),
+                  count: _favoriteCatalogIds.length,
+                  selected: _selectedCollection == _favoritesCategory,
+                  onTap: () => _setSelectedCollection(_favoritesCategory),
+                ),
+                const SizedBox(width: AppSpacing.xs),
+                _DimChip(
+                  chipKey: const Key('catalogCategoryChip_recent'),
+                  label: _categoryDisplayLabel(_recentCategory),
+                  count: _recentCatalogIds.length,
+                  selected: _selectedCollection == _recentCategory,
+                  onTap: () => _setSelectedCollection(_recentCategory),
+                ),
+                const SizedBox(width: AppSpacing.md),
+                for (final filter in const [
+                  CatalogDimensionFilter.all,
+                  CatalogDimensionFilter.twoD,
+                  CatalogDimensionFilter.threeD
+                ]) ...[
+                  _DimChip(
+                    chipKey: Key('catalogDimensionChip_${switch (filter) {
+                      CatalogDimensionFilter.twoD => '2d',
+                      CatalogDimensionFilter.threeD => '3d',
+                      _ => 'all'
+                    }}'),
+                    label: switch (filter) {
+                      CatalogDimensionFilter.twoD => l10n.dimension2d,
+                      CatalogDimensionFilter.threeD => l10n.dimension3d,
+                      _ =>
+                        isSpanish ? 'Todas las dimensiones' : 'All dimensions',
+                    },
+                    count: result.countForDimension(filter),
+                    selected: _dimensionFilter == filter,
+                    onTap: () {
+                      _browseStateRevision++;
+                      setState(() => _dimensionFilter = filter);
+                      unawaited(_persistBrowsingState());
+                    },
+                  ),
+                  const SizedBox(width: AppSpacing.xs),
+                ],
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -655,7 +827,10 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     AppLocalizations l10n,
     CatalogFilterResult filterResult,
   ) {
-    final categories = filterResult.sortedCategories;
+    final categories = CatalogFilter.sortCategories(
+      CatalogFilter.countCategories(_catalog!.entries),
+      selectedCategory: _selectedCategory,
+    );
     final categoryCounts = filterResult.categoryCounts;
     final totalCategoryCount = filterResult.categoryBaseEntries.length;
     final allCategoriesLabel = _allCategoriesLabel(context);
@@ -676,28 +851,16 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
         child: Row(
           children: [
             Expanded(
-              child: _isSearchVisible
-                  ? _buildCompactSearchField(context, l10n)
-                  : _CategoryFilterRail(
-                      allCategoriesLabel: allCategoriesLabel,
-                      favoritesLabel:
-                          Localizations.localeOf(context).languageCode == 'es'
-                              ? 'Favoritos'
-                              : 'Favorites',
-                      recentLabel:
-                          Localizations.localeOf(context).languageCode == 'es'
-                              ? 'Recientes'
-                              : 'Recent',
-                      favoriteCount: _favoriteCatalogIds.length,
-                      recentCount: _recentCatalogIds.length,
-                      totalCategoryCount: totalCategoryCount,
-                      categories: categories,
-                      categoryCounts: categoryCounts,
-                      selectedCategory: _selectedCategory,
-                      onSelect: (category) => _setSelectedCategory(
-                        category == _selectedCategory ? null : category,
-                      ),
-                    ),
+              child: _CategoryFilterRail(
+                allCategoriesLabel: allCategoriesLabel,
+                totalCategoryCount: totalCategoryCount,
+                categories: categories,
+                categoryCounts: categoryCounts,
+                selectedCategory: _selectedCategory,
+                onSelect: (category) => _setSelectedCategory(
+                  category == _selectedCategory ? null : category,
+                ),
+              ),
             ),
             if (showLocalActions) ...[
               const SizedBox(width: AppSpacing.xs),
@@ -727,7 +890,9 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     AppLocalizations l10n,
   ) {
     return Semantics(
-      label: l10n.semanticSearchField,
+      label: Localizations.localeOf(context).languageCode == 'es'
+          ? 'Buscar por nombre, fórmula o familia'
+          : 'Search by name, formula or family',
       textField: true,
       child: TextField(
         key: const Key('catalogSearchField'),
@@ -738,7 +903,9 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
           isDense: true,
           filled: true,
           fillColor: AppColors.surfaceVariant,
-          hintText: l10n.catalogSearchHint,
+          hintText: Localizations.localeOf(context).languageCode == 'es'
+              ? 'Nombre, fórmula o familia'
+              : 'Name, formula or family',
           hintStyle:
               AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
           prefixIcon: Icon(
@@ -978,11 +1145,15 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   }) {
     if (heroTag != null) _recordRecentlyViewed(heroTag);
     final controller = context.read<FractalController>();
-    if (controller.module.id == module.id) {
-      // Preserve same-module parameters, but launch with its curated framing.
-      controller.updateView(module.defaultPreset.view);
-    } else {
-      controller.selectModule(module);
+    controller.selectModule(module, animate: false);
+    controller.applyPreset(module.defaultPreset);
+    final viewOverride =
+        heroTag == null ? null : CatalogThumbnailCache.viewOverrideFor(heroTag);
+    if (viewOverride != null) {
+      final pan = controller.view.pan
+        ..setValues(viewOverride.centerX, viewOverride.centerY);
+      controller.updateView(
+          controller.view.copyWith(pan: pan, zoom: viewOverride.zoom));
     }
     Navigator.of(context).push(
       PageRouteBuilder(

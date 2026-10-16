@@ -15,6 +15,7 @@ import 'package:vector_math/vector_math_64.dart' show Vector2, Vector3;
 void main() {
   Widget buildTestWidget(
     FractalController controller, {
+    Size surfaceSize = const Size(300, 300),
     VoidCallback? onOpenControls,
     VoidCallback? onOpenPresets,
     VoidCallback? onOpenExport,
@@ -32,8 +33,8 @@ void main() {
         supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           body: SizedBox(
-            width: 300,
-            height: 300,
+            width: surfaceSize.width,
+            height: surfaceSize.height,
             child: FractalRenderer(
               onOpenControls: onOpenControls,
               onOpenPresets: onOpenPresets,
@@ -465,6 +466,40 @@ void main() {
 
     // Drain fling/double-tap timers created by the synthetic large drag.
     await tester.pump(const Duration(seconds: 3));
+  });
+
+  testWidgets('3D single-finger orbit scales to each viewport axis',
+      (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final registry = ModuleRegistry();
+    final controller = FractalController(registry);
+    controller.selectModule(registry.byId('mandelbulb'), animate: false);
+
+    await tester.pumpWidget(buildTestWidget(
+      controller,
+      surfaceSize: const Size(300, 600),
+    ));
+    await tester.pumpAndSettle();
+
+    final surface = find.byType(FractalRenderer);
+    final center = tester.getCenter(surface);
+    final size = tester.getSize(surface);
+    final startRotation = controller.view.rotation;
+    const drag = Offset(30, 20);
+    final gesture = await tester.startGesture(center);
+    await gesture.moveBy(drag, timeStamp: const Duration(milliseconds: 16));
+    await tester.pump();
+
+    final radiansPerPixelX = math.pi / size.width;
+    final radiansPerPixelY = math.pi / size.height;
+    expect(controller.view.rotation.x,
+        closeTo(startRotation.x - drag.dy * radiansPerPixelY, 1e-6));
+    expect(controller.view.rotation.y,
+        closeTo(startRotation.y - drag.dx * radiansPerPixelX, 1e-6));
+
+    await gesture.up();
+    await tester.pumpAndSettle();
   });
 
   testWidgets('double-tap keeps the tapped detail fixed throughout zoom',
@@ -913,33 +948,117 @@ void main() {
     expect(after, lessThanOrEqualTo(before * 3.0));
   });
 
-  testWidgets('Two-finger tilt is clamped to max tilt angle', (tester) async {
+  testWidgets('two-finger drag pans a 3D camera without tilt or zoom',
+      (tester) async {
     TestWidgetsFlutterBinding.ensureInitialized();
 
-    final controller = FractalController(ModuleRegistry());
+    final registry = ModuleRegistry();
+    final controller = FractalController(registry);
+    controller.selectModule(registry.byId('mandelbulb'), animate: false);
+
     await tester.pumpWidget(buildTestWidget(controller));
     await tester.pumpAndSettle();
 
+    final initialPan = controller.view.pan;
+    final initialRotation = controller.view.rotation;
+    final initialZoom = controller.view.zoom;
     final center = tester.getCenter(find.byType(FractalRenderer));
-    final g1 = await tester.createGesture();
-    final g2 = await tester.createGesture();
+    final g1 = await tester.createGesture(pointer: 1);
+    final g2 = await tester.createGesture(pointer: 2);
 
     await g1.down(center + const Offset(-40, 0));
     await g2.down(center + const Offset(40, 0));
     await tester.pump();
 
-    // Keep distance/rotation stable and move both fingers vertically
-    // to trigger tilt gesture path with a very large delta.
-    await g1.moveTo(center + const Offset(-40, 700));
-    await g2.moveTo(center + const Offset(40, 700));
-    await tester.pumpAndSettle();
+    const drag = Offset(0, 36);
+    await g1.moveTo(center + const Offset(-40, 0) + drag);
+    await g2.moveTo(center + const Offset(40, 0) + drag);
+    await tester.pump();
+
+    expect(controller.view.pan.y, greaterThan(initialPan.y));
+    expect(controller.view.rotation.x, closeTo(initialRotation.x, 1e-6));
+    expect(controller.view.rotation.y, closeTo(initialRotation.y, 1e-6));
+    expect(controller.view.rotation.z, closeTo(initialRotation.z, 1e-6));
+    expect(controller.view.zoom, closeTo(initialZoom, 1e-6));
 
     await g1.up();
     await g2.up();
     await tester.pumpAndSettle();
+  });
 
-    // 67.5 degrees in radians = 1.1780972450961724
-    expect(controller.view.rotation.x, inInclusiveRange(0.0, 1.1782));
+  testWidgets('3D horizontal pan follows the rotated camera-right axis',
+      (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final registry = ModuleRegistry();
+    final controller = FractalController(registry);
+    controller.selectModule(registry.byId('mandelbulb'), animate: false);
+    controller.updateView(
+      controller.view.copyWith(rotation: Vector3(0, 0, math.pi / 2)),
+    );
+
+    await tester.pumpWidget(buildTestWidget(controller));
+    await tester.pumpAndSettle();
+
+    final initialPan = controller.view.pan;
+    final center = tester.getCenter(find.byType(FractalRenderer));
+    final g1 = await tester.createGesture(pointer: 11);
+    final g2 = await tester.createGesture(pointer: 12);
+    await g1.down(center + const Offset(0, -40));
+    await g2.down(center + const Offset(0, 40));
+    await tester.pump();
+    const drag = Offset(36, 0);
+    await g1.moveTo(center + const Offset(0, -40) + drag);
+    await g2.moveTo(center + const Offset(0, 40) + drag);
+    await tester.pump();
+
+    expect(controller.view.pan.x, closeTo(initialPan.x, 1e-6));
+    expect(controller.view.pan.y, greaterThan(initialPan.y));
+
+    await g1.up();
+    await g2.up();
+    await tester.pumpAndSettle();
+  });
+
+  testWidgets('3D pan uses shader height for portrait scaling', (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    final registry = ModuleRegistry();
+    final controller = FractalController(registry);
+    controller.selectModule(registry.byId('mandelbulb'), animate: false);
+    await tester.pumpWidget(buildTestWidget(
+      controller,
+      surfaceSize: const Size(300, 600),
+    ));
+    await tester.pumpAndSettle();
+
+    controller.updateView(
+      controller.view.copyWith(
+        pan: Vector2.zero(),
+        zoom: 1,
+        rotation: Vector3.zero(),
+      ),
+    );
+    final initialPan = controller.view.pan;
+    final initialZoom = controller.view.zoom;
+    final size = tester.getSize(find.byType(FractalRenderer));
+    final center = tester.getCenter(find.byType(FractalRenderer));
+    final g1 = await tester.createGesture(pointer: 13);
+    final g2 = await tester.createGesture(pointer: 14);
+    await g1.down(center + const Offset(-40, 0));
+    await g2.down(center + const Offset(40, 0));
+    await tester.pump();
+    const drag = Offset(0, 36);
+    await g1.moveTo(center + const Offset(-40, 0) + drag);
+    await g2.moveTo(center + const Offset(40, 0) + drag);
+    await tester.pump();
+
+    final expectedPanY = 36 * 6 / (size.height * math.max(initialZoom, 0.1));
+    expect(controller.view.pan.y, closeTo(initialPan.y + expectedPanY, 1e-6));
+
+    await g1.up();
+    await g2.up();
+    await tester.pumpAndSettle();
   });
 
   testWidgets('Mouse wheel zoom-out respects minimum clamp', (tester) async {

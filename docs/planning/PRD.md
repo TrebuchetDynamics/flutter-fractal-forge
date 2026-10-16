@@ -4,6 +4,8 @@
 
 ---
 
+Current scope follows the README/backlog and the [accepted release contract](../../PRD.md#active-release-contract). This document does not supersede that owner decision or establish present release qualification.
+
 ## 1. Current State Audit (historical snapshot)
 
 This audit records evidence collected in February 2026; its counts and pass claims are not current verification. Current architecture and verification guidance is in [`../engineering/spec.md`](../engineering/spec.md) and [`../engineering/test-plan.md`](../engineering/test-plan.md). The current backlog is [`../../TODO.md`](../../TODO.md).
@@ -37,7 +39,7 @@ AVD: fractal_test | API: 34 (Android 14) | GPU: swiftshader_indirect
 Result: 7 PASSED, 0 FAILED
 Final line: "02:00 +7: All tests passed!"
 Tests passed:
-  ✓ Catalog displays fractal modules (196 modules in this 2026-02 validation; current live catalog is 977 production fractals / 984 debug-test registry modules as of 2026-07-17)
+  ✓ Catalog displays fractal modules (196 modules in this 2026-02 validation; 2026-07-17 catalog is 977 production fractals / 984 debug-test registry modules as of 2026-07-17)
   ✓ Navigate to fractal viewer and back
   ✓ Navigate to each fractal module viewer (8 sampled)
   ✓ Search filters catalog
@@ -99,7 +101,7 @@ Size: 55.7 MB
 | Rotation/tilt feel | ⚠️ Needs tuning | Needs real-device feel test | P1 |
 | Presets save/restore | ✅ Shipped | pan+zoom+module+julia-C round-trip ±1e-6 | P1 |
 | Factory presets | ⚠️ Partial | Mandelbrot + Julia shipped; need 5 more categories | P1 |
-| History navigation | ⚠️ Partial | Back button in viewer works; no history list UI | P2 |
+| History navigation | ⚠️ Partial | History/favorites list UI exists in `lib/features/history/history_sheet.dart`; full viewer-history integration coverage remains unverified | P2 |
 | Export PNG/JPG/WebP | ✅ Shipped | ExportService generates filenames, applies wallpaper styles | P0 |
 | Export to MediaStore (gallery) | ⚠️ Untested | Needs real-device test — MediaStore write not in emulator suite | P0 |
 | Wallpaper set | ⚠️ Partial | WallpaperManager code exists; no integration test | P1 |
@@ -108,7 +110,7 @@ Size: 55.7 MB
 | Settings (renderer backend) | ✅ Shipped | Auto/CPU/GPU modes; persisted in SharedPreferences | P1 |
 | Settings (accessibility) | ✅ Shipped | High contrast + reduced motion | P1 |
 | Localization EN | ✅ Shipped | Complete | P0 |
-| Localization ES | ✅ Covered | `app_es.arb` has parity with `app_en.arb` (431 keys each) | P2 |
+| Localization ES | ✅ Covered | `app_es.arb` has parity with `app_en.arb` (564 message keys each) | P2 |
 | In-app diagnostic logger | ✅ Shipped | Export as text/JSON from debug screen | P2 |
 | Auto-explore | ✅ Covered | Service, controls, runtime state, and zoom planner have focused tests | P2 |
 | FRM formula editor UI | ❌ Not shipped | Code exists; no production-accessible UI surface | P3 |
@@ -126,14 +128,14 @@ Size: 55.7 MB
 | `flutter analyze`: No issues found | ✅ PASS | "No issues found! (ran in 2.9s)" (2026-02-17 21:22) |
 | `headless-emulator-test.sh`: all pass | ✅ PASS | 7/7 passed on API 34 emulator (2026-02-17 21:17) |
 | `flutter build appbundle --release`: size reported | ✅ PASS | 55.7 MB (2026-02-17 21:20) |
-| Cold start on API 34: no crash in 2 min | ✅ PASS | Integration test ran 120 s; 0 FATAL EXCEPTION, 0 ANR; catalog showed 196 modules at 2026-02 validation; current live count is 977 production fractals |
+| Cold start on API 34: no crash in 2 min | ✅ PASS | Integration test ran 120 s; 0 FATAL EXCEPTION, 0 ANR; catalog showed 196 modules at 2026-02 validation; 2026-07-17 count is 977 production fractals |
 | All 5 gesture types respond: no freeze | ✅ PASS | Gesture test 16/16; integration test "drag+pinch changed pan/zoom" ✓; tilt test ✓ |
-| Catalog loads: no blank state | ✅ PASS | Integration: "Catalog shows 196 modules" at 2026-02 validation; current live count is 977 production fractals |
+| Catalog loads: no blank state | ✅ PASS | Integration: "Catalog shows 196 modules" at 2026-02 validation; 2026-07-17 count is 977 production fractals |
 | Viewer loads within 3 s: no black screen | ✅ PASS | first_frame_ms=89 (Mandelbrot GPU, first compile); first_frame_ms=1 (cache hit) |
 | Export flow: file created, no crash | ⚠️ PARTIAL | Export sheet opens + format options visible ✓; actual MediaStore write not tested on emulator |
-| AndroidManifest: 0 uses-permission (main) | ✅ PASS | `android/app/src/main/AndroidManifest.xml` has 0 `<uses-permission>` tags; INTERNET in debug/profile only |
+| Historical AndroidManifest permission snapshot | Historical only | Current main manifest declares `android.permission.SET_WALLPAPER`; the historical zero-permission result is not a current gate |
 
-**Overall gate status:** 9/10 PASS, 1 PARTIAL (export file creation).
+**Historical gate status:** 9/10 PASS, 1 PARTIAL (export file creation). This is not a current release gate.
 
 ---
 
@@ -166,7 +168,7 @@ scripts/headless-emulator-test.sh flutter test integration_test/screenshots/full
 
 ### P2-001: Spanish localization parity — resolved in current tree
 **File:** `lib/l10n/app_es.arb`  
-**Evidence:** `app_en.arb` and `app_es.arb` each define 431 message keys; no key gap found.  
+**Evidence:** `app_en.arb` and `app_es.arb` each define 564 message keys; no key gap found.
 **Remaining risk:** Translation quality still needs human language review before release.
 
 ---

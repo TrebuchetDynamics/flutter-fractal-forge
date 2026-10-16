@@ -12,6 +12,9 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
 import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_fractals/core/services/export/wallpaper_service.dart';
+import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
+import 'package:flutter_fractals/core/theme/app_theme.dart';
+import 'package:flutter_fractals/features/viewer/chrome/fractal_view_controls.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
 import 'package:flutter_fractals/core/services/storage/history_store.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
@@ -470,10 +473,15 @@ void main() {
       WallpaperService? wallpaperService,
       bool provideViewerSessionStore = false,
       bool restoreViewerSession = true,
+      bool startAtCatalog = false,
+      AccessibilityService? accessibility,
+      ThemeData? theme,
     }) {
       return MultiProvider(
         providers: [
           Provider.value(value: registry),
+          if (accessibility != null)
+            ChangeNotifierProvider.value(value: accessibility),
           ChangeNotifierProvider.value(value: controller),
           Provider.value(value: presetStore),
           ChangeNotifierProvider.value(value: rendererSettings),
@@ -482,18 +490,307 @@ void main() {
             Provider.value(value: viewerSessionStore),
         ],
         child: MaterialApp(
+          theme: theme,
           locale: locale,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          home: FractalViewerScreen(
-            catalogFamily: catalogFamily,
-            exportService: exportService,
-            wallpaperService: wallpaperService,
-            restoreViewerSession: restoreViewerSession,
-          ),
+          home: startAtCatalog
+              ? const Scaffold(body: Text('Catalog route'))
+              : FractalViewerScreen(
+                  catalogFamily: catalogFamily,
+                  exportService: exportService,
+                  wallpaperService: wallpaperService,
+                  restoreViewerSession: restoreViewerSession,
+                ),
         ),
       );
     }
+
+    for (final locale in const [Locale('en'), Locale('es')]) {
+      for (final width in const [320.0, 768.0, 1024.0, 1440.0]) {
+        testWidgets('compact catalog Back ${locale.languageCode} at $width',
+            (tester) async {
+          await tester.binding.setSurfaceSize(Size(width, 800));
+          addTearDown(() => tester.binding.setSurfaceSize(null));
+          await tester.pumpWidget(
+            buildTestWidget(locale: locale, startAtCatalog: true),
+          );
+          final navigator =
+              tester.state<NavigatorState>(find.byType(Navigator));
+          navigator.push(MaterialPageRoute<void>(
+            builder: (context) => MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                textScaler: TextScaler.linear(2),
+                padding: const EdgeInsets.only(top: 24),
+              ),
+              child: const FractalViewerScreen(restoreViewerSession: false),
+            ),
+          ));
+          await tester.pumpAndSettle();
+
+          final back = find.byKey(const Key('viewerBackToCatalogButton'));
+          final button = tester.widget<IconButton>(back);
+          final label =
+              AppLocalizations.of(tester.element(back))!.viewerBackToCatalog;
+          expect(button.tooltip, label);
+          expect(tester.getSize(back), const Size(48, 48));
+          expect(tester.getTopLeft(back).dy, greaterThanOrEqualTo(24));
+          expect(find.descendant(of: back, matching: find.byType(Text)),
+              findsNothing);
+          expect(tester.takeException(), isNull);
+
+          await tester.tap(back);
+          await tester.pumpAndSettle();
+          expect(find.text('Catalog route'), findsOneWidget);
+          expect(find.byType(FractalViewerScreen), findsNothing);
+        });
+      }
+    }
+
+    for (final locale in const [Locale('en'), Locale('es')]) {
+      for (final width in const [320.0, 768.0, 1024.0, 1440.0]) {
+        for (final landscape in [false, true]) {
+          for (final textScale in [1.0, 2.0]) {
+            for (final highContrast in [false, true]) {
+              for (final largeTargets in [false, true]) {
+                testWidgets(
+                    'catalog Back layout ${locale.languageCode} width=$width '
+                    'landscape=$landscape scale=$textScale '
+                    'contrast=$highContrast large=$largeTargets',
+                    (tester) async {
+                  final size = Size(width, width * (landscape ? 0.625 : 1.25));
+                  final padding = EdgeInsets.fromLTRB(
+                    landscape ? 44 : 16,
+                    24,
+                    landscape ? 0 : 16,
+                    16,
+                  );
+                  await tester.binding.setSurfaceSize(size);
+                  addTearDown(() => tester.binding.setSurfaceSize(null));
+                  final l10n = await AppLocalizations.delegate.load(locale);
+                  final longestTitleModule = registry.modules.reduce((a, b) =>
+                      a.displayName(l10n).length >= b.displayName(l10n).length
+                          ? a
+                          : b);
+                  final title = longestTitleModule.displayName(l10n);
+                  expect(title.length, greaterThan(30));
+                  controller.selectModule(longestTitleModule);
+                  final accessibility = await AccessibilityService.create();
+                  addTearDown(accessibility.dispose);
+                  await accessibility.setLargeTargets(largeTargets);
+                  await tester.pumpWidget(buildTestWidget(
+                    locale: locale,
+                    startAtCatalog: true,
+                    accessibility: accessibility,
+                    theme: highContrast ? AppTheme.highContrast : AppTheme.dark,
+                  ));
+                  tester.state<NavigatorState>(find.byType(Navigator)).push(
+                        MaterialPageRoute<void>(
+                          builder: (context) => MediaQuery(
+                            data: MediaQuery.of(context).copyWith(
+                              size: size,
+                              textScaler: TextScaler.linear(textScale),
+                              padding: padding,
+                            ),
+                            child: const FractalViewerScreen(
+                              restoreViewerSession: false,
+                            ),
+                          ),
+                        ),
+                      );
+                  await tester.pumpAndSettle();
+                  final back =
+                      find.byKey(const Key('viewerBackToCatalogButton'));
+                  final rect = tester.getRect(back);
+                  expect(rect.size, Size.square(largeTargets ? 56 : 48));
+                  expect(rect.top, greaterThanOrEqualTo(padding.top));
+                  expect(rect.bottom,
+                      lessThanOrEqualTo(size.height - padding.bottom));
+                  expect(rect.left, greaterThanOrEqualTo(padding.left));
+                  expect(rect.right,
+                      lessThanOrEqualTo(size.width - padding.right));
+                  final titleChip = find.byKey(const Key('viewerTitleChip'));
+                  final titleText = tester.widget<Text>(
+                      find.byKey(const Key('viewerTitleChipText')));
+                  expect(titleText.data, title);
+                  expect(titleText.maxLines, 1);
+                  expect(titleText.overflow, TextOverflow.ellipsis);
+                  final titleRect = tester.getRect(titleChip);
+                  expect(titleRect.left, greaterThanOrEqualTo(padding.left));
+                  expect(titleRect.right,
+                      lessThanOrEqualTo(size.width - padding.right));
+                  expect(titleRect.top, greaterThanOrEqualTo(padding.top));
+                  expect(titleRect.bottom,
+                      lessThanOrEqualTo(size.height - padding.bottom));
+                  expect(rect.overlaps(titleRect), isFalse);
+                  final overflow = find.byKey(const Key('viewerOverflowMenu'));
+                  expect(tester.getSize(overflow),
+                      Size.square(largeTargets ? 56 : 48));
+                  final overflowButton =
+                      tester.widget<PopupMenuButton<String>>(overflow);
+                  expect(overflowButton.style?.shape?.resolve({}),
+                      isA<CircleBorder>());
+                  final actions = <Finder>[
+                    for (final action
+                        in find.byType(FloatingActionButtonWidget).evaluate())
+                      find.byWidget(action.widget),
+                    find.byKey(const Key('viewerOverflowMenu')),
+                    find.byKey(const Key('viewerAutoExploreButton')),
+                  ];
+                  expect(actions, isNotEmpty);
+                  for (final action in actions) {
+                    await tester.ensureVisible(action);
+                    await tester.pumpAndSettle();
+                    final actionRect = tester.getRect(action);
+                    expect(action.hitTestable(), findsOneWidget);
+                    expect(actionRect.left, greaterThanOrEqualTo(padding.left),
+                        reason: '$action left safe bound');
+                    expect(actionRect.right,
+                        lessThanOrEqualTo(size.width - padding.right),
+                        reason: '$action right safe bound');
+                    expect(actionRect.top, greaterThanOrEqualTo(padding.top),
+                        reason: '$action top safe bound');
+                    expect(actionRect.bottom,
+                        lessThanOrEqualTo(size.height - padding.bottom),
+                        reason: '$action bottom safe bound');
+                    expect(rect.overlaps(actionRect), isFalse,
+                        reason: 'Back overlaps $action');
+                    expect(titleRect.overlaps(actionRect), isFalse,
+                        reason: 'Title overlaps $action');
+                  }
+                  expect(tester.takeException(), isNull);
+                  await tester.tap(back);
+                  await tester.pumpAndSettle();
+                  expect(find.text('Catalog route'), findsOneWidget);
+                  expect(tester.takeException(), isNull);
+                });
+              }
+            }
+          }
+        }
+      }
+    }
+
+    testWidgets('catalog Back grows in large-target mode and accepts Enter',
+        (tester) async {
+      final accessibility = await AccessibilityService.create();
+      addTearDown(accessibility.dispose);
+      await tester.pumpWidget(buildTestWidget(
+        startAtCatalog: true,
+        accessibility: accessibility,
+      ));
+      tester.state<NavigatorState>(find.byType(Navigator)).push(
+            MaterialPageRoute<void>(
+              builder: (_) => const FractalViewerScreen(),
+            ),
+          );
+      await tester.pumpAndSettle();
+      final back = find.byKey(const Key('viewerBackToCatalogButton'));
+      expect(tester.getSize(back), const Size(48, 48));
+      await accessibility.setLargeTargets(true);
+      await tester.pumpAndSettle();
+      expect(tester.getSize(back), const Size(56, 56));
+      expect(tester.widget<IconButton>(back).style!.shape!.resolve({}),
+          isA<CircleBorder>());
+      final semantics = tester.ensureSemantics();
+      expect(
+          tester.getSemantics(back),
+          matchesSemantics(
+            label: 'Back to catalog',
+            isButton: true,
+            hasEnabledState: true,
+            isEnabled: true,
+            isFocusable: true,
+            hasTapAction: true,
+            hasFocusAction: true,
+          ));
+      semantics.dispose();
+      Focus.of(tester.element(
+        find.descendant(of: back, matching: find.byType(Icon)),
+      )).requestFocus();
+      await tester.pump();
+      await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+      await tester.pumpAndSettle();
+      expect(find.text('Catalog route'), findsOneWidget);
+    });
+
+    for (final systemBack in [false, true]) {
+      testWidgets(
+          '${systemBack ? 'system' : 'catalog'} Back with the controls HUD open',
+          (tester) async {
+        await tester.pumpWidget(buildTestWidget(startAtCatalog: true));
+        tester.state<NavigatorState>(find.byType(Navigator)).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const FractalViewerScreen(),
+              ),
+            );
+        await tester.pumpAndSettle();
+        await tester.longPress(
+          find.byKey(const ValueKey('viewerRandomParamsButton')),
+        );
+        await tester.pumpAndSettle();
+        expect(find.text('Controls'), findsOneWidget);
+
+        if (systemBack) {
+          await tester.binding.handlePopRoute();
+          await tester.pumpAndSettle();
+          expect(find.text('Controls'), findsNothing);
+          expect(find.byType(FractalViewerScreen), findsOneWidget);
+          await tester.binding.handlePopRoute();
+        } else {
+          await tester.tap(find.byKey(const Key('viewerBackToCatalogButton')));
+        }
+        await tester.pumpAndSettle();
+        expect(find.text('Catalog route'), findsOneWidget);
+        expect(find.byType(FractalViewerScreen), findsNothing);
+        expect(tester.takeException(), isNull);
+      });
+    }
+
+    testWidgets('catalog Back is disabled until system Back cancels export',
+        (tester) async {
+      final exportService = _BlockingExportService();
+      await tester.pumpWidget(buildTestWidget(startAtCatalog: true));
+      tester.state<NavigatorState>(find.byType(Navigator)).push(
+            MaterialPageRoute<void>(
+              builder: (_) => FractalViewerScreen(exportService: exportService),
+            ),
+          );
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Export'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
+      await tester.pump();
+
+      final back = find.byKey(const Key('viewerBackToCatalogButton'));
+      expect(exportService.coordinator.isBusy, isTrue);
+      expect(tester.widget<IconButton>(back).onPressed, isNull);
+      expect(find.byType(FractalViewerScreen), findsOneWidget);
+
+      await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
+      expect(exportService.coordinator.isBusy, isFalse);
+      expect(find.byType(FractalViewerScreen), findsOneWidget);
+      expect(tester.widget<IconButton>(back).onPressed, isNotNull);
+      await tester.tap(back);
+      await tester.pumpAndSettle();
+      expect(find.text('Catalog route'), findsOneWidget);
+      expect(find.byType(FractalViewerScreen), findsNothing);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('catalog Back stays hidden in capture mode', (tester) async {
+      await tester.pumpWidget(buildTestWidget(startAtCatalog: true));
+      tester.state<NavigatorState>(find.byType(Navigator)).push(
+            MaterialPageRoute<void>(
+              builder: (_) => const FractalViewerScreen(captureMode: true),
+            ),
+          );
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('viewerBackToCatalogButton')), findsNothing);
+    });
 
     testWidgets('lifecycle pause durably saves the exact viewer state',
         (tester) async {

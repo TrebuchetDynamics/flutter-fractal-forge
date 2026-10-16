@@ -1,0 +1,3 @@
+- Compact Back and circular overflow controls, with safer layouts and keyboard navigation.
+- Improved catalog search, mathematical descriptions and formula accuracy.
+- Rendering and gesture fixes, including seeded Coral Growth views.

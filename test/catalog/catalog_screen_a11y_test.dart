@@ -18,12 +18,13 @@ Future<void> _pumpCatalog(
   double textScale = 1.0,
   Size? size,
   Locale locale = const Locale('en'),
+  String query = '',
 }) async {
   if (size != null) {
     await tester.binding.setSurfaceSize(size);
     addTearDown(() => tester.binding.setSurfaceSize(null));
   }
-  SharedPreferences.setMockInitialValues({});
+  SharedPreferences.setMockInitialValues({'catalog_browse_query': query});
   final registry = ModuleRegistry();
   final controller = FractalController(registry);
   addTearDown(controller.dispose);
@@ -86,6 +87,8 @@ void main() {
       await tester.tap(find.byKey(const Key('catalogSearchToggleButton')));
       await tester.pumpAndSettle();
 
+      expect(find.byKey(const Key('catalogCategoryScroll')), findsOneWidget);
+      expect(find.byKey(const Key('catalogSearchField')), findsOneWidget);
       final root = semanticsRoot(tester);
       expect(findUnnamedControls(root).map((c) => '$c').toList(), isEmpty);
       expect(findStackedStops(root), isEmpty);
@@ -107,6 +110,28 @@ void main() {
         });
       }
     }
+
+    testWidgets('reviewed formulas and variant headings fit at large text size',
+        (tester) async {
+      await expectNoOverflow(
+        () async {
+          await _pumpCatalog(tester,
+              query: 'Julia', textScale: 3.0, size: const Size(320, 568));
+          await tester.scrollUntilVisible(
+            find.byKey(const Key('catalogModuleCard_core.julia')),
+            200,
+            scrollable: find.byWidgetPredicate((widget) =>
+                widget is Scrollable &&
+                widget.axisDirection == AxisDirection.down),
+          );
+          await tester.pumpAndSettle();
+        },
+        reason: 'formula captions and reviewed variant headings at 3.0x',
+      );
+      expect(find.textContaining('Source-reviewed recurrence'), findsWidgets);
+      expect(find.byKey(const Key('catalogSearchField')), findsOneWidget);
+      expect(find.byKey(const Key('catalogCategoryScroll')), findsOneWidget);
+    });
 
     testWidgets('card labels localize', (tester) async {
       final handle = tester.ensureSemantics();

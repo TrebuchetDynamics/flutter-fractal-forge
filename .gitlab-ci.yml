@@ -12,6 +12,7 @@ variables:
   GIT_DEPTH: "0"
   PUB_CACHE: "$CI_PROJECT_DIR/.pub-cache"
   RELEASE_MODE: "none"
+  RELEASE_TARGET: "all"
   PLAY_TRACK: "internal"
   PLAY_RELEASE_STATUS: "draft"
   GH_REPO: "TrebuchetDynamics/flutter-fractal-forge"
@@ -47,6 +48,11 @@ default:
   rules:
     - if: '$CI_COMMIT_REF_PROTECTED == "true" && ($CI_PIPELINE_SOURCE == "api" || $CI_PIPELINE_SOURCE == "web") && $RELEASE_MODE == "publish"'
   resource_group: production-release
+
+.publish-all:
+  extends: .publish
+  rules:
+    - if: '$CI_COMMIT_REF_PROTECTED == "true" && ($CI_PIPELINE_SOURCE == "api" || $CI_PIPELINE_SOURCE == "web") && $RELEASE_MODE == "publish" && $RELEASE_TARGET == "all"'
 
 validate:
   extends: .linux
@@ -116,7 +122,9 @@ release-preflight:
     - |
       if [[ "$RELEASE_MODE" == publish ]]; then
         test -f "$PLAY_SERVICE_ACCOUNT_JSON"
-        test -n "$GH_TOKEN" && test -n "$CLOUDFLARE_API_TOKEN"
+        if [[ "$RELEASE_TARGET" == all ]]; then
+          test -n "$GH_TOKEN" && test -n "$CLOUDFLARE_API_TOKEN"
+        fi
       fi
 
 android:
@@ -198,7 +206,7 @@ evidence:
     - scripts/release.sh evidence --prepare="$RELEASE_VERSION" --build-number="$RELEASE_BUILD_NUMBER"
 
 publish:
-  extends: .publish
+  extends: .publish-all
   stage: publish
   # Both evidence and F-Droid scanning must succeed before any publication.
   dependencies: [evidence]
@@ -213,7 +221,7 @@ publish:
     paths: [release-artifacts/]
 
 deploy-web:
-  extends: .publish
+  extends: .publish-all
   image: node:22-bookworm
   before_script:
     - apt-get update -qq && apt-get install -y --no-install-recommends git python3

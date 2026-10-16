@@ -16,7 +16,7 @@ import 'package:vector_math/vector_math_64.dart';
 /// All 3D ray-marched fractals share this uniform layout (matching mandelbulb.frag):
 ///   float 0:  uTime
 ///   float 1-2: uResolution (vec2)
-///   float 3-4: uMousePos (vec2, unused placeholder)
+///   float 3-4: uMousePos (vec2 camera target/pan)
 ///   float 5:  uZoom
 ///   float 6-8: uRotation (vec3)
 ///   float 9:  uPower
@@ -55,6 +55,7 @@ class Raymarched3DConfig {
   final double defaultRotationZ;
   final List<FractalParamOption> fractalTypeOptions;
   final List<FractalPreset> extraPresets;
+  final List<FractalParameter> extraParams;
 
   const Raymarched3DConfig({
     required this.id,
@@ -83,6 +84,7 @@ class Raymarched3DConfig {
     this.defaultRotationZ = 0.0,
     this.fractalTypeOptions = const [],
     this.extraPresets = const [],
+    this.extraParams = const [],
   });
 }
 
@@ -104,15 +106,7 @@ FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
       min: config.minIterations,
       max: config.maxIterations,
     ),
-    FractalParameter(
-      id: 'steps',
-      label: (l10n) => l10n.paramSteps,
-      type: FractalParamType.integer,
-      min: 20,
-      max: 200,
-      step: 1,
-      defaultValue: config.defaultSteps,
-    ),
+    CommonFractalParams.raySteps(defaultValue: config.defaultSteps),
     CommonFractalParams.bailout(
       defaultValue: config.defaultBailout,
       min: 1.0,
@@ -133,6 +127,7 @@ FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
         defaultValue: config.defaultFractalType.toDouble(),
         options: config.fractalTypeOptions,
       ),
+    ...config.extraParams,
   ];
 
   final defaultParams = <String, Object>{
@@ -143,6 +138,8 @@ FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
     'colorScheme': config.defaultColorScheme,
     if (config.maxFractalType > 0 || config.defaultFractalType != 0)
       'fractalType': config.defaultFractalType,
+    for (final parameter in config.extraParams)
+      parameter.id: parameter.defaultValue,
   };
 
   final defaultPreset = catalogPreset(
@@ -175,36 +172,37 @@ FractalModule buildRaymarched3DModule(Raymarched3DConfig config) {
       extraPresets: config.extraPresets,
     ),
     setUniforms: (shader, state, size, time) {
-      shader.setFloat(Raymarched3DUniformSlots.time, time);
-      shader.setFloat(Raymarched3DUniformSlots.resolutionX, size.width);
-      shader.setFloat(Raymarched3DUniformSlots.resolutionY, size.height);
-      shader.setFloat(Raymarched3DUniformSlots.mouseX, state.view.pan.x);
-      shader.setFloat(Raymarched3DUniformSlots.mouseY, state.view.pan.y);
-      shader.setFloat(Raymarched3DUniformSlots.zoom, state.view.zoom);
-      shader.setFloat(
-          Raymarched3DUniformSlots.rotationX, state.view.rotation.x);
-      shader.setFloat(
-          Raymarched3DUniformSlots.rotationY, state.view.rotation.y);
-      shader.setFloat(
-          Raymarched3DUniformSlots.rotationZ, state.view.rotation.z);
-      shader.setFloat(Raymarched3DUniformSlots.power,
-          readDouble(state.params, 'power', config.defaultPower));
-      shader.setFloat(Raymarched3DUniformSlots.iterations,
-          readDouble(state.params, 'iterations', config.defaultIterations));
-      shader.setFloat(Raymarched3DUniformSlots.steps,
-          readDouble(state.params, 'steps', config.defaultSteps));
-      shader.setFloat(Raymarched3DUniformSlots.bailout,
-          readDouble(state.params, 'bailout', config.defaultBailout));
-      shader.setFloat(
-          Raymarched3DUniformSlots.colorScheme,
-          readDouble(state.params, 'colorScheme',
-              config.defaultColorScheme.toDouble()));
-      shader.setFloat(
-          Raymarched3DUniformSlots.fractalType,
-          readDouble(state.params, 'fractalType',
-              config.defaultFractalType.toDouble()));
-      shader.setFloat(Raymarched3DUniformSlots.transparentBackground,
-          state.transparentBackground ? 1.0 : 0.0);
+      setRaymarched3DFrameUniforms(
+        setFloat: shader.setFloat,
+        time: time,
+        width: size.width,
+        height: size.height,
+        view: state.view,
+      );
+      setRaymarched3DParameterUniforms(
+        setFloat: shader.setFloat,
+        power: readDouble(state.params, 'power', config.defaultPower),
+        iterations:
+            readDouble(state.params, 'iterations', config.defaultIterations),
+        steps: readDouble(state.params, 'steps', config.defaultSteps),
+        bailout: readDouble(state.params, 'bailout', config.defaultBailout),
+        colorScheme: readDouble(
+          state.params,
+          'colorScheme',
+          config.defaultColorScheme.toDouble(),
+        ),
+        fractalType: readDouble(
+          state.params,
+          'fractalType',
+          config.defaultFractalType.toDouble(),
+        ),
+        transparentBackground: state.transparentBackground,
+      );
+      setRaymarched3DExtraParamUniforms(
+        setFloat: shader.setFloat,
+        parameters: config.extraParams,
+        values: state.params,
+      );
     },
   );
 }

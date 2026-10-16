@@ -1,7 +1,7 @@
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 
-/// Common parameter builders shared across many 2D modules.
+/// Common parameter builders shared across fractal modules.
 ///
 /// Keep these helpers small and stable; they are used in tests and codegen later.
 class CommonFractalParams {
@@ -74,6 +74,41 @@ class CommonFractalParams {
       min: min.toDouble(),
       max: max.toDouble(),
       step: 1,
+      defaultValue: defaultValue,
+    );
+  }
+
+  static FractalParameter raySteps({
+    required num defaultValue,
+    num min = 20,
+    num max = 200,
+    String? label,
+  }) {
+    return FractalParameter(
+      id: 'steps',
+      label: (l10n) => label ?? l10n.paramSteps,
+      type: FractalParamType.integer,
+      min: min.toDouble(),
+      max: max.toDouble(),
+      step: 1,
+      defaultValue: defaultValue,
+    );
+  }
+
+  static FractalParameter constantCoordinate({
+    required String id,
+    required String label,
+    required double defaultValue,
+    double min = -1.0,
+    double max = 1.0,
+  }) {
+    return FractalParameter(
+      id: id,
+      label: (_) => label,
+      type: FractalParamType.float,
+      min: min,
+      max: max,
+      step: 0.01,
       defaultValue: defaultValue,
     );
   }

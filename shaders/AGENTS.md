@@ -41,20 +41,35 @@
 ### Working In This Directory
 - Shaders are GLSL fragment shaders (`.frag` files)
 - Every shader must be registered in `pubspec.yaml` under `flutter.shaders`
-- Shaders follow a standard uniform layout for escape-time fractals (see `lib/core/modules/builders/escape_time_builder.dart`)
-- Standard uniforms: resolution (vec2), center (vec2), zoom (float), iterations (float), bailout (float), colorScheme (float), time (float)
+- Declarative escape-time shaders follow the layout in `lib/core/modules/builders/escape_time_builder.dart`; other shader families use their documented contracts.
+- Uniform contracts vary by shader family. Escape-time and ray-marched 3D layouts are defined in `lib/core/modules/builders/uniform_layout.dart` and implemented by their module builders.
 
 ### Uniform Layout Convention
-```glsl
-// Standard escape-time uniform layout:
-uniform vec2 uResolution;  // Canvas size in pixels
-uniform vec2 uCenter;      // Pan offset (complex plane center)
-uniform float uZoom;       // Zoom level
-uniform float uIterations; // Max iteration count
-uniform float uBailout;    // Escape radius
-uniform float uColorScheme;// Palette index (0-7)
-uniform float uTime;       // Animation time
-```
+
+Keep the shader declaration order aligned with its Dart uniform setter. The shared contracts live in `lib/core/modules/builders/uniform_layout.dart`:
+
+- Escape-time shaders built with `EscapeTimeConfig` use the slot layout in `EscapeTimeUniformSlots` and `escape_time_builder.dart`.
+- Ray-marched 3D shaders use a shared frame/camera prefix in `Raymarched3DUniformSlots` and `setRaymarched3DFrameUniforms()`:
+
+| Slot(s) | GLSL uniform | Meaning |
+|---|---|---|
+| 0 | `uTime` (`float`) | Animation time |
+| 1–2 | `uResolution` (`vec2`) | Canvas size in pixels |
+| 3–4 | `uMousePos` (`vec2`) | Shared camera pan target |
+| 5 | `uZoom` (`float`) | Camera zoom |
+| 6–8 | `uRotation` (`vec3`) | Camera rotation |
+
+Custom shader parameters follow this prefix and keep their module-specific order. Check both the Dart setter and shader declarations when changing a layout. The shared layout test and 3D shader pan-target test cover the current contract; shader compilation checks are separate from hardware-GPU visual verification.
+
+The declarative escape-time slot sequence is:
+
+1. `uResolution` (`vec2`) - canvas pixel size
+2. `uCenter` (`vec2`) - complex-plane center
+3. `uZoom` (`float`) - zoom level
+4. `uIterations` (`float`) - maximum iteration count
+5. `uBailout` (`float`) - escape radius
+6. `uColorScheme` (`float`) - palette index
+7. `uTime` (`float`) - animation time
 
 ### Testing Requirements
 - Visual verification via catalog thumbnails (see `integration_test/generate_gpu_thumbnails_test.dart`)
@@ -86,8 +101,8 @@ Tradeoff: they bias toward caution over speed for non-trivial work; use judgment
 
 ### Think Before Coding
 
-- State assumptions before implementing; ask when uncertainty would change the solution.
-- Surface multiple interpretations and tradeoffs instead of silently picking one.
+- State assumptions and choose the simplest reversible solution supported by repository evidence. Ask only when a missing decision prevents safe, authorized work; continue independent work meanwhile.
+- Briefly record material tradeoffs and select a reasonable default for routine local work.
 - Push back when a simpler approach meets the goal.
 
 ### Simplicity First
@@ -119,5 +134,11 @@ This section localizes the Karpathy guardrails for `workspace-sidon/trebuchet-dy
 - Stack cues: Flutter/Dart.
 - Evidence to prefer: test output, analyzer/linter output, screenshot/pixel checks when relevant, shader compile logs, frame/performance metrics, and exact UI state text.
 - Surgical boundary: do not rely on visual vibes; validate rendering numerically and describe results in screen-reader-friendly text.
-- Stop and ask when: a visual requirement lacks measurable acceptance criteria or accessibility impact is uncertain.
+- For underspecified visual work, derive measurable acceptance criteria from existing patterns and accessibility requirements, implement a reversible improvement, and validate it. Escalate only a material unresolved product decision; continue other work.
 <!-- karpathy-project-adjustment:end -->
+
+## Autowork local execution
+
+Follow the repository-root Autowork policy for autonomous local planning,
+implementation, verification and scoped commits. Keep this directory’s technical
+contracts and live-operation limits; ordinary local work needs no owner reply.

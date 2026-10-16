@@ -2,6 +2,8 @@ import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/builders/built_in_preset_contract.dart';
+import 'package:flutter_fractals/core/modules/builders/uniform_layout.dart';
+import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
 import 'package:vector_math/vector_math_64.dart';
@@ -41,14 +43,11 @@ FractalModule buildHydrogenOrbitalModule() {
       step: 0.05,
       defaultValue: 1.0,
     ),
-    FractalParameter(
-      id: 'steps',
-      label: (_) => 'Volume Steps',
-      type: FractalParamType.integer,
+    CommonFractalParams.raySteps(
+      defaultValue: 120,
       min: 32,
       max: 180,
-      step: 1,
-      defaultValue: 120,
+      label: 'Volume Steps',
     ),
     FractalParameter(
       id: 'colorScheme',
@@ -150,19 +149,19 @@ FractalModule buildHydrogenOrbitalModule() {
       ),
     ],
     setUniforms: (shader, state, size, time) {
-      shader.setFloat(0, time);
-      shader.setFloat(1, size.width);
-      shader.setFloat(2, size.height);
-      shader.setFloat(3, state.view.rotation.x);
-      shader.setFloat(4, state.view.rotation.y);
-      shader.setFloat(5, state.view.rotation.z);
-      shader.setFloat(6, state.view.zoom);
-      shader.setFloat(7, readDouble(state.params, 'densityGain', 1.0));
-      shader.setFloat(8, readDouble(state.params, 'noiseStrength', 1.0));
-      shader.setFloat(9, readDouble(state.params, 'radialScale', 1.0));
-      shader.setFloat(10, readDouble(state.params, 'steps', 120));
-      shader.setFloat(11, readDouble(state.params, 'colorScheme', 0));
-      shader.setFloat(12, state.transparentBackground ? 1.0 : 0.0);
+      setRaymarched3DFrameUniforms(
+        setFloat: shader.setFloat,
+        time: time,
+        width: size.width,
+        height: size.height,
+        view: state.view,
+      );
+      shader.setFloat(9, readDouble(state.params, 'densityGain', 1.0));
+      shader.setFloat(10, readDouble(state.params, 'noiseStrength', 1.0));
+      shader.setFloat(11, readDouble(state.params, 'radialScale', 1.0));
+      shader.setFloat(12, readDouble(state.params, 'steps', 120));
+      shader.setFloat(13, readDouble(state.params, 'colorScheme', 0));
+      shader.setFloat(14, state.transparentBackground ? 1.0 : 0.0);
     },
   );
 }

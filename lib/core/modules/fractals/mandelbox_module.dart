@@ -1,5 +1,6 @@
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/modules/builders/built_in_preset_contract.dart';
+import 'package:flutter_fractals/core/modules/builders/uniform_layout.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
@@ -142,22 +143,22 @@ FractalModule buildMandelboxModule() {
       const fR2 = 1.0; // fixed outer sphere radius²
 
       // Uniform layout must match mandelbox_3d_gpu.frag exactly.
-      shader.setFloat(0, time);
-      shader.setFloat(1, size.width);
-      shader.setFloat(2, size.height);
-      shader.setFloat(3, state.view.rotation.x);
-      shader.setFloat(4, state.view.rotation.y);
-      shader.setFloat(5, state.view.rotation.z);
-      shader.setFloat(6, state.view.zoom);
-      shader.setFloat(7, iterations);
-      shader.setFloat(8, colorScheme);
-      shader.setFloat(9, foldLimit);
-      shader.setFloat(10, foldValue);
-      shader.setFloat(11, mR2);
-      shader.setFloat(12, fR2);
-      shader.setFloat(13, scale);
-      shader.setFloat(14, maxSteps);
-      shader.setFloat(15, state.transparentBackground ? 1.0 : 0.0);
+      setRaymarched3DFrameUniforms(
+        setFloat: shader.setFloat,
+        time: time,
+        width: size.width,
+        height: size.height,
+        view: state.view,
+      );
+      shader.setFloat(9, iterations);
+      shader.setFloat(10, colorScheme);
+      shader.setFloat(11, foldLimit);
+      shader.setFloat(12, foldValue);
+      shader.setFloat(13, mR2);
+      shader.setFloat(14, fR2);
+      shader.setFloat(15, scale);
+      shader.setFloat(16, maxSteps);
+      shader.setFloat(17, state.transparentBackground ? 1.0 : 0.0);
     },
   );
 }
