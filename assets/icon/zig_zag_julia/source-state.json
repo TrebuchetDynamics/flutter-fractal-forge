@@ -1,0 +1,34 @@
+{
+  "moduleId": "f0186_zig_zag_julia",
+  "shaderAsset": "shaders/escape_time_family/core/julia_gpu.frag",
+  "params": {
+    "iterations": 280,
+    "bailout": 4.0,
+    "colorScheme": 0.0,
+    "juliaCReal": -0.8,
+    "juliaCImag": 0.156
+  },
+  "view": {
+    "panX": 0.0,
+    "panY": 0.0,
+    "zoom": 0.35,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0
+  },
+  "time": 0.0,
+  "animationEnabled": false,
+  "transparentBackground": false,
+  "glowEnabled": false,
+  "glowSigma": 1.0,
+  "glowIntensity": 0.35,
+  "kaleidoscopeEnabled": false,
+  "kaleidoscopeSectors": 8,
+  "kaleidoscopeMirror": true,
+  "kaleidoscopeRotation": 0.0,
+  "kaleidoscopeMirrorMode": 0,
+  "fluidModeEnabled": false,
+  "width": 2048,
+  "height": 2048,
+  "capture": "FractalRenderer RepaintBoundary.toImage(pixelRatio: 1)"
+}

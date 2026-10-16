@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  const asset = 'shaders/cellular_and_stochastic/maze_ca_gpu.frag';
+  test('zero Life-like masks select no counts, not B0/S0', () {
+    final shader = File('shaders/cellular_and_stochastic/maze_ca_gpu.frag')
+        .readAsStringSync();
 
-  test('Life-like B0/S0 shader treats small masks as neighbor counts', () {
-    final shader = File(asset).readAsStringSync();
-
-    expect(shader, contains('if (mask < 9.0)'));
-    expect(shader, contains('abs(count - floor(mask + 0.5))'));
+    expect(shader, isNot(contains('if (mask < 9.0)')));
+    expect(shader, contains('floor(clamp(mask, 0.0, 511.0) + 0.5)'));
     expect(shader, contains('float birth = maskHas(uBirthMask, n);'));
+    expect(shader, contains('float survive = maskHas(uSurvivalMask, n);'));
   });
 }

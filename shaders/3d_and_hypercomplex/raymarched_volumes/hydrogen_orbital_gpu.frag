@@ -13,14 +13,15 @@ precision highp float;
 
 uniform float uTime;          // 0
 uniform vec2  uResolution;    // 1-2
-uniform vec3  uRotation;      // 3-5
-uniform float uZoom;          // 6
-uniform float uDensityGain;   // 7
-uniform float uNoiseStrength; // 8
-uniform float uRadialScale;   // 9
-uniform float uSteps;         // 10
-uniform float uColorScheme;   // 11
-uniform float uTransparentBg; // 12
+uniform vec2  uMousePos;      // 3-4 camera target/pan
+uniform float uZoom;          // 5
+uniform vec3  uRotation;      // 6-8
+uniform float uDensityGain;   // 9
+uniform float uNoiseStrength; // 10
+uniform float uRadialScale;   // 11
+uniform float uSteps;         // 12
+uniform float uColorScheme;   // 13
+uniform float uTransparentBg; // 14
 
 out vec4 fragColor;
 
@@ -145,8 +146,9 @@ void main() {
   float zoom = max(uZoom, 0.15);
   mat3 rot = rotationMatrix(uRotation);
 
-  vec3 camPos = rot * vec3(0.0, 0.0, objectRadius * 1.65 / zoom);
-  vec3 forward = normalize(-camPos);
+  vec3 target = vec3(uMousePos, 0.0);
+  vec3 camPos = target + rot * vec3(0.0, 0.0, objectRadius * 1.65 / zoom);
+  vec3 forward = normalize(target - camPos);
   vec3 right = normalize(cross(vec3(0.0, 1.0, 0.0), forward));
   vec3 up = cross(forward, right);
   vec3 rayDir = normalize(forward + uv.x * right + uv.y * up);

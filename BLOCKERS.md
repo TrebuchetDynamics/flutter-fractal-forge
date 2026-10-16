@@ -4,23 +4,6 @@ This file contains only hard blockers that require user action.
 
 ## Active
 
-### BLK-20261005-004 — Confirm the active product-scope document
-
-- Status: ACTIVE
-- Category: USER_DECISION
-- Owner: user
-- Task/Card: DOC-PRD-001
-- Blocked scope: Final reconciliation of product requirements shared by root `PRD.md` and `docs/planning/PRD.md`
-- Why blocked: The root PRD states MVP requirements that `TODO.md` calls deferred or that current product support no longer treats as MVP (for example short-video export and iOS release). The planning PRD is a dated readiness snapshot, not an explicit superseding decision.
-- Evidence: `PRD.md` sections 2, 7 and 13; `TODO.md` OUT OF SCOPE and P2-5; `docs/planning/PRD.md` historical audit header.
-- User action required: Which source states active product scope: A) root `PRD.md` remains the approved baseline and `TODO.md` records deferred items, or B) the active backlog/README supersedes conflicting root-PRD items?
-- Default if no answer: B, treat the root PRD's conflicting unimplemented items as historical until revalidated; do not add product scope.
-- Proceeding with: Default B applied, pending answer. New docs describe observed architecture and tests only; no feature scope was changed.
-- Asked: Telegram cron report, 2026-10-05
-- Resume condition: Record which document owns active scope, then reconcile requirements and goal tasks without changing implementation.
-- Created: 2026-10-05T20:35:25-06:00
-- Last checked: 2026-10-05T20:35:25-06:00
-
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
 
 - Status: ACTIVE
@@ -55,24 +38,42 @@ This file contains only hard blockers that require user action.
 - Created: 2026-10-05T21:22:47-06:00
 - Last checked: 2026-10-05T21:22:47-06:00
 
+## Resolved
+
+### BLK-20261005-004 — Confirm the active product-scope document
+
+- Status: RESOLVED
+- Category: USER_DECISION
+- Resolved: 2026-10-11
+- Resolution: Owner selected B in the repository interview: the current backlog/README governs active product scope. Conflicting older PRD requirements remain historical or deferred. The accepted Android/web/Linux journey and explicit classifications are recorded in `PRD.md#active-release-contract`.
+- Owner: user
+- Task/Card: DOC-PRD-001
+- Blocked scope: Final reconciliation of product requirements shared by root `PRD.md` and `docs/planning/PRD.md`
+- Why blocked: The root PRD states MVP requirements that `TODO.md` calls deferred or that current product support no longer treats as MVP (for example short-video export and iOS release). The planning PRD is a dated readiness snapshot, not an explicit superseding decision.
+- Evidence: `PRD.md` sections 2, 7 and 13; `TODO.md` OUT OF SCOPE and P2-5; `docs/planning/PRD.md` historical audit header.
+- User action required: Which source states active product scope: A) root `PRD.md` remains the approved baseline and `TODO.md` records deferred items, or B) the active backlog/README supersedes conflicting root-PRD items?
+- Default if no answer: B, treat the root PRD's conflicting unimplemented items as historical until revalidated; do not add product scope.
+- Proceeding with: Explicit owner choice B replaces the provisional default. DOC-PRD-001 reconciles the affected documents. New release qualification remains planned, not verified.
+- Asked: Telegram cron report, 2026-10-05
+- Resume condition: Record which document owns active scope, then reconcile requirements and goal tasks without changing implementation.
+- Created: 2026-10-05T20:35:25-06:00
+- Last checked: 2026-10-11
+
+### BLK-20261008-001 — Pin down the incorrect 3D control behavior
+
+- Status: RESOLVED
+- Category: USER_INPUT
+- Resolved: 2026-10-08
+- Resolution: User clarified that 3D rotation and panning felt wrong. Added viewport-relative orbit sensitivity, screen-relative camera-target pan, and pan-target wiring for every registered 3D module.
+- Evidence: `test/fractal/fractal_renderer_gesture_test.dart` covers portrait-axis orbit/pan scaling, two-finger pan without tilt/zoom, and rotated-camera pan. `test/modules/mandelbulb_shared_pan_target_test.dart` verifies custom uniform bindings and pan use across registered 3D shaders. Targeted tests passed; full `flutter test --concurrency=2 --reporter compact` passed 2,562 tests with 8 skipped; `flutter analyze` reported no issues.
+
 ### BLK-20261007-001 — Confirm the Play production recovery gate
 
-- Status: ACTIVE
+- Status: RESOLVED
 - Category: USER_DECISION
-- Owner: user
-- Task/Card: N/A (direct Play release request)
-- Blocked scope: Publishing the prepared 1.1.107 (versionCode 107) bundle as a completed production release
-- Why blocked: A completed Play release is a full rollout and cannot be downgraded in place. The prior `production/completed` choice for 1.1.106 is reused as the current target default, but no measurable post-release trigger, observation window, recovery owner, or higher-version hotfix action has been accepted.
-- Evidence: Live Android Publisher readback reports production 1.1.106/106 `completed`; uploaded bundles currently top out at code 106. Version metadata commit `e003597b` is pushed to `origin/main`; the signed, bundletool-validated 1.1.107 AAB is at `play-console-upload/release-1.1.107/` with SHA-256 `85f8209d162c32f5b85dbd2dcf91ecbc7520c5f78f7e31298528604d1e96606f`. The direct uploader accepts `completed|draft` and defaults to `internal/draft` (`scripts/build-upload-playstore.sh`). `docs/engineering/runbook.md` states no general client-app rollback procedure is defined.
-- User action required: Accept or replace this proposed recovery gate: Android Vitals crash-free users below 99.5% over a 24-hour window during the first seven days after publication; Juan Tamez owns recovery and publishes a corrected 1.1.108/code108 with `PLAY_TRACK=production PLAY_RELEASE_STATUS=completed ./scripts/build-upload-playstore.sh --build-name 1.1.108 --build-number 108` after the hotfix is tested.
-- Default if no answer: Recommend the gate above and production/completed as the full-rollout target; no reply is not publication approval, so keep the signed AAB local without a Play upload.
-- Proceeding with: Release metadata commit `e003597b` is pushed to `origin/main`; signed 1.1.107 AAB is validated and available locally. No Play upload or production edit has been made.
-- Asked: Telegram DM, 2026-10-07; clarification timed out unanswered (no publication approval inferred)
-- Resume condition: Owner accepts the gate or provides a measurable alternative, recovery owner, and exact higher-version recovery command.
-- Created: 2026-10-07T04:52:54-06:00
-- Last checked: 2026-10-07T05:58:54-06:00
-
-## Resolved
+- Resolved: 2026-10-07
+- Resolution: Owner accepted the proposed recovery gate for Play 1.1.107/code107: monitor Android Vitals crash-free users for the first seven days; if any 24-hour window falls below 99.5%, Juan Tamez publishes tested hotfix 1.1.108/code108 to production/completed using `PLAY_TRACK=production PLAY_RELEASE_STATUS=completed ./scripts/build-upload-playstore.sh --build-name 1.1.108 --build-number 108`.
+- Evidence: Telegram clarification response: “Accept the proposed gate.” The signed AAB SHA-256 `41ed401f63380dd4d84b44ca8539a7124daf1fe6e3d201d68ecbbf8aa3083468` was uploaded; receipt `play-console-upload/release-1.1.107-main-7ede1242/play-publication-receipt.json` records edit `18271163851051330565` and `postCommitVerified: true`. Fresh Android Publisher readback confirms production versionCode 107 `completed` and the en-US release note is present; readback evidence is in `play-console-upload/release-1.1.107-main-7ede1242/release-notes-readback.json`.
 
 ### BLK-20261005-002 — Approve focused visual verification
 

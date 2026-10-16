@@ -6,7 +6,6 @@ import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
 
@@ -63,7 +62,7 @@ class CatalogThumbnailCache {
 
   /// Bump when thumbnail rendering changes (resolution, caps, palette logic)
   /// so existing on-disk artifacts are keyed apart instead of served stale.
-  static const int _schemaVersion = 2;
+  static const int _schemaVersion = 3;
 
   static const String _dirName = 'catalog_thumbs';
 
@@ -105,6 +104,7 @@ class CatalogThumbnailCache {
     required int width,
     required int height,
     CatalogThumbnailLayout layout = CatalogThumbnailLayout.square,
+    String recipe = '',
   }) {
     final raw = <String>[
       catalogId,
@@ -114,6 +114,7 @@ class CatalogThumbnailCache {
       'palette=$paletteIndex',
       'size=$width|$height',
       'layout=${layout.name}',
+      'recipe=$recipe',
     ].join('|');
     return '$catalogId-${_fnv1a(raw).toRadixString(36)}';
   }
@@ -130,14 +131,7 @@ class CatalogThumbnailCache {
     int height = targetWidth,
     CatalogThumbnailLayout layout = CatalogThumbnailLayout.square,
   }) {
-    int? paletteIndex;
-    for (final param in module.parameters) {
-      if (param.id != 'colorScheme') continue;
-      final min = param.min.ceil();
-      final max = param.max.floor();
-      final range = (max - min + 1).clamp(1, CommonFractalParams.paletteCount);
-      paletteIndex = min + (_stableHash(catalogId) % range);
-    }
+    final paletteIndex = paletteIndexForModule(module);
     return renderSignature(
       catalogId: catalogId,
       maxIterations: maxIterationsFor(catalogId),
@@ -146,16 +140,30 @@ class CatalogThumbnailCache {
       width: width,
       height: height,
       layout: layout,
+      recipe: [
+        module.shaderAsset,
+        ...(module.defaultPreset.params.keys.toList()..sort()).map(
+          (key) => '$key=${module.defaultPreset.params[key]}',
+        ),
+        module.defaultPreset.view.pan.x,
+        module.defaultPreset.view.pan.y,
+        module.defaultPreset.view.zoom,
+        module.defaultPreset.view.rotation.x,
+        module.defaultPreset.view.rotation.y,
+        module.defaultPreset.view.rotation.z,
+      ].join('|'),
     );
   }
 
-  static int _stableHash(String value) {
-    var hash = 0x811C9DC5;
-    for (final unit in value.codeUnits) {
-      hash ^= unit;
-      hash = (hash * 0x01000193) & 0x7FFFFFFF;
+  static int? paletteIndexForModule(FractalModule module) {
+    for (final param in module.parameters) {
+      if (param.id != 'colorScheme') continue;
+      final value =
+          module.defaultPreset.params['colorScheme'] ?? param.defaultValue;
+      if (value is! num || !value.isFinite) return null;
+      return value.toInt().clamp(param.min.ceil(), param.max.floor());
     }
-    return hash;
+    return null;
   }
 
   static int _fnv1a(String value) {

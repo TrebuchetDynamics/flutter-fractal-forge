@@ -17,3 +17,9 @@ Application composition layer for Flutter Fractal Forge. Owns the root `FlutterF
 ## Notes
 - Keep `main.dart` as the public entrypoint/facade; it re-exports `FlutterFractalsApp` for existing tests/imports.
 - Diagnostic apps intentionally use hardcoded English strings because localization is not initialized in those boot paths.
+
+## Autowork local execution
+
+Follow the repository-root Autowork policy for autonomous local planning,
+implementation, verification and scoped commits. Keep this directory’s technical
+contracts and live-operation limits; ordinary local work needs no owner reply.

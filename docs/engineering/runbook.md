@@ -22,9 +22,9 @@ Expected signals are successful process completion and passing test output. If d
 
 ## CI and release operations
 
-`.gitlab-ci.yml` is the CI pipeline source. Standard validation runs tracked-artifact checks, script tests, dependency resolution, analysis, and unit/widget tests. A protected, manually invoked release flow is gated by `RELEASE_MODE` and required secret variables. Keep secrets in the CI secret store; do not copy them into logs or repository files.
+`.gitlab-ci.yml` is the CI pipeline source. Standard validation runs tracked-artifact checks, script tests, dependency resolution, analysis, and unit/widget tests. Release pipelines run on protected refs when triggered through GitLab’s API or web interface with `RELEASE_MODE=prepare` or `publish`; preflight checks require the applicable secret variables. Keep secrets in the CI secret store; do not copy them into logs or repository files.
 
-Release preparation and publication use `scripts/release.sh` through the defined protected pipeline. Follow `docs/engineering/release/` and the specific platform checklist. Do not publish, deploy, or change a live release as a diagnostic step.
+The public release entry point is root `release.sh`; protected CI jobs use `scripts/release.sh` as their stage worker. Follow `docs/engineering/release/` and the specific platform checklist. Do not publish, deploy, or change a live release as a diagnostic step.
 
 ## Diagnosis and recovery limits
 

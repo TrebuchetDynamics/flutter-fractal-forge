@@ -96,8 +96,8 @@ Tradeoff: they bias toward caution over speed for non-trivial work; use judgment
 
 ### Think Before Coding
 
-- State assumptions before implementing; ask when uncertainty would change the solution.
-- Surface multiple interpretations and tradeoffs instead of silently picking one.
+- State assumptions and choose the simplest reversible solution supported by repository evidence. Ask only when a missing decision prevents safe, authorized work; continue independent work meanwhile.
+- Briefly record material tradeoffs and select a reasonable default for routine local work.
 - Push back when a simpler approach meets the goal.
 
 ### Simplicity First
@@ -129,5 +129,46 @@ This section localizes the Karpathy guardrails for `workspace-sidon/trebuchet-dy
 - Stack cues: Flutter/Dart.
 - Evidence to prefer: test output, analyzer/linter output, screenshot/pixel checks when relevant, shader compile logs, frame/performance metrics, and exact UI state text.
 - Surgical boundary: do not rely on visual vibes; validate rendering numerically and describe results in screen-reader-friendly text.
-- Stop and ask when: a visual requirement lacks measurable acceptance criteria or accessibility impact is uncertain.
+- For underspecified visual work, derive measurable acceptance criteria from existing patterns and accessibility requirements, implement a reversible improvement, and validate it. Escalate only a material unresolved product decision; continue other work.
 <!-- karpathy-project-adjustment:end -->
+
+<!-- autowork-local-authority:start -->
+## Autowork: autonomous local progress
+
+An Autowork invocation or recurring Autowork job authorizes routine local
+repository improvement: plan, implement, test, document and make scoped local
+commits. Choose reasonable reversible implementation details without waiting for
+an owner, parent session or another profile to approve them. This section replaces
+older owner-acknowledgement and blanket main-only development requirements for
+that local work; it does not override product safety or explicit task exclusions.
+
+- Read the current task and repository state. Repair attributable task metadata,
+  links and missing backlog structure from source evidence; preserve existing
+  decisions and never invent acceptance, ownership release or completed checks.
+- If no task is runnable, inspect implementation, tests, docs and UI/accessibility
+  for a concrete improvement. Record a bounded task with acceptance criteria and
+  dependencies, then execute it. Keep a few independent ready tasks when evidence
+  supports them; do not manufacture busywork or count planning as implementation.
+- Separate offline implementation and tests from device, production and other
+  live qualification. Complete the local task while retaining an explicit pending
+  live task; never mark the combined feature qualified from offline evidence.
+- Use supported isolated task branches/worktrees when needed. Keep one writer per
+  workspace. A historical ACTIVE claim alone is not a permanent veto: check actual
+  worker/session activity and candidate changes. Preserve prior work; adopt an
+  idle candidate only after verifying it is no longer being written. If activity
+  cannot be established, select non-overlapping work instead of guessing.
+- The current Autowork coordinator may review and integrate its verified local
+  changes into canonical main without a separate parent/owner acknowledgement.
+  Serialize canonical writes, inspect fresh status, preserve unrelated dirty
+  work, and use the supported integration path. Do not bypass runtime guards,
+  repin evidence to hide drift, force-push, reset or discard another writer's work.
+- After a repeated blocker, take a different concrete action in the same run:
+  repair the local cause, execute independent work, or report one precise external
+  input that is genuinely unavailable. Do not repeatedly audit the same hold.
+- Run checks proportional to the change. Commit only attributable, verified work.
+  Report task ID/title, actual changes, checks, commit, next task and exact remaining
+  blocker. Distinguish local commit, integration, push and live acceptance.
+- Existing explicit publication authority remains valid; this policy alone does
+  not authorize remote publication, deployment, money movement, secret access or
+  destructive/live operations. Preserve paused jobs and task-specific exclusions.
+<!-- autowork-local-authority:end -->

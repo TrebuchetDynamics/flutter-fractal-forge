@@ -7,6 +7,7 @@ import 'package:flutter_fractals/features/controls/param_control_plan.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/controllers/input/fractal_effect_input_bounds.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/shared/widgets/fractal_math_summary.dart';
 
 /// Game-like HUD overlay for fractal parameter controls.
 ///
@@ -31,7 +32,37 @@ class FractalControlsHud extends StatefulWidget {
 }
 
 class _FractalControlsHudState extends State<FractalControlsHud> {
+  static const double _dragSnapThreshold = 24;
+
   bool _isCollapsed = false;
+  bool _dragSnapCommitted = false;
+  double _dragOffset = 0;
+
+  void _onHandleDragStart(DragStartDetails details) {
+    _dragOffset = 0;
+    _dragSnapCommitted = false;
+  }
+
+  void _onHandleDragUpdate(DragUpdateDetails details) {
+    if (_dragSnapCommitted) return;
+
+    _dragOffset += details.delta.dy;
+    final shouldCollapse = !_isCollapsed && _dragOffset >= _dragSnapThreshold;
+    final shouldExpand = _isCollapsed && _dragOffset <= -_dragSnapThreshold;
+    if (shouldCollapse || shouldExpand) {
+      _dragSnapCommitted = true;
+      setState(() => _isCollapsed = shouldCollapse);
+    }
+  }
+
+  void _onHandleDragEnd(DragEndDetails details) => _resetHandleDrag();
+
+  void _onHandleDragCancel() => _resetHandleDrag();
+
+  void _resetHandleDrag() {
+    _dragOffset = 0;
+    _dragSnapCommitted = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,14 +91,26 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
             ),
             child: Row(
               children: [
-                // Drag handle hint
-                Center(
-                  child: Container(
-                    width: 36,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.3),
-                      borderRadius: BorderRadius.circular(2),
+                // Drag handle: short vertical swipes collapse or expand the HUD.
+                GestureDetector(
+                  key: const ValueKey('controlsHudDragHandle'),
+                  behavior: HitTestBehavior.opaque,
+                  onVerticalDragStart: _onHandleDragStart,
+                  onVerticalDragUpdate: _onHandleDragUpdate,
+                  onVerticalDragEnd: _onHandleDragEnd,
+                  onVerticalDragCancel: _onHandleDragCancel,
+                  child: SizedBox(
+                    width: 48,
+                    height: 48,
+                    child: Center(
+                      child: Container(
+                        width: 36,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.3),
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -109,6 +152,10 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    FractalMathSummary(
+                      module: controller.module,
+                      params: controller.params,
+                    ),
                     // Core params are optional: custom modules can expose a
                     // different schema (for example Nova uses relaxation,
                     // not bailout).

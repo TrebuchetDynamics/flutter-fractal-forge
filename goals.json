@@ -47,14 +47,20 @@
           "kind": "inspection",
           "ref": "TODO.md#VIS-004: all nine Featured Launch Set IDs have executed GPU first-view evidence",
           "result": "pass"
+        },
+        {
+          "kind": "inspection",
+          "ref": "TODO.md#VIS-004: prior real-GPU and viewer-start checks cover four modules",
+          "result": "pass"
         }
       ],
       "id": "VIS-004",
       "priority": 1,
-      "source": "TODO.md#Visual Fidelity Audit — current queue",
+      "source": "TODO.md#visual-fidelity-audit--current-queue",
       "status": "met",
       "tasks": [
-        "VIS-004"
+        "VIS-004",
+        "WEB-001"
       ],
       "title": "Verify the Featured Launch Set default and viewer-start flow"
     },
@@ -78,15 +84,21 @@
         },
         {
           "kind": "inspection",
+          "ref": "TODO.md#VIS-005: prior broad audit timed out and research definitions are not mapped",
+          "result": "fail"
+        },
+        {
+          "kind": "inspection",
           "ref": "docs/planning/visual-audit-inventory.json: 1,027 Explore IDs and 200 manifest IDs have explicit renderer status and references",
           "result": "pass"
         }
       ],
       "id": "VIS-005",
       "priority": 2,
-      "source": "TODO.md#Visual Fidelity Audit — current queue",
+      "source": "TODO.md#visual-fidelity-audit--current-queue",
       "status": "met",
       "tasks": [
+        "VIS-000",
         "VIS-005"
       ],
       "title": "Reconcile the visual audit across Explore and the research library"
@@ -518,6 +530,11 @@
         },
         {
           "kind": "executed",
+          "ref": "flutter test integration_test/catalog/vis006_batch19_runtime_preview_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --dart-define=FORCE_RUNTIME_CATALOG_THUMBNAILS=true --reporter expanded",
+          "result": "pass"
+        },
+        {
+          "kind": "executed",
           "ref": "flutter test integration_test/catalog/vis006_batch19_runtime_preview_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --dart-define=FORCE_RUNTIME_CATALOG_THUMBNAILS=true --reporter expanded (10/10 actual runtime GPU previews, 384x346; all image verdicts pass)",
           "result": "pass"
         },
@@ -628,6 +645,11 @@
         },
         {
           "kind": "executed",
+          "ref": "python -m json.tool docs/planning/visual-audit-inventory.json >/dev/null",
+          "result": "pass"
+        },
+        {
+          "kind": "executed",
           "ref": "python /home/xel/.hermes/shared-skills/repo-docs/scripts/goals.py fmt . && python /home/xel/.hermes/shared-skills/repo-docs/scripts/goals.py validate . && python /home/xel/.hermes/shared-skills/repo-docs/scripts/goals.py render . && python research/fractals-library/scripts/validate_visual_inventory.py && python -m json.tool docs/planning/visual-audit-inventory.json >/dev/null && git diff --check HEAD",
           "result": "pass"
         },
@@ -703,6 +725,11 @@
         },
         {
           "kind": "executed",
+          "ref": "python research/fractals-library/scripts/validate_visual_inventory.py && python -m json.tool docs/planning/visual-audit-inventory.json >/dev/null && dart format --output=none --set-exit-if-changed integration_test/catalog/vis006_batch19_runtime_preview_test.dart && flutter analyze integration_test/catalog/vis006_batch19_runtime_preview_test.dart && git diff --check",
+          "result": "pass"
+        },
+        {
+          "kind": "executed",
           "ref": "python research/fractals-library/scripts/validate_visual_inventory.py && python -m json.tool docs/planning/visual-audit-inventory.json >/dev/null && git diff --check",
           "result": "pass"
         },
@@ -759,11 +786,14 @@
       ],
       "id": "VIS-006",
       "priority": 3,
-      "source": "TODO.md#Visual Fidelity Audit — current queue",
+      "source": "TODO.md#visual-fidelity-audit--current-queue",
       "status": "partial",
       "tasks": [
         "VIS-006",
         "VIS-006-BATCH-01",
+        "VIS-006-BATCH-02",
+        "VIS-006-BATCH-03",
+        "VIS-006-BATCH-04",
         "VIS-006-BATCH-06",
         "VIS-006-BATCH-07",
         "VIS-006-BATCH-08",
@@ -780,9 +810,11 @@
         "VIS-006-BATCH-19",
         "VIS-006-BATCH-19-INVENTORY",
         "VIS-006-BATCH-20",
+        "VIS-006-CPU-01",
         "VIS-006-FIRST-VIEW-01",
         "VIS-006-FIRST-VIEW-02",
-        "VIS-006-FIRST-VIEW-03"
+        "VIS-006-FIRST-VIEW-03",
+        "VIS-006-FIRST-VIEW-04"
       ],
       "title": "Audit mapped fractals in reconciled batches"
     },
@@ -830,6 +862,11 @@
           "result": "pass"
         },
         {
+          "kind": "executed",
+          "ref": "python3 -c 'from pathlib import Path; p=\"shaders/escape_time_family/families/multibrot/integer_powers/multibrot4_gpu.frag\"; assert Path(p).is_file(); assert p in Path(\"test/shaders/smooth_coloring_family_coverage_test.dart\").read_text(), \"SMOOTH-001 incomplete: supported Multibrot d=4 is absent from the family coverage test\"'",
+          "result": "fail"
+        },
+        {
           "kind": "inspection",
           "ref": "TODO.md#P1-3: four families (7 shaders) covered; complete applicable polynomial escape-time inventory remains open",
           "result": "fail"
@@ -842,13 +879,15 @@
       ],
       "id": "SMOOTH-001",
       "priority": 4,
-      "source": "TODO.md#P1-3: Smooth Coloring in ALL Shaders",
-      "status": "met",
+      "source": "TODO.md#p1-3-smooth-coloring-in-all-shaders",
+      "status": "partial",
       "tasks": [
         "SMOOTH-001",
         "SMOOTH-001-COVERAGE-01",
         "SMOOTH-001-COVERAGE-02",
-        "SMOOTH-001-COVERAGE-03"
+        "SMOOTH-001-COVERAGE-03",
+        "SMOOTH-001-INVENTORY-01",
+        "SMOOTH-001-INVENTORY-02"
       ],
       "title": "Prove smooth-coloring coverage for supported escape-time shaders"
     },
@@ -863,9 +902,10 @@
       ],
       "id": "MEDIA-002",
       "priority": 8,
-      "source": "TODO.md#Launch Visual Audit Handoff",
+      "source": "TODO.md#launch-visual-audit-handoff",
       "status": "unmet",
       "tasks": [
+        "MEDIA-001",
         "MEDIA-002"
       ],
       "title": "Select launch hero stills from qualified captures"
@@ -881,9 +921,11 @@
       ],
       "id": "VIS-003",
       "priority": 9,
-      "source": "TODO.md#Launch Visual Audit Handoff",
+      "source": "TODO.md#launch-visual-audit-handoff",
       "status": "unmet",
       "tasks": [
+        "ICON-ZJ-01",
+        "ICON-ZJ-02",
         "VIS-003"
       ],
       "title": "Obtain app icon visual sign-off"
@@ -892,6 +934,12 @@
       "depends_on": [],
       "evidence": [
         {
+          "kind": "executed",
+          "ran_at": "2026-10-11",
+          "ref": "python3 \"$HERMES_PROFILE/cache/scratch/repo-interview-release-20261011/check_interview_docs.py\" \"$REPO\" (interview documentation/ledger only)",
+          "result": "pass"
+        },
+        {
           "kind": "inspection",
           "ref": "BLOCKERS.md#BLK-20261005-004: conflicting scope statements require owner decision",
           "result": "fail"
@@ -899,15 +947,197 @@
       ],
       "id": "DOC-PRD-001",
       "priority": 10,
-      "source": "PRD.md#Open question: active product scope",
-      "status": "unverified",
+      "source": "PRD.md#open-question-active-product-scope",
+      "status": "met",
       "tasks": [
         "DOC-PRD-001"
       ],
       "title": "Resolve which documents own active product scope"
+    },
+    {
+      "depends_on": [],
+      "evidence": [
+        {
+          "kind": "inspection",
+          "ref": "PRD.md#active-release-contract: owner accepted the cross-platform journey; complete platform qualification remains unverified",
+          "result": "pass"
+        }
+      ],
+      "id": "REL-JOURNEY-001",
+      "priority": 11,
+      "source": "PRD.md#active-release-contract",
+      "status": "unverified",
+      "tasks": [
+        "REL-JOURNEY-01-WEB",
+        "REL-JOURNEY-02-LINUX",
+        "REL-JOURNEY-03-ANDROID"
+      ],
+      "title": "Qualify the complete image-creation journey on Android, web and Linux"
+    },
+    {
+      "depends_on": [],
+      "evidence": [
+        {
+          "kind": "executed",
+          "ref": "GAUSS-MOAT-01-MAP manual integration: git apply --check approved-owned.patch on main 7ede12424e6787ad9a514b8cdc9c37f509286b5f failed; three-way recovery leaves spec.md/test-plan.md conflicted because planning prerequisite is absent. Code-only diagnostic 171 tests/analyzer/format pass, not coherent integration qualification. Receipt /home/xel/.hermes/profiles/fractal/autowork/gaussian-moat-map/manual-integration-20261012/receipt.json",
+          "result": "fail"
+        },
+        {
+          "kind": "executed",
+          "ref": "GAUSS-MOAT-01-MAP offline/local integration only: python3 /home/xel/.hermes/profiles/fractal/autowork/gaussian-moat-map/coherent-continuation-20261012/run-frozen-gate.py at 79ae96506af162cc3f0f2392b631c5bf7229b333; 171 focused tests, analyzer, 8-file format, gen-l10n/source stability, docs/scope/diff pass; independent integration source review approved; git merge --ff-only and exact main/tree/15-path readback pass. No live/platform/milestone qualification.",
+          "result": "pass"
+        }
+      ],
+      "id": "GAUSS-MOAT-001",
+      "priority": 12,
+      "source": "PRD.md#gaussian-moat-walking-visualization",
+      "status": "unmet",
+      "tasks": [
+        "GAUSS-MOAT-01-MAP",
+        "GAUSS-MOAT-02-WALK",
+        "GAUSS-MOAT-03-QUALIFY",
+        "GAUSS-MOAT-04-GROWTH"
+      ],
+      "title": "Explore exact bounded Gaussian-prime walks with responsive controls and truthful reachability"
+    },
+    {
+      "depends_on": [],
+      "evidence": [],
+      "id": "QUAT-NORM-001",
+      "priority": 13,
+      "source": "PRD.md#prime-norm-quaternion-companion",
+      "status": "unmet",
+      "tasks": [
+        "QUAT-NORM-01-SLICE",
+        "QUAT-NORM-02-WALK",
+        "QUAT-NORM-03-QUALIFY"
+      ],
+      "title": "Explore exact prime-norm quaternion slice walks with camera-independent connectivity"
+    },
+    {
+      "depends_on": [],
+      "evidence": [],
+      "id": "CAT-QUALITY-001",
+      "priority": 14,
+      "source": "PRD.md#catalog-quality-and-variety",
+      "status": "unverified",
+      "tasks": [
+        "CAT-QUALITY-01",
+        "CAT-QUALITY-02",
+        "CAT-QUALITY-03"
+      ],
+      "title": "Improve catalog first-impression quality without losing variety or saved identities"
+    },
+    {
+      "depends_on": [],
+      "evidence": [],
+      "id": "VIEW-UI-001",
+      "priority": 15,
+      "source": "docs/engineering/spec.md#viewer-chrome-footprint-and-action-consistency",
+      "status": "unverified",
+      "tasks": [
+        "VIEW-UI-01",
+        "VIEW-UI-02"
+      ],
+      "title": "Reduce intrusive viewer navigation chrome and style overflow consistently"
+    },
+    {
+      "depends_on": [],
+      "evidence": [],
+      "id": "OAI-VIS-001",
+      "priority": 16,
+      "source": "docs/planning/visual-fidelity-audit-next.md#openai-mathematics-visual-candidate-shortlist",
+      "status": "unverified",
+      "tasks": [
+        "OAI-VIS-01-IFS",
+        "OAI-VIS-02-SLE",
+        "OAI-VIS-03-VORONOI",
+        "OAI-VIS-04-UST",
+        "OAI-VIS-05-DIMER",
+        "OAI-VIS-06-HEIGHT",
+        "OAI-VIS-07-FK"
+      ],
+      "title": "Select a mathematically distinct quality-gated visual candidate from OpenAI math"
     }
   ],
+  "primary_milestone": "VIEW-UI-001",
+  "priority_order": {
+    "schema": 1,
+    "tasks": [
+      "VIEW-UI-01",
+      "VIEW-UI-02",
+      "CAT-QUALITY-01",
+      "REL-JOURNEY-01-WEB",
+      "SMOOTH-001-INVENTORY-01",
+      "VIS-006",
+      "ICON-ZJ-01",
+      "CAT-QUALITY-02",
+      "GAUSS-MOAT-02-WALK",
+      "GAUSS-MOAT-04-GROWTH",
+      "GAUSS-MOAT-03-QUALIFY",
+      "QUAT-NORM-01-SLICE",
+      "QUAT-NORM-02-WALK",
+      "QUAT-NORM-03-QUALIFY",
+      "REL-JOURNEY-02-LINUX",
+      "REL-JOURNEY-03-ANDROID",
+      "SMOOTH-001-INVENTORY-02",
+      "VIS-006-BATCH-20",
+      "VIS-006-CPU-01",
+      "VIS-006-FIRST-VIEW-04",
+      "ICON-ZJ-02",
+      "CAT-QUALITY-03",
+      "MEDIA-002",
+      "VIS-003",
+      "OAI-VIS-01-IFS",
+      "OAI-VIS-02-SLE",
+      "OAI-VIS-03-VORONOI",
+      "OAI-VIS-04-UST",
+      "OAI-VIS-05-DIMER",
+      "OAI-VIS-06-HEIGHT",
+      "OAI-VIS-07-FK"
+    ]
+  },
   "tasks": [
+    {
+      "depends_on": [],
+      "goal": "CAT-QUALITY-001",
+      "id": "CAT-QUALITY-01",
+      "section": "Now",
+      "status": "open",
+      "title": "Assess a family-stratified quality pilot without duplicating capture work"
+    },
+    {
+      "depends_on": [],
+      "goal": "REL-JOURNEY-001",
+      "id": "REL-JOURNEY-01-WEB",
+      "section": "Now",
+      "status": "open",
+      "title": "Qualify the complete web image-creation journey"
+    },
+    {
+      "depends_on": [],
+      "goal": "SMOOTH-001",
+      "id": "SMOOTH-001-INVENTORY-01",
+      "section": "Now",
+      "status": "open",
+      "title": "Reconcile integer-power smooth-coloring inventory and the d=4 regression gap"
+    },
+    {
+      "depends_on": [],
+      "goal": "VIEW-UI-001",
+      "id": "VIEW-UI-01",
+      "section": "Now",
+      "status": "open",
+      "title": "Make catalog Back compact without weakening navigation accessibility"
+    },
+    {
+      "depends_on": [],
+      "goal": "VIEW-UI-001",
+      "id": "VIEW-UI-02",
+      "section": "Now",
+      "status": "open",
+      "title": "Give the existing overflow menu a matching circular surface"
+    },
     {
       "depends_on": [
         "VIS-005"
@@ -919,15 +1149,117 @@
       "title": "Capture and inspect the next ten uncaptured Explore modules"
     },
     {
-      "depends_on": [],
-      "goal": "VIS-006",
-      "id": "VIS-006-BATCH-19-INVENTORY",
-      "section": "Now",
-      "status": "in_progress",
-      "title": "Reconcile VIS-006-BATCH-19 captured evidence into inventory"
+      "depends_on": [
+        "CAT-QUALITY-01"
+      ],
+      "goal": "CAT-QUALITY-001",
+      "id": "CAT-QUALITY-02",
+      "section": "Next",
+      "status": "open",
+      "title": "Repair three demonstrated pilot first-impression defects"
     },
     {
       "depends_on": [
+        "GAUSS-MOAT-01-MAP"
+      ],
+      "goal": "GAUSS-MOAT-001",
+      "id": "GAUSS-MOAT-02-WALK",
+      "section": "Next",
+      "status": "open",
+      "title": "Validate Gaussian-prime steps and display truthful component state"
+    },
+    {
+      "depends_on": [
+        "GAUSS-MOAT-02-WALK",
+        "GAUSS-MOAT-04-GROWTH"
+      ],
+      "goal": "GAUSS-MOAT-001",
+      "id": "GAUSS-MOAT-03-QUALIFY",
+      "section": "Next",
+      "status": "open",
+      "title": "Qualify accessible Gaussian walking and frozen-state PNG export on all three targets"
+    },
+    {
+      "depends_on": [
+        "GAUSS-MOAT-02-WALK"
+      ],
+      "goal": "GAUSS-MOAT-001",
+      "id": "GAUSS-MOAT-04-GROWTH",
+      "section": "Next",
+      "status": "open",
+      "title": "Scrub and animate jump-radius growth without queued or stale computations"
+    },
+    {
+      "depends_on": [
+        "ICON-ZJ-01",
+        "VIS-003"
+      ],
+      "goal": "VIS-003",
+      "id": "ICON-ZJ-02",
+      "section": "Next",
+      "status": "open",
+      "title": "Replace app and store icon assets with the approved app capture"
+    },
+    {
+      "depends_on": [
+        "GAUSS-MOAT-01-MAP"
+      ],
+      "goal": "QUAT-NORM-001",
+      "id": "QUAT-NORM-01-SLICE",
+      "section": "Next",
+      "status": "open",
+      "title": "Open a bounded fixed-d prime-norm quaternion view with deterministic picking"
+    },
+    {
+      "depends_on": [
+        "GAUSS-MOAT-02-WALK",
+        "QUAT-NORM-01-SLICE"
+      ],
+      "goal": "QUAT-NORM-001",
+      "id": "QUAT-NORM-02-WALK",
+      "section": "Next",
+      "status": "open",
+      "title": "Walk in the quaternion slice with camera-independent adjacency and captured overlays"
+    },
+    {
+      "depends_on": [
+        "QUAT-NORM-02-WALK"
+      ],
+      "goal": "QUAT-NORM-001",
+      "id": "QUAT-NORM-03-QUALIFY",
+      "section": "Next",
+      "status": "open",
+      "title": "Qualify accessible quaternion walking and frozen-state exports on all three targets"
+    },
+    {
+      "depends_on": [],
+      "goal": "REL-JOURNEY-001",
+      "id": "REL-JOURNEY-02-LINUX",
+      "section": "Next",
+      "status": "open",
+      "title": "Qualify the complete Linux image-creation journey"
+    },
+    {
+      "depends_on": [],
+      "goal": "REL-JOURNEY-001",
+      "id": "REL-JOURNEY-03-ANDROID",
+      "section": "Next",
+      "status": "open",
+      "title": "Qualify the complete Android image-creation journey"
+    },
+    {
+      "depends_on": [
+        "SMOOTH-001-INVENTORY-01"
+      ],
+      "goal": "SMOOTH-001",
+      "id": "SMOOTH-001-INVENTORY-02",
+      "section": "Next",
+      "status": "open",
+      "title": "Verify the next uncovered polynomial smooth-coloring family"
+    },
+    {
+      "depends_on": [
+        "VIS-005",
         "VIS-006"
       ],
       "goal": "VIS-006",
@@ -937,15 +1269,41 @@
       "title": "Capture defaults and runtime previews for the following ten uncaptured Explore modules"
     },
     {
-      "depends_on": [],
-      "goal": "DOC-PRD-001",
-      "id": "DOC-PRD-001",
-      "section": "Needs decision",
+      "depends_on": [
+        "VIS-005",
+        "VIS-006-FIRST-VIEW-04"
+      ],
+      "goal": "VIS-006",
+      "id": "VIS-006-CPU-01",
+      "section": "Next",
       "status": "open",
-      "title": "Reconcile current product-scope ownership"
+      "title": "Verify native CPU behavior for five audited Explore modules"
     },
     {
-      "depends_on": [],
+      "depends_on": [
+        "VIS-005",
+        "VIS-006-BATCH-20"
+      ],
+      "goal": "VIS-006",
+      "id": "VIS-006-FIRST-VIEW-04",
+      "section": "Next",
+      "status": "open",
+      "title": "Verify five captured Explore modules without first-view evidence"
+    },
+    {
+      "depends_on": [
+        "CAT-QUALITY-02"
+      ],
+      "goal": "CAT-QUALITY-001",
+      "id": "CAT-QUALITY-03",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Decide curated discovery with the complete catalog still accessible"
+    },
+    {
+      "depends_on": [
+        "MEDIA-001"
+      ],
       "goal": "MEDIA-002",
       "id": "MEDIA-002",
       "section": "Needs decision",
@@ -954,11 +1312,99 @@
     },
     {
       "depends_on": [],
+      "goal": "OAI-VIS-001",
+      "id": "OAI-VIS-01-IFS",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Decide a self-similar measure overlap explorer"
+    },
+    {
+      "depends_on": [],
+      "goal": "OAI-VIS-001",
+      "id": "OAI-VIS-02-SLE",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Decide a seeded SLE curve explorer"
+    },
+    {
+      "depends_on": [],
+      "goal": "OAI-VIS-001",
+      "id": "OAI-VIS-03-VORONOI",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Decide a finite Poisson–Voronoi crossing explorer"
+    },
+    {
+      "depends_on": [],
+      "goal": "OAI-VIS-001",
+      "id": "OAI-VIS-04-UST",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Decide uniform spanning tree and loop-erased path explorer"
+    },
+    {
+      "depends_on": [],
+      "goal": "OAI-VIS-001",
+      "id": "OAI-VIS-05-DIMER",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Decide double-dimer nested-loop explorer"
+    },
+    {
+      "depends_on": [],
+      "goal": "OAI-VIS-001",
+      "id": "OAI-VIS-06-HEIGHT",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Decide six-vertex height and contour explorer"
+    },
+    {
+      "depends_on": [],
+      "goal": "OAI-VIS-001",
+      "id": "OAI-VIS-07-FK",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Decide fortuin–Kasteleyn cluster and interface explorer"
+    },
+    {
+      "depends_on": [],
       "goal": "VIS-003",
       "id": "VIS-003",
       "section": "Needs decision",
       "status": "open",
       "title": "Review app icon presentation and record sign-off"
+    },
+    {
+      "depends_on": [],
+      "goal": "DOC-PRD-001",
+      "id": "DOC-PRD-001",
+      "section": "Done",
+      "status": "done",
+      "title": "Reconcile current product-scope ownership"
+    },
+    {
+      "depends_on": [],
+      "goal": "GAUSS-MOAT-001",
+      "id": "GAUSS-MOAT-01-MAP",
+      "section": "Done",
+      "status": "done",
+      "title": "Open the exact Gaussian-prime map with responsive controls and explicit bounds"
+    },
+    {
+      "depends_on": [],
+      "goal": "VIS-003",
+      "id": "ICON-ZJ-01",
+      "section": "Done",
+      "status": "done",
+      "title": "Prepare an app-rendered Zig-Zag Julia icon candidate and proof"
+    },
+    {
+      "depends_on": [],
+      "goal": "MEDIA-002",
+      "id": "MEDIA-001",
+      "section": "Done",
+      "status": "done",
+      "title": "Verify 320×320 launch-thumbnail captures"
     },
     {
       "depends_on": [],
@@ -996,6 +1442,14 @@
     },
     {
       "depends_on": [],
+      "goal": "VIS-005",
+      "id": "VIS-000",
+      "section": "Done",
+      "status": "done",
+      "title": "Correct thumbnail policy and classify catalog golden artifacts"
+    },
+    {
+      "depends_on": [],
       "goal": "VIS-004",
       "id": "VIS-004",
       "section": "Done",
@@ -1011,12 +1465,44 @@
       "title": "Reconcile the complete visual-audit inventory"
     },
     {
-      "depends_on": [],
+      "depends_on": [
+        "VIS-005"
+      ],
       "goal": "VIS-006",
       "id": "VIS-006-BATCH-01",
       "section": "Done",
       "status": "done",
       "title": "Reconcile nine Featured Launch Set first-view records and capture the next ten uncaptured Explore IDs"
+    },
+    {
+      "depends_on": [
+        "VIS-005"
+      ],
+      "goal": "VIS-006",
+      "id": "VIS-006-BATCH-02",
+      "section": "Done",
+      "status": "done",
+      "title": "Capture and inspect the next ten Explore modules"
+    },
+    {
+      "depends_on": [
+        "VIS-005"
+      ],
+      "goal": "VIS-006",
+      "id": "VIS-006-BATCH-03",
+      "section": "Done",
+      "status": "done",
+      "title": "Capture and inspect the next ten Explore modules"
+    },
+    {
+      "depends_on": [
+        "VIS-005"
+      ],
+      "goal": "VIS-006",
+      "id": "VIS-006-BATCH-04",
+      "section": "Done",
+      "status": "done",
+      "title": "Capture and inspect the next ten Explore modules"
     },
     {
       "depends_on": [
@@ -1141,6 +1627,14 @@
     {
       "depends_on": [],
       "goal": "VIS-006",
+      "id": "VIS-006-BATCH-19-INVENTORY",
+      "section": "Done",
+      "status": "done",
+      "title": "Reconcile VIS-006-BATCH-19 captured evidence into inventory"
+    },
+    {
+      "depends_on": [],
+      "goal": "VIS-006",
       "id": "VIS-006-FIRST-VIEW-01",
       "section": "Done",
       "status": "done",
@@ -1161,6 +1655,14 @@
       "section": "Done",
       "status": "done",
       "title": "Add first-view checks for the next five captured Explore modules"
+    },
+    {
+      "depends_on": [],
+      "goal": "VIS-004",
+      "id": "WEB-001",
+      "section": "Done",
+      "status": "done",
+      "title": "Run the Featured Launch Set Chromium smoke"
     }
   ],
   "version": 1

@@ -445,11 +445,11 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     AppLocalizations l10n,
     ViewerExportFeedback feedback,
   ) {
-    final icon = feedback.isWarning
+    final icon = feedback.shareFailed
         ? Icons.warning_amber_rounded
         : Icons.check_circle_rounded;
     final iconColor =
-        feedback.isWarning ? AppColors.warning : AppColors.success;
+        feedback.shareFailed ? AppColors.warning : AppColors.success;
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -475,7 +475,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
           ],
         ),
         behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: feedback.isWarning ? 6 : 4),
+        duration: Duration(seconds: feedback.shareFailed ? 6 : 4),
       ),
     );
   }

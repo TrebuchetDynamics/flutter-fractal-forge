@@ -2,20 +2,21 @@
 
 precision highp float;
 
-// Uniform layout (indices 0-15):
+// Uniform layout (indices 0-17):
 uniform float uTime;          // 0
 uniform vec2  uResolution;    // 1-2
-uniform vec3  uRotation;      // 3-5  euler angles for camera rotation
-uniform float uZoom;          // 6
-uniform float uIterations;    // 7    max iterations (default 15)
-uniform float uColorScheme;   // 8
-uniform float uFoldLimit;     // 9    box-fold clamp (default 1.0)
-uniform float uFoldValue;     // 10   2*foldLimit (default 2.0)
-uniform float uMinR2;         // 11   inner sphere radius² (default 0.25)
-uniform float uFixedR2;       // 12   outer sphere radius² (default 1.0)
-uniform float uScale;         // 13   scale factor (default 2.0)
-uniform float uMaxSteps;      // 14   ray march steps (default 80)
-uniform float uTransparentBg; // 15
+uniform vec2  uMousePos;      // 3-4 camera target/pan
+uniform float uZoom;          // 5
+uniform vec3  uRotation;      // 6-8 euler angles for camera rotation
+uniform float uIterations;    // 9    max iterations (default 15)
+uniform float uColorScheme;   // 10
+uniform float uFoldLimit;     // 11   box-fold clamp (default 1.0)
+uniform float uFoldValue;     // 12   2*foldLimit (default 2.0)
+uniform float uMinR2;         // 13   inner sphere radius² (default 0.25)
+uniform float uFixedR2;       // 14   outer sphere radius² (default 1.0)
+uniform float uScale;         // 15   scale factor (default 2.0)
+uniform float uMaxSteps;     // 16   ray march steps (default 80)
+uniform float uTransparentBg; // 17
 
 out vec4 fragColor;
 
@@ -182,10 +183,11 @@ void main() {
     // Normalized coords: origin at center, y-up, aspect-corrected.
     vec2 uv = (fragCoord - 0.5 * uResolution) * 2.0 / uResolution.y;
 
-    // Build camera from rotation + zoom.
+    // Build camera from pan target, rotation, and zoom.
+    vec3 target  = vec3(uMousePos, 0.0);
     mat3 rot     = rotationMatrix(uRotation);
-    vec3 camPos  = rot * vec3(0.0, 0.0, 3.0 / max(uZoom, 0.1));
-    vec3 forward = normalize(-camPos);
+    vec3 camPos  = target + rot * vec3(0.0, 0.0, 3.0 / max(uZoom, 0.1));
+    vec3 forward = normalize(target - camPos);
     vec3 right   = normalize(cross(vec3(0.0, 1.0, 0.0), forward));
     vec3 up      = cross(forward, right);
     vec3 rayDir  = normalize(forward + uv.x * right + uv.y * up);

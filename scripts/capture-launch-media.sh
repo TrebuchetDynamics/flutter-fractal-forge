@@ -30,7 +30,8 @@ echo "==> Featured Launch Set capture @ ${SIZE}x${SIZE} (device=$DEVICE, seed=$S
 
 env_vars=(LAUNCH_MEDIA_SIZE="$SIZE" CATALOG_THUMB_SEED="$SEED")
 [[ -n "$ONLY" ]] && env_vars+=(CATALOG_THUMB_ONLY="$ONLY")
-cmd=(flutter test "$TEST" -d "$DEVICE" --reporter expanded)
+cmd=(flutter test "$TEST" -d "$DEVICE" --reporter expanded
+  --dart-define=FORCE_GPU_RENDER=true)
 
 if [[ "$DEVICE" == "linux" && -z "${DISPLAY:-}" ]]; then
   echo "    (headless: xvfb + software GL — use a real GPU display for final assets)"

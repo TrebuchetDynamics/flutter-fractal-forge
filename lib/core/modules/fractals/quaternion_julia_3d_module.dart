@@ -2,6 +2,7 @@ import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/builders/built_in_preset_contract.dart';
+import 'package:flutter_fractals/core/modules/builders/uniform_layout.dart';
 import 'package:flutter_fractals/core/modules/common_params.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/param_reader.dart';
@@ -50,15 +51,7 @@ FractalModule buildQuaternionJulia3DModule() {
         defaultValue: 2.0,
       ),
       CommonFractalParams.iterations(defaultValue: 14, min: 4, max: 20),
-      FractalParameter(
-        id: 'steps',
-        label: (l10n) => l10n.paramSteps,
-        type: FractalParamType.integer,
-        min: 20,
-        max: 200,
-        step: 1,
-        defaultValue: 120,
-      ),
+      CommonFractalParams.raySteps(defaultValue: 120),
       CommonFractalParams.bailout(defaultValue: 4.0, min: 1.0, max: 8.0),
       CommonFractalParams.colorScheme4(defaultValue: 0),
       FractalParameter(
@@ -77,10 +70,34 @@ FractalModule buildQuaternionJulia3DModule() {
           FractalParamOption(value: 3, label: (_) => 'Spiral'),
         ],
       ),
-      _cParam('c0', -0.2),
-      _cParam('c1', 0.8),
-      _cParam('c2', 0.0),
-      _cParam('c3', 0.0),
+      CommonFractalParams.constantCoordinate(
+        id: 'c0',
+        label: 'C0',
+        defaultValue: -0.2,
+        min: -0.95,
+        max: 0.95,
+      ),
+      CommonFractalParams.constantCoordinate(
+        id: 'c1',
+        label: 'C1',
+        defaultValue: 0.8,
+        min: -0.95,
+        max: 0.95,
+      ),
+      CommonFractalParams.constantCoordinate(
+        id: 'c2',
+        label: 'C2',
+        defaultValue: 0.0,
+        min: -0.95,
+        max: 0.95,
+      ),
+      CommonFractalParams.constantCoordinate(
+        id: 'c3',
+        label: 'C3',
+        defaultValue: 0.0,
+        min: -0.95,
+        max: 0.95,
+      ),
     ],
     defaultPreset: defaultPreset,
     builtInPresets: [
@@ -105,22 +122,23 @@ FractalModule buildQuaternionJulia3DModule() {
       ),
     ],
     setUniforms: (shader, state, size, time) {
-      shader.setFloat(0, time);
-      shader.setFloat(1, size.width);
-      shader.setFloat(2, size.height);
-      shader.setFloat(3, state.view.pan.x);
-      shader.setFloat(4, state.view.pan.y);
-      shader.setFloat(5, state.view.zoom);
-      shader.setFloat(6, state.view.rotation.x);
-      shader.setFloat(7, state.view.rotation.y);
-      shader.setFloat(8, state.view.rotation.z);
-      shader.setFloat(9, readDouble(state.params, 'power', 2.0));
-      shader.setFloat(10, readDouble(state.params, 'iterations', 14));
-      shader.setFloat(11, readDouble(state.params, 'steps', 120));
-      shader.setFloat(12, readDouble(state.params, 'bailout', 4.0));
-      shader.setFloat(13, readDouble(state.params, 'colorScheme', 0));
-      shader.setFloat(14, readDouble(state.params, 'variant', 0));
-      shader.setFloat(15, state.transparentBackground ? 1.0 : 0.0);
+      setRaymarched3DFrameUniforms(
+        setFloat: shader.setFloat,
+        time: time,
+        width: size.width,
+        height: size.height,
+        view: state.view,
+      );
+      setRaymarched3DParameterUniforms(
+        setFloat: shader.setFloat,
+        power: readDouble(state.params, 'power', 2.0),
+        iterations: readDouble(state.params, 'iterations', 14),
+        steps: readDouble(state.params, 'steps', 120),
+        bailout: readDouble(state.params, 'bailout', 4.0),
+        colorScheme: readDouble(state.params, 'colorScheme', 0),
+        fractalType: readDouble(state.params, 'variant', 0),
+        transparentBackground: state.transparentBackground,
+      );
       shader.setFloat(16, _safeC(readDouble(state.params, 'c0', -0.2)));
       shader.setFloat(17, _safeC(readDouble(state.params, 'c1', 0.8)));
       shader.setFloat(18, _safeC(readDouble(state.params, 'c2', 0.0)));
@@ -128,16 +146,6 @@ FractalModule buildQuaternionJulia3DModule() {
     },
   );
 }
-
-FractalParameter _cParam(String id, double defaultValue) => FractalParameter(
-      id: id,
-      label: (_) => id.toUpperCase(),
-      type: FractalParamType.float,
-      min: -0.95,
-      max: 0.95,
-      step: 0.01,
-      defaultValue: defaultValue,
-    );
 
 double _safeC(double value) => value.clamp(-0.95, 0.95).toDouble();
 

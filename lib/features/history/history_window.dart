@@ -1,4 +1,4 @@
-import 'package:flutter_fractals/features/history/history_entry.dart';
+import 'package:flutter_fractals/core/models/history/history_entry.dart';
 
 /// Result of applying a history-list mutation.
 class HistoryWindow {

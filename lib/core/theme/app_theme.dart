@@ -195,7 +195,7 @@ class OledColors {
 /// Premium typography with careful weight and spacing.
 /// Uses Poppins for titles, Inter for body, JetBrains Mono for numbers.
 class AppTypography {
-  // Font families - using google_fonts package
+  // Font families used by the app theme.
   static const String titleFont = 'Poppins';
   static const String bodyFont = 'Inter';
   static const String monoFont = 'JetBrains Mono';

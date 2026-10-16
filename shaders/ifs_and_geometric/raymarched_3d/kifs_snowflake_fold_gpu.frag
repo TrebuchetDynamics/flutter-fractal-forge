@@ -10,7 +10,7 @@ precision highp float;
 
 uniform float uTime;          // 0
 uniform vec2  uResolution;    // 1-2
-uniform vec2  uMousePos;      // 3-4  (layout compat, unused)
+uniform vec2  uMousePos;      // 3-4, shared camera pan target
 uniform float uZoom;          // 5
 uniform vec3  uRotation;      // 6-8
 uniform float uPower;         // 9   scale factor (default 3.0)
@@ -174,9 +174,10 @@ void main() {
     int maxIter = int(uIterations);
 
     // Camera setup
+    vec3 target = vec3(uMousePos, 0.0);
     mat3 rot     = rotationMatrix(uRotation);
-    vec3 camPos  = rot * vec3(0.0, 0.0, 3.0 / max(uZoom, 0.1));
-    vec3 forward = normalize(-camPos);
+    vec3 camPos  = target + rot * vec3(0.0, 0.0, 3.0 / max(uZoom, 0.1));
+    vec3 forward = normalize(target - camPos);
     vec3 right   = normalize(cross(vec3(0.0, 1.0, 0.0), forward));
     vec3 up      = cross(forward, right);
     vec3 rayDir  = normalize(forward + uv.x * right + uv.y * up);

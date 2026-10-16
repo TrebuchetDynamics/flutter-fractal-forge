@@ -107,6 +107,13 @@ final class CatalogSearchQuery {
     AppLocalizations l10n,
   ) sync* {
     yield entry.category;
+    final math = entry.mathematics;
+    yield math.family;
+    yield math.algebra;
+    yield math.view;
+    yield math.qualification;
+    yield math.relationship;
+    yield math.formula(entry.module.defaultPreset.params);
     yield entry.module.dimension == FractalDimension.threeD
         ? l10n.dimension3d
         : l10n.dimension2d;
@@ -266,7 +273,8 @@ final class CatalogFilter {
       case CatalogDimensionFilter.threeD:
         return entry.module.dimension == FractalDimension.threeD;
       case CatalogDimensionFilter.kaleidoscope:
-        return entry.category.toLowerCase().contains('kaleidoscope');
+        return entry.category.toLowerCase().contains('kaleidoscope') ||
+            entry.module.id.toLowerCase().contains('kaleidoscope');
     }
   }
 

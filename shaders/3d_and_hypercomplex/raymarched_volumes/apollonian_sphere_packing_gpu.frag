@@ -142,9 +142,10 @@ void main() {
   vec2 fragCoord = FlutterFragCoord().xy;
   vec2 uv = (fragCoord - 0.5 * uResolution) * 2.0 / max(uResolution.y, 1.0);
 
+  vec3 target = vec3(uMousePos, 0.0);
   mat3 rot = rotationMatrix(uRotation);
-  vec3 ro = rot * vec3(0.0, 0.0, 3.8 / max(uZoom, 0.1));
-  vec3 forward = normalize(-ro);
+  vec3 ro = target + rot * vec3(0.0, 0.0, 3.8 / max(uZoom, 0.1));
+  vec3 forward = normalize(target - ro);
   vec3 right = normalize(cross(vec3(0.0, 1.0, 0.0), forward));
   vec3 up = cross(forward, right);
   vec3 rd = normalize(forward + uv.x * right + uv.y * up);

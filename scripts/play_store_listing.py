@@ -26,9 +26,9 @@ FIELDS = {'title': 30, 'shortDescription': 80, 'fullDescription': 4000}
 TYPES = {'icon', 'featureGraphic', 'phoneScreenshots', 'sevenInchScreenshots', 'tenInchScreenshots'}
 
 
-def validate(listings_path, assets_path):
-    locales = json.loads(Path(listings_path).read_text())['locales']
-    if not locales:
+def validate(listings_path, assets_path, icon_only=False):
+    locales = {} if icon_only else json.loads(Path(listings_path).read_text())['locales']
+    if not icon_only and not locales:
         raise ValueError('No locales')
     for locale, listing in locales.items():
         if not locale or '/' in locale:
@@ -38,7 +38,10 @@ def validate(listings_path, assets_path):
             if not isinstance(value, str) or not value.strip() or len(value) > limit:
                 raise ValueError(f'{locale}: {field} must contain 1–{limit} characters')
     assets = {}
-    for kind, paths in json.loads(Path(assets_path).read_text())['images'].items():
+    images = json.loads(Path(assets_path).read_text())['images']
+    if icon_only:
+        images = {'icon': images.get('icon', [])}
+    for kind, paths in images.items():
         if kind not in TYPES or not paths or len(paths) > (1 if kind in {'icon', 'featureGraphic'} else 8):
             raise ValueError(f'Invalid image type/count: {kind}')
         assets[kind] = []
@@ -50,8 +53,11 @@ def validate(listings_path, assets_path):
             with Image.open(io.BytesIO(data)) as im:
                 im.load()
                 w, h = im.size
-                if im.format != 'PNG' or im.mode != 'RGB':
-                    raise ValueError(f'{relative}: expected opaque RGB PNG')
+                rgba_icon = kind == 'icon' and im.mode == 'RGBA'
+                if im.format != 'PNG' or not (im.mode == 'RGB' or rgba_icon):
+                    raise ValueError(f'{relative}: expected opaque RGB PNG (or opaque RGBA icon)')
+                if kind == 'icon' and im.convert('RGBA').getchannel('A').getextrema() != (255, 255):
+                    raise ValueError(f'{relative}: expected opaque RGB PNG (or opaque RGBA icon)')
                 if kind == 'icon' and ((w, h) != (512, 512) or len(data) > 1024 * 1024):
                     raise ValueError(f'{relative}: invalid icon size')
                 if kind == 'featureGraphic' and (w, h) != (1024, 500):
@@ -136,27 +142,46 @@ def verify(state, locales, assets):
                     raise ValueError(f'{locale}/{kind}: image digest/order mismatch')
 
 
-def publish(api, locales, assets, directory, mode):
+def verify_preserved(state, before):
+    if {item['language']: item for item in state['listings']} != {item['language']: item for item in before['listings']}:
+        raise ValueError('Icon-only listing text/video/locale readback mismatch')
+    for locale, images in before['images'].items():
+        for kind in TYPES - {'icon'}:
+            if state['images'][locale][kind] != images[kind]:
+                raise ValueError(f'{locale}/{kind}: icon-only non-icon image readback mismatch')
+
+
+def publish(api, locales, assets, directory, mode, icon_only=False):
+    if icon_only and (set(assets) != {'icon'} or len(assets['icon']) != 1):
+        raise ValueError('Icon-only requires exactly one icon')
     directory.mkdir(parents=True, exist_ok=False)
     def save(name, value):
         (directory / name).write_text(json.dumps(value, indent=2, ensure_ascii=False) + '\n')
     edit = api.request('POST', '/edits', {})['id']
     committed = False
     try:
-        before = snapshot(api, edit, assets)
+        kinds = TYPES if icon_only else assets
+        before = snapshot(api, edit, kinds)
         save('before.json', before)
-        if mode == 'audit':
-            return
         existing = {item['language']: item for item in before['listings']}
+        if icon_only:
+            if not existing or len(existing) != len(before['listings']):
+                raise ValueError('Icon-only requires unique live locales')
+            locales = existing
+        if mode == 'audit':
+            if icon_only:
+                save('receipt.json', {'mode': mode, 'scope': 'icon-only', 'committed': False, 'locales': list(locales)})
+            return
         if set(existing) != set(locales):
             raise ValueError('Live and local locales differ; refusing incomplete update')
         def stage_locale(item):
             locale, listing = item
             path = f'/edits/{edit}/listings/{locale}'
-            body = {field: listing[field] for field in FIELDS}
-            if existing[locale].get('video'):
-                body['video'] = existing[locale]['video']
-            api.request('PUT', path, body)
+            if not icon_only:
+                body = {field: listing[field] for field in FIELDS}
+                if existing[locale].get('video'):
+                    body['video'] = existing[locale]['video']
+                api.request('PUT', path, body)
             for kind, images in assets.items():
                 api.request('DELETE', path + '/' + kind)
                 for asset in images:
@@ -166,7 +191,9 @@ def publish(api, locales, assets, directory, mode):
         # The executor waits for all workers before edit cleanup on any failure.
         with ThreadPoolExecutor(max_workers=4) as pool:
             list(pool.map(stage_locale, locales.items()))
-        staged = snapshot(api, edit, assets)
+        staged = snapshot(api, edit, kinds)
+        if icon_only:
+            verify_preserved(staged, before)
         verify(staged, locales, assets)
         save('staged.json', staged)
         api.request('POST', f'/edits/{edit}:validate')
@@ -176,12 +203,17 @@ def publish(api, locales, assets, directory, mode):
             # A fresh edit reads the committed state, not the staged payload.
             check = api.request('POST', '/edits', {})['id']
             try:
-                after = snapshot(api, check, assets)
+                after = snapshot(api, check, kinds)
                 save('after.json', after)
+                if icon_only:
+                    verify_preserved(after, before)
                 verify(after, locales, assets)
             finally:
                 api.request('DELETE', '/edits/' + check)
-        save('receipt.json', {'mode': mode, 'committed': committed, 'verified': True, 'locales': list(locales), 'assets': {kind: [{k: v for k, v in a.items() if k != 'data'} for a in images] for kind, images in assets.items()}})
+        receipt = {'mode': mode, 'committed': committed, 'verified': True, 'locales': list(locales), 'assets': {kind: [{k: v for k, v in a.items() if k != 'data'} for a in images] for kind, images in assets.items()}}
+        if icon_only:
+            receipt['scope'] = 'icon-only'
+        save('receipt.json', receipt)
     finally:
         if not committed:
             api.request('DELETE', '/edits/' + edit)
@@ -192,18 +224,20 @@ def main():
     group = parser.add_mutually_exclusive_group()
     for flag in ['validate-only', 'audit', 'dry-run', 'commit']:
         group.add_argument('--' + flag, action='store_true')
+    parser.add_argument('--icon-only', action='store_true', help='Replace only the icon in every live locale; preserve live text and other images')
     args = parser.parse_args()
     listings = os.environ.get('PLAY_LOCALIZED_LISTINGS_JSON', str(ROOT / 'docs/play-store-localized-listings.json'))
     manifest = os.environ.get('PLAY_LISTING_ASSETS_JSON', str(ROOT / 'docs/store_listing/assets.json'))
-    locales, assets = validate(listings, manifest)
-    print(f'Validated {len(locales)} locales, {sum(map(len, assets.values()))} images', flush=True)
+    locales, assets = validate(listings, manifest, icon_only=args.icon_only)
+    coverage = 'live locales discovered online' if args.icon_only else f'{len(locales)} locales'
+    print(f'Validated {coverage}, {sum(map(len, assets.values()))} images', flush=True)
     if args.validate_only:
         return
     package = os.environ.get('PLAY_PACKAGE_NAME', 'com.trebuchetdynamics.fractal.forge')
     credentials = os.environ.get('PLAY_SERVICE_ACCOUNT_JSON', str(ROOT / 'play-console-upload/play-service-account.json'))
     mode = 'commit' if args.commit else 'audit' if args.audit else 'dry-run'
     directory = ROOT / 'release-artifacts/store-listing' / (time.strftime('%Y%m%d-%H%M%S') + '-' + str(os.getpid()))
-    publish(Play(package, token(credentials)), locales, assets, directory, mode)
+    publish(Play(package, token(credentials)), locales, assets, directory, mode, icon_only=args.icon_only)
     print(f'{mode}: complete. Evidence: {directory}')
 
 
