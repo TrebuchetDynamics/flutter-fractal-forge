@@ -5,6 +5,7 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dart';
 import 'package:flutter_fractals/features/viewer/gaussian_moat_plot.dart';
+import 'package:flutter_fractals/features/viewer/prime_norm_quaternion_slice.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 import 'package:provider/provider.dart';
@@ -40,6 +41,7 @@ class _GaussianMoatMapState extends State<GaussianMoatMap> {
   bool _error = false;
   bool _invalidCoordinates = false;
   bool _controls = false;
+  bool _showQuaternionSlice = false;
 
   @override
   void didChangeDependencies() {
@@ -184,6 +186,8 @@ class _GaussianMoatMapState extends State<GaussianMoatMap> {
       padding: const EdgeInsets.all(12),
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         _button(l10n.gaussianBound, _domainSheet),
+        _button('Quaternion slice',
+            () => setState(() => _showQuaternionSlice = true)),
         TextField(
             key: const Key('gaussianCoordinateA'),
             controller: _a,
@@ -304,6 +308,10 @@ class _GaussianMoatMapState extends State<GaussianMoatMap> {
 
   @override
   Widget build(BuildContext context) {
+    if (_showQuaternionSlice) {
+      return PrimeNormQuaternionSliceView(
+          onBack: () => setState(() => _showQuaternionSlice = false));
+    }
     final l10n = AppLocalizations.of(context)!;
     final p = _candidate;
     final status =
