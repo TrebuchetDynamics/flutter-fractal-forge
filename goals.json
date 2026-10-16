@@ -1037,6 +1037,7 @@
       "status": "unverified",
       "tasks": [
         "VIEW-UI-01",
+        "VIEW-UI-01-LIVE",
         "VIEW-UI-02"
       ],
       "title": "Reduce intrusive viewer navigation chrome and style overflow consistently"
@@ -1121,14 +1122,6 @@
       "section": "Now",
       "status": "open",
       "title": "Reconcile integer-power smooth-coloring inventory and the d=4 regression gap"
-    },
-    {
-      "depends_on": [],
-      "goal": "VIEW-UI-001",
-      "id": "VIEW-UI-01",
-      "section": "Now",
-      "status": "open",
-      "title": "Make catalog Back compact without weakening navigation accessibility"
     },
     {
       "depends_on": [],
@@ -1367,6 +1360,16 @@
       "title": "Decide fortuin–Kasteleyn cluster and interface explorer"
     },
     {
+      "depends_on": [
+        "VIEW-UI-01"
+      ],
+      "goal": "VIEW-UI-001",
+      "id": "VIEW-UI-01-LIVE",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Live checks for VIEW-UI-01"
+    },
+    {
       "depends_on": [],
       "goal": "VIS-003",
       "id": "VIS-003",
@@ -1439,6 +1442,14 @@
       "section": "Done",
       "status": "done",
       "title": "Extend smooth-coloring regression coverage to another supported shader family"
+    },
+    {
+      "depends_on": [],
+      "goal": "VIEW-UI-001",
+      "id": "VIEW-UI-01",
+      "section": "Done",
+      "status": "done",
+      "title": "Make catalog Back compact without weakening navigation accessibility"
     },
     {
       "depends_on": [],
