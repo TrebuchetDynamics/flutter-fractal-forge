@@ -97,20 +97,6 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Skill application: frontend-ui-engineering, responsive/localized accessible journey; planning-and-task-breakdown, dependent live qualification; documentation-and-adrs, observed evidence versus planned checks.
 
 
-- [ ] **QUAT-NORM-01-SLICE — Open a bounded fixed-d prime-norm quaternion view with deterministic picking.**
-  - Goal: QUAT-NORM-001. Payoff: teach integer quaternion norms with a correctly labeled 3D view.
-  - Sources: [Accepted companion](PRD.md#prime-norm-quaternion-companion), [accepted slice design](docs/engineering/spec.md#prime-norm-quaternion-companion), [planned checks](docs/engineering/test-plan.md#prime-walking-growth-and-quaternion-slice-checks), and `lib/core/modules/fractals/quaternion_julia_3d_module.dart`. [Refined UI/budgets](docs/engineering/spec.md#ui-layout-and-interaction-contract) and [per-task fixture matrix](docs/engineering/test-plan.md#prime-walking-refined-acceptance-matrix).
-  - Graph evidence: the fresh partial code-only graph contains `FractalViewState` at `lib/core/models/fractal_view_state.dart:22` and `quaternion_julia_3d_module.dart`; quaternion query was truncated. Source at `lib/core/modules/fractals/quaternion_julia_3d_module.dart:37–42` confirms a Julia shader, not prime walking. No complete quaternion UI graph or proof semantics are claimed; existing self-loop/duplicate-label warnings remain.
-  - Ownership: repository backlog, unassigned; check live ownership before dispatch. No implementation worker is started by this plan.
-  - Touches: lib/core/models/prime_norm_quaternion_model.dart, lib/features/viewer/prime_norm_quaternion_slice.dart, lib/features/viewer/gaussian_moat_map.dart, lib/features/viewer/fractal_viewer_screen.dart, lib/l10n/app_*.arb, lib/l10n/app_localizations*.dart, test/modules/prime_norm_quaternion_test.dart, test/features/viewer/prime_norm_quaternion_slice_test.dart
-  - Scope: bounded fixed-d integer points and norm predicate, rotatable `(a,b,c)` projection, companion access from the Gaussian-prime experience and truthful slice/domain/legend labels. Reuse the checked ordinary-prime provider, local view conventions and existing dependencies. Preserve Julia/Mandelbrot modules. Exclude full 4D enumeration, Hurwitz half-integers, quaternion factorization or a new rendering framework.
-  - Acceptance: independent prime/composite norm, bounds and signed fixed-d fixtures pass; orthographic projection and deterministic screen-distance/depth/coordinate picking plus list alternative pass; rotation preserves model identities. Correctly labeled companion UI fits the shared responsive contract and respects the smaller workload caps/chunks.
-  - Checks: create/run `flutter test test/modules/prime_norm_quaternion_test.dart --reporter expanded`; relevant registry/viewer regressions; targeted formatter and `flutter analyze`. New test files and 3D render checks remain planned.
-  - UI/performance: follow the shared HUD/panel layout, preview-then-Step interaction, visible bounded-state labels, hard workload caps, cooperative chunks and completed-snapshot capture. This is planned acceptance, not a measured pass.
-  - Dependencies: GAUSS-MOAT-01-MAP.
-  - Decision: fixed-d induced slice before full 4D graphs; no false certified-prime label or reused Julia shader as an oracle.
-  - Skill application: spec-driven-development, precise predicate/slice contract; frontend-ui-engineering, projection and explicit legend; planning-and-task-breakdown, bounded first slice.
-
 - [ ] **QUAT-NORM-02-WALK — Walk in the quaternion slice with camera-independent adjacency and captured overlays.**
   - Goal: QUAT-NORM-001. Payoff: compare bounded walking with the Gaussian example without conflating slice and 4D connectivity.
   - Sources: [Accepted companion](PRD.md#prime-norm-quaternion-companion), [accepted slice design](docs/engineering/spec.md#prime-norm-quaternion-companion), [planned checks](docs/engineering/test-plan.md#prime-walking-growth-and-quaternion-slice-checks), and `lib/core/modules/fractals/quaternion_julia_3d_module.dart`. [Refined UI/budgets](docs/engineering/spec.md#ui-layout-and-interaction-contract) and [per-task fixture matrix](docs/engineering/test-plan.md#prime-walking-refined-acceptance-matrix).
@@ -339,6 +325,14 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Physical-device visual, accessibility, and performance qualification.
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: GAUSS-MOAT-02-WALK.
+  Status: open
+
+- [ ] QUAT-NORM-01-SLICE-LIVE — Live checks for QUAT-NORM-01-SLICE
+  Scope: Run the live checks the offline work for QUAT-NORM-01-SLICE left pending.
+  Acceptance: Each check passes on the real target:
+  - Human review and device/visual qualification of responsive layout, screen-reader/list selection, and rendered quaternion points remain pending; offline mathematical and regression tests do not qualify device behavior.
+  Checks: Live qualification by an authorized person; offline evidence does not count.
+  Dependencies: QUAT-NORM-01-SLICE.
   Status: open
 
 ## Done

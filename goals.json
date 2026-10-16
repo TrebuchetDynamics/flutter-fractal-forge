@@ -1010,6 +1010,7 @@
       "status": "unmet",
       "tasks": [
         "QUAT-NORM-01-SLICE",
+        "QUAT-NORM-01-SLICE-LIVE",
         "QUAT-NORM-02-WALK",
         "QUAT-NORM-03-QUALIFY"
       ],
@@ -1074,7 +1075,6 @@
       "CAT-QUALITY-02",
       "GAUSS-MOAT-04-GROWTH",
       "GAUSS-MOAT-03-QUALIFY",
-      "QUAT-NORM-01-SLICE",
       "QUAT-NORM-02-WALK",
       "QUAT-NORM-03-QUALIFY",
       "REL-JOURNEY-02-LINUX",
@@ -1096,7 +1096,8 @@
       "OAI-VIS-07-FK",
       "VIEW-UI-01-LIVE",
       "VIEW-UI-02-LIVE",
-      "GAUSS-MOAT-02-WALK-LIVE"
+      "GAUSS-MOAT-02-WALK-LIVE",
+      "QUAT-NORM-01-SLICE-LIVE"
     ]
   },
   "tasks": [
@@ -1175,16 +1176,6 @@
       "section": "Next",
       "status": "open",
       "title": "Replace app and store icon assets with the approved app capture"
-    },
-    {
-      "depends_on": [
-        "GAUSS-MOAT-01-MAP"
-      ],
-      "goal": "QUAT-NORM-001",
-      "id": "QUAT-NORM-01-SLICE",
-      "section": "Next",
-      "status": "open",
-      "title": "Open a bounded fixed-d prime-norm quaternion view with deterministic picking"
     },
     {
       "depends_on": [
@@ -1354,6 +1345,16 @@
     },
     {
       "depends_on": [
+        "QUAT-NORM-01-SLICE"
+      ],
+      "goal": "QUAT-NORM-001",
+      "id": "QUAT-NORM-01-SLICE-LIVE",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Live checks for QUAT-NORM-01-SLICE"
+    },
+    {
+      "depends_on": [
         "VIEW-UI-01"
       ],
       "goal": "VIEW-UI-001",
@@ -1421,6 +1422,16 @@
       "section": "Done",
       "status": "done",
       "title": "Verify 320×320 launch-thumbnail captures"
+    },
+    {
+      "depends_on": [
+        "GAUSS-MOAT-01-MAP"
+      ],
+      "goal": "QUAT-NORM-001",
+      "id": "QUAT-NORM-01-SLICE",
+      "section": "Done",
+      "status": "done",
+      "title": "Open a bounded fixed-d prime-norm quaternion view with deterministic picking"
     },
     {
       "depends_on": [],
