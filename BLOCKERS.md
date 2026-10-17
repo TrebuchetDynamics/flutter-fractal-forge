@@ -13,12 +13,19 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T01:32:24Z
 - Answer: If no one is working on VIS-006, set `Status: open` in its TODO.md entry (the runner then runs it); otherwise note who holds it and when it will be done.
 
-### Q-SMOOTH-001-INVENTORY-01 — USER_DECISION — effort decision — unblocks 2
+### Q-SMOOTH-001-INVENTORY-01 — USER_DECISION — effort quick — unblocks 1
 
 - Task: SMOOTH-001-INVENTORY-01 — Reconcile one supported polynomial shader family with smooth-coloring coverage.
-- Needs: not runnable: needs unique Scope, Acceptance and Checks fields
+- Needs: SMOOTH-001-INVENTORY-01 is marked in_progress by another session and will not be adopted automatically; 1 waiting task(s) depend on it.
 - Since: 2026-10-17T01:32:24Z
-- Answer: Fix SMOOTH-001-INVENTORY-01's TODO.md entry as the reason says (for example add the missing Scope, Acceptance or Checks field), or move it out of Now/Next.
+- Answer: If no one is working on SMOOTH-001-INVENTORY-01, set `Status: open` in its TODO.md entry (the runner then runs it); otherwise note who holds it and when it will be done.
+
+### Q-ACAD-03 — USER_DECISION — effort decision — unblocks 1
+
+- Task: ACAD-03 — Review approved source mathematics against a representative renderer pilot.
+- Needs: 1 waiting task(s) depend on "ACAD-03", which is not a Now/Next task (an outside condition, or a task in Needs decision).
+- Since: 2026-10-17T04:30:10Z
+- Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
 
 ### Q-VIS-003 — USER_DECISION — effort decision — unblocks 1
 
@@ -54,13 +61,6 @@ This file contains only hard blockers that require user action.
 - Needs: dead worker with uncommitted changes
 - Since: 2026-10-17T01:32:24Z
 - Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/REL-JOURNEY-01-WEB/), then rescope or split REL-JOURNEY-01-WEB in its TODO.md entry. The runner reruns it when the entry changes.
-
-### Q-REL-JOURNEY-03-ANDROID — USER_DECISION — effort investigate — unblocks 0
-
-- Task: REL-JOURNEY-03-ANDROID — Qualify the complete Android image-creation journey.
-- Needs: integration validation failed or changed the integration tree
-- Since: 2026-10-17T01:32:24Z
-- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/REL-JOURNEY-03-ANDROID/), then rescope or split REL-JOURNEY-03-ANDROID in its TODO.md entry. The runner reruns it when the entry changes.
 
 <!-- pi-autowork:questions:end -->
 
