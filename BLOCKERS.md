@@ -20,7 +20,7 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T01:32:24Z
 - Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
 
-### Q-REL-JOURNEY-01-WEB — USER_INPUT — effort input — unblocks 10
+### Q-REL-JOURNEY-01-WEB — USER_INPUT — effort input — unblocks 0
 
 - Task: REL-JOURNEY-01-WEB — Qualify the complete web image-creation journey.
 - Needs: worker reported a blocker: The web journey remains unqualified: on fresh web builds, choosing Save image dismisses the sheet but the expected browser download never starts, even after 120 seconds. Browser diagnostics show no download anchor invocation or console error. The precise async export stage/cause has not been established, so no application fix or passing PNG evidence can be claimed. Continue by instrumenting the vi…
