@@ -41,7 +41,7 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T06:41:46Z
 - Answer: Answer in REL-JOURNEY-01-WEB's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
 
-### Q-GAUSS-MOAT-04-GROWTH — USER_DECISION — effort investigate — unblocks 8
+### Q-GAUSS-MOAT-04-GROWTH — USER_DECISION — effort investigate — unblocks 1
 
 - Task: GAUSS-MOAT-04-GROWTH — Scrub and animate jump-radius growth without queued or stale computations.
 - Needs: integration validation failed or changed the integration tree
