@@ -20,6 +20,13 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T01:32:24Z
 - Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
 
+### Q-REL-JOURNEY-01-WEB — USER_INPUT — effort input — unblocks 10
+
+- Task: REL-JOURNEY-01-WEB — Qualify the complete web image-creation journey.
+- Needs: worker reported a blocker: The web journey remains unqualified: on fresh web builds, choosing Save image dismisses the sheet but the expected browser download never starts, even after 120 seconds. Browser diagnostics show no download anchor invocation or console error. The precise async export stage/cause has not been established, so no application fix or passing PNG evidence can be claimed. Continue by instrumenting the vi…
+- Since: 2026-10-17T06:41:46Z
+- Answer: Answer in REL-JOURNEY-01-WEB's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
+
 <!-- pi-autowork:questions:end -->
 
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
