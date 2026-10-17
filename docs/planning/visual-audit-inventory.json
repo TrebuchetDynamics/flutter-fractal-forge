@@ -20730,5 +20730,665 @@
         "research/fractals-library/categories/cellular_and_stochastic/"
       ]
     }
-  ]
+  ],
+  "quality_pilot": {
+    "status": "assessment; proposed rubric not adopted",
+    "cap": 12,
+    "selection_note": "12 existing Explore IDs selected for family coverage, reusing existing VIS-006 captures. No capture rerun. Complex dynamics and root-finding representatives are separate systems; IFS/tiling entries are distinct constructions; attractor systems are not parameter/color variants. 3D and cellular/stochastic representatives lack capture evidence. The 200 research-manifest definitions remain missing_app_renderer and are not selectable app entries.",
+    "verdicts": [
+      "framing_readability",
+      "identity_disclosure",
+      "controls",
+      "preview",
+      "performance",
+      "png_export"
+    ],
+    "entries": [
+      {
+        "id": "core.mandelbrot",
+        "family_group": "complex dynamics / escape-time parameter plane",
+        "distinctness": "distinct system/group; parameters or color presets do not count as new systems",
+        "verdicts": {
+          "framing_readability": "NOT_CHECKED",
+          "identity_disclosure": "NOT_CHECKED",
+          "controls": "NOT_CHECKED",
+          "preview": "PASS",
+          "performance": "NOT_CHECKED",
+          "png_export": "NOT_CHECKED"
+        },
+        "evidence": "VIS-006 default and runtime image-health; first-view VIS-004",
+        "missing_evidence": [
+          "interaction/control exercise",
+          "measured performance on named target",
+          "edited-state PNG compared to viewer state"
+        ],
+        "gate_evidence": {
+          "framing_readability": [
+            "VIS-006 default and runtime image-health; first-view VIS-004",
+            "captured in VIS-006: build/test_output/vis006-mandelbrot-defaults/mandelbrot.png (256x256; 941 RGB colors; blackPixelRatio=0.1749; nonBlack=0.8251; luminanceStdDev=40.5483; verdict pass; math oracle pass: origin bounded, (2,2) escapes) and build/test_output/vis006-mandelbrot/runtime_catalog_preview.png (384x346; 603 RGB colors; blackPixelRatio=0.1772; nonBlack=0.8228; luminanceStdDev=70.6078; verdict pass)"
+          ],
+          "identity_disclosure": [
+            "lib/core/modules/fractal_mathematics.dart; source facets do not verify user-facing disclosure",
+            "No inspected identity/disclosure UI or artifact is recorded for this pilot entry"
+          ],
+          "controls": [
+            "No recorded interaction/control exercise for this pilot entry; VIS-006 image captures do not test controls"
+          ],
+          "preview": [
+            "captured in VIS-006: build/test_output/vis006-mandelbrot-defaults/mandelbrot.png (256x256; 941 RGB colors; blackPixelRatio=0.1749; nonBlack=0.8251; luminanceStdDev=40.5483; verdict pass; math oracle pass: origin bounded, (2,2) escapes) and build/test_output/vis006-mandelbrot/runtime_catalog_preview.png (384x346; 603 RGB colors; blackPixelRatio=0.1772; nonBlack=0.8228; luminanceStdDev=70.6078; verdict pass)",
+            "Preview verdict is image-health/renderability only; it does not establish visual quality"
+          ],
+          "performance": [
+            "No named-target frame-time/latency measurement is recorded for this pilot entry"
+          ],
+          "png_export": [
+            "No REL-JOURNEY same-selected-state edited-PNG receipt is recorded for this pilot entry; see TODO.md#REL-JOURNEY-001"
+          ]
+        }
+      },
+      {
+        "id": "core.newton_z3",
+        "family_group": "root finding / Newton cubic basin",
+        "distinctness": "distinct system/group; parameters or color presets do not count as new systems",
+        "verdicts": {
+          "framing_readability": "NOT_CHECKED",
+          "identity_disclosure": "NOT_CHECKED",
+          "controls": "NOT_CHECKED",
+          "preview": "PASS",
+          "performance": "NOT_CHECKED",
+          "png_export": "NOT_CHECKED"
+        },
+        "evidence": "VIS-006-BATCH-13 default and runtime; VIS-004 dedicated first-view",
+        "missing_evidence": [
+          "interaction/control exercise",
+          "measured performance on named target",
+          "edited-state PNG compared to viewer state"
+        ],
+        "gate_evidence": {
+          "framing_readability": [
+            "VIS-006-BATCH-13 default and runtime; VIS-004 dedicated first-view",
+            "captured in VIS-006-BATCH-13: default GPU build/test_output/vis006-batch13-defaults/newton_z3.png (256x256; 1511 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=38.3833; verdict pass; math oracle skipped: no reference oracle) and actual runtime catalog preview build/test_output/vis006-batch13/newton_z3_runtime_catalog_preview.png (384x346; 813 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=33.5151; verdict pass)"
+          ],
+          "identity_disclosure": [
+            "lib/core/modules/fractal_mathematics.dart; source facets do not verify user-facing disclosure",
+            "No inspected identity/disclosure UI or artifact is recorded for this pilot entry"
+          ],
+          "controls": [
+            "No recorded interaction/control exercise for this pilot entry; VIS-006 image captures do not test controls"
+          ],
+          "preview": [
+            "captured in VIS-006-BATCH-13: default GPU build/test_output/vis006-batch13-defaults/newton_z3.png (256x256; 1511 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=38.3833; verdict pass; math oracle skipped: no reference oracle) and actual runtime catalog preview build/test_output/vis006-batch13/newton_z3_runtime_catalog_preview.png (384x346; 813 RGB colors; blackPixelRatio=0; nonBlack=1; luminanceStdDev=33.5151; verdict pass)",
+            "Preview verdict is image-health/renderability only; it does not establish visual quality"
+          ],
+          "performance": [
+            "No named-target frame-time/latency measurement is recorded for this pilot entry"
+          ],
+          "png_export": [
+            "No REL-JOURNEY same-selected-state edited-PNG receipt is recorded for this pilot entry; see TODO.md#REL-JOURNEY-001"
+          ]
+        }
+      },
+      {
+        "id": "core.koch_snowflake",
+        "family_group": "geometric / recursive IFS-like construction",
+        "distinctness": "distinct system/group; parameters or color presets do not count as new systems",
+        "verdicts": {
+          "framing_readability": "PASS",
+          "identity_disclosure": "NOT_CHECKED",
+          "controls": "NOT_CHECKED",
+          "preview": "PASS",
+          "performance": "NOT_CHECKED",
+          "png_export": "NOT_CHECKED"
+        },
+        "evidence": "VIS-006-BATCH-04 strict failure then framing follow-up default/runtime captures",
+        "missing_evidence": [
+          "interaction/control exercise",
+          "measured performance on named target",
+          "edited-state PNG compared to viewer state"
+        ],
+        "gate_evidence": {
+          "framing_readability": [
+            "VIS-006-BATCH-04 strict failure then framing follow-up default/runtime captures",
+            "captured in VIS-006-BATCH-04; default framing follow-up: GPU defaults build/test_output/vis006-koch-followup/koch_snowflake.png (256x256; 2199 RGB colors; blackPixelRatio=0.1161; luminanceStdDev=38.4538; strict harness pass; iterations=154, bailout=6, colorScheme=0, pan=(0,0.3), zoom=1.5; CPU oracle skipped: no reference oracle) and runtime GPU build/test_output/vis006-batch04/koch_snowflake_runtime_catalog_preview.png (384x346; 1426 RGB colors; blackPixelRatio=0.0821; luminanceStdDev=53.5899; pass). Shader formula and opaque-black edge rule are unchanged. See build/test_output/vis006-koch-followup/thumbnail_report.json and integration_test/catalog/vis006_batch04_runtime_preview_test.dart."
+          ],
+          "identity_disclosure": [
+            "lib/core/modules/fractal_mathematics.dart; source facets do not verify user-facing disclosure",
+            "No inspected identity/disclosure UI or artifact is recorded for this pilot entry"
+          ],
+          "controls": [
+            "No recorded interaction/control exercise for this pilot entry; VIS-006 image captures do not test controls"
+          ],
+          "preview": [
+            "captured in VIS-006-BATCH-04; default framing follow-up: GPU defaults build/test_output/vis006-koch-followup/koch_snowflake.png (256x256; 2199 RGB colors; blackPixelRatio=0.1161; luminanceStdDev=38.4538; strict harness pass; iterations=154, bailout=6, colorScheme=0, pan=(0,0.3), zoom=1.5; CPU oracle skipped: no reference oracle) and runtime GPU build/test_output/vis006-batch04/koch_snowflake_runtime_catalog_preview.png (384x346; 1426 RGB colors; blackPixelRatio=0.0821; luminanceStdDev=53.5899; pass). Shader formula and opaque-black edge rule are unchanged. See build/test_output/vis006-koch-followup/thumbnail_report.json and integration_test/catalog/vis006_batch04_runtime_preview_test.dart.",
+            "Preview verdict is image-health/renderability only; it does not establish visual quality"
+          ],
+          "performance": [
+            "No named-target frame-time/latency measurement is recorded for this pilot entry"
+          ],
+          "png_export": [
+            "No REL-JOURNEY same-selected-state edited-PNG receipt is recorded for this pilot entry; see TODO.md#REL-JOURNEY-001"
+          ]
+        }
+      },
+      {
+        "id": "core.sierpinski_triangle",
+        "family_group": "geometric / IFS",
+        "distinctness": "distinct system/group; parameters or color presets do not count as new systems",
+        "verdicts": {
+          "framing_readability": "NOT_CHECKED",
+          "identity_disclosure": "NOT_CHECKED",
+          "controls": "NOT_CHECKED",
+          "preview": "PASS",
+          "performance": "NOT_CHECKED",
+          "png_export": "NOT_CHECKED"
+        },
+        "evidence": "VIS-006-BATCH-04 default/runtime captures",
+        "missing_evidence": [
+          "interaction/control exercise",
+          "measured performance on named target",
+          "edited-state PNG compared to viewer state"
+        ],
+        "gate_evidence": {
+          "framing_readability": [
+            "VIS-006-BATCH-04 default/runtime captures",
+            "captured in VIS-006-BATCH-04: defaults build/test_output/vis006-batch04-defaults/sierpinski_triangle.png (256x256; 1662 RGB colors; blackPixelRatio=0.5645; luminanceStdDev=59.9566; pass; iterations=174, bailout=4, colorScheme=0, pan=(-0.7941,0.0808), zoom=0.7947; CPU oracle skipped: no reference oracle) and runtime GPU build/test_output/vis006-batch04/sierpinski_triangle_runtime_catalog_preview.png (384x346; 1173 RGB colors; blackPixelRatio=0.5605; luminanceStdDev=72.4308; pass). See batch report and integration_test/catalog/vis006_batch04_runtime_preview_test.dart."
+          ],
+          "identity_disclosure": [
+            "lib/core/modules/fractal_mathematics.dart; source facets do not verify user-facing disclosure",
+            "No inspected identity/disclosure UI or artifact is recorded for this pilot entry"
+          ],
+          "controls": [
+            "No recorded interaction/control exercise for this pilot entry; VIS-006 image captures do not test controls"
+          ],
+          "preview": [
+            "captured in VIS-006-BATCH-04: defaults build/test_output/vis006-batch04-defaults/sierpinski_triangle.png (256x256; 1662 RGB colors; blackPixelRatio=0.5645; luminanceStdDev=59.9566; pass; iterations=174, bailout=4, colorScheme=0, pan=(-0.7941,0.0808), zoom=0.7947; CPU oracle skipped: no reference oracle) and runtime GPU build/test_output/vis006-batch04/sierpinski_triangle_runtime_catalog_preview.png (384x346; 1173 RGB colors; blackPixelRatio=0.5605; luminanceStdDev=72.4308; pass). See batch report and integration_test/catalog/vis006_batch04_runtime_preview_test.dart.",
+            "Preview verdict is image-health/renderability only; it does not establish visual quality"
+          ],
+          "performance": [
+            "No named-target frame-time/latency measurement is recorded for this pilot entry"
+          ],
+          "png_export": [
+            "No REL-JOURNEY same-selected-state edited-PNG receipt is recorded for this pilot entry; see TODO.md#REL-JOURNEY-001"
+          ]
+        }
+      },
+      {
+        "id": "core.barnsley_fern",
+        "family_group": "geometric / affine IFS",
+        "distinctness": "distinct system/group; parameters or color presets do not count as new systems",
+        "verdicts": {
+          "framing_readability": "NOT_CHECKED",
+          "identity_disclosure": "NOT_CHECKED",
+          "controls": "NOT_CHECKED",
+          "preview": "PASS",
+          "performance": "NOT_CHECKED",
+          "png_export": "NOT_CHECKED"
+        },
+        "evidence": "VIS-006-BATCH-04 default/runtime captures",
+        "missing_evidence": [
+          "interaction/control exercise",
+          "measured performance on named target",
+          "edited-state PNG compared to viewer state"
+        ],
+        "gate_evidence": {
+          "framing_readability": [
+            "VIS-006-BATCH-04 default/runtime captures",
+            "captured in VIS-006-BATCH-04: defaults build/test_output/vis006-batch04-defaults/barnsley_fern.png (256x256; 1574 RGB colors; blackPixelRatio=0.9357; luminanceStdDev=55.3173; pass; iterations=206, bailout=6, colorScheme=0, pan=(0,0.2), zoom=0.7241; CPU oracle skipped: no reference oracle) and runtime GPU build/test_output/vis006-batch04/barnsley_fern_runtime_catalog_preview.png (384x346; 3554 RGB colors; blackPixelRatio=0.8716; luminanceStdDev=76.7356; pass). See batch report and integration_test/catalog/vis006_batch04_runtime_preview_test.dart."
+          ],
+          "identity_disclosure": [
+            "lib/core/modules/fractal_mathematics.dart; source facets do not verify user-facing disclosure",
+            "No inspected identity/disclosure UI or artifact is recorded for this pilot entry"
+          ],
+          "controls": [
+            "No recorded interaction/control exercise for this pilot entry; VIS-006 image captures do not test controls"
+          ],
+          "preview": [
+            "captured in VIS-006-BATCH-04: defaults build/test_output/vis006-batch04-defaults/barnsley_fern.png (256x256; 1574 RGB colors; blackPixelRatio=0.9357; luminanceStdDev=55.3173; pass; iterations=206, bailout=6, colorScheme=0, pan=(0,0.2), zoom=0.7241; CPU oracle skipped: no reference oracle) and runtime GPU build/test_output/vis006-batch04/barnsley_fern_runtime_catalog_preview.png (384x346; 3554 RGB colors; blackPixelRatio=0.8716; luminanceStdDev=76.7356; pass). See batch report and integration_test/catalog/vis006_batch04_runtime_preview_test.dart.",
+            "Preview verdict is image-health/renderability only; it does not establish visual quality"
+          ],
+          "performance": [
+            "No named-target frame-time/latency measurement is recorded for this pilot entry"
+          ],
+          "png_export": [
+            "No REL-JOURNEY same-selected-state edited-PNG receipt is recorded for this pilot entry; see TODO.md#REL-JOURNEY-001"
+          ]
+        }
+      },
+      {
+        "id": "core.penrose_tiling",
+        "family_group": "tiling / substitution geometry",
+        "distinctness": "distinct system/group; parameters or color presets do not count as new systems",
+        "verdicts": {
+          "framing_readability": "NOT_CHECKED",
+          "identity_disclosure": "NOT_CHECKED",
+          "controls": "NOT_CHECKED",
+          "preview": "PASS",
+          "performance": "NOT_CHECKED",
+          "png_export": "NOT_CHECKED"
+        },
+        "evidence": "VIS-006-BATCH-07 default/runtime captures",
+        "missing_evidence": [
+          "interaction/control exercise",
+          "measured performance on named target",
+          "edited-state PNG compared to viewer state"
+        ],
+        "gate_evidence": {
+          "framing_readability": [
+            "VIS-006-BATCH-07 default/runtime captures",
+            "captured in VIS-006-BATCH-07: defaults build/test_output/vis006-batch07-defaults/penrose_tiling.png (256x256; 361 colors; black=0.5269; luminanceStdDev=53.2859; pass; params iterations=180,bailout=4,colorScheme=0); runtime build/test_output/vis006-batch07/penrose_tiling_runtime_catalog_preview.png (384x346; 531 colors; black=0.1131; luminanceStdDev=62.2959; pass); CPU oracle skipped (none registered)."
+          ],
+          "identity_disclosure": [
+            "lib/core/modules/fractal_mathematics.dart; source facets do not verify user-facing disclosure",
+            "No inspected identity/disclosure UI or artifact is recorded for this pilot entry"
+          ],
+          "controls": [
+            "No recorded interaction/control exercise for this pilot entry; VIS-006 image captures do not test controls"
+          ],
+          "preview": [
+            "captured in VIS-006-BATCH-07: defaults build/test_output/vis006-batch07-defaults/penrose_tiling.png (256x256; 361 colors; black=0.5269; luminanceStdDev=53.2859; pass; params iterations=180,bailout=4,colorScheme=0); runtime build/test_output/vis006-batch07/penrose_tiling_runtime_catalog_preview.png (384x346; 531 colors; black=0.1131; luminanceStdDev=62.2959; pass); CPU oracle skipped (none registered).",
+            "Preview verdict is image-health/renderability only; it does not establish visual quality"
+          ],
+          "performance": [
+            "No named-target frame-time/latency measurement is recorded for this pilot entry"
+          ],
+          "png_export": [
+            "No REL-JOURNEY same-selected-state edited-PNG receipt is recorded for this pilot entry; see TODO.md#REL-JOURNEY-001"
+          ]
+        }
+      },
+      {
+        "id": "core.henon",
+        "family_group": "attractor / discrete map",
+        "distinctness": "distinct system/group; parameters or color presets do not count as new systems",
+        "verdicts": {
+          "framing_readability": "NOT_CHECKED",
+          "identity_disclosure": "NOT_CHECKED",
+          "controls": "NOT_CHECKED",
+          "preview": "PASS",
+          "performance": "NOT_CHECKED",
+          "png_export": "NOT_CHECKED"
+        },
+        "evidence": "VIS-006-BATCH-09 default/runtime captures",
+        "missing_evidence": [
+          "interaction/control exercise",
+          "measured performance on named target",
+          "edited-state PNG compared to viewer state"
+        ],
+        "gate_evidence": {
+          "framing_readability": [
+            "VIS-006-BATCH-09 default/runtime captures",
+            "captured in VIS-006-BATCH-09: defaults build/test_output/vis006-batch09-defaults/henon.png (256x256; 156 RGB colors; blackPixelRatio=0.1471; luminanceStdDev=62.11; verdict pass; math oracle skipped: no reference oracle) and runtime build/test_output/vis006-batch09/henon_runtime_catalog_preview.png (384x346; 132 RGB colors; blackPixelRatio=0.0407; luminanceStdDev=27.3374; verdict pass)"
+          ],
+          "identity_disclosure": [
+            "lib/core/modules/fractal_mathematics.dart; source facets do not verify user-facing disclosure",
+            "No inspected identity/disclosure UI or artifact is recorded for this pilot entry"
+          ],
+          "controls": [
+            "No recorded interaction/control exercise for this pilot entry; VIS-006 image captures do not test controls"
+          ],
+          "preview": [
+            "captured in VIS-006-BATCH-09: defaults build/test_output/vis006-batch09-defaults/henon.png (256x256; 156 RGB colors; blackPixelRatio=0.1471; luminanceStdDev=62.11; verdict pass; math oracle skipped: no reference oracle) and runtime build/test_output/vis006-batch09/henon_runtime_catalog_preview.png (384x346; 132 RGB colors; blackPixelRatio=0.0407; luminanceStdDev=27.3374; verdict pass)",
+            "Preview verdict is image-health/renderability only; it does not establish visual quality"
+          ],
+          "performance": [
+            "No named-target frame-time/latency measurement is recorded for this pilot entry"
+          ],
+          "png_export": [
+            "No REL-JOURNEY same-selected-state edited-PNG receipt is recorded for this pilot entry; see TODO.md#REL-JOURNEY-001"
+          ]
+        }
+      },
+      {
+        "id": "core.thomas_attractor",
+        "family_group": "attractor / continuous flow",
+        "distinctness": "distinct system/group; parameters or color presets do not count as new systems",
+        "verdicts": {
+          "framing_readability": "FAIL",
+          "identity_disclosure": "FAIL",
+          "controls": "NOT_CHECKED",
+          "preview": "PASS",
+          "performance": "NOT_CHECKED",
+          "png_export": "NOT_CHECKED"
+        },
+        "evidence": "VIS-006 initial default/runtime inspection: broad smooth gradients and curved bands, not recognizable Thomas orbit",
+        "missing_evidence": [
+          "interaction/control exercise",
+          "measured performance on named target",
+          "edited-state PNG compared to viewer state"
+        ],
+        "gate_evidence": {
+          "framing_readability": [
+            "VIS-006 initial default/runtime inspection: broad smooth gradients and curved bands, not recognizable Thomas orbit",
+            "captured in VIS-006: GPU output has smooth broad gradients and curved bands, not a recognizable Thomas orbit; metrics pass; see build/test_output/vis006-thomas-attractor/runtime_catalog_preview.png and build/test_output/vis006-thomas-attractor-defaults/thumbnail_report.json"
+          ],
+          "identity_disclosure": [
+            "lib/core/modules/fractal_mathematics.dart; source facets do not verify user-facing disclosure",
+            "No inspected identity/disclosure UI or artifact is recorded for this pilot entry"
+          ],
+          "controls": [
+            "No recorded interaction/control exercise for this pilot entry; VIS-006 image captures do not test controls"
+          ],
+          "preview": [
+            "captured in VIS-006: GPU output has smooth broad gradients and curved bands, not a recognizable Thomas orbit; metrics pass; see build/test_output/vis006-thomas-attractor/runtime_catalog_preview.png and build/test_output/vis006-thomas-attractor-defaults/thumbnail_report.json",
+            "Preview verdict is image-health/renderability only; it does not establish visual quality"
+          ],
+          "performance": [
+            "No named-target frame-time/latency measurement is recorded for this pilot entry"
+          ],
+          "png_export": [
+            "No REL-JOURNEY same-selected-state edited-PNG receipt is recorded for this pilot entry; see TODO.md#REL-JOURNEY-001"
+          ]
+        }
+      },
+      {
+        "id": "core.four_wing",
+        "family_group": "attractor / continuous flow",
+        "distinctness": "distinct system/group; parameters or color presets do not count as new systems",
+        "verdicts": {
+          "framing_readability": "FAIL",
+          "identity_disclosure": "FAIL",
+          "controls": "NOT_CHECKED",
+          "preview": "PASS",
+          "performance": "NOT_CHECKED",
+          "png_export": "NOT_CHECKED"
+        },
+        "evidence": "VIS-006 initial default/runtime inspection: broad smooth gradients and sharp sector boundaries, not recognizable four-wing orbit",
+        "missing_evidence": [
+          "interaction/control exercise",
+          "measured performance on named target",
+          "edited-state PNG compared to viewer state"
+        ],
+        "gate_evidence": {
+          "framing_readability": [
+            "VIS-006 initial default/runtime inspection: broad smooth gradients and sharp sector boundaries, not recognizable four-wing orbit",
+            "captured in VIS-006: build/test_output/vis006-four-wing-defaults/four_wing.png (256x256; 785 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; verdict pass) and build/test_output/vis006-four-wing/runtime_catalog_preview.png (384x346; 481 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; verdict pass); both show smooth broad color gradients and sharp sector/wedge boundaries rather than a recognizable four-wing orbit; module config bailout=12 is normalized to 8 by the shared parameter schema before shader mapping; formulas preserved"
+          ],
+          "identity_disclosure": [
+            "lib/core/modules/fractal_mathematics.dart; source facets do not verify user-facing disclosure",
+            "No inspected identity/disclosure UI or artifact is recorded for this pilot entry"
+          ],
+          "controls": [
+            "No recorded interaction/control exercise for this pilot entry; VIS-006 image captures do not test controls"
+          ],
+          "preview": [
+            "captured in VIS-006: build/test_output/vis006-four-wing-defaults/four_wing.png (256x256; 785 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; verdict pass) and build/test_output/vis006-four-wing/runtime_catalog_preview.png (384x346; 481 RGB colors; blackPixelRatio=0.0; nonBlack=1.0; verdict pass); both show smooth broad color gradients and sharp sector/wedge boundaries rather than a recognizable four-wing orbit; module config bailout=12 is normalized to 8 by the shared parameter schema before shader mapping; formulas preserved",
+            "Preview verdict is image-health/renderability only; it does not establish visual quality"
+          ],
+          "performance": [
+            "No named-target frame-time/latency measurement is recorded for this pilot entry"
+          ],
+          "png_export": [
+            "No REL-JOURNEY same-selected-state edited-PNG receipt is recorded for this pilot entry; see TODO.md#REL-JOURNEY-001"
+          ]
+        }
+      },
+      {
+        "id": "core.lorenz_2d",
+        "family_group": "attractor / projected flow",
+        "distinctness": "distinct system/group; parameters or color presets do not count as new systems",
+        "verdicts": {
+          "framing_readability": "FAIL",
+          "identity_disclosure": "FAIL",
+          "controls": "NOT_CHECKED",
+          "preview": "PASS",
+          "performance": "NOT_CHECKED",
+          "png_export": "NOT_CHECKED"
+        },
+        "evidence": "VIS-006 runtime preview inspection: narrow diagonal band over smooth gradient, not recognizable two-lobed silhouette",
+        "missing_evidence": [
+          "interaction/control exercise",
+          "measured performance on named target",
+          "edited-state PNG compared to viewer state"
+        ],
+        "gate_evidence": {
+          "framing_readability": [
+            "VIS-006 runtime preview inspection: narrow diagonal band over smooth gradient, not recognizable two-lobed silhouette",
+            "captured in VIS-006 batch: build/test_output/vis006-lorenz/runtime_catalog_preview.png (384x346; 3008 RGB colors; nonBlack=1.0; verdict pass; visually narrow diagonal band over smooth gradient)"
+          ],
+          "identity_disclosure": [
+            "lib/core/modules/fractal_mathematics.dart; source facets do not verify user-facing disclosure",
+            "No inspected identity/disclosure UI or artifact is recorded for this pilot entry"
+          ],
+          "controls": [
+            "No recorded interaction/control exercise for this pilot entry; VIS-006 image captures do not test controls"
+          ],
+          "preview": [
+            "captured in VIS-006 batch: build/test_output/vis006-lorenz/runtime_catalog_preview.png (384x346; 3008 RGB colors; nonBlack=1.0; verdict pass; visually narrow diagonal band over smooth gradient)",
+            "Preview verdict is image-health/renderability only; it does not establish visual quality"
+          ],
+          "performance": [
+            "No named-target frame-time/latency measurement is recorded for this pilot entry"
+          ],
+          "png_export": [
+            "No REL-JOURNEY same-selected-state edited-PNG receipt is recorded for this pilot entry; see TODO.md#REL-JOURNEY-001"
+          ]
+        }
+      },
+      {
+        "id": "core.mandelbulb",
+        "family_group": "3D / raymarched escape-time",
+        "distinctness": "distinct system/group; parameters or color presets do not count as new systems",
+        "verdicts": {
+          "framing_readability": "NOT_CHECKED",
+          "identity_disclosure": "NOT_CHECKED",
+          "controls": "NOT_CHECKED",
+          "preview": "NOT_CHECKED",
+          "performance": "NOT_CHECKED",
+          "png_export": "NOT_CHECKED"
+        },
+        "evidence": "inventory says runtime-renderable, not captured",
+        "missing_evidence": [
+          "interaction/control exercise",
+          "measured performance on named target",
+          "edited-state PNG compared to viewer state",
+          "GPU default/runtime capture"
+        ],
+        "gate_evidence": {
+          "framing_readability": [
+            "inventory says runtime-renderable, not captured",
+            "runtime-renderable (not captured in VIS-005)"
+          ],
+          "identity_disclosure": [
+            "lib/core/modules/fractal_mathematics.dart; source facets do not verify user-facing disclosure",
+            "No inspected identity/disclosure UI or artifact is recorded for this pilot entry"
+          ],
+          "controls": [
+            "No recorded interaction/control exercise for this pilot entry; VIS-006 image captures do not test controls"
+          ],
+          "preview": [
+            "runtime-renderable (not captured in VIS-005)",
+            "Preview verdict is image-health/renderability only; it does not establish visual quality"
+          ],
+          "performance": [
+            "No named-target frame-time/latency measurement is recorded for this pilot entry"
+          ],
+          "png_export": [
+            "No REL-JOURNEY same-selected-state edited-PNG receipt is recorded for this pilot entry; see TODO.md#REL-JOURNEY-001"
+          ]
+        }
+      },
+      {
+        "id": "core.brian_brain",
+        "family_group": "cellular / stochastic local rule",
+        "distinctness": "distinct system/group; parameters or color presets do not count as new systems",
+        "verdicts": {
+          "framing_readability": "NOT_CHECKED",
+          "identity_disclosure": "NOT_CHECKED",
+          "controls": "NOT_CHECKED",
+          "preview": "NOT_CHECKED",
+          "performance": "NOT_CHECKED",
+          "png_export": "NOT_CHECKED"
+        },
+        "evidence": "inventory says runtime-renderable, not captured",
+        "missing_evidence": [
+          "interaction/control exercise",
+          "measured performance on named target",
+          "edited-state PNG compared to viewer state",
+          "GPU default/runtime capture"
+        ],
+        "gate_evidence": {
+          "framing_readability": [
+            "inventory says runtime-renderable, not captured",
+            "runtime-renderable (not captured in VIS-005)"
+          ],
+          "identity_disclosure": [
+            "lib/core/modules/fractal_mathematics.dart; source facets do not verify user-facing disclosure",
+            "No inspected identity/disclosure UI or artifact is recorded for this pilot entry"
+          ],
+          "controls": [
+            "No recorded interaction/control exercise for this pilot entry; VIS-006 image captures do not test controls"
+          ],
+          "preview": [
+            "runtime-renderable (not captured in VIS-005)",
+            "Preview verdict is image-health/renderability only; it does not establish visual quality"
+          ],
+          "performance": [
+            "No named-target frame-time/latency measurement is recorded for this pilot entry"
+          ],
+          "png_export": [
+            "No REL-JOURNEY same-selected-state edited-PNG receipt is recorded for this pilot entry; see TODO.md#REL-JOURNEY-001"
+          ]
+        }
+      }
+    ],
+    "defect_candidates": [
+      {
+        "id": "core.thomas_attractor",
+        "defect": "default output does not read as a Thomas orbit; image-health pass is not a visual pass",
+        "before": "build/test_output/vis006-thomas-attractor/runtime_catalog_preview.png; inventory VIS-006 visual inspection (default artifact/report also cited there)",
+        "after": "NOT_CHECKED; no repair/capture in this assessment",
+        "repair": "CAT-QUALITY-02 candidate: adjust only a source-supported view/default or rendering defect; preserve ODE; compare same viewport, seed/backend/settings."
+      },
+      {
+        "id": "core.four_wing",
+        "defect": "default/runtime output shows gradients and sector edges rather than a recognizable four-wing orbit",
+        "before": "build/test_output/vis006-four-wing-defaults/four_wing.png; build/test_output/vis006-four-wing/runtime_catalog_preview.png; VIS-006 inspection",
+        "after": "NOT_CHECKED; no repair/capture in this assessment",
+        "repair": "CAT-QUALITY-02 candidate: diagnose mapping/framing before any reversible view/render change; preserve formula; matched before/after capture required."
+      },
+      {
+        "id": "core.lorenz_2d",
+        "defect": "runtime preview is a narrow diagonal band over a smooth gradient rather than a recognizable two-lobed silhouette",
+        "before": "build/test_output/vis006-lorenz/runtime_catalog_preview.png; VIS-006 inspection",
+        "after": "NOT_CHECKED; no repair/capture in this assessment",
+        "repair": "CAT-QUALITY-02 candidate: diagnose projection/framing and rendering; preserve formula; matched before/after capture required."
+      }
+    ],
+    "candidate_history": [
+      {
+        "label": "earlier candidate",
+        "commit": "647687d357db4552e60b942dc7ebb1f6f94c6e4c",
+        "report_file": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.git/autowork-execution/slot-history/CAT-QUALITY-01/1/slot-data/attempt-1/report.json",
+        "reported_commit": "647687d357db4552e60b942dc7ebb1f6f94c6e4c",
+        "reported_changed_files": [
+          "docs/planning/visual-fidelity-audit-next.md",
+          "docs/planning/visual-audit-inventory.json"
+        ],
+        "actual_changed_files": [
+          "docs/planning/visual-audit-inventory.json",
+          "docs/planning/visual-fidelity-audit-next.md"
+        ],
+        "actual_file_sha256": {
+          "docs/planning/visual-audit-inventory.json": "82788fa2ee6095976061282fadcc520f6f4742f63124d1229873b7237bc13150",
+          "docs/planning/visual-fidelity-audit-next.md": "6a7defe7eda20cd9654a5d6ca602259ab77c7248b872472703836eddf18ac387"
+        },
+        "report_check_count": 3,
+        "report_blockers": []
+      },
+      {
+        "label": "latest candidate",
+        "commit": "6da03e38fa37449e354c72dfe035727927c4aa44",
+        "report_file": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.git/autowork-execution/slot-history/CAT-QUALITY-01/1/slot-data/attempt-2/report.json",
+        "reported_commit": "6da03e38fa37449e354c72dfe035727927c4aa44",
+        "reported_changed_files": [
+          "docs/planning/visual-fidelity-audit-next.md",
+          "docs/planning/visual-audit-inventory.json"
+        ],
+        "actual_changed_files": [
+          "docs/planning/visual-audit-inventory.json",
+          "docs/planning/visual-fidelity-audit-next.md"
+        ],
+        "actual_file_sha256": {
+          "docs/planning/visual-audit-inventory.json": "80a178eaeb0dc5c65f6e103f7c588c79fb58a9b3cb4fd62fdb2dcce532741f0d",
+          "docs/planning/visual-fidelity-audit-next.md": "e0533f2b7e542341a6609f570bfcadf7f32805a5f3a5bb11fd64ff70e58ab3e4"
+        },
+        "report_check_count": 4,
+        "report_blockers": [
+          "All three proposed repairs still need same-state before/after captures; after comparisons are NOT_CHECKED. Controls, named-target performance and edited-state PNG fidelity remain NOT_CHECKED. 3D and cellular/stochastic capture evidence is absent. No GPU/runtime/REL-JOURNEY checks were rerun; existing VIS-006 evidence was reused where recorded."
+        ]
+      }
+    ],
+    "commands_reused": [
+      {
+        "ids": [
+          "core.mandelbrot"
+        ],
+        "command": "CATALOG_THUMB_ONLY=core.mandelbrot CATALOG_THUMB_USE_MODULE_DEFAULTS=true CATALOG_THUMB_OUTPUT_DIR=build/test_output/vis006-mandelbrot-defaults STRICT_CATALOG_THUMBS=true flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded",
+        "runtime_command": "FORCE_GPU_RENDER=true FORCE_RUNTIME_CATALOG_THUMBNAILS=true flutter test integration_test/catalog/vis006_mandelbrot_runtime_preview_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --dart-define=FORCE_RUNTIME_CATALOG_THUMBNAILS=true --reporter expanded",
+        "backend_device": "forced GPU; Linux (-d linux); driver/model not recorded",
+        "seed": "not recorded"
+      },
+      {
+        "ids": [
+          "core.barnsley_fern"
+        ],
+        "command": "CATALOG_THUMB_ONLY=core.tetration,core.sierpinski_triangle,core.sierpinski_carpet,core.koch_snowflake,core.dragon_curve,core.barnsley_fern,core.pythagorean_tree,core.hilbert_curve,core.peano_curve,core.gosper_curve CATALOG_THUMB_USE_MODULE_DEFAULTS=true CATALOG_THUMB_OUTPUT_DIR=build/test_output/vis006-batch04-defaults STRICT_CATALOG_THUMBS=false flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded",
+        "runtime_command": "FORCE_GPU_RENDER=true FORCE_RUNTIME_CATALOG_THUMBNAILS=true flutter test integration_test/catalog/vis006_batch04_runtime_preview_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --dart-define=FORCE_RUNTIME_CATALOG_THUMBNAILS=true --reporter expanded",
+        "backend_device": "forced GPU; Linux (-d linux); driver/model not recorded",
+        "seed": "not recorded"
+      },
+      {
+        "ids": [
+          "core.penrose_tiling",
+          "core.vicsek_fractal"
+        ],
+        "command": "CATALOG_THUMB_ONLY=core.vicsek_fractal,core.penrose_tiling,core.fibonacci_word,core.rauzy_fractal,core.arnoux_rauzy_fractal,core.dual_substitution_tiling,core.bedford_mcmullen_carpet,core.self_affine_finite_type,core.pinwheel_tiling,core.z_order_curve CATALOG_THUMB_USE_MODULE_DEFAULTS=true CATALOG_THUMB_OUTPUT_DIR=build/test_output/vis006-batch07-defaults STRICT_CATALOG_THUMBS=true flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded",
+        "runtime_command": "FORCE_GPU_RENDER=true FORCE_RUNTIME_CATALOG_THUMBNAILS=true flutter test integration_test/catalog/vis006_batch07_runtime_preview_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --dart-define=FORCE_RUNTIME_CATALOG_THUMBNAILS=true --reporter expanded",
+        "backend_device": "forced GPU; Linux (-d linux); driver/model not recorded",
+        "seed": "not recorded"
+      },
+      {
+        "ids": [
+          "core.newton_z3"
+        ],
+        "command": "CATALOG_THUMB_ONLY=core.yu_wang,core.zhou_chen,core.tsucs,core.rayleigh_benard,core.robinson,core.globo_toroid,core.tamari,core.wang_sun_cang,core.newton_z3,core.halley CATALOG_THUMB_USE_MODULE_DEFAULTS=true STRICT_CATALOG_THUMBS=true CATALOG_THUMB_OUTPUT_DIR=build/test_output/vis006-batch13-defaults flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded",
+        "runtime_command": "FORCE_GPU_RENDER=true FORCE_RUNTIME_CATALOG_THUMBNAILS=true flutter test integration_test/catalog/vis006_batch13_runtime_preview_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --dart-define=FORCE_RUNTIME_CATALOG_THUMBNAILS=true --reporter expanded",
+        "backend_device": "forced GPU; Linux (-d linux); driver/model not recorded",
+        "seed": "not recorded"
+      },
+      {
+        "ids": [
+          "core.four_wing"
+        ],
+        "command": "CATALOG_THUMB_ONLY=core.four_wing CATALOG_THUMB_USE_MODULE_DEFAULTS=true CATALOG_THUMB_OUTPUT_DIR=build/test_output/vis006-four-wing-defaults STRICT_CATALOG_THUMBS=true flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded",
+        "runtime_command": "FORCE_GPU_RENDER=true FORCE_RUNTIME_CATALOG_THUMBNAILS=true flutter test integration_test/catalog/vis006_four_wing_runtime_preview_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --dart-define=FORCE_RUNTIME_CATALOG_THUMBNAILS=true --reporter expanded",
+        "backend_device": "forced GPU; Linux (-d linux); driver/model not recorded",
+        "seed": "not recorded"
+      },
+      {
+        "ids": [
+          "core.lorenz_2d"
+        ],
+        "command": "CATALOG_THUMB_ONLY=core.lorenz_2d CATALOG_THUMB_USE_MODULE_DEFAULTS=true CATALOG_THUMB_OUTPUT_DIR=build/test_output/vis006-lorenz-defaults STRICT_CATALOG_THUMBS=true flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded",
+        "runtime_command": "FORCE_GPU_RENDER=true FORCE_RUNTIME_CATALOG_THUMBNAILS=true flutter test integration_test/catalog/vis006_lorenz_runtime_preview_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --dart-define=FORCE_RUNTIME_CATALOG_THUMBNAILS=true --reporter expanded",
+        "backend_device": "forced GPU; Linux (-d linux); driver/model not recorded",
+        "seed": "not recorded"
+      },
+      {
+        "ids": [
+          "core.rossler_2d"
+        ],
+        "command": "CATALOG_THUMB_ONLY=core.rossler_2d CATALOG_THUMB_USE_MODULE_DEFAULTS=true CATALOG_THUMB_OUTPUT_DIR=build/test_output/vis006-rossler-defaults STRICT_CATALOG_THUMBS=true flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded",
+        "runtime_command": "FORCE_GPU_RENDER=true FORCE_RUNTIME_CATALOG_THUMBNAILS=true flutter test integration_test/catalog/vis006_rossler_runtime_preview_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --dart-define=FORCE_RUNTIME_CATALOG_THUMBNAILS=true --reporter expanded",
+        "backend_device": "forced GPU; Linux (-d linux); driver/model not recorded",
+        "seed": "not recorded"
+      }
+    ],
+    "capture_metadata_limits": {
+      "backend_device": "Existing capture commands explicitly force GPU on Linux (-d linux); GPU driver/model is not recorded in those receipts.",
+      "seed": "Seed is not recorded in the reused capture receipts; do not claim seed-matched comparisons.",
+      "commands": "Exact commands are retained only where present in the preserved VIS-006 receipt records above. Other entries refer to VIS-006 batch summaries/artifacts; no command is inferred or rerun.",
+      "artifacts": "Artifact paths are cited per item/gate and are historical receipts; build/test_output is absent in this checkout."
+    }
+  }
 }
