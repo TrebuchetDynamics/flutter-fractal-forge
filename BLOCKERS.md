@@ -13,13 +13,6 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T01:32:24Z
 - Answer: If no one is working on VIS-006, set `Status: open` in its TODO.md entry (the runner then runs it); otherwise note who holds it and when it will be done.
 
-### Q-SMOOTH-001-INVENTORY-01 — USER_DECISION — effort quick — unblocks 1
-
-- Task: SMOOTH-001-INVENTORY-01 — Reconcile one supported polynomial shader family with smooth-coloring coverage.
-- Needs: SMOOTH-001-INVENTORY-01 is marked in_progress by another session and will not be adopted automatically; 1 waiting task(s) depend on it.
-- Since: 2026-10-17T01:32:24Z
-- Answer: If no one is working on SMOOTH-001-INVENTORY-01, set `Status: open` in its TODO.md entry (the runner then runs it); otherwise note who holds it and when it will be done.
-
 ### Q-ACAD-03 — USER_DECISION — effort decision — unblocks 1
 
 - Task: ACAD-03 — Review approved source mathematics against a representative renderer pilot.
