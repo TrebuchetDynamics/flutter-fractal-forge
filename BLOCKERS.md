@@ -20,6 +20,13 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T01:32:24Z
 - Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
 
+### Q-CAT-QUALITY-02 — USER_INPUT — effort input — unblocks 0
+
+- Task: CAT-QUALITY-02 — Repair three demonstrated pilot first-impression defects.
+- Needs: worker reported a blocker: The required offline rendering/PNG verification could not be completed: the Linux integration runner builds the app but stalls before starting any integration test, including list-only mode, and times out. A supported working desktop integration-test runner or equivalent executable capture environment is needed before this task can be verified and committed. The preserved implementation remains un…
+- Since: 2026-10-17T18:53:52Z
+- Answer: Answer in CAT-QUALITY-02's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
+
 ### Q-REL-JOURNEY-01-WEB — USER_DECISION — effort investigate — unblocks 0
 
 - Task: REL-JOURNEY-01-WEB — Qualify the complete web image-creation journey.
