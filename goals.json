@@ -1091,6 +1091,7 @@
       "status": "unverified",
       "tasks": [
         "ACAD-01",
+        "ACAD-01-LIVE",
         "ACAD-02",
         "ACAD-03",
         "ACAD-04",
@@ -1121,7 +1122,6 @@
       "NUM-WALL-03",
       "NUM-WALL-04",
       "NUM-WALL-05",
-      "ACAD-01",
       "ACAD-02",
       "ACAD-04",
       "ACAD-05",
@@ -1142,7 +1142,8 @@
       "REL-JOURNEY-02-LINUX-LIVE",
       "ACAD-03",
       "SMOOTH-001-INVENTORY-01-LIVE",
-      "REL-JOURNEY-03-ANDROID-LIVE"
+      "REL-JOURNEY-03-ANDROID-LIVE",
+      "ACAD-01-LIVE"
     ]
   },
   "tasks": [
@@ -1171,14 +1172,6 @@
       "section": "Now",
       "status": "in_progress",
       "title": "Capture and inspect the next ten uncaptured Explore modules"
-    },
-    {
-      "depends_on": [],
-      "goal": "ACAD-001",
-      "id": "ACAD-01",
-      "section": "Next",
-      "status": "open",
-      "title": "Build the shared academic evidence index and all-identity coverage import"
     },
     {
       "depends_on": [
@@ -1366,6 +1359,16 @@
     },
     {
       "depends_on": [
+        "ACAD-01"
+      ],
+      "goal": "ACAD-001",
+      "id": "ACAD-01-LIVE",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Live checks for ACAD-01"
+    },
+    {
+      "depends_on": [
         "ACAD-02"
       ],
       "goal": "ACAD-001",
@@ -1527,6 +1530,14 @@
       "section": "Needs decision",
       "status": "open",
       "title": "Review app icon presentation and record sign-off"
+    },
+    {
+      "depends_on": [],
+      "goal": "ACAD-001",
+      "id": "ACAD-01",
+      "section": "Done",
+      "status": "done",
+      "title": "Build the shared academic evidence index and all-identity coverage import"
     },
     {
       "depends_on": [],

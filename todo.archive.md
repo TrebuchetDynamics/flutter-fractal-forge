@@ -509,3 +509,21 @@ Source section: Next
   - Ownership: repository backlog, unassigned. Check live ownership before any dispatch.
   - Decision: reuse existing journey/export components and fix only reproduced in-scope defects; no speculative renderer redesign or new dependencies.
   - Skill application: planning-and-task-breakdown, bounded end-to-end slice; frontend-ui-engineering, interaction and saved-state regressions; documentation-and-adrs, distinguish accepted target from observed qualification.
+
+
+<!-- archived from TODO.md -->
+
+Source section: Next
+
+- [x] **ACAD-01 — Build the shared academic evidence index and all-identity coverage import.**
+  - Goal: ACAD-001
+  - Status: done
+  - Section: Next.
+  - Sources: [Accepted academic research outcome](PRD.md#academic-research-library), [library design](research/academic/README.md), [integration contract](docs/engineering/spec.md#academic-source-to-renderer-evidence), `scripts/research/README.md`, `scripts/research/schemas/common.schema.json`, `docs/catalog/fractal_registry.yaml`, `docs/planning/visual-audit-inventory.json`, `research/fractals-library/data/fractal_manifest.json`.
+  - Touches: research/academic/, scripts/research/academic/, test/research/, scripts/research/forge.py
+  - Scope: Implement the versioned shared paper/mapping schema, immutable-run importer, identity alias/duplicate review, generated namespace-aware coverage and offline validator. Reuse existing JSONL/tool outputs and stable app IDs; link historical research in place, never mass-move or silently upgrade it. No live searches, PDF acquisition, external installs, app rendering changes or new database/service.
+  - Acceptance: Current app/registry/reference/planned namespaces are reconciled exactly with an explicit row for each scoped identity; unresolved aliases remain gaps. Metadata-only/code/video/source-checked/numerically-checked states stay distinct. Import twice yields byte-identical output; DOI/arXiv version aliases deduplicate safely and title collisions do not merge silently. Rights/source hashes/claim spans/implementation bindings reject malformed or unsupported upgrades; all pre-existing packages and unrelated Number Walls work survive byte-for-byte. New validator checks missing-source, stale-binding, unsupported-claim and illegal-public-file negative fixtures.
+  - Checks: Planned new modules: `pytest test/research/test_academic_library.py test/research/test_academic_coverage.py -v`; `PYTHONDONTWRITEBYTECODE=1 python3 scripts/research/forge.py doctor --strict-app-catalog`; `python3 research/fractals-library/scripts/validate_manifest.py`; `python3 research/fractals-library/scripts/validate_visual_inventory.py`; repeat import/hash conservation. Add a scoped `forge academic-check` command with tests, then record its exact CLI; that command does not yet exist. New tests are NOT_RUN.
+  - Dependencies: None.
+  - Ownership: Repository backlog, unassigned; verify actual writers and maintain current focus/order. Planning does not execute.
+  - Next action: Write the schema/import/coverage negative and idempotency fixtures before adding the offline adapter.
