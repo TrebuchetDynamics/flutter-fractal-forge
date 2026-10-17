@@ -41,13 +41,6 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T05:39:28Z
 - Answer: Answer in CAT-QUALITY-02's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
 
-### Q-GAUSS-MOAT-04-GROWTH — USER_DECISION — effort investigate — unblocks 1
-
-- Task: GAUSS-MOAT-04-GROWTH — Scrub and animate jump-radius growth without queued or stale computations.
-- Needs: merge conflict; worker and canonical checkout preserved
-- Since: 2026-10-17T01:32:24Z
-- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/GAUSS-MOAT-04-GROWTH/), then rescope or split GAUSS-MOAT-04-GROWTH in its TODO.md entry. The runner reruns it when the entry changes.
-
 ### Q-QUAT-NORM-02-WALK — USER_DECISION — effort investigate — unblocks 1
 
 - Task: QUAT-NORM-02-WALK — Walk in the quaternion slice with camera-independent adjacency and captured overlays.
