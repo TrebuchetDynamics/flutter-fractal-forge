@@ -1,0 +1,25 @@
+10.1016/j.amc.2005.11.061	Julia sets of the Schröder iteration functions of a class of one-parameter polynomials with high degree
+10.1016/j.fss.2017.06.011	Polynomial alias higher degree fuzzy transform of complex-valued functions
+10.2139/ssrn.6182174	Complex Dynamical Behavior of Mandelbrot and Julia Sets Generated via two Polynomials Khan Iteration
+10.1002/0470013850.ch14	Iteration of Complex Functions—Julia Sets
+10.3840/000309	Complex Newton Iteration for a Cubic Polynomial
+10.1080/17476930008815310	Iteration of polynomial mappings on algebraic sets
+10.3840/07000309	Complex Newton Iteration for a Cubic Polynomial
+10.2307/2008220	Julia Sets and Mandelbrot-Like Sets Associated With Higher Order Schroder Rational Iteration Functions: A Computer Assisted Study
+10.1155/2022/2592573	Julia and Mandelbrot Sets of Transcendental Function via Fibonacci-Mann Iteration
+10.1515/mcma-2012-0001	Discrepancy of higher rank polynomial lattice point sets
+10.1007/pl00005568	Julia Sets in Parameter Spaces
+10.1007/978-3-663-11108-5_6	Parameter Free Methods
+10.1007/978-3-663-11108-5_7	Parameter Dependent Methods
+10.1109/iwcfta.2009.89	General mandelbrot sets and julia sets generated from non-analytic complex iteration ⨍m(z)=z^<sup>m</sup>+c
+10.1090/s0025-5718-1986-0815837-5	Julia sets and Mandelbrot-like sets associated with higher order Schröder rational iteration functions: a computer assisted study
+10.1137/1.9781611971927.ch6	6. Parameter Free Methods
+10.1137/1.9781611971927.ch7	7. Parameter Dependent Methods
+10.1016/j.chaos.2026.118318	Complex dynamical behavior of Mandelbrot and Julia sets generated via two polynomials Khan iteration
+10.2991/isccca.2013.42	Fractal Structures of General Mandelbrot Sets and Julia Sets Generated From Complex Non-Analytic Iteration Fm(Z)=Zm+c
+10.1142/s0218348x99000438	A STUDY OF MANDELBROT AND JULIA SETS GENERATED FROM A GENERAL COMPLEX CUBIC ITERATION
+10.1090/psapm/049/1315535	Does a Julia set depend continuously on the polynomial?
+10.12732/ijpam.v117i1.8	JULIA SETS AS COMPLEX POLYNOMIAL
+10.1016/b978-0-12-079061-6.50013-9	Parameter Spaces and Mandelbrot Sets
+10.1088/1402-4896/ae04a9	Generation of Julia and Mandelbrot sets using an s-convex extension of the Noor iteration for a generalized rational complex function
+10.20944/preprints202407.1276.v6	Inequalities involving Higher Degree Polynomial Functions in $\pi(x)$

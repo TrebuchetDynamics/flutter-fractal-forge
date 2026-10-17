@@ -1,0 +1,25 @@
+10.3390/fractalfract6020089	Fractals: An Eclectic Survey, Part-I
+10.1007/978-981-96-5342-3_7	Key Techniques for Numerical Simulation of Rock Dynamics
+10.32657/10356/51166	Complexity : a study of fractals and self-organized criticality
+10.3390/fractalfract6110686	Possibilities of Use for Fractal Techniques as Parameters of Graphic Analysis
+10.48550/arxiv.2109.09709	Information dynamics and the arrow of time
+10.1007/s00371-020-01953-y	A survey of modeling, rendering and animation of clouds in computer graphics
+10.3756/artsci.2.61	Automatic Generation of 3-D Linear Fractal Shapes with Quadratic Map Basins Animation
+10.2172/821335	Fluid Dynamics of Carbon Dioxide Disposal into Saline Aquifers
+10.1063/5.0205049	Dynamical integrity of the safe basins in a problem of forced escape
+10.21203/rs.3.rs-11355949/v1	SympGal-NODE: Continuous-Time Symplectic Neural ODEs for Relativistic Stellar Swarms: Predicting Escape Times, Exit Trajectories, and Tidal Horizons
+10.3390/geosciences15090354	Numerical Modelling of Rock Fragmentation in Landslide Propagation: A Test Case
+10.1007/s11075-023-01644-4	On the viscosity approximation type iterative method and its non-linear behaviour in the generation of Mandelbrot and Julia sets
+	Numerical modelling of Bingham fluid flow and particle transport in a rough-walled fracture
+10.1038/s41598-026-38261-9	An enhanced connected banking system optimizer with multiple strategies for numerical optimization problems
+10.11575/prism/35735	Numerical Sensitivity Analysis and Simulation of Petrophysical Characteristics of Porous Media Domains
+10.1371/journal.pcbi.1009597	Preparing to move: Setting initial conditions to simplify interactions with complex objects
+10.1016/j.ymssp.2026.114661	Bayesian learning in structural dynamics: a comprehensive review and emerging trends
+10.1016/j.newast.2025.102377	Thermal conduction and thermal-driven winds in magnetized viscous accretion disk dynamics
+10.18452/22016	Analysis of Spatio-Temporal Phenomena in High-Brightness Diode Lasers using Numerical Simulations
+10.1016/j.epsl.2025.119771	The role of crystal-bubble interactions, outgassing and magma composition in the ascent dynamics of alkaline magmas: Implications for eruptions at Vesuvius
+	An individual-based GPU simulation framework for collective bacterial dynamics in swarms and biofilms
+	Macroeconomic Dynamics of Market Risk Capital Requirements and Credit Supply Interdependence
+	Novel Methods to Construct Microchannel Networks with Complex Topologies
+	Multi-scale simulations with complex automata: in-stent restenosis and suspension flow
+10.70675/686d20cez3e02z49b5z8ab4z463209958fab	Turbulent combustion of lean hydrogen/air premixed ﬂames : from numerical assessment of Lewis number eﬀects to deep learning modeling for large eddy simulations

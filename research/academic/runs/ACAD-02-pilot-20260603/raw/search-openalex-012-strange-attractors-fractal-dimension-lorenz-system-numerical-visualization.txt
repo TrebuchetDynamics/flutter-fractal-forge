@@ -1,0 +1,25 @@
+10.1016/j.cnsns.2016.04.032	Lyapunov dimension formula for the global attractor of the Lorenz system
+10.1088/0951-7715/15/4/312	Bifurcations and strange attractors in the Lorenz-84 climate model with seasonal forcing
+10.52783/cana.v32.3722	The Lorenz Attractor: A Fractal Perspective using MATLAB
+10.1175/1520-0477(1989)070<0014:csaaw>2.0.co;2	Chaos, Strange Attractors, and Weather
+10.1007/s11071-020-05856-4	The Lorenz system: hidden boundary of practical stability and the Lyapunov dimension
+	Visualizing the transition to chaos in the Lorenz system
+10.1007/s11785-026-01948-y	Investigating Chaos in the Lorenz System based on Fractal-Fractional Derivatives
+10.48550/arxiv.1910.08740	A lower-bound estimate of the Lyapunov dimension for the global attractor of the Lorenz system
+10.1140/epjst/e2015-02470-3	Homoclinic orbits, and self-excited and hidden attractors in a Lorenz-like system describing convective fluid motion
+10.3390/e21111115	Complex Chaotic Attractor via Fractal Transformation
+10.1090/tran/7228	Computing geometric Lorenz attractors with arbitrary precision
+10.1007/s11071-018-4054-z	Finite-time Lyapunov dimension and hidden attractor of the Rabinovich system
+10.48550/arxiv.0901.4968	Complex Singularities and the Lorenz Attractor
+10.1142/s0218127414500151	Potential Function in a Continuous Dissipative Chaotic System: Decomposition Scheme and Role of Strange Attractor
+10.1038/s41598-023-33826-4	Modeling, dynamical analysis and numerical simulation of a new 3D cubic Lorenz-like system
+10.3390/e24050718	Interpolating Strange Attractors via Fractional Brownian Bridges
+10.67976/ijrpms.v1.i1.02	Exploring the Role of Fractal Geometry in Understanding Nonlinear Dynamical Systems
+10.1103/revmodphys.81.333	Fractal structures in nonlinear dynamics
+10.1088/1402-4896/ada9cb	False Strange Attractors as Sources of Pseudo Randomness
+10.1016/j.eij.2020.07.002	Trajectory control and image encryption using affine transformation of lorenz system
+10.3389/fphys.2012.00382	Recurrence Quantification of Fractal Structures
+10.1016/j.cnsns.2022.106482	Double-zero degeneracy and heteroclinic cycles in a perturbation of the Lorenz system
+10.67976/ijrpms.2026.v1.i1.01	Exploring Nonlinear Dynamics in High-Dimensional Systems: Applications to Chaos Theory and Fractal Geometry
+10.48550/arxiv.2406.19885	Fractal dimension, and the problems traps of its estimation
+10.1103/physreve.111.034201	Asymmetric coupling of nonchaotic Rulkov neurons: Fractal attractors, quasimultistability, and final state sensitivity

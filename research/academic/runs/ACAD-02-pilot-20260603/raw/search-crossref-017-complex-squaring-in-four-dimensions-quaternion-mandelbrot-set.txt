@@ -1,0 +1,21 @@
+10.1007/978-3-031-80115-0_7	Dimensions of Mandelbrot Set Boundary and of Julia Sets
+10.1017/cbo9781316036549.007	The Mandelbrot set
+10.1142/s0218348x24500610	3D RENDERING OF THE QUATERNION MANDELBROT SET WITH MEMORY
+10.1007/s00454-012-9431-7	Mandelbrot Set + Symmetry Groups ∗ Higher Dimensions = ?
+10.1201/b11855-11	Complex Fractals : Julia Sets and the Mandelbrot Set
+10.32614/cran.package.mandelbrot	mandelbrot: Generates Views on the Mandelbrot Set
+10.1007/978-0-387-75477-2_12	Complex Dynamics:Julia Sets and the Mandelbrot Set
+10.1007/978-1-4757-4017-2_5	The complex quadratic map and its ℳ-set
+10.1145/1900354.1900409	Complex mapping with the interpolated Julia set and Mandelbrot set
+10.1017/cbo9780511569159.003	The Mandelbrot set is universal
+10.1201/9781032678757-7	Complex Fractals: Julia Sets and the Mandelbrot Set
+10.1201/9781315380339-7	Coda: Fractals and the Mandelbrot Set
+10.1515/9781400882557-004	Chapter 4. Holomorphic motions and the Mandelbrot set
+10.1007/978-1-4612-4406-6	Fractals for the Classroom
+10.1017/cbo9780511569159.008	Local properties of the Mandelbrot set at parabolic points
+10.15224/978-1-63248-109-2-25	Complex Mapping of 3DCG Models with Julia Set and Mandelbrot Set
+10.25088/complexsystems.23.3.227	The Mandelbrot Set with Partial Memory
+10.55277/researchhub.br88fx0d.1	Natural Maths - Mandelbrot Set
+10.7717/peerjcs.892/fig-3	Figure 3: Formal modeling of Mandelbrot set.
+10.1007/978-3-642-45438-7_1	The Complex Geometry of the Mandelbrot Set
+10.3840/001478	Mandelbrot Set Doodle

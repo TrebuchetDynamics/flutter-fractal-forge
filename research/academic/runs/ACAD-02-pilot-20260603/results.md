@@ -1,0 +1,906 @@
+# Search batch results
+
+Deduped records: 879
+
+- The Hausdorff Dimension of the Boundary of the Mandelbrot Set and Julia Sets — DOI: `10.2307/121009`
+- Homeomorphisms on edges of the Mandelbrot set
+- Topological entropy of quadratic polynomials and dimension of sections of the Mandelbrot set — DOI: `10.1016/j.aim.2014.12.033`
+- On the continuity of Hausdorff dimension of Julia sets and similarity between the Mandelbrot set and Julia sets — DOI: `10.4064/fm170-3-6`
+- On the Julia set of a typical quadratic polynomial with a Siegel disk — DOI: `10.4007/annals.2004.159.1`
+- Local Connectivity of the Julia Set of Real Polynomials — DOI: `10.2307/120958`
+- Construction of 3D Mandelbrot Set and Julia Set — DOI: `10.5120/14920-3514`
+- Julia sets appear quasiconformally in the Mandelbrot set — DOI: `10.48550/arxiv.1804.00176`
+- Quadratic Julia sets with positive area — DOI: `10.4007/annals.2012.176.2.1`
+- Existence of the Mandelbrot Set in the Parameter Planes of Certain Rational Functions
+- Julia sets of Newton maps of real quadratic polynomial maps on the plane — DOI: `10.48550/arxiv.1812.11595`
+- The Picard–Mann iteration with s-convexity in the generation of Mandelbrot and Julia sets — DOI: `10.1007/s00605-021-01591-z`
+- The Mandelbrot Set for a Coquaternionic Family of Quadratics — DOI: `10.1007/978-3-031-97589-9_11`
+- Mandelbrot and Julia Sets via Jungck–CR Iteration With $s$ –Convexity — DOI: `10.1109/access.2019.2892013`
+- The Mandelbrot set
+- Visualization of Mandelbrot and Julia Sets of Möbius Transformations — DOI: `10.3390/fractalfract5030073`
+- On quotients of the shift associated with dendrite Julia sets of quadratic polynomials — DOI: `10.82444/warw.33763501`
+- On the directional derivative of the Hausdorff dimension of quadratic polynomial Julia sets at -2 — DOI: `10.1016/j.aim.2023.109297`
+- Internal Addresses of the Mandelbrot Set and Galois Groups of Polynomials — DOI: `10.1007/s40598-016-0042-x`
+- Development of mandelbrot set for the logistic map with two parameters in the complex plane — DOI: `10.15587/1729-4061.2021.249264`
+- An effective algorithm to compute Mandelbrot sets in parameter planes — DOI: `10.1007/s11075-017-0270-8`
+- Dynamics of quadratic polynomials, I–II — DOI: `10.1007/bf02392694`
+- Superior Julia Sets and Superior Mandelbrot Sets in SP Orbit
+- Dynamics of quadratic polynomials, III Parapuzzle and SBR measures — DOI: `10.24033/ast.473`
+- Internal addresses in the Mandelbrot set and Galois groups of polynomials — DOI: `10.48550/arxiv.math/9411238`
+- Dimensions of Mandelbrot Set Boundary and of Julia Sets — DOI: `10.1007/978-3-031-80115-0_7`
+- 10 The parameter plane — DOI: `10.1515/9783111689685-010`
+- Complex Fractals : Julia Sets and the Mandelbrot Set — DOI: `10.1201/b11855-11`
+- Does a Julia set depend continuously on the polynomial? — DOI: `10.1090/psapm/049/1315535`
+- The complex dynamics of quadratic polynomials — DOI: `10.1090/psapm/049/1315532`
+- Julia Sets and the Mandelbrot Set — DOI: `10.3840/000706`
+- Julia Sets and the Mandelbrot Set — DOI: `10.3840/07000706`
+- Complex Fractals: Julia Sets and the Mandelbrot Set — DOI: `10.1201/9781032678757-7`
+- Julia: Fractal Image Data Generator — DOI: `10.32614/cran.package.julia`
+- C Computer graphics of complex dynamics — DOI: `10.1515/9783111689685-014`
+- Julia sets and the Mandelbrot set — DOI: `10.1142/9789814291293_0008`
+- Mandelbrot set and Julia sets of fractional order — DOI: `10.1007/s11071-023-08311-2`
+- 4. Julia sets and the Mandelbrot set — DOI: `10.1093/actrade/9780199675982.003.0004`
+- Mandelbrot Set as a Particular Julia Set of Fractional Order, Equipotential Lines and External Rays of Mandelbrot and Julia Sets of Fractional Order — DOI: `10.3390/fractalfract8010069`
+- 6 The Fatou and Julia sets — DOI: `10.1515/9783111689685-006`
+- Julia Sets and the Mandelbrot Set — DOI: `10.1007/978-3-642-61717-1_13`
+- Review for "Dynamics of Julia and Mandelbrot Sets: Viscosity Approximation Method with h-Convexity" — DOI: `10.1088/1402-4896/adc958/v3/review1`
+- Geometry and dimension of Julia sets — DOI: `10.1017/cbo9780511569159.015`
+- Hybrid quadratic control method for fractal analysis: Parameter sensitivity in Mandelbrot and Julia sets — DOI: `10.1515/gmj-2026-2023`
+- Review for "Dynamics of Julia and Mandelbrot Sets: Viscosity Approximation Method with h-Convexity" — DOI: `10.1088/1402-4896/adc958/v1/review1`
+- Review for "Dynamics of Julia and Mandelbrot Sets: Viscosity Approximation Method with h-Convexity" — DOI: `10.1088/1402-4896/adc958/v2/review2`
+- Local connectivity of Julia sets: expository lectures — DOI: `10.1017/cbo9780511569159.006`
+- The complex quadratic map and its ℳ-set — DOI: `10.1007/978-1-4757-4017-2_5`
+- Complex Dynamics:Julia Sets and the Mandelbrot Set — DOI: `10.1007/978-0-387-75477-2_12`
+- Review for "Dynamics of Julia and Mandelbrot Sets: Viscosity Approximation Method with h-Convexity" — DOI: `10.1088/1402-4896/adc958/v1/review2`
+- Schröder iteration functions associated with a one-parameter family of biquadratic polynomials — DOI: `10.1016/s0960-0779(00)00259-9`
+- The iteration of cubic polynomials Part I: The global topology of parameter space — DOI: `10.1007/bf02392275`
+- Puiseux series polynomial dynamics and iteration of complex cubic polynomials — DOI: `10.5802/aif.2215`
+- Fractals as Julia Sets of Complex Sine Function via Fixed Point Iterations — DOI: `10.3390/fractalfract5040272`
+- The Hausdorff Dimension of the Julia Set of Polynomials of the Form zd + c
+- The iteration of cubic polynomials Part II: patterns and parapatterns — DOI: `10.1007/bf02392761`
+- Local connectivity of the Julia set of real polynomials — DOI: `10.48550/arxiv.math/9504227`
+- The core entropy for polynomials of higher degree — DOI: `10.4171/jems/1154`
+- Singular perturbations of complex polynomials — DOI: `10.1090/s0273-0979-2013-01410-1`
+- Generating Geometric Patterns Using Complex Polynomials and Iterative Schemes — DOI: `10.3390/axioms13030204`
+- Fractals as Julia and Mandelbrot Sets of Complex Cosine Functions via Fixed Point Iterations — DOI: `10.3390/sym15020478`
+- Hausdorff dimension and biaccessibility for polynomial Julia sets — DOI: `10.1090/s0002-9939-2012-11323-1`
+- Slices of Parameter Space of Cubic Polynomials — DOI: `10.48550/arxiv.1609.02240`
+- On the quaternion Julia sets via Picard–Mann iteration — DOI: `10.1007/s11071-023-08785-0`
+- NEW JULIA AND MANDELBROT SETS FOR A NEW FASTER ITERATIVE PROCESS — DOI: `10.12732/ijpam.v107i1.13`
+- On the viscosity approximation type iterative method and its non-linear behaviour in the generation of Mandelbrot and Julia sets — DOI: `10.1007/s11075-023-01644-4`
+- Real laminations and the topological dynamics of complex polynomials — DOI: `10.1016/s0001-8708(03)00144-0`
+- Hausdorff dimension and biaccessibility for polynomial Julia sets — DOI: `10.48550/arxiv.1101.4702`
+- Generation of Julia and Mandelbrot Sets for a Complex Function via Jungck–Noor Iterative Method with s-Convexity — DOI: `10.3390/sym17071028`
+- Julia sets of the Schröder iteration functions of a class of one-parameter polynomials with high degree — DOI: `10.1016/j.amc.2005.11.061`
+- Polynomial alias higher degree fuzzy transform of complex-valued functions — DOI: `10.1016/j.fss.2017.06.011`
+- Complex Dynamical Behavior of Mandelbrot and Julia Sets Generated via two Polynomials Khan Iteration — DOI: `10.2139/ssrn.6182174`
+- Iteration of Complex Functions—Julia Sets — DOI: `10.1002/0470013850.ch14`
+- Complex Newton Iteration for a Cubic Polynomial — DOI: `10.3840/000309`
+- Iteration of polynomial mappings on algebraic sets — DOI: `10.1080/17476930008815310`
+- Complex Newton Iteration for a Cubic Polynomial — DOI: `10.3840/07000309`
+- Julia Sets and Mandelbrot-Like Sets Associated With Higher Order Schroder Rational Iteration Functions: A Computer Assisted Study — DOI: `10.2307/2008220`
+- Julia and Mandelbrot Sets of Transcendental Function via Fibonacci-Mann Iteration — DOI: `10.1155/2022/2592573`
+- Discrepancy of higher rank polynomial lattice point sets — DOI: `10.1515/mcma-2012-0001`
+- Julia Sets in Parameter Spaces — DOI: `10.1007/pl00005568`
+- Parameter Free Methods — DOI: `10.1007/978-3-663-11108-5_6`
+- Parameter Dependent Methods — DOI: `10.1007/978-3-663-11108-5_7`
+- General mandelbrot sets and julia sets generated from non-analytic complex iteration ⨍m(z)=z^<sup>m</sup>+c — DOI: `10.1109/iwcfta.2009.89`
+- Julia sets and Mandelbrot-like sets associated with higher order Schröder rational iteration functions: a computer assisted study — DOI: `10.1090/s0025-5718-1986-0815837-5`
+- 6. Parameter Free Methods — DOI: `10.1137/1.9781611971927.ch6`
+- 7. Parameter Dependent Methods — DOI: `10.1137/1.9781611971927.ch7`
+- Complex dynamical behavior of Mandelbrot and Julia sets generated via two polynomials Khan iteration — DOI: `10.1016/j.chaos.2026.118318`
+- Fractal Structures of General Mandelbrot Sets and Julia Sets Generated From Complex Non-Analytic Iteration Fm(Z)=Zm+c — DOI: `10.2991/isccca.2013.42`
+- A STUDY OF MANDELBROT AND JULIA SETS GENERATED FROM A GENERAL COMPLEX CUBIC ITERATION — DOI: `10.1142/s0218348x99000438`
+- JULIA SETS AS COMPLEX POLYNOMIAL — DOI: `10.12732/ijpam.v117i1.8`
+- Parameter Spaces and Mandelbrot Sets — DOI: `10.1016/b978-0-12-079061-6.50013-9`
+- Generation of Julia and Mandelbrot sets using an s-convex extension of the Noor iteration for a generalized rational complex function — DOI: `10.1088/1402-4896/ae04a9`
+- Inequalities involving Higher Degree Polynomial Functions in $\pi(x)$ — DOI: `10.20944/preprints202407.1276.v6`
+- Rational maps with generalized Sierpinski gasket Julia sets — DOI: `10.1016/j.topol.2006.03.024`
+- Checkerboard Julia Sets for Rational Maps — DOI: `10.48550/arxiv.1103.3803`
+- Dynamics of Holomorphic Maps: Resurgence of Fatou coordinates, and Poly-time Computability of Julia Sets
+- Invariant Jordan curves in the Julia sets of rational maps — DOI: `10.3934/math.2025747`
+- Invariant graphs in Julia sets and decompositions of rational maps — DOI: `10.48550/arxiv.2408.12371`
+- Julia Sets of Rational Maps with Rotational Symmetries — DOI: `10.1007/s11785-024-01636-9`
+- Julia sets and bifurcation diagrams for exponential maps — DOI: `10.1090/s0273-0979-1984-15253-4`
+- Wavelet Based Some Julia Sets of Rational Maps Having Zhukovskii Function — DOI: `10.5815/ijigsp.2012.05.08`
+- Non-computable Julia sets — DOI: `10.1090/s0894-0347-05-00516-3`
+- On the Julia set of König’s root–finding algorithms — DOI: `10.1090/s0002-9939-2013-11636-9`
+- On the dynamics of quasi-self-matings of generalized starlike complex quadratics and the structure of the mated Julia sets
+- On an analytic approach to the Fatou conjecture — DOI: `10.4064/fm171-2-5`
+- Pasting Together Julia Sets: A Worked Out Example of Mating — DOI: `10.1080/10586458.2004.10504523`
+- Dynamics and limiting behavior of Julia sets of König's method for multiple roots — DOI: `10.1016/j.topol.2017.10.013`
+- HéNon Maps, Discrete Groups And Continuity Of Julia Sets
+- On Rational Maps with Two Critical Points — DOI: `10.1080/10586458.2000.10504657`
+- Continuity of Julia sets and invariant rays — DOI: `10.48550/arxiv.2602.20588`
+- Connectivity of Julia sets of transcendental meromorphic functions
+- On the connectivity of the Julia sets of meromorphic functions — DOI: `10.1007/s00222-014-0504-5`
+- A Properties of Mandelbrot Set of Quartic Rational Maps — DOI: `10.32792/jeps.v12i2.206`
+- Limiting behavior of Julia sets of singularly perturbed rational maps — DOI: `10.23943/princeton/9780691159294.003.0008`
+- 24 Dynamics and topology of rational functions: their Fatou and Julia sets — DOI: `10.1515/9783110769876-024`
+- Julia sets of rational maps — DOI: `10.1090/psapm/049/1315534`
+- Limiting behavior of Julia sets of singularly perturbed rational maps — DOI: `10.1515/9781400851317-009`
+- Fatou sets for rational maps of Pk — DOI: `10.1307/mmj/1080837730`
+- Residual Julia sets of rational and transcendental functions — DOI: `10.1017/cbo9780511735233.008`
+- Indecomposable continua and the Julia sets of rational maps — DOI: `10.1090/conm/396/07390`
+- The Fatou and Julia Sets — DOI: `10.1007/978-1-4612-4422-6_3`
+- Rational maps with half symmetries, Julia sets, and Multibrot sets in parameter planes — DOI: `10.1090/conm/573/11393`
+- The Fatou and Julia sets — DOI: `10.1201/9780203759011-3`
+- Semiconjugacies between the Julia sets of geometrically finite rational maps II — DOI: `10.4171/011-1/7`
+- 7 Fatou components — DOI: `10.1515/9783111689685-007`
+- Understanding Julia sets of entire maps — DOI: `10.1090/hmath/038/26`
+- Fatou components and Julia sets of singularly perturbed rational maps with positive parameter — DOI: `10.1007/s10114-012-0586-1`
+- Fatou and Julia sets — DOI: `10.1090/gsm/198/06`
+- Julia sets of postcritically finite rational maps and topological self-similar sets — DOI: `10.1088/0951-7715/13/1/308`
+- Baby Mandelbrot sets adorned with halos in families of rational maps — DOI: `10.1090/conm/396/07392`
+- Dynamics of regularly ramified rational maps: Ⅰ. Julia sets of maps in one-parameter families — DOI: `10.3934/dcds.2018139`
+- Arboreal Galois groups of rational maps with nonreal Julia sets — DOI: `10.4064/aa241204-24-6`
+- Fatou and Julia like sets — DOI: `10.37863/umzh.v73i10.802`
+- Symmetries of Julia sets for rational maps — DOI: `10.1090/ecgd/383`
+- On the julia sets of quadratic rational maps — DOI: `10.1080/17476939208814540`
+- CONTROL AND SYNCHRONIZATION OF JULIA SETS OF THE COMPLEX PERTURBED RATIONAL MAPS — DOI: `10.1142/s0218127413500831`
+- Fractals: An Eclectic Survey, Part-I — DOI: `10.3390/fractalfract6020089`
+- Key Techniques for Numerical Simulation of Rock Dynamics — DOI: `10.1007/978-981-96-5342-3_7`
+- Complexity : a study of fractals and self-organized criticality — DOI: `10.32657/10356/51166`
+- Possibilities of Use for Fractal Techniques as Parameters of Graphic Analysis — DOI: `10.3390/fractalfract6110686`
+- Information dynamics and the arrow of time — DOI: `10.48550/arxiv.2109.09709`
+- A survey of modeling, rendering and animation of clouds in computer graphics — DOI: `10.1007/s00371-020-01953-y`
+- Automatic Generation of 3-D Linear Fractal Shapes with Quadratic Map Basins Animation — DOI: `10.3756/artsci.2.61`
+- Fluid Dynamics of Carbon Dioxide Disposal into Saline Aquifers — DOI: `10.2172/821335`
+- Dynamical integrity of the safe basins in a problem of forced escape — DOI: `10.1063/5.0205049`
+- SympGal-NODE: Continuous-Time Symplectic Neural ODEs for Relativistic Stellar Swarms: Predicting Escape Times, Exit Trajectories, and Tidal Horizons — DOI: `10.21203/rs.3.rs-11355949/v1`
+- Numerical Modelling of Rock Fragmentation in Landslide Propagation: A Test Case — DOI: `10.3390/geosciences15090354`
+- Numerical modelling of Bingham fluid flow and particle transport in a rough-walled fracture
+- An enhanced connected banking system optimizer with multiple strategies for numerical optimization problems — DOI: `10.1038/s41598-026-38261-9`
+- Numerical Sensitivity Analysis and Simulation of Petrophysical Characteristics of Porous Media Domains — DOI: `10.11575/prism/35735`
+- Preparing to move: Setting initial conditions to simplify interactions with complex objects — DOI: `10.1371/journal.pcbi.1009597`
+- Bayesian learning in structural dynamics: a comprehensive review and emerging trends — DOI: `10.1016/j.ymssp.2026.114661`
+- Thermal conduction and thermal-driven winds in magnetized viscous accretion disk dynamics — DOI: `10.1016/j.newast.2025.102377`
+- Analysis of Spatio-Temporal Phenomena in High-Brightness Diode Lasers using Numerical Simulations — DOI: `10.18452/22016`
+- The role of crystal-bubble interactions, outgassing and magma composition in the ascent dynamics of alkaline magmas: Implications for eruptions at Vesuvius — DOI: `10.1016/j.epsl.2025.119771`
+- An individual-based GPU simulation framework for collective bacterial dynamics in swarms and biofilms
+- Macroeconomic Dynamics of Market Risk Capital Requirements and Credit Supply Interdependence
+- Novel Methods to Construct Microchannel Networks with Complex Topologies
+- Multi-scale simulations with complex automata: in-stent restenosis and suspension flow
+- Turbulent combustion of lean hydrogen/air premixed ﬂames : from numerical assessment of Lewis number eﬀects to deep learning modeling for large eddy simulations — DOI: `10.70675/686d20cez3e02z49b5z8ab4z463209958fab`
+- Real-Time Rendering of Complex Fractals — DOI: `10.1007/978-1-4842-7185-8_33`
+- Distance Estimation in Complex Space — DOI: `10.1142/9789812778604_0003`
+- A New Perspective on Escape-Time Fractals: M-Iteration With <i>s</i> -Convexity in Complex Sets — DOI: `10.1115/1.4072511`
+- Dynamic Mandelbulb fractals: A mathematical framework for time-evolving 3D fractals using distance estimation — DOI: `10.1016/j.chaos.2025.116829`
+- Escape-time Plots — DOI: `10.1142/9789813237148_0006`
+- Deterministic Fractals and Distance Estimation — DOI: `10.1142/9789812778604_0002`
+- Generalized distance component method based on spatial amplitude and trend difference weighting operator for complex time series — DOI: `10.1016/j.chaos.2023.114122`
+- Time Series Analysis II — DOI: `10.2110/scn.95.36.0069`
+- On Deformation of the Fractals from Complex Dynamics — DOI: `10.1515/ijnsns.2006.7.2.167`
+- Complex dynamics of a Kaldor model of business cycle with discrete-time — DOI: `10.1016/j.chaos.2022.111863`
+- Time Series Analysis I — DOI: `10.2110/scn.95.36.0047`
+- THE NUMERICAL MESHLESS APPROACH FOR SOLVING THE 2D TIME NONLINEAR MULTI-TERM FRACTIONAL CABLE EQUATION IN COMPLEX GEOMETRIES — DOI: `10.1142/s0218348x22401703`
+- Complex dynamics in tick-borne disease transmission: A Filippov-type control strategy model with multiple time delays — DOI: `10.1016/j.chaos.2024.115673`
+- Elementary Complex Dynamics — DOI: `10.1017/9781316285572.015`
+- FRACTAL DIMENSION ESTIMATION OF RGB COLOR IMAGES USING MAXIMUM COLOR DISTANCE — DOI: `10.1142/s0218348x16500407`
+- Ray Tracing Methods by Distance Estimation — DOI: `10.1142/9789812778604_0009`
+- Distance Estimation in Higher Dimensional Spaces — DOI: `10.1142/9789812778604_0007`
+- Generalized Logistic Maps in the Complex Plane: Structure, Symmetry, and Escape-Time Dynamics — DOI: `10.3390/axioms14060404`
+- Introduction to Fractals — DOI: `10.2110/scn.95.36.0001`
+- Complex dynamics of a discrete-time predator-prey system with Holling IV functional response — DOI: `10.1016/j.chaos.2016.04.002`
+- On Generating Skyscapes through Escape-Time Fractals — DOI: `10.5120/6195-8716`
+- COMPOSED ACCELERATED ESCAPE TIME ALGORITHM TO CONSTRUCT THE GENERAL MANDELBROT SETS — DOI: `10.1142/s0218348x01000580`
+- The Complex Numbers — DOI: `10.1017/9781316285572.024`
+- Chaos and Fractals in Neural Networks: Exploring Complex Dynamics — DOI: `10.36227/techrxiv.174952616.65147326/v1`
+- Complex dynamics of discrete-time replicators in repeated Snowdrift Games with four strategies — DOI: `10.1016/j.chaos.2025.116712`
+- Fractal boundaries of basin of attraction of Newton–Raphson method in helicopter trim — DOI: `10.1016/j.camwa.2010.09.040`
+- Fractal Newton basins — DOI: `10.1155/ddns/2006/28756`
+- Computational Study of Classical Fractals and Newton Basins of Attraction in The Complex Plane — DOI: `10.22373/ekw.v11i2.25438`
+- From Real Analysis to Complex Dynamics: Mathematical Foundations and Fractal Boundaries in Newton's Method — DOI: `10.5281/zenodo.19074472`
+- On the use of the root locus of polynomials with complex coefficients for estimating the basin of attraction for the continuous-time Newton and Householder methods — DOI: `10.1016/j.automatica.2024.111570`
+- Parametric Family of Root-Finding Iterative Methods: Fractals of the Basins of Attraction — DOI: `10.3390/fractalfract6100572`
+- A Globally Convergent Newton Method for Polynomials — DOI: `10.48550/arxiv.2003.00372`
+- Fractal Characteristics of Newton's Method on Polynomials
+- Polynomial Root-Finding Methods Whose Basins of Attraction Approximate Voronoi Diagram — DOI: `10.1007/s00454-011-9330-3`
+- Newton’s method’s basins of attraction revisited — DOI: `10.1016/j.amc.2009.06.041`
+- Basins of Attraction for Various Steffensen-Type Methods — DOI: `10.1155/2014/539707`
+- Higher Order Methods for Nonlinear Equations and Their Basins of Attraction — DOI: `10.3390/math4020022`
+- Fixed Points, Symmetries, and Bounds for Basins of Attraction of Complex Trigonometric Functions — DOI: `10.1155/2020/1853467`
+- Fractal patterns from the dynamics of combined polynomial root finding methods — DOI: `10.1007/s11071-017-3813-6`
+- The basins of attraction for optimal fourth-eighth order methods — DOI: `10.65036/amse223`
+- Fractal Basins of Convergence of a Seventh-Order Generalized Hénon–Heiles Potential — DOI: `10.1155/2021/6665238`
+- Optimization in complex spaces with the Mixed Newton Method — DOI: `10.48550/arxiv.2207.04265`
+- Some Properties of the Basins of Attraction of the Newton’s Method for Simple Nonlinear Geodetic Systems — DOI: `10.20944/preprints202112.0151.v1`
+- Deep learning-based analysis of basins of attraction — DOI: `10.1063/5.0159656`
+- Immediate and Virtual Basins of Newton’s Method for Entire Functions — DOI: `10.5802/aif.2184`
+- A New Nonlinear Ninth-Order Root-Finding Method with Error Analysis and Basins of Attraction — DOI: `10.3390/math9161996`
+- Basins of attraction of a one-parameter family of root-finding techniques — DOI: `10.2478/mjpaa-2023-0024`
+- On Efficient Single-Step Scheme for Solving p-Adic Polynomial in Zp: Convergence and Fractal Analysis — DOI: `10.5772/intechopen.1014274`
+- Optimal Fourth- and Eighth-Order Iterative Solver and Their Basins of Attraction — DOI: `10.26713/cma.v16i1.2899`
+- Analysis of the basins of attraction generated by a pseudo Newton-Raphson method iterating over complex order derivatives — DOI: `10.1007/s11075-024-01984-9`
+- Analysis of the basins of attraction generated by a pseudo Newton-Raphson method iterating over complex order derivatives — DOI: `10.21203/rs.3.rs-4768434/v1`
+- Fractal Basins of Attraction in the Inversion of Geomagnetic Data — DOI: `10.1533/9780857099594.138`
+- Bivariate Newton-Raphson method and toroidal attraction basins — DOI: `10.1007/s11075-015-9996-3`
+- Fractal Basins of Attraction Associated with a Damped Newton's Method — DOI: `10.1137/s0036144596310033`
+- �ber die Einzugsbereiche der Nullstellen von Polynomen beim Newton-Verfahren — DOI: `10.1007/bf01389318`
+- Further Discussions of the Complex Dynamics of a 2D Logistic Map: Basins of Attraction and Fractal Dimensions — DOI: `10.3390/sym12122001`
+- Newton raphson method, scaling at fractal boundaries and mathematica — DOI: `10.1016/0895-7177(95)00073-b`
+- On the Boundaries of Basins of Attraction in Piecewise Smooth Systems — DOI: `10.1109/compeng.2010.41`
+- On Traub–Steffensen-Type Iteration Schemes With and Without Memory: Fractal Analysis Using Basins of Attraction — DOI: `10.3390/fractalfract8120698`
+- An Enhanced Numerical Iterative Method for Expanding the Attraction Basins When Computing Matrix Signs of Invertible Matrices — DOI: `10.3390/fractalfract7090684`
+- Instabilities and fractal basins of attraction in optical system optimization — DOI: `10.1364/oe.17.000314`
+- Newton's method and the effect of damping on the basins of attraction — DOI: `10.31274/rtd-20200803-277`
+- FINITENESS OF THE AREA OF BASINS OF ATTRACTION OF RELAXED NEWTON METHOD FOR CERTAIN HOLOMORPHIC FUNCTIONS — DOI: `10.1142/s0218127404011879`
+- Boundaries between basins of attraction in matrix maps — DOI: `10.1103/physreva.39.6447`
+- Fractal basins of attraction in a binary quasar model — DOI: `10.1016/j.newast.2020.101543`
+- A novel method to identify boundaries of basins of attraction in a dynamical system using Lyapunov exponents and Monte Carlo techniques — DOI: `10.1007/s11071-014-1663-z`
+- Local convergence and basins of attraction of a two-step Newton-like method for equations with solutions of multiplicity greater than one — DOI: `10.1201/9781315153469-5`
+- The Fractal Attraction Application — DOI: `10.1016/b978-0-12-440740-4.50010-2`
+- What is Fractal Attraction? — DOI: `10.1016/b978-0-12-440740-4.50004-7`
+- Fractal erosion of basins of attraction in coupled non-linear systems — DOI: `10.1006/jsvi.1995.0229`
+- Comparing the fractal basins of attraction in the Hill problem with oblateness and radiation — DOI: `10.1007/s10509-017-3169-x`
+- Enhancing Computational Thinking with Spreadsheet and Fractal Geometry: Part 2 Root-finding using Newton Method and Creation of Newton Fractals — DOI: `10.5120/8821-2742`
+- Polynomiography Based on the Nonstandard Newton-Like Root Finding Methods — DOI: `10.1155/2015/797594`
+- The “Gauss-Seidelization” of iterative methods for solving nonlinear equations in the complex plane — DOI: `10.1016/j.amc.2011.07.061`
+- Improved Newton Iterative Algorithm for Fractal Art Graphic Design — DOI: `10.1155/2020/6623049`
+- A New Three-Step Root-Finding Numerical Method and Its Fractal Global Behavior — DOI: `10.3390/fractalfract5040204`
+- A Novel n-Point Newton-Type Root-Finding Method of High Computational Efficiency — DOI: `10.3390/math10071144`
+- A new optimal root-finding iterative algorithm: local and semilocal analysis with polynomiography — DOI: `10.1007/s11075-023-01625-7`
+- From Fractal Behavior of Iteration Methods to an Efficient Solver for the Sign of a Matrix — DOI: `10.3390/fractalfract7010032`
+- An Efficient Class of Weighted-Newton Multiple Root Solvers with Seventh Order Convergence — DOI: `10.3390/sym11081054`
+- Newton-Ellipsoid Method and its Polynomiography — DOI: `10.48550/arxiv.1410.2202`
+- Visualization of polynomiography from new higher order iterative methods — DOI: `10.30538/psrp-oma2019.0045`
+- SA-enhanced PSO Newton algorithm for fractal art graphic design — DOI: `10.1504/ijict.2025.146692`
+- Annealing approach to root finding — DOI: `10.1103/physreve.110.025305`
+- Computational Discovery with Newton Fractals, Bohemian Matrices, & Mandelbrot Polynomials — DOI: `10.48550/arxiv.2109.03765`
+- An optimization algorithm based on chaotic behavior and fractal nature — DOI: `10.1016/j.cam.2006.09.008`
+- A third-order-convergence improved Newton method and its numerical performance — DOI: `10.1007/s00500-025-10673-1`
+- Multipoint Iterative Methods for Finding All the Simple Zeros in an Interval — DOI: `10.1155/2014/601205`
+- Newton-like Normal S-iteration under Weak Conditions — DOI: `10.3390/axioms12030283`
+- Relaxed Newton's Method as a Family of Root-finding Methods: Dynamics and Convergence — DOI: `10.48550/arxiv.2603.11591`
+- New eighth-order root-finding three-step iterative methods — DOI: `10.1109/carpi.2012.6356468`
+- Derivative-free family of higher order root finding methods — DOI: `10.1109/acc.2009.5160587`
+- On the Derivation of Higher Order Root-Finding Methods — DOI: `10.1109/acc.2007.4282965`
+- Newton-type iterative methods for finding zeros having higher multiplicity — DOI: `10.1080/23311835.2016.1277463`
+- Families of Simultaneous Methods of Higher Order: Part I — DOI: `10.1007/978-3-540-77851-6_4`
+- Families of Simultaneous Methods of Higher Order: Part II — DOI: `10.1007/978-3-540-77851-6_5`
+- Higher Order Convergent Newton Type Iterative Methods — DOI: `10.3126/jnms.v1i2.41488`
+- Root finding by high order iterative methods based on quadratures — DOI: `10.1016/j.amc.2015.04.097`
+- Optimal eighth-order multiple root finding iterative methods using bivariate weight function — DOI: `10.1016/j.rico.2023.100270`
+- A Survey of Several Root‐Finding Methods in the Complex Plane — DOI: `10.1111/1467-8659.1020141`
+- Introduction to Higher-Order Iterative Methods for Finding Multiple Roots of Nonlinear Equations — DOI: `10.1155/2013/404635`
+- A Family of High Order Derivative-Free Iterative Methods for Solving Root-Finding Problems — DOI: `10.1007/s40819-019-0641-z`
+- Second-order complex Newton root-finding algorithm for determining resonant modes of a nontrivial laser system — DOI: `10.1016/0895-7177(94)90046-9`
+- ON JARRATT'S FAMILY OF OPTIMAL FOURTH-ORDER ITERATIVE METHODS AND THEIR DYNAMICS — DOI: `10.1142/s0218348x14500133`
+- On iterative methods of higher order for systems of linear algebraic equations — DOI: `10.21136/am.1994.134258`
+- On higher order Fibonacci hyper complex numbers — DOI: `10.1016/j.chaos.2021.111044`
+- QUADRATIC CONVERGENCE METHOD FOR COMPLEX AND REAL ROOT-FINDING WITHOUT HIGHER-ORDER DERIVATIVES — DOI: `10.26782/jmcms.spl.12/2025.08.00011`
+- Iterative Processes and Point Estimation Theory — DOI: `10.1007/978-3-540-77851-6_2`
+- Newton type iterative methods with higher order of convergence — DOI: `10.33993/jnaat451-1049`
+- Comparison of some Iterative Methods for Finding Simple Root of Nonlinear Equations — DOI: `10.47176/sjis.5.3.1`
+- Root-Finding of Monotone Nonlinear Functions with Fuzzy Iterative Methods — DOI: `10.1007/978-1-4471-0123-9_59`
+- Two weighted eight-order classes of iterative root-finding methods — DOI: `10.1080/00207160.2014.887201`
+- Convergence and dynamics of a higher order family of iterative methods — DOI: `10.1016/b978-0-12-809214-9.00024-3`
+- Higher-Order Root-Finding Algorithms and Their Basins of Attraction — DOI: `10.1155/2020/5070363`
+- Fractal Dimension of the Universal Julia Sets for the Chebyshev-Halley Family of Methods — DOI: `10.1063/1.3637794`
+- From Halley to Secant: Redefining root finding with memory‐based methods including convergence and stability — DOI: `10.1002/mma.9876`
+- On generalized Halley-like methods for solving nonlinear equations — DOI: `10.2298/aadm190111015p`
+- Computational geometry as a tool for studying root-finding methods — DOI: `10.2298/fil1904019p`
+- Algorithms for quaternion polynomial root-finding — DOI: `10.1016/j.jco.2013.03.001`
+- A Novel Root-Finding Algorithm With Engineering Applications and its Dynamics via Computer Technology — DOI: `10.1109/access.2022.3150775`
+- On the robust Newton’s method with the Mann iteration and the artistic patterns from its dynamics — DOI: `10.1007/s11071-021-06306-5`
+- General Family of Third Order Methods for Multiple Roots of Nonlinear Equations and Basin Attractors for Various Methods — DOI: `10.1155/2014/963878`
+- Local Convergence and Attraction Basins of Higher Order, Jarratt-Like Iterations — DOI: `10.3390/math7121203`
+- A New Root‐Finding Algorithm for Solving Real‐World Problems and Its Complex Dynamics via Computer Technology — DOI: `10.1155/2021/6369466`
+- On K nig's root-finding algorithms* — DOI: `10.1088/0951-7715/16/3/312`
+- Two Dynamic Remarks on the Chebyshev–Halley Family of Iterative Methods for Solving Nonlinear Equations — DOI: `10.3390/axioms12121114`
+- A new tool to study real dynamics: The convergence plane — DOI: `10.1016/j.amc.2014.09.061`
+- On a numerical technique for finding multiple zeros and its dynamic — DOI: `10.1016/j.joems.2013.03.011`
+- Numerical Properties of Different Root-Finding Algorithms Obtained for Approximating Continuous Newton’s Method — DOI: `10.3390/a8041210`
+- Hafizudin Mohamad Nor, Muhammad Zaini Ahmad, Nor Hanim Abd Rahman, Advancements in Nonlinear Equation Solvers: Zhang Homotopy Continuation Method and Its Basins of Attraction — DOI: `10.28924/apjm/12-89`
+- Dynamics with riddled basins of attraction in models of interacting populations — DOI: `10.1016/s0960-0779(00)00047-3`
+- COMPARISONS OF VARIOUS ROOT-FINDING METHODS BASED ON THEIR BASINS OF ATTRACTION — DOI: `10.31258/jomso.1.1.11-16`
+- An optimal class of fourth-order multiple-root finders of Chebyshev-Halley type and their basins of attraction — DOI: `10.1504/ijcsm.2021.118074`
+- Two characteristics of planar intertwined basins of attraction — DOI: `10.1016/j.chaos.2012.03.011`
+- Dynamics of Orthonormal Bases Associated to Basins of Attraction — DOI: `10.1007/s11785-017-0682-4`
+- Basins of attraction of invariant regular manifolds — DOI: `10.1016/j.chaos.2007.09.070`
+- An efficient class of optimal sixteenth-order root-finding methods and their basins of attraction — DOI: `10.1007/s10910-022-01371-6`
+- Intertwined Basins of Attraction in Systems of O.D.E. — DOI: `10.1016/s0960-0779(98)00119-2`
+- Dissipative relativistic standard map: Periodic attractors and basins of attraction — DOI: `10.1016/j.chaos.2006.10.066`
+- Contrasts in the basins of attraction of structurally identical iterative root finding methods — DOI: `10.1016/j.amc.2013.02.063`
+- Basins of Attraction in the Photogravitational Magnetic-Binary Problem with Oblateness and Dissipations — DOI: `10.1007/978-3-031-69134-8_12`
+- Correction to: On the basins of attraction of a one-dimensional family of root finding algorithms: from Newton to Traub — DOI: `10.1007/s00209-023-03232-7`
+- WADA FRACTAL BASINS OF ATTRACTION IN A ZERO-STIFFNESS VIBRATION ISOLATION SYSTEM — DOI: `10.1142/s0218348x20500231`
+- Basins of attraction of nonlinear wave–wave interactions — DOI: `10.1016/j.chaos.2005.11.061`
+- On the basins of attraction of a one-dimensional family of root finding algorithms: from Newton to Traub — DOI: `10.1007/s00209-023-03215-8`
+- Finding Deepest Attraction Basins for Multimodal Global Minimization Algorithms with Schoenberg-Steinhaus Space-Filling Curves — DOI: `10.20944/preprints202507.2638.v1`
+- Experimental evidence of locally intermingled basins of attraction in coupled Chua's circuits — DOI: `10.1016/s0960-0779(96)00151-8`
+- Nonlinear embeddings: Applications to analysis, fractals and polynomial root finding — DOI: `10.1016/j.chaos.2017.04.021`
+- The exact Hausdorff dimension for a class of fractal functions — DOI: `10.1016/0022-247x(92)90197-l`
+- Dimension theory of iterated function systems — DOI: `10.1002/cpa.20276`
+- On the Geometry of IFS Fractals and its Applications
+- Developments in fractal geometry — DOI: `10.1007/s13373-013-0041-3`
+- Hausdorff dimension of a fractal interpolation function — DOI: `10.4064/cm99-2-11`
+- Fractal dimension for fractal structures: A Hausdorff approach — DOI: `10.1016/j.topol.2011.04.023`
+- The geometry of self-affine fractals
+- Elements of Fractal Geometry — DOI: `10.5281/zenodo.20266621`
+- Perturbed Iterated Function Systems and the Exact Hausdorff Measure of their Attractors — DOI: `10.14321/realanalexch.35.1.0091`
+- More than seventy years from a milestone in fractal geometry: Moran’s theorem — DOI: `10.1063/1.5079401`
+- Fast Basins and Branched Fractal Manifolds of Attractors of Iterated Function Systems — DOI: `10.3842/sigma.2015.084`
+- The Hausdorff dimension of graphs of Weierstrass functions — DOI: `10.1090/s0002-9939-98-04387-1`
+- MATHEMATICAL PROPERTIES OF FRACTAL GEOMETRY AND ITERATIVE FUNCTION SYSTEM — DOI: `10.5281/zenodo.7294018`
+- Further analysis of Hausdorff dimension and separation conditions — DOI: `10.1090/conm/825/16517`
+- Fractal Tilings from Iterated Function Systems — DOI: `10.1007/s00454-014-9589-2`
+- Fractal Dimension of Fibonacci Word Attractors Tied to Subword Complexity — E8 Intelligence Research — DOI: `10.5281/zenodo.22138564`
+- On Hausdorff Dimension of Recurrent Net Fractals — DOI: `10.1090/s0002-9939-1992-1094507-x`
+- Fractal Dimension for Fractal Structures: A Hausdorff Approach — DOI: `10.48550/arxiv.1007.3960`
+- Box dimension of fractal functions on attractors — DOI: `10.48550/arxiv.2410.03144`
+- Construction of fractal objects with iterated function systems — DOI: `10.1145/325334.325245`
+- Fractal dimensions of continuous piecewise linear iterated function systems — DOI: `10.1090/proc/16430`
+- Study of attractors and fractal functions on the product spaces and Dimensional aspects — DOI: `10.48550/arxiv.2603.12890`
+- Sub-Riemannian vs. Euclidean dimension comparison and fractal geometry on Carnot groups — DOI: `10.1016/j.aim.2008.09.018`
+- Rigorous Hausdorff dimension estimates for conformal fractals — DOI: `10.48550/arxiv.2408.06330`
+- The Hausdorff dimension of the boundary of the Lévy dragon — DOI: `10.1090/conm/246/03776`
+- Iterated Function Systems — DOI: `10.1017/9781108778459.007`
+- Hausdorff Dimension of Hyperbolic Attractors in ℝ3 — DOI: `10.1007/978-3-0348-7891-3_5`
+- Hausdorff Dimension of the Limit Set of Countable Conformal Iterated Function Systems with Overlaps — DOI: `10.1090/conm/600/11950`
+- Attractors for iterated function systems — DOI: `10.4171/jfg/31`
+- A Conjecture on the Hausdorff Dimension of Attractors of Real Self-Projective Iterated Function Systems — DOI: `10.1080/10586458.2014.987884`
+- Attractors of Iterated Function Systems — DOI: `10.1142/9789811283345_0007`
+- On Hausdorff dimension for attractors of iterated function systems — DOI: `10.1017/s1446788700032031`
+- On the dimensions of attractors of random self-similar graph directed iterated function systems — DOI: `10.4171/jfg/51`
+- Attractors of iterated function systems with uncountably many maps and infinite sums of Cantor sets — DOI: `10.4171/jfg/50`
+- On the dimension spectra of infinite conformal iterated function systems — DOI: `10.4171/jfg/112`
+- Linear Cellular Automata, Substitutions, Hierarchical Iterated Function Systems and Attractors — DOI: `10.1007/978-3-642-95678-2_1`
+- Common Attractors for Generalized F-Iterated Function Systems in G-Metric Spaces — DOI: `10.3390/fractalfract8060346`
+- General iterated function systems: Hausdorff dimension — DOI: `10.1063/5.0136663`
+- On the Exponential Growth of Norms in Semigroups of Linear Endomorphisms and the Hausdorff Dimension of Attractors of Projective Iterated Function Systems — DOI: `10.1007/s12220-014-9494-1`
+- Further Examples: Attractors and Limit Sets — DOI: `10.1017/9781108778459.010`
+- Infinite Iterated Function Systems: Theory and Applications — DOI: `10.1007/978-3-0348-7755-8_5`
+- Hausdorff measure and Hausdorff dimension — DOI: `10.1017/cbo9780511933912.004`
+- Fractals via Random Iterated Function Systems and Random Geometric Constructions — DOI: `10.1007/978-3-0348-7755-8_7`
+- Iterated function systems: theory, applications and the inverse problem — DOI: `10.1007/978-94-015-7931-5_10`
+- Hausdorff Measure and Dimension — DOI: `10.1002/0470013850.ch2`
+- On the Hausdorff dimension of fractal attractors — DOI: `10.1007/bf01106792`
+- APPROXIMATION OF FRACTAL SETS BY JULIA SET ATTRACTORS OF POLYNOMIAL ITERATED FUNCTION SYSTEMS — DOI: `10.1142/s0218348x99000062`
+- Fractal attractors in random nonlinear iterated function systems: Existence, stability, and dimensional properties — DOI: `10.1016/j.chaos.2026.117996`
+- Iterated function systems and shape representation
+- On quantum iterated function systems — DOI: `10.2478/bf02476427`
+- Blowups and Tops of Overlapping Iterated Function Systems — DOI: `10.48550/arxiv.2302.10372`
+- Self-affine sets and measures – A survey — DOI: `10.4171/9ecm/11`
+- Web Enabled Based Face Recognition using Partitioned Iterated Function System — DOI: `10.5120/57-159`
+- High-Order Numerical Integration on Self-Affine Sets — DOI: `10.1137/24m1697141`
+- Fractal attractors and singular invariant measures in two-sector growth models with random factor shares — DOI: `10.1016/j.cnsns.2017.07.008`
+- Fractal attractors in economic growth models with random pollution externalities — DOI: `10.1063/1.5023782`
+- Construction of Fractal Surfaces via Solutions of Partial Differential Equations — DOI: `10.3814/2010/432521`
+- Hybrid GA-PSO method with local search and image clustering for automatic IFS image reconstruction of fractal colored images — DOI: `10.1007/s00521-023-08954-7`
+- A High Throughput and User-Friendly Computational Tool for Quantifying and Visualizing Symmetry Variation in Image Datasets — DOI: `10.1007/s11538-026-01754-9`
+- Universal Time-Uniform Trajectory Approximation for Random Dynamical Systems with Recurrent Neural Networks — DOI: `10.48550/arxiv.2211.08018`
+- Optimal use of computing equipment in an automated industrial inspection context
+- A Prelude to Fractal Engineering and Biomedicine — DOI: `10.1115/1.4033099`
+- Assessing Urban Morphologıcal Complexity Through Fractal Geometry: Evıdence From Turkish Cities — DOI: `10.17932/iau.arch.2015.017/arch_v011i2005`
+- Les Paysages Fractals — DOI: `10.5281/zenodo.21821796`
+- Stochastic Optimal Growth Through State-Dependent Probabilities — DOI: `10.2139/ssrn.4569597`
+- Stochastic optimal growth under state-dependent probabilities — DOI: `10.1007/s10203-025-00528-7`
+- Fractal geometry, Turing machines and divide-and-conquer recurrences — DOI: `10.1051/ita/1994283-404051`
+- The Influence of Benoît B. Mandelbrot on Mathematics — DOI: `10.1090/noti894`
+- Equations récurrentes stochastiques : structure, inférence statistique et applications financières
+- New relatives of the Sierpinski gasket — DOI: `10.48550/arxiv.1801.08325`
+- Multifractal techniques for analysis and classification of emphysema images — DOI: `10.26021/3545`
+- Fractal methods in image analysis and coding
+- Two- and Three-Dimensional Coding Schemes for Wavelet and Fractal-Wavelet Image Compression
+- Fractal homeomorphism for bi-affine iterated function systems — DOI: `10.1504/ijans.2013.052750`
+- The eigenvalue problem for linear and affine iterated function systems — DOI: `10.1016/j.laa.2011.05.011`
+- The Invariant Measure for a Countable Generalized Iterated Function System — DOI: `10.1007/s00009-024-02751-9`
+- Invariant Measure Associated with a Generalized Countable Iterated Function System — DOI: `10.1007/s00009-013-0300-2`
+- Dimension of invariant measures for affine iterated function systems — DOI: `10.1215/00127094-2022-0014`
+- Recurrent Iterated Function Systems — DOI: `10.1016/b978-0-12-079061-6.50015-2`
+- A strongly irreducible affine iterated function system with two invariant measures of maximal dimension — DOI: `10.1017/etds.2020.107`
+- The invariant measure for an at most countable topological generalized iterated function system — DOI: `10.1016/j.jmaa.2025.130154`
+- Tiling iterated function systems — DOI: `10.1016/j.chaos.2024.114807`
+- On affine iterated function systems which robustly admit an invariant affine subspace — DOI: `10.1090/proc/16059`
+- Iterated function systems of affine expanding and contracting maps on the unit interval — DOI: `10.1016/j.aim.2025.110605`
+- The Hutchinson–Barnsley theory for generalized iterated function systems by means of infinite iterated function systems — DOI: `10.4064/bc125-9`
+- Machine Learning Driven Clustering for Efficient Segmentation of Fractal Patterns from Non Affine Iterated Function System — DOI: `10.2139/ssrn.5118508`
+- On the Uniqueness of the Density for the Invariant Measure in an Infinite Hyperbolic Iterated Function System — DOI: `10.1023/a:1004774202289`
+- Iterated Function Systems — DOI: `10.1081/e-eoe2-120009639`
+- Recurrent Iterated Function Systems — DOI: `10.1007/978-1-4899-6886-9_1`
+- An efficient and accurate method for computing the invariant measure of piecewise affine chaotic maps — DOI: `10.1109/iscas.2008.4541529`
+- The absolute continuity of the invariant measure of random iterated function systems with overlaps — DOI: `10.4064/fm210-1-2`
+- The chaos game on a general iterated function system — DOI: `10.1017/s0143385710000428`
+- THE CONLEY ATTRACTORS OF AN ITERATED FUNCTION SYSTEM — DOI: `10.1017/s0004972713000348`
+- Invariant Measure for Infinite Weakly Hyperbolic Iterated Function Systems — DOI: `10.1007/s10955-020-02672-3`
+- The topological entropy of iterated piecewise affine maps is uncomputable — DOI: `10.46298/dmtcs.292`
+- Generalized Kannan Maps with Application to Iterated Function System — DOI: `10.1201/9781003388678-11`
+- Real Projective Iterated Function Systems — DOI: `10.1007/s12220-011-9232-x`
+- Overlapping iterated function systems on a segment — DOI: `10.3103/s1066369x12120018`
+- Visual Analysis of Nonlinear Dynamical Systems: Chaos, Fractals, Self-Similarity and the Limits of Prediction — DOI: `10.3390/systems4040037`
+- “Fractal Architecture”: Late Twentieth Century Connections Between Architecture and Fractal Geometry — DOI: `10.1007/s00004-000-0006-1`
+- Efficient antialiased rendering of 3-D linear fractals — DOI: `10.1145/127719.122728`
+- Auto-Generation System Based on Fractal Geometry for Batik Pattern Design — DOI: `10.3390/app9112383`
+- Fractal characterization of complexity in temporal physiological signals — DOI: `10.1088/0967-3334/23/1/201`
+- A Review on Natural Phenomenon of Fractal Geometry — DOI: `10.5120/14970-3157`
+- Fractals: An Eclectic Survey, Part II — DOI: `10.3390/fractalfract6070379`
+- The geometry of fractals between out of measure and Artificial Intelligence (AI) — DOI: `10.3280/oa-1180-c577`
+- Automatic Structure Generation using Genetic Programming and Fractal Geometry
+- Fractals and art
+- Visualization of a two-dimensional tree modeling using fractal based on L-system — DOI: `10.1088/1757-899x/550/1/012027`
+- Fractal Geometry and Spatial Phenomena: A Bibliography (91-1)
+- Fractal Geometry in Nature: Applications in Physics and Mathematical Theory — DOI: `10.71465/fapm14`
+- A Geometry Model for Logarithmic-time Rendering
+- A FRACTAL VALUED RANDOM ITERATION ALGORITHM AND FRACTAL HIERARCHY — DOI: `10.1142/s0218348x05002799`
+- Three-Dimensional Modeling in Medical Image Processing by Using Fractal Geometry — DOI: `10.17706/jcp.12.5.479-485`
+- From Mathematics to Art: A Petri Net Representation of the Fibonacci Sequence and Its Fractal Geometry — DOI: `10.3390/fractalfract10010053`
+- Fractal Branching Pattern in the Pial Vasculature in the Cat — DOI: `10.1097/00004647-200106000-00012`
+- A study on the cross-application of fractal geometry and garden design aesthetics — DOI: `10.2478/amns-2024-2678`
+- Spectra of Reduced Fractals and Their Applications in Biology — DOI: `10.3390/fractalfract7010028`
+- Product visual communication style innovation inspired by fractal geometry — DOI: `10.70517/ijhsa464323`
+- Regular fractals and self-similarity — DOI: `10.1887/0750304006/b384c2`
+- Stronger Self-Similarity For Bpi Spaces — DOI: `10.1093/oso/9780198501664.003.0006`
+- Fractals, coherent states and self-similarity induced noncommutative geometry — DOI: `10.1016/j.physleta.2012.06.035`
+- From Self-Similarity to Local Self-Similarity: the Estimation Problem — DOI: `10.1007/978-1-4471-0873-3_1`
+- Self-Similarity and Self-Affinity — DOI: `10.1007/978-1-4899-2124-6_10`
+- Regular fractals and self-similarity — DOI: `10.1201/9780849384431.ch2`
+- SELF-SIMILARITY OF MUTUAL AND SELF-INTERSECTIONS OF RANDOM FRACTALS — DOI: `10.1016/b978-0-444-86995-1.50019-6`
+- K-Narayana sequence self-Similarity. flip graph views of k-Narayana self-Similarity — DOI: `10.1016/j.chaos.2021.111473`
+- Fractals and Fugues: How Self-Similarity Emerges in Musical Structure — DOI: `10.21275/sr251001171758`
+- Self-similarity and packing dimension — DOI: `10.1017/9781316460238.003`
+- Classical Fractals and Self-Similarity — DOI: `10.1007/0-387-21823-8_3`
+- Classical Fractals and Self-Similarity — DOI: `10.1007/978-1-4757-4740-9_3`
+- Classical Fractals and Self-Similarity — DOI: `10.1007/978-1-4757-2172-0_2`
+- 2. Self-similarity — DOI: `10.1093/actrade/9780199675982.003.0002`
+- SELF-SIMILARITY LIMITS OF GENOMIC SIGNATURES — DOI: `10.1142/s0218348x03001574`
+- Generation of self-similarity in a chaotic system of attractors with many scrolls and their circuit’s implementation — DOI: `10.1016/j.chaos.2023.114084`
+- Self-Similarity, Fractals, Cantos — DOI: `10.2307/2873191`
+- A NEW DISTRIBUTION-BASED TEST OF SELF-SIMILARITY — DOI: `10.1142/s0218348x04002586`
+- SELF-SIMILARITY PROPERTIES OF THE INDUSTRIAL COMPETITION NETWORKS — DOI: `10.1142/s0218348x14500029`
+- Self-similarity and panorama of self-affinity — DOI: `10.1007/978-1-4757-2763-0_6`
+- Similarity and self-similarity in random walk with fixed, random and shrinking steps — DOI: `10.1016/j.chaos.2021.110790`
+- A dichotomy on the self-similarity of graph-directed attractors — DOI: `10.4171/jfg/140`
+- The charm of self-similarity — DOI: `10.1142/9789812388780_0014`
+- On different forms of self similarity — DOI: `10.1016/j.chaos.2016.03.021`
+- Geometry of Self-Similar Sets — DOI: `10.1017/cbo9780511470943.002`
+- A gasket construction of the Koch snowflake and variations — DOI: `10.48550/arxiv.2502.00815`
+- On the geometry of generalised Koch snowflakes — DOI: `10.48550/arxiv.2601.07371`
+- Effects of Hausdorff Dimension on the Static and Free Vibration Response of Beams with Koch Snowflake-like Cross Section — DOI: `10.3390/fractalfract7020153`
+- A new fractal dimension: The topological Hausdorff dimension — DOI: `10.48550/arxiv.1108.4292`
+- A Generalization of the Hausdorff Dimension Theorem for Deterministic Fractals — DOI: `10.3390/math9131546`
+- An Investigation of the Koch Snowflake Fractal Billiard: Experimental and Theoretical Results
+- Towards the Koch Snowflake Fractal Billiard: Computer Experiments and Mathematical Conjectures — DOI: `10.48550/arxiv.0912.3948`
+- Fractal curves and rugs of prescribed conformal dimension — DOI: `10.1016/j.topol.2018.08.005`
+- Understanding Fractality: A Polyhedral Approach to the Koch Curve and Its Complex Dimensions — DOI: `10.1177/09217134241308435`
+- Design and simulation of variants of koch models for fractal antenna
+- Fractal dimension of coastline of Australia — DOI: `10.1038/s41598-021-85405-0`
+- FAMILY OF GENERALIZED TRIADIC KOCH FRACTALS: DIMENTIONS AND FOURIER IMAGES — DOI: `10.17725/rensit.2016.08.081`
+- Energy Form on a Closed Fractal Curve — DOI: `10.4171/zaa/1190`
+- An exploration of fractal dimension
+- A weak estimate of the fractal dimension of the Mandelbrot boundary — DOI: `10.1016/0375-9601(89)90415-5`
+- The Kochawave curve, a variant of the Koch curve — DOI: `10.48550/arxiv.2210.17320`
+- Hausdorff dimension method reduces the error of box counting — DOI: `10.54254/2753-8818/14/20240916`
+- From Fractal Geometry to Fractal Analysis — DOI: `10.4236/am.2016.74032`
+- A Transmission Problem with a Fractal Interface — DOI: `10.4171/zaa/1067`
+- Fractional Cauchy problem on random snowflakes — DOI: `10.1007/s00028-021-00673-7`
+- Koch snowflake-inspired acoustic metasurface for broadband sound diffusion in automotive loudspeaker systems — DOI: `10.1063/5.0277003`
+- Fractal Antenna Applications — DOI: `10.5772/9057`
+- Cut locus of a separating fractal set in a Riemannian manifold — DOI: `10.2748/tmj/1178224891`
+- Preliminaries of Fractal Differential Equations — DOI: `10.1002/9781119423461.ch18`
+- Distribution of unit mass on one fractal self-similar web-type curve — DOI: `10.30970/ms.62.1.21-30`
+- Batik Jlamprang with Koch Snowflake and Koch Anti Snowflake Fractal Geometry using Desmos — DOI: `10.21831/ej.v3i1.48775`
+- Why the Hausdorff Dimension of Spacetime is D ≈ 2.7 A Critical Fractal Threshold in Unified Fractal Quantum Field Theory (UFQFT) — DOI: `10.22541/au.176858321.13122244/v1`
+- Do You Speak The Phenomenal Koch snowflake Fractal? Open Problems and Prospects — DOI: `10.20944/preprints202507.0580.v1`
+- A Discrete Version of Local Hausdorff Dimension on Fractal Networks — DOI: `10.2139/ssrn.5159356`
+- Multi-band characteristics and fractal dimension of dipole antennas with Koch curve geometry — DOI: `10.1109/aps.2002.1016937`
+- Lateral Dimension of a Curve — DOI: `10.1007/978-1-4612-4170-6_17`
+- Line models for snowflake crystals and their Hausdorff dimension — DOI: `10.1515/9783112314081-016`
+- LINE MODELS FOR SNOWFLAKE CRYSTALS AND THEIR HAUSDORFF DIMENSION — DOI: `10.1515/9783112313480-016`
+- THE HAUSDORFF DIMENSION OF SOME SNOWFLAKE-LIKE RECURSIVE CONSTRUCTIONS — DOI: `10.1142/s0218348x02001105`
+- Multiband characteristics and fractal dimension of dipole antenna with square koch curve geometry — DOI: `10.1109/icetc.2010.5529951`
+- Fractal dimension: Limit capacity or Hausdorff dimension? — DOI: `10.1119/1.16262`
+- Figure 1 - Initiator and generator of building fractal models: a - Koch curve; b - tree bush; c - Gosper curve — DOI: `10.17816/snv201764311.f43141`
+- Antenna Miniaturization Using Koch Snowflake Fractal Geometry — DOI: `10.1063/1.3526256`
+- Hausdorff Dimension Type Models for Fractal Structures — DOI: `10.1007/978-3-030-16645-8_4`
+- Additive Lévy Processes: Capacity and Hausdorff Dimension — DOI: `10.1007/978-3-0348-7891-3_10`
+- Hausdorff Dimension — DOI: `10.1007/978-1-4757-4134-6_6`
+- SELF-AFFINE FRACTAL SETS, III: HAUSDORFF DIMENSION ANOMALIES AND THEIR IMPLICATIONS — DOI: `10.1016/b978-0-444-86995-1.50006-8`
+- The Mechanization of the Koch Snowflake Curve — DOI: `10.1109/iciii.2011.389`
+- Koch Snowflake Fractal Helical Antenna — DOI: `10.1109/icest71230.2026.11623633`
+- Hausdorff dimension and Galois orbits — DOI: `10.4171/jfg/179`
+- Kiesswetter's fractal has Hausdorff dimension 3/2 — DOI: `10.2307/44153640`
+- Lyapunov dimension formula for the global attractor of the Lorenz system — DOI: `10.1016/j.cnsns.2016.04.032`
+- Bifurcations and strange attractors in the Lorenz-84 climate model with seasonal forcing — DOI: `10.1088/0951-7715/15/4/312`
+- The Lorenz Attractor: A Fractal Perspective using MATLAB — DOI: `10.52783/cana.v32.3722`
+- Chaos, Strange Attractors, and Weather — DOI: `10.1175/1520-0477(1989)070<0014:csaaw>2.0.co;2`
+- The Lorenz system: hidden boundary of practical stability and the Lyapunov dimension — DOI: `10.1007/s11071-020-05856-4`
+- Visualizing the transition to chaos in the Lorenz system
+- Investigating Chaos in the Lorenz System based on Fractal-Fractional Derivatives — DOI: `10.1007/s11785-026-01948-y`
+- A lower-bound estimate of the Lyapunov dimension for the global attractor of the Lorenz system — DOI: `10.48550/arxiv.1910.08740`
+- Homoclinic orbits, and self-excited and hidden attractors in a Lorenz-like system describing convective fluid motion — DOI: `10.1140/epjst/e2015-02470-3`
+- Complex Chaotic Attractor via Fractal Transformation — DOI: `10.3390/e21111115`
+- Computing geometric Lorenz attractors with arbitrary precision — DOI: `10.1090/tran/7228`
+- Finite-time Lyapunov dimension and hidden attractor of the Rabinovich system — DOI: `10.1007/s11071-018-4054-z`
+- Complex Singularities and the Lorenz Attractor — DOI: `10.48550/arxiv.0901.4968`
+- Potential Function in a Continuous Dissipative Chaotic System: Decomposition Scheme and Role of Strange Attractor — DOI: `10.1142/s0218127414500151`
+- Modeling, dynamical analysis and numerical simulation of a new 3D cubic Lorenz-like system — DOI: `10.1038/s41598-023-33826-4`
+- Interpolating Strange Attractors via Fractional Brownian Bridges — DOI: `10.3390/e24050718`
+- Exploring the Role of Fractal Geometry in Understanding Nonlinear Dynamical Systems — DOI: `10.67976/ijrpms.v1.i1.02`
+- Fractal structures in nonlinear dynamics — DOI: `10.1103/revmodphys.81.333`
+- False Strange Attractors as Sources of Pseudo Randomness — DOI: `10.1088/1402-4896/ada9cb`
+- Trajectory control and image encryption using affine transformation of lorenz system — DOI: `10.1016/j.eij.2020.07.002`
+- Recurrence Quantification of Fractal Structures — DOI: `10.3389/fphys.2012.00382`
+- Double-zero degeneracy and heteroclinic cycles in a perturbation of the Lorenz system — DOI: `10.1016/j.cnsns.2022.106482`
+- Exploring Nonlinear Dynamics in High-Dimensional Systems: Applications to Chaos Theory and Fractal Geometry — DOI: `10.67976/ijrpms.2026.v1.i1.01`
+- Fractal dimension, and the problems traps of its estimation — DOI: `10.48550/arxiv.2406.19885`
+- Asymmetric coupling of nonchaotic Rulkov neurons: Fractal attractors, quasimultistability, and final state sensitivity — DOI: `10.1103/physreve.111.034201`
+- Strange attractors and fractal dimension — DOI: `10.1017/cbo9780511803260.005`
+- Fractal Dimension of Strange Attractors from Radius versus Size of Arbitrary Clusters — DOI: `10.1103/physrevlett.51.1265`
+- Judgments of Aesthetics, Time, and Complexity as a Function of the Fractal Dimension of Strange Attractors — DOI: `10.1037/e626432011-001`
+- Preturbulence, Strange Attractors and Geometric Models — DOI: `10.1007/978-1-4612-5767-7_3`
+- Box dimension of fractal attractors and their numerical computation — DOI: `10.1016/j.cnsns.2020.105615`
+- Structure of attractors and estimates of their fractal dimension — DOI: `10.11606/t.55.2013.tde-12042013-104751`
+- Fractal Cats — DOI: `10.2307/j.ctvpbnnqf.14`
+- Capacity and Hausdorff dimension — DOI: `10.1017/cbo9780511608773.006`
+- On the use of perturbation theory in the calculation of the fractal dimension of strange attractors — DOI: `10.1016/0167-2789(84)90183-0`
+- Strange Attractors and Endogenous Business Cycle Theory — DOI: `10.1007/978-1-349-11570-9_8`
+- ON THE MENDÈS FRANCE FRACTAL DIMENSION OF STRANGE ATTRACTORS: THE HÉNON CASE — DOI: `10.1142/s0218127402005285`
+- 14. Estimating the fractal dimensions and entropies of strange attractors — DOI: `10.1515/9781400858156.291`
+- 5. Fractals, strange attractors, and dimension(s) — DOI: `10.1093/actrade/9780192853783.003.0005`
+- The Lorenz Equations: Bifurcations, Chaos, and Strange Attractors — DOI: `10.1007/978-1-4612-5767-7`
+- Strange chaotic attractors under fractal-fractional operators using newly proposed numerical methods — DOI: `10.1140/epjp/i2019-13003-7`
+- From Strange Attractor to Period Doubling — DOI: `10.1007/978-1-4612-5767-7_5`
+- Multi-fractal multi-resolution structures from DLA – Strange Attractors Hybrids — DOI: `10.1016/j.cnsns.2019.105092`
+- Exact Lyapunov dimension of attractors and convergence for the Lorenz system — DOI: `10.5890/jand.2018.09.009`
+- Formulas for the Lyapunov dimension of attractors of the generalized Lorenz system — DOI: `10.1134/s1064562413030010`
+- From Borderline—A Fractal Poem — DOI: `10.1201/b10586-145`
+- Small b — DOI: `10.1007/978-1-4612-5767-7_8`
+- Inhomogeneous attractors and box dimension — DOI: `10.1090/conm/825/16509`
+- Large r — DOI: `10.1007/978-1-4612-5767-7_7`
+- Phase space topography and the Lyapunov exponent of electrocorticograms in partial seizures — DOI: `10.1007/bf01140588`
+- Introduction to chaos and coherence — DOI: `10.5860/choice.30-5057`
+- Lyapunov Functions in Dimension Estimates of Attractors of Dynamical Systems — DOI: `10.1023/a:1021150327194`
+- The Fractal Dimension of the Attractor of the Logisitic Map With Diffusion — DOI: `10.20566/13429590_5_21`
+- Maximum local Lyapunov dimension bounds the box dimension of chaotic attractors — DOI: `10.1088/0951-7715/9/4/001`
+- The Plateau and Symmetrical Structure of Lyapunov Exponents in 2-Dimensional Homogeneous Dissipative Map — DOI: `10.1088/0253-6102/21/3/289`
+- Dimension Function and Phase Transition-Like Behavior in Strange Attractors — DOI: `10.1088/0031-8949/35/3/005`
+- A New Two-Dimensional Map with Hidden Attractors — DOI: `10.3390/e20050322`
+- Noise reduction in chaotic timeseries
+- Type: xxx Henon Map based Chaotic Pulse Train Generator — DOI: `10.21203/rs.3.rs-1750615/v1`
+- A Hybrid Domain Image Encryption Algorithm Based on Improved Henon Map — DOI: `10.3390/e24020287`
+- A Chaotic Pulse Train Generator Based on Henon Map — DOI: `10.32604/iasc.2023.031575`
+- Lyapunov Exponents from Random Fibonacci Sequences to the Lorenz Equations
+- The fastest, simplified method of Lyapunov exponents spectrum estimation for continuous-time dynamical systems — DOI: `10.1007/s11071-018-4544-z`
+- Chaos Image Encryption based on DCT Transforms and Henon Map — DOI: `10.5120/ijca2015906532`
+- A Novel Medical Image Signcryption Scheme Using TLTS and Henon Chaotic Map — DOI: `10.1109/access.2020.2987615`
+- Spectrum of Lyapunov exponents in non-smooth systems evaluated using orthogonal perturbation vectors — DOI: `10.1051/matecconf/201814810003`
+- Application of the Lyapunov Exponents and Wavelets to Study and Control of Plates and Shells — DOI: `10.5772/57452`
+- A short survey on Lyapunov dimension for finite dimensional dynamical systems in Euclidean space — DOI: `10.48550/arxiv.1510.03835`
+- Primality, Fractality, and Image Analysis — DOI: `10.3390/e21030304`
+- Deterministic chaos and fractal attractors as tools for nonparametric dynamical econometric inference: with an application to the divisia monetary aggregates — DOI: `10.1016/0895-7177(88)90006-4`
+- Similarities of low-dimensional chaotic auditory attractor sequences to quasirandom noise — DOI: `10.3758/bf03212253`
+- The Lyapunov dimension and its computation for self-excited and hidden attractors in the Glukhovsky-Dolzhansky fluid convection model — DOI: `10.48550/arxiv.1509.09161`
+- Lyapunov exponent and dimension of the strange attractor of elastic frictional system — DOI: `10.1007/bf02650524`
+- Fractal dimension of the strange attractor in a piecewise linear two-dimensional map — DOI: `10.1016/0375-9601(83)90751-x`
+- On the fractal dimension of the Henon attractor — DOI: `10.1016/0375-9601(83)90752-1`
+- On the fractal dimension of the Henon attractor — DOI: `10.1016/0167-2789(85)90025-9`
+- An Empirical Analysis on Forecasting Stock Price: By Maximum Lyapunov Exponent and Fractal Dimension — DOI: `10.1109/icmss.2011.5998350`
+- Study on Fault Analysis of Rotor Machinery Using Lyapunov Exponent-Fractal Dimension — DOI: `10.1109/iwcfta.2009.91`
+- The nature of dominant lyapunov exponent and attractor dimension curves of eeg in sleep — DOI: `10.1016/0010-4825(96)00019-4`
+- Emotional evaluation of TV-CM using the fractal dimension and the largest Lyapunov exponent — DOI: `10.1109/icsmc.2010.5642336`
+- The fractal dimension of the two-well potential strange attractor — DOI: `10.1016/0167-2789(85)90137-x`
+- Dynamic complexity of fifth-dimensional Henon map with Lyapunov exponent, permutation entropy, bifurcation patterns and chaos — DOI: `10.1016/j.cam.2025.116547`
+- Phase Space Structure, Attractor Dimension, Lyapunov Exponent and Nonlinear Prediction from Earth's Atmospheric Angular Momentum Time Series — DOI: `10.1007/s000240050321`
+- Fractal dimension of the strange attractor of the bouncing ball circuit — DOI: `10.1119/1.17974`
+- Nonchaotic attractor with a highly fluctuating finite-time Lyapunov exponent in a hybrid optical system — DOI: `10.1063/1.59945`
+- Fractal Dimension Estimates of Random Attractor for Non-Autonomous Random 2d Stochastic Dynamical Type Systems — DOI: `10.2139/ssrn.4509878`
+- Beyond the largest Lyapunov exponent: characterizing periodic attractor robustness and crisis dynamics in coupled Hénon maps — DOI: `10.2139/ssrn.7388899`
+- Nonlinear stiffness, Lyapunov exponents, and attractor dimension — DOI: `10.1016/s0375-9601(99)00793-8`
+- THE METABOLIC EXPONENT AS A FRACTAL DIMENSION — DOI: `10.1016/b978-0-08-024939-1.50074-5`
+- Chapter 19: Lyapunov Exponents and Fractal Dimension — DOI: `10.1137/1.9781611975666.ch19`
+- Maximal Lyapunov Exponent for a Stochastically Perturbed Co-Dimension Two Bifurcation — DOI: `10.1007/978-94-011-3692-1_11`
+- Conversion of a chaotic attractor into a strange nonchaotic attractor in an one dimensional map and BVP oscillator — DOI: `10.1007/bf02847692`
+- Absolute term introduced to rebuild the chaotic attractor with constant Lyapunov exponent spectrum — DOI: `10.1007/s11071-011-0239-4`
+- Dimension of the global attractor for damped semilinear wave equations with critical exponent — DOI: `10.1063/1.532978`
+- At least one Lyapunov exponent vanishes if the trajectory of an attractor does not contain a fixed point — DOI: `10.1016/0375-9601(83)90209-8`
+- The fractal dimension of the Lorenz attractor — DOI: `10.1016/0375-9601(83)90052-x`
+- Mathematical Modeling Using Gaussian Functions and Chaotic Attractors: A Hybrid Approach for Realistic Representation of the Intrinsic Dynamics of Heartbeats — DOI: `10.3390/appliedmath5040172`
+- The Alpha Group 4D Geometry: Symmetric Structures and Topological Transitions — DOI: `10.20944/preprints202508.0962.v1`
+- The Alpha Group 4D Geometry: Symmetric Structures and Topological Transitions — DOI: `10.20944/preprints202508.0962.v2`
+- Reformulating supersymmetry with a generalized Dolbeault operator — DOI: `10.1088/1126-6708/2008/02/010`
+- Meson modes of probe $D7$-branes in Klebanov-Strassler background — DOI: `10.48550/arxiv.2406.01319`
+- Optical conductivity of triple point fermions — DOI: `10.1088/1361-648x/abd739`
+- Weak Form Generalized Hamiltonian Learning — DOI: `10.48550/arxiv.2104.05096`
+- What Are Cities Worth? Land Rents, Local Productivity, and the Capitalization of Amenity Values — DOI: `10.3386/w14981`
+- Phenomenological tests of modified gravity
+- Mimetic Einstein-Cartan-Sciama-Kibble (ECSK) gravity — DOI: `10.1007/jhep10(2020)150`
+- Unified Theory of Cosmic Holism and Fundamental Interactions:A Grand Unified Model Based on Cosmic-Scale Zero-Point Fluctuations, Left-Handed Quaternion Multiplication, and Dual Operators — DOI: `10.33774/coe-2026-8ktgj`
+- Epistemology and Politics in Earth System Modeling: Historical Perspectives — DOI: `10.1029/2018ms001526`
+- Mathematics Magazine Front Matter — DOI: `10.4169/002557010x494797`
+- Fibrations by plane quartic curves with a canonical moving singularity — DOI: `10.1016/j.jpaa.2025.107918`
+- Electric and magnetic fields: do they need Lorentz covariance? — DOI: `10.1088/1742-6596/330/1/012012`
+- Physics of the Electron–Ion Collider in China — DOI: `10.1016/j.ppnp.2026.104264`
+- Towards a coherent philosophy for environmental modelling.
+- Cosmic Evolution Physics (I) for Supergravity and Dark-Energy with Super-Inflation — DOI: `10.20944/preprints202011.0021.v1`
+- Gravity: Newtonian, Post-Newtonian, Relativistic — DOI: `10.1119/1.4917313`
+- Half-Life: The Divided Life of Bruno Pontecorvo, Physicist or Spy — DOI: `10.1119/1.4917314`
+- Dynamics as the Boundary of Identifiability — DOI: `10.20944/preprints202601.1105.v2`
+- TDA parameters in time series analysis
+- Productive Comparison: Thinking with and about Models across Disparate Domains — DOI: `10.1007/s11024-026-09650-1`
+- Holography for six dimensional theories: a universal framework
+- On piecewise smooth vector fields tangent to nested tori — DOI: `10.1016/j.jde.2016.06.015`
+- Strange Attractor of Gumowski-Mira — DOI: `10.3840/07000931`
+- Strange Attractor of Gumowski-Mira — DOI: `10.3840/000931`
+- STRANGE ATTRACTOR — DOI: `10.4135/9781446247501.n3722`
+- Analysis of a strange attractor in R⁴ — DOI: `10.17918/etd-4054`
+- Center of Gravity or Strange Attractor? — DOI: `10.21236/ada298214`
+- The chaotic (strange) attractor — DOI: `10.1201/9781482295412-25`
+- Growmance — DOI: `10.7551/mitpress/14498.003.0011`
+- Berkeley — DOI: `10.7551/mitpress/14498.003.0007`
+- [Opening] — DOI: `10.7551/mitpress/14498.003.0015`
+- Notes — DOI: `10.7551/mitpress/14498.003.0022`
+- Metamorphosis — DOI: `10.7551/mitpress/14498.003.0019`
+- Introduction — DOI: `10.7551/mitpress/14498.003.0004`
+- Strange Attractor — DOI: `10.1201/9781003734062-38`
+- Index — DOI: `10.7551/mitpress/14498.003.0023`
+- Timewave Zero — DOI: `10.7551/mitpress/14498.003.0016`
+- Preface — DOI: `10.7551/mitpress/14498.003.0003`
+- Strange Attractor — DOI: `10.7551/mitpress/14498.001.0001`
+- Zone Ghost — DOI: `10.7551/mitpress/14498.003.0018`
+- Lux Natura — DOI: `10.7551/mitpress/14498.003.0012`
+- La Chorrera — DOI: `10.7551/mitpress/14498.003.0009`
+- Return to Paradise — DOI: `10.7551/mitpress/14498.003.0010`
+- [ Front Matter ] — DOI: `10.7551/mitpress/14498.003.0001`
+- Psychedelic Guru — DOI: `10.7551/mitpress/14498.003.0017`
+- Edge Runners — DOI: `10.7551/mitpress/14498.003.0006`
+- Dual-Quaternion Julia Fractals — DOI: `10.20944/preprints202304.0246.v1`
+- HYPERCOMPLEX FRACTAL VISUALIZATION: AN EXPANSIVE EXPLORATION OF JULIA AND MANDELBROT SETS THROUGH ADVANCED ITERATION SCHEMES — DOI: `10.26740/mathunesa.v14n02.p581-588`
+- Ray tracing deterministic 3-D fractals — DOI: `10.1145/74333.74363`
+- Julia sets within generalized quaternionic and multiquaternionic tensor product algebras — DOI: `10.1016/j.cnsns.2026.110572`
+- Visualising volumetric fractals — DOI: `10.5176/2251-3043_5.2.370`
+- Computer-Aided Three-Dimensional Ceramic Product Design — DOI: `10.14733/cadaps.2022.s3.97-107`
+- Unlimited object instancing in real-time
+- Parametric sweep search for parallel robot workspace determination
+- The Kosmoplex Primer: A Treatise on the Axiomatic Foundations of Theoretical Engineering — DOI: `10.20944/preprints202508.0360.v2`
+- Exit the King: Sovereignty and Subjectivity in the English Baroque
+- A comparison of fractal dimension estimations for filled Julia fractal sets based on the escape time algorithm — DOI: `10.1063/1.5095111`
+- On the Connectivity Measurement of the Fractal Julia Sets Generated from Polynomial Maps: A Novel Escape-Time Algorithm — DOI: `10.3390/fractalfract5020055`
+- Towards realistic modeling and rendering of 3-D escape-time deterministic fractal shapes — DOI: `10.1109/vsmm.2001.969714`
+- Representation and Rendering of General Julia Sets Based on Tri-Dimensional Polynomial Maps — DOI: `10.1360/jos171561`
+- Automatic segmentation and three-dimensional rendering for CT image sets of the fluid-filled stomach — DOI: `10.1016/s1076-6332(96)80059-6`
+- Control and Synchronization of Julia Sets of the Discrete Three-Dimensional Fractional HCV Model — DOI: `10.3390/fractalfract10030207`
+- Dynamic classification of escape time Sierpiński curve Julia sets — DOI: `10.4064/fm202-2-5`
+- Clinical applications of three-dimensional rendering of medical data sets — DOI: `10.1109/5.662879`
+- Realistic Rendering of Three-Dimensional Ocean Waves Based on Fractal — DOI: `10.1166/asl.2012.2964`
+- Escape dynamics and fractal basins boundaries in the three-dimensional Earth-Moon system — DOI: `10.1007/s10509-016-2683-6`
+- Haptic rendering of three-dimensional heterogeneous features — DOI: `10.5353/th_b3875820`
+- Quaternion Feistel Cipher with an Infinite Key Space Based on Quaternion Julia Sets — DOI: `10.26636/jtit.2015.4.979`
+- Some visually interesting non-standard quaternion fractal sets — DOI: `10.1016/j.chaos.2008.10.035`
+- Octree Based Representation and Volume Rendering of Three-Dimensional Medical Data Sets — DOI: `10.1109/bmei.2008.287`
+- An efficient surface rendering technique utilizing Fourier descriptors to visualize three dimensional biomedical image data sets — DOI: `10.1109/mwscas.1993.343323`
+- Fractal features of invariant sets in a three-dimensional map — DOI: `10.1016/0960-0779(94)90005-1`
+- Escape from a Black Hole: An Approach using Fractal Time Dynamics — DOI: `10.2139/ssrn.5361537`
+- Figure 5—video1. Three-dimensional rendering of FAS on hydrophilized graphene. — DOI: `10.7554/elife.42747.017`
+- Exploiting modern GPUs architecture for real-time rendering of massive line sets — DOI: `10.70675/e83a4ecfza37dz4dbdzbec8z74b50ad3059e`
+- Interactive visualization of quaternion Julia sets — DOI: `10.1109/visual.1990.146384`
+- Figure 2: Three-dimensional model rendering from CT data for MOR 1627. — DOI: `10.7717/peerj.20796/fig-2`
+- Video 1. Three dimensional rendering of mitochondrial structure of a control fibroblast. — DOI: `10.7554/elife.16078.011`
+- Video 5. Three-dimensional rendering of reconstructed Layer VI motor cortical neuron. — DOI: `10.7554/elife.10566.019`
+- GigaVoxels : un pipeline de rendu basé Voxel pour l'exploration efficace de scènes larges et détaillées — DOI: `10.70675/eac6d731zb122z42e4z9bfazc694e2be432a`
+- Depth Imaging, Distance Estimation and Three Dimensional Estimation — DOI: `10.1007/978-3-030-63416-2_300010`
+- An improved space-marching Euler code for three-dimensional bodies at supersonic speeds — DOI: `10.2514/6.1986-276`
+- Three Dimensional Traveltimes Using the Fast Marching Method — DOI: `10.3997/2214-4609.201408168`
+- The Mandelbulb: first ‘true’ 3D image of famous fractal — DOI: `10.1016/s0262-4079(09)63150-x`
+- Numerical Exploration via Least Squares Estimation on Three Dimensional MHD Yield Exhibiting Nanofluid Model with Porous Stretching Boundaries — DOI: `10.3390/fractalfract5040167`
+- A Three-Dimensional Geological Modelling Method Using a Modified Marching Cubes Algorithm — DOI: `10.2139/ssrn.4624601`
+- Time‐Marching Method for Two‐Dimensional and Three‐Dimensional Flow Computations in Turbomachinery — DOI: `10.1002/9780470825020.ch9`
+- Game-enabling the 3D-Mandelbulb Fractal by adding Velocity-induced Support Vectors — DOI: `10.5120/7309-9869`
+- Three-Dimensional Assessment of Damage Evolution for Fiber-Reinforced Recycled Powder Concrete Based on X-Ray Computed Tomography and Fractal Theory — DOI: `10.2139/ssrn.4796970`
+- An Application of Implicit Time Marching to Three Dimensional Flow through a Compressor Blade Row. — DOI: `10.21236/ada096354`
+- Three-dimensional shape estimation of wires from three-dimensional X-ray computed tomography images of electrical cables — DOI: `10.1117/1.jei.33.3.031209`
+- X-Ray Computed Tomography-Based Three-Dimensional Fractal Characterization of Bedding-Fracture-Controlled Porosity and Permeability Anisotropy in LGS Shale Oil Cores — DOI: `10.3390/fractalfract10060388`
+- Computation of three-dimensional viscous flows using a space-marching method — DOI: `10.2514/6.1984-1298`
+- The Extension and Application of Three-Dimensional Time Marching Analyses to Incompressible Turbomachinery Flows — DOI: `10.1115/89-gt-212`
+- Tortuosity in two-dimensional and three-dimensional fractal porous media: A numerical analysis — DOI: `10.1016/b978-0-12-817797-6.00007-5`
+- A Time-Dependent Space Marching Algorithm for Three-Dimensional PNS Equations — DOI: `10.1007/978-3-642-79440-7_10`
+- Calculation of three-dimensional, viscous flow through turbomachinery blade passages by parabolic marching — DOI: `10.2514/6.1985-1408`
+- Modelling of Three-Dimensional Intersection Sight Distance — DOI: `10.32920/ryerson.14656848.v1`
+- Reconstrução Tridimensional de Corpos de Prova de Concreto via Marching Cubes Acelerado por GPU — DOI: `10.68087/er.v39.200`
+- Modelling of Three-Dimensional Intersection Sight Distance — DOI: `10.32920/ryerson.14656848`
+- Gravitation, Entropy & the Mandelbrot Set
+- On the Mandelbrot Set for i**2 = ±1 and Imaginary Higgs Fields — DOI: `10.22606/jaam.2021.62001`
+- Mandelbulb, Mandelbrot, Mandelring and Hopfbrot — DOI: `10.48550/arxiv.2305.17848`
+- Metrical Diophantine approximation for quaternions — DOI: `10.1017/s0305004114000462`
+- Relationship between the Mandelbrot Algorithm and the Platonic Solids — DOI: `10.3390/math10030482`
+- Generation of new batik floral patterns via chaotic modulation and Julia-Mandelbrot fractal transformations — DOI: `10.3389/fams.2026.1826475`
+- Calculating fractal sets in n ≥ 1 embedding dimensions without the use of truncation — DOI: `10.36227/techrxiv.19425989`
+- On the symmetry of bioctonionic Julia sets — DOI: `10.17512/jamcm.2013.2.03`
+- E8⊗E8 Julia Set Embedding via Bohmian Trajectories ⊗ Cl(16) ⊗ 26DBST — DOI: `10.31219/osf.io/mpt32`
+- Uncertain Labeling Graphs and Uncertain Graph Classes (with Survey for Various Uncertain Sets) — DOI: `10.61356/j.plc.2025.3464`
+- Toward a Constructive and Spectral Embedding of 3D Kakeya Sets via Octonionic Triality and the Riemann Zeta Function — DOI: `10.20944/preprints202511.1066.v1`
+- A novel adaptive synchronization algorithm for a general class of fractional-order complex-valued systems with unknown parameters, and applications to circuit realization and color image encryption — DOI: `10.1088/1402-4896/ad1867`
+- Quantum–classical transition in scale relativity — DOI: `10.1088/0305-4470/37/3/026`
+- A Molecular–Structure Hypothesis — DOI: `10.3390/ijms11114267`
+- The hyperbolic field theory on the plane of double variable — DOI: `10.48550/arxiv.1502.06985`
+- On Commutative Analogues of Clifford Algebras and Their Decompositions — DOI: `10.1007/s00006-025-01422-6`
+- Interactive Computer Graphics: A Top-Down Approach Using OpenGL
+- Training deep learning based dynamic MR image reconstruction using synthetic fractals
+- A New Mathematical Approach for Pattern Generation — DOI: `10.5120/2920-3853`
+- Classes of Holomorphic Multicomplex-Valued Functions Generated by Elliptic-Admissible Involutions — DOI: `10.48550/arxiv.2211.13875`
+- Stochastic model of earthquake fault geometry — DOI: `10.1111/j.1365-246x.1982.tb02791.x`
+- ПРОЦЕДУРНА ГЕНЕРАЦІЯ У ЧОТИРИВИМІРНОМУ ПРОСТОРІ: ВІД 4D ГРАДІЄНТНОГО ШУМУ ДО ВІЗУАЛІЗАЦІЇ КВАТЕРНІОННИХ ФРАКТАЛІВ — DOI: `10.32782/2521-6643-2025-2-70.16`
+- A Century of Turbulent Cascades and the Emergence of Multifractal Operators — DOI: `10.1029/2019ea000608`
+- The Mandelbrot set — DOI: `10.1017/cbo9781316036549.007`
+- 3D RENDERING OF THE QUATERNION MANDELBROT SET WITH MEMORY — DOI: `10.1142/s0218348x24500610`
+- Mandelbrot Set + Symmetry Groups ∗ Higher Dimensions = ? — DOI: `10.1007/s00454-012-9431-7`
+- mandelbrot: Generates Views on the Mandelbrot Set — DOI: `10.32614/cran.package.mandelbrot`
+- Complex mapping with the interpolated Julia set and Mandelbrot set — DOI: `10.1145/1900354.1900409`
+- The Mandelbrot set is universal — DOI: `10.1017/cbo9780511569159.003`
+- Coda: Fractals and the Mandelbrot Set — DOI: `10.1201/9781315380339-7`
+- Chapter 4. Holomorphic motions and the Mandelbrot set — DOI: `10.1515/9781400882557-004`
+- Fractals for the Classroom — DOI: `10.1007/978-1-4612-4406-6`
+- Local properties of the Mandelbrot set at parabolic points — DOI: `10.1017/cbo9780511569159.008`
+- Complex Mapping of 3DCG Models with Julia Set and Mandelbrot Set — DOI: `10.15224/978-1-63248-109-2-25`
+- The Mandelbrot Set with Partial Memory — DOI: `10.25088/complexsystems.23.3.227`
+- Natural Maths - Mandelbrot Set — DOI: `10.55277/researchhub.br88fx0d.1`
+- Figure 3: Formal modeling of Mandelbrot set. — DOI: `10.7717/peerjcs.892/fig-3`
+- The Complex Geometry of the Mandelbrot Set — DOI: `10.1007/978-3-642-45438-7_1`
+- Mandelbrot Set Doodle — DOI: `10.3840/001478`
+- Statistical mechanics of cellular automata — DOI: `10.1103/revmodphys.55.601`
+- Twenty Problems in the Theory of Cellular Automata — DOI: `10.1088/0031-8949/1985/t9/029`
+- Discrete Dynamics on Cellular Automata (Complex Systems and Theory of Dynamical Systems)
+- A brief history of cellular automata — DOI: `10.1145/349194.349202`
+- Modeling of a dynamic discrete cellular system — DOI: `10.1088/1742-6596/1889/5/052034`
+- Cities and cellular automata — DOI: `10.1155/s1026022698000090`
+- Cellular automata methods in mathematical physics
+- A fractal model of granitic intrusion and variability based on cellular automata — DOI: `10.1016/j.cageo.2019.05.002`
+- 1∕fα spectra in elementary cellular automata and fractal signals — DOI: `10.1103/physreve.71.067103`
+- A review of Quantum Cellular Automata — DOI: `10.22331/q-2020-11-30-368`
+- Lattice-Gas Cellular Automata and Lattice Boltzmann Models: An Introduction — DOI: `10.1007/b72010`
+- Integrating cellular automata and discrete global grid systems: a case study into wildfire modelling — DOI: `10.5194/agile-giss-1-6-2020`
+- Random precision: some applications of fractals and cellular automata in music composition
+- RGB Image Encryption through Cellular Automata, S-Box and the Lorenz System — DOI: `10.3390/sym14030443`
+- Using Shape Grammar to Derive Cellular Automata Rule Patterns — DOI: `10.25088/complexsystems.17.1.79`
+- Random linear cellular automata: Fractals associated with random multiplication of polynomials — DOI: `10.4099/math1924.26.381`
+- Compression-based investigation of the dynamical properties of cellular automata and other systems — DOI: `10.48550/arxiv.0910.4042`
+- Differential Topological Analysis of Wolfram's Elementary Cellular Automata — DOI: `10.2139/ssrn.5172666`
+- Differential Topological Analysis of Wolfram’s Elementary Cellular Automata — DOI: `10.20944/preprints202503.0681.v1`
+- Cellular automata: Retinal cells, circulation and patterns — DOI: `10.1038/eye.1992.88`
+- A cellular automata approach to local patterns for texture recognition — DOI: `10.1016/j.eswa.2021.115027`
+- Some results about the chaotic behavior of cellular automata — DOI: `10.1016/j.tcs.2005.06.038`
+- Small-Angle Scattering Analysis of Fractals Generated by Additive Cellular Automata — DOI: `10.5772/intechopen.74498`
+- A comprehensive taxonomy of cellular automata — DOI: `10.1016/j.cnsns.2024.108362`
+- The cellular automata inside optical chimera states — DOI: `10.1016/j.chaos.2021.111524`
+- Cellular automata and Boolean networks as examples of discrete dynamical systems — DOI: `10.1007/3-540-28889-9_8`
+- Dynamical Systems Theory Approach — DOI: `10.1142/9789812386519_0004`
+- Fractal Scaling in Cellular Automata Simulations of Dissipative Dynamical Systems. — DOI: `10.21236/ada315392`
+- Dynamical Systems — DOI: `10.1002/9781118032381.ch2`
+- Basins of Attraction of Cellular Automata and Discrete Dynamical Networks — DOI: `10.1007/978-1-4939-8700-9_674`
+- Modelling Spatial Morphologies: Fractal Patterns from Cellular Automata — DOI: `10.1201/b17091-9`
+- Storage of Correlated Patterns in Neural Networks — DOI: `10.1007/978-94-017-1005-3_5`
+- Invariant measures for bipermutative cellular automata — DOI: `10.3934/dcds.2005.12.723`
+- Homogeneity of surjective cellular automata — DOI: `10.3934/dcds.2005.13.195`
+- Basins of Attraction of Cellular Automata and Discrete Dynamical Networks — DOI: `10.1007/978-3-642-27737-5_674-1`
+- Hybrid Cellular Automata Models for Discrete Dynamical Systems — DOI: `10.1201/9781003111290-8-10`
+- Cellular automata and other discrete dynamical systems with memory — DOI: `10.1109/hpcsim.2012.6266914`
+- Right-permutative cellular automata on topological Markov chains — DOI: `10.3934/dcds.2008.20.1095`
+- Generalized Reversibility of Cellular Automata — DOI: `10.1007/978-3-030-25972-3_11`
+- Discrete Dynamics Lab: Tools for Investigating Cellular Automata and Discrete Dynamical Networks — DOI: `10.1007/1-84628-214-4_11`
+- Discontinuous Riemann integrable functions emerging from cellular automata — DOI: `10.3934/dcdsb.2024038`
+- Cellular Automata and Transducers. A Topological View — DOI: `10.1007/978-94-017-1005-3_1`
+- Diddy: A Python Toolbox for Infinite Discrete Dynamical Systems — DOI: `10.1007/978-3-031-42250-8_3`
+- On Dynamical Complexity of Surjective Ultimately Right-Expansive Cellular Automata — DOI: `10.1007/978-3-319-92675-9_5`
+- Co-evolving cellular automata for morphogenesis — DOI: `10.3934/dcdsb.2019084`
+- Discrete dynamics lab: tools for investigating cellular automata and discrete dynamical networks — DOI: `10.1108/03684920310452346`
+- Traveling waves in bistable reaction-diffusion cellular automata — DOI: `10.3934/dcdsb.2025158`
+- Automata as non-Archimedean Dynamical Systems — DOI: `10.29003/m133.978-5-317-05834-0/27-30`
+- Cryptography with Dynamical Systems — DOI: `10.1007/978-94-011-1691-6_21`
+- Automata Network Models of Interacting Populations — DOI: `10.1007/978-94-017-1005-3_2`
+- Fractals in the nervous system: conceptual implications for theoretical neuroscience — DOI: `10.3389/fphys.2010.00015`
+- Fractal Fourier spectra in dynamical systems
+- From Fractal Groups to Fractal Sets — DOI: `10.1007/978-3-0348-8014-5_2`
+- Recent Advancements in Sequences and Series of Real Numbers: Convergence, Fractals, Chaos Theory, and Applications in Dynamical Systems — DOI: `10.3126/phe.v15i02.81101`
+- On the fractal patterns of language structures — DOI: `10.1371/journal.pone.0285630`
+- On a Dynamical Approach to Some Prime Number Sequences — DOI: `10.3390/e20020131`
+- Integer-dimensional fractals of nonlinear dynamics, control mechanisms, and physical implications — DOI: `10.1038/s41598-018-28669-3`
+- Nonlinear Differential Equations and Dynamical Systems — DOI: `10.1007/978-3-642-97149-5`
+- Theoretical Foundations of Multicore Systems Design: A Dynamical Systems Perspective — DOI: `10.1184/r1/6723818`
+- Pattern generation problems arising in multiplicative integer systems — DOI: `10.1017/etds.2017.74`
+- The K -theoretic bulk-boundary principle for dynamically patterned resonators — DOI: `10.1016/j.geomphys.2018.10.005`
+- Dynamic Light Scattering for the Characterization of Polydisperse Fractal Systems by the Example of Pyrogenic Silica
+- Fractal dimensions for iterated graph systems — DOI: `10.1098/rspa.2024.0406`
+- A Novel Nonlinear Pseudorandom Sequence Generator for the Fractal Function — DOI: `10.3390/fractalfract6100589`
+- Hygrothermoelastic responses in a fractal media by extending vector calculus to non-integer dimensions — DOI: `10.21203/rs.3.rs-10390178/v1`
+- Encounters with Chaos and Fractals — DOI: `10.1201/9781032678757`
+- Universal characteristics of fractal fluctuations in prime number distribution — DOI: `10.1080/03081079.2014.913040`
+- From fractal groups to fractal sets — DOI: `10.48550/arxiv.math/0202001`
+- Exotic topological order in fractal spin liquids — DOI: `10.1103/physrevb.88.125122`
+- The fractal forest: fractal geometry and applications in forest science. — DOI: `10.2737/nc-gtr-170`
+- Fractal spectrum of a quasi-periodically driven spin system — DOI: `10.1088/0305-4470/28/10/005`
+- The fractal geometry of Hartree-Fock — DOI: `10.1063/1.5001681`
+- Fractal patterns arising in chaotic dynamical systems — DOI: `10.1007/978-1-4612-3784-6_3`
+- High Performance Integer Multiplier on FPGA with Radix-4 Number Theoretic Transform — DOI: `10.3837/tiis.2022.08.020`
+- Integer part polynomial correlation sequences — DOI: `10.1017/etds.2016.67`
+- Non-integer sequences — DOI: `10.1093/oso/9780198500834.003.0007`
+- Number Theoretic Aspects of Regular Sequences — DOI: `10.1007/978-3-319-69152-7_2`
+- The integer parts of sequences — DOI: `10.1093/oso/9780198500834.003.0008`
+- Convolutions of long integer sequences by means of number theoretic transforms over residue class polynomial rings — DOI: `10.1109/tassp.1983.1164201`
+- Addition of Sequences: Study of Representation Functions by Number Theoretic Methods — DOI: `10.1007/978-1-4613-8227-0_2`
+- Low discrepancy sequences generated by dynamical systems — DOI: `10.2969/aspm/04910245`
+- Number-Theoretic Derivation of Sliding Window Coverage Parameter W for Xi Sequences — DOI: `10.21203/rs.3.rs-8508267/v1`
+- A Novel and Efficient Large Integer Number Theoretic Transform Multiplier Based on Unified Blocks — DOI: `10.1109/lascas64004.2025.10966289`
+- STRETCHING THE FRACTAL SEQUENCES AND TOPOTHESY OF THE SURFACES — DOI: `10.17654/0972111806015`
+- High-precision integer arithmetic — DOI: `10.1090/mmono/232/10`
+- Entropy and measure theoretic aspects of dynamical systems — DOI: `10.1007/3-540-28889-9_6`
+- Linear and Integer Programming — DOI: `10.1017/cbo9780511811654.017`
+- On integer sequences in product sets — DOI: `10.1016/j.jnt.2017.06.001`
+- Symmetric functions and a natural framework for combinatorial and number theoretic sequences — DOI: `10.1007/s40993-023-00458-6`
+- Rössler Attractor via Fractal Functions and Its Fractal Dimension — DOI: `10.1007/978-981-97-2343-0_9`
+- A number theoretic reformulation and decomposition method for integer programming — DOI: `10.1016/s0012-365x(74)80012-9`
+- Probabilities and Fixed Divisors of Integer Polynomials — DOI: `10.1007/978-3-031-28847-0_10`
+- Dynamical Systems and Dimension — DOI: `10.1016/b978-0-08-092458-8.50007-1`
+- Dynamical systems and dimension — DOI: `10.1016/b978-0-12-804408-7.00004-7`
+- Integer sequences with big gaps and the pointwise ergodic theorem — DOI: `10.1017/s0143385799146819`
+- A Survey on Flatness in Integer-Valued Polynomial Rings — DOI: `10.1007/978-3-031-28847-0_23`
+- Dynamical and model-theoretic properties of certain Banach lattice systems — DOI: `10.70675/4c6a1d3azfcf6z4942z8196z1a65d6d5bd8f`
+- On Sequences of Numbers and Polynomials Defined by Linear Recurrence Relations of Order 2 — DOI: `10.1155/2009/709386`
+- Automated Search for Conjectures on Mathematical Constants using Analysis of Integer Sequences — DOI: `10.48550/arxiv.2212.09470`
+- Continued fractions, determinant expressions, and identities — DOI: `10.3934/math.2026402`
+- The Pagoda Sequence: a Ramble through Linear Complexity, Number Walls, D0L Sequences, Finite State Automata, and Aperiodic Tilings — DOI: `10.4204/eptcs.1.13`
+- Perfect matchings and the octahedron recurrence — DOI: `10.1007/s10801-006-0039-y`
+- Fractals Emerging from the Toepltiz Determinants of the p-Cantor Sequence — DOI: `10.48550/arxiv.2510.19449`
+- Advanced determinant calculus: A complement — DOI: `10.1016/j.laa.2005.06.042`
+- Every Nonnegative Integer Is a Sum of a Triangular, a Pentagonal, and a Heptagonal Number — DOI: `10.48550/arxiv.2606.26035`
+- Hankel determinants for some common lattice paths — DOI: `10.1016/j.aam.2006.08.007`
+- Prime Power Divisibility,Periodicity and Other Properties of Some Second Order Recurrences — DOI: `10.48550/arxiv.1509.03794`
+- An Inhomogeneous Lambda-Determinant — DOI: `10.37236/2756`
+- An inhomogeneous Lambda-determinant — DOI: `10.48550/arxiv.1209.6619`
+- The octahedron recurrence and gl(n) crystals — DOI: `10.48550/arxiv.math/0408114`
+- Fleck's congruence, associated magic squares and a zeta identity — DOI: `10.7169/facm/1323705813`
+- Dilated Hankel determinants
+- Determinant evaluations inspired by Di Francesco's determinant for twenty-vertex configurations — DOI: `10.1016/j.jsc.2024.102352`
+- Hankel continued fractions and Hankel determinants for $q$-deformed metallic numbers — DOI: `10.48550/arxiv.2502.05993`
+- New universality classes for random integer partitions — DOI: `10.70675/ab7f4d29z0df4z4124z95afz6caf5dab5815`
+- Kinks and Domain Walls — DOI: `10.1017/9781009290456`
+- Aztec diamonds and digraphs, and Hankel determinants of Schröder numbers — DOI: `10.1016/j.jctb.2005.02.001`
+- Some determinants of path generating functions — DOI: `10.1016/j.aam.2010.02.006`
+- Special 5-term recurrence relations, Banded Toeplitz matrices, and Reality of Zeros — DOI: `10.48550/arxiv.2011.13258`
+- Hankel determinants of sums of consecutive weighted Schröder numbers — DOI: `10.48550/arxiv.1202.1616`
+- Watermelon configurations with wall interaction: exact and asymptotic results — DOI: `10.1088/1742-6596/42/1/017`
+- Hankel Transform and $(α,β)$ Somos-4 Sequences — DOI: `10.48550/arxiv.2608.08703`
+- 1 Polynomial sequences: algebraic structure, recurrence and determinant form, operational methods — DOI: `10.1515/9783110757248-003`
+- An explicit determinant formula for Hyper-Mersenne integer sequences — DOI: `10.61091/um127-11`
+- Nonlinear recurrence sequences and Laurent polynomials — DOI: `10.1017/cbo9780511721274.014`
+- Bounds on the number of squares in recurrence sequences — DOI: `10.1016/j.jnt.2024.05.002`
+- On the Exact Height of Integer-Detecting Sequences — DOI: `10.1006/jnth.1998.2282`
+- Periodicities of a class of infinite integer sequences modulo M — DOI: `10.1016/0022-314x(89)90052-8`
+- Polynomials and Recurrence Sequences — DOI: `10.1007/978-3-0348-8037-4_3`
+- ‐PARTS OF TERMS OF INTEGER LINEAR RECURRENCE SEQUENCES — DOI: `10.1112/s0025579317000298`
+- Hankel determinant calculus for the Thue–Morse and related sequences — DOI: `10.1016/j.jnt.2014.07.022`
+- A uniform formula on the number of integer matrices with given determinant and height — DOI: `10.1016/j.jnt.2025.10.011`
+- Gap Problems for Integer Part and Fractional Part Sequences — DOI: `10.1006/jnth.1995.1004`
+- Integer sequences without singleton intersection — DOI: `10.2140/moscow.2023.12.127`
+- Limits of characteristic sequences of integer-valued polynomials on homogeneous sets — DOI: `10.1016/j.jnt.2009.04.006`
+- Asymptotic Behavior of Characteristic Sequences of Integer-Valued Polynomials — DOI: `10.1006/jnth.1999.2432`
+- On Uniformly Distributed Dilates of Finite Integer Sequences — DOI: `10.1006/jnth.1999.2420`
+- Fault Tolerance for Integer Sequences — DOI: `10.1201/9781315141312-15`
+- Bounds on the number of squares in recurrence sequences: y0 = b2 (I) — DOI: `10.1016/j.jnt.2025.08.003`
+- On the multiplicity of linear recurrence sequences — DOI: `10.1016/j.jnt.2006.11.013`
+- Arithmetic functions with linear recurrence sequences — DOI: `10.1016/j.jnt.2006.12.006`
+- Sums of Factorials in Binary Recurrence Sequences — DOI: `10.1006/jnth.2001.2718`
+- The density of 0's in recurrence double sequences — DOI: `10.1016/s0022-314x(03)00103-3`
+- Notes on continued fractions and recurrence sequences — DOI: `10.1017/cbo9781107325838.007`
+
+## Failures
+
+- arxiv / "complex quadratic polynomial Julia sets parameter plane Mandelbrot set dynamics": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- arxiv / "higher degree complex polynomial iteration Julia sets parameter spaces": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- arxiv / "rational maps complex dynamics Julia sets Fatou sets algorithm": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- arxiv / "escape time fractals complex dynamics numerical rendering distance estimation": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- arxiv / "Newton method basins of attraction complex polynomials fractal boundaries": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- arxiv / "Newton fractals higher order root finding iterative methods complex plane": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- arxiv / "Halley method complex dynamics basins of attraction root finding fractals": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- arxiv / "iterated function systems attractors Hausdorff dimension fractal geometry": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- arxiv / "Barnsley fern iterated function system affine maps invariant measure": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- arxiv / "L-system fractals self-similarity geometry rendering": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- arxiv / "Koch curve snowflake construction Hausdorff dimension fractal": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- arxiv / "strange attractors fractal dimension Lorenz system numerical visualization": Get "https://export.arxiv.org/api/query?max_results=25&search_query=all%3Astrange+attractors+fractal+dimension+Lorenz+system+numerical+visualization": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+- arxiv / "Henon map strange attractor Lyapunov exponent fractal dimension": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- arxiv / "Clifford attractor equations parameterized strange attractor": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- arxiv / "quaternion Julia sets three dimensional fractal rendering escape time": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- arxiv / "Mandelbulb three dimensional fractal distance estimation ray marching": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- arxiv / "complex squaring in four dimensions quaternion Mandelbrot set": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- arxiv / "cellular automata fractal patterns discrete dynamical systems": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- arxiv / "integer sequences fractal patterns number theoretic dynamical systems": source HTTP status 503
+- arxiv / "number walls determinant identity recurrence integer sequences": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)

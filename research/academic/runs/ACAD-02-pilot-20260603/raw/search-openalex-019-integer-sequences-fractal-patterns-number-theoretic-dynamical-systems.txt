@@ -1,0 +1,25 @@
+10.3389/fphys.2010.00015	Fractals in the nervous system: conceptual implications for theoretical neuroscience
+	Fractal Fourier spectra in dynamical systems
+10.1007/978-3-0348-8014-5_2	From Fractal Groups to Fractal Sets
+10.3126/phe.v15i02.81101	Recent Advancements in Sequences and Series of Real Numbers: Convergence, Fractals, Chaos Theory, and Applications in Dynamical Systems
+10.3390/e21030304	Primality, Fractality, and Image Analysis
+10.1371/journal.pone.0285630	On the fractal patterns of language structures
+10.3390/e20020131	On a Dynamical Approach to Some Prime Number Sequences
+10.1038/s41598-018-28669-3	Integer-dimensional fractals of nonlinear dynamics, control mechanisms, and physical implications
+10.1007/978-3-642-97149-5	Nonlinear Differential Equations and Dynamical Systems
+10.1184/r1/6723818	Theoretical Foundations of Multicore Systems Design: A Dynamical Systems Perspective
+10.1017/etds.2017.74	Pattern generation problems arising in multiplicative integer systems
+10.1016/j.geomphys.2018.10.005	The K -theoretic bulk-boundary principle for dynamically patterned resonators
+	Dynamic Light Scattering for the Characterization of Polydisperse Fractal Systems by the Example of Pyrogenic Silica
+10.1098/rspa.2024.0406	Fractal dimensions for iterated graph systems
+10.3390/fractalfract6100589	A Novel Nonlinear Pseudorandom Sequence Generator for the Fractal Function
+	An Investigation of the Koch Snowflake Fractal Billiard: Experimental and Theoretical Results
+10.21203/rs.3.rs-10390178/v1	Hygrothermoelastic responses in a fractal media by extending vector calculus to non-integer dimensions
+10.1201/9781032678757	Encounters with Chaos and Fractals
+10.1080/03081079.2014.913040	Universal characteristics of fractal fluctuations in prime number distribution
+10.48550/arxiv.math/0202001	From fractal groups to fractal sets
+10.1103/physrevb.88.125122	Exotic topological order in fractal spin liquids
+10.1016/j.topol.2011.04.023	Fractal dimension for fractal structures: A Hausdorff approach
+10.2737/nc-gtr-170	The fractal forest: fractal geometry and applications in forest science.
+10.1088/0305-4470/28/10/005	Fractal spectrum of a quasi-periodically driven spin system
+10.1063/1.5001681	The fractal geometry of Hartree-Fock

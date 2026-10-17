@@ -1,0 +1,23 @@
+10.1007/978-3-030-63416-2_300010	Depth Imaging, Distance Estimation and Three Dimensional Estimation
+10.2514/6.1986-276	An improved space-marching Euler code for three-dimensional bodies at supersonic speeds
+10.1142/9789812778604_0009	Ray Tracing Methods by Distance Estimation
+10.3997/2214-4609.201408168	Three Dimensional Traveltimes Using the Fast Marching Method
+10.1016/s0262-4079(09)63150-x	The Mandelbulb: first ‘true’ 3D image of famous fractal
+10.3390/fractalfract5040167	Numerical Exploration via Least Squares Estimation on Three Dimensional MHD Yield Exhibiting Nanofluid Model with Porous Stretching Boundaries
+10.1016/j.chaos.2025.116829	Dynamic Mandelbulb fractals: A mathematical framework for time-evolving 3D fractals using distance estimation
+10.2139/ssrn.4624601	A Three-Dimensional Geological Modelling Method Using a Modified Marching Cubes Algorithm
+10.1002/9780470825020.ch9	Time‐Marching Method for Two‐Dimensional and Three‐Dimensional Flow Computations in Turbomachinery
+10.5120/7309-9869	Game-enabling the 3D-Mandelbulb Fractal by adding Velocity-induced Support Vectors
+10.2139/ssrn.4796970	Three-Dimensional Assessment of Damage Evolution for Fiber-Reinforced Recycled Powder Concrete Based on X-Ray Computed Tomography and Fractal Theory
+10.1142/9789812778604_0007	Distance Estimation in Higher Dimensional Spaces
+10.21236/ada096354	An Application of Implicit Time Marching to Three Dimensional Flow through a Compressor Blade Row.
+10.1117/1.jei.33.3.031209	Three-dimensional shape estimation of wires from three-dimensional X-ray computed tomography images of electrical cables
+10.3390/fractalfract10060388	X-Ray Computed Tomography-Based Three-Dimensional Fractal Characterization of Bedding-Fracture-Controlled Porosity and Permeability Anisotropy in LGS Shale Oil Cores
+10.2514/6.1984-1298	Computation of three-dimensional viscous flows using a space-marching method
+10.1115/89-gt-212	The Extension and Application of Three-Dimensional Time Marching Analyses to Incompressible Turbomachinery Flows
+10.1016/b978-0-12-817797-6.00007-5	Tortuosity in two-dimensional and three-dimensional fractal porous media: A numerical analysis
+10.1007/978-3-642-79440-7_10	A Time-Dependent Space Marching Algorithm for Three-Dimensional PNS Equations
+10.2514/6.1985-1408	Calculation of three-dimensional, viscous flow through turbomachinery blade passages by parabolic marching
+10.32920/ryerson.14656848.v1	Modelling of Three-Dimensional Intersection Sight Distance
+10.68087/er.v39.200	Reconstrução Tridimensional de Corpos de Prova de Concreto via Marching Cubes Acelerado por GPU
+10.32920/ryerson.14656848	Modelling of Three-Dimensional Intersection Sight Distance

@@ -1,0 +1,25 @@
+10.1155/2009/709386	On Sequences of Numbers and Polynomials Defined by Linear Recurrence Relations of Order 2
+10.48550/arxiv.2212.09470	Automated Search for Conjectures on Mathematical Constants using Analysis of Integer Sequences
+10.3934/math.2026402	Continued fractions, determinant expressions, and identities
+10.4204/eptcs.1.13	The Pagoda Sequence: a Ramble through Linear Complexity, Number Walls, D0L Sequences, Finite State Automata, and Aperiodic Tilings
+10.1007/s10801-006-0039-y	Perfect matchings and the octahedron recurrence
+10.48550/arxiv.2510.19449	Fractals Emerging from the Toepltiz Determinants of the p-Cantor Sequence
+10.1016/j.laa.2005.06.042	Advanced determinant calculus: A complement
+10.48550/arxiv.2606.26035	Every Nonnegative Integer Is a Sum of a Triangular, a Pentagonal, and a Heptagonal Number
+10.1016/j.aam.2006.08.007	Hankel determinants for some common lattice paths
+10.48550/arxiv.1509.03794	Prime Power Divisibility,Periodicity and Other Properties of Some Second Order Recurrences
+10.37236/2756	An Inhomogeneous Lambda-Determinant
+10.48550/arxiv.1209.6619	An inhomogeneous Lambda-determinant
+10.48550/arxiv.math/0408114	The octahedron recurrence and gl(n) crystals
+10.7169/facm/1323705813	Fleck's congruence, associated magic squares and a zeta identity
+	Dilated Hankel determinants
+10.1016/j.jsc.2024.102352	Determinant evaluations inspired by Di Francesco's determinant for twenty-vertex configurations
+10.48550/arxiv.2502.05993	Hankel continued fractions and Hankel determinants for $q$-deformed metallic numbers
+10.70675/ab7f4d29z0df4z4124z95afz6caf5dab5815	New universality classes for random integer partitions
+10.1017/9781009290456	Kinks and Domain Walls
+10.1016/j.jctb.2005.02.001	Aztec diamonds and digraphs, and Hankel determinants of Schröder numbers
+10.1016/j.aam.2010.02.006	Some determinants of path generating functions
+10.48550/arxiv.2011.13258	Special 5-term recurrence relations, Banded Toeplitz matrices, and Reality of Zeros
+10.48550/arxiv.1202.1616	Hankel determinants of sums of consecutive weighted Schröder numbers
+10.1088/1742-6596/42/1/017	Watermelon configurations with wall interaction: exact and asymptotic results
+10.48550/arxiv.2608.08703	Hankel Transform and $(α,β)$ Somos-4 Sequences

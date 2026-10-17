@@ -1,0 +1,62 @@
+{
+  "question": "Find and queue source candidates for fractal mathematical families; no formula claims or inclusion decisions.",
+  "rforge_version": "v0.1.20-2-g679bc9d (679bc9d, 2026-09-04T04:02:51Z)",
+  "timestamp": "2026-10-17T05:15:14Z",
+  "depth": "comprehensive",
+  "queries": [
+    "complex quadratic polynomial Julia sets parameter plane Mandelbrot set dynamics",
+    "higher degree complex polynomial iteration Julia sets parameter spaces",
+    "rational maps complex dynamics Julia sets Fatou sets algorithm",
+    "escape time fractals complex dynamics numerical rendering distance estimation",
+    "Newton method basins of attraction complex polynomials fractal boundaries",
+    "Newton fractals higher order root finding iterative methods complex plane",
+    "Halley method complex dynamics basins of attraction root finding fractals",
+    "iterated function systems attractors Hausdorff dimension fractal geometry",
+    "Barnsley fern iterated function system affine maps invariant measure",
+    "L-system fractals self-similarity geometry rendering",
+    "Koch curve snowflake construction Hausdorff dimension fractal",
+    "strange attractors fractal dimension Lorenz system numerical visualization",
+    "Henon map strange attractor Lyapunov exponent fractal dimension",
+    "Clifford attractor equations parameterized strange attractor",
+    "quaternion Julia sets three dimensional fractal rendering escape time",
+    "Mandelbulb three dimensional fractal distance estimation ray marching",
+    "complex squaring in four dimensions quaternion Mandelbrot set",
+    "cellular automata fractal patterns discrete dynamical systems",
+    "integer sequences fractal patterns number theoretic dynamical systems",
+    "number walls determinant identity recurrence integer sequences"
+  ],
+  "sources": [
+    "openalex",
+    "arxiv",
+    "crossref"
+  ],
+  "limit_per_query_source": 25,
+  "search_stats": {
+    "openalex": 463,
+    "crossref": 493,
+    "arxiv": 0,
+    "returned_records": 956,
+    "deduped_records": 879,
+    "unique_dois": 831,
+    "historical_doi_arxiv_overlap": 154,
+    "failures": 20
+  },
+  "citation_expand_attempted": [],
+  "citation_expand_succeeded": [],
+  "outputs": [
+    "queries.txt",
+    "manifest.json",
+    "results.jsonl",
+    "results-deduped.jsonl",
+    "failures.jsonl",
+    "search-stats.txt",
+    "review-queue.csv",
+    "owner-review.csv",
+    "report.md",
+    "native-help.json",
+    "rforge-version.txt"
+  ],
+  "errors": [
+    "20 arxiv source attempts failed; see failures.jsonl."
+  ]
+}

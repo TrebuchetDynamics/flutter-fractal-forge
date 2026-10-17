@@ -1,0 +1,11 @@
+10.20944/preprints202304.0246.v1	Dual-Quaternion Julia Fractals
+10.26740/mathunesa.v14n02.p581-588	HYPERCOMPLEX FRACTAL VISUALIZATION: AN EXPANSIVE EXPLORATION OF JULIA AND MANDELBROT SETS THROUGH ADVANCED ITERATION SCHEMES
+10.1145/74333.74363	Ray tracing deterministic 3-D fractals
+10.1016/j.cnsns.2026.110572	Julia sets within generalized quaternionic and multiquaternionic tensor product algebras
+10.1007/s11075-023-01644-4	On the viscosity approximation type iterative method and its non-linear behaviour in the generation of Mandelbrot and Julia sets
+10.5176/2251-3043_5.2.370	Visualising volumetric fractals
+10.14733/cadaps.2022.s3.97-107	Computer-Aided Three-Dimensional Ceramic Product Design
+	Unlimited object instancing in real-time
+	Parametric sweep search for parallel robot workspace determination
+10.20944/preprints202508.0360.v2	The Kosmoplex Primer: A Treatise on the Axiomatic Foundations of Theoretical Engineering
+	Exit the King: Sovereignty and Subjectivity in the English Baroque

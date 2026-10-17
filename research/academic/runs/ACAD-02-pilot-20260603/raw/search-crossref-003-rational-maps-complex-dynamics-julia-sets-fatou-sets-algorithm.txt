@@ -1,0 +1,25 @@
+10.23943/princeton/9780691159294.003.0008	Limiting behavior of Julia sets of singularly perturbed rational maps
+10.1515/9783110769876-024	24 Dynamics and topology of rational functions: their Fatou and Julia sets
+10.1515/9783111689685-006	6 The Fatou and Julia sets
+10.1090/psapm/049/1315534	Julia sets of rational maps
+10.1515/9781400851317-009	Limiting behavior of Julia sets of singularly perturbed rational maps
+10.1307/mmj/1080837730	Fatou sets for rational maps of Pk
+10.1017/cbo9780511735233.008	Residual Julia sets of rational and transcendental functions
+10.1090/conm/396/07390	Indecomposable continua and the Julia sets of rational maps
+10.1007/978-1-4612-4422-6_3	The Fatou and Julia Sets
+10.1090/conm/573/11393	Rational maps with half symmetries, Julia sets, and Multibrot sets in parameter planes
+10.1201/9780203759011-3	The Fatou and Julia sets
+10.4171/011-1/7	Semiconjugacies between the Julia sets of geometrically finite rational maps II
+10.1515/9783111689685-007	7 Fatou components
+10.1090/hmath/038/26	Understanding Julia sets of entire maps
+10.1007/s10114-012-0586-1	Fatou components and Julia sets of singularly perturbed rational maps with positive parameter
+10.1090/gsm/198/06	Fatou and Julia sets
+10.1088/0951-7715/13/1/308	Julia sets of postcritically finite rational maps and topological self-similar sets
+10.1090/conm/396/07392	Baby Mandelbrot sets adorned with halos in families of rational maps
+10.3934/dcds.2018139	Dynamics of regularly ramified rational maps: Ⅰ. Julia sets of maps in one-parameter families
+10.4064/aa241204-24-6	Arboreal Galois groups of rational maps with nonreal Julia sets
+10.37863/umzh.v73i10.802	Fatou and Julia like sets
+10.1090/ecgd/383	Symmetries of Julia sets for rational maps
+10.1007/s11785-024-01636-9	Julia Sets of Rational Maps with Rotational Symmetries
+10.1080/17476939208814540	On the julia sets of quadratic rational maps
+10.1142/s0218127413500831	CONTROL AND SYNCHRONIZATION OF JULIA SETS OF THE COMPLEX PERTURBED RATIONAL MAPS

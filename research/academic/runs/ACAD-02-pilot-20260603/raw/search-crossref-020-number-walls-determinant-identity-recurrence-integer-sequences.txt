@@ -1,0 +1,25 @@
+10.1093/oso/9780198500834.003.0007	Non-integer sequences
+10.1093/oso/9780198500834.003.0008	The integer parts of sequences
+10.1515/9783110757248-003	1 Polynomial sequences: algebraic structure, recurrence and determinant form, operational methods
+10.61091/um127-11	An explicit determinant formula for Hyper-Mersenne integer sequences
+10.1016/j.jnt.2017.06.001	On integer sequences in product sets
+10.1017/cbo9780511721274.014	Nonlinear recurrence sequences and Laurent polynomials
+10.1016/j.jnt.2024.05.002	Bounds on the number of squares in recurrence sequences
+10.1006/jnth.1998.2282	On the Exact Height of Integer-Detecting Sequences
+10.1016/0022-314x(89)90052-8	Periodicities of a class of infinite integer sequences modulo M
+10.1007/978-3-0348-8037-4_3	Polynomials and Recurrence Sequences
+10.1112/s0025579317000298	‐PARTS OF TERMS OF INTEGER LINEAR RECURRENCE SEQUENCES
+10.1016/j.jnt.2014.07.022	Hankel determinant calculus for the Thue–Morse and related sequences
+10.1016/j.jnt.2025.10.011	A uniform formula on the number of integer matrices with given determinant and height
+10.1006/jnth.1995.1004	Gap Problems for Integer Part and Fractional Part Sequences
+10.2140/moscow.2023.12.127	Integer sequences without singleton intersection
+10.1016/j.jnt.2009.04.006	Limits of characteristic sequences of integer-valued polynomials on homogeneous sets
+10.1006/jnth.1999.2432	Asymptotic Behavior of Characteristic Sequences of Integer-Valued Polynomials
+10.1006/jnth.1999.2420	On Uniformly Distributed Dilates of Finite Integer Sequences
+10.1201/9781315141312-15	Fault Tolerance for Integer Sequences
+10.1016/j.jnt.2025.08.003	Bounds on the number of squares in recurrence sequences: y0 = b2 (I)
+10.1016/j.jnt.2006.11.013	On the multiplicity of linear recurrence sequences
+10.1016/j.jnt.2006.12.006	Arithmetic functions with linear recurrence sequences
+10.1006/jnth.2001.2718	Sums of Factorials in Binary Recurrence Sequences
+10.1016/s0022-314x(03)00103-3	The density of 0's in recurrence double sequences
+10.1017/cbo9781107325838.007	Notes on continued fractions and recurrence sequences
