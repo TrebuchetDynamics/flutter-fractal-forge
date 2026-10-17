@@ -41,13 +41,6 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T21:30:51Z
 - Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/VIS-006-BATCH-20/), then rescope or split VIS-006-BATCH-20 in its TODO.md entry. The runner reruns it when the entry changes.
 
-### Q-QUAT-NORM-03-QUALIFY — USER_DECISION — effort investigate — unblocks 0
-
-- Task: QUAT-NORM-03-QUALIFY — Qualify accessible quaternion walking and frozen-state exports on all three targets.
-- Needs: integration validation failed or changed the integration tree
-- Since: 2026-10-17T21:30:51Z
-- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/QUAT-NORM-03-QUALIFY/), then rescope or split QUAT-NORM-03-QUALIFY in its TODO.md entry. The runner reruns it when the entry changes.
-
 ### Q-REL-JOURNEY-01-WEB — USER_DECISION — effort investigate — unblocks 0
 
 - Task: REL-JOURNEY-01-WEB — Qualify the complete web image-creation journey.
