@@ -6,12 +6,12 @@ This file contains only hard blockers that require user action.
 
 <!-- pi-autowork:questions:start -->
 
-### Q-VIS-006 — USER_DECISION — effort decision — unblocks 4
+### Q-VIS-006 — USER_DECISION — effort quick — unblocks 3
 
 - Task: VIS-006 — Capture and inspect the next ten uncaptured Explore modules.** Goal: complete the accepted visual playtest audit.
-- Needs: not runnable: needs unique Scope, Acceptance and Checks fields
+- Needs: VIS-006 is marked in_progress by another session and will not be adopted automatically; 3 waiting task(s) depend on it.
 - Since: 2026-10-17T01:32:24Z
-- Answer: Fix VIS-006's TODO.md entry as the reason says (for example add the missing Scope, Acceptance or Checks field), or move it out of Now/Next.
+- Answer: If no one is working on VIS-006, set `Status: open` in its TODO.md entry (the runner then runs it); otherwise note who holds it and when it will be done.
 
 ### Q-ACAD-03 — USER_DECISION — effort decision — unblocks 1
 
@@ -40,13 +40,6 @@ This file contains only hard blockers that require user action.
 - Needs: worker reported a blocker: The source shaders generate per-pixel initial-condition portraits, not trajectory projections. Default zoom tuning was experimentally insufficient. A formula-preserving trajectory/projection renderer requires a defined initial seed, projection (especially which 2D projection to use for Four-Wing and Lorenz), integration duration, and an acceptable GPU performance budget. CAT-QUALITY-01 does not es…
 - Since: 2026-10-17T05:39:28Z
 - Answer: Answer in CAT-QUALITY-02's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
-
-### Q-ACAD-05 — USER_DECISION — effort investigate — unblocks 0
-
-- Task: ACAD-05 — Bind reviewed evidence to existing catalog metadata and admission safeguards.
-- Needs: changed files violate Touches or coordinator/other-slot ownership: {'outside': ['scripts/research/admit/promote_candidate.py'], 'conflicts': []}
-- Since: 2026-10-17T05:50:06Z
-- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/ACAD-05/), then rescope or split ACAD-05 in its TODO.md entry. The runner reruns it when the entry changes.
 
 <!-- pi-autowork:questions:end -->
 
