@@ -504,11 +504,13 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   Status: open
 
 - [ ] VIS-006-LIVE — Live checks for VIS-006
+  Goal: VIS-006
+  Sources: [Existing accepted visual scope](docs/planning/visual-fidelity-audit-next.md#accepted-focus); `todo.archive.md` retains the original capture contract/evidence.
   Scope: Run the live checks the offline work for VIS-006 left pending.
   Acceptance: Each check passes on the real target:
   - Optional human visual sign-off; local Linux GPU capture and contact-sheet inspection completed.
   Checks: Live qualification by an authorized person; offline evidence does not count.
-  Dependencies: VIS-006.
+  Dependencies: VIS-006, VIS-005 (existing goal prerequisite).
   Status: open
 
 ## Done
