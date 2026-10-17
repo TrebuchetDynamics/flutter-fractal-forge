@@ -444,6 +444,7 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Dependencies: ACAD-02.
   - Ownership: Owner must approve inclusion/exclusion and legal full-text acquisition subset; ResearchForge also requires human acceptance of extracted/final claims. Do not impersonate the owner. Keep this task non-executable until decisions are recorded and section is reconciled.
   - Default if no answer: Metadata-only pilot and independent offline tooling proceed; no source acquisition or accepted-claim upgrade.
+  - Owner decision: 2026-10-16 — Keep source review gated; have the runner finish the concrete source/rights queue first under ACAD-02. No blanket source inclusion, acquisition or accepted-claim approval is granted; keep ACAD-03 in Needs decision and preserve its dependencies.
   - Next action: Present ACAD-02's concrete source/rights/review queue for the required human decisions; no question is needed before that package exists.
 
 - [ ] SMOOTH-001-INVENTORY-01-LIVE — Live checks for SMOOTH-001-INVENTORY-01
