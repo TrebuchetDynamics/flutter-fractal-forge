@@ -315,7 +315,9 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Owner approval: B/open-spiral composition was selected, followed by explicit instruction to apply it in the app and Play Store. No further design-choice interview is needed. Remaining live qualification is actual installed Android launcher presentation; no device is attached and that check is not claimed.
   - Checks: Planned owner review of ICON-ZJ-01 proof at native icon sizes, actual Android launcher presentation and the recorded capture/provenance; save explicit accept/request-change with exact candidate hashes. No execution or publication from this review task.
   - Dependencies: none.
-  - Ownership: product owner decision required. No redesign or release is authorized.
+  - Ownership: artwork approved; installed-device qualification deferred until an Android test device is available. No redesign or release is authorized.
+  - Owner decision: 2026-10-16 — Defer installed-device qualification; retain B approval and do not repeat the Play upload. This defers the check, not its acceptance criterion. Keep VIS-003 and ICON-ZJ-02 open; do not re-request composition approval.
+  - Next action: Wait for an available Android test device, then verify the installed launcher and record the actual outcome. No new download, upload, binary release or runner change is authorized.
   - Scope: review existing adaptive launcher/store artwork in representative masks; exclude unapproved redesign or release.
   - Acceptance: owner records accept/request-change and exact requested crop or design corrections.
 
