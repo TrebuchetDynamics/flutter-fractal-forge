@@ -1,0 +1,25 @@
+10.3390/appliedmath5040172	Mathematical Modeling Using Gaussian Functions and Chaotic Attractors: A Hybrid Approach for Realistic Representation of the Intrinsic Dynamics of Heartbeats
+10.20944/preprints202508.0962.v1	The Alpha Group 4D Geometry: Symmetric Structures and Topological Transitions
+10.20944/preprints202508.0962.v2	The Alpha Group 4D Geometry: Symmetric Structures and Topological Transitions
+10.1088/1126-6708/2008/02/010	Reformulating supersymmetry with a generalized Dolbeault operator
+10.48550/arxiv.2406.01319	Meson modes of probe $D7$-branes in Klebanov-Strassler background
+10.1088/1361-648x/abd739	Optical conductivity of triple point fermions
+10.48550/arxiv.2104.05096	Weak Form Generalized Hamiltonian Learning
+10.3386/w14981	What Are Cities Worth? Land Rents, Local Productivity, and the Capitalization of Amenity Values
+	Phenomenological tests of modified gravity
+10.1007/jhep10(2020)150	Mimetic Einstein-Cartan-Sciama-Kibble (ECSK) gravity
+10.33774/coe-2026-8ktgj	Unified Theory of Cosmic Holism and Fundamental Interactions:A Grand Unified Model Based on Cosmic-Scale Zero-Point Fluctuations, Left-Handed Quaternion Multiplication, and Dual Operators
+10.1029/2018ms001526	Epistemology and Politics in Earth System Modeling: Historical Perspectives
+10.4169/002557010x494797	Mathematics Magazine Front Matter
+10.1016/j.jpaa.2025.107918	Fibrations by plane quartic curves with a canonical moving singularity
+10.1088/1742-6596/330/1/012012	Electric and magnetic fields: do they need Lorentz covariance?
+10.1016/j.ppnp.2026.104264	Physics of the Electron–Ion Collider in China
+	Towards a coherent philosophy for environmental modelling.
+10.20944/preprints202011.0021.v1	Cosmic Evolution Physics (I) for Supergravity and Dark-Energy with Super-Inflation
+10.1119/1.4917313	Gravity: Newtonian, Post-Newtonian, Relativistic
+10.1119/1.4917314	Half-Life: The Divided Life of Bruno Pontecorvo, Physicist or Spy
+10.20944/preprints202601.1105.v2	Dynamics as the Boundary of Identifiability
+	TDA parameters in time series analysis
+10.1007/s11024-026-09650-1	Productive Comparison: Thinking with and about Models across Disparate Domains
+	Holography for six dimensional theories: a universal framework
+10.1016/j.jde.2016.06.015	On piecewise smooth vector fields tangent to nested tori

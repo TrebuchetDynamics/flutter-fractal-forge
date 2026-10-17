@@ -1,0 +1,25 @@
+10.1007/978-1-4842-7185-8_33	Real-Time Rendering of Complex Fractals
+10.1142/9789812778604_0003	Distance Estimation in Complex Space
+10.1115/1.4072511	A New Perspective on Escape-Time Fractals: M-Iteration With <i>s</i> -Convexity in Complex Sets
+10.1016/j.chaos.2025.116829	Dynamic Mandelbulb fractals: A mathematical framework for time-evolving 3D fractals using distance estimation
+10.1142/9789813237148_0006	Escape-time Plots
+10.1142/9789812778604_0002	Deterministic Fractals and Distance Estimation
+10.1016/j.chaos.2023.114122	Generalized distance component method based on spatial amplitude and trend difference weighting operator for complex time series
+10.2110/scn.95.36.0069	Time Series Analysis II
+10.1515/ijnsns.2006.7.2.167	On Deformation of the Fractals from Complex Dynamics
+10.1016/j.chaos.2022.111863	Complex dynamics of a Kaldor model of business cycle with discrete-time
+10.2110/scn.95.36.0047	Time Series Analysis I
+10.1142/s0218348x22401703	THE NUMERICAL MESHLESS APPROACH FOR SOLVING THE 2D TIME NONLINEAR MULTI-TERM FRACTIONAL CABLE EQUATION IN COMPLEX GEOMETRIES
+10.1016/j.chaos.2024.115673	Complex dynamics in tick-borne disease transmission: A Filippov-type control strategy model with multiple time delays
+10.1017/9781316285572.015	Elementary Complex Dynamics
+10.1142/s0218348x16500407	FRACTAL DIMENSION ESTIMATION OF RGB COLOR IMAGES USING MAXIMUM COLOR DISTANCE
+10.1142/9789812778604_0009	Ray Tracing Methods by Distance Estimation
+10.1142/9789812778604_0007	Distance Estimation in Higher Dimensional Spaces
+10.3390/axioms14060404	Generalized Logistic Maps in the Complex Plane: Structure, Symmetry, and Escape-Time Dynamics
+10.2110/scn.95.36.0001	Introduction to Fractals
+10.1016/j.chaos.2016.04.002	Complex dynamics of a discrete-time predator-prey system with Holling IV functional response
+10.5120/6195-8716	On Generating Skyscapes through Escape-Time Fractals
+10.1142/s0218348x01000580	COMPOSED ACCELERATED ESCAPE TIME ALGORITHM TO CONSTRUCT THE GENERAL MANDELBROT SETS
+10.1017/9781316285572.024	The Complex Numbers
+10.36227/techrxiv.174952616.65147326/v1	Chaos and Fractals in Neural Networks: Exploring Complex Dynamics
+10.1016/j.chaos.2025.116712	Complex dynamics of discrete-time replicators in repeated Snowdrift Games with four strategies

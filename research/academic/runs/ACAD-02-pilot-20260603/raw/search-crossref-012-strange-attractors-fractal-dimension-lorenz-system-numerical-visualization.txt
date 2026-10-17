@@ -1,0 +1,25 @@
+10.1017/cbo9780511803260.005	Strange attractors and fractal dimension
+10.1103/physrevlett.51.1265	Fractal Dimension of Strange Attractors from Radius versus Size of Arbitrary Clusters
+10.1037/e626432011-001	Judgments of Aesthetics, Time, and Complexity as a Function of the Fractal Dimension of Strange Attractors
+10.1007/978-1-4612-5767-7_3	Preturbulence, Strange Attractors and Geometric Models
+10.1016/j.cnsns.2020.105615	Box dimension of fractal attractors and their numerical computation
+10.11606/t.55.2013.tde-12042013-104751	Structure of attractors and estimates of their fractal dimension
+10.2307/j.ctvpbnnqf.14	Fractal Cats
+10.1017/cbo9780511608773.006	Capacity and Hausdorff dimension
+10.1016/0167-2789(84)90183-0	On the use of perturbation theory in the calculation of the fractal dimension of strange attractors
+10.1007/978-1-349-11570-9_8	Strange Attractors and Endogenous Business Cycle Theory
+10.1017/9781108778459.010	Further Examples: Attractors and Limit Sets
+10.1142/s0218127402005285	ON THE MENDÈS FRANCE FRACTAL DIMENSION OF STRANGE ATTRACTORS: THE HÉNON CASE
+10.1515/9781400858156.291	14. Estimating the fractal dimensions and entropies of strange attractors
+10.1093/actrade/9780192853783.003.0005	5. Fractals, strange attractors, and dimension(s)
+10.1007/978-1-4612-5767-7	The Lorenz Equations: Bifurcations, Chaos, and Strange Attractors
+10.1140/epjp/i2019-13003-7	Strange chaotic attractors under fractal-fractional operators using newly proposed numerical methods
+10.1007/978-1-4612-5767-7_5	From Strange Attractor to Period Doubling
+10.1016/j.cnsns.2019.105092	Multi-fractal multi-resolution structures from DLA – Strange Attractors Hybrids
+10.5890/jand.2018.09.009	Exact Lyapunov dimension of attractors and convergence for the Lorenz system
+10.1134/s1064562413030010	Formulas for the Lyapunov dimension of attractors of the generalized Lorenz system
+10.1201/b10586-145	From Borderline—A Fractal Poem
+10.1007/978-1-4612-5767-7_8	Small b
+10.1090/conm/825/16509	Inhomogeneous attractors and box dimension
+10.1007/978-3-0348-7891-3_5	Hausdorff Dimension of Hyperbolic Attractors in ℝ3
+10.1007/978-1-4612-5767-7_7	Large r

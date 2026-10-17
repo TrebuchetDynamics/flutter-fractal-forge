@@ -1,0 +1,25 @@
+10.1109/carpi.2012.6356468	New eighth-order root-finding three-step iterative methods
+10.1109/acc.2009.5160587	Derivative-free family of higher order root finding methods
+10.1109/acc.2007.4282965	On the Derivation of Higher Order Root-Finding Methods
+10.1080/23311835.2016.1277463	Newton-type iterative methods for finding zeros having higher multiplicity
+10.1007/978-3-540-77851-6_4	Families of Simultaneous Methods of Higher Order: Part I
+10.1007/978-3-540-77851-6_5	Families of Simultaneous Methods of Higher Order: Part II
+10.3126/jnms.v1i2.41488	Higher Order Convergent Newton Type Iterative Methods
+10.1016/j.amc.2015.04.097	Root finding by high order iterative methods based on quadratures
+10.1016/j.rico.2023.100270	Optimal eighth-order multiple root finding iterative methods using bivariate weight function
+10.1111/1467-8659.1020141	A Survey of Several Root‐Finding Methods in the Complex Plane
+10.1155/2013/404635	Introduction to Higher-Order Iterative Methods for Finding Multiple Roots of Nonlinear Equations
+10.1007/s40819-019-0641-z	A Family of High Order Derivative-Free Iterative Methods for Solving Root-Finding Problems
+10.1016/0895-7177(94)90046-9	Second-order complex Newton root-finding algorithm for determining resonant modes of a nontrivial laser system
+10.1142/s0218348x14500133	ON JARRATT'S FAMILY OF OPTIMAL FOURTH-ORDER ITERATIVE METHODS AND THEIR DYNAMICS
+10.5120/8821-2742	Enhancing Computational Thinking with Spreadsheet and Fractal Geometry: Part 2 Root-finding using Newton Method and Creation of Newton Fractals
+10.21136/am.1994.134258	On iterative methods of higher order for systems of linear algebraic equations
+10.3390/fractalfract6100572	Parametric Family of Root-Finding Iterative Methods: Fractals of the Basins of Attraction
+10.1016/j.chaos.2021.111044	On higher order Fibonacci hyper complex numbers
+10.26782/jmcms.spl.12/2025.08.00011	QUADRATIC CONVERGENCE METHOD FOR COMPLEX AND REAL ROOT-FINDING WITHOUT HIGHER-ORDER DERIVATIVES
+10.1007/978-3-540-77851-6_2	Iterative Processes and Point Estimation Theory
+10.33993/jnaat451-1049	Newton type iterative methods with higher order of convergence
+10.47176/sjis.5.3.1	Comparison of some Iterative Methods for Finding Simple Root of Nonlinear Equations
+10.1007/978-1-4471-0123-9_59	Root-Finding of Monotone Nonlinear Functions with Fuzzy Iterative Methods
+10.1080/00207160.2014.887201	Two weighted eight-order classes of iterative root-finding methods
+10.1016/b978-0-12-809214-9.00024-3	Convergence and dynamics of a higher order family of iterative methods

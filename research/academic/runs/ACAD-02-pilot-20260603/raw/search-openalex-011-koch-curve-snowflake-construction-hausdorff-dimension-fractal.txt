@@ -1,0 +1,25 @@
+10.48550/arxiv.2502.00815	A gasket construction of the Koch snowflake and variations
+10.48550/arxiv.2601.07371	On the geometry of generalised Koch snowflakes
+10.3390/fractalfract7020153	Effects of Hausdorff Dimension on the Static and Free Vibration Response of Beams with Koch Snowflake-like Cross Section
+10.48550/arxiv.1108.4292	A new fractal dimension: The topological Hausdorff dimension
+10.3390/math9131546	A Generalization of the Hausdorff Dimension Theorem for Deterministic Fractals
+	An Investigation of the Koch Snowflake Fractal Billiard: Experimental and Theoretical Results
+10.48550/arxiv.0912.3948	Towards the Koch Snowflake Fractal Billiard: Computer Experiments and Mathematical Conjectures
+10.1016/j.topol.2018.08.005	Fractal curves and rugs of prescribed conformal dimension
+10.1177/09217134241308435	Understanding Fractality: A Polyhedral Approach to the Koch Curve and Its Complex Dimensions
+	Design and simulation of variants of koch models for fractal antenna
+10.1038/s41598-021-85405-0	Fractal dimension of coastline of Australia
+10.17725/rensit.2016.08.081	FAMILY OF GENERALIZED TRIADIC KOCH FRACTALS: DIMENTIONS AND FOURIER IMAGES
+10.4171/zaa/1190	Energy Form on a Closed Fractal Curve
+	An exploration of fractal dimension
+10.1016/0375-9601(89)90415-5	A weak estimate of the fractal dimension of the Mandelbrot boundary
+10.48550/arxiv.2210.17320	The Kochawave curve, a variant of the Koch curve
+10.54254/2753-8818/14/20240916	Hausdorff dimension method reduces the error of box counting
+10.4236/am.2016.74032	From Fractal Geometry to Fractal Analysis
+10.4171/zaa/1067	A Transmission Problem with a Fractal Interface
+10.1007/s00028-021-00673-7	Fractional Cauchy problem on random snowflakes
+10.1063/5.0277003	Koch snowflake-inspired acoustic metasurface for broadband sound diffusion in automotive loudspeaker systems
+10.5772/9057	Fractal Antenna Applications
+10.2748/tmj/1178224891	Cut locus of a separating fractal set in a Riemannian manifold
+10.1002/9781119423461.ch18	Preliminaries of Fractal Differential Equations
+10.30970/ms.62.1.21-30	Distribution of unit mass on one fractal self-similar web-type curve

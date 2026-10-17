@@ -1,0 +1,25 @@
+10.1007/3-540-28889-9_8	Cellular automata and Boolean networks as examples of discrete dynamical systems
+10.1142/9789812386519_0004	Dynamical Systems Theory Approach
+10.21236/ada315392	Fractal Scaling in Cellular Automata Simulations of Dissipative Dynamical Systems.
+10.1002/9781118032381.ch2	Dynamical Systems
+10.1007/978-1-4939-8700-9_674	Basins of Attraction of Cellular Automata and Discrete Dynamical Networks
+10.1201/b17091-9	Modelling Spatial Morphologies: Fractal Patterns from Cellular Automata
+10.1007/978-94-017-1005-3_5	Storage of Correlated Patterns in Neural Networks
+10.3934/dcds.2005.12.723	Invariant measures for bipermutative cellular automata
+10.3934/dcds.2005.13.195	Homogeneity of surjective cellular automata
+10.1007/978-3-642-27737-5_674-1	Basins of Attraction of Cellular Automata and Discrete Dynamical Networks
+10.1201/9781003111290-8-10	Hybrid Cellular Automata Models for Discrete Dynamical Systems
+10.1109/hpcsim.2012.6266914	Cellular automata and other discrete dynamical systems with memory
+10.3934/dcds.2008.20.1095	Right-permutative cellular automata on topological Markov chains
+10.1007/978-3-030-25972-3_11	Generalized Reversibility of Cellular Automata
+10.1007/1-84628-214-4_11	Discrete Dynamics Lab: Tools for Investigating Cellular Automata and Discrete Dynamical Networks
+10.3934/dcdsb.2024038	Discontinuous Riemann integrable functions emerging from cellular automata
+10.1007/978-94-017-1005-3_1	Cellular Automata and Transducers. A Topological View
+10.1007/978-3-031-42250-8_3	Diddy: A Python Toolbox for Infinite Discrete Dynamical Systems
+10.1007/978-3-319-92675-9_5	On Dynamical Complexity of Surjective Ultimately Right-Expansive Cellular Automata
+10.3934/dcdsb.2019084	Co-evolving cellular automata for morphogenesis
+10.1108/03684920310452346	Discrete dynamics lab: tools for investigating cellular automata and discrete dynamical networks
+10.3934/dcdsb.2025158	Traveling waves in bistable reaction-diffusion cellular automata
+10.29003/m133.978-5-317-05834-0/27-30	Automata as non-Archimedean Dynamical Systems
+10.1007/978-94-011-1691-6_21	Cryptography with Dynamical Systems
+10.1007/978-94-017-1005-3_2	Automata Network Models of Interacting Populations

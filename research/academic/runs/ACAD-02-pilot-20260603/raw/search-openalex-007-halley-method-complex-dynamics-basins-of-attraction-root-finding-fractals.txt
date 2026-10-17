@@ -1,0 +1,25 @@
+10.3390/fractalfract6100572	Parametric Family of Root-Finding Iterative Methods: Fractals of the Basins of Attraction
+10.1155/2020/5070363	Higher-Order Root-Finding Algorithms and Their Basins of Attraction
+10.1007/s11071-017-3813-6	Fractal patterns from the dynamics of combined polynomial root finding methods
+10.3390/math9161996	A New Nonlinear Ninth-Order Root-Finding Method with Error Analysis and Basins of Attraction
+10.1155/2014/539707	Basins of Attraction for Various Steffensen-Type Methods
+10.2478/mjpaa-2023-0024	Basins of attraction of a one-parameter family of root-finding techniques
+10.1063/1.3637794	Fractal Dimension of the Universal Julia Sets for the Chebyshev-Halley Family of Methods
+10.1002/mma.9876	From Halley to Secant: Redefining root finding with memory‐based methods including convergence and stability
+10.1016/j.automatica.2024.111570	On the use of the root locus of polynomials with complex coefficients for estimating the basin of attraction for the continuous-time Newton and Householder methods
+10.3390/fractalfract5040204	A New Three-Step Root-Finding Numerical Method and Its Fractal Global Behavior
+10.3390/math4020022	Higher Order Methods for Nonlinear Equations and Their Basins of Attraction
+10.2298/aadm190111015p	On generalized Halley-like methods for solving nonlinear equations
+10.2298/fil1904019p	Computational geometry as a tool for studying root-finding methods
+10.1016/j.jco.2013.03.001	Algorithms for quaternion polynomial root-finding
+10.1109/access.2022.3150775	A Novel Root-Finding Algorithm With Engineering Applications and its Dynamics via Computer Technology
+10.1007/s11071-021-06306-5	On the robust Newton’s method with the Mann iteration and the artistic patterns from its dynamics
+10.1155/2014/963878	General Family of Third Order Methods for Multiple Roots of Nonlinear Equations and Basin Attractors for Various Methods
+10.3390/math7121203	Local Convergence and Attraction Basins of Higher Order, Jarratt-Like Iterations
+10.1155/2021/6369466	A New Root‐Finding Algorithm for Solving Real‐World Problems and Its Complex Dynamics via Computer Technology
+10.1088/0951-7715/16/3/312	On K nig's root-finding algorithms*
+10.3390/axioms12121114	Two Dynamic Remarks on the Chebyshev–Halley Family of Iterative Methods for Solving Nonlinear Equations
+10.1016/j.amc.2014.09.061	A new tool to study real dynamics: The convergence plane
+10.1016/j.joems.2013.03.011	On a numerical technique for finding multiple zeros and its dynamic
+10.3390/a8041210	Numerical Properties of Different Root-Finding Algorithms Obtained for Approximating Continuous Newton’s Method
+10.28924/apjm/12-89	Hafizudin Mohamad Nor, Muhammad Zaini Ahmad, Nor Hanim Abd Rahman, Advancements in Nonlinear Equation Solvers: Zhang Homotopy Continuation Method and Its Basins of Attraction

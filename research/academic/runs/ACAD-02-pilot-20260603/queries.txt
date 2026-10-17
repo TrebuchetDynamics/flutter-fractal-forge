@@ -1,0 +1,20 @@
+complex quadratic polynomial Julia sets parameter plane Mandelbrot set dynamics
+higher degree complex polynomial iteration Julia sets parameter spaces
+rational maps complex dynamics Julia sets Fatou sets algorithm
+escape time fractals complex dynamics numerical rendering distance estimation
+Newton method basins of attraction complex polynomials fractal boundaries
+Newton fractals higher order root finding iterative methods complex plane
+Halley method complex dynamics basins of attraction root finding fractals
+iterated function systems attractors Hausdorff dimension fractal geometry
+Barnsley fern iterated function system affine maps invariant measure
+L-system fractals self-similarity geometry rendering
+Koch curve snowflake construction Hausdorff dimension fractal
+strange attractors fractal dimension Lorenz system numerical visualization
+Henon map strange attractor Lyapunov exponent fractal dimension
+Clifford attractor equations parameterized strange attractor
+quaternion Julia sets three dimensional fractal rendering escape time
+Mandelbulb three dimensional fractal distance estimation ray marching
+complex squaring in four dimensions quaternion Mandelbrot set
+cellular automata fractal patterns discrete dynamical systems
+integer sequences fractal patterns number theoretic dynamical systems
+number walls determinant identity recurrence integer sequences

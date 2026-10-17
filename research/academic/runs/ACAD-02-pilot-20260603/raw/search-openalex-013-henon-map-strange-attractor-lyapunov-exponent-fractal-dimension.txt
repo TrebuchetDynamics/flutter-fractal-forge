@@ -1,0 +1,25 @@
+10.1007/bf01140588	Phase space topography and the Lyapunov exponent of electrocorticograms in partial seizures
+10.5860/choice.30-5057	Introduction to chaos and coherence
+10.1007/s11071-018-4054-z	Finite-time Lyapunov dimension and hidden attractor of the Rabinovich system
+10.1016/j.cnsns.2016.04.032	Lyapunov dimension formula for the global attractor of the Lorenz system
+10.1023/a:1021150327194	Lyapunov Functions in Dimension Estimates of Attractors of Dynamical Systems
+10.20566/13429590_5_21	The Fractal Dimension of the Attractor of the Logisitic Map With Diffusion
+10.1088/0951-7715/9/4/001	Maximum local Lyapunov dimension bounds the box dimension of chaotic attractors
+10.1088/0253-6102/21/3/289	The Plateau and Symmetrical Structure of Lyapunov Exponents in 2-Dimensional Homogeneous Dissipative Map
+10.1088/0031-8949/35/3/005	Dimension Function and Phase Transition-Like Behavior in Strange Attractors
+10.3390/e20050322	A New Two-Dimensional Map with Hidden Attractors
+	Noise reduction in chaotic timeseries
+10.21203/rs.3.rs-1750615/v1	Type: xxx Henon Map based Chaotic Pulse Train Generator
+10.3390/e24020287	A Hybrid Domain Image Encryption Algorithm Based on Improved Henon Map
+10.32604/iasc.2023.031575	A Chaotic Pulse Train Generator Based on Henon Map
+	Lyapunov Exponents from Random Fibonacci Sequences to the Lorenz Equations
+10.1007/s11071-018-4544-z	The fastest, simplified method of Lyapunov exponents spectrum estimation for continuous-time dynamical systems
+10.5120/ijca2015906532	Chaos Image Encryption based on DCT Transforms and Henon Map
+10.1109/access.2020.2987615	A Novel Medical Image Signcryption Scheme Using TLTS and Henon Chaotic Map
+10.1051/matecconf/201814810003	Spectrum of Lyapunov exponents in non-smooth systems evaluated using orthogonal perturbation vectors
+10.5772/57452	Application of the Lyapunov Exponents and Wavelets to Study and Control of Plates and Shells
+10.48550/arxiv.1510.03835	A short survey on Lyapunov dimension for finite dimensional dynamical systems in Euclidean space
+10.3390/e21030304	Primality, Fractality, and Image Analysis
+10.1016/0895-7177(88)90006-4	Deterministic chaos and fractal attractors as tools for nonparametric dynamical econometric inference: with an application to the divisia monetary aggregates
+10.3758/bf03212253	Similarities of low-dimensional chaotic auditory attractor sequences to quasirandom noise
+10.48550/arxiv.1509.09161	The Lyapunov dimension and its computation for self-excited and hidden attractors in the Glukhovsky-Dolzhansky fluid convection model

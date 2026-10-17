@@ -1,0 +1,25 @@
+10.1016/j.camwa.2010.09.040	Fractal boundaries of basin of attraction of Newton–Raphson method in helicopter trim
+10.1155/ddns/2006/28756	Fractal Newton basins
+10.22373/ekw.v11i2.25438	Computational Study of Classical Fractals and Newton Basins of Attraction in The Complex Plane
+10.5281/zenodo.19074472	From Real Analysis to Complex Dynamics: Mathematical Foundations and Fractal Boundaries in Newton's Method
+10.1016/j.automatica.2024.111570	On the use of the root locus of polynomials with complex coefficients for estimating the basin of attraction for the continuous-time Newton and Householder methods
+10.3390/fractalfract6100572	Parametric Family of Root-Finding Iterative Methods: Fractals of the Basins of Attraction
+10.48550/arxiv.2003.00372	A Globally Convergent Newton Method for Polynomials
+	Fractal Characteristics of Newton's Method on Polynomials
+10.1007/s00454-011-9330-3	Polynomial Root-Finding Methods Whose Basins of Attraction Approximate Voronoi Diagram
+10.1016/j.amc.2009.06.041	Newton’s method’s basins of attraction revisited
+10.1155/2014/539707	Basins of Attraction for Various Steffensen-Type Methods
+10.3390/math4020022	Higher Order Methods for Nonlinear Equations and Their Basins of Attraction
+10.1155/2020/1853467	Fixed Points, Symmetries, and Bounds for Basins of Attraction of Complex Trigonometric Functions
+10.1007/s11071-017-3813-6	Fractal patterns from the dynamics of combined polynomial root finding methods
+10.65036/amse223	The basins of attraction for optimal fourth-eighth order methods
+10.1155/2021/6665238	Fractal Basins of Convergence of a Seventh-Order Generalized Hénon–Heiles Potential
+10.48550/arxiv.2207.04265	Optimization in complex spaces with the Mixed Newton Method
+10.20944/preprints202112.0151.v1	Some Properties of the Basins of Attraction of the Newton’s Method for Simple Nonlinear Geodetic Systems
+10.1063/5.0159656	Deep learning-based analysis of basins of attraction
+10.5802/aif.2184	Immediate and Virtual Basins of Newton’s Method for Entire Functions
+10.3390/math9161996	A New Nonlinear Ninth-Order Root-Finding Method with Error Analysis and Basins of Attraction
+10.2478/mjpaa-2023-0024	Basins of attraction of a one-parameter family of root-finding techniques
+10.5772/intechopen.1014274	On Efficient Single-Step Scheme for Solving p-Adic Polynomial in Zp: Convergence and Fractal Analysis
+10.26713/cma.v16i1.2899	Optimal Fourth- and Eighth-Order Iterative Solver and Their Basins of Attraction
+10.1090/s0273-0979-2013-01410-1	Singular perturbations of complex polynomials

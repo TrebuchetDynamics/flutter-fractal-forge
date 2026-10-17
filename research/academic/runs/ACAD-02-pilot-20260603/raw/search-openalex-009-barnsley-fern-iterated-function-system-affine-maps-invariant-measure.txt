@@ -1,0 +1,25 @@
+	Iterated function systems and shape representation
+10.2478/bf02476427	On quantum iterated function systems
+10.48550/arxiv.2302.10372	Blowups and Tops of Overlapping Iterated Function Systems
+10.4171/9ecm/11	Self-affine sets and measures – A survey
+10.5120/57-159	Web Enabled Based Face Recognition using Partitioned Iterated Function System
+10.1137/24m1697141	High-Order Numerical Integration on Self-Affine Sets
+10.1016/j.cnsns.2017.07.008	Fractal attractors and singular invariant measures in two-sector growth models with random factor shares
+10.1063/1.5023782	Fractal attractors in economic growth models with random pollution externalities
+10.3814/2010/432521	Construction of Fractal Surfaces via Solutions of Partial Differential Equations
+10.1007/s00521-023-08954-7	Hybrid GA-PSO method with local search and image clustering for automatic IFS image reconstruction of fractal colored images
+10.1007/s11538-026-01754-9	A High Throughput and User-Friendly Computational Tool for Quantifying and Visualizing Symmetry Variation in Image Datasets
+10.48550/arxiv.2211.08018	Universal Time-Uniform Trajectory Approximation for Random Dynamical Systems with Recurrent Neural Networks
+	Optimal use of computing equipment in an automated industrial inspection context
+10.1115/1.4033099	A Prelude to Fractal Engineering and Biomedicine
+10.17932/iau.arch.2015.017/arch_v011i2005	Assessing Urban Morphologıcal Complexity Through Fractal Geometry: Evıdence From Turkish Cities
+10.5281/zenodo.21821796	Les Paysages Fractals
+10.2139/ssrn.4569597	Stochastic Optimal Growth Through State-Dependent Probabilities
+10.1007/s10203-025-00528-7	Stochastic optimal growth under state-dependent probabilities
+10.1051/ita/1994283-404051	Fractal geometry, Turing machines and divide-and-conquer recurrences
+10.1090/noti894	The Influence of Benoît B. Mandelbrot on Mathematics
+	Equations récurrentes stochastiques : structure, inférence statistique et applications financières
+10.48550/arxiv.1801.08325	New relatives of the Sierpinski gasket
+10.26021/3545	Multifractal techniques for analysis and classification of emphysema images
+	Fractal methods in image analysis and coding
+	Two- and Three-Dimensional Coding Schemes for Wavelet and Fractal-Wavelet Image Compression

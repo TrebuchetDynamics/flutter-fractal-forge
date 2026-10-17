@@ -1,0 +1,25 @@
+10.1016/0022-247x(92)90197-l	The exact Hausdorff dimension for a class of fractal functions
+10.1002/cpa.20276	Dimension theory of iterated function systems
+	On the Geometry of IFS Fractals and its Applications
+10.1007/s13373-013-0041-3	Developments in fractal geometry
+10.4064/cm99-2-11	Hausdorff dimension of a fractal interpolation function
+10.1016/j.topol.2011.04.023	Fractal dimension for fractal structures: A Hausdorff approach
+	The geometry of self-affine fractals
+10.5281/zenodo.20266621	Elements of Fractal Geometry
+10.14321/realanalexch.35.1.0091	Perturbed Iterated Function Systems and the Exact Hausdorff Measure of their Attractors
+10.1063/1.5079401	More than seventy years from a milestone in fractal geometry: Moran’s theorem
+10.3842/sigma.2015.084	Fast Basins and Branched Fractal Manifolds of Attractors of Iterated Function Systems
+10.1090/s0002-9939-98-04387-1	The Hausdorff dimension of graphs of Weierstrass functions
+10.5281/zenodo.7294018	MATHEMATICAL PROPERTIES OF FRACTAL GEOMETRY AND ITERATIVE FUNCTION SYSTEM
+10.1090/conm/825/16517	Further analysis of Hausdorff dimension and separation conditions
+10.1007/s00454-014-9589-2	Fractal Tilings from Iterated Function Systems
+10.5281/zenodo.22138564	Fractal Dimension of Fibonacci Word Attractors Tied to Subword Complexity — E8 Intelligence Research
+10.1090/s0002-9939-1992-1094507-x	On Hausdorff Dimension of Recurrent Net Fractals
+10.48550/arxiv.1007.3960	Fractal Dimension for Fractal Structures: A Hausdorff Approach
+10.48550/arxiv.2410.03144	Box dimension of fractal functions on attractors
+10.1145/325334.325245	Construction of fractal objects with iterated function systems
+10.1090/proc/16430	Fractal dimensions of continuous piecewise linear iterated function systems
+10.48550/arxiv.2603.12890	Study of attractors and fractal functions on the product spaces and Dimensional aspects
+10.1016/j.aim.2008.09.018	Sub-Riemannian vs. Euclidean dimension comparison and fractal geometry on Carnot groups
+10.48550/arxiv.2408.06330	Rigorous Hausdorff dimension estimates for conformal fractals
+10.1090/conm/246/03776	The Hausdorff dimension of the boundary of the Lévy dragon
