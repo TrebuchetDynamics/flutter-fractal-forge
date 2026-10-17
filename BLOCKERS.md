@@ -34,13 +34,6 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T18:53:52Z
 - Answer: Answer in CAT-QUALITY-02's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
 
-### Q-VIS-006-BATCH-20 — USER_DECISION — effort investigate — unblocks 2
-
-- Task: VIS-006-BATCH-20 — Capture defaults and runtime previews for the next ten uncaptured Explore modules.** Goal: complete the accepted visual playtest audit.
-- Needs: integration validation failed or changed the integration tree
-- Since: 2026-10-17T19:18:22Z
-- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/VIS-006-BATCH-20/), then rescope or split VIS-006-BATCH-20 in its TODO.md entry. The runner reruns it when the entry changes.
-
 ### Q-REL-JOURNEY-01-WEB — USER_DECISION — effort investigate — unblocks 0
 
 - Task: REL-JOURNEY-01-WEB — Qualify the complete web image-creation journey.
