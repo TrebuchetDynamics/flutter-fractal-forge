@@ -107,6 +107,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Dependencies: QUAT-NORM-01-SLICE, GAUSS-MOAT-02-WALK.
   - Decision: adjacency uses the fixed-d 4D squared metric, never screen distance; component is independent of visited path.
   - Skill application: frontend-ui-engineering, picking/semantics/export; planning-and-task-breakdown, explicit provider dependencies; documentation-and-adrs, distinguish induced slice from 4D graph.
+  - Owner decision: 2026-10-16 — Have the runner identify and repair the integration failure, preserve fixed-slice math and existing work, then rerun affected validation.
+  - Next action: Check current writers, actual candidate bytes and retained integration validation logs before adopting the preserved walk implementation. Repair the reproduced failure or tree drift at its source, keeping camera-independent adjacency, fixed-d connectivity, original-coordinate distances, overlays and regression coverage. Rerun affected model/viewer tests, format and analysis on the exact integrated tree; retain physical-device and live export qualification separately. No failed integration or isolated test pass is completion.
 
 - [ ] **QUAT-NORM-03-QUALIFY — Qualify accessible quaternion walking and frozen-state exports on all three targets.**
   - Goal: QUAT-NORM-001. Payoff: establish accurate, accessible rendered behavior and exports beyond pure model tests.
