@@ -678,6 +678,8 @@ None: the current Featured Launch Set Chromium smoke and 320×320 GPU capture ga
 
 ## Documentation scope questions
 
+Framework research (2026-10-17): [Kotlin Multiplatform versus Flutter assessment](research/kotlin-multiplatform-assessment.md). Recommendation: retain Flutter for the current Android/web/Linux product; direct Android integration and shared Kotlin logic are potential KMP advantages, but shader portability, saved-state compatibility and web qualification make a full rewrite unproven. Open decision: whether a measured framework limitation warrants a bounded comparison experiment. No migration, experiment, new dependencies, implementation or scheduling is authorized; preserve the existing task order and focus.
+
 ### Blocked / Needs decision
 
 
