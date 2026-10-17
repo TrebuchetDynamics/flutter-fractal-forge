@@ -20,13 +20,6 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T01:32:24Z
 - Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
 
-### Q-RELEASE-001-23 — USER_INPUT — effort input — unblocks 1
-
-- Task: RELEASE-001-23 — Implement isolated platform release lanes and verified partial evidence.
-- Needs: worker reported a blocker: The offline feature is not complete: the isolated lane policy has no user-facing best-effort command, is not connected to supported local/native builders or publisher adapters, and does not produce campaign records through a real non-GitLab prepare route. A person must implement and verify those adapters and route before this task can be completed; the current policy-only changes are left uncommit…
-- Since: 2026-10-17T22:48:52Z
-- Answer: Answer in RELEASE-001-23's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
-
 ### Q-VIS-006-BATCH-20 — USER_DECISION — effort investigate — unblocks 2
 
 - Task: VIS-006-BATCH-20 — Capture defaults and runtime previews for the next ten uncaptured Explore modules.** Goal: complete the accepted visual playtest audit.
