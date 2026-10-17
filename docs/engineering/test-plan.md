@@ -10,7 +10,7 @@ values, explicit internal/draft overrides and consistent shell/CI defaults.
 Run `python3 -m unittest discover -s test/scripts -p 'test_*.py'` and
 `env -u GITLAB_CI bats test/scripts/*.bats` for offline verification.
 These checks make no live publication and do not qualify installed-device behavior.
-GitLab execution remains deferred under the current release override.
+GitLab release execution is resumed under the current owner scope; publication waits on GitLab runners and device availability (see `docs/engineering/release/MULTIPLATFORM.md#current-release-status`).
 
 ## Current quality-first verification frontier
 
@@ -152,3 +152,21 @@ Run the existing planned model/widget/journey targets; add these scenarios to th
 ### Applied B assets and icon-only Play update
 
 The explicit owner application/publication request is executed: 16 asset/provenance/resource tests, 11 home widget tests, full Flutter analysis, and 25 listing regressions pass in the coherent candidate. Canonical installed-resource tests and its home-render smoke pass too. The publisher permits fully opaque RGBA icons while keeping other groups RGB, discovers live locales, writes only `/icon`, and verifies full listing dictionaries plus other image groups before commit and in a fresh edit. Live committed readback validates all 15 locale icon hashes against `c22c4fde194800588d21ad3ef2047749bb6335ce4b3fff605c00b1a054396c41`; texts/video and non-icon images are unchanged. No release/binary/track update occurred. Remaining NOT_CHECKED: actual installed Android launcher/device presentation and public Play cache/review propagation. ICON-ZJ-02 and VIS-003 retain the device acceptance gap; no completed whole-feature qualification is claimed.
+
+## Number wall verification
+
+Status: Planned; no Number Walls feature tests have run and no feature code is implemented.
+
+NUM-WALL-01 owns independent integer-determinant reductions, six pinned sequence definitions, BigInt precision, prime rejection/unverified states, zero-denominator recovery, halo and cancellation. NUM-WALL-02 owns real catalog/viewer/thumbnail wiring, decimal-string persistence/import/deep-link compatibility and EN/ES accessible controls. NUM-WALL-03 owns manual randomizer/undo, zero-mask-preserving foreground/background/residue palettes, colour-only no-recompute and immutable same-cell PNG export. Exact planned commands and acceptance are in their TODO bodies.
+
+NUM-WALL-04 records real Linux/browser grid parity, screenshots, responsive/cancellation measurements and decoded saved/downloaded PNGs. NUM-WALL-05 records installed Android, TalkBack and gallery readback separately. Fixtures must cover cross-rule zero denominators, singular/swapped pivots, nonzero odd-prime residues, signed Pagoda versus ternary-lift differences, a prime outside quick picks, composites/Carmichael numbers, malformed/oversized values, unverified long jobs and stale Apply/export/navigation races. Proposed benchmark limits are not measurements. A cropped or degenerate zero region is not a failed square-window theorem. No visual metric alone proves mathematical identity, app-derived beauty, live backend acceptance or release readiness.
+
+Use the existing exact SDK/lockfile and full regression gates when implementing. Planner-selected default grid is 96x32 at nStart=64 and p=2; bounded stress reaches 256x64 and custom-prime validation, with timings/environment recorded rather than invented. Save native/browser matrices and PNG readback; keep unavailable device checks open. All new test paths named in TODO are planned fixtures to add, not existing passing targets.
+
+## Academic evidence verification
+
+Planned, not executed: ACAD-01 adds offline schema/import/coverage checks; ACAD-02 produces actual ResearchForge metadata manifests and failure/screening queues; ACAD-03 requires real human approval before legal acquisition and accepted source-span/renderer review; ACAD-04 continues bounded all-identity assessment; ACAD-05 prevents unsupported/stale claim promotion at existing metadata/admission seams. Exact proposed commands and dependencies are in TODO.md and the library README.
+
+This planning pass inspected current sources and ran only the existing read-only strict catalog doctor: 1,619 rows, 0 errors, 0 warnings. Registry inspection found 376 implemented-flag rows with 6 nonempty reference fields; this is not a live app catalog count or academic verification score. Source provenance/rights, page/equation checks, effective Dart/GLSL/CPU relationships, numerical tests, native/browser/device rendering and release qualification remain separate.
+
+New negative fixtures must cover duplicate titles with different identifiers, preprint/publication revisions, citation/video/code misclassification, inaccessible text, retractions, forged approvals, missing equation spans, stale builder/shader hashes and failed providers. Import/refresh must preserve historical source packages, unchanged bytes and failed-query provenance. Verify exact namespace-selected/processed/remaining ID sets and aggregate counts in code; never infer all-fractal coverage from a green schema/doctor result or an article total. Run the existing research tests/manifest/visual-inventory/strict app doctor guards after authorized implementation. No new academic pipeline tests, live literature sweep, full-text acquisition, Feynman execution or app formula certification ran during planning.

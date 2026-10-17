@@ -39,6 +39,7 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Sources: [Existing P1-3 scope](TODO.md#p1-3-smooth-coloring-in-all-shaders), `test/shaders/smooth_coloring_family_coverage_test.dart`, and `docs/engineering/performance/SHADER_OPTIMIZATIONS.md`.
   - Scope: inventory the integer-power Multibrot shaders against their live module bindings and existing source assertions. Confirm formula-appropriate coloring and add the missing d=4 contract assertion. Preserve recurrence, inside-set output, palettes, and existing tests. Do not claim whole-catalog or hardware-GPU qualification.
   - Acceptance: list each applicable family shader and its checked/unverified status; the d=4 shader is represented by a recurrence-appropriate assertion; `flutter test test/shaders/smooth_coloring_family_coverage_test.dart test/shaders/smooth_coloring_regression_test.dart` passes. Run targeted formatting and analysis for changed Dart tests. Record remaining uncovered families.
+  - Checks: `flutter test test/shaders/smooth_coloring_family_coverage_test.dart test/shaders/smooth_coloring_regression_test.dart`; targeted formatting and analysis for changed Dart tests, as required by Acceptance.
   - Dependencies: none.
   - Ownership: repository backlog; check active work before dispatch.
   - Decision: keep completed sample tests done and add a successor, because fourteen sampled shaders do not prove full applicable coverage.
@@ -125,7 +126,7 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Skill application: frontend-ui-engineering, localized accessible 3D journey; planning-and-task-breakdown, dependent platform qualification; documentation-and-adrs, unrun checks are not evidence.
 
 - [ ] **REL-JOURNEY-03-ANDROID — Qualify the complete Android image-creation journey.**
-  - Release routing: The owner deferred GitLab for the current full release. Do not request GitLab login or dispatch its mirror/CI/release operations. Preserve all build/device/journey/evidence gates. Existing release commands remain GitLab-dependent; establish and verify an alternative execution route before publication. See `PRD.md#active-release-contract` and `docs/engineering/release/MULTIPLATFORM.md#current-release-override`. This does not mark any qualification complete or authorize publication.
+  - Release routing: The owner resumed GitLab release scope on 2026-10-16. GitLab remains the only CI executor; preserve all build/device/journey/evidence gates. Dispatch requires runners for the required tags plus a connected Android device, so publication is not yet run. See `PRD.md#active-release-contract` and `docs/engineering/release/MULTIPLATFORM.md#current-release-status`. This does not mark any qualification complete.
   - Release defaults: Production is the owner-selected default for all releases, with explicit overrides required for test/draft destinations. This changes neither qualification status nor publication authority.
   - Readiness: Play-only candidate 1.1.108 is prepared, not published. Full release/device and cross-platform journey gates remain required. No Android device is connected; the reported running Waydroid instance was unreachable over ADB during preparation. The proposed 39-path camera repair is withheld after review BLOCK (Luminous pan cancellation and unversioned saved-frame semantics); the owner question is unanswered, not a waiver. See the verification frontier in `docs/engineering/test-plan.md`.
   - Goal: REL-JOURNEY-001. Payoff: meet the accepted complete user journey on this platform without false parity claims.
@@ -187,6 +188,129 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Owner authorization: “Good . Change the new app icon in app and playstore” explicitly authorizes B asset application and icon-only listing publication now. This is not a device-qualification or broader release waiver. VIS-003 retains its unexecuted installed-device check.
   - Progress: Approved B assets and configured Android/iOS/web/Windows/macOS icons are regenerated and applied in the canonical working checkout. Sixteen asset tests, 11 home widget tests, full Flutter analysis and 25 listing/publisher regressions pass on the isolated coherent candidate; canonical installed-asset and home smoke checks also pass. The icon-only Play edit was committed across all 15 live locales. Fresh-edit readback matches B SHA256 `c22c4fde194800588d21ad3ef2047749bb6335ce4b3fff605c00b1a054396c41` in every locale and proves complete live text/video dictionaries plus all inspected non-icon image metadata/order unchanged. No binary, release track or remote Git update was performed. This is delivered asset/listing work, not installed-device qualification; original device acceptance and task completion remain open.
   - Next action: Verify the installed B launcher on an Android test device when available and record the remaining VIS-003 verdict; no device is attached. Existing installed apps receive the launcher change with a future binary update, which this icon-only instruction did not publish. Do not re-upload the already verified listing icon merely to refresh evidence.
+
+- [ ] **NUM-WALL-01 — Compute exact sequence walls and validate custom prime fields.**
+  - Goal: NUM-WALL-001
+  - Status: open
+  - Section: Next.
+  - Payoff: correct windows and residues even where the cross rule divides by zero.
+  - Sources: [Accepted outcome and decided design](docs/engineering/spec.md#number-walls-and-modular-windows), [owner scope](PRD.md#number-walls-catalog-category); Lunnon 2001/2009 and Adiceam–Nesharim–Lunnon linked in the spec; `lib/core/models/gaussian_moat_model.dart` for bounded cancellable generation.
+  - Touches: lib/core/models/number_wall_model.dart, test/modules/number_wall_model_test.dart
+  - Scope: Implement the six pinned sequences, BigInt finite-field arithmetic, exact prime validation with explicit unverified/cancelled outcomes, pivoted determinants and optional guarded cross recurrence, support halo and bounded cooperative jobs. Use the signed Pagoda lift and published row/column convention. No UI, shader, frame-theorem engine or new dependencies.
+  - Acceptance: Independent small integer determinant fixtures reduce to identical residues for all six sequences and p=2/3/5/7/11/13, with zero windows, row swaps, singular matrices, recurrence-denominator-zero fallback and odd-prime Hankel signs. Exact typed primes outside quick picks work; composites including Carmichael numbers, 0/1, negatives and malformed/oversized inputs are rejected without substitution. Large unfinished checks remain unverified and cancellable, never falsely prime. No browser precision loss, periodic padding or missing-halo zeros; cancellation yields and stale results cannot commit. All prefix/index fixtures in the spec pass.
+  - Checks: Planned new target: `flutter test test/modules/number_wall_model_test.dart --reporter expanded`; browser parity: `flutter test --platform chrome test/modules/number_wall_model_test.dart --reporter expanded`; `dart format --output=none --set-exit-if-changed lib/core/models/number_wall_model.dart test/modules/number_wall_model_test.dart`; `flutter analyze`. Record actual test counts, backend and bounded benchmark inputs; proposed tests have NOT_RUN.
+  - Dependencies: None.
+  - Ownership: Repository backlog, unassigned; inspect actual writers before execution. Planning does not dispatch.
+  - Next action: Write independent determinant/prefix and zero-denominator regressions, then implement the exact kernel.
+
+- [ ] **NUM-WALL-02 — Open real Number Walls from their catalog category with restorable controls.**
+  - Goal: NUM-WALL-001
+  - Status: open
+  - Section: Next.
+  - Payoff: explore real sequence-dependent walls, not disconnected thumbnail artwork.
+  - Sources: [Accepted outcome and decided design](docs/engineering/spec.md#number-walls-and-modular-windows), [owner scope](PRD.md#number-walls-catalog-category), `lib/core/modules/fractal_module.dart`, `lib/core/models/fractal_parameter.dart`, `lib/core/modules/fractal_mathematics.dart`, `lib/features/catalog/data/catalog_repository.dart`, `lib/features/catalog/widgets/catalog_widgets.dart`, `lib/features/renderer/widgets/renderer/fractal_renderer.dart`.
+  - Graph evidence: Fresh 14-file catalog graph, 538 nodes/756 edges, confirms CatalogRepository/CatalogEntry and runtime-thumbnail/controller seams; query truncated, renderer/export unindexed. Direct source inspection owns the required integration details; see spec.
+  - Touches: lib/core/modules/, lib/core/controllers/, lib/core/models/fractal_parameter.dart, lib/core/models/fractal_preset.dart, lib/features/catalog/, lib/features/controls/, lib/features/renderer/, lib/features/viewer/, lib/l10n/, shaders/number_theory/number_wall_gpu.frag, pubspec.yaml, test/catalog/, test/fractal/, test/number_walls/
+  - Scope: Register one `number_wall` / `core.number_wall` identity and localized Number Walls category; six source choices/presets, typed custom-prime Apply and bounded grid/origin controls. Route exact-grid renderer and genuine sampler shader through viewer/thumbnail paths, with exact Canvas fallback and explicit backend semantics. Add canonical decimal-string parameter/editor/normalizer/persistence handling, preserving existing modules and saved data. No dummy shaders or general catalog rebuild.
+  - Acceptance: Search/category/card opens genuine editable default; all six sources switch correctly. Invalid/unverified prime edits retain the prior committed frame; latest valid Apply wins without stale replacement. Prime values round-trip exactly through presets/history/import/deep links on web/native; negative tests preserve older saved modules. Thumbnail readiness/cancellation/cache keys bind actual grid and palette settings, never a generic approximation. Cells inspect exact coordinates/modulus/residue. EN/ES, 320/768/1440 widths, text scaling, keyboard/focus, >=48px targets/high contrast and static reduced-motion display work. Backend modes cannot misrepresent float arithmetic as exact number-wall computation.
+  - Checks: Planned new targets: `flutter test test/number_walls/number_wall_viewer_test.dart test/number_walls/number_wall_state_test.dart test/number_walls/number_wall_catalog_test.dart --reporter expanded`; existing guards: `flutter test test/catalog/catalog_id_integrity_test.dart test/catalog/catalog_repository_test.dart test/catalog/catalog_thumbnail_audit_test.dart --reporter expanded`; compile the new shader in the new tests; format touched Dart and run `flutter analyze`. New targets are NOT_RUN; update expected inventory from the single real identity, not six formula claims.
+  - Dependencies: NUM-WALL-01.
+  - Ownership: Repository backlog, unassigned; preserve live viewer/catalog workers and existing ordering.
+  - Next action: Add exact module routing and decimal-parameter round-trip regressions before wiring the category.
+
+- [ ] **NUM-WALL-03 — Colour, randomize and export the same completed wall.**
+  - Goal: NUM-WALL-001
+  - Status: open
+  - Section: Next.
+  - Payoff: attractive configurable artwork with reproducible settings and matching PNG output.
+  - Sources: [Accepted outcome and decided design](docs/engineering/spec.md#number-walls-and-modular-windows), [owner scope](PRD.md#number-walls-catalog-category), `lib/features/viewer/export/viewer_export_session.dart`, `lib/features/renderer/models/fractal_render_snapshot.dart`, `lib/core/services/rendering/palette/palette_shader_adapter.dart`, `lib/core/services/export/export_service.dart`, `test/export/viewer_export_session_test.dart`.
+  - Touches: lib/features/number_walls/, lib/features/renderer/, lib/features/viewer/export/, lib/core/services/export/, lib/core/services/rendering/palette/, lib/features/controls/, lib/l10n/, shaders/number_theory/number_wall_gpu.frag, test/number_walls/, test/export/
+  - Scope: Add binary-zero and binned-residue palette modes, foreground/zero/background colours, optional grid, manual reproducible randomizer/undo and exact-grid offscreen PNG integration. Reuse existing palette/editor/export UI and save services; prime arithmetic never moves into shader floats. Randomizing modulus is explicit opt-in and uses verified quick-pick primes, not the typed custom prime by default. No autoplay or new continuous animation framework.
+  - Acceptance: Zero mask survives all styling and large-prime residue binning; colour-only changes do not recompute determinants. Randomization creates valid materialized settings, can be undone/replayed and does not create composite moduli or silently replace a typed prime. Export freezes the complete committed grid/style/viewport; other output dimensions rerasterize identical cells, not a new sequence/prime/depth. Decoded PNGs match same-state viewer cells and chosen background/alpha rules; no unrelated escape-time fallback. Cancellation, navigation and stale jobs preserve ownership. Unsupported auxiliary animation/effect tools are disclosed/disabled only for this module; ordinary modules keep their behavior.
+  - Checks: Planned: `flutter test test/number_walls/number_wall_style_export_test.dart test/number_walls/number_wall_randomizer_test.dart test/export/viewer_export_session_test.dart --reporter expanded`; `flutter test --platform chrome test/number_walls/number_wall_style_export_test.dart --reporter expanded`; `flutter analyze`; decode actual exported PNG artifacts and compare sampled cell centres/zero mask against the immutable grid. New targets and pixel checks are NOT_RUN.
+  - Dependencies: NUM-WALL-02.
+  - Ownership: Repository backlog, unassigned; no publication or schedule authority.
+  - Next action: Pin colour-only/no-recompute and immutable export ownership tests, then implement presentation and PNG reuse.
+
+- [ ] **NUM-WALL-04 — Qualify Number Walls on Linux and web with real artifacts.**
+  - Goal: NUM-WALL-001
+  - Status: open
+  - Section: Next.
+  - Payoff: verify useful defaults, exact parity and saved/exported artwork beyond widget fixtures.
+  - Sources: [Accepted outcome and decided design](docs/engineering/spec.md#number-walls-and-modular-windows), [verification owner](docs/engineering/test-plan.md#number-wall-verification), `integration_test/flows/user_flows_test.dart`, `test/playwright/`.
+  - Touches: integration_test/flows/number_wall_journey_test.dart, test/playwright/number-wall-journey.spec.mjs, docs/engineering/test-plan.md
+  - Scope: Exercise catalog -> six sources -> custom prime -> style/randomize/undo -> save/reopen -> PNG with real Linux rendering and browser. Record default/worst-budget computation, cancellation responsiveness, bounded memory and actual screenshots. No new formulas, release or device acceptance.
+  - Acceptance: Native/browser cell matrices agree for identical inputs, PNGs decode at requested dimensions with matching cells, gallery/card/inspector labels stay honest, defaults visibly show documented windows rather than placeholders. Capture EN/ES/narrow/high-contrast/text-scale states and classify clipping/visual defects. Large/unverified prime and worst zero-window jobs remain cancellable with no stale commit. Retain actual timings/environment, not promised unlimited zoom or fabricated performance scores. Widget-font/renderer substitutions are not live qualification.
+  - Checks: Planned new integration target: `flutter test integration_test/flows/number_wall_journey_test.dart -d linux --reporter expanded`; `flutter build web`; use the repository's Playwright runner on `test/playwright/number-wall-journey.spec.mjs` (record its exact command after adding the target); decode/read back PNG downloads and saved files. All are NOT_RUN.
+  - Dependencies: NUM-WALL-03.
+  - Ownership: Repository backlog, unassigned. Linux/browser qualification is distinct from Android installed-device checks.
+  - Next action: Add the composed native/browser journeys and capture real same-state grid/export artifacts.
+
+- [ ] **NUM-WALL-05 — Qualify installed Android Number Walls and accessible interaction.**
+  - Goal: NUM-WALL-001
+  - Status: open
+  - Section: Next.
+  - Payoff: prove actual device viewing, cancellation, accessible controls and gallery output.
+  - Sources: [Accepted outcome and decided design](docs/engineering/spec.md#number-walls-and-modular-windows), [verification owner](docs/engineering/test-plan.md#number-wall-verification), `integration_test/flows/user_flows_test.dart`.
+  - Touches: integration_test/flows/number_wall_journey_test.dart, docs/engineering/test-plan.md
+  - Scope: Reuse the composed Number Walls journey on a named installed Android device; verify keyboard/TalkBack focus for prime Apply, sequence/style/randomizer and cell inspector, interruption/backgrounding and actual saved PNG/gallery visibility. No binary upload, rollout or store publication.
+  - Acceptance: Device/certificate/build/backend identity and exact test results are retained. Custom prime entry and long decimal labels do not overflow; settings/export survive allowed lifecycle events without stale updates. Gallery PNG decodes with matching cells and dimensions. TalkBack navigation and enlarged text/high-contrast controls work. Missing hardware remains NOT_CHECKED and cannot close parent acceptance or block independent offline implementation.
+  - Checks: Planned: `flutter test integration_test/flows/number_wall_journey_test.dart -d DEVICE_ID --reporter expanded` with the actual named device replacing DEVICE_ID; perform and record TalkBack and gallery/readback steps from the test plan. No attached-device or executed-pass claim is made during planning.
+  - Dependencies: NUM-WALL-03.
+  - Ownership: Repository backlog, unassigned; needs real device access at qualification time, not a new product decision.
+  - Next action: Use an available named Android device after the integrated feature exists; retain exact unavailable access if held.
+
+- [ ] **ACAD-01 — Build the shared academic evidence index and all-identity coverage import.**
+  - Goal: ACAD-001
+  - Status: open
+  - Section: Next.
+  - Sources: [Accepted academic research outcome](PRD.md#academic-research-library), [library design](research/academic/README.md), [integration contract](docs/engineering/spec.md#academic-source-to-renderer-evidence), `scripts/research/README.md`, `scripts/research/schemas/common.schema.json`, `docs/catalog/fractal_registry.yaml`, `docs/planning/visual-audit-inventory.json`, `research/fractals-library/data/fractal_manifest.json`.
+  - Touches: research/academic/, scripts/research/academic/, test/research/, scripts/research/forge.py
+  - Scope: Implement the versioned shared paper/mapping schema, immutable-run importer, identity alias/duplicate review, generated namespace-aware coverage and offline validator. Reuse existing JSONL/tool outputs and stable app IDs; link historical research in place, never mass-move or silently upgrade it. No live searches, PDF acquisition, external installs, app rendering changes or new database/service.
+  - Acceptance: Current app/registry/reference/planned namespaces are reconciled exactly with an explicit row for each scoped identity; unresolved aliases remain gaps. Metadata-only/code/video/source-checked/numerically-checked states stay distinct. Import twice yields byte-identical output; DOI/arXiv version aliases deduplicate safely and title collisions do not merge silently. Rights/source hashes/claim spans/implementation bindings reject malformed or unsupported upgrades; all pre-existing packages and unrelated Number Walls work survive byte-for-byte. New validator checks missing-source, stale-binding, unsupported-claim and illegal-public-file negative fixtures.
+  - Checks: Planned new modules: `pytest test/research/test_academic_library.py test/research/test_academic_coverage.py -v`; `PYTHONDONTWRITEBYTECODE=1 python3 scripts/research/forge.py doctor --strict-app-catalog`; `python3 research/fractals-library/scripts/validate_manifest.py`; `python3 research/fractals-library/scripts/validate_visual_inventory.py`; repeat import/hash conservation. Add a scoped `forge academic-check` command with tests, then record its exact CLI; that command does not yet exist. New tests are NOT_RUN.
+  - Dependencies: None.
+  - Ownership: Repository backlog, unassigned; verify actual writers and maintain current focus/order. Planning does not execute.
+  - Next action: Write the schema/import/coverage negative and idempotency fixtures before adding the offline adapter.
+
+- [ ] **ACAD-02 — Run a reproducible ResearchForge literature pilot and queue source review.**
+  - Goal: ACAD-001
+  - Status: open
+  - Section: Next.
+  - Sources: [Accepted academic research outcome](PRD.md#academic-research-library), [accepted integration contract](docs/engineering/spec.md#academic-source-to-renderer-evidence), [tool/workflow contract](research/academic/README.md), [verification owner](docs/engineering/test-plan.md#academic-evidence-verification), `research/fractal-code-math-catalog/report.md`, `research/fractal-types-tenth-wave/provenance.json`.
+  - Touches: research/academic/runs/, research/academic/papers.jsonl, research/academic/families/, research/academic/coverage.json
+  - Scope: Verify installed rforge version/help and native output compatibility; reuse existing source packages, then execute the bounded 20-query/25-record-per-query-source pilot across six families with relevant installed providers and citation seeds. Import real records/failures into the shared index and prepare a self-contained human screening/acquisition queue. Use ResearchForge first; Feynman is optional, uninstalled/unqualified and not required. No model-provider setup, paid runs, full-text acquisition, self-approved review or catalog admission.
+  - Acceptance: Actual query/source manifests, limits, failures, dedup counts and legal access status are retained and reproducible. Reports distinguish live new records, reused historical records, relevant/excluded/uncertain hits and unfilled gaps. Resume/import preserves successful work without duplicated evidence or hiding failed sources. At most 12 selected real IDs reuse CAT-QUALITY-01's selection if available; Number Walls remains a separate planned dossier. Owner review input identifies paper IDs, source/license/version, proposed decisions and acquisition actions; no automatic include/approval transition occurs.
+  - Checks: `rforge version`; inspect `rforge --json help` (verified machine-readable; this build's `rforge help --json` returns text); planned live pilot: `rforge search batch --out research/academic/runs/RUN_ID --queries QUERIES_FILE --sources openalex,arxiv,crossref --limit 25 --continue-on-error --stats`; `rforge search stats --dir research/academic/runs/RUN_ID`; `rforge screen queue --dir research/academic/runs/RUN_ID --out REVIEW_QUEUE.csv`; substitute actual explicit run paths and retain commands/exits. Run ACAD-01 importer/validator and compare source-normalized statistics programmatically. These network searches are NOT_RUN; failures are not zero-hit proof.
+  - Dependencies: ACAD-01.
+  - Ownership: Repository backlog, unassigned; network/provider access must use supported existing configuration without secret exposure or paid services.
+  - Next action: Verify actual installed command catalog, reuse existing family records and produce a bounded metadata/review package.
+
+- [ ] **ACAD-04 — Backfill academic evidence across every scoped catalog identity in bounded batches.**
+  - Goal: ACAD-001
+  - Status: open
+  - Section: Next.
+  - Sources: [Accepted academic research outcome](PRD.md#academic-research-library), [accepted integration contract](docs/engineering/spec.md#academic-source-to-renderer-evidence), [library rollout/coverage contract](research/academic/README.md), [verification owner](docs/engineering/test-plan.md#academic-evidence-verification), `docs/planning/visual-audit-inventory.json`, `research/fractals-library/data/fractal_manifest.json`.
+  - Touches: research/academic/, TODO.md, goals.json
+  - Scope: After the pilot establishes the contract, progress family by family over the generated identity inventory, at most 25 unresolved identities per execution batch. Reuse reviewed family evidence only with effective-formula/parameter relationship checks. Preserve original namespaces and distinguish published identities, parameter variants, reference-only definitions and planned entries. Continue the same task/evidence ledger without inventing one task per paper or resetting consumed run budgets.
+  - Acceptance: Every scoped current ID is assessed or explicitly remains in the counted unresolved set; union totals reconcile exactly with no silent denominator shrink. Actual source availability, human approvals, formula comparison, numerical and visual evidence are separate. Batches retain reproducible manifests and exact continuation; source gaps/conflicts produce bounded correction/access items, not fabricated citations. Full task/goal completion requires all promised assessments, not merely creating coverage rows; a no-source result never becomes mathematically verified. Newly added modules enter the same inventory without rewriting historic snapshots.
+  - Checks: Run the versioned ACAD-01 coverage validator against pinned source manifests and current catalog export; programmatically compare selected/processed/remaining IDs and evidence multiplicity for every batch; repeat import must be byte-stable. Run existing `forge doctor --strict-app-catalog`, manifest and visual inventory validators after attributable metadata changes. Live full-text/review checks require their actual decisions; all backfill is NOT_RUN.
+  - Dependencies: ACAD-03.
+  - Ownership: Repository backlog, unassigned; preserve per-subset human review/access gates and existing quality task ownership. No timer, publication or blanket all-papers download.
+  - Next action: Select the next bounded unresolved family from coverage and reuse the pilot's verified intake/review method.
+
+- [ ] **ACAD-05 — Bind reviewed evidence to existing catalog metadata and admission safeguards.**
+  - Goal: ACAD-001
+  - Status: open
+  - Section: Next.
+  - Sources: [Accepted academic research outcome](PRD.md#academic-research-library), [source-to-renderer contract](docs/engineering/spec.md#academic-source-to-renderer-evidence), [library schema](research/academic/README.md), `scripts/research/doctor/check_registry.py`, `scripts/research/admit/promote_candidate.py`, `scripts/research/admit/emit_dart.py`, `lib/core/modules/fractal_mathematics.dart`.
+  - Touches: scripts/research/academic/, scripts/research/doctor/, scripts/research/schemas/, test/research/, docs/catalog/, lib/core/modules/fractal_mathematics.dart, test/modules/
+  - Scope: Add offline source-binding/freshness and claim-qualification checks using existing catalog schemas/review gates. Reuse current references/group metadata and qualified descriptions; do not make a parallel production registry or automatically admit/generated shaders from papers. The pipeline can consume draft/unverified rows but must not advertise them as reviewed. No new citation-browser UI, full catalog relabeling or shader repair project.
+  - Acceptance: Checked-in fixtures prove that source-missing/span-missing/unreviewed/wrong-formula/stale-source bindings cannot promote a mathematically verified claim; reviewed applicable bindings pass. Existing imported/catalog data remains loadable and retains honest legacy qualifications; new admissions require their actual evidence, not copied confidence=1 or shader compile status. Pending unsupported relationships stay explicit. App-visible metadata changes, if any, preserve EN/ES, stable IDs/favorites/presets and existing render behavior, with actual focused regressions.
+  - Checks: Planned: `pytest test/research/test_academic_bindings.py test/research/test_academic_admission.py -v`; `PYTHONDONTWRITEBYTECODE=1 python3 scripts/research/forge.py doctor --strict-app-catalog`; `pytest test/research -v`; run affected `FractalMathematics` tests and `flutter analyze` only if app metadata code changes. New fixtures are NOT_RUN. Verify missing-evidence negative controls without weakening old invariant guards.
+  - Dependencies: ACAD-01.
+  - Ownership: Repository backlog, unassigned; independent offline fixtures do not require owner approval of research claims or full-text acquisition.
+  - Next action: Add negative claim-promotion/freshness fixtures against the library contract before connecting the existing doctor/admission seam.
 
 ## Needs decision
 
@@ -331,6 +455,20 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   Dependencies: REL-JOURNEY-02-LINUX.
   Status: open
 
+- [ ] **ACAD-03 — Review approved source mathematics against a representative renderer pilot.**
+  - Goal: ACAD-001
+  - Status: open
+  - Section: Needs decision.
+  - Sources: [Accepted academic research outcome](PRD.md#academic-research-library), [accepted integration contract](docs/engineering/spec.md#academic-source-to-renderer-evidence), [source review and rights contract](research/academic/README.md), [verification owner](docs/engineering/test-plan.md#academic-evidence-verification), `lib/core/modules/fractal_mathematics.dart`, `lib/shared/widgets/fractal_math_summary.dart`.
+  - Touches: research/academic/reviews/, research/academic/mappings/, research/academic/families/, research/academic/coverage.json, test/research/, test/modules/
+  - Scope: After attributable human decisions, acquire only the approved legal source subset and draft/verify exact source-span-to-effective-renderer dossiers for at most 12 pilot identities. Compare algebra, initialization, recurrence/rules, parameter clamps/uniform bindings, termination, numerical approximations and independent fixtures. Reuse existing Number Walls sources and CAT-QUALITY evidence; do not rewrite their plans or pretend planned renderers exist. Feynman outputs, if separately authorized, remain untrusted draft notes until checked; no installation or remote experiments implied.
+  - Acceptance: Each included claim has actual source/version/page/equation evidence and a separate source/implementation/numerical verdict. Unsupported/contradicted/inaccessible entries stay qualified or open; no abstract-only certification or fabricated oracle. Record actual reviewers and distinguish draft extraction from human-accepted extraction/final claims. Reproducible testable mathematical mismatches become bounded tasks under their existing owners, without automatic formula changes. Store only licensed/approved redistributable metadata and brief excerpts in Git; private PDFs/OCR stay ignored with rights/hash manifests.
+  - Checks: After approval only, build a separate acquisition-only staging directory with `results.jsonl` filtered to exactly the approved source IDs; bind its digest/decision IDs and assert selected equals approved before fetch. Never assume standalone `oa fetch` consults screening.jsonl or target it at all discovery results. Read actual fetch report/failures/files/digests/rights rather than treating exit zero as complete success. Run ACAD-01 validators plus newly added source-derived fixture tests via `pytest test/research -v` and the exact affected `flutter test ...` targets. Record commands/outcomes; all acquisition/source review/numerical checks remain NOT_RUN now.
+  - Dependencies: ACAD-02.
+  - Ownership: Owner must approve inclusion/exclusion and legal full-text acquisition subset; ResearchForge also requires human acceptance of extracted/final claims. Do not impersonate the owner. Keep this task non-executable until decisions are recorded and section is reconciled.
+  - Default if no answer: Metadata-only pilot and independent offline tooling proceed; no source acquisition or accepted-claim upgrade.
+  - Next action: Present ACAD-02's concrete source/rights/review queue for the required human decisions; no question is needed before that package exists.
+
 ## Done
 
 ## Goal coverage — visual-fidelity scope
@@ -354,6 +492,8 @@ Generated from `goals.json` by `goals.py render`. `met` requires an executed, pa
 | CAT-QUALITY-001: Improve catalog first-impression quality without losing variety or saved identities | unverified | — | CAT-QUALITY-01, CAT-QUALITY-02, CAT-QUALITY-03 |
 | VIEW-UI-001: Reduce intrusive viewer navigation chrome and style overflow consistently | unverified | — | VIEW-UI-01, VIEW-UI-02 |
 | OAI-VIS-001: Select a mathematically distinct quality-gated visual candidate from OpenAI math | unverified | — | OAI-VIS-01-IFS, OAI-VIS-02-SLE, OAI-VIS-03-VORONOI, OAI-VIS-04-UST, OAI-VIS-05-DIMER, OAI-VIS-06-HEIGHT, OAI-VIS-07-FK |
+| NUM-WALL-001: Explore exact modular number walls with custom primes and matching artwork export | unverified | — | NUM-WALL-01, NUM-WALL-02, NUM-WALL-03, NUM-WALL-04, NUM-WALL-05 |
+| ACAD-001: Build a traceable academic source-to-mathematics library across all catalog identities | unverified | — | ACAD-01, ACAD-02, ACAD-03, ACAD-04, ACAD-05 |
 
 <!-- goals:coverage:end -->
 

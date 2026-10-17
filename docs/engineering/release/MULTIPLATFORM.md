@@ -1,15 +1,22 @@
 # GitLab releases
 
-## Current release override
+## Current release status
 
-The owner deferred GitLab for the current full release. Do not request GitLab
-login or perform GitLab mirroring, pipeline dispatch or release publication unless
-the owner resumes that scope. All existing build, Android-device, cross-platform
-journey and evidence gates remain required; this is not a qualification waiver.
-The commands below describe the existing GitLab-dependent implementation, not a
-working GitLab-free route. Even `--target play` still depends on GitLab CI. A
-non-GitLab release path must be implemented and verified before using it; do not
-bypass guards or pretend that this documentation changes script behavior.
+The owner resumed GitLab release scope on 2026-10-16. GitLab remains the only CI
+executor, and every existing build, Android-device, cross-platform journey and
+evidence gate still applies; this is not a qualification waiver. GitLab `main` is
+mirrored at the release commit and publication is dispatched through
+`scripts/gitlab_release.py` (`release.sh`). Even `--target play` still depends on
+GitLab CI; there is no verified non-GitLab release route.
+
+Readiness as of 2026-10-16: the GitLab project's `main` pipelines fail with zero
+jobs because no runners are available for the required tags
+(`saas-linux-medium-amd64`, `saas-windows-medium-amd64`, `saas-macos-medium-m1`,
+`fractal-android-device`). Before a full release can finish, verify the GitLab
+account identity, register/enable runners for those tags (including a protected
+tagged Android device runner with a connected device), and configure the
+protected CI/CD variables below. Publication is therefore not yet dispatched; do
+not bypass guards or pretend that this documentation changes script behavior.
 
 Run the complete release from the repository root:
 
