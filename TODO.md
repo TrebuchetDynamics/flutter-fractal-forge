@@ -76,6 +76,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Ownership: repository backlog, unassigned; check live ownership before dispatch.
   - Decision: bounded integer-squared radius schedule, not continuous approximate adjacency or unbounded domain expansion.
   - Skill application: frontend-ui-engineering, motion/cancellation and non-color-only states; planning-and-task-breakdown, bounded growth slice; documentation-and-adrs, visualization is not proof.
+  - Owner decision: 2026-10-16 — Have the runner reconcile preserved growth work with current main, preserve both sides’ behavior, and rerun affected checks.
+  - Next action: Check current writers and preserved candidates; compare actual growth code/commits with current main before adopting anything. Recover the integration without reset, force, discarded changes or weakened tests; regenerate localizations as needed and rerun the affected Gaussian model/viewer tests, formatting and analysis on the integrated bytes. Keep original cancellation/reduced-motion requirements and GAUSS-MOAT-03-QUALIFY live gates. This planning answer does not perform a merge or launch a worker.
 
 - [ ] **GAUSS-MOAT-03-QUALIFY — Qualify accessible Gaussian walking and frozen-state PNG export on all three targets.**
   - Payoff: prove usable, accessible exploration and accurate PNG output on the supported targets.
