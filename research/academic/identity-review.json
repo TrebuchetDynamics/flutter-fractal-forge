@@ -1,0 +1,3696 @@
+{
+  "schema_version": 1,
+  "title_collisions": [
+    {
+      "normalized_title": "'passionately subjective': challenges to identity in the works of amy levy",
+      "paper_ids": [
+        "paper-3d56cf72b40d3084afab",
+        "paper-9d08b8e7965524ea911d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "3d fractal flame wisps",
+      "paper_ids": [
+        "paper-07262350a22df1b689e1",
+        "paper-22dd351b5eea2f14346f",
+        "paper-2bef59f9bbe81a3fd9ca",
+        "paper-79383f05e84eee742688",
+        "paper-e5715cdd15175eee195f",
+        "paper-e85692ddbb916cc6292f"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "3d storyboarding for modern animation",
+      "paper_ids": [
+        "paper-c08559bc446513d09f47",
+        "paper-e9eacaeb935fe4da92d0"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "a crisis of intuition as viewed by felix klein and hans hahn and its resolution by fractal geometry",
+      "paper_ids": [
+        "paper-16d3493e80b44116274f",
+        "paper-c198da87f75d31eec79e"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "a decomposition theorem for herman maps",
+      "paper_ids": [
+        "paper-1f68f53141dd1f1afa23",
+        "paper-3cf4d3b51bae2f807c62"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "a formal connection between napier's logarithm and the bernoulli numbers",
+      "paper_ids": [
+        "paper-28d9e73ee49d63e17e1c",
+        "paper-40968c90bab003799bb5"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "a formalised approach to designing sonification systems for network−security monitoring",
+      "paper_ids": [
+        "paper-1ebdf61193abcaae5e42",
+        "paper-38f7d35718e06f4d85e6",
+        "paper-75b49d92cf053a78d37e",
+        "paper-c6f3152ac8c06fcf3fb4"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "a hierarchical, multiscale texture segmentation algorithm for real-world scenes",
+      "paper_ids": [
+        "paper-4ef80429f48706d9571d",
+        "paper-ae35d775e4bb3998903d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "a java framework for data sonification and 3 d graphic rendering",
+      "paper_ids": [
+        "paper-e16d075047eaf37c2236",
+        "paper-fc30eb0f9b83caada77d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "a new fractal dimension: the topological hausdorff dimension",
+      "paper_ids": [
+        "paper-3dc18769a0ec62b16970",
+        "paper-4a306108f5a825613e98"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "a note on a faster fixed point iterative method",
+      "paper_ids": [
+        "paper-52517563b06b75f6f720",
+        "paper-810422c9667ff6f0b667"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "a recursive shadow voxel cache for ray tracing",
+      "paper_ids": [
+        "paper-3f4f19978c914fb56db4",
+        "paper-fd6c6c2bda6f8d154c46"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "a set-theoretical representation for weakly idempotent lattices and interlaced weakly idempotent bilattices",
+      "paper_ids": [
+        "paper-7b536ab9ae7fa2f907f9",
+        "paper-e0589b757a2424f5d381"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "a simple model of a riddled basin in chaotic synchronization",
+      "paper_ids": [
+        "paper-1f4ebc12047bda7c7f90",
+        "paper-627a96544cf453172a4d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "a study of polynomials and their q-analogues using classical and fractional calculus techniques",
+      "paper_ids": [
+        "paper-1384f19f807778dedff1",
+        "paper-ccc1d80c08fec642543d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "a study of tricomplex numbers: representation, subalgebras, idempotent forms",
+      "paper_ids": [
+        "paper-8950302aaddde9fd1d06",
+        "paper-db5eb0a0d73a4ccebb1e"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "a tisket, a tasket, an apollonian gasket",
+      "paper_ids": [
+        "paper-1e27f4c647c5231fe56e",
+        "paper-ab478f17d7a85102e6e9"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "a tutorial on motion capture driven character animation",
+      "paper_ids": [
+        "paper-879311151bacecc1d978",
+        "paper-ac7f6a37fd37578a9551"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "a tutorial on the visualization of forward orbits associated with siegel disks in the quadratic julia sets",
+      "paper_ids": [
+        "paper-22548eb4eb46d8676e46",
+        "paper-df0b003deb3a9455bc8f"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "about the code of practice of the european mathematical society",
+      "paper_ids": [
+        "paper-5ed7dd725490d2ffe3d8",
+        "paper-7c28c907733f4154cedf"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "accuracy of computer generated approximations to julia sets",
+      "paper_ids": [
+        "paper-b0d743327ea8fd398bab",
+        "paper-de64d5f290d1de3ae01f"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "actor and technology : appropriating digital media into the creative process",
+      "paper_ids": [
+        "paper-1754eaeac1e08ccd1ba2",
+        "paper-669ca20c02b3aad969e9"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "actual problems of creative activity and new cognitive possibilities: a transdisciplinary approach",
+      "paper_ids": [
+        "paper-ceca1056530b946cc1bc",
+        "paper-f7b8a05cc473300695ef",
+        "paper-fc34d7d4f9a9db0a88ed"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "advanced calculus for applications",
+      "paper_ids": [
+        "paper-97b0f17d5e61a6e345d4",
+        "paper-f05a65f4b498ddc1eae4"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "an algorithm to draw external rays of the mandelbrot set",
+      "paper_ids": [
+        "paper-d300d85bbbc0156748bc",
+        "paper-d91cb437c85db932988c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "an atlas of functions: with equator, the atlas function calculator",
+      "paper_ids": [
+        "paper-0f5d4a66f936e3ca692a",
+        "paper-d70fde48e8785f28838a"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "an image based approach to recovering the gravitational field of asteroids",
+      "paper_ids": [
+        "paper-8a1e2031ea64f31afeb1",
+        "paper-e9d4adb0f083d1265367"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "an introduction to educational design research: proceedings of the seminar conducted at the east china normal university, shanghai (pr china), november 23-26, 2007",
+      "paper_ids": [
+        "paper-4a509f06b37e8040372b",
+        "paper-c61daaf475f234b567ee"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "an introduction to project n",
+      "paper_ids": [
+        "paper-690c67bfa94b23a9e976",
+        "paper-b3c9b14bb885f38b9879"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "analysis of active earth pressure on retaining wall with complex fracture plane of soil",
+      "paper_ids": [
+        "paper-38482db569692abdfc76",
+        "paper-76b3b4b83a335e3cde7a"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "aniclipart: clipart animation with text-to-video priors",
+      "paper_ids": [
+        "paper-ac919fc05d86c133f411",
+        "paper-c82aa80a766925212b32"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "animacy , motion , emotion and empathy in visual music : enhancing appreciation of abstracted animation through",
+      "paper_ids": [
+        "paper-9cd6f92368b78d0bed55",
+        "paper-b2e3debf157b129679c3"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "apollonian circle packings: geometry and group theory i. the apollonian group",
+      "paper_ids": [
+        "paper-701594edccc8f74856a6",
+        "paper-9b462fbc4c4a729a5344"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "apollonian circle packings: geometry and group theory ii. super-apollonian group and integral packings",
+      "paper_ids": [
+        "paper-572babeda86eab26037b",
+        "paper-6c4dfb066f970a310e5b"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "apollonian gasket",
+      "paper_ids": [
+        "paper-051906ae73b39a99bb50",
+        "paper-0fbdf63fc2b727285d7d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "application of a quantitative precipitation estimation algorithm for the s-band radar at irene, south africa.",
+      "paper_ids": [
+        "paper-0a62c959bb5392068483",
+        "paper-27ed34b46485960c7ad8"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "application of image sonification methods to music",
+      "paper_ids": [
+        "paper-00ac446ade21eac43d84",
+        "paper-7307d4f9851a4560f6ed",
+        "paper-976807c9f6cee695e0c4",
+        "paper-d53990ded085528a63bf"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "application of raster scanning method to image sonification, sound visualization, sound analysis and synthesis",
+      "paper_ids": [
+        "paper-3e0e533797345a046f04",
+        "paper-f32ee795fe42ad944781"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "applications of novel programming languages and compilation techniques to accelerating quantum many-body science",
+      "paper_ids": [
+        "paper-ae9ef5c5fa2586e9781e",
+        "paper-d513a279b91db8d75b33"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "applications of picard ishikawa type fixed point iteration for construction of fractals",
+      "paper_ids": [
+        "paper-a6f999a4abb7be11e710",
+        "paper-d19f3023ea6a547d7ea7"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "arboreal galois groups of rational maps with nonreal julia sets",
+      "paper_ids": [
+        "paper-2f859fb8d216c8bc246d",
+        "paper-c307069da8ef57cb2687"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "arc-like continua, julia sets of entire functions, and eremenko's conjecture",
+      "paper_ids": [
+        "paper-96252d3e6c5d880a476c",
+        "paper-cd463ec1769daa2315c9",
+        "paper-da4871b802b9ae36f396",
+        "paper-e7256346b3e1c0b739d8"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "art and the real-time archive: relocation, remix, response",
+      "paper_ids": [
+        "paper-6308c20a720af5368a2b",
+        "paper-da46779c82e5dd030393"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "at the threshold : liminality, architecture, and the hidden language of space",
+      "paper_ids": [
+        "paper-7722be4af234e84b5ac6",
+        "paper-8c0d430aa7439628af87"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "audio-visual stress: cognitive approaches to the perceptual performativity of william forsythe and ensemble",
+      "paper_ids": [
+        "paper-b61ce2f76c8da04b4053",
+        "paper-c050e52a0f4d4ba94b75"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "audiovisual granular synthesis: creating synergistic relationships between sound and image",
+      "paper_ids": [
+        "paper-7ca668ba129b6ed52013",
+        "paper-aa8a43a064d4a4458337"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "authoring death: mourning masculinity in american autobiography",
+      "paper_ids": [
+        "paper-4209f9c6ce51eca68408",
+        "paper-dacb6541390f95f55e1e"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "automated 3d visualization of brain cancer",
+      "paper_ids": [
+        "paper-4b9bfad98ffe14342972",
+        "paper-889ff3cceb5aa4325f23"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "automatic mapping of scanned sheet music to audio recordings",
+      "paper_ids": [
+        "paper-6f337a8d97cbfe7cc1f8",
+        "paper-d95f82d5df0296c80fbc"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "autoorthography: an exploration of identity poetics with poetry",
+      "paper_ids": [
+        "paper-b8035dac19ee6bf024fd",
+        "paper-f7496e64b24708e45e24"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "beethoven deaf: the beethoven myth and nineteenth-century constructions of deafness",
+      "paper_ids": [
+        "paper-45bba7787636785e9546",
+        "paper-e498f54437ac1428bf1a"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "bending hyperbolic kaleidoscopes",
+      "paper_ids": [
+        "paper-4c46dbcb854a19457de7",
+        "paper-a546a13c0a6e70c22add"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "bernard shaw and the aesthetes",
+      "paper_ids": [
+        "paper-490a7e2dea8a876a544e",
+        "paper-61d88ef60acafd436881"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "bessel functions. airy log gamma subroutines",
+      "paper_ids": [
+        "paper-16fa57ee82417807efc7",
+        "paper-b25375aa2a69ddebc09e"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "between site-specificity and landscape in video art",
+      "paper_ids": [
+        "paper-0c4d533652c55f7af419",
+        "paper-d803450a7a7ca3c28c4c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "bibliography",
+      "paper_ids": [
+        "paper-38ff6f0815f2e2e707fd",
+        "paper-7feab2bca118b19a4a2f"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "bicomplex burning ship fractal",
+      "paper_ids": [
+        "paper-305cb5c54fd2b0fab977",
+        "paper-e4fec7b0edd0f604ea15"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "biggest bounded type siegel disks of monic polynomials include those that stick to all critical points",
+      "paper_ids": [
+        "paper-05ebbd388213d65e9c54",
+        "paper-6a90ebef181ac42bb345"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "broadcast gl: an alternative method for distributing opengl api calls to multiple rendering slaves",
+      "paper_ids": [
+        "paper-0de66d76ffa67ab6c6a5",
+        "paper-fb990f68e6ebe4d3f683"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "catching the next wave: resonance, integration, and the analog future",
+      "paper_ids": [
+        "paper-627866224725e3e33fc5",
+        "paper-8eaf6960fc5d9ac064a6"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "cell music: the sonification of digitalized fast-fourier transformed microscopic images",
+      "paper_ids": [
+        "paper-3859dfc223782bb2769d",
+        "paper-aab1e168d359553e0eb9"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "ceramic tiling systems. sustainability for ceramic tiles and installation materials",
+      "paper_ids": [
+        "paper-0e37574e28a29d8f4331",
+        "paper-43892ed87399c6e46870",
+        "paper-7182494c230aec9a2ca0",
+        "paper-c19805ba4cdb2e4431d1",
+        "paper-f0d1e54c29601c47d7a7"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "chaos and quantum tunneling",
+      "paper_ids": [
+        "paper-b0cc7acbc7307ffd8b32",
+        "paper-b0d6d11a51ab9f301b2a"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "chapter 17 : quaternion based machine condition monitoring system",
+      "paper_ids": [
+        "paper-42d5902024b56eb113d1",
+        "paper-55e36a4c3a62a9ddfab1"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "characterization of anisotropy in organic-rich shales: shear and tensile failure, wave velocity, matrix and fracture permeability",
+      "paper_ids": [
+        "paper-1bd955cde3f17f8f75fa",
+        "paper-3ebe46d8c20e8f3ac027"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "chebyshev interpolation",
+      "paper_ids": [
+        "paper-8310260728bf7868be17",
+        "paper-f7bef048a57c81aab3fc"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "chebyshev series",
+      "paper_ids": [
+        "paper-812b5f12775b37deaccd",
+        "paper-aa692bec151adef2b408"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "classification of principle 3d slices of filled-in julia sets in multicomplex spaces",
+      "paper_ids": [
+        "paper-3142e3d63948dc790fcd",
+        "paper-9b2b86ca11eb9c2821d0"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "classification techniques in pattern recognition",
+      "paper_ids": [
+        "paper-9248d50c03bd273b9364",
+        "paper-9d517545bea5189da33d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "commission on audio-visual materials",
+      "paper_ids": [
+        "paper-a3d19ab7318de5091408",
+        "paper-b1b9dd6685c5d369a3b9"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "complex dynamics of newton's method",
+      "paper_ids": [
+        "paper-5c46650ec5876ac66172",
+        "paper-5fad77b0d152bf8c32eb"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "complexity and dissipation, chaos and information in the technological novel",
+      "paper_ids": [
+        "paper-c79ee7098ede00eed282",
+        "paper-f5354001c434ad7f227e"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "composable function systems as a general-purpose rendering framework",
+      "paper_ids": [
+        "paper-13b34886ee51794cab47",
+        "paper-46be506e6deb8fa4b3f0",
+        "paper-55c215c3ed836722aead",
+        "paper-6409257a9535d36c3874",
+        "paper-6b5bea7fa23c1e62ab0d",
+        "paper-e1ae98933c102927ba5f"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "computer analysis of images and patterns: 8th international conference, caip'99 ljubljana, slovenia, september 1-3, 1999 proceedings",
+      "paper_ids": [
+        "paper-571d22662c1e9f466bc9",
+        "paper-89326319b4f1c963975d",
+        "paper-f29b02623d7d6939d2f2"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "computer animation in future technologies",
+      "paper_ids": [
+        "paper-5533ef1abc1c3c3058d9",
+        "paper-7c386c18f3d733dfc156"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "computer animation: a key issue for time visualization",
+      "paper_ids": [
+        "paper-7ab7a8754b35fdce397e",
+        "paper-d8bd9f7d59cc8680626d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "computer simulation of human lower limb motions using a three-dimensional musculoskeletal model 1",
+      "paper_ids": [
+        "paper-8ebb579a714bc8209a8f",
+        "paper-d4ac4b56a595767b3981"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "computer vision, accv'98: third asian conference on computer vision, hong kong, china, january 8-10, 1998 : proceedings",
+      "paper_ids": [
+        "paper-2493c2300133b009c094",
+        "paper-c3f01d3229ec2cf67876"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "creativity in darwin's diagram of the evolutionary process",
+      "paper_ids": [
+        "paper-a587f16ea80f4351982d",
+        "paper-df2aeafcfc7393db2374"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "critical points and julia sets of complex henon maps (integrated research on complex dynamics)",
+      "paper_ids": [
+        "paper-4db9c102a07f0ced27d9",
+        "paper-e0152d378586f808f7f7"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "data access layer optimization of the gaia data processing in barcelona for spatially arranged data",
+      "paper_ids": [
+        "paper-b5792010806283d528bc",
+        "paper-c2fe2fb7b2fa5a68b717"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "dc conductive percolation of 2-d fractal random network",
+      "paper_ids": [
+        "paper-39db1f97ca45e8eebaaf",
+        "paper-d704bce57b9dad5d8a78"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "derrida and a theory of irony: parabasis and parataxis",
+      "paper_ids": [
+        "paper-7f4b03737e07154b1205",
+        "paper-b727c25cb78c1c790cc6"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "design guidelines for audio presentation of graphs and tables",
+      "paper_ids": [
+        "paper-5560e494d519651d95f4",
+        "paper-a64f58fab9bdd9c4dbf4"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "determination of the fractal scaling parameter from simulated fractal-regular surface profiles based on the weierstrass-mandelbrot function",
+      "paper_ids": [
+        "paper-aae0a9eb3506fafe37d0",
+        "paper-e748b2f69b9a75d7bc64"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "developing a flexible and expressive realtime polyphonic wave terrain synthesis instrument based on a visual and multidimensional methodology",
+      "paper_ids": [
+        "paper-0966e99e8576811bd8f6",
+        "paper-23d8c10a9dbd4ce5b4e8",
+        "paper-ae907844550eca09c935",
+        "paper-b6657efb1943b61ff27a",
+        "paper-c1aa8a6115db28007881"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "development of hardware and algorithms for a multi-functional capacitive proximity sensing system",
+      "paper_ids": [
+        "paper-751eaaddd3dc9577ce63",
+        "paper-d0b5537f5e5e7e62b30b"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "differentiability of the minkowski question mark function",
+      "paper_ids": [
+        "paper-cacf1c2c90fc7b172166",
+        "paper-de6116876cfd4ac760ff"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "diffusion-limited growth",
+      "paper_ids": [
+        "paper-8b8bf62791576d068a9a",
+        "paper-c27c9e2ae8c48029bb5a"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "digital creativity tools framework",
+      "paper_ids": [
+        "paper-62ce93a28ed9e676f668",
+        "paper-903af73091f6e41cad4c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "dimension of fractal functions",
+      "paper_ids": [
+        "paper-86da9a0d54a6fd612383",
+        "paper-b09fe50600bc2e9634b1"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "dimensions of kleinian orbital sets",
+      "paper_ids": [
+        "paper-c3b2ff71b9aeb01c9d99",
+        "paper-f0f37af7a6a4fa47bf1d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "diophantine properties of fixed points of minkowski question mark function",
+      "paper_ids": [
+        "paper-53d90c22da0df705cb79",
+        "paper-9578114d280ec53551c4"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "discovering geographic knowledge in data rich environments, final report",
+      "paper_ids": [
+        "paper-6fb60723a1fa08647128",
+        "paper-8e873cc05234f3d0671a"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "discrete chaos: with applications in science and engineering",
+      "paper_ids": [
+        "paper-6f02ac8e6d5f78ece63f",
+        "paper-c777516dea9a719eb6df"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "discrete extremal lengths of graph approximations of sierpinski carpets",
+      "paper_ids": [
+        "paper-3854b1a95f9e4846c1fb",
+        "paper-52c6f508c3057c39b40f"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "discrete global grids: a web book",
+      "paper_ids": [
+        "paper-3bb5790c7e34b473eda9",
+        "paper-6ef1219b19223554c277"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "discrete shape modeling for geometrical product specification : contributions and applications to skin model simulation",
+      "paper_ids": [
+        "paper-1cfd17a4e018a73d8b8e",
+        "paper-53d6d96fc9562aee1e77"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "dissection of a rhombic 210-hedron into a combination of icosahedron and truncated dodecahedron",
+      "paper_ids": [
+        "paper-7b4a904d19c41808a646",
+        "paper-9e79a50e033c49fcc465"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "dissection of three rhombic solids into an icosahedron, a dodecahedron, and an icosidodecahedron",
+      "paper_ids": [
+        "paper-827847e5c6a35c7ba18d",
+        "paper-cd451cb7379fb2350681"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "distributions of the perceptual switches associated with viewing ambiguous stimuli",
+      "paper_ids": [
+        "paper-63d25e62c0ab2daf6e64",
+        "paper-fcd4d3886f6f693474fd"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "dual-quaternion julia fractals",
+      "paper_ids": [
+        "paper-2a93c8b6c03e7be71b7b",
+        "paper-4e21a84fa3d4df2223ee",
+        "paper-e1ac1493898434696706"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "dynamic light scattering for the characterization of polydisperse fractal systems by the example of pyrogenic silica",
+      "paper_ids": [
+        "paper-81c0dbbc86dbd713026e",
+        "paper-9244bea698f3babefa1e"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "dynamics of polynomial diffeomorphisms of c2: combinatorial and topological aspects",
+      "paper_ids": [
+        "paper-5f39483df39d7e4f6523",
+        "paper-6731498461d1f53fdf94"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "dynamics of rational surface automorphisms: rotation domains by eric bedford and kyounghee kim",
+      "paper_ids": [
+        "paper-ba1da837aee0f2fc452e",
+        "paper-ff23c4298093a85e4215"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "dynamique du piégeage par capillarité pour le stockage géologique du co₂ : microfluidique expérimentale et numérique",
+      "paper_ids": [
+        "paper-3816c1643865bdf5d453",
+        "paper-ecfcb0bc1824f8459759"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "echoes of silence: writing into reverberations of trauma",
+      "paper_ids": [
+        "paper-1b82a380b8ba01a7167d",
+        "paper-8348fd88be6d5ec52412"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "edge effects: poetry, place, and spiritual practices",
+      "paper_ids": [
+        "paper-0c5548b5d153f8326384",
+        "paper-94544ce23f5e9fc643ae"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "educating the net generation",
+      "paper_ids": [
+        "paper-030f94bb0084ea8ac430",
+        "paper-f332af38c5c243c90e01",
+        "paper-fce7f8c02a33bc4975ed"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "effective computation of topological and analytical classes of unidimensional holomorphic polynomial flows",
+      "paper_ids": [
+        "paper-434c05d9c7a7a2c79060",
+        "paper-b0774660e2f32177faa5"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "elife assessment: fractal cycles of sleep: a new aperiodic activity-based definition of sleep cycles",
+      "paper_ids": [
+        "paper-2cba15d436a55c7c1523",
+        "paper-b8151b1dcfdb8e1cbb2f"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "empirical protocols for mediating long-range coherence in biological systems",
+      "paper_ids": [
+        "paper-3644678c9f18d84cd3ba",
+        "paper-da484841f6c11699df23"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "energy scalability of mode-locked oscillators: a completely analytical approach to analysis references and links",
+      "paper_ids": [
+        "paper-8f4e4dbb021c1594ae03",
+        "paper-fe1e96b746fb23627a96"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "enhanced visualization of landscapes and environmental data with three-dimensional sketches",
+      "paper_ids": [
+        "paper-23f15390077ff78958f9",
+        "paper-73484c903be8d0ef9ac1"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "enhancing the hpc-lab snow simulator with more realistic terrains and other interactive features",
+      "paper_ids": [
+        "paper-0687e9d66d106e12c1ec",
+        "paper-179d7c14f11a7ffbdf16"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "entropy: a guide for the perplexed",
+      "paper_ids": [
+        "paper-b4376fd4675f5f3522f5",
+        "paper-bfe1665adab14d669ae9"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "estimation of distance to texture surface using complex log mapping",
+      "paper_ids": [
+        "paper-a8f8303168f3553358db",
+        "paper-d4d347f02fb5ae1afb63"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "estimations and control of julia sets of the sis model perturbed by noise",
+      "paper_ids": [
+        "paper-e69c31f0f7440dbc97ba",
+        "paper-f30c7a6b382cee6908b3"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "etopo1 raster verisinden sentetik sym fraktal yüzeylerinin grass gis r.surf.fractal modülü ile elde edilmesi",
+      "paper_ids": [
+        "paper-cbdd09c04330ae78b645",
+        "paper-fd5f5cf014fe6a735dcf"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "evolved virtual creatures as content: increasing behavioral and morphological complexity",
+      "paper_ids": [
+        "paper-641544fb3a187b195651",
+        "paper-b5757b56d194fd4efcd7"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "existence, non existence and uniqueness results for higher order elliptic systems",
+      "paper_ids": [
+        "paper-96bd28cc7a110854f8a3",
+        "paper-ce3e16f9ee7dec72b506"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "exploration of complex henon dynamics (research on complex dynamics and related fields)",
+      "paper_ids": [
+        "paper-82c77804edc3b3b7d026",
+        "paper-c0bae0628f250b17ac17"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "exploring the effect of direction on vector-based fractals",
+      "paper_ids": [
+        "paper-718255ce83c2b21a9092",
+        "paper-7f49ebe4aae8b8bdcf1b"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "external rays and the real slice of the mandelbrot set",
+      "paper_ids": [
+        "paper-22b27f1147b4b3681954",
+        "paper-abf8af34876af76f144c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "extremal black holes, nilpotent orbits and the true fake superpotential",
+      "paper_ids": [
+        "paper-d8f670da39c0e908a88c",
+        "paper-e89f78917b5b5ecaae3e",
+        "paper-f73ee0ffb1eeb8ac4656"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "extreme value theory for dynamical systems, with applications in climate and neuroscience",
+      "paper_ids": [
+        "paper-45c75b3f7c188e2056ad",
+        "paper-8886df05e26f9eed790c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "families of homeomorphic subsets of the mandelbrot set",
+      "paper_ids": [
+        "paper-58b317cf169ca8c65713",
+        "paper-bd866f6504b6d50a0f94"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "farming and fighting as practice and pedagogy: a procedural field analysis of digital games",
+      "paper_ids": [
+        "paper-2590f473154110db4eb2",
+        "paper-e4281c511b8653fb7882"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "fast and robust tessellation-based silhouette shadows",
+      "paper_ids": [
+        "paper-26c0ee3ffd626b62eb5f",
+        "paper-e92252fef7ca230281d6"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "fatou components : doctoral thesis",
+      "paper_ids": [
+        "paper-107b6a2be138c56161c8",
+        "paper-ac065175d0e0caa53d85"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "fatou set, julia set and escaping set in holomorphic subsemigroup dynamics",
+      "paper_ids": [
+        "paper-177ee4630ca1bf7bd0ad",
+        "paper-537c80c6665e91c27bca"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "feature extraction and visualization of flow fields",
+      "paper_ids": [
+        "paper-799a8248e10db8529c7d",
+        "paper-cab02d0313792247e20b"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "figure 1: principal coordinates analysis (pcoa).",
+      "paper_ids": [
+        "paper-2b6974df3b817c3388b8",
+        "paper-7ce7d152b81f7a07c840"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "flexible and tunable plasmonics on soft materials",
+      "paper_ids": [
+        "paper-05e9f02b77a9d1772d3f",
+        "paper-cd5d818f7fe2394dc030"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "flocculation dynamics of cohesive sediment",
+      "paper_ids": [
+        "paper-9a039a94625f338b5fd8",
+        "paper-d6f14369b8286f6e5d4f"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "fractal attractors in random nonlinear iterated function systems: existence, stability, and dimensional properties",
+      "paper_ids": [
+        "paper-4a9c707deb0bfc97104f",
+        "paper-62e0f9a5e18b85e740c1"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "fractal basin boundaries",
+      "paper_ids": [
+        "paper-21f4ba7be090b106c9cf",
+        "paper-2910ed5f8104ded3989d",
+        "paper-7909c8c7d50a6aee6aa6",
+        "paper-c9e580cdd5671eccd9fa"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "fractal creation with iterated function systems",
+      "paper_ids": [
+        "paper-6d82027387a7958a725c",
+        "paper-acd5d52d9e97e462de5e"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "fractal dimensions in classical and quantum mechanical open chaotic systems",
+      "paper_ids": [
+        "paper-de4a80a30be388cdaaaa",
+        "paper-ebd8cc24517602e7b2d6"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "fractal functions and wavelets",
+      "paper_ids": [
+        "paper-102d13541cb9cfff6648",
+        "paper-b47fa89b8564021ae70c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "fractal functions, fractal surfaces, and wavelets",
+      "paper_ids": [
+        "paper-9127489eb5a668fd71c8",
+        "paper-f8c63ff9241fbdac0c9b"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "fractal geography of riemann zeta and related functions",
+      "paper_ids": [
+        "paper-e1f867b0bca17ff03671",
+        "paper-eb8272fd51ebb1dc8334"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "fractal growth phenomena",
+      "paper_ids": [
+        "paper-65c24446b550838383c1",
+        "paper-a9e8a2c48ceb98a8fd92",
+        "paper-e567c576cbc10165c0eb"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "fractal ontology and anarchic selfhood: multiplicitous becomings",
+      "paper_ids": [
+        "paper-99cf3ff98248ba67dce2",
+        "paper-cd4d55513c6e539cb496"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "fractal percolation on statistically self-affine carpets",
+      "paper_ids": [
+        "paper-45e4dffa93da1d056299",
+        "paper-fe79f22f7d5c3870399a"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "fractal properties of bessel functions",
+      "paper_ids": [
+        "paper-1eaa6e98363327d0ead9",
+        "paper-28b60ad1fbdbb3719f15"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "fractal zeta functions in metric spaces",
+      "paper_ids": [
+        "paper-26da560085f4857c4bab",
+        "paper-4cdaf49eace2c9eccd2a",
+        "paper-673b7fab392caa26f7fa",
+        "paper-700c266f48d8531afbf1",
+        "paper-89d80485643678772111",
+        "paper-bc66738e8e14d2e5a0da"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "fractal-based texture segmentation of digital x-ray mammograms",
+      "paper_ids": [
+        "paper-654d033418154c325c77",
+        "paper-bce6b33de989503f337e"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "framing the city: photography and the construction of são paulo, 1930–1955",
+      "paper_ids": [
+        "paper-095071dba7b54ba5fdb8",
+        "paper-d86d6e43c34d47eb9725"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "from basins to safe sets: a machine learning perspective on chaotic dynamics",
+      "paper_ids": [
+        "paper-5bc6bd9beeed82166adf",
+        "paper-c2125feeedfb83cf7faa"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "from ergodic theory and probability to fractal geometry and dynamics: themes in the work of manfred denker",
+      "paper_ids": [
+        "paper-171bc22859ce08eebc8a",
+        "paper-5ba2764e8e564c7033b9"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "from fractal groups to fractal sets",
+      "paper_ids": [
+        "paper-0c6f65d1672e2d2ad5ad",
+        "paper-a095a89cd146b1de12e6",
+        "paper-e2d3877a587501c1c727"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "from point to pixel: a genealogy of digital aesthetics",
+      "paper_ids": [
+        "paper-3a8aafb15c3088f464ca",
+        "paper-b807a58050055a041d0d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "from the visualization of sound to real-time sonification: different prototypes in the max/msp/jitter environment",
+      "paper_ids": [
+        "paper-74eb08850bf84bd6136d",
+        "paper-9dc1939c1b874ff80d5f"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "gamic race: logics of difference in videogame culture",
+      "paper_ids": [
+        "paper-22bac8b1f7d57c3284c6",
+        "paper-42c53be93512bd81314d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "gas emission centres on mars surface and putative biological contribution: insights on hydrothermal fluid circulation in the upper crust",
+      "paper_ids": [
+        "paper-69e5f1e8384a79a5ab9b",
+        "paper-be3f40549773372b67ab"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "generalisation of airy functions",
+      "paper_ids": [
+        "paper-0a5ab6365321e8638f65",
+        "paper-2c62055020915515e4d3"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "generalizing the minkowski question mark function to a family of multidimensional continued fractions",
+      "paper_ids": [
+        "paper-c57ccda16729f3475cc5",
+        "paper-db4fb190999edc1bdc30"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "generating ogives to (i) analyse perceptual changes associated with ambiguous figures, and (ii) reaction times in an inhibition-of-return (ior) task",
+      "paper_ids": [
+        "paper-33988259175edc644af5",
+        "paper-5ec503c70c400d6fdf14"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "generative models for graph-based protein design",
+      "paper_ids": [
+        "paper-331189c8a41ec8f09a71",
+        "paper-55ca1ad1030b74005e0e"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "generative sonification of synthetic virology data with waveshaping and granular synthesis techniques",
+      "paper_ids": [
+        "paper-244eecfd5fe9d041c6cc",
+        "paper-911447217fb95e624631",
+        "paper-f414ed8a5f4919a1938d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "generic catastrophes: case studies on the use of language in postwar sound art",
+      "paper_ids": [
+        "paper-0382da1278896996f316",
+        "paper-9f72be1ad6f769a9bd8c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "geometric modeling with primitives",
+      "paper_ids": [
+        "paper-70d3da283512ea234901",
+        "paper-7589fcb91a25056f42c8",
+        "paper-b82590cff1b7502c95fa"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "graph theory",
+      "paper_ids": [
+        "paper-e4908ee7467d870edf5b",
+        "paper-f802a4fb05fe1cc7f56b"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "growing self-affine surfaces",
+      "paper_ids": [
+        "paper-0dae09a5a05b673282ba",
+        "paper-ecc5981f30a703d32193"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "handling scanned sheet music and audio recordings in digital music libraries",
+      "paper_ids": [
+        "paper-5e215d3c1a6d3c873d2d",
+        "paper-70134ddc544a1d2b442d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "hardware accelerated computer graphics algorithms",
+      "paper_ids": [
+        "paper-50ed6a652b853459bc5f",
+        "paper-54b6661340690288f909"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "hausdorff dimension of julia set of a polynomial with a siegel disk",
+      "paper_ids": [
+        "paper-309967ef0da5aa70bffd",
+        "paper-b98afaf4f8ca4ec5c3b7"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "hausdorff dimension of planar self-affine sets and measures",
+      "paper_ids": [
+        "paper-4aba851c32dc4d087c03",
+        "paper-9f36646673a62b0e9b68",
+        "paper-b802b6046546220e63f7"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "hausdorff dimension of the apollonian gasket",
+      "paper_ids": [
+        "paper-517e63f35aa5c2cafee9",
+        "paper-c3e9873f4ec9ab3b07cd"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "hexagonal and trigonal quasiperiodic tilings",
+      "paper_ids": [
+        "paper-5e68178edb80904bf406",
+        "paper-97e3bab95fe51bd2fc16"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "homeomorphisms on edges of the mandelbrot set",
+      "paper_ids": [
+        "paper-08aa49d05c78456f2863",
+        "paper-a9bf0fdaea32bad8439e",
+        "paper-c05df2835e2769242ff2"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "human performance models for computer-aided engineering",
+      "paper_ids": [
+        "paper-986b66c237ad1bb23d1f",
+        "paper-9891cd4540c4cebc659b",
+        "paper-a13a86ff73e2700dc919",
+        "paper-bb0d20e41772fdf8e25d",
+        "paper-e39b31f262ff7bc31db2",
+        "paper-f7d49cd427d16e2a593b"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "human-computer interaction : interact 2005 : ifip tc13 international conference, rome, italy, september 12-16, 2005 : proceedings",
+      "paper_ids": [
+        "paper-1e4868e09cf34e3f4fc7",
+        "paper-515d3d86c6358041eff0"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "human-computer interaction using robust gesture recognition",
+      "paper_ids": [
+        "paper-571c7eaedff06eefac29",
+        "paper-f281a3df6efe8df729a7"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "hénon maps, discrete groups and continuity of julia sets",
+      "paper_ids": [
+        "paper-23c75712968e2727321f",
+        "paper-45486b7830e0c2399ef7"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "idempotent elements in tricomplex numbers",
+      "paper_ids": [
+        "paper-04d127da2a55b1007300",
+        "paper-5b1a88254d95e6b3746a"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "identification of martian surface minerals in crism imagery using a deep neural network",
+      "paper_ids": [
+        "paper-bc9eb76a4d9901d2343c",
+        "paper-e8c091804fd1774053cd"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "illiteracy as immanent: the (re)writing of rhetoric's nature",
+      "paper_ids": [
+        "paper-1695ac5494a4a39bfac6",
+        "paper-703bbcb10c1828b8d183"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "image analysis : 15th scandinavian conference, scia 2007, aalborg, denmark, june 10-14, 2007 : proceedings",
+      "paper_ids": [
+        "paper-ef3f344d401af4b028f1",
+        "paper-f1956a6d21a0ed03eb6c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "implementation of a virtual environment system based on geographical information system and environmental models",
+      "paper_ids": [
+        "paper-a3efc44f4286392e700e",
+        "paper-bce3bf106ce6adce3974"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "in deep water: the oceanic in the british imaginary, 1666-1805",
+      "paper_ids": [
+        "paper-79e92809d72da80a086f",
+        "paper-aa545f7481865dddadd2"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "incoherent airy and bessel-vortex beams",
+      "paper_ids": [
+        "paper-0bacd1c7ed59a2c025e2",
+        "paper-49c4ae70bb1f77c51e14",
+        "paper-b71f601b9ca3d01ab412"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "inferring attracting basins of power system with machine learning",
+      "paper_ids": [
+        "paper-08b5a165e330cc110b2d",
+        "paper-de15ff2e23a14fb8d6c6"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "influence of retractor type and position on thoracoscopic-assisted pulmonary surgery in dogs",
+      "paper_ids": [
+        "paper-49f54d7bebf5511d7610",
+        "paper-8477fba426007f3a0b36"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "integral transforms and their applications",
+      "paper_ids": [
+        "paper-379e7d31c409c5439a34",
+        "paper-5a259220779b14a391ba"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "integral transforms of the minkowski question mark function",
+      "paper_ids": [
+        "paper-0d20b71cd0c8d588bbff",
+        "paper-a557d17290fa6d6b5115",
+        "paper-b35307a74d3975ffb27a",
+        "paper-d8195bd0df1f17af326e"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "integrating the arts and sciences in the museum setting",
+      "paper_ids": [
+        "paper-5e99ba86bc08c590f138",
+        "paper-da432fb2d57d7e0c3fa8"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "integration using chebyshev polynomials",
+      "paper_ids": [
+        "paper-1f800ae13603e0009c0e",
+        "paper-d663cfe8a23484910eeb"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "interferences and events",
+      "paper_ids": [
+        "paper-0af655263d3308bab2cd",
+        "paper-22622b932cdec86d79bd"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "interpolation search for point cloud intersection",
+      "paper_ids": [
+        "paper-11d42dd8e057b5b392ca",
+        "paper-e3f27f54bc8a09c02253"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "interpretations of complexity",
+      "paper_ids": [
+        "paper-a7396717dfe277e8573d",
+        "paper-eca654799734aae43581"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "introduction",
+      "paper_ids": [
+        "paper-84008f28d6e077f57f57",
+        "paper-c241badc4dd62e5ebda3"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "introduction to the special issue on internet geometry and geography",
+      "paper_ids": [
+        "paper-0023489824f83f332d46",
+        "paper-183fe34c8a961434431c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "inversive geometry",
+      "paper_ids": [
+        "paper-0fe8698a3999006cfdc6",
+        "paper-87585086f7b7e598071e",
+        "paper-8b4738142f89aaa10024"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "involutive translation surfaces and panov planes",
+      "paper_ids": [
+        "paper-22f7dcf2f2f808059aef",
+        "paper-3014dc570bb3825bbffd"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "iterated function systems",
+      "paper_ids": [
+        "paper-1df59336fb391f1127a6",
+        "paper-20f52fff973561853bf7",
+        "paper-31b8bf0b5da5d658f751",
+        "paper-e4af5786bf32c64a8e7b"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "i̇ran geometrik desenlerini keşfetmeye yönelik hesaplamalı ve yoruma dayalı bir tasarım modeli",
+      "paper_ids": [
+        "paper-1d75bb6ce3572eac509f",
+        "paper-26e41ff57cb830525668"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "journal of computational and applied mathematics",
+      "paper_ids": [
+        "paper-3c5995aa5b3685694584",
+        "paper-d00073152e63d5e95365"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "julia sets and the mandelbrot set",
+      "paper_ids": [
+        "paper-59cca2a26f9b88342229",
+        "paper-a69241cad85f05596d23",
+        "paper-d983656e5a348e01dffb"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "julia sets of complex hénon maps",
+      "paper_ids": [
+        "paper-554f273d923eab8af5b5",
+        "paper-ea2d562628d723559101"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "julia sets: fractal basin boundaries",
+      "paper_ids": [
+        "paper-3402daf2f0ba9486fb63",
+        "paper-61f47374b795d47adc0c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "just a little calculation in dynamics b ¦ dlewo , 13-19 august 2017 abstracts of talks elements of thermodynamic formalism for transcendental meromorphic maps",
+      "paper_ids": [
+        "paper-4f733299f4eb3235a185",
+        "paper-e64e5c2be8258b98a6ad"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "jørgensen numbers of some kleinian groups on the boundary of the classical schottky space 14 : 25 – 14 : 50",
+      "paper_ids": [
+        "paper-0ba6227f4843f15bdf51",
+        "paper-af8ef7aba84791d9b689"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "kosmos : a virtual 3-d universe",
+      "paper_ids": [
+        "paper-44da0928aedc5fdf9bcb",
+        "paper-eafc02e38222b6a473ac"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "la compétition de flux comme facteur prédictif de la perméabilité des branches artérielles collatérales après mise en place des stents de diversion de flux dans les artères intracrâniennes",
+      "paper_ids": [
+        "paper-7df00a420578351011b9",
+        "paper-c9195841422696e466d4"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "large eddy simulation of high-density ratio jets",
+      "paper_ids": [
+        "paper-cb57bea5123975b749e4",
+        "paper-f19928825f72b153322c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "lattice models and fractal measures",
+      "paper_ids": [
+        "paper-35fd27861c816dafe397",
+        "paper-c3169feacdd0c606db91"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "learning in three dimensions: the educational power of virtual worlds",
+      "paper_ids": [
+        "paper-88a50effdd8c1e80613f",
+        "paper-a51cad8bc7ff08dd0139"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "lebesgue measure of escaping sets of entire functions in the eremenko-lyubich class",
+      "paper_ids": [
+        "paper-2b61c97e3e9d209d28b1",
+        "paper-995786297ff11e5726a1"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "legup: open-source high-level synthesis research framework",
+      "paper_ids": [
+        "paper-725ddda03a672748468d",
+        "paper-dd1dcef28935099c51c2"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "levy processes - from probability theory to finance and quantum groups",
+      "paper_ids": [
+        "paper-1a287b88dfa294a53c1c",
+        "paper-ac6b6e41048a45efb9ac"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "linear slices close to a maskit slice",
+      "paper_ids": [
+        "paper-53106a33bed7be7eedf0",
+        "paper-a6cfd4fea67fbd1b9389"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "local connectivity of the mandelbrot set at some satellite parameters of bounded type",
+      "paper_ids": [
+        "paper-4ea4be4120794b30825f",
+        "paper-6c4436f07233432c65b5"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "low bit-rate image sequence coding",
+      "paper_ids": [
+        "paper-10f7bdc1d0a14c040cdc",
+        "paper-a347aecaa6f44e8e474b"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "machine learning: algorithms, real-world applications and research directions",
+      "paper_ids": [
+        "paper-036fc03dc251c27379db",
+        "paper-16b4c1223f71fba3de8c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "machine sensation",
+      "paper_ids": [
+        "paper-265564c216c485bdfa6e",
+        "paper-f1acd8ef54bfcdb464dc"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "magicanimate: temporally consistent human image animation using diffusion model",
+      "paper_ids": [
+        "paper-069ec5a2d0503ee5220c",
+        "paper-813e93986776ac2cd6ae"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "magnetic design for three-phase dynamic wireless power transfer with constant output power",
+      "paper_ids": [
+        "paper-0fbe3dc1b7900cc38b55",
+        "paper-8dd512823f1787878ada"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "managing urban complexity - participatory planning, self-organization and co-production of urban space",
+      "paper_ids": [
+        "paper-3258cd1cf72e7a05d3a9",
+        "paper-936972a5f6916860aa6c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "mandelbrot and julia sets",
+      "paper_ids": [
+        "paper-6cbd47f825f5b8392a40",
+        "paper-d85199605e20f8c4b601"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "mandelbrot set doodle",
+      "paper_ids": [
+        "paper-92b88b9e2a2a8f3fab72",
+        "paper-d1fabd939d1d39ae9be0"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "mandelbrot set fractal accelerator",
+      "paper_ids": [
+        "paper-c93852372dd90900d74a",
+        "paper-eb092368a71c58640546"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "mandelbrot set print",
+      "paper_ids": [
+        "paper-44579330702115d8829b",
+        "paper-64ad87f4a1f4576022da"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "mandelbulb, mandelbrot, mandelring and hopfbrot",
+      "paper_ids": [
+        "paper-75214489f9ebe5ecebbc",
+        "paper-fc2556e09f6f16bc513b"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "manifold compositions, music visualization, and scientific sonification in an immersive virtual-reality environment",
+      "paper_ids": [
+        "paper-2604ef8ca5922b92bc44",
+        "paper-85cb4527f81980607706"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "materials science on parabolic aircraft: the fy 1987-1989 kc-135 microgravity test program",
+      "paper_ids": [
+        "paper-0dd6171cabbb41301d34",
+        "paper-f792f58113f02c5d03d4"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "mathematics and biology: the interface, challenges and opportunities",
+      "paper_ids": [
+        "paper-d8dcef29944aef5c300c",
+        "paper-fc07066a4858a4f8c911"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "mathematics outreach via the etsu stem center",
+      "paper_ids": [
+        "paper-143e539be976fd7f1084",
+        "paper-e601278999aac2344290"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "mathematics three-dimensional sol manifolds and complex kleinian groups",
+      "paper_ids": [
+        "paper-35a51f2de2855dd3dfda",
+        "paper-d6dfd65dd6fb17fecd3c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "mathematisches forschungsinstitut oberwolfach report no . 9 / 2007 normal families and complex dynamics",
+      "paper_ids": [
+        "paper-231c4723d88f46bd2e88",
+        "paper-5144c18dae3449863770"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "measure and dimension theory of permeable sets and its applications to fractals",
+      "paper_ids": [
+        "paper-458164932a0f7cc765e0",
+        "paper-ad4b6c6f6d50b250d66f"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "measure rigidity of kleinian groups via self-joinings",
+      "paper_ids": [
+        "paper-3154ad904ebea41e5909",
+        "paper-3a2a461cdb83410fe25f"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "measurement and modelling of light scattering by small to medium size parameter airborne particles",
+      "paper_ids": [
+        "paper-045c764d4b370779d28e",
+        "paper-fa9dc5cad507d4b2887d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "measurement-based quantum computation in finite one-dimensional systems: string order implies computational power",
+      "paper_ids": [
+        "paper-0cfe1a12535dbff895fd",
+        "paper-27b3ebd53522aa887f86"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "metallic mean fractal systems and their tilings",
+      "paper_ids": [
+        "paper-05a51a4af714026f7704",
+        "paper-0af43072e2222a64b893"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "miniaturized antennas for platform-level integration scenarios.",
+      "paper_ids": [
+        "paper-ba1ed7b9c31637b0bb9a",
+        "paper-e8a8fd9586cd6bd12d2a"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "minkowski's question mark function",
+      "paper_ids": [
+        "paper-885aa12ad464702ece0c",
+        "paper-b2671ffcf22599a7adae"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "modeling and rendering of nonlinear iterated function systems",
+      "paper_ids": [
+        "paper-1240d15783373aa119e1",
+        "paper-ba9e4a94c974061cda10"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "modelling of surface morphologies in disordered organic semiconductors using fractal methods / kong yeo lee",
+      "paper_ids": [
+        "paper-3d0613eb2e9d9a79f8a2",
+        "paper-8ca36ff3a5a7a083dd0d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "modelling of three-dimensional intersection sight distance",
+      "paper_ids": [
+        "paper-ca9b0a7f3a62c94ddbeb",
+        "paper-f20e179dbd3b96d48b98"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "modelling the perception and composition of western musical harmony",
+      "paper_ids": [
+        "paper-c0b848c71be3e3e97447",
+        "paper-e39189d830bd63608502"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "monocular visual-inertial odometry with dynamic lidar scaling for safe and precise landing on unmapped planetary bodies",
+      "paper_ids": [
+        "paper-5d2d9d6e78265d94203c",
+        "paper-c1b5373c0c1b17ffec00"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "monte carlo investigation of the eight-state potts model on quasiperiodic tilings",
+      "paper_ids": [
+        "paper-1d9df3ed9cf6d11202a2",
+        "paper-962d853d4ce0f4baf71f"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "motion estimation-based self-calibration of a log-polar pan-tilt camera",
+      "paper_ids": [
+        "paper-758ca58eee89dee9f6f5",
+        "paper-af213ba598973e9ce38c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "multi-channel sonification of human eeg",
+      "paper_ids": [
+        "paper-13e29e572ce1a54d56ec",
+        "paper-145a72a1f166da54cd79",
+        "paper-f0b229373a997fb0b79b",
+        "paper-f3db2f8e283f343bb0f7"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "multiband plasmonic sierpinski carpet fractal antennas",
+      "paper_ids": [
+        "paper-2cc9a6c77e6cc9b965d6",
+        "paper-89b586cf53ecdfe301ed"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "multifractal analysis of histological images: application for thyroid (python programming environment)",
+      "paper_ids": [
+        "paper-45ba8e94b0aaca2e1101",
+        "paper-6d46daebe53154987110"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "multiple tori intermittency routes to strange nonchaotic attractors in a quasiperiodically-forced piecewise smooth system",
+      "paper_ids": [
+        "paper-72d1cf797825496325d3",
+        "paper-bc7d8fa8bd064a129a05"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "multiresolution and explicit methods for vector field analysis and visualization",
+      "paper_ids": [
+        "paper-ea7ff3139c6ab0b14e1a",
+        "paper-f25223d987a438c930e0"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "multiresolution image modelling and estimation",
+      "paper_ids": [
+        "paper-1cfcb1b34da64d161463",
+        "paper-f3cd6739c9f6e804a415"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "multistable systems under the influence of noise",
+      "paper_ids": [
+        "paper-3ed4602b056451be356b",
+        "paper-6119ff6d00bf689907db"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "multivariate multifractal models : estimation of parameters and applications to risk management",
+      "paper_ids": [
+        "paper-6a6fa776f1e60264d8de",
+        "paper-bee95b798a4bc5cb761a"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "music in motion: the synthesis of album design and motion graphics for downloadable music",
+      "paper_ids": [
+        "paper-5ad84fd756861d235a95",
+        "paper-cf4ab851c42bea1e2475"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "musical chords: a novel java algorithm and app utility to enumerate chord-progressions adhering to music theory guidelines",
+      "paper_ids": [
+        "paper-82f77d95a8cd6db89e13",
+        "paper-d8e04f30e0b85025ae85"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "nature's statistical symmetries and asymmetries, a characterization by wavelets and an illustration with clouds",
+      "paper_ids": [
+        "paper-5ff940ecf597016287df",
+        "paper-e3175fe3788b49a16a88"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "new generalizations of quadratic julia sets to 3d",
+      "paper_ids": [
+        "paper-2166d8287092f4683c2a",
+        "paper-674db250f1dc184a8ac6"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "nonlocality was never a proven fact : so what is the subquantum medium made of?",
+      "paper_ids": [
+        "paper-75c821f370e82cbad422",
+        "paper-820a7855067a3515bc5e"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "octahedron fractal",
+      "paper_ids": [
+        "paper-5936487845d1a62a165f",
+        "paper-670475b925317ca8b27e"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "offline signature verification with user-based and global classifiers of local features",
+      "paper_ids": [
+        "paper-3aa2a8c3cf10a7591793",
+        "paper-a8c48cbb498b77d120bb"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "on a slice of the cubic 2-adic mandelbrot set",
+      "paper_ids": [
+        "paper-039f9ef7af1bd3a34fa9",
+        "paper-5d2c681128986989bddd"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "on circular coding properties of gene and protein sequences",
+      "paper_ids": [
+        "paper-161c086bf76342f756dd",
+        "paper-2774ec18589a3b37e971"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "on dynamics of cubic siegel polynomials",
+      "paper_ids": [
+        "paper-2fe008e4a263738c22c7",
+        "paper-73a381efb72c55a07df2"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "on folding",
+      "paper_ids": [
+        "paper-c533b7a4469a4dc1b092",
+        "paper-e20c2fb51c0ff8181f94"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "on horospheric limit sets of kleinian groups",
+      "paper_ids": [
+        "paper-2b91222fb0932c6a170f",
+        "paper-c91011f0719ede1dc846"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "on philosophical problems in the foundations of chaos theory",
+      "paper_ids": [
+        "paper-91b69e9f84b7dc9b0a29",
+        "paper-bf688bbe331996183ef1"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "on simultaneous localization and mapping inside the human body (body-slam)",
+      "paper_ids": [
+        "paper-306fa712e51facc766dd",
+        "paper-a1c5ff3010f31d8c4a1d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "on the coefficients of the riemann mapping function for the exterior of the mandelbrot set (integrated research on complex dynamics)",
+      "paper_ids": [
+        "paper-65574f585b86c1930b17",
+        "paper-e09fafd6f127a76728c1"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "on the combinatorics of external rays in the dynamics of the complex henon map",
+      "paper_ids": [
+        "paper-6f300157db6db6df0e1c",
+        "paper-80df9523b7280a3ad24b",
+        "paper-91df0d805717eaa2c732",
+        "paper-c0e5ed66825209350cc9"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "on the computation of special functions by using asymptotic expansions",
+      "paper_ids": [
+        "paper-10cd72b1d163905ee84e",
+        "paper-45c367f5a49139f61c5b"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "on the connectivity of the escaping set for complex exponential misiurewicz parameters",
+      "paper_ids": [
+        "paper-9e7bde2c6eaddb3e5446",
+        "paper-b4d1cf118a7c2c29f039"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "on the dynamics of quasi-self-matings of generalized starlike complex quadratics and the structure of the mated julia sets",
+      "paper_ids": [
+        "paper-307fc18d8f3eb6f33ead",
+        "paper-e983332004a5cdfb3e9d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "on the geometry of ifs fractals and its applications",
+      "paper_ids": [
+        "paper-06340fcf8bc870350987",
+        "paper-e286c8179dd99a7774fe"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "on the mathematical justification of the total quasi-steady state approximation in enzyme kinetics",
+      "paper_ids": [
+        "paper-67d794207a2e4ffc6bb0",
+        "paper-7e2c0a1bcf71c006d0cc"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "on uniform perfectness of limit sets of kleinian groups and julia sets of rational functions",
+      "paper_ids": [
+        "paper-3252f486b4953ba8356d",
+        "paper-fd49d37d46836f4b213b"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "operando imaging of all-electric spin texture manipulation in ferroelectric and multiferroic rashba semiconductors",
+      "paper_ids": [
+        "paper-3f8cc9d37c4e031d57d2",
+        "paper-d22a48beec9dae5c15a3"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "optimization of digital tv coverage prediction and broadcasting antennas",
+      "paper_ids": [
+        "paper-24654123bf325133e9e2",
+        "paper-38ba7a76a1f843b9f512"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "orbit quantization in a retarded harmonic oscillator",
+      "paper_ids": [
+        "paper-414276a323b519f5044d",
+        "paper-cd7c3cebb175ecaf7e9c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "order of our lady cicada and mapping (non)representations of metamorphoses, tricksters and insects through seven stories",
+      "paper_ids": [
+        "paper-5f190f4254286acff09c",
+        "paper-e39cd5caf79b7f246df3"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "output regulation of rational nonlinear systems with input saturation",
+      "paper_ids": [
+        "paper-75c70eb08bdcb0c654ff",
+        "paper-79f1a2f312fd293f0cf2"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "paperfolding dragon curve",
+      "paper_ids": [
+        "paper-4c9307e0a2f5311e11d4",
+        "paper-a441972564f47eda5389"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "paperfolding morphisms, planefilling curves, and fractal tiles",
+      "paper_ids": [
+        "paper-5f8f5843b88bfd094259",
+        "paper-d21b085bfb9e6b28b4aa"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "parameter mapping sonification",
+      "paper_ids": [
+        "paper-7e8180e9c59b82168298",
+        "paper-baac51cb1344908ef092"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "parametric sweep search for parallel robot workspace determination",
+      "paper_ids": [
+        "paper-41355162844a2d3ed279",
+        "paper-e19a55aeebbd3051cbde",
+        "paper-f87d28e07dc652672595",
+        "paper-fb76ce7163e4e3da380c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "pattern, the visual mathematics: a search for logical connections in design through mathematics, science, and multicultural arts",
+      "paper_ids": [
+        "paper-58f533162bfe26648208",
+        "paper-fa7edd5cab25a0e2ea98"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "peer review report for: constellation map: downstream visualization and interpretation of gene set enrichment results [version 1; peer review: 2 approved]",
+      "paper_ids": [
+        "paper-197a6ace777b01322a33",
+        "paper-7a00b239aac7ca7ff04d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "periodic orbits, externals rays and the mandelbrot set: an expository account",
+      "paper_ids": [
+        "paper-60c53578205c5df20ccc",
+        "paper-c1d9a124684355367eec"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "permutable entire functions and multiply connected wandering domains",
+      "paper_ids": [
+        "paper-312065a47d6a4ee05210",
+        "paper-b199d34297e0b89a7a75"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "pharmacologie de l’hémostase et de la thrombose",
+      "paper_ids": [
+        "paper-44c47771db97b11af0a4",
+        "paper-bda166a383cbff7e76fb"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "phase transitions and noise sensitivity on the poisson space via stopping sets and decision trees",
+      "paper_ids": [
+        "paper-3c83929d7864b7101aa8",
+        "paper-ac7b8c85f218eacdeaa5"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "physical, behavioral, and sensor-based animation",
+      "paper_ids": [
+        "paper-5b36f2e7bdd0e3b69c8e",
+        "paper-9fe8e8794f558cda6e80"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "physically-based visualization of residential building damage process in hurricane",
+      "paper_ids": [
+        "paper-60abc31c71a55cf976f1",
+        "paper-ca378c0c356ad34bb59b"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "plasmonic properties of two-dimensional nanoparticle arrays",
+      "paper_ids": [
+        "paper-449f3a385a31a18ed6e2",
+        "paper-6139855a6112b4014f24"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "platonic solids",
+      "paper_ids": [
+        "paper-3402c0564ba4b24c1cbd",
+        "paper-65277787c7e6ddbcc4fa"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "poetics of place",
+      "paper_ids": [
+        "paper-330a2e5b0debdeb8c5c6",
+        "paper-a11b60fdde9c495b88d2"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "point-dimension theory (part ii): the point-cross dimension",
+      "paper_ids": [
+        "paper-45ecb9fc01ccb99b5896",
+        "paper-f2d3bc7c3b3e0bc51bf9"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "polynomiography : from the fundamental theorem of algebra to art bahman kalantari",
+      "paper_ids": [
+        "paper-8d2b1e478553348103b9",
+        "paper-ccefd01ab91724bcb53e",
+        "paper-ff3235e855cfea258c96"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "polynomiography and various convergence tests",
+      "paper_ids": [
+        "paper-7e02c48b999f9016e908",
+        "paper-c16187d67c593f116cf4"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "polytopes and symmetry by stewart a robertson%0d download pdf ebook and read onlinepolytopes and symmetry by stewart a robertson%0d. get polytopes and symmetry by stewart a robertson%0d polytopes and symmetry robertson",
+      "paper_ids": [
+        "paper-318e886207a9e6a8b818",
+        "paper-83a3d97fd2f5e06d8f84"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "pore-scale petrophysical models for the simulation and combined interpretation of nuclear magnetic resonance and wide -band electromagnetic measurements of saturated rocks",
+      "paper_ids": [
+        "paper-c79623b5b5d67a2e43b6",
+        "paper-f1bac269a02c7fd952f9"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "portneuf",
+      "paper_ids": [
+        "paper-2839e64098636187a6be",
+        "paper-cd626fe0ec1726510385"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "preface",
+      "paper_ids": [
+        "paper-13005262cca65a40f968",
+        "paper-64513a2f3b3182fcfab9",
+        "paper-7390e063e008c0ddcabe"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "prime-anchored oscillatory fractals: a visual exploration of primes through helical weierstrass functions",
+      "paper_ids": [
+        "paper-8d541de748a59fc214d4",
+        "paper-d116a8e587e325e01466"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "principal curve sonification",
+      "paper_ids": [
+        "paper-2660edc7676a43425488",
+        "paper-b06076206f8683ea47ac"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "procedural destruction of objects for computer games",
+      "paper_ids": [
+        "paper-ae69819c528ebdc2b325",
+        "paper-d5e9bfdb21f6bffc20f1"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "projections of four corner cantor set: total self-similarity, spectrum and unique codings",
+      "paper_ids": [
+        "paper-1a171648834634599bd0",
+        "paper-ce75ce642ebc2c2f802c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "property, substance and effect: anthropological essays on persons and things",
+      "paper_ids": [
+        "paper-620a0f6469392abd3d26",
+        "paper-be704609b77ab1cbeafc"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "quantitative optical studies of oxidative stress in rodent models of eye and lung injuries",
+      "paper_ids": [
+        "paper-1a05c5e7fc9491b30f71",
+        "paper-9ce54b2c1f1746424457"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "quantization dimension for a generalized inhomogeneous bi-lipschitz iterated function system",
+      "paper_ids": [
+        "paper-69c81f5d10f95f9987e4",
+        "paper-b5867f5d8c8ed959499d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "quantum and stochastic processes",
+      "paper_ids": [
+        "paper-292a7330219a72b82f71",
+        "paper-60d74e48145f3a654ae6"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "quaternion mandelbrot sets on mapping z←z~2+c with multiple critical points",
+      "paper_ids": [
+        "paper-750fde87d15f505deff6",
+        "paper-8a458bf23128201a593c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "quaternion orders and ternary quadratic forms",
+      "paper_ids": [
+        "paper-db9198ac24bd046bea24",
+        "paper-f3db2f9e920ba43a4305"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "quaternionic slice regular functions and quaternionic laplace transforms",
+      "paper_ids": [
+        "paper-1148cacf09e20e705168",
+        "paper-4be3e534870570c24c9b"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "raster scanning : a new approach to image sonification, sound visualization, sound analysis, and synthesis",
+      "paper_ids": [
+        "paper-29c4a3344e45685374be",
+        "paper-801cd1c0f488c20a85b3"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "rational external rays of the mandelbrot set dierk schleicher",
+      "paper_ids": [
+        "paper-62a9a7232b428a8839b1",
+        "paper-b6e77eccec1169b9970d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "rational maps with smooth degenerate herman rings",
+      "paper_ids": [
+        "paper-34c2ba6bd8a5ce9d144e",
+        "paper-4f4ac07ad342e1282901"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "rational maps without herman rings",
+      "paper_ids": [
+        "paper-401def8cacafe1ce7d16",
+        "paper-b5aac7227acc13eda1e8"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "rational parameter rays of the mandelbrot set",
+      "paper_ids": [
+        "paper-3389c9e13f4fec51da55",
+        "paper-819a5e7cfacc5a26243d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "real time vehicle detection and tracking on multiple lanes",
+      "paper_ids": [
+        "paper-253fe25a056a8260eefb",
+        "paper-b2cef892d0ad6a31a00b"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "real-time sound / image manipulation and mapping in a performance setting",
+      "paper_ids": [
+        "paper-0e5a19dfd4fcf7763bbe",
+        "paper-f94d84de6c47f6d62370"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "recursive ray tracing",
+      "paper_ids": [
+        "paper-2d33321ed594f8095eef",
+        "paper-c132542f976eef92e61c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "reflection centralizers in coxeter groups",
+      "paper_ids": [
+        "paper-446696e9b88ffbb73f0a",
+        "paper-718575636f1187621f67"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "reflection groups and coxeter groups",
+      "paper_ids": [
+        "paper-9675da540024ecd9bc6a",
+        "paper-d775c8c35e78588a95d9"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "relationship between the mandelbrot algorithm and the platonic solids",
+      "paper_ids": [
+        "paper-239e3b809575d2c2d5df",
+        "paper-badba93611b3087e83ab"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "remarks on the limit point set of a finitely generated kleinian group",
+      "paper_ids": [
+        "paper-8bbadc53bcc4a1e26d71",
+        "paper-b6df9bb4284ff38049f3"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "rendering and animation of gaseous phenomena by combining fast volume and scanline a-buffer techniques",
+      "paper_ids": [
+        "paper-8ad076a041222d3b5849",
+        "paper-affa2471fab9446787a8"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "research reports: 1984 nasa/asee summer faculty fellowship program",
+      "paper_ids": [
+        "paper-b353768f723f17383aba",
+        "paper-d42a0b1d6368b857bffe"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "rethinking trümmerliteratur: the aesthetics of destruction ruins, ruination, and ruined language in the works of böll grass, and celan",
+      "paper_ids": [
+        "paper-18b98295958bcf0e09f4",
+        "paper-ef2b69751e16a165a5f6"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "review for \"dynamics of julia and mandelbrot sets: viscosity approximation method with h-convexity\"",
+      "paper_ids": [
+        "paper-55a8c7cc9a281b693d2e",
+        "paper-5b297a0c662b1ea9f87a",
+        "paper-8e751a05e0d89858e6be",
+        "paper-ab40bf93eda44a26b5da"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "riddled basin geometry sets fundamental limits to predictability and reproducibility in deep learning",
+      "paper_ids": [
+        "paper-73129bd1d1a7d07d3d50",
+        "paper-abca3b7c633bc5500e59"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "ring fractal",
+      "paper_ids": [
+        "paper-9cc9fd85a1a5e3731cc3",
+        "paper-a913e9092fd0b355c136"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "robust fft based scale invariant image registration using image gradients",
+      "paper_ids": [
+        "paper-4c443ddcaf0016ac1c2b",
+        "paper-afd834519c91bed32f75"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "rotational symmetries of platonic solids",
+      "paper_ids": [
+        "paper-073db56bb2e3994503f2",
+        "paper-b93c9a1a3c5efbf3582f"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "saccadic search with gabor features applied to eye detection",
+      "paper_ids": [
+        "paper-0c52616bd3fc78c69832",
+        "paper-864e91ecaee8191ecce3"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "scale covariance of fractal sets and measures, a differential approach to the box-counting function of a fractal, with applications",
+      "paper_ids": [
+        "paper-67f56366fe1b0be663de",
+        "paper-d72b4c42b15f5fd87d5d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "scale-invariant volume rendering",
+      "paper_ids": [
+        "paper-201d2416c358b485518c",
+        "paper-7063d83748239f4adeaa"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "schwarz-christoffel mapping",
+      "paper_ids": [
+        "paper-066cb8ca6d204474904f",
+        "paper-6fb640ae26148c49b748"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "science and art in flux| the interaction between chaos theory and alain robbe-grillet's early novels",
+      "paper_ids": [
+        "paper-59549b79f7fa170148b7",
+        "paper-615b4f66179d9cda3054"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "secant and tangent lines",
+      "paper_ids": [
+        "paper-6bc65a566ba15be9e7b3",
+        "paper-84bad5c58dfa6c4befa0"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "seismic vulnerability of pointed arches under rigid body assumption. numerical and experimental evaluations.",
+      "paper_ids": [
+        "paper-41cce4dd74952aad39c9",
+        "paper-a85b94fc3cfca61d9d98"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "self-similar tilings of fractal blow-ups",
+      "paper_ids": [
+        "paper-62c0762191e85a94a7f6",
+        "paper-d4914fe4448a548eae28"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "shape and size characterization of crystals using image analysis and neural networks",
+      "paper_ids": [
+        "paper-5556a9f5a35b856667cc",
+        "paper-c1aaaab863bd8336ea67"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "shape from silhouette: image pixels for marching cubes",
+      "paper_ids": [
+        "paper-3f8e18e928e6d921af73",
+        "paper-91930cb20d73b2ea5b90",
+        "paper-a27102d163f8c8922bf9",
+        "paper-a8074768bc60a7336ee0"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "sharp estimates for the covering numbers of the weierstrass fractal kernel",
+      "paper_ids": [
+        "paper-2853385802e356f7a9b5",
+        "paper-5f870311bf651c4d39a7"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "shining a light on planetary processes using synchrotron powder diffraction",
+      "paper_ids": [
+        "paper-05cbff254c653e3c779f",
+        "paper-6a62d015be6d11c2e46b"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "simulation of nonlinear-complex mapping family creating generalized julia sets",
+      "paper_ids": [
+        "paper-9bcd3084f09d8412614b",
+        "paper-da246eb2993a15eef300"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "simulation studies and analysis of migration dynamics",
+      "paper_ids": [
+        "paper-542b4d4ea48d3340ad22",
+        "paper-9a93725a799cf0bf07d2"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "skin pattern sonification using nmf-based visual feature extraction and learning-based pmson",
+      "paper_ids": [
+        "paper-db1f0795176c66eda3e3",
+        "paper-fb1a91dc834a02f50f23"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "sobolev spaces and poincaré inequalities on the vicsek fractal",
+      "paper_ids": [
+        "paper-529f5c5dc4143ed3db44",
+        "paper-d9f5ae7fc5b091233c82"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "solid spaces: a unified approach to describing object attributes",
+      "paper_ids": [
+        "paper-0e7309b08f25978b1a48",
+        "paper-5492f5cd06ae768cd9cc",
+        "paper-5c5a753d6949c63ea4ce",
+        "paper-839c7d4dd3db47564544"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "sonific ation report: status of the field and research agenda",
+      "paper_ids": [
+        "paper-5f7378bc3d9edb0c8d8d",
+        "paper-62da7d23cd5963361a83",
+        "paper-6a256457a6e108f608fb",
+        "paper-8eebb4b4c1e8eb946e93",
+        "paper-94ca60ba7bdc940e3fae",
+        "paper-9f260d3845894aea58d1",
+        "paper-a9bf5ddf5fbb41c669a6",
+        "paper-c934ec10fe49ecf18ec2",
+        "paper-ca2127464901434df822",
+        "paper-e48eb6fcd18f7f3434c4",
+        "paper-e7551fccf48af858b685",
+        "paper-f15ea95e1ae13ecf68c2"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "sonification of colour and depth in a mobility aid for blind people",
+      "paper_ids": [
+        "paper-92c3b2444b779dcef605",
+        "paper-d26ecfb208aa02f50857"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "sonification of markov chain monte carlo simulations",
+      "paper_ids": [
+        "paper-12caafd59676a7e8b2b5",
+        "paper-2f5818b3c4fd5fb9040d",
+        "paper-36a3c507f0a23b9ccfc3",
+        "paper-5bd3b0beb88ca562563b"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "sonification of samba dance using periodic pattern analysis",
+      "paper_ids": [
+        "paper-22105807129c1808c29d",
+        "paper-2b6c1cbbb63b7a39cfad"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "sonification of spatial data",
+      "paper_ids": [
+        "paper-215bbb766ef1db0f23e9",
+        "paper-26500d1b6431f03ebdf4",
+        "paper-2bdeef778a6b9980e706",
+        "paper-372c5c2ede9bae506629",
+        "paper-80d085135f97457517f7",
+        "paper-a79f7518add8c2c7f5ad"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "spacecraft attitude estimation",
+      "paper_ids": [
+        "paper-7485b9f85466cb88e9dc",
+        "paper-f7a8feeb434bfa193fda"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "spacecraft orbit design in the circular restricted three-body problem using higher-dimensional poincare maps",
+      "paper_ids": [
+        "paper-06cbe471932398cc5f8a",
+        "paper-bc3209df36cc1458436c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "spatial disaggregation of population data onto urban footprint data",
+      "paper_ids": [
+        "paper-600468f2152a0aabec80",
+        "paper-856bb9d1a45556348fea"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "static fatigue: a key cause of time effects in sand.",
+      "paper_ids": [
+        "paper-ccc077c274cfc8ac44bc",
+        "paper-d83b0418c4bf3b6cd2d9"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "stochastic optimization for learning-based super-resolution: algorithms and applications",
+      "paper_ids": [
+        "paper-8d44e1183276de93b57d",
+        "paper-9ab6576edc427d1a43af"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "strange nonchaotic attractors",
+      "paper_ids": [
+        "paper-098c7dfce0b345ecde14",
+        "paper-9e396c1ecc6692a8ee5d",
+        "paper-cd6030fed65b45a0cd6c",
+        "paper-e466aeee5d0f95650741"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "stress fields in plane irrotational flows of viscous and perfectly plastic continua *",
+      "paper_ids": [
+        "paper-2cd40cbc3d543d72cc0e",
+        "paper-fc6295431c2d0b1c36df"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "structure of the fatou set",
+      "paper_ids": [
+        "paper-4bebe6bfbc39801d41ab",
+        "paper-c4b4963c13cef6578357",
+        "paper-d49a734b6acc2619f78c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "studies on modeling angular soil particles using the discrete element method",
+      "paper_ids": [
+        "paper-0962b9c2e0fd63fcabb9",
+        "paper-6c1992b2913368f71859"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "stylised procedural animation",
+      "paper_ids": [
+        "paper-032c585fb02726d48979",
+        "paper-6816167e1db1ee399066",
+        "paper-8e8575acd70bab5d480b",
+        "paper-e3693121fc9c356aa156"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "survey on automated lego assembly construction",
+      "paper_ids": [
+        "paper-4605fcba8f13991353c2",
+        "paper-9f636b6d22d7c17c04df"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "symbolic dynamics for kleinian groups",
+      "paper_ids": [
+        "paper-9456b25e2fb9a03f77a5",
+        "paper-c31b138ce20f646bc847"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "symmetries of period-doubling maps",
+      "paper_ids": [
+        "paper-78514b4b7180d40c572e",
+        "paper-89663f415a98604dc5d8"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "synesthesia add-on: a tool for html sonification",
+      "paper_ids": [
+        "paper-1fe49bc9ca4fb83c2054",
+        "paper-dd64d3c13576aca5b42b"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "synthetic steganography: methods for generating and detecting covert channels in generated media",
+      "paper_ids": [
+        "paper-314251d394abf0b5051a",
+        "paper-76fb84529f34d37c5f9a"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "tactons: structured tactile messages for non-visual information display",
+      "paper_ids": [
+        "paper-9811d39ed180a125a028",
+        "paper-a08d6a258ebcfb222960"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "tandem-x ground segment – dem products specification document",
+      "paper_ids": [
+        "paper-2ff558341797fa31a9d8",
+        "paper-6e8725d13d9b7aeb0baa"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "tangible toolkits for reflective systems modeling",
+      "paper_ids": [
+        "paper-45bbe38b227ad6c7a07d",
+        "paper-59ecfb181a1d45327960"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "taste, teaching and the utah teapot : creative, gender, aesthetic and pedagogical issues surrounding the use of electronic media in art and design education : with particular reference to hypertext applications",
+      "paper_ids": [
+        "paper-4212f6437b3b78dc11ea",
+        "paper-efb41e730c633021c471"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "taxonomy and definitions for sonification and auditory display",
+      "paper_ids": [
+        "paper-33dadd35476316f94cb4",
+        "paper-770b8c8c97fa381184af",
+        "paper-87aa8bbc1cd5c6ccaf3c",
+        "paper-9a80b7000028e6e0f7ed",
+        "paper-9ec0628b47c7c043b70d",
+        "paper-f9495fb1f23cd02e6fa6"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "terrainosaurus: realistic terrain synthesis using genetic algorithms",
+      "paper_ids": [
+        "paper-35914c0245546b28f0b8",
+        "paper-3c1f6b4fade24e2acc4c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "texture painting from video",
+      "paper_ids": [
+        "paper-93283f001b6e71ac2d18",
+        "paper-e04787253b9882ca1bea"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "thai street imaginaries : bangkok during the thaksin era (2001-2010)",
+      "paper_ids": [
+        "paper-50f56d8a581004ab831d",
+        "paper-7e00076a2a7305591bfb"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the audible human project: modeling sound transmission in the lungs and torso",
+      "paper_ids": [
+        "paper-0e984e45394f35bbc6dd",
+        "paper-9e83f86be839b8414a1f"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the bernoulli operator",
+      "paper_ids": [
+        "paper-1f58c60190628346cf5a",
+        "paper-4bfd94a504ca017f8dd9"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the boundary of rauzy fractal and discrete tilings",
+      "paper_ids": [
+        "paper-1af7b75d4fdcae43467e",
+        "paper-3fd29a4c471619797a39",
+        "paper-5697cb57332bf99a11f0"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the box-counting dimension of random box-like self-affine sets",
+      "paper_ids": [
+        "paper-3ea5752ab34b1f5a9451",
+        "paper-43e44a58693e365322f8",
+        "paper-8538b4fc0674d48af914",
+        "paper-d0c37eb50a9a1d885602"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the chaos game on a general iterated function system",
+      "paper_ids": [
+        "paper-059a9349757d06cfdf4c",
+        "paper-5d655003b3cc5ce28610"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the characterisation of porous media",
+      "paper_ids": [
+        "paper-40ca25f2a0d1e08ef9d7",
+        "paper-e7678b43efce2e6e9eec"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the composition and performance of spatial music",
+      "paper_ids": [
+        "paper-2968d5628d8eebaf8838",
+        "paper-44795bc6b7685e3cea55"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the conundrum of functional brain networks: small-world efficiency or fractal modularity",
+      "paper_ids": [
+        "paper-25408eeef607a5a05245",
+        "paper-33901ffa20d951531fbb"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the coordinate functions of the heighway dragon curve",
+      "paper_ids": [
+        "paper-03eaa657d283d7b94b6d",
+        "paper-b5755cf194aa32b295d9"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the criminal subject : alphonse bertillon and francis galton, their aesthetics and their legacies",
+      "paper_ids": [
+        "paper-5fe48853e381b101e733",
+        "paper-90860f0a5b5768423f1d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the curat sonification game: gamification for remote sonification evaluation",
+      "paper_ids": [
+        "paper-af06dc658c1dcb28fc16",
+        "paper-e3207d36f99e56dbc3e4"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the dedekind eta function",
+      "paper_ids": [
+        "paper-2cebfa20825a0f64c163",
+        "paper-403da781f1d0aa8eceeb"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the design of form milling cutter as the curve of the back of tooth is logarithmic spiral",
+      "paper_ids": [
+        "paper-62d9d7ff26a03f3f9159",
+        "paper-c750988795b46cc3da7e"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the development of secondary porosity and permeability in fractured rock",
+      "paper_ids": [
+        "paper-cb4f94e81349e1d88664",
+        "paper-db4babbf15a1526fccc8"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the discipline of interactive sonification",
+      "paper_ids": [
+        "paper-26b4b557b5fdafb8048d",
+        "paper-cc46a6e6063f52ccc8e9",
+        "paper-e4923fa41104e21d388e"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the dream of the butterfly: experimental illusions in motion graphics",
+      "paper_ids": [
+        "paper-15f8254ac76adfe1e561",
+        "paper-ee2ca19fb041921e4686"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the embodied (hungry) female subject in julia ducournau’s raw",
+      "paper_ids": [
+        "paper-14b4e1f28edfd7d6a313",
+        "paper-ecd0702ba63c40b87b72"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the fatou and julia sets",
+      "paper_ids": [
+        "paper-0f040c50143c23f87ec8",
+        "paper-2e9a141dc04a6ec787b8"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the fixed point of the parabolic renormalization operator",
+      "paper_ids": [
+        "paper-bad5ac3e096e5c4ef5d1",
+        "paper-f425149598d6bdad1bd7"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the fractal dimension: self-similar and self-affine scaling",
+      "paper_ids": [
+        "paper-3345a6bf74d4df3482fd",
+        "paper-b98b4712c718ca2dec26"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the fractal geometry of invention",
+      "paper_ids": [
+        "paper-5cb08e820e7db1dccff7",
+        "paper-ab709f07d7a4b6cebe75"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the fundamental domain of the modular group",
+      "paper_ids": [
+        "paper-3efe0f5cf496a351b122",
+        "paper-db33e2fe5c384ae84220"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the importance of interaction in sonification",
+      "paper_ids": [
+        "paper-4cd2bf639794c943c566",
+        "paper-765b950dc56cb3c36dd2",
+        "paper-7e38686245637db64480",
+        "paper-fc220395d6579852b5a7",
+        "paper-fc8c57bbd35e016d5ba5"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the pierre auger observatory: contributions to the 34th international cosmic ray conference (icrc 2015)",
+      "paper_ids": [
+        "paper-1fd87f2f48a60bb74ef0",
+        "paper-a33c07afee2d9ae713e7",
+        "paper-ef6b29c2e5109db6464b"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the process of designing animation and motion graphics as a visual response to surveyed opinions on hyperreality, reality, and film",
+      "paper_ids": [
+        "paper-1f094b8f9e96ea892a78",
+        "paper-b469da59513638bc0613"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the quadratic family and the mandelbrot set",
+      "paper_ids": [
+        "paper-ac52cb1436381c46a2c7",
+        "paper-ade958446d938eadb840"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the r programming language as a unified environment for data sonification",
+      "paper_ids": [
+        "paper-1738d5d01910ffbb18f4",
+        "paper-3afbc7c37026d143f54a"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the rational maps z 1 + 1/omega zd have no herman rings",
+      "paper_ids": [
+        "paper-28b8f3a7228078ee86b1",
+        "paper-dd0f25d0824a3739ee0c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the shift in coaching dynamics during long-term business coaching relationships",
+      "paper_ids": [
+        "paper-89f9effcd7d3fd9c857b",
+        "paper-b10b87ef19cce605932e"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the style of video games graphics: analyzing the functions of visual styles in storytelling and gameplay in video games",
+      "paper_ids": [
+        "paper-377bce193bf3b82fea11",
+        "paper-69b387302fb53fc71b24"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the time of the thriller: suspense and continuity after world war ii",
+      "paper_ids": [
+        "paper-89492edc5761e366ddd4",
+        "paper-cf14d30ac40bae9d0a90"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the transfer matrices of the self-similar fractal potentials on the cantor set",
+      "paper_ids": [
+        "paper-12f0a9750bddd05c28df",
+        "paper-c673ec89c8f9038f3efd",
+        "paper-f6f5da82107c95585b83"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the tricomplex polynomial and its root structure",
+      "paper_ids": [
+        "paper-6b017d919f7e242af4ae",
+        "paper-c864a85d2a952cb5832c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the use of the texture and motion of clouds from geostationary satellite images in rain rate estimation and prediction",
+      "paper_ids": [
+        "paper-46368cd324794ba10345",
+        "paper-4e6fafa1de21678d64db",
+        "paper-b28a43aaa8cb85fe1edf"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "the welpa project : improving equine welfare in riding schools and livery yards through human behavioural change (hbc)",
+      "paper_ids": [
+        "paper-1f21408799a2d04bc18a",
+        "paper-b0f59472f5892fd8c88d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "theory of phase-ordering kinetics",
+      "paper_ids": [
+        "paper-384748a25798b6b92a1c",
+        "paper-4c6e30c5586f6773b76d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "theta series",
+      "paper_ids": [
+        "paper-150945058711bc065942",
+        "paper-382111739cfc93cef9a7"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "three-dimensional generalized logarithmic spirals",
+      "paper_ids": [
+        "paper-c6b032a963838d1675a8",
+        "paper-c85f473bf230683d85d7"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "three-dimensional visualization of activity-travel patterns",
+      "paper_ids": [
+        "paper-72f4b67320138998ca4e",
+        "paper-a9cbbc06f6ff1f21f03b"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "timbre and texture",
+      "paper_ids": [
+        "paper-3cc65905f08c63dbb249",
+        "paper-5f83f083505bb8106a40"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "title of thesis : projective deformations of triangle tilings",
+      "paper_ids": [
+        "paper-7f24fc1ddf04f53b27ba",
+        "paper-8b228c9bb8ed4b414d38"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "topological entropy of quadratic polynomials and dimension of sections of the mandelbrot set",
+      "paper_ids": [
+        "paper-413a68acc0c02e540986",
+        "paper-c02b5658b4de19bd748d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "tracing rays the past, present and future of ray tracing performance",
+      "paper_ids": [
+        "paper-168200beb6c4bd4473b6",
+        "paper-45046d9a6b5d553f62fe"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "transformations of airy functions",
+      "paper_ids": [
+        "paper-01d22e027a277c29bffd",
+        "paper-a2bc7ab81f8c08344fb6"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "tree growth visualization",
+      "paper_ids": [
+        "paper-617d4bcb46c2ba66687b",
+        "paper-7f0558c5894315cd928d",
+        "paper-b96e69f73111b05f034f",
+        "paper-f9bf0afddeec96bf60b5"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "trolling aesthetics: the lulz as creative practice",
+      "paper_ids": [
+        "paper-b2ef2bcf1988b369bead",
+        "paper-d04e2e94a388e1b3229e"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "truchet tiles",
+      "paper_ids": [
+        "paper-7c940f3bbfff0ac3f452",
+        "paper-8ee59fcc8ad7b57b0559",
+        "paper-f3d2c3c83af8348a76e3"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "understanding a chaotic saddle with focus on a 9-variable model of planar couette flow",
+      "paper_ids": [
+        "paper-569c4838a8aa638a403e",
+        "paper-8d7410967f84e36060b6"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "unlimited object instancing in real-time",
+      "paper_ids": [
+        "paper-036fdfa323ee14b40edf",
+        "paper-a1c26e8d71ca124b62a6"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "unsung, unwavering: nineteenth-century black women's epistemologies and the liberal problematic",
+      "paper_ids": [
+        "paper-845e3bcd2949c480a4f4",
+        "paper-a32fd45f888e6566e05f"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "using psychoacoustical models for information sonification",
+      "paper_ids": [
+        "paper-041e352cd2c5eb17fbba",
+        "paper-24e4545f02004b3d9cd1",
+        "paper-3be244dbd0eec18bc583",
+        "paper-81dfb12fe1a7afaeffd1"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "using the fatou set to study the julia set",
+      "paper_ids": [
+        "paper-1f02fa3bc7527dd3f0f3",
+        "paper-5f3a4edf5605215a154c",
+        "paper-e34aa4e3e71853723aee"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "using timescale as a state coordinate reveals the metastable geometry of behavior",
+      "paper_ids": [
+        "paper-7058d56657265f363047",
+        "paper-d1429c13152e8de7b044"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "using transfer learning to determine the type of mathematical fractals image of islamic geometric patterns",
+      "paper_ids": [
+        "paper-4b10fae7ee31b5c35f45",
+        "paper-aa3dbc055e5e3f125e72"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "ut austin|portugal colab year 4 report to the external review committee",
+      "paper_ids": [
+        "paper-31e71d7b82d70ae87d40",
+        "paper-41ac58852aae1999606f",
+        "paper-8340a90bf9d287885a0b",
+        "paper-8f715e10240908c646f4"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "utilizing barnsley fern as orbit trap to construct virtual three-dimension generalized mandelbrot-julia sets of newton transform",
+      "paper_ids": [
+        "paper-55b51801ca09ddb7b37f",
+        "paper-fb25b5634672d5a08fb7"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "vakonomic fluids",
+      "paper_ids": [
+        "paper-3541e461a15db4581680",
+        "paper-daf161ccce067cb853b6"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "vector invariance and structural closure of julia-type iterations in clifford algebra",
+      "paper_ids": [
+        "paper-242814e855f9d560802f",
+        "paper-5ffead306210e18801ec"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "video diffusion models: a survey",
+      "paper_ids": [
+        "paper-8b97cd91aeb7a38214db",
+        "paper-d2e2a7f9933b05264f31"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "vision-to-music generation: a survey",
+      "paper_ids": [
+        "paper-5a556b030d55b48931a2",
+        "paper-9d97bddd40134fe15af4"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "visual attention among patients with schizophrenia: a study of visual span and selectivity in visual search",
+      "paper_ids": [
+        "paper-e59ac78a3880b4e38905",
+        "paper-e9d54319d3f5f84f0b59"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "visualizing multi-channel networks",
+      "paper_ids": [
+        "paper-12981b0793f41b8a5ae6",
+        "paper-6616b5c02cf9f849620d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "voderberg deconstructed & triangle substitution tiling",
+      "paper_ids": [
+        "paper-85666c442bd56f4d2252",
+        "paper-ab51689a11b8787bc56d"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "volumetric particle modeling",
+      "paper_ids": [
+        "paper-4ee9a9bbcda5a8cde170",
+        "paper-d915a10037ab8eb7d332"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "wavelets and subband coding",
+      "paper_ids": [
+        "paper-49301ab6516e05801ddb",
+        "paper-f3da96102db7a02b5145"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "wavy spirals and their fractal connection with chirps",
+      "paper_ids": [
+        "paper-b58577b4a9eb581ad38e",
+        "paper-d853cd8f8ca972dfec0c"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "well-posedness of logarithmic spiral vortex sheets",
+      "paper_ids": [
+        "paper-8cd6d700c44712a6eec0",
+        "paper-df7e6487001e745116fc"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "workmanship on building sites. code of practice for wall and floor tiling",
+      "paper_ids": [
+        "paper-02f8a13d098509e170a3",
+        "paper-9a44e04214a191655d21",
+        "paper-a27b3cc0d059ebf43305",
+        "paper-f8902cefc239f0d32e75"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "統合数理科学 : 現象解明を通した数学の発展 : 中間成果報告書",
+      "paper_ids": [
+        "paper-806d1f1c2935b679748d",
+        "paper-cad8cacd1e88d0171283"
+      ],
+      "status": "review_pending"
+    },
+    {
+      "normalized_title": "統合数理科学 : 現象解明を通した数学の発展 : 平成15年度成果報告書",
+      "paper_ids": [
+        "paper-83667c237ea5635c8331",
+        "paper-cc5d276434091a245e8e"
+      ],
+      "status": "review_pending"
+    }
+  ]
+}

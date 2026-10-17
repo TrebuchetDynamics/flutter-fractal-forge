@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fractal-forge.local/schemas/academic-papers.schema.json",
+  "title": "Academic paper record v1",
+  "type": "object",
+  "required": ["paper_id", "title", "aliases", "source_paths", "content_state", "claim_state", "rights"],
+  "properties": {
+    "paper_id": {"type": "string", "pattern": "^paper-[0-9a-f]{20}$"},
+    "title": {"type": "string", "minLength": 1},
+    "authors": {"type": "array", "items": {"type": "string"}},
+    "year": {"type": ["integer", "null"]},
+    "source_kind": {"enum": ["paper", "book", "code", "video"]},
+    "aliases": {"type": "array", "items": {"type": "string", "pattern": "^(doi|arxiv):"}, "uniqueItems": true},
+    "source_urls": {"type": "array", "items": {"type": "string"}},
+    "source_paths": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "content_state": {"enum": ["metadata_only", "access_pending", "full_text_available", "unavailable"]},
+    "claim_state": {"enum": ["unreviewed", "source_checked", "implementation_compared", "numerically_checked", "contradicted"]},
+    "rights": {"type": "object", "required": ["status"], "properties": {"status": {"enum": ["unknown", "metadata_only", "open_access", "permission_granted", "restricted"]}, "basis": {"type": "string"}, "declared_license": {"type": ["string", "null"]}}, "additionalProperties": true},
+    "record_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "source_hash": {"type": ["string", "null"], "pattern": "^sha256:[0-9a-f]{64}$"}
+  },
+  "additionalProperties": true
+}

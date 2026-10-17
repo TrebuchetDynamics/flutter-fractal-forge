@@ -1,8 +1,6 @@
 # Academic fractal research library — implementation plan
 
-Status: Accepted
-
-This is the planned home for shared academic evidence for Fractal Forge. Only this guide exists initially: the corpus, import adapters, formula dossiers and validators described below are **planned**, not completed. The owner requested a research folder and a tool-assisted plan, not an installation, full-catalog paper download, shader rewrite, commit, publication or recurring job. The active tasks are ACAD-01 through ACAD-05 in the repository-root TODO.md; do not create a competing task queue here.
+Status: Accepted; ACAD-01 offline index/import/coverage adapter implemented. Research acquisition and formula dossiers remain planned. This is the shared academic evidence home for Fractal Forge. The active tasks are ACAD-01 through ACAD-05 in the repository-root TODO.md; do not create a competing task queue here. No live search, PDF acquisition, shader rewrite, publication or recurring job is part of ACAD-01.
 
 ## Outcome and current evidence
 
@@ -35,7 +33,19 @@ research/academic/
   text/<paper-id>/<hash>.txt extracted text/OCR; same rights/privacy restrictions
 ```
 
-These paths are a decided first implementation layout, not existing corpus files. Keep existing `research/<topic>/` packages and `research/fractals-library/` in place. Import by content identity plus provenance back-links; no mass move, deletion or rewrite of historical reports. The canonical source index is `papers.jsonl`; run results remain immutable input snapshots, not rival editable bibliographies. Coverage and bibliography views are generated, not manually curated second indexes. No new hosted service, vector database, UI framework or dependency is required for the first slice. A future Obsidian/wiki view can be derived, not another source of truth.
+Keep existing `research/<topic>/` packages and `research/fractals-library/` in place. Import by stable identifier plus provenance back-links; no mass move, deletion or rewrite of historical reports. `papers.jsonl` is the canonical shared metadata index; run results remain immutable input snapshots, not rival editable bibliographies. Coverage and title-collision review suggestions are generated, not manually curated second indexes. No new hosted service, vector database, UI framework or dependency is required for the first slice. A future Obsidian/wiki view can be derived, not another source of truth.
+
+## Offline schema/import/coverage adapter (ACAD-01)
+
+Version 1 schemas live beside the data: `papers.schema.json`, `mapping.schema.json`, `coverage.schema.json`, and `identity-aliases.schema.json`. `papers.jsonl` is deterministically imported from existing `research/**/results*.jsonl` records by `forge academic-check`; those original run packages are never edited. DOI aliases normalize case and DOI URLs; arXiv aliases discard version suffixes. Records with DOI deduplicate only against the same DOI; arXiv-only records deduplicate against arXiv-only records. DOI/published and arXiv/preprint records remain separately traceable rather than being implicitly merged. Title-only matches are preserved as separate records and emitted in `identity-review.json` for human review.
+
+`identity-aliases.json` is the only input for reviewed identity-to-paper mappings; do not map by title or name similarity. `coverage.json` is generated from the app Explore IDs in the visual-audit inventory, all registry IDs, all reference-manifest IDs and the accepted planned `core.number_wall` identity. Unmapped identities are explicit `gap` rows. The metadata/content and source/implementation/numerical claim states stay distinct. The offline validator checks source references, claim spans, content rights, source hashes, implementation hash bindings and public file restrictions.
+
+Run the scoped offline adapter (it rewrites only generated academic outputs):
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/research/forge.py academic-check
+```
 
 ### Source record
 
