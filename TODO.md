@@ -218,19 +218,6 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Ownership: Repository backlog, unassigned; needs real device access at qualification time, not a new product decision.
   - Next action: Use an available named Android device after the integrated feature exists; retain exact unavailable access if held.
 
-- [ ] **ACAD-02 — Run a reproducible ResearchForge literature pilot and queue source review.**
-  - Goal: ACAD-001
-  - Status: open
-  - Section: Next.
-  - Sources: [Accepted academic research outcome](PRD.md#academic-research-library), [accepted integration contract](docs/engineering/spec.md#academic-source-to-renderer-evidence), [tool/workflow contract](research/academic/README.md), [verification owner](docs/engineering/test-plan.md#academic-evidence-verification), `research/fractal-code-math-catalog/report.md`, `research/fractal-types-tenth-wave/provenance.json`.
-  - Touches: research/academic/runs/, research/academic/papers.jsonl, research/academic/families/, research/academic/coverage.json
-  - Scope: Verify installed rforge version/help and native output compatibility; reuse existing source packages, then execute the bounded 20-query/25-record-per-query-source pilot across six families with relevant installed providers and citation seeds. Import real records/failures into the shared index and prepare a self-contained human screening/acquisition queue. Use ResearchForge first; Feynman is optional, uninstalled/unqualified and not required. No model-provider setup, paid runs, full-text acquisition, self-approved review or catalog admission.
-  - Acceptance: Actual query/source manifests, limits, failures, dedup counts and legal access status are retained and reproducible. Reports distinguish live new records, reused historical records, relevant/excluded/uncertain hits and unfilled gaps. Resume/import preserves successful work without duplicated evidence or hiding failed sources. At most 12 selected real IDs reuse CAT-QUALITY-01's selection if available; Number Walls remains a separate planned dossier. Owner review input identifies paper IDs, source/license/version, proposed decisions and acquisition actions; no automatic include/approval transition occurs.
-  - Checks: `rforge version`; inspect `rforge --json help` (verified machine-readable; this build's `rforge help --json` returns text); planned live pilot: `rforge search batch --out research/academic/runs/RUN_ID --queries QUERIES_FILE --sources openalex,arxiv,crossref --limit 25 --continue-on-error --stats`; `rforge search stats --dir research/academic/runs/RUN_ID`; `rforge screen queue --dir research/academic/runs/RUN_ID --out REVIEW_QUEUE.csv`; substitute actual explicit run paths and retain commands/exits. Run ACAD-01 importer/validator and compare source-normalized statistics programmatically. These network searches are NOT_RUN; failures are not zero-hit proof.
-  - Dependencies: ACAD-01.
-  - Ownership: Repository backlog, unassigned; network/provider access must use supported existing configuration without secret exposure or paid services.
-  - Next action: Verify actual installed command catalog, reuse existing family records and produce a bounded metadata/review package.
-
 - [ ] **ACAD-04 — Backfill academic evidence across every scoped catalog identity in bounded batches.**
   - Goal: ACAD-001
   - Status: open
@@ -457,6 +444,15 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Physical-device and human visual acceptance are not performed here. Repaired after-state comparisons, control exercise, named-target performance measurement, and edited-state PNG equivalence remain explicitly NOT_CHECKED for follow-up qualification; no artifacts or passes were fabricated.
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: CAT-QUALITY-01.
+  Status: open
+
+- [ ] ACAD-02-LIVE — Live checks for ACAD-02
+  Scope: Run the live checks the offline work for ACAD-02 left pending.
+  Acceptance: Each check passes on the real target:
+  - Network pilot searches were not rerun during this retry; historical pilot artifacts are preserved. Retry arXiv failures when provider availability/rate limits permit; failures are not zero-hit evidence.
+  - Human relevance, version/license review and any lawful acquisition approval for 906 pending records; no include/exclude decision or full-text acquisition was made.
+  Checks: Live qualification by an authorized person; offline evidence does not count.
+  Dependencies: ACAD-02.
   Status: open
 
 ## Done
