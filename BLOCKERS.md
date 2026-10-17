@@ -27,6 +27,13 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T01:32:24Z
 - Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
 
+### Q-CAT-QUALITY-02 — USER_INPUT — effort input — unblocks 0
+
+- Task: CAT-QUALITY-02 — Repair three demonstrated pilot first-impression defects.
+- Needs: worker reported a blocker: The required compatibility implementation changes FractalController routing, view-input normalization and controller snapshot copying, but these paths are outside Touches. Widen Touches to permit the three paths listed in needs_touches; this task remains otherwise unfinished and uncommitted.
+- Since: 2026-10-17T08:50:12Z
+- Answer: Answer in CAT-QUALITY-02's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
+
 ### Q-REL-JOURNEY-01-WEB — USER_INPUT — effort input — unblocks 0
 
 - Task: REL-JOURNEY-01-WEB — Qualify the complete web image-creation journey.
