@@ -36,22 +36,32 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Ownership: repository backlog, open for runner recovery. Preserve prior work; verify actual live writer identity/activity before adoption and do not overlap any live worker.
   - Status: open
   - Owner decision: 2026-10-16 — Reopen for the runner, preserving prior work and requiring a live-writer check before adoption. This is planning only; no worker or service was started or changed.
-  - Goal: VIS-006.
+  - Goal: VIS-006
+  - Touches: integration_test/catalog/, integration_test/flows/, test/cpu/, docs/planning/visual-audit-inventory.json, docs/planning/visual-fidelity-audit-next.md
+  - Checks: Select exactly the next ten uncaptured source-ordered IDs; set `CATALOG_THUMB_ONLY` to those IDs, `CATALOG_THUMB_USE_MODULE_DEFAULTS=true`, `STRICT_CATALOG_THUMBS=true` and a scoped output directory, then run `flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded`. Add/run the scoped runtime-preview test for those same IDs with forced runtime thumbnails; run `python3 research/fractals-library/scripts/validate_visual_inventory.py`, `flutter test test/cpu/cpu_formula_coverage_test.dart` for applicable native formula coverage, changed-test formatting/analysis and `git diff --check`. Reconcile selected/generated/failed/skipped and real artifact IDs/dimensions; no image-health pass implies mathematical correctness.
+  - Planning repair: 2026-10-17 — Add the missing unique Checks field and bounded Touches under the existing approved capture scope. Preserve the previous reopen decision and mandatory live-writer check; this is not new execution or formula-change authority.
 
 ## Next
 
 
 - [ ] **CAT-QUALITY-02 — Repair three demonstrated pilot first-impression defects.**
-  - Goal: CAT-QUALITY-001. Payoff: improve the first experience while preserving mathematical and visual variety.
+  - Goal: CAT-QUALITY-001
+  - Payoff: improve the first experience while preserving mathematical and visual variety.
   - Sources: [Quality plan](docs/planning/visual-fidelity-audit-next.md#quality-without-losing-variety), [accepted outcome](PRD.md#catalog-quality-and-variety), `docs/planning/visual-audit-inventory.json`, `lib/features/catalog/data/catalog_repository.dart`, `lib/core/modules/fractal_mathematics.dart`.
   - Graph evidence: Fresh partial 38-file code-only Graphify scan: CatalogRepository (`catalog_repository.dart:15,20,57`), CatalogEntry (`catalog_entry.dart:12,30`), FractalMathematics (`fractal_mathematics.dart:11,45`) and LaunchVisualMetrics (`launch_visual_metrics.dart:9`). Extracted nodes are source-corroborated; five self-loops/duplicate-label warnings and truncated queries remain. Shaders/viewer/export/docs semantics are not indexed. See the quality plan for queries and receipt path.
-  - Touches: shaders/strange_attractors/, lib/core/modules/builders/escape_time_catalog/, test/shaders/, test/features/catalog/, integration_test/rendering/, integration_test/flows/, docs/planning/visual-audit-inventory.json, docs/planning/visual-fidelity-audit-next.md
-  - Scope: Use CAT-QUALITY-01 evidence to tune default framing/presets/palette or fix reproduced rendering/description/control errors for three existing IDs. One independently reversible fix at a time. Preserve formulas unless mathematically demonstrated wrong; preserve IDs, favorites, saved presets, runtime thumbnail policy and bounds. No new fractals/dependencies or blanket shader rewrite.
+  - Touches: shaders/strange_attractors/, lib/core/modules/, lib/core/models/, lib/core/services/storage/, lib/core/services/export/, lib/core/widgets/catalog_thumbnail.dart, lib/features/renderer/, lib/features/viewer/, lib/features/export/, lib/l10n/, test/shaders/, test/modules/, test/fractal/, test/catalog/, test/export/, test/features/renderer/, integration_test/rendering/, integration_test/catalog/, integration_test/flows/, docs/planning/visual-audit-inventory.json, docs/planning/visual-fidelity-audit-next.md
+  - Scope: Implement true finite projected trajectories for exactly core.thomas_attractor, core.four_wing and core.lorenz_2d, one reversible change at a time, preserving each existing continuous vector field and coefficients. Add the narrow model/render-routing/export/state support required for these three IDs; retain the legacy initial-condition portraits for legacy saved views. This owner-approved method change supersedes zoom-only tuning for these defects, not the ban on blanket shader rewrites. Preserve IDs, favorites, saved presets and unrelated modules/aliases; no new fractals, dependencies, general renderer framework, publication or deployment.
   - Acceptance: Before/after comparisons at identical settings show each named defect resolved, relevant interaction/identity checks pass and PNG matches the edited view. Report p50/p95 performance without inventing approved thresholds. Unchanged supported IDs and saved-state resolution; no loss of pilot family coverage. Do not count aesthetic improvement as mathematical certification or host-only tests as platform qualification.
   - Checks: Focused RED/GREEN regression for each cause; existing catalog identity/repository/search/a11y tests, formatter, flutter analyze, inventory validation. Run affected GPU capture/first-view and applicable REL-JOURNEY checks separately; record all skips.
   - Dependencies: CAT-QUALITY-01.
   - Ownership: Repository backlog, unassigned; coordinate with existing VIS-006 and formula workers before edits.
-
+  - Owner decision: 2026-10-17 — Plan true trajectory views for Thomas, Four-Wing and Lorenz, preserving equations and compatibility with saved views. This is accepted planning, not execution or visual approval.
+  - Planner numerical design: Start a single deterministic orbit at (0.1, 0.2, 0.3), avoiding the all-equal seed’s Thomas symmetry subspace; integrate the existing vector fields with fixed-step RK4, dt=0.01, burn-in duration 50 and retained duration 200. Maximum 25,000 integration steps per orbit-state job and 20,000 retained samples; compute once per changed orbit state, cache/project for pan/zoom/palette/export, and use existing cooperative cancellation/stale-result guards. No per-pixel reintegration, unlimited animation history or uncapped resolution-dependent orbit work. These are initial finite-approximation choices, not source-certified universal values. Verify finite/bounded behavior and short-horizon convergence against dt=0.005; refine seed/step/duration within the same caps if reproduced fixtures require it, recording the reason rather than asking the owner about routine numerical tuning.
+  - Planner projection design: Lorenz and Four-Wing initially project (x,z); Thomas uses the orthonormal oblique pair ((x-y)/sqrt(2), (x+y-2z)/sqrt(6)). Deterministic post-burn-in bounds frame the default trajectory with visible margins, without modifying the orbit equations. Compare projected buffers and actual images rather than demanding a particular wing count from a name. Disclose numerical integration, finite duration and projection; if a source/equation contradiction is found, record it explicitly instead of silently changing the formula to fit artwork.
+  - Saved-view contract: Fresh default views for only the three target IDs opt into a versioned trajectory representation. Persist the representation version plus seed/integrator/duration/projection with the existing state/snapshot path. Missing representation metadata in old presets/history/restoration/deep links resolves to the legacy portrait, preserving its parameters, framing, colors and renderer; do not infer the new default during deserialization or overwrite old records. Explicitly saved trajectory views restore their exact mode. Existing aliases sharing the same shader asset must not switch accidentally; keep the legacy asset/uniform contract available. New thumbnails, viewer and PNG use the same mode/state and projected geometry; no independent export recomputation or silent mode/backend substitution.
+  - Resource/performance contract: The step/sample ceilings above are computational safety caps, not approved frame-time thresholds. Measure p50/p95 on named target/backend at explicit viewport/sample settings and compare with the corresponding baseline; report first generation separately from cached pan/palette/redraw. Keep pending device qualification open. No invented FPS acceptance number or claimed GPU parity; a genuine unsupported backend is reported, not masked by a placeholder.
+  - Additional checks: Add planned independent ODE/RK4 short-horizon and projection fixtures in `test/modules/attractor_trajectory_model_test.dart`, and legacy/new saved-state routing fixtures in `test/fractal/attractor_trajectory_compatibility_test.dart`; then run `flutter test test/modules/attractor_trajectory_model_test.dart test/fractal/attractor_trajectory_compatibility_test.dart`. Preserve the original required catalog/interaction/identity/a11y, same-state before/after, PNG edited-state matching, formatter, analyzer and inventory checks. Add cancellation/cache/cap negatives and a shared-shader alias control. New tests and numerical/render/performance acceptance are NOT_RUN; implementation must supply the fixtures rather than invent output.
+  - Next action: Preserve the failed zoom-only report as evidence. After checking live writers, add the independent numerical, projection and legacy-state fixtures first, then implement the bounded mode for Thomas and apply the same verified path to Four-Wing/Lorenz. Keep original CAT-QUALITY-02 acceptance open until all three repairs and required comparisons pass; do not reclassify unperformed checks as passes or move them away to claim closure.
 
 - [ ] **GAUSS-MOAT-04-GROWTH — Scrub and animate jump-radius growth without queued or stale computations.**
   - Goal: GAUSS-MOAT-001. Payoff: show changing connectivity without suggesting a finite plot proves the theorem.
@@ -165,7 +175,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Checks: Planned new target: `flutter test test/modules/number_wall_model_test.dart --reporter expanded`; browser parity: `flutter test --platform chrome test/modules/number_wall_model_test.dart --reporter expanded`; `dart format --output=none --set-exit-if-changed lib/core/models/number_wall_model.dart test/modules/number_wall_model_test.dart`; `flutter analyze`. Record actual test counts, backend and bounded benchmark inputs; proposed tests have NOT_RUN.
   - Dependencies: None.
   - Ownership: Repository backlog, unassigned; inspect actual writers before execution. Planning does not dispatch.
-  - Next action: Write independent determinant/prefix and zero-denominator regressions, then implement the exact kernel.
+  - Next action: Inspect and preserve the existing NUM-WALL-01 model/test candidate and retained native-test results before doing new implementation. The latest browser failure is a Chromium launch/socket-path issue, not evidence of a number-wall arithmetic failure. The existing runner should repair the non-privileged browser-test environment, then run browser parity and the remaining affected checks on the same candidate before commit.
+  - Planning repair: 2026-10-17 — Browser setup is routine local recovery, not unavailable owner input. Use the installed Chromium through process-scoped `CHROME_EXECUTABLE=/usr/bin/chromium`; arrange a short private scratch path/alias backed by the approved scratch storage, verifying the browser socket path fits. Scope any TMPDIR override to the test process; do not use system /tmp, shared browser profiles, elevated privileges, disabled browser security or external spending. Respect the current occurrence’s reserved AUTOWORK port range and worker isolation. Retain the failed launch as history and rerun the original browser test; do not waive parity or invent a pass. This records instructions only, without creating directories or launching tests.
 
 - [ ] **NUM-WALL-02 — Open real Number Walls from their catalog category with restorable controls.**
   - Goal: NUM-WALL-001
@@ -242,13 +253,15 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Status: open
   - Section: Next.
   - Sources: [Accepted academic research outcome](PRD.md#academic-research-library), [source-to-renderer contract](docs/engineering/spec.md#academic-source-to-renderer-evidence), [library schema](research/academic/README.md), `scripts/research/doctor/check_registry.py`, `scripts/research/admit/promote_candidate.py`, `scripts/research/admit/emit_dart.py`, `lib/core/modules/fractal_mathematics.dart`.
-  - Touches: scripts/research/academic/, scripts/research/doctor/, scripts/research/schemas/, test/research/, docs/catalog/, lib/core/modules/fractal_mathematics.dart, test/modules/
+  - Touches: scripts/research/academic/, scripts/research/doctor/, scripts/research/schemas/, test/research/, docs/catalog/, lib/core/modules/fractal_mathematics.dart, test/modules/, scripts/research/admit/promote_candidate.py
   - Scope: Add offline source-binding/freshness and claim-qualification checks using existing catalog schemas/review gates. Reuse current references/group metadata and qualified descriptions; do not make a parallel production registry or automatically admit/generated shaders from papers. The pipeline can consume draft/unverified rows but must not advertise them as reviewed. No new citation-browser UI, full catalog relabeling or shader repair project.
   - Acceptance: Checked-in fixtures prove that source-missing/span-missing/unreviewed/wrong-formula/stale-source bindings cannot promote a mathematically verified claim; reviewed applicable bindings pass. Existing imported/catalog data remains loadable and retains honest legacy qualifications; new admissions require their actual evidence, not copied confidence=1 or shader compile status. Pending unsupported relationships stay explicit. App-visible metadata changes, if any, preserve EN/ES, stable IDs/favorites/presets and existing render behavior, with actual focused regressions.
   - Checks: Planned: `pytest test/research/test_academic_bindings.py test/research/test_academic_admission.py -v`; `PYTHONDONTWRITEBYTECODE=1 python3 scripts/research/forge.py doctor --strict-app-catalog`; `pytest test/research -v`; run affected `FractalMathematics` tests and `flutter analyze` only if app metadata code changes. New fixtures are NOT_RUN. Verify missing-evidence negative controls without weakening old invariant guards.
   - Dependencies: ACAD-01.
   - Ownership: Repository backlog, unassigned; independent offline fixtures do not require owner approval of research claims or full-text acquisition.
   - Next action: Add negative claim-promotion/freshness fixtures against the library contract before connecting the existing doctor/admission seam.
+  - Planning repair: 2026-10-17 — Include the exact existing promotion seam already named in Sources and required by Scope/Acceptance. This is a clerical Touches correction under accepted admission-safeguard work, not permission to auto-promote claims or change review gates.
+  - Recovery continuation: Preserve the ACAD-05 candidate and latest failed scope-validation report. After checking writer inactivity and current source compatibility, let the existing runner finish the promotion-hook integration with missing-evidence/freshness/formula negative tests and rerun the required checks on integrated bytes. Do not alter old reports into passes or restart/reconfigure the runner.
 
 ## Needs decision
 
@@ -372,6 +385,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Next action: Keep this proposal in Needs decision, deferred rather than completed; do not select or implement it unless the owner later revisits it.
 
 - [ ] VIEW-UI-01-LIVE — Live checks for VIEW-UI-01
+  Goal: VIEW-UI-001
+  Sources: [Existing goal contract](docs/engineering/spec.md#viewer-chrome-footprint-and-action-consistency); `todo.archive.md` retains the original offline task and evidence.
   Scope: Run the live checks the offline work for VIEW-UI-01 left pending.
   Acceptance: Each check passes on the real target:
   - Physical-device screen-reader/TalkBack/VoiceOver and device-rotation qualification.
@@ -383,36 +398,52 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Next action: Keep this live task open in Needs decision. Resume qualification planning when suitable target/reviewer access exists; retain screen-reader, rotation, hardware-GPU and production-font checks. Do not substitute offline results for real-target evidence.
 
 - [ ] VIEW-UI-02-LIVE — Live checks for VIEW-UI-02
+  Goal: VIEW-UI-001
+  Sources: [Existing goal contract](docs/engineering/spec.md#viewer-chrome-footprint-and-action-consistency); `todo.archive.md` retains the original offline task and evidence.
   Scope: Run the live checks the offline work for VIEW-UI-02 left pending.
   Acceptance: Each check passes on the real target:
   - Same-state native screenshots, production typography validation, and physical-device/screen-reader acceptance remain outstanding. Flutter 3.44.6 qualification was not run; this environment provides Flutter 3.44.2.
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: VIEW-UI-02.
   Status: open
+  - Owner decision: 2026-10-16 — Defer until target/reviewer access is available; preserve native screenshots, typography and screen-reader checks. Deferral is neither completion nor a release waiver.
+  - Next action: Keep this live task open in Needs decision. When target/reviewer access exists, reconcile exact SDK receipts and complete the retained real-target acceptance; historical environment wording is not proof of current SDK absence.
 
 - [ ] GAUSS-MOAT-02-WALK-LIVE — Live checks for GAUSS-MOAT-02-WALK
+  Goal: GAUSS-MOAT-001
+  Sources: [Existing goal contract](PRD.md#gaussian-moat-walking-visualization); `todo.archive.md` retains the original offline task and evidence.
   Scope: Run the live checks the offline work for GAUSS-MOAT-02-WALK left pending.
   Acceptance: Each check passes on the real target:
   - Physical-device visual, accessibility, and performance qualification.
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: GAUSS-MOAT-02-WALK.
   Status: open
+  - Owner decision: 2026-10-16 — Defer until a suitable physical device and reviewer are available; preserve visual, accessibility and performance gates. Deferral is neither completion nor a release waiver.
+  - Next action: Keep this live task open in Needs decision. Resume qualification planning when actual device/reviewer access exists; retain original physical-device acceptance rather than substituting offline model tests.
 
 - [ ] QUAT-NORM-01-SLICE-LIVE — Live checks for QUAT-NORM-01-SLICE
+  Goal: QUAT-NORM-001
+  Sources: [Existing goal contract](PRD.md#prime-norm-quaternion-companion); `todo.archive.md` retains the original offline task and evidence.
   Scope: Run the live checks the offline work for QUAT-NORM-01-SLICE left pending.
   Acceptance: Each check passes on the real target:
   - Human review and device/visual qualification of responsive layout, screen-reader/list selection, and rendered quaternion points remain pending; offline mathematical and regression tests do not qualify device behavior.
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: QUAT-NORM-01-SLICE.
   Status: open
+  - Owner decision: 2026-10-16 — Defer until a suitable device and human reviewer are available; retain all qualification checks. Deferral is neither completion nor a release waiver.
+  - Next action: Keep this live task open in Needs decision. Resume when target/reviewer access exists and inspect actual responsive layout, screen-reader/list selection and rendered points; offline math does not supply this verdict.
 
 - [ ] REL-JOURNEY-02-LINUX-LIVE — Live checks for REL-JOURNEY-02-LINUX
+  Goal: REL-JOURNEY-001
+  Sources: [Existing goal contract](PRD.md#active-release-contract); `todo.archive.md` retains the original offline task and evidence.
   Scope: Run the live checks the offline work for REL-JOURNEY-02-LINUX left pending.
   Acceptance: Each check passes on the real target:
   - Human visual review of exported image composition/readability; the integration test deletes its temporary PNGs after numerical checks.
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: REL-JOURNEY-02-LINUX.
   Status: open
+  - Owner decision: 2026-10-16 — Have the runner prepare retained real-export images for human review; keep visual acceptance pending. This does not approve unseen output or waive real-target checks.
+  - Next action: Prepare representative real edited-state Linux PNG exports using the existing journey path, retain the actual files and provenance instead of only deleted temporary artifacts, and present them for composition/readability review. Keep this task open until an attributable human verdict; do not fabricate images or infer visual acceptance from numerical PNG checks.
 
 - [ ] **ACAD-03 — Review approved source mathematics against a representative renderer pilot.**
   - Goal: ACAD-001
@@ -430,14 +461,20 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Next action: Present ACAD-02's concrete source/rights/review queue for the required human decisions; no question is needed before that package exists.
 
 - [ ] SMOOTH-001-INVENTORY-01-LIVE — Live checks for SMOOTH-001-INVENTORY-01
+  Goal: SMOOTH-001
+  Sources: [Existing goal contract](TODO.md#p1-3-smooth-coloring-in-all-shaders); `todo.archive.md` retains the original offline task and evidence.
   Scope: Run the live checks the offline work for SMOOTH-001-INVENTORY-01 left pending.
   Acceptance: Each check passes on the real target:
   - Hardware-GPU visual qualification was not run; the source-level checks do not establish rendered appearance or performance.
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: SMOOTH-001-INVENTORY-01.
   Status: open
+  - Owner decision: 2026-10-16 — Defer hardware-GPU qualification; retain source-test evidence without calling it visual proof. Deferral is neither completion nor a release waiver.
+  - Next action: Keep this live task open in Needs decision until a named hardware-GPU qualification session is planned; preserve its actual-rendering and performance requirements without reclassifying source assertions as rendered evidence.
 
 - [ ] REL-JOURNEY-03-ANDROID-LIVE — Live checks for REL-JOURNEY-03-ANDROID
+  Goal: REL-JOURNEY-001
+  Sources: [Existing goal contract](PRD.md#active-release-contract); `todo.archive.md` retains the original offline task and evidence.
   Scope: Run the live checks the offline work for REL-JOURNEY-03-ANDROID left pending.
   Acceptance: Each check passes on the real target:
   - Connect a named Android device and run the shared edited Mandelbrot/Mandelbulb image-creation journey.
@@ -446,8 +483,12 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: REL-JOURNEY-03-ANDROID.
   Status: open
+  - Owner decision: 2026-10-16 — Defer until a named Android test device is available; retain gallery/MediaStore and PNG-readback requirements. Deferral is neither completion nor a release waiver.
+  - Next action: Keep this live task open in Needs decision. When a named device is available, verify the actual edited Mandelbrot/Mandelbulb MediaStore/gallery outputs, decode PNGs, and record dimensions/content, device/backend and exact commands. Keep physical-device and emulator verdicts distinct.
 
 - [ ] ACAD-01-LIVE — Live checks for ACAD-01
+  Goal: ACAD-001
+  Sources: [Existing goal contract](PRD.md#academic-research-library); `todo.archive.md` retains the original offline task and evidence.
   Scope: Run the live checks the offline work for ACAD-01 left pending.
   Acceptance: Each check passes on the real target:
   - Human adjudication of title-collision suggestions and identity aliases remains pending; unresolved identities intentionally stay coverage gaps.
@@ -456,6 +497,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   Status: open
 
 - [ ] SMOOTH-001-INVENTORY-02-LIVE — Live checks for SMOOTH-001-INVENTORY-02
+  Goal: SMOOTH-001
+  Sources: [Existing goal contract](TODO.md#p1-3-smooth-coloring-in-all-shaders); `todo.archive.md` retains the original offline task and evidence.
   Scope: Run the live checks the offline work for SMOOTH-001-INVENTORY-02 left pending.
   Acceptance: Each check passes on the real target:
   - Visual or hardware-GPU qualification for the checked Multibrot shaders was not run; source and numeric fixtures are offline evidence only.
@@ -464,6 +507,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   Status: open
 
 - [ ] CAT-QUALITY-01-LIVE — Live checks for CAT-QUALITY-01
+  Goal: CAT-QUALITY-001
+  Sources: [Existing goal contract](PRD.md#catalog-quality-and-variety); `todo.archive.md` retains the original offline task and evidence.
   Scope: Run the live checks the offline work for CAT-QUALITY-01 left pending.
   Acceptance: Each check passes on the real target:
   - Physical-device and human visual acceptance are not performed here. Repaired after-state comparisons, control exercise, named-target performance measurement, and edited-state PNG equivalence remain explicitly NOT_CHECKED for follow-up qualification; no artifacts or passes were fabricated.
@@ -472,6 +517,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   Status: open
 
 - [ ] ACAD-02-LIVE — Live checks for ACAD-02
+  Goal: ACAD-001
+  Sources: [Existing goal contract](PRD.md#academic-research-library); `todo.archive.md` retains the original offline task and evidence.
   Scope: Run the live checks the offline work for ACAD-02 left pending.
   Acceptance: Each check passes on the real target:
   - Network pilot searches were not rerun during this retry; historical pilot artifacts are preserved. Retry arXiv failures when provider availability/rate limits permit; failures are not zero-hit evidence.
