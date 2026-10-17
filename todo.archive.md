@@ -544,3 +544,21 @@ Source section: Next
   - Owner decision: 2026-10-16 — Complete the verification instructions; retain the existing one-family scope, dependencies and formula-preservation rules. No shader rewrite or full-catalog qualification is authorized.
   - Dependencies: SMOOTH-001-INVENTORY-01.
   - Ownership: repository backlog; check active work before dispatch.
+
+
+<!-- archived from TODO.md -->
+
+Source section: Now
+
+- [x] **CAT-QUALITY-01 — Assess a family-stratified quality pilot without duplicating capture work.**
+  - Goal: CAT-QUALITY-001. Payoff: improve the first experience while preserving mathematical and visual variety.
+  - Sources: [Quality plan](docs/planning/visual-fidelity-audit-next.md#quality-without-losing-variety), [accepted outcome](PRD.md#catalog-quality-and-variety), `docs/planning/visual-audit-inventory.json`, `lib/features/catalog/data/catalog_repository.dart`, `lib/core/modules/fractal_mathematics.dart`.
+  - Graph evidence: Fresh partial 38-file code-only Graphify scan: CatalogRepository (`catalog_repository.dart:15,20,57`), CatalogEntry (`catalog_entry.dart:12,30`), FractalMathematics (`fractal_mathematics.dart:11,45`) and LaunchVisualMetrics (`launch_visual_metrics.dart:9`). Extracted nodes are source-corroborated; five self-loops/duplicate-label warnings and truncated queries remain. Shaders/viewer/export/docs semantics are not indexed. See the quality plan for queries and receipt path.
+  - Touches: docs/planning/visual-fidelity-audit-next.md, docs/planning/visual-audit-inventory.json
+  - Scope: Select at most 12 existing IDs spanning complex dynamics/root finding, geometric/IFS, attractors, 3D, tilings and cellular/stochastic systems where available. Reuse Featured Launch Set/VIS-006 evidence. Record exact families/groups, missing evidence and the three highest-impact reproduced defects. No source tuning or UI change in this assessment.
+  - Acceptance: Every selected ID has separate framing/readability, identity/disclosure, controls, preview, performance and PNG verdicts with explicit PASS/FAIL/NOT_CHECKED and references. Record absent representatives and distinguish parameter/color variants from distinct systems. Bind three repairs to reproduced defects and a before/after comparison; missing evidence is not a fabricated failure. Proposed rubric remains labeled until adopted.
+  - Checks: Validate inventory; reuse applicable named GPU/runtime/first-view tests and REL-JOURNEY artifact receipts. Retain exact commands, backend/device/seed and artifact paths. Run only needed pilot checks; full catalog completion is not required.
+  - Dependencies: none.
+  - Ownership: Repository backlog, unassigned; verify live ownership. Planning does not dispatch.
+  - Owner decision: 2026-10-16 — Keep the 12-ID pilot scope; have the runner reconcile its report/commit and finish required evidence. Do not split away or waive missing acceptance.
+  - Next action: Preserve both existing pilot candidates and their reports. Reconcile the latest report with its actual commit/files, then complete the required same-state comparisons, controls, named-target performance and edited-PNG checks under the original contract. Keep unavailable evidence NOT_CHECKED and the task open; do not fabricate a successful report or rerun already valid unchanged evidence merely to refresh it. Check live writers before recovery.

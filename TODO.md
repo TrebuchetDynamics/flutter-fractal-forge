@@ -11,19 +11,6 @@
 Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 → CAT-QUALITY-02**. Primary focus: `VIEW-UI-001`. Preserve existing Gaussian work and active ownership; OpenAI-math additions remain Proposed. Pilot success: attractive defaults, useful controls and matching PNG export without hunting for good settings; mathematical honesty and accessibility remain mandatory. This is planning priority, not new implementation or scheduling authority. See [the recorded decision](PRD.md#quality-first-planning-priority).
 
 
-- [ ] **CAT-QUALITY-01 — Assess a family-stratified quality pilot without duplicating capture work.**
-  - Goal: CAT-QUALITY-001. Payoff: improve the first experience while preserving mathematical and visual variety.
-  - Sources: [Quality plan](docs/planning/visual-fidelity-audit-next.md#quality-without-losing-variety), [accepted outcome](PRD.md#catalog-quality-and-variety), `docs/planning/visual-audit-inventory.json`, `lib/features/catalog/data/catalog_repository.dart`, `lib/core/modules/fractal_mathematics.dart`.
-  - Graph evidence: Fresh partial 38-file code-only Graphify scan: CatalogRepository (`catalog_repository.dart:15,20,57`), CatalogEntry (`catalog_entry.dart:12,30`), FractalMathematics (`fractal_mathematics.dart:11,45`) and LaunchVisualMetrics (`launch_visual_metrics.dart:9`). Extracted nodes are source-corroborated; five self-loops/duplicate-label warnings and truncated queries remain. Shaders/viewer/export/docs semantics are not indexed. See the quality plan for queries and receipt path.
-  - Touches: docs/planning/visual-fidelity-audit-next.md, docs/planning/visual-audit-inventory.json
-  - Scope: Select at most 12 existing IDs spanning complex dynamics/root finding, geometric/IFS, attractors, 3D, tilings and cellular/stochastic systems where available. Reuse Featured Launch Set/VIS-006 evidence. Record exact families/groups, missing evidence and the three highest-impact reproduced defects. No source tuning or UI change in this assessment.
-  - Acceptance: Every selected ID has separate framing/readability, identity/disclosure, controls, preview, performance and PNG verdicts with explicit PASS/FAIL/NOT_CHECKED and references. Record absent representatives and distinguish parameter/color variants from distinct systems. Bind three repairs to reproduced defects and a before/after comparison; missing evidence is not a fabricated failure. Proposed rubric remains labeled until adopted.
-  - Checks: Validate inventory; reuse applicable named GPU/runtime/first-view tests and REL-JOURNEY artifact receipts. Retain exact commands, backend/device/seed and artifact paths. Run only needed pilot checks; full catalog completion is not required.
-  - Dependencies: none.
-  - Ownership: Repository backlog, unassigned; verify live ownership. Planning does not dispatch.
-  - Owner decision: 2026-10-16 — Keep the 12-ID pilot scope; have the runner reconcile its report/commit and finish required evidence. Do not split away or waive missing acceptance.
-  - Next action: Preserve both existing pilot candidates and their reports. Reconcile the latest report with its actual commit/files, then complete the required same-state comparisons, controls, named-target performance and edited-PNG checks under the original contract. Keep unavailable evidence NOT_CHECKED and the task open; do not fabricate a successful report or rerun already valid unchanged evidence merely to refresh it. Check live writers before recovery.
-
 - [ ] **REL-JOURNEY-01-WEB — Qualify the complete web image-creation journey.**
   - Goal: REL-JOURNEY-001. Payoff: meet the accepted complete user journey on this platform without false parity claims.
   - Sources: [Accepted release contract](PRD.md#active-release-contract), [Journey verification](docs/engineering/test-plan.md#accepted-cross-platform-release-journey), `docs/engineering/rendering/renderer_backend_matrix.md`, `lib/features/export/export_options_sheet.dart`, and `test/export/viewer_export_session_test.dart`.
@@ -461,6 +448,14 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Visual or hardware-GPU qualification for the checked Multibrot shaders was not run; source and numeric fixtures are offline evidence only.
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: SMOOTH-001-INVENTORY-02.
+  Status: open
+
+- [ ] CAT-QUALITY-01-LIVE — Live checks for CAT-QUALITY-01
+  Scope: Run the live checks the offline work for CAT-QUALITY-01 left pending.
+  Acceptance: Each check passes on the real target:
+  - Physical-device and human visual acceptance are not performed here. Repaired after-state comparisons, control exercise, named-target performance measurement, and edited-state PNG equivalence remain explicitly NOT_CHECKED for follow-up qualification; no artifacts or passes were fabricated.
+  Checks: Live qualification by an authorized person; offline evidence does not count.
+  Dependencies: CAT-QUALITY-01.
   Status: open
 
 ## Done

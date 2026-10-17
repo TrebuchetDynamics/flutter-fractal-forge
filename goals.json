@@ -1029,6 +1029,7 @@
       "status": "unverified",
       "tasks": [
         "CAT-QUALITY-01",
+        "CAT-QUALITY-01-LIVE",
         "CAT-QUALITY-02",
         "CAT-QUALITY-03"
       ],
@@ -1105,7 +1106,6 @@
   "priority_order": {
     "schema": 1,
     "tasks": [
-      "CAT-QUALITY-01",
       "REL-JOURNEY-01-WEB",
       "VIS-006",
       "CAT-QUALITY-02",
@@ -1144,18 +1144,11 @@
       "SMOOTH-001-INVENTORY-01-LIVE",
       "REL-JOURNEY-03-ANDROID-LIVE",
       "ACAD-01-LIVE",
-      "SMOOTH-001-INVENTORY-02-LIVE"
+      "SMOOTH-001-INVENTORY-02-LIVE",
+      "CAT-QUALITY-01-LIVE"
     ]
   },
   "tasks": [
-    {
-      "depends_on": [],
-      "goal": "CAT-QUALITY-001",
-      "id": "CAT-QUALITY-01",
-      "section": "Now",
-      "status": "open",
-      "title": "Assess a family-stratified quality pilot without duplicating capture work"
-    },
     {
       "depends_on": [],
       "goal": "REL-JOURNEY-001",
@@ -1370,6 +1363,16 @@
     },
     {
       "depends_on": [
+        "CAT-QUALITY-01"
+      ],
+      "goal": "CAT-QUALITY-001",
+      "id": "CAT-QUALITY-01-LIVE",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Live checks for CAT-QUALITY-01"
+    },
+    {
+      "depends_on": [
         "CAT-QUALITY-02"
       ],
       "goal": "CAT-QUALITY-001",
@@ -1539,6 +1542,14 @@
       "section": "Done",
       "status": "done",
       "title": "Build the shared academic evidence index and all-identity coverage import"
+    },
+    {
+      "depends_on": [],
+      "goal": "CAT-QUALITY-001",
+      "id": "CAT-QUALITY-01",
+      "section": "Done",
+      "status": "done",
+      "title": "Assess a family-stratified quality pilot without duplicating capture work"
     },
     {
       "depends_on": [],
