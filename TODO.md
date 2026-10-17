@@ -15,14 +15,16 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Goal: REL-JOURNEY-001. Payoff: meet the accepted complete user journey on this platform without false parity claims.
   - Sources: [Accepted release contract](PRD.md#active-release-contract), [Journey verification](docs/engineering/test-plan.md#accepted-cross-platform-release-journey), `docs/engineering/rendering/renderer_backend_matrix.md`, `lib/features/export/export_options_sheet.dart`, and `test/export/viewer_export_session_test.dart`.
   - Graph evidence: fresh partial code-only export graph, `ExportOptionsSheet` → `ExportSheetSubmission` and `ExportOptions` at `export_options_sheet.dart:13,28,46`; `ExportResolutionSummary.fromEffectiveOptions` at `export_resolution_summary.dart:19`. Services, journey tests and doc semantics are unindexed; two self-loops/duplicate-label warnings require source corroboration.
-  - Touches: test/playwright/
-  - Scope: Extend the existing browser tests to browse/open 2D and 3D examples, customize the actual viewer, inspect current mathematics/qualifications, and download a PNG. Reuse the existing web export path Preserve formulas, IDs, favorites, presets, EN/ES support, preview quality caps and renderer gates. Exclude publication, deployment, historical MVP expansion and other platforms.
+  - Touches: test/playwright/, test/export/, test/features/viewer/, lib/features/viewer/, lib/features/export/, lib/core/services/export/
+  - Scope: Extend the existing browser tests to browse/open 2D and 3D examples, customize the actual viewer, inspect current mathematics/qualifications, and download a PNG. Reuse the existing web export path; diagnose the observed no-download failure and repair only its reproduced cause in existing viewer/export/download code or test interaction, with regression coverage. Preserve formulas, IDs, favorites, presets, EN/ES support, preview quality caps and renderer gates. Exclude publication, deployment, historical MVP expansion and other platforms.
   - Acceptance: Both dimensional examples export decodable nonblank PNGs with the selected dimensions and edited state; disclosure is accurate; browser errors and silent placeholder substitutions are absent; saved data remains intact. Record every failure, skip and remaining gap. A build or widget-only pass does not close the task.
-  - Checks: `flutter build web --no-pub`; run the existing Playwright runner with the exact added journey target recorded by the worker; retain downloads and decode/compare assertions. Corroborate `test/playwright/smoke-session-conflict.spec.mjs` and relevant export unit/widget tests. The new browser target is planned, not already present.
+  - Checks: `flutter build web --no-pub`; run the existing Playwright runner with the exact added journey target recorded by the worker; retain downloads and decode/compare assertions. Corroborate `test/playwright/smoke-session-conflict.spec.mjs` and relevant export unit/widget tests. The retained `test/playwright/web-image-creation-journey.spec.mjs` reproduces a no-download failure; inspect the preserved candidate before reusing it. Rerun that target against a fresh matching web build; add/run the directly affected export regressions, formatting and analysis after any application-code fix. No passing PNG evidence is claimed yet.
   - Dependencies: none. Platform slices are independent; no existing active worker is superseded.
   - Ownership: repository backlog, unassigned. Check live ownership before any dispatch.
   - Decision: reuse existing journey/export components and fix only reproduced in-scope defects; no speculative renderer redesign or new dependencies.
   - Skill application: planning-and-task-breakdown, bounded end-to-end slice; frontend-ui-engineering, interaction and saved-state regressions; documentation-and-adrs, distinguish accepted target from observed qualification.
+  - Owner decision: 2026-10-16 — Widen scope to existing viewer/export/download code and regression tests; fix only the reproduced no-download cause. This replaces the Playwright-only repair boundary, not the original user-journey acceptance.
+  - Next action: Check live writers and preserve the failed worker’s uncommitted browser target, traces and logs. Determine whether export-sheet interaction or application download handling causes the failure; fix the smallest demonstrated cause, then verify both 2D/3D edited-state downloads, decoded dimensions/content and saved-data preservation. No fake PNGs, weakened download assertions, publication or deployment.
 
 - [ ] **VIS-006 — Capture and inspect the next ten uncaptured Explore modules.** Goal: complete the accepted visual playtest audit.
   - Payoff: extend evidence-backed GPU default and runtime-preview coverage while preserving formulas.
@@ -64,6 +66,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Ownership: repository backlog, unassigned; check live ownership before dispatch.
   - Decision: bounded integer-squared radius schedule, not continuous approximate adjacency or unbounded domain expansion.
   - Skill application: frontend-ui-engineering, motion/cancellation and non-color-only states; planning-and-task-breakdown, bounded growth slice; documentation-and-adrs, visualization is not proof.
+  - Owner decision: 2026-10-16 — Have the runner reconcile preserved growth work with current main, preserve both sides’ behavior, and rerun affected checks.
+  - Next action: Check current writers and preserved candidates; compare actual growth code/commits with current main before adopting anything. Recover the integration without reset, force, discarded changes or weakened tests; regenerate localizations as needed and rerun the affected Gaussian model/viewer tests, formatting and analysis on the integrated bytes. Keep original cancellation/reduced-motion requirements and GAUSS-MOAT-03-QUALIFY live gates. This planning answer does not perform a merge or launch a worker.
 
 - [ ] **GAUSS-MOAT-03-QUALIFY — Qualify accessible Gaussian walking and frozen-state PNG export on all three targets.**
   - Payoff: prove usable, accessible exploration and accurate PNG output on the supported targets.
@@ -93,6 +97,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Dependencies: QUAT-NORM-01-SLICE, GAUSS-MOAT-02-WALK.
   - Decision: adjacency uses the fixed-d 4D squared metric, never screen distance; component is independent of visited path.
   - Skill application: frontend-ui-engineering, picking/semantics/export; planning-and-task-breakdown, explicit provider dependencies; documentation-and-adrs, distinguish induced slice from 4D graph.
+  - Owner decision: 2026-10-16 — Have the runner identify and repair the integration failure, preserve fixed-slice math and existing work, then rerun affected validation.
+  - Next action: Check current writers, actual candidate bytes and retained integration validation logs before adopting the preserved walk implementation. Repair the reproduced failure or tree drift at its source, keeping camera-independent adjacency, fixed-d connectivity, original-coordinate distances, overlays and regression coverage. Rerun affected model/viewer tests, format and analysis on the exact integrated tree; retain physical-device and live export qualification separately. No failed integration or isolated test pass is completion.
 
 - [ ] **QUAT-NORM-03-QUALIFY — Qualify accessible quaternion walking and frozen-state exports on all three targets.**
   - Goal: QUAT-NORM-001. Payoff: establish accurate, accessible rendered behavior and exports beyond pure model tests.
@@ -255,7 +261,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Checks: Decision record plus planned catalog search/math-navigation/a11y/ID regression and named 320px/768px layouts at text scale 2; these checks are NOT_RUN until an approved UI change is implemented.
   - Dependencies: CAT-QUALITY-02.
   - Ownership: Product owner decision; proposed UI remains Needs decision. No implementation or schedule is authorized.
-
+  - Owner decision: 2026-10-16 — Keep curated discovery undecided until the quality pilot provides concrete examples. Retain Needs decision, CAT-QUALITY-02 dependency and current complete-catalog access; no curated UI implementation is accepted by this answer.
+  - Next action: Bring concrete pilot results and representative catalog examples before requesting the adopt/revise/defer decision.
 
 - [ ] **MEDIA-002 — Select launch hero stills.** Scope: choose 6–8 from the captured Featured Launch Set plus separate 3D/tiling candidates (`mandelbulb` and `spectre_monotile` or `hat_monotile`); no source asset publication. Acceptance: record the selected module IDs and artifact paths, covering 2D escape-time, Newton, IFS, attractor, tiling, and one 3D example as required by the runbook. Dependency: candidate output from MEDIA-001 and supplemental high-resolution captures must exist. Blocker: selection is taste-based and requires product-owner judgment; owner not recorded. See [`docs/planning/LAUNCH_MEDIA.md`](docs/planning/LAUNCH_MEDIA.md).
   - Goal: MEDIA-002. Payoff: choose representative launch imagery without publishing assets.
@@ -264,6 +271,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Ownership: product owner decision required; no publication is authorized.
   - Scope: select 6–8 captured stills covering the existing launch-media family requirements; exclude publication and new rendering work.
   - Acceptance: owner records selected IDs and artifact paths, including supplemental 3D/tiling candidates. Required captures must exist before selection.
+  - Owner decision: 2026-10-16 — Prepare one contact sheet from qualified candidates, flag missing 3D/tiling images, then ask the owner to choose. This is preparation for selection, not final image approval or publication.
+  - Next action: Reuse qualified MEDIA-001 artifacts to prepare a labeled contact sheet with exact IDs/paths and explicit missing 3D/tiling slots. Do not silently add unqualified captures, invent missing images or select the final 6–8 on the owner’s behalf. Keep final selection pending until the concrete preview is available.
 
 - [ ] **VIS-003 — App icon visual sign-off.** Scope: inspect the existing adaptive launcher and store artwork in representative device masks; do not treat missing files as the issue or redesign without approval. Acceptance: product owner records accept/request-change and any exact crop/design correction. Blocker: visual acceptance criteria/approval are owner-controlled; inputs and dimensions were checked, but visual acceptance is not claimed. Ownership: owner decision required.
   - Goal: VIS-003. Payoff: obtain an explicit artwork acceptance decision.
@@ -287,6 +296,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Checks: inspect referenced pinned paper/model and scope; adopt the candidate-specific fixtures in the shortlist, then bind exact planned test targets before any implementation. Product tests/Lean rebuilds are NOT_RUN.
   - Dependencies: none; proposals do not bypass current focus or existing quality gates.
   - Ownership: product owner choice, repository backlog; Needs decision. Planning does not authorize implementation.
+  - Owner decision: 2026-10-16 — Defer this proposal; prioritize existing quality and academic research. This does not change the existing focus/order or authorize a prototype.
+  - Next action: Keep this proposal in Needs decision, deferred rather than completed; do not select or implement it unless the owner later revisits it.
 
 - [ ] **OAI-VIS-02-SLE — Decide a seeded SLE curve explorer.**
   - Goal: OAI-VIS-001. Payoff: add a distinct experience only if it meets the catalog quality bar.
@@ -297,6 +308,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Checks: inspect referenced pinned paper/model and scope; adopt the candidate-specific fixtures in the shortlist, then bind exact planned test targets before any implementation. Product tests/Lean rebuilds are NOT_RUN.
   - Dependencies: none; proposals do not bypass current focus or existing quality gates.
   - Ownership: product owner choice, repository backlog; Needs decision. Planning does not authorize implementation.
+  - Owner decision: 2026-10-16 — Defer this proposal; prioritize existing quality and academic research. This does not change the existing focus/order or authorize a prototype.
+  - Next action: Keep this proposal in Needs decision, deferred rather than completed; do not select or implement it unless the owner later revisits it.
 
 - [ ] **OAI-VIS-03-VORONOI — Decide a finite Poisson–Voronoi crossing explorer.**
   - Goal: OAI-VIS-001. Payoff: add a distinct experience only if it meets the catalog quality bar.
@@ -307,6 +320,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Checks: inspect referenced pinned paper/model and scope; adopt the candidate-specific fixtures in the shortlist, then bind exact planned test targets before any implementation. Product tests/Lean rebuilds are NOT_RUN.
   - Dependencies: none; proposals do not bypass current focus or existing quality gates.
   - Ownership: product owner choice, repository backlog; Needs decision. Planning does not authorize implementation.
+  - Owner decision: 2026-10-16 — Defer this proposal; prioritize existing quality and academic research. This does not change the existing focus/order or authorize a prototype.
+  - Next action: Keep this proposal in Needs decision, deferred rather than completed; do not select or implement it unless the owner later revisits it.
 
 - [ ] **OAI-VIS-04-UST — Decide uniform spanning tree and loop-erased path explorer.**
   - Goal: OAI-VIS-001. Payoff: broaden mathematically distinct experiences without a quantity-driven catalog expansion.
@@ -317,6 +332,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Checks: planned discriminating fixtures: Every vertex belongs to one acyclic connected tree, edge count V-1, unique paths; exact tiny-graph enumeration checks the sampling law, replay same seed, disclose rooting/free/wired boundary choice, cancel long walks and cap walk work without silently biasing accepted samples. Bind actual test targets before approved implementation; model/render/platform checks are NOT_RUN.
   - Dependencies: none; decision proposals cannot bypass existing quality gates or primary focus.
   - Ownership: product owner choice; Needs decision, unassigned. No implementation authority.
+  - Owner decision: 2026-10-16 — Defer this proposal; prioritize existing quality and academic research. This does not change the existing focus/order or authorize a prototype.
+  - Next action: Keep this proposal in Needs decision, deferred rather than completed; do not select or implement it unless the owner later revisits it.
 
 - [ ] **OAI-VIS-05-DIMER — Decide double-dimer nested-loop explorer.**
   - Goal: OAI-VIS-001. Payoff: broaden mathematically distinct experiences without a quantity-driven catalog expansion.
@@ -327,6 +344,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Checks: planned discriminating fixtures: One matched edge per vertex in each matching, degree two with multiplicity in the superposition, doubled edges treated separately, loop decomposition exhausts remaining edges and small exact matchings check sampling. Distinguish exact uniform sampling from a finite MCMC approximation; report burn-in/convergence limitations rather than claim uniformity. Bind actual test targets before approved implementation; model/render/platform checks are NOT_RUN.
   - Dependencies: none; decision proposals cannot bypass existing quality gates or primary focus.
   - Ownership: product owner choice; Needs decision, unassigned. No implementation authority.
+  - Owner decision: 2026-10-16 — Defer this proposal; prioritize existing quality and academic research. This does not change the existing focus/order or authorize a prototype.
+  - Next action: Keep this proposal in Needs decision, deferred rather than completed; do not select or implement it unless the owner later revisits it.
 
 - [ ] **OAI-VIS-06-HEIGHT — Decide six-vertex height and contour explorer.**
   - Goal: OAI-VIS-001. Payoff: broaden mathematically distinct experiences without a quantity-driven catalog expansion.
