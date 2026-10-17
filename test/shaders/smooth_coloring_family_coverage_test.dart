@@ -58,6 +58,15 @@ void main() {
       ),
       (
         family: 'integer-power polynomial',
+        path:
+            'shaders/escape_time_family/families/multibrot/integer_powers/multibrot4_gpu.frag',
+        formula: RegExp(
+          r'float\s+smoothVal\s*=\s*float\(it\)\s*\+\s*1\.0\s*-\s*log\(max\(1e-12,\s*logZn\)\)\s*/\s*log\(4\.0\)\s*;',
+        ),
+        palette: RegExp(r'float\s+t\s*=\s*fract\(smoothVal\s*/\s*64\.0'),
+      ),
+      (
+        family: 'integer-power polynomial',
         path: 'shaders/escape_time_family/polynomial_maps/druid_gpu.frag',
         formula: RegExp(
           r'float\s+smoothVal\s*=\s*float\(it\)\s*-\s*log2\(log2\(mag2\)\)\s*/\s*log2\(3\.0\)\s*;',
