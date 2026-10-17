@@ -80,22 +80,6 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Skill application: frontend-ui-engineering, responsive/localized accessible journey; planning-and-task-breakdown, dependent live qualification; documentation-and-adrs, observed evidence versus planned checks.
 
 
-- [ ] **QUAT-NORM-02-WALK — Walk in the quaternion slice with camera-independent adjacency and captured overlays.**
-  - Goal: QUAT-NORM-001. Payoff: compare bounded walking with the Gaussian example without conflating slice and 4D connectivity.
-  - Sources: [Accepted companion](PRD.md#prime-norm-quaternion-companion), [accepted slice design](docs/engineering/spec.md#prime-norm-quaternion-companion), [planned checks](docs/engineering/test-plan.md#prime-walking-growth-and-quaternion-slice-checks), and `lib/core/modules/fractals/quaternion_julia_3d_module.dart`. [Refined UI/budgets](docs/engineering/spec.md#ui-layout-and-interaction-contract) and [per-task fixture matrix](docs/engineering/test-plan.md#prime-walking-refined-acceptance-matrix).
-  - Graph evidence: the fresh partial code-only graph contains `FractalViewState` at `lib/core/models/fractal_view_state.dart:22` and `quaternion_julia_3d_module.dart`; quaternion query was truncated. Source at `lib/core/modules/fractals/quaternion_julia_3d_module.dart:37–42` confirms a Julia shader, not prime walking. No complete quaternion UI graph or proof semantics are claimed; existing self-loop/duplicate-label warnings remain.
-  - Ownership: repository backlog, unassigned; check live ownership before dispatch. No implementation worker is started by this plan.
-  - Touches: lib/core/models/, lib/features/viewer/, test/modules/*prime_norm_quaternion*, test/features/viewer/*prime_norm_quaternion*
-  - Scope: inclusive original-coordinate adjacency, nonrepeating path/undo/reset, independently computed slice component, norm coloring and aligned capture. Reuse checked walk/capture behavior where compatible, with dimension-specific model/transform code. Handle depth overlap and coordinate-list selection. Exclude hidden cross-slice edges, generic n-dimensional framework, full 4D searches or moat theorem claims.
-  - Acceptance: original-coordinate fixture (1,1,0,0) → (1,0,1,0) accepts k=2 and rejects k=1 independently of camera; selection does not commit; repeats/cross-slice steps fail; camera drags never select; slice changes reset/revalidate/cancel. Components/capture match the completed fixed-d snapshot and boundary status, with no full-4D claim.
-  - Checks: create/run `flutter test test/modules/prime_norm_quaternion_test.dart test/features/viewer/prime_norm_quaternion_walk_test.dart --reporter expanded`; targeted formatter/analyzer, affected gesture/export regressions and decoded representative PNG. Feature evidence remains unrun.
-  - UI/performance: follow the shared HUD/panel layout, preview-then-Step interaction, visible bounded-state labels, hard workload caps, cooperative chunks and completed-snapshot capture. This is planned acceptance, not a measured pass.
-  - Dependencies: QUAT-NORM-01-SLICE, GAUSS-MOAT-02-WALK.
-  - Decision: adjacency uses the fixed-d 4D squared metric, never screen distance; component is independent of visited path.
-  - Skill application: frontend-ui-engineering, picking/semantics/export; planning-and-task-breakdown, explicit provider dependencies; documentation-and-adrs, distinguish induced slice from 4D graph.
-  - Owner decision: 2026-10-16 — Have the runner identify and repair the integration failure, preserve fixed-slice math and existing work, then rerun affected validation.
-  - Next action: Use the existing integration-only recovery authority: inspect preserved candidate `1f3f2a09cdda6c73c2fe110795b293b0ab87bc3e` in `.worktrees/autowork-QUAT-NORM-02-WALK-r2` and verify actual writer inactivity, owned-file identity and compatibility with current main. Read retained integration failure evidence and reconcile the exact failing assertion/tree mutation, not merely the successful worker report. Reuse passing candidate checks only for matching inputs; verify affected tests, formatting/analysis and source freshness against the final integrated tree. Preserve both sides of changes, legacy settings/private data and existing mathematical/cancellation/accessibility requirements. Never reset, force, discard another writer, rewrite a failed receipt into a pass, push, deploy or claim pending live qualification. No implementation restart is authorized by this planning edit.
-
 - [ ] **QUAT-NORM-03-QUALIFY — Qualify accessible quaternion walking and frozen-state exports on all three targets.**
   - Goal: QUAT-NORM-001. Payoff: establish accurate, accessible rendered behavior and exports beyond pure model tests.
   - Sources: [Accepted companion](PRD.md#prime-norm-quaternion-companion), [accepted slice design](docs/engineering/spec.md#prime-norm-quaternion-companion), [planned checks](docs/engineering/test-plan.md#prime-walking-growth-and-quaternion-slice-checks), and `lib/core/modules/fractals/quaternion_julia_3d_module.dart`. [Refined UI/budgets](docs/engineering/spec.md#ui-layout-and-interaction-contract) and [per-task fixture matrix](docs/engineering/test-plan.md#prime-walking-refined-acceptance-matrix).
@@ -511,6 +495,14 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Optional human visual sign-off; local Linux GPU capture and contact-sheet inspection completed.
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: VIS-006, VIS-005 (existing goal prerequisite).
+  Status: open
+
+- [ ] QUAT-NORM-02-WALK-LIVE — Live checks for QUAT-NORM-02-WALK
+  Scope: Run the live checks the offline work for QUAT-NORM-02-WALK left pending.
+  Acceptance: Each check passes on the real target:
+  - Physical-device gesture/accessibility/native export qualification remains unrun.
+  Checks: Live qualification by an authorized person; offline evidence does not count.
+  Dependencies: QUAT-NORM-02-WALK.
   Status: open
 
 ## Done

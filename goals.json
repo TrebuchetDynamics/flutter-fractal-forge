@@ -1017,6 +1017,7 @@
         "QUAT-NORM-01-SLICE",
         "QUAT-NORM-01-SLICE-LIVE",
         "QUAT-NORM-02-WALK",
+        "QUAT-NORM-02-WALK-LIVE",
         "QUAT-NORM-03-QUALIFY"
       ],
       "title": "Explore exact prime-norm quaternion slice walks with camera-independent connectivity"
@@ -1112,7 +1113,6 @@
       "CAT-QUALITY-02",
       "GAUSS-MOAT-04-GROWTH",
       "GAUSS-MOAT-03-QUALIFY",
-      "QUAT-NORM-02-WALK",
       "QUAT-NORM-03-QUALIFY",
       "VIS-006-BATCH-20",
       "VIS-006-CPU-01",
@@ -1146,7 +1146,8 @@
       "SMOOTH-001-INVENTORY-02-LIVE",
       "CAT-QUALITY-01-LIVE",
       "ACAD-02-LIVE",
-      "VIS-006-LIVE"
+      "VIS-006-LIVE",
+      "QUAT-NORM-02-WALK-LIVE"
     ]
   },
   "tasks": [
@@ -1257,17 +1258,6 @@
       "section": "Next",
       "status": "open",
       "title": "Qualify installed Android Number Walls and accessible interaction"
-    },
-    {
-      "depends_on": [
-        "GAUSS-MOAT-02-WALK",
-        "QUAT-NORM-01-SLICE"
-      ],
-      "goal": "QUAT-NORM-001",
-      "id": "QUAT-NORM-02-WALK",
-      "section": "Next",
-      "status": "open",
-      "title": "Walk in the quaternion slice with camera-independent adjacency and captured overlays"
     },
     {
       "depends_on": [
@@ -1450,6 +1440,16 @@
     },
     {
       "depends_on": [
+        "QUAT-NORM-02-WALK"
+      ],
+      "goal": "QUAT-NORM-001",
+      "id": "QUAT-NORM-02-WALK-LIVE",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Live checks for QUAT-NORM-02-WALK"
+    },
+    {
+      "depends_on": [
         "REL-JOURNEY-02-LINUX"
       ],
       "goal": "REL-JOURNEY-001",
@@ -1613,6 +1613,17 @@
       "section": "Done",
       "status": "done",
       "title": "Open a bounded fixed-d prime-norm quaternion view with deterministic picking"
+    },
+    {
+      "depends_on": [
+        "GAUSS-MOAT-02-WALK",
+        "QUAT-NORM-01-SLICE"
+      ],
+      "goal": "QUAT-NORM-001",
+      "id": "QUAT-NORM-02-WALK",
+      "section": "Done",
+      "status": "done",
+      "title": "Walk in the quaternion slice with camera-independent adjacency and captured overlays"
     },
     {
       "depends_on": [],
