@@ -27,13 +27,6 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T06:41:46Z
 - Answer: Answer in REL-JOURNEY-01-WEB's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
 
-### Q-VIS-006 — USER_DECISION — effort investigate — unblocks 13
-
-- Task: VIS-006 — Capture and inspect the next ten uncaptured Explore modules.** Goal: complete the accepted visual playtest audit.
-- Needs: integration validation failed or changed the integration tree
-- Since: 2026-10-17T06:57:49Z
-- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/VIS-006/), then rescope or split VIS-006 in its TODO.md entry. The runner reruns it when the entry changes.
-
 <!-- pi-autowork:questions:end -->
 
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
