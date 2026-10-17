@@ -887,6 +887,7 @@
         "SMOOTH-001-COVERAGE-02",
         "SMOOTH-001-COVERAGE-03",
         "SMOOTH-001-INVENTORY-01",
+        "SMOOTH-001-INVENTORY-01-LIVE",
         "SMOOTH-001-INVENTORY-02"
       ],
       "title": "Prove smooth-coloring coverage for supported escape-time shaders"
@@ -1103,7 +1104,6 @@
     "tasks": [
       "CAT-QUALITY-01",
       "REL-JOURNEY-01-WEB",
-      "SMOOTH-001-INVENTORY-01",
       "VIS-006",
       "CAT-QUALITY-02",
       "GAUSS-MOAT-04-GROWTH",
@@ -1140,7 +1140,8 @@
       "GAUSS-MOAT-02-WALK-LIVE",
       "QUAT-NORM-01-SLICE-LIVE",
       "REL-JOURNEY-02-LINUX-LIVE",
-      "ACAD-03"
+      "ACAD-03",
+      "SMOOTH-001-INVENTORY-01-LIVE"
     ]
   },
   "tasks": [
@@ -1159,14 +1160,6 @@
       "section": "Now",
       "status": "open",
       "title": "Qualify the complete web image-creation journey"
-    },
-    {
-      "depends_on": [],
-      "goal": "SMOOTH-001",
-      "id": "SMOOTH-001-INVENTORY-01",
-      "section": "Now",
-      "status": "open",
-      "title": "Reconcile integer-power smooth-coloring inventory and the d=4 regression gap"
     },
     {
       "depends_on": [
@@ -1496,6 +1489,16 @@
     },
     {
       "depends_on": [
+        "SMOOTH-001-INVENTORY-01"
+      ],
+      "goal": "SMOOTH-001",
+      "id": "SMOOTH-001-INVENTORY-01-LIVE",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Live checks for SMOOTH-001-INVENTORY-01"
+    },
+    {
+      "depends_on": [
         "VIEW-UI-01"
       ],
       "goal": "VIEW-UI-001",
@@ -1615,6 +1618,14 @@
       "section": "Done",
       "status": "done",
       "title": "Extend smooth-coloring regression coverage to another supported shader family"
+    },
+    {
+      "depends_on": [],
+      "goal": "SMOOTH-001",
+      "id": "SMOOTH-001-INVENTORY-01",
+      "section": "Done",
+      "status": "done",
+      "title": "Reconcile integer-power smooth-coloring inventory and the d=4 regression gap"
     },
     {
       "depends_on": [],

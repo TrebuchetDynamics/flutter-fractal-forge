@@ -34,18 +34,6 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Decision: reuse existing journey/export components and fix only reproduced in-scope defects; no speculative renderer redesign or new dependencies.
   - Skill application: planning-and-task-breakdown, bounded end-to-end slice; frontend-ui-engineering, interaction and saved-state regressions; documentation-and-adrs, distinguish accepted target from observed qualification.
 
-- [ ] **SMOOTH-001-INVENTORY-01 — Reconcile one supported polynomial shader family with smooth-coloring coverage.**
-  - Goal: SMOOTH-001. Payoff: replace the premature full-coverage claim with a checked family inventory and one bounded regression slice.
-  - Sources: [Existing P1-3 scope](TODO.md#p1-3-smooth-coloring-in-all-shaders), `test/shaders/smooth_coloring_family_coverage_test.dart`, and `docs/engineering/performance/SHADER_OPTIMIZATIONS.md`.
-  - Touches: test/shaders/, docs/engineering/performance/SHADER_OPTIMIZATIONS.md
-  - Scope: inventory the integer-power Multibrot shaders against their live module bindings and existing source assertions. Confirm formula-appropriate coloring and add the missing d=4 contract assertion. Preserve recurrence, inside-set output, palettes, and existing tests. Do not claim whole-catalog or hardware-GPU qualification.
-  - Acceptance: list each applicable family shader and its checked/unverified status; the d=4 shader is represented by a recurrence-appropriate assertion; `flutter test test/shaders/smooth_coloring_family_coverage_test.dart test/shaders/smooth_coloring_regression_test.dart` passes. Run targeted formatting and analysis for changed Dart tests. Record remaining uncovered families.
-  - Checks: `flutter test test/shaders/smooth_coloring_family_coverage_test.dart test/shaders/smooth_coloring_regression_test.dart`; targeted formatting and analysis for changed Dart tests, as required by Acceptance.
-  - Dependencies: none.
-  - Ownership: repository backlog; check active work before dispatch.
-  - Decision: keep completed sample tests done and add a successor, because fourteen sampled shaders do not prove full applicable coverage.
-  - Skill application: planning-and-task-breakdown, bounded family slice with checks; documentation-and-adrs, preserve implemented versus verified status. The missing d=4 assertion check failed during this documentation pass.
-
 - [ ] **VIS-006 — Capture and inspect the next ten uncaptured Explore modules.** Goal: complete the accepted visual playtest audit.
   - Payoff: extend evidence-backed GPU default and runtime-preview coverage while preserving formulas.
   - Scope: select the next ten uncaptured Explore IDs from `docs/planning/visual-audit-inventory.json`; capture true module defaults and runtime previews. Run CPU checks only when a native CPU formula exists. Do not alter formulas, static catalog images, or research-library module support.
@@ -469,6 +457,14 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Ownership: Owner must approve inclusion/exclusion and legal full-text acquisition subset; ResearchForge also requires human acceptance of extracted/final claims. Do not impersonate the owner. Keep this task non-executable until decisions are recorded and section is reconciled.
   - Default if no answer: Metadata-only pilot and independent offline tooling proceed; no source acquisition or accepted-claim upgrade.
   - Next action: Present ACAD-02's concrete source/rights/review queue for the required human decisions; no question is needed before that package exists.
+
+- [ ] SMOOTH-001-INVENTORY-01-LIVE — Live checks for SMOOTH-001-INVENTORY-01
+  Scope: Run the live checks the offline work for SMOOTH-001-INVENTORY-01 left pending.
+  Acceptance: Each check passes on the real target:
+  - Hardware-GPU visual qualification was not run; the source-level checks do not establish rendered appearance or performance.
+  Checks: Live qualification by an authorized person; offline evidence does not count.
+  Dependencies: SMOOTH-001-INVENTORY-01.
+  Status: open
 
 ## Done
 
