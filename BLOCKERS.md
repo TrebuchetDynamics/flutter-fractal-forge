@@ -34,13 +34,6 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T04:42:50Z
 - Answer: Answer in NUM-WALL-01's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
 
-### Q-CAT-QUALITY-02 — USER_INPUT — effort input — unblocks 0
-
-- Task: CAT-QUALITY-02 — Repair three demonstrated pilot first-impression defects.
-- Needs: worker reported a blocker: The source shaders generate per-pixel initial-condition portraits, not trajectory projections. Default zoom tuning was experimentally insufficient. A formula-preserving trajectory/projection renderer requires a defined initial seed, projection (especially which 2D projection to use for Four-Wing and Lorenz), integration duration, and an acceptable GPU performance budget. CAT-QUALITY-01 does not es…
-- Since: 2026-10-17T05:39:28Z
-- Answer: Answer in CAT-QUALITY-02's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
-
 <!-- pi-autowork:questions:end -->
 
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
