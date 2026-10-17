@@ -119,18 +119,6 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Decision: qualify displayed geometry and exported artifacts separately from the quaternion predicate.
   - Skill application: frontend-ui-engineering, localized accessible 3D journey; planning-and-task-breakdown, dependent platform qualification; documentation-and-adrs, unrun checks are not evidence.
 
-- [ ] **SMOOTH-001-INVENTORY-02 — Verify the next uncovered polynomial smooth-coloring family.**
-  - Goal: SMOOTH-001
-  - Payoff: extend coverage without mistaking samples for a complete audit.
-  - Touches: test/shaders/, docs/engineering/performance/SHADER_OPTIMIZATIONS.md
-  - Sources: [Existing P1-3 scope](TODO.md#p1-3-smooth-coloring-in-all-shaders), the family inventory produced by SMOOTH-001-INVENTORY-01, and `test/shaders/smooth_coloring_family_coverage_test.dart`.
-  - Scope: select one uncovered applicable family from the inventory, record shader/module bindings, and add formula-specific source or numeric assertions. Preserve formulas. Exclude new fractals and general shader rewrites.
-  - Acceptance: the selected family has explicit coverage and inside-set/palette assertions; focused family and numeric regression tests pass; the inventory names remaining gaps. Run formatter/analyzer on changed tests. Do not close the goal until the complete applicable inventory is accounted for.
-  - Checks: Add the selected family source/numeric fixtures, then run `flutter test test/shaders/smooth_coloring_family_coverage_test.dart test/shaders/smooth_coloring_regression_test.dart`; run `dart format --output=none --set-exit-if-changed` and `flutter analyze` on each changed Dart test; run `git diff --check`. Confirm the inventory records the selected family and remaining gaps. These checks are required, not executed by this planning answer.
-  - Owner decision: 2026-10-16 — Complete the verification instructions; retain the existing one-family scope, dependencies and formula-preservation rules. No shader rewrite or full-catalog qualification is authorized.
-  - Dependencies: SMOOTH-001-INVENTORY-01.
-  - Ownership: repository backlog; check active work before dispatch.
-
 - [ ] **VIS-006-BATCH-20 — Capture defaults and runtime previews for the next ten uncaptured Explore modules.** Goal: complete the accepted visual playtest audit.
   - Payoff: extend measured GPU and first-view audit coverage while preserving fractal formulas.
   - Scope: select the next ten uncaptured Explore IDs from `docs/planning/visual-audit-inventory.json`; capture module defaults and actual runtime previews. Run CPU checks only where a native CPU formula exists. Do not alter formulas, static catalog images, or research-library module support.
@@ -465,6 +453,14 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Human adjudication of title-collision suggestions and identity aliases remains pending; unresolved identities intentionally stay coverage gaps.
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: ACAD-01.
+  Status: open
+
+- [ ] SMOOTH-001-INVENTORY-02-LIVE — Live checks for SMOOTH-001-INVENTORY-02
+  Scope: Run the live checks the offline work for SMOOTH-001-INVENTORY-02 left pending.
+  Acceptance: Each check passes on the real target:
+  - Visual or hardware-GPU qualification for the checked Multibrot shaders was not run; source and numeric fixtures are offline evidence only.
+  Checks: Live qualification by an authorized person; offline evidence does not count.
+  Dependencies: SMOOTH-001-INVENTORY-02.
   Status: open
 
 ## Done

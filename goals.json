@@ -888,7 +888,8 @@
         "SMOOTH-001-COVERAGE-03",
         "SMOOTH-001-INVENTORY-01",
         "SMOOTH-001-INVENTORY-01-LIVE",
-        "SMOOTH-001-INVENTORY-02"
+        "SMOOTH-001-INVENTORY-02",
+        "SMOOTH-001-INVENTORY-02-LIVE"
       ],
       "title": "Prove smooth-coloring coverage for supported escape-time shaders"
     },
@@ -1112,7 +1113,6 @@
       "GAUSS-MOAT-03-QUALIFY",
       "QUAT-NORM-02-WALK",
       "QUAT-NORM-03-QUALIFY",
-      "SMOOTH-001-INVENTORY-02",
       "VIS-006-BATCH-20",
       "VIS-006-CPU-01",
       "VIS-006-FIRST-VIEW-04",
@@ -1143,7 +1143,8 @@
       "ACAD-03",
       "SMOOTH-001-INVENTORY-01-LIVE",
       "REL-JOURNEY-03-ANDROID-LIVE",
-      "ACAD-01-LIVE"
+      "ACAD-01-LIVE",
+      "SMOOTH-001-INVENTORY-02-LIVE"
     ]
   },
   "tasks": [
@@ -1313,16 +1314,6 @@
       "section": "Next",
       "status": "open",
       "title": "Qualify accessible quaternion walking and frozen-state exports on all three targets"
-    },
-    {
-      "depends_on": [
-        "SMOOTH-001-INVENTORY-01"
-      ],
-      "goal": "SMOOTH-001",
-      "id": "SMOOTH-001-INVENTORY-02",
-      "section": "Next",
-      "status": "open",
-      "title": "Verify the next uncovered polynomial smooth-coloring family"
     },
     {
       "depends_on": [
@@ -1505,6 +1496,16 @@
     },
     {
       "depends_on": [
+        "SMOOTH-001-INVENTORY-02"
+      ],
+      "goal": "SMOOTH-001",
+      "id": "SMOOTH-001-INVENTORY-02-LIVE",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Live checks for SMOOTH-001-INVENTORY-02"
+    },
+    {
+      "depends_on": [
         "VIEW-UI-01"
       ],
       "goal": "VIEW-UI-001",
@@ -1648,6 +1649,16 @@
       "section": "Done",
       "status": "done",
       "title": "Reconcile integer-power smooth-coloring inventory and the d=4 regression gap"
+    },
+    {
+      "depends_on": [
+        "SMOOTH-001-INVENTORY-01"
+      ],
+      "goal": "SMOOTH-001",
+      "id": "SMOOTH-001-INVENTORY-02",
+      "section": "Done",
+      "status": "done",
+      "title": "Verify the next uncovered polynomial smooth-coloring family"
     },
     {
       "depends_on": [],
