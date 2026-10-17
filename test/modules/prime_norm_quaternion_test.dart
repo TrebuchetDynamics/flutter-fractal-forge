@@ -26,6 +26,18 @@ void main() {
         () => PrimeNormQuaternionSlice.validateSlice(13), throwsArgumentError);
   });
 
+  test('walk adjacency and component use original fixed-d coordinates',
+      () async {
+    final slice = await PrimeNormQuaternionSlice.generate(2, d: 0);
+    const start = (a: 1, b: 1, c: 0, d: 0);
+    const diagonal = (a: 1, b: 0, c: 1, d: 0);
+    expect(slice.isAdjacent(start, diagonal, 2), isTrue);
+    expect(slice.isAdjacent(start, diagonal, 1), isFalse);
+    expect(slice.component(start, maxSquaredStep: 2), contains(start));
+    expect(slice.component(start, maxSquaredStep: 2), contains(diagonal));
+    expect(slice.isAdjacent(start, (a: 1, b: 0, c: 1, d: 1), 2), isFalse);
+  });
+
   test('orthographic projection and deterministic picking survive rotation',
       () async {
     final slice = await PrimeNormQuaternionSlice.generate(2, d: 0);
