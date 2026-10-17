@@ -27,13 +27,6 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T01:32:24Z
 - Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
 
-### Q-NUM-WALL-01 — USER_INPUT — effort input — unblocks 4
-
-- Task: NUM-WALL-01 — Compute exact sequence walls and validate custom prime fields.
-- Needs: worker reported a blocker: Browser parity is an offline acceptance check and could not run: google-chrome is not on PATH, and the available /usr/bin/chromium fails with the configured long TMPDIR. Provide a Chrome test setup that launches within the reserved AUTOWORK port range and a short temporary path, then rerun the browser check before commit.
-- Since: 2026-10-17T04:42:50Z
-- Answer: Answer in NUM-WALL-01's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
-
 <!-- pi-autowork:questions:end -->
 
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
