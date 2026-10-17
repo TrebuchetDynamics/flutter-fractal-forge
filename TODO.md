@@ -409,6 +409,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: QUAT-NORM-01-SLICE.
   Status: open
+  - Owner decision: 2026-10-16 — Defer until a suitable device and human reviewer are available; retain all qualification checks. Deferral is neither completion nor a release waiver.
+  - Next action: Keep this live task open in Needs decision. Resume when target/reviewer access exists and inspect actual responsive layout, screen-reader/list selection and rendered points; offline math does not supply this verdict.
 
 - [ ] REL-JOURNEY-02-LINUX-LIVE — Live checks for REL-JOURNEY-02-LINUX
   Scope: Run the live checks the offline work for REL-JOURNEY-02-LINUX left pending.
