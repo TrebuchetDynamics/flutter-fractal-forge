@@ -358,6 +358,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Checks: inspect referenced pinned paper/model and scope; adopt the candidate-specific fixtures in the shortlist, then bind exact planned test targets before any implementation. Product tests/Lean rebuilds are NOT_RUN.
   - Dependencies: none; proposals do not bypass current focus or existing quality gates.
   - Ownership: product owner choice, repository backlog; Needs decision. Planning does not authorize implementation.
+  - Owner decision: 2026-10-16 — Defer this proposal; prioritize existing quality and academic research. This does not change the existing focus/order or authorize a prototype.
+  - Next action: Keep this proposal in Needs decision, deferred rather than completed; do not select or implement it unless the owner later revisits it.
 
 - [ ] **OAI-VIS-03-VORONOI — Decide a finite Poisson–Voronoi crossing explorer.**
   - Goal: OAI-VIS-001. Payoff: add a distinct experience only if it meets the catalog quality bar.
