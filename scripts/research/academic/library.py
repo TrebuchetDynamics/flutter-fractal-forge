@@ -144,6 +144,78 @@ def import_run(
     return imported
 
 
+def validate_catalog_bindings(
+    library: dict[str, Any],
+    registry_entries: list[dict[str, Any]],
+) -> list[str]:
+    """Validate reviewed academic claims against current source and catalog metadata.
+
+    Draft and unreviewed mappings remain ingestible, but only source-checked claims
+    with exact source spans, a reviewed full-text source hash, and a matching
+    catalog formula may carry a reviewed qualification.
+    """
+    errors: list[str] = []
+    papers = {
+        paper.get("paper_id"): paper
+        for paper in library.get("papers", [])
+        if isinstance(paper, dict) and paper.get("paper_id")
+    }
+    entries = {entry.get("id"): entry for entry in registry_entries if entry.get("id")}
+    verified_states = {"source_checked", "implementation_compared", "numerically_checked"}
+    for mapping in library.get("mappings", []):
+        identity = mapping.get("identity", "<unknown>")
+        state = mapping.get("claim_state", "unreviewed")
+        if state not in verified_states:
+            continue
+        entry = entries.get(identity)
+        if entry is None:
+            errors.append(f"{identity}: reviewed claim has no catalog identity")
+            continue
+        source_ids = mapping.get("source_ids", [])
+        spans = mapping.get("claim_spans", [])
+        if not source_ids:
+            errors.append(f"{identity}: missing source for reviewed claim")
+        if not spans or any(not span.get("source_id") or not span.get("locator") for span in spans):
+            errors.append(f"{identity}: claim span missing or malformed")
+        elif any(span.get("source_id") not in source_ids for span in spans):
+            errors.append(f"{identity}: claim span references unbound source")
+        catalog_references = entry.get("references", [])
+        reference_values = {
+            str(value).strip().lower()
+            for reference in catalog_references
+            if isinstance(reference, dict)
+            for value in (reference.get("url"), reference.get("doi"))
+            if value
+        }
+        for source_id in source_ids:
+            paper = papers.get(source_id)
+            if paper is None:
+                errors.append(f"{identity}: missing source: {source_id}")
+                continue
+            paper_values = {
+                str(value).strip().lower()
+                for value in [*paper.get("source_urls", []), *paper.get("aliases", [])]
+                if value
+            }
+            if not paper_values.intersection(reference_values):
+                errors.append(f"{identity}: source missing from catalog references: {source_id}")
+            if paper.get("claim_state", "unreviewed") not in verified_states:
+                errors.append(f"{identity}: unreviewed source: {source_id}")
+            if paper.get("content_state", "metadata_only") != "full_text_available":
+                errors.append(f"{identity}: source text unavailable: {source_id}")
+            source_hash = paper.get("source_hash")
+            bound_hash = (mapping.get("source_hashes") or {}).get(source_id)
+            if not isinstance(source_hash, str) or not SHA256_RE.fullmatch(source_hash) or bound_hash != source_hash:
+                errors.append(f"{identity}: stale source binding: {source_id}")
+        if not mapping.get("source_checked"):
+            errors.append(f"{identity}: reviewed claim missing source check")
+        if mapping.get("formula_hash") != entry.get("formula_hash"):
+            errors.append(f"{identity}: formula binding mismatch")
+        if state == "numerically_checked" and not mapping.get("numerical_check"):
+            errors.append(f"{identity}: numerical claim missing numerical check")
+    return errors
+
+
 def find_title_collisions(papers: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Return review suggestions only; matching titles never merge records."""
     by_title: dict[str, list[dict[str, Any]]] = {}
