@@ -321,6 +321,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Ownership: product owner decision required; no publication is authorized.
   - Scope: select 6–8 captured stills covering the existing launch-media family requirements; exclude publication and new rendering work.
   - Acceptance: owner records selected IDs and artifact paths, including supplemental 3D/tiling candidates. Required captures must exist before selection.
+  - Owner decision: 2026-10-16 — Prepare one contact sheet from qualified candidates, flag missing 3D/tiling images, then ask the owner to choose. This is preparation for selection, not final image approval or publication.
+  - Next action: Reuse qualified MEDIA-001 artifacts to prepare a labeled contact sheet with exact IDs/paths and explicit missing 3D/tiling slots. Do not silently add unqualified captures, invent missing images or select the final 6–8 on the owner’s behalf. Keep final selection pending until the concrete preview is available.
 
 - [ ] **VIS-003 — App icon visual sign-off.** Scope: inspect the existing adaptive launcher and store artwork in representative device masks; do not treat missing files as the issue or redesign without approval. Acceptance: product owner records accept/request-change and any exact crop/design correction. Blocker: visual acceptance criteria/approval are owner-controlled; inputs and dimensions were checked, but visual acceptance is not claimed. Ownership: owner decision required.
   - Goal: VIS-003. Payoff: obtain an explicit artwork acceptance decision.
