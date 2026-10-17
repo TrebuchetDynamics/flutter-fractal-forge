@@ -27,6 +27,13 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T01:32:24Z
 - Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
 
+### Q-ACAD-05 — USER_INPUT — effort input — unblocks 5
+
+- Task: ACAD-05 — Bind reviewed evidence to existing catalog metadata and admission safeguards.
+- Needs: worker reported a blocker: Cannot connect the new source/formula qualification checks to candidate promotion: scripts/research/admit/promote_candidate.py is required but excluded by the task's Touches. Widen Touches for this exact path to complete and verify the admission safeguard.
+- Since: 2026-10-17T05:50:06Z
+- Answer: Answer in ACAD-05's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
+
 ### Q-NUM-WALL-01 — USER_INPUT — effort input — unblocks 4
 
 - Task: NUM-WALL-01 — Compute exact sequence walls and validate custom prime fields.
