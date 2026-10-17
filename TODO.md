@@ -224,6 +224,33 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Ownership: Repository backlog, unassigned; preserve per-subset human review/access gates and existing quality task ownership. No timer, publication or blanket all-papers download.
   - Next action: Select the next bounded unresolved family from coverage and reuse the pilot's verified intake/review method.
 
+- [ ] **RELEASE-001-23 — Implement isolated platform release lanes and verified partial evidence.**
+  - Goal: REL-JOURNEY-001
+  - Status: open
+  - Section: Next.
+  - Sources: [Accepted policy](PRD.md#independent-platform-release-policy), [implementation contract](docs/engineering/spec.md#independent-platform-release-orchestration), [lane map](docs/engineering/release/MULTIPLATFORM.md#independent-platform-release-campaign), [verification](docs/engineering/test-plan.md#independent-platform-release-verification).
+  - Touches: scripts/release.sh, scripts/release/, scripts/gitlab_release.py, scripts/generate_release_evidence.py, scripts/ci/, .gitlab-ci.yml, test/scripts/, docs/engineering/release/
+  - Scope: Implement an explicit best-effort campaign mode and a verified non-GitLab route, reusing existing local/native builders, evidence and publisher adapters. Preserve strict legacy behavior outside this mode. Isolate credentials/build/checks/evidence/publication by lane while retaining common source/integrity/privacy/compatibility gates. No real builds, signing-secret access, uploads, deployments, paid runners, new service/framework or scheduling in this offline slice.
+  - Acceptance: Positive fault-injection proves a valid lane reaches its mocked publisher when another fails or lacks a host/credential/device. All seven lanes retain exact candidate/artifact/check verdicts and explicit skip/unknown reasons. Only the verified subset enters checksums/SBOM/notices/release assets; no stale artifact or empty success. Common failures stop every affected publisher. Ambiguous-write readback prevents duplicate retries. Production/completed Play and published non-prerelease GitHub defaults remain; deferred-GitLab mode performs zero GitLab operations and never fabricates CI/device proof. Existing strict-mode regressions pass.
+  - Checks: Add planned test/scripts/test_release_platform_lanes.py; run `python3 -m unittest discover -s test/scripts -p 'test_release_platform_lanes.py'`, then `python3 -m unittest discover -s test/scripts -p 'test_*.py'`; run `env -u GITLAB_CI bats test/scripts/release_dry_run.bats test/scripts/release_version_resolver.bats`, affected release-policy Dart tests, shell syntax and `git diff --check`. Include all-skipped, partial, stale/tampered/missing artifacts, wrong version/certificate, failed shared gate, unavailable host and ambiguous retry negatives. New tests/mode are NOT_RUN/not implemented; document exact CLI after it exists.
+  - Dependencies: None.
+  - Ownership: Repository backlog; check actual writers, preserve current focus/order and active work. Planning does not dispatch.
+  - Planner execution design: Add a small `scripts/release/platform_lanes.py` driver reached by an explicitly parsed best-effort mode before the existing GitLab dispatch wrapper. Extract/reuse pure build/verify/publish stage operations from existing scripts rather than invoking the wrapper recursively or setting CI identity variables. Validate real frozen Git/source-host identity and artifact receipts in a shared validator; native-host commands return the same lane result/provenance format. Keep GitLab as an excluded adapter for this campaign. Direct publishers accept only admitted prepared artifact paths, never rebuild-on-publish. Local prepare is a real supported path, not a fake CI environment; test its actual subprocess routing. Preserve explicit strict mode and old regression expectations. This is the chosen implementation design, not an existing module or command.
+  - Next action: Add positive lane-isolation and safety-negative fixtures, then implement the smallest coherent extension and integrated source-bound checks/review.
+
+- [ ] **RELEASE-002-75 — Prepare and qualify every available platform without publication.**
+  - Goal: REL-JOURNEY-001
+  - Status: open
+  - Section: Next.
+  - Sources: [Accepted policy](PRD.md#independent-platform-release-policy), [implementation contract](docs/engineering/spec.md#independent-platform-release-orchestration), [lane map](docs/engineering/release/MULTIPLATFORM.md#independent-platform-release-campaign), [verification](docs/engineering/test-plan.md#independent-platform-release-verification).
+  - Touches: release-artifacts/, docs/engineering/release/, docs/engineering/test-plan.md
+  - Scope: Run the implemented prepare-only mode on one immutable reviewed source/SDK/lock/version candidate. Attempt Android/Play, F-Droid, web, Linux, Windows, macOS and iOS on available authorized native hosts. Reuse existing REL-JOURNEY-* tasks/live follow-ups and actual evidence without changing their verdicts. No publisher calls, tags, pushes, uploads, website deployment, paid capacity, GitLab execution or schedules.
+  - Acceptance: Every lane records actual build/check/artifact proof or its exact error/unavailability with logs. Verify source/version/certificate/contents/hashes and mapped journey/signing/reproducibility requirements before marking ready. Missing host/device/signing/access is skipped-unavailable, not a pass. Shared failures stop affected lanes. Retain unresolved live/human gates; unsigned Apple archives are not production-ready. All-skipped is explicit failure and admits no publication. Use existing stage timeouts and the documented configurable 15-minute unavailable-host queue deadline.
+  - Checks: After RELEASE-001-23, execute its actual supported prepare-only invocation with publication disabled. Record stage exits and programmatically reconcile requested/verified/skipped IDs; run available builders, artifact verifiers and journey checks from the accepted lane map with exact SDK/lockfile. Verify actual artifacts and zero publication effects. The new command does not yet exist and is not invented here. All campaign builds/qualification remain NOT_RUN.
+  - Dependencies: RELEASE-001-23.
+  - Ownership: Release coordinator; preserve active writers and use only already-authorized hosts/access. Missing private access is not presumed granted.
+  - Next action: Freeze the candidate, discover authorized usable hosts/access without exposing secrets, attempt independent eligible lanes and present the exact ready/skipped manifest.
+
 ## Needs decision
 
 - [ ] **CAT-QUALITY-03 — Decide curated discovery with the complete catalog still accessible.**
@@ -499,12 +526,27 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   Status: open
 
 - [ ] QUAT-NORM-02-WALK-LIVE — Live checks for QUAT-NORM-02-WALK
+  Goal: QUAT-NORM-001
+  Sources: [Existing accepted companion contract](PRD.md#prime-norm-quaternion-companion); `todo.archive.md` retains the original offline task and evidence.
   Scope: Run the live checks the offline work for QUAT-NORM-02-WALK left pending.
   Acceptance: Each check passes on the real target:
   - Physical-device gesture/accessibility/native export qualification remains unrun.
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: QUAT-NORM-02-WALK.
   Status: open
+
+- [ ] **RELEASE-003-ae — Publish the verified platform subset after scoped production approval.**
+  - Goal: REL-JOURNEY-001
+  - Status: open
+  - Section: Needs decision.
+  - Sources: [Accepted policy](PRD.md#independent-platform-release-policy), [implementation contract](docs/engineering/spec.md#independent-platform-release-orchestration), [lane map](docs/engineering/release/MULTIPLATFORM.md#independent-platform-release-campaign), [verification](docs/engineering/test-plan.md#independent-platform-release-verification).
+  - Touches: release-artifacts/, fdroid/version.properties, fastlane/metadata/android/, CHANGELOG.md, docs/engineering/release/
+  - Scope: After explicit scoped production authority and the verified prepare report, publish only its immutable eligible subset; skip lane-local errors and continue independent eligible lanes. Defaults: GitHub published/non-prerelease, Play production/completed, existing Cloudflare production project. No GitLab action, new destination, internal/test release or broader credential authority. Retain Apple/F-Droid external acceptance limits.
+  - Acceptance: Read back every successful external effect at its exact release asset/deployment/store target with matching candidate/artifact identity. Report complete/partial/failure and every omitted or publication-unknown lane explicitly. Reconcile ambiguous writes before retry. Never rebuild/swap qualified artifacts, force tags, publish empty releases or label unsigned Apple/maintainer-pending F-Droid output production-delivered. No survivors/failed common validation means no publication. Preserve supported halt/higher-version replacement recovery limits.
+  - Checks: Before the separately authorized publish command, verify attributable approval, live consumed Android versions and current tag/release/deployment state; bind exact manifests/digests and read back each target afterward. Exercise retry safety with mocks before any real write and retain actual outcomes. All publication/readback checks are NOT_RUN by planning.
+  - Dependencies: RELEASE-002-75.
+  - Ownership: Owner approval of the concrete prepared production subset is required; signing/store access cannot be self-approved. Keep non-executable until actual decisions exist.
+  - Next action: Present the prepare report and exact missing access/authority; request only genuinely missing production approval for that subset. This planning request is not that approval.
 
 ## Done
 
@@ -523,9 +565,9 @@ Generated from `goals.json` by `goals.py render`. `met` requires an executed, pa
 | MEDIA-002: Select launch hero stills from qualified captures | unmet | inspection <code>TODO.md#MEDIA-002: owner selection remains open</code> → fail | MEDIA-002 |
 | VIS-003: Obtain app icon visual sign-off | unmet | inspection <code>TODO.md#VIS-003: owner sign-off remains open</code> → fail | ICON-ZJ-02, VIS-003 |
 | DOC-PRD-001: Resolve which documents own active product scope | met | executed <code>python3 "$HERMES_PROFILE/cache/scratch/repo-interview-release-20261011/check_interview_docs.py" "$REPO" (interview documentation/ledger only)</code> → pass; inspection <code>BLOCKERS.md#BLK-20261005-004: conflicting scope statements require owner decision</code> → fail | — |
-| REL-JOURNEY-001: Qualify the complete image-creation journey on Android, web and Linux | unverified | inspection <code>PRD.md#active-release-contract: owner accepted the cross-platform journey; complete platform qualification remains unverified</code> → pass | REL-JOURNEY-01-WEB, REL-JOURNEY-02-LINUX-LIVE, REL-JOURNEY-03-ANDROID-LIVE |
+| REL-JOURNEY-001: Qualify the complete image-creation journey on Android, web and Linux | unverified | inspection <code>PRD.md#active-release-contract: owner accepted the cross-platform journey; complete platform qualification remains unverified</code> → pass | REL-JOURNEY-01-WEB, REL-JOURNEY-02-LINUX-LIVE, REL-JOURNEY-03-ANDROID-LIVE, RELEASE-001-23, RELEASE-002-75, RELEASE-003-ae |
 | GAUSS-MOAT-001: Explore exact bounded Gaussian-prime walks with responsive controls and truthful reachability | unmet | executed <code>GAUSS-MOAT-01-MAP manual integration: git apply --check approved-owned.patch on main 7ede12424e6787ad9a514b8cdc9c37f509286b5f failed; three-way recovery leaves spec.md/test-plan.md conflicted because planning prerequisite is absent. Code-only diagnostic 171 tests/analyzer/format pass, not coherent integration qualification. Receipt /home/xel/.hermes/profiles/fractal/autowork/gaussian-moat-map/manual-integration-20261012/receipt.json</code> → fail; executed <code>GAUSS-MOAT-01-MAP offline/local integration only: python3 /home/xel/.hermes/profiles/fractal/autowork/gaussian-moat-map/coherent-continuation-20261012/run-frozen-gate.py at 79ae96506af162cc3f0f2392b631c5bf7229b333; 171 focused tests, analyzer, 8-file format, gen-l10n/source stability, docs/scope/diff pass; independent integration source review approved; git merge --ff-only and exact main/tree/15-path readback pass. No live/platform/milestone qualification.</code> → pass | GAUSS-MOAT-02-WALK-LIVE, GAUSS-MOAT-03-QUALIFY, GAUSS-MOAT-04-GROWTH |
-| QUAT-NORM-001: Explore exact prime-norm quaternion slice walks with camera-independent connectivity | unmet | — | QUAT-NORM-01-SLICE-LIVE, QUAT-NORM-02-WALK, QUAT-NORM-03-QUALIFY |
+| QUAT-NORM-001: Explore exact prime-norm quaternion slice walks with camera-independent connectivity | unmet | — | QUAT-NORM-01-SLICE-LIVE, QUAT-NORM-02-WALK-LIVE, QUAT-NORM-03-QUALIFY |
 | CAT-QUALITY-001: Improve catalog first-impression quality without losing variety or saved identities | unverified | — | CAT-QUALITY-01-LIVE, CAT-QUALITY-02, CAT-QUALITY-03 |
 | VIEW-UI-001: Reduce intrusive viewer navigation chrome and style overflow consistently | unverified | — | VIEW-UI-01-LIVE, VIEW-UI-02-LIVE |
 | OAI-VIS-001: Select a mathematically distinct quality-gated visual candidate from OpenAI math | unverified | — | OAI-VIS-01-IFS, OAI-VIS-02-SLE, OAI-VIS-03-VORONOI, OAI-VIS-04-UST, OAI-VIS-05-DIMER, OAI-VIS-06-HEIGHT, OAI-VIS-07-FK |
