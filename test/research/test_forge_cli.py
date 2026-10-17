@@ -23,7 +23,7 @@ def test_forge_help_succeeds():
 
 def test_forge_lists_subcommands():
     result = _run("--help")
-    for subcommand in ("doctor", "retrofit"):
+    for subcommand in ("doctor", "retrofit", "academic-check"):
         assert subcommand in result.stdout
 
 

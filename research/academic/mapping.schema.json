@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fractal-forge.local/schemas/academic-mapping.schema.json",
+  "title": "Source-to-implementation mapping v1",
+  "type": "object",
+  "required": ["identity", "source_ids", "claim_state"],
+  "properties": {
+    "identity": {"type": "string", "minLength": 1},
+    "source_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "claim_state": {"enum": ["unreviewed", "source_checked", "implementation_compared", "numerically_checked", "contradicted"]},
+    "claim_spans": {"type": "array", "items": {"type": "object", "required": ["source_id", "locator"], "properties": {"source_id": {"type": "string"}, "locator": {"type": "string"}, "claim": {"type": "string"}}, "additionalProperties": false}},
+    "source_checked": {"type": "boolean"},
+    "implementation": {"type": "object", "properties": {"path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}}},
+    "observed_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "numerical_check": {"type": "boolean"}
+  },
+  "additionalProperties": true
+}

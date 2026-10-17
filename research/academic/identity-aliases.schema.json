@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fractal-forge.local/schemas/academic-identity-aliases.schema.json",
+  "title": "Reviewed identity aliases v1",
+  "type": "object",
+  "required": ["schema_version", "reviewed_aliases"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "reviewed_aliases": {"type": "object", "additionalProperties": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

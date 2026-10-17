@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fractal-forge.local/schemas/academic-coverage.schema.json",
+  "title": "Generated academic identity coverage v1",
+  "type": "object",
+  "required": ["schema_version", "namespaces", "counts", "rows"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "namespaces": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "rows": {"type": "array", "items": {"type": "object", "required": ["namespace", "identity", "paper_ids", "status", "alias_review"], "properties": {"namespace": {"type": "string"}, "identity": {"type": "string"}, "name": {"type": "string"}, "paper_ids": {"type": "array", "items": {"type": "string"}}, "status": {"enum": ["gap", "metadata_only", "access_pending", "full_text_available", "unavailable"]}, "alias_review": {"enum": ["reviewed", "unresolved"]}}, "additionalProperties": false}}
+  },
+  "additionalProperties": false
+}

@@ -52,6 +52,68 @@ def _cmd_admit(args: argparse.Namespace) -> int:
     return run_admit(REPO_ROOT, batch_id=args.batch_id)
 
 
+def _cmd_academic_check(_args: argparse.Namespace) -> int:
+    import json
+    from jsonschema import Draft202012Validator
+    from scripts.research.academic.coverage import build_coverage, validate_coverage
+    from scripts.research.academic.library import find_title_collisions, import_run, validate_library
+    from ruamel.yaml import YAML
+
+    academic_dir = REPO_ROOT / "research" / "academic"
+    papers_path = academic_dir / "papers.jsonl"
+    import_run(REPO_ROOT / "research", papers_path, source_base=REPO_ROOT)
+    papers = [json.loads(line) for line in papers_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    mappings_path = academic_dir / "mappings.json"
+    mappings = json.loads(mappings_path.read_text(encoding="utf-8")) if mappings_path.exists() else {"schema_version": 1, "mappings": []}
+    library = {"schema_version": 1, "papers": papers, "mappings": mappings.get("mappings", [])}
+
+    yaml = YAML(typ="safe")
+    registry = yaml.load((REPO_ROOT / "docs/catalog/fractal_registry.yaml").read_text(encoding="utf-8"))["fractals"]
+    inventory = json.loads((REPO_ROOT / "docs/planning/visual-audit-inventory.json").read_text(encoding="utf-8"))
+    manifest = json.loads((REPO_ROOT / "research/fractals-library/data/fractal_manifest.json").read_text(encoding="utf-8"))
+    app_names = {row["id"]: row.get("name", "") for row in inventory.get("rows", [])}
+    namespaces = {
+        "app": [{"id": identity, "name": app_names.get(identity, "")} for group in inventory["explore_ids_by_group"].values() for identity in group],
+        "registry": [{"id": row["id"], "name": row.get("name", "")} for row in registry],
+        "reference": [{"id": row["id"], "name": row.get("name", "")} for row in manifest],
+        "planned": [{"id": "core.number_wall", "name": "Number Walls"}],
+    }
+    aliases_path = academic_dir / "identity-aliases.json"
+    aliases_data = json.loads(aliases_path.read_text(encoding="utf-8"))
+    reviewed_aliases = aliases_data.get("reviewed_aliases", {})
+    coverage = build_coverage(namespaces, reviewed_aliases=reviewed_aliases, papers=papers)
+    (academic_dir / "coverage.json").write_text(json.dumps(coverage, ensure_ascii=False, sort_keys=True, indent=2) + "\n", encoding="utf-8")
+    (academic_dir / "identity-review.json").write_text(json.dumps({"schema_version": 1, "title_collisions": find_title_collisions(papers)}, ensure_ascii=False, sort_keys=True, indent=2) + "\n", encoding="utf-8")
+    errors = validate_library(library, repo_root=REPO_ROOT) + validate_coverage(coverage)
+    if mappings.get("schema_version") != 1 or not isinstance(mappings.get("mappings"), list):
+        errors.append("malformed mapping index schema")
+    schema_paths = {
+        "paper": academic_dir / "papers.schema.json",
+        "mapping": academic_dir / "mapping.schema.json",
+        "coverage": academic_dir / "coverage.schema.json",
+        "identity aliases": academic_dir / "identity-aliases.schema.json",
+    }
+    schema_documents = {name: json.loads(path.read_text(encoding="utf-8")) for name, path in schema_paths.items()}
+    for index, paper in enumerate(papers):
+        errors.extend(f"paper {index}: {error.message}" for error in Draft202012Validator(schema_documents["paper"]).iter_errors(paper))
+    for index, mapping in enumerate(mappings.get("mappings", [])):
+        errors.extend(f"mapping {index}: {error.message}" for error in Draft202012Validator(schema_documents["mapping"]).iter_errors(mapping))
+    errors.extend(f"coverage: {error.message}" for error in Draft202012Validator(schema_documents["coverage"]).iter_errors(coverage))
+    errors.extend(f"identity aliases: {error.message}" for error in Draft202012Validator(schema_documents["identity aliases"]).iter_errors(aliases_data))
+    if aliases_data.get("schema_version") != 1:
+        errors.append("unsupported identity alias schema_version")
+    paper_ids = {paper["paper_id"] for paper in papers}
+    if any(paper_id not in paper_ids for paper_id in reviewed_aliases.values()):
+        errors.append("identity alias references missing paper")
+    if errors:
+        print("academic-check: FAIL")
+        for error in errors:
+            print(f"  - {error}")
+        return 1
+    print(f"academic-check: OK — {len(papers)} sources; {len(coverage['rows'])} identity rows across {len(namespaces)} namespaces")
+    return 0
+
+
 SUBCOMMANDS: dict[str, tuple[str, Callable[[argparse.Namespace], int]]] = {
     "doctor": ("Verify registry invariants", _cmd_doctor),
     "retrofit": ("Migrate registry to pipeline schema (adds formula_hash, quality, tier)", _cmd_retrofit),
@@ -59,6 +121,7 @@ SUBCOMMANDS: dict[str, tuple[str, Callable[[argparse.Namespace], int]]] = {
     "batch": ("Build a candidates batch from extracted/", _cmd_batch),
     "review": ("Review a candidates batch", _cmd_review),
     "admit": ("Promote approved candidates to registry + emit Dart", _cmd_admit),
+    "academic-check": ("Import historical metadata and validate academic coverage", _cmd_academic_check),
 }
 
 
