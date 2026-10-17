@@ -379,6 +379,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: VIEW-UI-01.
   Status: open
+  - Owner decision: 2026-10-16 — Defer until a suitable test device and reviewer are available; preserve every acceptance check. Deferral is neither completion nor a release waiver.
+  - Next action: Keep this live task open in Needs decision. Resume qualification planning when suitable target/reviewer access exists; retain screen-reader, rotation, hardware-GPU and production-font checks. Do not substitute offline results for real-target evidence.
 
 - [ ] VIEW-UI-02-LIVE — Live checks for VIEW-UI-02
   Scope: Run the live checks the offline work for VIEW-UI-02 left pending.
