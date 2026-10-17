@@ -50,6 +50,45 @@ class PrimeNormQuaternionSlice {
   bool isPrimeNorm(IntegerQuaternion p) =>
       contains(p) && _membership[_index(p)] == 1;
 
+  bool isAdjacent(
+      IntegerQuaternion from, IntegerQuaternion to, int maxSquaredStep) {
+    if (maxSquaredStep < 1 || from.d != d || to.d != d) return false;
+    final da = from.a - to.a;
+    final db = from.b - to.b;
+    final dc = from.c - to.c;
+    return isPrimeNorm(from) &&
+        isPrimeNorm(to) &&
+        da * da + db * db + dc * dc <= maxSquaredStep &&
+        da * da + db * db + dc * dc > 0;
+  }
+
+  Set<IntegerQuaternion> component(IntegerQuaternion start,
+      {required int maxSquaredStep}) {
+    if (!isPrimeNorm(start) || maxSquaredStep < 1) return const {};
+    final reached = <IntegerQuaternion>{start};
+    final queue = <IntegerQuaternion>[start];
+    final radius = math.sqrt(maxSquaredStep).floor();
+    for (var cursor = 0; cursor < queue.length; cursor++) {
+      final point = queue[cursor];
+      for (var da = -radius; da <= radius; da++) {
+        for (var db = -radius; db <= radius; db++) {
+          for (var dc = -radius; dc <= radius; dc++) {
+            final distance = da * da + db * db + dc * dc;
+            if (distance == 0 || distance > maxSquaredStep) continue;
+            final next = (
+              a: point.a + da,
+              b: point.b + db,
+              c: point.c + dc,
+              d: d,
+            );
+            if (isPrimeNorm(next) && reached.add(next)) queue.add(next);
+          }
+        }
+      }
+    }
+    return Set.unmodifiable(reached);
+  }
+
   static Future<PrimeNormQuaternionSlice> generate(num domain,
       {required num d,
       bool Function()? isCancelled,
