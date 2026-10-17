@@ -21,6 +21,9 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Checks: Validate inventory; reuse applicable named GPU/runtime/first-view tests and REL-JOURNEY artifact receipts. Retain exact commands, backend/device/seed and artifact paths. Run only needed pilot checks; full catalog completion is not required.
   - Dependencies: none.
   - Ownership: Repository backlog, unassigned; verify live ownership. Planning does not dispatch.
+  - Owner decision: 2026-10-16 — Keep the 12-ID pilot scope; have the runner reconcile its report/commit and finish required evidence. Do not split away or waive missing acceptance.
+  - Next action: Preserve both existing pilot candidates and their reports. Reconcile the latest report with its actual commit/files, then complete the required same-state comparisons, controls, named-target performance and edited-PNG checks under the original contract. Keep unavailable evidence NOT_CHECKED and the task open; do not fabricate a successful report or rerun already valid unchanged evidence merely to refresh it. Check live writers before recovery.
+
 - [ ] **REL-JOURNEY-01-WEB — Qualify the complete web image-creation journey.**
   - Goal: REL-JOURNEY-001. Payoff: meet the accepted complete user journey on this platform without false parity claims.
   - Sources: [Accepted release contract](PRD.md#active-release-contract), [Journey verification](docs/engineering/test-plan.md#accepted-cross-platform-release-journey), `docs/engineering/rendering/renderer_backend_matrix.md`, `lib/features/export/export_options_sheet.dart`, and `test/export/viewer_export_session_test.dart`.
