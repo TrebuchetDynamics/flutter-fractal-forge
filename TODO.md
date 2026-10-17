@@ -368,6 +368,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Checks: planned discriminating fixtures: Tiny exact partition-function/cluster-count fixtures, q=1 reduction to independent bonds, correct wired/free cluster counting and Dobrushin interface rules, seed replay and explicit sampler mixing gaps. Do not infer arbitrary-q uniformity or SLE convergence from a colorful sample. The inspected first paper covers 1<=q<4; the index lists broader companions, whose hypotheses must be reviewed separately. Bind actual test targets before approved implementation; model/render/platform checks are NOT_RUN.
   - Dependencies: none; decision proposals cannot bypass existing quality gates or primary focus.
   - Ownership: product owner choice; Needs decision, unassigned. No implementation authority.
+  - Owner decision: 2026-10-16 — Defer this proposal; prioritize existing quality and academic research. This does not change the existing focus/order or authorize a prototype.
+  - Next action: Keep this proposal in Needs decision, deferred rather than completed; do not select or implement it unless the owner later revisits it.
 
 - [ ] VIEW-UI-01-LIVE — Live checks for VIEW-UI-01
   Scope: Run the live checks the offline work for VIEW-UI-01 left pending.
