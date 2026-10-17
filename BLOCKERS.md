@@ -6,12 +6,12 @@ This file contains only hard blockers that require user action.
 
 <!-- pi-autowork:questions:start -->
 
-### Q-VIS-006-BATCH-20 — USER_DECISION — effort decision — unblocks 3
+### Q-VIS-006-BATCH-20 — USER_DECISION — effort quick — unblocks 2
 
 - Task: VIS-006-BATCH-20 — Capture defaults and runtime previews for the next ten uncaptured Explore modules.** Goal: complete the accepted visual playtest audit.
-- Needs: not runnable: needs unique Scope, Acceptance and Checks fields
+- Needs: VIS-006-BATCH-20 is marked in_progress by another session and will not be adopted automatically; 2 waiting task(s) depend on it.
 - Since: 2026-10-17T07:17:15Z
-- Answer: Fix VIS-006-BATCH-20's TODO.md entry as the reason says (for example add the missing Scope, Acceptance or Checks field), or move it out of Now/Next.
+- Answer: If no one is working on VIS-006-BATCH-20, set `Status: open` in its TODO.md entry (the runner then runs it); otherwise note who holds it and when it will be done.
 
 ### Q-ACAD-03 — USER_DECISION — effort decision — unblocks 1
 
@@ -33,13 +33,6 @@ This file contains only hard blockers that require user action.
 - Needs: worker reported a blocker: The requested existing candidate is absent in this attempt's worktree: HEAD is ec58e56157d2612213e6cfc6aa9e4b1a3950ae1f, the tree is clean, and neither scoped number-wall file nor the prior report.json exists. Restore the candidate and its retained native-test evidence in this worktree before this continuation can validate or commit it. (+1 more in report.json)
 - Since: 2026-10-17T10:10:27Z
 - Answer: Answer in NUM-WALL-01's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
-
-### Q-CAT-QUALITY-02 — USER_INPUT — effort input — unblocks 0
-
-- Task: CAT-QUALITY-02 — Repair three demonstrated pilot first-impression defects.
-- Needs: worker reported a blocker: The required compatibility implementation changes FractalController routing, view-input normalization and controller snapshot copying, but these paths are outside Touches. Widen Touches to permit the three paths listed in needs_touches; this task remains otherwise unfinished and uncommitted.
-- Since: 2026-10-17T08:50:12Z
-- Answer: Answer in CAT-QUALITY-02's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
 
 ### Q-REL-JOURNEY-01-WEB — USER_INPUT — effort input — unblocks 0
 
