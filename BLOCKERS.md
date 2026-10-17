@@ -20,13 +20,6 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T01:32:24Z
 - Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
 
-### Q-VIS-006-BATCH-20 — USER_DECISION — effort investigate — unblocks 2
-
-- Task: VIS-006-BATCH-20 — Capture defaults and runtime previews for the next ten uncaptured Explore modules.** Goal: complete the accepted visual playtest audit.
-- Needs: abandoned integration tree changed or ambiguous; preserve for diagnosis
-- Since: 2026-10-17T21:30:51Z
-- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/VIS-006-BATCH-20/), then rescope or split VIS-006-BATCH-20 in its TODO.md entry. The runner reruns it when the entry changes.
-
 <!-- pi-autowork:questions:end -->
 
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
