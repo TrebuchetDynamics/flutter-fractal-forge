@@ -27,13 +27,6 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T01:32:24Z
 - Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
 
-### Q-NUM-WALL-01 — USER_INPUT — effort input — unblocks 4
-
-- Task: NUM-WALL-01 — Compute exact sequence walls and validate custom prime fields.
-- Needs: worker reported a blocker: The requested existing candidate is absent in this attempt's worktree: HEAD is ec58e56157d2612213e6cfc6aa9e4b1a3950ae1f, the tree is clean, and neither scoped number-wall file nor the prior report.json exists. Restore the candidate and its retained native-test evidence in this worktree before this continuation can validate or commit it. (+1 more in report.json)
-- Since: 2026-10-17T10:10:27Z
-- Answer: Answer in NUM-WALL-01's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
-
 ### Q-REL-JOURNEY-01-WEB — USER_INPUT — effort input — unblocks 0
 
 - Task: REL-JOURNEY-01-WEB — Qualify the complete web image-creation journey.
