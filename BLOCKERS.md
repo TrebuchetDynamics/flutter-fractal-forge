@@ -4,6 +4,66 @@ This file contains only hard blockers that require user action.
 
 ## Active
 
+<!-- pi-autowork:questions:start -->
+
+### Q-VIS-006 — USER_DECISION — effort quick — unblocks 3
+
+- Task: VIS-006 — Capture and inspect the next ten uncaptured Explore modules.** Goal: complete the accepted visual playtest audit.
+- Needs: VIS-006 is marked in_progress by another session and will not be adopted automatically; 3 waiting task(s) depend on it.
+- Since: 2026-10-17T01:32:24Z
+- Answer: If no one is working on VIS-006, set `Status: open` in its TODO.md entry (the runner then runs it); otherwise note who holds it and when it will be done.
+
+### Q-SMOOTH-001-INVENTORY-01 — USER_DECISION — effort decision — unblocks 2
+
+- Task: SMOOTH-001-INVENTORY-01 — Reconcile one supported polynomial shader family with smooth-coloring coverage.
+- Needs: not runnable: needs unique Scope, Acceptance and Checks fields
+- Since: 2026-10-17T01:32:24Z
+- Answer: Fix SMOOTH-001-INVENTORY-01's TODO.md entry as the reason says (for example add the missing Scope, Acceptance or Checks field), or move it out of Now/Next.
+
+### Q-VIS-003 — USER_DECISION — effort decision — unblocks 1
+
+- Task: VIS-003 — App icon visual sign-off.** Scope: inspect the existing adaptive launcher and store artwork in representative device masks; do not treat missing files as the issue or redesign without approval. Acceptance: product owner records accept/request-change and any exact crop/design correction. Blocker: visual acceptance criteria/approval are owner-controlled; inputs and dimensions were checked, but visual acceptance is not claimed. Ownership: owner decision required.
+- Needs: 1 waiting task(s) depend on "VIS-003", which is not a Now/Next task (an outside condition, or a task in Needs decision).
+- Since: 2026-10-17T01:32:24Z
+- Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
+
+### Q-CAT-QUALITY-01 — USER_DECISION — effort investigate — unblocks 1
+
+- Task: CAT-QUALITY-01 — Assess a family-stratified quality pilot without duplicating capture work.
+- Needs: report.json does not match worker commit/files or reports failure
+- Since: 2026-10-17T01:32:24Z
+- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/CAT-QUALITY-01/), then rescope or split CAT-QUALITY-01 in its TODO.md entry. The runner reruns it when the entry changes.
+
+### Q-GAUSS-MOAT-04-GROWTH — USER_DECISION — effort investigate — unblocks 1
+
+- Task: GAUSS-MOAT-04-GROWTH — Scrub and animate jump-radius growth without queued or stale computations.
+- Needs: merge conflict; worker and canonical checkout preserved
+- Since: 2026-10-17T01:32:24Z
+- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/GAUSS-MOAT-04-GROWTH/), then rescope or split GAUSS-MOAT-04-GROWTH in its TODO.md entry. The runner reruns it when the entry changes.
+
+### Q-QUAT-NORM-02-WALK — USER_DECISION — effort investigate — unblocks 1
+
+- Task: QUAT-NORM-02-WALK — Walk in the quaternion slice with camera-independent adjacency and captured overlays.
+- Needs: integration validation failed or changed the integration tree
+- Since: 2026-10-17T01:32:24Z
+- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/QUAT-NORM-02-WALK/), then rescope or split QUAT-NORM-02-WALK in its TODO.md entry. The runner reruns it when the entry changes.
+
+### Q-REL-JOURNEY-01-WEB — USER_DECISION — effort investigate — unblocks 0
+
+- Task: REL-JOURNEY-01-WEB — Qualify the complete web image-creation journey.
+- Needs: dead worker with uncommitted changes
+- Since: 2026-10-17T01:32:24Z
+- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/REL-JOURNEY-01-WEB/), then rescope or split REL-JOURNEY-01-WEB in its TODO.md entry. The runner reruns it when the entry changes.
+
+### Q-REL-JOURNEY-03-ANDROID — USER_DECISION — effort investigate — unblocks 0
+
+- Task: REL-JOURNEY-03-ANDROID — Qualify the complete Android image-creation journey.
+- Needs: integration validation failed or changed the integration tree
+- Since: 2026-10-17T01:32:24Z
+- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/REL-JOURNEY-03-ANDROID/), then rescope or split REL-JOURNEY-03-ANDROID in its TODO.md entry. The runner reruns it when the entry changes.
+
+<!-- pi-autowork:questions:end -->
+
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
 
 - Status: ACTIVE
