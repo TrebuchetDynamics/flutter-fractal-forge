@@ -37,6 +37,7 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
 - [ ] **SMOOTH-001-INVENTORY-01 — Reconcile one supported polynomial shader family with smooth-coloring coverage.**
   - Goal: SMOOTH-001. Payoff: replace the premature full-coverage claim with a checked family inventory and one bounded regression slice.
   - Sources: [Existing P1-3 scope](TODO.md#p1-3-smooth-coloring-in-all-shaders), `test/shaders/smooth_coloring_family_coverage_test.dart`, and `docs/engineering/performance/SHADER_OPTIMIZATIONS.md`.
+  - Touches: test/shaders/, docs/engineering/performance/SHADER_OPTIMIZATIONS.md
   - Scope: inventory the integer-power Multibrot shaders against their live module bindings and existing source assertions. Confirm formula-appropriate coloring and add the missing d=4 contract assertion. Preserve recurrence, inside-set output, palettes, and existing tests. Do not claim whole-catalog or hardware-GPU qualification.
   - Acceptance: list each applicable family shader and its checked/unverified status; the d=4 shader is represented by a recurrence-appropriate assertion; `flutter test test/shaders/smooth_coloring_family_coverage_test.dart test/shaders/smooth_coloring_regression_test.dart` passes. Run targeted formatting and analysis for changed Dart tests. Record remaining uncovered families.
   - Checks: `flutter test test/shaders/smooth_coloring_family_coverage_test.dart test/shaders/smooth_coloring_regression_test.dart`; targeted formatting and analysis for changed Dart tests, as required by Acceptance.
