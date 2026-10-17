@@ -20,6 +20,13 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T01:32:24Z
 - Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
 
+### Q-REL-JOURNEY-01-WEB — USER_DECISION — effort investigate — unblocks 0
+
+- Task: REL-JOURNEY-01-WEB — Qualify the complete web image-creation journey.
+- Needs: dead worker without a commit or changes
+- Since: 2026-10-17T16:43:09Z
+- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/REL-JOURNEY-01-WEB/), then rescope or split REL-JOURNEY-01-WEB in its TODO.md entry. The runner reruns it when the entry changes.
+
 <!-- pi-autowork:questions:end -->
 
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
