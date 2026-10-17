@@ -394,6 +394,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Checks: planned discriminating fixtures: One matched edge per vertex in each matching, degree two with multiplicity in the superposition, doubled edges treated separately, loop decomposition exhausts remaining edges and small exact matchings check sampling. Distinguish exact uniform sampling from a finite MCMC approximation; report burn-in/convergence limitations rather than claim uniformity. Bind actual test targets before approved implementation; model/render/platform checks are NOT_RUN.
   - Dependencies: none; decision proposals cannot bypass existing quality gates or primary focus.
   - Ownership: product owner choice; Needs decision, unassigned. No implementation authority.
+  - Owner decision: 2026-10-16 — Defer this proposal; prioritize existing quality and academic research. This does not change the existing focus/order or authorize a prototype.
+  - Next action: Keep this proposal in Needs decision, deferred rather than completed; do not select or implement it unless the owner later revisits it.
 
 - [ ] **OAI-VIS-06-HEIGHT — Decide six-vertex height and contour explorer.**
   - Goal: OAI-VIS-001. Payoff: broaden mathematically distinct experiences without a quantity-driven catalog expansion.
