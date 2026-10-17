@@ -36,7 +36,10 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Ownership: repository backlog, open for runner recovery. Preserve prior work; verify actual live writer identity/activity before adoption and do not overlap any live worker.
   - Status: open
   - Owner decision: 2026-10-16 — Reopen for the runner, preserving prior work and requiring a live-writer check before adoption. This is planning only; no worker or service was started or changed.
-  - Goal: VIS-006.
+  - Goal: VIS-006
+  - Touches: integration_test/catalog/, integration_test/flows/, test/cpu/, docs/planning/visual-audit-inventory.json, docs/planning/visual-fidelity-audit-next.md
+  - Checks: Select exactly the next ten uncaptured source-ordered IDs; set `CATALOG_THUMB_ONLY` to those IDs, `CATALOG_THUMB_USE_MODULE_DEFAULTS=true`, `STRICT_CATALOG_THUMBS=true` and a scoped output directory, then run `flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded`. Add/run the scoped runtime-preview test for those same IDs with forced runtime thumbnails; run `python3 research/fractals-library/scripts/validate_visual_inventory.py`, `flutter test test/cpu/cpu_formula_coverage_test.dart` for applicable native formula coverage, changed-test formatting/analysis and `git diff --check`. Reconcile selected/generated/failed/skipped and real artifact IDs/dimensions; no image-health pass implies mathematical correctness.
+  - Planning repair: 2026-10-17 — Add the missing unique Checks field and bounded Touches under the existing approved capture scope. Preserve the previous reopen decision and mandatory live-writer check; this is not new execution or formula-change authority.
 
 ## Next
 
@@ -165,7 +168,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Checks: Planned new target: `flutter test test/modules/number_wall_model_test.dart --reporter expanded`; browser parity: `flutter test --platform chrome test/modules/number_wall_model_test.dart --reporter expanded`; `dart format --output=none --set-exit-if-changed lib/core/models/number_wall_model.dart test/modules/number_wall_model_test.dart`; `flutter analyze`. Record actual test counts, backend and bounded benchmark inputs; proposed tests have NOT_RUN.
   - Dependencies: None.
   - Ownership: Repository backlog, unassigned; inspect actual writers before execution. Planning does not dispatch.
-  - Next action: Write independent determinant/prefix and zero-denominator regressions, then implement the exact kernel.
+  - Next action: Inspect and preserve the existing NUM-WALL-01 model/test candidate and retained native-test results before doing new implementation. The latest browser failure is a Chromium launch/socket-path issue, not evidence of a number-wall arithmetic failure. The existing runner should repair the non-privileged browser-test environment, then run browser parity and the remaining affected checks on the same candidate before commit.
+  - Planning repair: 2026-10-17 — Browser setup is routine local recovery, not unavailable owner input. Use the installed Chromium through process-scoped `CHROME_EXECUTABLE=/usr/bin/chromium`; arrange a short private scratch path/alias backed by the approved scratch storage, verifying the browser socket path fits. Scope any TMPDIR override to the test process; do not use system /tmp, shared browser profiles, elevated privileges, disabled browser security or external spending. Respect the current occurrence’s reserved AUTOWORK port range and worker isolation. Retain the failed launch as history and rerun the original browser test; do not waive parity or invent a pass. This records instructions only, without creating directories or launching tests.
 
 - [ ] **NUM-WALL-02 — Open real Number Walls from their catalog category with restorable controls.**
   - Goal: NUM-WALL-001
@@ -242,13 +246,15 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Status: open
   - Section: Next.
   - Sources: [Accepted academic research outcome](PRD.md#academic-research-library), [source-to-renderer contract](docs/engineering/spec.md#academic-source-to-renderer-evidence), [library schema](research/academic/README.md), `scripts/research/doctor/check_registry.py`, `scripts/research/admit/promote_candidate.py`, `scripts/research/admit/emit_dart.py`, `lib/core/modules/fractal_mathematics.dart`.
-  - Touches: scripts/research/academic/, scripts/research/doctor/, scripts/research/schemas/, test/research/, docs/catalog/, lib/core/modules/fractal_mathematics.dart, test/modules/
+  - Touches: scripts/research/academic/, scripts/research/doctor/, scripts/research/schemas/, test/research/, docs/catalog/, lib/core/modules/fractal_mathematics.dart, test/modules/, scripts/research/admit/promote_candidate.py
   - Scope: Add offline source-binding/freshness and claim-qualification checks using existing catalog schemas/review gates. Reuse current references/group metadata and qualified descriptions; do not make a parallel production registry or automatically admit/generated shaders from papers. The pipeline can consume draft/unverified rows but must not advertise them as reviewed. No new citation-browser UI, full catalog relabeling or shader repair project.
   - Acceptance: Checked-in fixtures prove that source-missing/span-missing/unreviewed/wrong-formula/stale-source bindings cannot promote a mathematically verified claim; reviewed applicable bindings pass. Existing imported/catalog data remains loadable and retains honest legacy qualifications; new admissions require their actual evidence, not copied confidence=1 or shader compile status. Pending unsupported relationships stay explicit. App-visible metadata changes, if any, preserve EN/ES, stable IDs/favorites/presets and existing render behavior, with actual focused regressions.
   - Checks: Planned: `pytest test/research/test_academic_bindings.py test/research/test_academic_admission.py -v`; `PYTHONDONTWRITEBYTECODE=1 python3 scripts/research/forge.py doctor --strict-app-catalog`; `pytest test/research -v`; run affected `FractalMathematics` tests and `flutter analyze` only if app metadata code changes. New fixtures are NOT_RUN. Verify missing-evidence negative controls without weakening old invariant guards.
   - Dependencies: ACAD-01.
   - Ownership: Repository backlog, unassigned; independent offline fixtures do not require owner approval of research claims or full-text acquisition.
   - Next action: Add negative claim-promotion/freshness fixtures against the library contract before connecting the existing doctor/admission seam.
+  - Planning repair: 2026-10-17 — Include the exact existing promotion seam already named in Sources and required by Scope/Acceptance. This is a clerical Touches correction under accepted admission-safeguard work, not permission to auto-promote claims or change review gates.
+  - Recovery continuation: Preserve the ACAD-05 candidate and latest failed scope-validation report. After checking writer inactivity and current source compatibility, let the existing runner finish the promotion-hook integration with missing-evidence/freshness/formula negative tests and rerun the required checks on integrated bytes. Do not alter old reports into passes or restart/reconfigure the runner.
 
 ## Needs decision
 
