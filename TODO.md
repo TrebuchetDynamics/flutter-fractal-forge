@@ -389,6 +389,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: VIEW-UI-02.
   Status: open
+  - Owner decision: 2026-10-16 — Defer until target/reviewer access is available; preserve native screenshots, typography and screen-reader checks. Deferral is neither completion nor a release waiver.
+  - Next action: Keep this live task open in Needs decision. When target/reviewer access exists, reconcile exact SDK receipts and complete the retained real-target acceptance; historical environment wording is not proof of current SDK absence.
 
 - [ ] GAUSS-MOAT-02-WALK-LIVE — Live checks for GAUSS-MOAT-02-WALK
   Scope: Run the live checks the offline work for GAUSS-MOAT-02-WALK left pending.
