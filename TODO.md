@@ -26,21 +26,6 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Owner decision: 2026-10-16 — Widen scope to existing viewer/export/download code and regression tests; fix only the reproduced no-download cause. This replaces the Playwright-only repair boundary, not the original user-journey acceptance.
   - Next action: Check live writers and preserve the failed worker’s uncommitted browser target, traces and logs. Determine whether export-sheet interaction or application download handling causes the failure; fix the smallest demonstrated cause, then verify both 2D/3D edited-state downloads, decoded dimensions/content and saved-data preservation. No fake PNGs, weakened download assertions, publication or deployment.
 
-- [ ] **VIS-006 — Capture and inspect the next ten uncaptured Explore modules.** Goal: complete the accepted visual playtest audit.
-  - Payoff: extend evidence-backed GPU default and runtime-preview coverage while preserving formulas.
-  - Scope: select the next ten uncaptured Explore IDs from `docs/planning/visual-audit-inventory.json`; capture true module defaults and runtime previews. Run CPU checks only when a native CPU formula exists. Do not alter formulas, static catalog images, or research-library module support.
-  - Sources: [Accepted visual scope](docs/planning/visual-fidelity-audit-next.md#accepted-focus), [`docs/planning/visual-fidelity-audit-next.md`](docs/planning/visual-fidelity-audit-next.md), [`docs/planning/visual-audit-inventory.json`](docs/planning/visual-audit-inventory.json), and `goals.json`.
-  - Acceptance: reconcile selected/generated/failed/skipped counts, record per-ID defaults and image metrics, and validate inventory references.
-  - Dependencies: VIS-005 (task and goal prerequisite).
-  - Prior evidence: VIS-006-BATCH-01 provides completed prior-batch evidence, not an additional prerequisite.
-  - Ownership: repository backlog, open for runner recovery. Preserve prior work; verify actual live writer identity/activity before adoption and do not overlap any live worker.
-  - Status: open
-  - Owner decision: 2026-10-16 — Reopen for the runner, preserving prior work and requiring a live-writer check before adoption. This is planning only; no worker or service was started or changed.
-  - Goal: VIS-006
-  - Touches: integration_test/catalog/, integration_test/flows/, test/cpu/, docs/planning/visual-audit-inventory.json, docs/planning/visual-fidelity-audit-next.md
-  - Checks: Select exactly the next ten uncaptured source-ordered IDs; set `CATALOG_THUMB_ONLY` to those IDs, `CATALOG_THUMB_USE_MODULE_DEFAULTS=true`, `STRICT_CATALOG_THUMBS=true` and a scoped output directory, then run `flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded`. Add/run the scoped runtime-preview test for those same IDs with forced runtime thumbnails; run `python3 research/fractals-library/scripts/validate_visual_inventory.py`, `flutter test test/cpu/cpu_formula_coverage_test.dart` for applicable native formula coverage, changed-test formatting/analysis and `git diff --check`. Reconcile selected/generated/failed/skipped and real artifact IDs/dimensions; no image-health pass implies mathematical correctness.
-  - Planning repair: 2026-10-17 — Add the missing unique Checks field and bounded Touches under the existing approved capture scope. Preserve the previous reopen decision and mandatory live-writer check; this is not new execution or formula-change authority.
-
 ## Next
 
 
@@ -510,6 +495,14 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Human relevance, version/license review and any lawful acquisition approval for 906 pending records; no include/exclude decision or full-text acquisition was made.
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: ACAD-02.
+  Status: open
+
+- [ ] VIS-006-LIVE — Live checks for VIS-006
+  Scope: Run the live checks the offline work for VIS-006 left pending.
+  Acceptance: Each check passes on the real target:
+  - Optional human visual sign-off; local Linux GPU capture and contact-sheet inspection completed.
+  Checks: Live qualification by an authorized person; offline evidence does not count.
+  Dependencies: VIS-006.
   Status: open
 
 ## Done

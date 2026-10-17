@@ -814,7 +814,8 @@
         "VIS-006-FIRST-VIEW-01",
         "VIS-006-FIRST-VIEW-02",
         "VIS-006-FIRST-VIEW-03",
-        "VIS-006-FIRST-VIEW-04"
+        "VIS-006-FIRST-VIEW-04",
+        "VIS-006-LIVE"
       ],
       "title": "Audit mapped fractals in reconciled batches"
     },
@@ -1108,7 +1109,6 @@
     "schema": 1,
     "tasks": [
       "REL-JOURNEY-01-WEB",
-      "VIS-006",
       "CAT-QUALITY-02",
       "GAUSS-MOAT-04-GROWTH",
       "GAUSS-MOAT-03-QUALIFY",
@@ -1124,7 +1124,6 @@
       "NUM-WALL-04",
       "NUM-WALL-05",
       "ACAD-04",
-      "ACAD-05",
       "CAT-QUALITY-03",
       "MEDIA-002",
       "VIS-003",
@@ -1146,7 +1145,8 @@
       "ACAD-01-LIVE",
       "SMOOTH-001-INVENTORY-02-LIVE",
       "CAT-QUALITY-01-LIVE",
-      "ACAD-02-LIVE"
+      "ACAD-02-LIVE",
+      "VIS-006-LIVE"
     ]
   },
   "tasks": [
@@ -1157,16 +1157,6 @@
       "section": "Now",
       "status": "open",
       "title": "Qualify the complete web image-creation journey"
-    },
-    {
-      "depends_on": [
-        "VIS-005"
-      ],
-      "goal": "VIS-006",
-      "id": "VIS-006",
-      "section": "Now",
-      "status": "open",
-      "title": "Capture and inspect the next ten uncaptured Explore modules"
     },
     {
       "depends_on": [
@@ -1527,6 +1517,16 @@
       "title": "Review app icon presentation and record sign-off"
     },
     {
+      "depends_on": [
+        "VIS-006"
+      ],
+      "goal": "VIS-006",
+      "id": "VIS-006-LIVE",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Live checks for VIS-006"
+    },
+    {
       "depends_on": [],
       "goal": "ACAD-001",
       "id": "ACAD-01",
@@ -1721,6 +1721,16 @@
       "section": "Done",
       "status": "done",
       "title": "Reconcile the complete visual-audit inventory"
+    },
+    {
+      "depends_on": [
+        "VIS-005"
+      ],
+      "goal": "VIS-006",
+      "id": "VIS-006",
+      "section": "Done",
+      "status": "done",
+      "title": "Capture and inspect the next ten uncaptured Explore modules"
     },
     {
       "depends_on": [

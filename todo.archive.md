@@ -600,3 +600,23 @@ Source section: Next
   - Next action: Add negative claim-promotion/freshness fixtures against the library contract before connecting the existing doctor/admission seam.
   - Planning repair: 2026-10-17 — Include the exact existing promotion seam already named in Sources and required by Scope/Acceptance. This is a clerical Touches correction under accepted admission-safeguard work, not permission to auto-promote claims or change review gates.
   - Recovery continuation: Preserve the ACAD-05 candidate and latest failed scope-validation report. After checking writer inactivity and current source compatibility, let the existing runner finish the promotion-hook integration with missing-evidence/freshness/formula negative tests and rerun the required checks on integrated bytes. Do not alter old reports into passes or restart/reconfigure the runner.
+
+
+<!-- archived from TODO.md -->
+
+Source section: Now
+
+- [x] **VIS-006 — Capture and inspect the next ten uncaptured Explore modules.** Goal: complete the accepted visual playtest audit.
+  - Payoff: extend evidence-backed GPU default and runtime-preview coverage while preserving formulas.
+  - Scope: select the next ten uncaptured Explore IDs from `docs/planning/visual-audit-inventory.json`; capture true module defaults and runtime previews. Run CPU checks only when a native CPU formula exists. Do not alter formulas, static catalog images, or research-library module support.
+  - Sources: [Accepted visual scope](docs/planning/visual-fidelity-audit-next.md#accepted-focus), [`docs/planning/visual-fidelity-audit-next.md`](docs/planning/visual-fidelity-audit-next.md), [`docs/planning/visual-audit-inventory.json`](docs/planning/visual-audit-inventory.json), and `goals.json`.
+  - Acceptance: reconcile selected/generated/failed/skipped counts, record per-ID defaults and image metrics, and validate inventory references.
+  - Dependencies: VIS-005 (task and goal prerequisite).
+  - Prior evidence: VIS-006-BATCH-01 provides completed prior-batch evidence, not an additional prerequisite.
+  - Ownership: repository backlog, open for runner recovery. Preserve prior work; verify actual live writer identity/activity before adoption and do not overlap any live worker.
+  - Status: done
+  - Owner decision: 2026-10-16 — Reopen for the runner, preserving prior work and requiring a live-writer check before adoption. This is planning only; no worker or service was started or changed.
+  - Goal: VIS-006
+  - Touches: integration_test/catalog/, integration_test/flows/, test/cpu/, docs/planning/visual-audit-inventory.json, docs/planning/visual-fidelity-audit-next.md
+  - Checks: Select exactly the next ten uncaptured source-ordered IDs; set `CATALOG_THUMB_ONLY` to those IDs, `CATALOG_THUMB_USE_MODULE_DEFAULTS=true`, `STRICT_CATALOG_THUMBS=true` and a scoped output directory, then run `flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded`. Add/run the scoped runtime-preview test for those same IDs with forced runtime thumbnails; run `python3 research/fractals-library/scripts/validate_visual_inventory.py`, `flutter test test/cpu/cpu_formula_coverage_test.dart` for applicable native formula coverage, changed-test formatting/analysis and `git diff --check`. Reconcile selected/generated/failed/skipped and real artifact IDs/dimensions; no image-health pass implies mathematical correctness.
+  - Planning repair: 2026-10-17 — Add the missing unique Checks field and bounded Touches under the existing approved capture scope. Preserve the previous reopen decision and mandatory live-writer check; this is not new execution or formula-change authority.
