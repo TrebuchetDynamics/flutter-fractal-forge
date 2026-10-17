@@ -311,7 +311,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Checks: Decision record plus planned catalog search/math-navigation/a11y/ID regression and named 320px/768px layouts at text scale 2; these checks are NOT_RUN until an approved UI change is implemented.
   - Dependencies: CAT-QUALITY-02.
   - Ownership: Product owner decision; proposed UI remains Needs decision. No implementation or schedule is authorized.
-
+  - Owner decision: 2026-10-16 — Keep curated discovery undecided until the quality pilot provides concrete examples. Retain Needs decision, CAT-QUALITY-02 dependency and current complete-catalog access; no curated UI implementation is accepted by this answer.
+  - Next action: Bring concrete pilot results and representative catalog examples before requesting the adopt/revise/defer decision.
 
 - [ ] **MEDIA-002 — Select launch hero stills.** Scope: choose 6–8 from the captured Featured Launch Set plus separate 3D/tiling candidates (`mandelbulb` and `spectre_monotile` or `hat_monotile`); no source asset publication. Acceptance: record the selected module IDs and artifact paths, covering 2D escape-time, Newton, IFS, attractor, tiling, and one 3D example as required by the runbook. Dependency: candidate output from MEDIA-001 and supplemental high-resolution captures must exist. Blocker: selection is taste-based and requires product-owner judgment; owner not recorded. See [`docs/planning/LAUNCH_MEDIA.md`](docs/planning/LAUNCH_MEDIA.md).
   - Goal: MEDIA-002. Payoff: choose representative launch imagery without publishing assets.
