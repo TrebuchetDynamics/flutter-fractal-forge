@@ -382,6 +382,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Checks: planned discriminating fixtures: Every vertex belongs to one acyclic connected tree, edge count V-1, unique paths; exact tiny-graph enumeration checks the sampling law, replay same seed, disclose rooting/free/wired boundary choice, cancel long walks and cap walk work without silently biasing accepted samples. Bind actual test targets before approved implementation; model/render/platform checks are NOT_RUN.
   - Dependencies: none; decision proposals cannot bypass existing quality gates or primary focus.
   - Ownership: product owner choice; Needs decision, unassigned. No implementation authority.
+  - Owner decision: 2026-10-16 — Defer this proposal; prioritize existing quality and academic research. This does not change the existing focus/order or authorize a prototype.
+  - Next action: Keep this proposal in Needs decision, deferred rather than completed; do not select or implement it unless the owner later revisits it.
 
 - [ ] **OAI-VIS-05-DIMER — Decide double-dimer nested-loop explorer.**
   - Goal: OAI-VIS-001. Payoff: broaden mathematically distinct experiences without a quantity-driven catalog expansion.
