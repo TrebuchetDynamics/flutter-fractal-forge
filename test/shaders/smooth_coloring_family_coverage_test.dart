@@ -67,6 +67,86 @@ void main() {
       ),
       (
         family: 'integer-power polynomial',
+        path:
+            'shaders/escape_time_family/families/multibrot/multibrot5_gpu.frag',
+        formula: RegExp(
+          r'float\s+smoothVal\s*=\s*float\(it\)\s*-\s*log2\(log2\(mag2\)\)\s*/\s*log2\(5\.0\)\s*;',
+        ),
+        palette:
+            RegExp(r'float\s+(?:baseT|t)\s*=\s*fract\(smoothVal\s*/\s*64\.0'),
+      ),
+      (
+        family: 'integer-power polynomial',
+        path:
+            'shaders/escape_time_family/families/multibrot/multibrot6_gpu.frag',
+        formula: RegExp(
+          r'float\s+smoothVal\s*=\s*float\(it\)\s*-\s*log2\(log2\(mag2\)\)\s*/\s*log2\(6\.0\)\s*;',
+        ),
+        palette:
+            RegExp(r'float\s+(?:baseT|t)\s*=\s*fract\(smoothVal\s*/\s*64\.0'),
+      ),
+      (
+        family: 'integer-power polynomial',
+        path:
+            'shaders/escape_time_family/families/multibrot/multibrot7_gpu.frag',
+        formula: RegExp(
+          r'float\s+smoothVal\s*=\s*float\(it\)\s*-\s*log2\(log2\(mag2\)\)\s*/\s*log2\(7\.0\)\s*;',
+        ),
+        palette:
+            RegExp(r'float\s+(?:baseT|t)\s*=\s*fract\(smoothVal\s*/\s*64\.0'),
+      ),
+      (
+        family: 'integer-power polynomial',
+        path:
+            'shaders/escape_time_family/families/multibrot/multibrot8_gpu.frag',
+        formula: RegExp(
+          r'float\s+smoothVal\s*=\s*float\(it\)\s*-\s*log2\(log2\(mag2\)\)\s*/\s*3\.0\s*;',
+        ),
+        palette:
+            RegExp(r'float\s+(?:baseT|t)\s*=\s*fract\(smoothVal\s*/\s*64\.0'),
+      ),
+      (
+        family: 'integer-power polynomial',
+        path:
+            'shaders/escape_time_family/families/multibrot/multibrot9_gpu.frag',
+        formula: RegExp(
+          r'float\s+smoothVal\s*=\s*float\(it\)\s*-\s*log2\(log2\(mag2\)\)\s*/\s*log2\(9\.0\)\s*;',
+        ),
+        palette:
+            RegExp(r'float\s+(?:baseT|t)\s*=\s*fract\(smoothVal\s*/\s*64\.0'),
+      ),
+      (
+        family: 'integer-power polynomial',
+        path:
+            'shaders/escape_time_family/families/multibrot/multibrot10_gpu.frag',
+        formula: RegExp(
+          r'float\s+smoothVal\s*=\s*float\(it\)\s*-\s*log2\(log2\(mag2\)\)\s*/\s*log2\(10\.0\)\s*;',
+        ),
+        palette:
+            RegExp(r'float\s+(?:baseT|t)\s*=\s*fract\(smoothVal\s*/\s*64\.0'),
+      ),
+      (
+        family: 'integer-power polynomial',
+        path:
+            'shaders/escape_time_family/families/multibrot/multibrot11_gpu.frag',
+        formula: RegExp(
+          r'float\s+smoothVal\s*=\s*float\(it\)\s*-\s*log2\(log2\(mag2\)\)\s*/\s*log2\(11\.0\)\s*;',
+        ),
+        palette:
+            RegExp(r'float\s+(?:baseT|t)\s*=\s*fract\(smoothVal\s*/\s*64\.0'),
+      ),
+      (
+        family: 'integer-power polynomial',
+        path:
+            'shaders/escape_time_family/families/multibrot/multibrot12_gpu.frag',
+        formula: RegExp(
+          r'float\s+smoothVal\s*=\s*float\(it\)\s*-\s*log2\(log2\(mag2\)\)\s*/\s*log2\(12\.0\)\s*;',
+        ),
+        palette:
+            RegExp(r'float\s+(?:baseT|t)\s*=\s*fract\(smoothVal\s*/\s*64\.0'),
+      ),
+      (
+        family: 'integer-power polynomial',
         path: 'shaders/escape_time_family/polynomial_maps/druid_gpu.frag',
         formula: RegExp(
           r'float\s+smoothVal\s*=\s*float\(it\)\s*-\s*log2\(log2\(mag2\)\)\s*/\s*log2\(3\.0\)\s*;',
@@ -198,5 +278,29 @@ void main() {
     final smoothedCoordinate = paletteCoordinate(3, 16.0);
     expect(smoothedCoordinate, closeTo(1.0 / 64.0, 1e-12));
     expect(smoothedCoordinate, isNot(closeTo(3.0 / 64.0, 1e-12)));
+  });
+
+  test('higher-degree Multibrot smoothing changes the palette coordinate', () {
+    const iterations = 5;
+    const magnitudeSquared = 256.0;
+    final correctionNumerator =
+        math.log(math.log(magnitudeSquared) / math.ln2) / math.ln2;
+
+    for (final degree in [5, 6, 7, 8, 9, 10, 11, 12]) {
+      final correctionDenominator = math.log(degree) / math.ln2;
+      final smoothValue =
+          iterations - correctionNumerator / correctionDenominator;
+      final paletteCoordinate = (smoothValue / 64.0) % 1.0;
+      expect(
+        paletteCoordinate,
+        closeTo((iterations - 3.0 / correctionDenominator) / 64.0, 1e-12),
+        reason: 'degree $degree uses its degree-aware escape correction',
+      );
+      expect(
+        paletteCoordinate,
+        isNot(closeTo(iterations / 64.0, 1e-12)),
+        reason: 'degree $degree palette coordinate differs from raw iterations',
+      );
+    }
   });
 }

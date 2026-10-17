@@ -10,7 +10,7 @@ Standard escape-time modules use the slot definitions in `lib/core/modules/build
 
 ## Coloring coverage
 
-`test/shaders/smooth_coloring_family_coverage_test.dart` checks source-level smooth-coloring paths in ten bounded families (15 shaders):
+`test/shaders/smooth_coloring_family_coverage_test.dart` checks source-level smooth-coloring paths in ten bounded families (23 shaders):
 
 | Family | Shader paths | Checked coloring form |
 |---|---|---|
@@ -31,16 +31,16 @@ The regression asserts each listed shader's expected formula, its use in the esc
 |---|---|---|
 | `multibrot3` | `shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/core_escape_time_family.dart:338`) | Checked: degree-aware formula using `log(max(1.001, abs(power)))`, smoothed palette coordinate, and distinct inside-set path. |
 | `multibrot4` | `shaders/escape_time_family/families/multibrot/integer_powers/multibrot4_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/cellular_stochastic.dart:708`) | Checked: degree-4 `log(4.0)` correction, smoothed palette coordinate, and distinct inside-set path. The existing power regression also checks its correction and early-out. |
-| `multibrot5` | `shaders/escape_time_family/families/multibrot/multibrot5_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/cellular_stochastic.dart:725`) | Unverified by smooth-coloring assertions; source has degree-5 correction and uses it for palette coordinates. |
-| `multibrot6` | `shaders/escape_time_family/families/multibrot/multibrot6_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/batch_14_extensions.dart:76`) | Unverified by smooth-coloring assertions; source has degree-6 correction and uses it for palette coordinates. |
-| `multibrot7` | `shaders/escape_time_family/families/multibrot/multibrot7_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/batch_14_extensions.dart:256`) | Unverified by smooth-coloring assertions; source has degree-7 correction and uses it for palette coordinates. |
-| `multibrot8` | `shaders/escape_time_family/families/multibrot/multibrot8_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/batch_14_extensions.dart:264`) | Unverified by smooth-coloring assertions; source has degree-8 correction and uses it for palette coordinates. |
-| `multibrot9` | `shaders/escape_time_family/families/multibrot/multibrot9_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/batch_14_extensions.dart:531`) | Unverified by smooth-coloring assertions; source has degree-9 correction and uses it for palette coordinates. |
-| `multibrot10` | `shaders/escape_time_family/families/multibrot/multibrot10_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/batch_14_extensions.dart:548`) | Unverified by smooth-coloring assertions; source has degree-10 correction and uses it for palette coordinates. |
-| `multibrot11` | `shaders/escape_time_family/families/multibrot/multibrot11_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/batch_14_extensions.dart:577`) | Unverified by smooth-coloring assertions; source has degree-11 correction and uses it for palette coordinates. |
-| `multibrot12` | `shaders/escape_time_family/families/multibrot/multibrot12_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/batch_14_extensions.dart:585`) | Unverified by smooth-coloring assertions; source has degree-12 correction and uses it for palette coordinates. |
+| `multibrot5` | `shaders/escape_time_family/families/multibrot/multibrot5_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/cellular_stochastic.dart:725`) | Checked: degree-5 `log2(5.0)` correction, standard/normal-map smooth palette coordinates, and distinct inside-set output. |
+| `multibrot6` | `shaders/escape_time_family/families/multibrot/multibrot6_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/batch_14_extensions.dart:76`) | Checked: degree-6 `log2(6.0)` correction, standard/normal-map smooth palette coordinates, and distinct inside-set output. |
+| `multibrot7` | `shaders/escape_time_family/families/multibrot/multibrot7_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/batch_14_extensions.dart:256`) | Checked: degree-7 `log2(7.0)` correction, standard/normal-map smooth palette coordinates, and distinct inside-set output. |
+| `multibrot8` | `shaders/escape_time_family/families/multibrot/multibrot8_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/batch_14_extensions.dart:264`) | Checked: degree-8 `/ 3.0` correction, standard/normal-map smooth palette coordinates, and distinct inside-set output. |
+| `multibrot9` | `shaders/escape_time_family/families/multibrot/multibrot9_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/batch_14_extensions.dart:531`) | Checked: degree-9 `log2(9.0)` correction, standard/normal-map smooth palette coordinates, and distinct inside-set output. |
+| `multibrot10` | `shaders/escape_time_family/families/multibrot/multibrot10_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/batch_14_extensions.dart:548`) | Checked: degree-10 `log2(10.0)` correction, standard/normal-map smooth palette coordinates, and distinct inside-set output. |
+| `multibrot11` | `shaders/escape_time_family/families/multibrot/multibrot11_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/batch_14_extensions.dart:577`) | Checked: degree-11 `log2(11.0)` correction, standard/normal-map smooth palette coordinates, and distinct inside-set output. |
+| `multibrot12` | `shaders/escape_time_family/families/multibrot/multibrot12_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/batch_14_extensions.dart:585`) | Checked: degree-12 `log2(12.0)` correction, standard/normal-map smooth palette coordinates, and distinct inside-set output. |
 
-“Checked” here means bounded source assertions only, not visual or hardware-GPU qualification. The integer-power inventory does not include the non-integer degree 1.5/2.5 variants or the negative-power map. Integer-power degrees 5–12 remain uncovered by the smooth-coloring regression; the other shader families and unlisted shaders also remain outside this bounded test, so P1-3 is still open for a complete audit.
+“Checked” here means bounded source assertions only, not visual or hardware-GPU qualification. The family regression now covers the degree-aware formulas and inside-set branches for integer-power degrees 5–12; its numeric fixture confirms the expected degree correction changes the palette coordinate from raw iterations. The integer-power inventory does not include the non-integer degree 1.5/2.5 variants or the negative-power map. Those variants, the other shader families and unlisted shaders remain outside this bounded test, so P1-3 is still open for a complete audit.
 
 Do not apply one coloring formula to every recurrence without checking its iteration and magnitude values. Shader families can require different formulas.
 
