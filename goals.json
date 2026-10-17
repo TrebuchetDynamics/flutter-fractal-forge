@@ -972,7 +972,8 @@
         "REL-JOURNEY-01-WEB",
         "REL-JOURNEY-02-LINUX",
         "REL-JOURNEY-02-LINUX-LIVE",
-        "REL-JOURNEY-03-ANDROID"
+        "REL-JOURNEY-03-ANDROID",
+        "REL-JOURNEY-03-ANDROID-LIVE"
       ],
       "title": "Qualify the complete image-creation journey on Android, web and Linux"
     },
@@ -1110,7 +1111,6 @@
       "GAUSS-MOAT-03-QUALIFY",
       "QUAT-NORM-02-WALK",
       "QUAT-NORM-03-QUALIFY",
-      "REL-JOURNEY-03-ANDROID",
       "SMOOTH-001-INVENTORY-02",
       "VIS-006-BATCH-20",
       "VIS-006-CPU-01",
@@ -1141,7 +1141,8 @@
       "QUAT-NORM-01-SLICE-LIVE",
       "REL-JOURNEY-02-LINUX-LIVE",
       "ACAD-03",
-      "SMOOTH-001-INVENTORY-01-LIVE"
+      "SMOOTH-001-INVENTORY-01-LIVE",
+      "REL-JOURNEY-03-ANDROID-LIVE"
     ]
   },
   "tasks": [
@@ -1321,14 +1322,6 @@
       "title": "Qualify accessible quaternion walking and frozen-state exports on all three targets"
     },
     {
-      "depends_on": [],
-      "goal": "REL-JOURNEY-001",
-      "id": "REL-JOURNEY-03-ANDROID",
-      "section": "Next",
-      "status": "open",
-      "title": "Qualify the complete Android image-creation journey"
-    },
-    {
       "depends_on": [
         "SMOOTH-001-INVENTORY-01"
       ],
@@ -1489,6 +1482,16 @@
     },
     {
       "depends_on": [
+        "REL-JOURNEY-03-ANDROID"
+      ],
+      "goal": "REL-JOURNEY-001",
+      "id": "REL-JOURNEY-03-ANDROID-LIVE",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Live checks for REL-JOURNEY-03-ANDROID"
+    },
+    {
+      "depends_on": [
         "SMOOTH-001-INVENTORY-01"
       ],
       "goal": "SMOOTH-001",
@@ -1584,6 +1587,14 @@
       "section": "Done",
       "status": "done",
       "title": "Qualify the complete Linux image-creation journey"
+    },
+    {
+      "depends_on": [],
+      "goal": "REL-JOURNEY-001",
+      "id": "REL-JOURNEY-03-ANDROID",
+      "section": "Done",
+      "status": "done",
+      "title": "Qualify the complete Android image-creation journey"
     },
     {
       "depends_on": [],
