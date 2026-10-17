@@ -1,8 +1,37 @@
-# GitLab releases
+# Multi-platform releases
+
+## Independent platform release campaign
+
+Status: Accepted
+
+The 2026-10-17 owner request supersedes the all-or-nothing publication policy below: attempt every platform, skip a platform-specific error, and continue qualified independent lanes. See [the accepted policy](../../../PRD.md#independent-platform-release-policy). This is a planned workflow, NOT implemented behavior. The current launcher/CI/evidence/publisher path still depends on GitLab and a complete artifact set. Do not invoke the no-argument release command expecting best-effort behavior.
+
+The PRD's explicit GitLab deferral governs this campaign. The older resumption statement below is conflicting operating history, not new authorization. Keep GitLab login, mirror, CI dispatch and release publication excluded unless separately resumed. Implement a host-independent route reusing the existing local/native builders and evidence checks; never set GITLAB_CI or fabricate CI/device evidence to get around a guard.
+
+| Lane | Candidate and destination | Required lane-local proof |
+| --- | --- | --- |
+| Android/Play | Signed AAB and configured ABI APKs; Play production/completed | Existing device/journey/gallery checks; certificate/version/hash validation; live upload readback |
+| F-Droid | Reproducible unsigned APKs plus metadata | Existing reproducibility, official lint/source scans and relevant Android qualification; maintainer acceptance is external, not automatic production publication |
+| Web | Verified web bundle; existing Cloudflare Pages production project | Real 2D/3D edited-state PNG journey, browser/saved-data checks, asset validation and deployed-site readback |
+| Linux | Verified native tarball; published GitHub release | Native launch/journey/export checks, packaging/provenance/checksums and download readback |
+| Windows | Verified native ZIP; published GitHub release | Actual supported Windows host, native journey/export/packaging checks and download readback |
+| macOS | Distribution-ready native app/package; configured production distribution | Actual macOS host, native journey/export, required signing/notarization and artifact readback; unsigned archive alone is insufficient |
+| iOS | Signed/provisioned production submission | Actual macOS/Xcode host, iOS journey/export and store prerequisites; current unsigned archive path is insufficient |
+
+Planner's orchestration contract:
+- Snapshot candidate identity once. Per-lane records bind exact artifacts, sizes/hashes, source/version/SDK/lock identity, checks, error stage, skipped reason and observed publication identifiers. No stale prior-version substitution, missing-row success, empty-artifact publication or cross-lane credential prerequisite.
+- Keep the common source/integrity/privacy/compatibility validation barrier. Build each independent lane with isolated output; gate its evidence and publisher on that lane's required checks, not the existence of unrelated artifacts. Generate checksums/SBOM/notices for the admitted subset only while retaining explicit records for every omitted lane.
+- A stage dependency prevents only its own lane/dependents. Do not implement this as global `allow_failure`, `|| true`, disabled validation, or marking missing artifacts verified. A shared defect stops all affected lanes and is not relabeled platform-local merely to publish.
+- Use existing build/test timeouts; planner's initial queue-availability deadline is 15 minutes per unavailable native host, explicitly configurable before the run. Retain timing/timeout/error logs. Missing hosts/signing/credentials are skipped-unavailable, not fake build attempts; no installation or paid capacity is implied by this plan.
+- Reuse the same immutable artifacts on retry. Read remote tag/release/deployment/store state before repeating an uncertain write. No force-tag, destructive rollback or repeat Play upload based only on a timeout. Keep unknown publication separate from skipped-failed.
+- The final machine/human report says complete or partial with per-lane proof; all-skipped/common-gate failure is nonzero and publishes nothing. A partial success must not claim all-platform readiness. Apple store/F-Droid acceptance still require their real external outcomes.
+
+Preparation and publication are separate queue tasks. Apple signing/store submission is not implemented by the current scripts: if no existing approved production route, signing or native host is available, record skipped-unavailable; this campaign does not authorize building a new store-submission system or buying access. No proposed CLI flag in this plan is an existing supported command. Existing `REL-JOURNEY-*` and their live follow-ups retain their IDs, proof and access gates; reuse them rather than creating duplicate product qualification tasks. Existing user task order/focus and paused schedules are unchanged.
 
 ## Current release status
 
-The owner resumed GitLab release scope on 2026-10-16. GitLab remains the only CI
+Historical operating note (2026-10-16; conflicts with the current PRD deferral):
+this document recorded resumed GitLab release scope. GitLab remains the only CI
 executor, and every existing build, Android-device, cross-platform journey and
 evidence gate still applies; this is not a qualification waiver. GitLab `main` is
 mirrored at the release commit and publication is dispatched through
@@ -94,7 +123,7 @@ the same branch to GitLab and review its pipeline there.
 Release jobs run only for an explicit API/web pipeline on a protected branch.
 Ordinary pushes and tags never publish. Every build and the Android device gate
 must succeed before evidence can pass. Both evidence and F-Droid scanning must
-succeed before publication. There are no optional platform failures.
+succeed before publication. There are no optional platform failures in the current implementation; changing that behavior is explicitly planned by the newer independent-platform policy above, not already delivered.
 
 Publication jobs share a resource group. Play defaults to `production` and
 `completed`; explicit `PLAY_TRACK` and `PLAY_RELEASE_STATUS` overrides remain

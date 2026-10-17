@@ -49,6 +49,18 @@ The journey must complete without a crash or silent placeholder substitution. Ex
 | Human Spanish review | Historical qualification remains unclaimed. Existing EN/ES support is preserved. This interview does not add a human-review release gate. |
 | Every catalog fractal individually certified before release | Superseded for this release by the owner's explicit permission to retain clearly qualified unverified/inspired entries. New-formula quality gates in the current backlog remain unchanged. |
 
+### Independent platform release policy
+
+Status: Accepted
+
+Owner request (2026-10-17): plan a release for all platforms; skip a specific platform if it errors. This is planning authority only, not permission to implement, publish, deploy, change schedules or spend money. Production remains the default destination. The earlier explicit GitLab deferral remains in force; later operating notes claiming resumption conflict with this PRD and do not supply new owner authority.
+
+For this campaign, attempt Android/Play, web, Linux, Windows, macOS and iOS, with F-Droid as an independently assessed Android distribution lane. This prospectively expands the attempted platform set without claiming existing Windows/Apple qualification. Preserve existing platform journey, saved-state, accessibility, security, signing and artifact-evidence requirements. A platform-local build, test, runner, signing, credential or publication failure skips that lane with an exact reason; it does not suppress successful independent lanes or become a passed check. Android device checks gate Android distribution, not unrelated desktop/web publication; F-Droid reproducibility and source scans gate F-Droid, not unrelated publishers. Shared source-identity, integrity, secret/privacy or compatibility failures stop every affected lane, not merely the first one to reveal them.
+
+Planner's call: freeze one reviewed source commit, SDK/lockfile, version/build identity and candidate inventory. Reuse the existing builders, qualification targets, provenance/checksum/SBOM tools and publisher adapters; add the smallest explicit best-effort orchestration policy rather than a second release framework. A verified non-GitLab execution route is required while GitLab is deferred; current flags do not provide one. Use available authorized native hosts, skip unsupported/unavailable hosts without pretending to cross-compile Apple/Windows on Linux, and do not purchase runners or bypass authentication.
+
+Every requested lane needs an explicit terminal record: verified/published, skipped-failed, skipped-unavailable, or publication-unknown. Keep separate build, qualification, artifact and publication verdicts. An ambiguous remote write must be read back before retry; it is never a safe-to-repeat failure. Report partial delivery honestly, list every omitted platform, and never label an unsigned Apple archive or an F-Droid metadata submission as a production store release. If no lane qualifies, publish nothing and report failure. Publication requires separate scoped authority after the prepare report exists; prior artifact-specific upload permissions are not blanket permission for this campaign.
+
 ### Execution frontier
 
 - Web first within this plan: the backend matrix records browser export as unqualified. Prove the complete journey rather than another build-only smoke.

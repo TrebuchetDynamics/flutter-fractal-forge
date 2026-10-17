@@ -975,7 +975,10 @@
         "REL-JOURNEY-02-LINUX",
         "REL-JOURNEY-02-LINUX-LIVE",
         "REL-JOURNEY-03-ANDROID",
-        "REL-JOURNEY-03-ANDROID-LIVE"
+        "REL-JOURNEY-03-ANDROID-LIVE",
+        "RELEASE-001-23",
+        "RELEASE-002-75",
+        "RELEASE-003-ae"
       ],
       "title": "Qualify the complete image-creation journey on Android, web and Linux"
     },
@@ -1124,6 +1127,8 @@
       "NUM-WALL-04",
       "NUM-WALL-05",
       "ACAD-04",
+      "RELEASE-001-23",
+      "RELEASE-002-75",
       "CAT-QUALITY-03",
       "MEDIA-002",
       "VIS-003",
@@ -1147,7 +1152,8 @@
       "CAT-QUALITY-01-LIVE",
       "ACAD-02-LIVE",
       "VIS-006-LIVE",
-      "QUAT-NORM-02-WALK-LIVE"
+      "QUAT-NORM-02-WALK-LIVE",
+      "RELEASE-003-ae"
     ]
   },
   "tasks": [
@@ -1268,6 +1274,24 @@
       "section": "Next",
       "status": "open",
       "title": "Qualify accessible quaternion walking and frozen-state exports on all three targets"
+    },
+    {
+      "depends_on": [],
+      "goal": "REL-JOURNEY-001",
+      "id": "RELEASE-001-23",
+      "section": "Next",
+      "status": "open",
+      "title": "Implement isolated platform release lanes and verified partial evidence"
+    },
+    {
+      "depends_on": [
+        "RELEASE-001-23"
+      ],
+      "goal": "REL-JOURNEY-001",
+      "id": "RELEASE-002-75",
+      "section": "Next",
+      "status": "open",
+      "title": "Prepare and qualify every available platform without publication"
     },
     {
       "depends_on": [
@@ -1467,6 +1491,16 @@
       "section": "Needs decision",
       "status": "open",
       "title": "Live checks for REL-JOURNEY-03-ANDROID"
+    },
+    {
+      "depends_on": [
+        "RELEASE-002-75"
+      ],
+      "goal": "REL-JOURNEY-001",
+      "id": "RELEASE-003-ae",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Publish the verified platform subset after scoped production approval"
     },
     {
       "depends_on": [
