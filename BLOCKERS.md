@@ -20,6 +20,13 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T04:30:10Z
 - Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
 
+### Q-SMOOTH-001-INVENTORY-02 — USER_DECISION — effort decision — unblocks 1
+
+- Task: SMOOTH-001-INVENTORY-02 — Verify the next uncovered polynomial smooth-coloring family.
+- Needs: not runnable: needs unique Scope, Acceptance and Checks fields
+- Since: 2026-10-17T04:33:38Z
+- Answer: Fix SMOOTH-001-INVENTORY-02's TODO.md entry as the reason says (for example add the missing Scope, Acceptance or Checks field), or move it out of Now/Next.
+
 ### Q-VIS-003 — USER_DECISION — effort decision — unblocks 1
 
 - Task: VIS-003 — App icon visual sign-off.** Scope: inspect the existing adaptive launcher and store artwork in representative device masks; do not treat missing files as the issue or redesign without approval. Acceptance: product owner records accept/request-change and any exact crop/design correction. Blocker: visual acceptance criteria/approval are owner-controlled; inputs and dimensions were checked, but visual acceptance is not claimed. Ownership: owner decision required.
