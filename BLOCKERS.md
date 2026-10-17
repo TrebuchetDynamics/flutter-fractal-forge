@@ -34,13 +34,6 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T21:30:51Z
 - Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/VIS-006-BATCH-20/), then rescope or split VIS-006-BATCH-20 in its TODO.md entry. The runner reruns it when the entry changes.
 
-### Q-REL-JOURNEY-01-WEB — USER_DECISION — effort investigate — unblocks 0
-
-- Task: REL-JOURNEY-01-WEB — Qualify the complete web image-creation journey.
-- Needs: dead worker without a commit or changes
-- Since: 2026-10-17T16:43:09Z
-- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/REL-JOURNEY-01-WEB/), then rescope or split REL-JOURNEY-01-WEB in its TODO.md entry. The runner reruns it when the entry changes.
-
 <!-- pi-autowork:questions:end -->
 
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
