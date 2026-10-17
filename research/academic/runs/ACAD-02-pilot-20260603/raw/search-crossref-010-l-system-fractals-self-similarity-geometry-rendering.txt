@@ -1,0 +1,25 @@
+10.1887/0750304006/b384c2	Regular fractals and self-similarity
+10.1093/oso/9780198501664.003.0006	Stronger Self-Similarity For Bpi Spaces
+10.1016/j.physleta.2012.06.035	Fractals, coherent states and self-similarity induced noncommutative geometry
+10.1007/978-1-4471-0873-3_1	From Self-Similarity to Local Self-Similarity: the Estimation Problem
+10.1007/978-1-4899-2124-6_10	Self-Similarity and Self-Affinity
+10.1201/9780849384431.ch2	Regular fractals and self-similarity
+10.1016/b978-0-444-86995-1.50019-6	SELF-SIMILARITY OF MUTUAL AND SELF-INTERSECTIONS OF RANDOM FRACTALS
+10.1016/j.chaos.2021.111473	K-Narayana sequence self-Similarity. flip graph views of k-Narayana self-Similarity
+10.21275/sr251001171758	Fractals and Fugues: How Self-Similarity Emerges in Musical Structure
+10.1017/9781316460238.003	Self-similarity and packing dimension
+10.1007/0-387-21823-8_3	Classical Fractals and Self-Similarity
+10.1007/978-1-4757-4740-9_3	Classical Fractals and Self-Similarity
+10.1007/978-1-4757-2172-0_2	Classical Fractals and Self-Similarity
+10.1093/actrade/9780199675982.003.0002	2. Self-similarity
+10.1142/s0218348x03001574	SELF-SIMILARITY LIMITS OF GENOMIC SIGNATURES
+10.1016/j.chaos.2023.114084	Generation of self-similarity in a chaotic system of attractors with many scrolls and their circuit’s implementation
+10.2307/2873191	Self-Similarity, Fractals, Cantos
+10.1142/s0218348x04002586	A NEW DISTRIBUTION-BASED TEST OF SELF-SIMILARITY
+10.1142/s0218348x14500029	SELF-SIMILARITY PROPERTIES OF THE INDUSTRIAL COMPETITION NETWORKS
+10.1007/978-1-4757-2763-0_6	Self-similarity and panorama of self-affinity
+10.1016/j.chaos.2021.110790	Similarity and self-similarity in random walk with fixed, random and shrinking steps
+10.4171/jfg/140	A dichotomy on the self-similarity of graph-directed attractors
+10.1142/9789812388780_0014	The charm of self-similarity
+10.1016/j.chaos.2016.03.021	On different forms of self similarity
+10.1017/cbo9780511470943.002	Geometry of Self-Similar Sets

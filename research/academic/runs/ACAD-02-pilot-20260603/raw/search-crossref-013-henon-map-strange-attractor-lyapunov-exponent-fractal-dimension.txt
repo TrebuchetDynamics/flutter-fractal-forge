@@ -1,0 +1,25 @@
+10.1007/bf02650524	Lyapunov exponent and dimension of the strange attractor of elastic frictional system
+10.1016/0375-9601(83)90751-x	Fractal dimension of the strange attractor in a piecewise linear two-dimensional map
+10.1016/0375-9601(83)90752-1	On the fractal dimension of the Henon attractor
+10.1016/0167-2789(85)90025-9	On the fractal dimension of the Henon attractor
+10.1109/icmss.2011.5998350	An Empirical Analysis on Forecasting Stock Price: By Maximum Lyapunov Exponent and Fractal Dimension
+10.1109/iwcfta.2009.91	Study on Fault Analysis of Rotor Machinery Using Lyapunov Exponent-Fractal Dimension
+10.1016/0010-4825(96)00019-4	The nature of dominant lyapunov exponent and attractor dimension curves of eeg in sleep
+10.1109/icsmc.2010.5642336	Emotional evaluation of TV-CM using the fractal dimension and the largest Lyapunov exponent
+10.1016/0167-2789(85)90137-x	The fractal dimension of the two-well potential strange attractor
+10.1016/j.cam.2025.116547	Dynamic complexity of fifth-dimensional Henon map with Lyapunov exponent, permutation entropy, bifurcation patterns and chaos
+10.1007/s000240050321	Phase Space Structure, Attractor Dimension, Lyapunov Exponent and Nonlinear Prediction from Earth's Atmospheric Angular Momentum Time Series
+10.1119/1.17974	Fractal dimension of the strange attractor of the bouncing ball circuit
+10.1063/1.59945	Nonchaotic attractor with a highly fluctuating finite-time Lyapunov exponent in a hybrid optical system
+10.2139/ssrn.4509878	Fractal Dimension Estimates of Random Attractor for Non-Autonomous Random 2d Stochastic Dynamical Type Systems
+10.1017/cbo9780511803260.005	Strange attractors and fractal dimension
+10.2139/ssrn.7388899	Beyond the largest Lyapunov exponent: characterizing periodic attractor robustness and crisis dynamics in coupled Hénon maps
+10.1016/s0375-9601(99)00793-8	Nonlinear stiffness, Lyapunov exponents, and attractor dimension
+10.1016/b978-0-08-024939-1.50074-5	THE METABOLIC EXPONENT AS A FRACTAL DIMENSION
+10.1137/1.9781611975666.ch19	Chapter 19: Lyapunov Exponents and Fractal Dimension
+10.1007/978-94-011-3692-1_11	Maximal Lyapunov Exponent for a Stochastically Perturbed Co-Dimension Two Bifurcation
+10.1007/bf02847692	Conversion of a chaotic attractor into a strange nonchaotic attractor in an one dimensional map and BVP oscillator
+10.1007/s11071-011-0239-4	Absolute term introduced to rebuild the chaotic attractor with constant Lyapunov exponent spectrum
+10.1063/1.532978	Dimension of the global attractor for damped semilinear wave equations with critical exponent
+10.1016/0375-9601(83)90209-8	At least one Lyapunov exponent vanishes if the trajectory of an attractor does not contain a fixed point
+10.1016/0375-9601(83)90052-x	The fractal dimension of the Lorenz attractor

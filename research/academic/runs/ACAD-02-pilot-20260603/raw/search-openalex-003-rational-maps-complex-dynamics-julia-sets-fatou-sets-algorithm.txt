@@ -1,0 +1,25 @@
+10.1016/j.topol.2006.03.024	Rational maps with generalized Sierpinski gasket Julia sets
+10.48550/arxiv.1103.3803	Checkerboard Julia Sets for Rational Maps
+	Dynamics of Holomorphic Maps: Resurgence of Fatou coordinates, and Poly-time Computability of Julia Sets
+10.3934/math.2025747	Invariant Jordan curves in the Julia sets of rational maps
+10.48550/arxiv.2408.12371	Invariant graphs in Julia sets and decompositions of rational maps
+10.1007/s11785-024-01636-9	Julia Sets of Rational Maps with Rotational Symmetries
+10.1090/s0273-0979-1984-15253-4	Julia sets and bifurcation diagrams for exponential maps
+10.5815/ijigsp.2012.05.08	Wavelet Based Some Julia Sets of Rational Maps Having Zhukovskii Function
+10.1090/s0894-0347-05-00516-3	Non-computable Julia sets
+10.1090/s0002-9939-2013-11636-9	On the Julia set of König’s root–finding algorithms
+10.4064/fm170-3-6	On the continuity of Hausdorff dimension of Julia sets and similarity between the Mandelbrot set and Julia sets
+10.1017/cbo9780511569159.006	Local connectivity of Julia sets: expository lectures
+10.4007/annals.2012.176.2.1	Quadratic Julia sets with positive area
+	On the dynamics of quasi-self-matings of generalized starlike complex quadratics and the structure of the mated Julia sets
+10.4064/fm171-2-5	On an analytic approach to the Fatou conjecture
+10.1080/10586458.2004.10504523	Pasting Together Julia Sets: A Worked Out Example of Mating
+10.1016/j.topol.2017.10.013	Dynamics and limiting behavior of Julia sets of König's method for multiple roots
+	HéNon Maps, Discrete Groups And Continuity Of Julia Sets
+10.48550/arxiv.1812.11595	Julia sets of Newton maps of real quadratic polynomial maps on the plane
+10.1080/10586458.2000.10504657	On Rational Maps with Two Critical Points
+10.3390/fractalfract5040272	Fractals as Julia Sets of Complex Sine Function via Fixed Point Iterations
+10.48550/arxiv.2602.20588	Continuity of Julia sets and invariant rays
+	Connectivity of Julia sets of transcendental meromorphic functions
+10.1007/s00222-014-0504-5	On the connectivity of the Julia sets of meromorphic functions
+10.32792/jeps.v12i2.206	A Properties of Mandelbrot Set of Quartic Rational Maps

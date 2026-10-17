@@ -1,0 +1,25 @@
+10.1016/s0960-0779(00)00259-9	Schröder iteration functions associated with a one-parameter family of biquadratic polynomials
+10.1007/bf02392275	The iteration of cubic polynomials Part I: The global topology of parameter space
+10.2307/120958	Local Connectivity of the Julia Set of Real Polynomials
+10.4007/annals.2004.159.1	On the Julia set of a typical quadratic polynomial with a Siegel disk
+10.5802/aif.2215	Puiseux series polynomial dynamics and iteration of complex cubic polynomials
+10.1007/s00605-021-01591-z	The Picard–Mann iteration with s-convexity in the generation of Mandelbrot and Julia sets
+10.3390/fractalfract5040272	Fractals as Julia Sets of Complex Sine Function via Fixed Point Iterations
+	The Hausdorff Dimension of the Julia Set of Polynomials of the Form zd + c
+10.1007/bf02392761	The iteration of cubic polynomials Part II: patterns and parapatterns
+10.48550/arxiv.math/9504227	Local connectivity of the Julia set of real polynomials
+10.4171/jems/1154	The core entropy for polynomials of higher degree
+10.1017/cbo9780511569159.006	Local connectivity of Julia sets: expository lectures
+10.1090/s0273-0979-2013-01410-1	Singular perturbations of complex polynomials
+10.3390/axioms13030204	Generating Geometric Patterns Using Complex Polynomials and Iterative Schemes
+10.3390/sym15020478	Fractals as Julia and Mandelbrot Sets of Complex Cosine Functions via Fixed Point Iterations
+10.1090/s0002-9939-2012-11323-1	Hausdorff dimension and biaccessibility for polynomial Julia sets
+10.1109/access.2019.2892013	Mandelbrot and Julia Sets via Jungck–CR Iteration With $s$ –Convexity
+10.48550/arxiv.1609.02240	Slices of Parameter Space of Cubic Polynomials
+10.1007/s11071-023-08785-0	On the quaternion Julia sets via Picard–Mann iteration
+10.12732/ijpam.v107i1.13	NEW JULIA AND MANDELBROT SETS FOR A NEW FASTER ITERATIVE PROCESS
+10.1007/s11075-023-01644-4	On the viscosity approximation type iterative method and its non-linear behaviour in the generation of Mandelbrot and Julia sets
+10.1016/s0001-8708(03)00144-0	Real laminations and the topological dynamics of complex polynomials
+10.48550/arxiv.1101.4702	Hausdorff dimension and biaccessibility for polynomial Julia sets
+10.82444/warw.33763501	On quotients of the shift associated with dendrite Julia sets of quadratic polynomials
+10.3390/sym17071028	Generation of Julia and Mandelbrot Sets for a Complex Function via Jungck–Noor Iterative Method with s-Convexity

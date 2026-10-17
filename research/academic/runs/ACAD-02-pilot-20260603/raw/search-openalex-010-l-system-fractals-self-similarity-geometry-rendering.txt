@@ -1,0 +1,25 @@
+10.3390/systems4040037	Visual Analysis of Nonlinear Dynamical Systems: Chaos, Fractals, Self-Similarity and the Limits of Prediction
+	On the Geometry of IFS Fractals and its Applications
+10.1007/s00004-000-0006-1	“Fractal Architecture”: Late Twentieth Century Connections Between Architecture and Fractal Geometry
+10.1145/127719.122728	Efficient antialiased rendering of 3-D linear fractals
+10.3390/app9112383	Auto-Generation System Based on Fractal Geometry for Batik Pattern Design
+10.1088/0967-3334/23/1/201	Fractal characterization of complexity in temporal physiological signals
+10.5120/14970-3157	A Review on Natural Phenomenon of Fractal Geometry
+10.3390/fractalfract6070379	Fractals: An Eclectic Survey, Part II
+10.3280/oa-1180-c577	The geometry of fractals between out of measure and Artificial Intelligence (AI)
+10.3390/fractalfract6020089	Fractals: An Eclectic Survey, Part-I
+	Automatic Structure Generation using Genetic Programming and Fractal Geometry
+	Fractals and art
+10.1145/325334.325245	Construction of fractal objects with iterated function systems
+10.1088/1757-899x/550/1/012027	Visualization of a two-dimensional tree modeling using fractal based on L-system
+	Fractal Geometry and Spatial Phenomena: A Bibliography (91-1)
+10.71465/fapm14	Fractal Geometry in Nature: Applications in Physics and Mathematical Theory
+10.32657/10356/51166	Complexity : a study of fractals and self-organized criticality
+	A Geometry Model for Logarithmic-time Rendering
+10.1142/s0218348x05002799	A FRACTAL VALUED RANDOM ITERATION ALGORITHM AND FRACTAL HIERARCHY
+10.17706/jcp.12.5.479-485	Three-Dimensional Modeling in Medical Image Processing by Using Fractal Geometry
+10.3390/fractalfract10010053	From Mathematics to Art: A Petri Net Representation of the Fibonacci Sequence and Its Fractal Geometry
+10.1097/00004647-200106000-00012	Fractal Branching Pattern in the Pial Vasculature in the Cat
+10.2478/amns-2024-2678	A study on the cross-application of fractal geometry and garden design aesthetics
+10.3390/fractalfract7010028	Spectra of Reduced Fractals and Their Applications in Biology
+10.70517/ijhsa464323	Product visual communication style innovation inspired by fractal geometry

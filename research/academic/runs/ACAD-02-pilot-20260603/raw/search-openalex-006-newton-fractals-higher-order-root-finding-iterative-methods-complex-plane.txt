@@ -1,0 +1,25 @@
+10.5120/8821-2742	Enhancing Computational Thinking with Spreadsheet and Fractal Geometry: Part 2 Root-finding using Newton Method and Creation of Newton Fractals
+10.3390/fractalfract6100572	Parametric Family of Root-Finding Iterative Methods: Fractals of the Basins of Attraction
+10.1155/2015/797594	Polynomiography Based on the Nonstandard Newton-Like Root Finding Methods
+10.22373/ekw.v11i2.25438	Computational Study of Classical Fractals and Newton Basins of Attraction in The Complex Plane
+10.1007/s11071-017-3813-6	Fractal patterns from the dynamics of combined polynomial root finding methods
+10.1016/j.amc.2011.07.061	The “Gauss-Seidelization” of iterative methods for solving nonlinear equations in the complex plane
+10.1155/2020/6623049	Improved Newton Iterative Algorithm for Fractal Art Graphic Design
+10.3390/fractalfract5040204	A New Three-Step Root-Finding Numerical Method and Its Fractal Global Behavior
+10.3390/math10071144	A Novel n-Point Newton-Type Root-Finding Method of High Computational Efficiency
+10.1007/s11075-023-01625-7	A new optimal root-finding iterative algorithm: local and semilocal analysis with polynomiography
+10.3390/fractalfract7010032	From Fractal Behavior of Iteration Methods to an Efficient Solver for the Sign of a Matrix
+10.1016/j.camwa.2010.09.040	Fractal boundaries of basin of attraction of Newton–Raphson method in helicopter trim
+10.3390/sym11081054	An Efficient Class of Weighted-Newton Multiple Root Solvers with Seventh Order Convergence
+10.48550/arxiv.2207.04265	Optimization in complex spaces with the Mixed Newton Method
+10.48550/arxiv.1410.2202	Newton-Ellipsoid Method and its Polynomiography
+10.30538/psrp-oma2019.0045	Visualization of polynomiography from new higher order iterative methods
+10.1504/ijict.2025.146692	SA-enhanced PSO Newton algorithm for fractal art graphic design
+10.1103/physreve.110.025305	Annealing approach to root finding
+10.48550/arxiv.2109.03765	Computational Discovery with Newton Fractals, Bohemian Matrices, & Mandelbrot Polynomials
+10.1016/j.cam.2006.09.008	An optimization algorithm based on chaotic behavior and fractal nature
+10.1016/j.automatica.2024.111570	On the use of the root locus of polynomials with complex coefficients for estimating the basin of attraction for the continuous-time Newton and Householder methods
+10.1007/s00500-025-10673-1	A third-order-convergence improved Newton method and its numerical performance
+10.1155/2014/601205	Multipoint Iterative Methods for Finding All the Simple Zeros in an Interval
+10.3390/axioms12030283	Newton-like Normal S-iteration under Weak Conditions
+10.48550/arxiv.2603.11591	Relaxed Newton's Method as a Family of Root-finding Methods: Dynamics and Convergence

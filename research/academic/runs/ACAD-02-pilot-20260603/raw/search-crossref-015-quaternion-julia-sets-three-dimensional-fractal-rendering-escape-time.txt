@@ -1,0 +1,24 @@
+10.1063/1.5095111	A comparison of fractal dimension estimations for filled Julia fractal sets based on the escape time algorithm
+10.3390/fractalfract5020055	On the Connectivity Measurement of the Fractal Julia Sets Generated from Polynomial Maps: A Novel Escape-Time Algorithm
+10.1109/vsmm.2001.969714	Towards realistic modeling and rendering of 3-D escape-time deterministic fractal shapes
+10.1360/jos171561	Representation and Rendering of General Julia Sets Based on Tri-Dimensional Polynomial Maps
+10.1016/s1076-6332(96)80059-6	Automatic segmentation and three-dimensional rendering for CT image sets of the fluid-filled stomach
+10.1515/9783111689685-006	6 The Fatou and Julia sets
+10.3390/fractalfract10030207	Control and Synchronization of Julia Sets of the Discrete Three-Dimensional Fractional HCV Model
+10.4064/fm202-2-5	Dynamic classification of escape time Sierpiński curve Julia sets
+10.1109/5.662879	Clinical applications of three-dimensional rendering of medical data sets
+10.1166/asl.2012.2964	Realistic Rendering of Three-Dimensional Ocean Waves Based on Fractal
+10.1007/s10509-016-2683-6	Escape dynamics and fractal basins boundaries in the three-dimensional Earth-Moon system
+10.5353/th_b3875820	Haptic rendering of three-dimensional heterogeneous features
+10.26636/jtit.2015.4.979	Quaternion Feistel Cipher with an Infinite Key Space Based on Quaternion Julia Sets
+10.1016/j.chaos.2008.10.035	Some visually interesting non-standard quaternion fractal sets
+10.1109/bmei.2008.287	Octree Based Representation and Volume Rendering of Three-Dimensional Medical Data Sets
+10.1109/mwscas.1993.343323	An efficient surface rendering technique utilizing Fourier descriptors to visualize three dimensional biomedical image data sets
+10.1016/0960-0779(94)90005-1	Fractal features of invariant sets in a three-dimensional map
+10.2139/ssrn.5361537	Escape from a Black Hole: An Approach using Fractal Time Dynamics
+10.7554/elife.42747.017	Figure 5—video1. Three-dimensional rendering of FAS on hydrophilized graphene.
+10.70675/e83a4ecfza37dz4dbdzbec8z74b50ad3059e	Exploiting modern GPUs architecture for real-time rendering of massive line sets
+10.1109/visual.1990.146384	Interactive visualization of quaternion Julia sets
+10.7717/peerj.20796/fig-2	Figure 2: Three-dimensional model rendering from CT data for MOR 1627.
+10.7554/elife.16078.011	Video 1. Three dimensional rendering of mitochondrial structure of a control fibroblast.
+10.7554/elife.10566.019	Video 5. Three-dimensional rendering of reconstructed Layer VI motor cortical neuron.

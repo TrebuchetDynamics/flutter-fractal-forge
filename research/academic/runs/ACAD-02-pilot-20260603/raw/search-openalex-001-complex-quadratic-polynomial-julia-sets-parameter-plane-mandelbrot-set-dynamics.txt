@@ -1,0 +1,25 @@
+10.2307/121009	The Hausdorff Dimension of the Boundary of the Mandelbrot Set and Julia Sets
+	Homeomorphisms on edges of the Mandelbrot set
+10.1016/j.aim.2014.12.033	Topological entropy of quadratic polynomials and dimension of sections of the Mandelbrot set
+10.4064/fm170-3-6	On the continuity of Hausdorff dimension of Julia sets and similarity between the Mandelbrot set and Julia sets
+10.4007/annals.2004.159.1	On the Julia set of a typical quadratic polynomial with a Siegel disk
+10.2307/120958	Local Connectivity of the Julia Set of Real Polynomials
+10.5120/14920-3514	Construction of 3D Mandelbrot Set and Julia Set
+10.48550/arxiv.1804.00176	Julia sets appear quasiconformally in the Mandelbrot set
+10.4007/annals.2012.176.2.1	Quadratic Julia sets with positive area
+	Existence of the Mandelbrot Set in the Parameter Planes of Certain Rational Functions
+10.48550/arxiv.1812.11595	Julia sets of Newton maps of real quadratic polynomial maps on the plane
+10.1007/s00605-021-01591-z	The Picard–Mann iteration with s-convexity in the generation of Mandelbrot and Julia sets
+10.1007/978-3-031-97589-9_11	The Mandelbrot Set for a Coquaternionic Family of Quadratics
+10.1109/access.2019.2892013	Mandelbrot and Julia Sets via Jungck–CR Iteration With $s$ –Convexity
+	The Mandelbrot set
+10.3390/fractalfract5030073	Visualization of Mandelbrot and Julia Sets of Möbius Transformations
+10.82444/warw.33763501	On quotients of the shift associated with dendrite Julia sets of quadratic polynomials
+10.1016/j.aim.2023.109297	On the directional derivative of the Hausdorff dimension of quadratic polynomial Julia sets at -2
+10.1007/s40598-016-0042-x	Internal Addresses of the Mandelbrot Set and Galois Groups of Polynomials
+10.15587/1729-4061.2021.249264	Development of mandelbrot set for the logistic map with two parameters in the complex plane
+10.1007/s11075-017-0270-8	An effective algorithm to compute Mandelbrot sets in parameter planes
+10.1007/bf02392694	Dynamics of quadratic polynomials, I–II
+	Superior Julia Sets and Superior Mandelbrot Sets in SP Orbit
+10.24033/ast.473	Dynamics of quadratic polynomials, III Parapuzzle and SBR measures
+10.48550/arxiv.math/9411238	Internal addresses in the Mandelbrot set and Galois groups of polynomials

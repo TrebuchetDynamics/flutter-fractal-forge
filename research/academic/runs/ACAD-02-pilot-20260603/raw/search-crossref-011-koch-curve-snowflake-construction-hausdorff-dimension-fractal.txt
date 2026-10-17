@@ -1,0 +1,25 @@
+10.21831/ej.v3i1.48775	Batik Jlamprang with Koch Snowflake and Koch Anti Snowflake Fractal Geometry using Desmos
+10.22541/au.176858321.13122244/v1	Why the Hausdorff Dimension of Spacetime is D ≈ 2.7 A Critical Fractal Threshold in Unified Fractal Quantum Field Theory (UFQFT)
+10.3390/fractalfract7020153	Effects of Hausdorff Dimension on the Static and Free Vibration Response of Beams with Koch Snowflake-like Cross Section
+10.20944/preprints202507.0580.v1	Do You Speak The Phenomenal Koch snowflake Fractal? Open Problems and Prospects
+10.2139/ssrn.5159356	A Discrete Version of Local Hausdorff Dimension on Fractal Networks
+10.1109/aps.2002.1016937	Multi-band characteristics and fractal dimension of dipole antennas with Koch curve geometry
+10.1007/978-1-4612-4170-6_17	Lateral Dimension of a Curve
+10.1515/9783112314081-016	Line models for snowflake crystals and their Hausdorff dimension
+10.1515/9783112313480-016	LINE MODELS FOR SNOWFLAKE CRYSTALS AND THEIR HAUSDORFF DIMENSION
+10.1002/0470013850.ch2	Hausdorff Measure and Dimension
+10.1142/s0218348x02001105	THE HAUSDORFF DIMENSION OF SOME SNOWFLAKE-LIKE RECURSIVE CONSTRUCTIONS
+10.1109/icetc.2010.5529951	Multiband characteristics and fractal dimension of dipole antenna with square koch curve geometry
+10.1007/978-3-0348-7891-3_5	Hausdorff Dimension of Hyperbolic Attractors in ℝ3
+10.1119/1.16262	Fractal dimension: Limit capacity or Hausdorff dimension?
+10.17816/snv201764311.f43141	Figure 1 - Initiator and generator of building fractal models: a - Koch curve; b - tree bush; c - Gosper curve
+10.1063/1.3526256	Antenna Miniaturization Using Koch Snowflake Fractal Geometry
+10.1007/978-3-030-16645-8_4	Hausdorff Dimension Type Models for Fractal Structures
+10.1007/978-3-0348-7891-3_10	Additive Lévy Processes: Capacity and Hausdorff Dimension
+10.1007/978-1-4757-4134-6_6	Hausdorff Dimension
+10.1016/b978-0-444-86995-1.50006-8	SELF-AFFINE FRACTAL SETS, III: HAUSDORFF DIMENSION ANOMALIES AND THEIR IMPLICATIONS
+10.1109/iciii.2011.389	The Mechanization of the Koch Snowflake Curve
+10.1109/icest71230.2026.11623633	Koch Snowflake Fractal Helical Antenna
+10.4064/cm99-2-11	Hausdorff dimension of a fractal interpolation function
+10.4171/jfg/179	Hausdorff dimension and Galois orbits
+10.2307/44153640	Kiesswetter's fractal has Hausdorff dimension 3/2
