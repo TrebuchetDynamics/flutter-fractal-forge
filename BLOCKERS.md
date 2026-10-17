@@ -20,7 +20,7 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T01:32:24Z
 - Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
 
-### Q-GAUSS-MOAT-04-GROWTH — USER_INPUT — effort input — unblocks 8
+### Q-GAUSS-MOAT-04-GROWTH — USER_INPUT — effort input — unblocks 1
 
 - Task: GAUSS-MOAT-04-GROWTH — Scrub and animate jump-radius growth without queued or stale computations.
 - Needs: worker reported a blocker: The retained integration review specifically rejected the lack of controlled slow-job evidence for one-active/latest-replacement scheduling and no tick backlog. The preserved implementation's serialized _pending loop and one-shot dwell timer were adopted, but a controlled injected slow-job test seam was not added; this acceptance criterion remains unverified.
