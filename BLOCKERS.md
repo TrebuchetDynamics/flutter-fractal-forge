@@ -20,6 +20,13 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T01:32:24Z
 - Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
 
+### Q-GAUSS-MOAT-04-GROWTH — USER_INPUT — effort input — unblocks 8
+
+- Task: GAUSS-MOAT-04-GROWTH — Scrub and animate jump-radius growth without queued or stale computations.
+- Needs: worker reported a blocker: The retained integration review specifically rejected the lack of controlled slow-job evidence for one-active/latest-replacement scheduling and no tick backlog. The preserved implementation's serialized _pending loop and one-shot dwell timer were adopted, but a controlled injected slow-job test seam was not added; this acceptance criterion remains unverified.
+- Since: 2026-10-17T19:00:37Z
+- Answer: Answer in GAUSS-MOAT-04-GROWTH's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
+
 ### Q-CAT-QUALITY-02 — USER_INPUT — effort input — unblocks 0
 
 - Task: CAT-QUALITY-02 — Repair three demonstrated pilot first-impression defects.
