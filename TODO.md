@@ -399,6 +399,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: GAUSS-MOAT-02-WALK.
   Status: open
+  - Owner decision: 2026-10-16 — Defer until a suitable physical device and reviewer are available; preserve visual, accessibility and performance gates. Deferral is neither completion nor a release waiver.
+  - Next action: Keep this live task open in Needs decision. Resume qualification planning when actual device/reviewer access exists; retain original physical-device acceptance rather than substituting offline model tests.
 
 - [ ] QUAT-NORM-01-SLICE-LIVE — Live checks for QUAT-NORM-01-SLICE
   Scope: Run the live checks the offline work for QUAT-NORM-01-SLICE left pending.
