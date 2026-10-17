@@ -444,6 +444,8 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: SMOOTH-001-INVENTORY-01.
   Status: open
+  - Owner decision: 2026-10-16 — Defer hardware-GPU qualification; retain source-test evidence without calling it visual proof. Deferral is neither completion nor a release waiver.
+  - Next action: Keep this live task open in Needs decision until a named hardware-GPU qualification session is planned; preserve its actual-rendering and performance requirements without reclassifying source assertions as rendered evidence.
 
 - [ ] REL-JOURNEY-03-ANDROID-LIVE — Live checks for REL-JOURNEY-03-ANDROID
   Scope: Run the live checks the offline work for REL-JOURNEY-03-ANDROID left pending.
