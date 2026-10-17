@@ -6,13 +6,6 @@ This file contains only hard blockers that require user action.
 
 <!-- pi-autowork:questions:start -->
 
-### Q-VIS-006 — USER_DECISION — effort quick — unblocks 3
-
-- Task: VIS-006 — Capture and inspect the next ten uncaptured Explore modules.** Goal: complete the accepted visual playtest audit.
-- Needs: VIS-006 is marked in_progress by another session and will not be adopted automatically; 3 waiting task(s) depend on it.
-- Since: 2026-10-17T01:32:24Z
-- Answer: If no one is working on VIS-006, set `Status: open` in its TODO.md entry (the runner then runs it); otherwise note who holds it and when it will be done.
-
 ### Q-ACAD-03 — USER_DECISION — effort decision — unblocks 1
 
 - Task: ACAD-03 — Review approved source mathematics against a representative renderer pilot.
