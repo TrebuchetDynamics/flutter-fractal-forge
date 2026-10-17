@@ -580,3 +580,23 @@ Source section: Next
   - Dependencies: ACAD-01.
   - Ownership: Repository backlog, unassigned; network/provider access must use supported existing configuration without secret exposure or paid services.
   - Next action: Verify actual installed command catalog, reuse existing family records and produce a bounded metadata/review package.
+
+
+<!-- archived from TODO.md -->
+
+Source section: Next
+
+- [x] **ACAD-05 — Bind reviewed evidence to existing catalog metadata and admission safeguards.**
+  - Goal: ACAD-001
+  - Status: done
+  - Section: Next.
+  - Sources: [Accepted academic research outcome](PRD.md#academic-research-library), [source-to-renderer contract](docs/engineering/spec.md#academic-source-to-renderer-evidence), [library schema](research/academic/README.md), `scripts/research/doctor/check_registry.py`, `scripts/research/admit/promote_candidate.py`, `scripts/research/admit/emit_dart.py`, `lib/core/modules/fractal_mathematics.dart`.
+  - Touches: scripts/research/academic/, scripts/research/doctor/, scripts/research/schemas/, test/research/, docs/catalog/, lib/core/modules/fractal_mathematics.dart, test/modules/, scripts/research/admit/promote_candidate.py
+  - Scope: Add offline source-binding/freshness and claim-qualification checks using existing catalog schemas/review gates. Reuse current references/group metadata and qualified descriptions; do not make a parallel production registry or automatically admit/generated shaders from papers. The pipeline can consume draft/unverified rows but must not advertise them as reviewed. No new citation-browser UI, full catalog relabeling or shader repair project.
+  - Acceptance: Checked-in fixtures prove that source-missing/span-missing/unreviewed/wrong-formula/stale-source bindings cannot promote a mathematically verified claim; reviewed applicable bindings pass. Existing imported/catalog data remains loadable and retains honest legacy qualifications; new admissions require their actual evidence, not copied confidence=1 or shader compile status. Pending unsupported relationships stay explicit. App-visible metadata changes, if any, preserve EN/ES, stable IDs/favorites/presets and existing render behavior, with actual focused regressions.
+  - Checks: Planned: `pytest test/research/test_academic_bindings.py test/research/test_academic_admission.py -v`; `PYTHONDONTWRITEBYTECODE=1 python3 scripts/research/forge.py doctor --strict-app-catalog`; `pytest test/research -v`; run affected `FractalMathematics` tests and `flutter analyze` only if app metadata code changes. New fixtures are NOT_RUN. Verify missing-evidence negative controls without weakening old invariant guards.
+  - Dependencies: ACAD-01.
+  - Ownership: Repository backlog, unassigned; independent offline fixtures do not require owner approval of research claims or full-text acquisition.
+  - Next action: Add negative claim-promotion/freshness fixtures against the library contract before connecting the existing doctor/admission seam.
+  - Planning repair: 2026-10-17 — Include the exact existing promotion seam already named in Sources and required by Scope/Acceptance. This is a clerical Touches correction under accepted admission-safeguard work, not permission to auto-promote claims or change review gates.
+  - Recovery continuation: Preserve the ACAD-05 candidate and latest failed scope-validation report. After checking writer inactivity and current source compatibility, let the existing runner finish the promotion-hook integration with missing-evidence/freshness/formula negative tests and rerun the required checks on integrated bytes. Do not alter old reports into passes or restart/reconfigure the runner.

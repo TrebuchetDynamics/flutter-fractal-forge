@@ -1180,16 +1180,6 @@
     },
     {
       "depends_on": [
-        "ACAD-01"
-      ],
-      "goal": "ACAD-001",
-      "id": "ACAD-05",
-      "section": "Next",
-      "status": "open",
-      "title": "Bind reviewed evidence to existing catalog metadata and admission safeguards"
-    },
-    {
-      "depends_on": [
         "CAT-QUALITY-01"
       ],
       "goal": "CAT-QUALITY-001",
@@ -1553,6 +1543,16 @@
       "section": "Done",
       "status": "done",
       "title": "Run a reproducible ResearchForge literature pilot and queue source review"
+    },
+    {
+      "depends_on": [
+        "ACAD-01"
+      ],
+      "goal": "ACAD-001",
+      "id": "ACAD-05",
+      "section": "Done",
+      "status": "done",
+      "title": "Bind reviewed evidence to existing catalog metadata and admission safeguards"
     },
     {
       "depends_on": [],
