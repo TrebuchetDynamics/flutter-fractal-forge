@@ -9,10 +9,12 @@ Invariants:
 """
 from __future__ import annotations
 
+import json
 from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from scripts.research.academic.library import validate_catalog_bindings
 from scripts.research.doctor.app_catalog_audit import audit_app_catalog
 from scripts.research.lib.registry import Registry
 from scripts.research.lib.schema_lint import SchemaLintError, lint
@@ -91,6 +93,29 @@ def check_registry(
             errors.append(
                 f"{entry.get('id')}: tier={entry.get('tier')} but implemented={entry.get('implemented')}"
             )
+
+    # Reviewed claims are checked against the shared academic source index when
+    # it is present. Legacy catalogs remain loadable when no mapping index exists.
+    academic_dir = path.parents[2] / "research" / "academic"
+    papers_path = academic_dir / "papers.jsonl"
+    mappings_path = academic_dir / "mappings.json"
+    if papers_path.is_file() and mappings_path.is_file():
+        try:
+            papers = [
+                json.loads(line)
+                for line in papers_path.read_text(encoding="utf-8").splitlines()
+                if line.strip()
+            ]
+            mapping_doc = json.loads(mappings_path.read_text(encoding="utf-8"))
+            if mapping_doc.get("schema_version") != 1 or not isinstance(mapping_doc.get("mappings"), list):
+                errors.append("academic mapping index malformed")
+            else:
+                errors.extend(validate_catalog_bindings(
+                    {"papers": papers, "mappings": mapping_doc["mappings"]},
+                    entries,
+                ))
+        except (OSError, ValueError, TypeError) as exc:
+            errors.append(f"academic binding index unreadable: {exc}")
 
     warnings: list[str] = []
     if include_app_catalog or strict_app_catalog:

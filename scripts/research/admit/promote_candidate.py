@@ -89,7 +89,6 @@ def _build_registry_entry(candidate: dict, new_id: str, classification: dict) ->
             "shader_compile": {"sksl": "n/a", "glsl": "n/a", "checked": date.today().isoformat()},
             "thumbnail": {"entropy": 0.0, "checked": date.today().isoformat()},
             "review": {"approved_by": "admit", "batch": ""},
-            "confidence": float(candidate.get("quality", {}).get("confidence", 0.8)),
         },
     }
     family = classification.get("family")
