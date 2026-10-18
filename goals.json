@@ -1158,14 +1158,6 @@
   },
   "tasks": [
     {
-      "depends_on": [],
-      "goal": "REL-JOURNEY-001",
-      "id": "REL-JOURNEY-01-WEB",
-      "section": "Now",
-      "status": "open",
-      "title": "Qualify the complete web image-creation journey"
-    },
-    {
       "depends_on": [
         "ACAD-03"
       ],
@@ -1658,6 +1650,14 @@
       "section": "Done",
       "status": "done",
       "title": "Walk in the quaternion slice with camera-independent adjacency and captured overlays"
+    },
+    {
+      "depends_on": [],
+      "goal": "REL-JOURNEY-001",
+      "id": "REL-JOURNEY-01-WEB",
+      "section": "Done",
+      "status": "done",
+      "title": "Qualify the complete web image-creation journey"
     },
     {
       "depends_on": [],
