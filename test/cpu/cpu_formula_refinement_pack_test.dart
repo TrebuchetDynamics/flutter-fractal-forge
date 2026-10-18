@@ -13,6 +13,44 @@ void main() {
       expect(hasNativeCpuFormula('weierstrass_p'), isTrue);
     });
 
+    test('VIS-006 batch 20 formulas render finite CPU frames', () async {
+      const moduleIds = <String>[
+        'mimura_murray_predator_prey',
+        'stable_square_turing_model',
+        'flow_lenia',
+        'coupled_logistic_map_lattice',
+        'langton_ant',
+        'turmite',
+        'wireworld',
+        'sandpile',
+        'dla',
+        'forest_fire',
+      ];
+
+      for (final moduleId in moduleIds) {
+        expect(hasNativeCpuFormula(moduleId), isTrue, reason: moduleId);
+        final frame = await renderCpuFrame(
+          moduleId: moduleId,
+          viewPan: Vector2.zero(),
+          viewZoom: 1.0,
+          iterations: 64,
+          bailout: 4.0,
+          juliaC: Vector2.zero(),
+          width: 24,
+          height: 24,
+          sampleCount: 1,
+        );
+        expect(frame.rgba, hasLength(24 * 24 * 4), reason: moduleId);
+        expect(
+          frame.rgba.asMap().entries.any(
+                (entry) => entry.key % 4 != 3 && entry.value != 0,
+              ),
+          isTrue,
+          reason: '$moduleId should produce visible CPU output',
+        );
+      }
+    });
+
     test('module-aware CPU defaults are stable', () {
       expect(cpuControlScalarForModule('nova', const {}), 1.0);
       expect(

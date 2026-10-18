@@ -2,33 +2,27 @@ import 'package:integration_test/integration_test.dart';
 import 'runtime_preview_harness.dart';
 
 const _targets = <RuntimePreviewTarget>[
-  RuntimePreviewTarget(
-      'core.f0155_period_4_julia', 'Period 4 Julia', 'f0155_period_4_julia'),
-  RuntimePreviewTarget(
-      'core.f0156_period_5_julia', 'Period 5 Julia', 'f0156_period_5_julia'),
-  RuntimePreviewTarget(
-      'core.f0157_period_6_julia', 'Period 6 Julia', 'f0157_period_6_julia'),
-  RuntimePreviewTarget(
-      'core.f0158_period_7_julia', 'Period 7 Julia', 'f0158_period_7_julia'),
-  RuntimePreviewTarget(
-      'core.f0161_swirl_julia', 'Swirl Julia', 'f0161_swirl_julia'),
-  RuntimePreviewTarget(
-      'core.f0162_lightning_julia', 'Lightning Julia', 'f0162_lightning_julia'),
-  RuntimePreviewTarget(
-      'core.f0163_filigree_julia', 'Filigree Julia', 'f0163_filigree_julia'),
-  RuntimePreviewTarget(
-      'core.f0164_spiral_julia', 'Spiral Julia', 'f0164_spiral_julia'),
-  RuntimePreviewTarget(
-      'core.f0166_chebyshev_julia', 'Chebyshev Julia', 'f0166_chebyshev_julia'),
-  RuntimePreviewTarget('core.f0167_cauliflower_bulb_julia',
-      'Cauliflower Bulb Julia', 'f0167_cauliflower_bulb_julia'),
+  RuntimePreviewTarget('core.mimura_murray_predator_prey',
+      'Mimura-Murray Predator-Prey', 'mimura_murray_predator_prey'),
+  RuntimePreviewTarget('core.stable_square_turing_model',
+      'Stable-Square Turing Model', 'stable_square_turing_model'),
+  RuntimePreviewTarget('core.flow_lenia', 'Flow-Lenia', 'flow_lenia'),
+  RuntimePreviewTarget('core.coupled_logistic_map_lattice',
+      'Coupled Logistic Map Lattice', 'coupled_logistic_map_lattice'),
+  RuntimePreviewTarget('core.langton_ant', "Langton's Ant", 'langton_ant'),
+  RuntimePreviewTarget('core.turmite', 'Turmite', 'turmite'),
+  RuntimePreviewTarget('core.wireworld', 'Wireworld', 'wireworld'),
+  RuntimePreviewTarget('core.sandpile', 'Abelian Sandpile', 'sandpile'),
+  RuntimePreviewTarget('core.dla', 'DLA (Approximation)', 'dla'),
+  RuntimePreviewTarget('core.forest_fire', 'Forest Fire Model', 'forest_fire'),
 ];
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   registerRuntimePreview(
     _targets,
-    'build/test_output/vis006-batch20',
-    description: 'VIS-006 batch 20 runtime catalog previews capture GPU pixels',
+    'build/test_output/vis006-batch20-corrected',
+    description:
+        'VIS-006 batch 20 corrected runtime catalog previews capture GPU pixels',
   );
 }
