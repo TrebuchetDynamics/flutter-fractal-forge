@@ -20,6 +20,13 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T01:32:24Z
 - Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
 
+### Q-VIS-006-CPU-01 — USER_DECISION — effort decision — unblocks 1
+
+- Task: VIS-006-CPU-01 — Verify native CPU behavior for five audited Explore modules.
+- Needs: not runnable: needs unique Scope, Acceptance and Checks fields
+- Since: 2026-10-18T06:50:14Z
+- Answer: Fix VIS-006-CPU-01's TODO.md entry as the reason says (for example add the missing Scope, Acceptance or Checks field), or move it out of Now/Next.
+
 ### Q-NUM-WALL-01 — USER_INPUT — effort input — unblocks 4
 
 - Task: NUM-WALL-01 — Compute exact sequence walls and validate custom prime fields.
