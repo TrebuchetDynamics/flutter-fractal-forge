@@ -27,13 +27,6 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-18T07:22:37Z
 - Answer: Answer in NUM-WALL-01's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
 
-### Q-RELEASE-001-23 — USER_INPUT — effort input — unblocks 1
-
-- Task: RELEASE-001-23 — Implement isolated platform release lanes and verified partial evidence.
-- Needs: worker reported a blocker: The runner has no complete native journey/export qualification adapters for Linux, Windows, macOS, or iOS. Those receipts remain unknown, so those lanes cannot be published until supported qualification evidence is connected. (+1 more in report.json)
-- Since: 2026-10-18T07:18:37Z
-- Answer: Answer in RELEASE-001-23's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
-
 <!-- pi-autowork:questions:end -->
 
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
