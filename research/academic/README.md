@@ -102,3 +102,7 @@ Verify offline imports and invalid/duplicate/retracted/mismatched/source-missing
 [2] https://github.com/TrebuchetDynamics/research-forge
 [3] https://raw.githubusercontent.com/Companion-Inc/feynman/main/README.md
 [4] https://www.feynman.is/docs/getting-started/configuration
+
+## Decision-ready owner package
+
+The raw ACAD-02 pilot queue is discovery evidence, not an actionable human approval brief: the inspected queue has unverified versions and empty authors/decisions. A separate runnable metadata-only preparation task must produce the bounded [review package](../../docs/engineering/spec.md#decision-ready-academic-review-package) before ACAD-03 asks for source inclusion/acquisition decisions. Keep raw run records immutable, actual decisions pending, missing evidence explicit and full-text acquisition gated. A shortlist is not accepted mathematics or permission to fetch its sources.
