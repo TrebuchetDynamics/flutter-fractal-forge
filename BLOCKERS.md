@@ -6,6 +6,13 @@ This file contains only hard blockers that require user action.
 
 <!-- pi-autowork:questions:start -->
 
+### Q-VIS-006-FIRST-VIEW-04 — USER_DECISION — effort decision — unblocks 2
+
+- Task: VIS-006-FIRST-VIEW-04 — Verify five captured Explore modules without first-view evidence.
+- Needs: not runnable: needs unique Scope, Acceptance and Checks fields
+- Since: 2026-10-18T06:01:44Z
+- Answer: Fix VIS-006-FIRST-VIEW-04's TODO.md entry as the reason says (for example add the missing Scope, Acceptance or Checks field), or move it out of Now/Next.
+
 ### Q-ACAD-03 — USER_DECISION — effort decision — unblocks 1
 
 - Task: ACAD-03 — Review approved source mathematics against a representative renderer pilot.
