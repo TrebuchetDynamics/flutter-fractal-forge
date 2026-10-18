@@ -6,6 +6,13 @@ This file contains only hard blockers that require user action.
 
 <!-- pi-autowork:questions:start -->
 
+### Q-ACAD-007-f8 — USER_DECISION — effort investigate — unblocks 0
+
+- Task: ACAD-007-f8 — Prepare a verified academic pilot approval brief.
+- Needs: report.json does not match worker commit/files or reports failure: a check did not pass
+- Since: 2026-10-18T21:01:46Z
+- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/ACAD-007-f8/), then rescope or split ACAD-007-f8 in its TODO.md entry. The runner reruns it when the entry changes.
+
 <!-- pi-autowork:questions:end -->
 
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
