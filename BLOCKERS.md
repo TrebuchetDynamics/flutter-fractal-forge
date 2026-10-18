@@ -27,13 +27,6 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-18T21:01:46Z
 - Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/ACAD-007-f8/), then rescope or split ACAD-007-f8 in its TODO.md entry. The runner reruns it when the entry changes.
 
-### Q-EXPORT-001-f3 — USER_DECISION — effort investigate — unblocks 0
-
-- Task: EXPORT-001-f3 — Commit native exports without partial completed files.
-- Needs: integration validation failed or changed the integration tree
-- Since: 2026-10-18T22:21:26Z
-- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/EXPORT-001-f3/), then rescope or split EXPORT-001-f3 in its TODO.md entry. The runner reruns it when the entry changes.
-
 ### Q-RELEASE-002-75 — USER_DECISION — effort investigate — unblocks 0
 
 - Task: RELEASE-002-75 — Prepare and qualify every available platform without publication.
