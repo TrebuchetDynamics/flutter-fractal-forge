@@ -27,6 +27,13 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-18T17:26:55Z
 - Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/NUM-WALL-01/), then rescope or split NUM-WALL-01 in its TODO.md entry. The runner reruns it when the entry changes.
 
+### Q-FULL-CHECK — USER_INPUT — effort input — unblocks 0
+
+- Task: the repository's whole offline test suite
+- Needs: no full-suite gate: a commit can land while breaking tests its own task never ran, and main is never checked
+- Since: 2026-10-18T18:36:29Z
+- Answer: Add one line to AGENTS.md, `Full check: <command>` (the command that runs the whole offline suite), or set PI_AUTOWORK_VALIDATE in the runner's settings.
+
 <!-- pi-autowork:questions:end -->
 
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
