@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:isolate';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
 
 typedef ExportWorkerTask<T> = FutureOr<T> Function();
@@ -58,10 +59,28 @@ void _runExportInputWorker(_WorkerInputInvocation invocation) async {
   }
 }
 
-/// Runs CPU-heavy image work outside the UI isolate and kills the isolate when
-/// the owning export operation is cancelled.
+/// Runs CPU-heavy image work outside the UI isolate where isolates are
+/// supported, and observes cancellation of the owning export operation.
 final class IsolateExportWorker implements ExportWorker {
   const IsolateExportWorker();
+
+  /// Browser Dart lacks worker-isolate `ReceivePort` communication.
+  Future<T> _runOnCurrentIsolate<T>(
+    FutureOr<T> Function() task, {
+    ExportCancellationToken? token,
+    void Function()? onSpawned,
+  }) async {
+    token?.throwIfCancelled();
+    onSpawned?.call();
+    final work = Future<T>.sync(task);
+    if (token == null) return work;
+    return Future.any<T>([
+      work,
+      token.whenCancelled.then<T>(
+        (_) => throw const ExportCancelledException(),
+      ),
+    ]);
+  }
 
   @override
   Future<T> run<T>(
@@ -70,6 +89,13 @@ final class IsolateExportWorker implements ExportWorker {
     void Function()? onSpawned,
   }) async {
     token?.throwIfCancelled();
+    if (kIsWeb) {
+      return _runOnCurrentIsolate(
+        task,
+        token: token,
+        onSpawned: onSpawned,
+      );
+    }
     final resultPort = ReceivePort();
     Isolate? isolate;
     try {
@@ -93,6 +119,13 @@ final class IsolateExportWorker implements ExportWorker {
     void Function()? onSpawned,
   }) async {
     token?.throwIfCancelled();
+    if (kIsWeb) {
+      return _runOnCurrentIsolate(
+        () => task(input),
+        token: token,
+        onSpawned: onSpawned,
+      );
+    }
     final resultPort = ReceivePort();
     Isolate? isolate;
     try {
