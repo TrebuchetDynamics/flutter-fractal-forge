@@ -28,6 +28,34 @@ function inspectPng(bytes) {
   return { width, height, colors: colors.size };
 }
 
+async function decodedPngPixels(page, bytes) {
+  return page.evaluate(async (base64) => {
+    const binary = atob(base64);
+    const pngBytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
+    const bitmap = await createImageBitmap(
+      new Blob([pngBytes], { type: 'image/png' }),
+    );
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = bitmap.width;
+      canvas.height = bitmap.height;
+      const context = canvas.getContext('2d');
+      context.drawImage(bitmap, 0, 0);
+      const rgba = context.getImageData(0, 0, canvas.width, canvas.height).data;
+      const digest = await crypto.subtle.digest('SHA-256', rgba);
+      return {
+        width: canvas.width,
+        height: canvas.height,
+        pixelHash: Array.from(new Uint8Array(digest), (byte) =>
+          byte.toString(16).padStart(2, '0'),
+        ).join(''),
+      };
+    } finally {
+      bitmap.close();
+    }
+  }, bytes.toString('base64'));
+}
+
 async function openCatalogExample(page, example) {
   const search = page.getByRole('textbox', { name: /search by name/i }).last();
   await expect(search).toBeVisible();
@@ -198,4 +226,111 @@ test(
   expect(browserErrors).toEqual([]);
   expect(fs.existsSync(testInfo.outputPath('mandelbrot-edited.png'))).toBe(true);
   expect(fs.existsSync(testInfo.outputPath('mandelbulb-edited.png'))).toBe(true);
+});
+
+test('Gaussian catalog walk exports a frozen paused PNG', async ({ page }, testInfo) => {
+  const browserErrors = [];
+  page.on('pageerror', (error) => browserErrors.push(error.message));
+  page.on('console', (message) => {
+    if (message.type() === 'error' &&
+        !/WEBGL_debug_renderer_info is deprecated/i.test(message.text())) {
+      browserErrors.push(message.text());
+    }
+  });
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  const enableAccessibility = page.getByRole('button', { name: /enable accessibility/i });
+  await expect(enableAccessibility).toBeVisible({ timeout: 30_000 });
+  await page.evaluate(() => document.querySelector('flt-semantics-placeholder')?.click());
+  await expect(enableAccessibility).toBeHidden();
+
+  await openCatalogExample(page, {
+    name: 'Gaussian Prime Lattice',
+    dimension: '2D',
+  });
+  const generationStartedAt = await page.evaluate(() => performance.now());
+  await page.getByRole('button', { name: /^Walk$/i }).click({ force: true });
+  const readyStatus = page
+    .getByRole('group', { name: 'Controls' })
+    .getByText(/Ready: .* exact primes/i);
+  await expect(readyStatus).toBeVisible({ timeout: 30_000 });
+  const browserObservation = await page.evaluate((startedAt) => ({
+    domainHalfWidth: 32,
+    generationToReadyMs: performance.now() - startedAt,
+    jsHeapUsedBytes: performance.memory?.usedJSHeapSize ?? null,
+  }), generationStartedAt);
+  const readyText = await readyStatus.innerText();
+  browserObservation.exactPointCount = Number(readyText.match(/Ready: (\d+) exact primes/i)?.[1]);
+  await expect(page.getByText(/boundary/i).first()).toBeVisible();
+
+  const saveGaussianPng = async (name) => {
+    const exportButton = page.getByRole('button', { name: /^Export$/i }).last();
+    await exportButton.focus();
+    await page.keyboard.press('Enter');
+    await expect(page.getByText('Export', { exact: true })).toBeVisible();
+    await page.getByRole('button', { name: /customize/i }).click();
+    await page.getByRole('checkbox', { name: /HD \(1280[×x]720\)/ }).click({ force: true });
+    await expect(page.getByText(/1280\s*[×x]\s*720/)).toBeVisible();
+    const downloadPromise = page.waitForEvent('download', { timeout: 30_000 });
+    await page.getByRole('button', { name: /save image/i }).first().click({ force: true });
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toMatch(/\.png$/i);
+    const file = testInfo.outputPath(name);
+    await download.saveAs(file);
+    const pngBytes = fs.readFileSync(file);
+    const decoded = inspectPng(pngBytes);
+    expect(decoded.width).toBe(1280);
+    expect(decoded.height).toBe(720);
+    expect(decoded.colors).toBeGreaterThan(10);
+    const raster = await decodedPngPixels(page, pngBytes);
+    expect(raster.width).toBe(1280);
+    expect(raster.height).toBe(720);
+    return { ...decoded, pixelHash: raster.pixelHash };
+  };
+
+  const beforeWalk = await saveGaussianPng('gaussian-before-walk.png');
+  for (const [name, value] of [['a', '1'], ['b', '-1']]) {
+    const field = page.getByRole('textbox', { name });
+    const bounds = await field.boundingBox();
+    await page.mouse.click(
+      bounds.x + bounds.width / 2,
+      bounds.y + bounds.height / 2,
+    );
+    await page.keyboard.press('Home');
+    await page.keyboard.press('Shift+End');
+    await page.keyboard.type(value);
+    await expect(field).toHaveValue(value);
+  }
+  await page.getByRole('button', { name: /select candidate/i }).click({ force: true });
+  await expect(page.getByText(/Candidate: \(1, -1\)/)).toBeVisible();
+  const stepButton = page.getByRole('button', { name: /step to candidate/i });
+  await stepButton.focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByText(/Path: 1 steps/)).toBeVisible();
+  await page.getByRole('button', { name: /play radius growth/i }).click({ force: true });
+  await expect(page.getByRole('button', { name: /pause radius growth/i })).toBeVisible();
+  await page.waitForTimeout(650);
+  await page.getByRole('button', { name: /pause radius growth/i }).click({ force: true });
+  await expect(page.getByRole('button', { name: /play radius growth/i })).toBeVisible();
+  await page.getByRole('button', { name: /step to candidate/i }).focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByText(/Path: 1 steps/)).toBeVisible();
+
+  const paused = await saveGaussianPng('gaussian-paused-walk.png');
+  browserObservation.componentSize = Number(
+    (await page.getByText(/Path: 1 steps/).innerText()).match(/component: (\d+) primes/i)?.[1],
+  );
+  browserObservation.pausedJsHeapUsedBytes = await page.evaluate(
+    () => performance.memory?.usedJSHeapSize ?? null,
+  );
+  browserObservation.decodedPng = { width: paused.width, height: paused.height };
+  browserObservation.browserErrors = browserErrors;
+  await testInfo.attach('gaussian-browser-observation.json', {
+    body: Buffer.from(JSON.stringify(browserObservation, null, 2)),
+    contentType: 'application/json',
+  });
+  console.log(`Gaussian browser observation: ${JSON.stringify(browserObservation)}`);
+  expect(paused.pixelHash).not.toBe(beforeWalk.pixelHash);
+  expect(browserErrors).toEqual([]);
+  expect(fs.existsSync(testInfo.outputPath('gaussian-paused-walk.png'))).toBe(true);
 });
