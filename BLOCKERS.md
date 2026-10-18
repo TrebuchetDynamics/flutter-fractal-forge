@@ -6,13 +6,6 @@ This file contains only hard blockers that require user action.
 
 <!-- pi-autowork:questions:start -->
 
-### Q-VIS-006-FIRST-VIEW-04 — USER_DECISION — effort quick — unblocks 1
-
-- Task: VIS-006-FIRST-VIEW-04 — Verify five captured Explore modules without first-view evidence.
-- Needs: VIS-006-FIRST-VIEW-04 is marked in_progress by another session and will not be adopted automatically; 1 waiting task(s) depend on it.
-- Since: 2026-10-18T06:01:44Z
-- Answer: If no one is working on VIS-006-FIRST-VIEW-04, set `Status: open` in its TODO.md entry (the runner then runs it); otherwise add `Held by: <who>; until <YYYY-MM-DD>` to that entry, and the runner stops asking until that date.
-
 ### Q-ACAD-03 — USER_DECISION — effort decision — unblocks 1
 
 - Task: ACAD-03 — Review approved source mathematics against a representative renderer pilot.
