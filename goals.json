@@ -1163,14 +1163,6 @@
   },
   "tasks": [
     {
-      "depends_on": [],
-      "goal": "REL-JOURNEY-001",
-      "id": "ACAD-006-3c",
-      "section": "Now",
-      "status": "open",
-      "title": "Restore the full offline check on main"
-    },
-    {
       "depends_on": [
         "ACAD-03"
       ],
@@ -1542,6 +1534,14 @@
       "section": "Needs decision",
       "status": "open",
       "title": "Live checks for VIS-006"
+    },
+    {
+      "depends_on": [],
+      "goal": "REL-JOURNEY-001",
+      "id": "ACAD-006-3c",
+      "section": "Done",
+      "status": "done",
+      "title": "Restore the full offline check on main"
     },
     {
       "depends_on": [],

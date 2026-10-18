@@ -10,20 +10,6 @@
 
 Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 → CAT-QUALITY-02**. Primary focus: `VIEW-UI-001`. Preserve existing Gaussian work and active ownership; OpenAI-math additions remain Proposed. Pilot success: attractive defaults, useful controls and matching PNG export without hunting for good settings; mathematical honesty and accessibility remain mandatory. This is planning priority, not new implementation or scheduling authority. See [the recorded decision](PRD.md#quality-first-planning-priority).
 
-- [ ] **ACAD-006-3c — Restore the full offline check on main.**
-  - Goal: REL-JOURNEY-001. Payoff: recover the repository's common offline verification gate before platform qualification.
-  - Sources: [Accepted platform release contract](docs/engineering/spec.md#independent-platform-release-orchestration), [verification gate](docs/engineering/test-plan.md#independent-platform-release-verification), [release policy](PRD.md#independent-platform-release-policy).
-  - Evidence: On this checkout, Flutter 3.44.6 `flutter analyze --no-pub` fails with three `argument_type_not_assignable` diagnostics: two duplicate `FourierGrid` library identities at `lib/features/fourier/lab/fractal_uncertainty_estimator.dart:32,45`, and a duplicate `PrecisionLadderDecision` library identity at `lib/features/renderer/widgets/renderer/fractal_renderer.dart:479`. `flutter test --no-pub --reporter expanded` crashes before running tests in Flutter's `testCompilerBuildNativeAssets` (`firstWhere`, `native_assets.dart:37`, “Bad state: No element”); test cases did not execute. Relevant implementation history: `352daa2b5ba60365c4d2e236185e5265fe1358f6` (finite Fourier uncertainty lab), `fb9a48eabde31254a394c3698cbc4ba355a5c5d9` (Fourier spectrum engine), and `a1eb84eef37e68dc3f2c2dafb05f95e8320832c6` (precision ladder routing).
-  - Status: open
-  - Section: Now.
-  - Touches: lib/features/fourier/lab/fractal_uncertainty_estimator.dart, lib/features/fourier/models/, lib/features/fourier/services/, lib/features/renderer/widgets/renderer/fractal_renderer.dart, lib/features/renderer/policy/, test/features/fourier/, test/renderer/
-  - Scope: Trace and correct the duplicate import/library identities, then diagnose and repair the project-owned cause of the Flutter test compiler crash so the complete offline guard can run. Keep changes limited to these verification failures. Do not edit or reinstall the Flutter SDK, alter dependencies without source evidence, or weaken tests/analyzer rules. If the native-assets crash is reproducible only inside the external SDK after the project package configuration is verified, record that precise external blocker instead of modifying SDK files.
-  - Acceptance: `flutter analyze --no-pub` reports no issues; focused Fourier-transform and precision-ladder tests complete and pass; `flutter test --no-pub --reporter expanded` reaches a terminal result with all tests passing. No feature behavior or test coverage is weakened.
-  - Checks: `flutter analyze --no-pub`; `flutter test test/features/fourier/fourier_transform_service_test.dart test/renderer/precision_ladder_policy_test.dart --reporter expanded`; full offline guard `flutter analyze --no-pub && flutter test --no-pub --reporter expanded`; `git diff --check`.
-  - Dependencies: None.
-  - Ownership: Repository maintenance; preserve primary milestone and owner interview order. No release or publication authority.
-  - Next action: Inspect import URIs and package configuration around the reported type identities, establish why the SDK test compiler cannot find the current package root, make only project-owned corrections, then rerun the focused and full checks.
-
 ## Next
 
 
