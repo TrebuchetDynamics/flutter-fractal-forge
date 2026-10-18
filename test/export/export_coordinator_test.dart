@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:isolate';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
 import 'package:flutter_fractals/core/services/export/export_worker.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -92,14 +93,18 @@ void main() {
   });
 
   group('IsolateExportWorker', () {
-    test('runs work on a worker isolate', () async {
+    test('runs work off the UI isolate where isolates are supported', () async {
       final mainIsolate = Isolate.current.debugName;
       final workerName = await const IsolateExportWorker().run(
         () => Isolate.current.debugName,
       );
 
-      expect(workerName, isNot(mainIsolate));
-      expect(workerName, contains('export-worker'));
+      if (kIsWeb) {
+        expect(workerName, mainIsolate);
+      } else {
+        expect(workerName, isNot(mainIsolate));
+        expect(workerName, contains('export-worker'));
+      }
     });
 
     test('runs a top-level function with an explicit sendable input', () async {
@@ -110,11 +115,26 @@ void main() {
       expect(value, 42);
     });
 
-    test('kills in-flight work when its token is cancelled', () async {
+    test('stops awaiting in-flight work when its token is cancelled', () async {
       final token = ExportCancellationToken();
       final started = Completer<void>();
+      final worker = const IsolateExportWorker();
 
-      final work = const IsolateExportWorker().run(() async {
+      if (kIsWeb) {
+        final finishWork = Completer<int>();
+        final work = worker.run(
+          () => finishWork.future,
+          token: token,
+          onSpawned: started.complete,
+        );
+        await started.future;
+        token.cancel();
+        await expectLater(work, throwsA(isA<ExportCancelledException>()));
+        finishWork.complete(1);
+        return;
+      }
+
+      final work = worker.run(() async {
         await Future<void>.delayed(const Duration(seconds: 30));
         return 1;
       }, token: token, onSpawned: started.complete);
