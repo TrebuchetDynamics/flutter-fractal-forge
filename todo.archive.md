@@ -739,3 +739,18 @@ Source section: Next
   - Touches: integration_test/flows/vis006_first_view_test.dart, docs/planning/visual-audit-inventory.json
   - Dependencies: VIS-006-BATCH-20. VIS-005 (goal prerequisite).
   - Ownership: repository backlog; preserve existing active VIS-006 work.
+
+
+<!-- archived from TODO.md -->
+
+Source section: Next
+
+- [x] **VIS-006-CPU-01 — Verify native CPU behavior for five audited Explore modules.**
+  - Goal: VIS-006. Payoff: distinguish CPU formula correctness from registration and GPU image health.
+  - Sources: [Accepted visual scope](docs/planning/visual-fidelity-audit-next.md#accepted-focus), `docs/planning/visual-fidelity-audit-next.md`, `docs/planning/visual-audit-inventory.json`, `lib/features/renderer/cpu/cpu_formulas.dart`, and `test/cpu/cpu_formula_coverage_test.dart`.
+  - Touches: test/cpu/, docs/planning/
+  - Scope: select five captured Explore IDs with registered native CPU formulas and no recorded correctness check. Reuse existing tests/oracles where available; add a small deterministic known-point or reference comparison for the selected formulas. Do not use a synthetic fallback as proof or redesign formulas.
+  - Acceptance: each selected ID records native support, exact reference/check, and passing or failed result; no available oracle is reported as an explicit skip rather than a pass. Record remaining CPU gaps.
+  - Checks: run `flutter test test/cpu/cpu_formula_coverage_test.dart` and the exact added focused known-point/reference test; run formatter and `flutter analyze` for touched Dart files; run the visual inventory validator and record its command/result. No oracle is NOT_CHECKED/skip, never a pass.
+  - Dependencies: VIS-006-FIRST-VIEW-04. VIS-005 (goal prerequisite).
+  - Ownership: repository backlog; check active work before dispatch. No hardware or full-catalog qualification is implied.

@@ -1269,17 +1269,6 @@
     },
     {
       "depends_on": [
-        "VIS-005",
-        "VIS-006-FIRST-VIEW-04"
-      ],
-      "goal": "VIS-006",
-      "id": "VIS-006-CPU-01",
-      "section": "Next",
-      "status": "open",
-      "title": "Verify native CPU behavior for five audited Explore modules"
-    },
-    {
-      "depends_on": [
         "ACAD-01"
       ],
       "goal": "ACAD-001",
@@ -1965,6 +1954,17 @@
       "section": "Done",
       "status": "done",
       "title": "Capture defaults and runtime previews for the following ten uncaptured Explore modules"
+    },
+    {
+      "depends_on": [
+        "VIS-005",
+        "VIS-006-FIRST-VIEW-04"
+      ],
+      "goal": "VIS-006",
+      "id": "VIS-006-CPU-01",
+      "section": "Done",
+      "status": "done",
+      "title": "Verify native CPU behavior for five audited Explore modules"
     },
     {
       "depends_on": [],
