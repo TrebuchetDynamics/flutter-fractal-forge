@@ -1270,14 +1270,6 @@
       "title": "Commit native exports without partial completed files"
     },
     {
-      "depends_on": [],
-      "goal": "NUM-WALL-001",
-      "id": "NUM-WALL-01",
-      "section": "Next",
-      "status": "open",
-      "title": "Compute exact sequence walls and validate custom prime fields"
-    },
-    {
       "depends_on": [
         "NUM-WALL-01"
       ],
@@ -1777,6 +1769,14 @@
       "section": "Done",
       "status": "done",
       "title": "Verify 320×320 launch-thumbnail captures"
+    },
+    {
+      "depends_on": [],
+      "goal": "NUM-WALL-001",
+      "id": "NUM-WALL-01",
+      "section": "Done",
+      "status": "done",
+      "title": "Compute exact sequence walls and validate custom prime fields"
     },
     {
       "depends_on": [
