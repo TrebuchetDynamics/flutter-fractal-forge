@@ -6,34 +6,6 @@ This file contains only hard blockers that require user action.
 
 <!-- pi-autowork:questions:start -->
 
-### Q-ACAD-03 — USER_DECISION — effort decision — unblocks 1
-
-- Task: ACAD-03 — Review approved source mathematics against a representative renderer pilot.
-- Needs: 1 waiting task(s) depend on "ACAD-03", which is not a Now/Next task (an outside condition, or a task in Needs decision).
-- Since: 2026-10-17T04:30:10Z
-- Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
-
-### Q-VIS-003 — USER_DECISION — effort decision — unblocks 1
-
-- Task: VIS-003 — App icon visual sign-off.** Scope: inspect the existing adaptive launcher and store artwork in representative device masks; do not treat missing files as the issue or redesign without approval. Acceptance: product owner records accept/request-change and any exact crop/design correction. Blocker: visual acceptance criteria/approval are owner-controlled; inputs and dimensions were checked, but visual acceptance is not claimed. Ownership: owner decision required.
-- Needs: 1 waiting task(s) depend on "VIS-003", which is not a Now/Next task (an outside condition, or a task in Needs decision).
-- Since: 2026-10-17T01:32:24Z
-- Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
-
-### Q-NUM-WALL-01 — USER_DECISION — effort investigate — unblocks 4
-
-- Task: NUM-WALL-01 — Compute exact sequence walls and validate custom prime fields.
-- Needs: worker timeout after 5400 s while running (89 min): CHROME_EXECUTABLE=/usr/bin/chromium TMPDIR="$TMPDIR" flutter test --no-pub --platform chrome test/modules/number_wall_mo
-- Since: 2026-10-18T17:26:55Z
-- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/NUM-WALL-01/), then rescope or split NUM-WALL-01 in its TODO.md entry. The runner reruns it when the entry changes.
-
-### Q-FULL-CHECK — USER_INPUT — effort input — unblocks 0
-
-- Task: the repository's whole offline test suite
-- Needs: no full-suite gate: a commit can land while breaking tests its own task never ran, and main is never checked
-- Since: 2026-10-18T18:36:29Z
-- Answer: Add one line to AGENTS.md, `Full check: <command>` (the command that runs the whole offline suite), or set PI_AUTOWORK_VALIDATE in the runner's settings.
-
 <!-- pi-autowork:questions:end -->
 
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
