@@ -72,7 +72,7 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 cd "$PROJECT_ROOT"
 
 # Real release requests go through GitLab; local dry runs remain available.
-if [[ "${GITLAB_CI:-}" != true ]]; then
+if [[ "${GITLAB_CI:-}" != true && "${RELEASE_LOCAL_STAGE:-}" != 1 ]]; then
   for argument in "$@"; do
     case "$argument" in
       --publish=*|--prepare=*) exec "$PROJECT_ROOT/release.sh" "$@" ;;
@@ -254,6 +254,7 @@ for arg in "$@"; do
     --dry-run) CONFIRMED=0; DRY_RUN_FORCED=1 ;;
     --help|-h) usage; exit 0 ;;
     all) ALL_SELECTED=1; STAGES+=(android_build fdroid linux windows apple evidence github website play) ;;
+    web-build) STAGES+=(web_build) ;;
     android-build) STAGES+=(android_build) ;;
     android|play|linux|windows|apple|evidence|github|website|fdroid) STAGES+=("$arg") ;;
     *) die "Unknown argument: $arg (see --help)" ;;
@@ -461,7 +462,7 @@ preflight_prepare() {
     die "Local $branch is not synchronized with $remote_ref"
   for stage in "${STAGES[@]}"; do
     case "$stage" in
-      android_build|fdroid|linux|windows|apple|evidence) ;;
+      android_build|fdroid|linux|windows|apple|evidence|web_build) ;;
       *) die "--prepare permits only android-build, fdroid, linux, windows, apple, and evidence" ;;
     esac
   done
@@ -487,7 +488,9 @@ if [[ -n "$PREPARE_VERSION" && "$DRY_RUN_FORCED" -eq 0 ]]; then
         "$PUBLISH_BUILD_NUMBER" != "$RESOLVED_ANDROID_BUILD_NUMBER" ]]; then
     die "Confirmed build number does not match resolved Android build number"
   fi
-  preflight_prepare
+  if [[ "${RELEASE_LOCAL_STAGE:-}" != 1 ]]; then
+    preflight_prepare
+  fi
   CONFIRMED=1
 fi
 
@@ -892,6 +895,37 @@ stage_github() {
       --notes "$notes"
   fi
   log "github stage complete: $tag"
+}
+
+stage_web_build() {
+  if ! guarded "build and package the web release artifact without deployment"; then return 0; fi
+  need tar
+  local version build_number commit archive web_output
+  version="$(release_version)"
+  build_number="$(release_build_number)"
+  commit="$(git rev-parse HEAD)"
+  web_output="$ARTIFACT_DIR/web"
+  rm -rf "$web_output"
+  "$FLUTTER_BIN" build web --release --output="$web_output" --build-name="$(release_build_name)" \
+    --build-number="$build_number" --dart-define="RELEASE_VERSION=$version" \
+    --dart-define="RELEASE_BUILD_NUMBER=$build_number" --dart-define="RELEASE_COMMIT=$commit"
+  [[ -d "$web_output" ]] || die "Web build output is missing"
+  python3 - "$web_output" "$version" "$build_number" "$commit" <<'PY'
+import hashlib, json, pathlib, sys
+root = pathlib.Path(sys.argv[1])
+files = {}
+for path in sorted(root.rglob("*")):
+    if path.is_symlink():
+        raise SystemExit(f"Web bundle contains a symlink: {path}")
+    if path.is_file():
+        files[path.relative_to(root).as_posix()] = hashlib.sha256(path.read_bytes()).hexdigest()
+identity = {"version": sys.argv[2], "build_number": sys.argv[3], "commit": sys.argv[4], "files": files}
+(root / "release-identity.json").write_text(json.dumps(identity, sort_keys=True, separators=(",", ":")) + "\n")
+PY
+  archive="$ARTIFACT_DIR/fractal-forge-web-v${version}.tar.gz"
+  rm -f "$ARTIFACT_DIR"/fractal-forge-web-v*.tar.gz*
+  tar -czf "$archive" -C "$ARTIFACT_DIR" web
+  write_artifact_provenance "$archive" "$version" "$build_number" "$commit"
 }
 
 stage_website() {
