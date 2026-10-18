@@ -38,4 +38,7 @@ final class FractalRenderSnapshot {
 /// Stable viewer-owned sink observed by the renderer's animated frame builder.
 final class FractalRenderSnapshotSink {
   FractalRenderSnapshot? snapshot;
+  String? trajectorySettingsKey;
+  Duration? trajectoryGenerationDuration;
+  bool? trajectoryCacheHit;
 }

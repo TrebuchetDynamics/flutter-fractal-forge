@@ -76,7 +76,10 @@ final class FractalViewInputBounds {
     required FractalViewState current,
     required String moduleId,
   }) {
+    final trajectory = candidate.trajectory;
     return candidate.copyWith(
+      clearTrajectory:
+          trajectory != null && !trajectory.isCompatibleWith(moduleId),
       pan: Vector2(
         normalizePanComponent(
             candidate: candidate.pan.x, current: current.pan.x),

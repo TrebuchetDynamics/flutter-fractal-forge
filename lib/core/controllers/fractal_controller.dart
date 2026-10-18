@@ -543,6 +543,9 @@ class FractalController extends ChangeNotifier {
         candidate: view.rotation,
         current: _view.rotation,
       ),
+      trajectory: view.trajectory?.isCompatibleWith(_module.id) == true
+          ? view.trajectory
+          : null,
     );
     final zoomingIn =
         normalized.zoom > (_lastAdaptiveZoom * _adaptiveZoomEpsilon);

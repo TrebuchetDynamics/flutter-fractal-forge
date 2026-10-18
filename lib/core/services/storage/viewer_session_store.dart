@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
+import 'package:flutter_fractals/core/models/attractor_trajectory_settings.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vector_math/vector_math_64.dart';
@@ -96,6 +97,8 @@ class ViewerSessionSnapshot {
         'pan': <double>[pan.x, pan.y],
         'zoom': view.zoom,
         'rotation': <double>[rotation.x, rotation.y, rotation.z],
+        if (view.trajectory case final trajectory?)
+          'trajectory': trajectory.toJson(),
       },
       'transparentBackground': transparentBackground,
       'rotationLocked': rotationLocked,
@@ -144,6 +147,7 @@ class ViewerSessionSnapshot {
         pan: Vector2(pan[0], pan[1]),
         zoom: zoom,
         rotation: Vector3(rotation[0], rotation[1], rotation[2]),
+        trajectory: decodeOrbitTrajectorySettings(rawView['trajectory']),
       ),
       transparentBackground: _bool(json, 'transparentBackground'),
       rotationLocked: _bool(json, 'rotationLocked'),

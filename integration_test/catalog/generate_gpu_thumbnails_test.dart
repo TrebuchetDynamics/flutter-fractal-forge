@@ -41,18 +41,21 @@ import 'package:integration_test/integration_test.dart';
 import 'package:image/image.dart' as img;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/rendering/palette/palette_service.dart';
 import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
+import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_entry.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
 import 'package:flutter_fractals/features/catalog/data/featured_launch_set.dart';
 import 'package:flutter_fractals/features/catalog/data/launch_visual_metrics.dart';
 import 'package:flutter_fractals/features/renderer/diagnostics/render_audit_metrics.dart';
 import 'package:flutter_fractals/features/renderer/diagnostics/render_math_oracle.dart';
+import 'package:flutter_fractals/features/renderer/models/fractal_render_snapshot.dart';
 import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -74,6 +77,8 @@ void main() {
     final seed = env['CATALOG_THUMB_SEED'] ?? 'catalog-thumbnails-v1';
     final useModuleDefaults =
         _envBool(env, 'CATALOG_THUMB_USE_MODULE_DEFAULTS');
+    final legacyAttractorPortrait =
+        _envBool(env, 'CATALOG_THUMB_LEGACY_ATTRACTOR_PORTRAIT');
     final requestedPresetId = env['CATALOG_THUMB_PRESET_ID']?.trim();
     // LAUNCH_MEDIA_SIZE=<px> switches this run into marketing mode: render the
     // curated featured launch set at a high (square) resolution into a separate
@@ -111,6 +116,11 @@ void main() {
     final report = <String, Object>{
       'seed': seed,
       'useModuleDefaults': useModuleDefaults,
+      'trajectoryMode': legacyAttractorPortrait
+          ? 'legacy portrait at candidate defaults'
+          : 'module default representation',
+      'renderBackend':
+          'Flutter Canvas2D for trajectory views; legacy views use module shader',
       'requestedPresetId': requestedPresetId ?? '',
       'updateAssets': updateAssets,
       'strict': strict,
@@ -203,6 +213,16 @@ void main() {
         final selectStopwatch = Stopwatch()..start();
         controller = FractalController(registry);
         controller.selectModule(module, animate: false);
+        if (legacyAttractorPortrait) {
+          expect(
+            {'thomas_attractor', 'four_wing', 'lorenz_2d'},
+            contains(module.id),
+            reason: 'Legacy portrait comparison is scoped to this task.',
+          );
+          controller.updateView(
+            controller.view.copyWith(clearTrajectory: true),
+          );
+        }
         if (requestedPresetId != null && requestedPresetId.isNotEmpty) {
           final matchingPresets = module.builtInPresets
               .where((preset) => preset.id == requestedPresetId);
@@ -230,8 +250,14 @@ void main() {
         selectStopwatch.stop();
 
         final frameTimings = <ui.FrameTiming>[];
+        final cachedOrbitTimings = <ui.FrameTiming>[];
+        final renderSnapshotSink = FractalRenderSnapshotSink();
         void timingsCallback(List<ui.FrameTiming> timings) {
           frameTimings.addAll(timings);
+        }
+
+        void cachedOrbitTimingsCallback(List<ui.FrameTiming> timings) {
+          cachedOrbitTimings.addAll(timings);
         }
 
         WidgetsBinding.instance.addTimingsCallback(timingsCallback);
@@ -249,8 +275,9 @@ void main() {
                   child: SizedBox(
                     width: thumbSize.toDouble(),
                     height: thumbSize.toDouble(),
-                    child: const FractalRenderer(
+                    child: FractalRenderer(
                       gesturesEnabled: false,
+                      renderSnapshotSink: renderSnapshotSink,
                     ),
                   ),
                 ),
@@ -276,13 +303,42 @@ void main() {
           throw StateError('renderer displayed Shader Error');
         }
 
+        final capturedView = controller.view;
+        final capturedParams = Map<String, Object>.from(controller.params);
         final captureStopwatch = Stopwatch()..start();
         final bytes = await _captureThumbnailBytes(
           binding,
           repaintKey,
           'thumb_${module.id}',
         );
+        final exportCapture = const ExportService().capturePng(
+          repaintKey,
+          pixelRatio: 1,
+        );
+        await tester.pump();
+        final exportedPng = await exportCapture;
+        expect(exportedPng, orderedEquals(bytes),
+            reason: 'PNG export must match the visible edited view.');
         captureStopwatch.stop();
+        if (capturedView.trajectory != null) {
+          WidgetsBinding.instance
+              .addTimingsCallback(cachedOrbitTimingsCallback);
+          final currentScheme =
+              (controller.params['colorScheme'] as num?)?.round() ?? 0;
+          controller.updateParam('colorScheme', (currentScheme + 1) % 4);
+          final currentPan = controller.view.pan;
+          controller.updateView(
+            controller.view.copyWith(
+              pan: Vector2(currentPan.x + 0.025, currentPan.y),
+            ),
+          );
+          for (var frame = 0; frame < 5; frame++) {
+            await tester.pump(const Duration(milliseconds: 16));
+          }
+          await tester.pump(const Duration(milliseconds: 80));
+          WidgetsBinding.instance
+              .removeTimingsCallback(cachedOrbitTimingsCallback);
+        }
         final screenshot = img.decodeImage(Uint8List.fromList(bytes));
         if (screenshot == null) {
           throw StateError('decode failed');
@@ -330,16 +386,25 @@ void main() {
           'catalogId': entry.catalogId,
           'moduleId': module.id,
           'shaderAsset': module.shaderAsset,
-          'renderParams': Map<String, Object>.from(controller.params),
+          'renderParams': capturedParams,
           'renderView': {
-            'pan': [controller.view.pan.x, controller.view.pan.y],
-            'zoom': controller.view.zoom,
+            'trajectory': capturedView.trajectory?.toJson(),
+            'pan': [capturedView.pan.x, capturedView.pan.y],
+            'zoom': capturedView.zoom,
             'rotation': [
-              controller.view.rotation.x,
-              controller.view.rotation.y,
-              controller.view.rotation.z,
+              capturedView.rotation.x,
+              capturedView.rotation.y,
+              capturedView.rotation.z,
             ],
           },
+          'firstOrbitGenerationMs':
+              renderSnapshotSink.trajectoryGenerationDuration == null
+                  ? -1.0
+                  : _durationMs(
+                      renderSnapshotSink.trajectoryGenerationDuration!,
+                    ),
+          'trajectoryCacheHit': renderSnapshotSink.trajectoryCacheHit == true,
+          'cachedPanPaletteFrameTimings': _frameTimingStats(cachedOrbitTimings),
           'shaderLoadMs': _elapsedMs(shaderLoadStopwatch),
           'shaderLoadMode': shaderLoadMode,
           'moduleSelectMs': _elapsedMs(selectStopwatch),
@@ -673,13 +738,25 @@ Map<String, Object> _frameTimingStats(List<ui.FrameTiming> timings) {
   final buildMs = timings.map((t) => _durationMs(t.buildDuration));
   final rasterMs = timings.map((t) => _durationMs(t.rasterDuration));
   final totalMs = timings.map((t) => _durationMs(t.totalSpan));
+  double percentile(Iterable<double> values, double fraction) {
+    final sorted = values.toList(growable: false)..sort();
+    final index = ((sorted.length - 1) * fraction).round();
+    return sorted[index];
+  }
+
   return {
     'count': timings.length,
     'avgBuildMs': average(buildMs),
+    'p50BuildMs': percentile(buildMs, 0.50),
+    'p95BuildMs': percentile(buildMs, 0.95),
     'maxBuildMs': buildMs.reduce(max),
     'avgRasterMs': average(rasterMs),
+    'p50RasterMs': percentile(rasterMs, 0.50),
+    'p95RasterMs': percentile(rasterMs, 0.95),
     'maxRasterMs': rasterMs.reduce(max),
     'avgTotalSpanMs': average(totalMs),
+    'p50TotalSpanMs': percentile(totalMs, 0.50),
+    'p95TotalSpanMs': percentile(totalMs, 0.95),
     'maxTotalSpanMs': totalMs.reduce(max),
   };
 }

@@ -10,6 +10,7 @@ FractalViewState snapshotHistoryView(FractalViewState view) {
     pan: Vector2.copy(view.pan),
     zoom: view.zoom,
     rotation: Vector3.copy(view.rotation),
+    trajectory: view.trajectory,
   );
 }
 
@@ -91,6 +92,7 @@ bool isSameHistoryLocation({
       view.rotation.z != otherView.rotation.z) {
     return false;
   }
+  if (view.trajectory != otherView.trajectory) return false;
   return haveSameHistoryParams(params, otherParams);
 }
 
