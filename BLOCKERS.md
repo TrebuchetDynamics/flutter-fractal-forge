@@ -20,13 +20,6 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T01:32:24Z
 - Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
 
-### Q-NUM-WALL-01 — USER_INPUT — effort input — unblocks 4
-
-- Task: NUM-WALL-01 — Compute exact sequence walls and validate custom prime fields.
-- Needs: worker reported a blocker: Browser parity remains an offline acceptance check. Chromium launched using the short process-scoped scratch alias, and all observed listeners were loopback-only, but the Flutter test browser stayed on about:blank and never connected to the test harness; the exact test command timed out with no tests run. Provide a compatible pinned Flutter/Chromium test runtime or resolve this browser-harness sta…
-- Since: 2026-10-17T23:58:56Z
-- Answer: Answer in NUM-WALL-01's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
-
 <!-- pi-autowork:questions:end -->
 
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
