@@ -38,7 +38,7 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Checks: Planned new target: `flutter test test/modules/number_wall_model_test.dart --reporter expanded`; browser parity: `flutter test --platform chrome test/modules/number_wall_model_test.dart --reporter expanded`; `dart format --output=none --set-exit-if-changed lib/core/models/number_wall_model.dart test/modules/number_wall_model_test.dart`; `flutter analyze`. Record actual test counts, backend and bounded benchmark inputs; proposed tests have NOT_RUN.
   - Dependencies: None.
   - Ownership: Repository backlog, unassigned; inspect actual writers before execution. Planning does not dispatch.
-  - Next action: Blocked until the exact authorized candidate bytes for `lib/core/models/number_wall_model.dart` and `test/modules/number_wall_model_test.dart` are supplied/restored into this worktree, or the owner explicitly authorizes recovery of a specific candidate hash. The current report confirms both files are absent; do not restart implementation or restore an older set-aside copy. Once authorized matching bytes are present, preserve them and check active writers before testing. Browser parity is separately still NOT_RUN: prior diagnostics show Chromium/DevTools launch but no loopback test-page request. Retain those logs; diagnose only an isolated, non-privileged browser setup under existing local recovery authority. Do not mutate the shared SDK, disable browser security, widen the port exception, or use credentials/paid access. Run native and `--platform chrome` parity against the same candidate bytes; absent test execution is NOT_RUN, never a pass. Keep every exact-math and cancellation check; no implementation restart or runner reconfiguration is authorized.
+  - Next action: Recover the preserved candidate under existing local recovery authority; fresh owner hash approval is not required. The current .worktrees/autowork-NUM-WALL-01 at 514f77f5369d5f4fbcee43728e272711ff24b529 lacks the two scoped files, but .worktrees/autowork-NUM-WALL-01-set-aside-1, -3 and -4 all contain byte-identical copies: model SHA256 4c24239065e65612b10603ab711ad84806e6f80eece741387eb95f15360381f9; test SHA256 c65920fbd2bd27fa2553138dfc297612f6dbbeaa30236ff95ae1e51095918fc6. These match the earlier inspected candidate, not a newly proposed implementation. No relevant writer was observed at reconciliation. In the next authorized runner attempt, recheck activity and hashes, use the full path .worktrees/autowork-NUM-WALL-01-set-aside-4 as the recovery source, and copy only those two files if still absent; stop for inspection rather than overwrite differing newer bytes. Preserve every set-aside tree and report. This replaces the unsupported planning demand for a new owner hash authorization, not any owner restriction. Then continue the actual unresolved browser-harness startup diagnosis and native/browser parity on the same candidate bytes. Keep the approved short private scratch and task-only loopback-port limits; no shared SDK mutation, sandbox disabling, widened port policy, credentials, paid access, runner reconfiguration or parity waiver. A launch with no tests executed remains NOT_RUN. Keep all original exact-math/cancellation acceptance and integrated-code checks.
   - Planning repair: 2026-10-17 — Browser setup is routine local recovery, not unavailable owner input. Use the installed Chromium through process-scoped `CHROME_EXECUTABLE=/usr/bin/chromium`; arrange a short private scratch path/alias backed by the approved scratch storage, verifying the browser socket path fits. Scope any TMPDIR override to the test process; do not use system /tmp, shared browser profiles, elevated privileges, disabled browser security or external spending. Keep explicit servers in the current occurrence’s reserved AUTOWORK port range and preserve worker isolation; the later explicit NUM-WALL-01 test-only exception below supersedes the all-ports interpretation for that task alone. Retain the failed launch as history and rerun the original browser test; do not waive parity or invent a pass. This records instructions only, without creating directories or launching tests.
   - Owner decision: 2026-10-17 — Allow OS-assigned loopback ports only for NUM-WALL-01’s Flutter/Chromium tests; keep explicit servers in the reserved range. This is a task-specific exception to the reserved-all-ports rule for transient test harness/browser-debug listeners, not a global runner policy change.
   - Test-port limits: Test listeners must remain on 127.0.0.1/::1, scoped to this task and cleaned up with the test process. No public/wildcard listeners, firewall/network-namespace changes, elevated privileges, shared profiles, external spend or security disabling. Log actual bound addresses/ports and verify this scope; a listener that cannot be kept loopback-only remains blocked. Apply only within the existing runner’s next authorized attempt; this planning answer starts or reconfigures nothing and does not waive browser parity. If the runner cannot consume the exception, retain the exact refusal rather than bypassing enforcement.
@@ -124,7 +124,7 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Checks: Run `python3 test/scripts/test_release_platform_lanes.py`; run `npx --no-install playwright test test/playwright/web-image-creation-journey.spec.mjs test/playwright/smoke-session-conflict.spec.mjs --project=chromium --workers=1 --output="$TMPDIR/release-web-playwright-output" --reporter=list`; rerun `./release.sh --best-effort --prepare=1.1.108 --build-number=108` with publication disabled against the frozen candidate identity. Record stage exits and reconcile every requested/verified/skipped lane, archive file inventory, web asset/browser receipts, artifact hashes/provenance and zero publication effects. Use the exact SDK/lockfile and authorized hosts from the accepted lane map; unavailable live/platform gates remain explicit. Prior campaign/build receipts are bound to their recorded candidate and do not qualify a rerun. All rerun checks remain NOT_RUN.
   - Dependencies: RELEASE-001-23.
   - Ownership: Release coordinator; preserve active writers and use only already-authorized hosts/access. Missing private access is not presumed granted.
-  - Next action: Extend the lane-check Touches to the archive verifier and saved-data browser test; fix the evidenced directory-entry inventory mismatch and establish valid saved-data browser evidence, then rerun the prepare-only campaign against one frozen candidate. Preserve exact skips for unavailable hosts/signing and present the complete ready/skipped manifest without publication.
+  - Next action: Reconcile the retained worker output before rerunning the campaign: attempt-2/report.json names commit 33eae0c75ca78a6a8de10709907ba80d6b6248af, and .worktrees/autowork-RELEASE-002-75-r2 is clean at that commit with both owned fixes. Its release-artifacts/campaign.json records web/Linux verified, the other five lanes skipped-unavailable, and publishers_called=false; both retained artifact sizes and SHA256 hashes were independently matched during blocker inspection. Those observations do not establish full campaign qualification or integrated delivery, and the engine timeout remains failed history. Check writer inactivity and current-source compatibility, then reuse the candidate through the supported integration/review path rather than reimplement the archive/saved-data fixes or request more authority. Independently review the actual stage logs, shared checks, file/check inventories, source/SDK/lock/version binding and complete terminal exits; a successful report alone cannot override missing or failed execution evidence. Preserve valid candidate-bound checks/artifacts without repinning to another source. Rerun only missing, invalidated or mandatory integrated checks; if source identity changes, prepare and qualify a new immutable candidate and keep the original receipts intact. Keep stage/host queue timeouts and explicit platform skips; no unbounded retries or global SDK changes. Do not mark done until original acceptance and integration review pass. No publisher, tag, push, upload, GitLab run or deployment; RELEASE-003-ae remains separately gated.
 
 ## Needs decision
 
@@ -437,6 +437,10 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   Status: open
 
 - [ ] QUAT-NORM-03-QUALIFY-LIVE — Live checks for QUAT-NORM-03-QUALIFY
+  - Goal: QUAT-NORM-001
+  - Sources: [Accepted companion](PRD.md#prime-norm-quaternion-companion), [accepted slice design](docs/engineering/spec.md#prime-norm-quaternion-companion); parent qualification contract retained in `todo.archive.md`.
+  - Touches: docs/engineering/test-plan.md
+  - Ownership: Await authorized live targets and human review; metadata repair grants neither.
   Scope: Run the live checks the offline work for QUAT-NORM-03-QUALIFY left pending.
   Acceptance: Each check passes on the real target:
   - Android qualification remains pending until a named Android device is available; run the journey and verify decoded exported PNGs on that target. Linux evidence used Xvfb and is not a physical GPU qualification.
@@ -445,14 +449,22 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   Status: open
 
 - [ ] VIS-006-BATCH-20-LIVE — Live checks for VIS-006-BATCH-20
+  - Goal: VIS-006
+  - Sources: [Accepted visual scope](docs/planning/visual-fidelity-audit-next.md#accepted-focus), [visual inventory](docs/planning/visual-audit-inventory.json); parent capture contract retained in `todo.archive.md`.
+  - Touches: docs/planning/visual-fidelity-audit-next.md
+  - Ownership: Await human visual review; metadata repair is not acceptance.
   Scope: Run the live checks the offline work for VIS-006-BATCH-20 left pending.
   Acceptance: Each check passes on the real target:
   - Human visual review of recognizability/framing for the captured previews; image-health pass is not visual or mathematical certification.
   Checks: Live qualification by an authorized person; offline evidence does not count.
-  Dependencies: VIS-006-BATCH-20.
+  Dependencies: VIS-006-BATCH-20, VIS-005 (existing goal prerequisite).
   Status: open
 
 - [ ] GAUSS-MOAT-04-GROWTH-LIVE — Live checks for GAUSS-MOAT-04-GROWTH
+  - Goal: GAUSS-MOAT-001
+  - Sources: [Accepted growth plan](docs/engineering/spec.md#gaussian-moat-walking-visualization), [growth details](docs/engineering/spec.md#bounded-radius-growth-and-visual-direction); parent contract retained in `todo.archive.md`.
+  - Touches: docs/engineering/test-plan.md
+  - Ownership: Await authorized live targets and human review; metadata repair grants neither.
   Scope: Run the live checks the offline work for GAUSS-MOAT-04-GROWTH left pending.
   Acceptance: Each check passes on the real target:
   - GAUSS-MOAT-03-QUALIFY real journey and live/device qualification remain separate pending gates; offline capture tests are not live qualification.
@@ -461,6 +473,10 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   Status: open
 
 - [ ] GAUSS-MOAT-03-QUALIFY-LIVE — Live checks for GAUSS-MOAT-03-QUALIFY
+  - Goal: GAUSS-MOAT-001
+  - Sources: [Accepted scope](PRD.md#gaussian-moat-walking-visualization), [bounded design](docs/engineering/spec.md#gaussian-moat-walking-visualization); parent qualification contract retained in `todo.archive.md`.
+  - Touches: docs/engineering/test-plan.md
+  - Ownership: Await authorized live targets and human review; metadata repair grants neither.
   Scope: Run the live checks the offline work for GAUSS-MOAT-03-QUALIFY left pending.
   Acceptance: Each check passes on the real target:
   - Android journey has not run on a named device; decode its selected-dimension PNG and verify actual MediaStore/gallery persistence/readability. Keep emulator and physical-device evidence separate.
@@ -471,6 +487,10 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   Status: open
 
 - [ ] RELEASE-001-23-LIVE — Live checks for RELEASE-001-23
+  - Goal: REL-JOURNEY-001
+  - Sources: [Accepted policy](PRD.md#independent-platform-release-policy), [implementation contract](docs/engineering/spec.md#independent-platform-release-orchestration), [lane map](docs/engineering/release/MULTIPLATFORM.md#independent-platform-release-campaign); parent contract retained in `todo.archive.md`.
+  - Touches: docs/engineering/test-plan.md
+  - Ownership: Await authorized targets and separately scoped live-operation approval; metadata repair grants neither.
   Scope: Run the live checks the offline work for RELEASE-001-23 left pending.
   Acceptance: Each check passes on the real target:
   - Run the actual Linux native edited-view and decoded-PNG journey on a supported Linux target; the offline test used controlled subprocess doubles.
@@ -498,7 +518,7 @@ Generated from `goals.json` by `goals.py render`. `met` requires an executed, pa
 | MEDIA-002: Select launch hero stills from qualified captures | unmet | inspection <code>TODO.md#MEDIA-002: owner selection remains open</code> → fail | MEDIA-002 |
 | VIS-003: Obtain app icon visual sign-off | unmet | inspection <code>TODO.md#VIS-003: owner sign-off remains open</code> → fail | ICON-ZJ-02, VIS-003 |
 | DOC-PRD-001: Resolve which documents own active product scope | met | executed <code>python3 "$HERMES_PROFILE/cache/scratch/repo-interview-release-20261011/check_interview_docs.py" "$REPO" (interview documentation/ledger only)</code> → pass; inspection <code>BLOCKERS.md#BLK-20261005-004: conflicting scope statements require owner decision</code> → fail | — |
-| REL-JOURNEY-001: Qualify the complete image-creation journey on Android, web and Linux | unverified | inspection <code>PRD.md#active-release-contract: owner accepted the cross-platform journey; complete platform qualification remains unverified</code> → pass | ACAD-006-3c, REL-JOURNEY-02-LINUX-LIVE, REL-JOURNEY-03-ANDROID-LIVE, RELEASE-001-23-LIVE, RELEASE-002-75, RELEASE-003-ae |
+| REL-JOURNEY-001: Qualify the complete image-creation journey on Android, web and Linux | unverified | inspection <code>PRD.md#active-release-contract: owner accepted the cross-platform journey; complete platform qualification remains unverified</code> → pass | REL-JOURNEY-02-LINUX-LIVE, REL-JOURNEY-03-ANDROID-LIVE, RELEASE-001-23-LIVE, RELEASE-002-75, RELEASE-003-ae |
 | GAUSS-MOAT-001: Explore exact bounded Gaussian-prime walks with responsive controls and truthful reachability | unmet | executed <code>GAUSS-MOAT-01-MAP manual integration: git apply --check approved-owned.patch on main 7ede12424e6787ad9a514b8cdc9c37f509286b5f failed; three-way recovery leaves spec.md/test-plan.md conflicted because planning prerequisite is absent. Code-only diagnostic 171 tests/analyzer/format pass, not coherent integration qualification. Receipt /home/xel/.hermes/profiles/fractal/autowork/gaussian-moat-map/manual-integration-20261012/receipt.json</code> → fail; executed <code>GAUSS-MOAT-01-MAP offline/local integration only: python3 /home/xel/.hermes/profiles/fractal/autowork/gaussian-moat-map/coherent-continuation-20261012/run-frozen-gate.py at 79ae96506af162cc3f0f2392b631c5bf7229b333; 171 focused tests, analyzer, 8-file format, gen-l10n/source stability, docs/scope/diff pass; independent integration source review approved; git merge --ff-only and exact main/tree/15-path readback pass. No live/platform/milestone qualification.</code> → pass | GAUSS-MOAT-02-WALK-LIVE, GAUSS-MOAT-03-QUALIFY-LIVE, GAUSS-MOAT-04-GROWTH-LIVE |
 | QUAT-NORM-001: Explore exact prime-norm quaternion slice walks with camera-independent connectivity | unmet | — | QUAT-NORM-01-SLICE-LIVE, QUAT-NORM-02-WALK-LIVE, QUAT-NORM-03-QUALIFY-LIVE |
 | CAT-QUALITY-001: Improve catalog first-impression quality without losing variety or saved identities | unverified | — | CAT-QUALITY-01-LIVE, CAT-QUALITY-02-LIVE, CAT-QUALITY-03 |
