@@ -20,13 +20,6 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T01:32:24Z
 - Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
 
-### Q-VIS-006-CPU-01 — USER_DECISION — effort decision — unblocks 1
-
-- Task: VIS-006-CPU-01 — Verify native CPU behavior for five audited Explore modules.
-- Needs: not runnable: needs unique Scope, Acceptance and Checks fields
-- Since: 2026-10-18T06:50:14Z
-- Answer: Fix VIS-006-CPU-01's TODO.md entry as the reason says (for example add the missing Scope, Acceptance or Checks field), or move it out of Now/Next.
-
 ### Q-NUM-WALL-01 — USER_INPUT — effort input — unblocks 4
 
 - Task: NUM-WALL-01 — Compute exact sequence walls and validate custom prime fields.
@@ -40,13 +33,6 @@ This file contains only hard blockers that require user action.
 - Needs: worker reported a blocker: The runner has no complete native journey/export qualification adapters for Linux, Windows, macOS, or iOS. Those receipts remain unknown, so those lanes cannot be published until supported qualification evidence is connected. (+1 more in report.json)
 - Since: 2026-10-18T07:18:37Z
 - Answer: Answer in RELEASE-001-23's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
-
-### Q-GAUSS-MOAT-04-GROWTH — USER_DECISION — effort investigate — unblocks 1
-
-- Task: GAUSS-MOAT-04-GROWTH — Scrub and animate jump-radius growth without queued or stale computations.
-- Needs: integration validation failed or changed the integration tree
-- Since: 2026-10-18T06:55:40Z
-- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/GAUSS-MOAT-04-GROWTH/), then rescope or split GAUSS-MOAT-04-GROWTH in its TODO.md entry. The runner reruns it when the entry changes.
 
 <!-- pi-autowork:questions:end -->
 
