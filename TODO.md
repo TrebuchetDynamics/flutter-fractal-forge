@@ -14,22 +14,6 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
 ## Next
 
 
-- [ ] **GAUSS-MOAT-03-QUALIFY — Qualify accessible Gaussian walking and frozen-state PNG export on all three targets.**
-  - Payoff: prove usable, accessible exploration and accurate PNG output on the supported targets.
-  - Goal: GAUSS-MOAT-001.
-  - Sources: [Accepted scope](PRD.md#gaussian-moat-walking-visualization), [bounded design](docs/engineering/spec.md#gaussian-moat-walking-visualization), [verification](docs/engineering/test-plan.md#gaussian-moat-visualization), `lib/core/modules/builders/escape_time_catalog/batch_26_tenth_wave_research.dart`, and `shaders/number_theory/gaussian_prime_lattice_gpu.frag`. [Refined UI/budgets](docs/engineering/spec.md#ui-layout-and-interaction-contract) and [per-task fixture matrix](docs/engineering/test-plan.md#prime-walking-refined-acceptance-matrix).
-  - Graph evidence: fresh scoped code-only Graphify graph; `ModuleRegistry` at `lib/core/modules/module_registry.dart:64`, `FractalRenderer` at `lib/features/renderer/widgets/renderer/fractal_renderer.dart:107`, and `FractalCanvas` at `lib/features/renderer/widgets/canvas/fractal_canvas.dart:6`. Extracted `FractalCanvas` inherits `CustomPainter`. Queries: `ModuleRegistry buildEscapeTimeCatalogModules FractalModule`, `FractalViewerScreen FractalRenderer FractalCanvas`, `_wrapWithGestures _onJuliaDualTap FractalCanvas`. Coverage is partial: 272 copied Dart files; shaders, docs, external proofs and controller semantics were read separately. The graph has 20 self-loops and duplicate-label normalization warnings; source corroboration governs behavior claims.
-  - Ownership: repository backlog, unassigned. Check live ownership before dispatch. This planning pass dispatches no implementation worker.
-  - Touches: integration_test/flows/, test/playwright/, docs/engineering/test-plan.md, lib/features/viewer/gaussian_moat_map.dart
-  - Scope: actual catalog-to-walk-to-component-to-export journey; EN/ES explanations and source attribution, narrow/enlarged-text and keyboard/semantics checks, capped computation measurements and navigation cancellation. Preserve favorites/presets and other module behavior. No store publication, Lean rebuilding or all-catalog certification.
-  - Acceptance: record complete Gaussian journey and decoded selected-dimension paused PNGs on named Android/web/Linux targets; check 48px action targets, widths 320/768/1024/1440, text scales 1/2, EN/ES, keyboard/focus and boundary states. Record cap/chunk/job telemetry and real timing/memory separately, with device gaps/skips explicit; no fabricated performance or physical-device pass.
-  - Checks: create/run `integration_test/flows/gaussian_moat_journey_test.dart` on named Linux/Android targets; extend the existing production-build Playwright runner and record/run its actual target; run `flutter analyze`, focused model/widget tests, existing viewer/export regressions. Planned commands and performance measurements are defined in the linked verification plan, not reported as executed.
-  - UI/performance: follow the shared HUD/panel layout, preview-then-Step interaction, visible bounded-state labels, hard workload caps, cooperative chunks and completed-snapshot capture. This is planned acceptance, not a measured pass.
-  - Dependencies: GAUSS-MOAT-02-WALK, GAUSS-MOAT-04-GROWTH.
-  - Decision: qualify native, browser and exported artifacts separately; attribute external proof reports without claiming independent theorem verification.
-  - Skill application: frontend-ui-engineering, responsive/localized accessible journey; planning-and-task-breakdown, dependent live qualification; documentation-and-adrs, observed evidence versus planned checks.
-
-
 - [ ] **ICON-ZJ-02 — Replace app and store icon assets with the approved app capture.**
   - Goal: VIS-003. Payoff: use one approved, app-derived identity consistently in launchers, HomeScreen and the prepared Play listing.
   - Sources: [Accepted outcome and planner decisions](docs/engineering/spec.md#app-derived-zig-zag-julia-icon), `pubspec.yaml`, `assets/fractal-forge-icon-source.json`, `docs/store_listing/assets.json`, `scripts/play_store_listing.py`, `lib/features/home/home_screen.dart`.
@@ -491,6 +475,16 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - GAUSS-MOAT-03-QUALIFY real journey and live/device qualification remain separate pending gates; offline capture tests are not live qualification.
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: GAUSS-MOAT-04-GROWTH.
+  Status: open
+
+- [ ] GAUSS-MOAT-03-QUALIFY-LIVE — Live checks for GAUSS-MOAT-03-QUALIFY
+  Scope: Run the live checks the offline work for GAUSS-MOAT-03-QUALIFY left pending.
+  Acceptance: Each check passes on the real target:
+  - Android journey has not run on a named device; decode its selected-dimension PNG and verify actual MediaStore/gallery persistence/readability. Keep emulator and physical-device evidence separate.
+  - B=128 cap/chunk/job/cancellation telemetry and real target-specific timing/memory remain unmeasured. Xvfb and the single B=32 Chromium observation do not establish physical GPU or cross-target performance.
+  - Complete live EN/ES, responsive, keyboard/focus and screen-reader qualification on the named platforms, plus human review of exported mathematical composition, remains pending.
+  Checks: Live qualification by an authorized person; offline evidence does not count.
+  Dependencies: GAUSS-MOAT-03-QUALIFY.
   Status: open
 
 ## Done

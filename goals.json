@@ -1006,6 +1006,7 @@
         "GAUSS-MOAT-02-WALK",
         "GAUSS-MOAT-02-WALK-LIVE",
         "GAUSS-MOAT-03-QUALIFY",
+        "GAUSS-MOAT-03-QUALIFY-LIVE",
         "GAUSS-MOAT-04-GROWTH",
         "GAUSS-MOAT-04-GROWTH-LIVE"
       ],
@@ -1116,7 +1117,6 @@
   "priority_order": {
     "schema": 1,
     "tasks": [
-      "GAUSS-MOAT-03-QUALIFY",
       "ICON-ZJ-02",
       "NUM-WALL-01",
       "NUM-WALL-02",
@@ -1154,7 +1154,8 @@
       "CAT-QUALITY-02-LIVE",
       "QUAT-NORM-03-QUALIFY-LIVE",
       "VIS-006-BATCH-20-LIVE",
-      "GAUSS-MOAT-04-GROWTH-LIVE"
+      "GAUSS-MOAT-04-GROWTH-LIVE",
+      "GAUSS-MOAT-03-QUALIFY-LIVE"
     ]
   },
   "tasks": [
@@ -1167,17 +1168,6 @@
       "section": "Next",
       "status": "open",
       "title": "Backfill academic evidence across every scoped catalog identity in bounded batches"
-    },
-    {
-      "depends_on": [
-        "GAUSS-MOAT-02-WALK",
-        "GAUSS-MOAT-04-GROWTH"
-      ],
-      "goal": "GAUSS-MOAT-001",
-      "id": "GAUSS-MOAT-03-QUALIFY",
-      "section": "Next",
-      "status": "open",
-      "title": "Qualify accessible Gaussian walking and frozen-state PNG export on all three targets"
     },
     {
       "depends_on": [
@@ -1325,6 +1315,16 @@
       "section": "Needs decision",
       "status": "open",
       "title": "Live checks for GAUSS-MOAT-02-WALK"
+    },
+    {
+      "depends_on": [
+        "GAUSS-MOAT-03-QUALIFY"
+      ],
+      "goal": "GAUSS-MOAT-001",
+      "id": "GAUSS-MOAT-03-QUALIFY-LIVE",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Live checks for GAUSS-MOAT-03-QUALIFY"
     },
     {
       "depends_on": [
@@ -1601,6 +1601,17 @@
       "section": "Done",
       "status": "done",
       "title": "Validate Gaussian-prime steps and display truthful component state"
+    },
+    {
+      "depends_on": [
+        "GAUSS-MOAT-02-WALK",
+        "GAUSS-MOAT-04-GROWTH"
+      ],
+      "goal": "GAUSS-MOAT-001",
+      "id": "GAUSS-MOAT-03-QUALIFY",
+      "section": "Done",
+      "status": "done",
+      "title": "Qualify accessible Gaussian walking and frozen-state PNG export on all three targets"
     },
     {
       "depends_on": [
