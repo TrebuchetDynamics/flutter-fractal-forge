@@ -978,6 +978,7 @@
         "REL-JOURNEY-03-ANDROID",
         "REL-JOURNEY-03-ANDROID-LIVE",
         "RELEASE-001-23",
+        "RELEASE-001-23-LIVE",
         "RELEASE-002-75",
         "RELEASE-003-ae"
       ],
@@ -1124,7 +1125,6 @@
       "NUM-WALL-04",
       "NUM-WALL-05",
       "ACAD-04",
-      "RELEASE-001-23",
       "RELEASE-002-75",
       "CAT-QUALITY-03",
       "MEDIA-002",
@@ -1155,7 +1155,8 @@
       "QUAT-NORM-03-QUALIFY-LIVE",
       "VIS-006-BATCH-20-LIVE",
       "GAUSS-MOAT-04-GROWTH-LIVE",
-      "GAUSS-MOAT-03-QUALIFY-LIVE"
+      "GAUSS-MOAT-03-QUALIFY-LIVE",
+      "RELEASE-001-23-LIVE"
     ]
   },
   "tasks": [
@@ -1227,14 +1228,6 @@
       "section": "Next",
       "status": "open",
       "title": "Qualify installed Android Number Walls and accessible interaction"
-    },
-    {
-      "depends_on": [],
-      "goal": "REL-JOURNEY-001",
-      "id": "RELEASE-001-23",
-      "section": "Next",
-      "status": "open",
-      "title": "Implement isolated platform release lanes and verified partial evidence"
     },
     {
       "depends_on": [
@@ -1451,6 +1444,16 @@
       "section": "Needs decision",
       "status": "open",
       "title": "Live checks for REL-JOURNEY-03-ANDROID"
+    },
+    {
+      "depends_on": [
+        "RELEASE-001-23"
+      ],
+      "goal": "REL-JOURNEY-001",
+      "id": "RELEASE-001-23-LIVE",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Live checks for RELEASE-001-23"
     },
     {
       "depends_on": [
@@ -1693,6 +1696,14 @@
       "section": "Done",
       "status": "done",
       "title": "Qualify the complete Android image-creation journey"
+    },
+    {
+      "depends_on": [],
+      "goal": "REL-JOURNEY-001",
+      "id": "RELEASE-001-23",
+      "section": "Done",
+      "status": "done",
+      "title": "Implement isolated platform release lanes and verified partial evidence"
     },
     {
       "depends_on": [],
