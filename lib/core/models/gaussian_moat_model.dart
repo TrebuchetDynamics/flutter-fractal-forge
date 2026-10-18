@@ -1,6 +1,74 @@
 import 'package:flutter/foundation.dart';
 
 typedef GaussianInteger = ({int a, int b});
+typedef GaussianMoatMapJob = Future<GaussianPrimeMap?> Function(int bound,
+    {bool Function()? isCancelled});
+
+/// Serializes bounded map work and retains only the latest queued input.
+class GaussianMoatMapJobQueue {
+  GaussianMoatMapJobQueue(this._generate, this._publish,
+      {void Function(Object error)? onError})
+      : _onError = onError;
+
+  final GaussianMoatMapJob _generate;
+  final void Function(int bound, GaussianPrimeMap map) _publish;
+  final void Function(Object error)? _onError;
+  int _generation = 0;
+  int? _pending;
+  bool _running = false;
+  bool _disposed = false;
+  Future<void> _drainTask = Future<void>.value();
+
+  void submit(int bound) {
+    if (_disposed) return;
+    _generation++;
+    _pending = bound;
+    if (!_running) _drainTask = _drain();
+  }
+
+  void cancel() {
+    _generation++;
+    _pending = null;
+  }
+
+  Future<void> get idle => _drainTask;
+
+  Future<void> _drain() async {
+    _running = true;
+    while (!_disposed && _pending != null) {
+      final bound = _pending!;
+      final generation = _generation;
+      _pending = null;
+      try {
+        final map = await _generate(bound,
+            isCancelled: () => _disposed || generation != _generation);
+        if (!_disposed && generation == _generation && map != null) {
+          _publish(bound, map);
+        }
+      } catch (error) {
+        if (!_disposed && generation == _generation) _onError?.call(error);
+      }
+    }
+    _running = false;
+  }
+
+  void dispose() {
+    _disposed = true;
+    cancel();
+  }
+}
+
+/// Bounded integer-squared connectivity radii shown by the growth controls.
+class GaussianMoatGrowth {
+  static const radii = [1, 2, 4, 8, 16];
+
+  static int? next(int current) {
+    for (final radius in radii) {
+      if (radius > current) return radius;
+    }
+    return null;
+  }
+}
 
 /// Exact membership only within a finite square; outside is uncomputed.
 @immutable

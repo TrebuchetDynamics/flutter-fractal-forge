@@ -16,6 +16,8 @@
   "gaussianSelect": "Seleccionar candidato",
   "gaussianSetStart": "Fijar inicio",
   "gaussianStepLimit": "Paso máximo al cuadrado",
+  "gaussianPlay": "Reproducir crecimiento del radio",
+  "gaussianPause": "Pausar crecimiento del radio",
   "gaussianStep": "Avanzar al candidato",
   "gaussianUndo": "Deshacer paso",
   "gaussianResetPath": "Reiniciar recorrido",

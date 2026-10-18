@@ -18,6 +18,8 @@
   "gaussianSelect": "Select candidate",
   "gaussianSetStart": "Set start",
   "gaussianStepLimit": "Maximum squared step",
+  "gaussianPlay": "Play radius growth",
+  "gaussianPause": "Pause radius growth",
   "gaussianStep": "Step to candidate",
   "gaussianUndo": "Undo step",
   "gaussianResetPath": "Reset path",

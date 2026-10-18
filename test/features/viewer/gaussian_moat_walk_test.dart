@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:image/image.dart' as img;
@@ -8,12 +9,14 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
+import 'package:flutter_fractals/core/models/gaussian_moat_model.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/storage/history_store.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
+import 'package:flutter_fractals/features/viewer/gaussian_moat_map.dart';
 import 'package:flutter_fractals/features/viewer/gaussian_moat_plot.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -43,9 +46,14 @@ void main() {
   });
 
   Future<void> open(WidgetTester tester,
-      {String locale = 'en', double scale = 1}) async {
+      {String locale = 'en',
+      double scale = 1,
+      bool reducedMotion = false,
+      GaussianMoatMapGenerator? mapGenerator}) async {
     await tester.pumpWidget(MultiProvider(
       providers: [
+        if (mapGenerator != null)
+          Provider<GaussianMoatMapGenerator>.value(value: mapGenerator),
         Provider.value(value: registry),
         ChangeNotifierProvider.value(value: controller),
         Provider.value(value: presets),
@@ -57,8 +65,9 @@ void main() {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         builder: (context, child) => MediaQuery(
-            data: MediaQuery.of(context)
-                .copyWith(textScaler: TextScaler.linear(scale)),
+            data: MediaQuery.of(context).copyWith(
+                textScaler: TextScaler.linear(scale),
+                disableAnimations: reducedMotion),
             child: child!),
         home: const FractalViewerScreen(),
       ),
@@ -74,6 +83,182 @@ void main() {
   GaussianMoatPainter painter(WidgetTester tester) => tester
       .widget<CustomPaint>(find.byKey(const Key('gaussianMoatPlot')))
       .painter! as GaussianMoatPainter;
+
+  testWidgets('pausing before the initial map completes preserves that job',
+      (tester) async {
+    final completed =
+        await tester.runAsync(() => GaussianPrimeMap.generate(32));
+    final result = Completer<GaussianPrimeMap?>();
+    bool Function()? cancelled;
+    var calls = 0;
+    Future<GaussianPrimeMap?> heldGenerator(int bound,
+        {bool Function()? isCancelled}) {
+      calls++;
+      expect(bound, 32);
+      cancelled = isCancelled;
+      return result.future;
+    }
+
+    await tester.binding.setSurfaceSize(const Size(1024, 700));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await open(tester, mapGenerator: heldGenerator);
+    expect(cancelled, isNotNull);
+    await tester.tap(find.byKey(const Key('gaussianGrowthToggle')));
+    await tester.pump(const Duration(milliseconds: 200));
+    await tester.tap(find.byKey(const Key('gaussianGrowthToggle')));
+    await tester.pump();
+
+    expect(cancelled!(), isFalse,
+        reason: 'Pausing playback must not cancel required initial map work');
+    result.complete(completed!);
+    await tester.pumpAndSettle();
+    expect(painter(tester).map.bound, 32);
+    expect(calls, 1, reason: 'Pause preserves the already-required map job');
+    await tester.pump(const Duration(seconds: 2));
+    final slider =
+        tester.widget<Slider>(find.byKey(const Key('gaussianGrowthScrubber')));
+    expect(slider.value, 4,
+        reason: 'A paused initial-map completion must not restart playback');
+    expect(slider.onChanged, isNotNull);
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets('background cancellation never retries map work on resume',
+      (tester) async {
+    final completed =
+        await tester.runAsync(() => GaussianPrimeMap.generate(32));
+    final jobs =
+        <({Completer<GaussianPrimeMap?> result, bool Function()? cancelled})>[];
+    Future<GaussianPrimeMap?> heldGenerator(int bound,
+        {bool Function()? isCancelled}) {
+      expect(bound, 32);
+      final job =
+          (result: Completer<GaussianPrimeMap?>(), cancelled: isCancelled);
+      jobs.add(job);
+      return job.result.future;
+    }
+
+    await tester.binding.setSurfaceSize(const Size(1024, 700));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await open(tester, mapGenerator: heldGenerator);
+    expect(jobs, hasLength(1));
+    await tester.tap(find.byKey(const Key('gaussianGrowthToggle')));
+    await tester.pump(const Duration(milliseconds: 200));
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+    await tester.pump();
+    expect(jobs.single.cancelled!(), isTrue);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    await tester.pump();
+    expect(jobs, hasLength(1));
+
+    jobs.single.result.complete(completed!);
+    await tester.pump();
+    await tester.pump();
+    expect(jobs, hasLength(1),
+        reason: 'A background-cancelled job must not be retried on resume');
+    expect(find.textContaining('Computing'), findsOneWidget,
+        reason:
+            'The cancelled result must not publish into the resumed viewer');
+    await tester.pump(const Duration(seconds: 2));
+    final slider =
+        tester.widget<Slider>(find.byKey(const Key('gaussianGrowthScrubber')));
+    expect(slider.value, 4,
+        reason: 'Returning to the foreground must not restart playback');
+    expect(slider.onChanged, isNotNull);
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets('export cannot take ownership while the initial map is pending',
+      (tester) async {
+    final result = Completer<GaussianPrimeMap?>();
+    bool Function()? cancelled;
+    var calls = 0;
+    Future<GaussianPrimeMap?> heldGenerator(int bound,
+        {bool Function()? isCancelled}) {
+      calls++;
+      cancelled = isCancelled;
+      return result.future;
+    }
+
+    await tester.binding.setSurfaceSize(const Size(1024, 700));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await open(tester, mapGenerator: heldGenerator);
+    final plot = find.byKey(const Key('gaussianMoatPlot'));
+    final exportLabel = AppLocalizations.of(tester.element(plot))!.exportTitle;
+    final exportButton = find
+        .ancestor(of: find.text(exportLabel), matching: find.byType(TextButton))
+        .first;
+    expect(tester.widget<TextButton>(exportButton).onPressed, isNull);
+    await tester.tap(find.text(exportLabel));
+    await tester.pump(const Duration(seconds: 2));
+    expect(calls, 1,
+        reason: 'Disabled export must not trigger a map retry or replacement');
+    expect(cancelled!(), isFalse,
+        reason: 'Pending required work remains owned by the active viewer');
+    result.complete(null);
+    await tester.pumpAndSettle();
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets('export stops playback without scheduling map work',
+      (tester) async {
+    var calls = 0;
+    Future<GaussianPrimeMap?> countedGenerator(int bound,
+        {bool Function()? isCancelled}) {
+      calls++;
+      return GaussianPrimeMap.generate(bound, isCancelled: isCancelled);
+    }
+
+    await tester.binding.setSurfaceSize(const Size(1024, 700));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await open(tester, mapGenerator: countedGenerator);
+    expect(calls, 1);
+    await tester.tap(find.byKey(const Key('gaussianGrowthToggle')));
+    await tester.pump(const Duration(milliseconds: 200));
+    final plot = find.byKey(const Key('gaussianMoatPlot'));
+    final exportLabel = AppLocalizations.of(tester.element(plot))!.exportTitle;
+    await tester.tap(find.text(exportLabel).last);
+    await tester.pumpAndSettle();
+    await tester.pump(const Duration(seconds: 2));
+    expect(calls, 1, reason: 'Export must not enqueue a map recomputation');
+    final slider =
+        tester.widget<Slider>(find.byKey(const Key('gaussianGrowthScrubber')));
+    expect(slider.value, 4,
+        reason: 'Export ownership loss must stop growth playback');
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets('navigation disposes pending map work without retry',
+      (tester) async {
+    final result = Completer<GaussianPrimeMap?>();
+    bool Function()? cancelled;
+    var calls = 0;
+    Future<GaussianPrimeMap?> heldGenerator(int bound,
+        {bool Function()? isCancelled}) {
+      calls++;
+      cancelled = isCancelled;
+      return result.future;
+    }
+
+    await tester.binding.setSurfaceSize(const Size(1024, 700));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await open(tester, mapGenerator: heldGenerator);
+    await tester.tap(find.byKey(const Key('gaussianGrowthToggle')));
+    await tester.pump(const Duration(milliseconds: 200));
+    await tester.tap(find.text('Explore'));
+    await tester.pumpAndSettle();
+    expect(cancelled!(), isTrue);
+    result.complete(null);
+    await tester.pump();
+    await tester.pump();
+    expect(calls, 1, reason: 'Disposed viewer must never restart map work');
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox());
+  });
 
   testWidgets(
       'existing Gaussian viewer opens the exact bounded map and retains Explore',
@@ -138,6 +323,197 @@ void main() {
       }
     }
   }
+
+  testWidgets('growth honors dwell and pause without queued ticks',
+      (tester) async {
+    await tester.binding.setSurfaceSize(const Size(1024, 700));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await open(tester);
+    final toggle = find.byKey(const Key('gaussianGrowthToggle'));
+    await tester.tap(toggle);
+    await tester.pump(const Duration(milliseconds: 599));
+    expect(find.textContaining('Maximum squared step: 4'), findsOneWidget);
+    await tester.pump(const Duration(milliseconds: 1));
+    expect(find.textContaining('Maximum squared step: 8'), findsOneWidget);
+    await tester.pump(const Duration(milliseconds: 200));
+    await tester.tap(toggle);
+    await tester.pump(const Duration(seconds: 2));
+    expect(find.textContaining('Maximum squared step: 8'), findsOneWidget);
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets('slow map work cannot accumulate growth timer ticks',
+      (tester) async {
+    final completed =
+        await tester.runAsync(() => GaussianPrimeMap.generate(32));
+    final result = Completer<GaussianPrimeMap?>();
+    var calls = 0;
+    Future<GaussianPrimeMap?> heldGenerator(int bound,
+        {bool Function()? isCancelled}) {
+      calls++;
+      return result.future;
+    }
+
+    await tester.binding.setSurfaceSize(const Size(1024, 700));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await open(tester, mapGenerator: heldGenerator);
+    await tester.tap(find.byKey(const Key('gaussianGrowthToggle')));
+    await tester.pump(const Duration(seconds: 5));
+    expect(find.textContaining('Maximum squared step: 16'), findsOneWidget,
+        reason: 'Paced ticks complete without exceeding the bounded schedule');
+    expect(calls, 1);
+
+    result.complete(completed!);
+    await tester.pumpAndSettle();
+    await tester.pump(const Duration(milliseconds: 599));
+    expect(find.textContaining('Maximum squared step: 16'), findsOneWidget);
+    await tester.pump(const Duration(milliseconds: 1));
+    expect(find.textContaining('Maximum squared step: 16'), findsOneWidget);
+    expect(calls, 1, reason: 'Radius progression does not enqueue map work');
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets('scrubbing previews without computing and commits last radius',
+      (tester) async {
+    await tester.binding.setSurfaceSize(const Size(1024, 700));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await open(tester);
+    final initialComponent = painter(tester).component;
+    var slider =
+        tester.widget<Slider>(find.byKey(const Key('gaussianGrowthScrubber')));
+    slider.onChanged!(12);
+    await tester.pump();
+    slider =
+        tester.widget<Slider>(find.byKey(const Key('gaussianGrowthScrubber')));
+    slider.onChanged!(6);
+    await tester.pump();
+    slider =
+        tester.widget<Slider>(find.byKey(const Key('gaussianGrowthScrubber')));
+    expect(slider.value, 6);
+    expect(find.textContaining('Maximum squared step: 4'), findsOneWidget);
+    expect(identical(painter(tester).component, initialComponent), isTrue,
+        reason: 'Preview values must not recompute the component');
+
+    slider.onChangeEnd!(6);
+    await tester.pump();
+    expect(find.textContaining('Maximum squared step: 6'), findsOneWidget);
+    expect(identical(painter(tester).component, initialComponent), isFalse);
+    expect(painter(tester).component,
+        painter(tester).map.component((a: 1, b: 1), maxSquaredStep: 6));
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets('radius committed during delayed map work matches captured graph',
+      (tester) async {
+    final completed =
+        await tester.runAsync(() => GaussianPrimeMap.generate(32));
+    final result = Completer<GaussianPrimeMap?>();
+    var calls = 0;
+    Future<GaussianPrimeMap?> heldGenerator(int bound,
+        {bool Function()? isCancelled}) {
+      calls++;
+      expect(bound, 32);
+      return result.future;
+    }
+
+    await tester.binding.setSurfaceSize(const Size(1024, 700));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await open(tester, mapGenerator: heldGenerator);
+    var slider =
+        tester.widget<Slider>(find.byKey(const Key('gaussianGrowthScrubber')));
+    slider.onChanged!(11);
+    await tester.pump();
+    slider =
+        tester.widget<Slider>(find.byKey(const Key('gaussianGrowthScrubber')));
+    slider.onChanged!(8);
+    await tester.pump();
+    slider =
+        tester.widget<Slider>(find.byKey(const Key('gaussianGrowthScrubber')));
+    slider.onChangeEnd!(8);
+    await tester.pump();
+    expect(find.textContaining('Maximum squared step: 8'), findsOneWidget);
+    expect(calls, 1);
+
+    result.complete(completed!);
+    await tester.pumpAndSettle();
+    final activePainter = painter(tester);
+    expect(identical(activePainter.map, completed), isTrue);
+    expect(activePainter.component,
+        completed.component((a: 1, b: 1), maxSquaredStep: 8));
+    expect(find.textContaining('Maximum squared step: 8'), findsOneWidget);
+
+    final plot = find.byKey(const Key('gaussianMoatPlot'));
+    final boundary = tester.renderObject<RenderRepaintBoundary>(
+        find.ancestor(of: plot, matching: find.byType(RepaintBoundary)).first);
+    final image = await tester.runAsync(() => boundary.toImage());
+    final capturedImage = image!;
+    final bytes = await tester.runAsync(
+        () => capturedImage.toByteData(format: ui.ImageByteFormat.png));
+    final decoded = img.decodePng(bytes!.buffer.asUint8List());
+    expect(decoded, isNotNull);
+    final decodedPng = decoded!;
+    expect(decodedPng.width, capturedImage.width);
+    expect(decodedPng.height, capturedImage.height);
+    final previous = completed.component((a: 1, b: 1), maxSquaredStep: 4);
+    final addedPoint = activePainter.component.difference(previous).first;
+    final transform = GaussianMapTransform(
+        tester.getSize(plot), activePainter.view, activePainter.map.bound);
+    final center = transform
+        .toScreen(Offset(addedPoint.a.toDouble(), addedPoint.b.toDouble()));
+    final pixel = decodedPng.getPixel(center.dx.round(), center.dy.round());
+    int blend(double overlay, double base) =>
+        (overlay * 0.35 + base * 0.65).round();
+    expect(
+        pixel.r,
+        closeTo(
+            blend(activePainter.highlight.r * 255,
+                activePainter.foreground.r * 255),
+            5));
+    expect(
+        pixel.g,
+        closeTo(
+            blend(activePainter.highlight.g * 255,
+                activePainter.foreground.g * 255),
+            5));
+    expect(
+        pixel.b,
+        closeTo(
+            blend(activePainter.highlight.b * 255,
+                activePainter.foreground.b * 255),
+            5));
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets('growth terminates at its configured maximum', (tester) async {
+    await tester.binding.setSurfaceSize(const Size(1024, 700));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await open(tester);
+    final slider =
+        tester.widget<Slider>(find.byKey(const Key('gaussianGrowthScrubber')));
+    slider.onChangeEnd!(8);
+    await tester.pump();
+    await tester.tap(find.byKey(const Key('gaussianGrowthToggle')));
+    await tester.pump(const Duration(milliseconds: 1200));
+    expect(find.textContaining('Maximum squared step: 16'), findsOneWidget);
+    expect(
+        tester
+            .widget<TextButton>(find.byKey(const Key('gaussianGrowthToggle')))
+            .onPressed,
+        isNull);
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets('reduced motion prevents growth playback', (tester) async {
+    await tester.binding.setSurfaceSize(const Size(1024, 700));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await open(tester, reducedMotion: true);
+    expect(
+        tester
+            .widget<TextButton>(find.byKey(const Key('gaussianGrowthToggle')))
+            .onPressed,
+        isNull);
+    await tester.pumpWidget(const SizedBox());
+  });
 
   test('shared signed transform round-trips pan, zoom and pane resize', () {
     for (final size in [
