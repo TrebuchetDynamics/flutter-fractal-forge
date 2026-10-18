@@ -27,13 +27,6 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T01:32:24Z
 - Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
 
-### Q-RELEASE-001-23 — USER_INPUT — effort input — unblocks 1
-
-- Task: RELEASE-001-23 — Implement isolated platform release lanes and verified partial evidence.
-- Needs: worker reported a blocker: Offline implementation remains incomplete: lane-scoped publication adapters, remote readback/ambiguous-write handling, and the required publication fault-injection tests are not implemented. The current --publish route fails closed; complete these before accepting or closing RELEASE-001-23. No live publication was attempted.
-- Since: 2026-10-18T06:37:55Z
-- Answer: Answer in RELEASE-001-23's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
-
 <!-- pi-autowork:questions:end -->
 
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
