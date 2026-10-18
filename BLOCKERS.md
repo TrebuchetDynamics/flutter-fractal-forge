@@ -20,13 +20,6 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T01:32:24Z
 - Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
 
-### Q-NUM-WALL-01 — USER_INPUT — effort input — unblocks 4
-
-- Task: NUM-WALL-01 — Compute exact sequence walls and validate custom prime fields.
-- Needs: worker reported a blocker: The current worktree is clean at HEAD 93e18e08ebf1796c195f3133e68caa1322aec9a6 and lacks both scoped candidate files, despite the continuation note saying they should be present. The current instruction forbids restarting implementation or restoring an older set-aside copy. Provide/restore the exact authorized candidate bytes in this worktree or explicitly authorize exact-hash recovery. (+1 more in report.json)
-- Since: 2026-10-18T06:40:58Z
-- Answer: Answer in NUM-WALL-01's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
-
 ### Q-RELEASE-001-23 — USER_INPUT — effort input — unblocks 1
 
 - Task: RELEASE-001-23 — Implement isolated platform release lanes and verified partial evidence.
