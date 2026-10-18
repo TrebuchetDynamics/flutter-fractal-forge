@@ -42,7 +42,7 @@ Corrected default command: `xvfb-run -a env CATALOG_THUMB_ONLY=core.mimura_murra
 
 Real-GPU checks use `--dart-define=FORCE_GPU_RENDER=true`. Default and runtime-preview checks now have evidence for Julia, Nova, Newton z³, Koch Snowflake, Burning Ship, Four-Wing, Lorenz 2D, Mandelbrot, Rössler 2D, and Thomas Attractor. Viewer-start checks cover all nine Featured Launch Set IDs: seven in `user_flows_test.dart`, plus dedicated Nova and Newton z³ tests. Koch's 256×256 default capture reports 1,591 unique RGB colors and 17.09% black pixels. Its runtime preview is 384×346. These are focused samples, not full-catalog coverage.
 
-The visual inventory reconciles 1,028 Explore IDs (core=1,028; performance=0) and 200 research-manifest IDs. It records default capture/runtime-preview evidence for 207 Explore rows, including ten preserved historical captures from the rejected initial VIS-006-BATCH-20 selection; 820 rows remain marked uncaptured in VIS-005 and `core.coral_growth_3d` separately lacks a GPU runtime preview. All 200 research rows are `missing_app_renderer`. The `first_view` field is populated for 14 Explore rows. `cpu_formula` is `not audited` in 1,135 of 1,228 rows after the corrected batch's ten targeted native CPU checks. These are recorded inventory values, not fresh artifact checks for every historical capture. The validator checks references and shader paths, not render quality. Remaining coverage is tracked in [`TODO.md`](../../TODO.md).
+The visual inventory reconciles 1,028 Explore IDs (core=1,028; performance=0) and 200 research-manifest IDs. It records default capture/runtime-preview evidence for 207 Explore rows, including ten preserved historical captures from the rejected initial VIS-006-BATCH-20 selection; 820 rows remain marked uncaptured in VIS-005 and `core.coral_growth_3d` separately lacks a GPU runtime preview. All 200 research rows are `missing_app_renderer`. The `first_view` field is populated for 14 Explore rows. `cpu_formula` is `not audited` in 1,134 of 1,228 rows after the corrected batch and the five targeted native CPU checks. These are recorded inventory values, not fresh artifact checks for every historical capture. The validator checks references and shader paths, not render quality. Remaining coverage is tracked in [`TODO.md`](../../TODO.md).
 
 An earlier 1,020-entry GPU capture timed out. Its report did not reconcile with the 907 PNG files found. It is not complete-coverage evidence. Four-Wing, Lorenz, Rössler, and Thomas captures also have documented visual findings that need follow-up. Keep their established formulas unchanged unless an implementation defect is demonstrated.
 
@@ -145,6 +145,24 @@ The next bounded steps are tracked in [`TODO.md`](../../TODO.md):
 
 - Now: `VIS-006-BATCH-20` captured and reconciled the correct next ten uncaptured Explore modules, including applicable native CPU render smoke coverage. This does not complete first-view coverage or independently certify mathematical correctness.
 - Next: `VIS-006-FIRST-VIEW-04` checks five captured modules after batch 20; `VIS-006-CPU-01` then checks five native CPU formulas. Keep unsupported research rows explicit; this plan does not authorize their implementation.
+
+### VIS-006-CPU-01 — native CPU known-point checks
+
+Status: five selected checks pass. This verifies the CPU implementation path separately from GPU capture/image-health; fixed RGB vectors are deterministic regression references at one input, not a proof of each formula over its full domain.
+
+The focused test `test/cpu/cpu_formula_known_points_test.dart` asserts `hasNativeCpuFormula(id)` and compares CPU output at `(x,y)=(0.37,-0.62)`, `iterations=80`, `bailout=4.0`, `juliaC=(0,0)` with the expected RGB (per-channel tolerance `1e-9`):
+
+| Explore ID | Native implementation | Expected RGB | Result |
+|---|---|---:|---|
+| `core.burning_ship` | `_cpu_burning_ship` | `(249.4461968461563, 36.13544329672172, 101.36821196622824)` | PASS |
+| `core.tricorn` | `_cpu_tricorn` | `(46, 120, 220)` | PASS |
+| `core.celtic` | `_cpu_celtic` | `(253.33328413655306, 48.872874255697795, 84.88558032040285)` | PASS |
+| `core.buffalo` | `_cpu_buffalo` | `(203.7615624637723, 1.2211341737455894, 180.2999081737343)` | PASS |
+| `core.multibrot3` | `_cpu_multibrot3` | `(46, 120, 220)` | PASS |
+
+The first four entries' historical GPU capture oracles do not establish native CPU correctness; where GPU math oracles were absent, those remain explicitly NOT_CHECKED as GPU evidence. No synthetic fallback is used by the test. The test verifies fixed output vectors and native registration, not equivalence against an independent GPU or mathematical oracle.
+
+Remaining CPU coverage gap: 934 of 1,028 Explore rows still have inventory `cpu_formula: not audited` (inventory total: 1,228 rows; 1,134 not audited). Do not infer unsupported IDs or synthetic approximations as verified. This five-ID sample does not certify the other registered formulas or the 200 research definitions.
 - Independent Now: `SMOOTH-001-INVENTORY-01` reconciles the integer-power family and the uncovered Multibrot d=4 assertion. `SMOOTH-001-INVENTORY-02` is its accepted coverage successor under TODO P1-3. Completed sample tasks stay done.
 - Needs decision: `DOC-PRD-001`, `MEDIA-002`, and `VIS-003` remain owner-controlled. Root-PRD scope conflicts do not become implementation commitments.
 

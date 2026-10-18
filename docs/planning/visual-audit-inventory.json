@@ -1108,11 +1108,12 @@
       "shader": "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
       "runtime_preview": "captured in VIS-006: build/test_output/vis006-burning-ship-defaults/burning_ship.png (256x256; 1209 RGB colors; blackPixelRatio=0.2008; nonBlack=0.7992; verdict pass; defaults iterations=300, bailout=4.0, colorScheme=0, power=2.0; pan=(-0.5,0.0), zoom=0.35; math oracle pass: origin bounded, (2,2) escapes) and build/test_output/vis006-burning-ship/runtime_catalog_preview.png (384x346; 1063 RGB colors; blackPixelRatio=0.2151; nonBlack=0.7849; verdict pass)",
       "first_view": "executed GPU viewer-start evidence: integration_test/flows/user_flows_test.dart; see VIS-004 executed command/output in goals.json",
-      "cpu_formula": "not audited",
+      "cpu_formula": "native CPU _cpu_burning_ship; PASS known-point regression test test/cpu/cpu_formula_known_points_test.dart: (x,y)=(0.37,-0.62), iterations=80, bailout=4, juliaC=(0,0) => RGB (249.4461968461563, 36.13544329672172, 101.36821196622824); native registry asserted. GPU image-health and prior GPU oracle are separate from this CPU check.",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag"
+        "shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag",
+        "test/cpu/cpu_formula_known_points_test.dart"
       ]
     },
     {
@@ -1141,11 +1142,12 @@
       "module_id": "tricorn",
       "shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
       "runtime_preview": "captured in VIS-006-BATCH-01: defaults build/test_output/vis006-batch01-defaults/tricorn.png; runtime GPU preview build/test_output/vis006-tricorn/runtime_catalog_preview.png (384x346; 497 RGB colors; blackPixelRatio=0.2941; verdict pass). Defaults, metrics, and selected/generated/failed/skipped reconciliation in build/test_output/vis006-batch01-defaults/thumbnail_report.json (10/10/0/0); runtime test integration_test/catalog/vis006_batch01_runtime_preview_test.dart; CPU math oracle pass (origin bounded; far point escapes).",
-      "cpu_formula": "native CPU formula _cpu_tricorn registered for module ID tricorn in lib/features/renderer/cpu/cpu_formulas.dart",
+      "cpu_formula": "native CPU _cpu_tricorn; PASS known-point regression test test/cpu/cpu_formula_known_points_test.dart: (x,y)=(0.37,-0.62), iterations=80, bailout=4, juliaC=(0,0) => RGB (46, 120, 220); native registry asserted. Prior GPU oracle is not CPU correctness evidence.",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag"
+        "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
+        "test/cpu/cpu_formula_known_points_test.dart"
       ]
     },
     {
@@ -1157,11 +1159,12 @@
       "module_id": "celtic",
       "shader": "shaders/escape_time_family/families/celtic/celtic_gpu.frag",
       "runtime_preview": "captured in VIS-006-BATCH-01: defaults build/test_output/vis006-batch01-defaults/celtic.png; runtime GPU preview build/test_output/vis006-celtic/runtime_catalog_preview.png (384x346; 674 RGB colors; blackPixelRatio=0.1821; verdict pass). Defaults, metrics, and selected/generated/failed/skipped reconciliation in build/test_output/vis006-batch01-defaults/thumbnail_report.json (10/10/0/0); runtime test integration_test/catalog/vis006_batch01_runtime_preview_test.dart; CPU math oracle skipped: no reference oracle for this formula family yet.",
-      "cpu_formula": "native CPU formula _cpu_celtic registered for module ID celtic in lib/features/renderer/cpu/cpu_formulas.dart",
+      "cpu_formula": "native CPU _cpu_celtic; PASS known-point regression test test/cpu/cpu_formula_known_points_test.dart: (x,y)=(0.37,-0.62), iterations=80, bailout=4, juliaC=(0,0) => RGB (253.33328413655306, 48.872874255697795, 84.88558032040285); previous GPU oracle was NOT_CHECKED for formula correctness; native registry asserted.",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/celtic/celtic_gpu.frag"
+        "shaders/escape_time_family/families/celtic/celtic_gpu.frag",
+        "test/cpu/cpu_formula_known_points_test.dart"
       ]
     },
     {
@@ -1173,11 +1176,12 @@
       "module_id": "buffalo",
       "shader": "shaders/escape_time_family/families/buffalo/buffalo_gpu.frag",
       "runtime_preview": "captured in VIS-006-BATCH-01: defaults build/test_output/vis006-batch01-defaults/buffalo.png; runtime GPU preview build/test_output/vis006-buffalo/runtime_catalog_preview.png (384x346; 896 RGB colors; blackPixelRatio=0.2858; verdict pass). Defaults, metrics, and selected/generated/failed/skipped reconciliation in build/test_output/vis006-batch01-defaults/thumbnail_report.json (10/10/0/0); runtime test integration_test/catalog/vis006_batch01_runtime_preview_test.dart; CPU math oracle skipped: no reference oracle for this formula family yet.",
-      "cpu_formula": "native CPU formula _cpu_buffalo registered for module ID buffalo in lib/features/renderer/cpu/cpu_formulas.dart",
+      "cpu_formula": "native CPU _cpu_buffalo; PASS known-point regression test test/cpu/cpu_formula_known_points_test.dart: (x,y)=(0.37,-0.62), iterations=80, bailout=4, juliaC=(0,0) => RGB (203.7615624637723, 1.2211341737455894, 180.2999081737343); previous GPU oracle was NOT_CHECKED for formula correctness; native registry asserted.",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/buffalo/buffalo_gpu.frag"
+        "shaders/escape_time_family/families/buffalo/buffalo_gpu.frag",
+        "test/cpu/cpu_formula_known_points_test.dart"
       ]
     },
     {
@@ -1189,11 +1193,12 @@
       "module_id": "multibrot3",
       "shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
       "runtime_preview": "captured in VIS-006-BATCH-01: defaults build/test_output/vis006-batch01-defaults/multibrot3.png; runtime GPU preview build/test_output/vis006-multibrot3/runtime_catalog_preview.png (384x346; 2318 RGB colors; blackPixelRatio=0.0; verdict pass). Defaults, metrics, and selected/generated/failed/skipped reconciliation in build/test_output/vis006-batch01-defaults/thumbnail_report.json (10/10/0/0); runtime test integration_test/catalog/vis006_batch01_runtime_preview_test.dart; CPU math oracle skipped: no reference oracle for this formula family yet.",
-      "cpu_formula": "native CPU formula _cpu_multibrot3 registered for module ID multibrot3 in lib/features/renderer/cpu/cpu_formulas.dart",
+      "cpu_formula": "native CPU _cpu_multibrot3; PASS known-point regression test test/cpu/cpu_formula_known_points_test.dart: (x,y)=(0.37,-0.62), iterations=80, bailout=4, juliaC=(0,0) => RGB (46, 120, 220); previous GPU oracle was NOT_CHECKED for formula correctness; native registry asserted.",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag"
+        "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
+        "test/cpu/cpu_formula_known_points_test.dart"
       ]
     },
     {
