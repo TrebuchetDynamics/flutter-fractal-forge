@@ -27,6 +27,13 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-18T07:22:37Z
 - Answer: Answer in NUM-WALL-01's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
 
+### Q-RELEASE-002-75 — USER_DECISION — effort investigate — unblocks 0
+
+- Task: RELEASE-002-75 — Prepare and qualify every available platform without publication.
+- Needs: worker timeout after 5400 s
+- Since: 2026-10-18T12:12:14Z
+- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/RELEASE-002-75/), then rescope or split RELEASE-002-75 in its TODO.md entry. The runner reruns it when the entry changes.
+
 <!-- pi-autowork:questions:end -->
 
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
