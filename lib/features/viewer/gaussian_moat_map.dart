@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/models/gaussian_moat_model.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dart';
 import 'package:flutter_fractals/features/viewer/gaussian_moat_plot.dart';
@@ -12,23 +14,28 @@ import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
+typedef GaussianMoatMapGenerator = GaussianMoatMapJob;
+
 class GaussianMoatMap extends StatefulWidget {
   final GlobalKey boundaryKey;
   final VoidCallback onExplore;
   final VoidCallback onExport;
   final Future<void> Function(Uint8List)? onQuaternionCaptured;
+  final GaussianMoatMapGenerator? mapGenerator;
   const GaussianMoatMap(
       {super.key,
       required this.boundaryKey,
       required this.onExplore,
       required this.onExport,
-      this.onQuaternionCaptured});
+      this.onQuaternionCaptured,
+      this.mapGenerator});
 
   @override
   State<GaussianMoatMap> createState() => _GaussianMoatMapState();
 }
 
-class _GaussianMoatMapState extends State<GaussianMoatMap> {
+class _GaussianMoatMapState extends State<GaussianMoatMap>
+    with WidgetsBindingObserver {
   FractalController? _camera;
   GaussianPrimeMap? _map;
   GaussianInteger _root = (a: 1, b: 1);
@@ -39,13 +46,30 @@ class _GaussianMoatMapState extends State<GaussianMoatMap> {
   final _a = TextEditingController(text: '1');
   final _b = TextEditingController(text: '1');
   int _bound = GaussianPrimeMap.defaultBound;
-  int? _pending;
-  int _generation = 0;
-  bool _running = false;
+  late final GaussianMoatMapJobQueue _jobs;
   bool _error = false;
   bool _invalidCoordinates = false;
   bool _controls = false;
+  Timer? _growthTimer;
+  int _previewSquaredStep = 4;
+  bool _playing = false;
   bool _showQuaternionSlice = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _jobs = GaussianMoatMapJobQueue(
+        widget.mapGenerator ?? GaussianPrimeMap.generate, (bound, map) {
+      if (!mounted) return;
+      setState(() {
+        _map = map;
+        _refreshComponent();
+      });
+    }, onError: (_) {
+      if (mounted) setState(() => _error = true);
+    });
+  }
 
   @override
   void didChangeDependencies() {
@@ -59,9 +83,10 @@ class _GaussianMoatMapState extends State<GaussianMoatMap> {
   }
 
   void _request(int bound) {
-    _generation++;
+    _growthTimer?.cancel();
+    _growthTimer = null;
+    _playing = false;
     _bound = bound;
-    _pending = bound;
     _map = null;
     _candidate = null;
     _root = (a: 1, b: 1);
@@ -70,34 +95,81 @@ class _GaussianMoatMapState extends State<GaussianMoatMap> {
       ..add(_root);
     _component = const {};
     _error = false;
-    if (!_running) _generate();
+    _jobs.submit(bound);
   }
 
-  Future<void> _generate() async {
-    _running = true;
-    while (mounted && _pending != null) {
-      final bound = _pending!;
-      final generation = _generation;
-      _pending = null;
-      try {
-        final map = await GaussianPrimeMap.generate(bound,
-            isCancelled: () => !mounted || generation != _generation);
-        if (mounted && generation == _generation && map != null) {
-          setState(() {
-            _map = map;
-            _refreshComponent();
-          });
-        }
-      } catch (_) {
-        if (mounted && generation == _generation) setState(() => _error = true);
-      }
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed) {
+      _stopGrowth();
+      if (_map == null) _jobs.cancel();
     }
-    _running = false;
+  }
+
+  void _stopGrowth() {
+    _growthTimer?.cancel();
+    _growthTimer = null;
+    if (_playing && mounted) setState(() => _playing = false);
+  }
+
+  void _setRadius(int radius) {
+    _stopGrowth();
+    setState(() {
+      _maxSquaredStep = radius;
+      _previewSquaredStep = radius;
+      _path
+        ..clear()
+        ..add(_root);
+      _refreshComponent();
+    });
+  }
+
+  void _advanceGrowth() {
+    final next = GaussianMoatGrowth.next(_maxSquaredStep);
+    if (next == null) {
+      _stopGrowth();
+      return;
+    }
+    setState(() {
+      _maxSquaredStep = next;
+      _previewSquaredStep = next;
+      _path
+        ..clear()
+        ..add(_root);
+      _refreshComponent();
+    });
+    if (GaussianMoatGrowth.next(next) == null) _stopGrowth();
+  }
+
+  void _scheduleGrowthStep() {
+    if (!mounted || !_playing) return;
+    // Schedule only after the previous component computation has completed.
+    _growthTimer = Timer(const Duration(milliseconds: 600), () {
+      if (!mounted || !_playing) return;
+      _advanceGrowth();
+      _scheduleGrowthStep();
+    });
+  }
+
+  void _toggleGrowth(bool reducedMotion) {
+    if (_playing) {
+      _stopGrowth();
+      return;
+    }
+    if (reducedMotion ||
+        MediaQuery.disableAnimationsOf(context) ||
+        GaussianMoatGrowth.next(_maxSquaredStep) == null) {
+      return;
+    }
+    setState(() => _playing = true);
+    _scheduleGrowthStep();
   }
 
   @override
   void dispose() {
-    _generation++;
+    WidgetsBinding.instance.removeObserver(this);
+    _growthTimer?.cancel();
+    _jobs.dispose();
     _camera?.dispose();
     _a.dispose();
     _b.dispose();
@@ -189,9 +261,14 @@ class _GaussianMoatMapState extends State<GaussianMoatMap> {
   Widget _controlsContent(AppLocalizations l10n) => SingleChildScrollView(
       padding: const EdgeInsets.all(12),
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        _button(l10n.gaussianBound, _domainSheet),
-        _button('Quaternion slice',
-            () => setState(() => _showQuaternionSlice = true)),
+        _button(l10n.gaussianBound, () {
+          _stopGrowth();
+          _domainSheet();
+        }),
+        _button('Quaternion slice', () {
+          _stopGrowth();
+          setState(() => _showQuaternionSlice = true);
+        }),
         TextField(
             key: const Key('gaussianCoordinateA'),
             controller: _a,
@@ -221,31 +298,55 @@ class _GaussianMoatMapState extends State<GaussianMoatMap> {
         _button(
             l10n.gaussianSetStart,
             _candidate != null && (_map?.isPrime(_candidate!) ?? false)
-                ? () => setState(() {
+                ? () {
+                    _stopGrowth();
+                    setState(() {
                       _root = _candidate!;
                       _path
                         ..clear()
                         ..add(_root);
                       _refreshComponent();
-                    })
+                    });
+                  }
                 : null),
         Text('${l10n.gaussianStepLimit}: $_maxSquaredStep'),
+        Slider(
+          key: const Key('gaussianGrowthScrubber'),
+          value: _previewSquaredStep.toDouble(),
+          min: 1,
+          max: 16,
+          divisions: 15,
+          label: '$_previewSquaredStep',
+          onChanged: _playing
+              ? null
+              : (value) => setState(() => _previewSquaredStep = value.round()),
+          onChangeEnd: (value) => _setRadius(value.round()),
+        ),
+        Builder(builder: (context) {
+          final reducedMotion =
+              (context.watch<AccessibilityService?>()?.reducedMotionEnabled ??
+                      false) ||
+                  MediaQuery.disableAnimationsOf(context);
+          return _button(
+            _playing ? l10n.gaussianPause : l10n.gaussianPlay,
+            (reducedMotion && !_playing) ||
+                    (!_playing &&
+                        GaussianMoatGrowth.next(_maxSquaredStep) == null)
+                ? null
+                : () => _toggleGrowth(reducedMotion),
+            key: const Key('gaussianGrowthToggle'),
+          );
+        }),
         Wrap(children: [
           _button(
               'K−',
               _maxSquaredStep > 1
-                  ? () => setState(() {
-                        _maxSquaredStep--;
-                        _refreshComponent();
-                      })
+                  ? () => _setRadius(_maxSquaredStep - 1)
                   : null),
           _button(
               'K+',
               _maxSquaredStep < 16
-                  ? () => setState(() {
-                        _maxSquaredStep++;
-                        _refreshComponent();
-                      })
+                  ? () => _setRadius(_maxSquaredStep + 1)
                   : null),
         ]),
         _button(l10n.resetView, () => _camera!.resetView()),
@@ -322,10 +423,16 @@ class _GaussianMoatMapState extends State<GaussianMoatMap> {
     final status =
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Wrap(crossAxisAlignment: WrapCrossAlignment.center, children: [
-        _button(l10n.tabExplore, widget.onExplore),
+        _button(l10n.tabExplore, () {
+          _stopGrowth();
+          widget.onExplore();
+        }),
         Text(l10n.gaussianWalk, style: Theme.of(context).textTheme.titleMedium),
         if (Navigator.of(context).canPop())
-          _button(l10n.viewerBackToCatalog, () => Navigator.of(context).pop()),
+          _button(l10n.viewerBackToCatalog, () {
+            _stopGrowth();
+            Navigator.of(context).pop();
+          }),
       ]),
       Text(l10n.gaussianDomain(_bound)),
       Semantics(
@@ -389,7 +496,13 @@ class _GaussianMoatMapState extends State<GaussianMoatMap> {
                     _button(l10n.controlsTitle,
                         () => setState(() => _controls = !_controls)),
                   _button(
-                      l10n.exportTitle, _map == null ? null : widget.onExport),
+                      l10n.exportTitle,
+                      _map == null
+                          ? null
+                          : () {
+                              _stopGrowth();
+                              widget.onExport();
+                            }),
                 ]),
               ]),
               if (!wide && _controls)

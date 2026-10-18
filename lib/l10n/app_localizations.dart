@@ -194,6 +194,18 @@ abstract class AppLocalizations {
   /// **'Maximum squared step'**
   String get gaussianStepLimit;
 
+  /// No description provided for @gaussianPlay.
+  ///
+  /// In en, this message translates to:
+  /// **'Play radius growth'**
+  String get gaussianPlay;
+
+  /// No description provided for @gaussianPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause radius growth'**
+  String get gaussianPause;
+
   /// No description provided for @gaussianStep.
   ///
   /// In en, this message translates to:

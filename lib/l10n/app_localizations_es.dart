@@ -63,6 +63,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get gaussianStepLimit => 'Paso máximo al cuadrado';
 
   @override
+  String get gaussianPlay => 'Reproducir crecimiento del radio';
+
+  @override
+  String get gaussianPause => 'Pausar crecimiento del radio';
+
+  @override
   String get gaussianStep => 'Avanzar al candidato';
 
   @override

@@ -1,7 +1,49 @@
+import 'dart:async';
+
 import 'package:flutter_fractals/core/models/gaussian_moat_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  test('slow map jobs run once plus only the latest replacement', () async {
+    final calls = <int>[];
+    final published = <int>[];
+    final jobs = <Completer<GaussianPrimeMap?>>[];
+    final latestStarted = Completer<void>();
+    var active = 0;
+    var peakActive = 0;
+    final queue = GaussianMoatMapJobQueue((bound, {isCancelled}) {
+      active++;
+      if (active > peakActive) peakActive = active;
+      calls.add(bound);
+      if (bound == 6 && !latestStarted.isCompleted) latestStarted.complete();
+      final job = Completer<GaussianPrimeMap?>();
+      jobs.add(job);
+      return job.future.whenComplete(() => active--);
+    }, (bound, _) => published.add(bound));
+
+    queue.submit(32);
+    await Future<void>.delayed(Duration.zero);
+    queue
+      ..submit(4)
+      ..submit(5)
+      ..submit(6);
+    expect(calls, [32]);
+    expect(active, 1);
+
+    jobs.first.complete(await GaussianPrimeMap.generate(32));
+    await latestStarted.future;
+    expect(calls, [32, 6], reason: 'B and C are superseded by D');
+    expect(active, 1);
+    expect(peakActive, 1, reason: 'Only one map computation may be active');
+    expect(published, isEmpty, reason: 'A is stale after D was submitted');
+
+    jobs.last.complete(await GaussianPrimeMap.generate(6));
+    await queue.idle;
+    expect(published, [6]);
+    expect(active, 0);
+    queue.dispose();
+  });
+
   test('containment rejects extreme integers and respects signed boundaries',
       () async {
     final map = (await GaussianPrimeMap.generate(4))!;
@@ -104,6 +146,21 @@ void main() {
     expect(map.component((a: 1, b: 1), maxSquaredStep: 3), {
       (a: 1, b: 1),
     });
+  });
+
+  test('components are monotone as squared radius grows in a fixed domain',
+      () async {
+    final map = (await GaussianPrimeMap.generate(8))!;
+    final radii = [1, 2, 4, 8, 16];
+    var previous = map.component((a: 1, b: 1), maxSquaredStep: radii.first);
+    final firstSize = previous.length;
+    for (final radius in radii.skip(1)) {
+      final current = map.component((a: 1, b: 1), maxSquaredStep: radius);
+      expect(current.containsAll(previous), isTrue,
+          reason: 'Increasing k to $radius must not lose connected points');
+      previous = current;
+    }
+    expect(previous.length, greaterThan(firstSize));
   });
 
   test('exact finite field includes signed and axis primes, not units',

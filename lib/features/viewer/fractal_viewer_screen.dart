@@ -1573,6 +1573,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                     onExport: () => _openExport(context),
                     onQuaternionCaptured: (png) =>
                         _saveQuaternionExport(context, png),
+                    mapGenerator: context.read<GaussianMoatMapGenerator?>(),
                   )),
                   if (_exporting)
                     Positioned.fill(
