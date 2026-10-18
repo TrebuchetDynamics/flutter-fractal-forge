@@ -972,6 +972,7 @@
       "source": "PRD.md#active-release-contract",
       "status": "unverified",
       "tasks": [
+        "ACAD-006-3c",
         "REL-JOURNEY-01-WEB",
         "REL-JOURNEY-02-LINUX",
         "REL-JOURNEY-02-LINUX-LIVE",
@@ -1118,6 +1119,7 @@
   "priority_order": {
     "schema": 1,
     "tasks": [
+      "ACAD-006-3c",
       "ICON-ZJ-02",
       "NUM-WALL-01",
       "NUM-WALL-02",
@@ -1160,6 +1162,14 @@
     ]
   },
   "tasks": [
+    {
+      "depends_on": [],
+      "goal": "REL-JOURNEY-001",
+      "id": "ACAD-006-3c",
+      "section": "Now",
+      "status": "open",
+      "title": "Restore the full offline check on main"
+    },
     {
       "depends_on": [
         "ACAD-03"
