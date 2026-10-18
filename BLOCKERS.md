@@ -6,12 +6,12 @@ This file contains only hard blockers that require user action.
 
 <!-- pi-autowork:questions:start -->
 
-### Q-VIS-006-FIRST-VIEW-04 — USER_DECISION — effort decision — unblocks 2
+### Q-VIS-006-FIRST-VIEW-04 — USER_DECISION — effort quick — unblocks 1
 
 - Task: VIS-006-FIRST-VIEW-04 — Verify five captured Explore modules without first-view evidence.
-- Needs: not runnable: needs unique Scope, Acceptance and Checks fields
+- Needs: VIS-006-FIRST-VIEW-04 is marked in_progress by another session and will not be adopted automatically; 1 waiting task(s) depend on it.
 - Since: 2026-10-18T06:01:44Z
-- Answer: Fix VIS-006-FIRST-VIEW-04's TODO.md entry as the reason says (for example add the missing Scope, Acceptance or Checks field), or move it out of Now/Next.
+- Answer: If no one is working on VIS-006-FIRST-VIEW-04, set `Status: open` in its TODO.md entry (the runner then runs it); otherwise add `Held by: <who>; until <YYYY-MM-DD>` to that entry, and the runner stops asking until that date.
 
 ### Q-ACAD-03 — USER_DECISION — effort decision — unblocks 1
 
@@ -34,12 +34,12 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-18T05:31:59Z
 - Answer: Answer in NUM-WALL-01's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
 
-### Q-GAUSS-MOAT-04-GROWTH — USER_DECISION — effort investigate — unblocks 1
+### Q-RELEASE-001-23 — USER_INPUT — effort input — unblocks 1
 
-- Task: GAUSS-MOAT-04-GROWTH — Scrub and animate jump-radius growth without queued or stale computations.
-- Needs: integration validation failed or changed the integration tree
-- Since: 2026-10-18T05:53:03Z
-- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/GAUSS-MOAT-04-GROWTH/), then rescope or split GAUSS-MOAT-04-GROWTH in its TODO.md entry. The runner reruns it when the entry changes.
+- Task: RELEASE-001-23 — Implement isolated platform release lanes and verified partial evidence.
+- Needs: worker reported a blocker: Offline implementation remains incomplete: lane-scoped publication adapters, remote readback/ambiguous-write handling, and the required publication fault-injection tests are not implemented. The current --publish route fails closed; complete these before accepting or closing RELEASE-001-23. No live publication was attempted.
+- Since: 2026-10-18T06:37:55Z
+- Answer: Answer in RELEASE-001-23's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
 
 <!-- pi-autowork:questions:end -->
 
