@@ -27,6 +27,13 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T23:58:56Z
 - Answer: Answer in NUM-WALL-01's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
 
+### Q-GAUSS-MOAT-04-GROWTH — USER_DECISION — effort investigate — unblocks 1
+
+- Task: GAUSS-MOAT-04-GROWTH — Scrub and animate jump-radius growth without queued or stale computations.
+- Needs: integration validation failed or changed the integration tree
+- Since: 2026-10-18T04:10:52Z
+- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/GAUSS-MOAT-04-GROWTH/), then rescope or split GAUSS-MOAT-04-GROWTH in its TODO.md entry. The runner reruns it when the entry changes.
+
 <!-- pi-autowork:questions:end -->
 
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
