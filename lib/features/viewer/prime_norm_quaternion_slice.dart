@@ -1,9 +1,10 @@
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/models/prime_norm_quaternion_model.dart';
+import 'package:flutter_fractals/l10n/app_localizations.dart';
 
 /// Captures a painted quaternion slice boundary as a PNG byte buffer.
 Future<Uint8List?> captureQuaternionPng(RenderRepaintBoundary boundary) async {
@@ -22,7 +23,7 @@ Future<Uint8List?> captureQuaternionPng(RenderRepaintBoundary boundary) async {
 /// Bounded, fixed-d companion view; deliberately separate from Julia shaders.
 class PrimeNormQuaternionSliceView extends StatefulWidget {
   final VoidCallback onBack;
-  final ValueChanged<Uint8List>? onCapturedPng;
+  final Future<void> Function(Uint8List)? onCapturedPng;
   const PrimeNormQuaternionSliceView(
       {super.key, required this.onBack, this.onCapturedPng});
 
@@ -35,6 +36,7 @@ class _PrimeNormQuaternionSliceViewState
     extends State<PrimeNormQuaternionSliceView> {
   PrimeNormQuaternionSlice? _slice;
   final _camera = QuaternionSliceCamera();
+  final _canvasFocusNode = FocusNode(debugLabel: 'Quaternion slice projection');
   int _d = 0;
   int _generation = 0;
   IntegerQuaternion? _selected;
@@ -102,10 +104,8 @@ class _PrimeNormQuaternionSliceViewState
     }
     final png = await captureQuaternionPng(boundary);
     if (png == null) throw StateError('Quaternion PNG encoding failed');
-    if (mounted) {
-      setState(() => _capturedPng = png);
-      widget.onCapturedPng?.call(png);
-    }
+    await widget.onCapturedPng?.call(png);
+    if (mounted) setState(() => _capturedPng = png);
   }
 
   Uint8List? _capturedPng;
@@ -113,145 +113,217 @@ class _PrimeNormQuaternionSliceViewState
   @override
   void dispose() {
     _generation++;
+    _canvasFocusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final slice = _slice;
-    return RepaintBoundary(
-        key: _captureKey,
-        child: SafeArea(
-            child: Column(children: [
-          Wrap(alignment: WrapAlignment.center, children: [
-            TextButton(
-                onPressed: widget.onBack,
-                child: const Text('Back to Gaussian map')),
-            const Padding(
-                padding: EdgeInsets.all(12),
-                child:
-                    Text('Prime-norm quaternion slice · fixed-d slice only')),
-          ]),
-          Text(
-              'Integer points (a,b,c,d), −6 ≤ a,b,c ≤ 6 · d = $_d · N(q)=a²+b²+c²+d² is ordinary prime'),
-          if (_selected case final p?)
-            Text(
-                'Selected (${p.a}, ${p.b}, ${p.c}, ${p.d}) · norm ${p.a * p.a + p.b * p.b + p.c * p.c + p.d * p.d}'),
-          Text(
-              'Walk: ${_path.length - 1} steps · component ${_component.length} · fixed d=$_d only · ${_slice != null && _component.any((p) => p.a.abs() == _slice!.bound || p.b.abs() == _slice!.bound || p.c.abs() == _slice!.bound) ? 'boundary may continue' : 'boundary contained'}'),
-          Text('Squared step limit: $_maxSquaredStep'),
-          Wrap(alignment: WrapAlignment.center, children: [
-            TextButton(
-                onPressed: _maxSquaredStep > 1
-                    ? () => setState(() {
-                          _maxSquaredStep--;
-                          if (_path.isNotEmpty) {
-                            _component = _slice!.component(_path.first,
-                                maxSquaredStep: _maxSquaredStep);
-                          }
-                        })
-                    : null,
-                child: const Text('k−')),
-            TextButton(
-                onPressed: _maxSquaredStep < 16
-                    ? () => setState(() {
-                          _maxSquaredStep++;
-                          if (_path.isNotEmpty) {
-                            _component = _slice!.component(_path.first,
-                                maxSquaredStep: _maxSquaredStep);
-                          }
-                        })
-                    : null,
-                child: const Text('k+')),
-            TextButton(
-                onPressed: _canStep
-                    ? () => setState(() => _path.add(_selected!))
-                    : null,
-                child: const Text('Step')),
-            TextButton(
-                onPressed: _path.length > 1
-                    ? () => setState(() => _path.removeLast())
-                    : null,
-                child: const Text('Undo step')),
-            TextButton(
-                onPressed: () => setState(() {
-                      _path
-                        ..clear()
-                        ..add(_slice?.points.firstOrNull ??
-                            (a: 1, b: 1, c: 0, d: _d));
-                    }),
-                child: const Text('Reset path')),
-            TextButton(onPressed: _capture, child: const Text('Capture PNG')),
-          ]),
-          if (_capturedPng != null) const Text('Captured fixed-d view as PNG'),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            IconButton(
-                onPressed: _d > -12
-                    ? () {
-                        setState(() => _d--);
-                        _generate();
-                      }
-                    : null,
-                icon: const Icon(Icons.remove),
-                tooltip: 'Decrease fixed d'),
-            Text('d = $_d'),
-            IconButton(
-                onPressed: _d < 12
-                    ? () {
-                        setState(() => _d++);
-                        _generate();
-                      }
-                    : null,
-                icon: const Icon(Icons.add),
-                tooltip: 'Increase fixed d'),
-            TextButton(
-                onPressed: () => setState(() => _list = !_list),
-                child: Text(_list ? '3D view' : 'Coordinate list')),
-            TextButton(
-                onPressed: () => setState(() {
-                      _camera.yaw = 0;
-                      _camera.pitch = 0;
-                    }),
-                child: const Text('Reset view')),
-          ]),
-          const Text(
-              'Norm legend: prime norm points · camera rotation changes projection, not membership'),
+    return SafeArea(
+      child: LayoutBuilder(
+        builder: (context, _) => Column(children: [
           Expanded(
-            child: slice == null
-                ? const Center(child: CircularProgressIndicator())
-                : _list
-                    ? ListView.builder(
-                        itemCount: slice.points.length,
-                        itemBuilder: (context, index) {
-                          final p = slice.points[index];
-                          return ListTile(
-                              title: Text(
-                                  '(${p.a}, ${p.b}, ${p.c}, ${p.d}) · N=${p.a * p.a + p.b * p.b + p.c * p.c + p.d * p.d}'),
-                              selected: p == _selected,
-                              onTap: () => setState(() => _selected = p));
-                        })
-                    : LayoutBuilder(
-                        builder: (context, box) => GestureDetector(
-                            onPanUpdate: (details) => setState(() =>
-                                _camera.rotate(details.delta.dx * .012,
-                                    details.delta.dy * .012)),
-                            onTapUp: (details) {
-                              final p = _camera.pick(details.localPosition,
-                                  slice, box.biggest, slice.bound);
-                              if (p != null) setState(() => _selected = p);
-                            },
-                            child: CustomPaint(
-                                size: box.biggest,
-                                painter: _QuaternionPainter(
-                                    slice,
-                                    _camera,
-                                    _selected,
-                                    Theme.of(context).colorScheme.primary,
-                                    Theme.of(context).colorScheme.onSurface,
-                                    _path.toList(),
-                                    _component)))),
+            child: SingleChildScrollView(
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                Wrap(alignment: WrapAlignment.center, children: [
+                  TextButton(
+                      onPressed: widget.onBack,
+                      child: Text(l10n.quaternionBack)),
+                  Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Semantics(
+                          header: true, child: Text(l10n.quaternionTitle))),
+                ]),
+                Semantics(
+                    label: l10n.quaternionDisclosure(_d),
+                    child: ExcludeSemantics(
+                        child: Text(l10n.quaternionDisclosure(_d)))),
+                if (_selected case final p?)
+                  Semantics(
+                      liveRegion: true,
+                      child: Text(l10n.quaternionSelected(p.a, p.b, p.c, p.d,
+                          p.a * p.a + p.b * p.b + p.c * p.c + p.d * p.d))),
+                Semantics(
+                    liveRegion: true,
+                    child: Text(l10n.quaternionWalkState(
+                        _path.length - 1,
+                        _component.length,
+                        _d,
+                        _slice != null &&
+                                _component.any((p) =>
+                                    p.a.abs() == _slice!.bound ||
+                                    p.b.abs() == _slice!.bound ||
+                                    p.c.abs() == _slice!.bound)
+                            ? l10n.quaternionBoundaryMayContinue
+                            : l10n.quaternionBoundaryContained))),
+                Text(l10n.quaternionStepLimit(_maxSquaredStep)),
+                Wrap(alignment: WrapAlignment.center, children: [
+                  TextButton(
+                      onPressed: _maxSquaredStep > 1
+                          ? () => setState(() {
+                                _maxSquaredStep--;
+                                if (_path.isNotEmpty) {
+                                  _component = _slice!.component(_path.first,
+                                      maxSquaredStep: _maxSquaredStep);
+                                }
+                              })
+                          : null,
+                      child: const Text('k−')),
+                  TextButton(
+                      onPressed: _maxSquaredStep < 16
+                          ? () => setState(() {
+                                _maxSquaredStep++;
+                                if (_path.isNotEmpty) {
+                                  _component = _slice!.component(_path.first,
+                                      maxSquaredStep: _maxSquaredStep);
+                                }
+                              })
+                          : null,
+                      child: const Text('k+')),
+                  TextButton(
+                      onPressed: _canStep
+                          ? () => setState(() => _path.add(_selected!))
+                          : null,
+                      child: Text(l10n.quaternionStep)),
+                  TextButton(
+                      onPressed: _path.length > 1
+                          ? () => setState(() => _path.removeLast())
+                          : null,
+                      child: Text(l10n.quaternionUndo)),
+                  TextButton(
+                      onPressed: () => setState(() {
+                            _path
+                              ..clear()
+                              ..add(_slice?.points.firstOrNull ??
+                                  (a: 1, b: 1, c: 0, d: _d));
+                          }),
+                      child: Text(l10n.quaternionResetPath)),
+                  TextButton(
+                      onPressed: _list ? null : _capture,
+                      child: Text(l10n.quaternionCapture)),
+                ]),
+                if (_list) Text(l10n.quaternionCaptureRequires3d),
+                if (_capturedPng != null) Text(l10n.quaternionCaptured),
+                Wrap(alignment: WrapAlignment.center, children: [
+                  IconButton(
+                      onPressed: _d > -12
+                          ? () {
+                              setState(() => _d--);
+                              _generate();
+                            }
+                          : null,
+                      icon: const Icon(Icons.remove),
+                      tooltip: l10n.quaternionDecreaseSlice),
+                  Text('d = $_d'),
+                  IconButton(
+                      onPressed: _d < 12
+                          ? () {
+                              setState(() => _d++);
+                              _generate();
+                            }
+                          : null,
+                      icon: const Icon(Icons.add),
+                      tooltip: l10n.quaternionIncreaseSlice),
+                  TextButton(
+                      onPressed: () => setState(() => _list = !_list),
+                      child: Text(_list
+                          ? l10n.quaternionView3d
+                          : l10n.quaternionCoordinateList)),
+                  TextButton(
+                      onPressed: () => setState(() {
+                            _camera.yaw = 0;
+                            _camera.pitch = 0;
+                          }),
+                      child: Text(l10n.quaternionResetView)),
+                ]),
+                Text(l10n.quaternionNormLegend),
+              ]),
+            ),
           ),
-        ])));
+          Expanded(
+            flex: 3,
+            child: RepaintBoundary(
+                key: _captureKey,
+                child: slice == null
+                    ? const Center(child: CircularProgressIndicator())
+                    : _list
+                        ? Semantics(
+                            label: l10n.quaternionListSemantic,
+                            child: ListView.builder(
+                                itemCount: slice.points.length,
+                                itemBuilder: (context, index) {
+                                  final p = slice.points[index];
+                                  return ListTile(
+                                      title: Text(
+                                          '(${p.a}, ${p.b}, ${p.c}, ${p.d}) · N=${p.a * p.a + p.b * p.b + p.c * p.c + p.d * p.d}'),
+                                      selected: p == _selected,
+                                      onTap: () =>
+                                          setState(() => _selected = p));
+                                }))
+                        : Semantics(
+                            label: l10n.quaternionPointsSemantic,
+                            focusable: true,
+                            child: Focus(
+                                focusNode: _canvasFocusNode,
+                                onKeyEvent: (node, event) {
+                                  if (event is! KeyDownEvent) {
+                                    return KeyEventResult.ignored;
+                                  }
+                                  final delta = switch (event.logicalKey) {
+                                    LogicalKeyboardKey.arrowLeft =>
+                                      const Offset(-.08, 0),
+                                    LogicalKeyboardKey.arrowRight =>
+                                      const Offset(.08, 0),
+                                    LogicalKeyboardKey.arrowUp =>
+                                      const Offset(0, -.08),
+                                    LogicalKeyboardKey.arrowDown =>
+                                      const Offset(0, .08),
+                                    _ => null,
+                                  };
+                                  if (delta == null)
+                                    return KeyEventResult.ignored;
+                                  setState(
+                                      () => _camera.rotate(delta.dx, delta.dy));
+                                  return KeyEventResult.handled;
+                                },
+                                child: LayoutBuilder(
+                                    builder: (context, box) => GestureDetector(
+                                        onTapDown: (_) =>
+                                            _canvasFocusNode.requestFocus(),
+                                        onPanUpdate: (details) => setState(() =>
+                                            _camera.rotate(
+                                                details.delta.dx * .012,
+                                                details.delta.dy * .012)),
+                                        onTapUp: (details) {
+                                          final p = _camera.pick(
+                                              details.localPosition,
+                                              slice,
+                                              box.biggest,
+                                              slice.bound);
+                                          if (p != null) {
+                                            setState(() => _selected = p);
+                                          }
+                                        },
+                                        child: CustomPaint(
+                                            size: box.biggest,
+                                            painter: _QuaternionPainter(
+                                                slice,
+                                                _camera,
+                                                _selected,
+                                                Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
+                                                Theme.of(context)
+                                                    .colorScheme
+                                                    .onSurface,
+                                                _path.toList(),
+                                                _component))))))),
+          ),
+        ]),
+      ),
+    );
   }
 }
 
@@ -262,8 +334,11 @@ class _QuaternionPainter extends CustomPainter {
   final Color color, foreground;
   final List<IntegerQuaternion> path;
   final Set<IntegerQuaternion> component;
+  final double yaw, pitch;
   _QuaternionPainter(this.slice, this.camera, this.selected, this.color,
-      this.foreground, this.path, this.component);
+      this.foreground, this.path, this.component)
+      : yaw = camera.yaw,
+        pitch = camera.pitch;
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()..style = PaintingStyle.fill;
@@ -310,8 +385,8 @@ class _QuaternionPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant _QuaternionPainter old) =>
       old.slice != slice ||
-      old.camera.yaw != camera.yaw ||
-      old.camera.pitch != camera.pitch ||
+      old.yaw != yaw ||
+      old.pitch != pitch ||
       old.selected != selected ||
       old.path != path ||
       old.component != component ||

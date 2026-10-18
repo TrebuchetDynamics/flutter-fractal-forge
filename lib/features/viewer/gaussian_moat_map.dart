@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/models/gaussian_moat_model.dart';
@@ -14,11 +16,13 @@ class GaussianMoatMap extends StatefulWidget {
   final GlobalKey boundaryKey;
   final VoidCallback onExplore;
   final VoidCallback onExport;
+  final Future<void> Function(Uint8List)? onQuaternionCaptured;
   const GaussianMoatMap(
       {super.key,
       required this.boundaryKey,
       required this.onExplore,
-      required this.onExport});
+      required this.onExport,
+      this.onQuaternionCaptured});
 
   @override
   State<GaussianMoatMap> createState() => _GaussianMoatMapState();
@@ -310,7 +314,8 @@ class _GaussianMoatMapState extends State<GaussianMoatMap> {
   Widget build(BuildContext context) {
     if (_showQuaternionSlice) {
       return PrimeNormQuaternionSliceView(
-          onBack: () => setState(() => _showQuaternionSlice = false));
+          onBack: () => setState(() => _showQuaternionSlice = false),
+          onCapturedPng: widget.onQuaternionCaptured);
     }
     final l10n = AppLocalizations.of(context)!;
     final p = _candidate;

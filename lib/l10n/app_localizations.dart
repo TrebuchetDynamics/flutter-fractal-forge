@@ -278,6 +278,138 @@ abstract class AppLocalizations {
   /// **'Off-axis a+bi is prime when a²+b² is an ordinary prime. On an axis, the absolute coordinate must be prime and 3 modulo 4. Origin and units are excluded. This finite map cannot certify an infinite moat theorem.'**
   String get gaussianMath;
 
+  /// No description provided for @quaternionBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Gaussian map'**
+  String get quaternionBack;
+
+  /// No description provided for @quaternionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Prime-norm quaternion slice'**
+  String get quaternionTitle;
+
+  /// No description provided for @quaternionDisclosure.
+  ///
+  /// In en, this message translates to:
+  /// **'Integer points (a,b,c,d), −6 ≤ a,b,c ≤ 6 · d = {slice} · N(q)=a²+b²+c²+d² is ordinary prime; fixed-d slice only.'**
+  String quaternionDisclosure(int slice);
+
+  /// No description provided for @quaternionSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected ({a}, {b}, {c}, {d}) · norm {norm}'**
+  String quaternionSelected(int a, int b, int c, int d, int norm);
+
+  /// No description provided for @quaternionWalkState.
+  ///
+  /// In en, this message translates to:
+  /// **'Walk: {steps} steps · component {size} · fixed d={slice} only · {boundary}'**
+  String quaternionWalkState(int steps, int size, int slice, String boundary);
+
+  /// No description provided for @quaternionBoundaryMayContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'boundary may continue'**
+  String get quaternionBoundaryMayContinue;
+
+  /// No description provided for @quaternionBoundaryContained.
+  ///
+  /// In en, this message translates to:
+  /// **'boundary contained'**
+  String get quaternionBoundaryContained;
+
+  /// No description provided for @quaternionStepLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Squared step limit: {limit}'**
+  String quaternionStepLimit(int limit);
+
+  /// No description provided for @quaternionStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Step'**
+  String get quaternionStep;
+
+  /// No description provided for @quaternionUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo step'**
+  String get quaternionUndo;
+
+  /// No description provided for @quaternionResetPath.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset path'**
+  String get quaternionResetPath;
+
+  /// No description provided for @quaternionCapture.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture PNG'**
+  String get quaternionCapture;
+
+  /// No description provided for @quaternionCaptureRequires3d.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to 3D view to capture a plot PNG.'**
+  String get quaternionCaptureRequires3d;
+
+  /// No description provided for @quaternionCaptured.
+  ///
+  /// In en, this message translates to:
+  /// **'Captured fixed-d view as PNG'**
+  String get quaternionCaptured;
+
+  /// No description provided for @quaternionDecreaseSlice.
+  ///
+  /// In en, this message translates to:
+  /// **'Decrease fixed d'**
+  String get quaternionDecreaseSlice;
+
+  /// No description provided for @quaternionIncreaseSlice.
+  ///
+  /// In en, this message translates to:
+  /// **'Increase fixed d'**
+  String get quaternionIncreaseSlice;
+
+  /// No description provided for @quaternionCoordinateList.
+  ///
+  /// In en, this message translates to:
+  /// **'Coordinate list'**
+  String get quaternionCoordinateList;
+
+  /// No description provided for @quaternionView3d.
+  ///
+  /// In en, this message translates to:
+  /// **'3D view'**
+  String get quaternionView3d;
+
+  /// No description provided for @quaternionResetView.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset view'**
+  String get quaternionResetView;
+
+  /// No description provided for @quaternionNormLegend.
+  ///
+  /// In en, this message translates to:
+  /// **'Norm legend: ordinary prime norms are shown · camera rotation changes projection, not membership'**
+  String get quaternionNormLegend;
+
+  /// No description provided for @quaternionPointsSemantic.
+  ///
+  /// In en, this message translates to:
+  /// **'Prime-norm quaternion points; use arrow keys to rotate and Coordinate list to select overlapping points'**
+  String get quaternionPointsSemantic;
+
+  /// No description provided for @quaternionListSemantic.
+  ///
+  /// In en, this message translates to:
+  /// **'Prime-norm quaternion coordinates; activate a row to preview a point'**
+  String get quaternionListSemantic;
+
   /// No description provided for @tabFavorites.
   ///
   /// In en, this message translates to:

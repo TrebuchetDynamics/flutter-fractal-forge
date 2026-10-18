@@ -112,6 +112,84 @@ class AppLocalizationsEn extends AppLocalizations {
       'Off-axis a+bi is prime when a²+b² is an ordinary prime. On an axis, the absolute coordinate must be prime and 3 modulo 4. Origin and units are excluded. This finite map cannot certify an infinite moat theorem.';
 
   @override
+  String get quaternionBack => 'Back to Gaussian map';
+
+  @override
+  String get quaternionTitle => 'Prime-norm quaternion slice';
+
+  @override
+  String quaternionDisclosure(int slice) {
+    return 'Integer points (a,b,c,d), −6 ≤ a,b,c ≤ 6 · d = $slice · N(q)=a²+b²+c²+d² is ordinary prime; fixed-d slice only.';
+  }
+
+  @override
+  String quaternionSelected(int a, int b, int c, int d, int norm) {
+    return 'Selected ($a, $b, $c, $d) · norm $norm';
+  }
+
+  @override
+  String quaternionWalkState(int steps, int size, int slice, String boundary) {
+    return 'Walk: $steps steps · component $size · fixed d=$slice only · $boundary';
+  }
+
+  @override
+  String get quaternionBoundaryMayContinue => 'boundary may continue';
+
+  @override
+  String get quaternionBoundaryContained => 'boundary contained';
+
+  @override
+  String quaternionStepLimit(int limit) {
+    return 'Squared step limit: $limit';
+  }
+
+  @override
+  String get quaternionStep => 'Step';
+
+  @override
+  String get quaternionUndo => 'Undo step';
+
+  @override
+  String get quaternionResetPath => 'Reset path';
+
+  @override
+  String get quaternionCapture => 'Capture PNG';
+
+  @override
+  String get quaternionCaptureRequires3d =>
+      'Switch to 3D view to capture a plot PNG.';
+
+  @override
+  String get quaternionCaptured => 'Captured fixed-d view as PNG';
+
+  @override
+  String get quaternionDecreaseSlice => 'Decrease fixed d';
+
+  @override
+  String get quaternionIncreaseSlice => 'Increase fixed d';
+
+  @override
+  String get quaternionCoordinateList => 'Coordinate list';
+
+  @override
+  String get quaternionView3d => '3D view';
+
+  @override
+  String get quaternionResetView => 'Reset view';
+
+  @override
+  String get quaternionNormLegend =>
+      'Norm legend: ordinary prime norms are shown · camera rotation changes projection, not membership';
+
+  @override
+  String get quaternionPointsSemantic =>
+      'Prime-norm quaternion points; use arrow keys to rotate and Coordinate list to select overlapping points';
+
+  @override
+  String get quaternionListSemantic =>
+      'Prime-norm quaternion coordinates; activate a row to preview a point';
+
+  @override
   String get tabFavorites => 'Favorites';
 
   @override
