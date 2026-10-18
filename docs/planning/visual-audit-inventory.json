@@ -4078,7 +4078,8 @@
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
         "shaders/cellular_and_stochastic/mimura_murray_predator_prey_gpu.frag"
-      ]
+      ],
+      "first_view": "executed GPU first-view evidence: integration_test/flows/vis006_first_view_test.dart; Linux desktop (-d linux), FORCE_GPU_RENDER=true; observed gpu_first_frame module=mimura_murray_predator_prey backend=gpu; controller module/default params/view matched module default preset; test passed, no failures or skips."
     },
     {
       "id": "core.stable_square_turing_model",
@@ -4094,7 +4095,8 @@
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
         "shaders/cellular_and_stochastic/stable_square_turing_model_gpu.frag"
-      ]
+      ],
+      "first_view": "executed GPU first-view evidence: integration_test/flows/vis006_first_view_test.dart; Linux desktop (-d linux), FORCE_GPU_RENDER=true; observed gpu_first_frame module=stable_square_turing_model backend=gpu; controller module/default params/view matched module default preset; test passed, no failures or skips."
     },
     {
       "id": "core.flow_lenia",
@@ -4110,7 +4112,8 @@
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
         "shaders/cellular_and_stochastic/flow_lenia_gpu.frag"
-      ]
+      ],
+      "first_view": "executed GPU first-view evidence: integration_test/flows/vis006_first_view_test.dart; Linux desktop (-d linux), FORCE_GPU_RENDER=true; observed gpu_first_frame module=flow_lenia backend=gpu; controller module/default params/view matched module default preset; test passed, no failures or skips."
     },
     {
       "id": "core.coupled_logistic_map_lattice",
@@ -4126,7 +4129,8 @@
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
         "shaders/cellular_and_stochastic/coupled_logistic_map_lattice_gpu.frag"
-      ]
+      ],
+      "first_view": "executed GPU first-view evidence: integration_test/flows/vis006_first_view_test.dart; Linux desktop (-d linux), FORCE_GPU_RENDER=true; observed gpu_first_frame module=coupled_logistic_map_lattice backend=gpu; controller module/default params/view matched module default preset; test passed, no failures or skips."
     },
     {
       "id": "core.langton_ant",
@@ -4142,7 +4146,8 @@
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
         "shaders/cellular_and_stochastic/langton_ant_gpu.frag"
-      ]
+      ],
+      "first_view": "executed GPU first-view evidence: integration_test/flows/vis006_first_view_test.dart; Linux desktop (-d linux), FORCE_GPU_RENDER=true; observed gpu_first_frame module=langton_ant backend=gpu; controller module/default params/view matched module default preset; test passed, no failures or skips."
     },
     {
       "id": "core.turmite",

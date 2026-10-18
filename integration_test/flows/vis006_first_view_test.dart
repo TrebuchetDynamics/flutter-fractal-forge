@@ -33,11 +33,20 @@ void main() {
   });
 
   final cases = <({String id, String search})>[
-    (id: 'cactus', search: 'Cactus Fractal'),
-    (id: 'magnet_type_1', search: 'Magnet Fractal (Type I)'),
-    (id: 'magnet_type_2', search: 'Magnet Fractal (Type II)'),
-    (id: 'magnet_type_3', search: 'Magnet Fractal (Type III)'),
-    (id: 'power_sum', search: 'Power Sum Fractal'),
+    (
+      id: 'mimura_murray_predator_prey',
+      search: 'Mimura-Murray Predator-Prey',
+    ),
+    (
+      id: 'stable_square_turing_model',
+      search: 'Stable-Square Turing Model',
+    ),
+    (id: 'flow_lenia', search: 'Flow-Lenia'),
+    (
+      id: 'coupled_logistic_map_lattice',
+      search: 'Coupled Logistic Map Lattice',
+    ),
+    (id: 'langton_ant', search: "Langton's Ant"),
   ];
 
   for (final item in cases) {
