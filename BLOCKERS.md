@@ -13,6 +13,13 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-18T20:04:44Z
 - Answer: Answer in APP-001-47's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
 
+### Q-NUM-WALL-01 — USER_INPUT — effort input — unblocks 4
+
+- Task: NUM-WALL-01 — Compute exact sequence walls and validate custom prime fields.
+- Needs: worker reported a blocker: The required repository-wide offline gate is incomplete: flutter test --no-pub timed out after 900 seconds and Python collection cannot import the missing markupsafe package. Provide a sufficiently provisioned offline test environment and authorize a complete bounded rerun before this task can be committed.
+- Since: 2026-10-18T20:31:14Z
+- Answer: Answer in NUM-WALL-01's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
+
 ### Q-ACAD-007-f8 — USER_INPUT — effort input — unblocks 0
 
 - Task: ACAD-007-f8 — Prepare a verified academic pilot approval brief.
