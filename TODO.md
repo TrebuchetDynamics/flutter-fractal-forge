@@ -519,6 +519,10 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Next action: Present the prepare report and exact missing access/authority; request only genuinely missing production approval for that subset. This planning request is not that approval.
 
 - [ ] CAT-QUALITY-02-LIVE — Live checks for CAT-QUALITY-02
+  - Goal: CAT-QUALITY-001
+  - Sources: [Quality plan](docs/planning/visual-fidelity-audit-next.md#quality-without-losing-variety), [accepted outcome](PRD.md#catalog-quality-and-variety); original offline contract retained under CAT-QUALITY-02 in `todo.archive.md`.
+  - Touches: docs/planning/visual-fidelity-audit-next.md
+  - Ownership: Await authorized live-target access and human review; this metadata repair grants neither.
   Scope: Run the live checks the offline work for CAT-QUALITY-02 left pending.
   Acceptance: Each check passes on the real target:
   - Physical/mobile platform and applicable REL-JOURNEY edited-save/share/readback qualification remain unrun; host AMD Linux captures are not cross-platform qualification.
