@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import 'package:vector_math/vector_math_64.dart';
+import 'attractor_trajectory_settings.dart';
 import 'fractal_view_state.dart';
 
 FractalViewState _snapshotPresetView(FractalViewState view) {
@@ -9,6 +10,7 @@ FractalViewState _snapshotPresetView(FractalViewState view) {
     pan: view.pan,
     zoom: view.zoom,
     rotation: view.rotation,
+    trajectory: view.trajectory,
   );
 }
 
@@ -191,6 +193,8 @@ class FractalPreset {
         'rotX': view.rotation.x,
         'rotY': view.rotation.y,
         'rotZ': view.rotation.z,
+        if (view.trajectory case final trajectory?)
+          'trajectory': trajectory.toJson(),
       },
       'createdAt': createdAt.toIso8601String(),
       'isBuiltIn': isBuiltIn,
@@ -219,6 +223,7 @@ class FractalPreset {
           (view['rotY'] as num? ?? 0).toDouble(),
           (view['rotZ'] as num? ?? 0).toDouble(),
         ),
+        trajectory: decodeOrbitTrajectorySettings(view['trajectory']),
       ),
       createdAt: DateTime.tryParse(json['createdAt'] as String? ?? '') ??
           DateTime.now(),

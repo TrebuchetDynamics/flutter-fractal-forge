@@ -23,5 +23,6 @@ FractalViewState snapshotFractalControllerView(FractalViewState view) {
     pan: Vector2.copy(view.pan),
     zoom: view.zoom,
     rotation: Vector3.copy(view.rotation),
+    trajectory: view.trajectory,
   );
 }

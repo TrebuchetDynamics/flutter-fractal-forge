@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:vector_math/vector_math_64.dart';
+import 'package:flutter_fractals/core/models/attractor_trajectory_settings.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/models/history/history_location.dart';
 
@@ -100,6 +101,8 @@ class HistoryEntry {
         'rotX': view.rotation.x,
         'rotY': view.rotation.y,
         'rotZ': view.rotation.z,
+        if (view.trajectory case final trajectory?)
+          'trajectory': trajectory.toJson(),
       },
       'params': params,
       'visitedAt': visitedAt.toIso8601String(),
@@ -124,6 +127,7 @@ class HistoryEntry {
           (viewJson['rotY'] as num? ?? 0).toDouble(),
           (viewJson['rotZ'] as num? ?? 0).toDouble(),
         ),
+        trajectory: decodeOrbitTrajectorySettings(viewJson['trajectory']),
       ),
       params: decodeHistoryParams(json['params'] as Map?),
       visitedAt: DateTime.tryParse(json['visitedAt'] as String? ?? '') ??

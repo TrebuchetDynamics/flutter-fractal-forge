@@ -1,3 +1,4 @@
+import 'package:flutter_fractals/core/models/attractor_trajectory_settings.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
@@ -110,6 +111,7 @@ FractalModule buildEscapeTimeModule(EscapeTimeConfig config) {
       pan: Vector2(defaults.centerX, defaults.centerY),
       zoom: defaults.zoom,
       rotation: Vector3.zero(),
+      trajectory: OrbitTrajectorySettings.defaultsForOrNull(config.id),
     ),
   );
 
@@ -214,7 +216,8 @@ _EscapeTimeDefaults _resolveEscapeTimeDefaults(EscapeTimeConfig config) {
     final usesBaseIterations = config.defaultIterations == 120;
     final usesBaseCenter =
         config.defaultCenterX == null && config.defaultCenterY == null;
-    final usesBaseZoom = config.defaultZoom == 1.0;
+    final usesBaseZoom = config.defaultZoom == 1.0 &&
+        OrbitTrajectorySettings.defaultsForOrNull(config.id) == null;
 
     if (usesBaseIterations) {
       effectiveIterations = autoDefaults.iterations;

@@ -292,6 +292,9 @@ final List<EscapeTimeConfig> _mapsAttractorsCatalog = [
     shaderAsset: 'shaders/strange_attractors/thomas_attractor_gpu.frag',
     defaultIterations: 260,
     defaultBailout: 10.0,
+    defaultCenterX: 0.0,
+    defaultCenterY: 0.0,
+    defaultZoom: 1.0,
   ),
   EscapeTimeConfig(
     id: 'four_wing',
@@ -301,7 +304,7 @@ final List<EscapeTimeConfig> _mapsAttractorsCatalog = [
     defaultBailout: 12.0,
     defaultCenterX: 0.0,
     defaultCenterY: 0.0,
-    defaultZoom: 8.0,
+    defaultZoom: 1.0,
   ),
   EscapeTimeConfig(
     id: 'lorenz_2d',
@@ -311,7 +314,7 @@ final List<EscapeTimeConfig> _mapsAttractorsCatalog = [
     defaultBailout: 16.0,
     defaultCenterX: 0.0,
     defaultCenterY: 0.0,
-    defaultZoom: 6.0,
+    defaultZoom: 1.0,
   ),
   EscapeTimeConfig(
     id: 'rossler_2d',

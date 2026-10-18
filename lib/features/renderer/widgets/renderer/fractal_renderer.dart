@@ -27,6 +27,7 @@ import '../../palette_transition.dart';
 import '../../renderer_ticker_policy.dart';
 import '../../policy/precision_ladder_policy.dart';
 import '../../policy/render_plan.dart';
+import '../canvas/attractor_trajectory_canvas.dart';
 import '../canvas/fractal_canvas.dart';
 import '../effects/fluid_warp_effect.dart';
 import 'shaders/shader_error_policy.dart';
@@ -400,6 +401,77 @@ class _FractalRendererState extends State<FractalRenderer>
         ),
       );
       return _wrapWithGestures(content);
+    }
+
+    final trajectory = controller.view.trajectory;
+    if (trajectory != null) {
+      _stopAnimationTicker(reset: !widget.animationEnabled);
+      final snapshotSink = widget.renderSnapshotSink;
+      if (snapshotSink != null &&
+          snapshotSink.trajectorySettingsKey != trajectory.cacheKey) {
+        snapshotSink.trajectorySettingsKey = trajectory.cacheKey;
+        snapshotSink.trajectoryGenerationDuration = null;
+        snapshotSink.trajectoryCacheHit = null;
+      }
+      final state = FractalRenderState(
+        params: controller.params,
+        view: controller.view,
+        transparentBackground: controller.transparentBackground,
+      );
+      widget.renderSnapshotSink?.snapshot = FractalRenderSnapshot(
+        module: module,
+        state: state,
+        time: 0,
+        glowEnabled: controller.glowEnabled,
+        glowSigma: controller.glowSigma,
+        glowIntensity: controller.glowIntensity,
+        kaleidoscopeEnabled: controller.kaleidoscopeEnabled,
+        kaleidoscopeSectors: controller.kaleidoscopeSectors,
+        kaleidoscopeMirror: controller.kaleidoscopeMirror,
+        kaleidoscopeRotation: controller.kaleidoscopeRotation,
+        kaleidoscopeMirrorMode: controller.kaleidoscopeMirrorMode,
+      );
+      final orbit = AttractorTrajectoryCanvas(
+        settings: trajectory,
+        view: controller.view,
+        colorScheme: (controller.params['colorScheme'] as num?)?.round() ?? 0,
+        transparentBackground: controller.transparentBackground,
+        glowEnabled: controller.glowEnabled,
+        glowSigma: controller.glowSigma,
+        glowIntensity: controller.glowIntensity,
+        kaleidoscopeEnabled: controller.kaleidoscopeEnabled,
+        kaleidoscopeSectors: controller.kaleidoscopeSectors,
+        kaleidoscopeMirror: controller.kaleidoscopeMirror,
+        kaleidoscopeRotation: controller.kaleidoscopeRotation,
+        kaleidoscopeMirrorMode: controller.kaleidoscopeMirrorMode,
+        onGenerationComplete: (elapsed, cacheHit) {
+          if (snapshotSink == null) return;
+          snapshotSink.trajectoryGenerationDuration = elapsed;
+          snapshotSink.trajectoryCacheHit = cacheHit;
+        },
+      );
+      final content = RepaintBoundary(
+        key: widget.boundaryKey,
+        child: FluidWarpEffect(
+          enabled: controller.fluidModeEnabled,
+          strength: controller.fluidStrength,
+          time: _animationController.value * 1000,
+          touchPosition: _fluidPointerLocal,
+          touchVelocity: _fluidPointerVelocity,
+          secondaryTouchPosition: _fluidSecondaryPointer,
+          secondaryTouchActive: _fluidSecondaryActive,
+          touchActive: _fluidPointerActive,
+          child: orbit,
+        ),
+      );
+      return _wrapWithGestures(
+        _withRendererIndicator(
+          child: content,
+          mode: 'Finite RK4 trajectory',
+          highPrecisionActive: true,
+        ),
+        onTapUp: widget.onPlotTap,
+      );
     }
 
     final renderPlan = widget.renderPlan ??

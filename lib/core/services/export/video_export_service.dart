@@ -132,6 +132,7 @@ final class VideoStartView {
         pan: normalizedPan,
         zoom: zoom,
         rotation: normalizedRotation,
+        trajectory: startView.trajectory,
       ),
       zoomWasNormalized: zoom != startView.zoom,
       panWasNormalized: !_isFiniteVector2(pan),

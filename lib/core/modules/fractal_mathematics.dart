@@ -4,6 +4,7 @@ import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_li
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_multibrot_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_orbit_trap_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_phoenix_catalog.dart';
+import 'package:flutter_fractals/core/models/attractor_trajectory_settings.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/life_like_rule.dart';
 
@@ -41,6 +42,20 @@ class FractalMathematics {
     var qualification = 'Unverified identity';
     var groupId = module.id;
     var relationship = 'No verified relationship';
+
+    final trajectory = OrbitTrajectorySettings.defaultsForOrNull(module.id);
+    if (trajectory != null) {
+      family = 'Maps, flows and attractors';
+      algebra = 'Real';
+      view = switch (trajectory.projection) {
+        OrbitProjection.xz => 'Finite 3D orbit projected to x-z',
+        OrbitProjection.thomasOblique =>
+          'Finite 3D orbit projected to an orthonormal oblique plane',
+      };
+      method = 'Fixed-step RK4 trajectory';
+      qualification =
+          'Finite numerical approximation (seed, step size, burn-in and sample count are saved); legacy views retain the prior portrait';
+    }
 
     // Only reviewed catalog membership establishes groups; shader reuse does not.
     if ((module.id == 'julia' ||
@@ -200,6 +215,18 @@ class FractalMathematics {
     }
 
     final file = _reviewedFile(_module.shaderAsset);
+    final trajectory = OrbitTrajectorySettings.defaultsForOrNull(_module.id);
+    if (trajectory != null) {
+      final equations = switch (trajectory.system) {
+        AttractorSystem.thomas =>
+          'dx/dt = sin(y)-0.208186x; dy/dt = sin(z)-0.208186y; dz/dt = sin(x)-0.208186z',
+        AttractorSystem.fourWing =>
+          'dx/dt = 0.2x+yz; dy/dt = 0.01x-0.4y-xz; dz/dt = -z-xy+0.6',
+        AttractorSystem.lorenz2d =>
+          'dx/dt = 10(y-x); dy/dt = x(28-z)-y; dz/dt = xy-(8/3)z',
+      };
+      return '$equations; finite RK4 approximation from (${trajectory.seed.x}, ${trajectory.seed.y}, ${trajectory.seed.z}), dt=${trajectory.stepSize}, burn-in=${trajectory.burnInSteps}, samples=${trajectory.retainedSteps}; projection=${trajectory.projection.name}; legacy saved views retain the initial-condition portrait';
+    }
     switch (file) {
       case 'julia_gpu.frag':
         return 'z(n+1) = z(n)^2 + c; c = (${value('juliaCReal')}, ${value('juliaCImag')}); z(0) = pixel';

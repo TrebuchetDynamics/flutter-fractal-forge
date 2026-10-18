@@ -1,4 +1,5 @@
 import 'package:vector_math/vector_math_64.dart';
+import 'attractor_trajectory_settings.dart';
 
 /// Represents the view/camera state for fractal rendering.
 ///
@@ -41,6 +42,9 @@ class FractalViewState {
   /// to allow deep-zoom workflows.
   final double zoom;
 
+  /// Explicit finite trajectory representation, or null for the legacy portrait.
+  final OrbitTrajectorySettings? trajectory;
+
   /// The 3D rotation angles in radians.
   ///
   /// For 3D fractals like Mandelbulb, this controls the camera orientation:
@@ -62,6 +66,7 @@ class FractalViewState {
     required Vector2 pan,
     required this.zoom,
     required Vector3 rotation,
+    this.trajectory,
   })  : _pan = Vector2.copy(pan),
         _rotation = Vector3.copy(rotation);
 
@@ -72,6 +77,7 @@ class FractalViewState {
   FractalViewState.initial()
       : _pan = Vector2.zero(),
         zoom = 1.0,
+        trajectory = null,
         _rotation = Vector3.zero();
 
   /// Creates a copy of this view state with the given fields replaced.
@@ -86,11 +92,14 @@ class FractalViewState {
     Vector2? pan,
     double? zoom,
     Vector3? rotation,
+    OrbitTrajectorySettings? trajectory,
+    bool clearTrajectory = false,
   }) {
     return FractalViewState(
       pan: pan ?? _pan,
       zoom: zoom ?? this.zoom,
       rotation: rotation ?? _rotation,
+      trajectory: clearTrajectory ? null : trajectory ?? this.trajectory,
     );
   }
 }
