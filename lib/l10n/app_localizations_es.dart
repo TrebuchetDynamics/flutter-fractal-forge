@@ -113,6 +113,84 @@ class AppLocalizationsEs extends AppLocalizations {
       'Fuera de los ejes, a+bi es primo cuando a²+b² es un primo ordinario. En un eje, la coordenada absoluta debe ser prima y congruente con 3 módulo 4. Se excluyen el origen y las unidades. Este mapa finito no certifica un teorema de fosos infinitos.';
 
   @override
+  String get quaternionBack => 'Volver al mapa gaussiano';
+
+  @override
+  String get quaternionTitle => 'Rebanada de cuaterniones de norma prima';
+
+  @override
+  String quaternionDisclosure(int slice) {
+    return 'Puntos enteros (a,b,c,d), −6 ≤ a,b,c ≤ 6 · d = $slice · N(q)=a²+b²+c²+d² es primo ordinario; solo la rebanada fija d.';
+  }
+
+  @override
+  String quaternionSelected(int a, int b, int c, int d, int norm) {
+    return 'Seleccionado ($a, $b, $c, $d) · norma $norm';
+  }
+
+  @override
+  String quaternionWalkState(int steps, int size, int slice, String boundary) {
+    return 'Recorrido: $steps pasos · componente $size · solo d=$slice fijo · $boundary';
+  }
+
+  @override
+  String get quaternionBoundaryMayContinue => 'el límite puede continuar';
+
+  @override
+  String get quaternionBoundaryContained => 'componente dentro del límite';
+
+  @override
+  String quaternionStepLimit(int limit) {
+    return 'Límite del paso al cuadrado: $limit';
+  }
+
+  @override
+  String get quaternionStep => 'Avanzar';
+
+  @override
+  String get quaternionUndo => 'Deshacer paso';
+
+  @override
+  String get quaternionResetPath => 'Reiniciar recorrido';
+
+  @override
+  String get quaternionCapture => 'Capturar PNG';
+
+  @override
+  String get quaternionCaptureRequires3d =>
+      'Cambia a la vista 3D para capturar el gráfico PNG.';
+
+  @override
+  String get quaternionCaptured => 'Vista de d fijo capturada como PNG';
+
+  @override
+  String get quaternionDecreaseSlice => 'Disminuir d fijo';
+
+  @override
+  String get quaternionIncreaseSlice => 'Aumentar d fijo';
+
+  @override
+  String get quaternionCoordinateList => 'Lista de coordenadas';
+
+  @override
+  String get quaternionView3d => 'Vista 3D';
+
+  @override
+  String get quaternionResetView => 'Restablecer vista';
+
+  @override
+  String get quaternionNormLegend =>
+      'Leyenda de norma: se muestran las normas primas ordinarias · la rotación cambia la proyección, no la pertenencia';
+
+  @override
+  String get quaternionPointsSemantic =>
+      'Puntos de cuaterniones de norma prima; usa las flechas para rotar y Lista de coordenadas para elegir puntos superpuestos';
+
+  @override
+  String get quaternionListSemantic =>
+      'Coordenadas de cuaterniones de norma prima; activa una fila para previsualizar un punto';
+
+  @override
   String get tabFavorites => 'Favoritos';
 
   @override

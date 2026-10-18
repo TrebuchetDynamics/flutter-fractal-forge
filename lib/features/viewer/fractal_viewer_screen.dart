@@ -1088,6 +1088,38 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     }
   }
 
+  Future<void> _saveQuaternionExport(
+      BuildContext context, Uint8List bytes) async {
+    final l10n = AppLocalizations.of(context)!;
+    try {
+      final decoded = img.decodePng(bytes);
+      if (decoded == null) throw const FormatException('Invalid PNG data');
+      final filename = _exportService.generateFilename(
+        format: ExportFormat.png,
+        fractalType: 'prime_norm_quaternion_slice',
+      );
+      final result = await _exportService.saveExportBytes(
+        bytes,
+        filename: filename,
+        format: ExportFormat.png,
+        width: decoded.width,
+        height: decoded.height,
+      );
+      await _exportService.saveExportResult(result);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(appFeedbackSnackBar(
+        message: l10n.exportSaved,
+        success: true,
+      ));
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(appFeedbackSnackBar(
+        message: l10n.exportFailed(error.toString()),
+        success: false,
+      ));
+    }
+  }
+
   @override
   FractalController _activeController(BuildContext context) {
     if (_compareMode && _activePane == 1 && _compareController != null) {
@@ -1539,6 +1571,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                     boundaryKey: _fractalKeyA,
                     onExplore: () => setState(() => _gaussianWalk = false),
                     onExport: () => _openExport(context),
+                    onQuaternionCaptured: (png) =>
+                        _saveQuaternionExport(context, png),
                   )),
                   if (_exporting)
                     Positioned.fill(

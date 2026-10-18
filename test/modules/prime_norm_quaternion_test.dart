@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -38,21 +39,61 @@ void main() {
     expect(slice.isAdjacent(start, (a: 1, b: 0, c: 1, d: 1), 2), isFalse);
   });
 
+  test('maximum generation yields at probe cap and cancels replacements',
+      () async {
+    var yields = 0;
+    final rssBefore = ProcessInfo.currentRss;
+    final stopwatch = Stopwatch()..start();
+    final slice = await PrimeNormQuaternionSlice.generate(
+      PrimeNormQuaternionSlice.maxDomain,
+      d: PrimeNormQuaternionSlice.maxAbsSlice,
+      yieldChunk: () async {
+        yields++;
+      },
+    );
+    stopwatch.stop();
+    final rssAfter = ProcessInfo.currentRss;
+
+    expect(yields, 15);
+    expect(slice.points.length, lessThanOrEqualTo(15625));
+    expect(slice.points.every(slice.isPrimeNorm), isTrue);
+    print(
+        'quaternion cap: points=${slice.points.length}/15625 yields=$yields elapsedMs=${stopwatch.elapsedMilliseconds} rssBefore=$rssBefore rssAfter=$rssAfter');
+
+    var cancelAfterYield = false;
+    await expectLater(
+      PrimeNormQuaternionSlice.generate(
+        PrimeNormQuaternionSlice.maxDomain,
+        d: PrimeNormQuaternionSlice.maxAbsSlice,
+        isCancelled: () => cancelAfterYield,
+        yieldChunk: () async {
+          cancelAfterYield = true;
+        },
+      ),
+      throwsStateError,
+    );
+  });
+
   test('orthographic projection and deterministic picking survive rotation',
       () async {
     final slice = await PrimeNormQuaternionSlice.generate(2, d: 0);
     final camera = QuaternionSliceCamera();
-    final point = (a: 1, b: 1, c: 0, d: 0);
-    final projected = camera.project(point, const Size(400, 300), 2);
+    const backPoint = (a: 1, b: 1, c: 0, d: 0);
+    const frontPoint = (a: 1, b: 1, c: 1, d: 0);
+    final projected = camera.project(backPoint, const Size(400, 300), 2);
+    final occluded = camera.project(frontPoint, const Size(400, 300), 2);
     expect(projected, isNotNull);
+    expect(occluded, isNotNull);
+    expect(occluded!.screen, projected!.screen);
+    expect(occluded.depth, greaterThan(projected.depth));
     expect(
-        camera.pick(projected!.screen, slice, const Size(400, 300), 2,
+        camera.pick(projected.screen, slice, const Size(400, 300), 2,
             hitRadius: 1),
-        (a: 1, b: 1, c: 1, d: 0));
+        frontPoint);
     final before = slice.points.toSet();
     camera.rotate(0.3, -0.2);
     expect(slice.points.toSet(), before);
-    final rotated = camera.project(point, const Size(400, 300), 2)!;
+    final rotated = camera.project(backPoint, const Size(400, 300), 2)!;
     final picked = camera.pick(rotated.screen, slice, const Size(400, 300), 2,
         hitRadius: 1);
     expect(picked, isNotNull);
