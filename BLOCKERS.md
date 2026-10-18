@@ -20,13 +20,6 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-18T20:31:14Z
 - Answer: Answer in NUM-WALL-01's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
 
-### Q-ACAD-007-f8 — USER_INPUT — effort input — unblocks 0
-
-- Task: ACAD-007-f8 — Prepare a verified academic pilot approval brief.
-- Needs: worker reported a blocker: Provide reviewed current identity aliases for at least one actual pilot identity (and the corresponding paper association, if not represented by the alias itself). The required alias source is empty, and this task requires using existing reviewed aliases rather than creating or approving them. Without that owner-reviewed input, no compliant actionable paper-to-identity subset or validator fixture …
-- Since: 2026-10-18T20:03:51Z
-- Answer: Answer in ACAD-007-f8's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
-
 <!-- pi-autowork:questions:end -->
 
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
