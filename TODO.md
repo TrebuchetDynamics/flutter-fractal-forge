@@ -46,21 +46,6 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Skill application: frontend-ui-engineering, responsive/localized accessible journey; planning-and-task-breakdown, dependent live qualification; documentation-and-adrs, observed evidence versus planned checks.
 
 
-- [ ] **QUAT-NORM-03-QUALIFY — Qualify accessible quaternion walking and frozen-state exports on all three targets.**
-  - Goal: QUAT-NORM-001. Payoff: establish accurate, accessible rendered behavior and exports beyond pure model tests.
-  - Sources: [Accepted companion](PRD.md#prime-norm-quaternion-companion), [accepted slice design](docs/engineering/spec.md#prime-norm-quaternion-companion), [planned checks](docs/engineering/test-plan.md#prime-walking-growth-and-quaternion-slice-checks), and `lib/core/modules/fractals/quaternion_julia_3d_module.dart`. [Refined UI/budgets](docs/engineering/spec.md#ui-layout-and-interaction-contract) and [per-task fixture matrix](docs/engineering/test-plan.md#prime-walking-refined-acceptance-matrix).
-  - Graph evidence: the fresh partial code-only graph contains `FractalViewState` at `lib/core/models/fractal_view_state.dart:22` and `quaternion_julia_3d_module.dart`; quaternion query was truncated. Source at `lib/core/modules/fractals/quaternion_julia_3d_module.dart:37–42` confirms a Julia shader, not prime walking. No complete quaternion UI graph or proof semantics are claimed; existing self-loop/duplicate-label warnings remain.
-  - Ownership: repository backlog, unassigned; check live ownership before dispatch. No implementation worker is started by this plan.
-  - Touches: lib/core/models/, lib/features/viewer/, lib/l10n/, test/modules/, test/features/viewer/, integration_test/flows/, test/playwright/, docs/engineering/
-  - Scope: actual companion-open/rotate/select/walk/component/export journey, EN/ES legend/disclosure, reduced motion, narrow/enlarged text, keyboard/semantics, capped computation measurements and cancellation. Preserve existing module IDs/user data. Exclude store publication, Lean builds and proof of a higher-dimensional moat.
-  - Acceptance: actual companion rotation/picking/list/Step/component/export journey and decoded selected-state PNGs pass on named targets; occlusion, EN/ES, keyboard/semantics/focus, high contrast, reduced motion and responsive text/layout fixtures pass. Measure cap/chunk/job behavior and real timing/memory; unavailable or emulator-only results remain separate.
-  - Checks: create/run `integration_test/flows/prime_norm_quaternion_journey_test.dart` on named Linux/Android targets; extend and run the actual production-build browser target; focused model/widget tests, existing viewer/export regressions, formatter/analyzer. Exact new browser target is recorded when implemented, not invented here.
-  - UI/performance: follow the shared HUD/panel layout, preview-then-Step interaction, visible bounded-state labels, hard workload caps, cooperative chunks and completed-snapshot capture. This is planned acceptance, not a measured pass.
-  - Dependencies: QUAT-NORM-02-WALK.
-  - Decision: qualify displayed geometry and exported artifacts separately from the quaternion predicate.
-  - Skill application: frontend-ui-engineering, localized accessible 3D journey; planning-and-task-breakdown, dependent platform qualification; documentation-and-adrs, unrun checks are not evidence.
-  - Next action: Preserve candidate 5b63e53d5bad4db3ec7dffe4964cba32daf07cbc in .worktrees/autowork-QUAT-NORM-03-QUALIFY-r2 and its retained browser/Linux report. Integration review .git/autowork-execution/2db74513f540426f8897b28a12546e66.json rejected an unlaunched Linux journey plus incomplete required accessibility/responsive coverage. Check writer inactivity/current source compatibility; complete the original EN/ES, keyboard/focus/semantics, high-contrast, reduced-motion, responsive text/layout and occlusion/selection/export fixtures, then repair the actual native test-launch failure and verify decoded selected-state PNGs on integrated code. Isolated worker passes do not override the integration verdict. Android remains pending until an authorized named device is available; preserve that gate and existing deferrals rather than closing all-platform acceptance from offline checks. No push, deployment or fabricated device pass.
-
 - [ ] **VIS-006-BATCH-20 — Capture defaults and runtime previews for the next ten uncaptured Explore modules.** Goal: complete the accepted visual playtest audit.
   - Payoff: extend measured GPU and first-view audit coverage while preserving fractal formulas.
   - Scope: select the next ten uncaptured Explore IDs from `docs/planning/visual-audit-inventory.json`; capture module defaults and actual runtime previews. Run CPU checks only where a native CPU formula exists. Do not alter formulas, static catalog images, or research-library module support.
@@ -529,6 +514,14 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - No independent registered reference oracle exists for these three formulas; no mathematical certification or human formula review is claimed.
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: CAT-QUALITY-02.
+  Status: open
+
+- [ ] QUAT-NORM-03-QUALIFY-LIVE — Live checks for QUAT-NORM-03-QUALIFY
+  Scope: Run the live checks the offline work for QUAT-NORM-03-QUALIFY left pending.
+  Acceptance: Each check passes on the real target:
+  - Android qualification remains pending until a named Android device is available; run the journey and verify decoded exported PNGs on that target. Linux evidence used Xvfb and is not a physical GPU qualification.
+  Checks: Live qualification by an authorized person; offline evidence does not count.
+  Dependencies: QUAT-NORM-03-QUALIFY.
   Status: open
 
 ## Done

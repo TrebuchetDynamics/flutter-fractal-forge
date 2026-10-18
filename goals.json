@@ -1021,7 +1021,8 @@
         "QUAT-NORM-01-SLICE-LIVE",
         "QUAT-NORM-02-WALK",
         "QUAT-NORM-02-WALK-LIVE",
-        "QUAT-NORM-03-QUALIFY"
+        "QUAT-NORM-03-QUALIFY",
+        "QUAT-NORM-03-QUALIFY-LIVE"
       ],
       "title": "Explore exact prime-norm quaternion slice walks with camera-independent connectivity"
     },
@@ -1115,7 +1116,6 @@
     "tasks": [
       "GAUSS-MOAT-04-GROWTH",
       "GAUSS-MOAT-03-QUALIFY",
-      "QUAT-NORM-03-QUALIFY",
       "VIS-006-BATCH-20",
       "VIS-006-CPU-01",
       "VIS-006-FIRST-VIEW-04",
@@ -1153,7 +1153,8 @@
       "VIS-006-LIVE",
       "QUAT-NORM-02-WALK-LIVE",
       "RELEASE-003-ae",
-      "CAT-QUALITY-02-LIVE"
+      "CAT-QUALITY-02-LIVE",
+      "QUAT-NORM-03-QUALIFY-LIVE"
     ]
   },
   "tasks": [
@@ -1246,16 +1247,6 @@
       "section": "Next",
       "status": "open",
       "title": "Qualify installed Android Number Walls and accessible interaction"
-    },
-    {
-      "depends_on": [
-        "QUAT-NORM-02-WALK"
-      ],
-      "goal": "QUAT-NORM-001",
-      "id": "QUAT-NORM-03-QUALIFY",
-      "section": "Next",
-      "status": "open",
-      "title": "Qualify accessible quaternion walking and frozen-state exports on all three targets"
     },
     {
       "depends_on": [],
@@ -1466,6 +1457,16 @@
     },
     {
       "depends_on": [
+        "QUAT-NORM-03-QUALIFY"
+      ],
+      "goal": "QUAT-NORM-001",
+      "id": "QUAT-NORM-03-QUALIFY-LIVE",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Live checks for QUAT-NORM-03-QUALIFY"
+    },
+    {
+      "depends_on": [
         "REL-JOURNEY-02-LINUX"
       ],
       "goal": "REL-JOURNEY-001",
@@ -1660,6 +1661,16 @@
       "section": "Done",
       "status": "done",
       "title": "Walk in the quaternion slice with camera-independent adjacency and captured overlays"
+    },
+    {
+      "depends_on": [
+        "QUAT-NORM-02-WALK"
+      ],
+      "goal": "QUAT-NORM-001",
+      "id": "QUAT-NORM-03-QUALIFY",
+      "section": "Done",
+      "status": "done",
+      "title": "Qualify accessible quaternion walking and frozen-state exports on all three targets"
     },
     {
       "depends_on": [],
