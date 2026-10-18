@@ -1036,6 +1036,7 @@
         "CAT-QUALITY-01",
         "CAT-QUALITY-01-LIVE",
         "CAT-QUALITY-02",
+        "CAT-QUALITY-02-LIVE",
         "CAT-QUALITY-03"
       ],
       "title": "Improve catalog first-impression quality without losing variety or saved identities"
@@ -1112,8 +1113,6 @@
   "priority_order": {
     "schema": 1,
     "tasks": [
-      "REL-JOURNEY-01-WEB",
-      "CAT-QUALITY-02",
       "GAUSS-MOAT-04-GROWTH",
       "GAUSS-MOAT-03-QUALIFY",
       "QUAT-NORM-03-QUALIFY",
@@ -1153,7 +1152,8 @@
       "ACAD-02-LIVE",
       "VIS-006-LIVE",
       "QUAT-NORM-02-WALK-LIVE",
-      "RELEASE-003-ae"
+      "RELEASE-003-ae",
+      "CAT-QUALITY-02-LIVE"
     ]
   },
   "tasks": [
@@ -1166,16 +1166,6 @@
       "section": "Next",
       "status": "open",
       "title": "Backfill academic evidence across every scoped catalog identity in bounded batches"
-    },
-    {
-      "depends_on": [
-        "CAT-QUALITY-01"
-      ],
-      "goal": "CAT-QUALITY-001",
-      "id": "CAT-QUALITY-02",
-      "section": "Next",
-      "status": "open",
-      "title": "Repair three demonstrated pilot first-impression defects"
     },
     {
       "depends_on": [
@@ -1357,6 +1347,16 @@
       "section": "Needs decision",
       "status": "open",
       "title": "Live checks for CAT-QUALITY-01"
+    },
+    {
+      "depends_on": [
+        "CAT-QUALITY-02"
+      ],
+      "goal": "CAT-QUALITY-001",
+      "id": "CAT-QUALITY-02-LIVE",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Live checks for CAT-QUALITY-02"
     },
     {
       "depends_on": [
@@ -1587,6 +1587,16 @@
       "section": "Done",
       "status": "done",
       "title": "Assess a family-stratified quality pilot without duplicating capture work"
+    },
+    {
+      "depends_on": [
+        "CAT-QUALITY-01"
+      ],
+      "goal": "CAT-QUALITY-001",
+      "id": "CAT-QUALITY-02",
+      "section": "Done",
+      "status": "done",
+      "title": "Repair three demonstrated pilot first-impression defects"
     },
     {
       "depends_on": [],
