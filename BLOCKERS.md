@@ -6,13 +6,6 @@ This file contains only hard blockers that require user action.
 
 <!-- pi-autowork:questions:start -->
 
-### Q-APP-001-47 — USER_INPUT — effort input — unblocks 4
-
-- Task: APP-001-47 — Qualify the official local MCP inspection workflow.
-- Needs: worker reported a blocker: Provide access in this worker environment to an already available native stdio MCP client or already installed Python MCP SDK. The task forbids installing a client or creating a bridge, so initialize/list_tools/roots/lsp/analyze_files and the required bounded-session cleanup could not be qualified.
-- Since: 2026-10-18T20:04:44Z
-- Answer: Answer in APP-001-47's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
-
 ### Q-NUM-WALL-01 — USER_INPUT — effort input — unblocks 4
 
 - Task: NUM-WALL-01 — Compute exact sequence walls and validate custom prime fields.
