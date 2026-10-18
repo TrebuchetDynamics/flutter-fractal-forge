@@ -1,8 +1,8 @@
 import 'dart:math' as math;
 import 'dart:typed_data';
 
-import '../models/fourier_grid.dart';
-import '../services/fourier_transform_service.dart';
+import 'package:flutter_fractals/features/fourier/models/fourier_grid.dart';
+import 'package:flutter_fractals/features/fourier/services/fourier_transform_service.dart';
 import 'discrete_cantor_mask.dart';
 
 /// The finite operator `P_Y F P_X` for the unitary two-dimensional DFT.

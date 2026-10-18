@@ -25,7 +25,7 @@ import 'input/pan_momentum.dart';
 import 'input/zoom_momentum.dart';
 import '../../palette_transition.dart';
 import '../../renderer_ticker_policy.dart';
-import '../../policy/precision_ladder_policy.dart';
+import 'package:flutter_fractals/features/renderer/policy/precision_ladder_policy.dart';
 import '../../policy/render_plan.dart';
 import '../canvas/attractor_trajectory_canvas.dart';
 import '../canvas/fractal_canvas.dart';
