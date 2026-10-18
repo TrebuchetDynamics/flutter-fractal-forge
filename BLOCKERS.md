@@ -6,6 +6,13 @@ This file contains only hard blockers that require user action.
 
 <!-- pi-autowork:questions:start -->
 
+### Q-APP-001-47 — USER_DECISION — effort investigate — unblocks 4
+
+- Task: APP-001-47 — Qualify the official local MCP inspection workflow.
+- Needs: report.json does not match worker commit/files or reports failure: a check did not pass
+- Since: 2026-10-18T21:07:19Z
+- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/APP-001-47/), then rescope or split APP-001-47 in its TODO.md entry. The runner reruns it when the entry changes.
+
 ### Q-ACAD-007-f8 — USER_DECISION — effort investigate — unblocks 0
 
 - Task: ACAD-007-f8 — Prepare a verified academic pilot approval brief.
