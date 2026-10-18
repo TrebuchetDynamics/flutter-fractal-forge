@@ -51,6 +51,8 @@ For runtime inspection, connect only to an explicit DTD URI of a named owned deb
 
 Do not enable bulk `dart_fix`, package mutation, app lifecycle control or hot restart for this inspection profile. Tests/formatting can use existing Flutter CLI commands; enable additional MCP tools only when that worker actually needs and is authorized to use them. Roots are scope metadata, not a complete security sandbox. Persistent Hermes setup must use the approved connector flow with appropriate approval; never hand-edit MCP configuration or another profile. The planning probe tested initialize/list_tools/cleanup only, not runtime attachment or app quality.
 
+Interpreter-discovery recovery: the installed Python MCP SDK may be available in an existing Hermes tools interpreter but absent from the worker's default `python3`. Use the exact pre-existing interpreter recorded in APP-001-47 after verifying its accessibility and imports; do not install packages, create a bridge or modify the worker/profile to fix PATH. An import-only probe proves client availability, not protocol, workspace analysis, runtime attachment or cleanup. Carry out the original bounded MCP calls and record actual outcomes with that interpreter.
+
 ## Offline-check export preparation
 
 The retained main-check run at `76db6aa` reported clean analysis, then `flutter test --no-pub` crashed before completing tests with `Bad state: No element` in `testCompilerBuildNativeAssets`. This is failed/incomplete history, not verification of a later commit. Its scratch checkout has been removed, so its generated dependency metadata cannot now be confirmed.
