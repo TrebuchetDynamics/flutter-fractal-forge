@@ -20,6 +20,13 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T01:32:24Z
 - Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
 
+### Q-RELEASE-002-75 — USER_DECISION — effort investigate — unblocks 0
+
+- Task: RELEASE-002-75 — Prepare and qualify every available platform without publication.
+- Needs: integration validation failed or changed the integration tree
+- Since: 2026-10-18T17:13:39Z
+- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/RELEASE-002-75/), then rescope or split RELEASE-002-75 in its TODO.md entry. The runner reruns it when the entry changes.
+
 <!-- pi-autowork:questions:end -->
 
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
