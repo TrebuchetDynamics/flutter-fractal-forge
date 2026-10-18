@@ -83,6 +83,14 @@ Navigation: HomeScreen -> Catalog -> Viewer (with FractalController per tab)
 - `fftea` ^1.5.0 - Fourier analysis
 - `web` ^1.1.1 - Web target support
 
+<!-- omh:agent-instructions:begin -->
+## Common offline integration gate
+
+Full check: flutter analyze --no-pub && flutter test --no-pub && python3 -m pytest test/research test/scripts -q && bats test/scripts/*.bats
+
+Verification: unverified in this blocker questionnaire; this declares the existing offline command families, not a passing suite result. Run from the repository root with the pinned isolated/provisioned Flutter SDK and existing Python/Bats tooling. Missing tools, failed tests or timeouts must remain failures, not skipped success. Device/browser journeys and production/live qualification remain separate task gates. Do not use the device-changing pre-release gate as this offline command.
+<!-- omh:agent-instructions:end -->
+
 <!-- MANUAL: -->
 
 <!-- karpathy-guidelines:start -->

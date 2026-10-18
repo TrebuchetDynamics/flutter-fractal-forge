@@ -392,3 +392,29 @@ Owner request: improve academic research across all catalog fractals; plan a ded
 Planner recommendation: use `research/academic/` as the shared paper/evidence hub, ResearchForge as the primary retrieval/provenance workflow, and Feynman only as optional source-checked synthesis/review assistance. Preserve existing topic packages and the 200-definition library. Map sources and exact equations to effective formulas/builders/shaders/CPU paths and tests; distinguish discovery, accessible text, human-reviewed claims, numerical fidelity and visual quality. Account for every scoped stable identity without pretending that a filled coverage row certifies its mathematics. Reuse existing IDs, source groups and visual-quality evidence.
 
 See [the library plan](research/academic/README.md), [integration contract](docs/engineering/spec.md#academic-source-to-renderer-evidence) and ACAD-01 through ACAD-05 in TODO.md. Initial rollout is a representative pilot followed by bounded family batches, not an unbounded all-papers scrape. Existing viewer/pilot and Number Walls priorities remain intact. ResearchForge's human screening, legal acquisition and accepted-claim gates remain; no owner approval is invented.
+
+## MCP-assisted architecture and UI improvement
+
+Status: Accepted
+
+Owner request: plan the use of Flutter MCPs to improve the whole app architecture and UI. The owner delegated priorities with “Plan for me”. Acceptance here covers this planning outcome; it is not permission to install servers, change another profile, rewrite the app, dispatch workers, publish or schedule work.
+
+Planner call: retain Flutter, Provider/FractalController, existing app/core/features boundaries, visual identity and B/open-spiral artwork. Use the official SDK-bundled Dart/Flutter MCP as a local inspection/verification aid, not an application dependency or a substitute for engineering judgment. Work app-wide through a bounded first batch: usable MCP inspection, single-owner accessible navigation, visible-only auto-explore, localized accessible settings/export controls, then composed verification. Preserve saved views, favorites/catalog browsing, mathematical identity, exports, EN/ES and existing live gates. Existing queue order and primary milestone do not change.
+
+Success means the specific regressions and UI gaps in [the implementation plan](docs/engineering/spec.md#mcp-assisted-app-quality) are corrected and verified. A connected server, clean analyzer, screenshot alone or source inspection does not establish whole-app quality. Broader visual redesign and additional architecture changes require demonstrated findings, not speculative abstractions or another state-management framework. Runtime/device gaps remain explicit; no store qualification is inferred from desktop or widget tests.
+
+## Recursive sine-warped sphere
+
+Status: Accepted
+
+Owner request: study the supplied Quílez video as a new fractal type to add. Plan one source-attributed 3D recursive sine-warped sphere with bounded detail/strength/radius/phase controls, saved-state restoration and matching PNG export. This books implementation and qualification in the existing queue; the study does not implement or dispatch them. Preserve earlier app-quality/release/academic work and all existing identities. No new rendering framework, copied artwork, paid services or publication is authorized.
+
+See [the source study](research/recursive-sine-sphere.md) and [bounded implementation contract](docs/engineering/spec.md#recursive-sine-warped-sphere). Finite multiscale detail is not mathematical certification or a claim of exact infinite self-similarity.
+
+## Failure-safe native image exports
+
+Status: Accepted
+
+The owner requested gaps in existing plans be closed and additional bounded plans saved. Native single-image, batch-image and contact-sheet exports must not leave incomplete bytes under a completed filename or destroy an existing destination when a write fails. Preserve current filenames, image/metadata content, user-chosen directories and platform distinctions. This is a completion safeguard for the existing image-creation journey, not a resumable-export system, general storage redesign or release authority. See [the commit boundary](docs/engineering/spec.md#native-export-commit-boundary).
+
+The owner separately deferred favorites/history/viewer-session preference-save failure changes; that finding remains documented and non-executable in this pass. Human academic approval and existing device/production gates remain unchanged.

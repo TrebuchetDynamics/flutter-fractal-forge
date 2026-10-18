@@ -973,6 +973,7 @@
       "status": "unverified",
       "tasks": [
         "ACAD-006-3c",
+        "EXPORT-001-f3",
         "REL-JOURNEY-01-WEB",
         "REL-JOURNEY-02-LINUX",
         "REL-JOURNEY-02-LINUX-LIVE",
@@ -1104,6 +1105,7 @@
       "source": "PRD.md#academic-research-library",
       "status": "unverified",
       "tasks": [
+        "ACAD-007-f8",
         "ACAD-01",
         "ACAD-01-LIVE",
         "ACAD-02",
@@ -1113,6 +1115,35 @@
         "ACAD-05"
       ],
       "title": "Build a traceable academic source-to-mathematics library across all catalog identities"
+    },
+    {
+      "depends_on": [],
+      "evidence": [],
+      "id": "APP-QUALITY-001",
+      "priority": 19,
+      "source": "PRD.md#mcp-assisted-architecture-and-ui-improvement",
+      "status": "unverified",
+      "tasks": [
+        "APP-001-47",
+        "APP-002-e0",
+        "APP-003-f7",
+        "APP-004-cc",
+        "APP-005-7f"
+      ],
+      "title": "Improve app architecture and UI with evidence-backed Flutter MCP tooling"
+    },
+    {
+      "depends_on": [],
+      "evidence": [],
+      "id": "SINE-WARP-001",
+      "priority": 20,
+      "source": "PRD.md#recursive-sine-warped-sphere",
+      "status": "unverified",
+      "tasks": [
+        "SINEWARP-001-aa",
+        "SINEWARP-002-47"
+      ],
+      "title": "Add a source-attributed recursive sine-warped sphere with matching export"
     }
   ],
   "primary_milestone": "VIEW-UI-001",
@@ -1120,14 +1151,23 @@
     "schema": 1,
     "tasks": [
       "ACAD-006-3c",
-      "ICON-ZJ-02",
       "NUM-WALL-01",
       "NUM-WALL-02",
       "NUM-WALL-03",
       "NUM-WALL-04",
       "NUM-WALL-05",
-      "ACAD-04",
       "RELEASE-002-75",
+      "APP-001-47",
+      "APP-002-e0",
+      "APP-003-f7",
+      "APP-004-cc",
+      "APP-005-7f",
+      "SINEWARP-001-aa",
+      "SINEWARP-002-47",
+      "ACAD-007-f8",
+      "EXPORT-001-f3",
+      "ICON-ZJ-02",
+      "ACAD-04",
       "CAT-QUALITY-03",
       "MEDIA-002",
       "VIS-003",
@@ -1164,24 +1204,70 @@
   "tasks": [
     {
       "depends_on": [
-        "ACAD-03"
+        "ACAD-02"
       ],
       "goal": "ACAD-001",
-      "id": "ACAD-04",
+      "id": "ACAD-007-f8",
       "section": "Next",
       "status": "open",
-      "title": "Backfill academic evidence across every scoped catalog identity in bounded batches"
+      "title": "Prepare a verified academic pilot approval brief"
+    },
+    {
+      "depends_on": [],
+      "goal": "APP-QUALITY-001",
+      "id": "APP-001-47",
+      "section": "Next",
+      "status": "open",
+      "title": "Qualify the official local MCP inspection workflow"
     },
     {
       "depends_on": [
-        "ICON-ZJ-01",
-        "VIS-003"
+        "APP-001-47"
       ],
-      "goal": "VIS-003",
-      "id": "ICON-ZJ-02",
+      "goal": "APP-QUALITY-001",
+      "id": "APP-002-e0",
       "section": "Next",
       "status": "open",
-      "title": "Replace app and store icon assets with the approved app capture"
+      "title": "Give viewer navigation one owner and honor reduced motion"
+    },
+    {
+      "depends_on": [
+        "APP-002-e0"
+      ],
+      "goal": "APP-QUALITY-001",
+      "id": "APP-003-f7",
+      "section": "Next",
+      "status": "open",
+      "title": "Suspend auto-explore safely when the app is hidden"
+    },
+    {
+      "depends_on": [
+        "APP-002-e0"
+      ],
+      "goal": "APP-QUALITY-001",
+      "id": "APP-004-cc",
+      "section": "Next",
+      "status": "open",
+      "title": "Localize settings and export controls with selected semantics"
+    },
+    {
+      "depends_on": [
+        "APP-003-f7",
+        "APP-004-cc"
+      ],
+      "goal": "APP-QUALITY-001",
+      "id": "APP-005-7f",
+      "section": "Next",
+      "status": "open",
+      "title": "Verify the composed architecture and UI improvement batch"
+    },
+    {
+      "depends_on": [],
+      "goal": "REL-JOURNEY-001",
+      "id": "EXPORT-001-f3",
+      "section": "Next",
+      "status": "open",
+      "title": "Commit native exports without partial completed files"
     },
     {
       "depends_on": [],
@@ -1242,6 +1328,24 @@
       "title": "Prepare and qualify every available platform without publication"
     },
     {
+      "depends_on": [],
+      "goal": "SINE-WARP-001",
+      "id": "SINEWARP-001-aa",
+      "section": "Next",
+      "status": "open",
+      "title": "Implement the bounded recursive sine-warped sphere"
+    },
+    {
+      "depends_on": [
+        "SINEWARP-001-aa"
+      ],
+      "goal": "SINE-WARP-001",
+      "id": "SINEWARP-002-47",
+      "section": "Next",
+      "status": "open",
+      "title": "Qualify sine-sphere defaults, saved views and real PNG export"
+    },
+    {
       "depends_on": [
         "ACAD-01"
       ],
@@ -1263,6 +1367,7 @@
     },
     {
       "depends_on": [
+        "ACAD-007-f8",
         "ACAD-02"
       ],
       "goal": "ACAD-001",
@@ -1270,6 +1375,16 @@
       "section": "Needs decision",
       "status": "open",
       "title": "Review approved source mathematics against a representative renderer pilot"
+    },
+    {
+      "depends_on": [
+        "ACAD-03"
+      ],
+      "goal": "ACAD-001",
+      "id": "ACAD-04",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Backfill academic evidence across every scoped catalog identity in bounded batches"
     },
     {
       "depends_on": [
@@ -1330,6 +1445,17 @@
       "section": "Needs decision",
       "status": "open",
       "title": "Live checks for GAUSS-MOAT-04-GROWTH"
+    },
+    {
+      "depends_on": [
+        "ICON-ZJ-01",
+        "VIS-003"
+      ],
+      "goal": "VIS-003",
+      "id": "ICON-ZJ-02",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Replace app and store icon assets with the approved app capture"
     },
     {
       "depends_on": [

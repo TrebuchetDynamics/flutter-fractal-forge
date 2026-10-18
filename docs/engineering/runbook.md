@@ -32,3 +32,21 @@ The public release entry point is root `release.sh`; protected CI jobs use `scri
 - For GPU-only behavior, compare a supported hardware target with the software/emulator result and state the backend in the report.
 - For web-preview build problems, use `docs/deployment/WEB_PREVIEW_GITHUB_PAGES.md` for local build checks. Deployment rollback is defined there for the existing hosting service; it is not a general application rollback mechanism.
 - No general production backup/restore procedure is defined for this client application. Do not claim data recovery beyond the app's documented local persistence behavior.
+
+## Official Dart Flutter MCP workflow
+
+Scope: developer tooling only. See [the accepted bounded plan](spec.md#mcp-assisted-app-quality); this recipe installs nothing and grants no app mutation, profile setup, live-service or publication authority.
+
+Use the task's pinned isolated/provisioned Flutter 3.44.6 SDK rather than upgrading `/home/xel/flutter`. Inspect `"$FLUTTER_SDK/bin/cache/dart-sdk/bin/dart" --version` and `mcp-server --help`; SDK tool defaults may differ from upstream documentation. The verified read-only probe used this stdio server argument set:
+
+```sh
+"$FLUTTER_SDK/bin/cache/dart-sdk/bin/dart" mcp-server \
+  --disable all --enable roots --enable lsp --enable analyze_files \
+  --enable dtd --enable get_runtime_errors --enable widget_inspector
+```
+
+MCP is a protocol, not an interactive shell: connect through the current native client's supported tools/resources/roots features, or use the installed Python MCP SDK's `stdio_client` and `ClientSession` context managers for an ephemeral scoped session. No custom bridge, npm package or application dependency is needed. With redirected notebook output, give `stdio_client` a real private scratch-backed `errlog` file handle; do not assume redirected stderr has `fileno()`. Read result model fields from that installed SDK (`server_info`/`input_schema`, or `model_dump(by_alias=True)`), not guessed camelCase attributes. Initialize, list tools and verify the allowlist; then `roots` add only the task checkout URI (`command: add`, `uris: [file URI]`). Use `lsp`'s discovered schema for symbols and `analyze_files` for scoped diagnostics. Record actual results and close both contexts within a bounded timeout.
+
+For runtime inspection, connect only to an explicit DTD URI of a named owned debug/profile application. The official source describes `--print-dtd` and requires DDS for Flutter DTD discovery; verify flags against the installed runtime before launching. Do not enumerate-and-attach arbitrary other repositories' apps, mutate user preferences or publish connection URIs. Preserve existing reserved-port and loopback rules; NUM-WALL-01's ephemeral-port exception does not apply here. If an owned target cannot be launched/attached within existing access and port constraints, retain that exact runtime limitation and use static/widget checks for independent fixes. The final runtime check stays NOT_RUN until a compatible authorized target exists.
+
+Do not enable bulk `dart_fix`, package mutation, app lifecycle control or hot restart for this inspection profile. Tests/formatting can use existing Flutter CLI commands; enable additional MCP tools only when that worker actually needs and is authorized to use them. Roots are scope metadata, not a complete security sandbox. Persistent Hermes setup must use the approved connector flow with appropriate approval; never hand-edit MCP configuration or another profile. The planning probe tested initialize/list_tools/cleanup only, not runtime attachment or app quality.
