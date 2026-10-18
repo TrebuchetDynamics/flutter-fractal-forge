@@ -724,3 +724,18 @@ Source section: Next
   - Checks: Select exactly the next ten uncaptured source-ordered IDs from the current inventory. Set CATALOG_THUMB_ONLY to that exact set, CATALOG_THUMB_USE_MODULE_DEFAULTS=true, STRICT_CATALOG_THUMBS=true and a batch-specific output directory; run `flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded`. Add/run the matching scoped runtime-preview target with FORCE_RUNTIME_CATALOG_THUMBNAILS=true; record its exact command. Reconcile IDs, real files, dimensions and selected/generated/failed/skipped counts; run `python3 research/fractals-library/scripts/validate_visual_inventory.py`, applicable native CPU coverage, changed-test formatting/analysis and `git diff --check`. Preserve failed image/math verdicts; capture health is not mathematical certification.
   - Planning repair: 2026-10-17 — Supply the missing unique Checks and bounded Touches under the existing accepted batch scope; no new owner decision or formula-change authority is needed.
   - Next action: Read retained integration review .git/autowork-execution/7dba42b9a1694afd8d428a10f65c9b9d.json and its log: acceptance failed because the selected IDs were not the inventory’s next ten uncaptured IDs, despite passing capture-health checks. Preserve candidates 9bbafd42 and 76ff9b3dc4ce2ff8030eeb27c3a2b8063538d09d and the ambiguous integration tree for diagnosis; do not adopt its changed tree blindly. Pin the current canonical inventory, derive the intended source-ordered set in code, compare expected/selected/generated IDs exactly, and capture/reconcile the correct set before reintegration. Retain older observations as history without relabeling them as this task’s successful batch or deleting unrelated capture evidence. Re-run affected inventory/artifact/capture checks on the integrated bytes; never repin a failed receipt to hide selection drift. No new owner choice or acceptance change is needed.
+
+
+<!-- archived from TODO.md -->
+
+Source section: Next
+
+- [x] **VIS-006-FIRST-VIEW-04 — Verify five captured Explore modules without first-view evidence.**
+  - Goal: VIS-006. Payoff: qualify actual catalog-to-viewer GPU starts separately from thumbnail captures.
+  - Sources: [Accepted visual scope](docs/planning/visual-fidelity-audit-next.md#accepted-focus), `docs/planning/visual-fidelity-audit-next.md`, `docs/planning/visual-audit-inventory.json`, and `integration_test/flows/vis006_first_view_test.dart`.
+  - Scope: select five captured Explore rows lacking `first_view`, reuse the existing first-view harness, and assert module identity, default params/view, and the first GPU frame. No formulas, defaults, static thumbnails, or research-renderer implementations may change.
+  - Acceptance: five exact IDs emit `gpu_first_frame` with `backend=gpu`; defaults match each module preset; inventory rows link to exact test evidence. Do not change formulas, defaults, thumbnails or research-renderer implementations. Record device/backend and every failure or skip.
+  - Checks: Planned, not run for this task: `flutter test integration_test/flows/vis006_first_view_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded`; `dart format --output=none --set-exit-if-changed integration_test/flows/vis006_first_view_test.dart`; `flutter analyze integration_test/flows/vis006_first_view_test.dart`; and `python3 research/fractals-library/scripts/validate_visual_inventory.py`.
+  - Touches: integration_test/flows/vis006_first_view_test.dart, docs/planning/visual-audit-inventory.json
+  - Dependencies: VIS-006-BATCH-20. VIS-005 (goal prerequisite).
+  - Ownership: repository backlog; preserve existing active VIS-006 work.

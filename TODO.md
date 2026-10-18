@@ -54,18 +54,6 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Dependencies: VIS-006-FIRST-VIEW-04. VIS-005 (goal prerequisite).
   - Ownership: repository backlog; check active work before dispatch. No hardware or full-catalog qualification is implied.
 
-- [ ] **VIS-006-FIRST-VIEW-04 — Verify five captured Explore modules without first-view evidence.**
-  - Goal: VIS-006. Payoff: qualify actual catalog-to-viewer GPU starts separately from thumbnail captures.
-  - Sources: [Accepted visual scope](docs/planning/visual-fidelity-audit-next.md#accepted-focus), `docs/planning/visual-fidelity-audit-next.md`, `docs/planning/visual-audit-inventory.json`, and `integration_test/flows/vis006_first_view_test.dart`.
-  - Scope: select five captured Explore rows lacking `first_view`, reuse the existing first-view harness, and assert module identity, default params/view, and the first GPU frame. No formulas, defaults, static thumbnails, or research-renderer implementations may change.
-  - Acceptance: five exact IDs emit `gpu_first_frame` with `backend=gpu`; defaults match each module preset; inventory rows link to exact test evidence. Do not change formulas, defaults, thumbnails or research-renderer implementations. Record device/backend and every failure or skip.
-  - Checks: Planned, not run for this task: `flutter test integration_test/flows/vis006_first_view_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded`; `dart format --output=none --set-exit-if-changed integration_test/flows/vis006_first_view_test.dart`; `flutter analyze integration_test/flows/vis006_first_view_test.dart`; and `python3 research/fractals-library/scripts/validate_visual_inventory.py`.
-  - Touches: integration_test/flows/vis006_first_view_test.dart, docs/planning/visual-audit-inventory.json
-  - Dependencies: VIS-006-BATCH-20. VIS-005 (goal prerequisite).
-  - Ownership: repository backlog; preserve existing active VIS-006 work.
-
-
-
 - [ ] **ICON-ZJ-02 — Replace app and store icon assets with the approved app capture.**
   - Goal: VIS-003. Payoff: use one approved, app-derived identity consistently in launchers, HomeScreen and the prepared Play listing.
   - Sources: [Accepted outcome and planner decisions](docs/engineering/spec.md#app-derived-zig-zag-julia-icon), `pubspec.yaml`, `assets/fractal-forge-icon-source.json`, `docs/store_listing/assets.json`, `scripts/play_store_listing.py`, `lib/features/home/home_screen.dart`.
