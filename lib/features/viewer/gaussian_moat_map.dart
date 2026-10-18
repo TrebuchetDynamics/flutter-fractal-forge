@@ -254,7 +254,11 @@ class _GaussianMoatMapState extends State<GaussianMoatMap>
 
   Widget _button(String label, VoidCallback? action, {Key? key}) => TextButton(
       key: key,
-      style: TextButton.styleFrom(minimumSize: const Size(48, 48)),
+      style: TextButton.styleFrom(
+        minimumSize: const Size(48, 48),
+        tapTargetSize: MaterialTapTargetSize.padded,
+        visualDensity: VisualDensity.standard,
+      ),
       onPressed: action,
       child: Text(label));
 
