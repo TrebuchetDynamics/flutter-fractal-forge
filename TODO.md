@@ -46,19 +46,6 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Skill application: frontend-ui-engineering, responsive/localized accessible journey; planning-and-task-breakdown, dependent live qualification; documentation-and-adrs, observed evidence versus planned checks.
 
 
-- [ ] **VIS-006-BATCH-20 — Capture defaults and runtime previews for the next ten uncaptured Explore modules.** Goal: complete the accepted visual playtest audit.
-  - Payoff: extend measured GPU and first-view audit coverage while preserving fractal formulas.
-  - Scope: select the next ten uncaptured Explore IDs from `docs/planning/visual-audit-inventory.json`; capture module defaults and actual runtime previews. Run CPU checks only where a native CPU formula exists. Do not alter formulas, static catalog images, or research-library module support.
-  - Sources: [Accepted visual scope](docs/planning/visual-fidelity-audit-next.md#accepted-focus), [`docs/planning/visual-fidelity-audit-next.md`](docs/planning/visual-fidelity-audit-next.md), [`docs/planning/visual-audit-inventory.json`](docs/planning/visual-audit-inventory.json), and `goals.json`.
-  - Acceptance: reconcile selected/generated/failed/skipped counts; record defaults, metrics, and artifacts for each ID; validate inventory references; run formatter, analyzer, and targeted GPU integration tests.
-  - Dependencies: VIS-006. VIS-005 (goal prerequisite).
-  - Ownership: repository backlog; check active work before dispatch.
-  - Goal: VIS-006
-  - Touches: integration_test/catalog/, integration_test/flows/, test/cpu/, docs/planning/visual-audit-inventory.json, docs/planning/visual-fidelity-audit-next.md
-  - Checks: Select exactly the next ten uncaptured source-ordered IDs from the current inventory. Set CATALOG_THUMB_ONLY to that exact set, CATALOG_THUMB_USE_MODULE_DEFAULTS=true, STRICT_CATALOG_THUMBS=true and a batch-specific output directory; run `flutter test integration_test/catalog/generate_gpu_thumbnails_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded`. Add/run the matching scoped runtime-preview target with FORCE_RUNTIME_CATALOG_THUMBNAILS=true; record its exact command. Reconcile IDs, real files, dimensions and selected/generated/failed/skipped counts; run `python3 research/fractals-library/scripts/validate_visual_inventory.py`, applicable native CPU coverage, changed-test formatting/analysis and `git diff --check`. Preserve failed image/math verdicts; capture health is not mathematical certification.
-  - Planning repair: 2026-10-17 — Supply the missing unique Checks and bounded Touches under the existing accepted batch scope; no new owner decision or formula-change authority is needed.
-  - Next action: Read retained integration review .git/autowork-execution/7dba42b9a1694afd8d428a10f65c9b9d.json and its log: acceptance failed because the selected IDs were not the inventory’s next ten uncaptured IDs, despite passing capture-health checks. Preserve candidates 9bbafd42 and 76ff9b3dc4ce2ff8030eeb27c3a2b8063538d09d and the ambiguous integration tree for diagnosis; do not adopt its changed tree blindly. Pin the current canonical inventory, derive the intended source-ordered set in code, compare expected/selected/generated IDs exactly, and capture/reconcile the correct set before reintegration. Retain older observations as history without relabeling them as this task’s successful batch or deleting unrelated capture evidence. Re-run affected inventory/artifact/capture checks on the integrated bytes; never repin a failed receipt to hide selection drift. No new owner choice or acceptance change is needed.
-
 - [ ] **VIS-006-CPU-01 — Verify native CPU behavior for five audited Explore modules.**
   - Goal: VIS-006. Payoff: distinguish CPU formula correctness from registration and GPU image health.
   - Sources: [Accepted visual scope](docs/planning/visual-fidelity-audit-next.md#accepted-focus), `docs/planning/visual-fidelity-audit-next.md`, `docs/planning/visual-audit-inventory.json`, `lib/features/renderer/cpu/cpu_formulas.dart`, and `test/cpu/cpu_formula_coverage_test.dart`.
@@ -522,6 +509,14 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Android qualification remains pending until a named Android device is available; run the journey and verify decoded exported PNGs on that target. Linux evidence used Xvfb and is not a physical GPU qualification.
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: QUAT-NORM-03-QUALIFY.
+  Status: open
+
+- [ ] VIS-006-BATCH-20-LIVE — Live checks for VIS-006-BATCH-20
+  Scope: Run the live checks the offline work for VIS-006-BATCH-20 left pending.
+  Acceptance: Each check passes on the real target:
+  - Human visual review of recognizability/framing for the captured previews; image-health pass is not visual or mathematical certification.
+  Checks: Live qualification by an authorized person; offline evidence does not count.
+  Dependencies: VIS-006-BATCH-20.
   Status: open
 
 ## Done

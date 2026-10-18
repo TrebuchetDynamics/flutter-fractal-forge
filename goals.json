@@ -810,6 +810,7 @@
         "VIS-006-BATCH-19",
         "VIS-006-BATCH-19-INVENTORY",
         "VIS-006-BATCH-20",
+        "VIS-006-BATCH-20-LIVE",
         "VIS-006-CPU-01",
         "VIS-006-FIRST-VIEW-01",
         "VIS-006-FIRST-VIEW-02",
@@ -1116,7 +1117,6 @@
     "tasks": [
       "GAUSS-MOAT-04-GROWTH",
       "GAUSS-MOAT-03-QUALIFY",
-      "VIS-006-BATCH-20",
       "VIS-006-CPU-01",
       "VIS-006-FIRST-VIEW-04",
       "ICON-ZJ-02",
@@ -1154,7 +1154,8 @@
       "QUAT-NORM-02-WALK-LIVE",
       "RELEASE-003-ae",
       "CAT-QUALITY-02-LIVE",
-      "QUAT-NORM-03-QUALIFY-LIVE"
+      "QUAT-NORM-03-QUALIFY-LIVE",
+      "VIS-006-BATCH-20-LIVE"
     ]
   },
   "tasks": [
@@ -1265,17 +1266,6 @@
       "section": "Next",
       "status": "open",
       "title": "Prepare and qualify every available platform without publication"
-    },
-    {
-      "depends_on": [
-        "VIS-005",
-        "VIS-006"
-      ],
-      "goal": "VIS-006",
-      "id": "VIS-006-BATCH-20",
-      "section": "Next",
-      "status": "open",
-      "title": "Capture defaults and runtime previews for the following ten uncaptured Explore modules"
     },
     {
       "depends_on": [
@@ -1542,6 +1532,16 @@
       "section": "Needs decision",
       "status": "open",
       "title": "Review app icon presentation and record sign-off"
+    },
+    {
+      "depends_on": [
+        "VIS-006-BATCH-20"
+      ],
+      "goal": "VIS-006",
+      "id": "VIS-006-BATCH-20-LIVE",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Live checks for VIS-006-BATCH-20"
     },
     {
       "depends_on": [
@@ -1965,6 +1965,17 @@
       "section": "Done",
       "status": "done",
       "title": "Reconcile VIS-006-BATCH-19 captured evidence into inventory"
+    },
+    {
+      "depends_on": [
+        "VIS-005",
+        "VIS-006"
+      ],
+      "goal": "VIS-006",
+      "id": "VIS-006-BATCH-20",
+      "section": "Done",
+      "status": "done",
+      "title": "Capture defaults and runtime previews for the following ten uncaptured Explore modules"
     },
     {
       "depends_on": [],
