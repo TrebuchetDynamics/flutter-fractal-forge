@@ -20,13 +20,6 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-17T01:32:24Z
 - Answer: Decide it: record the decision in the dependent tasks' `Dependencies:` lines, or move the task that owns it into Now or Next.
 
-### Q-NUM-WALL-01 — USER_INPUT — effort input — unblocks 4
-
-- Task: NUM-WALL-01 — Compute exact sequence walls and validate custom prime fields.
-- Needs: worker reported a blocker: At HEAD 514f77f5369d5f4fbcee43728e272711ff24b529, both authorized candidate files are absent from the current worktree. The task instruction explicitly blocks implementation/recovery until the exact candidate bytes are restored here or the owner authorizes a specific candidate hash. Restore/authorize lib/core/models/number_wall_model.dart and test/modules/number_wall_model_test.dart, then resume w…
-- Since: 2026-10-18T07:22:37Z
-- Answer: Answer in NUM-WALL-01's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
-
 ### Q-RELEASE-002-75 — USER_DECISION — effort investigate — unblocks 0
 
 - Task: RELEASE-002-75 — Prepare and qualify every available platform without publication.
