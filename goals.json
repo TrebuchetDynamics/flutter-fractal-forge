@@ -1006,7 +1006,8 @@
         "GAUSS-MOAT-02-WALK",
         "GAUSS-MOAT-02-WALK-LIVE",
         "GAUSS-MOAT-03-QUALIFY",
-        "GAUSS-MOAT-04-GROWTH"
+        "GAUSS-MOAT-04-GROWTH",
+        "GAUSS-MOAT-04-GROWTH-LIVE"
       ],
       "title": "Explore exact bounded Gaussian-prime walks with responsive controls and truthful reachability"
     },
@@ -1115,10 +1116,7 @@
   "priority_order": {
     "schema": 1,
     "tasks": [
-      "GAUSS-MOAT-04-GROWTH",
       "GAUSS-MOAT-03-QUALIFY",
-      "VIS-006-CPU-01",
-      "VIS-006-FIRST-VIEW-04",
       "ICON-ZJ-02",
       "NUM-WALL-01",
       "NUM-WALL-02",
@@ -1155,7 +1153,8 @@
       "RELEASE-003-ae",
       "CAT-QUALITY-02-LIVE",
       "QUAT-NORM-03-QUALIFY-LIVE",
-      "VIS-006-BATCH-20-LIVE"
+      "VIS-006-BATCH-20-LIVE",
+      "GAUSS-MOAT-04-GROWTH-LIVE"
     ]
   },
   "tasks": [
@@ -1179,16 +1178,6 @@
       "section": "Next",
       "status": "open",
       "title": "Qualify accessible Gaussian walking and frozen-state PNG export on all three targets"
-    },
-    {
-      "depends_on": [
-        "GAUSS-MOAT-02-WALK"
-      ],
-      "goal": "GAUSS-MOAT-001",
-      "id": "GAUSS-MOAT-04-GROWTH",
-      "section": "Next",
-      "status": "open",
-      "title": "Scrub and animate jump-radius growth without queued or stale computations"
     },
     {
       "depends_on": [
@@ -1336,6 +1325,16 @@
       "section": "Needs decision",
       "status": "open",
       "title": "Live checks for GAUSS-MOAT-02-WALK"
+    },
+    {
+      "depends_on": [
+        "GAUSS-MOAT-04-GROWTH"
+      ],
+      "goal": "GAUSS-MOAT-001",
+      "id": "GAUSS-MOAT-04-GROWTH-LIVE",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Live checks for GAUSS-MOAT-04-GROWTH"
     },
     {
       "depends_on": [
@@ -1602,6 +1601,16 @@
       "section": "Done",
       "status": "done",
       "title": "Validate Gaussian-prime steps and display truthful component state"
+    },
+    {
+      "depends_on": [
+        "GAUSS-MOAT-02-WALK"
+      ],
+      "goal": "GAUSS-MOAT-001",
+      "id": "GAUSS-MOAT-04-GROWTH",
+      "section": "Done",
+      "status": "done",
+      "title": "Scrub and animate jump-radius growth without queued or stale computations"
     },
     {
       "depends_on": [],
