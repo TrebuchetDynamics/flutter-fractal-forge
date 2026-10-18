@@ -4,9 +4,9 @@
 
 Status: Accepted
 
-The 2026-10-17 owner request supersedes the all-or-nothing publication policy below: attempt every platform, skip a platform-specific error, and continue qualified independent lanes. See [the accepted policy](../../../PRD.md#independent-platform-release-policy). This is a planned workflow, NOT implemented behavior. The current launcher/CI/evidence/publisher path still depends on GitLab and a complete artifact set. Do not invoke the no-argument release command expecting best-effort behavior.
+The 2026-10-17 owner request supersedes the all-or-nothing publication policy below: attempt every platform, skip a platform-specific error, and continue qualified independent lanes. See [the accepted policy](../../../PRD.md#independent-platform-release-policy). The isolated route is `./release.sh --best-effort --prepare=1.1.108 --build-number=108`; it bypasses GitLab and writes `release-artifacts/campaign.json` without publishing. After reviewing the campaign, `./release.sh --best-effort --publish=1.1.108 --build-number=108` revalidates the frozen identity, exact mapped qualification receipts, evidence manifest, and artifact provenance before lane-scoped publication. Missing or unknown qualification remains a lane skip, never an implicit pass. The no-argument release command remains the strict legacy GitLab workflow.
 
-The PRD's explicit GitLab deferral governs this campaign. The older resumption statement below is conflicting operating history, not new authorization. Keep GitLab login, mirror, CI dispatch and release publication excluded unless separately resumed. Implement a host-independent route reusing the existing local/native builders and evidence checks; never set GITLAB_CI or fabricate CI/device evidence to get around a guard.
+The PRD's explicit GitLab deferral governs this campaign. The older resumption statement below is conflicting operating history, not new authorization. Keep GitLab login, mirror, CI dispatch and GitLab release publication excluded. The best-effort launcher uses local/native builders and evidence tools; it removes `GITLAB_CI` from child environments and never fabricates CI/device evidence. Linux has a lane-local edited-view/PNG journey adapter; Windows, macOS and iOS remain unknown until platform-specific journey/export receipts are available, and therefore cannot be published.
 
 | Lane | Candidate and destination | Required lane-local proof |
 | --- | --- | --- |
@@ -26,14 +26,15 @@ Planner's orchestration contract:
 - Reuse the same immutable artifacts on retry. Read remote tag/release/deployment/store state before repeating an uncertain write. No force-tag, destructive rollback or repeat Play upload based only on a timeout. Keep unknown publication separate from skipped-failed.
 - The final machine/human report says complete or partial with per-lane proof; all-skipped/common-gate failure is nonzero and publishes nothing. A partial success must not claim all-platform readiness. Apple store/F-Droid acceptance still require their real external outcomes.
 
-Preparation and publication are separate queue tasks. Apple signing/store submission is not implemented by the current scripts: if no existing approved production route, signing or native host is available, record skipped-unavailable; this campaign does not authorize building a new store-submission system or buying access. No proposed CLI flag in this plan is an existing supported command. Existing `REL-JOURNEY-*` and their live follow-ups retain their IDs, proof and access gates; reuse them rather than creating duplicate product qualification tasks. Existing user task order/focus and paused schedules are unchanged.
+Preparation and publication remain separate invocations. The CLI above is the supported local route; publication still requires the lane's configured credentials and cannot make missing qualification pass. Apple signing/store submission is not implemented by the current scripts: if no existing approved production route, signing or native host is available, record skipped-unavailable; this campaign does not authorize building a new store-submission system or buying access. Existing `REL-JOURNEY-*` and their live follow-ups retain their IDs, proof and access gates; reuse them rather than creating duplicate product qualification tasks. Existing user task order/focus and paused schedules are unchanged.
 
 ## Current release status
 
-Historical operating note (2026-10-16; conflicts with the current PRD deferral):
-this document recorded resumed GitLab release scope. GitLab remains the only CI
-executor, and every existing build, Android-device, cross-platform journey and
-evidence gate still applies; this is not a qualification waiver. GitLab `main` is
+Historical operating note (2026-10-16; conflicts with the current PRD deferral
+and superseded by the best-effort route above): this document recorded resumed
+GitLab release scope. GitLab remains the only CI executor for the legacy route,
+and every existing build, Android-device, cross-platform journey and evidence
+gate still applies; this is not a qualification waiver. GitLab `main` is
 mirrored at the release commit and publication is dispatched through
 `scripts/gitlab_release.py` (`release.sh`). Even `--target play` still depends on
 GitLab CI; there is no verified non-GitLab release route.

@@ -1,0 +1,405 @@
+import base64
+import hashlib
+import importlib.util
+import json
+import os
+import subprocess
+import tarfile
+import tempfile
+import unittest
+from pathlib import Path
+from unittest import mock
+
+ROOT = Path(__file__).resolve().parents[2]
+SPEC = importlib.util.spec_from_file_location(
+    "release_platform_lanes", ROOT / "scripts/release_platform_lanes.py"
+)
+LANES = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(LANES)
+NL = chr(10)
+
+
+class ReleasePlatformLanesTest(unittest.TestCase):
+    def test_cli_prepare_records_all_lanes_and_stops_after_common_gate_failure(self):
+        with tempfile.TemporaryDirectory() as directory:
+            temp = Path(directory)
+            fake_bin = temp / "bin"
+            fake_bin.mkdir()
+            flutter = fake_bin / "flutter"
+            flutter.write_text("#!/bin/sh" + NL + "printf '%s' \"${GITLAB_CI:-unset}\" > \"$FAKE_GITLAB_MARKER\"" + NL + "echo sandbox-common-gate-failure >&2" + NL + "exit 97" + NL)
+            flutter.chmod(0o755)
+            campaign_path = temp / "campaign.json"
+            env = os.environ.copy()
+            env.pop("GITLAB_CI", None)
+            marker = temp / "gitlab-env"
+            env.update(PATH=str(fake_bin) + os.pathsep + env.get("PATH", ""), FLUTTER_BIN=str(flutter),
+                       RELEASE_CAMPAIGN_FILE=str(campaign_path), FAKE_GITLAB_MARKER=str(marker), GITLAB_CI="true")
+            result = subprocess.run(
+                [str(ROOT / "release.sh"), "--best-effort", "--prepare=1.1.108", "--build-number=108"],
+                cwd=ROOT, env=env, text=True, capture_output=True, timeout=30,
+            )
+            self.assertNotEqual(result.returncode, 0)
+            campaign = json.loads(campaign_path.read_text())
+            self.assertEqual(set(campaign["lanes"]), set(LANES.LANES))
+            self.assertTrue(all(row["status"] == "skipped-failed" for row in campaign["lanes"].values()))
+            self.assertFalse(campaign["publishers_called"])
+            self.assertNotIn("GitLab", result.stdout + result.stderr)
+            self.assertEqual(marker.read_text(), "unset")
+
+    def test_cli_prepare_verifies_only_supported_web_subset_without_publishing(self):
+        with tempfile.TemporaryDirectory() as directory:
+            temp = Path(directory)
+            artifact_dir = temp / "artifacts"
+            campaign_path = temp / "campaign.json"
+            fake_bin = temp / "bin"
+            fake_bin.mkdir()
+            flutter = fake_bin / "flutter"
+            flutter_source = NL.join([
+                "#!/usr/bin/env python3", "import pathlib,sys",
+                "args=sys.argv[1:]",
+                "if 'build' in args and 'web' in args:",
+                " output=next(arg.split('=',1)[1] for arg in args if arg.startswith('--output='))",
+                " root=pathlib.Path(output); root.mkdir(parents=True,exist_ok=True)",
+                " (root/'index.html').write_text('<html>')",
+                " (root/'main.dart.js').write_text('compiled')",
+            ]) + NL
+            flutter.write_text(flutter_source)
+            flutter.chmod(0o755)
+            npx = fake_bin / "npx"
+            npx.write_text("#!/bin/sh" + NL + "exit 0" + NL)
+            npx.chmod(0o755)
+            fake_bash = fake_bin / "bash"
+            fake_bash.write_text(NL.join([
+                "#!/bin/sh",
+                "case \"$*\" in *'scripts/release.sh fdroid '*|*'scripts/release.sh linux '*) exit 77 ;; esac",
+                "exec /bin/bash \"$@\"",
+            ]) + NL)
+            fake_bash.chmod(0o755)
+            env = os.environ.copy()
+            env.pop("GITLAB_CI", None)
+            env.pop("ANDROID_SDK_ROOT", None)
+            env.pop("ANDROID_HOME", None)
+            env.update(PATH=str(fake_bin) + os.pathsep + env.get("PATH", ""), FLUTTER_BIN=str(flutter),
+                       RELEASE_ARTIFACT_DIR=str(artifact_dir), RELEASE_CAMPAIGN_FILE=str(campaign_path))
+            result = subprocess.run([str(ROOT / "release.sh"), "--best-effort", "--prepare=1.1.108",
+                                     "--build-number=108"], cwd=ROOT, env=env, capture_output=True,
+                                    text=True, timeout=120)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr + NL + campaign_path.read_text())
+            campaign = json.loads(campaign_path.read_text())
+            self.assertEqual(campaign["status"], "partial")
+            self.assertTrue(campaign["publishers_called"] is False)
+            self.assertEqual(set(campaign["lanes"]), set(LANES.LANES))
+            for lane, row in campaign["lanes"].items():
+                self.assertEqual(set(row["checks"]), set(LANES.REQUIRED_CHECKS[lane]))
+                self.assertIn(row["candidate_verdict"], {"unknown", "passed", "failed"})
+                self.assertIn(row["artifact_verdict"], {"unknown", "passed", "failed"})
+                if row["status"] != "verified":
+                    self.assertTrue(row["reason"])
+            self.assertEqual([item["name"] for item in campaign["verified_artifacts"]],
+                             ["fractal-forge-web-v1.1.108.tar.gz"])
+            manifest = json.loads(Path(campaign["evidence"]["manifest"]).read_text())
+            self.assertEqual([item["name"] for item in manifest["artifacts"]],
+                             ["fractal-forge-web-v1.1.108.tar.gz"])
+            self.assertEqual(campaign["lanes"]["web"]["checks"]["browser_journey"]["verdict"], "passed")
+
+    def test_verified_lane_reaches_publisher_when_an_independent_lane_fails(self):
+        identity = {"version": "1.1.108", "build_number": "108", "commit": "a" * 40}
+        with tempfile.TemporaryDirectory() as directory:
+            artifact = Path(directory) / "web.zip"
+            artifact.write_bytes(b"verified web bundle")
+            digest = hashlib.sha256(artifact.read_bytes()).hexdigest()
+            receipt = {"path": str(artifact), "name": artifact.name, "bytes": artifact.stat().st_size, "sha256": digest}
+            Path(str(artifact) + ".provenance").write_text(NL.join([
+                "version=1.1.108", "build_number=108", f"commit={identity['commit']}", f"sha256={digest}", ""
+            ]))
+            sent = []
+
+            def valid_web(frozen):
+                return {**frozen, "candidate": "web-candidate", "artifacts": [receipt],
+                        "checks": {gate: {"check": gate, "verdict": "passed", "artifact_sha256": [receipt["sha256"]], **frozen}
+                                   for gate in LANES.REQUIRED_CHECKS["web"]}}
+
+            result = LANES.run_campaign(
+                identity,
+                {"web": valid_web, "linux": lambda frozen: (_ for _ in ()).throw(RuntimeError("build failed"))},
+                {"web": (lambda lane: sent.append(lane["artifacts"]) or "deploy-7",
+                          lambda lane, publication_id: ({"found": False} if publication_id is None
+                                                        else {"found": True, "id": publication_id}))},
+                lambda frozen: None,
+            )
+            self.assertEqual(result["status"], "partial")
+            self.assertEqual(result["lanes"]["web"]["publication"], "published")
+            self.assertEqual(result["lanes"]["linux"]["status"], "skipped-failed")
+            self.assertEqual(result["lanes"]["windows"]["status"], "skipped-unavailable")
+            self.assertEqual(len(sent), 1)
+
+    def test_publish_cli_uses_lane_adapter_and_remote_readback_without_rebuilding(self):
+        with tempfile.TemporaryDirectory() as directory:
+            temp = Path(directory)
+            artifact_dir = temp / "artifacts"
+            artifact_dir.mkdir()
+            artifact = artifact_dir / "fractal-forge-web-v1.1.108.tar.gz"
+            web_root = temp / "web"
+            web_root.mkdir()
+            (web_root / "index.html").write_text("sandbox web candidate")
+            (web_root / "main.dart.js").write_text("compiled candidate")
+            identity = LANES.frozen_identity("1.1.108", "108")
+            file_hashes = {path.name: hashlib.sha256(path.read_bytes()).hexdigest()
+                           for path in sorted(web_root.iterdir()) if path.is_file()}
+            remote_identity = {"version": identity["version"], "build_number": identity["build_number"],
+                               "commit": identity["commit"], "files": file_hashes}
+            (web_root / "release-identity.json").write_text(json.dumps(remote_identity, sort_keys=True) + NL)
+            with tarfile.open(artifact, "w:gz") as bundle:
+                bundle.add(web_root, arcname="web")
+            digest = hashlib.sha256(artifact.read_bytes()).hexdigest()
+            Path(str(artifact) + ".provenance").write_text(NL.join([
+                "version=1.1.108", "build_number=108", f"commit={identity['commit']}", f"sha256={digest}", ""
+            ]))
+            web = {"candidate": "web-candidate", "version": "1.1.108", "build_number": "108",
+                   "commit": identity["commit"], "status": "verified", "publication": "not-attempted",
+                   "artifacts": [{"name": artifact.name, "path": str(artifact), "bytes": artifact.stat().st_size, "sha256": digest}],
+                   "checks": {name: {"check": name, "verdict": "passed", "artifact_sha256": [digest], "version": "1.1.108",
+                                     "build_number": "108", "commit": identity["commit"]}
+                              for name in LANES.REQUIRED_CHECKS["web"]}}
+            rows = {lane: {"status": "skipped-unavailable", "reason": "fixture lane skipped",
+                           "candidate": None, "artifacts": [], "checks": {}, "publication": "not-attempted"}
+                    for lane in LANES.LANES}
+            rows["web"] = web
+            evidence_dir = artifact_dir / "evidence"
+            evidence_dir.mkdir()
+            sbom = evidence_dir / "sbom.cdx.json"
+            notices = evidence_dir / "THIRD_PARTY_NOTICES.txt"
+            inventory = evidence_dir / "ANDROID_NATIVE_INVENTORY.txt"
+            sbom.write_text(json.dumps({"bomFormat": "CycloneDX", "components": [{"name": "fixture"}]}))
+            notices.write_text("Fractal Forge third-party notices" + NL + "===== fixture =====" + NL + "MIT" + NL)
+            inventory.write_text("Fractal Forge Android/native declaration inventory" + NL +
+                                 "No checked-in native dependency declarations found." + NL)
+            manifest = {"version": "1.1.108", "buildNumber": "108", "commit": identity["commit"],
+                        "generatedAt": "2026-10-17T00:00:00Z",
+                        "artifacts": [{"name": artifact.name, "path": "../" + artifact.name,
+                                       "bytes": artifact.stat().st_size, "sha256": digest}],
+                        "evidence": {"sbom": sbom.name, "androidNativeInventory": inventory.name,
+                                     "thirdPartyNotices": notices.name, "checksums": "SHA256SUMS"}}
+            manifest_path = evidence_dir / "release-manifest.json"
+            manifest_path.write_text(json.dumps(manifest, indent=2) + NL)
+            sums = [f"{digest}  ../{artifact.name}"]
+            for path in (manifest_path, sbom, notices, inventory):
+                sums.append(f"{hashlib.sha256(path.read_bytes()).hexdigest()}  {path.name}")
+            (evidence_dir / "SHA256SUMS").write_text(NL.join(sums) + NL)
+            campaign_path = temp / "campaign.json"
+            campaign_path.write_text(json.dumps({"schemaVersion": 1, "mode": "best-effort-prepare",
+                                                  "identity": identity, "lanes": rows, "status": "partial",
+                                                  "evidence": {"status": "verified", "manifest": str(manifest_path)},
+                                                  "verified_artifacts": [web["artifacts"][0]]}))
+            fake_bin = temp / "bin"
+            fake_bin.mkdir()
+            calls = temp / "calls"
+            state = temp / "deployed"
+            wrangler = fake_bin / "wrangler"
+            fake_curl = fake_bin / "curl"
+            fake_curl.write_text(NL.join([
+                "#!/usr/bin/env python3", "import os,sys,urllib.parse,pathlib",
+                "path=urllib.parse.urlparse(sys.argv[-1]).path.rsplit('/',1)[-1]",
+                "source=pathlib.Path(os.environ['FAKE_WEB_ROOT'])/path",
+                "sys.stdout.buffer.write(source.read_bytes())",
+            ]) + NL)
+            fake_curl.chmod(0o755)
+            wrangler_source = NL.join([
+                "#!/usr/bin/env python3", "import json, os, sys",
+                "open(os.environ['FAKE_CALLS'], 'a').write(' '.join(sys.argv[1:]) + '\\n')",
+                "if sys.argv[1:3] == ['pages', 'deploy']:",
+                " open(os.environ['FAKE_STATE'], 'w').write('deployed'); sys.exit(0)",
+                "if sys.argv[1:4] == ['pages', 'deployment', 'list']:",
+                " deployments = [{'id':'deploy-7','url':'https://example.pages.dev','commit_hash':os.environ['FAKE_COMMIT'],'commit_message':'1.1.108:'+os.environ['FAKE_SHA']}] if os.path.exists(os.environ['FAKE_STATE']) else []",
+                " print(json.dumps(deployments))",
+            ]) + NL
+            wrangler.write_text(wrangler_source)
+            wrangler.chmod(0o755)
+            env = os.environ.copy()
+            env.pop("GITLAB_CI", None)
+            env.update(PATH=str(fake_bin) + os.pathsep + env.get("PATH", ""),
+                       RELEASE_CAMPAIGN_FILE=str(campaign_path), RELEASE_ARTIFACT_DIR=str(artifact_dir),
+                       CLOUDFLARE_API_TOKEN="sandbox-token", FAKE_CALLS=str(calls), FAKE_COMMIT=identity["commit"],
+                       FAKE_SHA=digest, FAKE_STATE=str(state), FAKE_WEB_ROOT=str(web_root))
+            result = subprocess.run([str(ROOT / "release.sh"), "--best-effort", "--publish=1.1.108",
+                                     "--build-number=108"], cwd=ROOT, env=env, capture_output=True, text=True, timeout=30)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr + NL + campaign_path.read_text())
+            published = json.loads(campaign_path.read_text())
+            self.assertEqual(published["lanes"]["web"]["publication"], "published")
+            resumed = subprocess.run([str(ROOT / "release.sh"), "--best-effort", "--publish=1.1.108",
+                                      "--build-number=108"], cwd=ROOT, env=env, capture_output=True,
+                                     text=True, timeout=30)
+            self.assertEqual(resumed.returncode, 0, resumed.stdout + resumed.stderr)
+            commands = calls.read_text().splitlines()
+            self.assertEqual(len(commands), 4)
+            self.assertEqual(sum(command.startswith("pages deploy ") for command in commands), 1)
+            self.assertTrue(commands[0].startswith("pages deployment list "))
+            self.assertTrue(commands[1].startswith("pages deploy "))
+            self.assertTrue(commands[2].startswith("pages deployment list "))
+            self.assertTrue(commands[3].startswith("pages deployment list "))
+
+    def test_linux_native_qualification_binds_journey_and_png_export_to_candidate(self):
+        identity = {"version": "1.1.108", "build_number": "108", "commit": "a" * 40}
+        artifact = {"name": "linux.tar.gz", "path": "/sandbox/linux.tar.gz", "sha256": "f" * 64}
+        completed = subprocess.CompletedProcess([], 0, stdout="journey and decoded PNG passed", stderr="")
+        with mock.patch.object(LANES.platform, "system", return_value="Linux"), \
+             mock.patch.object(LANES.subprocess, "run", return_value=completed) as run:
+            checks = LANES.run_native_qualification("linux", identity, [artifact])
+        self.assertEqual(set(checks), {"native_journey", "export_validation"})
+        self.assertTrue(all(check["verdict"] == "passed" for check in checks.values()))
+        self.assertTrue(all(check["artifact_sha256"] == [artifact["sha256"]] for check in checks.values()))
+        command = run.call_args.args[0]
+        self.assertIn("Linux 2D and 3D journey", " ".join(command))
+        self.assertIn("--plain-name", command)
+
+    def test_play_readback_requires_track_and_remote_bundle_hash_using_command_doubles(self):
+        with tempfile.TemporaryDirectory() as directory:
+            temp = Path(directory)
+            fake_bin = temp / "bin"
+            fake_bin.mkdir()
+            calls = temp / "curl.calls"
+            curl = fake_bin / "curl"
+            curl.write_text(NL.join([
+                "#!/usr/bin/env python3", "import json,os,sys",
+                "args=sys.argv[1:]; url=next(arg for arg in reversed(args) if arg.startswith('https://')); method=args[args.index('-X')+1] if '-X' in args else 'GET'",
+                "open(os.environ['FAKE_CURL_CALLS'],'a').write(method+' '+url+'\\n')",
+                "if 'oauth2.googleapis.com/token' in url: print(json.dumps({'access_token':'test-token'}))",
+                "elif url.endswith('/edits') and method == 'POST': print(json.dumps({'id':'draft-edit'}))",
+                "elif '/tracks/' in url: print(json.dumps({'releases':[{'versionCodes':['108'],'status':'completed'}]}))",
+                "elif url.endswith('/bundles'): print(json.dumps({'bundles':[{'versionCode':'108','sha256':os.environ['FAKE_REMOTE_SHA']}]}))",
+                "else: print('{}')",
+            ]) + NL)
+            curl.chmod(0o755)
+            openssl = fake_bin / "openssl"
+            openssl.write_text("#!/bin/sh" + NL + "if [ \"$1\" = dgst ]; then cat >/dev/null; printf signature; else exec /usr/bin/openssl \"$@\"; fi" + NL)
+            openssl.chmod(0o755)
+            credentials = temp / "service-account.json"
+            credentials.write_text(json.dumps({"client_email": "release@example.invalid", "private_key": "test-key"}))
+            artifact_hash = hashlib.sha256(b"verified AAB").digest()
+            env = os.environ.copy()
+            env.update(PATH=str(fake_bin) + os.pathsep + env.get("PATH", ""), TMPDIR=str(temp),
+                       PLAY_SERVICE_ACCOUNT_JSON=str(credentials), PLAY_TRACK="production",
+                       PLAY_RELEASE_STATUS="completed", FAKE_CURL_CALLS=str(calls),
+                       FAKE_REMOTE_SHA=base64.b64encode(artifact_hash).decode())
+            command = ["bash", str(ROOT / "scripts/ci/play-readback.sh"), "108", artifact_hash.hex()]
+            matched = subprocess.run(command, cwd=ROOT, env=env, text=True, capture_output=True, timeout=15)
+            self.assertEqual(matched.returncode, 0, matched.stderr)
+            self.assertTrue(json.loads(matched.stdout)["found"])
+            env["FAKE_REMOTE_SHA"] = base64.b64encode(hashlib.sha256(b"different bundle").digest()).decode()
+            mismatched = subprocess.run(command, cwd=ROOT, env=env, text=True, capture_output=True, timeout=15)
+            self.assertEqual(mismatched.returncode, 0, mismatched.stderr)
+            self.assertFalse(json.loads(mismatched.stdout)["found"])
+            requests = calls.read_text().splitlines()
+            self.assertEqual(sum("POST https://androidpublisher.googleapis.com/androidpublisher/v3/applications/com.trebuchetdynamics.fractal.forge/edits" == request for request in requests), 2)
+            self.assertFalse(any("upload" in request or "commit" in request for request in requests))
+            self.assertEqual(sum("DELETE https://androidpublisher.googleapis.com/androidpublisher/v3/applications/com.trebuchetdynamics.fractal.forge/edits/draft-edit" == request for request in requests), 2)
+
+    def test_native_unknown_receipts_remain_unqualified_and_never_reach_publishers(self):
+        identity = {"version": "1.1.108", "build_number": "108", "commit": "a" * 40}
+        host = {"windows": "Windows", "macos": "Darwin", "ios": "Darwin"}
+        for lane, system in host.items():
+            with mock.patch.object(LANES.platform, "system", return_value=system), \
+                 mock.patch.object(LANES.subprocess, "run") as run:
+                receipts = LANES.run_native_qualification(lane, identity, [])
+            self.assertTrue(all(receipt["verdict"] == "unknown" and receipt.get("reason")
+                                for receipt in receipts.values()))
+            run.assert_not_called()
+        with tempfile.TemporaryDirectory() as directory:
+            builders, publishers, writes = {}, {}, []
+            for lane in ("linux", "windows", "macos", "ios"):
+                artifact = Path(directory) / f"{lane}.zip"
+                artifact.write_bytes(lane.encode())
+                digest = hashlib.sha256(artifact.read_bytes()).hexdigest()
+                Path(f"{artifact}.provenance").write_text(NL.join([
+                    f"version={identity['version']}", f"build_number={identity['build_number']}",
+                    f"commit={identity['commit']}", f"sha256={digest}", ""
+                ]))
+                receipt = {"name": artifact.name, "path": str(artifact), "bytes": artifact.stat().st_size,
+                           "sha256": digest}
+                checks = {name: {"check": name, "verdict": "unknown", **identity}
+                          for name in LANES.REQUIRED_CHECKS[lane]}
+                builders[lane] = lambda frozen, lane=lane, receipt=receipt, checks=checks: {
+                    **frozen, "candidate": f"{lane}-candidate", "artifacts": [receipt], "checks": checks}
+                publishers[lane] = (lambda record: writes.append(record), lambda record, publication: None)
+            result = LANES.run_campaign(identity, builders, publishers, lambda frozen: None)
+        for lane in ("linux", "windows", "macos", "ios"):
+            self.assertEqual(result["lanes"][lane]["status"], "skipped-unavailable")
+            self.assertIn("required qualification is not verified", result["lanes"][lane]["reason"])
+        self.assertEqual(writes, [])
+
+    def test_wrong_android_certificate_is_rejected(self):
+        pinned = "AA:BB:CC:DD"
+        self.assertEqual(LANES.validate_certificate_fingerprint(pinned, "aabbccdd"), "AABBCCDD")
+        with self.assertRaisesRegex(ValueError, "pinned upload certificate"):
+            LANES.validate_certificate_fingerprint(pinned, "00:11:22:33")
+
+    def test_missing_publisher_is_an_explicit_lane_skip(self):
+        identity = {"version": "1.1.108", "build_number": "108", "commit": "a" * 40}
+        with tempfile.TemporaryDirectory() as directory:
+            artifact = Path(directory) / "web.zip"
+            artifact.write_bytes(b"bundle")
+            digest = hashlib.sha256(artifact.read_bytes()).hexdigest()
+            Path(str(artifact) + ".provenance").write_text(NL.join([
+                "version=1.1.108", "build_number=108", f"commit={identity['commit']}", f"sha256={digest}", ""
+            ]))
+            receipt = {"path": str(artifact), "name": artifact.name, "bytes": artifact.stat().st_size, "sha256": digest}
+            result = LANES.run_campaign(
+                identity,
+                {"web": lambda frozen: {**frozen, "candidate": "web", "artifacts": [receipt],
+                                        "checks": {name: {"check": name, "verdict": "passed", "artifact_sha256": [digest], **frozen}
+                                                   for name in LANES.REQUIRED_CHECKS["web"]}}},
+                {}, lambda frozen: None,
+            )
+            self.assertEqual(result["lanes"]["web"]["status"], "skipped-unavailable")
+            self.assertEqual(result["lanes"]["web"]["reason"], "publisher unavailable")
+
+    def test_stale_tampered_empty_and_wrong_identity_artifacts_are_rejected(self):
+        identity = {"version": "1.1.108", "build_number": "108", "commit": "a" * 40}
+        with tempfile.TemporaryDirectory() as directory:
+            artifact = Path(directory) / "bundle.zip"
+            artifact.write_bytes(b"bundle")
+            digest = hashlib.sha256(artifact.read_bytes()).hexdigest()
+            receipt = {"sha256": hashlib.sha256(b"other").hexdigest()}
+            base = {**identity, "candidate": "web",
+                    "checks": {g: {"check": g, "verdict": "passed", "artifact_sha256": [receipt["sha256"]], **identity} for g in LANES.REQUIRED_CHECKS["web"]},
+                    "artifacts": [{"path": str(artifact), "name": artifact.name, "bytes": artifact.stat().st_size,
+                                   "sha256": receipt["sha256"]}]}
+            with self.assertRaisesRegex(ValueError, "hash"):
+                LANES.verify_lane_candidate("web", identity, base)
+            base["artifacts"][0]["sha256"] = digest
+            receipt["sha256"] = digest
+            for check in base["checks"].values():
+                check["artifact_sha256"] = [digest]
+            Path(str(artifact) + ".provenance").write_text(NL.join([
+                f"version={identity['version']}", f"build_number={identity['build_number']}",
+                f"commit={identity['commit']}", f"sha256={digest}", ""
+            ]))
+            wrong = {**base, "version": "1.1.107"}
+            with self.assertRaisesRegex(ValueError, "identity"):
+                LANES.verify_lane_candidate("web", identity, wrong)
+            artifact.write_bytes(b"")
+            with self.assertRaisesRegex(ValueError, "empty"):
+                LANES.verify_lane_candidate("web", identity, base)
+            artifact.unlink()
+            with self.assertRaisesRegex(ValueError, "missing or linked artifact"):
+                LANES.verify_lane_candidate("web", identity, base)
+
+    def test_ambiguous_write_is_read_back_once_and_never_retried(self):
+        record = {"status": "verified", "artifacts": [{"path": "bundle.zip", "sha256": "x"}]}
+        writes, reads = [], []
+
+        def publisher(lane):
+            writes.append(lane)
+            raise TimeoutError("response lost")
+
+        def readback(lane, publication_id):
+            reads.append(lane)
+            return {"found": False} if publication_id is None else {"found": True, "id": "already-published"}
+
+        result = LANES.publish_once(record, publisher, readback)
+        self.assertEqual(result["publication"], "published")
+        self.assertEqual((len(writes), len(reads)), (1, 2))
+
+
+if __name__ == "__main__":
+    unittest.main()
