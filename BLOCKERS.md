@@ -6,13 +6,6 @@ This file contains only hard blockers that require user action.
 
 <!-- pi-autowork:questions:start -->
 
-### Q-NUM-WALL-02 — USER_INPUT — effort input — unblocks 3
-
-- Task: NUM-WALL-02 — Open real Number Walls from their catalog category with restorable controls.
-- Needs: worker reported a blocker: Provide MarkupSafe in the provisioned Python environment to allow the required research/script pytest collection and execution. (+1 more in report.json)
-- Since: 2026-10-19T00:08:50Z
-- Answer: Answer in NUM-WALL-02's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
-
 ### Q-APP-001-47 — USER_DECISION — effort investigate — unblocks 4
 
 - Task: APP-001-47 — Qualify the official local MCP inspection workflow.
