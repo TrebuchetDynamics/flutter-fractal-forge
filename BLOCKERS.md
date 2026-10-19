@@ -6,13 +6,6 @@ This file contains only hard blockers that require user action.
 
 <!-- pi-autowork:questions:start -->
 
-### Q-RELEASE-002-75 — USER_DECISION — effort decision — unblocks 0
-
-- Task: RELEASE-002-75 — Prepare and qualify every available platform without publication.
-- Needs: worker reported a blocker: The required prepare-only campaign did not finish: its shared host-test stage exceeded the 1740-second command budget under current runner contention, so no terminal current-run host-test log, lane records, or campaign were emitted. The pre-existing exact-commit candidate stage log reports a previous host-test exit 0, but it cannot replace the mandatory prepare rerun. Provide an execution window w…; DOCS-MAINTAINER already changed Next action, but the task is still waiting for the same reason.
-- Since: 2026-10-19T04:37:20Z
-- Answer: Decide the missing input or disposition in RELEASE-002-75's TODO.md entry, or move it to Needs decision. The maintainer will not repeat this repair unless the entry or waiting reason changes.
-
 ### Q-NUM-WALL-02 — USER_INPUT — effort input — unblocks 3
 
 - Task: NUM-WALL-02 — Open real Number Walls from their catalog category with restorable controls.
