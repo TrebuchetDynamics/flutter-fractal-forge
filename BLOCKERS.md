@@ -6,26 +6,26 @@ This file contains only hard blockers that require user action.
 
 <!-- pi-autowork:questions:start -->
 
+### Q-LOOPER-001-58 — USER_DECISION — effort decision — unblocks 0
+
+- Task: LOOPER-001-58 — Add optional randomized camera-looper points.
+- Needs: worker reported a blocker: The accepted offline scope's composed sheet-to-preview-to-decoded-GIF regression for randomized states was not implemented or verified. Existing viewer GIF tests passed, but they do not assert that generated stored camera states exactly match preview/export frames. Add that composed regression before treating acceptance as complete.; DOCS-MAINTAINER already changed Checks, Next action, but the task is still waiting for the same reason.
+- Since: 2026-10-19T08:12:24Z
+- Answer: Decide the missing input or disposition in LOOPER-001-58's TODO.md entry, or move it to Needs decision. The maintainer will not repeat this repair unless the entry or waiting reason changes.
+
+### Q-RELEASE-002-75 — USER_DECISION — effort decision — unblocks 0
+
+- Task: RELEASE-002-75 — Prepare and qualify every available platform without publication.
+- Needs: worker reported a blocker: The required prepare-only campaign did not finish: its shared host-test stage exceeded the 1740-second command budget under current runner contention, so no terminal current-run host-test log, lane records, or campaign were emitted. The pre-existing exact-commit candidate stage log reports a previous host-test exit 0, but it cannot replace the mandatory prepare rerun. Provide an execution window w…; DOCS-MAINTAINER already changed Next action, but the task is still waiting for the same reason.
+- Since: 2026-10-19T04:37:20Z
+- Answer: Decide the missing input or disposition in RELEASE-002-75's TODO.md entry, or move it to Needs decision. The maintainer will not repeat this repair unless the entry or waiting reason changes.
+
 ### Q-NUM-WALL-02 — USER_INPUT — effort input — unblocks 3
 
 - Task: NUM-WALL-02 — Open real Number Walls from their catalog category with restorable controls.
 - Needs: worker reported a blocker: Provide an approved Flutter 3.44.6 Chrome widget/state-test route that binds every listener within AUTOWORK_PORT_BASE..AUTOWORK_PORT_BASE+99. Do not proceed by patching Flutter SDK internals, retrying with an uncontrolled ephemeral port, or substituting pure-Dart browser parity for the required widget/state test. The existing candidate 0632aa7e477570df27a84f473e0c3a27d67a8d3c and original report w…
 - Since: 2026-10-19T01:08:07Z
 - Answer: Answer in NUM-WALL-02's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
-
-### Q-LOOPER-001-58 — USER_INPUT — effort input — unblocks 0
-
-- Task: LOOPER-001-58 — Add optional randomized camera-looper points.
-- Needs: worker reported a blocker: The accepted offline scope's composed sheet-to-preview-to-decoded-GIF regression for randomized states was not implemented or verified. Existing viewer GIF tests passed, but they do not assert that generated stored camera states exactly match preview/export frames. Add that composed regression before treating acceptance as complete.
-- Since: 2026-10-19T08:12:24Z
-- Answer: Answer in LOOPER-001-58's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
-
-### Q-RELEASE-002-75 — USER_INPUT — effort input — unblocks 0
-
-- Task: RELEASE-002-75 — Prepare and qualify every available platform without publication.
-- Needs: worker reported a blocker: The required prepare-only campaign did not finish: its shared host-test stage exceeded the 1740-second command budget under current runner contention, so no terminal current-run host-test log, lane records, or campaign were emitted. The pre-existing exact-commit candidate stage log reports a previous host-test exit 0, but it cannot replace the mandatory prepare rerun. Provide an execution window w…
-- Since: 2026-10-19T04:37:20Z
-- Answer: Answer in RELEASE-002-75's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
 
 ### Q-APP-001-47 — USER_DECISION — effort investigate — unblocks 4
 
@@ -47,13 +47,6 @@ This file contains only hard blockers that require user action.
 - Needs: integration validation failed or changed the integration tree: the full check crashed before any test result, on the base too: [01:35:07.081][warn][wallpaper] Set wallpaper failed {"error":"Bad state: channel unavailable"}
 - Since: 2026-10-19T08:12:24Z
 - Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/ACAD-007-f8/), then rescope or split ACAD-007-f8 in its TODO.md entry. The runner reruns it when the entry changes.
-
-### Q-ACAD-008-74 — USER_DECISION — effort investigate — unblocks 0
-
-- Task: ACAD-008-74 — Restore the full offline check so it reaches its test results.
-- Needs: integration validation failed or changed the integration tree: the full check crashed before any test result, on the base too: [02:04:30.689][warn][wallpaper] Set wallpaper failed {"error":"Bad state: channel unavailable"}
-- Since: 2026-10-19T04:37:20Z
-- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/ACAD-008-74/), then rescope or split ACAD-008-74 in its TODO.md entry. The runner reruns it when the entry changes.
 
 ### Q-EXPORT-001-f3 — USER_DECISION — effort investigate — unblocks 0
 
