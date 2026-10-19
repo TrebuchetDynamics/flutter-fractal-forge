@@ -1,2 +1,7 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+goals.json merge=docs-sync-goals
+TODO.md merge=docs-sync-todo
+TODO.archive.md merge=docs-sync-archive
+todo.archive.md merge=docs-sync-archive
+docs/TODO-archive.md merge=docs-sync-archive
