@@ -13,12 +13,12 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-19T01:08:07Z
 - Answer: Answer in NUM-WALL-02's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
 
-### Q-ACAD-008-74 — USER_INPUT — effort input — unblocks 0
+### Q-LOOPER-001-58 — USER_INPUT — effort input — unblocks 0
 
-- Task: ACAD-008-74 — Restore the full offline check so it reaches its test results.
-- Needs: worker reported a blocker: Flutter tests on the pinned SDK did not finish within the command limit and reported two test failures before termination, so the required complete Flutter test aggregate and full offline qualification are unavailable. Provide a sufficiently isolated runner/window to complete flutter test --no-pub and authorize any separate investigation of its two reported failures; this task excludes product-cod…
-- Since: 2026-10-19T04:37:20Z
-- Answer: Answer in ACAD-008-74's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
+- Task: LOOPER-001-58 — Add optional randomized camera-looper points.
+- Needs: worker reported a blocker: The accepted offline scope's composed sheet-to-preview-to-decoded-GIF regression for randomized states was not implemented or verified. Existing viewer GIF tests passed, but they do not assert that generated stored camera states exactly match preview/export frames. Add that composed regression before treating acceptance as complete.
+- Since: 2026-10-19T08:12:24Z
+- Answer: Answer in LOOPER-001-58's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
 
 ### Q-RELEASE-002-75 — USER_INPUT — effort input — unblocks 0
 
@@ -26,6 +26,41 @@ This file contains only hard blockers that require user action.
 - Needs: worker reported a blocker: The required prepare-only campaign did not finish: its shared host-test stage exceeded the 1740-second command budget under current runner contention, so no terminal current-run host-test log, lane records, or campaign were emitted. The pre-existing exact-commit candidate stage log reports a previous host-test exit 0, but it cannot replace the mandatory prepare rerun. Provide an execution window w…
 - Since: 2026-10-19T04:37:20Z
 - Answer: Answer in RELEASE-002-75's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
+
+### Q-APP-001-47 — USER_DECISION — effort investigate — unblocks 4
+
+- Task: APP-001-47 — Qualify the official local MCP inspection workflow.
+- Needs: integration validation failed or changed the integration tree: the full check crashed before any test result, on the base too: [23:41:39.689][warn][wallpaper] Set wallpaper failed {"error":"Bad state: channel unavailable"}
+- Since: 2026-10-19T08:12:24Z
+- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/APP-001-47/), then rescope or split APP-001-47 in its TODO.md entry. The runner reruns it when the entry changes.
+
+### Q-SINEWARP-001-aa — USER_DECISION — effort investigate — unblocks 1
+
+- Task: SINEWARP-001-aa — Implement the bounded recursive sine-warped sphere.
+- Needs: integration validation failed or changed the integration tree: the full check crashed before any test result, on the base too: [00:27:06.938][warn][wallpaper] Set wallpaper failed {"error":"Bad state: channel unavailable"}
+- Since: 2026-10-19T08:12:24Z
+- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/SINEWARP-001-aa/), then rescope or split SINEWARP-001-aa in its TODO.md entry. The runner reruns it when the entry changes.
+
+### Q-ACAD-007-f8 — USER_DECISION — effort investigate — unblocks 0
+
+- Task: ACAD-007-f8 — Prepare a verified academic pilot approval brief.
+- Needs: integration validation failed or changed the integration tree: the full check crashed before any test result, on the base too: [01:35:07.081][warn][wallpaper] Set wallpaper failed {"error":"Bad state: channel unavailable"}
+- Since: 2026-10-19T08:12:24Z
+- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/ACAD-007-f8/), then rescope or split ACAD-007-f8 in its TODO.md entry. The runner reruns it when the entry changes.
+
+### Q-ACAD-008-74 — USER_DECISION — effort investigate — unblocks 0
+
+- Task: ACAD-008-74 — Restore the full offline check so it reaches its test results.
+- Needs: integration validation failed or changed the integration tree: the full check crashed before any test result, on the base too: [02:04:30.689][warn][wallpaper] Set wallpaper failed {"error":"Bad state: channel unavailable"}
+- Since: 2026-10-19T04:37:20Z
+- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/ACAD-008-74/), then rescope or split ACAD-008-74 in its TODO.md entry. The runner reruns it when the entry changes.
+
+### Q-EXPORT-001-f3 — USER_DECISION — effort investigate — unblocks 0
+
+- Task: EXPORT-001-f3 — Commit native exports without partial completed files.
+- Needs: report.json does not match worker commit/files or reports failure: a check did not pass
+- Since: 2026-10-19T08:12:24Z
+- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/EXPORT-001-f3/), then rescope or split EXPORT-001-f3 in its TODO.md entry. The runner reruns it when the entry changes.
 
 <!-- pi-autowork:questions:end -->
 
