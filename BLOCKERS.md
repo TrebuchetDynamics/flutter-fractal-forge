@@ -9,9 +9,23 @@ This file contains only hard blockers that require user action.
 ### Q-NUM-WALL-02 — USER_INPUT — effort input — unblocks 3
 
 - Task: NUM-WALL-02 — Open real Number Walls from their catalog category with restorable controls.
-- Needs: worker reported a blocker: The required range-constrained Chrome widget/state test is not runnable with the pinned `flutter test` CLI, which exposes no web-port option. Provide an approved runner that binds within AUTOWORK_PORT_BASE..AUTOWORK_PORT_BASE+99 or explicitly accept a different browser-test route.
+- Needs: worker reported a blocker: Provide an approved Flutter 3.44.6 Chrome widget/state-test route that binds every listener within AUTOWORK_PORT_BASE..AUTOWORK_PORT_BASE+99. Do not proceed by patching Flutter SDK internals, retrying with an uncontrolled ephemeral port, or substituting pure-Dart browser parity for the required widget/state test. The existing candidate 0632aa7e477570df27a84f473e0c3a27d67a8d3c and original report w…
 - Since: 2026-10-19T01:08:07Z
 - Answer: Answer in NUM-WALL-02's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
+
+### Q-ACAD-008-74 — USER_INPUT — effort input — unblocks 0
+
+- Task: ACAD-008-74 — Restore the full offline check so it reaches its test results.
+- Needs: worker reported a blocker: Flutter tests on the pinned SDK did not finish within the command limit and reported two test failures before termination, so the required complete Flutter test aggregate and full offline qualification are unavailable. Provide a sufficiently isolated runner/window to complete flutter test --no-pub and authorize any separate investigation of its two reported failures; this task excludes product-cod…
+- Since: 2026-10-19T04:37:20Z
+- Answer: Answer in ACAD-008-74's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
+
+### Q-RELEASE-002-75 — USER_INPUT — effort input — unblocks 0
+
+- Task: RELEASE-002-75 — Prepare and qualify every available platform without publication.
+- Needs: worker reported a blocker: The required prepare-only campaign did not finish: its shared host-test stage exceeded the 1740-second command budget under current runner contention, so no terminal current-run host-test log, lane records, or campaign were emitted. The pre-existing exact-commit candidate stage log reports a previous host-test exit 0, but it cannot replace the mandatory prepare rerun. Provide an execution window w…
+- Since: 2026-10-19T04:37:20Z
+- Answer: Answer in RELEASE-002-75's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
 
 <!-- pi-autowork:questions:end -->
 
