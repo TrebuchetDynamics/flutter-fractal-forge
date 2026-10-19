@@ -418,3 +418,9 @@ Status: Accepted
 The owner requested gaps in existing plans be closed and additional bounded plans saved. Native single-image, batch-image and contact-sheet exports must not leave incomplete bytes under a completed filename or destroy an existing destination when a write fails. Preserve current filenames, image/metadata content, user-chosen directories and platform distinctions. This is a completion safeguard for the existing image-creation journey, not a resumable-export system, general storage redesign or release authority. See [the commit boundary](docs/engineering/spec.md#native-export-commit-boundary).
 
 The owner separately deferred favorites/history/viewer-session preference-save failure changes; that finding remains documented and non-executable in this pass. Human academic approval and existing device/production gates remain unchanged.
+
+## Optional looper-point randomizer
+
+Status: Accepted
+
+Add optional random camera points to the existing Camera looper, retaining manual A/B and additional-point workflows. Per-point rerolls must leave other saved points and the live viewer untouched. Generated points must be repeatable for preview/export and remain under existing camera/GIF/accessibility limits. [Bounded design and delegated planner defaults](docs/engineering/spec.md#optional-randomized-camera-looper-points) keep parameter randomization and automatic playback out of this first slice. This is future implementation, not part of the release already frozen.
