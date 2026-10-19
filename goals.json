@@ -1124,6 +1124,7 @@
       "source": "PRD.md#mcp-assisted-architecture-and-ui-improvement",
       "status": "unverified",
       "tasks": [
+        "ACAD-008-74",
         "APP-001-47",
         "APP-002-e0",
         "APP-003-f7",
@@ -1150,8 +1151,7 @@
   "priority_order": {
     "schema": 1,
     "tasks": [
-      "ACAD-006-3c",
-      "NUM-WALL-01",
+      "ACAD-008-74",
       "NUM-WALL-02",
       "NUM-WALL-03",
       "NUM-WALL-04",
@@ -1202,6 +1202,14 @@
     ]
   },
   "tasks": [
+    {
+      "depends_on": [],
+      "goal": "APP-QUALITY-001",
+      "id": "ACAD-008-74",
+      "section": "Now",
+      "status": "open",
+      "title": "Restore the full offline check so it reaches its test results"
+    },
     {
       "depends_on": [
         "ACAD-02"
