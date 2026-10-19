@@ -6,13 +6,6 @@ This file contains only hard blockers that require user action.
 
 <!-- pi-autowork:questions:start -->
 
-### Q-LOOPER-001-58 — USER_DECISION — effort decision — unblocks 0
-
-- Task: LOOPER-001-58 — Add optional randomized camera-looper points.
-- Needs: worker reported a blocker: The accepted offline scope's composed sheet-to-preview-to-decoded-GIF regression for randomized states was not implemented or verified. Existing viewer GIF tests passed, but they do not assert that generated stored camera states exactly match preview/export frames. Add that composed regression before treating acceptance as complete.; DOCS-MAINTAINER already changed Checks, Next action, but the task is still waiting for the same reason.
-- Since: 2026-10-19T08:12:24Z
-- Answer: Decide the missing input or disposition in LOOPER-001-58's TODO.md entry, or move it to Needs decision. The maintainer will not repeat this repair unless the entry or waiting reason changes.
-
 ### Q-RELEASE-002-75 — USER_DECISION — effort decision — unblocks 0
 
 - Task: RELEASE-002-75 — Prepare and qualify every available platform without publication.
