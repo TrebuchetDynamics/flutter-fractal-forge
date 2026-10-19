@@ -1145,6 +1145,18 @@
         "SINEWARP-002-47"
       ],
       "title": "Add a source-attributed recursive sine-warped sphere with matching export"
+    },
+    {
+      "depends_on": [],
+      "evidence": [],
+      "id": "LOOPER-RANDOM-001",
+      "priority": 21,
+      "source": "docs/engineering/spec.md#optional-randomized-camera-looper-points",
+      "status": "unverified",
+      "tasks": [
+        "LOOPER-001-58"
+      ],
+      "title": "Add optional camera-looper point randomization without changing manual or export behavior"
     }
   ],
   "primary_milestone": "VIEW-UI-001",
@@ -1166,6 +1178,7 @@
       "SINEWARP-002-47",
       "ACAD-007-f8",
       "EXPORT-001-f3",
+      "LOOPER-001-58",
       "ICON-ZJ-02",
       "ACAD-04",
       "CAT-QUALITY-03",
@@ -1276,6 +1289,14 @@
       "section": "Next",
       "status": "open",
       "title": "Commit native exports without partial completed files"
+    },
+    {
+      "depends_on": [],
+      "goal": "LOOPER-RANDOM-001",
+      "id": "LOOPER-001-58",
+      "section": "Next",
+      "status": "open",
+      "title": "Add optional randomized camera-looper points"
     },
     {
       "depends_on": [
