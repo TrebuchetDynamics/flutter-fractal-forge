@@ -13,20 +13,6 @@ This file contains only hard blockers that require user action.
 - Since: 2026-10-19T01:08:07Z
 - Answer: Answer in NUM-WALL-02's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
 
-### Q-SINEWARP-001-aa — USER_DECISION — effort investigate — unblocks 1
-
-- Task: SINEWARP-001-aa — Implement the bounded recursive sine-warped sphere.
-- Needs: report.json does not match worker commit/files or reports failure: a check did not pass
-- Since: 2026-10-18T22:21:26Z
-- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/SINEWARP-001-aa/), then rescope or split SINEWARP-001-aa in its TODO.md entry. The runner reruns it when the entry changes.
-
-### Q-RELEASE-002-75 — USER_DECISION — effort investigate — unblocks 0
-
-- Task: RELEASE-002-75 — Prepare and qualify every available platform without publication.
-- Needs: worker timeout after 5400 s while running (1 min): export PATH="$AUTOWORK_CACHE/flutter-3.44.6/bin:$PATH" PUB_CACHE="$AUTOWORK_CACHE/pub-cache" TMPDIR="$TMPDIR" PYTHONPATH
-- Since: 2026-10-18T21:31:58Z
-- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/RELEASE-002-75/), then rescope or split RELEASE-002-75 in its TODO.md entry. The runner reruns it when the entry changes.
-
 <!-- pi-autowork:questions:end -->
 
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
