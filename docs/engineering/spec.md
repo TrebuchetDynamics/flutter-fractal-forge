@@ -431,3 +431,18 @@ Generate a candidate without calling the mutating viewer `randomizeParams`, `upd
 Use localized EN/ES point-specific labels/tooltips and announcements, keyboard/focus support and 48-logical-pixel targets. Keep the sheet scrollable without overflow at 320/360 logical-pixel widths and text scales 1/2/3; preserve manual controls, status guidance, the 1–15 second duration, GIF limits and reduced-motion behavior. Reuse existing bounds and looper/controller/export tests. No fractal-parameter randomization, seed editor, timeline, preset/storage format, global randomizer changes, new renderer, dependency, automatic playback, release inclusion or publication in this planning request. The already frozen release candidate is unchanged.
 
 Source evidence: `lib/features/looper/looper_controller.dart` already owns point capture/list interpolation; `looper_sheet.dart` already exposes additional points. `lib/core/controllers/input/fractal_view_input_bounds.dart` owns camera bounds. The global parameter randomizer mutates live state and does not generate camera points, so using it via mutate-and-restore was rejected. Builder review also found that existing `LooperPoint.lerp` reconstructs views through `LooperPose.toView`, dropping trajectory settings during playback/export. This task does not claim to fix or qualify that pre-existing trajectory-aware looper limitation: guard randomization for the entire affected plan instead of discarding settings or silently switching representations. End-to-end trajectory interpolation is outside this slice. Extending only the existing looper is smaller and avoids viewer/history side effects. All feature implementation, UI and export checks are planned, not executed.
+
+
+## Number Walls widget-test loopback exception
+
+Status: Accepted
+
+On 2026-10-19 the owner explicitly allowed OS-assigned loopback ports for
+NUM-WALL-02 required Chrome widget/state verification only, rather than its
+fixed AUTOWORK_PORT_BASE..AUTOWORK_PORT_BASE+99 restriction. Use the pinned
+Flutter 3.44.6 supported runner without SDK patches. Preserve all actual
+widget/state/replay assertions, browser security, no external listeners and
+normal cleanup of owned test processes. Pure-Dart parity is not a substitute.
+Other tasks retain their existing port rules. Shared-host contention remains
+a risk; this decision proves no browser execution, qualification or full pass.
+No runner restart/settings change or unrelated implementation is authorized.
