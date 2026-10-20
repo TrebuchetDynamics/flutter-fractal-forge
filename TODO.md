@@ -10,20 +10,6 @@
 
 Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 → CAT-QUALITY-02**. Primary focus: `VIEW-UI-001`. Preserve existing Gaussian work and active ownership; OpenAI-math additions remain Proposed. Pilot success: attractive defaults, useful controls and matching PNG export without hunting for good settings; mathematical honesty and accessibility remain mandatory. This is planning priority, not new implementation or scheduling authority. See [the recorded decision](PRD.md#quality-first-planning-priority).
 
-- [ ] **ACAD-008-74 — Restore the full offline check so it reaches its test results.**
-  - Goal: APP-QUALITY-001
-  - Status: open
-  - Section: Now.
-  - Payoff: distinguish actual analyzer/test failures from a crashed Flutter test harness so the repository’s offline gate can produce actionable results.
-  - Sources: [Accepted app-quality verification boundary](docs/engineering/spec.md#mcp-assisted-app-quality), [offline-check recovery guidance](docs/engineering/runbook.md#offline-check-export-preparation), [repository full offline gate and setup requirement](AGENTS.md#common-offline-integration-gate). Evidence: full checks at `203e406671e6` and `21921a3e6aed` each crashed before any test result with `Oops; flutter has exited unexpectedly: "Bad state: No element"` (reported twice for each); the same pre-result crash recurred twice at `acb267220083`. Worker report at `3c7c8938387d149d9b51ceadd51482d1da3852fe` records candidate-local offline metadata generation, unchanged lockfile, and a complete passing check (2,850 passed, 8 skipped), but that result does not qualify the later crashing revision. The accepted recovery guidance records an older, separate Flutter crash during `testCompilerBuildNativeAssets`, but does not establish a cause for these observed crashes. The full check also crashed twice before any test result at `0b966e206503` and twice again at `99fa227c96d5`, each with `Oops; flutter has exited unexpectedly: "Bad state: No element"`; the same pre-result crash recurred at `0bb68e41839a`. These recurrences still identify no failing test or confirmed cause. These incomplete checks are not evidence that any test failed.
-  - Touches: `AGENTS.md`, `docs/engineering/runbook.md`.
-  - Scope: Make the existing full offline check reach its actual command results by using the repository’s pinned/provisioned Flutter setup and candidate-local metadata, or by accurately restating the repository’s existing `Full check:` command if that is the evidenced blocker. Record the SDK/version and terminal output/exit for every gate stage. Treat `Bad state: No element` as the observed crash, not a confirmed cause. Do not repair product code or name a test as failing unless the recovered full check reports that test failure; do not install or mutate a shared SDK, change dependency constraints, bypass native-assets checks, or run device/browser/live gates.
-  - Acceptance: The exact full offline command from `AGENTS.md#common-offline-integration-gate` completes far enough to report terminal results for analysis, Flutter tests, pytest and Bats; retain each actual result and any test-level failures. If it still crashes or a required tool is unavailable, record the exact stage, output and blocker without claiming the gate passed. `pubspec.lock` remains unchanged.
-  - Checks: `flutter analyze --no-pub && flutter test --no-pub && python3 -m pytest test/research test/scripts -q && bats test/scripts/*.bats` (run from the repository root using the pinned/provisioned toolchain); verify the actual Flutter version against `fdroid/flutter.version`; `git diff --check`.
-  - Dependencies: None.
-  - Ownership: Repository backlog, unassigned; preserve existing task ownership. No device, publication, shared-SDK mutation or live-operation authority.
-  - Next action: On current candidate `99fa227c96d5`, use verified pinned/provisioned Flutter 3.44.6 and candidate-local package metadata, first confirming the package root resolves to that checkout and `pubspec.lock` is unchanged. Investigate why the exact `AGENTS.md` Full check crashes before producing any test result; retain per-stage terminal output/exit. The earlier worker's metadata preparation and passing analyzer/Python/Bats stages do not qualify this revision. Treat all `Bad state: No element` recurrences as observed harness failures, not test failures; change only the supported setup or gate definition if evidence identifies the blocker.
-
 ## Next
 
 
@@ -661,7 +647,7 @@ Generated from `goals.json` by `goals.py render`. `met` requires an executed, pa
 | OAI-VIS-001: Select a mathematically distinct quality-gated visual candidate from OpenAI math | unverified | — | OAI-VIS-01-IFS, OAI-VIS-02-SLE, OAI-VIS-03-VORONOI, OAI-VIS-04-UST, OAI-VIS-05-DIMER, OAI-VIS-06-HEIGHT, OAI-VIS-07-FK |
 | NUM-WALL-001: Explore exact modular number walls with custom primes and matching artwork export | unverified | — | NUM-WALL-02, NUM-WALL-03, NUM-WALL-04, NUM-WALL-05 |
 | ACAD-001: Build a traceable academic source-to-mathematics library across all catalog identities | unverified | — | ACAD-007-f8, ACAD-01-LIVE, ACAD-02-LIVE, ACAD-03, ACAD-04 |
-| APP-QUALITY-001: Improve app architecture and UI with evidence-backed Flutter MCP tooling | unverified | — | ACAD-008-74, APP-001-47, APP-002-e0, APP-003-f7, APP-004-cc, APP-005-7f |
+| APP-QUALITY-001: Improve app architecture and UI with evidence-backed Flutter MCP tooling | unverified | Offline gate restored: analysis, Flutter, Python and Bats all passed ([ACAD-008-74](todo.archive.md#acad-008-74)) | APP-001-47, APP-002-e0, APP-003-f7, APP-004-cc, APP-005-7f |
 | SINE-WARP-001: Add a source-attributed recursive sine-warped sphere with matching export | unverified | — | SINEWARP-001-aa, SINEWARP-002-47 |
 | LOOPER-RANDOM-001: Add optional camera-looper point randomization without changing manual or export behavior | unverified | — | LOOPER-001-58 |
 

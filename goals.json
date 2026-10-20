@@ -1118,7 +1118,18 @@
     },
     {
       "depends_on": [],
-      "evidence": [],
+      "evidence": [
+        {
+          "anchor": "acad-008-74",
+          "archive": "todo.archive.md",
+          "coverage_current": true,
+          "kind": "executed",
+          "ref": "flutter pub get --offline --enforce-lockfile && flutter analyze --no-pub && flutter test --no-pub && python3 -m pytest test/research test/scripts -q && bats test/scripts/*.bats; base ea7cc6e77e8cd6c2dfbb6a4d3761f4deae65bd81 plus gate/runbook changes; input SHA-256 7e676264aa6faa34ae2bbc2860703d2d68e8fa5d7caffd9b544318f053c3ab4e; all stage exits 0; details docs/engineering/runbook.md#offline-check-export-preparation",
+          "result": "pass",
+          "summary": "Offline gate restored: analysis, Flutter, Python and Bats all passed",
+          "task": "ACAD-008-74"
+        }
+      ],
       "id": "APP-QUALITY-001",
       "priority": 19,
       "source": "PRD.md#mcp-assisted-architecture-and-ui-improvement",
@@ -1215,14 +1226,6 @@
     ]
   },
   "tasks": [
-    {
-      "depends_on": [],
-      "goal": "APP-QUALITY-001",
-      "id": "ACAD-008-74",
-      "section": "Now",
-      "status": "open",
-      "title": "Restore the full offline check so it reaches its test results"
-    },
     {
       "depends_on": [
         "ACAD-02"
@@ -1689,6 +1692,14 @@
       "section": "Done",
       "status": "done",
       "title": "Restore the full offline check on main"
+    },
+    {
+      "depends_on": [],
+      "goal": "APP-QUALITY-001",
+      "id": "ACAD-008-74",
+      "section": "Done",
+      "status": "done",
+      "title": "Restore the full offline check so it reaches its test results"
     },
     {
       "depends_on": [],

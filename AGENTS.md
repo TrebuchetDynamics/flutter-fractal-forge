@@ -86,9 +86,9 @@ Navigation: HomeScreen -> Catalog -> Viewer (with FractalController per tab)
 <!-- omh:agent-instructions:begin -->
 ## Common offline integration gate
 
-Full check: flutter analyze --no-pub && flutter test --no-pub && python3 -m pytest test/research test/scripts -q && bats test/scripts/*.bats
+Full check: flutter pub get --offline --enforce-lockfile && flutter analyze --no-pub && flutter test --no-pub && python3 -m pytest test/research test/scripts -q && bats test/scripts/*.bats
 
-Verification: unverified in this blocker questionnaire; this declares the existing offline command families, not a passing suite result. Run from the repository root with the pinned isolated/provisioned Flutter SDK and existing Python/Bats tooling. Missing tools, failed tests or timeouts must remain failures, not skipped success. Device/browser journeys and production/live qualification remain separate task gates. Do not use the device-changing pre-release gate as this offline command.
+Verification: run from the execution checkout root with the pinned isolated/provisioned Flutter SDK and existing Python/Bats tooling. The offline, lockfile-enforced preflight regenerates checkout-local package metadata before the unchanged test families; do not copy a producer checkout's project-root binding into an export. Preserve and verify `pubspec.lock`. The command declaration is not a passing suite result. Missing tools, failed tests or timeouts must remain failures, not skipped success. Device/browser journeys and production/live qualification remain separate task gates. Do not use the device-changing pre-release gate as this offline command.
 <!-- omh:agent-instructions:end -->
 
 <!-- MANUAL: -->
