@@ -48,7 +48,9 @@ tagged Android device runner with a connected device), and configure the
 protected CI/CD variables below. Publication is therefore not yet dispatched; do
 not bypass guards or pretend that this documentation changes script behavior.
 
-Run the complete release from the repository root:
+The following commands describe the **legacy GitLab route**, retained for reference only. Do not run them while the current GitLab deferral applies. Current preparation is the explicit best-effort route above; its existence does not waive any lane's evidence or authorize publication.
+
+Historical complete-release commands from the repository root:
 
 ```bash
 ./release.sh                       # detect next patch, prepare, push, release, wait

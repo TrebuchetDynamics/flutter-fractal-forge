@@ -4,6 +4,10 @@ This file contains only hard blockers that require user action.
 
 ## Active
 
+### Current triage of retained runner notices
+
+The generated block below is preserved historical runner output, not five fresh requests for owner decisions. Current committed task records take precedence. NUM-WALL-02 already has its 2026-10-19 task-only loopback decision; APP-001-47, SINEWARP-001-aa and ACAD-007-f8 retain technical integration/qualification work after the completed ACAD-008-74 setup repair; EXPORT-001-f3 retains a failed-check/report-consistency issue. These are not new scope approvals. The stopped runner has not consumed this documentation reconciliation, and its marked block/slots/reports are deliberately unchanged. See [the handoff limits](docs/engineering/runbook.md#queue-and-retained-check-handoff).
+
 <!-- pi-autowork:questions:start -->
 
 ### Q-NUM-WALL-02 — USER_INPUT — effort input — unblocks 3

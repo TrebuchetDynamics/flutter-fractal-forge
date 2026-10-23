@@ -40,8 +40,8 @@ Be respectful and inclusive. We welcome contributors of all experience levels an
 
 ### Prerequisites
 
-- Flutter SDK >= 3.0.0
-- Dart SDK >= 3.0.0
+- Flutter SDK 3.44.6, matching `fdroid/flutter.version`
+- Bundled Dart 3.12.2 for the verified toolchain; do not independently upgrade Dart
 - IDE with Flutter support (VS Code or Android Studio recommended)
 - Device/emulator for testing
 
@@ -62,6 +62,8 @@ flutter test
 # Analyze code
 flutter analyze
 ```
+
+For the complete offline integration check, use the [common gate](docs/engineering/test-plan.md#common-offline-gate), not just the focused commands above. Execute its lockfile-enforced metadata preflight in each checkout/export; do not copy another checkout's `.dart_tool` binding. Device/browser qualification and publishing remain separate.
 
 ### IDE Configuration
 

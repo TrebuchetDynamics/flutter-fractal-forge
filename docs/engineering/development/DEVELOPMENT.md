@@ -24,11 +24,11 @@ This guide covers setup, testing, and development workflows for Flutter Fractal 
 
 ### Flutter SDK Installation
 
-Download and extract Flutter to your home directory:
+Use an isolated/provisioned SDK matching `fdroid/flutter.version` (currently Flutter 3.44.6 with bundled Dart 3.12.2). Do not switch an existing shared SDK to a floating stable branch. For a new standalone checkout:
 
 ```bash
 cd ~
-git clone https://github.com/flutter/flutter.git -b stable
+git clone --branch 3.44.6 --depth 1 https://github.com/flutter/flutter.git
 ```
 
 Add to your shell profile (`~/.bashrc` or `~/.zshrc`):

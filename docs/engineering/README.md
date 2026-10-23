@@ -8,4 +8,6 @@ Engineering documentation is grouped by responsibility:
 - [`release/`](release/) — official distribution pipelines and operator runbooks.
 - [`validation/`](validation/) — GPU/emulator validation, troubleshooting evidence, and generated thumbnail integrity reports.
 
+Core document owners: [product scope](../../PRD.md), [current architecture and change contracts](spec.md), [verification](test-plan.md), [local operations](runbook.md), [central queue](../../TODO.md) and [changelog](../../CHANGELOG.md). The [Fibonacci prime-degree Julia note](../../research/fibonacci-prime-degree-julia.md) records a saved plan, not an implemented catalog addition.
+
 Start with [`development/DEVELOPMENT.md`](development/DEVELOPMENT.md) for environment setup, [`rendering/cpu_vs_gpu_rendering.md`](rendering/cpu_vs_gpu_rendering.md) for renderer decisions, or [`performance/PERFORMANCE.md`](performance/PERFORMANCE.md) for runtime performance work.
