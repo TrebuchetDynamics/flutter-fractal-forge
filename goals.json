@@ -1168,6 +1168,20 @@
         "LOOPER-001-58"
       ],
       "title": "Add optional camera-looper point randomization without changing manual or export behavior"
+    },
+    {
+      "depends_on": [],
+      "evidence": [],
+      "id": "FIB-PRIME-001",
+      "priority": 22,
+      "source": "PRD.md#fibonacci-prime-degree-julia-fractal",
+      "status": "unmet",
+      "tasks": [
+        "FIB-PRIME-01",
+        "FIB-PRIME-02",
+        "FIB-PRIME-03"
+      ],
+      "title": "Deliver the researched native Fibonacci prime-degree Julia fractal"
     }
   ],
   "primary_milestone": "VIEW-UI-001",
@@ -1190,6 +1204,8 @@
       "ACAD-007-f8",
       "EXPORT-001-f3",
       "LOOPER-001-58",
+      "FIB-PRIME-01",
+      "FIB-PRIME-02",
       "ICON-ZJ-02",
       "ACAD-04",
       "CAT-QUALITY-03",
@@ -1222,7 +1238,8 @@
       "VIS-006-BATCH-20-LIVE",
       "GAUSS-MOAT-04-GROWTH-LIVE",
       "GAUSS-MOAT-03-QUALIFY-LIVE",
-      "RELEASE-001-23-LIVE"
+      "RELEASE-001-23-LIVE",
+      "FIB-PRIME-03"
     ]
   },
   "tasks": [
@@ -2215,6 +2232,34 @@
       "section": "Done",
       "status": "done",
       "title": "Run the Featured Launch Set Chromium smoke"
+    },
+    {
+      "depends_on": [],
+      "goal": "FIB-PRIME-001",
+      "id": "FIB-PRIME-01",
+      "section": "Next",
+      "status": "open",
+      "title": "Implement and independently test the complex Fibonacci orbit model"
+    },
+    {
+      "depends_on": [
+        "FIB-PRIME-01"
+      ],
+      "goal": "FIB-PRIME-001",
+      "id": "FIB-PRIME-02",
+      "section": "Next",
+      "status": "open",
+      "title": "Deliver one native prime-degree Julia module with matching CPU and PNG output"
+    },
+    {
+      "depends_on": [
+        "FIB-PRIME-02"
+      ],
+      "goal": "FIB-PRIME-001",
+      "id": "FIB-PRIME-03",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Qualify Fibonacci prime-degree viewing and exports on real supported targets"
     }
   ],
   "version": 1

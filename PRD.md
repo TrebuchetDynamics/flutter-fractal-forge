@@ -424,3 +424,15 @@ The owner separately deferred favorites/history/viewer-session preference-save f
 Status: Accepted
 
 Add optional random camera points to the existing Camera looper, retaining manual A/B and additional-point workflows. Per-point rerolls must leave other saved points and the live viewer untouched. Generated points must be repeatable for preview/export and remain under existing camera/GIF/accessibility limits. [Bounded design and delegated planner defaults](docs/engineering/spec.md#optional-randomized-camera-looper-points) keep parameter randomization and automatic playback out of this first slice. This is future implementation, not part of the release already frozen.
+
+## Fibonacci prime-degree Julia fractal
+
+Status: Accepted
+
+Owner outcome: research and plan implementation of the Fibonacci prime-degree Julia fractal. This `/plan-for-me` occurrence saves the plan, not implementation or a timed schedule. Preserve TODO.md as the central queue and synchronize goals.json, as explicitly requested; do not migrate formats, reset historical slots or change the existing focus/order to make this work run.
+
+Deliver one native `fibonacci_complex_julia` identity using the published complex Fibonacci map H_c(z,w)=(zw+c,z), initially sliced by (z,w)=(p,p). Highlight prime Fibonacci polynomial degrees truthfully, support genuine GPU and native CPU paths, explain finite-budget/numeric uncertainty, and preserve saved states and PNG ownership. Two complex coordinates mean four real state coordinates, not a new full-4D viewer. The recurrence, proof, sources and planner choices are in [the spec](docs/engineering/spec.md#fibonacci-prime-degree-julia); [the research note](research/fibonacci-prime-degree-julia.md) separates evidence from proposals.
+
+Planner defaults: one diagonal slice, existing 2D controls and fixed complex-c controls, at most 45 updates, always-on prime-degree accents (no new toggle/CPU parameter plumbing), time-static classification, no generic complex-space engine or dependencies. A later fixed-memory/3D section remains optional and outside this batch. Success means an actual useful nonzero-c render, honest prime legend and same-state decodable PNG, not merely a circle, shader compilation or number-theory decoration. Existing spiral/word/cone identities and B artwork remain unchanged.
+
+Tasks: FIB-PRIME-01 -> FIB-PRIME-02; FIB-PRIME-03 separately owns real-target qualification. No infinitude proof, runtime primality search, academic claim/acquisition self-approval, release, publication or runner restart is authorized.

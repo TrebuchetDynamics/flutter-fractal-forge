@@ -216,6 +216,32 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   - Ownership: Repository backlog, unassigned; preserve live writers. This request plans only and does not dispatch or change the frozen release.
   - Next action: First add and run the missing composed randomized sheet → preview → decoded-GIF regression in `test/fractal/fractal_viewer_screen_widget_test.dart`; it must compare generated stored states exactly with preview/export plan states and decoded GIF frames. The attempt-1 controller, sheet and viewer checks passed, but this composed assertion was not implemented or verified. Then finish any remaining acceptance gaps without changing the accepted planner defaults; do not call the global mutating randomizer or rebuild multi-point support.
 
+- [ ] **FIB-PRIME-01 — Implement and independently test the complex Fibonacci orbit model.**
+  - Goal: FIB-PRIME-001
+  - Status: open
+  - Section: Next.
+  - Sources: [Owner outcome](PRD.md#fibonacci-prime-degree-julia-fractal), [decided contract](docs/engineering/spec.md#fibonacci-prime-degree-julia), [checks](docs/engineering/test-plan.md#fibonacci-prime-degree-julia-verification), [retained research](research/fibonacci-prime-degree-julia.md).
+  - Touches: lib/core/models/fibonacci_complex_model.dart, test/models/fibonacci_complex_model_test.dart
+  - Scope: Implement the small family-owned immutable orbit/status model for H_c(z,w)=(zw+c,z), diagonal initial state, simultaneous old-state updates, k=0..N indexing, safe both-component escape region and exact finite prime-degree metadata through F47. No UI, shader, generic complex framework or runtime prime search.
+  - Acceptance: The new model test independently verifies polynomial degrees for nonzero c, all prime-degree steps/F4 exception/F19 counterexample, c=0 reference points away from precision ambiguity, three-cycle, one-large collapse and both-large growth. Invalid/nonfinite, cap reached and escaped outcomes remain distinct and finite; color cannot alter them. No conjecture proof or rigorous floating-pixel certification claim.
+  - Checks: Planned new target: `flutter test --no-pub test/models/fibonacci_complex_model_test.dart --reporter expanded`; format the two touched Dart files and run `flutter analyze --no-pub`. The target does not yet exist; all implementation checks are NOT_RUN.
+  - Dependencies: None.
+  - Ownership: Repository backlog, unassigned; preserve existing ordering/owners. Planning-only; no implementation, migration, scheduling or publication dispatched.
+  - Next action: Write the independent model regression first, observe RED, implement the bounded model and retain GREEN with the tested inputs. Preserve all other task ownership.
+
+- [ ] **FIB-PRIME-02 — Deliver one native prime-degree Julia module with matching CPU and PNG output.**
+  - Goal: FIB-PRIME-001
+  - Status: open
+  - Section: Next.
+  - Sources: [Owner outcome](PRD.md#fibonacci-prime-degree-julia-fractal), [decided contract](docs/engineering/spec.md#fibonacci-prime-degree-julia), [checks](docs/engineering/test-plan.md#fibonacci-prime-degree-julia-verification), [retained research](research/fibonacci-prime-degree-julia.md).
+  - Touches: lib/core/modules/builders/fibonacci_complex_module.dart, lib/core/modules/module_registry.dart, lib/features/renderer/cpu/cpu_formulas.dart, lib/features/renderer/cpu/cpu_fractal_renderer.dart, shaders/escape_time_family/polynomial_maps/fibonacci_complex_julia_gpu.frag, pubspec.yaml, lib/l10n/, lib/shared/widgets/fractal_math_summary.dart, lib/features/viewer/export/viewer_export_actions.dart, lib/core/services/export/, test/modules/fibonacci_complex_test.dart, test/cpu/fibonacci_complex_cpu_test.dart, test/export/fibonacci_complex_export_test.dart, test/catalog/catalog_id_integrity_test.dart, test/fixtures/animation_capability_inventory.json, docs/planning/visual-audit-inventory.json, research/academic/coverage.json, README.md, web/landing.html, docs/play-store-localized-listings.json, test/screens/settings_screen_a11y_test.dart, docs/engineering/test-plan.md, CHANGELOG.md
+  - Scope: Register exactly fibonacci_complex_julia with a family-specific builder reusing existing interfaces, one actual shader and genuine CPU adapter consuming FIB-PRIME-01. N 1..45, fixed finite c controls, diagonal slice, always-on prime-degree colors, status legend, time-static metadata and preserved camera/export snapshots. Recompute coupled counts from the actual integrated registry; do not assume the unlanded composed-quadratic candidate is present. Large Touches are coupled registration/generated/count/export obligations of one vertical module, not permission for a renderer redesign.
+  - Acceptance: Module/shader/full-frame CPU tests show correct c/N/bailout/view bindings, update/prime indexing and finite distinct numerical-uncertainty output at supported zoom extremes; actual draw/PNG decoding and opaque RGB/reference checks cover nonzero c. Export regression freezes edited state and refuses CPU-only transparent export visibly before file commit unless a valid GPU path can honor it; no fake alpha parity. Unique catalog identity, static capability, accurate accessible EN/ES legend, counts/inventories, old-ID preservation and the unchanged full offline gate pass. Select a useful real-rendered nonzero-c preset from the spec candidates; a compile pass or c=0 circle alone is insufficient.
+  - Checks: Planned: `flutter test --no-pub test/models/fibonacci_complex_model_test.dart test/modules/fibonacci_complex_test.dart test/cpu/fibonacci_complex_cpu_test.dart test/export/fibonacci_complex_export_test.dart test/catalog/catalog_id_integrity_test.dart test/modules/animation_capability_audit_test.dart --reporter expanded`; `flutter gen-l10n`; format touched Dart; root AGENTS.md offline gate with pinned SDK and unchanged lock. Run `flutter build linux --release --no-pub` and `flutter build web --release --no-pub` in an owned complete snapshot. Preserve real draw/decoded PNG inputs, classification/boundary tolerances and actual exits. These are future commands, NOT_RUN, not old-addition build/test evidence.
+  - Dependencies: FIB-PRIME-01.
+  - Ownership: Repository backlog, unassigned; preserve existing ordering/owners. Planning-only; no implementation, migration, scheduling or publication dispatched.
+  - Next action: Use the accepted model contract to add actual module/CPU/render/export regressions before the corresponding code. Integrate one identity, then verify the current composition without overwriting any retained candidate or public count source.
+
 ## Needs decision
 
 - [ ] **ICON-ZJ-02 — Replace app and store icon assets with the approved app capture.**
@@ -621,6 +647,20 @@ Owner interview order: **VIEW-UI-01 / VIEW-UI-02 first**, then **CAT-QUALITY-01 
   Checks: Live qualification by an authorized person; offline evidence does not count.
   Dependencies: RELEASE-001-23.
   Status: open
+
+- [ ] **FIB-PRIME-03 — Qualify Fibonacci prime-degree viewing and exports on real supported targets.**
+  - Goal: FIB-PRIME-001
+  - Status: open
+  - Section: Needs decision.
+  - Sources: [Owner outcome](PRD.md#fibonacci-prime-degree-julia-fractal), [decided contract](docs/engineering/spec.md#fibonacci-prime-degree-julia), [checks](docs/engineering/test-plan.md#fibonacci-prime-degree-julia-verification), [retained research](research/fibonacci-prime-degree-julia.md).
+  - Touches: integration_test/flows/fibonacci_complex_journey_test.dart, test/playwright/web-image-creation-journey.spec.mjs, docs/engineering/test-plan.md
+  - Scope: Run real catalog -> edit c/N/view -> save/reopen -> PNG journeys on named available Linux, browser and installed Android targets after implementation. Check actual accessible legend/default usefulness and decoded outputs; platform results remain separate. Needs target/access, not a new mathematical or product-design decision.
+  - Acceptance: Each selected target records build/backend/device identity, actual journey result and same-state PNG readback with EN/ES/narrow/large-text/high-contrast coverage. GPU transparency and refused unsupported CPU transparency are truthful. Missing targets remain explicitly unavailable and cannot qualify the feature; offline implementation is not blocked by absent device access. No deployment, store upload or broader release inferred.
+  - Checks: Planned: `flutter test integration_test/flows/fibonacci_complex_journey_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded`; same target on an actual named Android device when authorized; `npx --no-install playwright test test/playwright/web-image-creation-journey.spec.mjs --project=chromium --workers=1 --grep Fibonacci --reporter=list` with the existing owned configured host and allowed listener policy. No Number Walls-only port waiver transfers. All journeys NOT_RUN.
+  - Dependencies: FIB-PRIME-02.
+  - Ownership: Repository backlog, unassigned; preserve existing ordering/owners. Planning-only; no implementation, migration, scheduling or publication dispatched.
+  - Next action: After FIB-PRIME-02, obtain a named authorized target and run the composed journey, retaining actual unavailable targets. No worker dispatch or target access is granted by saving this plan.
+
 
 ## Done
 

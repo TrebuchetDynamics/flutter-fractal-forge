@@ -446,3 +446,35 @@ normal cleanup of owned test processes. Pure-Dart parity is not a substitute.
 Other tasks retain their existing port rules. Shared-host contention remains
 a risk; this decision proves no browser execution, qualification or full pass.
 No runner restart/settings change or unrelated implementation is authorized.
+
+## Fibonacci prime-degree Julia
+
+Status: Accepted
+
+Source: [owner outcome](../../PRD.md#fibonacci-prime-degree-julia-fractal), [research and independent mathematical review](../../research/fibonacci-prime-degree-julia.md). The implementation approach below is a delegated planner choice; this saved plan does not execute it.
+
+### Mathematical and numeric contract
+
+Use H_c(z,w)=(zw+c,z), fixed finite c, initial (p,p); the diagonal is an initial-condition slice, not invariant. With F0=0,F1=1 and P0=P1=p, P(n+1)=P(n)P(n-1)+c, the first coordinate after k updates is P(k+1), monic of degree F(k+2) for every fixed c. Inspect k=0 first, then update both coordinates from OLD values and inspect k=1..N. Exactly checked prime-accent steps through N=45: 1,2,3,5,9,11,15,21,27,41,45. Their degrees are 2,3,5,13,89,233,1597,28657,514229,433494437,2971215073. Index 4 is the exception to prime-index necessity; prime index alone is insufficient (F19=4181=37*113). Prime classification affects color only. No GPU primality computation or extrapolated unknown table entries.
+
+Normalize N to 1..45 and c controls to finite [-2,2] per component at the existing parameter boundary. Low-level invalid/nonfinite input returns numerical-uncertainty status rather than a bogus escape. Set R=max(2+abs(c), normalized user bailout), with the existing default bailout 4; a user radius never weakens the safe lower bound. Both current moduli must be strictly greater than R. In exact arithmetic reverse triangle gives forward growth q=R-abs(c)/R>1; the new first component grows, the second copies old z, and both stay in the region. One large coordinate is insufficient: at c=0, (M,0)->(0,M)->(0,0). Check this region before multiplication. Nonfinite intermediate/palette math must not be mistaken for this proof or silently clamped into a changed recurrence. Use finite magnitude/log arithmetic; represent three outcomes: escaped numerically by the sufficient region, not escaped within N, and numerically unresolved. No formal pixel-certification claim without error bounds.
+
+### Smallest implementation
+
+FIB-PRIME-01 owns a family-specific immutable orbit result/model in `lib/core/models/fibonacci_complex_model.dart` and its independent tests. Carry status and integer update k; keep classification independent from color. Retain a scalar escape/degree helper rather than a generic complex-dynamics framework. Use exact integer Fibonacci/primality metadata through F47 (all values fit existing native/web exact integer ranges). Independent oracle fixtures must not merely call the model or duplicate the same update-order bug. c=0 diagonal has filled unit disk in exact arithmetic; use exact unit points and classify comparisons away from a precision boundary with explicit tolerance. Include the algebraic three-cycle (-1,-1)->(1+c,-1)->(-1,1+c)->(-1,-1).
+
+FIB-PRIME-02 integrates this model as one module, one GPU entry/kernel and the native CPU formula/parameter adapter. Do not use a synthetic seed fallback or register a duplicate family. CPU worker/isolate messages carry existing module ID, c, iteration and bailout data; no new generic renderer state or persistence schema. Prime accents are always enabled in the first release, avoiding a bool that the existing six-argument CpuFormula cannot receive. Return the family colors through its ordinary RGB adapter. Unresolved numeric results use a distinct finite opaque diagnostic tone and textual legend, not an interior black or fake prime color; cap-nonescape remains described as finite-budget uncertainty.
+
+Reuse existing viewport mapping, 2D navigation, locked export snapshot, palette contracts and EN/ES module/math labels. Camera floor must match supported 1e-9, not freeze at 1e-6. Use ordinary discrete iteration bands initially, not an unproved quadratic log-2 Green-function smoother. Keep the module static even though a standard shader prefix contains time. A small family-specific builder or model adapter is acceptable; no 4D scene framework or dependency.
+
+Color is not the only explanation: the existing math-summary/module-description surface must include recurrence, C² slice meaning, finite-cap/numeric legend and representative k/degree/prime examples in EN/ES. A dynamic per-pixel inspector, stage animation and prime toggle are not required. Defaults: N=45, pan zero, zoom 1 initially, c=-0.2+0.25i is the first candidate. Select a materialized default from that, c=-0.3+0.3i, then c=0.1 only as needed by actual render checks; retain c=0 as an analytic reference preset. Record measured framing/contrast/export and rendered inputs; do not call unrendered presets visually qualified.
+
+### Export and compatibility boundary
+
+Opaque same-state RGB/classification parity is mandatory through actual full-frame CPU and GPU paths; PNG dimensions, finite channels and edited c/N/view must match their captured state. GPU transparency follows the existing snapshot/uniform rules and leaves numerical diagnostics opaque. Existing CPU tile output writes alpha=255 (`cpu_render_isolate.dart:315`) and its formula returns RGB only. Do not claim CPU transparent parity: when a transparent export would require CPU for this module, reuse a valid GPU export or reject visibly before writing a completed PNG. Do not silently emit opaque output or redesign global CPU alpha/state. Add the narrow module-owned export eligibility guard and regression in existing export actions/service as needed.
+
+Preserve old IDs, user preset/history values, unrelated export behavior and artwork. Refresh actual catalog counts/inventories from the integrated registry, not old hardcoded totals or an unlanded composed-quadratic candidate. Register shader assets in pubspec and use real draw/readback, not compile-only checks. Shared GLSL edits require evidence that the entry asset was rebuilt rather than stale shader cache output.
+
+### Scope and authority
+
+FIB-PRIME-03 retains native/browser/installed-device qualification separately. Follow existing allowed host/listener policies; the Number Walls-only port exception does not transfer. Missing targets remain explicit; no app/store release, live credential access, publication, new timer, source-metadata approval or queue migration. The user explicitly retained TODO.md/goals.json for this occurrence; installed Autowork's tasks/ reader is a separate execution compatibility issue, not a reason to overwrite the queue or manufacture runnable status.
