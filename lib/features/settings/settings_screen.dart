@@ -105,6 +105,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     showModalBottomSheet(
       context: context,
+      useSafeArea: true,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (sheetContext) => AppBottomSheet(
         maxHeightFactor: 0.56,

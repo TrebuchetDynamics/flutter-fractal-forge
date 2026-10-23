@@ -3,9 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/services/export/share_service.dart';
+import 'package:flutter_fractals/core/services/platform/haptic_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
-import 'package:flutter_fractals/core/services/platform/haptic_service.dart';
+import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/app_feedback_snack_bar.dart';
 
@@ -149,207 +150,70 @@ class ShareSheet extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final linkText = uri.toString();
 
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-        border: Border.all(color: AppColors.border.withValues(alpha: 0.3)),
-      ),
-      child: SafeArea(
-        minimum: EdgeInsets.only(
-          bottom: MediaQuery.systemGestureInsetsOf(context).bottom,
+    return AppBottomSheet(
+      children: [
+        AppBottomSheetHeader(
+          icon: Icons.share_rounded,
+          title: l10n.shareTitle,
+          onClose: () => Navigator.of(context).pop(),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.xl),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Handle bar
-              Center(
-                child: Container(
-                  width: 40,
-                  height: 4,
+        const Divider(height: 1),
+        Flexible(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(AppSpacing.lg),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(l10n.shareSubtitle(fractalName),
+                    style: Theme.of(context).textTheme.bodyMedium),
+                const SizedBox(height: AppSpacing.md),
+                Container(
+                  padding: const EdgeInsets.all(AppSpacing.md),
                   decoration: BoxDecoration(
-                    color: AppColors.textMuted.withValues(alpha: 0.3),
-                    borderRadius: BorderRadius.circular(2),
+                    color:
+                        Theme.of(context).colorScheme.surfaceContainerHighest,
+                    borderRadius: BorderRadius.circular(12),
                   ),
+                  child: SelectableText(linkText,
+                      style: Theme.of(context).textTheme.bodyMedium),
                 ),
-              ),
-              const SizedBox(height: AppSpacing.lg),
-
-              // Title
-              Text(
-                l10n.shareTitle,
-                style: AppTypography.titleLarge,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              Text(
-                l10n.shareSubtitle(fractalName),
-                style: AppTypography.bodyMedium
-                    .copyWith(color: AppColors.textSecondary),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: AppSpacing.xl),
-
-              // Link preview
-              Container(
-                padding: const EdgeInsets.all(AppSpacing.md),
-                decoration: BoxDecoration(
-                  color: AppColors.surfaceVariant,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                      color: AppColors.border.withValues(alpha: 0.3)),
-                ),
-                child: Row(
+                const SizedBox(height: AppSpacing.lg),
+                Wrap(
+                  alignment: WrapAlignment.end,
+                  spacing: AppSpacing.md,
+                  runSpacing: AppSpacing.sm,
                   children: [
-                    const Icon(Icons.link_rounded,
-                        color: AppColors.primary, size: 20),
-                    const SizedBox(width: AppSpacing.sm),
-                    Expanded(
-                      child: Text(
-                        linkText,
-                        style: AppTypography.bodySmall
-                            .copyWith(color: AppColors.textMuted),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: AppSpacing.xl),
-
-              // Share buttons
-              Row(
-                children: [
-                  Expanded(
-                    child: _ShareButton(
-                      icon: Icons.copy_rounded,
-                      label: l10n.actionCopy,
+                    OutlinedButton.icon(
+                      icon: const Icon(Icons.copy_rounded),
+                      label: Text(l10n.actionCopy),
                       onPressed: () {
+                        HapticService.medium();
                         Clipboard.setData(ClipboardData(text: linkText));
                         Navigator.of(context).pop();
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Row(
-                              children: [
-                                const Icon(Icons.check_rounded,
-                                    color: AppColors.success, size: 18),
-                                const SizedBox(width: AppSpacing.sm),
-                                Text(l10n.linkCopied),
-                              ],
-                            ),
+                            content: Text(l10n.linkCopied),
                             behavior: SnackBarBehavior.floating,
                           ),
                         );
                       },
                     ),
-                  ),
-                  const SizedBox(width: AppSpacing.md),
-                  Expanded(
-                    child: _ShareButton(
-                      icon: Icons.share_rounded,
-                      label: l10n.actionShare,
-                      isPrimary: true,
-                      onPressed: () => _share(context, l10n),
+                    FilledButton.icon(
+                      icon: const Icon(Icons.share_rounded),
+                      label: Text(l10n.actionShare),
+                      onPressed: () {
+                        HapticService.medium();
+                        _share(context, l10n);
+                      },
                     ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _ShareButton extends StatefulWidget {
-  final IconData icon;
-  final String label;
-  final VoidCallback onPressed;
-  final bool isPrimary;
-
-  const _ShareButton({
-    required this.icon,
-    required this.label,
-    required this.onPressed,
-    this.isPrimary = false,
-  });
-
-  @override
-  State<_ShareButton> createState() => _ShareButtonState();
-}
-
-class _ShareButtonState extends State<_ShareButton>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: AppAnimations.fast,
-      vsync: this,
-    );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(parent: _controller, curve: AppAnimations.snappyCurve),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: (_) {
-        _controller.forward();
-        HapticService.medium();
-      },
-      onTapUp: (_) => _controller.reverse(),
-      onTapCancel: () => _controller.reverse(),
-      onTap: widget.onPressed,
-      child: ScaleTransition(
-        scale: _scaleAnimation,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-          decoration: BoxDecoration(
-            gradient: widget.isPrimary ? AppColors.primaryGradient : null,
-            color: widget.isPrimary ? null : AppColors.surfaceVariant,
-            borderRadius: BorderRadius.circular(12),
-            border: widget.isPrimary
-                ? null
-                : Border.all(
-                    color: AppColors.border.withValues(alpha: 0.3),
-                  ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                widget.icon,
-                size: 18,
-                color: widget.isPrimary ? Colors.white : AppColors.textPrimary,
-              ),
-              const SizedBox(width: AppSpacing.sm),
-              Text(
-                widget.label,
-                style: AppTypography.labelLarge.copyWith(
-                  color:
-                      widget.isPrimary ? Colors.white : AppColors.textPrimary,
+                  ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

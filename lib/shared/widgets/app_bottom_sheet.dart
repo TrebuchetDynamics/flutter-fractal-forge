@@ -100,10 +100,10 @@ class _DragHandle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: SheetDragHandle(
         margin: EdgeInsets.only(top: AppSpacing.md),
-        color: AppColors.border,
+        color: Theme.of(context).colorScheme.outline,
       ),
     );
   }
@@ -198,12 +198,13 @@ class AppBottomSheetHeader extends StatelessWidget {
       ),
       child: Row(
         children: [
-          _buildAppHeaderTitle(icon, iconGradient, title, subtitle),
+          _buildAppHeaderTitle(context, icon, iconGradient, title, subtitle),
           if (onClose != null)
             IconButton(
               tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
               onPressed: onClose,
-              icon: Icon(Icons.close_rounded, color: AppColors.textMuted),
+              icon: Icon(Icons.close_rounded,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant),
             ),
         ],
       ),
@@ -233,7 +234,8 @@ class AppDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: AppColors.surface,
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      scrollable: true,
       surfaceTintColor: Colors.transparent,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       titlePadding: const EdgeInsets.fromLTRB(
@@ -256,15 +258,15 @@ class AppDialog extends StatelessWidget {
       ),
       title: Row(
         children: [
-          _buildAppHeaderTitle(icon, iconGradient, title, subtitle),
+          _buildAppHeaderTitle(context, icon, iconGradient, title, subtitle),
         ],
       ),
       content: content == null
           ? null
           : DefaultTextStyle(
-              style: AppTypography.bodyMedium.copyWith(
-                color: AppColors.textSecondary,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
               child: content!,
             ),
       actions: actions,
@@ -273,6 +275,7 @@ class AppDialog extends StatelessWidget {
 }
 
 Widget _buildAppHeaderTitle(
+  BuildContext context,
   IconData icon,
   Gradient? iconGradient,
   String title,
@@ -284,10 +287,17 @@ Widget _buildAppHeaderTitle(
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            gradient: iconGradient ?? AppColors.primaryGradient,
+            gradient: iconGradient,
+            color: iconGradient == null
+                ? Theme.of(context).colorScheme.primary.withValues(alpha: .12)
+                : null,
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Icon(icon, color: Colors.white, size: 18),
+          child: Icon(icon,
+              color: iconGradient == null
+                  ? Theme.of(context).colorScheme.onSurface
+                  : Colors.white,
+              size: 20),
         ),
         const SizedBox(width: AppSpacing.md),
         Expanded(
@@ -299,14 +309,14 @@ Widget _buildAppHeaderTitle(
               Text(title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: AppTypography.titleMedium),
+                  style: Theme.of(context).textTheme.titleMedium),
               if (subtitle != null)
                 Text(subtitle,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTypography.bodySmall.copyWith(
-                      color: AppColors.textSecondary,
-                    )),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        )),
             ],
           ),
         ),

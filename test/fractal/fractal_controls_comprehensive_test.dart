@@ -183,17 +183,17 @@ void main() {
       expect(find.byType(Slider), findsWidgets);
     });
 
-    testWidgets('buttons are laid out in row', (tester) async {
+    testWidgets('reset buttons can wrap together', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      // Reset buttons should be in a Row
+      // Reset peers share a Wrap so narrow sheets can use separate runs.
       expect(
           find.ancestor(
             of: find.text('Reset View'),
-            matching: find.byType(Row),
+            matching: find.byType(Wrap),
           ),
-          findsWidgets);
+          findsOneWidget);
     });
 
     testWidgets('Randomize button exists', (tester) async {
@@ -207,7 +207,13 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.byType(SingleChildScrollView), findsOneWidget);
+      expect(
+        find.ancestor(
+          of: find.text('Randomize'),
+          matching: find.byType(SingleChildScrollView),
+        ),
+        findsOneWidget,
+      );
     });
 
     testWidgets('Glow sliders appear only when glow is enabled',

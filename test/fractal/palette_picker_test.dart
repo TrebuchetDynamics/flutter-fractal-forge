@@ -104,6 +104,26 @@ void main() {
       );
     });
 
+    testWidgets(
+        'desktop picker reveals a middle selection inside its capped panel',
+        (tester) async {
+      const size = Size(1440, 900);
+      tester.view.physicalSize = size;
+      tester.view.devicePixelRatio = 1;
+      await tester.binding.setSurfaceSize(size);
+      addTearDown(() async {
+        tester.view.reset();
+        await tester.binding.setSurfaceSize(null);
+      });
+      controller.updateParam('colorScheme', 31);
+      await openPicker(tester, theme: AppTheme.dark);
+      final selected = find.byIcon(Icons.check_circle_rounded);
+      expect(selected, findsOneWidget);
+      final grid = tester.getRect(find.byType(GridView));
+      final marker = tester.getRect(selected);
+      expect(marker.top, greaterThanOrEqualTo(grid.top));
+      expect(marker.bottom, lessThanOrEqualTo(grid.bottom));
+    });
     testWidgets('sheet and selection follow the active color system',
         (tester) async {
       await openPicker(tester, theme: AppTheme.highContrast);

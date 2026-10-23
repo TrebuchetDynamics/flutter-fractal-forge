@@ -4,6 +4,39 @@ import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  testWidgets('settings reflow at 200 percent on short screen', (tester) async {
+    await tester.binding.setSurfaceSize(const Size(360, 360));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await tester.pumpWidget(MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      builder: (context, child) => MediaQuery(
+          data: MediaQuery.of(context)
+              .copyWith(textScaler: const TextScaler.linear(2)),
+          child: child!),
+      home: Scaffold(
+          body: FourierSettingsSheet(
+        displayMode: FourierDisplayMode.split,
+        resolution: FourierResolution.auto,
+        applyHann: true,
+        removeDc: true,
+        fourierMusicEnabled: false,
+        onDisplayModeChanged: (_) {},
+        onResolutionChanged: (_) {},
+        onApplyHannChanged: (_) {},
+        onRemoveDcChanged: (_) {},
+        onFourierMusicChanged: (_) {},
+        onOpenUncertaintyLab: () {},
+      )),
+    ));
+    expect(tester.takeException(), isNull);
+    await tester.ensureVisible(find.text('Open Fractal Uncertainty Lab'));
+    await tester.pumpAndSettle();
+    expect(find.text('Open Fractal Uncertainty Lab').hitTestable(),
+        findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('settings stay above Android gesture navigation', (tester) async {
     await tester.binding.setSurfaceSize(const Size(360, 640));
     tester.view.devicePixelRatio = 1;

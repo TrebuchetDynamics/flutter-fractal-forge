@@ -21,6 +21,35 @@ void main() {
   });
 
   group('LogViewerScreen', () {
+    for (final size in [const Size(360, 360), const Size(800, 360)]) {
+      testWidgets('export actions reflow at 200 percent on $size',
+          (tester) async {
+        await tester.binding.setSurfaceSize(size);
+        addTearDown(() => tester.binding.setSurfaceSize(null));
+        await tester.pumpWidget(MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          builder: (context, child) => MediaQuery(
+            data: MediaQuery.of(context)
+                .copyWith(textScaler: const TextScaler.linear(2)),
+            child: child!,
+          ),
+          home: const LogViewerScreen(),
+        ));
+        await tester.tap(find.byIcon(Icons.file_upload_outlined));
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull);
+        final actions = find.byType(OutlinedButton);
+        expect(actions, findsNWidgets(3));
+        for (var index = 0; index < 3; index++) {
+          await tester.ensureVisible(actions.at(index));
+          await tester.pumpAndSettle();
+          expect(actions.at(index).hitTestable(), findsOneWidget);
+        }
+        expect(tester.takeException(), isNull);
+      });
+    }
+
     testWidgets('renders without error', (tester) async {
       await tester.pumpWidget(_wrap());
       await tester.pumpAndSettle();

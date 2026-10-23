@@ -311,6 +311,7 @@ class FractalViewControls extends StatelessWidget {
     var mirrorEnabled = kaleidoscopeMirror;
     showModalBottomSheet<void>(
       context: context,
+      useSafeArea: true,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (sheetContext) => StatefulBuilder(
@@ -407,6 +408,7 @@ class FractalViewControls extends StatelessWidget {
   }) {
     showModalBottomSheet<void>(
       context: context,
+      useSafeArea: true,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (_) => _FabOptionsSheet(

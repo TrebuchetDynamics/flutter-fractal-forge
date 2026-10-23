@@ -76,6 +76,8 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
 
     showModalBottomSheet<void>(
       context: context,
+      useSafeArea: true,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (ctx) => AppBottomSheet(
         maxHeightFactor: 0.44,
@@ -86,48 +88,43 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
             onClose: () => Navigator.pop(ctx),
           ),
           const Divider(height: 1, color: AppColors.divider),
-          Padding(
+          Flexible(
+              child: SingleChildScrollView(
             padding: const EdgeInsets.all(AppSpacing.md),
-            child: Row(
+            child: Wrap(
+              spacing: AppSpacing.sm,
+              runSpacing: AppSpacing.sm,
               children: [
-                Expanded(
-                  child: _ExportButton(
-                    icon: Icons.copy_rounded,
-                    label: l10n.logCopyText,
-                    onTap: () {
-                      Clipboard.setData(ClipboardData(text: text));
-                      Navigator.pop(ctx);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(l10n.logCopied)),
-                      );
-                    },
-                  ),
+                OutlinedButton.icon(
+                  icon: const Icon(Icons.copy_rounded),
+                  label: Text(l10n.logCopyText),
+                  onPressed: () {
+                    Clipboard.setData(ClipboardData(text: text));
+                    Navigator.pop(ctx);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(l10n.logCopied)),
+                    );
+                  },
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: _ExportButton(
-                    icon: Icons.share_rounded,
-                    label: l10n.logShareText,
-                    onTap: () async {
-                      Navigator.pop(ctx);
-                      await _shareText(text, 'fractal_log_$ts.txt');
-                    },
-                  ),
+                OutlinedButton.icon(
+                  icon: const Icon(Icons.share_rounded),
+                  label: Text(l10n.logShareText),
+                  onPressed: () async {
+                    Navigator.pop(ctx);
+                    await _shareText(text, 'fractal_log_$ts.txt');
+                  },
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: _ExportButton(
-                    icon: Icons.data_object_rounded,
-                    label: l10n.logShareJson,
-                    onTap: () async {
-                      Navigator.pop(ctx);
-                      await _shareText(json, 'fractal_log_$ts.json');
-                    },
-                  ),
+                OutlinedButton.icon(
+                  icon: const Icon(Icons.data_object_rounded),
+                  label: Text(l10n.logShareJson),
+                  onPressed: () async {
+                    Navigator.pop(ctx);
+                    await _shareText(json, 'fractal_log_$ts.json');
+                  },
                 ),
               ],
             ),
-          ),
+          )),
         ],
       ),
     );
@@ -267,44 +264,6 @@ class _LogTile extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _ExportButton extends StatelessWidget {
-  const _ExportButton({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: AppColors.primary.withValues(alpha: 0.12),
-      borderRadius: BorderRadius.circular(12),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 14),
-          child: Column(
-            children: [
-              Icon(icon, color: AppColors.primary, size: 24),
-              const SizedBox(height: 4),
-              Text(label,
-                  style: TextStyle(
-                      color: AppColors.primary,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600)),
-            ],
-          ),
-        ),
       ),
     );
   }

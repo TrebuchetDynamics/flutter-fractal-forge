@@ -295,22 +295,20 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
                 ),
               ),
               const SizedBox(height: 4),
-              SizedBox(
-                height: 32,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: param.options.length,
-                  separatorBuilder: (_, __) => const SizedBox(width: 4),
-                  itemBuilder: (context, index) {
-                    final option = param.options[index];
-                    final selected = option.value == value;
-                    return _HudChip(
-                      label: option.label(l10n),
-                      selected: selected,
-                      onTap: () =>
-                          controller.updateParam(param.id, option.value),
-                    );
-                  },
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: param.options
+                      .map((option) => Padding(
+                            padding: const EdgeInsets.only(right: 4),
+                            child: _HudChip(
+                              label: option.label(l10n),
+                              selected: option.value == value,
+                              onTap: () => controller.updateParam(
+                                  param.id, option.value),
+                            ),
+                          ))
+                      .toList(),
                 ),
               ),
             ],
@@ -375,8 +373,6 @@ class _CompactHudSliderRow extends StatelessWidget {
               Expanded(
                 child: Text(
                   label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     color: Colors.white70,
                     fontSize: 11,
@@ -472,27 +468,25 @@ class _CompactColorSchemeRow extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 4),
-        SizedBox(
-          height: 32,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemCount: colorSchemeParam.options.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 4),
-            itemBuilder: (context, index) {
-              final option = colorSchemeParam.options[index];
-              final selected = option.value == currentValue;
-              return _HudChip(
-                label: option.label(AppLocalizations.of(context)!),
-                selected: selected,
-                onTap: () {
-                  final v = option.value;
-                  if (v is int) {
-                    HapticFeedback.selectionClick();
-                    onChanged(v);
-                  }
-                },
-              );
-            },
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: colorSchemeParam.options
+                .map((option) => Padding(
+                      padding: const EdgeInsets.only(right: 4),
+                      child: _HudChip(
+                        label: option.label(l10n),
+                        selected: option.value == currentValue,
+                        onTap: () {
+                          final v = option.value;
+                          if (v is int) {
+                            HapticFeedback.selectionClick();
+                            onChanged(v);
+                          }
+                        },
+                      ),
+                    ))
+                .toList(),
           ),
         ),
       ],
@@ -582,36 +576,28 @@ class _ActionButtonsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return Row(
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
       children: [
-        // Flexible, not fixed: at a large text scale the two reset buttons
-        // alone can exceed the row and push Randomize to zero width.
-        Flexible(
-          child: _HudActionButton(
-            icon: Icons.home_filled,
-            label: l10n.hudResetViewLabel,
-            tooltip: l10n.resetView,
-            onPressed: onResetView,
-          ),
+        _HudActionButton(
+          icon: Icons.home_filled,
+          label: l10n.hudResetViewLabel,
+          tooltip: l10n.resetView,
+          onPressed: onResetView,
         ),
-        const SizedBox(width: 8),
-        Flexible(
-          child: _HudActionButton(
-            icon: Icons.settings_backup_restore_rounded,
-            label: l10n.hudResetParamsLabel,
-            tooltip: l10n.resetParams,
-            onPressed: onResetParams,
-          ),
+        _HudActionButton(
+          icon: Icons.settings_backup_restore_rounded,
+          label: l10n.hudResetParamsLabel,
+          tooltip: l10n.resetParams,
+          onPressed: onResetParams,
         ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: _HudActionButton(
-            icon: Icons.shuffle_rounded,
-            label: l10n.randomize,
-            tooltip: l10n.hudRandomizeTooltip,
-            onPressed: onRandomize,
-            isPrimary: true,
-          ),
+        _HudActionButton(
+          icon: Icons.shuffle_rounded,
+          label: l10n.randomize,
+          tooltip: l10n.hudRandomizeTooltip,
+          onPressed: onRandomize,
+          isPrimary: true,
         ),
       ],
     );
@@ -676,39 +662,22 @@ class _HudChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
+    return ChoiceChip(
+      label: Text(label),
       selected: selected,
-      label: selected ? '$label, selected' : label,
-      child: GestureDetector(
-        onTap: onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          decoration: BoxDecoration(
-            color: selected
-                ? Colors.cyanAccent.withValues(alpha: 0.25)
-                : Colors.white.withValues(alpha: 0.08),
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(
-              color: selected
-                  ? Colors.cyanAccent.withValues(alpha: 0.6)
-                  : Colors.white.withValues(alpha: 0.15),
-            ),
-          ),
-          child: Text(
-            label,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              color: selected
-                  ? Colors.cyanAccent
-                  : Colors.white.withValues(alpha: 0.7),
-              fontSize: 11,
-              fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-            ),
-          ),
-        ),
+      onSelected: (_) => onTap(),
+      materialTapTargetSize: MaterialTapTargetSize.padded,
+      showCheckmark: false,
+      backgroundColor: Colors.white.withValues(alpha: 0.08),
+      selectedColor: Colors.cyanAccent.withValues(alpha: 0.25),
+      side: BorderSide(
+          color: selected
+              ? Colors.cyanAccent.withValues(alpha: 0.6)
+              : Colors.white.withValues(alpha: 0.15)),
+      labelStyle: TextStyle(
+        color: selected ? Colors.cyanAccent : Colors.white70,
+        fontSize: 11,
+        fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
       ),
     );
   }
@@ -728,71 +697,22 @@ class _HudToggleRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      toggled: value,
-      label: value ? '$label, on' : '$label, off',
-      child: GestureDetector(
-        onTap: () {
+    return Material(
+      type: MaterialType.transparency,
+      child: SwitchListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+        title: Text(label,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+            )),
+        value: value,
+        activeThumbColor: Colors.cyanAccent,
+        onChanged: (next) {
           HapticFeedback.selectionClick();
-          onChanged(!value);
+          onChanged(next);
         },
-        behavior: HitTestBehavior.opaque,
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12,
-            vertical: 8,
-          ),
-          decoration: BoxDecoration(
-            color: value
-                ? Colors.cyanAccent.withValues(alpha: 0.1)
-                : Colors.white.withValues(alpha: 0.05),
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-              color: value
-                  ? Colors.cyanAccent.withValues(alpha: 0.3)
-                  : Colors.white.withValues(alpha: 0.1),
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text(
-                  label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              Container(
-                width: 36,
-                height: 20,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: value ? Colors.cyanAccent : Colors.white24,
-                ),
-                padding: const EdgeInsets.all(2),
-                child: AnimatedAlign(
-                  duration: const Duration(milliseconds: 200),
-                  alignment:
-                      value ? Alignment.centerRight : Alignment.centerLeft,
-                  child: Container(
-                    width: 16,
-                    height: 16,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
@@ -816,62 +736,28 @@ class _HudActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
-      label: tooltip,
-      child: Tooltip(
-        message: tooltip,
-        child: GestureDetector(
-          onTap: () {
-            HapticFeedback.mediumImpact();
-            onPressed?.call();
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 8,
-            ),
-            decoration: BoxDecoration(
-              gradient: isPrimary
-                  ? const LinearGradient(
-                      colors: [Color(0xFF00BCD4), Color(0xFF26C6DA)])
-                  : null,
-              color: isPrimary ? null : Colors.white.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: isPrimary
-                    ? Colors.transparent
-                    : Colors.white.withValues(alpha: 0.15),
-              ),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  icon,
-                  size: 14,
-                  color: isPrimary ? Colors.black87 : Colors.white70,
-                ),
-                const SizedBox(width: 4),
-                // Shrink rather than overflow: this button sits in a bounded
-                // Row, so a larger text scale or a longer localized label
-                // would otherwise paint the overflow stripe.
-                Flexible(
-                  child: Text(
-                    label,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: isPrimary ? Colors.black87 : Colors.white70,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+    final style = FilledButton.styleFrom(
+      minimumSize: const Size(48, 48),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      foregroundColor: isPrimary ? Colors.black87 : Colors.white70,
+      backgroundColor:
+          isPrimary ? Colors.cyanAccent : Colors.white.withValues(alpha: 0.1),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      textStyle: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
+    );
+    return Tooltip(
+      message: tooltip,
+      excludeFromSemantics: true,
+      child: FilledButton.icon(
+        style: style,
+        icon: Icon(icon, size: 14),
+        label: Text(label, semanticsLabel: tooltip),
+        onPressed: onPressed == null
+            ? null
+            : () {
+                HapticFeedback.mediumImpact();
+                onPressed!();
+              },
       ),
     );
   }

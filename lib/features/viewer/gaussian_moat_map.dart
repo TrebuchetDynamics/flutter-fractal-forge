@@ -213,10 +213,16 @@ class _GaussianMoatMapState extends State<GaussianMoatMap>
     String? error;
     await showModalBottomSheet<void>(
         context: context,
+        useSafeArea: true,
+        backgroundColor: Colors.transparent,
         isScrollControlled: true,
         builder: (sheetContext) => StatefulBuilder(builder: (context, update) {
               final l10n = AppLocalizations.of(context)!;
               return AppBottomSheet(children: [
+                AppBottomSheetHeader(
+                    icon: Icons.grid_on_rounded,
+                    title: l10n.gaussianBound,
+                    onClose: () => Navigator.of(context).pop()),
                 Flexible(
                     child: SingleChildScrollView(
                         padding: const EdgeInsets.all(16),
@@ -366,8 +372,14 @@ class _GaussianMoatMapState extends State<GaussianMoatMap>
             l10n.gaussianAbout,
             () => showModalBottomSheet<void>(
                 context: context,
+                useSafeArea: true,
+                backgroundColor: Colors.transparent,
                 isScrollControlled: true,
-                builder: (_) => AppBottomSheet(children: [
+                builder: (sheetContext) => AppBottomSheet(children: [
+                      AppBottomSheetHeader(
+                          icon: Icons.info_outline_rounded,
+                          title: l10n.gaussianAbout,
+                          onClose: () => Navigator.of(sheetContext).pop()),
                       Flexible(
                           child: SingleChildScrollView(
                               padding: const EdgeInsets.all(16),

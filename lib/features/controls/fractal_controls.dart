@@ -75,30 +75,33 @@ class FractalControlsSheet extends StatelessWidget {
                   title: l10n.sectionActions,
                   child: Column(
                     children: [
-                      Row(
+                      Wrap(
+                        spacing: AppSpacing.sm,
+                        runSpacing: AppSpacing.sm,
                         children: [
-                          Expanded(
-                            child: _ActionButton(
-                              icon: Icons.restart_alt_rounded,
-                              label: l10n.resetView,
-                              onPressed: controller.resetView,
-                            ),
+                          _ActionButton(
+                            icon: Icons.restart_alt_rounded,
+                            label: l10n.resetView,
+                            onPressed: controller.resetView,
                           ),
-                          const SizedBox(width: AppSpacing.md),
-                          Expanded(
-                            child: _ActionButton(
-                              icon: Icons.settings_backup_restore_rounded,
-                              label: l10n.resetParams,
-                              onPressed: controller.resetParams,
-                            ),
+                          _ActionButton(
+                            icon: Icons.settings_backup_restore_rounded,
+                            label: l10n.resetParams,
+                            onPressed: controller.resetParams,
                           ),
                         ],
                       ),
                       const SizedBox(height: AppSpacing.md),
                       SizedBox(
                         width: double.infinity,
-                        child: _AnimatedRandomizeButton(
-                          label: l10n.randomize,
+                        child: FilledButton.icon(
+                          icon: const Icon(Icons.shuffle_rounded),
+                          label: Text(l10n.randomize,
+                              semanticsLabel: l10n.semanticRandomizeButton),
+                          style: FilledButton.styleFrom(
+                            minimumSize: const Size(0, 48),
+                            padding: const EdgeInsets.all(AppSpacing.sm),
+                          ),
                           onPressed: () {
                             HapticFeedback.mediumImpact();
                             controller.randomizeParams();
@@ -166,44 +169,13 @@ class _ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
-      label: label,
-      child: PressableScale(
-        onTap: onPressed,
-        builder: (isPressed) => AnimatedContainer(
-          duration: AppAnimations.fast,
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.xs,
-            vertical: AppSpacing.xs,
-          ),
-          decoration: BoxDecoration(
-            color: isPressed
-                ? AppColors.primary.withValues(alpha: 0.3)
-                : AppColors.border.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                icon,
-                size: 16,
-                color: isPressed ? AppColors.primary : AppColors.textSecondary,
-              ),
-              const SizedBox(height: 2),
-              Text(
-                label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-                style: AppTypography.labelSmall.copyWith(
-                  color: isPressed ? AppColors.primary : AppColors.textPrimary,
-                ),
-              ),
-            ],
-          ),
-        ),
+    return OutlinedButton.icon(
+      onPressed: onPressed,
+      icon: Icon(icon),
+      label: Text(label, textAlign: TextAlign.center),
+      style: OutlinedButton.styleFrom(
+        minimumSize: const Size(0, 48),
+        padding: const EdgeInsets.all(AppSpacing.sm),
       ),
     );
   }
@@ -239,8 +211,6 @@ class _CompactParamSlider extends StatelessWidget {
             Expanded(
               child: Text(
                 label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
                 style: AppTypography.bodySmall.copyWith(
                   color: AppColors.textSecondary,
                 ),
@@ -337,36 +307,33 @@ class _ParamControl extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.sm),
               if (useScroll)
-                SizedBox(
-                  height: 40,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: param.options.length,
-                    separatorBuilder: (_, __) =>
-                        const SizedBox(width: AppSpacing.sm),
-                    itemBuilder: (context, index) {
-                      final option = param.options[index];
-                      final selected = option.value == value;
-                      return _OptionChip(
-                        label: option.label(l10n),
-                        selected: selected,
-                        onSelected: () => onChanged(option.value),
-                      );
-                    },
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: param.options
+                        .map((option) => Padding(
+                              padding:
+                                  const EdgeInsets.only(right: AppSpacing.sm),
+                              child: _OptionChip(
+                                label: option.label(l10n),
+                                selected: option.value == value,
+                                onSelected: () => onChanged(option.value),
+                              ),
+                            ))
+                        .toList(),
                   ),
                 )
               else
                 Wrap(
                   spacing: AppSpacing.sm,
                   runSpacing: AppSpacing.sm,
-                  children: param.options.map((option) {
-                    final selected = option.value == value;
-                    return _OptionChip(
-                      label: option.label(l10n),
-                      selected: selected,
-                      onSelected: () => onChanged(option.value),
-                    );
-                  }).toList(),
+                  children: param.options
+                      .map((option) => _OptionChip(
+                            label: option.label(l10n),
+                            selected: option.value == value,
+                            onSelected: () => onChanged(option.value),
+                          ))
+                      .toList(),
                 ),
             ],
           ),
@@ -413,26 +380,18 @@ class _KaleidoscopeControls extends StatelessWidget {
             onChanged: (v) => controller.setKaleidoscopeSectors(v.round()),
           ),
           const SizedBox(height: AppSpacing.sm),
-          Row(
-            children: [
-              Expanded(
-                child: _MirrorModeSelector(
-                  currentMode: controller.kaleidoscopeMirrorMode,
-                  onChanged: controller.setKaleidoscopeMirrorMode,
-                ),
-              ),
-              const SizedBox(width: AppSpacing.md),
-              Expanded(
-                child: _SliderRow(
-                  label: l10n.kaleidoscopeRotation,
-                  value: controller.kaleidoscopeRotation,
-                  min: 0,
-                  max: 6.28,
-                  divisions: 62,
-                  onChanged: controller.setKaleidoscopeRotation,
-                ),
-              ),
-            ],
+          _MirrorModeSelector(
+            currentMode: controller.kaleidoscopeMirrorMode,
+            onChanged: controller.setKaleidoscopeMirrorMode,
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          _SliderRow(
+            label: l10n.kaleidoscopeRotation,
+            value: controller.kaleidoscopeRotation,
+            min: 0,
+            max: 6.28,
+            divisions: 62,
+            onChanged: controller.setKaleidoscopeRotation,
           ),
         ],
       ],
@@ -572,25 +531,10 @@ class _MirrorModeSelector extends StatelessWidget {
           spacing: 4,
           children: List.generate(4, (index) {
             final selected = currentMode == index;
-            return GestureDetector(
-              onTap: () => onChanged(index),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: selected ? AppColors.primary : AppColors.surface,
-                  borderRadius: BorderRadius.circular(4),
-                  border: Border.all(
-                    color: selected ? AppColors.primary : AppColors.border,
-                  ),
-                ),
-                child: Text(
-                  modes[index],
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: selected ? Colors.white : AppColors.textSecondary,
-                  ),
-                ),
-              ),
+            return _OptionChip(
+              label: modes[index],
+              selected: selected,
+              onSelected: () => onChanged(index),
             );
           }),
         ),
@@ -612,38 +556,11 @@ class _OptionChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
+    return ChoiceChip(
+      label: Text(label),
       selected: selected,
-      label: selected ? '$label, selected' : label,
-      child: PressableScale(
-        onTap: onSelected,
-        builder: (isPressed) => AnimatedContainer(
-          duration: AppAnimations.normal,
-          padding: const EdgeInsets.symmetric(
-            horizontal: 10,
-            vertical: 6,
-          ),
-          decoration: BoxDecoration(
-            color: selected
-                ? AppColors.primary.withValues(alpha: 0.2)
-                : AppColors.surfaceVariant,
-            borderRadius: BorderRadius.circular(AppSpacing.chipRadius),
-            border: Border.all(
-              color: selected
-                  ? AppColors.primary.withValues(alpha: 0.6)
-                  : AppColors.border.withValues(alpha: 0.4),
-            ),
-          ),
-          child: Text(
-            label,
-            style: AppTypography.labelMedium.copyWith(
-              color: selected ? AppColors.primary : AppColors.textSecondary,
-              fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-            ),
-          ),
-        ),
-      ),
+      onSelected: (_) => onSelected(),
+      materialTapTargetSize: MaterialTapTargetSize.padded,
     );
   }
 }
@@ -661,235 +578,13 @@ class _PremiumSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      toggled: value,
-      // Name only: `toggled` already makes the platform announce on/off and the
-      // gesture to change it. Spelling either out in the label had TalkBack say
-      // both twice.
-      label: label,
-      child: GestureDetector(
-        onTap: () => onChanged(!value),
-        behavior: HitTestBehavior.opaque,
-        child: AnimatedContainer(
-          duration: AppAnimations.normal,
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.lg,
-            vertical: AppSpacing.md,
-          ),
-          decoration: BoxDecoration(
-            color: value
-                ? AppColors.primary.withValues(alpha: 0.1)
-                : AppColors.surfaceVariant.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
-            border: Border.all(
-              color: value
-                  ? AppColors.primary.withValues(alpha: 0.3)
-                  : AppColors.border.withValues(alpha: 0.3),
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                label,
-                style: AppTypography.bodyMedium.copyWith(
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              Switch(
-                value: value,
-                onChanged: onChanged,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// Animated randomize button.
-class _AnimatedRandomizeButton extends StatefulWidget {
-  final String label;
-  final VoidCallback onPressed;
-
-  const _AnimatedRandomizeButton({
-    required this.label,
-    required this.onPressed,
-  });
-
-  @override
-  State<_AnimatedRandomizeButton> createState() =>
-      _AnimatedRandomizeButtonState();
-}
-
-class _AnimatedRandomizeButtonState extends State<_AnimatedRandomizeButton>
-    with TickerProviderStateMixin {
-  late AnimationController _scaleController;
-  late AnimationController _shakeController;
-  late AnimationController _glowController;
-  late Animation<double> _scaleAnimation;
-  late Animation<double> _shakeAnimation;
-  late Animation<double> _glowAnimation;
-  bool _isPressed = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _scaleController = AnimationController(
-      duration: AppAnimations.fast,
-      vsync: this,
-    );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(
-          parent: _scaleController, curve: AppAnimations.snappyCurve),
-    );
-
-    _shakeController = AnimationController(
-      duration: const Duration(milliseconds: 500),
-      vsync: this,
-    );
-    _shakeAnimation = TweenSequence<double>([
-      TweenSequenceItem(tween: Tween(begin: 0.0, end: -0.03), weight: 1),
-      TweenSequenceItem(tween: Tween(begin: -0.03, end: 0.03), weight: 2),
-      TweenSequenceItem(tween: Tween(begin: 0.03, end: -0.02), weight: 2),
-      TweenSequenceItem(tween: Tween(begin: -0.02, end: 0.01), weight: 2),
-      TweenSequenceItem(tween: Tween(begin: 0.01, end: 0.0), weight: 1),
-    ]).animate(CurvedAnimation(
-      parent: _shakeController,
-      curve: Curves.easeOut,
-    ));
-
-    _glowController = AnimationController(
-      duration: const Duration(milliseconds: 600),
-      vsync: this,
-    );
-    _glowAnimation = TweenSequence<double>([
-      TweenSequenceItem(tween: Tween(begin: 0.0, end: 1.0), weight: 1),
-      TweenSequenceItem(tween: Tween(begin: 1.0, end: 0.0), weight: 2),
-    ]).animate(CurvedAnimation(
-      parent: _glowController,
-      curve: Curves.easeOut,
-    ));
-  }
-
-  @override
-  void dispose() {
-    _scaleController.dispose();
-    _shakeController.dispose();
-    _glowController.dispose();
-    super.dispose();
-  }
-
-  void _handleTap() {
-    widget.onPressed();
-
-    _shakeController.forward(from: 0);
-    _glowController.forward(from: 0);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    return Semantics(
-      button: true,
-      label: l10n.semanticRandomizeButton,
-      child: GestureDetector(
-        onTapDown: (_) {
-          setState(() => _isPressed = true);
-          _scaleController.forward();
-        },
-        onTapUp: (_) {
-          setState(() => _isPressed = false);
-          _scaleController.reverse();
-        },
-        onTapCancel: () {
-          setState(() => _isPressed = false);
-          _scaleController.reverse();
-        },
-        onTap: _handleTap,
-        child: AnimatedBuilder(
-          animation: Listenable.merge(
-              [_scaleAnimation, _shakeAnimation, _glowAnimation]),
-          builder: (context, child) {
-            return Transform.scale(
-              scale: _scaleAnimation.value,
-              child: Transform.rotate(
-                angle: _shakeAnimation.value,
-                child: Stack(
-                  children: [
-                    // Glow effect
-                    if (_glowAnimation.value > 0)
-                      Positioned.fill(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.circular(AppSpacing.buttonRadius),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.primary.withValues(
-                                    alpha: _glowAnimation.value * 0.5),
-                                blurRadius: 20,
-                                spreadRadius: 2,
-                              ),
-                              BoxShadow(
-                                color: AppColors.secondary.withValues(
-                                    alpha: _glowAnimation.value * 0.3),
-                                blurRadius: 30,
-                                spreadRadius: 5,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    // Button
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.xxl,
-                        vertical: AppSpacing.md + 2,
-                      ),
-                      decoration: BoxDecoration(
-                        gradient: AppColors.primaryGradient,
-                        borderRadius:
-                            BorderRadius.circular(AppSpacing.buttonRadius),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.primary
-                                .withValues(alpha: _isPressed ? 0.5 : 0.3),
-                            blurRadius: _isPressed ? 16 : 12,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          AnimatedRotation(
-                            turns: _shakeController.isAnimating ? 0.5 : 0,
-                            duration: const Duration(milliseconds: 300),
-                            child: const Icon(
-                              Icons.shuffle_rounded,
-                              size: 20,
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(width: AppSpacing.sm),
-                          Text(
-                            widget.label,
-                            style: AppTypography.labelLarge.copyWith(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
+    return Material(
+      type: MaterialType.transparency,
+      child: SwitchListTile(
+        contentPadding: EdgeInsets.zero,
+        title: Text(label),
+        value: value,
+        onChanged: onChanged,
       ),
     );
   }

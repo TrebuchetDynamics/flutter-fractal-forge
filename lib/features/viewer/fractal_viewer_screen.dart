@@ -541,6 +541,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   Future<void> _editTextOverlay() async {
     final text = await showModalBottomSheet<String>(
       context: context,
+      useSafeArea: true,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (_) => _TextOverlayEditorSheet(initialText: _textOverlay.text),
@@ -1001,8 +1002,9 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   Future<void> _openFourierSettings() async {
     await showModalBottomSheet<void>(
       context: context,
+      useSafeArea: true,
+      backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      showDragHandle: true,
       builder: (sheetContext) => StatefulBuilder(
         builder: (sheetContext, setSheetState) {
           void update(VoidCallback change) {
@@ -1166,6 +1168,8 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
     final l10n = AppLocalizations.of(context)!;
     showModalBottomSheet<void>(
       context: context,
+      useSafeArea: true,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (_) => ShareSheet(
         uri: _shareUriFor(controller),
@@ -1183,6 +1187,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
 
     final saved = await showModalBottomSheet<bool>(
       context: context,
+      useSafeArea: true,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (sheetContext) => StatefulBuilder(
@@ -1435,67 +1440,71 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
         : textScale >= 1.5
             ? 3
             : 4;
-    final gridWidth = mediaQuery.size.width -
-        AppSpacing.md * 2 -
-        AppSpacing.sm * (columnCount - 1);
-    final tileWidth = math.max(1.0, gridWidth / columnCount);
-    final selectedRow = math.max(0, selectedIndex ~/ columnCount - 1);
-    final paletteScrollController = ScrollController(
-      initialScrollOffset: selectedRow * (tileWidth / 0.86 + AppSpacing.sm),
-    );
+    ScrollController? paletteScrollController;
 
     showModalBottomSheet<void>(
       context: context,
+      useSafeArea: true,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (sheetContext) => StatefulBuilder(
-        builder: (context, setSheetState) {
-          final current = controller.params['colorScheme'];
-          return AppBottomSheet(
-            maxHeightFactor: 0.68,
-            children: [
-              AppBottomSheetHeader(
-                icon: Icons.palette_rounded,
-                title: l10n.paramColorScheme,
-                subtitle: l10n.palettePickerSubtitle,
-                onClose: () => Navigator.of(context).pop(),
-              ),
-              Flexible(
-                child: GridView.builder(
-                  controller: paletteScrollController,
-                  padding: const EdgeInsets.fromLTRB(
-                    AppSpacing.md,
-                    AppSpacing.sm,
-                    AppSpacing.md,
-                    AppSpacing.lg,
-                  ),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: columnCount,
-                    mainAxisSpacing: AppSpacing.sm,
-                    crossAxisSpacing: AppSpacing.sm,
-                    childAspectRatio: 0.86,
-                  ),
-                  itemCount: options.length,
-                  itemBuilder: (context, index) {
-                    final option = options[index];
-                    final selected = option.value == current;
-                    return _PaletteChoiceTile(
-                      label: option.label(l10n),
-                      value: option.value,
-                      selected: selected,
-                      onTap: () {
-                        controller.updateParam('colorScheme', option.value);
-                        setSheetState(() {});
-                      },
-                    );
-                  },
+      builder: (sheetContext) => LayoutBuilder(builder: (context, constraints) {
+        final gridWidth = constraints.maxWidth -
+            AppSpacing.md * 2 -
+            AppSpacing.sm * (columnCount - 1);
+        final tileWidth = math.max(1.0, gridWidth / columnCount);
+        final selectedRow = math.max(0, selectedIndex ~/ columnCount - 1);
+        paletteScrollController ??= ScrollController(
+            initialScrollOffset:
+                selectedRow * (tileWidth / 0.86 + AppSpacing.sm));
+        return StatefulBuilder(
+          builder: (context, setSheetState) {
+            final current = controller.params['colorScheme'];
+            return AppBottomSheet(
+              maxHeightFactor: 0.68,
+              children: [
+                AppBottomSheetHeader(
+                  icon: Icons.palette_rounded,
+                  title: l10n.paramColorScheme,
+                  subtitle: l10n.palettePickerSubtitle,
+                  onClose: () => Navigator.of(context).pop(),
                 ),
-              ),
-            ],
-          );
-        },
-      ),
-    ).whenComplete(paletteScrollController.dispose);
+                Flexible(
+                  child: GridView.builder(
+                    controller: paletteScrollController,
+                    padding: const EdgeInsets.fromLTRB(
+                      AppSpacing.md,
+                      AppSpacing.sm,
+                      AppSpacing.md,
+                      AppSpacing.lg,
+                    ),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: columnCount,
+                      mainAxisSpacing: AppSpacing.sm,
+                      crossAxisSpacing: AppSpacing.sm,
+                      childAspectRatio: 0.86,
+                    ),
+                    itemCount: options.length,
+                    itemBuilder: (context, index) {
+                      final option = options[index];
+                      final selected = option.value == current;
+                      return _PaletteChoiceTile(
+                        label: option.label(l10n),
+                        value: option.value,
+                        selected: selected,
+                        onTap: () {
+                          controller.updateParam('colorScheme', option.value);
+                          setSheetState(() {});
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      }),
+    ).whenComplete(() => paletteScrollController?.dispose());
   }
 
   KeyEventResult _onKeyEvent(BuildContext context, KeyEvent event) =>
@@ -1966,6 +1975,7 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
                             openAutoExploreSettings: () =>
                                 showModalBottomSheet<void>(
                               context: context,
+                              useSafeArea: true,
                               isScrollControlled: true,
                               backgroundColor: Colors.transparent,
                               builder: (_) => ChangeNotifierProvider<
@@ -2084,49 +2094,57 @@ class _TextOverlayEditorSheetState extends State<_TextOverlayEditorSheet> {
           onClose: () => Navigator.of(context).pop(),
         ),
         const Divider(height: 1, color: AppColors.divider),
-        Padding(
-          padding: const EdgeInsets.all(AppSpacing.md),
-          child: TextField(
-            key: const ValueKey('viewerTextOverlayField'),
-            controller: _controller,
-            autofocus: true,
-            minLines: 1,
-            maxLines: 3,
-            decoration: InputDecoration(
-              hintText: l10n.exportQuoteOverlayPlaceholder,
-              filled: true,
-              fillColor: AppColors.surfaceVariant,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
+        Flexible(
+            child: SingleChildScrollView(
+                child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(AppSpacing.md),
+              child: TextField(
+                key: const ValueKey('viewerTextOverlayField'),
+                controller: _controller,
+                autofocus: true,
+                minLines: 1,
+                maxLines: 3,
+                decoration: InputDecoration(
+                  hintText: l10n.exportQuoteOverlayPlaceholder,
+                  filled: true,
+                  fillColor: AppColors.surfaceVariant,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(
-            AppSpacing.md,
-            0,
-            AppSpacing.md,
-            AppSpacing.md,
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Text(l10n.actionCancel),
-                ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.md,
+                0,
+                AppSpacing.md,
+                AppSpacing.md,
               ),
-              const SizedBox(width: AppSpacing.sm),
-              Expanded(
-                child: FilledButton(
-                  onPressed: () => Navigator.of(context).pop(_controller.text),
-                  child: Text(l10n.actionApply),
-                ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: Text(l10n.actionCancel),
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  Expanded(
+                    child: FilledButton(
+                      onPressed: () =>
+                          Navigator.of(context).pop(_controller.text),
+                      child: Text(l10n.actionApply),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
+          ],
+        ))),
       ],
     );
   }

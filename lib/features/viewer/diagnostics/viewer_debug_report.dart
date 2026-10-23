@@ -64,6 +64,7 @@ mixin _DebugReportMixin on State<FractalViewerScreen>, _GpuHealthMixin {
       if (!context.mounted) return;
       await showModalBottomSheet<void>(
         context: context,
+        useSafeArea: true,
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
         builder: (_) {

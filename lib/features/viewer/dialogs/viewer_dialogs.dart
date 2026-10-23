@@ -12,6 +12,7 @@ mixin _ViewerDialogsMixin on State<FractalViewerScreen>, _ExportActionsMixin {
   }) {
     return showModalBottomSheet<T>(
       context: context,
+      useSafeArea: true,
       isScrollControlled: isScrollControlled,
       backgroundColor: Colors.transparent,
       builder: builder,

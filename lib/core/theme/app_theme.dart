@@ -523,10 +523,11 @@ class AppTheme {
             TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
       ),
       bottomSheetTheme: BottomSheetThemeData(
+        constraints: const BoxConstraints(maxWidth: 720),
         backgroundColor: AppColors.surface,
         modalBackgroundColor: AppColors.surface,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
         ),
         dragHandleColor: AppColors.border,
         dragHandleSize: const Size(40, 4),
@@ -664,10 +665,11 @@ class AppTheme {
         circularTrackColor: AppColors.surfaceVariant,
       ),
       dialogTheme: DialogThemeData(
+        constraints: const BoxConstraints(minWidth: 280, maxWidth: 560),
         backgroundColor: AppColors.surface,
         elevation: 16,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(24),
         ),
         titleTextStyle: AppTypography.headlineMedium,
         contentTextStyle: AppTypography.bodyMedium,
@@ -775,10 +777,11 @@ class AppTheme {
             TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       ),
       bottomSheetTheme: const BottomSheetThemeData(
+        constraints: BoxConstraints(maxWidth: 720),
         backgroundColor: HighContrastColors.surface,
         modalBackgroundColor: HighContrastColors.surface,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
           side: BorderSide(color: HighContrastColors.border, width: 2),
         ),
         dragHandleColor: HighContrastColors.textPrimary,
@@ -896,10 +899,11 @@ class AppTheme {
         circularTrackColor: HighContrastColors.surfaceVariant,
       ),
       dialogTheme: DialogThemeData(
+        constraints: const BoxConstraints(minWidth: 280, maxWidth: 560),
         backgroundColor: HighContrastColors.surface,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(24),
           side: const BorderSide(color: HighContrastColors.border, width: 2),
         ),
         titleTextStyle: AppTypography.headlineMedium.copyWith(
@@ -990,10 +994,11 @@ class AppTheme {
             TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
       ),
       bottomSheetTheme: BottomSheetThemeData(
+        constraints: const BoxConstraints(maxWidth: 720),
         backgroundColor: OledColors.surface,
         modalBackgroundColor: OledColors.surface,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
         ),
         dragHandleColor: OledColors.border,
         dragHandleSize: const Size(40, 4),
@@ -1129,10 +1134,11 @@ class AppTheme {
         circularTrackColor: OledColors.surfaceVariant,
       ),
       dialogTheme: DialogThemeData(
+        constraints: const BoxConstraints(minWidth: 280, maxWidth: 560),
         backgroundColor: OledColors.surface,
         elevation: 16,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(24),
         ),
         titleTextStyle: AppTypography.headlineMedium
             .copyWith(color: OledColors.textPrimary),
