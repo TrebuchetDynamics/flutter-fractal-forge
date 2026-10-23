@@ -1,5 +1,7 @@
 {
   "@@locale": "en",
+  "moduleMilnorBrieskorn": "Milnor — Brieskorn Orbit (Inspired)",
+  "milnorGpuOnly": "This inspired orbit requires the shader renderer. CPU viewing is not supported; no substitute image is shown.",
   "appTitle": "Fractal Forge",
   "tabExplore": "Explore",
   "gaussianWalk": "Walk",
@@ -716,7 +718,7 @@
       "type": {}
     }
   },
-  "homeFractalCountBadge": "1020 fractals",
+  "homeFractalCountBadge": "1022 fractals",
 
   "catalogAllFractals": "All Fractals",
   "catalogFilterAll": "All",
@@ -819,7 +821,7 @@
   },
   "settingsColorTheme": "Color Theme",
   "settingsColorThemeSubtitle": "Choose a contrast and surface style.",
-  "settingsAboutBlurb": "GPU-accelerated exploration of 1020 production fractals, with deep zoom and real-time rendering.",
+  "settingsAboutBlurb": "GPU-accelerated exploration of 1022 production fractals, with deep zoom and real-time rendering.",
   "settingsSourceCode": "Source code",
   "settingsSourceCodeSubtitle": "View Fractal Forge on GitHub ↗",
   "settingsSourceCodeOpenFailed": "Unable to open source code.",
@@ -875,5 +877,15 @@
   "reportTagBadThumbnail": "Bad thumbnail",
   "reportTagWrongFractal": "Wrong fractal",
   "reportTagMissingShader": "Missing shader",
-  "reportTagOther": "Other"
+  "reportTagOther": "Other",
+  "modulePerronTree": "Besicovitch — Perron Tree (Finite)",
+  "perronDepth": "Construction depth",
+  "perronOverlap": "Heart scale",
+  "perronAngle": "Rotation (degrees)",
+  "perronGlow": "Glow strength",
+  "perronStyle": "Render style",
+  "perronGeometric": "Geometric",
+  "perronLuminous": "Luminous",
+  "perronHue": "Hue",
+  "perronGpuOnly": "This finite Perron-tree visualization requires the shader renderer. CPU rendering is not available; no substitute image is shown."
 }

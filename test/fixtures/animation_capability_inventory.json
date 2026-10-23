@@ -3800,6 +3800,11 @@
     "capability": "static"
   },
   {
+    "id": "milnor_brieskorn",
+    "shaderAsset": "shaders/escape_time_family/milnor_brieskorn_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "mimura_murray_predator_prey",
     "shaderAsset": "shaders/cellular_and_stochastic/mimura_murray_predator_prey_gpu.frag",
     "capability": "static"
@@ -4222,6 +4227,11 @@
   {
     "id": "perpendicular_mandelbrot",
     "shaderAsset": "shaders/escape_time_family/families/perpendicular/perpendicular_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "perron_tree",
+    "shaderAsset": "shaders/ifs_and_geometric/perron_tree_gpu.frag",
     "capability": "static"
   },
   {

@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Keep equally named catalog variants in stable catalog-ID order when new modules are added, preserving the existing phone catalog golden rather than replacing it to hide a reorder.
+
+- Added Milnor — Brieskorn Orbit (Inspired), a finite polynomial-orbit shader with overview/close-up presets, EN/ES mathematical limits and an explicit unsupported-CPU notice. This is inspired dynamics, not exotic-sphere geometry or a smooth-structure detector; browser/device/export qualification remains separate.
+- Standardized modal surfaces, desktop sizing and safe areas; improved live controls, Share/Fourier/log panels, keyboard actions, large-text wrapping and palette selection scrolling while retaining explicit choices and cancellation/error behavior.
+
+- Improved Perron-tree luminous readability with bounded overlap coloring and premultiplied edge glow, preserving the geometric construction and saved parameters.
+
+- Added the finite Besicovitch/Perron-tree shader with geometric/luminous presets, bounded construction controls, EN/ES labels and honest mathematical limits. CPU-only rendering reports unsupported rather than substituting another fractal. Host geometry/shader tests are distinct from platform qualification.
+
 Play candidate **1.1.108 (108)** is prepared from the reconciled source. Publication
 remains pending all release gates and a verified Play readback. Play-only dispatch
 retains the existing gates without deploying the website or publishing other releases.
@@ -19,8 +28,9 @@ retains the existing gates without deploying the website or publishing other rel
   not publish an app binary or qualify installed-device appearance.
 
 - Add real-app Julia icon capture, saved-state viewer verification and deterministic
-  derivative/mask-proof tooling. Prepare the owner-selected open-spiral candidate
-  and isolated Android preview without replacing current branding or publishing it.
+  derivative/mask-proof tooling used to prepare the owner-selected open-spiral
+  candidate and isolated Android preview. The approved assets are applied above;
+  that preview is not installed-device qualification or binary publication.
 
 - Add seeded, DLAF-inspired Coral Growth fractals in 2D and 3D.
 
@@ -35,9 +45,9 @@ retains the existing gates without deploying the website or publishing other rel
 - Make catalog Back a compact localized circular control with 48/56px touch
   targets, retaining direct navigation and capture/export behavior. Keep Back
   outside side cutouts and long viewer titles clear of navigation and controls.
-  These local fixes do not complete VIEW-UI-01: narrow-screen action-rail
-  clipping and native/production-font captures, together with device/GPU
-  visual qualification, remain open.
+  These local fixes do not complete VIEW-UI-01. The verification plan records
+  subsequent wrapped-rail and native-font Linux capture evidence separately;
+  remaining live visual qualification is not inferred from those focused checks.
 
 - Keep Coral Growth (2D) antialiasing edges ordered at high zoom, including
   zoom 6 and 10, without changing its default-view ramp.

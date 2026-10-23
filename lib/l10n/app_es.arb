@@ -1,5 +1,7 @@
 {
   "@@locale": "es",
+  "moduleMilnorBrieskorn": "Milnor — Órbita de Brieskorn (Inspirada)",
+  "milnorGpuOnly": "Esta órbita inspirada requiere el renderizador de shaders. La vista CPU no es compatible; no se muestra una imagen sustituta.",
   "appTitle": "Fractal Forge",
   "tabExplore": "Explorar",
   "gaussianWalk": "Caminar",
@@ -710,7 +712,7 @@
       "type": {}
     }
   },
-  "homeFractalCountBadge": "1020 fractales",
+  "homeFractalCountBadge": "1022 fractales",
 
   "catalogAllFractals": "Todos los fractales",
   "catalogFilterAll": "Todos",
@@ -813,7 +815,7 @@
   },
   "settingsColorTheme": "Tema de color",
   "settingsColorThemeSubtitle": "Elige un estilo de contraste y superficie.",
-  "settingsAboutBlurb": "Exploración acelerada por GPU de 1020 fractales de producción, con zoom profundo y renderizado en tiempo real.",
+  "settingsAboutBlurb": "Exploración acelerada por GPU de 1022 fractales de producción, con zoom profundo y renderizado en tiempo real.",
   "settingsSourceCode": "Código fuente",
   "settingsSourceCodeSubtitle": "Ver Fractal Forge en GitHub ↗",
   "settingsSourceCodeOpenFailed": "No se pudo abrir el código fuente.",
@@ -869,5 +871,15 @@
   "reportTagBadThumbnail": "Miniatura incorrecta",
   "reportTagWrongFractal": "Fractal incorrecto",
   "reportTagMissingShader": "Falta el sombreador",
-  "reportTagOther": "Otro"
+  "reportTagOther": "Otro",
+  "modulePerronTree": "Besicovitch — Árbol de Perron (finito)",
+  "perronDepth": "Profundidad de construcción",
+  "perronOverlap": "Escala del núcleo",
+  "perronAngle": "Rotación (grados)",
+  "perronGlow": "Intensidad del resplandor",
+  "perronStyle": "Estilo de renderizado",
+  "perronGeometric": "Geométrico",
+  "perronLuminous": "Luminoso",
+  "perronHue": "Tono",
+  "perronGpuOnly": "Esta visualización finita del árbol de Perron requiere el renderizador de shaders. El renderizado por CPU no está disponible; no se muestra una imagen sustituta."
 }

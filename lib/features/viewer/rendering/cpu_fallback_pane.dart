@@ -49,6 +49,25 @@ class _CpuFallbackPaneState extends State<CpuFallbackPane> {
     final controller = context.watch<FractalController>();
     final module = controller.module;
 
+    if (module.id == 'milnor_brieskorn') {
+      return Center(
+          child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Text(AppLocalizations.of(context)!.milnorGpuOnly,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white70))));
+    }
+    if (module.id == 'perron_tree') {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Text(AppLocalizations.of(context)!.perronGpuOnly,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.white70)),
+        ),
+      );
+    }
+
     if (module.dimension != FractalDimension.twoD) {
       return const Center(
         child: Text(

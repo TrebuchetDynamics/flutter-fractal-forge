@@ -19,7 +19,7 @@
   <a href="#run-it-locally">Build locally</a>
 </p>
 
-Fractal Forge is an open-source Flutter explorer for mathematical systems and generative art. Browse **1020 production fractals**, tune parameters in real time, move through deep-zoom render paths, and export the views worth keeping.
+Fractal Forge is an open-source Flutter explorer for mathematical systems and generative art. Browse **1022 production fractals**, tune parameters in real time, move through deep-zoom render paths, and export the views worth keeping.
 
 ## See what it renders
 
@@ -158,6 +158,8 @@ For the directory structure, release builds, and shader contribution workflow, s
 
 ## Testing
 
+The [common offline gate](docs/engineering/test-plan.md#common-offline-gate) includes checkout-local `flutter pub get --offline --enforce-lockfile` before the unchanged analyzer, Flutter, Python and Bats families. The focused commands below are not the complete integration gate; device/browser journeys remain separate.
+
 ```bash
 flutter analyze
 flutter test
@@ -193,6 +195,7 @@ for headless runs, focused reruns, and GitLab artifacts. See
 - [System specification](docs/engineering/spec.md)
 - [Verification plan](docs/engineering/test-plan.md)
 - [Local operations runbook](docs/engineering/runbook.md)
+- [Fibonacci prime-degree Julia research and saved plan](research/fibonacci-prime-degree-julia.md) — planned, not yet a catalog entry
 - [Launch ladder](docs/planning/LAUNCH_LADDER.md)
 - [Contributing guide](CONTRIBUTING.md)
 - [Security policy](SECURITY.md)

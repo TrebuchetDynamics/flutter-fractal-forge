@@ -122,6 +122,18 @@ void main() {
         viewportSize: const Size(375, 667),
         theme: AppTheme.dark,
       );
+      expect(
+        tester
+            .getTopLeft(
+                find.byKey(const Key('catalogCaption_core.anti_buddhabrot')))
+            .dx,
+        lessThan(tester
+            .getTopLeft(find
+                .byKey(const Key('catalogCaption_core.f1143_anti_buddhabrot')))
+            .dx),
+        reason:
+            'Equal display names retain stable catalog-ID order as the catalog grows',
+      );
     });
 
     testWidgets('catalog screen — tablet (dark theme)', (tester) async {

@@ -10,7 +10,21 @@ values, explicit internal/draft overrides and consistent shell/CI defaults.
 Run `python3 -m unittest discover -s test/scripts -p 'test_*.py'` and
 `env -u GITLAB_CI bats test/scripts/*.bats` for offline verification.
 These checks make no live publication and do not qualify installed-device behavior.
-GitLab release execution is resumed under the current owner scope; publication waits on GitLab runners and device availability (see `docs/engineering/release/MULTIPLATFORM.md#current-release-status`).
+GitLab execution remains deferred under the [current owner policy](../../PRD.md#independent-platform-release-policy). The [independent-platform route](release/MULTIPLATFORM.md#independent-platform-release-campaign) preserves lane-local qualification and production defaults; the older GitLab resumption note is historical, not authorization to dispatch or publish.
+
+## Common offline gate
+
+Run from the execution checkout root with the pinned Flutter 3.44.6 SDK and provisioned Python/Bats tooling:
+
+```sh
+flutter pub get --offline --enforce-lockfile &&
+flutter analyze --no-pub &&
+flutter test --no-pub &&
+python3 -m pytest test/research test/scripts -q &&
+bats test/scripts/*.bats
+```
+
+The preflight regenerates checkout-local metadata without changing the lockfile. A full gate requires every terminal stage result; targeted unittest runs above are not a substitute for the complete Python family. See [the export-preparation runbook](runbook.md#offline-check-export-preparation) for the bounded native-assets repair and its dated source-bound results. ACAD-008-74 is done in `7ae1dbd6`; this does not qualify unintegrated feature candidates, device/browser journeys or a later source snapshot. No app suite was rerun by this documentation pass.
 
 ## Current quality-first verification frontier
 
@@ -239,3 +253,27 @@ Contract: [spec](spec.md#fibonacci-prime-degree-julia); tasks FIB-PRIME-01/02/03
 - FIB-PRIME-03: implement `integration_test/flows/fibonacci_complex_journey_test.dart`; use `flutter test integration_test/flows/fibonacci_complex_journey_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true --reporter expanded` on an owned authorized target. On an available installed Android device use the same target with the actual device ID, recording device/backend/build, EN/ES, narrow/large-text/high-contrast focus and gallery PNG readback. Add a Fibonacci case to existing `test/playwright/web-image-creation-journey.spec.mjs` and run `npx --no-install playwright test test/playwright/web-image-creation-journey.spec.mjs --project=chromium --workers=1 --grep Fibonacci --reporter=list` with the existing configured owned host and authorized listener range. Do not alter ports, download tools or infer target access from this plan. Check real catalog->edit c/N/view->save/reopen->PNG, with prime/finite-cap legends and actual decoded outputs. All live checks are NOT_RUN; unavailable targets stay open separately from offline code acceptance.
 
 No speedup/fps/visual-quality claims are established by this plan. Choose and record a real useful nonzero-c preset during FIB-PRIME-02; a c=0 circle alone does not satisfy the feature. Hardware/source reference licensing and academic approvals remain independent, with no paper acquisition in this batch.
+
+## Finite Besicovitch / Perron tree
+
+`test/models/perron_tree_model_test.dart` checks the translated-leaf fixture, independent interval-union area bounds, sampled directional witnesses, immutable offsets and numerical input limits. `test/modules/perron_tree_test.dart` draws the real registered shader and compares geometric pixels with a separate barycentric oracle, checks static output, style/transparency/PNG readback, camera extremes, and the EN/ES shader-only notice. CPU dispatch must refuse synthetic substitution. The analytic full-angle argument and current limits are in [the construction owner](../../research/besicovitch-shader.md#finite-implementation).
+
+Run `flutter test --no-pub test/models/perron_tree_model_test.dart test/modules/perron_tree_test.dart`. Optional `PERRON_PREVIEW_DIR` saves actual shader PNGs and named host draw/readback samples at increasing depths. These are host raster checks, not hardware GPU, performance parity, installed-device acceptance or a complete image-export journey. Preserve separate Android, browser and Linux journey gates, and test direct export/fallback failures rather than showing a substitute image.
+
+Perron luminous readability: the module regressions also reject clipped overlap centers at depths 0/3/5 with default/maximum glow, verify premultiplied channels and transparent-to-opaque composition, and retain the independent geometric pixel oracle. Compare same-size shader PNGs for exposure; lower luminous occupancy is not a mathematical area change. This is a styling-only patch; rerun targeted model/module/shader and Chrome checks, and retain separate physical-device and complete export-journey gates.
+
+## Modal and live controls consistency
+
+Catalog ordering regression: `test/golden/catalog_golden_test.dart` preserves the existing catalog images and explicitly checks the relative positions of equally named Anti-Buddhabrot variants. Adding modules must not shuffle equal display names; the comparator breaks ties with stable catalog IDs. The delivery reproduction failed on the candidate and passed on the original HEAD under the same fixture; the tie-break repair passed all four existing golden cases without updating their images.
+
+All 24 direct modal launch sites were inventoried; all 16 bottom-sheet launchers now explicitly request safe areas and scroll control. Shared sheet/dialog styling follows the selected theme, with desktop width caps of 720/560 logical pixels. Preserve the single IME-padding owner, exact selectable options, palette selection visibility, controller dismissal lifetime, explicit medium-impact Copy/Share feedback, and fullscreen batch cancellation/error behavior.
+
+The isolated combined modal/control/accessibility selection passed 751 cases with one optional private capture fixture skipped; viewer-screen/view-controls tests and the web release build also passed. Review found dropped Share haptics; both actions were restored with red/green platform-channel regressions, followed by passing canonical focused tests and analyzer. Capture-only helpers remain private: component raster previews use substituted fonts/synthetic viewport metrics and do not qualify production typography, a physical keyboard/IME or screen-reader/tactile behavior. Retain the existing independent device/browser journey gates.
+
+## Milnor-inspired Brieskorn polynomial orbit
+
+See [the mathematics owner](../../research/milnor-brieskorn.md). `test/modules/milnor_brieskorn_test.dart`, `test/modules/milnor_brieskorn_render_test.dart`, `test/helpers/milnor_brieskorn_oracle.dart` and `test/shaders/milnor_brieskorn_shader_test.dart` cover registration, exact/binomial orbit fixtures, the coefficient-aware escape bound, finite-update semantics, independent pixel classification, palettes, captured-state roundtrips, transparency, extreme inputs and EN/ES unsupported-CPU notices. Non-escape within the budget is not proven boundedness; one critical orbit is not a connectedness locus, and this is inspired dynamics rather than exotic-sphere geometry.
+
+The final combined canonical check passed 46 selected shader, mathematics, public-count, shared-modal, Share-feedback and live-HUD tests, plus three academic-coverage tests and a clean analyzer. Earlier integrated attempts exposed stale public/localized counts; those failures were retained and the source counts were reconciled before the passing rerun. Fresh canonical 960×720 previews were decoded and bound to the unchanged shader hash. This focused pass does not replace the full common integration suite.
+
+The isolated focused module/metadata/catalog/shader run passed 292 cases with six existing skips; actual production FragmentProgram readback matched 9,223 margin-stable oracle samples, including 738 near-boundary samples. Academic coverage tests passed three cases. Linux debug build and SkSL/GLES/GLES3/Vulkan shader compilation passed. These are candidate-native/compiler checks, not a full common integration gate or hardware GPU qualification. Chrome attempts stalled before tests started and remain unverified. `MILNOR_PREVIEW_DIR` optionally saves actual 960×720 shader PNGs and replay states. CPU precision, physical-device behavior and complete export journeys remain unsupported or unqualified as stated; no publication follows from these checks.

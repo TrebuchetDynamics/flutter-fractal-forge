@@ -98,6 +98,18 @@ abstract class AppLocalizations {
     Locale('es')
   ];
 
+  /// No description provided for @moduleMilnorBrieskorn.
+  ///
+  /// In en, this message translates to:
+  /// **'Milnor — Brieskorn Orbit (Inspired)'**
+  String get moduleMilnorBrieskorn;
+
+  /// No description provided for @milnorGpuOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'This inspired orbit requires the shader renderer. CPU viewing is not supported; no substitute image is shown.'**
+  String get milnorGpuOnly;
+
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
@@ -3155,7 +3167,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeFractalCountBadge.
   ///
   /// In en, this message translates to:
-  /// **'1020 fractals'**
+  /// **'1022 fractals'**
   String get homeFractalCountBadge;
 
   /// No description provided for @catalogAllFractals.
@@ -3587,7 +3599,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsAboutBlurb.
   ///
   /// In en, this message translates to:
-  /// **'GPU-accelerated exploration of 1020 production fractals, with deep zoom and real-time rendering.'**
+  /// **'GPU-accelerated exploration of 1022 production fractals, with deep zoom and real-time rendering.'**
   String get settingsAboutBlurb;
 
   /// No description provided for @settingsSourceCode.
@@ -3793,6 +3805,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Other'**
   String get reportTagOther;
+
+  /// No description provided for @modulePerronTree.
+  ///
+  /// In en, this message translates to:
+  /// **'Besicovitch — Perron Tree (Finite)'**
+  String get modulePerronTree;
+
+  /// No description provided for @perronDepth.
+  ///
+  /// In en, this message translates to:
+  /// **'Construction depth'**
+  String get perronDepth;
+
+  /// No description provided for @perronOverlap.
+  ///
+  /// In en, this message translates to:
+  /// **'Heart scale'**
+  String get perronOverlap;
+
+  /// No description provided for @perronAngle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rotation (degrees)'**
+  String get perronAngle;
+
+  /// No description provided for @perronGlow.
+  ///
+  /// In en, this message translates to:
+  /// **'Glow strength'**
+  String get perronGlow;
+
+  /// No description provided for @perronStyle.
+  ///
+  /// In en, this message translates to:
+  /// **'Render style'**
+  String get perronStyle;
+
+  /// No description provided for @perronGeometric.
+  ///
+  /// In en, this message translates to:
+  /// **'Geometric'**
+  String get perronGeometric;
+
+  /// No description provided for @perronLuminous.
+  ///
+  /// In en, this message translates to:
+  /// **'Luminous'**
+  String get perronLuminous;
+
+  /// No description provided for @perronHue.
+  ///
+  /// In en, this message translates to:
+  /// **'Hue'**
+  String get perronHue;
+
+  /// No description provided for @perronGpuOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'This finite Perron-tree visualization requires the shader renderer. CPU rendering is not available; no substitute image is shown.'**
+  String get perronGpuOnly;
 }
 
 class _AppLocalizationsDelegate

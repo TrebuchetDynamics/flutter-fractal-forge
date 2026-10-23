@@ -10,7 +10,7 @@
     "module_registry": "lib/core/modules/module_registry.dart"
   },
   "counts": {
-    "explore_core": 1028,
+    "explore_core": 1030,
     "explore_performance": 0,
     "manifest": 200
   },
@@ -1043,7 +1043,9 @@
       "core.zaslavsky",
       "core.zeta_newton",
       "core.zhou_chen",
-      "core.zircon_zity"
+      "core.zircon_zity",
+      "core.perron_tree",
+      "core.milnor_brieskorn"
     ],
     "performance": []
   },
@@ -20738,6 +20740,39 @@
       "references": [
         "research/fractals-library/data/fractal_manifest.json",
         "research/fractals-library/categories/cellular_and_stochastic/"
+      ]
+    },
+    {
+      "id": "core.milnor_brieskorn",
+      "source_id": "milnor_brieskorn",
+      "source": "Explore",
+      "group": "core",
+      "status": "renderer_registered",
+      "module_id": "milnor_brieskorn",
+      "shader": "shaders/escape_time_family/milnor_brieskorn_gpu.frag",
+      "runtime_preview": "Actual FragmentProgram draw and readback in test/modules/milnor_brieskorn_render_test.dart; host raster, not hardware GPU or live viewer qualification.",
+      "cpu_formula": "Unsupported; localized CPU viewer notice and explicit refusal of synthetic substitution.",
+      "references": [
+        "lib/core/modules/fractals/milnor_brieskorn_module.dart",
+        "shaders/escape_time_family/milnor_brieskorn_gpu.frag",
+        "research/milnor-brieskorn.md"
+      ]
+    },
+    {
+      "id": "core.perron_tree",
+      "source_id": "perron_tree",
+      "source": "Explore",
+      "group": "core",
+      "status": "renderer_registered",
+      "module_id": "perron_tree",
+      "shader": "shaders/ifs_and_geometric/perron_tree_gpu.frag",
+      "runtime_preview": "Host Flutter shader draw and PNG readback in test/modules/perron_tree_test.dart; not a live viewer/device qualification.",
+      "cpu_formula": "Unsupported; CPU viewer displays an explicit notice and CPU dispatch refuses synthetic substitution.",
+      "references": [
+        "lib/core/models/perron_tree_model.dart",
+        "lib/core/modules/fractals/perron_tree_module.dart",
+        "shaders/ifs_and_geometric/perron_tree_gpu.frag",
+        "research/besicovitch-shader.md"
       ]
     }
   ],

@@ -9,6 +9,13 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get moduleMilnorBrieskorn => 'Milnor — Brieskorn Orbit (Inspired)';
+
+  @override
+  String get milnorGpuOnly =>
+      'This inspired orbit requires the shader renderer. CPU viewing is not supported; no substitute image is shown.';
+
+  @override
   String get appTitle => 'Fractal Forge';
 
   @override
@@ -1668,7 +1675,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get homeFractalCountBadge => '1020 fractals';
+  String get homeFractalCountBadge => '1022 fractals';
 
   @override
   String get catalogAllFractals => 'All Fractals';
@@ -1909,7 +1916,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsAboutBlurb =>
-      'GPU-accelerated exploration of 1020 production fractals, with deep zoom and real-time rendering.';
+      'GPU-accelerated exploration of 1022 production fractals, with deep zoom and real-time rendering.';
 
   @override
   String get settingsSourceCode => 'Source code';
@@ -2023,4 +2030,35 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reportTagOther => 'Other';
+
+  @override
+  String get modulePerronTree => 'Besicovitch — Perron Tree (Finite)';
+
+  @override
+  String get perronDepth => 'Construction depth';
+
+  @override
+  String get perronOverlap => 'Heart scale';
+
+  @override
+  String get perronAngle => 'Rotation (degrees)';
+
+  @override
+  String get perronGlow => 'Glow strength';
+
+  @override
+  String get perronStyle => 'Render style';
+
+  @override
+  String get perronGeometric => 'Geometric';
+
+  @override
+  String get perronLuminous => 'Luminous';
+
+  @override
+  String get perronHue => 'Hue';
+
+  @override
+  String get perronGpuOnly =>
+      'This finite Perron-tree visualization requires the shader renderer. CPU rendering is not available; no substitute image is shown.';
 }

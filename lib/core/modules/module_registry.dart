@@ -1,3 +1,5 @@
+import 'fractals/perron_tree_module.dart';
+import 'fractals/milnor_brieskorn_module.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/builders/escape_time/catalog.dart';
@@ -85,6 +87,8 @@ class ModuleRegistry {
 
     // Custom modules with special params/uniforms
     final customModules = <FractalModule>[
+      buildPerronTreeModule(),
+      buildMilnorBrieskornModule(),
       // Julia needs extra seed params (cx, cy)
       if (!catalogIds.contains('julia')) buildJuliaModule(),
       // Julia Dual: side-by-side Mandelbrot + Julia viewer

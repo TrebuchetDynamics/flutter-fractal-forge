@@ -182,6 +182,22 @@ class FractalMathematics {
       method = 'Procedural rule visualization';
       qualification = 'Rule-inspired procedural visualization';
     }
+    if (module.id == 'milnor_brieskorn') {
+      family = 'Complex dynamics';
+      algebra = 'Complex';
+      view = 'Parameter plane';
+      method = 'Escape-time';
+      qualification =
+          'Inspired; not an exotic sphere. Not escaped within N is not proven boundedness; orbit of 0 only, not complete connectedness locus';
+    }
+    if (module.id == 'perron_tree') {
+      family = 'IFS and geometric constructions';
+      algebra = 'Real';
+      view = '2D view';
+      method = 'Translated-triangle union';
+      qualification =
+          'Finite approximation; not a zero-area set or continuous needle motion';
+    }
     return FractalMathematics._(module,
         family: family,
         algebra: algebra,
@@ -194,6 +210,21 @@ class FractalMathematics {
 
   /// Merge partial edits with defaults and mirror inspected uniform/shader selectors.
   String formula(Map<String, dynamic> params) {
+    if (_module.id == 'milnor_brieskorn') {
+      return 'z(0) = 0; z(n+1) = z(n)^5 + z(n)^3 + 3*z(n)^2 + c; finite orbit of 0 only';
+    }
+    if (_module.id == 'perron_tree') {
+      final rawDepth = params['depth'];
+      final rawAlpha = params['overlap'];
+      final depth = rawDepth is num && rawDepth.isFinite
+          ? rawDepth.round().clamp(0, 5)
+          : 5;
+      final alpha = rawAlpha is num && rawAlpha.isFinite
+          ? rawAlpha.toDouble().clamp(.5, 1.0)
+          : .8;
+      if (depth == 0) return 'N=1, a=$alpha; t_0=0';
+      return 'N=${1 << depth}, a=$alpha; t_j=-sum(bit_k(j) 2^k (2/sqrt(3)/N) [1+a^k(1-2a)]), k=0..${depth - 1}';
+    }
     final values = {..._module.defaultPreset.params, ...params};
     double value(String key, [double fallback = 0]) {
       final raw = values[key];

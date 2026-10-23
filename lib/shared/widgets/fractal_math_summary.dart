@@ -7,6 +7,11 @@ import 'package:flutter_fractals/l10n/app_localizations.dart';
 String mathematicalLabel(BuildContext context, String value) {
   if (Localizations.localeOf(context).languageCode != 'es') return value;
   final label = const <String, String>{
+    'Inspired; not an exotic sphere. Not escaped within N is not proven boundedness; orbit of 0 only, not complete connectedness locus':
+        'Inspirada; no es una esfera exótica. Sin escape en N no demuestra acotación; solo la órbita de 0, no el lugar completo de conexidad',
+    'Translated-triangle union': 'Unión de triángulos trasladados',
+    'Finite approximation; not a zero-area set or continuous needle motion':
+        'Aproximación finita; no es un conjunto de área cero ni un movimiento continuo de aguja',
     'Complex dynamics': 'Dinámica compleja',
     'Root finding': 'Búsqueda de raíces',
     'IFS and geometric constructions': 'IFS y construcciones geométricas',
@@ -117,6 +122,7 @@ String mathematicalLabel(BuildContext context, String value) {
     'color does not prove convergence': 'el color no demuestra convergencia',
     'regularized division': 'división regularizada',
     'initial state': 'estado inicial',
+    'finite orbit of 0 only': 'solo la órbita finita de 0',
     'escape/boundedness view': 'vista de escape o acotación',
     'transcendental components clamped to':
         'componentes trascendentes limitados a',

@@ -1,6 +1,6 @@
 {
   "counts": {
-    "app": 1028,
+    "app": 1030,
     "planned": 1,
     "reference": 200,
     "registry": 1619
@@ -6767,6 +6767,22 @@
     {
       "alias_review": "unresolved",
       "identity": "core.perpendicular_mandelbrot",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.milnor_brieskorn",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.perron_tree",
       "name": "",
       "namespace": "app",
       "paper_ids": [],

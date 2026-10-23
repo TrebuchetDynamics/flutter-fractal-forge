@@ -319,6 +319,14 @@ bool hasCuratedCpuFormula(String moduleId) =>
 /// If no explicit implementation exists, returns a deterministic synthetic
 /// fallback keyed by module id (instead of silently reusing Mandelbrot).
 CpuFormula cpuFormulaForModuleId(String moduleId) {
+  if (moduleId == 'milnor_brieskorn') {
+    throw UnsupportedError(
+        'Milnor — Brieskorn Orbit requires its shader; no CPU substitute is supported.');
+  }
+  if (moduleId == 'perron_tree') {
+    throw UnsupportedError(
+        'Perron tree requires its geometric shader; no CPU substitute is supported.');
+  }
   final direct = cpuFormulasByModuleId[moduleId];
   if (direct != null) return direct;
 

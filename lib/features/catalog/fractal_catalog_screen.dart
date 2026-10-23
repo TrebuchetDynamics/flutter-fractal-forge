@@ -541,9 +541,11 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
                 (relevance[a] ?? 999).compareTo(relevance[b] ?? 999);
             if (scoreCompare != 0) return scoreCompare;
           }
-          return a.module
-              .displayName(l10n)
-              .compareTo(b.module.displayName(l10n));
+          final nameCompare =
+              a.module.displayName(l10n).compareTo(b.module.displayName(l10n));
+          return nameCompare != 0
+              ? nameCompare
+              : a.catalogId.compareTo(b.catalogId);
         });
       final variants = <String, List<CatalogEntry>>{};
       for (final entry in sorted) {

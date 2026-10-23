@@ -9,6 +9,14 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
+  String get moduleMilnorBrieskorn =>
+      'Milnor — Órbita de Brieskorn (Inspirada)';
+
+  @override
+  String get milnorGpuOnly =>
+      'Esta órbita inspirada requiere el renderizador de shaders. La vista CPU no es compatible; no se muestra una imagen sustituta.';
+
+  @override
   String get appTitle => 'Fractal Forge';
 
   @override
@@ -1686,7 +1694,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get homeFractalCountBadge => '1020 fractales';
+  String get homeFractalCountBadge => '1022 fractales';
 
   @override
   String get catalogAllFractals => 'Todos los fractales';
@@ -1927,7 +1935,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settingsAboutBlurb =>
-      'Exploración acelerada por GPU de 1020 fractales de producción, con zoom profundo y renderizado en tiempo real.';
+      'Exploración acelerada por GPU de 1022 fractales de producción, con zoom profundo y renderizado en tiempo real.';
 
   @override
   String get settingsSourceCode => 'Código fuente';
@@ -2043,4 +2051,35 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get reportTagOther => 'Otro';
+
+  @override
+  String get modulePerronTree => 'Besicovitch — Árbol de Perron (finito)';
+
+  @override
+  String get perronDepth => 'Profundidad de construcción';
+
+  @override
+  String get perronOverlap => 'Escala del núcleo';
+
+  @override
+  String get perronAngle => 'Rotación (grados)';
+
+  @override
+  String get perronGlow => 'Intensidad del resplandor';
+
+  @override
+  String get perronStyle => 'Estilo de renderizado';
+
+  @override
+  String get perronGeometric => 'Geométrico';
+
+  @override
+  String get perronLuminous => 'Luminoso';
+
+  @override
+  String get perronHue => 'Tono';
+
+  @override
+  String get perronGpuOnly =>
+      'Esta visualización finita del árbol de Perron requiere el renderizador de shaders. El renderizado por CPU no está disponible; no se muestra una imagen sustituta.';
 }
