@@ -257,8 +257,15 @@ class NumberWallCell {
     if (matrix.any((row) => row.length != n)) {
       throw ArgumentError('Expected a square matrix');
     }
+    // Generated sequence support already contains canonical field residues.
+    // Preserve those immutable BigInts instead of repeating costly division
+    // for every matrix entry; arbitrary signed inputs still reduce exactly.
     final a = matrix
-        .map((row) => row.map((value) => value.modulo(prime)).toList())
+        .map((row) => row
+            .map((value) => !value.isNegative && value < prime
+                ? value
+                : value.modulo(prime))
+            .toList())
         .toList();
     var determinant = BigInt.one;
     var probes = 0;
@@ -296,7 +303,11 @@ class NumberWallCell {
           for (var j = column; j < n; j++) {
             a[row][j] = (a[row][j] - factor * a[column][j]).modulo(prime);
             probes++;
-            if (await checkpoint()) return null;
+            // Keep scalar field operations synchronous inside each bounded
+            // batch. Awaiting a completed Future per multiplication makes the
+            // default wall spend most of its time scheduling microtasks.
+            if ((probes >= 1024 || clock.elapsedMilliseconds >= 8) &&
+                await checkpoint()) return null;
           }
         }
       }

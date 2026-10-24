@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
+import 'package:flutter_fractals/features/controls/widgets/number_wall_prime_control.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/features/controls/param_control_plan.dart';
@@ -55,22 +58,32 @@ class FractalControlsSheet extends StatelessWidget {
                             param: entry.value,
                             value: controller.params[entry.value.id] ??
                                 entry.value.defaultValue,
-                            onChanged: (value) =>
-                                controller.updateParam(entry.value.id, value),
+                            onChanged: (value) {
+                              if (controller.module.id == 'number_wall' &&
+                                  entry.value.id == 'prime' &&
+                                  value is String) {
+                                unawaited(
+                                    controller.applyNumberWallPrime(value));
+                              } else {
+                                controller.updateParam(entry.value.id, value);
+                              }
+                            },
                           ),
                         );
                       }),
                     ],
                   ),
                 ),
-                _ControlCard(
-                  title: l10n.dimensionKaleidoscope,
-                  child: _KaleidoscopeControls(),
-                ),
-                _ControlCard(
-                  title: l10n.sectionGlow,
-                  child: _GlowControls(),
-                ),
+                if (controller.module.id != 'number_wall') ...[
+                  _ControlCard(
+                    title: l10n.dimensionKaleidoscope,
+                    child: _KaleidoscopeControls(),
+                  ),
+                  _ControlCard(
+                    title: l10n.sectionGlow,
+                    child: _GlowControls(),
+                  ),
+                ],
                 _ControlCard(
                   title: l10n.sectionActions,
                   child: Column(
@@ -290,6 +303,9 @@ class _ParamControl extends StatelessWidget {
                 onChanged(plan.valueForSliderPosition(newValue)),
           ),
         );
+
+      case FractalParamType.decimalInteger:
+        return const NumberWallPrimeControl();
 
       case FractalParamType.enumeration:
         // Use horizontal scroll for large option sets (e.g. 64 palettes).

@@ -24,6 +24,7 @@ import 'package:flutter_fractals/core/modules/fractals/juliabulb_3d_module.dart'
 import 'package:flutter_fractals/core/modules/fractals/mandelbox_module.dart';
 import 'package:flutter_fractals/core/modules/fractals/mandelbulb_module.dart';
 import 'package:flutter_fractals/core/modules/fractals/nova_module.dart';
+import 'package:flutter_fractals/core/modules/fractals/number_wall_module.dart';
 import 'package:flutter_fractals/core/modules/fractals/phoenix_module.dart';
 import 'package:flutter_fractals/core/modules/fractals/quaternion_julia_3d_module.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_julia_catalog.dart';
@@ -98,6 +99,7 @@ class ModuleRegistry {
       // Phoenix needs extra c/p/power-aware uniforms; keep the custom module so
       // the core Phoenix shader is never driven by the generic escape-time layout.
       buildPhoenixModule(),
+      buildNumberWallModule(),
       // Nova needs relaxation param instead of bailout
       if (!catalogIds.contains('nova')) buildNovaModule(),
       // Mandelbulb is 3D with rotation uniforms

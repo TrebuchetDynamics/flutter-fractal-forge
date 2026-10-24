@@ -17,16 +17,16 @@ import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
 ///
 /// - Escape-time catalog raw unique IDs       : 543
 /// - Raymarched-3D catalog unique IDs         :  38
-/// - Custom hand-built modules                :  12
+/// - Custom hand-built modules                :  13
 ///   (julia, julia_dual, phoenix, nova, mandelbulb, mandelbox,
 ///    hydrogen_orbital, quaternion_julia_3d, juliabulb_3d,
-///    perron_tree, milnor_brieskorn, fibonacci_complex_julia)
-/// - Total ModuleRegistry modules (debug/test) : 1031
-/// - Production modules excluding diagnostics  : 1024
-/// - Production fractals (excluding Hydrogen)  : 1023
+///    perron_tree, milnor_brieskorn, number_wall, fibonacci_complex_julia)
+/// - Total ModuleRegistry modules (debug/test) : 1032
+/// - Production modules excluding diagnostics  : 1025
+/// - Production fractals (excluding Hydrogen)  : 1024
 ///
 /// The debug/test registry includes 7 diagnostic shader modules; public copy
-/// should use 1023 production fractals. The "196 GPU shaders" figure in TODO.md refers to fragment shader
+/// should use 1024 production fractals. The "196 GPU shaders" figure in TODO.md refers to fragment shader
 /// assets compiled at build time; it predates the full catalog expansion.
 void main() {
   // ---------------------------------------------------------------------------
@@ -124,10 +124,10 @@ void main() {
       registry = ModuleRegistry();
     });
 
-    test('total module count is 1031 in debug/test', () {
+    test('total module count is 1032 in debug/test', () {
       // Debug/test builds include 7 diagnostic modules and one non-fractal
-      // scientific visualization. Public docs count 1023 production fractals.
-      expect(registry.modules.length, 1031,
+      // scientific visualization. Public docs count 1024 production fractals.
+      expect(registry.modules.length, 1032,
           reason: 'Update this constant when modules are intentionally '
               'added to or removed from the de-duplicated registry.');
     });
@@ -184,6 +184,7 @@ void main() {
 
     test('byId lookup succeeds for all custom hand-built modules', () {
       const customIds = [
+        'number_wall',
         'fibonacci_complex_julia',
         'julia',
         'julia_dual',

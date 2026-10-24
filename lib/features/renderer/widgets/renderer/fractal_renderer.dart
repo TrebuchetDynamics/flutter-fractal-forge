@@ -17,6 +17,7 @@ import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animation_effects.dart';
 import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import 'package:flutter_fractals/core/services/platform/runtime_mode_service.dart';
+import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import '../../cpu/cpu_fractal_renderer.dart';
 import '../../models/fractal_render_snapshot.dart';
 import 'input/gesture_view_bounds.dart';
@@ -29,6 +30,7 @@ import 'package:flutter_fractals/features/renderer/policy/precision_ladder_polic
 import '../../policy/render_plan.dart';
 import '../canvas/attractor_trajectory_canvas.dart';
 import '../canvas/fractal_canvas.dart';
+import 'number_wall_exact_renderer.dart';
 import '../effects/fluid_warp_effect.dart';
 import 'shaders/shader_error_policy.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -379,6 +381,23 @@ class _FractalRendererState extends State<FractalRenderer>
   Widget build(BuildContext context) {
     final controller = context.watch<FractalController>();
     final module = controller.module;
+
+    // Exact fields must win over generic CPU/precision overrides as well.
+    if (module.id == 'number_wall') {
+      _stopAnimationTicker(reset: !widget.animationEnabled);
+      final mode = context.watch<RendererSettingsService?>()?.backendMode ??
+          RendererBackendMode.auto;
+      return _wrapWithGestures(
+          NumberWallExactRenderer(
+            boundaryKey: widget.boundaryKey,
+            showIndicator: widget.showRendererIndicator,
+            backendMode: mode == RendererBackendMode.auto &&
+                    widget.renderPlan?.usesCpuRenderer == true
+                ? RendererBackendMode.cpuOnly
+                : mode,
+          ),
+          onTapUp: widget.onPlotTap);
+    }
 
     if (widget.overrideChild != null) {
       _stopAnimationTicker(reset: !widget.animationEnabled);

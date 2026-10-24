@@ -525,6 +525,122 @@ class AppLocalizationsEn extends AppLocalizations {
   String get moduleMandelbulb => 'Mandelbulb';
 
   @override
+  String get numberWalls => 'Number Walls';
+
+  @override
+  String get numberWallSource => 'Sequence';
+
+  @override
+  String get numberWallPrime => 'Prime modulus';
+
+  @override
+  String get numberWallColumns => 'Columns';
+
+  @override
+  String get numberWallRows => 'Rows';
+
+  @override
+  String get numberWallOrigin => 'Column origin';
+
+  @override
+  String get numberWallColorMode => 'Cell coloring';
+
+  @override
+  String get numberWallWindows => 'Binary windows';
+
+  @override
+  String get numberWallPrimeHint =>
+      'Enter decimal digits, then apply to verify primality.';
+
+  @override
+  String get numberWallApplyPrime => 'Apply verified prime';
+
+  @override
+  String get numberWallCheckingPrime => 'Checking exact primality…';
+
+  @override
+  String get numberWallPrimeApplied => 'Verified prime applied.';
+
+  @override
+  String get numberWallPrimeUnverified =>
+      'Not verified; previous value retained.';
+
+  @override
+  String get numberWallPrimeInvalid =>
+      'Invalid prime; previous value retained.';
+
+  @override
+  String get numberWallVerifying => 'Verifying modulus…';
+
+  @override
+  String get numberWallComputing => 'Computing exact finite-field wall…';
+
+  @override
+  String get numberWallVerificationFailed =>
+      'Number Wall settings could not be verified.';
+
+  @override
+  String get numberWallRetainedUnverified =>
+      'Modulus unverified; previous exact wall retained.';
+
+  @override
+  String get numberWallRetainedInvalid =>
+      'Invalid prime modulus; previous exact wall retained.';
+
+  @override
+  String get numberWallRetainedOrigin =>
+      'Column origin is too small; previous wall retained.';
+
+  @override
+  String get numberWallCancelled => 'Check cancelled; previous wall retained.';
+
+  @override
+  String get numberWallContinue => 'Continue checking';
+
+  @override
+  String get numberWallExactCanvas => 'Exact integer field · Canvas display';
+
+  @override
+  String get numberWallExactSampler => 'Exact integer field · GPU display';
+
+  @override
+  String get numberWallGpuUnavailable =>
+      'GPU display unavailable; choose Auto or CPU.';
+
+  @override
+  String numberWallCell(Object row, Object column, Object prime, Object residue,
+      Object divisibility) {
+    return 'Cell m=$row, n=$column, p=$prime, residue=$residue. $divisibility';
+  }
+
+  @override
+  String get numberWallDivisible => 'Divisible by p';
+
+  @override
+  String get numberWallNonzero => 'Not divisible by p';
+
+  @override
+  String get numberWallResidues => 'Residues';
+
+  @override
+  String get numberWallSignedPagoda => 'Signed Pagoda';
+
+  @override
+  String get numberWallRook => 'Rook';
+
+  @override
+  String get numberWallThueMorse => 'Thue–Morse';
+
+  @override
+  String get numberWallRudinShapiro => 'Rudin–Shapiro';
+
+  @override
+  String get numberWallFibonacci => 'Fibonacci';
+
+  @override
+  String get numberWallSquares => 'Squares';
+
+  @override
   String get dimension2d => '2D';
 
   @override
@@ -1712,7 +1828,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get homeFractalCountBadge => '1023 fractals';
+  String get homeFractalCountBadge => '1024 fractals';
 
   @override
   String get catalogAllFractals => 'All Fractals';
@@ -2001,7 +2117,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsAboutBlurb =>
-      'GPU-accelerated exploration of 1023 production fractals, with deep zoom and real-time rendering.';
+      'GPU-accelerated exploration of 1024 production fractals, with deep zoom and real-time rendering.';
 
   @override
   String get settingsSourceCode => 'Source code';

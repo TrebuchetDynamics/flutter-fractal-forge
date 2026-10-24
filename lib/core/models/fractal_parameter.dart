@@ -29,6 +29,11 @@ enum FractalParamType {
   /// Value type: depends on [FractalParamOption.value]
   enumeration,
 
+  /// A canonical base-10 integer string, used where numeric conversion could
+  /// lose precision (for example a large prime modulus).
+  /// Value type: [String]
+  decimalInteger,
+
   /// A boolean on/off parameter.
   ///
   /// Rendered as a switch or checkbox.

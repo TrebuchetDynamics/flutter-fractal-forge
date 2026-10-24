@@ -1046,6 +1046,217 @@ abstract class AppLocalizations {
   /// **'Mandelbulb'**
   String get moduleMandelbulb;
 
+  /// No description provided for @numberWalls.
+  ///
+  /// In en, this message translates to:
+  /// **'Number Walls'**
+  String get numberWalls;
+
+  /// No description provided for @numberWallSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Sequence'**
+  String get numberWallSource;
+
+  /// No description provided for @numberWallPrime.
+  ///
+  /// In en, this message translates to:
+  /// **'Prime modulus'**
+  String get numberWallPrime;
+
+  /// No description provided for @numberWallColumns.
+  ///
+  /// In en, this message translates to:
+  /// **'Columns'**
+  String get numberWallColumns;
+
+  /// No description provided for @numberWallRows.
+  ///
+  /// In en, this message translates to:
+  /// **'Rows'**
+  String get numberWallRows;
+
+  /// No description provided for @numberWallOrigin.
+  ///
+  /// In en, this message translates to:
+  /// **'Column origin'**
+  String get numberWallOrigin;
+
+  /// No description provided for @numberWallColorMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Cell coloring'**
+  String get numberWallColorMode;
+
+  /// No description provided for @numberWallWindows.
+  ///
+  /// In en, this message translates to:
+  /// **'Binary windows'**
+  String get numberWallWindows;
+
+  /// No description provided for @numberWallPrimeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter decimal digits, then apply to verify primality.'**
+  String get numberWallPrimeHint;
+
+  /// No description provided for @numberWallApplyPrime.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply verified prime'**
+  String get numberWallApplyPrime;
+
+  /// No description provided for @numberWallCheckingPrime.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking exact primality…'**
+  String get numberWallCheckingPrime;
+
+  /// No description provided for @numberWallPrimeApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified prime applied.'**
+  String get numberWallPrimeApplied;
+
+  /// No description provided for @numberWallPrimeUnverified.
+  ///
+  /// In en, this message translates to:
+  /// **'Not verified; previous value retained.'**
+  String get numberWallPrimeUnverified;
+
+  /// No description provided for @numberWallPrimeInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid prime; previous value retained.'**
+  String get numberWallPrimeInvalid;
+
+  /// No description provided for @numberWallVerifying.
+  ///
+  /// In en, this message translates to:
+  /// **'Verifying modulus…'**
+  String get numberWallVerifying;
+
+  /// No description provided for @numberWallComputing.
+  ///
+  /// In en, this message translates to:
+  /// **'Computing exact finite-field wall…'**
+  String get numberWallComputing;
+
+  /// No description provided for @numberWallVerificationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Number Wall settings could not be verified.'**
+  String get numberWallVerificationFailed;
+
+  /// No description provided for @numberWallRetainedUnverified.
+  ///
+  /// In en, this message translates to:
+  /// **'Modulus unverified; previous exact wall retained.'**
+  String get numberWallRetainedUnverified;
+
+  /// No description provided for @numberWallRetainedInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid prime modulus; previous exact wall retained.'**
+  String get numberWallRetainedInvalid;
+
+  /// No description provided for @numberWallRetainedOrigin.
+  ///
+  /// In en, this message translates to:
+  /// **'Column origin is too small; previous wall retained.'**
+  String get numberWallRetainedOrigin;
+
+  /// No description provided for @numberWallCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Check cancelled; previous wall retained.'**
+  String get numberWallCancelled;
+
+  /// No description provided for @numberWallContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue checking'**
+  String get numberWallContinue;
+
+  /// No description provided for @numberWallExactCanvas.
+  ///
+  /// In en, this message translates to:
+  /// **'Exact integer field · Canvas display'**
+  String get numberWallExactCanvas;
+
+  /// No description provided for @numberWallExactSampler.
+  ///
+  /// In en, this message translates to:
+  /// **'Exact integer field · GPU display'**
+  String get numberWallExactSampler;
+
+  /// No description provided for @numberWallGpuUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'GPU display unavailable; choose Auto or CPU.'**
+  String get numberWallGpuUnavailable;
+
+  /// No description provided for @numberWallCell.
+  ///
+  /// In en, this message translates to:
+  /// **'Cell m={row}, n={column}, p={prime}, residue={residue}. {divisibility}'**
+  String numberWallCell(Object row, Object column, Object prime, Object residue,
+      Object divisibility);
+
+  /// No description provided for @numberWallDivisible.
+  ///
+  /// In en, this message translates to:
+  /// **'Divisible by p'**
+  String get numberWallDivisible;
+
+  /// No description provided for @numberWallNonzero.
+  ///
+  /// In en, this message translates to:
+  /// **'Not divisible by p'**
+  String get numberWallNonzero;
+
+  /// No description provided for @numberWallResidues.
+  ///
+  /// In en, this message translates to:
+  /// **'Residues'**
+  String get numberWallResidues;
+
+  /// No description provided for @numberWallSignedPagoda.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed Pagoda'**
+  String get numberWallSignedPagoda;
+
+  /// No description provided for @numberWallRook.
+  ///
+  /// In en, this message translates to:
+  /// **'Rook'**
+  String get numberWallRook;
+
+  /// No description provided for @numberWallThueMorse.
+  ///
+  /// In en, this message translates to:
+  /// **'Thue–Morse'**
+  String get numberWallThueMorse;
+
+  /// No description provided for @numberWallRudinShapiro.
+  ///
+  /// In en, this message translates to:
+  /// **'Rudin–Shapiro'**
+  String get numberWallRudinShapiro;
+
+  /// No description provided for @numberWallFibonacci.
+  ///
+  /// In en, this message translates to:
+  /// **'Fibonacci'**
+  String get numberWallFibonacci;
+
+  /// No description provided for @numberWallSquares.
+  ///
+  /// In en, this message translates to:
+  /// **'Squares'**
+  String get numberWallSquares;
+
   /// No description provided for @dimension2d.
   ///
   /// In en, this message translates to:
@@ -3221,7 +3432,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeFractalCountBadge.
   ///
   /// In en, this message translates to:
-  /// **'1023 fractals'**
+  /// **'1024 fractals'**
   String get homeFractalCountBadge;
 
   /// No description provided for @catalogAllFractals.
@@ -3743,7 +3954,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsAboutBlurb.
   ///
   /// In en, this message translates to:
-  /// **'GPU-accelerated exploration of 1023 production fractals, with deep zoom and real-time rendering.'**
+  /// **'GPU-accelerated exploration of 1024 production fractals, with deep zoom and real-time rendering.'**
   String get settingsAboutBlurb;
 
   /// No description provided for @settingsSourceCode.

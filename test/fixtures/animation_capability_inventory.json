@@ -4115,6 +4115,11 @@
     "capability": "static"
   },
   {
+    "id": "number_wall",
+    "shaderAsset": "shaders/number_theory/number_wall_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "octahedral_crystal_bloom",
     "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag",
     "capability": "timeDriven"

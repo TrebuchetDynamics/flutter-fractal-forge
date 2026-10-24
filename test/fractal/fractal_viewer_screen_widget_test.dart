@@ -1006,6 +1006,49 @@ void main() {
       expect(controller.view.zoom, initialZoom);
     });
 
+    testWidgets(
+        'replacement of a pending wall restore persists the committed view',
+        (tester) async {
+      final wall = registry.byId('number_wall');
+      await viewerSessionStore.save(ViewerSessionSnapshot(
+        moduleId: wall.id,
+        params: {
+          ...wall.defaultPreset.params,
+          'prime': '170141183460469231731687303715884105727'
+        },
+        view: wall.defaultPreset.view,
+        transparentBackground: false,
+        rotationLocked: false,
+        glowEnabled: false,
+        glowSigma: 1,
+        glowIntensity: 1,
+        fluidModeEnabled: false,
+        fluidStrength: 1,
+        kaleidoscopeEnabled: false,
+        kaleidoscopeSectors: 6,
+        kaleidoscopeMirror: false,
+        kaleidoscopeRotation: 0,
+        kaleidoscopeMirrorMode: 0,
+        controlsVisible: true,
+        fullscreenUnobtrusive: false,
+        viewerActive: true,
+      ));
+      await tester.pumpWidget(buildTestWidget(provideViewerSessionStore: true));
+      expect(controller.numberWallPending, isTrue);
+      await controller.loadState(
+          moduleId: 'julia',
+          params: const {'iterations': 123},
+          view: controller.view.copyWith(zoom: 9));
+      await tester.pump(const Duration(milliseconds: 20));
+      expect(controller.module.id, 'julia');
+      expect(find.text('Controls'), findsNothing);
+      final saved = viewerSessionStore.load()!;
+      expect(saved.moduleId, 'julia');
+      expect(saved.params['iterations'], 123);
+      expect(saved.view.zoom, 9);
+      historyProvider.cancelPendingRecord();
+    });
+
     testWidgets('launch deep link suppresses a stale viewer snapshot',
         (tester) async {
       await viewerSessionStore.save(

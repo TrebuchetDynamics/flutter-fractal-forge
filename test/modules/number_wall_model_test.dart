@@ -84,7 +84,7 @@ void main() {
               NumberWallSequence.squares, 2, 4, BigInt.from(5)));
     });
 
-    test('uses published Toeplitz determinant signs for odd primes', () {
+    test('uses published Toeplitz determinant signs for odd primes', () async {
       final matrix = [
         [BigInt.zero, -BigInt.one, BigInt.one],
         [BigInt.one, BigInt.zero, -BigInt.one],
@@ -92,6 +92,17 @@ void main() {
       ];
       expect(NumberWallCell.determinantMatrixMod(matrix, BigInt.from(5)),
           BigInt.one);
+      for (final lift in [-5, 0, 5]) {
+        final lifted = [
+          for (final row in matrix)
+            [for (final value in row) value + BigInt.from(lift)]
+        ];
+        expect(
+            await NumberWallCell.determinantMatrixModAsync(
+                lifted, BigInt.from(5)),
+            BigInt.one,
+            reason: 'canonical, negative and oversized entries agree modulo5');
+      }
       expect(
         NumberWallCell.determinantMatrixMod(
           matrix.reversed.toList(),

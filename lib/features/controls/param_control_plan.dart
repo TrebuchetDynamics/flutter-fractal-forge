@@ -73,7 +73,10 @@ final class NumericParamControlPlan {
     return switch (type) {
       FractalParamType.integer => range.integerValueFor(clamped),
       FractalParamType.float => floatPrecision.round(clamped),
-      FractalParamType.boolean || FractalParamType.enumeration => clamped,
+      FractalParamType.boolean ||
+      FractalParamType.enumeration ||
+      FractalParamType.decimalInteger =>
+        clamped,
     };
   }
 
