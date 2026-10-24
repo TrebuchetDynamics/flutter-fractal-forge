@@ -20,3 +20,4 @@ exclusions = []
 
 - Sources: [Accepted policy](PRD.md#independent-platform-release-policy), [implementation contract](docs/engineering/spec.md#independent-platform-release-orchestration), [lane map](docs/engineering/release/MULTIPLATFORM.md#independent-platform-release-campaign); parent contract retained in `todo.archive.md`.
 - Ownership: Await authorized targets and separately scoped live-operation approval; metadata repair grants neither.
+- Planning handoff: 2026-10-23 lane map and recovery plan: PRD.md#release-continuation-plan--2026-10-23. Reuse this existing live-proof owner for Windows, macOS, iOS and F-Droid requirements; absent native hosts, signing, approved Apple publication route or external F-Droid acceptance remain explicit lane-local gaps. No new access, host purchase or live authority is granted.
