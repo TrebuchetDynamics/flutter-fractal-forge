@@ -1,0 +1,9 @@
+schema = 1
+task = "APP-003-f7"
+candidate = "8331b9fe8f30371a97fbb3056cc4078b78f99795"
+integration = "15feecf325c4fba5c1cdda7194b0dccb890c038d"
+tree = "a5d4f7a89a7d1900fd59c54b691eccea7b37e6cb"
+contract_hash = "cf39dafdcf7a23bd678a769eeac328b71478654aeca14ea5b153617d257e9e8e"
+checks = ["<path>", "<path>", "--verify", "<path>", "APP-003-f7"]
+result = "pass"
+review = "passed"
