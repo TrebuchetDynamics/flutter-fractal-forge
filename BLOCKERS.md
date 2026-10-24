@@ -10,41 +10,6 @@ The generated block below is preserved historical runner output, not five fresh 
 
 <!-- pi-autowork:questions:start -->
 
-### Q-NUM-WALL-02 — USER_INPUT — effort input — unblocks 3
-
-- Task: NUM-WALL-02 — Open real Number Walls from their catalog category with restorable controls.
-- Needs: worker reported a blocker: Provide an approved Flutter 3.44.6 Chrome widget/state-test route that binds every listener within AUTOWORK_PORT_BASE..AUTOWORK_PORT_BASE+99. Do not proceed by patching Flutter SDK internals, retrying with an uncontrolled ephemeral port, or substituting pure-Dart browser parity for the required widget/state test. The existing candidate 0632aa7e477570df27a84f473e0c3a27d67a8d3c and original report w…
-- Since: 2026-10-19T01:08:07Z
-- Answer: Answer in NUM-WALL-02's TODO.md entry: widen `Touches:`, supply the input, narrow the acceptance, or add a dated `Owner decision:` line. The runner reruns it when the entry changes.
-
-### Q-APP-001-47 — USER_DECISION — effort investigate — unblocks 4
-
-- Task: APP-001-47 — Qualify the official local MCP inspection workflow.
-- Needs: integration validation failed or changed the integration tree: the full check crashed before any test result, on the base too: [23:41:39.689][warn][wallpaper] Set wallpaper failed {"error":"Bad state: channel unavailable"}
-- Since: 2026-10-19T08:12:24Z
-- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/APP-001-47/), then rescope or split APP-001-47 in its TODO.md entry. The runner reruns it when the entry changes.
-
-### Q-SINEWARP-001-aa — USER_DECISION — effort investigate — unblocks 1
-
-- Task: SINEWARP-001-aa — Implement the bounded recursive sine-warped sphere.
-- Needs: integration validation failed or changed the integration tree: the full check crashed before any test result, on the base too: [00:27:06.938][warn][wallpaper] Set wallpaper failed {"error":"Bad state: channel unavailable"}
-- Since: 2026-10-19T08:12:24Z
-- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/SINEWARP-001-aa/), then rescope or split SINEWARP-001-aa in its TODO.md entry. The runner reruns it when the entry changes.
-
-### Q-ACAD-007-f8 — USER_DECISION — effort investigate — unblocks 0
-
-- Task: ACAD-007-f8 — Prepare a verified academic pilot approval brief.
-- Needs: integration validation failed or changed the integration tree: the full check crashed before any test result, on the base too: [01:35:07.081][warn][wallpaper] Set wallpaper failed {"error":"Bad state: channel unavailable"}
-- Since: 2026-10-19T08:12:24Z
-- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/ACAD-007-f8/), then rescope or split ACAD-007-f8 in its TODO.md entry. The runner reruns it when the entry changes.
-
-### Q-EXPORT-001-f3 — USER_DECISION — effort investigate — unblocks 0
-
-- Task: EXPORT-001-f3 — Commit native exports without partial completed files.
-- Needs: report.json does not match worker commit/files or reports failure: a check did not pass
-- Since: 2026-10-19T08:12:24Z
-- Answer: Read the evidence (the worker's report and validation log under .git/autowork-execution/slot-data/EXPORT-001-f3/), then rescope or split EXPORT-001-f3 in its TODO.md entry. The runner reruns it when the entry changes.
-
 <!-- pi-autowork:questions:end -->
 
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
