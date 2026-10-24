@@ -140,5 +140,12 @@ class ViewerExportSession {
     );
   }
 
+  /// Visibility loss relinquishes export-owned playback, not the export itself.
+  /// Keep this intent revoked even if the app returns before export finishes.
+  ViewerExportSession withoutAutoExploreResume() {
+    if (!resumeAutoExploreWhenFinished) return this;
+    return ViewerExportSession(phase: phase, progress: progress);
+  }
+
   ViewerExportSession finish() => const ViewerExportSession();
 }

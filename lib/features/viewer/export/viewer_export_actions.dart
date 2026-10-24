@@ -29,6 +29,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
   ExportService get _exportService;
   WallpaperService get _wallpaperService;
   AutoExploreService? get _autoExploreService;
+  bool get _appVisible;
   LooperController? get _looperController;
   FractalController _activeController(BuildContext context);
   GlobalKey _activeBoundaryKey();
@@ -61,6 +62,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
   }
 
   void _resumeAutoExploreAfterExportFlowIfNeeded(bool shouldResume) {
+    if (!mounted || !_appVisible) return;
     final svc = _autoExploreService;
     if (svc == null) return;
 

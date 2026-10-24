@@ -22,6 +22,59 @@ Future<double> nextZoomChange(FractalController controller) {
 
 void main() {
   group('AutoExploreService', () {
+    testWidgets('visibility suspension requires an explicit visible resume',
+        (tester) async {
+      for (final playback in ['active', 'paused', 'corrected', 'idle']) {
+        final controller = FractalController(ModuleRegistry());
+        final service = AutoExploreService(controller: controller);
+        service.speed = 2;
+        if (playback != 'idle') service.start();
+        await tester.pump(const Duration(milliseconds: 32));
+        if (playback == 'paused') service.pause();
+        if (playback == 'corrected') {
+          service.onUserInteractionStart();
+          controller.updateZoom(8);
+        }
+        final view = controller.view;
+        var writes = 0;
+        controller.addListener(() => writes++);
+
+        service.setAppVisible(false);
+        service.start();
+        service.resume();
+        service.toggle();
+        service.onUserInteractionEnd();
+        service.onUserCorrection();
+        await tester.pump(const Duration(seconds: 1));
+        expect(writes, 0, reason: playback);
+        expect(controller.view.zoom, view.zoom);
+        expect(controller.view.pan, view.pan);
+        expect(controller.view.rotation, view.rotation);
+        expect(service.debugHasPendingAnimation, isFalse);
+        expect(service.speed, 2);
+        expect(service.isExploring, playback != 'idle');
+        expect(service.isPaused, playback != 'idle');
+
+        service.setAppVisible(true);
+        service.onUserInteractionEnd();
+        service.onUserCorrection();
+        await tester.pump(const Duration(seconds: 1));
+        expect(writes, 0);
+        service.resume();
+        await tester.pump(const Duration(milliseconds: 32));
+        expect(writes, greaterThan(0));
+        service.dispose();
+        service.resume();
+        service.start();
+        service.setAppVisible(true);
+        final writesAtDisposal = writes;
+        await tester.pump(const Duration(seconds: 1));
+        expect(writes, writesAtDisposal);
+        expect(service.debugHasPendingAnimation, isFalse);
+        controller.dispose();
+      }
+    });
+
     test('unchanged normalized speed does not rebuild playback controls', () {
       final controller = FractalController(ModuleRegistry());
       final service = AutoExploreService(controller: controller);
