@@ -8,7 +8,7 @@ goal = "REL-JOURNEY-001"
 section = "Next"
 rank = 14000
 depends_on = []
-touches = ["lib/core/services/export/export_service.dart", "lib/core/services/export/batch_export_service.dart", "test/export/export_service_test.dart", "test/export/batch_export_service_test.dart", "docs/engineering/test-plan.md"]
+touches = ["lib/core/services/export/export_service.dart", "lib/core/services/export/batch_export_service.dart", "test/export/export_service_test.dart", "test/export/batch_export_service_test.dart", "docs/tasks/EXPORT-001-f3-verification.md"]
 resources = []
 kind = "implementation"
 ownership = "worker"
@@ -22,3 +22,4 @@ exclusions = []
 - Sources: [Accepted gap-closure contract](docs/engineering/spec.md#native-export-commit-boundary), [verification](docs/engineering/test-plan.md#plan-gap-completion-checks).
 - Ownership: Repository backlog, unassigned; preserve live writers and existing gates. Planning does not dispatch.
 - Next action: First reproduce failed-write/final-path behavior with deterministic service-level fault seams, then route the three existing native image paths through same-directory staging and a commit boundary. Preserve any active release worker’s contract and the retained release candidates; this docs pass observed no running repository workers and grants no execution or preference-storage changes.
+- Overlap resolution: Treat docs/engineering/test-plan.md#plan-gap-completion-checks as read-only accepted verification, not a mandatory implementation write. Candidate f71029afdd29741466fced8b745df517d1abbb8d changed that paragraph only to summarize results; the accepted scope/acceptance requires service behavior and deterministic tests, not a shared-plan update. Record fresh source/commands/exits, fault-case coverage and pending filesystem/MediaStore qualification in docs/tasks/EXPORT-001-f3-verification.md instead. This preserves the reporting deliverable while making this task disjoint from RELEASE-002-75; no need to merge into or modify the running release task, weaken checks or copy old passes.

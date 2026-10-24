@@ -8,7 +8,7 @@ goal = "LOOPER-RANDOM-001"
 section = "Next"
 rank = 15000
 depends_on = []
-touches = ["lib/features/looper/", "lib/features/viewer/dialogs/viewer_dialogs.dart", "lib/features/viewer/export/viewer_export_actions.dart", "lib/l10n/", "test/features/looper/", "test/services/looper_controller_test.dart", "test/a11y/screens/looper_sheet_a11y_test.dart", "test/fractal/fractal_viewer_screen_widget_test.dart", "docs/engineering/test-plan.md"]
+touches = ["lib/features/looper/", "lib/features/viewer/dialogs/viewer_dialogs.dart", "lib/features/viewer/export/viewer_export_actions.dart", "lib/l10n/", "test/features/looper/", "test/services/looper_controller_test.dart", "test/a11y/screens/looper_sheet_a11y_test.dart", "test/fractal/fractal_viewer_screen_widget_test.dart", "docs/tasks/LOOPER-001-58-verification.md"]
 resources = []
 kind = "implementation"
 ownership = "worker"
@@ -22,3 +22,4 @@ exclusions = []
 - Sources: [Accepted scope and planner defaults](docs/engineering/spec.md#optional-randomized-camera-looper-points), [owner outcome](PRD.md#optional-looper-point-randomizer), [verification](docs/engineering/test-plan.md#optional-looper-randomizer-verification).
 - Ownership: Repository backlog, unassigned; preserve live writers. This request plans only and does not dispatch or change the frozen release.
 - Next action: First add and run the missing composed randomized sheet → preview → decoded-GIF regression in `test/fractal/fractal_viewer_screen_widget_test.dart`; it must compare generated stored states exactly with preview/export plan states and decoded GIF frames. The attempt-1 controller, sheet and viewer checks passed, but this composed assertion was not implemented or verified. Then finish any remaining acceptance gaps without changing the accepted planner defaults; do not call the global mutating randomizer or rebuild multi-point support.
+- Overlap resolution: Treat docs/engineering/test-plan.md#optional-looper-randomizer-verification as read-only accepted verification. Candidate 16d73fec193e6f2021678a04552ab27fdffaa4e8 changed that section only to summarize fixture results and outstanding coverage, not to implement required behavior. Record fresh fixture identities/seeds, exact stored-state/preview/decoded-GIF assertions, commands/exits and remaining accessibility/device limitations in docs/tasks/LOOPER-001-58-verification.md instead. Preserve every acceptance/check, including the complete scale/trajectory matrix; do not transfer historical 239-test results to current inputs. This removes the RELEASE-002-75 shared-plan write without changing the running release contract; other actual code/localization overlaps still serialize normally.
