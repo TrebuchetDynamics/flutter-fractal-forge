@@ -371,6 +371,40 @@ class ReleasePlatformLanesTest(unittest.TestCase):
             self.assertTrue(commands[2].startswith("pages deployment list "))
             self.assertTrue(commands[3].startswith("pages deployment list "))
 
+    def test_web_formatted_cli_rows_still_require_full_manifest_and_asset_identity(self):
+        identity = {"version": "1.1.110", "build_number": "110", "commit": "a" * 40}
+        content = b"qualified app"
+        expected = {**identity, "files": {"index.html": hashlib.sha256(content).hexdigest()}}
+        with tempfile.TemporaryDirectory() as directory:
+            archive = Path(directory) / "web.tar.gz"
+            encoded = json.dumps(expected).encode()
+            with tarfile.open(archive, "w:gz") as bundle:
+                member = tarfile.TarInfo("web/release-identity.json")
+                member.size = len(encoded)
+                bundle.addfile(member, io.BytesIO(encoded))
+            lane = {"identity": identity, "artifacts": [{"path": str(archive), "sha256": "f" * 64}]}
+            row = {"Id": "deployment-fixture", "Environment": "Production", "Branch": "main",
+                   "Source": identity["commit"][:7], "Deployment": "https://fixture.pages.dev"}
+            for fault in (None, "manifest", "asset", "preview", "mixed"):
+                with self.subTest(fault=fault):
+                    observed = {**expected, "commit": "b" * 40} if fault == "manifest" else expected
+                    displayed = {**row, "Environment": "Preview"} if fault == "preview" else row
+                    if fault == "mixed":
+                        displayed = {**row, "commit_hash": "b" * 40}
+                    replies = [subprocess.CompletedProcess([], 0, stdout=json.dumps([displayed]), stderr=""),
+                               subprocess.CompletedProcess([], 0, stdout=json.dumps(observed), stderr=""),
+                               subprocess.CompletedProcess([], 0, stdout=b"wrong" if fault == "asset" else content, stderr=b"")]
+                    with mock.patch.object(LANES.subprocess, "run", side_effect=replies) as run:
+                        result = LANES._web_readback(lane, None)
+                    self.assertEqual(result["found"], fault is None)
+                    if fault is None:
+                        self.assertEqual(result["deployment_id"], row["Id"])
+                        self.assertEqual(result["verified_file_count"], 1)
+                    elif fault not in {"preview", "mixed"}:
+                        self.assertTrue(result["conflict"])
+                    else:
+                        self.assertEqual(run.call_count, 1)
+
     def test_linux_native_qualification_binds_journey_and_png_export_to_candidate(self):
         identity = {"version": "1.1.108", "build_number": "108", "commit": "a" * 40}
         artifact = {"name": "linux.tar.gz", "path": "/sandbox/linux.tar.gz", "sha256": "f" * 64}

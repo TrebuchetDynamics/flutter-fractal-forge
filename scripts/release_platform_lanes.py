@@ -578,13 +578,17 @@ def _web_readback(lane: dict[str, Any], publication: Any) -> dict[str, Any] | No
     commit = lane["identity"]["commit"]
     expected_note = f"{lane['identity']['version']}:{lane['artifacts'][0]['sha256']}"
     matching = [item for item in deployments
-                if (item.get("deployment_trigger", {}).get("metadata", {}).get("commit_hash") == commit
+                if ((item.get("deployment_trigger", {}).get("metadata", {}).get("commit_hash") == commit
                     or item.get("commit_hash") == commit)
                 and (item.get("deployment_trigger", {}).get("metadata", {}).get("commit_message") == expected_note
-                     or item.get("commit_message") == expected_note)]
+                     or item.get("commit_message") == expected_note))
+                # Wrangler's table SHA is truncated; full identity and all assets are verified below.
+                or ("deployment_trigger" not in item and "commit_hash" not in item
+                    and item.get("Source") == commit[:7] and item.get("Environment") == "Production"
+                    and item.get("Branch") == "main")]
     if not matching:
         return {"found": False}
-    url = matching[0].get("url")
+    url = matching[0].get("url", matching[0].get("Deployment"))
     if not isinstance(url, str) or not url.startswith("https://") or any(char.isspace() for char in url):
         return None
     try:
@@ -615,7 +619,7 @@ def _web_readback(lane: dict[str, Any], publication: Any) -> dict[str, Any] | No
         if hashlib.sha256(remote_file.stdout).hexdigest() != expected_hash:
             return {"found": False, "conflict": True,
                     "publication_reason": f"deployed web asset differs from qualified bundle: {relative}"}
-    return {"found": True, "deployment_id": matching[0].get("id"), "url": url,
+    return {"found": True, "deployment_id": matching[0].get("id", matching[0].get("Id")), "url": url,
             "identity_sha256": hashlib.sha256(json.dumps(expected, sort_keys=True, separators=(",", ":")).encode()).hexdigest(),
             "verified_file_count": len(expected.get("files", {}))}
 
