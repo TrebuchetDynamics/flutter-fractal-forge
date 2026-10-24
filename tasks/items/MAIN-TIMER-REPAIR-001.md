@@ -3,7 +3,7 @@ schema = 1
 id = "MAIN-TIMER-REPAIR-001"
 title = "Repair main-check timer synchronization regressions"
 short = "Restore timer regression gates"
-status = "open"
+status = "done"
 goal = "APP-QUALITY-001"
 section = "Now"
 rank = 1000
@@ -16,6 +16,11 @@ scope = "Repair the three main-check timer regressions observed on 8d841916: mod
 acceptance = ["Both affected test files pass with strict direction/playback assertions and bounded cleanup; startup refresh must occur before the configured loop delay; production cancellation repair has red/green coverage."]
 checks = ["flutter pub get --offline --enforce-lockfile", "flutter test --no-pub test/features/auto_explore/auto_explore_service_test.dart test/features/viewer/actions/viewer_music_coordinator_test.dart --reporter expanded", "Format changed Dart files, focused analysis, git diff --check; full offline gate before integration."]
 exclusions = ["No release, registry, dependencies, lifecycle feature, service control, runtime gate changes, publication, or other workers edits. Preserve APP-003-f7 lifecycle scope and serialize overlapping changes."]
+closure = "manual"
+closure_actor = "RECOVERY-COORDINATOR"
+closure_timestamp = "2026-10-24T17:41:36.033661+00:00"
+closure_reason = "Adopted the attributed idle three-file timer repair after independent approval and the complete pinned offline gate passed; manual bounded local closure, not an engine receipt or live qualification."
+closure_evidence = "Full AGENTS offline gate exit 0 on 327e8cee plus preserved candidate; 2982 Flutter, 282 Python, 103 Python subtests and 25 Bats passed; 8 Flutter and 1 Python skip remain unqualified. All tracked hashes and pubspec.lock stable; independent bounded review approved."
 +++
-- Held by: Preserved uncommitted queue-recovery candidate in canonical working tree; not a live worker claim. Pending full offline gate and local commit/integration; do not duplicate implementation.
-- Checks status: Focused Linux-host validation with pinned Flutter 3.44.6: offline lockfile-enforced preparation passed with unchanged lockfile; 39 tests in the two affected files passed; targeted analysis, formatting and diff check passed. Independent review found a startup-delay oracle gap, corrected by placing the loop delay beyond the bounded polling timeout. Full offline gate and integration are NOT_CHECKED; no commit or publication.
+- Held by: None: current recovery coordinator adopted the preserved candidate after fresh task attribution, inactive task-worker evidence, stable tracked files throughout the full offline gate and independent approval. Historical interactive process was preserved; no other writer or candidate work was discarded.
+- Checks status: 2026-10-24 recovery: complete AGENTS offline gate passed on 327e8cee plus the preserved three-file candidate with pinned Flutter 3.44.6/Dart 3.12.2. Lockfile-enforced offline preparation and analyzer passed; Flutter 2982 passed/8 skipped; Python 282 passed/1 skipped and 103 subtests; Bats 25 passed. pubspec.lock, HEAD, all tracked hashes and candidate diff remained stable throughout validation. Fresh independent review approved cancellation generation fencing, strict direction/startup oracles and cleanup. Existing skipped/live/browser/device cells remain unqualified; this is not APP-003 or NUM-WALL acceptance.
