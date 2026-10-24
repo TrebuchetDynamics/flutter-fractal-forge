@@ -1,6 +1,7 @@
 import base64
 import hashlib
 import importlib.util
+import io
 import json
 import os
 import subprocess
@@ -101,6 +102,107 @@ class ReleasePlatformLanesTest(unittest.TestCase):
             self.assertEqual([item["name"] for item in manifest["artifacts"]],
                              ["fractal-forge-web-v1.1.108.tar.gz"])
             self.assertEqual(campaign["lanes"]["web"]["checks"]["browser_journey"]["verdict"], "passed")
+
+    def test_web_archive_inventory_uses_regular_members_and_rejects_tampering(self):
+        identity = {"version": "1.1.108", "build_number": "108", "commit": "a" * 40}
+        files = {"index.html": b"<html>", "main.dart.js": b"compiled",
+                 "assets/shaders/fractal.frag": b"shader"}
+        for fault in (None, "extra", "hash", "symlink", "hardlink", "absolute", "parent",
+                      "version", "build_number", "commit"):
+            with self.subTest(fault=fault), tempfile.TemporaryDirectory() as directory:
+                archive = Path(directory) / "web.tar.gz"
+                manifest = {**identity, "files": {name: hashlib.sha256(data).hexdigest()
+                                               for name, data in files.items()}}
+                if fault == "hash":
+                    manifest["files"]["assets/shaders/fractal.frag"] = "0" * 64
+                elif fault in identity:
+                    manifest[fault] = "wrong"
+                contents = {**files, "release-identity.json": json.dumps(manifest).encode()}
+                if fault == "extra":
+                    contents["unlisted.js"] = b"unlisted"
+                with tarfile.open(archive, "w:gz") as bundle:
+                    for name in ("web", "web/assets", "web/assets/shaders"):
+                        member = tarfile.TarInfo(name)
+                        member.type = tarfile.DIRTYPE
+                        bundle.addfile(member)
+                    for name, data in contents.items():
+                        member = tarfile.TarInfo(f"web/{name}")
+                        member.size = len(data)
+                        bundle.addfile(member, io.BytesIO(data))
+                    if fault in ("symlink", "hardlink", "absolute", "parent"):
+                        member = tarfile.TarInfo({"absolute": "/unsafe", "parent": "web/../unsafe"}.get(
+                            fault, "web/unsafe-link"))
+                        if fault in ("symlink", "hardlink"):
+                            member.type = tarfile.SYMTYPE if fault == "symlink" else tarfile.LNKTYPE
+                            member.linkname = "web/index.html"
+                        bundle.addfile(member)
+                with tarfile.open(archive, "r:gz") as bundle:
+                    self.assertTrue(any(member.isdir() and member.name == "web/assets/shaders"
+                                        for member in bundle.getmembers()))
+                artifact = {"path": str(archive), "sha256": LANES.sha256_file(archive)}
+                # Only browser execution is doubled; archive checks and HTTP serving are real.
+                completed = subprocess.CompletedProcess([], 0, stdout="unit fixture only", stderr="")
+                with mock.patch.object(LANES.subprocess, "run", return_value=completed) as browser:
+                    checks = LANES._web_qualification(identity, [artifact])
+                if fault is None:
+                    self.assertEqual(set(checks), set(LANES.REQUIRED_CHECKS["web"]))
+                    self.assertEqual(checks["asset_validation"]["artifact_sha256"], [artifact["sha256"]])
+                    self.assertEqual(browser.call_count, 2)
+                    self.assertTrue(all(call.args[0][:4] == ["npx", "--no-install", "playwright", "test"]
+                                        for call in browser.call_args_list))
+                else:
+                    self.assertEqual(checks, {})
+                    browser.assert_not_called()
+
+    def test_github_create_targets_frozen_commit_as_published_release(self):
+        lane = {"identity": {"version": "1.1.108", "commit": "a" * 40},
+                "artifacts": [{"path": "/sandbox/linux.tar.gz"}]}
+        with mock.patch.object(LANES.shutil, "which", return_value="/sandbox/gh"), \
+             mock.patch.object(LANES.subprocess, "run", side_effect=[
+                 subprocess.CompletedProcess([], 1, stdout="", stderr="release not found"),
+                 subprocess.CompletedProcess([], 0, stdout="", stderr=""),
+                 subprocess.CompletedProcess([], 0, stdout="", stderr="")]) as run:
+            self.assertEqual(LANES._github_write(lane), {"tag": "v1.1.108"})
+        command = run.call_args.args[0]
+        self.assertEqual(command[:4], ["gh", "release", "create", "v1.1.108"])
+        self.assertIn("--target", command)
+        self.assertEqual(command[command.index("--target") + 1], lane["identity"]["commit"])
+        self.assertFalse(any(arg.startswith(("--draft", "--prerelease")) for arg in command))
+
+    def test_github_existing_tag_must_match_frozen_commit_before_writing_or_readback(self):
+        commit, tag = "a" * 40, "v1.1.108"
+        lane = {"identity": {"version": "1.1.108", "commit": commit},
+                "artifacts": [{"name": "linux.tar.gz", "path": "/sandbox/linux.tar.gz"}]}
+        release = subprocess.CompletedProcess([], 0, stdout=json.dumps(
+            {"isDraft": False, "isPrerelease": False, "assets": []}), stderr="")
+        for annotated in (False, True):
+            for matches in (False, True):
+                for exists in (False, True):
+                    with self.subTest(annotated=annotated, matches=matches, exists=exists):
+                        ref = f"refs/tags/{tag}"
+                        target = commit if matches else "b" * 40
+                        output = (f"{'c' * 40}\t{ref}\n{target}\t{ref}^{{}}\n" if annotated
+                                  else f"{target}\t{ref}\n")
+                        remote = subprocess.CompletedProcess([], 0, stdout=output, stderr="")
+                        view = release if exists else subprocess.CompletedProcess(
+                            [], 1, stdout="", stderr="release not found")
+                        with mock.patch.object(LANES.shutil, "which", return_value="/sandbox/gh"), \
+                             mock.patch.object(LANES.subprocess, "run", side_effect=[
+                                 view, remote, subprocess.CompletedProcess([], 0, stdout="", stderr="")]) as run:
+                            if matches:
+                                LANES._github_write(lane)
+                                self.assertEqual(run.call_args.args[0][2], "upload" if exists else "create")
+                                self.assertEqual(run.call_count, 3)
+                            else:
+                                with self.assertRaisesRegex(RuntimeError, "tag.*commit"):
+                                    LANES._github_write(lane)
+                                self.assertEqual(run.call_count, 2)
+                        if exists:
+                            with mock.patch.object(LANES.subprocess, "run", side_effect=[release, remote]) as run:
+                                observed = LANES._github_readback(lane, None)
+                            self.assertEqual(observed.get("conflict", False), not matches)
+                            self.assertFalse(observed["found"])
+                            self.assertEqual(run.call_count, 2)
 
     def test_verified_lane_reaches_publisher_when_an_independent_lane_fails(self):
         identity = {"version": "1.1.108", "build_number": "108", "commit": "a" * 40}
@@ -246,11 +348,15 @@ class ReleasePlatformLanesTest(unittest.TestCase):
              mock.patch.object(LANES.subprocess, "run", return_value=completed) as run:
             checks = LANES.run_native_qualification("linux", identity, [artifact])
         self.assertEqual(set(checks), {"native_journey", "export_validation"})
-        self.assertTrue(all(check["verdict"] == "passed" for check in checks.values()))
+        self.assertTrue(all(check["verdict"] == "unknown" for check in checks.values()))
+        self.assertTrue(all("human" in check["reason"] for check in checks.values()))
         self.assertTrue(all(check["artifact_sha256"] == [artifact["sha256"]] for check in checks.values()))
         command = run.call_args.args[0]
-        self.assertIn("Linux 2D and 3D journey", " ".join(command))
-        self.assertIn("--plain-name", command)
+        self.assertIn("integration_test/flows/user_flows_test.dart", command)
+        self.assertNotIn("--plain-name", command)
+        with self.assertRaisesRegex(ValueError, "required qualification is not verified"):
+            LANES._validate_gate_receipts("linux", identity,
+                                         {"checks": checks, "artifacts": [artifact]})
 
     def test_play_readback_requires_track_and_remote_bundle_hash_using_command_doubles(self):
         with tempfile.TemporaryDirectory() as directory:

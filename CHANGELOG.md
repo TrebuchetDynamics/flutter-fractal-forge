@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Prepare the 1.1.110 / 110 multi-platform candidate; publication and live store-code availability remain separate checks. Correct web archive inventory to count regular files, bind GitHub tags to the qualified commit, and keep incomplete Linux visual qualification unknown even after a successful full journey command.
+
 - Keep equally named catalog variants in stable catalog-ID order when new modules are added, preserving the existing phone catalog golden rather than replacing it to hide a reorder.
 
 - Added Milnor — Brieskorn Orbit (Inspired), a finite polynomial-orbit shader with overview/close-up presets, EN/ES mathematical limits and an explicit unsupported-CPU notice. This is inspired dynamics, not exotic-sphere geometry or a smooth-structure detector; browser/device/export qualification remains separate.

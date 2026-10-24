@@ -129,8 +129,7 @@ def run_native_qualification(lane: str, identity: dict[str, str],
         return {name: {**receipt, "reason": "Linux journey requires a Linux host"}
                 for name, receipt in unknown.items()}
     command = [os.environ.get("FLUTTER_BIN", "flutter"), "test", "integration_test/flows/user_flows_test.dart",
-               "-d", "linux", "--dart-define=FORCE_GPU_RENDER=true", "--reporter", "expanded",
-               "--plain-name", "Linux 2D and 3D journey saves edited mathematical PNG artifacts"]
+               "-d", "linux", "--dart-define=FORCE_GPU_RENDER=true", "--reporter", "expanded"]
     try:
         result = subprocess.run(command, cwd=ROOT, env=_lane_environment("common"),
                                 capture_output=True, text=True, timeout=3600)
@@ -142,7 +141,11 @@ def run_native_qualification(lane: str, identity: dict[str, str],
         return {name: {"check": name, "verdict": "failed", **identity, "reason": reason,
                        "command": command} for name in checks}
     output = result.stdout + result.stderr
-    return {name: _passed_check(name, identity, artifacts, " ".join(command), output)
+    # A successful command does not supply the still-missing accepted visual evidence.
+    reason = ("Full flow command completed, but retained edited-view PNG comparisons, "
+              "EN/ES and inspired-entry coverage, and attributable human review remain unverified")
+    return {name: {**_passed_check(name, identity, artifacts, " ".join(command), output),
+                   "verdict": "unknown", "reason": reason, "automated_command_exit_code": 0}
             for name in checks}
 
 
@@ -308,9 +311,9 @@ def _web_qualification(identity: dict[str, str], artifacts: list[dict[str, Any]]
                    for field in ("version", "build_number", "commit")):
                 return receipts
             expected_files = release_identity.get("files")
-            archived_files = {name.removeprefix("web/") for name in names
-                              if name.startswith("web/") and not name.endswith("/")
-                              and name != "web/release-identity.json"}
+            archived_files = {member.name.lstrip("./").removeprefix("web/") for member in members
+                              if member.isfile() and member.name.lstrip("./").startswith("web/")
+                              and member.name.lstrip("./") != "web/release-identity.json"}
             if not isinstance(expected_files, dict) or archived_files != set(expected_files):
                 return receipts
             for relative, expected_hash in expected_files.items():
@@ -456,6 +459,13 @@ def _github_write(lane: dict[str, Any]) -> dict[str, Any]:
         raise LookupError("GitHub CLI unavailable")
     view = subprocess.run(["gh", "release", "view", tag, "--json", "isDraft,isPrerelease,assets"],
                           cwd=ROOT, text=True, capture_output=True, env=_lane_environment("github"))
+    ref = f"refs/tags/{tag}"
+    remote = subprocess.run(["git", "ls-remote", os.environ.get("GITHUB_RELEASE_REMOTE", "origin"), ref, f"{ref}^{{}}"],
+                            cwd=ROOT, check=True, text=True, capture_output=True, env=_lane_environment("github"))
+    refs = {name: commit for commit, name in (line.split() for line in remote.stdout.splitlines())}
+    commit = refs.get(f"{ref}^{{}}", refs.get(ref))
+    if (commit is not None or view.returncode == 0) and commit != lane["identity"]["commit"]:
+        raise RuntimeError("existing GitHub tag does not point to the frozen release commit")
     if view.returncode == 0:
         release = json.loads(view.stdout)
         if release.get("isDraft") or release.get("isPrerelease"):
@@ -467,7 +477,8 @@ def _github_write(lane: dict[str, Any]) -> dict[str, Any]:
                            env=_lane_environment("github"))
     else:
         subprocess.run(["gh", "release", "create", tag, *artifacts, "--title", f"Fractal Forge {version}",
-                        "--notes", f"Fractal Forge {version}"], cwd=ROOT, check=True, capture_output=True, text=True,
+                        "--notes", f"Fractal Forge {version}", "--target", lane["identity"]["commit"]],
+                       cwd=ROOT, check=True, capture_output=True, text=True,
                        env=_lane_environment("github"))
     return {"tag": tag}
 
@@ -482,6 +493,13 @@ def _github_readback(lane: dict[str, Any], publication: Any) -> dict[str, Any] |
     data = json.loads(view.stdout)
     if data.get("isDraft") or data.get("isPrerelease"):
         return None
+    ref = f"refs/tags/{tag}"
+    remote = subprocess.run(["git", "ls-remote", os.environ.get("GITHUB_RELEASE_REMOTE", "origin"), ref, f"{ref}^{{}}"],
+                            cwd=ROOT, check=True, text=True, capture_output=True, env=_lane_environment("github"))
+    refs = {name: commit for commit, name in (line.split() for line in remote.stdout.splitlines())}
+    if refs.get(f"{ref}^{{}}", refs.get(ref)) != lane["identity"]["commit"]:
+        return {"found": False, "conflict": True,
+                "publication_reason": "existing GitHub tag does not point to the frozen release commit"}
     names = {asset.get("name") for asset in data.get("assets", [])}
     for artifact in lane["artifacts"]:
         if artifact["name"] not in names:

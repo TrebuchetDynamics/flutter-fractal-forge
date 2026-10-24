@@ -1,0 +1,1 @@
+Add finite Perron-tree visuals and a Milnor-inspired polynomial-orbit shader with clear mathematical limits. Improve modal layout, keyboard-accessible viewer controls, Share and palette scrolling. Keep equally named catalog variants in stable order.
