@@ -1,7 +1,41 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
+import { createHash } from 'node:crypto';
 import { test, expect } from 'playwright/test';
+
+async function retainJourneyEnvironment(page, testInfo, webBundle) {
+  const browser = page.context().browser();
+  const environment = {
+    source: process.env.APP_QUALITY_SOURCE || null,
+    webBundleUrl: webBundle.url(),
+    webBundleSha256: createHash('sha256')
+      .update(await webBundle.body()).digest('hex'),
+    browserVersion: browser.version(),
+    project: testInfo.project.name,
+    viewport: page.viewportSize(),
+    runtime: await page.evaluate(() => ({
+      locale: navigator.language,
+      devicePixelRatio: window.devicePixelRatio,
+    })),
+  };
+  if (browser.browserType().name() === 'chromium') {
+    const session = await browser.newBrowserCDPSession();
+    try {
+      const { gpu } = await session.send('SystemInfo.getInfo');
+      environment.gpu = gpu;
+    } finally {
+      await session.detach();
+    }
+  }
+  const environmentPath = testInfo.outputPath('journey-environment.json');
+  fs.mkdirSync(path.dirname(environmentPath), { recursive: true });
+  fs.writeFileSync(environmentPath, JSON.stringify(environment, null, 2));
+  await testInfo.attach('journey-environment.json', {
+    path: environmentPath,
+    contentType: 'application/json',
+  });
+}
 
 function inspectPng(bytes) {
   expect(bytes.subarray(0, 8).toString('hex')).toBe('89504e470d0a1a0a');
@@ -153,7 +187,11 @@ test(
     }
   });
 
-  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  const [webBundle] = await Promise.all([
+    page.waitForResponse((response) =>
+      new URL(response.url()).pathname.endsWith('/main.dart.js')),
+    page.goto('/', { waitUntil: 'domcontentloaded' }),
+  ]);
   // Flutter positions its semantics activator outside the viewport, so a
   // normal Playwright locator click cannot reach it. Wait for Flutter to
   // render it, invoke its DOM click handler, then use accessible controls.
@@ -226,6 +264,7 @@ test(
   expect(browserErrors).toEqual([]);
   expect(fs.existsSync(testInfo.outputPath('mandelbrot-edited.png'))).toBe(true);
   expect(fs.existsSync(testInfo.outputPath('mandelbulb-edited.png'))).toBe(true);
+  await retainJourneyEnvironment(page, testInfo, webBundle);
 });
 
 test('Gaussian catalog walk exports a frozen paused PNG', async ({ page }, testInfo) => {
@@ -238,7 +277,11 @@ test('Gaussian catalog walk exports a frozen paused PNG', async ({ page }, testI
     }
   });
   await page.setViewportSize({ width: 1280, height: 900 });
-  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  const [webBundle] = await Promise.all([
+    page.waitForResponse((response) =>
+      new URL(response.url()).pathname.endsWith('/main.dart.js')),
+    page.goto('/', { waitUntil: 'domcontentloaded' }),
+  ]);
   const enableAccessibility = page.getByRole('button', { name: /enable accessibility/i });
   await expect(enableAccessibility).toBeVisible({ timeout: 30_000 });
   await page.evaluate(() => document.querySelector('flt-semantics-placeholder')?.click());
@@ -325,6 +368,7 @@ test('Gaussian catalog walk exports a frozen paused PNG', async ({ page }, testI
   );
   browserObservation.decodedPng = { width: paused.width, height: paused.height };
   browserObservation.browserErrors = browserErrors;
+  await retainJourneyEnvironment(page, testInfo, webBundle);
   await testInfo.attach('gaussian-browser-observation.json', {
     body: Buffer.from(JSON.stringify(browserObservation, null, 2)),
     contentType: 'application/json',
