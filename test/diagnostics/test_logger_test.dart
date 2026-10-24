@@ -173,10 +173,19 @@ void main() {
   });
 
   group('TestLogger — file I/O', () {
-    test('init with customPath creates file at that path', () async {
-      final dir = Directory.systemTemp.createTempSync('test_logger_');
-      addTearDown(() => dir.deleteSync(recursive: true));
+    late Directory dir;
 
+    setUp(() {
+      dir = Directory.systemTemp.createTempSync('test_logger_');
+      addTearDown(() async {
+        // openWrite may still be opening the file, even after init completes.
+        // Settle the sink before deleting its directory, also on test failure.
+        await TestLogger().dispose();
+        dir.deleteSync(recursive: true);
+      });
+    });
+
+    test('init with customPath creates file at that path', () async {
       final logPath = '${dir.path}/test.log';
       final logger = TestLogger();
       await logger.init(customPath: logPath);
@@ -185,9 +194,6 @@ void main() {
     });
 
     test('log writes to file when initialized', () async {
-      final dir = Directory.systemTemp.createTempSync('test_logger_write_');
-      addTearDown(() => dir.deleteSync(recursive: true));
-
       final logPath = '${dir.path}/out.log';
       final logger = TestLogger();
       await logger.init(customPath: logPath);
@@ -201,8 +207,6 @@ void main() {
     });
 
     test('init skips re-initialization when already initialized', () async {
-      final dir = Directory.systemTemp.createTempSync('test_logger_skip_');
-
       final path1 = '${dir.path}/first.log';
       final path2 = '${dir.path}/second.log';
 
@@ -212,10 +216,6 @@ void main() {
 
       // second file should NOT have been created.
       expect(File(path2).existsSync(), isFalse);
-
-      // Dispose before deleting the dir so the sink is flushed/closed first.
-      await logger.dispose();
-      dir.deleteSync(recursive: true);
     });
   });
 }

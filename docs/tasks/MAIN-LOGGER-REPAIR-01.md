@@ -39,24 +39,41 @@ its evidence. Causation is unproven.
 
 ## Source-supported investigation
 
-The [failing fixture](../../test/diagnostics/test_logger_test.dart) registers
-per-test directory deletion with `addTearDown`, while the outer teardown awaits
-singleton disposal. Its write test explicitly disposes before reading and its
-re-initialization test disposes before directory deletion, but the first test
-relies on the separate teardown callbacks. The
-[logger implementation](../../lib/core/services/diagnostics/test_logger.dart)
-creates the file, starts an asynchronous `openWrite` sink and marks initialization
-complete; disposal awaits flush/close before resetting singleton state.
+At worker baseline `deb4d66909daa13227dd3d2beae72d03d5ca234c`, the
+[failing fixture](../../test/diagnostics/test_logger_test.dart) registered
+per-test directory deletion with `addTearDown`, while the outer teardown awaited
+singleton disposal. The custom-path case therefore deleted the directory before
+settling the sink. The write case disposed before reading only on success; the
+re-initialization case's inline disposal/deletion was also skipped on assertion
+failure.
 
-Investigate callback ordering, outstanding sink-open/flush/close work, assertion
-failure cleanup, singleton state carried into subsequent cases, and loaded-suite
-resource timing. This is a hypothesis supported by the stack and fixtures, not a
-reproduced root cause. Prefer deterministic fixture lifetime/cleanup if confirmed.
-Repair existing product lifecycle code only if a reproduced defect requires it,
-with a failing-before/passing-after regression; no logging redesign is authorized.
-Preserve custom-path creation, written content, no-op reinitialization, singleton
-reset and buffer assertions. No skips, swallowed asynchronous errors, relaxed
-assertions or arbitrary sleep/yield increases.
+The installed `test_api` 0.7.11 sources confirm the ordering:
+`lib/src/backend/declarer.dart:241–248` registers outer teardowns before the body;
+`lib/src/backend/invoker.dart:282–301` executes callbacks in reverse registration
+order. A temporary guard checking singleton reset immediately before directory
+deletion failed on the baseline (exit 1, two other file-I/O cases passed). The
+same guard after the repaired cleanup passed all three cases (exit 0). This
+confirms the unsafe fixture ordering, not a deterministic reproduction of the
+original asynchronous missing-path exception. One complete baseline logger run
+and ten baseline file-I/O runs passed in isolation; no flaky classification is
+inferred from those passes.
+
+The [unchanged logger](../../lib/core/services/diagnostics/test_logger.dart)
+creates the file and starts asynchronous `openWrite` work at lines 75–78.
+`dispose` awaits flush/close before resetting the singleton at lines 145–155.
+Deleting the parent before that work settles explains the retained first-path
+error; a rejected flush exits before singleton reset, explaining subsequent
+closed-sink/stale-path failures. No independent product lifecycle defect was
+reproduced with a valid directory lifetime, so product code remains unchanged.
+No evidence attributes this fixture race to the completed music change or
+establishes resource load as a necessary cause.
+
+The repair creates one fresh directory per file-I/O case and immediately
+registers a single asynchronous cleanup that awaits disposal before deletion.
+It runs even if a case's assertion fails. The write case still explicitly
+disposes before reading. All existing custom-path, content, no-op
+reinitialization, singleton and buffer assertions are unchanged. No new test
+cases, skips, swallowed errors, sleeps or polling were added.
 
 ## Existing task reconciliation
 
@@ -70,17 +87,42 @@ logger task is distinct from NUM-WALL-02's screenshot-service fixture repair.
 
 ## Verification boundary
 
-The worker must follow [MAIN-CHECK-01](MAIN-CHECK-01.md#reproducible-process-local-invocation)
-and the [common offline gate](../../AGENTS.md#common-offline-integration-gate),
-revalidate pinned Flutter/Dart and provisioned Python imports, preserve
-`pubspec.lock`, repeat the logger file alone and with adjacent diagnostics tests,
-and run the unchanged full offline gate. Retain source, exact repetitions,
-commands, terminal stages/exits and before/after lock hashes. Missing tools,
-timeouts, skips and failures remain explicit; separately running families after
-a short-circuit is diagnosis, not a passing chained gate. No coordinator receipt
-is a prerequisite for local diagnosis or repair.
+Worker checks use [MAIN-CHECK-01](MAIN-CHECK-01.md#reproducible-process-local-invocation)
+and the [common offline gate](../../AGENTS.md#common-offline-integration-gate)
+bindings below, from this execution checkout's root:
 
-This docs-maintainer pass inspected sources and retained evidence only; Flutter,
-Python and Bats suites were **NOT_RUN**. Ledger validation is separate from code
-verification. No goal, device/browser, production or live qualification is claimed.
-Revisit this record when new source-bound reruns or a delivered repair are available.
+```sh
+export FLUTTER_ROOT="$AUTOWORK_CACHE/flutter-3.44.6"
+export PUB_CACHE="$AUTOWORK_CACHE/pub-cache"
+export PATH="$FLUTTER_ROOT/bin:/usr/bin:$PATH"
+```
+
+These exports were scoped to command subshells, not the host/profile.
+
+| Worker check | Actual result |
+| --- | --- |
+| `flutter --version`, compared with `fdroid/flutter.version` | Exit 0; Flutter 3.44.6, framework `ee80f08bbf`, Dart 3.12.2. |
+| `/usr/bin/python3 -c 'import sys, pytest, jinja2, markupsafe; print(sys.executable, sys.version, pytest.__version__, jinja2.__version__); assert callable(markupsafe.soft_str)'` | Exit 0; Python 3.12.3, pytest 9.0.2, Jinja2 3.1.6. No packages installed. |
+| `flutter pub get --offline --enforce-lockfile` | Exit 0; checkout-local package metadata regenerated. |
+| `flutter test --no-pub test/diagnostics/test_logger_test.dart --reporter expanded` | Ten consecutive repaired runs, each exit 0, 15 passed, no skips. All three file-I/O cases run sequentially in each process. |
+| `flutter test --no-pub test/diagnostics/ --reporter expanded` | Exit 0; 119 passed, no skips. CrashReporter fixtures intentionally print fatal/error stacks; these were not failed tests. |
+| Failure-path probes using `flutter test --no-pub test/diagnostics/test_logger_test.dart --plain-name 'TestLogger — file I/O' --reporter expanded` | Temporarily inserted `fail('intentional fixture-cleanup probe')` before each case's main assertion/disposal, one case per run. Each run exited 1 with only that intentional failure and two passing cases. Readback verified all three initialized paths' directories were gone and no missing-path/closed-sink error occurred. All probe edits were removed. |
+
+Diagnostic logs remain in the worker's `$TMPDIR`: `logger-baseline.log`,
+`logger-baseline-{1..10}.log`, `logger-order-probe.log`,
+`logger-order-after.log`, `logger-failure-{creation,write,reinit}.log`,
+`logger-final-{1..10}.log` and `diagnostics-final.log`. They are scratch evidence,
+not copied main-evidence records or repository artifacts.
+
+`pubspec.lock` SHA-256 before and after the offline preflight and focused checks:
+`22b29dbd8f71276012a54b9bdc62ba88408f967a86b34075986c17e1c4506ec3`.
+Formatting, analyzer and documentation validation results accompany the worker
+report.
+
+The complete unchanged offline gate is **NOT_RUN by this worker**: the execution
+instructions reserve it for the coordinator on the merged tree. The original red
+gate above remains a failure, and focused passes do not establish a green full
+gate. Python and Bats suites were not run by this worker. Coordinator integration,
+full-gate verification and task closure remain pending; no goal, device/browser,
+production or live qualification is claimed. The docs maintainer owns closeout
+synchronization with that terminal gate result.
