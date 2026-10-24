@@ -354,18 +354,43 @@ def _web_qualification(identity: dict[str, str], artifacts: list[dict[str, Any]]
                                 return receipts
                             time.sleep(0.1)
                     for check, spec in (("browser_journey", "test/playwright/web-image-creation-journey.spec.mjs"),
-                                        ("saved_data", "test/playwright/smoke-session-conflict.spec.mjs")):
+                                        ("saved_data", "test/playwright/production-saved-session.spec.mjs")):
+                        evidence_root = archive.resolve().parent
+                        if evidence_root.is_relative_to(ROOT):
+                            evidence_root = ROOT.parent
+                        evidence = Path(tempfile.mkdtemp(prefix=f"web-{check}-", dir=evidence_root))
                         env = _lane_environment("common")
-                        env["PLAYWRIGHT_BASE_URL"] = f"http://127.0.0.1:{port}"
+                        env.update(PLAYWRIGHT_BASE_URL=f"http://127.0.0.1:{port}",
+                                   PLAYWRIGHT_JSON_OUTPUT_FILE=str(evidence / "report.json"),
+                                   PLAYWRIGHT_HTML_OUTPUT_DIR=str(evidence / "html"),
+                                   PLAYWRIGHT_HTML_OPEN="never")
                         command = ["npx", "--no-install", "playwright", "test", spec,
-                                   "--project=chromium", "--workers=1"]
+                                   "--project=chromium", "--workers=1", "--reporter=list,json,html",
+                                   f"--output={evidence / 'results'}"]
+                        stdout, stderr = "", ""
+                        receipt = {**_passed_check(check, identity, artifacts, " ".join(command)),
+                                   "evidence_dir": str(evidence), "exit_code": None}
                         try:
                             result = subprocess.run(command, cwd=ROOT, env=env, text=True,
                                                     capture_output=True, timeout=1800)
-                        except (OSError, subprocess.SubprocessError):
-                            continue
-                        if result.returncode == 0:
-                            receipts[check] = _passed_check(check, identity, artifacts, " ".join(command), result.stdout)
+                            stdout, stderr = result.stdout, result.stderr
+                            receipt.update(exit_code=result.returncode,
+                                           verdict="failed" if result.returncode else "passed")
+                            if result.returncode:
+                                receipt["reason"] = f"browser check failed ({result.returncode})"
+                        except subprocess.TimeoutExpired as error:
+                            stdout, stderr = error.stdout or "", error.stderr or ""
+                            receipt.update(verdict="failed", reason="browser check timed out after 1800 seconds")
+                        except (OSError, subprocess.SubprocessError) as error:
+                            stderr = str(error)
+                            receipt.update(verdict="unknown", reason=f"browser execution unavailable: {error}")
+                        stdout = stdout.decode(errors="replace") if isinstance(stdout, bytes) else stdout
+                        stderr = stderr.decode(errors="replace") if isinstance(stderr, bytes) else stderr
+                        (evidence / "stdout.log").write_text(stdout)
+                        (evidence / "stderr.log").write_text(stderr)
+                        receipt["output_sha256"] = hashlib.sha256((stdout + stderr).encode()).hexdigest()
+                        (evidence / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
+                        receipts[check] = receipt
                 finally:
                     server.terminate()
                     try:

@@ -108,7 +108,7 @@ class ReleasePlatformLanesTest(unittest.TestCase):
         files = {"index.html": b"<html>", "main.dart.js": b"compiled",
                  "assets/shaders/fractal.frag": b"shader"}
         for fault in (None, "extra", "hash", "symlink", "hardlink", "absolute", "parent",
-                      "version", "build_number", "commit"):
+                      "version", "build_number", "commit", "browser_failed", "browser_unavailable", "browser_timeout"):
             with self.subTest(fault=fault), tempfile.TemporaryDirectory() as directory:
                 archive = Path(directory) / "web.tar.gz"
                 manifest = {**identity, "files": {name: hashlib.sha256(data).hexdigest()
@@ -141,15 +141,46 @@ class ReleasePlatformLanesTest(unittest.TestCase):
                                         for member in bundle.getmembers()))
                 artifact = {"path": str(archive), "sha256": LANES.sha256_file(archive)}
                 # Only browser execution is doubled; archive checks and HTTP serving are real.
-                completed = subprocess.CompletedProcess([], 0, stdout="unit fixture only", stderr="")
-                with mock.patch.object(LANES.subprocess, "run", return_value=completed) as browser:
+                completed = subprocess.CompletedProcess([], 1 if fault == "browser_failed" else 0,
+                                                        stdout="unit fixture only", stderr="fixture stderr")
+                error = (FileNotFoundError("fixture unavailable") if fault == "browser_unavailable" else
+                         subprocess.TimeoutExpired(["npx"], 1800, output=b"partial fixture", stderr=b"timeout stderr")
+                         if fault == "browser_timeout" else None)
+                with mock.patch.object(LANES.subprocess, "run", return_value=completed,
+                                       side_effect=error) as browser:
                     checks = LANES._web_qualification(identity, [artifact])
-                if fault is None:
+                if fault is None or fault.startswith("browser_"):
                     self.assertEqual(set(checks), set(LANES.REQUIRED_CHECKS["web"]))
                     self.assertEqual(checks["asset_validation"]["artifact_sha256"], [artifact["sha256"]])
                     self.assertEqual(browser.call_count, 2)
-                    self.assertTrue(all(call.args[0][:4] == ["npx", "--no-install", "playwright", "test"]
-                                        for call in browser.call_args_list))
+                    self.assertEqual([call.args[0][4] for call in browser.call_args_list], [
+                        "test/playwright/web-image-creation-journey.spec.mjs",
+                        "test/playwright/production-saved-session.spec.mjs"])
+                    expected = ("failed" if fault in {"browser_failed", "browser_timeout"} else
+                                "unknown" if fault == "browser_unavailable" else "passed")
+                    paths = []
+                    for check in ("browser_journey", "saved_data"):
+                        receipt = checks[check]
+                        self.assertEqual(receipt["verdict"], expected)
+                        evidence = Path(receipt["evidence_dir"])
+                        self.assertFalse(evidence.is_relative_to(ROOT))
+                        paths.append(evidence)
+                        self.assertTrue((evidence / "stdout.log").is_file())
+                        self.assertTrue((evidence / "stderr.log").is_file())
+                        self.assertEqual(json.loads((evidence / "receipt.json").read_text()), receipt)
+                        if fault == "browser_failed":
+                            self.assertEqual(receipt["exit_code"], 1)
+                            self.assertEqual((evidence / "stderr.log").read_text(), "fixture stderr")
+                        elif fault == "browser_timeout":
+                            self.assertEqual((evidence / "stdout.log").read_text(), "partial fixture")
+                    self.assertNotEqual(*paths)
+                    for call, evidence in zip(browser.call_args_list, paths):
+                        self.assertIn(f"--output={evidence / 'results'}", call.args[0])
+                        self.assertIn("--reporter=list,json,html", call.args[0])
+                        self.assertEqual(call.kwargs["env"]["PLAYWRIGHT_JSON_OUTPUT_FILE"],
+                                         str(evidence / "report.json"))
+                        self.assertEqual(call.kwargs["env"]["PLAYWRIGHT_HTML_OUTPUT_DIR"],
+                                         str(evidence / "html"))
                 else:
                     self.assertEqual(checks, {})
                     browser.assert_not_called()

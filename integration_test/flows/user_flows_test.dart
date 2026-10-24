@@ -1,6 +1,7 @@
 /// Updated user flow integration tests for current catalog/viewer UX.
 library;
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -217,9 +218,17 @@ void main() {
       'Linux 2D and 3D journey saves edited mathematical PNG artifacts',
       (tester) async {
         expect(RuntimeModeService.useRendererPlaceholderSurface, isFalse);
+        tester.view.physicalSize = const Size(1280, 900);
+        tester.view.devicePixelRatio = 1;
+        await binding.setSurfaceSize(const Size(1280, 900));
+        addTearDown(() async {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+          await binding.setSurfaceSize(null);
+        });
         final exportDirectory =
             await Directory.systemTemp.createTemp('fractal-linux-journey-');
-        addTearDown(() => exportDirectory.delete(recursive: true));
+        debugPrint('LINUX_JOURNEY_EXPORT_DIR:${exportDirectory.path}');
         final preferences = await SharedPreferences.getInstance();
         await preferences.setString(
           'linux_export_directory',
@@ -266,6 +275,8 @@ void main() {
             listen: false,
           );
           expect(controller.module.id, module.id);
+          expect(MediaQuery.sizeOf(tester.element(renderer)),
+              const Size(1280, 900));
           final originalView = controller.view;
           await tester.drag(renderer, const Offset(48, 24));
           await safeSettle(tester);
@@ -311,6 +322,19 @@ void main() {
           expect(controller.view.pan, editedView.pan);
           expect(controller.view.zoom, editedView.zoom);
           expect(controller.view.rotation, editedView.rotation);
+          await File('${savedFile.path}.state.json').writeAsString(jsonEncode({
+            'fixture':
+                'native engine with synthetic landscape viewport metrics',
+            'viewport': [1280, 900],
+            'preset': FractalPreset(
+              id: 'linux-edited-${module.id}',
+              moduleId: module.id,
+              name: 'Linux edited ${module.id}',
+              params: controller.params,
+              view: editedView,
+              createdAt: DateTime.now().toUtc(),
+            ).toJson(),
+          }));
           Navigator.of(tester.element(renderer)).pop();
           await tester.pump();
           await tester.pump(const Duration(seconds: 1));

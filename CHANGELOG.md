@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Qualify ordinary production web builds with real legacy-session, favorite and preset restoration checks instead of diagnostic-only startup events. Retain separate browser logs and PNG evidence; make the Linux HD export fixture explicitly landscape and retain its edited-state images without changing production export behavior.
+
 - Prepare the 1.1.110 / 110 multi-platform candidate; publication and live store-code availability remain separate checks. Correct web archive inventory to count regular files, bind GitHub tags to the qualified commit, and keep incomplete Linux visual qualification unknown even after a successful full journey command.
 
 - Keep equally named catalog variants in stable catalog-ID order when new modules are added, preserving the existing phone catalog golden rather than replacing it to hide a reorder.
