@@ -1,0 +1,9 @@
+schema = 1
+task = "EXPORT-001-f3"
+candidate = "47ba6ce56a48da2d1956a63fdfcca04710f7847f"
+integration = "50eb696deb0ce4594437f06375a542203dbe257c"
+tree = "31855a5628629168eb0563244d6cfc2a2cc1a413"
+contract_hash = "b59842eeeda834fc24b47d30ae12f2ef8b272e8016c9e63f22c2c5fd65a447a6"
+checks = ["<path>", "<path>", "--verify", "<path>", "EXPORT-001-f3"]
+result = "pass"
+review = "passed"

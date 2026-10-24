@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Stage native single-image, batch-item and contact-sheet exports before rename; preserve prior destinations on failure and report committed files truthfully across cancellation. (EXPORT-001-f3)
 - Retain source-bound prepare-only stage and saved-session evidence while preserving failed/unknown lane verdicts and existing production version identity. (RELEASE-002-75)
 - Add optional bounded camera-only looper dice actions with trajectory/export safeguards and exact preview-to-GIF state regression coverage. (LOOPER-001-58)
 - Bind the common offline gate to provisioned Python tooling and document the intentional fatal-fixture marker versus the actual missing-pytest failure. (MAIN-CHECK-01)
