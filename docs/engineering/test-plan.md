@@ -201,9 +201,30 @@ Add positive native-host/real-browser/device qualification through existing `REL
 
 Status: Accepted
 
-This is planned verification for [the bounded architecture/UI work](spec.md#mcp-assisted-app-quality), not executed application evidence. Reuse the exact tests named by each APP task. First reproduce the reported source-supported behavior in a focused regression; if current code already handles it, retain passing regression coverage and avoid redundant refactoring.
+Application verification below remains planned for [the bounded architecture/UI work](spec.md#mcp-assisted-app-quality). The retained static MCP session is executed tooling evidence only, not runtime or visual qualification. Reuse the exact tests named by each APP task. First reproduce the reported source-supported behavior in a focused regression; if current code already handles it, retain passing regression coverage and avoid redundant refactoring.
 
-- MCP: real initialize/list_tools/roots and scoped symbol/analysis calls; record exact SDK/server/client, checkout, allowlist and cleanup. The planning probe passed initialize/list_tools only; app/runtime checks are NOT_RUN.
+### Retained MCP capability baseline (APP-001-47)
+
+Evidence owner: candidate `a153169078fc91ff7c4d5b17980a67c7b5a35caa`, retained again in `3022020d78dc5fda9d7b40734a1858b0867b1a8b`. Its completed session inspected source revision `c6350f2b8698f6a4133c0a18728fee3472153dbc`, not this later composition. The prior failed common Flutter gate remains failed history; neither the ACAD-008-74 setup repair nor this documentation reconciliation converts it into a pass.
+
+- Client: existing Python 3.11 environment, MCP SDK 1.26.0, `ClientSession`/`StdioServerParameters`/`stdio_client`; no install, bridge or persistent profile configuration. Server: pinned Flutter 3.44.6 / Dart 3.12.2, SDK-bundled `dart mcp-server`, name `dart and flutter tooling`, version `0.1.4`, negotiated protocol `2025-11-25`.
+- Initialize/list_tools succeeded. Exact enabled/returned tools: `roots`, `lsp`, `analyze_files`, `dtd`, `get_runtime_errors`, `widget_inspector`. No fix or lifecycle tool was enabled. Registered URI only: `file:///home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-APP-001-47-r2`; roots add/remove each returned `Success`.
+- Discovered schemas: `roots` `{command, uris}`; `lsp` `{command: resolveWorkspaceSymbol, query}`; `analyze_files` `{roots: [{root, paths}], applyFixes: false}`. All five symbol queries below resolved; analysis of exactly the five listed files returned `No errors`, without fixes.
+
+| Area | Resolved symbol | Scoped path |
+| --- | --- | --- |
+| Home | `HomeScreen` | `lib/features/home/home_screen.dart` |
+| Catalog | `FractalCatalogScreen` | `lib/features/catalog/fractal_catalog_screen.dart` |
+| Viewer | `FractalViewerScreen` | `lib/features/viewer/fractal_viewer_screen.dart` |
+| Settings | `SettingsScreen` | `lib/features/settings/settings_screen.dart` |
+| Export | `ExportOptionsSheet` | `lib/features/export/export_options_sheet.dart` |
+
+- Bounded session: 220s overall timeout; initialize/list_tools <=30s, each symbol <=60s, analysis <=90s. All completed; root removed, both context managers exited normally, stderr 0 bytes.
+- Current composition is based on `7dbb74f57a0e6296eba6f4ca7b5087cddd8e7dd6`. Catalog sorting, viewer/modal controls and settings have changed since the retained session; its clean diagnostics are not fresh diagnostics for those edits. Home and export-sheet files are unchanged. Fresh checkout-local validation used pinned Flutter 3.44.6/Dart 3.12.2, `flutter pub get --offline --enforce-lockfile` (lockfile SHA-256 unchanged), then `flutter analyze --no-pub` on exactly the five paths above: `No issues found`. This CLI result is not a repeated MCP or runtime session; the runner owns the full merged-tree gate.
+- Runtime availability: no explicitly identified owned DTD application/URI was supplied for this inspection. DTD enumeration/attachment, runtime-error retrieval, widget inspection, app launch and real screenshots are **NOT_RUN**. Do not attach to other apps or infer an empty runtime-error list. Final qualification needs an owned authorized debug target and listeners within `$AUTOWORK_PORT_BASE..$AUTOWORK_PORT_BASE+99`; no other-port exception or new product approval is implied.
+
+### Remaining application checks
+
 - Routes: repeated platform links from Home and an embedded-catalog-opened viewer; latest state, exactly one viewer route, one Back to original catalog/filter/scroll, explicit-link restoration precedence, and session remains active until owner closes. A link received beneath a modal/settings/export leaves that operation and current state intact and gives accessible localized busy feedback; retry after dismissal works. Standalone catalog fallback still opens the correct family. Test OS and in-app reduced motion independently on push and pop; keep normal motion.
 - Visibility: controlled clock and notification counters prove no hidden auto-explore writes; foreground alone remains paused, explicit visible Resume works, user pause/correction and speed/mode remain preserved, export completion while hidden cannot restart playback, and disposal cancels pending animation.
 - Copy/semantics: open the actual theme sheet in EN and ES, inspect labels/descriptions and selected/action semantics, keyboard activate each choice once and confirm persisted selection. Open actual export sheet in both locales, verify resolution labels and selected/custom submissions retain dimensions and validation. No mixed-language labels covered by this slice.
@@ -234,7 +255,23 @@ These are planned checks, not execution results. [Academic approval preparation]
 
 [Native export commit checks](spec.md#native-export-commit-boundary) inject partial stage-write failure, commit/replace failure, pre/post-commit cancellation and colliding existing output into single, batch and contact-sheet flows. Assert unchanged previous destinations on failure, no incomplete final filename, no premature item-success, only owned-stage cleanup and a decodable successful retry. A recreated service must not treat a leftover stage file as exported or delete unrelated files. Extend `test/export/export_service_test.dart` and `test/export/batch_export_service_test.dart`; run `flutter analyze` and existing export/journey guards. Never perform destructive full-disk tests or real MediaStore/service calls for an offline fixture.
 
-APP-001-47 records the immutable pre-change source revision/owned inputs and representative UI state/viewport/locale fixtures before APP-002-e0 changes code. Capture actual baseline pixels when an owned target is available; otherwise preserve that replayable baseline manifest, label screenshots NOT_RUN, and replay the pinned baseline on an authorized target during APP-005-7f. Never synthesize before-images or compare different states as visual improvement.
+### APP-001-47 immutable pre-APP-002-e0 replay manifest
+
+Preserve the original inspected source `c6350f2b8698f6a4133c0a18728fee3472153dbc` separately from this attempt's pre-implementation composition `7dbb74f57a0e6296eba6f4ca7b5087cddd8e7dd6`. Use the latter for the next APP-002-e0 before/after comparison; do not relabel the historical MCP session as inspecting it. Owned inputs are the complete tracked files at that revision, including `lib/`, `shaders/`, `assets/`, `pubspec.yaml`, `pubspec.lock` and EN/ES localization sources. No app code or dependency inputs are changed by APP-001-47.
+
+Replay with clean, isolated app preferences (no active viewer session or incoming link), dark theme, time/animations paused, default module parameters and no unsaved edits. This is an input recipe, not captured state:
+
+| State | Replay inputs |
+| --- | --- |
+| Home | Initial launch, embedded catalog visible; no modal or restored viewer |
+| Catalog | Unfiltered combined core/performance catalog, grid view, empty search, no category/collection/dimension filter, scroll offset 0 |
+| Viewer | Select `mandelbrot`, default camera/palette/parameters, playback paused; record effective values from the pinned revision |
+| Settings | Open Settings from Home, then theme sheet; close between captures |
+| Export | From that default viewer open Export options, no submission; record effective preset/dimensions before comparing |
+
+Viewports: 320x568 and 1280x800 logical pixels. Representative fixtures: narrow EN at text scale 1.0; narrow ES at 2.0; wide EN at 1.0; wide ES at 1.0 with high contrast/reduced motion. Use the same state, locale, text scale, theme, accessibility settings and backend on both sides. Record actual device/backend, device pixel ratio, viewport, selected module, effective parameters, filter/scroll and sheet state alongside images; cover distinct transitions rather than the full Cartesian product.
+
+Baseline pixels: **NOT_RUN**, no owned authorized runtime target was identified. During APP-005-7f replay the immutable source and capture actual baseline pixels before comparisons. Never synthesize before-images, use another revision's pixels silently, or count this manifest as runtime/visual acceptance.
 
 ## Optional looper randomizer verification
 
