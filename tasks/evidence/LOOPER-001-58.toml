@@ -1,0 +1,9 @@
+schema = 1
+task = "LOOPER-001-58"
+candidate = "0d8b7eea181e3d4265c301a971b9878cfe4005a8"
+integration = "0729b2cbfc3358f9fea846a120252cc559a1e711"
+tree = "a65cefde1810518713df6324945eb54bde16f9ed"
+contract_hash = "3259af92a27fbb104e6067383e66bc56730effc60b60724efb4e0a12850db8ff"
+checks = ["<path>", "<path>", "--verify", "<path>", "LOOPER-001-58"]
+result = "pass"
+review = "passed"

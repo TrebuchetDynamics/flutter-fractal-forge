@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Add optional bounded camera-only looper dice actions with trajectory/export safeguards and exact preview-to-GIF state regression coverage. (LOOPER-001-58)
 - Bind the common offline gate to provisioned Python tooling and document the intentional fatal-fixture marker versus the actual missing-pytest failure. (MAIN-CHECK-01)
 
 - Qualify ordinary production web builds with real legacy-session, favorite and preset restoration checks instead of diagnostic-only startup events. Retain separate browser logs and PNG evidence; make the Linux HD export fixture explicitly landscape and retain its edited-state images without changing production export behavior.
