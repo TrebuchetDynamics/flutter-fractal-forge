@@ -1,0 +1,9 @@
+schema = 1
+task = "MAIN-MUSIC-REFRESH-01"
+candidate = "9dc722b10b4e32d56167289839d2bd0c2d39a887"
+integration = "934902b80688559c3abee5ab20e2edf7d41473c3"
+tree = "568fca718b44cdd6ef2ac1b8f90c995405b27d7f"
+contract_hash = "a9e6dec9a9e70b5028657e8aa40e8a37d24f0f8d6da7a07416bc301c3a8e071b"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAIN-MUSIC-REFRESH-01"]
+result = "pass"
+review = "passed"

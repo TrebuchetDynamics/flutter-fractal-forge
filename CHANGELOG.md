@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Stabilize the transient missing-frame music refresh regression with controlled time and failure-safe fixture cleanup. (MAIN-MUSIC-REFRESH-01)
 - Added composed app-quality capture fixtures and source/backend-bound browser journey artifacts; documented owned-target MCP inspection while retaining native-driver and device qualification gaps. (APP-005-7f)
 - Suspend auto-explore when the app loses visibility, require explicit foreground Resume, and prevent export completion from restoring hidden or revoked playback. (APP-003-f7)
 - Prepared the academic pilot decision brief with merge-stable selected-input validation, preserved original evidence and pending human approvals. (ACAD-007-f8)
