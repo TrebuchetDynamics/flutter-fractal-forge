@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Add bounded complex Fibonacci orbit classification with exact prime-degree metadata through F47 and independent mathematical regressions. (FIB-PRIME-01)
 - Reconcile the retained official Dart MCP workspace qualification, refresh affected diagnostics and pin a reproducible pre-implementation UI baseline while retaining runtime/image qualification as pending. (APP-001-47)
 - Stage native single-image, batch-item and contact-sheet exports before rename; preserve prior destinations on failure and report committed files truthfully across cancellation. (EXPORT-001-f3)
 - Retain source-bound prepare-only stage and saved-session evidence while preserving failed/unknown lane verdicts and existing production version identity. (RELEASE-002-75)

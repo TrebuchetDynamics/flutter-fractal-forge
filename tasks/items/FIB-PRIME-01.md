@@ -3,7 +3,7 @@ schema = 1
 id = "FIB-PRIME-01"
 title = "Implement and independently test the complex Fibonacci orbit model.**"
 short = "Implement and independently test the complex Fibonacci orbit model.**"
-status = "open"
+status = "done"
 goal = "FIB-PRIME-001"
 section = "Next"
 rank = 16000
@@ -16,6 +16,8 @@ scope = "Implement the small family-owned immutable orbit/status model for H_c(z
 acceptance = ["The new model test independently verifies polynomial degrees for nonzero c, all prime-degree steps/F4 exception/F19 counterexample, c=0 reference points away from precision ambiguity, three-cycle, one-large collapse and both-large growth. Invalid/nonfinite, cap reached and escaped outcomes remain distinct and finite; color cannot alter them. No conjecture proof or rigorous floating-pixel certification claim."]
 checks = ["Planned new target: `flutter test --no-pub test/models/fibonacci_complex_model_test.dart --reporter expanded`; format the two touched Dart files and run `flutter analyze --no-pub`. The target does not yet exist; all implementation checks are NOT_RUN."]
 exclusions = []
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/FIB-PRIME-01.toml"
 +++
 
 - Section: Next.
