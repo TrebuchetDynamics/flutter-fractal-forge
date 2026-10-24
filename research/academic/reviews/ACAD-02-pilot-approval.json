@@ -1,0 +1,509 @@
+{
+  "schema_version": 1,
+  "package_id": "ACAD-02-pilot-approval",
+  "prepared_on": "2026-10-18",
+  "scope": "metadata-only bibliographic and source/rights shortlist; no article content fetched",
+  "pilot": {
+    "source": "docs/planning/visual-audit-inventory.json#quality_pilot",
+    "selection_status": "existing CAT-QUALITY pilot selection; no new identities added",
+    "identity_count": 12,
+    "paper_count": 6
+  },
+  "input_hashes": {
+    "research/academic/runs/ACAD-02-pilot-20260603/results.jsonl": "sha256:d1903e1238c55a99043696bfcf528b2871720f39990ed5491d105c0e05f2ee65",
+    "research/academic/runs/ACAD-02-pilot-20260603/results-deduped.jsonl": "sha256:1ad3c76ceae4d07b521be415a3d2d1edcc64394644be546e12e508b59198639c",
+    "research/academic/runs/ACAD-02-pilot-20260603/review-queue.csv": "sha256:d411a8bba45d73c023f028bd10e87386344ff2abb21341264d9f3680cbef9f28",
+    "research/academic/runs/ACAD-02-pilot-20260603/owner-review.csv": "sha256:299786af6e18be942177b081912c6443e63e1d9311781474303a5f92e35b1e1f",
+    "research/academic/identity-aliases.json": "sha256:4adae91a0c3028703a2593df164377ce4a69bf46e48270ef9507275724941bfa",
+    "docs/planning/visual-audit-inventory.json#academic-pilot": "sha256:3e05f646cf19e30705a78a64365dbf0057119355690054cf35051c2f4c272bdb"
+  },
+  "input_reconciliation": {
+    "inventory_path": "docs/planning/visual-audit-inventory.json",
+    "prior_revision": "139d64cf2f2277c53314e4ed59eb91f4e0f69540",
+    "prior_sha256": "sha256:1728af0e1d02bf6790b12160e99690346a377bfe90f73c1925fa087a5fa8a462",
+    "reconciled_revision": "90d27e45f6cdda2fc4f7003125e206550a0a0e01",
+    "reconciled_full_sha256": "sha256:0de0f28962745b50fca52042d97f82b2049086ae0567f3f3461c2aaa32e2bf6f",
+    "change": "The prior reconciliation observed additions of core.perron_tree and core.milnor_brieskorn outside the selected pilot. Subsequent inventory growth also added core.fibonacci_complex_julia; quality_pilot and all 12 selected identity rows are unchanged. Original ACAD-02 run files and reviewed aliases are unchanged.",
+    "validation_scope": "The #academic-pilot hash covers UTF-8 JSON containing the complete quality_pilot and every selected inventory row sorted by id, serialized with ensure_ascii=false, sorted keys and separators comma/colon without spaces. Unrelated inventory rows, catalog totals and formatting are excluded. Full inventory hashes above are historical source receipts, not freshness requirements on the growing live catalog. Original run/queue/alias byte hashes remain mandatory."
+  },
+  "reviewed_alias_source": {
+    "path": "research/academic/identity-aliases.json",
+    "reviewed_alias_count": 0,
+    "meaning": "empty reviewed source is preserved; proposals below do not alter or imply its approval"
+  },
+  "papers": [
+    {
+      "paper_id": "paper-7e5f945cdd5c68bdc9ec",
+      "retained_pilot_record_id": "paper-7e5f945cdd5c68bdc9ec",
+      "retained_record_ref": "research/academic/runs/ACAD-02-pilot-20260603/results-deduped.jsonl#245",
+      "title": "Computational Discovery with Newton Fractals, Bohemian Matrices, & Mandelbrot Polynomials",
+      "authors": [
+        "Neil J. Calkin",
+        "Eunice Y. S. Chan",
+        "Robert M. Corless"
+      ],
+      "year": 2021,
+      "doi": "10.48550/arXiv.2109.03765",
+      "arxiv_id": "2109.03765",
+      "exact_version": "arXiv v1, submitted 2021-09-08; arXiv record lists related DOI 10.1137/1.9781611977509",
+      "publication_type": "arXiv preprint; arXiv lists ATCM 2021 acceptance in comments",
+      "source_url": "https://arxiv.org/abs/2109.03765v1",
+      "metadata_observations": [
+        {
+          "provider": "arXiv",
+          "url": "https://arxiv.org/abs/2109.03765",
+          "retrieved_on": "2026-10-18",
+          "version_evidence": "page specifies v1 and submitted date 2021-09-08; authors/title and related DOI",
+          "facts": {
+            "title": "Computational Discovery with Newton Fractals, Bohemian Matrices, & Mandelbrot Polynomials",
+            "authors": [
+              "Neil J. Calkin",
+              "Eunice Y. S. Chan",
+              "Robert M. Corless"
+            ],
+            "year": 2021,
+            "exact_version": "arXiv v1, submitted 2021-09-08; arXiv record lists related DOI 10.1137/1.9781611977509",
+            "rights_evidence": "arXiv page displays CC BY-NC-SA 4.0 for the submitted preprint. This is not blanket permission for commercial reuse; owner/legal review is needed for any acquisition or downstream use."
+          }
+        }
+      ],
+      "rights_evidence": "arXiv page displays CC BY-NC-SA 4.0 for the submitted preprint. This is not blanket permission for commercial reuse; owner/legal review is needed for any acquisition or downstream use.",
+      "relevance_rationale": "Existing pilot title explicitly names Newton fractals and Mandelbrot polynomials; proposed as a broad metadata lead only, not evidence that either current shader implements its equations.",
+      "recommendation": "consider_for_owner_review",
+      "content_state": "metadata_only",
+      "screening_decision": "pending",
+      "screening_actor": null,
+      "identity_approval": "pending",
+      "acquisition_decision": "pending",
+      "acquisition_actor": null,
+      "acquired": false,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "recommendation_note": "Broad Newton/Mandelbrot metadata lead only."
+    },
+    {
+      "paper_id": "paper-c797646dae2767ea525a",
+      "retained_pilot_record_id": "paper-c797646dae2767ea525a",
+      "retained_record_ref": "research/academic/runs/ACAD-02-pilot-20260603/results-deduped.jsonl#232",
+      "title": "Enhancing Computational Thinking with Spreadsheet and Fractal Geometry: Part 2 Root-finding using Newton Method and Creation of Newton Fractals",
+      "authors": [
+        "K. P. Soman",
+        "Manu Unni V.G",
+        "Praveen Krishnan",
+        "V. Sowmya"
+      ],
+      "year": 2012,
+      "doi": "10.5120/8821-2742",
+      "arxiv_id": null,
+      "exact_version": "publisher DOI record: International Journal of Computer Applications, volume 55, issue 14, pages 9-15; published online 2012-10-20",
+      "publication_type": "journal article (Crossref type journal-article)",
+      "source_url": "https://doi.org/10.5120/8821-2742",
+      "metadata_observations": [
+        {
+          "provider": "Crossref",
+          "url": "https://api.crossref.org/works/10.5120/8821-2742",
+          "retrieved_on": "2026-10-18",
+          "version_evidence": "DOI response supplies title, four authors, issue, volume, pages and published-online date",
+          "facts": {
+            "title": "Enhancing Computational Thinking with Spreadsheet and Fractal Geometry: Part 2 Root-finding using Newton Method and Creation of Newton Fractals",
+            "authors": [
+              "K. P. Soman",
+              "Manu Unni V.G",
+              "Praveen Krishnan",
+              "V. Sowmya"
+            ],
+            "year": 2012,
+            "exact_version": "publisher DOI record: International Journal of Computer Applications, volume 55, issue 14, pages 9-15; published online 2012-10-20",
+            "rights_evidence": "Crossref response contains no license record. Rights and lawful access are unknown; no acquisition or reuse permission inferred."
+          }
+        }
+      ],
+      "rights_evidence": "Crossref response contains no license record. Rights and lawful access are unknown; no acquisition or reuse permission inferred.",
+      "relevance_rationale": "Existing pilot title directly names root-finding by Newton's method and Newton fractals. The current newton_z3 implementation's exact polynomial/iteration relationship is not verified by metadata.",
+      "recommendation": "consider_for_owner_review",
+      "content_state": "metadata_only",
+      "screening_decision": "pending",
+      "screening_actor": null,
+      "identity_approval": "pending",
+      "acquisition_decision": "pending",
+      "acquisition_actor": null,
+      "acquired": false,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "recommendation_note": "Direct Newton-fractal title; exact current cubic implementation unverified."
+    },
+    {
+      "paper_id": "paper-7d8c6ee70e9aac109422",
+      "retained_pilot_record_id": "paper-7d8c6ee70e9aac109422",
+      "retained_record_ref": "research/academic/runs/ACAD-02-pilot-20260603/results-deduped.jsonl#378",
+      "title": "New relatives of the Sierpinski gasket",
+      "authors": [
+        "Christoph Bandt",
+        "Dmitry Mekhontsev"
+      ],
+      "year": 2018,
+      "doi": "10.48550/arXiv.1801.08325",
+      "arxiv_id": "1801.08325",
+      "exact_version": "arXiv v1, submitted 2018-01-25; arXiv page cites Chaos 28(6), 063104 (2018)",
+      "publication_type": "arXiv preprint with journal reference",
+      "source_url": "https://arxiv.org/abs/1801.08325v1",
+      "metadata_observations": [
+        {
+          "provider": "arXiv",
+          "url": "https://arxiv.org/abs/1801.08325",
+          "retrieved_on": "2026-10-18",
+          "version_evidence": "page specifies v1, authors, submitted date and journal reference",
+          "facts": {
+            "title": "New relatives of the Sierpinski gasket",
+            "authors": [
+              "Christoph Bandt",
+              "Dmitry Mekhontsev"
+            ],
+            "year": 2018,
+            "exact_version": "arXiv v1, submitted 2018-01-25; arXiv page cites Chaos 28(6), 063104 (2018)",
+            "rights_evidence": "arXiv page displays its non-exclusive distribution license; no Creative Commons reuse license is stated there. Reuse/acquisition terms remain for owner/legal review."
+          }
+        }
+      ],
+      "rights_evidence": "arXiv page displays its non-exclusive distribution license; no Creative Commons reuse license is stated there. Reuse/acquisition terms remain for owner/legal review.",
+      "relevance_rationale": "Existing pilot title explicitly concerns relatives of the Sierpinski gasket and self-similar sets; it is a candidate for the Sierpinski identity, not confirmation of the exact triangle construction implemented.",
+      "recommendation": "consider_for_owner_review",
+      "content_state": "metadata_only",
+      "screening_decision": "pending",
+      "screening_actor": null,
+      "identity_approval": "pending",
+      "acquisition_decision": "pending",
+      "acquisition_actor": null,
+      "acquired": false,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "recommendation_note": "Related Sierpinski constructions only; exact current model unverified."
+    },
+    {
+      "paper_id": "paper-9806495c34ee36881d38",
+      "retained_pilot_record_id": "paper-9806495c34ee36881d38",
+      "retained_record_ref": "research/academic/runs/ACAD-02-pilot-20260603/results-deduped.jsonl#499",
+      "title": "Lyapunov dimension formula for the global attractor of the Lorenz system",
+      "authors": [
+        "G. A. Leonov",
+        "N. V. Kuznetsov",
+        "N. A. Korzhemanova",
+        "D. V. Kusakin"
+      ],
+      "year": 2016,
+      "doi": "10.1016/j.cnsns.2016.04.032",
+      "arxiv_id": null,
+      "exact_version": "publisher DOI record: Communications in Nonlinear Science and Numerical Simulation, volume 41, pages 84-103; print publication December 2016",
+      "publication_type": "journal article (Crossref type journal-article)",
+      "source_url": "https://doi.org/10.1016/j.cnsns.2016.04.032",
+      "metadata_observations": [
+        {
+          "provider": "Crossref",
+          "url": "https://api.crossref.org/works/10.1016/j.cnsns.2016.04.032",
+          "retrieved_on": "2026-10-18",
+          "version_evidence": "DOI response supplies title, authors, journal, volume, pages and print publication date",
+          "facts": {
+            "title": "Lyapunov dimension formula for the global attractor of the Lorenz system",
+            "authors": [
+              "G. A. Leonov",
+              "N. V. Kuznetsov",
+              "N. A. Korzhemanova",
+              "D. V. Kusakin"
+            ],
+            "year": 2016,
+            "exact_version": "publisher DOI record: Communications in Nonlinear Science and Numerical Simulation, volume 41, pages 84-103; print publication December 2016",
+            "rights_evidence": "Crossref lists an Elsevier text-and-data-mining license URL only, with content-version tdm. This is not treated as general reuse or acquisition permission; other access rights remain unverified."
+          }
+        }
+      ],
+      "rights_evidence": "Crossref lists an Elsevier text-and-data-mining license URL only, with content-version tdm. This is not treated as general reuse or acquisition permission; other access rights remain unverified.",
+      "relevance_rationale": "The pilot title explicitly names the Lorenz-system global attractor. The proposed link to the app's projected lorenz_2d identity is a family-level lead only; no equation/parameter match is claimed.",
+      "recommendation": "consider_for_owner_review",
+      "content_state": "metadata_only",
+      "screening_decision": "pending",
+      "screening_actor": null,
+      "identity_approval": "pending",
+      "acquisition_decision": "pending",
+      "acquisition_actor": null,
+      "acquired": false,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "recommendation_note": "Lorenz family-level lead; projected app variant may differ."
+    },
+    {
+      "paper_id": "paper-7ecdeae2ea0585a3c4ab",
+      "retained_pilot_record_id": "paper-7ecdeae2ea0585a3c4ab",
+      "retained_record_ref": "research/academic/runs/ACAD-02-pilot-20260603/results-deduped.jsonl#680",
+      "title": "The Mandelbulb: first ‘true’ 3D image of famous fractal",
+      "authors": [
+        "Jacob Aron"
+      ],
+      "year": 2009,
+      "doi": "10.1016/s0262-4079(09)63150-x",
+      "arxiv_id": null,
+      "exact_version": "publisher DOI record: New Scientist, volume 204, issue 2736, page 54; print publication November 2009",
+      "publication_type": "popular-science magazine article; not treated as a peer-reviewed mathematical source",
+      "source_url": "https://doi.org/10.1016/s0262-4079(09)63150-x",
+      "metadata_observations": [
+        {
+          "provider": "Crossref",
+          "url": "https://api.crossref.org/works/10.1016/s0262-4079(09)63150-x",
+          "retrieved_on": "2026-10-18",
+          "version_evidence": "DOI response supplies author, title, journal, volume, issue, page and print month",
+          "facts": {
+            "title": "The Mandelbulb: first ‘true’ 3D image of famous fractal",
+            "authors": [
+              "Jacob Aron"
+            ],
+            "year": 2009,
+            "exact_version": "publisher DOI record: New Scientist, volume 204, issue 2736, page 54; print publication November 2009",
+            "rights_evidence": "Crossref lists Elsevier text-and-data-mining terms only; this does not establish general reuse or lawful full-text acquisition. Rights require owner/legal review."
+          }
+        }
+      ],
+      "rights_evidence": "Crossref lists Elsevier text-and-data-mining terms only; this does not establish general reuse or lawful full-text acquisition. Rights require owner/legal review.",
+      "relevance_rationale": "The title names the Mandelbulb and 3D fractal imagery; it is only a discovery/attribution lead and not evidence for the current renderer's formula or distance estimator.",
+      "recommendation": "consider_supplementary_context_only",
+      "content_state": "metadata_only",
+      "screening_decision": "pending",
+      "screening_actor": null,
+      "identity_approval": "pending",
+      "acquisition_decision": "pending",
+      "acquisition_actor": null,
+      "acquired": false,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "recommendation_note": "Popular-science attribution/context only; not mathematical authority."
+    },
+    {
+      "paper_id": "paper-7ed9dce0b5117c4a1add",
+      "retained_pilot_record_id": "paper-7ed9dce0b5117c4a1add",
+      "retained_record_ref": "research/academic/runs/ACAD-02-pilot-20260603/results-deduped.jsonl#344",
+      "title": "Linear Cellular Automata, Substitutions, Hierarchical Iterated Function Systems and Attractors",
+      "authors": [
+        "F. v. Haeseler",
+        "H.-O. Peitgen",
+        "G. Skordev"
+      ],
+      "year": 1992,
+      "doi": "10.1007/978-3-642-95678-2_1",
+      "arxiv_id": null,
+      "exact_version": "publisher DOI record: book chapter, pages 3-23, Springer Berlin Heidelberg; published 1992",
+      "publication_type": "book chapter (Crossref type book-chapter)",
+      "source_url": "https://doi.org/10.1007/978-3-642-95678-2_1",
+      "metadata_observations": [
+        {
+          "provider": "Crossref",
+          "url": "https://api.crossref.org/works/10.1007/978-3-642-95678-2_1",
+          "retrieved_on": "2026-10-18",
+          "version_evidence": "DOI response supplies chapter title, authors, year, publisher and pages",
+          "facts": {
+            "title": "Linear Cellular Automata, Substitutions, Hierarchical Iterated Function Systems and Attractors",
+            "authors": [
+              "F. v. Haeseler",
+              "H.-O. Peitgen",
+              "G. Skordev"
+            ],
+            "year": 1992,
+            "exact_version": "publisher DOI record: book chapter, pages 3-23, Springer Berlin Heidelberg; published 1992",
+            "rights_evidence": "Crossref lists a Springer text-and-data-mining URL, not a general reuse grant. No open license was verified; lawful access/reuse remain unknown."
+          }
+        }
+      ],
+      "rights_evidence": "Crossref lists a Springer text-and-data-mining URL, not a general reuse grant. No open license was verified; lawful access/reuse remain unknown.",
+      "relevance_rationale": "The title covers linear cellular automata and iterated function systems broadly. It does not identify the Barnsley fern's affine maps; proposed only as a broad source-discovery lead for the IFS identity.",
+      "recommendation": "hold_for_owner_review",
+      "content_state": "metadata_only",
+      "screening_decision": "pending",
+      "screening_actor": null,
+      "identity_approval": "pending",
+      "acquisition_decision": "pending",
+      "acquisition_actor": null,
+      "acquired": false,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "recommendation_note": "General IFS only; not the exact Barnsley fern maps."
+    }
+  ],
+  "identity_mappings": [
+    {
+      "identity_id": "core.mandelbrot",
+      "original_identity_label": "mandelbrot",
+      "original_label": "complex dynamics / escape-time parameter plane",
+      "paper_ids": [
+        "paper-7e5f945cdd5c68bdc9ec"
+      ],
+      "mapping_status": "proposed_unreviewed",
+      "mapping_evidence": "Retained pilot title names Mandelbrot polynomials.",
+      "ambiguity": "The title/abstract do not establish relevance to the app's classical quadratic parameter-plane formula or current shader.",
+      "approval": "pending",
+      "approval_actor": null
+    },
+    {
+      "identity_id": "core.newton_z3",
+      "original_identity_label": "newton_z3",
+      "original_label": "root finding / Newton cubic basin",
+      "paper_ids": [
+        "paper-c797646dae2767ea525a"
+      ],
+      "mapping_status": "proposed_unreviewed",
+      "mapping_evidence": "Retained pilot title explicitly names Newton-method root finding and Newton fractals.",
+      "ambiguity": "Metadata does not establish the exact cubic polynomial, initialization, or implementation correspondence.",
+      "approval": "pending",
+      "approval_actor": null
+    },
+    {
+      "identity_id": "core.koch_snowflake",
+      "original_identity_label": "koch_snowflake",
+      "original_label": "geometric / recursive IFS-like construction",
+      "paper_ids": [],
+      "mapping_status": "unresolved",
+      "mapping_evidence": "No directly relevant, verified Koch-construction record selected from the retained pilot.",
+      "ambiguity": "Existing pilot records mentioning Koch include unrelated geometry/engineering metadata; no source match proposed.",
+      "approval": "pending",
+      "approval_actor": null
+    },
+    {
+      "identity_id": "core.sierpinski_triangle",
+      "original_identity_label": "sierpinski_triangle",
+      "original_label": "geometric / IFS",
+      "paper_ids": [
+        "paper-7d8c6ee70e9aac109422"
+      ],
+      "mapping_status": "proposed_unreviewed",
+      "mapping_evidence": "Retained pilot title names relatives of the Sierpinski gasket and metadata describes self-similar sets.",
+      "ambiguity": "A related gasket family is not proof of the canonical triangle's exact construction or app implementation.",
+      "approval": "pending",
+      "approval_actor": null
+    },
+    {
+      "identity_id": "core.barnsley_fern",
+      "original_identity_label": "barnsley_fern",
+      "original_label": "geometric / affine IFS",
+      "paper_ids": [
+        "paper-7ed9dce0b5117c4a1add"
+      ],
+      "mapping_status": "proposed_unreviewed",
+      "mapping_evidence": "Retained pilot title covers iterated function systems and attractors.",
+      "ambiguity": "General IFS metadata does not establish Barnsley's fern maps; no exact identity or equation match is claimed.",
+      "approval": "pending",
+      "approval_actor": null
+    },
+    {
+      "identity_id": "core.penrose_tiling",
+      "original_identity_label": "penrose_tiling",
+      "original_label": "tiling / substitution geometry",
+      "paper_ids": [],
+      "mapping_status": "unresolved",
+      "mapping_evidence": "No directly relevant Penrose substitution/tiling record is verified in the retained pilot subset.",
+      "ambiguity": "Tiling-family source coverage remains a gap.",
+      "approval": "pending",
+      "approval_actor": null
+    },
+    {
+      "identity_id": "core.henon",
+      "original_identity_label": "henon",
+      "original_label": "attractor / discrete map",
+      "paper_ids": [],
+      "mapping_status": "unresolved",
+      "mapping_evidence": "Pilot metadata contains Hénon records, but inspected titles concern encryption, pulse generation, or a fifth-dimensional map rather than the current identity's exact system.",
+      "ambiguity": "No candidate retained as a verified identity match; do not map on name alone.",
+      "approval": "pending",
+      "approval_actor": null
+    },
+    {
+      "identity_id": "core.thomas_attractor",
+      "original_identity_label": "thomas_attractor",
+      "original_label": "attractor / continuous flow",
+      "paper_ids": [],
+      "mapping_status": "unresolved",
+      "mapping_evidence": "No directly relevant Thomas-system item selected from the pilot records.",
+      "ambiguity": "Continuous-attractor family coverage remains incomplete.",
+      "approval": "pending",
+      "approval_actor": null
+    },
+    {
+      "identity_id": "core.four_wing",
+      "original_identity_label": "four_wing",
+      "original_label": "attractor / continuous flow",
+      "paper_ids": [],
+      "mapping_status": "unresolved",
+      "mapping_evidence": "No directly relevant four-wing-system item selected from the pilot records.",
+      "ambiguity": "Continuous-attractor family coverage remains incomplete.",
+      "approval": "pending",
+      "approval_actor": null
+    },
+    {
+      "identity_id": "core.lorenz_2d",
+      "original_identity_label": "lorenz_2d",
+      "original_label": "attractor / projected flow",
+      "paper_ids": [
+        "paper-9806495c34ee36881d38"
+      ],
+      "mapping_status": "proposed_unreviewed",
+      "mapping_evidence": "Retained pilot title explicitly concerns the global attractor of the Lorenz system.",
+      "ambiguity": "A global attractor source may not describe this app's projected 2D variant or parameterization.",
+      "approval": "pending",
+      "approval_actor": null
+    },
+    {
+      "identity_id": "core.mandelbulb",
+      "original_identity_label": "mandelbulb",
+      "original_label": "3D / raymarched escape-time",
+      "paper_ids": [
+        "paper-7ecdeae2ea0585a3c4ab"
+      ],
+      "mapping_status": "proposed_unreviewed",
+      "mapping_evidence": "Retained pilot title names the Mandelbulb and 3D fractal imagery.",
+      "ambiguity": "Popular-science article only; no mathematical method/equation or current renderer match is verified.",
+      "approval": "pending",
+      "approval_actor": null
+    },
+    {
+      "identity_id": "core.brian_brain",
+      "original_identity_label": "brian_brain",
+      "original_label": "cellular / stochastic local rule",
+      "paper_ids": [],
+      "mapping_status": "unresolved",
+      "mapping_evidence": "The general cellular-automata chapter is not specific to Brian's Brain and is not assigned to this identity.",
+      "ambiguity": "No suitable Brian's Brain source identified in the bounded pilot subset.",
+      "approval": "pending",
+      "approval_actor": null
+    }
+  ],
+  "family_gaps": [
+    {
+      "family": "tiling / Penrose substitution",
+      "status": "gap",
+      "reason": "no directly relevant retained metadata candidate in this shortlist"
+    },
+    {
+      "family": "Koch construction",
+      "status": "gap",
+      "reason": "pilot candidates do not verify the canonical construction"
+    },
+    {
+      "family": "Henon, Thomas, four-wing attractors",
+      "status": "gap",
+      "reason": "name/topic collisions or no adequate family-specific metadata"
+    },
+    {
+      "family": "Brian's Brain",
+      "status": "gap",
+      "reason": "general cellular-automata source is not specific to this rule"
+    },
+    {
+      "family": "Number Walls",
+      "status": "accepted_planned_not_implemented",
+      "reason": "not one of the 12 actual CAT-QUALITY pilot identities; no implementation or paper counted here"
+    }
+  ],
+  "decision_boundary": {
+    "identity_approval": "pending for every identity; all identity_approval actors blank",
+    "screening": "pending for every paper; all screening actors blank",
+    "acquisition": "pending for every paper; all acquisition actors blank",
+    "mathematical_claims": "unreviewed for every paper and mapping; no accepted claim",
+    "full_text_acquired": false,
+    "next_gate": "ACAD-03 remains human-gated; this shortlist grants no inclusion or acquisition permission"
+  }
+}
