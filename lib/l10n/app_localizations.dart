@@ -1010,6 +1010,24 @@ abstract class AppLocalizations {
   /// **'Julia'**
   String get moduleJulia;
 
+  /// No description provided for @moduleFibonacciComplexJulia.
+  ///
+  /// In en, this message translates to:
+  /// **'Fibonacci prime-degree Julia'**
+  String get moduleFibonacciComplexJulia;
+
+  /// No description provided for @fibonacciComplexLegend.
+  ///
+  /// In en, this message translates to:
+  /// **'H_c(z,w) = (zw+c,z), fixed c; initial (z,w) = (p,p). C² has four real coordinates; this 2D initial slice is not invariant. After k updates the first coordinate has degree F(k+2). Gold: escape at a prime degree (k=1: 2; k=2: 3; k=3: 5; k=5: 13). Blue: other escape steps. Dark: not escaped within N, not proven bounded. Magenta: numerically unresolved, always opaque. Both moduli must exceed R=max(2+|c|, bailout); floating comparisons are not proofs. Prime index is insufficient: F19 = 4181 = 37 × 113. Prime accents are always on; these fixed discrete bands do not use quadratic smoothing.'**
+  String get fibonacciComplexLegend;
+
+  /// No description provided for @fibonacciComplexCpuTransparencyUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Transparent Fibonacci PNG requires a working GPU renderer. CPU output is RGB only. Choose an opaque export or switch to GPU.'**
+  String get fibonacciComplexCpuTransparencyUnavailable;
+
   /// No description provided for @moduleBurningShip.
   ///
   /// In en, this message translates to:
@@ -3197,7 +3215,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeFractalCountBadge.
   ///
   /// In en, this message translates to:
-  /// **'1022 fractals'**
+  /// **'1023 fractals'**
   String get homeFractalCountBadge;
 
   /// No description provided for @catalogAllFractals.
@@ -3629,7 +3647,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsAboutBlurb.
   ///
   /// In en, this message translates to:
-  /// **'GPU-accelerated exploration of 1022 production fractals, with deep zoom and real-time rendering.'**
+  /// **'GPU-accelerated exploration of 1023 production fractals, with deep zoom and real-time rendering.'**
   String get settingsAboutBlurb;
 
   /// No description provided for @settingsSourceCode.

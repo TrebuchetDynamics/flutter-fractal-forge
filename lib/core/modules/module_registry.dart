@@ -1,3 +1,4 @@
+import 'builders/fibonacci_complex_module.dart';
 import 'fractals/perron_tree_module.dart';
 import 'fractals/milnor_brieskorn_module.dart';
 import 'package:flutter/foundation.dart';
@@ -87,6 +88,7 @@ class ModuleRegistry {
 
     // Custom modules with special params/uniforms
     final customModules = <FractalModule>[
+      buildFibonacciComplexModule(),
       buildPerronTreeModule(),
       buildMilnorBrieskornModule(),
       // Julia needs extra seed params (cx, cy)

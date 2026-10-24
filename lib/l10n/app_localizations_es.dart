@@ -510,6 +510,17 @@ class AppLocalizationsEs extends AppLocalizations {
   String get moduleJulia => 'Julia';
 
   @override
+  String get moduleFibonacciComplexJulia => 'Julia de Fibonacci de grado primo';
+
+  @override
+  String get fibonacciComplexLegend =>
+      'H_c(z,w) = (zw+c,z), c fijo; estado inicial (z,w) = (p,p). C² tiene cuatro coordenadas reales; esta sección inicial 2D no es invariante. Tras k actualizaciones, la primera coordenada tiene grado F(k+2). Dorado: escape con grado primo (k=1: 2; k=2: 3; k=3: 5; k=5: 13). Azul: otros pasos de escape. Oscuro: sin escape en N, no demuestra acotación. Magenta: resultado numérico sin resolver, siempre opaco. Ambos módulos deben superar R=max(2+|c|, radio de escape); las comparaciones flotantes no son demostraciones. Un índice primo no basta: F19 = 4181 = 37 × 113. Los acentos primos están siempre activos; estas bandas discretas fijas no usan suavizado cuadrático.';
+
+  @override
+  String get fibonacciComplexCpuTransparencyUnavailable =>
+      'El PNG transparente de Fibonacci requiere un renderizador GPU operativo. La salida CPU solo tiene RGB. Elige una exportación opaca o cambia a GPU.';
+
+  @override
   String get moduleBurningShip => 'Barco ardiente';
 
   @override
@@ -1716,7 +1727,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get homeFractalCountBadge => '1022 fractales';
+  String get homeFractalCountBadge => '1023 fractales';
 
   @override
   String get catalogAllFractals => 'Todos los fractales';
@@ -1957,7 +1968,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settingsAboutBlurb =>
-      'Exploración acelerada por GPU de 1022 fractales de producción, con zoom profundo y renderizado en tiempo real.';
+      'Exploración acelerada por GPU de 1023 fractales de producción, con zoom profundo y renderizado en tiempo real.';
 
   @override
   String get settingsSourceCode => 'Código fuente';
