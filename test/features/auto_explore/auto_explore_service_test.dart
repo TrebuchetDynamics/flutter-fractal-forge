@@ -1,7 +1,24 @@
+import 'dart:async';
+
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_service.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+/// Captures the first changed zoom, not whichever phase is active after a sleep.
+Future<double> nextZoomChange(FractalController controller) {
+  final initialZoom = controller.view.zoom;
+  final changed = Completer<double>();
+  void listener() {
+    if (controller.view.zoom == initialZoom) return;
+    controller.removeListener(listener);
+    changed.complete(controller.view.zoom);
+  }
+
+  controller.addListener(listener);
+  addTearDown(() => controller.removeListener(listener));
+  return changed.future.timeout(const Duration(seconds: 2));
+}
 
 void main() {
   group('AutoExploreService', () {
@@ -201,37 +218,87 @@ void main() {
       expect(controller.view.zoom, 1200.0);
     });
 
-    test('module switch replans from new default instead of stale zoom-out',
+    test('module switch cancels an in-flight zoom-out and replans inward',
         () async {
       final registry = ModuleRegistry();
       final controller = FractalController(registry);
-      controller.resetView();
+      controller.selectModule(registry.byId('mandelbrot'),
+          animate: false, resetView: true);
       controller.updateZoom(1.0);
-
       final service = AutoExploreService(
         controller: controller,
         config: const AutoExploreConfig(
           travelDuration: Duration(milliseconds: 1),
         ),
       );
-      addTearDown(service.dispose);
-      addTearDown(controller.dispose);
+      addTearDown(() {
+        service.dispose();
+        controller.dispose();
+      });
 
       service.start();
+      controller.updateZoom(0.5);
+      service.onUserCorrection(); // Plan a zoom-out from the user's correction.
+      // Drain the zero-delay scheduling timer, before its first animation frame.
       await Future<void>.delayed(Duration.zero);
-      await Future<void>.delayed(const Duration(milliseconds: 20));
-      expect(controller.view.zoom, 120.0);
+      expect(service.debugHasPendingAnimation, isTrue);
+      expect(controller.view.zoom, 0.5);
 
-      final nextModule = registry.modules.firstWhere(
-        (module) => module.id != controller.module.id,
-      );
-      controller.selectModule(nextModule, animate: false, resetView: true);
+      controller.selectModule(registry.byId('burning_ship'),
+          animate: false, resetView: true);
       final resetZoom = controller.view.zoom;
+      expect(service.debugHasPendingAnimation, isFalse,
+          reason: 'switching modules must resolve the cancelled animation');
 
-      await Future<void>.delayed(Duration.zero);
-      await Future<void>.delayed(const Duration(milliseconds: 20));
+      expect(await nextZoomChange(controller), greaterThan(resetZoom));
+    });
 
-      expect(controller.view.zoom, greaterThanOrEqualTo(resetZoom));
+    test('module switch between legs ignores the completed leg continuation',
+        () async {
+      final registry = ModuleRegistry();
+      final controller = FractalController(registry);
+      controller.selectModule(registry.byId('mandelbrot'),
+          animate: false, resetView: true);
+      controller.updateZoom(1.0);
+      final service = AutoExploreService(
+        controller: controller,
+        config: const AutoExploreConfig(
+          travelDuration: Duration(milliseconds: 1),
+        ),
+      );
+      addTearDown(() {
+        service.dispose();
+        controller.dispose();
+      });
+
+      final firstZoomAfterSwitch = Completer<double>();
+      late double peakZoom;
+      late double resetZoom;
+      late bool animationPendingAtSwitch;
+      void switchAfterPeak() {
+        if (controller.view.zoom == 1.0) return;
+        peakZoom = controller.view.zoom;
+        controller.removeListener(switchAfterPeak);
+        // The frame finishes before this microtask, but its awaiting leg
+        // continuation has not yet run. It must not flip the new direction.
+        scheduleMicrotask(() {
+          animationPendingAtSwitch = service.debugHasPendingAnimation;
+          controller.selectModule(registry.byId('burning_ship'),
+              animate: false, resetView: true);
+          resetZoom = controller.view.zoom;
+          firstZoomAfterSwitch.complete(nextZoomChange(controller));
+        });
+      }
+
+      controller.addListener(switchAfterPeak);
+      addTearDown(() => controller.removeListener(switchAfterPeak));
+      service.start();
+      final nextZoom =
+          await firstZoomAfterSwitch.future.timeout(const Duration(seconds: 2));
+
+      expect(peakZoom, 120.0);
+      expect(animationPendingAtSwitch, isFalse);
+      expect(nextZoom, greaterThan(resetZoom));
     });
 
     test('ignores unmatched continuous interaction end callbacks', () async {

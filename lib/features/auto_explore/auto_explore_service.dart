@@ -34,6 +34,7 @@ class AutoExploreService extends ChangeNotifier {
   Timer? _timer;
   Timer? _anim;
   Completer<bool>? _animCompleter;
+  int _motionGeneration = 0;
 
   double? _cycleBaseZoom;
   double? _lastCorrectionZoom;
@@ -215,6 +216,7 @@ class AutoExploreService extends ChangeNotifier {
   }
 
   void _cancelScheduledMotion() {
+    _motionGeneration++;
     _timer?.cancel();
     _timer = null;
     _anim?.cancel();
@@ -277,13 +279,17 @@ class AutoExploreService extends ChangeNotifier {
     if (!_runtimeState.canScheduleZoomLeg) return;
 
     // Continuous mode: no dwell/pause between zoom-in and zoom-out legs.
+    final generation = _motionGeneration;
     _timer = Timer(Duration.zero, () async {
       if (!_runtimeState.canScheduleZoomLeg) return;
 
       final targetZoom = _nextTargetZoom();
       final reachedTarget = await _animateZoomTo(targetZoom);
 
-      if (!_runtimeState.canScheduleZoomLeg) return;
+      // Cancellation may replan motion before this continuation resumes, even
+      // when the old leg had already reached its target.
+      if (generation != _motionGeneration || !_runtimeState.canScheduleZoomLeg)
+        return;
       if (reachedTarget) {
         _zoomingIn = !_zoomingIn;
       }

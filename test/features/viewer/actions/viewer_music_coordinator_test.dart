@@ -402,15 +402,15 @@ void main() {
           loopRefreshDelay: const Duration(milliseconds: 5),
           scanFrames: [frameWithValue(40), frameWithValue(120)],
         );
+        addTearDown(coord.dispose);
 
         coord.scheduleRescan(controller);
-        // Allow the first asynchronous synthesis to finish before the 5 ms
-        // refresh timer is armed; wall-clock CI load must not make this a race.
-        await Future<void>.delayed(const Duration(milliseconds: 60));
+        // Observe both plays: capture/synthesis must finish before the loop
+        // refresh timer can be armed, regardless of wall-clock test load.
+        await waitUntil(() => music.playCount >= 2);
 
         expect(music.playCount, greaterThanOrEqualTo(2));
         expect(syncs, isEmpty);
-        coord.dispose();
       },
     );
 
@@ -472,15 +472,15 @@ void main() {
         final initialFrame = frameWithValue(40);
         final coord = makeCoordinator(
           effects: effects,
-          loopRefreshDelay: const Duration(seconds: 1),
+          loopRefreshDelay: const Duration(days: 1),
           scanFrames: [frameWithValue(200)],
         );
+        addTearDown(coord.dispose);
 
         coord.startLoopRefresh(controller, scanFrame: initialFrame);
-        await Future<void>.delayed(const Duration(milliseconds: 20));
+        await waitUntil(() => music.playCount >= 1);
 
         expect(music.playCount, 1);
-        coord.dispose();
       },
     );
 
