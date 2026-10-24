@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Localize EN/ES theme descriptions and export resolution choices, with single selected theme actions and keyboard/persistence regression coverage. (APP-004-cc)
 - Added native Fibonacci prime-degree Julia with matching GPU/CPU RGB bands, EN/ES uncertainty legend and frozen PNG export; CPU-only transparent export is explicitly refused. (FIB-PRIME-02)
 - Fixed duplicate viewer navigation and restoration races, protected busy export/modal flows from incoming links, and honored OS/in-app reduced motion on viewer entry and return. (APP-002-e0)
 - Add bounded complex Fibonacci orbit classification with exact prime-degree metadata through F47 and independent mathematical regressions. (FIB-PRIME-01)

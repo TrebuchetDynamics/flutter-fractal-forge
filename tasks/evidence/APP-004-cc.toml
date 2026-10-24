@@ -1,0 +1,9 @@
+schema = 1
+task = "APP-004-cc"
+candidate = "1df14e600d66c66bc2406402afe637c87a0a8142"
+integration = "5a9aab0972db6285eb25c98beb12df8ca803a540"
+tree = "6800be1b44dfc9c9fc55744be1b8883ef6a1f88f"
+contract_hash = "e689001b9557ebdd43a0fe3632ca68d0a58ac7741d5b64b4211fccf191e62763"
+checks = ["<path>", "<path>", "--verify", "<path>", "APP-004-cc"]
+result = "pass"
+review = "passed"
