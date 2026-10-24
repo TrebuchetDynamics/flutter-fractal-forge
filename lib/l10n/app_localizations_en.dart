@@ -1945,6 +1945,54 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get settingsThemeDark => 'Dark';
+
+  @override
+  String get settingsThemeDarkDescription =>
+      'Cosmic purple theme with dark gray background';
+
+  @override
+  String get settingsThemeOled => 'OLED Black';
+
+  @override
+  String get settingsThemeOledDescription =>
+      'Pure black background for OLED displays';
+
+  @override
+  String get settingsThemeHighContrast => 'High Contrast';
+
+  @override
+  String get settingsThemeHighContrastDescription =>
+      'Maximum contrast for accessibility';
+
+  @override
+  String get exportResolutionScreen => 'Screen';
+
+  @override
+  String get exportResolutionHd => 'HD (1280×720)';
+
+  @override
+  String get exportResolutionFullHd => 'Full HD (1920×1080)';
+
+  @override
+  String get exportResolutionQuadHd => '2K (2560×1440)';
+
+  @override
+  String get exportResolution4k => '4K (3840×2160)';
+
+  @override
+  String get exportResolutionInstagram => 'Instagram (1080×1080)';
+
+  @override
+  String get exportResolutionInstagramStory => 'Instagram Story (1080×1920)';
+
+  @override
+  String get exportResolutionTwitter => 'Twitter (2400×1350)';
+
+  @override
+  String get exportResolutionCustom => 'Custom';
+
+  @override
   String get settingsColorTheme => 'Color Theme';
 
   @override

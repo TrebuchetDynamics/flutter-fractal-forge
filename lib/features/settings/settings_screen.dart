@@ -134,8 +134,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   _ThemeOption(
-                    title: AppThemeMode.dark.displayName,
-                    subtitle: AppThemeMode.dark.description,
+                    title: l10n.settingsThemeDark,
+                    subtitle: l10n.settingsThemeDarkDescription,
                     gradient: const LinearGradient(
                       colors: [Color(0xFF0A0A12), Color(0xFF7C4DFF)],
                       begin: Alignment.topLeft,
@@ -149,8 +149,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   const SizedBox(height: 12),
                   _ThemeOption(
-                    title: AppThemeMode.oled.displayName,
-                    subtitle: AppThemeMode.oled.description,
+                    title: l10n.settingsThemeOled,
+                    subtitle: l10n.settingsThemeOledDescription,
                     gradient: const LinearGradient(
                       colors: [Color(0xFF000000), Color(0xFF7C4DFF)],
                       begin: Alignment.topLeft,
@@ -164,8 +164,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   const SizedBox(height: 12),
                   _ThemeOption(
-                    title: AppThemeMode.highContrast.displayName,
-                    subtitle: AppThemeMode.highContrast.description,
+                    title: l10n.settingsThemeHighContrast,
+                    subtitle: l10n.settingsThemeHighContrastDescription,
                     gradient: const LinearGradient(
                       colors: [Color(0xFF000000), Color(0xFFFFFF00)],
                       begin: Alignment.topLeft,
@@ -285,73 +285,77 @@ class _ThemeOption extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(16),
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: isSelected ? AppColors.primary : AppColors.border,
-                width: isSelected ? 2 : 1,
+      child: Semantics(
+        button: true,
+        selected: isSelected,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.circular(16),
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: isSelected ? AppColors.primary : AppColors.border,
+                  width: isSelected ? 2 : 1,
+                ),
               ),
-            ),
-            child: Row(
-              children: [
-                // Theme preview
-                Container(
-                  width: 56,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    gradient: gradient,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: AppColors.border,
-                      width: 1,
+              child: Row(
+                children: [
+                  // Theme preview
+                  Container(
+                    width: 56,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      gradient: gradient,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: AppColors.border,
+                        width: 1,
+                      ),
+                    ),
+                    child: isSelected
+                        ? const Center(
+                            child: Icon(
+                              Icons.check_rounded,
+                              color: Colors.white,
+                              size: 24,
+                            ),
+                          )
+                        : null,
+                  ),
+                  const SizedBox(width: 16),
+                  // Theme info
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: AppTypography.titleMedium.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          subtitle,
+                          style: AppTypography.bodySmall.copyWith(
+                            color: AppColors.textMuted,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  child: isSelected
-                      ? const Center(
-                          child: Icon(
-                            Icons.check_rounded,
-                            color: Colors.white,
-                            size: 24,
-                          ),
-                        )
-                      : null,
-                ),
-                const SizedBox(width: 16),
-                // Theme info
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: AppTypography.titleMedium.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        subtitle,
-                        style: AppTypography.bodySmall.copyWith(
-                          color: AppColors.textMuted,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                if (isSelected)
-                  const Icon(
-                    Icons.check_circle_rounded,
-                    color: AppColors.primary,
-                    size: 24,
-                  ),
-              ],
+                  if (isSelected)
+                    const Icon(
+                      Icons.check_circle_rounded,
+                      color: AppColors.primary,
+                      size: 24,
+                    ),
+                ],
+              ),
             ),
           ),
         ),

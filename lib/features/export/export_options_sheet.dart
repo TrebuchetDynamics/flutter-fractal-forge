@@ -365,9 +365,23 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
     );
   }
 
+  String _resolutionLabel(ExportResolution resolution, AppLocalizations l10n) {
+    return switch (resolution) {
+      ExportResolution.screen => l10n.exportResolutionScreen,
+      ExportResolution.hd => l10n.exportResolutionHd,
+      ExportResolution.fullHd => l10n.exportResolutionFullHd,
+      ExportResolution.quadHd => l10n.exportResolutionQuadHd,
+      ExportResolution.uhd4k => l10n.exportResolution4k,
+      ExportResolution.instagram => l10n.exportResolutionInstagram,
+      ExportResolution.instagramStory => l10n.exportResolutionInstagramStory,
+      ExportResolution.twitter => l10n.exportResolutionTwitter,
+      ExportResolution.custom => l10n.exportResolutionCustom,
+    };
+  }
+
   String _presetDetails(ExportOptions options, AppLocalizations l10n) {
     final format = _formatSummaryValue(options, l10n);
-    return '$format • ${options.resolution.displayName}';
+    return '$format • ${_resolutionLabel(options.resolution, l10n)}';
   }
 
   Widget _buildQuoteSection(BuildContext context, AppLocalizations l10n) {
@@ -474,7 +488,7 @@ class _ExportOptionsSheetState extends State<ExportOptionsSheet> {
           runSpacing: 8,
           children: ExportResolution.values.map((resolution) {
             return ChoiceChip(
-              label: Text(resolution.displayName),
+              label: Text(_resolutionLabel(resolution, l10n)),
               selected: _options.resolution == resolution,
               onSelected: (selected) {
                 if (selected) {

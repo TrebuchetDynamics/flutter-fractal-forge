@@ -54,11 +54,12 @@ void main() {
     WidgetTester tester, {
     ExportOptions initialOptions = const ExportOptions(),
     double textScale = 1,
+    Locale locale = const Locale('en'),
   }) async {
     final harness = _SheetHarness();
     await tester.pumpWidget(
       MaterialApp(
-        locale: const Locale('en'),
+        locale: locale,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         builder: (context, child) => MediaQuery(
@@ -210,6 +211,61 @@ void main() {
     expect(find.text('JPG'), findsOneWidget);
     expect(find.text('85%'), findsOneWidget);
     expect(find.textContaining('WebP'), findsNothing);
+  });
+
+  testWidgets(
+      'resolution choices localize without changing selection or output',
+      (tester) async {
+    for (final locale in const [Locale('en'), Locale('es')]) {
+      final spanish = locale.languageCode == 'es';
+      final harness = await pumpSheet(
+        tester,
+        locale: locale,
+        initialOptions: const ExportOptions(resolution: ExportResolution.hd),
+      );
+      await tester.tap(find.text(spanish ? 'Personalizar' : 'Customize'));
+      await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(
+        find.widgetWithText(ChoiceChip, 'HD (1280×720)'),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
+      for (final label in [
+        spanish ? 'Pantalla' : 'Screen',
+        'HD (1280×720)',
+        'Full HD (1920×1080)',
+        '2K (2560×1440)',
+        '4K (3840×2160)',
+        'Instagram (1080×1080)',
+        spanish
+            ? 'Historia de Instagram (1080×1920)'
+            : 'Instagram Story (1080×1920)',
+        'Twitter (2400×1350)',
+        spanish ? 'Personalizada' : 'Custom',
+      ]) {
+        expect(find.widgetWithText(ChoiceChip, label), findsOneWidget);
+      }
+      expect(
+        tester
+            .widget<ChoiceChip>(
+              find.widgetWithText(ChoiceChip, 'HD (1280×720)'),
+            )
+            .selected,
+        isTrue,
+      );
+      final target = find.widgetWithText(ChoiceChip, '4K (3840×2160)');
+      await tester.scrollUntilVisible(target, 100,
+          scrollable: find.byType(Scrollable).first);
+      await tester.pumpAndSettle();
+      await tester.tap(target);
+      await tester.pumpAndSettle();
+      expect(tester.widget<ChoiceChip>(target).selected, isTrue);
+      await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
+      await tester.pumpAndSettle();
+      expect(harness.submission?.action, ExportAction.saveOnly);
+      expect(harness.submission?.options.resolution, ExportResolution.uhd4k);
+      expect(harness.submission?.options.resolution.dimensions, (3840, 2160));
+    }
   });
 
   testWidgets('manual format controls do not offer unsupported WebP',
@@ -414,41 +470,54 @@ void main() {
     expect(find.text('1920×1080'), findsNothing);
   });
 
-  testWidgets('custom fields remain export source after preset round-trip',
-      (tester) async {
-    tester.view.physicalSize = const Size(800, 1200);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.reset);
+  for (final locale in const [Locale('en'), Locale('es')]) {
+    testWidgets(
+        'custom fields survive preset round-trip and invalid input ($locale)',
+        (tester) async {
+      tester.view.physicalSize = const Size(800, 1200);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
 
-    final harness = await pumpSheet(
-      tester,
-      initialOptions: const ExportOptions(
-        resolution: ExportResolution.custom,
-        customWidth: 333,
-        customHeight: 444,
-      ),
-    );
+      final harness = await pumpSheet(
+        tester,
+        locale: locale,
+        initialOptions: const ExportOptions(
+          resolution: ExportResolution.custom,
+          customWidth: 333,
+          customHeight: 444,
+        ),
+      );
 
-    await tester.tap(find.text('Web'));
-    await tester.pumpAndSettle();
+      await tester.tap(find.text('Web'));
+      await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Customize').last);
-    await tester.pumpAndSettle();
+      await tester.tap(find
+          .text(
+            locale.languageCode == 'es' ? 'Personalizar' : 'Customize',
+          )
+          .last);
+      await tester.pumpAndSettle();
 
-    await tester.tap(find.text(ExportResolution.custom.displayName));
-    await tester.pumpAndSettle();
+      await tester.tap(find.text(
+        locale.languageCode == 'es' ? 'Personalizada' : 'Custom',
+      ));
+      await tester.pumpAndSettle();
 
-    expect(find.widgetWithText(TextField, '333'), findsOneWidget);
-    expect(find.widgetWithText(TextField, '444'), findsOneWidget);
+      expect(find.widgetWithText(TextField, '333'), findsOneWidget);
+      expect(find.widgetWithText(TextField, '444'), findsOneWidget);
 
-    await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
-    await tester.pumpAndSettle();
+      // Invalid text must not replace the last valid dimensions in the payload.
+      await tester.enterText(find.widgetWithText(TextField, '333'), '0');
+      await tester.enterText(find.widgetWithText(TextField, '444'), 'invalid');
+      await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
+      await tester.pumpAndSettle();
 
-    expect(harness.submission, isNotNull);
-    expect(harness.submission!.options.resolution, ExportResolution.custom);
-    expect(harness.submission!.options.customWidth, 333);
-    expect(harness.submission!.options.customHeight, 444);
-  });
+      expect(harness.submission, isNotNull);
+      expect(harness.submission!.options.resolution, ExportResolution.custom);
+      expect(harness.submission!.options.customWidth, 333);
+      expect(harness.submission!.options.customHeight, 444);
+    });
+  }
 
   testWidgets('sheet helper returns null when dismissed', (tester) async {
     ExportSheetSubmission? submission;
