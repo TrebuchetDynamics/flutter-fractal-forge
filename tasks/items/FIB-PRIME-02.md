@@ -3,7 +3,7 @@ schema = 1
 id = "FIB-PRIME-02"
 title = "Deliver one native prime-degree Julia module with matching CPU and PNG output.**"
 short = "Deliver one native prime-degree Julia module with matching CPU and PNG output.**"
-status = "open"
+status = "done"
 goal = "FIB-PRIME-001"
 section = "Next"
 rank = 17000
@@ -16,9 +16,12 @@ scope = "Register exactly fibonacci_complex_julia with a family-specific builder
 acceptance = ["Module/shader/full-frame CPU tests show correct c/N/bailout/view bindings, update/prime indexing and finite distinct numerical-uncertainty output at supported zoom extremes; actual draw/PNG decoding and opaque RGB/reference checks cover nonzero c. Export regression freezes edited state and refuses CPU-only transparent export visibly before file commit unless a valid GPU path can honor it; no fake alpha parity. Unique catalog identity, static capability, accurate accessible EN/ES legend, counts/inventories, old-ID preservation and the unchanged full offline gate pass. Select a useful real-rendered nonzero-c preset from the spec candidates; a compile pass or c=0 circle alone is insufficient."]
 checks = ["Planned: `flutter test --no-pub test/models/fibonacci_complex_model_test.dart test/modules/fibonacci_complex_test.dart test/cpu/fibonacci_complex_cpu_test.dart test/export/fibonacci_complex_export_test.dart test/catalog/catalog_id_integrity_test.dart test/modules/animation_capability_audit_test.dart --reporter expanded`; `flutter gen-l10n`; format touched Dart; root AGENTS.md offline gate with pinned SDK and unchanged lock. Run `flutter build linux --release --no-pub` and `flutter build web --release --no-pub` in an owned complete snapshot. Preserve real draw/decoded PNG inputs, classification/boundary tolerances and actual exits. These are future commands, NOT_RUN, not old-addition build/test evidence."]
 exclusions = []
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/FIB-PRIME-02.toml"
 +++
 
 - Section: Next.
 - Sources: [Owner outcome](PRD.md#fibonacci-prime-degree-julia-fractal), [decided contract](docs/engineering/spec.md#fibonacci-prime-degree-julia), [checks](docs/engineering/test-plan.md#fibonacci-prime-degree-julia-verification), [retained research](research/fibonacci-prime-degree-julia.md).
 - Ownership: Repository backlog, unassigned; preserve existing ordering/owners. Planning-only; no implementation, migration, scheduling or publication dispatched.
 - Next action: Use the accepted model contract to add actual module/CPU/render/export regressions before the corresponding code. Integrate one identity, then verify the current composition without overwriting any retained candidate or public count source.
+- Pending live: FIB-PRIME-03: actual Linux hardware-GPU and browser catalog/edit/save/reopen/export journeys; installed Android/TalkBack/large-text/high-contrast/gallery readback and human composition review. Host Skia raster pixel checks and native/web builds do not qualify these targets.

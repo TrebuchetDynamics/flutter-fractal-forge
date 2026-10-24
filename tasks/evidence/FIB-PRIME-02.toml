@@ -1,0 +1,9 @@
+schema = 1
+task = "FIB-PRIME-02"
+candidate = "04446149891699b54e6e86b6abf85f0bb28ef35b"
+integration = "52078eb6e8b8574932bcca33e8a87bed0afba7ad"
+tree = "56362a752fae08a2b7c9cd74abe3b79781458bb3"
+contract_hash = "ea66464c01f15c0481655d814cfcb83d5a001cee4d5eeecf1c1b92347153d793"
+checks = ["<path>", "<path>", "--verify", "<path>", "FIB-PRIME-02"]
+result = "pass"
+review = "passed"
