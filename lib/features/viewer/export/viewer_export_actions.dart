@@ -361,9 +361,14 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
             usedFallback = true;
           }
 
-          token.throwIfCancelled();
+          // A native file is complete once its rename commits. Cancellation
+          // after that point may skip sharing, but must not hide the saved file.
+          final committedNativeFile = !kIsWeb && result.file != null;
+          if (!committedNativeFile) token.throwIfCancelled();
           Object? shareError;
-          if (shareAfterSave) {
+          if (shareAfterSave && committedNativeFile && token.isCancelled) {
+            shareError = const ExportCancelledException();
+          } else if (shareAfterSave) {
             try {
               await _exportService.shareExportResult(
                 result,
@@ -386,8 +391,9 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
                   ).toString(),
                 ),
               );
-            } on ExportCancelledException {
-              rethrow;
+            } on ExportCancelledException catch (error) {
+              if (!committedNativeFile) rethrow;
+              shareError = error;
             } catch (error) {
               shareError = error;
               _log.warn(
@@ -399,7 +405,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
           } else {
             await _exportService.saveExportResult(result);
           }
-          token.throwIfCancelled();
+          if (!committedNativeFile) token.throwIfCancelled();
           return (result, usedFallback, shareError);
         },
       );
@@ -663,12 +669,22 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
       fractalType: fractalType,
     );
     cancellationToken.throwIfCancelled();
-    return _exportService.saveExportBytes(
+    if (kIsWeb) {
+      return _exportService.saveExportBytes(
+        bytes,
+        filename: filename,
+        format: ExportFormat.png,
+        width: targetDims.$1,
+        height: targetDims.$2,
+      );
+    }
+    return _exportService.saveExportBytesCancellable(
       bytes,
       filename: filename,
       format: ExportFormat.png,
       width: targetDims.$1,
       height: targetDims.$2,
+      cancellationToken: cancellationToken,
     );
   }
 }

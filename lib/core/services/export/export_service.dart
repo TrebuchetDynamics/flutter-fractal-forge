@@ -228,6 +228,68 @@ typedef DirectoryPickerCallback = Future<String?> Function({
   String? confirmButtonText,
 });
 
+/// Filesystem operations used by the native export commit boundary.
+abstract interface class ExportFileOperations {
+  Future<File> createStage(File destination);
+  Future<void> writeStage(File stage, Uint8List bytes);
+  Future<File> commitStage(File stage, File destination);
+  Future<void> removeStage(File stage);
+}
+
+class IoExportFileOperations implements ExportFileOperations {
+  static int _nextStageId = 0;
+
+  const IoExportFileOperations();
+
+  @override
+  Future<File> createStage(File destination) async {
+    for (var attempt = 0; attempt < 100; attempt++) {
+      final stage = File(
+          '${destination.parent.path}/.fractal-export-stage-$pid-${_nextStageId++}');
+      // A caller may choose a stage-like filename, including on a
+      // case-insensitive filesystem. Never reserve the completed path itself.
+      if (stage.path.toLowerCase() == destination.path.toLowerCase()) continue;
+      try {
+        await stage.create(exclusive: true);
+        return stage;
+      } on FileSystemException {
+        if (attempt == 99 ||
+            await FileSystemEntity.type(stage.path, followLinks: false) ==
+                FileSystemEntityType.notFound) {
+          rethrow;
+        }
+      }
+    }
+    throw StateError('Unable to create a unique export stage.');
+  }
+
+  @override
+  Future<void> writeStage(File stage, Uint8List bytes) async {
+    await stage.writeAsBytes(bytes, flush: true);
+  }
+
+  @override
+  Future<File> commitStage(File stage, File destination) {
+    // Dart's Windows rename can unlink a directory symlink before moving the
+    // stage. Only regular-file replacement is supported by this boundary.
+    final type =
+        FileSystemEntity.typeSync(destination.path, followLinks: false);
+    if (type != FileSystemEntityType.file &&
+        type != FileSystemEntityType.notFound) {
+      throw FileSystemException(
+          'Unsupported export destination type', destination.path);
+    }
+    // Same-directory POSIX rename / Windows MoveFileExW(REPLACE_EXISTING).
+    // Do not add a delete-and-retry or copy fallback if this operation fails.
+    return stage.rename(destination.path);
+  }
+
+  @override
+  Future<void> removeStage(File stage) async {
+    if (await stage.exists()) await stage.delete();
+  }
+}
+
 Future<String?> _pickDirectoryWithPlatform({
   String? initialDirectory,
   String? confirmButtonText,
@@ -248,12 +310,14 @@ class ExportService {
   final ShareFileCallback shareFileAdapter;
   final DirectoryPickerCallback directoryPicker;
   final ExportWorker worker;
+  final ExportFileOperations fileOperations;
   final ExportCoordinator? _coordinatorOverride;
 
   const ExportService({
     ShareFileCallback shareFile = _shareFileWithPlatform,
     DirectoryPickerCallback pickDirectory = _pickDirectoryWithPlatform,
     this.worker = const IsolateExportWorker(),
+    this.fileOperations = const IoExportFileOperations(),
     ExportCoordinator? coordinator,
   })  : shareFileAdapter = shareFile,
         directoryPicker = pickDirectory,
@@ -835,12 +899,71 @@ class ExportService {
     ).filename;
   }
 
-  Future<File> saveBytes(Uint8List bytes, {required String filename}) async {
+  Future<File> saveBytes(Uint8List bytes, {required String filename}) =>
+      saveBytesCancellable(bytes, filename: filename);
+
+  Future<File> saveBytesCancellable(
+    Uint8List bytes, {
+    required String filename,
+    ExportCancellationToken? cancellationToken,
+  }) async {
     ExportSizePolicy.validateEncodedByteLength(bytes.lengthInBytes);
-    final file = await createExportFile(filename: filename);
-    final written = await file.writeAsBytes(bytes, flush: true);
+    final destination = await createExportFile(filename: filename);
+    final committed = await commitBytesToFile(
+      bytes,
+      destination,
+      cancellationToken: cancellationToken,
+    );
     await _mirrorImageToMediaStoreIfNeeded(bytes, filename);
-    return written;
+    return committed;
+  }
+
+  /// Stages bytes beside [destination] and publishes them with one rename.
+  /// Cancellation is honored before commit and ignored after the commit point.
+  Future<File> commitBytesToFile(
+    Uint8List bytes,
+    File destination, {
+    ExportCancellationToken? cancellationToken,
+    bool Function()? isCancelled,
+  }) async {
+    ExportSizePolicy.validateEncodedByteLength(bytes.lengthInBytes);
+    ExportSizePolicy.validateExportFilename(
+      destination.uri.pathSegments.last,
+    );
+    _throwIfExportCancelled(cancellationToken, isCancelled);
+
+    File? stage;
+    var committed = false;
+    try {
+      stage = await fileOperations.createStage(destination);
+      if (stage.parent.absolute.path != destination.parent.absolute.path) {
+        throw StateError('Export stage must share the destination directory.');
+      }
+      cancellationToken?.throwIfCancelled();
+      await fileOperations.writeStage(stage, bytes);
+      _throwIfExportCancelled(cancellationToken, isCancelled);
+      final result = await fileOperations.commitStage(stage, destination);
+      committed = true;
+      return result;
+    } finally {
+      if (!committed && stage != null) {
+        try {
+          await fileOperations.removeStage(stage);
+        } catch (_) {
+          // Keep the original write/commit/cancellation failure visible.
+        }
+      }
+    }
+  }
+
+  void _throwIfExportCancelled(
+    ExportCancellationToken? cancellationToken,
+    bool Function()? isCancelled,
+  ) {
+    cancellationToken?.throwIfCancelled();
+    if (isCancelled?.call() ?? false) {
+      throw const ExportCancelledException();
+    }
   }
 
   Future<ExportResult> saveExportBytes(
@@ -849,6 +972,22 @@ class ExportService {
     required ExportFormat format,
     required int width,
     required int height,
+  }) =>
+      saveExportBytesCancellable(
+        bytes,
+        filename: filename,
+        format: format,
+        width: width,
+        height: height,
+      );
+
+  Future<ExportResult> saveExportBytesCancellable(
+    Uint8List bytes, {
+    required String filename,
+    required ExportFormat format,
+    required int width,
+    required int height,
+    ExportCancellationToken? cancellationToken,
   }) async {
     ExportSizePolicy.validateEncodedByteLength(bytes.lengthInBytes);
     if (kIsWeb) {
@@ -863,7 +1002,13 @@ class ExportService {
       );
     }
 
-    final file = await saveBytes(bytes, filename: filename);
+    final file = cancellationToken == null
+        ? await saveBytes(bytes, filename: filename)
+        : await saveBytesCancellable(
+            bytes,
+            filename: filename,
+            cancellationToken: cancellationToken,
+          );
     return ExportResult(
       file: file,
       filename: filename,
@@ -1002,12 +1147,13 @@ class ExportService {
       );
 
       token.throwIfCancelled();
-      return saveExportBytes(
+      return saveExportBytesCancellable(
         bytes,
         filename: filename,
         format: effectiveFormat,
         width: targetDims.$1,
         height: targetDims.$2,
+        cancellationToken: token,
       );
     });
   }

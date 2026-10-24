@@ -272,46 +272,51 @@ class BatchExportService {
           'Exporting ${entry.exportIndex + 1}/${plan.total}: ${preset.name}',
         );
 
-        await applyPreset(preset);
-        token.throwIfCancelled();
-        await _framePump.waitForPresetRender();
-        token.throwIfCancelled();
-
-        final capturePlan = BatchExportCapturePlan.forEntry(
-          entry: entry,
-          baseOptions: options,
-          effectiveFormat: effectiveFormat,
-          moduleId: moduleId,
-          moduleDisplayName: moduleDisplayName,
-          parameters: options.embedMetadata
-              ? Map<String, Object>.from(currentParameters())
-              : const <String, Object>{},
-          createdAt: _clock.now(),
-        );
-
-        final bytes = await _exportService.captureWithOptions(
-          boundaryKey,
-          options: capturePlan.captureOptions,
-          screenWidth: screenWidth,
-          screenHeight: screenHeight,
-          cancellationToken: token,
-        );
-
-        final file = File('${directory.path}/${capturePlan.filename}');
-        token.throwIfCancelled();
+        late final BatchExportItemResult item;
         try {
-          await file.writeAsBytes(bytes, flush: true);
+          await applyPreset(preset);
           token.throwIfCancelled();
+          await _framePump.waitForPresetRender();
+          token.throwIfCancelled();
+
+          final capturePlan = BatchExportCapturePlan.forEntry(
+            entry: entry,
+            baseOptions: options,
+            effectiveFormat: effectiveFormat,
+            moduleId: moduleId,
+            moduleDisplayName: moduleDisplayName,
+            parameters: options.embedMetadata
+                ? Map<String, Object>.from(currentParameters())
+                : const <String, Object>{},
+            createdAt: _clock.now(),
+          );
+
+          final bytes = await _exportService.captureWithOptions(
+            boundaryKey,
+            options: capturePlan.captureOptions,
+            screenWidth: screenWidth,
+            screenHeight: screenHeight,
+            cancellationToken: token,
+          );
+
+          final file = File('${directory.path}/${capturePlan.filename}');
+          final committedFile = await _exportService.commitBytesToFile(
+            bytes,
+            file,
+            cancellationToken: token,
+            isCancelled: isCancelled,
+          );
+          item = BatchExportItemResult(
+            preset: preset,
+            file: committedFile,
+            index: entry.exportIndex,
+          );
         } on ExportCancelledException {
-          if (await file.exists()) await file.delete();
-          rethrow;
+          if (results.isEmpty) rethrow;
+          wasCancelled = true;
+          break;
         }
 
-        final item = BatchExportItemResult(
-          preset: preset,
-          file: file,
-          index: entry.exportIndex,
-        );
         results.add(item);
         onItemDone?.call(item);
       }
@@ -344,14 +349,12 @@ class BatchExportService {
             final name =
                 'contact_sheet_${slugify(moduleId, emptyFallback: 'untitled')!}.png';
             final out = File('${directory.path}/$name');
-            try {
-              await out.writeAsBytes(pngBytes, flush: true);
-              token.throwIfCancelled();
-            } on ExportCancelledException {
-              if (await out.exists()) await out.delete();
-              rethrow;
-            }
-            contactSheet = out;
+            contactSheet = await _exportService.commitBytesToFile(
+              pngBytes,
+              out,
+              cancellationToken: token,
+              isCancelled: isCancelled,
+            );
           } on ExportCancelledException {
             wasCancelled = true;
           } catch (e) {
@@ -361,7 +364,7 @@ class BatchExportService {
         }
       }
 
-      token.throwIfCancelled();
+      if (token.isCancelled || isCancelled()) wasCancelled = true;
       final completion = BatchExportCompletion(
         completedItems: results.length,
         plannedItems: plan.total,

@@ -47,7 +47,7 @@ class _FakePathProviderPlatform extends Fake
 class _StubExportService extends ExportService {
   final String basePath;
 
-  const _StubExportService(this.basePath);
+  const _StubExportService(this.basePath, {super.fileOperations});
 
   @override
   Future<Directory> getExportDirectory() async {
@@ -104,10 +104,89 @@ class _CoordinatorCancellationWorker implements ExportWorker {
   }
 }
 
+class _BatchCommitOperations implements ExportFileOperations {
+  final int? failWriteAt;
+  final int? failCommitAt;
+  final int? cancelAtWrite;
+  final int? cancelAtCommit;
+  final ExportCoordinator? coordinator;
+  final int? seedDestinationAt;
+  final bool leaveAbandonedStage;
+  final bool seedDirectoryLink;
+  final void Function()? afterWrite;
+  int _writeCount = 0;
+  int _commitCount = 0;
+  int _stageCount = 0;
+  File? seededDestination;
+  File? lastStage;
+
+  _BatchCommitOperations({
+    this.failWriteAt,
+    this.failCommitAt,
+    this.cancelAtWrite,
+    this.cancelAtCommit,
+    this.coordinator,
+    this.seedDestinationAt,
+    this.leaveAbandonedStage = false,
+    this.seedDirectoryLink = false,
+    this.afterWrite,
+  });
+
+  @override
+  Future<File> createStage(File destination) async {
+    final index = ++_stageCount;
+    if (seedDestinationAt == index) {
+      seededDestination = destination;
+      if (seedDirectoryLink) {
+        final target = Directory('${destination.path}.target')..createSync();
+        File('${target.path}/keep').writeAsStringSync('prior output');
+        await Link(destination.path).create(target.path);
+      } else {
+        await destination.writeAsString('prior output');
+      }
+    }
+    if (leaveAbandonedStage) {
+      await File('${destination.path}.stage-unrelated')
+          .writeAsString('abandoned');
+    }
+    final stage = File('${destination.path}.attempt-$index-stage');
+    lastStage = stage;
+    await stage.create(exclusive: true);
+    return stage;
+  }
+
+  @override
+  Future<void> writeStage(File stage, Uint8List bytes) async {
+    final index = ++_writeCount;
+    await stage.writeAsBytes(
+      failWriteAt == index ? bytes.sublist(0, 2) : bytes,
+      flush: true,
+    );
+    if (failWriteAt == index) throw StateError('simulated partial write');
+    if (cancelAtWrite == index) coordinator!.cancelActive();
+    afterWrite?.call();
+  }
+
+  @override
+  Future<File> commitStage(File stage, File destination) async {
+    final index = ++_commitCount;
+    if (failCommitAt == index) throw StateError('simulated commit failure');
+    final file =
+        await const IoExportFileOperations().commitStage(stage, destination);
+    if (cancelAtCommit == index) coordinator!.cancelActive();
+    return file;
+  }
+
+  @override
+  Future<void> removeStage(File stage) async {
+    if (await stage.exists()) await stage.delete();
+  }
+}
+
 class _CapturingExportService extends _StubExportService {
   final capturedOptions = <ExportOptions>[];
 
-  _CapturingExportService(super.basePath);
+  _CapturingExportService(super.basePath, {super.fileOperations});
 
   @override
   Future<Uint8List> captureWithOptions(
@@ -157,6 +236,19 @@ void main() {
   tearDown(() async {
     if (await tmpDir.exists()) await tmpDir.delete(recursive: true);
   });
+
+  BatchExportService serviceWithFileOperations(
+    ExportFileOperations operations, {
+    ExportCoordinator? coordinator,
+  }) =>
+      BatchExportService(
+        exportService: _CapturingExportService(
+          tmpDir.path,
+          fileOperations: operations,
+        ),
+        framePump: const _NoopBatchExportFramePump(),
+        coordinator: coordinator,
+      );
 
   Future<BatchExportResult> runBatchExport({
     BatchExportService? usingService,
@@ -529,6 +621,358 @@ void main() {
       );
     });
 
+    for (final sheet in [false, true]) {
+      final output = sheet ? 'contact sheet' : 'batch item';
+      test('$output unsupported destination collision preserves the prior link',
+          () async {
+        final operations = _BatchCommitOperations(
+          seedDestinationAt: sheet ? 2 : 1,
+          seedDirectoryLink: true,
+        );
+        final export = runBatchExport(
+          usingService: serviceWithFileOperations(operations),
+          presets: [_makePreset('Unsupported collision')],
+        );
+        if (sheet) {
+          final result = await export;
+          expect(result.items, hasLength(1));
+          expect(result.contactSheet, isNull);
+        } else {
+          await expectLater(export, throwsA(isA<FileSystemException>()));
+        }
+        final destination = operations.seededDestination!;
+        expect(await Link(destination.path).target(),
+            '${destination.path}.target');
+        expect(await File('${destination.path}.target/keep').readAsString(),
+            'prior output');
+        expect(await operations.lastStage!.exists(), isFalse);
+      });
+
+      test('$output regular-file collision commits expected decodable bytes',
+          () async {
+        final operations =
+            _BatchCommitOperations(seedDestinationAt: sheet ? 2 : 1);
+        final result = await runBatchExport(
+          usingService: serviceWithFileOperations(operations),
+          presets: [_makePreset('Safe replacement')],
+          onItemDone: (item) {
+            expect(img.decodePng(item.file.readAsBytesSync()), isNotNull);
+          },
+        );
+        final file = sheet ? result.contactSheet! : result.items.single.file;
+        expect(file.path, operations.seededDestination!.path);
+        final image = img.decodePng(await file.readAsBytes())!;
+        expect((image.width, image.height), sheet ? (2128, 544) : (1, 1));
+        final pixel = image.getPixel(sheet ? 16 : 0, sheet ? 16 : 0);
+        expect([pixel.r, pixel.g, pixel.b], [1, 2, 3]);
+      });
+    }
+
+    test(
+        'batch item partial write preserves colliding output and delays success',
+        () async {
+      final operations = _BatchCommitOperations(
+        failWriteAt: 1,
+        seedDestinationAt: 1,
+        leaveAbandonedStage: true,
+      );
+      final callbackItems = <BatchExportItemResult>[];
+
+      await expectLater(
+        runBatchExport(
+          usingService: serviceWithFileOperations(operations),
+          presets: [_makePreset('Partial item')],
+          onItemDone: callbackItems.add,
+        ),
+        throwsA(isA<StateError>()),
+      );
+
+      expect(callbackItems, isEmpty);
+      expect(
+          await operations.seededDestination!.readAsString(), 'prior output');
+      expect(await operations.lastStage!.exists(), isFalse);
+      expect(
+        await File('${operations.seededDestination!.path}.stage-unrelated')
+            .readAsString(),
+        'abandoned',
+      );
+    });
+
+    test(
+        'batch item commit failure preserves collision and cleans attempt stage',
+        () async {
+      final operations = _BatchCommitOperations(
+        failCommitAt: 1,
+        seedDestinationAt: 1,
+      );
+      var callbackCount = 0;
+
+      await expectLater(
+        runBatchExport(
+          usingService: serviceWithFileOperations(operations),
+          presets: [_makePreset('Commit failure')],
+          onItemDone: (_) => callbackCount++,
+        ),
+        throwsA(isA<StateError>()),
+      );
+
+      expect(callbackCount, 0);
+      expect(
+          await operations.seededDestination!.readAsString(), 'prior output');
+      expect(await operations.lastStage!.exists(), isFalse);
+    });
+
+    test('batch item isCancelled callback prevents commit after stage write',
+        () async {
+      var cancelled = false;
+      final operations = _BatchCommitOperations(
+        seedDestinationAt: 1,
+        afterWrite: () => cancelled = true,
+      );
+      var callbackCount = 0;
+
+      await expectLater(
+        runBatchExport(
+          usingService: serviceWithFileOperations(operations),
+          presets: [_makePreset('Callback cancelled item')],
+          onItemDone: (_) => callbackCount++,
+          isCancelled: () => cancelled,
+        ),
+        throwsA(isA<ExportCancelledException>()),
+      );
+
+      expect(callbackCount, 0);
+      expect(
+          await operations.seededDestination!.readAsString(), 'prior output');
+      expect(await operations.lastStage!.exists(), isFalse);
+    });
+
+    test('batch item cancellation before commit preserves collision', () async {
+      final coordinator = ExportCoordinator();
+      final operations = _BatchCommitOperations(
+        cancelAtWrite: 1,
+        coordinator: coordinator,
+        seedDestinationAt: 1,
+      );
+      var callbackCount = 0;
+
+      await expectLater(
+        runBatchExport(
+          usingService: serviceWithFileOperations(
+            operations,
+            coordinator: coordinator,
+          ),
+          presets: [_makePreset('Cancelled item')],
+          onItemDone: (_) => callbackCount++,
+        ),
+        throwsA(isA<ExportCancelledException>()),
+      );
+
+      expect(callbackCount, 0);
+      expect(
+          await operations.seededDestination!.readAsString(), 'prior output');
+      expect(await operations.lastStage!.exists(), isFalse);
+    });
+
+    test('cancellation during a later item returns earlier committed items',
+        () async {
+      final coordinator = ExportCoordinator();
+      var applyCount = 0;
+      final progress = <String>[];
+
+      final result = await runBatchExport(
+        usingService: serviceWithFileOperations(
+          const IoExportFileOperations(),
+          coordinator: coordinator,
+        ),
+        presets: [_makePreset('First item'), _makePreset('Cancelled second')],
+        applyPreset: (_) async {
+          applyCount++;
+          if (applyCount == 2) coordinator.cancelActive();
+        },
+        onProgress: (_, status) => progress.add(status),
+      );
+
+      expect(result.items, hasLength(1));
+      expect(progress.last, 'Cancelled after 1/2');
+    });
+
+    test('cancellation after batch item commit returns committed item',
+        () async {
+      final coordinator = ExportCoordinator();
+      final operations = _BatchCommitOperations(
+        cancelAtCommit: 1,
+        coordinator: coordinator,
+      );
+      final progress = <String>[];
+      var callbackCount = 0;
+
+      final result = await runBatchExport(
+        usingService: serviceWithFileOperations(
+          operations,
+          coordinator: coordinator,
+        ),
+        presets: [_makePreset('Item committed before cancellation')],
+        onProgress: (_, status) => progress.add(status),
+        onItemDone: (_) => callbackCount++,
+      );
+
+      expect(callbackCount, 1);
+      expect(img.decodePng(await result.items.single.file.readAsBytes()),
+          isNotNull);
+      expect(result.contactSheet, isNull);
+      expect(progress.last, 'Cancelled after 1/1');
+    });
+
+    test('cancellation after contact sheet commit returns complete sheet',
+        () async {
+      final coordinator = ExportCoordinator();
+      final operations = _BatchCommitOperations(
+        cancelAtCommit: 2,
+        coordinator: coordinator,
+      );
+      final progress = <String>[];
+
+      final result = await runBatchExport(
+        usingService: serviceWithFileOperations(
+          operations,
+          coordinator: coordinator,
+        ),
+        presets: [_makePreset('Sheet committed before cancellation')],
+        onProgress: (_, status) => progress.add(status),
+      );
+
+      expect(result.contactSheet, isNotNull);
+      expect(
+          img.decodePng(await result.contactSheet!.readAsBytes()), isNotNull);
+      expect(progress.last, 'Cancelled after 1/1');
+    });
+
+    test('contact sheet partial write preserves prior destination', () async {
+      final operations = _BatchCommitOperations(
+        failWriteAt: 2,
+        seedDestinationAt: 2,
+      );
+
+      final result = await runBatchExport(
+        usingService: serviceWithFileOperations(operations),
+        presets: [_makePreset('Sheet partial write')],
+      );
+
+      expect(result.items, hasLength(1));
+      expect(result.contactSheet, isNull);
+      expect(
+          await operations.seededDestination!.readAsString(), 'prior output');
+      expect(await operations.lastStage!.exists(), isFalse);
+    });
+
+    test('contact sheet commit failure preserves prior destination', () async {
+      final operations = _BatchCommitOperations(
+        failCommitAt: 2,
+        seedDestinationAt: 2,
+      );
+
+      final result = await runBatchExport(
+        usingService: serviceWithFileOperations(operations),
+        presets: [_makePreset('Sheet commit failure')],
+      );
+
+      expect(result.items, hasLength(1));
+      expect(result.contactSheet, isNull);
+      expect(
+          await operations.seededDestination!.readAsString(), 'prior output');
+      expect(await operations.lastStage!.exists(), isFalse);
+    });
+
+    test(
+        'contact sheet cancellation before commit leaves previous sheet intact',
+        () async {
+      final coordinator = ExportCoordinator();
+      final operations = _BatchCommitOperations(
+        cancelAtWrite: 2,
+        coordinator: coordinator,
+        seedDestinationAt: 2,
+      );
+      var callbackCount = 0;
+
+      final result = await runBatchExport(
+        usingService: serviceWithFileOperations(
+          operations,
+          coordinator: coordinator,
+        ),
+        presets: [_makePreset('Sheet cancelled')],
+        onItemDone: (_) => callbackCount++,
+      );
+
+      expect(result.items, hasLength(1));
+      expect(result.contactSheet, isNull);
+      expect(callbackCount, 1);
+      expect(
+          await operations.seededDestination!.readAsString(), 'prior output');
+      expect(await operations.lastStage!.exists(), isFalse);
+    });
+
+    test('recreated batch service retries item after commit failure', () async {
+      final failed = _BatchCommitOperations(
+        failCommitAt: 1,
+        seedDestinationAt: 1,
+        leaveAbandonedStage: true,
+      );
+
+      await expectLater(
+        runBatchExport(
+          usingService: serviceWithFileOperations(failed),
+          presets: [_makePreset('Failed item')],
+        ),
+        throwsA(isA<StateError>()),
+      );
+      expect(await failed.seededDestination!.readAsString(), 'prior output');
+      expect(await failed.lastStage!.exists(), isFalse);
+
+      final retry = await runBatchExport(
+        usingService: serviceWithFileOperations(const IoExportFileOperations()),
+        presets: [_makePreset('Retried item')],
+      );
+
+      expect(img.decodePng(await retry.items.single.file.readAsBytes()),
+          isNotNull);
+      expect(
+        await File('${failed.seededDestination!.path}.stage-unrelated')
+            .readAsString(),
+        'abandoned',
+      );
+    });
+
+    test(
+        'recreated batch service retries with decodable item and sheet outputs',
+        () async {
+      final abandonedOperations = _BatchCommitOperations(
+        failCommitAt: 2,
+        seedDestinationAt: 2,
+        leaveAbandonedStage: true,
+      );
+      await runBatchExport(
+        usingService: serviceWithFileOperations(abandonedOperations),
+        presets: [_makePreset('First attempt')],
+      );
+
+      final retry = await runBatchExport(
+        usingService: serviceWithFileOperations(const IoExportFileOperations()),
+        presets: [_makePreset('Retry')],
+      );
+
+      expect(img.decodePng(await retry.items.single.file.readAsBytes()),
+          isNotNull);
+      expect(retry.contactSheet, isNotNull);
+      expect(img.decodePng(await retry.contactSheet!.readAsBytes()), isNotNull);
+      expect(
+        await File(
+                '${abandonedOperations.seededDestination!.path}.stage-unrelated')
+            .readAsString(),
+        'abandoned',
+      );
+    });
+
     test('batch metadata uses the injected clock for replayable timestamps',
         () async {
       final fixedTime = DateTime(2026, 6, 1, 12, 34, 56);
@@ -620,7 +1064,7 @@ void main() {
       expect(coordinator.isBusy, isFalse);
     });
 
-    test('coordinator cancellation during contact sheet is propagated',
+    test('cancellation after committed item reports partial batch result',
         () async {
       final coordinator = ExportCoordinator();
       final worker = _CoordinatorCancellationWorker();
@@ -631,14 +1075,19 @@ void main() {
         worker: worker,
       );
 
+      final progress = <String>[];
       final export = runBatchExport(
         usingService: service,
         presets: [_makePreset('Contact Sheet')],
+        onProgress: (_, status) => progress.add(status),
       );
       await worker.started.future;
       expect(coordinator.cancelActive(), isTrue);
 
-      await expectLater(export, throwsA(isA<ExportCancelledException>()));
+      final result = await export;
+      expect(result.items, hasLength(1));
+      expect(result.contactSheet, isNull);
+      expect(progress.last, 'Cancelled after 1/1');
       expect(coordinator.isBusy, isFalse);
     });
 
@@ -650,7 +1099,7 @@ void main() {
         framePump: const _NoopBatchExportFramePump(),
       );
       final progress = <({double value, String status})>[];
-      var cancelChecks = 0;
+      var wasCancelled = false;
 
       final result = await service.exportPresets(
         boundaryKey: GlobalKey(),
@@ -670,8 +1119,8 @@ void main() {
           value: value,
           status: status,
         )),
-        onItemDone: null,
-        isCancelled: () => cancelChecks++ > 0,
+        onItemDone: (_) => wasCancelled = true,
+        isCancelled: () => wasCancelled,
       );
 
       expect(result.items, hasLength(1));
