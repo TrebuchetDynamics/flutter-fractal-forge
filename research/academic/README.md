@@ -1,6 +1,6 @@
 # Academic fractal research library — implementation plan
 
-Status: Accepted; ACAD-01 offline index/import/coverage adapter implemented. Research acquisition and formula dossiers remain planned. This is the shared academic evidence home for Fractal Forge. The active tasks are ACAD-01 through ACAD-05 in the repository-root TODO.md; do not create a competing task queue here. No live search, PDF acquisition, shader rewrite, publication or recurring job is part of ACAD-01.
+Status: Accepted; ACAD-01 offline index/import/coverage adapter implemented. Research acquisition and formula dossiers remain planned. This is the shared academic evidence home for Fractal Forge. The academic goal and task contracts live in [`../../tasks/`](../../tasks/), including the ACAD-007-f8 preparation and ACAD-03 human review gates; do not create a competing task queue here. No live search, PDF acquisition, shader rewrite, publication or recurring job is part of ACAD-01.
 
 ## Outcome and current evidence
 
@@ -105,4 +105,6 @@ Verify offline imports and invalid/duplicate/retracted/mismatched/source-missing
 
 ## Decision-ready owner package
 
-The raw ACAD-02 pilot queue is discovery evidence, not an actionable human approval brief: the inspected queue has unverified versions and empty authors/decisions. A separate runnable metadata-only preparation task must produce the bounded [review package](../../docs/engineering/spec.md#decision-ready-academic-review-package) before ACAD-03 asks for source inclusion/acquisition decisions. Keep raw run records immutable, actual decisions pending, missing evidence explicit and full-text acquisition gated. A shortlist is not accepted mathematics or permission to fetch its sources.
+The raw ACAD-02 pilot queue remains discovery evidence, not an approval brief. The bounded metadata-only preparation package is [`reviews/ACAD-02-pilot-approval.md`](reviews/ACAD-02-pilot-approval.md) with machine-readable companion [`reviews/ACAD-02-pilot-approval.json`](reviews/ACAD-02-pilot-approval.json). It reuses the existing CAT-QUALITY-01 12-identity pilot, binds six selected records to retained ACAD-02 result rows, and distinguishes proposed-unreviewed identity mappings from six explicit gaps. The empty reviewed-alias file and original run/queues are preserved; all screening, identity approval, acquisition and claim decisions remain pending. Bibliographic/rights metadata checks do not verify equations, grant reuse permission, or authorize content acquisition.
+
+Validate membership, mapping status, decision fields and original-input hashes offline with `python3 -m scripts.research.academic.review_package --repo-root .`; focused regression coverage is in `test/research/test_academic_review_package.py`. The original pilot/run/queue and reviewed-alias files remain byte-hash-bound. The live inventory check fingerprints the complete pilot section and selected identity rows only, excluding unrelated catalog additions and totals; historical full-inventory receipts are retained in the companion. ACAD-03 remains human-gated after this preparation.
