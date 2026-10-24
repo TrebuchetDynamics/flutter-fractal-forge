@@ -1,5 +1,81 @@
 # NUM-WALL-02 — Retained integration findings
 
+## Current handoff — 2026-10-24
+
+This update supersedes the stale candidate/check status below, not the accepted
+Scope, Acceptance, dependency, queue position or browser permission. NUM-WALL-02
+is still open. Its latest candidate is `886bbf57b6e95919d96cc782e98681ceba744dac`;
+retained integration `30944456069d76eb27d2caea9b5a282a8bc6545e` is based on
+`8d94f42734d3ebe2986f664538191e1f5d750a0f`. Neither candidate is canonical delivery
+in this maintenance checkout. Reuse the latest reviewed work after checking
+current sources and ownership; do not recreate the feature or close the task.
+
+### Evidence and remaining finding
+
+Evidence was read in place, not copied. Under runner state
+`/home/xel/.local/state/pi-autowork/481371330a53e93e/`:
+
+- `review-findings/NUM-WALL-02.json` now names only
+  `test/services/test_screenshot_service_test.dart`: **TestScreenshotService —
+  capture capture creates output directory when it does not exist** on `30944456`.
+- `full-check/NUM-WALL-02-merged.log:6109–6116` records `Expected: true`,
+  `Actual: <false>` at test line 72. The full Flutter family finishes at
+  lines 13831–13834 with `+3000 ~8 -1` and that one failing case. This is a
+  failed gate, not a tool crash or a verified product-code regression.
+- The same log names the three older count/session cases without failures at
+  lines 473, 7404 and 7408. The old review below remains history; these mutable
+  runner paths now contain the newer review/log, not the old three-failure run.
+- `NUM-WALL-02-merged.{reruns,quiet}.json` bind to `30944456`, with `flaky: []`
+  and `incomplete: false`; both companion logs are empty. No isolated passing
+  reruns or three-revision flaky classification are provided by these files.
+- `.git/autowork-execution/slot-data/NUM-WALL-02/attempt-2/report.json` now binds
+  to `886bbf57`: it reports 226 compatibility passes, 35 focused passes, 8 exact
+  model passes, 971 matching native/browser math fixtures and **5/5 actual Flutter
+  Chrome state cases passed**. This supersedes the prior report's 0/5 startup
+  timeout only for that candidate; it is not a passing merged full gate or live
+  journey. Attempt 1 retains its failed Chrome history.
+
+### Bounded worker repair and verification
+
+The failing test and screenshot/export services are unchanged between base
+`8d94f427` and candidate `886bbf57`. In
+`test/services/test_screenshot_service_test.dart:54–76`, twenty zero-delay event
+turns stand in for completion of asynchronous `Directory.exists/create`; the
+capture future is then ignored. The earlier invalid-key case also leaves its
+capture pending. `TestScreenshotService.capture` awaits directory creation before
+PNG capture (`lib/core/services/diagnostics/test_screenshot_service.dart:33–47`),
+and `ExportService.capturePng` retries via `endOfFrame`
+(`lib/core/services/export/export_service.dart:507–547`). These are concrete
+fixture timing/lifetime risks, not proof that Number Walls broke directory IO.
+
+- Investigate isolation, filesystem/resource load and pending frame/capture work.
+  Replace the fixed-yield race with an explicitly awaited completion or bounded
+  condition tied to the existing contract. Use a controlled fixture and settle
+  capture work before temporary-directory deletion and singleton teardown.
+- Preserve assertions for directory creation, safe names, null-on-failure and no
+  crash; do not skip, pre-create the directory under test, increase arbitrary
+  yield counts, or change product screenshot/export semantics to satisfy timing.
+  Start with the test-only repair; no general export redesign is authorized.
+- Run `flutter test --no-pub test/services/test_screenshot_service_test.dart
+  --reporter expanded`, repeat it in isolation and with adjacent service tests,
+  then rerun the unchanged full offline gate and every existing Number Walls,
+  compatibility, shader and parity gate on the delivered composition. Record
+  revisions, commands, repetitions, exits and any remaining failures.
+- Reuse the candidate's task-scoped `scripts/number-wall-chrome.py` launcher:
+  `CHROME_EXECUTABLE="$PWD/scripts/number-wall-chrome.py" timeout --kill-after=10s
+  300s flutter test --no-pub --platform chrome
+  test/number_walls/number_wall_state_test.dart --reporter expanded --timeout 2m`.
+  This is a bounded debug-test budget, not a UI responsiveness claim. Preserve
+  all five cases, original grids/assertions, sandboxing, loopback-only permission
+  and owned-process cleanup. Do not substitute arithmetic-only browser parity.
+
+Touches adds only the worker-reported launcher and failing test. Scope and every
+Acceptance item remain with NUM-WALL-02; NUM-WALL-04/05 and the unverified goal
+retain their separate qualification. This pass changes documentation only and
+claims no executed repair, passing full gate, integration or live acceptance.
+
+## Historical handoff — earlier three-failure composition
+
 This is a task-contract clarification, not implementation, integration or a passing
 verification receipt. Preserve the task's entire Scope and Acceptance, dependency
 on NUM-WALL-01, Next ordering and existing task-only browser permission.
