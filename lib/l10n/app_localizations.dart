@@ -3638,6 +3638,96 @@ abstract class AppLocalizations {
   /// **'Version {version}'**
   String settingsVersion(Object version);
 
+  /// No description provided for @settingsThemeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get settingsThemeDark;
+
+  /// No description provided for @settingsThemeDarkDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Cosmic purple theme with dark gray background'**
+  String get settingsThemeDarkDescription;
+
+  /// No description provided for @settingsThemeOled.
+  ///
+  /// In en, this message translates to:
+  /// **'OLED Black'**
+  String get settingsThemeOled;
+
+  /// No description provided for @settingsThemeOledDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Pure black background for OLED displays'**
+  String get settingsThemeOledDescription;
+
+  /// No description provided for @settingsThemeHighContrast.
+  ///
+  /// In en, this message translates to:
+  /// **'High Contrast'**
+  String get settingsThemeHighContrast;
+
+  /// No description provided for @settingsThemeHighContrastDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum contrast for accessibility'**
+  String get settingsThemeHighContrastDescription;
+
+  /// No description provided for @exportResolutionScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen'**
+  String get exportResolutionScreen;
+
+  /// No description provided for @exportResolutionHd.
+  ///
+  /// In en, this message translates to:
+  /// **'HD (1280×720)'**
+  String get exportResolutionHd;
+
+  /// No description provided for @exportResolutionFullHd.
+  ///
+  /// In en, this message translates to:
+  /// **'Full HD (1920×1080)'**
+  String get exportResolutionFullHd;
+
+  /// No description provided for @exportResolutionQuadHd.
+  ///
+  /// In en, this message translates to:
+  /// **'2K (2560×1440)'**
+  String get exportResolutionQuadHd;
+
+  /// No description provided for @exportResolution4k.
+  ///
+  /// In en, this message translates to:
+  /// **'4K (3840×2160)'**
+  String get exportResolution4k;
+
+  /// No description provided for @exportResolutionInstagram.
+  ///
+  /// In en, this message translates to:
+  /// **'Instagram (1080×1080)'**
+  String get exportResolutionInstagram;
+
+  /// No description provided for @exportResolutionInstagramStory.
+  ///
+  /// In en, this message translates to:
+  /// **'Instagram Story (1080×1920)'**
+  String get exportResolutionInstagramStory;
+
+  /// No description provided for @exportResolutionTwitter.
+  ///
+  /// In en, this message translates to:
+  /// **'Twitter (2400×1350)'**
+  String get exportResolutionTwitter;
+
+  /// No description provided for @exportResolutionCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get exportResolutionCustom;
+
   /// No description provided for @settingsColorTheme.
   ///
   /// In en, this message translates to:

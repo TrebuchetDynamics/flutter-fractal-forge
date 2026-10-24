@@ -1,5 +1,8 @@
+import 'dart:ui' show Tristate;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter_fractals/core/app_version.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
@@ -11,13 +14,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../helpers/overflow_guard.dart';
 
-Future<void> _pumpScreen(
+Future<AccessibilityService> _pumpScreen(
   WidgetTester tester, {
   double textScale = 1.0,
   Locale locale = const Locale('en'),
 }) async {
   SharedPreferences.setMockInitialValues({});
   final accessibility = await AccessibilityService.create();
+  addTearDown(accessibility.dispose);
 
   await tester.pumpWidget(
     ChangeNotifierProvider<AccessibilityService>.value(
@@ -37,6 +41,7 @@ Future<void> _pumpScreen(
     ),
   );
   await tester.pumpAndSettle();
+  return accessibility;
 }
 
 void main() {
@@ -81,6 +86,16 @@ void main() {
       await tester.tap(find.text('Color Scheme').hitTestable().first);
       await tester.pumpAndSettle();
       expect(find.text('Color Theme'), findsOneWidget);
+      for (final label in const [
+        'Dark',
+        'Cosmic purple theme with dark gray background',
+        'OLED Black',
+        'Pure black background for OLED displays',
+        'High Contrast',
+        'Maximum contrast for accessibility',
+      ]) {
+        expect(find.text(label), findsOneWidget);
+      }
       await expectLater(tester, meetsGuideline(textContrastGuideline));
       handle.dispose();
     });
@@ -110,6 +125,73 @@ void main() {
         reason: 'About dialog at 3x text scale',
       );
     });
+  });
+
+  testWidgets('theme options have one selected keyboard action and persist',
+      (tester) async {
+    final handle = tester.ensureSemantics();
+    final accessibility = await _pumpScreen(tester);
+    var changes = 0;
+    accessibility.addListener(() => changes++);
+
+    for (final (index, choice) in [
+      (title: 'OLED Black', mode: AppThemeMode.oled, next: 'High Contrast'),
+      (title: 'High Contrast', mode: AppThemeMode.highContrast, next: 'Cancel'),
+      (title: 'Dark', mode: AppThemeMode.dark, next: 'OLED Black'),
+    ].indexed) {
+      await tester.tap(find.text('Color Scheme').hitTestable().first);
+      await tester.pumpAndSettle();
+      final option = find.text(choice.title);
+      await tester.ensureVisible(option);
+      await tester.pumpAndSettle();
+      final node = tester.getSemantics(option);
+      expect(node.flagsCollection.isButton, isTrue);
+      expect(node.flagsCollection.isSelected, Tristate.isFalse);
+      expect(node.getSemanticsData().hasAction(SemanticsAction.tap), isTrue);
+      bool checkDescendant(SemanticsNode child) {
+        expect(child.getSemanticsData().hasAction(SemanticsAction.tap), isFalse,
+            reason: 'No duplicate action stops');
+        expect(child.flagsCollection.isFocused, Tristate.none,
+            reason: 'No duplicate focus stops');
+        child.visitChildren(checkDescendant);
+        return true;
+      }
+
+      node.visitChildren(checkDescendant);
+
+      final optionFocus = Focus.of(tester.element(option));
+      optionFocus.requestFocus();
+      await tester.pumpAndSettle();
+      expect(tester.getSemantics(option).flagsCollection.isFocused,
+          Tristate.isTrue);
+      await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+      await tester.pumpAndSettle();
+      expect(FocusManager.instance.primaryFocus,
+          Focus.of(tester.element(find.text(choice.next))));
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.shiftLeft);
+      await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+      await tester.sendKeyUpEvent(LogicalKeyboardKey.shiftLeft);
+      await tester.pumpAndSettle();
+      expect(FocusManager.instance.primaryFocus, optionFocus);
+      await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+      await tester.pumpAndSettle();
+      expect(find.text('Color Theme'), findsNothing);
+      expect(accessibility.themeMode, choice.mode);
+      expect(changes, index + 1);
+      final restored = await AccessibilityService.create();
+      expect(restored.themeMode, choice.mode);
+      restored.dispose();
+
+      await tester.tap(find.text('Color Scheme').hitTestable().first);
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(option);
+      await tester.pumpAndSettle();
+      expect(tester.getSemantics(option).flagsCollection.isSelected,
+          Tristate.isTrue);
+      await tester.tap(find.byTooltip('Close'));
+      await tester.pumpAndSettle();
+    }
+    handle.dispose();
   });
 
   group('SettingsScreen content', () {
@@ -209,6 +291,23 @@ void main() {
       ]) {
         expect(find.text(label), findsNothing, reason: label);
       }
+
+      await tester.tap(find.text('Esquema de color').hitTestable().first);
+      await tester.pumpAndSettle();
+      expect(find.text('Tema de color'), findsOneWidget);
+      for (final label in const [
+        'Oscuro',
+        'Tema púrpura cósmico con fondo gris oscuro',
+        'Negro OLED',
+        'Fondo negro puro para pantallas OLED',
+        'Alto contraste',
+        'Contraste máximo para accesibilidad',
+      ]) {
+        expect(find.text(label), findsOneWidget);
+      }
+      expect(find.text('OLED Black'), findsNothing);
+      await tester.tap(find.byTooltip('Cerrar'));
+      await tester.pumpAndSettle();
 
       await tester.tap(find.text('Acerca de').hitTestable().first);
       await tester.pumpAndSettle();

@@ -1964,6 +1964,55 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get settingsThemeDark => 'Oscuro';
+
+  @override
+  String get settingsThemeDarkDescription =>
+      'Tema púrpura cósmico con fondo gris oscuro';
+
+  @override
+  String get settingsThemeOled => 'Negro OLED';
+
+  @override
+  String get settingsThemeOledDescription =>
+      'Fondo negro puro para pantallas OLED';
+
+  @override
+  String get settingsThemeHighContrast => 'Alto contraste';
+
+  @override
+  String get settingsThemeHighContrastDescription =>
+      'Contraste máximo para accesibilidad';
+
+  @override
+  String get exportResolutionScreen => 'Pantalla';
+
+  @override
+  String get exportResolutionHd => 'HD (1280×720)';
+
+  @override
+  String get exportResolutionFullHd => 'Full HD (1920×1080)';
+
+  @override
+  String get exportResolutionQuadHd => '2K (2560×1440)';
+
+  @override
+  String get exportResolution4k => '4K (3840×2160)';
+
+  @override
+  String get exportResolutionInstagram => 'Instagram (1080×1080)';
+
+  @override
+  String get exportResolutionInstagramStory =>
+      'Historia de Instagram (1080×1920)';
+
+  @override
+  String get exportResolutionTwitter => 'Twitter (2400×1350)';
+
+  @override
+  String get exportResolutionCustom => 'Personalizada';
+
+  @override
   String get settingsColorTheme => 'Tema de color';
 
   @override
