@@ -79,8 +79,21 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
   Future<void> _exportLooperGif(BuildContext context) async {
     final looper = _looperController;
     final plan = looper?.plan;
-    if (looper == null || plan == null) return;
+    if (looper == null ||
+        plan == null ||
+        _exporting ||
+        _exportService.coordinator.isBusy) return;
+    looper.stop();
+    looper.setExporting(true);
+    try {
+      await _exportLooperPlan(context, looper, plan);
+    } finally {
+      looper.setExporting(false);
+    }
+  }
 
+  Future<void> _exportLooperPlan(
+      BuildContext context, LooperController looper, LooperPlan plan) async {
     _log.info('action', 'Export looper GIF');
     final controller = _activeController(context);
     final boundaryKey = _activeBoundaryKey();
@@ -88,7 +101,6 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     final originalView = controller.view;
     final originalParams = controller.params;
     final originalTransparency = controller.transparentBackground;
-    looper.stop();
     try {
       if (!await _exportService.chooseLinuxExportDirectory()) return;
     } catch (error) {
