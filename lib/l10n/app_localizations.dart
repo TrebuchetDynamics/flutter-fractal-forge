@@ -3188,6 +3188,12 @@ abstract class AppLocalizations {
   /// **'WebP'**
   String get exportFormatWebp;
 
+  /// No description provided for @homeLinkBusy.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish the current operation, then open the link again.'**
+  String get homeLinkBusy;
+
   /// No description provided for @homeUnknownFractalType.
   ///
   /// In en, this message translates to:

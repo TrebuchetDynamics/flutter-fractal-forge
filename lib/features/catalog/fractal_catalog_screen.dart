@@ -106,10 +106,15 @@ class FractalCatalogScreen extends StatefulWidget {
   final CatalogToolbarController? toolbarController;
   final Future<CatalogViewMode> Function()? viewModeLoader;
 
+  /// Lets the owner of the controller also own the embedded viewer route.
+  /// Selection, presets and thumbnail framing are applied before this callback.
+  final void Function(Duration duration, CatalogFamily family)? onOpenViewer;
+
   const FractalCatalogScreen({
     Key? key,
     this.toolbarController,
     this.viewModeLoader,
+    this.onOpenViewer,
   }) : super(key: key);
 
   @override
@@ -1157,6 +1162,19 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
       controller.updateView(
           controller.view.copyWith(pan: pan, zoom: viewOverride.zoom));
     }
+    final normalDuration =
+        heroTag != null ? AppAnimations.slow : AppAnimations.normal;
+    final duration = context
+            .read<AccessibilityService?>()
+            ?.getAnimationDuration(context, normalDuration) ??
+        (MediaQuery.of(context).disableAnimations
+            ? Duration.zero
+            : normalDuration);
+    final onOpenViewer = widget.onOpenViewer;
+    if (onOpenViewer != null) {
+      onOpenViewer(duration, catalogFamily);
+      return;
+    }
     Navigator.of(context).push(
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) => MultiProvider(
@@ -1184,8 +1202,11 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
             ),
           );
         },
-        transitionDuration:
-            heroTag != null ? AppAnimations.slow : AppAnimations.normal,
+        transitionDuration: duration,
+        // Preserve PageRouteBuilder's normal return duration.
+        reverseTransitionDuration: duration == Duration.zero
+            ? Duration.zero
+            : const Duration(milliseconds: 300),
       ),
     );
   }

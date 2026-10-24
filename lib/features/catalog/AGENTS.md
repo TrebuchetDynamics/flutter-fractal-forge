@@ -28,7 +28,8 @@ Fractal catalog browser screen. Displays all available fractals in a searchable 
 - The disk cache is bounded: at most 1200 PNGs (the catalog has ~1000 modules) are kept; beyond that the oldest files are pruned (`CatalogThumbnailCache.diskPruneVictims`, unit-tested without a filesystem) so schema bumps do not orphan old generations forever.
 - CPU/gradient fallback thumbnails can still show an approximate indicator (~) when runtime rendering is unavailable
 - Search filters by fractal name (localized)
-- Selecting a catalog entry navigates to FractalViewerScreen
+- Selecting a catalog entry applies its module/preset/thumbnail framing, then delegates through optional `onOpenViewer(duration, family)` when embedded in Home. Without that callback, the standalone catalog pushes its own FractalViewerScreen.
+- Preserve the entry's catalog family and launch behavior in either path; forward and reverse transitions honor OS and in-app reduced motion.
 
 ### Testing Requirements
 

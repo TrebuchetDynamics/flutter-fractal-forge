@@ -720,6 +720,7 @@
   "exportFormatJpg": "JPG",
   "exportFormatWebp": "WebP",
 
+  "homeLinkBusy": "Finish the current operation, then open the link again.",
   "homeUnknownFractalType": "Unknown fractal type: {type}",
   "@homeUnknownFractalType": {
     "placeholders": {

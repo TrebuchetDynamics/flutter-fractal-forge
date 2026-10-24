@@ -19,7 +19,9 @@ Main home screen - the primary entry point after splash/onboarding. Creates a Fr
 
 - FractalController is created HERE (not at app root) and scoped per-tab
 - Deep links are handled by parsing `DeepLinkData` and applying to the controller
-- Navigation: HomeScreen embeds FractalCatalogScreen, navigates to FractalViewerScreen on selection
+- Navigation: HomeScreen owns one viewer route for its Explore controller; embedded catalog selections delegate via `onOpenViewer` after applying presets/framing. Standalone catalogs keep their fallback route.
+- Repeated links reuse the current unobstructed viewer. Covering routes and the viewer's `FractalViewerRouteState.isNavigationBlocked` export guard reject links before controller mutation, with localized retry feedback.
+- Keep route ownership until transition/disposal completes. Viewer entry and return honor OS and in-app reduced motion.
 - Safe mode flag skips deep link initialization
 
 ### Testing Requirements

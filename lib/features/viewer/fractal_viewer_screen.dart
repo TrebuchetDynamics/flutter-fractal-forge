@@ -176,10 +176,15 @@ class FractalViewerScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<FractalViewerScreen> createState() => _FractalViewerScreenState();
+  FractalViewerRouteState createState() => _FractalViewerScreenState();
 }
 
-class _FractalViewerScreenState extends State<FractalViewerScreen>
+/// Narrow handle for the route owner; viewer implementation stays private.
+abstract class FractalViewerRouteState extends State<FractalViewerScreen> {
+  bool get isNavigationBlocked;
+}
+
+class _FractalViewerScreenState extends FractalViewerRouteState
     with
         WidgetsBindingObserver,
         TickerProviderStateMixin,
@@ -259,6 +264,14 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
   ViewerSessionStore? _viewerSessionStore;
   bool _viewerSessionRestored = false;
   bool _viewerSessionRestorePending = false;
+
+  /// Route owners must not replace the controller during destination selection,
+  /// rendering or publication, including the pre-coordinator native picker.
+  @override
+  bool get isNavigationBlocked =>
+      _exportFlowActive ||
+      (_looperController?.isExporting ?? false) ||
+      _exportService.coordinator.isBusy;
 
   bool get _liveRenderingEnabled => _appVisible && !_freezeFrameForExport;
 
