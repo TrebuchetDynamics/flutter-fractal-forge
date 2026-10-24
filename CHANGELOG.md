@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Added composed app-quality capture fixtures and source/backend-bound browser journey artifacts; documented owned-target MCP inspection while retaining native-driver and device qualification gaps. (APP-005-7f)
 - Suspend auto-explore when the app loses visibility, require explicit foreground Resume, and prevent export completion from restoring hidden or revoked playback. (APP-003-f7)
 - Prepared the academic pilot decision brief with merge-stable selected-input validation, preserved original evidence and pending human approvals. (ACAD-007-f8)
 - Localize EN/ES theme descriptions and export resolution choices, with single selected theme actions and keyboard/persistence regression coverage. (APP-004-cc)
