@@ -1182,6 +1182,18 @@
         "FIB-PRIME-03"
       ],
       "title": "Deliver the researched native Fibonacci prime-degree Julia fractal"
+    },
+    {
+      "depends_on": [],
+      "evidence": [],
+      "id": "BESICOVITCH-VIZ-001",
+      "priority": 23,
+      "source": "research/besicovitch-shader.md#shader-feasibility",
+      "status": "unverified",
+      "tasks": [
+        "BESICOVITCH-01"
+      ],
+      "title": "Proposed finite Besicovitch/Perron-tree shader visualization"
     }
   ],
   "primary_milestone": "VIEW-UI-001",
@@ -1239,7 +1251,8 @@
       "GAUSS-MOAT-04-GROWTH-LIVE",
       "GAUSS-MOAT-03-QUALIFY-LIVE",
       "RELEASE-001-23-LIVE",
-      "FIB-PRIME-03"
+      "FIB-PRIME-03",
+      "BESICOVITCH-01"
     ]
   },
   "tasks": [
@@ -2260,6 +2273,14 @@
       "section": "Needs decision",
       "status": "open",
       "title": "Qualify Fibonacci prime-degree viewing and exports on real supported targets"
+    },
+    {
+      "depends_on": [],
+      "goal": "BESICOVITCH-VIZ-001",
+      "id": "BESICOVITCH-01",
+      "section": "Needs decision",
+      "status": "open",
+      "title": "Prototype a finite Perron-tree shader after design acceptance"
     }
   ],
   "version": 1
