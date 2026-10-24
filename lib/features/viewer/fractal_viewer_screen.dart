@@ -378,7 +378,10 @@ class _FractalViewerScreenState extends State<FractalViewerScreen>
       _autoExploreService?.dispose();
       _autoExploreService = AutoExploreService(controller: controller);
       _looperController?.dispose();
-      _looperController = LooperController(controller: controller);
+      _looperController = LooperController(
+        controller: controller,
+        exportIsBusy: () => _exporting || _exportService.coordinator.isBusy,
+      );
       if (!_viewerSessionRestorePending) {
         _persistViewerSession();
       }

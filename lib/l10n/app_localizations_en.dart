@@ -1538,6 +1538,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get looperSetB => 'Set B';
 
   @override
+  String looperRandomizePoint(Object label) {
+    return 'Randomize $label';
+  }
+
+  @override
+  String looperPointRandomized(Object label) {
+    return 'Camera point $label randomized. Preview is stopped.';
+  }
+
+  @override
+  String looperPointUnchanged(Object label) {
+    return 'Camera point $label unchanged: unavailable, invalid, or at its bounds.';
+  }
+
+  @override
+  String get looperAddRandomPoint => 'Add random point';
+
+  @override
+  String get looperRandomUnavailableTrajectory =>
+      'Random camera points are unavailable while trajectory settings are active.';
+
+  @override
   String looperUpdatePoint(Object label) {
     return 'Update $label';
   }

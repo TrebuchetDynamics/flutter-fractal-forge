@@ -16,11 +16,25 @@ class LooperSheet extends StatelessWidget {
     required this.onExportGif,
   });
 
+  void _randomize(BuildContext context, int index, {bool append = false}) {
+    final l10n = AppLocalizations.of(context)!;
+    final label = LooperController.labelForIndex(index);
+    final changed = !isExporting &&
+        (append
+            ? controller.addRandomPoint()
+            : controller.randomizePoint(index));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(changed
+          ? l10n.looperPointRandomized(label)
+          : l10n.looperPointUnchanged(label)),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return AnimatedBuilder(
-      animation: controller,
+      animation: Listenable.merge([controller, controller.controller]),
       builder: (context, _) {
         final seconds = controller.duration.inSeconds;
         final secondsLabel = l10n.looperSeconds(seconds);
@@ -89,30 +103,61 @@ class LooperSheet extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: AppSpacing.md),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: OutlinedButton.icon(
-                            key: const ValueKey('looperSetAButton'),
-                            onPressed: controller.setAFromCurrent,
-                            icon: Icon(controller.a == null
-                                ? Icons.looks_one_outlined
-                                : Icons.check_circle_rounded),
-                            label: Text(l10n.looperSetA),
+                    if (controller.hasTrajectoryPoints)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                        child: Text(
+                          l10n.looperRandomUnavailableTrajectory,
+                          style: AppTypography.bodySmall.copyWith(
+                            color: AppColors.textSecondary,
                           ),
                         ),
-                        const SizedBox(width: AppSpacing.sm),
-                        Expanded(
-                          child: OutlinedButton.icon(
-                            key: const ValueKey('looperSetBButton'),
-                            onPressed: controller.a == null
-                                ? null
-                                : controller.setBFromCurrent,
-                            icon: Icon(controller.b == null
-                                ? Icons.looks_two_outlined
-                                : Icons.check_circle_rounded),
-                            label: Text(l10n.looperSetB),
-                          ),
+                      ),
+                    Wrap(
+                      spacing: AppSpacing.sm,
+                      runSpacing: AppSpacing.sm,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        OutlinedButton.icon(
+                          key: const ValueKey('looperSetAButton'),
+                          onPressed: controller.setAFromCurrent,
+                          icon: Icon(controller.a == null
+                              ? Icons.looks_one_outlined
+                              : Icons.check_circle_rounded),
+                          label: Text(l10n.looperSetA),
+                        ),
+                        IconButton(
+                          key: const ValueKey('looperRandomizeAButton'),
+                          tooltip: l10n.looperRandomizePoint('A'),
+                          constraints:
+                              const BoxConstraints(minWidth: 48, minHeight: 48),
+                          onPressed:
+                              isExporting || !controller.canRandomizePoints
+                                  ? null
+                                  : () => _randomize(context, 0),
+                          icon: const Icon(Icons.casino_outlined),
+                        ),
+                        OutlinedButton.icon(
+                          key: const ValueKey('looperSetBButton'),
+                          onPressed: controller.a == null
+                              ? null
+                              : controller.setBFromCurrent,
+                          icon: Icon(controller.b == null
+                              ? Icons.looks_two_outlined
+                              : Icons.check_circle_rounded),
+                          label: Text(l10n.looperSetB),
+                        ),
+                        IconButton(
+                          key: const ValueKey('looperRandomizeBButton'),
+                          tooltip: l10n.looperRandomizePoint('B'),
+                          constraints:
+                              const BoxConstraints(minWidth: 48, minHeight: 48),
+                          onPressed: isExporting ||
+                                  controller.a == null ||
+                                  !controller.canRandomizePoints
+                              ? null
+                              : () => _randomize(context, 1),
+                          icon: const Icon(Icons.casino_outlined),
                         ),
                       ],
                     ),
@@ -134,6 +179,19 @@ class LooperSheet extends StatelessWidget {
                             onPressed: () => controller.setPointFromCurrent(i),
                             onDeleted: () => controller.removePoint(i),
                           ),
+                        for (var i = 2; i < controller.points.length; i++)
+                          IconButton(
+                            key: ValueKey('looperRandomizePoint$i'),
+                            tooltip: l10n.looperRandomizePoint(
+                                LooperController.labelForIndex(i)),
+                            constraints: const BoxConstraints(
+                                minWidth: 48, minHeight: 48),
+                            onPressed:
+                                isExporting || !controller.canRandomizePoints
+                                    ? null
+                                    : () => _randomize(context, i),
+                            icon: const Icon(Icons.casino_outlined),
+                          ),
                         if (controller.points.length >= 2)
                           ActionChip(
                             key: const ValueKey('looperAddPointButton'),
@@ -145,6 +203,24 @@ class LooperSheet extends StatelessWidget {
                           ),
                       ],
                     ),
+                    if (controller.canLoop)
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton.icon(
+                          key: const ValueKey('looperAddRandomPointButton'),
+                          style: OutlinedButton.styleFrom(
+                            minimumSize: const Size(48, 48),
+                          ),
+                          icon: const Icon(Icons.casino_outlined),
+                          label: Text(l10n.looperAddRandomPoint),
+                          onPressed:
+                              isExporting || !controller.canRandomizePoints
+                                  ? null
+                                  : () => _randomize(
+                                      context, controller.points.length,
+                                      append: true),
+                        ),
+                      ),
                     const SizedBox(height: AppSpacing.lg),
                     // Both sides bounded. Unbounded, this row overflowed to the
                     // right from a 1.3x text scale upward — 31px at 1.3x on a

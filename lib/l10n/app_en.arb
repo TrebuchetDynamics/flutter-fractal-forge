@@ -625,6 +625,14 @@
   },
   "looperSetA": "Set A",
   "looperSetB": "Set B",
+  "looperRandomizePoint": "Randomize {label}",
+  "@looperRandomizePoint": {"placeholders": {"label": {}}},
+  "looperPointRandomized": "Camera point {label} randomized. Preview is stopped.",
+  "@looperPointRandomized": {"placeholders": {"label": {}}},
+  "looperPointUnchanged": "Camera point {label} unchanged: unavailable, invalid, or at its bounds.",
+  "@looperPointUnchanged": {"placeholders": {"label": {}}},
+  "looperAddRandomPoint": "Add random point",
+  "looperRandomUnavailableTrajectory": "Random camera points are unavailable while trajectory settings are active.",
   "looperUpdatePoint": "Update {label}",
   "@looperUpdatePoint": {
     "placeholders": {

@@ -2936,6 +2936,36 @@ abstract class AppLocalizations {
   /// **'Set B'**
   String get looperSetB;
 
+  /// No description provided for @looperRandomizePoint.
+  ///
+  /// In en, this message translates to:
+  /// **'Randomize {label}'**
+  String looperRandomizePoint(Object label);
+
+  /// No description provided for @looperPointRandomized.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera point {label} randomized. Preview is stopped.'**
+  String looperPointRandomized(Object label);
+
+  /// No description provided for @looperPointUnchanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera point {label} unchanged: unavailable, invalid, or at its bounds.'**
+  String looperPointUnchanged(Object label);
+
+  /// No description provided for @looperAddRandomPoint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add random point'**
+  String get looperAddRandomPoint;
+
+  /// No description provided for @looperRandomUnavailableTrajectory.
+  ///
+  /// In en, this message translates to:
+  /// **'Random camera points are unavailable while trajectory settings are active.'**
+  String get looperRandomUnavailableTrajectory;
+
   /// No description provided for @looperUpdatePoint.
   ///
   /// In en, this message translates to:

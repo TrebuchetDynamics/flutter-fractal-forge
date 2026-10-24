@@ -619,6 +619,14 @@
   },
   "looperSetA": "Fijar A",
   "looperSetB": "Fijar B",
+  "looperRandomizePoint": "Aleatorizar {label}",
+  "@looperRandomizePoint": {"placeholders": {"label": {}}},
+  "looperPointRandomized": "Punto de cámara {label} aleatorizado. Previsualización detenida.",
+  "@looperPointRandomized": {"placeholders": {"label": {}}},
+  "looperPointUnchanged": "Punto de cámara {label} sin cambios: no disponible, no válido o en sus límites.",
+  "@looperPointUnchanged": {"placeholders": {"label": {}}},
+  "looperAddRandomPoint": "Añadir punto aleatorio",
+  "looperRandomUnavailableTrajectory": "Los puntos de cámara aleatorios no están disponibles con ajustes de trayectoria activos.",
   "looperUpdatePoint": "Actualizar {label}",
   "@looperUpdatePoint": {
     "placeholders": {

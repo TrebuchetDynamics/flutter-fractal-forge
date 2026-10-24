@@ -7,6 +7,7 @@ import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/controllers/params/fractal_param_value_normalizer.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
+import 'looper_camera_sampler.dart';
 import 'package:vector_math/vector_math_64.dart';
 
 @immutable
@@ -205,13 +206,13 @@ class LooperPlan {
 
 class LooperController extends ChangeNotifier {
   final FractalController controller;
+  final bool Function()? exportIsBusy;
   final List<LooperPoint> _points = [];
   Duration _duration = const Duration(seconds: 6);
   Timer? _timer;
-  DateTime? _startedAt;
   late String _moduleId;
 
-  LooperController({required this.controller}) {
+  LooperController({required this.controller, this.exportIsBusy}) {
     _moduleId = controller.module.id;
     controller.addListener(_resetIfModuleChanged);
   }
@@ -240,6 +241,68 @@ class LooperController extends ChangeNotifier {
   void addPointFromCurrent() {
     _points.add(LooperPoint.fromController(controller));
     notifyListeners();
+  }
+
+  bool _isExporting = false;
+  bool _disposed = false;
+
+  bool get hasTrajectoryPoints =>
+      controller.view.trajectory != null ||
+      _points.any((point) => point.view.trajectory != null);
+
+  bool get canRandomizePoints =>
+      !_isExporting && !(exportIsBusy?.call() ?? false) && !hasTrajectoryPoints;
+
+  void setExporting(bool value) {
+    if (_disposed || _isExporting == value) return;
+    _isExporting = value;
+    notifyListeners();
+  }
+
+  bool randomizePoint(int index, {math.Random? random}) {
+    // Only A/B may be created this way; optional points require explicit Add.
+    if (!canRandomizePoints ||
+        index < 0 ||
+        index > _points.length ||
+        (index == _points.length && index > 1)) return false;
+    final anchor = index < _points.length
+        ? _points[index]
+        : _points.isEmpty
+            ? LooperPoint.fromController(controller)
+            : _points.last;
+    return _commitRandomPoint(index, anchor, random ?? math.Random());
+  }
+
+  bool addRandomPoint({math.Random? random}) {
+    if (!canRandomizePoints || !canLoop) return false;
+    return _commitRandomPoint(
+        _points.length, _points.last, random ?? math.Random());
+  }
+
+  bool _commitRandomPoint(int index, LooperPoint anchor, math.Random random) {
+    final sampled = sampleLooperCamera(
+        module: controller.module, anchor: anchor.view, random: random);
+    if (sampled == null) return false;
+    final before = anchor.pose;
+    final after = LooperPose.fromView(sampled);
+    if (before.x == after.x &&
+        before.y == after.y &&
+        before.z == after.z &&
+        before.rotationX == after.rotationX &&
+        before.rotationY == after.rotationY &&
+        before.rotationZ == after.rotationZ) return false;
+
+    // Commit once. Rejected/no-change samples never stop an active preview.
+    _timer?.cancel();
+    _timer = null;
+    final point = LooperPoint(view: sampled, params: anchor.params);
+    if (index == _points.length) {
+      _points.add(point);
+    } else {
+      _points[index] = point;
+    }
+    notifyListeners();
+    return true;
   }
 
   void setPointFromCurrent(int index) {
@@ -272,15 +335,13 @@ class LooperController extends ChangeNotifier {
 
   void play() {
     if (!canLoop || isPlaying) return;
-    _startedAt = DateTime.now();
-    _timer = Timer.periodic(const Duration(milliseconds: 33), (_) => _tick());
+    _timer = Timer.periodic(const Duration(milliseconds: 33), _tick);
     notifyListeners();
   }
 
   void stop() {
     _timer?.cancel();
     _timer = null;
-    _startedAt = null;
     notifyListeners();
   }
 
@@ -291,16 +352,16 @@ class LooperController extends ChangeNotifier {
     _points.clear();
     _timer?.cancel();
     _timer = null;
-    _startedAt = null;
     notifyListeners();
   }
 
-  void _tick() {
+  void _tick(Timer timer) {
     final plan = this.plan;
-    final startedAt = _startedAt;
-    if (plan == null || startedAt == null) return;
+    if (plan == null) return;
 
-    final elapsed = DateTime.now().difference(startedAt).inMilliseconds;
+    // Timer.tick includes missed intervals, without coupling preview to the
+    // adjustable wall clock. Preview and export sample the same stored plan.
+    final elapsed = timer.tick * 33;
     final durationMs = plan.duration.inMilliseconds;
     final point = plan.stateAtPhase((elapsed % durationMs) / durationMs);
     controller.loadState(
@@ -312,6 +373,7 @@ class LooperController extends ChangeNotifier {
 
   @override
   void dispose() {
+    _disposed = true;
     controller.removeListener(_resetIfModuleChanged);
     stop();
     super.dispose();

@@ -23,6 +23,8 @@ import 'package:flutter_fractals/core/services/storage/viewer_session_store.dart
 import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
+import 'package:flutter_fractals/features/looper/looper_sheet.dart';
+import 'package:flutter_fractals/features/looper/looper_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
@@ -32,6 +34,22 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../a11y/shared/permission_test_harness.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector2, Vector3;
 
+Uint8List _cameraBytes(FractalViewState view) {
+  final bytes = ByteData(48);
+  final values = [
+    view.pan.x,
+    view.pan.y,
+    view.zoom,
+    view.rotation.x,
+    view.rotation.y,
+    view.rotation.z
+  ];
+  for (var i = 0; i < values.length; i++) {
+    bytes.setFloat64(i * 8, values[i]);
+  }
+  return bytes.buffer.asUint8List();
+}
+
 class _LooperExportService extends ExportService {
   _LooperExportService({
     this.pickerDelay = Duration.zero,
@@ -40,6 +58,8 @@ class _LooperExportService extends ExportService {
     this.shareThrows = false,
     this.captureWidth = 2,
     this.captureHeight = 2,
+    this.cameraController,
+    this.onCapture,
   });
 
   final Duration pickerDelay;
@@ -48,6 +68,9 @@ class _LooperExportService extends ExportService {
   final bool shareThrows;
   final int captureWidth;
   final int captureHeight;
+  final FractalController? cameraController;
+  final VoidCallback? onCapture;
+  final List<FractalViewState> capturedCameraViews = [];
   int saveCalls = 0;
   int pickerCalls = 0;
   Uint8List? savedBytes;
@@ -65,9 +88,26 @@ class _LooperExportService extends ExportService {
   Future<Uint8List> capturePng(
     GlobalKey key, {
     double pixelRatio = 1.0,
-  }) async =>
-      Uint8List.fromList(
-          img.encodePng(img.Image(width: captureWidth, height: captureHeight)));
+  }) async {
+    onCapture?.call();
+    final camera = cameraController;
+    final capturedView = camera?.view;
+    if (capturedView != null) capturedCameraViews.add(capturedView);
+    final image = camera == null
+        ? img.Image(width: captureWidth, height: captureHeight)
+        : img.Image(width: 16, height: 24);
+    if (capturedView != null) {
+      // A lossless binary camera fingerprint: six float64 values, 384 pixels.
+      // This tests the real encoder, not production GPU pixel fidelity.
+      final bytes = _cameraBytes(capturedView);
+      for (var bit = 0; bit < bytes.length * 8; bit++) {
+        final value = (bytes[bit ~/ 8] >> (bit % 8)) & 1;
+        image.setPixelRgb(
+            bit % 16, bit ~/ 16, value * 255, value * 255, value * 255);
+      }
+    }
+    return Uint8List.fromList(img.encodePng(image));
+  }
 
   @override
   Future<File> saveBytes(Uint8List bytes, {required String filename}) async {
@@ -1753,6 +1793,98 @@ void main() {
       }
       return zoomAtExport;
     }
+
+    testWidgets(
+        'random looper points preview and export the exact captured plan frames',
+        (tester) async {
+      late LooperController looper;
+      final exportService = _LooperExportService(
+        cameraController: controller,
+        onCapture: () {
+          expect(looper.canRandomizePoints, isFalse);
+          expect(looper.randomizePoint(0), isFalse);
+          expect(looper.addRandomPoint(), isFalse);
+        },
+      );
+      await tester.pumpWidget(buildTestWidget(exportService: exportService));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('viewerLooperFab')));
+      await tester.pumpAndSettle();
+
+      looper = tester.widget<LooperSheet>(find.byType(LooperSheet)).controller;
+      final viewerBeforeA = controller.view;
+      await tester.tap(find.byKey(const ValueKey('looperRandomizeAButton')));
+      await tester.pump();
+      expect(looper.points, hasLength(1));
+      expect(controller.view.zoom, viewerBeforeA.zoom);
+      expect(controller.view.pan.x, viewerBeforeA.pan.x);
+      expect(controller.view.pan.y, viewerBeforeA.pan.y);
+
+      await tester.tap(find.byKey(const ValueKey('looperRandomizeBButton')));
+      await tester.pump();
+      await tester
+          .tap(find.byKey(const ValueKey('looperAddRandomPointButton')));
+      await tester.pump();
+
+      final plan = looper.plan!;
+      final generatedPoints = List.of(looper.points);
+      expect(generatedPoints, hasLength(3));
+      expect(looper.duration, plan.duration);
+      for (var i = 0; i < generatedPoints.length; i++) {
+        expect(plan.points[i], same(generatedPoints[i]));
+      }
+      await tester.tap(find.byKey(const ValueKey('looperPreviewButton')));
+      await tester.pump(const Duration(milliseconds: 330));
+      expect(looper.isPlaying, isTrue);
+      expect(_cameraBytes(controller.view),
+          _cameraBytes(plan.stateAtPhase(330 / 6000).view));
+      for (var i = 0; i < generatedPoints.length; i++) {
+        expect(looper.points[i], same(generatedPoints[i]));
+      }
+      await tester.tap(find.byKey(const ValueKey('looperPreviewButton')));
+      await tester.pump();
+
+      await tester.tap(find.byKey(const ValueKey('looperExportGifButton')));
+      await tester.pumpAndSettle();
+      for (var attempt = 0;
+          attempt < 100 && exportService.coordinator.isBusy;
+          attempt++) {
+        await tester.runAsync(
+          () => Future<void>.delayed(const Duration(milliseconds: 10)),
+        );
+        await tester.pump();
+      }
+      await tester.pumpAndSettle();
+
+      expect(exportService.coordinator.isBusy, isFalse);
+      expect(exportService.capturedCameraViews, hasLength(plan.frameCount));
+      for (var i = 0; i < plan.frameCount; i++) {
+        final expected = plan.stateAtFrame(i).view;
+        final captured = exportService.capturedCameraViews[i];
+        expect(captured.zoom, closeTo(expected.zoom, 1e-9), reason: 'frame $i');
+        expect(captured.pan.x, closeTo(expected.pan.x, 1e-9),
+            reason: 'frame $i');
+        expect(captured.pan.y, closeTo(expected.pan.y, 1e-9),
+            reason: 'frame $i');
+      }
+      final gif = img.decodeGif(exportService.savedBytes!)!;
+      expect(gif.numFrames, 48);
+      expect(gif.width, 16);
+      expect(gif.height, 24);
+      for (var i = 0; i < gif.numFrames; i++) {
+        final decoded = Uint8List(48);
+        for (var bit = 0; bit < 384; bit++) {
+          final pixel = gif.frames[i].getPixel(bit % 16, bit ~/ 16);
+          expect(pixel.r.toInt(), anyOf(0, 255));
+          if (pixel.r == 255) decoded[bit ~/ 8] |= 1 << (bit % 8);
+        }
+        expect(decoded, _cameraBytes(plan.stateAtFrame(i).view),
+            reason: 'decoded camera bits of GIF frame $i');
+        expect(_cameraBytes(exportService.capturedCameraViews[i]), decoded);
+        expect(gif.frames[i].frameDuration, 120);
+      }
+      historyProvider.cancelPendingRecord();
+    });
 
     testWidgets(
         'looper export localizes feedback and shares the pre-export view',
