@@ -81,6 +81,24 @@ void main() {
       expect(afterDismiss.resumeAutoExploreWhenFinished, isTrue);
     });
 
+    test('visibility loss revokes resume without disturbing the export', () {
+      final sheet = const ViewerExportSession().openSheet(
+        resumeAutoExploreWhenFinished: true,
+      );
+      for (final session in [sheet, sheet.startExport().updateProgress(0.5)]) {
+        final suspended = session.withoutAutoExploreResume();
+        expect(suspended.resumeAutoExploreWhenFinished, isFalse);
+        expect(suspended.phase, session.phase);
+        expect(suspended.progress, session.progress);
+        expect(suspended.freezeFrame, isTrue);
+        expect(
+          suspended.startExport().resumeAutoExploreWhenFinished,
+          isFalse,
+        );
+        expect(suspended.finish().resumeAutoExploreWhenFinished, isFalse);
+      }
+    });
+
     test('finish resets the session back to idle', () {
       final finished = const ViewerExportSession()
           .openSheet(resumeAutoExploreWhenFinished: true)

@@ -25,6 +25,8 @@ class AutoExploreService extends ChangeNotifier {
     config: config,
   );
 
+  bool _appVisible = true;
+  bool _disposed = false;
   bool _isExploring = false;
   bool _isPaused = false;
   bool _pausedByUserCorrection = false;
@@ -70,7 +72,23 @@ class AutoExploreService extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Losing visibility makes any armed playback durably paused, including a
+  /// gesture yield. Returning to the foreground never restarts motion; only a
+  /// visible start/resume can do that.
+  void setAppVisible(bool visible) {
+    if (_disposed || _appVisible == visible) return;
+    _appVisible = visible;
+    if (!visible) {
+      if (_isExploring && !_isPaused) {
+        pause();
+      } else {
+        _cancelScheduledMotion();
+      }
+    }
+  }
+
   void start() {
+    if (_disposed || !_appVisible) return;
     if (_isExploring && !_isPaused) return;
 
     _isExploring = true;
@@ -97,6 +115,7 @@ class AutoExploreService extends ChangeNotifier {
   }
 
   void resume() {
+    if (_disposed || !_appVisible) return;
     if (!_isExploring) {
       start();
       return;
@@ -348,6 +367,7 @@ class AutoExploreService extends ChangeNotifier {
 
   @override
   void dispose() {
+    _disposed = true;
     controller.removeListener(_handleControllerChanged);
     _transitionToStopped(notify: false);
     super.dispose();

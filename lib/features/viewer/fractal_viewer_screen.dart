@@ -260,6 +260,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
 
   String? _lastBackendDecisionLogged;
   Timer? _backendDebounceTimer;
+  @override
   bool _appVisible = true;
   ViewerSessionStore? _viewerSessionStore;
   bool _viewerSessionRestored = false;
@@ -288,6 +289,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   @override
   void initState() {
     super.initState();
+    final lifecycle = WidgetsBinding.instance.lifecycleState;
+    _appVisible = lifecycle == null || lifecycle == AppLifecycleState.resumed;
     WidgetsBinding.instance.addObserver(this);
     if (widget.captureMode) {
       // Open chrome-free: hide chips/banners/FAB column for clean stills.
@@ -327,12 +330,16 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     }
     final visible = state == AppLifecycleState.resumed;
     if (_appVisible == visible) return;
+    _autoExploreService?.setAppVisible(visible);
     if (!visible) {
       _fourierCaptureTimer?.cancel();
       _fourierCaptureTimer = null;
     }
     setState(() {
       _appVisible = visible;
+      if (!visible) {
+        _exportSession = _exportSession.withoutAutoExploreResume();
+      }
     });
     if (visible && _fourierEnabled && _fourierController != null) {
       _startFourierCaptureTimer();
@@ -389,7 +396,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
 
       // Initialize auto-explore service
       _autoExploreService?.dispose();
-      _autoExploreService = AutoExploreService(controller: controller);
+      _autoExploreService = AutoExploreService(controller: controller)
+        ..setAppVisible(_appVisible);
       _looperController?.dispose();
       _looperController = LooperController(
         controller: controller,

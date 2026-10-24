@@ -23,6 +23,8 @@ import 'package:flutter_fractals/core/services/storage/viewer_session_store.dart
 import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
+import 'package:flutter_fractals/features/auto_explore/auto_explore_controls.dart';
+import 'package:flutter_fractals/features/auto_explore/auto_explore_service.dart';
 import 'package:flutter_fractals/features/looper/looper_sheet.dart';
 import 'package:flutter_fractals/features/looper/looper_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -1143,6 +1145,132 @@ void main() {
             ),
         isFalse,
       );
+    });
+
+    testWidgets('hidden auto-explore waits for explicit visible Resume',
+        (tester) async {
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+      await tester.pumpWidget(buildTestWidget());
+      // Build the initial hidden viewer without enabling normal app frames.
+      tester.binding.scheduleForcedFrame();
+      await tester.pumpAndSettle();
+      final button = find.byKey(const ValueKey('viewerAutoExploreButton'));
+      final service = tester
+          .element(find.byType(AutoExploreButton))
+          .read<AutoExploreService>();
+      service.start();
+      service.resume();
+      await tester.pump(const Duration(milliseconds: 32));
+      expect(service.isExploring, isFalse);
+      expect(service.debugHasPendingAnimation, isFalse);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      await tester.pumpAndSettle();
+      expect(service.isExploring, isFalse);
+      service.speed = 2;
+      await tester.tap(button);
+      await tester.pump(const Duration(milliseconds: 32));
+      expect(service.debugHasPendingAnimation, isTrue);
+
+      var writes = 0;
+      controller.addListener(() => writes++);
+      final view = controller.view;
+      for (final state in [
+        AppLifecycleState.inactive,
+        AppLifecycleState.hidden,
+        AppLifecycleState.paused,
+        AppLifecycleState.detached,
+      ]) {
+        tester.binding.handleAppLifecycleStateChanged(state);
+        await tester.pump(const Duration(seconds: 1));
+        expect(_cameraBytes(controller.view), _cameraBytes(view));
+        expect(writes, 0, reason: 'auto-explore wrote while $state');
+        expect(service.debugHasPendingAnimation, isFalse);
+      }
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      await tester.pump(const Duration(seconds: 1));
+      expect(writes, 0);
+      expect(service.isPaused, isTrue);
+      expect(service.speed, 2);
+
+      await tester.tap(button);
+      await tester.pump(const Duration(milliseconds: 32));
+      expect(writes, greaterThan(0));
+      expect(service.isPaused, isFalse);
+      await tester.pumpWidget(const SizedBox.shrink());
+      final writesAtDisposal = writes;
+      await tester.pump(const Duration(seconds: 1));
+      expect(writes, writesAtDisposal);
+      expect(service.debugHasPendingAnimation, isFalse);
+    });
+
+    testWidgets(
+        'exports resume only while they retain visible playback ownership',
+        (tester) async {
+      // Export completion awaits native haptics; resolve that platform boundary.
+      tester.binding.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, (_) async => null);
+      addTearDown(() => tester.binding.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, null));
+      for (final visibility in ['hidden', 'returned', 'visible']) {
+        tester.binding
+            .handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+        final exportService =
+            _BlockingPublicationExportService(ExportCoordinator());
+        await tester.pumpWidget(buildTestWidget(exportService: exportService));
+        await tester.pumpAndSettle();
+        final button = find.byKey(const ValueKey('viewerAutoExploreButton'));
+        final service = tester.element(button).read<AutoExploreService>();
+        await tester.tap(button);
+        await tester.pump(const Duration(milliseconds: 32));
+        await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 300));
+        await tester.tap(find.text('Export'));
+        final view = _cameraBytes(controller.view);
+        await tester.pumpAndSettle();
+        await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
+        await tester.pump();
+        await exportService.publicationStarted.future;
+        var writes = 0;
+        void recordWrite() => writes++;
+        controller.addListener(recordWrite);
+
+        if (visibility != 'visible') {
+          tester.binding
+              .handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+        }
+        if (visibility == 'returned') {
+          tester.binding
+              .handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+        }
+        exportService.releasePublication.complete();
+        for (var frame = 0; frame < 5; frame++) {
+          await tester.pump(const Duration(milliseconds: 200));
+        }
+        expect(exportService.coordinator.isBusy, isFalse);
+        if (visibility == 'visible') {
+          expect(writes, greaterThan(0));
+          expect(service.isPaused, isFalse);
+        } else {
+          expect(writes, 0, reason: visibility);
+          expect(_cameraBytes(controller.view), view);
+          expect(service.isPaused, isTrue);
+          tester.binding
+              .handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+          await tester.pumpAndSettle();
+          expect(find.textContaining('Export saved'), findsOneWidget);
+          // Let the saved-image snackbar clear the bottom viewer controls.
+          await tester.pump(const Duration(seconds: 5));
+          await tester.pumpAndSettle();
+          expect(writes, 0);
+          await tester.tap(button);
+          await tester.pump(const Duration(milliseconds: 32));
+          expect(writes, greaterThan(0));
+        }
+        controller.removeListener(recordWrite);
+        await tester.pumpWidget(const SizedBox.shrink());
+        await tester.pump(const Duration(seconds: 1));
+      }
     });
 
     testWidgets('primary viewer actions expose explicit semantic and tab order',
