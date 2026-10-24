@@ -22,23 +22,31 @@ const persistedViewerSession = JSON.stringify({
   viewerActive: true,
 });
 
-test('explicit smoke module wins over an active persisted viewer session', async ({ page, baseURL }) => {
+test('restores the active saved viewer session on launch', async ({ page, baseURL }) => {
   await page.addInitScript((value) => {
     localStorage.setItem('flutter.viewer_session_v1', JSON.stringify(value));
   }, persistedViewerSession);
 
-  const opened = page.waitForEvent('console', {
-    predicate: (message) => message.text().includes('PLAYWRIGHT_CATALOG_SMOKE_OPENED:mandelbrot'),
-    timeout: 30_000,
-  });
-  const firstFrame = page.waitForEvent('console', {
-    predicate: (message) => message.text().includes('PLAYWRIGHT_CATALOG_SMOKE_FIRST_FRAME:mandelbrot'),
-    timeout: 30_000,
-  });
-  await page.goto(new URL('/?smokeModule=mandelbrot', baseURL).toString(), {
+  await page.goto(new URL('/', baseURL).toString(), {
     waitUntil: 'domcontentloaded',
   });
+  const enableAccessibility = page.getByRole('button', {
+    name: /enable accessibility/i,
+  });
+  await expect(enableAccessibility).toBeVisible();
+  await page.evaluate(() =>
+    document.querySelector('flt-semantics-placeholder')?.click(),
+  );
+  await expect(enableAccessibility).toBeHidden();
 
-  await Promise.all([opened, firstFrame]);
-  await expect(page.locator('canvas').first()).toBeVisible();
+  await expect(page.getByRole('button', { name: /back to catalog/i }))
+    .toBeVisible({ timeout: 30_000 });
+  await expect(page.getByText(/Newton Fractal/)).toBeVisible({ timeout: 30_000 });
+  await expect(page.locator('canvas').first()).toBeVisible({ timeout: 30_000 });
+  const restoredSession = await page.evaluate(() => {
+    const stored = localStorage.getItem('flutter.viewer_session_v1');
+    return stored == null ? null : JSON.parse(JSON.parse(stored));
+  });
+  expect(restoredSession.moduleId).toBe('newton_z3');
+  expect(restoredSession.viewerActive).toBe(true);
 });

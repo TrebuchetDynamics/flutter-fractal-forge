@@ -34,6 +34,7 @@ class ReleasePlatformLanesTest(unittest.TestCase):
             env.pop("GITLAB_CI", None)
             marker = temp / "gitlab-env"
             env.update(PATH=str(fake_bin) + os.pathsep + env.get("PATH", ""), FLUTTER_BIN=str(flutter),
+                       RELEASE_ARTIFACT_DIR=str(temp / "failed-artifacts"),
                        RELEASE_CAMPAIGN_FILE=str(campaign_path), FAKE_GITLAB_MARKER=str(marker), GITLAB_CI="true")
             result = subprocess.run(
                 [str(ROOT / "release.sh"), "--best-effort", "--prepare=1.1.108", "--build-number=108"],
@@ -51,6 +52,9 @@ class ReleasePlatformLanesTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             temp = Path(directory)
             artifact_dir = temp / "artifacts"
+            stale_gate_log = artifact_dir / "stage-logs" / "shared-gate.json"
+            stale_gate_log.parent.mkdir(parents=True)
+            stale_gate_log.write_text(json.dumps({"status": "failed", "stderr": "sandbox-common-gate-failure"}))
             campaign_path = temp / "campaign.json"
             fake_bin = temp / "bin"
             fake_bin.mkdir()
@@ -102,6 +106,12 @@ class ReleasePlatformLanesTest(unittest.TestCase):
             self.assertEqual([item["name"] for item in manifest["artifacts"]],
                              ["fractal-forge-web-v1.1.108.tar.gz"])
             self.assertEqual(campaign["lanes"]["web"]["checks"]["browser_journey"]["verdict"], "passed")
+            self.assertNotIn(str(stale_gate_log), campaign["shared_stage_logs"])
+            self.assertNotEqual(campaign["stage_log_directory"], str(stale_gate_log.parent))
+            lane_logs = campaign["lanes"]["web"]["stage_logs"]
+            self.assertTrue(lane_logs)
+            self.assertTrue(all(Path(path).parent == Path(campaign["stage_log_directory"])
+                                for path in lane_logs))
 
     def test_web_archive_inventory_uses_regular_members_and_rejects_tampering(self):
         identity = {"version": "1.1.108", "build_number": "108", "commit": "a" * 40}
@@ -408,7 +418,7 @@ class ReleasePlatformLanesTest(unittest.TestCase):
     def test_linux_native_qualification_binds_journey_and_png_export_to_candidate(self):
         identity = {"version": "1.1.108", "build_number": "108", "commit": "a" * 40}
         artifact = {"name": "linux.tar.gz", "path": "/sandbox/linux.tar.gz", "sha256": "f" * 64}
-        completed = subprocess.CompletedProcess([], 0, stdout="journey and decoded PNG passed", stderr="")
+        completed = subprocess.CompletedProcess([], 0, stdout="full journey and decoded PNG passed", stderr="")
         with mock.patch.object(LANES.platform, "system", return_value="Linux"), \
              mock.patch.object(LANES.subprocess, "run", return_value=completed) as run:
             checks = LANES.run_native_qualification("linux", identity, [artifact])
@@ -422,6 +432,49 @@ class ReleasePlatformLanesTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "required qualification is not verified"):
             LANES._validate_gate_receipts("linux", identity,
                                          {"checks": checks, "artifacts": [artifact]})
+
+    def test_linux_native_journey_timeout_is_a_failed_receipt_with_a_log(self):
+        identity = {"version": "1.1.108", "build_number": "108", "commit": "a" * 40}
+        artifact = {"name": "linux.tar.gz", "path": "/sandbox/linux.tar.gz", "sha256": "f" * 64}
+        with (
+            tempfile.TemporaryDirectory() as directory,
+            mock.patch.object(LANES.platform, "system", return_value="Linux"),
+            mock.patch.object(LANES.subprocess, "run", side_effect=subprocess.TimeoutExpired("flutter test", 3600)),
+        ):
+            checks = LANES.run_native_qualification("linux", identity, [artifact], Path(directory))
+            log = json.loads((Path(directory) / "linux-native-journey.json").read_text())
+        self.assertTrue(all(check["verdict"] == "failed" for check in checks.values()))
+        self.assertEqual(log["status"], "timeout")
+        self.assertIn("timed out", log["reason"])
+
+    def test_evidence_timeout_retains_partial_stage_output(self):
+        campaign = {"identity": {"version": "1.1.108", "build_number": "108", "commit": "a" * 40},
+                    "lanes": {"web": {"status": "verified", "artifacts": []}}}
+        for stage in ("evidence-generation", "evidence-verification"):
+            with self.subTest(stage=stage), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                timeout = subprocess.TimeoutExpired("evidence", 600, output=b"partial output")
+                results = ([subprocess.CompletedProcess([], 0, stdout="", stderr="")]
+                           if stage == "evidence-verification" else []) + [timeout]
+                with mock.patch.object(LANES.subprocess, "run", side_effect=results):
+                    with self.assertRaises(subprocess.TimeoutExpired):
+                        LANES._generate_subset_evidence(root / "campaign.json", root, campaign, root / "logs")
+                log = json.loads((root / "logs" / f"{stage}.json").read_text())
+                self.assertEqual(log["status"], "timeout")
+                self.assertIn("partial output", log["stdout"])
+
+    def test_release_stage_log_preserves_command_exit_and_complete_output(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = LANES._write_stage_log(
+                Path(directory), "linux-native-journey",
+                ["flutter", "test", "integration_test/flows/user_flows_test.dart"],
+                status="passed", returncode=0, stdout="12 passed, 1 skipped\n", stderr="",
+            )
+            contents = path.read_text()
+        self.assertIn('"returncode": 0', contents)
+        self.assertIn('"status": "passed"', contents)
+        self.assertIn("12 passed, 1 skipped", contents)
+
 
     def test_play_readback_requires_track_and_remote_bundle_hash_using_command_doubles(self):
         with tempfile.TemporaryDirectory() as directory:

@@ -40,6 +40,26 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _write_stage_log(log_dir: Path | None, name: str, command: list[str] | str | None, *,
+                     status: str, returncode: int | None = None, stdout: str = "",
+                     stderr: str = "", reason: str | None = None,
+                     elapsed_seconds: float | None = None) -> Path | None:
+    if log_dir is None:
+        return None
+    log_dir.mkdir(parents=True, exist_ok=True)
+    path = log_dir / f"{name}.json"
+    path.write_text(json.dumps({
+        "command": command,
+        "status": status,
+        "returncode": returncode,
+        "elapsed_seconds": elapsed_seconds,
+        "reason": reason,
+        "stdout": stdout,
+        "stderr": stderr,
+    }, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return path
+
+
 def _git(*arguments: str) -> str:
     return subprocess.check_output(["git", *arguments], cwd=ROOT, text=True).strip()
 
@@ -59,7 +79,7 @@ def frozen_identity(version: str, build_number: str) -> dict[str, str]:
             "flutter_version": (ROOT / "fdroid/flutter.version").read_text().strip()}
 
 
-def common_gate(identity: dict[str, str]) -> dict[str, str]:
+def common_gate(identity: dict[str, str], stage_log_dir: Path | None = None) -> dict[str, str]:
     required_privacy = (
         "Effective date: 2026-08-09",
         "does not include advertising, remote analytics, behavioral tracking, or a remote crash-reporting SDK",
@@ -68,23 +88,49 @@ def common_gate(identity: dict[str, str]) -> dict[str, str]:
         "repository issue tracker",
     )
     privacy = ROOT / "web/privacy-policy.html"
-    if not privacy.is_file() or any(item not in privacy.read_text(errors="replace") for item in required_privacy):
+    privacy_text = privacy.read_text(errors="replace") if privacy.is_file() else ""
+    missing_privacy = [item for item in required_privacy if item not in privacy_text]
+    _write_stage_log(stage_log_dir, "privacy-policy", "required privacy-policy text checks",
+                     status="passed" if not missing_privacy else "failed",
+                     returncode=0 if not missing_privacy else 1,
+                     stdout=json.dumps({"path": str(privacy), "required": list(required_privacy),
+                                        "missing": missing_privacy}, sort_keys=True))
+    if missing_privacy:
         raise RuntimeError("shared privacy-policy gate failed")
-    if identity["commit"] != _git("rev-parse", "HEAD"):
+    current_commit = _git("rev-parse", "HEAD")
+    current_identity = frozen_identity(identity["version"], identity["build_number"])
+    source_matches = identity["commit"] == current_commit and current_identity == identity
+    _write_stage_log(stage_log_dir, "source-integrity", "git source and frozen version/SDK/lock identity",
+                     status="passed" if source_matches else "failed",
+                     returncode=0 if source_matches else 1,
+                     stdout=json.dumps({"expected": identity, "commit": current_commit,
+                                        "observed": current_identity}, sort_keys=True))
+    if identity["commit"] != current_commit:
         raise RuntimeError("frozen source commit changed during campaign")
-    if frozen_identity(identity["version"], identity["build_number"]) != identity:
+    if current_identity != identity:
         raise RuntimeError("frozen source/lock identity changed during campaign")
     flutter = os.environ.get("FLUTTER_BIN", "flutter")
     results = {}
     for check, arguments in (("flutter_analyze", ["analyze", "--no-pub"]),
                              ("flutter_host_tests", ["test", "--no-pub"])):
+        command = [flutter, *arguments]
+        started = time.monotonic()
         try:
-            run = subprocess.run([flutter, *arguments], cwd=ROOT, env=_lane_environment("common"),
+            run = subprocess.run(command, cwd=ROOT, env=_lane_environment("common"),
                                  text=True, capture_output=True, timeout=1800)
         except (OSError, subprocess.SubprocessError) as error:
+            _write_stage_log(stage_log_dir, check, command,
+                             status="timeout" if isinstance(error, subprocess.TimeoutExpired) else "unavailable",
+                             stdout=str(getattr(error, "stdout", "") or ""),
+                             stderr=str(getattr(error, "stderr", "") or ""), reason=str(error),
+                             elapsed_seconds=time.monotonic() - started)
             raise RuntimeError(f"shared {check} unavailable: {error}") from error
+        _write_stage_log(stage_log_dir, check, command,
+                         status="passed" if run.returncode == 0 else "failed",
+                         returncode=run.returncode, stdout=run.stdout, stderr=run.stderr,
+                         elapsed_seconds=time.monotonic() - started)
         if run.returncode:
-            raise RuntimeError(f"shared {check} failed: {(run.stderr or run.stdout)[-1000:]}")
+            raise RuntimeError(f"shared {check} failed ({run.returncode}): {(run.stderr or run.stdout)[-1000:]}")
         results[check] = "passed"
     results.update(source_integrity="passed", privacy_policy="passed")
     return results
@@ -116,7 +162,8 @@ def _host_unavailable(lane: str) -> str | None:
 
 
 def run_native_qualification(lane: str, identity: dict[str, str],
-                              artifacts: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+                              artifacts: list[dict[str, Any]],
+                              stage_log_dir: Path | None = None) -> dict[str, dict[str, Any]]:
     if lane not in {"linux", "windows", "macos", "ios"}:
         raise ValueError(f"native qualification does not support lane: {lane}")
     checks = REQUIRED_CHECKS[lane]
@@ -130,22 +177,37 @@ def run_native_qualification(lane: str, identity: dict[str, str],
                 for name, receipt in unknown.items()}
     command = [os.environ.get("FLUTTER_BIN", "flutter"), "test", "integration_test/flows/user_flows_test.dart",
                "-d", "linux", "--dart-define=FORCE_GPU_RENDER=true", "--reporter", "expanded"]
+    started = time.monotonic()
     try:
         result = subprocess.run(command, cwd=ROOT, env=_lane_environment("common"),
                                 capture_output=True, text=True, timeout=3600)
     except (OSError, subprocess.SubprocessError) as error:
-        return {name: {**receipt, "reason": f"native journey/export adapter unavailable: {error}"}
-                for name, receipt in unknown.items()}
+        timed_out = isinstance(error, subprocess.TimeoutExpired)
+        log_path = _write_stage_log(stage_log_dir, "linux-native-journey", command,
+                                    status="timeout" if timed_out else "unavailable",
+                                    reason=str(error),
+                                    stdout=str(getattr(error, "stdout", "") or ""),
+                                    stderr=str(getattr(error, "stderr", "") or ""),
+                                    elapsed_seconds=time.monotonic() - started)
+        return {name: {"check": name, "verdict": "failed" if timed_out else "unknown", **identity,
+                       "reason": f"native journey/export {'timed out' if timed_out else 'unavailable'}: {error}",
+                       "command": command, "stage_log": str(log_path) if log_path else None}
+                for name in checks}
+    output = result.stdout + result.stderr
+    log_path = _write_stage_log(stage_log_dir, "linux-native-journey", command,
+                                status="passed" if result.returncode == 0 else "failed",
+                                returncode=result.returncode, stdout=result.stdout, stderr=result.stderr,
+                                elapsed_seconds=time.monotonic() - started)
     if result.returncode:
         reason = f"native journey/export failed ({result.returncode}): {(result.stderr or result.stdout)[-1200:]}"
         return {name: {"check": name, "verdict": "failed", **identity, "reason": reason,
-                       "command": command} for name in checks}
-    output = result.stdout + result.stderr
+                       "command": command, "stage_log": str(log_path) if log_path else None} for name in checks}
     # A successful command does not supply the still-missing accepted visual evidence.
     reason = ("Full flow command completed, but retained edited-view PNG comparisons, "
               "EN/ES and inspired-entry coverage, and attributable human review remain unverified")
     return {name: {**_passed_check(name, identity, artifacts, " ".join(command), output),
-                   "verdict": "unknown", "reason": reason, "automated_command_exit_code": 0}
+                   "verdict": "unknown", "reason": reason, "automated_command_exit_code": 0,
+                   "stage_log": str(log_path) if log_path else None}
             for name in checks}
 
 
@@ -196,10 +258,13 @@ def verify_artifact_receipts(lane: str, identity: dict[str, str], artifact_dir: 
     return receipts
 
 
-def _produce_lane(lane: str, identity: dict[str, str], artifact_dir: Path) -> dict[str, Any]:
+def _produce_lane(lane: str, identity: dict[str, str], artifact_dir: Path,
+                  stage_log_dir: Path | None = None) -> dict[str, Any]:
     unavailable = _host_unavailable(lane)
     if unavailable:
         raise LookupError(unavailable)
+    log_dir = stage_log_dir or artifact_dir / "stage-logs"
+    logs: list[str] = []
     environment = os.environ.copy()
     environment.pop("GITLAB_CI", None)
     secrets = {"ANDROID_KEYSTORE_BASE64", "ANDROID_KEY_PROPERTIES_FILE", "PLAY_SERVICE_ACCOUNT_JSON",
@@ -210,39 +275,136 @@ def _produce_lane(lane: str, identity: dict[str, str], artifact_dir: Path) -> di
     environment.update(RELEASE_LOCAL_STAGE="1", RELEASE_ARTIFACT_DIR=str(artifact_dir),
                        RELEASE_VERSION=identity["version"], RELEASE_BUILD_NUMBER=identity["build_number"],
                        RELEASE_COMMIT=identity["commit"])
-    result = subprocess.run(_build_command(lane, identity["version"], identity["build_number"]),
-                            cwd=ROOT, env=environment, text=True, capture_output=True, timeout=3600)
+    build_command = _build_command(lane, identity["version"], identity["build_number"])
+    started = time.monotonic()
+    try:
+        result = subprocess.run(build_command, cwd=ROOT, env=environment, text=True,
+                                capture_output=True, timeout=3600)
+    except (OSError, subprocess.SubprocessError) as error:
+        log_path = _write_stage_log(log_dir, f"{lane}-build", build_command,
+                                    status="timeout" if isinstance(error, subprocess.TimeoutExpired) else "unavailable",
+                                    reason=str(error), stdout=str(getattr(error, "stdout", "") or ""),
+                                    stderr=str(getattr(error, "stderr", "") or ""),
+                                    elapsed_seconds=time.monotonic() - started)
+        raise RuntimeError(f"builder unavailable: {error}; stage log: {log_path}") from error
+    log_path = _write_stage_log(log_dir, f"{lane}-build", build_command,
+                                status="passed" if result.returncode == 0 else "failed",
+                                returncode=result.returncode, stdout=result.stdout, stderr=result.stderr,
+                                elapsed_seconds=time.monotonic() - started)
+    if log_path:
+        logs.append(str(log_path))
     if result.returncode:
-        raise RuntimeError(f"builder failed ({result.returncode}): {(result.stderr or result.stdout)[-1200:]}")
+        raise RuntimeError(f"builder failed ({result.returncode}): {(result.stderr or result.stdout)[-1200:]}; stage log: {log_path}")
     artifacts = verify_artifact_receipts(lane, identity, artifact_dir)
+    artifact_output = json.dumps(artifacts, indent=2, sort_keys=True)
+    artifact_log = _write_stage_log(log_dir, f"{lane}-artifact-verification", "verify artifact size/hash/provenance",
+                                   status="passed" if artifacts else "failed",
+                                   returncode=0 if artifacts else 1, stdout=artifact_output)
+    if artifact_log:
+        logs.append(str(artifact_log))
     checks = {name: {"check": name, "verdict": "unknown", **identity} for name in REQUIRED_CHECKS[lane]}
     if lane == "android_play":
-        checks["signed_artifacts"] = _android_certificate_check(identity, artifacts)
+        try:
+            checks["signed_artifacts"] = _android_certificate_check(identity, artifacts)
+            certificate_log = _write_stage_log(log_dir, "android-certificate-verification",
+                                               "keytool/apksigner pinned certificate verification",
+                                               status="passed", returncode=0,
+                                               stdout=json.dumps(checks["signed_artifacts"], sort_keys=True))
+            if certificate_log:
+                logs.append(str(certificate_log))
+        except (OSError, subprocess.SubprocessError, LookupError, ValueError) as error:
+            certificate_log = _write_stage_log(log_dir, "android-certificate-verification",
+                                               "keytool/apksigner pinned certificate verification",
+                                               status="failed", reason=str(error))
+            if certificate_log:
+                logs.append(str(certificate_log))
+            raise
     elif lane == "fdroid":
         checks["reproducible_build"] = _passed_check("reproducible_build", identity, artifacts,
                                                       "scripts/build-fdroid.sh --reproducible")
-        scan = subprocess.run(["bash", "scripts/ci/fdroid-scan.sh"], cwd=ROOT, env=environment,
-                              capture_output=True, text=True, timeout=1800)
-        if scan.returncode == 0:
-            checks["official_source_scan"] = _passed_check("official_source_scan", identity, artifacts,
-                                                           "scripts/ci/fdroid-scan.sh", scan.stdout + scan.stderr)
+        scan_command = ["bash", "scripts/ci/fdroid-scan.sh"]
+        started = time.monotonic()
+        try:
+            scan = subprocess.run(scan_command, cwd=ROOT, env=environment,
+                                  capture_output=True, text=True, timeout=1800)
+            scan_log = _write_stage_log(log_dir, "fdroid-source-scan", scan_command,
+                                        status="passed" if scan.returncode == 0 else "failed",
+                                        returncode=scan.returncode, stdout=scan.stdout, stderr=scan.stderr,
+                                        elapsed_seconds=time.monotonic() - started)
+            if scan_log:
+                logs.append(str(scan_log))
+            if scan.returncode == 0:
+                checks["official_source_scan"] = _passed_check("official_source_scan", identity, artifacts,
+                                                               "scripts/ci/fdroid-scan.sh", scan.stdout + scan.stderr)
+            else:
+                checks["official_source_scan"] = {"check": "official_source_scan", "verdict": "failed",
+                                                   **identity, "reason": f"fdroid scan exited {scan.returncode}",
+                                                   "stage_log": str(scan_log) if scan_log else None}
+        except (OSError, subprocess.SubprocessError) as error:
+            scan_log = _write_stage_log(log_dir, "fdroid-source-scan", scan_command,
+                                        status="timeout" if isinstance(error, subprocess.TimeoutExpired) else "unavailable",
+                                        reason=str(error),
+                                        stdout=str(getattr(error, "stdout", "") or ""),
+                                        stderr=str(getattr(error, "stderr", "") or ""),
+                                        elapsed_seconds=time.monotonic() - started)
+            if scan_log:
+                logs.append(str(scan_log))
     if lane in ("android_play", "fdroid"):
         device_env = environment.copy()
-        gate = subprocess.run(["bash", "scripts/pre-release-gate.sh", "--build-name", identity["version"],
-                               "--build-number", identity["build_number"], "--log-dir",
-                               str(artifact_dir / "final-device-gate"), "--skip-host"], cwd=ROOT,
-                              env=device_env, capture_output=True, text=True, timeout=3600)
-        if gate.returncode == 0:
-            gate_name = "android_device_journey" if lane == "android_play" else "android_qualification"
-            checks[gate_name] = _passed_check(gate_name, identity, artifacts,
-                                              "scripts/pre-release-gate.sh --skip-host", gate.stdout)
+        gate_command = ["bash", "scripts/pre-release-gate.sh", "--build-name", identity["version"],
+                        "--build-number", identity["build_number"], "--log-dir",
+                        str(artifact_dir / "final-device-gate"), "--skip-host"]
+        started = time.monotonic()
+        try:
+            gate = subprocess.run(gate_command, cwd=ROOT, env=device_env,
+                                  capture_output=True, text=True, timeout=3600)
+            gate_log = _write_stage_log(log_dir, f"{lane}-device-gate", gate_command,
+                                        status="passed" if gate.returncode == 0 else "failed",
+                                        returncode=gate.returncode, stdout=gate.stdout, stderr=gate.stderr,
+                                        elapsed_seconds=time.monotonic() - started)
+            if gate_log:
+                logs.append(str(gate_log))
+            if gate.returncode == 0:
+                gate_name = "android_device_journey" if lane == "android_play" else "android_qualification"
+                checks[gate_name] = _passed_check(gate_name, identity, artifacts,
+                                                  "scripts/pre-release-gate.sh --skip-host", gate.stdout)
+            else:
+                gate_name = "android_device_journey" if lane == "android_play" else "android_qualification"
+                checks[gate_name] = {"check": gate_name, "verdict": "failed", **identity,
+                                     "reason": f"device gate exited {gate.returncode}",
+                                     "stage_log": str(gate_log) if gate_log else None}
+        except (OSError, subprocess.SubprocessError) as error:
+            gate_log = _write_stage_log(log_dir, f"{lane}-device-gate", gate_command,
+                                        status="timeout" if isinstance(error, subprocess.TimeoutExpired) else "unavailable",
+                                        reason=str(error),
+                                        stdout=str(getattr(error, "stdout", "") or ""),
+                                        stderr=str(getattr(error, "stderr", "") or ""),
+                                        elapsed_seconds=time.monotonic() - started)
+            if gate_log:
+                logs.append(str(gate_log))
     elif lane == "web":
-        checks.update(_web_qualification(identity, artifacts))
+        checks.update(_web_qualification(identity, artifacts, log_dir))
+        logs.extend(str(check["stage_log"]) for check in checks.values()
+                    if check.get("stage_log") and str(check["stage_log"]) not in logs)
     elif lane in {"linux", "windows", "macos", "ios"}:
-        checks.update(run_native_qualification(lane, identity, artifacts))
-    return {"candidate": f"{lane}:{identity['version']}+{identity['build_number']}@{identity['commit']}",
-            "version": identity["version"], "build_number": identity["build_number"], "commit": identity["commit"],
-            "artifacts": artifacts, "checks": checks}
+        checks.update(run_native_qualification(lane, identity, artifacts, log_dir))
+        logs.extend(str(check["stage_log"]) for check in checks.values()
+                    if check.get("stage_log") and str(check["stage_log"]) not in logs)
+    result = {"candidate": f"{lane}:{identity['version']}+{identity['build_number']}@{identity['commit']}",
+              "version": identity["version"], "build_number": identity["build_number"], "commit": identity["commit"],
+              "artifacts": artifacts, "checks": checks, "stage_logs": logs}
+    if lane == "linux":
+        native = checks["native_journey"]
+        result["full_journey"] = {"verdict": "passed" if native.get("automated_command_exit_code") == 0 else native["verdict"],
+                                  "command": native.get("command"),
+                                  "stage_log": native.get("stage_log"),
+                                  "output_sha256": native.get("output_sha256"),
+                                  "reason": native.get("reason")}
+        result["retained_image_human_review"] = {
+            "verdict": "pending",
+            "reason": "The integration test removes its temporary exports; retain an image before human composition review.",
+        }
+    return result
 
 
 def _normalize_fingerprint(value: str) -> str:
@@ -292,7 +454,8 @@ def _passed_check(name: str, identity: dict[str, str], artifacts: list[dict[str,
             "output_sha256": hashlib.sha256(output.encode()).hexdigest()}
 
 
-def _web_qualification(identity: dict[str, str], artifacts: list[dict[str, Any]]) -> dict[str, Any]:
+def _web_qualification(identity: dict[str, str], artifacts: list[dict[str, Any]],
+                       stage_log_dir: Path | None = None) -> dict[str, Any]:
     receipts: dict[str, Any] = {}
     archive = Path(artifacts[0]["path"]) if artifacts else None
     if archive is None:
@@ -314,15 +477,29 @@ def _web_qualification(identity: dict[str, str], artifacts: list[dict[str, Any]]
             archived_files = {member.name.lstrip("./").removeprefix("web/") for member in members
                               if member.isfile() and member.name.lstrip("./").startswith("web/")
                               and member.name.lstrip("./") != "web/release-identity.json"}
+            inventory = {"archived_files": sorted(archived_files),
+                         "archive_directory_entries": sum(member.isdir() for member in members),
+                         "manifest_files": sorted(expected_files) if isinstance(expected_files, dict) else None}
             if not isinstance(expected_files, dict) or archived_files != set(expected_files):
+                _write_stage_log(stage_log_dir, "web-asset-validation", "tar archive inventory",
+                                 status="failed", reason="archive file inventory differs from manifest",
+                                 stdout=json.dumps(inventory, sort_keys=True))
                 return receipts
             for relative, expected_hash in expected_files.items():
                 stream = bundle.extractfile(f"web/{relative}")
                 if stream is None or hashlib.sha256(stream.read()).hexdigest() != expected_hash:
+                    _write_stage_log(stage_log_dir, "web-asset-validation", "tar archive SHA-256 manifest",
+                                     status="failed", reason=f"missing or mismatched asset: {relative}",
+                                     stdout=json.dumps(inventory, sort_keys=True))
                     return receipts
+            asset_log = _write_stage_log(stage_log_dir, "web-asset-validation",
+                                         "tar archive inventory and file SHA-256 manifest",
+                                         status="passed", returncode=0,
+                                         stdout=json.dumps(inventory, sort_keys=True))
             receipts["asset_validation"] = _passed_check(
                 "asset_validation", identity, artifacts,
-                "web archive inventory and file SHA-256 manifest verified")
+                "web archive inventory and file SHA-256 manifest verified",
+                json.dumps(inventory, sort_keys=True)) | {"stage_log": str(asset_log) if asset_log else None}
             with tempfile.TemporaryDirectory(prefix="release-web-check-") as directory:
                 bundle.extractall(directory, filter="data")
                 web_root = Path(directory) / "web"
@@ -338,6 +515,8 @@ def _web_qualification(identity: dict[str, str], artifacts: list[dict[str, Any]]
                     except OSError:
                         probe.close()
                 if port is None:
+                    _write_stage_log(stage_log_dir, "web-http-server", "bind loopback HTTP server",
+                                     status="unavailable", reason="no authorized free port in configured range")
                     return receipts
                 probe.close()
                 server = subprocess.Popen([sys.executable, "-m", "http.server", str(port), "--bind", "127.0.0.1",
@@ -345,20 +524,23 @@ def _web_qualification(identity: dict[str, str], artifacts: list[dict[str, Any]]
                                           env=_lane_environment("common"), stdout=subprocess.DEVNULL,
                                           stderr=subprocess.DEVNULL)
                 try:
+                    server_ready = False
                     for _ in range(30):
                         try:
                             with socket.create_connection(("127.0.0.1", port), timeout=0.2):
+                                server_ready = True
                                 break
                         except OSError:
                             if server.poll() is not None:
-                                return receipts
+                                break
                             time.sleep(0.1)
+                    if not server_ready:
+                        _write_stage_log(stage_log_dir, "web-http-server", "bind loopback HTTP server",
+                                         status="failed", reason="HTTP server did not accept connections")
+                        return receipts
                     for check, spec in (("browser_journey", "test/playwright/web-image-creation-journey.spec.mjs"),
                                         ("saved_data", "test/playwright/production-saved-session.spec.mjs")):
-                        evidence_root = archive.resolve().parent
-                        if evidence_root.is_relative_to(ROOT):
-                            evidence_root = ROOT.parent
-                        evidence = Path(tempfile.mkdtemp(prefix=f"web-{check}-", dir=evidence_root))
+                        evidence = Path(tempfile.mkdtemp(prefix=f"web-{check}-"))
                         env = _lane_environment("common")
                         env.update(PLAYWRIGHT_BASE_URL=f"http://127.0.0.1:{port}",
                                    PLAYWRIGHT_JSON_OUTPUT_FILE=str(evidence / "report.json"),
@@ -389,6 +571,10 @@ def _web_qualification(identity: dict[str, str], artifacts: list[dict[str, Any]]
                         (evidence / "stdout.log").write_text(stdout)
                         (evidence / "stderr.log").write_text(stderr)
                         receipt["output_sha256"] = hashlib.sha256((stdout + stderr).encode()).hexdigest()
+                        log_path = _write_stage_log(stage_log_dir, check, command,
+                                                    status=receipt["verdict"], returncode=receipt["exit_code"],
+                                                    stdout=stdout, stderr=stderr, reason=receipt.get("reason"))
+                        receipt["stage_log"] = str(log_path) if log_path else None
                         (evidence / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
                         receipts[check] = receipt
                 finally:
@@ -754,7 +940,8 @@ def _write_campaign(path: Path, campaign: dict[str, Any]) -> None:
     path.chmod(0o400)
 
 
-def _generate_subset_evidence(campaign_path: Path, artifact_dir: Path, campaign: dict[str, Any]) -> dict[str, Any] | None:
+def _generate_subset_evidence(campaign_path: Path, artifact_dir: Path, campaign: dict[str, Any],
+                              stage_log_dir: Path | None = None) -> dict[str, Any] | None:
     admitted = [(lane, row) for lane, row in campaign["lanes"].items() if row.get("status") == "verified"]
     if not admitted:
         return None
@@ -768,39 +955,77 @@ def _generate_subset_evidence(campaign_path: Path, artifact_dir: Path, campaign:
         for item in lane["artifacts"]:
             command += ["--artifact", item["path"], "--evidence", f"provenance-{n}={item['path']}.provenance"]
             n += 1
-    result = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, timeout=600)
+    started = time.monotonic()
+    try:
+        result = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, timeout=600)
+    except (OSError, subprocess.SubprocessError) as error:
+        _write_stage_log(stage_log_dir, "evidence-generation", command,
+                         status="timeout" if isinstance(error, subprocess.TimeoutExpired) else "unavailable",
+                         reason=str(error), stdout=str(getattr(error, "stdout", "") or ""),
+                         stderr=str(getattr(error, "stderr", "") or ""),
+                         elapsed_seconds=time.monotonic() - started)
+        raise
+    generation_log = _write_stage_log(stage_log_dir, "evidence-generation", command,
+                                      status="passed" if result.returncode == 0 else "failed",
+                                      returncode=result.returncode, stdout=result.stdout, stderr=result.stderr,
+                                      elapsed_seconds=time.monotonic() - started)
     if result.returncode:
-        raise RuntimeError(f"subset evidence generation failed: {(result.stderr or result.stdout)[-1200:]}")
+        raise RuntimeError(f"subset evidence generation failed ({result.returncode}): {(result.stderr or result.stdout)[-1200:]}; stage log: {generation_log}")
     manifest = output / "release-manifest.json"
-    subprocess.run([sys.executable, str(ROOT / "scripts/generate_release_evidence.py"), "--verify", str(manifest)],
-                   cwd=ROOT, check=True, capture_output=True, text=True)
-    return {"status": "verified", "manifest": str(manifest)}
+    verify_command = [sys.executable, str(ROOT / "scripts/generate_release_evidence.py"), "--verify", str(manifest)]
+    started = time.monotonic()
+    try:
+        verified = subprocess.run(verify_command, cwd=ROOT, capture_output=True, text=True, timeout=600)
+    except (OSError, subprocess.SubprocessError) as error:
+        _write_stage_log(stage_log_dir, "evidence-verification", verify_command,
+                         status="timeout" if isinstance(error, subprocess.TimeoutExpired) else "unavailable",
+                         reason=str(error), stdout=str(getattr(error, "stdout", "") or ""),
+                         stderr=str(getattr(error, "stderr", "") or ""),
+                         elapsed_seconds=time.monotonic() - started)
+        raise
+    verify_log = _write_stage_log(stage_log_dir, "evidence-verification", verify_command,
+                                  status="passed" if verified.returncode == 0 else "failed",
+                                  returncode=verified.returncode, stdout=verified.stdout, stderr=verified.stderr,
+                                  elapsed_seconds=time.monotonic() - started)
+    if verified.returncode:
+        raise RuntimeError(f"subset evidence verification failed ({verified.returncode}): {(verified.stderr or verified.stdout)[-1200:]}; stage log: {verify_log}")
+    return {"status": "verified", "manifest": str(manifest),
+            "stage_logs": [str(path) for path in (generation_log, verify_log) if path]}
 
 
 def prepare(version: str, build_number: str, artifact_dir: Path, campaign_path: Path) -> dict[str, Any]:
     identity = frozen_identity(version, build_number)
+    stage_log_dir = artifact_dir / "stage-logs" / f"{identity['commit']}-{time.time_ns()}"
+    stage_log_dir.mkdir(parents=True, exist_ok=True)
     try:
-        shared = common_gate(identity)
+        shared = common_gate(identity, stage_log_dir)
         shared_error = None
     except Exception as error:
         shared = {check: "unknown" for check in ("flutter_analyze", "flutter_host_tests", "source_integrity", "privacy_policy")}
         shared_error = str(error) or error.__class__.__name__
+        _write_stage_log(stage_log_dir, "shared-gate", "source/integrity/privacy/analyze/host-test gates",
+                         status="failed", reason=shared_error)
     lanes = {}
     for lane in LANES:
         row = {"candidate": None, "candidate_verdict": "unknown", "artifacts": [], "artifact_verdict": "unknown",
                "checks": {check: {"check": check, "verdict": "unknown", **identity}
                            for check in REQUIRED_CHECKS[lane]},
-               "status": "pending", "stage": None, "reason": None, "publication": "not-attempted"}
+               "stage_logs": [], "status": "pending", "stage": None,
+               "reason": None, "publication": "not-attempted"}
         lanes[lane] = row
         if shared_error:
             row.update(status="skipped-failed", stage="shared-gate", reason=shared_error)
+            row["stage_logs"] = [str(path) for path in sorted(stage_log_dir.glob("*.json"))]
             continue
         unavailable = _host_unavailable(lane)
         if unavailable:
-            row.update(status="skipped-unavailable", stage="host-or-credentials", reason=unavailable)
+            log_path = _write_stage_log(stage_log_dir, f"{lane}-availability", "native host/credentials/device inventory",
+                                        status="skipped-unavailable", reason=unavailable)
+            row.update(status="skipped-unavailable", stage="host-or-credentials", reason=unavailable,
+                       stage_logs=[str(log_path)] if log_path else [])
             continue
         try:
-            candidate = _produce_lane(lane, identity, artifact_dir)
+            candidate = _produce_lane(lane, identity, artifact_dir, stage_log_dir)
             row.update(candidate)
             row["candidate_verdict"] = "passed"
             if not row["artifacts"]:
@@ -817,19 +1042,26 @@ def prepare(version: str, build_number: str, artifact_dir: Path, campaign_path: 
                               for name in REQUIRED_CHECKS[lane])
                 row.update(status="skipped-unavailable" if unknown else "skipped-failed", reason=str(error))
         except LookupError as error:
-            row.update(status="skipped-unavailable", stage="builder", reason=str(error))
+            row.update(status="skipped-unavailable", stage="builder", reason=str(error) or error.__class__.__name__)
+            row["stage_logs"] = [str(path) for path in sorted(stage_log_dir.glob(f"{lane}-*.json"))]
         except Exception as error:
             row.update(status="skipped-failed", stage="builder", reason=str(error) or error.__class__.__name__)
+            row["stage_logs"] = [str(path) for path in sorted(stage_log_dir.glob(f"{lane}-*.json"))]
     qualified = [row for row in lanes.values() if row.get("status") == "verified"]
     campaign = {"schemaVersion": 1, "mode": "best-effort-prepare", "identity": identity,
                 "shared_checks": shared,
+                "shared_stage_logs": [str(path) for path in sorted(stage_log_dir.iterdir())
+                                      if path.name in {"privacy-policy.json", "source-integrity.json",
+                                                       "flutter_analyze.json", "flutter_host_tests.json",
+                                                       "shared-gate.json"}],
+                "stage_log_directory": str(stage_log_dir.resolve()),
                 "status": "failed" if not qualified else ("complete" if len(qualified) == len(LANES) else "partial"),
                 "lanes": lanes,
                 "verified_artifacts": [item for row in qualified for item in row["artifacts"]],
                 "publishers_called": False, "evidence": None}
     _write_campaign(campaign_path, campaign)
     try:
-        campaign["evidence"] = _generate_subset_evidence(campaign_path, artifact_dir, campaign)
+        campaign["evidence"] = _generate_subset_evidence(campaign_path, artifact_dir, campaign, stage_log_dir)
     except Exception as error:
         for row in campaign["lanes"].values():
             if row.get("status") == "verified":
