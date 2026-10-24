@@ -41,6 +41,62 @@ class _RecordingExportWorker implements ExportWorker {
   }
 }
 
+class _FaultingExportFileOperations implements ExportFileOperations {
+  final bool failWrite;
+  final bool failCommit;
+  final void Function()? afterWrite;
+  final void Function()? afterCommit;
+
+  const _FaultingExportFileOperations({
+    this.failWrite = false,
+    this.failCommit = false,
+    this.afterWrite,
+    this.afterCommit,
+  });
+
+  @override
+  Future<File> createStage(File destination) async {
+    final stage = File('${destination.path}.attempt-stage');
+    await stage.create(exclusive: true);
+    return stage;
+  }
+
+  @override
+  Future<void> writeStage(File stage, Uint8List bytes) async {
+    await stage.writeAsBytes(failWrite ? bytes.sublist(0, 2) : bytes,
+        flush: true);
+    if (failWrite) throw StateError('simulated partial write');
+    afterWrite?.call();
+  }
+
+  @override
+  Future<File> commitStage(File stage, File destination) async {
+    if (failCommit) throw StateError('simulated commit failure');
+    final file = await stage.rename(destination.path);
+    afterCommit?.call();
+    return file;
+  }
+
+  @override
+  Future<void> removeStage(File stage) async {
+    if (await stage.exists()) await stage.delete();
+  }
+}
+
+class _PartialIoStageWrite extends IoExportFileOperations {
+  final File destination;
+  bool? destinationExistsBeforeCommit;
+
+  _PartialIoStageWrite(this.destination);
+
+  @override
+  Future<void> writeStage(File stage, Uint8List bytes) async {
+    await stage.writeAsBytes(bytes.sublist(0, 2), flush: true);
+    destinationExistsBeforeCommit = await destination.exists();
+    throw StateError('simulated partial write');
+  }
+}
+
 class _PhysicalPixelCaptureService extends ExportService {
   double? capturedPixelRatio;
   final Uint8List? captureBytes;
@@ -61,6 +117,7 @@ class _PhysicalPixelCaptureService extends ExportService {
 }
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   const service = ExportService();
 
   group('ExportAspectCrop.center', () {
@@ -644,6 +701,223 @@ void main() {
 
     test('uses AppShareService file adapter by default', () {
       expect(const ExportService().shareFileAdapter, isA<ShareFileCallback>());
+    });
+  });
+
+  group('ExportService native export commits', () {
+    test('partial stage write preserves existing destination', () async {
+      SharedPreferences.setMockInitialValues({});
+      final root = await Directory.systemTemp.createTemp('export_commit_');
+      addTearDown(() => root.delete(recursive: true));
+      PathProviderPlatform.instance = _FakePathProviderPlatform(root.path);
+      final directory = Directory('${root.path}/exports')
+        ..createSync(recursive: true);
+      final destination = File('${directory.path}/sample.png')
+        ..writeAsStringSync('existing output');
+      final service = ExportService(
+        fileOperations: const _FaultingExportFileOperations(failWrite: true),
+      );
+
+      await expectLater(
+        service.saveBytes(Uint8List.fromList([1, 2, 3, 4]),
+            filename: 'sample.png'),
+        throwsA(isA<StateError>()),
+      );
+
+      expect(await destination.readAsString(), 'existing output');
+      expect(await File('${destination.path}.attempt-stage').exists(), isFalse);
+    });
+
+    test('commit failure preserves collision and retry replaces it safely',
+        () async {
+      SharedPreferences.setMockInitialValues({});
+      final root = await Directory.systemTemp.createTemp('export_retry_');
+      addTearDown(() => root.delete(recursive: true));
+      PathProviderPlatform.instance = _FakePathProviderPlatform(root.path);
+      final directory = Directory('${root.path}/exports')
+        ..createSync(recursive: true);
+      final destination = File('${directory.path}/sample.png')
+        ..writeAsStringSync('old bytes');
+      final abandoned = File('${destination.path}.stage-unrelated')
+        ..writeAsStringSync('untouched');
+      final bytes = Uint8List.fromList(
+        img.encodePng(img.Image(width: 2, height: 2)),
+      );
+
+      await expectLater(
+        ExportService(
+          fileOperations: const _FaultingExportFileOperations(failCommit: true),
+        ).saveBytes(bytes, filename: 'sample.png'),
+        throwsA(isA<StateError>()),
+      );
+      expect(await destination.readAsString(), 'old bytes');
+      expect(await File('${destination.path}.attempt-stage').exists(), isFalse);
+
+      final retry = await const ExportService().saveBytes(
+        bytes,
+        filename: 'sample.png',
+      );
+      expect(img.decodePng(await retry.readAsBytes()), isNotNull);
+      expect(await abandoned.readAsString(), 'untouched');
+    });
+
+    test('unsupported directory-link collision fails without unlinking it',
+        () async {
+      SharedPreferences.setMockInitialValues({});
+      final root = await Directory.systemTemp.createTemp('export_link_');
+      addTearDown(() => root.delete(recursive: true));
+      PathProviderPlatform.instance = _FakePathProviderPlatform(root.path);
+      final directory = Directory('${root.path}/exports')..createSync();
+      final target = Directory('${root.path}/target')..createSync();
+      final marker = File('${target.path}/keep')
+        ..writeAsStringSync('untouched');
+      final collision = Link('${directory.path}/sample.png');
+      await collision.create(target.path);
+
+      await expectLater(
+        const ExportService()
+            .saveBytes(Uint8List.fromList([1, 2, 3]), filename: 'sample.png'),
+        throwsA(isA<FileSystemException>()),
+      );
+
+      expect(await collision.target(), target.path);
+      expect(await marker.readAsString(), 'untouched');
+      expect(await directory.list(followLinks: false).length, 1);
+    });
+
+    test('staging preserves a filesystem-valid maximum-length filename',
+        () async {
+      SharedPreferences.setMockInitialValues({});
+      final root = await Directory.systemTemp.createTemp('export_long_name_');
+      addTearDown(() => root.delete(recursive: true));
+      PathProviderPlatform.instance = _FakePathProviderPlatform(root.path);
+      final directory = Directory('${root.path}/exports')..createSync();
+      final filename = '${List.filled(251, 'a').join()}.png';
+      final destination = File('${directory.path}/$filename');
+      // Establish that the destination name itself is supported by this FS.
+      await destination.writeAsString('prior image');
+      final bytes = Uint8List.fromList(
+        img.encodePng(img.Image(width: 2, height: 2)),
+      );
+
+      final saved = await const ExportService().saveBytes(
+        bytes,
+        filename: filename,
+      );
+
+      expect(saved.path, destination.path);
+      expect(await saved.readAsBytes(), bytes);
+      expect(await directory.list().length, 1);
+    });
+
+    test('staging-name destination is never published by a failed write',
+        () async {
+      SharedPreferences.setMockInitialValues({});
+      final root = await Directory.systemTemp.createTemp('export_stage_name_');
+      addTearDown(() => root.delete(recursive: true));
+      PathProviderPlatform.instance = _FakePathProviderPlatform(root.path);
+      final directory = Directory('${root.path}/exports')..createSync();
+      for (final upperCase in [false, true]) {
+        final probe = await const IoExportFileOperations()
+            .createStage(File('${directory.path}/probe.png'));
+        final next = int.parse(probe.path.split('-').last) + 1;
+        await probe.delete();
+        final name = '.fractal-export-stage-$pid-$next';
+        final filename = upperCase ? name.toUpperCase() : name;
+        final destination = File('${directory.path}/$filename');
+        final operations = _PartialIoStageWrite(destination);
+
+        await expectLater(
+          ExportService(fileOperations: operations).saveBytes(
+            Uint8List.fromList([1, 2, 3, 4]),
+            filename: filename,
+          ),
+          throwsA(isA<StateError>()),
+        );
+
+        expect(operations.destinationExistsBeforeCommit, isFalse);
+        expect(await destination.exists(), isFalse);
+        expect(await directory.list().length, 0);
+      }
+    });
+
+    test('production stage collisions survive a recreated service and retry',
+        () async {
+      SharedPreferences.setMockInitialValues({});
+      final root =
+          await Directory.systemTemp.createTemp('export_stage_collision_');
+      addTearDown(() => root.delete(recursive: true));
+      PathProviderPlatform.instance = _FakePathProviderPlatform(root.path);
+      final directory = Directory('${root.path}/exports')..createSync();
+      final destination = File('${directory.path}/sample.png');
+      final abandoned =
+          await const IoExportFileOperations().createStage(destination);
+      await abandoned.writeAsString('abandoned');
+      final sequence = int.parse(abandoned.path.split('-').last);
+      final occupied =
+          File('${directory.path}/.fractal-export-stage-$pid-${sequence + 1}')
+            ..writeAsStringSync('occupied');
+      final bytes =
+          Uint8List.fromList(img.encodePng(img.Image(width: 2, height: 2)));
+
+      final file =
+          await const ExportService().saveBytes(bytes, filename: 'sample.png');
+
+      expect(await file.readAsBytes(), bytes);
+      expect(img.decodePng(await file.readAsBytes()), isNotNull);
+      expect(await abandoned.readAsString(), 'abandoned');
+      expect(await occupied.readAsString(), 'occupied');
+      expect(await directory.list().length, 3);
+    });
+
+    test('cancellation before commit leaves destination unchanged', () async {
+      SharedPreferences.setMockInitialValues({});
+      final root = await Directory.systemTemp.createTemp('export_cancel_');
+      addTearDown(() => root.delete(recursive: true));
+      PathProviderPlatform.instance = _FakePathProviderPlatform(root.path);
+      final directory = Directory('${root.path}/exports')
+        ..createSync(recursive: true);
+      final destination = File('${directory.path}/sample.png')
+        ..writeAsStringSync('old bytes');
+      final token = ExportCancellationToken();
+      final service = ExportService(
+        fileOperations: _FaultingExportFileOperations(afterWrite: token.cancel),
+      );
+
+      await expectLater(
+        service.saveBytesCancellable(
+          Uint8List.fromList([1, 2, 3]),
+          filename: 'sample.png',
+          cancellationToken: token,
+        ),
+        throwsA(isA<ExportCancelledException>()),
+      );
+      expect(await destination.readAsString(), 'old bytes');
+      expect(await File('${destination.path}.attempt-stage').exists(), isFalse);
+    });
+
+    test('cancellation after rename reports the committed image', () async {
+      SharedPreferences.setMockInitialValues({});
+      final root = await Directory.systemTemp.createTemp('export_committed_');
+      addTearDown(() => root.delete(recursive: true));
+      PathProviderPlatform.instance = _FakePathProviderPlatform(root.path);
+      final token = ExportCancellationToken();
+      final service = ExportService(
+        fileOperations:
+            _FaultingExportFileOperations(afterCommit: token.cancel),
+      );
+      final bytes = Uint8List.fromList(
+        img.encodePng(img.Image(width: 2, height: 2)),
+      );
+
+      final file = await service.saveBytesCancellable(
+        bytes,
+        filename: 'sample.png',
+        cancellationToken: token,
+      );
+
+      expect(token.isCancelled, isTrue);
+      expect(img.decodePng(await file.readAsBytes()), isNotNull);
     });
   });
 

@@ -275,12 +275,13 @@ class _FallbackScreenSizeExportService extends ExportService {
   }
 
   @override
-  Future<ExportResult> saveExportBytes(
+  Future<ExportResult> saveExportBytesCancellable(
     Uint8List bytes, {
     required String filename,
     required ExportFormat format,
     required int width,
     required int height,
+    ExportCancellationToken? cancellationToken,
   }) async {
     return ExportResult(
       file: File('/tmp/$filename'),
@@ -290,6 +291,52 @@ class _FallbackScreenSizeExportService extends ExportService {
       height: height,
       fileSize: bytes.length,
     );
+  }
+}
+
+class _CommitBoundaryExportService extends _FallbackScreenSizeExportService {
+  final bool forceFallback;
+  ExportCancellationToken? saveToken;
+
+  _CommitBoundaryExportService({required this.forceFallback});
+
+  @override
+  Future<ExportResult> exportWithOptions(
+    GlobalKey boundaryKey, {
+    required ExportOptions options,
+    required double screenWidth,
+    required double screenHeight,
+    double? physicalScreenWidth,
+    double? physicalScreenHeight,
+    required String fractalType,
+    required Map<String, Object> parameters,
+    void Function(double progress)? onProgress,
+  }) async {
+    if (forceFallback) throw StateError('force fallback');
+    coordinator.cancelActive();
+    return ExportResult(
+      file: File('${Directory.systemTemp.path}/committed.png'),
+      filename: 'committed.png',
+      format: ExportFormat.png,
+      width: 1,
+      height: 1,
+      fileSize: 1,
+    );
+  }
+
+  @override
+  Future<ExportResult> saveExportBytesCancellable(
+    Uint8List bytes, {
+    required String filename,
+    required ExportFormat format,
+    required int width,
+    required int height,
+    ExportCancellationToken? cancellationToken,
+  }) async {
+    saveToken = cancellationToken;
+    coordinator.cancelActive();
+    cancellationToken?.throwIfCancelled();
+    throw StateError('save must be cancelled before commit');
   }
 }
 
@@ -407,12 +454,13 @@ class _BlockingFallbackExportService extends ExportService {
   }
 
   @override
-  Future<ExportResult> saveExportBytes(
+  Future<ExportResult> saveExportBytesCancellable(
     Uint8List bytes, {
     required String filename,
     required ExportFormat format,
     required int width,
     required int height,
+    ExportCancellationToken? cancellationToken,
   }) async {
     saveCalls++;
     return ExportResult(
@@ -1393,6 +1441,43 @@ void main() {
 
       expect(exportService.capturedPixelRatio, closeTo(2.625, 0.0001));
       expect(exportService.resizedDimensions, (1080, 1920));
+    });
+
+    testWidgets('PNG fallback passes cancellation through its save boundary',
+        (tester) async {
+      final exportService = _CommitBoundaryExportService(forceFallback: true);
+      await tester.pumpWidget(buildTestWidget(exportService: exportService));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Export'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
+      await tester.pumpAndSettle();
+
+      expect(exportService.saveToken, isNotNull);
+      expect(exportService.saveToken!.isCancelled, isTrue);
+      expect(find.textContaining('Export saved'), findsNothing);
+    });
+
+    testWidgets(
+        'native committed image keeps saved feedback after cancellation',
+        (tester) async {
+      tester.binding.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, (_) async => null);
+      addTearDown(() => tester.binding.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, null));
+      final exportService = _CommitBoundaryExportService(forceFallback: false);
+      await tester.pumpWidget(buildTestWidget(exportService: exportService));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Export'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
+      await tester.pumpAndSettle();
+
+      expect(find.textContaining('Export saved'), findsOneWidget);
     });
 
     testWidgets('cancelled image export never starts the PNG fallback',
