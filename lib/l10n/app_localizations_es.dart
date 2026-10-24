@@ -1711,6 +1711,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get exportFormatWebp => 'WebP';
 
   @override
+  String get homeLinkBusy =>
+      'Termina la operación actual y vuelve a abrir el enlace.';
+
+  @override
   String homeUnknownFractalType(Object type) {
     return 'Tipo de fractal desconocido: $type';
   }

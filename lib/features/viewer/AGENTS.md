@@ -21,6 +21,7 @@ Full fractal viewer screen - the main interactive experience. Integrates the ren
 - Known issue: `ProviderNotFoundException` if provider not wrapped around viewer route
 - Assembles multiple feature widgets: renderer, controls, presets, export
 - Toolbar provides access to presets sheet, export sheet
+- Route owners can use a `GlobalKey<FractalViewerRouteState>` to read `isNavigationBlocked` before replacing controller state. The narrow handle covers export destination selection, active export flow, looper export selection, and coordinator-owned work; the concrete viewer state remains private.
 
 ### Testing Requirements
 

@@ -244,6 +244,7 @@ class LooperController extends ChangeNotifier {
   }
 
   bool _isExporting = false;
+  bool get isExporting => _isExporting;
   bool _disposed = false;
 
   bool get hasTrajectoryPoints =>

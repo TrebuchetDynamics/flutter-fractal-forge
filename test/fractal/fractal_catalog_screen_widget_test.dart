@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
+import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
+import 'package:flutter_fractals/core/theme/app_theme.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
@@ -46,12 +49,15 @@ void main() {
 
     Widget buildTestWidget({
       Future<CatalogViewMode> Function()? viewModeLoader,
+      AccessibilityService? accessibility,
     }) {
       return MultiProvider(
         providers: [
           Provider.value(value: registry),
           ChangeNotifierProvider.value(value: controller),
           Provider.value(value: presetStore),
+          if (accessibility != null)
+            ChangeNotifierProvider.value(value: accessibility),
           ChangeNotifierProvider.value(value: rendererSettings),
         ],
         child: MaterialApp(
@@ -206,26 +212,45 @@ void main() {
     });
 
     testWidgets('tapping module card selects module', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
+      final accessibility = await AccessibilityService.create();
+      addTearDown(accessibility.dispose);
+      addTearDown(tester
+          .binding.platformDispatcher.clearAccessibilityFeaturesTestValue);
+      for (final source in ['normal', 'system', 'app']) {
+        tester.binding.platformDispatcher.accessibilityFeaturesTestValue =
+            FakeAccessibilityFeatures(disableAnimations: source == 'system');
+        await accessibility.setReducedMotion(source == 'app');
+        await tester.pumpWidget(buildTestWidget(accessibility: accessibility));
+        await tester.pumpAndSettle();
+        await showSearch(tester);
+        await tester.enterText(
+            find.byKey(const Key('catalogSearchField')), 'julia_dual');
+        await tester.pump(const Duration(milliseconds: 350));
+        await tester.pumpAndSettle();
+        await tester.tap(moduleCard('julia_dual'));
+        await tester.pumpAndSettle();
 
-      expect(controller.module.id, 'mandelbrot');
-
-      await showSearch(tester);
-      await tester.enterText(
-          find.byKey(const Key('catalogSearchField')), 'julia_dual');
-      await tester.pump(const Duration(milliseconds: 350));
-      await tester.pumpAndSettle();
-
-      expect(moduleCard('julia_dual'), findsOneWidget);
-      await tester.tap(moduleCard('julia_dual'));
-      await tester.pumpAndSettle();
-
-      expect(controller.module.id, 'julia_dual');
-      final viewer = tester.widget<FractalViewerScreen>(
-        find.byType(FractalViewerScreen),
-      );
-      expect(viewer.restoreViewerSession, isFalse);
+        expect(controller.module.id, 'julia_dual');
+        final viewer = tester
+            .widget<FractalViewerScreen>(find.byType(FractalViewerScreen));
+        expect(viewer.restoreViewerSession, isFalse);
+        expect(viewer.catalogFamily, CatalogFamily.core);
+        final route =
+            ModalRoute.of(tester.element(find.byType(FractalViewerScreen)))!;
+        final duration =
+            source == 'normal' ? AppAnimations.slow : Duration.zero;
+        expect(route.transitionDuration, duration);
+        expect(
+            route.reverseTransitionDuration,
+            source == 'normal'
+                ? const Duration(milliseconds: 300)
+                : Duration.zero);
+        Navigator.of(tester.element(find.byType(FractalViewerScreen))).pop();
+        await tester.pumpAndSettle();
+        expect(find.byType(FractalViewerScreen), findsNothing);
+        await tester.pumpWidget(const SizedBox.shrink());
+        await tester.pumpAndSettle();
+      }
     });
 
     testWidgets('opening the current module reapplies its starting formula',

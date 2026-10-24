@@ -9,6 +9,8 @@ import 'package:flutter_fractals/core/services/platform/accessibility_service.da
 import 'package:flutter_fractals/core/services/storage/viewer_session_store.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
+import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
+import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/features/settings/settings_screen.dart';
@@ -31,6 +33,8 @@ class _HomeScreenState extends State<HomeScreen>
   late final CatalogToolbarController _catalogToolbarController;
 
   StreamSubscription<DeepLinkData>? _deepLinkSubscription;
+  PageRoute<void>? _viewerRoute;
+  final _viewerKey = GlobalKey<FractalViewerRouteState>();
   bool _handledInitialLink = false;
   bool _handledPlaywrightSmokeModule = false;
 
@@ -137,7 +141,23 @@ class _HomeScreenState extends State<HomeScreen>
     // Try to find the module by type
     try {
       final module = _registry.byId(data.type);
+      // Do not replace state underneath a settings/modal route or an export.
+      // Keep a closing viewer owned until its transition and disposal finish.
+      if (!(_viewerRoute?.isCurrent ??
+              ModalRoute.of(context)?.isCurrent ??
+              false) ||
+          (_viewerKey.currentState?.isNavigationBlocked ?? false) ||
+          ExportCoordinator.shared.isBusy) {
+        final message = AppLocalizations.of(context)!.homeLinkBusy;
+        ScaffoldMessenger.of(context).showSnackBar(
+          appFeedbackSnackBar(message: message, success: false),
+        );
+        AccessibilityService.announce(message);
+        return;
+      }
 
+      // Also invalidate a restoration route that has not built its viewer yet.
+      _handledInitialLink = true;
       _exploreController.loadState(
         module: module,
         params: data.toParams(),
@@ -275,37 +295,53 @@ class _HomeScreenState extends State<HomeScreen>
     required Duration transitionDuration,
     bool captureMode = false,
     bool restoreViewerSession = true,
+    CatalogFamily catalogFamily = CatalogFamily.core,
   }) {
-    Navigator.of(context).push(
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => MultiProvider(
-          providers: [
-            ChangeNotifierProvider.value(value: _exploreController),
-          ],
-          child: FractalViewerScreen(
-            captureMode: captureMode,
-            restoreViewerSession: restoreViewerSession,
-          ),
-        ),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          final curvedAnimation = CurvedAnimation(
-            parent: animation,
-            curve: AppAnimations.defaultCurve,
-          );
-          return FadeTransition(
-            opacity: curvedAnimation,
-            child: SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(0, 0.05),
-                end: Offset.zero,
-              ).animate(curvedAnimation),
-              child: child,
-            ),
-          );
-        },
-        transitionDuration: transitionDuration,
-      ),
+    if (_viewerRoute != null) return;
+    final accessibility = context.read<AccessibilityService>();
+    final duration =
+        accessibility.getAnimationDuration(context, transitionDuration);
+    // Preserve PageRouteBuilder's normal return duration.
+    final reverseDuration = accessibility.getAnimationDuration(
+      context,
+      const Duration(milliseconds: 300),
     );
+    final route = PageRouteBuilder<void>(
+      pageBuilder: (context, animation, secondaryAnimation) => MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(value: _exploreController),
+        ],
+        child: FractalViewerScreen(
+          key: _viewerKey,
+          captureMode: captureMode,
+          restoreViewerSession: restoreViewerSession && !_handledInitialLink,
+          catalogFamily: catalogFamily,
+        ),
+      ),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        final curvedAnimation = CurvedAnimation(
+          parent: animation,
+          curve: AppAnimations.defaultCurve,
+        );
+        return FadeTransition(
+          opacity: curvedAnimation,
+          child: SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0, 0.05),
+              end: Offset.zero,
+            ).animate(curvedAnimation),
+            child: child,
+          ),
+        );
+      },
+      transitionDuration: duration,
+      reverseTransitionDuration: reverseDuration,
+    );
+    _viewerRoute = route;
+    Navigator.of(context).push(route);
+    unawaited(route.completed.then((_) {
+      if (identical(_viewerRoute, route)) _viewerRoute = null;
+    }));
   }
 
   @override
@@ -352,6 +388,11 @@ class _HomeScreenState extends State<HomeScreen>
                       label: 'Explore catalog',
                       child: FractalCatalogScreen(
                         toolbarController: _catalogToolbarController,
+                        onOpenViewer: (duration, family) => _pushViewer(
+                          transitionDuration: duration,
+                          catalogFamily: family,
+                          restoreViewerSession: false,
+                        ),
                       ),
                     ),
                   ),
