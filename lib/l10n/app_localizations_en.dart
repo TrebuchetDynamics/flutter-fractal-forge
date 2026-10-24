@@ -505,6 +505,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get moduleJulia => 'Julia';
 
   @override
+  String get moduleFibonacciComplexJulia => 'Fibonacci prime-degree Julia';
+
+  @override
+  String get fibonacciComplexLegend =>
+      'H_c(z,w) = (zw+c,z), fixed c; initial (z,w) = (p,p). C² has four real coordinates; this 2D initial slice is not invariant. After k updates the first coordinate has degree F(k+2). Gold: escape at a prime degree (k=1: 2; k=2: 3; k=3: 5; k=5: 13). Blue: other escape steps. Dark: not escaped within N, not proven bounded. Magenta: numerically unresolved, always opaque. Both moduli must exceed R=max(2+|c|, bailout); floating comparisons are not proofs. Prime index is insufficient: F19 = 4181 = 37 × 113. Prime accents are always on; these fixed discrete bands do not use quadratic smoothing.';
+
+  @override
+  String get fibonacciComplexCpuTransparencyUnavailable =>
+      'Transparent Fibonacci PNG requires a working GPU renderer. CPU output is RGB only. Choose an opaque export or switch to GPU.';
+
+  @override
   String get moduleBurningShip => 'Burning Ship';
 
   @override
@@ -1701,7 +1712,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get homeFractalCountBadge => '1022 fractals';
+  String get homeFractalCountBadge => '1023 fractals';
 
   @override
   String get catalogAllFractals => 'All Fractals';
@@ -1942,7 +1953,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsAboutBlurb =>
-      'GPU-accelerated exploration of 1022 production fractals, with deep zoom and real-time rendering.';
+      'GPU-accelerated exploration of 1023 production fractals, with deep zoom and real-time rendering.';
 
   @override
   String get settingsSourceCode => 'Source code';

@@ -822,7 +822,9 @@ class FractalController extends ChangeNotifier {
     required double zoom,
     required bool zoomingIn,
   }) {
-    if (!_adaptiveIterationsEnabled || !zoomingIn) {
+    if (_module.id == 'fibonacci_complex_julia' ||
+        !_adaptiveIterationsEnabled ||
+        !zoomingIn) {
       return null;
     }
     if (_module.dimension != FractalDimension.twoD) {

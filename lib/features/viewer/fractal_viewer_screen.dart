@@ -72,6 +72,7 @@ import 'package:flutter_fractals/features/viewer/audio/fractal_music_scan_overla
 import 'package:flutter_fractals/features/viewer/audio/fractal_music_service.dart';
 import 'package:flutter_fractals/features/viewer/audio/fourier_music_features.dart';
 import 'package:flutter_fractals/features/viewer/export/viewer_export_session.dart';
+import 'package:flutter_fractals/features/viewer/export/fibonacci_complex_export.dart';
 import 'package:flutter_fractals/features/viewer/overlays/auto_pilot_alignment_overlay.dart';
 import 'package:flutter_fractals/features/viewer/diagnostics/gpu_health_probe.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';

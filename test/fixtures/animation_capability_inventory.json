@@ -2855,6 +2855,11 @@
     "capability": "static"
   },
   {
+    "id": "fibonacci_complex_julia",
+    "shaderAsset": "shaders/escape_time_family/polynomial_maps/fibonacci_complex_julia_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "fibonacci_cone_bloom",
     "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag",
     "capability": "timeDriven"

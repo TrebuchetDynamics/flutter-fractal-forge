@@ -502,8 +502,15 @@ class _FractalRendererState extends State<FractalRenderer>
               // - Web browsers already pay CanvasKit/compositor overhead; avoid
               //   high-DPI CPU fallbacks there.
               // - Keep a cap to avoid blowing up render cost on high-DPI screens.
-              final w = (constraints.maxWidth * dpr).round().clamp(320, 900);
-              final h = (constraints.maxHeight * dpr).round().clamp(320, 900);
+              final fibonacci = module.id == 'fibonacci_complex_julia';
+              final scale =
+                  math.min(dpr, 900 / constraints.biggest.longestSide);
+              final w = fibonacci
+                  ? (constraints.maxWidth * scale).round().clamp(1, 900)
+                  : (constraints.maxWidth * dpr).round().clamp(320, 900);
+              final h = fibonacci
+                  ? (constraints.maxHeight * scale).round().clamp(1, 900)
+                  : (constraints.maxHeight * dpr).round().clamp(320, 900);
               return CpuFractalRenderer(
                 module: module,
                 state: FractalRenderState(
@@ -571,16 +578,18 @@ class _FractalRendererState extends State<FractalRenderer>
       baseIterations: baseIterations,
       zoom: controllerView.zoom,
     );
-    final effectiveIterations = GpuIterationPolicy.effectiveGpuIterations(
-      scaledIterations: scaledIterations,
-      isWeb: kIsWeb,
-      isMobile: !kIsWeb &&
-          (defaultTargetPlatform == TargetPlatform.android ||
-              defaultTargetPlatform == TargetPlatform.iOS),
-      playwrightSmoke: RuntimeModeService.playwrightCatalogSmoke,
-      playwrightSmokeMaxGpuIterations:
-          RuntimeModeService.playwrightCatalogSmokeMaxGpuIterations,
-    );
+    final effectiveIterations = module.id == 'fibonacci_complex_julia'
+        ? baseIterations.clamp(1, 45)
+        : GpuIterationPolicy.effectiveGpuIterations(
+            scaledIterations: scaledIterations,
+            isWeb: kIsWeb,
+            isMobile: !kIsWeb &&
+                (defaultTargetPlatform == TargetPlatform.android ||
+                    defaultTargetPlatform == TargetPlatform.iOS),
+            playwrightSmoke: RuntimeModeService.playwrightCatalogSmoke,
+            playwrightSmokeMaxGpuIterations:
+                RuntimeModeService.playwrightCatalogSmokeMaxGpuIterations,
+          );
     final gpuParams = Map<String, Object>.from(controllerParams)
       ..['iterations'] = effectiveIterations;
     var hasColorParam = false;

@@ -10,7 +10,7 @@
     "module_registry": "lib/core/modules/module_registry.dart"
   },
   "counts": {
-    "explore_core": 1030,
+    "explore_core": 1031,
     "explore_performance": 0,
     "manifest": 200
   },
@@ -587,6 +587,7 @@
       "core.feather",
       "core.feather_julia",
       "core.feigenbaum",
+      "core.fibonacci_complex_julia",
       "core.fibonacci_cone_bloom",
       "core.fibonacci_spiral",
       "core.fibonacci_word",
@@ -1050,6 +1051,25 @@
     "performance": []
   },
   "rows": [
+    {
+      "id": "core.fibonacci_complex_julia",
+      "source_id": "fibonacci_complex_julia",
+      "source": "Explore",
+      "group": "core",
+      "status": "renderer_registered",
+      "module_id": "fibonacci_complex_julia",
+      "shader": "shaders/escape_time_family/polynomial_maps/fibonacci_complex_julia_gpu.frag",
+      "runtime_preview": "Actual runtime-effect draw and decoded PNG in test/modules/fibonacci_complex_test.dart (host Skia raster); not hardware GPU, browser, installed-device or live viewer qualification.",
+      "cpu_formula": "Native FibonacciComplexModel orbit adapter; full-frame RGB and frozen PNG tested at nonzero c. CPU transparency refused, not parity.",
+      "references": [
+        "lib/core/modules/builders/fibonacci_complex_module.dart",
+        "lib/core/models/fibonacci_complex_model.dart",
+        "test/modules/fibonacci_complex_test.dart",
+        "test/cpu/fibonacci_complex_cpu_test.dart",
+        "test/export/fibonacci_complex_export_test.dart",
+        "research/fibonacci-prime-degree-julia.md"
+      ]
+    },
     {
       "id": "core.mandelbrot",
       "source_id": "mandelbrot",

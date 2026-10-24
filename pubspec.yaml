@@ -1,5 +1,5 @@
 name: flutter_fractals
-description: GPU-accelerated exploration of 1022 production fractals with deep zoom and real-time rendering.
+description: GPU-accelerated exploration of 1023 production fractals with deep zoom and real-time rendering.
 publish_to: none
 version: 1.1.0+38
 environment:
@@ -88,6 +88,7 @@ flutter:
     - shaders/runtime/post_glow_h.frag
     - shaders/runtime/post_glow_v.frag
     - shaders/runtime/fluid_warp.frag
+    - shaders/escape_time_family/polynomial_maps/fibonacci_complex_julia_gpu.frag
     - shaders/escape_time_family/core/julia_gpu.frag
     - shaders/escape_time_family/core/mandel_julia_dual_gpu.frag
     - shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_gpu.frag

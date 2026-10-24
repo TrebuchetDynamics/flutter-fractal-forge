@@ -24,9 +24,8 @@ Uint8List _encodeLooperGifFrames((List<Uint8List>, int) input) {
 /// Mixin that owns export/wallpaper action state and orchestration.
 ///
 /// Apply to `State<FractalViewerScreen>`.
-mixin _ExportActionsMixin on State<FractalViewerScreen> {
+mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
   // Abstract members satisfied by _FractalViewerScreenState.
-  AppLogger get _log;
   ExportService get _exportService;
   WallpaperService get _wallpaperService;
   AutoExploreService? get _autoExploreService;
@@ -309,6 +308,57 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     final boundarySize = MediaQuery.of(context).size;
     final physicalScreenSize = View.of(context).physicalSize;
     final previousTransparency = controller.transparentBackground;
+    final exportModule = controller.module;
+    final exportParams = controller.params;
+    final exportView = controller.view;
+    final exportShareUrl = DeepLinkService.buildWebUri(
+      moduleId: exportModule.id,
+      params: exportParams,
+      view: exportView,
+      transparentBackground: options.transparentBackground,
+      rotationLocked: controller.rotationLocked,
+      glowEnabled: controller.glowEnabled,
+      glowSigma: controller.glowSigma,
+      glowIntensity: controller.glowIntensity,
+      kaleidoscopeEnabled: controller.kaleidoscopeEnabled,
+      kaleidoscopeSectors: controller.kaleidoscopeSectors,
+      kaleidoscopeMirror: controller.kaleidoscopeMirror,
+      kaleidoscopeRotation: controller.kaleidoscopeRotation,
+      kaleidoscopeMirrorMode: controller.kaleidoscopeMirrorMode,
+    ).toString();
+    final fibonacciCapture = exportModule.id == 'fibonacci_complex_julia'
+        ? FibonacciComplexExportCapture.fromBoundary(
+            snapshot: FractalRenderSnapshot(
+              module: exportModule,
+              state: FractalRenderState(
+                  params: exportParams,
+                  view: exportView,
+                  transparentBackground: options.transparentBackground),
+              time: 0,
+              glowEnabled: controller.glowEnabled,
+              glowSigma: controller.glowSigma,
+              glowIntensity: controller.glowIntensity,
+              kaleidoscopeEnabled: controller.kaleidoscopeEnabled,
+              kaleidoscopeSectors: controller.kaleidoscopeSectors,
+              kaleidoscopeMirror: controller.kaleidoscopeMirror,
+              kaleidoscopeRotation: controller.kaleidoscopeRotation,
+              kaleidoscopeMirrorMode: controller.kaleidoscopeMirrorMode,
+            ),
+            requiresCpu: _currentRendererPlan(controller).usesCpuRenderer ||
+                _currentRendererPlan(controller).precision.usesCpuRenderer,
+            boundaryKey: boundaryKey,
+          )
+        : null;
+    if (fibonacciCapture != null &&
+        fibonacciCapture.requiresCpu &&
+        options.transparentBackground) {
+      ScaffoldMessenger.of(context).showSnackBar(appFeedbackSnackBar(
+        message: l10n.fibonacciComplexCpuTransparencyUnavailable,
+        success: false,
+      ));
+      setState(_finishExportFlow);
+      return;
+    }
 
     if (!await _exportService.chooseLinuxExportDirectory()) {
       if (!mounted) return;
@@ -323,7 +373,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
     });
 
     try {
-      if (options.transparentBackground) {
+      if (fibonacciCapture == null && options.transparentBackground) {
         controller.setTransparentBackground(true);
         await Future.delayed(const Duration(milliseconds: 100));
       }
@@ -335,15 +385,19 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
           late final ExportResult result;
           var usedFallback = false;
           try {
-            result = await _exportService.exportWithOptions(
+            final service = fibonacciCapture == null
+                ? _exportService
+                : _exportService.withCapture((ratio) => fibonacciCapture
+                    .capturePng(ratio, cancellationToken: token));
+            result = await service.exportWithOptions(
               boundaryKey,
               options: options,
               screenWidth: boundarySize.width,
               screenHeight: boundarySize.height,
               physicalScreenWidth: physicalScreenSize.width,
               physicalScreenHeight: physicalScreenSize.height,
-              fractalType: controller.module.id,
-              parameters: controller.params,
+              fractalType: exportModule.id,
+              parameters: exportParams,
               onProgress: (progress) {
                 if (mounted) {
                   setState(() {
@@ -355,6 +409,9 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
           } on ExportCancelledException {
             rethrow;
           } catch (primaryError) {
+            // A boundary fallback would recapture mutable/new navigation state
+            // and could turn a GPU alpha failure into an opaque CPU success.
+            if (fibonacciCapture != null) rethrow;
             _log.error(
               'export',
               'Primary export failed, trying PNG fallback',
@@ -385,22 +442,8 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
               await _exportService.shareExportResult(
                 result,
                 text: ViewerShareCaption.build(
-                  fractalName: controller.module.displayName(l10n),
-                  shareUrl: DeepLinkService.buildWebUri(
-                    moduleId: controller.module.id,
-                    params: controller.params,
-                    view: controller.view,
-                    transparentBackground: controller.transparentBackground,
-                    rotationLocked: controller.rotationLocked,
-                    glowEnabled: controller.glowEnabled,
-                    glowSigma: controller.glowSigma,
-                    glowIntensity: controller.glowIntensity,
-                    kaleidoscopeEnabled: controller.kaleidoscopeEnabled,
-                    kaleidoscopeSectors: controller.kaleidoscopeSectors,
-                    kaleidoscopeMirror: controller.kaleidoscopeMirror,
-                    kaleidoscopeRotation: controller.kaleidoscopeRotation,
-                    kaleidoscopeMirrorMode: controller.kaleidoscopeMirrorMode,
-                  ).toString(),
+                  fractalName: exportModule.displayName(l10n),
+                  shareUrl: exportShareUrl,
                 ),
               );
             } on ExportCancelledException catch (error) {
@@ -449,7 +492,9 @@ mixin _ExportActionsMixin on State<FractalViewerScreen> {
         );
       }
     } finally {
-      controller.setTransparentBackground(previousTransparency);
+      if (fibonacciCapture == null) {
+        controller.setTransparentBackground(previousTransparency);
+      }
       if (mounted) {
         setState(() {
           _finishExportFlow();

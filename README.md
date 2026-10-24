@@ -19,7 +19,7 @@
   <a href="#run-it-locally">Build locally</a>
 </p>
 
-Fractal Forge is an open-source Flutter explorer for mathematical systems and generative art. Browse **1022 production fractals**, tune parameters in real time, move through deep-zoom render paths, and export the views worth keeping.
+Fractal Forge is an open-source Flutter explorer for mathematical systems and generative art. Browse **1023 production fractals**, tune parameters in real time, move through deep-zoom render paths, and export the views worth keeping.
 
 ## See what it renders
 
@@ -195,7 +195,7 @@ for headless runs, focused reruns, and GitLab artifacts. See
 - [System specification](docs/engineering/spec.md)
 - [Verification plan](docs/engineering/test-plan.md)
 - [Local operations runbook](docs/engineering/runbook.md)
-- [Fibonacci prime-degree Julia research and saved plan](research/fibonacci-prime-degree-julia.md) — planned, not yet a catalog entry
+- [Fibonacci prime-degree Julia](research/fibonacci-prime-degree-julia.md) — native fixed-c diagonal slice with prime-degree escape bands, finite-budget/numeric legend, CPU RGB rendering and frozen PNG export; CPU transparency is explicitly unavailable. [Local checks and remaining target qualification](docs/engineering/test-plan.md#fibonacci-prime-degree-julia-verification).
 - [Launch ladder](docs/planning/LAUNCH_LADDER.md)
 - [Contributing guide](CONTRIBUTING.md)
 - [Security policy](SECURITY.md)

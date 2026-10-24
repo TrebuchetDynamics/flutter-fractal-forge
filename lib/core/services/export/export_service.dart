@@ -312,6 +312,7 @@ class ExportService {
   final ExportWorker worker;
   final ExportFileOperations fileOperations;
   final ExportCoordinator? _coordinatorOverride;
+  final Future<Uint8List> Function(double)? _capture;
 
   const ExportService({
     ShareFileCallback shareFile = _shareFileWithPlatform,
@@ -319,9 +320,21 @@ class ExportService {
     this.worker = const IsolateExportWorker(),
     this.fileOperations = const IoExportFileOperations(),
     ExportCoordinator? coordinator,
+    Future<Uint8List> Function(double pixelRatio)? capture,
   })  : shareFileAdapter = shareFile,
         directoryPicker = pickDirectory,
+        _capture = capture,
         _coordinatorOverride = coordinator;
+
+  /// Reuse the normal processing/commit pipeline with an owned frozen capture.
+  ExportService withCapture(Future<Uint8List> Function(double) capture) =>
+      ExportService(
+          shareFile: shareFileAdapter,
+          pickDirectory: directoryPicker,
+          worker: worker,
+          fileOperations: fileOperations,
+          coordinator: coordinator,
+          capture: capture);
 
   ExportCoordinator get _coordinator =>
       _coordinatorOverride ?? ExportCoordinator.shared;
@@ -493,6 +506,8 @@ class ExportService {
   /// Capture the widget as raw RGBA bytes at the specified pixel ratio
   Future<Uint8List> capturePng(GlobalKey boundaryKey,
       {double pixelRatio = 2.0}) async {
+    final capture = _capture;
+    if (capture != null) return capture(pixelRatio);
     Object? lastError;
 
     for (var attempt = 0; attempt < 3; attempt++) {

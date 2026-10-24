@@ -97,11 +97,26 @@ class _CpuFallbackPaneState extends State<CpuFallbackPane> {
                   ),
                 ),
                 Positioned.fill(
-                  child: CpuFractalRenderer(
-                    module: module,
-                    state: state,
-                    onPartial: _handlePartial,
-                  ),
+                  child: module.id == 'fibonacci_complex_julia'
+                      ? LayoutBuilder(builder: (context, constraints) {
+                          final scale = (900 / constraints.biggest.longestSide)
+                              .clamp(0.0, 1.0);
+                          return CpuFractalRenderer(
+                              module: module,
+                              state: state,
+                              width: (constraints.maxWidth * scale)
+                                  .round()
+                                  .clamp(1, 900),
+                              height: (constraints.maxHeight * scale)
+                                  .round()
+                                  .clamp(1, 900),
+                              onPartial: _handlePartial);
+                        })
+                      : CpuFractalRenderer(
+                          module: module,
+                          state: state,
+                          onPartial: _handlePartial,
+                        ),
                 ),
                 if (widget.initialSnapshot != null)
                   Positioned.fill(

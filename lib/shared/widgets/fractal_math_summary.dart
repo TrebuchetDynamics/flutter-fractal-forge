@@ -151,6 +151,12 @@ class FractalMathSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (module.id == 'fibonacci_complex_julia') {
+      // Keep the complete accessible legend even in compact catalog details.
+      return Text(AppLocalizations.of(context)!.fibonacciComplexLegend,
+          key: const Key('fibonacciComplexLegend'),
+          style: AppTypography.labelSmall);
+    }
     final math = FractalMathematics.forModule(module, category: category);
     final formula = mathematicalLabel(
       context,

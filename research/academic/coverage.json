@@ -1,6 +1,6 @@
 {
   "counts": {
-    "app": 1030,
+    "app": 1031,
     "planned": 1,
     "reference": 200,
     "registry": 1619
@@ -4575,6 +4575,14 @@
     {
       "alias_review": "unresolved",
       "identity": "core.feigenbaum",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.fibonacci_complex_julia",
       "name": "",
       "namespace": "app",
       "paper_ids": [],

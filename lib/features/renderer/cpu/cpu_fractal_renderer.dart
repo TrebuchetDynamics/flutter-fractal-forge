@@ -165,7 +165,9 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
     }
 
     // Use suggested iterations for next render if not converged.
-    return result.suggestedIterations.clamp(50, _iterationMaxForModule());
+    return widget.module.id == 'fibonacci_complex_julia'
+        ? currentIterations
+        : result.suggestedIterations.clamp(50, _iterationMaxForModule());
   }
 
   bool _shouldStillBeInteracting() {
@@ -369,18 +371,28 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
       );
       final juliaC = cpuJuliaCForModule(widget.module.id, widget.state.params);
 
-      // Increase iteration budget as zoom increases to avoid blotchy boundaries.
-      final iterations = CpuIterationBudget.forZoom(
-        baseIterations: baseIterations,
-        maxIterations: maxIterations,
-        zoom: widget.state.view.zoom,
-      );
+      // This family's N is a finite experiment, not a refinement hint.
+      final iterations = widget.module.id == 'fibonacci_complex_julia'
+          ? baseIterations.clamp(1, 45)
+          : CpuIterationBudget.forZoom(
+              baseIterations: baseIterations,
+              maxIterations: maxIterations,
+              zoom: widget.state.view.zoom,
+            );
 
-      final resolution = CpuRenderResolution.forPass(
-        targetWidth: widget.width,
-        targetHeight: widget.height,
-        resolutionScale: resolutionScale,
-      );
+      final resolution = widget.module.id == 'fibonacci_complex_julia'
+          ? CpuRenderResolution(
+              width: (widget.width * resolutionScale)
+                  .round()
+                  .clamp(1, widget.width),
+              height: (widget.height * resolutionScale)
+                  .round()
+                  .clamp(1, widget.height))
+          : CpuRenderResolution.forPass(
+              targetWidth: widget.width,
+              targetHeight: widget.height,
+              resolutionScale: resolutionScale,
+            );
       final w = resolution.width;
       final h = resolution.height;
 
@@ -449,7 +461,9 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
           final probe = await _renderFrameTiled(
             width: w,
             height: h,
-            iterations: iterations + 16,
+            iterations: widget.module.id == 'fibonacci_complex_julia'
+                ? iterations
+                : iterations + 16,
             bailout: control,
             juliaC: juliaC,
             sampleCount: 1,
@@ -530,10 +544,13 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
     _setSlowModeActive(true);
 
     try {
-      final resolution = CpuRenderResolution.forSlowMode(
-        targetWidth: widget.width,
-        targetHeight: widget.height,
-      );
+      final resolution = widget.module.id == 'fibonacci_complex_julia'
+          ? CpuRenderResolution(
+              width: widget.width * 2, height: widget.height * 2)
+          : CpuRenderResolution.forSlowMode(
+              targetWidth: widget.width,
+              targetHeight: widget.height,
+            );
       final w = resolution.width;
       final h = resolution.height;
       final buffer = Uint8List(w * h * 4);
@@ -548,11 +565,13 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         widget.state.params,
       );
       final juliaC = cpuJuliaCForModule(widget.module.id, widget.state.params);
-      final iterations = CpuIterationBudget.forZoom(
-        baseIterations: baseIterations,
-        maxIterations: maxIterations,
-        zoom: widget.state.view.zoom,
-      );
+      final iterations = widget.module.id == 'fibonacci_complex_julia'
+          ? baseIterations.clamp(1, 45)
+          : CpuIterationBudget.forZoom(
+              baseIterations: baseIterations,
+              maxIterations: maxIterations,
+              zoom: widget.state.view.zoom,
+            );
 
       // Match the existing row 0/8/16/... publication cadence while batching
       // the intervening rows into one isolate request. This removes thousands
@@ -897,6 +916,10 @@ double cpuControlScalarForModule(String moduleId, Map<String, Object> params) {
 ///
 /// Julia-family formulas read `juliaC*`; Phoenix reads `phoenixC*`.
 Vector2 cpuJuliaCForModule(String moduleId, Map<String, Object> params) {
+  if (moduleId == 'fibonacci_complex_julia') {
+    return Vector2(readDouble(params, 'juliaCReal', -.2).clamp(-2, 2),
+        readDouble(params, 'juliaCImag', .25).clamp(-2, 2));
+  }
   if (moduleId == 'phoenix') {
     final x = readDouble(params, 'phoenixCReal', 0.5667);
     final y = readDouble(params, 'phoenixCImag', 0.0);

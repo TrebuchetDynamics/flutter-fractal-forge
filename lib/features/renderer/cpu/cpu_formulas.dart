@@ -8,6 +8,8 @@ import 'dart:math' as math;
 
 import 'package:vector_math/vector_math_64.dart' show Vector2;
 
+import 'package:flutter_fractals/core/models/fibonacci_complex_model.dart';
+
 import 'cpu_coloring.dart';
 import 'cpu_complex_math.dart';
 import 'cpu_scalar_math.dart';
@@ -24,6 +26,29 @@ typedef CpuFormula = (double r, double g, double b) Function(
 );
 
 typedef CpuFormulaPlanePoint = ({double x, double y});
+
+(double, double, double) _cpuFibonacciComplexJulia(
+    double x, double y, int iterations, double bailout, Vector2 c) {
+  final orbit = FibonacciComplexModel.orbit(
+    zReal: x,
+    zImag: y,
+    cReal: c.x,
+    cImag: c.y,
+    maxIterations: iterations.clamp(1, 45),
+    bailout: bailout,
+  );
+  switch (orbit.status) {
+    case FibonacciComplexStatus.numericallyUnresolved:
+      return (230, 40, 190);
+    case FibonacciComplexStatus.capReached:
+      return (12, 18, 30);
+    case FibonacciComplexStatus.escaped:
+      final band = (orbit.updates % 6).toDouble();
+      return FibonacciComplexModel.isPrimeDegreeAtUpdate(orbit.updates)
+          ? (255, 180 + 5 * band, 40)
+          : (30 + 5 * band, 90 + 12 * band, 170 + 12 * band);
+  }
+}
 
 /// Stable seeds for formulas that intentionally use the generic CPU
 /// approximation instead of a native recurrence.
@@ -116,6 +141,7 @@ CpuFormulaPlanePoint cpuBurningShipParameterPlanePoint(double x, double y) {
 
 /// Registry of CPU formulas by module id (escape-time catalog + a few extras).
 final Map<String, CpuFormula> cpuFormulasByModuleId = <String, CpuFormula>{
+  'fibonacci_complex_julia': _cpuFibonacciComplexJulia,
   'mandelbrot': _cpu_mandelbrot,
   'burning_ship': _cpu_burning_ship,
   'tricorn': _cpu_tricorn,
