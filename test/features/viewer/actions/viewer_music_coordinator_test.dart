@@ -568,9 +568,9 @@ void main() {
       },
     );
 
-    test(
+    testWidgets(
       'keeps refresh loop alive after a transient missing scan frame',
-      () async {
+      (tester) async {
         final music = _FakeMusicService();
         final effects = ViewerEffectsController(musicService: music);
         effects.fractalMusicEnabled = true;
@@ -582,12 +582,26 @@ void main() {
           scanFrames: [null, frameWithValue(220)],
         );
 
-        coord.startLoopRefresh(controller, scanFrame: frameWithValue(40));
-        await Future<void>.delayed(const Duration(milliseconds: 18));
+        try {
+          coord.startLoopRefresh(controller, scanFrame: frameWithValue(40));
+          // Pump each timer separately and drain capture/playback microtasks;
+          // a wall-clock deadline can expire before the missing-frame retry.
+          await tester.pump(const Duration(milliseconds: 1));
+          expect(music.playCount, 0);
+          expect(syncs, isEmpty);
 
-        expect(music.playCount, 1);
-        expect(syncs, isEmpty);
-        coord.dispose();
+          await tester.pump(const Duration(milliseconds: 5));
+          expect(music.playCount, 1);
+          expect(syncs, isEmpty);
+
+          await tester.pump(const Duration(milliseconds: 5));
+          expect(music.playCount, 1);
+          expect(syncs, isEmpty);
+        } finally {
+          coord.dispose();
+          await tester.pump();
+          effects.dispose();
+        }
       },
     );
   });
