@@ -21,5 +21,6 @@ exclusions = []
 - Section: Needs decision.
 - Sources: [Research and shader feasibility](research/besicovitch-shader.md#shader-feasibility).
 - Ownership: Proposed work, unassigned; preserve current ordering and all existing saved attempts. Research saves this proposal, not execution authority.
-- Question: Accept implementing the finite Perron-tree visualization? Default until answered: retain this proposal without dispatch, migration, schedules or publication.
-- Next action: On explicit acceptance, derive and test the source-based finite geometry before adding a shader; do not transplant the reference applet's unreviewed area/all-direction captions.
+- Question: Already answered by the prior /lgtm; do not ask again whether to implement the finite Perron-tree visualization. Remaining acceptance reconciliation is technical work, not new product intent.
+- Next action: Reconcile the integrated perron_tree implementation and retained evidence against this unchanged acceptance/check contract before any new implementation. Source is already in main (96c93583 and later delivery); preserve the existing model, shader and tests. Keep open until the required source-bound proof is accounted for; do not infer device/human acceptance or dispatch duplicate implementation.
+- Owner decision: 2026-10-23 reconciliation of the prior owner /lgtm following the finite Perron-tree recommendation (Hermes session 20261011_210334_78a65d, user message 11785): implementation was accepted. This is not a new approval or a waiver of mathematical, rendering, export, accessibility or device checks.
