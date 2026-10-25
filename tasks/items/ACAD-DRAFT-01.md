@@ -3,7 +3,7 @@ schema = 1
 id = "ACAD-DRAFT-01"
 title = "Prepare bounded delegated academic review drafts without source acquisition"
 short = "Draft six-source and 12-identity review packet"
-status = "open"
+status = "done"
 goal = "ACAD-001"
 section = "Now"
 rank = 1000
@@ -16,5 +16,10 @@ scope = "Implement the delegated draft-only preparation phase in research/academ
 acceptance = ["Exactly the six existing paper IDs and 12 pilot identity IDs reconcile to the immutable preparation package; each dossier binds current implementation paths and flags source/equation gaps honestly. Draft actors are explicitly agents; human identity, inclusion, acquisition, extraction and claim approval fields remain pending. No fabricated source spans or numerical oracle.", "Record original pilot/package/alias hashes and prove unchanged. Deliver JSON plus Markdown with per-source recommendation, rights gap, proposed mapping status and exact next human input; no blanket approval of the 906 records."]
 checks = ["Run /usr/bin/python3 -m scripts.research.academic.review_package --repo-root .; run the existing focused test/research/test_academic_review_package.py suite using the provisioned interpreter. Validate JSON ID sets/counts, draft/pending decision invariants, current referenced files and preserved input hashes; git diff --check."]
 exclusions = ["No acquisition, new network search, source licensing conclusion, reviewed alias edit, screening approval, accepted mathematical claim or publication. Do not modify the preparation snapshot or weaken its validator."]
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/ACAD-DRAFT-01.toml"
 +++
 - Sources: docs/tasks/DELEGATED-DECISIONS-20261025.md#academic-draft-priorities
+- Pending live: Attributable human identity/version/relevance and inclusion decisions for the six sources and 12 pilot identities, including leaving the six unmapped identities unresolved or supplying specifically authorized source identities.
+- Pending live: Separate per-source human rights/lawful-access and acquisition decisions; no source access, licensing conclusion or acquisition is authorized or performed by this draft.
+- Pending live: After separately authorized access: actual source spans, human extraction acceptance, independent implementation/numerical comparison and separate human claim approval remain pending under the existing academic review gates.

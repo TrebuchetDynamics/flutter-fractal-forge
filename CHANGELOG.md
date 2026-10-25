@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Prepared an agent-only six-source/12-identity academic draft packet with current renderer bindings, preserved input hashes and pending human review gates. (ACAD-DRAFT-01)
 - Document Number Walls Android target/build/certificate discovery, unavailable driver execution and explicit pending TalkBack/lifecycle/MediaStore qualification without claiming installed-device acceptance. (NUM-WALL-05)
 - Add real Number Walls Linux/Chromium journeys and retained same-state PNG/matrix, replay/cancellation and measured software-renderer evidence, with native-driver and visual qualification gaps explicit. (NUM-WALL-04)
 - Add a reserved-port Linux integration_test host driver with private evidence, bounded owned cleanup, and a qualified benign native fixture. (NATIVE-PORT-DRIVER-01)
