@@ -1860,7 +1860,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get homeFractalCountBadge => '1024 fractals';
+  String get homeFractalCountBadge => '1025 fractals';
 
   @override
   String get catalogAllFractals => 'All Fractals';
@@ -2149,7 +2149,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsAboutBlurb =>
-      'GPU-accelerated exploration of 1024 production fractals, with deep zoom and real-time rendering.';
+      'GPU-accelerated exploration of 1025 production fractals, with deep zoom and real-time rendering.';
 
   @override
   String get settingsSourceCode => 'Source code';
@@ -2294,4 +2294,25 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get perronGpuOnly =>
       'This finite Perron-tree visualization requires the shader renderer. CPU rendering is not available; no substitute image is shown.';
+
+  @override
+  String get recursiveSineSphereName => 'Recursive Sine-Warped Sphere';
+
+  @override
+  String get recursiveSineSphereDepth => 'Warp depth';
+
+  @override
+  String get recursiveSineSphereStrength => 'Warp strength';
+
+  @override
+  String get recursiveSineSphereRadius => 'Sphere radius';
+
+  @override
+  String get recursiveSineSpherePhase => 'Phase (radians)';
+
+  @override
+  String get recursiveSineSphereRaySteps => 'Ray step budget';
+
+  @override
+  String get recursiveSineSphereAnimate => 'Animate phase';
 }

@@ -57,6 +57,7 @@ void main() {
       'tglad_formula',
       'tortoise_toroidal_fractal',
       'mandelbulb',
+      'recursive_sine_sphere',
     });
 
     final removedClones = <String>{

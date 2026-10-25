@@ -193,6 +193,15 @@ class FractalMathematics {
       method = 'Procedural rule visualization';
       qualification = 'Rule-inspired procedural visualization';
     }
+    if (file == 'recursive_sine_sphere_gpu.frag') {
+      family = 'IFS and geometric constructions';
+      algebra = 'Real';
+      view = '3D implicit surface';
+      method = 'Conservative level-set intersection';
+      qualification =
+          'Finite sine-warped sphere; not an SDF or an infinite fractal';
+      relationship = "Inspired by Íñigo Quílez's domain warping";
+    }
     if (module.id == 'milnor_brieskorn') {
       family = 'Complex dynamics';
       algebra = 'Complex';
@@ -270,6 +279,9 @@ class FractalMathematics {
       return '$equations; finite RK4 approximation from (${trajectory.seed.x}, ${trajectory.seed.y}, ${trajectory.seed.z}), dt=${trajectory.stepSize}, burn-in=${trajectory.burnInSteps}, samples=${trajectory.retainedSteps}; projection=${trajectory.projection.name}; legacy saved views retain the initial-condition portrait';
     }
     switch (file) {
+      case 'recursive_sine_sphere_gpu.frag':
+        final phase = values['animate'] == true ? 'phi+0.0002*t' : 'phi';
+        return 'C(x,y,z)=(y,z,x); q(0)=p; q(n+1)=q(n)+a*2^-n*sin(2^n*C(q(n))+phase(t)), 0<=n<N; |q(N)|-R=0; N=${bounded('depth').toInt()}, a=${bounded('strength')}, R=${bounded('radius')}, phi=${bounded('phase')}; phase(t)=$phase';
       case 'julia_gpu.frag':
         return 'z(n+1) = z(n)^2 + c; c = (${value('juliaCReal')}, ${value('juliaCImag')}); z(0) = pixel';
       case 'phoenix_gpu.frag':
@@ -329,6 +341,7 @@ class FractalMathematics {
   }
 
   static String _reviewedFile(String shader) => const {
+        'shaders/3d_and_hypercomplex/raymarched_volumes/recursive_sine_sphere_gpu.frag',
         'shaders/legacy/escape_time/mandel_step_smooth.frag',
         'shaders/escape_time_family/core/julia_gpu.frag',
         'shaders/escape_time_family/core/phoenix_gpu.frag',

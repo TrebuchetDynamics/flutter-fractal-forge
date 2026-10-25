@@ -124,10 +124,10 @@ void main() {
       registry = ModuleRegistry();
     });
 
-    test('total module count is 1032 in debug/test', () {
+    test('total module count is 1033 in debug/test', () {
       // Debug/test builds include 7 diagnostic modules and one non-fractal
-      // scientific visualization. Public docs count 1024 production fractals.
-      expect(registry.modules.length, 1032,
+      // scientific visualization. Public docs count 1025 production fractals.
+      expect(registry.modules.length, 1033,
           reason: 'Update this constant when modules are intentionally '
               'added to or removed from the de-duplicated registry.');
     });
@@ -195,6 +195,7 @@ void main() {
         'hydrogen_orbital',
         'quaternion_julia_3d',
         'juliabulb_3d',
+        'recursive_sine_sphere',
       ];
       for (final id in customIds) {
         expect(
@@ -228,6 +229,7 @@ void main() {
         'mandelbulb',
         'mandelbox',
         'hydrogen_orbital',
+        'recursive_sine_sphere',
         'kifs_menger',
         'kifs_sierpinski_tetra',
         'quaternion_julia_3d',

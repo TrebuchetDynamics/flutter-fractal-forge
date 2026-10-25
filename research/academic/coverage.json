@@ -1,6 +1,6 @@
 {
   "counts": {
-    "app": 1032,
+    "app": 1033,
     "planned": 1,
     "reference": 200,
     "registry": 1619
@@ -7040,6 +7040,14 @@
       "alias_review": "unresolved",
       "identity": "core.recursive_octagram_field",
       "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.recursive_sine_sphere",
+      "name": "Recursive Sine-Warped Sphere",
       "namespace": "app",
       "paper_ids": [],
       "status": "gap"

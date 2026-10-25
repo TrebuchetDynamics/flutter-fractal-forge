@@ -1882,7 +1882,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get homeFractalCountBadge => '1024 fractales';
+  String get homeFractalCountBadge => '1025 fractales';
 
   @override
   String get catalogAllFractals => 'Todos los fractales';
@@ -2172,7 +2172,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settingsAboutBlurb =>
-      'Exploración acelerada por GPU de 1024 fractales de producción, con zoom profundo y renderizado en tiempo real.';
+      'Exploración acelerada por GPU de 1025 fractales de producción, con zoom profundo y renderizado en tiempo real.';
 
   @override
   String get settingsSourceCode => 'Código fuente';
@@ -2319,4 +2319,25 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get perronGpuOnly =>
       'Esta visualización finita del árbol de Perron requiere el renderizador de shaders. El renderizado por CPU no está disponible; no se muestra una imagen sustituta.';
+
+  @override
+  String get recursiveSineSphereName => 'Esfera recursiva deformada por seno';
+
+  @override
+  String get recursiveSineSphereDepth => 'Profundidad de deformación';
+
+  @override
+  String get recursiveSineSphereStrength => 'Intensidad de deformación';
+
+  @override
+  String get recursiveSineSphereRadius => 'Radio de la esfera';
+
+  @override
+  String get recursiveSineSpherePhase => 'Fase (radianes)';
+
+  @override
+  String get recursiveSineSphereRaySteps => 'Límite de pasos del rayo';
+
+  @override
+  String get recursiveSineSphereAnimate => 'Animar fase';
 }

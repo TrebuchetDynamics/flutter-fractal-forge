@@ -82,6 +82,40 @@ void main() {
     });
   }
 
+  testWidgets('sine sphere summary exposes edited finite formula in EN and ES',
+      (tester) async {
+    for (final language in ['en', 'es']) {
+      await tester.pumpWidget(harness.wrapScaffold(
+        FractalMathSummary(
+          module: harness.registry.byId('recursive_sine_sphere'),
+          params: const {
+            'depth': 2,
+            'strength': 0.5,
+            'radius': 1.25,
+            'phase': 0.4,
+            'animate': true,
+          },
+        ),
+        locale: Locale(language),
+      ));
+      await tester.pumpAndSettle();
+      final formula = tester
+          .widget<Text>(find.byKey(const Key('currentMathematicalFormula')))
+          .data!;
+      expect(formula, contains('q(n+1)=q(n)+a*2^-n*sin(2^n*C(q(n))+phase(t))'));
+      expect(formula, contains('C(x,y,z)=(y,z,x)'));
+      expect(formula, contains('|q(N)|-R=0; N=2, a=0.5, R=1.25, phi=0.4'));
+      expect(formula, contains('phase(t)=phi+0.0002*t'));
+      expect(find.textContaining('Íñigo Quílez'), findsOneWidget);
+      expect(
+          find.text(language == 'es'
+              ? 'Esfera finita deformada por seno; no es un SDF ni un fractal infinito'
+              : 'Finite sine-warped sphere; not an SDF or an infinite fractal'),
+          findsOneWidget);
+      expect(tester.takeException(), isNull);
+    }
+  });
+
   testWidgets('cellular rule view does not claim simulated evolution',
       (tester) async {
     await tester.pumpWidget(harness.wrapScaffold(

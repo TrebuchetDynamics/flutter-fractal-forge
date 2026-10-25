@@ -12,6 +12,12 @@ String mathematicalLabel(BuildContext context, String value) {
     'Translated-triangle union': 'Unión de triángulos trasladados',
     'Finite approximation; not a zero-area set or continuous needle motion':
         'Aproximación finita; no es un conjunto de área cero ni un movimiento continuo de aguja',
+    '3D implicit surface': 'Superficie implícita 3D',
+    'Conservative level-set intersection': 'Intersección conservadora de nivel',
+    'Finite sine-warped sphere; not an SDF or an infinite fractal':
+        'Esfera finita deformada por seno; no es un SDF ni un fractal infinito',
+    "Inspired by Íñigo Quílez's domain warping":
+        'Inspirada en la deformación de dominio de Íñigo Quílez',
     'Number Walls': 'Muros numéricos',
     'Finite field': 'Campo finito',
     'Discrete field': 'Campo discreto',

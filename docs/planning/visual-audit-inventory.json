@@ -10,7 +10,7 @@
     "module_registry": "lib/core/modules/module_registry.dart"
   },
   "counts": {
-    "explore_core": 1032,
+    "explore_core": 1033,
     "explore_performance": 0,
     "manifest": 200
   },
@@ -893,6 +893,7 @@
       "core.rayleigh_benard",
       "core.recursive_arcana_frames",
       "core.recursive_octagram_field",
+      "core.recursive_sine_sphere",
       "core.relativistic_black_hole_lensing",
       "core.rep_tile_explorer",
       "core.replicator_ca",

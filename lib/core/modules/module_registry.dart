@@ -27,6 +27,7 @@ import 'package:flutter_fractals/core/modules/fractals/nova_module.dart';
 import 'package:flutter_fractals/core/modules/fractals/number_wall_module.dart';
 import 'package:flutter_fractals/core/modules/fractals/phoenix_module.dart';
 import 'package:flutter_fractals/core/modules/fractals/quaternion_julia_3d_module.dart';
+import 'package:flutter_fractals/core/modules/fractals/recursive_sine_sphere_module.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_julia_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_life_like_catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart';
@@ -111,6 +112,7 @@ class ModuleRegistry {
         buildHydrogenOrbitalModule(),
       buildQuaternionJulia3DModule(),
       buildJuliabulb3DModule(),
+      buildRecursiveSineSphereModule(),
     ];
 
     // Diagnostics (debug only, always last)
