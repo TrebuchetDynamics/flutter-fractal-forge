@@ -1,0 +1,1139 @@
+{
+  "task": "QUAL-EVIDENCE-01",
+  "prepared_utc": "2026-10-25T23:46:09Z",
+  "qualification": "not_qualified",
+  "journey_status": "failed",
+  "scope": "Owned local Linux capture/provenance and read-only target inventory; failure-retention path, no publication or acceptance.",
+  "private_storage": {
+    "base": "git-common-dir",
+    "relative_path": "autowork-execution/slot-data/QUAL-EVIDENCE-01/attempt-1/retained",
+    "access": "private local files, not published; retained outside TMPDIR/worktree deletion",
+    "resolve": "Resolve git rev-parse --git-common-dir from the consuming repository, then append relative_path; a clone will not contain these private files."
+  },
+  "source": {
+    "baseline": "5f77b348bd7907cd5e7776b5b05f6be48157bb20",
+    "archive": {
+      "path": "source-baseline.tar.gz",
+      "sha256": "c3666136fa4ecc9a3d16c26f917612585e83b9e69d7c18b5a10f4c5ac92746d2",
+      "bytes": 84679074
+    },
+    "identity": {
+      "path": "source-sdk.json",
+      "sha256": "dd88292e1120f8e80aeb226ea1f23ff79e6de47e8c82d56cbda330c96c7dda57",
+      "bytes": 2067
+    },
+    "diagnostic_patch": {
+      "path": "diagnostic.patch",
+      "sha256": "d8484f88c02a9763bbc6e3cc536282eed10fdf97f2d7723e83456d1704e69bcb",
+      "bytes": 1200
+    },
+    "diagnostic_harness": {
+      "path": "diagnostic-user_flows_test.dart",
+      "sha256": "892925334632800cb966a087c3efdace96f1777764ee3b036947091715b8303c",
+      "bytes": 21972
+    },
+    "final_harness_changed": false,
+    "policy": {
+      "path": "docs/tasks/DELEGATED-DECISIONS-20261025.md",
+      "sha256": "eb7b97e8151b35801aae1c13468b763de601e745db5e57b0a4536fbcf8507be9"
+    }
+  },
+  "sdk": {
+    "frameworkVersion": "3.44.6",
+    "channel": "[user-branch]",
+    "repositoryUrl": "unknown source",
+    "frameworkRevision": "ee80f08bbf97172ec030b8751ceab557177a34a6",
+    "frameworkCommitDate": "2026-07-08 15:02:06 -0700",
+    "engineRevision": "83675ed27633283e7fc296c8bca22e841224c096",
+    "engineCommitDate": "2026-06-30 16:59:03.000Z",
+    "engineContentHash": "d3a3293399556a85388faf8c6f0723a7a5597aa8",
+    "engineBuildDate": "2026-06-30 12:58:16.871",
+    "dartSdkVersion": "3.12.2",
+    "devToolsVersion": "2.57.0",
+    "flutterVersion": "3.44.6"
+  },
+  "backend": {
+    "target": "owned Linux debug app under Xvfb (1280x800x24, TCP disabled)",
+    "viewer_fixture": "native engine with synthetic 1280x900 landscape viewport metrics, devicePixelRatio 1",
+    "application_path": "gpu shader backend reported in driver logs; not the app CPU fallback",
+    "graphics_implementation": "Mesa llvmpipe (LLVM 20.1.2, 256 bits), Mesa 25.2.8, Accelerated: no",
+    "classification": "software_rendering",
+    "hardware_gpu_qualified": false,
+    "provenance": "Each run has a same-display glxinfo -B probe and owned application /proc maps plus SHA-256 of mapped files (including engine, Mesa and LLVM). The probe is corroborating same-display evidence, not an in-app GL_RENDERER query."
+  },
+  "target_inventory": {
+    "observation": {
+      "path": "inventory.json",
+      "sha256": "d786050a1998404aaf75e965be92fd0bf24bf9e8fd14bb6c40b3e1cd882ca378",
+      "bytes": 319
+    },
+    "raw": {
+      "path": "adb-inventory.txt",
+      "sha256": "8d384df2338489f0e54b2e61888b5542ff722724110119806c638c23154d0ed9",
+      "bytes": 155
+    },
+    "android": "Waydroid x86_64 emulator/container; not a physical device",
+    "installed_build_verified": false,
+    "media_store_or_gallery_verified": false,
+    "physical_target_qualified": false,
+    "operations": "adb devices -l only against an already-running server; no device attachment, shell, install, reset or credential use"
+  },
+  "runs": [
+    {
+      "id": "native-attempt-1",
+      "source_variant": "unchanged_baseline",
+      "receipt": {
+        "path": "native-attempt-1/run.json",
+        "sha256": "3c1b05f1a3dfef37c814c034e6f1783bfeb6765642398037c04dd087287976fc",
+        "bytes": 1940
+      },
+      "driver_log": {
+        "path": "native-attempt-1/driver.log",
+        "sha256": "e853a6ec9a37afc36692423312dd8f4f378ff5764308b18474eb9bd8b1076475",
+        "bytes": 26070
+      },
+      "runtime_observations": {
+        "path": "native-attempt-1/runtime-observations.json",
+        "sha256": "963cabd1fa5ac38a4232c0aea9704dd446da805f9771b6ca503dc6b19d770d33",
+        "bytes": 61775
+      },
+      "backend_probe": {
+        "path": "native-attempt-1/app-194078-glxinfo.txt",
+        "sha256": "720594537c4fa63dd253060706714128196275c8685e4a0873417618800a3ab7",
+        "bytes": 1726
+      },
+      "exit_code": 1,
+      "protocol_success": false,
+      "port_range": [
+        20200,
+        20299
+      ],
+      "listeners": [
+        [
+          "tcp",
+          "0100007F",
+          20200
+        ]
+      ],
+      "cleanup": {
+        "remaining_pids": []
+      },
+      "input_sha256": {
+        "integration_test/flows/user_flows_test.dart": "0e2bfbacdbb1eca45f3c62949a983c6b48af2d29a4687cbe9b111692da974afb",
+        "test_driver/integration_test.dart": "51382a5b3b178c6454a9d04eeb0cbb3d207b3c43117ecfd6e38a6ef058029343",
+        "scripts/run-native-integration.sh": "5d0963a8f0e05f1d340bc62d45fdf09384f15f1a28149312a1bb533a68dc070c"
+      },
+      "terminal_counter": "+12 ~1 -1 including teardown (11 product passes, 1 product failure, 1 existing skip)",
+      "failure_test": "User Flow Integration Tests Linux 2D and 3D journey saves edited mathematical PNG artifacts",
+      "failure": "StateError: Bad state: No element in scrollUntilVisible, second module; Mandelbulb not captured",
+      "captures": [
+        {
+          "module_id": "mandelbrot",
+          "png": {
+            "path": "native-attempt-1/exports/fractal_mandelbrot_1792970961953.png",
+            "sha256": "cc3b2f94d824ef030f19bf534ecc0101595d5ef86ee3c56831bb750e04f09b0f",
+            "bytes": 331478
+          },
+          "state_sidecar": {
+            "path": "native-attempt-1/exports/fractal_mandelbrot_1792970961953.png.state.json",
+            "sha256": "e7961d48dabadc66177a0fd7eeb6aab5c749b0f954abe11e43f604c9a909d0ed",
+            "bytes": 445
+          },
+          "observed_state": {
+            "fixture": "native engine with synthetic landscape viewport metrics",
+            "viewport": [
+              1280.0,
+              900.0
+            ],
+            "preset": {
+              "id": "journey-edited-mandelbrot",
+              "moduleId": "mandelbrot",
+              "name": "Journey edited mandelbrot",
+              "params": {
+                "iterations": 350,
+                "bailout": 4.0,
+                "colorScheme": 0
+              },
+              "view": {
+                "panX": -0.6523809523809524,
+                "panY": -0.0761904761904762,
+                "zoom": 0.35,
+                "rotX": 0.0,
+                "rotY": 0.0,
+                "rotZ": 0.0
+              },
+              "createdAt": "2026-10-25T23:29:22.428368Z",
+              "isBuiltIn": false,
+              "thumbnailPath": null
+            }
+          },
+          "decoded": {
+            "decoder": "Pillow 10.4.0",
+            "dimensions": [
+              1280,
+              720
+            ],
+            "mode": "RGBA",
+            "rgba_sha256": "ce761c16e8e8fe541805b69974d305915b9ceb5157f8a9866632b052fc576a73",
+            "sample_stride": 4,
+            "sample_count": 57600,
+            "sample_unique_rgb": 975,
+            "sample_nonblack_count": 48189,
+            "rgba_extrema": [
+              [
+                0,
+                255
+              ],
+              [
+                0,
+                255
+              ],
+              [
+                0,
+                255
+              ],
+              [
+                255,
+                255
+              ]
+            ]
+          },
+          "selected_resolution": "HD (existing journey selects ExportResolution.hd)",
+          "expected_dimensions": [
+            1280,
+            720
+          ],
+          "journey_completed": false
+        }
+      ]
+    },
+    {
+      "id": "native-attempt-2",
+      "source_variant": "unchanged_baseline",
+      "receipt": {
+        "path": "native-attempt-2/run.json",
+        "sha256": "8768b1f4e5b89ef54ef9b76daee2c21d3456f4843ee3376a41213543bf570153",
+        "bytes": 1940
+      },
+      "driver_log": {
+        "path": "native-attempt-2/driver.log",
+        "sha256": "7b38e9ab8b3d9fb0303217702d08b16d0fa6208ae380b08076a2b2425d6e2a36",
+        "bytes": 25862
+      },
+      "runtime_observations": {
+        "path": "native-attempt-2/runtime-observations.json",
+        "sha256": "60e26f7a20eab4322e4e0e90b72f142208934001db9e8ff639da53fadf531887",
+        "bytes": 61901
+      },
+      "backend_probe": {
+        "path": "native-attempt-2/app-256561-glxinfo.txt",
+        "sha256": "c4749764f1beb34b518e7165d1d3a67ecca28f3a7777037417b761428fa1be8c",
+        "bytes": 1741
+      },
+      "exit_code": 1,
+      "protocol_success": false,
+      "port_range": [
+        20200,
+        20299
+      ],
+      "listeners": [
+        [
+          "tcp",
+          "0100007F",
+          20200
+        ]
+      ],
+      "cleanup": {
+        "remaining_pids": []
+      },
+      "input_sha256": {
+        "integration_test/flows/user_flows_test.dart": "0e2bfbacdbb1eca45f3c62949a983c6b48af2d29a4687cbe9b111692da974afb",
+        "test_driver/integration_test.dart": "51382a5b3b178c6454a9d04eeb0cbb3d207b3c43117ecfd6e38a6ef058029343",
+        "scripts/run-native-integration.sh": "5d0963a8f0e05f1d340bc62d45fdf09384f15f1a28149312a1bb533a68dc070c"
+      },
+      "terminal_counter": "+12 ~1 -1 including teardown (11 product passes, 1 product failure, 1 existing skip)",
+      "failure_test": "User Flow Integration Tests Linux 2D and 3D journey saves edited mathematical PNG artifacts",
+      "failure": "StateError: Bad state: No element in scrollUntilVisible, second module; Mandelbulb not captured",
+      "captures": [
+        {
+          "module_id": "mandelbrot",
+          "png": {
+            "path": "native-attempt-2/exports/fractal_mandelbrot_1792971142172.png",
+            "sha256": "3e24033e2877c466b131c377507820e89d56f253bac5856119b8d3f6312bc305",
+            "bytes": 331478
+          },
+          "state_sidecar": {
+            "path": "native-attempt-2/exports/fractal_mandelbrot_1792971142172.png.state.json",
+            "sha256": "6d11f10c0a0dd167d3f1735906da8c557a0f54035e863ac444c3303ffd3764f5",
+            "bytes": 445
+          },
+          "observed_state": {
+            "fixture": "native engine with synthetic landscape viewport metrics",
+            "viewport": [
+              1280.0,
+              900.0
+            ],
+            "preset": {
+              "id": "journey-edited-mandelbrot",
+              "moduleId": "mandelbrot",
+              "name": "Journey edited mandelbrot",
+              "params": {
+                "iterations": 350,
+                "bailout": 4.0,
+                "colorScheme": 0
+              },
+              "view": {
+                "panX": -0.6523809523809524,
+                "panY": -0.0761904761904762,
+                "zoom": 0.35,
+                "rotX": 0.0,
+                "rotY": 0.0,
+                "rotZ": 0.0
+              },
+              "createdAt": "2026-10-25T23:32:22.921464Z",
+              "isBuiltIn": false,
+              "thumbnailPath": null
+            }
+          },
+          "decoded": {
+            "decoder": "Pillow 10.4.0",
+            "dimensions": [
+              1280,
+              720
+            ],
+            "mode": "RGBA",
+            "rgba_sha256": "ce761c16e8e8fe541805b69974d305915b9ceb5157f8a9866632b052fc576a73",
+            "sample_stride": 4,
+            "sample_count": 57600,
+            "sample_unique_rgb": 975,
+            "sample_nonblack_count": 48189,
+            "rgba_extrema": [
+              [
+                0,
+                255
+              ],
+              [
+                0,
+                255
+              ],
+              [
+                0,
+                255
+              ],
+              [
+                255,
+                255
+              ]
+            ]
+          },
+          "selected_resolution": "HD (existing journey selects ExportResolution.hd)",
+          "expected_dimensions": [
+            1280,
+            720
+          ],
+          "journey_completed": false
+        }
+      ]
+    },
+    {
+      "id": "native-attempt-3",
+      "source_variant": "baseline_plus_diagnostic_patch",
+      "receipt": {
+        "path": "native-attempt-3/run.json",
+        "sha256": "957c9b6c40a5f60456c012031820431211aa6a8a1d6902f785825b7514d997d8",
+        "bytes": 1940
+      },
+      "driver_log": {
+        "path": "native-attempt-3/driver.log",
+        "sha256": "327de06603956f066ad1c34db28bd25d4bc7b32897e3fd117cf50899f8fcb683",
+        "bytes": 32758
+      },
+      "runtime_observations": {
+        "path": "native-attempt-3/runtime-observations.json",
+        "sha256": "310e5cad50c40726521a75fbb8596e88bb32fd7784340c8e734da7023215806d",
+        "bytes": 62090
+      },
+      "backend_probe": {
+        "path": "native-attempt-3/app-311611-glxinfo.txt",
+        "sha256": "0fb715176572617fd1fe22cda177a3979ce022532a921caece29df73308cbc1a",
+        "bytes": 1741
+      },
+      "exit_code": 1,
+      "protocol_success": false,
+      "port_range": [
+        20200,
+        20299
+      ],
+      "listeners": [
+        [
+          "tcp",
+          "0100007F",
+          20200
+        ]
+      ],
+      "cleanup": {
+        "remaining_pids": []
+      },
+      "input_sha256": {
+        "integration_test/flows/user_flows_test.dart": "892925334632800cb966a087c3efdace96f1777764ee3b036947091715b8303c",
+        "test_driver/integration_test.dart": "51382a5b3b178c6454a9d04eeb0cbb3d207b3c43117ecfd6e38a6ef058029343",
+        "scripts/run-native-integration.sh": "5d0963a8f0e05f1d340bc62d45fdf09384f15f1a28149312a1bb533a68dc070c"
+      },
+      "terminal_counter": "+12 ~1 -1 including teardown (11 product passes, 1 product failure, 1 existing skip)",
+      "failure_test": "User Flow Integration Tests Linux 2D and 3D journey saves edited mathematical PNG artifacts",
+      "failure": "StateError: Bad state: No element in scrollUntilVisible, second module; Mandelbulb not captured",
+      "captures": [
+        {
+          "module_id": "mandelbrot",
+          "png": {
+            "path": "native-attempt-3/exports/fractal_mandelbrot_1792971317155.png",
+            "sha256": "3dac6caad1a1426a2974212ae7e3d5fce4b7e55af107363fe02caf45d9ffe799",
+            "bytes": 331478
+          },
+          "state_sidecar": {
+            "path": "native-attempt-3/exports/fractal_mandelbrot_1792971317155.png.state.json",
+            "sha256": "c4c15ca8ce435422c02c2e94cecf4659a625be5b6aa3ef0e91f53a296bffabd5",
+            "bytes": 445
+          },
+          "observed_state": {
+            "fixture": "native engine with synthetic landscape viewport metrics",
+            "viewport": [
+              1280.0,
+              900.0
+            ],
+            "preset": {
+              "id": "journey-edited-mandelbrot",
+              "moduleId": "mandelbrot",
+              "name": "Journey edited mandelbrot",
+              "params": {
+                "iterations": 350,
+                "bailout": 4.0,
+                "colorScheme": 0
+              },
+              "view": {
+                "panX": -0.6523809523809524,
+                "panY": -0.0761904761904762,
+                "zoom": 0.35,
+                "rotX": 0.0,
+                "rotY": 0.0,
+                "rotZ": 0.0
+              },
+              "createdAt": "2026-10-25T23:35:17.897594Z",
+              "isBuiltIn": false,
+              "thumbnailPath": null
+            }
+          },
+          "decoded": {
+            "decoder": "Pillow 10.4.0",
+            "dimensions": [
+              1280,
+              720
+            ],
+            "mode": "RGBA",
+            "rgba_sha256": "ce761c16e8e8fe541805b69974d305915b9ceb5157f8a9866632b052fc576a73",
+            "sample_stride": 4,
+            "sample_count": 57600,
+            "sample_unique_rgb": 975,
+            "sample_nonblack_count": 48189,
+            "rgba_extrema": [
+              [
+                0,
+                255
+              ],
+              [
+                0,
+                255
+              ],
+              [
+                0,
+                255
+              ],
+              [
+                255,
+                255
+              ]
+            ]
+          },
+          "selected_resolution": "HD (existing journey selects ExportResolution.hd)",
+          "expected_dimensions": [
+            1280,
+            720
+          ],
+          "journey_completed": false
+        }
+      ]
+    }
+  ],
+  "missing_capture_inputs": [
+    "Actual edited-state Mandelbulb PNG and observed state sidecar",
+    "Official successful integrationDriver terminal receipt for the complete 2D/3D journey",
+    "Separately scoped native test-input reconnection/synchronization repair and recapture preserving existing assertions; requested Mandelbulb query remained Mandelbrot in diagnostic observation"
+  ],
+  "state_limits": [
+    "Sidecars are exact observed post-export preset params/view and viewport, not reconstructed from defaults. Original unedited view, effects toggles, transparency, animation/export timing and complete renderer state were not captured and must not be inferred. Any review requiring them needs fresh capture instrumentation.",
+    "Preset createdAt is a runtime sidecar-serialization time, not an independently measured image creation time. Preserve raw timestamps; do not infer cross-clock timing or performance.",
+    "No Spanish/inspired sample, human composition/readability, mathematical certification, hardware GPU, physical accessibility, Android MediaStore/gallery or publication qualification.",
+    "Existing Barnsley Fern default-view skip remains unchanged; failures and partial artifacts do not release holds."
+  ],
+  "retained_tasks": [
+    {
+      "id": "ACAD-01-LIVE",
+      "source": {
+        "path": "tasks/items/ACAD-01-LIVE.md",
+        "sha256": "b20d07c5c72f9de9715a3578c12763634519101330d1638f79b59ea3557ca88b"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: attributable human identity/alias adjudication after the draft packet",
+      "missing_input_types": [
+        "human",
+        "source"
+      ],
+      "missing_inputs": "attributable human identity/alias adjudication after the draft packet",
+      "depends_on": [
+        "ACAD-01"
+      ],
+      "provided_by_this_packet": "No task-specific journey or verdict collected. Local software Linux/Waydroid inventory does not supply this hold."
+    },
+    {
+      "id": "ACAD-02-LIVE",
+      "source": {
+        "path": "tasks/items/ACAD-02-LIVE.md",
+        "sha256": "316c350878487d2c51e24452685f650f8cdb01cd27c561edb58ca54d8ce1605a"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: per-source human relevance/version/rights decisions; no full-text approval yet",
+      "missing_input_types": [
+        "human",
+        "source"
+      ],
+      "missing_inputs": "per-source human relevance/version/rights decisions; no full-text approval yet",
+      "depends_on": [
+        "ACAD-02"
+      ],
+      "provided_by_this_packet": "No task-specific journey or verdict collected. Local software Linux/Waydroid inventory does not supply this hold."
+    },
+    {
+      "id": "ACAD-03",
+      "source": {
+        "path": "tasks/items/ACAD-03.md",
+        "sha256": "4ae140a80a3c0d7233b085d81d2df39330943f9d3210cd0c2747a906a470b877"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: human-approved exact identity/source subset, lawful access evidence and separate accepted-claim review",
+      "missing_input_types": [
+        "human",
+        "source"
+      ],
+      "missing_inputs": "human-approved exact identity/source subset, lawful access evidence and separate accepted-claim review",
+      "depends_on": [
+        "ACAD-007-f8",
+        "ACAD-02"
+      ],
+      "provided_by_this_packet": "No task-specific journey or verdict collected. Local software Linux/Waydroid inventory does not supply this hold."
+    },
+    {
+      "id": "ACAD-04",
+      "source": {
+        "path": "tasks/items/ACAD-04.md",
+        "sha256": "a2a1130768214252c64eccfbaee4edbaf43c8cbe0620fd42640e4d59072d0529"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: qualified ACAD-03 pilot and per-subset human approvals",
+      "missing_input_types": [
+        "dependency",
+        "human",
+        "source"
+      ],
+      "missing_inputs": "qualified ACAD-03 pilot and per-subset human approvals",
+      "depends_on": [
+        "ACAD-03"
+      ],
+      "provided_by_this_packet": "No task-specific journey or verdict collected. Local software Linux/Waydroid inventory does not supply this hold."
+    },
+    {
+      "id": "CAT-QUALITY-01-LIVE",
+      "source": {
+        "path": "tasks/items/CAT-QUALITY-01-LIVE.md",
+        "sha256": "b6163716c958ba5ed45fd1bd2dba54be40b346b775c350338c41997e00506935"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: named physical target and attributable visual reviewer; control/export/performance verdicts",
+      "missing_input_types": [
+        "device",
+        "human",
+        "measurement"
+      ],
+      "missing_inputs": "named physical target and attributable visual reviewer; control/export/performance verdicts",
+      "depends_on": [
+        "CAT-QUALITY-01"
+      ],
+      "provided_by_this_packet": "No task-specific journey or verdict collected. Local software Linux/Waydroid inventory does not supply this hold."
+    },
+    {
+      "id": "CAT-QUALITY-02-LIVE",
+      "source": {
+        "path": "tasks/items/CAT-QUALITY-02-LIVE.md",
+        "sha256": "ff43e8a602d54724349090f8a4ec7eaf03d81f99fd05a640dbfaeb72be3b4eab"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: mobile/physical journey, human review and missing independent formula reference",
+      "missing_input_types": [
+        "device",
+        "human",
+        "source"
+      ],
+      "missing_inputs": "mobile/physical journey, human review and missing independent formula reference",
+      "depends_on": [
+        "CAT-QUALITY-02"
+      ],
+      "provided_by_this_packet": "No task-specific journey or verdict collected. Local software Linux/Waydroid inventory does not supply this hold."
+    },
+    {
+      "id": "FIB-PRIME-03",
+      "source": {
+        "path": "tasks/items/FIB-PRIME-03.md",
+        "sha256": "cf5b6ad5fe0cf3d0582a24a70f91c3534f254dc5657dcf9d179a059417323f8b"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: named permitted Linux/browser target and worker listener allocation; Android/reviewer inputs remain separate",
+      "missing_input_types": [
+        "target",
+        "measurement",
+        "device",
+        "human"
+      ],
+      "missing_inputs": "named permitted Linux/browser target and worker listener allocation; Android/reviewer inputs remain separate",
+      "depends_on": [
+        "FIB-PRIME-02"
+      ],
+      "provided_by_this_packet": "Assigned Linux software/Xvfb target and 20200..20299 allocation observed for QUAL-EVIDENCE-01 only; no Fibonacci/browser journey and no transferable allocation."
+    },
+    {
+      "id": "GAUSS-MOAT-02-WALK-LIVE",
+      "source": {
+        "path": "tasks/items/GAUSS-MOAT-02-WALK-LIVE.md",
+        "sha256": "399ccc20cc94372657caa721a343b1fae21bc3906df9a581f97bf15c0c599803"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: suitable named physical device and visual/accessibility/performance reviewer",
+      "missing_input_types": [
+        "device",
+        "human",
+        "measurement"
+      ],
+      "missing_inputs": "suitable named physical device and visual/accessibility/performance reviewer",
+      "depends_on": [
+        "GAUSS-MOAT-02-WALK"
+      ],
+      "provided_by_this_packet": "No task-specific journey or verdict collected. Local software Linux/Waydroid inventory does not supply this hold."
+    },
+    {
+      "id": "GAUSS-MOAT-03-QUALIFY-LIVE",
+      "source": {
+        "path": "tasks/items/GAUSS-MOAT-03-QUALIFY-LIVE.md",
+        "sha256": "a2c6620f82dd4b9e6e9b0061b2a40deaba51b654f0f045c77262f7be64b6b76c"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: authorized target, B=128 telemetry, real MediaStore/gallery readback and human accessibility/composition review",
+      "missing_input_types": [
+        "device",
+        "measurement",
+        "human"
+      ],
+      "missing_inputs": "authorized target, B=128 telemetry, real MediaStore/gallery readback and human accessibility/composition review",
+      "depends_on": [
+        "GAUSS-MOAT-03-QUALIFY"
+      ],
+      "provided_by_this_packet": "No task-specific journey or verdict collected. Local software Linux/Waydroid inventory does not supply this hold."
+    },
+    {
+      "id": "GAUSS-MOAT-04-GROWTH-LIVE",
+      "source": {
+        "path": "tasks/items/GAUSS-MOAT-04-GROWTH-LIVE.md",
+        "sha256": "6c7e2ca06bb152ff8981722f46e158a9793381a339a0b0b720ad23c26388b59a"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: GAUSS-MOAT-03 real journey/device verdicts and growth-state export evidence",
+      "missing_input_types": [
+        "dependency",
+        "device",
+        "human",
+        "artifact"
+      ],
+      "missing_inputs": "GAUSS-MOAT-03 real journey/device verdicts and growth-state export evidence",
+      "depends_on": [
+        "GAUSS-MOAT-04-GROWTH"
+      ],
+      "provided_by_this_packet": "No task-specific journey or verdict collected. Local software Linux/Waydroid inventory does not supply this hold."
+    },
+    {
+      "id": "ICON-ZJ-02",
+      "source": {
+        "path": "tasks/items/ICON-ZJ-02.md",
+        "sha256": "8a8af5fd05751227bd31d7c7687fc1c81cf10cacb14b904af1aaf175128b2ba3"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: VIS-003 installed-launcher verdict on a separately authorized Android target; no repeated upload",
+      "missing_input_types": [
+        "dependency",
+        "device",
+        "human"
+      ],
+      "missing_inputs": "VIS-003 installed-launcher verdict on a separately authorized Android target; no repeated upload",
+      "depends_on": [
+        "VIS-003",
+        "ICON-ZJ-01"
+      ],
+      "provided_by_this_packet": "No task-specific journey or verdict collected. Local software Linux/Waydroid inventory does not supply this hold."
+    },
+    {
+      "id": "QUAT-NORM-01-SLICE-LIVE",
+      "source": {
+        "path": "tasks/items/QUAT-NORM-01-SLICE-LIVE.md",
+        "sha256": "f875d34d89100828d9e65118f422276dd5548eb5f74adb0089356a6cb6b57313"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: named device and attributable visual/screen-reader/list-selection verdict",
+      "missing_input_types": [
+        "device",
+        "human"
+      ],
+      "missing_inputs": "named device and attributable visual/screen-reader/list-selection verdict",
+      "depends_on": [
+        "QUAT-NORM-01-SLICE"
+      ],
+      "provided_by_this_packet": "No task-specific journey or verdict collected. Local software Linux/Waydroid inventory does not supply this hold."
+    },
+    {
+      "id": "QUAT-NORM-02-WALK-LIVE",
+      "source": {
+        "path": "tasks/items/QUAT-NORM-02-WALK-LIVE.md",
+        "sha256": "7f6b1e4020af3f50ff92cf6aea7948da47816a0816bd809241f07cae98ec1aac"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: physical-device gesture/accessibility/native-export qualification",
+      "missing_input_types": [
+        "device",
+        "human",
+        "artifact"
+      ],
+      "missing_inputs": "physical-device gesture/accessibility/native-export qualification",
+      "depends_on": [
+        "QUAT-NORM-02-WALK"
+      ],
+      "provided_by_this_packet": "No task-specific journey or verdict collected. Local software Linux/Waydroid inventory does not supply this hold."
+    },
+    {
+      "id": "QUAT-NORM-03-QUALIFY-LIVE",
+      "source": {
+        "path": "tasks/items/QUAT-NORM-03-QUALIFY-LIVE.md",
+        "sha256": "1b41831479748ba32e1dc46beb666571c7ea81382f8620a2a36e191c588cbf9a"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: authorized Android target, decoded exported PNGs and remaining physical-GPU qualification",
+      "missing_input_types": [
+        "device",
+        "artifact",
+        "measurement"
+      ],
+      "missing_inputs": "authorized Android target, decoded exported PNGs and remaining physical-GPU qualification",
+      "depends_on": [
+        "QUAT-NORM-03-QUALIFY"
+      ],
+      "provided_by_this_packet": "No task-specific journey or verdict collected. Local software Linux/Waydroid inventory does not supply this hold."
+    },
+    {
+      "id": "RELEASE-001-23-LIVE",
+      "source": {
+        "path": "tasks/items/RELEASE-001-23-LIVE.md",
+        "sha256": "099029122a2447853000a4dca422731b9ac6ed3af440a88f450da61f01b10c01"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: missing lane hosts and target verdicts; signing, credentialed remote operations and external Apple/F-Droid acceptance remain separately gated",
+      "missing_input_types": [
+        "target",
+        "authority",
+        "human"
+      ],
+      "missing_inputs": "missing lane hosts and target verdicts; signing, credentialed remote operations and external Apple/F-Droid acceptance remain separately gated",
+      "depends_on": [
+        "RELEASE-001-23"
+      ],
+      "provided_by_this_packet": "No task-specific journey or verdict collected. Local software Linux/Waydroid inventory does not supply this hold."
+    },
+    {
+      "id": "RELEASE-003-ae",
+      "source": {
+        "path": "tasks/items/RELEASE-003-ae.md",
+        "sha256": "a8e615024dbd5dd0a3e163fbdb4f554df012bfeb1f61629fa06fdb1d2db7e168"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: immutable prepared subset/digests/destinations and separately attributable candidate-bound production approval",
+      "missing_input_types": [
+        "manifest",
+        "authority"
+      ],
+      "missing_inputs": "immutable prepared subset/digests/destinations and separately attributable candidate-bound production approval",
+      "depends_on": [
+        "RELEASE-002-75"
+      ],
+      "provided_by_this_packet": "No task-specific journey or verdict collected. Local software Linux/Waydroid inventory does not supply this hold."
+    },
+    {
+      "id": "REL-JOURNEY-02-LINUX-LIVE",
+      "source": {
+        "path": "tasks/items/REL-JOURNEY-02-LINUX-LIVE.md",
+        "sha256": "a47dfac183d5de77d2a2b3b207ae739899134c1c38ce42fa050ed9e380e981e4"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: attributable human composition/readability review of retained actual edited exports",
+      "missing_input_types": [
+        "artifact",
+        "human"
+      ],
+      "missing_inputs": "attributable human composition/readability review of retained actual edited exports",
+      "depends_on": [
+        "REL-JOURNEY-02-LINUX"
+      ],
+      "provided_by_this_packet": "Three actual edited Mandelbrot PNG/state pairs from failed runs; Mandelbulb and official successful journey receipt absent; no human verdict."
+    },
+    {
+      "id": "REL-JOURNEY-03-ANDROID-LIVE",
+      "source": {
+        "path": "tasks/items/REL-JOURNEY-03-ANDROID-LIVE.md",
+        "sha256": "f02ee557248dd48b900f4927dfeb61a92a18d5efe8521ea8d54a7bb03324f3bc"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: separately authorized install-safe named Android target, actual MediaStore bytes/gallery and reviewer",
+      "missing_input_types": [
+        "authority",
+        "device",
+        "artifact",
+        "human"
+      ],
+      "missing_inputs": "separately authorized install-safe named Android target, actual MediaStore bytes/gallery and reviewer",
+      "depends_on": [
+        "REL-JOURNEY-03-ANDROID"
+      ],
+      "provided_by_this_packet": "No task-specific journey or verdict collected. Local software Linux/Waydroid inventory does not supply this hold."
+    },
+    {
+      "id": "SMOOTH-001-INVENTORY-01-LIVE",
+      "source": {
+        "path": "tasks/items/SMOOTH-001-INVENTORY-01-LIVE.md",
+        "sha256": "ccac687975be99cbb5a5e7433109fdb802e61b9e4440e23d496a4063600533e6"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: named permitted hardware-GPU render/performance session and visual reviewer",
+      "missing_input_types": [
+        "target",
+        "measurement",
+        "human"
+      ],
+      "missing_inputs": "named permitted hardware-GPU render/performance session and visual reviewer",
+      "depends_on": [
+        "SMOOTH-001-INVENTORY-01"
+      ],
+      "provided_by_this_packet": "No task-specific journey or verdict collected. Local software Linux/Waydroid inventory does not supply this hold."
+    },
+    {
+      "id": "SMOOTH-001-INVENTORY-02-LIVE",
+      "source": {
+        "path": "tasks/items/SMOOTH-001-INVENTORY-02-LIVE.md",
+        "sha256": "161481b53be2a1da2dcc1885f7f4b99d1a62a24c7127ec93e10652fe99fb0773"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: named permitted hardware-GPU Multibrot render/performance session and visual reviewer",
+      "missing_input_types": [
+        "target",
+        "measurement",
+        "human"
+      ],
+      "missing_inputs": "named permitted hardware-GPU Multibrot render/performance session and visual reviewer",
+      "depends_on": [
+        "SMOOTH-001-INVENTORY-02"
+      ],
+      "provided_by_this_packet": "No task-specific journey or verdict collected. Local software Linux/Waydroid inventory does not supply this hold."
+    },
+    {
+      "id": "VIEW-UI-01-LIVE",
+      "source": {
+        "path": "tasks/items/VIEW-UI-01-LIVE.md",
+        "sha256": "7c0a4278c9c78fbe9f8b1442a5fd0a1516e487d73e08eaf1acf257f441d1651c"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: physical screen-reader/rotation, hardware-GPU and production-font verdicts",
+      "missing_input_types": [
+        "device",
+        "measurement",
+        "human"
+      ],
+      "missing_inputs": "physical screen-reader/rotation, hardware-GPU and production-font verdicts",
+      "depends_on": [
+        "VIEW-UI-01"
+      ],
+      "provided_by_this_packet": "No task-specific journey or verdict collected. Local software Linux/Waydroid inventory does not supply this hold."
+    },
+    {
+      "id": "VIEW-UI-02-LIVE",
+      "source": {
+        "path": "tasks/items/VIEW-UI-02-LIVE.md",
+        "sha256": "0502e37ae72534d415e8a7ad7961ecb6f857ef029b04a1c1d56475a2e03c91b5"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: actual native screenshots/SDK/typography plus physical screen-reader reviewer verdict",
+      "missing_input_types": [
+        "artifact",
+        "device",
+        "human"
+      ],
+      "missing_inputs": "actual native screenshots/SDK/typography plus physical screen-reader reviewer verdict",
+      "depends_on": [
+        "VIEW-UI-02"
+      ],
+      "provided_by_this_packet": "No task-specific journey or verdict collected. Local software Linux/Waydroid inventory does not supply this hold."
+    },
+    {
+      "id": "VIS-003",
+      "source": {
+        "path": "tasks/items/VIS-003.md",
+        "sha256": "4da6f06f9b9d036251f335151830fbf944d3fd681be3ba200684bd3f60b44007"
+      },
+      "status": "open",
+      "hold_retained": true,
+      "hold": "EVIDENCE-GATE: actual installed B launcher presentation and attributable Android reviewer verdict; no install or upload authorized here",
+      "missing_input_types": [
+        "device",
+        "human"
+      ],
+      "missing_inputs": "actual installed B launcher presentation and attributable Android reviewer verdict; no install or upload authorized here",
+      "depends_on": [],
+      "provided_by_this_packet": "No task-specific journey or verdict collected. Local software Linux/Waydroid inventory does not supply this hold."
+    }
+  ],
+  "holds_released": [],
+  "private_files": [
+    {
+      "path": "adb-inventory.txt",
+      "sha256": "8d384df2338489f0e54b2e61888b5542ff722724110119806c638c23154d0ed9",
+      "bytes": 155
+    },
+    {
+      "path": "collect-native.py",
+      "sha256": "d2a1dccc3b4e8fbd18903315ce146ff7c6ebd2ee62096504cac6a0d9a3c16529",
+      "bytes": 3626
+    },
+    {
+      "path": "diagnostic-user_flows_test.dart",
+      "sha256": "892925334632800cb966a087c3efdace96f1777764ee3b036947091715b8303c",
+      "bytes": 21972
+    },
+    {
+      "path": "diagnostic.patch",
+      "sha256": "d8484f88c02a9763bbc6e3cc536282eed10fdf97f2d7723e83456d1704e69bcb",
+      "bytes": 1200
+    },
+    {
+      "path": "final-review-before-I1.md",
+      "sha256": "733b59882419cdafbe7f0e1fe87696e57daa865f92008b78f5d168641a02c398",
+      "bytes": 7637
+    },
+    {
+      "path": "inventory.json",
+      "sha256": "d786050a1998404aaf75e965be92fd0bf24bf9e8fd14bb6c40b3e1cd882ca378",
+      "bytes": 319
+    },
+    {
+      "path": "lock-before.sha256",
+      "sha256": "6a2efa6795db354629cde9cd3d2177ef26d7c2bd7bb2a9c245b6f7fda7148113",
+      "bytes": 79
+    },
+    {
+      "path": "native-attempt-1/app-194078-glxinfo.txt",
+      "sha256": "720594537c4fa63dd253060706714128196275c8685e4a0873417618800a3ab7",
+      "bytes": 1726
+    },
+    {
+      "path": "native-attempt-1/app-194078.maps",
+      "sha256": "d1be311e1b8708ce72b775adaf9a1a5eabaa24bbcc7451b94b39d595ded73a39",
+      "bytes": 104216
+    },
+    {
+      "path": "native-attempt-1/driver.log",
+      "sha256": "e853a6ec9a37afc36692423312dd8f4f378ff5764308b18474eb9bd8b1076475",
+      "bytes": 26070
+    },
+    {
+      "path": "native-attempt-1/exports/fractal_mandelbrot_1792970961953.png",
+      "sha256": "cc3b2f94d824ef030f19bf534ecc0101595d5ef86ee3c56831bb750e04f09b0f",
+      "bytes": 331478
+    },
+    {
+      "path": "native-attempt-1/exports/fractal_mandelbrot_1792970961953.png.state.json",
+      "sha256": "e7961d48dabadc66177a0fd7eeb6aab5c749b0f954abe11e43f604c9a909d0ed",
+      "bytes": 445
+    },
+    {
+      "path": "native-attempt-1/native-launch.log",
+      "sha256": "5ec183a36abcb74e8a0305517d2f53a4bdd33cd863765834a5e9464c0ab7d833",
+      "bytes": 134
+    },
+    {
+      "path": "native-attempt-1/outputs/flutter_driver_commands_0.log",
+      "sha256": "4a0384a0373593d152fdfa249cd7537c4255efc7616d6a019b9804bdb9a6fb0f",
+      "bytes": 2415
+    },
+    {
+      "path": "native-attempt-1/run.json",
+      "sha256": "3c1b05f1a3dfef37c814c034e6f1783bfeb6765642398037c04dd087287976fc",
+      "bytes": 1940
+    },
+    {
+      "path": "native-attempt-1/runtime-observations.json",
+      "sha256": "963cabd1fa5ac38a4232c0aea9704dd446da805f9771b6ca503dc6b19d770d33",
+      "bytes": 61775
+    },
+    {
+      "path": "native-attempt-2/app-256561-glxinfo.txt",
+      "sha256": "c4749764f1beb34b518e7165d1d3a67ecca28f3a7777037417b761428fa1be8c",
+      "bytes": 1741
+    },
+    {
+      "path": "native-attempt-2/app-256561.maps",
+      "sha256": "ee53d6067b8d76885f294bf5b7d750462c81a4f6917050d1d43fb009fabca3e1",
+      "bytes": 93186
+    },
+    {
+      "path": "native-attempt-2/driver.log",
+      "sha256": "7b38e9ab8b3d9fb0303217702d08b16d0fa6208ae380b08076a2b2425d6e2a36",
+      "bytes": 25862
+    },
+    {
+      "path": "native-attempt-2/exports/fractal_mandelbrot_1792971142172.png",
+      "sha256": "3e24033e2877c466b131c377507820e89d56f253bac5856119b8d3f6312bc305",
+      "bytes": 331478
+    },
+    {
+      "path": "native-attempt-2/exports/fractal_mandelbrot_1792971142172.png.state.json",
+      "sha256": "6d11f10c0a0dd167d3f1735906da8c557a0f54035e863ac444c3303ffd3764f5",
+      "bytes": 445
+    },
+    {
+      "path": "native-attempt-2/native-launch.log",
+      "sha256": "cd7e1874a7800db67919dfc532761795494226533cdeae9151363a1eaa6ec1bb",
+      "bytes": 134
+    },
+    {
+      "path": "native-attempt-2/outputs/flutter_driver_commands_0.log",
+      "sha256": "24deed58b1e6ec31c7e621c1822cff4b9a87ff57f9f24b2afe55e7be5edd688f",
+      "bytes": 2415
+    },
+    {
+      "path": "native-attempt-2/run.json",
+      "sha256": "8768b1f4e5b89ef54ef9b76daee2c21d3456f4843ee3376a41213543bf570153",
+      "bytes": 1940
+    },
+    {
+      "path": "native-attempt-2/runtime-observations.json",
+      "sha256": "60e26f7a20eab4322e4e0e90b72f142208934001db9e8ff639da53fadf531887",
+      "bytes": 61901
+    },
+    {
+      "path": "native-attempt-3/app-311611-glxinfo.txt",
+      "sha256": "0fb715176572617fd1fe22cda177a3979ce022532a921caece29df73308cbc1a",
+      "bytes": 1741
+    },
+    {
+      "path": "native-attempt-3/app-311611.maps",
+      "sha256": "ae73b37684dfe97005dc37ddcf024762418361ed15cd9a9437253e5e797abcc8",
+      "bytes": 103651
+    },
+    {
+      "path": "native-attempt-3/driver.log",
+      "sha256": "327de06603956f066ad1c34db28bd25d4bc7b32897e3fd117cf50899f8fcb683",
+      "bytes": 32758
+    },
+    {
+      "path": "native-attempt-3/exports/fractal_mandelbrot_1792971317155.png",
+      "sha256": "3dac6caad1a1426a2974212ae7e3d5fce4b7e55af107363fe02caf45d9ffe799",
+      "bytes": 331478
+    },
+    {
+      "path": "native-attempt-3/exports/fractal_mandelbrot_1792971317155.png.state.json",
+      "sha256": "c4c15ca8ce435422c02c2e94cecf4659a625be5b6aa3ef0e91f53a296bffabd5",
+      "bytes": 445
+    },
+    {
+      "path": "native-attempt-3/native-launch.log",
+      "sha256": "d966d8e0f41a080ad50e13cedda0571cee98f2db9948326b1a5270dd497c4eca",
+      "bytes": 134
+    },
+    {
+      "path": "native-attempt-3/outputs/flutter_driver_commands_0.log",
+      "sha256": "96ad1a868e8a670ecbdeb2d8a0b295cc26be31647d7773cb4a034054bb32daa8",
+      "bytes": 2415
+    },
+    {
+      "path": "native-attempt-3/run.json",
+      "sha256": "957c9b6c40a5f60456c012031820431211aa6a8a1d6902f785825b7514d997d8",
+      "bytes": 1940
+    },
+    {
+      "path": "native-attempt-3/runtime-observations.json",
+      "sha256": "310e5cad50c40726521a75fbb8596e88bb32fd7784340c8e734da7023215806d",
+      "bytes": 62090
+    },
+    {
+      "path": "pub-get.log",
+      "sha256": "0bbb5805cb391700472206a27a4dad94c29e06d6498de3f4103b5417b8aa554f",
+      "bytes": 620
+    },
+    {
+      "path": "scope-review.md",
+      "sha256": "cf39935c06fb6f0f5cb3dfac41fa9a37473b9cc30aa9b3ff1703d21c7de918e4",
+      "bytes": 6613
+    },
+    {
+      "path": "source-baseline.tar.gz",
+      "sha256": "c3666136fa4ecc9a3d16c26f917612585e83b9e69d7c18b5a10f4c5ac92746d2",
+      "bytes": 84679074
+    },
+    {
+      "path": "source-sdk.json",
+      "sha256": "dd88292e1120f8e80aeb226ea1f23ff79e6de47e8c82d56cbda330c96c7dda57",
+      "bytes": 2067
+    },
+    {
+      "path": "verify-evidence-before-I1.py",
+      "sha256": "4ca8ae0dc6bcf0a807f6d796bd87cc19594c7dbc5a0e19c00184d2c37fba57a9",
+      "bytes": 7708
+    },
+    {
+      "path": "verify-evidence.py",
+      "sha256": "1670e7d92467a63247e336d0a4104bf6c57f494f4e992b69a9272cb502f72b1b",
+      "bytes": 7719
+    }
+  ]
+}
