@@ -65,6 +65,7 @@
   "viewerBackToCatalog": "Volver al catálogo",
   "catalogSearchHint": "Buscar fractales",
   "catalogSearchEmpty": "No hay fractales que coincidan con tu búsqueda.",
+  "catalogMathDetails": "Fórmula y límites",
   "actionClearSearch": "Borrar búsqueda",
   "catalogClearFilters": "Limpiar todo",
   "catalogResultsCount": "{count} resultados",

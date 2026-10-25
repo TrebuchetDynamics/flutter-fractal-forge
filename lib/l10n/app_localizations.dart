@@ -476,6 +476,12 @@ abstract class AppLocalizations {
   /// **'No fractals match your search.'**
   String get catalogSearchEmpty;
 
+  /// No description provided for @catalogMathDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Formula and limits'**
+  String get catalogMathDetails;
+
   /// No description provided for @actionClearSearch.
   ///
   /// In en, this message translates to:

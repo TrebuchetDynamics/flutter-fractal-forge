@@ -65,6 +65,18 @@ void main() {
       await tester.pumpAndSettle();
     }
 
+    Future<void> settleNumberWall(
+        WidgetTester tester, FractalController controller) async {
+      for (var i = 0; i < 200; i++) {
+        await tester.pump(const Duration(milliseconds: 10));
+        if (!controller.numberWallPending) {
+          await tester.pumpAndSettle();
+          if (!controller.numberWallPending) return;
+        }
+      }
+      fail('owned Number Walls request must terminate');
+    }
+
     Widget linkedApp(DeepLinkService links, ViewerSessionStore store) =>
         FlutterFractalsApp(
           presetStore: harness.presetStore,
@@ -266,6 +278,142 @@ void main() {
       expect(find.byType(FractalViewerScreen, skipOffstage: false),
           findsOneWidget);
     });
+
+    for (final owner in ['modal', 'export', 'back']) {
+      testWidgets('pending Number Walls link yields to $owner ownership',
+          (tester) async {
+        final links = await platformLinks();
+        final store = await ViewerSessionStore.create();
+        await tester.pumpWidget(linkedApp(links, store));
+        await tester.pumpAndSettle();
+        await deliverLink(tester, 'type=mandelbrot&zoom=3');
+        final viewer = tester.element(find.byType(FractalViewerScreen));
+        final controller = viewer.read<FractalController>();
+        final before = Map<String, Object>.from(controller.params);
+        final navigator = Navigator.of(viewer);
+        final release = Completer<void>();
+        Future<void>? exporting;
+        var claimed = false;
+        void claimOwnership() {
+          if (claimed || !controller.numberWallPending) return;
+          claimed = true;
+          if (owner == 'export') {
+            exporting = ExportCoordinator.shared
+                .run(ExportKind.image, (token) async => release.future);
+          } else if (owner == 'modal') {
+            unawaited(navigator.push(MaterialPageRoute<void>(
+              builder: (_) => const Scaffold(body: Text('Covering operation')),
+            )));
+          } else {
+            navigator.pop();
+          }
+        }
+
+        controller.addListener(claimOwnership);
+        try {
+          await deliverLink(tester,
+              'type=number_wall&zoom=7&glowEnabled=true&param.prime=%2297%22&param.rows=4&param.columns=16');
+          await settleNumberWall(tester, controller);
+          expect(claimed, isTrue);
+          expect(controller.numberWallPending, isFalse);
+          expect(controller.module.id, 'mandelbrot',
+              reason: 'certification must not commit under a new route/export');
+          expect(controller.params, before);
+          expect(controller.view.zoom, 3);
+          expect(controller.glowEnabled, isFalse);
+          expect(controller.numberWallGrid, isNull);
+          if (owner == 'back') {
+            expect(find.byType(FractalViewerScreen, skipOffstage: false),
+                findsNothing,
+                reason: 'a pending link must not reopen the dismissed viewer');
+          } else if (owner == 'modal') {
+            expect(find.text('Covering operation'), findsOneWidget);
+            navigator.pop();
+          } else {
+            release.complete();
+            await exporting;
+          }
+          await tester.pumpAndSettle();
+          await deliverLink(tester,
+              'type=number_wall&zoom=7&glowEnabled=true&param.prime=%2297%22&param.rows=4&param.columns=16');
+          await settleNumberWall(tester, controller);
+          expect(controller.module.id, 'number_wall');
+          expect(controller.numberWallGrid, isNotNull);
+          expect(controller.view.zoom, 7);
+          expect(controller.glowEnabled, isTrue);
+        } finally {
+          controller.removeListener(claimOwnership);
+          if (!release.isCompleted) release.complete();
+          await exporting;
+        }
+      });
+    }
+
+    for (final owner in ['none', 'settings', 'export']) {
+      testWidgets('pending Number Walls startup restore yields to $owner',
+          (tester) async {
+        final links = await platformLinks();
+        final store = await ViewerSessionStore.create();
+        await tester.pumpWidget(linkedApp(links, store));
+        await tester.pumpAndSettle();
+        await deliverLink(tester, 'type=mandelbrot&zoom=3');
+        final first = tester
+            .element(find.byType(FractalViewerScreen))
+            .read<FractalController>();
+        final snapshot = ViewerSessionSnapshot.fromJson({
+          ...store.load()!.toJson(),
+          'moduleId': 'number_wall',
+          'params': {
+            ...first.registry.byId('number_wall').defaultPreset.params,
+            'rows': 4,
+            'columns': 16,
+          },
+          'glowEnabled': true,
+          'controlsVisible': true,
+        });
+        await tester.pumpWidget(const SizedBox.shrink());
+        await tester.pumpAndSettle();
+        await store.save(snapshot);
+        await tester.pumpWidget(linkedApp(links, store));
+        final controller = tester
+            .element(find.byType(FractalCatalogScreen))
+            .read<FractalController>();
+        expect(controller.numberWallPending, isTrue);
+        final release = Completer<void>();
+        Future<void>? exporting;
+        try {
+          if (owner == 'settings') {
+            await tester.tap(find.byKey(const Key('homeSettingsButton')));
+          } else if (owner == 'export') {
+            exporting = ExportCoordinator.shared
+                .run(ExportKind.image, (token) async => release.future);
+          }
+          await settleNumberWall(tester, controller);
+          if (owner == 'none') {
+            expect(controller.module.id, 'number_wall');
+            expect(controller.numberWallGrid, isNotNull);
+            expect(controller.glowEnabled, isTrue);
+            expect(find.byType(FractalViewerScreen, skipOffstage: false),
+                findsOneWidget);
+            expect(store.load()!.controlsVisible, isTrue);
+            expect(find.text('Controls'), findsOneWidget);
+          } else {
+            expect(controller.module.id, 'mandelbrot',
+                reason:
+                    'startup certification must not commit after losing ownership');
+            expect(controller.numberWallGrid, isNull);
+            expect(controller.glowEnabled, isFalse);
+            expect(find.byType(FractalViewerScreen, skipOffstage: false),
+                findsNothing);
+            if (owner == 'settings')
+              expect(find.text('Settings'), findsOneWidget);
+          }
+        } finally {
+          if (!release.isCompleted) release.complete();
+          await exporting;
+        }
+      });
+    }
 
     testWidgets('viewer push and pop respect each reduced motion source',
         (tester) async {

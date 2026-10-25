@@ -1,6 +1,8 @@
 # Refactoring Plan — Flutter Fractal Forge
 
 > **Goal**: Maximize code reuse, streamline architecture for easier maintenance, debugging, and readability.
+>
+> The original inventory and R1–R7 proposals below are historical, not a current execution order or proof of dead code. Use the [bounded current frontier](#bounded-code-refactor-frontier-2026-10-25) and its `tasks/` records for the present planning handoff.
 
 ## Current Architecture Summary
 
@@ -320,3 +322,87 @@ flutter test integration_test/flows/viewer_navigation_test.dart
 | Modified files | ~15 | ~3000 (imports, restructuring) |
 | Deleted files | ~6 | ~1200 (dead code) |
 | Net line change | — | **~-2000 lines** (less code overall) |
+
+---
+
+## Bounded code-refactor frontier 2026-10-25
+
+Status: Accepted
+
+**Authority:** the owner requested standalone Plan For Me for “code refactor”. This accepts a behavior-preserving engineering planning scope, not implementation, catalog integration, worker dispatch, publication or a new product direction. The approach and defaults below are planner decisions. This section supersedes the historical execution-priority table for this bounded batch, not its retained history.
+
+### Brief, goal and boundaries
+
+Flutter Fractal Forge lets people browse mathematical visuals, explore their parameters and share or export the result. Provider/FractalController owns viewer state; platform services deliver external events; viewer coordinators own asynchronous actions. Reuse `APP-QUALITY-001` for this architecture-quality frontier, consistent with [the product quality direction](../../PRD.md#mcp-assisted-architecture-and-ui-improvement). Do not change that goal's priority, focus, qualification or completed task history.
+
+The goal is to separate two demonstrated responsibility seams while preserving public import paths, observable outputs and ownership rules. Success is cohesive code ownership plus unchanged tested behavior, **not a line-count target, speed claim or whole-app-quality verdict**.
+
+Non-goals and anti-goals: no state-management migration, new dependency, schema/URL-format change, musical redesign, numerical algorithm rewrite, shader change, visual redesign, new live qualification or release. Do not fold bug fixes or new abstractions into a mechanical extraction unless a directly blocking prerequisite is established and documented at the task's existing seam. In particular, do not revive the historical generic CPU escape-loop rewrite or delete modules based on the old unreachable-code assertion.
+
+Preserve the locally verified, unintegrated catalog candidate in `.worktrees/ui-catalog-20261025`; its acceptance and earlier tests do not establish canonical inclusion or authorize integration here. The selected refactors do not touch its catalog widgets, locales, fixtures or rendering algorithms.
+
+### Discovery and evidence
+
+Inspection baseline: `641f3c675b45d77b50f5965843d8cb413c252e33`. These observations come from current source and task records; no code graph, failing test, runtime improvement or performance baseline is claimed.
+
+| Classification | Evidence and implication |
+| --- | --- |
+| DOCUMENTED | `lib/AGENTS.md`, `lib/core/AGENTS.md` and `lib/features/viewer/AGENTS.md` retain Provider/controller ownership and core-to-feature dependency boundaries. `CONTEXT.md` defines Image-Conditioned Composition and Musical Identity Tier: these are invariants, not refactor opportunities to recompose the music. |
+| OBSERVED | `lib/core/modules/param_reader.dart` already supplies finite-safe numeric readers; `lib/features/renderer/cpu/cpu_fractal_renderer.dart` uses them. Viewer action/chrome/export helpers and `lib/app/` already exist. Therefore the old R3/R1/R2/R7 inventory cannot be replayed as if no extraction happened. This does not assert every historical item is fully complete. |
+| OBSERVED | `lib/features/viewer/audio/fractal_music_service.dart` is 2,321 lines at this baseline: public frame/features/identity definitions, lifecycle orchestration around line 330, private platform adapters around 485–832, and compute/composition/PCM/WAV routines from 833 onward. Cancellation publication rules, process/temp-file handling and musical arithmetic share one change/review surface. SHA-256: `f1b73d5c2ab639abbba858b8e948a90c1fa0a022aa22472a5e242b91c426654d`. |
+| OBSERVED | `lib/core/services/platform/deep_link_service.dart` is 1,336 lines: DTO/query/route contracts, five public static parse/build entry points, and native MethodChannel/stream ownership. Helpers refer back to the service's private query contracts. SHA-256: `3a669f4069cdf7af477c9e271a67b6c54cfb9801bb3dd5f7549fdf4ec0f2da7f`. A codec extraction must move those contracts together, not create a codec↔service import cycle. |
+| OBSERVED | Existing public-seam guards are in `test/features/viewer/fractal_music_service_test.dart`, viewer coordinator/Fourier tests, `test/services/deep_link_service_test.dart`, `test/screens/home_screen_widget_test.dart` and Number Walls replay tests. Their source was inspected; their execution in this planning occurrence is **UNRUN**. |
+| OBSERVED | The task store contained 113 tasks/20 goals and validated without drafts. APP-001 through APP-005 and earlier music/timer repairs are closed; no open task duplicates these extractions. NUM-WALL-04 was actually in flight; NUM-WALL-05 depends on it; SINEWARP-002-47 remains separate accepted work. Preserve those contracts and priorities. |
+| INFERRED | Separating these cohesive responsibilities should narrow unrelated reviews and make future ownership mistakes easier to detect. No defect reduction, speedup or maintenance percentage has been measured. |
+
+The accepted architecture-quality direction is partially verified, not a blank cheque for a rewrite. These tasks close a bounded structural gap; they do not replace pending device acceptance or certify other features. Existing prepare diagnostics concerning legacy source links/unqualified goals are unrelated warnings, not permission to rewrite the backlog or declare goals met.
+
+### Decided design and rejected alternatives
+
+1. **Music: preserve the existing Dart library and facade.** Introduce `audio/fractal_music_playback.dart` and `audio/fractal_music_synthesis.dart` as `part` files of `fractal_music_service.dart`. Move the private adapter hierarchy/factory to playback; move the existing top-level compute, composition, synthesis and WAV routines to synthesis. Keep public types, configuration constants, features/identity entry points and service orchestration in the facade. Keep the existing conditional browser-player import unchanged. Shared private symbols remain library-private; all old consumers continue importing the same facade. Preserve arithmetic, callback names, sample ordering, default values, await boundaries, cancellation generations and publication guards. This is a responsibility split, not a new independently importable DSP package. Rejected: a new public adapter API, dependency injection framework or normal-library split requiring broad promotion/duplication of private musical helpers.
+2. **Links: separate a stateless codec from platform delivery.** Introduce `core/services/platform/deep_link_codec.dart`, containing the one authoritative `DeepLinkData` class, route/query/value helpers and a `DeepLinkCodec` with the existing five signatures: `parseIncomingLink`, `parseBrowserUri`, `parseUri`, `buildUri`, `buildWebUri`. Move all codec query constants, aliases, numeric bounds and formatting/diagnostic behavior with it. `DeepLinkService` retains compatibility delegates and const scheme/host aliases, re-exports `DeepLinkData`, and alone owns `_initialBrowserUri`, `_channel`, `_handlerOwner`, the broadcast stream and initialize/dispose logic. Codec helpers refer to codec contracts, never import the service. Existing logger/model/vector dependencies are allowed; the codec has no MethodChannel or stream lifecycle. Rejected: moving everything into parts (would not establish this stateless dependency seam), changing accepted URLs, or deleting the old facade and rewriting every caller.
+3. **Verification: preserve behavior rather than manufacture a refactor metric.** Existing behavior tests should pass before and after a pure move; do not invent a failing baseline or source-string/line-count test to make it look like a bug fix. For the new codec boundary, add one focused facade/codec compatibility table in the proposed `test/services/deep_link_codec_test.dart`: direct import initially fails until the seam exists. Cover representative custom/web/browser forms, malformed/duplicate recognized keys, precision/typed scalar replay and canonical output equality using existing fixtures where practical. Reuse the extensive current arithmetic/audio/cancellation guards instead of duplicating them. New or changed behavior discovered during execution gets a focused regression before repair, within the owning task's scope.
+4. **Independent refactors, explicit input prerequisites.** The two implementation tasks have disjoint production/test write sets and do not depend on each other or catalog delivery. The codec task does require NUM-WALL-02's source/test outputs before its mandatory Number Walls consumer checks can run: those outputs existed in the local inspection baseline but are absent from the fresh remote-main delivery baseline. Record that real prerequisite, not a file-overlap scheduling edge. Music can proceed independently; both can run in isolated worktrees after the codec prerequisite is included and execution is explicitly authorized. Do not add live/exclusive resources: tests use mocks/disposable files, not shared audio hardware or a device. Do not overlap canonical integration or change an active producer's contract/status merely to deliver this plan.
+
+### Task handoff
+
+Task IDs are allocated through `autowork tasks`; the final saved records below are the execution contracts, not this historical roadmap.
+
+| Requested direction / derived outcome | Saved task | Placement and prerequisites |
+| --- | --- | --- |
+| Code refactor: separate music synthesis, playback and service orchestration without changing behavior | [ACAD-009-795c5cbf](../../tasks/items/ACAD-009-795c5cbf.md) | Next, rank 13000; no product prerequisite |
+| Code refactor: separate link serialization from platform delivery while preserving the old facade | [ACAD-010-7698d788](../../tasks/items/ACAD-010-7698d788.md) | Next, rank 14000; requires NUM-WALL-02 source/test inclusion |
+
+The CLI allocated these IDs; their goal is `APP-QUALITY-001` despite the opaque ID prefix. Keep the allocated IDs unchanged. Recommended first task within this batch is the music extraction; the codec is an independent lane once NUM-WALL-02 supplies its required source/tests, not a successor to music. No consequential product question remains within this scope. Current higher-priority work and all live acceptance remain separate.
+
+Each record includes exact proposed checks and bounded touches. Preserve the existing higher-priority work; place this batch at the bottom of `Next`, with no synthetic dependency between these two refactors or automatic planning successor; retain the codec's actual NUM-WALL-02 prerequisite. The whole presently knowable frontier is these two extractions. Further refactors need fresh evidence; no self-replenishing chain or broad renderer rewrite is implied.
+
+### Verification, setup and pre-mortem
+
+All implementation/build checks below are **proposed and unrun by this planning pass**. Future execution uses the pinned Flutter 3.44.6/Dart 3.12.2 and existing offline PUB_CACHE per root `AGENTS.md` and `docs/tasks/MAIN-CHECK-01.md`. Run the lockfile-enforced offline package preflight in each execution checkout before focused tests; do not install packages, repair the shared SDK, copy another checkout's package binding or change `pubspec.lock` to make a refactor pass.
+
+- Music: existing service/coordinator/Fourier/effects tests, analyzer and release web compilation. Mock all playback. This proves no new browser build break; it does not prove audible playback on any real target.
+- Links: new codec parity table, existing service/Home/Number Walls replay guards and analyzer. No real inbound link delivery or live navigation is required for offline acceptance.
+- Integration/main: retain the root offline gate: `flutter pub get --offline --enforce-lockfile && flutter analyze --no-pub && flutter test --no-pub && /usr/bin/python3 -m pytest test/research test/scripts -q && bats test/scripts/*.bats`. Respect the repository's worker/landing/main check ownership; focused worker results are not a full-main result. Keep existing opt-in skips and genuine device/publication gaps explicit. Review the resulting merged candidate before claiming delivery.
+
+Pre-mortem: (1) Moving musical helpers changes isolate reachability or cancellation ordering: keep top-level callback identities/order and use current compute/playback/coordinator guards plus web compilation. (2) New codec silently changes alias precedence, numeric formatting, accepted origins or DTO identity: keep one DTO, old facade exports and the exact old tables; exercise both APIs and existing boundary tests. Browser-address parsing intentionally accepts preview hosts; do not confuse it with the strict native/universal-link allowlist. (3) Planning/integration overwrites active or unintegrated work: use isolated write sets, preserve the catalog candidate and actual active task contracts, and inspect current source at execution/landing rather than treating this baseline as a lease.
+
+Planning completion requires CLI task readback, a fresh read-only builder check, `autowork tasks validate --worktree .`, applicable local link/whitespace checks, and one scoped planning commit. The saved batch is branch-local until the canonical consumer includes it; report that distinction rather than claiming the runner can select unintegrated task IDs. Planning stops at that handoff and does not start implementation.
+
+### Planning validation and delivery boundary
+
+The saved batch was read back through the CLI/files and validated with `autowork tasks validate --worktree .`: 115 tasks, 20 goals, no drafts. A scoped nonmutating check resolved all four local Markdown links/anchors, checked the two task write sets were disjoint, and confirmed the source fingerprints above plus the catalog candidate patch were unchanged. The catalog patch fingerprint checked was `7ca96b8175e7d30cd6a28e0a1fd733ae3cbda21ebf3a5534d9239e2e9175457b`. Whitespace checks passed.
+
+A fresh read-only builder review against the local inspection baseline reported **“nothing important left”**, no established blocker, and independent isolated execution lanes with serialized integration. That baseline already contained NUM-WALL-02 outputs; the remote-delivery reconciliation below records their missing inclusion rather than reusing this as remote readiness. It confirmed the adapter/compute and codec/lifecycle seams against source, not by executing tests. Review session: `a7a2db2a/run-0`, reviewer run `2b4dc2c2-1d17-42d3-9b58-4e1e403b3f09` in the current planning conversation. Tool/cache availability and baseline test/build results remain unverified by this pass.
+
+The original planning commit `769dd775` is retained on `plan/code-refactor-20261025` in `.worktrees/plan-code-refactor-20261025`. Git delivery reconstructs only its three planning paths on `delivery/refactor-plan-20261025`, based on freshly fetched origin/main `0dc1158fe4b2338196ffcd6febacc49a986777d8`; it does not merge the fourteen unrelated local Autowork commits into the remote. The two inspected production files have identical blobs on that upstream and the local inspection baseline.
+
+Fresh upstream lacks `test/number_walls/number_wall_state_test.dart` and `test/number_walls/number_wall_viewer_test.dart`; its existing NUM-WALL-02 record owns both outputs and remains open. The codec contract therefore records `depends_on = ["NUM-WALL-02"]`, preserving all required checks. This is a source-inclusion prerequisite, not new feature work, a fabricated owner question or permission to close/publish the producer. Preserve every upstream task/goal/evidence record outside the two new task IDs.
+
+Delivery authority covers this planning-only publication, not implementation or the separate catalog candidate. The live canonical checkout/coordinator is not modified by the isolated delivery; remote inclusion and local consumer synchronization are separate outcomes. Within this batch the first proposed implementation action remains the music task's unchanged-source focused guards, after a later explicit implementation instruction. At the planning-only publication baseline, the codec's consumer checks wait for its producer outputs; do not call them passing or runnable from that older source alone.
+
+### Merge-all continuation
+
+The owner's later “Merge all main” request authorizes composition of local main history, the published planning batch and the catalog checkpoint, not implementation of either refactor. The [main integration record](../tasks/MAIN-MERGE-20261025.md) binds the combined-source checks and repaired ingress-ownership blocker.
+
+That composition includes NUM-WALL-02's source and both required Number Walls test files, retaining its existing completed record and receipt. The codec's typed dependency remains, but its missing-source hold from the planning-only publication no longer describes this combined source. Both refactor tasks remain open and unimplemented; their actual execution still follows the authorized task-selection and verification workflow. Do not conflate source inclusion, task selection eligibility, live qualification and completed refactoring.

@@ -168,14 +168,35 @@ void main() {
 
     expect(find.byKey(const Key('catalogCategoryChip_all')), findsOneWidget);
     expect(find.byKey(const Key('catalogCategoryScroll')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('catalogDimensionMenu')));
+    await tester.pumpAndSettle();
     expect(find.byKey(const Key('catalogDimensionChip_all')), findsOneWidget);
     expect(find.byKey(const Key('catalogDimensionChip_2d')), findsOneWidget);
     expect(find.byKey(const Key('catalogDimensionChip_3d')), findsOneWidget);
     expect(find.byKey(const Key('catalogDimensionChip_kaleidoscope')),
         findsNothing);
     expect(find.text('All categories'), findsOneWidget);
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+  });
 
-    await tester.pump(const Duration(seconds: 3));
+  testWidgets('legacy dimension restores without becoming a selectable choice',
+      (tester) async {
+    SharedPreferences.setMockInitialValues({'catalog_browse_dimension': 3});
+    await pumpCatalog(tester);
+    final prefs = await SharedPreferences.getInstance();
+    expect(prefs.getInt('catalog_browse_dimension'), 3);
+    expect(find.byTooltip('Kaleidoscope'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('catalogDimensionMenu')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('catalogDimensionChip_kaleidoscope')),
+        findsNothing);
+    for (final choice in ['all', '2d', '3d']) {
+      expect(find.byKey(Key('catalogDimensionChip_$choice')), findsOneWidget);
+    }
+    await tester.tap(find.byKey(const Key('catalogDimensionChip_3d')));
+    await tester.pumpAndSettle();
+    expect(prefs.getInt('catalog_browse_dimension'), 2);
   });
 
   testWidgets('search remains visible and toolbar close preserves the query',
@@ -234,6 +255,8 @@ void main() {
       ],
     });
     await pumpCatalog(tester);
+    await tester.tap(find.byKey(const Key('catalogDimensionMenu')));
+    await tester.pumpAndSettle();
     final dimension = find.byKey(const Key('catalogDimensionChip_3d'));
     await tester.ensureVisible(dimension);
     await tester.tap(dimension);

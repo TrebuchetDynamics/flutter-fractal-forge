@@ -1049,6 +1049,73 @@ void main() {
       historyProvider.cancelPendingRecord();
     });
 
+    for (final owner in ['modal', 'export']) {
+      testWidgets('pending viewer wall snapshot yields to $owner ownership',
+          (tester) async {
+        final wall = registry.byId('number_wall');
+        final before = Map<String, Object>.from(controller.params);
+        await viewerSessionStore.save(ViewerSessionSnapshot(
+          moduleId: wall.id,
+          params: {
+            ...wall.defaultPreset.params,
+            'prime': '97',
+            'rows': 4,
+            'columns': 16,
+          },
+          view: wall.defaultPreset.view,
+          transparentBackground: true,
+          rotationLocked: true,
+          glowEnabled: true,
+          glowSigma: 1,
+          glowIntensity: 1,
+          fluidModeEnabled: false,
+          fluidStrength: 1,
+          kaleidoscopeEnabled: false,
+          kaleidoscopeSectors: 6,
+          kaleidoscopeMirror: false,
+          kaleidoscopeRotation: 0,
+          kaleidoscopeMirrorMode: 0,
+          controlsVisible: true,
+          fullscreenUnobtrusive: false,
+          viewerActive: true,
+        ));
+        await tester
+            .pumpWidget(buildTestWidget(provideViewerSessionStore: true));
+        expect(controller.numberWallPending, isTrue);
+        final release = Completer<void>();
+        Future<void>? exporting;
+        try {
+          if (owner == 'export') {
+            exporting = ExportCoordinator.shared
+                .run(ExportKind.image, (token) async => release.future);
+          } else {
+            unawaited(showDialog<void>(
+              context: tester.element(find.byType(FractalViewerScreen)),
+              builder: (_) =>
+                  const AlertDialog(title: Text('Covering operation')),
+            ));
+          }
+          for (var i = 0; i < 200 && controller.numberWallPending; i++) {
+            await tester.pump(const Duration(milliseconds: 10));
+          }
+          expect(controller.numberWallPending, isFalse);
+          await tester.pumpAndSettle();
+          expect(controller.module.id, 'mandelbrot',
+              reason: 'viewer snapshot must recheck ownership before commit');
+          expect(controller.params, before);
+          expect(controller.numberWallGrid, isNull);
+          expect(controller.glowEnabled, isFalse);
+          expect(controller.transparentBackground, isFalse);
+          expect(controller.rotationLocked, isFalse);
+          expect(find.text('Controls'), findsNothing);
+        } finally {
+          if (!release.isCompleted) release.complete();
+          await exporting;
+        }
+        historyProvider.cancelPendingRecord();
+      });
+    }
+
     testWidgets('launch deep link suppresses a stale viewer snapshot',
         (tester) async {
       await viewerSessionStore.save(

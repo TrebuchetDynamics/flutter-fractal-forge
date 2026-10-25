@@ -54,6 +54,7 @@ class ViewerSessionSnapshot {
     FractalController controller, {
     bool notifyListeners = true,
     void Function()? onCommitted,
+    bool Function()? shouldCommit,
   }) {
     if (!controller.registry.modules.any((module) => module.id == moduleId)) {
       throw StateError('Viewer snapshot references unknown module: $moduleId');
@@ -81,6 +82,7 @@ class ViewerSessionSnapshot {
         view: view,
         transparentBackground: transparentBackground,
         animateModule: false,
+        shouldCommit: shouldCommit,
         onCommitted: () {
           if (notifyListeners) {
             applyVisualState();

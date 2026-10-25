@@ -20,6 +20,62 @@ Future<void> idle(FractalController controller) async {
 }
 
 void main() {
+  test('revoked replay ownership cannot commit or cancel a newer request',
+      () async {
+    for (final superseded in [false, true]) {
+      final controller = FractalController(ModuleRegistry());
+      addTearDown(controller.dispose);
+      final wall = controller.registry.byId('number_wall');
+      final before = Map<String, Object>.from(controller.params);
+      final view = controller.view;
+      var owned = true;
+      var committed = false;
+      final older = controller.loadState(
+        module: wall,
+        params: {
+          ...wall.defaultPreset.params,
+          'prime': '97',
+          'rows': 4,
+          'columns': 16
+        },
+        view: wall.defaultPreset.view,
+        transparentBackground: true,
+        shouldCommit: () => owned,
+        onCommitted: () => committed = true,
+      );
+      expect(controller.numberWallPending, isTrue);
+      owned = false;
+      final newer = superseded
+          ? controller.loadState(
+              module: wall,
+              params: {
+                ...wall.defaultPreset.params,
+                'prime': '101',
+                'rows': 4,
+                'columns': 16
+              },
+              view: wall.defaultPreset.view,
+            )
+          : null;
+      expect(await older, isFalse);
+      expect(committed, isFalse);
+      if (newer != null) {
+        expect(await newer, isTrue);
+        expect(controller.numberWallGrid!.prime, BigInt.from(101));
+      } else {
+        expect(controller.module.id, 'mandelbrot');
+        expect(controller.params, before);
+        expect(controller.view.zoom, view.zoom);
+        expect(controller.view.pan, view.pan);
+        expect(controller.view.rotation, view.rotation);
+        expect(controller.transparentBackground, isFalse);
+        expect(controller.numberWallGrid, isNull);
+        expect(controller.numberWallStatus, NumberWallPrimeStatus.cancelled);
+      }
+      expect(controller.numberWallPending, isFalse);
+    }
+  });
+
   test('active-module edits invalidate pending Number Walls replay', () async {
     final registry = ModuleRegistry();
     final wall = registry.byId('number_wall');
