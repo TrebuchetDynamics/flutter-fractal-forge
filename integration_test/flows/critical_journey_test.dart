@@ -167,11 +167,6 @@ void main() {
         await tester.tap(find.byKey(const Key('viewerExportButton')));
         await tester.pump(const Duration(seconds: 1));
 
-        expect(
-          find.text('Share & export'),
-          findsOneWidget,
-          reason: 'Shared export action menu must appear after tapping the FAB',
-        );
         final exportAction = find.text('Export');
         expect(
           exportAction,

@@ -109,17 +109,19 @@ void main() {
       await tester.ensureVisible(hdResolution);
       await tester.tap(hdResolution);
       await safeSettle(tester);
+      final exportDirectory = await ExportService().getExportDirectory();
+      final existingPaths =
+          await exportDirectory.list().map((entity) => entity.path).toSet();
       final saveButton = find.byKey(const ValueKey('exportSaveButton'));
       await tester.ensureVisible(saveButton);
       await tester.tap(saveButton);
       await tester.pump();
-
-      final exportDirectory = await ExportService().getExportDirectory();
       for (var attempt = 0; attempt < 30; attempt++) {
         final files = await exportDirectory
             .list()
             .where((entity) =>
                 entity is File &&
+                !existingPaths.contains(entity.path) &&
                 entity.uri.pathSegments.last.contains('_${moduleId}_') &&
                 entity.path.endsWith('.png'))
             .cast<File>()
@@ -215,25 +217,31 @@ void main() {
     });
 
     testWidgets(
-      'Linux 2D and 3D journey saves edited mathematical PNG artifacts',
+      '${Platform.isAndroid ? 'Android' : 'Linux'} 2D and 3D journey saves edited mathematical PNG artifacts',
       (tester) async {
         expect(RuntimeModeService.useRendererPlaceholderSurface, isFalse);
-        tester.view.physicalSize = const Size(1280, 900);
-        tester.view.devicePixelRatio = 1;
-        await binding.setSurfaceSize(const Size(1280, 900));
-        addTearDown(() async {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-          await binding.setSurfaceSize(null);
-        });
-        final exportDirectory =
-            await Directory.systemTemp.createTemp('fractal-linux-journey-');
-        debugPrint('LINUX_JOURNEY_EXPORT_DIR:${exportDirectory.path}');
+        // Android must retain its real viewport so hit testing matches the
+        // device surface. The Linux fixture deliberately uses landscape metrics.
+        if (!Platform.isAndroid) {
+          tester.view.physicalSize = const Size(1280, 900);
+          tester.view.devicePixelRatio = 1;
+          await binding.setSurfaceSize(const Size(1280, 900));
+          addTearDown(() async {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+            await binding.setSurfaceSize(null);
+          });
+        }
         final preferences = await SharedPreferences.getInstance();
-        await preferences.setString(
-          'linux_export_directory',
-          exportDirectory.path,
-        );
+        if (!Platform.isAndroid) {
+          final exportDirectory =
+              await Directory.systemTemp.createTemp('fractal-linux-journey-');
+          debugPrint('LINUX_JOURNEY_EXPORT_DIR:${exportDirectory.path}');
+          await preferences.setString(
+            'linux_export_directory',
+            exportDirectory.path,
+          );
+        }
         const favorites = ['core.mandelbrot', 'core.mandelbulb'];
         await preferences.setStringList('catalog_favorite_ids', favorites);
         await presetStore.saveUserPreset(
@@ -252,15 +260,19 @@ void main() {
           (query: 'Mandelbrot', catalogId: 'core.mandelbrot', id: 'mandelbrot'),
           (query: 'Mandelbulb', catalogId: 'core.mandelbulb', id: 'mandelbulb'),
         ]) {
-          if (module.id != 'mandelbrot') {
-            await tester.tap(catalogSearchField());
-          }
           await enterCatalogSearch(
             tester,
             module.query,
             settle: const Duration(milliseconds: 1200),
           );
+          await safeSettle(tester);
           final moduleCard = catalogModuleCard(module.catalogId);
+          await tester.scrollUntilVisible(
+            moduleCard,
+            400,
+            scrollable: find.byType(Scrollable).first,
+            maxScrolls: 80,
+          );
           expect(moduleCard, findsOneWidget);
           await tester.ensureVisible(moduleCard);
           await safeSettle(tester);
@@ -275,8 +287,10 @@ void main() {
             listen: false,
           );
           expect(controller.module.id, module.id);
-          expect(MediaQuery.sizeOf(tester.element(renderer)),
-              const Size(1280, 900));
+          final viewport = MediaQuery.sizeOf(tester.element(renderer));
+          if (!Platform.isAndroid) {
+            expect(viewport, const Size(1280, 900));
+          }
           final originalView = controller.view;
           await tester.drag(renderer, const Offset(48, 24));
           await safeSettle(tester);
@@ -305,10 +319,13 @@ void main() {
           await safeSettle(tester);
 
           final savedFile = await saveSelectedPng(tester, module.id);
+          debugPrint('JOURNEY_PNG:${module.id}:${savedFile.path}');
           expect(savedFile.existsSync(), isTrue);
           final decoded = img.decodePng(await savedFile.readAsBytes());
           expect(decoded, isNotNull);
-          expect((decoded!.width, decoded.height), (1280, 720));
+          final expectedDimensions =
+              viewport.height > viewport.width ? (720, 1280) : (1280, 720);
+          expect((decoded!.width, decoded.height), expectedDimensions);
           final colors = <int>{};
           for (var y = 0; y < decoded.height; y += 4) {
             for (var x = 0; x < decoded.width; x += 4) {
@@ -323,13 +340,14 @@ void main() {
           expect(controller.view.zoom, editedView.zoom);
           expect(controller.view.rotation, editedView.rotation);
           await File('${savedFile.path}.state.json').writeAsString(jsonEncode({
-            'fixture':
-                'native engine with synthetic landscape viewport metrics',
-            'viewport': [1280, 900],
+            'fixture': Platform.isAndroid
+                ? 'Android native device viewport'
+                : 'native engine with synthetic landscape viewport metrics',
+            'viewport': [viewport.width, viewport.height],
             'preset': FractalPreset(
-              id: 'linux-edited-${module.id}',
+              id: 'journey-edited-${module.id}',
               moduleId: module.id,
-              name: 'Linux edited ${module.id}',
+              name: 'Journey edited ${module.id}',
               params: controller.params,
               view: editedView,
               createdAt: DateTime.now().toUtc(),

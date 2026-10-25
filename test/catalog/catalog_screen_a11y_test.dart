@@ -133,6 +133,33 @@ void main() {
       expect(find.byKey(const Key('catalogCategoryScroll')), findsOneWidget);
     });
 
+    for (final locale in const [Locale('en'), Locale('es')]) {
+      testWidgets(
+          'Fibonacci card caption fits at large text size (${locale.languageCode})',
+          (tester) async {
+        await expectNoOverflow(
+          () async {
+            await _pumpCatalog(tester,
+                query: 'Fibonacci',
+                locale: locale,
+                textScale: 3,
+                size: const Size(320, 568));
+            await tester.scrollUntilVisible(
+              find.byKey(
+                  const Key('catalogModuleCard_core.fibonacci_complex_julia')),
+              200,
+              scrollable: find.byWidgetPredicate((widget) =>
+                  widget is Scrollable &&
+                  widget.axisDirection == AxisDirection.down),
+            );
+            await tester.pumpAndSettle();
+          },
+          reason: 'Fibonacci legend in a narrow 3x catalog caption',
+        );
+        expect(find.byKey(const Key('fibonacciComplexLegend')), findsOneWidget);
+      });
+    }
+
     testWidgets('card labels localize', (tester) async {
       final handle = tester.ensureSemantics();
       await _pumpCatalog(tester, locale: const Locale('es'));

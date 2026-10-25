@@ -20,6 +20,14 @@ This runbook covers local development and the repository's existing CI/release e
 
 Expected signals are successful process completion and passing test output. If dependencies cannot resolve, confirm the Flutter SDK and lockfile match the repository before changing dependency constraints. If a shader fails to load, capture the test/log output and check `pubspec.yaml` asset registration and module uniform bindings. Do not treat a software-rendered emulator as proof of hardware GPU correctness.
 
+## Android testing over SSH
+
+Use the [headless Waydroid setup and recovery guide](testing/waydroid-headless.md)
+for the existing Android container: network diagnosis, public-key ADB authorization
+without a desktop, and device-readiness checks. A connected target is not a passed
+export/gallery journey or production-release approval. Review the guide's app-data
+replacement warning before running integration tests.
+
 ## CI and release operations
 
 GitLab execution is currently deferred by the [owner release policy](../../PRD.md#independent-platform-release-policy). The configured pipeline below is reference material, not permission to mirror, log in, dispatch or publish. Use the [independent-platform preparation contract](release/MULTIPLATFORM.md#independent-platform-release-campaign) for the supported non-GitLab route and keep publication separate.
