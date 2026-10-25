@@ -3,7 +3,7 @@ schema = 1
 id = "NUM-WALL-03"
 title = "Colour, randomize and export the same completed wall.**"
 short = "Colour, randomize and export the same completed wall.**"
-status = "open"
+status = "done"
 goal = "NUM-WALL-001"
 section = "Next"
 rank = 2000
@@ -16,6 +16,8 @@ scope = "Add binary-zero and binned-residue palette modes, foreground/zero/backg
 acceptance = ["Zero mask survives all styling and large-prime residue binning; colour-only changes do not recompute determinants. Randomization creates valid materialized settings, can be undone/replayed and does not create composite moduli or silently replace a typed prime. Export freezes the complete committed grid/style/viewport; other output dimensions rerasterize identical cells, not a new sequence/prime/depth. Decoded PNGs match same-state viewer cells and chosen background/alpha rules; no unrelated escape-time fallback. Cancellation, navigation and stale jobs preserve ownership. Unsupported auxiliary animation/effect tools are disclosed/disabled only for this module; ordinary modules keep their behavior."]
 checks = ["Planned: `flutter test test/number_walls/number_wall_style_export_test.dart test/number_walls/number_wall_randomizer_test.dart test/export/viewer_export_session_test.dart --reporter expanded`; `flutter test --platform chrome test/number_walls/number_wall_style_export_test.dart --reporter expanded`; `flutter analyze`; decode actual exported PNG artifacts and compare sampled cell centres/zero mask against the immutable grid. New targets and pixel checks are NOT_RUN."]
 exclusions = []
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/NUM-WALL-03.toml"
 +++
 
 - Section: Next.
@@ -23,3 +25,4 @@ exclusions = []
 - Sources: [Accepted outcome and decided design](docs/engineering/spec.md#number-walls-and-modular-windows), [owner scope](PRD.md#number-walls-catalog-category), `lib/features/viewer/export/viewer_export_session.dart`, `lib/features/renderer/models/fractal_render_snapshot.dart`, `lib/core/services/rendering/palette/palette_shader_adapter.dart`, `lib/core/services/export/export_service.dart`, `test/export/viewer_export_session_test.dart`.
 - Ownership: Repository backlog, unassigned; no publication or schedule authority.
 - Next action: Pin colour-only/no-recompute and immutable export ownership tests, then implement presentation and PNG reuse.
+- Pending live: Installed Android device save/share/PNG-viewer qualification and human-reviewed installed Linux/browser journeys remain separate acceptance work; native offline fixtures do not establish platform/operator qualification.

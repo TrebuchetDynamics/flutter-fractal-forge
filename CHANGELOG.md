@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Number Walls now supports configurable binary/residue colours and grid lines, seeded manual randomization with undo, and immutable exact-grid PNG export at the chosen resolution. (NUM-WALL-03)
 - Added exact editable Number Walls catalog views with restorable certified controls, protected newer edits from pending replay, exposed localized startup verification feedback, and stabilized screenshot-fixture completion without changing product export semantics. (NUM-WALL-02)
 - Fix TestLogger file-I/O test isolation by awaiting sink disposal before temporary-directory cleanup, including assertion-failure paths. (MAIN-LOGGER-REPAIR-01)
 - Stabilize the transient missing-frame music refresh regression with controlled time and failure-safe fixture cleanup. (MAIN-MUSIC-REFRESH-01)
