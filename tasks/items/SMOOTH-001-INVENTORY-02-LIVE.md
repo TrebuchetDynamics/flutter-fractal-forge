@@ -5,8 +5,8 @@ title = "Live checks for SMOOTH-001-INVENTORY-02"
 short = "Live checks for SMOOTH-001-INVENTORY-02"
 status = "open"
 goal = "GOAL-SMOOTH-001"
-section = "Needs decision"
-rank = 39000
+section = "Next"
+rank = 20000
 depends_on = ["SMOOTH-001-INVENTORY-02"]
 touches = ["**"]
 resources = []
@@ -20,3 +20,6 @@ exclusions = []
 
 - Sources: [Existing goal contract](TODO.md#p1-3-smooth-coloring-in-all-shaders); `todo.archive.md` retains the original offline task and evidence.
 - Touches: none before conversion; ** stands for the whole repository
+- Held by: EVIDENCE-GATE: named permitted hardware-GPU Multibrot render/performance session and visual reviewer
+- Owner decision: 2026-10-25: Delegated by user to assistant. Authorize bounded local evidence preparation under the decision record and QUAL-EVIDENCE-01; retain all original human/device/source acceptance gates. No installs, production writes or transferred listener waiver. Decision resolved; remaining input: named permitted hardware-GPU Multibrot render/performance session and visual reviewer. See docs/tasks/DELEGATED-DECISIONS-20261025.md.
+- Next action: Complete the authorized preparation separately; retain this hold until named permitted hardware-GPU Multibrot render/performance session and visual reviewer. Use supported release only after exact evidence exists; unchanged acceptance is not waived.

@@ -5,8 +5,8 @@ title = "Qualify Fibonacci prime-degree viewing and exports on real supported ta
 short = "Qualify Fibonacci prime-degree viewing and exports on real supported targets.**"
 status = "open"
 goal = "FIB-PRIME-001"
-section = "Needs decision"
-rank = 51000
+section = "Next"
+rank = 7000
 depends_on = ["FIB-PRIME-02"]
 touches = ["integration_test/flows/fibonacci_complex_journey_test.dart", "test/playwright/web-image-creation-journey.spec.mjs", "docs/engineering/test-plan.md"]
 resources = []
@@ -18,7 +18,10 @@ checks = ["Planned: `flutter test integration_test/flows/fibonacci_complex_journ
 exclusions = []
 +++
 
-- Section: Needs decision.
+- Previous section: Needs decision.
 - Sources: [Owner outcome](PRD.md#fibonacci-prime-degree-julia-fractal), [decided contract](docs/engineering/spec.md#fibonacci-prime-degree-julia), [checks](docs/engineering/test-plan.md#fibonacci-prime-degree-julia-verification), [retained research](research/fibonacci-prime-degree-julia.md).
-- Ownership: Repository backlog, unassigned; preserve existing ordering/owners. Planning-only; no implementation, migration, scheduling or publication dispatched.
-- Next action: After FIB-PRIME-02, obtain a named authorized target and run the composed journey, retaining actual unavailable targets. No worker dispatch or target access is granted by saving this plan.
+- Prior ownership: Repository backlog, unassigned; preserve existing ordering/owners. Planning-only; no implementation, migration, scheduling or publication dispatched.
+- Prior next action: After FIB-PRIME-02, obtain a named authorized target and run the composed journey, retaining actual unavailable targets. No worker dispatch or target access is granted by saving this plan.
+- Held by: EVIDENCE-GATE: named permitted Linux/browser target and worker listener allocation; Android/reviewer inputs remain separate
+- Owner decision: 2026-10-25: Delegated by user to assistant. Authorize bounded local evidence preparation under the decision record and QUAL-EVIDENCE-01; retain all original human/device/source acceptance gates. No installs, production writes or transferred listener waiver. Decision resolved; remaining input: named permitted Linux/browser target and worker listener allocation; Android/reviewer inputs remain separate. See docs/tasks/DELEGATED-DECISIONS-20261025.md.
+- Next action: Complete the authorized preparation separately; retain this hold until named permitted Linux/browser target and worker listener allocation; Android/reviewer inputs remain separate. Use supported release only after exact evidence exists; unchanged acceptance is not waived.

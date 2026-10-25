@@ -5,8 +5,8 @@ title = "Live checks for RELEASE-001-23"
 short = "Live checks for RELEASE-001-23"
 status = "open"
 goal = "REL-JOURNEY-001"
-section = "Needs decision"
-rank = 50000
+section = "Next"
+rank = 17000
 depends_on = ["RELEASE-001-23"]
 touches = ["docs/engineering/test-plan.md"]
 resources = []
@@ -19,5 +19,8 @@ exclusions = []
 +++
 
 - Sources: [Accepted policy](PRD.md#independent-platform-release-policy), [implementation contract](docs/engineering/spec.md#independent-platform-release-orchestration), [lane map](docs/engineering/release/MULTIPLATFORM.md#independent-platform-release-campaign); parent contract retained in `todo.archive.md`.
-- Ownership: Await authorized targets and separately scoped live-operation approval; metadata repair grants neither.
+- Prior ownership: Await authorized targets and separately scoped live-operation approval; metadata repair grants neither.
 - Planning handoff: 2026-10-23 lane map and recovery plan: PRD.md#release-continuation-plan--2026-10-23. Reuse this existing live-proof owner for Windows, macOS, iOS and F-Droid requirements; absent native hosts, signing, approved Apple publication route or external F-Droid acceptance remain explicit lane-local gaps. No new access, host purchase or live authority is granted.
+- Held by: EVIDENCE-GATE: missing lane hosts and target verdicts; signing, credentialed remote operations and external Apple/F-Droid acceptance remain separately gated
+- Owner decision: 2026-10-25: Delegated by user to assistant. Authorize local lane evidence preparation only on existing permitted hosts; no remote credentialed readback, signing or external publication/acceptance authority. Decision resolved; remaining input: missing lane hosts and target verdicts; signing, credentialed remote operations and external Apple/F-Droid acceptance remain separately gated. See docs/tasks/DELEGATED-DECISIONS-20261025.md.
+- Next action: Complete the authorized preparation separately; retain this hold until missing lane hosts and target verdicts; signing, credentialed remote operations and external Apple/F-Droid acceptance remain separately gated. Use supported release only after exact evidence exists; unchanged acceptance is not waived.

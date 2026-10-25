@@ -3,7 +3,7 @@ schema = 1
 id = "CAT-QUALITY-03"
 title = "Decide curated discovery with the complete catalog still accessible.**"
 short = "Decide curated discovery with the complete catalog still accessible.**"
-status = "open"
+status = "superseded"
 goal = "CAT-QUALITY-001"
 section = "Needs decision"
 rank = 20000
@@ -20,7 +20,9 @@ exclusions = []
 
 - Sources: [Quality plan](docs/planning/visual-fidelity-audit-next.md#quality-without-losing-variety), [accepted outcome](PRD.md#catalog-quality-and-variety), `docs/planning/visual-audit-inventory.json`, `lib/features/catalog/data/catalog_repository.dart`, `lib/core/modules/fractal_mathematics.dart`.
 - Graph evidence: Fresh partial 38-file code-only Graphify scan: CatalogRepository (`catalog_repository.dart:15,20,57`), CatalogEntry (`catalog_entry.dart:12,30`), FractalMathematics (`fractal_mathematics.dart:11,45`) and LaunchVisualMetrics (`launch_visual_metrics.dart:9`). Extracted nodes are source-corroborated; five self-loops/duplicate-label warnings and truncated queries remain. Shaders/viewer/export/docs semantics are not indexed. See the quality plan for queries and receipt path.
-- Ownership: Product owner decision; proposed UI remains Needs decision. No implementation or schedule is authorized.
-- Owner decision: 2026-10-16 — Keep curated discovery undecided until the quality pilot provides concrete examples. Retain Needs decision, CAT-QUALITY-02 dependency and current complete-catalog access; no curated UI implementation is accepted by this answer.
-- Next action: Bring concrete pilot results and representative catalog examples before requesting the adopt/revise/defer decision.
+- Prior ownership: Product owner decision; proposed UI remains Needs decision. No implementation or schedule is authorized.
+- Prior owner decision: 2026-10-16 — Keep curated discovery undecided until the quality pilot provides concrete examples. Retain Needs decision, CAT-QUALITY-02 dependency and current complete-catalog access; no curated UI implementation is accepted by this answer.
+- Prior next action: Bring concrete pilot results and representative catalog examples before requesting the adopt/revise/defer decision.
 - Touches: none before conversion; ** stands for the whole repository
+- Owner decision: 2026-10-25: Delegated by user to assistant. Do not adopt curated discovery in this roadmap. Preserve complete catalog, search, favorites, IDs and state; no new collection, ranking, badge, renaming or deduplication. Superseded proposal, not implementation. See docs/tasks/DELEGATED-DECISIONS-20261025.md.
+- Superseded by: QUAL-EVIDENCE-01; Do not adopt curated discovery in this roadmap. Preserve complete catalog, search, favorites, IDs and state; no new collection, ranking, badge, renaming or deduplication. Superseded proposal, not implementation.

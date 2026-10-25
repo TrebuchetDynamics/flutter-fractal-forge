@@ -3,7 +3,7 @@ schema = 1
 id = "OAI-VIS-07-FK"
 title = "Decide fortuin–Kasteleyn cluster and interface explorer.**"
 short = "Decide fortuin–Kasteleyn cluster and interface explorer.**"
-status = "open"
+status = "superseded"
 goal = "OAI-VIS-001"
 section = "Needs decision"
 rank = 29000
@@ -20,7 +20,9 @@ exclusions = []
 
 - Sources: [Candidate plan](docs/planning/visual-fidelity-audit-next.md#openai-mathematics-visual-candidate-shortlist), [Expanded shortlist](docs/planning/visual-fidelity-audit-next.md#expanded-candidates--additional-source-backed-proposals), [Quality plan](docs/planning/visual-fidelity-audit-next.md#quality-without-losing-variety), pinned OpenAI result 223 at `fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb`, current inventory overlap receipt.
 - Graph evidence: four-file partial code-only scan; ModuleRegistry:64, FractalMathematics:11, CatalogRepository:15 corroborated in source; truncated query and duplicate-label warning, complete model/shader semantics unindexed.
-- Ownership: product owner choice; Needs decision, unassigned. No implementation authority.
-- Owner decision: 2026-10-16 — Defer this proposal; prioritize existing quality and academic research. This does not change the existing focus/order or authorize a prototype.
-- Next action: Keep this proposal in Needs decision, deferred rather than completed; do not select or implement it unless the owner later revisits it.
+- Prior ownership: product owner choice; Needs decision, unassigned. No implementation authority.
+- Prior owner decision: 2026-10-16 — Defer this proposal; prioritize existing quality and academic research. This does not change the existing focus/order or authorize a prototype.
+- Prior next action: Keep this proposal in Needs decision, deferred rather than completed; do not select or implement it unless the owner later revisits it.
 - Touches: none before conversion; ** stands for the whole repository
+- Owner decision: 2026-10-25: Delegated by user to assistant. Not selected for the current roadmap; select zero prototypes and prioritize existing quality and academic evidence. Superseded, not implemented or qualified; preserve the proposal and research. See docs/tasks/DELEGATED-DECISIONS-20261025.md.
+- Superseded by: ACAD-DRAFT-01; Not selected for the current roadmap; select zero prototypes and prioritize existing quality and academic evidence. Superseded, not implemented or qualified; preserve the proposal and research.

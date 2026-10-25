@@ -5,8 +5,8 @@ title = "Live checks for ACAD-02"
 short = "Live checks for ACAD-02"
 status = "open"
 goal = "ACAD-001"
-section = "Needs decision"
-rank = 41000
+section = "Next"
+rank = 2000
 depends_on = ["ACAD-02"]
 touches = ["**"]
 resources = []
@@ -20,3 +20,6 @@ exclusions = []
 
 - Sources: [Existing goal contract](PRD.md#academic-research-library); `todo.archive.md` retains the original offline task and evidence.
 - Touches: none before conversion; ** stands for the whole repository
+- Held by: EVIDENCE-GATE: per-source human relevance/version/rights decisions; no full-text approval yet
+- Owner decision: 2026-10-25: Delegated by user to assistant. Select the existing six-paper shortlist as the first review workload, not all 906 records. No new search or acquisition; preserve provider failures. Decision resolved; remaining input: per-source human relevance/version/rights decisions; no full-text approval yet. See docs/tasks/DELEGATED-DECISIONS-20261025.md.
+- Next action: Complete the authorized preparation separately; retain this hold until per-source human relevance/version/rights decisions; no full-text approval yet. Use supported release only after exact evidence exists; unchanged acceptance is not waived.

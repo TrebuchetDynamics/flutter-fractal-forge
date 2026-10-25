@@ -5,8 +5,8 @@ title = "Live checks for CAT-QUALITY-01"
 short = "Live checks for CAT-QUALITY-01"
 status = "open"
 goal = "CAT-QUALITY-001"
-section = "Needs decision"
-rank = 40000
+section = "Next"
+rank = 5000
 depends_on = ["CAT-QUALITY-01"]
 touches = ["**"]
 resources = []
@@ -20,3 +20,6 @@ exclusions = []
 
 - Sources: [Existing goal contract](PRD.md#catalog-quality-and-variety); `todo.archive.md` retains the original offline task and evidence.
 - Touches: none before conversion; ** stands for the whole repository
+- Held by: EVIDENCE-GATE: named physical target and attributable visual reviewer; control/export/performance verdicts
+- Owner decision: 2026-10-25: Delegated by user to assistant. Authorize bounded local evidence preparation under the decision record and QUAL-EVIDENCE-01; retain all original human/device/source acceptance gates. No installs, production writes or transferred listener waiver. Decision resolved; remaining input: named physical target and attributable visual reviewer; control/export/performance verdicts. See docs/tasks/DELEGATED-DECISIONS-20261025.md.
+- Next action: Complete the authorized preparation separately; retain this hold until named physical target and attributable visual reviewer; control/export/performance verdicts. Use supported release only after exact evidence exists; unchanged acceptance is not waived.
