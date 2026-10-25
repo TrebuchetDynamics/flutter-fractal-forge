@@ -5,8 +5,8 @@ title = "Prototype a finite Perron-tree shader after design acceptance.**"
 short = "Prototype a finite Perron-tree shader after design acceptance.**"
 status = "open"
 goal = "BESICOVITCH-VIZ-001"
-section = "Needs decision"
-rank = 52000
+section = "Now"
+rank = 1000
 depends_on = []
 touches = ["lib/core/models/perron_tree_model.dart", "lib/core/modules/", "shaders/ifs_and_geometric/perron_tree_gpu.frag", "pubspec.yaml", "test/models/perron_tree_model_test.dart", "test/modules/perron_tree_test.dart", "docs/engineering/test-plan.md"]
 resources = []
@@ -18,9 +18,10 @@ checks = ["Future, NOT_RUN: create and run `flutter test --no-pub test/models/pe
 exclusions = []
 +++
 
-- Section: Needs decision.
+- Section: Now
 - Sources: [Research and shader feasibility](research/besicovitch-shader.md#shader-feasibility).
 - Ownership: Proposed work, unassigned; preserve current ordering and all existing saved attempts. Research saves this proposal, not execution authority.
 - Question: Already answered by the prior /lgtm; do not ask again whether to implement the finite Perron-tree visualization. Remaining acceptance reconciliation is technical work, not new product intent.
 - Next action: Reconcile the integrated perron_tree implementation and retained evidence against this unchanged acceptance/check contract before any new implementation. Source is already in main (96c93583 and later delivery); preserve the existing model, shader and tests. Keep open until the required source-bound proof is accounted for; do not infer device/human acceptance or dispatch duplicate implementation.
 - Owner decision: 2026-10-23 reconciliation of the prior owner /lgtm following the finite Perron-tree recommendation (Hermes session 20261011_210334_78a65d, user message 11785): implementation was accepted. This is not a new approval or a waiver of mathematical, rendering, export, accessibility or device checks.
+- Unblock evidence: 2026-10-25: resume technical evidence reconciliation under the existing 2026-10-23 implementation acceptance and current unblock-all request. The saved Next action requires reviewing the already integrated model, shader and tests before any new implementation; all acceptance, checks and live/device qualification boundaries remain unchanged.
