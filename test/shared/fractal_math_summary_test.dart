@@ -50,6 +50,38 @@ void main() {
         findsOneWidget);
   });
 
+  for (final locale in const [Locale('en'), Locale('es')]) {
+    testWidgets(
+        'compact Fibonacci legend fits the caption and keeps full semantics (${locale.languageCode})',
+        (tester) async {
+      final semantics = tester.ensureSemantics();
+      await tester.pumpWidget(harness.wrapScaffold(
+        Center(
+          child: SizedBox(
+            width: 201,
+            height: 106,
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: FractalMathSummary(
+                module: harness.registry.byId('fibonacci_complex_julia'),
+                compact: true,
+              ),
+            ),
+          ),
+        ),
+        locale: locale,
+      ));
+      await tester.pumpAndSettle();
+      final legend = find.byKey(const Key('fibonacciComplexLegend'));
+      final text = tester.widget<Text>(legend).data!;
+      expect(text.length, greaterThan(400));
+      expect(tester.getSize(legend).height, lessThanOrEqualTo(42));
+      expect(tester.getSemantics(legend).label, text);
+      semantics.dispose();
+      expect(tester.takeException(), isNull);
+    });
+  }
+
   testWidgets('cellular rule view does not claim simulated evolution',
       (tester) async {
     await tester.pumpWidget(harness.wrapScaffold(

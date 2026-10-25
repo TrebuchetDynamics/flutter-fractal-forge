@@ -1,0 +1,209 @@
+# Waydroid over SSH: Android test target
+
+Use the existing Waydroid container as an Android test target without a physical
+phone or access to the host desktop. A headless Wayland compositor supplies the
+display; ADB supplies test, shell and file access. These steps configure local
+testing, not Play publication or signing access.
+
+Start here: check connectivity, repair networking only if necessary, then authorize
+ADB. Do not restart a healthy session merely to repeat this setup.
+
+## Prerequisites and display
+
+- Existing Waydroid installation/container, Weston, Android platform-tools (`adb`)
+  and an SSH login as the Linux user that owns the Waydroid session.
+- `sudo` access for container restart, root Android shell and public-key enrollment.
+  Enter passwords locally; never paste them into logs or chat.
+- An existing headless Wayland display named `waydroid-headless`. The inspected
+  running compositor used the following arguments (startup recipe not rerun during
+  this troubleshooting session):
+
+  ```bash
+  weston --backend=headless-backend.so --socket=waydroid-headless \
+    --idle-time=0 --width=1080 --height=1920 --use-pixman --no-config
+  ```
+
+  If provisioning a new display, run it as the session user with a valid
+  `XDG_RUNTIME_DIR`, in a separate persistent terminal or an approved local service.
+  Reuse an existing compositor rather than starting another on the same socket.
+  This page does not install packages or create services.
+
+Start a stopped Waydroid session as the normal user, not with `sudo`:
+
+```bash
+WAYLAND_DISPLAY=waydroid-headless waydroid session start
+```
+
+The command may remain attached; use another SSH terminal for diagnostics. No
+`show-full-ui`, desktop display switch or visible debugging dialog is required
+when using the explicit public-key enrollment below.
+
+## Check the target
+
+```bash
+waydroid status
+adb devices -l
+```
+
+Use the current IP reported by `waydroid status`; it can change. If it reports
+`UNKNOWN`, inspect the container directly:
+
+```bash
+sudo waydroid shell -- ip -4 addr
+sudo waydroid shell -- ip route get 192.168.240.1
+```
+
+`192.168.240.1` was this host's Waydroid bridge address. Confirm your bridge with
+`ip -4 addr show waydroid0` and substitute its address if different. Put `--` before
+Android commands containing options, e.g.:
+
+```bash
+sudo waydroid shell -- ping -c 2 192.168.240.1
+```
+
+Without the separator, Waydroid can interpret `-c` itself and reject the command.
+
+### Recovery: IP exists but networking is unreachable
+
+Observed symptoms were `IP address: UNKNOWN`, ADB `No route to host`, and Android
+`Network is unreachable` despite an address on `eth0`. Collect policy-routing
+information before changing anything:
+
+```bash
+sudo waydroid shell -- sh -c \
+  'ip -4 addr show eth0; ip rule; ip route show table all; ip route get 192.168.240.1'
+```
+
+In this incident the connected subnet route existed only in `main`, while Android
+policy rules consulted other tables and ended with `unreachable`. Restarting the
+existing container/session restored routing. This is a recovery for that observed
+state, not a fix for every network error. It closes Android apps and interrupts
+other tests: coordinate ownership and preserve needed data first.
+
+```bash
+waydroid session stop
+sudo systemctl restart waydroid-container
+WAYLAND_DISPLAY=waydroid-headless waydroid session start
+```
+
+In another terminal, repeat `waydroid status` and the route probe. The recovered
+probe selected `eth0_local` and the container IP. Do not add ad hoc routing rules,
+flush firewall rules or disable Android authentication to hide the failure.
+
+## Authorize ADB without a visible prompt
+
+```bash
+waydroid adb connect
+adb devices -l
+```
+
+The helper's “Established ADB connection” message is not authorization proof.
+`unauthorized` means Android has not accepted the host key. `offline` is also not
+ready; `adb reconnect offline` can refresh a stale transport, but cannot authorize
+it.
+
+For an owned container, an authorized administrator can enroll this Linux user's
+existing **public** ADB key through the root Android shell. This preserves ADB
+authentication and existing authorized keys. It grants this host debugging access
+to the container, so use only a trusted host/user. Never copy the private `adbkey`.
+
+Run as the same normal Linux user that runs `adb` (only `waydroid shell` uses sudo):
+
+```bash
+test -s "$HOME/.android/adbkey.pub" || {
+  echo 'Missing ADB public key; stop and provision the intended host key first.'
+  exit 1
+}
+sudo waydroid shell -- sh -c '
+set -e
+f=/data/misc/adb/adb_keys
+if ! grep -qxF "$1" "$f" 2>/dev/null; then
+  printf "%s\n" "$1" >> "$f"
+fi
+chown system:shell "$f"
+chmod 640 "$f"
+restorecon "$f"
+setprop ctl.restart adbd
+' sh "$(cat "$HOME/.android/adbkey.pub")"
+```
+
+Reconnect using the current address; substitute your IP below:
+
+```bash
+ANDROID_DEVICE=192.168.240.112:5555
+adb disconnect "$ANDROID_DEVICE"
+waydroid adb connect
+adb devices -l
+adb -s "$ANDROID_DEVICE" get-state
+adb -s "$ANDROID_DEVICE" shell getprop sys.boot_completed
+adb -s "$ANDROID_DEVICE" shell getprop ro.build.version.release
+```
+
+Readiness signals: `device`, boot completion `1`, and the expected Android version.
+The successful session reported a WayDroid x86_64 device on Android 13. Do not expose
+ADB through a public interface/router or turn off authentication.
+
+## Run tests without confusing setup with qualification
+
+Use the repository-pinned Flutter SDK from [`../../../fdroid/flutter.version`](../../../fdroid/flutter.version)
+and its provisioned package cache, not an ambient SDK. Follow the
+[root offline setup instructions](../../../AGENTS.md#common-offline-integration-gate)
+for selecting those tools and preserving `pubspec.lock`.
+
+**Device-data warning:** Flutter integration tests install instrumented debug
+packages. In the observed run a version-code downgrade (38 versus installed 105)
+caused Flutter to automatically uninstall the existing app and retry installation.
+Uninstalling can delete private app data. Use a dedicated test container or preserve
+needed data and approve replacement before running these commands. Do not assume
+the installed production app or its data will remain intact.
+
+After that preflight, an existing navigation/export-sheet test is:
+
+```bash
+flutter pub get --offline --enforce-lockfile
+flutter test --no-pub --no-uninstall integration_test/flows/critical_journey_test.dart \
+  -d "$ANDROID_DEVICE" --dart-define=FORCE_GPU_RENDER=true --reporter expanded
+```
+
+`--no-uninstall` retains the instrumented app for follow-up inspection; default
+Flutter integration-test teardown uninstalls it and removes app-scoped exports.
+It does not prevent a pre-test uninstall/replacement when installation conflicts.
+
+This test does not establish actual saved PNGs in MediaStore/gallery. The broader
+[`scripts/pre-release-gate.sh`](../../../scripts/pre-release-gate.sh) supports
+`--device "$ANDROID_DEVICE"` and Waydroid auto-discovery, but also installs apps,
+changes device/network state, and runs a long soak. Inspect its `--help` and scope
+before executing it; it is not the common offline gate.
+
+### Observed outcome and remaining gates (2026-10-24)
+
+The initial failed test below was subsequently repaired. See the
+[export-journey repair and fresh PNG/gallery verification](waydroid-export-verification.md)
+for the passing device reruns and the still-incomplete full-suite/release gates.
+These bullets retain the initial setup attempt's results, not the final rerun.
+
+- Container/session restart repaired the observed routing failure.
+- Public-key enrollment restored authenticated, booted Android 13 ADB access over
+  SSH, verified independently with `get-state` and `sys.boot_completed`.
+- Flutter 3.44.6 lockfile-enforced offline dependency resolution succeeded; the
+  critical-journey debug APK built and installed after the automatic uninstall.
+- The critical journey **failed** at `critical_journey_test.dart:170`: expected
+  `Share & export`, found no matching text after tapping the export FAB. Logs
+  recorded a Mandelbrot GPU first frame; that is not a complete journey pass.
+- No current-candidate edited Mandelbrot/Mandelbulb PNG gallery/readback check
+  passed. Historical MediaStore entries do not qualify the current candidate.
+- No Play status query, upload, production publication, or signing-material use
+  was performed by these setup/test steps.
+
+Retain commands, source/build identity, device ID, backend and actual results for
+future checks. Qualification still needs fresh edited-view exports, MediaStore
+records with completed persistence, gallery visibility/readability, and decoded
+PNGs at the selected dimensions. Waydroid evidence must remain distinct from
+physical-device/hardware GPU evidence; this page does not waive existing release
+gates. See the [Android journey requirements](../test-plan.md#accepted-cross-platform-release-journey)
+and [release lane map](../release/MULTIPLATFORM.md).
+
+Sources: installed Waydroid CLI help; observed SSH troubleshooting and ADB/test
+output from this session; the repository's integration test and release-gate
+script linked above. Revalidate this recipe when Waydroid/Android, ADB key handling,
+headless compositor setup, Flutter installation behavior or export tests change.

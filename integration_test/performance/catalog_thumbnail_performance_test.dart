@@ -9,11 +9,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../helpers/ui_test_helpers.dart';
+
 void main() {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   binding.framePolicy = LiveTestWidgetsFlutterBindingFramePolicy.fullyLive;
 
-  testWidgets('rapid scrolling renders the visible Barnsley thumbnail grid',
+  testWidgets('rapid scrolling renders every visible catalog thumbnail',
       (tester) async {
     binding.platformDispatcher.semanticsEnabledTestValue = false;
     SharedPreferences.setMockInitialValues({});
@@ -34,35 +36,58 @@ void main() {
     await tester.pump(const Duration(milliseconds: 100));
 
     final catalog = find.byType(CustomScrollView);
+    final scrollable = find
+        .descendant(
+          of: catalog,
+          matching: find.byType(Scrollable),
+        )
+        .first;
+    final position = tester.state<ScrollableState>(scrollable).position;
+    final startOffset = position.pixels;
+    final targetDistance = position.viewportDimension * 3;
     final scrollTimer = Stopwatch()..start();
+    // Traverse three screens, independent of catalog size or alphabetical order.
+    // Twenty gestures remains a safety bound, not the required workload.
     for (var attempt = 0;
-        attempt < 20 && find.text('Barnsley Fern').evaluate().isEmpty;
+        attempt < 20 && position.pixels - startOffset < targetDistance;
         attempt++) {
       await tester.drag(catalog, const Offset(0, -500));
       await tester.pump(const Duration(milliseconds: 16));
     }
-    expect(find.text('Barnsley Fern'), findsOneWidget);
-    await tester.ensureVisible(find.text('Barnsley Fern'));
-
-    const visibleCatalogIds = [
-      'core.barnsley_fern',
-      'core.barnsley_j1',
-      'core.barnsley_j2',
-      'core.barnsley_j3',
-    ];
-    final deadline = DateTime.now().add(const Duration(seconds: 5));
-    while (DateTime.now().isBefore(deadline)) {
+    expect(position.pixels - startOffset, greaterThanOrEqualTo(targetDistance));
+    // Freeze identities before waiting for completion. Include partially visible
+    // previews, but not off-screen children mounted in the sliver cache extent.
+    final viewport = tester.getRect(scrollable);
+    final visibleCatalogIds = <String>[];
+    for (final element in catalogModuleCards().evaluate()) {
+      final catalogId = (element.widget.key! as ValueKey<String>)
+          .value
+          .substring('catalogModuleCard_'.length);
+      final preview = find.byWidgetPredicate((widget) =>
+          widget.key == Key('catalogRuntimeThumbnail_$catalogId') ||
+          widget.key == Key('catalogCachedThumbnail_$catalogId'));
+      expect(preview, findsOneWidget);
+      if (tester.getRect(preview).overlaps(viewport)) {
+        visibleCatalogIds.add(catalogId);
+      }
+    }
+    expect(visibleCatalogIds.length, greaterThanOrEqualTo(2));
+    debugPrint(
+      '[catalog-thumbnail-gate] scroll_ms=${scrollTimer.elapsedMilliseconds} '
+      'distance_px=${position.pixels - startOffset} target_px=$targetDistance '
+      'visible_cards=${visibleCatalogIds.length}',
+    );
+    while (scrollTimer.elapsed < const Duration(seconds: 5)) {
       final rendered = visibleCatalogIds.where((catalogId) {
         return find
             .byKey(Key('catalogCachedThumbnail_$catalogId'))
             .evaluate()
             .isNotEmpty;
       }).length;
-      // The viewport can include more cards than the four Barnsley entries.
-      // Wait for their telemetry too before asserting full-grid completion.
+      // Wait for both the snapshotted visible cards and full-grid telemetry.
       if (rendered == visibleCatalogIds.length &&
-          CatalogThumbnailTelemetry.instance.snapshot
-                  .visibleGridCompletionTime !=
+          CatalogThumbnailTelemetry
+                  .instance.snapshot.visibleGridCompletionTime !=
               null) {
         break;
       }
@@ -83,7 +108,8 @@ void main() {
     expect(metrics.visibleGridCompletionTime, isNotNull);
     expect(scrollTimer.elapsed, lessThan(const Duration(seconds: 5)));
     debugPrint(
-      '[catalog-thumbnail-gate] rapid_scroll_ms=${scrollTimer.elapsedMilliseconds} '
+      '[catalog-thumbnail-gate] visible_cards=${visibleCatalogIds.length} '
+      'rapid_scroll_ms=${scrollTimer.elapsedMilliseconds} '
       'first_thumbnail_ms=${metrics.timeToFirstThumbnail!.inMilliseconds} '
       'visible_grid_ms=${metrics.visibleGridCompletionTime!.inMilliseconds} '
       'cache_hits=${metrics.cacheHitCount}/${metrics.requestCount} '
