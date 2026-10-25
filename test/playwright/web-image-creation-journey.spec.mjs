@@ -267,6 +267,88 @@ test(
   await retainJourneyEnvironment(page, testInfo, webBundle);
 });
 
+test('sine sphere restores edits and exports a reduced-motion frozen PNG', async ({ page }, testInfo) => {
+  test.setTimeout(180_000);
+  const errors = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  const session = {
+    schemaVersion: 1, moduleId: 'recursive_sine_sphere',
+    params: { depth: 2, strength: 0.65, radius: 1.2, phase: 0.4,
+      steps: 256, colorScheme: 2, animate: true },
+    view: { pan: [0.15, -0.1], zoom: 1.05, rotation: [0.45, -0.2, 0.1] },
+    transparentBackground: false, rotationLocked: false,
+    glowEnabled: false, glowSigma: 1, glowIntensity: 0.35,
+    fluidModeEnabled: false, fluidStrength: 1,
+    kaleidoscopeEnabled: false, kaleidoscopeSectors: 6,
+    kaleidoscopeMirror: false, kaleidoscopeRotation: 0, kaleidoscopeMirrorMode: 0,
+    controlsVisible: false, fullscreenUnobtrusive: false, viewerActive: true,
+  };
+  await page.addInitScript((seed) => {
+    if (localStorage.getItem('sine-sphere-seeded')) return;
+    localStorage.setItem('flutter.viewer_session_v1', JSON.stringify(JSON.stringify(seed)));
+    localStorage.setItem('sine-sphere-seeded', 'true');
+  }, session);
+  const [webBundle] = await Promise.all([
+    page.waitForResponse((response) => new URL(response.url()).pathname.endsWith('/main.dart.js')),
+    page.goto('/', { waitUntil: 'domcontentloaded' }),
+  ]);
+  const enable = async () => {
+    const button = page.getByRole('button', { name: /enable accessibility/i });
+    await expect(button).toBeVisible({ timeout: 30_000 });
+    await page.evaluate(() => document.querySelector('flt-semantics-placeholder')?.click());
+    await expect(button).toBeHidden();
+    await expect(page.getByRole('button', { name: /back to catalog/i })).toBeVisible();
+  };
+  const saved = () => page.evaluate(() => JSON.parse(JSON.parse(
+    localStorage.getItem('flutter.viewer_session_v1'))));
+  await enable();
+  const clip = { x: 260, y: 200, width: 600, height: 400 };
+  const screenshotHash = async (name) => {
+    const bytes = await page.screenshot({ path: testInfo.outputPath(`${name}.png`), clip });
+    return (await decodedPngPixels(page, bytes)).pixelHash;
+  };
+  await page.waitForTimeout(800);
+  const animated = await screenshotHash('sine-animated-a');
+  await page.waitForTimeout(800);
+  expect(await screenshotHash('sine-animated-b')).not.toBe(animated);
+
+  // Exercise an actual visible edit, then process restoration rather than just
+  // reading the initial seed back from storage.
+  await page.getByRole('button', { name: /color scheme/i }).click({ force: true });
+  await expect.poll(async () => (await saved()).params.colorScheme).not.toBe(2);
+  const edited = await saved();
+  expect(edited.params).toMatchObject({ ...session.params, colorScheme: 3 });
+  expect(edited.view).toEqual(session.view);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.waitForTimeout(800);
+  const editedPixels = await screenshotHash('sine-edited-before-reload');
+  await page.evaluate(() => history.replaceState(null, '', '/'));
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await enable();
+  await page.waitForTimeout(800);
+  const frozen = await screenshotHash('sine-frozen-a');
+  expect(frozen, 'restored renderer must reproduce the edited geometry/palette').toBe(editedPixels);
+  await page.waitForTimeout(800);
+  expect(await screenshotHash('sine-frozen-b')).toBe(frozen);
+  const beforeExport = await saved();
+  expect(beforeExport.params).toEqual(edited.params);
+  expect(beforeExport.view).toEqual(edited.view);
+  const first = await exportHdPng(page, testInfo, 'sine-sphere-frozen-a');
+  const second = await exportHdPng(page, testInfo, 'sine-sphere-frozen-b');
+  const firstPixels = await decodedPngPixels(page, fs.readFileSync(first));
+  const secondPixels = await decodedPngPixels(page, fs.readFileSync(second));
+  expect(firstPixels.pixelHash).toBe(secondPixels.pixelHash);
+  expect(await saved()).toEqual(beforeExport);
+  expect(errors).toEqual([]);
+  await retainJourneyEnvironment(page, testInfo, webBundle);
+  await testInfo.attach('sine-sphere-browser-observation.json', {
+    body: Buffer.from(JSON.stringify({ seeded: session, edited, restored: beforeExport,
+      restoredPixelsEqual: true, frozenScreenshotsEqual: true,
+      firstPixels, secondPixels, errors }, null, 2)),
+    contentType: 'application/json',
+  });
+});
+
 test('Gaussian catalog walk exports a frozen paused PNG', async ({ page }, testInfo) => {
   const browserErrors = [];
   page.on('pageerror', (error) => browserErrors.push(error.message));

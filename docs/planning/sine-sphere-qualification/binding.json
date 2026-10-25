@@ -1,0 +1,95 @@
+{
+  "baseline": "641f3c675b45d77b50f5965843d8cb413c252e33",
+  "task": "SINEWARP-002-47",
+  "qualification": "local candidate source hashes, not an integration, release or physical-device verdict",
+  "sourceSha256": {
+    "lib/core/modules/fractals/recursive_sine_sphere_module.dart": "471cb446e611b7b211713be3d443d35cdf9af5619baf6247c9c36d208480f80a",
+    "lib/features/viewer/fractal_viewer_screen.dart": "ce64f75e0d0412065043b38daf170413b65aeb32401297a83f46f89e054a2a54",
+    "shaders/3d_and_hypercomplex/raymarched_volumes/recursive_sine_sphere_gpu.frag": "ca6299d5ed3b1d29f4ad600b2e158d8e066100405627ef73db3c1b88fed2489e",
+    "shaders/3d_and_hypercomplex/raymarched_volumes/recursive_sine_sphere_kernel.glsl": "d1d77295472a5339df7954e24253d1ddc08d3741c87238c54e73a6b53b506010",
+    "integration_test/rendering/recursive_sine_sphere_test.dart": "858befad4809cd97e42e3c64a32a847fd32ecf446fde8c222d028c06b4d0cb3f",
+    "test/helpers/sine_sphere_oracle.dart": "eefc9d222ffd8b0807c40aefba5b662fdbf5541a5ef375d218b4dd6ff75d4c2f",
+    "test/shaders/recursive_sine_sphere_kernel_fixture.frag": "7fefc279f95b75ca3925df77e4e9d2f51aba9f246dc3193fa5402719160afdd6",
+    "test/shaders/recursive_sine_sphere_kernel_test.dart": "450935aa1cd89a6fe6f75a36319121846b496247aa92ade4fb4d1350301d6b48",
+    "test/playwright/web-image-creation-journey.spec.mjs": "5886b07f418460cba3e0758a56c093e02e8e086d8d5b1683fda3b287bbb0575b",
+    "pubspec.lock": "22b29dbd8f71276012a54b9bdc62ba88408f967a86b34075986c17e1c4506ec3"
+  },
+  "artifacts": {
+    "native-observations.json": {
+      "sha256": "456c1d1335e51af15a461c28ec3cd3fd101fd0d56a534267de821fa3fd4a0e27",
+      "observation": "unaltered native observations"
+    },
+    "native-sphere-control.png": {
+      "sha256": "15035e25476a9fdb6da7c6b0ad91ea29fa7040c6edbb5f7287a23a44fe52ec1a",
+      "observation": "native-observations.json#/exports/sphere-control"
+    },
+    "native-default.png": {
+      "sha256": "dc14bd4daac0ff8153199e65678c41f2ee34be67f8fd353578eeffff14011863",
+      "observation": "native-observations.json#/exports/default"
+    },
+    "native-detail.png": {
+      "sha256": "0e2b508648d29314b1afa6d72b223b8e067c2c6d83d4a7a514873518e9d047fe",
+      "observation": "native-observations.json#/exports/detail"
+    },
+    "native-restored.png": {
+      "sha256": "dc91d6b7eda8b0a5d7165e3b753f4447311ecbabd70434531687e81a816d22fb",
+      "observation": "native-observations.json#/exports/restored"
+    },
+    "native-animation-off-b.png": {
+      "sha256": "31b865740d9826c0b39f16aa351f94095ccc233b8727cae79a4f578bfac6cade",
+      "observation": "native-observations.json#/exports/animation-off-b"
+    },
+    "native-frozen-opaque.png": {
+      "sha256": "59fab8c4abae14b3c611208e9c0fcc507603647b626a51dc5153bec768d28166",
+      "observation": "native-observations.json#/exports/frozen-opaque"
+    },
+    "native-frozen-transparent.png": {
+      "sha256": "94282999718475ff11b4648e1d3f1d3d3d26581cc336d2782845ec89f5395fc8",
+      "observation": "native-observations.json#/exports/frozen-transparent"
+    },
+    "native-detail-camera-depth3.png": {
+      "sha256": "393a7197962a25147af6e1a308cde06a47a66d7cc88ff196b7bc330e61539e48",
+      "observation": "native-observations.json#/captures/detail-camera-depth3"
+    },
+    "native-maximum.png": {
+      "sha256": "16ffd03a27fdbbdd3014e318e4b9b81cad9b9d191c50a7ee45ed74748cb854e4",
+      "observation": "native-observations.json#/captures/maximum"
+    },
+    "browser-sine-animated-a.png": {
+      "sha256": "702f8eded5582a54af936bd12f2724a236a1e18e98267bf14c7642e4a7ff5b65",
+      "observation": "600x400 unobstructed viewport crop; Playwright journey"
+    },
+    "browser-sine-animated-b.png": {
+      "sha256": "7971b94e1a5ebab0073e0a690f315e86887b90a214d0e8e1da609f6a8ea8f18b",
+      "observation": "600x400 unobstructed viewport crop; Playwright journey"
+    },
+    "browser-sine-edited-before-reload.png": {
+      "sha256": "52dcccf1a76d2da41614c2da99adf2497e173e0fb65fd4b0a54de214608b7b8d",
+      "observation": "600x400 unobstructed viewport crop; Playwright journey"
+    },
+    "browser-sine-frozen-a.png": {
+      "sha256": "52dcccf1a76d2da41614c2da99adf2497e173e0fb65fd4b0a54de214608b7b8d",
+      "observation": "600x400 unobstructed viewport crop; Playwright journey"
+    },
+    "browser-sine-sphere-frozen-a-edited.png": {
+      "sha256": "0295bad005353d826de7ecd6d83e5f3eaecc0c1cd309a02fc98d2d3e8b183310",
+      "observation": "real downloaded HD PNG; decoded pixel hashes in browser-observation.json"
+    },
+    "browser-sine-sphere-frozen-b-edited.png": {
+      "sha256": "5c142a31e4b76b5187e006da29f98393ff6d34e823e317ca44988cc6fa37eb2d",
+      "observation": "real downloaded HD PNG; decoded pixel hashes in browser-observation.json"
+    },
+    "browser-environment.json": {
+      "sha256": "e7fac5204759895a00b8eb37822e763acf99c51756efb565f0a087f9ccc5ff0f",
+      "observation": "unaltered Playwright browser/CDP environment"
+    },
+    "browser-observation.json": {
+      "sha256": "0e2939475061e34c0abb725a7e6b5f8be20187f5f01988070fd8932b0b6a0616",
+      "observation": "unaltered Playwright TestInfo attachment body"
+    },
+    "native-backend.json": {
+      "sha256": "9bf37d0fa295d0e17befe73ce3168670b0235ce4265c5570e6bb9a4327e64c49",
+      "observation": "same-display GL inspection and actual integration GPU-path log lines"
+    }
+  }
+}

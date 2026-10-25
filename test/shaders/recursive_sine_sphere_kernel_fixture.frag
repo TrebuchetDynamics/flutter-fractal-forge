@@ -8,6 +8,7 @@ const int SINE_RAY_MISS = 0;
 const int SINE_RAY_HIT = 1;
 const int SINE_RAY_UNRESOLVED = 2;
 const int SINE_RAY_TANGENT = 3;
+const int SINE_RAY_STAGNATION = 4;
 const float SINE_FLOAT_RESIDUAL = 0.00035;
 const float SINE_BRACKET_RESIDUAL = 0.0005;
 
@@ -129,7 +130,8 @@ SineSphereIntersection sineSphereIntersect(vec3 origin, vec3 direction,
     if (stepIndex >= budget || distance >= exitDistance) break;
     float advance = abs(fieldValue) / lipschitz * 0.8;
     if (isnan(advance) || isinf(advance) || advance <= 0.0) {
-      return sineSphereResult(SINE_RAY_UNRESOLVED, distance, abs(fieldValue));
+      return sineSphereResult(advance <= 0.0 ? SINE_RAY_STAGNATION : SINE_RAY_UNRESOLVED,
+                              distance, abs(fieldValue));
     }
     previousDistance = distance;
     previousValue = fieldValue;
@@ -172,7 +174,7 @@ SineSphereIntersection sineSphereIntersect(vec3 origin, vec3 direction,
       return sineSphereResult(status, nextDistance, abs(nextValue));
     }
     if (nextDistance <= distance) {
-      return sineSphereResult(SINE_RAY_UNRESOLVED, distance, abs(fieldValue));
+      return sineSphereResult(SINE_RAY_STAGNATION, distance, abs(fieldValue));
     }
     if (nextDistance >= exitDistance) {
       return sineSphereResult(SINE_RAY_MISS, -1.0, -1.0);
@@ -190,6 +192,11 @@ uniform float uPhase;
 uniform float uBudget;
 uniform vec3 uOrigin;
 uniform vec3 uDirection;
+// Optional full-frame classification at the production camera. Zero by default
+// keeps the retained arbitrary-ray, 24-bit depth/residual diagnostic unchanged.
+uniform vec2 uGridSize;
+uniform vec3 uGridRotation;
+uniform vec3 uGridView; // pan x/y, zoom
 out vec4 fragColor;
 
 vec3 encode24(float value, float scale) {
@@ -201,6 +208,21 @@ vec3 encode24(float value, float scale) {
 }
 
 void main() {
+  if (uGridSize.x > 0.0) {
+    float cx=cos(uGridRotation.x), sx=sin(uGridRotation.x);
+    float cy=cos(uGridRotation.y), sy=sin(uGridRotation.y);
+    float cz=cos(uGridRotation.z), sz=sin(uGridRotation.z);
+    mat3 rot=mat3(cy*cz,sx*sy*cz-cx*sz,cx*sy*cz+sx*sz,
+                  cy*sz,sx*sy*sz+cx*cz,cx*sy*sz-sx*cz,
+                  -sy,sx*cy,cx*cy);
+    vec2 uv=(FlutterFragCoord().xy-0.5*uGridSize)*2.0/uGridSize.y;
+    vec3 ro=vec3(uGridView.xy,0.0)+rot*vec3(0,0,3.2/clamp(uGridView.z,0.2,8.0));
+    vec3 rd=normalize(rot*vec3(uv,-1.5));
+    SineSphereIntersection frameResult=sineSphereIntersect(
+        ro,rd,int(uDepth),uStrength,uRadius,uPhase,int(uBudget));
+    fragColor=vec4(float(frameResult.status)/255.0,0.0,0.0,1.0);
+    return;
+  }
   SineSphereIntersection result = sineSphereIntersect(
       uOrigin, uDirection, int(uDepth), uStrength, uRadius, uPhase, int(uBudget));
   float pixel = floor(FlutterFragCoord().x);

@@ -276,7 +276,11 @@ class _FractalViewerScreenState extends FractalViewerRouteState
       (_looperController?.isExporting ?? false) ||
       _exportService.coordinator.isBusy;
 
-  bool get _liveRenderingEnabled => _appVisible && !_freezeFrameForExport;
+  bool get _liveRenderingEnabled =>
+      _appVisible &&
+      !_freezeFrameForExport &&
+      !(context.watch<AccessibilityService?>()?.reducedMotionEnabled ?? false) &&
+      !MediaQuery.disableAnimationsOf(context);
 
   bool get _usesCoreViewerChrome => widget.catalogFamily == CatalogFamily.core;
 

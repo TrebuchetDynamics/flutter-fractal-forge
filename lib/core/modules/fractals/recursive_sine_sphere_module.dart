@@ -96,7 +96,8 @@ FractalModule buildRecursiveSineSphereModule() {
           id: 'recursive_sine_sphere-fine',
           name: 'Fine detail',
           params: {...defaults, 'depth': 5, 'steps': 384},
-          view: view.copyWith(zoom: 1.08)),
+          // Keep the finer lobes inside the viewport (qualified at 4:3).
+          view: view.copyWith(zoom: 0.9)),
     ],
     setUniforms: (shader, state, size, time) {
       setRaymarched3DFrameUniforms(

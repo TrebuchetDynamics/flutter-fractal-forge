@@ -5,6 +5,7 @@ const int SINE_RAY_MISS = 0;
 const int SINE_RAY_HIT = 1;
 const int SINE_RAY_UNRESOLVED = 2;
 const int SINE_RAY_TANGENT = 3;
+const int SINE_RAY_STAGNATION = 4;
 const float SINE_FLOAT_RESIDUAL = 0.00035;
 const float SINE_BRACKET_RESIDUAL = 0.0005;
 
@@ -126,7 +127,8 @@ SineSphereIntersection sineSphereIntersect(vec3 origin, vec3 direction,
     if (stepIndex >= budget || distance >= exitDistance) break;
     float advance = abs(fieldValue) / lipschitz * 0.8;
     if (isnan(advance) || isinf(advance) || advance <= 0.0) {
-      return sineSphereResult(SINE_RAY_UNRESOLVED, distance, abs(fieldValue));
+      return sineSphereResult(advance <= 0.0 ? SINE_RAY_STAGNATION : SINE_RAY_UNRESOLVED,
+                              distance, abs(fieldValue));
     }
     previousDistance = distance;
     previousValue = fieldValue;
@@ -169,7 +171,7 @@ SineSphereIntersection sineSphereIntersect(vec3 origin, vec3 direction,
       return sineSphereResult(status, nextDistance, abs(nextValue));
     }
     if (nextDistance <= distance) {
-      return sineSphereResult(SINE_RAY_UNRESOLVED, distance, abs(fieldValue));
+      return sineSphereResult(SINE_RAY_STAGNATION, distance, abs(fieldValue));
     }
     if (nextDistance >= exitDistance) {
       return sineSphereResult(SINE_RAY_MISS, -1.0, -1.0);
