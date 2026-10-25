@@ -1,0 +1,9 @@
+schema = 1
+task = "MAIN-LOGGER-REPAIR-01"
+candidate = "7a47d7f00de38c37bec50ce5e7fd7e8f42d34dfb"
+integration = "51f89b31f6d36109b8adc41d74d62830485eb90a"
+tree = "1dc58877775a1dad618bd2fc9046cccff3fe33ca"
+contract_hash = "250960735b2ec77dd07c3b212b71a3b719b432e5aeb5a046c88e659f6f355b94"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAIN-LOGGER-REPAIR-01"]
+result = "pass"
+review = "passed"
