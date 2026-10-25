@@ -241,6 +241,43 @@ Cancellation records distinguish request-to-delivery, cancellation settlement an
 
 Recorded 2026-10-25: the native supplemental journey reached its terminal passing aggregate; the one-test production Chromium journey passed in 3.8 minutes. Independent retained-artifact readback decoded 40 PNGs and matched 18,560 exact cells across eight paired artwork states, all primary exports at 1280×720. The default crop includes 414 framed zero windows; worst-grid completion measured 7,127ms native debug and 71,222ms browser release on software graphics. See [the source/hash-bound artifact receipt](../qa/number-walls/2026-10-25/README.md) for exact inputs, command setup, timings, memory samples, cancellation observations and visual classifications. Back/title overlap with backend text and the open HUD covering the inspector remain observed defects, not a clean visual acceptance. Native driver execution remains unavailable under the current port policy; physical-device, hardware-GPU, screen-reader/gallery and human composition acceptance remain separate. No task acceptance or release gate is waived.
 
+### Installed Android Number Walls qualification (NUM-WALL-05)
+
+**2026-10-25: NOT_CHECKED — Android journey, TalkBack, lifecycle and gallery acceptance.** ADB inspection found an attached WayDroid target, not a physical phone. Missing physical-device/operator checks remain pending live work; they do not block independent offline implementation or close Number Walls parent acceptance.
+
+| Identity | Observed value |
+|---|---|
+| Device | `192.168.240.112:5555`, `WayDroid_x86_64_Device`, ABI `x86_64`, Android 13 / API 33 |
+| OS fingerprint | `waydroid/lineage_waydroid_x86_64/waydroid_x86_64:13/TQ3A.230901.001/eng.aleast.20260403.132616:userdebug/test-keys` |
+| Installed package | `com.trebuchetdynamics.fractal.forge`, version `1.1.111`, code `111` |
+| Installed APK SHA-256 | `3fe12e4b8518dec8f10e53e88a4bbe11133c19a9e418eb37b7d44475e46caa9c` |
+| Signing certificate | `CN=Flutter Fractal Forge Upload, OU=Release, O=Trebuchet Dynamics, L=Unknown, ST=Unknown, C=US`; SHA-256 `8d5f69b91dd44476ceaad141f1fa9f6abeccdfa20cd3f7bcdfe709df623878fd` |
+| Source binding | Checkout `0314ab988da349d3f281aa5f05cc22022af6b99a`; installed APK source revision **unknown**, not asserted to contain this checkout's Number Walls implementation |
+| Renderer/backend | **NOT_CHECKED**; Android/WayDroid identity does not establish Canvas, sampler, Impeller or hardware-GPU execution |
+| Accessibility service | `settings get secure enabled_accessibility_services` returned `null`; package enumeration found no TalkBack package |
+
+Identity inspection used `adb devices -l`, device properties, `dumpsys package`, and `pm path`; the installed APK was pulled only to task scratch and verified with Android build-tools 36.0.0 `apksigner verify --print-certs` and `sha256sum`. No app installation, replacement, uninstall, preference mutation or gallery write was performed. The release-signed installed app is not a disposable debug-test fixture.
+
+Pinned Flutter 3.44.6 / Dart 3.12.2 startup attempt:
+
+```sh
+flutter test integration_test/flows/number_wall_journey_test.dart \
+  -d 192.168.240.112:5555 --reporter expanded --no-dds \
+  --device-vmservice-port=20417 --host-vmservice-port=20418
+```
+
+This exited **64 before any test ran**: `Could not find an option named "--device-vmservice-port".` It is an unavailable driver check, not a failing product assertion or a passing Android journey. The unmodified planned command below was not run: its VM listeners are not bound to this worker's reserved range. Do not borrow NUM-WALL-02's port exception, patch the SDK or replace a release app to obtain a receipt. The [reserved-port runbook](runbook.md#owned-linux-runtime-with-reserved-ports) explains the related native-driver limitation; supplemental execution must remain distinct from the required driver receipt. Focused `flutter analyze --no-pub integration_test/flows/number_wall_journey_test.dart` passed; static analysis is not installed-device evidence.
+
+#### Android resume and readback checklist (not executed)
+
+1. Use a named install-safe test device/profile and a source-bound candidate; retain APK hash, certificate digest, version/code, source revision, Flutter/Dart versions, device fingerprint/ABI and actual renderer/backend. Keep emulator/WayDroid and physical-device verdicts separate. Preserve the existing release installation and user data; do not uninstall it to resolve a signing mismatch.
+2. Reuse `integration_test/flows/number_wall_journey_test.dart`, not a parallel replacement journey. The planned gate is `flutter test integration_test/flows/number_wall_journey_test.dart -d DEVICE_ID --reporter expanded` with the actual ID, under `autowork-run timeout 1100` and permitted listener control. Supply the host journey's `FORCE_GPU_RENDER`, `FORCE_RUNTIME_CATALOG_THUMBNAILS` and `NUMBER_WALL_SOURCE` defines, plus `NUMBER_WALL_ARTIFACT_DIR` pointing to a writable app-private directory on Android, not a host path or the relative Linux default. Retain the terminal aggregate, exceptions, `environment.json`, matrices and PNGs. This fixture writes preferences/presets and uses synthetic 1280×900 and 320×900 surfaces; it neither preserves an ordinary user's settings nor qualifies natural device layout, real keyboard/TalkBack or OS backgrounding.
+3. Separately exercise the installed UI at its natural viewport in EN/ES. With the soft keyboard open, enter and Apply prime `97`; reject `561` without replacing the committed wall; exercise a long decimal's pending/unverified and Cancel states without calling it prime. Inspect the editor, backend label and cell inspector for clipping/overflow at enlarged text (2×) and high contrast. Traverse prime editor → Apply → sequence/style/randomizer → inspector using Tab/Shift-Tab and activation keys, then TalkBack next/previous and activation. Record actual focus order, spoken names/values/status, visible focus, reachability, >=48px targets and zero/nonzero cues independent of colour. Synthetic semantics and screenshots do not substitute for these checks.
+4. During long validation/grid work and separately during export, background via Home and resume; also navigate away/back. Record committed source/prime/grid/style before and after, cancellation/status timing and any stale completion. Reopen saved settings and verify only certified state is restored. Do not require an interrupted export to survive process death or call an unfinished save successful; record the lifecycle event and actual file outcome.
+5. Save an HD PNG through the real export UI. Match the new filename to this run's app-private export and its MediaStore image row (`_id`, `_display_name`, `relative_path`, `width`, `height`, `is_pending=0`), then read the row's content URI back through ADB to task scratch. Decode the **MediaStore bytes**, require 1280×720 and compare every represented cell/zero mask against the retained immutable matrix/style using the host journey's one-LSB RGB tolerance and exact alpha. Local-file success alone is insufficient: `ExportService._mirrorImageToMediaStoreIfNeeded` is best-effort and suppresses platform errors (`lib/core/services/export/export_service.dart`); Android publication is owned by `persistImageToMediaStore` (`android/app/src/main/kotlin/com/fractals/flutter_fractals/MainActivity.kt`). Finally open that exact saved image in Gallery, verify readability and composition, and retain its URI/filename plus readback result without inspecting unrelated media.
+
+All five live checklist outcomes remain **NOT_CHECKED** in this attempt. No Number Walls PNG, gallery visibility, physical-device performance, live accessibility or Android lifecycle pass is claimed. Resume with an install-safe source-bound target and a permitted driver environment; retain missing TalkBack/operator and physical hardware as separate live gaps, not offline blockers.
+
 ## Academic evidence verification
 
 Planned, not executed: ACAD-01 adds offline schema/import/coverage checks; ACAD-02 produces actual ResearchForge metadata manifests and failure/screening queues; ACAD-03 requires real human approval before legal acquisition and accepted source-span/renderer review; ACAD-04 continues bounded all-identity assessment; ACAD-05 prevents unsupported/stale claim promotion at existing metadata/admission seams. Exact proposed commands and dependencies are in TODO.md and the library README.
