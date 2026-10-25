@@ -1,0 +1,9 @@
+schema = 1
+task = "NUM-WALL-02"
+candidate = "08cca60be818bcb4e99af736ed619b203b9bb9ad"
+integration = "08e951bcdb1ead9a883acd0611e2124c9c9b0d61"
+tree = "ae6050dbd9dd557dc1f95ad7bfcf41da959a0bbd"
+contract_hash = "f69c8f517545c4ad46d9d15c4a18e9eb458ae6396c8fa70f3851e8e226b04dda"
+checks = ["<path>", "<path>", "--verify", "<path>", "NUM-WALL-02"]
+result = "pass"
+review = "passed"
