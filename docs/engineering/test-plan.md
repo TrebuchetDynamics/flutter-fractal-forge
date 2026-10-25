@@ -173,7 +173,7 @@ The explicit owner application/publication request is executed: 16 asset/provena
 
 ## Number wall verification
 
-Status: Number Walls math and catalog/viewer integration have local native/offline coverage. All six Flutter Chrome state/replay cases pass on the current composition with the bounded invocation below, including active-module edit ownership and reentrant candidate staging. Installed-platform qualification remains incomplete; this is not a merged-tree, full browser-journey or release qualification.
+Status: Number Walls math and catalog/viewer integration have local native/offline coverage. All six Flutter Chrome state/replay cases pass on the current composition with the bounded invocation below, including active-module edit ownership and reentrant candidate staging. The [2026-10-25 composed host evidence](../qa/number-walls/2026-10-25/README.md) adds a completed production Chromium journey and supplemental native Linux rendering/export execution. Installed-platform qualification, the native test-driver receipt and release acceptance remain incomplete; these results do not qualify the merged tree or hardware GPUs.
 
 NUM-WALL-01 owns independent integer-determinant reductions, six pinned sequence definitions, BigInt precision, prime rejection/unverified states, zero-denominator recovery, halo and cancellation. NUM-WALL-02 owns real catalog/viewer/thumbnail wiring, decimal-string persistence/import/deep-link compatibility and EN/ES accessible controls. NUM-WALL-03 owns manual randomizer/undo, zero-mask-preserving foreground/background/residue palettes, colour-only no-recompute and immutable same-cell PNG export. Exact commands and acceptance are in `tasks/items/NUM-WALL-01.md` through `tasks/items/NUM-WALL-05.md`.
 
@@ -198,6 +198,48 @@ CHROME_EXECUTABLE="$PWD/scripts/number-wall-chrome.py" \
 ```
 
 Use the existing NUM-WALL-02-only OS-assigned-loopback exception, a temporary directory/profile and normal owned-process cleanup. This invocation does not grant that port exception to other tasks or qualify NUM-WALL-04/05.
+
+### Composed Number Walls host journeys (NUM-WALL-04)
+
+`integration_test/flows/number_wall_journey_test.dart` and `test/playwright/number-wall-journey.spec.mjs` exercise the production catalog, exact renderer, controls, stored-preset/session seams and export UI. The native fixture does not substitute test fonts, a placeholder renderer or a fake exporter. The browser loads the release bundle and decodes actual downloads.
+
+The six sequence cases retain the documented 96×32, nStart=64, p=2 inputs. The outside-quick-pick replay uses p=97 at 16×4; it is not represented as the default grid. Both journeys reject stored composite 561 and unfinished `170141183460469231731687303715884105727` without replacing the committed wall, then apply the valid replay and export it. Style, randomize/undo and saved/reopened artwork are checked separately. Squares mod 2 at 256×64 supplies the completed stress case and a second cancellable request. No new formula, unbounded grid or release acceptance is implied.
+
+Every artwork PNG is requested through the real HD export control (1280×720). Native readback checks every viewer/export cell against its committed matrix. Browser readback independently decodes the PNG and recovers every residue against the native **complete** field-colour table, including residues absent from that matrix. RGB quantization tolerance is one byte level per channel; alpha, residue identity and zero/nonzero classification are not relaxed. An ambiguous tolerant colour match fails. Browser screenshots also sample unobscured displayed cells; they are not substituted export renders. The inspector asserts an actual displayed cell's coordinates, modulus and residue.
+
+Use the pinned SDK/cache from the repository gate setup and isolated XDG preferences under `$TMPDIR`. Real native rendering needs both defines below; without the runtime-thumbnail define the catalog fixture would retain its pending placeholder rather than qualify the card. The supported port-bound supplemental invocation is:
+
+```sh
+flutter run --no-pub -d linux --no-dds --no-devtools \
+  --device-vmservice-port="$((AUTOWORK_PORT_BASE + 1))" \
+  --host-vmservice-port="$((AUTOWORK_PORT_BASE + 1))" \
+  -t integration_test/flows/number_wall_journey_test.dart \
+  --dart-define=FORCE_GPU_RENDER=true \
+  --dart-define=FORCE_RUNTIME_CATALOG_THUMBNAILS=true \
+  --dart-define=NUMBER_WALL_ARTIFACT_DIR="$TMPDIR/native" \
+  --dart-define=NUMBER_WALL_SOURCE="$(git rev-parse HEAD)"
+```
+
+Run the native command under an owned Xvfb with `-screen 0 1600x1200x24 -nolisten tcp` when needed. Stop only the owned runner after observing its terminal test aggregate; the worker's bounded wrapper performs that cleanup automatically. The integration-plugin warning remains: this is **supplemental native execution**, not a passing `flutter test ... -d linux` driver receipt. The pinned driver rejects `--host-vmservice-port` before tests start; its unbound raw VM listener is not allowed by this task's port policy. Preserve that gate as unavailable, as described in [the runbook](runbook.md#owned-linux-runtime-with-reserved-ports).
+
+Build with `autowork-run timeout 900 flutter build web --no-pub --no-web-resources-cdn`. Serve `build/web` using an owned `python3 -m http.server "$AUTOWORK_PORT_BASE" --bind 127.0.0.1 --directory build/web`, then run the repository Playwright target:
+
+```sh
+autowork-run timeout 1000 env \
+  PLAYWRIGHT_PORT="$AUTOWORK_PORT_BASE" PLAYWRIGHT_SKIP_WEBSERVER=1 \
+  CHROME_DEVEL_SANDBOX=/usr/lib/chromium/chrome-sandbox \
+  NUMBER_WALL_CHROMIUM="$AUTOWORK_CACHE/playwright-browsers/chromium-1217/chrome-linux64/chrome" \
+  NUMBER_WALL_NATIVE_ARTIFACTS="$TMPDIR/native" \
+  NUMBER_WALL_SOURCE="$(git rev-parse HEAD)" \
+  npx --no-install playwright test test/playwright/number-wall-journey.spec.mjs \
+  --project=chromium --workers=1 --reporter=line --output="$TMPDIR/browser"
+```
+
+The executable/sandbox-helper paths describe the provisioned host, not a portable install requirement. Chromium renderer sandboxing is requested; the retained CDP software-GPU record separately reports `sandboxed: false`. No SDK/browser security patch is used. Clean up the owned HTTP server and display. Native output must precede the browser run: a missing matrix is a missing prerequisite, never a skipped success.
+
+Cancellation records distinguish request-to-delivery, cancellation settlement and the post-cancellation observation interval. Native schedules a real 50ms event-loop timer and bounds both delivery and subsequent settlement by a generous two-second debug-host regression budget. Browser retains unchanged parameters and actual displayed cells for a separate two-second observation **before** another replay/export can advance ownership. Measured RSS/JS-heap snapshots accompany the finite 256×64 cell cap; they are not a process/GPU memory ceiling, leak certification or a promise of unlimited zoom.
+
+Recorded 2026-10-25: the native supplemental journey reached its terminal passing aggregate; the one-test production Chromium journey passed in 3.8 minutes. Independent retained-artifact readback decoded 40 PNGs and matched 18,560 exact cells across eight paired artwork states, all primary exports at 1280×720. The default crop includes 414 framed zero windows; worst-grid completion measured 7,127ms native debug and 71,222ms browser release on software graphics. See [the source/hash-bound artifact receipt](../qa/number-walls/2026-10-25/README.md) for exact inputs, command setup, timings, memory samples, cancellation observations and visual classifications. Back/title overlap with backend text and the open HUD covering the inspector remain observed defects, not a clean visual acceptance. Native driver execution remains unavailable under the current port policy; physical-device, hardware-GPU, screen-reader/gallery and human composition acceptance remain separate. No task acceptance or release gate is waived.
 
 ## Academic evidence verification
 

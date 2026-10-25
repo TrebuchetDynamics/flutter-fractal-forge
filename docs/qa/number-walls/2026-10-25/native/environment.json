@@ -1,0 +1,145 @@
+{
+  "source": "9c8b4902e2b44e435646d1001acf83ef9515bade",
+  "os": "Linux 7.0.0-31-generic #31~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Mon Aug 10 09:38:02 UTC 2",
+  "dart": "3.12.2 (stable) (Tue Jun 9 01:11:39 2026 -0700) on \"linux_x64\"",
+  "fontSubstitution": false,
+  "gridLimit": [
+    256,
+    64
+  ],
+  "captures": [
+    {
+      "file": "catalog-en.png",
+      "dimensions": [
+        1280,
+        900
+      ],
+      "locale": "en",
+      "textScale": 1.0,
+      "highContrast": false
+    },
+    {
+      "file": "viewer-en.png",
+      "dimensions": [
+        1280,
+        900
+      ],
+      "locale": "en",
+      "textScale": 1.0,
+      "highContrast": false
+    },
+    {
+      "file": "inspector-en.png",
+      "dimensions": [
+        1280,
+        900
+      ],
+      "locale": "en",
+      "textScale": 1.0,
+      "highContrast": false
+    },
+    {
+      "file": "narrow-en-high-contrast-2x.png",
+      "dimensions": [
+        320,
+        900
+      ],
+      "locale": "en",
+      "textScale": 2.0,
+      "highContrast": true
+    },
+    {
+      "file": "narrow-es-high-contrast-2x.png",
+      "dimensions": [
+        320,
+        900
+      ],
+      "locale": "es",
+      "textScale": 2.0,
+      "highContrast": true
+    }
+  ],
+  "measurements": [
+    {
+      "job": "catalog-default",
+      "elapsedMs": 2243,
+      "rssBytes": 501235712,
+      "maxRssBytes": 503595008
+    },
+    {
+      "job": "signedPagoda",
+      "elapsedMs": 0,
+      "rssBytes": 534585344,
+      "maxRssBytes": 535764992
+    },
+    {
+      "job": "rook",
+      "elapsedMs": 2998,
+      "rssBytes": 595795968,
+      "maxRssBytes": 605331456
+    },
+    {
+      "job": "thueMorse",
+      "elapsedMs": 2683,
+      "rssBytes": 606703616,
+      "maxRssBytes": 621207552
+    },
+    {
+      "job": "rudinShapiro",
+      "elapsedMs": 2857,
+      "rssBytes": 588328960,
+      "maxRssBytes": 621207552
+    },
+    {
+      "job": "fibonacci",
+      "elapsedMs": 707,
+      "rssBytes": 615907328,
+      "maxRssBytes": 634245120
+    },
+    {
+      "job": "squares",
+      "elapsedMs": 414,
+      "rssBytes": 617242624,
+      "maxRssBytes": 634245120
+    },
+    {
+      "job": "replay-97",
+      "elapsedMs": 0,
+      "rssBytes": 608518144,
+      "maxRssBytes": 634245120
+    },
+    {
+      "job": "replay-97-total",
+      "elapsedMs": 355
+    },
+    {
+      "job": "ui-randomize",
+      "elapsedMs": 0,
+      "rssBytes": 614051840,
+      "maxRssBytes": 634245120
+    },
+    {
+      "job": "completed-zero-window-256x64",
+      "elapsedMs": 7127,
+      "rssBytes": 627765248,
+      "maxRssBytes": 648253440
+    },
+    {
+      "job": "large-prime",
+      "cancelDeliveredMs": 53,
+      "settledMs": 53,
+      "staleGuardMs": 200,
+      "rssBytes": 619823104
+    },
+    {
+      "job": "zero-window-256x64",
+      "cancelDeliveredMs": 57,
+      "settledMs": 59,
+      "staleGuardMs": 200,
+      "rssBytes": 626307072
+    }
+  ],
+  "catalogPreviewReadyMs": 9,
+  "catalogToGridMs": 3229,
+  "completed": true
+}
