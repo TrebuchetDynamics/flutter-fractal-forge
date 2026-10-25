@@ -1130,8 +1130,9 @@ class FractalController extends ChangeNotifier {
   /// Parameters are clamped to the target module's schema.
   ///
   /// Can accept either a [module] object directly or a [moduleId] string.
-  /// Returns false for rejected or superseded Number Walls requests. Replay
-  /// side effects belong in [onCommitted], never before certification completes.
+  /// Returns false for rejected, superseded or no-longer-owned requests.
+  /// [shouldCommit] is a synchronous ownership guard, rechecked after async
+  /// certification. Replay effects belong in [onCommitted], never before it.
   Future<bool> loadState({
     FractalModule? module,
     String? moduleId,
@@ -1140,7 +1141,9 @@ class FractalController extends ChangeNotifier {
     bool transparentBackground = false,
     bool animateModule = false,
     VoidCallback? onCommitted,
+    bool Function()? shouldCommit,
   }) async {
+    if (!(shouldCommit?.call() ?? true)) return false;
     _paramLerpTimer?.cancel();
     final targetModule = module ??
         (moduleId == null
@@ -1159,6 +1162,7 @@ class FractalController extends ChangeNotifier {
         transparentBackground: transparentBackground,
         animateModule: animateModule,
         onCommitted: onCommitted,
+        shouldCommit: shouldCommit,
       );
       return status == NumberWallPrimeStatus.verifiedPrime &&
           generation == _numberWallIngressGeneration;
@@ -1184,6 +1188,7 @@ class FractalController extends ChangeNotifier {
     required bool transparentBackground,
     required bool animateModule,
     VoidCallback? onCommitted,
+    bool Function()? shouldCommit,
     int maxTrialDivisions = NumberWallPrimeValidator.defaultMaxTrialDivisions,
   }) async {
     _numberWallPending = true;
@@ -1202,10 +1207,16 @@ class FractalController extends ChangeNotifier {
       normalized,
       previous: _numberWallFrame,
       maxTrialDivisions: maxTrialDivisions,
-      isCancelled: () => generation != _numberWallIngressGeneration,
+      isCancelled: () =>
+          generation != _numberWallIngressGeneration ||
+          !(shouldCommit?.call() ?? true),
     );
     if (generation != _numberWallIngressGeneration)
       return NumberWallPrimeStatus.cancelled;
+    if (!(shouldCommit?.call() ?? true)) {
+      cancelNumberWallRequest();
+      return NumberWallPrimeStatus.cancelled;
+    }
     _numberWallPending = false;
     _numberWallCandidateParams = null;
     _numberWallStatus = result.status;

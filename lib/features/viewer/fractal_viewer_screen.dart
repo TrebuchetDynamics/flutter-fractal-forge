@@ -483,11 +483,18 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   Future<void> _restoreViewerSession(FractalController controller) async {
     final snapshot = _viewerSessionStore?.load();
     if (snapshot == null || !snapshot.viewerActive) return;
+    final route = ModalRoute.of(context);
+    bool shouldCommit() =>
+        mounted &&
+        (route?.isCurrent ?? true) &&
+        !isNavigationBlocked &&
+        !ExportCoordinator.shared.isBusy;
     _viewerSessionRestorePending = true;
     try {
       await snapshot.applyToController(
         controller,
         notifyListeners: false,
+        shouldCommit: shouldCommit,
         onCommitted: () {
           if (!mounted) return;
           setState(() {

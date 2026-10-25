@@ -55,10 +55,13 @@ class _HomeScreenState extends State<HomeScreen>
     if (RuntimeModeService.playwrightCatalogSmoke) {
       _initPlaywrightCatalogSmoke();
     }
-    unawaited(_restoreInterruptedViewerSession());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) unawaited(_restoreInterruptedViewerSession());
+    });
   }
 
   Future<void> _restoreInterruptedViewerSession() async {
+    if (!mounted || _handledInitialLink) return;
     final smokeModuleId = RuntimeModeService.playwrightCatalogSmoke
         ? DeepLinkService.initialBrowserUri.queryParameters['smokeModule']
         : null;
@@ -71,16 +74,22 @@ class _HomeScreenState extends State<HomeScreen>
 
     final snapshot = context.read<ViewerSessionStore?>()?.load();
     if (snapshot == null || !snapshot.viewerActive) return;
+    final viewerRoute = _viewerRoute;
+    final route = viewerRoute ?? ModalRoute.of(context);
+    bool shouldCommit() =>
+        !_handledInitialLink && _canCommitExternalState(route, viewerRoute);
+    if (!shouldCommit()) return;
     try {
       // Validate renamed/removed module IDs before applying the snapshot.
       _registry.byId(snapshot.moduleId);
-      final committed = await snapshot.applyToController(_exploreController);
-      if (!committed || !mounted || _handledInitialLink) return;
+      final committed = await snapshot.applyToController(_exploreController,
+          shouldCommit: shouldCommit);
+      if (!committed || !shouldCommit()) return;
     } on Object {
       unawaited(context.read<ViewerSessionStore?>()?.markViewerInactive());
       return;
     }
-    if (!mounted || _handledInitialLink) return;
+    if (!shouldCommit()) return;
     _pushViewer(transitionDuration: Duration.zero);
   }
 
@@ -137,17 +146,26 @@ class _HomeScreenState extends State<HomeScreen>
     });
   }
 
+  bool _canCommitExternalState(
+      Route<dynamic>? route, PageRoute<void>? viewerRoute) {
+    return mounted &&
+        identical(_viewerRoute, viewerRoute) &&
+        (route?.isCurrent ?? false) &&
+        !(_viewerKey.currentState?.isNavigationBlocked ?? false) &&
+        !ExportCoordinator.shared.isBusy;
+  }
+
   Future<void> _handleDeepLink(DeepLinkData data) async {
+    if (!mounted) return;
     // Try to find the module by type
     try {
       final module = _registry.byId(data.type);
       // Do not replace state underneath a settings/modal route or an export.
       // Keep a closing viewer owned until its transition and disposal finish.
-      if (!(_viewerRoute?.isCurrent ??
-              ModalRoute.of(context)?.isCurrent ??
-              false) ||
-          (_viewerKey.currentState?.isNavigationBlocked ?? false) ||
-          ExportCoordinator.shared.isBusy) {
+      final viewerRoute = _viewerRoute;
+      final route = viewerRoute ?? ModalRoute.of(context);
+      bool shouldCommit() => _canCommitExternalState(route, viewerRoute);
+      if (!shouldCommit()) {
         final message = AppLocalizations.of(context)!.homeLinkBusy;
         ScaffoldMessenger.of(context).showSnackBar(
           appFeedbackSnackBar(message: message, success: false),
@@ -165,8 +183,9 @@ class _HomeScreenState extends State<HomeScreen>
         transparentBackground: data.transparentBackground ?? false,
         animateModule: false,
         onCommitted: () => _applyDeepLinkVisualState(data),
+        shouldCommit: shouldCommit,
       );
-      if (!committed || !mounted) return;
+      if (!committed || !shouldCommit()) return;
 
       _pushViewer(
         transitionDuration: AppAnimations.normal,
