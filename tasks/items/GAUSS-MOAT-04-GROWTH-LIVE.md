@@ -5,8 +5,8 @@ title = "Live checks for GAUSS-MOAT-04-GROWTH"
 short = "Live checks for GAUSS-MOAT-04-GROWTH"
 status = "open"
 goal = "GAUSS-MOAT-001"
-section = "Needs decision"
-rank = 48000
+section = "Next"
+rank = 10000
 depends_on = ["GAUSS-MOAT-04-GROWTH"]
 touches = ["docs/engineering/test-plan.md"]
 resources = []
@@ -19,4 +19,7 @@ exclusions = []
 +++
 
 - Sources: [Accepted growth plan](docs/engineering/spec.md#gaussian-moat-walking-visualization), [growth details](docs/engineering/spec.md#bounded-radius-growth-and-visual-direction); parent contract retained in `todo.archive.md`.
-- Ownership: Await authorized live targets and human review; metadata repair grants neither.
+- Prior ownership: Await authorized live targets and human review; metadata repair grants neither.
+- Held by: EVIDENCE-GATE: GAUSS-MOAT-03 real journey/device verdicts and growth-state export evidence
+- Owner decision: 2026-10-25: Delegated by user to assistant. Authorize bounded local evidence preparation under the decision record and QUAL-EVIDENCE-01; retain all original human/device/source acceptance gates. No installs, production writes or transferred listener waiver. Decision resolved; remaining input: GAUSS-MOAT-03 real journey/device verdicts and growth-state export evidence. See docs/tasks/DELEGATED-DECISIONS-20261025.md.
+- Next action: Complete the authorized preparation separately; retain this hold until GAUSS-MOAT-03 real journey/device verdicts and growth-state export evidence. Use supported release only after exact evidence exists; unchanged acceptance is not waived.

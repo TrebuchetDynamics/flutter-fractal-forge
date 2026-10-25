@@ -5,8 +5,8 @@ title = "Review approved source mathematics against a representative renderer pi
 short = "Review approved source mathematics against a representative renderer pilot.**"
 status = "open"
 goal = "ACAD-001"
-section = "Needs decision"
-rank = 35000
+section = "Next"
+rank = 3000
 depends_on = ["ACAD-007-f8", "ACAD-02"]
 touches = ["research/academic/reviews/", "research/academic/mappings/", "research/academic/families/", "research/academic/coverage.json", "test/research/", "test/modules/"]
 resources = []
@@ -18,10 +18,13 @@ checks = ["After approval only, build a separate acquisition-only staging direct
 exclusions = []
 +++
 
-- Section: Needs decision.
+- Previous section: Needs decision.
 - Sources: [Accepted academic research outcome](PRD.md#academic-research-library), [accepted integration contract](docs/engineering/spec.md#academic-source-to-renderer-evidence), [source review and rights contract](research/academic/README.md), [verification owner](docs/engineering/test-plan.md#academic-evidence-verification), `lib/core/modules/fractal_mathematics.dart`, `lib/shared/widgets/fractal_math_summary.dart`.
-- Ownership: Owner must approve inclusion/exclusion and legal full-text acquisition subset; ResearchForge also requires human acceptance of extracted/final claims. Do not impersonate the owner. Keep this task non-executable until decisions are recorded and section is reconciled.
+- Prior ownership: Owner must approve inclusion/exclusion and legal full-text acquisition subset; ResearchForge also requires human acceptance of extracted/final claims. Do not impersonate the owner. Keep this task non-executable until decisions are recorded and section is reconciled.
 - Default if no answer: Metadata-only pilot and independent offline tooling proceed; no source acquisition or accepted-claim upgrade.
-- Owner decision: 2026-10-16 — Keep source review gated; have the runner finish the concrete source/rights queue first under ACAD-02. No blanket source inclusion, acquisition or accepted-claim approval is granted; keep ACAD-03 in Needs decision and preserve its dependencies.
-- Next action: Wait for the bounded verified review package owned by ACAD-007-f8, then present its exact actionable subset and explicit gaps for attributable owner identity-mapping, inclusion/acquisition decisions. Package completion is not approval: keep ACAD-03 in Needs decision until those decisions are actually recorded; no full-text fetch, accepted extraction or claim upgrade from metadata preparation. Preserve original pilot run/provenance and all prior source/rights gates.
+- Prior owner decision: 2026-10-16 — Keep source review gated; have the runner finish the concrete source/rights queue first under ACAD-02. No blanket source inclusion, acquisition or accepted-claim approval is granted; keep ACAD-03 in Needs decision and preserve its dependencies.
+- Prior next action: Wait for the bounded verified review package owned by ACAD-007-f8, then present its exact actionable subset and explicit gaps for attributable owner identity-mapping, inclusion/acquisition decisions. Package completion is not approval: keep ACAD-03 in Needs decision until those decisions are actually recorded; no full-text fetch, accepted extraction or claim upgrade from metadata preparation. Preserve original pilot run/provenance and all prior source/rights gates.
 - Dependencies: ACAD-02, ACAD-007-f8.
+- Held by: EVIDENCE-GATE: human-approved exact identity/source subset, lawful access evidence and separate accepted-claim review
+- Owner decision: 2026-10-25: Delegated by user to assistant. Authorize draft-only dossier preparation under ACAD-DRAFT-01, not this task full execution. No source inclusion/acquisition or accepted-claim approval. Decision resolved; remaining input: human-approved exact identity/source subset, lawful access evidence and separate accepted-claim review. See docs/tasks/DELEGATED-DECISIONS-20261025.md.
+- Next action: Complete the authorized preparation separately; retain this hold until human-approved exact identity/source subset, lawful access evidence and separate accepted-claim review. Use supported release only after exact evidence exists; unchanged acceptance is not waived.

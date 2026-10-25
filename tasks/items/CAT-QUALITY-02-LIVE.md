@@ -5,8 +5,8 @@ title = "Live checks for CAT-QUALITY-02"
 short = "Live checks for CAT-QUALITY-02"
 status = "open"
 goal = "CAT-QUALITY-001"
-section = "Needs decision"
-rank = 45000
+section = "Next"
+rank = 6000
 depends_on = ["CAT-QUALITY-02"]
 touches = ["docs/planning/visual-fidelity-audit-next.md"]
 resources = []
@@ -19,4 +19,7 @@ exclusions = []
 +++
 
 - Sources: [Quality plan](docs/planning/visual-fidelity-audit-next.md#quality-without-losing-variety), [accepted outcome](PRD.md#catalog-quality-and-variety); original offline contract retained under CAT-QUALITY-02 in `todo.archive.md`.
-- Ownership: Await authorized live-target access and human review; this metadata repair grants neither.
+- Prior ownership: Await authorized live-target access and human review; this metadata repair grants neither.
+- Held by: EVIDENCE-GATE: mobile/physical journey, human review and missing independent formula reference
+- Owner decision: 2026-10-25: Delegated by user to assistant. Authorize bounded local evidence preparation under the decision record and QUAL-EVIDENCE-01; retain all original human/device/source acceptance gates. No installs, production writes or transferred listener waiver. Decision resolved; remaining input: mobile/physical journey, human review and missing independent formula reference. See docs/tasks/DELEGATED-DECISIONS-20261025.md.
+- Next action: Complete the authorized preparation separately; retain this hold until mobile/physical journey, human review and missing independent formula reference. Use supported release only after exact evidence exists; unchanged acceptance is not waived.
