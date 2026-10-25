@@ -50,22 +50,16 @@ class ViewerSessionSnapshot {
     required this.viewerActive,
   }) : params = Map<String, Object>.unmodifiable(params);
 
-  void applyToController(
+  Future<bool> applyToController(
     FractalController controller, {
     bool notifyListeners = true,
+    void Function()? onCommitted,
   }) {
     if (!controller.registry.modules.any((module) => module.id == moduleId)) {
       throw StateError('Viewer snapshot references unknown module: $moduleId');
     }
 
-    void apply() {
-      controller.loadState(
-        moduleId: moduleId,
-        params: params,
-        view: view,
-        transparentBackground: transparentBackground,
-        animateModule: false,
-      );
+    void applyVisualState() {
       controller.setRotationLocked(rotationLocked);
       controller.setGlowEnabled(glowEnabled);
       controller.setGlowSigma(glowSigma);
@@ -79,11 +73,33 @@ class ViewerSessionSnapshot {
       controller.setKaleidoscopeMirrorMode(kaleidoscopeMirrorMode);
     }
 
+    late Future<bool> result;
+    void apply() {
+      result = controller.loadState(
+        moduleId: moduleId,
+        params: params,
+        view: view,
+        transparentBackground: transparentBackground,
+        animateModule: false,
+        onCommitted: () {
+          if (notifyListeners) {
+            applyVisualState();
+          } else {
+            controller.runWithoutNotifications(applyVisualState);
+          }
+          // Ordinary modules commit synchronously; exact fields invoke this
+          // only after certification. Restore viewer chrome at that same seam.
+          onCommitted?.call();
+        },
+      );
+    }
+
     if (notifyListeners) {
       apply();
     } else {
       controller.runWithoutNotifications(apply);
     }
+    return result;
   }
 
   Map<String, Object> toJson() {

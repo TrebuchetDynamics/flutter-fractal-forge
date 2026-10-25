@@ -22,8 +22,8 @@ void main() {
             m.id != 'hydrogen_orbital')
         .length;
 
-    expect(production, 1023,
-        reason: 'README.md advertises 1023 production fractals');
+    expect(production, 1024,
+        reason: 'README.md advertises 1024 production fractals');
     expect(diagnostics, 7,
         reason: 'README.md says debug/test builds add 7 diagnostic modules');
 

@@ -1,9 +1,30 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_fractals/core/services/diagnostics/test_logger.dart';
 import 'package:flutter_fractals/core/services/diagnostics/test_screenshot_service.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+/// Allow real directory IO and the capture's endOfFrame retries to finish.
+/// Readiness is the capture Future itself, not an assumed number of IO turns.
+Future<File?> _completeCapture(
+    WidgetTester tester, Future<File?> capture) async {
+  var completed = false;
+  unawaited(capture.then<void>((_) {
+    completed = true;
+  }, onError: (Object _, StackTrace __) {
+    completed = true;
+  }));
+  final elapsed = Stopwatch()..start();
+  while (!completed && elapsed.elapsed < const Duration(seconds: 10)) {
+    await tester.pump();
+    await tester.runAsync(() => Future<void>.delayed(Duration.zero));
+  }
+  expect(completed, isTrue,
+      reason: 'capture must settle before fixture teardown');
+  return capture;
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +42,8 @@ void main() {
   });
 
   group('TestScreenshotService — capture', () {
-    test('capture with invalid key returns null (no crash)', () async {
+    testWidgets('capture with invalid key returns null (no crash)',
+        (tester) async {
       final dir = Directory.systemTemp.createTempSync('screenshot_svc_null_');
       addTearDown(() => dir.deleteSync(recursive: true));
 
@@ -30,11 +52,11 @@ void main() {
       final key = GlobalKey();
       final svc = TestScreenshotService(outputDir: dir.path);
 
-      // Verify no synchronous exception is thrown when starting the call.
-      // We don't await the full future (which would block on endOfFrame retries),
-      // but we do confirm the function returns a Future<File?> without throwing.
+      // Starting capture must not throw, and the retried capture must return
+      // null before the temporary directory and logger are disposed.
       final future = svc.capture(key, 'shot01');
       expect(future, isA<Future<File?>>());
+      expect(await _completeCapture(tester, future), isNull);
     });
 
     test('capture rejects path-like screenshot names before capture', () async {
@@ -50,7 +72,8 @@ void main() {
       expect(File('${dir.parent.path}/escape.png').existsSync(), isFalse);
     });
 
-    test('capture creates output directory when it does not exist', () async {
+    testWidgets('capture creates output directory when it does not exist',
+        (tester) async {
       final base = Directory.systemTemp.createTempSync('screenshot_svc_dir_');
       addTearDown(() => base.deleteSync(recursive: true));
 
@@ -60,19 +83,9 @@ void main() {
       final key = GlobalKey(); // no render object
       final svc = TestScreenshotService(outputDir: outputDir);
 
-      // Start the capture — directory creation happens before capturePng is called.
-      // Yield to the event loop to allow the async directory creation to complete.
       final captureFuture = svc.capture(key, 'shot02');
-      // Pump microtasks until directory appears (it is created before endOfFrame wait).
-      for (var i = 0; i < 20; i++) {
-        await Future<void>.delayed(Duration.zero);
-        if (Directory(outputDir).existsSync()) break;
-      }
-
+      expect(await _completeCapture(tester, captureFuture), isNull);
       expect(Directory(outputDir).existsSync(), isTrue);
-
-      // Ignore the rest of the future (it will hang on endOfFrame in test env).
-      captureFuture.ignore();
     });
   });
 }

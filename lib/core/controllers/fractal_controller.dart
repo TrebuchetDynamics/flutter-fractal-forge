@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
+import 'package:flutter_fractals/core/models/number_wall_model.dart';
+import 'package:flutter_fractals/core/modules/fractals/number_wall_frame.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/diagnostics/test_logger.dart';
@@ -105,6 +107,33 @@ class FractalController extends ChangeNotifier {
   DateTime? _lastInterestingSpotTime;
   final _celebrationController = StreamController<void>.broadcast();
   double _lastAdaptiveZoom = 1.0;
+  int _numberWallIngressGeneration = 0;
+  NumberWallFrame? _numberWallFrame;
+  Map<String, Object>? _numberWallCandidateParams;
+  NumberWallGrid? get numberWallGrid => _numberWallFrame?.grid;
+  bool _numberWallPending = false;
+  bool get numberWallPending => _numberWallPending;
+  NumberWallPrimeStatus? _numberWallStatus;
+  NumberWallPrimeStatus? get numberWallStatus => _numberWallStatus;
+
+  /// Invalidate work when the view is reset, hidden, navigated away or frozen.
+  void cancelNumberWallRequest() {
+    _numberWallIngressGeneration++;
+    _numberWallCandidateParams = null;
+    if (!_numberWallPending) return;
+    _numberWallPending = false;
+    _numberWallStatus = NumberWallPrimeStatus.cancelled;
+    notifyListeners();
+  }
+
+  // Publish cancellation with the edit's final notification, not an
+  // intermediate old-state notification. Commit callbacks run after pending
+  // clears, so replayed visual flags cannot cancel their own certified frame.
+  void _cancelPendingNumberWallRequestForEdit() {
+    if (_numberWallPending) {
+      runWithoutNotifications(cancelNumberWallRequest);
+    }
+  }
 
   /// Creates a new [FractalController] with the given [registry].
   ///
@@ -185,6 +214,7 @@ class FractalController extends ChangeNotifier {
       enabled = true;
     }
     if (_kaleidoscopeEnabled != enabled) {
+      _cancelPendingNumberWallRequestForEdit();
       _kaleidoscopeEnabled = enabled;
       notifyListeners();
       _logChange('stateChange', 'kaleidoscopeEnabled',
@@ -199,6 +229,7 @@ class FractalController extends ChangeNotifier {
     final clamped = sectors.clamp(4, 16);
     final even = clamped - (clamped % 2);
     if (_kaleidoscopeSectors != even) {
+      _cancelPendingNumberWallRequestForEdit();
       _kaleidoscopeSectors = even;
       notifyListeners();
       _logChange(
@@ -209,6 +240,7 @@ class FractalController extends ChangeNotifier {
 
   void setKaleidoscopeMirror(bool mirror) {
     if (_kaleidoscopeMirror != mirror) {
+      _cancelPendingNumberWallRequestForEdit();
       _kaleidoscopeMirror = mirror;
       notifyListeners();
       _logChange(
@@ -220,6 +252,7 @@ class FractalController extends ChangeNotifier {
   void setKaleidoscopeMirrorMode(int mode) {
     final clamped = mode.clamp(0, 3);
     if (_kaleidoscopeMirrorMode != clamped) {
+      _cancelPendingNumberWallRequestForEdit();
       _kaleidoscopeMirrorMode = clamped;
       notifyListeners();
       _logChange('stateChange', 'kaleidoscopeMirrorMode',
@@ -234,6 +267,7 @@ class FractalController extends ChangeNotifier {
       current: _kaleidoscopeRotation,
     );
     if (_kaleidoscopeRotation != normalized) {
+      _cancelPendingNumberWallRequestForEdit();
       _kaleidoscopeRotation = normalized;
       notifyListeners();
       _logChange('stateChange', 'kaleidoscopeRotation',
@@ -283,6 +317,24 @@ class FractalController extends ChangeNotifier {
     bool resetView = false,
     Map<String, Object> initialParams = const {},
   }) {
+    cancelNumberWallRequest();
+    _paramLerpTimer?.cancel();
+    if (module.id == 'number_wall') {
+      if (_module.id != module.id && initialParams.isEmpty) {
+        _module = module;
+        _numberWallFrame = null;
+        _applyPreset(module.defaultPreset);
+      }
+      unawaited(loadState(
+        module: module,
+        params: {...module.defaultPreset.params, ...initialParams},
+        view: resetView ? module.defaultPreset.view : _view,
+        transparentBackground: _transparentBackground,
+        animateModule: false,
+      ));
+      return;
+    }
+    _numberWallStatus = null;
     if (_module.id == module.id) {
       if (resetView) {
         this.resetView();
@@ -291,6 +343,7 @@ class FractalController extends ChangeNotifier {
     }
 
     _paramLerpTimer?.cancel();
+    _numberWallIngressGeneration++;
     final previousId = _module.id;
     _module = module;
     _applyPreset(module.defaultPreset, paramOverrides: initialParams);
@@ -361,8 +414,30 @@ class FractalController extends ChangeNotifier {
   /// controller.updateParam('colorScheme', 2);
   /// ```
   void updateParam(String id, Object value) {
+    if (_module.id == 'number_wall') {
+      if (id == 'prime') return;
+      final schema = _findParam(id);
+      if (schema == null) return;
+      final next = {
+        ...(_numberWallCandidateParams ?? _params),
+        // A non-prime edit cancels certification of any uncommitted modulus.
+        'prime': _params['prime']!,
+        id: normalizeFractalParamValue(schema, value),
+      };
+      if (id == 'rows') {
+        next['columnStart'] = max((next['rows'] as num).toInt() - 1,
+            (next['columnStart'] as num).toInt());
+      }
+      unawaited(loadState(
+          module: _module,
+          params: next,
+          view: _view,
+          transparentBackground: _transparentBackground));
+      return;
+    }
     final schema = _findParam(id);
     if (schema == null) return;
+    _cancelPendingNumberWallRequestForEdit();
     _paramLerpTimer?.cancel();
     _params = Map<String, Object>.from(_params);
     _params[id] = normalizeFractalParamValue(schema, value);
@@ -375,17 +450,50 @@ class FractalController extends ChangeNotifier {
   ///
   /// The [preset] should match the current module (by moduleId).
   /// Missing parameters are filled with module defaults.
-  void applyPreset(FractalPreset preset) {
+  Future<void> applyPreset(FractalPreset preset) async {
     _paramLerpTimer?.cancel();
+    if (preset.moduleId == 'number_wall') {
+      await loadState(
+          module: registry.byId(preset.moduleId),
+          params: preset.params,
+          view: preset.view,
+          transparentBackground: _transparentBackground);
+      return;
+    }
+    cancelNumberWallRequest();
     _applyPreset(preset);
     notifyListeners();
     _logChange('stateChange', 'presetApply', 'Applied preset ${preset.name}');
+  }
+
+  Future<NumberWallPrimeStatus> applyNumberWallPrime(String value,
+      {int maxTrialDivisions =
+          NumberWallPrimeValidator.defaultMaxTrialDivisions}) async {
+    if (_module.id != 'number_wall') return NumberWallPrimeStatus.cancelled;
+    return _loadNumberWallState(
+      generation: ++_numberWallIngressGeneration,
+      module: _module,
+      params: {...(_numberWallCandidateParams ?? _params), 'prime': value},
+      view: _view,
+      transparentBackground: _transparentBackground,
+      animateModule: false,
+      maxTrialDivisions: maxTrialDivisions,
+    );
   }
 
   /// Resets all parameters to the module's default values.
   ///
   /// Does not affect the view state (pan, zoom, rotation).
   void resetParams() {
+    cancelNumberWallRequest();
+    if (_module.id == 'number_wall') {
+      unawaited(loadState(
+          module: _module,
+          params: _module.defaultPreset.params,
+          view: _view,
+          transparentBackground: _transparentBackground));
+      return;
+    }
     _paramLerpTimer?.cancel();
     _params = _normalizedParamsForPreset(_module.defaultPreset);
     notifyListeners();
@@ -397,6 +505,7 @@ class FractalController extends ChangeNotifier {
   /// Sets zoom to 1.0, pan to center, and rotation to zero.
   /// Does not affect fractal parameters.
   void resetView() {
+    cancelNumberWallRequest();
     _resetViewState();
     notifyListeners();
     _logChange('stateChange', 'reset', 'Reset view');
@@ -413,6 +522,14 @@ class FractalController extends ChangeNotifier {
   /// and disables transparent background. The selected module
   /// remains unchanged.
   void resetSession() {
+    cancelNumberWallRequest();
+    if (_module.id == 'number_wall') {
+      unawaited(loadState(
+          module: _module,
+          params: _module.defaultPreset.params,
+          view: _module.defaultPreset.view));
+      return;
+    }
     // Reset params to module defaults, but reset the view to the true "initial" view.
     // (Module default presets may intentionally start at a non-zero pan like -0.5,0.0 for Mandelbrot.)
     _paramLerpTimer?.cancel();
@@ -430,6 +547,21 @@ class FractalController extends ChangeNotifier {
   /// Useful for exploration and discovery.
   void randomizeParams({bool animate = true, Random? random}) {
     final source = random ?? Random();
+    if (_module.id == 'number_wall') {
+      // Resolution/origin and the user's certified modulus are never randomized.
+      final options =
+          _module.parameters.firstWhere((p) => p.id == 'source').options;
+      unawaited(loadState(
+          module: _module,
+          params: {
+            ..._params,
+            'source': options[source.nextInt(options.length)].value
+          },
+          view: _view,
+          transparentBackground: _transparentBackground));
+      return;
+    }
+    cancelNumberWallRequest();
     final target = {
       for (final param in _module.parameters)
         param.id: _preserveOnRandomize(param.id)
@@ -522,6 +654,7 @@ class FractalController extends ChangeNotifier {
     FractalViewState view, {
     bool adaptIterationsForZoom = false,
   }) {
+    cancelNumberWallRequest();
     final pan = view.pan;
     final normalized = FractalViewState(
       pan: Vector2(
@@ -565,6 +698,7 @@ class FractalController extends ChangeNotifier {
   /// The [zoom] value is clamped to range [moduleMinZoom, 1e12] to support
   /// deep-zoom exploration before precision fallback kicks in.
   void updateZoom(double zoom) {
+    cancelNumberWallRequest();
     final clampedZoom = FractalViewInputBounds.normalizeZoom(
       candidate: zoom,
       currentZoom: _view.zoom,
@@ -591,6 +725,7 @@ class FractalController extends ChangeNotifier {
   /// Each component of [pan] is clamped to range [-3.0, 3.0].
   /// Used for 2D fractals to navigate the complex plane.
   void updatePan(Vector2 pan) {
+    cancelNumberWallRequest();
     _view = _view.copyWith(
       pan: Vector2(
         FractalViewInputBounds.normalizePanComponent(
@@ -612,6 +747,7 @@ class FractalController extends ChangeNotifier {
   ///
   /// Used for 3D fractals like Mandelbulb to control camera orientation.
   void updateRotation(Vector3 rotation) {
+    _cancelPendingNumberWallRequestForEdit();
     _view = _view.copyWith(
       rotation: FractalViewInputBounds.normalizeRotation(
         candidate: rotation,
@@ -624,6 +760,7 @@ class FractalController extends ChangeNotifier {
   /// Locks or unlocks gesture-based rotation.
   void setRotationLocked(bool value) {
     if (_rotationLocked == value) return;
+    _cancelPendingNumberWallRequestForEdit();
     _rotationLocked = value;
     notifyListeners();
     _logChange(
@@ -640,6 +777,7 @@ class FractalController extends ChangeNotifier {
 
   void setGlowEnabled(bool value) {
     if (_glowEnabled == value) return;
+    _cancelPendingNumberWallRequestForEdit();
     _glowEnabled = value;
     notifyListeners();
   }
@@ -650,6 +788,7 @@ class FractalController extends ChangeNotifier {
       current: _glowSigma,
     );
     if (_glowSigma == normalized) return;
+    _cancelPendingNumberWallRequestForEdit();
     _glowSigma = normalized;
     notifyListeners();
   }
@@ -660,12 +799,14 @@ class FractalController extends ChangeNotifier {
       current: _glowIntensity,
     );
     if (_glowIntensity == normalized) return;
+    _cancelPendingNumberWallRequestForEdit();
     _glowIntensity = normalized;
     notifyListeners();
   }
 
   void setFluidModeEnabled(bool value) {
     if (_fluidModeEnabled == value) return;
+    _cancelPendingNumberWallRequestForEdit();
     _fluidModeEnabled = value;
     notifyListeners();
   }
@@ -676,6 +817,7 @@ class FractalController extends ChangeNotifier {
       current: _fluidStrength,
     );
     if (_fluidStrength == normalized) return;
+    _cancelPendingNumberWallRequestForEdit();
     _fluidStrength = normalized;
     notifyListeners();
   }
@@ -686,6 +828,7 @@ class FractalController extends ChangeNotifier {
   /// with alpha=0, suitable for transparent PNG export.
   void setTransparentBackground(bool value) {
     if (_transparentBackground == value) return;
+    _cancelPendingNumberWallRequestForEdit();
     _transparentBackground = value;
     notifyListeners();
   }
@@ -767,6 +910,7 @@ class FractalController extends ChangeNotifier {
 
   @override
   void dispose() {
+    _numberWallIngressGeneration++;
     _morphTimer?.cancel();
     _paramLerpTimer?.cancel();
     _celebrationTimer?.cancel();
@@ -923,57 +1067,134 @@ class FractalController extends ChangeNotifier {
   /// Parameters are clamped to the target module's schema.
   ///
   /// Can accept either a [module] object directly or a [moduleId] string.
-  void loadState({
+  /// Returns false for rejected or superseded Number Walls requests. Replay
+  /// side effects belong in [onCommitted], never before certification completes.
+  Future<bool> loadState({
     FractalModule? module,
     String? moduleId,
     required Map<String, Object> params,
     required FractalViewState view,
     bool transparentBackground = false,
     bool animateModule = false,
-  }) {
-    // Find the module by ID or use provided module
-    final FractalModule targetModule;
-    if (module != null) {
-      targetModule = module;
-    } else if (moduleId != null) {
-      targetModule = registry.modules.firstWhere(
-        (m) => m.id == moduleId,
-        orElse: () => _module,
+    VoidCallback? onCommitted,
+  }) async {
+    _paramLerpTimer?.cancel();
+    final targetModule = module ??
+        (moduleId == null
+            ? _module
+            : registry.modules.firstWhere(
+                (candidate) => candidate.id == moduleId,
+                orElse: () => _module,
+              ));
+    if (targetModule.id == 'number_wall') {
+      final generation = ++_numberWallIngressGeneration;
+      final status = await _loadNumberWallState(
+        generation: generation,
+        module: targetModule,
+        params: params,
+        view: view,
+        transparentBackground: transparentBackground,
+        animateModule: animateModule,
+        onCommitted: onCommitted,
       );
-    } else {
-      targetModule = _module;
+      return status == NumberWallPrimeStatus.verifiedPrime &&
+          generation == _numberWallIngressGeneration;
     }
+    cancelNumberWallRequest();
+    _numberWallStatus = null;
+    _commitLoadedState(
+      module: targetModule,
+      params: params,
+      view: view,
+      transparentBackground: transparentBackground,
+      animateModule: animateModule,
+      onCommitted: onCommitted,
+    );
+    return true;
+  }
 
-    // Switch to the target module
-    if (targetModule.id != _module.id) {
+  Future<NumberWallPrimeStatus> _loadNumberWallState({
+    required int generation,
+    required FractalModule module,
+    required Map<String, Object> params,
+    required FractalViewState view,
+    required bool transparentBackground,
+    required bool animateModule,
+    VoidCallback? onCommitted,
+    int maxTrialDivisions = NumberWallPrimeValidator.defaultMaxTrialDivisions,
+  }) async {
+    _numberWallPending = true;
+    _numberWallStatus = null;
+    final normalized = <String, Object>{
+      for (final param in module.parameters)
+        param.id: param.id == 'prime'
+            ? (params[param.id] ?? '')
+            : normalizeFractalParamValue(
+                param, params[param.id] ?? param.defaultValue),
+    };
+    // Reentrant edits must see the complete latest candidate, not old settings.
+    _numberWallCandidateParams = normalized;
+    notifyListeners();
+    final result = await NumberWallFrame.prepare(
+      normalized,
+      previous: _numberWallFrame,
+      maxTrialDivisions: maxTrialDivisions,
+      isCancelled: () => generation != _numberWallIngressGeneration,
+    );
+    if (generation != _numberWallIngressGeneration)
+      return NumberWallPrimeStatus.cancelled;
+    _numberWallPending = false;
+    _numberWallCandidateParams = null;
+    _numberWallStatus = result.status;
+    final frame = result.frame;
+    if (frame == null) {
+      notifyListeners();
+      return result.status;
+    }
+    _numberWallFrame = frame;
+    _commitLoadedState(
+      module: module,
+      params: frame.params,
+      view: view,
+      transparentBackground: transparentBackground,
+      animateModule: false,
+      onCommitted: onCommitted,
+    );
+    return result.status;
+  }
+
+  void _commitLoadedState({
+    required FractalModule module,
+    required Map<String, Object> params,
+    required FractalViewState view,
+    required bool transparentBackground,
+    required bool animateModule,
+    VoidCallback? onCommitted,
+  }) {
+    if (module.id != _module.id) {
       if (animateModule) {
-        selectModule(targetModule, animate: true);
+        selectModule(module, animate: true);
       } else {
-        _module = targetModule;
+        _module = module;
       }
     }
-
     _applyKaleidoscopeModulePolicy(_module.id);
-
-    // Apply parameters with clamping
     final clamped = <String, Object>{};
     for (final param in _module.parameters) {
-      final value = params[param.id] ?? param.defaultValue;
-      clamped[param.id] = normalizeFractalParamValue(param, value);
+      clamped[param.id] = normalizeFractalParamValue(
+        param,
+        params[param.id] ?? param.defaultValue,
+      );
     }
     _params = clamped;
-
-    // Set view state
     _view = FractalViewInputBounds.normalizeView(
       candidate: view,
       current: _view,
       moduleId: _module.id,
     );
     _lastAdaptiveZoom = _view.zoom;
-
-    // Set transparency
     _transparentBackground = transparentBackground;
-
+    onCommitted?.call();
     notifyListeners();
     _logChange('stateChange', 'loadState', 'Loaded state for ${_module.id}');
   }

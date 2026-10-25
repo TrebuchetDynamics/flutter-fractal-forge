@@ -32,6 +32,7 @@ class CatalogRepository {
       for (final config in escapeTimeCatalog) config.id: config.category,
       for (final config in raymarched3DCatalog) config.id: config.category,
       'hydrogen_orbital': 'Scientific Visualization',
+      'number_wall': 'Number Walls',
     };
     final performanceIds =
         performanceModules.map((module) => module.id).toSet();
@@ -64,9 +65,11 @@ class CatalogRepository {
       catalogId: family.catalogIdFor(module),
       module: module,
       category: family.forcedCategory ??
-          FractalMathematics.forModule(module,
-                  category: categoriesById[module.id])
-              .family,
+          (module.id == 'number_wall'
+              ? 'Number Walls'
+              : FractalMathematics.forModule(module,
+                      category: categoriesById[module.id])
+                  .family),
       family: family,
     );
   }

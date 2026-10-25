@@ -530,6 +530,125 @@ class AppLocalizationsEs extends AppLocalizations {
   String get moduleMandelbulb => 'Mandelbulb';
 
   @override
+  String get numberWalls => 'Muros numéricos';
+
+  @override
+  String get numberWallSource => 'Secuencia';
+
+  @override
+  String get numberWallPrime => 'Módulo primo';
+
+  @override
+  String get numberWallColumns => 'Columnas';
+
+  @override
+  String get numberWallRows => 'Filas';
+
+  @override
+  String get numberWallOrigin => 'Origen de columna';
+
+  @override
+  String get numberWallColorMode => 'Color de celda';
+
+  @override
+  String get numberWallWindows => 'Ventanas binarias';
+
+  @override
+  String get numberWallPrimeHint =>
+      'Introduce dígitos decimales y aplícalos para verificar que sea primo.';
+
+  @override
+  String get numberWallApplyPrime => 'Aplicar primo verificado';
+
+  @override
+  String get numberWallCheckingPrime => 'Verificando primalidad exacta…';
+
+  @override
+  String get numberWallPrimeApplied => 'Se aplicó el número primo verificado.';
+
+  @override
+  String get numberWallPrimeUnverified =>
+      'No se pudo verificar; se conserva el valor anterior.';
+
+  @override
+  String get numberWallPrimeInvalid =>
+      'Primo no válido; se conserva el valor anterior.';
+
+  @override
+  String get numberWallVerifying => 'Verificando módulo…';
+
+  @override
+  String get numberWallComputing => 'Calculando muro exacto de campo finito…';
+
+  @override
+  String get numberWallVerificationFailed =>
+      'No se pudieron verificar los parámetros del muro numérico.';
+
+  @override
+  String get numberWallRetainedUnverified =>
+      'Módulo sin verificar; se conserva el muro exacto anterior.';
+
+  @override
+  String get numberWallRetainedInvalid =>
+      'Módulo primo no válido; se conserva el muro exacto anterior.';
+
+  @override
+  String get numberWallRetainedOrigin =>
+      'El origen de columna es demasiado pequeño; se conserva el muro anterior.';
+
+  @override
+  String get numberWallCancelled =>
+      'Verificación cancelada; se conserva el muro anterior.';
+
+  @override
+  String get numberWallContinue => 'Continuar verificando';
+
+  @override
+  String get numberWallExactCanvas =>
+      'Campo entero exacto · Visualización Canvas';
+
+  @override
+  String get numberWallExactSampler =>
+      'Campo entero exacto · Visualización GPU';
+
+  @override
+  String get numberWallGpuUnavailable =>
+      'Visualización GPU no disponible; elige Auto o CPU.';
+
+  @override
+  String numberWallCell(Object row, Object column, Object prime, Object residue,
+      Object divisibility) {
+    return 'Celda m=$row, n=$column, p=$prime, residuo=$residue. $divisibility';
+  }
+
+  @override
+  String get numberWallDivisible => 'Divisible por p';
+
+  @override
+  String get numberWallNonzero => 'No divisible por p';
+
+  @override
+  String get numberWallResidues => 'Residuos';
+
+  @override
+  String get numberWallSignedPagoda => 'Pagoda con signo';
+
+  @override
+  String get numberWallRook => 'Torre';
+
+  @override
+  String get numberWallThueMorse => 'Thue–Morse';
+
+  @override
+  String get numberWallRudinShapiro => 'Rudin–Shapiro';
+
+  @override
+  String get numberWallFibonacci => 'Fibonacci';
+
+  @override
+  String get numberWallSquares => 'Cuadrados';
+
+  @override
   String get dimension2d => '2D';
 
   @override
@@ -1731,7 +1850,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get homeFractalCountBadge => '1023 fractales';
+  String get homeFractalCountBadge => '1024 fractales';
 
   @override
   String get catalogAllFractals => 'Todos los fractales';
@@ -2021,7 +2140,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settingsAboutBlurb =>
-      'Exploración acelerada por GPU de 1023 fractales de producción, con zoom profundo y renderizado en tiempo real.';
+      'Exploración acelerada por GPU de 1024 fractales de producción, con zoom profundo y renderizado en tiempo real.';
 
   @override
   String get settingsSourceCode => 'Código fuente';

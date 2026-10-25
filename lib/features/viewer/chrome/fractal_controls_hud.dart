@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/features/controls/param_control_plan.dart';
+import 'package:flutter_fractals/features/controls/widgets/number_wall_prime_control.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/controllers/input/fractal_effect_input_bounds.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -156,6 +157,16 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    if (controller.module.id != 'number_wall' &&
+                        (controller.numberWallPending ||
+                            controller.numberWallStatus != null))
+                      Semantics(
+                          liveRegion: true,
+                          child: Text(
+                              controller.numberWallPending
+                                  ? l10n.numberWallComputing
+                                  : l10n.numberWallRetainedInvalid,
+                              style: const TextStyle(color: Colors.white))),
                     FractalMathSummary(
                       module: controller.module,
                       params: controller.params,
@@ -208,15 +219,18 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
                     const SizedBox(height: 4),
 
                     // Kaleidoscope toggle + controls
-                    _KaleidoscopeSection(controller: controller, l10n: l10n),
+                    if (controller.module.id != 'number_wall')
+                      _KaleidoscopeSection(controller: controller, l10n: l10n),
 
                     const SizedBox(height: 4),
-                    _HudToggleRow(
-                      label: l10n.hudFluidMode,
-                      value: controller.fluidModeEnabled,
-                      onChanged: controller.setFluidModeEnabled,
-                    ),
-                    if (controller.fluidModeEnabled) ...[
+                    if (controller.module.id != 'number_wall')
+                      _HudToggleRow(
+                        label: l10n.hudFluidMode,
+                        value: controller.fluidModeEnabled,
+                        onChanged: controller.setFluidModeEnabled,
+                      ),
+                    if (controller.module.id != 'number_wall' &&
+                        controller.fluidModeEnabled) ...[
                       const SizedBox(height: 4),
                       _CompactHudSliderRow(
                         label: l10n.hudFluidIntensity,
@@ -314,6 +328,9 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
             ],
           ),
         );
+
+      case FractalParamType.decimalInteger:
+        return const NumberWallPrimeControl();
 
       case FractalParamType.boolean:
         return Padding(

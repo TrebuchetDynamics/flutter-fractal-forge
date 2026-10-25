@@ -10,7 +10,7 @@
     "module_registry": "lib/core/modules/module_registry.dart"
   },
   "counts": {
-    "explore_core": 1031,
+    "explore_core": 1032,
     "explore_performance": 0,
     "manifest": 200
   },
@@ -838,6 +838,7 @@
       "core.nova_degree5_julia",
       "core.nova_julia",
       "core.nova_mandelbrot",
+      "core.number_wall",
       "core.octahedral_crystal_bloom",
       "core.orbit_trap_cross",
       "core.orbit_trap_point",

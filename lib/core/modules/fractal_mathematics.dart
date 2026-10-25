@@ -43,6 +43,17 @@ class FractalMathematics {
     var groupId = module.id;
     var relationship = 'No verified relationship';
 
+    if (module.id == 'number_wall' &&
+        shader == 'shaders/number_theory/number_wall_gpu.frag') {
+      return FractalMathematics._(module,
+          family: 'Number Walls',
+          algebra: 'Finite field',
+          view: 'Discrete field',
+          method: 'Exact Toeplitz determinants',
+          qualification: 'Self-similarity depends on sequence and modulus',
+          groupId: 'number_wall',
+          relationship: 'Sequence variants of one number wall');
+    }
     final trajectory = OrbitTrajectorySettings.defaultsForOrNull(module.id);
     if (trajectory != null) {
       family = 'Maps, flows and attractors';

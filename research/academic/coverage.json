@@ -1,6 +1,6 @@
 {
   "counts": {
-    "app": 1031,
+    "app": 1032,
     "planned": 1,
     "reference": 200,
     "registry": 1619
@@ -6584,6 +6584,14 @@
       "alias_review": "unresolved",
       "identity": "core.nova_mandelbrot",
       "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.number_wall",
+      "name": "Number Walls",
       "namespace": "app",
       "paper_ids": [],
       "status": "gap"

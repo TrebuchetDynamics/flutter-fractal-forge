@@ -12,6 +12,14 @@ String mathematicalLabel(BuildContext context, String value) {
     'Translated-triangle union': 'Unión de triángulos trasladados',
     'Finite approximation; not a zero-area set or continuous needle motion':
         'Aproximación finita; no es un conjunto de área cero ni un movimiento continuo de aguja',
+    'Number Walls': 'Muros numéricos',
+    'Finite field': 'Campo finito',
+    'Discrete field': 'Campo discreto',
+    'Exact Toeplitz determinants': 'Determinantes de Toeplitz exactos',
+    'Self-similarity depends on sequence and modulus':
+        'La autosimilitud depende de la secuencia y del módulo',
+    'Sequence variants of one number wall':
+        'Variantes de secuencia de un muro numérico',
     'Complex dynamics': 'Dinámica compleja',
     'Root finding': 'Búsqueda de raíces',
     'IFS and geometric constructions': 'IFS y construcciones geométricas',

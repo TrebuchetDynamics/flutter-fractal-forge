@@ -19,7 +19,7 @@
   <a href="#run-it-locally">Build locally</a>
 </p>
 
-Fractal Forge is an open-source Flutter explorer for mathematical systems and generative art. Browse **1023 production fractals**, tune parameters in real time, move through deep-zoom render paths, and export the views worth keeping.
+Fractal Forge is an open-source Flutter explorer for mathematical systems and generative art. Browse **1024 production fractals**, tune parameters in real time, move through deep-zoom render paths, and export the views worth keeping.
 
 ## See what it renders
 
@@ -61,6 +61,12 @@ Beyond the core workflow, experimental tools include dual Mandelbrot/Julia views
 | 3D and hypercomplex | Mandelbulb, Mandelbox, pseudo-Kleinian, quaternion Julia, KIFS, gyroid/Möbius/Cayley recursive objects |
 
 The catalog counts stable renderable identities—not palettes, camera angles, presets, or thumbnails as separate fractals.
+
+### Number Walls
+
+Open **Number Walls** in the catalog to explore six sequence variants of one finite-field determinant visualization. Use the prime quick picks or enter decimal digits and **Apply**. Unverified or invalid edits, imports and restored sessions retain the previous completed field and committed settings; **Cancel** stops a pending check and **Continue checking** raises its trial-division budget. Large primes are not promised to finish quickly.
+
+Tap a cell (or focus the plot and use arrow keys) to inspect its exact row, column, modulus and residue. Integer computation stays in Dart; GPU mode only samples the completed field, CPU mode uses Canvas, and Auto can fall back to Canvas. Self-similarity depends on the sequence and modulus. Cross-platform images, export and installed-device qualification remain separate gates in the [Number Walls contract](docs/engineering/spec.md#number-walls-and-modular-windows).
 
 ## From formula to image
 

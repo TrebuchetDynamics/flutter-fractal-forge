@@ -1565,6 +1565,18 @@ class _RuntimePreviewThumbnailState extends State<_RuntimePreviewThumbnail> {
       final ratio = (CatalogThumbnailCache.targetWidth / boundary.size.width)
           .clamp(1.0, 3.0);
       final png = await _capturePngWithTimeout(boundary, ratio);
+      // A field can be superseded, hidden or unmounted during readback. Never
+      // cache pixels from a boundary that no longer owns the current request.
+      if (!mounted || _reported) return;
+      if (!_isTileVisible()) {
+        _yieldSlotUntilVisible();
+        return;
+      }
+      if (!identical(
+          _captureKey.currentContext?.findRenderObject(), boundary)) {
+        _retryOrAbandonCapture();
+        return;
+      }
       if (png == null) {
         _retryOrAbandonCapture(terminalReason: 'empty_readback');
         return;
@@ -1722,6 +1734,15 @@ class _GradientFallback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (catalogId == 'core.number_wall') {
+      return ColoredBox(
+          color: const Color(0xff090b12),
+          child: Center(
+            child: Text(AppLocalizations.of(context)!.numberWallComputing,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.white)),
+          ));
+    }
     return CustomPaint(
       painter: _FractalGradientPainter(
         catalogId: catalogId,

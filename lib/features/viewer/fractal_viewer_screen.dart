@@ -333,6 +333,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     if (_appVisible == visible) return;
     _autoExploreService?.setAppVisible(visible);
     if (!visible) {
+      _lastController?.cancelNumberWallRequest();
       _fourierCaptureTimer?.cancel();
       _fourierCaptureTimer = null;
     }
@@ -362,7 +363,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     }
     if (!_viewerSessionRestored && widget.restoreViewerSession) {
       _viewerSessionRestored = true;
-      _restoreViewerSession(controller);
+      unawaited(_restoreViewerSession(controller));
     }
     if (kDebugMode && _debugRunner == null) {
       _debugRunner = DebugRunnerService(
@@ -468,18 +469,32 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     _persistViewerSession();
   }
 
-  void _restoreViewerSession(FractalController controller) {
+  Future<void> _restoreViewerSession(FractalController controller) async {
     final snapshot = _viewerSessionStore?.load();
     if (snapshot == null || !snapshot.viewerActive) return;
-    _showControlsHud = snapshot.controlsVisible;
-    _fullscreenUnobtrusive = snapshot.fullscreenUnobtrusive;
     _viewerSessionRestorePending = true;
     try {
-      snapshot.applyToController(controller, notifyListeners: false);
+      await snapshot.applyToController(
+        controller,
+        notifyListeners: false,
+        onCommitted: () {
+          if (!mounted) return;
+          setState(() {
+            _showControlsHud = snapshot.controlsVisible;
+            _fullscreenUnobtrusive = snapshot.fullscreenUnobtrusive;
+          });
+        },
+      );
     } on Object {
       unawaited(_viewerSessionStore?.markViewerInactive());
     } finally {
       _viewerSessionRestorePending = false;
+      // Synchronous rejection during dependency setup precedes attachment.
+      // Reconcile deferred notifications from the current committed controller,
+      // including a newer valid edit that superseded this snapshot.
+      if (mounted && identical(_lastController, controller)) {
+        _onControllerChanged();
+      }
     }
   }
 
@@ -525,6 +540,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     _fourierSpectrumImage?.dispose();
     _musicCoordinator.dispose();
     _lastController?.removeListener(_onControllerChanged);
+    _lastController?.cancelNumberWallRequest();
     _sessionTracker?.end();
 
     _lastGpuSnapshot?.dispose();

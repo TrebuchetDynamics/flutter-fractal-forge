@@ -67,6 +67,11 @@ final class FractalNumericParamBounds {
 /// booleans, and non-finite numeric values fall back to the schema default
 /// instead of being promoted to an arbitrary bound.
 Object normalizeFractalParamValue(FractalParameter schema, Object value) {
+  if (schema.type == FractalParamType.decimalInteger) {
+    return value is String && RegExp(r'^(0|[1-9][0-9]*)$').hasMatch(value)
+        ? value
+        : schema.defaultValue;
+  }
   if (schema.type == FractalParamType.boolean) {
     return value is bool ? value : _booleanDefault(schema);
   }

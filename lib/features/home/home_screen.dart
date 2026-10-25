@@ -12,6 +12,7 @@ import 'package:flutter_fractals/features/catalog/fractal_catalog_screen.dart';
 import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
 import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
+import 'package:flutter_fractals/core/models/number_wall_model.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/features/settings/settings_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -54,10 +55,10 @@ class _HomeScreenState extends State<HomeScreen>
     if (RuntimeModeService.playwrightCatalogSmoke) {
       _initPlaywrightCatalogSmoke();
     }
-    _restoreInterruptedViewerSession();
+    unawaited(_restoreInterruptedViewerSession());
   }
 
-  void _restoreInterruptedViewerSession() {
+  Future<void> _restoreInterruptedViewerSession() async {
     final smokeModuleId = RuntimeModeService.playwrightCatalogSmoke
         ? DeepLinkService.initialBrowserUri.queryParameters['smokeModule']
         : null;
@@ -73,15 +74,14 @@ class _HomeScreenState extends State<HomeScreen>
     try {
       // Validate renamed/removed module IDs before applying the snapshot.
       _registry.byId(snapshot.moduleId);
-      snapshot.applyToController(_exploreController);
+      final committed = await snapshot.applyToController(_exploreController);
+      if (!committed || !mounted || _handledInitialLink) return;
     } on Object {
       unawaited(context.read<ViewerSessionStore?>()?.markViewerInactive());
       return;
     }
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || _handledInitialLink) return;
-      _pushViewer(transitionDuration: Duration.zero);
-    });
+    if (!mounted || _handledInitialLink) return;
+    _pushViewer(transitionDuration: Duration.zero);
   }
 
   @override
@@ -137,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen>
     });
   }
 
-  void _handleDeepLink(DeepLinkData data) {
+  Future<void> _handleDeepLink(DeepLinkData data) async {
     // Try to find the module by type
     try {
       final module = _registry.byId(data.type);
@@ -158,20 +158,22 @@ class _HomeScreenState extends State<HomeScreen>
 
       // Also invalidate a restoration route that has not built its viewer yet.
       _handledInitialLink = true;
-      _exploreController.loadState(
+      final committed = await _exploreController.loadState(
         module: module,
         params: data.toParams(),
         view: data.toViewState(),
         transparentBackground: data.transparentBackground ?? false,
         animateModule: false,
+        onCommitted: () => _applyDeepLinkVisualState(data),
       );
-      _applyDeepLinkVisualState(data);
+      if (!committed || !mounted) return;
 
       _pushViewer(
         transitionDuration: AppAnimations.normal,
         restoreViewerSession: false,
       );
     } catch (e) {
+      if (!mounted) return;
       // Module not found, show error
       ScaffoldMessenger.of(context).showSnackBar(
         appFeedbackSnackBar(
@@ -383,6 +385,30 @@ class _HomeScreenState extends State<HomeScreen>
                       ),
                       actions: const [],
                     ),
+                  Consumer<FractalController>(
+                    builder: (context, controller, _) {
+                      final failed = switch (controller.numberWallStatus) {
+                        NumberWallPrimeStatus.invalid ||
+                        NumberWallPrimeStatus.composite ||
+                        NumberWallPrimeStatus.unverified =>
+                          true,
+                        _ => false,
+                      };
+                      if (!controller.numberWallPending && !failed) {
+                        return const SizedBox.shrink();
+                      }
+                      return Semantics(
+                        key: const Key('numberWallRestoreStatus'),
+                        liveRegion: true,
+                        child: Padding(
+                          padding: const EdgeInsets.all(AppSpacing.sm),
+                          child: Text(controller.numberWallPending
+                              ? l10n.numberWallComputing
+                              : l10n.numberWallVerificationFailed),
+                        ),
+                      );
+                    },
+                  ),
                   Expanded(
                     child: Semantics(
                       label: 'Explore catalog',
