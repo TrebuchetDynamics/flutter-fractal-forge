@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Strengthened finite Perron-tree verification with decoded shader-PNG geometry comparison and source-bound mathematical/host-render evidence; hardware and live qualification remain pending. (BESICOVITCH-01)
 - Separate stateless deep-link parsing/serialization into DeepLinkCodec while preserving DeepLinkService imports, DTO identity and native/browser lifecycle behavior. (ACAD-010-7698d788)
 - Separate Fractal Music platform playback and synthesis into Dart parts while preserving the existing service facade and behavior. (ACAD-009-795c5cbf)
 - Qualify sine-sphere rendering, saved views and real PNG export; fix fine-preset framing and reduced-motion freezing while disclosing finite convergence limits. (SINEWARP-002-47)

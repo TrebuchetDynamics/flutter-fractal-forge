@@ -1,0 +1,9 @@
+schema = 1
+task = "BESICOVITCH-01"
+candidate = "e26d8c21219d805bc4edf35801fb66723f08b394"
+integration = "f6f98166084ceb8c9d42ffc4a1048093e24190c3"
+tree = "a6417d53fa3bf641187fc01a31437ced909fcdc0"
+contract_hash = "4ba224730569a5ea15a5da6b8735964d7cd9c247eb285972fec8abcce469760a"
+checks = ["<path>", "<path>", "--verify", "<path>", "BESICOVITCH-01"]
+result = "pass"
+review = "passed"

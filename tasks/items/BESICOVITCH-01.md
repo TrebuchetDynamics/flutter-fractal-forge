@@ -3,7 +3,7 @@ schema = 1
 id = "BESICOVITCH-01"
 title = "Prototype a finite Perron-tree shader after design acceptance.**"
 short = "Prototype a finite Perron-tree shader after design acceptance.**"
-status = "open"
+status = "done"
 goal = "BESICOVITCH-VIZ-001"
 section = "Now"
 rank = 1000
@@ -16,6 +16,8 @@ scope = "Proposed one finite geometric visualization: published translated-trian
 acceptance = ["Validate the translation schedule, original unit-segment orientation intervals, complete unoriented direction coverage by three fans and valid finite area bounds without relying on pixel samples or unreviewed applet captions. Actual Flutter shader draw/decoded PNGs stay finite, show the derived model and separate geometric coverage from glow; record real backend/timings before claiming interactive performance. Label finite approximation/inspired variants honestly, distinguish needle direction sampling from continuous rotation, and preserve frozen-state export/static reduced-motion behavior."]
 checks = ["Future, NOT_RUN: create and run `flutter test --no-pub test/models/perron_tree_model_test.dart test/modules/perron_tree_test.dart --reporter expanded`, compile/draw the actual shader, read back real PNGs and compare against independent CPU geometry, then run the root common offline gate on the integrated source. Geometry/claim validation must precede a faithful/Perron label. No prototype or app test was run during research."]
 exclusions = []
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/BESICOVITCH-01.toml"
 +++
 
 - Section: Now
@@ -25,3 +27,5 @@ exclusions = []
 - Next action: Reconcile the integrated perron_tree implementation and retained evidence against this unchanged acceptance/check contract before any new implementation. Source is already in main (96c93583 and later delivery); preserve the existing model, shader and tests. Keep open until the required source-bound proof is accounted for; do not infer device/human acceptance or dispatch duplicate implementation.
 - Owner decision: 2026-10-23 reconciliation of the prior owner /lgtm following the finite Perron-tree recommendation (Hermes session 20261011_210334_78a65d, user message 11785): implementation was accepted. This is not a new approval or a waiver of mathematical, rendering, export, accessibility or device checks.
 - Unblock evidence: 2026-10-25: resume technical evidence reconciliation under the existing 2026-10-23 implementation acceptance and current unblock-all request. The saved Next action requires reviewing the already integrated model, shader and tests before any new implementation; all acceptance, checks and live/device qualification boundaries remain unchanged.
+- Pending live: Physical Android and named hardware-GPU browser/Linux targets: browse/customize/understand/export journey, decoded saved-file comparison with the frozen edited camera/parameters, and real backend draw/frame timings. Software-Skia host readback does not qualify these.
+- Pending live: Human mathematical-composition review and installed-target OS/in-app reduced-motion, keyboard/screen-reader and assistive-technology verification. No continuous needle-motion or zero-area limiting-set acceptance is claimed.
