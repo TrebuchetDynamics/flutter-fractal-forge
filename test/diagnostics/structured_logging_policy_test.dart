@@ -5,9 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   test('production diagnostics use structured logging', () {
     const sinkFiles = <String>{
-      'lib/core/services/diagnostics/app_logger_service.dart',
-      'lib/core/services/diagnostics/crash_reporter.dart',
-      'lib/core/services/diagnostics/test_logger.dart',
+      'lib/core/services/diagnostics/logging/app_logger_service.dart',
+      'lib/core/services/diagnostics/logging/crash_reporter.dart',
+      'lib/core/services/diagnostics/logging/test_logger.dart',
     };
     final violations = <String>[];
     final calls = RegExp(r'\b(?:debugPrint|print)\s*\(');
