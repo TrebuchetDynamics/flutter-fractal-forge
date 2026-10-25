@@ -1,0 +1,1030 @@
+{
+  "platform": "linux",
+  "backend": "Linux GTK Skia OpenGL; AMD Radeon RX 6800 XT radeonsi Mesa 25.2.8",
+  "sourceSha256": {
+    "shaders/3d_and_hypercomplex/raymarched_volumes/recursive_sine_sphere_gpu.frag": "ca6299d5ed3b1d29f4ad600b2e158d8e066100405627ef73db3c1b88fed2489e",
+    "shaders/3d_and_hypercomplex/raymarched_volumes/recursive_sine_sphere_kernel.glsl": "d1d77295472a5339df7954e24253d1ddc08d3741c87238c54e73a6b53b506010",
+    "lib/core/modules/fractals/recursive_sine_sphere_module.dart": "471cb446e611b7b211713be3d443d35cdf9af5619baf6247c9c36d208480f80a",
+    "test/shaders/recursive_sine_sphere_kernel_fixture.frag": "7fefc279f95b75ca3925df77e4e9d2f51aba9f246dc3193fa5402719160afdd6"
+  },
+  "precision": {
+    "shader": "float32; opaque RGBA8 readback, little-endian 24-bit encoding",
+    "distanceQuantization": 0.00001,
+    "residualQuantization": 0.000001,
+    "sphereDistanceTolerance": 0.0005,
+    "warpedDistanceTolerance": 0.0005,
+    "fieldResidualTolerance": 0.0005,
+    "reference": "independent double recurrence, 200000 enclosure scan intervals, 64 bisections"
+  },
+  "oracleSamples": [
+    {
+      "name": "sphere-0-axis",
+      "origin": [
+        0.0,
+        0.0,
+        3.0
+      ],
+      "direction": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "depth": 0,
+      "strength": 0.8,
+      "radius": 1,
+      "phase": 0.0,
+      "budget": 512,
+      "status": 1,
+      "distance": 2.0,
+      "residual": 0.0,
+      "referenceDistance": 2.0
+    },
+    {
+      "name": "sphere-0-near-silhouette",
+      "origin": [
+        0.999,
+        0.0,
+        3.0
+      ],
+      "direction": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "depth": 0,
+      "strength": 0.8,
+      "radius": 1,
+      "phase": 0.0,
+      "budget": 512,
+      "status": 1,
+      "distance": 2.95529,
+      "residual": 0.0,
+      "referenceDistance": 2.955289822187784
+    },
+    {
+      "name": "sphere-0-outside",
+      "origin": [
+        1.001,
+        0.0,
+        3.0
+      ],
+      "direction": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "depth": 0,
+      "strength": 0.8,
+      "radius": 1,
+      "phase": 0.0,
+      "budget": 512,
+      "status": 0,
+      "distance": 0.0,
+      "residual": 0.0,
+      "referenceDistance": null
+    },
+    {
+      "name": "sphere-3-axis",
+      "origin": [
+        0.0,
+        0.0,
+        3.0
+      ],
+      "direction": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "depth": 3,
+      "strength": 0.0,
+      "radius": 1,
+      "phase": 0.0,
+      "budget": 512,
+      "status": 1,
+      "distance": 2.0,
+      "residual": 0.0,
+      "referenceDistance": 2.0
+    },
+    {
+      "name": "sphere-3-near-silhouette",
+      "origin": [
+        0.999,
+        0.0,
+        3.0
+      ],
+      "direction": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "depth": 3,
+      "strength": 0.0,
+      "radius": 1,
+      "phase": 0.0,
+      "budget": 512,
+      "status": 1,
+      "distance": 2.95529,
+      "residual": 0.0,
+      "referenceDistance": 2.955289822187784
+    },
+    {
+      "name": "sphere-3-outside",
+      "origin": [
+        1.001,
+        0.0,
+        3.0
+      ],
+      "direction": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "depth": 3,
+      "strength": 0.0,
+      "radius": 1,
+      "phase": 0.0,
+      "budget": 512,
+      "status": 0,
+      "distance": 0.0,
+      "residual": 0.0,
+      "referenceDistance": null
+    },
+    {
+      "name": "interior",
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "direction": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "depth": 0,
+      "strength": 0.8,
+      "radius": 1,
+      "phase": 0.0,
+      "budget": 512,
+      "status": 1,
+      "distance": 1.0,
+      "residual": 0.0,
+      "referenceDistance": 1.0
+    },
+    {
+      "name": "tangent-not-transverse-hit",
+      "origin": [
+        1.0,
+        0.0,
+        3.0
+      ],
+      "direction": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "depth": 0,
+      "strength": 0.8,
+      "radius": 1,
+      "phase": 0.0,
+      "budget": 512,
+      "status": 3,
+      "distance": 3.0,
+      "residual": 0.0,
+      "referenceDistance": 3.0
+    },
+    {
+      "name": "warped-nearest-[0.0,0.0,4.0]",
+      "origin": [
+        0.0,
+        0.0,
+        4.0
+      ],
+      "direction": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "depth": 2,
+      "strength": 0.8,
+      "radius": 1,
+      "phase": 0.4,
+      "budget": 512,
+      "status": 1,
+      "distance": 4.08924,
+      "residual": 0.000283,
+      "referenceDistance": 4.089427178194095
+    },
+    {
+      "name": "warped-nearest-[0.3,-0.4,4.0]",
+      "origin": [
+        0.3,
+        -0.4,
+        4.0
+      ],
+      "direction": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "depth": 2,
+      "strength": 0.8,
+      "radius": 1,
+      "phase": 0.4,
+      "budget": 512,
+      "status": 1,
+      "distance": 3.98912,
+      "residual": 0.000308,
+      "referenceDistance": 3.989350571627848
+    },
+    {
+      "name": "finite-enclosure-miss",
+      "origin": [
+        3.0,
+        -4.0,
+        0.0
+      ],
+      "direction": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "depth": 2,
+      "strength": 0.8,
+      "radius": 1,
+      "phase": 0.4,
+      "budget": 512,
+      "status": 0,
+      "distance": 0.0,
+      "residual": 0.0,
+      "referenceDistance": null
+    },
+    {
+      "name": "bounded-budget-unresolved",
+      "origin": [
+        0.0,
+        0.0,
+        8.0
+      ],
+      "direction": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "depth": 6,
+      "strength": 1.0,
+      "radius": 1,
+      "phase": 0.0,
+      "budget": 64,
+      "status": 2,
+      "distance": 5.49862,
+      "residual": 1.666526,
+      "referenceDistance": null
+    },
+    {
+      "name": "float-stagnation-not-a-miss",
+      "origin": [
+        0.0,
+        0.0,
+        100000.0
+      ],
+      "direction": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "depth": 2,
+      "strength": 0.8,
+      "radius": 1,
+      "phase": 0.4,
+      "budget": 512,
+      "status": 4,
+      "distance": 167.77215,
+      "residual": 0.005248,
+      "referenceDistance": null
+    }
+  ],
+  "captures": {
+    "sphere-control": {
+      "module": "recursive_sine_sphere",
+      "params": {
+        "depth": 0,
+        "strength": 0.8,
+        "radius": 1.0,
+        "phase": 0.0,
+        "steps": 256,
+        "colorScheme": 0,
+        "animate": false
+      },
+      "view": {
+        "pan": [
+          0.0,
+          0.0
+        ],
+        "zoom": 1.0,
+        "rotation": [
+          0.3,
+          -0.4,
+          0.0
+        ]
+      },
+      "transparent": false,
+      "animationEnabled": true,
+      "renderTime": 0.0,
+      "width": 960,
+      "height": 720,
+      "pngSha256": "594b5aa21ea62d5d28638154ed871e775f4f8f8203e7c457116fe9d38ed0efc1",
+      "captureAndEncodeMs": 87.92,
+      "contentPixels": 99128,
+      "edgeContentPixels": 0,
+      "transparentPixels": 0,
+      "colors": 13965
+    },
+    "default": {
+      "module": "recursive_sine_sphere",
+      "params": {
+        "depth": 3,
+        "strength": 0.8,
+        "radius": 1.0,
+        "phase": 0.0,
+        "steps": 256,
+        "colorScheme": 0,
+        "animate": false
+      },
+      "view": {
+        "pan": [
+          0.0,
+          0.0
+        ],
+        "zoom": 1.0,
+        "rotation": [
+          0.3,
+          -0.4,
+          0.0
+        ]
+      },
+      "transparent": false,
+      "animationEnabled": true,
+      "renderTime": 0.0,
+      "width": 960,
+      "height": 720,
+      "pngSha256": "242af0194fb0a050c8bd469b77dfcd5f5eb7f400c48a01a4b5ca64303f5cd5e9",
+      "captureAndEncodeMs": 118.569,
+      "contentPixels": 220072,
+      "edgeContentPixels": 0,
+      "transparentPixels": 0,
+      "colors": 44135
+    },
+    "detail": {
+      "module": "recursive_sine_sphere",
+      "params": {
+        "depth": 5,
+        "strength": 0.8,
+        "radius": 1.0,
+        "phase": 0.0,
+        "steps": 384,
+        "colorScheme": 0,
+        "animate": false
+      },
+      "view": {
+        "pan": [
+          0.0,
+          0.0
+        ],
+        "zoom": 0.9,
+        "rotation": [
+          0.3,
+          -0.4,
+          0.0
+        ]
+      },
+      "transparent": false,
+      "animationEnabled": true,
+      "renderTime": 0.0,
+      "width": 960,
+      "height": 720,
+      "pngSha256": "1f1627aea02c62938dc4485f4fa2e376101e50c3080ed88aa5492427687da0af",
+      "captureAndEncodeMs": 417.344,
+      "contentPixels": 192613,
+      "edgeContentPixels": 0,
+      "transparentPixels": 0,
+      "colors": 38069
+    },
+    "detail-camera-depth3": {
+      "module": "recursive_sine_sphere",
+      "params": {
+        "depth": 3,
+        "strength": 0.8,
+        "radius": 1.0,
+        "phase": 0.0,
+        "steps": 384,
+        "colorScheme": 0,
+        "animate": false
+      },
+      "view": {
+        "pan": [
+          0.0,
+          0.0
+        ],
+        "zoom": 0.9,
+        "rotation": [
+          0.3,
+          -0.4,
+          0.0
+        ]
+      },
+      "transparent": false,
+      "animationEnabled": true,
+      "renderTime": 0.0,
+      "width": 960,
+      "height": 720,
+      "pngSha256": "393a7197962a25147af6e1a308cde06a47a66d7cc88ff196b7bc330e61539e48",
+      "captureAndEncodeMs": 89.362,
+      "contentPixels": 173499,
+      "edgeContentPixels": 0,
+      "transparentPixels": 0,
+      "colors": 40092
+    },
+    "detail-camera-depth5": {
+      "module": "recursive_sine_sphere",
+      "params": {
+        "depth": 5,
+        "strength": 0.8,
+        "radius": 1.0,
+        "phase": 0.0,
+        "steps": 384,
+        "colorScheme": 0,
+        "animate": false
+      },
+      "view": {
+        "pan": [
+          0.0,
+          0.0
+        ],
+        "zoom": 0.9,
+        "rotation": [
+          0.3,
+          -0.4,
+          0.0
+        ]
+      },
+      "transparent": false,
+      "animationEnabled": true,
+      "renderTime": 0.0,
+      "width": 960,
+      "height": 720,
+      "pngSha256": "969ca5ed48f3de2c2d6fe950a7eccb691b66ce2fd99a2deb56c794ca430fb895",
+      "captureAndEncodeMs": 108.019,
+      "contentPixels": 192613,
+      "edgeContentPixels": 0,
+      "transparentPixels": 0,
+      "colors": 38069
+    },
+    "maximum": {
+      "module": "recursive_sine_sphere",
+      "params": {
+        "depth": 6,
+        "strength": 1.0,
+        "radius": 1.0,
+        "phase": 0.0,
+        "steps": 512,
+        "colorScheme": 0,
+        "animate": false
+      },
+      "view": {
+        "pan": [
+          0.0,
+          0.0
+        ],
+        "zoom": 0.9,
+        "rotation": [
+          0.3,
+          -0.4,
+          0.0
+        ]
+      },
+      "transparent": false,
+      "animationEnabled": true,
+      "renderTime": 0.0,
+      "width": 960,
+      "height": 720,
+      "pngSha256": "16ffd03a27fdbbdd3014e318e4b9b81cad9b9d191c50a7ee45ed74748cb854e4",
+      "captureAndEncodeMs": 446.352,
+      "contentPixels": 212990,
+      "edgeContentPixels": 267,
+      "transparentPixels": 0,
+      "colors": 41943
+    },
+    "edited": {
+      "module": "recursive_sine_sphere",
+      "params": {
+        "depth": 2,
+        "strength": 0.65,
+        "radius": 1.2,
+        "phase": 0.4,
+        "steps": 256,
+        "colorScheme": 2,
+        "animate": false
+      },
+      "view": {
+        "pan": [
+          0.15,
+          -0.1
+        ],
+        "zoom": 1.05,
+        "rotation": [
+          0.45,
+          -0.2,
+          0.1
+        ]
+      },
+      "transparent": false,
+      "animationEnabled": true,
+      "renderTime": 0.0,
+      "width": 960,
+      "height": 720,
+      "pngSha256": "5d06dd2d183f84e55040c21e648ea3a98660057d48827b7a6d169b1b0e115f4f",
+      "captureAndEncodeMs": 220.141,
+      "contentPixels": 248349,
+      "edgeContentPixels": 0,
+      "transparentPixels": 0,
+      "colors": 33629
+    },
+    "restored": {
+      "module": "recursive_sine_sphere",
+      "params": {
+        "depth": 2,
+        "strength": 0.65,
+        "radius": 1.2,
+        "phase": 0.4,
+        "steps": 256,
+        "colorScheme": 2,
+        "animate": false
+      },
+      "view": {
+        "pan": [
+          0.15,
+          -0.1
+        ],
+        "zoom": 1.05,
+        "rotation": [
+          0.45,
+          -0.2,
+          0.1
+        ]
+      },
+      "transparent": false,
+      "animationEnabled": true,
+      "renderTime": 0.0,
+      "width": 960,
+      "height": 720,
+      "pngSha256": "5d06dd2d183f84e55040c21e648ea3a98660057d48827b7a6d169b1b0e115f4f",
+      "captureAndEncodeMs": 167.305,
+      "contentPixels": 248349,
+      "edgeContentPixels": 0,
+      "transparentPixels": 0,
+      "colors": 33629
+    },
+    "animated-a": {
+      "module": "recursive_sine_sphere",
+      "params": {
+        "depth": 2,
+        "strength": 0.65,
+        "radius": 1.2,
+        "phase": 0.4,
+        "steps": 256,
+        "colorScheme": 2,
+        "animate": true
+      },
+      "view": {
+        "pan": [
+          0.15,
+          -0.1
+        ],
+        "zoom": 1.05,
+        "rotation": [
+          0.45,
+          -0.2,
+          0.1
+        ]
+      },
+      "transparent": false,
+      "animationEnabled": true,
+      "renderTime": 0.0,
+      "width": 960,
+      "height": 720,
+      "pngSha256": "5d06dd2d183f84e55040c21e648ea3a98660057d48827b7a6d169b1b0e115f4f",
+      "captureAndEncodeMs": 237.104,
+      "contentPixels": 248349,
+      "edgeContentPixels": 0,
+      "transparentPixels": 0,
+      "colors": 33629
+    },
+    "animated-b": {
+      "module": "recursive_sine_sphere",
+      "params": {
+        "depth": 2,
+        "strength": 0.65,
+        "radius": 1.2,
+        "phase": 0.4,
+        "steps": 256,
+        "colorScheme": 2,
+        "animate": true
+      },
+      "view": {
+        "pan": [
+          0.15,
+          -0.1
+        ],
+        "zoom": 1.05,
+        "rotation": [
+          0.45,
+          -0.2,
+          0.1
+        ]
+      },
+      "transparent": false,
+      "animationEnabled": true,
+      "renderTime": 0.0,
+      "width": 960,
+      "height": 720,
+      "pngSha256": "5d06dd2d183f84e55040c21e648ea3a98660057d48827b7a6d169b1b0e115f4f",
+      "captureAndEncodeMs": 109.101,
+      "contentPixels": 248349,
+      "edgeContentPixels": 0,
+      "transparentPixels": 0,
+      "colors": 33629
+    },
+    "animation-off-a": {
+      "module": "recursive_sine_sphere",
+      "params": {
+        "depth": 2,
+        "strength": 0.65,
+        "radius": 1.2,
+        "phase": 0.4,
+        "steps": 256,
+        "colorScheme": 2,
+        "animate": false
+      },
+      "view": {
+        "pan": [
+          0.15,
+          -0.1
+        ],
+        "zoom": 1.05,
+        "rotation": [
+          0.45,
+          -0.2,
+          0.1
+        ]
+      },
+      "transparent": false,
+      "animationEnabled": true,
+      "renderTime": 0.0,
+      "width": 960,
+      "height": 720,
+      "pngSha256": "5d06dd2d183f84e55040c21e648ea3a98660057d48827b7a6d169b1b0e115f4f",
+      "captureAndEncodeMs": 213.451,
+      "contentPixels": 248349,
+      "edgeContentPixels": 0,
+      "transparentPixels": 0,
+      "colors": 33629
+    },
+    "animation-off-b": {
+      "module": "recursive_sine_sphere",
+      "params": {
+        "depth": 2,
+        "strength": 0.65,
+        "radius": 1.2,
+        "phase": 0.4,
+        "steps": 256,
+        "colorScheme": 2,
+        "animate": false
+      },
+      "view": {
+        "pan": [
+          0.15,
+          -0.1
+        ],
+        "zoom": 1.05,
+        "rotation": [
+          0.45,
+          -0.2,
+          0.1
+        ]
+      },
+      "transparent": false,
+      "animationEnabled": true,
+      "renderTime": 0.0,
+      "width": 960,
+      "height": 720,
+      "pngSha256": "5d06dd2d183f84e55040c21e648ea3a98660057d48827b7a6d169b1b0e115f4f",
+      "captureAndEncodeMs": 180.792,
+      "contentPixels": 248349,
+      "edgeContentPixels": 0,
+      "transparentPixels": 0,
+      "colors": 33629
+    },
+    "reduced-motion-a": {
+      "module": "recursive_sine_sphere",
+      "params": {
+        "depth": 2,
+        "strength": 0.65,
+        "radius": 1.2,
+        "phase": 0.4,
+        "steps": 256,
+        "colorScheme": 2,
+        "animate": true
+      },
+      "view": {
+        "pan": [
+          0.15,
+          -0.1
+        ],
+        "zoom": 1.05,
+        "rotation": [
+          0.45,
+          -0.2,
+          0.1
+        ]
+      },
+      "transparent": false,
+      "animationEnabled": false,
+      "renderTime": 0.0,
+      "width": 960,
+      "height": 720,
+      "pngSha256": "5d06dd2d183f84e55040c21e648ea3a98660057d48827b7a6d169b1b0e115f4f",
+      "captureAndEncodeMs": 225.665,
+      "contentPixels": 248349,
+      "edgeContentPixels": 0,
+      "transparentPixels": 0,
+      "colors": 33629
+    },
+    "reduced-motion-b": {
+      "module": "recursive_sine_sphere",
+      "params": {
+        "depth": 2,
+        "strength": 0.65,
+        "radius": 1.2,
+        "phase": 0.4,
+        "steps": 256,
+        "colorScheme": 2,
+        "animate": true
+      },
+      "view": {
+        "pan": [
+          0.15,
+          -0.1
+        ],
+        "zoom": 1.05,
+        "rotation": [
+          0.45,
+          -0.2,
+          0.1
+        ]
+      },
+      "transparent": false,
+      "animationEnabled": false,
+      "renderTime": 0.0,
+      "width": 960,
+      "height": 720,
+      "pngSha256": "5d06dd2d183f84e55040c21e648ea3a98660057d48827b7a6d169b1b0e115f4f",
+      "captureAndEncodeMs": 137.589,
+      "contentPixels": 248349,
+      "edgeContentPixels": 0,
+      "transparentPixels": 0,
+      "colors": 33629
+    },
+    "frozen-opaque": {
+      "module": "recursive_sine_sphere",
+      "params": {
+        "depth": 2,
+        "strength": 0.65,
+        "radius": 1.2,
+        "phase": 0.4,
+        "steps": 256,
+        "colorScheme": 2,
+        "animate": true
+      },
+      "view": {
+        "pan": [
+          0.15,
+          -0.1
+        ],
+        "zoom": 1.05,
+        "rotation": [
+          0.45,
+          -0.2,
+          0.1
+        ]
+      },
+      "transparent": false,
+      "animationEnabled": false,
+      "renderTime": 0.0,
+      "width": 960,
+      "height": 720,
+      "pngSha256": "5d06dd2d183f84e55040c21e648ea3a98660057d48827b7a6d169b1b0e115f4f",
+      "captureAndEncodeMs": 91.74,
+      "contentPixels": 248349,
+      "edgeContentPixels": 0,
+      "transparentPixels": 0,
+      "colors": 33629
+    },
+    "frozen-transparent": {
+      "module": "recursive_sine_sphere",
+      "params": {
+        "depth": 2,
+        "strength": 0.65,
+        "radius": 1.2,
+        "phase": 0.4,
+        "steps": 256,
+        "colorScheme": 2,
+        "animate": true
+      },
+      "view": {
+        "pan": [
+          0.15,
+          -0.1
+        ],
+        "zoom": 1.05,
+        "rotation": [
+          0.45,
+          -0.2,
+          0.1
+        ]
+      },
+      "transparent": true,
+      "animationEnabled": false,
+      "renderTime": 0.0,
+      "width": 960,
+      "height": 720,
+      "pngSha256": "86c3efa7886d91e38d8dfb030aad74aa0244d921ab8221430845b2f27baa07cc",
+      "captureAndEncodeMs": 191.94,
+      "contentPixels": 248349,
+      "edgeContentPixels": 0,
+      "transparentPixels": 442851,
+      "colors": 33629
+    }
+  },
+  "exports": {
+    "sphere-control": {
+      "path": "/var/tmp/aw-1000-48137133-2/sine-evidence/fractal_recursive_sine_sphere_1792907149247.png",
+      "width": 960,
+      "height": 720,
+      "sha256": "15035e25476a9fdb6da7c6b0ad91ea29fa7040c6edbb5f7287a23a44fe52ec1a",
+      "matchesVisibleRgba": true,
+      "contentPixels": 99128,
+      "edgeContentPixels": 0,
+      "transparentPixels": 0,
+      "colors": 13965
+    },
+    "default": {
+      "path": "/var/tmp/aw-1000-48137133-2/sine-evidence/fractal_recursive_sine_sphere_1792907152555.png",
+      "width": 960,
+      "height": 720,
+      "sha256": "dc14bd4daac0ff8153199e65678c41f2ee34be67f8fd353578eeffff14011863",
+      "matchesVisibleRgba": true,
+      "contentPixels": 220072,
+      "edgeContentPixels": 0,
+      "transparentPixels": 0,
+      "colors": 44135
+    },
+    "detail": {
+      "path": "/var/tmp/aw-1000-48137133-2/sine-evidence/fractal_recursive_sine_sphere_1792907155007.png",
+      "width": 960,
+      "height": 720,
+      "sha256": "0e2b508648d29314b1afa6d72b223b8e067c2c6d83d4a7a514873518e9d047fe",
+      "matchesVisibleRgba": true,
+      "contentPixels": 192613,
+      "edgeContentPixels": 0,
+      "transparentPixels": 0,
+      "colors": 38069
+    },
+    "restored": {
+      "path": "/var/tmp/aw-1000-48137133-2/sine-evidence/fractal_recursive_sine_sphere_1792907165755.png",
+      "width": 960,
+      "height": 720,
+      "sha256": "dc91d6b7eda8b0a5d7165e3b753f4447311ecbabd70434531687e81a816d22fb",
+      "matchesVisibleRgba": true,
+      "contentPixels": 248349,
+      "edgeContentPixels": 0,
+      "transparentPixels": 0,
+      "colors": 33629
+    },
+    "animation-off-b": {
+      "path": "/var/tmp/aw-1000-48137133-2/sine-evidence/fractal_recursive_sine_sphere_1792907174555.png",
+      "width": 960,
+      "height": 720,
+      "sha256": "31b865740d9826c0b39f16aa351f94095ccc233b8727cae79a4f578bfac6cade",
+      "matchesVisibleRgba": true,
+      "contentPixels": 248349,
+      "edgeContentPixels": 0,
+      "transparentPixels": 0,
+      "colors": 33629
+    },
+    "frozen-opaque": {
+      "path": "/var/tmp/aw-1000-48137133-2/sine-evidence/fractal_recursive_sine_sphere_1792907179977.png",
+      "width": 960,
+      "height": 720,
+      "sha256": "59fab8c4abae14b3c611208e9c0fcc507603647b626a51dc5153bec768d28166",
+      "matchesVisibleRgba": true,
+      "contentPixels": 248349,
+      "edgeContentPixels": 0,
+      "transparentPixels": 0,
+      "colors": 33629
+    },
+    "frozen-transparent": {
+      "path": "/var/tmp/aw-1000-48137133-2/sine-evidence/fractal_recursive_sine_sphere_1792907182073.png",
+      "width": 960,
+      "height": 720,
+      "sha256": "94282999718475ff11b4648e1d3f1d3d3d26581cc336d2782845ec89f5395fc8",
+      "matchesVisibleRgba": true,
+      "contentPixels": 248349,
+      "edgeContentPixels": 0,
+      "transparentPixels": 442851,
+      "colors": 33629
+    }
+  },
+  "detailComparison": {
+    "depth3MeanRgbLaplacian": 0.7869673307207063,
+    "depth5MeanRgbLaplacian": 1.288712810334034,
+    "sameCamera": true
+  },
+  "convergence": {
+    "default": {
+      "resolution": [
+        960,
+        720
+      ],
+      "miss": 469534,
+      "hit": 220072,
+      "budgetExhausted": 1594,
+      "tangent": 0,
+      "stagnation": 0,
+      "silhouetteMismatches": 0,
+      "floatBoundarySamples": [],
+      "centerOracle": {
+        "pixel": [
+          480.5,
+          360.5
+        ],
+        "referenceDistance": 2.9700720291781204,
+        "actualDistance": 2.96999,
+        "residual": 0.000222
+      },
+      "diagnosticDrawReadbackMs": 39.628
+    },
+    "detail": {
+      "resolution": [
+        960,
+        720
+      ],
+      "miss": 492172,
+      "hit": 192613,
+      "budgetExhausted": 6415,
+      "tangent": 0,
+      "stagnation": 0,
+      "silhouetteMismatches": 0,
+      "floatBoundarySamples": [],
+      "centerOracle": {
+        "pixel": [
+          480.5,
+          360.5
+        ],
+        "referenceDistance": 3.2826401476632023,
+        "actualDistance": 3.28243,
+        "residual": 0.000332
+      },
+      "diagnosticDrawReadbackMs": 16.526
+    },
+    "maximum": {
+      "resolution": [
+        960,
+        720
+      ],
+      "miss": 397001,
+      "hit": 212989,
+      "budgetExhausted": 81210,
+      "tangent": 0,
+      "stagnation": 0,
+      "silhouetteMismatches": 1,
+      "floatBoundarySamples": [
+        {
+          "pixel": [
+            520,
+            505
+          ],
+          "frameStatus": 2,
+          "visibleForeground": true,
+          "status": 1,
+          "distance": 4.01557,
+          "residual": 0.00035,
+          "referenceDistance": 4.015759373080293
+        }
+      ],
+      "centerOracle": {},
+      "diagnosticDrawReadbackMs": 23.828
+    }
+  },
+  "nativeAnimationTicker": "not exercised: RuntimeModeService.isAutomatedTest disables ticker"
+}

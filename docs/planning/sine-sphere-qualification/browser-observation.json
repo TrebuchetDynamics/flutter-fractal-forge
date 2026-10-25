@@ -1,0 +1,135 @@
+{
+  "seeded": {
+    "schemaVersion": 1,
+    "moduleId": "recursive_sine_sphere",
+    "params": {
+      "depth": 2,
+      "strength": 0.65,
+      "radius": 1.2,
+      "phase": 0.4,
+      "steps": 256,
+      "colorScheme": 2,
+      "animate": true
+    },
+    "view": {
+      "pan": [
+        0.15,
+        -0.1
+      ],
+      "zoom": 1.05,
+      "rotation": [
+        0.45,
+        -0.2,
+        0.1
+      ]
+    },
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1,
+    "glowIntensity": 0.35,
+    "fluidModeEnabled": false,
+    "fluidStrength": 1,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 6,
+    "kaleidoscopeMirror": false,
+    "kaleidoscopeRotation": 0,
+    "kaleidoscopeMirrorMode": 0,
+    "controlsVisible": false,
+    "fullscreenUnobtrusive": false,
+    "viewerActive": true
+  },
+  "edited": {
+    "schemaVersion": 1,
+    "moduleId": "recursive_sine_sphere",
+    "params": {
+      "depth": 2,
+      "strength": 0.65,
+      "radius": 1.2,
+      "phase": 0.4,
+      "steps": 256,
+      "colorScheme": 3,
+      "animate": true
+    },
+    "view": {
+      "pan": [
+        0.15,
+        -0.1
+      ],
+      "zoom": 1.05,
+      "rotation": [
+        0.45,
+        -0.2,
+        0.1
+      ]
+    },
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1,
+    "glowIntensity": 0.35,
+    "fluidModeEnabled": false,
+    "fluidStrength": 1,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 6,
+    "kaleidoscopeMirror": false,
+    "kaleidoscopeRotation": 0,
+    "kaleidoscopeMirrorMode": 0,
+    "controlsVisible": false,
+    "fullscreenUnobtrusive": false,
+    "viewerActive": true
+  },
+  "restored": {
+    "schemaVersion": 1,
+    "moduleId": "recursive_sine_sphere",
+    "params": {
+      "depth": 2,
+      "strength": 0.65,
+      "radius": 1.2,
+      "phase": 0.4,
+      "steps": 256,
+      "colorScheme": 3,
+      "animate": true
+    },
+    "view": {
+      "pan": [
+        0.15,
+        -0.1
+      ],
+      "zoom": 1.05,
+      "rotation": [
+        0.45,
+        -0.2,
+        0.1
+      ]
+    },
+    "transparentBackground": false,
+    "rotationLocked": false,
+    "glowEnabled": false,
+    "glowSigma": 1,
+    "glowIntensity": 0.35,
+    "fluidModeEnabled": false,
+    "fluidStrength": 1,
+    "kaleidoscopeEnabled": false,
+    "kaleidoscopeSectors": 6,
+    "kaleidoscopeMirror": false,
+    "kaleidoscopeRotation": 0,
+    "kaleidoscopeMirrorMode": 0,
+    "controlsVisible": false,
+    "fullscreenUnobtrusive": false,
+    "viewerActive": true
+  },
+  "restoredPixelsEqual": true,
+  "frozenScreenshotsEqual": true,
+  "firstPixels": {
+    "width": 1280,
+    "height": 720,
+    "pixelHash": "080bbb75860c3b0c5c3a9ce4550a2a17bf5ca6d06e7c3c5af9d6f7caf58bcaed"
+  },
+  "secondPixels": {
+    "width": 1280,
+    "height": 720,
+    "pixelHash": "080bbb75860c3b0c5c3a9ce4550a2a17bf5ca6d06e7c3c5af9d6f7caf58bcaed"
+  },
+  "errors": []
+}
