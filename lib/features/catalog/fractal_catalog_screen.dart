@@ -714,19 +714,13 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     return [null, ...categories];
   }
 
-  /// Height of the pinned filter bar.
-  ///
-  /// A SliverPersistentHeader needs a fixed extent, so this cannot be measured
-  /// from the content. The bar is mostly fixed padding around a single line of
-  /// chip text, which is why it overflowed by only 2px at a 3.0x accessibility
-  /// text scale -- so the extent grows by however much that text grows rather
-  /// than by the whole scale factor, which would reserve 240px for content
-  /// needing 82.
+  /// Reserve the search field, two filter rows and their actual padding.
+  /// Grow with text metrics, without leaving a fixed empty panel below them.
   static double _pinnedFilterBarHeight(BuildContext context) {
-    const base = 200.0;
-    const chipFontSize = 12.0;
-    final scaled = MediaQuery.textScalerOf(context).scale(chipFontSize);
-    return base + (scaled - chipFontSize).clamp(0.0, 48.0) * 4;
+    final scaler = MediaQuery.textScalerOf(context);
+    final searchHeight = math.max(48.0, scaler.scale(14) * 1.5 + 22);
+    final chipHeight = math.max(48.0, scaler.scale(12) * 1.4 + 18);
+    return searchHeight + chipHeight * 2 + 16;
   }
 
   Widget _buildPinnedTopBar(
@@ -736,7 +730,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   ) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.background.withValues(alpha: 0.96),
+        color: AppColors.background,
         border: Border(
           bottom: BorderSide(color: AppColors.border.withValues(alpha: 0.6)),
         ),
@@ -765,66 +759,119 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
         children: [
           _buildCompactSearchField(context, l10n),
           const SizedBox(height: AppSpacing.xs),
-          SingleChildScrollView(
-            key: const Key('catalogCollectionAndDimensionScroll'),
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                _DimChip(
-                  chipKey: const Key('catalogCollectionChip_explore'),
-                  label: isSpanish ? 'Explorar' : 'Explore',
-                  count: _catalog!.entries.length,
-                  selected: _selectedCollection == null,
-                  onTap: () => _setSelectedCollection(null),
-                ),
-                const SizedBox(width: AppSpacing.xs),
-                _DimChip(
-                  chipKey: const Key('catalogCategoryChip_favorites'),
-                  label: _categoryDisplayLabel(_favoritesCategory),
-                  count: _favoriteCatalogIds.length,
-                  selected: _selectedCollection == _favoritesCategory,
-                  onTap: () => _setSelectedCollection(_favoritesCategory),
-                ),
-                const SizedBox(width: AppSpacing.xs),
-                _DimChip(
-                  chipKey: const Key('catalogCategoryChip_recent'),
-                  label: _categoryDisplayLabel(_recentCategory),
-                  count: _recentCatalogIds.length,
-                  selected: _selectedCollection == _recentCategory,
-                  onTap: () => _setSelectedCollection(_recentCategory),
-                ),
-                const SizedBox(width: AppSpacing.md),
-                for (final filter in const [
-                  CatalogDimensionFilter.all,
-                  CatalogDimensionFilter.twoD,
-                  CatalogDimensionFilter.threeD
-                ]) ...[
-                  _DimChip(
-                    chipKey: Key('catalogDimensionChip_${switch (filter) {
-                      CatalogDimensionFilter.twoD => '2d',
-                      CatalogDimensionFilter.threeD => '3d',
-                      _ => 'all'
-                    }}'),
-                    label: switch (filter) {
-                      CatalogDimensionFilter.twoD => l10n.dimension2d,
-                      CatalogDimensionFilter.threeD => l10n.dimension3d,
-                      _ =>
-                        isSpanish ? 'Todas las dimensiones' : 'All dimensions',
-                    },
-                    count: result.countForDimension(filter),
-                    selected: _dimensionFilter == filter,
-                    onTap: () {
-                      _browseStateRevision++;
-                      setState(() => _dimensionFilter = filter);
-                      unawaited(_persistBrowsingState());
-                    },
+          Row(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  key: const Key('catalogCollectionAndDimensionScroll'),
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      _DimChip(
+                        chipKey: const Key('catalogCollectionChip_explore'),
+                        label: isSpanish ? 'Explorar' : 'Explore',
+                        count: _catalog!.entries.length,
+                        selected: _selectedCollection == null,
+                        onTap: () => _setSelectedCollection(null),
+                      ),
+                      const SizedBox(width: AppSpacing.xs),
+                      _DimChip(
+                        chipKey: const Key('catalogCategoryChip_favorites'),
+                        label: _categoryDisplayLabel(_favoritesCategory),
+                        count: _favoriteCatalogIds.length,
+                        selected: _selectedCollection == _favoritesCategory,
+                        onTap: () => _setSelectedCollection(_favoritesCategory),
+                      ),
+                      const SizedBox(width: AppSpacing.xs),
+                      _DimChip(
+                        chipKey: const Key('catalogCategoryChip_recent'),
+                        label: _categoryDisplayLabel(_recentCategory),
+                        count: _recentCatalogIds.length,
+                        selected: _selectedCollection == _recentCategory,
+                        onTap: () => _setSelectedCollection(_recentCategory),
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: AppSpacing.xs),
-                ],
+                ),
+              ),
+              const SizedBox(width: AppSpacing.xs),
+              _buildDimensionMenu(context, l10n, result),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDimensionMenu(
+      BuildContext context, AppLocalizations l10n, CatalogFilterResult result) {
+    final allLabel = Localizations.localeOf(context).languageCode == 'es'
+        ? 'Todas las dimensiones'
+        : 'All dimensions';
+    String label(CatalogDimensionFilter filter) => switch (filter) {
+          CatalogDimensionFilter.all => allLabel,
+          CatalogDimensionFilter.twoD => l10n.dimension2d,
+          CatalogDimensionFilter.threeD => l10n.dimension3d,
+          // A persisted compatibility value is readable, never a new choice.
+          CatalogDimensionFilter.kaleidoscope => l10n.dimensionKaleidoscope,
+        };
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 128),
+      child: PopupMenuButton<CatalogDimensionFilter>(
+        key: const Key('catalogDimensionMenu'),
+        tooltip: label(_dimensionFilter),
+        initialValue: _dimensionFilter,
+        onSelected: (filter) {
+          _browseStateRevision++;
+          setState(() => _dimensionFilter = filter);
+          unawaited(_persistBrowsingState());
+        },
+        itemBuilder: (context) => [
+          // Keep the supported UI domain explicit; legacy decode values are not
+          // selectable dimensions.
+          for (final filter in const [
+            CatalogDimensionFilter.all,
+            CatalogDimensionFilter.twoD,
+            CatalogDimensionFilter.threeD,
+          ])
+            CheckedPopupMenuItem(
+              key: Key('catalogDimensionChip_${switch (filter) {
+                CatalogDimensionFilter.twoD => '2d',
+                CatalogDimensionFilter.threeD => '3d',
+                _ => 'all',
+              }}'),
+              value: filter,
+              checked: _dimensionFilter == filter,
+              child: Text(
+                  '${label(filter)} · ${result.countForDimension(filter)}'),
+            ),
+        ],
+        child: Container(
+          constraints: const BoxConstraints(minHeight: 48, minWidth: 72),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          child: ExcludeSemantics(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.layers_outlined,
+                    size: 16, color: AppColors.textSecondary),
+                const SizedBox(width: 4),
+                Flexible(
+                  child: Text(
+                    _dimensionFilter == CatalogDimensionFilter.all
+                        ? l10n.catalogFilterAll
+                        : label(_dimensionFilter),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTypography.labelSmall.copyWith(fontSize: 12),
+                  ),
+                ),
+                const Icon(Icons.expand_more_rounded,
+                    size: 16, color: AppColors.textSecondary),
               ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -848,46 +895,38 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.xs,
       ),
-      child: Container(
-        padding: const EdgeInsets.all(6),
-        decoration: BoxDecoration(
-          color: AppColors.surface.withValues(alpha: 0.78),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: AppColors.border.withValues(alpha: 0.45)),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: _CategoryFilterRail(
-                allCategoriesLabel: allCategoriesLabel,
-                totalCategoryCount: totalCategoryCount,
-                categories: categories,
-                categoryCounts: categoryCounts,
-                selectedCategory: _selectedCategory,
-                onSelect: (category) => _setSelectedCategory(
-                  category == _selectedCategory ? null : category,
-                ),
+      child: Row(
+        children: [
+          Expanded(
+            child: _CategoryFilterRail(
+              allCategoriesLabel: allCategoriesLabel,
+              totalCategoryCount: totalCategoryCount,
+              categories: categories,
+              categoryCounts: categoryCounts,
+              selectedCategory: _selectedCategory,
+              onSelect: (category) => _setSelectedCategory(
+                category == _selectedCategory ? null : category,
               ),
             ),
-            if (showLocalActions) ...[
-              const SizedBox(width: AppSpacing.xs),
-              _SimpleIconButton(
-                buttonKey: const Key('catalogSearchToggleButton'),
-                icon: Icons.search_rounded,
-                semanticLabel: l10n.catalogSearchHint,
-                isActive: _isSearchVisible,
-                onTap: _toggleSearch,
-              ),
-              const SizedBox(width: AppSpacing.xs),
-              _SimpleIconButton(
-                buttonKey: const Key('catalogViewToggleButton'),
-                icon: _viewModeIcon(_viewMode),
-                semanticLabel: _viewModeLabel(l10n, _viewMode),
-                onTap: _toggleViewMode,
-              ),
-            ],
+          ),
+          if (showLocalActions) ...[
+            const SizedBox(width: AppSpacing.xs),
+            _SimpleIconButton(
+              buttonKey: const Key('catalogSearchToggleButton'),
+              icon: Icons.search_rounded,
+              semanticLabel: l10n.catalogSearchHint,
+              isActive: _isSearchVisible,
+              onTap: _toggleSearch,
+            ),
+            const SizedBox(width: AppSpacing.xs),
+            _SimpleIconButton(
+              buttonKey: const Key('catalogViewToggleButton'),
+              icon: _viewModeIcon(_viewMode),
+              semanticLabel: _viewModeLabel(l10n, _viewMode),
+              onTap: _toggleViewMode,
+            ),
           ],
-        ),
+        ],
       ),
     );
   }
@@ -901,58 +940,62 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
           ? 'Buscar por nombre, fórmula o familia'
           : 'Search by name, formula or family',
       textField: true,
-      child: TextField(
-        key: const Key('catalogSearchField'),
-        controller: _searchController,
-        focusNode: _focusNode,
-        style: AppTypography.bodyMedium.copyWith(color: AppColors.textPrimary),
-        decoration: InputDecoration(
-          isDense: true,
-          filled: true,
-          fillColor: AppColors.surfaceVariant,
-          hintText: Localizations.localeOf(context).languageCode == 'es'
-              ? 'Nombre, fórmula o familia'
-              : 'Name, formula or family',
-          hintStyle:
-              AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
-          prefixIcon: Icon(
-            Icons.search_rounded,
-            color: _isSearchFocused ? AppColors.primary : AppColors.textMuted,
-          ),
-          suffixIcon: _searchController.text.isEmpty
-              ? null
-              : IconButton(
-                  key: const ValueKey('clear'),
-                  tooltip:
-                      MaterialLocalizations.of(context).deleteButtonTooltip,
-                  icon: const Icon(Icons.close_rounded, size: 20),
-                  onPressed: _clearSearchInput,
-                ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
-            borderSide: BorderSide(
-              color: AppColors.border.withValues(alpha: 0.3),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 48),
+        child: TextField(
+          key: const Key('catalogSearchField'),
+          controller: _searchController,
+          focusNode: _focusNode,
+          style:
+              AppTypography.bodyMedium.copyWith(color: AppColors.textPrimary),
+          decoration: InputDecoration(
+            isDense: true,
+            filled: true,
+            fillColor: AppColors.surfaceVariant,
+            hintText: Localizations.localeOf(context).languageCode == 'es'
+                ? 'Nombre, fórmula o familia'
+                : 'Name, formula or family',
+            hintStyle:
+                AppTypography.bodyMedium.copyWith(color: AppColors.textMuted),
+            prefixIcon: Icon(
+              Icons.search_rounded,
+              color: _isSearchFocused ? AppColors.primary : AppColors.textMuted,
+            ),
+            suffixIcon: _searchController.text.isEmpty
+                ? null
+                : IconButton(
+                    key: const ValueKey('clear'),
+                    tooltip:
+                        MaterialLocalizations.of(context).deleteButtonTooltip,
+                    icon: const Icon(Icons.close_rounded, size: 20),
+                    onPressed: _clearSearchInput,
+                  ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
+              borderSide: BorderSide(
+                color: AppColors.border.withValues(alpha: 0.3),
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
+              borderSide: BorderSide(
+                color: AppColors.border.withValues(alpha: 0.3),
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
+              borderSide: BorderSide(
+                color: AppColors.primary.withValues(alpha: 0.6),
+                width: 1.5,
+              ),
+            ),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 10,
             ),
           ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
-            borderSide: BorderSide(
-              color: AppColors.border.withValues(alpha: 0.3),
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppSpacing.inputRadius),
-            borderSide: BorderSide(
-              color: AppColors.primary.withValues(alpha: 0.6),
-              width: 1.5,
-            ),
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 12,
-            vertical: 10,
-          ),
+          onChanged: (_) => setState(() {}),
         ),
-        onChanged: (_) => setState(() {}),
       ),
     );
   }

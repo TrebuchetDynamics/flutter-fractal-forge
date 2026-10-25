@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
@@ -19,6 +20,7 @@ Future<void> _pumpCatalog(
   Size? size,
   Locale locale = const Locale('en'),
   String query = '',
+  double keyboardInset = 0,
 }) async {
   if (size != null) {
     await tester.binding.setSurfaceSize(size);
@@ -47,8 +49,10 @@ Future<void> _pumpCatalog(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         builder: (context, child) => MediaQuery(
-          data: MediaQuery.of(context)
-              .copyWith(textScaler: TextScaler.linear(textScale)),
+          data: MediaQuery.of(context).copyWith(
+            textScaler: TextScaler.linear(textScale),
+            viewInsets: EdgeInsets.only(bottom: keyboardInset),
+          ),
           child: child!,
         ),
         home: const Scaffold(body: FractalCatalogScreen()),
@@ -153,12 +157,119 @@ void main() {
                   widget.axisDirection == AxisDirection.down),
             );
             await tester.pumpAndSettle();
+            expect(
+                find.byKey(const Key('fibonacciComplexLegend')), findsNothing);
+            final details = find.byKey(
+                const Key('catalogMathDetails_core.fibonacci_complex_julia'));
+            await tester.ensureVisible(details);
+            await tester.pumpAndSettle();
+            await tester.tap(details);
+            await tester.pumpAndSettle();
           },
-          reason: 'Fibonacci legend in a narrow 3x catalog caption',
+          reason: 'Fibonacci caption and full details at narrow 3x text',
         );
         expect(find.byKey(const Key('fibonacciComplexLegend')), findsOneWidget);
       });
     }
+
+    testWidgets('phone filter bar leaves room for the artwork', (tester) async {
+      await _pumpCatalog(tester, size: const Size(360, 780));
+      final header = tester.renderObject<RenderSliver>(
+          find.byKey(const Key('catalogPinnedFilterBar')));
+      expect(header.geometry!.maxPaintExtent, lessThanOrEqualTo(168));
+      final search =
+          tester.getSize(find.byKey(const Key('catalogSearchField')));
+      expect(search.height, greaterThanOrEqualTo(48));
+    });
+
+    for (final locale in const [Locale('en'), Locale('es')]) {
+      for (final scale in const [1.0, 3.0]) {
+        testWidgets(
+            'phone dimensions remain reachable (${locale.languageCode}, ${scale}x)',
+            (tester) async {
+          await expectNoOverflow(() async {
+            await _pumpCatalog(tester,
+                locale: locale, textScale: scale, size: const Size(320, 568));
+            final menu = find.byKey(const Key('catalogDimensionMenu'));
+            expect(menu.hitTestable(), findsOneWidget);
+            final bounds = tester.getRect(menu);
+            expect(bounds.right, lessThanOrEqualTo(304));
+            expect(bounds.left, greaterThanOrEqualTo(16));
+            expect(bounds.height, greaterThanOrEqualTo(48));
+            await tester.tap(menu);
+            await tester.pumpAndSettle();
+            for (final choice in ['all', '2d', '3d']) {
+              expect(find.byKey(Key('catalogDimensionChip_$choice')),
+                  findsOneWidget);
+            }
+            expect(find.byKey(const Key('catalogDimensionChip_kaleidoscope')),
+                findsNothing);
+            await tester.binding.handlePopRoute();
+            await tester.pumpAndSettle();
+          }, reason: 'dimension control and menu at narrow/large text');
+        });
+      }
+    }
+
+    for (final scale in const [1.0, 2.0]) {
+      testWidgets('search viewport stays above the keyboard at ${scale}x',
+          (tester) async {
+        await expectNoOverflow(() async {
+          await _pumpCatalog(tester,
+              textScale: scale, size: const Size(360, 780), keyboardInset: 260);
+          final field = find.byKey(const Key('catalogSearchField'));
+          await tester.tap(field);
+          await tester.enterText(field, 'Mandelbrot');
+          await tester.pumpAndSettle();
+          final viewport = tester.getRect(find.byType(CustomScrollView));
+          expect(viewport.bottom, lessThanOrEqualTo(520));
+          expect(tester.getRect(field).bottom, lessThan(viewport.bottom));
+          expect(
+              tester.widget<TextField>(field).controller!.text, 'Mandelbrot');
+        }, reason: 'search and its scroll viewport must clear the IME');
+      });
+    }
+
+    testWidgets(
+        'family rail preserves the full label instead of ellipsizing it',
+        (tester) async {
+      await _pumpCatalog(tester, size: const Size(320, 568));
+      final label = find.descendant(
+        of: find.byKey(
+            const Key('catalogCategoryChip_ifs_and_geometric_constructions')),
+        matching: find.byType(Text),
+      );
+      expect(label, findsOneWidget);
+      expect(tester.renderObject<RenderParagraph>(label).didExceedMaxLines,
+          isFalse);
+    });
+
+    testWidgets('grid captions are compact without hiding uncertainty',
+        (tester) async {
+      await _pumpCatalog(tester,
+          query: 'Anti-Buddhabrot', size: const Size(360, 780));
+      final caption =
+          find.byKey(const Key('catalogCaption_core.anti_buddhabrot'));
+      expect(caption, findsOneWidget);
+      expect(tester.getSize(caption).height, lessThanOrEqualTo(88));
+      expect(find.textContaining('Unverified identity'), findsWidgets);
+      expect(find.textContaining('this renderer has not been mathematically'),
+          findsNothing);
+      final details =
+          find.byKey(const Key('catalogMathDetails_core.anti_buddhabrot'));
+      await tester.ensureVisible(details);
+      await tester.pumpAndSettle();
+      await tester.tap(details);
+      await tester.pumpAndSettle();
+      expect(find.textContaining('this renderer has not been mathematically'),
+          findsOneWidget);
+      expect(find.text('Approximate preview; reduced quality'), findsOneWidget);
+      expect(tester.getSize(find.byType(BottomSheet)).height, lessThan(390));
+      await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
+      expect(details, findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
 
     testWidgets('card labels localize', (tester) async {
       final handle = tester.ensureSemantics();

@@ -224,6 +224,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get catalogSearchEmpty => 'No fractals match your search.';
 
   @override
+  String get catalogMathDetails => 'Formula and limits';
+
+  @override
   String get actionClearSearch => 'Clear search';
 
   @override
