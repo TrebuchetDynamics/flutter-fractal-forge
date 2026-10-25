@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/models/number_wall_model.dart';
+import 'package:flutter_fractals/features/number_walls/number_wall_presentation.dart';
 import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -59,8 +60,8 @@ class _NumberWallExactRendererState extends State<NumberWallExactRenderer> {
     }
   }
 
-  void _syncTexture(NumberWallGrid grid, int mode, int scheme) {
-    final style = '$mode|$scheme';
+  void _syncTexture(NumberWallGrid grid, NumberWallStyle presentation) {
+    final style = presentation.key;
     if (_requestedGrid == grid && _requestedStyle == style) return;
     _requestedGrid = grid;
     _requestedStyle = style;
@@ -71,7 +72,7 @@ class _NumberWallExactRendererState extends State<NumberWallExactRenderer> {
       var i = 0;
       for (final row in grid.values) {
         for (final value in row) {
-          final c = _cellColor(value, grid.prime, mode, scheme);
+          final c = presentation.cellColor(value, grid.prime);
           pixels[i++] = (c.r * 255).round();
           pixels[i++] = (c.g * 255).round();
           pixels[i++] = (c.b * 255).round();
@@ -101,13 +102,12 @@ class _NumberWallExactRendererState extends State<NumberWallExactRenderer> {
     final controller = context.watch<FractalController>();
     final l10n = AppLocalizations.of(context)!;
     final grid = controller.numberWallGrid;
-    final mode = (controller.params['colorMode'] as num?)?.toInt() ?? 0;
-    final scheme = (controller.params['colorScheme'] as num?)?.toInt() ?? 0;
+    final style = NumberWallStyle.fromParams(controller.params);
     if (grid != null && widget.backendMode != RendererBackendMode.cpuOnly) {
-      _syncTexture(grid, mode, scheme);
+      _syncTexture(grid, style);
     }
     final image =
-        _imageGrid == grid && _imageStyle == '$mode|$scheme' ? _image : null;
+        _imageGrid == grid && _imageStyle == style.key ? _image : null;
     final shader =
         widget.backendMode == RendererBackendMode.cpuOnly ? null : _shader;
     final gpu = shader != null && image != null;
@@ -129,8 +129,7 @@ class _NumberWallExactRendererState extends State<NumberWallExactRenderer> {
           };
     return LayoutBuilder(builder: (context, constraints) {
       final size = constraints.biggest;
-      final rect = _fieldRect(size, controller.view.zoom, controller.view.pan.x,
-          controller.view.pan.y);
+      final rect = numberWallFieldRect(size, controller.view);
       final row = grid == null ? null : _row?.clamp(0, grid.rowCount - 1);
       final column =
           grid == null ? null : _column?.clamp(0, grid.columnCount - 1);
@@ -146,18 +145,20 @@ class _NumberWallExactRendererState extends State<NumberWallExactRenderer> {
           : null;
       final plot = ColoredBox(
         key: const Key('numberWallExactPlot'),
-        color: const Color(0xff090b12),
+        color: controller.transparentBackground
+            ? Colors.transparent
+            : style.background,
         child: grid == null ||
                 unavailable ||
                 (widget.backendMode == RendererBackendMode.gpuOnly && !gpu)
             ? const SizedBox.expand()
             : CustomPaint(
                 size: Size.infinite,
-                painter: _NumberWallPainter(
+                painter: NumberWallPainter(
                     grid: grid,
-                    rect: rect,
-                    colorMode: mode,
-                    colorScheme: scheme,
+                    view: controller.view,
+                    style: style,
+                    transparentBackground: controller.transparentBackground,
                     image: gpu ? image : null,
                     shader: gpu ? shader : null)),
       );
@@ -252,81 +253,4 @@ class _NumberWallExactRendererState extends State<NumberWallExactRenderer> {
     _shader?.dispose();
     super.dispose();
   }
-}
-
-Rect _fieldRect(Size size, double zoom, double panX, double panY) =>
-    Rect.fromCenter(
-        center:
-            Offset(size.width / 2 * (1 + panX), size.height / 2 * (1 + panY)),
-        width: size.width * zoom.clamp(0.25, 16),
-        height: size.height * zoom.clamp(0.25, 16));
-
-Color _cellColor(BigInt value, BigInt prime, int mode, int scheme) {
-  if (value == BigInt.zero) return const Color(0xfff4c95d);
-  if (mode == 0) return const Color(0xff20283b);
-  final bin = (value * BigInt.from(1536) ~/ prime).toInt();
-  return HSVColor.fromAHSV(1, ((bin + scheme * 41) % 360).toDouble(), 0.72,
-          0.38 + 0.48 * ((bin % 256) / 255))
-      .toColor();
-}
-
-class _NumberWallPainter extends CustomPainter {
-  const _NumberWallPainter(
-      {required this.grid,
-      required this.rect,
-      required this.colorMode,
-      required this.colorScheme,
-      this.image,
-      this.shader});
-  final NumberWallGrid grid;
-  final Rect rect;
-  final int colorMode, colorScheme;
-  final ui.Image? image;
-  final ui.FragmentShader? shader;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final shader = this.shader;
-    if (shader != null && image != null) {
-      shader
-        ..setFloat(0, size.width)
-        ..setFloat(1, size.height)
-        ..setFloat(2, grid.columnCount.toDouble())
-        ..setFloat(3, grid.rowCount.toDouble())
-        ..setFloat(4, rect.left)
-        ..setFloat(5, rect.top)
-        ..setFloat(6, rect.width)
-        ..setFloat(7, rect.height)
-        ..setImageSampler(0, image!);
-      canvas.drawRect(
-          rect,
-          Paint()
-            ..shader = shader
-            ..isAntiAlias = false);
-      return;
-    }
-    final paint = Paint()..isAntiAlias = false;
-    for (var row = 0; row < grid.rowCount; row++) {
-      for (var column = 0; column < grid.columnCount; column++) {
-        paint.color = _cellColor(
-            grid.values[row][column], grid.prime, colorMode, colorScheme);
-        canvas.drawRect(
-            Rect.fromLTRB(
-                rect.left + column * rect.width / grid.columnCount,
-                rect.top + row * rect.height / grid.rowCount,
-                rect.left + (column + 1) * rect.width / grid.columnCount,
-                rect.top + (row + 1) * rect.height / grid.rowCount),
-            paint);
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant _NumberWallPainter old) =>
-      old.grid != grid ||
-      old.rect != rect ||
-      old.colorMode != colorMode ||
-      old.colorScheme != colorScheme ||
-      old.image != image ||
-      old.shader != shader;
 }

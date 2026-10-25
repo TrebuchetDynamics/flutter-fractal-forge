@@ -109,6 +109,9 @@ class FractalController extends ChangeNotifier {
   double _lastAdaptiveZoom = 1.0;
   int _numberWallIngressGeneration = 0;
   NumberWallFrame? _numberWallFrame;
+  NumberWallFrame? _numberWallRandomizeUndo;
+  bool get canUndoNumberWallRandomization =>
+      _module.id == 'number_wall' && _numberWallRandomizeUndo != null;
   Map<String, Object>? _numberWallCandidateParams;
   NumberWallGrid? get numberWallGrid => _numberWallFrame?.grid;
   bool _numberWallPending = false;
@@ -335,6 +338,7 @@ class FractalController extends ChangeNotifier {
       return;
     }
     _numberWallStatus = null;
+    _numberWallRandomizeUndo = null;
     if (_module.id == module.id) {
       if (resetView) {
         this.resetView();
@@ -418,6 +422,24 @@ class FractalController extends ChangeNotifier {
       if (id == 'prime') return;
       final schema = _findParam(id);
       if (schema == null) return;
+      if (_numberWallFrame != null &&
+          const {
+            'colorMode',
+            'colorScheme',
+            'foregroundColor',
+            'zeroColor',
+            'backgroundColor',
+            'showGrid',
+            'randomizeModulus',
+            'randomSeed'
+          }.contains(id)) {
+        cancelNumberWallRequest();
+        _params = {..._params, id: normalizeFractalParamValue(schema, value)};
+        _numberWallFrame =
+            NumberWallFrame(Map.unmodifiable(_params), _numberWallFrame!.grid);
+        notifyListeners();
+        return;
+      }
       final next = {
         ...(_numberWallCandidateParams ?? _params),
         // A non-prime edit cancels certification of any uncommitted modulus.
@@ -548,17 +570,7 @@ class FractalController extends ChangeNotifier {
   void randomizeParams({bool animate = true, Random? random}) {
     final source = random ?? Random();
     if (_module.id == 'number_wall') {
-      // Resolution/origin and the user's certified modulus are never randomized.
-      final options =
-          _module.parameters.firstWhere((p) => p.id == 'source').options;
-      unawaited(loadState(
-          module: _module,
-          params: {
-            ..._params,
-            'source': options[source.nextInt(options.length)].value
-          },
-          view: _view,
-          transparentBackground: _transparentBackground));
+      unawaited(randomizeNumberWall(seed: source.nextInt(0x7fffffff)));
       return;
     }
     cancelNumberWallRequest();
@@ -577,6 +589,57 @@ class FractalController extends ChangeNotifier {
     }
     _logChange(
         'stateChange', 'randomize', 'Randomized params for ${_module.id}');
+  }
+
+  /// One manual, reproducible action. A custom modulus is never replaced unless
+  /// the user explicitly opts into the six certified quick-pick primes.
+  Future<bool> randomizeNumberWall({int? seed}) async {
+    if (_module.id != 'number_wall' || _numberWallFrame == null) return false;
+    final previous =
+        NumberWallFrame(Map.unmodifiable(_params), _numberWallFrame!.grid);
+    final materializedSeed =
+        (seed ?? Random().nextInt(0x7fffffff)) & 0x7fffffff;
+    final random = Random(materializedSeed);
+    final sources =
+        _module.parameters.firstWhere((p) => p.id == 'source').options;
+    const primes = ['2', '3', '5', '7', '11', '13'];
+    final next = <String, Object>{
+      ..._params,
+      'randomSeed': materializedSeed,
+      'source': sources[random.nextInt(sources.length)].value,
+      'colorScheme': random.nextInt(64),
+      'backgroundColor': random.nextInt(0x404040),
+      'foregroundColor': random.nextInt(0x1000000),
+      'zeroColor': 0x808080 | random.nextInt(0x1000000),
+      if (_params['randomizeModulus'] == true)
+        'prime': primes[random.nextInt(primes.length)],
+    };
+    final committed = await loadState(
+        module: _module,
+        params: next,
+        view: _view,
+        transparentBackground: _transparentBackground);
+    if (committed) {
+      _numberWallRandomizeUndo = previous;
+      notifyListeners();
+    }
+    return committed;
+  }
+
+  bool undoNumberWallRandomization() {
+    final previous = _numberWallRandomizeUndo;
+    if (_module.id != 'number_wall' || previous == null) return false;
+    cancelNumberWallRequest();
+    _numberWallRandomizeUndo = null;
+    _numberWallFrame = previous;
+    _numberWallStatus = NumberWallPrimeStatus.verifiedPrime;
+    _commitLoadedState(
+        module: _module,
+        params: previous.params,
+        view: _view,
+        transparentBackground: _transparentBackground,
+        animateModule: false);
+    return true;
   }
 
   bool _preserveOnRandomize(String id) =>
@@ -1171,6 +1234,7 @@ class FractalController extends ChangeNotifier {
     required bool animateModule,
     VoidCallback? onCommitted,
   }) {
+    if (module.id != 'number_wall') _numberWallRandomizeUndo = null;
     if (module.id != _module.id) {
       if (animateModule) {
         selectModule(module, animate: true);

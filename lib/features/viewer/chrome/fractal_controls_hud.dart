@@ -5,6 +5,7 @@ import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/features/controls/param_control_plan.dart';
 import 'package:flutter_fractals/features/controls/widgets/number_wall_prime_control.dart';
+import 'package:flutter_fractals/features/controls/widgets/number_wall_style_controls.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/controllers/input/fractal_effect_input_bounds.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -203,7 +204,8 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
                         .where((p) =>
                             p.id != 'iterations' &&
                             p.id != 'bailout' &&
-                            p.id != 'colorScheme')
+                            p.id != 'colorScheme' &&
+                            p.id != 'randomSeed')
                         .map((param) {
                       final value =
                           controller.params[param.id] ?? param.defaultValue;
@@ -246,6 +248,8 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
 
                     const SizedBox(height: 8),
 
+                    if (controller.module.id == 'number_wall')
+                      const NumberWallRandomizationControls(),
                     // Quick action buttons row
                     _ActionButtonsRow(
                       onResetView: controller.resetView,
@@ -271,6 +275,12 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
     Object value,
     AppLocalizations l10n,
   ) {
+    if (controller.module.id == 'number_wall' && isNumberWallColor(param.id)) {
+      return NumberWallColorControl(
+          param: param,
+          value: value,
+          onChanged: (v) => controller.updateParam(param.id, v));
+    }
     switch (param.type) {
       case FractalParamType.float:
       case FractalParamType.integer:

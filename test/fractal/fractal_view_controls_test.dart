@@ -56,6 +56,7 @@ Future<bool> _pumpControls(
   bool fourierEnabled = false,
   bool textOverlayEnabled = false,
   bool showFractalReport = false,
+  bool supportsAuxiliaryTools = true,
   bool reduceMotion = false,
   double textScale = 1,
   ThemeData? theme,
@@ -88,6 +89,7 @@ Future<bool> _pumpControls(
             fourierEnabled: fourierEnabled,
             textOverlayEnabled: textOverlayEnabled,
             showFractalReport: showFractalReport,
+            supportsAuxiliaryTools: supportsAuxiliaryTools,
             actions: FractalViewControlActions(
               toggleFullscreen: () {},
               openRandomFractal: onOpenRandomFractal ?? () {},
@@ -120,6 +122,28 @@ Future<bool> _pumpControls(
 }
 
 void main() {
+  testWidgets(
+      'exact walls omit unsupported tools without changing ordinary controls',
+      (tester) async {
+    for (final supported in [false, true]) {
+      await _pumpControls(tester,
+          isExporting: false,
+          supportsAuxiliaryTools: supported,
+          onOpenWallpaper: () {});
+      for (final key in [
+        'viewerLooperFab',
+        'viewerFractalMusicFab',
+        'viewerKaleidoscopeFab',
+        'viewerTextOverlayFab',
+        'viewerFourierFab'
+      ]) {
+        expect(find.byKey(ValueKey(key)),
+            supported ? findsOneWidget : findsNothing);
+      }
+      expect(
+          find.byKey(const ValueKey('viewerColorCycleButton')), findsOneWidget);
+    }
+  });
   for (final locale in const [Locale('en'), Locale('es')]) {
     for (final highContrast in [false, true]) {
       testWidgets(

@@ -91,6 +91,24 @@ class ViewerEffectsController {
     }
   }
 
+  /// Idempotent ownership loss: repeated notifications must never enqueue an
+  /// off/on toggle pair while an asynchronous stop is still pending.
+  Future<ViewerMusicToggleResult> disableFractalMusic() =>
+      _enqueueMusicOperation(() async {
+        if (!fractalMusicEnabled)
+          return const ViewerMusicToggleResult.disabled();
+        try {
+          await _musicService.stop();
+          fractalMusicEnabled = false;
+          return const ViewerMusicToggleResult.disabled();
+        } catch (error) {
+          _log.warn('audio', 'Fractal Music stop failed',
+              data: {'error': '$error'});
+          return ViewerMusicToggleResult.failed(error,
+              enabled: fractalMusicEnabled);
+        }
+      });
+
   Future<ViewerMusicToggleResult> restartFractalMusic(
     FractalController controller, {
     FractalMusicScanFrame? scanFrame,

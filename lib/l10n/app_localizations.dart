@@ -1215,6 +1215,66 @@ abstract class AppLocalizations {
   /// **'Not divisible by p'**
   String get numberWallNonzero;
 
+  /// No description provided for @numberWallForeground.
+  ///
+  /// In en, this message translates to:
+  /// **'Nonzero colour'**
+  String get numberWallForeground;
+
+  /// No description provided for @numberWallZero.
+  ///
+  /// In en, this message translates to:
+  /// **'Zero colour'**
+  String get numberWallZero;
+
+  /// No description provided for @numberWallBackground.
+  ///
+  /// In en, this message translates to:
+  /// **'Background colour'**
+  String get numberWallBackground;
+
+  /// No description provided for @numberWallGrid.
+  ///
+  /// In en, this message translates to:
+  /// **'Grid lines'**
+  String get numberWallGrid;
+
+  /// No description provided for @numberWallRandomizeModulus.
+  ///
+  /// In en, this message translates to:
+  /// **'Randomize modulus (verified quick picks only)'**
+  String get numberWallRandomizeModulus;
+
+  /// No description provided for @numberWallSeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Random seed'**
+  String get numberWallSeed;
+
+  /// No description provided for @numberWallUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo randomization'**
+  String get numberWallUndo;
+
+  /// No description provided for @numberWallReplay.
+  ///
+  /// In en, this message translates to:
+  /// **'Replay seed'**
+  String get numberWallReplay;
+
+  /// No description provided for @numberWallColorHex.
+  ///
+  /// In en, this message translates to:
+  /// **'RGB hex (RRGGBB)'**
+  String get numberWallColorHex;
+
+  /// No description provided for @numberWallUnsupportedTools.
+  ///
+  /// In en, this message translates to:
+  /// **'Exact static wall: animation, looper, music and visual effects are unavailable.'**
+  String get numberWallUnsupportedTools;
+
   /// No description provided for @numberWallResidues.
   ///
   /// In en, this message translates to:

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/features/controls/widgets/number_wall_prime_control.dart';
+import 'package:flutter_fractals/features/controls/widgets/number_wall_style_controls.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/features/controls/param_control_plan.dart';
@@ -47,7 +48,11 @@ class FractalControlsSheet extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      if (controller.module.id == 'number_wall')
+                        const NumberWallRandomizationControls(),
                       ...controller.module.parameters
+                          .where((p) => p.id != 'randomSeed')
+                          .toList()
                           .asMap()
                           .entries
                           .map((entry) {
@@ -281,6 +286,10 @@ class _ParamControl extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    if (isNumberWallColor(param.id)) {
+      return NumberWallColorControl(
+          param: param, value: value, onChanged: onChanged);
+    }
 
     switch (param.type) {
       case FractalParamType.float:

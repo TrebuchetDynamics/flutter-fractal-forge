@@ -73,6 +73,7 @@ import 'package:flutter_fractals/features/viewer/audio/fractal_music_service.dar
 import 'package:flutter_fractals/features/viewer/audio/fourier_music_features.dart';
 import 'package:flutter_fractals/features/viewer/export/viewer_export_session.dart';
 import 'package:flutter_fractals/features/viewer/export/fibonacci_complex_export.dart';
+import 'package:flutter_fractals/features/viewer/export/number_wall_export.dart';
 import 'package:flutter_fractals/features/viewer/overlays/auto_pilot_alignment_overlay.dart';
 import 'package:flutter_fractals/features/viewer/diagnostics/gpu_health_probe.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
@@ -450,10 +451,20 @@ class _FractalViewerScreenState extends FractalViewerRouteState
 
     // Record view/config changes into history
     _recordHistory(context);
-    _musicCoordinator.scheduleRescan(
-      controller,
-      moduleChanged: moduleChanged,
-    );
+    if (controller.module.id != 'number_wall') {
+      _musicCoordinator.scheduleRescan(controller,
+          moduleChanged: moduleChanged);
+    } else {
+      _autoExploreService?.stop();
+      _looperController?.stop();
+      _syncFractalMusicScanAnimation(false);
+      if (_fourierEnabled) _disableFourier();
+      if (moduleChanged || _viewerEffects.fractalMusicEnabled) {
+        unawaited(_viewerEffects.disableFractalMusic().then((_) {
+          if (mounted) setState(() {});
+        }));
+      }
+    }
     if (_fourierEnabled) {
       unawaited(_captureFourierFrame(throttled: true));
     }
@@ -594,7 +605,9 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   }
 
   @override
-  String? get _activeQuoteText => _textOverlay.activeQuoteText;
+  String? get _activeQuoteText => _lastController?.module.id == 'number_wall'
+      ? null
+      : _textOverlay.activeQuoteText;
 
   Future<void> _toggleFractalMusic() async {
     final controller = _activeController(context);
@@ -612,6 +625,13 @@ class _FractalViewerScreenState extends FractalViewerRouteState
           _fourierMusicEnabled ? _currentFourierMusicFeatures : null,
     );
     if (!mounted) return;
+    if (controller.module.id == 'number_wall' && result.enabled) {
+      await _viewerEffects.disableFractalMusic();
+      if (!mounted) return;
+      _syncFractalMusicScanAnimation(false);
+      setState(() {});
+      return;
+    }
 
     setState(() {});
     _syncFractalMusicScanAnimation(result.enabled);
@@ -1779,7 +1799,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                       ),
                     ),
 
-                  if (_viewerEffects.fractalMusicEnabled)
+                  if (controller.module.id != 'number_wall' &&
+                      _viewerEffects.fractalMusicEnabled)
                     Positioned.fill(
                       child: FractalMusicScanOverlay(
                         animation: _musicScanController,
@@ -1958,6 +1979,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                         value: _autoExploreService!,
                         child: FractalViewControls(
                           fabController: _fabController,
+                          supportsAuxiliaryTools:
+                              activeController.module.id != 'number_wall',
                           isExporting: _exportFlowActive,
                           kaleidoscopeEnabled:
                               activeController.kaleidoscopeEnabled,

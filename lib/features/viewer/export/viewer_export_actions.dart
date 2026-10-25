@@ -35,6 +35,21 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
   GlobalKey _activeBoundaryKey();
 
   ViewerExportSession _exportSession = const ViewerExportSession();
+  NumberWallExportCapture? _numberWallExportCapture;
+
+  bool _freezeNumberWallForExport(BuildContext context) {
+    final controller = _activeController(context);
+    _numberWallExportCapture = null;
+    if (controller.module.id != 'number_wall') return true;
+    if (controller.numberWallGrid == null) {
+      ScaffoldMessenger.of(context).showSnackBar(appFeedbackSnackBar(
+          message: AppLocalizations.of(context)!.numberWallComputing,
+          success: false));
+      return false;
+    }
+    _numberWallExportCapture = NumberWallExportCapture.freeze(controller);
+    return true;
+  }
 
   String? get _activeQuoteText;
   bool get _exporting => _exportSession.isExporting;
@@ -75,6 +90,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
     final shouldResume = _exportSession.resumeAutoExploreWhenFinished;
     _resumeAutoExploreAfterExportFlowIfNeeded(shouldResume);
     _exportSession = _exportSession.finish();
+    _numberWallExportCapture = null;
   }
 
   Future<void> _exportLooperGif(BuildContext context) async {
@@ -239,6 +255,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
 
   Future<void> _shareCurrentImage(BuildContext context) async {
     if (_exportSession.phase != ViewerExportPhase.idle) return;
+    if (!_freezeNumberWallForExport(context)) return;
     _log.info('action', 'Quick share image');
     final shouldResumeAutoExplore = _pauseAutoExploreForExportFlow();
     setState(() {
@@ -261,6 +278,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
   }
 
   Future<void> _openExport(BuildContext context) async {
+    if (_exportFlowActive || !_freezeNumberWallForExport(context)) return;
     _log.info('action', 'Open export');
     final controller = _activeController(context);
     final shouldResumeAutoExplore = _pauseAutoExploreForExportFlow();
@@ -310,9 +328,10 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
     final boundarySize = MediaQuery.of(context).size;
     final physicalScreenSize = View.of(context).physicalSize;
     final previousTransparency = controller.transparentBackground;
-    final exportModule = controller.module;
-    final exportParams = controller.params;
-    final exportView = controller.view;
+    final numberWallCapture = _numberWallExportCapture;
+    final exportModule = numberWallCapture?.module ?? controller.module;
+    final exportParams = numberWallCapture?.params ?? controller.params;
+    final exportView = numberWallCapture?.view ?? controller.view;
     final exportShareUrl = DeepLinkService.buildWebUri(
       moduleId: exportModule.id,
       params: exportParams,
@@ -375,7 +394,9 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
     });
 
     try {
-      if (fibonacciCapture == null && options.transparentBackground) {
+      if (numberWallCapture == null &&
+          fibonacciCapture == null &&
+          options.transparentBackground) {
         controller.setTransparentBackground(true);
         await Future.delayed(const Duration(milliseconds: 100));
       }
@@ -387,10 +408,17 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
           late final ExportResult result;
           var usedFallback = false;
           try {
-            final service = fibonacciCapture == null
-                ? _exportService
-                : _exportService.withCapture((ratio) => fibonacciCapture
-                    .capturePng(ratio, cancellationToken: token));
+            final service = numberWallCapture != null
+                ? _exportService.withRasterizer((width, height, transparent) =>
+                    numberWallCapture.capturePng(
+                        width: width,
+                        height: height,
+                        transparentBackground: transparent,
+                        cancellationToken: token))
+                : fibonacciCapture == null
+                    ? _exportService
+                    : _exportService.withCapture((ratio) => fibonacciCapture
+                        .capturePng(ratio, cancellationToken: token));
             result = await service.exportWithOptions(
               boundaryKey,
               options: options,
@@ -413,7 +441,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
           } catch (primaryError) {
             // A boundary fallback would recapture mutable/new navigation state
             // and could turn a GPU alpha failure into an opaque CPU success.
-            if (fibonacciCapture != null) rethrow;
+            if (numberWallCapture != null || fibonacciCapture != null) rethrow;
             _log.error(
               'export',
               'Primary export failed, trying PNG fallback',
@@ -494,7 +522,7 @@ mixin _ExportActionsMixin on State<FractalViewerScreen>, _GpuHealthMixin {
         );
       }
     } finally {
-      if (fibonacciCapture == null) {
+      if (numberWallCapture == null && fibonacciCapture == null) {
         controller.setTransparentBackground(previousTransparency);
       }
       if (mounted) {

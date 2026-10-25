@@ -313,6 +313,7 @@ class ExportService {
   final ExportFileOperations fileOperations;
   final ExportCoordinator? _coordinatorOverride;
   final Future<Uint8List> Function(double)? _capture;
+  final Future<Uint8List> Function(int, int, bool)? _rasterize;
 
   const ExportService({
     ShareFileCallback shareFile = _shareFileWithPlatform,
@@ -321,9 +322,12 @@ class ExportService {
     this.fileOperations = const IoExportFileOperations(),
     ExportCoordinator? coordinator,
     Future<Uint8List> Function(double pixelRatio)? capture,
+    Future<Uint8List> Function(int width, int height, bool transparent)?
+        rasterize,
   })  : shareFileAdapter = shareFile,
         directoryPicker = pickDirectory,
         _capture = capture,
+        _rasterize = rasterize,
         _coordinatorOverride = coordinator;
 
   /// Reuse the normal processing/commit pipeline with an owned frozen capture.
@@ -335,6 +339,18 @@ class ExportService {
           fileOperations: fileOperations,
           coordinator: coordinator,
           capture: capture);
+
+  /// Rerasterizes a frozen discrete field at the final dimensions, before the
+  /// existing encoding/metadata/save pipeline. No screenshot resize is needed.
+  ExportService withRasterizer(
+          Future<Uint8List> Function(int, int, bool) rasterize) =>
+      ExportService(
+          shareFile: shareFileAdapter,
+          pickDirectory: directoryPicker,
+          worker: worker,
+          fileOperations: fileOperations,
+          coordinator: coordinator,
+          rasterize: rasterize);
 
   ExportCoordinator get _coordinator =>
       _coordinatorOverride ?? ExportCoordinator.shared;
@@ -648,7 +664,10 @@ class ExportService {
     );
 
     // Capture raw PNG from Flutter
-    final rawPng = await capturePng(boundaryKey, pixelRatio: pixelRatio);
+    final rawPng = _rasterize == null
+        ? await capturePng(boundaryKey, pixelRatio: pixelRatio)
+        : await _rasterize!(
+            targetDims.$1, targetDims.$2, options.transparentBackground);
     ExportSizePolicy.validateEncodedByteLength(rawPng.lengthInBytes);
     onProgress?.call(0.4);
 
