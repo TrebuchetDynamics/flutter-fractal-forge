@@ -620,6 +620,38 @@ class AppLocalizationsEn extends AppLocalizations {
   String get numberWallNonzero => 'Not divisible by p';
 
   @override
+  String get numberWallForeground => 'Nonzero colour';
+
+  @override
+  String get numberWallZero => 'Zero colour';
+
+  @override
+  String get numberWallBackground => 'Background colour';
+
+  @override
+  String get numberWallGrid => 'Grid lines';
+
+  @override
+  String get numberWallRandomizeModulus =>
+      'Randomize modulus (verified quick picks only)';
+
+  @override
+  String get numberWallSeed => 'Random seed';
+
+  @override
+  String get numberWallUndo => 'Undo randomization';
+
+  @override
+  String get numberWallReplay => 'Replay seed';
+
+  @override
+  String get numberWallColorHex => 'RGB hex (RRGGBB)';
+
+  @override
+  String get numberWallUnsupportedTools =>
+      'Exact static wall: animation, looper, music and visual effects are unavailable.';
+
+  @override
   String get numberWallResidues => 'Residues';
 
   @override

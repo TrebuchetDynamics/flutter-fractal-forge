@@ -74,6 +74,7 @@ class FractalViewControls extends StatelessWidget {
   final bool fourierEnabled;
   final bool textOverlayEnabled;
   final bool showFractalReport;
+  final bool supportsAuxiliaryTools;
   final FractalViewControlActions actions;
 
   const FractalViewControls({
@@ -87,6 +88,7 @@ class FractalViewControls extends StatelessWidget {
     required this.fourierEnabled,
     required this.textOverlayEnabled,
     this.showFractalReport = false,
+    this.supportsAuxiliaryTools = true,
     required this.actions,
   });
 
@@ -115,11 +117,12 @@ class FractalViewControls extends StatelessWidget {
       // the primary play/pause control is reachable from the same cluster. It
       // renders as a no-op (SizedBox.shrink) when no AutoExploreService is
       // provided, so hosts without the feature keep the previous button count.
-      AutoExploreButton(
-        key: const ValueKey('viewerAutoExploreButton'),
-        onLongPress: actions.openAutoExploreSettings,
-        delay: const Duration(milliseconds: 40),
-      ),
+      if (supportsAuxiliaryTools)
+        AutoExploreButton(
+          key: const ValueKey('viewerAutoExploreButton'),
+          onLongPress: actions.openAutoExploreSettings,
+          delay: const Duration(milliseconds: 40),
+        ),
       FloatingActionButtonWidget(
         key: const ValueKey('viewerRandomParamsButton'),
         icon: Icons.tune_rounded,
@@ -151,67 +154,73 @@ class FractalViewControls extends StatelessWidget {
         delay: const Duration(milliseconds: 100),
         sortOrder: 3,
       ),
-      FloatingActionButtonWidget(
-        key: const ValueKey('viewerLooperFab'),
-        icon: Icons.loop_rounded,
-        tooltip: l10n.tooltipCameraLooper,
-        onPressed: isExporting ? null : actions.openLooper,
-        isCompact: true,
-        delay: const Duration(milliseconds: 120),
-        sortOrder: 4,
-      ),
-      FloatingActionButtonWidget(
-        key: const ValueKey('viewerFractalMusicFab'),
-        icon: Icons.music_note,
-        tooltip: fractalMusicEnabled
-            ? l10n.tooltipFractalMusicOn
-            : l10n.tooltipFractalMusicOff,
-        onPressed: isExporting ? null : actions.toggleFractalMusic,
-        selected: fractalMusicEnabled,
-        isCompact: true,
-        delay: const Duration(milliseconds: 140),
-        sortOrder: 5,
-      ),
-      FloatingActionButtonWidget(
-        key: const ValueKey('viewerKaleidoscopeFab'),
-        icon: Icons.filter_vintage_rounded,
-        tooltip: kaleidoscopeEnabled
-            ? l10n.tooltipKaleidoscopeOn
-            : l10n.tooltipKaleidoscopeOff,
-        onPressed: isExporting ? null : actions.toggleKaleidoscope,
-        selected: kaleidoscopeEnabled,
-        onLongPress: isExporting ? null : () => _showKaleidoscopeModal(context),
-        isCompact: true,
-        delay: const Duration(milliseconds: 160),
-        sortOrder: 6,
-      ),
-      FloatingActionButtonWidget(
-        key: const ValueKey('viewerTextOverlayFab'),
-        icon: Icons.format_quote_rounded,
-        tooltip: textOverlayEnabled
-            ? l10n.tooltipTextOverlayOn
-            : l10n.tooltipTextOverlayOff,
-        onPressed: isExporting ? null : actions.toggleTextOverlay,
-        selected: textOverlayEnabled,
-        onLongPress: isExporting ? null : actions.editTextOverlay,
-        isCompact: true,
-        delay: const Duration(milliseconds: 180),
-        sortOrder: 7,
-      ),
-      FloatingActionButtonWidget(
-        key: const ValueKey('viewerFourierFab'),
-        icon: Icons.blur_on_rounded,
-        tooltip:
-            fourierEnabled ? l10n.tooltipFourierOn : l10n.tooltipFourierOff,
-        semanticHint:
-            '${l10n.fourierOptionsDescription} ${l10n.viewerSecondaryActionHint}',
-        onPressed: isExporting ? null : actions.toggleFourier,
-        selected: fourierEnabled,
-        onLongPress: isExporting ? null : actions.openFourierSettings,
-        isCompact: true,
-        delay: const Duration(milliseconds: 200),
-        sortOrder: 8,
-      ),
+      if (supportsAuxiliaryTools)
+        FloatingActionButtonWidget(
+          key: const ValueKey('viewerLooperFab'),
+          icon: Icons.loop_rounded,
+          tooltip: l10n.tooltipCameraLooper,
+          onPressed: isExporting ? null : actions.openLooper,
+          isCompact: true,
+          delay: const Duration(milliseconds: 120),
+          sortOrder: 4,
+        ),
+      if (supportsAuxiliaryTools)
+        FloatingActionButtonWidget(
+          key: const ValueKey('viewerFractalMusicFab'),
+          icon: Icons.music_note,
+          tooltip: fractalMusicEnabled
+              ? l10n.tooltipFractalMusicOn
+              : l10n.tooltipFractalMusicOff,
+          onPressed: isExporting ? null : actions.toggleFractalMusic,
+          selected: fractalMusicEnabled,
+          isCompact: true,
+          delay: const Duration(milliseconds: 140),
+          sortOrder: 5,
+        ),
+      if (supportsAuxiliaryTools)
+        FloatingActionButtonWidget(
+          key: const ValueKey('viewerKaleidoscopeFab'),
+          icon: Icons.filter_vintage_rounded,
+          tooltip: kaleidoscopeEnabled
+              ? l10n.tooltipKaleidoscopeOn
+              : l10n.tooltipKaleidoscopeOff,
+          onPressed: isExporting ? null : actions.toggleKaleidoscope,
+          selected: kaleidoscopeEnabled,
+          onLongPress:
+              isExporting ? null : () => _showKaleidoscopeModal(context),
+          isCompact: true,
+          delay: const Duration(milliseconds: 160),
+          sortOrder: 6,
+        ),
+      if (supportsAuxiliaryTools)
+        FloatingActionButtonWidget(
+          key: const ValueKey('viewerTextOverlayFab'),
+          icon: Icons.format_quote_rounded,
+          tooltip: textOverlayEnabled
+              ? l10n.tooltipTextOverlayOn
+              : l10n.tooltipTextOverlayOff,
+          onPressed: isExporting ? null : actions.toggleTextOverlay,
+          selected: textOverlayEnabled,
+          onLongPress: isExporting ? null : actions.editTextOverlay,
+          isCompact: true,
+          delay: const Duration(milliseconds: 180),
+          sortOrder: 7,
+        ),
+      if (supportsAuxiliaryTools)
+        FloatingActionButtonWidget(
+          key: const ValueKey('viewerFourierFab'),
+          icon: Icons.blur_on_rounded,
+          tooltip:
+              fourierEnabled ? l10n.tooltipFourierOn : l10n.tooltipFourierOff,
+          semanticHint:
+              '${l10n.fourierOptionsDescription} ${l10n.viewerSecondaryActionHint}',
+          onPressed: isExporting ? null : actions.toggleFourier,
+          selected: fourierEnabled,
+          onLongPress: isExporting ? null : actions.openFourierSettings,
+          isCompact: true,
+          delay: const Duration(milliseconds: 200),
+          sortOrder: 8,
+        ),
       _ViewerOverflowMenu(
         isExporting: isExporting,
         l10n: l10n,

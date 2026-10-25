@@ -204,6 +204,17 @@ void main() {
             : 'Aplicar primo verificado');
         expect(tester.getSize(apply).width, greaterThanOrEqualTo(48));
         expect(tester.getSize(apply).height, greaterThanOrEqualTo(48));
+        final foreground = find.text(locale.languageCode == 'en'
+            ? 'Nonzero colour'
+            : 'Color de no ceros');
+        await tester.ensureVisible(foreground);
+        await tester.tap(foreground);
+        await tester.pumpAndSettle();
+        await tester.enterText(find.byType(TextFormField), '123456');
+        await tester
+            .tap(find.text(locale.languageCode == 'en' ? 'Apply' : 'Aplicar'));
+        await tester.pumpAndSettle();
+        expect(controller.params['foregroundColor'], 0x123456);
         expect(tester.takeException(), isNull, reason: '$locale width=$width');
       }
     }
@@ -285,6 +296,14 @@ void main() {
     await tester.sendKeyEvent(LogicalKeyboardKey.arrowRight);
     await tester.pump();
     expect(find.textContaining('m=0, n=67, p=3, residue=1'), findsOneWidget);
+    controller.updateParam('colorMode', 1);
+    controller.updateParam('colorScheme', 3);
+    controller.updateParam('zeroColor', 0xffaa00);
+    controller.updateParam('backgroundColor', 0x112233);
+    controller.updateParam('showGrid', true);
+    final styledCanvas = await render(RendererBackendMode.cpuOnly);
+    expect(await render(RendererBackendMode.gpuOnly), styledCanvas);
+    expect(styledCanvas, isNot(canvas));
     final pending = controller
         .applyNumberWallPrime('170141183460469231731687303715884105727');
     await tester.pump();
@@ -312,10 +331,12 @@ void main() {
     expect(editor, findsOneWidget);
     await tester.ensureVisible(editor);
     await tester.enterText(editor, '97');
+    await tester.ensureVisible(find.byTooltip('Apply verified prime'));
     await tester.tap(find.byTooltip('Apply verified prime'));
     await tester.pumpAndSettle();
     expect(controller.params['prime'], '97');
     await tester.enterText(editor, '561');
+    await tester.ensureVisible(find.byTooltip('Apply verified prime'));
     await tester.tap(find.byTooltip('Apply verified prime'));
     await tester.pumpAndSettle();
     expect(controller.params['prime'], '97');

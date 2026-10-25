@@ -14,12 +14,14 @@ class _FakeMusicService extends FractalMusicService {
   _FakeMusicService({
     this.failPlay = false,
     this.playGate,
+    this.stopGate,
   });
 
   bool failPlay;
   bool failStop = false;
   Object? playError;
   final Future<void>? playGate;
+  final Future<void>? stopGate;
   int playCount = 0;
   int stopCount = 0;
   bool disposed = false;
@@ -45,6 +47,7 @@ class _FakeMusicService extends FractalMusicService {
   @override
   Future<void> stop() async {
     stopCount++;
+    await stopGate;
     if (failStop) throw StateError('cannot stop audio');
   }
 
@@ -92,6 +95,26 @@ void main() {
 
     expect(firstResult.enabled, isTrue);
     expect(secondResult.enabled, isFalse);
+    expect(effects.fractalMusicEnabled, isFalse);
+    expect(music.playCount, 1);
+    expect(music.stopCount, 1);
+  });
+
+  test('repeated module-owned music disable cannot turn delayed stop into play',
+      () async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    final gate = Completer<void>();
+    final music = _FakeMusicService(stopGate: gate.future);
+    final effects = ViewerEffectsController(musicService: music);
+    addTearDown(effects.dispose);
+    await effects.toggleFractalMusic(controller);
+    final first = effects.disableFractalMusic();
+    await Future<void>.delayed(Duration.zero);
+    final second = effects.disableFractalMusic();
+    gate.complete();
+    expect((await first).enabled, isFalse);
+    expect((await second).enabled, isFalse);
     expect(effects.fractalMusicEnabled, isFalse);
     expect(music.playCount, 1);
     expect(music.stopCount, 1);

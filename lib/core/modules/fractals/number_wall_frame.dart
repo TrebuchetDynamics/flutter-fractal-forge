@@ -17,11 +17,17 @@ class NumberWallFrame {
     int maxTrialDivisions = NumberWallPrimeValidator.defaultMaxTrialDivisions,
   }) async {
     final rawPrime = params['prime'];
-    final check = await NumberWallPrimeValidator.validate(
-      rawPrime is String ? rawPrime : '',
-      isCancelled: isCancelled,
-      maxTrialDivisions: maxTrialDivisions,
-    );
+    // The previous frame is module-owned proof, unlike replayed JSON flags.
+    // Reusing that exact canonical prime also preserves Continue certifications
+    // that required more work than the default validation budget.
+    final check = previous != null && rawPrime == previous.grid.prime.toString()
+        ? NumberWallPrimeCheck(NumberWallPrimeStatus.verifiedPrime,
+            prime: previous.grid.prime)
+        : await NumberWallPrimeValidator.validate(
+            rawPrime is String ? rawPrime : '',
+            isCancelled: isCancelled,
+            maxTrialDivisions: maxTrialDivisions,
+          );
     if (isCancelled()) {
       return (status: NumberWallPrimeStatus.cancelled, frame: null);
     }
