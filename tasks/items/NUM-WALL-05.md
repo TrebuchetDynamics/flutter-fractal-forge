@@ -7,7 +7,7 @@ status = "open"
 goal = "NUM-WALL-001"
 section = "Next"
 rank = 4000
-depends_on = ["NUM-WALL-03"]
+depends_on = ["NUM-WALL-03", "NUM-WALL-04"]
 touches = ["integration_test/flows/number_wall_journey_test.dart", "docs/engineering/test-plan.md"]
 resources = []
 kind = "implementation"
@@ -23,3 +23,4 @@ exclusions = []
 - Sources: [Accepted outcome and decided design](docs/engineering/spec.md#number-walls-and-modular-windows), [verification owner](docs/engineering/test-plan.md#number-wall-verification), `integration_test/flows/user_flows_test.dart`.
 - Ownership: Repository backlog, unassigned; needs real device access at qualification time, not a new product decision.
 - Next action: Use an available named Android device after the integrated feature exists; retain exact unavailable access if held.
+- Dependency evidence: NUM-WALL-04 creates integration_test/flows/number_wall_journey_test.dart (its Checks and Next action); this task Scope reuses that composed journey and its Checks run the same target on Android. The target is absent at 81bb05232f431a1b8344a38d87c573f28bc9adf6 and is being authored in the live NUM-WALL-04 worktree. Retain NUM-WALL-03; NUM-WALL-04 is an artifact producer prerequisite, not a dependency inferred from the hot test-plan path. See docs/tasks/qualification-overlap-review.md.
