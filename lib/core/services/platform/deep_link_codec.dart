@@ -1,0 +1,1261 @@
+import 'dart:convert';
+
+import 'package:flutter_fractals/core/models/fractal_view_state.dart';
+import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
+import 'package:vector_math/vector_math_64.dart';
+
+/// Parsed deep link data containing fractal configuration.
+///
+/// This class represents the configuration extracted from a deep link URL
+/// like `fractalforge://view?type=mandelbrot&zoom=10&x=0.5`.
+///
+/// {@category Services}
+class DeepLinkData {
+  /// The fractal module ID (e.g., 'mandelbrot', 'julia', 'mandelbulb').
+  final String type;
+
+  /// Zoom level (magnification).
+  final double? zoom;
+
+  /// Pan X coordinate (2D fractals).
+  final double? x;
+
+  /// Pan Y coordinate (2D fractals).
+  final double? y;
+
+  /// Rotation X angle in radians (3D fractals).
+  final double? rotX;
+
+  /// Rotation Y angle in radians (3D fractals).
+  final double? rotY;
+
+  /// Rotation Z angle in radians (3D fractals).
+  final double? rotZ;
+
+  /// Number of iterations.
+  final int? iterations;
+
+  /// Bailout radius.
+  final double? bailout;
+
+  /// Color scheme index.
+  final int? colorScheme;
+
+  /// Power parameter (for fractals like Mandelbulb).
+  final double? power;
+
+  /// Julia set real constant (c.x) from the public `juliaX` URL alias.
+  final double? juliaX;
+
+  /// Julia set imaginary constant (c.y) from the public `juliaY` URL alias.
+  final double? juliaY;
+
+  /// Runtime parameters from compact `p` or readable `param.*` query values.
+  final Map<String, Object> extraParams;
+
+  /// Transparent background export/rendering flag.
+  final bool? transparentBackground;
+
+  /// Whether gesture-based 3D rotation is locked.
+  final bool? rotationLocked;
+
+  /// Glow post-effect controls.
+  final bool? glowEnabled;
+  final double? glowSigma;
+  final double? glowIntensity;
+  final bool? fluidModeEnabled;
+  final double? fluidStrength;
+
+  /// Kaleidoscope post-effect controls.
+  final bool? kaleidoscopeEnabled;
+  final int? kaleidoscopeSectors;
+  final bool? kaleidoscopeMirror;
+  final double? kaleidoscopeRotation;
+  final int? kaleidoscopeMirrorMode;
+
+  const DeepLinkData({
+    required this.type,
+    this.zoom,
+    this.x,
+    this.y,
+    this.rotX,
+    this.rotY,
+    this.rotZ,
+    this.iterations,
+    this.bailout,
+    this.colorScheme,
+    this.power,
+    this.juliaX,
+    this.juliaY,
+    this.extraParams = const {},
+    this.transparentBackground,
+    this.rotationLocked,
+    this.glowEnabled,
+    this.glowSigma,
+    this.glowIntensity,
+    this.fluidModeEnabled,
+    this.fluidStrength,
+    this.kaleidoscopeEnabled,
+    this.kaleidoscopeSectors,
+    this.kaleidoscopeMirror,
+    this.kaleidoscopeRotation,
+    this.kaleidoscopeMirrorMode,
+  });
+
+  /// Creates a [FractalViewState] from the parsed deep link data.
+  FractalViewState toViewState() {
+    return FractalViewState(
+      pan: Vector2(x ?? 0.0, y ?? 0.0),
+      zoom: zoom ?? 1.0,
+      rotation: Vector3(rotX ?? 0.0, rotY ?? 0.0, rotZ ?? 0.0),
+    );
+  }
+
+  /// Extracts fractal parameters from the deep link data.
+  ///
+  /// Returns a map of parameter IDs to values.
+  Map<String, Object> toParams() {
+    final params = <String, Object>{...extraParams};
+
+    if (iterations != null) params['iterations'] = iterations!;
+    if (bailout != null) params['bailout'] = bailout!;
+    if (colorScheme != null) params['colorScheme'] = colorScheme!;
+    if (power != null) params['power'] = power!;
+    _DeepLinkJuliaConstantParams.addRuntimeParams(
+      params,
+      real: juliaX,
+      imaginary: juliaY,
+    );
+
+    return params;
+  }
+
+  @override
+  String toString() {
+    return 'DeepLinkData(type: $type, zoom: $zoom, x: $x, y: $y, '
+        'rotX: $rotX, rotY: $rotY, rotZ: $rotZ, iterations: $iterations, '
+        'bailout: $bailout, colorScheme: $colorScheme, power: $power, '
+        'juliaX: $juliaX, juliaY: $juliaY)';
+  }
+}
+
+enum _DeepLinkRouteKind {
+  customSchemeView,
+  universalLinkView,
+  rejected,
+}
+
+/// Shared view-route path contract for custom-scheme and universal links.
+class _DeepLinkViewRoutePath {
+  static const String pathOnlyView = DeepLinkCodec.host;
+  static const String absoluteView = '/${DeepLinkCodec.host}';
+
+  const _DeepLinkViewRoutePath._();
+
+  /// A URI path that addresses the view route itself, with or without the
+  /// canonical trailing slash some universal-link providers append.
+  static bool isAbsoluteViewPath(String path) {
+    return path == absoluteView || path == '$absoluteView/';
+  }
+
+  static bool isAuthorityRoot(String path) {
+    return path.isEmpty || path == '/';
+  }
+
+  static bool isPathOnlyCustomSchemeView(String path) {
+    return path == pathOnlyView || isAbsoluteViewPath(path);
+  }
+}
+
+/// Normalized custom-scheme route shape.
+///
+/// `fractalforge://view?...` uses `view` as URI authority/host, while
+/// `fractalforge:/view?...` and `fractalforge:view?...` are path-only forms.
+/// Keep those shapes distinct so a non-view authority cannot smuggle a view
+/// route through its path (for example `fractalforge://other/view?...`).
+class _DeepLinkCustomRouteShape {
+  final String host;
+  final String path;
+
+  const _DeepLinkCustomRouteShape({
+    required this.host,
+    required this.path,
+  });
+
+  factory _DeepLinkCustomRouteShape.fromUri(Uri uri) {
+    return _DeepLinkCustomRouteShape(host: uri.host, path: uri.path);
+  }
+
+  bool get hasAuthority => host.isNotEmpty;
+
+  bool get isViewRoute {
+    if (hasAuthority) {
+      return host == DeepLinkCodec.host &&
+          _DeepLinkViewRoutePath.isAuthorityRoot(path);
+    }
+    return _DeepLinkViewRoutePath.isPathOnlyCustomSchemeView(path);
+  }
+}
+
+class _DeepLinkRoute {
+  static const allowedWebHosts = {
+    'fractal.trebuchetdynamics.com',
+    'fractalforge.app',
+    'www.fractalforge.app',
+  };
+
+  final _DeepLinkRouteKind kind;
+
+  const _DeepLinkRoute._(this.kind);
+
+  bool get isAccepted => kind != _DeepLinkRouteKind.rejected;
+
+  factory _DeepLinkRoute.fromUri(Uri uri) {
+    if (uri.scheme == DeepLinkCodec.scheme) {
+      return _DeepLinkRoute._(
+        _isCustomViewRoute(uri)
+            ? _DeepLinkRouteKind.customSchemeView
+            : _DeepLinkRouteKind.rejected,
+      );
+    }
+
+    if (uri.scheme == 'https' && allowedWebHosts.contains(uri.host)) {
+      return _DeepLinkRoute._(
+        _isWebViewRoute(uri)
+            ? _DeepLinkRouteKind.universalLinkView
+            : _DeepLinkRouteKind.rejected,
+      );
+    }
+
+    return const _DeepLinkRoute._(_DeepLinkRouteKind.rejected);
+  }
+
+  static bool _isCustomViewRoute(Uri uri) {
+    return _DeepLinkCustomRouteShape.fromUri(uri).isViewRoute;
+  }
+
+  static bool _isWebViewRoute(Uri uri) {
+    return _DeepLinkViewRoutePath.isAuthorityRoot(uri.path) ||
+        _DeepLinkViewRoutePath.isAbsoluteViewPath(uri.path);
+  }
+}
+
+class _DeepLinkModuleId {
+  static final RegExp _safePattern = RegExp(r'^[a-z0-9_]+$');
+
+  const _DeepLinkModuleId._();
+
+  static bool isSafe(String moduleId) => _safePattern.hasMatch(moduleId);
+
+  static String requireSafeForBuild(String moduleId) {
+    if (!isSafe(moduleId)) {
+      throw ArgumentError.value(
+        moduleId,
+        'moduleId',
+        'Deep-link module IDs must match ${_safePattern.pattern}',
+      );
+    }
+    return moduleId;
+  }
+}
+
+class _DeepLinkQuery {
+  static const aliases = {
+    't': 'type',
+    'z': 'zoom',
+    'rx': 'rotX',
+    'ry': 'rotY',
+    'rz': 'rotZ',
+  };
+
+  static final recognizedNames = {
+    'type',
+    DeepLinkCodec._paramsPayloadName,
+    for (final param in DeepLinkCodec._allQueryParams) param.name,
+    ...aliases.keys,
+  };
+
+  final Map<String, String> _params;
+
+  const _DeepLinkQuery._(this._params);
+
+  factory _DeepLinkQuery.fromUri(Uri uri) {
+    final duplicatedRecognizedKeys = uri.queryParametersAll.entries.where(
+      (entry) =>
+          (recognizedNames.contains(entry.key) ||
+              entry.key.startsWith('param.')) &&
+          entry.value.length > 1,
+    );
+    if (duplicatedRecognizedKeys.isNotEmpty) {
+      throw FormatException(
+        'Duplicate deep-link query parameter: '
+        '${duplicatedRecognizedKeys.first.key}',
+      );
+    }
+
+    final params = Map<String, String>.of(uri.queryParameters);
+    for (final entry in aliases.entries) {
+      final aliasValue = params.remove(entry.key);
+      if (aliasValue == null) continue;
+      if (params.containsKey(entry.value)) {
+        throw FormatException(
+          'Duplicate deep-link query parameter: ${entry.value}',
+        );
+      }
+      params[entry.value] = aliasValue;
+    }
+
+    return _DeepLinkQuery._(params);
+  }
+
+  String? operator [](String name) => _params[name];
+}
+
+abstract interface class _DeepLinkQueryParamContract {
+  String get name;
+}
+
+class _BoundedDoubleQueryParam implements _DeepLinkQueryParamContract {
+  @override
+  final String name;
+  final double min;
+  final double max;
+
+  const _BoundedDoubleQueryParam(this.name, this.min, this.max);
+
+  double? parse(_DeepLinkQuery query) {
+    return DeepLinkCodec._parseBoundedDouble(query[name], min, max, name);
+  }
+
+  String? format(
+    Object? value, {
+    bool preservePrecision = false,
+    double compactTolerance = 0.0,
+  }) {
+    final parsed = DeepLinkCodec._tryFiniteDouble(value);
+    if (parsed == null || !_contains(parsed)) {
+      return null;
+    }
+    return DeepLinkCodec._formatDouble(
+      parsed,
+      preservePrecision: preservePrecision,
+      compactTolerance: compactTolerance,
+    );
+  }
+
+  bool _contains(double value) => value >= min && value <= max;
+}
+
+class _BoolQueryParam implements _DeepLinkQueryParamContract {
+  @override
+  final String name;
+
+  const _BoolQueryParam(this.name);
+
+  bool? parse(_DeepLinkQuery query) {
+    final value = query[name];
+    if (value == null) return null;
+    return switch (value.toLowerCase()) {
+      'true' || '1' => true,
+      'false' || '0' => false,
+      _ => null,
+    };
+  }
+
+  String? format(bool value) => value.toString();
+}
+
+class _BoundedIntQueryParam implements _DeepLinkQueryParamContract {
+  @override
+  final String name;
+  final int min;
+  final int max;
+
+  const _BoundedIntQueryParam(this.name, this.min, this.max);
+
+  int? parse(_DeepLinkQuery query) {
+    return DeepLinkCodec._parseBoundedInt(query[name], min, max, name);
+  }
+
+  String? format(Object? value) {
+    final parsed = _DeepLinkIntegerValue.tryParseObject(value);
+    if (parsed == null || !_contains(parsed)) {
+      return null;
+    }
+    return parsed.toString();
+  }
+
+  bool _contains(int value) => value >= min && value <= max;
+}
+
+class _DeepLinkIntegerValue {
+  static const double _maxSafeIntegerDouble = 9007199254740991.0;
+
+  const _DeepLinkIntegerValue._();
+
+  /// Mirrors runtime module int-param readers for generated and incoming links:
+  /// persisted parameter maps and hand-authored URLs may carry slider-originated
+  /// doubles, but replay needs integer query values.
+  static int? tryParseObject(Object? value) {
+    return switch (value) {
+      int v => v,
+      double v => _roundSafeDouble(v),
+      String v => tryParseText(v),
+      _ => null,
+    };
+  }
+
+  static int? tryParseText(String? value) {
+    if (value == null) return null;
+    return int.tryParse(value) ?? _roundSafeDouble(double.tryParse(value));
+  }
+
+  static int? _roundSafeDouble(double? value) {
+    if (value == null || !_isSafeIntegerDouble(value)) return null;
+    return value.round();
+  }
+
+  static bool _isSafeIntegerDouble(double value) {
+    return value.isFinite && value.abs() <= _maxSafeIntegerDouble;
+  }
+}
+
+/// Mapping between public deep-link Julia aliases and runtime module params.
+///
+/// Share URLs use compact, stable query names (`juliaX`/`juliaY`), while
+/// render modules expose controls as `juliaCReal`/`juliaCImag`. Keeping the
+/// mapping explicit prevents generated links and applied deep links from
+/// silently dropping Julia constants.
+class _DeepLinkJuliaConstantParams {
+  static const String urlReal = 'juliaX';
+  static const String urlImaginary = 'juliaY';
+  static const String runtimeReal = 'juliaCReal';
+  static const String runtimeImaginary = 'juliaCImag';
+
+  const _DeepLinkJuliaConstantParams._();
+
+  static void addRuntimeParams(
+    Map<String, Object> params, {
+    required double? real,
+    required double? imaginary,
+  }) {
+    if (real != null) params[runtimeReal] = real;
+    if (imaginary != null) params[runtimeImaginary] = imaginary;
+  }
+
+  /// Generated links should prefer actual runtime parameter names but still
+  /// accept already URL-shaped maps for compatibility with existing callers.
+  static Object? realValueForBuild(Map<String, Object> params) {
+    return params[runtimeReal] ?? params[urlReal];
+  }
+
+  static Object? imaginaryValueForBuild(Map<String, Object> params) {
+    return params[runtimeImaginary] ?? params[urlImaginary];
+  }
+}
+
+class _DeepLinkViewQueryBounds {
+  // Mirrors the controller's default minimum zoom so generated links can
+  // replay valid zoomed-out views instead of dropping them back to 1.0x.
+  static const double minReplayableZoom = 1e-9;
+
+  // Keep the legacy accepted upper cap for inbound links; generated links still
+  // omit out-of-range values rather than minting clamped camera state.
+  static const double maxAcceptedZoom = 1e15;
+  static const double minCoordinate = -1e10;
+  static const double maxCoordinate = 1e10;
+
+  const _DeepLinkViewQueryBounds._();
+}
+
+/// Stateless parsing and serialization for deep links and browser addresses.
+///
+/// {@category Services}
+class DeepLinkCodec {
+  static const String scheme = 'fractalforge';
+  static const String host = 'view';
+
+  static const _zoomParam = _BoundedDoubleQueryParam(
+    'zoom',
+    _DeepLinkViewQueryBounds.minReplayableZoom,
+    _DeepLinkViewQueryBounds.maxAcceptedZoom,
+  );
+  static const _xParam = _BoundedDoubleQueryParam(
+    'x',
+    _DeepLinkViewQueryBounds.minCoordinate,
+    _DeepLinkViewQueryBounds.maxCoordinate,
+  );
+  static const _yParam = _BoundedDoubleQueryParam(
+    'y',
+    _DeepLinkViewQueryBounds.minCoordinate,
+    _DeepLinkViewQueryBounds.maxCoordinate,
+  );
+  static const _rotXParam = _BoundedDoubleQueryParam(
+    'rotX',
+    _DeepLinkViewQueryBounds.minCoordinate,
+    _DeepLinkViewQueryBounds.maxCoordinate,
+  );
+  static const _rotYParam = _BoundedDoubleQueryParam(
+    'rotY',
+    _DeepLinkViewQueryBounds.minCoordinate,
+    _DeepLinkViewQueryBounds.maxCoordinate,
+  );
+  static const _rotZParam = _BoundedDoubleQueryParam(
+    'rotZ',
+    _DeepLinkViewQueryBounds.minCoordinate,
+    _DeepLinkViewQueryBounds.maxCoordinate,
+  );
+  static const _iterationsParam = _BoundedIntQueryParam('iterations', 1, 10000);
+  static const _bailoutParam = _BoundedDoubleQueryParam('bailout', 1.0, 1e10);
+  static const _colorSchemeParam =
+      _BoundedIntQueryParam('colorScheme', 0, 9999);
+  static const _powerParam = _BoundedDoubleQueryParam('power', 1, 20);
+  static const _juliaXParam = _BoundedDoubleQueryParam(
+    _DeepLinkJuliaConstantParams.urlReal,
+    -1e10,
+    1e10,
+  );
+  static const _juliaYParam = _BoundedDoubleQueryParam(
+    _DeepLinkJuliaConstantParams.urlImaginary,
+    -1e10,
+    1e10,
+  );
+  static const _transparentParam = _BoolQueryParam('transparent');
+  static const _rotationLockedParam = _BoolQueryParam('rotationLocked');
+  static const _glowEnabledParam = _BoolQueryParam('glowEnabled');
+  static const _glowSigmaParam =
+      _BoundedDoubleQueryParam('glowSigma', 0.1, 5.0);
+  static const _glowIntensityParam =
+      _BoundedDoubleQueryParam('glowIntensity', 0.0, 1.0);
+  static const _fluidModeEnabledParam = _BoolQueryParam('fluidModeEnabled');
+  static const _fluidStrengthParam =
+      _BoundedDoubleQueryParam('fluidStrength', 0.0, 2.0);
+  static const _kaleidoscopeEnabledParam =
+      _BoolQueryParam('kaleidoscopeEnabled');
+  static const _kaleidoscopeSectorsParam =
+      _BoundedIntQueryParam('kaleidoscopeSectors', 4, 16);
+  static const _kaleidoscopeMirrorParam = _BoolQueryParam('kaleidoscopeMirror');
+  static const _kaleidoscopeRotationParam = _BoundedDoubleQueryParam(
+    'kaleidoscopeRotation',
+    _DeepLinkViewQueryBounds.minCoordinate,
+    _DeepLinkViewQueryBounds.maxCoordinate,
+  );
+  static const _kaleidoscopeMirrorModeParam =
+      _BoundedIntQueryParam('kaleidoscopeMirrorMode', 0, 3);
+
+  /// Keeps common Vector3 float32 artifacts (for example `0.3` becoming
+  /// `0.3000000119`) from leaking into share URLs while still preserving
+  /// rotation values where six-decimal formatting would visibly change input.
+  static const double _rotationCompactTolerance = 5e-8;
+
+  static const String _paramsPayloadName = 'p';
+
+  static const List<_DeepLinkQueryParamContract> _allQueryParams = [
+    _zoomParam,
+    _xParam,
+    _yParam,
+    _rotXParam,
+    _rotYParam,
+    _rotZParam,
+    _iterationsParam,
+    _bailoutParam,
+    _colorSchemeParam,
+    _powerParam,
+    _juliaXParam,
+    _juliaYParam,
+    _transparentParam,
+    _rotationLockedParam,
+    _glowEnabledParam,
+    _glowSigmaParam,
+    _glowIntensityParam,
+    _fluidModeEnabledParam,
+    _fluidStrengthParam,
+    _kaleidoscopeEnabledParam,
+    _kaleidoscopeSectorsParam,
+    _kaleidoscopeMirrorParam,
+    _kaleidoscopeRotationParam,
+    _kaleidoscopeMirrorModeParam,
+  ];
+
+  /// Parses a platform-provided deep-link payload into [DeepLinkData].
+  ///
+  /// Native channels are expected to send URI strings, but malformed payloads
+  /// are ignored instead of crashing the method-channel handler.
+  static DeepLinkData? parseIncomingLink(
+    Object? link, {
+    List<String>? validFractalTypes,
+  }) {
+    if (link is! String || link.isEmpty) {
+      return null;
+    }
+
+    try {
+      return parseUri(
+        Uri.parse(link),
+        validFractalTypes: validFractalTypes,
+      );
+    } catch (e) {
+      // Malformed URI, ignore.
+      AppLogger.instance
+          .warn('deeplink', 'Failed to parse URI', data: {'error': '$e'});
+      return null;
+    }
+  }
+
+  /// Parses the address of this web app, including localhost/preview hosts.
+  /// Native/universal-link inputs still go through the strict host allowlist.
+  static DeepLinkData? parseBrowserUri(Uri uri) {
+    if (uri.scheme != 'https' && uri.scheme != 'http') return parseUri(uri);
+    return parseUri(Uri(scheme: scheme, host: host, query: uri.query));
+  }
+
+  /// Parses a URI into [DeepLinkData].
+  ///
+  /// Returns null if the URI is not a valid fractalforge deep link or
+  /// if the fractal type is not recognized.
+  static DeepLinkData? parseUri(Uri uri, {List<String>? validFractalTypes}) {
+    final route = _DeepLinkRoute.fromUri(uri);
+    if (!route.isAccepted) {
+      return null;
+    }
+
+    final _DeepLinkQuery query;
+    try {
+      query = _DeepLinkQuery.fromUri(uri);
+    } on FormatException catch (e) {
+      AppLogger.instance.warn('deeplink', 'Rejected malformed query',
+          data: {'error': e.message});
+      return null;
+    }
+
+    final type = query['type'];
+
+    if (type == null || type.isEmpty) {
+      return null;
+    }
+
+    // Reject type strings with unsafe characters (defense-in-depth).
+    if (!_DeepLinkModuleId.isSafe(type)) {
+      return null;
+    }
+
+    // Validate fractal type if validation list provided
+    if (validFractalTypes != null && !validFractalTypes.contains(type)) {
+      return null;
+    }
+
+    return DeepLinkData(
+      type: type,
+      zoom: _zoomParam.parse(query),
+      x: _xParam.parse(query),
+      y: _yParam.parse(query),
+      rotX: _rotXParam.parse(query),
+      rotY: _rotYParam.parse(query),
+      rotZ: _rotZParam.parse(query),
+      iterations: _iterationsParam.parse(query),
+      bailout: _bailoutParam.parse(query),
+      colorScheme: _colorSchemeParam.parse(query),
+      power: _powerParam.parse(query),
+      juliaX: _juliaXParam.parse(query),
+      juliaY: _juliaYParam.parse(query),
+      extraParams: {
+        ..._decodeParamsPayload(query[_paramsPayloadName]),
+        ..._decodeReadableParams(query),
+      },
+      transparentBackground: _transparentParam.parse(query),
+      rotationLocked: _rotationLockedParam.parse(query),
+      glowEnabled: _glowEnabledParam.parse(query),
+      glowSigma: _glowSigmaParam.parse(query),
+      glowIntensity: _glowIntensityParam.parse(query),
+      fluidModeEnabled: _fluidModeEnabledParam.parse(query),
+      fluidStrength: _fluidStrengthParam.parse(query),
+      kaleidoscopeEnabled: _kaleidoscopeEnabledParam.parse(query),
+      kaleidoscopeSectors: _kaleidoscopeSectorsParam.parse(query),
+      kaleidoscopeMirror: _kaleidoscopeMirrorParam.parse(query),
+      kaleidoscopeRotation: _kaleidoscopeRotationParam.parse(query),
+      kaleidoscopeMirrorMode: _kaleidoscopeMirrorModeParam.parse(query),
+    );
+  }
+
+  /// Builds a shareable deep link URL from the current fractal state.
+  ///
+  /// The [moduleId] specifies the fractal type, [params] contains the
+  /// fractal parameters, and [view] contains the camera/view state.
+  static Uri buildUri({
+    required String moduleId,
+    required Map<String, Object> params,
+    required FractalViewState view,
+    bool transparentBackground = false,
+    bool rotationLocked = false,
+    bool glowEnabled = false,
+    double glowSigma = 1.0,
+    double glowIntensity = 0.35,
+    bool fluidModeEnabled = false,
+    double fluidStrength = 1.0,
+    bool kaleidoscopeEnabled = false,
+    int kaleidoscopeSectors = 8,
+    bool kaleidoscopeMirror = true,
+    double kaleidoscopeRotation = 0.0,
+    int kaleidoscopeMirrorMode = 0,
+    bool includeDefaults = false,
+    bool includeReadableParams = true,
+  }) {
+    final queryParams = <String, String>{
+      'type': _DeepLinkModuleId.requireSafeForBuild(moduleId),
+    };
+
+    _addViewStateQueryParams(
+      queryParams,
+      view,
+      includeDefaults: includeDefaults,
+    );
+
+    // Add readable aliases for common params unless the caller wants the
+    // shortest replay URL. The compact `p` payload below already contains all
+    // runtime params.
+    if (includeReadableParams) {
+      _addBoundedIntQueryParam(
+          queryParams, _iterationsParam, params['iterations']);
+      _addBoundedDoubleQueryParam(
+          queryParams, _bailoutParam, params['bailout']);
+      _addBoundedIntQueryParam(
+        queryParams,
+        _colorSchemeParam,
+        params['colorScheme'],
+      );
+      _addBoundedDoubleQueryParam(queryParams, _powerParam, params['power']);
+      _addBoundedDoubleQueryParam(
+        queryParams,
+        _juliaXParam,
+        _DeepLinkJuliaConstantParams.realValueForBuild(params),
+        preservePrecision: true,
+      );
+      _addBoundedDoubleQueryParam(
+        queryParams,
+        _juliaYParam,
+        _DeepLinkJuliaConstantParams.imaginaryValueForBuild(params),
+        preservePrecision: true,
+      );
+    }
+    _addParamsPayload(queryParams, params);
+    if (includeDefaults) {
+      _addBoolQueryParam(queryParams, _transparentParam, transparentBackground);
+      _addBoolQueryParam(queryParams, _rotationLockedParam, rotationLocked);
+      _addBoolQueryParam(queryParams, _glowEnabledParam, glowEnabled);
+      _addBoundedDoubleQueryParam(queryParams, _glowSigmaParam, glowSigma);
+      _addBoundedDoubleQueryParam(
+          queryParams, _glowIntensityParam, glowIntensity);
+      _addBoolQueryParam(queryParams, _fluidModeEnabledParam, fluidModeEnabled);
+      _addBoundedDoubleQueryParam(
+          queryParams, _fluidStrengthParam, fluidStrength,
+          preservePrecision: true);
+      _addBoolQueryParam(
+          queryParams, _kaleidoscopeEnabledParam, kaleidoscopeEnabled);
+      _addBoundedIntQueryParam(
+          queryParams, _kaleidoscopeSectorsParam, kaleidoscopeSectors);
+      _addBoolQueryParam(
+          queryParams, _kaleidoscopeMirrorParam, kaleidoscopeMirror);
+      _addBoundedDoubleQueryParam(
+        queryParams,
+        _kaleidoscopeRotationParam,
+        kaleidoscopeRotation,
+        preservePrecision: true,
+      );
+      _addBoundedIntQueryParam(
+          queryParams, _kaleidoscopeMirrorModeParam, kaleidoscopeMirrorMode);
+    } else {
+      _addNonDefaultBoolQueryParam(
+        queryParams,
+        _transparentParam,
+        transparentBackground,
+      );
+      _addNonDefaultBoolQueryParam(
+        queryParams,
+        _rotationLockedParam,
+        rotationLocked,
+      );
+      _addNonDefaultBoolQueryParam(queryParams, _glowEnabledParam, glowEnabled);
+      _addNonDefaultBoundedDoubleQueryParam(
+        queryParams,
+        _glowSigmaParam,
+        glowSigma,
+        defaultValue: 1.0,
+      );
+      _addNonDefaultBoundedDoubleQueryParam(
+        queryParams,
+        _glowIntensityParam,
+        glowIntensity,
+        defaultValue: 0.35,
+      );
+      _addNonDefaultBoolQueryParam(
+          queryParams, _fluidModeEnabledParam, fluidModeEnabled);
+      _addNonDefaultBoundedDoubleQueryParam(
+          queryParams, _fluidStrengthParam, fluidStrength,
+          defaultValue: 1.0, preservePrecision: true);
+      _addNonDefaultBoolQueryParam(
+        queryParams,
+        _kaleidoscopeEnabledParam,
+        kaleidoscopeEnabled,
+      );
+      _addNonDefaultBoundedIntQueryParam(
+        queryParams,
+        _kaleidoscopeSectorsParam,
+        kaleidoscopeSectors,
+        defaultValue: 8,
+      );
+      _addNonDefaultBoolQueryParam(
+        queryParams,
+        _kaleidoscopeMirrorParam,
+        kaleidoscopeMirror,
+        defaultValue: true,
+      );
+      _addNonDefaultBoundedDoubleQueryParam(
+        queryParams,
+        _kaleidoscopeRotationParam,
+        kaleidoscopeRotation,
+        preservePrecision: true,
+      );
+      _addNonDefaultBoundedIntQueryParam(
+        queryParams,
+        _kaleidoscopeMirrorModeParam,
+        kaleidoscopeMirrorMode,
+      );
+    }
+
+    return Uri(
+      scheme: scheme,
+      host: host,
+      queryParameters: queryParams,
+    );
+  }
+
+  /// Adds view-state fields to generated links.
+  ///
+  /// View state is one replay contract: zoom, pan, and 3D rotation values all
+  /// need significant digits preserved so shared links restore the same camera
+  /// instead of a rounded approximation.
+  static void _addViewStateQueryParams(
+    Map<String, String> queryParams,
+    FractalViewState view, {
+    bool includeDefaults = false,
+  }) {
+    // Use the same bounded contracts as parsing so generated links do not
+    // round-trip through clamped or invalid camera values.
+    if (includeDefaults) {
+      _addBoundedDoubleQueryParam(
+        queryParams,
+        _zoomParam,
+        view.zoom,
+        preservePrecision: true,
+      );
+      _addBoundedDoubleQueryParam(
+        queryParams,
+        _xParam,
+        view.pan.x,
+        preservePrecision: true,
+      );
+      _addBoundedDoubleQueryParam(
+        queryParams,
+        _yParam,
+        view.pan.y,
+        preservePrecision: true,
+      );
+      _addBoundedDoubleQueryParam(
+        queryParams,
+        _rotXParam,
+        view.rotation.x,
+        preservePrecision: true,
+        compactTolerance: _rotationCompactTolerance,
+      );
+      _addBoundedDoubleQueryParam(
+        queryParams,
+        _rotYParam,
+        view.rotation.y,
+        preservePrecision: true,
+        compactTolerance: _rotationCompactTolerance,
+      );
+      _addBoundedDoubleQueryParam(
+        queryParams,
+        _rotZParam,
+        view.rotation.z,
+        preservePrecision: true,
+        compactTolerance: _rotationCompactTolerance,
+      );
+      return;
+    }
+
+    _addNonDefaultBoundedDoubleQueryParam(
+      queryParams,
+      _zoomParam,
+      view.zoom,
+      defaultValue: 1.0,
+      preservePrecision: true,
+    );
+    _addNonDefaultBoundedDoubleQueryParam(
+      queryParams,
+      _xParam,
+      view.pan.x,
+      preservePrecision: true,
+    );
+    _addNonDefaultBoundedDoubleQueryParam(
+      queryParams,
+      _yParam,
+      view.pan.y,
+      preservePrecision: true,
+    );
+    _addNonDefaultBoundedDoubleQueryParam(
+      queryParams,
+      _rotXParam,
+      view.rotation.x,
+      preservePrecision: true,
+      compactTolerance: _rotationCompactTolerance,
+    );
+    _addNonDefaultBoundedDoubleQueryParam(
+      queryParams,
+      _rotYParam,
+      view.rotation.y,
+      preservePrecision: true,
+      compactTolerance: _rotationCompactTolerance,
+    );
+    _addNonDefaultBoundedDoubleQueryParam(
+      queryParams,
+      _rotZParam,
+      view.rotation.z,
+      preservePrecision: true,
+      compactTolerance: _rotationCompactTolerance,
+    );
+  }
+
+  /// Builds a web-compatible URL for sharing.
+  ///
+  /// Uses the verified web domain for universal link support.
+  /// With [readable], parameter names and typed JSON scalar values replace the
+  /// compact payload, so address-bar links can be inspected and edited.
+  static Uri buildWebUri({
+    required String moduleId,
+    required Map<String, Object> params,
+    required FractalViewState view,
+    bool transparentBackground = false,
+    bool rotationLocked = false,
+    bool glowEnabled = false,
+    double glowSigma = 1.0,
+    double glowIntensity = 0.35,
+    bool fluidModeEnabled = false,
+    double fluidStrength = 1.0,
+    bool kaleidoscopeEnabled = false,
+    int kaleidoscopeSectors = 8,
+    bool kaleidoscopeMirror = true,
+    double kaleidoscopeRotation = 0.0,
+    int kaleidoscopeMirrorMode = 0,
+    bool includeDefaults = false,
+    bool readable = false,
+  }) {
+    final customUri = buildUri(
+      moduleId: moduleId,
+      params: params,
+      view: view,
+      transparentBackground: transparentBackground,
+      rotationLocked: rotationLocked,
+      glowEnabled: glowEnabled,
+      glowSigma: glowSigma,
+      glowIntensity: glowIntensity,
+      fluidModeEnabled: fluidModeEnabled,
+      fluidStrength: fluidStrength,
+      kaleidoscopeEnabled: kaleidoscopeEnabled,
+      kaleidoscopeSectors: kaleidoscopeSectors,
+      kaleidoscopeMirror: kaleidoscopeMirror,
+      kaleidoscopeRotation: kaleidoscopeRotation,
+      kaleidoscopeMirrorMode: kaleidoscopeMirrorMode,
+      includeDefaults: includeDefaults,
+      includeReadableParams: false,
+    );
+    final query = Map<String, String>.of(customUri.queryParameters);
+    if (readable) {
+      query.remove(_paramsPayloadName);
+      for (final (param, value) in [
+        (_rotXParam, view.rotation.x),
+        (_rotYParam, view.rotation.y),
+        (_rotZParam, view.rotation.z),
+        (_glowSigmaParam, glowSigma),
+        (_glowIntensityParam, glowIntensity),
+        (_kaleidoscopeRotationParam, kaleidoscopeRotation),
+      ]) {
+        if (query.containsKey(param.name)) {
+          _addBoundedDoubleQueryParam(query, param, value,
+              preservePrecision: true);
+        }
+      }
+      for (final entry in params.entries.toList()
+        ..sort((a, b) => a.key.compareTo(b.key))) {
+        final value = entry.value;
+        if (value is bool ||
+            value is int ||
+            value is String ||
+            (value is double && value.isFinite)) {
+          query['param.${entry.key}'] = jsonEncode(value);
+        }
+      }
+    }
+    return Uri(
+      scheme: 'https',
+      host: 'fractal.trebuchetdynamics.com',
+      path: '/',
+      queryParameters: readable ? query : _compactWebQueryParameters(query),
+    );
+  }
+
+  static Map<String, String> _compactWebQueryParameters(
+    Map<String, String> queryParameters,
+  ) {
+    const aliases = {
+      'type': 't',
+      'zoom': 'z',
+      'rotX': 'rx',
+      'rotY': 'ry',
+      'rotZ': 'rz',
+    };
+    return {
+      for (final entry in queryParameters.entries)
+        aliases[entry.key] ?? entry.key: entry.value,
+    };
+  }
+
+  static void _addParamsPayload(
+    Map<String, String> queryParams,
+    Map<String, Object> params,
+  ) {
+    final payload = <String, Object>{};
+    for (final entry in params.entries.toList()
+      ..sort((a, b) => a.key.compareTo(b.key))) {
+      final value = entry.value;
+      final key = _payloadKeyAliases[entry.key] ?? entry.key;
+      if (value is bool || value is int || value is String) {
+        payload[key] = value;
+      } else if (value is double && value.isFinite) {
+        payload[key] = value;
+      }
+    }
+    if (payload.isEmpty) return;
+    queryParams[_paramsPayloadName] =
+        base64Url.encode(utf8.encode(jsonEncode(payload))).replaceAll('=', '');
+  }
+
+  static const Map<String, String> _payloadKeyAliases = {
+    'iterations': '~i',
+    'bailout': '~b',
+    'colorScheme': '~c',
+    'power': '~d',
+    'juliaCReal': '~r',
+    'juliaCImag': '~m',
+  };
+
+  static final Map<String, String> _payloadKeyAliasesReversed = {
+    for (final entry in _payloadKeyAliases.entries) entry.value: entry.key,
+  };
+
+  static Map<String, Object> _decodeReadableParams(_DeepLinkQuery query) {
+    final result = <String, Object>{};
+    for (final entry in query._params.entries) {
+      if (!entry.key.startsWith('param.') || entry.key.length == 6) continue;
+      try {
+        final value = jsonDecode(entry.value);
+        if (value is bool ||
+            value is int ||
+            value is String ||
+            (value is double && value.isFinite)) {
+          result[entry.key.substring(6)] = value;
+        }
+      } on FormatException {
+        // Ignore malformed values just like the legacy compact payload.
+      }
+    }
+    return result;
+  }
+
+  static Map<String, Object> _decodeParamsPayload(String? value) {
+    if (value == null || value.isEmpty) return const {};
+    try {
+      final padded =
+          value.padRight(value.length + (4 - value.length % 4) % 4, '=');
+      final decoded = jsonDecode(utf8.decode(base64Url.decode(padded)));
+      if (decoded is! Map) return const {};
+      final params = <String, Object>{};
+      for (final entry in decoded.entries) {
+        if (entry.key is! String) continue;
+        final key =
+            _payloadKeyAliasesReversed[entry.key] ?? entry.key as String;
+        final paramValue = entry.value;
+        if (paramValue is bool || paramValue is int || paramValue is String) {
+          params[key] = paramValue;
+        } else if (paramValue is double && paramValue.isFinite) {
+          params[key] = paramValue;
+        }
+      }
+      return params;
+    } catch (_) {
+      return const {};
+    }
+  }
+
+  static double? _parseBoundedDouble(
+      String? v, double min, double max, String paramName) {
+    if (v == null) return null;
+    final d = double.tryParse(v);
+    if (d == null || d.isNaN || d.isInfinite) {
+      AppLogger.instance.warn('deeplink', 'Ignored invalid numeric value',
+          data: {'parameter': paramName, 'value': v});
+      return null;
+    }
+    final clamped = d.clamp(min, max);
+    if (clamped != d) {
+      AppLogger.instance.info('deeplink', 'Clamped numeric value', data: {
+        'parameter': paramName,
+        'value': d,
+        'min': min,
+        'max': max,
+        'clamped': clamped,
+      });
+    }
+    return clamped;
+  }
+
+  static int? _parseBoundedInt(String? v, int min, int max, String paramName) {
+    if (v == null) return null;
+    final i = _DeepLinkIntegerValue.tryParseText(v);
+    if (i == null) {
+      AppLogger.instance.warn('deeplink', 'Ignored invalid integer value',
+          data: {'parameter': paramName, 'value': v});
+      return null;
+    }
+    final clamped = i.clamp(min, max);
+    if (clamped != i) {
+      AppLogger.instance.info('deeplink', 'Clamped integer value', data: {
+        'parameter': paramName,
+        'value': i,
+        'min': min,
+        'max': max,
+        'clamped': clamped,
+      });
+    }
+    return clamped;
+  }
+
+  static String _formatDouble(
+    double value, {
+    bool preservePrecision = false,
+    double compactTolerance = 0.0,
+  }) {
+    // Keep integer-looking values compact without truncating significant deep-zoom
+    // view coordinates that need more than six decimal places to round-trip.
+    if (value == value.truncateToDouble()) {
+      return value.toInt().toString();
+    }
+
+    final compactFixed =
+        value.toStringAsFixed(6).replaceAll(RegExp(r'\.?0+$'), '');
+    final compactValue = double.tryParse(compactFixed);
+    final compactWithinTolerance = compactValue != null &&
+        compactTolerance > 0.0 &&
+        (compactValue - value).abs() <= compactTolerance;
+    if (!preservePrecision || compactValue == value || compactWithinTolerance) {
+      return compactFixed;
+    }
+
+    return value.toString();
+  }
+
+  static void _addBoundedDoubleQueryParam(
+    Map<String, String> queryParams,
+    _BoundedDoubleQueryParam param,
+    Object? value, {
+    bool preservePrecision = false,
+    double compactTolerance = 0.0,
+  }) {
+    final formatted = param.format(
+      value,
+      preservePrecision: preservePrecision,
+      compactTolerance: compactTolerance,
+    );
+    if (formatted != null) {
+      queryParams[param.name] = formatted;
+    }
+  }
+
+  static void _addNonDefaultBoundedDoubleQueryParam(
+    Map<String, String> queryParams,
+    _BoundedDoubleQueryParam param,
+    Object? value, {
+    double defaultValue = 0.0,
+    bool preservePrecision = false,
+    double compactTolerance = 0.0,
+  }) {
+    final parsed = _tryFiniteDouble(value);
+    if (parsed == null || parsed == defaultValue) return;
+    _addBoundedDoubleQueryParam(
+      queryParams,
+      param,
+      parsed,
+      preservePrecision: preservePrecision,
+      compactTolerance: compactTolerance,
+    );
+  }
+
+  static void _addBoundedIntQueryParam(
+    Map<String, String> queryParams,
+    _BoundedIntQueryParam param,
+    Object? value,
+  ) {
+    final formatted = param.format(value);
+    if (formatted != null) {
+      queryParams[param.name] = formatted;
+    }
+  }
+
+  static void _addNonDefaultBoundedIntQueryParam(
+    Map<String, String> queryParams,
+    _BoundedIntQueryParam param,
+    Object? value, {
+    int defaultValue = 0,
+  }) {
+    final parsed = _DeepLinkIntegerValue.tryParseObject(value);
+    if (parsed == null || parsed == defaultValue) return;
+    _addBoundedIntQueryParam(queryParams, param, parsed);
+  }
+
+  static void _addBoolQueryParam(
+    Map<String, String> queryParams,
+    _BoolQueryParam param,
+    bool value,
+  ) {
+    final formatted = param.format(value);
+    if (formatted != null) {
+      queryParams[param.name] = formatted;
+    }
+  }
+
+  static void _addNonDefaultBoolQueryParam(
+    Map<String, String> queryParams,
+    _BoolQueryParam param,
+    bool value, {
+    bool defaultValue = false,
+  }) {
+    if (value == defaultValue) return;
+    final formatted = param.format(value);
+    if (formatted != null) {
+      queryParams[param.name] = formatted;
+    }
+  }
+
+  static double? _tryFiniteDouble(Object? value) {
+    final parsed = switch (value) {
+      double v => v,
+      int v => v.toDouble(),
+      String v => double.tryParse(v),
+      _ => null,
+    };
+    if (parsed == null || parsed.isNaN || parsed.isInfinite) {
+      return null;
+    }
+    return parsed;
+  }
+}
