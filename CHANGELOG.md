@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Qualify sine-sphere rendering, saved views and real PNG export; fix fine-preset framing and reduced-motion freezing while disclosing finite convergence limits. (SINEWARP-002-47)
 - Add the bounded recursive sine-warped sphere with localized mathematical metadata, independent ray fixtures and synchronized Windows-portable production/diagnostic shader kernels. (SINEWARP-001-aa)
 - Number Walls now supports configurable binary/residue colours and grid lines, seeded manual randomization with undo, and immutable exact-grid PNG export at the chosen resolution. (NUM-WALL-03)
 - Added exact editable Number Walls catalog views with restorable certified controls, protected newer edits from pending replay, exposed localized startup verification feedback, and stabilized screenshot-fixture completion without changing product export semantics. (NUM-WALL-02)

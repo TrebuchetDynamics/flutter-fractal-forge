@@ -1,0 +1,9 @@
+schema = 1
+task = "SINEWARP-002-47"
+candidate = "e1ad3e74add4f6065659cf0394a72f31b31426bd"
+integration = "d0d94592b64ef80818f5e28cee637ba37b2c4446"
+tree = "6715eb45a5b65f5bf412ed8d2163404be1080347"
+contract_hash = "262afa33d904855dcf6fbc6d3d5b5a7da24c4781500613371b696334388100e3"
+checks = ["<path>", "<path>", "--verify", "<path>", "SINEWARP-002-47"]
+result = "pass"
+review = "passed"
