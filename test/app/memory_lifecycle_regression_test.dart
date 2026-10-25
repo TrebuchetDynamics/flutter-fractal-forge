@@ -173,9 +173,9 @@ void main() {
       'lib/core/services/platform/accessibility_service.dart',
       'lib/core/services/rendering/palette/palette_service.dart',
       'lib/core/services/rendering/animation_controller_service.dart',
-      'lib/core/services/diagnostics/performance_service.dart',
-      'lib/core/services/diagnostics/debug_runner_service.dart',
-      'lib/core/services/diagnostics/app_logger_service.dart',
+      'lib/core/services/diagnostics/profiling/performance_service.dart',
+      'lib/core/services/diagnostics/runs/debug_runner_service.dart',
+      'lib/core/services/diagnostics/logging/app_logger_service.dart',
     ];
 
     for (final path in paths) {
@@ -239,7 +239,7 @@ void main() {
 
   test('debug runner disposes its owned test logger', () {
     final source =
-        File('lib/core/services/diagnostics/debug_runner_service.dart')
+        File('lib/core/services/diagnostics/runs/debug_runner_service.dart')
             .readAsStringSync();
     final dispose = _methodBody(source, 'void dispose()');
 
@@ -247,7 +247,7 @@ void main() {
   });
 
   test('app logger dispose keeps ChangeNotifier dispose synchronous', () {
-    final source = File('lib/core/services/diagnostics/app_logger_service.dart')
+    final source = File('lib/core/services/diagnostics/logging/app_logger_service.dart')
         .readAsStringSync();
     final dispose = _methodBody(source, 'void dispose()');
     final truncate = _methodBody(source, 'Future<void> _truncateDisk()');

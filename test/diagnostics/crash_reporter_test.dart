@@ -144,6 +144,12 @@ void main() {
 
       // Should be capped at 50 (the maxEvents we set in setUpAll)
       expect(CrashReporter.instance.errorCount, equals(50));
+      expect(
+        CrashReporter.instance.recentEvents.map((event) => event.error),
+        orderedEquals([
+          for (var i = 50; i < 100; i++) 'Exception: Error $i',
+        ]),
+      );
     });
 
     test('dispose ignores late records and install recreates reporter', () {
