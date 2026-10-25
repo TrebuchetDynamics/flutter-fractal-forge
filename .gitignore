@@ -53,6 +53,7 @@ research/worlds-largest-fractal-catalog/thumbnail-batch-receipts.jsonl
 *.pyc
 __pycache__/
 **/__pycache__/
+.pytest_cache/
 node_modules/
 playwright-report/
 test/results/
@@ -77,6 +78,7 @@ flutter_*.log
 # Local AI/agent state
 .pi/
 **/.pi/
+.pi-subagents/
 .claude/
 **/.claude/
 .claude-flow/
