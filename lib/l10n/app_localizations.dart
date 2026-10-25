@@ -3432,7 +3432,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeFractalCountBadge.
   ///
   /// In en, this message translates to:
-  /// **'1024 fractals'**
+  /// **'1025 fractals'**
   String get homeFractalCountBadge;
 
   /// No description provided for @catalogAllFractals.
@@ -3954,7 +3954,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsAboutBlurb.
   ///
   /// In en, this message translates to:
-  /// **'GPU-accelerated exploration of 1024 production fractals, with deep zoom and real-time rendering.'**
+  /// **'GPU-accelerated exploration of 1025 production fractals, with deep zoom and real-time rendering.'**
   String get settingsAboutBlurb;
 
   /// No description provided for @settingsSourceCode.
@@ -4220,6 +4220,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This finite Perron-tree visualization requires the shader renderer. CPU rendering is not available; no substitute image is shown.'**
   String get perronGpuOnly;
+
+  /// No description provided for @recursiveSineSphereName.
+  ///
+  /// In en, this message translates to:
+  /// **'Recursive Sine-Warped Sphere'**
+  String get recursiveSineSphereName;
+
+  /// No description provided for @recursiveSineSphereDepth.
+  ///
+  /// In en, this message translates to:
+  /// **'Warp depth'**
+  String get recursiveSineSphereDepth;
+
+  /// No description provided for @recursiveSineSphereStrength.
+  ///
+  /// In en, this message translates to:
+  /// **'Warp strength'**
+  String get recursiveSineSphereStrength;
+
+  /// No description provided for @recursiveSineSphereRadius.
+  ///
+  /// In en, this message translates to:
+  /// **'Sphere radius'**
+  String get recursiveSineSphereRadius;
+
+  /// No description provided for @recursiveSineSpherePhase.
+  ///
+  /// In en, this message translates to:
+  /// **'Phase (radians)'**
+  String get recursiveSineSpherePhase;
+
+  /// No description provided for @recursiveSineSphereRaySteps.
+  ///
+  /// In en, this message translates to:
+  /// **'Ray step budget'**
+  String get recursiveSineSphereRaySteps;
+
+  /// No description provided for @recursiveSineSphereAnimate.
+  ///
+  /// In en, this message translates to:
+  /// **'Animate phase'**
+  String get recursiveSineSphereAnimate;
 }
 
 class _AppLocalizationsDelegate

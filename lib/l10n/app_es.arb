@@ -759,7 +759,7 @@
       "type": {}
     }
   },
-  "homeFractalCountBadge": "1024 fractales",
+  "homeFractalCountBadge": "1025 fractales",
 
   "catalogAllFractals": "Todos los fractales",
   "catalogFilterAll": "Todos",
@@ -877,7 +877,7 @@
   "exportResolutionCustom": "Personalizada",
   "settingsColorTheme": "Tema de color",
   "settingsColorThemeSubtitle": "Elige un estilo de contraste y superficie.",
-  "settingsAboutBlurb": "Exploración acelerada por GPU de 1024 fractales de producción, con zoom profundo y renderizado en tiempo real.",
+  "settingsAboutBlurb": "Exploración acelerada por GPU de 1025 fractales de producción, con zoom profundo y renderizado en tiempo real.",
   "settingsSourceCode": "Código fuente",
   "settingsSourceCodeSubtitle": "Ver Fractal Forge en GitHub ↗",
   "settingsSourceCodeOpenFailed": "No se pudo abrir el código fuente.",
@@ -943,5 +943,12 @@
   "perronGeometric": "Geométrico",
   "perronLuminous": "Luminoso",
   "perronHue": "Tono",
-  "perronGpuOnly": "Esta visualización finita del árbol de Perron requiere el renderizador de shaders. El renderizado por CPU no está disponible; no se muestra una imagen sustituta."
+  "perronGpuOnly": "Esta visualización finita del árbol de Perron requiere el renderizador de shaders. El renderizado por CPU no está disponible; no se muestra una imagen sustituta.",
+  "recursiveSineSphereName": "Esfera recursiva deformada por seno",
+  "recursiveSineSphereDepth": "Profundidad de deformación",
+  "recursiveSineSphereStrength": "Intensidad de deformación",
+  "recursiveSineSphereRadius": "Radio de la esfera",
+  "recursiveSineSpherePhase": "Fase (radianes)",
+  "recursiveSineSphereRaySteps": "Límite de pasos del rayo",
+  "recursiveSineSphereAnimate": "Animar fase"
 }

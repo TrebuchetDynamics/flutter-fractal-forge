@@ -126,6 +126,7 @@ void main() {
       'gauss_map',
       'tortoise_toroidal_fractal',
       'luminous_fold_lattice',
+      'recursive_sine_sphere',
     ]) {
       expect(
         registry.byId(id).animationCapability,

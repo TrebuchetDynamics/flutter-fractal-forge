@@ -766,7 +766,7 @@
       "type": {}
     }
   },
-  "homeFractalCountBadge": "1024 fractals",
+  "homeFractalCountBadge": "1025 fractals",
 
   "catalogAllFractals": "All Fractals",
   "catalogFilterAll": "All",
@@ -884,7 +884,7 @@
   "exportResolutionCustom": "Custom",
   "settingsColorTheme": "Color Theme",
   "settingsColorThemeSubtitle": "Choose a contrast and surface style.",
-  "settingsAboutBlurb": "GPU-accelerated exploration of 1024 production fractals, with deep zoom and real-time rendering.",
+  "settingsAboutBlurb": "GPU-accelerated exploration of 1025 production fractals, with deep zoom and real-time rendering.",
   "settingsSourceCode": "Source code",
   "settingsSourceCodeSubtitle": "View Fractal Forge on GitHub ↗",
   "settingsSourceCodeOpenFailed": "Unable to open source code.",
@@ -950,5 +950,12 @@
   "perronGeometric": "Geometric",
   "perronLuminous": "Luminous",
   "perronHue": "Hue",
-  "perronGpuOnly": "This finite Perron-tree visualization requires the shader renderer. CPU rendering is not available; no substitute image is shown."
+  "perronGpuOnly": "This finite Perron-tree visualization requires the shader renderer. CPU rendering is not available; no substitute image is shown.",
+  "recursiveSineSphereName": "Recursive Sine-Warped Sphere",
+  "recursiveSineSphereDepth": "Warp depth",
+  "recursiveSineSphereStrength": "Warp strength",
+  "recursiveSineSphereRadius": "Sphere radius",
+  "recursiveSineSpherePhase": "Phase (radians)",
+  "recursiveSineSphereRaySteps": "Ray step budget",
+  "recursiveSineSphereAnimate": "Animate phase"
 }

@@ -4395,6 +4395,11 @@
     "capability": "timeDriven"
   },
   {
+    "id": "recursive_sine_sphere",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/recursive_sine_sphere_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
     "id": "relativistic_black_hole_lensing",
     "shaderAsset": "shaders/escape_time_family/experimental_named/physical_simulation/relativistic_black_hole_lensing_gpu.frag",
     "capability": "timeDriven"

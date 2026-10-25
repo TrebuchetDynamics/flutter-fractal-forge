@@ -1,5 +1,5 @@
 name: flutter_fractals
-description: GPU-accelerated exploration of 1024 production fractals with deep zoom and real-time rendering.
+description: GPU-accelerated exploration of 1025 production fractals with deep zoom and real-time rendering.
 publish_to: none
 version: 1.1.0+38
 environment:
@@ -71,6 +71,8 @@ flutter:
     - shaders/diagnostic/test_flutter_coord.frag
     - shaders/legacy/raymarched_3d/mandelbulb.frag
     - shaders/3d_and_hypercomplex/raymarched_volumes/mandelbox_3d_gpu.frag
+    - shaders/3d_and_hypercomplex/raymarched_volumes/recursive_sine_sphere_gpu.frag
+    - test/shaders/recursive_sine_sphere_kernel_fixture.frag
     - shaders/legacy/diagnostics/mandelbrot.frag
     - shaders/legacy/escape_time/julia.frag
     - shaders/legacy/escape_time/burning_ship.frag
