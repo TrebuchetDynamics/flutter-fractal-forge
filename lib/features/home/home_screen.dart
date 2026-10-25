@@ -38,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen>
   final _viewerKey = GlobalKey<FractalViewerRouteState>();
   bool _handledInitialLink = false;
   bool _handledPlaywrightSmokeModule = false;
+  bool _viewerSessionRestoreStarted = false;
 
   @override
   void initState() {
@@ -55,9 +56,16 @@ class _HomeScreenState extends State<HomeScreen>
     if (RuntimeModeService.playwrightCatalogSmoke) {
       _initPlaywrightCatalogSmoke();
     }
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) unawaited(_restoreInterruptedViewerSession());
-    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_viewerSessionRestoreStarted) return;
+    _viewerSessionRestoreStarted = true;
+    // Route lookup is safe here, while pending status still reaches the first
+    // build. Initial-link callbacks can invalidate restoration before commit.
+    unawaited(_restoreInterruptedViewerSession());
   }
 
   Future<void> _restoreInterruptedViewerSession() async {
