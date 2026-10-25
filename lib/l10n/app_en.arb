@@ -72,6 +72,7 @@
   "viewerBackToCatalog": "Back to catalog",
   "catalogSearchHint": "Search fractals",
   "catalogSearchEmpty": "No fractals match your search.",
+  "catalogMathDetails": "Formula and limits",
   "actionClearSearch": "Clear search",
   "catalogClearFilters": "Clear all",
   "catalogResultsCount": "{count} results",

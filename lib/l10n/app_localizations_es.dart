@@ -227,6 +227,9 @@ class AppLocalizationsEs extends AppLocalizations {
       'No hay fractales que coincidan con tu búsqueda.';
 
   @override
+  String get catalogMathDetails => 'Fórmula y límites';
+
+  @override
   String get actionClearSearch => 'Borrar búsqueda';
 
   @override

@@ -226,12 +226,15 @@ class _FocusableTapRegionState extends State<_FocusableTapRegion> {
                     false)
             ? Duration.zero
             : AppAnimations.fast,
-        foregroundDecoration: _isFocused
-            ? BoxDecoration(
-                borderRadius: widget.borderRadius,
-                border: Border.all(color: AppColors.primary, width: 2),
-              )
-            : null,
+        // Keep the decoration wrapper mounted when focus changes. Switching
+        // between null and a decoration reparents the card and loses its
+        // descendant buttons' focus while a modal is opening or closing.
+        foregroundDecoration: BoxDecoration(
+          borderRadius: widget.borderRadius,
+          border: Border.all(
+              color: _isFocused ? AppColors.primary : Colors.transparent,
+              width: 2),
+        ),
         child: widget.child,
       ),
     );
@@ -289,7 +292,7 @@ class _SimpleIconButton extends StatelessWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Dimension filter chip - pill style
+// Collection, dimension and family filters
 // ---------------------------------------------------------------------------
 
 class _DimChip extends StatelessWidget {
@@ -318,64 +321,39 @@ class _DimChip extends StatelessWidget {
       child: _FocusableTapRegion(
         regionKey: chipKey,
         onActivate: onTap,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(12),
         child: PressableScale(
           onTap: onTap,
           builder: (isPressed) => AnimatedContainer(
             duration: AppAnimations.fast,
-            constraints: const BoxConstraints(minHeight: 40),
+            constraints: const BoxConstraints(minHeight: 48),
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
-              gradient: selected
-                  ? LinearGradient(
-                      colors: [
-                        AppColors.primary,
-                        AppColors.primary.withValues(alpha: 0.8),
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    )
-                  : null,
-              color: selected ? null : AppColors.surface.withValues(alpha: 0.8),
-              borderRadius: BorderRadius.circular(24),
+              color: selected
+                  ? AppColors.primary.withValues(alpha: 0.16)
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: selected
-                    ? Colors.transparent
-                    : AppColors.border.withValues(alpha: 0.4),
+                    ? AppColors.primary.withValues(alpha: 0.55)
+                    : Colors.transparent,
                 width: 1,
               ),
-              boxShadow: selected
-                  ? [
-                      BoxShadow(
-                        color: AppColors.primary.withValues(alpha: 0.35),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ]
-                  : null,
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (selected) ...[
-                  const Icon(
-                    Icons.check_rounded,
-                    size: 14,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(width: 4),
-                ],
-                ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 150),
-                  child: Text(
-                    label,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTypography.labelSmall.copyWith(
-                      color: selected ? Colors.white : AppColors.textSecondary,
-                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
-                      letterSpacing: 0.3,
-                    ),
+                Text(
+                  label,
+                  maxLines: 1,
+                  softWrap: false,
+                  style: AppTypography.labelSmall.copyWith(
+                    color: selected
+                        ? AppColors.textPrimary
+                        : AppColors.textSecondary,
+                    fontSize: 12,
+                    fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+                    letterSpacing: 0.1,
                   ),
                 ),
               ],
@@ -500,6 +478,13 @@ class _ModuleGridTileState extends State<_ModuleGridTile> {
                               ),
                             ),
                           ),
+                        if (!widget.miniatures)
+                          PositionedDirectional(
+                            top: 0,
+                            start: 0,
+                            child:
+                                _CatalogMathDetailsButton(entry: widget.entry),
+                          ),
                         PositionedDirectional(
                           top: 0,
                           end: 0,
@@ -521,35 +506,26 @@ class _ModuleGridTileState extends State<_ModuleGridTile> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              child: Align(
-                                alignment: AlignmentDirectional.topStart,
-                                child: Text(
-                                  name,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: AppTypography.labelSmall.copyWith(
-                                    color: AppColors.textPrimary,
-                                    fontSize: 13,
-                                    height: 1.25,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                            Text(
+                              name,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTypography.labelSmall.copyWith(
+                                color: AppColors.textPrimary,
+                                fontSize: 13,
+                                height: 1.25,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
-                            FractalMathSummary(
-                                module: widget.entry.module,
-                                category: widget.entry.category,
-                                compact: true),
                             const SizedBox(height: 4),
                             Text(
-                              '$dimensionLabel · ${Localizations.localeOf(context).languageCode == 'es' ? 'Vista previa aproximada' : 'Approximate preview'}',
+                              '$dimensionLabel · ${mathematicalLabel(context, widget.entry.mathematics.qualification)}',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: AppTypography.labelSmall.copyWith(
                                 color: AppColors.textSecondary,
                                 fontSize: 11,
-                                height: 1.2,
+                                height: 1.4,
                               ),
                             ),
                           ],
@@ -570,7 +546,94 @@ class _ModuleGridTileState extends State<_ModuleGridTile> {
 // accessible text into a fixed-aspect tile and letting it cover the artwork.
 double _catalogCaptionHeight(BuildContext context) {
   final scaler = MediaQuery.textScalerOf(context);
-  return scaler.scale(13) * 1.25 * 2 + scaler.scale(11) * 1.4 * 4 + 32;
+  // Each laid-out line rounds independently; reserve whole logical pixels so
+  // fractional text scales cannot make the final metadata line overflow.
+  final titleLine = (scaler.scale(13) * 1.25).ceilToDouble();
+  final metadataLine = (scaler.scale(11) * 1.4).ceilToDouble();
+  return titleLine * 2 + metadataLine + 24;
+}
+
+class _CatalogMathDetailsButton extends StatelessWidget {
+  const _CatalogMathDetailsButton({required this.entry});
+
+  final CatalogEntry entry;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return IconButton(
+      key: Key('catalogMathDetails_${entry.catalogId}'),
+      tooltip: l10n.catalogMathDetails,
+      constraints: const BoxConstraints.tightFor(width: 48, height: 48),
+      padding: const EdgeInsets.all(8),
+      icon: Container(
+        width: 32,
+        height: 32,
+        decoration: BoxDecoration(
+          color: const Color(0xE6101018),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: const Icon(Icons.info_outline_rounded,
+            size: 18, color: Colors.white),
+      ),
+      onPressed: () {
+        showModalBottomSheet<void>(
+          context: context,
+          isScrollControlled: true,
+          useSafeArea: true,
+          builder: (context) => ConstrainedBox(
+            constraints: BoxConstraints(
+                maxHeight: MediaQuery.sizeOf(context).height * 0.8),
+            child: SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 8, 0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(l10n.catalogMathDetails,
+                              style: AppTypography.titleMedium),
+                        ),
+                        IconButton(
+                          tooltip: l10n.actionClose,
+                          onPressed: () => Navigator.of(context).pop(),
+                          icon: const Icon(Icons.close_rounded),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Flexible(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(entry.catalogId,
+                              style: AppTypography.labelSmall),
+                          const SizedBox(height: AppSpacing.md),
+                          FractalMathSummary(
+                              module: entry.module, category: entry.category),
+                          const SizedBox(height: AppSpacing.sm),
+                          Text(
+                            Localizations.localeOf(context).languageCode == 'es'
+                                ? 'Vista previa aproximada; calidad reducida'
+                                : 'Approximate preview; reduced quality',
+                            style: AppTypography.bodySmall,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
 
 class _CatalogFavoriteButton extends StatelessWidget {

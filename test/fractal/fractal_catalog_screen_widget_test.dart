@@ -204,11 +204,15 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
+      await tester.tap(find.byKey(const Key('catalogDimensionMenu')));
+      await tester.pumpAndSettle();
       expect(find.byKey(const Key('catalogDimensionChip_all')), findsOneWidget);
       expect(find.byKey(const Key('catalogDimensionChip_2d')), findsOneWidget);
       expect(find.byKey(const Key('catalogDimensionChip_3d')), findsOneWidget);
       expect(find.byKey(const Key('catalogDimensionChip_kaleidoscope')),
           findsNothing);
+      await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
     });
 
     testWidgets('tapping module card selects module', (tester) async {
@@ -299,6 +303,53 @@ void main() {
         await tester.pumpAndSettle();
         expect(tester.widget<IconButton>(button).tooltip, 'Add to favorites');
         expect(find.byType(FractalViewerScreen), findsNothing);
+      });
+    }
+
+    for (final reducedMotion in [false, true]) {
+      testWidgets(
+          'formula details support keyboard and Back without opening viewer (reduced motion: $reducedMotion)',
+          (tester) async {
+        SharedPreferences.setMockInitialValues({
+          'catalog_browse_query': 'core.mandelbrot',
+        });
+        final accessibility = await AccessibilityService.create();
+        await accessibility.setReducedMotion(reducedMotion);
+        addTearDown(accessibility.dispose);
+        await tester.pumpWidget(buildTestWidget(accessibility: accessibility));
+        await tester.pumpAndSettle();
+        final originalModule = controller.module;
+        final details =
+            find.byKey(const Key('catalogMathDetails_core.mandelbrot'));
+        await tester.ensureVisible(details);
+        await tester.pumpAndSettle();
+        expect(details.hitTestable(), findsOneWidget);
+        final icon = find.descendant(of: details, matching: find.byType(Icon));
+        final invokingElement = tester.element(details);
+        final invokingFocus = Focus.of(tester.element(icon));
+        invokingFocus.requestFocus();
+        await tester.pump();
+        expect(tester.element(details), same(invokingElement));
+        expect(Focus.of(tester.element(icon)), same(invokingFocus));
+        for (final key in [
+          LogicalKeyboardKey.enter,
+          LogicalKeyboardKey.space
+        ]) {
+          await tester.sendKeyEvent(key);
+          await tester.pumpAndSettle();
+          expect(find.byKey(const Key('currentMathematicalFormula')),
+              findsOneWidget);
+          expect(find.byType(FractalViewerScreen), findsNothing);
+          expect(controller.module, same(originalModule));
+          await tester.binding.handlePopRoute();
+          await tester.pumpAndSettle();
+          expect(find.byKey(const Key('currentMathematicalFormula')),
+              findsNothing);
+          expect(tester.element(details), same(invokingElement));
+          expect(Focus.of(tester.element(icon)), same(invokingFocus));
+          expect(invokingFocus.hasPrimaryFocus, isTrue,
+              reason: 'Back must restore focus to the invoking details action');
+        }
       });
     }
 
