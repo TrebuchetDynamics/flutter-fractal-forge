@@ -1,0 +1,2226 @@
+{
+  "format_version": 1,
+  "packet_id": "ACAD-DRAFT-01-delegated-20261025",
+  "status": "agent_draft",
+  "draft_actor": {
+    "type": "agent",
+    "id": "autowork/ACAD-DRAFT-01",
+    "role": "draft_preparer_not_human_reviewer"
+  },
+  "source_revision": "5f77b348bd7907cd5e7776b5b05f6be48157bb20",
+  "authority_ref": "docs/tasks/DELEGATED-DECISIONS-20261025.md#academic-draft-priorities",
+  "preparation_package": "research/academic/reviews/ACAD-02-pilot-approval.json",
+  "identity_count": 12,
+  "paper_count": 6,
+  "scope": "Offline draft recommendations and implementation-bound dossier skeletons only; not a screening, acquisition, review export, mathematical acceptance or publication.",
+  "preservation": {
+    "baseline_revision": "5f77b348bd7907cd5e7776b5b05f6be48157bb20",
+    "original_file_hashes": {
+      "docs/planning/visual-audit-inventory.json": "sha256:bf5b15c8e78de8062b96b25a50500e5eb07431a21990fab1f8fc999136360df9",
+      "docs/tasks/DELEGATED-DECISIONS-20261025.md": "sha256:eb7b97e8151b35801aae1c13468b763de601e745db5e57b0a4536fbcf8507be9",
+      "research/academic/identity-aliases.json": "sha256:4adae91a0c3028703a2593df164377ce4a69bf46e48270ef9507275724941bfa",
+      "research/academic/identity-review.json": "sha256:11d8f338f6b879c394bd3fc98a7b278feaecdb31a6199c55889803d9c57f04b9",
+      "research/academic/papers.jsonl": "sha256:1c26406c5a5957bff28841076e78d6fbcd8ee2ac142204c132de72b6ee4de997",
+      "research/academic/reviews/ACAD-02-pilot-approval.json": "sha256:8981d0413d3ba58e3e50c4ff4226ff44af73edc38f7f20002a3789564e7a52b4",
+      "research/academic/reviews/ACAD-02-pilot-approval.md": "sha256:1faeed9f23b6e9308f044983218e726b78c424c7757c7dba4e0c446dab6cf88a",
+      "research/academic/runs/ACAD-02-pilot-20260603/failures.jsonl": "sha256:4d7fb1ab86d5140d9351b163236c10233f1d599b030aeb8160642e8db5a20c43",
+      "research/academic/runs/ACAD-02-pilot-20260603/owner-review.csv": "sha256:299786af6e18be942177b081912c6443e63e1d9311781474303a5f92e35b1e1f",
+      "research/academic/runs/ACAD-02-pilot-20260603/provenance.json": "sha256:bc4879407958fea2527e0d2fe96e1a36fbc537fc97e138637023f9e493abb2ed",
+      "research/academic/runs/ACAD-02-pilot-20260603/report.md": "sha256:742ffbdc0c5bf949d1af3f9feb539d64106709767854b670c3266a551726e08a",
+      "research/academic/runs/ACAD-02-pilot-20260603/results-deduped.jsonl": "sha256:1ad3c76ceae4d07b521be415a3d2d1edcc64394644be546e12e508b59198639c",
+      "research/academic/runs/ACAD-02-pilot-20260603/results.jsonl": "sha256:d1903e1238c55a99043696bfcf528b2871720f39990ed5491d105c0e05f2ee65",
+      "research/academic/runs/ACAD-02-pilot-20260603/review-queue.csv": "sha256:d411a8bba45d73c023f028bd10e87386344ff2abb21341264d9f3680cbef9f28"
+    },
+    "preparation_input_hashes": {
+      "research/academic/runs/ACAD-02-pilot-20260603/results.jsonl": "sha256:d1903e1238c55a99043696bfcf528b2871720f39990ed5491d105c0e05f2ee65",
+      "research/academic/runs/ACAD-02-pilot-20260603/results-deduped.jsonl": "sha256:1ad3c76ceae4d07b521be415a3d2d1edcc64394644be546e12e508b59198639c",
+      "research/academic/runs/ACAD-02-pilot-20260603/review-queue.csv": "sha256:d411a8bba45d73c023f028bd10e87386344ff2abb21341264d9f3680cbef9f28",
+      "research/academic/runs/ACAD-02-pilot-20260603/owner-review.csv": "sha256:299786af6e18be942177b081912c6443e63e1d9311781474303a5f92e35b1e1f",
+      "research/academic/identity-aliases.json": "sha256:4adae91a0c3028703a2593df164377ce4a69bf46e48270ef9507275724941bfa",
+      "docs/planning/visual-audit-inventory.json#academic-pilot": "sha256:3e05f646cf19e30705a78a64365dbf0057119355690054cf35051c2f4c272bdb"
+    },
+    "method": "Each original byte hash was compared with git show BASELINE:path and the current file. The immutable package scoped #academic-pilot fingerprint is retained separately; historical full inventory hashes are not repinned."
+  },
+  "collision_review": {
+    "source": "research/academic/identity-review.json",
+    "shortlist_collision_group_count": 0,
+    "finding": "None of the six selected paper IDs belongs to a title_collisions group in the current identity-review record. This does not establish absence of ambiguity or authorize merges across the library.",
+    "policy": "Keep stable identifier aliases and separately traceable versions; title resemblance and shared renderer names are not reviewed identity aliases."
+  },
+  "papers": [
+    {
+      "paper_id": "paper-c797646dae2767ea525a",
+      "title": "Enhancing Computational Thinking with Spreadsheet and Fractal Geometry: Part 2 Root-finding using Newton Method and Creation of Newton Fractals",
+      "authors": [
+        "K. P. Soman",
+        "Manu Unni V.G",
+        "Praveen Krishnan",
+        "V. Sowmya"
+      ],
+      "year": 2012,
+      "doi": "10.5120/8821-2742",
+      "arxiv_id": null,
+      "exact_version": "publisher DOI record: International Journal of Computer Applications, volume 55, issue 14, pages 9-15; published online 2012-10-20",
+      "source_url": "https://doi.org/10.5120/8821-2742",
+      "publication_type": "journal article (Crossref type journal-article)",
+      "retained_record_ref": "research/academic/runs/ACAD-02-pilot-20260603/results-deduped.jsonl#232",
+      "rights_evidence": "Crossref response contains no license record. Rights and lawful access are unknown; no acquisition or reuse permission inferred.",
+      "draft_status": "agent_draft",
+      "draft_actor": {
+        "type": "agent",
+        "id": "autowork/ACAD-DRAFT-01",
+        "role": "draft_preparer_not_human_reviewer"
+      },
+      "preparation_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/papers/1",
+      "library_ref": "research/academic/papers.jsonl#5336",
+      "metadata_observations_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/papers/1/metadata_observations",
+      "metadata_observation_date": "2026-10-18",
+      "priority": 1,
+      "recommended_role": "root_finding_candidate",
+      "recommendation": "first_relevance_candidate",
+      "relevance_limit": "First relevance candidate for core.newton_z3; exact z^3-1 polynomial, relaxation and stopping criteria remain unverified in the paper.",
+      "proposed_identity_ids": [
+        "core.newton_z3"
+      ],
+      "mapping_status": "proposed_unreviewed",
+      "rights_recommendation": "Keep rights pending; do not acquire, redistribute or infer a licensing conclusion from retained metadata.",
+      "rights_gap": "Crossref response contains no license record. Rights and lawful access are unknown; no acquisition or reuse permission inferred.",
+      "retained_identifier_aliases": [
+        "doi:10.5120/8821-2742"
+      ],
+      "collision_group_refs": [],
+      "alias_alternatives": [
+        "Retain the existing stable paper ID and identifier aliases; no title-based merge or reviewed identity alias is proposed.",
+        "Leave the identity-to-paper association unresolved rather than promote family context to an exact mathematical match."
+      ],
+      "next_human_input": "For this DOI/version, record a named human identity and inclusion decision for core.newton_z3; supply a lawful access URL and rights basis if acquisition is requested.",
+      "human_decisions": {
+        "identity": {
+          "status": "pending",
+          "actor": null
+        },
+        "inclusion": {
+          "status": "pending",
+          "actor": null
+        },
+        "rights": {
+          "status": "pending",
+          "actor": null
+        },
+        "acquisition": {
+          "status": "pending",
+          "actor": null
+        },
+        "extraction": {
+          "status": "pending",
+          "actor": null
+        },
+        "claim": {
+          "status": "pending",
+          "actor": null
+        }
+      },
+      "content_state": "metadata_only",
+      "screening_decision": "pending",
+      "screening_actor": null,
+      "identity_approval": "pending",
+      "identity_actor": null,
+      "acquisition_decision": "pending",
+      "acquisition_actor": null,
+      "extraction_decision": "pending",
+      "extraction_actor": null,
+      "claim_approval": "pending",
+      "claim_actor": null,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "acquired": false,
+      "source_spans": [],
+      "source_equation": null,
+      "numerical_oracle": null
+    },
+    {
+      "paper_id": "paper-7e5f945cdd5c68bdc9ec",
+      "title": "Computational Discovery with Newton Fractals, Bohemian Matrices, & Mandelbrot Polynomials",
+      "authors": [
+        "Neil J. Calkin",
+        "Eunice Y. S. Chan",
+        "Robert M. Corless"
+      ],
+      "year": 2021,
+      "doi": "10.48550/arXiv.2109.03765",
+      "arxiv_id": "2109.03765",
+      "exact_version": "arXiv v1, submitted 2021-09-08; arXiv record lists related DOI 10.1137/1.9781611977509",
+      "source_url": "https://arxiv.org/abs/2109.03765v1",
+      "publication_type": "arXiv preprint; arXiv lists ATCM 2021 acceptance in comments",
+      "retained_record_ref": "research/academic/runs/ACAD-02-pilot-20260603/results-deduped.jsonl#245",
+      "rights_evidence": "arXiv page displays CC BY-NC-SA 4.0 for the submitted preprint. This is not blanket permission for commercial reuse; owner/legal review is needed for any acquisition or downstream use.",
+      "draft_status": "agent_draft",
+      "draft_actor": {
+        "type": "agent",
+        "id": "autowork/ACAD-DRAFT-01",
+        "role": "draft_preparer_not_human_reviewer"
+      },
+      "preparation_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/papers/0",
+      "library_ref": "research/academic/papers.jsonl#3354",
+      "metadata_observations_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/papers/0/metadata_observations",
+      "metadata_observation_date": "2026-10-18",
+      "priority": 2,
+      "recommended_role": "newton_mandelbrot_family_context",
+      "recommendation": "contextual_lead_only",
+      "relevance_limit": "Retain the proposed core.mandelbrot link as unreviewed context, not canonical quadratic evidence. The title also supports a possible Newton-family lead, not an additional mapping.",
+      "proposed_identity_ids": [
+        "core.mandelbrot"
+      ],
+      "mapping_status": "proposed_unreviewed",
+      "rights_recommendation": "Keep rights pending; do not acquire, redistribute or infer a licensing conclusion from retained metadata.",
+      "rights_gap": "arXiv page displays CC BY-NC-SA 4.0 for the submitted preprint. This is not blanket permission for commercial reuse; owner/legal review is needed for any acquisition or downstream use.",
+      "retained_identifier_aliases": [
+        "doi:10.48550/arxiv.2109.03765"
+      ],
+      "collision_group_refs": [],
+      "alias_alternatives": [
+        "Retain the existing stable paper ID and identifier aliases; no title-based merge or reviewed identity alias is proposed.",
+        "Leave the identity-to-paper association unresolved rather than promote family context to an exact mathematical match.",
+        "The retained title names Newton fractals as well as Mandelbrot polynomials: human review could consider Newton-family context instead. Preserve the original Mandelbrot proposal here; no second identity mapping is created. Keep arXiv v1 and the related publication DOI version-distinct until human adjudication."
+      ],
+      "next_human_input": "Confirm whether this exact arXiv v1 is relevant to the intended quadratic identity or only contextual; decide inclusion and separately document lawful access/use under the recorded non-commercial/share-alike terms.",
+      "human_decisions": {
+        "identity": {
+          "status": "pending",
+          "actor": null
+        },
+        "inclusion": {
+          "status": "pending",
+          "actor": null
+        },
+        "rights": {
+          "status": "pending",
+          "actor": null
+        },
+        "acquisition": {
+          "status": "pending",
+          "actor": null
+        },
+        "extraction": {
+          "status": "pending",
+          "actor": null
+        },
+        "claim": {
+          "status": "pending",
+          "actor": null
+        }
+      },
+      "content_state": "metadata_only",
+      "screening_decision": "pending",
+      "screening_actor": null,
+      "identity_approval": "pending",
+      "identity_actor": null,
+      "acquisition_decision": "pending",
+      "acquisition_actor": null,
+      "extraction_decision": "pending",
+      "extraction_actor": null,
+      "claim_approval": "pending",
+      "claim_actor": null,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "acquired": false,
+      "source_spans": [],
+      "source_equation": null,
+      "numerical_oracle": null
+    },
+    {
+      "paper_id": "paper-7d8c6ee70e9aac109422",
+      "title": "New relatives of the Sierpinski gasket",
+      "authors": [
+        "Christoph Bandt",
+        "Dmitry Mekhontsev"
+      ],
+      "year": 2018,
+      "doi": "10.48550/arXiv.1801.08325",
+      "arxiv_id": "1801.08325",
+      "exact_version": "arXiv v1, submitted 2018-01-25; arXiv page cites Chaos 28(6), 063104 (2018)",
+      "source_url": "https://arxiv.org/abs/1801.08325v1",
+      "publication_type": "arXiv preprint with journal reference",
+      "retained_record_ref": "research/academic/runs/ACAD-02-pilot-20260603/results-deduped.jsonl#378",
+      "rights_evidence": "arXiv page displays its non-exclusive distribution license; no Creative Commons reuse license is stated there. Reuse/acquisition terms remain for owner/legal review.",
+      "draft_status": "agent_draft",
+      "draft_actor": {
+        "type": "agent",
+        "id": "autowork/ACAD-DRAFT-01",
+        "role": "draft_preparer_not_human_reviewer"
+      },
+      "preparation_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/papers/2",
+      "library_ref": "research/academic/papers.jsonl#3331",
+      "metadata_observations_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/papers/2/metadata_observations",
+      "metadata_observation_date": "2026-10-18",
+      "priority": 3,
+      "recommended_role": "related_gasket_context",
+      "recommendation": "family_context_only",
+      "relevance_limit": "Related gasket constructions do not establish the canonical triangle or the shader folds.",
+      "proposed_identity_ids": [
+        "core.sierpinski_triangle"
+      ],
+      "mapping_status": "proposed_unreviewed",
+      "rights_recommendation": "Keep rights pending; do not acquire, redistribute or infer a licensing conclusion from retained metadata.",
+      "rights_gap": "arXiv page displays its non-exclusive distribution license; no Creative Commons reuse license is stated there. Reuse/acquisition terms remain for owner/legal review.",
+      "retained_identifier_aliases": [
+        "doi:10.48550/arxiv.1801.08325"
+      ],
+      "collision_group_refs": [],
+      "alias_alternatives": [
+        "Retain the existing stable paper ID and identifier aliases; no title-based merge or reviewed identity alias is proposed.",
+        "Leave the identity-to-paper association unresolved rather than promote family context to an exact mathematical match."
+      ],
+      "next_human_input": "Adjudicate whether relatives of the gasket are useful context for core.sierpinski_triangle; decide inclusion for v1 and provide a lawful access basis distinct from repository distribution permission.",
+      "human_decisions": {
+        "identity": {
+          "status": "pending",
+          "actor": null
+        },
+        "inclusion": {
+          "status": "pending",
+          "actor": null
+        },
+        "rights": {
+          "status": "pending",
+          "actor": null
+        },
+        "acquisition": {
+          "status": "pending",
+          "actor": null
+        },
+        "extraction": {
+          "status": "pending",
+          "actor": null
+        },
+        "claim": {
+          "status": "pending",
+          "actor": null
+        }
+      },
+      "content_state": "metadata_only",
+      "screening_decision": "pending",
+      "screening_actor": null,
+      "identity_approval": "pending",
+      "identity_actor": null,
+      "acquisition_decision": "pending",
+      "acquisition_actor": null,
+      "extraction_decision": "pending",
+      "extraction_actor": null,
+      "claim_approval": "pending",
+      "claim_actor": null,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "acquired": false,
+      "source_spans": [],
+      "source_equation": null,
+      "numerical_oracle": null
+    },
+    {
+      "paper_id": "paper-9806495c34ee36881d38",
+      "title": "Lyapunov dimension formula for the global attractor of the Lorenz system",
+      "authors": [
+        "G. A. Leonov",
+        "N. V. Kuznetsov",
+        "N. A. Korzhemanova",
+        "D. V. Kusakin"
+      ],
+      "year": 2016,
+      "doi": "10.1016/j.cnsns.2016.04.032",
+      "arxiv_id": null,
+      "exact_version": "publisher DOI record: Communications in Nonlinear Science and Numerical Simulation, volume 41, pages 84-103; print publication December 2016",
+      "source_url": "https://doi.org/10.1016/j.cnsns.2016.04.032",
+      "publication_type": "journal article (Crossref type journal-article)",
+      "retained_record_ref": "research/academic/runs/ACAD-02-pilot-20260603/results-deduped.jsonl#499",
+      "rights_evidence": "Crossref lists an Elsevier text-and-data-mining license URL only, with content-version tdm. This is not treated as general reuse or acquisition permission; other access rights remain unverified.",
+      "draft_status": "agent_draft",
+      "draft_actor": {
+        "type": "agent",
+        "id": "autowork/ACAD-DRAFT-01",
+        "role": "draft_preparer_not_human_reviewer"
+      },
+      "preparation_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/papers/3",
+      "library_ref": "research/academic/papers.jsonl#4033",
+      "metadata_observations_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/papers/3/metadata_observations",
+      "metadata_observation_date": "2026-10-18",
+      "priority": 4,
+      "recommended_role": "lorenz_dimension_context",
+      "recommendation": "family_context_only",
+      "relevance_limit": "Global-attractor dimension context only; exact vector field conditions, parameters and projected finite RK4 trajectory are not checked against the paper.",
+      "proposed_identity_ids": [
+        "core.lorenz_2d"
+      ],
+      "mapping_status": "proposed_unreviewed",
+      "rights_recommendation": "Keep rights pending; do not acquire, redistribute or infer a licensing conclusion from retained metadata.",
+      "rights_gap": "Crossref lists an Elsevier text-and-data-mining license URL only, with content-version tdm. This is not treated as general reuse or acquisition permission; other access rights remain unverified.",
+      "retained_identifier_aliases": [
+        "doi:10.1016/j.cnsns.2016.04.032"
+      ],
+      "collision_group_refs": [],
+      "alias_alternatives": [
+        "Retain the existing stable paper ID and identifier aliases; no title-based merge or reviewed identity alias is proposed.",
+        "Leave the identity-to-paper association unresolved rather than promote family context to an exact mathematical match."
+      ],
+      "next_human_input": "Decide family-context inclusion and the core.lorenz_2d association for this DOI/version; provide lawful access evidence beyond Elsevier TDM metadata before any acquisition.",
+      "human_decisions": {
+        "identity": {
+          "status": "pending",
+          "actor": null
+        },
+        "inclusion": {
+          "status": "pending",
+          "actor": null
+        },
+        "rights": {
+          "status": "pending",
+          "actor": null
+        },
+        "acquisition": {
+          "status": "pending",
+          "actor": null
+        },
+        "extraction": {
+          "status": "pending",
+          "actor": null
+        },
+        "claim": {
+          "status": "pending",
+          "actor": null
+        }
+      },
+      "content_state": "metadata_only",
+      "screening_decision": "pending",
+      "screening_actor": null,
+      "identity_approval": "pending",
+      "identity_actor": null,
+      "acquisition_decision": "pending",
+      "acquisition_actor": null,
+      "extraction_decision": "pending",
+      "extraction_actor": null,
+      "claim_approval": "pending",
+      "claim_actor": null,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "acquired": false,
+      "source_spans": [],
+      "source_equation": null,
+      "numerical_oracle": null
+    },
+    {
+      "paper_id": "paper-7ecdeae2ea0585a3c4ab",
+      "title": "The Mandelbulb: first ‘true’ 3D image of famous fractal",
+      "authors": [
+        "Jacob Aron"
+      ],
+      "year": 2009,
+      "doi": "10.1016/s0262-4079(09)63150-x",
+      "arxiv_id": null,
+      "exact_version": "publisher DOI record: New Scientist, volume 204, issue 2736, page 54; print publication November 2009",
+      "source_url": "https://doi.org/10.1016/s0262-4079(09)63150-x",
+      "publication_type": "popular-science magazine article; not treated as a peer-reviewed mathematical source",
+      "retained_record_ref": "research/academic/runs/ACAD-02-pilot-20260603/results-deduped.jsonl#680",
+      "rights_evidence": "Crossref lists Elsevier text-and-data-mining terms only; this does not establish general reuse or lawful full-text acquisition. Rights require owner/legal review.",
+      "draft_status": "agent_draft",
+      "draft_actor": {
+        "type": "agent",
+        "id": "autowork/ACAD-DRAFT-01",
+        "role": "draft_preparer_not_human_reviewer"
+      },
+      "preparation_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/papers/4",
+      "library_ref": "research/academic/papers.jsonl#3364",
+      "metadata_observations_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/papers/4/metadata_observations",
+      "metadata_observation_date": "2026-10-18",
+      "priority": 5,
+      "recommended_role": "supplementary_magazine_context",
+      "recommendation": "bibliography_attribution_only",
+      "relevance_limit": "Popular-science magazine attribution only; not mathematical authority for the spherical-power distance estimator or raymarcher.",
+      "proposed_identity_ids": [
+        "core.mandelbulb"
+      ],
+      "mapping_status": "proposed_unreviewed",
+      "rights_recommendation": "Keep rights pending; do not acquire, redistribute or infer a licensing conclusion from retained metadata.",
+      "rights_gap": "Crossref lists Elsevier text-and-data-mining terms only; this does not establish general reuse or lawful full-text acquisition. Rights require owner/legal review.",
+      "retained_identifier_aliases": [
+        "doi:10.1016/s0262-4079(09)63150-x"
+      ],
+      "collision_group_refs": [],
+      "alias_alternatives": [
+        "Retain the existing stable paper ID and identifier aliases; no title-based merge or reviewed identity alias is proposed.",
+        "Leave the identity-to-paper association unresolved rather than promote family context to an exact mathematical match."
+      ],
+      "next_human_input": "Decide whether to retain this item only as bibliography/attribution for core.mandelbulb; independently record lawful access/rights if content is requested. Mathematical authority remains missing.",
+      "human_decisions": {
+        "identity": {
+          "status": "pending",
+          "actor": null
+        },
+        "inclusion": {
+          "status": "pending",
+          "actor": null
+        },
+        "rights": {
+          "status": "pending",
+          "actor": null
+        },
+        "acquisition": {
+          "status": "pending",
+          "actor": null
+        },
+        "extraction": {
+          "status": "pending",
+          "actor": null
+        },
+        "claim": {
+          "status": "pending",
+          "actor": null
+        }
+      },
+      "content_state": "metadata_only",
+      "screening_decision": "pending",
+      "screening_actor": null,
+      "identity_approval": "pending",
+      "identity_actor": null,
+      "acquisition_decision": "pending",
+      "acquisition_actor": null,
+      "extraction_decision": "pending",
+      "extraction_actor": null,
+      "claim_approval": "pending",
+      "claim_actor": null,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "acquired": false,
+      "source_spans": [],
+      "source_equation": null,
+      "numerical_oracle": null
+    },
+    {
+      "paper_id": "paper-7ed9dce0b5117c4a1add",
+      "title": "Linear Cellular Automata, Substitutions, Hierarchical Iterated Function Systems and Attractors",
+      "authors": [
+        "F. v. Haeseler",
+        "H.-O. Peitgen",
+        "G. Skordev"
+      ],
+      "year": 1992,
+      "doi": "10.1007/978-3-642-95678-2_1",
+      "arxiv_id": null,
+      "exact_version": "publisher DOI record: book chapter, pages 3-23, Springer Berlin Heidelberg; published 1992",
+      "source_url": "https://doi.org/10.1007/978-3-642-95678-2_1",
+      "publication_type": "book chapter (Crossref type book-chapter)",
+      "retained_record_ref": "research/academic/runs/ACAD-02-pilot-20260603/results-deduped.jsonl#344",
+      "rights_evidence": "Crossref lists a Springer text-and-data-mining URL, not a general reuse grant. No open license was verified; lawful access/reuse remain unknown.",
+      "draft_status": "agent_draft",
+      "draft_actor": {
+        "type": "agent",
+        "id": "autowork/ACAD-DRAFT-01",
+        "role": "draft_preparer_not_human_reviewer"
+      },
+      "preparation_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/papers/5",
+      "library_ref": "research/academic/papers.jsonl#3366",
+      "metadata_observations_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/papers/5/metadata_observations",
+      "metadata_observation_date": "2026-10-18",
+      "priority": 6,
+      "recommended_role": "general_ifs_context",
+      "recommendation": "deprioritize_for_barnsley",
+      "relevance_limit": "Deprioritize as Barnsley-map evidence; broad IFS/cellular-automata coverage establishes neither the fern affine maps nor Brian's Brain.",
+      "proposed_identity_ids": [
+        "core.barnsley_fern"
+      ],
+      "mapping_status": "proposed_unreviewed",
+      "rights_recommendation": "Keep rights pending; do not acquire, redistribute or infer a licensing conclusion from retained metadata.",
+      "rights_gap": "Crossref lists a Springer text-and-data-mining URL, not a general reuse grant. No open license was verified; lawful access/reuse remain unknown.",
+      "retained_identifier_aliases": [
+        "doi:10.1007/978-3-642-95678-2_1"
+      ],
+      "collision_group_refs": [],
+      "alias_alternatives": [
+        "Retain the existing stable paper ID and identifier aliases; no title-based merge or reviewed identity alias is proposed.",
+        "Leave the identity-to-paper association unresolved rather than promote family context to an exact mathematical match."
+      ],
+      "next_human_input": "Decide whether to leave this source unresolved for core.barnsley_fern or include only general IFS context; record a lawful Springer access basis before any content request.",
+      "human_decisions": {
+        "identity": {
+          "status": "pending",
+          "actor": null
+        },
+        "inclusion": {
+          "status": "pending",
+          "actor": null
+        },
+        "rights": {
+          "status": "pending",
+          "actor": null
+        },
+        "acquisition": {
+          "status": "pending",
+          "actor": null
+        },
+        "extraction": {
+          "status": "pending",
+          "actor": null
+        },
+        "claim": {
+          "status": "pending",
+          "actor": null
+        }
+      },
+      "content_state": "metadata_only",
+      "screening_decision": "pending",
+      "screening_actor": null,
+      "identity_approval": "pending",
+      "identity_actor": null,
+      "acquisition_decision": "pending",
+      "acquisition_actor": null,
+      "extraction_decision": "pending",
+      "extraction_actor": null,
+      "claim_approval": "pending",
+      "claim_actor": null,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "acquired": false,
+      "source_spans": [],
+      "source_equation": null,
+      "numerical_oracle": null
+    }
+  ],
+  "identity_dossiers": [
+    {
+      "identity_id": "core.mandelbrot",
+      "original_identity_label": "mandelbrot",
+      "original_label": "complex dynamics / escape-time parameter plane",
+      "paper_ids": [
+        "paper-7e5f945cdd5c68bdc9ec"
+      ],
+      "mapping_status": "proposed_unreviewed",
+      "mapping_evidence": "Retained pilot title names Mandelbrot polynomials.",
+      "ambiguity": "The title/abstract do not establish relevance to the app's classical quadratic parameter-plane formula or current shader.",
+      "approval": "pending",
+      "approval_actor": null,
+      "preparation_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/identity_mappings/0",
+      "draft_status": "agent_draft",
+      "draft_actor": {
+        "type": "agent",
+        "id": "autowork/ACAD-DRAFT-01",
+        "role": "draft_preparer_not_human_reviewer"
+      },
+      "module_id": "mandelbrot",
+      "active_path": "standard_gpu_subject_to_runtime_backend_policy",
+      "implementation_bindings": [
+        {
+          "path": "lib/core/modules/module_registry.dart",
+          "sha256": "sha256:7b3dca03133d1ec510c567c4da1ba67c1c58e2e061dbf683d8b4451fef5c6a83",
+          "role": "registry_prefer_last_resolution",
+          "lines": [
+            81,
+            232
+          ]
+        },
+        {
+          "path": "lib/features/renderer/widgets/renderer/fractal_renderer.dart",
+          "sha256": "sha256:cbc41da046edeea95b313d897c3ccbc67ca56480957f24f3dee85d00a526aad4",
+          "role": "runtime_route_trajectory_then_precision_then_gpu",
+          "lines": [
+            425,
+            565
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/escape_time_catalog/core_escape_time_family.dart",
+          "sha256": "sha256:561c51a59af4809eaa060d7a31abcb96db14a30d06ed3abdd5e409bf972568dc",
+          "role": "catalog_config",
+          "lines": [
+            6,
+            26
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/escape_time/builder.dart",
+          "sha256": "sha256:6eead995d5ef808efbc7c1886c2b2142c5bfa2fb96d791af751ed59021c29ce2",
+          "role": "defaults_and_uniform_setter",
+          "lines": [
+            1,
+            286
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/uniform_layout.dart",
+          "sha256": "sha256:bf052335102bf22e6610ffbba3cb778f7a7b7788e6b57c6dc2180f9d85ae5a7d",
+          "role": "uniform_slot_contract",
+          "lines": [
+            10,
+            22
+          ]
+        },
+        {
+          "path": "lib/core/modules/common_params.dart",
+          "sha256": "sha256:f1c118cbad17df30b8d261da6318a3d2b9ebf62adb5020c361eaeedcd75c9229",
+          "role": "parameter_bounds",
+          "lines": [
+            65,
+            132
+          ]
+        },
+        {
+          "path": "shaders/legacy/escape_time/mandel_step_smooth.frag",
+          "sha256": "sha256:50810b332047e12293d18cfcec7988860dcc00477ee012013b50bd8c2efd325b",
+          "role": "registered_gpu_shader_not_always_active_default",
+          "lines": [
+            1,
+            155
+          ]
+        },
+        {
+          "path": "lib/features/renderer/policy/render_plan.dart",
+          "sha256": "sha256:f1b3f188827e5e314b413055614224dd3c28e63cb3d662243356a373b0f9bbf6",
+          "role": "precision_module_substitution",
+          "lines": [
+            1,
+            81
+          ]
+        },
+        {
+          "path": "lib/features/renderer/policy/precision_ladder_policy.dart",
+          "sha256": "sha256:0c668bcccb533c702c7c0cc650de0e8a598fd6af111ae00b758dec005b262205",
+          "role": "precision_threshold_policy",
+          "lines": [
+            1,
+            425
+          ]
+        },
+        {
+          "path": "lib/core/modules/mandelbrot_df2_module.dart",
+          "sha256": "sha256:acd649ec7e171036a9ffd0835e2055a98275ed97ba4adcb900282241eb05a3b3",
+          "role": "conditional_df2_binding",
+          "lines": [
+            1,
+            55
+          ]
+        },
+        {
+          "path": "shaders/legacy/precision/mandelbrot_df2.frag",
+          "sha256": "sha256:7d5d8cbb73f704502c09e8ebe1635e9516b51b0897ebf16f3a71ea3a3ed8034a",
+          "role": "conditional_df2_shader_not_compared",
+          "lines": [
+            1,
+            173
+          ]
+        }
+      ],
+      "implementation_observation": "Registered standard GPU quadratic parameter plane: z0=0, z<-z^2+c with cardioid/period-2 shortcut, squared bailout and derivative coloring. Precision routing may substitute DF2 or CPU; not all lanes are compared here.",
+      "effective_controls_note": "Default config iterations=120, but first curated preset supplies iterations=350; explicit pan=(-0.5,0), zoom=0.35 remain. Bailout=4. GPU shader truncates clamped iterations to 0..500.",
+      "source_equation_gap": "No source span establishes the quadratic recurrence or shortcuts from the contextual Mandelbrot-polynomial title; CPU/DF2 equivalence, deep-zoom behavior and numerical reference checks are not performed.",
+      "backend_gap": "Only the named source paths are inspected; no device/render/export, CPU fallback equivalence, shader compile or independent numerical qualification is performed. Runtime settings may choose other paths.",
+      "source_spans": [],
+      "source_equation": null,
+      "numerical_oracle": null,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "human_decisions": {
+        "identity": {
+          "status": "pending",
+          "actor": null
+        },
+        "inclusion": {
+          "status": "pending",
+          "actor": null
+        },
+        "rights": {
+          "status": "pending",
+          "actor": null
+        },
+        "acquisition": {
+          "status": "pending",
+          "actor": null
+        },
+        "extraction": {
+          "status": "pending",
+          "actor": null
+        },
+        "claim": {
+          "status": "pending",
+          "actor": null
+        }
+      },
+      "alias_recommendation": "Preserve proposed_unreviewed association or leave unresolved; no reviewed alias write.",
+      "next_human_input": "For core.mandelbrot, record an attributable human identity/source-subset decision (or leave unresolved). Review the linked source role, version and lawful access basis before inclusion/acquisition; later provide actual equation spans and separate extraction/claim acceptance."
+    },
+    {
+      "identity_id": "core.newton_z3",
+      "original_identity_label": "newton_z3",
+      "original_label": "root finding / Newton cubic basin",
+      "paper_ids": [
+        "paper-c797646dae2767ea525a"
+      ],
+      "mapping_status": "proposed_unreviewed",
+      "mapping_evidence": "Retained pilot title explicitly names Newton-method root finding and Newton fractals.",
+      "ambiguity": "Metadata does not establish the exact cubic polynomial, initialization, or implementation correspondence.",
+      "approval": "pending",
+      "approval_actor": null,
+      "preparation_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/identity_mappings/1",
+      "draft_status": "agent_draft",
+      "draft_actor": {
+        "type": "agent",
+        "id": "autowork/ACAD-DRAFT-01",
+        "role": "draft_preparer_not_human_reviewer"
+      },
+      "module_id": "newton_z3",
+      "active_path": "standard_gpu_subject_to_runtime_backend_policy",
+      "implementation_bindings": [
+        {
+          "path": "lib/core/modules/module_registry.dart",
+          "sha256": "sha256:7b3dca03133d1ec510c567c4da1ba67c1c58e2e061dbf683d8b4451fef5c6a83",
+          "role": "registry_prefer_last_resolution",
+          "lines": [
+            81,
+            232
+          ]
+        },
+        {
+          "path": "lib/features/renderer/widgets/renderer/fractal_renderer.dart",
+          "sha256": "sha256:cbc41da046edeea95b313d897c3ccbc67ca56480957f24f3dee85d00a526aad4",
+          "role": "runtime_route_trajectory_then_precision_then_gpu",
+          "lines": [
+            425,
+            565
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/escape_time_catalog/convergent_root_finding.dart",
+          "sha256": "sha256:c6ff0392e35791d9eb36313e649f37146a7b049a156a3b1e2d46e3640c3a5d2c",
+          "role": "catalog_config",
+          "lines": [
+            6,
+            26
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/escape_time/builder.dart",
+          "sha256": "sha256:6eead995d5ef808efbc7c1886c2b2142c5bfa2fb96d791af751ed59021c29ce2",
+          "role": "defaults_and_uniform_setter",
+          "lines": [
+            1,
+            286
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/uniform_layout.dart",
+          "sha256": "sha256:bf052335102bf22e6610ffbba3cb778f7a7b7788e6b57c6dc2180f9d85ae5a7d",
+          "role": "uniform_slot_contract",
+          "lines": [
+            10,
+            22
+          ]
+        },
+        {
+          "path": "lib/core/modules/common_params.dart",
+          "sha256": "sha256:f1c118cbad17df30b8d261da6318a3d2b9ebf62adb5020c361eaeedcd75c9229",
+          "role": "parameter_bounds",
+          "lines": [
+            65,
+            132
+          ]
+        },
+        {
+          "path": "shaders/root_finding/newton_z3_gpu.frag",
+          "sha256": "sha256:927f6deb236f6fb6e28d42e5446d2ede21893364fe01409f13fc8863672111f6",
+          "role": "registered_gpu_shader_not_always_active_default",
+          "lines": [
+            1,
+            131
+          ]
+        }
+      ],
+      "implementation_observation": "GPU code computes f=z^3-1, f'=3z^2 and z<-z-relaxation*f/f'; z0 is the viewport point. Division guard below 1e-20, step-squared convergence below 1e-12 and escape beyond max(bailout^2,64); nearest-root coloring can color unconverged points.",
+      "effective_controls_note": "Configured iterations=80, bailout=4; relaxation default=1, schema 0.1..2 and setter clamp at slot 10. Builder can auto-frame absent explicit view. Shader truncates iterations to 0..500.",
+      "source_equation_gap": "The paper cubic, relaxation, singularity treatment and stopping rules remain unknown; shader code is an implementation observation, not a source-checked equation or independent oracle.",
+      "backend_gap": "Only the named source paths are inspected; no device/render/export, CPU fallback equivalence, shader compile or independent numerical qualification is performed. Runtime settings may choose other paths.",
+      "source_spans": [],
+      "source_equation": null,
+      "numerical_oracle": null,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "human_decisions": {
+        "identity": {
+          "status": "pending",
+          "actor": null
+        },
+        "inclusion": {
+          "status": "pending",
+          "actor": null
+        },
+        "rights": {
+          "status": "pending",
+          "actor": null
+        },
+        "acquisition": {
+          "status": "pending",
+          "actor": null
+        },
+        "extraction": {
+          "status": "pending",
+          "actor": null
+        },
+        "claim": {
+          "status": "pending",
+          "actor": null
+        }
+      },
+      "alias_recommendation": "Preserve proposed_unreviewed association or leave unresolved; no reviewed alias write.",
+      "next_human_input": "For core.newton_z3, record an attributable human identity/source-subset decision (or leave unresolved). Review the linked source role, version and lawful access basis before inclusion/acquisition; later provide actual equation spans and separate extraction/claim acceptance."
+    },
+    {
+      "identity_id": "core.koch_snowflake",
+      "original_identity_label": "koch_snowflake",
+      "original_label": "geometric / recursive IFS-like construction",
+      "paper_ids": [],
+      "mapping_status": "unresolved",
+      "mapping_evidence": "No directly relevant, verified Koch-construction record selected from the retained pilot.",
+      "ambiguity": "Existing pilot records mentioning Koch include unrelated geometry/engineering metadata; no source match proposed.",
+      "approval": "pending",
+      "approval_actor": null,
+      "preparation_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/identity_mappings/2",
+      "draft_status": "agent_draft",
+      "draft_actor": {
+        "type": "agent",
+        "id": "autowork/ACAD-DRAFT-01",
+        "role": "draft_preparer_not_human_reviewer"
+      },
+      "module_id": "koch_snowflake",
+      "active_path": "standard_gpu_subject_to_runtime_backend_policy",
+      "implementation_bindings": [
+        {
+          "path": "lib/core/modules/module_registry.dart",
+          "sha256": "sha256:7b3dca03133d1ec510c567c4da1ba67c1c58e2e061dbf683d8b4451fef5c6a83",
+          "role": "registry_prefer_last_resolution",
+          "lines": [
+            81,
+            232
+          ]
+        },
+        {
+          "path": "lib/features/renderer/widgets/renderer/fractal_renderer.dart",
+          "sha256": "sha256:cbc41da046edeea95b313d897c3ccbc67ca56480957f24f3dee85d00a526aad4",
+          "role": "runtime_route_trajectory_then_precision_then_gpu",
+          "lines": [
+            425,
+            565
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/escape_time_catalog/ifs_geometric_fractals.dart",
+          "sha256": "sha256:25f8c1ce56e49e39a47f121e0c55c9f61a644a77bf03f64a10daaad35ceea0a1",
+          "role": "catalog_config",
+          "lines": [
+            20,
+            40
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/escape_time/builder.dart",
+          "sha256": "sha256:6eead995d5ef808efbc7c1886c2b2142c5bfa2fb96d791af751ed59021c29ce2",
+          "role": "defaults_and_uniform_setter",
+          "lines": [
+            1,
+            286
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/uniform_layout.dart",
+          "sha256": "sha256:bf052335102bf22e6610ffbba3cb778f7a7b7788e6b57c6dc2180f9d85ae5a7d",
+          "role": "uniform_slot_contract",
+          "lines": [
+            10,
+            22
+          ]
+        },
+        {
+          "path": "lib/core/modules/common_params.dart",
+          "sha256": "sha256:f1c118cbad17df30b8d261da6318a3d2b9ebf62adb5020c361eaeedcd75c9229",
+          "role": "parameter_bounds",
+          "lines": [
+            65,
+            132
+          ]
+        },
+        {
+          "path": "shaders/ifs_and_geometric/koch_snowflake_gpu.frag",
+          "sha256": "sha256:d674b3e933d2e52c9722d4cb97c54253a92eaabc565020924fe71845dceec8b7",
+          "role": "registered_gpu_shader_not_always_active_default",
+          "lines": [
+            1,
+            108
+          ]
+        }
+      ],
+      "implementation_observation": "GPU fold/edge-distance construction scales q by 3, reflects x, rotates conditionally by -pi/3 and combines a triangle shell with orbit-trap coloring.",
+      "effective_controls_note": "Configured iterations=120 is a sentinel replaced by deterministic builder defaults; explicit pan=(0,0.3), zoom=1.5; bailout=6. Shader target truncates clamp 1..500.",
+      "source_equation_gap": "No retained source validates canonical Koch substitution, shell/fold equivalence, finite-depth error or termination; do not claim an exact snowflake from its name.",
+      "backend_gap": "Only the named source paths are inspected; no device/render/export, CPU fallback equivalence, shader compile or independent numerical qualification is performed. Runtime settings may choose other paths.",
+      "source_spans": [],
+      "source_equation": null,
+      "numerical_oracle": null,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "human_decisions": {
+        "identity": {
+          "status": "pending",
+          "actor": null
+        },
+        "inclusion": {
+          "status": "pending",
+          "actor": null
+        },
+        "rights": {
+          "status": "pending",
+          "actor": null
+        },
+        "acquisition": {
+          "status": "pending",
+          "actor": null
+        },
+        "extraction": {
+          "status": "pending",
+          "actor": null
+        },
+        "claim": {
+          "status": "pending",
+          "actor": null
+        }
+      },
+      "alias_recommendation": "Keep unresolved with no paper IDs; do not assign a family/name-only alias.",
+      "next_human_input": "For core.koch_snowflake, record an attributable human identity/source-subset decision (or leave unresolved). Supply a specific authoritative source identity/version and relevance decision under a separately authorized source workflow; no source is selected by this draft."
+    },
+    {
+      "identity_id": "core.sierpinski_triangle",
+      "original_identity_label": "sierpinski_triangle",
+      "original_label": "geometric / IFS",
+      "paper_ids": [
+        "paper-7d8c6ee70e9aac109422"
+      ],
+      "mapping_status": "proposed_unreviewed",
+      "mapping_evidence": "Retained pilot title names relatives of the Sierpinski gasket and metadata describes self-similar sets.",
+      "ambiguity": "A related gasket family is not proof of the canonical triangle's exact construction or app implementation.",
+      "approval": "pending",
+      "approval_actor": null,
+      "preparation_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/identity_mappings/3",
+      "draft_status": "agent_draft",
+      "draft_actor": {
+        "type": "agent",
+        "id": "autowork/ACAD-DRAFT-01",
+        "role": "draft_preparer_not_human_reviewer"
+      },
+      "module_id": "sierpinski_triangle",
+      "active_path": "standard_gpu_subject_to_runtime_backend_policy",
+      "implementation_bindings": [
+        {
+          "path": "lib/core/modules/module_registry.dart",
+          "sha256": "sha256:7b3dca03133d1ec510c567c4da1ba67c1c58e2e061dbf683d8b4451fef5c6a83",
+          "role": "registry_prefer_last_resolution",
+          "lines": [
+            81,
+            232
+          ]
+        },
+        {
+          "path": "lib/features/renderer/widgets/renderer/fractal_renderer.dart",
+          "sha256": "sha256:cbc41da046edeea95b313d897c3ccbc67ca56480957f24f3dee85d00a526aad4",
+          "role": "runtime_route_trajectory_then_precision_then_gpu",
+          "lines": [
+            425,
+            565
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/escape_time_catalog/ifs_geometric_fractals.dart",
+          "sha256": "sha256:25f8c1ce56e49e39a47f121e0c55c9f61a644a77bf03f64a10daaad35ceea0a1",
+          "role": "catalog_config",
+          "lines": [
+            6,
+            26
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/escape_time/builder.dart",
+          "sha256": "sha256:6eead995d5ef808efbc7c1886c2b2142c5bfa2fb96d791af751ed59021c29ce2",
+          "role": "defaults_and_uniform_setter",
+          "lines": [
+            1,
+            286
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/uniform_layout.dart",
+          "sha256": "sha256:bf052335102bf22e6610ffbba3cb778f7a7b7788e6b57c6dc2180f9d85ae5a7d",
+          "role": "uniform_slot_contract",
+          "lines": [
+            10,
+            22
+          ]
+        },
+        {
+          "path": "lib/core/modules/common_params.dart",
+          "sha256": "sha256:f1c118cbad17df30b8d261da6318a3d2b9ebf62adb5020c361eaeedcd75c9229",
+          "role": "parameter_bounds",
+          "lines": [
+            65,
+            132
+          ]
+        },
+        {
+          "path": "shaders/ifs_and_geometric/sierpinski_triangle_gpu.frag",
+          "sha256": "sha256:620ffcb1c65ca3de84bf743bc1ae68ef69c6e44970fac9f8e8f95d055708a588",
+          "role": "registered_gpu_shader_not_always_active_default",
+          "lines": [
+            1,
+            100
+          ]
+        }
+      ],
+      "implementation_observation": "GPU code doubles and reflects p, translates it, also contracts by 0.95, and colors triangle-distance traps and holeScore.",
+      "effective_controls_note": "Configured iterations=120 and absent explicit framing trigger deterministic defaults; bailout=4. Shader target truncates clamp 1..500.",
+      "source_equation_gap": "Related gasket metadata does not establish these folds, the 0.95 factor or equivalence to the canonical triangle; no numerical/geometry comparison is made.",
+      "backend_gap": "Only the named source paths are inspected; no device/render/export, CPU fallback equivalence, shader compile or independent numerical qualification is performed. Runtime settings may choose other paths.",
+      "source_spans": [],
+      "source_equation": null,
+      "numerical_oracle": null,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "human_decisions": {
+        "identity": {
+          "status": "pending",
+          "actor": null
+        },
+        "inclusion": {
+          "status": "pending",
+          "actor": null
+        },
+        "rights": {
+          "status": "pending",
+          "actor": null
+        },
+        "acquisition": {
+          "status": "pending",
+          "actor": null
+        },
+        "extraction": {
+          "status": "pending",
+          "actor": null
+        },
+        "claim": {
+          "status": "pending",
+          "actor": null
+        }
+      },
+      "alias_recommendation": "Preserve proposed_unreviewed association or leave unresolved; no reviewed alias write.",
+      "next_human_input": "For core.sierpinski_triangle, record an attributable human identity/source-subset decision (or leave unresolved). Review the linked source role, version and lawful access basis before inclusion/acquisition; later provide actual equation spans and separate extraction/claim acceptance."
+    },
+    {
+      "identity_id": "core.barnsley_fern",
+      "original_identity_label": "barnsley_fern",
+      "original_label": "geometric / affine IFS",
+      "paper_ids": [
+        "paper-7ed9dce0b5117c4a1add"
+      ],
+      "mapping_status": "proposed_unreviewed",
+      "mapping_evidence": "Retained pilot title covers iterated function systems and attractors.",
+      "ambiguity": "General IFS metadata does not establish Barnsley's fern maps; no exact identity or equation match is claimed.",
+      "approval": "pending",
+      "approval_actor": null,
+      "preparation_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/identity_mappings/4",
+      "draft_status": "agent_draft",
+      "draft_actor": {
+        "type": "agent",
+        "id": "autowork/ACAD-DRAFT-01",
+        "role": "draft_preparer_not_human_reviewer"
+      },
+      "module_id": "barnsley_fern",
+      "active_path": "standard_gpu_subject_to_runtime_backend_policy",
+      "implementation_bindings": [
+        {
+          "path": "lib/core/modules/module_registry.dart",
+          "sha256": "sha256:7b3dca03133d1ec510c567c4da1ba67c1c58e2e061dbf683d8b4451fef5c6a83",
+          "role": "registry_prefer_last_resolution",
+          "lines": [
+            81,
+            232
+          ]
+        },
+        {
+          "path": "lib/features/renderer/widgets/renderer/fractal_renderer.dart",
+          "sha256": "sha256:cbc41da046edeea95b313d897c3ccbc67ca56480957f24f3dee85d00a526aad4",
+          "role": "runtime_route_trajectory_then_precision_then_gpu",
+          "lines": [
+            425,
+            565
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/escape_time_catalog/ifs_geometric_fractals.dart",
+          "sha256": "sha256:25f8c1ce56e49e39a47f121e0c55c9f61a644a77bf03f64a10daaad35ceea0a1",
+          "role": "catalog_config",
+          "lines": [
+            37,
+            57
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/escape_time/builder.dart",
+          "sha256": "sha256:6eead995d5ef808efbc7c1886c2b2142c5bfa2fb96d791af751ed59021c29ce2",
+          "role": "defaults_and_uniform_setter",
+          "lines": [
+            1,
+            286
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/uniform_layout.dart",
+          "sha256": "sha256:bf052335102bf22e6610ffbba3cb778f7a7b7788e6b57c6dc2180f9d85ae5a7d",
+          "role": "uniform_slot_contract",
+          "lines": [
+            10,
+            22
+          ]
+        },
+        {
+          "path": "lib/core/modules/common_params.dart",
+          "sha256": "sha256:f1c118cbad17df30b8d261da6318a3d2b9ebf62adb5020c361eaeedcd75c9229",
+          "role": "parameter_bounds",
+          "lines": [
+            65,
+            132
+          ]
+        },
+        {
+          "path": "shaders/ifs_and_geometric/barnsley_fern_gpu.frag",
+          "sha256": "sha256:cb2d5cff935b315a85de0a0e44a16340587e4fbe44ea1a716b5e2519dd2b2f6a",
+          "role": "registered_gpu_shader_not_always_active_default",
+          "lines": [
+            1,
+            101
+          ]
+        }
+      ],
+      "implementation_observation": "GPU starts q=(0,0); uses deterministic sin/hash choices with thresholds 0.01,0.86,0.93 over four explicit affine transforms; only at indices i>8 does it measure per-pixel proximity to finite orbit samples.",
+      "effective_controls_note": "Configured iterations=120 triggers deterministic defaults; centerY=0.2 prevents automatic center, zoom can be auto-selected; bailout=6. Shader target truncates clamp 1..500, but bailout is not used in its orbit loop.",
+      "source_equation_gap": "The general IFS chapter does not establish these affine coefficients/probabilities; deterministic sampling, finite orbit and stroke width are not a validated fern measure or independent reference.",
+      "backend_gap": "Only the named source paths are inspected; no device/render/export, CPU fallback equivalence, shader compile or independent numerical qualification is performed. Runtime settings may choose other paths.",
+      "source_spans": [],
+      "source_equation": null,
+      "numerical_oracle": null,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "human_decisions": {
+        "identity": {
+          "status": "pending",
+          "actor": null
+        },
+        "inclusion": {
+          "status": "pending",
+          "actor": null
+        },
+        "rights": {
+          "status": "pending",
+          "actor": null
+        },
+        "acquisition": {
+          "status": "pending",
+          "actor": null
+        },
+        "extraction": {
+          "status": "pending",
+          "actor": null
+        },
+        "claim": {
+          "status": "pending",
+          "actor": null
+        }
+      },
+      "alias_recommendation": "Preserve proposed_unreviewed association or leave unresolved; no reviewed alias write.",
+      "next_human_input": "For core.barnsley_fern, record an attributable human identity/source-subset decision (or leave unresolved). Review the linked source role, version and lawful access basis before inclusion/acquisition; later provide actual equation spans and separate extraction/claim acceptance."
+    },
+    {
+      "identity_id": "core.penrose_tiling",
+      "original_identity_label": "penrose_tiling",
+      "original_label": "tiling / substitution geometry",
+      "paper_ids": [],
+      "mapping_status": "unresolved",
+      "mapping_evidence": "No directly relevant Penrose substitution/tiling record is verified in the retained pilot subset.",
+      "ambiguity": "Tiling-family source coverage remains a gap.",
+      "approval": "pending",
+      "approval_actor": null,
+      "preparation_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/identity_mappings/5",
+      "draft_status": "agent_draft",
+      "draft_actor": {
+        "type": "agent",
+        "id": "autowork/ACAD-DRAFT-01",
+        "role": "draft_preparer_not_human_reviewer"
+      },
+      "module_id": "penrose_tiling",
+      "active_path": "standard_gpu_subject_to_runtime_backend_policy",
+      "implementation_bindings": [
+        {
+          "path": "lib/core/modules/module_registry.dart",
+          "sha256": "sha256:7b3dca03133d1ec510c567c4da1ba67c1c58e2e061dbf683d8b4451fef5c6a83",
+          "role": "registry_prefer_last_resolution",
+          "lines": [
+            81,
+            232
+          ]
+        },
+        {
+          "path": "lib/features/renderer/widgets/renderer/fractal_renderer.dart",
+          "sha256": "sha256:cbc41da046edeea95b313d897c3ccbc67ca56480957f24f3dee85d00a526aad4",
+          "role": "runtime_route_trajectory_then_precision_then_gpu",
+          "lines": [
+            425,
+            565
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/escape_time_catalog/ifs_geometric_fractals.dart",
+          "sha256": "sha256:25f8c1ce56e49e39a47f121e0c55c9f61a644a77bf03f64a10daaad35ceea0a1",
+          "role": "catalog_config",
+          "lines": [
+            159,
+            179
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/escape_time/builder.dart",
+          "sha256": "sha256:6eead995d5ef808efbc7c1886c2b2142c5bfa2fb96d791af751ed59021c29ce2",
+          "role": "defaults_and_uniform_setter",
+          "lines": [
+            1,
+            286
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/uniform_layout.dart",
+          "sha256": "sha256:bf052335102bf22e6610ffbba3cb778f7a7b7788e6b57c6dc2180f9d85ae5a7d",
+          "role": "uniform_slot_contract",
+          "lines": [
+            10,
+            22
+          ]
+        },
+        {
+          "path": "lib/core/modules/common_params.dart",
+          "sha256": "sha256:f1c118cbad17df30b8d261da6318a3d2b9ebf62adb5020c361eaeedcd75c9229",
+          "role": "parameter_bounds",
+          "lines": [
+            65,
+            132
+          ]
+        },
+        {
+          "path": "shaders/ifs_and_geometric/penrose_tiling_gpu.frag",
+          "sha256": "sha256:2b9a61a2a2c72058eaac57e6a0b0359cd7424eedb8beea57a74e9d92211c116f",
+          "role": "registered_gpu_shader_not_always_active_default",
+          "lines": [
+            1,
+            102
+          ]
+        }
+      ],
+      "implementation_observation": "GPU projects onto five star directions using PHI and classifies nearest grid-gap angles; code describes a de Bruijn dual style.",
+      "effective_controls_note": "Configured iterations=180, bailout=4; builder auto-framing applies. Shader target is truncated 1..500 and integer target/24+2 sets depth 2..18; bailout is unused.",
+      "source_equation_gap": "No retained source verifies an exact P3 substitution/dual construction, matching rules or aperiodicity; fivefold appearance is not proof.",
+      "backend_gap": "Only the named source paths are inspected; no device/render/export, CPU fallback equivalence, shader compile or independent numerical qualification is performed. Runtime settings may choose other paths.",
+      "source_spans": [],
+      "source_equation": null,
+      "numerical_oracle": null,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "human_decisions": {
+        "identity": {
+          "status": "pending",
+          "actor": null
+        },
+        "inclusion": {
+          "status": "pending",
+          "actor": null
+        },
+        "rights": {
+          "status": "pending",
+          "actor": null
+        },
+        "acquisition": {
+          "status": "pending",
+          "actor": null
+        },
+        "extraction": {
+          "status": "pending",
+          "actor": null
+        },
+        "claim": {
+          "status": "pending",
+          "actor": null
+        }
+      },
+      "alias_recommendation": "Keep unresolved with no paper IDs; do not assign a family/name-only alias.",
+      "next_human_input": "For core.penrose_tiling, record an attributable human identity/source-subset decision (or leave unresolved). Supply a specific authoritative source identity/version and relevance decision under a separately authorized source workflow; no source is selected by this draft."
+    },
+    {
+      "identity_id": "core.henon",
+      "original_identity_label": "henon",
+      "original_label": "attractor / discrete map",
+      "paper_ids": [],
+      "mapping_status": "unresolved",
+      "mapping_evidence": "Pilot metadata contains Hénon records, but inspected titles concern encryption, pulse generation, or a fifth-dimensional map rather than the current identity's exact system.",
+      "ambiguity": "No candidate retained as a verified identity match; do not map on name alone.",
+      "approval": "pending",
+      "approval_actor": null,
+      "preparation_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/identity_mappings/6",
+      "draft_status": "agent_draft",
+      "draft_actor": {
+        "type": "agent",
+        "id": "autowork/ACAD-DRAFT-01",
+        "role": "draft_preparer_not_human_reviewer"
+      },
+      "module_id": "henon",
+      "active_path": "standard_gpu_subject_to_runtime_backend_policy",
+      "implementation_bindings": [
+        {
+          "path": "lib/core/modules/module_registry.dart",
+          "sha256": "sha256:7b3dca03133d1ec510c567c4da1ba67c1c58e2e061dbf683d8b4451fef5c6a83",
+          "role": "registry_prefer_last_resolution",
+          "lines": [
+            81,
+            232
+          ]
+        },
+        {
+          "path": "lib/features/renderer/widgets/renderer/fractal_renderer.dart",
+          "sha256": "sha256:cbc41da046edeea95b313d897c3ccbc67ca56480957f24f3dee85d00a526aad4",
+          "role": "runtime_route_trajectory_then_precision_then_gpu",
+          "lines": [
+            425,
+            565
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/escape_time_catalog/maps_attractors.dart",
+          "sha256": "sha256:d2bcb0b2150501426dbcf78ce608185351f08e3caf49d39e99e16dbb6240cb60",
+          "role": "catalog_config",
+          "lines": [
+            6,
+            26
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/escape_time/builder.dart",
+          "sha256": "sha256:6eead995d5ef808efbc7c1886c2b2142c5bfa2fb96d791af751ed59021c29ce2",
+          "role": "defaults_and_uniform_setter",
+          "lines": [
+            1,
+            286
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/uniform_layout.dart",
+          "sha256": "sha256:bf052335102bf22e6610ffbba3cb778f7a7b7788e6b57c6dc2180f9d85ae5a7d",
+          "role": "uniform_slot_contract",
+          "lines": [
+            10,
+            22
+          ]
+        },
+        {
+          "path": "lib/core/modules/common_params.dart",
+          "sha256": "sha256:f1c118cbad17df30b8d261da6318a3d2b9ebf62adb5020c361eaeedcd75c9229",
+          "role": "parameter_bounds",
+          "lines": [
+            65,
+            132
+          ]
+        },
+        {
+          "path": "shaders/strange_attractors/henon_gpu.frag",
+          "sha256": "sha256:5324d6c21d9684a34f4595f27331a88b8ca52a1718d3a0d8c3a86ea31d978f69",
+          "role": "registered_gpu_shader_not_always_active_default",
+          "lines": [
+            1,
+            88
+          ]
+        }
+      ],
+      "implementation_observation": "GPU x0,y0 are viewport coordinates scaled by 4; iterates x<-1-1.4*x^2+y, y<-0.3*x and colors escape, not a single accumulated orbit.",
+      "effective_controls_note": "Configured iterations=180, bailout=16; current CommonFractalParams.bailout expands max to the configured default, so this is not clamped to the historical max=8. Shader target truncates clamp 0..500; builder auto-framing applies.",
+      "source_equation_gap": "The preparation package explicitly leaves Hénon records unmatched because of encryption/pulse/fifth-dimensional topic collisions. No source verifies this map or escape presentation; no name-only alias.",
+      "backend_gap": "Only the named source paths are inspected; no device/render/export, CPU fallback equivalence, shader compile or independent numerical qualification is performed. Runtime settings may choose other paths.",
+      "source_spans": [],
+      "source_equation": null,
+      "numerical_oracle": null,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "human_decisions": {
+        "identity": {
+          "status": "pending",
+          "actor": null
+        },
+        "inclusion": {
+          "status": "pending",
+          "actor": null
+        },
+        "rights": {
+          "status": "pending",
+          "actor": null
+        },
+        "acquisition": {
+          "status": "pending",
+          "actor": null
+        },
+        "extraction": {
+          "status": "pending",
+          "actor": null
+        },
+        "claim": {
+          "status": "pending",
+          "actor": null
+        }
+      },
+      "alias_recommendation": "Keep unresolved with no paper IDs; do not assign a family/name-only alias.",
+      "next_human_input": "For core.henon, record an attributable human identity/source-subset decision (or leave unresolved). Supply a specific authoritative source identity/version and relevance decision under a separately authorized source workflow; no source is selected by this draft."
+    },
+    {
+      "identity_id": "core.thomas_attractor",
+      "original_identity_label": "thomas_attractor",
+      "original_label": "attractor / continuous flow",
+      "paper_ids": [],
+      "mapping_status": "unresolved",
+      "mapping_evidence": "No directly relevant Thomas-system item selected from the pilot records.",
+      "ambiguity": "Continuous-attractor family coverage remains incomplete.",
+      "approval": "pending",
+      "approval_actor": null,
+      "preparation_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/identity_mappings/7",
+      "draft_status": "agent_draft",
+      "draft_actor": {
+        "type": "agent",
+        "id": "autowork/ACAD-DRAFT-01",
+        "role": "draft_preparer_not_human_reviewer"
+      },
+      "module_id": "thomas_attractor",
+      "active_path": "finite_rk4_trajectory_default",
+      "implementation_bindings": [
+        {
+          "path": "lib/core/modules/module_registry.dart",
+          "sha256": "sha256:7b3dca03133d1ec510c567c4da1ba67c1c58e2e061dbf683d8b4451fef5c6a83",
+          "role": "registry_prefer_last_resolution",
+          "lines": [
+            81,
+            232
+          ]
+        },
+        {
+          "path": "lib/features/renderer/widgets/renderer/fractal_renderer.dart",
+          "sha256": "sha256:cbc41da046edeea95b313d897c3ccbc67ca56480957f24f3dee85d00a526aad4",
+          "role": "runtime_route_trajectory_then_precision_then_gpu",
+          "lines": [
+            425,
+            565
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/escape_time_catalog/maps_attractors.dart",
+          "sha256": "sha256:d2bcb0b2150501426dbcf78ce608185351f08e3caf49d39e99e16dbb6240cb60",
+          "role": "catalog_config",
+          "lines": [
+            290,
+            310
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/escape_time/builder.dart",
+          "sha256": "sha256:6eead995d5ef808efbc7c1886c2b2142c5bfa2fb96d791af751ed59021c29ce2",
+          "role": "defaults_and_uniform_setter",
+          "lines": [
+            1,
+            286
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/uniform_layout.dart",
+          "sha256": "sha256:bf052335102bf22e6610ffbba3cb778f7a7b7788e6b57c6dc2180f9d85ae5a7d",
+          "role": "uniform_slot_contract",
+          "lines": [
+            10,
+            22
+          ]
+        },
+        {
+          "path": "lib/core/modules/common_params.dart",
+          "sha256": "sha256:f1c118cbad17df30b8d261da6318a3d2b9ebf62adb5020c361eaeedcd75c9229",
+          "role": "parameter_bounds",
+          "lines": [
+            65,
+            132
+          ]
+        },
+        {
+          "path": "shaders/strange_attractors/thomas_attractor_gpu.frag",
+          "sha256": "sha256:8948338c5efdc4d9c8624c82fc112b227d67d715f797b8eb7308f6bc949c662b",
+          "role": "registered_gpu_shader_not_always_active_default",
+          "lines": [
+            1,
+            104
+          ]
+        },
+        {
+          "path": "lib/core/models/attractor_trajectory_settings.dart",
+          "sha256": "sha256:3f056f9f29ca088a0f2f1e677b68406c749fc072fd3d7a4932d499228762edd7",
+          "role": "trajectory_defaults_and_bounds",
+          "lines": [
+            1,
+            225
+          ]
+        },
+        {
+          "path": "lib/core/modules/attractor_trajectory.dart",
+          "sha256": "sha256:8986c0b970646f8aacc78062dd51081427d9748250b02a8dcce9f7b5278731bc",
+          "role": "active_vector_fields_integrator_projection",
+          "lines": [
+            1,
+            218
+          ]
+        },
+        {
+          "path": "lib/features/renderer/widgets/canvas/attractor_trajectory_canvas.dart",
+          "sha256": "sha256:45426c8d006d9dadcdcb05d4bf9884cf2130994de3f04ab92ed538d4be72ce55",
+          "role": "active_trajectory_presentation",
+          "lines": [
+            1,
+            379
+          ]
+        }
+      ],
+      "implementation_observation": "Default active presentation is finite RK4 in Dart with dx=sin(y)-0.208186*x and cyclic dy,dz, seed=(0.1,0.2,0.3), dt=0.01, 5000 burn-in + 20000 retained steps, Thomas oblique projection. Legacy shader is a separate per-pixel Euler texture with dt=0.24, not the active default orbit.",
+      "effective_controls_note": "Config iterations=260, bailout=10, pan=(0,0), zoom=1; trajectory defaults take precedence. Registered fallback shader caps at 220 iterations; current bailout schema allows 10.",
+      "source_equation_gap": "No Thomas source selected; vector-field parameters, finite horizon, oblique projection and convergence remain source/equation gaps. Existing implementation language saying reviewed does not count as academic human acceptance.",
+      "backend_gap": "Only the named source paths are inspected; no device/render/export, CPU fallback equivalence, shader compile or independent numerical qualification is performed. Runtime settings may choose other paths.",
+      "source_spans": [],
+      "source_equation": null,
+      "numerical_oracle": null,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "human_decisions": {
+        "identity": {
+          "status": "pending",
+          "actor": null
+        },
+        "inclusion": {
+          "status": "pending",
+          "actor": null
+        },
+        "rights": {
+          "status": "pending",
+          "actor": null
+        },
+        "acquisition": {
+          "status": "pending",
+          "actor": null
+        },
+        "extraction": {
+          "status": "pending",
+          "actor": null
+        },
+        "claim": {
+          "status": "pending",
+          "actor": null
+        }
+      },
+      "alias_recommendation": "Keep unresolved with no paper IDs; do not assign a family/name-only alias.",
+      "next_human_input": "For core.thomas_attractor, record an attributable human identity/source-subset decision (or leave unresolved). Supply a specific authoritative source identity/version and relevance decision under a separately authorized source workflow; no source is selected by this draft."
+    },
+    {
+      "identity_id": "core.four_wing",
+      "original_identity_label": "four_wing",
+      "original_label": "attractor / continuous flow",
+      "paper_ids": [],
+      "mapping_status": "unresolved",
+      "mapping_evidence": "No directly relevant four-wing-system item selected from the pilot records.",
+      "ambiguity": "Continuous-attractor family coverage remains incomplete.",
+      "approval": "pending",
+      "approval_actor": null,
+      "preparation_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/identity_mappings/8",
+      "draft_status": "agent_draft",
+      "draft_actor": {
+        "type": "agent",
+        "id": "autowork/ACAD-DRAFT-01",
+        "role": "draft_preparer_not_human_reviewer"
+      },
+      "module_id": "four_wing",
+      "active_path": "finite_rk4_trajectory_default",
+      "implementation_bindings": [
+        {
+          "path": "lib/core/modules/module_registry.dart",
+          "sha256": "sha256:7b3dca03133d1ec510c567c4da1ba67c1c58e2e061dbf683d8b4451fef5c6a83",
+          "role": "registry_prefer_last_resolution",
+          "lines": [
+            81,
+            232
+          ]
+        },
+        {
+          "path": "lib/features/renderer/widgets/renderer/fractal_renderer.dart",
+          "sha256": "sha256:cbc41da046edeea95b313d897c3ccbc67ca56480957f24f3dee85d00a526aad4",
+          "role": "runtime_route_trajectory_then_precision_then_gpu",
+          "lines": [
+            425,
+            565
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/escape_time_catalog/maps_attractors.dart",
+          "sha256": "sha256:d2bcb0b2150501426dbcf78ce608185351f08e3caf49d39e99e16dbb6240cb60",
+          "role": "catalog_config",
+          "lines": [
+            300,
+            320
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/escape_time/builder.dart",
+          "sha256": "sha256:6eead995d5ef808efbc7c1886c2b2142c5bfa2fb96d791af751ed59021c29ce2",
+          "role": "defaults_and_uniform_setter",
+          "lines": [
+            1,
+            286
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/uniform_layout.dart",
+          "sha256": "sha256:bf052335102bf22e6610ffbba3cb778f7a7b7788e6b57c6dc2180f9d85ae5a7d",
+          "role": "uniform_slot_contract",
+          "lines": [
+            10,
+            22
+          ]
+        },
+        {
+          "path": "lib/core/modules/common_params.dart",
+          "sha256": "sha256:f1c118cbad17df30b8d261da6318a3d2b9ebf62adb5020c361eaeedcd75c9229",
+          "role": "parameter_bounds",
+          "lines": [
+            65,
+            132
+          ]
+        },
+        {
+          "path": "shaders/strange_attractors/four_wing_gpu.frag",
+          "sha256": "sha256:fdf437e81e4ed20d38c2849d2a704fcb9d376561734c9f8c86cdf1e6dc9afe6d",
+          "role": "registered_gpu_shader_not_always_active_default",
+          "lines": [
+            1,
+            105
+          ]
+        },
+        {
+          "path": "lib/core/models/attractor_trajectory_settings.dart",
+          "sha256": "sha256:3f056f9f29ca088a0f2f1e677b68406c749fc072fd3d7a4932d499228762edd7",
+          "role": "trajectory_defaults_and_bounds",
+          "lines": [
+            1,
+            225
+          ]
+        },
+        {
+          "path": "lib/core/modules/attractor_trajectory.dart",
+          "sha256": "sha256:8986c0b970646f8aacc78062dd51081427d9748250b02a8dcce9f7b5278731bc",
+          "role": "active_vector_fields_integrator_projection",
+          "lines": [
+            1,
+            218
+          ]
+        },
+        {
+          "path": "lib/features/renderer/widgets/canvas/attractor_trajectory_canvas.dart",
+          "sha256": "sha256:45426c8d006d9dadcdcb05d4bf9884cf2130994de3f04ab92ed538d4be72ce55",
+          "role": "active_trajectory_presentation",
+          "lines": [
+            1,
+            379
+          ]
+        }
+      ],
+      "implementation_observation": "Default active finite RK4 uses dx=0.2*x+y*z, dy=0.01*x-0.4*y-x*z, dz=-z-x*y+0.6, seed=(1,1,1), dt=0.01, 5000 burn-in + 20000 retained steps, xz projection. Legacy GPU Euler texture dt=0.14 is distinct.",
+      "effective_controls_note": "Config iterations=260, bailout=12, pan=(0,0), zoom=1; trajectory defaults take precedence. Registered fallback shader caps at 500; current bailout schema allows 12, unlike historical inventory wording.",
+      "source_equation_gap": "No four-wing source selected; exact system variant, coefficients, finite horizon and projection lack source spans and independent numerical comparison.",
+      "backend_gap": "Only the named source paths are inspected; no device/render/export, CPU fallback equivalence, shader compile or independent numerical qualification is performed. Runtime settings may choose other paths.",
+      "source_spans": [],
+      "source_equation": null,
+      "numerical_oracle": null,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "human_decisions": {
+        "identity": {
+          "status": "pending",
+          "actor": null
+        },
+        "inclusion": {
+          "status": "pending",
+          "actor": null
+        },
+        "rights": {
+          "status": "pending",
+          "actor": null
+        },
+        "acquisition": {
+          "status": "pending",
+          "actor": null
+        },
+        "extraction": {
+          "status": "pending",
+          "actor": null
+        },
+        "claim": {
+          "status": "pending",
+          "actor": null
+        }
+      },
+      "alias_recommendation": "Keep unresolved with no paper IDs; do not assign a family/name-only alias.",
+      "next_human_input": "For core.four_wing, record an attributable human identity/source-subset decision (or leave unresolved). Supply a specific authoritative source identity/version and relevance decision under a separately authorized source workflow; no source is selected by this draft."
+    },
+    {
+      "identity_id": "core.lorenz_2d",
+      "original_identity_label": "lorenz_2d",
+      "original_label": "attractor / projected flow",
+      "paper_ids": [
+        "paper-9806495c34ee36881d38"
+      ],
+      "mapping_status": "proposed_unreviewed",
+      "mapping_evidence": "Retained pilot title explicitly concerns the global attractor of the Lorenz system.",
+      "ambiguity": "A global attractor source may not describe this app's projected 2D variant or parameterization.",
+      "approval": "pending",
+      "approval_actor": null,
+      "preparation_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/identity_mappings/9",
+      "draft_status": "agent_draft",
+      "draft_actor": {
+        "type": "agent",
+        "id": "autowork/ACAD-DRAFT-01",
+        "role": "draft_preparer_not_human_reviewer"
+      },
+      "module_id": "lorenz_2d",
+      "active_path": "finite_rk4_trajectory_default",
+      "implementation_bindings": [
+        {
+          "path": "lib/core/modules/module_registry.dart",
+          "sha256": "sha256:7b3dca03133d1ec510c567c4da1ba67c1c58e2e061dbf683d8b4451fef5c6a83",
+          "role": "registry_prefer_last_resolution",
+          "lines": [
+            81,
+            232
+          ]
+        },
+        {
+          "path": "lib/features/renderer/widgets/renderer/fractal_renderer.dart",
+          "sha256": "sha256:cbc41da046edeea95b313d897c3ccbc67ca56480957f24f3dee85d00a526aad4",
+          "role": "runtime_route_trajectory_then_precision_then_gpu",
+          "lines": [
+            425,
+            565
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/escape_time_catalog/maps_attractors.dart",
+          "sha256": "sha256:d2bcb0b2150501426dbcf78ce608185351f08e3caf49d39e99e16dbb6240cb60",
+          "role": "catalog_config",
+          "lines": [
+            310,
+            330
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/escape_time/builder.dart",
+          "sha256": "sha256:6eead995d5ef808efbc7c1886c2b2142c5bfa2fb96d791af751ed59021c29ce2",
+          "role": "defaults_and_uniform_setter",
+          "lines": [
+            1,
+            286
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/uniform_layout.dart",
+          "sha256": "sha256:bf052335102bf22e6610ffbba3cb778f7a7b7788e6b57c6dc2180f9d85ae5a7d",
+          "role": "uniform_slot_contract",
+          "lines": [
+            10,
+            22
+          ]
+        },
+        {
+          "path": "lib/core/modules/common_params.dart",
+          "sha256": "sha256:f1c118cbad17df30b8d261da6318a3d2b9ebf62adb5020c361eaeedcd75c9229",
+          "role": "parameter_bounds",
+          "lines": [
+            65,
+            132
+          ]
+        },
+        {
+          "path": "shaders/strange_attractors/lorenz_2d_gpu.frag",
+          "sha256": "sha256:8f571c337ebe2e2aee0ee95634c3f4fdb52566bd66788e646d4333e5d46f41f2",
+          "role": "registered_gpu_shader_not_always_active_default",
+          "lines": [
+            1,
+            111
+          ]
+        },
+        {
+          "path": "lib/core/models/attractor_trajectory_settings.dart",
+          "sha256": "sha256:3f056f9f29ca088a0f2f1e677b68406c749fc072fd3d7a4932d499228762edd7",
+          "role": "trajectory_defaults_and_bounds",
+          "lines": [
+            1,
+            225
+          ]
+        },
+        {
+          "path": "lib/core/modules/attractor_trajectory.dart",
+          "sha256": "sha256:8986c0b970646f8aacc78062dd51081427d9748250b02a8dcce9f7b5278731bc",
+          "role": "active_vector_fields_integrator_projection",
+          "lines": [
+            1,
+            218
+          ]
+        },
+        {
+          "path": "lib/features/renderer/widgets/canvas/attractor_trajectory_canvas.dart",
+          "sha256": "sha256:45426c8d006d9dadcdcb05d4bf9884cf2130994de3f04ab92ed538d4be72ce55",
+          "role": "active_trajectory_presentation",
+          "lines": [
+            1,
+            379
+          ]
+        }
+      ],
+      "implementation_observation": "Default active finite RK4 uses dx=10*(y-x), dy=x*(28-z)-y, dz=x*y-(8/3)*z, seed=(0.1,0.2,0.3), dt=0.01, 5000 burn-in + 20000 retained steps, xz projection. Legacy GPU Euler texture dt=0.008 uses beta=2.6666667 and different initialization.",
+      "effective_controls_note": "Config iterations=260, bailout=16, pan=(0,0), zoom=1; trajectory defaults take precedence. Registered fallback shader caps at 220; current bailout schema allows 16.",
+      "source_equation_gap": "Global-attractor dimension metadata does not establish source conditions or match finite RK4/projection. Source equations and parameters remain unverified; historical shader-texture preview is not current default trajectory proof.",
+      "backend_gap": "Only the named source paths are inspected; no device/render/export, CPU fallback equivalence, shader compile or independent numerical qualification is performed. Runtime settings may choose other paths.",
+      "source_spans": [],
+      "source_equation": null,
+      "numerical_oracle": null,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "human_decisions": {
+        "identity": {
+          "status": "pending",
+          "actor": null
+        },
+        "inclusion": {
+          "status": "pending",
+          "actor": null
+        },
+        "rights": {
+          "status": "pending",
+          "actor": null
+        },
+        "acquisition": {
+          "status": "pending",
+          "actor": null
+        },
+        "extraction": {
+          "status": "pending",
+          "actor": null
+        },
+        "claim": {
+          "status": "pending",
+          "actor": null
+        }
+      },
+      "alias_recommendation": "Preserve proposed_unreviewed association or leave unresolved; no reviewed alias write.",
+      "next_human_input": "For core.lorenz_2d, record an attributable human identity/source-subset decision (or leave unresolved). Review the linked source role, version and lawful access basis before inclusion/acquisition; later provide actual equation spans and separate extraction/claim acceptance."
+    },
+    {
+      "identity_id": "core.mandelbulb",
+      "original_identity_label": "mandelbulb",
+      "original_label": "3D / raymarched escape-time",
+      "paper_ids": [
+        "paper-7ecdeae2ea0585a3c4ab"
+      ],
+      "mapping_status": "proposed_unreviewed",
+      "mapping_evidence": "Retained pilot title names the Mandelbulb and 3D fractal imagery.",
+      "ambiguity": "Popular-science article only; no mathematical method/equation or current renderer match is verified.",
+      "approval": "pending",
+      "approval_actor": null,
+      "preparation_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/identity_mappings/10",
+      "draft_status": "agent_draft",
+      "draft_actor": {
+        "type": "agent",
+        "id": "autowork/ACAD-DRAFT-01",
+        "role": "draft_preparer_not_human_reviewer"
+      },
+      "module_id": "mandelbulb",
+      "active_path": "raymarched_gpu",
+      "implementation_bindings": [
+        {
+          "path": "lib/core/modules/module_registry.dart",
+          "sha256": "sha256:7b3dca03133d1ec510c567c4da1ba67c1c58e2e061dbf683d8b4451fef5c6a83",
+          "role": "registry_prefer_last_resolution",
+          "lines": [
+            81,
+            232
+          ]
+        },
+        {
+          "path": "lib/features/renderer/widgets/renderer/fractal_renderer.dart",
+          "sha256": "sha256:cbc41da046edeea95b313d897c3ccbc67ca56480957f24f3dee85d00a526aad4",
+          "role": "runtime_route_trajectory_then_precision_then_gpu",
+          "lines": [
+            425,
+            565
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/raymarched_3d/catalog_impl.dart",
+          "sha256": "sha256:e08ce6c478ffc2c97b799a3ff3678d4e94ed1466df01e6352f79e96b201e7047",
+          "role": "effective_later_config",
+          "lines": [
+            948,
+            1004
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/raymarched_3d/builder.dart",
+          "sha256": "sha256:7c84a63beb7b62556f3fc2ca2909c4aa718bb51536c6c14b83229cdbd247f0e9",
+          "role": "effective_builder_and_uniforms",
+          "lines": [
+            1,
+            208
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/uniform_layout.dart",
+          "sha256": "sha256:bf052335102bf22e6610ffbba3cb778f7a7b7788e6b57c6dc2180f9d85ae5a7d",
+          "role": "uniform_slot_contract",
+          "lines": [
+            24,
+            109
+          ]
+        },
+        {
+          "path": "lib/core/modules/common_params.dart",
+          "sha256": "sha256:f1c118cbad17df30b8d261da6318a3d2b9ebf62adb5020c361eaeedcd75c9229",
+          "role": "parameter_bounds",
+          "lines": [
+            65,
+            132
+          ]
+        },
+        {
+          "path": "shaders/legacy/raymarched_3d/mandelbulb.frag",
+          "sha256": "sha256:05d8438f4702293f69dde454e1a7b6c6d62cf7e66cb1da7fe9ef953caa991e22",
+          "role": "effective_gpu_shader",
+          "lines": [
+            1,
+            300
+          ]
+        }
+      ],
+      "implementation_observation": "Effective module is the later Raymarched3DConfig, not the superseded custom builder: spherical-power distance estimator with z initialized to pos, power default 8, and static 50-step DE loop. Raymarching/lighting approximations are separate from mathematical identity.",
+      "effective_controls_note": "Effective raymarched config power=8 (2..12), iterations=50 (5..100), steps=120 (20..200), bailout=2 (1..8), variant=0 with exposed 0..1. Default zoom=1 and rotation=(0.3,-0.4,0); extra presets are not the default. Scalars are passed through the standard setter; shader uses int(uIterations), with DE loop hard cap 50 and zoom-dependent ray-step LOD.",
+      "source_equation_gap": "Magazine attribution is not mathematical authority for the spherical map, derivative estimate, singular cases, distance bounds or raymarch accuracy. No independent 3D oracle or source equation spans are available.",
+      "backend_gap": "Only the named source paths are inspected; no device/render/export, CPU fallback equivalence, shader compile or independent numerical qualification is performed. Runtime settings may choose other paths.",
+      "source_spans": [],
+      "source_equation": null,
+      "numerical_oracle": null,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "human_decisions": {
+        "identity": {
+          "status": "pending",
+          "actor": null
+        },
+        "inclusion": {
+          "status": "pending",
+          "actor": null
+        },
+        "rights": {
+          "status": "pending",
+          "actor": null
+        },
+        "acquisition": {
+          "status": "pending",
+          "actor": null
+        },
+        "extraction": {
+          "status": "pending",
+          "actor": null
+        },
+        "claim": {
+          "status": "pending",
+          "actor": null
+        }
+      },
+      "alias_recommendation": "Preserve proposed_unreviewed association or leave unresolved; no reviewed alias write.",
+      "next_human_input": "For core.mandelbulb, record an attributable human identity/source-subset decision (or leave unresolved). Review the linked source role, version and lawful access basis before inclusion/acquisition; later provide actual equation spans and separate extraction/claim acceptance."
+    },
+    {
+      "identity_id": "core.brian_brain",
+      "original_identity_label": "brian_brain",
+      "original_label": "cellular / stochastic local rule",
+      "paper_ids": [],
+      "mapping_status": "unresolved",
+      "mapping_evidence": "The general cellular-automata chapter is not specific to Brian's Brain and is not assigned to this identity.",
+      "ambiguity": "No suitable Brian's Brain source identified in the bounded pilot subset.",
+      "approval": "pending",
+      "approval_actor": null,
+      "preparation_ref": "research/academic/reviews/ACAD-02-pilot-approval.json#/identity_mappings/11",
+      "draft_status": "agent_draft",
+      "draft_actor": {
+        "type": "agent",
+        "id": "autowork/ACAD-DRAFT-01",
+        "role": "draft_preparer_not_human_reviewer"
+      },
+      "module_id": "brian_brain",
+      "active_path": "standard_gpu_subject_to_runtime_backend_policy",
+      "implementation_bindings": [
+        {
+          "path": "lib/core/modules/module_registry.dart",
+          "sha256": "sha256:7b3dca03133d1ec510c567c4da1ba67c1c58e2e061dbf683d8b4451fef5c6a83",
+          "role": "registry_prefer_last_resolution",
+          "lines": [
+            81,
+            232
+          ]
+        },
+        {
+          "path": "lib/features/renderer/widgets/renderer/fractal_renderer.dart",
+          "sha256": "sha256:cbc41da046edeea95b313d897c3ccbc67ca56480957f24f3dee85d00a526aad4",
+          "role": "runtime_route_trajectory_then_precision_then_gpu",
+          "lines": [
+            425,
+            565
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/escape_time_catalog/cellular_stochastic.dart",
+          "sha256": "sha256:737bebc1c70396ccc7eb32f204bed13b0c5ef16488d071e70bbdd9dc973422c7",
+          "role": "catalog_config",
+          "lines": [
+            407,
+            427
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/escape_time/builder.dart",
+          "sha256": "sha256:6eead995d5ef808efbc7c1886c2b2142c5bfa2fb96d791af751ed59021c29ce2",
+          "role": "defaults_and_uniform_setter",
+          "lines": [
+            1,
+            286
+          ]
+        },
+        {
+          "path": "lib/core/modules/builders/uniform_layout.dart",
+          "sha256": "sha256:bf052335102bf22e6610ffbba3cb778f7a7b7788e6b57c6dc2180f9d85ae5a7d",
+          "role": "uniform_slot_contract",
+          "lines": [
+            10,
+            22
+          ]
+        },
+        {
+          "path": "lib/core/modules/common_params.dart",
+          "sha256": "sha256:f1c118cbad17df30b8d261da6318a3d2b9ebf62adb5020c361eaeedcd75c9229",
+          "role": "parameter_bounds",
+          "lines": [
+            65,
+            132
+          ]
+        },
+        {
+          "path": "shaders/cellular_and_stochastic/brian_brain_gpu.frag",
+          "sha256": "sha256:f712bab9dbc89a8daa3d87a2ad4cbbe8e9a7168df365f72b8faee09e8b19bcbe",
+          "role": "registered_gpu_shader_not_always_active_default",
+          "lines": [
+            1,
+            107
+          ]
+        }
+      ],
+      "implementation_observation": "GPU uses hash-seeded stateless pseudo-evolution, samples neighboring pseudo-states and computes a three-color local classification; it does not persist a full automaton grid across generations.",
+      "effective_controls_note": "Iterations=260, bailout=4; timeDriven config; builder auto-framing applies. Shader target truncates clamp 1..500; tStep=floor(0.35*target+0.5*time); bailout is unused.",
+      "source_equation_gap": "General cellular-automata metadata is deliberately not assigned. No source-backed transition truth table, simultaneous-update boundary/seed policy or multi-generation oracle is available; the comment naming Brian's Brain does not verify evolution.",
+      "backend_gap": "Only the named source paths are inspected; no device/render/export, CPU fallback equivalence, shader compile or independent numerical qualification is performed. Runtime settings may choose other paths.",
+      "source_spans": [],
+      "source_equation": null,
+      "numerical_oracle": null,
+      "claim_state": "unreviewed",
+      "accepted_claim": false,
+      "human_decisions": {
+        "identity": {
+          "status": "pending",
+          "actor": null
+        },
+        "inclusion": {
+          "status": "pending",
+          "actor": null
+        },
+        "rights": {
+          "status": "pending",
+          "actor": null
+        },
+        "acquisition": {
+          "status": "pending",
+          "actor": null
+        },
+        "extraction": {
+          "status": "pending",
+          "actor": null
+        },
+        "claim": {
+          "status": "pending",
+          "actor": null
+        }
+      },
+      "alias_recommendation": "Keep unresolved with no paper IDs; do not assign a family/name-only alias.",
+      "next_human_input": "For core.brian_brain, record an attributable human identity/source-subset decision (or leave unresolved). Supply a specific authoritative source identity/version and relevance decision under a separately authorized source workflow; no source is selected by this draft."
+    }
+  ],
+  "common_implementation_limits": {
+    "escape_time_uniforms": "Slots 0 time; 1..2 resolution; 3..4 pan; 5 zoom; 6 iterations; 7 bailout; 8 palette; 9 transparency; 10+ extra parameters. Extra numeric values are clamped; shared scalar iteration/bailout setters read values without a new local clamp.",
+    "defaults": "Do not equate configured 120 with the effective iteration count. Escape-time builder selects a first curated preset or deterministic ID-derived defaults, then clamps default zoom to 0.2..32 and default iterations to 20..maxIterations. Runtime precision policy can further scale iteration values.",
+    "parameter_drift": "Current bailout schema expands max to configured default. Historical inventory claims of four_wing bailout=12 normalized to 8 are not treated as current source truth.",
+    "cpu_fallback": "CPU fallback exists as a separate runtime path. This draft does not use CPU approximations or prior image checks as independent mathematical oracles."
+  },
+  "decision_boundary": {
+    "human_decisions": {
+      "identity": {
+        "status": "pending",
+        "actor": null
+      },
+      "inclusion": {
+        "status": "pending",
+        "actor": null
+      },
+      "rights": {
+        "status": "pending",
+        "actor": null
+      },
+      "acquisition": {
+        "status": "pending",
+        "actor": null
+      },
+      "extraction": {
+        "status": "pending",
+        "actor": null
+      },
+      "claim": {
+        "status": "pending",
+        "actor": null
+      }
+    },
+    "full_text_acquired": false,
+    "new_search_performed": false,
+    "reviewed_aliases_changed": false,
+    "accepted_claim": false,
+    "blanket_906_record_approval": false,
+    "retained_provider_failures": "Original pilot reported 20 arXiv attempt failures; they remain failures, not zero-hit evidence or successful new retrieval.",
+    "next_gate": "ACAD-03 remains human-gated; drafts do not release ACAD-01-LIVE/ACAD-02-LIVE/ACAD-03 holds. Number Walls remains accepted-planned outside these 12 pilot IDs."
+  },
+  "update_triggers": [
+    "Any selected paper/identity, preparation package, alias/collision record or bound implementation hash change requires a new explicitly draft reconciliation; never repin the preparation snapshot.",
+    "Human decisions belong in separate attributable review records; this packet must not be promoted in place to an accepted mathematical claim."
+  ]
+}

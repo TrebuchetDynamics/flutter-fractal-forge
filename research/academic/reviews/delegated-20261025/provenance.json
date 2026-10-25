@@ -1,0 +1,53 @@
+{
+  "question": "Prepare exactly the existing six-source and 12-identity delegated academic draft without source acquisition.",
+  "task": "ACAD-DRAFT-01",
+  "actor": {
+    "type": "agent",
+    "id": "autowork/ACAD-DRAFT-01",
+    "role": "draft_preparer_not_human_reviewer"
+  },
+  "status": "agent_draft",
+  "source_revision": "5f77b348bd7907cd5e7776b5b05f6be48157bb20",
+  "timestamp": "2026-10-25T23:24:01Z",
+  "rforge_version": "dev (a743265, 2026-10-20T01:16:43Z)",
+  "depth": "bounded offline reuse; not a new comprehensive search",
+  "queries": [],
+  "sources": [],
+  "search_stats": {
+    "new_queries": 0,
+    "new_retrievals": 0,
+    "selected_existing_papers": 6,
+    "selected_existing_identities": 12
+  },
+  "citation_expand_attempted": [],
+  "citation_expand_succeeded": [],
+  "inputs": {
+    "docs/planning/visual-audit-inventory.json": "sha256:bf5b15c8e78de8062b96b25a50500e5eb07431a21990fab1f8fc999136360df9",
+    "docs/tasks/DELEGATED-DECISIONS-20261025.md": "sha256:eb7b97e8151b35801aae1c13468b763de601e745db5e57b0a4536fbcf8507be9",
+    "research/academic/identity-aliases.json": "sha256:4adae91a0c3028703a2593df164377ce4a69bf46e48270ef9507275724941bfa",
+    "research/academic/identity-review.json": "sha256:11d8f338f6b879c394bd3fc98a7b278feaecdb31a6199c55889803d9c57f04b9",
+    "research/academic/papers.jsonl": "sha256:1c26406c5a5957bff28841076e78d6fbcd8ee2ac142204c132de72b6ee4de997",
+    "research/academic/reviews/ACAD-02-pilot-approval.json": "sha256:8981d0413d3ba58e3e50c4ff4226ff44af73edc38f7f20002a3789564e7a52b4",
+    "research/academic/reviews/ACAD-02-pilot-approval.md": "sha256:1faeed9f23b6e9308f044983218e726b78c424c7757c7dba4e0c446dab6cf88a",
+    "research/academic/runs/ACAD-02-pilot-20260603/failures.jsonl": "sha256:4d7fb1ab86d5140d9351b163236c10233f1d599b030aeb8160642e8db5a20c43",
+    "research/academic/runs/ACAD-02-pilot-20260603/owner-review.csv": "sha256:299786af6e18be942177b081912c6443e63e1d9311781474303a5f92e35b1e1f",
+    "research/academic/runs/ACAD-02-pilot-20260603/provenance.json": "sha256:bc4879407958fea2527e0d2fe96e1a36fbc537fc97e138637023f9e493abb2ed",
+    "research/academic/runs/ACAD-02-pilot-20260603/report.md": "sha256:742ffbdc0c5bf949d1af3f9feb539d64106709767854b670c3266a551726e08a",
+    "research/academic/runs/ACAD-02-pilot-20260603/results-deduped.jsonl": "sha256:1ad3c76ceae4d07b521be415a3d2d1edcc64394644be546e12e508b59198639c",
+    "research/academic/runs/ACAD-02-pilot-20260603/results.jsonl": "sha256:d1903e1238c55a99043696bfcf528b2871720f39990ed5491d105c0e05f2ee65",
+    "research/academic/runs/ACAD-02-pilot-20260603/review-queue.csv": "sha256:d411a8bba45d73c023f028bd10e87386344ff2abb21341264d9f3680cbef9f28"
+  },
+  "outputs": [
+    "draft-packet.json",
+    "README.md",
+    "provenance.json"
+  ],
+  "limits": [
+    "No new network calls, full text, PDF/OCR, provider setup, acquisition, package export or human acceptance.",
+    "Bibliographic and rights observations are retained 2026-10-18 metadata, not newly verified external facts.",
+    "Implementation observations describe local code, not source-checked equations; source spans and numerical oracles remain empty/null."
+  ],
+  "errors": [
+    "Retained pilot provider failures are unchanged; see the original failures.jsonl and report.md."
+  ]
+}
