@@ -10,6 +10,7 @@ import 'package:flutter_fractals/features/viewer/rendering/cpu_fallback_pane.dar
 import 'package:flutter_fractals/features/renderer/cpu/cpu_formulas.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:image/image.dart' as img;
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/models/perron_tree_model.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
@@ -104,7 +105,7 @@ void main() {
     expect(math.qualification, contains('not a zero-area'));
     expect(module.builtInPresets, hasLength(2));
   });
-  test('rendered triangle coverage agrees with independent barycentric oracle',
+  test('decoded shader PNG coverage agrees with independent barycentric oracle',
       () async {
     for (final depth in [0, 3, 5]) {
       final params = {
@@ -115,8 +116,9 @@ void main() {
         'angle': 23.0
       };
       final image = await draw(params);
-      final data =
-          (await image.toByteData(format: ui.ImageByteFormat.rawRgba))!;
+      final png = (await image.toByteData(format: ui.ImageByteFormat.png))!;
+      final decoded = img.decodePng(png.buffer.asUint8List())!;
+      expect([decoded.width, decoded.height], [240, 200]);
       final tree = PerronTree(depth: depth, overlap: .8);
       const scale = 3 / (200 * 1.25);
       var checked = 0, hits = 0;
@@ -130,7 +132,7 @@ void main() {
                 inside(px + dx * scale, py + dy * scale, tree, 23)
           ].every((v) => v == expected);
           if (!stable) continue;
-          final green = data.getUint8((y * 240 + x) * 4 + 1);
+          final green = decoded.getPixel(x, y).g.toInt();
           // An antialiased outside edge may contribute up to half of the
           // geometric green channel (204); do not call that an interior pixel.
           expect(green > 115, expected,

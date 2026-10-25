@@ -336,11 +336,43 @@ No speedup/fps or live visual-quality claim follows from these offline tests/bui
 
 ## Finite Besicovitch / Perron tree
 
-`test/models/perron_tree_model_test.dart` checks the translated-leaf fixture, independent interval-union area bounds, sampled directional witnesses, immutable offsets and numerical input limits. `test/modules/perron_tree_test.dart` draws the real registered shader and compares geometric pixels with a separate barycentric oracle, checks static output, style/transparency/PNG readback, camera extremes, and the EN/ES shader-only notice. CPU dispatch must refuse synthetic substitution. The analytic full-angle argument and current limits are in [the construction owner](../../research/besicovitch-shader.md#finite-implementation).
+`test/models/perron_tree_model_test.dart` checks the translated-leaf fixture, independent interval-union area bounds, sampled directional witnesses, immutable offsets and numerical input limits. `test/modules/perron_tree_test.dart` draws the real registered shader, encodes and decodes its PNG, and compares geometric pixels with a separate barycentric oracle, checks static output, style/transparency/PNG readback, camera extremes, and the EN/ES shader-only notice. CPU dispatch must refuse synthetic substitution. The analytic full-angle argument and current limits are in [the construction owner](../../research/besicovitch-shader.md#finite-implementation).
 
-Run `flutter test --no-pub test/models/perron_tree_model_test.dart test/modules/perron_tree_test.dart`. Optional `PERRON_PREVIEW_DIR` saves actual shader PNGs and named host draw/readback samples at increasing depths. These are host raster checks, not hardware GPU, performance parity, installed-device acceptance or a complete image-export journey. Preserve separate Android, browser and Linux journey gates, and test direct export/fallback failures rather than showing a substitute image.
+Run `flutter test --no-pub test/models/perron_tree_model_test.dart test/modules/perron_tree_test.dart --reporter expanded`. Optional `PERRON_PREVIEW_DIR` saves actual shader PNGs and named host draw/readback samples at increasing depths. These are host raster checks, not hardware GPU, performance parity, installed-device acceptance or a complete image-export journey. Preserve separate Android, browser and Linux journey gates, and test direct export/fallback failures rather than showing a substitute image.
 
 Perron luminous readability: the module regressions also reject clipped overlap centers at depths 0/3/5 with default/maximum glow, verify premultiplied channels and transparent-to-opaque composition, and retain the independent geometric pixel oracle. Compare same-size shader PNGs for exposure; lower luminous occupancy is not a mathematical area change. This is a styling-only patch; rerun targeted model/module/shader and Chrome checks, and retain separate physical-device and complete export-journey gates.
+
+### BESICOVITCH-01 source-bound reconciliation
+
+Baseline: `f7c3ee1c338a337dd175b3684ba9b8c8add457ec`. This pass preserves the integrated model, module, shader and model tests. It extends the existing coverage case to decode the shader's PNG before checking geometry, rather than accepting a PNG signature alone. It does not implement another Perron tree or qualify a limiting set.
+
+Mathematical checks precede rendering claims:
+
+- **Translations:** [the model](../../lib/core/models/perron_tree_model.dart) uses H=1/sqrt(3), N=2^d, delta=2H/N. At stage k, adjacent groups contain 2^k leaves and hearts of height h=a^k. Alignment contributes -2^k delta(1-h), and merging contributes -2(2^k delta h)(1-a). Their sum is exactly the model's -2^k delta[1+a^k(1-2a)], applied to the right group (bit k set). Leaves are translated, never scaled. The independent two-stage fixture at a=.75 gives [0,-H/4,-5H/8,-7H/8].
+- **All directions, not just samples:** leaf j retains slopes [-H+j delta,-H+(j+1)delta]. These closed intervals partition [-H,H], or angles [pi/3,2pi/3]. Fan rotations 0, 2pi/3, 4pi/3 give [pi/3,2pi/3], [0,pi/3], [2pi/3,pi] modulo pi. For any angle in a leaf interval, its upward unit vector has y in [0,1]. Every point of the segment from the translated apex therefore satisfies that leaf's two slope inequalities. Translation, recentering and rigid scene rotation preserve length and direction coverage. The sampled witness test is a regression, not the continuous proof.
+- **Finite area:** Wigderson, *The Kakeya Conjecture*, Mathcamp 2017, [section 2, printed pages 4–5](https://ywigderson.math.ethz.ch/math/static/KakeyaNotes.pdf), derives the heart/ears bound. After d stages, the heart contributes H a^(2d), and stage k ears contribute at most 2H(1-a)^2 a^(2k). Summing gives area/H <= a^(2d)+2(1-a)^2 sum(k=0..d-1,a^(2k)) <= a^(2d)+2(1-a)/(1+a). The finite sum also covers a=.5 and a=1 by continuity. The [model test](../../test/models/perron_tree_model_test.dart) independently integrates affine interval unions at every endpoint crossing for d=0..5 and a=.5/.75/.8/.99/1. Each leaf has area H/N>0. Three fans have union area at most three times the single-fan bound, not necessarily equal to it. Neither glow nor pixel counts enter this argument. No Pal joins are implemented, so no continuous needle-motion claim follows.
+
+Fresh offline evidence uses Flutter 3.44.6 (framework `ee80f08bbf`, engine `83675ed276`) / Dart 3.12.2 on Linux x86_64. The exact focused command above passed **12 tests**. A verbose rerun of the decoded-PNG case confirmed `flutter_tester` with `--enable-software-rendering --skia-deterministic-rendering`: software Skia, not a hardware GPU. This compiles and draws the actual registered fragment program. The decoded 240×200 geometric PNGs at depths 0/3/5, a=.8, rotation 23 degrees agree with the independent vertex-cross-product oracle away from antialiased boundaries (over 500 stable samples and over 10 interior hits per depth). The oracle shares model translations, but not shader half-plane evaluation; translation correctness is established separately above. Other existing cases check time-invariant captured parameters, style separation, premultiplied transparency, overlap color, extreme cameras, finite input handling and the localized CPU-only notice.
+
+Production source bindings at that baseline (Git blob IDs):
+
+| Source | Blob |
+| --- | --- |
+| `lib/core/models/perron_tree_model.dart` | `9a11230f6a1eef7b0e92c4aba9883128568123e2` |
+| `lib/core/modules/fractals/perron_tree_module.dart` | `7ba8cc1f11aa493a5f81a276b5bf33c7a2697205` |
+| `shaders/ifs_and_geometric/perron_tree_gpu.frag` | `495cceefef763982882d9210b0c1d8124eefc63f` |
+
+With `PERRON_PREVIEW_DIR` set to an owned scratch directory, the existing fixture also produced geometric, luminous, transparent and 960×720 showcase PNGs. Its 512×512 host-raster draw/readback samples were:
+
+| Depth | Three samples (microseconds) |
+| --- | --- |
+| 0 | 64755, 63620, 66585 |
+| 3 | 325963, 331156, 333235 |
+| 5 | 1161437, 1167509, 1153311 |
+
+The metric includes program lookup, shader creation, draw, image creation and RGBA readback. These are three host samples, not steady-state frame times or measured hardware-GPU performance. They do **not** support an interactive-performance claim. Scratch images/timings are reproducible diagnostic artifacts, not a durable device receipt.
+
+The module declares static animation and ignores time in its shader. Existing same-state output tests cover offline invariants, not a complete Perron viewer/export journey. `flutter test --no-pub test/export/viewer_export_session_test.dart --reporter expanded` also passed **9 tests**, including freeze while the sheet/export is active and revocation of automatic resume on visibility loss. Retain installed Android, browser and Linux browse/customize/understand/export journeys, decoded saved-file comparison against the frozen edited camera/parameters, OS/in-app reduced-motion and assistive-technology checks, human mathematical-composition review, and named hardware-backend timings as separate pending qualification. The coordinator still owns the unchanged common offline gate on the merged source. Historical research NOT_RUN statements remain research history, not current implementation status or waived checks.
 
 ## Modal and live controls consistency
 
