@@ -6,6 +6,7 @@ cd "$PROJECT_ROOT"
 
 FLUTTER_BIN="${FLUTTER_BIN:-flutter}"
 DEVICE="${ANDROID_DEVICE:-}"
+DEVICE_ARGUMENT=""
 DISPOSABLE_DEVICE=""
 DEVICE_MUTATION_STARTED=0
 BUILD_NAME="${RELEASE_BUILD_NAME:-}"
@@ -52,12 +53,36 @@ A dry run is not qualification evidence; all real gates still need to pass.
 EOF
 }
 
+set_device_option() {
+  local option="$1" value="$2" previous
+  if [[ -z "$value" || "$value" == -* ]]; then
+    printf '%s requires a nonempty device ID that does not start with "-".\n' "$option" >&2
+    exit 2
+  fi
+  if [[ "$option" == "--device" ]]; then
+    # A CLI selection can override ANDROID_DEVICE, but not an earlier CLI ID.
+    previous="$DEVICE_ARGUMENT"
+  else
+    previous="$DISPOSABLE_DEVICE"
+  fi
+  if [[ -n "$previous" && "$previous" != "$value" ]]; then
+    printf 'Conflicting repeated %s IDs are not allowed.\n' "$option" >&2
+    exit 2
+  fi
+  if [[ "$option" == "--device" ]]; then
+    DEVICE_ARGUMENT="$value"
+    DEVICE="$value"
+  else
+    DISPOSABLE_DEVICE="$value"
+  fi
+}
+
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --device) DEVICE="$2"; shift 2 ;;
-    --device=*) DEVICE="${1#*=}"; shift ;;
-    --disposable-device) DISPOSABLE_DEVICE="$2"; shift 2 ;;
-    --disposable-device=*) DISPOSABLE_DEVICE="${1#*=}"; shift ;;
+    --device|--disposable-device)
+      set_device_option "$1" "${2:-}"; shift 2 ;;
+    --device=*|--disposable-device=*)
+      set_device_option "${1%%=*}" "${1#*=}"; shift ;;
     --soak-seconds) SOAK_SECONDS="$2"; shift 2 ;;
     --soak-seconds=*) SOAK_SECONDS="${1#*=}"; shift ;;
     --build-name) BUILD_NAME="$2"; shift 2 ;;
@@ -72,6 +97,11 @@ while [[ $# -gt 0 ]]; do
     *) printf 'Unknown argument: %s\n' "$1" >&2; exit 2 ;;
   esac
 done
+
+if [[ "$DEVICE" == -* ]]; then
+  echo 'ANDROID_DEVICE must be a device ID that does not start with "-".' >&2
+  exit 2
+fi
 
 # Flutter integration can uninstall/reinstall the app before our explicit APK
 # install. Refuse before *any* runner or device command, not just adb uninstall.

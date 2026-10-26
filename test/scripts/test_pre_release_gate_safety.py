@@ -114,6 +114,46 @@ def test_opt_in_must_name_the_explicit_selected_device(gate, args):
 
 
 @pytest.mark.parametrize("args", [
+    ["--device", "another-device", f"--device={DEVICE}", "--disposable-device", DEVICE],
+    [f"--device=another-device", "--device", DEVICE, "--disposable-device", DEVICE],
+    ["--device", DEVICE, "--disposable-device", "another-device", f"--disposable-device={DEVICE}"],
+    ["--device", DEVICE, "--disposable-device=another-device", "--disposable-device", DEVICE],
+    ["--device", "--disposable-device", "--disposable-device=--disposable-device"],
+    ["--device=-s", "--disposable-device=-s"],
+    ["--device", "-s", "--disposable-device", "-s"],
+    ["--device"], ["--disposable-device"],
+    ["--device="], ["--disposable-device="],
+    ["--device", "", "--disposable-device", DEVICE],
+])
+@pytest.mark.parametrize("plan_only", [False, True])
+def test_ambiguous_or_missing_device_arguments_refuse_before_commands(gate, args, plan_only):
+    result, calls, installed = gate(*args, *(["--dry-run"] if plan_only else []),
+                                    fail_gate="analyze")
+    assert result.returncode == 2, result.stdout + result.stderr
+    assert calls == []
+    assert installed.read_text() == "release-signed app with irreplaceable presets"
+    assert not (installed.parent / "evidence").exists()
+
+
+@pytest.mark.parametrize("args", [["--disposable-device=-s"], ["--dry-run"]])
+def test_option_like_android_device_environment_refuses_before_commands(gate, args):
+    result, calls, installed = gate(*args, android_device="-s", fail_gate="analyze")
+    assert result.returncode == 2
+    assert calls == []
+    assert installed.read_text() == "release-signed app with irreplaceable presets"
+
+
+def test_identical_repeated_device_arguments_are_unambiguous(gate):
+    result, calls, installed = gate(
+        "--device", DEVICE, f"--device={DEVICE}",
+        "--disposable-device", DEVICE, f"--disposable-device={DEVICE}", fail_gate="analyze",
+    )
+    assert result.returncode == 17
+    assert calls == [["flutter", "analyze"]]
+    assert installed.read_text() == "release-signed app with irreplaceable presets"
+
+
+@pytest.mark.parametrize("args", [
     ["--help"], ["--dry-run"], ["--dry-run", "--device", DEVICE],
     ["--dry-run", "--device", DEVICE, "--disposable-device", DEVICE],
 ])
