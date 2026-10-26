@@ -6,18 +6,33 @@ The old gate uninstalled any installed Fractal Forge package, despite calling it
 an “instrumented app”; Flutter integration can also replace/uninstall the package
 before that explicit uninstall. Removing only the explicit uninstall is unsafe.
 
-## Supported route: an entirely disposable test device
+## Established project target: the existing Waydroid instance
 
-Execution requires both an explicit `--device ID` (or `ANDROID_DEVICE`) and a
-matching `--disposable-device ID` argument. This is an operator acknowledgement
-that the **entire named device** is dedicated to testing, with no production app
-or valuable data in any Android user/profile. The script cannot verify that
-human assertion. Do not acknowledge a personal or production device. No device is
-auto-selected for execution; an Android secondary/work profile alone is not a
-supported isolation boundary for the Flutter integration runner.
+The owner has **already designated Waydroid for testing**, reaffirmed on
+2026-10-26. See the [standing target contract](../testing/waydroid-headless.md#standing-owner-designation-use-this-waydroid-target)
+for identity, current-serial checks, approved app-replacement scope and invocation.
+Do not ask for a new device designation merely because a release-signed app is
+installed there: production-mode builds are part of that test workflow. Historical
+[complete gate results](../testing/waydroid-export-verification.md#thumbnaillayout-repair-and-complete-gate-rerun-2026-10-25-utc)
+are evidence of its established use, not a pass for a later candidate.
 
-Example for an operator-provisioned disposable target (not a command executed by
-this change):
+Execution still requires explicit `--device ID` (or `ANDROID_DEVICE`) and matching
+`--disposable-device ID`. For the designated Waydroid target this encodes existing
+owner authorization, not a fresh approval question. The campaign maps an explicitly
+supplied `ANDROID_DISPOSABLE_DEVICE` to the latter flag. Revalidate the current
+serial and coordinate exclusive use; neither device discovery nor matching IDs
+alone authorizes another device.
+
+The dedicated instance may contain release-signed **test** builds; that does not
+make it a personal/production-use device. The standing designation covers the
+documented app install/reinstall/uninstall test cycle, not container/factory
+resets, unrelated data deletion or other profiles/devices. A different personal
+device still needs its own authority. No device is auto-selected for execution;
+a secondary Android profile alone is not an established Flutter-runner isolation
+boundary.
+
+Generic direct-gate syntax (use the designated Waydroid instance's current serial
+and the selected candidate's build/evidence options; not executed by this doc edit):
 
 ```sh
 scripts/pre-release-gate.sh --device DISPOSABLE_SERIAL \
@@ -30,10 +45,12 @@ foreground protection, process-death, offline/network restoration, performance
 and wall-clock soak checks remain required; opt-in does not make them pass.
 Cleanup is armed only when the device-mutation phase starts, not on host failures.
 
-There is no established same-signature update/restore route for an installed
-release-signed app in this gate. If a wholly disposable target cannot be provided,
-the gate must remain blocked. It does not inspect signing credentials, back up or
-restore production user data, or claim release-signature qualification.
+There is no established same-signature update/restore route for personal production
+app data in this gate. That limitation does not revoke the existing Waydroid test
+designation or prohibit its approved test-app replacement cycle. If Waydroid is
+unavailable or busy, record the actual access/contention issue; do not reopen the
+settled device-choice question. The gate does not back up/restore personal data or
+claim release-signature qualification.
 
 ## Inspection versus qualification
 
@@ -42,8 +59,9 @@ evidence directory. Dry-run output is a **conditional plan, not qualification
 evidence**; its ABI is illustrative until real execution probes the named device.
 A successful dry run or command-double regression test cannot qualify Android.
 
-Actual release qualification still needs an explicitly authorized disposable
-Android target, its real ABI/runtime, the intended artifact/build identity, and
-passing real host, integration, offline, performance, restoration and full-duration
-soak evidence. This change neither runs those device checks nor authorizes
-installation/publication on an existing production device.
+Actual release qualification still needs the designated target's real ABI/runtime,
+the intended artifact/build identity, and passing real host, integration, offline,
+performance, restoration and full-duration soak evidence. Waydroid is already the
+authorized Android test target; physical-device/hardware claims remain separate.
+This documentation correction does not run tests, fabricate qualification or
+authorize publication or installation on another production-use device.

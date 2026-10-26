@@ -22,11 +22,19 @@ Expected signals are successful process completion and passing test output. If d
 
 ## Android testing over SSH
 
-Use the [headless Waydroid setup and recovery guide](testing/waydroid-headless.md)
-for the existing Android container: network diagnosis, public-key ADB authorization
-without a desktop, and device-readiness checks. A connected target is not a passed
-export/gallery journey or production-release approval. Review the guide's app-data
-replacement warning before running integration tests.
+**Waydroid is already the owner-designated Android test target**, reaffirmed
+2026-10-26; do not ask the owner to designate it again. Follow the
+[standing target contract and setup guide](testing/waydroid-headless.md#standing-owner-designation-use-this-waydroid-target)
+for current ADB serial/model verification, permitted app replacement, matching gate
+acknowledgement and exclusive worker access. The observed serial is
+`192.168.240.112:5555`; its IP can change. A release-signed app installed inside
+this test container is not by itself a personal-device blocker.
+
+Use that guide's networking/key-recovery procedures only if connectivity actually
+needs repair; do not restart a healthy session. The designation is settled, but
+export/gallery tests, actual artifact/source checks and technical release gates
+still need their real outcomes. Waydroid remains emulator/container evidence, not
+physical-device/hardware-GPU proof or general publication authority.
 
 ## CI and release operations
 

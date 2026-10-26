@@ -95,6 +95,12 @@ Verification: run from the execution checkout root with the pinned isolated/prov
 
 <!-- MANUAL: -->
 
+## Standing Android test target: Waydroid
+
+The owner has already designated the existing headless Waydroid instance for Android testing (reaffirmed 2026-10-26). **Do not ask the owner to choose or authorize that test target again.** The observed ADB serial is `192.168.240.112:5555`, model `WayDroid_x86_64_Device`; revalidate its current serial rather than assuming the IP is permanent or selecting another connected device.
+
+Use the [canonical Waydroid test-target contract](docs/engineering/testing/waydroid-headless.md#standing-owner-designation-use-this-waydroid-target). Its standing designation covers the documented app-testing/install/reinstall/uninstall cycle, including production-mode test builds. Encode the existing consent explicitly with matching `ANDROID_DEVICE` / `ANDROID_DISPOSABLE_DEVICE` or gate flags. An installed release-signed app alone is not a new authorization blocker. Coordinate active workers; do not reset the container, delete unrelated data, change other devices/profiles or infer publication authority. Waydroid results remain emulator/container evidence, not physical-device/hardware-GPU qualification; actual tests and technical gates still must run.
+
 <!-- karpathy-guidelines:start -->
 ## Karpathy-Inspired Agent Guardrails
 
