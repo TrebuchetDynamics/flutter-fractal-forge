@@ -1,0 +1,9 @@
+schema = 1
+task = "MAIN-RESCAN-PRESET-01"
+candidate = "38ef37e3cb20066621028ef8320eddb808f7db66"
+integration = "3bb7b99e708703ddf9962a13da2eb4f63e814eeb"
+tree = "98bf95deb131338d5c72bcf0bbf257ad82ea5340"
+contract_hash = "0ac7d8adae8063a0cda1ba8261d52802ffa4287746e599d1bfae4b6dcc35ec05"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAIN-RESCAN-PRESET-01"]
+result = "pass"
+review = "passed"

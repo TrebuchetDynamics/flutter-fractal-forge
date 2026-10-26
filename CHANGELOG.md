@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Stabilize rescan-fallback retry coverage and independently audit all seven alternate presets with exception-safe render cleanup and stage diagnostics. (MAIN-RESCAN-PRESET-01)
 - Added real Linux/Chromium Fibonacci save/reopen/export coverage and fixed premature CanvasKit offscreen shader disposal that produced diagnostic-magenta PNGs. (FIB-PRIME-03)
 - Fix quaternion journey plot-boundary comparison and retain source-bound Linux/Chromium list, walk, rotation and independently decoded PNG evidence. (QUAT-LOCAL-01)
 - Added opt-in Gaussian chunk diagnostics, B128 cancellation/budget regressions, and source-bound Linux growth/export evidence with retained PNGs. (GAUSS-LOCAL-01)
