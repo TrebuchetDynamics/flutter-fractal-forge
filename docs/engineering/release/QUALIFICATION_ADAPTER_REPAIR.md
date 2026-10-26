@@ -23,7 +23,11 @@ On the isolated adapter candidate:
 - `bats test/scripts/*.bats`: **25 passed**.
 - `git diff --check`: passed.
 
-These counts describe this adapter patch before composition with the independently tested Android/container patches. Later composed checks have their own results; no full Flutter or hardware/device pass is inferred from Python/Bats tests.
+These counts describe the initial adapter patch before composition with the independently tested Android/container patches. The composed candidate at `d13be3bd` additionally includes explicit disposable-device forwarding, the [Android safety gate](ANDROID_GATE_SAFETY.md) and [F-Droid container adapter](FDROID_CONTAINER.md).
+
+Composed validation passed **383 Python tests, 1 skipped, 131 subtests**, plus **25 Bats tests**, syntax checks, diff checks, and `shellcheck -x` on the three shell scripts. An initial ShellCheck invocation without `-x` reported SC1091 for the existing sourced identity script; the corrected invocation followed that source and passed. The actual composed F-Droid wrapper's mountless/networkless `--version` probe again exited zero with `399ac60`. Independent reviews found no remaining integration blockers after fixes for ambiguous Android flags, summary-only browser receipts and descendant cleanup.
+
+No full Flutter or hardware/device pass is inferred from these script regressions. Actual source scanning, reproducible builds, native/browser qualification and publication were not performed by this repair.
 
 ## F-Droid tooling and genuine external inputs
 
