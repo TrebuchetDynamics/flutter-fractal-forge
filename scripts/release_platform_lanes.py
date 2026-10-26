@@ -18,6 +18,7 @@ import time
 from pathlib import Path
 from typing import Any, Callable
 from urllib.parse import quote
+from urllib.request import urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
 LANES = ("android_play", "fdroid", "web", "linux", "windows", "macos", "ios")
@@ -145,8 +146,8 @@ def _host_unavailable(lane: str) -> str | None:
         sdk_roots = [os.environ.get("ANDROID_SDK_ROOT", ""), os.environ.get("ANDROID_HOME", ""), "/usr/lib/android-sdk"]
         if not any(root and (Path(root) / "build-tools").is_dir() for root in sdk_roots):
             return "Android SDK build tools unavailable for F-Droid source builds"
-        if not shutil.which("fdroid"):
-            return "F-Droid CLI unavailable for official source scan"
+        if not shutil.which(os.environ.get("FDROID_BIN", "fdroid")):
+            return "F-Droid CLI unavailable for official source scan (configure FDROID_BIN for an isolated tool)"
     if lane == "android_play":
         if not (os.environ.get("ANDROID_KEYSTORE_BASE64") and os.environ.get("ANDROID_KEY_PROPERTIES_FILE")):
             return "Android signing credentials unavailable"
@@ -159,6 +160,40 @@ def _host_unavailable(lane: str) -> str | None:
         if not any(line.rstrip().endswith("device") for line in devices.splitlines()[1:] if line.strip()):
             return "qualified Android device unavailable"
     return None
+
+
+def _allocated_port_base() -> int:
+    value = os.environ.get("AUTOWORK_PORT_BASE", "")
+    if not re.fullmatch(r"[0-9]{1,5}", value) or not 1024 <= int(value) <= 65436:
+        raise ValueError("a valid AUTOWORK_PORT_BASE allocation of 100 non-privileged ports is required")
+    return int(value)
+
+
+def _native_protocol_receipt(output: str, environment: dict[str, str],
+                             identity: dict[str, str], port: int) -> dict[str, Any]:
+    paths = [line.removeprefix("Native integration evidence: ")
+             for line in output.splitlines() if line.startswith("Native integration evidence: ")]
+    if len(paths) != 1 or not environment.get("TMPDIR"):
+        raise ValueError("missing unique native protocol evidence directory or private TMPDIR")
+    work = Path(paths[0]).resolve()
+    if not work.is_relative_to(Path(environment["TMPDIR"]).resolve()) or not work.name.startswith("native-integration-"):
+        raise ValueError("native protocol evidence is outside private scratch")
+    receipt = json.loads((work / "run.json").read_text())
+    callback = json.loads((work / "protocol-success.json").read_text())
+    inputs = ("integration_test/flows/user_flows_test.dart", "test_driver/integration_test.dart",
+              "scripts/run-native-integration.sh")
+    valid = (receipt.get("revision") == identity["commit"] and
+             receipt.get("exit_code") == 0 and receipt.get("protocol_success") is True and
+             callback == {"allTestsPassed": True} and
+             receipt.get("cleanup") == {"remaining_pids": []} and
+             receipt.get("port_range") == [port, port + 99] and
+             receipt.get("listeners") == [["tcp", "0100007F", port]] and
+             receipt.get("sdk", {}).get("flutterVersion") ==
+             identity.get("flutter_version", (ROOT / "fdroid/flutter.version").read_text().strip()) and
+             receipt.get("sha256") == {name: sha256_file(ROOT / name) for name in inputs})
+    if not valid:
+        raise ValueError("native protocol/source/SDK/allocation/cleanup evidence does not match the candidate")
+    return receipt
 
 
 def run_native_qualification(lane: str, identity: dict[str, str],
@@ -175,12 +210,18 @@ def run_native_qualification(lane: str, identity: dict[str, str],
     if platform.system().lower() != "linux":
         return {name: {**receipt, "reason": "Linux journey requires a Linux host"}
                 for name, receipt in unknown.items()}
-    command = [os.environ.get("FLUTTER_BIN", "flutter"), "test", "integration_test/flows/user_flows_test.dart",
-               "-d", "linux", "--dart-define=FORCE_GPU_RENDER=true", "--reporter", "expanded"]
+    try:
+        port = _allocated_port_base()
+    except ValueError as error:
+        return {name: {**receipt, "reason": str(error)} for name, receipt in unknown.items()}
+    command = ["bash", "scripts/run-native-integration.sh", "integration_test/flows/user_flows_test.dart",
+               "--timeout", "1200", "--dart-define=FORCE_GPU_RENDER=true"]
+    environment = _lane_environment("common")
     started = time.monotonic()
     try:
-        result = subprocess.run(command, cwd=ROOT, env=_lane_environment("common"),
-                                capture_output=True, text=True, timeout=3600)
+        command = [sys.executable, "scripts/run-release-command.py", "--timeout", "1210", "--", *command]
+        result = subprocess.run(command, cwd=ROOT, env=environment,
+                                capture_output=True, text=True, timeout=1240)
     except (OSError, subprocess.SubprocessError) as error:
         timed_out = isinstance(error, subprocess.TimeoutExpired)
         log_path = _write_stage_log(stage_log_dir, "linux-native-journey", command,
@@ -202,11 +243,21 @@ def run_native_qualification(lane: str, identity: dict[str, str],
         reason = f"native journey/export failed ({result.returncode}): {(result.stderr or result.stdout)[-1200:]}"
         return {name: {"check": name, "verdict": "failed", **identity, "reason": reason,
                        "command": command, "stage_log": str(log_path) if log_path else None} for name in checks}
-    # A successful command does not supply the still-missing accepted visual evidence.
+    try:
+        protocol = _native_protocol_receipt(result.stdout, environment, identity, port)
+    except (OSError, ValueError, TypeError, AttributeError) as error:
+        reason = f"native protocol verification failed: {error}"
+        _write_stage_log(stage_log_dir, "linux-native-protocol", command,
+                         status="failed", reason=reason)
+        return {name: {**_passed_check(name, identity, artifacts, " ".join(command), output),
+                       "verdict": "failed", "reason": reason,
+                       "stage_log": str(log_path) if log_path else None} for name in checks}
+    # An official automated success still does not supply accepted visual evidence.
     reason = ("Full flow command completed, but retained edited-view PNG comparisons, "
               "EN/ES and inspired-entry coverage, and attributable human review remain unverified")
     return {name: {**_passed_check(name, identity, artifacts, " ".join(command), output),
                    "verdict": "unknown", "reason": reason, "automated_command_exit_code": 0,
+                   "protocol_receipt": protocol,
                    "stage_log": str(log_path) if log_path else None}
             for name in checks}
 
@@ -454,6 +505,45 @@ def _passed_check(name: str, identity: dict[str, str], artifacts: list[dict[str,
             "output_sha256": hashlib.sha256(output.encode()).hexdigest()}
 
 
+def _browser_report_count(path: Path, spec: str) -> int:
+    report = json.loads(path.read_text())
+    stats = report.get("stats", {})
+    keys = ("expected", "unexpected", "flaky", "skipped")
+    if (not isinstance(stats, dict) or
+            any(type(stats.get(key)) is not int or stats[key] < 0 for key in keys) or
+            stats["expected"] < 1 or stats["unexpected"] or stats["flaky"] or
+            report.get("errors") != []):
+        raise ValueError("browser report must contain executed passing cases and no failures, flakes or errors")
+    cases = []
+
+    def collect(suites, inherited_file=None):
+        for suite in suites:
+            filename = suite.get("file", inherited_file)
+            for row in suite.get("specs", []):
+                cases.extend((row.get("file", filename), test) for test in row.get("tests", []))
+            collect(suite.get("suites", []), filename)
+    collect(report.get("suites", []))
+    expected = (ROOT / spec).resolve()
+    passed = skipped = 0
+    for filename, test in cases:
+        if not isinstance(filename, str) or expected not in {
+                (ROOT / filename).resolve(), (ROOT / "test/playwright" / filename).resolve()}:
+            raise ValueError("browser report case is not from the requested spec")
+        if test.get("projectName", test.get("projectId")) != "chromium":
+            raise ValueError("browser report case is not from Chromium")
+        results = test.get("results", [])
+        if test.get("status") == "skipped" and results and all(r.get("status") == "skipped" for r in results):
+            skipped += 1
+        elif (test.get("expectedStatus") == "passed" and test.get("status") == "expected" and
+              len(results) == 1 and results[0].get("status") == "passed"):
+            passed += 1
+        else:
+            raise ValueError("browser case has no actual passing result")
+    if not passed or passed != stats["expected"] or skipped != stats["skipped"]:
+        raise ValueError("browser case results do not reconcile with report counters")
+    return passed
+
+
 def _web_qualification(identity: dict[str, str], artifacts: list[dict[str, Any]],
                        stage_log_dir: Path | None = None) -> dict[str, Any]:
     receipts: dict[str, Any] = {}
@@ -503,7 +593,15 @@ def _web_qualification(identity: dict[str, str], artifacts: list[dict[str, Any]]
             with tempfile.TemporaryDirectory(prefix="release-web-check-") as directory:
                 bundle.extractall(directory, filter="data")
                 web_root = Path(directory) / "web"
-                port_base = int(os.environ.get("AUTOWORK_PORT_BASE", "4173"))
+                try:
+                    port_base = _allocated_port_base()
+                except ValueError as error:
+                    _write_stage_log(stage_log_dir, "web-http-server", "validate allocated loopback HTTP range",
+                                     status="unavailable", reason=str(error))
+                    for check in ("browser_journey", "saved_data"):
+                        receipts[check] = {"check": check, "verdict": "unknown", **identity,
+                                           "reason": str(error)}
+                    return receipts
                 server = None
                 port = None
                 for candidate in range(port_base, port_base + 100):
@@ -538,28 +636,48 @@ def _web_qualification(identity: dict[str, str], artifacts: list[dict[str, Any]]
                         _write_stage_log(stage_log_dir, "web-http-server", "bind loopback HTTP server",
                                          status="failed", reason="HTTP server did not accept connections")
                         return receipts
+                    base_url = f"http://127.0.0.1:{port}"
+                    try:
+                        with urlopen(f"{base_url}/release-identity.json", timeout=5) as response:
+                            served_identity = json.load(response)
+                        with urlopen(f"{base_url}/main.dart.js", timeout=5) as response:
+                            served_hash = hashlib.sha256(response.read()).hexdigest()
+                        if (server.poll() is not None or served_identity != release_identity or
+                                served_hash != expected_files["main.dart.js"]):
+                            raise ValueError("served bundle differs from the verified release archive")
+                    except (OSError, ValueError) as error:
+                        _write_stage_log(stage_log_dir, "web-http-server", "verify owned served bundle",
+                                         status="failed", reason=str(error))
+                        return receipts
                     for check, spec in (("browser_journey", "test/playwright/web-image-creation-journey.spec.mjs"),
                                         ("saved_data", "test/playwright/production-saved-session.spec.mjs")):
                         evidence = Path(tempfile.mkdtemp(prefix=f"web-{check}-"))
                         env = _lane_environment("common")
-                        env.update(PLAYWRIGHT_BASE_URL=f"http://127.0.0.1:{port}",
+                        env.update(PLAYWRIGHT_BASE_URL=base_url, PLAYWRIGHT_SKIP_WEBSERVER="1",
                                    PLAYWRIGHT_JSON_OUTPUT_FILE=str(evidence / "report.json"),
                                    PLAYWRIGHT_HTML_OUTPUT_DIR=str(evidence / "html"),
                                    PLAYWRIGHT_HTML_OPEN="never")
-                        command = ["npx", "--no-install", "playwright", "test", spec,
+                        command = [sys.executable, "scripts/run-release-command.py", "--timeout", "1800", "--",
+                                   "npx", "--no-install", "playwright", "test", spec,
                                    "--project=chromium", "--workers=1", "--reporter=list,json,html",
                                    f"--output={evidence / 'results'}"]
                         stdout, stderr = "", ""
                         receipt = {**_passed_check(check, identity, artifacts, " ".join(command)),
-                                   "evidence_dir": str(evidence), "exit_code": None}
+                                   "evidence_dir": str(evidence), "exit_code": None,
+                                   "served_bundle_sha256": served_hash}
                         try:
                             result = subprocess.run(command, cwd=ROOT, env=env, text=True,
-                                                    capture_output=True, timeout=1800)
+                                                    capture_output=True, timeout=1830)
                             stdout, stderr = result.stdout, result.stderr
                             receipt.update(exit_code=result.returncode,
                                            verdict="failed" if result.returncode else "passed")
                             if result.returncode:
                                 receipt["reason"] = f"browser check failed ({result.returncode})"
+                            else:
+                                try:
+                                    receipt["executed_tests"] = _browser_report_count(evidence / "report.json", spec)
+                                except (OSError, ValueError, TypeError, AttributeError) as error:
+                                    receipt.update(verdict="failed", reason=f"browser report verification failed: {error}")
                         except subprocess.TimeoutExpired as error:
                             stdout, stderr = error.stdout or "", error.stderr or ""
                             receipt.update(verdict="failed", reason="browser check timed out after 1800 seconds")
