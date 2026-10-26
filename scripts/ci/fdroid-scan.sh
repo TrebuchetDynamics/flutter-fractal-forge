@@ -9,16 +9,18 @@ if [[ "${RELEASE_LOCAL_STAGE:-}" == 1 ]]; then
 else
   source scripts/ci/identity.sh
 fi
+fdroid_bin="${FDROID_BIN:-fdroid}"
 artifact_dir="${RELEASE_ARTIFACT_DIR:-release-artifacts}"
 scan_root="$(mktemp -d "${TMPDIR:-.}/fdroid-scan.XXXXXX")"
+scan_root="$(cd "$scan_root" && pwd -P)"
 trap 'rm -rf "$scan_root"' EXIT
 git clone --depth=1 https://gitlab.com/fdroid/fdroiddata.git "$scan_root"
 cp "$artifact_dir/fdroid/fdroiddata/metadata/com.trebuchetdynamics.fractal.forge.yml" "$scan_root/metadata/"
 rm -f "$scan_root/config.yml"
 cd "$scan_root"
-fdroid lint --force-yamllint com.trebuchetdynamics.fractal.forge
+"$fdroid_bin" lint --force-yamllint com.trebuchetdynamics.fractal.forge
 base_code="$RELEASE_BUILD_NUMBER"
-fdroid scanner --exit-code \
+"$fdroid_bin" scanner --exit-code \
   "com.trebuchetdynamics.fractal.forge:$((base_code * 10 + 1))" \
   "com.trebuchetdynamics.fractal.forge:$((base_code * 10 + 2))" \
   "com.trebuchetdynamics.fractal.forge:$((base_code * 10 + 3))"
