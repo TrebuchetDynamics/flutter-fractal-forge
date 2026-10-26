@@ -438,9 +438,9 @@ void main() {
       },
     );
 
-    test(
+    testWidgets(
       'rescan fallback keeps retrying until visual capture succeeds',
-      () async {
+      (tester) async {
         final music = _FakeMusicService();
         final effects = ViewerEffectsController(musicService: music);
         effects.fractalMusicEnabled = true;
@@ -450,14 +450,32 @@ void main() {
           syncCalls: syncs,
           loopRefreshDelay: const Duration(milliseconds: 5),
           scanFrames: [null, frameWithValue(180)],
+          scanProgress: () => 0.375,
         );
 
-        coord.scheduleRescan(controller);
-        await Future<void>.delayed(const Duration(milliseconds: 18));
+        try {
+          coord.scheduleRescan(controller);
+          // Drain fallback capture/playback before advancing the retry timer.
+          // Wall-clock sleeps can expire before that timer is even armed.
+          await tester.pump(const Duration(milliseconds: 1));
+          expect(music.playCount, 1);
+          expect(music.startProgresses, [0.375]);
+          expect(syncs, isEmpty);
 
-        expect(music.playCount, 2);
-        expect(syncs, isEmpty);
-        coord.dispose();
+          await tester.pump(const Duration(milliseconds: 5));
+          expect(music.playCount, 2);
+          expect(music.startProgresses, [0.375, 0.375]);
+          expect(syncs, isEmpty);
+
+          // The now-unchanged visual frame must not trigger a third play.
+          await tester.pump(const Duration(milliseconds: 5));
+          expect(music.playCount, 2);
+          expect(syncs, isEmpty);
+        } finally {
+          coord.dispose();
+          await tester.pump();
+          effects.dispose();
+        }
       },
     );
   });
