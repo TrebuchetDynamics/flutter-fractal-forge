@@ -3,7 +3,7 @@ schema = 1
 id = "FIB-PRIME-03"
 title = "Qualify Fibonacci prime-degree viewing and exports on real supported targets.**"
 short = "Qualify Fibonacci prime-degree viewing and exports on real supported targets.**"
-status = "open"
+status = "done"
 goal = "FIB-PRIME-001"
 section = "Now"
 rank = 4000
@@ -17,6 +17,8 @@ acceptance = ["Each selected target records build/backend/device identity, actua
 checks = ["For Chromium, build a fresh current-source web bundle in the isolated checkout, preflight an unused allocated loopback port, start an owned server, set PLAYWRIGHT_SKIP_WEBSERVER=1 and PLAYWRIGHT_BASE_URL to that server, refuse foreign-server reuse and record the served main.dart.js hash. Implement actual fixtures before invoking them; require a nonempty Fibonacci Playwright --list result and actual executed assertions, never a missing fixture/no-tests pass. Run focused model/module/CPU/export Fibonacci tests and analyze changed paths with pinned tooling. Use scripts/run-native-integration.sh integration_test/flows/fibonacci_complex_journey_test.dart with FORCE_GPU_RENDER=true and actual worker port allocation; require official protocol_success true, exit 0 and empty remaining_pids. Run the existing browser spec with --grep Fibonacci on an owned current-source local Chromium build/server and permitted ports. Independently decode actual retained PNGs and reconcile state/source/backend/dimensions/hashes. Missing Android or human qualification stays explicitly pending, not passed."]
 exclusions = []
 live = "authorized"
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/FIB-PRIME-03.toml"
 +++
 
 - Previous section: Needs decision.
@@ -28,3 +30,5 @@ live = "authorized"
 - Owner decision: 2026-10-26: User renewed delegation: unblock.make decisions. Existing owned Linux/Xvfb and local Chromium are selected and authorized for actual local journey implementation and execution; software rendering is allowed with truthful backend labels. A normal worker port allocation is not a new owner question. No Android install, publication or human acceptance is granted. Preserve original feature acceptance and record missing Android as pending live. See docs/tasks/UNBLOCK-20261026.md.
 - Next action: Implement the missing native/browser Fibonacci cases, run actual local journeys using the supported reserved-port native driver and owned browser host, and retain decoded PNG/source/state evidence. No additional owner approval is needed for these local checks; unavailable Android remains separate.
 - Owner removal: 2026-10-26: User said Remove all for the remaining 22 held tasks. Execute this local task unchanged; report missing external evidence honestly but do not recreate removed follow-up tasks/holds/questions without a new owner request. See docs/tasks/REMOVED-HOLDS-20261026.md.
+- Pending live: Android catalog/edit/save/reopen/export journey not run: no installed/authorized Android target was supplied in this attempt; no Android installation performed.
+- Pending live: Physical hardware-GPU qualification and human visual/screen-reader acceptance not run. llvmpipe and SwiftShader observations qualify only the explicitly selected local software-backed targets; no publication, deployment or broader release acceptance is inferred.
