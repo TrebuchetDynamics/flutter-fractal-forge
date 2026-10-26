@@ -1,0 +1,65 @@
+{
+  "task": "GAUSS-LOCAL-01",
+  "baseline": "0f97ccf25f0dfea380eef7b1f27335aaaa7c0814",
+  "observed_utc_date": "2026-10-25",
+  "scope": "Linux/Xvfb debug, local software/native only; evidence directory date is the task identity, not a claimed run date.",
+  "sources": {
+    "lib/core/models/gaussian_moat_model.dart": "bdcc459356d825fc54073f50b101474a96a5dd8069b9e8473e53bdc58be70780",
+    "test/modules/gaussian_moat_model_test.dart": "bb1f6b20f183203bde7ad330855ad41cef036a8bcf569eabd81618ca62f59b6d",
+    "test/features/viewer/gaussian_moat_walk_test.dart": "bee4e58f0f9ba40ad8316c944f47b92a79c862a2e5733c038a6c4356238b0908",
+    "integration_test/flows/gaussian_moat_journey_test.dart": "6abb83a6221c56e11e2218d524af637db06bcf8757d0f22b7c7f5898ea6cab6c",
+    "test_driver/integration_test.dart": "51382a5b3b178c6454a9d04eeb0cbb3d207b3c43117ecfd6e38a6ef058029343",
+    "scripts/run-native-integration.sh": "5d0963a8f0e05f1d340bc62d45fdf09384f15f1a28149312a1bb533a68dc070c",
+    "pubspec.yaml": "aa694c5ee4c1d81ad18a4dce1a41137005a4d73175122211a14f1f3452c65441",
+    "pubspec.lock": "22b29dbd8f71276012a54b9bdc62ba88408f967a86b34075986c17e1c4506ec3",
+    "lib/features/viewer/gaussian_moat_map.dart": "176d40609c4a0dbdddc12a567d9b7c4705375bb923e70e0f043c1897ad372b10",
+    "lib/features/viewer/gaussian_moat_plot.dart": "b04d49e785ce20042e9e766087bfc26ad05d92f050e31c5c4bcf6eb90701e31d",
+    "lib/core/services/export/export_service.dart": "ead2173a4ac98983b6d9fe49c70af60fd10909e58f82ba174c5d322e5e82da48",
+    "docs/qa/gaussian-local-20261026/verify.py": "e6d46d8ec8716dc6ebeef143b158b67d6a7c652012142e32d32eb06f2fc1d756",
+    "docs/qa/gaussian-local-20261026/README.md": "accf620d39e5b13281096eea0ffdf96a8e056ff56e9a30db2815c70623a644f1"
+  },
+  "lib_shaders_tree_sha256": "08716abaa9b38460ac5d57be63f1fd1de1f2a44b86c969fd20da6687b21fb45d",
+  "tree_hash_method": "Sorted files in lib then shaders: UTF-8 relative path + NUL + SHA256 hex + newline.",
+  "artifacts": {
+    "evidence/analyze.log": "7a55a93b04cb4243d0ebac76892b5811bb41a8cea04540c5f041589417a171fb",
+    "evidence/driver.log": "2c6e8e0e81ad577fa8f0547fac4686ee1df0f7111f50d0a0fd238812beed6f9f",
+    "evidence/focused.log": "22e919059e0896cf03e902b080260bc11ea5caaf7ae5a69149efdf8336d6851b",
+    "evidence/paused-growth.png": "202af97b91f0904f2f099cca589c4c62d82ded6b0006e41dc5d517442efda000",
+    "evidence/pre-walk.png": "373151a326519e29167852d0f3bd820f1b161c38e0ffd331c03028b9253c514e",
+    "evidence/protocol-success.json": "ad168a8b0b2d2f6c5f9fbccb60d55840959482ce54d0ce043c54a8f6eb98d0f4",
+    "evidence/run.json": "fbd037fe76538fc65ca7a34ffa17367853c45e0e2b6ebfe0d38e5cf8bfefb522",
+    "evidence/state.json": "4e1f2af7f41a55e267bea2d26a4b099af9b55daeafae5218eeab15de72f34abc",
+    "evidence/telemetry.json": "eaf8d2c403d362ef366f4b8e7702f4c1faaf3a29fcd10d6ac278225342b73ed5"
+  },
+  "verification_summary": {
+    "png_dimensions": [
+      1280,
+      720
+    ],
+    "changed_rgba_pixels": 145962,
+    "pre_walk_component": 632,
+    "paused_growth_component": 824,
+    "cap_points": 9476,
+    "probes": 126000,
+    "yields": 123,
+    "max_chunk_us": 4036,
+    "max_chunk_overshoot_above_8ms_us": 0,
+    "max_zero_timer_wait_us": 1136,
+    "source_state_telemetry_protocol_cleanup": "pass",
+    "local_doc_links_checked": 10
+  },
+  "provenance": {
+    "native": "run.json baseline identifies HEAD before worker commit; target hash and sources/tree hashes identify tested candidate bytes. Native-tested app/target/driver/wrapper unchanged since run.",
+    "focused": "44 tests including the new real-time budget-branch regression; separate from earlier broad historical suites.",
+    "redaction": "driver.log VM-service authentication URL segment redacted; trailing progress-line whitespace removed from driver/analyzer logs. Raw originals remain private.",
+    "raw_driver_log_sha256": "0a470f49407cc1cb89614d0e20922aae7d8448cb75866897f2829e36d12000ec"
+  },
+  "limits": [
+    "B128 diagnostics are a separate model pass inside the native process, after the B32 UI/export journey; not B128 UI input-to-ready latency.",
+    "Chunk wall time includes preemption but excludes awaited yield; zero-timer waits are separately observed. No 8ms scheduler wakeup guarantee.",
+    "Search is synchronous and not cooperatively chunked in current implementation; only generation has the 8ms/1024-probe budget.",
+    "RSS/maxRSS cover the complete native debug application including shaders, exports, GC, and instrumentation; no isolated model heap or physical-GPU memory attribution.",
+    "GLX probe shares the owned display/environment; it does not independently interrogate the Flutter engine GL context.",
+    "No physical accessibility, Android MediaStore/gallery, hardware GPU, browser requalification or human composition acceptance."
+  ]
+}

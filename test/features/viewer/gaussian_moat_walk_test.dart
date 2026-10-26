@@ -403,22 +403,31 @@ void main() {
     await tester.pumpWidget(const SizedBox());
   });
 
-  testWidgets('radius committed during delayed map work matches captured graph',
+  testWidgets(
+      'radius committed during delayed B128 work matches captured graph',
       (tester) async {
+    final initial = await tester.runAsync(() => GaussianPrimeMap.generate(32));
     final completed =
-        await tester.runAsync(() => GaussianPrimeMap.generate(32));
+        await tester.runAsync(() => GaussianPrimeMap.generate(128));
     final result = Completer<GaussianPrimeMap?>();
     var calls = 0;
     Future<GaussianPrimeMap?> heldGenerator(int bound,
         {bool Function()? isCancelled}) {
       calls++;
-      expect(bound, 32);
+      if (bound == 32) return Future.value(initial);
+      expect(bound, 128);
       return result.future;
     }
 
     await tester.binding.setSurfaceSize(const Size(1024, 700));
     addTearDown(() => tester.binding.setSurfaceSize(null));
     await open(tester, mapGenerator: heldGenerator);
+    await tester.ensureVisible(find.text('Domain half-width B (1–128)'));
+    await tester.tap(find.text('Domain half-width B (1–128)'));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byKey(const Key('gaussianBoundInput')), '128');
+    await tester.tap(find.text('Apply'));
+    await tester.pumpAndSettle();
     var slider =
         tester.widget<Slider>(find.byKey(const Key('gaussianGrowthScrubber')));
     slider.onChanged!(11);
@@ -432,7 +441,7 @@ void main() {
     slider.onChangeEnd!(8);
     await tester.pump();
     expect(find.textContaining('Maximum squared step: 8'), findsOneWidget);
-    expect(calls, 1);
+    expect(calls, 2);
 
     result.complete(completed!);
     await tester.pumpAndSettle();
@@ -443,6 +452,8 @@ void main() {
     expect(find.textContaining('Maximum squared step: 8'), findsOneWidget);
 
     final plot = find.byKey(const Key('gaussianMoatPlot'));
+    tester.element(plot).read<FractalController>().updateZoom(4);
+    await tester.pump();
     final boundary = tester.renderObject<RenderRepaintBoundary>(
         find.ancestor(of: plot, matching: find.byType(RepaintBoundary)).first);
     final image = await tester.runAsync(() => boundary.toImage());
@@ -455,9 +466,13 @@ void main() {
     expect(decodedPng.width, capturedImage.width);
     expect(decodedPng.height, capturedImage.height);
     final previous = completed.component((a: 1, b: 1), maxSquaredStep: 4);
-    final addedPoint = activePainter.component.difference(previous).first;
+    // B128 points are four times denser than B32 at the default zoom.
+    // Choose an isolated, visible new marker rather than overlapping circles.
+    final addedPoint = activePainter.component.difference(previous).firstWhere(
+        (p) =>
+            p.a.abs() < 30 && p.b.abs() < 30 && p.a.abs() > 2 && p.b.abs() > 2);
     final transform = GaussianMapTransform(
-        tester.getSize(plot), activePainter.view, activePainter.map.bound);
+        tester.getSize(plot), painter(tester).view, activePainter.map.bound);
     final center = transform
         .toScreen(Offset(addedPoint.a.toDouble(), addedPoint.b.toDouble()));
     final pixel = decodedPng.getPixel(center.dx.round(), center.dy.round());

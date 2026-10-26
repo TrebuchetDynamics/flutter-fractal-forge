@@ -1,0 +1,795 @@
+{
+  "host": "BlueBlack",
+  "os": "Linux 7.0.0-31-generic #31~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Mon Aug 10 09:38:02 UTC 2",
+  "pid": 348362,
+  "backend_probe": {
+    "command": "glxinfo -B",
+    "exit_code": 0,
+    "stdout": "name of display: :99\ndisplay: :99  screen: 0\ndirect rendering: Yes\nExtended renderer info (GLX_MESA_query_renderer):\n    Vendor: Mesa (0xffffffff)\n    Device: llvmpipe (LLVM 20.1.2, 256 bits) (0xffffffff)\n    Version: 25.2.8\n    Accelerated: no\n    Video memory: 64196MB\n    Unified memory: yes\n    Preferred profile: core (0x1)\n    Max core profile version: 4.5\n    Max compat profile version: 4.5\n    Max GLES1 profile version: 1.1\n    Max GLES[23] profile version: 3.2\nMemory info (GL_ATI_meminfo):\n    VBO free memory - total: 0 MB, largest block: 0 MB\n    VBO free aux. memory - total: 41779 MB, largest block: 41779 MB\n    Texture free memory - total: 0 MB, largest block: 0 MB\n    Texture free aux. memory - total: 41779 MB, largest block: 41779 MB\n    Renderbuffer free memory - total: 0 MB, largest block: 0 MB\n    Renderbuffer free aux. memory - total: 41779 MB, largest block: 41779 MB\nMemory info (GL_NVX_gpu_memory_info):\n    Dedicated video memory: 0 MB\n    Total available memory: 64196 MB\n    Currently available dedicated video memory: 0 MB\nOpenGL vendor string: Mesa\nOpenGL renderer string: llvmpipe (LLVM 20.1.2, 256 bits)\nOpenGL core profile version string: 4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.2\nOpenGL core profile shading language version string: 4.50\nOpenGL core profile context flags: (none)\nOpenGL core profile profile mask: core profile\n\nOpenGL version string: 4.5 (Compatibility Profile) Mesa 25.2.8-0ubuntu0.24.04.2\nOpenGL shading language version string: 4.50\nOpenGL context flags: (none)\nOpenGL profile mask: compatibility profile\n\nOpenGL ES profile version string: OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2\nOpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.20\n\n",
+    "stderr": ""
+  },
+  "bound": 128,
+  "point_count": 9476,
+  "generation_us": 148956,
+  "chunks": [
+    {
+      "probes": 1024,
+      "elapsed_us": 61,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 57,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 70,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 105,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 58,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 58,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 75,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 57,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 59,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 71,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 71,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 61,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 61,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 76,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 75,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 62,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 61,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 63,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 75,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 60,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 57,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 57,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 58,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 76,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 56,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 61,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 4036,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 62,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 66,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 66,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 64,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 69,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 64,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 66,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 66,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 69,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 64,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 65,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 68,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 85,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 66,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 69,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 69,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 67,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 65,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 43,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 42,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 45,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 51,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 56,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 45,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 42,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 45,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 45,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 58,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 43,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 58,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 43,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 57,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 52,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 73,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 55,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 59,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 66,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 53,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 50,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 64,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 52,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 49,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 47,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 85,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 52,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 49,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 77,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 49,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 50,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 60,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 66,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 48,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 98,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 83,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 83,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 55,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 48,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 88,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 77,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 73,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 90,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 54,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 51,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 82,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 78,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 48,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 60,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 52,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 98,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 73,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 49,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 60,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 60,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 64,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 58,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 59,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 63,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 63,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 59,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 62,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 59,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 59,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 64,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 60,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 63,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 59,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 162,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 49,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 59,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 61,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 59,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 66,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 63,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 101,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 81,
+      "yielded": true
+    },
+    {
+      "probes": 1024,
+      "elapsed_us": 83,
+      "yielded": true
+    },
+    {
+      "probes": 48,
+      "elapsed_us": 17,
+      "yielded": false
+    }
+  ],
+  "yield_wait_us": [
+    1136,
+    1100,
+    1096,
+    1116,
+    1100,
+    1089,
+    1100,
+    1090,
+    1084,
+    1087,
+    1101,
+    1089,
+    1089,
+    1111,
+    1106,
+    1095,
+    1089,
+    1122,
+    1126,
+    1109,
+    1097,
+    1091,
+    1088,
+    1089,
+    1084,
+    1111,
+    1136,
+    1121,
+    1129,
+    1115,
+    1116,
+    1117,
+    1116,
+    1106,
+    1110,
+    1114,
+    1115,
+    1113,
+    1112,
+    1111,
+    1120,
+    1112,
+    1113,
+    1115,
+    1130,
+    1107,
+    1098,
+    1092,
+    1096,
+    1101,
+    1095,
+    1048,
+    1097,
+    1115,
+    1105,
+    1100,
+    1109,
+    1106,
+    1096,
+    1097,
+    1106,
+    1089,
+    1115,
+    1102,
+    1111,
+    1109,
+    1099,
+    1099,
+    1101,
+    1096,
+    1105,
+    1097,
+    1109,
+    1102,
+    1102,
+    1096,
+    1115,
+    1102,
+    1113,
+    1129,
+    1112,
+    1118,
+    1104,
+    1100,
+    1103,
+    1095,
+    1101,
+    1087,
+    1100,
+    1113,
+    1106,
+    1107,
+    1108,
+    1095,
+    1103,
+    1119,
+    1097,
+    1088,
+    1094,
+    1085,
+    1093,
+    1086,
+    1085,
+    1094,
+    1085,
+    1088,
+    1084,
+    1095,
+    1085,
+    1083,
+    1085,
+    1085,
+    1083,
+    1100,
+    1099,
+    1092,
+    1092,
+    1087,
+    1048,
+    1107,
+    1114,
+    1122,
+    1107
+  ],
+  "searches": [
+    {
+      "squared_step": 1,
+      "component_size": 3,
+      "elapsed_us": 55
+    },
+    {
+      "squared_step": 2,
+      "component_size": 100,
+      "elapsed_us": 545
+    },
+    {
+      "squared_step": 4,
+      "component_size": 720,
+      "elapsed_us": 5883
+    },
+    {
+      "squared_step": 8,
+      "component_size": 2996,
+      "elapsed_us": 1883
+    },
+    {
+      "squared_step": 16,
+      "component_size": 9476,
+      "elapsed_us": 11004
+    }
+  ],
+  "cancellation_to_idle_us": 177,
+  "cancellation_yields": 1,
+  "cancelled_publications": [],
+  "rss_before_bytes": 625860608,
+  "rss_after_generation_bytes": 626831360,
+  "rss_after_search_bytes": 643649536,
+  "process_max_rss_bytes": 678690816
+}

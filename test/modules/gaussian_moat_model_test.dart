@@ -44,6 +44,59 @@ void main() {
     queue.dispose();
   });
 
+  test('B128 cancellation at a real yield cannot publish a stale map',
+      () async {
+    final suspended = Completer<void>();
+    final release = Completer<void>();
+    final published = <int>[];
+    final chunks = <GaussianMoatChunk>[];
+    final queue = GaussianMoatMapJobQueue((bound, {isCancelled}) {
+      return GaussianPrimeMap.generate(bound,
+          isCancelled: isCancelled, onChunk: chunks.add, yieldChunk: () async {
+        if (bound == 128 && !suspended.isCompleted) {
+          suspended.complete();
+          await release.future;
+        }
+      });
+    }, (bound, _) => published.add(bound));
+    queue.submit(128);
+    await suspended.future;
+    expect(chunks.single.probes, inInclusiveRange(1, 1024));
+    final cancellation = Stopwatch()..start();
+    queue.submit(4);
+    release.complete();
+    await queue.idle;
+    expect(published, [4]);
+    expect(chunks.where((chunk) => chunk.yielded), hasLength(1),
+        reason: 'Cancelled B128 work must stop at its suspended yield');
+    print('B128 cancellation-to-idle us=${cancellation.elapsedMicroseconds}');
+    queue.dispose();
+  });
+
+  test('elapsed budget yields before the probe ceiling after a stalled check',
+      () async {
+    var yields = 0;
+    var stalled = false;
+    final chunks = <GaussianMoatChunk>[];
+    final map = await GaussianPrimeMap.generate(128, onChunk: chunks.add,
+        yieldChunk: () async {
+      yields++;
+    }, isCancelled: () {
+      // Model a descheduled/slow caller just after a yield resets the clock.
+      // This proves the elapsed-time branch without promising a hard 8ms cap.
+      if (yields == 1 && !stalled) {
+        stalled = true;
+        final delay = Stopwatch()..start();
+        while (delay.elapsedMicroseconds < 10000) {}
+      }
+      return yields == 2;
+    });
+    expect(map, isNull);
+    expect(chunks, hasLength(2));
+    expect(chunks.last.probes, 1);
+    expect(chunks.last.elapsedMicroseconds, greaterThanOrEqualTo(10000));
+  });
+
   test('containment rejects extreme integers and respects signed boundaries',
       () async {
     final map = (await GaussianPrimeMap.generate(4))!;
@@ -105,9 +158,22 @@ void main() {
 
     var yields = 0;
     final clock = Stopwatch()..start();
-    final map = (await GaussianPrimeMap.generate(128, yieldChunk: () async {
+    final chunks = <GaussianMoatChunk>[];
+    final map = (await GaussianPrimeMap.generate(128, onChunk: chunks.add,
+        yieldChunk: () async {
       yields++;
+      await Future<void>.delayed(Duration.zero);
     }))!;
+    final generationUs = clock.elapsedMicroseconds;
+    for (final chunk in chunks.where((chunk) => chunk.yielded)) {
+      expect(chunk.probes, inInclusiveRange(1, 1024));
+      expect(chunk.probes == 1024 || chunk.elapsedMicroseconds >= 8000, isTrue,
+          reason: 'Yield at the probe ceiling OR elapsed cooperative budget');
+    }
+    expect(chunks.last.yielded, isFalse);
+    expect(chunks.last.probes, lessThan(1024));
+    expect(chunks.where((chunk) => chunk.yielded).length, yields);
+    expect(chunks.fold(0, (sum, chunk) => sum + chunk.probes), 126000);
     for (var a = -128; a <= 128; a++) {
       for (var b = -128; b <= 128; b++) {
         final axis = a == 0 ? b.abs() : a.abs();
@@ -120,7 +186,9 @@ void main() {
     expect(() => map.points.add((a: 0, b: 0)), throwsUnsupportedError);
     // Host model telemetry, not a device performance qualification.
     print(
-        'B=128 points=${map.points.length} yields=$yields oracleElapsedMs=${clock.elapsedMilliseconds}');
+        'B=128 points=${map.points.length} yields=$yields generationUs=$generationUs '
+        'maxChunkUs=${chunks.map((c) => c.elapsedMicroseconds).reduce((a, b) => a > b ? a : b)} '
+        'oracleElapsedMs=${clock.elapsedMilliseconds}');
   });
   test('step adjacency includes k=4 and rejects k=3, repeats and composites',
       () async {

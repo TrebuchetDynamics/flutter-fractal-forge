@@ -1,6 +1,15 @@
 import 'package:flutter/foundation.dart';
 
 typedef GaussianInteger = ({int a, int b});
+
+/// Opt-in diagnostics at budget boundaries and the final (non-yielded) tail.
+/// Elapsed wall time includes scheduling/preemption, not time awaiting a yield.
+/// The 8ms budget is cooperative, not a hard upper bound on observed duration.
+typedef GaussianMoatChunk = ({
+  int probes,
+  int elapsedMicroseconds,
+  bool yielded,
+});
 typedef GaussianMoatMapJob = Future<GaussianPrimeMap?> Function(int bound,
     {bool Function()? isCancelled});
 
@@ -140,6 +149,7 @@ class GaussianPrimeMap {
     num value, {
     bool Function()? isCancelled,
     Future<void> Function()? yieldChunk,
+    void Function(GaussianMoatChunk chunk)? onChunk,
   }) async {
     final bound = validateBound(value);
     if (isCancelled?.call() ?? false) return null;
@@ -151,6 +161,11 @@ class GaussianPrimeMap {
     var probes = 0;
     bool chunkDue() => ++probes >= 1024 || clock.elapsedMicroseconds >= 8000;
     Future<bool> pause() async {
+      onChunk?.call((
+        probes: probes,
+        elapsedMicroseconds: clock.elapsedMicroseconds,
+        yielded: true,
+      ));
       if (isCancelled?.call() ?? false) return true;
       await (yieldChunk?.call() ?? Future<void>.delayed(Duration.zero));
       probes = 0;
@@ -182,6 +197,11 @@ class GaussianPrimeMap {
       }
     }
     if (isCancelled?.call() ?? false) return null;
+    onChunk?.call((
+      probes: probes,
+      elapsedMicroseconds: clock.elapsedMicroseconds,
+      yielded: false,
+    ));
     return GaussianPrimeMap._(bound, points, membership);
   }
 }

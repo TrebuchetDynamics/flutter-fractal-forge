@@ -1,0 +1,128 @@
+Building Linux application...
+✓ Built build/linux/x64/debug/bundle/flutter_fractals
+Gdk-Message: 21:05:49.213: Unable to load  from the cursor theme
+VMServiceFlutterDriver: Connecting to Flutter application at http://127.0.0.1:20200/[REDACTED-VM-AUTH]/
+VMServiceFlutterDriver: Isolate found with number: 3627034296459127
+VMServiceFlutterDriver: Isolate 3627034296459127 is runnable.
+VMServiceFlutterDriver: Isolate is paused at start.
+VMServiceFlutterDriver: Attempting to resume isolate
+00:00 +0: Gaussian catalog journey walks, pauses growth, and exports its selected PNG
+VMServiceFlutterDriver: Connected to Flutter application.
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:51.471: gdk_monitor_get_workarea: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:51.473: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:51.473: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:51.474: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:51.474: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:51.474: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:51.474: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:51.474: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:51.474: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:51.474: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:51.474: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:51.474: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:51.474: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:51.474: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+[21:05:52.085][info][catalog_thumbnail_performance] session_started {}
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+(com.trebuchetdynamics.fractal.forge:348362): Gdk-CRITICAL **: 21:05:53.399: gdk_monitor_get_scale_factor: assertion 'GDK_IS_MONITOR (monitor)' failed
+
+** (com.trebuchetdynamics.fractal.forge:348362): WARNING **: 21:05:53.854: Timed out waiting for OpenGL frame of size 1292x732 (have 1280x720)
+[21:06:00.340][info][lifecycle] FractalViewerScreen initState
+[21:06:00.350][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:06:00.375][debug][gpu] Shader load started {"asset":"shaders/number_theory/gaussian_prime_lattice_gpu.frag"}
+[21:06:00.578][info][lifecycle] Emulator detection {"isEmulator":false}
+[21:06:00.581][info][gpu] Shader loaded {"asset":"shaders/number_theory/gaussian_prime_lattice_gpu.frag","compileMs":205}
+[21:06:00.607][debug][perf] gpu_first_frame {"first_frame_ms":232,"module":"gaussian_prime_lattice","backend":"gpu"}
+[21:06:02.351][debug][gpu] Health probe started
+[21:06:02.989][info][gpu] GPU health check {"pass":true,"probeFailed":false,"failureStreak":0,"nonBlackRatio":1.0,"centerNonBlack":true,"histogramSane":true,"sampleCount":7056,"backendSwitchesDuringProbe":0,"forcedProbeFailure":false}
+[21:06:02.989][debug][gpu] Health probe completed {"module":"gaussian_prime_lattice","nonBlackRatio":1.0,"centerNonBlack":true,"histogramSane":true,"sampleCount":7056,"backendSwitchesDuringProbe":0}
+[21:06:03.167][info][action] Open export
+[21:06:07.968][debug][perf] fps_snapshot {"fps":"3.6","build_ms":"67.61","raster_ms":"8.00","total_ms":"78.81","p95_ms":"228.70","long_frames":30,"frames":60}
+[21:06:08.751][info][action] Open export
+00:22 +1: (tearDownAll)
+00:22 +2: All tests passed!
+All tests passed.
