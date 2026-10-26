@@ -5,8 +5,71 @@ phone or access to the host desktop. A headless Wayland compositor supplies the
 display; ADB supplies test, shell and file access. These steps configure local
 testing, not Play publication or signing access.
 
+## Standing owner designation: use this Waydroid target
+
+**Owner reaffirmed 2026-10-26:** “We already set Waydroid as device for testing.”
+The existing headless Waydroid instance is the project's **designated Android test
+environment**, not an undecided device choice. Use it for routine Android
+integration and release-gate testing; do not ask the owner to designate it again.
+The [previous complete gate rerun](waydroid-export-verification.md#thumbnaillayout-repair-and-complete-gate-rerun-2026-10-25-utc)
+and [Play 1.1.111 record](../release/PLAY_1.1.111.md) already document its use for
+instrumented tests, production-mode app installation/reinstallation and soak.
+
+Read-only inventory on 2026-10-26 confirmed:
+
+| Field | Observed value |
+|---|---|
+| ADB serial | `192.168.240.112:5555` |
+| State | `device` |
+| Model | `WayDroid_x86_64_Device` |
+| Product / device | `lineage_waydroid_x86_64` / `waydroid_x86_64` |
+
+The IP/ADB transport can change. Revalidate with `waydroid status` and
+`adb devices -l`, identify this Waydroid instance, and substitute its **current**
+serial. Never substitute another connected device just because it is available.
+A release-signed app installed inside this test container is a test artifact;
+its presence alone does not turn Waydroid into an unauthorized personal device.
+
+The standing designation covers the documented app test/install/reinstall/uninstall
+cycle in this instance. It does **not** authorize a container/factory reset,
+deleting unrelated data, changing another profile/device, interrupting another
+active worker, or publication outside the separately approved release scope.
+Serialize device-changing runs. If another worker owns the target, coordinate
+access rather than treating that temporary contention as missing owner approval.
+
+For the current safety gate, explicitly encode this **existing** designation:
+
+```bash
+# After confirming this is still the designated Waydroid instance's current serial:
+export ANDROID_DEVICE=192.168.240.112:5555
+export ANDROID_DISPOSABLE_DEVICE="$ANDROID_DEVICE"
+
+# Direct gate: require the selected candidate's identity and private evidence path.
+: "${RELEASE_VERSION:?Set the chosen candidate version first}"
+: "${RELEASE_BUILD_NUMBER:?Set its matching build number first}"
+: "${LOG_DIR:?Set a private evidence directory first}"
+bash scripts/pre-release-gate.sh --device "$ANDROID_DEVICE" \
+  --disposable-device "$ANDROID_DISPOSABLE_DEVICE" \
+  --build-name "$RELEASE_VERSION" --build-number "$RELEASE_BUILD_NUMBER" \
+  --log-dir "$LOG_DIR"
+```
+
+The campaign forwards both environment variables to the gate. Supplying the
+matching acknowledgement here records the standing Waydroid authorization; it
+is not permission to acknowledge arbitrary discovered devices. Preserve explicit
+selection and safety checks. See [the gate contract](../release/ANDROID_GATE_SAFETY.md).
+This documentation pass ran only `adb devices -l`, not the example gate.
+
+Waydroid is emulator/container evidence, **not physical-device or hardware-GPU
+proof**. Availability/authorization does not mean tests passed: retain the exact
+source, SDK, build, device/backend, commands and outcomes for every new run.
+Earlier reports asking for a newly authorized Android target are superseded on
+that selection question; their historical test failures and missing qualification
+remain historical facts, not retroactive passes.
+
 Start here: check connectivity, repair networking only if necessary, then authorize
-ADB. Do not restart a healthy session merely to repeat this setup.
+ADB if needed. Do not restart or re-enroll keys in a healthy session merely to
+repeat this setup.
 
 ## Prerequisites and display
 
@@ -153,9 +216,10 @@ for selecting those tools and preserving `pubspec.lock`.
 **Device-data warning:** Flutter integration tests install instrumented debug
 packages. In the observed run a version-code downgrade (38 versus installed 105)
 caused Flutter to automatically uninstall the existing app and retry installation.
-Uninstalling can delete private app data. Use a dedicated test container or preserve
-needed data and approve replacement before running these commands. Do not assume
-the installed production app or its data will remain intact.
+Uninstalling can delete private app data. This project's designated Waydroid
+instance is the approved test container described above; its documented app
+replacement cycle is already authorized. Do not assume test-app data survives,
+extend that authority to another device, or delete unrelated container data.
 
 After that preflight, an existing navigation/export-sheet test is:
 
@@ -170,10 +234,12 @@ Flutter integration-test teardown uninstalls it and removes app-scoped exports.
 It does not prevent a pre-test uninstall/replacement when installation conflicts.
 
 This test does not establish actual saved PNGs in MediaStore/gallery. The broader
-[`scripts/pre-release-gate.sh`](../../../scripts/pre-release-gate.sh) supports
-`--device "$ANDROID_DEVICE"` and Waydroid auto-discovery, but also installs apps,
-changes device/network state, and runs a long soak. Inspect its `--help` and scope
-before executing it; it is not the common offline gate.
+[`scripts/pre-release-gate.sh`](../../../scripts/pre-release-gate.sh) requires
+`--device "$ANDROID_DEVICE" --disposable-device "$ANDROID_DISPOSABLE_DEVICE"`;
+it no longer auto-discovers a device for execution. The matching acknowledgement
+is already supported by the standing Waydroid designation above. The gate installs
+apps, changes device/network state and runs a long soak: coordinate exclusive use,
+inspect its `--help`, and retain actual results. It is not the common offline gate.
 
 ### Observed outcome and remaining gates (2026-10-24)
 
