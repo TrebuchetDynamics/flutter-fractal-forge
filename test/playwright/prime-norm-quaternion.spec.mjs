@@ -1,9 +1,9 @@
-import { readFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import { expect, test } from 'playwright/test';
 
 // Run after `flutter build web --release` with
 // `npx playwright test test/playwright/prime-norm-quaternion.spec.mjs --project=chromium`.
-test('production web quaternion companion opens, rotates, and captures a PNG', async ({ page }) => {
+test('production web quaternion companion opens, rotates, and captures a PNG', async ({ page, browser }, testInfo) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/');
   await page.waitForTimeout(3000);
@@ -31,14 +31,25 @@ test('production web quaternion companion opens, rotates, and captures a PNG', a
   expect(initial.readUInt32BE(16)).toBe(1280);
   expect(initial.readUInt32BE(20)).toBe(900);
 
-  const captureDownload = async (buttonY = 125) => {
+  // Semantic controls bind the exported bytes to actual list/Step state, not
+  // merely to a changed screenshot after an unverified canvas-coordinate tap.
+  await page.evaluate(() => document.querySelector('flt-semantics-placeholder')?.click());
+  const walk = page.locator('flt-semantics').getByText(/^Walk: \d+ steps/);
+  const selectedState = page.locator('flt-semantics').getByText(/^Selected \(/);
+  await expect(walk).toContainText('Walk: 0 steps');
+  await expect(walk).toContainText('component 3 · fixed d=0 only');
+  await expect(selectedState).toHaveCount(0);
+  const beforeState = await walk.textContent();
+
+  const captureDownload = async (name) => {
     const downloadPromise = page.waitForEvent('download');
-    await page.mouse.click(825, buttonY);
+    await page.getByRole('button', { name: 'Capture PNG', exact: true }).click();
     const download = await downloadPromise;
     expect(download.suggestedFilename()).toMatch(
       /prime_norm_quaternion_slice.*\.png$/,
     );
     const png = await readFile(await download.path());
+    await writeFile(testInfo.outputPath(`${name}.png`), png);
     expect(png.subarray(0, 8).toString('hex')).toBe('89504e470d0a1a0a');
     return page.evaluate(async (base64) => {
       const binary = atob(base64);
@@ -61,16 +72,24 @@ test('production web quaternion companion opens, rotates, and captures a PNG', a
     }, png.toString('base64'));
   };
 
-  const beforeWalkExport = await captureDownload();
+  const beforeWalkExport = await captureDownload('before-walk');
   expect(beforeWalkExport.width).toBeGreaterThan(0);
   expect(beforeWalkExport.height).toBeGreaterThan(0);
 
-  // Select a plotted point; the exported artifact must include that selected state.
-  await page.mouse.click(398, 844);
-  await page.waitForTimeout(150);
+  await page.getByRole('button', { name: 'Coordinate list', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Capture PNG', exact: true })).toBeDisabled();
+  await expect(page.getByText('Switch to 3D view to capture a plot PNG.', { exact: true })).toBeVisible();
+  await page.getByText('(-6, -5, -6, 0) · N=97', { exact: true }).click();
+  await expect(selectedState).toHaveText('Selected (-6, -5, -6, 0) · norm 97');
+  await page.getByRole('button', { name: 'Step', exact: true }).click();
+  await expect(walk).toContainText('Walk: 1 steps');
+  await page.getByRole('button', { name: '3D view', exact: true }).click();
+  const afterState = { walk: await walk.textContent(), selected: await selectedState.textContent() };
   const selected = await page.screenshot();
   expect(selected.equals(initial)).toBe(false);
-  const exported = await captureDownload(145);
+  const exported = await captureDownload('after-walk');
+  await expect(walk).toHaveText(afterState.walk);
+  await expect(selectedState).toHaveText(afterState.selected);
   expect(exported.width).toBe(beforeWalkExport.width);
   expect(exported.height).toBe(beforeWalkExport.height);
   expect(exported.pixels.some((channel, index) => index % 4 === 3 && channel > 0))
@@ -83,9 +102,33 @@ test('production web quaternion companion opens, rotates, and captures a PNG', a
   await page.mouse.down();
   await page.mouse.move(690, 565, { steps: 4 });
   await page.mouse.up();
+  // With Flutter web semantics enabled the overlay can consume pointer pans.
+  // Exercise the advertised keyboard rotation on the actual plot as well; the
+  // decoded export below must change, not only the focus/hover screenshot.
+  await page.getByRole('group', { name: /^Prime-norm quaternion points;/ })
+    .getByRole('button').click();
+  await page.keyboard.press('ArrowRight');
   await page.waitForTimeout(150);
   const rotated = await page.screenshot();
-  expect(rotated.equals(initial)).toBe(false);
-
-
+  expect(rotated.equals(selected)).toBe(false);
+  await expect(walk).toHaveText(afterState.walk);
+  await expect(selectedState).toHaveText(afterState.selected);
+  const rotatedExport = await captureDownload('rotated');
+  expect(rotatedExport.pixels).not.toEqual(exported.pixels);
+  await writeFile(testInfo.outputPath('rotated-screen.png'), rotated);
+  const backend = await page.evaluate(() => {
+    const gl = document.createElement('canvas').getContext('webgl2');
+    const debug = gl?.getExtension('WEBGL_debug_renderer_info');
+    return { renderer: debug ? gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) : null,
+      vendor: debug ? gl.getParameter(debug.UNMASKED_VENDOR_WEBGL) : null,
+      userAgent: navigator.userAgent, devicePixelRatio: window.devicePixelRatio };
+  });
+  await writeFile(testInfo.outputPath('state.json'), JSON.stringify({
+    coverage: 'production app catalog -> Gaussian viewer -> Walk -> quaternion companion',
+    url: page.url(), viewport: page.viewportSize(), backend,
+    browserVersion: browser.version(), hostPlatform: process.platform,
+    before: { walk: beforeState, selected: null }, after: afterState,
+    rotated: { walk: await walk.textContent(), selected: await selectedState.textContent() },
+    semantics: await page.locator('body').ariaSnapshot(),
+  }, null, 2));
 });

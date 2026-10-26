@@ -1,0 +1,6 @@
+
+Running 1 test using 1 worker
+
+  ✓  1 [chromium] › test/playwright/prime-norm-quaternion.spec.mjs:6:1 › production web quaternion companion opens, rotates, and captures a PNG (1.0m)
+
+  1 passed (1.0m)
