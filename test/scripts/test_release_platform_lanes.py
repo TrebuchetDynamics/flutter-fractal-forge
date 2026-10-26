@@ -4,6 +4,7 @@ import importlib.util
 import io
 import json
 import os
+import socket
 import subprocess
 import tarfile
 import tempfile
@@ -21,6 +22,16 @@ NL = chr(10)
 
 
 class ReleasePlatformLanesTest(unittest.TestCase):
+    def setUp(self):
+        # Allocate this fixture's loopback server port; never reuse a live app.
+        with socket.socket() as probe:
+            probe.bind(("127.0.0.1", 0))
+            port = probe.getsockname()[1]
+        self.assertLessEqual(port, 65436)
+        allocation = mock.patch.dict(os.environ, {"AUTOWORK_PORT_BASE": str(port)})
+        allocation.start()
+        self.addCleanup(allocation.stop)
+
     def test_cli_prepare_records_all_lanes_and_stops_after_common_gate_failure(self):
         with tempfile.TemporaryDirectory() as directory:
             temp = Path(directory)
@@ -71,7 +82,12 @@ class ReleasePlatformLanesTest(unittest.TestCase):
             flutter.write_text(flutter_source)
             flutter.chmod(0o755)
             npx = fake_bin / "npx"
-            npx.write_text("#!/bin/sh" + NL + "exit 0" + NL)
+            npx.write_text(NL.join([
+                "#!/usr/bin/env python3", "import json,os,pathlib,sys",
+                "case={'expectedStatus':'passed','status':'expected','projectName':'chromium','results':[{'status':'passed'}]}",
+                "report={'stats': {'expected': 1, 'unexpected': 0, 'flaky': 0, 'skipped': 0}, 'errors': [], 'suites':[{'file':sys.argv[4], 'specs':[{'tests':[case]}]}]}",
+                "pathlib.Path(os.environ['PLAYWRIGHT_JSON_OUTPUT_FILE']).write_text(json.dumps(report))",
+            ]) + NL)
             npx.chmod(0o755)
             fake_bash = fake_bin / "bash"
             fake_bash.write_text(NL.join([
@@ -156,14 +172,23 @@ class ReleasePlatformLanesTest(unittest.TestCase):
                 error = (FileNotFoundError("fixture unavailable") if fault == "browser_unavailable" else
                          subprocess.TimeoutExpired(["npx"], 1800, output=b"partial fixture", stderr=b"timeout stderr")
                          if fault == "browser_timeout" else None)
-                with mock.patch.object(LANES.subprocess, "run", return_value=completed,
-                                       side_effect=error) as browser:
+                def browser_result(command, **kwargs):
+                    if error:
+                        raise error
+                    spec = next(arg for arg in command if arg.endswith('.spec.mjs'))
+                    Path(kwargs["env"]["PLAYWRIGHT_JSON_OUTPUT_FILE"]).write_text(json.dumps({
+                        "stats": {"expected": 1, "unexpected": 0, "flaky": 0, "skipped": 0}, "errors": [],
+                        "suites": [{"file": spec, "specs": [{"tests": [{"expectedStatus": "passed",
+                            "status": "expected", "projectName": "chromium", "results": [{"status": "passed"}]}]}]}]}))
+                    return completed
+                with mock.patch.object(LANES.subprocess, "run", side_effect=browser_result) as browser:
                     checks = LANES._web_qualification(identity, [artifact])
                 if fault is None or fault.startswith("browser_"):
                     self.assertEqual(set(checks), set(LANES.REQUIRED_CHECKS["web"]))
                     self.assertEqual(checks["asset_validation"]["artifact_sha256"], [artifact["sha256"]])
                     self.assertEqual(browser.call_count, 2)
-                    self.assertEqual([call.args[0][4] for call in browser.call_args_list], [
+                    self.assertEqual([next(arg for arg in call.args[0] if arg.endswith('.spec.mjs'))
+                                      for call in browser.call_args_list], [
                         "test/playwright/web-image-creation-journey.spec.mjs",
                         "test/playwright/production-saved-session.spec.mjs"])
                     expected = ("failed" if fault in {"browser_failed", "browser_timeout"} else
@@ -415,7 +440,7 @@ class ReleasePlatformLanesTest(unittest.TestCase):
                     else:
                         self.assertEqual(run.call_count, 1)
 
-    def test_linux_native_qualification_binds_journey_and_png_export_to_candidate(self):
+    def test_linux_native_qualification_rejects_exit_zero_without_protocol_proof(self):
         identity = {"version": "1.1.108", "build_number": "108", "commit": "a" * 40}
         artifact = {"name": "linux.tar.gz", "path": "/sandbox/linux.tar.gz", "sha256": "f" * 64}
         completed = subprocess.CompletedProcess([], 0, stdout="full journey and decoded PNG passed", stderr="")
@@ -423,8 +448,8 @@ class ReleasePlatformLanesTest(unittest.TestCase):
              mock.patch.object(LANES.subprocess, "run", return_value=completed) as run:
             checks = LANES.run_native_qualification("linux", identity, [artifact])
         self.assertEqual(set(checks), {"native_journey", "export_validation"})
-        self.assertTrue(all(check["verdict"] == "unknown" for check in checks.values()))
-        self.assertTrue(all("human" in check["reason"] for check in checks.values()))
+        self.assertTrue(all(check["verdict"] == "failed" for check in checks.values()))
+        self.assertTrue(all("protocol" in check["reason"] for check in checks.values()))
         self.assertTrue(all(check["artifact_sha256"] == [artifact["sha256"]] for check in checks.values()))
         command = run.call_args.args[0]
         self.assertIn("integration_test/flows/user_flows_test.dart", command)

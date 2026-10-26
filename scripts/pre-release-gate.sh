@@ -6,6 +6,9 @@ cd "$PROJECT_ROOT"
 
 FLUTTER_BIN="${FLUTTER_BIN:-flutter}"
 DEVICE="${ANDROID_DEVICE:-}"
+DEVICE_ARGUMENT=""
+DISPOSABLE_DEVICE=""
+DEVICE_MUTATION_STARTED=0
 BUILD_NAME="${RELEASE_BUILD_NAME:-}"
 BUILD_NUMBER="${RELEASE_BUILD_NUMBER:-}"
 SOAK_SECONDS=1800
@@ -30,20 +33,56 @@ usage() {
 Usage: scripts/pre-release-gate.sh [options]
 
 Options:
-  --device ID          Flutter/ADB device ID (default: auto-discover Waydroid)
-  --soak-seconds N     Monkey soak duration approximation (default: 1800)
+  --device ID          Explicit Flutter/ADB device ID (or ANDROID_DEVICE)
+  --disposable-device ID
+                       Confirm the same entire device is disposable; required
+                       for execution. Apps/data may be deleted or replaced,
+                       including by Flutter integration tests. No profile isolation.
+  --soak-seconds N     Required wall-clock monkey soak seconds (default: 1800)
   --build-name NAME    Version name for the production-mode APK
   --build-number N     Version code for the production-mode APK
   --log-dir DIR        Evidence output directory
   --skip-host          Skip analyzer and full host suite
-  --dry-run            Print every gate without executing it
+  --dry-run            Print a conditional plan only; no device commands or tests
+  --help, -h           Show this help without executing commands
+
+Default: refuse execution before Flutter or ADB. Never use a personal/production
+app device. Only an explicitly named, dedicated disposable test device is supported.
+No safe same-signature update or isolated Android profile route is established.
+A dry run is not qualification evidence; all real gates still need to pass.
 EOF
+}
+
+set_device_option() {
+  local option="$1" value="$2" previous
+  if [[ -z "$value" || "$value" == -* ]]; then
+    printf '%s requires a nonempty device ID that does not start with "-".\n' "$option" >&2
+    exit 2
+  fi
+  if [[ "$option" == "--device" ]]; then
+    # A CLI selection can override ANDROID_DEVICE, but not an earlier CLI ID.
+    previous="$DEVICE_ARGUMENT"
+  else
+    previous="$DISPOSABLE_DEVICE"
+  fi
+  if [[ -n "$previous" && "$previous" != "$value" ]]; then
+    printf 'Conflicting repeated %s IDs are not allowed.\n' "$option" >&2
+    exit 2
+  fi
+  if [[ "$option" == "--device" ]]; then
+    DEVICE_ARGUMENT="$value"
+    DEVICE="$value"
+  else
+    DISPOSABLE_DEVICE="$value"
+  fi
 }
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --device) DEVICE="$2"; shift 2 ;;
-    --device=*) DEVICE="${1#*=}"; shift ;;
+    --device|--disposable-device)
+      set_device_option "$1" "${2:-}"; shift 2 ;;
+    --device=*|--disposable-device=*)
+      set_device_option "${1%%=*}" "${1#*=}"; shift ;;
     --soak-seconds) SOAK_SECONDS="$2"; shift 2 ;;
     --soak-seconds=*) SOAK_SECONDS="${1#*=}"; shift ;;
     --build-name) BUILD_NAME="$2"; shift 2 ;;
@@ -58,6 +97,23 @@ while [[ $# -gt 0 ]]; do
     *) printf 'Unknown argument: %s\n' "$1" >&2; exit 2 ;;
   esac
 done
+
+if [[ "$DEVICE" == -* ]]; then
+  echo 'ANDROID_DEVICE must be a device ID that does not start with "-".' >&2
+  exit 2
+fi
+
+# Flutter integration can uninstall/reinstall the app before our explicit APK
+# install. Refuse before *any* runner or device command, not just adb uninstall.
+if [[ "$DRY_RUN" -eq 0 ]]; then
+  if [[ -z "$DEVICE" || -z "$DISPOSABLE_DEVICE" || "$DEVICE" != "$DISPOSABLE_DEVICE" ]]; then
+    echo 'Refusing device gate: explicitly select --device ID (or ANDROID_DEVICE) and confirm --disposable-device ID with the same ID. The entire device must be dedicated and disposable; app data may be lost. No safe production-app/profile route is established.' >&2
+    exit 2
+  fi
+else
+  echo 'PLAN ONLY: not qualification evidence. Execution requires an explicit device and matching --disposable-device ID; the entire test device must be disposable.'
+  echo 'ABI below is illustrative (android-x64); execution probes the selected device.'
+fi
 
 [[ "$SOAK_SECONDS" =~ ^[0-9]+$ ]] || { echo "--soak-seconds must be an integer" >&2; exit 2; }
 if [[ -z "$BUILD_NAME" || -z "$BUILD_NUMBER" ]]; then
@@ -89,42 +145,23 @@ run_gate() {
 }
 
 discover_device() {
-  [[ -z "$DEVICE" ]] || return 0
-  if [[ "$DRY_RUN" -eq 1 ]]; then
-    DEVICE="auto-waydroid"
-    return 0
-  fi
-
-  DEVICE="$(
-    adb devices -l 2>/dev/null |
-      awk '$2 == "device" && /model:WayDroid/ { print $1; exit }'
-  )"
-  if [[ -z "$DEVICE" ]] && command -v waydroid >/dev/null 2>&1; then
-    local waydroid_ip
-    waydroid_ip="$(waydroid status 2>/dev/null | awk '/^IP address:/ { print $3; exit }')"
-    if [[ -n "$waydroid_ip" ]]; then
-      DEVICE="${waydroid_ip}:5555"
-      adb connect "$DEVICE" >/dev/null 2>&1 || true
-    fi
-  fi
-  [[ -n "$DEVICE" ]] || {
-    echo 'Could not auto-discover a live Waydroid device after the host gate; start Waydroid or pass --device.' >&2
-    exit 2
-  }
+  # Execution already requires an explicitly selected and acknowledged device.
+  # For a dry run only, render a placeholder rather than discovering a live one.
+  [[ -n "$DEVICE" ]] || DEVICE="explicit-disposable-device"
 }
 
-remove_instrumented_app() {
+remove_disposable_app() {
   if [[ "$DRY_RUN" -eq 1 ]]; then
     print_command adb -s "$DEVICE" uninstall "$PACKAGE"
     return 0
   fi
   if adb -s "$DEVICE" shell pm path "$PACKAGE" | grep -q '^package:'; then
-    adb_gate "remove instrumented app" uninstall "$PACKAGE"
+    adb_gate "remove app on disposable test device" uninstall "$PACKAGE"
   fi
 }
 
 install_production_app() {
-  remove_instrumented_app
+  remove_disposable_app
   adb_gate "install production-mode device artifact" install \
     build/app/outputs/flutter-apk/app-release.apk
 }
@@ -435,6 +472,8 @@ capture_network_state() {
     DATA_WAS_ENABLED=""
 }
 cleanup_device() {
+  # Host/preflight failures and plan-only invocations must not mutate a device.
+  [[ "$DRY_RUN" -eq 0 && "$DEVICE_MUTATION_STARTED" -eq 1 ]] || return 0
   stop_foreground_guard
   stop_device_monkey || true
   if [[ "$DRY_RUN" -eq 0 && -n "$DEVICE" ]]; then
@@ -466,6 +505,9 @@ else
 fi
 adb_gate "device readiness" get-state
 capture_network_state
+if [[ "$DRY_RUN" -eq 0 ]]; then
+  DEVICE_MUTATION_STARTED=1
+fi
 
 # Interrupted Flutter integration runs can leave device-scoped VM-service port
 # forwards behind. Reusing one connects the runner to a dead socket and fails
@@ -504,7 +546,8 @@ run_foreground_guarded_gate "rapid-scroll catalog thumbnail performance" \
     integration_test/performance/catalog_thumbnail_performance_test.dart \
     -d "$DEVICE"
 
-# Flutter's integration-test runner uses a debug-signed instrumented package.
+# On this explicitly disposable device only, Flutter's integration-test runner
+# uses a debug-signed instrumented package (and may itself uninstall an app).
 # Replace it with a production-mode build matching the connected device before
 # exercising deep links, process death, trim-memory, and the long-running soak.
 run_gate "build production-mode device artifact" \
