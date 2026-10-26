@@ -3,7 +3,7 @@ schema = 1
 id = "QUAL-EVIDENCE-01"
 title = "Retain actual Linux edited-export evidence for delegated qualification review"
 short = "Retain edited Linux PNGs and qualification input matrix"
-status = "open"
+status = "done"
 goal = "REL-JOURNEY-001"
 section = "Now"
 rank = 2000
@@ -17,5 +17,12 @@ acceptance = ["Actual edited-state 2D/3D PNGs survive the test, decode at select
 checks = ["Use docs/engineering/runbook.md#owned-linux-runtime-with-reserved-ports and scripts/run-native-integration.sh with integration_test/flows/user_flows_test.dart and FORCE_GPU_RENDER=true on the allocated range. Require successful protocol receipt and empty remaining_pids. Decode retained actual PNG bytes; reconcile hashes/dimensions/viewer state with manifest and source. Run affected tests if capture instrumentation changes; git diff --check."]
 exclusions = ["Only owned local Linux evidence collection and read-only target inventory are authorized. No Android install/uninstall/reset, remote service, credential use, signing, upload, deployment, new listener waiver, package install, production operation or human visual acceptance. Keep retained-task holds until their exact inputs exist."]
 live = "authorized"
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/QUAL-EVIDENCE-01.toml"
 +++
 - Sources: docs/tasks/DELEGATED-DECISIONS-20261025.md#execution-and-release-of-holds
+- Pending live: Attributable human composition/readability review remains absent. This packet retains partial Mandelbrot evidence only; successful complete 2D/3D capture and Mandelbulb must precede any complete-packet review claim.
+- Pending live: Hardware-GPU render/performance and physical-device screen-reader/rotation/gesture/production-font verdicts remain unverified; actual Linux backend was Mesa llvmpipe, Accelerated: no, not hardware GPU.
+- Pending live: Android installed-build, actual MediaStore PNG/gallery and launcher verdicts require a separately authorized install-safe target and reviewer. Read-only adb devices -l observed Waydroid x86_64 only, not physical hardware; no device session, shell, install or reset occurred.
+- Pending live: Academic identity/source relevance/version/rights/lawful-access and accepted-claim human decisions remain exactly held across the four academic records. All 23 retained tasks and their exact missing inputs are enumerated in the manifest; none was released.
+- Pending live: Release lane target verdicts, immutable prepared subset/digests/destinations, candidate-bound production authority and external Apple/F-Droid acceptance remain separate. No credentials, signing, remote services, uploads, deployments or publication checks ran.

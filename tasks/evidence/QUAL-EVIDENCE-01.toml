@@ -1,0 +1,9 @@
+schema = 1
+task = "QUAL-EVIDENCE-01"
+candidate = "fa0f2dddbefa094d9df6927b80c6fb4eee0ac66d"
+integration = "4e18fa73a64834915a3288888f835c3abfe33649"
+tree = "3b9a448067ca33e50078796d6092d4ea18aed123"
+contract_hash = "0917342713055ebe7ebb4ee756e86f5d10de03cc56c9e65b4a794833e0d66334"
+checks = ["<path>", "<path>", "--verify", "<path>", "QUAL-EVIDENCE-01"]
+result = "pass"
+review = "passed"

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Retain source-bound Linux partial-export/failure evidence and a 23-task qualification-input matrix without releasing qualification holds. (QUAL-EVIDENCE-01)
 - Prepared an agent-only six-source/12-identity academic draft packet with current renderer bindings, preserved input hashes and pending human review gates. (ACAD-DRAFT-01)
 - Document Number Walls Android target/build/certificate discovery, unavailable driver execution and explicit pending TalkBack/lifecycle/MediaStore qualification without claiming installed-device acceptance. (NUM-WALL-05)
 - Add real Number Walls Linux/Chromium journeys and retained same-state PNG/matrix, replay/cancellation and measured software-renderer evidence, with native-driver and visual qualification gaps explicit. (NUM-WALL-04)
