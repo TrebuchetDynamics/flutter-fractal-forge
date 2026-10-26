@@ -19,3 +19,4 @@ exclusions = ["No Android install/uninstall/reset, production service, signing/c
 live = "authorized"
 +++
 - Sources: docs/tasks/UNBLOCK-20261026.md#evidence-motivating-the-repair
+- Owner removal: 2026-10-26: User said Remove all for the remaining 22 held tasks. Execute this local task unchanged; report missing external evidence honestly but do not recreate removed follow-up tasks/holds/questions without a new owner request. See docs/tasks/REMOVED-HOLDS-20261026.md.
