@@ -106,28 +106,13 @@ Manual correction acceptance and user-defined palette support are already record
 Perturbation for GPU deep zoom beyond float32 has shipped and is no longer
 planned work; see the Extended GPU Preview entry in CONTEXT.md.
 
-## [1.1.112] - 2026-10-25
+## [1.1.112] - 2026-10-26
 
-- Merge commit '2d602f1d7b867c60b486e4c49ce986bc869c0c94' into pi-autowork/20261025-161816
-- docs(android): record standing Waydroid test authorization
-- Merge commit '639952fef7c63d844d04b321b88504953736c875' into pi-autowork/20261025-161816
-- docs(release): record composed repair validation and remaining inputs
-- ci: add bounded rootless F-Droid container adapter
-- fix(release): reject ambiguous Android gate device arguments
-- fix(release): require explicit disposable Android gate target
-- fix(release): forward explicit disposable-device consent
-- fix(release): verify allocated qualification and owned cleanup
-- docs(tasks): close QUAT-LOCAL-01 (pi-autowork)
-- Merge commit 'c9940936f9d76109716cec4e379ade134c9e8c4b' into HEAD
-- Qualify local quaternion walk and retain decoded PNG evidence
-- docs(tasks): close GAUSS-LOCAL-01 (pi-autowork)
-- Merge commit '9e55a8ce1cc1dd32aa04ddfc3cfcb414664302c5' into HEAD
-- Merge commit '351a0ee3aafd862aade43250e2fecbc1030b0885' into pi-autowork/20261025-161816
-- docs(release): record source-bound seven-lane 112 attempt
-- Merge commit '5bf765805c398b603792ab359686649c68312ec7' into HEAD
-- test(gaussian): retain bounded execution and native export evidence
-- docs(tasks): close QUAL-EXPORT-REPAIR-01 (pi-autowork)
-- Merge commit 'c5a702e25869da6c4a719397eb3ad8118e677640' into HEAD
+- Improve fractal export and saved-view reliability.
+- Add validated local quaternion and Gaussian exploration flows.
+- Require explicit standing Waydroid consent for Android test-app replacement.
+- Strengthen allocated native/browser qualification receipts and owned cleanup.
+- Add the bounded official F-Droid container tool adapter; scanning and external acceptance remain separate gates.
 
 ## [1.1.107] - 2026-10-07
 

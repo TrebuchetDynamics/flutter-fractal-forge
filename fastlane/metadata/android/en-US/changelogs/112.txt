@@ -1,8 +1,3 @@
-- Merge commit '2d602f1d7b867c60b486e4c49ce986bc869c0c94' into pi-autowork/20261025-161816
-- docs(android): record standing Waydroid test authorization
-- Merge commit '639952fef7c63d844d04b321b88504953736c875' into pi-autowork/20261025-161816
-- docs(release): record composed repair validation and remaining inputs
-- ci: add bounded rootless F-Droid container adapter
-- fix(release): reject ambiguous Android gate device arguments
-- fix(release): require explicit disposable Android gate target
-- fi
+- Improved fractal export and saved-view reliability.
+- Added validated local quaternion and Gaussian exploration flows.
+- Strengthened Android release testing and multi-platform qualification checks.
