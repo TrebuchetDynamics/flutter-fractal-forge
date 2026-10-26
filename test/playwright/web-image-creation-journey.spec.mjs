@@ -77,9 +77,20 @@ async function decodedPngPixels(page, bytes) {
       context.drawImage(bitmap, 0, 0);
       const rgba = context.getImageData(0, 0, canvas.width, canvas.height).data;
       const digest = await crypto.subtle.digest('SHA-256', rgba);
+      const colors = new Set();
+      let transparentPixels = 0;
+      let nonOpaquePixels = 0;
+      for (let i = 0; i < rgba.length; i += 4) {
+        if (i % 68 === 0) colors.add(`${rgba[i]},${rgba[i + 1]},${rgba[i + 2]}`);
+        if (rgba[i + 3] === 0) transparentPixels++;
+        if (rgba[i + 3] < 255) nonOpaquePixels++;
+      }
       return {
         width: canvas.width,
         height: canvas.height,
+        colors: colors.size,
+        transparentPixels,
+        nonOpaquePixels,
         pixelHash: Array.from(new Uint8Array(digest), (byte) =>
           byte.toString(16).padStart(2, '0'),
         ).join(''),
@@ -91,17 +102,19 @@ async function decodedPngPixels(page, bytes) {
 }
 
 async function openCatalogExample(page, example) {
-  const search = page.getByRole('textbox', { name: /search by name/i }).last();
+  await page.getByRole('button', { name: /^all dimensions$|^2D$|^3D$/i }).click();
+  await page.getByRole('menuitemcheckbox', { name: new RegExp(`^${example.dimension} ·`) }).click();
+  const search = page.getByRole('textbox', { name: /^Name, formula or family$/i });
   await expect(search).toBeVisible();
-  await page
-    .getByRole('button', {
-      name: new RegExp(`${example.dimension} filter`, 'i'),
-    })
-    .click({ force: true });
-  const searchBounds = await search.boundingBox();
-  await page.mouse.click(searchBounds.x + 250, searchBounds.y + searchBounds.height / 2);
-  await page.keyboard.press('Control+A');
-  await page.keyboard.type(example.name);
+  await search.click();
+  await expect(search).toBeFocused();
+  // DOM focus precedes Flutter's text-input activation. The engine creates
+  // this proxy with autocorrect=off, then applies the TextField's on setting
+  // when its input listener is attached; typing earlier drops the first key.
+  await expect(search).toHaveAttribute('autocorrect', 'on');
+  await search.press('Control+A');
+  await search.pressSequentially(example.name, { delay: 50 });
+  await expect(search).toHaveValue(example.name);
   const result = page.locator(
     `flt-semantics[aria-label*="${example.name}"]`,
   ).first();
@@ -110,17 +123,26 @@ async function openCatalogExample(page, example) {
   await expect(page.getByRole('button', { name: /back to catalog/i })).toBeVisible();
 }
 
-async function exportHdPng(page, testInfo, moduleName) {
-  await page.getByRole('button', { name: /viewer actions/i }).click();
+async function exportHdPng(page, testInfo, moduleName, { transparent = false } = {}) {
+  await page.getByRole('button', { name: /viewer actions|acciones del visor/i }).click();
   await page.getByRole('menuitem', { name: /export/i }).click();
 
-  await expect(page.getByText('Export', { exact: true })).toBeVisible();
-  await page.getByRole('button', { name: /customize/i }).click();
-  await page.getByRole('checkbox', { name: /HD \(1280[×x]720\)/ }).click({ force: true });
-  await expect(page.getByText(/1280\s*[×x]\s*720/)).toBeVisible();
+  await expect(page.getByText(/^(Export|Exportar)$/)).toBeVisible();
+  await page.getByRole('button', { name: /customize|personalizar/i }).click();
+  const hd = page.getByRole('checkbox', { name: /^HD \(1280[×x]720\)/ });
+  await hd.focus();
+  await hd.press('Space');
+  await expect(hd).toBeChecked();
+  if (transparent) {
+    await page.getByRole('button', { name: /advanced options|opciones avanzadas/i }).click();
+    const alpha = page.getByRole('switch', { name: /transparent background|fondo transparente/i });
+    await alpha.focus();
+    await alpha.press('Space');
+    await expect(alpha).toBeChecked();
+  }
 
   const downloadPromise = page.waitForEvent('download', { timeout: 30_000 });
-  const saveButton = page.getByRole('button', { name: /save image/i }).first();
+  const saveButton = page.getByRole('button', { name: /save image|guardar imagen/i }).first();
   const saveBounds = await saveButton.boundingBox();
   await saveButton.click({ force: true });
   const download = await downloadPromise.catch(async (error) => {
@@ -138,9 +160,10 @@ async function exportHdPng(page, testInfo, moduleName) {
   const filePath = testInfo.outputPath(`${moduleName}-edited.png`);
   await download.saveAs(filePath);
   const png = inspectPng(fs.readFileSync(filePath));
-  expect(png.width).toBe(1280);
-  expect(png.height).toBe(720);
-  expect(png.colors, 'download must contain rendered image data').toBeGreaterThan(10);
+  const portrait = page.viewportSize().width < page.viewportSize().height;
+  expect([png.width, png.height]).toEqual(portrait ? [720, 1280] : [1280, 720]);
+  const decoded = await decodedPngPixels(page, fs.readFileSync(filePath));
+  expect(decoded.colors, 'download must contain actual rendered bands').toBeGreaterThan(6);
   return filePath;
 }
 
@@ -347,6 +370,133 @@ test('sine sphere restores edits and exports a reduced-motion frozen PNG', async
       firstPixels, secondPixels, errors }, null, 2)),
     contentType: 'application/json',
   });
+});
+
+test('Fibonacci catalog edits restore and export the same finite experiment', async ({ page, browser }, testInfo) => {
+  test.setTimeout(180_000);
+  const errors = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  const [webBundle] = await Promise.all([
+    page.waitForResponse((response) => new URL(response.url()).pathname.endsWith('/main.dart.js')),
+    page.goto('/', { waitUntil: 'domcontentloaded' }),
+  ]);
+  const enable = async (target) => {
+    await expect(target.getByRole('button', { name: /enable accessibility/i })).toBeVisible({ timeout: 30_000 });
+    await target.evaluate(() => document.querySelector('flt-semantics-placeholder')?.click());
+    await expect(target.getByRole('button', { name: /back to catalog|volver al catálogo/i })).toBeVisible();
+  };
+  // The first boot is the catalog, not a seeded viewer route.
+  await expect(page.getByRole('button', { name: /enable accessibility/i })).toBeVisible({ timeout: 30_000 });
+  await page.evaluate(() => document.querySelector('flt-semantics-placeholder')?.click());
+  await openCatalogExample(page, { name: 'Fibonacci prime-degree Julia', dimension: '2D' });
+  const saved = (target) => target.evaluate(() => JSON.parse(JSON.parse(
+    localStorage.getItem('flutter.viewer_session_v1'))));
+  await expect.poll(async () => (await saved(page))?.moduleId).toBe('fibonacci_complex_julia');
+  expect((await saved(page)).params).toMatchObject({ iterations: 45, juliaCReal: -.2, juliaCImag: .25, bailout: 4 });
+  await page.mouse.click(80, 200, { button: 'right' });
+  await page.getByRole('menuitem', { name: /open controls/i }).click();
+  const legend = page.getByText(/H_c\(z,w\) = \(zw\+c,z\)/);
+  await expect(legend).toBeVisible();
+  const legendEn = await legend.innerText();
+  expect(legendEn).toContain('not proven bounded');
+  expect(legendEn).toContain('F19 = 4181 = 37');
+  expect(legendEn).toContain('Gold:');
+  await page.screenshot({ path: testInfo.outputPath('fibonacci-en-legend.png') });
+  for (const name of ['Iterations', 'Julia C (Real)', 'Julia C (Imag)']) {
+    const slider = page.locator(`[aria-label="${name}"]`).getByRole('slider');
+    await slider.scrollIntoViewIfNeeded();
+    await slider.focus();
+    await page.keyboard.press('ArrowLeft');
+  }
+  await page.getByRole('button', { name: /close this dialog/i }).click({ force: true });
+  // Use the supported viewer keyboard actions with semantics enabled, rather
+  // than rewriting storage or dragging the accessibility overlay.
+  await page.getByRole('group', { name: /^Interactive fractal canvas/ }).click({ position: { x: 500, y: 200 }, force: true });
+  await page.keyboard.press('ArrowRight');
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('-');
+  await expect.poll(async () => (await saved(page)).view.zoom).not.toBe(1);
+  const edited = await saved(page);
+  expect(edited.params.iterations).toBe(44);
+  expect(edited.params.juliaCReal).toBeCloseTo(-.21);
+  expect(edited.params.juliaCImag).toBeCloseTo(.24);
+  expect(edited.view.pan).not.toEqual([0, 0]);
+  const first = await exportHdPng(page, testInfo, 'fibonacci-en-before-reload');
+  const firstPixels = await decodedPngPixels(page, fs.readFileSync(first));
+  await page.evaluate(() => history.replaceState(null, '', '/'));
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await enable(page);
+  expect((await saved(page)).params).toEqual(edited.params);
+  expect((await saved(page)).view).toEqual(edited.view);
+  const second = await exportHdPng(page, testInfo, 'fibonacci-en-after-reload');
+  const secondPixels = await decodedPngPixels(page, fs.readFileSync(second));
+  expect(secondPixels).toEqual(firstPixels);
+  expect(firstPixels.nonOpaquePixels).toBe(0);
+  const alphaFile = await exportHdPng(page, testInfo, 'fibonacci-en-transparent', { transparent: true });
+  const alphaPixels = await decodedPngPixels(page, fs.readFileSync(alphaFile));
+  expect(alphaPixels.transparentPixels).toBeGreaterThan(0);
+  expect(alphaPixels.transparentPixels).toBeLessThan(alphaPixels.width * alphaPixels.height);
+  expect((await saved(page)).params).toEqual(edited.params);
+  expect((await saved(page)).view).toEqual(edited.view);
+  await retainJourneyEnvironment(page, testInfo, webBundle);
+
+  // Replay the actual persisted EN session in a fresh ES browser profile.
+  // Flutter derives web text scale from the root element's computed font size.
+  const spanish = await browser.newContext({ locale: 'es-ES',
+    viewport: { width: 320, height: 900 }, baseURL: testInfo.project.use.baseURL,
+    reducedMotion: 'reduce', contrast: 'more' });
+  let spanishObservation;
+  try {
+    await spanish.addInitScript((state) => {
+      localStorage.setItem('flutter.viewer_session_v1', JSON.stringify(JSON.stringify(state)));
+      localStorage.setItem('flutter.accessibility_high_contrast', 'true');
+      document.addEventListener('DOMContentLoaded', () => {
+        document.documentElement.style.fontSize = '24px';
+      });
+    }, edited);
+    const narrow = await spanish.newPage();
+    narrow.on('pageerror', (error) => errors.push(error.message));
+    await narrow.goto('/', { waitUntil: 'domcontentloaded' });
+    await enable(narrow);
+    fs.writeFileSync(testInfo.outputPath('fibonacci-es-initial-state.json'), JSON.stringify(await saved(narrow), null, 2));
+    await narrow.screenshot({ path: testInfo.outputPath('fibonacci-es-initial.png') });
+    fs.writeFileSync(testInfo.outputPath('fibonacci-es-initial-semantics.txt'), await narrow.locator('body').ariaSnapshot());
+    await narrow.mouse.click(80, 200, { button: 'right' });
+    await narrow.getByRole('menuitem', { name: /abrir controles/i }).click();
+    const spanishLegend = narrow.getByText(/H_c\(z,w\) = \(zw\+c,z\)/);
+    await spanishLegend.scrollIntoViewIfNeeded();
+    await expect(spanishLegend).toBeVisible();
+    const legendEs = await spanishLegend.innerText();
+    expect(legendEs).toContain('no demuestra acotación');
+    expect(legendEs).toContain('Dorado:');
+    expect(legendEs).toContain('F19 = 4181 = 37');
+    await narrow.screenshot({ path: testInfo.outputPath('fibonacci-es-narrow-large-contrast.png') });
+    await narrow.getByRole('button', { name: /cerrar.*diálogo/i }).click({ force: true });
+    const file = await exportHdPng(narrow, testInfo, 'fibonacci-es-restored');
+    const pixels = await decodedPngPixels(narrow, fs.readFileSync(file));
+    const restored = await saved(narrow);
+    expect(pixels.nonOpaquePixels).toBe(0);
+    expect(restored.params).toEqual(edited.params);
+    expect(restored.view).toEqual(edited.view);
+    // A narrow viewport changes the capture's aspect; compare same-state
+    // repeats on that viewport, not a stretched desktop image.
+    const repeated = await exportHdPng(narrow, testInfo, 'fibonacci-es-repeated');
+    expect(await decodedPngPixels(narrow, fs.readFileSync(repeated))).toEqual(pixels);
+    spanishObservation = { legend: legendEs, restored, pixels,
+      runtime: await narrow.evaluate(() => ({ locale: navigator.language,
+        rootFontPx: getComputedStyle(document.documentElement).fontSize,
+        highContrast: localStorage.getItem('flutter.accessibility_high_contrast'),
+        prefersContrast: matchMedia('(prefers-contrast: more)').matches })) };
+    expect(spanishObservation.runtime.rootFontPx).toBe('24px');
+  } finally {
+    await spanish.close();
+  }
+  expect(errors).toEqual([]);
+  const observation = { defaults: { c: [-.2, .25], N: 45, bailout: 4 },
+    legendEn, edited, firstPixels, secondPixels, alphaPixels, spanish: spanishObservation,
+    errors, limits: ['Android/human qualification not run',
+      'CPU transparency refusal has focused native export checks; no browser CPU-alpha parity claim'] };
+  fs.writeFileSync(testInfo.outputPath('fibonacci-observation.json'), JSON.stringify(observation, null, 2));
 });
 
 test('Gaussian catalog walk exports a frozen paused PNG', async ({ page }, testInfo) => {
