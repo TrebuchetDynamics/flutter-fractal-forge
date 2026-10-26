@@ -1,0 +1,151 @@
+00:00 +0: loading /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/modules/gaussian_moat_model_test.dart
+00:00 +0: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/modules/gaussian_moat_model_test.dart: slow map jobs run once plus only the latest replacement
+00:00 +1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/modules/gaussian_moat_model_test.dart: B128 cancellation at a real yield cannot publish a stale map
+B128 cancellation-to-idle us=912
+00:00 +2: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/modules/gaussian_moat_model_test.dart: elapsed budget yields before the probe ceiling after a stalled check
+00:00 +3: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/modules/gaussian_moat_model_test.dart: containment rejects extreme integers and respects signed boundaries
+00:00 +4: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/modules/gaussian_moat_model_test.dart: invalid domains fail before work and cancellation discards results
+00:00 +5: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/modules/gaussian_moat_model_test.dart: cap matches an independent trial-division oracle at every position
+B=128 points=9476 yields=123 generationUs=16815 maxChunkUs=125 oracleElapsedMs=63
+00:00 +6: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/modules/gaussian_moat_model_test.dart: step adjacency includes k=4 and rejects k=3, repeats and composites
+00:00 +7: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/modules/gaussian_moat_model_test.dart: inclusive squared-step components distinguish k=4 from k=3
+00:00 +8: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/modules/gaussian_moat_model_test.dart: components are monotone as squared radius grows in a fixed domain
+00:00 +9: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/modules/gaussian_moat_model_test.dart: exact finite field includes signed and axis primes, not units
+00:00 +10: loading /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart
+00:08 +10: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: pausing before the initial map completes preserves that job
+[21:09:13.300][info][lifecycle] FractalViewerScreen initState
+[21:09:13.316][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:13.645][info][lifecycle] Emulator detection {"isEmulator":false}
+00:09 +11: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: background cancellation never retries map work on resume
+[21:09:14.400][info][lifecycle] FractalViewerScreen initState
+[21:09:14.410][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:14.445][info][lifecycle] Emulator detection {"isEmulator":false}
+00:10 +12: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: export cannot take ownership while the initial map is pending
+[21:09:14.725][info][lifecycle] FractalViewerScreen initState
+[21:09:14.726][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:14.775][info][lifecycle] Emulator detection {"isEmulator":false}
+00:10 +13: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: export stops playback without scheduling map work
+[21:09:14.954][info][lifecycle] FractalViewerScreen initState
+[21:09:14.955][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:15.013][info][lifecycle] Emulator detection {"isEmulator":false}
+[21:09:15.217][info][action] Open export
+00:10 +14: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: navigation disposes pending map work without retry
+[21:09:15.514][info][lifecycle] FractalViewerScreen initState
+[21:09:15.515][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:15.560][info][lifecycle] Emulator detection {"isEmulator":false}
+00:11 +15: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: existing Gaussian viewer opens the exact bounded map and retains Explore
+[21:09:15.939][info][lifecycle] FractalViewerScreen initState
+[21:09:15.941][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:15.996][info][lifecycle] Emulator detection {"isEmulator":false}
+00:11 +16: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: MAP layout width=320.0 locale=en scale=1.0
+[21:09:16.286][info][lifecycle] FractalViewerScreen initState
+[21:09:16.287][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:16.328][info][lifecycle] Emulator detection {"isEmulator":false}
+00:12 +17: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: MAP layout width=320.0 locale=en scale=2.0
+[21:09:16.776][info][lifecycle] FractalViewerScreen initState
+[21:09:16.777][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:16.861][info][lifecycle] Emulator detection {"isEmulator":false}
+00:12 +18: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: MAP layout width=320.0 locale=es scale=1.0
+[21:09:17.306][info][lifecycle] FractalViewerScreen initState
+[21:09:17.307][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:17.345][info][lifecycle] Emulator detection {"isEmulator":false}
+00:13 +19: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: MAP layout width=320.0 locale=es scale=2.0
+[21:09:17.680][info][lifecycle] FractalViewerScreen initState
+[21:09:17.681][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:17.725][info][lifecycle] Emulator detection {"isEmulator":false}
+00:13 +20: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: MAP layout width=768.0 locale=en scale=1.0
+[21:09:18.075][info][lifecycle] FractalViewerScreen initState
+[21:09:18.076][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:18.116][info][lifecycle] Emulator detection {"isEmulator":false}
+00:13 +21: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: MAP layout width=768.0 locale=en scale=2.0
+[21:09:18.440][info][lifecycle] FractalViewerScreen initState
+[21:09:18.440][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:18.483][info][lifecycle] Emulator detection {"isEmulator":false}
+00:14 +22: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: MAP layout width=768.0 locale=es scale=1.0
+[21:09:18.865][info][lifecycle] FractalViewerScreen initState
+[21:09:18.866][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:18.910][info][lifecycle] Emulator detection {"isEmulator":false}
+00:14 +23: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: MAP layout width=768.0 locale=es scale=2.0
+[21:09:19.192][info][lifecycle] FractalViewerScreen initState
+[21:09:19.193][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:19.233][info][lifecycle] Emulator detection {"isEmulator":false}
+00:14 +24: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: MAP layout width=1024.0 locale=en scale=1.0
+[21:09:19.450][info][lifecycle] FractalViewerScreen initState
+[21:09:19.451][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:19.483][info][lifecycle] Emulator detection {"isEmulator":false}
+00:15 +25: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: MAP layout width=1024.0 locale=en scale=2.0
+[21:09:19.731][info][lifecycle] FractalViewerScreen initState
+[21:09:19.732][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:19.756][info][lifecycle] Emulator detection {"isEmulator":false}
+00:15 +26: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: MAP layout width=1024.0 locale=es scale=1.0
+[21:09:20.052][info][lifecycle] FractalViewerScreen initState
+[21:09:20.053][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:20.077][info][lifecycle] Emulator detection {"isEmulator":false}
+00:15 +27: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: MAP layout width=1024.0 locale=es scale=2.0
+[21:09:20.275][info][lifecycle] FractalViewerScreen initState
+[21:09:20.276][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:20.305][info][lifecycle] Emulator detection {"isEmulator":false}
+00:15 +28: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: MAP layout width=1440.0 locale=en scale=1.0
+[21:09:20.510][info][lifecycle] FractalViewerScreen initState
+[21:09:20.511][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:20.541][info][lifecycle] Emulator detection {"isEmulator":false}
+00:16 +29: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: MAP layout width=1440.0 locale=en scale=2.0
+[21:09:20.732][info][lifecycle] FractalViewerScreen initState
+[21:09:20.733][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:20.759][info][lifecycle] Emulator detection {"isEmulator":false}
+00:16 +30: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: MAP layout width=1440.0 locale=es scale=1.0
+[21:09:20.966][info][lifecycle] FractalViewerScreen initState
+[21:09:20.966][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:20.991][info][lifecycle] Emulator detection {"isEmulator":false}
+00:16 +31: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: MAP layout width=1440.0 locale=es scale=2.0
+[21:09:21.344][info][lifecycle] FractalViewerScreen initState
+[21:09:21.345][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:21.385][info][lifecycle] Emulator detection {"isEmulator":false}
+00:17 +32: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: growth honors dwell and pause without queued ticks
+[21:09:21.609][info][lifecycle] FractalViewerScreen initState
+[21:09:21.610][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:21.631][info][lifecycle] Emulator detection {"isEmulator":false}
+00:17 +33: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: slow map work cannot accumulate growth timer ticks
+[21:09:21.818][info][lifecycle] FractalViewerScreen initState
+[21:09:21.819][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:21.846][info][lifecycle] Emulator detection {"isEmulator":false}
+00:17 +34: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: scrubbing previews without computing and commits last radius
+[21:09:21.976][info][lifecycle] FractalViewerScreen initState
+[21:09:21.977][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:22.001][info][lifecycle] Emulator detection {"isEmulator":false}
+00:17 +35: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: radius committed during delayed B128 work matches captured graph
+[21:09:22.218][info][lifecycle] FractalViewerScreen initState
+[21:09:22.218][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:22.249][info][lifecycle] Emulator detection {"isEmulator":false}
+00:19 +36: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: growth terminates at its configured maximum
+[21:09:24.043][info][lifecycle] FractalViewerScreen initState
+[21:09:24.044][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:24.077][info][lifecycle] Emulator detection {"isEmulator":false}
+00:19 +37: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: reduced motion prevents growth playback
+[21:09:24.241][info][lifecycle] FractalViewerScreen initState
+[21:09:24.242][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:24.272][info][lifecycle] Emulator detection {"isEmulator":false}
+00:19 +38: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: shared signed transform round-trips pan, zoom and pane resize
+00:19 +39: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: pane taps select only; dragging and wheel do not select
+[21:09:24.414][info][lifecycle] FractalViewerScreen initState
+[21:09:24.415][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:24.437][info][lifecycle] Emulator detection {"isEmulator":false}
+[21:09:24.777][debug][gesture] pan_start {"x":"382.0","y":"257.0"}
+[21:09:24.784][debug][gesture] pan_end {"x":"442.0","y":"272.0","dx":"80.0","dy":"20.0"}
+00:20 +40: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: keyboard candidate controls retain focus and reject unknown/composite roots
+[21:09:24.898][info][lifecycle] FractalViewerScreen initState
+[21:09:24.899][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:24.940][info][lifecycle] Emulator detection {"isEmulator":false}
+00:21 +41: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: candidate selection does not move until a valid Step
+[21:09:25.540][info][lifecycle] FractalViewerScreen initState
+[21:09:25.540][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:25.574][info][lifecycle] Emulator detection {"isEmulator":false}
+00:21 +42: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: coordinate limits reject both axes without changing selection
+[21:09:26.157][info][lifecycle] FractalViewerScreen initState
+[21:09:26.158][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:26.198][info][lifecycle] Emulator detection {"isEmulator":false}
+00:22 +43: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-GAUSS-LOCAL-01/test/features/viewer/gaussian_moat_walk_test.dart: real host capture contains the exact plot, domain and selected overlay
+[21:09:27.405][info][lifecycle] FractalViewerScreen initState
+[21:09:27.406][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=gaussian_prime_lattice detail=healthy_gpu_target"}
+[21:09:27.435][info][lifecycle] Emulator detection {"isEmulator":false}
+00:23 +44: All tests passed!
