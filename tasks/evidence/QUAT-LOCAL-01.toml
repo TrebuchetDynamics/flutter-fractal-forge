@@ -1,0 +1,9 @@
+schema = 1
+task = "QUAT-LOCAL-01"
+candidate = "c9940936f9d76109716cec4e379ade134c9e8c4b"
+integration = "d6dbb7dec9ce29dbe94bd3678e4ea8921321d3fe"
+tree = "7fb9409b6e97282c016eaddf53b605a8155fa6a2"
+contract_hash = "67f641c08e12e9fbdbfde518ba0ccb71fab30efabe51b88d516da77ed804411a"
+checks = ["<path>", "<path>", "--verify", "<path>", "QUAT-LOCAL-01"]
+result = "pass"
+review = "passed"

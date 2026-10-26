@@ -3,7 +3,7 @@ schema = 1
 id = "QUAT-LOCAL-01"
 title = "Execute local quaternion slice walk and decoded export qualification"
 short = "Real local quaternion journey and PNG evidence"
-status = "open"
+status = "done"
 goal = "QUAT-NORM-001"
 section = "Now"
 rank = 3000
@@ -17,6 +17,12 @@ acceptance = ["Current-source Linux and browser executions have actual nonempty 
 checks = ["For Chromium, build a fresh current-source web bundle in this isolated checkout, preflight an unused allocated loopback port, start an owned server, set PLAYWRIGHT_SKIP_WEBSERVER=1 and PLAYWRIGHT_BASE_URL to that server, refuse foreign-server reuse and record the served main.dart.js hash. Run flutter test --no-pub test/modules/prime_norm_quaternion_test.dart test/features/viewer/prime_norm_quaternion_walk_test.dart; flutter analyze --no-pub changed Dart. Use scripts/run-native-integration.sh integration_test/flows/prime_norm_quaternion_journey_test.dart with FORCE_GPU_RENDER=true and actual allocation. Execute test/playwright/prime-norm-quaternion.spec.mjs through existing local Chromium config on an owned app server/build. Independently decode/hash retained PNGs and verify state/protocol/cleanup manifests; git diff --check."]
 exclusions = ["No Android install/uninstall/reset, production service, signing/credentials, package installation, remote publication or borrowed listener waiver. Software results are not hardware/physical/human qualification. Do not close the original human/device-gated tasks.", "No new companion model, shader rewrite, production behavior change or inflated full-catalog journey claim."]
 live = "authorized"
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/QUAT-LOCAL-01.toml"
 +++
 - Sources: docs/tasks/UNBLOCK-20261026.md#execute-these-items-not-another-readiness-report
 - Owner removal: 2026-10-26: User said Remove all for the remaining 22 held tasks. Execute this local task unchanged; report missing external evidence honestly but do not recreate removed follow-up tasks/holds/questions without a new owner request. See docs/tasks/REMOVED-HOLDS-20261026.md.
+- Pending live: Physical gestures and hardware-GPU qualification (software/Xvfb/SwiftShader results only).
+- Pending live: Operator screen-reader/assistive-technology journey.
+- Pending live: Physical Android storage/gallery readback.
+- Pending live: Human mathematical/composition verdict.
