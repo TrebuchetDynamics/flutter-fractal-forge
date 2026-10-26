@@ -576,6 +576,35 @@ class ReleasePlatformLanesTest(unittest.TestCase):
             self.assertIn("required qualification is not verified", result["lanes"][lane]["reason"])
         self.assertEqual(writes, [])
 
+    def test_android_aab_certificate_accepts_keytool_tab_indentation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "android").mkdir()
+            (root / "android/play-upload-cert-sha1.txt").write_text("AA:BB:CC:DD\n")
+            tool = root / "sdk/build-tools/1/apksigner"
+            tool.parent.mkdir(parents=True)
+            tool.touch()
+            identity = {"version": "1.1.112", "build_number": "112", "commit": "a" * 40}
+            artifacts = [{"path": str(root / "candidate.aab"), "sha256": "b" * 64}]
+            with mock.patch.object(LANES, "ROOT", root), mock.patch.dict(
+                os.environ, {"ANDROID_SDK_ROOT": str(root / "sdk")}
+            ), mock.patch.object(LANES.subprocess, "run") as run:
+                for indentation in ("\t ", " ", ""):
+                    with self.subTest(indentation=repr(indentation)):
+                        run.return_value = subprocess.CompletedProcess(
+                            [], 0, f"Certificate fingerprints:\n{indentation}SHA1: AA:BB:CC:DD\n", ""
+                        )
+                        receipt = LANES._android_certificate_check(identity, artifacts)
+                        self.assertEqual(receipt["verdict"], "passed")
+                        self.assertEqual(receipt["certificate_sha1"], "AABBCCDD")
+                for output, status in (("\t SHA1: 00:11:22:33\n", 0),
+                                       ("\t SHA256: AA:BB:CC:DD\n", 0),
+                                       ("\t SHA1: AA:BB:CC:DD\n", 1)):
+                    with self.subTest(output=output, status=status):
+                        run.return_value = subprocess.CompletedProcess([], status, output, "")
+                        with self.assertRaises(ValueError):
+                            LANES._android_certificate_check(identity, artifacts)
+
     def test_wrong_android_certificate_is_rejected(self):
         pinned = "AA:BB:CC:DD"
         self.assertEqual(LANES.validate_certificate_fingerprint(pinned, "aabbccdd"), "AABBCCDD")
