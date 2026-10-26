@@ -1,0 +1,29 @@
+{
+  "coverage": "production app catalog -> Gaussian viewer -> Walk -> quaternion companion",
+  "url": "http://127.0.0.1:20211/?type=gaussian_prime_lattice&zoom=1.0770588235294118&x=0&y=0&rotX=0&rotY=0&rotZ=0&transparent=false&rotationLocked=false&glowEnabled=false&glowSigma=1&glowIntensity=0.35&fluidModeEnabled=false&fluidStrength=1&kaleidoscopeEnabled=false&kaleidoscopeSectors=8&kaleidoscopeMirror=true&kaleidoscopeRotation=0&kaleidoscopeMirrorMode=0&param.bailout=4&param.colorScheme=2&param.iterations=64&param.mode=0&param.scale=30",
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "backend": {
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "vendor": "Google Inc. (Google)",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.7727.15 Safari/537.36",
+    "devicePixelRatio": 1
+  },
+  "browserVersion": "147.0.7727.15",
+  "hostPlatform": "linux",
+  "before": {
+    "walk": "Walk: 0 steps · component 3 · fixed d=0 only · boundary may continue",
+    "selected": null
+  },
+  "after": {
+    "walk": "Walk: 1 steps · component 3 · fixed d=0 only · boundary may continue",
+    "selected": "Selected (-6, -5, -6, 0) · norm 97"
+  },
+  "rotated": {
+    "walk": "Walk: 1 steps · component 3 · fixed d=0 only · boundary may continue",
+    "selected": "Selected (-6, -5, -6, 0) · norm 97"
+  },
+  "semantics": "- textbox \"Name, formula or family\": Gaussian Prime Lattice\n- button \"Submit\"\n- group:\n  - group:\n    - button \"Back to Gaussian map\"\n    - heading \"Prime-norm quaternion slice\" [level=2]\n    - text: \"Integer points (a,b,c,d), −6 ≤ a,b,c ≤ 6 · d = 0 · N(q)=a²+b²+c²+d² is ordinary prime; fixed-d slice only. Selected (-6, -5, -6, 0) · norm 97 Walk: 1 steps · component 3 · fixed d=0 only · boundary may continue Squared step limit: 2\"\n    - button \"k−\"\n    - button \"k+\"\n    - button \"Step\" [disabled]\n    - button \"Undo step\"\n    - button \"Reset path\"\n    - button \"Capture PNG\"\n    - text: Captured fixed-d view as PNG\n    - button \"Decrease fixed d\"\n    - text: d = 0\n    - button \"Increase fixed d\"\n    - button \"Coordinate list\"\n    - button \"Reset view\"\n    - text: \"Norm legend: ordinary prime norms are shown · camera rotation changes projection, not membership\"\n  - group \"Prime-norm quaternion points; use arrow keys to rotate and Coordinate list to select overlapping points\":\n    - button"
+}

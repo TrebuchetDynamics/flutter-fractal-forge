@@ -1,0 +1,63 @@
+{
+  "revision": "9bddba8cb6a715eb31c4893bdb3645a0a6f0cae9",
+  "sha256": {
+    "integration_test/flows/prime_norm_quaternion_journey_test.dart": "baeefcdae526fb08eb7e008f84ceb7bd68e2588d1a8db70b48033d9cb0e48440",
+    "test_driver/integration_test.dart": "51382a5b3b178c6454a9d04eeb0cbb3d207b3c43117ecfd6e38a6ef058029343",
+    "scripts/run-native-integration.sh": "5d0963a8f0e05f1d340bc62d45fdf09384f15f1a28149312a1bb533a68dc070c"
+  },
+  "sdk": {
+    "frameworkVersion": "3.44.6",
+    "channel": "[user-branch]",
+    "repositoryUrl": "unknown source",
+    "frameworkRevision": "ee80f08bbf97172ec030b8751ceab557177a34a6",
+    "frameworkCommitDate": "2026-07-08 15:02:06 -0700",
+    "engineRevision": "83675ed27633283e7fc296c8bca22e841224c096",
+    "engineCommitDate": "2026-06-30 16:59:03.000Z",
+    "engineContentHash": "d3a3293399556a85388faf8c6f0723a7a5597aa8",
+    "engineBuildDate": "2026-06-30 12:58:16.871",
+    "dartSdkVersion": "3.12.2",
+    "devToolsVersion": "2.57.0",
+    "flutterVersion": "3.44.6"
+  },
+  "command": [
+    "xvfb-run",
+    "-a",
+    "-s",
+    "-screen 0 1280x800x24 -nolisten tcp",
+    "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.git/autowork-execution/cache/flutter-3.44.6/bin/flutter",
+    "drive",
+    "-d",
+    "linux",
+    "--debug",
+    "--no-pub",
+    "--no-dds",
+    "--no-devtools",
+    "--no-publish-port",
+    "--no-keep-app-running",
+    "--device-vmservice-port=20200",
+    "--host-vmservice-port=20200",
+    "--driver=test_driver/integration_test.dart",
+    "--target=integration_test/flows/prime_norm_quaternion_journey_test.dart",
+    "--dart-define=INTEGRATION_TEST_SHOULD_REPORT_RESULTS_TO_NATIVE=false",
+    "--dart-define=FORCE_GPU_RENDER=true",
+    "--dart-define=QUATERNION_RETAIN_EVIDENCE=true"
+  ],
+  "port_range": [
+    20200,
+    20299
+  ],
+  "listeners": [
+    [
+      "tcp",
+      "0100007F",
+      20200
+    ]
+  ],
+  "protocol_success": false,
+  "process_group": 1353038,
+  "reason": "driver exited",
+  "cleanup": {
+    "remaining_pids": []
+  },
+  "exit_code": 1
+}

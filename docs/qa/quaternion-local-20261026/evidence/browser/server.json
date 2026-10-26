@@ -1,0 +1,27 @@
+{
+  "base_url": "http://127.0.0.1:20211",
+  "port_range": [
+    20200,
+    20299
+  ],
+  "foreign_listener_reuse": false,
+  "server_pid": 1441222,
+  "command": [
+    "node",
+    "node_modules/playwright/cli.js",
+    "test",
+    "test/playwright/prime-norm-quaternion.spec.mjs",
+    "--project=chromium",
+    "--workers=1",
+    "--reporter=list,json",
+    "--output=/var/tmp/aw-1000-48137133-1/quat/browser/artifacts"
+  ],
+  "fixture_sha256": "864ae89f12e8b5f635a88f8d8dfb474931a1ebf25c4234fe84662971353e1d84",
+  "environment": {
+    "PLAYWRIGHT_SKIP_WEBSERVER": "1",
+    "PLAYWRIGHT_BASE_URL": "http://127.0.0.1:20211"
+  },
+  "served_main_dart_js_sha256": "1bb8648f78f8f4b39fdd15293cac32ba8e6453069316f2a5e9c92e862f4870b0",
+  "exit_code": 0,
+  "server_closed": true
+}

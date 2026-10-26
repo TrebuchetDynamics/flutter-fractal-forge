@@ -1,0 +1,12 @@
+00:00 +0: loading /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAT-LOCAL-01/test/modules/prime_norm_quaternion_test.dart
+00:00 +0: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAT-LOCAL-01/test/modules/prime_norm_quaternion_test.dart: fixed-d domain uses ordinary prime quaternion norms
+00:00 +1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAT-LOCAL-01/test/modules/prime_norm_quaternion_test.dart: signed fixed d, bounds and validation are exact
+00:00 +2: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAT-LOCAL-01/test/modules/prime_norm_quaternion_test.dart: walk adjacency and component use original fixed-d coordinates
+00:00 +3: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAT-LOCAL-01/test/modules/prime_norm_quaternion_test.dart: maximum generation yields at probe cap and cancels replacements
+quaternion cap: points=2454/15625 yields=15 elapsedMs=3 rssBefore=127946752 rssAfter=128241664
+00:00 +4: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAT-LOCAL-01/test/modules/prime_norm_quaternion_test.dart: orthographic projection and deterministic picking survive rotation
+00:00 +5: loading /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAT-LOCAL-01/test/features/viewer/prime_norm_quaternion_walk_test.dart
+00:00 +5: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAT-LOCAL-01/test/features/viewer/prime_norm_quaternion_walk_test.dart: fixed-d walk and captured PNG are available
+00:02 +6: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAT-LOCAL-01/test/features/viewer/prime_norm_quaternion_walk_test.dart: responsive controls survive enlarged high-contrast layouts
+00:03 +7: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAT-LOCAL-01/test/features/viewer/prime_norm_quaternion_walk_test.dart: quaternion disclosure and actions localize in Spanish
+00:03 +8: All tests passed!
