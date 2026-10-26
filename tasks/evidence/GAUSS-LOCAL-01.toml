@@ -1,0 +1,9 @@
+schema = 1
+task = "GAUSS-LOCAL-01"
+candidate = "5bf765805c398b603792ab359686649c68312ec7"
+integration = "b5f8344e4e9b3ea06c8e97022fefb5d9dfaf659b"
+tree = "e0be92fd26915382dd30b298d1d0a27852250587"
+contract_hash = "ffeb2526123f9bbf4a2995955f8c3068a4adf697528afc2657e9311e9a2ca8ba"
+checks = ["<path>", "<path>", "--verify", "<path>", "GAUSS-LOCAL-01"]
+result = "pass"
+review = "passed"

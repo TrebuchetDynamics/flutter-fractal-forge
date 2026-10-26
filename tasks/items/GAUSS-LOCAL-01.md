@@ -3,7 +3,7 @@ schema = 1
 id = "GAUSS-LOCAL-01"
 title = "Measure bounded Gaussian execution and retain local growth/export evidence"
 short = "Gaussian B128 cancellation and real local exports"
-status = "open"
+status = "done"
 goal = "GAUSS-MOAT-001"
 section = "Now"
 rank = 2000
@@ -17,6 +17,9 @@ acceptance = ["Executable regressions exercise B=128 and cancellation with no st
 checks = ["Run flutter test --no-pub test/modules/gaussian_moat_model_test.dart test/features/viewer/gaussian_moat_walk_test.dart and added telemetry tests; flutter analyze --no-pub on changed paths. Use supported native reserved-port wrapper for integration_test/flows/gaussian_moat_journey_test.dart with FORCE_GPU_RENDER=true. Independently decode retained PNGs and reconcile manifest/source/state/telemetry; require successful protocol receipt and owned cleanup; git diff --check."]
 exclusions = ["No Android install/uninstall/reset, production service, signing/credentials, package installation, remote publication or borrowed listener waiver. Software results are not hardware/physical/human qualification. Do not close the original human/device-gated tasks.", "No new formula, changed finite cap, broad controller/render rewrite or cross-platform performance guarantee."]
 live = "authorized"
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/GAUSS-LOCAL-01.toml"
 +++
 - Sources: docs/tasks/UNBLOCK-20261026.md#execute-these-items-not-another-readiness-report
 - Owner removal: 2026-10-26: User said Remove all for the remaining 22 held tasks. Execute this local task unchanged; report missing external evidence honestly but do not recreate removed follow-up tasks/holds/questions without a new owner request. See docs/tasks/REMOVED-HOLDS-20261026.md.
+- Pending live: No physical-device accessibility/keyboard/screen-reader qualification, Android MediaStore/gallery readback, hardware-GPU qualification or human mathematical-composition verdict is inferred. Browser requalification and complete live responsive/localization coverage were not run; original human/device-gated tasks remain unchanged.

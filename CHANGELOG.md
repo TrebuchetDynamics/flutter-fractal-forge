@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Added opt-in Gaussian chunk diagnostics, B128 cancellation/budget regressions, and source-bound Linux growth/export evidence with retained PNGs. (GAUSS-LOCAL-01)
 - Fix native integration catalog search reconnection after edited exports; retain complete source-bound Mandelbrot/Mandelbulb PNG/state and official-success receipts. (QUAL-EXPORT-REPAIR-01)
 - Retain source-bound Linux partial-export/failure evidence and a 23-task qualification-input matrix without releasing qualification holds. (QUAL-EVIDENCE-01)
 - Prepared an agent-only six-source/12-identity academic draft packet with current renderer bindings, preserved input hashes and pending human review gates. (ACAD-DRAFT-01)
