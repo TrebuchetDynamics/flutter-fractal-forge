@@ -3,7 +3,7 @@ schema = 1
 id = "QUAL-EXPORT-REPAIR-01"
 title = "Repair stale native catalog search and complete edited 2D/3D export journey"
 short = "Fix stale search; retain both edited PNGs"
-status = "open"
+status = "done"
 goal = "REL-JOURNEY-001"
 section = "Now"
 rank = 1000
@@ -17,6 +17,10 @@ acceptance = ["A regression reproduces and then rejects stale query/results afte
 checks = ["Run focused catalog/helper regression before and after repair; run flutter analyze --no-pub on changed Dart. Execute scripts/run-native-integration.sh integration_test/flows/user_flows_test.dart with FORCE_GPU_RENDER=true, pinned Flutter and the actual worker allocation. Decode both retained real files, validate source/state/dimensions/hash manifest and protocol_success true / exit 0 / empty remaining_pids. Run relevant existing catalog search/widget tests; git diff --check."]
 exclusions = ["No Android install/uninstall/reset, production service, signing/credentials, package installation, remote publication or borrowed listener waiver. Software results are not hardware/physical/human qualification. Do not close the original human/device-gated tasks."]
 live = "authorized"
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/QUAL-EXPORT-REPAIR-01.toml"
 +++
 - Sources: docs/tasks/UNBLOCK-20261026.md#evidence-motivating-the-repair
 - Owner removal: 2026-10-26: User said Remove all for the remaining 22 held tasks. Execute this local task unchanged; report missing external evidence honestly but do not recreate removed follow-up tasks/holds/questions without a new owner request. See docs/tasks/REMOVED-HOLDS-20261026.md.
+- Pending live: Physical Android/MediaStore, physical screen-reader/rotation and production-font checks remain separate original qualification gates.
+- Pending live: Hardware-GPU and attributable human mathematical-composition/visual review remain unqualified; Linux/Xvfb llvmpipe evidence does not release those holds.

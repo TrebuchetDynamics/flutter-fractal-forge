@@ -1,0 +1,9 @@
+schema = 1
+task = "QUAL-EXPORT-REPAIR-01"
+candidate = "c5a702e25869da6c4a719397eb3ad8118e677640"
+integration = "4356633857157f58b04936b79efe40593fe69956"
+tree = "fa5fe1c0633ae762e9bd5a46b0f78c54e9189d9b"
+contract_hash = "bcb6da691dca32d6f43191e6a042156fce697944d1a6081905ac2a9406a07e2b"
+checks = ["<path>", "<path>", "--verify", "<path>", "QUAL-EXPORT-REPAIR-01"]
+result = "pass"
+review = "passed"
