@@ -405,6 +405,10 @@ def _produce_lane(lane: str, identity: dict[str, str], artifact_dir: Path,
         gate_command = ["bash", "scripts/pre-release-gate.sh", "--build-name", identity["version"],
                         "--build-number", identity["build_number"], "--log-dir",
                         str(artifact_dir / "final-device-gate"), "--skip-host"]
+        for variable, option in (("ANDROID_DEVICE", "--device"),
+                                 ("ANDROID_DISPOSABLE_DEVICE", "--disposable-device")):
+            if os.environ.get(variable):
+                gate_command.extend([option, os.environ[variable]])
         started = time.monotonic()
         try:
             gate = subprocess.run(gate_command, cwd=ROOT, env=device_env,

@@ -43,6 +43,24 @@ class QualificationSafetyTest(unittest.TestCase):
                  mock.patch.object(LANES.shutil, "which", side_effect=lambda name: name if name == "/configured/fdroid-container" else None):
                 self.assertIsNone(LANES._host_unavailable("fdroid"))
 
+    def test_device_gate_receives_only_the_explicit_disposable_target_consent(self):
+        with tempfile.TemporaryDirectory() as directory, \
+             mock.patch.dict(os.environ, {"ANDROID_DEVICE": "dedicated-test-target",
+                                           "ANDROID_DISPOSABLE_DEVICE": "dedicated-test-target"}), \
+             mock.patch.object(LANES, "_host_unavailable", return_value=None), \
+             mock.patch.object(LANES, "verify_artifact_receipts", return_value=[ARTIFACT]), \
+             mock.patch.object(LANES, "_android_certificate_check", return_value={"verdict": "passed"}), \
+             mock.patch.object(LANES.subprocess, "run", side_effect=[
+                 subprocess.CompletedProcess([], 0, stdout="built", stderr=""),
+                 subprocess.CompletedProcess([], 1, stdout="fixture device gate failure", stderr="")]) as run:
+            result = LANES._produce_lane("android_play", IDENTITY, Path(directory))
+        command = run.call_args.args[0]
+        self.assertIn("--device", command)
+        self.assertIn("--disposable-device", command)
+        self.assertEqual(command[command.index("--device") + 1], "dedicated-test-target")
+        self.assertEqual(command[command.index("--disposable-device") + 1], "dedicated-test-target")
+        self.assertEqual(result["checks"]["android_device_journey"]["verdict"], "failed")
+
     def test_missing_or_invalid_allocation_never_starts_native_or_web_listeners(self):
         for allocation in (None, "", "abc", "0", "1023", "65437", "65535"):
             with self.subTest(allocation=allocation), tempfile.TemporaryDirectory() as directory:
