@@ -1,0 +1,127 @@
+00:00 +0: loading /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart
+00:00 +0: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: Catalog search filters fractal modules
+[20:27:09.736][info][catalog_thumbnail_performance] session_started {}
+00:02 +1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: Catalog restores persisted search and filter state
+[20:27:11.667][info][catalog_thumbnail_performance] session_started {}
+00:02 +2: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: Catalog searches dimension and name together
+[20:27:12.219][info][catalog_thumbnail_performance] session_started {}
+00:03 +3: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: Catalog persists category and scroll position
+[20:27:12.969][info][catalog_thumbnail_performance] session_started {}
+00:04 +4: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: Catalog favorites persist and filter the grid
+[20:27:13.626][info][catalog_thumbnail_performance] session_started {}
+00:05 +5: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: Opening a module records it in the recent filter
+[20:27:14.572][info][catalog_thumbnail_performance] session_started {}
+00:05 +6: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: Catalog renders category chips in a separate rail
+[20:27:15.265][info][catalog_thumbnail_performance] session_started {}
+00:06 +7: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: legacy dimension restores without becoming a selectable choice
+[20:27:15.824][info][catalog_thumbnail_performance] session_started {}
+00:07 +8: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: search remains visible and toolbar close preserves the query
+[20:27:16.335][info][catalog_thumbnail_performance] session_started {}
+00:07 +9: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: family, favorites and search are independent refinements
+[20:27:17.231][info][catalog_thumbnail_performance] session_started {}
+00:08 +10: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: dimension filter intersects the collection and family
+[20:27:17.954][info][catalog_thumbnail_performance] session_started {}
+00:08 +11: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: legacy @favorites category migrates without losing IDs
+[20:27:18.255][info][catalog_thumbnail_performance] session_started {}
+00:09 +12: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: legacy @recent category migrates without losing IDs
+[20:27:18.518][info][catalog_thumbnail_performance] session_started {}
+00:09 +13: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: stale category clears only the obsolete refinement
+[20:27:18.867][info][catalog_thumbnail_performance] session_started {}
+00:09 +14: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: Recent stays newest first across families in grid
+[20:27:19.260][info][catalog_thumbnail_performance] session_started {}
+00:10 +15: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: Recent stays newest first across families in list
+[20:27:19.620][info][catalog_thumbnail_performance] session_started {}
+00:10 +16: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: Recent stays newest first across families in miniatures
+[20:27:19.942][info][catalog_thumbnail_performance] session_started {}
+00:10 +17: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: runtime thumbnail previews keep ready state for scroll reuse
+00:10 +18: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: recycled thumbnails reuse the loaded manifest immediately
+[20:27:20.251][info][catalog_thumbnail_performance] session_started {}
+00:11 +19: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: runtime thumbnails stay ready after scroll recycling
+00:11 +19 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: Catalog search field uses the focused visual state
+[20:27:20.822][info][catalog_thumbnail_performance] session_started {}
+00:11 +20 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: Catalog search debounce waits for the latest edit
+[20:27:21.209][info][catalog_thumbnail_performance] session_started {}
+00:12 +21 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_widget_test.dart: Catalog search clear icon resets the applied query immediately
+[20:27:21.963][info][catalog_thumbnail_performance] session_started {}
+00:13 +22 ~1: loading /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_debouncer_test.dart
+00:14 +22 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_debouncer_test.dart: CatalogSearchDebouncer only fires the latest scheduled callback
+00:14 +23 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/catalog/catalog_search_debouncer_test.dart: CatalogSearchDebouncer cancel drops a pending callback
+00:14 +24 ~1: loading /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart
+00:15 +24 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen displays catalog modules in default grid view
+[20:27:24.905][info][catalog_thumbnail_performance] session_started {}
+00:16 +25 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen defaults to all categories
+[20:27:26.119][info][catalog_thumbnail_performance] session_started {}
+00:17 +26 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen category section headers collapse their cards
+[20:27:26.692][info][catalog_thumbnail_performance] session_started {}
+00:18 +27 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen displays search field
+[20:27:27.452][info][catalog_thumbnail_performance] session_started {}
+00:18 +28 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen filters modules by search query
+[20:27:28.164][info][catalog_thumbnail_performance] session_started {}
+00:19 +29 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen omits duplicate active category summary row
+[20:27:28.919][info][catalog_thumbnail_performance] session_started {}
+00:20 +30 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen horizontal swipe changes category selection
+[20:27:29.422][info][catalog_thumbnail_performance] session_started {}
+00:20 +31 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen category rail omits cramped step buttons
+[20:27:30.031][info][catalog_thumbnail_performance] session_started {}
+00:21 +32 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen offers dimension filters independently of families
+[20:27:30.436][info][catalog_thumbnail_performance] session_started {}
+00:21 +33 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen tapping module card selects module
+[20:27:30.851][info][catalog_thumbnail_performance] session_started {}
+[20:27:31.563][info][lifecycle] FractalViewerScreen initState
+[20:27:31.574][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=julia_dual detail=healthy_gpu_target"}
+[20:27:31.710][info][lifecycle] Emulator detection {"isEmulator":false}
+[20:27:31.956][info][catalog_thumbnail_performance] session_started {}
+[20:27:32.411][info][lifecycle] FractalViewerScreen initState
+[20:27:32.411][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=julia_dual detail=healthy_gpu_target"}
+[20:27:32.531][info][lifecycle] Emulator detection {"isEmulator":false}
+[20:27:32.750][info][catalog_thumbnail_performance] session_started {}
+[20:27:33.165][info][lifecycle] FractalViewerScreen initState
+[20:27:33.165][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=julia_dual detail=healthy_gpu_target"}
+[20:27:33.271][info][lifecycle] Emulator detection {"isEmulator":false}
+00:24 +34 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen search helper replaces query after returning from viewer
+[20:27:33.473][info][catalog_thumbnail_performance] session_started {}
+[20:27:34.132][info][lifecycle] FractalViewerScreen initState
+[20:27:34.133][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=mandelbrot detail=healthy_gpu_target"}
+[20:27:34.247][info][lifecycle] Emulator detection {"isEmulator":false}
+00:25 +35 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen opening the current module reapplies its starting formula
+[20:27:34.871][info][catalog_thumbnail_performance] session_started {}
+[20:27:35.249][info][lifecycle] FractalViewerScreen initState
+[20:27:35.250][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=julia detail=healthy_gpu_target"}
+[20:27:35.338][info][lifecycle] Emulator detection {"isEmulator":false}
+00:26 +36 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen favorite keyboard activation does not open the card in grid
+[20:27:35.456][info][catalog_thumbnail_performance] session_started {}
+00:26 +37 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen favorite keyboard activation does not open the card in list
+[20:27:35.976][info][catalog_thumbnail_performance] session_started {}
+00:27 +38 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen favorite keyboard activation does not open the card in miniatures
+[20:27:36.606][info][catalog_thumbnail_performance] session_started {}
+00:27 +39 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen formula details support keyboard and Back without opening viewer (reduced motion: false)
+[20:27:37.095][info][catalog_thumbnail_performance] session_started {}
+00:28 +40 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen formula details support keyboard and Back without opening viewer (reduced motion: true)
+[20:27:37.586][info][catalog_thumbnail_performance] session_started {}
+00:29 +41 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen renders without error
+[20:27:38.325][info][catalog_thumbnail_performance] session_started {}
+00:29 +42 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen has scroll view for scrolling
+[20:27:38.660][info][catalog_thumbnail_performance] session_started {}
+00:29 +43 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen has search icon
+[20:27:38.971][info][catalog_thumbnail_performance] session_started {}
+00:29 +44 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen grid cards keep a portrait layout on phone width
+[20:27:39.239][info][catalog_thumbnail_performance] session_started {}
+00:30 +45 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen favorite has compact artwork and a full touch target
+[20:27:39.477][info][catalog_thumbnail_performance] session_started {}
+00:30 +46 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen grid uses its panel width rather than the full window
+[20:27:40.080][info][catalog_thumbnail_performance] session_started {}
+00:31 +47 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen renders list tiles for modules (smoke)
+[20:27:40.335][info][catalog_thumbnail_performance] session_started {}
+00:31 +48 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen search miss shows empty state and clear restores results
+[20:27:40.568][info][catalog_thumbnail_performance] session_started {}
+00:31 +49 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen respects saved list-view preference at startup
+[20:27:41.185][info][catalog_thumbnail_performance] session_started {}
+00:32 +50 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen initial preference load does not overwrite a user view toggle
+[20:27:41.654][info][catalog_thumbnail_performance] session_started {}
+00:32 +51 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen ignores an invalid negative saved view mode
+[20:27:41.932][info][catalog_thumbnail_performance] session_started {}
+00:32 +52 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen view toggle switches to list mode and persists preference
+[20:27:42.201][info][catalog_thumbnail_performance] session_started {}
+00:33 +53 ~1: /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart: FractalCatalogScreen miniatures view shows four thumbnails per row on phones
+[20:27:42.523][info][catalog_thumbnail_performance] session_started {}
+00:34 +54 ~1: All tests passed!

@@ -16,6 +16,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../integration_test/helpers/ui_test_helpers.dart';
+
 void main() {
   group('FractalCatalogScreen', () {
     late ModuleRegistry registry;
@@ -255,6 +257,30 @@ void main() {
         await tester.pumpWidget(const SizedBox.shrink());
         await tester.pumpAndSettle();
       }
+    });
+
+    testWidgets('search helper replaces query after returning from viewer',
+        (tester) async {
+      // Match IntegrationTestWidgetsFlutterBinding: the native text input is
+      // not stubbed, so clearClient does not reset binding.focusedEditable.
+      tester.testTextInput.unregister();
+      addTearDown(tester.testTextInput.register);
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+      await enterCatalogSearch(tester, 'Mandelbrot');
+      await tester.tap(moduleCard('mandelbrot'));
+      await tester.pumpAndSettle();
+      Navigator.of(tester.element(find.byType(FractalViewerScreen))).pop();
+      await tester.pumpAndSettle();
+      // Export dialogs can leave the restored catalog without input focus.
+      tester.widget<TextField>(catalogSearchField()).focusNode!.unfocus();
+      await tester.pump();
+
+      await enterCatalogSearch(tester, 'Mandelbulb');
+      expect(tester.widget<TextField>(catalogSearchField()).controller!.text,
+          'Mandelbulb');
+      expect(moduleCard('mandelbulb'), findsOneWidget);
+      expect(moduleCard('mandelbrot'), findsNothing);
     });
 
     testWidgets('opening the current module reapplies its starting formula',

@@ -79,9 +79,18 @@ Future<void> enterCatalogSearch(
   Duration settle = const Duration(milliseconds: 700),
 }) async {
   await openCatalogSearchField(tester, settle: settle);
+  // Native integration bindings can retain focusedEditable after a viewer or
+  // export dialog closes the input connection. enterText alone then skips
+  // requestKeyboard for the same EditableTextState. Tap like a user to reopen it.
+  await tester.tap(catalogSearchField());
   await tester.enterText(catalogSearchField(), query);
   await tester.pump();
   await tester.pump(settle);
+  expect(
+    tester.widget<TextField>(catalogSearchField()).controller!.text,
+    query,
+    reason: 'Catalog search input should receive the requested query',
+  );
 }
 
 Future<void> openViewerPresets(
