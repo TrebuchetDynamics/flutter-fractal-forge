@@ -48,14 +48,19 @@ final class FourierOffscreenRenderer {
           kaleidoscopeMirrorMode: snapshot.kaleidoscopeMirrorMode,
         ).paint(canvas, size);
         return recorder.endRecording();
-      } finally {
+      } catch (_) {
         shader.dispose();
+        rethrow;
       }
     })();
     try {
       return await picture.toImage(width, height);
     } finally {
       picture.dispose();
+      // CanvasKit defers the recorded draw until toImage. Disposing earlier
+      // clears its uniform buffer and turns valid Fibonacci captures into
+      // numerical-diagnostic frames (the native raster path copies eagerly).
+      shader.dispose();
     }
   }
 }
