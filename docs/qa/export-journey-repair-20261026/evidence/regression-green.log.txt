@@ -1,0 +1,7 @@
+00:00 +0: loading /home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.worktrees/autowork-QUAL-EXPORT-REPAIR-01/test/fractal/fractal_catalog_screen_widget_test.dart
+00:00 +0: FractalCatalogScreen search helper replaces query after returning from viewer
+[20:25:23.842][info][catalog_thumbnail_performance] session_started {}
+[20:25:25.359][info][lifecycle] FractalViewerScreen initState
+[20:25:25.367][debug][renderer] Backend decision {"decision":"[renderer] backend_decision backend=gpu reason=none module=mandelbrot detail=healthy_gpu_target"}
+[20:25:25.547][info][lifecycle] Emulator detection {"isEmulator":false}
+00:02 +1: All tests passed!

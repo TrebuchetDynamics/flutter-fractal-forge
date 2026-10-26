@@ -1,0 +1,241 @@
+{
+  "task": "QUAL-EXPORT-REPAIR-01",
+  "source_baseline": "2201439bc8f13c70e9010b17cea8b0ea5dde636d",
+  "source_delta": "evidence/candidate.patch.gz",
+  "source_inputs": "evidence/source-inputs.json",
+  "source_note": "Wrapper revision is pre-commit HEAD; source-inputs and candidate.patch.gz bind the tested working tree. The original user_flows_test.dart, product lib/shaders and native driver are unchanged. Documentation was assembled after execution.",
+  "backend": "Owned Linux/Xvfb; app gpu shader path on Mesa llvmpipe LLVM 20.1.2 / Mesa 25.2.8; not hardware accelerated. Same-display GL probe, not an in-app GL_RENDERER query.",
+  "decoder": "Pillow 10.4.0, independent of Dart image package used in fixture",
+  "before": {
+    "receipt": "evidence/before/run.json",
+    "result": "Expected stale-query reproduction, exit 1 / protocol false; not a final repaired check failure. Diagnostic helper changes logging only."
+  },
+  "after": {
+    "receipt": "evidence/after/run.json",
+    "product_tests_passed": 12,
+    "product_tests_skipped": 1,
+    "skip": "Existing Barnsley Fern default-view mismatch; teardown adds one terminal counter, so log ends +13 ~1."
+  },
+  "log_redactions": [
+    {
+      "path": "before/driver.log.txt.gz",
+      "original_sha256": "7de2402c36260e062a335f8595f776d85bece13ef666af4ec8ad2faa6fffb3e7",
+      "change": "Only expired VM-service authentication URL path removed; all test output retained."
+    },
+    {
+      "path": "after/driver.log.txt.gz",
+      "original_sha256": "8b9d78322a29f5ada2c40d12b803e7f6e93d263b674d7ed5aa573a5490f15386",
+      "change": "Only expired VM-service authentication URL path removed; all test output retained."
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "after/exports/fractal_mandelbrot_1792981654165.png",
+      "state_path": "after/exports/fractal_mandelbrot_1792981654165.png.state.json",
+      "module": "mandelbrot",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "mode": "RGBA",
+      "decoded_rgba_sha256": "ce761c16e8e8fe541805b69974d305915b9ceb5157f8a9866632b052fc576a73",
+      "sample_count": 57600,
+      "sample_distinct_rgb": 975,
+      "sample_nonblack": 48189,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "state": {
+        "fixture": "native engine with synthetic landscape viewport metrics",
+        "viewport": [
+          1280.0,
+          900.0
+        ],
+        "preset": {
+          "id": "journey-edited-mandelbrot",
+          "moduleId": "mandelbrot",
+          "name": "Journey edited mandelbrot",
+          "params": {
+            "iterations": 350,
+            "bailout": 4.0,
+            "colorScheme": 0
+          },
+          "view": {
+            "panX": -0.6523809523809524,
+            "panY": -0.0761904761904762,
+            "zoom": 0.35,
+            "rotX": 0.0,
+            "rotY": 0.0,
+            "rotZ": 0.0
+          },
+          "createdAt": "2026-10-26T02:27:34.883949Z",
+          "isBuiltIn": false,
+          "thumbnailPath": null
+        }
+      }
+    },
+    {
+      "path": "after/exports/fractal_mandelbulb_1792981663866.png",
+      "state_path": "after/exports/fractal_mandelbulb_1792981663866.png.state.json",
+      "module": "mandelbulb",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "mode": "RGBA",
+      "decoded_rgba_sha256": "02b78b583d8c4cf4e30fa2b7a309136edfa53db5d3a1f4fb6641202d8aa8d105",
+      "sample_count": 57600,
+      "sample_distinct_rgb": 2683,
+      "sample_nonblack": 57600,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "state": {
+        "fixture": "native engine with synthetic landscape viewport metrics",
+        "viewport": [
+          1280.0,
+          900.0
+        ],
+        "preset": {
+          "id": "journey-edited-mandelbulb",
+          "moduleId": "mandelbulb",
+          "name": "Journey edited mandelbulb",
+          "params": {
+            "power": 8.0,
+            "iterations": 50,
+            "steps": 120,
+            "bailout": 2.0,
+            "colorScheme": 0,
+            "fractalType": 0
+          },
+          "view": {
+            "panX": 0.0,
+            "panY": 0.0,
+            "zoom": 1.0,
+            "rotX": 0.2162241959042722,
+            "rotY": -0.5178097245096173,
+            "rotZ": 0.0
+          },
+          "createdAt": "2026-10-26T02:27:44.515189Z",
+          "isBuiltIn": false,
+          "thumbnailPath": null
+        }
+      }
+    }
+  ],
+  "files": {
+    "after/exports/fractal_mandelbrot_1792981654165.png": {
+      "sha256": "b75a0b37b86f59a4092743ad5b25ab316e8bd210e9eede125a08f4a60cc65c7a",
+      "bytes": 331478
+    },
+    "after/exports/fractal_mandelbrot_1792981654165.png.state.json": {
+      "sha256": "b7775964702b16dc61c6d48945f5803489b95559fcdeb5372b9d20fa04c50c3c",
+      "bytes": 445
+    },
+    "after/exports/fractal_mandelbulb_1792981663866.png": {
+      "sha256": "b4e7ded3c8ad99d24a154c16f79981e88a230439c1f334aee3909afda4770452",
+      "bytes": 196004
+    },
+    "after/exports/fractal_mandelbulb_1792981663866.png.state.json": {
+      "sha256": "b735b2afbc39ea49a79760e285d311237b58f01c9e4dc8ee85177685f9e9256f",
+      "bytes": 482
+    },
+    "after/outputs/integration_response_data.json": {
+      "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "bytes": 4
+    },
+    "after/protocol-success.json": {
+      "sha256": "ad168a8b0b2d2f6c5f9fbccb60d55840959482ce54d0ce043c54a8f6eb98d0f4",
+      "bytes": 23
+    },
+    "after/run.json": {
+      "sha256": "8b535857f572077f00c50012438339ff0af6975b96b01d0239c09b35c0faa133",
+      "bytes": 1940
+    },
+    "before/exports/fractal_mandelbrot_1792981434340.png": {
+      "sha256": "c0dc06d08533e7d43595705345e733f5ff00c465fbef5dec2bfb95b3a21828b9",
+      "bytes": 331478
+    },
+    "before/exports/fractal_mandelbrot_1792981434340.png.state.json": {
+      "sha256": "f519d485beb885d48dc7cbc235731e32274ce32c6df0cc653cf8e5bd8f66430f",
+      "bytes": 445
+    },
+    "before/run.json": {
+      "sha256": "1ebb110d1e1cdb5fd2a38c2bd08e03bc0e5e6ee1e7f82feee1b214060f06591f",
+      "bytes": 1941
+    },
+    "before/ui_test_helpers.dart.txt": {
+      "sha256": "128f75594fd7d6fd718964580dba5294cbf8472a0367992a6c7b0dc4e37f7155",
+      "bytes": 3972
+    },
+    "catalog-tests.log.txt": {
+      "sha256": "e5299ce5736c6c3e0850034b8b4c221d1ec991a4378ed472c757646b7150dc58",
+      "bytes": 17983
+    },
+    "collect-native.py": {
+      "sha256": "b86e08cffcbfb7387652daae4d8fc42bb8af03665eba5626495e122b49e4fa6f",
+      "bytes": 3508
+    },
+    "pub-get.log.txt": {
+      "sha256": "0bbb5805cb391700472206a27a4dad94c29e06d6498de3f4103b5417b8aa554f",
+      "bytes": 620
+    },
+    "regression-green.log.txt": {
+      "sha256": "9732583294fbd807bbda4e36ee0bb352d0e5e368b43cfad9ed1883d163b99768",
+      "bytes": 649
+    },
+    "runtime-observations.json": {
+      "sha256": "567dbc86265b29fe68bdbffe682393bde2e622149d80c2fdf1522933c9423384",
+      "bytes": 62391
+    },
+    "source-inputs.json": {
+      "sha256": "29dc39e79a77bd511053502d990b693860e618908627fdf45cc5d57dfa69b10b",
+      "bytes": 144135
+    },
+    "after/outputs/flutter_driver_commands_0.log.txt": {
+      "sha256": "39da3840806f02151b505951514a8975b927e8a20a01d2511401fc27bddb0a0c",
+      "bytes": 406
+    },
+    "before/outputs/flutter_driver_commands_0.log.txt": {
+      "sha256": "06da4a3b2ae915f0dae9d0320d02cea41eb9574f5fd132bf4b3267bc87e1c401",
+      "bytes": 2420
+    },
+    "after/app-3681756-glxinfo.txt.gz": {
+      "sha256": "8482aab39099ec4a960d3d56b33c070601a473bce8e038325c9ba7fa484d28f7",
+      "bytes": 596,
+      "uncompressed_sha256": "ca43e13890bd1c9844353c6728bf9b668ec34edfbb0c572537c094f04fbb1a06"
+    },
+    "after/driver.log.txt.gz": {
+      "sha256": "e63995b1f9817392a440d7f98fec1c53df8977a18c5ad03fff86f820e2269629",
+      "bytes": 2845,
+      "uncompressed_sha256": "dec69b133581ea57fa8aecf8979e6a48e0bb683a1d8f1b164f896a3f37787d2c"
+    },
+    "analyze.log.txt.gz": {
+      "sha256": "8f1fe7f90a811de6b355e9c73126f3c550b5ffc0dfced9b66750f9e0a3e87e86",
+      "bytes": 75,
+      "uncompressed_sha256": "f29881c75a9a0b6527f0d82470e309d3c8a87dbbb2c116116732c6c4c3f3d9d8"
+    },
+    "before/diagnostic.patch.gz": {
+      "sha256": "15ff309651adc4225e85b4b38e1fe7ba3323d02119d893228f97589257b06bf8",
+      "bytes": 575,
+      "uncompressed_sha256": "4a2a221b959d80aee3566ee53ae8517653db31a2b6dd5afc924b3a4ee82e1c02"
+    },
+    "before/driver.log.txt.gz": {
+      "sha256": "123bf703a5dabaa2eb0d95dc4a64cf28792f64b83ec8617574c863d20e62d8c8",
+      "bytes": 3763,
+      "uncompressed_sha256": "81e32e60d3bd15b13ee2ad97db2f798420f80743852b9d586cdb0cae1186440f"
+    },
+    "candidate.patch.gz": {
+      "sha256": "d9f5a69c7a2a66cb3342163d46b08b37e4b2f4ff3493fd7191f85fbdda12fa4d",
+      "bytes": 1108,
+      "uncompressed_sha256": "9ac763f114fcfb38ef513ff889aa4d0bb6ddab41febb126fa46c39b03316f3be"
+    },
+    "regression-red-native-input.log.txt.gz": {
+      "sha256": "a38b6af61eedfc91ea57722e002d1cee077c518b79d533f4985a76685456c8a8",
+      "bytes": 1093,
+      "uncompressed_sha256": "d4d179fc1e8192de93e01e99f4a12eb6e74d1b0697ed5c292bab4d32fdbd38e3"
+    }
+  }
+}
