@@ -10,6 +10,7 @@ import 'package:flutter_fractals/features/settings/settings_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../helpers/overflow_guard.dart';
@@ -22,10 +23,16 @@ Future<AccessibilityService> _pumpScreen(
   SharedPreferences.setMockInitialValues({});
   final accessibility = await AccessibilityService.create();
   addTearDown(accessibility.dispose);
+  final settings = await RendererSettingsService.create();
+  addTearDown(settings.dispose);
 
   await tester.pumpWidget(
-    ChangeNotifierProvider<AccessibilityService>.value(
-      value: accessibility,
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AccessibilityService>.value(
+            value: accessibility),
+        ChangeNotifierProvider<RendererSettingsService>.value(value: settings),
+      ],
       child: MaterialApp(
         theme: AppTheme.dark,
         locale: locale,

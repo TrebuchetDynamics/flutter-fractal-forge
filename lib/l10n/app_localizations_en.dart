@@ -2088,6 +2088,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Write & preview custom FRM formulas';
 
   @override
+  String get settingsDebugMode => 'Debug mode';
+
+  @override
+  String get settingsDebugModeSubtitle =>
+      'Show the Report fractal button in the viewer';
+
+  @override
   String get settingsAbout => 'About';
 
   @override

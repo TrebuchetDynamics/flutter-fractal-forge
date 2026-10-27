@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_fractals/core/app_version.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
@@ -81,6 +82,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     );
                   },
+                ),
+                const SizedBox(height: AppSpacing.md),
+                Consumer<RendererSettingsService>(
+                  builder: (context, settings, _) => SwitchListTile(
+                    key: const Key('settingsDebugModeSwitch'),
+                    secondary: const Icon(Icons.bug_report_outlined),
+                    title: Text(l10n.settingsDebugMode),
+                    subtitle: Text(l10n.settingsDebugModeSubtitle),
+                    value: settings.debugModeEnabled,
+                    onChanged: settings.setDebugModeEnabled,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 _SettingsTile(

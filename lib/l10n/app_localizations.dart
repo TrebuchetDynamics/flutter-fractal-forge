@@ -3903,6 +3903,18 @@ abstract class AppLocalizations {
   /// **'Write & preview custom FRM formulas'**
   String get settingsFormulaLabSubtitle;
 
+  /// No description provided for @settingsDebugMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Debug mode'**
+  String get settingsDebugMode;
+
+  /// No description provided for @settingsDebugModeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Show the Report fractal button in the viewer'**
+  String get settingsDebugModeSubtitle;
+
   /// No description provided for @settingsAbout.
   ///
   /// In en, this message translates to:
