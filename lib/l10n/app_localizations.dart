@@ -4143,6 +4143,30 @@ abstract class AppLocalizations {
   /// **'Optional details for the fix pass'**
   String get reportDialogNotesHint;
 
+  /// No description provided for @reportDialogCopyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select labels and add notes, then copy the report to an AI coding agent. Nothing is sent automatically.'**
+  String get reportDialogCopyHint;
+
+  /// No description provided for @reportDialogPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Report preview'**
+  String get reportDialogPreview;
+
+  /// No description provided for @reportDialogCopiedText.
+  ///
+  /// In en, this message translates to:
+  /// **'Report copied'**
+  String get reportDialogCopiedText;
+
+  /// No description provided for @reportDialogAiInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Please investigate and fix or improve this fractal in Flutter Fractal Forge based on the selected labels and notes below. Use the reproduction link and captured parameters/view to reproduce it. Renderer status describes the selected backend, not a measured performance result. Identify the cause, make a focused change, and verify it with relevant tests and rendering checks.'**
+  String get reportDialogAiInstructions;
+
   /// No description provided for @reportDialogSave.
   ///
   /// In en, this message translates to:

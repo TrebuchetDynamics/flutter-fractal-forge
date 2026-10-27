@@ -2227,6 +2227,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reportDialogNotesHint => 'Optional details for the fix pass';
 
   @override
+  String get reportDialogCopyHint =>
+      'Select labels and add notes, then copy the report to an AI coding agent. Nothing is sent automatically.';
+
+  @override
+  String get reportDialogPreview => 'Report preview';
+
+  @override
+  String get reportDialogCopiedText => 'Report copied';
+
+  @override
+  String get reportDialogAiInstructions =>
+      'Please investigate and fix or improve this fractal in Flutter Fractal Forge based on the selected labels and notes below. Use the reproduction link and captured parameters/view to reproduce it. Renderer status describes the selected backend, not a measured performance result. Identify the cause, make a focused change, and verify it with relevant tests and rendering checks.';
+
+  @override
   String get reportDialogSave => 'Save report';
 
   @override

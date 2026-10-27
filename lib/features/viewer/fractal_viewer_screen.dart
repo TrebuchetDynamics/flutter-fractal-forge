@@ -1247,7 +1247,29 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     final controller = _activeController(context);
     final l10n = AppLocalizations.of(context)!;
     final selected = <String>{};
-    final notes = TextEditingController();
+    var notes = '';
+    final copyReport =
+        !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
+    // Freeze reproduction details before animations can advance the view.
+    final snapshot = copyReport
+        ? {
+            ...jsonDecode(_viewerEffects.buildFractalReportJson(
+              controller: controller,
+              moduleName: controller.module.displayName(l10n),
+              tags: const [],
+              shareUrl: _shareUriFor(controller).toString(),
+            )) as Map<String, dynamic>,
+            'platform': defaultTargetPlatform.name,
+            'rendererStatus':
+                _backendDecision.toLogLine(moduleId: controller.module.id),
+          }
+        : null;
+    String reportText() => '${l10n.reportDialogAiInstructions}\n\n'
+        '```json\n${const JsonEncoder.withIndent('  ').convert({
+              ...snapshot!,
+              'tags': selected.toList()..sort(),
+              'notes': notes.trim(),
+            })}\n```';
 
     final saved = await showAppBottomSheet<bool>(
       context: context,
@@ -1284,8 +1306,9 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                       ),
                     ),
                     const SizedBox(height: AppSpacing.xs),
-                    TextField(
-                      controller: notes,
+                    TextFormField(
+                      initialValue: notes,
+                      onChanged: (value) => setSheetState(() => notes = value),
                       minLines: 3,
                       maxLines: 4,
                       style: AppTypography.bodyMedium.copyWith(
@@ -1325,7 +1348,9 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                     ),
                     const SizedBox(height: AppSpacing.xs),
                     Text(
-                      l10n.reportDialogSymptomsHint,
+                      copyReport
+                          ? l10n.reportDialogCopyHint
+                          : l10n.reportDialogSymptomsHint,
                       style: AppTypography.bodySmall.copyWith(
                         color: AppColors.textMuted,
                       ),
@@ -1345,6 +1370,19 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                           ),
                       ],
                     ),
+                    if (copyReport) ...[
+                      const SizedBox(height: AppSpacing.lg),
+                      Text(l10n.reportDialogPreview,
+                          style: AppTypography.labelLarge),
+                      const SizedBox(height: AppSpacing.sm),
+                      SelectableText(
+                        reportText(),
+                        key: const Key('fractalReportPreview'),
+                        style: AppTypography.bodySmall.copyWith(
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -1376,7 +1414,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                       onPressed: selected.isEmpty
                           ? null
                           : () => Navigator.of(sheetContext).pop(true),
-                      child: Text(l10n.reportDialogSave),
+                      child: Text(
+                          copyReport ? l10n.actionCopy : l10n.reportDialogSave),
                     ),
                   ),
                 ],
@@ -1387,52 +1426,17 @@ class _FractalViewerScreenState extends FractalViewerRouteState
       ),
     );
 
-    if (saved != true) {
-      notes.dispose();
-      return;
-    }
+    if (saved != true) return;
 
     try {
       final reportTags = selected.toList();
       final moduleName = controller.module.displayName(l10n);
       final shareUrl = _shareUriFor(controller).toString();
-      if (!kIsWeb && Platform.isAndroid) {
-        final json = _viewerEffects.buildFractalReportJson(
-          controller: controller,
-          moduleName: moduleName,
-          tags: reportTags,
-          shareUrl: shareUrl,
-          notes: notes.text,
-        );
+      if (copyReport) {
+        await Clipboard.setData(ClipboardData(text: reportText()));
         if (!mounted) return;
-        await showDialog<void>(
-          context: context,
-          builder: (dialogContext) => AppDialog(
-            icon: Icons.data_object_rounded,
-            title: l10n.reportDialogCopyJsonTitle,
-            content: SizedBox(
-              width: double.maxFinite,
-              child: SingleChildScrollView(child: SelectableText(json)),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(dialogContext).pop(),
-                child: Text(l10n.actionClose),
-              ),
-              FilledButton(
-                onPressed: () async {
-                  await Clipboard.setData(ClipboardData(text: json));
-                  if (dialogContext.mounted) Navigator.of(dialogContext).pop();
-                  if (mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(l10n.reportDialogCopiedJson)),
-                    );
-                  }
-                },
-                child: Text(l10n.actionCopy),
-              ),
-            ],
-          ),
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.reportDialogCopiedText)),
         );
         return;
       }
@@ -1442,7 +1446,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
         moduleName: moduleName,
         tags: reportTags,
         shareUrl: shareUrl,
-        notes: notes.text,
+        notes: notes,
       );
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -1456,8 +1460,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
           success: false,
         ),
       );
-    } finally {
-      notes.dispose();
     }
   }
 
