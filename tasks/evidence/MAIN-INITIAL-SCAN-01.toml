@@ -1,0 +1,9 @@
+schema = 1
+task = "MAIN-INITIAL-SCAN-01"
+candidate = "ff5c7629c10749172bd7eb6712b8c9584cb8c28a"
+integration = "a3019ffb9e670353baab03e51da61b779a8c5abc"
+tree = "01335f2da439df6e9f3950529a03aeb97284d100"
+contract_hash = "1296c8dabc6a642b9b1f7a8b7e29fdbf9a1e04098bb45100de0c82edf70cca33"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAIN-INITIAL-SCAN-01"]
+result = "pass"
+review = "passed"
