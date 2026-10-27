@@ -499,6 +499,7 @@ class _FractalRendererState extends State<FractalRenderer>
             moduleId: module.id,
             dimension: module.dimension,
             zoom: controller.view.zoom,
+            power: (controller.params['power'] as num?)?.toDouble() ?? 2,
           ),
         );
     final precisionDecision = renderPlan.precision;

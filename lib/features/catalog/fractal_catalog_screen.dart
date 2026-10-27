@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/modules/burning_ship_degrees.dart';
 import 'package:flutter_fractals/shared/widgets/fractal_math_summary.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
@@ -597,7 +598,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
             .where((entry) => _favoriteCatalogIds.contains(entry.catalogId)),
         _recentCategory => _catalog!.entries
             .where((entry) => _recentCatalogIds.contains(entry.catalogId)),
-        _ => _catalog!.entries,
+        _ => _catalog!.exploreEntries,
       },
       criteria: filterCriteria,
       l10n: l10n,
@@ -704,7 +705,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
   }
 
   List<String?> _categoryChoices(CatalogFilterResult filterResult) {
-    final counts = CatalogFilter.countCategories(_catalog!.entries);
+    final counts = CatalogFilter.countCategories(_catalog!.exploreEntries);
     final categories = counts.keys.toList()
       ..sort((a, b) {
         final countCompare = (counts[b] ?? 0).compareTo(counts[a] ?? 0);
@@ -770,7 +771,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
                       _DimChip(
                         chipKey: const Key('catalogCollectionChip_explore'),
                         label: isSpanish ? 'Explorar' : 'Explore',
-                        count: _catalog!.entries.length,
+                        count: _catalog!.exploreEntries.length,
                         selected: _selectedCollection == null,
                         onTap: () => _setSelectedCollection(null),
                       ),
@@ -882,7 +883,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     CatalogFilterResult filterResult,
   ) {
     final categories = CatalogFilter.sortCategories(
-      CatalogFilter.countCategories(_catalog!.entries),
+      CatalogFilter.countCategories(_catalog!.exploreEntries),
       selectedCategory: _selectedCategory,
     );
     final categoryCounts = filterResult.categoryCounts;
@@ -1202,8 +1203,10 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     if (viewOverride != null) {
       final pan = controller.view.pan
         ..setValues(viewOverride.centerX, viewOverride.centerY);
-      controller.updateView(
-          controller.view.copyWith(pan: pan, zoom: viewOverride.zoom));
+      controller.updateView(burningShipDegreeView(
+        module.id,
+        controller.view.copyWith(pan: pan, zoom: viewOverride.zoom),
+      ));
     }
     final normalDuration =
         heroTag != null ? AppAnimations.slow : AppAnimations.normal;

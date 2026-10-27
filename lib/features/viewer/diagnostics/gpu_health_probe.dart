@@ -75,6 +75,7 @@ class GpuHealthProbe {
 
   bool _deepZoomPrecisionActive = false;
   PrecisionLadderDecision? _precisionDecisionCache;
+  double? _precisionPowerCache;
 
   // Readable by the GPU debug report.
   double? lastGpuNonBlackRatio;
@@ -118,13 +119,16 @@ class GpuHealthProbe {
     if (cached != null &&
         cached.moduleId == controller.module.id &&
         cached.dimension == controller.module.dimension &&
-        cached.zoom == controller.view.zoom) {
+        cached.zoom == controller.view.zoom &&
+        _precisionPowerCache ==
+            ((controller.params['power'] as num?)?.toDouble() ?? 2)) {
       return cached;
     }
     return _precisionLadderPolicy.decide(
       moduleId: controller.module.id,
       dimension: controller.module.dimension,
       zoom: controller.view.zoom,
+      power: (controller.params['power'] as num?)?.toDouble() ?? 2,
     );
   }
 
@@ -133,7 +137,10 @@ class GpuHealthProbe {
       moduleId: controller.module.id,
       dimension: controller.module.dimension,
       zoom: controller.view.zoom,
+      power: (controller.params['power'] as num?)?.toDouble() ?? 2,
     );
+    _precisionPowerCache =
+        (controller.params['power'] as num?)?.toDouble() ?? 2;
     _precisionDecisionCache = decision;
     _deepZoomPrecisionActive = decision.showPrecisionIndicator;
   }

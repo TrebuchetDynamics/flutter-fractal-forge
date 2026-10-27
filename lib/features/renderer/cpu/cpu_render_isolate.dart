@@ -11,6 +11,7 @@ export 'cpu_viewport_mapping.dart'
 /// Message used to request a CPU frame render from an isolate.
 final class CpuRenderRequest {
   const CpuRenderRequest({
+    this.power = 2,
     required this.moduleId,
     required this.panX,
     required this.panY,
@@ -35,6 +36,7 @@ final class CpuRenderRequest {
   final int width;
   final int height;
   final int sampleCount;
+  final double power;
 }
 
 final class CpuRenderResponse {
@@ -53,6 +55,7 @@ final class CpuRenderResponse {
 /// Top-level entrypoint suitable for [Isolate.run].
 CpuRenderResponse renderCpuFrameInIsolate(CpuRenderRequest req) {
   final bytes = renderCpuRectRgba(
+    power: req.power,
     moduleId: req.moduleId,
     panX: req.panX,
     panY: req.panY,
@@ -76,6 +79,7 @@ CpuRenderResponse renderCpuFrameInIsolate(CpuRenderRequest req) {
 
 final class CpuTileRenderRequest {
   const CpuTileRenderRequest({
+    this.power = 2,
     required this.moduleId,
     required this.panX,
     required this.panY,
@@ -109,6 +113,7 @@ final class CpuTileRenderRequest {
   final int w;
   final int h;
   final int sampleCount;
+  final double power;
 }
 
 final class CpuTileRenderResponse {
@@ -181,6 +186,7 @@ CpuViewportCoordinate cpuViewportCoordinateForSample({
 
 CpuTileRenderResponse renderCpuTileInIsolate(CpuTileRenderRequest req) {
   final bytes = renderCpuRectRgba(
+    power: req.power,
     moduleId: req.moduleId,
     panX: req.panX,
     panY: req.panY,
@@ -229,6 +235,7 @@ Uint8List renderCpuRectRgba({
   required int h,
   required int sampleCount,
   CpuFormula? formulaOverride,
+  double power = 2,
 }) {
   CpuRenderRect(
     fullWidth: fullWidth,
@@ -245,7 +252,8 @@ Uint8List renderCpuRectRgba({
   final juliaC = Vector2(juliaCX, juliaCY);
   // [formulaOverride] lets non-catalog formulas (e.g. parsed FRM) reuse this
   // pixel loop; otherwise dispatch by module id as usual.
-  final formula = formulaOverride ?? cpuFormulaForModuleId(moduleId);
+  final formula =
+      formulaOverride ?? cpuFormulaForModuleId(moduleId, power: power);
   final viewport = CpuViewportMapping.fromScalars(
     panX: panX,
     panY: panY,

@@ -732,7 +732,8 @@ void main() {
                     await tester.ensureVisible(action);
                     await tester.pumpAndSettle();
                     final actionRect = tester.getRect(action);
-                    expect(action.hitTestable(), findsOneWidget);
+                    expect(action.hitTestable(), findsOneWidget,
+                        reason: '$actionRect back=$rect title=$titleRect');
                     expect(actionRect.left, greaterThanOrEqualTo(padding.left),
                         reason: '$action left safe bound');
                     expect(actionRect.right,
@@ -1390,15 +1391,15 @@ void main() {
       await tester.pumpAndSettle();
 
       const orderedKeys = [
-        'viewerAutoExploreButton',
         'viewerRandomParamsButton',
         'viewerColorCycleButton',
         'viewerRandomFractalFab',
+        'viewerAutoExploreButton',
         'viewerLooperFab',
-        'viewerFractalMusicFab',
         'viewerKaleidoscopeFab',
-        'viewerTextOverlayFab',
         'viewerFourierFab',
+        'viewerTextOverlayFab',
+        'viewerFractalMusicFab',
         'viewerExportButton',
         'viewerFullscreenButton',
       ];

@@ -299,6 +299,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
 
       final req = CpuTileRenderRequest(
         moduleId: widget.module.id,
+        power: readDouble(widget.state.params, 'power', 2),
         panX: widget.state.view.pan.x,
         panY: widget.state.view.pan.y,
         zoom: widget.state.view.zoom,
@@ -425,6 +426,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         final fallback = _fallbackView(widget.module);
         final req = CpuTileRenderRequest(
           moduleId: widget.module.id,
+          power: readDouble(widget.state.params, 'power', 2),
           panX: fallback.$1.x,
           panY: fallback.$1.y,
           zoom: fallback.$2,
@@ -589,6 +591,7 @@ class _CpuFractalRendererState extends State<CpuFractalRenderer> {
         final completedRow = row + tileHeight - 1;
         final req = CpuTileRenderRequest(
           moduleId: widget.module.id,
+          power: readDouble(widget.state.params, 'power', 2),
           panX: widget.state.view.pan.x,
           panY: widget.state.view.pan.y,
           zoom: widget.state.view.zoom,
@@ -809,9 +812,11 @@ Future<CpuRenderFrame> renderCpuFrame({
   required int width,
   required int height,
   int sampleCount = 4,
+  double power = 2,
 }) async {
   final bytes = renderCpuRectRgba(
     moduleId: moduleId,
+    power: power,
     panX: viewPan.x,
     panY: viewPan.y,
     zoom: viewZoom,

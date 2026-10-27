@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_fractals/core/modules/burning_ship_degrees.dart';
 import 'package:flutter_fractals/core/modules/builders/escape_time/catalog.dart';
 import 'package:flutter_fractals/core/modules/builders/raymarched_3d/catalog.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
@@ -16,6 +17,10 @@ class CatalogRepository {
   final List<CatalogEntry> entries;
 
   const CatalogRepository({required this.entries});
+
+  /// Degree-only legacy cards remain resolvable in Favorites and Recent.
+  Iterable<CatalogEntry> get exploreEntries => entries
+      .where((entry) => !burningShipDegrees.containsKey(entry.module.id));
 
   factory CatalogRepository.fromRegistry(ModuleRegistry registry) {
     return CatalogRepository.fromFamilies(

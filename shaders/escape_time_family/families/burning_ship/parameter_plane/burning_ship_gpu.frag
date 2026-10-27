@@ -94,7 +94,7 @@ void main() {
   vec2 der = vec2(0.0);
   float bailoutSq = uBailout * uBailout;
 
-  const int MAX_ITERS = 320;
+  const int MAX_ITERS = 500;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
   bool needsDerivative = schemeInt >= 50;

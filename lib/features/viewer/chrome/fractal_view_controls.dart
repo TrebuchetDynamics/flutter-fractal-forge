@@ -11,10 +11,7 @@ import 'package:flutter_fractals/features/auto_explore/auto_explore.dart';
 import 'package:flutter_fractals/features/export/export_actions.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
-
-const double _fabTouchSize = AccessibleSizing.minTouchTarget;
-const double _fabVisualSize = 44;
-const double _fabIconSize = 20;
+import 'package:flutter_fractals/shared/widgets/circular_tool_surface.dart';
 
 class FractalViewControlActions {
   final VoidCallback toggleFullscreen;
@@ -113,16 +110,6 @@ class FractalViewControls extends StatelessWidget {
     );
 
     final actionButtons = <Widget>[
-      // Auto-explore lives in the FAB column with the other quick actions so
-      // the primary play/pause control is reachable from the same cluster. It
-      // renders as a no-op (SizedBox.shrink) when no AutoExploreService is
-      // provided, so hosts without the feature keep the previous button count.
-      if (supportsAuxiliaryTools)
-        AutoExploreButton(
-          key: const ValueKey('viewerAutoExploreButton'),
-          onLongPress: actions.openAutoExploreSettings,
-          delay: const Duration(milliseconds: 40),
-        ),
       FloatingActionButtonWidget(
         key: const ValueKey('viewerRandomParamsButton'),
         icon: Icons.tune_rounded,
@@ -130,8 +117,8 @@ class FractalViewControls extends StatelessWidget {
         onPressed: isExporting ? null : actions.randomizeParams,
         onLongPress: isExporting ? null : actions.openControls,
         isCompact: true,
-        delay: const Duration(milliseconds: 60),
-        sortOrder: 1,
+        delay: const Duration(milliseconds: 40),
+        sortOrder: 0,
       ),
       FloatingActionButtonWidget(
         key: const ValueKey('viewerColorCycleButton'),
@@ -140,8 +127,8 @@ class FractalViewControls extends StatelessWidget {
         onPressed: isExporting ? null : actions.cycleColorScheme,
         onLongPress: isExporting ? null : actions.openPalettePicker,
         isCompact: true,
-        delay: const Duration(milliseconds: 80),
-        sortOrder: 2,
+        delay: const Duration(milliseconds: 60),
+        sortOrder: 1,
       ),
       FloatingActionButtonWidget(
         key: const ValueKey('viewerRandomFractalFab'),
@@ -151,9 +138,16 @@ class FractalViewControls extends StatelessWidget {
         onLongPress:
             isExporting ? null : () => _showRandomOptionsModal(context),
         isCompact: true,
-        delay: const Duration(milliseconds: 100),
-        sortOrder: 3,
+        delay: const Duration(milliseconds: 80),
+        sortOrder: 2,
       ),
+      if (supportsAuxiliaryTools)
+        AutoExploreButton(
+          key: const ValueKey('viewerAutoExploreButton'),
+          sortOrder: 3,
+          onLongPress: actions.openAutoExploreSettings,
+          delay: const Duration(milliseconds: 100),
+        ),
       if (supportsAuxiliaryTools)
         FloatingActionButtonWidget(
           key: const ValueKey('viewerLooperFab'),
@@ -166,19 +160,6 @@ class FractalViewControls extends StatelessWidget {
         ),
       if (supportsAuxiliaryTools)
         FloatingActionButtonWidget(
-          key: const ValueKey('viewerFractalMusicFab'),
-          icon: Icons.music_note,
-          tooltip: fractalMusicEnabled
-              ? l10n.tooltipFractalMusicOn
-              : l10n.tooltipFractalMusicOff,
-          onPressed: isExporting ? null : actions.toggleFractalMusic,
-          selected: fractalMusicEnabled,
-          isCompact: true,
-          delay: const Duration(milliseconds: 140),
-          sortOrder: 5,
-        ),
-      if (supportsAuxiliaryTools)
-        FloatingActionButtonWidget(
           key: const ValueKey('viewerKaleidoscopeFab'),
           icon: Icons.filter_vintage_rounded,
           tooltip: kaleidoscopeEnabled
@@ -188,6 +169,21 @@ class FractalViewControls extends StatelessWidget {
           selected: kaleidoscopeEnabled,
           onLongPress:
               isExporting ? null : () => _showKaleidoscopeModal(context),
+          isCompact: true,
+          delay: const Duration(milliseconds: 140),
+          sortOrder: 5,
+        ),
+      if (supportsAuxiliaryTools)
+        FloatingActionButtonWidget(
+          key: const ValueKey('viewerFourierFab'),
+          icon: Icons.blur_on_rounded,
+          tooltip:
+              fourierEnabled ? l10n.tooltipFourierOn : l10n.tooltipFourierOff,
+          semanticHint:
+              '${l10n.fourierOptionsDescription} ${l10n.viewerSecondaryActionHint}',
+          onPressed: isExporting ? null : actions.toggleFourier,
+          selected: fourierEnabled,
+          onLongPress: isExporting ? null : actions.openFourierSettings,
           isCompact: true,
           delay: const Duration(milliseconds: 160),
           sortOrder: 6,
@@ -208,15 +204,13 @@ class FractalViewControls extends StatelessWidget {
         ),
       if (supportsAuxiliaryTools)
         FloatingActionButtonWidget(
-          key: const ValueKey('viewerFourierFab'),
-          icon: Icons.blur_on_rounded,
-          tooltip:
-              fourierEnabled ? l10n.tooltipFourierOn : l10n.tooltipFourierOff,
-          semanticHint:
-              '${l10n.fourierOptionsDescription} ${l10n.viewerSecondaryActionHint}',
-          onPressed: isExporting ? null : actions.toggleFourier,
-          selected: fourierEnabled,
-          onLongPress: isExporting ? null : actions.openFourierSettings,
+          key: const ValueKey('viewerFractalMusicFab'),
+          icon: Icons.music_note,
+          tooltip: fractalMusicEnabled
+              ? l10n.tooltipFractalMusicOn
+              : l10n.tooltipFractalMusicOff,
+          onPressed: isExporting ? null : actions.toggleFractalMusic,
+          selected: fractalMusicEnabled,
           isCompact: true,
           delay: const Duration(milliseconds: 200),
           sortOrder: 8,
@@ -234,7 +228,7 @@ class FractalViewControls extends StatelessWidget {
         tooltip: l10n.tooltipFullscreen,
         onPressed: isExporting ? null : actions.toggleFullscreen,
         isCompact: true,
-        delay: const Duration(milliseconds: 220),
+        delay: const Duration(milliseconds: 240),
         sortOrder: 10,
       ),
       if (showFractalReport)
@@ -244,7 +238,7 @@ class FractalViewControls extends StatelessWidget {
           tooltip: l10n.tooltipReportFractal,
           onPressed: isExporting ? null : actions.reportFractal,
           isCompact: true,
-          delay: const Duration(milliseconds: 240),
+          delay: const Duration(milliseconds: 260),
           sortOrder: 11,
         ),
     ];
@@ -267,9 +261,9 @@ class FractalViewControls extends StatelessWidget {
             child: ConstrainedBox(
               key: const ValueKey('viewerFabColumn'),
               constraints: BoxConstraints(
-                // Landscape wraps the uniform 48px FABs into at most three rows.
-                // Keep room for all rows plus their 8px gaps on short viewports.
-                maxHeight: isLandscape ? 176 : maxFabColumnHeight,
+                // Landscape wraps to the available width and scrolls through
+                // as many rows as needed, including enlarged touch targets.
+                maxHeight: isLandscape ? double.infinity : maxFabColumnHeight,
                 maxWidth: maxFabRowWidth,
               ),
               child: FocusTraversalGroup(
@@ -280,7 +274,21 @@ class FractalViewControls extends StatelessWidget {
                   runAlignment: WrapAlignment.end,
                   spacing: AppSpacing.sm,
                   runSpacing: AppSpacing.sm,
-                  children: actionButtons,
+                  children: [
+                    for (final button in actionButtons)
+                      if (button is AutoExploreButton ||
+                          button.key ==
+                              const ValueKey('viewerKaleidoscopeFab') ||
+                          button is _ViewerOverflowMenu)
+                        Padding(
+                          padding: isLandscape
+                              ? const EdgeInsets.only(left: AppSpacing.xs)
+                              : const EdgeInsets.only(top: AppSpacing.xs),
+                          child: button,
+                        )
+                      else
+                        button,
+                  ],
                 ),
               ),
             ),
@@ -686,19 +694,18 @@ class _ViewerOverflowMenu extends StatelessWidget {
                 key: const ValueKey('viewerOverflowMenu'),
                 tooltip: l10n.viewerActionsMenu,
                 enabled: !isExporting,
+                padding: EdgeInsets.zero,
                 style: IconButton.styleFrom(
                   visualDensity: VisualDensity.standard,
                   foregroundColor: Colors.white,
-                  backgroundColor: AppColors.surface,
+                  backgroundColor: Colors.transparent,
                   shape: const CircleBorder(),
-                  fixedSize: Size.square(
-                    context
-                                .watch<AccessibilityService?>()
-                                ?.largeTargetsEnabled ==
-                            true
-                        ? 56
-                        : 48,
-                  ),
+                  fixedSize: Size.square(AccessibleSizing.touchTargetSize(
+                    largeTargets: context
+                            .watch<AccessibilityService?>()
+                            ?.largeTargetsEnabled ??
+                        false,
+                  )),
                 ).copyWith(
                   side: WidgetStateProperty.resolveWith((states) => BorderSide(
                         color: states.contains(WidgetState.focused)
@@ -707,7 +714,7 @@ class _ViewerOverflowMenu extends StatelessWidget {
                         width: AccessibleSizing.focusIndicatorWidth,
                       )),
                 ),
-                icon: const Icon(Icons.more_vert_rounded),
+                icon: const CircularToolSurface(icon: Icons.more_vert_rounded),
                 onSelected: (action) {
                   switch (action) {
                     case 'export':
@@ -898,31 +905,14 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
                     : null,
                 onTap: widget.onPressed,
                 onLongPress: widget.onLongPress,
-                child: SizedBox.square(
-                  dimension: _fabTouchSize,
-                  child: Center(
-                    child: Container(
-                      padding: const EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(18),
-                        border: Border.all(
-                          color: _isFocused
-                              ? HighContrastColors.focusIndicator
-                              : Colors.transparent,
-                          width: AccessibleSizing.focusIndicatorWidth,
+                child: _buildDimmedIfDisabled(
+                  isDisabled,
+                  reduceMotion
+                      ? _buildButtonContent()
+                      : ScaleTransition(
+                          scale: _scaleAnimation,
+                          child: _buildButtonContent(),
                         ),
-                      ),
-                      child: _buildDimmedIfDisabled(
-                        isDisabled,
-                        reduceMotion
-                            ? _buildButtonContent()
-                            : ScaleTransition(
-                                scale: _scaleAnimation,
-                                child: _buildButtonContent(),
-                              ),
-                      ),
-                    ),
-                  ),
                 ),
               ),
             ),
@@ -945,41 +935,10 @@ class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
     return Opacity(opacity: 0.38, child: content);
   }
 
-  Widget _buildButtonContent() {
-    return AnimatedContainer(
-      duration: AppAnimations.fast,
-      width: _fabVisualSize,
-      height: _fabVisualSize,
-      decoration: BoxDecoration(
-        gradient: widget.isPrimary || widget.selected == true
-            ? AppColors.primaryGradient
-            : null,
-        color: widget.isPrimary || widget.selected == true
-            ? null
-            : AppColors.surface.withValues(alpha: _isPressed ? 0.86 : 0.74),
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: widget.isPrimary || widget.selected == true
-              ? Colors.white.withValues(alpha: 0.22)
-              : (_isPressed
-                  ? AppColors.primaryLight.withValues(alpha: 0.62)
-                  : Colors.white.withValues(alpha: 0.14)),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: _isPressed ? 0.28 : 0.18),
-            blurRadius: _isPressed ? 14 : 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Icon(
-        widget.icon,
-        size: _fabIconSize,
-        color: widget.isPrimary || widget.selected == true
-            ? Colors.white
-            : (_isPressed ? AppColors.primaryLight : AppColors.textPrimary),
-      ),
-    );
-  }
+  Widget _buildButtonContent() => CircularToolSurface(
+        icon: widget.icon,
+        selected: widget.isPrimary || widget.selected == true,
+        pressed: _isPressed,
+        focused: _isFocused,
+      );
 }

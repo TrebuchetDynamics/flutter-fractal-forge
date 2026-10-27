@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_fractals/core/theme/app_theme.dart';
+import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
+import 'package:flutter_fractals/shared/widgets/circular_tool_surface.dart';
 import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_control_status.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_service.dart';
@@ -20,33 +22,20 @@ class _LongPressActivateIntent extends Intent {
 class AutoExploreButton extends StatefulWidget {
   final VoidCallback? onLongPress;
   final Duration delay;
+  final double sortOrder;
 
   const AutoExploreButton(
-      {super.key, this.onLongPress, this.delay = Duration.zero});
+      {super.key,
+      this.onLongPress,
+      this.delay = Duration.zero,
+      this.sortOrder = 0});
 
   @override
   State<AutoExploreButton> createState() => _AutoExploreButtonState();
 }
 
-class _AutoExploreButtonState extends State<AutoExploreButton>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _pulse;
+class _AutoExploreButtonState extends State<AutoExploreButton> {
   bool _isFocused = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _pulse = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1400),
-    );
-  }
-
-  @override
-  void dispose() {
-    _pulse.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,13 +48,6 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
       pausedByUserCorrection: svc.pausedByUserCorrection,
     );
     final active = status.isMotionActive;
-    if (active && !_pulse.isAnimating) {
-      _pulse.repeat(reverse: true);
-    }
-    if (!active && _pulse.isAnimating) {
-      _pulse.stop();
-      _pulse.value = 0;
-    }
 
     final l10n = AppLocalizations.of(context);
     final tooltip = status.tooltip(
@@ -80,12 +62,16 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
     }
 
     return FocusTraversalOrder(
-      order: const NumericFocusOrder(0),
+      order: NumericFocusOrder(widget.sortOrder),
       child: FadeIn(
-        delay: widget.delay,
+        delay: MediaQuery.of(context).disableAnimations ||
+                (context.watch<AccessibilityService?>()?.reducedMotionEnabled ??
+                    false)
+            ? Duration.zero
+            : widget.delay,
         child: Semantics(
           excludeSemantics: true,
-          sortKey: OrdinalSortKey(0),
+          sortKey: OrdinalSortKey(widget.sortOrder),
           label: tooltip,
           hint: widget.onLongPress == null
               ? null
@@ -128,70 +114,12 @@ class _AutoExploreButtonState extends State<AutoExploreButton>
                   child: GestureDetector(
                     onTap: activate,
                     onLongPress: widget.onLongPress,
-                    child: AnimatedBuilder(
-                      animation: _pulse,
-                      builder: (context, child) {
-                        final scale =
-                            active ? (1.0 + _pulse.value * 0.04) : 1.0;
-                        return Transform.scale(
-                          scale: scale,
-                          child: SizedBox.square(
-                            dimension: AccessibleSizing.minTouchTarget,
-                            child: Center(
-                              child: Container(
-                                padding: const EdgeInsets.all(2),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: _isFocused
-                                        ? HighContrastColors.focusIndicator
-                                        : Colors.transparent,
-                                    width: AccessibleSizing.focusIndicatorWidth,
-                                  ),
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                                child: AnimatedContainer(
-                                  duration: AppAnimations.fast,
-                                  width: 44,
-                                  height: 44,
-                                  decoration: BoxDecoration(
-                                    gradient: active
-                                        ? AppColors.primaryGradient
-                                        : null,
-                                    color: active
-                                        ? null
-                                        : AppColors.surface
-                                            .withValues(alpha: 0.74),
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: active
-                                          ? Colors.white.withValues(alpha: 0.22)
-                                          : Colors.white
-                                              .withValues(alpha: 0.14),
-                                    ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black
-                                            .withValues(alpha: 0.18),
-                                        blurRadius: 10,
-                                        offset: const Offset(0, 4),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Icon(
-                                    active
-                                        ? Icons.pause_rounded
-                                        : Icons.explore_rounded,
-                                    color: active
-                                        ? Colors.white
-                                        : AppColors.textPrimary,
-                                    size: 20,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
+                    behavior: HitTestBehavior.opaque,
+                    child: CircularToolSurface(
+                      icon:
+                          active ? Icons.pause_rounded : Icons.explore_rounded,
+                      selected: active,
+                      focused: _isFocused,
                     ),
                   ),
                 ),

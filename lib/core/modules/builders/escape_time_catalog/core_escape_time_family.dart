@@ -138,7 +138,7 @@ final List<EscapeTimeConfig> _coreEscapeTimeFamilyCatalog = [
     extraParams: [
       _floatParam(
         id: 'power',
-        label: 'Power',
+        label: 'Power (d)',
         min: 1.0,
         max: 16.0,
         step: 0.1,
