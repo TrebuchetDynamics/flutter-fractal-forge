@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Remove five duplicate export-option tests while preserving equivalent model assertions and all distinct batch-export checks. (ACAD-011-b15712c1)
 - Stabilized the invalid-scan fallback music regression check with controlled-time synchronization and exception-safe fixture cleanup. (MAIN-INVALID-SCAN-01)
 - Stabilize rescan-fallback retry coverage and independently audit all seven alternate presets with exception-safe render cleanup and stage diagnostics. (MAIN-RESCAN-PRESET-01)
 - Added real Linux/Chromium Fibonacci save/reopen/export coverage and fixed premature CanvasKit offscreen shader disposal that produced diagnostic-magenta PNGs. (FIB-PRIME-03)
