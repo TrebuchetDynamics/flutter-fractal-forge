@@ -25,12 +25,9 @@ class ExportOptionsSheet extends StatefulWidget {
     required ExportOptions initialOptions,
     required String fractalType,
   }) {
-    return showModalBottomSheet<ExportSheetSubmission>(
+    return showAppBottomSheet<ExportSheetSubmission>(
       context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
       constraints: const BoxConstraints(maxWidth: 720),
-      backgroundColor: Colors.transparent,
       builder: (_) => ExportOptionsSheet(
         initialOptions: initialOptions,
         fractalType: fractalType,

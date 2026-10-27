@@ -1,6 +1,64 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
+import 'package:flutter_fractals/shared/widgets/app_tool_button.dart';
+
+/// Opens a shared sheet without a second Material drag handle.
+Future<T?> showAppBottomSheet<T>({
+  required BuildContext context,
+  required WidgetBuilder builder,
+  bool isScrollControlled = true,
+  BoxConstraints? constraints,
+}) =>
+    showModalBottomSheet<T>(
+      context: context,
+      useSafeArea: true,
+      isScrollControlled: isScrollControlled,
+      backgroundColor: Colors.transparent,
+      showDragHandle: false,
+      constraints: constraints,
+      builder: builder,
+    );
+
+/// Scrollable tool-panel frame shared by quick options and feature settings.
+class AppOptionsSheet extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String? subtitle;
+  final double maxHeightFactor;
+  final Widget child;
+
+  const AppOptionsSheet({
+    super.key,
+    required this.icon,
+    required this.title,
+    this.subtitle,
+    this.maxHeightFactor = 0.78,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) => AppBottomSheet(
+        maxHeightFactor: maxHeightFactor,
+        children: [
+          AppBottomSheetHeader(
+            icon: icon,
+            title: title,
+            subtitle: subtitle,
+            onClose: () => Navigator.of(context).pop(),
+          ),
+          Divider(
+              height: 1, color: Theme.of(context).colorScheme.outlineVariant),
+          Flexible(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(
+                  AppSpacing.lg, AppSpacing.md, AppSpacing.lg, AppSpacing.xxxl),
+              child: Material(color: Colors.transparent, child: child),
+            ),
+          ),
+        ],
+      );
+}
 
 /// Standard bottom sheet container with drag handle and rounded top corners.
 ///
@@ -200,11 +258,10 @@ class AppBottomSheetHeader extends StatelessWidget {
         children: [
           _buildAppHeaderTitle(context, icon, iconGradient, title, subtitle),
           if (onClose != null)
-            IconButton(
+            AppToolButton(
               tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
               onPressed: onClose,
-              icon: Icon(Icons.close_rounded,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant),
+              icon: Icons.close_rounded,
             ),
         ],
       ),
