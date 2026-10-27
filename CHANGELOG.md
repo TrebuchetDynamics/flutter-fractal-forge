@@ -108,6 +108,14 @@ Manual correction acceptance and user-defined palette support are already record
 Perturbation for GPU deep zoom beyond float32 has shipped and is no longer
 planned work; see the Extended GPU Preview entry in CONTEXT.md.
 
+## [1.1.112] - 2026-10-26
+
+### Changed
+
+- Prepare the independent-platform release candidate with Fibonacci offscreen rendering fixes and Linux/Chromium save/reopen/export coverage.
+- Stabilize rescan retry checks and independently audit all seven alternate presets.
+- Publication remains subject to each platform's build, signing and qualification gates; this entry records preparation, not a completed release.
+
 ## [1.1.107] - 2026-10-07
 
 ### Improved
