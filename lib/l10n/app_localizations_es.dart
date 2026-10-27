@@ -2110,6 +2110,13 @@ class AppLocalizationsEs extends AppLocalizations {
       'Escribe y previsualiza fórmulas FRM personalizadas';
 
   @override
+  String get settingsDebugMode => 'Modo de depuración';
+
+  @override
+  String get settingsDebugModeSubtitle =>
+      'Mostrar el botón para reportar fractales en el visor';
+
+  @override
   String get settingsAbout => 'Acerca de';
 
   @override

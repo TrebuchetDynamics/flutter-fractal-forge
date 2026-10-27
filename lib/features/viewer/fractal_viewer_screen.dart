@@ -2003,11 +2003,11 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                               _viewerEffects.fractalMusicEnabled,
                           fourierEnabled: _fourierEnabled,
                           textOverlayEnabled: _textOverlay.enabled,
-                          // Keep the GPU report affordance on desktop only;
-                          // Android production viewers must not expose a
-                          // debug/error FAB in the primary action rail.
                           showFractalReport: !kIsWeb &&
-                              defaultTargetPlatform == TargetPlatform.linux,
+                              (defaultTargetPlatform == TargetPlatform.linux ||
+                                  context
+                                      .watch<RendererSettingsService>()
+                                      .debugModeEnabled),
                           actions: FractalViewControlActions(
                             toggleFullscreen: _toggleFullscreenUnobtrusive,
                             openRandomFractal: () =>

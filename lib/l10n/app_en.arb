@@ -871,6 +871,8 @@
   "settingsPaletteSubtitle": "Customize color palettes",
   "settingsFormulaLab": "Formula Lab",
   "settingsFormulaLabSubtitle": "Write & preview custom FRM formulas",
+  "settingsDebugMode": "Debug mode",
+  "settingsDebugModeSubtitle": "Show the Report fractal button in the viewer",
   "settingsAbout": "About",
   "settingsVersion": "Version {version}",
   "@settingsVersion": {

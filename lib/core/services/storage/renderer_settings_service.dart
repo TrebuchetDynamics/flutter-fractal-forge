@@ -14,10 +14,12 @@ enum RendererBackendMode { auto, cpuOnly, gpuOnly }
 
 class RendererSettingsService extends ChangeNotifier {
   static const String _keyBackendMode = 'renderer_backend_mode';
+  static const String _keyDebugMode = 'debug_mode_enabled';
 
   final SharedPreferences _prefs;
 
   RendererBackendMode _backendMode;
+  bool _debugModeEnabled;
   bool _disposed = false;
 
   void _notifyIfAlive() {
@@ -25,7 +27,8 @@ class RendererSettingsService extends ChangeNotifier {
   }
 
   RendererSettingsService(this._prefs)
-      : _backendMode = _decode(_prefs.getString(_keyBackendMode));
+      : _backendMode = _decode(_prefs.getString(_keyBackendMode)),
+        _debugModeEnabled = _prefs.getBool(_keyDebugMode) ?? false;
 
   static Future<RendererSettingsService> create() async {
     final prefs = await SharedPreferences.getInstance();
@@ -33,6 +36,15 @@ class RendererSettingsService extends ChangeNotifier {
   }
 
   RendererBackendMode get backendMode => _backendMode;
+
+  bool get debugModeEnabled => _debugModeEnabled;
+
+  Future<void> setDebugModeEnabled(bool enabled) async {
+    if (_debugModeEnabled == enabled) return;
+    _debugModeEnabled = enabled;
+    await _prefs.setBool(_keyDebugMode, enabled);
+    _notifyIfAlive();
+  }
 
   Future<void> setBackendMode(RendererBackendMode mode) async {
     if (_backendMode == mode) return;

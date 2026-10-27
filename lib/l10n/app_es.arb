@@ -864,6 +864,8 @@
   "settingsPaletteSubtitle": "Personaliza las paletas de color",
   "settingsFormulaLab": "Laboratorio de fórmulas",
   "settingsFormulaLabSubtitle": "Escribe y previsualiza fórmulas FRM personalizadas",
+  "settingsDebugMode": "Modo de depuración",
+  "settingsDebugModeSubtitle": "Mostrar el botón para reportar fractales en el visor",
   "settingsAbout": "Acerca de",
   "settingsVersion": "Versión {version}",
   "@settingsVersion": {
