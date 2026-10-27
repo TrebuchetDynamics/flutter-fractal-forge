@@ -502,7 +502,8 @@ void main() {
       },
     );
 
-    test('invalid scans do not suppress fallback updates', () async {
+    testWidgets('invalid scans do not suppress fallback updates',
+        (tester) async {
       final music = _FakeMusicService();
       final effects = ViewerEffectsController(musicService: music);
       effects.fractalMusicEnabled = true;
@@ -516,13 +517,20 @@ void main() {
         scanFrames: [invalidFrame],
       );
 
-      coord.startLoopRefresh(controller, scanFrame: invalidFrame);
-      controller.updatePan(Vector2(0.5, 0));
-      coord.scheduleRescan(controller);
-      await Future<void>.delayed(const Duration(milliseconds: 20));
+      try {
+        coord.startLoopRefresh(controller, scanFrame: invalidFrame);
+        controller.updatePan(Vector2(0.5, 0));
+        coord.scheduleRescan(controller);
+        // Advance the debounce and drain capture/playback microtasks instead
+        // of racing the async restart against a wall-clock sleep.
+        await tester.pump(const Duration(milliseconds: 1));
 
-      expect(music.playCount, 1);
-      coord.dispose();
+        expect(music.playCount, 1);
+      } finally {
+        coord.dispose();
+        await tester.pump();
+        effects.dispose();
+      }
     });
 
     test('same pixels regenerate music when zoom changes', () async {
