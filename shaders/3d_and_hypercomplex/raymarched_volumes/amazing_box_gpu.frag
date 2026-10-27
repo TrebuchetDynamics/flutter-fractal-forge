@@ -47,16 +47,6 @@ vec3 palette(float t, float scheme) {
     return 0.45 + 0.45 * cos(6.28318 * (vec3(0.00, 0.18, 0.38) + t));
 }
 
-float boxDE(vec3 p, vec3 b) {
-    vec3 q = abs(p) - b;
-    return length(max(q, 0.0)) + min(max(q.x, max(q.y, q.z)), 0.0);
-}
-
-float sphereDE(vec3 p, float r) {
-    return length(p) - r;
-}
-
-
 float fractalDE(vec3 p) {
     vec3 z = p;
     float scale = clamp(uPower, 1.6, 3.2);

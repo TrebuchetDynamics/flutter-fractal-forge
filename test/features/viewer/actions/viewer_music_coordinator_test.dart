@@ -549,9 +549,9 @@ void main() {
       coord.dispose();
     });
 
-    test(
+    testWidgets(
       'retries once after initial enable when scan frame was missing',
-      () async {
+      (tester) async {
         final music = _FakeMusicService();
         final effects = ViewerEffectsController(musicService: music);
         effects.fractalMusicEnabled = true;
@@ -563,12 +563,20 @@ void main() {
           scanFrames: [frameWithValue(140)],
         );
 
-        coord.startLoopRefresh(controller);
-        await Future<void>.delayed(const Duration(milliseconds: 12));
+        try {
+          coord.startLoopRefresh(controller);
+          // Advance the debounce and two refreshes without wall-clock races.
+          await tester.pump(const Duration(milliseconds: 1));
+          await tester.pump(const Duration(milliseconds: 5));
+          await tester.pump(const Duration(milliseconds: 5));
 
-        expect(music.playCount, 1);
-        expect(syncs, isEmpty);
-        coord.dispose();
+          expect(music.playCount, 1);
+          expect(syncs, isEmpty);
+        } finally {
+          coord.dispose();
+          await tester.pump();
+          effects.dispose();
+        }
       },
     );
 
