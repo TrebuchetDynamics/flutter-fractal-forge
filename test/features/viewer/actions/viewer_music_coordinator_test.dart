@@ -565,11 +565,17 @@ void main() {
 
         try {
           coord.startLoopRefresh(controller);
-          // Advance the debounce and two refreshes without wall-clock races.
+          // Drain debounced capture/playback before advancing refresh timers.
           await tester.pump(const Duration(milliseconds: 1));
-          await tester.pump(const Duration(milliseconds: 5));
-          await tester.pump(const Duration(milliseconds: 5));
+          expect(music.playCount, 1);
+          expect(syncs, isEmpty);
 
+          // The same captured pixels must not restart playback on either tick.
+          await tester.pump(const Duration(milliseconds: 5));
+          expect(music.playCount, 1);
+          expect(syncs, isEmpty);
+
+          await tester.pump(const Duration(milliseconds: 5));
           expect(music.playCount, 1);
           expect(syncs, isEmpty);
         } finally {
