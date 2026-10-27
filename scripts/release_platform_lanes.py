@@ -491,10 +491,10 @@ def _android_certificate_check(identity: dict[str, str], artifacts: list[dict[st
         path = Path(item["path"])
         if path.suffix == ".aab":
             result = subprocess.run(["keytool", "-printcert", "-jarfile", str(path)], capture_output=True, text=True)
-            match = re.search(r"^[ \\t]*SHA1:[ \\t]*([0-9A-Fa-f:]+)", result.stdout, re.M)
+            match = re.search(r"^[ \t]*SHA1:[ \t]*([0-9A-Fa-f:]+)", result.stdout, re.M)
         else:
             result = subprocess.run([str(apksigner), "verify", "--print-certs", str(path)], capture_output=True, text=True)
-            match = re.search(r"Signer #1 certificate SHA-1 digest:[ \\t]*([0-9A-Fa-f:]+)", result.stdout)
+            match = re.search(r"Signer #1 certificate SHA-1 digest:[ \t]*([0-9A-Fa-f:]+)", result.stdout)
         if result.returncode or not match:
             raise ValueError(f"could not inspect Android signing certificate: {path.name}")
         observed.append(validate_certificate_fingerprint(expected, match.group(1)))
