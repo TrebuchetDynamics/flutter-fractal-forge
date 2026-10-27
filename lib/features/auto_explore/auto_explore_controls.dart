@@ -1,151 +1,68 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_fractals/core/theme/app_theme.dart';
-import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
-import 'package:flutter_fractals/shared/widgets/circular_tool_surface.dart';
-import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
+import 'package:flutter_fractals/shared/widgets/app_tool_button.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_control_status.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_service.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 
-/// Keyboard-only alternate activation for [AutoExploreButton]'s long-press
-/// secondary action (mirrors Shift+Click conventions).
-class _LongPressActivateIntent extends Intent {
-  const _LongPressActivateIntent();
-}
-
 /// Compact play/pause button shown in the viewer FAB stack.
-class AutoExploreButton extends StatefulWidget {
+class AutoExploreButton extends StatelessWidget {
   final VoidCallback? onLongPress;
   final Duration delay;
   final double sortOrder;
 
-  const AutoExploreButton(
-      {super.key,
-      this.onLongPress,
-      this.delay = Duration.zero,
-      this.sortOrder = 0});
-
-  @override
-  State<AutoExploreButton> createState() => _AutoExploreButtonState();
-}
-
-class _AutoExploreButtonState extends State<AutoExploreButton> {
-  bool _isFocused = false;
+  const AutoExploreButton({
+    super.key,
+    this.onLongPress,
+    this.delay = Duration.zero,
+    this.sortOrder = 0,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final svc = context.watch<AutoExploreService?>();
-    if (svc == null) return const SizedBox.shrink();
-
+    final service = context.watch<AutoExploreService?>();
+    if (service == null) return const SizedBox.shrink();
     final status = AutoExploreControlStatus.fromPlayback(
-      isExploring: svc.isExploring,
-      isPaused: svc.isPaused,
-      pausedByUserCorrection: svc.pausedByUserCorrection,
+      isExploring: service.isExploring,
+      isPaused: service.isPaused,
+      pausedByUserCorrection: service.pausedByUserCorrection,
     );
-    final active = status.isMotionActive;
-
     final l10n = AppLocalizations.of(context);
-    final tooltip = status.tooltip(
-      startLabel: l10n?.tooltipStartExplore ?? 'Start auto-explore',
-      pauseLabel: l10n?.tooltipPauseExplore ?? 'Pause auto-explore',
-      yieldedLabel: 'Auto-pilot paused',
-    );
-
-    void activate() {
-      HapticFeedback.mediumImpact();
-      _runPrimaryAction(status.primaryAction, svc);
-    }
-
-    return FocusTraversalOrder(
-      order: NumericFocusOrder(widget.sortOrder),
-      child: FadeIn(
-        delay: MediaQuery.of(context).disableAnimations ||
-                (context.watch<AccessibilityService?>()?.reducedMotionEnabled ??
-                    false)
-            ? Duration.zero
-            : widget.delay,
-        child: Semantics(
-          excludeSemantics: true,
-          sortKey: OrdinalSortKey(widget.sortOrder),
-          label: tooltip,
-          hint: widget.onLongPress == null
-              ? null
-              : (l10n?.viewerSecondaryActionHint ??
-                  'Long press or Shift+Enter opens the secondary action.'),
-          button: true,
-          onTap: activate,
-          onLongPress: widget.onLongPress,
-          child: Tooltip(
-            message: tooltip,
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                FocusableActionDetector(
-                  onShowFocusHighlight: (focused) {
-                    if (_isFocused == focused) return;
-                    setState(() => _isFocused = focused);
-                  },
-                  shortcuts: const {
-                    SingleActivator(LogicalKeyboardKey.enter): ActivateIntent(),
-                    SingleActivator(LogicalKeyboardKey.space): ActivateIntent(),
-                    SingleActivator(LogicalKeyboardKey.enter, shift: true):
-                        _LongPressActivateIntent(),
-                  },
-                  actions: {
-                    ActivateIntent: CallbackAction<ActivateIntent>(
-                      onInvoke: (_) {
-                        activate();
-                        return null;
-                      },
-                    ),
-                    _LongPressActivateIntent:
-                        CallbackAction<_LongPressActivateIntent>(
-                      onInvoke: (_) {
-                        widget.onLongPress?.call();
-                        return null;
-                      },
-                    ),
-                  },
-                  child: GestureDetector(
-                    onTap: activate,
-                    onLongPress: widget.onLongPress,
-                    behavior: HitTestBehavior.opaque,
-                    child: CircularToolSurface(
-                      icon:
-                          active ? Icons.pause_rounded : Icons.explore_rounded,
-                      selected: active,
-                      focused: _isFocused,
-                    ),
-                  ),
-                ),
-                if (status.showsYieldBadge)
-                  Positioned(
-                    right: -8,
-                    top: -8,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.72),
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.white12),
-                      ),
-                      child: const Text(
-                        'Auto-pilot paused',
-                        style: TextStyle(fontSize: 10, color: Colors.white70),
-                      ),
-                    ),
-                  ),
-              ],
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        AppToolButton(
+          icon: status.isMotionActive
+              ? Icons.pause_rounded
+              : Icons.explore_rounded,
+          tooltip: status.tooltip(
+            startLabel: l10n?.tooltipStartExplore ?? 'Start auto-explore',
+            pauseLabel: l10n?.tooltipPauseExplore ?? 'Pause auto-explore',
+            yieldedLabel:
+                l10n?.autoExplorePausedUserCorrection ?? 'Auto-pilot paused',
+          ),
+          selected: status.isMotionActive,
+          onPressed: () => _runPrimaryAction(status.primaryAction, service),
+          onLongPress: onLongPress,
+          delay: delay,
+          sortOrder: sortOrder,
+        ),
+        if (status.showsYieldBadge)
+          Positioned(
+            right: 0,
+            top: 0,
+            child: IgnorePointer(
+              child: ExcludeSemantics(
+                child: Icon(Icons.pause_circle_filled_rounded,
+                    size: 16, color: Theme.of(context).colorScheme.primary),
+              ),
             ),
           ),
-        ),
-      ),
+      ],
     );
   }
 }
@@ -198,120 +115,104 @@ class AutoExploreSettingsSheet extends StatelessWidget {
       label: Text(l10n?.actionStop ?? 'Stop'),
     );
 
-    return AppBottomSheet(
+    return AppOptionsSheet(
       maxHeightFactor: 0.82,
-      children: [
-        AppBottomSheetHeader(
-          icon: Icons.explore_rounded,
-          title: l10n?.autoExploreTitle ?? 'Auto-Explore',
-          subtitle: l10n?.autoExploreSubtitle ??
-              'Automatically discover interesting areas',
-          onClose: () => Navigator.of(context).pop(),
-        ),
-        const Divider(height: 1, color: AppColors.divider),
-        Flexible(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.lg,
-              AppSpacing.md,
-              AppSpacing.lg,
-              AppSpacing.xxxl,
+      icon: Icons.explore_rounded,
+      title: l10n?.autoExploreTitle ?? 'Auto-Explore',
+      subtitle: l10n?.autoExploreSubtitle ??
+          'Automatically discover interesting areas',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (status.showsYieldBadge) ...[
+            _AutoExploreInfoCard(
+              icon: Icons.pause_circle_outline_rounded,
+              text: l10n?.autoExplorePausedUserCorrection ??
+                  'Auto-pilot paused while you adjust the view.',
+              emphasized: true,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                if (status.showsYieldBadge) ...[
-                  _AutoExploreInfoCard(
-                    icon: Icons.pause_circle_outline_rounded,
-                    text: l10n?.autoExplorePausedUserCorrection ??
-                        'Auto-pilot paused while you adjust the view.',
-                    emphasized: true,
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                ],
-                _AutoExploreInfoCard(
-                  icon: Icons.zoom_in_map_rounded,
-                  text: l10n?.autoExploreZoomOnlyDescription ??
-                      'Zoom-only mode. Auto Explore leaves panning in your control.',
-                ),
-                const SizedBox(height: AppSpacing.lg),
-                LayoutBuilder(
-                  builder: (context, constraints) {
-                    final label = Text(
-                      l10n?.speedLabel ?? 'Speed',
-                      style: AppTypography.labelLarge,
-                    );
-                    final value = Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.sm,
-                        vertical: AppSpacing.xs,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.14),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text(
-                        '${svc.speed.toStringAsFixed(1)}x',
-                        style: AppTypography.labelLarge
-                            .copyWith(color: AppColors.primaryLight),
-                      ),
-                    );
-                    if (MediaQuery.textScalerOf(context).scale(14) >= 21) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          label,
-                          const SizedBox(height: AppSpacing.xs),
-                          Align(alignment: Alignment.centerRight, child: value),
-                        ],
-                      );
-                    }
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [label, value],
-                    );
-                  },
-                ),
-                Slider(
-                  value: svc.speed,
-                  min: AutoExploreSpeed.min,
-                  max: AutoExploreSpeed.max,
-                  divisions: AutoExploreSpeed.sliderDivisions,
-                  onChanged: (v) {
-                    HapticFeedback.selectionClick();
-                    svc.speed = v;
-                  },
-                ),
-                const SizedBox(height: AppSpacing.md),
-                LayoutBuilder(
-                  builder: (context, constraints) {
-                    final stackActions = constraints.maxWidth < 340 ||
-                        MediaQuery.textScalerOf(context).scale(14) >= 21;
-                    if (!svc.isExploring) return primaryAction;
-                    if (stackActions) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          primaryAction,
-                          const SizedBox(height: AppSpacing.sm),
-                          stopAction,
-                        ],
-                      );
-                    }
-                    return Row(
-                      children: [
-                        Expanded(child: primaryAction),
-                        const SizedBox(width: AppSpacing.md),
-                        Expanded(child: stopAction),
-                      ],
-                    );
-                  },
-                ),
-              ],
-            ),
+            const SizedBox(height: AppSpacing.sm),
+          ],
+          _AutoExploreInfoCard(
+            icon: Icons.zoom_in_map_rounded,
+            text: l10n?.autoExploreZoomOnlyDescription ??
+                'Zoom-only mode. Auto Explore leaves panning in your control.',
           ),
-        ),
-      ],
+          const SizedBox(height: AppSpacing.lg),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final label = Text(
+                l10n?.speedLabel ?? 'Speed',
+                style: AppTypography.labelLarge,
+              );
+              final value = Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.sm,
+                  vertical: AppSpacing.xs,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.14),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  '${svc.speed.toStringAsFixed(1)}x',
+                  style: AppTypography.labelLarge
+                      .copyWith(color: AppColors.primaryLight),
+                ),
+              );
+              if (MediaQuery.textScalerOf(context).scale(14) >= 21) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    label,
+                    const SizedBox(height: AppSpacing.xs),
+                    Align(alignment: Alignment.centerRight, child: value),
+                  ],
+                );
+              }
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [label, value],
+              );
+            },
+          ),
+          Slider(
+            value: svc.speed,
+            min: AutoExploreSpeed.min,
+            max: AutoExploreSpeed.max,
+            divisions: AutoExploreSpeed.sliderDivisions,
+            onChanged: (v) {
+              HapticFeedback.selectionClick();
+              svc.speed = v;
+            },
+          ),
+          const SizedBox(height: AppSpacing.md),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final stackActions = constraints.maxWidth < 340 ||
+                  MediaQuery.textScalerOf(context).scale(14) >= 21;
+              if (!svc.isExploring) return primaryAction;
+              if (stackActions) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    primaryAction,
+                    const SizedBox(height: AppSpacing.sm),
+                    stopAction,
+                  ],
+                );
+              }
+              return Row(
+                children: [
+                  Expanded(child: primaryAction),
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(child: stopAction),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }

@@ -10,6 +10,7 @@ class CircularToolSurface extends StatelessWidget {
   final bool selected;
   final bool pressed;
   final bool focused;
+  final bool hovered;
 
   const CircularToolSurface({
     super.key,
@@ -17,6 +18,7 @@ class CircularToolSurface extends StatelessWidget {
     this.selected = false,
     this.pressed = false,
     this.focused = false,
+    this.hovered = false,
   });
 
   @override
@@ -39,14 +41,16 @@ class CircularToolSurface extends StatelessWidget {
               gradient: selected ? AppColors.primaryGradient : null,
               color: selected
                   ? null
-                  : AppColors.surface.withValues(alpha: pressed ? 0.86 : 0.74),
+                  : AppColors.surface.withValues(
+                      alpha: pressed ? 0.86 : (hovered ? 0.84 : 0.74)),
               shape: BoxShape.circle,
               border: Border.all(
                 color: selected
-                    ? Colors.white.withValues(alpha: 0.22)
+                    ? Colors.white.withValues(alpha: hovered ? 0.34 : 0.22)
                     : (pressed
                         ? AppColors.primaryLight.withValues(alpha: 0.62)
-                        : Colors.white.withValues(alpha: 0.14)),
+                        : Colors.white
+                            .withValues(alpha: hovered ? 0.34 : 0.14)),
               ),
               boxShadow: [
                 BoxShadow(

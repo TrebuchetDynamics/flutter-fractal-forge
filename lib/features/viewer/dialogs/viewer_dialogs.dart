@@ -10,11 +10,9 @@ mixin _ViewerDialogsMixin on State<FractalViewerScreen>, _ExportActionsMixin {
     required WidgetBuilder builder,
     bool isScrollControlled = true,
   }) {
-    return showModalBottomSheet<T>(
+    return showAppBottomSheet<T>(
       context: context,
-      useSafeArea: true,
       isScrollControlled: isScrollControlled,
-      backgroundColor: Colors.transparent,
       builder: builder,
     );
   }

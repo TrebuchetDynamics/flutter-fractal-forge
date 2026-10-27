@@ -279,7 +279,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   bool get _liveRenderingEnabled =>
       _appVisible &&
       !_freezeFrameForExport &&
-      !(context.watch<AccessibilityService?>()?.reducedMotionEnabled ?? false) &&
+      !(context.watch<AccessibilityService?>()?.reducedMotionEnabled ??
+          false) &&
       !MediaQuery.disableAnimationsOf(context);
 
   bool get _usesCoreViewerChrome => widget.catalogFamily == CatalogFamily.core;
@@ -602,11 +603,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   }
 
   Future<void> _editTextOverlay() async {
-    final text = await showModalBottomSheet<String>(
+    final text = await showAppBottomSheet<String>(
       context: context,
-      useSafeArea: true,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
       builder: (_) => _TextOverlayEditorSheet(initialText: _textOverlay.text),
     );
     if (text == null) return;
@@ -1072,11 +1070,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   }
 
   Future<void> _openFourierSettings() async {
-    await showModalBottomSheet<void>(
+    await showAppBottomSheet<void>(
       context: context,
-      useSafeArea: true,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
       builder: (sheetContext) => StatefulBuilder(
         builder: (sheetContext, setSheetState) {
           void update(VoidCallback change) {
@@ -1238,11 +1233,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   void _openShareLink(BuildContext context) {
     final controller = _activeController(context);
     final l10n = AppLocalizations.of(context)!;
-    showModalBottomSheet<void>(
+    showAppBottomSheet<void>(
       context: context,
-      useSafeArea: true,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
       builder: (_) => ShareSheet(
         uri: _shareUriFor(controller),
         fractalName: controller.module.displayName(l10n),
@@ -1257,11 +1249,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     final selected = <String>{};
     final notes = TextEditingController();
 
-    final saved = await showModalBottomSheet<bool>(
+    final saved = await showAppBottomSheet<bool>(
       context: context,
-      useSafeArea: true,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
       builder: (sheetContext) => StatefulBuilder(
         builder: (context, setSheetState) => AppBottomSheet(
           maxHeightFactor: 0.66,
@@ -1514,11 +1503,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
             : 4;
     ScrollController? paletteScrollController;
 
-    showModalBottomSheet<void>(
+    showAppBottomSheet<void>(
       context: context,
-      useSafeArea: true,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
       builder: (sheetContext) => LayoutBuilder(builder: (context, constraints) {
         final gridWidth = constraints.maxWidth -
             AppSpacing.md * 2 -
@@ -2048,11 +2034,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                             reportFractal: () => _reportFractal(context),
                             openWallpaper: () => _openWallpaper(context),
                             openAutoExploreSettings: () =>
-                                showModalBottomSheet<void>(
+                                showAppBottomSheet<void>(
                               context: context,
-                              useSafeArea: true,
-                              isScrollControlled: true,
-                              backgroundColor: Colors.transparent,
                               builder: (_) => ChangeNotifierProvider<
                                   AutoExploreService>.value(
                                 value: _autoExploreService!,

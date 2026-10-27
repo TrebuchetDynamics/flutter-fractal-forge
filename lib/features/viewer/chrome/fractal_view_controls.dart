@@ -1,17 +1,15 @@
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
-import 'package:flutter_fractals/core/services/platform/haptic_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
-import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore.dart';
 import 'package:flutter_fractals/features/export/export_actions.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 import 'package:flutter_fractals/shared/widgets/circular_tool_surface.dart';
+import 'package:flutter_fractals/shared/widgets/app_tool_button.dart';
 
 class FractalViewControlActions {
   final VoidCallback toggleFullscreen;
@@ -300,113 +298,25 @@ class FractalViewControls extends StatelessWidget {
 
   void _showRandomOptionsModal(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    _showActionModal(
-      context,
-      icon: Icons.shuffle_rounded,
-      title: l10n.randomOptionsTitle,
-      subtitle: l10n.randomOptionsSubtitle,
-      children: [
-        _ActionTile(
-          icon: Icons.shuffle_rounded,
-          label: l10n.tooltipRandomFractal,
-          description: l10n.randomOptionsCatalogDescription,
-          onTap: actions.openRandomFractal,
-        ),
-        _ActionTile(
-          icon: Icons.tune_rounded,
-          label: l10n.randomize,
-          description: l10n.randomOptionsParamsDescription,
-          onTap: actions.randomizeParams,
-        ),
-      ],
-    );
-  }
-
-  void _showKaleidoscopeModal(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    var selectedSectors = kaleidoscopeSectors;
-    var mirrorEnabled = kaleidoscopeMirror;
-    showModalBottomSheet<void>(
+    showAppBottomSheet<void>(
       context: context,
-      useSafeArea: true,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (sheetContext) => StatefulBuilder(
-        builder: (context, setSheetState) => _FabOptionsSheet(
-          icon: Icons.filter_vintage_rounded,
-          title: l10n.kaleidoscopeOptionsTitle,
-          subtitle: l10n.kaleidoscopeOptionsSubtitle,
+      builder: (_) => AppOptionsSheet(
+        icon: Icons.shuffle_rounded,
+        title: l10n.randomOptionsTitle,
+        subtitle: l10n.randomOptionsSubtitle,
+        child: Column(
           children: [
-            Text(
-              l10n.kaleidoscopeWedgeCount,
-              style: AppTypography.labelLarge.copyWith(
-                color: AppColors.textSecondary,
-              ),
+            _ActionTile(
+              icon: Icons.shuffle_rounded,
+              label: l10n.tooltipRandomFractal,
+              description: l10n.randomOptionsCatalogDescription,
+              onTap: actions.openRandomFractal,
             ),
-            const SizedBox(height: AppSpacing.sm),
-            LayoutBuilder(
-              builder: (context, constraints) {
-                final columns = constraints.maxWidth >= 560 ? 7 : 4;
-                // gridDelegate form instead of GridView.count:
-                // mainAxisExtent is not a GridView.count parameter on all
-                // supported SDK versions.
-                return GridView(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: columns,
-                    crossAxisSpacing: AppSpacing.sm,
-                    mainAxisSpacing: AppSpacing.sm,
-                    mainAxisExtent: 48,
-                  ),
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    // Every value FractalController.setKaleidoscopeSectors can
-                    // hold: it clamps to 4..16 and snaps odd inputs down to even,
-                    // so a gap here means an unselectable, unreachable-by-chip
-                    // state rather than a missing shortcut.
-                    for (final sectors in const [4, 6, 8, 10, 12, 14, 16])
-                      ChoiceChip(
-                        label: Text('$sectors'),
-                        selected: selectedSectors == sectors,
-                        showCheckmark: false,
-                        selectedColor:
-                            AppColors.primary.withValues(alpha: 0.28),
-                        backgroundColor:
-                            AppColors.surfaceVariant.withValues(alpha: 0.9),
-                        side: BorderSide(
-                          color: selectedSectors == sectors
-                              ? AppColors.primaryLight
-                              : AppColors.glassBorder,
-                        ),
-                        labelStyle: AppTypography.labelMedium.copyWith(
-                          color: selectedSectors == sectors
-                              ? AppColors.textPrimary
-                              : AppColors.textSecondary,
-                          fontWeight: selectedSectors == sectors
-                              ? FontWeight.w700
-                              : FontWeight.w500,
-                        ),
-                        onSelected: (_) {
-                          selectedSectors = sectors;
-                          actions.setKaleidoscopeSectors(sectors);
-                          setSheetState(() {});
-                        },
-                      ),
-                  ],
-                );
-              },
-            ),
-            const SizedBox(height: AppSpacing.md),
-            _SwitchActionTile(
-              icon: Icons.flip_rounded,
-              label: l10n.kaleidoscopeMirrorWedges,
-              description: l10n.kaleidoscopeMirrorWedgesDescription,
-              value: mirrorEnabled,
-              onChanged: (value) {
-                mirrorEnabled = value;
-                actions.setKaleidoscopeMirror(value);
-                setSheetState(() {});
-              },
+            _ActionTile(
+              icon: Icons.tune_rounded,
+              label: l10n.randomize,
+              description: l10n.randomOptionsParamsDescription,
+              onTap: actions.randomizeParams,
             ),
           ],
         ),
@@ -414,77 +324,99 @@ class FractalViewControls extends StatelessWidget {
     );
   }
 
-  void _showActionModal(
-    BuildContext context, {
-    required IconData icon,
-    required String title,
-    String? subtitle,
-    double maxHeightFactor = 0.78,
-    double contentBottomPadding = AppSpacing.xxxl,
-    required List<Widget> children,
-  }) {
-    showModalBottomSheet<void>(
+  void _showKaleidoscopeModal(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    var selectedSectors = kaleidoscopeSectors;
+    var mirrorEnabled = kaleidoscopeMirror;
+    showAppBottomSheet<void>(
       context: context,
-      useSafeArea: true,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) => _FabOptionsSheet(
-        icon: icon,
-        title: title,
-        subtitle: subtitle,
-        maxHeightFactor: maxHeightFactor,
-        contentBottomPadding: contentBottomPadding,
-        children: children,
-      ),
-    );
-  }
-}
-
-class _FabOptionsSheet extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String? subtitle;
-  final double maxHeightFactor;
-  final double contentBottomPadding;
-  final List<Widget> children;
-
-  const _FabOptionsSheet({
-    required this.icon,
-    required this.title,
-    this.subtitle,
-    this.maxHeightFactor = 0.78,
-    this.contentBottomPadding = AppSpacing.xxxl,
-    required this.children,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AppBottomSheet(
-      maxHeightFactor: maxHeightFactor,
-      children: [
-        AppBottomSheetHeader(
-          icon: icon,
-          title: title,
-          subtitle: subtitle,
-          onClose: () => Navigator.of(context).pop(),
-        ),
-        const Divider(height: 1, color: AppColors.divider),
-        Flexible(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.fromLTRB(
-              AppSpacing.lg,
-              AppSpacing.md,
-              AppSpacing.lg,
-              contentBottomPadding,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: children,
-            ),
+      builder: (sheetContext) => StatefulBuilder(
+        builder: (context, setSheetState) => AppOptionsSheet(
+          icon: Icons.filter_vintage_rounded,
+          title: l10n.kaleidoscopeOptionsTitle,
+          subtitle: l10n.kaleidoscopeOptionsSubtitle,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                l10n.kaleidoscopeWedgeCount,
+                style: AppTypography.labelLarge.copyWith(
+                  color: AppColors.textSecondary,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final columns = constraints.maxWidth >= 560 ? 7 : 4;
+                  // gridDelegate form instead of GridView.count:
+                  // mainAxisExtent is not a GridView.count parameter on all
+                  // supported SDK versions.
+                  return GridView(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: columns,
+                      crossAxisSpacing: AppSpacing.sm,
+                      mainAxisSpacing: AppSpacing.sm,
+                      mainAxisExtent: AccessibleSizing.touchTargetSize(
+                          largeTargets: context
+                                  .watch<AccessibilityService?>()
+                                  ?.largeTargetsEnabled ??
+                              false),
+                    ),
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      // Every value FractalController.setKaleidoscopeSectors can
+                      // hold: it clamps to 4..16 and snaps odd inputs down to even,
+                      // so a gap here means an unselectable, unreachable-by-chip
+                      // state rather than a missing shortcut.
+                      for (final sectors in const [4, 6, 8, 10, 12, 14, 16])
+                        ChoiceChip(
+                          label: Text('$sectors'),
+                          selected: selectedSectors == sectors,
+                          showCheckmark: false,
+                          selectedColor:
+                              AppColors.primary.withValues(alpha: 0.28),
+                          backgroundColor:
+                              AppColors.surfaceVariant.withValues(alpha: 0.9),
+                          side: BorderSide(
+                            color: selectedSectors == sectors
+                                ? AppColors.primaryLight
+                                : AppColors.glassBorder,
+                          ),
+                          labelStyle: AppTypography.labelMedium.copyWith(
+                            color: selectedSectors == sectors
+                                ? AppColors.textPrimary
+                                : AppColors.textSecondary,
+                            fontWeight: selectedSectors == sectors
+                                ? FontWeight.w700
+                                : FontWeight.w500,
+                          ),
+                          onSelected: (_) {
+                            selectedSectors = sectors;
+                            actions.setKaleidoscopeSectors(sectors);
+                            setSheetState(() {});
+                          },
+                        ),
+                    ],
+                  );
+                },
+              ),
+              const SizedBox(height: AppSpacing.md),
+              SwitchListTile.adaptive(
+                secondary: const Icon(Icons.flip_rounded),
+                title: Text(l10n.kaleidoscopeMirrorWedges),
+                subtitle: Text(l10n.kaleidoscopeMirrorWedgesDescription),
+                value: mirrorEnabled,
+                onChanged: (value) {
+                  mirrorEnabled = value;
+                  actions.setKaleidoscopeMirror(value);
+                  setSheetState(() {});
+                },
+              ),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 }
@@ -503,162 +435,23 @@ class _ActionTile extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-      child: Material(
-        color: AppColors.surfaceVariant.withValues(alpha: 0.72),
-        borderRadius: BorderRadius.circular(18),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(18),
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+        child: ListTile(
+          minTileHeight: 72,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          tileColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+          leading: Icon(icon),
+          title: Text(label),
+          subtitle: description == null ? null : Text(description!),
+          trailing: const Icon(Icons.chevron_right_rounded),
           onTap: () {
             Navigator.of(context).pop();
             onTap();
           },
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 72),
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSpacing.lg,
-                vertical: AppSpacing.md,
-              ),
-              child: Row(
-                children: [
-                  _ModalIconBadge(icon: icon),
-                  const SizedBox(width: AppSpacing.md),
-                  Expanded(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          label,
-                          style: AppTypography.bodyMedium.copyWith(
-                            color: AppColors.textPrimary,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        if (description != null) ...[
-                          const SizedBox(height: 2),
-                          Text(
-                            description!,
-                            style: AppTypography.bodySmall.copyWith(
-                              color: AppColors.textSecondary,
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: AppSpacing.sm),
-                  Icon(
-                    Icons.chevron_right_rounded,
-                    color: AppColors.textMuted,
-                  ),
-                ],
-              ),
-            ),
-          ),
         ),
-      ),
-    );
-  }
-}
-
-class _SwitchActionTile extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final String description;
-  final bool value;
-  final ValueChanged<bool> onChanged;
-
-  const _SwitchActionTile({
-    required this.icon,
-    required this.label,
-    required this.description,
-    required this.value,
-    required this.onChanged,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    // The row and its Switch are two separate interactive nodes otherwise: the
-    // row carries the label but no on/off state, and the Switch carries the
-    // state but no label, so a screen reader can never hear both together.
-    return MergeSemantics(
-      child: Material(
-        color: AppColors.surfaceVariant.withValues(alpha: 0.72),
-        borderRadius: BorderRadius.circular(18),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(18),
-          onTap: () => onChanged(!value),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 72),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.lg,
-                vertical: AppSpacing.md,
-              ),
-              child: Row(
-                children: [
-                  _ModalIconBadge(icon: icon),
-                  const SizedBox(width: AppSpacing.md),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          label,
-                          style: AppTypography.bodyMedium.copyWith(
-                            color: AppColors.textPrimary,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          description,
-                          style: AppTypography.bodySmall.copyWith(
-                            color: AppColors.textSecondary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Switch.adaptive(value: value, onChanged: onChanged),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _ModalIconBadge extends StatelessWidget {
-  final IconData icon;
-
-  const _ModalIconBadge({required this.icon});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 42,
-      height: 42,
-      decoration: BoxDecoration(
-        gradient: AppColors.primaryGradient,
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.22),
-            blurRadius: 14,
-            offset: const Offset(0, 6),
-          ),
-        ],
-      ),
-      child: Icon(icon, color: Colors.white, size: 22),
-    );
-  }
+      );
 }
 
 class _ViewerOverflowMenu extends StatelessWidget {
@@ -755,190 +548,21 @@ class _ViewerOverflowMenu extends StatelessWidget {
   }
 }
 
-class FloatingActionButtonWidget extends StatefulWidget {
-  final IconData icon;
-  final String tooltip;
-  final String? semanticHint;
-  final VoidCallback? onPressed;
-  final VoidCallback? onLongPress;
-  final bool isPrimary;
+/// Compatibility name for viewer callers; input and painting are shared.
+class FloatingActionButtonWidget extends AppToolButton {
   final bool isCompact;
-  final bool? selected;
-  final Duration delay;
-  final double? sortOrder;
 
   const FloatingActionButtonWidget({
     super.key,
-    required this.icon,
-    required this.tooltip,
-    this.semanticHint,
-    this.onPressed,
-    this.onLongPress,
-    this.isPrimary = false,
+    required super.icon,
+    required super.tooltip,
+    super.semanticHint,
+    super.onPressed,
+    super.onLongPress,
+    super.isPrimary,
     this.isCompact = false,
-    this.selected,
-    this.delay = Duration.zero,
-    this.sortOrder,
+    super.selected,
+    super.delay,
+    super.sortOrder,
   });
-
-  @override
-  State<FloatingActionButtonWidget> createState() =>
-      _FloatingActionButtonWidgetState();
-}
-
-/// Keyboard-only alternate activation for a [FloatingActionButtonWidget]'s
-/// long-press secondary action (mirrors Shift+Click conventions).
-class _LongPressActivateIntent extends Intent {
-  const _LongPressActivateIntent();
-}
-
-class _FloatingActionButtonWidgetState extends State<FloatingActionButtonWidget>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
-  bool _isPressed = false;
-  bool _isFocused = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: AppAnimations.fast,
-      vsync: this,
-    );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
-      CurvedAnimation(parent: _controller, curve: AppAnimations.snappyCurve),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // Check for reduced motion preference
-    final reduceMotion = MediaQuery.of(context).disableAnimations ||
-        (context.read<AccessibilityService?>()?.reducedMotionEnabled ?? false);
-    // Every FAB goes inert while an export runs. Without a visual cue the
-    // column looks identical to its live state, so taps land on nothing with
-    // no feedback at all (no press animation, no haptic, no action).
-    final isDisabled = widget.onPressed == null && widget.onLongPress == null;
-    final semanticHint = widget.semanticHint ??
-        (widget.onLongPress == null
-            ? null
-            : AppLocalizations.of(context)!.viewerSecondaryActionHint);
-
-    final button = FadeIn(
-      delay: reduceMotion ? Duration.zero : widget.delay,
-      // Own the complete accessibility contract here. Excluding descendant
-      // gesture semantics prevents a second, unlabelled focus stop and keeps
-      // the localized secondary-action hint on the actionable node.
-      child: MergeSemantics(
-        child: Semantics(
-          excludeSemantics: true,
-          label: widget.tooltip,
-          hint: semanticHint,
-          sortKey: widget.sortOrder == null
-              ? null
-              : OrdinalSortKey(widget.sortOrder!),
-          button: true,
-          selected: widget.selected,
-          enabled: widget.onPressed != null,
-          onTap: widget.onPressed,
-          onLongPress: widget.onLongPress,
-          child: Tooltip(
-            message: widget.tooltip,
-            child: FocusableActionDetector(
-              enabled: widget.onPressed != null || widget.onLongPress != null,
-              onShowFocusHighlight: (focused) {
-                if (_isFocused == focused) return;
-                setState(() => _isFocused = focused);
-              },
-              shortcuts: const {
-                SingleActivator(LogicalKeyboardKey.enter): ActivateIntent(),
-                SingleActivator(LogicalKeyboardKey.space): ActivateIntent(),
-                SingleActivator(LogicalKeyboardKey.enter, shift: true):
-                    _LongPressActivateIntent(),
-              },
-              actions: {
-                ActivateIntent: CallbackAction<ActivateIntent>(
-                  onInvoke: (_) {
-                    widget.onPressed?.call();
-                    return null;
-                  },
-                ),
-                _LongPressActivateIntent:
-                    CallbackAction<_LongPressActivateIntent>(
-                  onInvoke: (_) {
-                    widget.onLongPress?.call();
-                    return null;
-                  },
-                ),
-              },
-              child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTapDown: widget.onPressed != null
-                    ? (_) {
-                        // Reduced motion suppresses the press animation only.
-                        // Haptics are a separate preference and the only
-                        // non-visual confirmation that the tap registered.
-                        HapticService.medium();
-                        if (reduceMotion) return;
-                        setState(() => _isPressed = true);
-                        _controller.forward();
-                      }
-                    : null,
-                onTapUp: widget.onPressed != null
-                    ? (_) {
-                        setState(() => _isPressed = false);
-                        _controller.reverse();
-                      }
-                    : null,
-                onTapCancel: widget.onPressed != null
-                    ? () {
-                        setState(() => _isPressed = false);
-                        _controller.reverse();
-                      }
-                    : null,
-                onTap: widget.onPressed,
-                onLongPress: widget.onLongPress,
-                child: _buildDimmedIfDisabled(
-                  isDisabled,
-                  reduceMotion
-                      ? _buildButtonContent()
-                      : ScaleTransition(
-                          scale: _scaleAnimation,
-                          child: _buildButtonContent(),
-                        ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-    final sortOrder = widget.sortOrder;
-    if (sortOrder == null) return button;
-    return FocusTraversalOrder(
-      order: NumericFocusOrder(sortOrder),
-      child: button,
-    );
-  }
-
-  /// Material's standard 38% disabled opacity, applied only when the button
-  /// has no action left so enabled buttons keep a compositing-free paint path.
-  Widget _buildDimmedIfDisabled(bool isDisabled, Widget content) {
-    if (!isDisabled) return content;
-    return Opacity(opacity: 0.38, child: content);
-  }
-
-  Widget _buildButtonContent() => CircularToolSurface(
-        icon: widget.icon,
-        selected: widget.isPrimary || widget.selected == true,
-        pressed: _isPressed,
-        focused: _isFocused,
-      );
 }
