@@ -1,0 +1,1 @@
+Fix Fibonacci offscreen PNG rendering and add Linux/Chromium save, reopen and export coverage. Stabilize rescan retry checks and independently audit seven alternate presets.
