@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
@@ -83,6 +84,64 @@ void main() {
     });
   }
 
+  testWidgets('Android copies the labelled AI report directly from its preview',
+      (tester) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
+    addTearDown(() => debugDefaultTargetPlatformOverride = null);
+    String? clipboard;
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      SystemChannels.platform,
+      (call) async {
+        if (call.method == 'Clipboard.setData') {
+          clipboard = (call.arguments as Map)['text'] as String;
+        }
+        return null;
+      },
+    );
+    addTearDown(() => tester.binding.defaultBinaryMessenger
+        .setMockMethodCallHandler(SystemChannels.platform, null));
+    final settings = await RendererSettingsService.create();
+    addTearDown(settings.dispose);
+    await settings.setDebugModeEnabled(true);
+    await pumpScreen(tester,
+        const FractalViewerScreen(restoreViewerSession: false), settings);
+    final report = find.byKey(const ValueKey('viewerReportFractalFab'));
+    final controller = tester.element(report).read<FractalController>();
+    final originalZoom = controller.view.zoom;
+    await tester.tap(report);
+    await tester.pumpAndSettle();
+    final copy = find.widgetWithText(FilledButton, 'Copy');
+    expect(copy, findsOneWidget);
+    expect(find.text('Save report'), findsNothing);
+    expect(tester.widget<FilledButton>(copy).onPressed, isNull);
+    controller.updateZoom(originalZoom * 2);
+    await tester.enterText(find.byType(TextField), 'Improve deep zoom detail');
+    final tag = find.text('Weak deep zoom');
+    await tester.ensureVisible(tag);
+    await tester.tap(tag);
+    await tester.pumpAndSettle();
+    final preview = find.byKey(const Key('fractalReportPreview'));
+    final text = tester.widget<SelectableText>(preview).data!;
+    expect(text, contains('fix or improve'));
+    expect(text, contains('mandelbrot'));
+    expect(text, contains('Weak deep zoom'));
+    expect(text, contains('Improve deep zoom detail'));
+    expect(text, contains('rendererStatus'));
+    expect(text, contains('"zoom": $originalZoom'));
+    expect(controller.view.zoom, originalZoom * 2);
+    await tester.tap(tag);
+    await tester.pumpAndSettle();
+    expect(tester.widget<FilledButton>(copy).onPressed, isNull);
+    await tester.tap(tag);
+    await tester.pumpAndSettle();
+    await tester.tap(copy);
+    await tester.pumpAndSettle();
+    expect(clipboard, text);
+    expect(find.byType(TextField), findsNothing);
+    expect(find.text('Copy report JSON'), findsNothing);
+    debugDefaultTargetPlatformOverride = null;
+  });
+
   testWidgets('Linux keeps its report action with debug mode off',
       (tester) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.linux;
@@ -91,8 +150,14 @@ void main() {
     addTearDown(settings.dispose);
     await pumpScreen(tester,
         const FractalViewerScreen(restoreViewerSession: false), settings);
-    expect(
-        find.byKey(const ValueKey('viewerReportFractalFab')), findsOneWidget);
+    final report = find.byKey(const ValueKey('viewerReportFractalFab'));
+    expect(report, findsOneWidget);
+    await tester.tap(report);
+    await tester.pumpAndSettle();
+    expect(find.widgetWithText(FilledButton, 'Save report'), findsOneWidget);
+    expect(find.byKey(const Key('fractalReportPreview')), findsNothing);
+    Navigator.of(tester.element(find.byType(TextField))).pop();
+    await tester.pumpAndSettle();
     debugDefaultTargetPlatformOverride = null;
   });
 }

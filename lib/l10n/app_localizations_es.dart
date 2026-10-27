@@ -2251,6 +2251,20 @@ class AppLocalizationsEs extends AppLocalizations {
   String get reportDialogNotesHint => 'Detalles opcionales para la corrección';
 
   @override
+  String get reportDialogCopyHint =>
+      'Selecciona etiquetas y añade notas; después copia el informe para un agente de programación con IA. No se envía nada automáticamente.';
+
+  @override
+  String get reportDialogPreview => 'Vista previa del informe';
+
+  @override
+  String get reportDialogCopiedText => 'Informe copiado';
+
+  @override
+  String get reportDialogAiInstructions =>
+      'Investiga y corrige o mejora este fractal en Flutter Fractal Forge según las etiquetas y notas seleccionadas. Usa el enlace de reproducción y los parámetros y la vista capturados para reproducirlo. El estado del renderizador describe el motor seleccionado, no una medición de rendimiento. Identifica la causa, realiza un cambio acotado y verifícalo con pruebas y comprobaciones de renderizado pertinentes.';
+
+  @override
   String get reportDialogSave => 'Guardar informe';
 
   @override
