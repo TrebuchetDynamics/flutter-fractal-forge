@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_fractals/core/modules/burning_ship_degrees.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/services/storage/preset_storage_slot.dart';
 
@@ -13,7 +14,13 @@ class PresetStore {
   }
 
   Future<List<FractalPreset>> loadUserPresets(String moduleId) async {
-    return _loadSlot(PresetStorageSlot(moduleId));
+    return [
+      ..._loadSlot(PresetStorageSlot(moduleId)),
+      // Keep original slot ownership so rename/delete remain lossless.
+      if (moduleId == 'burning_ship')
+        for (final legacyId in burningShipDegrees.keys)
+          ..._loadSlot(PresetStorageSlot(legacyId)),
+    ];
   }
 
   Future<void> saveUserPreset(FractalPreset preset) async {

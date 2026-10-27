@@ -344,7 +344,24 @@ bool hasCuratedCpuFormula(String moduleId) =>
 ///
 /// If no explicit implementation exists, returns a deterministic synthetic
 /// fallback keyed by module id (instead of silently reusing Mandelbrot).
-CpuFormula cpuFormulaForModuleId(String moduleId) {
+CpuFormula cpuFormulaForModuleId(String moduleId, {double power = 2}) {
+  if (moduleId == 'burning_ship' && power != 2) {
+    final degree = power.isFinite ? power.abs().clamp(0.5, 16.0) : 2.0;
+    return (x, y, iterations, bailout, juliaC) {
+      final c = cpuBurningShipParameterPlanePoint(x, y);
+      return escapeTime(c.x, c.y, iterations, bailout, (zx, zy, cx, cy) {
+        final ax = zx.abs();
+        final ay = zy.abs();
+        final radius = math.max(math.sqrt(ax * ax + ay * ay), 1e-12);
+        final angle = degree * math.atan2(ay, ax);
+        final magnitude = math.pow(radius, degree);
+        return (
+          magnitude * math.cos(angle) + cx,
+          magnitude * math.sin(angle) + cy
+        );
+      }, power: degree);
+    };
+  }
   if (moduleId == 'milnor_brieskorn') {
     throw UnsupportedError(
         'Milnor — Brieskorn Orbit requires its shader; no CPU substitute is supported.');

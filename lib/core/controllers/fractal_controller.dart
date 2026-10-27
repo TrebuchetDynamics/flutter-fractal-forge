@@ -9,6 +9,7 @@ import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/models/number_wall_model.dart';
 import 'package:flutter_fractals/core/modules/fractals/number_wall_frame.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/modules/burning_ship_degrees.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/diagnostics/test_logger.dart';
 import 'package:flutter_fractals/core/controllers/state/fractal_controller_snapshots.dart';
@@ -320,6 +321,28 @@ class FractalController extends ChangeNotifier {
     bool resetView = false,
     Map<String, Object> initialParams = const {},
   }) {
+    if (burningShipDegrees[module.id] case final power?) {
+      _paramLerpTimer?.cancel();
+      cancelNumberWallRequest();
+      final previousId = _module.id;
+      _numberWallStatus = null;
+      runWithoutNotifications(() => _commitLoadedState(
+            module: registry.byId('burning_ship'),
+            params: {
+              ...module.defaultPreset.params,
+              'power': power,
+              ...initialParams
+            },
+            view: burningShipDegreeView(module.id, module.defaultPreset.view),
+            transparentBackground: _transparentBackground,
+            animateModule: false,
+          ));
+      if (animate && previousId != _module.id) {
+        _startMorphTransition(previousId);
+      }
+      notifyListeners();
+      return;
+    }
     cancelNumberWallRequest();
     _paramLerpTimer?.cancel();
     if (module.id == 'number_wall') {
@@ -483,7 +506,17 @@ class FractalController extends ChangeNotifier {
       return;
     }
     cancelNumberWallRequest();
-    _applyPreset(preset);
+    if (burningShipDegrees[preset.moduleId] case final power?) {
+      _module = registry.byId('burning_ship');
+      _applyPreset(preset.copyWith(
+        moduleId: 'burning_ship',
+        params: {'power': power, ...preset.params},
+        view: burningShipDegreeView(preset.moduleId, preset.view),
+      ));
+      _applyKaleidoscopeModulePolicy(_module.id);
+    } else {
+      _applyPreset(preset);
+    }
     notifyListeners();
     _logChange('stateChange', 'presetApply', 'Applied preset ${preset.name}');
   }
@@ -1145,13 +1178,18 @@ class FractalController extends ChangeNotifier {
   }) async {
     if (!(shouldCommit?.call() ?? true)) return false;
     _paramLerpTimer?.cancel();
-    final targetModule = module ??
+    var targetModule = module ??
         (moduleId == null
             ? _module
             : registry.modules.firstWhere(
                 (candidate) => candidate.id == moduleId,
                 orElse: () => _module,
               ));
+    if (burningShipDegrees[targetModule.id] case final power?) {
+      params = {'power': power, ...params};
+      view = burningShipDegreeView(targetModule.id, view);
+      targetModule = registry.byId('burning_ship');
+    }
     if (targetModule.id == 'number_wall') {
       final generation = ++_numberWallIngressGeneration;
       final status = await _loadNumberWallState(

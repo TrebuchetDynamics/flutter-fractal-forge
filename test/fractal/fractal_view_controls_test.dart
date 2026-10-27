@@ -163,7 +163,7 @@ void main() {
         final menu = find.byKey(const ValueKey('viewerOverflowMenu'));
         final popup = tester.widget<PopupMenuButton<String>>(menu);
         expect(popup.style?.shape?.resolve({}), isA<CircleBorder>());
-        expect(popup.style?.backgroundColor?.resolve({}), AppColors.surface);
+        expect(popup.style?.backgroundColor?.resolve({}), Colors.transparent);
         expect(popup.style?.foregroundColor?.resolve({}), Colors.white);
         expect(
           popup.style?.side?.resolve({WidgetState.focused})?.color,
@@ -275,10 +275,10 @@ void main() {
       'viewerColorCycleButton',
       'viewerRandomFractalFab',
       'viewerLooperFab',
-      'viewerFractalMusicFab',
       'viewerKaleidoscopeFab',
-      'viewerTextOverlayFab',
       'viewerFourierFab',
+      'viewerTextOverlayFab',
+      'viewerFractalMusicFab',
       'viewerExportButton',
       'viewerFullscreenButton',
       'viewerReportFractalFab',
@@ -653,10 +653,10 @@ void main() {
       'viewerColorCycleButton',
       'viewerRandomFractalFab',
       'viewerLooperFab',
-      'viewerFractalMusicFab',
       'viewerKaleidoscopeFab',
-      'viewerTextOverlayFab',
       'viewerFourierFab',
+      'viewerTextOverlayFab',
+      'viewerFractalMusicFab',
       'viewerExportButton',
       'viewerFullscreenButton',
     ]) {

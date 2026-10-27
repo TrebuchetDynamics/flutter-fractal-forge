@@ -215,6 +215,7 @@ class PrecisionLadderPolicy {
     required FractalDimension dimension,
     required double zoom,
     bool cpuFallbackActive = true,
+    double power = 2,
   }) {
     if (dimension != FractalDimension.twoD) {
       return PrecisionLadderDecision(
@@ -227,7 +228,9 @@ class PrecisionLadderPolicy {
       );
     }
 
-    if (_shouldUsePerturbationGpu(moduleId: moduleId, zoom: zoom)) {
+    // The Burning Ship perturbation recurrence is quadratic only.
+    if ((moduleId != 'burning_ship' || power == 2) &&
+        _shouldUsePerturbationGpu(moduleId: moduleId, zoom: zoom)) {
       return PrecisionLadderDecision(
         moduleId: moduleId,
         dimension: dimension,
@@ -392,11 +395,13 @@ class PrecisionLadderHysteresis {
     required String moduleId,
     required FractalDimension dimension,
     required double zoom,
+    double power = 2,
   }) {
     final candidate = policy.decide(
       moduleId: moduleId,
       dimension: dimension,
       zoom: zoom,
+      power: power,
     );
 
     _state = _state.next(
@@ -410,6 +415,7 @@ class PrecisionLadderHysteresis {
       dimension: dimension,
       zoom: zoom,
       cpuFallbackActive: _state.cpuActive,
+      power: power,
     );
   }
 

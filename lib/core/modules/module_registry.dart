@@ -1,4 +1,5 @@
 import 'builders/fibonacci_complex_module.dart';
+import 'burning_ship_degrees.dart';
 import 'fractals/perron_tree_module.dart';
 import 'fractals/milnor_brieskorn_module.dart';
 import 'package:flutter/foundation.dart';
@@ -202,7 +203,14 @@ class ModuleRegistry {
     result.addAll(diagModules);
     // Keep later modules when ids collide so purpose-built 3D catalog entries
     // can replace older placeholder escape-time variants with the same id.
-    return _dedupeById(result, preferLast: true);
+    final modules = _dedupeById(result, preferLast: true);
+    return [
+      for (final module in modules)
+        if (module.id == 'burning_ship')
+          withBurningShipDegreePresets(module, modules)
+        else
+          module,
+    ];
   }
 
   static List<FractalModule> _dedupeById(
