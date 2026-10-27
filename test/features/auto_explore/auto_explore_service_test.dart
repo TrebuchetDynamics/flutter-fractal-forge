@@ -368,17 +368,21 @@ void main() {
       addTearDown(service.dispose);
       addTearDown(controller.dispose);
 
+      final firstLeg = nextZoomChange(controller);
       service.start();
-      await Future<void>.delayed(Duration.zero);
-      await Future<void>.delayed(const Duration(milliseconds: 20));
+      expect(await firstLeg, 120.0);
 
-      expect(controller.view.zoom, 120.0);
-
+      var notifications = 0;
+      service.addListener(() => notifications++);
+      final nextLeg = nextZoomChange(controller);
       service.onUserInteractionEnd();
-      await Future<void>.delayed(Duration.zero);
-      await Future<void>.delayed(const Duration(milliseconds: 20));
-
-      expect(controller.view.zoom, AutoExploreConfig.defaultMinZoom);
+      expect(notifications, 0,
+          reason:
+              'an unmatched end must not adopt or restart the current view');
+      expect(controller.view.zoom, 120.0);
+      // Observe the next changed zoom, not whichever leg a wall-clock sleep
+      // happens to sample while the continuous animation is looping.
+      expect(await nextLeg, AutoExploreConfig.defaultMinZoom);
     });
   });
 
