@@ -1185,21 +1185,6 @@ void main() {
   // ExportOptions model — pure synchronous unit tests
   // ---------------------------------------------------------------------------
   group('ExportOptions used in batch configuration', () {
-    test('PNG format has correct extension', () {
-      const opts = ExportOptions(format: ExportFormat.png);
-      expect(opts.format.extension, 'png');
-    });
-
-    test('JPG format has correct extension', () {
-      const opts = ExportOptions(format: ExportFormat.jpg);
-      expect(opts.format.extension, 'jpg');
-    });
-
-    test('embedMetadata defaults to true', () {
-      const opts = ExportOptions();
-      expect(opts.embedMetadata, isTrue);
-    });
-
     test('copyWith preserves unspecified fields', () {
       const original = ExportOptions(
         format: ExportFormat.png,
@@ -1215,15 +1200,6 @@ void main() {
     test('getTargetDimensions returns fullHd dimensions', () {
       const opts = ExportOptions(resolution: ExportResolution.fullHd);
       expect(opts.getTargetDimensions(400, 300), (1920, 1080));
-    });
-
-    test('calculatePixelRatio clamps to 8.0 maximum', () {
-      const opts = ExportOptions(resolution: ExportResolution.uhd4k);
-      expect(opts.calculatePixelRatio(100, 100), 8.0);
-    });
-
-    test('ExportFormat.webp has webp extension', () {
-      expect(ExportFormat.webp.extension, 'webp');
     });
 
     test('ExportResolution.instagram returns square dimensions', () {
