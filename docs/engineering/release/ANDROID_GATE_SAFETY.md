@@ -52,6 +52,35 @@ unavailable or busy, record the actual access/contention issue; do not reopen th
 settled device-choice question. The gate does not back up/restore personal data or
 claim release-signature qualification.
 
+## Interaction-soak input boundary
+
+The [gate's `run_device_soak`](../../../scripts/pre-release-gate.sh) disables
+Monkey's random system/navigation keys, app switches, flips and catch-all
+`--pct-anyevent` category. The [ACAD-013 recovery record](../../../tasks/items/ACAD-013-4142ef42.md)
+reports that Android 13's catch-all generated arbitrary system/window keys despite
+the other exclusions, triggering a Waydroid launcher freeform-window exception.
+Arbitrary-key coverage is deliberately excluded from this app-interaction soak.
+The deterministic lifecycle/navigation gates remain required. Real execution and
+the dry-run plan use the same input boundary.
+
+The approved default is **300 seconds (five minutes)**. Use `--soak-seconds 1800`
+when a run requires the previous thirty-minute duration. Five minutes gives less
+evidence for slow memory leaks; it does not satisfy an explicit 1,800-second check.
+The gate still requires the configured wall-clock duration, zero crash/ANR markers,
+60-second sampling, at least two PSS samples, and the existing PSS, jank and thermal
+limits. The [executable safety regression](../../../test/scripts/test_pre_release_gate_safety.py)
+covers both duration selections and rejection of a fast, empty soak. The
+[dry-run regression](../../../test/scripts/pre_release_gate.bats) checks the input
+exclusions. These tests are not live-device evidence.
+
+For a recovery rerun, record the current serial/model/boot state and installed APK
+identity before comparing results. A different APK, even with the same version,
+is not the preserved candidate. Keep the original failed outcome and its evidence;
+a focused installed-candidate soak does not supersede a failed campaign or prove
+a complete release-gate pass. If historical raw logs are unavailable, label the
+old result as reported history, not freshly verified evidence. Do not reset the
+container or stop another worker's Monkey process to obtain a clean result.
+
 ## Inspection versus qualification
 
 `--help` and `--dry-run` execute no Flutter/ADB/device commands and create no
