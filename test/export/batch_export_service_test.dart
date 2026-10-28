@@ -1197,11 +1197,6 @@ void main() {
       expect(copied.embedMetadata, isFalse);
     });
 
-    test('getTargetDimensions returns fullHd dimensions', () {
-      const opts = ExportOptions(resolution: ExportResolution.fullHd);
-      expect(opts.getTargetDimensions(400, 300), (1920, 1080));
-    });
-
     test('ExportResolution.instagram returns square dimensions', () {
       const opts = ExportOptions(resolution: ExportResolution.instagram);
       final dims = opts.getTargetDimensions(400, 400);

@@ -6,6 +6,7 @@ plain subprocess.run timeout. Existing release HTTP servers are not owned here.
 """
 import argparse
 import ctypes
+import json
 import os
 from pathlib import Path
 import signal
@@ -19,7 +20,18 @@ def snapshot():
     for path in Path('/proc').glob('[0-9]*/stat'):
         try:
             fields = path.read_text().rsplit(')', 1)[1].split()
-            result[int(path.parent.name)] = (int(fields[1]), fields[19])
+            exited = False
+            if fields[0] == 'Z':
+                # A zombie thread-group leader can still have live workers.
+                # Incomplete task reads must not establish whole-process exit.
+                try:
+                    tasks = list((path.parent / 'task').iterdir())
+                    exited = bool(tasks) and all(
+                        (task / 'stat').read_text().rsplit(')', 1)[1].split()[0] == 'Z'
+                        for task in tasks)
+                except (OSError, ValueError, IndexError):
+                    pass
+            result[int(path.parent.name)] = (int(fields[1]), fields[19], fields[0], exited)
         except (OSError, ValueError, IndexError):
             pass
     return result
@@ -29,7 +41,7 @@ def descendants(rows, excluded):
     parents = {os.getpid()}
     found = {}
     while True:
-        added = {pid: start for pid, (ppid, start) in rows.items()
+        added = {pid: start for pid, (ppid, start, state, exited) in rows.items()
                  if ppid in parents and pid not in excluded and pid not in found}
         if not added:
             return found
@@ -83,7 +95,18 @@ def main():
         if process is not None:
             rows = snapshot()
             owned.update(descendants(rows, baseline))
-            leaked = any(pid in rows and rows[pid][1] == start for pid, start in owned.items())
+            exit_descendants = [
+                {'pid': pid, 'ppid': rows[pid][0], 'start': start,
+                 'state': rows[pid][2], 'exited': rows[pid][3]}
+                for pid, start in owned.items() if pid in rows and rows[pid][1] == start
+            ]
+            print('Release command exit descendants: ' + json.dumps({
+                'command_exit': process.returncode, 'selected_exit': code,
+                'owned': exit_descendants,
+            }, sort_keys=True), file=sys.stderr)
+            # Fully exited children adopted by our subreaper still need
+            # waitpid, but cannot run or hold listeners. Live threads are leaks.
+            leaked = any(not child['exited'] for child in exit_descendants)
             for sig in (signal.SIGTERM, signal.SIGKILL):
                 deadline = time.monotonic() + 5
                 signalled = set()

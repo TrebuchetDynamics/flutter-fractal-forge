@@ -104,7 +104,10 @@ async function decodedPngPixels(page, bytes) {
 async function openCatalogExample(page, example) {
   await page.getByRole('button', { name: /^all dimensions$|^2D$|^3D$/i }).click();
   await page.getByRole('menuitemcheckbox', { name: new RegExp(`^${example.dimension} ·`) }).click();
-  const search = page.getByRole('textbox', { name: /^Name, formula or family$/i });
+  // Flutter exposes the hint as the editable input's name only while empty.
+  // After returning from a viewer the retained query has no hint/name; the
+  // separately labelled semantics wrapper is not the editable DOM control.
+  const search = page.getByRole('textbox', { disabled: false });
   await expect(search).toBeVisible();
   await search.click();
   await expect(search).toBeFocused();
