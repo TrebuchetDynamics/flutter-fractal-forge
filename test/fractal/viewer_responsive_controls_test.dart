@@ -296,6 +296,51 @@ void main() {
     }
   }
 
+  for (final height in [240.0, 312.0, 360.0, 480.0, 568.0]) {
+    for (final scale in [1.0, 2.0, 3.0]) {
+      for (final locale in const [Locale('en'), Locale('es')]) {
+        testWidgets(
+            'More boundary height=$height scale=$scale ${locale.languageCode}',
+            (tester) async {
+          await open(tester,
+              size: Size(320, height),
+              more: true,
+              scale: scale,
+              large: true,
+              locale: locale);
+          final sheet = find.byType(BottomSheet);
+          final actions = find
+              .descendant(
+                  of: sheet, matching: find.byType(FloatingActionButtonWidget))
+              .evaluate()
+              .map((element) => element.widget.key!)
+              .toList();
+          expect(actions.length, greaterThanOrEqualTo(19));
+          for (final key in actions) {
+            final action = find.byKey(key);
+            await reveal(tester, action);
+            final viewport = find
+                .ancestor(
+                    of: action, matching: find.byType(SingleChildScrollView))
+                .first;
+            final bounds = tester.getRect(action);
+            final visible = tester.getRect(viewport);
+            expect(bounds.height, greaterThanOrEqualTo(56));
+            expect(bounds.left, greaterThanOrEqualTo(visible.left));
+            expect(bounds.right, lessThanOrEqualTo(visible.right));
+            expect(bounds.top, greaterThanOrEqualTo(visible.top - .01),
+                reason: '$key $bounds viewport=$visible');
+            expect(bounds.bottom, lessThanOrEqualTo(visible.bottom + .01),
+                reason: '$key $bounds viewport=$visible');
+            expect(bounds.bottom, lessThanOrEqualTo(height - 48));
+            expect(action.hitTestable(), findsOneWidget);
+          }
+          expect(tester.takeException(), isNull);
+        });
+      }
+    }
+  }
+
   for (final size in [const Size(360, 780), const Size(320, 200)]) {
     for (final left in [true, false]) {
       for (final consumed in [false, true]) {

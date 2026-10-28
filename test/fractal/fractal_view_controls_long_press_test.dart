@@ -281,6 +281,8 @@ void main() {
       // Long press must not navigate away from More or add a sheet.
       expect(find.byType(BottomSheet), findsOneWidget, reason: key);
       expect(find.text('Viewer actions'), findsOneWidget, reason: key);
+      await tester.ensureVisible(find.byTooltip('Close'));
+      await tester.pumpAndSettle();
       await tester.tap(find.byTooltip('Close'));
       await tester.pumpAndSettle();
     }

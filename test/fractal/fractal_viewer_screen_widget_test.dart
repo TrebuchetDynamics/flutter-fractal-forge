@@ -814,12 +814,15 @@ void main() {
                     expect(actionRect.bottom,
                         lessThanOrEqualTo(size.height - padding.bottom),
                         reason: '$action bottom safe bound');
-                    expect(rect.overlaps(actionRect), isFalse,
+                    expect(tester.getRect(back).overlaps(actionRect), isFalse,
                         reason: 'Back overlaps $action');
-                    expect(titleRect.overlaps(actionRect), isFalse,
+                    expect(
+                        tester.getRect(titleChip).overlaps(actionRect), isFalse,
                         reason: 'Title overlaps $action');
                   }
                   expect(tester.takeException(), isNull);
+                  await tester.ensureVisible(back);
+                  await tester.pumpAndSettle();
                   await tester.tap(back);
                   await tester.pumpAndSettle();
                   expect(find.text('Catalog route'), findsOneWidget);

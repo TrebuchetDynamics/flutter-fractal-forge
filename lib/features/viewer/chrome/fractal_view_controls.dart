@@ -128,8 +128,37 @@ class FractalViewControls extends StatelessWidget {
                   // A caption stack cannot fit a short landscape viewport.
                   // Use full-width labeled rows so each whole target can scroll
                   // into view without entering the header or system bars.
-                  final compact =
-                      compactViewport || constraints.maxHeight < 112;
+                  final innerWidth = constraints.maxWidth - 16;
+                  final normalColumns =
+                      innerWidth >= 280 && mq.textScaler.scale(14) < 21 ? 4 : 2;
+                  final target = AccessibleSizing.touchTargetSize(
+                      largeTargets: context
+                              .watch<AccessibilityService?>()
+                              ?.largeTargetsEnabled ??
+                          false);
+                  final labelStyle = Theme.of(context).textTheme.labelMedium!;
+                  final visualInsets =
+                      16 + 2 * AccessibleSizing.focusIndicatorWidth;
+                  var normalCellHeight = target;
+                  for (final label in [
+                    l10n.controlsTitle,
+                    l10n.hudPalette,
+                    l10n.navDockRandom,
+                    l10n.viewerMoreTools,
+                  ]) {
+                    final painter = TextPainter(
+                      text: TextSpan(text: label, style: labelStyle),
+                      textDirection: Directionality.of(context),
+                      textScaler: mq.textScaler,
+                    )..layout(
+                        maxWidth: math.max(
+                            1, innerWidth / normalColumns - visualInsets));
+                    normalCellHeight = math.max(
+                        normalCellHeight, painter.height + 24 + visualInsets);
+                    painter.dispose();
+                  }
+                  final compact = compactViewport ||
+                      constraints.maxHeight - 16 < normalCellHeight;
                   final buttons = <Widget>[
                     _ViewerTool(
                       toolKey: const ValueKey('viewerControlsButton'),
@@ -138,6 +167,7 @@ class FractalViewControls extends StatelessWidget {
                       onPressed: isExporting ? null : actions.openControls,
                       row: compact,
                       compact: compact,
+                      dense: compact,
                       sortOrder: 0,
                     ),
                     _ViewerTool(
@@ -147,6 +177,7 @@ class FractalViewControls extends StatelessWidget {
                       onPressed: isExporting ? null : actions.openPalettePicker,
                       row: compact,
                       compact: compact,
+                      dense: compact,
                       sortOrder: 1,
                     ),
                     _ViewerTool(
@@ -159,6 +190,7 @@ class FractalViewControls extends StatelessWidget {
                           : () => _showRandomOptionsModal(context),
                       row: compact,
                       compact: compact,
+                      dense: compact,
                       sortOrder: 2,
                     ),
                     SizedBox(
@@ -171,16 +203,12 @@ class FractalViewControls extends StatelessWidget {
                             isExporting ? null : () => _showMore(context),
                         row: compact,
                         compact: compact,
+                        dense: compact,
                         sortOrder: 3,
                       ),
                     ),
                   ];
-                  final innerWidth = constraints.maxWidth - 16;
-                  final columns = compact
-                      ? 1
-                      : innerWidth >= 280 && mq.textScaler.scale(14) < 21
-                          ? 4
-                          : 2;
+                  final columns = compact ? 1 : normalColumns;
                   return SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.all(8),
@@ -226,9 +254,11 @@ class FractalViewControls extends StatelessWidget {
                   media.systemGestureInsets.bottom) +
               media.viewInsets.bottom,
         );
-        // Use actual route space: fixed sheet chrome must not consume the
-        // viewport needed by a complete action. Normal phone sheets stay as-is.
-        final short = constraints.maxHeight - insets.bottom < 240;
+        // Larger text can starve the fixed-header viewport even just above
+        // the short-height breakpoint. Keep header and actions in one scroll
+        // region for scaled text; default-size normal phone sheets stay as-is.
+        final short = constraints.maxHeight - insets.bottom < 240 ||
+            media.textScaler.scale(14) > 14;
         return ChangeNotifierProvider<AutoExploreService?>.value(
           value: explore,
           child: Builder(builder: (context) {
@@ -419,12 +449,8 @@ class FractalViewControls extends StatelessWidget {
                           actions.reportFractal),
                   ]),
             );
-            if (!short)
-              return AppOptionsSheet(
-                icon: Icons.more_horiz_rounded,
-                title: l10n.viewerActionsMenu,
-                child: content,
-              );
+            // One scrolling frame avoids a fixed-header breakpoint starving
+            // actions when a slightly taller window switches presentation.
             return Material(
               color: Theme.of(context).colorScheme.surface,
               borderRadius:
@@ -440,7 +466,10 @@ class FractalViewControls extends StatelessWidget {
                     children: [
                       Row(children: [
                         Expanded(
-                            child: Text(l10n.viewerMoreTools,
+                            child: Text(
+                                short
+                                    ? l10n.viewerMoreTools
+                                    : l10n.viewerActionsMenu,
                                 semanticsLabel: l10n.viewerActionsMenu,
                                 style: Theme.of(context).textTheme.titleSmall)),
                         AppToolButton(

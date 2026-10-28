@@ -1705,9 +1705,19 @@ class _FractalViewerScreenState extends FractalViewerRouteState
               // A fixed title plus toolbar spacers can leave less than one
               // whole target. Let the title scroll away in that case; preserve
               // the normal phone's separate header and four-primary card.
+              final compactRowHeight = math.max(
+                  hudTarget,
+                  media.textScaler.scale(Theme.of(context)
+                                  .textTheme
+                                  .labelMedium
+                                  ?.fontSize ??
+                              12) *
+                          1.1 *
+                          2 +
+                      2 * AccessibleSizing.focusIndicatorWidth);
               final scrollChrome =
                   constraints.maxHeight - overlayTop - safeInsets.bottom - 24 <
-                      hudTarget;
+                      compactRowHeight + 16;
               final chromeHeader = _viewerBuildChromeHeader(
                 context, controller,
                 showTitle: _showCoreViewerChrome,
