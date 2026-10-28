@@ -273,6 +273,8 @@ run_device_soak() {
   # Lifecycle restoration is covered deterministically above; exclude random
   # navigation/app switches here so the interaction soak cannot repeatedly tear
   # down the EGL surface and trip vendor-driver bugs instead of app behavior.
+  # The any-event category can still inject arbitrary system/window keys even
+  # with syskeys/nav disabled, so exclude it from this app-interaction soak too.
   # A 500 ms interval keeps the sample representative without turning every
   # raster frame into a synthetic interaction burst on mobile GPUs.
   local events=$((SOAK_SECONDS * 100))
@@ -280,7 +282,7 @@ run_device_soak() {
     print_command timeout --signal=INT --kill-after=10 "${SOAK_SECONDS}s" \
       adb -s "$DEVICE" shell monkey -p "$PACKAGE" \
       --pct-syskeys 0 --pct-nav 0 --pct-majornav 0 --pct-appswitch 0 \
-      --pct-flip 0 --throttle 500 --ignore-crashes --ignore-timeouts "$events"
+      --pct-flip 0 --pct-anyevent 0 --throttle 500 --ignore-crashes --ignore-timeouts "$events"
     print_command adb -s "$DEVICE" shell dumpsys meminfo "$PACKAGE"
     print_command adb -s "$DEVICE" shell dumpsys gfxinfo "$PACKAGE"
     print_command adb -s "$DEVICE" shell dumpsys battery
@@ -298,7 +300,7 @@ run_device_soak() {
   timeout --signal=INT --kill-after=10 "${SOAK_SECONDS}s" \
     adb -s "$DEVICE" shell monkey -p "$PACKAGE" \
     --pct-syskeys 0 --pct-nav 0 --pct-majornav 0 --pct-appswitch 0 \
-    --pct-flip 0 --throttle 500 --ignore-crashes --ignore-timeouts "$events" \
+    --pct-flip 0 --pct-anyevent 0 --throttle 500 --ignore-crashes --ignore-timeouts "$events" \
     2>&1 | tee "$LOG_DIR/soak-monkey.log" &
   local soak_pid=$!
   local collection_failed=0

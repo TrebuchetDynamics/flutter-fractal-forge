@@ -226,5 +226,8 @@ def test_disposable_route_runs_mandatory_gates_and_rejects_missing_soak(gate):
                for call in calls[offline_index + 1:])
     assert sum(call == ["adb", "-s", DEVICE, "install", "build/app/outputs/flutter-apk/app-release.apk"]
                for call in calls) == 2
-    assert any(call[:2] == ["timeout", "--signal=INT"] for call in calls)
+    soak = next(call for call in calls if call[:2] == ["timeout", "--signal=INT"])
+    # Arbitrary keys can bypass the disabled system/navigation categories.
+    assert "--pct-anyevent" in soak
+    assert soak[soak.index("--pct-anyevent") + 1] == "0"
     assert "completed successfully" not in result.stdout
