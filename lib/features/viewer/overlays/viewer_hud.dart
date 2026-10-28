@@ -18,42 +18,111 @@ Widget _viewerBuildTopFab({
 
 Widget _viewerBuildViewerTitleChip(
   BuildContext context,
-  FractalController controller,
-) {
+  FractalController controller, {
+  bool compact = false,
+}) {
   final l10n = AppLocalizations.of(context)!;
-  final maxWidth = (MediaQuery.sizeOf(context).width - 96).clamp(120.0, 260.0);
+  final colors = Theme.of(context).colorScheme;
+  final maxWidth =
+      math.max(0.0, math.min(360.0, MediaQuery.sizeOf(context).width - 96));
   return ClipRRect(
     key: const Key('viewerTitleChip'),
-    borderRadius: BorderRadius.circular(16),
-    child: BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-        decoration: BoxDecoration(
-          color: AppColors.surface.withValues(alpha: 0.68),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.16)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.16),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
+    borderRadius: BorderRadius.circular(12),
+    child: Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: colors.surface,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: colors.outlineVariant),
+      ),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: maxWidth, minHeight: 32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              controller.module.displayName(l10n),
+              key: const Key('viewerTitleChipText'),
+              maxLines: compact ? 1 : 2,
+              overflow: TextOverflow.ellipsis,
+              style: AppTypography.labelMedium.copyWith(
+                color: colors.onSurface,
+                fontSize: 14,
+                height: 1.25,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ],
         ),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: maxWidth),
-          child: Text(
-            controller.module.displayName(l10n),
-            key: const Key('viewerTitleChipText'),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: AppTypography.labelMedium.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 0.1,
-            ),
+      ),
+    ),
+  );
+}
+
+Widget _viewerBuildChromeHeader(
+  BuildContext context,
+  FractalController controller, {
+  required bool showTitle,
+  required bool compact,
+  required bool showBack,
+  required VoidCallback? onBack,
+  Widget? extra,
+}) {
+  return Row(
+    children: [
+      if (showBack) _viewerBuildBackButton(context, onPressed: onBack),
+      if (showBack && showTitle) const SizedBox(width: 12),
+      if (showTitle)
+        Flexible(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _viewerBuildViewerTitleChip(context, controller,
+                  compact: compact),
+              if (extra != null) ...[
+                const SizedBox(height: 8),
+                extra,
+              ],
+            ],
           ),
+        ),
+    ],
+  );
+}
+
+Widget _viewerBuildBackButton(BuildContext context, {VoidCallback? onPressed}) {
+  final l10n = AppLocalizations.of(context)!;
+  final colors = Theme.of(context).colorScheme;
+  final largeTargets =
+      context.watch<AccessibilityService?>()?.largeTargetsEnabled == true;
+  return IconButton(
+    key: const Key('viewerBackToCatalogButton'),
+    tooltip: l10n.viewerBackToCatalog,
+    style: IconButton.styleFrom(
+      visualDensity: VisualDensity.standard,
+      foregroundColor: colors.onSurface,
+      backgroundColor: Colors.transparent,
+      shape: const CircleBorder(),
+      padding: EdgeInsets.zero,
+      fixedSize: Size.square(largeTargets ? 56 : 48),
+    ),
+    onPressed: onPressed,
+    icon: Center(
+      child: Container(
+        width: largeTargets ? 40 : 36,
+        height: largeTargets ? 40 : 36,
+        decoration: BoxDecoration(
+          color: colors.surface,
+          shape: BoxShape.circle,
+          border: Border.all(color: colors.outlineVariant),
+        ),
+        child: Icon(
+          Icons.arrow_back_rounded,
+          size: largeTargets ? 24 : 20,
+          semanticLabel: l10n.viewerBackToCatalog,
         ),
       ),
     ),

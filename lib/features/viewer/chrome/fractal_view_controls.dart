@@ -72,6 +72,9 @@ class FractalViewControls extends StatelessWidget {
   final bool supportsAuxiliaryTools;
   final FractalViewControlActions actions;
 
+  /// The short-screen shared scroll surface owns spacing, not OS safe insets.
+  final bool compactViewport;
+
   const FractalViewControls({
     super.key,
     required this.fabController,
@@ -83,6 +86,7 @@ class FractalViewControls extends StatelessWidget {
     required this.fourierEnabled,
     required this.textOverlayEnabled,
     this.showFractalReport = false,
+    this.compactViewport = false,
     this.supportsAuxiliaryTools = true,
     required this.actions,
   });
@@ -92,46 +96,17 @@ class FractalViewControls extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final mq = MediaQuery.of(context);
     final insets = EdgeInsets.fromLTRB(
-      math.max(mq.viewPadding.left, mq.systemGestureInsets.left) + 16,
-      8,
-      math.max(mq.viewPadding.right, mq.systemGestureInsets.right) + 16,
-      math.max(mq.viewPadding.bottom, mq.systemGestureInsets.bottom) + 16,
+      math.max(math.max(mq.padding.left, mq.viewPadding.left),
+              mq.systemGestureInsets.left) +
+          (compactViewport ? 0 : 16),
+      compactViewport ? 0 : 8,
+      math.max(math.max(mq.padding.right, mq.viewPadding.right),
+              mq.systemGestureInsets.right) +
+          (compactViewport ? 0 : 16),
+      math.max(math.max(mq.padding.bottom, mq.viewPadding.bottom),
+              mq.systemGestureInsets.bottom) +
+          (compactViewport ? 0 : 16),
     );
-    final buttons = <Widget>[
-      _ViewerTool(
-        toolKey: const ValueKey('viewerControlsButton'),
-        icon: Icons.tune_rounded,
-        label: l10n.controlsTitle,
-        onPressed: isExporting ? null : actions.openControls,
-        sortOrder: 0,
-      ),
-      _ViewerTool(
-        toolKey: const ValueKey('viewerPaletteButton'),
-        icon: Icons.palette_outlined,
-        label: l10n.hudPalette,
-        onPressed: isExporting ? null : actions.openPalettePicker,
-        sortOrder: 1,
-      ),
-      _ViewerTool(
-        toolKey: const ValueKey('viewerRandomFractalFab'),
-        icon: Icons.shuffle_rounded,
-        label: l10n.navDockRandom,
-        onPressed: isExporting ? null : actions.openRandomFractal,
-        onLongPress:
-            isExporting ? null : () => _showRandomOptionsModal(context),
-        sortOrder: 2,
-      ),
-      SizedBox(
-        key: const ValueKey('viewerExportButton'),
-        child: _ViewerTool(
-          toolKey: const ValueKey('viewerOverflowMenu'),
-          icon: Icons.more_horiz_rounded,
-          label: l10n.viewerMoreTools,
-          onPressed: isExporting ? null : () => _showMore(context),
-          sortOrder: 3,
-        ),
-      ),
-    ];
     return FadeTransition(
       opacity: fabController,
       child: SlideTransition(
@@ -150,9 +125,62 @@ class FractalViewControls extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 clipBehavior: Clip.antiAlias,
                 child: LayoutBuilder(builder: (context, constraints) {
+                  // A caption stack cannot fit a short landscape viewport.
+                  // Use full-width labeled rows so each whole target can scroll
+                  // into view without entering the header or system bars.
+                  final compact =
+                      compactViewport || constraints.maxHeight < 112;
+                  final buttons = <Widget>[
+                    _ViewerTool(
+                      toolKey: const ValueKey('viewerControlsButton'),
+                      icon: Icons.tune_rounded,
+                      label: l10n.controlsTitle,
+                      onPressed: isExporting ? null : actions.openControls,
+                      row: compact,
+                      compact: compact,
+                      sortOrder: 0,
+                    ),
+                    _ViewerTool(
+                      toolKey: const ValueKey('viewerPaletteButton'),
+                      icon: Icons.palette_outlined,
+                      label: l10n.hudPalette,
+                      onPressed: isExporting ? null : actions.openPalettePicker,
+                      row: compact,
+                      compact: compact,
+                      sortOrder: 1,
+                    ),
+                    _ViewerTool(
+                      toolKey: const ValueKey('viewerRandomFractalFab'),
+                      icon: Icons.shuffle_rounded,
+                      label: l10n.navDockRandom,
+                      onPressed: isExporting ? null : actions.openRandomFractal,
+                      onLongPress: isExporting
+                          ? null
+                          : () => _showRandomOptionsModal(context),
+                      row: compact,
+                      compact: compact,
+                      sortOrder: 2,
+                    ),
+                    SizedBox(
+                      key: const ValueKey('viewerExportButton'),
+                      child: _ViewerTool(
+                        toolKey: const ValueKey('viewerOverflowMenu'),
+                        icon: Icons.more_horiz_rounded,
+                        label: l10n.viewerMoreTools,
+                        onPressed:
+                            isExporting ? null : () => _showMore(context),
+                        row: compact,
+                        compact: compact,
+                        sortOrder: 3,
+                      ),
+                    ),
+                  ];
                   final innerWidth = constraints.maxWidth - 16;
-                  final columns =
-                      innerWidth >= 280 && mq.textScaler.scale(14) < 21 ? 4 : 2;
+                  final columns = compact
+                      ? 1
+                      : innerWidth >= 280 && mq.textScaler.scale(14) < 21
+                          ? 4
+                          : 2;
                   return SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.all(8),
@@ -542,6 +570,7 @@ class _ViewerTool extends StatefulWidget {
   final VoidCallback? onPressed;
   final VoidCallback? onLongPress;
   final bool row;
+  final bool compact;
   final bool? selected;
   final double? sortOrder;
 
@@ -554,6 +583,7 @@ class _ViewerTool extends StatefulWidget {
       this.onPressed,
       this.onLongPress,
       this.row = false,
+      this.compact = false,
       this.selected,
       this.sortOrder});
 
@@ -579,11 +609,14 @@ class _ViewerToolState extends State<_ViewerTool> {
             .labelMedium!
             .copyWith(color: colors.onSurface));
     final visual = Padding(
-      padding: const EdgeInsets.all(8),
+      padding:
+          EdgeInsets.symmetric(horizontal: widget.compact ? 0 : 8, vertical: 8),
       child: widget.row
           ? Row(children: [
-              Icon(widget.icon, size: 20),
-              const SizedBox(width: 12),
+              if (!widget.compact) ...[
+                Icon(widget.icon, size: 20),
+                const SizedBox(width: 12),
+              ],
               Expanded(child: caption)
             ])
           : Column(mainAxisSize: MainAxisSize.min, children: [

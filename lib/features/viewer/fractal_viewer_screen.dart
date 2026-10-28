@@ -1593,12 +1593,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
         onPressed: onPressed,
       );
 
-  Widget _buildViewerTitleChip(
-    BuildContext context,
-    FractalController controller,
-  ) =>
-      _viewerBuildViewerTitleChip(context, controller);
-
   @override
   Widget build(BuildContext context) {
     _browserUrlSync?.schedule();
@@ -1655,8 +1649,158 @@ class _FractalViewerScreenState extends FractalViewerRouteState
               }
               final activeController = _activeController(context);
               final landscape = constraints.maxWidth > constraints.maxHeight;
-              final topInset = MediaQuery.of(context).padding.top;
-              final overlayTop = topInset + 80;
+              final media = MediaQuery.of(context);
+              final safeInsets = EdgeInsets.fromLTRB(
+                math.max(math.max(media.padding.left, media.viewPadding.left),
+                    media.systemGestureInsets.left),
+                math.max(math.max(media.padding.top, media.viewPadding.top),
+                    media.systemGestureInsets.top),
+                math.max(math.max(media.padding.right, media.viewPadding.right),
+                    media.systemGestureInsets.right),
+                math.max(
+                    math.max(media.padding.bottom, media.viewPadding.bottom),
+                    media.systemGestureInsets.bottom),
+              );
+              final topInset = safeInsets.top;
+              final compactHeader = constraints.maxHeight < 320;
+              final titleHeight = math.max(
+                  56.0,
+                  media.textScaler.scale(14) * 1.25 * (compactHeader ? 1 : 2) +
+                      16);
+              final gaussianHeight = activeController.module.id ==
+                      'gaussian_prime_lattice'
+                  ? math.max(48.0, media.textScaler.scale(14) * 1.25 * 2 + 32) +
+                      8
+                  : 0.0;
+              final overlayTop = topInset +
+                  (compactHeader
+                      ? titleHeight + gaussianHeight + 8
+                      : math.max(80.0, titleHeight + gaussianHeight + 20));
+              final normalHudHeight = math.min(
+                constraints.maxHeight * (landscape ? 0.75 : 0.55),
+                math.max(0.0, constraints.maxHeight - overlayTop),
+              );
+
+              final hudTarget = AccessibleSizing.touchTargetSize(
+                  largeTargets: context
+                          .watch<AccessibilityService?>()
+                          ?.largeTargetsEnabled ==
+                      true);
+              final hudHeaderHeight = math.max(
+                      hudTarget,
+                      media.textScaler.scale(Theme.of(context)
+                                  .textTheme
+                                  .titleSmall
+                                  ?.fontSize ??
+                              14) *
+                          (Theme.of(context).textTheme.titleSmall?.height ??
+                              1)) +
+                  16;
+              final fullHeightHud = normalHudHeight <
+                  hudHeaderHeight + 1 + safeInsets.bottom + hudTarget + 16;
+              final hudHeight = fullHeightHud
+                  ? math.max(0.0, constraints.maxHeight - topInset)
+                  : normalHudHeight;
+
+              // A fixed title plus toolbar spacers can leave less than one
+              // whole target. Let the title scroll away in that case; preserve
+              // the normal phone's separate header and four-primary card.
+              final scrollChrome =
+                  constraints.maxHeight - overlayTop - safeInsets.bottom - 24 <
+                      hudTarget;
+              final chromeHeader = _viewerBuildChromeHeader(
+                context, controller,
+                showTitle: _showCoreViewerChrome,
+                compact: compactHeader,
+                showBack: !widget.captureMode && Navigator.of(context).canPop(),
+                // Catalog Back leaves the route; system Back still
+                // dismisses the controls before leaving.
+                onBack: _exporting ? null : () => Navigator.of(context).pop(),
+                extra: controller.module.id == 'gaussian_prime_lattice'
+                    ? FilledButton(
+                        style: FilledButton.styleFrom(
+                            minimumSize: const Size(48, 48)),
+                        onPressed: () {
+                          if (_fourierEnabled) _toggleFourier();
+                          _autoExploreService?.stop();
+                          setState(() {
+                            _showControlsHud = false;
+                            _gaussianWalk = true;
+                          });
+                        },
+                        child: Text(l10n.gaussianWalk),
+                      )
+                    : null,
+              );
+              final viewerControls = _autoExploreService == null
+                  ? null
+                  : ChangeNotifierProvider<AutoExploreService>.value(
+                      value: _autoExploreService!,
+                      child: FractalViewControls(
+                        compactViewport: scrollChrome,
+                        fabController: _fabController,
+                        supportsAuxiliaryTools:
+                            activeController.module.id != 'number_wall',
+                        isExporting: _exportFlowActive,
+                        kaleidoscopeEnabled:
+                            activeController.kaleidoscopeEnabled,
+                        kaleidoscopeSectors:
+                            activeController.kaleidoscopeSectors,
+                        kaleidoscopeMirror: activeController.kaleidoscopeMirror,
+                        fractalMusicEnabled: _viewerEffects.fractalMusicEnabled,
+                        fourierEnabled: _fourierEnabled,
+                        textOverlayEnabled: _textOverlay.enabled,
+                        showFractalReport: !kIsWeb &&
+                            (defaultTargetPlatform == TargetPlatform.linux ||
+                                context
+                                    .watch<RendererSettingsService>()
+                                    .debugModeEnabled),
+                        actions: FractalViewControlActions(
+                          toggleFullscreen: _toggleFullscreenUnobtrusive,
+                          openRandomFractal: () => _onRandomFractalFab(context),
+                          openControls: () => _toggleControlsHud(),
+                          randomizeParams: () {
+                            HapticFeedback.mediumImpact();
+                            final activeController = _activeController(context);
+                            activeController.randomizeParams();
+                          },
+                          cycleColorScheme: () => _cycleColorScheme(context),
+                          openPalettePicker: () => _openPalettePicker(context),
+                          toggleKaleidoscope: () =>
+                              _toggleKaleidoscope(context),
+                          setKaleidoscopeSectors: (sectors) {
+                            final activeController = _activeController(context);
+                            activeController.setKaleidoscopeEnabled(true);
+                            activeController.setKaleidoscopeSectors(sectors);
+                          },
+                          setKaleidoscopeMirror: (value) {
+                            final activeController = _activeController(context);
+                            activeController.setKaleidoscopeEnabled(true);
+                            activeController.setKaleidoscopeMirror(value);
+                          },
+                          openExport: () => _openExport(context),
+                          shareLink: () => _openShareLink(context),
+                          shareImage: () => _shareCurrentImage(context),
+                          toggleTextOverlay: _toggleTextOverlay,
+                          editTextOverlay: _editTextOverlay,
+                          openLooper: () => _openLooper(context),
+                          toggleFractalMusic: _toggleFractalMusic,
+                          toggleFourier: _toggleFourier,
+                          openFourierSettings: _openFourierSettings,
+                          reportFractal: () => _reportFractal(context),
+                          openWallpaper: () => _openWallpaper(context),
+                          openAutoExploreSettings: () =>
+                              showAppBottomSheet<void>(
+                            context: context,
+                            builder: (_) => ChangeNotifierProvider<
+                                AutoExploreService>.value(
+                              value: _autoExploreService!,
+                              child: const AutoExploreSettingsSheet(),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
 
               return Stack(
                 children: [
@@ -1842,33 +1986,18 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                       ),
                     ),
 
-                  if (_showCoreViewerChrome)
+                  if (!(_showControlsHud && fullHeightHud) &&
+                      !(scrollChrome &&
+                          _showCoreViewerChrome &&
+                          !_showControlsHud) &&
+                      (_showCoreViewerChrome ||
+                          (!widget.captureMode &&
+                              Navigator.of(context).canPop())))
                     Positioned(
-                      // Keep long titles above the action rail, beside Back.
                       top: topInset + 8,
-                      left: MediaQuery.of(context).padding.left +
-                          (Navigator.of(context).canPop() ? 80 : 12),
-                      right: MediaQuery.of(context).padding.right + 12,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildViewerTitleChip(context, controller),
-                          if (controller.module.id == 'gaussian_prime_lattice')
-                            FilledButton(
-                              style: FilledButton.styleFrom(
-                                  minimumSize: const Size(48, 48)),
-                              onPressed: () {
-                                if (_fourierEnabled) _toggleFourier();
-                                _autoExploreService?.stop();
-                                setState(() {
-                                  _showControlsHud = false;
-                                  _gaussianWalk = true;
-                                });
-                              },
-                              child: Text(l10n.gaussianWalk),
-                            ),
-                        ],
-                      ),
+                      left: safeInsets.left + 12,
+                      right: safeInsets.right + 12,
+                      child: chromeHeader,
                     ),
 
                   if (_showCoreViewerChrome &&
@@ -1957,7 +2086,54 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                     ),
                   ),
 
-                  // Floating action buttons.
+                  // Art must not determine system-icon contrast. These
+                  // surfaces are outside the renderer's export boundary.
+                  if (!widget.captureMode) ...[
+                    Positioned.fill(
+                      child: IgnorePointer(
+                        child: AnnotatedRegion<SystemUiOverlayStyle>(
+                          key: const Key('viewerSystemUi'),
+                          value: SystemUiOverlayStyle.light.copyWith(
+                            statusBarColor:
+                                Theme.of(context).colorScheme.surface,
+                            systemNavigationBarColor:
+                                Theme.of(context).colorScheme.surface,
+                            systemNavigationBarDividerColor:
+                                Theme.of(context).colorScheme.surface,
+                          ),
+                          child: const SizedBox.expand(),
+                        ),
+                      ),
+                    ),
+                    if (safeInsets.top > 0)
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: safeInsets.top,
+                        child: IgnorePointer(
+                          child: ColoredBox(
+                            key: const Key('viewerStatusBarSurface'),
+                            color: Theme.of(context).colorScheme.surface,
+                          ),
+                        ),
+                      ),
+                    if (safeInsets.bottom > 0)
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: safeInsets.bottom,
+                        child: IgnorePointer(
+                          child: ColoredBox(
+                            key: const Key('viewerNavigationBarSurface'),
+                            color: Theme.of(context).colorScheme.surface,
+                          ),
+                        ),
+                      ),
+                  ],
+
+                  // Compact labeled toolbar. It owns safe-area padding.
                   // Bound the region vertically (top + bottom) so the inner
                   // SingleChildScrollView gets a finite height and can actually
                   // scroll. Without a `top`, the column of buttons was given
@@ -1966,87 +2142,38 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                   // the upper buttons off-screen and over the status chips.
                   if (_showCoreViewerChrome &&
                       !_showControlsHud &&
-                      _autoExploreService != null)
+                      _autoExploreService != null &&
+                      scrollChrome)
+                    Positioned(
+                      top: topInset,
+                      left: 0,
+                      right: 0,
+                      bottom: safeInsets.bottom,
+                      child: SingleChildScrollView(
+                        child: Column(children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: safeInsets.left + 12,
+                                right: safeInsets.right + 12),
+                            child: chromeHeader,
+                          ),
+                          SizedBox(
+                            height: constraints.maxHeight - topInset,
+                            child: viewerControls!,
+                          ),
+                        ]),
+                      ),
+                    ),
+                  if (_showCoreViewerChrome &&
+                      !_showControlsHud &&
+                      _autoExploreService != null &&
+                      !scrollChrome)
                     Positioned(
                       top: overlayTop,
-                      left: MediaQuery.of(context).padding.left + AppSpacing.lg,
-                      right:
-                          MediaQuery.of(context).padding.right + AppSpacing.lg,
-                      bottom:
-                          MediaQuery.of(context).padding.bottom + AppSpacing.xl,
-                      child: ChangeNotifierProvider<AutoExploreService>.value(
-                        value: _autoExploreService!,
-                        child: FractalViewControls(
-                          fabController: _fabController,
-                          supportsAuxiliaryTools:
-                              activeController.module.id != 'number_wall',
-                          isExporting: _exportFlowActive,
-                          kaleidoscopeEnabled:
-                              activeController.kaleidoscopeEnabled,
-                          kaleidoscopeSectors:
-                              activeController.kaleidoscopeSectors,
-                          kaleidoscopeMirror:
-                              activeController.kaleidoscopeMirror,
-                          fractalMusicEnabled:
-                              _viewerEffects.fractalMusicEnabled,
-                          fourierEnabled: _fourierEnabled,
-                          textOverlayEnabled: _textOverlay.enabled,
-                          showFractalReport: !kIsWeb &&
-                              (defaultTargetPlatform == TargetPlatform.linux ||
-                                  context
-                                      .watch<RendererSettingsService>()
-                                      .debugModeEnabled),
-                          actions: FractalViewControlActions(
-                            toggleFullscreen: _toggleFullscreenUnobtrusive,
-                            openRandomFractal: () =>
-                                _onRandomFractalFab(context),
-                            openControls: () => _toggleControlsHud(),
-                            randomizeParams: () {
-                              HapticFeedback.mediumImpact();
-                              final activeController =
-                                  _activeController(context);
-                              activeController.randomizeParams();
-                            },
-                            cycleColorScheme: () => _cycleColorScheme(context),
-                            openPalettePicker: () =>
-                                _openPalettePicker(context),
-                            toggleKaleidoscope: () =>
-                                _toggleKaleidoscope(context),
-                            setKaleidoscopeSectors: (sectors) {
-                              final activeController =
-                                  _activeController(context);
-                              activeController.setKaleidoscopeEnabled(true);
-                              activeController.setKaleidoscopeSectors(sectors);
-                            },
-                            setKaleidoscopeMirror: (value) {
-                              final activeController =
-                                  _activeController(context);
-                              activeController.setKaleidoscopeEnabled(true);
-                              activeController.setKaleidoscopeMirror(value);
-                            },
-                            openExport: () => _openExport(context),
-                            shareLink: () => _openShareLink(context),
-                            shareImage: () => _shareCurrentImage(context),
-                            toggleTextOverlay: _toggleTextOverlay,
-                            editTextOverlay: _editTextOverlay,
-                            openLooper: () => _openLooper(context),
-                            toggleFractalMusic: _toggleFractalMusic,
-                            toggleFourier: _toggleFourier,
-                            openFourierSettings: _openFourierSettings,
-                            reportFractal: () => _reportFractal(context),
-                            openWallpaper: () => _openWallpaper(context),
-                            openAutoExploreSettings: () =>
-                                showAppBottomSheet<void>(
-                              context: context,
-                              builder: (_) => ChangeNotifierProvider<
-                                  AutoExploreService>.value(
-                                value: _autoExploreService!,
-                                child: const AutoExploreSettingsSheet(),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: viewerControls!,
                     ),
 
                   // Controls HUD overlay (replaces bottom sheet modal)
@@ -2055,44 +2182,19 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                       left: 0,
                       right: 0,
                       bottom: 0,
-                      height: MediaQuery.of(context).size.height * 0.42,
+                      height: hudHeight,
                       child: ChangeNotifierProvider.value(
                         value: controller,
                         child: FractalControlsHud(
+                          leading: fullHeightHud &&
+                                  !widget.captureMode &&
+                                  Navigator.of(context).canPop()
+                              ? _viewerBuildBackButton(context,
+                                  onPressed: _exporting
+                                      ? null
+                                      : () => Navigator.of(context).pop())
+                              : null,
                           onClose: _toggleControlsHud,
-                        ),
-                      ),
-                    ),
-
-                  if (!widget.captureMode && Navigator.of(context).canPop())
-                    Positioned(
-                      top: topInset + 8,
-                      left: MediaQuery.of(context).padding.left + 12,
-                      child: IconButton(
-                        key: const Key('viewerBackToCatalogButton'),
-                        tooltip: l10n.viewerBackToCatalog,
-                        style: IconButton.styleFrom(
-                          visualDensity: VisualDensity.standard,
-                          foregroundColor: Colors.white,
-                          backgroundColor: AppColors.surface,
-                          shape: const CircleBorder(),
-                          fixedSize: Size.square(
-                            context
-                                        .watch<AccessibilityService?>()
-                                        ?.largeTargetsEnabled ==
-                                    true
-                                ? 56
-                                : 48,
-                          ),
-                        ),
-                        // An explicit catalog destination closes the viewer
-                        // directly; system Back still dismisses its HUD first.
-                        onPressed: _exporting
-                            ? null
-                            : () => Navigator.of(context).pop(),
-                        icon: Icon(
-                          Icons.arrow_back_rounded,
-                          semanticLabel: l10n.viewerBackToCatalog,
                         ),
                       ),
                     ),
