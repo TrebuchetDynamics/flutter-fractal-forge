@@ -104,6 +104,29 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('primary captions and opaque paint fill their full hit regions',
+      (tester) async {
+    await pumpToolbar(tester);
+    const captions = {
+      'viewerControlsButton': 'Controls',
+      'viewerPaletteButton': 'Palette',
+      'viewerRandomFractalFab': 'Random',
+      'viewerOverflowMenu': 'More',
+    };
+    for (final entry in captions.entries) {
+      final hitRegion = tester.getRect(find.byKey(ValueKey(entry.key)));
+      final caption = find.text(entry.value);
+      final paint = find
+          .ancestor(of: caption, matching: find.byType(IgnorePointer))
+          .first;
+      expect(tester.getRect(paint), hitRegion,
+          reason:
+              'Opaque captions must cover the underlying circular button completely');
+      expect(tester.getCenter(caption).dx, closeTo(hitRegion.center.dx, .01),
+          reason: 'Unequal label lengths must not shift primary alignment');
+    }
+  });
+
   testWidgets('the whole primary captions activate each callback exactly once',
       (tester) async {
     final calls = <String>[];

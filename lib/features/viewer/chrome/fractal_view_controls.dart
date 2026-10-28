@@ -699,6 +699,7 @@ class _ViewerToolState extends State<_ViewerTool> {
       canRequestFocus: false,
       onFocusChange: (focused) => setState(() => _focused = focused),
       child: Stack(
+        fit: StackFit.passthrough,
         children: [
           Positioned.fill(
               child: FloatingActionButtonWidget(
