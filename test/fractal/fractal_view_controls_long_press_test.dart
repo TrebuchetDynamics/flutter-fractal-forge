@@ -37,8 +37,10 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    // The overflow modal is gone; the text-overlay edit affordance now rides
-    // the long press (and Shift+Enter) of the text-overlay FAB itself.
+    await _openMore(tester);
+    await tester
+        .ensureVisible(find.byKey(const ValueKey('viewerTextOverlayFab')));
+    await tester.pumpAndSettle();
     final tooltip = find.byTooltip('Text overlay off. Tap to add text.');
     final fab = find.byKey(const ValueKey('viewerTextOverlayFab'));
     expect(fab, findsOneWidget);
@@ -61,9 +63,10 @@ void main() {
     await tester.sendKeyDownEvent(LogicalKeyboardKey.shiftLeft);
     await tester.sendKeyEvent(LogicalKeyboardKey.enter);
     await tester.sendKeyUpEvent(LogicalKeyboardKey.shiftLeft);
-    await tester.pump();
+    await tester.pumpAndSettle();
     expect(editInvoked, isTrue);
-    expect(find.byKey(const ValueKey('viewerTextOverlayFab')), findsOneWidget);
+    expect(find.byKey(const ValueKey('viewerTextOverlayFab')), findsNothing);
+    expect(find.byType(BottomSheet), findsNothing);
     handle.dispose();
   });
 
@@ -80,7 +83,7 @@ void main() {
 
     final menu = find.byKey(const ValueKey('viewerOverflowMenu'));
     expect(menu, findsOneWidget);
-    expect(find.byTooltip('Viewer actions'), findsOneWidget);
+    expect(find.byTooltip('More'), findsOneWidget);
     await tester.tap(menu);
     await tester.pumpAndSettle();
     expect(find.text('Export'), findsOneWidget);
@@ -94,7 +97,10 @@ void main() {
       'Share image': 'image',
       'Wallpaper': 'wallpaper',
     }.entries) {
-      await tester.tap(find.text(entry.key));
+      final action = find.text(entry.key);
+      await tester.ensureVisible(action);
+      await tester.pumpAndSettle();
+      await tester.tapAt(tester.getCenter(action));
       await tester.pumpAndSettle();
       expect(invoked, contains(entry.value));
       if (entry.key != 'Wallpaper') {
@@ -107,7 +113,7 @@ void main() {
   testWidgets('viewer overflow localizes its accessible label in Spanish',
       (tester) async {
     await _pumpHarness(tester, locale: const Locale('es'));
-    expect(find.byTooltip('Acciones del visor'), findsOneWidget);
+    expect(find.byTooltip('Más'), findsOneWidget);
     await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
     await tester.pumpAndSettle();
     expect(find.text('Exportar'), findsOneWidget);
@@ -138,6 +144,7 @@ void main() {
       onSetSectors: (value) => selectedSectors = value,
     );
 
+    await _revealTool(tester, 'viewerKaleidoscopeFab');
     await tester.longPress(find.byKey(const ValueKey('viewerKaleidoscopeFab')));
     await tester.pumpAndSettle();
 
@@ -169,6 +176,7 @@ void main() {
         onSetSectors: (value) => selectedSectors = value,
       );
 
+      await _revealTool(tester, 'viewerKaleidoscopeFab');
       await tester
           .longPress(find.byKey(const ValueKey('viewerKaleidoscopeFab')));
       await tester.pumpAndSettle();
@@ -198,6 +206,7 @@ void main() {
     addTearDown(() => tester.binding.setSurfaceSize(null));
     await _pumpHarness(tester);
 
+    await _revealTool(tester, 'viewerKaleidoscopeFab');
     await tester.longPress(find.byKey(const ValueKey('viewerKaleidoscopeFab')));
     await tester.pumpAndSettle();
 
@@ -219,6 +228,7 @@ void main() {
     final handle = tester.ensureSemantics();
     await _pumpHarness(tester);
 
+    await _revealTool(tester, 'viewerKaleidoscopeFab');
     await tester.longPress(find.byKey(const ValueKey('viewerKaleidoscopeFab')));
     await tester.pumpAndSettle();
 
@@ -264,11 +274,15 @@ void main() {
       'viewerFullscreenButton',
     ]) {
       await _pumpHarness(tester);
+      await _revealTool(tester, key);
       await tester.longPress(find.byKey(ValueKey(key)));
       await tester.pumpAndSettle();
 
-      expect(find.byType(BottomSheet), findsNothing, reason: key);
-      expect(find.byTooltip('Close'), findsNothing, reason: key);
+      // Long press must not navigate away from More or add a sheet.
+      expect(find.byType(BottomSheet), findsOneWidget, reason: key);
+      expect(find.text('Viewer actions'), findsOneWidget, reason: key);
+      await tester.tap(find.byTooltip('Close'));
+      await tester.pumpAndSettle();
     }
   });
 
@@ -319,6 +333,7 @@ void main() {
     await tester.tap(find.byTooltip('Cerrar'));
     await tester.pumpAndSettle();
 
+    await _revealTool(tester, 'viewerKaleidoscopeFab');
     await tester.longPress(find.byKey(const ValueKey('viewerKaleidoscopeFab')));
     await tester.pumpAndSettle();
 
@@ -328,6 +343,17 @@ void main() {
     expect(find.text('Kaleidoscope sections'), findsNothing);
     expect(find.text('Wedge count'), findsNothing);
   });
+}
+
+Future<void> _openMore(WidgetTester tester) async {
+  await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+  await tester.pumpAndSettle();
+}
+
+Future<void> _revealTool(WidgetTester tester, String key) async {
+  await _openMore(tester);
+  await tester.ensureVisible(find.byKey(ValueKey(key)));
+  await tester.pumpAndSettle();
 }
 
 void _noop() {}

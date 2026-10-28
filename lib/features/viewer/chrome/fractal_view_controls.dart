@@ -1,6 +1,7 @@
+import 'dart:math' as math;
+
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
@@ -8,7 +9,6 @@ import 'package:flutter_fractals/features/auto_explore/auto_explore.dart';
 import 'package:flutter_fractals/features/export/export_actions.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
-import 'package:flutter_fractals/shared/widgets/circular_tool_surface.dart';
 import 'package:flutter_fractals/shared/widgets/app_tool_button.dart';
 
 class FractalViewControlActions {
@@ -90,208 +90,285 @@ class FractalViewControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final mediaQuery = MediaQuery.of(context);
-    final isLandscape = mediaQuery.orientation == Orientation.landscape;
-    final maxFabColumnHeight = (mediaQuery.size.height -
-            mediaQuery.padding.top -
-            mediaQuery.padding.bottom -
-            AppSpacing.xxl)
-        .clamp(0.0, double.infinity);
-    final maxFabRowWidth = (mediaQuery.size.width -
-            mediaQuery.padding.left -
-            mediaQuery.padding.right -
-            AppSpacing.xxl)
-        .clamp(0.0, double.infinity);
-    final supportsWallpaper = ExportActionAvailability.canSetWallpaper(
-      isWeb: kIsWeb,
-      platform: defaultTargetPlatform,
+    final mq = MediaQuery.of(context);
+    final insets = EdgeInsets.fromLTRB(
+      math.max(mq.viewPadding.left, mq.systemGestureInsets.left) + 16,
+      8,
+      math.max(mq.viewPadding.right, mq.systemGestureInsets.right) + 16,
+      math.max(mq.viewPadding.bottom, mq.systemGestureInsets.bottom) + 16,
     );
-
-    final actionButtons = <Widget>[
-      FloatingActionButtonWidget(
-        key: const ValueKey('viewerRandomParamsButton'),
+    final buttons = <Widget>[
+      _ViewerTool(
+        toolKey: const ValueKey('viewerControlsButton'),
         icon: Icons.tune_rounded,
-        tooltip: l10n.tooltipRandomizeWithControls,
-        onPressed: isExporting ? null : actions.randomizeParams,
-        onLongPress: isExporting ? null : actions.openControls,
-        isCompact: true,
-        delay: const Duration(milliseconds: 40),
+        label: l10n.controlsTitle,
+        onPressed: isExporting ? null : actions.openControls,
         sortOrder: 0,
       ),
-      FloatingActionButtonWidget(
-        key: const ValueKey('viewerColorCycleButton'),
-        icon: Icons.palette_rounded,
-        tooltip: l10n.tooltipColorSchemeWithPalette,
-        onPressed: isExporting ? null : actions.cycleColorScheme,
-        onLongPress: isExporting ? null : actions.openPalettePicker,
-        isCompact: true,
-        delay: const Duration(milliseconds: 60),
+      _ViewerTool(
+        toolKey: const ValueKey('viewerPaletteButton'),
+        icon: Icons.palette_outlined,
+        label: l10n.hudPalette,
+        onPressed: isExporting ? null : actions.openPalettePicker,
         sortOrder: 1,
       ),
-      FloatingActionButtonWidget(
-        key: const ValueKey('viewerRandomFractalFab'),
+      _ViewerTool(
+        toolKey: const ValueKey('viewerRandomFractalFab'),
         icon: Icons.shuffle_rounded,
-        tooltip: l10n.tooltipRandomFractal,
+        label: l10n.navDockRandom,
         onPressed: isExporting ? null : actions.openRandomFractal,
         onLongPress:
             isExporting ? null : () => _showRandomOptionsModal(context),
-        isCompact: true,
-        delay: const Duration(milliseconds: 80),
         sortOrder: 2,
       ),
-      if (supportsAuxiliaryTools)
-        AutoExploreButton(
-          key: const ValueKey('viewerAutoExploreButton'),
+      SizedBox(
+        key: const ValueKey('viewerExportButton'),
+        child: _ViewerTool(
+          toolKey: const ValueKey('viewerOverflowMenu'),
+          icon: Icons.more_horiz_rounded,
+          label: l10n.viewerMoreTools,
+          onPressed: isExporting ? null : () => _showMore(context),
           sortOrder: 3,
-          onLongPress: actions.openAutoExploreSettings,
-          delay: const Duration(milliseconds: 100),
         ),
-      if (supportsAuxiliaryTools)
-        FloatingActionButtonWidget(
-          key: const ValueKey('viewerLooperFab'),
-          icon: Icons.loop_rounded,
-          tooltip: l10n.tooltipCameraLooper,
-          onPressed: isExporting ? null : actions.openLooper,
-          isCompact: true,
-          delay: const Duration(milliseconds: 120),
-          sortOrder: 4,
-        ),
-      if (supportsAuxiliaryTools)
-        FloatingActionButtonWidget(
-          key: const ValueKey('viewerKaleidoscopeFab'),
-          icon: Icons.filter_vintage_rounded,
-          tooltip: kaleidoscopeEnabled
-              ? l10n.tooltipKaleidoscopeOn
-              : l10n.tooltipKaleidoscopeOff,
-          onPressed: isExporting ? null : actions.toggleKaleidoscope,
-          selected: kaleidoscopeEnabled,
-          onLongPress:
-              isExporting ? null : () => _showKaleidoscopeModal(context),
-          isCompact: true,
-          delay: const Duration(milliseconds: 140),
-          sortOrder: 5,
-        ),
-      if (supportsAuxiliaryTools)
-        FloatingActionButtonWidget(
-          key: const ValueKey('viewerFourierFab'),
-          icon: Icons.blur_on_rounded,
-          tooltip:
-              fourierEnabled ? l10n.tooltipFourierOn : l10n.tooltipFourierOff,
-          semanticHint:
-              '${l10n.fourierOptionsDescription} ${l10n.viewerSecondaryActionHint}',
-          onPressed: isExporting ? null : actions.toggleFourier,
-          selected: fourierEnabled,
-          onLongPress: isExporting ? null : actions.openFourierSettings,
-          isCompact: true,
-          delay: const Duration(milliseconds: 160),
-          sortOrder: 6,
-        ),
-      if (supportsAuxiliaryTools)
-        FloatingActionButtonWidget(
-          key: const ValueKey('viewerTextOverlayFab'),
-          icon: Icons.format_quote_rounded,
-          tooltip: textOverlayEnabled
-              ? l10n.tooltipTextOverlayOn
-              : l10n.tooltipTextOverlayOff,
-          onPressed: isExporting ? null : actions.toggleTextOverlay,
-          selected: textOverlayEnabled,
-          onLongPress: isExporting ? null : actions.editTextOverlay,
-          isCompact: true,
-          delay: const Duration(milliseconds: 180),
-          sortOrder: 7,
-        ),
-      if (supportsAuxiliaryTools)
-        FloatingActionButtonWidget(
-          key: const ValueKey('viewerFractalMusicFab'),
-          icon: Icons.music_note,
-          tooltip: fractalMusicEnabled
-              ? l10n.tooltipFractalMusicOn
-              : l10n.tooltipFractalMusicOff,
-          onPressed: isExporting ? null : actions.toggleFractalMusic,
-          selected: fractalMusicEnabled,
-          isCompact: true,
-          delay: const Duration(milliseconds: 200),
-          sortOrder: 8,
-        ),
-      _ViewerOverflowMenu(
-        isExporting: isExporting,
-        l10n: l10n,
-        supportsWallpaper: supportsWallpaper,
-        actions: actions,
-        sortOrder: 9,
       ),
-      FloatingActionButtonWidget(
-        key: const ValueKey('viewerFullscreenButton'),
-        icon: Icons.fullscreen_rounded,
-        tooltip: l10n.tooltipFullscreen,
-        onPressed: isExporting ? null : actions.toggleFullscreen,
-        isCompact: true,
-        delay: const Duration(milliseconds: 240),
-        sortOrder: 10,
-      ),
-      if (showFractalReport)
-        FloatingActionButtonWidget(
-          key: const ValueKey('viewerReportFractalFab'),
-          icon: Icons.report_problem_rounded,
-          tooltip: l10n.tooltipReportFractal,
-          onPressed: isExporting ? null : actions.reportFractal,
-          isCompact: true,
-          delay: const Duration(milliseconds: 260),
-          sortOrder: 11,
-        ),
     ];
-
     return FadeTransition(
       opacity: fabController,
       child: SlideTransition(
-        position: Tween<Offset>(
-          begin: const Offset(0, 0.4),
-          end: Offset.zero,
-        ).animate(CurvedAnimation(
-          parent: fabController,
-          curve: AppAnimations.defaultCurve,
-        )),
-        child: Align(
-          alignment:
-              isLandscape ? Alignment.bottomCenter : Alignment.bottomRight,
-          child: SingleChildScrollView(
-            scrollDirection: isLandscape ? Axis.vertical : Axis.horizontal,
+        position: Tween<Offset>(begin: const Offset(0, 0.4), end: Offset.zero)
+            .animate(CurvedAnimation(
+                parent: fabController, curve: AppAnimations.defaultCurve)),
+        child: Padding(
+          padding: insets,
+          child: Align(
+            alignment: Alignment.bottomCenter,
             child: ConstrainedBox(
-              key: const ValueKey('viewerFabColumn'),
-              constraints: BoxConstraints(
-                // Landscape wraps to the available width and scrolls through
-                // as many rows as needed, including enlarged touch targets.
-                maxHeight: isLandscape ? double.infinity : maxFabColumnHeight,
-                maxWidth: maxFabRowWidth,
-              ),
-              child: FocusTraversalGroup(
-                policy: OrderedTraversalPolicy(),
-                child: Wrap(
-                  direction: isLandscape ? Axis.horizontal : Axis.vertical,
-                  alignment: WrapAlignment.end,
-                  runAlignment: WrapAlignment.end,
-                  spacing: AppSpacing.sm,
-                  runSpacing: AppSpacing.sm,
-                  children: [
-                    for (final button in actionButtons)
-                      if (button is AutoExploreButton ||
-                          button.key ==
-                              const ValueKey('viewerKaleidoscopeFab') ||
-                          button is _ViewerOverflowMenu)
-                        Padding(
-                          padding: isLandscape
-                              ? const EdgeInsets.only(left: AppSpacing.xs)
-                              : const EdgeInsets.only(top: AppSpacing.xs),
-                          child: button,
-                        )
-                      else
-                        button,
-                  ],
-                ),
+              constraints: const BoxConstraints(maxWidth: 440),
+              child: Material(
+                key: const ValueKey('viewerFabColumn'),
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(20),
+                clipBehavior: Clip.antiAlias,
+                child: LayoutBuilder(builder: (context, constraints) {
+                  final innerWidth = constraints.maxWidth - 16;
+                  final columns =
+                      innerWidth >= 280 && mq.textScaler.scale(14) < 21 ? 4 : 2;
+                  return SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: FocusTraversalGroup(
+                        policy: OrderedTraversalPolicy(),
+                        child: Wrap(
+                          children: [
+                            for (final button in buttons)
+                              SizedBox(
+                                  width: innerWidth / columns, child: button)
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }),
               ),
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  void _showMore(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final contextForOptions = context;
+    // The viewer-scoped service is below the Navigator, not above its route.
+    final explore = context.read<AutoExploreService?>();
+    showAppBottomSheet<void>(
+      context: context,
+      builder: (sheetContext) =>
+          ChangeNotifierProvider<AutoExploreService?>.value(
+        value: explore,
+        child: Builder(builder: (context) {
+          final service = context.watch<AutoExploreService?>();
+          final status = service == null
+              ? null
+              : AutoExploreControlStatus.fromPlayback(
+                  isExploring: service.isExploring,
+                  isPaused: service.isPaused,
+                  pausedByUserCorrection: service.pausedByUserCorrection,
+                );
+          var rowOrder = 0.0;
+          Widget row(
+              String key, IconData icon, String label, VoidCallback action,
+              {VoidCallback? options,
+              bool? selected,
+              String? hint,
+              String? caption}) {
+            final order = rowOrder++;
+            VoidCallback closeThen(VoidCallback callback) => () {
+                  Navigator.of(sheetContext).pop();
+                  callback();
+                };
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: LayoutBuilder(builder: (context, constraints) {
+                final stacked = constraints.maxWidth < 280 ||
+                    MediaQuery.textScalerOf(context).scale(14) >= 21;
+                final primary = _ViewerTool(
+                  toolKey: ValueKey(key),
+                  icon: icon,
+                  label: caption ?? label,
+                  semanticLabel: label,
+                  row: true,
+                  sortOrder: order,
+                  selected: selected,
+                  semanticHint: hint,
+                  onPressed: isExporting ? null : closeThen(action),
+                  onLongPress: isExporting || options == null
+                      ? null
+                      : closeThen(options),
+                );
+                final secondary = options == null
+                    ? null
+                    : _ViewerTool(
+                        toolKey: ValueKey('${key}Options'),
+                        sortOrder: order + 0.5,
+                        icon: Icons.settings_outlined,
+                        label: l10n.viewerToolOptions,
+                        semanticLabel: '$label: ${l10n.viewerToolOptions}',
+                        row: stacked,
+                        onPressed: isExporting ? null : closeThen(options),
+                      );
+                if (stacked) {
+                  return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [primary, if (secondary != null) secondary]);
+                }
+                return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(child: primary),
+                      if (secondary != null)
+                        Padding(
+                            padding: const EdgeInsets.only(left: 8),
+                            child: secondary)
+                    ]);
+              }),
+            );
+          }
+
+          return AppOptionsSheet(
+            icon: Icons.more_horiz_rounded,
+            title: l10n.viewerActionsMenu,
+            child: FocusTraversalGroup(
+              policy: OrderedTraversalPolicy(),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    row('viewerOpenExportAction', Icons.file_download_outlined,
+                        l10n.tooltipExport, actions.openExport),
+                    row('viewerShareLinkAction', Icons.link_rounded,
+                        l10n.shareLinkAction, actions.shareLink),
+                    row('viewerShareImageAction', Icons.image_outlined,
+                        l10n.tooltipShareImage, actions.shareImage),
+                    if (ExportActionAvailability.canSetWallpaper(
+                        isWeb: kIsWeb, platform: defaultTargetPlatform))
+                      row('viewerWallpaperAction', Icons.wallpaper_rounded,
+                          l10n.wallpaperTitle, actions.openWallpaper),
+                    row(
+                      'viewerRandomOptionsAction',
+                      Icons.shuffle_rounded,
+                      l10n.randomOptionsTitle,
+                      () => _showRandomOptionsModal(contextForOptions),
+                    ),
+                    row(
+                        'viewerRandomParamsButton',
+                        Icons.tune_rounded,
+                        l10n.tooltipRandomizeWithControls,
+                        actions.randomizeParams,
+                        caption: l10n.randomize,
+                        options: actions.openControls),
+                    row(
+                        'viewerColorCycleButton',
+                        Icons.palette_rounded,
+                        l10n.tooltipColorSchemeWithPalette,
+                        actions.cycleColorScheme,
+                        caption: l10n.paramColorScheme,
+                        options: actions.openPalettePicker),
+                    if (supportsAuxiliaryTools) ...[
+                      if (service != null && status != null) ...[
+                        if (status.showsYieldBadge)
+                          Text(l10n.autoExplorePausedUserCorrection),
+                        row(
+                            'viewerAutoExploreButton',
+                            status.isMotionActive
+                                ? Icons.pause_rounded
+                                : Icons.explore_rounded,
+                            status.primaryActionLabel(
+                                startLabel: l10n.tooltipStartExplore,
+                                pauseLabel: l10n.tooltipPauseExplore,
+                                resumeLabel: l10n.actionResume), () {
+                          if (status.resumesFromTemporaryYield) {
+                            service.resume();
+                          } else {
+                            service.toggle();
+                          }
+                        },
+                            options: actions.openAutoExploreSettings,
+                            selected: status.isMotionActive),
+                      ],
+                      row('viewerLooperFab', Icons.loop_rounded,
+                          l10n.tooltipCameraLooper, actions.openLooper),
+                      row(
+                          'viewerKaleidoscopeFab',
+                          Icons.filter_vintage_rounded,
+                          kaleidoscopeEnabled
+                              ? l10n.tooltipKaleidoscopeOn
+                              : l10n.tooltipKaleidoscopeOff,
+                          actions.toggleKaleidoscope,
+                          selected: kaleidoscopeEnabled,
+                          options: () =>
+                              _showKaleidoscopeModal(contextForOptions)),
+                      row(
+                          'viewerFourierFab',
+                          Icons.blur_on_rounded,
+                          fourierEnabled
+                              ? l10n.tooltipFourierOn
+                              : l10n.tooltipFourierOff,
+                          actions.toggleFourier,
+                          selected: fourierEnabled,
+                          options: actions.openFourierSettings,
+                          hint:
+                              '${l10n.fourierOptionsDescription} ${l10n.viewerSecondaryActionHint}'),
+                      row(
+                          'viewerTextOverlayFab',
+                          Icons.format_quote_rounded,
+                          textOverlayEnabled
+                              ? l10n.tooltipTextOverlayOn
+                              : l10n.tooltipTextOverlayOff,
+                          actions.toggleTextOverlay,
+                          selected: textOverlayEnabled,
+                          options: actions.editTextOverlay),
+                      row(
+                          'viewerFractalMusicFab',
+                          Icons.music_note,
+                          fractalMusicEnabled
+                              ? l10n.tooltipFractalMusicOn
+                              : l10n.tooltipFractalMusicOff,
+                          actions.toggleFractalMusic,
+                          selected: fractalMusicEnabled),
+                    ],
+                    row('viewerFullscreenButton', Icons.fullscreen_rounded,
+                        l10n.tooltipFullscreen, actions.toggleFullscreen),
+                    if (showFractalReport)
+                      row(
+                          'viewerReportFractalFab',
+                          Icons.report_problem_outlined,
+                          l10n.tooltipReportFractal,
+                          actions.reportFractal),
+                  ]),
+            ),
+          );
+        }),
       ),
     );
   }
@@ -454,95 +531,102 @@ class _ActionTile extends StatelessWidget {
       );
 }
 
-class _ViewerOverflowMenu extends StatelessWidget {
-  final bool isExporting;
-  final AppLocalizations l10n;
-  final bool supportsWallpaper;
-  final FractalViewControlActions actions;
-  final double sortOrder;
+/// Keep all input, haptics and semantics on AppToolButton. The caption is a
+/// paint-only layer over the same hit region, never a second tap handler.
+class _ViewerTool extends StatefulWidget {
+  final Key toolKey;
+  final IconData icon;
+  final String label;
+  final String? semanticLabel;
+  final String? semanticHint;
+  final VoidCallback? onPressed;
+  final VoidCallback? onLongPress;
+  final bool row;
+  final bool? selected;
+  final double? sortOrder;
 
-  const _ViewerOverflowMenu({
-    required this.isExporting,
-    required this.l10n,
-    required this.supportsWallpaper,
-    required this.actions,
-    required this.sortOrder,
-  });
+  const _ViewerTool(
+      {required this.toolKey,
+      required this.icon,
+      required this.label,
+      this.semanticLabel,
+      this.semanticHint,
+      this.onPressed,
+      this.onLongPress,
+      this.row = false,
+      this.selected,
+      this.sortOrder});
+
+  @override
+  State<_ViewerTool> createState() => _ViewerToolState();
+}
+
+class _ViewerToolState extends State<_ViewerTool> {
+  bool _focused = false;
 
   @override
   Widget build(BuildContext context) {
-    return FocusTraversalOrder(
-      order: NumericFocusOrder(sortOrder),
-      child: SizedBox(
-        key: const ValueKey('viewerExportButton'),
-        child: Opacity(
-          opacity: isExporting ? 0.38 : 1,
-          child: MergeSemantics(
-            child: Semantics(
-              label: l10n.viewerActionsMenu,
-              button: true,
-              enabled: !isExporting,
-              sortKey: OrdinalSortKey(sortOrder),
-              child: PopupMenuButton<String>(
-                key: const ValueKey('viewerOverflowMenu'),
-                tooltip: l10n.viewerActionsMenu,
-                enabled: !isExporting,
-                padding: EdgeInsets.zero,
-                style: IconButton.styleFrom(
-                  visualDensity: VisualDensity.standard,
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.transparent,
-                  shape: const CircleBorder(),
-                  fixedSize: Size.square(AccessibleSizing.touchTargetSize(
-                    largeTargets: context
-                            .watch<AccessibilityService?>()
-                            ?.largeTargetsEnabled ??
-                        false,
-                  )),
-                ).copyWith(
-                  side: WidgetStateProperty.resolveWith((states) => BorderSide(
-                        color: states.contains(WidgetState.focused)
-                            ? HighContrastColors.focusIndicator
-                            : Colors.transparent,
-                        width: AccessibleSizing.focusIndicatorWidth,
-                      )),
-                ),
-                icon: const CircularToolSurface(icon: Icons.more_vert_rounded),
-                onSelected: (action) {
-                  switch (action) {
-                    case 'export':
-                      actions.openExport();
-                    case 'link':
-                      actions.shareLink();
-                    case 'image':
-                      actions.shareImage();
-                    case 'wallpaper':
-                      actions.openWallpaper();
-                  }
-                },
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                    value: 'export',
-                    child: Text(l10n.tooltipExport),
-                  ),
-                  PopupMenuItem(
-                    value: 'link',
-                    child: Text(l10n.shareLinkAction),
-                  ),
-                  PopupMenuItem(
-                    value: 'image',
-                    child: Text(l10n.tooltipShareImage),
-                  ),
-                  if (supportsWallpaper)
-                    PopupMenuItem(
-                      value: 'wallpaper',
-                      child: Text(l10n.wallpaperTitle),
-                    ),
-                ],
-              ),
+    final colors = Theme.of(context).colorScheme;
+    final target = AccessibleSizing.touchTargetSize(
+        largeTargets:
+            context.watch<AccessibilityService?>()?.largeTargetsEnabled ??
+                false);
+    final disabled = widget.onPressed == null && widget.onLongPress == null;
+    final caption = Text(widget.label,
+        textAlign: widget.row ? TextAlign.start : TextAlign.center,
+        style: Theme.of(context)
+            .textTheme
+            .labelMedium!
+            .copyWith(color: colors.onSurface));
+    final visual = Padding(
+      padding: const EdgeInsets.all(8),
+      child: widget.row
+          ? Row(children: [
+              Icon(widget.icon, size: 20),
+              const SizedBox(width: 12),
+              Expanded(child: caption)
+            ])
+          : Column(mainAxisSize: MainAxisSize.min, children: [
+              Icon(widget.icon, size: 20),
+              const SizedBox(height: 4),
+              caption
+            ]),
+    );
+    return Focus(
+      canRequestFocus: false,
+      onFocusChange: (focused) => setState(() => _focused = focused),
+      child: Stack(
+        children: [
+          Positioned.fill(
+              child: FloatingActionButtonWidget(
+            key: widget.toolKey,
+            icon: widget.icon,
+            tooltip: widget.semanticLabel ?? widget.label,
+            semanticHint: widget.semanticHint,
+            onPressed: widget.onPressed,
+            onLongPress: widget.onLongPress,
+            selected: widget.selected,
+            sortOrder: widget.sortOrder,
+          )),
+          IgnorePointer(
+              child: ExcludeSemantics(
+                  child: Container(
+            constraints: BoxConstraints(minWidth: target, minHeight: target),
+            decoration: BoxDecoration(
+              color: widget.selected == true
+                  ? Color.alphaBlend(
+                      colors.onSurface.withValues(alpha: 0.12), colors.surface)
+                  : colors.surface,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                  color: _focused
+                      ? HighContrastColors.focusIndicator
+                      : Colors.transparent,
+                  width: AccessibleSizing.focusIndicatorWidth),
             ),
-          ),
-        ),
+            child: Opacity(opacity: disabled ? 0.38 : 1, child: visual),
+          ))),
+        ],
       ),
     );
   }
