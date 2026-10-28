@@ -9,8 +9,18 @@ final List<EscapeTimeConfig> _newEscapeTimeFractalsCatalog = [
     name: 'Perpendicular Mandelbrot',
     shaderAsset:
         'shaders/escape_time_family/families/perpendicular/perpendicular_gpu.frag',
-    defaultIterations: 150,
+    defaultIterations: 160,
     extraPresets: [
+      // The first curated preset supplies the initial view and iteration budget.
+      // Frame the whole body before offering Stone Fold's relief close-up.
+      catalogPreset(
+        id: 'perp-mandel-overview',
+        moduleId: 'perpendicular_mandelbrot',
+        name: 'Full Set',
+        params: {'iterations': 160, 'bailout': 4.0, 'colorScheme': 0},
+        view: FractalViewState(
+            pan: Vector2(-0.8, 0.0), zoom: 0.28, rotation: Vector3.zero()),
+      ),
       catalogPreset(
         id: 'perp-mandel-relief',
         moduleId: 'perpendicular_mandelbrot',
