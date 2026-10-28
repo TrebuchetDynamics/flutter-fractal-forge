@@ -92,11 +92,12 @@ void main() {
 
   testWidgets('pan and 3D fling travel do not depend on display cadence',
       (tester) async {
-    for (final moduleId in [
-      'mandelbrot',
-      'mandelbulb',
-      'coral_growth_3d',
-      'quaternion_julia_3d',
+    for (final (moduleId, expectedYawSign, dragDx) in [
+      ('mandelbrot', -1, 100.0),
+      ('mandelbulb', -1, 100.0),
+      ('coral_growth_3d', -1, 100.0),
+      ('quaternion_julia_3d', 1, 100.0),
+      ('quaternion_julia_3d', -1, -100.0),
     ]) {
       for (final total in [320000, 2000000]) {
         Vector2? expectedPan;
@@ -113,7 +114,7 @@ void main() {
           final center = tester.getCenter(find.byType(FractalRenderer));
           final gesture = await tester.startGesture(center);
           for (var i = 1; i <= 3; i++) {
-            await gesture.moveBy(const Offset(100, 0),
+            await gesture.moveBy(Offset(dragDx, 0),
                 timeStamp: Duration(milliseconds: i * 20));
             await tester.pump(const Duration(milliseconds: 20));
           }
@@ -121,6 +122,10 @@ void main() {
           await tester.pump();
           final releasedPan = controller.view.pan.clone();
           final releasedRotation = controller.view.rotation.clone();
+          if (moduleId != 'mandelbrot') {
+            expect(releasedRotation.y * expectedYawSign, greaterThan(0),
+                reason: '$moduleId drag must use its camera convention');
+          }
           var elapsed = 0;
           while (elapsed < total) {
             final dt = (total - elapsed).clamp(0, cadence);
@@ -132,13 +137,8 @@ void main() {
           if (moduleId == 'mandelbrot') {
             expect(pan.x.abs(), greaterThan(0.01));
           } else {
-            expect(
-              rotation.y,
-              moduleId == 'quaternion_julia_3d'
-                  ? greaterThan(0.01)
-                  : lessThan(-0.01),
-              reason: '$moduleId must retain its camera orbit direction',
-            );
+            expect(rotation.y * expectedYawSign, greaterThan(0.01),
+                reason: '$moduleId fling must continue the drag');
           }
           expectedPan ??= pan;
           expectedRotation ??= rotation;
