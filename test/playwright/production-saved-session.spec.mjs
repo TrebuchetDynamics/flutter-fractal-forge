@@ -69,7 +69,8 @@ test('production restores legacy saved sessions, edits, favorites and usable pre
   await expectNewton(page);
   // UI edits force a fresh snapshot of the restored controller, not a read
   // of the seed left untouched in localStorage.
-  await page.getByRole('button', { name: /color scheme/i }).click({ force: true });
+  await page.getByRole('button', { name: /^More$/i }).click();
+  await page.getByRole('button', { name: /^Color Scheme\. Long press for palette$/i }).click();
   await expect.poll(async () => (await savedSession(page)).params.colorScheme).not.toBe(2);
   const colorEdited = await savedSession(page);
   expect(colorEdited.moduleId).toBe('newton_z3');
@@ -87,7 +88,8 @@ test('production restores legacy saved sessions, edits, favorites and usable pre
   await enableAccessibility(page);
   await expectNewton(page);
   // A second UI edit proves the reload restored the edited controller values.
-  await page.getByRole('button', { name: /color scheme/i }).click({ force: true });
+  await page.getByRole('button', { name: /^More$/i }).click();
+  await page.getByRole('button', { name: /^Color Scheme\. Long press for palette$/i }).click();
   await expect.poll(async () => (await savedSession(page)).params.colorScheme).not.toBe(edited.params.colorScheme);
   const restored = await savedSession(page);
   expect(restored.params).toEqual({ ...edited.params, colorScheme: edited.params.colorScheme + 1 });

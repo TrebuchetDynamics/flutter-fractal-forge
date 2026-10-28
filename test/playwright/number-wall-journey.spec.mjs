@@ -109,8 +109,8 @@ async function compareVisibleCells(page, testInfo, name, record, view = record.v
 
 async function exportAndCompare(page, testInfo, name, record) {
   await compareVisibleCells(page, testInfo, name, record);
-  await page.getByRole('button', { name: /viewer actions/i }).click();
-  await page.getByRole('menuitem', { name: /export/i }).click();
+  await page.getByRole('button', { name: /^More$/i }).click();
+  await page.getByRole('button', { name: /export/i }).click();
   await page.getByRole('button', { name: /customize/i }).click();
   const hd = page.getByRole('checkbox', { name: /HD \(1280[×x]720\)/ });
   // Flutter's canvas sheet can still be animating after its semantics appear.
@@ -283,7 +283,7 @@ test('Number Walls native/browser artwork, replay and download journey', async (
   await expect(wallCanvas(page).getByText('Computing exact finite-field wall…')).toBeVisible();
   await page.mouse.move(500, 350);
   await page.mouse.wheel(0, -100);
-  await expect(wallCanvas(page).getByText('Check cancelled; previous wall retained.')).toBeVisible();
+  await expect(wallCanvas(page).getByText('Check cancelled; previous wall retained.', { exact: true })).toBeVisible();
   expect((await savedSession(page)).params).toEqual(beforeCancel.params);
   const cancelFeedbackMs = Date.now() - clock;
   const cancelledView = (await savedSession(page)).view;
@@ -294,7 +294,8 @@ test('Number Walls native/browser artwork, replay and download journey', async (
   await applyVerifiedReplay();
 
   // A real UI edit, durable reload and same-state PNG, not seed-only readback.
-  await page.getByRole('button', { name: /color scheme/i }).click({ force: true });
+  await page.getByRole('button', { name: /^More$/i }).click();
+  await page.getByRole('button', { name: /^Color Scheme\. Long press for palette$/i }).click();
   await expect.poll(async () => (await savedSession(page)).params.colorScheme).not.toBe(replay.params.colorScheme);
   const styled = await savedSession(page);
   await page.goto('/');
@@ -328,14 +329,25 @@ test('Number Walls native/browser artwork, replay and download journey', async (
     }
     await expect(editor).toBeInViewport({ timeout: 500 });
   }).toPass({ timeout: 15_000 });
-  const editorBounds = await editor.boundingBox();
-  await page.mouse.click(editorBounds.x + 80, editorBounds.y + editorBounds.height / 2);
-  await page.keyboard.press('Control+A');
-  await page.keyboard.type(largePrime);
+  await editor.focus();
+  await expect(editor).toBeFocused();
+  // Wait for Flutter's activated input listener before replacing the old prime.
+  await expect(editor).toHaveAttribute('autocorrect', 'on');
+  await editor.press('Control+A');
+  await editor.pressSequentially(largePrime, { delay: 20 });
+  await expect(editor).toHaveValue(largePrime);
   clock = Date.now();
-  await page.getByRole('button', { name: /apply verified prime/i }).click({ force: true });
-  await page.getByRole('button', { name: 'Cancel', exact: true }).click({ force: true });
-  await expect(wallCanvas(page).getByText('Check cancelled; previous wall retained.')).toBeVisible();
+  // The scroll semantics intercept pointer hits here, as for Undo above.
+  // Activate the exposed UI actions rather than guessing canvas coordinates.
+  const applyPrime = page.getByRole('button', { name: /apply verified prime/i });
+  await expect(applyPrime).toBeVisible();
+  await expect(applyPrime).toBeEnabled();
+  await applyPrime.dispatchEvent('click');
+  const cancelPrime = page.getByRole('button', { name: 'Cancel', exact: true });
+  await expect(cancelPrime).toBeVisible();
+  await expect(cancelPrime).toBeEnabled();
+  await cancelPrime.dispatchEvent('click');
+  await expect(wallCanvas(page).getByText('Check cancelled; previous wall retained.', { exact: true })).toBeVisible();
   expect((await savedSession(page)).params).toEqual(styled.params);
   const largeFeedbackMs = Date.now() - clock;
   const largeGuard = await observeRetainedParams(page, styled.params);
