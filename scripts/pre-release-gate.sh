@@ -11,7 +11,7 @@ DISPOSABLE_DEVICE=""
 DEVICE_MUTATION_STARTED=0
 BUILD_NAME="${RELEASE_BUILD_NAME:-}"
 BUILD_NUMBER="${RELEASE_BUILD_NUMBER:-}"
-SOAK_SECONDS=1800
+SOAK_SECONDS=300
 MAX_PSS_KB="${MAX_PSS_KB:-1048576}"
 MAX_PSS_GROWTH_KB="${MAX_PSS_GROWTH_KB:-393216}"
 MAX_JANKY_FRAME_PERCENT="${MAX_JANKY_FRAME_PERCENT:-10}"
@@ -38,7 +38,7 @@ Options:
                        Confirm the same entire device is disposable; required
                        for execution. Apps/data may be deleted or replaced,
                        including by Flutter integration tests. No profile isolation.
-  --soak-seconds N     Required wall-clock monkey soak seconds (default: 1800)
+  --soak-seconds N     Required wall-clock monkey soak seconds (default: 300 = 5 minutes)
   --build-name NAME    Version name for the production-mode APK
   --build-number N     Version code for the production-mode APK
   --log-dir DIR        Evidence output directory

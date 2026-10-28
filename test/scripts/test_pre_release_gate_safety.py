@@ -209,8 +209,13 @@ def test_android_device_environment_accepts_only_explicit_matching_consent(gate)
     assert installed.read_text() == "release-signed app with irreplaceable presets"
 
 
-def test_disposable_route_runs_mandatory_gates_and_rejects_missing_soak(gate):
-    result, calls, _ = gate("--device", DEVICE, "--disposable-device", DEVICE)
+@pytest.mark.parametrize("soak_args, expected_deadline", [
+    ([], "300s"),
+    (["--soak-seconds", "1800"], "1800s"),
+], ids=["default-five-minutes", "explicit-thirty-minutes"])
+def test_disposable_route_runs_mandatory_gates_and_rejects_missing_soak(
+        gate, soak_args, expected_deadline):
+    result, calls, _ = gate("--device", DEVICE, "--disposable-device", DEVICE, *soak_args)
     assert result.returncode != 0
     assert "Soak ended without the expected wall-clock timeout" in result.stderr
     flutter = [call[1:] for call in calls if call[0] == "flutter"]
@@ -227,6 +232,7 @@ def test_disposable_route_runs_mandatory_gates_and_rejects_missing_soak(gate):
     assert sum(call == ["adb", "-s", DEVICE, "install", "build/app/outputs/flutter-apk/app-release.apk"]
                for call in calls) == 2
     soak = next(call for call in calls if call[:2] == ["timeout", "--signal=INT"])
+    assert soak[3] == expected_deadline
     # Arbitrary keys can bypass the disabled system/navigation categories.
     assert "--pct-anyevent" in soak
     assert soak[soak.index("--pct-anyevent") + 1] == "0"
