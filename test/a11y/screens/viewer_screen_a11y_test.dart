@@ -88,8 +88,14 @@ void main() {
 
       final root = semanticsRoot(tester);
       expect(operableControlNames(root), isNotEmpty,
-          reason: 'the FAB column never entered, so the rest of this and the '
+          reason: 'the toolbar never entered, so the rest of this and the '
               'guidelines above would pass vacuously');
+      for (final label in ['Controls', 'Palette', 'Random', 'More']) {
+        expect(operableControlNames(root).where((name) => name == label),
+            hasLength(1));
+      }
+      expect(operableControlNames(root), hasLength(5),
+          reason: 'four primary tools and catalog Back, not hidden More rows');
       expect(findUnnamedControls(root).map((c) => '$c').toList(), isEmpty);
       expect(findStackedStops(root), isEmpty);
       expect(findUnnamedSliders(root), isEmpty);
@@ -98,23 +104,92 @@ void main() {
       await disposeAccessibilityTestWidget(tester);
     });
 
-    testWidgets('Controls HUD removes the overlapping FAB rail and semantics',
+    testWidgets('Controls HUD removes the overlapping toolbar and semantics',
         (tester) async {
       final handle = tester.ensureSemantics();
       await tester.pumpWidget(buildApp());
       await pumpAccessibilityTestFrames(tester);
 
-      await tester
-          .longPress(find.byKey(const ValueKey('viewerRandomParamsButton')));
+      await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
       await pumpAccessibilityTestFrames(tester);
 
       expect(find.byType(FractalControlsHud), findsOneWidget);
+      expect(find.byKey(const ValueKey('viewerControlsButton')), findsNothing);
+      expect(find.bySemanticsLabel('More'), findsNothing);
       expect(find.byKey(const ValueKey('viewerFourierFab')), findsNothing);
       expect(find.bySemanticsLabel('Fourier view off'), findsNothing);
 
       handle.dispose();
       await disposeAccessibilityTestWidget(tester);
     });
+
+    for (final scale in [1.0, 3.0]) {
+      testWidgets(
+          'More tools remain named once with accessible targets at ${scale}x',
+          (tester) async {
+        await tester.binding.setSurfaceSize(const Size(320, 568));
+        addTearDown(() => tester.binding.setSurfaceSize(null));
+        final handle = tester.ensureSemantics();
+        await tester.pumpWidget(buildApp(textScale: scale));
+        await pumpAccessibilityTestFrames(tester);
+        await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+        await pumpAccessibilityTestFrames(tester);
+
+        const tools = {
+          'viewerOpenExportAction': 'Export',
+          'viewerShareLinkAction': 'Copy view link',
+          'viewerShareImageAction': 'Share image',
+          'viewerRandomOptionsAction': 'Random options',
+          'viewerRandomParamsButton': 'Randomize. Long press for Controls',
+          'viewerRandomParamsButtonOptions':
+              'Randomize. Long press for Controls: Options',
+          'viewerColorCycleButton': 'Color Scheme. Long press for palette',
+          'viewerColorCycleButtonOptions':
+              'Color Scheme. Long press for palette: Options',
+          'viewerAutoExploreButton': 'Start auto-explore',
+          'viewerAutoExploreButtonOptions': 'Start auto-explore: Options',
+          'viewerLooperFab': 'Camera looper',
+          'viewerKaleidoscopeFab': 'Kaleidoscope off',
+          'viewerKaleidoscopeFabOptions': 'Kaleidoscope off: Options',
+          'viewerFourierFab': 'Fourier view off',
+          'viewerFourierFabOptions': 'Fourier view off: Options',
+          'viewerTextOverlayFab': 'Text overlay off. Tap to add text.',
+          'viewerTextOverlayFabOptions':
+              'Text overlay off. Tap to add text.: Options',
+          'viewerFractalMusicFab': 'Fractal Music off',
+          'viewerFullscreenButton': 'Fullscreen view',
+        };
+        for (final entry in tools.entries) {
+          final tool = find.byKey(ValueKey(entry.key));
+          await tester.ensureVisible(tool);
+          await pumpAccessibilityTestFrames(tester);
+          expect(tool.hitTestable(), findsOneWidget, reason: entry.key);
+          final target = tester.getSize(tool);
+          expect(target.width, greaterThanOrEqualTo(48), reason: entry.key);
+          expect(target.height, greaterThanOrEqualTo(48), reason: entry.key);
+          final root = semanticsRoot(tester);
+          expect(
+              operableControlNames(root).where((name) => name == entry.value),
+              hasLength(1),
+              reason: entry.key);
+          expect(findUnnamedControls(root), isEmpty, reason: entry.key);
+          expect(findStackedStops(root), isEmpty, reason: entry.key);
+          expect(findUnnamedSliders(root), isEmpty, reason: entry.key);
+          // Audit the fully revealed control, not unrelated rows clipped by
+          // the scroll viewport (whose visible semantics may be a thin sliver).
+          final semanticTarget =
+              tester.getSemantics(find.bySemanticsLabel(entry.value)).rect.size;
+          expect(semanticTarget.width, greaterThanOrEqualTo(48),
+              reason: entry.key);
+          expect(semanticTarget.height, greaterThanOrEqualTo(48),
+              reason: entry.key);
+          await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
+          await expectLater(tester, meetsGuideline(textContrastGuideline));
+        }
+        handle.dispose();
+        await disposeAccessibilityTestWidget(tester);
+      });
+    }
 
     /// Fullscreen strips the chrome down to the canvas and a single exit
     /// button, which is the one FAB with no long-press action, so it exercises
@@ -124,7 +199,12 @@ void main() {
       await tester.pumpWidget(buildApp());
       await pumpAccessibilityTestFrames(tester);
 
-      await tester.tap(find.byKey(const ValueKey('viewerFullscreenButton')));
+      await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+      await pumpAccessibilityTestFrames(tester);
+      final fullscreen = find.byKey(const ValueKey('viewerFullscreenButton'));
+      await tester.ensureVisible(fullscreen);
+      await pumpAccessibilityTestFrames(tester);
+      await tester.tap(fullscreen);
       await pumpAccessibilityTestFrames(tester);
 
       final root = semanticsRoot(tester);
@@ -173,8 +253,8 @@ void main() {
         () async {
           await tester.pumpWidget(buildApp(textScale: 3.0));
           await pumpAccessibilityTestFrames(tester);
-          await tester.longPress(
-            find.byKey(const ValueKey('viewerColorCycleButton')),
+          await tester.tap(
+            find.byKey(const ValueKey('viewerPaletteButton')),
           );
           await pumpAccessibilityTestFrames(tester);
         },

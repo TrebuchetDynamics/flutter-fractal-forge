@@ -271,9 +271,9 @@ void main() {
       await tester.pump(const Duration(seconds: 3));
       expectViewerOpened(tester, 'mandelbrot');
 
-      // Open controls panel from the randomize params FAB long-press.
-      expect(find.byKey(const Key('viewerRandomParamsButton')), findsOneWidget);
-      await tester.longPress(find.byKey(const Key('viewerRandomParamsButton')));
+      // Open controls panel from its primary toolbar action.
+      expect(find.byKey(const Key('viewerControlsButton')), findsOneWidget);
+      await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 800));
 

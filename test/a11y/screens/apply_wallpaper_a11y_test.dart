@@ -151,7 +151,11 @@ void main() {
       await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
       await tester.pumpAndSettle();
       final es = locale.languageCode == 'es';
-      await tester.tap(find.text(es ? 'Fondo de pantalla' : 'Wallpaper'));
+      final wallpaper = find.byKey(const ValueKey('viewerWallpaperAction'));
+      expect(find.text(es ? 'Fondo de pantalla' : 'Wallpaper'), findsOneWidget);
+      await tester.ensureVisible(wallpaper);
+      await tester.pumpAndSettle();
+      await tester.tap(wallpaper);
       await tester.pumpAndSettle();
       final apply = find.text(es ? 'Aplicar' : 'Apply');
       await tester.ensureVisible(apply);

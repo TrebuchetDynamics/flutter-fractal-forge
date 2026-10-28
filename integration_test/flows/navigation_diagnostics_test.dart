@@ -158,7 +158,7 @@ void main() {
         expectedModuleId: 'mandelbrot',
       );
 
-      await tester.longPress(find.byKey(const Key('viewerRandomParamsButton')));
+      await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 700));
       checkedRoutes.add('/viewer/controls');

@@ -210,7 +210,10 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Export'));
+      final export = find.byKey(const ValueKey('viewerOpenExportAction'));
+      await tester.ensureVisible(export);
+      await tester.pumpAndSettle();
+      await tester.tap(export);
       await tester.pumpAndSettle();
       final sheet = tester.state(find.byType(ExportOptionsSheet));
       await deliverLink(tester, 'type=julia&zoom=7');
@@ -242,7 +245,10 @@ void main() {
         });
         await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
         await tester.pumpAndSettle();
-        await tester.tap(find.text('Share image'));
+        final share = find.byKey(const ValueKey('viewerShareImageAction'));
+        await tester.ensureVisible(share);
+        await tester.pumpAndSettle();
+        await tester.tap(share);
         // Drain filesystem preflight, stopping at the deferred native picker.
         for (var i = 0; i < 20 && !pickerEntered.isCompleted; i++) {
           await tester.runAsync(() => directory.exists());
@@ -493,11 +499,16 @@ void main() {
         await tester.pumpAndSettle();
         expect(find.byKey(const Key('fractalViewerRoot')), findsOneWidget);
         if (mode == 'fullscreen') {
-          await tester.tap(find.byTooltip('Fullscreen view'));
+          await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+          await tester.pumpAndSettle();
+          final fullscreen =
+              find.byKey(const ValueKey('viewerFullscreenButton'));
+          await tester.ensureVisible(fullscreen);
+          await tester.pumpAndSettle();
+          await tester.tap(fullscreen);
           await tester.pumpAndSettle();
         } else if (mode == 'controls') {
-          await tester.longPress(
-              find.byKey(const ValueKey('viewerRandomParamsButton')));
+          await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
           await tester.pumpAndSettle();
         }
         final back = find.byKey(const Key('viewerBackToCatalogButton'));

@@ -48,11 +48,11 @@ void main() {
     drainKnownShaderExceptions(tester);
 
     // 3. Verify Viewer matches
-    expect(find.byKey(const Key('viewerRandomParamsButton')), findsOneWidget);
+    expect(find.byKey(const Key('viewerControlsButton')), findsOneWidget);
     debugPrint('Viewer loaded successfully');
 
-    // 4. Open Controls (randomize params long-press)
-    await tester.longPress(find.byKey(const Key('viewerRandomParamsButton')));
+    // 4. Open Controls from the primary toolbar
+    await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
 
     await pumpForUiTransition(
       tester,
@@ -63,7 +63,7 @@ void main() {
     expect(find.text('Controls'), findsWidgets);
     debugPrint('Controls sheet opened successfully');
 
-    await tester.tapAt(const Offset(10, 10));
+    await tester.tap(find.byIcon(Icons.close_rounded).last);
     await pumpForUiTransition(
       tester,
       settle: const Duration(milliseconds: 300),

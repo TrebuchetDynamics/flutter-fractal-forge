@@ -111,12 +111,11 @@ void main() {
           } finally {
             image.dispose();
           }
-          final randomize =
-              find.byKey(const ValueKey('viewerRandomParamsButton'));
-          await tester.ensureVisible(randomize);
-          await tester.pumpAndSettle();
-          await tester.longPress(randomize);
-          await tester.pumpAndSettle();
+          final controls = find.byKey(const ValueKey('viewerControlsButton'));
+          await tester.ensureVisible(controls);
+          await pumpForUiTransition(tester);
+          await tester.tap(controls);
+          await pumpForUiTransition(tester);
           expect(find.text(l10n.controlsTitle), findsOneWidget);
 
           // Explicit catalog Back pops directly, unlike system Back, which
