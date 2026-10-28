@@ -123,6 +123,7 @@ void main() {
       expect(find.text('Fluid mode'), findsOneWidget);
       expect(find.text('Fluid intensity'), findsNothing);
 
+      await tester.ensureVisible(find.text('Fluid mode'));
       await tester.tap(find.text('Fluid mode'));
       await tester.pumpAndSettle();
 
@@ -138,6 +139,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(harness.controller.fluidStrength, isNot(initialStrength));
 
+      await tester.ensureVisible(find.text('Fluid mode'));
       await tester.tap(find.text('Fluid mode'));
       await tester.pumpAndSettle();
       expect(find.text('Fluid intensity'), findsNothing);
