@@ -23,7 +23,7 @@ import 'package:flutter_fractals/core/services/storage/viewer_session_store.dart
 import 'package:flutter_fractals/features/history/history_provider.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
-import 'package:flutter_fractals/features/auto_explore/auto_explore_controls.dart';
+import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_service.dart';
 import 'package:flutter_fractals/features/looper/looper_sheet.dart';
 import 'package:flutter_fractals/features/looper/looper_controller.dart';
@@ -596,6 +596,74 @@ void main() {
       );
     }
 
+    Future<void> tapVisibleAction(WidgetTester tester, String key) async {
+      final action = find.byKey(ValueKey(key));
+      await tester.ensureVisible(action);
+      await tester.pumpAndSettle();
+      expect(action.hitTestable(), findsOneWidget);
+      await tester.tap(action);
+    }
+
+    Future<Finder> revealMoreAction(WidgetTester tester, String key) async {
+      await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+      await tester.pumpAndSettle();
+      final action = find.byKey(ValueKey(key));
+      await tester.ensureVisible(action);
+      await tester.pumpAndSettle();
+      return action;
+    }
+
+    testWidgets('viewer protects system bars with opaque readable surfaces',
+        (tester) async {
+      tester.view.devicePixelRatio = 1;
+      tester.view.physicalSize = const Size(360, 780);
+      tester.view.padding = const FakeViewPadding(top: 24, bottom: 48);
+      tester.view.viewPadding = const FakeViewPadding(top: 24, bottom: 48);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetPadding);
+      addTearDown(tester.view.resetViewPadding);
+      await tester.pumpWidget(buildTestWidget(theme: AppTheme.dark));
+      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 600));
+      final top = find.byKey(const Key('viewerStatusBarSurface'));
+      final bottom = find.byKey(const Key('viewerNavigationBarSurface'));
+      expect(tester.getRect(top), const Rect.fromLTWH(0, 0, 360, 24));
+      expect(tester.getRect(bottom), const Rect.fromLTWH(0, 732, 360, 48));
+      for (final surface in [top, bottom]) {
+        final color = tester.widget<ColoredBox>(surface).color;
+        expect(color.a, 1);
+        final whiteContrast = 1.05 / (color.computeLuminance() + 0.05);
+        expect(whiteContrast, greaterThanOrEqualTo(4.5));
+      }
+      final overlay = tester.widget<AnnotatedRegion<SystemUiOverlayStyle>>(
+          find.byKey(const Key('viewerSystemUi')));
+      expect(overlay.value.statusBarIconBrightness, Brightness.light);
+      expect(overlay.value.systemNavigationBarIconBrightness, Brightness.light);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('viewer title has an opaque surface and readable two-line copy',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget(theme: AppTheme.dark));
+      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 600));
+      final title = find.byKey(const Key('viewerTitleChip'));
+      final surface = tester.widget<Container>(find
+          .descendant(
+            of: title,
+            matching: find.byWidgetPredicate((widget) =>
+                widget is Container && widget.decoration is BoxDecoration),
+          )
+          .first);
+      expect((surface.decoration! as BoxDecoration).color!.a, 1);
+      final text =
+          tester.widget<Text>(find.byKey(const Key('viewerTitleChipText')));
+      expect(text.maxLines, 2);
+      expect(text.style!.fontSize, greaterThanOrEqualTo(14));
+      expect(tester.takeException(), isNull);
+    });
+
     for (final locale in const [Locale('en'), Locale('es')]) {
       for (final width in const [320.0, 768.0, 1024.0, 1440.0]) {
         testWidgets('compact catalog Back ${locale.languageCode} at $width',
@@ -703,7 +771,7 @@ void main() {
                   final titleText = tester.widget<Text>(
                       find.byKey(const Key('viewerTitleChipText')));
                   expect(titleText.data, title);
-                  expect(titleText.maxLines, 1);
+                  expect(titleText.maxLines, size.height < 320 ? 1 : 2);
                   expect(titleText.overflow, TextOverflow.ellipsis);
                   final titleRect = tester.getRect(titleChip);
                   expect(titleRect.left, greaterThanOrEqualTo(padding.left));
@@ -714,20 +782,22 @@ void main() {
                       lessThanOrEqualTo(size.height - padding.bottom));
                   expect(rect.overlaps(titleRect), isFalse);
                   final overflow = find.byKey(const Key('viewerOverflowMenu'));
-                  expect(tester.getSize(overflow),
-                      Size.square(largeTargets ? 56 : 48));
-                  final overflowButton =
-                      tester.widget<PopupMenuButton<String>>(overflow);
-                  expect(overflowButton.style?.shape?.resolve({}),
-                      isA<CircleBorder>());
+                  final target = largeTargets ? 56.0 : 48.0;
+                  expect(tester.getSize(overflow).width,
+                      greaterThanOrEqualTo(target));
+                  expect(tester.getSize(overflow).height,
+                      greaterThanOrEqualTo(target));
+                  expect(
+                      tester
+                          .widget<FloatingActionButtonWidget>(overflow)
+                          .onPressed,
+                      isNotNull);
                   final actions = <Finder>[
                     for (final action
                         in find.byType(FloatingActionButtonWidget).evaluate())
                       find.byWidget(action.widget),
-                    find.byKey(const Key('viewerOverflowMenu')),
-                    find.byKey(const Key('viewerAutoExploreButton')),
                   ];
-                  expect(actions, isNotEmpty);
+                  expect(actions, hasLength(4));
                   for (final action in actions) {
                     await tester.ensureVisible(action);
                     await tester.pumpAndSettle();
@@ -744,12 +814,15 @@ void main() {
                     expect(actionRect.bottom,
                         lessThanOrEqualTo(size.height - padding.bottom),
                         reason: '$action bottom safe bound');
-                    expect(rect.overlaps(actionRect), isFalse,
+                    expect(tester.getRect(back).overlaps(actionRect), isFalse,
                         reason: 'Back overlaps $action');
-                    expect(titleRect.overlaps(actionRect), isFalse,
+                    expect(
+                        tester.getRect(titleChip).overlaps(actionRect), isFalse,
                         reason: 'Title overlaps $action');
                   }
                   expect(tester.takeException(), isNull);
+                  await tester.ensureVisible(back);
+                  await tester.pumpAndSettle();
                   await tester.tap(back);
                   await tester.pumpAndSettle();
                   expect(find.text('Catalog route'), findsOneWidget);
@@ -816,16 +889,14 @@ void main() {
               ),
             );
         await tester.pumpAndSettle();
-        await tester.longPress(
-          find.byKey(const ValueKey('viewerRandomParamsButton')),
-        );
+        await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
         await tester.pumpAndSettle();
-        expect(find.text('Controls'), findsOneWidget);
+        expect(find.byType(FractalControlsHud), findsOneWidget);
 
         if (systemBack) {
           await tester.binding.handlePopRoute();
           await tester.pumpAndSettle();
-          expect(find.text('Controls'), findsNothing);
+          expect(find.byType(FractalControlsHud), findsNothing);
           expect(find.byType(FractalViewerScreen), findsOneWidget);
           await tester.binding.handlePopRoute();
         } else {
@@ -850,7 +921,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Export'));
+      await tapVisibleAction(tester, 'viewerOpenExportAction');
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
       await tester.pump();
@@ -963,7 +1034,7 @@ void main() {
       expect(controller.rotationLocked, isTrue);
       expect(controller.glowEnabled, isTrue);
       expect(find.text('Julia'), findsOneWidget);
-      expect(find.text('Controls'), findsOneWidget);
+      expect(find.byType(FractalControlsHud), findsOneWidget);
       await tester.pump(const Duration(milliseconds: 600));
     });
 
@@ -1042,7 +1113,7 @@ void main() {
           view: controller.view.copyWith(zoom: 9));
       await tester.pump(const Duration(milliseconds: 20));
       expect(controller.module.id, 'julia');
-      expect(find.text('Controls'), findsNothing);
+      expect(find.byType(FractalControlsHud), findsNothing);
       final saved = viewerSessionStore.load()!;
       expect(saved.moduleId, 'julia');
       expect(saved.params['iterations'], 123);
@@ -1108,7 +1179,7 @@ void main() {
           expect(controller.glowEnabled, isFalse);
           expect(controller.transparentBackground, isFalse);
           expect(controller.rotationLocked, isFalse);
-          expect(find.text('Controls'), findsNothing);
+          expect(find.byType(FractalControlsHud), findsNothing);
         } finally {
           if (!release.isCompleted) release.complete();
           await exporting;
@@ -1165,6 +1236,7 @@ void main() {
       expect(controller.module.id, 'domain_coloring');
       expect(controller.params['iterations'], 77);
       expect(controller.view.zoom, 3);
+      historyProvider.cancelPendingRecord();
     });
 
     testWidgets('displays current module name in app bar', (tester) async {
@@ -1172,6 +1244,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Mandelbrot'), findsOneWidget);
+      // This value-provided fixture outlives the widget's fakeAsync scope.
+      historyProvider.cancelPendingRecord();
     });
 
     testWidgets('does not show renderer status chip', (tester) async {
@@ -1180,6 +1254,8 @@ void main() {
 
       expect(find.byKey(const Key('viewerStatusChip')), findsNothing);
       expect(find.byKey(const Key('viewerStatusChipText')), findsNothing);
+      // This value-provided fixture outlives the widget's fakeAsync scope.
+      historyProvider.cancelPendingRecord();
     });
 
     testWidgets('back FAB is not shown', (tester) async {
@@ -1187,12 +1263,15 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byTooltip('Back'), findsNothing);
+      // This value-provided fixture outlives the widget's fakeAsync scope.
+      historyProvider.cancelPendingRecord();
     });
 
-    testWidgets('fullscreen FAB is shown', (tester) async {
+    testWidgets('fullscreen action is discoverable in More', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
+      await revealMoreAction(tester, 'viewerFullscreenButton');
       expect(find.byTooltip('Fullscreen view'), findsOneWidget);
     });
 
@@ -1212,16 +1291,10 @@ void main() {
         await tester.pumpAndSettle();
 
         for (final key in const [
-          'viewerRandomParamsButton',
-          'viewerColorCycleButton',
-          'viewerExportButton',
-          'viewerFullscreenButton',
+          'viewerControlsButton',
+          'viewerPaletteButton',
           'viewerRandomFractalFab',
-          'viewerLooperFab',
-          'viewerFractalMusicFab',
-          'viewerKaleidoscopeFab',
-          'viewerTextOverlayFab',
-          'viewerFourierFab',
+          'viewerOverflowMenu',
         ]) {
           final finder = find.byKey(ValueKey(key));
           expect(finder, findsOneWidget,
@@ -1236,6 +1309,27 @@ void main() {
           expect(rect.bottom, lessThanOrEqualTo(configuration.size.height),
               reason: '$key is below the viewport at $configuration');
         }
+        for (final key in const [
+          'viewerRandomParamsButton',
+          'viewerColorCycleButton',
+          'viewerFullscreenButton',
+          'viewerLooperFab',
+          'viewerFractalMusicFab',
+          'viewerKaleidoscopeFab',
+          'viewerTextOverlayFab',
+          'viewerFourierFab',
+        ]) {
+          final action = await revealMoreAction(tester, key);
+          expect(action.hitTestable(), findsOneWidget,
+              reason: '$key is not reachable at $configuration');
+          final rect = tester.getRect(action);
+          expect(rect.left, greaterThanOrEqualTo(0));
+          expect(rect.top, greaterThanOrEqualTo(0));
+          expect(rect.right, lessThanOrEqualTo(configuration.size.width));
+          expect(rect.bottom, lessThanOrEqualTo(configuration.size.height));
+          await tester.binding.handlePopRoute();
+          await tester.pumpAndSettle();
+        }
         expect(tester.takeException(), isNull);
       }
       addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
@@ -1247,7 +1341,8 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      final autoExplore = find.byKey(const ValueKey('viewerAutoExploreButton'));
+      final autoExplore =
+          await revealMoreAction(tester, 'viewerAutoExploreButton');
       expect(autoExplore, findsOneWidget);
       expect(find.byTooltip('Start auto-explore'), findsOneWidget);
       expect(
@@ -1265,9 +1360,8 @@ void main() {
       // Build the initial hidden viewer without enabling normal app frames.
       tester.binding.scheduleForcedFrame();
       await tester.pumpAndSettle();
-      final button = find.byKey(const ValueKey('viewerAutoExploreButton'));
       final service = tester
-          .element(find.byType(AutoExploreButton))
+          .element(find.byType(FractalViewControls))
           .read<AutoExploreService>();
       service.start();
       service.resume();
@@ -1278,7 +1372,8 @@ void main() {
       await tester.pumpAndSettle();
       expect(service.isExploring, isFalse);
       service.speed = 2;
-      await tester.tap(button);
+      await tester
+          .tap(await revealMoreAction(tester, 'viewerAutoExploreButton'));
       await tester.pump(const Duration(milliseconds: 32));
       expect(service.debugHasPendingAnimation, isTrue);
 
@@ -1303,7 +1398,8 @@ void main() {
       expect(service.isPaused, isTrue);
       expect(service.speed, 2);
 
-      await tester.tap(button);
+      await tester
+          .tap(await revealMoreAction(tester, 'viewerAutoExploreButton'));
       await tester.pump(const Duration(milliseconds: 32));
       expect(writes, greaterThan(0));
       expect(service.isPaused, isFalse);
@@ -1329,14 +1425,15 @@ void main() {
             _BlockingPublicationExportService(ExportCoordinator());
         await tester.pumpWidget(buildTestWidget(exportService: exportService));
         await tester.pumpAndSettle();
-        final button = find.byKey(const ValueKey('viewerAutoExploreButton'));
-        final service = tester.element(button).read<AutoExploreService>();
+        final button =
+            await revealMoreAction(tester, 'viewerAutoExploreButton');
+        final service = tester.element(button).read<AutoExploreService?>()!;
         await tester.tap(button);
         await tester.pump(const Duration(milliseconds: 32));
         await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
         await tester.pump();
         await tester.pump(const Duration(milliseconds: 300));
-        await tester.tap(find.text('Export'));
+        await tapVisibleAction(tester, 'viewerOpenExportAction');
         final view = _cameraBytes(controller.view);
         await tester.pumpAndSettle();
         await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
@@ -1374,7 +1471,8 @@ void main() {
           await tester.pump(const Duration(seconds: 5));
           await tester.pumpAndSettle();
           expect(writes, 0);
-          await tester.tap(button);
+          await tester
+              .tap(await revealMoreAction(tester, 'viewerAutoExploreButton'));
           await tester.pump(const Duration(milliseconds: 32));
           expect(writes, greaterThan(0));
         }
@@ -1391,17 +1489,10 @@ void main() {
       await tester.pumpAndSettle();
 
       const orderedKeys = [
-        'viewerRandomParamsButton',
-        'viewerColorCycleButton',
+        'viewerControlsButton',
+        'viewerPaletteButton',
         'viewerRandomFractalFab',
-        'viewerAutoExploreButton',
-        'viewerLooperFab',
-        'viewerKaleidoscopeFab',
-        'viewerFourierFab',
-        'viewerTextOverlayFab',
-        'viewerFractalMusicFab',
-        'viewerExportButton',
-        'viewerFullscreenButton',
+        'viewerOverflowMenu',
       ];
       for (var index = 0; index < orderedKeys.length; index++) {
         final finder = find.byKey(ValueKey(orderedKeys[index]));
@@ -1424,14 +1515,13 @@ void main() {
         await tester.pump();
         final focusable = find.descendant(
           of: finder,
-          matching: index == orderedKeys.indexOf('viewerExportButton')
-              ? find.byType(Focus)
-              : find.byType(FocusableActionDetector),
+          matching: find.byType(FocusableActionDetector),
         );
         expect(Focus.of(tester.element(focusable)).hasFocus, isTrue,
             reason: '${orderedKeys[index]} was not tab stop ${index + 1}');
       }
       semantics.dispose();
+      historyProvider.cancelPendingRecord();
     });
 
     testWidgets('promoted actions expose localized labels and hints',
@@ -1440,6 +1530,7 @@ void main() {
         await tester.pumpWidget(buildTestWidget(locale: locale));
         await tester.pumpAndSettle();
 
+        await revealMoreAction(tester, 'viewerFourierFab');
         final expectedLabel = locale.languageCode == 'es'
             ? 'Vista de Fourier desactivada'
             : 'Fourier view off';
@@ -1459,15 +1550,16 @@ void main() {
           ),
         );
         expect(semantics.properties.hint, expectedHint);
+        await tester.binding.handlePopRoute();
+        await tester.pumpAndSettle();
       }
     });
 
-    testWidgets('fractal music action is directly discoverable',
-        (tester) async {
+    testWidgets('fractal music action is discoverable in More', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      final music = find.byKey(const ValueKey('viewerFractalMusicFab'));
+      final music = await revealMoreAction(tester, 'viewerFractalMusicFab');
       expect(music, findsOneWidget);
       await tester.ensureVisible(music);
       await tester.pumpAndSettle();
@@ -1479,7 +1571,7 @@ void main() {
           findsOneWidget);
     });
 
-    testWidgets('FAB column stays on-screen and scrolls on short viewports',
+    testWidgets('toolbar and More stay bounded on short viewports',
         (tester) async {
       // Simulate a short viewport (e.g. landscape phone / small web window)
       // where the stacked FAB column is taller than the available height.
@@ -1496,7 +1588,8 @@ void main() {
 
       // The top-most quick-control FAB must stay within the viewport instead of
       // being pushed above the top edge (the pre-fix overflow symptom).
-      final fullscreen = find.byKey(const ValueKey('viewerFullscreenButton'));
+      final fullscreen =
+          await revealMoreAction(tester, 'viewerFullscreenButton');
       expect(fullscreen, findsOneWidget);
       expect(tester.getRect(fullscreen).top, greaterThanOrEqualTo(0.0),
           reason: 'top FAB was pushed off the top of the viewport');
@@ -1550,7 +1643,7 @@ void main() {
         reason: 'No intermediate default-palette frame may be published',
       );
 
-      // Let delayed FAB fade-in timers complete before teardown.
+      // Let the toolbar fade-in complete before teardown.
       await tester.pump(const Duration(milliseconds: 400));
 
       // Drain/cancel pending history debounce timer to keep test harness clean.
@@ -1564,6 +1657,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.camera_rounded), findsNothing);
+      // This value-provided fixture outlives the widget's fakeAsync scope.
+      historyProvider.cancelPendingRecord();
     });
 
     testWidgets('fullscreen FAB collapses controls and restores them',
@@ -1571,24 +1666,26 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.byTooltip('Fullscreen view'), findsOneWidget);
+      expect(
+          find.byKey(const ValueKey('viewerControlsButton')), findsOneWidget);
       expect(find.byTooltip('Back'), findsNothing);
-      expect(find.byIcon(Icons.tune_rounded), findsOneWidget);
       expect(find.byKey(const Key('viewerStatusChip')), findsNothing);
 
-      await tester.tap(find.byTooltip('Fullscreen view'));
+      await tester
+          .tap(await revealMoreAction(tester, 'viewerFullscreenButton'));
       await tester.pumpAndSettle();
 
       expect(find.byTooltip('Exit fullscreen view'), findsOneWidget);
       expect(find.byTooltip('Back'), findsNothing);
-      expect(find.byIcon(Icons.tune_rounded), findsNothing);
+      expect(find.byKey(const ValueKey('viewerControlsButton')), findsNothing);
       expect(find.byKey(const Key('viewerStatusChip')), findsNothing);
 
       await tester.tap(find.byTooltip('Exit fullscreen view'));
       await tester.pumpAndSettle();
 
       expect(find.byTooltip('Back'), findsNothing);
-      expect(find.byIcon(Icons.tune_rounded), findsOneWidget);
+      expect(
+          find.byKey(const ValueKey('viewerControlsButton')), findsOneWidget);
       expect(find.byKey(const Key('viewerStatusChip')), findsNothing);
     });
 
@@ -1597,6 +1694,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byKey(const ValueKey('viewerExportButton')), findsOneWidget);
+      // This value-provided fixture outlives the widget's fakeAsync scope.
+      historyProvider.cancelPendingRecord();
     });
 
     testWidgets('Android viewer hides the debug report FAB', (tester) async {
@@ -1607,10 +1706,13 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
+      await revealMoreAction(tester, 'viewerOpenExportAction');
       expect(
           find.byKey(const ValueKey('viewerReportFractalFab')), findsNothing);
       expect(find.byKey(const ValueKey('viewerExportButton')), findsOneWidget);
       debugDefaultTargetPlatformOverride = previousPlatform;
+      // This value-provided fixture outlives the widget's fakeAsync scope.
+      historyProvider.cancelPendingRecord();
     });
 
     testWidgets('combined share and export FAB rejects share re-entry',
@@ -1625,7 +1727,7 @@ void main() {
       final combined = find.byKey(const ValueKey('viewerExportButton'));
       await tester.tap(combined);
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Share image'));
+      await tapVisibleAction(tester, 'viewerShareImageAction');
       await tester.pump();
 
       final combinedGesture = tester.widget<GestureDetector>(find.descendant(
@@ -1651,7 +1753,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Export'));
+      await tapVisibleAction(tester, 'viewerOpenExportAction');
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
       await tester.pumpAndSettle();
@@ -1673,7 +1775,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Export'));
+      await tapVisibleAction(tester, 'viewerOpenExportAction');
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
       await tester.pumpAndSettle();
@@ -1689,7 +1791,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Export'));
+      await tapVisibleAction(tester, 'viewerOpenExportAction');
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
       await tester.pumpAndSettle();
@@ -1711,7 +1813,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Export'));
+      await tapVisibleAction(tester, 'viewerOpenExportAction');
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
       await tester.pumpAndSettle();
@@ -1727,7 +1829,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Export'));
+      await tapVisibleAction(tester, 'viewerOpenExportAction');
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
       await tester.pumpAndSettle();
@@ -1745,7 +1847,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Export'));
+      await tapVisibleAction(tester, 'viewerOpenExportAction');
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
       await tester.pump();
@@ -1776,7 +1878,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Export'));
+      await tapVisibleAction(tester, 'viewerOpenExportAction');
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
       await tester.pump();
@@ -1812,7 +1914,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Export'));
+      await tapVisibleAction(tester, 'viewerOpenExportAction');
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('exportWallpaperButton')));
       await tester.pumpAndSettle();
@@ -1845,7 +1947,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('viewerExportButton')));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Export'));
+      await tapVisibleAction(tester, 'viewerOpenExportAction');
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('exportSaveButton')));
       await tester.pump();
@@ -1888,6 +1990,8 @@ void main() {
 
       // Test surface is rendered in test mode
       expect(find.byKey(const Key('fractalTestSurface')), findsOneWidget);
+      // This value-provided fixture outlives the widget's fakeAsync scope.
+      historyProvider.cancelPendingRecord();
     });
 
     testWidgets('updates title when module changes', (tester) async {
@@ -1909,6 +2013,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Julia'), findsOneWidget);
+      // This value-provided fixture outlives the widget's fakeAsync scope.
+      historyProvider.cancelPendingRecord();
     });
 
     testWidgets('displays Burning Ship module correctly', (tester) async {
@@ -1917,6 +2023,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Burning Ship'), findsOneWidget);
+      // This value-provided fixture outlives the widget's fakeAsync scope.
+      historyProvider.cancelPendingRecord();
     });
 
     testWidgets('displays Phoenix module correctly', (tester) async {
@@ -1925,6 +2033,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Phoenix'), findsOneWidget);
+      // This value-provided fixture outlives the widget's fakeAsync scope.
+      historyProvider.cancelPendingRecord();
     });
 
     testWidgets('displays Mandelbulb module correctly', (tester) async {
@@ -1933,6 +2043,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Mandelbulb'), findsOneWidget);
+      // This value-provided fixture outlives the widget's fakeAsync scope.
+      historyProvider.cancelPendingRecord();
     });
 
     testWidgets('has scaffold', (tester) async {
@@ -1940,6 +2052,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(Scaffold), findsOneWidget);
+      // This value-provided fixture outlives the widget's fakeAsync scope.
+      historyProvider.cancelPendingRecord();
     });
 
     testWidgets('renders without error', (tester) async {
@@ -1947,34 +2061,37 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(tester.takeException(), isNull);
+      // This value-provided fixture outlives the widget's fakeAsync scope.
+      historyProvider.cancelPendingRecord();
     });
 
     testWidgets('controls FAB is shown', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.byKey(const ValueKey('viewerRandomParamsButton')),
-          findsOneWidget);
+      expect(
+          find.byKey(const ValueKey('viewerControlsButton')), findsOneWidget);
+      historyProvider.cancelPendingRecord();
     });
 
-    testWidgets('controls FAB long press opens controls sheet', (tester) async {
+    testWidgets('More randomize tap keeps HUD closed and long press opens it',
+        (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
       // A single press randomizes the parameters instead of opening the panel;
       // long press is what reveals the Controls HUD.
-      await tester.tap(
-        find.byKey(const ValueKey('viewerRandomParamsButton')),
-      );
+      await tester
+          .tap(await revealMoreAction(tester, 'viewerRandomParamsButton'));
       await tester.pumpAndSettle();
-      expect(find.text('Controls'), findsNothing);
+      expect(find.byType(FractalControlsHud), findsNothing);
 
       await tester.longPress(
-        find.byKey(const ValueKey('viewerRandomParamsButton')),
+        await revealMoreAction(tester, 'viewerRandomParamsButton'),
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('Controls'), findsOneWidget);
+      expect(find.byType(FractalControlsHud), findsOneWidget);
 
       // The randomize tap queues a history-record debounce timer; drain it so
       // the test harness does not see a pending timer at teardown.
@@ -1990,13 +2107,11 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      await tester.longPress(
-        find.byKey(const ValueKey('viewerRandomParamsButton')),
-      );
+      await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
       await tester.pumpAndSettle();
 
       expect(tester.takeException(), isNull);
-      expect(find.text('Controls'), findsOneWidget);
+      expect(find.byType(FractalControlsHud), findsOneWidget);
       expect(find.text('Fluid mode'), findsOneWidget);
       expect(find.text('Iterations'), findsNothing);
       expect(find.text('Bailout'), findsNothing);
@@ -2086,7 +2201,7 @@ void main() {
       ));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(const ValueKey('viewerLooperFab')));
+      await tester.tap(await revealMoreAction(tester, 'viewerLooperFab'));
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('looperSetAButton')));
       controller.updateZoom(2);
@@ -2132,7 +2247,7 @@ void main() {
       );
       await tester.pumpWidget(buildTestWidget(exportService: exportService));
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const ValueKey('viewerLooperFab')));
+      await tester.tap(await revealMoreAction(tester, 'viewerLooperFab'));
       await tester.pumpAndSettle();
 
       looper = tester.widget<LooperSheet>(find.byType(LooperSheet)).controller;

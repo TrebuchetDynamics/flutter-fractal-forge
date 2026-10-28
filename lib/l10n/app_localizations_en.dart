@@ -2339,4 +2339,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recursiveSineSphereAnimate => 'Animate phase';
+
+  @override
+  String get viewerFormulaDetails => 'Formula details';
+
+  @override
+  String get viewerMoreTools => 'More';
+
+  @override
+  String get viewerToolOptions => 'Options';
+
+  @override
+  String get viewerMusicAction => 'Music';
+
+  @override
+  String get viewerCopyLinkAction => 'Copy link';
 }

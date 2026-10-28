@@ -116,9 +116,8 @@ void main() {
         // ------------------------------------------------------------------
         // Step 4: Verify viewer screen loaded
         // ------------------------------------------------------------------
-        // The redesigned viewer has no top app bar; its chrome is the FAB
-        // column of control buttons. Software-GL emulators compile shaders
-        // slowly, so poll with bounded pumps instead of a single fixed pump.
+        // Software-GL emulators compile shaders slowly, so poll for the
+        // compact toolbar with bounded pumps instead of a single fixed pump.
         final viewerFabColumn = find.byKey(const ValueKey('viewerFabColumn'));
         var viewerLoaded = false;
         for (var i = 0; i < 60; i++) {
@@ -132,27 +131,27 @@ void main() {
         expect(
           viewerLoaded,
           isTrue,
-          reason: 'Viewer must show its control button column within 30s',
+          reason: 'Viewer must show its toolbar within 30s',
         );
 
         // ------------------------------------------------------------------
         // Step 5: Verify viewer controls are present
         // ------------------------------------------------------------------
-        // Randomize params button (long-press opens controls)
+        // Primary Controls button
         expect(
-          find.byKey(const Key('viewerRandomParamsButton')),
+          find.byKey(const Key('viewerControlsButton')),
           findsOneWidget,
-          reason: 'Viewer randomize params button must be present',
+          reason: 'Viewer Controls button must be present',
         );
 
-        // Export button (download icon)
+        // Primary More entry point for exports and secondary tools
         expect(
-          find.byKey(const Key('viewerExportButton')),
+          find.byKey(const Key('viewerOverflowMenu')),
           findsOneWidget,
-          reason: 'Viewer export button (download) must be present',
+          reason: 'Viewer More button must be present',
         );
 
-        // Every viewer action is a direct FAB now, including random fractal.
+        // Random fractal remains a primary toolbar action.
         final randomFractal =
             find.byKey(const ValueKey('viewerRandomFractalFab'));
         expect(
@@ -161,18 +160,24 @@ void main() {
           reason: 'Viewer random fractal FAB must be present',
         );
 
-        // ------------------------------------------------------------------
-        // Step 6: Open the shared action menu, then choose Export
-        // ------------------------------------------------------------------
-        await tester.tap(find.byKey(const Key('viewerExportButton')));
-        await tester.pump(const Duration(seconds: 1));
+        expect(
+            find.byKey(const ValueKey('viewerPaletteButton')), findsOneWidget);
 
-        final exportAction = find.text('Export');
+        // ------------------------------------------------------------------
+        // Step 6: Open More, then choose Export
+        // ------------------------------------------------------------------
+        await openViewerTools(tester);
+
+        final exportAction =
+            find.byKey(const ValueKey('viewerOpenExportAction'));
+        expect(find.text('Export'), findsOneWidget);
         expect(
           exportAction,
           findsOneWidget,
           reason: 'Shared action menu must include the image export action',
         );
+        await tester.ensureVisible(exportAction);
+        await pumpForUiTransition(tester);
         await tester.tap(exportAction);
         await tester.pump(const Duration(seconds: 1));
         await tester.pump(const Duration(milliseconds: 500));

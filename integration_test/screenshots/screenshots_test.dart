@@ -12,6 +12,8 @@ import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import 'package:flutter_fractals/main.dart';
 
+import '../helpers/ui_test_helpers.dart';
+
 void main() {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -105,22 +107,22 @@ void main() {
 
         await takeScreenshotIfAvailable('02_viewer');
 
-        // Open controls panel if available.
-        final randomize = find.byKey(const Key('viewerRandomParamsButton'));
-        if (randomize.evaluate().isNotEmpty) {
-          await tester.longPress(randomize);
-          await tester.pump();
-          await tester.pump(const Duration(milliseconds: 800));
-          await takeScreenshotIfAvailable('03_tune_panel');
-        }
+        // The primary Controls action must open the tune-panel capture.
+        final controls = find.byKey(const ValueKey('viewerControlsButton'));
+        expect(controls, findsOneWidget);
+        await tester.ensureVisible(controls);
+        await pumpForUiTransition(tester);
+        await tester.tap(controls);
+        await pumpForUiTransition(tester);
+        expect(find.text('Controls'), findsOneWidget);
+        await takeScreenshotIfAvailable('03_tune_panel');
 
         // Return to catalog.
-        final back = find.byIcon(Icons.arrow_back_rounded);
-        if (back.evaluate().isNotEmpty) {
-          await tester.tap(back);
-          await tester.pump();
-          await tester.pump(const Duration(milliseconds: 800));
-        }
+        final back = find.byKey(const ValueKey('viewerBackToCatalogButton'));
+        expect(back, findsOneWidget);
+        await tester.tap(back);
+        await pumpForUiTransition(tester);
+        expect(catalogModuleCards(), findsWidgets);
 
         await takeScreenshotIfAvailable('04_catalog_after_back');
       },

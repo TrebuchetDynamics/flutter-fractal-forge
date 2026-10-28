@@ -15,6 +15,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() {
   setUp(() => SharedPreferences.setMockInitialValues({}));
 
+  Future<void> openTools(WidgetTester tester) async {
+    final more = find.byKey(const ValueKey('viewerOverflowMenu'));
+    await tester.ensureVisible(more);
+    await tester.tap(more);
+    await tester.pumpAndSettle();
+  }
+
   Future<void> pumpScreen(WidgetTester tester, Widget screen,
       RendererSettingsService settings) async {
     final registry = ModuleRegistry();
@@ -68,10 +75,18 @@ void main() {
       await pumpScreen(tester,
           const FractalViewerScreen(restoreViewerSession: false), settings);
       final report = find.byKey(const ValueKey('viewerReportFractalFab'));
+      await openTools(tester);
       expect(report, findsNothing);
+      Navigator.of(
+              tester.element(find.byKey(const ValueKey('viewerOverflowMenu'))))
+          .pop();
+      await tester.pumpAndSettle();
       await settings.setDebugModeEnabled(true);
       await tester.pumpAndSettle();
+      await openTools(tester);
       expect(report, findsOneWidget);
+      await tester.ensureVisible(report);
+      await tester.pumpAndSettle();
       await tester.tap(report);
       await tester.pumpAndSettle();
       expect(find.byType(TextField), findsOneWidget);
@@ -79,7 +94,12 @@ void main() {
       await tester.pumpAndSettle();
       await settings.setDebugModeEnabled(false);
       await tester.pumpAndSettle();
+      await openTools(tester);
       expect(report, findsNothing);
+      Navigator.of(
+              tester.element(find.byKey(const ValueKey('viewerOverflowMenu'))))
+          .pop();
+      await tester.pumpAndSettle();
       debugDefaultTargetPlatformOverride = null;
     });
   }
@@ -105,7 +125,10 @@ void main() {
     await settings.setDebugModeEnabled(true);
     await pumpScreen(tester,
         const FractalViewerScreen(restoreViewerSession: false), settings);
+    await openTools(tester);
     final report = find.byKey(const ValueKey('viewerReportFractalFab'));
+    await tester.ensureVisible(report);
+    await tester.pumpAndSettle();
     final controller = tester.element(report).read<FractalController>();
     final originalZoom = controller.view.zoom;
     await tester.tap(report);
@@ -150,8 +173,11 @@ void main() {
     addTearDown(settings.dispose);
     await pumpScreen(tester,
         const FractalViewerScreen(restoreViewerSession: false), settings);
+    await openTools(tester);
     final report = find.byKey(const ValueKey('viewerReportFractalFab'));
     expect(report, findsOneWidget);
+    await tester.ensureVisible(report);
+    await tester.pumpAndSettle();
     await tester.tap(report);
     await tester.pumpAndSettle();
     expect(find.widgetWithText(FilledButton, 'Save report'), findsOneWidget);

@@ -974,5 +974,10 @@
   "recursiveSineSphereRadius": "Sphere radius",
   "recursiveSineSpherePhase": "Phase (radians)",
   "recursiveSineSphereRaySteps": "Ray step budget",
-  "recursiveSineSphereAnimate": "Animate phase"
+  "recursiveSineSphereAnimate": "Animate phase",
+  "viewerFormulaDetails": "Formula details",
+  "viewerMoreTools": "More",
+  "viewerToolOptions": "Options",
+  "viewerMusicAction": "Music",
+  "viewerCopyLinkAction": "Copy link"
 }

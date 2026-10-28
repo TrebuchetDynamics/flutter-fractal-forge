@@ -48,8 +48,11 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(seconds: 2));
 
+    await openViewerTools(tester);
     final fourier = find.byKey(const ValueKey('viewerFourierFab'));
     expect(fourier, findsOneWidget);
+    await tester.ensureVisible(fourier);
+    await pumpForUiTransition(tester);
     await tester.tap(fourier);
     await tester.pump(const Duration(milliseconds: 500));
     expect(find.byType(FourierSpectrumView), findsOneWidget);
@@ -100,6 +103,9 @@ void main() {
     expect(maximum - minimum, greaterThan(100));
     expect(unique.length, greaterThan(8));
 
+    await openViewerTools(tester);
+    await tester.ensureVisible(fourier);
+    await pumpForUiTransition(tester);
     await tester.tap(fourier);
     await tester.pump(const Duration(milliseconds: 300));
     expect(find.byType(FourierSpectrumView), findsNothing);

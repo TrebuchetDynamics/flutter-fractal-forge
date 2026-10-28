@@ -13,23 +13,53 @@ void main() {
   });
   tearDown(() => harness.dispose());
 
-  testWidgets(
-      'HUD distinguishes starting name from current edited Julia formula',
-      (tester) async {
-    harness.controller
-        .selectModule(harness.registry.byId('f0166_chebyshev_julia'));
-    await tester.pumpWidget(harness.wrapScaffold(const FractalControlsHud()));
-    await tester.pumpAndSettle();
-    expect(
-        find.text('Starting configuration: Chebyshev Julia'), findsOneWidget);
-    final formula = find.byKey(const Key('currentMathematicalFormula'));
-    expect(tester.widget<Text>(formula).data, contains('(-2.0, 0.0)'));
-    harness.controller.updateParam('juliaCReal', 0.2);
-    await tester.pumpAndSettle();
-    expect(tester.widget<Text>(formula).data, contains('(0.2, 0.0)'));
-    expect(
-        find.text('Starting configuration: Chebyshev Julia'), findsOneWidget);
-  });
+  for (final locale in const [Locale('en'), Locale('es')]) {
+    testWidgets(
+        'HUD distinguishes starting name from current edited Julia formula (${locale.languageCode})',
+        (tester) async {
+      harness.controller
+          .selectModule(harness.registry.byId('f0166_chebyshev_julia'));
+      await tester.pumpWidget(harness.wrapScaffold(
+        const FractalControlsHud(),
+        locale: locale,
+      ));
+      await tester.pumpAndSettle();
+      final startingName = locale.languageCode == 'es'
+          ? 'Configuración inicial: Chebyshev Julia'
+          : 'Starting configuration: Chebyshev Julia';
+      expect(find.text(startingName), findsNothing);
+      final qualification = locale.languageCode == 'es'
+          ? 'Recurrencia revisada en código; configuración inicial con nombre'
+          : 'Source-reviewed recurrence; named starting configuration';
+      final family = locale.languageCode == 'es'
+          ? 'Dinámica compleja'
+          : 'Complex dynamics';
+      expect(find.text(qualification), findsOneWidget);
+      expect(find.textContaining(family), findsNothing);
+      final formula = find.byKey(const Key('currentMathematicalFormula'));
+      expect(formula, findsOneWidget);
+      final formulaText = tester.widget<Text>(formula);
+      expect(formulaText.data, contains('(-2.0, 0.0)'));
+      expect(formulaText.maxLines, isNull);
+      expect(formulaText.overflow, isNull);
+      harness.controller.updateParam('juliaCReal', 0.2);
+      await tester.pumpAndSettle();
+      expect(tester.widget<Text>(formula).data, contains('(0.2, 0.0)'));
+      expect(find.text(startingName), findsNothing);
+
+      final details = find.text(locale.languageCode == 'es'
+          ? 'Detalles de la fórmula'
+          : 'Formula details');
+      await tester.ensureVisible(details);
+      await tester.tap(details);
+      await tester.pumpAndSettle();
+      expect(find.text(startingName), findsOneWidget);
+      expect(find.text(qualification), findsOneWidget);
+      expect(find.textContaining(family), findsOneWidget);
+      expect(formula, findsOneWidget);
+      expect(tester.widget<Text>(formula).data, contains('(0.2, 0.0)'));
+    });
+  }
 
   testWidgets('Spanish summary localizes family and uncertainty qualification',
       (tester) async {

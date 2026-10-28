@@ -48,19 +48,6 @@ void main() {
       rendererSettingsService = await RendererSettingsService.create();
     });
 
-    Future<void> safeSettle(WidgetTester tester) async {
-      try {
-        await tester.pumpAndSettle(
-          const Duration(milliseconds: 80),
-          EnginePhase.sendSemanticsUpdate,
-          const Duration(seconds: 3),
-        );
-      } catch (_) {
-        await tester.pump();
-        await tester.pump(const Duration(milliseconds: 700));
-      }
-    }
-
     Future<void> pumpApp(WidgetTester tester) async {
       await tester.pumpWidget(
         FlutterFractalsApp(
@@ -98,17 +85,19 @@ void main() {
     }
 
     Future<File> saveSelectedPng(WidgetTester tester, String moduleId) async {
-      await tester.tap(find.byKey(const Key('viewerOverflowMenu')));
-      await safeSettle(tester);
-      await tester.tap(find.text('Export').last);
-      await safeSettle(tester);
+      await openViewerTools(tester);
+      final export = find.byKey(const ValueKey('viewerOpenExportAction'));
+      await tester.ensureVisible(export);
+      await pumpForUiTransition(tester);
+      await tester.tap(export);
+      await pumpForUiTransition(tester);
       await tester.ensureVisible(find.text('Customize'));
       await tester.tap(find.text('Customize'));
-      await safeSettle(tester);
+      await pumpForUiTransition(tester);
       final hdResolution = find.text(ExportResolution.hd.displayName);
       await tester.ensureVisible(hdResolution);
       await tester.tap(hdResolution);
-      await safeSettle(tester);
+      await pumpForUiTransition(tester);
       final exportDirectory = await ExportService().getExportDirectory();
       final existingPaths =
           await exportDirectory.list().map((entity) => entity.path).toSet();
@@ -145,7 +134,7 @@ void main() {
       final moduleCard = catalogModuleCard(catalogId);
       expect(moduleCard, findsOneWidget);
       await tester.ensureVisible(moduleCard);
-      await safeSettle(tester);
+      await pumpForUiTransition(tester);
       await tester.tap(moduleCard);
       await tester.pump(const Duration(seconds: 2));
       drainKnownShaderExceptions(tester);
@@ -167,7 +156,7 @@ void main() {
       final clearSearch = find.byKey(const Key('catalogClearSearchButton'));
       expect(clearSearch, findsOneWidget);
       await tester.tap(clearSearch);
-      await safeSettle(tester);
+      await pumpForUiTransition(tester);
 
       expect(catalogModuleCards(), findsWidgets);
     });
@@ -176,8 +165,8 @@ void main() {
       await pumpApp(tester);
       await openMandelbrotModule(tester);
 
-      expect(find.byKey(const Key('viewerRandomParamsButton')), findsOneWidget);
-      expect(find.byKey(const Key('viewerExportButton')), findsOneWidget);
+      expect(find.byKey(const Key('viewerControlsButton')), findsOneWidget);
+      expect(find.byKey(const Key('viewerOverflowMenu')), findsOneWidget);
 
       Navigator.of(tester.element(find.byType(FractalRenderer))).pop();
       await tester.pump();
@@ -190,20 +179,18 @@ void main() {
       await pumpApp(tester);
       await openMandelbrotModule(tester);
 
-      await tester.longPress(
-        find.byKey(const Key('viewerRandomParamsButton')),
-      );
-      await safeSettle(tester);
+      await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
+      await pumpForUiTransition(tester);
 
       expect(find.byType(FractalControlsHud), findsOneWidget);
       expect(find.byType(Slider), findsWidgets);
 
       await tester.drag(find.byType(Slider).first, const Offset(50, 0));
-      await safeSettle(tester);
+      await pumpForUiTransition(tester);
 
       final resetView = find.byIcon(Icons.home_filled);
       await tester.ensureVisible(resetView);
-      await safeSettle(tester);
+      await pumpForUiTransition(tester);
       await tester.tap(resetView);
       await tester.pump();
       await tester.tap(find.byIcon(Icons.settings_backup_restore_rounded));
@@ -212,7 +199,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 200));
 
       await tester.tap(find.byIcon(Icons.close_rounded).last);
-      await safeSettle(tester);
+      await pumpForUiTransition(tester);
       expect(find.byType(FractalControlsHud), findsNothing);
     });
 
@@ -265,7 +252,7 @@ void main() {
             module.query,
             settle: const Duration(milliseconds: 1200),
           );
-          await safeSettle(tester);
+          await pumpForUiTransition(tester);
           final moduleCard = catalogModuleCard(module.catalogId);
           await tester.scrollUntilVisible(
             moduleCard,
@@ -275,7 +262,7 @@ void main() {
           );
           expect(moduleCard, findsOneWidget);
           await tester.ensureVisible(moduleCard);
-          await safeSettle(tester);
+          await pumpForUiTransition(tester);
           await tester.tap(moduleCard);
           await tester.pump(const Duration(seconds: 2));
           drainKnownShaderExceptions(tester);
@@ -293,7 +280,7 @@ void main() {
           }
           final originalView = controller.view;
           await tester.drag(renderer, const Offset(48, 24));
-          await safeSettle(tester);
+          await pumpForUiTransition(tester);
           final editedView = controller.view;
           expect(
             editedView.pan.x != originalView.pan.x ||
@@ -304,10 +291,8 @@ void main() {
             reason: '${module.id} viewer gesture should edit its view',
           );
 
-          await tester.longPress(
-            find.byKey(const Key('viewerRandomParamsButton')),
-          );
-          await safeSettle(tester);
+          await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
+          await pumpForUiTransition(tester);
           final formula = tester.widget<Text>(
             find.byKey(const Key('currentMathematicalFormula')),
           );
@@ -316,7 +301,7 @@ void main() {
               FractalMathematics.forModule(controller.module).qualification;
           expect(find.text(qualification), findsOneWidget);
           await tester.tap(find.byIcon(Icons.close_rounded).last);
-          await safeSettle(tester);
+          await pumpForUiTransition(tester);
 
           final savedFile = await saveSelectedPng(tester, module.id);
           debugPrint('JOURNEY_PNG:${module.id}:${savedFile.path}');
@@ -373,14 +358,14 @@ void main() {
       await openMandelbrotModule(tester);
 
       await openViewerPresets(tester);
-      await safeSettle(tester);
+      await pumpForUiTransition(tester);
 
       expect(find.byType(PresetSheet), findsOneWidget);
       expect(find.byIcon(Icons.auto_awesome_rounded), findsWidgets);
 
       final presetName = 'Flow Preset ${DateTime.now().millisecondsSinceEpoch}';
       await tester.enterText(find.byType(TextField).first, presetName);
-      await safeSettle(tester);
+      await pumpForUiTransition(tester);
 
       await tester.tap(find.byIcon(Icons.save_rounded).first);
       await tester.pump();
@@ -395,9 +380,9 @@ void main() {
       });
       expect(savedPresetChip, findsOneWidget);
       await tester.ensureVisible(savedPresetChip);
-      await safeSettle(tester);
+      await pumpForUiTransition(tester);
       await tester.tap(savedPresetChip);
-      await safeSettle(tester);
+      await pumpForUiTransition(tester);
       expect(find.byType(PresetSheet), findsNothing);
     });
 
@@ -412,19 +397,17 @@ void main() {
         catalogId: 'core.burning_ship',
       );
 
-      await tester.longPress(
-        find.byKey(const Key('viewerRandomParamsButton')),
-      );
-      await safeSettle(tester);
+      await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
+      await pumpForUiTransition(tester);
       expect(find.byType(FractalControlsHud), findsOneWidget);
       await tester.tap(find.byIcon(Icons.close_rounded).last);
-      await safeSettle(tester);
+      await pumpForUiTransition(tester);
 
       await openViewerPresets(tester);
-      await safeSettle(tester);
+      await pumpForUiTransition(tester);
       expect(find.byType(PresetSheet), findsOneWidget);
       await tester.tap(find.byIcon(Icons.close_rounded).last);
-      await safeSettle(tester);
+      await pumpForUiTransition(tester);
 
       Navigator.of(tester.element(find.byType(FractalRenderer))).pop();
       await tester.pump();

@@ -967,5 +967,10 @@
   "recursiveSineSphereRadius": "Radio de la esfera",
   "recursiveSineSpherePhase": "Fase (radianes)",
   "recursiveSineSphereRaySteps": "Límite de pasos del rayo",
-  "recursiveSineSphereAnimate": "Animar fase"
+  "recursiveSineSphereAnimate": "Animar fase",
+  "viewerFormulaDetails": "Detalles de la fórmula",
+  "viewerMoreTools": "Más",
+  "viewerToolOptions": "Opciones",
+  "viewerMusicAction": "Música",
+  "viewerCopyLinkAction": "Copiar enlace"
 }

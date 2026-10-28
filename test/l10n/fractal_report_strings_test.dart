@@ -17,7 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../a11y/shared/a11y_test_helpers.dart';
 
-/// Opens the report sheet from the viewer's report FAB.
+/// Opens the report sheet through the viewer's named More actions.
 ///
 /// Nothing touches the filesystem until "Save report" is pressed, so the sheet
 /// itself renders without needing a seam for FractalReportService.
@@ -58,7 +58,14 @@ Future<void> openReportSheet(
   ));
   await pumpAccessibilityTestFrames(tester);
 
-  await tester.tap(find.byKey(const ValueKey('viewerReportFractalFab')));
+  final more = find.byKey(const ValueKey('viewerOverflowMenu'));
+  await tester.ensureVisible(more);
+  await tester.tap(more);
+  await tester.pumpAndSettle();
+  final report = find.byKey(const ValueKey('viewerReportFractalFab'));
+  await tester.ensureVisible(report);
+  await tester.pumpAndSettle();
+  await tester.tap(report);
   await tester.pumpAndSettle();
   debugDefaultTargetPlatformOverride = null;
 }
