@@ -237,6 +237,13 @@ class FractalMathSummary extends StatelessWidget {
               Text(formula,
                   key: const Key('currentMathematicalFormula'),
                   style: readableStyle),
+              const SizedBox(height: AppSpacing.xs),
+              // Qualifications can contain independent scientific caveats, not
+              // just provenance. Keep them complete and visible exactly once.
+              Text(qualification,
+                  key: const Key('currentMathematicalQualification'),
+                  style:
+                      readableStyle.copyWith(color: colors.onSurfaceVariant)),
               ExpansionTile(
                 title: Text(l10n.viewerFormulaDetails, style: readableStyle),
                 backgroundColor: colors.surface,
@@ -260,7 +267,6 @@ class FractalMathSummary extends StatelessWidget {
                         .join(' · '),
                     style: readableStyle,
                   ),
-                  Text(qualification, style: readableStyle),
                   if (math.relationship != 'No verified relationship')
                     Text(mathematicalLabel(context, math.relationship),
                         style: readableStyle),

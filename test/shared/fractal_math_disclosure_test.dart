@@ -65,7 +65,7 @@ void main() {
           isNot(TextOverflow.ellipsis));
       expect(find.text(starting), findsNothing);
       expect(find.text(family), findsNothing);
-      expect(find.text(qualification), findsNothing);
+      expect(find.text(qualification), findsOneWidget);
       expect(find.text(details), findsOneWidget);
 
       await tester.tap(find.text(details));
@@ -77,7 +77,7 @@ void main() {
       await tester.tap(find.text(details));
       await tester.pumpAndSettle();
       expect(find.text(family), findsNothing);
-      expect(find.text(qualification), findsNothing);
+      expect(find.text(qualification), findsOneWidget);
       expect(find.text(warning), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
@@ -102,7 +102,7 @@ void main() {
       final family = spanish
           ? 'Teselados, sustituciones y sistemas L · No verificado · Vista 2D · No verificado'
           : 'Tilings, substitutions and L-systems · Unverified · 2D view · Unverified';
-      expect(find.text(qualification), findsNothing);
+      expect(find.text(qualification), findsOneWidget);
       expect(find.text(relationship), findsNothing);
       await tester.tap(find.text(details));
       await tester.pumpAndSettle();
@@ -171,6 +171,11 @@ void main() {
           'C(x,y,z)=(y,z,x); q(0)=p; q(n+1)=q(n)+a*2^-n*sin(2^n*C(q(n))+phase(t)), 0<=n<N; |q(N)|-R=0; N=2, a=0.5, R=1.25, phi=0.4; phase(t)=phi+0.0002*t';
       expect(tester.widget<Text>(formulaFinder).data, formula);
       expect(tester.widget<Text>(formulaFinder).maxLines, isNull);
+      expect(
+          find.text(spanish
+              ? 'Esfera finita deformada por seno; no es un SDF ni un fractal infinito'
+              : 'Finite sine-warped sphere; not an SDF or an infinite fractal'),
+          findsOneWidget);
       await tester.ensureVisible(find.text(details));
       await tester.tap(find.text(details));
       await tester.pumpAndSettle();
@@ -180,6 +185,38 @@ void main() {
               ? 'Esfera finita deformada por seno; no es un SDF ni un fractal infinito'
               : 'Finite sine-warped sphere; not an SDF or an infinite fractal'),
           findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets(
+        'Milnor qualifications stay complete outside disclosure ($language)',
+        (tester) async {
+      await tester.pumpWidget(wrap(
+        FractalMathSummary(
+            module: harness.registry.byId('milnor_brieskorn'),
+            collapsible: true),
+        language,
+      ));
+      await tester.pumpAndSettle();
+      final qualification = spanish
+          ? 'Inspirada; no es una esfera exótica. Sin escape en N no demuestra acotación; solo la órbita de 0, no el lugar completo de conexidad'
+          : 'Inspired; not an exotic sphere. Not escaped within N is not proven boundedness; orbit of 0 only, not complete connectedness locus';
+      expect(find.text(qualification), findsOneWidget);
+      final warning = tester.widget<Text>(
+          find.byKey(const Key('currentMathematicalQualification')));
+      expect(warning.data, qualification);
+      expect(warning.maxLines, isNull);
+      expect(warning.overflow, isNot(TextOverflow.ellipsis));
+      expect(
+          tester.widget<Text>(formulaFinder).data,
+          spanish
+              ? 'z(0) = 0; z(n+1) = z(n)^5 + z(n)^3 + 3*z(n)^2 + c; solo la órbita finita de 0'
+              : 'z(0) = 0; z(n+1) = z(n)^5 + z(n)^3 + 3*z(n)^2 + c; finite orbit of 0 only');
+      await tester.ensureVisible(find.text(details));
+      await tester.tap(find.text(details));
+      await tester.pumpAndSettle();
+      expect(find.text(qualification), findsOneWidget,
+          reason: 'Expanding provenance must not duplicate the visible caveat');
       expect(tester.takeException(), isNull);
     });
 

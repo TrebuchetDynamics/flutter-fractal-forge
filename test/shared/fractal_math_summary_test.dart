@@ -34,7 +34,7 @@ void main() {
       final family = locale.languageCode == 'es'
           ? 'Dinámica compleja'
           : 'Complex dynamics';
-      expect(find.text(qualification), findsNothing);
+      expect(find.text(qualification), findsOneWidget);
       expect(find.textContaining(family), findsNothing);
       final formula = find.byKey(const Key('currentMathematicalFormula'));
       expect(formula, findsOneWidget);
