@@ -2364,4 +2364,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get recursiveSineSphereAnimate => 'Animar fase';
+
+  @override
+  String get viewerFormulaDetails => 'Detalles de la fórmula';
+
+  @override
+  String get viewerMoreTools => 'Más';
+
+  @override
+  String get viewerToolOptions => 'Opciones';
 }

@@ -156,25 +156,41 @@ class FractalMathSummary extends StatelessWidget {
     this.category,
     this.params,
     this.compact = false,
+    this.collapsible = false,
   });
 
   final FractalModule module;
   final String? category;
   final Map<String, dynamic>? params;
   final bool compact;
+  final bool collapsible;
 
   @override
   Widget build(BuildContext context) {
     if (module.id == 'fibonacci_complex_julia') {
       // Bound the catalog caption visually, retaining the complete legend in
       // Text's semantics and in the unabridged viewer details.
-      return Text(AppLocalizations.of(context)!.fibonacciComplexLegend,
+      final legend = Text(AppLocalizations.of(context)!.fibonacciComplexLegend,
           key: const Key('fibonacciComplexLegend'),
           maxLines: compact ? 3 : null,
           overflow: compact ? TextOverflow.ellipsis : null,
           style: compact
               ? AppTypography.labelSmall.copyWith(fontSize: 11, height: 1.25)
-              : AppTypography.labelSmall);
+              : collapsible
+                  ? AppTypography.labelSmall.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface,
+                      fontSize: 12,
+                      height: 1.25,
+                    )
+                  : AppTypography.labelSmall);
+      if (collapsible && !compact) {
+        return Material(
+          key: const Key('currentMathematicalFormula'),
+          color: Theme.of(context).colorScheme.surface,
+          child: legend,
+        );
+      }
+      return legend;
     }
     final math = FractalMathematics.forModule(module, category: category);
     final formula = mathematicalLabel(
@@ -201,6 +217,60 @@ class FractalMathSummary extends StatelessWidget {
       );
     }
     final l10n = AppLocalizations.of(context)!;
+    if (collapsible) {
+      final colors = Theme.of(context).colorScheme;
+      final readableStyle = style.copyWith(color: colors.onSurface);
+      return Material(
+        color: colors.surface,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                spanish ? 'Regla / fórmula actual' : 'Current rule / formula',
+                style: readableStyle,
+              ),
+              // Keep the complete current formula and any embedded scientific
+              // caveats outside disclosure, without repeating them in details.
+              Text(formula,
+                  key: const Key('currentMathematicalFormula'),
+                  style: readableStyle),
+              ExpansionTile(
+                title: Text(l10n.viewerFormulaDetails, style: readableStyle),
+                backgroundColor: colors.surface,
+                collapsedBackgroundColor: colors.surface,
+                textColor: colors.onSurface,
+                collapsedTextColor: colors.onSurface,
+                iconColor: colors.onSurface,
+                collapsedIconColor: colors.onSurface,
+                tilePadding: EdgeInsets.zero,
+                expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${spanish ? 'Configuración inicial' : 'Starting configuration'}: ${module.displayName(l10n)}',
+                    style: readableStyle,
+                  ),
+                  const SizedBox(height: AppSpacing.xs),
+                  Text(
+                    [math.family, math.algebra, math.view, math.method]
+                        .where((value) => value.isNotEmpty)
+                        .map((value) => mathematicalLabel(context, value))
+                        .join(' · '),
+                    style: readableStyle,
+                  ),
+                  Text(qualification, style: readableStyle),
+                  if (math.relationship != 'No verified relationship')
+                    Text(mathematicalLabel(context, math.relationship),
+                        style: readableStyle),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.sm),
       child: Column(
