@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Strengthened Quaternion Julia 3D regression coverage for left/right drag and fling direction while preserving legacy 3D camera conventions. (ACAD-014-fbc415fd)
 - Remove unreachable shader-local boxDE and sphereDE helpers from Amazing Box without changing emitted shader source or uniform reflection. (ACAD-012-c11ba5df)
 - Strengthen deterministic initial-enable missing-scan music regression checks to verify one playback and unchanged scanner phase at each timer step. (MAIN-INITIAL-SCAN-01)
 - Remove five duplicate export-option tests while preserving equivalent model assertions and all distinct batch-export checks. (ACAD-011-b15712c1)
