@@ -3,8 +3,8 @@
 precision highp float;
 
 // Fractal Flame — single-pass IFS with nonlinear variations.
-// For each pixel, run forward IFS iterations from the pixel's world position,
-// accumulating color based on which affine transforms + variations are applied.
+// Legacy variations run a forward IFS from each pixel's world position.
+// Sinusoidal and Perspective instead estimate density from a shared orbit.
 // Extra params:
 //   uVariation (float 10): 0=linear, 1=sinusoidal, 2=spherical, 3=swirl, 4=horseshoe
 //   uSymmetry  (float 11): 0=none, 1=bilateral, 2=3-fold, 3=6-fold
@@ -95,6 +95,17 @@ vec2 varHorseshoe(vec2 p) {
   return (1.0 / r) * vec2((p.x - p.y) * (p.x + p.y), 2.0 * p.x * p.y);
 }
 
+// Canonical V30: distance=1 and sin(tilt)=0.35 retain the existing tilt.
+// The Y coordinate also needs cos(tilt); preserve the denominator's sign on
+// both sides of the projection plane instead of flattening it with max(...).
+vec2 varPerspective(vec2 p) {
+  float denominator = 1.0 - 0.35 * p.y;
+  if (abs(denominator) < 1e-6) {
+    denominator = denominator < 0.0 ? -1e-6 : 1e-6;
+  }
+  return vec2(p.x, p.y * sqrt(1.0 - 0.35 * 0.35)) / denominator;
+}
+
 vec2 cdiv(vec2 a, vec2 b) {
   float d = max(dot(b, b), 1e-6);
   return vec2(a.x * b.x + a.y * b.y, a.y * b.x - a.x * b.y) / d;
@@ -146,7 +157,7 @@ vec2 applyVariation(vec2 p, int var_id) {
   if (var_id == 27) return (2.0 / (r + 1.0)) * vec2(p.y, p.x); // eyefish
   if (var_id == 28) return (4.0 / (r2 + 4.0)) * p; // bubble
   if (var_id == 29) return vec2(sin(p.x), p.y); // cylinder
-  if (var_id == 30) return p / max(1.0 - 0.35 * p.y, 0.2); // perspective
+  if (var_id == 30) return varPerspective(p);
   if (var_id == 31) return p + 0.08 * vec2(sin(91.7 * dot(p, vec2(12.1, 3.7))), sin(77.3 * dot(p, vec2(4.3, 19.1)))); // noise
   if (var_id == 32) {
     float n = 3.0;
@@ -254,6 +265,47 @@ float flameDensity(vec2 p, int target, int var_id, int sym, float time) {
   return density;
 }
 
+// Sample one common orbit, not a different random orbit at every pixel.
+// A narrow Gaussian resolves the IFS branches; its analytic spatial gradient
+// avoids both stochastic normals and two extra orbits for normal palettes.
+vec3 coherentDensityGradient(vec2 p, int target, int var_id, int sym,
+                             float time, int burnIn) {
+  p = applySymmetry(p, sym);
+  vec2 z = vec2(0.0);
+  vec3 field = vec3(0.0);
+  const float KERNEL = 128.0;
+  bool perspective = var_id == 30;
+  float bailoutSq = max(4.0, uBailout * uBailout);
+  for (int i = 0; i < 200; i++) {
+    if (i >= target) break;
+    // Perspective's schedule is also independent of time, avoiding branch pops
+    // as its affine coefficients animate. Preserve Sinusoidal's prior schedule.
+    float seedX = perspective ? 0.0 : z.x * 0.1;
+    float h = hash21(vec2(float(i) * 1.31, float(i) * 0.97 + seedX));
+    vec2 transformed;
+    if (h < 0.4) {
+      transformed = affine0(z, time);
+    } else if (h < 0.7) {
+      transformed = affine1(z, time);
+    } else {
+      transformed = affine2(z, time);
+    }
+    z = perspective ? varPerspective(transformed) : sin(transformed);
+    // Perspective is unbounded. Restart escaped/non-finite orbits without
+    // contributing a clamped point or abandoning the remaining sample budget.
+    if (perspective && !(dot(z, z) <= bailoutSq)) {
+      z = vec2(0.0);
+      continue;
+    }
+    // Retain at least one sample for Perspective's single-step math checks.
+    if (i < burnIn) continue;
+    vec2 delta = z - p;
+    float weight = exp(-KERNEL * dot(delta, delta));
+    field += weight * vec3(1.0, 2.0 * KERNEL * delta);
+  }
+  return field;
+}
+
 const int MAX_ITERS = 200;
 
 void main() {
@@ -268,22 +320,36 @@ void main() {
   int schemeInt = int(uColorScheme);
   float time = uTime * 0.01;
 
-  // Compute density at this pixel and two neighbours for normal-map
-  float density = flameDensity(p, target, var_id, sym, time);
+  bool commonOrbit = var_id == 1 || var_id == 30;
+  int burnIn = var_id == 1 ? 12 : (var_id == 30 ? (target < 13 ? target - 1 : 12) : 0);
+  vec3 field = vec3(0.0);
+  float density;
+  if (commonOrbit) {
+    field = coherentDensityGradient(p, target, var_id, sym, time, burnIn);
+    density = field.x;
+  } else {
+    density = flameDensity(p, target, var_id, sym, time);
+  }
 
-  // Normalize density
-  float norm = density / max(1.0, float(target) * 0.15);
+  // Account for the common orbit's discarded transient.
+  float normalization = max(1.0, float(target - burnIn) * 0.15);
+  float norm = density / normalization;
   float logDens = log(1.0 + norm * 5.0) / log(6.0);
 
   // Normal-map shading (colorScheme 50-63)
   if (schemeInt >= 50) {
-    float eps = 0.002 / max(0.000001, uZoom);
-    float dR = flameDensity(p + vec2(eps, 0.0), target, var_id, sym, time);
-    float dU = flameDensity(p + vec2(0.0, eps), target, var_id, sym, time);
-    float nR = log(1.0 + dR / max(1.0, float(target) * 0.15) * 5.0) / log(6.0);
-    float nU = log(1.0 + dU / max(1.0, float(target) * 0.15) * 5.0) / log(6.0);
-
-    vec2 grad = vec2(nR - logDens, nU - logDens) / eps;
+    vec2 grad;
+    if (commonOrbit) {
+      // Chain rule through the log-density tone map.
+      grad = field.yz * (5.0 / normalization) / ((1.0 + norm * 5.0) * log(6.0));
+    } else {
+      float eps = 0.002 / max(0.000001, uZoom);
+      float dR = flameDensity(p + vec2(eps, 0.0), target, var_id, sym, time);
+      float dU = flameDensity(p + vec2(0.0, eps), target, var_id, sym, time);
+      float nR = log(1.0 + dR / normalization * 5.0) / log(6.0);
+      float nU = log(1.0 + dU / normalization * 5.0) / log(6.0);
+      grad = vec2(nR - logDens, nU - logDens) / eps;
+    }
     float gLen = length(grad);
     vec2 nv = (gLen > 1e-6) ? grad / gLen : vec2(0.0);
 
@@ -296,7 +362,14 @@ void main() {
 
     float baseT = fract(logDens * 1.5 + uTime * 0.0001);
     int basePal = (schemeInt - 50) - ((schemeInt - 50) / 4) * 4;
-    fragColor = vec4(linearToSRGB(palette(baseT, basePal) * light), 1.0);
+    vec3 col = palette(baseT, basePal) * light;
+    float alpha = 1.0;
+    if (commonOrbit) {
+      // Lighting must not turn the empty density field into an opaque grey plane.
+      col *= smoothstep(0.0, 0.3, logDens);
+      alpha = (uTransparentBg > 0.5) ? smoothstep(0.0, 0.05, logDens) : 1.0;
+    }
+    fragColor = vec4(linearToSRGB(col) * alpha, alpha);
     return;
   }
 
@@ -314,5 +387,5 @@ void main() {
   col = clamp(col, 0.0, 1.0);
 
   float alpha = (uTransparentBg > 0.5) ? smoothstep(0.0, 0.05, logDens) : 1.0;
-  fragColor = vec4(linearToSRGB(col), alpha);
+  fragColor = vec4(linearToSRGB(col) * (commonOrbit ? alpha : 1.0), alpha);
 }

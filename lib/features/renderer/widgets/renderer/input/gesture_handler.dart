@@ -220,8 +220,12 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
         view.copyWith(
           rotation: _bounded3DRotation(
             view.rotation +
-                Vector3(-step.displacement.dy * radiansPerPixelY,
-                    -step.displacement.dx * radiansPerPixelX, 0),
+                Vector3(
+                    -step.displacement.dy * radiansPerPixelY,
+                    module.horizontalOrbitSign *
+                        step.displacement.dx *
+                        radiansPerPixelX,
+                    0),
           ),
         ),
       );
@@ -476,12 +480,17 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
               math.pi / math.max(1.0, size?.width ?? scalePx);
           final radiansPerPixelY =
               math.pi / math.max(1.0, size?.height ?? scalePx);
+          // Respect each shader's camera convention in both drag and fling.
           controller.updateView(
             view.copyWith(
               rotation: _bounded3DRotation(
                 view.rotation +
-                    Vector3(-panDelta.dy * radiansPerPixelY,
-                        -panDelta.dx * radiansPerPixelX, 0),
+                    Vector3(
+                        -panDelta.dy * radiansPerPixelY,
+                        module.horizontalOrbitSign *
+                            panDelta.dx *
+                            radiansPerPixelX,
+                        0),
               ),
             ),
           );

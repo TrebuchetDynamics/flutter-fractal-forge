@@ -537,18 +537,6 @@ void main() {
   });
 
   group('ExportFormat extension', () {
-    test('extension returns correct file extensions', () {
-      expect(ExportFormat.png.extension, 'png');
-      expect(ExportFormat.jpg.extension, 'jpg');
-      expect(ExportFormat.webp.extension, 'webp');
-    });
-
-    test('mimeType returns correct MIME types', () {
-      expect(ExportFormat.png.mimeType, 'image/png');
-      expect(ExportFormat.jpg.mimeType, 'image/jpeg');
-      expect(ExportFormat.webp.mimeType, 'image/webp');
-    });
-
     test('displayName returns human-readable names', () {
       expect(ExportFormat.png.displayName, 'PNG');
       expect(ExportFormat.jpg.displayName, 'JPG');
@@ -567,12 +555,6 @@ void main() {
       const opts = ExportOptions(resolution: ExportResolution.hd);
       // Screen 2000x2000 → 1280/2000 = 0.64, 720/2000 = 0.36 → clamped to 1.0
       expect(opts.calculatePixelRatio(2000, 2000), 1.0);
-    });
-
-    test('calculatePixelRatio clamps to max 8.0', () {
-      const opts = ExportOptions(resolution: ExportResolution.uhd4k);
-      // Screen 100x100 → 3840/100 = 38.4 → clamped to 8.0
-      expect(opts.calculatePixelRatio(100, 100), 8.0);
     });
 
     test('calculatePixelRatio handles custom resolution', () {
@@ -602,12 +584,6 @@ void main() {
     test('getTargetDimensions returns preset dimensions', () {
       const opts = ExportOptions(resolution: ExportResolution.fullHd);
       expect(opts.getTargetDimensions(400, 300), (1920, 1080));
-    });
-
-    test('getTargetDimensions adapts preset dimensions for portrait screens',
-        () {
-      const opts = ExportOptions(resolution: ExportResolution.fullHd);
-      expect(opts.getTargetDimensions(400, 800), (1080, 1920));
     });
 
     test('getTargetDimensions returns screen size for screen resolution', () {

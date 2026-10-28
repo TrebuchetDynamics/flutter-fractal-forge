@@ -104,7 +104,10 @@ async function decodedPngPixels(page, bytes) {
 async function openCatalogExample(page, example) {
   await page.getByRole('button', { name: /^all dimensions$|^2D$|^3D$/i }).click();
   await page.getByRole('menuitemcheckbox', { name: new RegExp(`^${example.dimension} ·`) }).click();
-  const search = page.getByRole('textbox', { name: /^Name, formula or family$/i });
+  // Flutter exposes the hint as the editable input's name only while empty.
+  // After returning from a viewer the retained query has no hint/name; the
+  // separately labelled semantics wrapper is not the editable DOM control.
+  const search = page.getByRole('textbox', { disabled: false });
   await expect(search).toBeVisible();
   await search.click();
   await expect(search).toBeFocused();
@@ -115,19 +118,26 @@ async function openCatalogExample(page, example) {
   await search.press('Control+A');
   await search.pressSequentially(example.name, { delay: 50 });
   await expect(search).toHaveValue(example.name);
-  const result = page.locator(
-    `flt-semantics[aria-label*="${example.name}"]`,
-  ).first();
+  // Match the whole card identity, not another name such as Bicomplex Mandelbrot.
+  const escapedName = example.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const result = page.getByRole('switch', {
+    name: new RegExp(`^(?:Approximate preview; reduced quality )?${escapedName} fractal, ${example.dimension}(?: |$)`),
+  });
   await expect(result).toBeVisible();
   await result.click({ force: true });
   await expect(page.getByRole('button', { name: /back to catalog/i })).toBeVisible();
 }
 
-async function exportHdPng(page, testInfo, moduleName, { transparent = false } = {}) {
-  await page.getByRole('button', { name: /viewer actions|acciones del visor/i }).click();
-  await page.getByRole('menuitem', { name: /export/i }).click();
+async function openViewerMore(page) {
+  await page.getByRole('button', { name: /^(More|Más)$/i }).click();
+}
 
-  await expect(page.getByText(/^(Export|Exportar)$/)).toBeVisible();
+async function exportHdPng(page, testInfo, moduleName, { transparent = false } = {}) {
+  await openViewerMore(page);
+  await page.getByRole('button', { name: /export/i }).click();
+
+  const dialog = page.getByLabel(/^(Dialog|Cuadro de diálogo)$/);
+  await expect(dialog.getByText(/^(Export|Exportar)$/)).toBeVisible();
   await page.getByRole('button', { name: /customize|personalizar/i }).click();
   const hd = page.getByRole('checkbox', { name: /^HD \(1280[×x]720\)/ });
   await hd.focus();
@@ -245,15 +255,8 @@ test(
     }
     await openCatalogExample(page, example);
     await expect(page.locator('canvas').first()).toBeVisible({ timeout: 30_000 });
-    // Long-press the viewer's tune control to open its controls and current
-    // mathematics disclosure; a short press would randomize parameters.
-    const tune = page.getByRole('button', {
-      name: /randomize.*controls|randomize with controls/i,
-    });
-    await tune.hover();
-    await page.mouse.down();
-    await page.waitForTimeout(900);
-    await page.mouse.up();
+    // Open the labeled primary control without randomizing the current rule.
+    await page.getByRole('button', { name: /^(Controls|Controles)$/i }).click();
     await expect(page.getByText(/current rule \/ formula/i)).toBeVisible();
     await expect(page.getByText(example.formula, { exact: true })).toBeVisible();
     await expect(page.getByText(example.qualification).first()).toBeVisible();
@@ -268,8 +271,9 @@ test(
     // Change the color scheme through its visible viewer control, then verify
     // that the edit is persisted before export.
     const originalState = await page.evaluate(() => localStorage.getItem('flutter.viewer_session_v1'));
-    const colorScheme = page.getByRole('button', { name: /color scheme/i });
-    await colorScheme.click({ force: true });
+    await openViewerMore(page);
+    const colorScheme = page.getByRole('button', { name: /^Color Scheme\. Long press for palette$/i });
+    await colorScheme.click();
     await expect
       .poll(() => page.evaluate(() => localStorage.getItem('flutter.viewer_session_v1')))
       .not.toBe(originalState);
@@ -337,7 +341,8 @@ test('sine sphere restores edits and exports a reduced-motion frozen PNG', async
 
   // Exercise an actual visible edit, then process restoration rather than just
   // reading the initial seed back from storage.
-  await page.getByRole('button', { name: /color scheme/i }).click({ force: true });
+  await openViewerMore(page);
+  await page.getByRole('button', { name: /^Color Scheme\. Long press for palette$/i }).click();
   await expect.poll(async () => (await saved()).params.colorScheme).not.toBe(2);
   const edited = await saved();
   expect(edited.params).toMatchObject({ ...session.params, colorScheme: 3 });
@@ -525,9 +530,7 @@ test('Gaussian catalog walk exports a frozen paused PNG', async ({ page }, testI
   });
   const generationStartedAt = await page.evaluate(() => performance.now());
   await page.getByRole('button', { name: /^Walk$/i }).click({ force: true });
-  const readyStatus = page
-    .getByRole('group', { name: 'Controls' })
-    .getByText(/Ready: .* exact primes/i);
+  const readyStatus = page.getByText(/^Ready: \d+ exact primes$/i);
   await expect(readyStatus).toBeVisible({ timeout: 30_000 });
   const browserObservation = await page.evaluate((startedAt) => ({
     domainHalfWidth: 32,
