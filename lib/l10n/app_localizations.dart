@@ -4364,6 +4364,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Animate phase'**
   String get recursiveSineSphereAnimate;
+
+  /// No description provided for @viewerFormulaDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Formula details'**
+  String get viewerFormulaDetails;
+
+  /// No description provided for @viewerMoreTools.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get viewerMoreTools;
+
+  /// No description provided for @viewerToolOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Options'**
+  String get viewerToolOptions;
+
+  /// No description provided for @viewerMusicAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Music'**
+  String get viewerMusicAction;
+
+  /// No description provided for @viewerCopyLinkAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link'**
+  String get viewerCopyLinkAction;
 }
 
 class _AppLocalizationsDelegate

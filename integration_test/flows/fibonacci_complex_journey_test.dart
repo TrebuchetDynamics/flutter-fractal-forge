@@ -101,8 +101,7 @@ void main() {
         expect(controller.params, containsPair('juliaCReal', -.2));
         expect(controller.params, containsPair('juliaCImag', .25));
         expect(controller.view.zoom, 1);
-        await tester
-            .longPress(find.byKey(const Key('viewerRandomParamsButton')));
+        await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
         await settle();
         final legend = find.textContaining('H_c(z,w) = (zw+c,z)');
         await tester.ensureVisible(legend);

@@ -1,7 +1,10 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
+import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/features/controls/param_control_plan.dart';
 import 'package:flutter_fractals/features/controls/widgets/number_wall_prime_control.dart';
@@ -27,8 +30,10 @@ import 'package:flutter_fractals/shared/widgets/fractal_math_summary.dart';
 class FractalControlsHud extends StatefulWidget {
   final VoidCallback? onClose;
   final Widget? content;
+  final Widget? leading;
 
-  const FractalControlsHud({super.key, this.onClose, this.content});
+  const FractalControlsHud(
+      {super.key, this.onClose, this.content, this.leading});
 
   @override
   State<FractalControlsHud> createState() => _FractalControlsHudState();
@@ -72,61 +77,59 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
     final controller = context.watch<FractalController>();
     final l10n = AppLocalizations.of(context)!;
 
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.bottomCenter,
-          end: Alignment.topCenter,
-          colors: [
-            Colors.black.withValues(alpha: 0.92),
-            Colors.black.withValues(alpha: 0.45),
-          ],
-        ),
-      ),
-      child: Column(
+    final media = MediaQuery.of(context);
+    final bottomInset = math.max(
+      math.max(media.padding.bottom, media.viewPadding.bottom),
+      media.systemGestureInsets.bottom,
+    );
+    final accessibility = context.watch<AccessibilityService?>();
+    final reduceMotion =
+        media.disableAnimations || accessibility?.reducedMotionEnabled == true;
+    final target = AccessibleSizing.touchTargetSize(
+        largeTargets: accessibility?.largeTargetsEnabled == true);
+    final headerHeight = math.max(
+            target,
+            media.textScaler.scale(
+                    Theme.of(context).textTheme.titleSmall?.fontSize ?? 14) *
+                (Theme.of(context).textTheme.titleSmall?.height ?? 1)) +
+        16;
+    final header = GestureDetector(
+      key: const ValueKey('controlsHudDragHandle'),
+      behavior: HitTestBehavior.opaque,
+      onVerticalDragStart: _onHandleDragStart,
+      onVerticalDragUpdate: _onHandleDragUpdate,
+      onVerticalDragEnd: _onHandleDragEnd,
+      onVerticalDragCancel: _onHandleDragCancel,
+      child: Stack(
         children: [
-          // Drag handle + close button row
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 8,
-              right: 8,
-              left: 8,
+          Positioned(
+            top: 4,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Container(
+                width: 36,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: AppColors.textSecondary,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 8, 4),
             child: Row(
               children: [
-                // Drag handle: short vertical swipes collapse or expand the HUD.
-                GestureDetector(
-                  key: const ValueKey('controlsHudDragHandle'),
-                  behavior: HitTestBehavior.opaque,
-                  onVerticalDragStart: _onHandleDragStart,
-                  onVerticalDragUpdate: _onHandleDragUpdate,
-                  onVerticalDragEnd: _onHandleDragEnd,
-                  onVerticalDragCancel: _onHandleDragCancel,
-                  child: SizedBox(
-                    width: 48,
-                    height: 48,
-                    child: Center(
-                      child: Container(
-                        width: 36,
-                        height: 4,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.3),
-                          borderRadius: BorderRadius.circular(2),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
+                if (widget.leading != null) widget.leading!,
                 Expanded(
                   child: Text(
                     l10n.controlsTitle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                   ),
                 ),
                 _HudIconButton(
@@ -137,7 +140,6 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
                       _isCollapsed ? l10n.tooltipExpand : l10n.tooltipCollapse,
                   onPressed: () => setState(() => _isCollapsed = !_isCollapsed),
                 ),
-                // Close button
                 if (widget.onClose != null || widget.content == null)
                   _HudIconButton(
                     icon: Icons.close_rounded,
@@ -148,124 +150,167 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
               ],
             ),
           ),
-          if (!_isCollapsed && widget.content != null)
-            Expanded(child: widget.content!)
-          else if (!_isCollapsed)
-            // Scrollable controls content
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(12, 4, 12, 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (controller.module.id != 'number_wall' &&
-                        (controller.numberWallPending ||
-                            controller.numberWallStatus != null))
-                      Semantics(
-                          liveRegion: true,
-                          child: Text(
-                              controller.numberWallPending
-                                  ? l10n.numberWallComputing
-                                  : l10n.numberWallRetainedInvalid,
-                              style: const TextStyle(color: Colors.white))),
-                    FractalMathSummary(
-                      module: controller.module,
-                      params: controller.params,
-                    ),
-                    // Core params are optional: custom modules can expose a
-                    // different schema (for example Nova uses relaxation,
-                    // not bailout).
-                    ...controller.module.parameters
-                        .where((p) => p.id == 'iterations' || p.id == 'bailout')
-                        .map((param) {
-                      final value =
-                          controller.params[param.id] ?? param.defaultValue;
-                      return _buildExtraParamControl(
-                        context,
-                        controller,
-                        param,
-                        value,
-                        l10n,
-                      );
-                    }),
-
-                    // Color scheme - compact horizontal chip row
-                    if (_hasParam(controller, 'colorScheme')) ...[
-                      _CompactColorSchemeRow(
-                        currentValue: _intParam(controller, 'colorScheme', 0),
-                        onChanged: (v) =>
-                            controller.updateParam('colorScheme', v),
-                      ),
-                      const SizedBox(height: 8),
-                    ],
-
-                    // Extra params (per-fractal)
-                    ...controller.module.parameters
-                        .where((p) =>
-                            p.id != 'iterations' &&
-                            p.id != 'bailout' &&
-                            p.id != 'colorScheme' &&
-                            p.id != 'randomSeed')
-                        .map((param) {
-                      final value =
-                          controller.params[param.id] ?? param.defaultValue;
-                      return _buildExtraParamControl(
-                        context,
-                        controller,
-                        param,
-                        value,
-                        l10n,
-                      );
-                    }),
-
-                    const SizedBox(height: 4),
-
-                    // Kaleidoscope toggle + controls
-                    if (controller.module.id != 'number_wall')
-                      _KaleidoscopeSection(controller: controller, l10n: l10n),
-
-                    const SizedBox(height: 4),
-                    if (controller.module.id != 'number_wall')
-                      _HudToggleRow(
-                        label: l10n.hudFluidMode,
-                        value: controller.fluidModeEnabled,
-                        onChanged: controller.setFluidModeEnabled,
-                      ),
-                    if (controller.module.id != 'number_wall' &&
-                        controller.fluidModeEnabled) ...[
-                      const SizedBox(height: 4),
-                      _CompactHudSliderRow(
-                        label: l10n.hudFluidIntensity,
-                        value: controller.fluidStrength,
-                        min: FractalEffectInputBounds.minFluidStrength,
-                        max: FractalEffectInputBounds.maxFluidStrength,
-                        divisions: 20,
-                        valueLabel: controller.fluidStrength.toStringAsFixed(1),
-                        semanticLabel: l10n.hudFluidIntensity,
-                        onChanged: controller.setFluidStrength,
-                      ),
-                    ],
-
-                    const SizedBox(height: 8),
-
-                    if (controller.module.id == 'number_wall')
-                      const NumberWallRandomizationControls(),
-                    // Quick action buttons row
-                    _ActionButtonsRow(
-                      onResetView: controller.resetView,
-                      onResetParams: controller.resetParams,
-                      onRandomize: () {
-                        HapticFeedback.mediumImpact();
-                        controller.randomizeParams();
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
         ],
       ),
     );
+    final content = widget.content ??
+        Padding(
+          padding: const EdgeInsets.fromLTRB(12, 4, 12, 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (controller.module.id != 'number_wall' &&
+                  (controller.numberWallPending ||
+                      controller.numberWallStatus != null))
+                Semantics(
+                    liveRegion: true,
+                    child: Text(
+                        controller.numberWallPending
+                            ? l10n.numberWallComputing
+                            : l10n.numberWallRetainedInvalid,
+                        style: const TextStyle(color: Colors.white))),
+              FractalMathSummary(
+                module: controller.module,
+                params: controller.params,
+                collapsible: true,
+              ),
+              // Core params are optional: custom modules can expose a
+              // different schema (for example Nova uses relaxation,
+              // not bailout).
+              ...controller.module.parameters
+                  .where((p) => p.id == 'iterations' || p.id == 'bailout')
+                  .map((param) {
+                final value = controller.params[param.id] ?? param.defaultValue;
+                return _buildExtraParamControl(
+                  context,
+                  controller,
+                  param,
+                  value,
+                  l10n,
+                );
+              }),
+
+              // Color scheme - compact horizontal chip row
+              if (_hasParam(controller, 'colorScheme')) ...[
+                _CompactColorSchemeRow(
+                  currentValue: _intParam(controller, 'colorScheme', 0),
+                  onChanged: (v) => controller.updateParam('colorScheme', v),
+                ),
+                const SizedBox(height: 8),
+              ],
+
+              // Extra params (per-fractal)
+              ...controller.module.parameters
+                  .where((p) =>
+                      p.id != 'iterations' &&
+                      p.id != 'bailout' &&
+                      p.id != 'colorScheme' &&
+                      p.id != 'randomSeed')
+                  .map((param) {
+                final value = controller.params[param.id] ?? param.defaultValue;
+                return _buildExtraParamControl(
+                  context,
+                  controller,
+                  param,
+                  value,
+                  l10n,
+                );
+              }),
+
+              const SizedBox(height: 4),
+
+              // Kaleidoscope toggle + controls
+              if (controller.module.id != 'number_wall')
+                _KaleidoscopeSection(controller: controller, l10n: l10n),
+
+              const SizedBox(height: 4),
+              if (controller.module.id != 'number_wall')
+                _HudToggleRow(
+                  label: l10n.hudFluidMode,
+                  value: controller.fluidModeEnabled,
+                  onChanged: controller.setFluidModeEnabled,
+                ),
+              if (controller.module.id != 'number_wall' &&
+                  controller.fluidModeEnabled) ...[
+                const SizedBox(height: 4),
+                _CompactHudSliderRow(
+                  label: l10n.hudFluidIntensity,
+                  value: controller.fluidStrength,
+                  min: FractalEffectInputBounds.minFluidStrength,
+                  max: FractalEffectInputBounds.maxFluidStrength,
+                  divisions: 20,
+                  valueLabel: controller.fluidStrength.toStringAsFixed(1),
+                  semanticLabel: l10n.hudFluidIntensity,
+                  onChanged: controller.setFluidStrength,
+                ),
+              ],
+
+              const SizedBox(height: 8),
+
+              if (controller.module.id == 'number_wall')
+                const NumberWallRandomizationControls(),
+              // Quick action buttons row
+              _ActionButtonsRow(
+                onResetView: controller.resetView,
+                onResetParams: controller.resetParams,
+                onRandomize: () {
+                  HapticFeedback.mediumImpact();
+                  controller.randomizeParams();
+                },
+              ),
+            ],
+          ),
+        );
+
+    // Only the material surface paints and receives input. In a short body,
+    // scroll the header too, rather than reserving a header taller than the
+    // remaining viewport. The OS navigation area stays outside that viewport.
+    return LayoutBuilder(builder: (context, constraints) {
+      final scrollHeader =
+          constraints.maxHeight - bottomInset < headerHeight + 1 + target + 16;
+      final children = <Widget>[
+        header,
+        if (!_isCollapsed)
+          Divider(
+              height: 1, color: Theme.of(context).colorScheme.outlineVariant),
+        if (!_isCollapsed)
+          if (scrollHeader)
+            content
+          else
+            Flexible(
+                child: widget.content ?? SingleChildScrollView(child: content)),
+      ];
+      final column = Column(mainAxisSize: MainAxisSize.min, children: children);
+      final surface = Material(
+        key: const ValueKey('controlsHudSurface'),
+        color: Theme.of(context).colorScheme.surface,
+        elevation: 12,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        clipBehavior: Clip.antiAlias,
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: math.max(math.max(media.padding.left, media.viewPadding.left),
+                media.systemGestureInsets.left),
+            right: math.max(
+                math.max(media.padding.right, media.viewPadding.right),
+                media.systemGestureInsets.right),
+            bottom: bottomInset,
+          ),
+          child: scrollHeader ? SingleChildScrollView(child: column) : column,
+        ),
+      );
+      return Align(
+        alignment: Alignment.bottomCenter,
+        // Duration.zero still runs RenderAnimatedSize's layout state machine.
+        child: reduceMotion
+            ? surface
+            : AnimatedSize(
+                duration: AppAnimations.fast,
+                alignment: Alignment.bottomCenter,
+                child: surface,
+              ),
+      );
+    });
   }
 
   Widget _buildExtraParamControl(
@@ -313,8 +358,8 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
               Text(
                 param.label(l10n),
                 style: const TextStyle(
-                  color: Colors.white70,
-                  fontSize: 11,
+                  color: AppColors.textSecondary,
+                  fontSize: 13,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -401,20 +446,23 @@ class _CompactHudSliderRow extends StatelessWidget {
                 child: Text(
                   label,
                   style: const TextStyle(
-                    color: Colors.white70,
-                    fontSize: 11,
+                    color: AppColors.textSecondary,
+                    fontSize: 13,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
               const SizedBox(width: 8),
-              Text(
-                valueLabel,
-                style: const TextStyle(
-                  color: Colors.cyanAccent,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                  fontFeatures: [FontFeature.tabularFigures()],
+              Flexible(
+                child: Text(
+                  valueLabel,
+                  textAlign: TextAlign.end,
+                  style: const TextStyle(
+                    color: Colors.cyanAccent,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    fontFeatures: [FontFeature.tabularFigures()],
+                  ),
                 ),
               ),
             ],
@@ -431,6 +479,8 @@ class _CompactHudSliderRow extends StatelessWidget {
             slider: true,
             child: SliderTheme(
               data: SliderTheme.of(context).copyWith(
+                activeTickMarkColor: Colors.transparent,
+                inactiveTickMarkColor: Colors.transparent,
                 trackHeight: 3,
                 thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 7),
                 overlayShape: const RoundSliderOverlayShape(overlayRadius: 12),
@@ -448,7 +498,11 @@ class _CompactHudSliderRow extends StatelessWidget {
               // minimum. A tight height grows the hit area without touching
               // the track, thumb or overlay, which stay centred in it.
               child: SizedBox(
-                height: AccessibleSizing.minTouchTarget,
+                height: AccessibleSizing.touchTargetSize(
+                    largeTargets: context
+                            .watch<AccessibilityService?>()
+                            ?.largeTargetsEnabled ==
+                        true),
                 child: Slider(
                   value: value.clamp(min, max),
                   min: min,
@@ -489,8 +543,8 @@ class _CompactColorSchemeRow extends StatelessWidget {
         Text(
           l10n.hudPalette,
           style: const TextStyle(
-            color: Colors.white70,
-            fontSize: 11,
+            color: AppColors.textSecondary,
+            fontSize: 13,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -657,7 +711,11 @@ class _HudIconButton extends StatelessWidget {
           // area is padded out to the 48 minimum — this is the only way to
           // dismiss the HUD, so it should not be the smallest target in it.
           child: SizedBox.square(
-            dimension: AccessibleSizing.minTouchTarget,
+            dimension: AccessibleSizing.touchTargetSize(
+                largeTargets: context
+                        .watch<AccessibilityService?>()
+                        ?.largeTargetsEnabled ==
+                    true),
             child: Center(
               child: Container(
                 padding: const EdgeInsets.all(8),
@@ -690,11 +748,16 @@ class _HudChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChoiceChip(
+      visualDensity:
+          context.watch<AccessibilityService?>()?.largeTargetsEnabled == true
+              ? const VisualDensity(vertical: 4)
+              : VisualDensity.standard,
       label: Text(label),
       selected: selected,
       onSelected: (_) => onTap(),
       materialTapTargetSize: MaterialTapTargetSize.padded,
-      showCheckmark: false,
+      showCheckmark: true,
+      checkmarkColor: Colors.cyanAccent,
       backgroundColor: Colors.white.withValues(alpha: 0.08),
       selectedColor: Colors.cyanAccent.withValues(alpha: 0.25),
       side: BorderSide(
@@ -703,7 +766,7 @@ class _HudChip extends StatelessWidget {
               : Colors.white.withValues(alpha: 0.15)),
       labelStyle: TextStyle(
         color: selected ? Colors.cyanAccent : Colors.white70,
-        fontSize: 11,
+        fontSize: 12,
         fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
       ),
     );
@@ -731,11 +794,14 @@ class _HudToggleRow extends StatelessWidget {
         title: Text(label,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 12,
+              fontSize: 14,
               fontWeight: FontWeight.w500,
             )),
         value: value,
         activeThumbColor: Colors.cyanAccent,
+        activeTrackColor: Colors.cyanAccent.withValues(alpha: 0.28),
+        inactiveThumbColor: AppColors.textSecondary,
+        inactiveTrackColor: AppColors.surfaceVariant,
         onChanged: (next) {
           HapticFeedback.selectionClick();
           onChanged(next);
@@ -764,20 +830,23 @@ class _HudActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final style = FilledButton.styleFrom(
-      minimumSize: const Size(48, 48),
+      minimumSize: Size.square(AccessibleSizing.touchTargetSize(
+          largeTargets:
+              context.watch<AccessibilityService?>()?.largeTargetsEnabled ==
+                  true)),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       foregroundColor: isPrimary ? Colors.black87 : Colors.white70,
       backgroundColor:
           isPrimary ? Colors.cyanAccent : Colors.white.withValues(alpha: 0.1),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      textStyle: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
+      textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
     );
     return Tooltip(
       message: tooltip,
       excludeFromSemantics: true,
       child: FilledButton.icon(
         style: style,
-        icon: Icon(icon, size: 14),
+        icon: Icon(icon, size: 18),
         label: Text(label, semanticsLabel: tooltip),
         onPressed: onPressed == null
             ? null

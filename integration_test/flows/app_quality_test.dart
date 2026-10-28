@@ -178,9 +178,12 @@ void main() {
         await tester.tap(card);
         await capture('viewer');
         expect(find.byType(FractalViewerScreen), findsOneWidget);
-        await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+        await openViewerTools(tester);
+        expect(find.text(l10n.exportTitle), findsOneWidget);
+        final export = find.byKey(const ValueKey('viewerOpenExportAction'));
+        await tester.ensureVisible(export);
         await pumpForUiTransition(tester);
-        await tester.tap(find.text(l10n.exportTitle).last);
+        await tester.tap(export);
         await capture('export');
         expect(find.byType(ExportOptionsSheet), findsOneWidget);
         final save = find.byKey(const ValueKey('exportSaveButton'));

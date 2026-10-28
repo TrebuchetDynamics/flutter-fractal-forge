@@ -181,9 +181,11 @@ void main() {
             .list()
             .map((e) => e.path)
             .toSet();
-        await tester.tap(find.byKey(const Key('viewerOverflowMenu')));
+        await openViewerTools(tester);
+        final export = find.byKey(const ValueKey('viewerOpenExportAction'));
+        await tester.ensureVisible(export);
         await settle();
-        await tester.tap(find.text('Export').last);
+        await tester.tap(export);
         await settle();
         await tester.ensureVisible(find.text('Customize'));
         await tester.tap(find.text('Customize'));
@@ -265,13 +267,13 @@ void main() {
         }));
         await settle();
         expect(find.byType(ExportOptionsSheet), findsNothing);
-        final randomButton = find.byKey(const Key('viewerRandomParamsButton'));
+        final controlsButton = find.byKey(const Key('viewerControlsButton'));
         for (var i = 0;
-            i < 100 && randomButton.hitTestable().evaluate().isEmpty;
+            i < 100 && controlsButton.hitTestable().evaluate().isEmpty;
             i++) {
           await tester.pump(const Duration(milliseconds: 100));
         }
-        expect(randomButton.hitTestable(), findsOneWidget);
+        expect(controlsButton.hitTestable(), findsOneWidget);
       }
 
       for (final source in [
@@ -282,8 +284,7 @@ void main() {
         'fibonacci',
         'squares'
       ]) {
-        await tester
-            .longPress(find.byKey(const Key('viewerRandomParamsButton')));
+        await tester.tap(find.byKey(const Key('viewerControlsButton')));
         await settle();
         final l10n = AppLocalizations.of(
             tester.element(find.byType(NumberWallExactRenderer)))!;
@@ -346,14 +347,22 @@ void main() {
         'elapsedMs': replayClock.elapsedMilliseconds
       });
       await exportAndRecord('replay-97');
-      await tester.tap(find.byKey(const Key('viewerColorCycleButton')));
+      await openViewerTools(tester);
+      final cycle = find.byKey(const Key('viewerColorCycleButton'));
+      await tester.ensureVisible(cycle);
+      await settle();
+      await tester.tap(cycle);
       await settle();
       final beforeRandom = Map<String, Object>.of(controller.params);
       final beforeGrid = controller.numberWallGrid;
-      await tester.tap(find.byKey(const Key('viewerRandomParamsButton')));
+      await openViewerTools(tester);
+      final randomize = find.byKey(const Key('viewerRandomParamsButton'));
+      await tester.ensureVisible(randomize);
+      await settle();
+      await tester.tap(randomize);
       await complete('ui-randomize');
       expect(controller.canUndoNumberWallRandomization, isTrue);
-      await tester.longPress(find.byKey(const Key('viewerRandomParamsButton')));
+      await tester.tap(find.byKey(const Key('viewerControlsButton')));
       await settle();
       final undo = find.text('Undo randomization');
       await tester.ensureVisible(undo);
@@ -449,7 +458,7 @@ void main() {
       tester.view.physicalSize = const Size(320, 900);
       tester.platformDispatcher.textScaleFactorTestValue = 2;
       await binding.setSurfaceSize(const Size(320, 900));
-      await tester.longPress(find.byKey(const Key('viewerRandomParamsButton')));
+      await tester.tap(find.byKey(const Key('viewerControlsButton')));
       await screenshot('narrow-en-high-contrast-2x');
       await tester.pumpWidget(RepaintBoundary(
           key: root,

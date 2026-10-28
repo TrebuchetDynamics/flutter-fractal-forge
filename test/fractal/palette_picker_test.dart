@@ -85,8 +85,7 @@ void main() {
         buildTestWidget(textScale: textScale, theme: theme),
       );
       await tester.pumpAndSettle();
-      await tester
-          .longPress(find.byKey(const ValueKey('viewerColorCycleButton')));
+      await tester.tap(find.byKey(const ValueKey('viewerPaletteButton')));
       await tester.pumpAndSettle();
     }
 
