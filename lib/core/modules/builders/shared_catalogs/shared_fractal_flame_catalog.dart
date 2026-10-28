@@ -234,6 +234,8 @@ FractalModule _buildSharedFractalFlameModule(
   SharedFractalFlameCatalogEntry entry,
 ) {
   final isFan = entry.id == 'f1123_fractal_flame_v22_fan';
+  final isSinusoidal = entry.id == 'f1102_fractal_flame_v1_sinusoidal';
+  final isPerspective = entry.id == 'f1131_fractal_flame_v30_perspective';
   return buildEscapeTimeModule(EscapeTimeConfig(
     id: entry.id,
     name: entry.name,
@@ -242,10 +244,16 @@ FractalModule _buildSharedFractalFlameModule(
     animationCapability: FractalAnimationCapability.timeDriven,
     category: 'IFS / Geometric Fractals',
     defaultIterations: isFan ? 164 : 140,
-    defaultBailout: isFan ? 2.6 : 8,
-    defaultCenterX: isFan ? 0.1826980859041214 : 0.0,
-    defaultCenterY: isFan ? 0.01687529683113098 : 0.0,
-    defaultZoom: isFan ? 0.26439852198152913 : 1.0,
+    defaultBailout: isPerspective ? 2.1 : (isFan ? 2.6 : 8),
+    defaultCenterX: isPerspective
+        ? 0.15
+        : (isSinusoidal ? 0.12 : (isFan ? 0.1826980859041214 : 0.0)),
+    defaultCenterY: isPerspective
+        ? 0.75
+        : (isSinusoidal ? 0.23 : (isFan ? 0.01687529683113098 : 0.0)),
+    defaultZoom: isPerspective
+        ? 0.3
+        : (isSinusoidal ? 0.65 : (isFan ? 0.26439852198152913 : 1.0)),
     maxIterations: 200,
     extraParams: [
       FractalParameter(

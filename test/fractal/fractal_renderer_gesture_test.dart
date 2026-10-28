@@ -92,7 +92,12 @@ void main() {
 
   testWidgets('pan and 3D fling travel do not depend on display cadence',
       (tester) async {
-    for (final moduleId in ['mandelbrot', 'mandelbulb']) {
+    for (final moduleId in [
+      'mandelbrot',
+      'mandelbulb',
+      'coral_growth_3d',
+      'quaternion_julia_3d',
+    ]) {
       for (final total in [320000, 2000000]) {
         Vector2? expectedPan;
         Vector3? expectedRotation;
@@ -127,7 +132,13 @@ void main() {
           if (moduleId == 'mandelbrot') {
             expect(pan.x.abs(), greaterThan(0.01));
           } else {
-            expect(rotation.y.abs(), greaterThan(0.01));
+            expect(
+              rotation.y,
+              moduleId == 'quaternion_julia_3d'
+                  ? greaterThan(0.01)
+                  : lessThan(-0.01),
+              reason: '$moduleId must retain its camera orbit direction',
+            );
           }
           expectedPan ??= pan;
           expectedRotation ??= rotation;

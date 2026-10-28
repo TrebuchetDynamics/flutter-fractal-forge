@@ -38,6 +38,7 @@ FractalModule buildQuaternionJulia3DModule() {
     id: 'quaternion_julia_3d',
     displayName: (_) => 'Quaternion Julia 3D',
     dimension: FractalDimension.threeD,
+    horizontalOrbitSign: 1,
     shaderAsset:
         'shaders/3d_and_hypercomplex/raymarched_volumes/quaternion_julia_3d_gpu.frag',
     parameters: [

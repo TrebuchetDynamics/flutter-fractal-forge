@@ -99,6 +99,12 @@ class FractalModule {
   /// Affects gesture handling and rendering approach.
   final FractalDimension dimension;
 
+  /// Multiplier for horizontal 3D drag/fling yaw, matching the shader camera.
+  ///
+  /// Positive values make rightward input increase yaw. The default preserves
+  /// existing modules' controls; a module can opt into the opposite convention.
+  final double horizontalOrbitSign;
+
   /// Whether this module's shader output changes as elapsed time advances.
   final FractalAnimationCapability animationCapability;
 
@@ -138,13 +144,14 @@ class FractalModule {
     required this.id,
     required this.displayName,
     required this.dimension,
+    this.horizontalOrbitSign = -1,
     this.animationCapability = FractalAnimationCapability.static,
     required this.shaderAsset,
     required this.parameters,
     required this.defaultPreset,
     required this.builtInPresets,
     required this.setUniforms,
-  });
+  }) : assert(horizontalOrbitSign == -1 || horizontalOrbitSign == 1);
 }
 
 /// Snapshot of the current fractal rendering state.
