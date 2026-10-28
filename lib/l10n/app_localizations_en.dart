@@ -2348,4 +2348,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewerToolOptions => 'Options';
+
+  @override
+  String get viewerMusicAction => 'Music';
+
+  @override
+  String get viewerCopyLinkAction => 'Copy link';
 }

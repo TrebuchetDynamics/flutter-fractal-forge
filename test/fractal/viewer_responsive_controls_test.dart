@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fractals/features/export/export_options_sheet.dart';
+import 'package:flutter_fractals/features/viewer/chrome/fractal_view_controls.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
@@ -43,6 +45,7 @@ void main() {
     WidgetTester tester, {
     Size size = const Size(320, 200),
     double scale = 1,
+    bool more = false,
     bool large = false,
     Locale locale = const Locale('en'),
     EdgeInsets gestures = EdgeInsets.zero,
@@ -54,6 +57,7 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
     addTearDown(tester.view.resetPhysicalSize);
     await accessibility.setLargeTargets(large);
+    if (more) await settings.setDebugModeEnabled(true);
     await tester.pumpWidget(MultiProvider(
       providers: [
         Provider.value(value: registry),
@@ -87,7 +91,8 @@ void main() {
                   )),
         );
     await tester.pumpAndSettle();
-    final controls = find.byKey(const ValueKey('viewerControlsButton'));
+    final controls = find
+        .byKey(ValueKey(more ? 'viewerOverflowMenu' : 'viewerControlsButton'));
     await tester.ensureVisible(controls);
     await tester.pumpAndSettle();
     expect(controls.hitTestable(), findsOneWidget);
@@ -198,6 +203,98 @@ void main() {
     expect(find.byKey(const Key('viewerTitleChip')), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
+
+  for (final locale in const [Locale('en'), Locale('es')]) {
+    for (final scale in [1.0, 2.0, 3.0]) {
+      for (final large in [false, true]) {
+        testWidgets(
+            'short real More ${locale.languageCode} scale=$scale large=$large',
+            (tester) async {
+          controller.setKaleidoscopeEnabled(large);
+          await open(tester,
+              more: true, scale: scale, large: large, locale: locale);
+          final sheet = find.byType(BottomSheet);
+          final buttons = find.descendant(
+              of: sheet, matching: find.byType(FloatingActionButtonWidget));
+          expect(buttons.evaluate().length, greaterThanOrEqualTo(19));
+          final actions = buttons.evaluate().map((e) => e.widget.key!).toList();
+          expect(actions.first, const ValueKey('viewerOpenExportAction'));
+          expect(actions.last, const ValueKey('viewerReportFractalFab'));
+          for (final key in actions) {
+            final action = find.byKey(key);
+            await reveal(tester, action);
+            final viewport = find
+                .ancestor(
+                    of: action, matching: find.byType(SingleChildScrollView))
+                .first;
+            final rect = tester.getRect(action);
+            final visible = tester.getRect(viewport);
+            expect(rect.height, greaterThanOrEqualTo(large ? 56 : 48));
+            expect(rect.left, greaterThanOrEqualTo(visible.left));
+            expect(rect.right, lessThanOrEqualTo(visible.right));
+            expect(visible.height, 128);
+            expect(rect.top, greaterThanOrEqualTo(visible.top - 0.01),
+                reason: '$key $rect viewport=$visible');
+            expect(rect.bottom, lessThanOrEqualTo(visible.bottom + 0.01),
+                reason: '$key $rect viewport=$visible');
+            expect(rect.top, greaterThanOrEqualTo(24));
+            expect(rect.bottom, lessThanOrEqualTo(152));
+          }
+          final kaleidoscope = tester.widget<FloatingActionButtonWidget>(
+              find.byKey(const ValueKey('viewerKaleidoscopeFab')));
+          final labels = AppLocalizations.of(tester.element(sheet))!;
+          expect(
+              kaleidoscope.tooltip,
+              large
+                  ? labels.tooltipKaleidoscopeOn
+                  : labels.tooltipKaleidoscopeOff);
+          expect(kaleidoscope.selected, large);
+          if (large)
+            expect(find.byIcon(Icons.check_box_outlined), findsOneWidget);
+          final close = find.byTooltip(
+              MaterialLocalizations.of(tester.element(sheet))
+                  .closeButtonTooltip);
+          await reveal(tester, close);
+          expect(tester.getSize(close), Size.square(large ? 56 : 48));
+          expect(tester.getRect(close).top, greaterThanOrEqualTo(24));
+          expect(tester.getRect(close).bottom, lessThanOrEqualTo(152));
+          await tester.tap(close);
+          await tester.pumpAndSettle();
+          expect(find.byType(BottomSheet), findsNothing);
+          final reopen = find.byKey(const ValueKey('viewerOverflowMenu'));
+          await reveal(tester, reopen);
+          await tester.tap(reopen);
+          await tester.pumpAndSettle();
+          final export = find.byKey(const ValueKey('viewerOpenExportAction'));
+          await reveal(tester, export);
+          await tester.tap(export);
+          // More is activated in the short body. Destination-sheet layout is
+          // separate shared-sheet scope; enlarge before its first frame.
+          tester.view.physicalSize = const Size(1024, 1200);
+          await tester.pumpAndSettle();
+          expect(find.byType(ExportOptionsSheet), findsOneWidget);
+          tester.state<NavigatorState>(find.byType(Navigator)).pop();
+          await tester.pumpAndSettle();
+          tester.view.physicalSize = const Size(320, 200);
+          await tester.pumpAndSettle();
+          final moreButton = find.byKey(const ValueKey('viewerOverflowMenu'));
+          await reveal(tester, moreButton);
+          await tester.tap(moreButton);
+          await tester.pumpAndSettle();
+          final report = find.byKey(const ValueKey('viewerReportFractalFab'));
+          await reveal(tester, report);
+          await tester.tap(report);
+          tester.view.physicalSize = const Size(1024, 1200);
+          await tester.pumpAndSettle();
+          expect(find.byType(TextFormField), findsOneWidget);
+          final l10n =
+              AppLocalizations.of(tester.element(find.byType(TextFormField)))!;
+          expect(find.text(l10n.reportDialogTitle), findsOneWidget);
+          expect(tester.takeException(), isNull);
+        });
+      }
+    }
+  }
 
   for (final size in [const Size(360, 780), const Size(320, 200)]) {
     for (final left in [true, false]) {

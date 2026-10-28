@@ -212,82 +212,98 @@ class FractalViewControls extends StatelessWidget {
     final explore = context.read<AutoExploreService?>();
     showAppBottomSheet<void>(
       context: context,
-      builder: (sheetContext) =>
-          ChangeNotifierProvider<AutoExploreService?>.value(
-        value: explore,
-        child: Builder(builder: (context) {
-          final service = context.watch<AutoExploreService?>();
-          final status = service == null
-              ? null
-              : AutoExploreControlStatus.fromPlayback(
-                  isExploring: service.isExploring,
-                  isPaused: service.isPaused,
-                  pausedByUserCorrection: service.pausedByUserCorrection,
-                );
-          var rowOrder = 0.0;
-          Widget row(
-              String key, IconData icon, String label, VoidCallback action,
-              {VoidCallback? options,
-              bool? selected,
-              String? hint,
-              String? caption}) {
-            final order = rowOrder++;
-            VoidCallback closeThen(VoidCallback callback) => () {
-                  Navigator.of(sheetContext).pop();
-                  callback();
-                };
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: LayoutBuilder(builder: (context, constraints) {
-                final stacked = constraints.maxWidth < 280 ||
-                    MediaQuery.textScalerOf(context).scale(14) >= 21;
-                final primary = _ViewerTool(
-                  toolKey: ValueKey(key),
-                  icon: icon,
-                  label: caption ?? label,
-                  semanticLabel: label,
-                  row: true,
-                  sortOrder: order,
-                  selected: selected,
-                  semanticHint: hint,
-                  onPressed: isExporting ? null : closeThen(action),
-                  onLongPress: isExporting || options == null
+      builder: (sheetContext) => LayoutBuilder(builder: (context, constraints) {
+        final media = MediaQuery.of(context);
+        double safe(double padding, double viewPadding, double gesture) =>
+            math.max(math.max(padding, viewPadding), gesture);
+        final insets = EdgeInsets.fromLTRB(
+          safe(media.padding.left, media.viewPadding.left,
+              media.systemGestureInsets.left),
+          0,
+          safe(media.padding.right, media.viewPadding.right,
+              media.systemGestureInsets.right),
+          safe(media.padding.bottom, media.viewPadding.bottom,
+                  media.systemGestureInsets.bottom) +
+              media.viewInsets.bottom,
+        );
+        // Use actual route space: fixed sheet chrome must not consume the
+        // viewport needed by a complete action. Normal phone sheets stay as-is.
+        final short = constraints.maxHeight - insets.bottom < 240;
+        return ChangeNotifierProvider<AutoExploreService?>.value(
+          value: explore,
+          child: Builder(builder: (context) {
+            final service = context.watch<AutoExploreService?>();
+            final status = service == null
+                ? null
+                : AutoExploreControlStatus.fromPlayback(
+                    isExploring: service.isExploring,
+                    isPaused: service.isPaused,
+                    pausedByUserCorrection: service.pausedByUserCorrection,
+                  );
+            var rowOrder = 0.0;
+            Widget row(
+                String key, IconData icon, String label, VoidCallback action,
+                {VoidCallback? options,
+                bool? selected,
+                String? hint,
+                String? caption}) {
+              final order = rowOrder++;
+              VoidCallback closeThen(VoidCallback callback) => () {
+                    Navigator.of(sheetContext).pop();
+                    callback();
+                  };
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: LayoutBuilder(builder: (context, constraints) {
+                  final stacked = short ||
+                      constraints.maxWidth < 280 ||
+                      MediaQuery.textScalerOf(context).scale(14) >= 21;
+                  final primary = _ViewerTool(
+                    toolKey: ValueKey(key),
+                    icon: icon,
+                    label: caption ?? label,
+                    semanticLabel: label,
+                    row: true,
+                    dense: short,
+                    sortOrder: order,
+                    selected: selected,
+                    semanticHint: hint,
+                    onPressed: isExporting ? null : closeThen(action),
+                    onLongPress: isExporting || options == null
+                        ? null
+                        : closeThen(options),
+                  );
+                  final secondary = options == null
                       ? null
-                      : closeThen(options),
-                );
-                final secondary = options == null
-                    ? null
-                    : _ViewerTool(
-                        toolKey: ValueKey('${key}Options'),
-                        sortOrder: order + 0.5,
-                        icon: Icons.settings_outlined,
-                        label: l10n.viewerToolOptions,
-                        semanticLabel: '$label: ${l10n.viewerToolOptions}',
-                        row: stacked,
-                        onPressed: isExporting ? null : closeThen(options),
-                      );
-                if (stacked) {
-                  return Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [primary, if (secondary != null) secondary]);
-                }
-                return Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(child: primary),
-                      if (secondary != null)
-                        Padding(
-                            padding: const EdgeInsets.only(left: 8),
-                            child: secondary)
-                    ]);
-              }),
-            );
-          }
+                      : _ViewerTool(
+                          toolKey: ValueKey('${key}Options'),
+                          sortOrder: order + 0.5,
+                          icon: Icons.settings_outlined,
+                          label: l10n.viewerToolOptions,
+                          semanticLabel: '$label: ${l10n.viewerToolOptions}',
+                          row: stacked,
+                          dense: short,
+                          onPressed: isExporting ? null : closeThen(options),
+                        );
+                  if (stacked) {
+                    return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [primary, if (secondary != null) secondary]);
+                  }
+                  return Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(child: primary),
+                        if (secondary != null)
+                          Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: secondary)
+                      ]);
+                }),
+              );
+            }
 
-          return AppOptionsSheet(
-            icon: Icons.more_horiz_rounded,
-            title: l10n.viewerActionsMenu,
-            child: FocusTraversalGroup(
+            final content = FocusTraversalGroup(
               policy: OrderedTraversalPolicy(),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -295,7 +311,8 @@ class FractalViewControls extends StatelessWidget {
                     row('viewerOpenExportAction', Icons.file_download_outlined,
                         l10n.tooltipExport, actions.openExport),
                     row('viewerShareLinkAction', Icons.link_rounded,
-                        l10n.shareLinkAction, actions.shareLink),
+                        l10n.shareLinkAction, actions.shareLink,
+                        caption: short ? l10n.viewerCopyLinkAction : null),
                     row('viewerShareImageAction', Icons.image_outlined,
                         l10n.tooltipShareImage, actions.shareImage),
                     if (ExportActionAvailability.canSetWallpaper(
@@ -320,7 +337,8 @@ class FractalViewControls extends StatelessWidget {
                         Icons.palette_rounded,
                         l10n.tooltipColorSchemeWithPalette,
                         actions.cycleColorScheme,
-                        caption: l10n.paramColorScheme,
+                        caption:
+                            short ? l10n.hudPalette : l10n.paramColorScheme,
                         options: actions.openPalettePicker),
                     if (supportsAuxiliaryTools) ...[
                       if (service != null && status != null) ...[
@@ -342,10 +360,12 @@ class FractalViewControls extends StatelessWidget {
                           }
                         },
                             options: actions.openAutoExploreSettings,
-                            selected: status.isMotionActive),
+                            selected: status.isMotionActive,
+                            caption: short ? l10n.tabExplore : null),
                       ],
                       row('viewerLooperFab', Icons.loop_rounded,
-                          l10n.tooltipCameraLooper, actions.openLooper),
+                          l10n.tooltipCameraLooper, actions.openLooper,
+                          caption: short ? l10n.looperTitle : null),
                       row(
                           'viewerKaleidoscopeFab',
                           Icons.filter_vintage_rounded,
@@ -354,6 +374,7 @@ class FractalViewControls extends StatelessWidget {
                               : l10n.tooltipKaleidoscopeOff,
                           actions.toggleKaleidoscope,
                           selected: kaleidoscopeEnabled,
+                          caption: short ? l10n.hudKaleidoscope : null,
                           options: () =>
                               _showKaleidoscopeModal(contextForOptions)),
                       row(
@@ -364,6 +385,7 @@ class FractalViewControls extends StatelessWidget {
                               : l10n.tooltipFourierOff,
                           actions.toggleFourier,
                           selected: fourierEnabled,
+                          caption: short ? l10n.fourierSettingsTitle : null,
                           options: actions.openFourierSettings,
                           hint:
                               '${l10n.fourierOptionsDescription} ${l10n.viewerSecondaryActionHint}'),
@@ -375,6 +397,7 @@ class FractalViewControls extends StatelessWidget {
                               : l10n.tooltipTextOverlayOff,
                           actions.toggleTextOverlay,
                           selected: textOverlayEnabled,
+                          caption: short ? l10n.textOverlayTitle : null,
                           options: actions.editTextOverlay),
                       row(
                           'viewerFractalMusicFab',
@@ -383,7 +406,8 @@ class FractalViewControls extends StatelessWidget {
                               ? l10n.tooltipFractalMusicOn
                               : l10n.tooltipFractalMusicOff,
                           actions.toggleFractalMusic,
-                          selected: fractalMusicEnabled),
+                          selected: fractalMusicEnabled,
+                          caption: short ? l10n.viewerMusicAction : null),
                     ],
                     row('viewerFullscreenButton', Icons.fullscreen_rounded,
                         l10n.tooltipFullscreen, actions.toggleFullscreen),
@@ -394,10 +418,47 @@ class FractalViewControls extends StatelessWidget {
                           l10n.tooltipReportFractal,
                           actions.reportFractal),
                   ]),
-            ),
-          );
-        }),
-      ),
+            );
+            if (!short)
+              return AppOptionsSheet(
+                icon: Icons.more_horiz_rounded,
+                title: l10n.viewerActionsMenu,
+                child: content,
+              );
+            return Material(
+              color: Theme.of(context).colorScheme.surface,
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(20)),
+              child: Padding(
+                padding: insets,
+                child: SingleChildScrollView(
+                  key: const ValueKey('viewerShortMoreViewport'),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(children: [
+                        Expanded(
+                            child: Text(l10n.viewerMoreTools,
+                                semanticsLabel: l10n.viewerActionsMenu,
+                                style: Theme.of(context).textTheme.titleSmall)),
+                        AppToolButton(
+                          icon: Icons.close_rounded,
+                          tooltip: MaterialLocalizations.of(context)
+                              .closeButtonTooltip,
+                          onPressed: () => Navigator.of(sheetContext).pop(),
+                        ),
+                      ]),
+                      content,
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }),
+        );
+      }),
     );
   }
 
@@ -571,6 +632,7 @@ class _ViewerTool extends StatefulWidget {
   final VoidCallback? onLongPress;
   final bool row;
   final bool compact;
+  final bool dense;
   final bool? selected;
   final double? sortOrder;
 
@@ -584,6 +646,7 @@ class _ViewerTool extends StatefulWidget {
       this.onLongPress,
       this.row = false,
       this.compact = false,
+      this.dense = false,
       this.selected,
       this.sortOrder});
 
@@ -604,16 +667,23 @@ class _ViewerToolState extends State<_ViewerTool> {
     final disabled = widget.onPressed == null && widget.onLongPress == null;
     final caption = Text(widget.label,
         textAlign: widget.row ? TextAlign.start : TextAlign.center,
-        style: Theme.of(context)
-            .textTheme
-            .labelMedium!
-            .copyWith(color: colors.onSurface));
+        style: Theme.of(context).textTheme.labelMedium!.copyWith(
+            color: colors.onSurface, height: widget.dense ? 1.1 : null));
     final visual = Padding(
-      padding:
-          EdgeInsets.symmetric(horizontal: widget.compact ? 0 : 8, vertical: 8),
+      padding: EdgeInsets.symmetric(
+          horizontal: widget.compact || widget.dense ? 0 : 8,
+          vertical: widget.dense ? 0 : 8),
       child: widget.row
           ? Row(children: [
-              if (!widget.compact) ...[
+              if (widget.dense && widget.selected != null) ...[
+                Icon(
+                    widget.selected!
+                        ? Icons.check_box_outlined
+                        : Icons.check_box_outline_blank,
+                    size: 20),
+                const SizedBox(width: 4),
+              ],
+              if (!widget.compact && !widget.dense) ...[
                 Icon(widget.icon, size: 20),
                 const SizedBox(width: 12),
               ],

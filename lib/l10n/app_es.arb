@@ -970,5 +970,7 @@
   "recursiveSineSphereAnimate": "Animar fase",
   "viewerFormulaDetails": "Detalles de la fórmula",
   "viewerMoreTools": "Más",
-  "viewerToolOptions": "Opciones"
+  "viewerToolOptions": "Opciones",
+  "viewerMusicAction": "Música",
+  "viewerCopyLinkAction": "Copiar enlace"
 }

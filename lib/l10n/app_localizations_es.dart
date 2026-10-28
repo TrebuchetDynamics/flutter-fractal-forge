@@ -2373,4 +2373,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get viewerToolOptions => 'Opciones';
+
+  @override
+  String get viewerMusicAction => 'Música';
+
+  @override
+  String get viewerCopyLinkAction => 'Copiar enlace';
 }

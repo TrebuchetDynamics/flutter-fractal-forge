@@ -4382,6 +4382,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Options'**
   String get viewerToolOptions;
+
+  /// No description provided for @viewerMusicAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Music'**
+  String get viewerMusicAction;
+
+  /// No description provided for @viewerCopyLinkAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link'**
+  String get viewerCopyLinkAction;
 }
 
 class _AppLocalizationsDelegate
