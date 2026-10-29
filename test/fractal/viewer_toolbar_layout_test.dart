@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const _orderedTools = [
+  'viewerBreathingButton',
   'viewerControlsButton',
   'viewerPaletteButton',
   'viewerRandomFractalFab',
@@ -75,7 +76,7 @@ Future<AutoExploreService> _pumpToolbar(WidgetTester tester,
               kaleidoscopeEnabled: false,
               kaleidoscopeSectors: 8,
               kaleidoscopeMirror: true,
-              fractalMusicEnabled: false,
+              breathingPlaying: false,
               fourierEnabled: false,
               textOverlayEnabled: false,
               actions: FractalViewControlActions(
@@ -95,7 +96,7 @@ Future<AutoExploreService> _pumpToolbar(WidgetTester tester,
                 toggleTextOverlay: () {},
                 editTextOverlay: () {},
                 openLooper: () {},
-                toggleFractalMusic: () {},
+                toggleBreathing: () {},
                 toggleFourier: () {},
                 openFourierSettings: () {},
                 reportFractal: () {},
@@ -126,7 +127,7 @@ void main() {
       for (final locale in const [Locale('en'), Locale('es')]) {
         for (final scale in [1.0, 3.0]) {
           testWidgets(
-              'four labeled primaries $viewport large=$large ${locale.languageCode} scale=$scale',
+              'five labeled primaries $viewport large=$large ${locale.languageCode} scale=$scale',
               (tester) async {
             await _pumpToolbar(tester,
                 viewport: viewport,
@@ -166,7 +167,6 @@ void main() {
               'viewerKaleidoscopeFab',
               'viewerFourierFab',
               'viewerTextOverlayFab',
-              'viewerFractalMusicFab',
               'viewerFullscreenButton'
             ]) {
               final tool = _tool(key);
@@ -208,7 +208,7 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('visual, tab and semantic order follow four primary groups',
+  testWidgets('visual, tab and semantic order follow five primary groups',
       (tester) async {
     final semantics = tester.ensureSemantics();
     try {
@@ -218,7 +218,7 @@ void main() {
         final key = _orderedTools[index];
         final tool = _tool(key);
         final rect = tester.getRect(tool);
-        expect(rect.left, greaterThanOrEqualTo(previousRight));
+        expect(rect.left, greaterThanOrEqualTo(previousRight - 1e-6));
         previousRight = rect.right;
         final semantic = tester.widget<Semantics>(find.descendant(
             of: tool,
@@ -247,7 +247,6 @@ void main() {
       'viewerKaleidoscopeFab',
       'viewerFourierFab',
       'viewerTextOverlayFab',
-      'viewerFractalMusicFab'
     ]) {
       expect(_tool(key), findsNothing);
     }

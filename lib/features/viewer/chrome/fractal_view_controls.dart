@@ -27,7 +27,7 @@ class FractalViewControlActions {
   final VoidCallback toggleTextOverlay;
   final VoidCallback editTextOverlay;
   final VoidCallback openLooper;
-  final VoidCallback toggleFractalMusic;
+  final VoidCallback toggleBreathing;
   final VoidCallback toggleFourier;
   final VoidCallback openFourierSettings;
   final VoidCallback reportFractal;
@@ -50,7 +50,7 @@ class FractalViewControlActions {
     required this.toggleTextOverlay,
     required this.editTextOverlay,
     required this.openLooper,
-    required this.toggleFractalMusic,
+    required this.toggleBreathing,
     required this.toggleFourier,
     required this.openFourierSettings,
     required this.reportFractal,
@@ -65,7 +65,8 @@ class FractalViewControls extends StatelessWidget {
   final bool kaleidoscopeEnabled;
   final int kaleidoscopeSectors;
   final bool kaleidoscopeMirror;
-  final bool fractalMusicEnabled;
+  final bool breathingPlaying;
+  final bool breathingAvailable;
   final bool fourierEnabled;
   final bool textOverlayEnabled;
   final bool showFractalReport;
@@ -82,7 +83,8 @@ class FractalViewControls extends StatelessWidget {
     required this.kaleidoscopeEnabled,
     required this.kaleidoscopeSectors,
     required this.kaleidoscopeMirror,
-    required this.fractalMusicEnabled,
+    required this.breathingPlaying,
+    this.breathingAvailable = true,
     required this.fourierEnabled,
     required this.textOverlayEnabled,
     this.showFractalReport = false,
@@ -130,7 +132,7 @@ class FractalViewControls extends StatelessWidget {
                   // into view without entering the header or system bars.
                   final innerWidth = constraints.maxWidth - 16;
                   final normalColumns =
-                      innerWidth >= 280 && mq.textScaler.scale(14) < 21 ? 4 : 2;
+                      innerWidth >= 280 && mq.textScaler.scale(14) < 21 ? 5 : 2;
                   final target = AccessibleSizing.touchTargetSize(
                       largeTargets: context
                               .watch<AccessibilityService?>()
@@ -141,6 +143,7 @@ class FractalViewControls extends StatelessWidget {
                       16 + 2 * AccessibleSizing.focusIndicatorWidth;
                   var normalCellHeight = target;
                   for (final label in [
+                    breathingPlaying ? l10n.actionPause : l10n.actionPlay,
                     l10n.controlsTitle,
                     l10n.hudPalette,
                     l10n.navDockRandom,
@@ -160,6 +163,31 @@ class FractalViewControls extends StatelessWidget {
                   final compact = compactViewport ||
                       constraints.maxHeight - 16 < normalCellHeight;
                   final buttons = <Widget>[
+                    if (supportsAuxiliaryTools)
+                      _ViewerTool(
+                        toolKey: const ValueKey('viewerBreathingButton'),
+                        icon: breathingPlaying
+                            ? Icons.pause_rounded
+                            : Icons.play_arrow_rounded,
+                        label: breathingPlaying
+                            ? l10n.actionPause
+                            : l10n.actionPlay,
+                        semanticLabel: breathingAvailable
+                            ? (breathingPlaying
+                                ? l10n.tooltipPauseBreathing
+                                : l10n.tooltipPlayBreathing)
+                            : l10n.tooltipBreathingUnavailable,
+                        selected: breathingPlaying,
+                        onPressed: isExporting ||
+                                !breathingAvailable ||
+                                !supportsAuxiliaryTools
+                            ? null
+                            : actions.toggleBreathing,
+                        row: compact,
+                        compact: compact,
+                        dense: compact,
+                        sortOrder: 0,
+                      ),
                     _ViewerTool(
                       toolKey: const ValueKey('viewerControlsButton'),
                       icon: Icons.tune_rounded,
@@ -168,7 +196,7 @@ class FractalViewControls extends StatelessWidget {
                       row: compact,
                       compact: compact,
                       dense: compact,
-                      sortOrder: 0,
+                      sortOrder: 1,
                     ),
                     _ViewerTool(
                       toolKey: const ValueKey('viewerPaletteButton'),
@@ -178,7 +206,7 @@ class FractalViewControls extends StatelessWidget {
                       row: compact,
                       compact: compact,
                       dense: compact,
-                      sortOrder: 1,
+                      sortOrder: 2,
                     ),
                     _ViewerTool(
                       toolKey: const ValueKey('viewerRandomFractalFab'),
@@ -191,7 +219,7 @@ class FractalViewControls extends StatelessWidget {
                       row: compact,
                       compact: compact,
                       dense: compact,
-                      sortOrder: 2,
+                      sortOrder: 3,
                     ),
                     SizedBox(
                       key: const ValueKey('viewerExportButton'),
@@ -204,7 +232,7 @@ class FractalViewControls extends StatelessWidget {
                         row: compact,
                         compact: compact,
                         dense: compact,
-                        sortOrder: 3,
+                        sortOrder: 4,
                       ),
                     ),
                   ];
@@ -429,15 +457,6 @@ class FractalViewControls extends StatelessWidget {
                           selected: textOverlayEnabled,
                           caption: short ? l10n.textOverlayTitle : null,
                           options: actions.editTextOverlay),
-                      row(
-                          'viewerFractalMusicFab',
-                          Icons.music_note,
-                          fractalMusicEnabled
-                              ? l10n.tooltipFractalMusicOn
-                              : l10n.tooltipFractalMusicOff,
-                          actions.toggleFractalMusic,
-                          selected: fractalMusicEnabled,
-                          caption: short ? l10n.viewerMusicAction : null),
                     ],
                     row('viewerFullscreenButton', Icons.fullscreen_rounded,
                         l10n.tooltipFullscreen, actions.toggleFullscreen),

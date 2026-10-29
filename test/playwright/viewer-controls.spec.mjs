@@ -192,7 +192,7 @@ function meanPixelDiff(aBuffer, bBuffer, step = 6) {
 function fabPoint(page, name) {
   const viewport = page.viewportSize() || { width: 1280, height: 900 };
   // Landscape viewer order: random, randomize, color, export, text,
-  // looper, kaleidoscope, music, fullscreen.
+  // looper, kaleidoscope, unused legacy slot, fullscreen.
   const index = {
     random: 0,
     randomize: 1,
@@ -201,7 +201,6 @@ function fabPoint(page, name) {
     text: 4,
     looper: 5,
     kaleidoscope: 6,
-    music: 7,
     fullscreen: 8,
   }[name];
   if (index == null) throw new Error(`Unknown FAB ${name}`);

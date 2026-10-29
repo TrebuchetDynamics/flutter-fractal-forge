@@ -1278,7 +1278,7 @@ abstract class AppLocalizations {
   /// No description provided for @numberWallUnsupportedTools.
   ///
   /// In en, this message translates to:
-  /// **'Exact static wall: animation, looper, music and visual effects are unavailable.'**
+  /// **'Exact static wall: animation, looper and visual effects are unavailable.'**
   String get numberWallUnsupportedTools;
 
   /// No description provided for @numberWallResidues.
@@ -1563,17 +1563,23 @@ abstract class AppLocalizations {
   /// **'Camera looper'**
   String get tooltipCameraLooper;
 
-  /// No description provided for @tooltipFractalMusicOn.
+  /// No description provided for @tooltipPlayBreathing.
   ///
   /// In en, this message translates to:
-  /// **'Fractal Music on'**
-  String get tooltipFractalMusicOn;
+  /// **'Play parameter animation'**
+  String get tooltipPlayBreathing;
 
-  /// No description provided for @tooltipFractalMusicOff.
+  /// No description provided for @tooltipPauseBreathing.
   ///
   /// In en, this message translates to:
-  /// **'Fractal Music off'**
-  String get tooltipFractalMusicOff;
+  /// **'Pause parameter animation'**
+  String get tooltipPauseBreathing;
+
+  /// No description provided for @tooltipBreathingUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Parameter animation unavailable for this fractal or motion setting'**
+  String get tooltipBreathingUnavailable;
 
   /// No description provided for @tooltipFourierOn.
   ///
@@ -1640,18 +1646,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Remove average level (DC)'**
   String get fourierRemoveDc;
-
-  /// No description provided for @fourierMusic.
-  ///
-  /// In en, this message translates to:
-  /// **'Fourier Music'**
-  String get fourierMusic;
-
-  /// No description provided for @fourierMusicDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Use measured spectrum features to modulate Fractal Music while playback is on.'**
-  String get fourierMusicDescription;
 
   /// No description provided for @fourierOpenLab.
   ///
@@ -1970,12 +1964,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Finite empirical estimate.'**
   String get uncertaintyFiniteEstimate;
-
-  /// No description provided for @fractalMusicUnavailable.
-  ///
-  /// In en, this message translates to:
-  /// **'Fractal Music unavailable. Check your audio device.'**
-  String get fractalMusicUnavailable;
 
   /// No description provided for @shareToSocialTargets.
   ///
@@ -4382,12 +4370,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Options'**
   String get viewerToolOptions;
-
-  /// No description provided for @viewerMusicAction.
-  ///
-  /// In en, this message translates to:
-  /// **'Music'**
-  String get viewerMusicAction;
 
   /// No description provided for @viewerCopyLinkAction.
   ///

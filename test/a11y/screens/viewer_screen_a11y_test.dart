@@ -90,12 +90,18 @@ void main() {
       expect(operableControlNames(root), isNotEmpty,
           reason: 'the toolbar never entered, so the rest of this and the '
               'guidelines above would pass vacuously');
-      for (final label in ['Controls', 'Palette', 'Random', 'More']) {
+      for (final label in [
+        'Play parameter animation',
+        'Controls',
+        'Palette',
+        'Random',
+        'More'
+      ]) {
         expect(operableControlNames(root).where((name) => name == label),
             hasLength(1));
       }
-      expect(operableControlNames(root), hasLength(5),
-          reason: 'four primary tools and catalog Back, not hidden More rows');
+      expect(operableControlNames(root), hasLength(6),
+          reason: 'five primary tools and the canvas, not hidden More rows');
       expect(findUnnamedControls(root).map((c) => '$c').toList(), isEmpty);
       expect(findStackedStops(root), isEmpty);
       expect(findUnnamedSliders(root), isEmpty);
@@ -132,6 +138,9 @@ void main() {
         final handle = tester.ensureSemantics();
         await tester.pumpWidget(buildApp(textScale: scale));
         await pumpAccessibilityTestFrames(tester);
+        await tester
+            .ensureVisible(find.byKey(const ValueKey('viewerOverflowMenu')));
+        await pumpAccessibilityTestFrames(tester);
         await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
         await pumpAccessibilityTestFrames(tester);
 
@@ -156,7 +165,6 @@ void main() {
           'viewerTextOverlayFab': 'Text overlay off. Tap to add text.',
           'viewerTextOverlayFabOptions':
               'Text overlay off. Tap to add text.: Options',
-          'viewerFractalMusicFab': 'Fractal Music off',
           'viewerFullscreenButton': 'Fullscreen view',
         };
         for (final entry in tools.entries) {

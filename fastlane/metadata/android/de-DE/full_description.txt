@@ -15,7 +15,7 @@ Speichern und teilen
 • Exportiere PNG-Bilder bis 4K für Hintergründe, Drucke und zum Teilen.
 • Animiere Zoom, Bewegung und Parameter mit Looper und exportiere GIF-Schleifen.
 • Speichere Vorlagen und teile Links, die deine Ansicht wieder öffnen.
-• Erkunde Fractal Music und Fourier-Analyse.
+• Erkunde Fourier-Analyse.
 
 Dein Studio funktioniert offline
 Keine Werbung, kein Konto, kein Tracking. Erkunden und Gestalten sind offline möglich. Kostenlos und quelloffen unter Apache 2.0.

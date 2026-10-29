@@ -53,7 +53,7 @@ void main() {
             kaleidoscopeEnabled: false,
             kaleidoscopeSectors: 8,
             kaleidoscopeMirror: true,
-            fractalMusicEnabled: false,
+            breathingPlaying: false,
             fourierEnabled: false,
             textOverlayEnabled: false,
             actions: FractalViewControlActions(
@@ -72,7 +72,7 @@ void main() {
               toggleTextOverlay: () {},
               editTextOverlay: () {},
               openLooper: () {},
-              toggleFractalMusic: () {},
+              toggleBreathing: () {},
               toggleFourier: onFourier ?? () {},
               openFourierSettings: () {},
               reportFractal: () {},

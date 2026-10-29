@@ -808,10 +808,14 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tooltipCameraLooper => 'Bucle de cámara';
 
   @override
-  String get tooltipFractalMusicOn => 'Música fractal activada';
+  String get tooltipPlayBreathing => 'Reproducir animación de parámetros';
 
   @override
-  String get tooltipFractalMusicOff => 'Música fractal desactivada';
+  String get tooltipPauseBreathing => 'Pausar animación de parámetros';
+
+  @override
+  String get tooltipBreathingUnavailable =>
+      'Animación de parámetros no disponible para este fractal o ajuste de movimiento';
 
   @override
   String get tooltipFourierOn => 'Vista de Fourier activada';
@@ -846,13 +850,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get fourierRemoveDc => 'Eliminar nivel promedio (DC)';
-
-  @override
-  String get fourierMusic => 'Música de Fourier';
-
-  @override
-  String get fourierMusicDescription =>
-      'Usa características medidas del espectro para modular la música fractal mientras está sonando.';
 
   @override
   String get fourierOpenLab => 'Abrir Laboratorio de Incertidumbre Fractal';
@@ -1023,10 +1020,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get uncertaintyFiniteEstimate => 'Estimación empírica finita.';
-
-  @override
-  String get fractalMusicUnavailable =>
-      'Música fractal no disponible. Revisa el dispositivo de audio.';
 
   @override
   String get shareToSocialTargets => 'Compartir en X / Reddit';
@@ -2373,9 +2366,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get viewerToolOptions => 'Opciones';
-
-  @override
-  String get viewerMusicAction => 'Música';
 
   @override
   String get viewerCopyLinkAction => 'Copiar enlace';

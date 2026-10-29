@@ -1,5 +1,9 @@
 # Fractal Fourier and Uncertainty Mode
 
+> Historical scope: Fourier Music has been removed from the application. The music
+> discussion below is retained as research context, not a current feature claim.
+> Fourier View and Fractal Uncertainty Lab remain available.
+
 ## Scope
 
 Fractal Forge's Fourier mode is a finite numerical and creative laboratory. It

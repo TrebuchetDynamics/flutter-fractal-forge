@@ -11,7 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/features/viewer/actions/text_overlay_controller.dart';
-import 'package:flutter_fractals/features/viewer/actions/viewer_music_coordinator.dart';
+import 'package:flutter_fractals/features/viewer/actions/breathing_controller.dart';
 import 'package:flutter_fractals/features/viewer/actions/viewer_session_tracker.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector2;
 import 'package:flutter_fractals/core/models/export_options.dart';
@@ -68,9 +68,6 @@ import 'package:flutter_fractals/features/fourier/services/fourier_offscreen_ren
 import 'package:flutter_fractals/features/fourier/widgets/fourier_settings_sheet.dart';
 import 'package:flutter_fractals/features/fourier/widgets/fourier_spectrum_view.dart';
 import 'package:flutter_fractals/features/viewer/actions/viewer_effects_controller.dart';
-import 'package:flutter_fractals/features/viewer/audio/fractal_music_scan_overlay.dart';
-import 'package:flutter_fractals/features/viewer/audio/fractal_music_service.dart';
-import 'package:flutter_fractals/features/viewer/audio/fourier_music_features.dart';
 import 'package:flutter_fractals/features/viewer/export/viewer_export_session.dart';
 import 'package:flutter_fractals/features/viewer/export/fibonacci_complex_export.dart';
 import 'package:flutter_fractals/features/viewer/export/number_wall_export.dart';
@@ -215,8 +212,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   FractalController? _compareController;
   DebugRunnerService? _debugRunner;
   late AnimationController _fabController;
-  late AnimationController _musicScanController;
-  late ViewerMusicCoordinator _musicCoordinator;
+  BreathingController? _breathingController;
 
   // Visual simplification state
   bool _fullscreenUnobtrusive = false;
@@ -224,7 +220,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   bool _gaussianWalk = false;
   final TextOverlayController _textOverlay = TextOverlayController();
   bool _fourierEnabled = false;
-  bool _fourierMusicEnabled = false;
   bool _fourierApplyHann = true;
   bool _fourierRemoveDc = true;
   FourierDisplayMode _fourierDisplayMode = FourierDisplayMode.split;
@@ -243,12 +238,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   bool _fourierCaptureInFlight = false;
   int _fourierCaptureSession = 0;
   DateTime? _lastFourierCaptureAt;
-  final FourierMusicFeatureSmoother _fourierMusicSmoother =
-      FourierMusicFeatureSmoother();
-  final FourierMusicDecisionController _fourierMusicDecisionController =
-      FourierMusicDecisionController();
-  FourierMusicFeatures? _currentFourierMusicFeatures;
-
   // History tracking
   FractalController? _lastController;
 
@@ -307,25 +296,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
       duration: AppAnimations.normal,
       vsync: this,
     )..forward();
-    _musicScanController = AnimationController(
-      duration: fractalMusicLoopDuration,
-      vsync: this,
-    );
-    _musicCoordinator = ViewerMusicCoordinator(
-      effects: _viewerEffects,
-      captureFrame: _captureFractalMusicScanFrame,
-      syncAnimation: (enabled) {
-        if (!mounted) return;
-        _syncFractalMusicScanAnimation(enabled);
-      },
-      scanProgress: () => _musicScanController.value,
-      currentFourierFeatures: () =>
-          _fourierMusicEnabled ? _currentFourierMusicFeatures : null,
-      notifyState: () {
-        if (!mounted) return;
-        setState(() {});
-      },
-    );
     _loadTextOverlay();
     _log.info('lifecycle', 'FractalViewerScreen initState');
   }
@@ -338,6 +308,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     final visible = state == AppLifecycleState.resumed;
     if (_appVisible == visible) return;
     _autoExploreService?.setAppVisible(visible);
+    if (!visible) _breathingController?.pause();
     if (!visible) {
       _lastController?.cancelNumberWallRequest();
       _fourierCaptureTimer?.cancel();
@@ -402,6 +373,12 @@ class _FractalViewerScreenState extends FractalViewerRouteState
       _scheduleGpuHealthCheck();
       _detectEmulatorProfile();
 
+      _breathingController?.dispose();
+      _breathingController = BreathingController(
+        controller: controller,
+        canAnimate: () => mounted && _canAnimateBreathing,
+      )..addListener(_onBreathingChanged);
+
       // Initialize auto-explore service
       _autoExploreService?.dispose();
       _autoExploreService = AutoExploreService(controller: controller)
@@ -415,6 +392,43 @@ class _FractalViewerScreenState extends FractalViewerRouteState
         _persistViewerSession();
       }
     }
+  }
+
+  bool get _canAnimateBreathing =>
+      _backendDecision.backend == RendererBackend.gpu &&
+      !_currentRendererPlan(_activeController(context))
+          .precision
+          .usesCpuRenderer &&
+      context.read<RendererSettingsService>().backendMode !=
+          RendererBackendMode.cpuOnly &&
+      _appVisible &&
+      !isNavigationBlocked &&
+      !_freezeFrameForExport &&
+      (ModalRoute.of(context)?.isCurrent ?? true) &&
+      TickerMode.valuesOf(context).enabled &&
+      !(context.read<AccessibilityService?>()?.reducedMotionEnabled ?? false) &&
+      !MediaQuery.disableAnimationsOf(context);
+
+  void _onBreathingChanged() {
+    if (!mounted) return;
+    if (!(_breathingController?.isPlaying ?? false)) _persistViewerSession();
+    setState(() {});
+  }
+
+  void _toggleBreathing() {
+    final breathing = _breathingController;
+    if (breathing == null) return;
+    if (breathing.isPlaying) {
+      breathing.pause();
+    } else {
+      _autoExploreService?.pause();
+      _looperController?.stop();
+      breathing.play();
+    }
+    final l10n = AppLocalizations.of(context)!;
+    AccessibilityService.announce(breathing.isPlaying
+        ? l10n.tooltipPauseBreathing
+        : l10n.tooltipPlayBreathing);
   }
 
   void _onAutoExploreUserCorrection() {
@@ -456,19 +470,10 @@ class _FractalViewerScreenState extends FractalViewerRouteState
 
     // Record view/config changes into history
     _recordHistory(context);
-    if (controller.module.id != 'number_wall') {
-      _musicCoordinator.scheduleRescan(controller,
-          moduleChanged: moduleChanged);
-    } else {
+    if (controller.module.id == 'number_wall') {
       _autoExploreService?.stop();
       _looperController?.stop();
-      _syncFractalMusicScanAnimation(false);
       if (_fourierEnabled) _disableFourier();
-      if (moduleChanged || _viewerEffects.fractalMusicEnabled) {
-        unawaited(_viewerEffects.disableFractalMusic().then((_) {
-          if (mounted) setState(() {});
-        }));
-      }
     }
     if (_fourierEnabled) {
       unawaited(_captureFourierFrame(throttled: true));
@@ -522,6 +527,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   }
 
   void _persistViewerSession() {
+    // Keep animation frames transient. Pause/lifecycle saves the frozen state.
+    if (_breathingController?.isPlaying ?? false) return;
     final store = _viewerSessionStore;
     final controller = _lastController;
     if (store == null || controller == null) return;
@@ -561,19 +568,17 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     _fourierController?.dispose();
 
     _fourierSpectrumImage?.dispose();
-    _musicCoordinator.dispose();
+    _breathingController?.dispose();
     _lastController?.removeListener(_onControllerChanged);
     _lastController?.cancelNumberWallRequest();
     _sessionTracker?.end();
 
     _lastGpuSnapshot?.dispose();
     _fabController.dispose();
-    _musicScanController.dispose();
     _debugRunner?.dispose();
     _autoExploreService?.dispose();
     _looperController?.dispose();
     _compareController?.dispose();
-    _viewerEffects.dispose();
     _keyboardFocusNode.dispose();
     super.dispose();
   }
@@ -617,98 +622,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   String? get _activeQuoteText => _lastController?.module.id == 'number_wall'
       ? null
       : _textOverlay.activeQuoteText;
-
-  Future<void> _toggleFractalMusic() async {
-    final controller = _activeController(context);
-    final enabling = !_viewerEffects.fractalMusicEnabled;
-    if (!enabling) {
-      // Invalidate decoder/upload work immediately; the serialized stop still
-      // follows, but a candidate can no longer take ownership after the tap.
-      _musicCoordinator.cancelRescan();
-    }
-    final scanFrame = enabling ? await _captureFractalMusicScanFrame() : null;
-    final result = await _viewerEffects.toggleFractalMusic(
-      controller,
-      scanFrame: scanFrame,
-      fourierFeatures:
-          _fourierMusicEnabled ? _currentFourierMusicFeatures : null,
-    );
-    if (!mounted) return;
-    if (controller.module.id == 'number_wall' && result.enabled) {
-      await _viewerEffects.disableFractalMusic();
-      if (!mounted) return;
-      _syncFractalMusicScanAnimation(false);
-      setState(() {});
-      return;
-    }
-
-    setState(() {});
-    _syncFractalMusicScanAnimation(result.enabled);
-    if (result.enabled) {
-      _musicCoordinator.startLoopRefresh(controller, scanFrame: scanFrame);
-    }
-    final l10n = AppLocalizations.of(context);
-    if (result.failed) {
-      final message = l10n?.fractalMusicUnavailable ??
-          'Fractal Music unavailable. Check your audio device.';
-      AccessibilityService.announce(message);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
-      return;
-    }
-
-    AccessibilityService.announce(
-      result.enabled
-          ? (l10n?.tooltipFractalMusicOn ?? 'Fractal Music on')
-          : (l10n?.tooltipFractalMusicOff ?? 'Fractal Music off'),
-    );
-    HapticService.light();
-  }
-
-  void _syncFractalMusicScanAnimation(bool enabled) {
-    if (enabled) {
-      // Music playback restarts from the beginning whenever the visual scan is
-      // rebuilt, so reset the visible beam too. Otherwise the sonification can
-      // be correct but feel detached from the scanner overlay.
-      _musicScanController.stop();
-      _musicScanController.value = 0;
-      _musicScanController.repeat();
-    } else {
-      _musicCoordinator.cancelRescan();
-      _musicScanController.stop();
-      _musicScanController.value = 0;
-    }
-  }
-
-  Future<FractalMusicScanFrame?> _captureFractalMusicScanFrame() async {
-    try {
-      final renderObject =
-          _activeBoundaryKey().currentContext?.findRenderObject();
-      if (renderObject is! RenderRepaintBoundary) return null;
-      await WidgetsBinding.instance.endOfFrame;
-      if (!mounted || !renderObject.attached || !renderObject.hasSize) {
-        return null;
-      }
-      final image = await renderObject.toImage(pixelRatio: 0.25);
-      try {
-        final bytes =
-            await image.toByteData(format: ui.ImageByteFormat.rawRgba);
-        if (bytes == null) return null;
-        return FractalMusicScanFrame(
-          rgba: Uint8List.fromList(
-            bytes.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes),
-          ),
-          width: image.width,
-          height: image.height,
-        );
-      } finally {
-        image.dispose();
-      }
-    } catch (_) {
-      return null;
-    }
-  }
 
   Future<void> _toggleFourier() async {
     if (_fourierEnabled) {
@@ -766,8 +679,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     final image = _fourierSpectrumImage;
     _fourierSpectrumImage = null;
     image?.dispose();
-    _fourierMusicEnabled = false;
-    _clearFourierMusicModulation();
     if (mounted) setState(() => _fourierEnabled = false);
   }
 
@@ -778,20 +689,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
       const Duration(milliseconds: 450),
       (_) => unawaited(_captureFourierFrame()),
     );
-  }
-
-  void _clearFourierMusicModulation() {
-    final hadFeatures = _currentFourierMusicFeatures != null;
-    _fourierMusicSmoother.reset();
-    _fourierMusicDecisionController.reset();
-    _currentFourierMusicFeatures = null;
-    if (hadFeatures &&
-        mounted &&
-        _viewerEffects.fractalMusicEnabled &&
-        _lastController != null) {
-      _musicCoordinator.cancelRescan();
-      _musicCoordinator.scheduleRescan(_lastController!);
-    }
   }
 
   Future<ui.Image?> _captureBoundaryAfterPaint(
@@ -872,7 +769,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
         final snapshot = _fourierRenderSnapshotSink.snapshot;
         if (snapshot == null) {
           if (!isCurrentCapture()) return;
-          _clearFourierMusicModulation();
           return;
         }
         final targetDimension = _fourierResolution.pixels ?? 128;
@@ -910,7 +806,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
       }
       if (image == null) {
         if (!isCurrentCapture()) return;
-        _clearFourierMusicModulation();
         return;
       }
       try {
@@ -918,7 +813,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
         final data = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
         if (!isCurrentCapture()) return;
         if (data == null) {
-          _clearFourierMusicModulation();
           return;
         }
         final generation = ++_fourierGeneration;
@@ -945,7 +839,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
       }
     } catch (error) {
       if (isCurrentCapture()) {
-        _clearFourierMusicModulation();
         _log.debug('fourier', 'Viewport capture failed',
             data: {'error': '$error'});
       }
@@ -974,12 +867,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     }
     if (analysisController?.error case final error?) {
       _log.debug('fourier', 'Analysis failed', data: {'error': '$error'});
-      _clearFourierMusicModulation();
-    }
-    if (attempt != null &&
-        attempt.blank &&
-        attempt.generation > (result?.generation ?? -1)) {
-      _clearFourierMusicModulation();
     }
     if (!mounted ||
         result == null ||
@@ -995,48 +882,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
       'width': result.width,
       'height': result.height,
     });
-    if (_fourierMusicEnabled && !result.blank) {
-      final measured = result.features;
-      final mapped = const FourierMusicFeatureMapper().map(
-        FourierMusicSpectrumFrame(
-          lowPowerRatio: measured.lowPowerRatio,
-          midPowerRatio: measured.midPowerRatio,
-          highPowerRatio: measured.highPowerRatio,
-          centroid: measured.centroid,
-          entropy: measured.entropy,
-          flatness: measured.flatness,
-          orientation: measured.dominantOrientation,
-          anisotropy: measured.orientationStrength,
-          spectralFlux: measured.spectralFlux,
-        ),
-      );
-      final smoothed = _fourierMusicSmoother.update(mapped);
-      final decisions = _fourierMusicDecisionController.update(
-        smoothed,
-        isBarBoundary: true,
-      );
-      final next = FourierMusicFeatures(
-        bassWeight: smoothed.bassWeight,
-        padOpenness: smoothed.padOpenness,
-        highTexture: smoothed.highTexture,
-        leadRegister: decisions.registerBand.index / 2,
-        rhythmicComplexity: decisions.rhythmDensity.index / 2,
-        stereoBias: smoothed.stereoBias,
-        transitionStrength: smoothed.transitionStrength,
-        orientation: smoothed.orientation,
-        anisotropy: smoothed.anisotropy,
-        isSilent: smoothed.isSilent,
-      );
-      final previous = _currentFourierMusicFeatures;
-      _currentFourierMusicFeatures = next;
-      if (_viewerEffects.fractalMusicEnabled &&
-          _fourierMusicDiffers(previous, next)) {
-        _musicCoordinator.scheduleRescan(
-          _activeController(context),
-          alignToBar: true,
-        );
-      }
-    }
     ui.decodeImageFromPixels(
       result.spectrumRgba,
       result.width,
@@ -1054,19 +899,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
         previous?.dispose();
       },
     );
-  }
-
-  bool _fourierMusicDiffers(
-    FourierMusicFeatures? previous,
-    FourierMusicFeatures next,
-  ) {
-    if (previous == null || previous.isSilent != next.isSilent) return true;
-    final before = previous.normalizedValues;
-    final after = next.normalizedValues;
-    for (var index = 0; index < before.length; index++) {
-      if ((before[index] - after[index]).abs() >= 0.04) return true;
-    }
-    return (previous.stereoBias - next.stereoBias).abs() >= 0.08;
   }
 
   Future<void> _openFourierSettings() async {
@@ -1089,7 +921,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
             resolution: _fourierResolution,
             applyHann: _fourierApplyHann,
             removeDc: _fourierRemoveDc,
-            fourierMusicEnabled: _fourierMusicEnabled,
             onDisplayModeChanged: (value) =>
                 update(() => _fourierDisplayMode = value),
             onResolutionChanged: (value) =>
@@ -1098,18 +929,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                 update(() => _fourierApplyHann = value),
             onRemoveDcChanged: (value) =>
                 update(() => _fourierRemoveDc = value),
-            onFourierMusicChanged: (value) {
-              update(() {
-                _fourierMusicEnabled = value;
-                if (!value) {
-                  _fourierMusicSmoother.reset();
-                  _currentFourierMusicFeatures = null;
-                }
-              });
-              if (_viewerEffects.fractalMusicEnabled) {
-                _musicCoordinator.scheduleRescan(_activeController(context));
-              }
-            },
             onOpenUncertaintyLab: () {
               Navigator.of(sheetContext).pop();
               Navigator.of(context).push(
@@ -1757,7 +1576,10 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                         kaleidoscopeSectors:
                             activeController.kaleidoscopeSectors,
                         kaleidoscopeMirror: activeController.kaleidoscopeMirror,
-                        fractalMusicEnabled: _viewerEffects.fractalMusicEnabled,
+                        breathingPlaying:
+                            _breathingController?.isPlaying ?? false,
+                        breathingAvailable: _canAnimateBreathing &&
+                            (_breathingController?.canPlay ?? false),
                         fourierEnabled: _fourierEnabled,
                         textOverlayEnabled: _textOverlay.enabled,
                         showFractalReport: !kIsWeb &&
@@ -1793,8 +1615,11 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                           shareImage: () => _shareCurrentImage(context),
                           toggleTextOverlay: _toggleTextOverlay,
                           editTextOverlay: _editTextOverlay,
-                          openLooper: () => _openLooper(context),
-                          toggleFractalMusic: _toggleFractalMusic,
+                          openLooper: () {
+                            _breathingController?.pause();
+                            _openLooper(context);
+                          },
+                          toggleBreathing: _toggleBreathing,
                           toggleFourier: _toggleFourier,
                           openFourierSettings: _openFourierSettings,
                           reportFractal: () => _reportFractal(context),
@@ -1949,14 +1774,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                             ],
                           ),
                         ),
-                      ),
-                    ),
-
-                  if (controller.module.id != 'number_wall' &&
-                      _viewerEffects.fractalMusicEnabled)
-                    Positioned.fill(
-                      child: FractalMusicScanOverlay(
-                        animation: _musicScanController,
                       ),
                     ),
 

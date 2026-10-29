@@ -652,7 +652,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get numberWallUnsupportedTools =>
-      'Exact static wall: animation, looper, music and visual effects are unavailable.';
+      'Exact static wall: animation, looper and visual effects are unavailable.';
 
   @override
   String get numberWallResidues => 'Residues';
@@ -800,10 +800,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tooltipCameraLooper => 'Camera looper';
 
   @override
-  String get tooltipFractalMusicOn => 'Fractal Music on';
+  String get tooltipPlayBreathing => 'Play parameter animation';
 
   @override
-  String get tooltipFractalMusicOff => 'Fractal Music off';
+  String get tooltipPauseBreathing => 'Pause parameter animation';
+
+  @override
+  String get tooltipBreathingUnavailable =>
+      'Parameter animation unavailable for this fractal or motion setting';
 
   @override
   String get tooltipFourierOn => 'Fourier view on';
@@ -838,13 +842,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fourierRemoveDc => 'Remove average level (DC)';
-
-  @override
-  String get fourierMusic => 'Fourier Music';
-
-  @override
-  String get fourierMusicDescription =>
-      'Use measured spectrum features to modulate Fractal Music while playback is on.';
 
   @override
   String get fourierOpenLab => 'Open Fractal Uncertainty Lab';
@@ -1012,10 +1009,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get uncertaintyFiniteEstimate => 'Finite empirical estimate.';
-
-  @override
-  String get fractalMusicUnavailable =>
-      'Fractal Music unavailable. Check your audio device.';
 
   @override
   String get shareToSocialTargets => 'Share to X / Reddit';
@@ -2348,9 +2341,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewerToolOptions => 'Options';
-
-  @override
-  String get viewerMusicAction => 'Music';
 
   @override
   String get viewerCopyLinkAction => 'Copy link';

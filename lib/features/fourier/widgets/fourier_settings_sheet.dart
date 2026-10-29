@@ -23,12 +23,10 @@ class FourierSettingsSheet extends StatelessWidget {
     required this.resolution,
     required this.applyHann,
     required this.removeDc,
-    required this.fourierMusicEnabled,
     required this.onDisplayModeChanged,
     required this.onResolutionChanged,
     required this.onApplyHannChanged,
     required this.onRemoveDcChanged,
-    required this.onFourierMusicChanged,
     required this.onOpenUncertaintyLab,
   });
 
@@ -36,12 +34,10 @@ class FourierSettingsSheet extends StatelessWidget {
   final FourierResolution resolution;
   final bool applyHann;
   final bool removeDc;
-  final bool fourierMusicEnabled;
   final ValueChanged<FourierDisplayMode> onDisplayModeChanged;
   final ValueChanged<FourierResolution> onResolutionChanged;
   final ValueChanged<bool> onApplyHannChanged;
   final ValueChanged<bool> onRemoveDcChanged;
-  final ValueChanged<bool> onFourierMusicChanged;
   final VoidCallback onOpenUncertaintyLab;
 
   @override
@@ -106,13 +102,6 @@ class FourierSettingsSheet extends StatelessWidget {
             title: Text(l10n.fourierRemoveDc),
             value: removeDc,
             onChanged: onRemoveDcChanged,
-          ),
-          SwitchListTile.adaptive(
-            contentPadding: EdgeInsets.zero,
-            title: Text(l10n.fourierMusic),
-            subtitle: Text(l10n.fourierMusicDescription),
-            value: fourierMusicEnabled,
-            onChanged: onFourierMusicChanged,
           ),
           const SizedBox(height: AppSpacing.md),
           Text(l10n.fourierSpatialUnitsNote),

@@ -6,9 +6,6 @@ import android.content.ContentValues
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.media.AudioFormat
-import android.media.AudioManager
-import android.media.AudioTrack
 import android.media.MediaScannerConnection
 import android.os.Build
 import android.os.Bundle
@@ -27,15 +24,12 @@ import java.io.IOException
 class MainActivity : FlutterFragmentActivity() {
     private var deepLinkChannel: MethodChannel? = null
     private var initialLink: String? = null
-    private var fractalMusicTrack: AudioTrack? = null
-    private val fractalMusicGeneration = FractalMusicPlaybackGeneration()
 
     companion object {
         private const val DEVICE_CHANNEL = "fractalforge/device"
         private const val DEEPLINK_CHANNEL = "com.fractalforge/deeplink"
         private const val MEDIA_STORE_CHANNEL = "fractalforge/media_store"
         private const val WALLPAPER_CHANNEL = "com.fractalforge/wallpaper"
-        private const val FRACTAL_MUSIC_CHANNEL = "com.fractalforge/fractal_music"
         private const val MEDIA_STORE_SUBDIR = "FractalForge"
     }
 
@@ -162,157 +156,6 @@ class MainActivity : FlutterFragmentActivity() {
                 }
             }
 
-        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, FRACTAL_MUSIC_CHANNEL)
-            .setMethodCallHandler { call, result ->
-                when (call.method) {
-                    "play" -> {
-                        val bytes = call.argument<ByteArray>("bytes")
-                        if (bytes == null) {
-                            result.error("invalid_args", "bytes are required", null)
-                            return@setMethodCallHandler
-                        }
-                        playFractalMusic(bytes, result)
-                    }
-                    "cancelPending" -> {
-                        synchronized(this@MainActivity) {
-                            fractalMusicGeneration.cancel()
-                        }
-                        result.success(null)
-                    }
-                    "stop" -> {
-                        stopFractalMusic()
-                        result.success(null)
-                    }
-                    else -> result.notImplemented()
-                }
-            }
-    }
-
-    private fun playFractalMusic(bytes: ByteArray, result: MethodChannel.Result) {
-        // Generation changes and AudioTrack owner publication share the same
-        // MainActivity monitor, so a newer request cannot slip between the
-        // final freshness check and replacement handoff.
-        val request = synchronized(this) { fractalMusicGeneration.begin() }
-        Thread {
-            val wav = try {
-                FractalMusicWavParser.parse(bytes)
-            } catch (error: IllegalArgumentException) {
-                completeFractalMusicFailure(
-                    request,
-                    result,
-                    "invalid_audio",
-                    error.message ?: "Invalid WAV bytes",
-                )
-                return@Thread
-            }
-
-            var candidate: AudioTrack? = null
-            try {
-                val channelConfig = if (wav.channelCount == 2) {
-                    AudioFormat.CHANNEL_OUT_STEREO
-                } else {
-                    AudioFormat.CHANNEL_OUT_MONO
-                }
-                val track = AudioTrack(
-                    AudioManager.STREAM_MUSIC,
-                    wav.sampleRate,
-                    channelConfig,
-                    AudioFormat.ENCODING_PCM_16BIT,
-                    wav.pcm.size,
-                    AudioTrack.MODE_STATIC,
-                )
-                candidate = track
-                val written = track.write(wav.pcm, 0, wav.pcm.size)
-                if (written != wav.pcm.size) {
-                    releaseFractalMusicTrack(track)
-                    candidate = null
-                    completeFractalMusicFailure(
-                        request,
-                        result,
-                        "audio_write_failed",
-                        "Failed to write complete audio buffer",
-                    )
-                    return@Thread
-                }
-                if (track.setLoopPoints(0, wav.frameCount, -1) != AudioTrack.SUCCESS) {
-                    releaseFractalMusicTrack(track)
-                    candidate = null
-                    completeFractalMusicFailure(
-                        request,
-                        result,
-                        "audio_loop_failed",
-                        "Failed to loop generated audio",
-                    )
-                    return@Thread
-                }
-
-                val accepted = synchronized(this) {
-                    val previous = fractalMusicTrack
-                    val handoff = handoffFractalMusicTrack(
-                        previous = previous,
-                        candidate = track,
-                        isCurrent = { fractalMusicGeneration.isCurrent(request) },
-                        start = { next ->
-                            next.playbackHeadPosition = 0
-                            next.play()
-                        },
-                        release = ::releaseFractalMusicTrack,
-                    )
-                    if (handoff.accepted) {
-                        fractalMusicTrack = handoff.owner
-                        candidate = null
-                    }
-                    handoff.accepted
-                }
-                if (!accepted) {
-                    releaseFractalMusicTrack(track)
-                    candidate = null
-                }
-                runOnUiThread { result.success(accepted) }
-            } catch (error: Throwable) {
-                candidate?.let(::releaseFractalMusicTrack)
-                completeFractalMusicFailure(
-                    request,
-                    result,
-                    "audio_play_failed",
-                    error.message ?: "Failed to play fractal music",
-                )
-            }
-        }.start()
-    }
-
-    private fun completeFractalMusicFailure(
-        request: Long,
-        result: MethodChannel.Result,
-        code: String,
-        message: String,
-    ) {
-        runOnUiThread {
-            synchronized(this@MainActivity) {
-                if (fractalMusicGeneration.isCurrent(request)) {
-                    result.error(code, message, null)
-                } else {
-                    result.success(false)
-                }
-            }
-        }
-    }
-
-    @Synchronized private fun stopFractalMusic() {
-        fractalMusicGeneration.cancel()
-        val track = fractalMusicTrack
-        fractalMusicTrack = null
-        track?.let(::releaseFractalMusicTrack)
-    }
-
-    private fun releaseFractalMusicTrack(track: AudioTrack) {
-        runCatching { track.stop() }
-        runCatching { track.release() }
-    }
-
-    override fun onDestroy() {
-        stopFractalMusic()
-        super.onDestroy()
     }
 
     private fun setDeviceWallpaper(
