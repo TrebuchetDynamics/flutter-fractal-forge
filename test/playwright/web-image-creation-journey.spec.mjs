@@ -116,7 +116,7 @@ async function openCatalogExample(page, example) {
   // when its input listener is attached; typing earlier drops the first key.
   await expect(search).toHaveAttribute('autocorrect', 'on');
   await search.press('Control+A');
-  await search.pressSequentially(example.name, { delay: 50 });
+  await search.pressSequentially(example.name, { delay: 50, timeout: 30_000 });
   await expect(search).toHaveValue(example.name);
   // Match the whole card identity, not another name such as Bicomplex Mandelbrot.
   const escapedName = example.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -407,16 +407,31 @@ test('Fibonacci catalog edits restore and export the same finite experiment', as
   expect(legendEn).toContain('F19 = 4181 = 37');
   expect(legendEn).toContain('Gold:');
   await page.screenshot({ path: testInfo.outputPath('fibonacci-en-legend.png') });
-  for (const name of ['Iterations', 'Julia C (Real)', 'Julia C (Imag)']) {
+  for (const [name, parameter, expected] of [
+    ['Iterations', 'iterations', 44],
+    ['Julia C (Real)', 'juliaCReal', -.21],
+    ['Julia C (Imag)', 'juliaCImag', .24],
+  ]) {
     const slider = page.locator(`[aria-label="${name}"]`).getByRole('slider');
     await slider.scrollIntoViewIfNeeded();
+    // The modal entrance temporarily disables the semantics range inputs.
+    // focus() alone does not wait for actionability and can silently do nothing.
+    await expect(slider).toBeEnabled();
     await slider.focus();
-    await page.keyboard.press('ArrowLeft');
+    await expect(slider).toBeFocused();
+    await slider.press('ArrowLeft');
+    await expect.poll(async () => (await saved(page)).params[parameter])
+      .toBeCloseTo(expected);
   }
   await page.getByRole('button', { name: /close this dialog/i }).click({ force: true });
+  // Wait for the closing modal to release its slider focus; otherwise the
+  // following canvas arrow keys can still modify the last Julia parameter.
+  await expect(page.getByRole('slider')).toHaveCount(0);
   // Use the supported viewer keyboard actions with semantics enabled, rather
   // than rewriting storage or dragging the accessibility overlay.
-  await page.getByRole('group', { name: /^Interactive fractal canvas/ }).click({ position: { x: 500, y: 200 }, force: true });
+  const canvas = page.getByRole('group', { name: /^Interactive fractal canvas/ });
+  await canvas.click({ position: { x: 500, y: 200 } });
+  await expect(canvas).toBeFocused();
   await page.keyboard.press('ArrowRight');
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('-');
