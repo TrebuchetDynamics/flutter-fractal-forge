@@ -1,0 +1,5 @@
+Music is replaced by silent Play/Pause parameter animation.
+Watch supported fractals breathe in a gentle loop.
+Editing parameters, leaving the viewer or backgrounding pauses playback.
+Visual Fourier analysis remains available.
+Improved toolbar and More controls on small screens.

@@ -113,6 +113,15 @@ Manual correction acceptance and user-defined palette support are already record
 Perturbation for GPU deep zoom beyond float32 has shipped and is no longer
 planned work; see the Extended GPU Preview entry in CONTEXT.md.
 
+## [1.1.113] - 2026-10-28
+
+### Changed
+
+- Replace Fractal Music with a silent Play/Pause button that gently animates suitable continuous parameters.
+- Keep parameter values bounded and preserve the current shape when paused. Parameter edits, backgrounding and leaving the viewer pause playback.
+- Respect reduced motion and disable parameter playback on CPU render paths. Visual Fourier analysis remains available.
+- Improve the compact viewer toolbar and keep More actions reachable on short screens.
+
 ## [1.1.112] - 2026-10-26
 
 ### Changed
