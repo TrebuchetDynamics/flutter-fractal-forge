@@ -254,9 +254,9 @@ class ViewerSessionStore {
   }
 
   ViewerSessionSnapshot? load() {
-    final payload = _preferences.getString(preferencesKey);
-    if (payload == null || payload.isEmpty) return null;
     try {
+      final payload = _preferences.getString(preferencesKey);
+      if (payload == null || payload.isEmpty) return null;
       final decoded = jsonDecode(payload);
       if (decoded is! Map) return null;
       return ViewerSessionSnapshot.fromJson(

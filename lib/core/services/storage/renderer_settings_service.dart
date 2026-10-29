@@ -27,7 +27,7 @@ class RendererSettingsService extends ChangeNotifier {
   }
 
   RendererSettingsService(this._prefs)
-      : _backendMode = _decode(_prefs.getString(_keyBackendMode)),
+      : _backendMode = _decode(_prefs.get(_keyBackendMode)),
         _debugModeEnabled = _prefs.getBool(_keyDebugMode) ?? false;
 
   static Future<RendererSettingsService> create() async {
@@ -59,7 +59,7 @@ class RendererSettingsService extends ChangeNotifier {
     super.dispose();
   }
 
-  static RendererBackendMode _decode(String? raw) {
+  static RendererBackendMode _decode(Object? raw) {
     switch (raw) {
       case 'cpuOnly':
         return RendererBackendMode.cpuOnly;

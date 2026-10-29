@@ -64,6 +64,7 @@ import 'package:flutter_fractals/features/fourier/lab/fractal_uncertainty_lab_sc
 import 'package:flutter_fractals/features/fourier/services/fourier_analysis_backend.dart';
 import 'package:flutter_fractals/features/fourier/services/fourier_analysis_controller.dart';
 import 'package:flutter_fractals/features/fourier/services/fourier_backend_lease.dart';
+import 'package:flutter_fractals/features/fourier/services/fourier_boundary_capture.dart';
 import 'package:flutter_fractals/features/fourier/services/fourier_offscreen_renderer.dart';
 import 'package:flutter_fractals/features/fourier/widgets/fourier_settings_sheet.dart';
 import 'package:flutter_fractals/features/fourier/widgets/fourier_spectrum_view.dart';
@@ -696,46 +697,15 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     double pixelRatio,
     int captureSession,
   ) {
-    final completer = Completer<ui.Image?>();
-    var remainingAttempts = 4;
-
-    void attempt(Duration _) {
-      if (captureSession != _fourierCaptureSession ||
-          !mounted ||
-          !_fourierEnabled ||
-          !_appVisible) {
-        if (!completer.isCompleted) completer.complete();
-        return;
-      }
-      final renderObject = boundaryKey.currentContext?.findRenderObject();
-      if (renderObject is! RenderRepaintBoundary ||
-          !renderObject.attached ||
-          !renderObject.hasSize) {
-        if (!completer.isCompleted) completer.complete();
-        return;
-      }
-      if (renderObject.debugNeedsPaint && remainingAttempts-- > 0) {
-        WidgetsBinding.instance.addPostFrameCallback(attempt);
-        WidgetsBinding.instance.scheduleFrame();
-        return;
-      }
-      if (renderObject.debugNeedsPaint) {
-        completer.completeError(StateError('analysis boundary stayed dirty'));
-        return;
-      }
-      try {
-        renderObject.toImage(pixelRatio: pixelRatio).then(
-              completer.complete,
-              onError: completer.completeError,
-            );
-      } catch (error, stackTrace) {
-        completer.completeError(error, stackTrace);
-      }
-    }
-
-    WidgetsBinding.instance.addPostFrameCallback(attempt);
-    WidgetsBinding.instance.scheduleFrame();
-    return completer.future.timeout(const Duration(seconds: 2));
+    return captureFourierBoundaryAfterPaint(
+      boundaryKey: boundaryKey,
+      pixelRatio: pixelRatio,
+      isCurrentCapture: () =>
+          captureSession == _fourierCaptureSession &&
+          mounted &&
+          _fourierEnabled &&
+          _appVisible,
+    );
   }
 
   Future<void> _captureFourierFrame({bool throttled = false}) async {

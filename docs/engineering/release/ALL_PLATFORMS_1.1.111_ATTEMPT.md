@@ -119,3 +119,39 @@ as `release/play-1.1.111-20261025` at
 `e867d1b65f9966c5ae3b7bd1f9f48c9142cc9a43`. Both refs were read back from origin.
 Runtime `.pi-subagents/` logs/transcripts are not source delivery and remain
 untracked; credentials, build outputs and release artifacts were not committed.
+
+> Historical appendix retained from `09a4abee` during the 2026-10-29 merge.
+> Its then-current ownership hold was subsequently repaired by `a9d2ed2e`
+> (`fix(navigation): reject async replay after route or export ownership changes`); it is not a new current
+> release verdict or qualification of the merged candidate.
+
+### Later Git catch-up: tests green, review hold retained
+
+A separate clean delivery snapshot at
+`da23efa9f3fb081ba69934493531b1bf377ef576`, including the later Number Walls
+integration and this initial report, completed the full pinned offline command:
+clean analysis, **3,007 Flutter tests passed with 8 skipped**, **282 Python tests
+passed with 1 skipped and 103 subtests passed**, **25 Bats checks passed**, unchanged
+lockfile and clean snapshot. Log: `/tmp/fractal-git-delivery-da23efa9-full.log`.
+These checks do not retroactively change any platform publication result above.
+
+Independent read-only review of `0dc1158f..dffd81a5` nevertheless reported a **P1
+async route/export ownership regression** in Number Walls replay:
+
+- `lib/features/home/home_screen.dart:146–169` checks availability before awaiting
+  certification, but Settings can open meanwhile (`:362–365`), or the active
+  viewer can begin export in `viewer_export_actions.dart:263–279`.
+- Completion can then commit controller/visual state in
+  `fractal_controller.dart:1144–1162` and navigate without rechecking ownership at
+  the commit boundary. Startup restoration has the related post-await route issue
+  at `home_screen.dart:77–84`.
+- A passing existing suite does not exercise/prove safe these interleavings.
+  No behavioral reproduction or fix is claimed here. Required repair: cancel on
+  ownership changes or guard before commit, with regression tests for Settings,
+  export and startup-restoration interleavings.
+
+The later feature catch-up was therefore **not pushed by this delivery**. This
+standalone report is delivered from the already-verified `0dc1158f` base on
+`release/all-platform-1.1.111-report-20261025`, avoiding inclusion of the blocked
+Number Walls integration. Preserve its local commits and independent worker
+activity; do not reset/rebase/discard them or relabel the review hold as a pass.

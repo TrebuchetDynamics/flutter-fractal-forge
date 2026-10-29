@@ -69,6 +69,7 @@ class AccessibilityService extends ChangeNotifier {
   bool _largeTargetsEnabled;
   AppThemeMode _themeMode;
   AppThemeMode _previousThemeMode;
+  Future<void>? _themeQueue;
   bool _disposed = false;
 
   void _notifyIfAlive() {
@@ -77,21 +78,32 @@ class AccessibilityService extends ChangeNotifier {
 
   /// Creates an [AccessibilityService] with the given [SharedPreferences].
   AccessibilityService(this._prefs)
-      : _highContrastEnabled = (_prefs.getBool(_keyHighContrast) ?? false) ||
-            _storedThemeMode(_prefs) == AppThemeMode.highContrast,
-        _reducedMotionEnabled = _prefs.getBool(_keyReducedMotion) ?? false,
-        _largeTargetsEnabled = _prefs.getBool(_keyLargeTargets) ?? false,
-        _themeMode = (_prefs.getBool(_keyHighContrast) ?? false)
+      : _highContrastEnabled =
+            (_storedBool(_prefs, _keyHighContrast) ?? false) ||
+                _storedThemeMode(_prefs) == AppThemeMode.highContrast,
+        _reducedMotionEnabled = _storedBool(_prefs, _keyReducedMotion) ?? false,
+        _largeTargetsEnabled = _storedBool(_prefs, _keyLargeTargets) ?? false,
+        _themeMode = (_storedBool(_prefs, _keyHighContrast) ?? false)
             ? AppThemeMode.highContrast
             : _storedThemeMode(_prefs),
         _previousThemeMode = _storedPreviousThemeMode(_prefs);
 
+  static bool? _storedBool(SharedPreferences prefs, String key) {
+    final value = prefs.get(key);
+    return value is bool ? value : null;
+  }
+
+  static int? _storedInt(SharedPreferences prefs, String key) {
+    final value = prefs.get(key);
+    return value is int ? value : null;
+  }
+
   static AppThemeMode _storedThemeMode(SharedPreferences prefs) =>
-      AppThemeMode.values[(prefs.getInt(_keyThemeMode) ?? 0)
+      AppThemeMode.values[(_storedInt(prefs, _keyThemeMode) ?? 0)
           .clamp(0, AppThemeMode.values.length - 1)];
 
   static AppThemeMode _storedPreviousThemeMode(SharedPreferences prefs) {
-    final previousIndex = prefs.getInt(_keyPreviousThemeMode);
+    final previousIndex = _storedInt(prefs, _keyPreviousThemeMode);
     final mode = previousIndex == null
         ? _storedThemeMode(prefs)
         : AppThemeMode
@@ -126,8 +138,23 @@ class AccessibilityService extends ChangeNotifier {
   /// The current app theme mode.
   AppThemeMode get themeMode => _themeMode;
 
+  Future<void> _enqueueThemeChange(Future<void> Function() apply) {
+    final previous = _themeQueue;
+    final result = previous == null ? apply() : previous.then((_) => apply());
+    // Keep failures on the caller's future, not on the ordering chain.
+    late final Future<void> tracked;
+    tracked = result.catchError((Object _, StackTrace __) {}).whenComplete(() {
+      if (identical(_themeQueue, tracked)) _themeQueue = null;
+    });
+    _themeQueue = tracked;
+    return result;
+  }
+
   /// Enables or disables high contrast mode.
-  Future<void> setHighContrast(bool enabled) async {
+  Future<void> setHighContrast(bool enabled) =>
+      _enqueueThemeChange(() => _applyHighContrast(enabled));
+
+  Future<void> _applyHighContrast(bool enabled) async {
     if (_highContrastEnabled == enabled) return;
     if (enabled) {
       if (_themeMode != AppThemeMode.highContrast) {
@@ -161,10 +188,13 @@ class AccessibilityService extends ChangeNotifier {
   }
 
   /// Sets the app theme mode.
-  Future<void> setThemeMode(AppThemeMode mode) async {
+  Future<void> setThemeMode(AppThemeMode mode) =>
+      _enqueueThemeChange(() => _applyThemeMode(mode));
+
+  Future<void> _applyThemeMode(AppThemeMode mode) async {
     if (_themeMode == mode) return;
     if (mode == AppThemeMode.highContrast) {
-      await setHighContrast(true);
+      await _applyHighContrast(true);
       return;
     }
     _themeMode = mode;
