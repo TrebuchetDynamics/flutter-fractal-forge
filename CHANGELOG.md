@@ -112,6 +112,29 @@ Manual correction acceptance and user-defined palette support are already record
 Perturbation for GPU deep zoom beyond float32 has shipped and is no longer
 planned work; see the Extended GPU Preview entry in CONTEXT.md.
 
+## [1.1.113] - 2026-10-28
+
+- feat(viewer): replace fractal music with silent breathing animation
+- Merge commit 'e5cb51fc779e5e2ad249d6c2259b70c03320f802'
+- fix: adopt verified renderer and Web recovery changes
+- test(web): adapt export and state journeys to viewer primary actions
+- Merge branch 'candidate/release-fixes-988a7145' into integration/final-delivery-20261028
+- fix: combine released renderer and Web recovery work
+- Merge commit 'b80c1513b33b66e9a109be1378561eae9b2b20ca' into pi-autowork/20261027-235818
+- Merge branch 'candidate/viewer-mobile-ui-db6a0cfa' into integration/viewer-mobile-ui-20261028
+- Measure toolbar captions and keep More chrome in one scroll frame
+- Add Android viewer geometry and screenshot regression journey
+- Align opaque toolbar captions with their full hit regions
+- Keep viewer More actions fully reachable in short bodies
+- Exercise viewer reports through named More actions
+- Keep independent scientific caveats visible outside formula details
+- Fix compact viewer HUD budgets and accessibility targets
+- Migrate root viewer and HUD tests to compact toolbar
+- Migrate viewer callers to compact toolbar and More actions
+- Merge commit 'eca1e1b848175d2018ffa8472a858bcafd4d462c' into pi-autowork/20261027-235818
+- docs(tasks): owner planning (pi-autowork)
+- Replace viewer icon rail with compact labeled toolbar and More sheet
+
 ## [1.1.112] - 2026-10-26
 
 ### Changed
