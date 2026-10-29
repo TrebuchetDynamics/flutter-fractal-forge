@@ -17,7 +17,7 @@ import tempfile
 import time
 from pathlib import Path
 from typing import Any, Callable
-from urllib.parse import quote
+from urllib.parse import quote, urlsplit
 from urllib.request import urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -865,13 +865,98 @@ def _web_write(lane: dict[str, Any]) -> dict[str, Any]:
     return {"project": project, "output": result.stdout[-1000:]}
 
 
+def _web_header_policy(content: bytes, files: dict[str, str]) -> dict[str, dict[str, str]]:
+    """Verify the emitted Pages control file through the response headers it sets."""
+    policy: dict[str, dict[str, str]] = {}
+    targets: list[str] = []
+    for line in content.decode("utf-8").splitlines():
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        if not line[0].isspace():
+            route = line.strip()
+            if not route.startswith("/") or any(char in route for char in "?:[]"):
+                raise ValueError("unsupported header route")
+            pattern = re.escape(route).replace(r"\*", ".*")
+            targets = [name for name in files if name != "_headers" and re.fullmatch(pattern, "/" + name)]
+            if re.fullmatch(pattern, "/"):
+                targets.append("/")
+            if not targets:
+                raise ValueError("header route has no archived response to verify")
+            continue
+        if not targets or ":" not in line:
+            raise ValueError("unsupported header directive")
+        name, value = line.strip().split(":", 1)
+        if not re.fullmatch(r"[A-Za-z][A-Za-z0-9-]*", name) or not value.strip():
+            raise ValueError("invalid header directive")
+        name, value = name.lower(), value.strip()
+        for target in targets:
+            headers = policy.setdefault(target, {})
+            if name in headers and headers[name] != value:
+                raise ValueError("conflicting header directives")
+            headers[name] = value
+    return policy
+
+
+def _web_response(url: str, header_path: Path) -> tuple[bytes, dict[str, str]] | None:
+    marker = b"\nFRACTAL_RELEASE_EFFECTIVE_URL="
+    try:
+        result = subprocess.run(["curl", "-q", "-fLsS", "--max-redirs", "3", "--proto-redir", "=https",
+                                 "--max-time", "30", "--dump-header", str(header_path),
+                                 "--write-out", marker.decode() + "%{url_effective}", url],
+                                cwd=ROOT, env=_lane_environment("common"), capture_output=True, timeout=35)
+        if result.returncode:
+            return None
+        output = result.stdout.encode() if isinstance(result.stdout, str) else result.stdout
+        body, separator, effective = output.rpartition(marker)
+        target, final = urlsplit(url), urlsplit(effective.decode().strip())
+        if (not separator or not final.hostname or final.username or final.password or
+                (final.scheme, final.hostname, final.port) != (target.scheme, target.hostname, target.port)):
+            return None
+        headers: dict[str, str] = {}
+        status_ok = False
+        for line in header_path.read_text(encoding="iso-8859-1").splitlines():
+            if line.startswith("HTTP/"):
+                headers = {}
+                status_ok = bool(re.match(r"HTTP/\S+\s+2[0-9]{2}(?:\s|$)", line))
+            elif status_ok and ":" in line:
+                name, value = line.split(":", 1)
+                name, value = name.lower().strip(), value.strip()
+                headers[name] = headers[name] + ", " + value if name in headers else value
+        return (body, headers) if status_ok else None
+    except (OSError, ValueError, UnicodeError, subprocess.SubprocessError):
+        return None
+
+
 def _web_readback(lane: dict[str, Any], publication: Any) -> dict[str, Any] | None:
+    controls = []
+    policy: dict[str, dict[str, str]] = {}
     try:
         with tarfile.open(lane["artifacts"][0]["path"], "r:gz") as bundle:
             expected = json.load(bundle.extractfile("web/release-identity.json"))
-        if any(str(expected.get(field, "")) != str(lane["identity"][field])
-               for field in ("version", "build_number", "commit")):
-            return None
+            if not isinstance(expected, dict) or any(str(expected.get(field, "")) != str(lane["identity"][field])
+                   for field in ("version", "build_number", "commit")):
+                return None
+            files = expected.get("files")
+            if not isinstance(files, dict) or "index.html" not in files:
+                return None
+            for relative, digest in files.items():
+                if (not isinstance(relative, str) or Path(relative).is_absolute() or ".." in Path(relative).parts or
+                        not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest)):
+                    return None
+            if "_headers" in files:
+                member = bundle.getmember("web/_headers")
+                if not member.isfile():
+                    return None
+                control = bundle.extractfile(member).read()
+                if hashlib.sha256(control).hexdigest() != files["_headers"]:
+                    return {"found": False, "conflict": True,
+                            "publication_reason": "qualified web control file hash mismatch: _headers"}
+                try:
+                    policy = _web_header_policy(control, files)
+                except ValueError as error:
+                    return {"found": False, "conflict": True,
+                            "publication_reason": f"unsupported qualified web header configuration: {error}"}
+                controls.append("_headers")
     except (OSError, KeyError, TypeError, tarfile.TarError, json.JSONDecodeError):
         return None
     project = publication.get("project", os.environ.get("CLOUDFLARE_PAGES_PROJECT", "flutter-fractal-forge")) if isinstance(publication, dict) else os.environ.get("CLOUDFLARE_PAGES_PROJECT", "flutter-fractal-forge")
@@ -899,37 +984,45 @@ def _web_readback(lane: dict[str, Any], publication: Any) -> dict[str, Any] | No
     url = matching[0].get("url", matching[0].get("Deployment"))
     if not isinstance(url, str) or not url.startswith("https://") or any(char.isspace() for char in url):
         return None
-    try:
-        remote = subprocess.run(["curl", "-fsS", "--max-time", "20", f"{url.rstrip('/')}/release-identity.json"],
-                                cwd=ROOT, env=_lane_environment("common"), capture_output=True,
-                                text=True, timeout=25)
-        if remote.returncode:
-            return None
-        observed = json.loads(remote.stdout)
-    except (OSError, json.JSONDecodeError, subprocess.SubprocessError):
-        return None
-    if observed != expected:
-        return {"found": False, "conflict": True,
-                "publication_reason": "deployment metadata matches but deployed release identity does not"}
-    for relative, expected_hash in expected.get("files", {}).items():
-        path = Path(relative)
-        if path.is_absolute() or ".." in path.parts or not isinstance(expected_hash, str):
-            return None
-        try:
-            remote_file = subprocess.run(["curl", "-fsS", "--max-time", "30",
-                                          f"{url.rstrip('/')}/{quote(relative, safe='/')}"],
-                                         cwd=ROOT, env=_lane_environment("common"),
-                                         capture_output=True, timeout=35)
-        except (OSError, subprocess.SubprocessError):
-            return None
-        if remote_file.returncode:
-            return None
-        if hashlib.sha256(remote_file.stdout).hexdigest() != expected_hash:
-            return {"found": False, "conflict": True,
-                    "publication_reason": f"deployed web asset differs from qualified bundle: {relative}"}
+    origins = list(dict.fromkeys((url.rstrip("/"), "https://fractal.trebuchetdynamics.com")))
+    with tempfile.TemporaryDirectory(prefix="release-web-readback-") as directory:
+        header_path = Path(directory) / "response.headers"
+        for origin in origins:
+            response = _web_response(f"{origin}/release-identity.json", header_path)
+            if response is None:
+                return None
+            try:
+                observed = json.loads(response[0])
+            except (json.JSONDecodeError, UnicodeError):
+                return None
+            if observed != expected:
+                return {"found": False, "conflict": True,
+                        "publication_reason": "deployment metadata matches but deployed release identity does not"}
+            resources = {name: digest for name, digest in files.items() if name not in controls}
+            resources["/"] = files["index.html"]
+            for relative, expected_hash in resources.items():
+                route = relative if relative == "/" else "/" + quote(relative, safe="/")
+                response = _web_response(f"{origin}{route}", header_path)
+                if response is None:
+                    return None
+                body, headers = response
+                if hashlib.sha256(body).hexdigest() != expected_hash:
+                    return {"found": False, "conflict": True,
+                            "publication_reason": f"deployed web asset differs from qualified bundle: {relative}"}
+                for name, expected_value in policy.get(relative, {}).items():
+                    actual = headers.get(name, "")
+                    if name == "cache-control":
+                        matches = ({part.strip().lower() for part in actual.split(",")} ==
+                                   {part.strip().lower() for part in expected_value.split(",")})
+                    else:
+                        matches = actual.strip().lower() == expected_value.strip().lower()
+                    if not matches:
+                        return {"found": False, "conflict": True,
+                                "publication_reason": f"deployed header differs from qualified configuration at {origin}: {relative} ({name})"}
     return {"found": True, "deployment_id": matching[0].get("id", matching[0].get("Id")), "url": url,
             "identity_sha256": hashlib.sha256(json.dumps(expected, sort_keys=True, separators=(",", ":")).encode()).hexdigest(),
-            "verified_file_count": len(expected.get("files", {}))}
+            "verified_file_count": len(files) - len(controls), "verified_control_files": controls,
+            "verified_response_policy_count": len(policy), "verified_origins": origins}
 
 
 def _play_write(lane: dict[str, Any]) -> dict[str, Any]:

@@ -44,13 +44,20 @@ fabricate or bypass identity checks to make the tool run. `FDROID_BIN` is one
 quoted executable path, not a shell command or arguments; a relative path into
 the checkout will not work after the script changes directory.
 
-The scan script clones public `fdroiddata` into a temporary directory, copies the
-generated app recipe there, removes `config.yml`, changes to that directory and
-calls the selected tool for lint and scanner. Only that temporary cwd is exposed
-to the container, **not** the project checkout or its parent. The clone and source
-downloads need public network access; no credentials are passed to the container.
-The script's clone still uses the caller's host Git configuration, so use a
-trusted, credential-free public Git setup.
+The scan script fetches public `fdroiddata` into a separate temporary checkout.
+It creates a fresh scan workspace containing only the generated app recipe,
+`srclibs/flutter.yml`, `config/categories.yml`, and regular
+`config/category_*.png` assets. Required symlinks and special files are rejected.
+Unrelated app metadata, Git internals and root `config.yml` are not mounted.
+Only the scan workspace is exposed to the container, **not** the project checkout
+or its parent. Both temporary trees are removed after the command. Public source
+downloads still need network access; no credentials are passed to the container.
+Use a trusted, credential-free host Git setup for the public definitions fetch.
+
+The pinned scanner can report source preparation or scan problems while exiting
+zero despite `--exit-code`. The caller therefore also requires exactly one
+terminal `0 problems found` summary. Missing, duplicate, malformed or nonzero
+summaries fail qualification; a zero process exit alone is insufficient.
 
 ## Deliberate restrictions
 
@@ -101,10 +108,17 @@ also exercised with explicit `FDROID_BIN`; only remote clone and Podman are
 doubled, while its source-commit identity check remains real. This is **not** an
 official source-scan result.
 
-A full official lint/source scan was intentionally not run during implementation:
-it still requires generated metadata tied to the accepted release source and
-review of the resulting logs. Reproducible independent F-Droid source builds,
-unsigned/signed APK verification, Android device/accessibility qualification and
-release/publication approval remain separate gates. Availability of this adapter
-does not close those blockers. No production, publication or device action is
-part of this adapter.
+The initial adapter implementation did not run a full official scan. A later
+2026-10-29 repair ran official lint and source preparation/scanning for all three
+1.1.113 ABI codes against app source
+`8fa9b06cc1bc2fa22b21b7da77c884e816ab5714`: the pinned tool reported
+`0 problems found`, and owned cleanup completed. See the
+[repair record](QUALIFICATION_ADAPTER_REPAIR.md#follow-up-unblock-repairs--2026-10-29).
+Earlier failed and false-zero-exit attempts remain failures, not passing proof.
+
+Reproducible source builds, signed-reference verification, Android
+device/accessibility qualification and external maintainer acceptance remain
+separate requirements. An explicit release request supplies publication authority
+under the [standing defaults](../../../PRD.md#standing-release-defaults), not a
+waiver of those requirements. No device or publication action is part of the tool
+adapter itself.
