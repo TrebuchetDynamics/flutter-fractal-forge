@@ -46,8 +46,10 @@ Cache Rules or legacy Page Rules. No zone-wide setting was changed because other
 sites may share the zone. Scoped rule access is required for a host-specific
 repair. Android still needs privileged guest-network diagnosis of its unreachable
 designated Waydroid target. No supported Windows/Apple executor was registered.
-Linux retained-image, locale/inspired-entry coverage and human-review evidence
-must be supplied by actual captures and review, never by receipt flags.
+Linux now has [six supplemental retained-image journeys](../../qa/linux-release-images-20261029.md)
+covering both locales, 2D/3D and an inspired entry, with exact preview/export
+comparisons. Its attributable human-review verdict remains pending; receipt flags
+cannot supply it.
 
 ## Original repair record
 
