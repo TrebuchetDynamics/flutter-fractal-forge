@@ -367,9 +367,12 @@ class ReleasePlatformLanesTest(unittest.TestCase):
             fake_curl = fake_bin / "curl"
             fake_curl.write_text(NL.join([
                 "#!/usr/bin/env python3", "import os,sys,urllib.parse,pathlib",
-                "path=urllib.parse.urlparse(sys.argv[-1]).path.rsplit('/',1)[-1]",
+                "path=urllib.parse.urlparse(sys.argv[-1]).path.rsplit('/',1)[-1] or 'index.html'",
                 "source=pathlib.Path(os.environ['FAKE_WEB_ROOT'])/path",
-                "sys.stdout.buffer.write(source.read_bytes())",
+                "if '--dump-header' in sys.argv: pathlib.Path(sys.argv[sys.argv.index('--dump-header')+1]).write_text('HTTP/2 200\\r\\n\\r\\n')",
+                "body=source.read_bytes()",
+                "if '--write-out' in sys.argv: body+=sys.argv[sys.argv.index('--write-out')+1].replace('%{url_effective}',sys.argv[-1]).encode()",
+                "sys.stdout.buffer.write(body)",
             ]) + NL)
             fake_curl.chmod(0o755)
             wrangler_source = NL.join([
@@ -426,10 +429,19 @@ class ReleasePlatformLanesTest(unittest.TestCase):
                     displayed = {**row, "Environment": "Preview"} if fault == "preview" else row
                     if fault == "mixed":
                         displayed = {**row, "commit_hash": "b" * 40}
-                    replies = [subprocess.CompletedProcess([], 0, stdout=json.dumps([displayed]), stderr=""),
-                               subprocess.CompletedProcess([], 0, stdout=json.dumps(observed), stderr=""),
-                               subprocess.CompletedProcess([], 0, stdout=b"wrong" if fault == "asset" else content, stderr=b"")]
-                    with mock.patch.object(LANES.subprocess, "run", side_effect=replies) as run:
+                    replies = [subprocess.CompletedProcess([], 0, stdout=json.dumps([displayed]), stderr="")]
+                    replies += [subprocess.CompletedProcess([], 0, stdout=json.dumps(observed), stderr=""),
+                                subprocess.CompletedProcess([], 0, stdout=b"wrong" if fault == "asset" else content, stderr=b""),
+                                subprocess.CompletedProcess([], 0, stdout=content, stderr=b"")] * 2
+                    def response(command, **kwargs):
+                        reply = replies.pop(0)
+                        if command[0] == "curl":
+                            Path(command[command.index("--dump-header") + 1]).write_text("HTTP/2 200\r\n\r\n")
+                            body = reply.stdout.encode() if isinstance(reply.stdout, str) else reply.stdout
+                            body += command[command.index("--write-out") + 1].replace("%{url_effective}", command[-1]).encode()
+                            return subprocess.CompletedProcess(command, 0, stdout=body, stderr=b"")
+                        return reply
+                    with mock.patch.object(LANES.subprocess, "run", side_effect=response) as run:
                         result = LANES._web_readback(lane, None)
                     self.assertEqual(result["found"], fault is None)
                     if fault is None:

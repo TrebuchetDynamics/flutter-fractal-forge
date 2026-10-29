@@ -1,5 +1,56 @@
 # Release qualification adapter repair — 2026-10-26
 
+## Follow-up unblock repairs — 2026-10-29
+
+The owner requested all remaining release blockers be addressed. These repairs
+remove evidenced software defects without changing any qualification verdict by
+assertion or waiving unavailable external requirements.
+
+- Web readback treats only the exact `_headers` member as consumed Pages
+  configuration. Its archived bytes must match the qualified manifest, and its
+  declared headers must be observed on the corresponding served responses.
+  Ordinary underscore-prefixed files remain hash-checked. Readback follows
+  bounded HTTPS redirects, rejects an off-origin final response, and checks both
+  the immutable deployment URL and the existing canonical production site.
+  The root route is checked directly against `index.html`, even when the index
+  URL does not redirect. Stale identity, changed bytes or incorrect cache/content
+  headers fail closed and cannot trigger a duplicate upload.
+- F-Droid scanning mounts only explicit public recipe/support/category inputs,
+  not the full upstream checkout. All existing secret-marker, symlink,
+  special-file, mount and rootless-runtime restrictions remain in force.
+- Generated F-Droid source and issue links use the canonical GitHub upstream,
+  removing dependence on an excluded project GitLab mirror. The public
+  F-Droid definitions fetch is not a project mirror or CI dispatch.
+- F-Droid recipes set `TAR_OPTIONS=--no-same-owner` for SDK extraction inside
+  rootless builds. This avoids unmapped archive-owner IDs without changing SDK
+  sources, host UID mappings or archive payloads. Non-runtime `docs/qa` evidence
+  archives are removed only from the isolated F-Droid source tree; runtime code,
+  licenses and the repository's original evidence remain intact.
+- The pinned scanner ignores `--exit-code` for source-scan problems. A regression
+  reproduced its false-success case; the caller now also verifies its terminal
+  clean-scan summary. Official lint and source scans then completed for 1131,
+  1132 and 1133 at app source
+  `8fa9b06cc1bc2fa22b21b7da77c884e816ab5714`, reporting `0 problems found` with
+  empty owned-process cleanup. Failed earlier attempts remain retained. This is
+  source-scan evidence, not Android-device or maintainer acceptance.
+
+Qualification utilities and frozen app artifacts have separate source identities.
+Record the utility hashes and target app revision when reconciling an existing
+artifact. Do not rewrite a failed campaign, rebuild an already-deployed artifact
+merely to replace its receipt, or substitute a new commit for its recorded source.
+
+The live custom-domain cache policy remains an independent gate: the configured
+zone minimum is 14400 seconds, while the artifact requests 300 for bootstrap and
+0 for the main bundle. The available token can read the setting but cannot access
+Cache Rules or legacy Page Rules. No zone-wide setting was changed because other
+sites may share the zone. Scoped rule access is required for a host-specific
+repair. Android still needs privileged guest-network diagnosis of its unreachable
+designated Waydroid target. No supported Windows/Apple executor was registered.
+Linux retained-image, locale/inspired-entry coverage and human-review evidence
+must be supplied by actual captures and review, never by receipt flags.
+
+## Original repair record
+
 The user requested fixes for the [unsuccessful seven-lane release attempt](ALL_PLATFORMS_1.1.112_ATTEMPT.md). This change repairs executable qualification defects; it is **not a new platform release or a waiver of missing evidence**. The removed 22 backlog tasks are not recreated.
 
 ## Linux and browser repairs
