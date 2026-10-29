@@ -71,13 +71,26 @@ class ReleasePlatformLanesTest(unittest.TestCase):
             fake_bin.mkdir()
             flutter = fake_bin / "flutter"
             flutter_source = NL.join([
-                "#!/usr/bin/env python3", "import pathlib,sys",
+                "#!/usr/bin/env python3",
+                "import json,pathlib,sys",
                 "args=sys.argv[1:]",
                 "if 'build' in args and 'web' in args:",
                 " output=next(arg.split('=',1)[1] for arg in args if arg.startswith('--output='))",
                 " root=pathlib.Path(output); root.mkdir(parents=True,exist_ok=True)",
-                " (root/'index.html').write_text('<html>')",
+                " base=next((arg.split('=',1)[1] for arg in args if arg.startswith('--base-href=')), '/')",
+                " (root/'index.html').write_text('<base href=\"'+base+'\"><script src=\"flutter_bootstrap.js\" async></script>')",
                 " (root/'main.dart.js').write_text('compiled')",
+                " (root/'flutter_bootstrap.js').write_text(json.dumps({'mainJsPath':'main.dart.js'}, separators=(',',':')))",
+                " (root/'manifest.json').write_text('{}')",
+                " (root/'landing-assets').mkdir()",
+                " (root/'landing-assets/web_preview_loop.gif').write_bytes(b'GIF89a')",
+                " (root/'landing.html').write_text('<a href=\"index.html\">Preview</a><a href=\"#download\">Download</a><a href=\"landing-assets/web_preview_loop.gif\">GIF</a><a href=\"https://github.com/TrebuchetDynamics/flutter-fractal-forge\">Code</a><img src=\"landing-assets/web_preview_loop.gif\" width=\"1\" height=\"1\" alt=\"fixture\">')",
+                " in_shaders=False",
+                " for line in pathlib.Path('pubspec.yaml').read_text().splitlines():",
+                "  if line == '  shaders:': in_shaders=True; continue",
+                "  if in_shaders and line.startswith('  ') and not line.startswith('    '): break",
+                "  if in_shaders and line.startswith('    - '):",
+                "   asset=root/'assets'/line[6:]; asset.parent.mkdir(parents=True,exist_ok=True); asset.write_text('shader fixture')",
             ]) + NL
             flutter.write_text(flutter_source)
             flutter.chmod(0o755)
@@ -118,6 +131,13 @@ class ReleasePlatformLanesTest(unittest.TestCase):
                     self.assertTrue(row["reason"])
             self.assertEqual([item["name"] for item in campaign["verified_artifacts"]],
                              ["fractal-forge-web-v1.1.108.tar.gz"])
+            web_archive = Path(campaign["verified_artifacts"][0]["path"])
+            with tarfile.open(web_archive, "r:gz") as bundle:
+                main_js = bundle.extractfile("web/main.dart.js").read()
+                bootstrap = bundle.extractfile("web/flutter_bootstrap.js").read()
+                index = bundle.extractfile("web/index.html").read()
+            self.assertIn(b"main.dart.js?v=" + hashlib.sha256(main_js).hexdigest()[:12].encode(), bootstrap)
+            self.assertIn(b"flutter_bootstrap.js?v=" + hashlib.sha256(bootstrap).hexdigest()[:12].encode(), index)
             manifest = json.loads(Path(campaign["evidence"]["manifest"]).read_text())
             self.assertEqual([item["name"] for item in manifest["artifacts"]],
                              ["fractal-forge-web-v1.1.108.tar.gz"])

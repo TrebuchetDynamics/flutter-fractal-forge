@@ -230,5 +230,21 @@ class WebReleaseReadbackTests(unittest.TestCase):
         self.assertIn('main.dart.js', result.get('publication_reason', ''))
 
 
+class WebEntrypointCacheTests(unittest.TestCase):
+    def test_entrypoints_explicitly_require_revalidation_despite_a_proxy_ttl_floor(self):
+        files = dict.fromkeys([
+            'index.html', 'flutter_bootstrap.js', 'main.dart.js', 'flutter.js',
+            'assets/example', 'icons/example.png', 'landing-assets/example.png',
+            '.well-known/assetlinks.json',
+        ], '0' * 64)
+        policy = RELEASE._web_header_policy((ROOT / 'web/_headers').read_bytes(), files)
+        for name in ('flutter_bootstrap.js', 'main.dart.js'):
+            with self.subTest(entrypoint=name):
+                directives = {part.strip().lower()
+                              for part in policy[name]['cache-control'].split(',')}
+                self.assertTrue({'no-cache', 'no-store'} & directives,
+                                'Entrypoints must not rely on a max-age that the zone minimum can raise')
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -39,12 +39,24 @@ Record the utility hashes and target app revision when reconciling an existing
 artifact. Do not rewrite a failed campaign, rebuild an already-deployed artifact
 merely to replace its receipt, or substitute a new commit for its recorded source.
 
-The live custom-domain cache policy remains an independent gate: the configured
-zone minimum is 14400 seconds, while the artifact requests 300 for bootstrap and
-0 for the main bundle. The available token can read the setting but cannot access
-Cache Rules or legacy Page Rules. No zone-wide setting was changed because other
-sites may share the zone. Scoped rule access is required for a host-specific
-repair. Android still needs privileged guest-network diagnosis of its unreachable
+The deployed 1.1.113 custom-domain policy remains an independent failed gate:
+the zone minimum is 14400 seconds, while that artifact requests 300 for bootstrap
+and 0 for the main bundle. The token cannot access Cache Rules or legacy Page
+Rules. No zone-wide setting was changed because other sites may share the zone.
+For a new artifact, the two app-owned entrypoints instead declare explicit
+`no-cache`, requiring revalidation without changing zone settings. This follows
+[Cloudflare's documented origin-cache behavior](https://developers.cloudflare.com/cache/concepts/default-cache-behavior/)
+and preserves long-lived caching for other static assets. It must be qualified
+and read back as a new release, not injected into the frozen 1.1.113 bundle.
+The release web stage also reuses the existing preview builder's content-hashed
+bootstrap and main-bundle URLs, preventing old, still-fresh unversioned browser
+entries from hiding an upgrade. `WEB_OUTPUT_DIR` selects the owned staging path.
+Validation checks every declared shader path, including registered fixtures
+outside the main shader directory; unlisted extras cannot mask missing assets.
+The configured Flutter executable is preserved through PATH resolution or an
+absolute path; a missing selection fails instead of substituting another SDK.
+Local configuration alone does not prove live proxy compliance.
+Android still needs privileged guest-network diagnosis of its unreachable
 designated Waydroid target. No supported Windows/Apple executor was registered.
 Linux now has [six supplemental retained-image journeys](../../qa/linux-release-images-20261029.md)
 covering both locales, 2D/3D and an inspired entry, with exact preview/export

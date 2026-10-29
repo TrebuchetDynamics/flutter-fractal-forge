@@ -37,10 +37,18 @@ motion setting. Native fonts and real shader paths remain enabled.
 
 ## Source and verification boundaries
 
-The exact tested supplemental fixture commit is
-`89140e4c8c9ccb5b38ff1799269cae938af13932`; its SHA-256 is
+The original exact tested fixture commit is
+`89140e4c8c9ccb5b38ff1799269cae938af13932`, SHA-256
 `89bc23dfb57db8496e30c295dff04748524a5f977c006ca4935acc4945aaa076`.
-Pinned SDK: Flutter 3.44.6 / Dart 3.12.2. The deployed app runtime source is
+A platform-dispatch correction at
+`99953c5f4e517f5705924a5556da3a0f6dc5cb4d`, SHA-256
+`4529bcbfcc3c8f9dfbe9a24cf9b128b13b13669694139881e675a4e1bb88427b`,
+was replayed on its exact commit: all six Linux cases passed with zero skips,
+protocol success and empty cleanup. The fixture skips unsupported OS/web targets
+without dropping any Linux assertion. Actual Android/web execution was not
+performed. Both source-bound runs and their independent image audits are retained.
+
+Pinned SDK: Flutter 3.44.6 / Dart 3.12.2. The app-runtime anchor for these captures is
 `8fa9b06cc1bc2fa22b21b7da77c884e816ab5714`. All 993 runtime-file hashes and the
 `lib`, `shaders`, `assets`, `pubspec.yaml` and `pubspec.lock` Git objects match.
 This is component equality, not whole-commit or production-artifact identity.

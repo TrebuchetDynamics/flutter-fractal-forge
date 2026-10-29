@@ -1,0 +1,4 @@
+Silent Play/Pause parameter animation replaces music.
+Improved web update freshness and release verification.
+Hardened F-Droid source scanning.
+Added retained English/Spanish preview/export checks for 2D, 3D and inspired fractals.

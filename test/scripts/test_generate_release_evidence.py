@@ -6,6 +6,7 @@ import subprocess
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 
 class ReleaseEvidenceTest(unittest.TestCase):
@@ -640,14 +641,14 @@ class ReleaseEvidenceTest(unittest.TestCase):
                     manifest.write_text(json.dumps(replacement))
                 return real_copyfile(source, destination)
 
-            module.shutil.copyfile = racing_copyfile
-            assets = module.snapshot_asset_paths(
-                manifest,
-                temp / "snapshot",
-                expected_version="2.3.4+56",
-                expected_build_number="56",
-                expected_commit="deadbeef",
-            )
+            with mock.patch.object(module.shutil, "copyfile", side_effect=racing_copyfile):
+                assets = module.snapshot_asset_paths(
+                    manifest,
+                    temp / "snapshot",
+                    expected_version="2.3.4+56",
+                    expected_build_number="56",
+                    expected_commit="deadbeef",
+                )
             self.assertEqual(
                 {"a.bin", "b.bin"},
                 {path.name for path in assets if path.suffix == ".bin"},
