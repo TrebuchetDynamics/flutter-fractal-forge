@@ -1,8 +1,5 @@
-- feat(viewer): replace fractal music with silent breathing animation
-- Merge commit 'e5cb51fc779e5e2ad249d6c2259b70c03320f802'
-- fix: adopt verified renderer and Web recovery changes
-- test(web): adapt export and state journeys to viewer primary actions
-- Merge branch 'candidate/release-fixes-988a7145' into integration/final-delivery-20261028
-- fix: combine released renderer and Web recovery work
-- Merge commit 'b80c1513b33b66e9a109be1378561eae9b2b20ca' into pi-autowork/20261027-235818
-- Merge
+Music is replaced by silent Play/Pause parameter animation.
+Watch supported fractals breathe in a gentle loop.
+Editing parameters, leaving the viewer or backgrounding pauses playback.
+Visual Fourier analysis remains available.
+Improved toolbar and More controls on small screens.
