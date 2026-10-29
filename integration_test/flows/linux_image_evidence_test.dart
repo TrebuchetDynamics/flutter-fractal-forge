@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui' as ui;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
@@ -273,7 +274,10 @@ void main() {
         await pumpForUiTransition(tester);
         expect(tester.widget<TextField>(catalogSearchField()).controller!.text,
             entry.query);
-      });
+      },
+          // Broad integration discovery includes other platforms; only Linux
+          // supports this fixture's native-driver retained-output flow.
+          skip: kIsWeb || !Platform.isLinux);
     }
   }
 }
