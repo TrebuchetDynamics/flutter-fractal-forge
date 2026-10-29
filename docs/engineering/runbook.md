@@ -2,7 +2,7 @@
 
 ## Scope
 
-This runbook covers local development and the repository's existing CI/release entry points. Production publishing is owner-authorized and is not performed by these local procedures. Website deployment has a separate approval-gated procedure in [`../deployment/WEB_PREVIEW_GITHUB_PAGES.md`](../deployment/WEB_PREVIEW_GITHUB_PAGES.md).
+This runbook covers local development and the repository's existing CI/release entry points. Under the [standing release defaults](../../PRD.md#standing-release-defaults), an explicit release request authorizes production publication of the qualified platform subset without a second approval. Preparation and publication remain separate verified invocations, and blocked platforms remain blocked. Website deployment follows the [web procedure](../deployment/WEB_PREVIEW_GITHUB_PAGES.md). Ordinary local development and prepare-only requests do not authorize publication.
 
 ## Prerequisites
 
