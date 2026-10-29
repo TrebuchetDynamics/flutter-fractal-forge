@@ -71,13 +71,26 @@ class ReleasePlatformLanesTest(unittest.TestCase):
             fake_bin.mkdir()
             flutter = fake_bin / "flutter"
             flutter_source = NL.join([
-                "#!/usr/bin/env python3", "import pathlib,sys",
+                "#!/usr/bin/env python3",
+                "import json,pathlib,sys",
                 "args=sys.argv[1:]",
                 "if 'build' in args and 'web' in args:",
                 " output=next(arg.split('=',1)[1] for arg in args if arg.startswith('--output='))",
                 " root=pathlib.Path(output); root.mkdir(parents=True,exist_ok=True)",
-                " (root/'index.html').write_text('<html>')",
+                " base=next((arg.split('=',1)[1] for arg in args if arg.startswith('--base-href=')), '/')",
+                " (root/'index.html').write_text('<base href=\"'+base+'\"><script src=\"flutter_bootstrap.js\" async></script>')",
                 " (root/'main.dart.js').write_text('compiled')",
+                " (root/'flutter_bootstrap.js').write_text(json.dumps({'mainJsPath':'main.dart.js'}, separators=(',',':')))",
+                " (root/'manifest.json').write_text('{}')",
+                " (root/'landing-assets').mkdir()",
+                " (root/'landing-assets/web_preview_loop.gif').write_bytes(b'GIF89a')",
+                " (root/'landing.html').write_text('<a href=\"index.html\">Preview</a><a href=\"#download\">Download</a><a href=\"landing-assets/web_preview_loop.gif\">GIF</a><a href=\"https://github.com/TrebuchetDynamics/flutter-fractal-forge\">Code</a><img src=\"landing-assets/web_preview_loop.gif\" width=\"1\" height=\"1\" alt=\"fixture\">')",
+                " in_shaders=False",
+                " for line in pathlib.Path('pubspec.yaml').read_text().splitlines():",
+                "  if line == '  shaders:': in_shaders=True; continue",
+                "  if in_shaders and line.startswith('  ') and not line.startswith('    '): break",
+                "  if in_shaders and line.startswith('    - '):",
+                "   asset=root/'assets'/line[6:]; asset.parent.mkdir(parents=True,exist_ok=True); asset.write_text('shader fixture')",
             ]) + NL
             flutter.write_text(flutter_source)
             flutter.chmod(0o755)
@@ -118,6 +131,13 @@ class ReleasePlatformLanesTest(unittest.TestCase):
                     self.assertTrue(row["reason"])
             self.assertEqual([item["name"] for item in campaign["verified_artifacts"]],
                              ["fractal-forge-web-v1.1.108.tar.gz"])
+            web_archive = Path(campaign["verified_artifacts"][0]["path"])
+            with tarfile.open(web_archive, "r:gz") as bundle:
+                main_js = bundle.extractfile("web/main.dart.js").read()
+                bootstrap = bundle.extractfile("web/flutter_bootstrap.js").read()
+                index = bundle.extractfile("web/index.html").read()
+            self.assertIn(b"main.dart.js?v=" + hashlib.sha256(main_js).hexdigest()[:12].encode(), bootstrap)
+            self.assertIn(b"flutter_bootstrap.js?v=" + hashlib.sha256(bootstrap).hexdigest()[:12].encode(), index)
             manifest = json.loads(Path(campaign["evidence"]["manifest"]).read_text())
             self.assertEqual([item["name"] for item in manifest["artifacts"]],
                              ["fractal-forge-web-v1.1.108.tar.gz"])
@@ -367,9 +387,12 @@ class ReleasePlatformLanesTest(unittest.TestCase):
             fake_curl = fake_bin / "curl"
             fake_curl.write_text(NL.join([
                 "#!/usr/bin/env python3", "import os,sys,urllib.parse,pathlib",
-                "path=urllib.parse.urlparse(sys.argv[-1]).path.rsplit('/',1)[-1]",
+                "path=urllib.parse.urlparse(sys.argv[-1]).path.rsplit('/',1)[-1] or 'index.html'",
                 "source=pathlib.Path(os.environ['FAKE_WEB_ROOT'])/path",
-                "sys.stdout.buffer.write(source.read_bytes())",
+                "if '--dump-header' in sys.argv: pathlib.Path(sys.argv[sys.argv.index('--dump-header')+1]).write_text('HTTP/2 200\\r\\n\\r\\n')",
+                "body=source.read_bytes()",
+                "if '--write-out' in sys.argv: body+=sys.argv[sys.argv.index('--write-out')+1].replace('%{url_effective}',sys.argv[-1]).encode()",
+                "sys.stdout.buffer.write(body)",
             ]) + NL)
             fake_curl.chmod(0o755)
             wrangler_source = NL.join([
@@ -426,10 +449,19 @@ class ReleasePlatformLanesTest(unittest.TestCase):
                     displayed = {**row, "Environment": "Preview"} if fault == "preview" else row
                     if fault == "mixed":
                         displayed = {**row, "commit_hash": "b" * 40}
-                    replies = [subprocess.CompletedProcess([], 0, stdout=json.dumps([displayed]), stderr=""),
-                               subprocess.CompletedProcess([], 0, stdout=json.dumps(observed), stderr=""),
-                               subprocess.CompletedProcess([], 0, stdout=b"wrong" if fault == "asset" else content, stderr=b"")]
-                    with mock.patch.object(LANES.subprocess, "run", side_effect=replies) as run:
+                    replies = [subprocess.CompletedProcess([], 0, stdout=json.dumps([displayed]), stderr="")]
+                    replies += [subprocess.CompletedProcess([], 0, stdout=json.dumps(observed), stderr=""),
+                                subprocess.CompletedProcess([], 0, stdout=b"wrong" if fault == "asset" else content, stderr=b""),
+                                subprocess.CompletedProcess([], 0, stdout=content, stderr=b"")] * 2
+                    def response(command, **kwargs):
+                        reply = replies.pop(0)
+                        if command[0] == "curl":
+                            Path(command[command.index("--dump-header") + 1]).write_text("HTTP/2 200\r\n\r\n")
+                            body = reply.stdout.encode() if isinstance(reply.stdout, str) else reply.stdout
+                            body += command[command.index("--write-out") + 1].replace("%{url_effective}", command[-1]).encode()
+                            return subprocess.CompletedProcess(command, 0, stdout=body, stderr=b"")
+                        return reply
+                    with mock.patch.object(LANES.subprocess, "run", side_effect=response) as run:
                         result = LANES._web_readback(lane, None)
                     self.assertEqual(result["found"], fault is None)
                     if fault is None:

@@ -113,6 +113,19 @@ Manual correction acceptance and user-defined palette support are already record
 Perturbation for GPU deep zoom beyond float32 has shipped and is no longer
 planned work; see the Extended GPU Preview entry in CONTEXT.md.
 
+## [1.1.114] - 2026-10-29
+
+### Fixed
+
+- Require explicit revalidation of Flutter web entrypoints so a proxy's browser-cache minimum cannot keep startup code stale for hours.
+- Preserve content-hashed loader URLs in release artifacts and validate each declared shader path rather than an aggregate directory count.
+- Verify served bytes and declared response policies at both the immutable deployment URL and the canonical production site, including the root route.
+- Harden F-Droid public scan inputs and source-scan result handling; support rootless SDK extraction and the canonical GitHub source repository.
+
+### Tests
+
+- Retain English/Spanish 2D, 3D and inspired-entry preview/export evidence with exact decoded pixel comparisons. Human visual review remains separate.
+
 ## [1.1.113] - 2026-10-28
 
 ### Changed

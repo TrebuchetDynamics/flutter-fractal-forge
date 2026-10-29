@@ -906,7 +906,8 @@ stage_web_build() {
   commit="$(git rev-parse HEAD)"
   web_output="$ARTIFACT_DIR/web"
   rm -rf "$web_output"
-  "$FLUTTER_BIN" build web --release --output="$web_output" --build-name="$(release_build_name)" \
+  WEB_OUTPUT_DIR="$web_output" FLUTTER_BIN="$FLUTTER_BIN" \
+    "$SCRIPT_DIR/build-web-preview.sh" / --build-name="$(release_build_name)" \
     --build-number="$build_number" --dart-define="RELEASE_VERSION=$version" \
     --dart-define="RELEASE_BUILD_NUMBER=$build_number" --dart-define="RELEASE_COMMIT=$commit"
   [[ -d "$web_output" ]] || die "Web build output is missing"

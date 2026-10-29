@@ -10,21 +10,24 @@ if [[ "${BASE_HREF}" != "/" && ! "${BASE_HREF}" =~ ^/.*/$ ]]; then
 fi
 
 FLUTTER_BIN="${FLUTTER_BIN:-flutter}"
-if [[ ! -x "${FLUTTER_BIN}" ]]; then
-  FLUTTER_BIN="flutter"
+if ! command -v -- "${FLUTTER_BIN}" >/dev/null 2>&1; then
+  echo "Configured Flutter executable is unavailable: ${FLUTTER_BIN}" >&2
+  exit 127
 fi
 
-"${FLUTTER_BIN}" build web --release --no-wasm-dry-run --base-href "${BASE_HREF}" "$@"
+WEB_OUTPUT_DIR="${WEB_OUTPUT_DIR:-build/web}"
+"${FLUTTER_BIN}" build web --release --no-wasm-dry-run --base-href "${BASE_HREF}" --output="${WEB_OUTPUT_DIR}" "$@"
 
-export BASE_HREF
+export BASE_HREF WEB_OUTPUT_DIR
 python3 - <<'PY'
 import hashlib
 import os
+import re
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlparse
 
-root = Path('build/web')
+root = Path(os.environ['WEB_OUTPUT_DIR'])
 landing = root / 'landing.html'
 index = root / 'index.html'
 manifest = root / 'manifest.json'
@@ -37,10 +40,19 @@ main_js = root / 'main.dart.js'
 bootstrap = root / 'flutter_bootstrap.js'
 main_hash = hashlib.sha256(main_js.read_bytes()).hexdigest()[:12]
 bootstrap_text = bootstrap.read_text()
-bootstrap_text = bootstrap_text.replace('"mainJsPath":"main.dart.js"', f'"mainJsPath":"main.dart.js?v={main_hash}"')
+bootstrap_text, replacements = re.subn(
+    r'"mainJsPath"\s*:\s*"main[.]dart[.]js(?:[?]v=[0-9a-f]{12})?"',
+    f'"mainJsPath":"main.dart.js?v={main_hash}"', bootstrap_text,
+)
+assert replacements, 'generated Flutter JavaScript entrypoint missing'
 bootstrap.write_text(bootstrap_text)
 bootstrap_hash = hashlib.sha256(bootstrap.read_bytes()).hexdigest()[:12]
-index.write_text(index.read_text().replace('src="flutter_bootstrap.js"', f'src="flutter_bootstrap.js?v={bootstrap_hash}"'))
+index_text, replacements = re.subn(
+    r'src="flutter_bootstrap[.]js(?:[?]v=[0-9a-f]{12})?"',
+    f'src="flutter_bootstrap.js?v={bootstrap_hash}"', index.read_text(),
+)
+assert replacements == 1, 'expected one generated Flutter bootstrap script'
+index.write_text(index_text)
 
 class Parser(HTMLParser):
     def __init__(self):
@@ -80,7 +92,7 @@ base_href = os.environ['BASE_HREF']
 index_text = index.read_text()
 assert f'<base href="{base_href}">' in index_text, 'unexpected Flutter base href'
 
-declared_shaders = 0
+declared_shaders = []
 in_shaders = False
 for line in Path('pubspec.yaml').read_text().splitlines():
     if line == '  shaders:':
@@ -89,9 +101,11 @@ for line in Path('pubspec.yaml').read_text().splitlines():
     if in_shaders and line.startswith('  ') and not line.startswith('    '):
         break
     if in_shaders and line.startswith('    - '):
-        declared_shaders += 1
-built_shaders = sum(1 for _ in (root / 'assets' / 'shaders').rglob('*.frag'))
-assert built_shaders >= declared_shaders, f'only {built_shaders}/{declared_shaders} declared shaders bundled; run a clean build'
+        declared_shaders.append(line.split('- ', 1)[1].strip())
+missing_shaders = sorted(asset for asset in set(declared_shaders)
+                         if not (root / 'assets' / asset).is_file())
+assert not missing_shaders, f'declared shaders missing from bundle: {missing_shaders}'
+built_shaders = len(set(declared_shaders))
 
 print('web_preview_build_ok', {'baseHref': base_href, 'links': len(parser.links), 'images': len(parser.images), 'shaders': built_shaders})
 PY
