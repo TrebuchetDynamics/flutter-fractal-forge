@@ -78,6 +78,57 @@ void main() {
       expect(loaded.map((preset) => preset.id), ['p1']);
     });
 
+    for (final entry in <String, Object>{
+      'int': 42,
+      'bool': true,
+      'string-list': <String>['legacy'],
+      'corrupt JSON': '{not json',
+    }.entries) {
+      test(
+          'loadUserPresets preserves ${entry.key} corruption until explicit save',
+          () async {
+        SharedPreferences.setMockInitialValues({
+          'user_presets_mandelbrot': entry.value,
+        });
+        final store = await PresetStore.create();
+        final prefs = await SharedPreferences.getInstance();
+        await store.saveUserPreset(
+          _makePreset('julia-1', 'julia', name: 'Julia saved'),
+        );
+        final juliaPayload = prefs.get('user_presets_julia');
+
+        expect(await store.loadUserPresets('mandelbrot'), isEmpty);
+        expect(await store.loadUserPresets('mandelbrot'), isEmpty);
+        expect(prefs.get('user_presets_mandelbrot'), equals(entry.value));
+        final juliaBefore = await store.loadUserPresets('julia');
+        expect(juliaBefore, hasLength(1));
+        expect(juliaBefore.single.id, 'julia-1');
+        expect(juliaBefore.single.name, 'Julia saved');
+        expect(juliaBefore.single.moduleId, 'julia');
+        expect(juliaBefore.single.params, {'iterations': 100});
+        expect(prefs.get('user_presets_julia'), juliaPayload);
+
+        await store.saveUserPreset(
+          _makePreset('recovered-1', 'mandelbrot', name: 'Recovered'),
+        );
+        final reloadedStore = await PresetStore.create();
+        final recovered = await reloadedStore.loadUserPresets('mandelbrot');
+        expect(recovered, hasLength(1));
+        expect(recovered.single.id, 'recovered-1');
+        expect(recovered.single.name, 'Recovered');
+        expect(recovered.single.moduleId, 'mandelbrot');
+        expect(recovered.single.params, {'iterations': 100});
+        expect(prefs.get('user_presets_mandelbrot'), isA<String>());
+        final juliaAfter = await reloadedStore.loadUserPresets('julia');
+        expect(juliaAfter, hasLength(1));
+        expect(juliaAfter.single.id, 'julia-1');
+        expect(juliaAfter.single.name, 'Julia saved');
+        expect(juliaAfter.single.moduleId, 'julia');
+        expect(juliaAfter.single.params, {'iterations': 100});
+        expect(prefs.get('user_presets_julia'), juliaPayload);
+      });
+    }
+
     test('deleteUserPreset removes the preset', () async {
       final store = await PresetStore.create();
       await store.saveUserPreset(_makePreset('p1', 'mandelbrot'));
