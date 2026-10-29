@@ -15,7 +15,7 @@ Bewaren en delen
 • Exporteer PNG-afbeeldingen tot 4K voor achtergronden, afdrukken en delen.
 • Animeer zoom, beweging en parameters met Looper en exporteer GIF-loops.
 • Bewaar presets en deel links die jouw weergave opnieuw openen.
-• Ontdek Fractal Music en Fourier-analyse.
+• Ontdek Fourier-analyse.
 
 Je studio werkt offline
 Geen advertenties, account of tracking. Verkennen en creëren kan offline. Gratis en open source onder Apache 2.0.

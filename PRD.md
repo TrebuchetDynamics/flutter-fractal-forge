@@ -412,7 +412,7 @@ Each new fractal must pass:
 - Schema-driven controls per fractal
 - No minimap feature is present in the current tree
 - Debug overlay for shader troubleshooting
-- Live Fourier analysis, finite-grid uncertainty laboratory, and Fourier Music
+- Live Fourier analysis and finite-grid uncertainty laboratory. Fourier Music was later removed and replaced by silent parameter animation.
 - 50+ sub-agent improvements (haptics, stats, video export, accessibility)
 
 ### Known Issues

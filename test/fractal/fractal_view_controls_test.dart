@@ -41,7 +41,7 @@ Future<bool> _pumpControls(
   VoidCallback? onShareLink,
   VoidCallback? onShareImage,
   VoidCallback? onOpenLooper,
-  VoidCallback? onToggleFractalMusic,
+  VoidCallback? onToggleBreathing,
   VoidCallback? onToggleFourier,
   VoidCallback? onOpenFourierSettings,
   VoidCallback? onOpenPalettePicker,
@@ -55,7 +55,7 @@ Future<bool> _pumpControls(
   bool kaleidoscopeEnabled = false,
   int kaleidoscopeSectors = 8,
   bool kaleidoscopeMirror = true,
-  bool fractalMusicEnabled = false,
+  bool breathingPlaying = false,
   bool fourierEnabled = false,
   bool textOverlayEnabled = false,
   bool showFractalReport = false,
@@ -88,7 +88,7 @@ Future<bool> _pumpControls(
             kaleidoscopeEnabled: kaleidoscopeEnabled,
             kaleidoscopeSectors: kaleidoscopeSectors,
             kaleidoscopeMirror: kaleidoscopeMirror,
-            fractalMusicEnabled: fractalMusicEnabled,
+            breathingPlaying: breathingPlaying,
             fourierEnabled: fourierEnabled,
             textOverlayEnabled: textOverlayEnabled,
             showFractalReport: showFractalReport,
@@ -109,7 +109,7 @@ Future<bool> _pumpControls(
               toggleTextOverlay: onToggleTextOverlay ?? () {},
               editTextOverlay: onEditTextOverlay ?? () {},
               openLooper: onOpenLooper ?? () {},
-              toggleFractalMusic: onToggleFractalMusic ?? () {},
+              toggleBreathing: onToggleBreathing ?? () {},
               toggleFourier: onToggleFourier ?? () {},
               openFourierSettings: onOpenFourierSettings ?? () {},
               reportFractal: onReportFractal ?? () {},
@@ -125,6 +125,7 @@ Future<bool> _pumpControls(
 }
 
 const _primaryKeys = [
+  'viewerBreathingButton',
   'viewerControlsButton',
   'viewerPaletteButton',
   'viewerRandomFractalFab',
@@ -137,7 +138,6 @@ const _secondaryKeys = [
   'viewerKaleidoscopeFab',
   'viewerFourierFab',
   'viewerTextOverlayFab',
-  'viewerFractalMusicFab',
   'viewerFullscreenButton',
 ];
 
@@ -151,6 +151,11 @@ Future<void> _openMore(WidgetTester tester) async {
 }
 
 Future<Finder> _reveal(WidgetTester tester, String key) async {
+  if (_primaryKeys.contains(key) &&
+      find.byType(BottomSheet).evaluate().isNotEmpty) {
+    await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+    await tester.pumpAndSettle();
+  }
   if (!_primaryKeys.contains(key)) await _openMore(tester);
   final tool = _key(key);
   await tester.ensureVisible(tool);
@@ -188,7 +193,6 @@ void main() {
       await _openMore(tester);
       for (final key in [
         'viewerLooperFab',
-        'viewerFractalMusicFab',
         'viewerKaleidoscopeFab',
         'viewerTextOverlayFab',
         'viewerFourierFab',
@@ -346,7 +350,7 @@ void main() {
     });
   }
 
-  testWidgets('four primaries replace the rail without a duplicate share FAB',
+  testWidgets('five primaries replace the rail without a duplicate share FAB',
       (tester) async {
     var exported = false;
     await _pumpControls(tester,
@@ -431,27 +435,28 @@ void main() {
     expect(find.byType(BottomSheet), findsNothing);
   });
 
-  testWidgets('random, looper, music and kaleidoscope keep distinct callbacks',
+  testWidgets(
+      'random, looper, breathing and kaleidoscope keep distinct callbacks',
       (tester) async {
     var random = 0;
     var looper = 0;
-    var music = 0;
+    var breathing = 0;
     var kaleidoscope = 0;
     await _pumpControls(tester,
         isExporting: false,
         onOpenRandomFractal: () => random++,
         onOpenLooper: () => looper++,
-        onToggleFractalMusic: () => music++,
+        onToggleBreathing: () => breathing++,
         onToggleKaleidoscope: () => kaleidoscope++,
         onOpenWallpaper: () {});
     for (final entry in const [
       (key: 'viewerRandomFractalFab', expected: [1, 0, 0, 0]),
       (key: 'viewerLooperFab', expected: [1, 1, 0, 0]),
-      (key: 'viewerFractalMusicFab', expected: [1, 1, 1, 0]),
+      (key: 'viewerBreathingButton', expected: [1, 1, 1, 0]),
       (key: 'viewerKaleidoscopeFab', expected: [1, 1, 1, 1]),
     ]) {
       await _tapTool(tester, entry.key);
-      expect([random, looper, music, kaleidoscope], entry.expected);
+      expect([random, looper, breathing, kaleidoscope], entry.expected);
     }
   });
 
@@ -517,7 +522,7 @@ void main() {
         tester.getSize(_key('viewerFabColumn')).width, lessThanOrEqualTo(440));
   });
 
-  testWidgets('keyboard traversal follows the four visible primary actions',
+  testWidgets('keyboard traversal follows the five visible primary actions',
       (tester) async {
     await _pumpControls(tester, isExporting: false, onOpenWallpaper: () {});
     for (final key in _primaryKeys) {
@@ -550,7 +555,6 @@ void main() {
       'viewerFourierFabOptions',
       'viewerTextOverlayFab',
       'viewerTextOverlayFabOptions',
-      'viewerFractalMusicFab',
       'viewerFullscreenButton',
     ]) {
       await tester.sendKeyEvent(LogicalKeyboardKey.tab);
@@ -585,18 +589,17 @@ void main() {
           isExporting: false,
           textOverlayEnabled: selected,
           kaleidoscopeEnabled: selected,
-          fractalMusicEnabled: selected,
+          breathingPlaying: selected,
           fourierEnabled: selected,
           onOpenWallpaper: () {});
       await _openMore(tester);
       for (final key in [
         'viewerTextOverlayFab',
         'viewerKaleidoscopeFab',
-        'viewerFractalMusicFab',
+        'viewerBreathingButton',
         'viewerFourierFab'
       ]) {
-        await tester.ensureVisible(_key(key));
-        await tester.pumpAndSettle();
+        await _reveal(tester, key);
         final button = tester.widget<FloatingActionButtonWidget>(_key(key));
         expect(button.selected, selected);
         final data = tester
@@ -632,8 +635,7 @@ void main() {
       }
       await _openMore(tester);
       for (final key in _secondaryKeys) {
-        await tester.ensureVisible(_key(key));
-        await tester.pumpAndSettle();
+        await _reveal(tester, key);
         final button = tester.widget<FloatingActionButtonWidget>(_key(key));
         expect(button.tooltip, isNotEmpty);
         expect(find.bySemanticsLabel(button.tooltip), findsOneWidget);
@@ -768,8 +770,8 @@ void main() {
     // ignore: deprecated_member_use
     walk(tester.binding.pipelineOwner.semanticsOwner!.rootSemanticsNode!);
     expect(unlabeled, 0);
-    expect(labels, hasLength(4));
-    expect(labels.toSet(), hasLength(4));
+    expect(labels, hasLength(5));
+    expect(labels.toSet(), hasLength(5));
     handle.dispose();
   });
 

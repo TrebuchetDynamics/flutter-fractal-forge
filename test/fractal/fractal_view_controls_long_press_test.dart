@@ -270,7 +270,6 @@ void main() {
     // secondary action instead of opening a sheet.
     for (final key in const [
       'viewerLooperFab',
-      'viewerFractalMusicFab',
       'viewerFullscreenButton',
     ]) {
       await _pumpHarness(tester);
@@ -436,7 +435,7 @@ class _HarnessState extends State<_Harness>
       kaleidoscopeEnabled: false,
       kaleidoscopeSectors: widget.sectors,
       kaleidoscopeMirror: true,
-      fractalMusicEnabled: false,
+      breathingPlaying: false,
       fourierEnabled: false,
       textOverlayEnabled: false,
       actions: FractalViewControlActions(
@@ -455,7 +454,7 @@ class _HarnessState extends State<_Harness>
         toggleTextOverlay: () {},
         editTextOverlay: widget.onEditTextOverlay,
         openLooper: () {},
-        toggleFractalMusic: () {},
+        toggleBreathing: () {},
         toggleFourier: () {},
         openFourierSettings: () {},
         reportFractal: () {},
