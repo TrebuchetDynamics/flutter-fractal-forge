@@ -62,7 +62,8 @@ class PresetStore {
   }
 
   List<FractalPreset> _loadSlot(PresetStorageSlot slot) {
-    return slot.decode(_prefs.getString(slot.key));
+    final payload = _prefs.get(slot.key);
+    return slot.decode(payload is String ? payload : null);
   }
 
   Future<void> _saveSlot(

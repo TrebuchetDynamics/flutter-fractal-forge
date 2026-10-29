@@ -14,6 +14,40 @@ void main() {
       expect(service.backendMode, equals(RendererBackendMode.auto));
     });
 
+    for (final entry in <String, Object>{
+      'int': 42,
+      'bool': true,
+      'string-list': <String>['cpuOnly'],
+    }.entries) {
+      test('constructor defaults to auto and preserves stored ${entry.key}',
+          () async {
+        SharedPreferences.setMockInitialValues({
+          'renderer_backend_mode': entry.value,
+        });
+        final prefs = await SharedPreferences.getInstance();
+
+        final service = RendererSettingsService(prefs);
+        addTearDown(service.dispose);
+
+        expect(service.backendMode, equals(RendererBackendMode.auto));
+        expect(prefs.get('renderer_backend_mode'), equals(entry.value));
+      });
+
+      test('create defaults to auto and preserves stored ${entry.key}',
+          () async {
+        SharedPreferences.setMockInitialValues({
+          'renderer_backend_mode': entry.value,
+        });
+
+        final service = await RendererSettingsService.create();
+        addTearDown(service.dispose);
+        final prefs = await SharedPreferences.getInstance();
+
+        expect(service.backendMode, equals(RendererBackendMode.auto));
+        expect(prefs.get('renderer_backend_mode'), equals(entry.value));
+      });
+    }
+
     test('setBackendMode persists to SharedPreferences', () async {
       final prefs = await SharedPreferences.getInstance();
       final service = RendererSettingsService(prefs);

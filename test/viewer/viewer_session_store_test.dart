@@ -144,6 +144,24 @@ void main() {
     expect(store.load(), isNull);
   });
 
+  for (final entry in <String, Object>{
+    'integer': 7,
+    'boolean': true,
+    'string-list': <String>['corrupt'],
+  }.entries) {
+    test('load refuses ${entry.key} data without changing the stored value',
+        () async {
+      SharedPreferences.setMockInitialValues({
+        ViewerSessionStore.preferencesKey: entry.value,
+      });
+      final store = await ViewerSessionStore.create();
+      final preferences = await SharedPreferences.getInstance();
+
+      expect(store.load(), isNull);
+      expect(preferences.get(ViewerSessionStore.preferencesKey), entry.value);
+    });
+  }
+
   test('a delayed active save cannot resurrect a closed viewer', () async {
     final initial = _snapshot(moduleId: 'mandelbrot', zoom: 1);
     final preferences = _DelayedSharedPreferences(jsonEncode(initial.toJson()));
