@@ -46,7 +46,9 @@ Improve existing quality before expanding the catalog: compact viewer navigation
 - **Keep the views worth keeping** — export images, share results, or set a render as wallpaper.
 - **Use it on your terms** — [no ads, tracking, account requirement, or data collection](https://fractal.trebuchetdynamics.com/privacy-policy), with high contrast, reduced motion, screen-reader labels, and configurable touch targets.
 
-Beyond the core workflow, experimental tools include dual Mandelbrot/Julia views, Fractal Music, and live Fourier analysis.
+Press **Play** in the viewer to animate suitable continuous parameters in a gentle, silent eight-second loop. **Pause** holds the current parameter values. Manual parameter edits, backgrounding, and leaving the viewer pause playback. Reduced motion and CPU rendering disable playback. Fractals without suitable continuous controls do not support this animation. See the [parameter animation controller](lib/features/viewer/actions/breathing_controller.dart).
+
+Beyond the core workflow, experimental tools include dual Mandelbrot/Julia views and live Fourier analysis.
 
 ## Explore the catalog
 
@@ -155,7 +157,7 @@ main.dart
           └─ FractalViewerScreen
               ├─ GPU / extended preview / CPU precision renderers
               ├─ controls + presets + history + looper
-              └─ export + wallpaper + share + Fractal Music
+              └─ export + wallpaper + share + parameter animation
 ```
 
 `ModuleRegistry` assembles the catalog from declarative configs, shared catalogs, custom builders, and debug-only diagnostics. Every viewer feature consumes the selected module and the same controller state.

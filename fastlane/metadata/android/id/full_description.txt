@@ -15,7 +15,7 @@ Simpan dan bagikan
 • Ekspor gambar PNG hingga 4K untuk wallpaper, cetakan, dan berbagi.
 • Animasikan zoom, pergeseran, dan parameter dengan Looper, lalu ekspor loop GIF.
 • Simpan preset dan bagikan tautan yang membuka kembali tampilan Anda.
-• Jelajahi Fractal Music dan analisis Fourier.
+• Jelajahi analisis Fourier.
 
 Studio offline Anda
 Tanpa iklan, akun, atau pelacakan. Fitur utama untuk menjelajah dan berkarya dapat digunakan offline. Gratis dan sumber terbuka dengan lisensi Apache 2.0.

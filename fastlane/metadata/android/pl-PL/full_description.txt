@@ -15,7 +15,7 @@ Zapisuj i udostępniaj
 • Eksportuj obrazy PNG do 4K na tapety, do druku lub udostępniania.
 • Animuj zoom, przesunięcie i parametry w Looper, a potem eksportuj pętle GIF.
 • Zapisuj presety i udostępniaj linki otwierające Twój widok.
-• Poznaj Fractal Music i analizę Fouriera.
+• Poznaj analizę Fouriera.
 
 Studio bez internetu
 Bez reklam, konta i śledzenia. Odkrywanie i tworzenie działa offline. Bezpłatna aplikacja z otwartym kodem na licencji Apache 2.0.

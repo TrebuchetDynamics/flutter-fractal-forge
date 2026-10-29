@@ -15,7 +15,7 @@ Spara och dela
 • Exportera PNG-bilder upp till 4K för bakgrunder, utskrifter och delning.
 • Animera zoom, rörelse och parametrar med Looper och exportera GIF-loopar.
 • Spara förinställningar och dela länkar som öppnar din vy igen.
-• Utforska Fractal Music och Fourieranalys.
+• Utforska Fourieranalys.
 
 Din studio fungerar offline
 Ingen reklam, inget konto och ingen spårning. Utforska och skapa utan internet. Gratis och med öppen källkod under Apache 2.0.

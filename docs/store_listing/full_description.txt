@@ -16,7 +16,7 @@ Keep what you create
 • Export PNG images up to 4K for wallpapers, prints and sharing.
 • Animate zoom, pan and parameters with Looper, then export GIF loops.
 • Save presets so you can return to a favorite look. Share a link that reopens your view.
-• Explore Fractal Music and Fourier analysis for another way to experience a pattern.
+• Press Play to watch supported fractal parameters breathe in a silent loop. Explore Fourier analysis for another view of a pattern.
 
 Your studio, offline
 No ads, no account and no tracking. Core exploration and creation work offline. Fractal Forge is free and open source under Apache 2.0.

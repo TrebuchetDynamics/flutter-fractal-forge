@@ -52,6 +52,18 @@ Uint8List _cameraBytes(FractalViewState view) {
   return bytes.buffer.asUint8List();
 }
 
+class _CountingViewerSessionStore extends ViewerSessionStore {
+  _CountingViewerSessionStore(super.preferences);
+
+  int saves = 0;
+
+  @override
+  Future<void> save(ViewerSessionSnapshot snapshot) async {
+    saves++;
+    await super.save(snapshot);
+  }
+}
+
 class _LooperExportService extends ExportService {
   _LooperExportService({
     this.pickerDelay = Duration.zero,
@@ -797,7 +809,7 @@ void main() {
                         in find.byType(FloatingActionButtonWidget).evaluate())
                       find.byWidget(action.widget),
                   ];
-                  expect(actions, hasLength(4));
+                  expect(actions, hasLength(5));
                   for (final action in actions) {
                     await tester.ensureVisible(action);
                     await tester.pumpAndSettle();
@@ -1314,7 +1326,6 @@ void main() {
           'viewerColorCycleButton',
           'viewerFullscreenButton',
           'viewerLooperFab',
-          'viewerFractalMusicFab',
           'viewerKaleidoscopeFab',
           'viewerTextOverlayFab',
           'viewerFourierFab',
@@ -1489,6 +1500,7 @@ void main() {
       await tester.pumpAndSettle();
 
       const orderedKeys = [
+        'viewerBreathingButton',
         'viewerControlsButton',
         'viewerPaletteButton',
         'viewerRandomFractalFab',
@@ -1555,20 +1567,156 @@ void main() {
       }
     });
 
-    testWidgets('fractal music action is discoverable in More', (tester) async {
+    testWidgets('Play breathes parameters and Pause holds the current shape',
+        (tester) async {
+      controller.selectModule(registry.byId('julia'), animate: false);
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
+      final play = find.byKey(const ValueKey('viewerBreathingButton'));
+      expect(play.hitTestable(), findsOneWidget);
+      final before = Map<String, Object>.from(controller.params);
+      final view = controller.view;
+      await tester.tap(play);
+      await tester.pump(const Duration(seconds: 2));
+      expect(controller.params, isNot(equals(before)));
+      expect(controller.view.pan, view.pan);
+      expect(controller.view.zoom, view.zoom);
+      expect(controller.view.rotation, view.rotation);
+      expect(controller.view.trajectory, view.trajectory);
+      expect(tester.widget<FloatingActionButtonWidget>(play).icon,
+          Icons.pause_rounded);
+      await tester.tap(play);
+      await tester.pump();
+      final paused = Map<String, Object>.from(controller.params);
+      await tester.pump(const Duration(seconds: 2));
+      expect(controller.params, paused);
+      expect(tester.widget<FloatingActionButtonWidget>(play).icon,
+          Icons.play_arrow_rounded);
+      expect(find.byIcon(Icons.music_note), findsNothing);
+      await tester.pumpWidget(const SizedBox.shrink());
+    });
 
-      final music = await revealMoreAction(tester, 'viewerFractalMusicFab');
-      expect(music, findsOneWidget);
-      await tester.ensureVisible(music);
+    testWidgets(
+        'manual parameter changes pause breathing without overwriting edits',
+        (tester) async {
+      controller.selectModule(registry.byId('julia'), animate: false);
+      await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
-      final rect = tester.getRect(music);
-      expect(rect.top, greaterThanOrEqualTo(0));
-      expect(rect.bottom, lessThanOrEqualTo(600));
+      await tester.tap(find.byKey(const ValueKey('viewerBreathingButton')));
+      await tester.pump(const Duration(seconds: 1));
+      controller.updateParam('juliaCReal', 0.25);
+      await tester.pump(const Duration(seconds: 2));
+      expect(controller.params['juliaCReal'], 0.25);
       expect(
-          find.descendant(of: music, matching: find.byIcon(Icons.music_note)),
-          findsOneWidget);
+          tester
+              .widget<FloatingActionButtonWidget>(
+                  find.byKey(const ValueKey('viewerBreathingButton')))
+              .icon,
+          Icons.play_arrow_rounded);
+      await tester.pumpWidget(const SizedBox.shrink());
+    });
+
+    testWidgets(
+        'backgrounding pauses breathing and foregrounding does not restart it',
+        (tester) async {
+      controller.selectModule(registry.byId('julia'), animate: false);
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+      final play = find.byKey(const ValueKey('viewerBreathingButton'));
+      await tester.tap(play);
+      await tester.pump(const Duration(seconds: 1));
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+      final paused = Map.of(controller.params);
+      await tester.pump(const Duration(seconds: 2));
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      await tester.pump(const Duration(seconds: 2));
+      expect(controller.params, paused);
+      expect(tester.widget<FloatingActionButtonWidget>(play).icon,
+          Icons.play_arrow_rounded);
+      await tester.pumpWidget(const SizedBox.shrink());
+    });
+
+    testWidgets('reduced motion blocks playback and stops a running loop',
+        (tester) async {
+      final accessibility = await AccessibilityService.create();
+      addTearDown(accessibility.dispose);
+      controller.selectModule(registry.byId('julia'), animate: false);
+      await tester.pumpWidget(buildTestWidget(accessibility: accessibility));
+      await tester.pumpAndSettle();
+      final play = find.byKey(const ValueKey('viewerBreathingButton'));
+      await tester.tap(play);
+      await tester.pump(const Duration(seconds: 1));
+      await accessibility.setReducedMotion(true);
+      final paused = Map.of(controller.params);
+      await tester.pump(const Duration(seconds: 2));
+      expect(controller.params, paused);
+      expect(tester.widget<FloatingActionButtonWidget>(play).onPressed, isNull);
+      await accessibility.setReducedMotion(false);
+      await tester.pump(const Duration(seconds: 2));
+      expect(controller.params, paused);
+      expect(tester.widget<FloatingActionButtonWidget>(play).icon,
+          Icons.play_arrow_rounded);
+      await tester.pumpWidget(const SizedBox.shrink());
+    });
+
+    testWidgets('covering the viewer pauses breathing until an explicit Play',
+        (tester) async {
+      controller.selectModule(registry.byId('julia'), animate: false);
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+      final play = find.byKey(const ValueKey('viewerBreathingButton'));
+      await tester.tap(play);
+      await tester.pump(const Duration(seconds: 1));
+      final navigator = Navigator.of(tester.element(play));
+      unawaited(navigator.push(MaterialPageRoute<void>(
+          builder: (_) => const Scaffold(body: Text('Other route')))));
+      final paused = Map.of(controller.params);
+      await tester.pump(const Duration(seconds: 2));
+      navigator.pop();
+      await tester.pump(const Duration(seconds: 2));
+      expect(controller.params, paused);
+      expect(tester.widget<FloatingActionButtonWidget>(play).icon,
+          Icons.play_arrow_rounded);
+      await tester.pumpWidget(const SizedBox.shrink());
+    });
+
+    testWidgets('CPU rendering disables breathing and pauses a running loop',
+        (tester) async {
+      controller.selectModule(registry.byId('julia'), animate: false);
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+      final play = find.byKey(const ValueKey('viewerBreathingButton'));
+      await tester.tap(play);
+      await tester.pump(const Duration(seconds: 1));
+      await rendererSettings.setBackendMode(RendererBackendMode.cpuOnly);
+      final paused = Map.of(controller.params);
+      await tester.pump(const Duration(seconds: 2));
+      expect(controller.params, paused);
+      expect(tester.widget<FloatingActionButtonWidget>(play).onPressed, isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+    });
+
+    testWidgets(
+        'breathing saves the frozen session once, not every animation tick',
+        (tester) async {
+      final store =
+          _CountingViewerSessionStore(await SharedPreferences.getInstance());
+      viewerSessionStore = store;
+      controller.selectModule(registry.byId('julia'), animate: false);
+      await tester.pumpWidget(buildTestWidget(
+          provideViewerSessionStore: true, restoreViewerSession: false));
+      await tester.pumpAndSettle();
+      final baseline = store.saves;
+      final play = find.byKey(const ValueKey('viewerBreathingButton'));
+      await tester.tap(play);
+      await tester.pump(const Duration(seconds: 2));
+      expect(store.saves, baseline);
+      await tester.tap(play);
+      await tester.pump();
+      expect(store.saves, baseline + 1);
+      expect(store.load()!.params, controller.params);
+      historyProvider.cancelPendingRecord();
+      await tester.pumpWidget(const SizedBox.shrink());
     });
 
     testWidgets('toolbar and More stay bounded on short viewports',
@@ -1974,7 +2122,7 @@ void main() {
           find.byKey(const ValueKey('viewerRandomFractalFab')), findsNothing);
       expect(
           find.byKey(const ValueKey('viewerRandomParamsButton')), findsNothing);
-      expect(find.byKey(const ValueKey('viewerFractalMusicFab')), findsNothing);
+      expect(find.byKey(const ValueKey('viewerBreathingButton')), findsNothing);
       expect(
           find.byTooltip('Randomize. Long press for Controls'), findsNothing);
       expect(find.text('Mandelbrot'), findsNothing);

@@ -15,7 +15,7 @@ Guarda y comparte
 • Exporta imágenes PNG hasta 4K para fondos de pantalla, impresiones y compartir.
 • Anima el zoom, el desplazamiento y los parámetros con Looper; exporta bucles GIF.
 • Guarda presets y comparte enlaces que vuelven a abrir tu vista.
-• Descubre Fractal Music y el análisis de Fourier.
+• Descubre el análisis de Fourier.
 
 Tu estudio, sin conexión
 Sin anuncios, sin cuenta y sin rastreo. La exploración y la creación funcionan sin conexión. Gratis y de código abierto con licencia Apache 2.0.
