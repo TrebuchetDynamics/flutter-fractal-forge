@@ -95,6 +95,14 @@ Verification: run from the execution checkout root with the pinned isolated/prov
 
 <!-- MANUAL: -->
 
+## Standing release defaults
+
+The owner confirmed these defaults on 2026-10-29. An explicit release request authorizes production publication of every qualified platform, including a partial subset when other platforms fail or are unavailable. **Do not ask for another approval just because only some platforms qualify.** Prepare and verify first, then publish the qualified subset automatically.
+
+Production means the existing configured destinations: Play production/completed, published non-prerelease GitHub releases, and the existing production website. Draft or nonproduction output requires an explicit override. Keep every source, artifact, signing, device/browser, privacy, compatibility, evidence and readback gate. Missing proof remains a blocker, not a waived check. Preserve GitLab's exclusion and report every omitted platform and its exact reason.
+
+These defaults apply to release requests, not ordinary coding, planning or documentation work. New destinations, paid capacity, credential changes and destructive operations outside existing consent are not implied. See the [canonical release policy](PRD.md#standing-release-defaults).
+
 ## Standing Android test target: Waydroid
 
 The owner has already designated the existing headless Waydroid instance for Android testing (reaffirmed 2026-10-26). **Do not ask the owner to choose or authorize that test target again.** The observed ADB serial is `192.168.240.112:5555`, model `WayDroid_x86_64_Device`; revalidate its current serial rather than assuming the IP is permanent or selecting another connected device.

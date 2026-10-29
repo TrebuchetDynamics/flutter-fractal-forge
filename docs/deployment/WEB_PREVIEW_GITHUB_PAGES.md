@@ -2,7 +2,7 @@
 
 > Current public URL: https://fractal.trebuchetdynamics.com/
 >
-> This page documents how to publish the Fractal Forge browser preview after an owner explicitly approves deployment.
+> This page documents production deployment under the [standing release defaults](../../PRD.md#standing-release-defaults). An explicit release request supplies deployment authority after qualification; no second approval is needed for a web-only qualified subset.
 >
 > The preview is served from Cloudflare Pages. A manual GitHub Pages workflow
 > existed alongside it but never deployed successfully -- GitHub Pages was
@@ -17,7 +17,7 @@
 - Build script: `scripts/build-web-preview.sh` (takes the base href as its argument)
 - Deploy stage: `scripts/release.sh website`
 
-There is no push-triggered deploy. Publishing is always an explicit owner action.
+There is no push-triggered deploy. An explicit release request authorizes production deployment of the qualified web artifact. Ordinary pushes, coding, planning and prepare-only requests do not authorize deployment.
 
 ## Public URL
 
@@ -81,7 +81,7 @@ This does not prove full web parity. Export/share, CPU precision fallback, and d
 
 ## Manual deploy steps
 
-Only after explicit owner approval to deploy and after the pre-deploy hardware smoke passes:
+For an explicit release request, proceed once the prepared artifact, release evidence and pre-deploy hardware smoke pass. Do not ask again because other platforms remain blocked:
 
 1. Push the prepared branch/commit to `main`.
 2. Preview what would happen without publishing:
@@ -90,9 +90,9 @@ Only after explicit owner approval to deploy and after the pre-deploy hardware s
    scripts/release.sh website --dry-run
    ```
 
-3. Use root `release.sh` with the approved release version and build number to trigger the protected publication pipeline. Follow its confirmation and evidence gates. Bare `scripts/release.sh website` is a dry run, not publication. Do not set `GITLAB_CI=true` locally to bypass the public entry point.
+3. Use root `release.sh --best-effort --publish=<version> --build-number=<build>` with the exact prepared artifact directory and campaign file. Follow the [independent-platform release procedure](../engineering/release/MULTIPLATFORM.md#independent-platform-release-campaign). GitLab remains excluded. Bare `scripts/release.sh website` is a dry run, not publication. Do not set `GITLAB_CI=true` locally to bypass the public entry point.
 
-4. Wait for the deploy job to finish.
+4. Wait for deployment and verify remote identity and asset hashes. An ambiguous result requires readback before any retry.
 5. Open the canonical landing URL and smoke test:
    - landing page loads;
    - **Try web preview** opens the Flutter app;
