@@ -49,6 +49,11 @@ teardown() {
   metadata="$OUTPUT_DIR/fdroiddata/metadata/com.trebuchetdynamics.fractal.forge.yml"
   [ -f "$metadata" ]
   grep -Fq 'RepoType: git' "$metadata"
+  grep -Fxq 'Repo: https://github.com/TrebuchetDynamics/flutter-fractal-forge.git' "$metadata"
+  grep -Fxq 'SourceCode: https://github.com/TrebuchetDynamics/flutter-fractal-forge' "$metadata"
+  grep -Fxq 'IssueTracker: https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues' "$metadata"
+  grep -Fq 'https://github.com/TrebuchetDynamics/flutter-fractal-forge/blob/HEAD/CHANGELOG.md' "$metadata"
+  ! grep -Fq 'gitlab.com/TrebuchetDynamics/flutter-fractal-forge' "$metadata"
   [ "$(grep -Fc "versionName: $RELEASE_VERSION" "$metadata")" -eq 3 ]
   grep -Fq "versionCode: ${RELEASE_BUILD_NUMBER}1" "$metadata"
   grep -Fq "versionCode: ${RELEASE_BUILD_NUMBER}2" "$metadata"
@@ -72,7 +77,24 @@ teardown() {
   ! grep -Fq 'version_name=' "$metadata"
   ! grep -Fq 'version_code=' "$metadata"
   grep -Fq 'export PUB_CACHE="$(pwd)/.pub-cache"' "$metadata"
-  grep -Fq -- '- docs/qa/fractal-audits' "$metadata"
+  tar_option_line="$(grep -F 'export TAR_OPTIONS=' "$metadata" | head -n1)"
+  [ -n "$tar_option_line" ]
+  run env -u TAR_OPTIONS bash -c "${tar_option_line#*- }; printf '%s' \"\$TAR_OPTIONS\""
+  [ "$status" -eq 0 ]
+  [ "$output" = '--no-same-owner' ]
+  source_fixture="$BATS_TEST_TMPDIR/source-fixture"
+  mkdir -p "$source_fixture/docs/qa/export-journey/evidence" "$source_fixture/lib"
+  printf 'retained upstream diagnostic archive' > "$source_fixture/docs/qa/export-journey/evidence/driver.log.gz"
+  printf 'runtime source' > "$source_fixture/lib/main.dart"
+  printf 'Apache-2.0' > "$source_fixture/LICENSE"
+  rm_paths="$(awk '/^    rm:$/ { active=1; next } active && /^      - / { sub(/^      - /, ""); print; next } active { exit }' "$metadata")"
+  while IFS= read -r relative; do
+    case "$relative" in /*|*..*) return 1 ;; esac
+    rm -rf -- "$source_fixture/$relative"
+  done <<< "$rm_paths"
+  [ ! -e "$source_fixture/docs/qa/export-journey/evidence/driver.log.gz" ]
+  [ -f "$source_fixture/lib/main.dart" ]
+  [ -f "$source_fixture/LICENSE" ]
   ! grep -Fq 'PUB_CACHE=\"' "$metadata"
   ! grep -Fq -- "--build-name=$RELEASE_VERSION" "$metadata"
   ! grep -Fq -- '- node_modules' "$metadata"

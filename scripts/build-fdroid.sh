@@ -107,15 +107,15 @@ License: Apache-2.0
 AuthorName: Trebuchet Dynamics
 AuthorWebSite: https://trebuchetdynamics.com
 WebSite: https://fractal.trebuchetdynamics.com
-SourceCode: https://gitlab.com/TrebuchetDynamics/flutter-fractal-forge
-IssueTracker: https://gitlab.com/TrebuchetDynamics/flutter-fractal-forge/-/issues
+SourceCode: https://github.com/TrebuchetDynamics/flutter-fractal-forge
+IssueTracker: https://github.com/TrebuchetDynamics/flutter-fractal-forge/issues
 Changelog:
-  https://gitlab.com/TrebuchetDynamics/flutter-fractal-forge/-/blob/HEAD/CHANGELOG.md
+  https://github.com/TrebuchetDynamics/flutter-fractal-forge/blob/HEAD/CHANGELOG.md
 
 AutoName: Fractal Forge
 
 RepoType: git
-Repo: https://gitlab.com/TrebuchetDynamics/flutter-fractal-forge.git
+Repo: https://github.com/TrebuchetDynamics/flutter-fractal-forge.git
 
 Builds:
 EOF
@@ -136,7 +136,7 @@ render_build_block() {
     srclibs:
       - flutter@stable
     rm:
-      - docs/qa/fractal-audits
+      - docs/qa
       - integration_test
       - ios
       - linux
@@ -155,6 +155,7 @@ render_build_block() {
       - mv $PACKAGE_ID \$repo
       - pushd \$repo
       - export PUB_CACHE="\$(pwd)/.pub-cache"
+      - export TAR_OPTIONS=--no-same-owner
       - \$\$flutter\$\$/bin/flutter config --no-analytics
       - \$\$flutter\$\$/bin/flutter pub get --enforce-lockfile
       - popd
@@ -168,6 +169,7 @@ render_build_block() {
       - mv $PACKAGE_ID \$repo
       - pushd \$repo
       - export PUB_CACHE="\$(pwd)/.pub-cache"
+      - export TAR_OPTIONS=--no-same-owner
       - export FDROID_BUILD=1
       - \$\$flutter\$\$/bin/flutter build apk --release --split-per-abi --target-platform="$target"
         --build-name=\$\$VERSION\$\$ --build-number=\$(( \$\$VERCODE\$\$ / 10 ))
