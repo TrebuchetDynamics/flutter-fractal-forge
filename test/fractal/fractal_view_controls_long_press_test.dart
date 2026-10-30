@@ -13,6 +13,7 @@ void main() {
       (tester) async {
     await _pumpHarness(tester);
 
+    await _revealTool(tester, 'viewerRandomFractalFab');
     await tester
         .longPress(find.byKey(const ValueKey('viewerRandomFractalFab')));
     await tester.pumpAndSettle();
@@ -316,6 +317,7 @@ void main() {
   testWidgets('long-press sheet copy localizes to Spanish', (tester) async {
     await _pumpHarness(tester, locale: const Locale('es'));
 
+    await _revealTool(tester, 'viewerRandomFractalFab');
     await tester
         .longPress(find.byKey(const ValueKey('viewerRandomFractalFab')));
     await tester.pumpAndSettle();

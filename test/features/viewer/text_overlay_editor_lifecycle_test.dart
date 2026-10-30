@@ -5,7 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
+import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/main.dart';
+import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 
 void main() {
   testWidgets('text overlay editor owns its controller through route dismissal',
@@ -62,21 +64,32 @@ void main() {
       find.byKey(const ValueKey('viewerTextOverlayField')),
     );
     expect(MediaQuery.viewInsetsOf(fieldContext).bottom, 1100);
-    final keyboardInsetOwners = find
-        .ancestor(
-          of: find.byKey(const ValueKey('viewerTextOverlayField')),
-          matching: find.byType(Padding),
+    final sheet = find.ancestor(
+        of: find.byKey(const ValueKey('viewerTextOverlayField')),
+        matching: find.byType(AppBottomSheet));
+    expect(sheet, findsOneWidget);
+    final insets = find
+        .descendant(
+          of: sheet,
+          matching: find.ancestor(
+              of: find.byKey(const ValueKey('viewerTextOverlayField')),
+              matching: find.byType(Padding)),
         )
         .evaluate()
-        .map((element) => element.widget as Padding)
+        .map((element) =>
+            (element.widget as Padding).padding.resolve(TextDirection.ltr))
         .where((padding) =>
-            padding.padding.resolve(TextDirection.ltr).bottom >= 1100)
-        .length;
-    expect(
-      keyboardInsetOwners,
-      1,
-      reason: 'applying the IME inset twice moves the painted sheet offscreen',
-    );
+            padding.left == 0 &&
+            padding.top == 0 &&
+            padding.right == 0 &&
+            padding.bottom > 0)
+        .map((padding) => padding.bottom)
+        .toList();
+    expect(insets, unorderedEquals([AppSpacing.xl, 1100 - AppSpacing.xl]),
+        reason: 'Require exactly one inner navigation and one outer IME inset');
+    expect(insets.fold<double>(0, (sum, bottom) => sum + bottom), 1100,
+        reason:
+            'Actual inner and outer padding must sum to one keyboard inset');
 
     expect(await tester.binding.handlePopRoute(), isTrue);
     await tester.pump();

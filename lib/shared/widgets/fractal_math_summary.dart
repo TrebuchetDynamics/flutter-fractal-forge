@@ -184,19 +184,17 @@ class FractalMathSummary extends StatelessWidget {
                     )
                   : AppTypography.labelSmall);
       if (collapsible && !compact) {
-        return Material(
-          key: const Key('currentMathematicalFormula'),
-          color: Theme.of(context).colorScheme.surface,
-          child: legend,
+        return _MathDisclosure(
+          formula: 'H_c(z,w) = (zw+c,z); (z,w) = (p,p)',
+          qualification: AppLocalizations.of(context)!.mathFibonacciStatus,
+          details: [legend],
         );
       }
       return legend;
     }
     final math = FractalMathematics.forModule(module, category: category);
-    final formula = mathematicalLabel(
-      context,
-      math.formula(params ?? module.defaultPreset.params),
-    );
+    final sourceFormula = math.formula(params ?? module.defaultPreset.params);
+    final formula = mathematicalLabel(context, sourceFormula);
     final qualification = mathematicalLabel(context, math.qualification);
     final spanish = Localizations.localeOf(context).languageCode == 'es';
     final style = AppTypography.labelSmall.copyWith(
@@ -220,61 +218,29 @@ class FractalMathSummary extends StatelessWidget {
     if (collapsible) {
       final colors = Theme.of(context).colorScheme;
       final readableStyle = style.copyWith(color: colors.onSurface);
-      return Material(
-        color: colors.surface,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                spanish ? 'Regla / fórmula actual' : 'Current rule / formula',
-                style: readableStyle,
-              ),
-              // Keep the complete current formula and any embedded scientific
-              // caveats outside disclosure, without repeating them in details.
-              Text(formula,
-                  key: const Key('currentMathematicalFormula'),
-                  style: readableStyle),
-              const SizedBox(height: AppSpacing.xs),
-              // Qualifications can contain independent scientific caveats, not
-              // just provenance. Keep them complete and visible exactly once.
-              Text(qualification,
-                  key: const Key('currentMathematicalQualification'),
-                  style:
-                      readableStyle.copyWith(color: colors.onSurfaceVariant)),
-              ExpansionTile(
-                title: Text(l10n.viewerFormulaDetails, style: readableStyle),
-                backgroundColor: colors.surface,
-                collapsedBackgroundColor: colors.surface,
-                textColor: colors.onSurface,
-                collapsedTextColor: colors.onSurface,
-                iconColor: colors.onSurface,
-                collapsedIconColor: colors.onSurface,
-                tilePadding: EdgeInsets.zero,
-                expandedCrossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${spanish ? 'Configuración inicial' : 'Starting configuration'}: ${module.displayName(l10n)}',
-                    style: readableStyle,
-                  ),
-                  const SizedBox(height: AppSpacing.xs),
-                  Text(
-                    [math.family, math.algebra, math.view, math.method]
-                        .where((value) => value.isNotEmpty)
-                        .map((value) => mathematicalLabel(context, value))
-                        .join(' · '),
-                    style: readableStyle,
-                  ),
-                  if (math.relationship != 'No verified relationship')
-                    Text(mathematicalLabel(context, math.relationship),
-                        style: readableStyle),
-                ],
-              ),
-            ],
+      return _MathDisclosure(
+        formula: formula,
+        qualification: qualification,
+        // A formula can itself be the warning (unknown source or unbound
+        // relaxation). Such warnings must not be visually abbreviated.
+        abbreviateFormula: !sourceFormula.startsWith('Unverified'),
+        details: [
+          Text(
+            '${spanish ? 'Configuración inicial' : 'Starting configuration'}: ${module.displayName(l10n)}',
+            style: readableStyle,
           ),
-        ),
+          const SizedBox(height: AppSpacing.xs),
+          Text(
+            [math.family, math.algebra, math.view, math.method]
+                .where((value) => value.isNotEmpty)
+                .map((value) => mathematicalLabel(context, value))
+                .join(' · '),
+            style: readableStyle,
+          ),
+          if (math.relationship != 'No verified relationship')
+            Text(mathematicalLabel(context, math.relationship),
+                style: readableStyle),
+        ],
       );
     }
     return Padding(
@@ -305,6 +271,74 @@ class FractalMathSummary extends StatelessWidget {
           if (math.relationship != 'No verified relationship')
             Text(mathematicalLabel(context, math.relationship), style: style),
         ],
+      ),
+    );
+  }
+}
+
+/// The live formula remains accessible in full even when its visual preview is
+/// bounded. Qualifications are never ellipsized; expanding reveals the complete
+/// formula in place, without a duplicate announcement or stale parameter copy.
+class _MathDisclosure extends StatefulWidget {
+  const _MathDisclosure({
+    required this.formula,
+    required this.qualification,
+    required this.details,
+    this.abbreviateFormula = true,
+  });
+
+  final String formula;
+  final String qualification;
+  final List<Widget> details;
+  final bool abbreviateFormula;
+
+  @override
+  State<_MathDisclosure> createState() => _MathDisclosureState();
+}
+
+class _MathDisclosureState extends State<_MathDisclosure> {
+  bool _expanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final style = AppTypography.labelSmall
+        .copyWith(color: colors.onSurface, fontSize: 12, height: 1.25);
+    final abbreviate = widget.abbreviateFormula && !_expanded;
+    return Material(
+      color: colors.surface,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(AppLocalizations.of(context)!.mathCurrentRule, style: style),
+            Text(widget.formula,
+                key: const Key('currentMathematicalFormula'),
+                maxLines: abbreviate ? 2 : null,
+                overflow: abbreviate ? TextOverflow.ellipsis : null,
+                style: style),
+            const SizedBox(height: AppSpacing.xs),
+            Text(widget.qualification,
+                key: const Key('currentMathematicalQualification'),
+                style: style.copyWith(color: colors.onSurfaceVariant)),
+            ExpansionTile(
+              title: Text(AppLocalizations.of(context)!.viewerFormulaDetails,
+                  style: style),
+              onExpansionChanged: (value) => setState(() => _expanded = value),
+              backgroundColor: colors.surface,
+              collapsedBackgroundColor: colors.surface,
+              textColor: colors.onSurface,
+              collapsedTextColor: colors.onSurface,
+              iconColor: colors.onSurface,
+              collapsedIconColor: colors.onSurface,
+              tilePadding: EdgeInsets.zero,
+              expandedCrossAxisAlignment: CrossAxisAlignment.start,
+              children: widget.details,
+            ),
+          ],
+        ),
       ),
     );
   }

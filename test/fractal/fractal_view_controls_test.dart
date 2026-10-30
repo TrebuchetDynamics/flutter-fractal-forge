@@ -151,12 +151,15 @@ Future<void> _openMore(WidgetTester tester) async {
 }
 
 Future<Finder> _reveal(WidgetTester tester, String key) async {
+  final sheet = find.byType(BottomSheet);
   if (_primaryKeys.contains(key) &&
-      find.byType(BottomSheet).evaluate().isNotEmpty) {
+      sheet.evaluate().isNotEmpty &&
+      find.descendant(of: sheet, matching: _key(key)).evaluate().isEmpty) {
     await tester.sendKeyEvent(LogicalKeyboardKey.escape);
     await tester.pumpAndSettle();
   }
-  if (!_primaryKeys.contains(key)) await _openMore(tester);
+  if (_key(key).evaluate().isEmpty || !_primaryKeys.contains(key))
+    await _openMore(tester);
   final tool = _key(key);
   await tester.ensureVisible(tool);
   await tester.pumpAndSettle();
@@ -350,16 +353,17 @@ void main() {
     });
   }
 
-  testWidgets('five primaries replace the rail without a duplicate share FAB',
+  testWidgets(
+      'adaptive primaries replace the rail without a duplicate share FAB',
       (tester) async {
     var exported = false;
     await _pumpControls(tester,
         isExporting: false,
         onOpenExport: () => exported = true,
         onOpenWallpaper: () {});
-    for (final key in _primaryKeys) {
-      expect(_key(key), findsOneWidget);
-    }
+    final visible =
+        _primaryKeys.where((key) => _key(key).evaluate().isNotEmpty).toList();
+    expect(visible, contains('viewerOverflowMenu'));
     for (final key in _secondaryKeys) {
       expect(_key(key), findsNothing);
     }
@@ -367,6 +371,10 @@ void main() {
     await tester.tap(_key('viewerExportButton'));
     await tester.pumpAndSettle();
     expect(exported, isFalse);
+    for (final key in _primaryKeys.where((key) => !visible.contains(key))) {
+      expect(_key(key), findsOneWidget,
+          reason: 'suppressed $key remains reachable');
+    }
     for (final label in ['Export', 'Copy view link', 'Share image']) {
       expect(find.text(label), findsOneWidget);
     }
@@ -387,8 +395,7 @@ void main() {
         showFractalReport: true,
         onOpenWallpaper: () {});
     for (final key in _primaryKeys) {
-      await tester.ensureVisible(_key(key));
-      await tester.pumpAndSettle();
+      await _reveal(tester, key);
       final rect = tester.getRect(_key(key));
       expect(rect.left, greaterThanOrEqualTo(0));
       expect(rect.right, lessThanOrEqualTo(320));
@@ -522,10 +529,11 @@ void main() {
         tester.getSize(_key('viewerFabColumn')).width, lessThanOrEqualTo(440));
   });
 
-  testWidgets('keyboard traversal follows the five visible primary actions',
+  testWidgets('keyboard traversal follows the visible primary actions',
       (tester) async {
     await _pumpControls(tester, isExporting: false, onOpenWallpaper: () {});
-    for (final key in _primaryKeys) {
+    for (final key
+        in _primaryKeys.where((key) => _key(key).evaluate().isNotEmpty)) {
       await tester.sendKeyEvent(LogicalKeyboardKey.tab);
       await tester.pumpAndSettle();
       final gesture = find.descendant(
@@ -539,24 +547,33 @@ void main() {
       (tester) async {
     await _pumpControls(tester, isExporting: false, onOpenWallpaper: () {});
     await _focus(tester, 'viewerOpenExportAction');
-    for (final key in [
-      'viewerShareLinkAction',
-      'viewerShareImageAction',
-      'viewerWallpaperAction',
-      'viewerRandomOptionsAction',
-      'viewerRandomParamsButton',
-      'viewerRandomParamsButtonOptions',
-      'viewerColorCycleButton',
-      'viewerColorCycleButtonOptions',
-      'viewerLooperFab',
-      'viewerKaleidoscopeFab',
-      'viewerKaleidoscopeFabOptions',
-      'viewerFourierFab',
-      'viewerFourierFabOptions',
-      'viewerTextOverlayFab',
-      'viewerTextOverlayFabOptions',
-      'viewerFullscreenButton',
-    ]) {
+    final menuTools = tester
+        .widgetList<FloatingActionButtonWidget>(find.descendant(
+            of: find.byType(BottomSheet),
+            matching: find.byType(FloatingActionButtonWidget)))
+        .map((tool) => (tool.key! as ValueKey<String>).value)
+        .toList();
+    expect(
+        menuTools,
+        containsAll([
+          'viewerShareLinkAction',
+          'viewerShareImageAction',
+          'viewerWallpaperAction',
+          'viewerRandomOptionsAction',
+          'viewerRandomParamsButton',
+          'viewerRandomParamsButtonOptions',
+          'viewerColorCycleButton',
+          'viewerColorCycleButtonOptions',
+          'viewerLooperFab',
+          'viewerKaleidoscopeFab',
+          'viewerKaleidoscopeFabOptions',
+          'viewerFourierFab',
+          'viewerFourierFabOptions',
+          'viewerTextOverlayFab',
+          'viewerTextOverlayFabOptions',
+          'viewerFullscreenButton'
+        ]));
+    for (final key in menuTools.skip(1)) {
       await tester.sendKeyEvent(LogicalKeyboardKey.tab);
       await tester.pumpAndSettle();
       final gesture = find.descendant(
@@ -628,10 +645,38 @@ void main() {
       await _pumpControls(tester,
           locale: locale, isExporting: false, onOpenWallpaper: () {});
       final labels = locale.languageCode == 'en'
-          ? ['Controls', 'Palette', 'Random', 'More']
-          : ['Controles', 'Paleta', 'Aleatorio', 'Más'];
-      for (final label in labels) {
-        expect(find.bySemanticsLabel(label), findsOneWidget);
+          ? const {
+              'viewerBreathingButton': 'Play parameter animation',
+              'viewerControlsButton': 'Controls',
+              'viewerPaletteButton': 'Palette',
+              'viewerRandomFractalFab': 'Random',
+              'viewerOverflowMenu': 'More',
+            }
+          : const {
+              'viewerBreathingButton': 'Reproducir animación de parámetros',
+              'viewerControlsButton': 'Controles',
+              'viewerPaletteButton': 'Paleta',
+              'viewerRandomFractalFab': 'Aleatorio',
+              'viewerOverflowMenu': 'Más',
+            };
+      for (final entry in labels.entries) {
+        await _reveal(tester, entry.key);
+        final button =
+            tester.widget<FloatingActionButtonWidget>(_key(entry.key));
+        final inMore = find
+            .ancestor(
+              of: _key(entry.key),
+              matching: find.byType(BottomSheet),
+            )
+            .evaluate()
+            .isNotEmpty;
+        final expectedLabel = entry.key == 'viewerRandomFractalFab' && inMore
+            ? (locale.languageCode == 'en'
+                ? 'Random Fractal'
+                : 'Fractal aleatorio')
+            : entry.value;
+        expect(button.tooltip, expectedLabel, reason: entry.key);
+        expect(find.bySemanticsLabel(expectedLabel), findsOneWidget);
       }
       await _openMore(tester);
       for (final key in _secondaryKeys) {
@@ -710,7 +755,8 @@ void main() {
         isExporting: true,
         onOpenControls: () => tapped = true,
         onOpenWallpaper: () => tapped = true);
-    for (final key in _primaryKeys) {
+    for (final key
+        in _primaryKeys.where((key) => _key(key).evaluate().isNotEmpty)) {
       final button = tester.widget<FloatingActionButtonWidget>(_key(key));
       expect(button.onPressed, isNull);
       expect(button.onLongPress, isNull);
@@ -770,8 +816,10 @@ void main() {
     // ignore: deprecated_member_use
     walk(tester.binding.pipelineOwner.semanticsOwner!.rootSemanticsNode!);
     expect(unlabeled, 0);
-    expect(labels, hasLength(5));
-    expect(labels.toSet(), hasLength(5));
+    final visibleCount =
+        _primaryKeys.where((key) => _key(key).evaluate().isNotEmpty).length;
+    expect(labels, hasLength(visibleCount));
+    expect(labels.toSet(), hasLength(visibleCount));
     handle.dispose();
   });
 

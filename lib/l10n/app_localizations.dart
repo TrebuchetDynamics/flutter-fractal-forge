@@ -2451,6 +2451,54 @@ abstract class AppLocalizations {
   /// **'Exited fullscreen view'**
   String get announceExitedFullscreen;
 
+  /// No description provided for @shareViewLinkTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share view link'**
+  String get shareViewLinkTitle;
+
+  /// No description provided for @shareViewLinkDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Send an interactive view that others can open and explore. To share an image, use Export image.'**
+  String get shareViewLinkDescription;
+
+  /// No description provided for @shareViewLinkCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link'**
+  String get shareViewLinkCopy;
+
+  /// No description provided for @shareViewLinkShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share link'**
+  String get shareViewLinkShare;
+
+  /// No description provided for @shareViewLinkFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'{action} failed: {error}'**
+  String shareViewLinkFailed(String action, String error);
+
+  /// No description provided for @shareViewLinkPreviewUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview unavailable'**
+  String get shareViewLinkPreviewUnavailable;
+
+  /// No description provided for @shareFullLinkShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Show full link'**
+  String get shareFullLinkShow;
+
+  /// No description provided for @shareFullLinkHide.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide full link'**
+  String get shareFullLinkHide;
+
   /// No description provided for @shareTitle.
   ///
   /// In en, this message translates to:
@@ -3834,13 +3882,13 @@ abstract class AppLocalizations {
   /// No description provided for @hudResetViewLabel.
   ///
   /// In en, this message translates to:
-  /// **'View'**
+  /// **'Reset view'**
   String get hudResetViewLabel;
 
   /// No description provided for @hudResetParamsLabel.
   ///
   /// In en, this message translates to:
-  /// **'Params'**
+  /// **'Reset parameters'**
   String get hudResetParamsLabel;
 
   /// No description provided for @hudRandomizeTooltip.
@@ -4376,6 +4424,216 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Copy link'**
   String get viewerCopyLinkAction;
+
+  /// No description provided for @viewerActionSectionSaveShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Save & share'**
+  String get viewerActionSectionSaveShare;
+
+  /// No description provided for @viewerActionSectionExploreAnimate.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore & animate'**
+  String get viewerActionSectionExploreAnimate;
+
+  /// No description provided for @viewerActionSectionVisualEffects.
+  ///
+  /// In en, this message translates to:
+  /// **'Visual effects'**
+  String get viewerActionSectionVisualEffects;
+
+  /// No description provided for @viewerActionSectionViewReport.
+  ///
+  /// In en, this message translates to:
+  /// **'View & report'**
+  String get viewerActionSectionViewReport;
+
+  /// No description provided for @viewerActionSettingsControls.
+  ///
+  /// In en, this message translates to:
+  /// **'Parameter controls'**
+  String get viewerActionSettingsControls;
+
+  /// No description provided for @viewerActionSettingsPalette.
+  ///
+  /// In en, this message translates to:
+  /// **'Palette settings'**
+  String get viewerActionSettingsPalette;
+
+  /// No description provided for @viewerActionSettingsExplore.
+  ///
+  /// In en, this message translates to:
+  /// **'Exploration settings'**
+  String get viewerActionSettingsExplore;
+
+  /// No description provided for @viewerActionSettingsKaleidoscope.
+  ///
+  /// In en, this message translates to:
+  /// **'Kaleidoscope settings'**
+  String get viewerActionSettingsKaleidoscope;
+
+  /// No description provided for @viewerActionSettingsFourier.
+  ///
+  /// In en, this message translates to:
+  /// **'Fourier settings'**
+  String get viewerActionSettingsFourier;
+
+  /// No description provided for @viewerActionSettingsText.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit text overlay'**
+  String get viewerActionSettingsText;
+
+  /// No description provided for @viewerActionSettingsCyclePalette.
+  ///
+  /// In en, this message translates to:
+  /// **'Next palette'**
+  String get viewerActionSettingsCyclePalette;
+
+  /// No description provided for @viewerActionSettingsExploreCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore setup'**
+  String get viewerActionSettingsExploreCompact;
+
+  /// No description provided for @viewerActionSettingsPaletteCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit palette'**
+  String get viewerActionSettingsPaletteCompact;
+
+  /// No description provided for @viewerActionSettingsCyclePaletteCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Next palette'**
+  String get viewerActionSettingsCyclePaletteCompact;
+
+  /// No description provided for @viewerActionSettingsFourierCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Fourier setup'**
+  String get viewerActionSettingsFourierCompact;
+
+  /// No description provided for @viewerActionSettingsTextCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit text'**
+  String get viewerActionSettingsTextCompact;
+
+  /// No description provided for @viewerActionSettingsTextCompactTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Text'**
+  String get viewerActionSettingsTextCompactTitle;
+
+  /// No description provided for @viewerActionSettingsReportCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get viewerActionSettingsReportCompact;
+
+  /// No description provided for @viewerActionSettingsRandomCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Random choices'**
+  String get viewerActionSettingsRandomCompact;
+
+  /// No description provided for @viewerActionSettingsFourierCompactTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fourier'**
+  String get viewerActionSettingsFourierCompactTitle;
+
+  /// No description provided for @paletteRainbow.
+  ///
+  /// In en, this message translates to:
+  /// **'Rainbow'**
+  String get paletteRainbow;
+
+  /// No description provided for @paletteHueRed.
+  ///
+  /// In en, this message translates to:
+  /// **'Red'**
+  String get paletteHueRed;
+
+  /// No description provided for @paletteHueOrange.
+  ///
+  /// In en, this message translates to:
+  /// **'Orange'**
+  String get paletteHueOrange;
+
+  /// No description provided for @paletteHueYellow.
+  ///
+  /// In en, this message translates to:
+  /// **'Yellow'**
+  String get paletteHueYellow;
+
+  /// No description provided for @paletteHueLime.
+  ///
+  /// In en, this message translates to:
+  /// **'Lime'**
+  String get paletteHueLime;
+
+  /// No description provided for @paletteHueGreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Green'**
+  String get paletteHueGreen;
+
+  /// No description provided for @paletteHueTeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Teal'**
+  String get paletteHueTeal;
+
+  /// No description provided for @paletteHueCyan.
+  ///
+  /// In en, this message translates to:
+  /// **'Cyan'**
+  String get paletteHueCyan;
+
+  /// No description provided for @paletteHueBlue.
+  ///
+  /// In en, this message translates to:
+  /// **'Blue'**
+  String get paletteHueBlue;
+
+  /// No description provided for @paletteHueViolet.
+  ///
+  /// In en, this message translates to:
+  /// **'Violet'**
+  String get paletteHueViolet;
+
+  /// No description provided for @paletteHueMagenta.
+  ///
+  /// In en, this message translates to:
+  /// **'Magenta'**
+  String get paletteHueMagenta;
+
+  /// No description provided for @paletteHuePink.
+  ///
+  /// In en, this message translates to:
+  /// **'Pink'**
+  String get paletteHuePink;
+
+  /// No description provided for @palettePreviewUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Palette preview unavailable'**
+  String get palettePreviewUnavailable;
+
+  /// No description provided for @mathCurrentRule.
+  ///
+  /// In en, this message translates to:
+  /// **'Current rule / formula'**
+  String get mathCurrentRule;
+
+  /// No description provided for @mathFibonacciStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'2D initial slice of C², not invariant. Dark: not escaped within N, not proven bounded. Floating comparisons are not proofs.'**
+  String get mathFibonacciStatus;
 }
 
 class _AppLocalizationsDelegate

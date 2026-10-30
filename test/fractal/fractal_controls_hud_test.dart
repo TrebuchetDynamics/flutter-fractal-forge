@@ -40,8 +40,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Should show action buttons
-      expect(find.text('View'), findsOneWidget);
-      expect(find.text('Params'), findsOneWidget);
+      expect(find.text('Reset view'), findsOneWidget);
+      expect(find.text('Reset parameters'), findsOneWidget);
       expect(find.text('Randomize'), findsOneWidget);
     });
 
@@ -207,8 +207,8 @@ void main() {
       for (final label in const [
         'Paleta',
         'Modo fluido',
-        'Vista',
-        'Parámetros',
+        'Restablecer vista',
+        'Restablecer parámetros',
         'Aleatorizar',
         'Rotación',
       ]) {
@@ -226,10 +226,12 @@ void main() {
       await tester.pumpAndSettle();
 
       // The only way to dismiss the HUD; the visible circle stays smaller.
-      final target = find.ancestor(
-        of: find.byIcon(Icons.close_rounded),
-        matching: find.byType(InkWell),
-      );
+      final target = find
+          .ancestor(
+            of: find.byIcon(Icons.close_rounded),
+            matching: find.byType(GestureDetector),
+          )
+          .first;
       expect(target, findsOneWidget);
       final size = tester.getSize(target);
       expect(size.width, greaterThanOrEqualTo(48.0));

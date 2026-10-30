@@ -7,6 +7,7 @@ import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
+import 'package:flutter_fractals/features/viewer/chrome/fractal_view_controls.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -90,18 +91,24 @@ void main() {
       expect(operableControlNames(root), isNotEmpty,
           reason: 'the toolbar never entered, so the rest of this and the '
               'guidelines above would pass vacuously');
-      for (final label in [
-        'Play parameter animation',
-        'Controls',
-        'Palette',
-        'Random',
-        'More'
-      ]) {
-        expect(operableControlNames(root).where((name) => name == label),
+      const primaryNames = {
+        'viewerBreathingButton': 'Play parameter animation',
+        'viewerControlsButton': 'Controls',
+        'viewerPaletteButton': 'Palette',
+        'viewerRandomFractalFab': 'Random',
+        'viewerOverflowMenu': 'More',
+      };
+      final visible = primaryNames.entries
+          .where(
+              (entry) => find.byKey(ValueKey(entry.key)).evaluate().isNotEmpty)
+          .toList();
+      expect(visible.map((entry) => entry.key), contains('viewerOverflowMenu'));
+      for (final entry in visible) {
+        expect(operableControlNames(root).where((name) => name == entry.value),
             hasLength(1));
       }
-      expect(operableControlNames(root), hasLength(6),
-          reason: 'five primary tools and the canvas, not hidden More rows');
+      expect(operableControlNames(root), hasLength(visible.length + 1),
+          reason: 'visible primary tools and the canvas, not hidden More rows');
       expect(findUnnamedControls(root).map((c) => '$c').toList(), isEmpty);
       expect(findStackedStops(root), isEmpty);
       expect(findUnnamedSliders(root), isEmpty);
@@ -144,29 +151,34 @@ void main() {
         await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
         await pumpAccessibilityTestFrames(tester);
 
-        const tools = {
+        final tools = {
           'viewerOpenExportAction': 'Export',
           'viewerShareLinkAction': 'Copy view link',
           'viewerShareImageAction': 'Share image',
           'viewerRandomOptionsAction': 'Random options',
           'viewerRandomParamsButton': 'Randomize. Long press for Controls',
-          'viewerRandomParamsButtonOptions':
-              'Randomize. Long press for Controls: Options',
-          'viewerColorCycleButton': 'Color Scheme. Long press for palette',
-          'viewerColorCycleButtonOptions':
-              'Color Scheme. Long press for palette: Options',
+          'viewerRandomParamsButtonOptions': 'Parameter controls',
+          'viewerColorCycleButton': 'Next palette',
+          'viewerColorCycleButtonOptions': 'Palette settings',
           'viewerAutoExploreButton': 'Start auto-explore',
-          'viewerAutoExploreButtonOptions': 'Start auto-explore: Options',
+          'viewerAutoExploreButtonOptions': 'Exploration settings',
           'viewerLooperFab': 'Camera looper',
           'viewerKaleidoscopeFab': 'Kaleidoscope off',
-          'viewerKaleidoscopeFabOptions': 'Kaleidoscope off: Options',
+          'viewerKaleidoscopeFabOptions': 'Kaleidoscope settings',
           'viewerFourierFab': 'Fourier view off',
-          'viewerFourierFabOptions': 'Fourier view off: Options',
+          'viewerFourierFabOptions': 'Fourier settings',
           'viewerTextOverlayFab': 'Text overlay off. Tap to add text.',
-          'viewerTextOverlayFabOptions':
-              'Text overlay off. Tap to add text.: Options',
+          'viewerTextOverlayFabOptions': 'Edit text overlay',
           'viewerFullscreenButton': 'Fullscreen view',
         };
+        // Suppressed primaries are also single, fully named menu stops.
+        for (final button in tester.widgetList<FloatingActionButtonWidget>(
+            find.descendant(
+                of: find.byType(BottomSheet),
+                matching: find.byType(FloatingActionButtonWidget)))) {
+          tools.putIfAbsent(
+              (button.key! as ValueKey<String>).value, () => button.tooltip);
+        }
         for (final entry in tools.entries) {
           final tool = find.byKey(ValueKey(entry.key));
           await tester.ensureVisible(tool);
@@ -261,14 +273,20 @@ void main() {
         () async {
           await tester.pumpWidget(buildApp(textScale: 3.0));
           await pumpAccessibilityTestFrames(tester);
-          await tester.tap(
-            find.byKey(const ValueKey('viewerPaletteButton')),
-          );
+          final palette = find.byKey(const ValueKey('viewerPaletteButton'));
+          if (palette.evaluate().isEmpty) {
+            await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+            await pumpAccessibilityTestFrames(tester);
+            await tester.ensureVisible(palette);
+            await pumpAccessibilityTestFrames(tester);
+          }
+          await tester.tap(palette);
           await pumpAccessibilityTestFrames(tester);
         },
         reason: 'Palette menu at 3.0x on Size(320, 568)',
       );
-      expect(find.byType(GridView), findsOneWidget);
+      expect(find.byType(SliverGrid), findsOneWidget);
+      expect(find.byType(CustomScrollView), findsOneWidget);
       await disposeAccessibilityTestWidget(tester);
     });
 

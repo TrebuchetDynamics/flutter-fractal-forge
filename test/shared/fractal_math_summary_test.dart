@@ -40,8 +40,8 @@ void main() {
       expect(formula, findsOneWidget);
       final formulaText = tester.widget<Text>(formula);
       expect(formulaText.data, contains('(-2.0, 0.0)'));
-      expect(formulaText.maxLines, isNull);
-      expect(formulaText.overflow, isNull);
+      expect(formulaText.maxLines, 2);
+      expect(formulaText.overflow, TextOverflow.ellipsis);
       harness.controller.updateParam('juliaCReal', 0.2);
       await tester.pumpAndSettle();
       expect(tester.widget<Text>(formula).data, contains('(0.2, 0.0)'));
@@ -57,6 +57,7 @@ void main() {
       expect(find.text(qualification), findsOneWidget);
       expect(find.textContaining(family), findsOneWidget);
       expect(formula, findsOneWidget);
+      expect(tester.widget<Text>(formula).maxLines, isNull);
       expect(tester.widget<Text>(formula).data, contains('(0.2, 0.0)'));
     });
   }

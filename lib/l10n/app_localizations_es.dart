@@ -1301,6 +1301,33 @@ class AppLocalizationsEs extends AppLocalizations {
   String get announceExitedFullscreen => 'Pantalla completa desactivada';
 
   @override
+  String get shareViewLinkTitle => 'Compartir enlace interactivo';
+
+  @override
+  String get shareViewLinkDescription =>
+      'Envía una vista interactiva que se puede abrir y explorar. Para compartir una imagen, usa Exportar imagen.';
+
+  @override
+  String get shareViewLinkCopy => 'Copiar enlace';
+
+  @override
+  String get shareViewLinkShare => 'Compartir enlace';
+
+  @override
+  String shareViewLinkFailed(String action, String error) {
+    return 'No se pudo completar «$action»: $error';
+  }
+
+  @override
+  String get shareViewLinkPreviewUnavailable => 'Vista previa no disponible';
+
+  @override
+  String get shareFullLinkShow => 'Mostrar enlace completo';
+
+  @override
+  String get shareFullLinkHide => 'Ocultar enlace completo';
+
+  @override
   String get shareTitle => 'Compartir Fractal';
 
   @override
@@ -2071,10 +2098,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get hudFluidIntensity => 'Intensidad del fluido';
 
   @override
-  String get hudResetViewLabel => 'Vista';
+  String get hudResetViewLabel => 'Restablecer vista';
 
   @override
-  String get hudResetParamsLabel => 'Parámetros';
+  String get hudResetParamsLabel => 'Restablecer parámetros';
 
   @override
   String get hudRandomizeTooltip => 'Aleatorizar parámetros';
@@ -2369,4 +2396,111 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get viewerCopyLinkAction => 'Copiar enlace';
+
+  @override
+  String get viewerActionSectionSaveShare => 'Guardar y compartir';
+
+  @override
+  String get viewerActionSectionExploreAnimate => 'Explorar y animar';
+
+  @override
+  String get viewerActionSectionVisualEffects => 'Efectos visuales';
+
+  @override
+  String get viewerActionSectionViewReport => 'Vista e informes';
+
+  @override
+  String get viewerActionSettingsControls => 'Controles de parámetros';
+
+  @override
+  String get viewerActionSettingsPalette => 'Ajustes de paleta';
+
+  @override
+  String get viewerActionSettingsExplore => 'Ajustes de exploración';
+
+  @override
+  String get viewerActionSettingsKaleidoscope => 'Ajustes de caleidoscopio';
+
+  @override
+  String get viewerActionSettingsFourier => 'Ajustes de Fourier';
+
+  @override
+  String get viewerActionSettingsText => 'Editar texto superpuesto';
+
+  @override
+  String get viewerActionSettingsCyclePalette => 'Siguiente paleta';
+
+  @override
+  String get viewerActionSettingsExploreCompact => 'Ajustar ruta';
+
+  @override
+  String get viewerActionSettingsPaletteCompact => 'Editar paleta';
+
+  @override
+  String get viewerActionSettingsCyclePaletteCompact => 'Otra paleta';
+
+  @override
+  String get viewerActionSettingsFourierCompact => 'Ajustar Fourier';
+
+  @override
+  String get viewerActionSettingsTextCompact => 'Editar texto';
+
+  @override
+  String get viewerActionSettingsTextCompactTitle => 'Texto';
+
+  @override
+  String get viewerActionSettingsReportCompact => 'Informar';
+
+  @override
+  String get viewerActionSettingsRandomCompact => 'Azar: opciones';
+
+  @override
+  String get viewerActionSettingsFourierCompactTitle => 'Fourier';
+
+  @override
+  String get paletteRainbow => 'Arcoíris';
+
+  @override
+  String get paletteHueRed => 'Rojo';
+
+  @override
+  String get paletteHueOrange => 'Naranja';
+
+  @override
+  String get paletteHueYellow => 'Amarillo';
+
+  @override
+  String get paletteHueLime => 'Lima';
+
+  @override
+  String get paletteHueGreen => 'Verde';
+
+  @override
+  String get paletteHueTeal => 'Verde azulado';
+
+  @override
+  String get paletteHueCyan => 'Cian';
+
+  @override
+  String get paletteHueBlue => 'Azul';
+
+  @override
+  String get paletteHueViolet => 'Violeta';
+
+  @override
+  String get paletteHueMagenta => 'Magenta';
+
+  @override
+  String get paletteHuePink => 'Rosa';
+
+  @override
+  String get palettePreviewUnavailable =>
+      'Vista previa de paleta no disponible';
+
+  @override
+  String get mathCurrentRule => 'Regla / fórmula actual';
+
+  @override
+  String get mathFibonacciStatus =>
+      'Sección inicial 2D de C², no invariante. Oscuro: sin escape en N, no demuestra acotación. Las comparaciones flotantes no son pruebas.';
 }

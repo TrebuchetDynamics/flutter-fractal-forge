@@ -106,7 +106,7 @@ void main() {
           find
               .descendant(
                   of: find.byWidget(context.widget),
-                  matching: find.text('Params'))
+                  matching: find.text('Reset parameters'))
               .evaluate()
               .isNotEmpty) {
         reached = true;
@@ -115,59 +115,63 @@ void main() {
     }
     expect(reached, isTrue,
         reason: 'Tab must reach the live Reset Params action');
-    expect(find.text('Params').hitTestable(), findsOneWidget);
+    expect(find.text('Reset parameters').hitTestable(), findsOneWidget);
     await tester.sendKeyEvent(LogicalKeyboardKey.enter);
     await tester.pumpAndSettle();
     expect(harness.controller.params['iterations'], initial);
   });
 
   for (final locale in ['en', 'es']) {
-    testWidgets('live HUD has readable 48px choices at 320px/2x ($locale)',
-        (tester) async {
-      final harness = FractalControllerWidgetHarness();
-      addTearDown(harness.dispose);
-      await tester.binding.setSurfaceSize(const Size(320, 568));
-      addTearDown(() => tester.binding.setSurfaceSize(null));
-      await tester.pumpWidget(harness.wrapScaffold(
-        const MediaQuery(
-          data: MediaQueryData(
-              size: Size(320, 568), textScaler: TextScaler.linear(2)),
-          child: FractalControlsHud(),
-        ),
-        locale: Locale(locale),
-        theme: AppTheme.dark,
-      ));
-      await tester.pumpAndSettle();
-      expect(tester.takeException(), isNull);
-      final l10n =
-          AppLocalizations.of(tester.element(find.byType(FractalControlsHud)))!;
-      // Check the actual hit-test region, not an outer semantics wrapper.
-      final paletteLabel = find.text(harness.controller.module.parameters
-          .firstWhere((p) => p.id == 'colorScheme')
-          .options
-          .first
-          .label(l10n));
-      final targets = find.ancestor(
-          of: paletteLabel,
-          matching: find.byWidgetPredicate(
-              (widget) => widget is GestureDetector || widget is RawChip));
-      expect(targets, findsWidgets);
-      expect(tester.getSize(targets.first).height, greaterThanOrEqualTo(48));
-      for (final label in [
-        l10n.hudResetViewLabel,
-        l10n.hudResetParamsLabel,
-        l10n.randomize
-      ]) {
-        await tester.ensureVisible(find.text(label));
+    for (final scale in [2.0, 3.0]) {
+      testWidgets(
+          'Ahem live HUD keeps 48px actions at 320px/${scale}x ($locale)',
+          (tester) async {
+        final harness = FractalControllerWidgetHarness();
+        addTearDown(harness.dispose);
+        await tester.binding.setSurfaceSize(const Size(320, 568));
+        addTearDown(() => tester.binding.setSurfaceSize(null));
+        await tester.pumpWidget(harness.wrapScaffold(
+          MediaQuery(
+            data: MediaQueryData(
+                size: const Size(320, 568),
+                textScaler: TextScaler.linear(scale)),
+            child: const FractalControlsHud(),
+          ),
+          locale: Locale(locale),
+          theme: AppTheme.dark,
+        ));
         await tester.pumpAndSettle();
-        expect(find.text(label).hitTestable(), findsOneWidget);
-        expect(tester.widget<Text>(find.text(label)).maxLines, isNull,
-            reason: 'Actions must wrap rather than hide their names');
-        final rect = tester.getRect(find.text(label));
-        expect(rect.left, greaterThanOrEqualTo(0));
-        expect(rect.right, lessThanOrEqualTo(320));
-      }
-      expect(tester.takeException(), isNull);
-    });
+        expect(tester.takeException(), isNull);
+        final l10n = AppLocalizations.of(
+            tester.element(find.byType(FractalControlsHud)))!;
+        // Check the actual hit-test region, not an outer semantics wrapper.
+        final paletteLabel = find.text(harness.controller.module.parameters
+            .firstWhere((p) => p.id == 'colorScheme')
+            .options
+            .first
+            .label(l10n));
+        final targets = find.ancestor(
+            of: paletteLabel,
+            matching: find.byWidgetPredicate(
+                (widget) => widget is GestureDetector || widget is RawChip));
+        expect(targets, findsWidgets);
+        expect(tester.getSize(targets.first).height, greaterThanOrEqualTo(48));
+        for (final label in [
+          l10n.hudResetViewLabel,
+          l10n.hudResetParamsLabel,
+          l10n.randomize
+        ]) {
+          await tester.ensureVisible(find.text(label));
+          await tester.pumpAndSettle();
+          expect(find.text(label).hitTestable(), findsOneWidget);
+          expect(tester.widget<Text>(find.text(label)).maxLines, isNull,
+              reason: 'Actions must wrap rather than hide their names');
+          final rect = tester.getRect(find.text(label));
+          expect(rect.left, greaterThanOrEqualTo(0));
+          expect(rect.right, lessThanOrEqualTo(320));
+        }
+        expect(tester.takeException(), isNull);
+      });
+    }
   }
 }

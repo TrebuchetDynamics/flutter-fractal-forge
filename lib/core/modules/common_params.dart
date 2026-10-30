@@ -1,66 +1,12 @@
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/core/models/palette/built_in_palette_names.dart';
 
 /// Common parameter builders shared across fractal modules.
 ///
 /// Keep these helpers small and stable; they are used in tests and codegen later.
 class CommonFractalParams {
   static const int paletteCount = 64;
-
-  static const List<String> _proceduralPaletteNames = [
-    'Viridis Depth',
-    'Magma Core',
-    'Cividis Safe',
-    'Perceptual Rainbow',
-    'Warm Cool Relief',
-    'Blue Yellow Opponent',
-    'High Contrast Mono',
-    'Colorblind Safe Fire',
-    'Glacier Mint',
-    'Solar Flare',
-    'Ultraviolet',
-    'Cyan Furnace',
-    'Amber Circuit',
-    'Plasma Wave',
-    'Forest Lumen',
-    'Ruby Ice',
-    'Electric Dusk',
-    'Golden Orbit',
-    'Teal Comet',
-    'Crimson Tide',
-    'Lime Halo',
-    'Indigo Ember',
-    'Tangerine Sky',
-    'Arctic Fire',
-    'Magenta Bloom',
-    'Blue Steel',
-    'Opal Pulse',
-    'Saffron Smoke',
-    'Jade Signal',
-    'Coral Eclipse',
-    'Sonic Violet',
-    'Bronze Aurora',
-    'Cerulean Ash',
-    'Pink Lightning',
-    'Green Inferno',
-    'Royal Plasma',
-    'Desert Neon',
-    'Ice Sapphire',
-    'Infrared Moss',
-    'Pearl Shadow',
-    'Signal Orange',
-    'Deep Orchid',
-    'Aqua Gold',
-    'Volcanic Glass',
-    'Starlight Candy',
-  ];
-
-  static const List<String> _reliefBasePaletteNames = [
-    'Fire',
-    'Ocean',
-    'Psychedelic',
-    'Grayscale',
-  ];
 
   static FractalParameter iterations({
     required num defaultValue,
@@ -188,7 +134,8 @@ class CommonFractalParams {
       for (int i = 5; i < paletteCount; i++)
         FractalParamOption(
           value: i,
-          label: (AppLocalizations l10n) => _paletteName(i),
+          label: (AppLocalizations l10n) =>
+              BuiltInPaletteNames.name(i, l10n: l10n),
         ),
     ];
 
@@ -202,17 +149,5 @@ class CommonFractalParams {
       defaultValue: defaultValue,
       options: options,
     );
-  }
-
-  static String _paletteName(int index) {
-    if (index >= 5 && index < 50) {
-      return _proceduralPaletteNames[index - 5];
-    }
-    if (index >= 50 && index < paletteCount) {
-      final angle = (((index - 50) * 180) / 13).round();
-      final baseName = _reliefBasePaletteNames[(index - 50) % 4];
-      return 'Relief $angle° $baseName';
-    }
-    return 'Palette ${index + 1}';
   }
 }

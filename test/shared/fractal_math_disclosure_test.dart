@@ -170,7 +170,10 @@ void main() {
       const formula =
           'C(x,y,z)=(y,z,x); q(0)=p; q(n+1)=q(n)+a*2^-n*sin(2^n*C(q(n))+phase(t)), 0<=n<N; |q(N)|-R=0; N=2, a=0.5, R=1.25, phi=0.4; phase(t)=phi+0.0002*t';
       expect(tester.widget<Text>(formulaFinder).data, formula);
-      expect(tester.widget<Text>(formulaFinder).maxLines, isNull);
+      expect(tester.widget<Text>(formulaFinder).maxLines, 2);
+      final semantics = tester.ensureSemantics();
+      expect(tester.getSemantics(formulaFinder).label, formula);
+      semantics.dispose();
       expect(
           find.text(spanish
               ? 'Esfera finita deformada por seno; no es un SDF ni un fractal infinito'
@@ -180,6 +183,7 @@ void main() {
       await tester.tap(find.text(details));
       await tester.pumpAndSettle();
       expect(find.text(formula), findsOneWidget);
+      expect(tester.widget<Text>(formulaFinder).maxLines, isNull);
       expect(
           find.text(spanish
               ? 'Esfera finita deformada por seno; no es un SDF ni un fractal infinito'
@@ -221,7 +225,7 @@ void main() {
     });
 
     testWidgets(
-        'Fibonacci keeps the full existing legend and caveats ($language)',
+        'Fibonacci compact status discloses the full existing legend and caveats ($language)',
         (tester) async {
       final semantics = tester.ensureSemantics();
       await tester.pumpWidget(wrap(
@@ -233,6 +237,16 @@ void main() {
       ));
       await tester.pumpAndSettle();
       final legendFinder = find.byKey(const Key('fibonacciComplexLegend'));
+      expect(legendFinder, findsNothing);
+      expect(find.byKey(const Key('currentMathematicalQualification')),
+          findsOneWidget);
+      expect(
+          find.textContaining(
+              spanish ? 'no demuestra acotación' : 'not proven bounded'),
+          findsOneWidget);
+      await tester.ensureVisible(find.text(details));
+      await tester.tap(find.text(details));
+      await tester.pumpAndSettle();
       final legend = tester.widget<Text>(legendFinder);
       expect(formulaFinder, findsOneWidget);
       expect(
@@ -249,6 +263,45 @@ void main() {
       expect(legend.overflow, isNot(TextOverflow.ellipsis));
       expect(tester.getSemantics(legendFinder).label, legend.data);
       semantics.dispose();
+      expect(tester.takeException(), isNull);
+    });
+  }
+
+  for (final language in ['en', 'es']) {
+    testWidgets(
+        'Number Walls keeps its qualification and full current rule ($language)',
+        (tester) async {
+      await tester.pumpWidget(wrap(
+          FractalMathSummary(
+              module: harness.registry.byId('number_wall'), collapsible: true),
+          language));
+      await tester.pumpAndSettle();
+      final text = tester.widget<Text>(formulaFinder).data!;
+      expect(
+          text,
+          language == 'es'
+              ? 'Fórmula no verificada: este renderizador no se ha revisado matemáticamente'
+              : 'Unverified formula: this renderer has not been mathematically reviewed');
+      expect(tester.widget<Text>(formulaFinder).maxLines, isNull,
+          reason:
+              'Keep the existing unreviewed-formula warning, even with Number Walls provenance');
+      final qualification = language == 'es'
+          ? 'La autosimilitud depende de la secuencia y del módulo'
+          : 'Self-similarity depends on sequence and modulus';
+      expect(find.text(qualification), findsOneWidget);
+      final details = find.text(
+          language == 'es' ? 'Detalles de la fórmula' : 'Formula details');
+      await tester.ensureVisible(details);
+      await tester.tap(details);
+      await tester.pumpAndSettle();
+      expect(tester.widget<Text>(formulaFinder).data, text);
+      expect(tester.widget<Text>(formulaFinder).maxLines, isNull);
+      expect(find.text(qualification), findsOneWidget);
+      expect(
+          find.textContaining(language == 'es'
+              ? 'Determinantes de Toeplitz exactos'
+              : 'Exact Toeplitz determinants'),
+          findsOneWidget);
       expect(tester.takeException(), isNull);
     });
   }

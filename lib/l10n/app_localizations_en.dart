@@ -1280,6 +1280,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get announceExitedFullscreen => 'Exited fullscreen view';
 
   @override
+  String get shareViewLinkTitle => 'Share view link';
+
+  @override
+  String get shareViewLinkDescription =>
+      'Send an interactive view that others can open and explore. To share an image, use Export image.';
+
+  @override
+  String get shareViewLinkCopy => 'Copy link';
+
+  @override
+  String get shareViewLinkShare => 'Share link';
+
+  @override
+  String shareViewLinkFailed(String action, String error) {
+    return '$action failed: $error';
+  }
+
+  @override
+  String get shareViewLinkPreviewUnavailable => 'Preview unavailable';
+
+  @override
+  String get shareFullLinkShow => 'Show full link';
+
+  @override
+  String get shareFullLinkHide => 'Hide full link';
+
+  @override
   String get shareTitle => 'Share Fractal';
 
   @override
@@ -2049,10 +2076,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hudFluidIntensity => 'Fluid intensity';
 
   @override
-  String get hudResetViewLabel => 'View';
+  String get hudResetViewLabel => 'Reset view';
 
   @override
-  String get hudResetParamsLabel => 'Params';
+  String get hudResetParamsLabel => 'Reset parameters';
 
   @override
   String get hudRandomizeTooltip => 'Randomize parameters';
@@ -2344,4 +2371,110 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewerCopyLinkAction => 'Copy link';
+
+  @override
+  String get viewerActionSectionSaveShare => 'Save & share';
+
+  @override
+  String get viewerActionSectionExploreAnimate => 'Explore & animate';
+
+  @override
+  String get viewerActionSectionVisualEffects => 'Visual effects';
+
+  @override
+  String get viewerActionSectionViewReport => 'View & report';
+
+  @override
+  String get viewerActionSettingsControls => 'Parameter controls';
+
+  @override
+  String get viewerActionSettingsPalette => 'Palette settings';
+
+  @override
+  String get viewerActionSettingsExplore => 'Exploration settings';
+
+  @override
+  String get viewerActionSettingsKaleidoscope => 'Kaleidoscope settings';
+
+  @override
+  String get viewerActionSettingsFourier => 'Fourier settings';
+
+  @override
+  String get viewerActionSettingsText => 'Edit text overlay';
+
+  @override
+  String get viewerActionSettingsCyclePalette => 'Next palette';
+
+  @override
+  String get viewerActionSettingsExploreCompact => 'Explore setup';
+
+  @override
+  String get viewerActionSettingsPaletteCompact => 'Edit palette';
+
+  @override
+  String get viewerActionSettingsCyclePaletteCompact => 'Next palette';
+
+  @override
+  String get viewerActionSettingsFourierCompact => 'Fourier setup';
+
+  @override
+  String get viewerActionSettingsTextCompact => 'Edit text';
+
+  @override
+  String get viewerActionSettingsTextCompactTitle => 'Text';
+
+  @override
+  String get viewerActionSettingsReportCompact => 'Report';
+
+  @override
+  String get viewerActionSettingsRandomCompact => 'Random choices';
+
+  @override
+  String get viewerActionSettingsFourierCompactTitle => 'Fourier';
+
+  @override
+  String get paletteRainbow => 'Rainbow';
+
+  @override
+  String get paletteHueRed => 'Red';
+
+  @override
+  String get paletteHueOrange => 'Orange';
+
+  @override
+  String get paletteHueYellow => 'Yellow';
+
+  @override
+  String get paletteHueLime => 'Lime';
+
+  @override
+  String get paletteHueGreen => 'Green';
+
+  @override
+  String get paletteHueTeal => 'Teal';
+
+  @override
+  String get paletteHueCyan => 'Cyan';
+
+  @override
+  String get paletteHueBlue => 'Blue';
+
+  @override
+  String get paletteHueViolet => 'Violet';
+
+  @override
+  String get paletteHueMagenta => 'Magenta';
+
+  @override
+  String get paletteHuePink => 'Pink';
+
+  @override
+  String get palettePreviewUnavailable => 'Palette preview unavailable';
+
+  @override
+  String get mathCurrentRule => 'Current rule / formula';
+
+  @override
+  String get mathFibonacciStatus =>
+      '2D initial slice of C², not invariant. Dark: not escaped within N, not proven bounded. Floating comparisons are not proofs.';
 }

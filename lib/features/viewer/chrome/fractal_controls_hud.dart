@@ -13,6 +13,7 @@ import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/controllers/input/fractal_effect_input_bounds.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/fractal_math_summary.dart';
+import 'package:flutter_fractals/shared/widgets/app_tool_button.dart';
 
 /// Game-like HUD overlay for fractal parameter controls.
 ///
@@ -132,7 +133,7 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
                         ),
                   ),
                 ),
-                _HudIconButton(
+                AppToolButton(
                   icon: _isCollapsed
                       ? Icons.expand_less_rounded
                       : Icons.expand_more_rounded,
@@ -141,7 +142,7 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
                   onPressed: () => setState(() => _isCollapsed = !_isCollapsed),
                 ),
                 if (widget.onClose != null || widget.content == null)
-                  _HudIconButton(
+                  AppToolButton(
                     icon: Icons.close_rounded,
                     tooltip: l10n.semanticCloseButton,
                     onPressed:
@@ -662,15 +663,15 @@ class _ActionButtonsRow extends StatelessWidget {
       runSpacing: 8,
       children: [
         _HudActionButton(
-          icon: Icons.home_filled,
+          icon: Icons.center_focus_strong_rounded,
           label: l10n.hudResetViewLabel,
-          tooltip: l10n.resetView,
+          tooltip: l10n.hudResetViewLabel,
           onPressed: onResetView,
         ),
         _HudActionButton(
           icon: Icons.settings_backup_restore_rounded,
           label: l10n.hudResetParamsLabel,
-          tooltip: l10n.resetParams,
+          tooltip: l10n.hudResetParamsLabel,
           onPressed: onResetParams,
         ),
         _HudActionButton(
@@ -681,54 +682,6 @@ class _ActionButtonsRow extends StatelessWidget {
           isPrimary: true,
         ),
       ],
-    );
-  }
-}
-
-/// A small circular icon button for the HUD.
-class _HudIconButton extends StatelessWidget {
-  final IconData icon;
-  final String tooltip;
-  final VoidCallback? onPressed;
-
-  const _HudIconButton({
-    required this.icon,
-    required this.tooltip,
-    this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      label: tooltip,
-      button: true,
-      child: Tooltip(
-        message: tooltip,
-        child: InkWell(
-          onTap: onPressed,
-          borderRadius: BorderRadius.circular(24),
-          // The circle stays 36 so the HUD keeps its density, but the tappable
-          // area is padded out to the 48 minimum — this is the only way to
-          // dismiss the HUD, so it should not be the smallest target in it.
-          child: SizedBox.square(
-            dimension: AccessibleSizing.touchTargetSize(
-                largeTargets: context
-                        .watch<AccessibilityService?>()
-                        ?.largeTargetsEnabled ==
-                    true),
-            child: Center(
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Icon(icon, size: 20, color: Colors.white70),
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }
@@ -829,25 +782,36 @@ class _HudActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     final style = FilledButton.styleFrom(
       minimumSize: Size.square(AccessibleSizing.touchTargetSize(
           largeTargets:
               context.watch<AccessibilityService?>()?.largeTargetsEnabled ==
                   true)),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      foregroundColor: isPrimary ? Colors.black87 : Colors.white70,
-      backgroundColor:
-          isPrimary ? Colors.cyanAccent : Colors.white.withValues(alpha: 0.1),
+      foregroundColor: isPrimary ? colors.onPrimary : colors.onSurfaceVariant,
+      backgroundColor: isPrimary ? colors.primary : colors.surfaceContainerHigh,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+      textStyle: const TextStyle(
+          fontFamily: AppTypography.bodyFont,
+          fontSize: 13,
+          fontWeight: FontWeight.w600),
     );
     return Tooltip(
       message: tooltip,
       excludeFromSemantics: true,
-      child: FilledButton.icon(
+      child: FilledButton(
         style: style,
-        icon: Icon(icon, size: 18),
-        label: Text(label, semanticsLabel: tooltip),
+        child: Wrap(
+          alignment: WrapAlignment.center,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: 8,
+          runSpacing: 4,
+          children: [
+            Icon(icon, size: 18),
+            Text(label, semanticsLabel: tooltip, textAlign: TextAlign.center),
+          ],
+        ),
         onPressed: onPressed == null
             ? null
             : () {

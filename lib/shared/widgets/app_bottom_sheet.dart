@@ -41,19 +41,28 @@ class AppOptionsSheet extends StatelessWidget {
   Widget build(BuildContext context) => AppBottomSheet(
         maxHeightFactor: maxHeightFactor,
         children: [
-          AppBottomSheetHeader(
-            icon: icon,
-            title: title,
-            subtitle: subtitle,
-            onClose: () => Navigator.of(context).pop(),
-          ),
-          Divider(
-              height: 1, color: Theme.of(context).colorScheme.outlineVariant),
           Flexible(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(
-                  AppSpacing.lg, AppSpacing.md, AppSpacing.lg, AppSpacing.xxxl),
-              child: Material(color: Colors.transparent, child: child),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  AppBottomSheetHeader(
+                    icon: icon,
+                    title: title,
+                    subtitle: subtitle,
+                    onClose: () => Navigator.of(context).pop(),
+                  ),
+                  Divider(
+                      height: 1,
+                      color: Theme.of(context).colorScheme.outlineVariant),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(AppSpacing.lg,
+                        AppSpacing.md, AppSpacing.lg, AppSpacing.xxxl),
+                    child: Material(color: Colors.transparent, child: child),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -97,34 +106,44 @@ class AppBottomSheet extends StatelessWidget {
       mq.viewPadding.bottom,
       mq.systemGestureInsets.bottom,
     );
-    final bottomInset =
-        math.max(systemBottomInset, AppSpacing.xl) + mq.viewInsets.bottom;
-    return Container(
-      constraints: BoxConstraints(
-        maxHeight:
-            math.max(mq.size.height * effectiveFactor, 280) + bottomInset,
+    final bottomInset = math.max(systemBottomInset, AppSpacing.xl);
+    // Navigation is already covered by a visible keyboard; reserve the larger
+    // inset, rather than adding both and starving short viewports.
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: math.max(0, mq.viewInsets.bottom - bottomInset),
       ),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.35),
-            blurRadius: 24,
-            offset: const Offset(0, -8),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: EdgeInsets.only(bottom: bottomInset),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const _DragHandle(),
-            ...children,
-          ],
-        ),
-      ),
+      child: LayoutBuilder(
+          builder: (context, constraints) => Container(
+                constraints: BoxConstraints(
+                  maxHeight: math.min(
+                    constraints.maxHeight,
+                    mq.size.height * effectiveFactor + bottomInset,
+                  ),
+                ),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(28)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.35),
+                      blurRadius: 24,
+                      offset: const Offset(0, -8),
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: bottomInset),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const _DragHandle(),
+                      ...children,
+                    ],
+                  ),
+                ),
+              )),
     );
   }
 }
@@ -192,44 +211,48 @@ class AppDraggableBottomSheet extends StatelessWidget {
       mq.viewPadding.bottom,
       mq.systemGestureInsets.bottom,
     );
-    final bottomInset =
-        math.max(systemBottomInset, AppSpacing.xl) + mq.viewInsets.bottom;
+    final bottomInset = math.max(systemBottomInset, AppSpacing.xl);
 
-    return DraggableScrollableSheet(
-      initialChildSize: initialChildSize,
-      minChildSize: minChildSize,
-      maxChildSize: maxChildSize,
-      expand: expand,
-      builder: (context, scrollController) {
-        return Material(
-          color: Theme.of(context).colorScheme.surface,
-          elevation: 18,
-          shadowColor: Colors.black.withValues(alpha: 0.35),
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-          clipBehavior: Clip.antiAlias,
-          child: Padding(
-            padding: EdgeInsets.only(bottom: bottomInset),
-            child: Column(
-              children: [
-                const _DragHandle(),
-                ...childrenBuilder(context, scrollController),
-              ],
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: math.max(0, mq.viewInsets.bottom - bottomInset),
+      ),
+      child: DraggableScrollableSheet(
+        initialChildSize: initialChildSize,
+        minChildSize: minChildSize,
+        maxChildSize: maxChildSize,
+        expand: expand,
+        builder: (context, scrollController) {
+          return Material(
+            color: Theme.of(context).colorScheme.surface,
+            elevation: 18,
+            shadowColor: Colors.black.withValues(alpha: 0.35),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+            clipBehavior: Clip.antiAlias,
+            child: Padding(
+              padding: EdgeInsets.only(bottom: bottomInset),
+              child: Column(
+                children: [
+                  const _DragHandle(),
+                  ...childrenBuilder(context, scrollController),
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
 
 /// Standard header row for an [AppBottomSheet].
 ///
-/// Renders a gradient icon badge on the left, a [title] + optional [subtitle]
+/// Renders a theme-aware icon badge on the left, a [title] + optional [subtitle]
 /// column in the middle, and a close [IconButton] on the right.
 class AppBottomSheetHeader extends StatelessWidget {
   final IconData icon;
 
-  /// Gradient for the icon badge. Defaults to [AppColors.primaryGradient].
+  /// Optional gradient override for the theme-aware icon badge.
   final Gradient? iconGradient;
 
   final String title;
@@ -352,7 +375,7 @@ Widget _buildAppHeaderTitle(
           ),
           child: Icon(icon,
               color: iconGradient == null
-                  ? Theme.of(context).colorScheme.onSurface
+                  ? Theme.of(context).colorScheme.primary
                   : Colors.white,
               size: 20),
         ),
