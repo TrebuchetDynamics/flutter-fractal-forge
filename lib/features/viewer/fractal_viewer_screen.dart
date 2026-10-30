@@ -1022,11 +1022,30 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   void _openShareLink(BuildContext context) {
     final controller = _activeController(context);
     final l10n = AppLocalizations.of(context)!;
+    // Freeze the link before the modal or an asynchronous thumbnail capture can
+    // rebuild. Preview failure must never prevent copying the full view state.
+    final uri = _shareUriFor(controller);
+    final name = controller.module.displayName(l10n);
+    final boundary = _activeBoundaryKey();
+    final render = boundary.currentContext?.findRenderObject();
+    final pixelRatio =
+        render is RenderBox && render.hasSize && render.size.width > 0
+            ? math.min(1.0, 480 / render.size.width)
+            : 1.0;
+    final preview = _exportService
+        .capturePng(boundary, pixelRatio: pixelRatio)
+        .timeout(const Duration(seconds: 2))
+        .then<Uint8List?>((bytes) => bytes,
+            onError: (Object _, StackTrace __) => null);
     showAppBottomSheet<void>(
       context: context,
-      builder: (_) => ShareSheet(
-        uri: _shareUriFor(controller),
-        fractalName: controller.module.displayName(l10n),
+      builder: (_) => FutureBuilder<Uint8List?>(
+        future: preview,
+        builder: (context, snapshot) => ShareSheet(
+          uri: uri,
+          fractalName: name,
+          previewBytes: snapshot.data,
+        ),
       ),
     );
   }

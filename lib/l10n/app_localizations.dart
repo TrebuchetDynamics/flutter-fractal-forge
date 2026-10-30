@@ -2451,6 +2451,54 @@ abstract class AppLocalizations {
   /// **'Exited fullscreen view'**
   String get announceExitedFullscreen;
 
+  /// No description provided for @shareViewLinkTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share view link'**
+  String get shareViewLinkTitle;
+
+  /// No description provided for @shareViewLinkDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Send an interactive view that others can open and explore. To share an image, use Export image.'**
+  String get shareViewLinkDescription;
+
+  /// No description provided for @shareViewLinkCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link'**
+  String get shareViewLinkCopy;
+
+  /// No description provided for @shareViewLinkShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share link'**
+  String get shareViewLinkShare;
+
+  /// No description provided for @shareViewLinkFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'{action} failed: {error}'**
+  String shareViewLinkFailed(String action, String error);
+
+  /// No description provided for @shareViewLinkPreviewUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview unavailable'**
+  String get shareViewLinkPreviewUnavailable;
+
+  /// No description provided for @shareFullLinkShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Show full link'**
+  String get shareFullLinkShow;
+
+  /// No description provided for @shareFullLinkHide.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide full link'**
+  String get shareFullLinkHide;
+
   /// No description provided for @shareTitle.
   ///
   /// In en, this message translates to:
