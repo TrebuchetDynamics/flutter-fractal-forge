@@ -5,6 +5,85 @@ phone or access to the host desktop. A headless Wayland compositor supplies the
 display; ADB supplies test, shell and file access. These steps configure local
 testing, not Play publication or signing access.
 
+## Working Android test sequence
+
+**Use this sequence for Android testing and release preparation. Waydroid is
+already selected.** Do not look for a phone or ask the owner to select a device.
+The previously successful recovery was **guest routing diagnosis → restart the
+existing session/container → reconnect → enroll the host public key only if
+unauthorized → verify boot/model → run tests**. A successful connection-helper
+message alone was never the readiness check.
+
+### 1. Reuse a healthy instance; diagnose a broken one
+
+Coordinate with active device workers, then run:
+
+```bash
+waydroid status
+waydroid adb connect
+adb devices -l
+```
+
+If the designated instance appears as `device`, skip recovery and go to step 3.
+If it is `unauthorized`, use [the existing public-key enrollment recipe](#authorize-adb-without-a-visible-prompt),
+not a container restart or authentication bypass. If its transport is absent,
+use [the host/guest routing probe](#recovery-ip-exists-but-networking-is-unreachable)
+to determine whether this is the previously observed guest-routing failure.
+
+### 2. Recover the diagnosed guest-routing failure
+
+The earlier incident had an address on `eth0` but Android policy routing ended in
+`unreachable`. Restarting **the existing** session/container restored it. With
+exclusive access and that diagnosis, run as the session user:
+
+```bash
+waydroid session stop
+sudo systemctl restart waydroid-container
+WAYLAND_DISPLAY=waydroid-headless waydroid session start
+```
+
+The final command may stay attached: use a second terminal for step 3. This is
+not container reinitialization, a factory reset, data deletion or a new instance;
+it does close Android apps and must not interrupt another worker. Do not apply
+this recovery blindly to every ADB error. An unavailable sudo session blocks
+this privileged repair, not the settled Waydroid target choice; an administrator
+runs the existing commands locally, without sharing credentials in chat.
+
+### 3. Rediscover the serial and verify actual readiness
+
+The restart can change the IP. In the second terminal, run:
+
+```bash
+waydroid status
+WAYDROID_IP="$(waydroid status | awk '$1 == "IP" && $2 == "address:" {print $3}')"
+[[ "$WAYDROID_IP" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]] || {
+  echo 'No current Waydroid IPv4 address; return to routing diagnostics.' >&2
+  exit 1
+}
+export ANDROID_DEVICE="$WAYDROID_IP:5555"
+export ANDROID_DISPOSABLE_DEVICE="$ANDROID_DEVICE"
+waydroid adb connect
+adb devices -l
+test "$(adb -s "$ANDROID_DEVICE" get-state)" = device &&
+  test "$(adb -s "$ANDROID_DEVICE" shell getprop ro.product.model | tr -d '\r')" = WayDroid_x86_64_Device &&
+  test "$(adb -s "$ANDROID_DEVICE" shell getprop sys.boot_completed | tr -d '\r')" = 1
+```
+
+**All three final checks must exit zero.** If the serial is unauthorized, enroll
+only the existing host's public key using the linked recipe, then repeat these
+checks. Do not install or run tests when they fail. A pending boot is not a new
+device; wait for that instance to finish booting and recheck.
+
+### 4. Run the selected candidate's tests
+
+Keep both exported IDs in the test terminal. Select pinned Flutter 3.44.6 and its
+provisioned cache, regenerate dependencies offline with the lockfile enforced,
+then use [the direct release-gate invocation](#standing-owner-designation-use-this-waydroid-target)
+or [the focused test commands](#run-tests-without-confusing-setup-with-qualification).
+Retain source/build identity, real gate output and new PNG/MediaStore/gallery
+readback. The [prior passing journeys and complete gate](waydroid-export-verification.md)
+show the established workflow; they do not qualify a different candidate.
+
 ## Standing owner designation: use this Waydroid target
 
 **Owner reaffirmed 2026-10-26:** “We already set Waydroid as device for testing.”
