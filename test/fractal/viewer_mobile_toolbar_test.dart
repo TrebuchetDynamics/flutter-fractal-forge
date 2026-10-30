@@ -90,7 +90,7 @@ void main() {
       (tester) async {
     var opened = 0;
     await pumpToolbar(tester, onControls: () => opened++);
-    for (final label in ['Controls', 'Palette', 'Random', 'More']) {
+    for (final label in ['Controls', 'More']) {
       expect(find.text(label), findsOneWidget);
     }
     final toolbar =
@@ -113,7 +113,8 @@ void main() {
       'viewerRandomFractalFab': 'Random',
       'viewerOverflowMenu': 'More',
     };
-    for (final entry in captions.entries) {
+    for (final entry in captions.entries.where(
+        (entry) => find.byKey(ValueKey(entry.key)).evaluate().isNotEmpty)) {
       final hitRegion = tester.getRect(find.byKey(ValueKey(entry.key)));
       final caption = find.text(entry.value);
       final paint = find
@@ -135,6 +136,16 @@ void main() {
         onPalette: () => calls.add('palette'),
         onRandom: () => calls.add('random'));
     for (final label in ['Controls', 'Palette', 'Random']) {
+      // A suppressed primary keeps the same callback through More.
+      if (find.text(label).evaluate().isEmpty) {
+        await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+        await tester.pumpAndSettle();
+        final key = label == 'Random'
+            ? 'viewerRandomFractalFab'
+            : 'viewerPaletteButton';
+        await tester.ensureVisible(find.byKey(ValueKey(key)));
+        await tester.pumpAndSettle();
+      }
       // Captions are paint-only; their coordinates belong to the shared button.
       await tester.tapAt(tester.getCenter(find.text(label)));
       await tester.pumpAndSettle();

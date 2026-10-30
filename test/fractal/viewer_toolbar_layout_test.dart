@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
@@ -25,6 +25,9 @@ Future<AutoExploreService> _pumpToolbar(WidgetTester tester,
     bool largeTargets = false,
     bool highContrast = false,
     bool supportsAuxiliaryTools = true,
+    bool isExporting = false,
+    bool breathingAvailable = true,
+    ValueChanged<String>? onAction,
     VoidCallback? onAutoExploreSettings,
     Locale locale = const Locale('en'),
     double textScale = 1,
@@ -72,7 +75,9 @@ Future<AutoExploreService> _pumpToolbar(WidgetTester tester,
             body: FractalViewControls(
               fabController: animation,
               supportsAuxiliaryTools: supportsAuxiliaryTools,
-              isExporting: false,
+              isExporting: isExporting,
+              breathingAvailable: breathingAvailable,
+              showFractalReport: true,
               kaleidoscopeEnabled: false,
               kaleidoscopeSectors: 8,
               kaleidoscopeMirror: true,
@@ -81,26 +86,33 @@ Future<AutoExploreService> _pumpToolbar(WidgetTester tester,
               textOverlayEnabled: false,
               actions: FractalViewControlActions(
                 openAutoExploreSettings: onAutoExploreSettings,
-                toggleFullscreen: () {},
-                openRandomFractal: () {},
-                openControls: () {},
-                randomizeParams: () {},
-                cycleColorScheme: () {},
-                openPalettePicker: () {},
-                toggleKaleidoscope: () {},
+                toggleFullscreen: () =>
+                    onAction?.call('viewerFullscreenButton'),
+                openRandomFractal: () =>
+                    onAction?.call('viewerRandomFractalFab'),
+                openControls: () => onAction?.call('viewerControlsButton'),
+                randomizeParams: () =>
+                    onAction?.call('viewerRandomParamsButton'),
+                cycleColorScheme: () =>
+                    onAction?.call('viewerColorCycleButton'),
+                openPalettePicker: () => onAction?.call('viewerPaletteButton'),
+                toggleKaleidoscope: () =>
+                    onAction?.call('viewerKaleidoscopeFab'),
                 setKaleidoscopeSectors: (_) {},
                 setKaleidoscopeMirror: (_) {},
-                openExport: () {},
-                shareLink: () {},
-                shareImage: () {},
-                toggleTextOverlay: () {},
-                editTextOverlay: () {},
-                openLooper: () {},
-                toggleBreathing: () {},
-                toggleFourier: () {},
-                openFourierSettings: () {},
-                reportFractal: () {},
-                openWallpaper: () {},
+                openExport: () => onAction?.call('viewerOpenExportAction'),
+                shareLink: () => onAction?.call('viewerShareLinkAction'),
+                shareImage: () => onAction?.call('viewerShareImageAction'),
+                toggleTextOverlay: () => onAction?.call('viewerTextOverlayFab'),
+                editTextOverlay: () =>
+                    onAction?.call('viewerTextOverlayFabOptions'),
+                openLooper: () => onAction?.call('viewerLooperFab'),
+                toggleBreathing: () => onAction?.call('viewerBreathingButton'),
+                toggleFourier: () => onAction?.call('viewerFourierFab'),
+                openFourierSettings: () =>
+                    onAction?.call('viewerFourierFabOptions'),
+                reportFractal: () => onAction?.call('viewerReportFractalFab'),
+                openWallpaper: () => onAction?.call('viewerWallpaperAction'),
               ),
             ),
           )),
@@ -118,6 +130,218 @@ Future<void> _openMore(WidgetTester tester) async {
 }
 
 void main() {
+  for (final locale in const [Locale('en'), Locale('es')]) {
+    for (final viewport in const [
+      Size(320, 780),
+      Size(360, 780),
+      Size(390, 780),
+      Size(640, 240)
+    ]) {
+      for (final scale in [1.0, 2.0, 3.0]) {
+        testWidgets(
+            'whole primary labels ${locale.languageCode} $viewport x$scale',
+            (tester) async {
+          final calls = <String>[];
+          await _pumpToolbar(tester,
+              viewport: viewport,
+              onAction: calls.add,
+              locale: locale,
+              textScale: scale,
+              viewPadding: const EdgeInsets.fromLTRB(4, 24, 4, 32),
+              gestures: const EdgeInsets.fromLTRB(8, 0, 8, 48));
+          final visible = _orderedTools
+              .where((key) => _tool(key).evaluate().isNotEmpty)
+              .toList();
+          expect(visible, contains('viewerOverflowMenu'));
+          for (final key in visible) {
+            final tool = _tool(key);
+            final rect = tester.getRect(tool);
+            expect(rect.width, greaterThanOrEqualTo(48), reason: key);
+            expect(rect.height, greaterThanOrEqualTo(48), reason: key);
+            expect(rect.bottom, lessThanOrEqualTo(viewport.height - 64),
+                reason: key);
+          }
+          final captions = find.descendant(
+              of: _tool('viewerFabColumn'), matching: find.byType(RichText));
+          for (final element in captions.evaluate()) {
+            final render = element.renderObject! as RenderParagraph;
+            final painter = TextPainter(
+                text: render.text,
+                textDirection: render.textDirection,
+                textScaler: render.textScaler)
+              ..layout(maxWidth: render.size.width);
+            expect(painter.computeLineMetrics(), hasLength(1),
+                reason: '${render.text.toPlainText()} must not break mid-word');
+            expect(painter.width, lessThanOrEqualTo(render.size.width + .01));
+            painter.dispose();
+          }
+          await _openMore(tester);
+          for (final key
+              in _orderedTools.where((key) => !visible.contains(key))) {
+            expect(_tool(key), findsOneWidget,
+                reason: 'Overflow must retain $key');
+            await tester.ensureVisible(_tool(key));
+            await tester.pumpAndSettle();
+            expect(_tool(key).hitTestable(), findsOneWidget);
+          }
+          // A primary can move, but it must never disappear or change callback.
+          await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+          await tester.pumpAndSettle();
+          for (final key
+              in _orderedTools.where((key) => key != 'viewerOverflowMenu')) {
+            if (!visible.contains(key)) await _openMore(tester);
+            await tester.ensureVisible(_tool(key));
+            await tester.pumpAndSettle();
+            expect(tester.getSize(_tool(key)).width, greaterThanOrEqualTo(48));
+            expect(tester.getSize(_tool(key)).height, greaterThanOrEqualTo(48));
+            await tester.tap(_tool(key));
+            await tester.pumpAndSettle();
+            expect(calls.where((call) => call == key), hasLength(1));
+          }
+          expect(
+              calls,
+              _orderedTools
+                  .where((key) => key != 'viewerOverflowMenu')
+                  .toList());
+          expect(tester.takeException(), isNull);
+        });
+      }
+    }
+  }
+
+  for (final locale in const [Locale('en'), Locale('es')]) {
+    testWidgets(
+        'More has localized hierarchy and contextual settings ${locale.languageCode}',
+        (tester) async {
+      final semantics = tester.ensureSemantics();
+
+      final calls = <String>[];
+      await _pumpToolbar(tester,
+          viewport: const Size(320, 568),
+          textScale: 3,
+          locale: locale,
+          highContrast: true,
+          largeTargets: true,
+          onAction: calls.add);
+      await _openMore(tester);
+      final l10n =
+          AppLocalizations.of(tester.element(find.byType(BottomSheet)))!;
+      final headings = [
+        l10n.viewerActionSectionSaveShare,
+        l10n.viewerActionSectionExploreAnimate,
+        l10n.viewerActionSectionVisualEffects,
+        l10n.viewerActionSectionViewReport
+      ];
+      var previous = -1.0;
+      for (final label in headings) {
+        final heading = find.text(label);
+        expect(heading, findsOneWidget);
+        final top = tester.getTopLeft(heading).dy;
+        expect(top, greaterThan(previous));
+        previous = top;
+        final wrapper = tester.widget<Semantics>(find
+            .ancestor(
+                of: heading,
+                matching: find.byWidgetPredicate(
+                    (w) => w is Semantics && w.properties.header == true))
+            .first);
+        expect(wrapper.properties.header, isTrue);
+      }
+      expect(find.text(l10n.viewerToolOptions), findsNothing);
+      final settings = {
+        'viewerRandomParamsButtonOptions': l10n.viewerActionSettingsControls,
+        'viewerColorCycleButtonOptions': l10n.viewerActionSettingsPalette,
+        'viewerKaleidoscopeFabOptions': l10n.viewerActionSettingsKaleidoscope,
+        'viewerFourierFabOptions': l10n.viewerActionSettingsFourier,
+        'viewerTextOverlayFabOptions': l10n.viewerActionSettingsText,
+      };
+      for (final entry in settings.entries) {
+        final tool = _tool(entry.key);
+        await tester.ensureVisible(tool);
+        await tester.pumpAndSettle();
+        expect(tester.widget<FloatingActionButtonWidget>(tool).tooltip,
+            entry.value);
+        expect(tester.getSize(tool).width, greaterThanOrEqualTo(56));
+        expect(tester.getSize(tool).height, greaterThanOrEqualTo(56));
+      }
+      // The final row remains fully visible and activates exactly once.
+      final report = _tool('viewerReportFractalFab');
+      await tester.ensureVisible(report);
+      await tester.pumpAndSettle();
+      final viewport =
+          tester.getRect(find.byKey(const ValueKey('viewerShortMoreViewport')));
+      expect(viewport.contains(tester.getTopLeft(report)), isTrue);
+      expect(
+          tester.getBottomRight(report).dy, lessThanOrEqualTo(viewport.bottom));
+      await tester.tap(report);
+      await tester.pumpAndSettle();
+      expect(calls, ['viewerReportFractalFab']);
+      expect(find.byType(BottomSheet), findsNothing);
+      expect(tester.takeException(), isNull);
+      semantics.dispose();
+    });
+  }
+
+  testWidgets(
+      'suppressed unavailable Play keeps disabled semantics and tooltip',
+      (tester) async {
+    final semantics = tester.ensureSemantics();
+
+    final calls = <String>[];
+    await _pumpToolbar(tester,
+        viewport: const Size(320, 568),
+        textScale: 3,
+        breathingAvailable: false,
+        onAction: calls.add);
+    expect(_tool('viewerBreathingButton'), findsNothing);
+    await _openMore(tester);
+    final play = _tool('viewerBreathingButton');
+    await tester.ensureVisible(play);
+    await tester.pumpAndSettle();
+    final button = tester.widget<FloatingActionButtonWidget>(play);
+    final l10n = AppLocalizations.of(tester.element(play))!;
+    expect(button.tooltip, l10n.tooltipBreathingUnavailable);
+    expect(button.onPressed, isNull);
+    final data = tester
+        .getSemantics(find.bySemanticsLabel(button.tooltip))
+        .getSemanticsData();
+    expect(data.hasAction(SemanticsAction.tap), isFalse);
+    // ignore: deprecated_member_use
+    expect(data.hasFlag(SemanticsFlag.isEnabled), isFalse);
+    await tester.tap(play);
+    await tester.pumpAndSettle();
+    expect(calls, isEmpty);
+    expect(find.byType(BottomSheet), findsOneWidget);
+    semantics.dispose();
+  });
+
+  testWidgets(
+      'scaled overflow is export locked for pointer keyboard and semantics',
+      (tester) async {
+    final semantics = tester.ensureSemantics();
+
+    final calls = <String>[];
+    await _pumpToolbar(tester,
+        viewport: const Size(320, 568),
+        textScale: 3,
+        isExporting: true,
+        onAction: calls.add);
+    final more = _tool('viewerOverflowMenu');
+    final button = tester.widget<FloatingActionButtonWidget>(more);
+    expect(button.onPressed, isNull);
+    final data = tester
+        .getSemantics(find.bySemanticsLabel(button.tooltip))
+        .getSemanticsData();
+    expect(data.hasAction(SemanticsAction.tap), isFalse);
+    await tester.tap(more);
+    await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+    await tester.pumpAndSettle();
+    expect(find.byType(BottomSheet), findsNothing);
+    expect(calls, isEmpty);
+    semantics.dispose();
+  });
+
   for (final viewport in [
     const Size(360, 900),
     const Size(1200, 400),
@@ -127,7 +351,7 @@ void main() {
       for (final locale in const [Locale('en'), Locale('es')]) {
         for (final scale in [1.0, 3.0]) {
           testWidgets(
-              'five labeled primaries $viewport large=$large ${locale.languageCode} scale=$scale',
+              'adaptive labeled primaries $viewport large=$large ${locale.languageCode} scale=$scale',
               (tester) async {
             await _pumpToolbar(tester,
                 viewport: viewport,
@@ -136,7 +360,10 @@ void main() {
                 locale: locale,
                 textScale: scale);
             final target = large ? 56.0 : 48.0;
-            for (final key in _orderedTools) {
+            final visible = _orderedTools
+                .where((key) => _tool(key).evaluate().isNotEmpty)
+                .toList();
+            for (final key in visible) {
               final tool = _tool(key);
               await Scrollable.ensureVisible(tester.element(tool),
                   alignment: 0.5);
@@ -149,17 +376,14 @@ void main() {
                   reason: key);
               expect(tool.hitTestable(), findsOneWidget, reason: key);
             }
-            final first = tester.getRect(_tool(_orderedTools.first));
-            final third = tester.getRect(_tool(_orderedTools[2]));
-            if (scale == 1 && viewport.width >= 328) {
-              expect(first.top, third.top);
-            } else {
-              expect(third.top, greaterThan(first.top));
-            }
+            final first = tester.getRect(_tool(visible.first));
+            final last = tester.getRect(_tool(visible.last));
+            expect(first.top, last.top);
             expect(tester.getSize(_tool('viewerFabColumn')).width,
                 lessThanOrEqualTo(440));
             await _openMore(tester);
             for (final key in [
+              ..._orderedTools.where((key) => !visible.contains(key)),
               'viewerRandomParamsButton',
               'viewerColorCycleButton',
               'viewerAutoExploreButton',
@@ -208,14 +432,17 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('visual, tab and semantic order follow five primary groups',
+  testWidgets('visual, tab and semantic order follow visible primary groups',
       (tester) async {
     final semantics = tester.ensureSemantics();
     try {
       await _pumpToolbar(tester, viewport: const Size(360, 1000));
       var previousRight = 0.0;
-      for (var index = 0; index < _orderedTools.length; index++) {
-        final key = _orderedTools[index];
+      final visible = _orderedTools
+          .where((key) => _tool(key).evaluate().isNotEmpty)
+          .toList();
+      for (final key in visible) {
+        final index = _orderedTools.indexOf(key);
         final tool = _tool(key);
         final rect = tester.getRect(tool);
         expect(rect.left, greaterThanOrEqualTo(previousRight - 1e-6));

@@ -93,6 +93,13 @@ void main() {
     await tester.pumpAndSettle();
     final controls = find
         .byKey(ValueKey(more ? 'viewerOverflowMenu' : 'viewerControlsButton'));
+    if (!more && controls.evaluate().isEmpty) {
+      final overflow = find.byKey(const ValueKey('viewerOverflowMenu'));
+      await tester.ensureVisible(overflow);
+      await tester.pumpAndSettle();
+      await tester.tap(overflow);
+      await tester.pumpAndSettle();
+    }
     await tester.ensureVisible(controls);
     await tester.pumpAndSettle();
     expect(controls.hitTestable(), findsOneWidget);
@@ -171,6 +178,12 @@ void main() {
           await tester.pumpAndSettle();
           expect(find.byType(FractalControlsHud), findsNothing);
           final controls = find.byKey(const ValueKey('viewerControlsButton'));
+          if (controls.evaluate().isEmpty) {
+            final overflow = find.byKey(const ValueKey('viewerOverflowMenu'));
+            await reveal(tester, overflow);
+            await tester.tap(overflow);
+            await tester.pumpAndSettle();
+          }
           await reveal(tester, controls);
           await tester.tap(controls);
           await tester.pumpAndSettle();
@@ -232,7 +245,10 @@ void main() {
             expect(rect.height, greaterThanOrEqualTo(large ? 56 : 48));
             expect(rect.left, greaterThanOrEqualTo(visible.left));
             expect(rect.right, lessThanOrEqualTo(visible.right));
-            expect(visible.height, 128);
+            // The shared sheet shell reserves its standard drag-handle and
+            // safe-bottom spacing; its scroll body must still fit a full target.
+            expect(
+                visible.height, inInclusiveRange(large ? 56.0 : 48.0, 128.0));
             expect(rect.top, greaterThanOrEqualTo(visible.top - 0.01),
                 reason: '$key $rect viewport=$visible');
             expect(rect.bottom, lessThanOrEqualTo(visible.bottom + 0.01),

@@ -2344,4 +2344,64 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewerCopyLinkAction => 'Copy link';
+
+  @override
+  String get viewerActionSectionSaveShare => 'Save & share';
+
+  @override
+  String get viewerActionSectionExploreAnimate => 'Explore & animate';
+
+  @override
+  String get viewerActionSectionVisualEffects => 'Visual effects';
+
+  @override
+  String get viewerActionSectionViewReport => 'View & report';
+
+  @override
+  String get viewerActionSettingsControls => 'Parameter controls';
+
+  @override
+  String get viewerActionSettingsPalette => 'Palette settings';
+
+  @override
+  String get viewerActionSettingsExplore => 'Exploration settings';
+
+  @override
+  String get viewerActionSettingsKaleidoscope => 'Kaleidoscope settings';
+
+  @override
+  String get viewerActionSettingsFourier => 'Fourier settings';
+
+  @override
+  String get viewerActionSettingsText => 'Edit text overlay';
+
+  @override
+  String get viewerActionSettingsCyclePalette => 'Next palette';
+
+  @override
+  String get viewerActionSettingsExploreCompact => 'Explore setup';
+
+  @override
+  String get viewerActionSettingsPaletteCompact => 'Edit palette';
+
+  @override
+  String get viewerActionSettingsCyclePaletteCompact => 'Next palette';
+
+  @override
+  String get viewerActionSettingsFourierCompact => 'Fourier setup';
+
+  @override
+  String get viewerActionSettingsTextCompact => 'Edit text';
+
+  @override
+  String get viewerActionSettingsTextCompactTitle => 'Text';
+
+  @override
+  String get viewerActionSettingsReportCompact => 'Report';
+
+  @override
+  String get viewerActionSettingsRandomCompact => 'Random choices';
+
+  @override
+  String get viewerActionSettingsFourierCompactTitle => 'Fourier';
 }
