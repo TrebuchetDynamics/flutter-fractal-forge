@@ -71,6 +71,71 @@ Start here: check connectivity, repair networking only if necessary, then author
 ADB if needed. Do not restart or re-enroll keys in a healthy session merely to
 repeat this setup.
 
+## Release preflight and exact blocker reporting
+
+**Waydroid is the target, not a fallback pending a physical phone.** Its existing
+owner designation supplies target consent for Android integration/release tests.
+Passing those tests supplies Waydroid evidence; it does not make separate
+physical-device or hardware-GPU claims. A transport problem changes neither the
+target choice nor that standing consent.
+
+Before declaring Android blocked:
+
+1. Coordinate exclusive device access with active workers. Read `waydroid status`
+   and `adb devices -l`; take the current IP from this instance, not a historical
+   report or an arbitrary connected device.
+2. If its transport is absent, run `waydroid adb connect` once. Then verify
+   `adb -s "$ANDROID_DEVICE" get-state`. The helper can exit zero and print
+   “Established ADB connection” **while the serial is still absent**.
+3. If state is `device`, verify the model and `sys.boot_completed` before the
+   source-bound gate. Set matching `ANDROID_DEVICE` / `ANDROID_DISPOSABLE_DEVICE`
+   as shown above; do not ask for target approval again.
+4. Otherwise classify the actual state below. Collect diagnostics first; do not
+   loop reconnects, change the target or reset the container to manufacture a pass.
+
+| Observed state | Required next action / precise report |
+|---|---|
+| `device`, expected model, boot complete | Proceed with the designated-target gate; connectivity is not qualification. |
+| `unauthorized` | Existing target's host key is unaccepted; follow [public-key enrollment](#authorize-adb-without-a-visible-prompt) through an authorized administrator. Do not disable authentication. |
+| `offline` | Try the documented stale-transport reconnect, then recheck this serial. Retain failure if it stays offline. |
+| Serial absent or connection fails | Check `ip -4 addr show waydroid0`, `ip route get <current-IP>` and `ip neigh show <current-IP>`; then collect the [guest routing probe](#recovery-ip-exists-but-networking-is-unreachable). Do not infer guest health from host routes alone. |
+| Guest probe requires unavailable sudo authentication | Report **Waydroid guest diagnostics blocked by local sudo authentication**, including the failed command. Have an administrator run that command locally; never request a password in chat or claim another device designation is needed. |
+| Target owned by another worker | Report the actual contention and coordinate handoff; do not kill its tests or reinterpret existing consent as absent. |
+
+A terminal Android report must identify: candidate source/version/build; current
+Waydroid IP/serial and container/session state; actual ADB result/error; commands
+and exits; whether any installation/test ran; and the next concrete diagnostic or
+access requirement. “Device unavailable” alone is not an adequate explanation.
+Keep Android/Play and dependent F-Droid qualification failures scoped to those
+lanes; do not suppress qualified web/desktop work.
+
+### Observed transport failure — 2026-10-29
+
+This is a dated diagnostic record, **not a permanent target status**. Revalidate
+before each new run. Commands were read-only except the normal ADB connection
+helper; no app install/uninstall, key enrollment, container restart or network
+configuration change occurred.
+
+- `waydroid status`: session/container `RUNNING`, IP `192.168.240.112`, existing
+  `waydroid-headless` display.
+- `waydroid adb connect`: exit 0, “Established ADB connection…”; nevertheless
+  `adb devices -l` had no devices and
+  `adb -s 192.168.240.112:5555 get-state` exited 1, `device … not found`.
+- Host bridge: `192.168.240.1/24`; host route selected `waydroid0`; neighbor state
+  for `192.168.240.112` was `FAILED`. This does not establish the guest's route.
+- The guest probe below exited 1 with `sudo: a password is required`. The missing
+  input was local administrator authentication for **diagnosis**, not target
+  selection, physical hardware, or another release approval:
+
+  ```sh
+  sudo -n waydroid shell -- sh -c \
+    'ip -4 addr show eth0; ip rule; ip route show table all; ip route get 192.168.240.1'
+  ```
+
+An administrator can run the same probe with interactive `sudo` locally. Inspect
+its output before choosing any recovery; the historical restart recipe below is
+not automatic authorization to interrupt workers or reset this instance.
+
 ## Prerequisites and display
 
 - Existing Waydroid installation/container, Weston, Android platform-tools (`adb`)
