@@ -62,8 +62,12 @@ void main() {
       expect(parameter.options, hasLength(64));
       expect(parameter.options[4].label(l10n), 'Phoenix');
       expect(parameter.options[5].label(l10n), 'Viridis Depth');
-      expect(parameter.options[7].label(l10n), 'Cividis Safe');
-      expect(parameter.options[49].label(l10n), 'Starlight Candy');
+      expect(parameter.options[7].label(l10n), 'Cividis');
+      expect(parameter.options[8].label(l10n), 'Rainbow');
+      expect(parameter.options[12].label(l10n), 'Blue / Orange / Yellow');
+      expect(parameter.options[49].label(l10n), 'Green / Blue (50)');
+      expect(parameter.options.map((option) => option.value),
+          List.generate(64, (index) => index));
       expect(parameter.options[50].label(l10n), 'Relief 0° Fire');
       expect(parameter.options[63].label(l10n), 'Relief 180° Ocean');
       expect(

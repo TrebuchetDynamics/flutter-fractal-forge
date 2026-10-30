@@ -3882,13 +3882,13 @@ abstract class AppLocalizations {
   /// No description provided for @hudResetViewLabel.
   ///
   /// In en, this message translates to:
-  /// **'View'**
+  /// **'Reset view'**
   String get hudResetViewLabel;
 
   /// No description provided for @hudResetParamsLabel.
   ///
   /// In en, this message translates to:
-  /// **'Params'**
+  /// **'Reset parameters'**
   String get hudResetParamsLabel;
 
   /// No description provided for @hudRandomizeTooltip.
@@ -4544,6 +4544,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Fourier'**
   String get viewerActionSettingsFourierCompactTitle;
+
+  /// No description provided for @paletteRainbow.
+  ///
+  /// In en, this message translates to:
+  /// **'Rainbow'**
+  String get paletteRainbow;
+
+  /// No description provided for @paletteHueRed.
+  ///
+  /// In en, this message translates to:
+  /// **'Red'**
+  String get paletteHueRed;
+
+  /// No description provided for @paletteHueOrange.
+  ///
+  /// In en, this message translates to:
+  /// **'Orange'**
+  String get paletteHueOrange;
+
+  /// No description provided for @paletteHueYellow.
+  ///
+  /// In en, this message translates to:
+  /// **'Yellow'**
+  String get paletteHueYellow;
+
+  /// No description provided for @paletteHueLime.
+  ///
+  /// In en, this message translates to:
+  /// **'Lime'**
+  String get paletteHueLime;
+
+  /// No description provided for @paletteHueGreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Green'**
+  String get paletteHueGreen;
+
+  /// No description provided for @paletteHueTeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Teal'**
+  String get paletteHueTeal;
+
+  /// No description provided for @paletteHueCyan.
+  ///
+  /// In en, this message translates to:
+  /// **'Cyan'**
+  String get paletteHueCyan;
+
+  /// No description provided for @paletteHueBlue.
+  ///
+  /// In en, this message translates to:
+  /// **'Blue'**
+  String get paletteHueBlue;
+
+  /// No description provided for @paletteHueViolet.
+  ///
+  /// In en, this message translates to:
+  /// **'Violet'**
+  String get paletteHueViolet;
+
+  /// No description provided for @paletteHueMagenta.
+  ///
+  /// In en, this message translates to:
+  /// **'Magenta'**
+  String get paletteHueMagenta;
+
+  /// No description provided for @paletteHuePink.
+  ///
+  /// In en, this message translates to:
+  /// **'Pink'**
+  String get paletteHuePink;
+
+  /// No description provided for @palettePreviewUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Palette preview unavailable'**
+  String get palettePreviewUnavailable;
+
+  /// No description provided for @mathCurrentRule.
+  ///
+  /// In en, this message translates to:
+  /// **'Current rule / formula'**
+  String get mathCurrentRule;
+
+  /// No description provided for @mathFibonacciStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'2D initial slice of C², not invariant. Dark: not escaped within N, not proven bounded. Floating comparisons are not proofs.'**
+  String get mathFibonacciStatus;
 }
 
 class _AppLocalizationsDelegate

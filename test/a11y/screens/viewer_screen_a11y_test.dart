@@ -285,7 +285,8 @@ void main() {
         },
         reason: 'Palette menu at 3.0x on Size(320, 568)',
       );
-      expect(find.byType(GridView), findsOneWidget);
+      expect(find.byType(SliverGrid), findsOneWidget);
+      expect(find.byType(CustomScrollView), findsOneWidget);
       await disposeAccessibilityTestWidget(tester);
     });
 

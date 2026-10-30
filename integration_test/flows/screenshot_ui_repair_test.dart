@@ -8,9 +8,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
-import 'package:flutter_fractals/core/services/rendering/palette/palette_service.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
+import 'package:flutter_fractals/features/renderer/widgets/canvas/fractal_canvas.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dart';
 import 'package:flutter_fractals/features/viewer/export/viewer_export_overlay.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
@@ -35,10 +35,11 @@ void main() {
         (tester) async {
       expect(const bool.fromEnvironment('FORCE_GPU_RENDER'), isTrue,
           reason: 'The live UI check must use the real shader path.');
+      expect(source, matches(RegExp(r'^[a-f0-9]{40}$')),
+          reason: 'Native evidence must identify its exact source commit.');
       SharedPreferences.setMockInitialValues({});
       final accessibility = await AccessibilityService.create();
       final renderer = await RendererSettingsService.create();
-      final palettes = await PaletteService.create();
       await accessibility.setReducedMotion(true);
       final root = GlobalKey();
       final folder = captureTag.isEmpty
@@ -48,6 +49,7 @@ void main() {
           '${(await getApplicationDocumentsDirectory()).path}/$folder');
       await directory.create(recursive: true);
       final observations = <String, Object?>{};
+      addTearDown(tester.view.resetPhysicalSize);
       addTearDown(tester.view.resetDevicePixelRatio);
       addTearDown(tester.view.resetPadding);
       addTearDown(tester.view.resetViewPadding);
@@ -55,7 +57,6 @@ void main() {
       addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
       addTearDown(accessibility.dispose);
       addTearDown(renderer.dispose);
-      addTearDown(palettes.dispose);
 
       await tester.pumpWidget(RepaintBoundary(
         key: root,
@@ -77,6 +78,17 @@ void main() {
 
       Future<void> capture(String name) async {
         await pumpForUiTransition(tester);
+        List<FractalCanvas> painters() => tester
+            .widgetList<CustomPaint>(find.byType(CustomPaint))
+            .map((paint) => paint.painter)
+            .whereType<FractalCanvas>()
+            .where((paint) => paint.module.id == controller.module.id)
+            .toList();
+        for (var attempt = 0; attempt < 20 && painters().isEmpty; attempt++) {
+          await tester.pump(const Duration(milliseconds: 100));
+        }
+        expect(painters(), hasLength(1),
+            reason: 'Require this module’s real FragmentShader painter.');
         expect(tester.takeException(), isNull);
         final boundary =
             root.currentContext!.findRenderObject()! as RenderRepaintBoundary;
@@ -91,6 +103,8 @@ void main() {
             'source': source,
             'module': controller.module.id,
             'shader': controller.module.shaderAsset,
+            'backend': 'gpu',
+            'painter': 'FractalCanvas/FragmentShader',
             'logicalSize': [boundary.size.width, boundary.size.height],
             'pixelSize': [image.width, image.height],
             'textScale': MediaQuery.textScalerOf(context).scale(10) / 10,
@@ -151,9 +165,17 @@ void main() {
         }
       }
 
-      for (final profile in [(390.0, 1.0), (360.0, 2.0), (320.0, 3.0)]) {
-        final (width, scale) = profile;
-        final dpr = tester.view.physicalSize.width / width;
+      final nativePhysicalWidth = tester.view.physicalSize.width;
+      for (final profile in [
+        (390.0, 780.0, 1.0),
+        (360.0, 640.0, 2.0),
+        (320.0, 568.0, 3.0),
+        (640.0, 360.0, 3.0),
+      ]) {
+        final (width, height, scale) = profile;
+        final dpr = nativePhysicalWidth / width;
+        // Test-only Flutter metrics: never rotate or reconfigure the host.
+        tester.view.physicalSize = Size(nativePhysicalWidth, height * dpr);
         tester.view.devicePixelRatio = dpr;
         tester.view.padding = FakeViewPadding(top: 24 * dpr, bottom: 32 * dpr);
         tester.view.viewPadding =
@@ -217,7 +239,23 @@ void main() {
                 of: find.byType(ShareSheet), matching: find.byType(Image)),
             findsOneWidget,
             reason: 'Share must show this actual artwork, not a fake swatch.');
-        final uri = tester.widget<ShareSheet>(find.byType(ShareSheet)).uri;
+        final sheet = tester.widget<ShareSheet>(find.byType(ShareSheet));
+        final codec = await ui.instantiateImageCodec(sheet.previewBytes!);
+        try {
+          final frame = await codec.getNextFrame();
+          try {
+            final pixels = await frame.image
+                .toByteData(format: ui.ImageByteFormat.rawRgba);
+            final colors = pixels!.buffer.asUint32List().toSet();
+            expect(colors.length, greaterThan(16),
+                reason: 'The actual artwork preview must not be blank.');
+          } finally {
+            frame.image.dispose();
+          }
+        } finally {
+          codec.dispose();
+        }
+        final uri = sheet.uri;
         expect(find.text(uri.toString()).hitTestable(), findsNothing);
         await capture('$tag-share');
         final copy = find.widgetWithIcon(OutlinedButton, Icons.copy_rounded);

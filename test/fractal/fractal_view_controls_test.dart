@@ -644,10 +644,39 @@ void main() {
 
       await _pumpControls(tester,
           locale: locale, isExporting: false, onOpenWallpaper: () {});
-      for (final key in _primaryKeys) {
-        await _reveal(tester, key);
-        final button = tester.widget<FloatingActionButtonWidget>(_key(key));
-        expect(find.bySemanticsLabel(button.tooltip), findsOneWidget);
+      final labels = locale.languageCode == 'en'
+          ? const {
+              'viewerBreathingButton': 'Play parameter animation',
+              'viewerControlsButton': 'Controls',
+              'viewerPaletteButton': 'Palette',
+              'viewerRandomFractalFab': 'Random',
+              'viewerOverflowMenu': 'More',
+            }
+          : const {
+              'viewerBreathingButton': 'Reproducir animación de parámetros',
+              'viewerControlsButton': 'Controles',
+              'viewerPaletteButton': 'Paleta',
+              'viewerRandomFractalFab': 'Aleatorio',
+              'viewerOverflowMenu': 'Más',
+            };
+      for (final entry in labels.entries) {
+        await _reveal(tester, entry.key);
+        final button =
+            tester.widget<FloatingActionButtonWidget>(_key(entry.key));
+        final inMore = find
+            .ancestor(
+              of: _key(entry.key),
+              matching: find.byType(BottomSheet),
+            )
+            .evaluate()
+            .isNotEmpty;
+        final expectedLabel = entry.key == 'viewerRandomFractalFab' && inMore
+            ? (locale.languageCode == 'en'
+                ? 'Random Fractal'
+                : 'Fractal aleatorio')
+            : entry.value;
+        expect(button.tooltip, expectedLabel, reason: entry.key);
+        expect(find.bySemanticsLabel(expectedLabel), findsOneWidget);
       }
       await _openMore(tester);
       for (final key in _secondaryKeys) {

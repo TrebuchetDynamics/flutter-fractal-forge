@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/models/fractal_palette.dart';
+import 'package:flutter_fractals/core/models/palette/built_in_palette_names.dart';
 import 'package:flutter_fractals/core/services/rendering/palette/palette_texture_cache.dart';
 import 'package:flutter_fractals/core/services/storage/palette_store.dart';
 
@@ -305,7 +306,7 @@ class PaletteService extends ChangeNotifier {
       ),
       FractalPalette(
         id: 'builtin_cividis_safe',
-        name: 'Cividis Safe',
+        name: BuiltInPaletteNames.name(7),
         isBuiltIn: true,
         stops: [
           FractalColorStop(position: 0.0, colorArgb: 0xFF00204C),
@@ -318,7 +319,7 @@ class PaletteService extends ChangeNotifier {
       ),
       FractalPalette(
         id: 'builtin_perceptual_rainbow',
-        name: 'Perceptual Rainbow',
+        name: BuiltInPaletteNames.name(8),
         isBuiltIn: true,
         stops: [
           FractalColorStop(position: 0.0, colorArgb: 0xFF1B1B6F),
@@ -368,7 +369,7 @@ class PaletteService extends ChangeNotifier {
       ),
       FractalPalette(
         id: 'builtin_colorblind_safe_fire',
-        name: 'Colorblind Safe Fire',
+        name: BuiltInPaletteNames.name(12),
         isBuiltIn: true,
         stops: [
           FractalColorStop(position: 0.0, colorArgb: 0xFF000000),
@@ -383,69 +384,14 @@ class PaletteService extends ChangeNotifier {
     ];
   }
 
-  static const List<String> _proceduralPaletteNames = [
-    'Viridis Depth',
-    'Magma Core',
-    'Cividis Safe',
-    'Perceptual Rainbow',
-    'Warm Cool Relief',
-    'Blue Yellow Opponent',
-    'High Contrast Mono',
-    'Colorblind Safe Fire',
-    'Glacier Mint',
-    'Solar Flare',
-    'Ultraviolet',
-    'Cyan Furnace',
-    'Amber Circuit',
-    'Plasma Wave',
-    'Forest Lumen',
-    'Ruby Ice',
-    'Electric Dusk',
-    'Golden Orbit',
-    'Teal Comet',
-    'Crimson Tide',
-    'Lime Halo',
-    'Indigo Ember',
-    'Tangerine Sky',
-    'Arctic Fire',
-    'Magenta Bloom',
-    'Blue Steel',
-    'Opal Pulse',
-    'Saffron Smoke',
-    'Jade Signal',
-    'Coral Eclipse',
-    'Sonic Violet',
-    'Bronze Aurora',
-    'Cerulean Ash',
-    'Pink Lightning',
-    'Green Inferno',
-    'Royal Plasma',
-    'Desert Neon',
-    'Ice Sapphire',
-    'Infrared Moss',
-    'Pearl Shadow',
-    'Signal Orange',
-    'Deep Orchid',
-    'Aqua Gold',
-    'Volcanic Glass',
-    'Starlight Candy',
-  ];
-
-  static const List<String> _reliefBasePaletteNames = [
-    'Fire',
-    'Ocean',
-    'Psychedelic',
-    'Grayscale',
-  ];
-
   static FractalPalette _generatedPalette(int index) {
-    final name = _generatedPaletteName(index);
+    final legacyName = BuiltInPaletteNames.legacyName(index);
     final hue = ((index * 47) % 360).toDouble();
     final id =
-        'builtin_${name.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]+'), '_').replaceAll(RegExp(r'_$'), '')}';
+        'builtin_${legacyName.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]+'), '_').replaceAll(RegExp(r'_$'), '')}';
     return FractalPalette(
       id: id,
-      name: name,
+      name: BuiltInPaletteNames.name(index),
       isBuiltIn: true,
       stops: index >= 50
           ? _reliefPaletteStops(index)
@@ -477,15 +423,6 @@ class PaletteService extends ChangeNotifier {
       2 => _psychedelicPaletteStops,
       _ => _grayscalePaletteStops,
     };
-  }
-
-  static String _generatedPaletteName(int index) {
-    if (index >= 5 && index < 50) {
-      return _proceduralPaletteNames[index - 5];
-    }
-    final angle = (((index - 50) * 180) / 13).round();
-    final baseName = _reliefBasePaletteNames[(index - 50) % 4];
-    return 'Relief $angle° $baseName';
   }
 
   static int _hsv(double hue, double saturation, double value) {

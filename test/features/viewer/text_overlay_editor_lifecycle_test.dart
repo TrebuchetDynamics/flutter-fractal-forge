@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
+import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/main.dart';
 
 void main() {
@@ -68,14 +69,18 @@ void main() {
           matching: find.byType(Padding),
         )
         .evaluate()
-        .map((element) => element.widget as Padding)
-        .where((padding) =>
-            padding.padding.resolve(TextDirection.ltr).bottom >= 1100)
-        .length;
+        .map((element) => (element.widget as Padding)
+            .padding
+            .resolve(TextDirection.ltr)
+            .bottom)
+        // The sheet's inner navigation padding supplies the remaining inset.
+        .where((bottom) => bottom >= 1100 - AppSpacing.xl)
+        .toList();
     expect(
       keyboardInsetOwners,
-      1,
-      reason: 'applying the IME inset twice moves the painted sheet offscreen',
+      [1100 - AppSpacing.xl],
+      reason:
+          'Reserve the IME exactly once, including sheet navigation padding',
     );
 
     expect(await tester.binding.handlePopRoute(), isTrue);

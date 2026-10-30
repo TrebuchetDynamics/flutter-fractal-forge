@@ -64,3 +64,35 @@ implementation authority, not a new release/publication request.
   human-acceptance distinctions explicit.
 - No source/artifact publication or production-store upload is implied by these
   implementation checks. Append actual results only after execution.
+
+## Integration evidence (in progress)
+
+- Scoped implementation commits: toolbar/More `7d2bc892`, shared sheets/link/
+  wallpaper `1fc958a5`, palettes/controls/maths `9387f20b`. Their focused runs
+  passed 417, 258 and 443 tests respectively (overlapping sets; not a summed
+  full-suite count). Independent reviewers reran 46 toolbar and 75 palette/
+  controls tests and independently matched every compatibility-fixture index,
+  legacy ID and colour byte against `322ddeee`.
+- Parent adds real optional renderer thumbnails, freezes link/name before async
+  capture, and bounds capture to two seconds. Five caller tests cover success,
+  failure, timeout/late completion, dismissal and immutable link payloads.
+- Review found errors behind the modal and a before-frame double-share race.
+  Both reproduced red; inline live-region errors and an entry guard fix them.
+  The integrated share family passes 67 tests. Earlier toolbar/share composition
+  passed 238 tests and analysis. Logs are retained under the canonical checkout's
+  `.git/ui-screenshots-20261030/` directory.
+- First merged full Flutter run: **3291 passed, 8 skipped, 32 failed**. Failures
+  exposed unreconciled test assumptions (primary-only palette entry, GridView
+  versus SliverGrid, old misleading palette names, IME padding ownership and
+  contextual Random labels). Assertions are being reconciled without dropping
+  visibility, exact inset, compatibility or independent localization checks.
+  Its original shell wrapper incorrectly printed a final PASS after a failed
+  `&&` list; that marker/exit is invalid. The retained wrapper note records the
+  effective failure. Python/Bats were not reached. A correctly guarded full
+  rerun remains required.
+- The native fixture requires an exact source commit, actual FragmentShader
+  painters and nonblank real share-preview pixels. It exercises EN/ES,
+  390x780/1x, 360x640/2x, 320x568/3x and 640x360/3x with navigation insets and
+  large-target/high-contrast settings. Viewport/text metrics are test overrides,
+  not changes to Waydroid's host profile. **Native execution, capture inspection,
+  final merged gate and composition review remain pending.** No release upload.

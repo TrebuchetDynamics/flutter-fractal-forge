@@ -181,14 +181,18 @@ void main() {
       final keyboardInsetOwners = find
           .ancestor(of: field, matching: find.byType(Padding))
           .evaluate()
-          .map((element) => element.widget as Padding)
-          .where((padding) =>
-              padding.padding.resolve(TextDirection.ltr).bottom >= 500)
-          .length;
+          .map((element) => (element.widget as Padding)
+              .padding
+              .resolve(TextDirection.ltr)
+              .bottom)
+          // Navigation padding is inside the sheet; IME reserves the rest.
+          .where((bottom) => bottom >= 500 - AppSpacing.xl)
+          .toList();
       expect(
         keyboardInsetOwners,
-        1,
-        reason: 'Report and AppBottomSheet must not both apply the IME inset',
+        [500 - AppSpacing.xl],
+        reason:
+            'Reserve the IME exactly once, including sheet navigation padding',
       );
       await disposeAccessibilityTestWidget(tester);
     });

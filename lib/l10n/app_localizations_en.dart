@@ -2076,10 +2076,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hudFluidIntensity => 'Fluid intensity';
 
   @override
-  String get hudResetViewLabel => 'View';
+  String get hudResetViewLabel => 'Reset view';
 
   @override
-  String get hudResetParamsLabel => 'Params';
+  String get hudResetParamsLabel => 'Reset parameters';
 
   @override
   String get hudRandomizeTooltip => 'Randomize parameters';
@@ -2431,4 +2431,50 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewerActionSettingsFourierCompactTitle => 'Fourier';
+
+  @override
+  String get paletteRainbow => 'Rainbow';
+
+  @override
+  String get paletteHueRed => 'Red';
+
+  @override
+  String get paletteHueOrange => 'Orange';
+
+  @override
+  String get paletteHueYellow => 'Yellow';
+
+  @override
+  String get paletteHueLime => 'Lime';
+
+  @override
+  String get paletteHueGreen => 'Green';
+
+  @override
+  String get paletteHueTeal => 'Teal';
+
+  @override
+  String get paletteHueCyan => 'Cyan';
+
+  @override
+  String get paletteHueBlue => 'Blue';
+
+  @override
+  String get paletteHueViolet => 'Violet';
+
+  @override
+  String get paletteHueMagenta => 'Magenta';
+
+  @override
+  String get paletteHuePink => 'Pink';
+
+  @override
+  String get palettePreviewUnavailable => 'Palette preview unavailable';
+
+  @override
+  String get mathCurrentRule => 'Current rule / formula';
+
+  @override
+  String get mathFibonacciStatus =>
+      '2D initial slice of C², not invariant. Dark: not escaped within N, not proven bounded. Floating comparisons are not proofs.';
 }

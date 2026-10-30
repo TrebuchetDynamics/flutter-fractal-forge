@@ -168,7 +168,8 @@ void main() {
     await pumpAccessibleHud(tester, large: true);
     for (final icon in [Icons.expand_more_rounded, Icons.close_rounded]) {
       final target = find
-          .ancestor(of: find.byIcon(icon), matching: find.byType(InkWell))
+          .ancestor(
+              of: find.byIcon(icon), matching: find.byType(GestureDetector))
           .first;
       expect(tester.getSize(target), const Size(56, 56));
     }
