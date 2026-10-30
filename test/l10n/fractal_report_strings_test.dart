@@ -11,6 +11,7 @@ import 'package:flutter_fractals/core/services/storage/renderer_settings_service
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -178,22 +179,30 @@ void main() {
 
       final fieldContext = tester.element(field);
       expect(MediaQuery.viewInsetsOf(fieldContext).bottom, 500);
-      final keyboardInsetOwners = find
-          .ancestor(of: field, matching: find.byType(Padding))
+      final sheet =
+          find.ancestor(of: field, matching: find.byType(AppBottomSheet));
+      expect(sheet, findsOneWidget);
+      final insets = find
+          .descendant(
+            of: sheet,
+            matching: find.ancestor(of: field, matching: find.byType(Padding)),
+          )
           .evaluate()
-          .map((element) => (element.widget as Padding)
-              .padding
-              .resolve(TextDirection.ltr)
-              .bottom)
-          // Navigation padding is inside the sheet; IME reserves the rest.
-          .where((bottom) => bottom >= 500 - AppSpacing.xl)
+          .map((element) =>
+              (element.widget as Padding).padding.resolve(TextDirection.ltr))
+          .where((padding) =>
+              padding.left == 0 &&
+              padding.top == 0 &&
+              padding.right == 0 &&
+              padding.bottom > 0)
+          .map((padding) => padding.bottom)
           .toList();
-      expect(
-        keyboardInsetOwners,
-        [500 - AppSpacing.xl],
-        reason:
-            'Reserve the IME exactly once, including sheet navigation padding',
-      );
+      expect(insets, unorderedEquals([AppSpacing.xl, 500 - AppSpacing.xl]),
+          reason:
+              'Require exactly one inner navigation and one outer IME inset');
+      expect(insets.fold<double>(0, (sum, bottom) => sum + bottom), 500,
+          reason:
+              'Actual inner and outer padding must sum to one keyboard inset');
       await disposeAccessibilityTestWidget(tester);
     });
 

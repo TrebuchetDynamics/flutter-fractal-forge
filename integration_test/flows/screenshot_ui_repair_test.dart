@@ -22,6 +22,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vector_math/vector_math_64.dart' show Vector2, Vector3;
 
 import '../helpers/ui_test_helpers.dart';
 
@@ -33,6 +34,8 @@ void main() {
   for (final language in ['en', 'es']) {
     testWidgets('screenshot UI repairs retain usable native flows $language',
         (tester) async {
+      expect(Platform.isAndroid, isTrue,
+          reason: 'This fixture qualifies the designated Android target.');
       expect(const bool.fromEnvironment('FORCE_GPU_RENDER'), isTrue,
           reason: 'The live UI check must use the real shader path.');
       expect(source, matches(RegExp(r'^[a-f0-9]{40}$')),
@@ -45,10 +48,15 @@ void main() {
       final folder = captureTag.isEmpty
           ? 'ui-repair-${DateTime.now().millisecondsSinceEpoch}'
           : captureTag;
-      final directory = Directory(
-          '${(await getApplicationDocumentsDirectory()).path}/$folder');
+      // App-scoped external storage permits ADB readback without root/run-as.
+      final storage = await getExternalStorageDirectory();
+      expect(storage, isNotNull);
+      final directory = Directory('${storage!.path}/$folder');
       await directory.create(recursive: true);
       final observations = <String, Object?>{};
+      var metricsOverridden = false;
+      final semantics = tester.ensureSemantics();
+      addTearDown(semantics.dispose);
       addTearDown(tester.view.resetPhysicalSize);
       addTearDown(tester.view.resetDevicePixelRatio);
       addTearDown(tester.view.resetPadding);
@@ -108,7 +116,7 @@ void main() {
             'logicalSize': [boundary.size.width, boundary.size.height],
             'pixelSize': [image.width, image.height],
             'textScale': MediaQuery.textScalerOf(context).scale(10) / 10,
-            'testViewportMetrics': true,
+            'testViewportMetrics': metricsOverridden,
             'hostDeviceProfileChanged': false,
             'highContrast': accessibility.highContrastEnabled,
           };
@@ -120,7 +128,18 @@ void main() {
         }
       }
 
+      Future<void> waitForFeedback() async {
+        // Copy/Apply success feedback is transient and can cover dock actions.
+        for (var attempt = 0;
+            attempt < 70 && find.byType(SnackBar).evaluate().isNotEmpty;
+            attempt++) {
+          await tester.pump(const Duration(milliseconds: 100));
+        }
+        expect(find.byType(SnackBar), findsNothing);
+      }
+
       Future<Finder> reveal(String key) async {
+        await waitForFeedback();
         var action = find.byKey(ValueKey(key));
         if (action.evaluate().isEmpty) {
           await openViewerTools(tester);
@@ -165,7 +184,30 @@ void main() {
         }
       }
 
+      controller.selectModule(registry.byId('f0490_tangent_mandelbrot'),
+          animate: false);
+      await pumpForUiTransition(tester);
+      await capture('$language-native-baseline');
+      await tapAction('viewerShareLinkAction');
+      final nativeShare =
+          find.widgetWithIcon(FilledButton, Icons.share_rounded);
+      await tester.ensureVisible(nativeShare);
+      await tester.tap(nativeShare);
+      // The host runner verifies/captures Android's actual chooser, then
+      // cancels it. No recipient is selected and no message is transmitted.
+      debugPrint('[ui-repair-native-share] $language');
+      for (var attempt = 0;
+          attempt < 200 && find.byType(ShareSheet).evaluate().isNotEmpty;
+          attempt++) {
+        await tester.pump(const Duration(milliseconds: 100));
+      }
+      expect(find.byType(ShareSheet), findsNothing,
+          reason:
+              'Native chooser cancellation must finish without a stuck sheet.');
+      await capture('$language-native-after-share');
+
       final nativePhysicalWidth = tester.view.physicalSize.width;
+      metricsOverridden = true;
       for (final profile in [
         (390.0, 780.0, 1.0),
         (360.0, 640.0, 2.0),
@@ -215,6 +257,30 @@ void main() {
         await pumpForUiTransition(tester);
         await tapAction('viewerPaletteButton');
         await capture('$tag-palette');
+        final finalPalette = find.byKey(const ValueKey('paletteChoice63'));
+        await tester.scrollUntilVisible(finalPalette, 300,
+            maxScrolls: 100,
+            scrollable: find.descendant(
+                of: find.byKey(const ValueKey('palettePickerScroll')),
+                matching: find.byType(Scrollable)));
+        await pumpForUiTransition(tester);
+        expect(finalPalette.hitTestable(), findsOneWidget);
+        await tester.tap(finalPalette);
+        await pumpForUiTransition(tester);
+        expect(controller.params['colorScheme'], 63);
+        expect(
+            tester
+                .getSemantics(finalPalette)
+                .getSemanticsData()
+                .flagsCollection
+                .isSelected,
+            ui.Tristate.isTrue);
+        expect(
+            find.descendant(
+                of: finalPalette,
+                matching: find.byIcon(Icons.check_circle_rounded)),
+            findsOneWidget);
+        await capture('$tag-palette-selected');
         await closeSheet();
 
         controller.selectModule(registry.byId('f0490_tangent_mandelbrot'),
@@ -265,6 +331,7 @@ void main() {
         final clipboard = await Clipboard.getData(Clipboard.kTextPlain);
         expect(clipboard?.text, uri.toString());
         expect(find.byType(ShareSheet), findsNothing);
+        await waitForFeedback();
 
         await openViewerTools(tester);
         await tapAction('viewerWallpaperAction');
@@ -284,12 +351,44 @@ void main() {
         expect(optionsBounds.bottom, lessThanOrEqualTo(applyBounds.top));
         expect(saveCopy.hitTestable(), findsOneWidget);
         expect(apply.hitTestable(), findsOneWidget);
-        await capture('$tag-wallpaper');
-        await closeSheet();
+        // Exercise the real Apply once; other profiles retain scroll/target
+        // checks without repeatedly replacing the disposable target's wallpaper.
+        if (language == 'en' && width == 390) {
+          final saveCopyTile = tester.widget<SwitchListTile>(saveCopy);
+          if (saveCopyTile.value) {
+            await tester.tap(saveCopy);
+            await pumpForUiTransition(tester);
+          }
+          await capture('$tag-wallpaper');
+          await tester.tap(apply);
+          await pumpForUiTransition(tester);
+          for (var attempt = 0;
+              attempt < 100 &&
+                  find.text(l10n.wallpaperApplied).evaluate().isEmpty;
+              attempt++) {
+            await tester.pump(const Duration(milliseconds: 200));
+          }
+          expect(find.byType(WallpaperOptionsSheet), findsNothing);
+          expect(find.text(l10n.wallpaperApplied), findsOneWidget,
+              reason: 'Require the actual Android wallpaper API to succeed.');
+          await capture('$tag-wallpaper-applied');
+          await waitForFeedback();
+        } else {
+          await capture('$tag-wallpaper');
+          await closeSheet();
+        }
 
         controller.selectModule(
             registry.byId('f1178_orbit_trap_composite_multi_shape'),
             animate: false);
+        final initialParams = Map<String, Object>.from(controller.params);
+        final changedIterations =
+            initialParams['iterations'] == 420 ? 400 : 420;
+        controller.updateParam('iterations', changedIterations);
+        controller.updateView(controller.view.copyWith(
+            pan: Vector2(0.2, 0.3), zoom: 2, rotation: Vector3(0.1, 0.2, 0.3)));
+        expect(controller.params['iterations'],
+            isNot(initialParams['iterations']));
         await pumpForUiTransition(tester);
         await tapAction('viewerControlsButton');
         expect(find.byType(FractalControlsHud), findsOneWidget);
@@ -303,10 +402,27 @@ void main() {
         expect(find.byKey(const Key('currentMathematicalQualification')),
             findsOneWidget);
         await capture('$tag-formula');
+        final resetView = find.text(l10n.hudResetViewLabel);
+        await tester.ensureVisible(resetView);
+        await pumpForUiTransition(tester);
+        expect(resetView.hitTestable(), findsOneWidget);
+        await capture('$tag-reset-view');
+        await tester.tap(resetView);
+        await pumpForUiTransition(tester);
+        expect(controller.view.zoom, 1);
+        expect(controller.view.rotation, Vector3.zero());
+        expect(controller.view.pan.x, 0);
+        expect(controller.view.pan.y, 0);
+        expect(controller.params['iterations'], changedIterations);
         final reset = find.text(l10n.hudResetParamsLabel);
         await tester.ensureVisible(reset);
         await pumpForUiTransition(tester);
         expect(reset.hitTestable(), findsOneWidget);
+        await tester.tap(reset);
+        await pumpForUiTransition(tester);
+        expect(controller.params, initialParams);
+        expect(controller.view.zoom, 1);
+        expect(controller.view.rotation, Vector3.zero());
         await capture('$tag-resets');
         final close = find.byTooltip(l10n.semanticCloseButton);
         await tester.ensureVisible(close);

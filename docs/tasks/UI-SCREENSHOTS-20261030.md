@@ -96,3 +96,31 @@ implementation authority, not a new release/publication request.
   large-target/high-contrast settings. Viewport/text metrics are test overrides,
   not changes to Waydroid's host profile. **Native execution, capture inspection,
   final merged gate and composition review remain pending.** No release upload.
+
+### Qualification follow-up
+
+- Correctly guarded second gate at `1df4815b`: analysis clean, **3323 Flutter
+  tests passed / 8 skipped**. During Python checks the external Paseo checkout
+  disappeared; pytest failed restoring its working directory, Bats was not
+  reached and final lock/source readback was unavailable. The **combined gate
+  failed**. Its log survives under the canonical `.git` evidence directory.
+  The removal's actor/cause is not established; do not attribute it to pytest.
+- All code was already committed. Recovered the unchanged candidate in the
+  ignored, Git-locked `.worktrees/ui-screenshots-recovery-20261030` worktree and
+  regenerated package metadata offline rather than copying stale bindings.
+- First native run at clean `1df4815b` genuinely loaded GPU shaders and verified
+  nonblank real previews in both languages. It failed after Copy when More was
+  not hit-testable during transient success feedback. That run is **failed**,
+  not full native acceptance. Private app-document captures could not be read
+  through Waydroid's restricted `run-as`; no privilege/service changes were made.
+- Follow-up fixture uses app-scoped external captures, waits boundedly for actual
+  success feedback to expire, includes unmodified native viewport captures and
+  native chooser open/cancel (never sends to a recipient), selects the final
+  palette and invokes both distinct resets. One real lock-wallpaper Apply is
+  tested on the designated disposable Waydroid profile, with save-copy off.
+  These new native checks remain pending execution.
+- Strengthened both IME application-flow assertions to check the actual inner
+  navigation component, outer keyboard remainder **and their sum**, not only a
+  filtered outer owner. The focused application tests pass **10 tests**.
+  In the restored checkout, Python passes **454 tests, 1 skip, 148 subtests**;
+  Bats passes **25 tests**. Final combined rerun remains pending.
