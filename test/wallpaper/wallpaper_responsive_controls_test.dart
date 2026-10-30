@@ -89,39 +89,36 @@ void main() {
               l10n.wallpaperPresetHome,
               l10n.wallpaperPresetLock
             ]) {
-              await tester.scrollUntilVisible(find.text(label), 90,
-                  scrollable: scroll);
-              await tester.ensureVisible(find.text(label));
+              final option = find.widgetWithText(OutlinedButton, label);
+              await tester.scrollUntilVisible(option, 90, scrollable: scroll);
+              await Scrollable.ensureVisible(tester.element(option),
+                  alignment: 1);
               await tester.pumpAndSettle();
               expect(find.text(label).hitTestable(), findsOneWidget);
-              final rect =
-                  tester.getRect(find.widgetWithText(ChoiceChip, label));
+              final rect = tester.getRect(option);
               expect(
                   rect.bottom,
                   lessThanOrEqualTo(tester
                       .getRect(find.widgetWithText(
                           FilledButton, l10n.wallpaperApply))
                       .top));
-              final chip = find.widgetWithText(ChoiceChip, label);
-              expect(tester.getSize(chip).height, greaterThanOrEqualTo(48));
+              expect(tester.getSize(option).height, greaterThanOrEqualTo(48));
               if (label == l10n.wallpaperPresetPlain) {
                 expect(
                     tester
-                        .widget<ChoiceChip>(find.widgetWithText(
-                            ChoiceChip, l10n.wallpaperPresetHome))
-                        .selected,
-                    isTrue);
+                        .getSemantics(find.widgetWithText(
+                            OutlinedButton, l10n.wallpaperPresetHome))
+                        .getSemanticsData()
+                        .flagsCollection
+                        .isSelected,
+                    Tristate.isTrue);
               }
               await tester.tap(find.text(label));
               await tester.pumpAndSettle();
-              expect(tester.widget<ChoiceChip>(chip).selected, isTrue);
-              expect(
-                  tester
-                      .getSemantics(chip)
-                      .getSemanticsData()
-                      .flagsCollection
-                      .isSelected,
-                  Tristate.isTrue);
+              final data = tester.getSemantics(option).getSemanticsData();
+              expect(data.flagsCollection.isChecked, CheckedState.isTrue);
+              expect(data.flagsCollection.isSelected, Tristate.isTrue);
+              expect(data.flagsCollection.isInMutuallyExclusiveGroup, isTrue);
             }
             await tester.scrollUntilVisible(find.byType(SwitchListTile), 90,
                 scrollable: scroll);

@@ -43,11 +43,11 @@ void main() {
       l10n.wallpaperPresetHome,
       l10n.wallpaperPresetLock,
     ]) {
-      final chip = find.widgetWithText(ChoiceChip, label);
-      await tester.ensureVisible(chip);
+      final option = find.widgetWithText(OutlinedButton, label);
+      await tester.ensureVisible(option);
       await tester.pumpAndSettle();
-      expect(chip.hitTestable(), findsOneWidget);
-      expect(tester.getSize(chip).height, greaterThanOrEqualTo(56),
+      expect(option.hitTestable(), findsOneWidget);
+      expect(tester.getSize(option).height, greaterThanOrEqualTo(56),
           reason: '$label must not override the large-target theme density');
     }
     final apply = find.widgetWithText(FilledButton, l10n.wallpaperApply);

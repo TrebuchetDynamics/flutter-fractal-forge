@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
+import 'package:flutter_fractals/core/services/rendering/palette/palette_service.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
 import 'package:flutter_fractals/core/services/storage/renderer_settings_service.dart';
 import 'package:flutter_fractals/features/renderer/widgets/canvas/fractal_canvas.dart';
@@ -44,6 +45,11 @@ void main() {
       SharedPreferences.setMockInitialValues({});
       final accessibility = await AccessibilityService.create();
       final renderer = await RendererSettingsService.create();
+      // Production startup initializes this singleton before building the app.
+      // Keep that real palette/shader path, not the narrow-harness fallback.
+      final palettes = await PaletteService.create();
+      expect(PaletteService.instance, same(palettes));
+      addTearDown(palettes.dispose);
       await accessibility.setReducedMotion(true);
       final root = GlobalKey();
       final folder = captureTag.isEmpty
@@ -84,6 +90,29 @@ void main() {
         final controller = context.read<FractalController>();
         final registry = context.read<ModuleRegistry>();
         final l10n = AppLocalizations.of(context)!;
+
+        void expectActualPalettePreview(Finder tile, int index) {
+          final gradients = tester
+              .widgetList<DecoratedBox>(find.descendant(
+                  of: tile, matching: find.byType(DecoratedBox)))
+              .map((box) => box.decoration)
+              .whereType<BoxDecoration>()
+              .map((decoration) => decoration.gradient)
+              .whereType<LinearGradient>()
+              .toList();
+          expect(gradients, hasLength(1),
+              reason:
+                  'Native picker must show actual palette stops, not a fallback icon.');
+          final palette = palettes.paletteAtIndex(index);
+          expect(gradients.single.colors.map((color) => color.toARGB32()),
+              palette.stops.map((stop) => stop.colorArgb));
+          expect(gradients.single.stops,
+              palette.stops.map((stop) => stop.position).toList());
+          expect(
+              find.descendant(
+                  of: tile, matching: find.byIcon(Icons.palette_outlined)),
+              findsNothing);
+        }
 
         Future<void> capture(String name) async {
           await pumpForUiTransition(tester);
@@ -277,6 +306,11 @@ void main() {
               animate: false);
           await pumpForUiTransition(tester);
           await tapAction('viewerPaletteButton');
+          final initialPalette =
+              (controller.params['colorScheme'] as num).round();
+          expectActualPalettePreview(
+              find.byKey(ValueKey('paletteChoice$initialPalette')),
+              initialPalette);
           await capture('$tag-palette');
           final finalPalette = find.byKey(const ValueKey('paletteChoice63'));
           await tester.scrollUntilVisible(finalPalette, 300,
@@ -289,6 +323,7 @@ void main() {
           await tester.tap(finalPalette);
           await pumpForUiTransition(tester);
           expect(controller.params['colorScheme'], 63);
+          expectActualPalettePreview(finalPalette, 63);
           expect(
               tester
                   .getSemantics(finalPalette)
@@ -369,10 +404,7 @@ void main() {
             l10n.wallpaperPresetHome,
             l10n.wallpaperPresetLock,
           ]) {
-            final chip = find.widgetWithText(ChoiceChip, label);
-            final option = chip.evaluate().isNotEmpty
-                ? chip
-                : find.widgetWithText(OutlinedButton, label);
+            final option = find.widgetWithText(OutlinedButton, label);
             await tester.scrollUntilVisible(option, 90,
                 scrollable: wallpaperScroll, maxScrolls: 100);
             await tester.ensureVisible(option);
@@ -390,17 +422,23 @@ void main() {
             expect(reached, isTrue, reason: label);
             await tester.tap(option);
             await pumpForUiTransition(tester);
-            if (chip.evaluate().isNotEmpty) {
-              expect(tester.widget<ChoiceChip>(chip).selected, isTrue);
-            } else {
-              final targetButton = find.widgetWithText(OutlinedButton, label);
-              expect(
-                  tester
-                      .getSemantics(targetButton)
-                      .getSemanticsData()
-                      .flagsCollection
-                      .isSelected,
-                  ui.Tristate.isTrue);
+            expect(
+                tester
+                    .getSemantics(option)
+                    .getSemanticsData()
+                    .flagsCollection
+                    .isSelected,
+                ui.Tristate.isTrue);
+            final paragraph =
+                tester.renderObject<RenderParagraph>(find.text(label));
+            expect(paragraph.didExceedMaxLines, isFalse, reason: label);
+            for (final box in paragraph.getBoxesForSelection(
+                TextSelection(baseOffset: 0, extentOffset: label.length))) {
+              expect(box.left, greaterThanOrEqualTo(-0.5), reason: label);
+              expect(box.right, lessThanOrEqualTo(paragraph.size.width + 0.5),
+                  reason: '$label must not fade or clip');
+              expect(box.bottom, lessThanOrEqualTo(paragraph.size.height + 0.5),
+                  reason: label);
             }
           }
           final saveCopy = find.byType(SwitchListTile);

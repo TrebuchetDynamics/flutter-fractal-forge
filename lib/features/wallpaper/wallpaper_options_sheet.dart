@@ -114,14 +114,14 @@ class _WallpaperOptionsSheetState extends State<WallpaperOptionsSheet> {
                       spacing: 8,
                       runSpacing: 8,
                       children: [
-                        _StyleChip(
+                        _StyleOption(
                           selected: _options.style == WallpaperStyle.plain,
                           label: l10n.wallpaperPresetPlain,
                           icon: Icons.brush_rounded,
                           onTap: () => setState(() => _options =
                               _options.copyWith(style: WallpaperStyle.plain)),
                         ),
-                        _StyleChip(
+                        _StyleOption(
                           selected:
                               _options.style == WallpaperStyle.homeOptimized,
                           label: l10n.wallpaperPresetHome,
@@ -129,7 +129,7 @@ class _WallpaperOptionsSheetState extends State<WallpaperOptionsSheet> {
                           onTap: () => setState(() => _options = _options
                               .copyWith(style: WallpaperStyle.homeOptimized)),
                         ),
-                        _StyleChip(
+                        _StyleOption(
                           selected:
                               _options.style == WallpaperStyle.lockOptimized,
                           label: l10n.wallpaperPresetLock,
@@ -180,13 +180,13 @@ class _WallpaperOptionsSheetState extends State<WallpaperOptionsSheet> {
   }
 }
 
-class _StyleChip extends StatelessWidget {
+class _StyleOption extends StatelessWidget {
   final bool selected;
   final String label;
   final IconData icon;
   final VoidCallback onTap;
 
-  const _StyleChip({
+  const _StyleOption({
     required this.selected,
     required this.label,
     required this.icon,
@@ -195,21 +195,13 @@ class _StyleChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return ChoiceChip(
+    // ChoiceChip intentionally uses single-line/fading labels. Reuse the
+    // responsive radio-style option instead of hiding a meaningful suffix.
+    return _TargetOption(
       selected: selected,
-      label: Text(label),
-      avatar: Icon(icon, size: 18),
-      showCheckmark: true,
-      materialTapTargetSize: MaterialTapTargetSize.padded,
-      labelPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-      selectedColor: theme.colorScheme.primaryContainer,
-      labelStyle: theme.textTheme.labelLarge?.copyWith(
-        color: selected
-            ? theme.colorScheme.onPrimaryContainer
-            : theme.colorScheme.onSurface,
-      ),
-      onSelected: (_) {
+      label: label,
+      leadingIcon: icon,
+      onTap: () {
         HapticService.light();
         onTap();
       },
@@ -222,10 +214,15 @@ class _StyleChip extends StatelessWidget {
 class _TargetOption extends StatelessWidget {
   final bool selected;
   final String label;
+  final IconData? leadingIcon;
   final VoidCallback onTap;
 
-  const _TargetOption(
-      {required this.selected, required this.label, required this.onTap});
+  const _TargetOption({
+    required this.selected,
+    required this.label,
+    this.leadingIcon,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -258,7 +255,11 @@ class _TargetOption extends StatelessWidget {
           final stacked = painter.width + 64 > constraints.maxWidth;
           painter.dispose();
           final icon = Icon(
-              selected ? Icons.radio_button_checked : Icons.radio_button_off,
+              selected
+                  ? (leadingIcon == null
+                      ? Icons.radio_button_checked
+                      : Icons.check_circle_rounded)
+                  : (leadingIcon ?? Icons.radio_button_off),
               size: 24);
           final text = Text(label);
           return stacked

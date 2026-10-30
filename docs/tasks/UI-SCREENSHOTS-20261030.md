@@ -123,4 +123,33 @@ implementation authority, not a new release/publication request.
   navigation component, outer keyboard remainder **and their sum**, not only a
   filtered outer owner. The focused application tests pass **10 tests**.
   In the restored checkout, Python passes **454 tests, 1 skip, 148 subtests**;
-  Bats passes **25 tests**. Final combined rerun remains pending.
+  Bats passes **25 tests**. Later combined runs are recorded below.
+
+### Visual closeout findings after `2e501443`
+
+- At `2e501443`, the guarded full offline gate passed: **3324 Flutter tests /
+  8 skips, 454 Python tests / 1 skip / 148 subtests, 25 Bats tests**, clean
+  analysis and unchanged lockfile. Combined native run 11 also passed **2/2
+  journeys**, with 85 fixture PNGs, two native chooser captures, exact built/
+  installed APK hash readback, clean source and unchanged host metrics. These
+  are real passes for that source, not retroactive passes for earlier attempts.
+- Inspection of those captures nevertheless exposed a visual gap: Material
+  ChoiceChip's inherited single-line/fade layout hid the meaningful suffix of
+  optimized wallpaper presets at enlarged text. A retained independent
+  paragraph-box regression reproduced **6 failures / 2 passes**. Reuse the
+  existing responsive radio-style option for presets instead; preserve every
+  label, callback, selected/checked group state, 48/56 target and themed icon
+  contrast. Do not clamp text or weaken the footer-clearance assertion.
+- Inspection also caught a **test-startup gap**, not a production palette bug:
+  manually constructing FlutterFractalsApp omits main's PaletteService startup.
+  Earlier native picker captures therefore showed the honest unavailable-preview
+  fallback. Restore real singleton initialization in the fixture and require the
+  initial/final selected previews to match actual stop positions/ARGB values,
+  with no fallback icon. Old native passes alone do not qualify that palette
+  presentation path.
+- The corrected wallpaper family passes **50 tests**, including full EN/ES
+  preset-label painting and selected-icon contrast; analysis is clean. Final
+  source-bound offline/native reruns and visual inspection remain pending for
+  these closeout corrections. No export/native service rewrite was made from
+  the old timeout: its precise stalled await was not established, while later
+  actual Apply runs completed feedback/capture in seconds.
