@@ -472,6 +472,13 @@
   "announceEnteredFullscreen": "Pantalla completa activada",
   "announceExitedFullscreen": "Pantalla completa desactivada",
 
+  "shareViewLinkTitle": "Compartir enlace interactivo",
+  "shareViewLinkDescription": "Envía una vista interactiva que se puede abrir y explorar. Para compartir una imagen, usa Exportar imagen.",
+  "shareViewLinkCopy": "Copiar enlace",
+  "shareViewLinkShare": "Compartir enlace",
+  "shareViewLinkPreviewUnavailable": "Vista previa no disponible",
+  "shareFullLinkShow": "Mostrar enlace completo",
+  "shareFullLinkHide": "Ocultar enlace completo",
   "shareTitle": "Compartir Fractal",
   "shareSubtitle": "¡Mira este fractal {fractalName} que creé!",
   "@shareSubtitle": {

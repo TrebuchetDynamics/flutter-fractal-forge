@@ -1280,6 +1280,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get announceExitedFullscreen => 'Exited fullscreen view';
 
   @override
+  String get shareViewLinkTitle => 'Share view link';
+
+  @override
+  String get shareViewLinkDescription =>
+      'Send an interactive view that others can open and explore. To share an image, use Export image.';
+
+  @override
+  String get shareViewLinkCopy => 'Copy link';
+
+  @override
+  String get shareViewLinkShare => 'Share link';
+
+  @override
+  String get shareViewLinkPreviewUnavailable => 'Preview unavailable';
+
+  @override
+  String get shareFullLinkShow => 'Show full link';
+
+  @override
+  String get shareFullLinkHide => 'Hide full link';
+
+  @override
   String get shareTitle => 'Share Fractal';
 
   @override

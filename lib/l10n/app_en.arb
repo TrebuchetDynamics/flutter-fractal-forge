@@ -479,6 +479,13 @@
   "announceEnteredFullscreen": "Entered fullscreen view",
   "announceExitedFullscreen": "Exited fullscreen view",
 
+  "shareViewLinkTitle": "Share view link",
+  "shareViewLinkDescription": "Send an interactive view that others can open and explore. To share an image, use Export image.",
+  "shareViewLinkCopy": "Copy link",
+  "shareViewLinkShare": "Share link",
+  "shareViewLinkPreviewUnavailable": "Preview unavailable",
+  "shareFullLinkShow": "Show full link",
+  "shareFullLinkHide": "Hide full link",
   "shareTitle": "Share Fractal",
   "shareSubtitle": "Check out this {fractalName} fractal I created!",
   "@shareSubtitle": {

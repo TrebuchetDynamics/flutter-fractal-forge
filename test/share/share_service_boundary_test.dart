@@ -38,7 +38,8 @@ void main() {
     );
 
     final screenBottom = tester.getRect(find.byType(Scaffold)).bottom;
-    final shareBottom = tester.getRect(find.text('Share')).bottom;
+    await tester.ensureVisible(find.text('Share link'));
+    final shareBottom = tester.getRect(find.text('Share link')).bottom;
     expect(shareBottom, lessThanOrEqualTo(screenBottom - 48));
   });
 
@@ -51,11 +52,12 @@ void main() {
       },
     );
 
-    await tester.tap(find.text('Share'));
+    await tester.ensureVisible(find.text('Share link'));
+    await tester.tap(find.text('Share link'));
     await tester.pumpAndSettle();
 
     expect(find.textContaining('share unavailable'), findsOneWidget);
-    expect(find.text('Share Fractal'), findsOneWidget);
+    expect(find.text('Share view link'), findsOneWidget);
   });
 
   testWidgets('ShareSheet closes after successful share', (tester) async {
@@ -69,12 +71,13 @@ void main() {
       },
     );
 
-    await tester.tap(find.text('Share'));
+    await tester.ensureVisible(find.text('Share link'));
+    await tester.tap(find.text('Share link'));
     await tester.pumpAndSettle();
 
     expect(sharedText, contains('Mandelbrot'));
     expect(sharedSubject, contains('Mandelbrot'));
-    expect(find.text('Share Fractal'), findsNothing);
+    expect(find.text('Share view link'), findsNothing);
   });
 }
 

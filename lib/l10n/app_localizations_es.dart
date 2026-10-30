@@ -1301,6 +1301,28 @@ class AppLocalizationsEs extends AppLocalizations {
   String get announceExitedFullscreen => 'Pantalla completa desactivada';
 
   @override
+  String get shareViewLinkTitle => 'Compartir enlace interactivo';
+
+  @override
+  String get shareViewLinkDescription =>
+      'Envía una vista interactiva que se puede abrir y explorar. Para compartir una imagen, usa Exportar imagen.';
+
+  @override
+  String get shareViewLinkCopy => 'Copiar enlace';
+
+  @override
+  String get shareViewLinkShare => 'Compartir enlace';
+
+  @override
+  String get shareViewLinkPreviewUnavailable => 'Vista previa no disponible';
+
+  @override
+  String get shareFullLinkShow => 'Mostrar enlace completo';
+
+  @override
+  String get shareFullLinkHide => 'Ocultar enlace completo';
+
+  @override
   String get shareTitle => 'Compartir Fractal';
 
   @override

@@ -5,7 +5,7 @@ import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  for (final label in ['Copy', 'Share']) {
+  for (final label in ['Copy link', 'Share link']) {
     testWidgets('$label retains medium-impact feedback', (tester) async {
       final calls = <MethodCall>[];
       tester.binding.defaultBinaryMessenger
@@ -32,6 +32,7 @@ void main() {
       ));
       await tester.tap(find.text('Open'));
       await tester.pumpAndSettle();
+      await tester.ensureVisible(find.text(label));
       await tester.tap(find.text(label));
       await tester.pumpAndSettle();
       expect(
@@ -56,9 +57,9 @@ void main() {
         },
       )),
     ));
-    final action = find.widgetWithText(FilledButton, 'Share');
+    final action = find.widgetWithText(FilledButton, 'Share link');
     expect(action, findsOneWidget);
-    Focus.of(tester.element(find.text('Share'))).requestFocus();
+    Focus.of(tester.element(find.text('Share link'))).requestFocus();
     await tester.pump();
     await tester.sendKeyEvent(LogicalKeyboardKey.enter);
     await tester.pumpAndSettle();
@@ -82,10 +83,14 @@ void main() {
       home: Scaffold(body: ShareSheet(uri: link, fractalName: 'Mandelbrot')),
     ));
     expect(tester.takeException(), isNull);
-    expect(find.text(link.toString()), findsOneWidget);
-    await tester.ensureVisible(find.text('Share'));
+    expect(find.text(link.toString()), findsNothing);
+    await tester.ensureVisible(find.text('Show full link'));
+    await tester.tap(find.text('Show full link'));
     await tester.pumpAndSettle();
-    expect(find.text('Share').hitTestable(), findsOneWidget);
+    expect(find.text(link.toString()), findsOneWidget);
+    await tester.ensureVisible(find.text('Share link'));
+    await tester.pumpAndSettle();
+    expect(find.text('Share link').hitTestable(), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }
