@@ -2071,10 +2071,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get hudFluidIntensity => 'Intensidad del fluido';
 
   @override
-  String get hudResetViewLabel => 'Vista';
+  String get hudResetViewLabel => 'Restablecer vista';
 
   @override
-  String get hudResetParamsLabel => 'Parámetros';
+  String get hudResetParamsLabel => 'Restablecer parámetros';
 
   @override
   String get hudRandomizeTooltip => 'Aleatorizar parámetros';
@@ -2369,4 +2369,51 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get viewerCopyLinkAction => 'Copiar enlace';
+
+  @override
+  String get paletteRainbow => 'Arcoíris';
+
+  @override
+  String get paletteHueRed => 'Rojo';
+
+  @override
+  String get paletteHueOrange => 'Naranja';
+
+  @override
+  String get paletteHueYellow => 'Amarillo';
+
+  @override
+  String get paletteHueLime => 'Lima';
+
+  @override
+  String get paletteHueGreen => 'Verde';
+
+  @override
+  String get paletteHueTeal => 'Verde azulado';
+
+  @override
+  String get paletteHueCyan => 'Cian';
+
+  @override
+  String get paletteHueBlue => 'Azul';
+
+  @override
+  String get paletteHueViolet => 'Violeta';
+
+  @override
+  String get paletteHueMagenta => 'Magenta';
+
+  @override
+  String get paletteHuePink => 'Rosa';
+
+  @override
+  String get palettePreviewUnavailable =>
+      'Vista previa de paleta no disponible';
+
+  @override
+  String get mathCurrentRule => 'Regla / fórmula actual';
+
+  @override
+  String get mathFibonacciStatus =>
+      'Sección inicial 2D de C², no invariante. Oscuro: sin escape en N, no demuestra acotación. Las comparaciones flotantes no son pruebas.';
 }

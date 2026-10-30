@@ -1,0 +1,1434 @@
+[
+  {
+    "index": 0,
+    "id": "builtin_fire",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279045394
+      },
+      {
+        "position": 0.35,
+        "argb": 4285209885
+      },
+      {
+        "position": 0.7,
+        "argb": 4293941800
+      },
+      {
+        "position": 1.0,
+        "argb": 4294959206
+      }
+    ]
+  },
+  {
+    "index": 1,
+    "id": "builtin_ocean",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278588444
+      },
+      {
+        "position": 0.4,
+        "argb": 4278940293
+      },
+      {
+        "position": 0.8,
+        "argb": 4280465615
+      },
+      {
+        "position": 1.0,
+        "argb": 4289059071
+      }
+    ]
+  },
+  {
+    "index": 2,
+    "id": "builtin_psychedelic",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4282059333
+      },
+      {
+        "position": 0.33,
+        "argb": 4286331629
+      },
+      {
+        "position": 0.66,
+        "argb": 4278630100
+      },
+      {
+        "position": 1.0,
+        "argb": 4294286859
+      }
+    ]
+  },
+  {
+    "index": 3,
+    "id": "builtin_grayscale",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278190080
+      },
+      {
+        "position": 1.0,
+        "argb": 4294967295
+      }
+    ]
+  },
+  {
+    "index": 4,
+    "id": "builtin_phoenix",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279371794
+      },
+      {
+        "position": 0.28,
+        "argb": 4284158519
+      },
+      {
+        "position": 0.58,
+        "argb": 4293418244
+      },
+      {
+        "position": 0.82,
+        "argb": 4294949384
+      },
+      {
+        "position": 1.0,
+        "argb": 4294964144
+      }
+    ]
+  },
+  {
+    "index": 5,
+    "id": "builtin_viridis_depth",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4282646868
+      },
+      {
+        "position": 0.25,
+        "argb": 4282077835
+      },
+      {
+        "position": 0.5,
+        "argb": 4280390028
+      },
+      {
+        "position": 0.75,
+        "argb": 4284402018
+      },
+      {
+        "position": 1.0,
+        "argb": 4294829861
+      }
+    ]
+  },
+  {
+    "index": 6,
+    "id": "builtin_magma_core",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278190084
+      },
+      {
+        "position": 0.2,
+        "argb": 4282060656
+      },
+      {
+        "position": 0.4,
+        "argb": 4287375745
+      },
+      {
+        "position": 0.62,
+        "argb": 4292757864
+      },
+      {
+        "position": 0.82,
+        "argb": 4294877037
+      },
+      {
+        "position": 1.0,
+        "argb": 4294770111
+      }
+    ]
+  },
+  {
+    "index": 7,
+    "id": "builtin_cividis_safe",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278198348
+      },
+      {
+        "position": 0.22,
+        "argb": 4281418859
+      },
+      {
+        "position": 0.45,
+        "argb": 4284901488
+      },
+      {
+        "position": 0.68,
+        "argb": 4287991672
+      },
+      {
+        "position": 0.85,
+        "argb": 4291277691
+      },
+      {
+        "position": 1.0,
+        "argb": 4294961477
+      }
+    ]
+  },
+  {
+    "index": 8,
+    "id": "builtin_perceptual_rainbow",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279966575
+      },
+      {
+        "position": 0.17,
+        "argb": 4283121567
+      },
+      {
+        "position": 0.34,
+        "argb": 4289870475
+      },
+      {
+        "position": 0.51,
+        "argb": 4292893255
+      },
+      {
+        "position": 0.68,
+        "argb": 4293370939
+      },
+      {
+        "position": 0.84,
+        "argb": 4286101834
+      },
+      {
+        "position": 1.0,
+        "argb": 4280264616
+      }
+    ]
+  },
+  {
+    "index": 9,
+    "id": "builtin_warm_cool_relief",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279706964
+      },
+      {
+        "position": 0.25,
+        "argb": 4279150057
+      },
+      {
+        "position": 0.5,
+        "argb": 4294507260
+      },
+      {
+        "position": 0.75,
+        "argb": 4294538006
+      },
+      {
+        "position": 1.0,
+        "argb": 4286520605
+      }
+    ]
+  },
+  {
+    "index": 10,
+    "id": "builtin_blue_yellow_opponent",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278721880
+      },
+      {
+        "position": 0.35,
+        "argb": 4281044158
+      },
+      {
+        "position": 0.5,
+        "argb": 4294440951
+      },
+      {
+        "position": 0.7,
+        "argb": 4294894481
+      },
+      {
+        "position": 1.0,
+        "argb": 4289812776
+      }
+    ]
+  },
+  {
+    "index": 11,
+    "id": "builtin_high_contrast_mono",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278190080
+      },
+      {
+        "position": 0.18,
+        "argb": 4279571733
+      },
+      {
+        "position": 0.38,
+        "argb": 4282269246
+      },
+      {
+        "position": 0.65,
+        "argb": 4287269514
+      },
+      {
+        "position": 1.0,
+        "argb": 4294967295
+      }
+    ]
+  },
+  {
+    "index": 12,
+    "id": "builtin_colorblind_safe_fire",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278190080
+      },
+      {
+        "position": 0.2,
+        "argb": 4278219442
+      },
+      {
+        "position": 0.42,
+        "argb": 4292173312
+      },
+      {
+        "position": 0.65,
+        "argb": 4293304064
+      },
+      {
+        "position": 0.82,
+        "argb": 4293977154
+      },
+      {
+        "position": 1.0,
+        "argb": 4294967295
+      }
+    ]
+  },
+  {
+    "index": 13,
+    "id": "builtin_glacier_mint",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279042836
+      },
+      {
+        "position": 0.28,
+        "argb": 4280094809
+      },
+      {
+        "position": 0.58,
+        "argb": 4288030904
+      },
+      {
+        "position": 1.0,
+        "argb": 4294931406
+      }
+    ]
+  },
+  {
+    "index": 14,
+    "id": "builtin_solar_flare",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279501582
+      },
+      {
+        "position": 0.28,
+        "argb": 4283895897
+      },
+      {
+        "position": 0.58,
+        "argb": 4290259049
+      },
+      {
+        "position": 1.0,
+        "argb": 4294935923
+      }
+    ]
+  },
+  {
+    "index": 15,
+    "id": "builtin_ultraviolet",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279502339
+      },
+      {
+        "position": 0.28,
+        "argb": 4284026914
+      },
+      {
+        "position": 0.58,
+        "argb": 4290271272
+      },
+      {
+        "position": 1.0,
+        "argb": 4294964083
+      }
+    ]
+  },
+  {
+    "index": 16,
+    "id": "builtin_cyan_furnace",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279505923
+      },
+      {
+        "position": 0.28,
+        "argb": 4284036880
+      },
+      {
+        "position": 0.58,
+        "argb": 4289181736
+      },
+      {
+        "position": 1.0,
+        "argb": 4288544627
+      }
+    ]
+  },
+  {
+    "index": 17,
+    "id": "builtin_amber_circuit",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278719491
+      },
+      {
+        "position": 0.28,
+        "argb": 4282538256
+      },
+      {
+        "position": 0.58,
+        "argb": 4281841704
+      },
+      {
+        "position": 1.0,
+        "argb": 4285792183
+      }
+    ]
+  },
+  {
+    "index": 18,
+    "id": "builtin_plasma_wave",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278391820
+      },
+      {
+        "position": 0.28,
+        "argb": 4279261463
+      },
+      {
+        "position": 0.58,
+        "argb": 4280858762
+      },
+      {
+        "position": 1.0,
+        "argb": 4285782783
+      }
+    ]
+  },
+  {
+    "index": 19,
+    "id": "builtin_forest_lumen",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278390548
+      },
+      {
+        "position": 0.28,
+        "argb": 4279261521
+      },
+      {
+        "position": 0.58,
+        "argb": 4280841656
+      },
+      {
+        "position": 1.0,
+        "argb": 4286215167
+      }
+    ]
+  },
+  {
+    "index": 20,
+    "id": "builtin_ruby_ice",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278518548
+      },
+      {
+        "position": 0.28,
+        "argb": 4279248985
+      },
+      {
+        "position": 0.58,
+        "argb": 4283181240
+      },
+      {
+        "position": 1.0,
+        "argb": 4293424127
+      }
+    ]
+  },
+  {
+    "index": 21,
+    "id": "builtin_electric_dusk",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279370516
+      },
+      {
+        "position": 0.28,
+        "argb": 4281405529
+      },
+      {
+        "position": 0.58,
+        "argb": 4290259123
+      },
+      {
+        "position": 1.0,
+        "argb": 4294931369
+      }
+    ]
+  },
+  {
+    "index": 22,
+    "id": "builtin_golden_orbit",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279501577
+      },
+      {
+        "position": 0.28,
+        "argb": 4284026952
+      },
+      {
+        "position": 0.58,
+        "argb": 4290259011
+      },
+      {
+        "position": 1.0,
+        "argb": 4294945651
+      }
+    ]
+  },
+  {
+    "index": 23,
+    "id": "builtin_teal_comet",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279503619
+      },
+      {
+        "position": 0.28,
+        "argb": 4284027152
+      },
+      {
+        "position": 0.58,
+        "argb": 4290281000
+      },
+      {
+        "position": 1.0,
+        "argb": 4293263219
+      }
+    ]
+  },
+  {
+    "index": 24,
+    "id": "builtin_crimson_tide",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279309315
+      },
+      {
+        "position": 0.28,
+        "argb": 4284042000
+      },
+      {
+        "position": 0.58,
+        "argb": 4286691368
+      },
+      {
+        "position": 1.0,
+        "argb": 4286054259
+      }
+    ]
+  },
+  {
+    "index": 25,
+    "id": "builtin_lime_halo",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278391811
+      },
+      {
+        "position": 0.28,
+        "argb": 4281293072
+      },
+      {
+        "position": 0.58,
+        "argb": 4280858688
+      },
+      {
+        "position": 1.0,
+        "argb": 4285792220
+      }
+    ]
+  },
+  {
+    "index": 26,
+    "id": "builtin_indigo_ember",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278391825
+      },
+      {
+        "position": 0.28,
+        "argb": 4279261483
+      },
+      {
+        "position": 0.58,
+        "argb": 4280858800
+      },
+      {
+        "position": 1.0,
+        "argb": 4285773055
+      }
+    ]
+  },
+  {
+    "index": 27,
+    "id": "builtin_tangerine_sky",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278389524
+      },
+      {
+        "position": 0.28,
+        "argb": 4279258713
+      },
+      {
+        "position": 0.58,
+        "argb": 4280831928
+      },
+      {
+        "position": 1.0,
+        "argb": 4288639999
+      }
+    ]
+  },
+  {
+    "index": 28,
+    "id": "builtin_arctic_fire",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278780692
+      },
+      {
+        "position": 0.28,
+        "argb": 4279244121
+      },
+      {
+        "position": 0.58,
+        "argb": 4285671608
+      },
+      {
+        "position": 1.0,
+        "argb": 4294931441
+      }
+    ]
+  },
+  {
+    "index": 29,
+    "id": "builtin_magenta_bloom",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279501586
+      },
+      {
+        "position": 0.28,
+        "argb": 4282716249
+      },
+      {
+        "position": 0.58,
+        "argb": 4290259085
+      },
+      {
+        "position": 1.0,
+        "argb": 4294931331
+      }
+    ]
+  },
+  {
+    "index": 30,
+    "id": "builtin_blue_steel",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279501573
+      },
+      {
+        "position": 0.28,
+        "argb": 4284026933
+      },
+      {
+        "position": 0.58,
+        "argb": 4290262056
+      },
+      {
+        "position": 1.0,
+        "argb": 4294955123
+      }
+    ]
+  },
+  {
+    "index": 31,
+    "id": "builtin_opal_pulse",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279504643
+      },
+      {
+        "position": 0.28,
+        "argb": 4284032272
+      },
+      {
+        "position": 0.58,
+        "argb": 4290290984
+      },
+      {
+        "position": 1.0,
+        "argb": 4290838387
+      }
+    ]
+  },
+  {
+    "index": 32,
+    "id": "builtin_saffron_smoke",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278981635
+      },
+      {
+        "position": 0.28,
+        "argb": 4283717904
+      },
+      {
+        "position": 0.58,
+        "argb": 4284201000
+      },
+      {
+        "position": 1.0,
+        "argb": 4285792147
+      }
+    ]
+  },
+  {
+    "index": 33,
+    "id": "builtin_jade_signal",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278391816
+      },
+      {
+        "position": 0.28,
+        "argb": 4279982352
+      },
+      {
+        "position": 0.58,
+        "argb": 4280858726
+      },
+      {
+        "position": 1.0,
+        "argb": 4285791743
+      }
+    ]
+  },
+  {
+    "index": 34,
+    "id": "builtin_coral_eclipse",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278391828
+      },
+      {
+        "position": 0.28,
+        "argb": 4279261502
+      },
+      {
+        "position": 0.58,
+        "argb": 4280850872
+      },
+      {
+        "position": 1.0,
+        "argb": 4285763583
+      }
+    ]
+  },
+  {
+    "index": 35,
+    "id": "builtin_sonic_violet",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278388244
+      },
+      {
+        "position": 0.28,
+        "argb": 4279253849
+      },
+      {
+        "position": 0.58,
+        "argb": 4280821944
+      },
+      {
+        "position": 1.0,
+        "argb": 4291130367
+      }
+    ]
+  },
+  {
+    "index": 36,
+    "id": "builtin_bronze_aurora",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279108372
+      },
+      {
+        "position": 0.28,
+        "argb": 4280225881
+      },
+      {
+        "position": 0.58,
+        "argb": 4288227512
+      },
+      {
+        "position": 1.0,
+        "argb": 4294931404
+      }
+    ]
+  },
+  {
+    "index": 37,
+    "id": "builtin_cerulean_ash",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279501581
+      },
+      {
+        "position": 0.28,
+        "argb": 4283961433
+      },
+      {
+        "position": 0.58,
+        "argb": 4290259046
+      },
+      {
+        "position": 1.0,
+        "argb": 4294936691
+      }
+    ]
+  },
+  {
+    "index": 38,
+    "id": "builtin_pink_lightning",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279502339
+      },
+      {
+        "position": 0.28,
+        "argb": 4284026913
+      },
+      {
+        "position": 0.58,
+        "argb": 4290272040
+      },
+      {
+        "position": 1.0,
+        "argb": 4294964851
+      }
+    ]
+  },
+  {
+    "index": 39,
+    "id": "builtin_green_inferno",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279505923
+      },
+      {
+        "position": 0.28,
+        "argb": 4284037136
+      },
+      {
+        "position": 0.58,
+        "argb": 4289050664
+      },
+      {
+        "position": 1.0,
+        "argb": 4288348019
+      }
+    ]
+  },
+  {
+    "index": 40,
+    "id": "builtin_royal_plasma",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278653955
+      },
+      {
+        "position": 0.28,
+        "argb": 4282472720
+      },
+      {
+        "position": 0.58,
+        "argb": 4281645096
+      },
+      {
+        "position": 1.0,
+        "argb": 4285792185
+      }
+    ]
+  },
+  {
+    "index": 41,
+    "id": "builtin_desert_neon",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278391820
+      },
+      {
+        "position": 0.28,
+        "argb": 4279261465
+      },
+      {
+        "position": 0.58,
+        "argb": 4280858765
+      },
+      {
+        "position": 1.0,
+        "argb": 4285782015
+      }
+    ]
+  },
+  {
+    "index": 42,
+    "id": "builtin_ice_sapphire",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278390548
+      },
+      {
+        "position": 0.28,
+        "argb": 4279261522
+      },
+      {
+        "position": 0.58,
+        "argb": 4280840888
+      },
+      {
+        "position": 1.0,
+        "argb": 4286346239
+      }
+    ]
+  },
+  {
+    "index": 43,
+    "id": "builtin_infrared_moss",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278518548
+      },
+      {
+        "position": 0.28,
+        "argb": 4279248729
+      },
+      {
+        "position": 0.58,
+        "argb": 4283377848
+      },
+      {
+        "position": 1.0,
+        "argb": 4293555199
+      }
+    ]
+  },
+  {
+    "index": 44,
+    "id": "builtin_pearl_shadow",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279370516
+      },
+      {
+        "position": 0.28,
+        "argb": 4281471065
+      },
+      {
+        "position": 0.58,
+        "argb": 4290259120
+      },
+      {
+        "position": 1.0,
+        "argb": 4294931366
+      }
+    ]
+  },
+  {
+    "index": 45,
+    "id": "builtin_signal_orange",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279501577
+      },
+      {
+        "position": 0.28,
+        "argb": 4284026951
+      },
+      {
+        "position": 0.58,
+        "argb": 4290259008
+      },
+      {
+        "position": 1.0,
+        "argb": 4294946163
+      }
+    ]
+  },
+  {
+    "index": 46,
+    "id": "builtin_deep_orchid",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279503619
+      },
+      {
+        "position": 0.28,
+        "argb": 4284027664
+      },
+      {
+        "position": 0.58,
+        "argb": 4290281768
+      },
+      {
+        "position": 1.0,
+        "argb": 4293132147
+      }
+    ]
+  },
+  {
+    "index": 47,
+    "id": "builtin_aqua_gold",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279243779
+      },
+      {
+        "position": 0.28,
+        "argb": 4284042256
+      },
+      {
+        "position": 0.58,
+        "argb": 4286494760
+      },
+      {
+        "position": 1.0,
+        "argb": 4285923187
+      }
+    ]
+  },
+  {
+    "index": 48,
+    "id": "builtin_volcanic_glass",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278391811
+      },
+      {
+        "position": 0.28,
+        "argb": 4281162000
+      },
+      {
+        "position": 0.58,
+        "argb": 4280858691
+      },
+      {
+        "position": 1.0,
+        "argb": 4285792222
+      }
+    ]
+  },
+  {
+    "index": 49,
+    "id": "builtin_starlight_candy",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278391825
+      },
+      {
+        "position": 0.28,
+        "argb": 4279261484
+      },
+      {
+        "position": 0.58,
+        "argb": 4280858803
+      },
+      {
+        "position": 1.0,
+        "argb": 4285772543
+      }
+    ]
+  },
+  {
+    "index": 50,
+    "id": "builtin_relief_0_fire",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279045394
+      },
+      {
+        "position": 0.35,
+        "argb": 4285209885
+      },
+      {
+        "position": 0.7,
+        "argb": 4293941800
+      },
+      {
+        "position": 1.0,
+        "argb": 4294959206
+      }
+    ]
+  },
+  {
+    "index": 51,
+    "id": "builtin_relief_14_ocean",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278588444
+      },
+      {
+        "position": 0.4,
+        "argb": 4278940293
+      },
+      {
+        "position": 0.8,
+        "argb": 4280465615
+      },
+      {
+        "position": 1.0,
+        "argb": 4289059071
+      }
+    ]
+  },
+  {
+    "index": 52,
+    "id": "builtin_relief_28_psychedelic",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4282059333
+      },
+      {
+        "position": 0.33,
+        "argb": 4286331629
+      },
+      {
+        "position": 0.66,
+        "argb": 4278630100
+      },
+      {
+        "position": 1.0,
+        "argb": 4294286859
+      }
+    ]
+  },
+  {
+    "index": 53,
+    "id": "builtin_relief_42_grayscale",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278190080
+      },
+      {
+        "position": 1.0,
+        "argb": 4294967295
+      }
+    ]
+  },
+  {
+    "index": 54,
+    "id": "builtin_relief_55_fire",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279045394
+      },
+      {
+        "position": 0.35,
+        "argb": 4285209885
+      },
+      {
+        "position": 0.7,
+        "argb": 4293941800
+      },
+      {
+        "position": 1.0,
+        "argb": 4294959206
+      }
+    ]
+  },
+  {
+    "index": 55,
+    "id": "builtin_relief_69_ocean",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278588444
+      },
+      {
+        "position": 0.4,
+        "argb": 4278940293
+      },
+      {
+        "position": 0.8,
+        "argb": 4280465615
+      },
+      {
+        "position": 1.0,
+        "argb": 4289059071
+      }
+    ]
+  },
+  {
+    "index": 56,
+    "id": "builtin_relief_83_psychedelic",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4282059333
+      },
+      {
+        "position": 0.33,
+        "argb": 4286331629
+      },
+      {
+        "position": 0.66,
+        "argb": 4278630100
+      },
+      {
+        "position": 1.0,
+        "argb": 4294286859
+      }
+    ]
+  },
+  {
+    "index": 57,
+    "id": "builtin_relief_97_grayscale",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278190080
+      },
+      {
+        "position": 1.0,
+        "argb": 4294967295
+      }
+    ]
+  },
+  {
+    "index": 58,
+    "id": "builtin_relief_111_fire",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279045394
+      },
+      {
+        "position": 0.35,
+        "argb": 4285209885
+      },
+      {
+        "position": 0.7,
+        "argb": 4293941800
+      },
+      {
+        "position": 1.0,
+        "argb": 4294959206
+      }
+    ]
+  },
+  {
+    "index": 59,
+    "id": "builtin_relief_125_ocean",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278588444
+      },
+      {
+        "position": 0.4,
+        "argb": 4278940293
+      },
+      {
+        "position": 0.8,
+        "argb": 4280465615
+      },
+      {
+        "position": 1.0,
+        "argb": 4289059071
+      }
+    ]
+  },
+  {
+    "index": 60,
+    "id": "builtin_relief_138_psychedelic",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4282059333
+      },
+      {
+        "position": 0.33,
+        "argb": 4286331629
+      },
+      {
+        "position": 0.66,
+        "argb": 4278630100
+      },
+      {
+        "position": 1.0,
+        "argb": 4294286859
+      }
+    ]
+  },
+  {
+    "index": 61,
+    "id": "builtin_relief_152_grayscale",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278190080
+      },
+      {
+        "position": 1.0,
+        "argb": 4294967295
+      }
+    ]
+  },
+  {
+    "index": 62,
+    "id": "builtin_relief_166_fire",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4279045394
+      },
+      {
+        "position": 0.35,
+        "argb": 4285209885
+      },
+      {
+        "position": 0.7,
+        "argb": 4293941800
+      },
+      {
+        "position": 1.0,
+        "argb": 4294959206
+      }
+    ]
+  },
+  {
+    "index": 63,
+    "id": "builtin_relief_180_ocean",
+    "stops": [
+      {
+        "position": 0.0,
+        "argb": 4278588444
+      },
+      {
+        "position": 0.4,
+        "argb": 4278940293
+      },
+      {
+        "position": 0.8,
+        "argb": 4280465615
+      },
+      {
+        "position": 1.0,
+        "argb": 4289059071
+      }
+    ]
+  }
+]

@@ -122,9 +122,7 @@ void main() {
           final target = large ? 56.0 : 48.0;
           final collapse = find.byTooltip(l10n.tooltipCollapse);
           await reveal(tester, collapse);
-          final collapseBox = find
-              .descendant(of: collapse, matching: find.byType(InkWell))
-              .first;
+          final collapseBox = collapse;
           expect(tester.getSize(collapseBox), Size.square(target));
           expect(tester.getRect(collapseBox).top, greaterThanOrEqualTo(24));
           expect(tester.getRect(collapseBox).bottom, lessThanOrEqualTo(152));

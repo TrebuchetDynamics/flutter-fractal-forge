@@ -1285,67 +1285,124 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     final current = controller.params['colorScheme'];
     final selectedIndex =
         options.indexWhere((option) => option.value == current);
-    final mediaQuery = MediaQuery.of(context);
-    final textScale = mediaQuery.textScaler.scale(1);
-    final columnCount = textScale >= 2.5
-        ? 2
-        : textScale >= 1.5
-            ? 3
-            : 4;
     ScrollController? paletteScrollController;
+    final headerKey = GlobalKey();
+    var initialRevealScheduled = false;
 
     showAppBottomSheet<void>(
       context: context,
       builder: (sheetContext) => LayoutBuilder(builder: (context, constraints) {
-        final gridWidth = constraints.maxWidth -
-            AppSpacing.md * 2 -
-            AppSpacing.sm * (columnCount - 1);
-        final tileWidth = math.max(1.0, gridWidth / columnCount);
-        final selectedRow = math.max(0, selectedIndex ~/ columnCount - 1);
+        final textScaler = MediaQuery.textScalerOf(context);
+        // Width and scaled text both constrain the grid. At phone widths even
+        // 2x text needs one column; fixed scale-only breakpoints made four
+        // cramped columns at normal scale and clipped enlarged palette names.
+        final availableWidth = constraints.maxWidth - AppSpacing.md * 2;
+        final minTileWidth = math.max(140.0, textScaler.scale(12) / 12 * 140);
+        final columnCount =
+            ((availableWidth + AppSpacing.sm) / (minTileWidth + AppSpacing.sm))
+                .floor()
+                .clamp(1, 4);
+        final tileWidth =
+            (availableWidth - AppSpacing.sm * (columnCount - 1)) / columnCount;
+        final labelStyle = AppTypography.labelSmall.copyWith(
+          fontSize: 12,
+          height: 1.2,
+          fontWeight: FontWeight.w700,
+        );
+        var labelHeight = 0.0;
+        for (final option in options) {
+          final painter = TextPainter(
+            text: TextSpan(text: option.label(l10n), style: labelStyle),
+            textDirection: Directionality.of(context),
+            textScaler: textScaler,
+          )..layout(maxWidth: math.max(1, tileWidth - 16));
+          labelHeight = math.max(labelHeight, painter.height);
+          painter.dispose();
+        }
+        final tileHeight = 16 + 56 + 8 + labelHeight.ceilToDouble();
+        final selectedRow = math.max(0, selectedIndex ~/ columnCount);
         paletteScrollController ??= ScrollController(
-            initialScrollOffset:
-                selectedRow * (tileWidth / 0.86 + AppSpacing.sm));
+            initialScrollOffset: selectedRow * (tileHeight + AppSpacing.sm));
+        if (!initialRevealScheduled) {
+          initialRevealScheduled = true;
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            final scroll = paletteScrollController;
+            final header = headerKey.currentContext?.findRenderObject();
+            if (scroll == null || !scroll.hasClients || header is! RenderBox) {
+              return;
+            }
+            // Header height depends on localization and text scaling. Reveal
+            // the selected row using its actual laid-out height, retaining the
+            // header on screen when both it and the selection fit together.
+            final position = scroll.position;
+            final selectedTop = header.size.height +
+                AppSpacing.sm +
+                selectedRow * (tileHeight + AppSpacing.sm);
+            final offset = tileHeight > position.viewportDimension
+                ? selectedTop
+                : math.max(
+                    0.0, selectedTop + tileHeight - position.viewportDimension);
+            scroll.jumpTo(offset.clamp(0.0, position.maxScrollExtent));
+          });
+        }
         return StatefulBuilder(
           builder: (context, setSheetState) {
             final current = controller.params['colorScheme'];
             return AppBottomSheet(
               maxHeightFactor: 0.68,
               children: [
-                AppBottomSheetHeader(
-                  icon: Icons.palette_rounded,
-                  title: l10n.paramColorScheme,
-                  subtitle: l10n.palettePickerSubtitle,
-                  onClose: () => Navigator.of(context).pop(),
-                ),
                 Flexible(
-                  child: GridView.builder(
+                  // Header and grid share one viewport: a large translated
+                  // header must never consume the entire palette scroll area.
+                  child: CustomScrollView(
+                    key: const ValueKey('palettePickerScroll'),
                     controller: paletteScrollController,
-                    padding: const EdgeInsets.fromLTRB(
-                      AppSpacing.md,
-                      AppSpacing.sm,
-                      AppSpacing.md,
-                      AppSpacing.lg,
-                    ),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: columnCount,
-                      mainAxisSpacing: AppSpacing.sm,
-                      crossAxisSpacing: AppSpacing.sm,
-                      childAspectRatio: 0.86,
-                    ),
-                    itemCount: options.length,
-                    itemBuilder: (context, index) {
-                      final option = options[index];
-                      final selected = option.value == current;
-                      return _PaletteChoiceTile(
-                        label: option.label(l10n),
-                        value: option.value,
-                        selected: selected,
-                        onTap: () {
-                          controller.updateParam('colorScheme', option.value);
-                          setSheetState(() {});
-                        },
-                      );
-                    },
+                    slivers: [
+                      SliverToBoxAdapter(
+                        child: AppBottomSheetHeader(
+                          key: headerKey,
+                          icon: Icons.palette_rounded,
+                          title: l10n.paramColorScheme,
+                          subtitle: l10n.palettePickerSubtitle,
+                          onClose: () => Navigator.of(context).pop(),
+                        ),
+                      ),
+                      SliverPadding(
+                        padding: const EdgeInsets.fromLTRB(
+                          AppSpacing.md,
+                          AppSpacing.sm,
+                          AppSpacing.md,
+                          AppSpacing.lg,
+                        ),
+                        sliver: SliverGrid(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: columnCount,
+                            mainAxisSpacing: AppSpacing.sm,
+                            crossAxisSpacing: AppSpacing.sm,
+                            mainAxisExtent: tileHeight,
+                          ),
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              final option = options[index];
+                              final selected = option.value == current;
+                              return _PaletteChoiceTile(
+                                key: ValueKey('paletteChoice${option.value}'),
+                                label: option.label(l10n),
+                                value: option.value,
+                                selected: selected,
+                                onTap: () {
+                                  controller.updateParam(
+                                      'colorScheme', option.value);
+                                  setSheetState(() {});
+                                },
+                              );
+                            },
+                            childCount: options.length,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -2116,6 +2173,7 @@ class _PaletteChoiceTile extends StatelessWidget {
   final VoidCallback onTap;
 
   const _PaletteChoiceTile({
+    super.key,
     required this.label,
     required this.value,
     required this.selected,
@@ -2125,11 +2183,16 @@ class _PaletteChoiceTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final gradient = _paletteGradient(value);
     // Which palette is active is otherwise conveyed only by the check icon and
     // the border colour, so a screen reader hears nine identical buttons.
     return MergeSemantics(
       child: Semantics(
         selected: selected,
+        button: true,
+        hint: gradient == null
+            ? AppLocalizations.of(context)!.palettePreviewUnavailable
+            : null,
         child: Material(
           color: Colors.transparent,
           child: InkWell(
@@ -2140,15 +2203,13 @@ class _PaletteChoiceTile extends StatelessWidget {
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
                 color: selected
-                    ? colorScheme.primary.withValues(alpha: 0.18)
+                    ? colorScheme.primaryContainer
                     : colorScheme.surfaceContainerHighest
                         .withValues(alpha: 0.62),
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
-                  color: selected
-                      ? colorScheme.primary
-                      : colorScheme.outlineVariant,
-                  width: selected ? 1.4 : 1,
+                  color: selected ? colorScheme.primary : Colors.transparent,
+                  width: 2,
                 ),
               ),
               child: Column(
@@ -2159,37 +2220,45 @@ class _PaletteChoiceTile extends StatelessWidget {
                         Positioned.fill(
                           child: DecoratedBox(
                             decoration: BoxDecoration(
-                              gradient: _paletteGradient(value),
+                              color: colorScheme.surfaceContainerHighest,
+                              gradient: gradient,
                               borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: Colors.white24),
                             ),
                           ),
                         ),
+                        if (gradient == null)
+                          Center(
+                              child: Icon(Icons.palette_outlined,
+                                  color: colorScheme.onSurfaceVariant)),
                         if (selected)
                           Positioned(
                             top: 4,
                             right: 4,
-                            child: Icon(
-                              Icons.check_circle_rounded,
-                              size: 17,
-                              color: colorScheme.primary,
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: colorScheme.surface,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.check_circle_rounded,
+                                size: 24,
+                                color: colorScheme.primary,
+                              ),
                             ),
                           ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 8),
                   Text(
                     label,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                     style: AppTypography.labelSmall.copyWith(
                       color: selected
-                          ? colorScheme.onSurface
+                          ? colorScheme.onPrimaryContainer
                           : colorScheme.onSurfaceVariant,
-                      fontSize: 10,
-                      height: 1.05,
+                      fontSize: 12,
+                      height: 1.2,
                       fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                     ),
                   ),
@@ -2202,7 +2271,7 @@ class _PaletteChoiceTile extends StatelessWidget {
     );
   }
 
-  LinearGradient _paletteGradient(Object value) {
+  LinearGradient? _paletteGradient(Object value) {
     if (value is num) {
       try {
         final palette = PaletteService.instance.paletteAtIndex(value.round());
@@ -2220,11 +2289,9 @@ class _PaletteChoiceTile extends StatelessWidget {
         // PaletteService is unavailable only in narrow widget harnesses.
       }
     }
-    return const LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [Color(0xFF2B0B0B), Color(0xFFFF5E3A), Color(0xFFFFC857)],
-    );
+    // With no service the active renderer may use its own built-in path.
+    // Do not present an unrelated decorative gradient as that palette.
+    return null;
   }
 }
 
