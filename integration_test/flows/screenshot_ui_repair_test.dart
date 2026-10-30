@@ -160,8 +160,22 @@ void main() {
       Future<void> closeSheet() async {
         final close = find
             .byTooltip(MaterialLocalizations.of(context).closeButtonTooltip);
+        if (close.evaluate().isEmpty) {
+          // A palette's shared header is lazily rebuilt when scrolling back
+          // from the final grid row, rather than reserving a fixed tall header.
+          final paletteScroll =
+              find.byKey(const ValueKey('palettePickerScroll'));
+          expect(paletteScroll, findsOneWidget);
+          await tester.scrollUntilVisible(close, -300,
+              maxScrolls: 100,
+              scrollable: find.descendant(
+                  of: paletteScroll, matching: find.byType(Scrollable)));
+          await pumpForUiTransition(tester);
+        }
         expect(close, findsWidgets);
         await tester.ensureVisible(close.last);
+        await pumpForUiTransition(tester);
+        expect(close.last.hitTestable(), findsOneWidget);
         await tester.tap(close.last);
         await pumpForUiTransition(tester);
       }
