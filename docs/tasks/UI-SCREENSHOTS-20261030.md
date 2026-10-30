@@ -1,5 +1,9 @@
 # Screenshot-driven mobile UI repair — 2026-10-30
 
+> Status: implementation and local engineering qualification complete at
+> `8e5cec8e3133d3c7e0643b8b6b80c766f3559077`. Delivery readback is separate;
+> no new production release or remote publication is authorized by this task.
+
 ## Approved scope
 
 The owner supplied nine Android screenshots, requested a critique, then asked to
@@ -153,3 +157,90 @@ implementation authority, not a new release/publication request.
   these closeout corrections. No export/native service rewrite was made from
   the old timeout: its precise stalled await was not established, while later
   actual Apply runs completed feedback/capture in seconds.
+
+## Final qualification — `8e5cec8e`
+
+All seven approved UI acceptance criteria are implemented and engineering-checked
+within the limits below. This records actual checks, not owner aesthetic approval
+or production/hardware qualification.
+
+### Offline gate
+
+The unchanged, correctly guarded full command passed once on the clean committed
+candidate, in **780.524 seconds**:
+
+- Flutter **3.44.6 / Dart 3.12.2**, matching `fdroid/flutter.version`.
+- Offline lockfile-enforced dependency preflight; clean analyzer.
+- **3334 Flutter tests passed, 8 declared skips, 0 failures**.
+- **454 Python tests passed, 1 skip, 148 subtests passed**.
+- **25 Bats tests passed**.
+- Source/tree/index remained unchanged. `pubspec.lock` SHA-256 remained
+  `22b29dbd8f71276012a54b9bdc62ba88408f967a86b34075986c17e1c4506ec3`.
+
+Evidence: `merged-offline-gate-5.{log,exit,json}` under the canonical checkout's
+`.git/ui-screenshots-20261030/` directory. Earlier failed gates and invalid-wrapper
+markers remain retained and do not acquire a passing verdict from this run.
+
+### Source-bound Waydroid journeys and visual inspection
+
+Final native run `waydroid-12-swatches` passed **2/2 complete EN/ES journeys** on
+`192.168.240.112:5555`, native model `WayDroid x86_64 Device`, Android 13. Both
+languages cover 390x780/1x, 360x640/2x, 320x568/3x and 640x360/3x, navigation
+insets, high contrast and large targets. The fixture also captures the unchanged
+native viewport before test metric overrides.
+
+- Required actions are present, reachable, at least 48/56 as applicable, and the
+  measured primary words do not split. Fatal hit-test warnings remain enabled;
+  the passing run has none.
+- Every destination and preset is activated with selected-state checks. Preset
+  labels are fully painted, not faded/clipped. The final save-copy option stays
+  above fixed Apply; close targets are reached after scrolling lazy headers.
+- Actual renderer previews are nonblank; Copy preserves the full original URI.
+  Both actual Android share choosers opened, their localized content was retained,
+  and only their verified empty scrim was tapped to cancel. No recipient was
+  selected and no message was sent.
+- Production PaletteService initialization runs. Initial/final selected previews
+  must use the exact palette stop positions/ARGB values, with no fallback icon;
+  palette 63 is selected and checked in every profile. All 64 legacy indices,
+  persisted IDs and colour stops additionally remain baseline-fixture verified.
+- Both resets are invoked against deliberately edited state: Reset view preserves
+  parameters; Reset parameters restores the original parameter map without
+  changing the reset view. Full formula/qualification details remain present.
+- One real lock-wallpaper Apply, with save-copy off, reaches success feedback and
+  capture. Independent system readback changes **Lock ID 8 to 9**, while System
+  ID **4 stays unchanged**. This is the designated disposable profile, not an
+  unrelated device/profile. Earlier unlocated stalls remain failed history; no
+  speculative export/native-service rewrite was made.
+- **85 app PNGs** fully decode and match recorded dimensions/source. Each has at
+  least **138 distinct sampled RGB colours**; unobscured toolbar artwork also
+  passes nonblank/colour-variation checks. The parent inspected the corrected
+  full preset text, real swatches and EN/ES contact sheets. Two native chooser
+  captures and XML readbacks are retained separately.
+
+Built and independently installed test APK SHA-256:
+`e64d7f35d159f66fe33e4bfd59874e2b9b77f99412dc83060eaf47500b09b57b`.
+Source and lock remained clean/unchanged; host WM size and font scale did not
+change. Receipts, original PNGs, contact sheets, decoded image-health report and
+exact commands are retained beside `waydroid-12-swatches.json` and
+`final-native-image-health.json` in the evidence directory.
+
+### Local preview and delivery boundary
+
+A normal `lib/main.dart` **x86_64 debug preview**, rather than the instrumentation
+runner, was built, installed and cold-launched on the same Waydroid target. Exact
+build/install APK readback matches SHA-256:
+`600cf0f3dd140211aceb738ed06575ac55104034f085a9f96b40152c011a8f01`.
+See `normal-preview.json`; the retained APK is
+`fractal-forge-ui-8e5cec8e-x86_64-debug.apk` in the evidence directory.
+
+The qualifying implementation/test source is `8e5cec8e`; this documentation-only
+follow-up does not repin either build or gate evidence. Canonical integration is
+serialized with existing repository locks and recorded separately in
+`integration-readback.json`. Remote push and production upload are not part of
+this coding task. Play 1.1.115 remains the last published Android release.
+
+**Limits:** Waydroid/container evidence, not physical-device/hardware-GPU proof.
+Phone/landscape dimensions and enlarged text use test-only Flutter metrics, not
+actual OS rotation/font-setting journeys. Framework semantics are checked; no
+TalkBack voice journey, web/browser journey or production qualification is
+claimed. These remain separate release/device gates, not waived checks.
