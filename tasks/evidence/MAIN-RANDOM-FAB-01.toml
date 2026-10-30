@@ -1,0 +1,9 @@
+schema = 1
+task = "MAIN-RANDOM-FAB-01"
+candidate = "a77ea344a8f5acb9cde286716fb2702b9593ca52"
+integration = "5ca853c13503494b15d1acc8b41ff224b1d7aa01"
+tree = "660175ede2c567e7e0e1c66cafa53fb7ee0fb9ec"
+contract_hash = "98816b2c14fd21fe0161a130e97051635afaa63b6275cdf85ce1600356a46c6d"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAIN-RANDOM-FAB-01"]
+result = "pass"
+review = "passed"
