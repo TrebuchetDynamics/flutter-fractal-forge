@@ -2,7 +2,7 @@
 
 > Status: implementation and local engineering qualification complete at
 > `8e5cec8e3133d3c7e0643b8b6b80c766f3559077`. Delivery readback is separate;
-> no new production release or remote publication is authorized by this task.
+> no new production release is authorized by this task.
 
 ## Approved scope
 
@@ -236,8 +236,10 @@ See `normal-preview.json`; the retained APK is
 The qualifying implementation/test source is `8e5cec8e`; this documentation-only
 follow-up does not repin either build or gate evidence. Canonical integration is
 serialized with existing repository locks and recorded separately in
-`integration-readback.json`. Remote push and production upload are not part of
-this coding task. Play 1.1.115 remains the last published Android release.
+`integration-readback.json`. Source push targets only the existing GitHub origin;
+its independent readback is retained in `push-readback.json`. GitLab is excluded.
+Production upload is not part of this coding task. Play 1.1.115 remains the last
+published Android release.
 
 **Limits:** Waydroid/container evidence, not physical-device/hardware-GPU proof.
 Phone/landscape dimensions and enlarged text use test-only Flutter metrics, not
