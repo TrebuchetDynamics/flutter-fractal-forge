@@ -1750,11 +1750,13 @@ void main() {
           reason: 'FAB column is unbounded and cannot scroll');
     });
 
-    testWidgets('random fractal FAB switches module', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
-
-      expect(controller.module.id, equals('mandelbrot'));
+    testWidgets('random fractal FAB switches module with palette',
+        (tester) async {
+      // This registry is recreated in setUp. Keep one eligible destination so
+      // palette coverage never depends on an unrestricted random module draw.
+      registry.modules.removeWhere(
+        (module) => module.id != 'mandelbrot' && module.id != 'julia',
+      );
       final publishedPalettes = <Object?>[];
       void recordPublishedPalette() {
         if (controller.module.id != 'mandelbrot') {
@@ -1762,42 +1764,92 @@ void main() {
         }
       }
 
-      controller.addListener(recordPublishedPalette);
-      addTearDown(() => controller.removeListener(recordPublishedPalette));
+      try {
+        await tester.pumpWidget(buildTestWidget());
+        await tester.pumpAndSettle(
+          const Duration(milliseconds: 100),
+          EnginePhase.sendSemanticsUpdate,
+          const Duration(seconds: 5),
+        );
 
-      final randomButton = find.byKey(const ValueKey('viewerRandomFractalFab'));
-      await tester.tap(randomButton);
-      await tester.pumpAndSettle();
+        expect(controller.module.id, equals('mandelbrot'));
+        controller.addListener(recordPublishedPalette);
 
-      expect(controller.module.id, isNot(equals('mandelbrot')));
-      final paletteParam = controller.module.parameters.firstWhere(
-        (param) => param.id == 'colorScheme',
-      );
-      final selectedPalette = controller.params['colorScheme'];
-      expect(
-        selectedPalette,
-        isNot(paletteParam.defaultValue),
-        reason: 'Random fractal must also choose a new palette',
-      );
-      expect(publishedPalettes, isNotEmpty);
-      expect(
-        publishedPalettes.first,
-        selectedPalette,
-        reason: 'The first published frame must already use the chosen palette',
-      );
-      expect(
-        publishedPalettes,
-        everyElement(selectedPalette),
-        reason: 'No intermediate default-palette frame may be published',
-      );
+        final randomButton =
+            find.byKey(const ValueKey('viewerRandomFractalFab'));
+        await tester.tap(randomButton);
+        await tester.pumpAndSettle(
+          const Duration(milliseconds: 100),
+          EnginePhase.sendSemanticsUpdate,
+          const Duration(seconds: 5),
+        );
 
-      // Let the toolbar fade-in complete before teardown.
-      await tester.pump(const Duration(milliseconds: 400));
+        expect(controller.module.id, equals('julia'));
+        final paletteParam = controller.module.parameters.firstWhere(
+          (param) => param.id == 'colorScheme',
+        );
+        final selectedPalette = controller.params['colorScheme'];
+        expect(
+          selectedPalette,
+          isNot(paletteParam.defaultValue),
+          reason: 'Random fractal must also choose a new palette',
+        );
+        expect(publishedPalettes, isNotEmpty);
+        expect(
+          publishedPalettes.first,
+          selectedPalette,
+          reason:
+              'The first published frame must already use the chosen palette',
+        );
+        expect(
+          publishedPalettes,
+          everyElement(selectedPalette),
+          reason: 'No intermediate default-palette frame may be published',
+        );
+        expect(tester.takeException(), isNull);
+      } finally {
+        // Clean up inside the widget fakeAsync scope, even if an assertion fails.
+        controller.removeListener(recordPublishedPalette);
+        historyProvider.cancelPendingRecord();
+        await tester.pumpWidget(const SizedBox.shrink());
+        await tester.pump();
+      }
+    });
 
-      // Drain/cancel pending history debounce timer to keep test harness clean.
-      historyProvider.cancelPendingRecord();
-      await tester.pumpWidget(const SizedBox.shrink());
-      await tester.pump(const Duration(milliseconds: 50));
+    testWidgets('random fractal FAB switches module without palette',
+        (tester) async {
+      registry.modules.removeWhere(
+        (module) => module.id != 'mandelbrot' && module.id != 'perron_tree',
+      );
+      try {
+        await tester.pumpWidget(buildTestWidget());
+        await tester.pumpAndSettle(
+          const Duration(milliseconds: 100),
+          EnginePhase.sendSemanticsUpdate,
+          const Duration(seconds: 5),
+        );
+
+        expect(controller.module.id, equals('mandelbrot'));
+        await tester.tap(find.byKey(const ValueKey('viewerRandomFractalFab')));
+        await tester.pumpAndSettle(
+          const Duration(milliseconds: 100),
+          EnginePhase.sendSemanticsUpdate,
+          const Duration(seconds: 5),
+        );
+
+        expect(controller.module.id, equals('perron_tree'));
+        expect(
+          controller.module.parameters
+              .where((param) => param.id == 'colorScheme'),
+          isEmpty,
+        );
+        expect(controller.params, isNot(contains('colorScheme')));
+        expect(tester.takeException(), isNull);
+      } finally {
+        historyProvider.cancelPendingRecord();
+        await tester.pumpWidget(const SizedBox.shrink());
+        await tester.pump();
+      }
     });
 
     testWidgets('camera FAB is not shown (feature removed)', (tester) async {
