@@ -202,7 +202,6 @@ class _StyleChip extends StatelessWidget {
       avatar: Icon(icon, size: 18),
       showCheckmark: true,
       materialTapTargetSize: MaterialTapTargetSize.padded,
-      visualDensity: VisualDensity.standard,
       labelPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       selectedColor: theme.colorScheme.primaryContainer,
       labelStyle: theme.textTheme.labelLarge?.copyWith(

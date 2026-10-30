@@ -369,15 +369,27 @@ void main() {
             l10n.wallpaperPresetHome,
             l10n.wallpaperPresetLock,
           ]) {
-            final option = find.text(label);
+            final chip = find.widgetWithText(ChoiceChip, label);
+            final option = chip.evaluate().isNotEmpty
+                ? chip
+                : find.widgetWithText(OutlinedButton, label);
             await tester.scrollUntilVisible(option, 90,
                 scrollable: wallpaperScroll, maxScrolls: 100);
             await tester.ensureVisible(option);
             await pumpForUiTransition(tester);
-            expect(option.hitTestable(), findsOneWidget, reason: label);
+            final reached = option.hitTestable().evaluate().isNotEmpty;
+            if (!reached) {
+              final position =
+                  tester.state<ScrollableState>(wallpaperScroll).position;
+              debugPrint('[ui-repair-option-miss] $label '
+                  'target=${tester.getRect(option)} '
+                  'viewport=${tester.getRect(wallpaperScroll)} '
+                  'offset=${position.pixels}/${position.maxScrollExtent}');
+              await capture('$tag-wallpaper-option-miss');
+            }
+            expect(reached, isTrue, reason: label);
             await tester.tap(option);
             await pumpForUiTransition(tester);
-            final chip = find.widgetWithText(ChoiceChip, label);
             if (chip.evaluate().isNotEmpty) {
               expect(tester.widget<ChoiceChip>(chip).selected, isTrue);
             } else {
