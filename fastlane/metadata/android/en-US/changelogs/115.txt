@@ -1,0 +1,3 @@
+Silent Play/Pause parameter animation replaces music.
+Improved preview/export checks for 2D, 3D and inspired fractals.
+Release verification and reliability improvements.
