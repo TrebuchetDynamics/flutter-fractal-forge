@@ -5,6 +5,11 @@ phone or access to the host desktop. A headless Wayland compositor supplies the
 display; ADB supplies test, shell and file access. These steps configure local
 testing, not Play publication or signing access.
 
+For reboot persistence and recurring live-but-unreachable failures, see
+[the boot/reliability audit and recommended hardening](waydroid-reliability.md).
+This host already has enabled container, compositor and user-session services
+with user lingering; do not mistake another autostart recipe for a routing fix.
+
 ## Working Android test sequence
 
 **Use this sequence for Android testing and release preparation. Waydroid is
