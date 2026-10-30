@@ -161,15 +161,18 @@ void main() {
         final close = find
             .byTooltip(MaterialLocalizations.of(context).closeButtonTooltip);
         if (close.evaluate().isEmpty) {
-          // A palette's shared header is lazily rebuilt when scrolling back
-          // from the final grid row, rather than reserving a fixed tall header.
+          // Lazy palette/wallpaper lists rebuild their shared header on return
+          // to the top, rather than reserving a tall fixed header.
           final paletteScroll =
               find.byKey(const ValueKey('palettePickerScroll'));
-          expect(paletteScroll, findsOneWidget);
+          final sheet = paletteScroll.evaluate().isNotEmpty
+              ? paletteScroll
+              : find.byType(WallpaperOptionsSheet);
+          expect(sheet, findsOneWidget);
           await tester.scrollUntilVisible(close, -300,
               maxScrolls: 100,
               scrollable: find.descendant(
-                  of: paletteScroll, matching: find.byType(Scrollable)));
+                  of: sheet, matching: find.byType(Scrollable)));
           await pumpForUiTransition(tester);
         }
         expect(close, findsWidgets);
@@ -374,19 +377,26 @@ void main() {
             await pumpForUiTransition(tester);
           }
           await capture('$tag-wallpaper');
+          debugPrint('[ui-repair-wallpaper] tap-start');
           await tester.tap(apply);
+          debugPrint('[ui-repair-wallpaper] tap-dispatched');
           await pumpForUiTransition(tester);
+          debugPrint('[ui-repair-wallpaper] transition-ready');
           for (var attempt = 0;
               attempt < 100 &&
                   find.text(l10n.wallpaperApplied).evaluate().isEmpty;
               attempt++) {
             await tester.pump(const Duration(milliseconds: 200));
           }
+          debugPrint('[ui-repair-wallpaper] feedback-assert');
           expect(find.byType(WallpaperOptionsSheet), findsNothing);
           expect(find.text(l10n.wallpaperApplied), findsOneWidget,
               reason: 'Require the actual Android wallpaper API to succeed.');
+          debugPrint('[ui-repair-wallpaper] capture-start');
           await capture('$tag-wallpaper-applied');
+          debugPrint('[ui-repair-wallpaper] capture-complete');
           await waitForFeedback();
+          debugPrint('[ui-repair-wallpaper] feedback-cleared');
         } else {
           await capture('$tag-wallpaper');
           await closeSheet();
