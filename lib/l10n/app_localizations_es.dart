@@ -2396,4 +2396,64 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get viewerCopyLinkAction => 'Copiar enlace';
+
+  @override
+  String get viewerActionSectionSaveShare => 'Guardar y compartir';
+
+  @override
+  String get viewerActionSectionExploreAnimate => 'Explorar y animar';
+
+  @override
+  String get viewerActionSectionVisualEffects => 'Efectos visuales';
+
+  @override
+  String get viewerActionSectionViewReport => 'Vista e informes';
+
+  @override
+  String get viewerActionSettingsControls => 'Controles de parámetros';
+
+  @override
+  String get viewerActionSettingsPalette => 'Ajustes de paleta';
+
+  @override
+  String get viewerActionSettingsExplore => 'Ajustes de exploración';
+
+  @override
+  String get viewerActionSettingsKaleidoscope => 'Ajustes de caleidoscopio';
+
+  @override
+  String get viewerActionSettingsFourier => 'Ajustes de Fourier';
+
+  @override
+  String get viewerActionSettingsText => 'Editar texto superpuesto';
+
+  @override
+  String get viewerActionSettingsCyclePalette => 'Siguiente paleta';
+
+  @override
+  String get viewerActionSettingsExploreCompact => 'Ajustar ruta';
+
+  @override
+  String get viewerActionSettingsPaletteCompact => 'Editar paleta';
+
+  @override
+  String get viewerActionSettingsCyclePaletteCompact => 'Otra paleta';
+
+  @override
+  String get viewerActionSettingsFourierCompact => 'Ajustar Fourier';
+
+  @override
+  String get viewerActionSettingsTextCompact => 'Editar texto';
+
+  @override
+  String get viewerActionSettingsTextCompactTitle => 'Texto';
+
+  @override
+  String get viewerActionSettingsReportCompact => 'Informar';
+
+  @override
+  String get viewerActionSettingsRandomCompact => 'Azar: opciones';
+
+  @override
+  String get viewerActionSettingsFourierCompactTitle => 'Fourier';
 }

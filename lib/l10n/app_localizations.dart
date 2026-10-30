@@ -4424,6 +4424,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Copy link'**
   String get viewerCopyLinkAction;
+
+  /// No description provided for @viewerActionSectionSaveShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Save & share'**
+  String get viewerActionSectionSaveShare;
+
+  /// No description provided for @viewerActionSectionExploreAnimate.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore & animate'**
+  String get viewerActionSectionExploreAnimate;
+
+  /// No description provided for @viewerActionSectionVisualEffects.
+  ///
+  /// In en, this message translates to:
+  /// **'Visual effects'**
+  String get viewerActionSectionVisualEffects;
+
+  /// No description provided for @viewerActionSectionViewReport.
+  ///
+  /// In en, this message translates to:
+  /// **'View & report'**
+  String get viewerActionSectionViewReport;
+
+  /// No description provided for @viewerActionSettingsControls.
+  ///
+  /// In en, this message translates to:
+  /// **'Parameter controls'**
+  String get viewerActionSettingsControls;
+
+  /// No description provided for @viewerActionSettingsPalette.
+  ///
+  /// In en, this message translates to:
+  /// **'Palette settings'**
+  String get viewerActionSettingsPalette;
+
+  /// No description provided for @viewerActionSettingsExplore.
+  ///
+  /// In en, this message translates to:
+  /// **'Exploration settings'**
+  String get viewerActionSettingsExplore;
+
+  /// No description provided for @viewerActionSettingsKaleidoscope.
+  ///
+  /// In en, this message translates to:
+  /// **'Kaleidoscope settings'**
+  String get viewerActionSettingsKaleidoscope;
+
+  /// No description provided for @viewerActionSettingsFourier.
+  ///
+  /// In en, this message translates to:
+  /// **'Fourier settings'**
+  String get viewerActionSettingsFourier;
+
+  /// No description provided for @viewerActionSettingsText.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit text overlay'**
+  String get viewerActionSettingsText;
+
+  /// No description provided for @viewerActionSettingsCyclePalette.
+  ///
+  /// In en, this message translates to:
+  /// **'Next palette'**
+  String get viewerActionSettingsCyclePalette;
+
+  /// No description provided for @viewerActionSettingsExploreCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore setup'**
+  String get viewerActionSettingsExploreCompact;
+
+  /// No description provided for @viewerActionSettingsPaletteCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit palette'**
+  String get viewerActionSettingsPaletteCompact;
+
+  /// No description provided for @viewerActionSettingsCyclePaletteCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Next palette'**
+  String get viewerActionSettingsCyclePaletteCompact;
+
+  /// No description provided for @viewerActionSettingsFourierCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Fourier setup'**
+  String get viewerActionSettingsFourierCompact;
+
+  /// No description provided for @viewerActionSettingsTextCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit text'**
+  String get viewerActionSettingsTextCompact;
+
+  /// No description provided for @viewerActionSettingsTextCompactTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Text'**
+  String get viewerActionSettingsTextCompactTitle;
+
+  /// No description provided for @viewerActionSettingsReportCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get viewerActionSettingsReportCompact;
+
+  /// No description provided for @viewerActionSettingsRandomCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Random choices'**
+  String get viewerActionSettingsRandomCompact;
+
+  /// No description provided for @viewerActionSettingsFourierCompactTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fourier'**
+  String get viewerActionSettingsFourierCompactTitle;
 }
 
 class _AppLocalizationsDelegate

@@ -809,7 +809,7 @@ void main() {
                         in find.byType(FloatingActionButtonWidget).evaluate())
                       find.byWidget(action.widget),
                   ];
-                  expect(actions, hasLength(5));
+                  expect(actions.length, inInclusiveRange(1, 5));
                   for (final action in actions) {
                     await tester.ensureVisible(action);
                     await tester.pumpAndSettle();
@@ -831,6 +831,34 @@ void main() {
                     expect(
                         tester.getRect(titleChip).overlaps(actionRect), isFalse,
                         reason: 'Title overlaps $action');
+                  }
+                  final suppressed = [
+                    for (final key in const [
+                      'viewerBreathingButton',
+                      'viewerControlsButton',
+                      'viewerPaletteButton',
+                      'viewerRandomFractalFab'
+                    ])
+                      if (find.byKey(ValueKey(key)).evaluate().isEmpty) key,
+                  ];
+                  if (suppressed.isNotEmpty) {
+                    await tester.ensureVisible(overflow);
+                    await tester.pumpAndSettle();
+                    await tester.tap(overflow);
+                    await tester.pumpAndSettle();
+                    for (final key in suppressed) {
+                      final action = find.byKey(ValueKey(key));
+                      expect(action, findsOneWidget);
+                      await tester.ensureVisible(action);
+                      await tester.pumpAndSettle();
+                      expect(action.hitTestable(), findsOneWidget);
+                      expect(tester.getSize(action).width,
+                          greaterThanOrEqualTo(target));
+                      expect(tester.getSize(action).height,
+                          greaterThanOrEqualTo(target));
+                    }
+                    await tester.binding.handlePopRoute();
+                    await tester.pumpAndSettle();
                   }
                   expect(tester.takeException(), isNull);
                   await tester.ensureVisible(back);
@@ -1290,6 +1318,8 @@ void main() {
     testWidgets(
         'responsive action hierarchy keeps primary actions visible and secondary actions discoverable',
         (tester) async {
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      addTearDown(() => tester.binding.setSurfaceSize(null));
       for (final configuration in const [
         (size: Size(320, 568), textScale: 1.0),
         (size: Size(568, 320), textScale: 1.0),
@@ -1309,8 +1339,10 @@ void main() {
           'viewerOverflowMenu',
         ]) {
           final finder = find.byKey(ValueKey(key));
+          final suppressed = finder.evaluate().isEmpty;
+          if (suppressed) await revealMoreAction(tester, key);
           expect(finder, findsOneWidget,
-              reason: '$key missing at $configuration');
+              reason: '$key missing from toolbar and More at $configuration');
           final rect = tester.getRect(finder);
           expect(rect.left, greaterThanOrEqualTo(0),
               reason: '$key is left of the viewport at $configuration');
@@ -1320,6 +1352,12 @@ void main() {
               reason: '$key is right of the viewport at $configuration');
           expect(rect.bottom, lessThanOrEqualTo(configuration.size.height),
               reason: '$key is below the viewport at $configuration');
+          expect(rect.width, greaterThanOrEqualTo(48));
+          expect(rect.height, greaterThanOrEqualTo(48));
+          if (suppressed) {
+            await tester.binding.handlePopRoute();
+            await tester.pumpAndSettle();
+          }
         }
         for (final key in const [
           'viewerRandomParamsButton',
@@ -1343,8 +1381,6 @@ void main() {
         }
         expect(tester.takeException(), isNull);
       }
-      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
-      addTearDown(() => tester.binding.setSurfaceSize(null));
     });
 
     testWidgets('auto-explore is reachable from the viewer chrome',
@@ -1507,6 +1543,8 @@ void main() {
         'viewerOverflowMenu',
       ];
       for (var index = 0; index < orderedKeys.length; index++) {
+        if (find.byKey(ValueKey(orderedKeys[index])).evaluate().isEmpty)
+          continue;
         final finder = find.byKey(ValueKey(orderedKeys[index]));
         final semanticWidget = tester.widget<Semantics>(
           find.descendant(
@@ -1777,6 +1815,8 @@ void main() {
 
         final randomButton =
             find.byKey(const ValueKey('viewerRandomFractalFab'));
+        if (randomButton.evaluate().isEmpty)
+          await revealMoreAction(tester, 'viewerRandomFractalFab');
         await tester.tap(randomButton);
         await tester.pumpAndSettle(
           const Duration(milliseconds: 100),
@@ -1830,6 +1870,10 @@ void main() {
         );
 
         expect(controller.module.id, equals('mandelbrot'));
+        if (find
+            .byKey(const ValueKey('viewerRandomFractalFab'))
+            .evaluate()
+            .isEmpty) await revealMoreAction(tester, 'viewerRandomFractalFab');
         await tester.tap(find.byKey(const ValueKey('viewerRandomFractalFab')));
         await tester.pumpAndSettle(
           const Duration(milliseconds: 100),
