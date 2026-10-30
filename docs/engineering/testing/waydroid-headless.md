@@ -65,9 +65,13 @@ export ANDROID_DISPOSABLE_DEVICE="$ANDROID_DEVICE"
 waydroid adb connect
 adb devices -l
 test "$(adb -s "$ANDROID_DEVICE" get-state)" = device &&
-  test "$(adb -s "$ANDROID_DEVICE" shell getprop ro.product.model | tr -d '\r')" = WayDroid_x86_64_Device &&
+  test "$(adb -s "$ANDROID_DEVICE" shell getprop ro.product.model | tr -d '\r')" = 'WayDroid x86_64 Device' &&
   test "$(adb -s "$ANDROID_DEVICE" shell getprop sys.boot_completed | tr -d '\r')" = 1
 ```
+
+The native `ro.product.model` value contains spaces: `WayDroid x86_64 Device`.
+`adb devices -l` renders that same model as `WayDroid_x86_64_Device`; do not compare
+its sanitized display name directly with the native property.
 
 **All three final checks must exit zero.** If the serial is unauthorized, enroll
 only the existing host's public key using the linked recipe, then repeat these
@@ -187,6 +191,16 @@ and exits; whether any installation/test ran; and the next concrete diagnostic o
 access requirement. “Device unavailable” alone is not an adequate explanation.
 Keep Android/Play and dependent F-Droid qualification failures scoped to those
 lanes; do not suppress qualified web/desktop work.
+
+### Verified recovery — 2026-10-30
+
+The owner ran the step-2 existing-session/container restart. Fresh assistant
+readback then confirmed `192.168.240.112:5555` in state `device`, native model
+`WayDroid x86_64 Device`, `sys.boot_completed=1`, Android 13, and host neighbor
+`REACHABLE`. No key enrollment or physical phone was needed for this recovery.
+This confirms restored connectivity, not a passing current-candidate release gate.
+Retain the earlier diagnostic failure below rather than treating it as permanent
+unavailability or retroactively marking its skipped tests passed.
 
 ### Observed transport failure — 2026-10-29
 
