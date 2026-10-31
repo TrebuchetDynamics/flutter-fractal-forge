@@ -95,6 +95,53 @@ export PATH="$FLUTTER_ROOT/bin:/usr/bin:$PATH"
 | `flutter test --no-pub test/modules/milnor_brieskorn_render_test.dart --reporter expanded`, repeated, plus the focused `--plain-name 'actual 960x720 previews and exact replay states'` | Failing-before and passing-after wall times, commands and exits for isolated and repeated runs. |
 | `flutter pub get --offline --enforce-lockfile && flutter analyze --no-pub && flutter test --no-pub && /usr/bin/python3 -m pytest test/research test/scripts -q && bats test/scripts/*.bats` | Complete unchanged gate on delivered bytes, `pubspec.lock` SHA-256 before/after, `git diff --check`. If a stage fails, retain it and diagnose the remaining families separately. |
 
+## Diagnosed cause
+
+The main bundle records the case exceeding its default 30-second `package:test`
+timeout at `01:09 -> 01:43` (34 s) only in the loaded full suite. The case passes
+in isolation in about 9-10 s, and the unchanged full suite in this checkout
+also completed the case in 10 s (`flutter test --no-pub --reporter expanded`,
+exit 0, `+3359 ~8`, 11:47 wall). No `lib/` or `shaders/` file differs between
+the last green `a54ef576` and the red `42a879bb` (only
+`integration_test/flows/user_flows_test.dart` changed), so no product or shader
+performance defect is reproduced. The failure is host FragmentProgram
+`toImage`/`rawRgba` readback cost under loaded-suite resource pressure, not a
+shader defect. `ui.FragmentProgram.fromAsset` already returns the SDK registry's
+cached program, so the fixture was not re-programming the same asset.
+
+## Repair applied
+
+Smallest source-backed fix in `test/modules/milnor_brieskorn_render_test.dart`:
+
+- Dispose the 960x720 `ui.Image` immediately after its `rawRgba` readback and
+  optional `MILNOR_PREVIEW_DIR` PNG/JSON capture, before the two 32x24 replay
+  draws, so peak native memory per preset stays bounded.
+- Give the case an explicit `timeout: const Timeout(Duration(minutes: 2))`,
+  matching the existing heavy-readback precedent in
+  `test/modules/clean_room_visual_additions_test.dart` and
+  `test/modules/luminous_fold_lattice_test.dart`. This is an explicit bound, not
+  a sleep or an assertion relaxation.
+
+All assertions are unchanged: the 960x720 preview render, the
+`bytes.toSet().length > 80` distinct-output check, the exact 32x24 `time: 12` vs
+`time: 0` replay equality and the optional `MILNOR_PREVIEW_DIR` capture remain.
+
+## Actual worker evidence
+
+| Worker check | Actual result |
+| --- | --- |
+| `flutter --version` vs `fdroid/flutter.version`; `/usr/bin/python3` imports of pytest, jinja2 and callable `markupsafe.soft_str` | Exit 0; Flutter 3.44.6, framework `ee80f08bbf`, Dart 3.12.2; Python 3.12.3, pytest 9.0.2, Jinja2 3.1.6. No packages installed. |
+| Baseline `flutter test --no-pub test/modules/milnor_brieskorn_render_test.dart --plain-name 'actual 960x720 previews and exact replay states' --reporter expanded`, three isolated runs | Exit 0 each; 9-10 s case time. The loaded full suite also passed the case in 10 s (`+3359 ~8`, 11:47 wall). |
+| Repaired `flutter test --no-pub test/modules/milnor_brieskorn_render_test.dart --reporter expanded` | Exit 0; 8 passed (`00:02` to `00:11` case = 9 s). |
+| Repaired focused `--plain-name 'actual 960x720 previews and exact replay states'` | Exit 0; 9 s. |
+| `flutter analyze --no-pub` | Exit 0; `No issues found!` |
+| `dart format` and `git diff --check` on the changed test | Exit 0; no format changes, no whitespace errors. |
+| `flutter pub get --offline --enforce-lockfile` | Exit 0; `pubspec.lock` SHA-256 `22b29dbd8f71276012a54b9bdc62ba88408f967a86b34075986c17e1c4506ec3` before and after. |
+
 This document and the task record are a bounded repair contract, not a passing
-suite result. Maintainer executable checks are **NOT_RUN**; no goal, device,
-production or live qualification is claimed.
+suite result. The complete unchanged offline gate is **NOT_RUN by this worker**;
+the execution instructions reserve it for the coordinator on the merged tree.
+Python and Bats families were not run by this worker. The original red gate above
+remains a failure and focused passes do not establish a green full gate; no goal,
+device, production or live qualification is claimed. The docs maintainer owns
+closeout synchronization with the coordinator's terminal gate result.

@@ -284,6 +284,9 @@ void main() {
               'Flutter FragmentProgram host readback; not hardware GPU evidence'
         }));
       }
+      // Release the 960x720 host readback before the small replay draws so peak
+      // native memory is bounded per preset under a loaded suite.
+      image.dispose();
       final later = await draw(
           width: 32,
           height: 24,
@@ -293,11 +296,13 @@ void main() {
       final first = await draw(
           width: 32, height: 24, params: preset.params, view: preset.view);
       expect(await rgba(later), orderedEquals(await rgba(first)));
-      image.dispose();
       first.dispose();
       later.dispose();
     }
-  });
+    // Real host FragmentProgram 960x720 toImage/rawRgba readback per preset;
+    // the default 30s bound is too tight under a loaded full suite. This is an
+    // explicit bound, not a sleep or assertion relaxation.
+  }, timeout: const Timeout(Duration(minutes: 2)));
 
   testWidgets('EN and ES CPU limitation and inspired metadata are visible',
       (tester) async {
