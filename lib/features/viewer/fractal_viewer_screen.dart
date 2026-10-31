@@ -2384,6 +2384,11 @@ class _SheetChoicePill extends StatelessWidget {
         onTap: onTap,
         child: AnimatedContainer(
           duration: AppAnimations.fast,
+          // Tags are real buttons; keep the whole pill a 48dp target instead of
+          // the ~39dp that padding alone produced.
+          constraints: const BoxConstraints(
+            minHeight: AccessibleSizing.minTouchTarget,
+          ),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           decoration: BoxDecoration(
             color: selected
