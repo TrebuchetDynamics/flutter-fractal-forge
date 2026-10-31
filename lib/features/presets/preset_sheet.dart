@@ -7,7 +7,6 @@ import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
-import 'package:flutter_fractals/shared/widgets/app_feedback_snack_bar.dart';
 
 class PresetSheet extends StatefulWidget {
   /// Optional callback when batch export is requested.
@@ -398,17 +397,11 @@ class _PresetSheetState extends State<PresetSheet> {
         ),
         title: l10n.deletePresetTitle,
         content: Text(l10n.deletePresetMessage(preset.name)),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(false),
-            child: Text(l10n.buttonCancel),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(ctx).pop(true),
-            style: destructiveFilledButtonStyle(),
-            child: Text(l10n.buttonDelete),
-          ),
-        ],
+        cancelLabel: l10n.buttonCancel,
+        onCancel: () => Navigator.of(ctx).pop(false),
+        confirmLabel: l10n.buttonDelete,
+        destructiveConfirm: true,
+        onConfirm: () => Navigator.of(ctx).pop(true),
       ),
     );
     if (confirmed != true) return;
@@ -460,19 +453,13 @@ class _PresetSheetState extends State<PresetSheet> {
             if (trimmed.isNotEmpty) Navigator.of(ctx).pop(trimmed);
           },
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(),
-            child: Text(l10n.buttonCancel),
-          ),
-          FilledButton(
-            onPressed: () {
-              final trimmed = renameController.text.trim();
-              if (trimmed.isNotEmpty) Navigator.of(ctx).pop(trimmed);
-            },
-            child: Text(l10n.buttonSave),
-          ),
-        ],
+        cancelLabel: l10n.buttonCancel,
+        onCancel: () => Navigator.of(ctx).pop(),
+        confirmLabel: l10n.buttonSave,
+        onConfirm: () {
+          final trimmed = renameController.text.trim();
+          if (trimmed.isNotEmpty) Navigator.of(ctx).pop(trimmed);
+        },
       ),
     );
     renameController.dispose();

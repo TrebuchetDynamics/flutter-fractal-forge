@@ -6,6 +6,7 @@ import 'package:flutter_fractals/core/models/wallpaper/wallpaper_options.dart';
 import 'package:flutter_fractals/core/services/platform/haptic_service.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
+import 'package:flutter_fractals/shared/widgets/app_sheet_actions.dart';
 import 'package:flutter_fractals/shared/widgets/sheet_section_label.dart';
 
 class WallpaperOptionsSheet extends StatefulWidget {
@@ -156,24 +157,18 @@ class _WallpaperOptionsSheetState extends State<WallpaperOptionsSheet> {
             ],
           ),
         ),
-        Padding(
+        AppSheetActions(
           padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
-          child: SizedBox(
-            width: double.infinity,
-            child: FilledButton.icon(
-              style: FilledButton.styleFrom(
-                minimumSize: const Size(48, 48),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              ),
+          actions: [
+            AppActionButton(
+              icon: Icons.wallpaper_rounded,
+              label: l10n.wallpaperApply,
               onPressed: () {
                 HapticService.heavy();
                 Navigator.of(context).pop(_options);
               },
-              icon: const Icon(Icons.wallpaper_rounded),
-              label: Text(l10n.wallpaperApply),
             ),
-          ),
+          ],
         ),
       ],
     );

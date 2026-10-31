@@ -8,7 +8,6 @@ import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_fractals/shared/widgets/app_feedback_snack_bar.dart';
 
 /// A modal bottom sheet displaying exploration history and favorites.
 ///
@@ -373,16 +372,10 @@ class _HistorySheetState extends State<HistorySheet>
           ),
           onSubmitted: (_) => _saveFavorite(dialogContext, history, entry),
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: Text(l10n.buttonCancel),
-          ),
-          FilledButton(
-            onPressed: () => _saveFavorite(dialogContext, history, entry),
-            child: Text(l10n.buttonSave),
-          ),
-        ],
+        cancelLabel: l10n.buttonCancel,
+        onCancel: () => Navigator.pop(dialogContext),
+        confirmLabel: l10n.buttonSave,
+        onConfirm: () => _saveFavorite(dialogContext, history, entry),
       ),
     );
   }
@@ -432,22 +425,16 @@ class _HistorySheetState extends State<HistorySheet>
             Navigator.pop(dialogContext);
           },
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: Text(l10n.buttonCancel),
-          ),
-          FilledButton(
-            onPressed: () {
-              final newName = _nameController.text.trim();
-              if (newName.isNotEmpty) {
-                history.renameFavorite(entry.id, newName);
-              }
-              Navigator.pop(dialogContext);
-            },
-            child: Text(l10n.buttonSave),
-          ),
-        ],
+        cancelLabel: l10n.buttonCancel,
+        onCancel: () => Navigator.pop(dialogContext),
+        confirmLabel: l10n.buttonSave,
+        onConfirm: () {
+          final newName = _nameController.text.trim();
+          if (newName.isNotEmpty) {
+            history.renameFavorite(entry.id, newName);
+          }
+          Navigator.pop(dialogContext);
+        },
       ),
     );
   }
@@ -468,20 +455,14 @@ class _HistorySheetState extends State<HistorySheet>
         ),
         title: l10n.deleteFavoriteTitle,
         content: Text(l10n.deleteFavoriteMessage(entry.name ?? '')),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: Text(l10n.buttonCancel),
-          ),
-          FilledButton(
-            style: destructiveFilledButtonStyle(),
-            onPressed: () {
-              history.removeFavorite(entry.id);
-              Navigator.pop(dialogContext);
-            },
-            child: Text(l10n.buttonDelete),
-          ),
-        ],
+        cancelLabel: l10n.buttonCancel,
+        onCancel: () => Navigator.pop(dialogContext),
+        confirmLabel: l10n.buttonDelete,
+        destructiveConfirm: true,
+        onConfirm: () {
+          history.removeFavorite(entry.id);
+          Navigator.pop(dialogContext);
+        },
       ),
     );
   }
