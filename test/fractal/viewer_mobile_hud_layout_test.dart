@@ -163,7 +163,7 @@ void main() {
   }
 
   testWidgets(
-      'large-target preference grows HUD header sliders chips and footer to 56',
+      'large-target preference grows HUD header sliders toggles and footer to 56',
       (tester) async {
     await pumpAccessibleHud(tester, large: true);
     for (final icon in [Icons.expand_more_rounded, Icons.close_rounded]) {
@@ -177,10 +177,11 @@ void main() {
       expect(tester.getSize(find.byWidget(element.widget)).height,
           greaterThanOrEqualTo(56));
     }
-    final chip = find.byType(ChoiceChip).first;
-    await tester.ensureVisible(chip);
+    final effectToggle =
+        find.widgetWithText(SwitchListTile, 'Transparent background');
+    await tester.ensureVisible(effectToggle);
     await tester.pumpAndSettle();
-    expect(tester.getSize(chip).height, greaterThanOrEqualTo(56));
+    expect(tester.getSize(effectToggle).height, greaterThanOrEqualTo(56));
     final randomize = find.widgetWithText(FilledButton, 'Randomize');
     await tester.ensureVisible(randomize);
     await tester.pumpAndSettle();
