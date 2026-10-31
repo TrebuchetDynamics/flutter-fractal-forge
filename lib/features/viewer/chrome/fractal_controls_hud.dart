@@ -10,7 +10,6 @@ import 'package:flutter_fractals/features/controls/param_control_plan.dart';
 import 'package:flutter_fractals/features/controls/widgets/number_wall_prime_control.dart';
 import 'package:flutter_fractals/features/controls/widgets/number_wall_style_controls.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
-import 'package:flutter_fractals/core/controllers/input/fractal_effect_input_bounds.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/fractal_math_summary.dart';
 import 'package:flutter_fractals/shared/widgets/app_tool_button.dart';
@@ -119,7 +118,7 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 8, 4),
+            padding: const EdgeInsets.fromLTRB(12, 6, 4, 2),
             child: Row(
               children: [
                 if (widget.leading != null) widget.leading!,
@@ -156,7 +155,7 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
     );
     final content = widget.content ??
         Padding(
-          padding: const EdgeInsets.fromLTRB(12, 4, 12, 16),
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -191,15 +190,6 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
                 );
               }),
 
-              // Color scheme - compact horizontal chip row
-              if (_hasParam(controller, 'colorScheme')) ...[
-                _CompactColorSchemeRow(
-                  currentValue: _intParam(controller, 'colorScheme', 0),
-                  onChanged: (v) => controller.updateParam('colorScheme', v),
-                ),
-                const SizedBox(height: 8),
-              ],
-
               // Extra params (per-fractal)
               ...controller.module.parameters
                   .where((p) =>
@@ -218,35 +208,20 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
                 );
               }),
 
-              const SizedBox(height: 4),
+              const SizedBox(height: 2),
 
-              // Kaleidoscope toggle + controls
-              if (controller.module.id != 'number_wall')
+              // Effect toggles stay one compact row each; the palette picker
+              // lives in the viewer tools, not here.
+              if (controller.module.id != 'number_wall') ...[
                 _KaleidoscopeSection(controller: controller, l10n: l10n),
-
-              const SizedBox(height: 4),
-              if (controller.module.id != 'number_wall')
                 _HudToggleRow(
-                  label: l10n.hudFluidMode,
-                  value: controller.fluidModeEnabled,
-                  onChanged: controller.setFluidModeEnabled,
-                ),
-              if (controller.module.id != 'number_wall' &&
-                  controller.fluidModeEnabled) ...[
-                const SizedBox(height: 4),
-                _CompactHudSliderRow(
-                  label: l10n.hudFluidIntensity,
-                  value: controller.fluidStrength,
-                  min: FractalEffectInputBounds.minFluidStrength,
-                  max: FractalEffectInputBounds.maxFluidStrength,
-                  divisions: 20,
-                  valueLabel: controller.fluidStrength.toStringAsFixed(1),
-                  semanticLabel: l10n.hudFluidIntensity,
-                  onChanged: controller.setFluidStrength,
+                  label: l10n.hudTransparentBackground,
+                  value: controller.transparentBackground,
+                  onChanged: controller.setTransparentBackground,
                 ),
               ],
 
-              const SizedBox(height: 8),
+              const SizedBox(height: 4),
 
               if (controller.module.id == 'number_wall')
                 const NumberWallRandomizationControls(),
@@ -399,15 +374,6 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
         );
     }
   }
-
-  bool _hasParam(FractalController c, String id) =>
-      c.module.parameters.any((param) => param.id == id);
-
-  int _intParam(FractalController c, String id, int fallback) {
-    final v = c.params[id];
-    if (v is num) return v.toInt();
-    return fallback;
-  }
 }
 
 /// A compact HUD slider row with label on left, value on right.
@@ -521,61 +487,6 @@ class _CompactHudSliderRow extends StatelessWidget {
   }
 }
 
-/// Compact color scheme selector row with horizontal scrollable chips.
-class _CompactColorSchemeRow extends StatelessWidget {
-  final int currentValue;
-  final ValueChanged<int> onChanged;
-
-  const _CompactColorSchemeRow({
-    required this.currentValue,
-    required this.onChanged,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final controller = context.watch<FractalController>();
-    final l10n = AppLocalizations.of(context)!;
-    final colorSchemeParam =
-        controller.module.parameters.firstWhere((p) => p.id == 'colorScheme');
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          l10n.hudPalette,
-          style: const TextStyle(
-            color: AppColors.textSecondary,
-            fontSize: 13,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        const SizedBox(height: 4),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: colorSchemeParam.options
-                .map((option) => Padding(
-                      padding: const EdgeInsets.only(right: 4),
-                      child: _HudChip(
-                        label: option.label(l10n),
-                        selected: option.value == currentValue,
-                        onTap: () {
-                          final v = option.value;
-                          if (v is int) {
-                            HapticFeedback.selectionClick();
-                            onChanged(v);
-                          }
-                        },
-                      ),
-                    ))
-                .toList(),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 /// Kaleidoscope toggle and compact controls section.
 class _KaleidoscopeSection extends StatelessWidget {
   final FractalController controller;
@@ -598,7 +509,7 @@ class _KaleidoscopeSection extends StatelessWidget {
           onChanged: (v) => controller.setKaleidoscopeEnabled(v),
         ),
         if (controller.kaleidoscopeEnabled) ...[
-          const SizedBox(height: 4),
+          const SizedBox(height: 2),
           Row(
             children: [
               Expanded(
@@ -619,7 +530,7 @@ class _KaleidoscopeSection extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 2),
           Row(
             children: [
               Expanded(
@@ -740,10 +651,16 @@ class _HudToggleRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final target = AccessibleSizing.touchTargetSize(
+        largeTargets:
+            context.watch<AccessibilityService?>()?.largeTargetsEnabled ??
+                false);
     return Material(
       type: MaterialType.transparency,
       child: SwitchListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+        dense: true,
+        minTileHeight: target,
         title: Text(label,
             style: const TextStyle(
               color: Colors.white,

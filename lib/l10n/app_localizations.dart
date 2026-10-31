@@ -3867,17 +3867,11 @@ abstract class AppLocalizations {
   /// **'Rotation'**
   String get hudRotation;
 
-  /// No description provided for @hudFluidMode.
+  /// No description provided for @hudTransparentBackground.
   ///
   /// In en, this message translates to:
-  /// **'Fluid mode'**
-  String get hudFluidMode;
-
-  /// No description provided for @hudFluidIntensity.
-  ///
-  /// In en, this message translates to:
-  /// **'Fluid intensity'**
-  String get hudFluidIntensity;
+  /// **'Transparent background'**
+  String get hudTransparentBackground;
 
   /// No description provided for @hudResetViewLabel.
   ///

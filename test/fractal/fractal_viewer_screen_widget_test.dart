@@ -2356,7 +2356,7 @@ void main() {
 
       expect(tester.takeException(), isNull);
       expect(find.byType(FractalControlsHud), findsOneWidget);
-      expect(find.text('Fluid mode'), findsOneWidget);
+      expect(find.text('Transparent background'), findsOneWidget);
       expect(find.text('Iterations'), findsNothing);
       expect(find.text('Bailout'), findsNothing);
     });

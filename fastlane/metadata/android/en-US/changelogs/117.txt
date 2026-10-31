@@ -1,0 +1,3 @@
+Compact controls panel with fewer rows.
+Palette now opens from the viewer tools.
+New transparent background toggle.

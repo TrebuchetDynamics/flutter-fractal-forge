@@ -2070,10 +2070,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hudRotation => 'Rotation';
 
   @override
-  String get hudFluidMode => 'Fluid mode';
-
-  @override
-  String get hudFluidIntensity => 'Fluid intensity';
+  String get hudTransparentBackground => 'Transparent background';
 
   @override
   String get hudResetViewLabel => 'Reset view';

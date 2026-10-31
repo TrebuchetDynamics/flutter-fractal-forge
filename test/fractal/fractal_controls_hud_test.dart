@@ -29,8 +29,10 @@ void main() {
       expect(find.text('Iterations'), findsOneWidget);
       // Should show bailout slider
       expect(find.text('Bailout'), findsOneWidget);
-      // Should show palette label
-      expect(find.text('Palette'), findsOneWidget);
+      // The palette picker lives in the viewer tools, not the controls panel.
+      expect(find.text('Palette'), findsNothing);
+      // Transparent background stays available here.
+      expect(find.text('Transparent background'), findsOneWidget);
       // Should show close button
       expect(find.byIcon(Icons.close_rounded), findsOneWidget);
     });
@@ -115,35 +117,23 @@ void main() {
       handle.dispose();
     });
 
-    testWidgets('fluid mode exposes intensity control when enabled',
+    testWidgets('transparent background toggles from the panel',
         (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.text('Fluid mode'), findsOneWidget);
-      expect(find.text('Fluid intensity'), findsNothing);
+      expect(find.text('Transparent background'), findsOneWidget);
+      expect(harness.controller.transparentBackground, isFalse);
+      expect(find.text('Fluid mode'), findsNothing);
 
-      await tester.ensureVisible(find.text('Fluid mode'));
-      await tester.tap(find.text('Fluid mode'));
+      await tester.ensureVisible(find.text('Transparent background'));
+      await tester.tap(find.text('Transparent background'));
       await tester.pumpAndSettle();
+      expect(harness.controller.transparentBackground, isTrue);
 
-      expect(find.text('Fluid intensity'), findsOneWidget);
-      expect(harness.controller.fluidModeEnabled, isTrue);
-
-      final initialStrength = harness.controller.fluidStrength;
-      await tester.timedDrag(
-        find.byType(Slider).last,
-        const Offset(80, 0),
-        const Duration(milliseconds: 150),
-      );
+      await tester.tap(find.text('Transparent background'));
       await tester.pumpAndSettle();
-      expect(harness.controller.fluidStrength, isNot(initialStrength));
-
-      await tester.ensureVisible(find.text('Fluid mode'));
-      await tester.tap(find.text('Fluid mode'));
-      await tester.pumpAndSettle();
-      expect(find.text('Fluid intensity'), findsNothing);
-      expect(harness.controller.fluidModeEnabled, isFalse);
+      expect(harness.controller.transparentBackground, isFalse);
     });
 
     testWidgets('kaleidoscope section toggles', (tester) async {
@@ -205,8 +195,7 @@ void main() {
       await tester.pumpAndSettle();
 
       for (final label in const [
-        'Paleta',
-        'Modo fluido',
+        'Fondo transparente',
         'Restablecer vista',
         'Restablecer parámetros',
         'Aleatorizar',
@@ -215,7 +204,12 @@ void main() {
         expect(find.text(label), findsWidgets, reason: label);
       }
       // The English source strings must be gone, not merely accompanied.
-      for (final label in const ['Palette', 'Fluid mode', 'Randomize']) {
+      for (final label in const [
+        'Palette',
+        'Fluid mode',
+        'Transparent background',
+        'Randomize',
+      ]) {
         expect(find.text(label), findsNothing, reason: label);
       }
     });
