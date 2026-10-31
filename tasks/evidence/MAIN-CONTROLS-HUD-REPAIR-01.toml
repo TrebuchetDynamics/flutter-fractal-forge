@@ -1,0 +1,9 @@
+schema = 1
+task = "MAIN-CONTROLS-HUD-REPAIR-01"
+candidate = "12859b8afc374bef10ab7b1cbd7ed95cc1569b0d"
+integration = "7cfd56a51e3a9c3f7118d23d6caefe34dae48a74"
+tree = "9a625a51717cdda4add84f74f3e4d9dff8136c97"
+contract_hash = "b75c4acf47324f141b624949c128e1658a09bb0d3016324ec1917df0cae59cbb"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAIN-CONTROLS-HUD-REPAIR-01"]
+result = "pass"
+review = "passed"
