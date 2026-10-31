@@ -1,0 +1,3 @@
+Responsive viewer controls with a grouped More menu.
+Share links preview the current artwork before copying.
+Consistent sheets, dialogs and buttons across the app.
