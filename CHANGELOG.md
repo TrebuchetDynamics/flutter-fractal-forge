@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- fix(test): bound the 960x720 Milnor preview case with an explicit 2-minute timeout and dispose its readback image before the 32x24 replay draws, removing a loaded-suite timeout without weakening assertions. (MAIN-MILNOR-REPAIR-01)
 - Fixed random-fractal FAB widget coverage to deterministically exercise palette and non-palette modules while retaining atomic palette-publication assertions and exception-safe cleanup. (MAIN-RANDOM-FAB-01)
 - Strengthened Quaternion Julia 3D regression coverage for left/right drag and fling direction while preserving legacy 3D camera conventions. (ACAD-014-fbc415fd)
 - Remove unreachable shader-local boxDE and sphereDE helpers from Amazing Box without changing emitted shader source or uniform reflection. (ACAD-012-c11ba5df)

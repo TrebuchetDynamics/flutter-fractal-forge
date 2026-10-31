@@ -1,0 +1,9 @@
+schema = 1
+task = "MAIN-MILNOR-REPAIR-01"
+candidate = "372aca4097918a33d6a849af961a7e83bc38371b"
+integration = "08fc1c60d2c6d9c000e70f6430d1b40c77c0a991"
+tree = "24b5a9a1ac4ba94050c2321be0438a4319e5e2b8"
+contract_hash = "f9e6c6f7bb558ce019c61e8bdcbb3eb255086b9b8b92cb4a0edf40361e0f160c"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAIN-MILNOR-REPAIR-01"]
+result = "pass"
+review = "passed"
