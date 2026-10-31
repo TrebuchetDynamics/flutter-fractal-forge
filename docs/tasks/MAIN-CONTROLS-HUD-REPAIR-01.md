@@ -108,3 +108,66 @@ export PATH="$FLUTTER_ROOT/bin:/usr/bin:$PATH"
 
 No device, browser, hardware, release or production acceptance is inferred or
 required to complete this local accessibility-test repair.
+
+## Delivered repair
+
+The delivered tree contains the reconciliation in
+`cbc3b776 test(viewer): cover the compact HUD toggles and drop palette
+assumptions`, an ancestor of this task's baseline. It does not restore the
+removed palette or fluid-mode features and does not weaken the assertions:
+
+| Main-check failure at `b291b15f` | Delivered always-run case |
+| --- | --- |
+| `live HUD keyboard reveals palettes and operates switches` | `live HUD keyboard reaches effect toggles and operates them` — Tabs to both remaining effect toggles, checks hit-testability, activates each with Space and asserts both controller values plus both haptic calls. |
+| `live HUD preserves palette and extra-enum option subsets` | `live HUD preserves extra-enum option subsets` — still asserts every module-specific enum chip (and only those) for the active module and a module with an extra enum. |
+| `Ahem live HUD keeps 48px actions at 320px/2.0x (en)` | Same case name and assertions, now measuring the shipped Transparent-background toggle instead of the removed palette chip. |
+| `Ahem live HUD keeps 48px actions at 320px/3.0x (en)` | Same case name and assertions. |
+| `Ahem live HUD keeps 48px actions at 320px/2.0x (es)` | Same case name and assertions. |
+| `Ahem live HUD keeps 48px actions at 320px/3.0x (es)` | Same case name and assertions. |
+
+`live HUD reset is reachable with Tab and Enter` remains always-run. Palette
+touch-target coverage remains at `test/fractal/palette_picker_test.dart`
+(48px minimum at lines 277-278, including 320px at 2.0x/3.0x in `en` and `es`).
+Large-target 56dp coverage remains in
+`test/fractal/viewer_mobile_hud_layout_test.dart` (header, sliders, effect
+toggle and Randomize) and `test/fractal/fractal_viewer_screen_widget_test.dart`.
+No accessibility case was deleted; the only removals are assertions about
+palette and fluid controls that the compact panel intentionally no longer
+renders.
+
+No HUD or localization edit was needed: the delivered source has no reproduced
+loss of keyboard or touch access.
+
+## Worker verification
+
+Source for the failing-before run was a detached baseline worktree at
+`b291b15f3d846457e10933d5f9346dd6264d3664`; the passing-after run used the
+delivered checkout (`c7680a82` plus this task's documentation commit). The
+pinned process-local setup was used throughout:
+
+```sh
+export FLUTTER_ROOT="$AUTOWORK_CACHE/flutter-3.44.6"
+export PUB_CACHE="$AUTOWORK_CACHE/pub-cache"
+export PATH="$FLUTTER_ROOT/bin:/usr/bin:$PATH"
+```
+
+| Check | Result |
+| --- | --- |
+| `flutter --version` vs `fdroid/flutter.version` | Flutter 3.44.6 / Dart 3.12.2; matches `3.44.6`. |
+| `/usr/bin/python3 -c 'import sys, pytest, jinja2, markupsafe; ...'` | Python 3.12.3, pytest 9.0.2, jinja2 3.1.6, `markupsafe.soft_str` callable. No install performed. |
+| `flutter pub get --offline --enforce-lockfile` | Exit 0 on both trees; `pubspec.lock` SHA-256 `22b29dbd8f71276012a54b9bdc62ba88408f967a86b34075986c17e1c4506ec3` before and after. |
+| `flutter test --no-pub test/fractal/fractal_controls_hud_accessibility_test.dart --reporter expanded` at `b291b15f` | Exit 1; 1 passed, 6 failed — exactly the six main-check names above. The keyboard case printed `Bad state: No element`; the subset case printed `has too few elements (0 < 64)`; the four Ahem cases printed `Found 0 widgets ... ancestors` of the palette label. |
+| Same command on the delivered tree, repeated 3 times | Exit 0 each run; 7 passed. |
+| `--plain-name` for each delivered case (`live HUD keyboard reaches effect toggles and operates them`, `live HUD preserves extra-enum option subsets`, `live HUD reset is reachable with Tab and Enter`, and the four Ahem 320px/{2.0x,3.0x} {en,es} cases) | Exit 0 for all seven isolated runs. |
+| `flutter test --no-pub test/fractal/fractal_controls_hud_test.dart test/fractal/viewer_mobile_hud_layout_test.dart test/fractal/palette_picker_test.dart --reporter compact` | Exit 0; 61 passed. |
+| `flutter test --no-pub test/a11y/semantics/interactive_name_audit_test.dart test/fractal/fractal_viewer_screen_widget_test.dart --reporter compact` | Exit 0; 215 passed. |
+| `flutter analyze --no-pub` | Exit 0, `No issues found!`. |
+| `dart format --output=none --set-exit-if-changed test/fractal/fractal_controls_hud_accessibility_test.dart`; `git diff --check` | Exit 0; no formatting or whitespace change. |
+
+`dart_test.yaml` sets `concurrency: 1`, so this file already runs isolated from
+other suites. The failing-before run reproduced all six failures in that same
+isolation, with no sleeps or timing changes required; the delivered cases pass
+repeatedly in isolation and alongside their sibling files. The complete unchanged
+offline gate remains the coordinator/runner full-check gate on the integrated
+tree; it was not run as a worker command, and no full-gate or three-revision
+qualification is inferred here.
