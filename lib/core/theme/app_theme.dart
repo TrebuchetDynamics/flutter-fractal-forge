@@ -546,6 +546,18 @@ class AppTheme {
           textStyle: AppTypography.labelLarge.copyWith(color: Colors.white),
         ),
       ),
+      // Filled and tonal buttons share the same geometry as the elevated and
+      // outlined variants. Without this, Material 3's StadiumBorder makes every
+      // primary dialog/sheet action a pill that does not match the rest of the
+      // app. Colours stay with Material so filled/tonal stay distinguishable.
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
+          ),
+        ),
+      ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.textPrimary,
@@ -566,6 +578,9 @@ class AppTheme {
           // Filled buttons keep primary — they supply their own background.
           foregroundColor: AppColors.primaryLight,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
+          ),
           textStyle:
               AppTypography.labelLarge.copyWith(color: AppColors.primaryLight),
         ),
@@ -807,6 +822,20 @@ class AppTheme {
           ),
         ),
       ),
+      // Keep filled and tonal actions on the same 48dp, 2px-bordered geometry
+      // as every other high-contrast button. Foreground stays with Material so
+      // filled (black on yellow) and tonal (black on cyan) both stay legible.
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          minimumSize: const Size(
+              AccessibleSizing.minTouchTarget, AccessibleSizing.minTouchTarget),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
+            side: const BorderSide(color: HighContrastColors.border, width: 2),
+          ),
+        ),
+      ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: HighContrastColors.textPrimary,
@@ -819,6 +848,23 @@ class AppTheme {
           ),
           textStyle: AppTypography.labelLarge.copyWith(
             fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+      // The high-contrast theme needs the same text-button geometry as the
+      // other variants; yellow keeps the label legible on the black surface.
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: HighContrastColors.primary,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          minimumSize: const Size(
+              AccessibleSizing.minTouchTarget, AccessibleSizing.minTouchTarget),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
+          ),
+          textStyle: AppTypography.labelLarge.copyWith(
+            color: HighContrastColors.primary,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),
@@ -1017,6 +1063,16 @@ class AppTheme {
           textStyle: AppTypography.labelLarge.copyWith(color: Colors.white),
         ),
       ),
+      // Match the dark theme: same radius and padding as the other variants so
+      // dialog and sheet actions are not Material pills.
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
+          ),
+        ),
+      ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: OledColors.textPrimary,
@@ -1034,6 +1090,9 @@ class AppTheme {
           // OLED surface and 3.62:1 on surfaceVariant, primaryLight 7.43 / 6.53.
           foregroundColor: OledColors.primaryLight,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.buttonRadius),
+          ),
           textStyle:
               AppTypography.labelLarge.copyWith(color: OledColors.primaryLight),
         ),
