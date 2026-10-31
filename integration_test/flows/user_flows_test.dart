@@ -188,12 +188,16 @@ void main() {
       await tester.drag(find.byType(Slider).first, const Offset(50, 0));
       await pumpForUiTransition(tester);
 
-      final resetView = find.byIcon(Icons.home_filled);
+      // Find the actions by their localized tooltip, not by icon: the HUD
+      // reset icon changed from home_filled to center_focus_strong_rounded
+      // when the controls hierarchy was reworked, and an icon finder silently
+      // broke this journey.
+      final resetView = find.byTooltip('Reset view');
       await tester.ensureVisible(resetView);
       await pumpForUiTransition(tester);
       await tester.tap(resetView);
       await tester.pump();
-      await tester.tap(find.byIcon(Icons.settings_backup_restore_rounded));
+      await tester.tap(find.byTooltip('Reset parameters'));
       await tester.pump();
       await tester.tap(find.text('Randomize'));
       await tester.pump(const Duration(milliseconds: 200));
