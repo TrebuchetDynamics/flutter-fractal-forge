@@ -644,7 +644,9 @@ PY
     PLAY_LISTING_TITLE="$listing_title" \
     PLAY_LISTINGS_JSON="$PROJECT_ROOT/docs/play-store-localized-listings.json" \
     PLAY_LISTING_ICON="$PROJECT_ROOT/assets/icon/ic_launcher_512.png" \
-    PLAY_LISTING_ICON_SHA256="bcb7ccc833272f090541e7b7b825f63a21753248a4023370198e2dbb84b4437f" \
+    # Owner-approved open-spiral icon (924cb17d); refreshed after the old
+    # pre-redesign pin blocked the 1.1.116 listing update.
+    PLAY_LISTING_ICON_SHA256="c22c4fde194800588d21ad3ef2047749bb6335ce4b3fff605c00b1a054396c41" \
     PLAY_RECEIPT_PATH="$ARTIFACT_DIR/play-publication-receipt.json" \
     "$SCRIPT_DIR/build-upload-playstore.sh" --skip-build \
       --prebuilt-aab "$staged_aab" \
