@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
+import 'package:flutter_fractals/shared/widgets/app_feedback_snack_bar.dart';
 import 'package:flutter_fractals/shared/widgets/app_tool_button.dart';
 
 /// Opens a shared sheet without a second Material drag handle.
@@ -293,6 +294,10 @@ class AppBottomSheetHeader extends StatelessWidget {
 }
 
 /// Standard app dialog with the same icon badge and surface treatment as sheets.
+///
+/// Pass [actions] for a bespoke footer, or the [cancelLabel]/[confirmLabel]
+/// pair for the usual dismiss/confirm row. The pair keeps button order,
+/// emphasis and destructive styling identical in every dialog.
 class AppDialog extends StatelessWidget {
   final IconData icon;
   final Gradient? iconGradient;
@@ -300,6 +305,19 @@ class AppDialog extends StatelessWidget {
   final String? subtitle;
   final Widget? content;
   final List<Widget> actions;
+
+  /// Dismiss action label. Built as a text button before the confirm action.
+  final String? cancelLabel;
+  final VoidCallback? onCancel;
+
+  /// Confirmation action label. Built as a filled button after the cancel
+  /// action.
+  final String? confirmLabel;
+  final VoidCallback? onConfirm;
+
+  /// Uses the error fill for the confirmation button.
+  final bool destructiveConfirm;
+  final IconData? confirmIcon;
 
   const AppDialog({
     super.key,
@@ -309,6 +327,12 @@ class AppDialog extends StatelessWidget {
     this.subtitle,
     this.content,
     this.actions = const [],
+    this.cancelLabel,
+    this.onCancel,
+    this.confirmLabel,
+    this.onConfirm,
+    this.destructiveConfirm = false,
+    this.confirmIcon,
   });
 
   @override
@@ -349,8 +373,35 @@ class AppDialog extends StatelessWidget {
                   ),
               child: content!,
             ),
-      actions: actions,
+      actions: _resolvedActions(context),
     );
+  }
+
+  /// Custom [actions] win; otherwise build the shared cancel/confirm pair.
+  List<Widget> _resolvedActions(BuildContext context) {
+    if (actions.isNotEmpty) return actions;
+    return [
+      if (cancelLabel != null)
+        TextButton(
+          onPressed: onCancel ?? () => Navigator.of(context).maybePop(),
+          child: Text(cancelLabel!),
+        ),
+      if (confirmLabel != null)
+        confirmIcon == null
+            ? FilledButton(
+                onPressed: onConfirm,
+                style:
+                    destructiveConfirm ? destructiveFilledButtonStyle() : null,
+                child: Text(confirmLabel!),
+              )
+            : FilledButton.icon(
+                onPressed: onConfirm,
+                style:
+                    destructiveConfirm ? destructiveFilledButtonStyle() : null,
+                icon: Icon(confirmIcon),
+                label: Text(confirmLabel!),
+              ),
+    ];
   }
 }
 

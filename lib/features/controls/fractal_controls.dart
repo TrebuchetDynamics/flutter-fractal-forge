@@ -11,7 +11,8 @@ import 'package:flutter_fractals/core/widgets/animated_widgets.dart';
 import 'package:flutter_fractals/features/controls/param_control_plan.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
-import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
+import 'package:flutter_fractals/shared/widgets/app_sheet_actions.dart';
+import 'package:flutter_fractals/shared/widgets/app_sheet_scaffold.dart';
 
 class FractalControlsSheet extends StatelessWidget {
   const FractalControlsSheet({Key? key}) : super(key: key);
@@ -21,120 +22,113 @@ class FractalControlsSheet extends StatelessWidget {
     final controller = context.watch<FractalController>();
     final l10n = AppLocalizations.of(context)!;
 
-    return AppBottomSheet(
+    return AppSheetScaffold(
       maxHeightFactor: 0.62,
-      children: [
-        AppBottomSheetHeader(
-          icon: Icons.tune_rounded,
-          title: l10n.controlsTitle,
-          subtitle: controller.module.displayName(l10n),
-          onClose: () => Navigator.of(context).pop(),
-        ),
-        const Divider(height: 1, color: AppColors.divider),
-        // Scrollable content
-        Flexible(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.md,
-              AppSpacing.sm,
-              AppSpacing.md,
-              AppSpacing.sm,
-            ),
+      icon: Icons.tune_rounded,
+      title: l10n.controlsTitle,
+      subtitle: controller.module.displayName(l10n),
+      onClose: () => Navigator.of(context).pop(),
+      bodyPadding: const EdgeInsets.fromLTRB(
+        AppSpacing.md,
+        AppSpacing.sm,
+        AppSpacing.md,
+        AppSpacing.sm,
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _ControlCard(
+            title: l10n.sectionParameters,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _ControlCard(
-                  title: l10n.sectionParameters,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (controller.module.id == 'number_wall')
-                        const NumberWallRandomizationControls(),
-                      ...controller.module.parameters
-                          .where((p) => p.id != 'randomSeed')
-                          .toList()
-                          .asMap()
-                          .entries
-                          .map((entry) {
-                        return StaggeredItem(
-                          index: entry.key,
-                          itemDelay: const Duration(milliseconds: 30),
-                          child: _ParamControl(
-                            param: entry.value,
-                            value: controller.params[entry.value.id] ??
-                                entry.value.defaultValue,
-                            onChanged: (value) {
-                              if (controller.module.id == 'number_wall' &&
-                                  entry.value.id == 'prime' &&
-                                  value is String) {
-                                unawaited(
-                                    controller.applyNumberWallPrime(value));
-                              } else {
-                                controller.updateParam(entry.value.id, value);
-                              }
-                            },
-                          ),
-                        );
-                      }),
-                    ],
-                  ),
-                ),
-                if (controller.module.id != 'number_wall') ...[
-                  _ControlCard(
-                    title: l10n.dimensionKaleidoscope,
-                    child: _KaleidoscopeControls(),
-                  ),
-                  _ControlCard(
-                    title: l10n.sectionGlow,
-                    child: _GlowControls(),
-                  ),
-                ],
-                _ControlCard(
-                  title: l10n.sectionActions,
-                  child: Column(
-                    children: [
-                      Wrap(
-                        spacing: AppSpacing.sm,
-                        runSpacing: AppSpacing.sm,
-                        children: [
-                          _ActionButton(
-                            icon: Icons.restart_alt_rounded,
-                            label: l10n.resetView,
-                            onPressed: controller.resetView,
-                          ),
-                          _ActionButton(
-                            icon: Icons.settings_backup_restore_rounded,
-                            label: l10n.resetParams,
-                            onPressed: controller.resetParams,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: AppSpacing.md),
-                      SizedBox(
-                        width: double.infinity,
-                        child: FilledButton.icon(
-                          icon: const Icon(Icons.shuffle_rounded),
-                          label: Text(l10n.randomize,
-                              semanticsLabel: l10n.semanticRandomizeButton),
-                          style: FilledButton.styleFrom(
-                            minimumSize: const Size(0, 48),
-                            padding: const EdgeInsets.all(AppSpacing.sm),
-                          ),
-                          onPressed: () {
-                            HapticFeedback.mediumImpact();
-                            controller.randomizeParams();
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.sm),
+                if (controller.module.id == 'number_wall')
+                  const NumberWallRandomizationControls(),
+                ...controller.module.parameters
+                    .where((p) => p.id != 'randomSeed')
+                    .toList()
+                    .asMap()
+                    .entries
+                    .map((entry) {
+                  return StaggeredItem(
+                    index: entry.key,
+                    itemDelay: const Duration(milliseconds: 30),
+                    child: _ParamControl(
+                      param: entry.value,
+                      value: controller.params[entry.value.id] ??
+                          entry.value.defaultValue,
+                      onChanged: (value) {
+                        if (controller.module.id == 'number_wall' &&
+                            entry.value.id == 'prime' &&
+                            value is String) {
+                          unawaited(controller.applyNumberWallPrime(value));
+                        } else {
+                          controller.updateParam(entry.value.id, value);
+                        }
+                      },
+                    ),
+                  );
+                }),
               ],
             ),
           ),
-        ),
-      ],
+          if (controller.module.id != 'number_wall') ...[
+            _ControlCard(
+              title: l10n.dimensionKaleidoscope,
+              child: _KaleidoscopeControls(),
+            ),
+            _ControlCard(
+              title: l10n.sectionGlow,
+              child: _GlowControls(),
+            ),
+          ],
+          _ControlCard(
+            title: l10n.sectionActions,
+            child: Column(
+              children: [
+                Wrap(
+                  spacing: AppSpacing.sm,
+                  runSpacing: AppSpacing.sm,
+                  children: [
+                    AppActionButton(
+                      emphasis: AppActionEmphasis.secondary,
+                      icon: Icons.restart_alt_rounded,
+                      label: l10n.resetView,
+                      onPressed: controller.resetView,
+                      padding: const EdgeInsets.all(AppSpacing.sm),
+                    ),
+                    AppActionButton(
+                      emphasis: AppActionEmphasis.secondary,
+                      icon: Icons.settings_backup_restore_rounded,
+                      label: l10n.resetParams,
+                      onPressed: controller.resetParams,
+                      padding: const EdgeInsets.all(AppSpacing.sm),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: AppSpacing.md),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton.icon(
+                    icon: const Icon(Icons.shuffle_rounded),
+                    label: Text(l10n.randomize,
+                        semanticsLabel: l10n.semanticRandomizeButton),
+                    style: FilledButton.styleFrom(
+                      minimumSize: const Size(0, 48),
+                      padding: const EdgeInsets.all(AppSpacing.sm),
+                    ),
+                    onPressed: () {
+                      HapticFeedback.mediumImpact();
+                      controller.randomizeParams();
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+        ],
+      ),
     );
   }
 }
@@ -169,31 +163,6 @@ class _ControlCard extends StatelessWidget {
           SectionHeader(title: title),
           child,
         ],
-      ),
-    );
-  }
-}
-
-class _ActionButton extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final VoidCallback onPressed;
-
-  const _ActionButton({
-    required this.icon,
-    required this.label,
-    required this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return OutlinedButton.icon(
-      onPressed: onPressed,
-      icon: Icon(icon),
-      label: Text(label, textAlign: TextAlign.center),
-      style: OutlinedButton.styleFrom(
-        minimumSize: const Size(0, 48),
-        padding: const EdgeInsets.all(AppSpacing.sm),
       ),
     );
   }
