@@ -96,13 +96,27 @@ the uploaded AAB or the 1163 split APK.
 The bundle was uploaded without a listing edit, so the existing store icon,
 title and localized listings are unchanged.
 
-`scripts/release.sh` pins the Play icon to
-`bcb7ccc833272f090541e7b7b825f63a21753248a4023370198e2dbb84b4437f`, which is the
-icon from `da11e148`. The approved open-spiral icon landed later in `924cb17d`
-and is now `c22c4fde194800588d21ad3ef2047749bb6335ce4b3fff605c00b1a054396c41`.
-The pin was never refreshed, and the uploader correctly refused the listing
-update for this release. Refreshing that pin is a separate artwork-approval
-decision.
+`scripts/release.sh` pinned the Play icon to
+`bcb7ccc833272f090541e7b7b825f63a21753248a4023370198e2dbb84b4437f`, the icon from
+`da11e148`. The approved open-spiral icon landed later in `924cb17d` and is
+`c22c4fde194800588d21ad3ef2047749bb6335ce4b3fff605c00b1a054396c41`. The stale
+pin correctly refused a listing edit during the 1.1.116 upload, so the bundle
+went out with the existing store metadata.
+
+The pin now records the approved icon. A separate authorized store-listing
+update then republished the localized copy and image groups with
+`scripts/play_store_listing.py --commit`:
+
+- validated 15 locales and 16 images, committed, and verified from a fresh
+  readback (`receipt.json`: committed and verified);
+- live titles and descriptions now match `docs/play-store-localized-listings.json`
+  for all 15 locales; the en-US short/full descriptions and every localized full
+  description were the changed text;
+- the icon and all non-icon images kept their exact hashes (`c22c4fde…` icon,
+  `dd0d16d7…` feature graphic, screenshot hashes unchanged);
+- evidence: `release-artifacts/store-listing/20261031-111606-3066576/`;
+- public Play review, refresh propagation and installed launcher appearance are
+  still not observed.
 
 ## Retained receipts
 
