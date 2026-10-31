@@ -9,7 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../helpers/fractal_controller_widget_harness.dart';
 
 void main() {
-  testWidgets('live HUD keyboard reveals palettes and operates switches',
+  testWidgets('live HUD keyboard reaches effect toggles and operates them',
       (tester) async {
     final harness = FractalControllerWidgetHarness();
     addTearDown(harness.dispose);
@@ -24,10 +24,7 @@ void main() {
     await tester.pumpWidget(
         harness.wrapScaffold(const FractalControlsHud(), theme: AppTheme.dark));
     await tester.pumpAndSettle();
-    final palette = harness.controller.module.parameters
-        .firstWhere((p) => p.id == 'colorScheme');
     for (final target in [
-      find.byType(ChoiceChip).last,
       find.byType(SwitchListTile).at(0),
       find.byType(SwitchListTile).at(1)
     ]) {
@@ -50,19 +47,16 @@ void main() {
       await tester.sendKeyEvent(LogicalKeyboardKey.space);
       await tester.pumpAndSettle();
     }
-    expect(
-        harness.controller.params['colorScheme'], palette.options.last.value);
     expect(harness.controller.kaleidoscopeEnabled, isTrue);
-    expect(harness.controller.fluidModeEnabled, isTrue);
+    expect(harness.controller.transparentBackground, isTrue);
     expect(
         calls.where((c) =>
             c.method == 'HapticFeedback.vibrate' &&
             c.arguments == 'HapticFeedbackType.selectionClick'),
-        hasLength(3));
+        hasLength(2));
   });
 
-  testWidgets('live HUD preserves palette and extra-enum option subsets',
-      (tester) async {
+  testWidgets('live HUD preserves extra-enum option subsets', (tester) async {
     final harness = FractalControllerWidgetHarness();
     addTearDown(harness.dispose);
     final extraEnumModule = harness.registry.modules.firstWhere((m) =>
@@ -75,8 +69,11 @@ void main() {
       await tester.pumpAndSettle();
       final l10n =
           AppLocalizations.of(tester.element(find.byType(FractalControlsHud)))!;
+      // The palette row is gone from the panel; only module-specific enum
+      // parameters still render chips here.
       final expected = module.parameters
-          .where((p) => p.type == FractalParamType.enumeration)
+          .where((p) =>
+              p.type == FractalParamType.enumeration && p.id != 'colorScheme')
           .expand((p) => p.options)
           .map((o) => o.label(l10n));
       expect(
@@ -144,18 +141,11 @@ void main() {
         expect(tester.takeException(), isNull);
         final l10n = AppLocalizations.of(
             tester.element(find.byType(FractalControlsHud)))!;
-        // Check the actual hit-test region, not an outer semantics wrapper.
-        final paletteLabel = find.text(harness.controller.module.parameters
-            .firstWhere((p) => p.id == 'colorScheme')
-            .options
-            .first
-            .label(l10n));
-        final targets = find.ancestor(
-            of: paletteLabel,
-            matching: find.byWidgetPredicate(
-                (widget) => widget is GestureDetector || widget is RawChip));
-        expect(targets, findsWidgets);
-        expect(tester.getSize(targets.first).height, greaterThanOrEqualTo(48));
+        // Check the actual hit-test region of the new effect toggle.
+        final toggle =
+            find.widgetWithText(SwitchListTile, l10n.hudTransparentBackground);
+        expect(toggle, findsOneWidget);
+        expect(tester.getSize(toggle).height, greaterThanOrEqualTo(48));
         for (final label in [
           l10n.hudResetViewLabel,
           l10n.hudResetParamsLabel,
