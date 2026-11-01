@@ -1,4 +1,4 @@
-part of '../escape_time_catalog.dart';
+part of '../../escape_time_catalog.dart';
 
 List<FractalParameter> _logPolarTessellationParams({
   required double formula,

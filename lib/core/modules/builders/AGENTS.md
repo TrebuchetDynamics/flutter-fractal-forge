@@ -12,7 +12,7 @@ Declarative escape-time fractal builder system. Provides a pattern where standar
 | File                       | Description                                                                                                                                                                          |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `escape_time_builder.dart` | `buildEscapeTimeModule()` - creates a `FractalModule` from an `EscapeTimeConfig`. Handles standard uniform layout (resolution, center, zoom, iterations, bailout, colorScheme, time) |
-| `escape_time_catalog.dart` | `buildEscapeTimeCatalogModules()` - master list of all declarative fractal configs. Each `EscapeTimeConfig` entry = one fractal                                                      |
+| `escape_time_catalog.dart` | `buildEscapeTimeCatalogModules()` - library and master list of all declarative fractal configs. Each `EscapeTimeConfig` entry = one fractal. Its 30 `part` files live in `escape_time_catalog/` (see the layout below) |
 | `uniform_layout.dart` | Shared escape-time, ray-marched 3D camera-prefix, and Mandelbrot DF2 uniform slot contracts |
 
 ## For AI Agents
@@ -21,11 +21,24 @@ Declarative escape-time fractal builder system. Provides a pattern where standar
 
 - To add a new escape-time fractal:
   1. Write the `.frag` shader following standard uniform layout
-  2. Add an `EscapeTimeConfig(...)` entry to `escape_time_catalog.dart`
-  3. Register shader in `pubspec.yaml` under `flutter.shaders`
-  4. Done - no Dart module code needed!
+  2. Add an `EscapeTimeConfig(...)` entry to a part file in `escape_time_catalog/`
+  3. Add that part file to the master list in `escape_time_catalog.dart`, or
+     append your entry to an existing part file
+  4. Register shader in `pubspec.yaml` under `flutter.shaders`
+  5. Done - no Dart module code needed!
 - `EscapeTimeConfig` fields: id, shaderAsset, displayName, category, default iterations/bailout, presets
 - The builder auto-generates: parameter list, uniform setter, default preset
+
+### escape_time_catalog/ Layout
+
+`escape_time_catalog.dart` is the library; every entry file is a `part` of it and
+starts with `part of '../../escape_time_catalog.dart';`. The catalog list order in
+the library controls user-visible order, so keep it when you add a part.
+
+| Directory           | Owns                                                                                                 | Stays ignorant of                            |
+| ------------------- | ---------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| `families/`         | Entries grouped by mathematical family: polynomial, trigonometric, Lyapunov, IFS, kaleidoscope, ...   | How or when a family arrived in the catalog  |
+| `research_batches/` | Entries imported as one wave: dated `batch_NN_*` research waves, the MandlebrotSetSFML porting batches, the count-driven `final_entries` push | Which entry belongs to which family |
 
 ### Standard Uniform Layout
 

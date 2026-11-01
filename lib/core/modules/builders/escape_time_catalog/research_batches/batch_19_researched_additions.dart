@@ -1,4 +1,4 @@
-part of '../escape_time_catalog.dart';
+part of '../../escape_time_catalog.dart';
 
 final List<EscapeTimeConfig> _batch19ResearchedAdditionsCatalog = [
   // Research-backed additions from research/fractal-types-to-add/report.md,

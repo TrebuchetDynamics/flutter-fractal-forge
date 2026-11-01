@@ -1,4 +1,4 @@
-part of '../escape_time_catalog.dart';
+part of '../../escape_time_catalog.dart';
 
 final List<EscapeTimeConfig> _batch22FourthWaveResearchCatalog = [
   // Fourth-wave additions from research/fractal-types-fourth-wave/report.md.

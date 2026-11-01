@@ -1,4 +1,4 @@
-part of '../escape_time_catalog.dart';
+part of '../../escape_time_catalog.dart';
 
 final List<EscapeTimeConfig> _batch14ExtensionsCatalog = [
 // ── Batch 14 — Newton extensions, transcendental Julia, power-law families ─
