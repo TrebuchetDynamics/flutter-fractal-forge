@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- No user-facing change: verified the fractal view controls toggle test is green on current main and recorded the result in docs/tasks/MAIN-VIEW-CONTROLS-TEST-REPAIR-01.md.
 - Harden test/fractal/controls_presentation_test.dart so its SDK Roboto fixture resolves from FLUTTER_ROOT (falling back to the flutter_tester layout) instead of a CWD-relative .dart_tool/package_config.json, preventing the flaky main-check setUpAll abort. (MAIN-CONTROLS-PRESENTATION-HARDEN-01)
 - Reconciled the settings accessibility About-dialog assertion with the registry-derived 1029 production fractal count and refreshed the task verification evidence. (MAIN-SETTINGS-COUNT-REPAIR-01)
 - Reconciled the compact controls HUD accessibility tests with the shipped toggles and palette picker ownership, and recorded the verification evidence. (MAIN-CONTROLS-HUD-REPAIR-01)
