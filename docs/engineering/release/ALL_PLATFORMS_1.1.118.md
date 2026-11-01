@@ -79,5 +79,7 @@ was added.
 
 **Limits:** Google review status, storefront propagation and end-user availability
 were not observed. Waydroid results are not physical-device qualification. The web
-and Linux archives are built evidence, not published releases. Source push is a
-separate delivery operation.
+and Linux archives are built evidence, not published releases. The frozen source
+branch `release/play-118-20261101` was pushed to GitHub `origin` and read back at
+`f3929fd8a9ca0b37e4c89fc3dfb8316209ccd221`; canonical `main` remains a separate
+integration target.
