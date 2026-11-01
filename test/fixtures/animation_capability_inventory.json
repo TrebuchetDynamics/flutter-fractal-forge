@@ -475,6 +475,11 @@
     "capability": "static"
   },
   {
+    "id": "chladni_nodal_field",
+    "shaderAsset": "shaders/number_theory/chladni_nodal_field_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
     "id": "chromatic_arachnid_lattice",
     "shaderAsset": "shaders/escape_time_family/experimental_named/procedural_motion/fractalish_motion_gpu.frag",
     "capability": "timeDriven"
@@ -657,6 +662,11 @@
   {
     "id": "domain_coloring",
     "shaderAsset": "shaders/escape_time_family/orbit_and_domain/domain_coloring_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
+    "id": "domain_warp_nebula",
+    "shaderAsset": "shaders/cellular_and_stochastic/domain_warp_nebula_gpu.frag",
     "capability": "timeDriven"
   },
   {
@@ -3180,6 +3190,11 @@
     "capability": "static"
   },
   {
+    "id": "imordial_brot",
+    "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/imordial_brot_gpu.frag",
+    "capability": "timeDriven"
+  },
+  {
     "id": "implicit_affine_fractal_surface",
     "shaderAsset": "shaders/ifs_and_geometric/raymarched_3d/implicit_affine_fractal_surface_gpu.frag",
     "capability": "static"
@@ -3193,6 +3208,11 @@
     "id": "inverse_quadratic",
     "shaderAsset": "shaders/escape_time_family/polynomial_maps/inverse_quadratic_gpu.frag",
     "capability": "static"
+  },
+  {
+    "id": "inversion_fold_lattice",
+    "shaderAsset": "shaders/escape_time_family/experimental_named/rational_singularities/inversion_fold_lattice_gpu.frag",
+    "capability": "timeDriven"
   },
   {
     "id": "inversive_limit_set_3d",

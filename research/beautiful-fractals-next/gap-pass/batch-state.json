@@ -1,0 +1,185 @@
+{
+  "job_id": "job_6527e4db0cec3c42b7e9f23adf735e2f",
+  "schemaVersion": "1",
+  "createdAt": "2026-10-31T23:58:28Z",
+  "updatedAt": "2026-10-31T23:59:09Z",
+  "queries": [
+    "domain warping procedural noise fractal texture",
+    "fractal art aesthetic preference visual complexity",
+    "Kleinian group limit set rendering Indra pearls",
+    "inversion fractal kaleidoscopic IFS distance estimation",
+    "spectral palette colouring fractal escape time"
+  ],
+  "sources": [
+    "openalex",
+    "crossref",
+    "semantic-scholar",
+    "arxiv"
+  ],
+  "limit": 10,
+  "completed": [
+    {
+      "source": "openalex",
+      "query": "domain warping procedural noise fractal texture",
+      "rawFile": "raw/search-openalex-001-domain-warping-procedural-noise-fractal-texture.txt",
+      "records": 10
+    },
+    {
+      "source": "crossref",
+      "query": "domain warping procedural noise fractal texture",
+      "rawFile": "raw/search-crossref-001-domain-warping-procedural-noise-fractal-texture.txt",
+      "records": 10
+    },
+    {
+      "source": "semantic-scholar",
+      "query": "domain warping procedural noise fractal texture",
+      "rawFile": "raw/search-semantic-scholar-001-domain-warping-procedural-noise-fractal-texture.txt",
+      "records": 10
+    },
+    {
+      "source": "arxiv",
+      "query": "domain warping procedural noise fractal texture",
+      "rawFile": "raw/search-arxiv-001-domain-warping-procedural-noise-fractal-texture.txt",
+      "records": 10
+    },
+    {
+      "source": "openalex",
+      "query": "fractal art aesthetic preference visual complexity",
+      "rawFile": "raw/search-openalex-002-fractal-art-aesthetic-preference-visual-complexity.txt",
+      "records": 10
+    },
+    {
+      "source": "crossref",
+      "query": "fractal art aesthetic preference visual complexity",
+      "rawFile": "raw/search-crossref-002-fractal-art-aesthetic-preference-visual-complexity.txt",
+      "records": 10
+    },
+    {
+      "source": "arxiv",
+      "query": "fractal art aesthetic preference visual complexity",
+      "rawFile": "raw/search-arxiv-002-fractal-art-aesthetic-preference-visual-complexity.txt",
+      "records": 10
+    },
+    {
+      "source": "openalex",
+      "query": "Kleinian group limit set rendering Indra pearls",
+      "rawFile": "raw/search-openalex-003-kleinian-group-limit-set-rendering-indra-pearls.txt",
+      "records": 4
+    },
+    {
+      "source": "crossref",
+      "query": "Kleinian group limit set rendering Indra pearls",
+      "rawFile": "raw/search-crossref-003-kleinian-group-limit-set-rendering-indra-pearls.txt",
+      "records": 10
+    },
+    {
+      "source": "arxiv",
+      "query": "Kleinian group limit set rendering Indra pearls",
+      "rawFile": "raw/search-arxiv-003-kleinian-group-limit-set-rendering-indra-pearls.txt",
+      "records": 10
+    },
+    {
+      "source": "openalex",
+      "query": "inversion fractal kaleidoscopic IFS distance estimation",
+      "rawFile": "raw/search-openalex-004-inversion-fractal-kaleidoscopic-ifs-distance-estimation.txt",
+      "records": 0
+    },
+    {
+      "source": "crossref",
+      "query": "inversion fractal kaleidoscopic IFS distance estimation",
+      "rawFile": "raw/search-crossref-004-inversion-fractal-kaleidoscopic-ifs-distance-estimation.txt",
+      "records": 10
+    },
+    {
+      "source": "arxiv",
+      "query": "inversion fractal kaleidoscopic IFS distance estimation",
+      "rawFile": "raw/search-arxiv-004-inversion-fractal-kaleidoscopic-ifs-distance-estimation.txt",
+      "records": 10
+    },
+    {
+      "source": "openalex",
+      "query": "spectral palette colouring fractal escape time",
+      "rawFile": "raw/search-openalex-005-spectral-palette-colouring-fractal-escape-time.txt",
+      "records": 3
+    },
+    {
+      "source": "crossref",
+      "query": "spectral palette colouring fractal escape time",
+      "rawFile": "raw/search-crossref-005-spectral-palette-colouring-fractal-escape-time.txt",
+      "records": 8
+    },
+    {
+      "source": "semantic-scholar",
+      "query": "spectral palette colouring fractal escape time",
+      "rawFile": "raw/search-semantic-scholar-005-spectral-palette-colouring-fractal-escape-time.txt",
+      "records": 5
+    },
+    {
+      "source": "arxiv",
+      "query": "spectral palette colouring fractal escape time",
+      "rawFile": "raw/search-arxiv-005-spectral-palette-colouring-fractal-escape-time.txt",
+      "records": 10
+    }
+  ],
+  "failures": [
+    {
+      "source": "semantic-scholar",
+      "query": "fractal art aesthetic preference visual complexity",
+      "error": "source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"
+    },
+    {
+      "source": "semantic-scholar",
+      "query": "Kleinian group limit set rendering Indra pearls",
+      "error": "source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"
+    },
+    {
+      "source": "semantic-scholar",
+      "query": "inversion fractal kaleidoscopic IFS distance estimation",
+      "error": "source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"
+    }
+  ],
+  "result_count": 140,
+  "budget": {
+    "depth": "standard",
+    "max_query_variants": 10,
+    "max_sources": 5,
+    "max_api_calls": 50,
+    "low_yield_threshold": 2,
+    "saturation_queries": 3,
+    "max_consecutive_errors": 5
+  },
+  "stop_reason": "completed",
+  "requests_used": 20,
+  "coverage": {
+    "unique_records": 135,
+    "queries": [
+      {
+        "query": "domain warping procedural noise fractal texture",
+        "new_unique": 38,
+        "complete": true
+      },
+      {
+        "query": "fractal art aesthetic preference visual complexity",
+        "new_unique": 29,
+        "complete": false
+      },
+      {
+        "query": "Kleinian group limit set rendering Indra pearls",
+        "new_unique": 24,
+        "complete": false
+      },
+      {
+        "query": "inversion fractal kaleidoscopic IFS distance estimation",
+        "new_unique": 19,
+        "complete": false
+      },
+      {
+        "query": "spectral palette colouring fractal escape time",
+        "new_unique": 25,
+        "complete": true
+      }
+    ],
+    "consecutive_low_yield": 0
+  },
+  "consecutive_errors": 0
+}

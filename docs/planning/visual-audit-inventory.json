@@ -10,7 +10,7 @@
     "module_registry": "lib/core/modules/module_registry.dart"
   },
   "counts": {
-    "explore_core": 1033,
+    "explore_core": 1037,
     "explore_performance": 0,
     "manifest": 200
   },
@@ -111,6 +111,7 @@
       "core.chebyshev_nodal_lantern",
       "core.chen",
       "core.chen_lee",
+      "core.chladni_nodal_field",
       "core.chromatic_arachnid_lattice",
       "core.chua_circuit",
       "core.circle_inversion_gasket",
@@ -148,6 +149,7 @@
       "core.dirichlet_eta",
       "core.dla",
       "core.domain_coloring",
+      "core.domain_warp_nebula",
       "core.dragon_curve",
       "core.drill",
       "core.druid",
@@ -652,9 +654,11 @@
       "core.hydrogen_orbital",
       "core.hypercomplex_newton",
       "core.ikeda",
+      "core.imordial_brot",
       "core.implicit_affine_fractal_surface",
       "core.inverse_mandelbrot",
       "core.inverse_quadratic",
+      "core.inversion_fold_lattice",
       "core.inversive_limit_set_3d",
       "core.jacobi_sn",
       "core.jacobi_theta_field",

@@ -1,0 +1,12 @@
+10.2139/ssrn.4760887	Sound Absorption in Uniform and Layered Gyroid and Diamond Triply Periodic Minimal Surface Porous Absorbers
+10.2139/ssrn.4914890	Sound Absorption in Uniform and Layered Gyroid and Diamond Triply Periodic Minimal Surface Porous Absorbers
+10.1021/acsami.3c06263.s001	Superiority of Triply Periodic Minimal Surface Gyroid Structure to Strut-Based Grid Structure in Both Strength and Bone Regeneration
+10.1016/s0009-2614(00)00373-0	Exact computation of the triply periodic G (`Gyroid') minimal surface
+10.2139/ssrn.5074719	Mechanical Responses of Triply Periodic Minimal Surface Gyroid Lattice Structures Fabricated by Binder Jetting Additive Manufacturing
+10.1016/j.applthermaleng.2025.128853	Diamond and gyroid triply periodic minimal surface heat sinks for advanced microprocessor cooling
+10.1115/imece2024-141487	Additive Manufacturing With Continuous Carbon Fiber Composite Reinforcement for Gyroid Triply Periodic Minimal Surface (TPMS): Compression Mechanical Properties
+10.1007/978-3-032-13844-6_5	Mechanics of Triply Periodic Minimal Surface Structures
+10.1007/978-3-032-13844-6_4	Design of Triply Periodic Minimal Surface Structures
+10.12783/asc36/35824	DEEP LEARNING FOR TOPOLOGY OPTIMIZATION OF TRIPLY PERIODIC MINIMAL SURFACE BASED GYROID-LIKE STRUCTURES
+10.1007/978-3-032-13844-6_7	Mechanical Interfaces for Triply Periodic Minimal Surface Structures
+10.1007/978-3-032-13844-6_6	Fluid Mechanics of Triply Periodic Minimal Surface Structures

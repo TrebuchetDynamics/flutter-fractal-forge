@@ -1,0 +1,52 @@
+{
+  "baseline_mandelbrot": {
+    "centerDetailScore": 0.67,
+    "darkPixelRatio": 0.0,
+    "dominantColorRatio": 0.313,
+    "edgeDetailScore": 0.252,
+    "luminanceStdDev": 32.52,
+    "meanLuminance": 94.34,
+    "nonTransparentRatio": 1.0,
+    "verdict": "pass"
+  },
+  "brimordial_slice_stack": {
+    "centerDetailScore": 0.892,
+    "darkPixelRatio": 0.77,
+    "dominantColorRatio": 0.763,
+    "edgeDetailScore": 0.0,
+    "luminanceStdDev": 52.82,
+    "meanLuminance": 26.95,
+    "nonTransparentRatio": 1.0,
+    "verdict": "pass"
+  },
+  "chladni_nodal_fractal": {
+    "centerDetailScore": 0.439,
+    "darkPixelRatio": 0.0,
+    "dominantColorRatio": 0.097,
+    "edgeDetailScore": 0.433,
+    "luminanceStdDev": 27.6,
+    "meanLuminance": 66.66,
+    "nonTransparentRatio": 1.0,
+    "verdict": "pass"
+  },
+  "domain_warp_nebula": {
+    "centerDetailScore": 0.942,
+    "darkPixelRatio": 0.0,
+    "dominantColorRatio": 0.211,
+    "edgeDetailScore": 1.0,
+    "luminanceStdDev": 70.84,
+    "meanLuminance": 141.58,
+    "nonTransparentRatio": 1.0,
+    "verdict": "pass"
+  },
+  "kaliset_inversion": {
+    "centerDetailScore": 0.35,
+    "darkPixelRatio": 0.0,
+    "dominantColorRatio": 0.133,
+    "edgeDetailScore": 0.358,
+    "luminanceStdDev": 22.81,
+    "meanLuminance": 81.07,
+    "nonTransparentRatio": 1.0,
+    "verdict": "pass"
+  }
+}

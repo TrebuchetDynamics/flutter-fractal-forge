@@ -1,0 +1,10 @@
+	Visual Aesthetic Benchmark: Can Frontier Models Judge Beauty?
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	Complexity and Aesthetics in Generative and Evolutionary Art
+	Compression ensembles quantify aesthetic complexity and the evolution of visual art
+	PhotoAgent: Exploratory Visual Aesthetic Planning with Large Vision Models
+10.1162/leon_a_01930	Visual Indeterminacy in GAN Art
+	Playground v2.5: Three Insights towards Enhancing Aesthetic Quality in Text-to-Image Generation
+10.2312/eurova.20261004	Visual Boosting Techniques for Spatiotemporal Dense Pixel Visualizations
+	PO-EMO: Conceptualization, Annotation, and Modeling of Aesthetic Emotions in German and English Poetry
+	The Well-tempered Compiler? The Aesthetics of Program Auralization

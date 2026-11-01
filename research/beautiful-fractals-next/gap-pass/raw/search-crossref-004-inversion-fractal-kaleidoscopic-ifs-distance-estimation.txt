@@ -1,0 +1,10 @@
+10.1016/b978-0-12-440740-4.50012-6	IFS Examples
+10.1007/978-1-4612-2472-3_10	Orthogonal Basis IFS
+10.1002/mana.201500471	On new fractal phenomena connected with infinite linear IFS
+10.1109/visual.1995.480798	IFS fractal interpolation for 2D and 3D visualization
+10.1142/s0218348x16500407	FRACTAL DIMENSION ESTIMATION OF RGB COLOR IMAGES USING MAXIMUM COLOR DISTANCE
+10.3233/jifs-189358	Human motor function estimation based on EMG signal fractal dimension standard deviation
+10.1142/9789811218460_0001	IFS Labs
+10.1002/9781119831754.ch1	The BC‐IFS Model
+10.1533/9780857099594.138	Fractal Basins of Attraction in the Inversion of Geomagnetic Data
+10.1109/comite.2008.4569930	IFS Tool for Fractal Microstrip Patch Antenna Analysis

@@ -1,0 +1,12 @@
+10.1109/tvcg.2025.3613853/mm1	Parabolic Sphere Tracing Of Signed Distance Fields For Old Glass Modelling And Rendering_supp1-3613853.pdf
+10.1142/s0218348x17400047	A NOVEL FAST FRACTAL IMAGE COMPRESSION METHOD BASED ON DISTANCE CLUSTERING IN HIGH DIMENSIONAL SPHERE SURFACE
+10.1021/acs.chemmater.9b03864.s001	Fractal-in-a-Sphere: Confined Self-Assembly of Fractal Silica Nanoparticles
+10.1109/cvpr42600.2020.00209	DIST: Rendering Deep Implicit Signed Distance Function With Differentiable Sphere Tracing
+10.1145/3355089.3356502	Non-linear sphere tracing for rendering deformed signed distance fields
+10.1201/9781003734062-62	Sphere Tracing
+10.7551/mitpress/7186.003.0005	2 Tracing Practices within a Web Sphere
+10.7554/elife.36401.032	Table 4. Relative neocortical expression resulting from long-distance tracing.
+10.1016/b978-0-12-543457-7.50042-5	Ray Tracing a Swept Sphere
+10.1007/s003710050084	Sphere tracing: a geometric method for the antialiased ray tracing of implicit surfaces
+10.1109/tvcg.2025.3613853	Parabolic Sphere Tracing of Signed Distance Fields for Old Glass Modelling and Rendering
+10.32920/21944081.v1	A Bridge to Where? Tracing the Bridge Fuel Metaphor in the Canadian Media Sphere

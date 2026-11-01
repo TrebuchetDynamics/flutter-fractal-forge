@@ -1,0 +1,128 @@
+{
+  "id": "job_4f0c219be1c6b86b5e8daa6269e8a6f9",
+  "kind": "search.batch",
+  "status": "completed",
+  "progress": {
+    "completed": 34,
+    "total": 40
+  },
+  "stop_reason": "completed",
+  "input": {
+    "queries": [
+      "kaleidoscopic iterated function system fractal rendering",
+      "implicit surface ray marching distance estimation fractal",
+      "superformula Gielis geometric transformation",
+      "gyroid triply periodic minimal surface",
+      "hyperbolic honeycomb Coxeter tessellation 3D visualization",
+      "fractal aesthetics visual complexity beauty evaluation",
+      "GPU shader real-time fractal visualization performance",
+      "Chladni figures nodal patterns visualization",
+      "sphere tracing distance bound fractal",
+      "volumetric rendering participating media fractal structure"
+    ],
+    "sources": [
+      "openalex",
+      "crossref",
+      "semantic-scholar",
+      "arxiv"
+    ],
+    "limit": 12,
+    "depth": "standard",
+    "continue_on_error": true,
+    "write_stats": true,
+    "fetch_pdfs": false
+  },
+  "result": {
+    "data": {
+      "budget": {
+        "depth": "standard",
+        "max_query_variants": 10,
+        "max_sources": 5,
+        "max_api_calls": 50,
+        "low_yield_threshold": 2,
+        "saturation_queries": 3,
+        "max_consecutive_errors": 5
+      },
+      "coverage": {
+        "unique_records": 378,
+        "queries": [
+          {
+            "query": "kaleidoscopic iterated function system fractal rendering",
+            "new_unique": 36,
+            "complete": false
+          },
+          {
+            "query": "implicit surface ray marching distance estimation fractal",
+            "new_unique": 34,
+            "complete": false
+          },
+          {
+            "query": "superformula Gielis geometric transformation",
+            "new_unique": 40,
+            "complete": true
+          },
+          {
+            "query": "gyroid triply periodic minimal surface",
+            "new_unique": 35,
+            "complete": false
+          },
+          {
+            "query": "hyperbolic honeycomb Coxeter tessellation 3D visualization",
+            "new_unique": 35,
+            "complete": false
+          },
+          {
+            "query": "fractal aesthetics visual complexity beauty evaluation",
+            "new_unique": 33,
+            "complete": false
+          },
+          {
+            "query": "GPU shader real-time fractal visualization performance",
+            "new_unique": 44,
+            "complete": true
+          },
+          {
+            "query": "Chladni figures nodal patterns visualization",
+            "new_unique": 32,
+            "complete": false
+          },
+          {
+            "query": "sphere tracing distance bound fractal",
+            "new_unique": 44,
+            "complete": true
+          },
+          {
+            "query": "volumetric rendering participating media fractal structure",
+            "new_unique": 45,
+            "complete": true
+          }
+        ],
+        "consecutive_low_yield": 0
+      },
+      "deduped": 378,
+      "failures": 6,
+      "fetchFailed": 0,
+      "fetchSkipped": 0,
+      "fetched": 0,
+      "imported": 0,
+      "interrupted": false,
+      "job_id": "job_4f0c219be1c6b86b5e8daa6269e8a6f9",
+      "manifest": "research/beautiful-fractals-next/manifest.json",
+      "out": "research/beautiful-fractals-next",
+      "pending": 0,
+      "provenance_level": "engine_verified",
+      "requests_used": 40,
+      "results": 407,
+      "resumed": false,
+      "resumedPairs": 0,
+      "run_id": "19ea21bd3da6d3f27e6fc37002849159",
+      "skippedDuplicate": 0,
+      "skippedNoIdentifier": 0,
+      "skippedSources": 0,
+      "stop_reason": "completed"
+    },
+    "ok": true
+  },
+  "created_at": "2026-10-31T23:56:57.006399185Z",
+  "updated_at": "2026-10-31T23:58:19.948265393Z"
+}

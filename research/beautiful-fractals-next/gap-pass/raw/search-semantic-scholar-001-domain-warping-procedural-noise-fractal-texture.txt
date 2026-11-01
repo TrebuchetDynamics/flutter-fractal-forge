@@ -1,0 +1,10 @@
+10.1109/access.2020.2976815	Fractal Analysis and Texture Classification of High-Frequency Multiplicative Noise in SAR Sea-Ice Images Based on a Transform- Domain Image Decomposition Method
+10.58225/mpmma.2026.219	3D TEXTURE MODELING BASED ON PROCEDURAL MODELS, SPLINES, AND ARTIFICIAL INTELLIGENCE METHODS
+10.1117/12.3130441	ARFIMA fractal temporal phase unwrapping algorithm for speckle noise
+10.3390/app11010164	Preparatory Experiments Regarding Human Brain Perception and Reasoning of Image Complexity for Synthetic Color Fractal and Natural Texture Images via EEG
+10.52202/085713-0323	PhysDiff-VTON: Cross-Domain Physics Modeling and Trajectory Optimization for Virtual Try-On
+10.1109/ecice47484.2019.8942651	Texture designs and workflows for physically based rendering using procedural texture generation
+10.3390/electronics15050922	Fast Fractal Image Compression Using Non-Uniform Partition
+10.1007/s00371-017-1375-8	Feature-preserving procedural texture
+10.1007/s00371-017-1375-8	Feature-preserving procedural texture
+10.48550/arxiv.2607.22890	Meshless Domain Randomization via Explicit Parameter Perturbation of 3D Gaussian Splatting

@@ -1,0 +1,12 @@
+	Rendering Participating Media Using Path Graphs
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	PVA: Pixel-aligned Volumetric Avatars
+	Rendering Discrete Participating Media with Geometrical Optics Approximation
+	A Physically Plausible Model for Rendering Highly Scattering Fluorescent Participating Media
+	Gaussian Process Implicit Surfaces as Participating Media: Realization-Free Rendering from Level-Crossing Statistics
+10.1016/j.osnem.2023.100270	Multitask learning for recognizing stress and depression in social media
+	$P_N$-Method for Multiple Scattering in Participating Media
+10.1145/3711853	Don't Splat your Gaussians: Volumetric Ray-Traced Primitives for Modeling and Rendering Scattering and Emissive Media
+10.1609/icwsm.v18i1.31366	Topic Shifts as a Proxy for Assessing Politicization in Social Media
+	Evolutive Rendering Models
+10.51685/jqd.2024.icwsm.9	Framing Social Movements on Social Media: Unpacking Diagnostic, Prognostic, and Motivational Strategies

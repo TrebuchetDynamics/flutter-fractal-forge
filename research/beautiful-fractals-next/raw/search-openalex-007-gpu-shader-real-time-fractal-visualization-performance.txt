@@ -1,0 +1,12 @@
+	Integration of a Fractal Generator with Mali GPU
+10.1016/j.jbi.2014.05.011	A Web platform for the interactive visualization and analysis of the 3D fractal dimension of MRI data
+10.1016/j.displa.2022.102164	Real-time interactive visualization of large networks on a tiled display system
+10.24132/csrn.2018.2802.4	Real-time visualization of Dynamic Unlimited Objects Instancing
+10.70517/ijhsa47132	A holographic visualization and fractal modeling system for realistic and interactive 3D garden landscape design
+	GPU Based Methods for Interactive Information Visualization of Big Data
+10.1109/tvcg.2020.2981460	Vectorizing Quantum Turbulence Vortex-Core Lines for Real-Time Visualization
+10.3389/fninf.2017.00070	Interactive Light Stimulus Generation with High Performance Real-Time Image Processing and Simple Scripting
+10.26021/3530	GPU Based Algorithms for Terrain Texturing
+10.4208/cicp.110113.010813a	A Survey on Parallel Computing and Its Applications in Data-Parallel Problems Using GPU Architectures
+10.57709/1059378	DCT Implementation on GPU
+10.1371/journal.pcbi.1014590	Real-time GPU-accelerated coupled cardiac system: Integrating bidirectional interactions between living optogenetic monolayers and computational simulations

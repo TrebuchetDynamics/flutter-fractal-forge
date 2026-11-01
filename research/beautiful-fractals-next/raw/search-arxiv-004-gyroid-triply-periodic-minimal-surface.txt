@@ -1,0 +1,12 @@
+	Fluid Permeabilities of Triply Periodic Minimal Surfaces
+	Mixtures and grain boundaries of P, D, and G triply periodic minimal surfaces
+	Mean survival times of absorbing triply periodic minimal surfaces
+	The Morse index of a triply periodic minimal surface
+	Two New Embedded Triply Periodic Minimal Surfaces of Genus 4
+	Anatomy of triply-periodic network assemblies: Characterizing skeletal and inter-domain surface geometry of block copolymer gyroids
+	Construction of Triply Periodic Minimal Surfaces
+	On bifurcation and local rigidity of triply periodic minimal surfaces in $\mathbb R^3$
+	Triply Periodic Minimal Surfaces Bounded by Vertical Symmetry Planes
+	Density-Functional Theory and Triply-Periodic Minimal Surfaces
+10.1103/physrevlett.83.73	Self-Assembled Triply Periodic Minimal Surfaces as moulds for Photonic Band Gap Materials
+10.1103/physrevlett.76.2726	High genus periodic gyroid surfaces of non-positive Gaussian curvature

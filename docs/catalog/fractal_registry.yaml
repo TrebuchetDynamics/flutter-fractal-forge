@@ -71029,3 +71029,195 @@ fractals:
         approved_by: frontier_reference_microbatch
         batch: frontier_reference_microbatch_3_2026_06_06
       confidence: 0.74
+  - id: inversion_fold_lattice
+    name: Inversion Fold Lattice
+    shader: shaders/escape_time_family/experimental_named/rational_singularities/inversion_fold_lattice_gpu.frag
+    category: Complex Dynamics
+    dimension: 2D
+    defaultIterations: 20.0
+    defaultSteps: 0.0
+    defaultBailout: 8.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: true
+    presets: [inversion_fold_lattice-classic, inversion_fold_lattice-twin_hourglass, inversion_fold_lattice-lattice_crown, inversion_fold_lattice-lace_rosette, inversion_fold_lattice-mandala_fence]
+    variants: []
+    references:
+    - author: Wikipedia contributors
+      title: Inversive geometry
+      year: '2026'
+      url: https://en.wikipedia.org/wiki/Inversive_geometry
+    tier: implemented
+    aliases:
+    - inversion-fold Julia lattice
+    - kaleidoscopic inversion fold
+    - reciprocal-radius orbit lattice
+    canonical_name: Inversion Fold Lattice
+    formula_ast:
+      iteration_type: escape_time_inversion
+      variables:
+      - p
+      init: complex point p from the view transform; Julia parameter c from uniforms
+      update: 'p <- |p| / |p|^2 - c, then a small rotation of p about the origin'
+      family: inversion-fold orbit lattices
+    formula_hash: sha256:92837408386a956162177e928f0ef38274cd810e682b61176806969c787b6c21
+    formula_source: shaders/escape_time_family/experimental_named/rational_singularities/inversion_fold_lattice_gpu.frag (whole-file SHA-256)
+    quality:
+      formula_hash: sha256:92837408386a956162177e928f0ef38274cd810e682b61176806969c787b6c21
+      citation_health:
+        last_checked: '2026-10-31'
+        status: unchecked
+      shader_compile:
+        sksl: ok
+        glsl: unchecked
+        checked: '2026-10-31'
+      review:
+        approved_by: high_impact_visuals_test
+        batch: high_impact_visuals_2026_10
+      confidence: 0.8
+  - id: chladni_nodal_field
+    name: Chladni Nodal Field
+    shader: shaders/number_theory/chladni_nodal_field_gpu.frag
+    category: Scientific Visualization
+    dimension: 2D
+    defaultIterations: 22.0
+    defaultSteps: 0.0
+    defaultBailout: 4.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: true
+    presets: [chladni_nodal_field-classic, chladni_nodal_field-plate_figure, chladni_nodal_field-cymbal_lace, chladni_nodal_field-membrane_glow]
+    variants: []
+    references:
+    - author: Kraus, M. and others
+      title: Numerical Chladni figures
+      year: '2013'
+      url: https://doi.org/10.1088/0143-0807/34/4/1067
+    tier: implemented
+    aliases:
+    - cymatic nodal lines
+    - vibrating plate figures
+    - standing-wave nodal field
+    canonical_name: Chladni Nodal Field
+    formula_ast:
+      iteration_type: wave_field_superposition
+      variables:
+      - x
+      - y
+      - w
+      init: plate coordinates x,y in [-1,1]
+      update: 'w(x,y) = sum_k [cos(n*pi*x)cos(m*pi*y) - cos(m*pi*x)cos(n*pi*y)] / k^0.85 with the fine modes displaced by tanh of a five-mode coarse field'
+      family: modal standing-wave fields
+    formula_hash: sha256:c4b1ba4c33fe5363733ee069cc09be5bf591e2edca2198faa10af7f22a99f19f
+    formula_source: shaders/number_theory/chladni_nodal_field_gpu.frag (whole-file SHA-256)
+    quality:
+      formula_hash: sha256:c4b1ba4c33fe5363733ee069cc09be5bf591e2edca2198faa10af7f22a99f19f
+      citation_health:
+        last_checked: '2026-10-31'
+        status: unchecked
+      shader_compile:
+        sksl: ok
+        glsl: unchecked
+        checked: '2026-10-31'
+      review:
+        approved_by: high_impact_visuals_test
+        batch: high_impact_visuals_2026_10
+      confidence: 0.8
+  - id: domain_warp_nebula
+    name: Domain Warp Nebula
+    shader: shaders/cellular_and_stochastic/domain_warp_nebula_gpu.frag
+    category: Procedural Fractals
+    dimension: 2D
+    defaultIterations: 30.0
+    defaultSteps: 0.0
+    defaultBailout: 4.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: true
+    presets: [domain_warp_nebula-classic, domain_warp_nebula-emission, domain_warp_nebula-veil, domain_warp_nebula-plasma_sheet]
+    variants: []
+    references:
+    - author: Perlin, K.
+      title: An image synthesizer
+      year: '1985'
+      url: https://doi.org/10.1145/325165.325247
+    tier: implemented
+    aliases:
+    - warped ridged fBm nebula
+    - recursive domain warp field
+    canonical_name: Domain Warp Nebula
+    formula_ast:
+      iteration_type: procedural_noise_warp
+      variables:
+      - x
+      - y
+      - q
+      - r
+      - f
+      init: domain coordinates x,y from the view transform
+      update: 'q = fbm(p); r = fbm(p + warp*q); f = fbm(p + warp*r*1.3) with ridged octaves'
+      family: fractal Brownian motion fields
+    formula_hash: sha256:3328a43fed05a14bb3c8e1aa80565dc39d0937aa881b36461e92f4ca86e21fbf
+    formula_source: shaders/cellular_and_stochastic/domain_warp_nebula_gpu.frag (whole-file SHA-256)
+    quality:
+      formula_hash: sha256:3328a43fed05a14bb3c8e1aa80565dc39d0937aa881b36461e92f4ca86e21fbf
+      citation_health:
+        last_checked: '2026-10-31'
+        status: unchecked
+      shader_compile:
+        sksl: ok
+        glsl: unchecked
+        checked: '2026-10-31'
+      review:
+        approved_by: high_impact_visuals_test
+        batch: high_impact_visuals_2026_10
+      confidence: 0.7
+  - id: imordial_brot
+    name: Imordial Brot
+    shader: shaders/3d_and_hypercomplex/raymarched_volumes/imordial_brot_gpu.frag
+    category: 3D Fractals
+    dimension: 3D
+    defaultPower: 27.0
+    defaultIterations: 22.0
+    defaultSteps: 84.0
+    defaultBailout: 4.0
+    defaultColorScheme: 0
+    hasThumbnail: false
+    implemented: true
+    presets: [imordial_brot-classic, imordial_brot-quadratic, imordial_brot-julia, imordial_brot-cubic_left, imordial_brot-cubic_right, imordial_brot-deep_slice]
+    variants: []
+    references:
+    - author: Bristor, D.
+      title: 'Bristorbrot: 3D and 4D Mandelbrot and Julia sets in an ordered hypercomplex algebra'
+      year: '2026'
+      url: https://bristorbrot.org
+    tier: implemented
+    aliases:
+    - Bristorbrot
+    - imordial Mandelbrot
+    - Bristorian z^2 + c
+    canonical_name: Imordial Brot
+    formula_ast:
+      iteration_type: raymarch_3d
+      variables:
+      - z
+      - v
+      - dz
+      init: z0 = 0 with dz/dc = 0 (Mandelbrot family) or z0 = rolled seed with dz/dseed = 1 (Julia family)
+      update: 'z <- f(z) + c with f = z*z, (z*z)*z or z*(z*z) under e_a*e_b = sgn(b-a)*e_b and e_a*e_a = -1; dz <- J_f(z) dz (+ dc for the Mandelbrot family)'
+      family: Bristorian (imordial) hypercomplex escape sets
+    formula_hash: sha256:1a07c976423c113102707644d96c02d626213b0e8257cef75bfaf04bad8320be
+    formula_source: shaders/3d_and_hypercomplex/raymarched_volumes/imordial_brot_gpu.frag (whole-file SHA-256)
+    quality:
+      formula_hash: sha256:1a07c976423c113102707644d96c02d626213b0e8257cef75bfaf04bad8320be
+      citation_health:
+        last_checked: '2026-10-31'
+        status: unchecked
+      shader_compile:
+        sksl: ok
+        glsl: unchecked
+        checked: '2026-10-31'
+      review:
+        approved_by: high_impact_visuals_test
+        batch: high_impact_visuals_2026_10
+      confidence: 0.85

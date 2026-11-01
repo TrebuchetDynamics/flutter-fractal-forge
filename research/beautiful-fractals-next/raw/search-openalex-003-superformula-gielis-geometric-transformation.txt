@@ -1,0 +1,12 @@
+10.32907/ro-125-1637642672	Superellipses to Superformula: The impact of Gielis Transformations
+10.48550/arxiv.2406.06831	Gielis superformula and wildfire models
+	Superellipse and superformula
+10.35219/tmb.2025.1.11	Geometric Characterization and Parameters Selection of Gielis Superformula-Based Pitch Curves for Undercut-Free Noncircular Gears Design
+10.3390/sym12040645	The Generalized Gielis Geometric Equation and Its Application
+10.55060/s.atmps.231115.011	From Superellipses to Superformula and Technology
+10.46793/kgjmat2503.431s	Gielis Transformation of the Archimedean Spiral
+10.3390/axioms15050325	A Unified Superelliptic Framework for the Differential Geometry of Gielis Transformations
+10.1038/s41598-025-34433-1	Multi-band circularly polarized patch antenna with CPW feed based on sunflower geometry and Gielis superformula for wireless communication
+10.1051/matecconf/201823906007	Application of G. Lame’s and J. Gielis’ formulas for description of shells superplastic forming
+10.25259/jksus_560_2025	Tulip tree leaf-shaped microstrip MIMO antenna utilizing the superformula
+10.11591/ijece.v12i5.pp5145-5152	Design of miniaturized patch crossover based on superformula slot shapes

@@ -1,0 +1,12 @@
+10.1145/74333.74363	Ray tracing deterministic 3-D fractals
+10.1145/74334.74337	The synthesis and rendering of eroded fractal terrains
+10.1016/0022-0728(90)87025-f	Fractals and rough electrodes
+10.1088/1751-8113/45/37/374016	Heat kernels and zeta functions on fractals
+10.1145/15886.15916	Ray tracing complex scenes
+10.1145/357332.357335	Improved Computational Methods for Ray Tracing
+10.1145/344779.344899	Adaptively sampled distance fields
+10.1002/cyto.a.20895	Neuron tracing in perspective
+10.1145/195826.197312	Height distributional distance transform methods for height field ray tracing
+10.1145/127719.122728	Efficient antialiased rendering of 3-D linear fractals
+	On the Geometry of IFS Fractals and its Applications
+10.20944/preprints202304.0246.v1	Dual-Quaternion Julia Fractals

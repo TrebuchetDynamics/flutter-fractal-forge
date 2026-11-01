@@ -1,0 +1,12 @@
+10.48550/arxiv.2404.11894	Rendering Participating Media Using Path Graphs
+	Gaussian Process Implicit Surfaces as Participating Media: Realization-Free Rendering from Level-Crossing Statistics
+10.1145/3731152	Solving partial differential equations in participating media
+10.1145/3588432.3591557	Progressive null-tracking for volumetric rendering
+10.1145/3588432.3591493	Deep Real-time Volumetric Rendering Using Multi-feature Fusion
+10.1145/3476576.3476631	Path-space differentiable rendering of participating media
+	Rendering participating media with streamed photon mapping
+10.1111/cgf.70541	Volumetric Inverse Rendering via Neural Radiative Transfer
+10.1145/3450626.3459782	Path-space differentiable rendering of participating media
+10.1111/cgf.14956	A Differential Diffusion Theory for Participating Media
+	RENDERING PARTICIPATING MEDIA WITH OCTREES
+10.2312/hpg.20231136	Efficient Rendering of Participating Media for Multiple Viewpoints

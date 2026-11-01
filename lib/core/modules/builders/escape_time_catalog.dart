@@ -33,6 +33,7 @@ part 'escape_time_catalog/batch_26_tenth_wave_research.dart';
 part 'escape_time_catalog/batch_27_log_polar_tessellations.dart';
 part 'escape_time_catalog/batch_28_fractalish_motion.dart';
 part 'escape_time_catalog/batch_29_clean_room_visuals.dart';
+part 'escape_time_catalog/batch_30_high_impact_visuals.dart';
 part 'escape_time_catalog/kaleidoscopes.dart';
 
 FractalParameter _floatParam({
@@ -94,6 +95,7 @@ final List<EscapeTimeConfig> escapeTimeCatalog = [
   ..._batch27LogPolarTessellationsCatalog,
   ..._batch28FractalishMotionCatalog,
   ..._batch29CleanRoomVisualsCatalog,
+  ..._batch30HighImpactVisualsCatalog,
   ..._kaleidoscopesCatalog,
 ];
 
