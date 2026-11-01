@@ -1,0 +1,9 @@
+schema = 1
+task = "MAIN-CONTROLS-PRESENTATION-HARDEN-01"
+candidate = "8db93da5637c28a77af8f441fac39b5e78acc8b2"
+integration = "b92605a9fdf6fefc7b060aa3fdd305224a6edeee"
+tree = "1dba9f0d321551a61014ccff80b9de9625431bf2"
+contract_hash = "c638fa77a848430a12785d840af304f424b0ea0fa59e1e2162060ca40ed6da14"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAIN-CONTROLS-PRESENTATION-HARDEN-01"]
+result = "pass"
+review = "passed"
