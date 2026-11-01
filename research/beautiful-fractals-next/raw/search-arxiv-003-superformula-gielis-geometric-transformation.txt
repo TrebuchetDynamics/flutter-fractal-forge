@@ -1,0 +1,12 @@
+	Gielis superformula and wildfire models
+	Fractional-order differential geometry of Gielis curves: chart regularization, Caputo curvature, and the fate of singularities
+	GeoDeformer: Geometric Deformable Transformer for Action Recognition
+10.1142/s0219887824400103	Geometric methods in quantum information and entanglement variational principle
+	Geometric Algebra Transformer
+10.3934/jgm.2014.6.1	Aspects of reduction and transformation of Lagrangian systems with symmetry
+10.2140/agt.2023.23.1399	Geometric triangulations and highly twisted links
+10.2140/agt.2003.3.557	A geometric interpretation of Milnor's triple linking numbers
+10.1109/lra.2023.3337701	SO(2)-Equivariant Downwash Models for Close Proximity Flight
+10.1142/s0219887822400011	A geometric view on local Lorentz transformations in teleparallel gravity
+10.2140/agt.2023.23.4309	Geometric triangulations of a family of hyperbolic 3-braids
+	Quasi-isometric rigidity of piecewise geometric manifolds

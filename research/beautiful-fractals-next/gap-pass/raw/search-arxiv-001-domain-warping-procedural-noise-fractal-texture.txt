@@ -1,0 +1,10 @@
+	Tabletop Roleplaying Games as Procedural Content Generators
+10.1016/j.amc.2012.11.092	Texture analysis using volume-radius fractal dimension
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	A Robust Low-Rank Prior Model for Structured Cartoon-Texture Image Decomposition with Heavy-Tailed Noise
+	Texture image analysis and texture classification methods - A review
+10.1007/s11004-021-09967-5	Surface Warping Incorporating Machine Learning Assisted Domain Likelihood Estimation: A New Paradigm in Mine Geology Modelling and Automation
+10.1142/s0219477510000320	Noise and Bell's inequality
+10.1142/s0219477516020016	Quantum and Classical Frontiers of Noise
+10.1088/1126-6708/2001/02/022	Weakly Warped Extra Dimensions and SN1987A
+	Token Warping Helps MLLMs Look from Nearby Viewpoints

@@ -1,0 +1,10 @@
+10.1371/journal.pone.0352934	Expression of Concern: Investigations on segmentation-based fractal texture for texture classification in the presence of Gaussian noise
+10.1109/access.2020.2976815	Fractal Analysis and Texture Classification of High-Frequency Multiplicative Noise in SAR Sea-Ice Images Based on a Transform- Domain Image Decomposition Method
+10.1109/icmt.2011.6001915	Solid texture synthesis based on 2D exemplar and procedural noise
+10.1109/iccsit.2009.5234644	Photorealistic terrain generation method based on fractal geometry theory and procedural texture
+10.1109/access.2024.3401848	Implementing a Multitarget Backdoor Attack Algorithm Based on Procedural Noise Texture Features
+10.1117/12.3096034	GPU-accelerated procedural texture generation of liver and its cut surfaces based on Worley noise
+10.1007/978-3-0348-8936-0_14	Fractal Characterization of Nuclear Texture in Breast Cytology: Frequency and Spatial Domain Approaches
+10.17210/hcik.2016.01.382	Multi-resolution Perlin Noise Decomposition and Procedural Texture Synthesis by Example
+10.1109/iranianmvip.2015.7397493	Histogram and average neighborhood structure of local lacunarity and fractal features for noise-robust and rotation-invariant texture description
+10.1371/journal.pone.0315135	Investigations on segmentation-based fractal texture for texture classification in the presence of Gaussian noise

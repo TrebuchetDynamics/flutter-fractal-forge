@@ -1,0 +1,12 @@
+10.1016/b978-1-55860-853-5.50019-6	CRITICAL ACCLAIM FOR: Real-Time Shader Programming!
+10.1109/nicoint50878.2020.00025	Improving GPU Real-Time Wide Terrain Tessellation Using the New Mesh Shader Pipeline
+10.1016/b978-155860853-5/50007-x	SHADER BUFFET
+10.1016/b978-155860853-5/50008-1	SHADER REFERENCE
+10.1109/tvcg.2026.3683358/mm2	Scalable Hole-Filling for Real-Time Multi-GPU Light Field Path Tracing_supp1-3683358.pdf
+10.1016/b978-155860853-5/50010-x	Pixel Shader Reference
+10.1016/b978-155860853-5/50006-8	SHADER TOOLS AND RESOURCES
+10.1016/b978-155860853-5/50005-6	SHADER SETUP IN DIRECTX
+10.7717/peerj-cs.3803/table-12	Table 12: Real-time performance (GPU-RTX 3080, 32 GB RAM).
+10.1016/b978-155860853-5/50009-3	Vertex Shader Reference
+10.1007/978-981-287-134-3_3	GPU-Based Real-Time Volume Interaction for Scientific Visualization Education
+10.1111/cgf.70075	Real‐time procedural resurfacing using GPU mesh shader

@@ -1,0 +1,4 @@
+10.21638/11701/spbu35.2024.305	Light and fast renderings of limit sets for Fuchsian and Kleinian groups
+	Generation of fractal aesthetic objects with application in digital domain
+10.1080/10586458.2021.1994059	Cohomology fractals, Cannon–Thurston maps, and the geodesic flow
+10.1090/noti2651	Caroline Series and Hyperbolic Geometry

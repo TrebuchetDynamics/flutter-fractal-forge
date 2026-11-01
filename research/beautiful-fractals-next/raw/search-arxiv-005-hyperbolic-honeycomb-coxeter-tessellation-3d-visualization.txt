@@ -1,0 +1,12 @@
+	Topological Veech dichotomy and tessellations of the hyperbolic plane
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+	Zero Excess and Minimal Length in Finite Coxeter Groups
+	Beyond English: Centering Multilingualism in Data Visualization
+	Involution Products in Coxeter Groups
+	Visualizing Hyperbolic Honeycombs
+	Coxeter-Chein Loops
+10.1109/vis49827.2021.9623305	Towards a Survey on Static and Dynamic Hypergraph Visualizations
+10.1109/tvcg.2025.3633909	Reframing Pattern: A Comprehensive Approach to a Composite Visual Variable
+	On boundaries of parabolic subgroups of Coxeter groups
+	Particle Configurations and Coxeter Operads
+	SAM 3D: 3Dfy Anything in Images

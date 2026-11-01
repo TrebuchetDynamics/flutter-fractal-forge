@@ -1,0 +1,5 @@
+10.1080/17513470701210485	Fractal art using variations on escape time algorithms in the complex plane
+10.1117/12.2292725	Plasmonic colours on bulk metals: laser colouring of large areas exhibiting high topography
+	Fractal art: fractal image and music generator
+	Modelling of anomalous charge carriers transport in disordered organic semiconductors / Choo Kan Yeep
+10.12794/metadc1248519	Conformal and Stochastic Non-Autonomous Dynamical Systems

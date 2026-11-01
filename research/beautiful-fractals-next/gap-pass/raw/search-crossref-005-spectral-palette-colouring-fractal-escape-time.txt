@@ -1,0 +1,8 @@
+10.2139/ssrn.5361537	Escape from a Black Hole: An Approach using Fractal Time Dynamics
+10.1063/1.5095111	A comparison of fractal dimension estimations for filled Julia fractal sets based on the escape time algorithm
+10.62052/270602	Gemstones and the Artist’s Palette – Natural Mineral Colouring of Paint Pigments
+10.2139/ssrn.5318899	A Spectral Framework of the Riemann Hypothesis from Fractal Tick-Time Operators in the Duality of Time Theory
+10.4135/9781071878606.n6	Power Spectral Density Analysis
+10.3390/fractalfract5020055	On the Connectivity Measurement of the Fractal Julia Sets Generated from Polynomial Maps: A Novel Escape-Time Algorithm
+10.3390/fractalfract8060325	Dynamical Analysis of Two-Dimensional Fractional-Order-in-Time Biological Population Model Using Chebyshev Spectral Method
+10.1109/vsmm.2001.969714	Towards realistic modeling and rendering of 3-D escape-time deterministic fractal shapes

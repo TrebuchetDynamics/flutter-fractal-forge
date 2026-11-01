@@ -1,0 +1,145 @@
+# Search batch results
+
+Deduped records: 135
+
+- A Survey of Procedural Noise Functions — DOI: `10.1111/j.1467-8659.2010.01827.x`
+- State of the Art in Procedural Noise Functions — DOI: `10.2312/egst.20101059`
+- Use Procedural Noise to Achieve Backdoor Attack — DOI: `10.1109/access.2021.3110239`
+- Procedural textures generation: adaptation into a Unity tool
+- Anisotropic noise — DOI: `10.1145/1360612.1360653`
+- Survey of Procedural Methods for Two-Dimensional Texture Generation — DOI: `10.3390/s20041135`
+- The Texture Lexicon: Understanding the Categorization of Visual Texture Terms and Their Relationship to Texture Images — DOI: `10.1016/s0364-0213(99)80023-8`
+- A controllable domain-warped multifractal implicit-radius algorithm for generation of simulation-ready virtual aggregates — DOI: `10.1016/j.advengsoft.2026.104193`
+- Learning a Neural 3D Texture Space From 2D Exemplars — DOI: `10.1109/cvpr42600.2020.00838`
+- A Survey of Procedural Methods for Terrain Modelling
+- Expression of Concern: Investigations on segmentation-based fractal texture for texture classification in the presence of Gaussian noise — DOI: `10.1371/journal.pone.0352934`
+- Fractal Analysis and Texture Classification of High-Frequency Multiplicative Noise in SAR Sea-Ice Images Based on a Transform- Domain Image Decomposition Method — DOI: `10.1109/access.2020.2976815`
+- Solid texture synthesis based on 2D exemplar and procedural noise — DOI: `10.1109/icmt.2011.6001915`
+- Photorealistic terrain generation method based on fractal geometry theory and procedural texture — DOI: `10.1109/iccsit.2009.5234644`
+- Implementing a Multitarget Backdoor Attack Algorithm Based on Procedural Noise Texture Features — DOI: `10.1109/access.2024.3401848`
+- GPU-accelerated procedural texture generation of liver and its cut surfaces based on Worley noise — DOI: `10.1117/12.3096034`
+- Fractal Characterization of Nuclear Texture in Breast Cytology: Frequency and Spatial Domain Approaches — DOI: `10.1007/978-3-0348-8936-0_14`
+- Multi-resolution Perlin Noise Decomposition and Procedural Texture Synthesis by Example — DOI: `10.17210/hcik.2016.01.382`
+- Histogram and average neighborhood structure of local lacunarity and fractal features for noise-robust and rotation-invariant texture description — DOI: `10.1109/iranianmvip.2015.7397493`
+- Investigations on segmentation-based fractal texture for texture classification in the presence of Gaussian noise — DOI: `10.1371/journal.pone.0315135`
+- 3D TEXTURE MODELING BASED ON PROCEDURAL MODELS, SPLINES, AND ARTIFICIAL INTELLIGENCE METHODS — DOI: `10.58225/mpmma.2026.219`
+- ARFIMA fractal temporal phase unwrapping algorithm for speckle noise — DOI: `10.1117/12.3130441`
+- Preparatory Experiments Regarding Human Brain Perception and Reasoning of Image Complexity for Synthetic Color Fractal and Natural Texture Images via EEG — DOI: `10.3390/app11010164`
+- PhysDiff-VTON: Cross-Domain Physics Modeling and Trajectory Optimization for Virtual Try-On — DOI: `10.52202/085713-0323`
+- Texture designs and workflows for physically based rendering using procedural texture generation — DOI: `10.1109/ecice47484.2019.8942651`
+- Fast Fractal Image Compression Using Non-Uniform Partition — DOI: `10.3390/electronics15050922`
+- Feature-preserving procedural texture — DOI: `10.1007/s00371-017-1375-8`
+- Meshless Domain Randomization via Explicit Parameter Perturbation of 3D Gaussian Splatting — DOI: `10.48550/arxiv.2607.22890`
+- Tabletop Roleplaying Games as Procedural Content Generators
+- Texture analysis using volume-radius fractal dimension — DOI: `10.1016/j.amc.2012.11.092`
+- Minkowski dimension and explicit tube formulas for $p$-adic fractal strings — DOI: `10.3390/fractalfract2040026`
+- A Robust Low-Rank Prior Model for Structured Cartoon-Texture Image Decomposition with Heavy-Tailed Noise
+- Texture image analysis and texture classification methods - A review
+- Surface Warping Incorporating Machine Learning Assisted Domain Likelihood Estimation: A New Paradigm in Mine Geology Modelling and Automation — DOI: `10.1007/s11004-021-09967-5`
+- Noise and Bell's inequality — DOI: `10.1142/s0219477510000320`
+- Quantum and Classical Frontiers of Noise — DOI: `10.1142/s0219477516020016`
+- Weakly Warped Extra Dimensions and SN1987A — DOI: `10.1088/1126-6708/2001/02/022`
+- Token Warping Helps MLLMs Look from Nearby Viewpoints
+- Reduction of Physiological Stress Using Fractal Art and Architecture — DOI: `10.1162/leon.2006.39.3.245`
+- Aesthetic preference is related to organized complexity — DOI: `10.1371/journal.pone.0235257`
+- Fractals in art and nature: why do we like them? — DOI: `10.1117/12.2012076`
+- Aesthetic Responses to Exact Fractals Driven by Physical Complexity — DOI: `10.3389/fnhum.2016.00210`
+- A Complex Story: Universal Preference vs. Individual Differences Shaping Aesthetic Response to Fractals Patterns — DOI: `10.3389/fnhum.2016.00213`
+- What have fractals got to do with it? individual differences in aesthetic responses — DOI: `10.17638/02038132`
+- Reduction of Image Complexity Explains Aesthetic Preference for Symmetry — DOI: `10.3390/sym3030443`
+- Taxonomy of Individual Variations in Aesthetic Responses to Fractal Patterns — DOI: `10.3389/fnhum.2016.00350`
+- A shared fractal aesthetic across development — DOI: `10.1057/s41599-020-00648-y`
+- Compression ensembles quantify aesthetic complexity and the evolution of visual art — DOI: `10.1140/epjds/s13688-023-00397-3`
+- Aesthetic Preference in Adolescents as a Function of Race and Visual Complexity — DOI: `10.2307/1319461`
+- The relationship between aesthetic preference and visual complexity in absract art — DOI: `10.3758/bf03337424`
+- Quantifying Aesthetic Preference And Perceived Complexity For Fractal Melodies — DOI: `10.1525/mp.2007.24.3.247`
+- INVESTIGATION OF AESTHETIC PREFERENCE THE SIMPLICITY AND THE COMPLEXITY OF THE VISUAL QUALITIES OF MOTIFS IN ISLAMIC ARCHITECTURE — DOI: `10.7456/1060agse/038`
+- Experimental Aesthetics: Visual Aesthetic Preference in Five Cultures — DOI: `10.2307/1320057`
+- Beauty and the beholder: A sensitive relationship — DOI: `10.1068/ic285`
+- Experimental Aesthetics: Visual Aesthetic Preference in Five Cultures — DOI: `10.1080/00393541.1973.11651318`
+- Fractal Expressionism—Where Art Meets Science — DOI: `10.1016/b978-044450944-4/50012-8`
+- Aesthetic preference for art emerges from a weighted integration over hierarchically structured visual features in the brain — DOI: `10.1101/2020.02.09.940353`
+- Preference for visual complexity in rats reared under varied light intensity and visual complexity — DOI: `10.1037/e666632011-098`
+- Visual Aesthetic Benchmark: Can Frontier Models Judge Beauty?
+- Complexity and Aesthetics in Generative and Evolutionary Art
+- Compression ensembles quantify aesthetic complexity and the evolution of visual art
+- PhotoAgent: Exploratory Visual Aesthetic Planning with Large Vision Models
+- Visual Indeterminacy in GAN Art — DOI: `10.1162/leon_a_01930`
+- Playground v2.5: Three Insights towards Enhancing Aesthetic Quality in Text-to-Image Generation
+- Visual Boosting Techniques for Spatiotemporal Dense Pixel Visualizations — DOI: `10.2312/eurova.20261004`
+- PO-EMO: Conceptualization, Annotation, and Modeling of Aesthetic Emotions in German and English Poetry
+- The Well-tempered Compiler? The Aesthetics of Program Auralization
+- Light and fast renderings of limit sets for Fuchsian and Kleinian groups — DOI: `10.21638/11701/spbu35.2024.305`
+- Generation of fractal aesthetic objects with application in digital domain
+- Cohomology fractals, Cannon–Thurston maps, and the geodesic flow — DOI: `10.1080/10586458.2021.1994059`
+- Caroline Series and Hyperbolic Geometry — DOI: `10.1090/noti2651`
+- A WILD KNOT 𝕊<sup>2</sup>↪ 𝕊<sup>4</sup>AS LIMIT SET OF A KLEINIAN GROUP: INDRA'S PEARLS IN FOUR DIMENSIONS — DOI: `10.1142/s0218216507005610`
+- Remarks on the Limit Point Set of a Finitely Generated Kleinian Group — DOI: `10.1007/978-1-4612-5796-7_35`
+- The Hausdorff dimension of the limit set of a geometrically finite Kleinian group — DOI: `10.1007/bf02392194`
+- Remarks on the Limit Point Set of a Finitely Generated Kleinian Group — DOI: `10.1515/9781400822492-004`
+- Finely Open Sets in the Limit Set of a Finitely Generated Kleinian Group — DOI: `10.1007/978-94-011-2436-2_6`
+- Quasi-arcs in the limit set of a singly degenerate group with bounded geometry — DOI: `10.1017/cbo9780511542817.007`
+- Complex hyperbolic Kleinian groups with limit set a wild knot — DOI: `10.1016/j.top.2003.10.004`
+- The limit set intersection theorem for finitely generated Kleinian groups — DOI: `10.4310/mrl.1996.v3.n5.a9`
+- THE DISCONTINUITY SET FOR A KLEINIAN GROUP AND TOPOLOGY OF ITS KLEINIAN MANIFOLD — DOI: `10.1142/s0129167x93000091`
+- Complex vacuum fluctuation as a chaotic “limit” set of any Kleinian group transformation and the mass spectrum of high energy particle physics via spontaneous self-organization — DOI: `10.1016/s0960-0779(02)00630-6`
+- On integer sequences for rendering limit sets of Kleinian groups
+- On horospheric limit sets of Kleinian groups
+- Indra: a Public Computationally Accessible Suite of Cosmological $N$-body Simulations — DOI: `10.1093/mnras/stab1823`
+- Tevatron-for-LHC Report of the QCD Working Group
+- Response of CsI(Tl) scintillators over a large range in energy and atomic number of ions (Part II): calibration and identification in the INDRA array — DOI: `10.1016/s0168-9002(01)01712-0`
+- Limit sets and commensurability of Kleinian groups — DOI: `10.1017/s0004972710000146`
+- A new indexed approach to render the attractors of Kleinian groups
+- A wild knot $\mathbb{S}^{2}\hookrightarrow\mathbb{S}^{4}$ as limit set of a Kleinian Group: Indra's pearls in four dimensions
+- On the limit set of a geometrically infinite Kleinian group
+- Limit set intersection theorems for Kleinian groups and a conjecture of Susskind — DOI: `10.1007/s40315-014-0078-7`
+- IFS Examples — DOI: `10.1016/b978-0-12-440740-4.50012-6`
+- Orthogonal Basis IFS — DOI: `10.1007/978-1-4612-2472-3_10`
+- On new fractal phenomena connected with infinite linear IFS — DOI: `10.1002/mana.201500471`
+- IFS fractal interpolation for 2D and 3D visualization — DOI: `10.1109/visual.1995.480798`
+- FRACTAL DIMENSION ESTIMATION OF RGB COLOR IMAGES USING MAXIMUM COLOR DISTANCE — DOI: `10.1142/s0218348x16500407`
+- Human motor function estimation based on EMG signal fractal dimension standard deviation — DOI: `10.3233/jifs-189358`
+- IFS Labs — DOI: `10.1142/9789811218460_0001`
+- The BC‐IFS Model — DOI: `10.1002/9781119831754.ch1`
+- Fractal Basins of Attraction in the Inversion of Geomagnetic Data — DOI: `10.1533/9780857099594.138`
+- IFS Tool for Fractal Microstrip Patch Antenna Analysis — DOI: `10.1109/comite.2008.4569930`
+- The integral field spectroscopy (IFS) wiki
+- A fractal dimension estimate for a graph-directed IFS of non-similarities
+- On Intersecting IFS Fractals with Lines — DOI: `10.1142/s0218348x14500145`
+- Apollonian Circumcircles of IFS Fractals
+- Real-time Tool for Affine Transformations of Two Dimensional IFS Fractals
+- FI-KAN: Fractal Interpolation Kolmogorov-Arnold Networks
+- On the Exact Convex Hull of IFS Fractals
+- Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality — DOI: `10.4171/jfg/57`
+- An Expectation-Maximization Algorithm for the Fractal Inverse Problem
+- A novel approach to digital watermarking, exploiting colour spaces — DOI: `10.1016/j.sigpro.2012.10.018`
+- Biomimetic photonic coatings using squid reflectin protein — DOI: `10.32657/10356/163521`
+- Wasted space : performance, public space, urban renewal and identity.
+- Escape from a Black Hole: An Approach using Fractal Time Dynamics — DOI: `10.2139/ssrn.5361537`
+- A comparison of fractal dimension estimations for filled Julia fractal sets based on the escape time algorithm — DOI: `10.1063/1.5095111`
+- Gemstones and the Artist’s Palette – Natural Mineral Colouring of Paint Pigments — DOI: `10.62052/270602`
+- A Spectral Framework of the Riemann Hypothesis from Fractal Tick-Time Operators in the Duality of Time Theory — DOI: `10.2139/ssrn.5318899`
+- Power Spectral Density Analysis — DOI: `10.4135/9781071878606.n6`
+- On the Connectivity Measurement of the Fractal Julia Sets Generated from Polynomial Maps: A Novel Escape-Time Algorithm — DOI: `10.3390/fractalfract5020055`
+- Dynamical Analysis of Two-Dimensional Fractional-Order-in-Time Biological Population Model Using Chebyshev Spectral Method — DOI: `10.3390/fractalfract8060325`
+- Towards realistic modeling and rendering of 3-D escape-time deterministic fractal shapes — DOI: `10.1109/vsmm.2001.969714`
+- Fractal art using variations on escape time algorithms in the complex plane — DOI: `10.1080/17513470701210485`
+- Plasmonic colours on bulk metals: laser colouring of large areas exhibiting high topography — DOI: `10.1117/12.2292725`
+- Fractal art: fractal image and music generator
+- Modelling of anomalous charge carriers transport in disordered organic semiconductors / Choo Kan Yeep
+- Conformal and Stochastic Non-Autonomous Dynamical Systems — DOI: `10.12794/metadc1248519`
+- The Extreme-ultraviolet Stellar Characterization for Atmospheric Physics and Evolution (ESCAPE) Mission: Motivation and Overview
+- Space-time distributions
+- Spectral asymptotics for Robin problems with a discontinuous coefficient — DOI: `10.4171/jst/7`
+- The spectral function of a first order elliptic system — DOI: `10.4171/jst/47`
+- Invariant subspaces of elliptic systems II: spectral theory — DOI: `10.4171/jst/402`
+- List colouring with a bounded palette — DOI: `10.1002/jgt.22013`
+- Extreme Narrow Escape: shortest paths for the first particles to escape through a small window
+- Fractal Complex Dimensions, Riemann Hypothesis and Invertibility of the Spectral Operator
+- Network efficiency of spatial systems with fractal morphology: a geometric graphs approach — DOI: `10.1038/s41598-023-45962-y`
+
+## Failures
+
+- semantic-scholar / "fractal art aesthetic preference visual complexity": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "Kleinian group limit set rendering Indra pearls": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "inversion fractal kaleidoscopic IFS distance estimation": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)

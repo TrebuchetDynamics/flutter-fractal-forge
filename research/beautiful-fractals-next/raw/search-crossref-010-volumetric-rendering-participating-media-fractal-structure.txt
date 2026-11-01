@@ -1,0 +1,12 @@
+10.22215/etd/2012-07427	Particle based participating media rendering using density Octrees
+10.1007/978-3-642-87825-1_4	Rendering Participating Media: Problems and Solutions from Application Areas
+10.70675/7aaf619bz53a9z4cfdzbcecz83efab4c2d85	Modeling and real-time rendering of participating media using the GPU
+10.1145/1508044.1508102	Rendering participating media
+10.1201/b10843-5	Volume Rendering and Participating Media
+10.20948/graphicon-2021-3027-64-73	Real-time Rendering of Small-scale Volumetric Structure on Animated Surfaces
+10.18186/thermal.505495	PARTICIPATING MEDIA FOR VOLUMETRIC HEAT GENERATION
+10.1007/s41095-021-0249-1	A survey on rendering homogeneous participating media
+10.1109/cgi.2005.1500423	A fast rendering method for a scene with participating media of anisotropic scattering property
+10.1109/rt.2008.4634627	Interactive volumetric shadows in participating media with single-scattering
+10.1007/978-3-642-87825-1_6	Global Illumination in Presence of Participating Media with General Properties
+10.1007/978-3-7091-7484-5_10	Rendering Participating Media with Bidirectional Path Tracing

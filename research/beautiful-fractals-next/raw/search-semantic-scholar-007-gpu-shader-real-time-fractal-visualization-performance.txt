@@ -1,0 +1,12 @@
+10.1109/icic3s72305.2026.11737313	High-Performance 3D Object Generation Using Hybrid CPU - GPU Architecture for Real-Time Visualization Applications
+10.3390/app15126611	Real-Time Cloth Simulation in Extended Reality: Comparative Study Between Unity Cloth Model and Position-Based Dynamics Model with GPU
+10.35543/indiarxiv.158	Efficient Large Scale Image Classification: A Streamlit Framework Integrating Mixed Precision Training and Real Time Performance Visualization (Case Study)
+10.1007/s11548-025-03377-2	GPU-accelerated deformation mapping in hybrid organ models for real-time simulation
+10.48084/etasr.7351	NIST CSF-2.0 Compliant GPU Shader Execution
+10.1109/punecon67554.2025.11378988	GPU-Accelerated Multi-Strategy Simulation Framework for Real-Time High-Frequency Trading
+10.48550/arxiv.2504.20937	Mìmir: A real-time interactive visualization library for CUDA programs
+10.1002/jemt.70106	A Camera‐Like Dual‐Defocus Curvature Wavefront Sensor With GPU Acceleration for Real‐Time Quantitative Phase Imaging
+10.1111/cgf.70075	Real‐time procedural resurfacing using GPU mesh shader
+10.1145/3754598.3754649	One GPU, Many Ranks: Enabling Performance and Energy-Efficient In-Transit Visualization via Resource Sharing
+10.1007/s13304-026-02687-7	EasyVis2: a real-time multi-view 3D visualization system for laparoscopic surgery training enhanced by a deep neural network YOLOv8-pose.
+10.54254/2755-2721/90/2024melb0061	Advanced techniques and high-performance computing optimization for real-time rendering

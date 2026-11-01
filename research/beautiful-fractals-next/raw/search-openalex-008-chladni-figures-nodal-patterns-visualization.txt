@@ -1,0 +1,12 @@
+10.24018/ejeng.2025.10.1.3217	On the Wavelength and Frequency of the Actual Chladni Patterns Visualized on Square Plates
+10.5281/zenodo.18012900	Chladni Plates and the Visualization of Modal Vibrations: A Comprehensive Analysis of Acoustic Pattern Formation, Mathematical Modeling, and Multidisciplinary Applications in Contemporary Physics and Engineering
+10.1038/s41598-018-29244-6	Point-driven modern Chladni figures with symmetry breaking
+10.5281/zenodo.17011	Thermosonic Chladni Figures For Defect-Selective Imaging
+10.3390/s20154084	Chladni Figures in Modal Analysis of a Double-Panel Structure
+10.1016/j.ultsonch.2026.107833	Chladni figures reduce ohmic losses in alkaline electrolysis
+10.1038/ncomms12764	Controlling the motion of multiple objects on a Chladni plate
+10.5281/zenodo.18511142	P R O J E C T T VOLUME XXX : The Visible Chromatic Transmutation Chladni Figures in the Sectors V₀, V₁, V₂
+10.1103/physrevresearch.7.l032001	Chladni patterns explained by the space-dependent diffusion of bouncing grains
+10.1103/physrevlett.122.184301	Motion of Heavy Particles on a Submerged Chladni Plate
+10.32604/sv.2021.015008	Manipulating Chladni Patterns of Ferromagnetic Materials by an External Magnetic Field
+10.3390/e26030264	Exploration of Resonant Modes for Circular and Polygonal Chladni Plates

@@ -1,0 +1,12 @@
+10.1371/journal.pone.0155415	Fractal Dimension Analysis of Subcortical Gray Matter Structures in Schizophrenia
+	Advanced volume rendering on shadows, flows and high-dimensional rendering
+10.1145/311535.311560	Modeling and rendering of weathered stone
+	Rendering Realistic Cloud Effects for Computer Generated Films
+10.1038/s41467-022-28013-4	Stiffness control in dual color tomographic volumetric 3D printing
+	Interactive Real-Time Smoke Rendering
+10.1007/s00371-020-01953-y	A survey of modeling, rendering and animation of clouds in computer graphics
+	Real-Time Rendering of Atmospheric Clouds
+10.5121/ijma.2013.5503	Real-Time Realistic Illumination and Rendering of Cumulus Clouds
+	Volumetric cloud generation using a Chinese brush calligraphy style
+	A Survey of Techniques and Technologies for Web-Based Real-Time Interactive Rendering
+10.3390/fractalfract10010015	Fractal and Fluid Mobility Analysis of Pore-Throat Systems in Sandstone Reservoirs Based on HPMI and NMR: A Case Study from the Nahr Umr Formation, Iraq

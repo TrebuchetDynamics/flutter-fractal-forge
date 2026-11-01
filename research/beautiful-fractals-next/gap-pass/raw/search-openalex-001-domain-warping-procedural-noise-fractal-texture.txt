@@ -1,0 +1,10 @@
+10.1111/j.1467-8659.2010.01827.x	A Survey of Procedural Noise Functions
+10.2312/egst.20101059	State of the Art in Procedural Noise Functions
+10.1109/access.2021.3110239	Use Procedural Noise to Achieve Backdoor Attack
+	Procedural textures generation: adaptation into a Unity tool
+10.1145/1360612.1360653	Anisotropic noise
+10.3390/s20041135	Survey of Procedural Methods for Two-Dimensional Texture Generation
+10.1016/s0364-0213(99)80023-8	The Texture Lexicon: Understanding the Categorization of Visual Texture Terms and Their Relationship to Texture Images
+10.1016/j.advengsoft.2026.104193	A controllable domain-warped multifractal implicit-radius algorithm for generation of simulation-ready virtual aggregates
+10.1109/cvpr42600.2020.00838	Learning a Neural 3D Texture Space From 2D Exemplars
+	A Survey of Procedural Methods for Terrain Modelling

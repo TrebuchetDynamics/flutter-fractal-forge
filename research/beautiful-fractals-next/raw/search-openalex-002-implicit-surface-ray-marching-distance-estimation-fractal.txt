@@ -1,0 +1,12 @@
+10.1007/s00371-006-0090-7	Ray casting implicit fractal surfaces with reduced affine arithmetic
+10.1080/16864360.2017.1397890	Rounding, filleting and smoothing of implicit surfaces
+10.1016/j.cag.2010.07.003	Fast reliable interrogation of procedurally defined implicit surfaces using extended revised affine arithmetic
+10.1016/j.tcs.2005.08.027	Implicit surface visualization of reconstructed biological molecules
+10.3390/electronics10222730	Raymarching Distance Fields with CUDA
+10.3389/fphy.2025.1679004	Foreground and background: fractal unity of art and science
+	Genetic evolution and equivalence of some complex systems: fractals, cellular automata and lindenmayer systems
+10.3390/mi14040714	Estimation of Particle Location in Granular Materials Based on Graph Neural Networks
+10.1109/tmm.2022.3162469	Human Pose and Shape Estimation From Single Polarization Images
+10.1016/j.advwatres.2017.04.006	Pore-scale capillary pressure analysis using multi-scale X-ray micromotography
+10.1109/wacv56688.2023.00450	3D Neural Sculpting (3DNS): Editing Neural Signed Distance Functions
+	Subpixel reconstruction antialiasing for ray tracing

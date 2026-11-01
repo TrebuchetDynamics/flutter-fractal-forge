@@ -1,0 +1,332 @@
+{
+  "job_id": "job_4f0c219be1c6b86b5e8daa6269e8a6f9",
+  "schemaVersion": "1",
+  "createdAt": "2026-10-31T23:56:57Z",
+  "updatedAt": "2026-10-31T23:58:19Z",
+  "queries": [
+    "kaleidoscopic iterated function system fractal rendering",
+    "implicit surface ray marching distance estimation fractal",
+    "superformula Gielis geometric transformation",
+    "gyroid triply periodic minimal surface",
+    "hyperbolic honeycomb Coxeter tessellation 3D visualization",
+    "fractal aesthetics visual complexity beauty evaluation",
+    "GPU shader real-time fractal visualization performance",
+    "Chladni figures nodal patterns visualization",
+    "sphere tracing distance bound fractal",
+    "volumetric rendering participating media fractal structure"
+  ],
+  "sources": [
+    "openalex",
+    "crossref",
+    "semantic-scholar",
+    "arxiv"
+  ],
+  "limit": 12,
+  "completed": [
+    {
+      "source": "openalex",
+      "query": "kaleidoscopic iterated function system fractal rendering",
+      "rawFile": "raw/search-openalex-001-kaleidoscopic-iterated-function-system-fractal-rendering.txt",
+      "records": 12
+    },
+    {
+      "source": "crossref",
+      "query": "kaleidoscopic iterated function system fractal rendering",
+      "rawFile": "raw/search-crossref-001-kaleidoscopic-iterated-function-system-fractal-rendering.txt",
+      "records": 12
+    },
+    {
+      "source": "arxiv",
+      "query": "kaleidoscopic iterated function system fractal rendering",
+      "rawFile": "raw/search-arxiv-001-kaleidoscopic-iterated-function-system-fractal-rendering.txt",
+      "records": 12
+    },
+    {
+      "source": "openalex",
+      "query": "implicit surface ray marching distance estimation fractal",
+      "rawFile": "raw/search-openalex-002-implicit-surface-ray-marching-distance-estimation-fractal.txt",
+      "records": 12
+    },
+    {
+      "source": "crossref",
+      "query": "implicit surface ray marching distance estimation fractal",
+      "rawFile": "raw/search-crossref-002-implicit-surface-ray-marching-distance-estimation-fractal.txt",
+      "records": 12
+    },
+    {
+      "source": "arxiv",
+      "query": "implicit surface ray marching distance estimation fractal",
+      "rawFile": "raw/search-arxiv-002-implicit-surface-ray-marching-distance-estimation-fractal.txt",
+      "records": 12
+    },
+    {
+      "source": "openalex",
+      "query": "superformula Gielis geometric transformation",
+      "rawFile": "raw/search-openalex-003-superformula-gielis-geometric-transformation.txt",
+      "records": 12
+    },
+    {
+      "source": "crossref",
+      "query": "superformula Gielis geometric transformation",
+      "rawFile": "raw/search-crossref-003-superformula-gielis-geometric-transformation.txt",
+      "records": 12
+    },
+    {
+      "source": "semantic-scholar",
+      "query": "superformula Gielis geometric transformation",
+      "rawFile": "raw/search-semantic-scholar-003-superformula-gielis-geometric-transformation.txt",
+      "records": 12
+    },
+    {
+      "source": "arxiv",
+      "query": "superformula Gielis geometric transformation",
+      "rawFile": "raw/search-arxiv-003-superformula-gielis-geometric-transformation.txt",
+      "records": 12
+    },
+    {
+      "source": "openalex",
+      "query": "gyroid triply periodic minimal surface",
+      "rawFile": "raw/search-openalex-004-gyroid-triply-periodic-minimal-surface.txt",
+      "records": 12
+    },
+    {
+      "source": "crossref",
+      "query": "gyroid triply periodic minimal surface",
+      "rawFile": "raw/search-crossref-004-gyroid-triply-periodic-minimal-surface.txt",
+      "records": 12
+    },
+    {
+      "source": "arxiv",
+      "query": "gyroid triply periodic minimal surface",
+      "rawFile": "raw/search-arxiv-004-gyroid-triply-periodic-minimal-surface.txt",
+      "records": 12
+    },
+    {
+      "source": "openalex",
+      "query": "hyperbolic honeycomb Coxeter tessellation 3D visualization",
+      "rawFile": "raw/search-openalex-005-hyperbolic-honeycomb-coxeter-tessellation-3d-visualization.txt",
+      "records": 11
+    },
+    {
+      "source": "crossref",
+      "query": "hyperbolic honeycomb Coxeter tessellation 3D visualization",
+      "rawFile": "raw/search-crossref-005-hyperbolic-honeycomb-coxeter-tessellation-3d-visualization.txt",
+      "records": 12
+    },
+    {
+      "source": "arxiv",
+      "query": "hyperbolic honeycomb Coxeter tessellation 3D visualization",
+      "rawFile": "raw/search-arxiv-005-hyperbolic-honeycomb-coxeter-tessellation-3d-visualization.txt",
+      "records": 12
+    },
+    {
+      "source": "openalex",
+      "query": "fractal aesthetics visual complexity beauty evaluation",
+      "rawFile": "raw/search-openalex-006-fractal-aesthetics-visual-complexity-beauty-evaluation.txt",
+      "records": 12
+    },
+    {
+      "source": "crossref",
+      "query": "fractal aesthetics visual complexity beauty evaluation",
+      "rawFile": "raw/search-crossref-006-fractal-aesthetics-visual-complexity-beauty-evaluation.txt",
+      "records": 12
+    },
+    {
+      "source": "arxiv",
+      "query": "fractal aesthetics visual complexity beauty evaluation",
+      "rawFile": "raw/search-arxiv-006-fractal-aesthetics-visual-complexity-beauty-evaluation.txt",
+      "records": 12
+    },
+    {
+      "source": "openalex",
+      "query": "GPU shader real-time fractal visualization performance",
+      "rawFile": "raw/search-openalex-007-gpu-shader-real-time-fractal-visualization-performance.txt",
+      "records": 12
+    },
+    {
+      "source": "crossref",
+      "query": "GPU shader real-time fractal visualization performance",
+      "rawFile": "raw/search-crossref-007-gpu-shader-real-time-fractal-visualization-performance.txt",
+      "records": 12
+    },
+    {
+      "source": "semantic-scholar",
+      "query": "GPU shader real-time fractal visualization performance",
+      "rawFile": "raw/search-semantic-scholar-007-gpu-shader-real-time-fractal-visualization-performance.txt",
+      "records": 12
+    },
+    {
+      "source": "arxiv",
+      "query": "GPU shader real-time fractal visualization performance",
+      "rawFile": "raw/search-arxiv-007-gpu-shader-real-time-fractal-visualization-performance.txt",
+      "records": 12
+    },
+    {
+      "source": "openalex",
+      "query": "Chladni figures nodal patterns visualization",
+      "rawFile": "raw/search-openalex-008-chladni-figures-nodal-patterns-visualization.txt",
+      "records": 12
+    },
+    {
+      "source": "crossref",
+      "query": "Chladni figures nodal patterns visualization",
+      "rawFile": "raw/search-crossref-008-chladni-figures-nodal-patterns-visualization.txt",
+      "records": 12
+    },
+    {
+      "source": "arxiv",
+      "query": "Chladni figures nodal patterns visualization",
+      "rawFile": "raw/search-arxiv-008-chladni-figures-nodal-patterns-visualization.txt",
+      "records": 12
+    },
+    {
+      "source": "openalex",
+      "query": "sphere tracing distance bound fractal",
+      "rawFile": "raw/search-openalex-009-sphere-tracing-distance-bound-fractal.txt",
+      "records": 12
+    },
+    {
+      "source": "crossref",
+      "query": "sphere tracing distance bound fractal",
+      "rawFile": "raw/search-crossref-009-sphere-tracing-distance-bound-fractal.txt",
+      "records": 12
+    },
+    {
+      "source": "semantic-scholar",
+      "query": "sphere tracing distance bound fractal",
+      "rawFile": "raw/search-semantic-scholar-009-sphere-tracing-distance-bound-fractal.txt",
+      "records": 12
+    },
+    {
+      "source": "arxiv",
+      "query": "sphere tracing distance bound fractal",
+      "rawFile": "raw/search-arxiv-009-sphere-tracing-distance-bound-fractal.txt",
+      "records": 12
+    },
+    {
+      "source": "openalex",
+      "query": "volumetric rendering participating media fractal structure",
+      "rawFile": "raw/search-openalex-010-volumetric-rendering-participating-media-fractal-structure.txt",
+      "records": 12
+    },
+    {
+      "source": "crossref",
+      "query": "volumetric rendering participating media fractal structure",
+      "rawFile": "raw/search-crossref-010-volumetric-rendering-participating-media-fractal-structure.txt",
+      "records": 12
+    },
+    {
+      "source": "semantic-scholar",
+      "query": "volumetric rendering participating media fractal structure",
+      "rawFile": "raw/search-semantic-scholar-010-volumetric-rendering-participating-media-fractal-structure.txt",
+      "records": 12
+    },
+    {
+      "source": "arxiv",
+      "query": "volumetric rendering participating media fractal structure",
+      "rawFile": "raw/search-arxiv-010-volumetric-rendering-participating-media-fractal-structure.txt",
+      "records": 12
+    }
+  ],
+  "failures": [
+    {
+      "source": "semantic-scholar",
+      "query": "kaleidoscopic iterated function system fractal rendering",
+      "error": "source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"
+    },
+    {
+      "source": "semantic-scholar",
+      "query": "implicit surface ray marching distance estimation fractal",
+      "error": "source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"
+    },
+    {
+      "source": "semantic-scholar",
+      "query": "gyroid triply periodic minimal surface",
+      "error": "source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"
+    },
+    {
+      "source": "semantic-scholar",
+      "query": "hyperbolic honeycomb Coxeter tessellation 3D visualization",
+      "error": "source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"
+    },
+    {
+      "source": "semantic-scholar",
+      "query": "fractal aesthetics visual complexity beauty evaluation",
+      "error": "source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"
+    },
+    {
+      "source": "semantic-scholar",
+      "query": "Chladni figures nodal patterns visualization",
+      "error": "source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"
+    }
+  ],
+  "result_count": 407,
+  "budget": {
+    "depth": "standard",
+    "max_query_variants": 10,
+    "max_sources": 5,
+    "max_api_calls": 50,
+    "low_yield_threshold": 2,
+    "saturation_queries": 3,
+    "max_consecutive_errors": 5
+  },
+  "stop_reason": "completed",
+  "requests_used": 40,
+  "coverage": {
+    "unique_records": 378,
+    "queries": [
+      {
+        "query": "kaleidoscopic iterated function system fractal rendering",
+        "new_unique": 36,
+        "complete": false
+      },
+      {
+        "query": "implicit surface ray marching distance estimation fractal",
+        "new_unique": 34,
+        "complete": false
+      },
+      {
+        "query": "superformula Gielis geometric transformation",
+        "new_unique": 40,
+        "complete": true
+      },
+      {
+        "query": "gyroid triply periodic minimal surface",
+        "new_unique": 35,
+        "complete": false
+      },
+      {
+        "query": "hyperbolic honeycomb Coxeter tessellation 3D visualization",
+        "new_unique": 35,
+        "complete": false
+      },
+      {
+        "query": "fractal aesthetics visual complexity beauty evaluation",
+        "new_unique": 33,
+        "complete": false
+      },
+      {
+        "query": "GPU shader real-time fractal visualization performance",
+        "new_unique": 44,
+        "complete": true
+      },
+      {
+        "query": "Chladni figures nodal patterns visualization",
+        "new_unique": 32,
+        "complete": false
+      },
+      {
+        "query": "sphere tracing distance bound fractal",
+        "new_unique": 44,
+        "complete": true
+      },
+      {
+        "query": "volumetric rendering participating media fractal structure",
+        "new_unique": 45,
+        "complete": true
+      }
+    ],
+    "consecutive_low_yield": 0
+  },
+  "consecutive_errors": 0
+}

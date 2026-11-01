@@ -1,0 +1,12 @@
+10.3840/08003913	Horosphere Packings of the (3, 3, 6) Coxeter Honeycomb in Three-Dimensional Hyperbolic Space
+10.1017/9781316216477.014	Hyperbolic Coxeter Groups
+10.1017/9781107239333.009	Hyperbolic Coxeter Groups
+10.1109/tdpvt.2002.1024105	Half-edge multi-tessellation: compact representation for multi-resolution tetrahedral meshes
+10.1109/infvis.1997.636718	H3: laying out large directed graphs in 3D hyperbolic space
+10.1007/3-540-44864-0_74	3D Visualization of Complex Surfaces Using Dynamic Delaunay Tessellation
+10.31274/itaa_proceedings-180814-1635	Hyperbolic Honeycomb
+10.1109/visual.2004.13	Centroidal Voronoi tessellation based algorithms for vector fields visualization and segmentation
+10.21837/pmjournal.v3.i1.48	TESSELLATION PLANNING AND HONEYCOMB HOUSING
+10.21837/pm.v3i1.48	TESSELLATION PLANNING AND HONEYCOMB HOUSING
+10.2139/ssrn.4777486	Tessellation and Interactive Visualization of Four-Dimensional Spacetime Geometries
+10.4236/apm.2013.31010	Hyperbolic Coxeter Pyramids

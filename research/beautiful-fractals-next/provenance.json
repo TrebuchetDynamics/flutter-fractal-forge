@@ -1,0 +1,382 @@
+{
+  "schema_version": "2",
+  "provenance_level": "agent_reported",
+  "runs": [
+    "19ea21bd3da6d3f27e6fc37002849159",
+    "53efdc29a1afee9c3c5dce6bafb74d8a"
+  ],
+  "entries": [
+    {
+      "provenance_level": "agent_reported",
+      "description": "Host-agent synthesis: catalog/ledger identity checks, candidate ranking, report prose"
+    },
+    {
+      "provenance_level": "agent_reported",
+      "description": "Host-agent numpy prototypes (render_prototypes.py) and LaunchVisualMetrics replication"
+    }
+  ],
+  "question": "Which visually high-impact, shader-friendly fractals are missing from the Flutter Fractal Forge catalog and practical to add as single fragment shaders?",
+  "depth": "standard",
+  "sources": [
+    "openalex",
+    "crossref",
+    "arxiv",
+    "semantic-scholar"
+  ],
+  "queries": [
+    "kaleidoscopic iterated function system fractal rendering",
+    "implicit surface ray marching distance estimation fractal",
+    "superformula Gielis geometric transformation",
+    "gyroid triply periodic minimal surface",
+    "hyperbolic honeycomb Coxeter tessellation 3D visualization",
+    "fractal aesthetics visual complexity beauty evaluation",
+    "GPU shader real-time fractal visualization performance",
+    "Chladni figures nodal patterns visualization",
+    "sphere tracing distance bound fractal",
+    "volumetric rendering participating media fractal structure",
+    "domain warping procedural noise fractal texture",
+    "fractal art aesthetic preference visual complexity",
+    "Kleinian group limit set rendering Indra pearls",
+    "inversion fractal kaleidoscopic IFS distance estimation",
+    "spectral palette colouring fractal escape time"
+  ],
+  "timestamp": "2026-11-01T00:04:35.371284Z",
+  "rforge_version": {
+    "version": "dev",
+    "commit": "7c05dc0",
+    "date": "2026-10-28T03:49:28Z"
+  },
+  "search_stats": {
+    "openalex": 0,
+    "crossref": 0,
+    "arxiv": 0,
+    "semantic-scholar": 0,
+    "total_unique_dois": 513,
+    "note": "per-source record counts live in manifest.json; totals are unique deduped records per batch, not summed per source"
+  },
+  "citation_expand_attempted": [
+    "10.1007/s003710050084"
+  ],
+  "citation_expand_succeeded": [
+    "10.1007/s003710050084"
+  ],
+  "outputs": [
+    {
+      "path": "results.jsonl",
+      "sha256": "a54a42c36ea984267898ab4d3568c081a1aae2119b0545790467c71a7f917bb5"
+    },
+    {
+      "path": "results-deduped.jsonl",
+      "sha256": "c4106751f1e8d116ca357219c1a49252606e9b6dbf236a2d83a10d88f5547be1"
+    },
+    {
+      "path": "results.md",
+      "sha256": "64f1367cf015f536e381d1279ca8901f64fe71864f30286d4dc27d7e334cb5a3"
+    },
+    {
+      "path": "failures.jsonl",
+      "sha256": "246b81cb6f03a565dfcdd04472d6cbd42fd359a30d0cfc148985ac4766fbd5da"
+    },
+    {
+      "path": "manifest.json",
+      "sha256": "6353df14ffe4c5d97d99e45e22f3b8e095f9718b43dc2d9056451dacc2bc499f"
+    },
+    {
+      "path": "batch-state.json",
+      "sha256": "f9da78361b1a3b0c7e386f238ce0622d93d9966aa7ad4a3d8f9280fe1a323b3a"
+    },
+    {
+      "path": "search-stats.txt",
+      "sha256": "f17d1a654524f01ee01235f762a4c25ab84b6fb4953f84740cef452c0379af71"
+    },
+    {
+      "path": "raw/search-openalex-001-kaleidoscopic-iterated-function-system-fractal-rendering.txt",
+      "sha256": "c532a815183afe193f6f2160fbc9e03702d26ba7d182e65e68ac06a85a766b6b"
+    },
+    {
+      "path": "raw/search-crossref-001-kaleidoscopic-iterated-function-system-fractal-rendering.txt",
+      "sha256": "f857fade39656cd1794d90db019053e2e40cff083e4c84dd3960394f4bca9245"
+    },
+    {
+      "path": "raw/search-arxiv-001-kaleidoscopic-iterated-function-system-fractal-rendering.txt",
+      "sha256": "07600b83bb5564249f415bf950faf5ca26dec094e4cd0dc951c27e0f515e82e0"
+    },
+    {
+      "path": "raw/search-openalex-002-implicit-surface-ray-marching-distance-estimation-fractal.txt",
+      "sha256": "e7c0800cb94c712c435f82d5bfdf1273a00036ae2f34a7c6f772254bd580a654"
+    },
+    {
+      "path": "raw/search-crossref-002-implicit-surface-ray-marching-distance-estimation-fractal.txt",
+      "sha256": "d00cdd466500a28877f5c55253661e8b59a34c7ae88b73ab4eda71e39f142e62"
+    },
+    {
+      "path": "raw/search-arxiv-002-implicit-surface-ray-marching-distance-estimation-fractal.txt",
+      "sha256": "54b4d0f019d516c6f753dcb9ef2402468d376db7974daba528174fc1e1c834cb"
+    },
+    {
+      "path": "raw/search-openalex-003-superformula-gielis-geometric-transformation.txt",
+      "sha256": "ef3e9549f18cdb453ff03480463672f42c2a344e3c65171579a114cdeb7e0621"
+    },
+    {
+      "path": "raw/search-crossref-003-superformula-gielis-geometric-transformation.txt",
+      "sha256": "6747f7d7223db43d8e5e30c4b7953ccd6895e386028b1948b798306852382ce5"
+    },
+    {
+      "path": "raw/search-semantic-scholar-003-superformula-gielis-geometric-transformation.txt",
+      "sha256": "187066e1833ce7f4b4090bfe9bd71def3391ce532aaf58654e3bee640f551903"
+    },
+    {
+      "path": "raw/search-arxiv-003-superformula-gielis-geometric-transformation.txt",
+      "sha256": "66442f2a89219356640f554e5d7fb7189336e5641760b17ff7e6cedfc2e00a7e"
+    },
+    {
+      "path": "raw/search-openalex-004-gyroid-triply-periodic-minimal-surface.txt",
+      "sha256": "a4d199912fea7f6ea22f0597ca421db8a13c45c84092a57e3c6b49c8c22dbe47"
+    },
+    {
+      "path": "raw/search-crossref-004-gyroid-triply-periodic-minimal-surface.txt",
+      "sha256": "a38351f0d4576fda86d0ef53298c7056b953ee0b2b0fb1cf6df34ecadc4a6663"
+    },
+    {
+      "path": "raw/search-arxiv-004-gyroid-triply-periodic-minimal-surface.txt",
+      "sha256": "61ba1b95dbeb2574944fed488e8dd6611eeca2a90fa82514d8722cf93732705f"
+    },
+    {
+      "path": "raw/search-openalex-005-hyperbolic-honeycomb-coxeter-tessellation-3d-visualization.txt",
+      "sha256": "b617e73c0c76b552d7e464014a363955f83bca4477baa5ea38e9127d5b2d9290"
+    },
+    {
+      "path": "raw/search-crossref-005-hyperbolic-honeycomb-coxeter-tessellation-3d-visualization.txt",
+      "sha256": "77a8b362019d26a5cf5d370d3a2565240a7c8bf569c0f80e13b011bca9fd51ca"
+    },
+    {
+      "path": "raw/search-arxiv-005-hyperbolic-honeycomb-coxeter-tessellation-3d-visualization.txt",
+      "sha256": "594a2995104e1cd04da5a57e7c730ef74b76ccd34dfb1aa4b99ccf5c7aa526ff"
+    },
+    {
+      "path": "raw/search-openalex-006-fractal-aesthetics-visual-complexity-beauty-evaluation.txt",
+      "sha256": "51b7fec96dd7caf6e7d8487429122fb1694a3075f20a8bcded997abfbb87aa54"
+    },
+    {
+      "path": "raw/search-crossref-006-fractal-aesthetics-visual-complexity-beauty-evaluation.txt",
+      "sha256": "4ebc9b2ea7992480c6982654ed01224598a4c0f14f80e4d7bd884388d839fbbe"
+    },
+    {
+      "path": "raw/search-arxiv-006-fractal-aesthetics-visual-complexity-beauty-evaluation.txt",
+      "sha256": "1ad51f95f7a41579f7b39146bbbbc14b0b84bd281cce5fe3f176d5c4a7308485"
+    },
+    {
+      "path": "raw/search-openalex-007-gpu-shader-real-time-fractal-visualization-performance.txt",
+      "sha256": "fb063c069b3c0e086887d2997a776fed0c97de43f5c5c76c98017aad2b557f07"
+    },
+    {
+      "path": "raw/search-crossref-007-gpu-shader-real-time-fractal-visualization-performance.txt",
+      "sha256": "d51ade137827503f051d56abd8d9d1da428771966b86d64422882c872c70afbc"
+    },
+    {
+      "path": "raw/search-semantic-scholar-007-gpu-shader-real-time-fractal-visualization-performance.txt",
+      "sha256": "1e4c64ceb65a1e0f133c21f49bd3c8f49f637d156af6fa7f64a8973ee6804dad"
+    },
+    {
+      "path": "raw/search-arxiv-007-gpu-shader-real-time-fractal-visualization-performance.txt",
+      "sha256": "4c5ed127cede48c3dfe84246b695f3f1b034876969b8beaec7027e97c254e5c9"
+    },
+    {
+      "path": "raw/search-openalex-008-chladni-figures-nodal-patterns-visualization.txt",
+      "sha256": "c08c1fa823f6d0349a664de42f74d8ea0fe15b6a22aa1faecbccf52003209a92"
+    },
+    {
+      "path": "raw/search-crossref-008-chladni-figures-nodal-patterns-visualization.txt",
+      "sha256": "c99bcbfaa4d0bdeb139787416ba6fb34f4d66014ea00f2b1e4076058b869786e"
+    },
+    {
+      "path": "raw/search-arxiv-008-chladni-figures-nodal-patterns-visualization.txt",
+      "sha256": "5b6694ab771abd154552f28a262603527f4c82b39aac0b38a30d0f075552779c"
+    },
+    {
+      "path": "raw/search-openalex-009-sphere-tracing-distance-bound-fractal.txt",
+      "sha256": "d1ef14b9f5f9399387d337300982d6f88a7f37422d7762504b58176a3ffaa2f0"
+    },
+    {
+      "path": "raw/search-crossref-009-sphere-tracing-distance-bound-fractal.txt",
+      "sha256": "5d9826775f2b5c5e6ff167f1608a0ec661afd48e9925347cf624f0ef0d8aa583"
+    },
+    {
+      "path": "raw/search-semantic-scholar-009-sphere-tracing-distance-bound-fractal.txt",
+      "sha256": "88a4abd98eb07e6159e6754a6e459f3df95e8ead0dd3177a88caee87c46fe305"
+    },
+    {
+      "path": "raw/search-arxiv-009-sphere-tracing-distance-bound-fractal.txt",
+      "sha256": "d5ce0725575bef108761f1bf7253a5fcba83b3edcea8efc130ae2ec89accf6e3"
+    },
+    {
+      "path": "raw/search-openalex-010-volumetric-rendering-participating-media-fractal-structure.txt",
+      "sha256": "4ed26ab38dffcb7e56af644c096c056e9d413031b5c63a22e3e017c31f13a265"
+    },
+    {
+      "path": "raw/search-crossref-010-volumetric-rendering-participating-media-fractal-structure.txt",
+      "sha256": "d87d984bca614b586e0c4aed23bba20c2baadab6129506af1f51e2cd86700f89"
+    },
+    {
+      "path": "raw/search-semantic-scholar-010-volumetric-rendering-participating-media-fractal-structure.txt",
+      "sha256": "ea3f093687dfb731727d6c8d3e4e3fd85cada08ceaefcb21eb67837292602124"
+    },
+    {
+      "path": "raw/search-arxiv-010-volumetric-rendering-participating-media-fractal-structure.txt",
+      "sha256": "1752ba11a59e0bda980a1b0919e8877728a5fc2e2056ded7583de6dcd46e4f36"
+    },
+    {
+      "path": "citation-graph.json",
+      "sha256": "da2cca200a5cc0040057038649456da2ee6b084cf09aa0238a21901bc5a7eed1"
+    },
+    {
+      "path": "gap-pass/results.jsonl",
+      "sha256": "5bd69bcb51b554937b02daf5debaca303fb30c08f7ef1533f772ff8b80e64613"
+    },
+    {
+      "path": "gap-pass/results-deduped.jsonl",
+      "sha256": "af9721c7320587958e4d97a3311dbd3293f202f70475606d04f5c3735030f14b"
+    },
+    {
+      "path": "gap-pass/results.md",
+      "sha256": "6d3f301358ef0b1575a597ea9c228fa2a1eddeac23bcd7ca7500021d384ac02a"
+    },
+    {
+      "path": "gap-pass/failures.jsonl",
+      "sha256": "8bb91ccca5791f9ca76f6d984aeaed3b3521e0e591f83388fabf1a6c7cf499cb"
+    },
+    {
+      "path": "gap-pass/manifest.json",
+      "sha256": "cc70194c86ce3b903c5d028b2a314ac17457d4cc52b81eb0c1063ac3307d5cf2"
+    },
+    {
+      "path": "gap-pass/batch-state.json",
+      "sha256": "ba372e180d48cc7f4792f33ac24a9205f37732ab5fe9fb88afa38d9e160dafa3"
+    },
+    {
+      "path": "gap-pass/search-stats.txt",
+      "sha256": "b126eaaebb9ccd91011c8df85d1322c86849a334078de22018b0fa54044a2bb6"
+    },
+    {
+      "path": "gap-pass/raw/search-openalex-001-domain-warping-procedural-noise-fractal-texture.txt",
+      "sha256": "4ab47ba4971cb8959bafeefb31565ed4464ba773856e5428d59ffa0269a3bc25"
+    },
+    {
+      "path": "gap-pass/raw/search-crossref-001-domain-warping-procedural-noise-fractal-texture.txt",
+      "sha256": "c452b1e748a69c41af49e66b9bc32cbe23ba3309c2d530a7fdc7d62090c230a4"
+    },
+    {
+      "path": "gap-pass/raw/search-semantic-scholar-001-domain-warping-procedural-noise-fractal-texture.txt",
+      "sha256": "63fbfb709c97bbe603e85ae6affa6194a44e83873dba485a69b3682230a43ebe"
+    },
+    {
+      "path": "gap-pass/raw/search-arxiv-001-domain-warping-procedural-noise-fractal-texture.txt",
+      "sha256": "b217cac567e9b1bbf1710f8e71c824f8f0c74bba8f1caf250dffc80c084a3b5e"
+    },
+    {
+      "path": "gap-pass/raw/search-openalex-002-fractal-art-aesthetic-preference-visual-complexity.txt",
+      "sha256": "2a77839f81dba4bf2588540e99491b0e7c56b0d4325bcb7720574d1dd625296d"
+    },
+    {
+      "path": "gap-pass/raw/search-crossref-002-fractal-art-aesthetic-preference-visual-complexity.txt",
+      "sha256": "80d76c694ab5e77afe78a597372db1937442c6ae28dd71a771515bd9aa4608ff"
+    },
+    {
+      "path": "gap-pass/raw/search-arxiv-002-fractal-art-aesthetic-preference-visual-complexity.txt",
+      "sha256": "01fe1b073ad1b612f6bf8fbfd6ad3f9e1e409afe43fd0091a3e21675244173a3"
+    },
+    {
+      "path": "gap-pass/raw/search-openalex-003-kleinian-group-limit-set-rendering-indra-pearls.txt",
+      "sha256": "f98e09a7f8fd6f677dc681aab9bfae6dd25292f3f74089e31dc5d8457cbccbd5"
+    },
+    {
+      "path": "gap-pass/raw/search-crossref-003-kleinian-group-limit-set-rendering-indra-pearls.txt",
+      "sha256": "ef8d82a455481c665d4422021da0be5fc2da799eddbd0391271c3739f6069e57"
+    },
+    {
+      "path": "gap-pass/raw/search-arxiv-003-kleinian-group-limit-set-rendering-indra-pearls.txt",
+      "sha256": "1e2934b43f425f528ebd98f1595078ed7cd8e21a85cf55dabaf6b4097ea07358"
+    },
+    {
+      "path": "gap-pass/raw/search-openalex-004-inversion-fractal-kaleidoscopic-ifs-distance-estimation.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "gap-pass/raw/search-crossref-004-inversion-fractal-kaleidoscopic-ifs-distance-estimation.txt",
+      "sha256": "5afde113a485c927c8300100353ce2796b76f92c0212714356f21d126370a422"
+    },
+    {
+      "path": "gap-pass/raw/search-arxiv-004-inversion-fractal-kaleidoscopic-ifs-distance-estimation.txt",
+      "sha256": "e035af26503dc88eb6aa0a05fd3ff275e96705ffaaf79e081706e33974e3a19e"
+    },
+    {
+      "path": "gap-pass/raw/search-openalex-005-spectral-palette-colouring-fractal-escape-time.txt",
+      "sha256": "92a8b9215d10eeb6a3da8d10c84708eee05c2bd70d8577aaa31ac1a004bfecaf"
+    },
+    {
+      "path": "gap-pass/raw/search-crossref-005-spectral-palette-colouring-fractal-escape-time.txt",
+      "sha256": "7d9c1011e250b0e2af7c8ab5688409accbde59d183f8bf676ad57f35c4d8ae4d"
+    },
+    {
+      "path": "gap-pass/raw/search-semantic-scholar-005-spectral-palette-colouring-fractal-escape-time.txt",
+      "sha256": "30d72cb1d96522697295ecac5b4dea37776aaac5f6ea2a238b370448360aaa66"
+    },
+    {
+      "path": "gap-pass/raw/search-arxiv-005-spectral-palette-colouring-fractal-escape-time.txt",
+      "sha256": "911960e8f2112ea3a88095a08f0e6d75c317ea1a79a4fc9cd2c0015ab64b47e5"
+    },
+    {
+      "path": "report.md",
+      "sha256": "1e6f1a7848fea110a9c9831bf20c9c985f37f4f437ecd6757e1d8193c54f3f81"
+    },
+    {
+      "path": "prototypes/render_prototypes.py",
+      "sha256": "66501b5aa58f69138088e8c840d519db494a05e9e1e28d0cab50df5719e8863f"
+    },
+    {
+      "path": "prototypes/metrics.json",
+      "sha256": "f1c384d1766c95ed428f54a03f24e5929fddee9b2214301dfc773415aa9fc073"
+    },
+    {
+      "path": "prototypes/contact_sheet.png",
+      "sha256": "85106c99113a5e25ddff1bc956fe1111ac907b577ffcb0eea04b8ad7da55d985"
+    },
+    {
+      "path": "prototypes/baseline_mandelbrot.png",
+      "sha256": "9d122499e06317f3c2d42e3f7e16a56c213fee6c93c77ff1796db7624766a25f"
+    },
+    {
+      "path": "prototypes/brimordial_slice_stack.png",
+      "sha256": "8e928d3c7bc03ecb6ff5b1464706fafca7c572a8d73cd345e9bbc67622e602ab"
+    },
+    {
+      "path": "prototypes/brimordial_z2_slice.png",
+      "sha256": "101c986609796a76cce3f270ec34982217ee0c185d82eabaec7840af759ad579"
+    },
+    {
+      "path": "prototypes/chladni_nodal_fractal.png",
+      "sha256": "8e561c6cb9c3e79da41314de5056ae9d326bbc608319a1b8a80fe351b22e4468"
+    },
+    {
+      "path": "prototypes/domain_warp_nebula.png",
+      "sha256": "e445aa59387cd27905dd02cfda8d36fd19877a4771c8c23b35cafbb1b9def0bc"
+    },
+    {
+      "path": "prototypes/hopf_fibration.png",
+      "sha256": "c0c8904534f45c4a0eff8aa17163cef2f3a86000933dd8efae1fb45210c4bab9"
+    },
+    {
+      "path": "prototypes/kaliset.png",
+      "sha256": "7ed1dbe248124977a62825aff381ce3bfcfce273e7c4530ce468e68e4c09b2e2"
+    },
+    {
+      "path": "prototypes/kaliset_inversion.png",
+      "sha256": "6ef11a9dbb4b7063a593eca78be3a8995c5955278d0f2b98f0950400cb0efa0f"
+    }
+  ],
+  "errors": [
+    "semantic-scholar HTTP 429 rate limit on 6 broad-pass queries and 3 gap-pass queries (see failures.jsonl)",
+    "gap-pass openalex raw output for query 004 (inversion fractal kaleidoscopic IFS) is empty (0 bytes), so that source contributed no records for that query",
+    "gap-pass run dbab175c8ab9ad85cd21bb945c3185f1 (5 gap queries) keeps its own immutable receipt at gap-pass/provenance/runs/ and gap-pass/provenance/events.jsonl; it is not referenced in runs[] because the index validator resolves receipts relative to the index directory, and its outputs are listed here as agent-level index entries"
+  ]
+}

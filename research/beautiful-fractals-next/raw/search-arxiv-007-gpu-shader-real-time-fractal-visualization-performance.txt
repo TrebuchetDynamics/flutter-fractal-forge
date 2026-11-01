@@ -1,0 +1,12 @@
+	Real time state monitoring and fault diagnosis system for motor based on LabVIEW
+10.1109/rtss66672.2025.00023	Real-Time Service Subscription and Adaptive Offloading Control in Vehicular Edge Computing
+	Performance Comparison on Parallel CPU and GPU Algorithms for Unified Gas-Kinetic Scheme
+	Real-Time-Data Analytics in Raw Materials Handling
+10.1007/s11554-022-01210-6	Toward Real-Time Image Annotation Using Marginalized Coupled Dictionary Learning
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1177/14738716241229437	An Empirical Study of Counterfactual Visualization to Support Visual Causal Inference
+	Beyond English: Centering Multilingualism in Data Visualization
+	Generative Adversarial Shaders for Real-Time Realism Enhancement
+10.1109/tns.2019.2893444	Real-time Local Noise Filter in 3D Visualization of CT Data
+10.1109/pacificvis56936.2023.00016	NFTVis: Visual Analysis of NFT Performance
+10.1016/j.cpc.2026.110312	Scalable FPGA Framework for Real-Time Denoising in High-Throughput Imaging: A DRAM-Optimized Pipeline using High-Level Synthesis

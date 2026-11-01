@@ -1,0 +1,12 @@
+10.21606/iasdr.2025.53	Visualization Design of Traditional Chinese Opera Music Based on Chladni Figures: A Case Study of the Yue Opera "The Butterfly Lovers"
+10.24018/ejeng.2024.9.3.3165	Visualization of Chladni Patterns at Low-Frequency Resonant and Non-Resonant Flexural Modes of Vibration
+10.1121/1.1901951	Related Nodal Lines on Chladni Plates
+10.1119/1.1934394	Production of Chladni Figures
+10.1093/nq/20-9-331b	LAWRENCE'S “CHLADNI FIGURES”
+10.1119/1.1934385	Interpreting Chladni Figures
+10.1119/1.1933030	Chladni Plate Figures
+10.1119/10.0006129	Nodes and Antinodes in Two-Color Chladni Figures
+10.1119/1.1932665	Some Observations on Chladni Figures
+10.1016/j.ultras.2015.02.007	Thermosonic Chladni figures for defect-selective imaging
+10.7551/mitpress/3440.003.0003	E. F. F. Chladni: The Nodal Point between Acoustician and Musical-Instrument Maker
+10.1109/tvcg.2026.3735451	Chladni-Inspired Aesthetic Patterns: A Flexible Parametric Model from Thin-Plate Vibrations

@@ -1,0 +1,12 @@
+10.3732/ajb.90.3.333	A generic geometric transformation that unifies a wide range of natural and abstract shapes.
+	INVITED SPECIAL PAPER A GENERIC GEOMETRIC TRANSFORMATION THAT UNIFIES A WIDE RANGE OF NATURAL AND ABSTRACT SHAPES 1
+10.3390/machines14080911	Parametric Investigation of Gielis’ Superformula-Based Non-Circular Gears: Geometric Features and Transmission Ratio Functions
+10.35219/tmb.2025.1.11	Geometric Characterization and Parameters Selection of Gielis Superformula-Based Pitch Curves for Undercut-Free Noncircular Gears Design
+	A GENERIC GEOMETRIC TRANSFORMATION
+10.1088/1402-4896/ae8d9d	Null-axis rotation theory for superquadrics via the Gielis superformula
+	Gielis superformula and wildfire models
+10.1002/mma.11229	Superquadric Motion and Superquadric Hyperbolic Split Quaternion Algebra Via Gielis Formula
+10.1109/access.2024.3404977	Improved Bandwidth of Microstrip Wide-Slot Antenna Using Gielis Curves
+10.3390/sym18061056	Superelliptic Dual Quaternions and Superelliptic Screw Motion Based on Gielis Formula
+	Parametric tuning of the Gielis Superformula for non-target based automated evolution of 3D Printable objects
+10.4028/www.scientific.net/ssp.237.89	Simulation Model of Surface Heterogeneity, Using Gielis' Superformula for Adaptive Methods of Image Analysis

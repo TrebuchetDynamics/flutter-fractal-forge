@@ -58,6 +58,7 @@ void main() {
       'tortoise_toroidal_fractal',
       'mandelbulb',
       'recursive_sine_sphere',
+      'imordial_brot',
     });
 
     final removedClones = <String>{

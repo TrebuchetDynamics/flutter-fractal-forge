@@ -1,0 +1,127 @@
+{
+  "depth": "standard",
+  "errors": [],
+  "interrupted": false,
+  "limit": 10,
+  "outputs": [
+    {
+      "path": "results.jsonl",
+      "sha256": "5bd69bcb51b554937b02daf5debaca303fb30c08f7ef1533f772ff8b80e64613"
+    },
+    {
+      "path": "results-deduped.jsonl",
+      "sha256": "af9721c7320587958e4d97a3311dbd3293f202f70475606d04f5c3735030f14b"
+    },
+    {
+      "path": "results.md",
+      "sha256": "6d3f301358ef0b1575a597ea9c228fa2a1eddeac23bcd7ca7500021d384ac02a"
+    },
+    {
+      "path": "failures.jsonl",
+      "sha256": "8bb91ccca5791f9ca76f6d984aeaed3b3521e0e591f83388fabf1a6c7cf499cb"
+    },
+    {
+      "path": "manifest.json",
+      "sha256": "cc70194c86ce3b903c5d028b2a314ac17457d4cc52b81eb0c1063ac3307d5cf2"
+    },
+    {
+      "path": "batch-state.json",
+      "sha256": "ba372e180d48cc7f4792f33ac24a9205f37732ab5fe9fb88afa38d9e160dafa3"
+    },
+    {
+      "path": "search-stats.txt",
+      "sha256": "b126eaaebb9ccd91011c8df85d1322c86849a334078de22018b0fa54044a2bb6"
+    },
+    {
+      "path": "raw/search-openalex-001-domain-warping-procedural-noise-fractal-texture.txt",
+      "sha256": "4ab47ba4971cb8959bafeefb31565ed4464ba773856e5428d59ffa0269a3bc25"
+    },
+    {
+      "path": "raw/search-crossref-001-domain-warping-procedural-noise-fractal-texture.txt",
+      "sha256": "c452b1e748a69c41af49e66b9bc32cbe23ba3309c2d530a7fdc7d62090c230a4"
+    },
+    {
+      "path": "raw/search-semantic-scholar-001-domain-warping-procedural-noise-fractal-texture.txt",
+      "sha256": "63fbfb709c97bbe603e85ae6affa6194a44e83873dba485a69b3682230a43ebe"
+    },
+    {
+      "path": "raw/search-arxiv-001-domain-warping-procedural-noise-fractal-texture.txt",
+      "sha256": "b217cac567e9b1bbf1710f8e71c824f8f0c74bba8f1caf250dffc80c084a3b5e"
+    },
+    {
+      "path": "raw/search-openalex-002-fractal-art-aesthetic-preference-visual-complexity.txt",
+      "sha256": "2a77839f81dba4bf2588540e99491b0e7c56b0d4325bcb7720574d1dd625296d"
+    },
+    {
+      "path": "raw/search-crossref-002-fractal-art-aesthetic-preference-visual-complexity.txt",
+      "sha256": "80d76c694ab5e77afe78a597372db1937442c6ae28dd71a771515bd9aa4608ff"
+    },
+    {
+      "path": "raw/search-arxiv-002-fractal-art-aesthetic-preference-visual-complexity.txt",
+      "sha256": "01fe1b073ad1b612f6bf8fbfd6ad3f9e1e409afe43fd0091a3e21675244173a3"
+    },
+    {
+      "path": "raw/search-openalex-003-kleinian-group-limit-set-rendering-indra-pearls.txt",
+      "sha256": "f98e09a7f8fd6f677dc681aab9bfae6dd25292f3f74089e31dc5d8457cbccbd5"
+    },
+    {
+      "path": "raw/search-crossref-003-kleinian-group-limit-set-rendering-indra-pearls.txt",
+      "sha256": "ef8d82a455481c665d4422021da0be5fc2da799eddbd0391271c3739f6069e57"
+    },
+    {
+      "path": "raw/search-arxiv-003-kleinian-group-limit-set-rendering-indra-pearls.txt",
+      "sha256": "1e2934b43f425f528ebd98f1595078ed7cd8e21a85cf55dabaf6b4097ea07358"
+    },
+    {
+      "path": "raw/search-openalex-004-inversion-fractal-kaleidoscopic-ifs-distance-estimation.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/search-crossref-004-inversion-fractal-kaleidoscopic-ifs-distance-estimation.txt",
+      "sha256": "5afde113a485c927c8300100353ce2796b76f92c0212714356f21d126370a422"
+    },
+    {
+      "path": "raw/search-arxiv-004-inversion-fractal-kaleidoscopic-ifs-distance-estimation.txt",
+      "sha256": "e035af26503dc88eb6aa0a05fd3ff275e96705ffaaf79e081706e33974e3a19e"
+    },
+    {
+      "path": "raw/search-openalex-005-spectral-palette-colouring-fractal-escape-time.txt",
+      "sha256": "92a8b9215d10eeb6a3da8d10c84708eee05c2bd70d8577aaa31ac1a004bfecaf"
+    },
+    {
+      "path": "raw/search-crossref-005-spectral-palette-colouring-fractal-escape-time.txt",
+      "sha256": "7d9c1011e250b0e2af7c8ab5688409accbde59d183f8bf676ad57f35c4d8ae4d"
+    },
+    {
+      "path": "raw/search-semantic-scholar-005-spectral-palette-colouring-fractal-escape-time.txt",
+      "sha256": "30d72cb1d96522697295ecac5b4dea37776aaac5f6ea2a238b370448360aaa66"
+    },
+    {
+      "path": "raw/search-arxiv-005-spectral-palette-colouring-fractal-escape-time.txt",
+      "sha256": "911960e8f2112ea3a88095a08f0e6d75c317ea1a79a4fc9cd2c0015ab64b47e5"
+    }
+  ],
+  "provenance_level": "engine_verified",
+  "queries": [
+    "domain warping procedural noise fractal texture",
+    "fractal art aesthetic preference visual complexity",
+    "Kleinian group limit set rendering Indra pearls",
+    "inversion fractal kaleidoscopic IFS distance estimation",
+    "spectral palette colouring fractal escape time"
+  ],
+  "question": "domain warping procedural noise fractal texture; fractal art aesthetic preference visual complexity; Kleinian group limit set rendering Indra pearls; inversion fractal kaleidoscopic IFS distance estimation; spectral palette colouring fractal escape time",
+  "rforge_version": {
+    "commit": "7c05dc0",
+    "date": "2026-10-28T03:49:28Z",
+    "version": "dev"
+  },
+  "run_id": "dbab175c8ab9ad85cd21bb945c3185f1",
+  "schema_version": "2",
+  "sources": [
+    "openalex",
+    "crossref",
+    "semantic-scholar",
+    "arxiv"
+  ],
+  "timestamp": "2026-10-31T23:59:09.40035798Z"
+}

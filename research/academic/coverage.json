@@ -1,9 +1,9 @@
 {
   "counts": {
-    "app": 1033,
+    "app": 1037,
     "planned": 1,
     "reference": 200,
-    "registry": 1619
+    "registry": 1623
   },
   "namespaces": [
     "app",
@@ -774,6 +774,14 @@
     },
     {
       "alias_review": "unresolved",
+      "identity": "core.chladni_nodal_field",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
       "identity": "core.chromatic_arachnid_lattice",
       "name": "",
       "namespace": "app",
@@ -1063,6 +1071,14 @@
     {
       "alias_review": "unresolved",
       "identity": "core.domain_coloring",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.domain_warp_nebula",
       "name": "",
       "namespace": "app",
       "paper_ids": [],
@@ -5102,6 +5118,14 @@
     },
     {
       "alias_review": "unresolved",
+      "identity": "core.imordial_brot",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
       "identity": "core.implicit_affine_fractal_surface",
       "name": "",
       "namespace": "app",
@@ -5119,6 +5143,14 @@
     {
       "alias_review": "unresolved",
       "identity": "core.inverse_quadratic",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.inversion_fold_lattice",
       "name": "",
       "namespace": "app",
       "paper_ids": [],
@@ -6102,6 +6134,14 @@
     },
     {
       "alias_review": "unresolved",
+      "identity": "core.milnor_brieskorn",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
       "identity": "core.mimura_murray_predator_prey",
       "name": "",
       "namespace": "app",
@@ -6591,7 +6631,7 @@
     {
       "alias_review": "unresolved",
       "identity": "core.number_wall",
-      "name": "Number Walls",
+      "name": "",
       "namespace": "app",
       "paper_ids": [],
       "status": "gap"
@@ -6783,14 +6823,6 @@
     {
       "alias_review": "unresolved",
       "identity": "core.perpendicular_mandelbrot",
-      "name": "",
-      "namespace": "app",
-      "paper_ids": [],
-      "status": "gap"
-    },
-    {
-      "alias_review": "unresolved",
-      "identity": "core.milnor_brieskorn",
       "name": "",
       "namespace": "app",
       "paper_ids": [],
@@ -7047,7 +7079,7 @@
     {
       "alias_review": "unresolved",
       "identity": "core.recursive_sine_sphere",
-      "name": "Recursive Sine-Warped Sphere",
+      "name": "",
       "namespace": "app",
       "paper_ids": [],
       "status": "gap"
@@ -10430,6 +10462,14 @@
     },
     {
       "alias_review": "unresolved",
+      "identity": "chladni_nodal_field",
+      "name": "Chladni Nodal Field",
+      "namespace": "registry",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
       "identity": "chua_circuit",
       "name": "Chua's Circuit",
       "namespace": "registry",
@@ -10616,6 +10656,14 @@
       "alias_review": "unresolved",
       "identity": "domain_coloring",
       "name": "Domain Coloring",
+      "namespace": "registry",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "domain_warp_nebula",
+      "name": "Domain Warp Nebula",
       "namespace": "registry",
       "paper_ids": [],
       "status": "gap"
@@ -20974,8 +21022,24 @@
     },
     {
       "alias_review": "unresolved",
+      "identity": "imordial_brot",
+      "name": "Imordial Brot",
+      "namespace": "registry",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
       "identity": "inverse_mandelbrot",
       "name": "Inverse Mandelbrot",
+      "namespace": "registry",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "inversion_fold_lattice",
+      "name": "Inversion Fold Lattice",
       "namespace": "registry",
       "paper_ids": [],
       "status": "gap"

@@ -1,0 +1,12 @@
+10.1016/j.applthermaleng.2025.128853	Diamond and gyroid triply periodic minimal surface heat sinks for advanced microprocessor cooling
+10.1109/summa68668.2025.11302368	Numerical Analysis of a Heat Exchanger Based on a Gyroid Triply Periodic Minimal Surface
+10.1016/j.actbio.2023.08.041	Hydroxyapatite 3D-printed scaffolds with Gyroid-Triply periodic minimal surface (TPMS) porous structure: Fabrication and an in vivo pilot study in sheep
+10.1080/15376494.2024.2341279	Parametric design and performance evaluation of gyroid triply periodic minimal surface preparation by LCD photopolymerization
+10.1038/s41598-024-81641-2	Stereolithography 3D printing gyroid triply periodic minimal surface vitrified bond diamond grinding wheel
+10.5281/zenodo.20139754	Experimental and Numerical Investigation of Nozzle Geometry Effects on Pressure Drop in Gyroid Triply Periodic Minimal Surface Cores
+	THE DESIGN AND ANALYSIS OF AN ADDITIVELY MANUFACTURED GYROID TRIPLY PERIODIC MINIMAL SURFACE HEAT EXCHANGER
+	AN ASSESSMENT OF GYROID TRIPLY PERIODIC MINIMAL SURFACES FOR ADDITIVELY MANUFACTURED HEAT EXCHANGERS
+10.1002/gch2.202200122	Comparative Study of the Effective Properties of 0–3 and Gyroid Triply Periodic Minimal Surface Cement‐Piezocomposites
+10.1007/s40195-024-01678-0	Gyroid Triply Periodic Minimal Surface Lattice Structure Enables Improved Superelasticity of CuAlMn Shape Memory Alloy
+10.1016/j.tws.2026.115740	Additively manufactured surface-hierarchical gyroid triply periodic minimal surface with high dynamic energy-absorption
+10.2139/ssrn.5472147	Additively manufactured surface hierarchy gyroid triply periodic minimal surface with high dynamic energy absorption

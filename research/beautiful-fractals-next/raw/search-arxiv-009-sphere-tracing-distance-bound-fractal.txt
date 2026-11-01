@@ -1,0 +1,12 @@
+	Distinct distances on a sphere
+	Counting rational points on the sphere with bounded denominator
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.18727/0722-6691/5036	Three years of SPHERE: the latest view of the morphology and evolution of protoplanetary discs
+	Upper bound on distance in the pants complex
+10.4171/jfg/57	Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality
+10.1038/s41598-023-45962-y	Network efficiency of spatial systems with fractal morphology: a geometric graphs approach
+	An Overview of Complex Fractal Dimensions: From Fractal Strings to Fractal Drums, and Back
+10.1142/s0218348x21500249	Fractal Interpretation of Bacterial Light Harvesters
+	Variable Topology on Fractal Manifold
+10.1051/0004-6361/201629267	Multiple rings in the transition disk and companion candidates around RXJ1615.3-3255. High contrast imaging with VLT/SPHERE
+	A lower bound for 4-regular planar unit distance graphs

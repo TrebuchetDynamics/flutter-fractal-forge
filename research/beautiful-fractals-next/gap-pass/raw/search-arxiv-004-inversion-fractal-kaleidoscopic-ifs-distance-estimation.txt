@@ -1,0 +1,10 @@
+	The integral field spectroscopy (IFS) wiki
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	A fractal dimension estimate for a graph-directed IFS of non-similarities
+10.1142/s0218348x14500145	On Intersecting IFS Fractals with Lines
+	Apollonian Circumcircles of IFS Fractals
+	Real-time Tool for Affine Transformations of Two Dimensional IFS Fractals
+	FI-KAN: Fractal Interpolation Kolmogorov-Arnold Networks
+	On the Exact Convex Hull of IFS Fractals
+10.4171/jfg/57	Fractal Tube Formulas for Compact Sets and Relative Fractal Drums: Oscillations, Complex Dimensions and Fractality
+	An Expectation-Maximization Algorithm for the Fractal Inverse Problem

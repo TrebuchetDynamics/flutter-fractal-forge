@@ -1,0 +1,64 @@
+{
+  "budget": {
+    "depth": "standard",
+    "max_query_variants": 10,
+    "max_sources": 5,
+    "max_api_calls": 50,
+    "low_yield_threshold": 2,
+    "saturation_queries": 3,
+    "max_consecutive_errors": 5
+  },
+  "stop_reason": "completed",
+  "requests_used": 20,
+  "coverage": {
+    "unique_records": 135,
+    "queries": [
+      {
+        "query": "domain warping procedural noise fractal texture",
+        "new_unique": 38,
+        "complete": true
+      },
+      {
+        "query": "fractal art aesthetic preference visual complexity",
+        "new_unique": 29,
+        "complete": false
+      },
+      {
+        "query": "Kleinian group limit set rendering Indra pearls",
+        "new_unique": 24,
+        "complete": false
+      },
+      {
+        "query": "inversion fractal kaleidoscopic IFS distance estimation",
+        "new_unique": 19,
+        "complete": false
+      },
+      {
+        "query": "spectral palette colouring fractal escape time",
+        "new_unique": 25,
+        "complete": true
+      }
+    ],
+    "consecutive_low_yield": 0
+  },
+  "consecutive_errors": 0,
+  "schemaVersion": "1",
+  "createdAt": "2026-10-31T23:59:09Z",
+  "queries": [
+    "domain warping procedural noise fractal texture",
+    "fractal art aesthetic preference visual complexity",
+    "Kleinian group limit set rendering Indra pearls",
+    "inversion fractal kaleidoscopic IFS distance estimation",
+    "spectral palette colouring fractal escape time"
+  ],
+  "sources": [
+    "openalex",
+    "crossref",
+    "semantic-scholar",
+    "arxiv"
+  ],
+  "limit": 10,
+  "results": 140,
+  "deduped": 135,
+  "failures": 3
+}

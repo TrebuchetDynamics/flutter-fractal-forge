@@ -1,0 +1,12 @@
+10.1145/3730845	Sphere Carving: Bounding Volumes for Signed Distance Fields
+10.1111/cgf.70072	Fast sphere tracing of procedural volumetric noise for very large and detailed scenes
+10.1007/978-3-031-19784-0_13	L-Tracing: Fast Light Visibility Estimation on Neural Surfaces by Sphere Tracing
+10.1109/bibe50027.2020.00016	Shape tracing: An extension of sphere tracing for 3D non-convex collision in protein docking
+10.1007/s003710050084	Sphere tracing: a geometric method for the antialiased ray tracing of implicit surfaces
+10.2312/stag.20141233	Enhanced Sphere Tracing
+10.1111/cgf.13025	TSS BVHs: Tetrahedron Swept Sphere BVHs for Ray Tracing Subdivision Surfaces
+10.48550/arxiv.2606.00817	Directed Distance Fields for Constant-Time Ray Queries on Gaussian Splatting
+10.1145/3702227	Synchronized Tracing of Primitive-based Implicit Volumes
+10.48550/arxiv.2304.09673	Synchronized-tracing of implicit surfaces
+10.14733/cadconfp.2022.329-333	Operations on Signed Distance Function Estimates
+10.3390/a17040137	Theoretical and empirical analysis of a fast algorithm for extracting polygons from signed distance bounds

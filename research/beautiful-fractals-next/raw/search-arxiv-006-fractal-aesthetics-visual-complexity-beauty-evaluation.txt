@@ -1,0 +1,12 @@
+	Lexara-RF: Reference-Free Metrics for Evaluating Conversational Visual Analytics Agents
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+	Meta Audiobox Aesthetics: Unified Automatic Quality Assessment for Speech, Music, and Sound
+	Visual Aesthetic Benchmark: Can Frontier Models Judge Beauty?
+	Reflecting on beauty: the aesthetics of mathematical discovery
+10.2312/eurova.20261004	Visual Boosting Techniques for Spatiotemporal Dense Pixel Visualizations
+10.13187/md.2014.2.6	A mathematical design and evaluation of Bernstein-Bezier curves' shape features using the laws of technical aesthetics
+	Representing Beauty: Towards a Participatory but Objective Latent Aesthetics
+10.1002/cplx.20393	Complexity of Networks (reprise)
+	Predicting beauty, liking, and aesthetic quality: A comparative analysis of image databases for visual aesthetics research
+	An Overview of Complex Fractal Dimensions: From Fractal Strings to Fractal Drums, and Back
+	On Complexity and Emergence

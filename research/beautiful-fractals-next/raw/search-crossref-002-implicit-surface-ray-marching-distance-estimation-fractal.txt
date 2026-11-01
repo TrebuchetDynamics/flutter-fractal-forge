@@ -1,0 +1,12 @@
+10.2139/ssrn.5119565	Efficient Implicit Time-Marching Schemes with High-Order Stencils for Compressible Flow
+10.1109/tits.2024.3388276/mm1	PU-Ray: Domain-Independent Point Cloud Upsampling via Ray Marching on Neural Implicit Surface_supp1-3388276.pdf
+10.2514/6.2007-4324	Comparison of High-Order Implicit Time Marching Schemes for Unsteady Flow Calculations
+10.1109/sibgrapi.2009.14	Surface Reconstruction: An Improved Marching Triangle Algorithm for Scalar and Vector Implicit Field Representations
+10.1111/1467-8659.00479	Adaptive Implicit Surface Polygonization Using Marching Triangles
+10.1016/j.jcp.2025.114360	Efficient implicit time-marching schemes with high-order stencils for compressible flow
+10.1145/3799902.3811101	Adaptive Ray Marching for Rendering Gaussian Process Implicit Surfaces
+10.5220/0002846901430147	MARCHING CUBES IN AN UNSIGNED DISTANCE FIELD FOR SURFACE RECONSTRUCTION FROM UNORGANIZED POINT SETS
+10.1109/icip.2009.5414072	Efficient distance estimation for fitting implicit quadric surfaces
+10.2139/ssrn.5119829	Implicit Time-Marching for Lagrange Multiplier Formulation for Couple Stress Elastodynamics
+10.1007/s00371-006-0090-7	Ray casting implicit fractal surfaces with reduced affine arithmetic
+10.1142/9789812778604_0009	Ray Tracing Methods by Distance Estimation

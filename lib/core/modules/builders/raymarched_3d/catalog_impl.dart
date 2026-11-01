@@ -1034,6 +1034,148 @@ final List<Raymarched3DConfig> raymarched3DCatalog = [
       ),
     ],
   ),
+
+  // ── Bristorian (imordial) algebra ─────────────
+  Raymarched3DConfig(
+    id: 'imordial_brot',
+    name: 'Imordial Brot',
+    shaderAsset:
+        'shaders/3d_and_hypercomplex/raymarched_volumes/imordial_brot_gpu.frag',
+    category: '3D Fractals',
+    animationCapability: FractalAnimationCapability.timeDriven,
+    // Slot 9 is reused as a 4D section roll in degrees; the algebra has no
+    // scalar "power" because the degree is chosen by the variant switch.
+    defaultPower: 27,
+    minPower: 0,
+    maxPower: 90,
+    powerLabel: 'Section Roll',
+    defaultIterations: 22,
+    minIterations: 6,
+    maxIterations: 32,
+    defaultSteps: 84,
+    defaultBailout: 4.0,
+    defaultColorScheme: 0,
+    maxColorScheme: 3,
+    defaultFractalType: 0,
+    maxFractalType: 3,
+    defaultZoom: 1.0,
+    defaultRotationX: 0.28,
+    defaultRotationY: -0.36,
+    fractalTypeOptions: [
+      FractalParamOption(value: 0, label: (_) => 'Quadratic'),
+      FractalParamOption(value: 1, label: (_) => 'Quadratic Julia'),
+      FractalParamOption(value: 2, label: (_) => 'Cubic (zz)z'),
+      FractalParamOption(value: 3, label: (_) => 'Cubic z(zz)'),
+    ],
+    extraParams: [
+      FractalParameter(
+        id: 'sliceW',
+        label: (_) => '4D Slice',
+        type: FractalParamType.float,
+        min: -1,
+        max: 1,
+        step: 0.01,
+        defaultValue: 0,
+      ),
+    ],
+    extraPresets: [
+      catalogPreset(
+        id: 'imordial_brot-quadratic',
+        moduleId: 'imordial_brot',
+        name: 'Quadratic Body',
+        params: const {
+          'power': 27.0,
+          'iterations': 24,
+          'steps': 96,
+          'bailout': 4.0,
+          'colorScheme': 0,
+          'fractalType': 0,
+          'sliceW': 0.0,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.0,
+          rotation: Vector3(0.28, -0.36, 0.0),
+        ),
+      ),
+      catalogPreset(
+        id: 'imordial_brot-julia',
+        moduleId: 'imordial_brot',
+        name: 'Julia Filaments',
+        params: const {
+          'power': 27.0,
+          'iterations': 24,
+          'steps': 104,
+          'bailout': 4.0,
+          'colorScheme': 1,
+          'fractalType': 1,
+          'sliceW': 0.0,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.15,
+          rotation: Vector3(0.42, 0.58, 0.0),
+        ),
+      ),
+      catalogPreset(
+        id: 'imordial_brot-cubic_left',
+        moduleId: 'imordial_brot',
+        name: 'Cubic (zz)z',
+        params: const {
+          'power': 27.0,
+          'iterations': 24,
+          'steps': 104,
+          'bailout': 5.0,
+          'colorScheme': 2,
+          'fractalType': 2,
+          'sliceW': 0.15,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.0,
+          rotation: Vector3(-0.22, 0.44, 0.0),
+        ),
+      ),
+      catalogPreset(
+        id: 'imordial_brot-cubic_right',
+        moduleId: 'imordial_brot',
+        name: 'Cubic z(zz)',
+        params: const {
+          'power': 27.0,
+          'iterations': 24,
+          'steps': 104,
+          'bailout': 5.0,
+          'colorScheme': 2,
+          'fractalType': 3,
+          'sliceW': -0.15,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.0,
+          rotation: Vector3(0.18, -0.52, 0.0),
+        ),
+      ),
+      catalogPreset(
+        id: 'imordial_brot-deep_slice',
+        moduleId: 'imordial_brot',
+        name: 'Deep Slice',
+        params: const {
+          'power': 62.0,
+          'iterations': 26,
+          'steps': 110,
+          'bailout': 4.0,
+          'colorScheme': 1,
+          'fractalType': 0,
+          'sliceW': 0.62,
+        },
+        view: FractalViewState(
+          pan: Vector2.zero(),
+          zoom: 1.25,
+          rotation: Vector3(0.55, 0.22, 0.0),
+        ),
+      ),
+    ],
+  ),
 ];
 
 /// Build all 3D ray-marched modules from the catalog.
