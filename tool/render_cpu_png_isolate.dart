@@ -3,7 +3,7 @@ import 'dart:math' as math;
 
 import 'package:image/image.dart' as img;
 
-import 'package:flutter_fractals/features/renderer/cpu/cpu_render_isolate.dart';
+import 'package:flutter_fractals/features/renderer/cpu/pipeline/cpu_render_isolate.dart';
 
 /// Pure-Dart CPU renderer dump (no Flutter engine required).
 ///
@@ -91,5 +91,6 @@ void main(List<String> args) {
   f.writeAsBytesSync(bytes);
 
   // ignore: avoid_print
-  print('WROTE $out (${bytes.length} bytes) module=$moduleId pan=($panX,$panY) zoom=$zoom iters=$iterations aa=$aa');
+  print(
+      'WROTE $out (${bytes.length} bytes) module=$moduleId pan=($panX,$panY) zoom=$zoom iters=$iterations aa=$aa');
 }

@@ -1,4 +1,4 @@
-import 'package:flutter_fractals/features/renderer/cpu/cpu_seed_hash.dart';
+import 'package:flutter_fractals/features/renderer/cpu/formulas/cpu_seed_hash.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

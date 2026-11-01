@@ -9,7 +9,7 @@ import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_fractals/core/services/export/export_worker.dart';
 import 'package:flutter_fractals/features/fourier/services/fourier_offscreen_renderer.dart';
 import 'package:flutter_fractals/features/renderer/cpu/cpu_fractal_renderer.dart';
-import 'package:flutter_fractals/features/renderer/cpu/cpu_render_isolate.dart';
+import 'package:flutter_fractals/features/renderer/cpu/pipeline/cpu_render_isolate.dart';
 import 'package:flutter_fractals/features/renderer/models/fractal_render_snapshot.dart';
 
 final class FibonacciComplexCpuTransparencyException implements Exception {

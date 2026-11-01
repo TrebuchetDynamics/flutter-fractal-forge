@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector2;
 
-import 'package:flutter_fractals/features/renderer/cpu/cpu_formulas.dart';
+import 'package:flutter_fractals/features/renderer/cpu/formulas/cpu_formulas.dart';
 
 void main() {
   test('native captured formulas match fixed parameter-plane references', () {

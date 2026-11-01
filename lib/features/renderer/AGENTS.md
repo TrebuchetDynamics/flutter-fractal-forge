@@ -13,7 +13,7 @@ Core fractal rendering engine. Contains the GPU-accelerated shader renderer, CPU
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `fractal_renderer.dart`               | `FractalRenderer` - main widget: loads shaders, renders via CustomPainter, handles gestures (pan/zoom/rotate), adapts to FractalController state |
 | `widgets/fractal_canvas.dart`         | `FractalCanvas` - CustomPainter that draws the fractal using FragmentShader                                                                      |
-| `cpu/cpu_fractal_renderer.dart`       | `CpuFractalRenderer` - software fallback when GPU shaders unavailable                                                                            |
+| `cpu/cpu_fractal_renderer.dart`       | `CpuFractalRenderer` - software fallback when GPU shaders unavailable; the `cpu/` entrypoint                                                      |
 | `policy/backend_policy.dart`          | `BackendPolicy` - decides GPU vs CPU rendering based on device capabilities                                                                      |
 | `policy/precision_ladder_policy.dart` | `PrecisionLadderPolicy` - manages precision ladder routing, extended GPU preview, and CPU Precision decisions                                    |
 | `validation/render_validation.dart`   | `RenderValidation` - validates render output correctness                                                                                         |
@@ -23,9 +23,21 @@ Core fractal rendering engine. Contains the GPU-accelerated shader renderer, CPU
 | Directory     | Purpose                                                                        |
 | ------------- | ------------------------------------------------------------------------------ |
 | `widgets/`    | Renderer UI, shader loading, painter, and gesture handling                     |
-| `cpu/`        | CPU fallback formulas, iterators, isolates, tile workers, and viewport mapping |
+| `cpu/`        | CPU fallback renderer entry, numeric helpers, formulas, and render pipeline    |
 | `policy/`     | Renderer backend and deep-zoom precision decisions                             |
 | `validation/` | Render output validation and convergence detection                             |
+
+### cpu/ Layout
+
+The CPU fallback keeps `cpu_fractal_renderer.dart` at the folder root as its only
+entrypoint. Everything else sits in one responsibility subfolder. Imports run one
+way: `math/` ← `formulas/` ← `pipeline/` ← the root widget.
+
+| Directory   | Owns                                                                                                | Stays ignorant of                    |
+| ----------- | --------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| `math/`     | Pure scalar/complex arithmetic, viewport mapping, deep-zoom reference orbit; no Flutter dependency. | Formulas, isolates, widgets, timers  |
+| `formulas/` | Escape-time engine (`cpu_coloring`), formula registry, iterator/escape metrics, seed hashing.       | Isolates, tile workers, widget state |
+| `pipeline/` | Isolate request/response, tile worker, iteration budget, render resolution.                         | Widget layout and gesture handling   |
 
 ## For AI Agents
 

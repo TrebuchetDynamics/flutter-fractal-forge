@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-import 'package:flutter_fractals/features/renderer/cpu/cpu_render_isolate.dart';
+import 'package:flutter_fractals/features/renderer/cpu/pipeline/cpu_render_isolate.dart';
 import 'package:flutter_fractals/features/renderer/policy/precision_ladder_policy.dart';
 
 void main() {

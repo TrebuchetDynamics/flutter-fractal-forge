@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector2;
 
-import 'package:flutter_fractals/features/renderer/cpu/cpu_iterators.dart';
+import 'package:flutter_fractals/features/renderer/cpu/formulas/cpu_iterators.dart';
 
 void main() {
   group('CPU Burning Ship iterator', () {

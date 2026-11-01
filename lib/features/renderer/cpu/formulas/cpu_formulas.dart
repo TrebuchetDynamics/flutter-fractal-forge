@@ -11,9 +11,9 @@ import 'package:vector_math/vector_math_64.dart' show Vector2;
 import 'package:flutter_fractals/core/models/fibonacci_complex_model.dart';
 
 import 'cpu_coloring.dart';
-import 'cpu_complex_math.dart';
-import 'cpu_scalar_math.dart';
 import 'cpu_seed_hash.dart';
+import '../math/cpu_complex_math.dart';
+import '../math/cpu_scalar_math.dart';
 
 part 'academic_expansion_formula_helpers.dart';
 

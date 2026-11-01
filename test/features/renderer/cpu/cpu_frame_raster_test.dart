@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter_fractals/features/renderer/cpu/cpu_fractal_renderer.dart';
-import 'package:flutter_fractals/features/renderer/cpu/cpu_render_isolate.dart';
+import 'package:flutter_fractals/features/renderer/cpu/pipeline/cpu_render_isolate.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector2;
 

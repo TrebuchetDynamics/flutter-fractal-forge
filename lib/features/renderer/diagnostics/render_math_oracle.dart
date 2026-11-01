@@ -1,6 +1,6 @@
 import 'package:vector_math/vector_math_64.dart' show Vector2, Vector3, Vector4;
 
-import 'package:flutter_fractals/features/renderer/cpu/cpu_iterators.dart';
+import 'package:flutter_fractals/features/renderer/cpu/formulas/cpu_iterators.dart';
 
 /// Tiny reference-oracle layer for formulas with known CPU iterators.
 ///

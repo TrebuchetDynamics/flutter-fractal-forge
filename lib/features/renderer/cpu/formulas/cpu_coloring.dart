@@ -8,7 +8,7 @@
 
 import 'dart:math' as math;
 
-import 'cpu_scalar_math.dart';
+import '../math/cpu_scalar_math.dart';
 
 /// Fill colour for points that never escape, i.e. the interior of the set.
 const (double r, double g, double b) kInsideColor = (46.0, 120.0, 220.0);
