@@ -369,7 +369,14 @@ void main() {
     tester.state<ScrollableState>(scrollable).position.jumpTo(2000);
     await tester.pump();
 
-    expect(find.byType(ShaderMask), findsNothing);
+    // The only mask is the category rail's scroll affordance; no thumbnail
+    // gains a shader layer during recycling.
+    expect(find.byType(ShaderMask), findsOneWidget);
+    expect(
+        find.descendant(
+            of: find.byType(ShaderMask),
+            matching: find.byKey(const Key('catalogCategoryScroll'))),
+        findsOneWidget);
   });
 
   testWidgets(

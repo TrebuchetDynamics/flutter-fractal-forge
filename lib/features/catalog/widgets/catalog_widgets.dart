@@ -120,34 +120,59 @@ class _CategoryFilterRail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      key: const Key('catalogCategoryScroll'),
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          _DimChip(
-            chipKey: const Key('catalogCategoryChip_all'),
-            label: allCategoriesLabel,
-            count: totalCategoryCount,
-            selected: selectedCategory == null,
-            onTap: () => onSelect(null),
-          ),
-          const SizedBox(width: AppSpacing.xs),
-          for (final category in categories) ...[
-            const SizedBox(width: AppSpacing.xs),
+    return _ScrollEdgeFade(
+      child: SingleChildScrollView(
+        key: const Key('catalogCategoryScroll'),
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
             _DimChip(
-              chipKey: Key(
-                'catalogCategoryChip_${slugify(category, emptyFallback: '')!}',
-              ),
-              label: mathematicalLabel(context, category),
-              count: categoryCounts[category] ?? 0,
-              selected: selectedCategory == category,
-              onTap: () => onSelect(category),
+              chipKey: const Key('catalogCategoryChip_all'),
+              label: allCategoriesLabel,
+              count: totalCategoryCount,
+              selected: selectedCategory == null,
+              onTap: () => onSelect(null),
             ),
+            const SizedBox(width: AppSpacing.xs),
+            for (final category in categories) ...[
+              const SizedBox(width: AppSpacing.xs),
+              _DimChip(
+                chipKey: Key(
+                  'catalogCategoryChip_${slugify(category, emptyFallback: '')!}',
+                ),
+                label: mathematicalLabel(context, category),
+                count: categoryCounts[category] ?? 0,
+                selected: selectedCategory == category,
+                onTap: () => onSelect(category),
+              ),
+            ],
+            const SizedBox(width: AppSpacing.sm),
           ],
-          const SizedBox(width: AppSpacing.sm),
-        ],
+        ),
       ),
+    );
+  }
+}
+
+/// A soft right-edge fade marks a horizontally clipped rail on phones and
+/// tablets. Wide layouts have no clipped tail, so they keep crisp chips.
+class _ScrollEdgeFade extends StatelessWidget {
+  final Widget child;
+
+  const _ScrollEdgeFade({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    if (MediaQuery.sizeOf(context).width >= 1200) return child;
+    return ShaderMask(
+      blendMode: BlendMode.dstIn,
+      shaderCallback: (bounds) => const LinearGradient(
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
+        colors: [Colors.white, Colors.white, Colors.transparent],
+        stops: [0, 0.94, 1],
+      ).createShader(bounds),
+      child: child,
     );
   }
 }

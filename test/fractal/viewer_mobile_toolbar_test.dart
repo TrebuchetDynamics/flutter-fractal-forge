@@ -116,8 +116,22 @@ void main() {
     }
     final toolbar =
         tester.getRect(find.byKey(const ValueKey('viewerFabColumn')));
-    expect(toolbar.height, lessThanOrEqualTo(124));
+    expect(toolbar.height, lessThanOrEqualTo(64));
     expect(toolbar.bottom, lessThanOrEqualTo(732));
+    final firstTop = tester
+        .getRect(find.byKey(const ValueKey('viewerPreviousFractalButton')))
+        .top;
+    for (final key in [
+      'viewerBreathingButton',
+      'viewerLooperFab',
+      'viewerControlsButton',
+      'viewerPaletteButton',
+      'viewerRandomFractalFab',
+      'viewerOverflowMenu',
+    ]) {
+      expect(tester.getRect(find.byKey(ValueKey(key))).top, firstTop,
+          reason: '$key must stay on the single mobile row');
+    }
     expect(find.byKey(const ValueKey('viewerFourierFab')), findsNothing);
     await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
     await tester.pump();

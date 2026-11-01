@@ -40,73 +40,78 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.tabSettings)),
-      body: CustomScrollView(
-        slivers: [
-          const SliverToBoxAdapter(
-            child: SizedBox(height: AppSpacing.md),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.all(AppSpacing.md),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate([
-                _SettingsTile(
-                  icon: Icons.accessibility_new_rounded,
-                  title: l10n.accessibilityTitle,
-                  subtitle: l10n.settingsAccessibilitySubtitle,
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => const AccessibilitySettingsScreen(),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 720),
+          child: CustomScrollView(
+            slivers: [
+              const SliverToBoxAdapter(
+                child: SizedBox(height: AppSpacing.md),
+              ),
+              SliverPadding(
+                padding: const EdgeInsets.all(AppSpacing.md),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate([
+                    _SettingsTile(
+                      icon: Icons.accessibility_new_rounded,
+                      title: l10n.accessibilityTitle,
+                      subtitle: l10n.settingsAccessibilitySubtitle,
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const AccessibilitySettingsScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    _SettingsTile(
+                      icon: Icons.palette_outlined,
+                      title: l10n.paramColorScheme,
+                      subtitle: l10n.settingsPaletteSubtitle,
+                      onTap: () {
+                        _showThemeSelector(context);
+                      },
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    _SettingsTile(
+                      icon: Icons.functions_rounded,
+                      title: l10n.settingsFormulaLab,
+                      subtitle: l10n.settingsFormulaLabSubtitle,
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const FrmFormulaScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    Consumer<RendererSettingsService>(
+                      builder: (context, settings, _) => SwitchListTile(
+                        key: const Key('settingsDebugModeSwitch'),
+                        secondary: const Icon(Icons.bug_report_outlined),
+                        title: Text(l10n.settingsDebugMode),
+                        subtitle: Text(l10n.settingsDebugModeSubtitle),
+                        value: settings.debugModeEnabled,
+                        onChanged: settings.setDebugModeEnabled,
                       ),
-                    );
-                  },
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    _SettingsTile(
+                      icon: Icons.info_outline_rounded,
+                      title: l10n.settingsAbout,
+                      subtitle: l10n.settingsVersion(_appVersion),
+                      onTap: () {
+                        _showAboutDialog(context);
+                      },
+                    ),
+                  ]),
                 ),
-                const SizedBox(height: AppSpacing.md),
-                _SettingsTile(
-                  icon: Icons.palette_outlined,
-                  title: l10n.paramColorScheme,
-                  subtitle: l10n.settingsPaletteSubtitle,
-                  onTap: () {
-                    _showThemeSelector(context);
-                  },
-                ),
-                const SizedBox(height: AppSpacing.md),
-                _SettingsTile(
-                  icon: Icons.functions_rounded,
-                  title: l10n.settingsFormulaLab,
-                  subtitle: l10n.settingsFormulaLabSubtitle,
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => const FrmFormulaScreen(),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(height: AppSpacing.md),
-                Consumer<RendererSettingsService>(
-                  builder: (context, settings, _) => SwitchListTile(
-                    key: const Key('settingsDebugModeSwitch'),
-                    secondary: const Icon(Icons.bug_report_outlined),
-                    title: Text(l10n.settingsDebugMode),
-                    subtitle: Text(l10n.settingsDebugModeSubtitle),
-                    value: settings.debugModeEnabled,
-                    onChanged: settings.setDebugModeEnabled,
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.md),
-                _SettingsTile(
-                  icon: Icons.info_outline_rounded,
-                  title: l10n.settingsAbout,
-                  subtitle: l10n.settingsVersion(_appVersion),
-                  onTap: () {
-                    _showAboutDialog(context);
-                  },
-                ),
-              ]),
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

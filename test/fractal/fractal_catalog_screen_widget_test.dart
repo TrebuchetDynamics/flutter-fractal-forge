@@ -52,6 +52,7 @@ void main() {
     Widget buildTestWidget({
       Future<CatalogViewMode> Function()? viewModeLoader,
       AccessibilityService? accessibility,
+      Locale locale = const Locale('en'),
     }) {
       return MultiProvider(
         providers: [
@@ -63,7 +64,7 @@ void main() {
           ChangeNotifierProvider.value(value: rendererSettings),
         ],
         child: MaterialApp(
-          locale: const Locale('en'),
+          locale: locale,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           home: Scaffold(
@@ -199,6 +200,30 @@ void main() {
           find.byKey(const Key('catalogPreviousCategoryButton')), findsNothing);
       expect(find.byKey(const Key('catalogNextCategoryButton')), findsNothing);
       expect(find.byKey(const Key('catalogCategoryChip_all')), findsOneWidget);
+    });
+
+    testWidgets(
+        'Spanish collection tabs stay fully visible beside a compact dimension menu',
+        (tester) async {
+      await tester.binding.setSurfaceSize(const Size(320, 568));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+      await tester.pumpWidget(buildTestWidget(locale: const Locale('es')));
+      await tester.pumpAndSettle();
+      expect(
+          tester.getSize(find.byKey(const Key('catalogDimensionMenu'))).width,
+          lessThanOrEqualTo(48));
+      final scroll =
+          find.byKey(const Key('catalogCollectionAndDimensionScroll'));
+      expect(scroll, findsOneWidget);
+      final recent = find.text('Recientes');
+      expect(recent, findsOneWidget);
+      // A narrow rail may need one swipe; after that the full Spanish label is
+      // visible and tappable rather than permanently cut off.
+      await tester.drag(scroll, const Offset(-160, 0));
+      await tester.pumpAndSettle();
+      expect(tester.getRect(recent).right, lessThanOrEqualTo(320));
+      expect(recent.hitTestable(), findsOneWidget);
+      expect(tester.takeException(), isNull);
     });
 
     testWidgets('offers dimension filters independently of families',

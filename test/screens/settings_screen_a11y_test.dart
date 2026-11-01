@@ -61,6 +61,19 @@ void main() {
       handle.dispose();
     });
 
+    testWidgets('content is constrained and centered on a desktop viewport',
+        (tester) async {
+      await tester.binding.setSurfaceSize(const Size(1440, 900));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+      await _pumpScreen(tester);
+      final tile =
+          tester.getRect(find.byKey(const Key('settingsDebugModeSwitch')));
+      expect(tile.width, lessThanOrEqualTo(696));
+      expect(tile.left, greaterThanOrEqualTo(372));
+      expect(tile.right, lessThanOrEqualTo(1068));
+      expect(tester.takeException(), isNull);
+    });
+
     testWidgets('every control meets the 48px tap target', (tester) async {
       final handle = tester.ensureSemantics();
       await _pumpScreen(tester);

@@ -107,14 +107,18 @@ class FractalViewControls extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final mq = MediaQuery.of(context);
+    // Keep the seven-icon rail on one row at common phone widths without
+    // reducing the 48/56-pixel targets. Use generous margins on larger screens.
+    final horizontalMargin =
+        compactViewport ? 0.0 : (mq.size.width < 480 ? 8.0 : 16.0);
     final insets = EdgeInsets.fromLTRB(
       math.max(math.max(mq.padding.left, mq.viewPadding.left),
               mq.systemGestureInsets.left) +
-          (compactViewport ? 0 : 16),
+          horizontalMargin,
       compactViewport ? 0 : 8,
       math.max(math.max(mq.padding.right, mq.viewPadding.right),
               mq.systemGestureInsets.right) +
-          (compactViewport ? 0 : 16),
+          horizontalMargin,
       math.max(math.max(mq.padding.bottom, mq.viewPadding.bottom),
               mq.systemGestureInsets.bottom) +
           (compactViewport ? 0 : 16),
@@ -236,26 +240,43 @@ class FractalViewControls extends StatelessWidget {
                             isExporting ? null : () => _showMore(context),
                       ),
                     ];
+                    final availableWidth =
+                        constraints.maxWidth - 8; // 4px inset each side
+                    final perRow =
+                        math.max(1, (availableWidth / target).floor());
+                    final rowCount =
+                        math.max(1, (buttons.length / perRow).ceil());
+                    final base = buttons.length ~/ rowCount;
+                    final extra = buttons.length % rowCount;
+                    final rows = <Widget>[];
+                    var next = 0;
+                    for (var row = 0; row < rowCount; row++) {
+                      final count = base + (row < extra ? 1 : 0);
+                      final rowButtons = buttons.sublist(next, next + count);
+                      next += count;
+                      rows.add(Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          for (final button in rowButtons)
+                            SizedBox(
+                              key: button.toolKey ==
+                                      const ValueKey('viewerOverflowMenu')
+                                  ? const ValueKey('viewerExportButton')
+                                  : null,
+                              width: target,
+                              height: target,
+                              child: button,
+                            )
+                        ],
+                      ));
+                    }
                     return SingleChildScrollView(
                       child: Padding(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 4, vertical: 8),
                         child: FocusTraversalGroup(
                           policy: OrderedTraversalPolicy(),
-                          child: Wrap(
-                            alignment: WrapAlignment.center,
-                            children: [
-                              for (final button in buttons)
-                                SizedBox(
-                                  key: button.toolKey ==
-                                          const ValueKey('viewerOverflowMenu')
-                                      ? const ValueKey('viewerExportButton')
-                                      : null,
-                                  width: target,
-                                  height: target,
-                                  child: button,
-                                )
-                            ],
-                          ),
+                          child: Column(children: rows),
                         ),
                       ),
                     );
