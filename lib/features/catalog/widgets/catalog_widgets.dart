@@ -101,7 +101,7 @@ class _SectionHeader extends StatelessWidget {
 // Category filter rail
 // ---------------------------------------------------------------------------
 
-class _CategoryFilterRail extends StatelessWidget {
+class _CategoryFilterRail extends StatefulWidget {
   final String allCategoriesLabel;
   final int totalCategoryCount;
   final List<String> categories;
@@ -119,37 +119,135 @@ class _CategoryFilterRail extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return _ScrollEdgeFade(
-      child: SingleChildScrollView(
-        key: const Key('catalogCategoryScroll'),
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            _DimChip(
-              chipKey: const Key('catalogCategoryChip_all'),
-              label: allCategoriesLabel,
-              count: totalCategoryCount,
-              selected: selectedCategory == null,
-              onTap: () => onSelect(null),
-            ),
-            const SizedBox(width: AppSpacing.xs),
-            for (final category in categories) ...[
-              const SizedBox(width: AppSpacing.xs),
-              _DimChip(
-                chipKey: Key(
-                  'catalogCategoryChip_${slugify(category, emptyFallback: '')!}',
-                ),
-                label: mathematicalLabel(context, category),
-                count: categoryCounts[category] ?? 0,
-                selected: selectedCategory == category,
-                onTap: () => onSelect(category),
-              ),
-            ],
-            const SizedBox(width: AppSpacing.sm),
-          ],
-        ),
+  State<_CategoryFilterRail> createState() => _CategoryFilterRailState();
+}
+
+class _CategoryFilterRailState extends State<_CategoryFilterRail> {
+  final ScrollController _controller = ScrollController();
+  bool _canScrollBack = false;
+  bool _canScrollForward = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(_syncEdges);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _syncEdges());
+  }
+
+  @override
+  void didUpdateWidget(_CategoryFilterRail oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _syncEdges());
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _syncEdges() {
+    if (!mounted || !_controller.hasClients) return;
+    final position = _controller.position;
+    final back = position.pixels > 0.5;
+    final forward = position.pixels < position.maxScrollExtent - 0.5;
+    if (back == _canScrollBack && forward == _canScrollForward) return;
+    setState(() {
+      _canScrollBack = back;
+      _canScrollForward = forward;
+    });
+  }
+
+  void _step(double direction) {
+    if (!_controller.hasClients) return;
+    final position = _controller.position;
+    final target =
+        (position.pixels + direction * position.viewportDimension * 0.7)
+            .clamp(0.0, position.maxScrollExtent)
+            .toDouble();
+    _controller.animateTo(target,
+        duration: AppAnimations.fast, curve: AppAnimations.defaultCurve);
+  }
+
+  Widget _edgeButton({
+    required Key key,
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return IconButton(
+      key: key,
+      tooltip: label,
+      onPressed: onTap,
+      style: IconButton.styleFrom(
+        minimumSize: const Size.square(48),
+        shape: const CircleBorder(),
+        backgroundColor: AppColors.surface.withValues(alpha: 0.96),
+        side: BorderSide(color: AppColors.border.withValues(alpha: 0.7)),
       ),
+      icon: Icon(icon, size: 20),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        _ScrollEdgeFade(
+          child: SingleChildScrollView(
+            key: const Key('catalogCategoryScroll'),
+            controller: _controller,
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                _DimChip(
+                  chipKey: const Key('catalogCategoryChip_all'),
+                  label: widget.allCategoriesLabel,
+                  count: widget.totalCategoryCount,
+                  selected: widget.selectedCategory == null,
+                  onTap: () => widget.onSelect(null),
+                ),
+                const SizedBox(width: AppSpacing.xs),
+                for (final category in widget.categories) ...[
+                  const SizedBox(width: AppSpacing.xs),
+                  _DimChip(
+                    chipKey: Key(
+                      'catalogCategoryChip_${slugify(category, emptyFallback: '')!}',
+                    ),
+                    label: mathematicalLabel(context, category),
+                    count: widget.categoryCounts[category] ?? 0,
+                    selected: widget.selectedCategory == category,
+                    onTap: () => widget.onSelect(category),
+                  ),
+                ],
+                const SizedBox(width: AppSpacing.sm),
+              ],
+            ),
+          ),
+        ),
+        if (_canScrollBack)
+          Positioned(
+            left: 0,
+            child: _edgeButton(
+              key: const Key('catalogCategoryScrollBackButton'),
+              icon: Icons.chevron_left_rounded,
+              label: l10n.catalogCategoriesScrollBack,
+              onTap: () => _step(-1),
+            ),
+          ),
+        if (_canScrollForward)
+          Positioned(
+            right: 0,
+            child: _edgeButton(
+              key: const Key('catalogCategoryScrollForwardButton'),
+              icon: Icons.chevron_right_rounded,
+              label: l10n.catalogCategoriesScrollForward,
+              onTap: () => _step(1),
+            ),
+          ),
+      ],
     );
   }
 }

@@ -793,6 +793,8 @@
   "homeFractalCountBadge": "1029 fractals",
 
   "catalogAllFractals": "All Fractals",
+  "catalogCategoriesScrollForward": "More categories",
+  "catalogCategoriesScrollBack": "Previous categories",
   "catalogFilterAll": "All",
   "catalogFilterSortOrder": "Sort order",
   "catalogSortByCategory": "By Category",

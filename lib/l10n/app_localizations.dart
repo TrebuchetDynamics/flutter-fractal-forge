@@ -3549,6 +3549,18 @@ abstract class AppLocalizations {
   /// **'All Fractals'**
   String get catalogAllFractals;
 
+  /// No description provided for @catalogCategoriesScrollForward.
+  ///
+  /// In en, this message translates to:
+  /// **'More categories'**
+  String get catalogCategoriesScrollForward;
+
+  /// No description provided for @catalogCategoriesScrollBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous categories'**
+  String get catalogCategoriesScrollBack;
+
   /// No description provided for @catalogFilterAll.
   ///
   /// In en, this message translates to:
