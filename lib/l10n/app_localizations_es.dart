@@ -799,6 +799,18 @@ class AppLocalizationsEs extends AppLocalizations {
       'Aleatorizar. Mantén presionado para Controles';
 
   @override
+  String get tooltipRandomizePaletteWithSettings =>
+      'Aleatorizar paleta. Mantén presionado para ajustes de paleta';
+
+  @override
+  String get tooltipPlayMorph =>
+      'Reproducir transformación aleatoria de fractales';
+
+  @override
+  String get tooltipPauseMorph =>
+      'Pausar transformación aleatoria de fractales';
+
+  @override
   String get tooltipKaleidoscopeOn => 'Kaleidoscopio activado';
 
   @override
@@ -2035,6 +2047,20 @@ class AppLocalizationsEs extends AppLocalizations {
       'Salta a otro fractal o quédate en este y transforma sus parámetros.';
 
   @override
+  String get randomCategoriesTitle => 'Categorías aleatorias';
+
+  @override
+  String get randomCategoriesSubtitle =>
+      'Elige las categorías de fractales que puede usar Aleatorio.';
+
+  @override
+  String get randomCategoriesAll => 'Todas las categorías';
+
+  @override
+  String get randomCategoriesRequired =>
+      'Mantén al menos una categoría seleccionada.';
+
+  @override
   String get randomOptionsCatalogDescription =>
       'Cambia a otra entrada del catálogo.';
 
@@ -2084,6 +2110,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get hudPalette => 'Paleta';
+
+  @override
+  String get hudPreviousFractal => 'Fractal anterior';
 
   @override
   String get hudKaleidoscope => 'Kaleidoscopio';

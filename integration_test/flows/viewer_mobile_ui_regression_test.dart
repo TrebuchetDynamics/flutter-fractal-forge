@@ -138,6 +138,9 @@ void main() {
         final target = scale == 3 ? 56.0 : 48.0;
         final primary = <String, Object?>{};
         for (final key in [
+          'viewerPreviousFractalButton',
+          'viewerMorphPlayButton',
+          'viewerLooperFab',
           'viewerControlsButton',
           'viewerPaletteButton',
           'viewerRandomFractalFab',
@@ -171,7 +174,7 @@ void main() {
 
         final controls = find.byKey(const ValueKey('viewerControlsButton'));
         await tester.ensureVisible(controls);
-        await tester.tap(controls);
+        await tester.longPress(controls);
         await pumpForUiTransition(tester);
         final surface = find.byKey(const ValueKey('controlsHudSurface'));
         expect(tester.widget<Material>(surface).color!.a, 1);

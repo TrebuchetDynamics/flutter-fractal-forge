@@ -284,7 +284,7 @@ void main() {
         'fibonacci',
         'squares'
       ]) {
-        await tester.tap(find.byKey(const Key('viewerControlsButton')));
+        await tester.longPress(find.byKey(const Key('viewerControlsButton')));
         await settle();
         final l10n = AppLocalizations.of(
             tester.element(find.byType(NumberWallExactRenderer)))!;
@@ -362,7 +362,7 @@ void main() {
       await tester.tap(randomize);
       await complete('ui-randomize');
       expect(controller.canUndoNumberWallRandomization, isTrue);
-      await tester.tap(find.byKey(const Key('viewerControlsButton')));
+      await tester.longPress(find.byKey(const Key('viewerControlsButton')));
       await settle();
       final undo = find.text('Undo randomization');
       await tester.ensureVisible(undo);
@@ -458,7 +458,7 @@ void main() {
       tester.view.physicalSize = const Size(320, 900);
       tester.platformDispatcher.textScaleFactorTestValue = 2;
       await binding.setSurfaceSize(const Size(320, 900));
-      await tester.tap(find.byKey(const Key('viewerControlsButton')));
+      await tester.longPress(find.byKey(const Key('viewerControlsButton')));
       await screenshot('narrow-en-high-contrast-2x');
       await tester.pumpWidget(RepaintBoundary(
           key: root,

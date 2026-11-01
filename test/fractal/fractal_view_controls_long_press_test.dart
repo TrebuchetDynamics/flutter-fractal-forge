@@ -9,23 +9,18 @@ import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('long-pressing random FAB opens polished action sheet',
+  testWidgets('long-pressing random FAB asks for category selection',
       (tester) async {
-    await _pumpHarness(tester);
+    var categories = 0;
+    await _pumpHarness(tester, onRandomCategories: () => categories++);
 
-    await _revealTool(tester, 'viewerRandomFractalFab');
     await tester
         .longPress(find.byKey(const ValueKey('viewerRandomFractalFab')));
     await tester.pumpAndSettle();
 
-    expect(find.text('Random options'), findsOneWidget);
-    expect(
-      find.text(
-          'Jump to a new fractal or keep this one and reshape its parameters.'),
-      findsOneWidget,
-    );
-    expect(find.text('Switch to another catalog entry.'), findsOneWidget);
-    expect(find.byTooltip('Close'), findsOneWidget);
+    expect(categories, 1);
+    // The viewer supplies a real category sheet; no stale two-action sheet.
+    expect(find.text('Random options'), findsNothing);
   });
 
   testWidgets('secondary actions announce and support Shift+Enter on the FAB',
@@ -269,22 +264,26 @@ void main() {
     // repeats that action just costs a second tap. Text-overlay and Fourier
     // are intentionally excluded: their long press runs the edit/settings
     // secondary action instead of opening a sheet.
-    for (final key in const [
-      'viewerLooperFab',
-      'viewerFullscreenButton',
-    ]) {
+    for (final entry in const {
+      'viewerLooperFab': false,
+      'viewerFullscreenButton': true,
+    }.entries) {
       await _pumpHarness(tester);
-      await _revealTool(tester, key);
-      await tester.longPress(find.byKey(ValueKey(key)));
+      if (entry.value) await _revealTool(tester, entry.key);
+      await tester.longPress(find.byKey(ValueKey(entry.key)));
       await tester.pumpAndSettle();
 
-      // Long press must not navigate away from More or add a sheet.
-      expect(find.byType(BottomSheet), findsOneWidget, reason: key);
-      expect(find.text('Viewer actions'), findsOneWidget, reason: key);
-      await tester.ensureVisible(find.byTooltip('Close'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.byTooltip('Close'));
-      await tester.pumpAndSettle();
+      // Long press must not add a sheet; a More row also stays on More.
+      expect(
+          find.byType(BottomSheet), entry.value ? findsOneWidget : findsNothing,
+          reason: entry.key);
+      if (entry.value) {
+        expect(find.text('Viewer actions'), findsOneWidget, reason: entry.key);
+        await tester.ensureVisible(find.byTooltip('Close'));
+        await tester.pumpAndSettle();
+        await tester.tap(find.byTooltip('Close'));
+        await tester.pumpAndSettle();
+      }
     }
   });
 
@@ -314,27 +313,17 @@ void main() {
     expect(find.byTooltip('Close'), findsNothing);
   });
 
-  testWidgets('long-press sheet copy localizes to Spanish', (tester) async {
-    await _pumpHarness(tester, locale: const Locale('es'));
+  testWidgets('category chooser and kaleidoscope copy localize to Spanish',
+      (tester) async {
+    var categories = 0;
+    await _pumpHarness(tester,
+        locale: const Locale('es'), onRandomCategories: () => categories++);
 
-    await _revealTool(tester, 'viewerRandomFractalFab');
     await tester
         .longPress(find.byKey(const ValueKey('viewerRandomFractalFab')));
     await tester.pumpAndSettle();
-
-    expect(find.text('Opciones aleatorias'), findsOneWidget);
-    expect(
-      find.text(
-          'Salta a otro fractal o quédate en este y transforma sus parámetros.'),
-      findsOneWidget,
-    );
-    expect(find.text('Cambia a otra entrada del catálogo.'), findsOneWidget);
-    // The English source strings must be gone, not merely accompanied.
-    expect(find.text('Random options'), findsNothing);
-    expect(find.text('Switch to another catalog entry.'), findsNothing);
-
-    await tester.tap(find.byTooltip('Cerrar'));
-    await tester.pumpAndSettle();
+    expect(categories, 1);
+    expect(find.text('Opciones aleatorias'), findsNothing);
 
     await _revealTool(tester, 'viewerKaleidoscopeFab');
     await tester.longPress(find.byKey(const ValueKey('viewerKaleidoscopeFab')));
@@ -371,6 +360,7 @@ Future<void> _pumpHarness(
   VoidCallback? onShareLink,
   VoidCallback? onShareImage,
   VoidCallback? onWallpaper,
+  VoidCallback? onRandomCategories,
 }) async {
   await tester.pumpWidget(
     MaterialApp(
@@ -385,6 +375,7 @@ Future<void> _pumpHarness(
           onShareLink: onShareLink ?? () {},
           onShareImage: onShareImage ?? () {},
           onWallpaper: onWallpaper ?? () {},
+          onRandomCategories: onRandomCategories ?? () {},
           sectors: sectors,
         ),
       ),
@@ -400,6 +391,7 @@ class _Harness extends StatefulWidget {
   final VoidCallback onShareLink;
   final VoidCallback onShareImage;
   final VoidCallback onWallpaper;
+  final VoidCallback onRandomCategories;
   final int sectors;
 
   const _Harness({
@@ -409,6 +401,7 @@ class _Harness extends StatefulWidget {
     required this.onShareLink,
     required this.onShareImage,
     required this.onWallpaper,
+    required this.onRandomCategories,
     required this.sectors,
   });
 
@@ -461,6 +454,7 @@ class _HarnessState extends State<_Harness>
         openFourierSettings: () {},
         reportFractal: () {},
         openWallpaper: widget.onWallpaper,
+        openRandomCategories: widget.onRandomCategories,
       ),
     );
   }

@@ -45,6 +45,9 @@ Future<bool> _pumpControls(
   VoidCallback? onToggleFourier,
   VoidCallback? onOpenFourierSettings,
   VoidCallback? onOpenPalettePicker,
+  VoidCallback? onRandomizePalette,
+  VoidCallback? onPreviousFractal,
+  VoidCallback? onToggleMorphPlayback,
   VoidCallback? onOpenRandomFractal,
   VoidCallback? onOpenControls,
   VoidCallback? onRandomizeParams,
@@ -84,6 +87,7 @@ Future<bool> _pumpControls(
         body: _Host(
           (controller) => FractalViewControls(
             fabController: controller,
+            canGoPreviousFractal: true,
             isExporting: isExporting,
             kaleidoscopeEnabled: kaleidoscopeEnabled,
             kaleidoscopeSectors: kaleidoscopeSectors,
@@ -100,6 +104,9 @@ Future<bool> _pumpControls(
               randomizeParams: onRandomizeParams ?? () {},
               cycleColorScheme: onCycleColorScheme ?? () {},
               openPalettePicker: onOpenPalettePicker ?? () {},
+              randomizePalette: onRandomizePalette ?? () {},
+              previousFractal: onPreviousFractal ?? () {},
+              toggleMorphPlayback: onToggleMorphPlayback ?? () {},
               toggleKaleidoscope: onToggleKaleidoscope ?? () {},
               setKaleidoscopeSectors: (_) {},
               setKaleidoscopeMirror: (_) {},
@@ -125,7 +132,9 @@ Future<bool> _pumpControls(
 }
 
 const _primaryKeys = [
-  'viewerBreathingButton',
+  'viewerPreviousFractalButton',
+  'viewerMorphPlayButton',
+  'viewerLooperFab',
   'viewerControlsButton',
   'viewerPaletteButton',
   'viewerRandomFractalFab',
@@ -134,7 +143,6 @@ const _primaryKeys = [
 const _secondaryKeys = [
   'viewerRandomParamsButton',
   'viewerColorCycleButton',
-  'viewerLooperFab',
   'viewerKaleidoscopeFab',
   'viewerFourierFab',
   'viewerTextOverlayFab',
@@ -361,9 +369,9 @@ void main() {
         isExporting: false,
         onOpenExport: () => exported = true,
         onOpenWallpaper: () {});
-    final visible =
-        _primaryKeys.where((key) => _key(key).evaluate().isNotEmpty).toList();
-    expect(visible, contains('viewerOverflowMenu'));
+    for (final key in _primaryKeys) {
+      expect(_key(key), findsOneWidget, reason: '$key must stay on the rail');
+    }
     for (final key in _secondaryKeys) {
       expect(_key(key), findsNothing);
     }
@@ -371,10 +379,6 @@ void main() {
     await tester.tap(_key('viewerExportButton'));
     await tester.pumpAndSettle();
     expect(exported, isFalse);
-    for (final key in _primaryKeys.where((key) => !visible.contains(key))) {
-      expect(_key(key), findsOneWidget,
-          reason: 'suppressed $key remains reachable');
-    }
     for (final label in ['Export', 'Copy view link', 'Share image']) {
       expect(find.text(label), findsOneWidget);
     }
@@ -564,7 +568,6 @@ void main() {
           'viewerRandomParamsButtonOptions',
           'viewerColorCycleButton',
           'viewerColorCycleButtonOptions',
-          'viewerLooperFab',
           'viewerKaleidoscopeFab',
           'viewerKaleidoscopeFabOptions',
           'viewerFourierFab',
@@ -646,44 +649,48 @@ void main() {
           locale: locale, isExporting: false, onOpenWallpaper: () {});
       final labels = locale.languageCode == 'en'
           ? const {
-              'viewerBreathingButton': 'Play parameter animation',
-              'viewerControlsButton': 'Controls',
-              'viewerPaletteButton': 'Palette',
-              'viewerRandomFractalFab': 'Random',
+              'viewerPreviousFractalButton': 'Previous fractal',
+              'viewerMorphPlayButton': 'Play random fractal morphing',
+              'viewerLooperFab': 'Camera looper',
+              'viewerControlsButton': 'Randomize. Long press for Controls',
+              'viewerPaletteButton':
+                  'Randomize palette. Long press for palette settings',
+              'viewerRandomFractalFab': 'Random Fractal',
               'viewerOverflowMenu': 'More',
             }
           : const {
-              'viewerBreathingButton': 'Reproducir animación de parámetros',
-              'viewerControlsButton': 'Controles',
-              'viewerPaletteButton': 'Paleta',
-              'viewerRandomFractalFab': 'Aleatorio',
+              'viewerPreviousFractalButton': 'Fractal anterior',
+              'viewerMorphPlayButton':
+                  'Reproducir transformación aleatoria de fractales',
+              'viewerLooperFab': 'Bucle de cámara',
+              'viewerControlsButton':
+                  'Aleatorizar. Mantén presionado para Controles',
+              'viewerPaletteButton':
+                  'Aleatorizar paleta. Mantén presionado para ajustes de paleta',
+              'viewerRandomFractalFab': 'Fractal aleatorio',
               'viewerOverflowMenu': 'Más',
             };
       for (final entry in labels.entries) {
         await _reveal(tester, entry.key);
         final button =
             tester.widget<FloatingActionButtonWidget>(_key(entry.key));
-        final inMore = find
-            .ancestor(
-              of: _key(entry.key),
-              matching: find.byType(BottomSheet),
-            )
-            .evaluate()
-            .isNotEmpty;
-        final expectedLabel = entry.key == 'viewerRandomFractalFab' && inMore
-            ? (locale.languageCode == 'en'
-                ? 'Random Fractal'
-                : 'Fractal aleatorio')
-            : entry.value;
+        final expectedLabel = entry.value;
         expect(button.tooltip, expectedLabel, reason: entry.key);
-        expect(find.bySemanticsLabel(expectedLabel), findsOneWidget);
+        expect(
+            find.descendant(
+                of: _key(entry.key),
+                matching: find.bySemanticsLabel(expectedLabel)),
+            findsOneWidget);
       }
       await _openMore(tester);
       for (final key in _secondaryKeys) {
         await _reveal(tester, key);
         final button = tester.widget<FloatingActionButtonWidget>(_key(key));
         expect(button.tooltip, isNotEmpty);
-        expect(find.bySemanticsLabel(button.tooltip), findsOneWidget);
+        expect(
+            find.descendant(
+                of: _key(key), matching: find.bySemanticsLabel(button.tooltip)),
+            findsOneWidget);
       }
       handle.dispose();
     });
@@ -706,6 +713,10 @@ void main() {
     expect(randomized, 1);
     expect(opened, 1);
     await _tapTool(tester, 'viewerControlsButton');
+    expect(randomized, 2);
+    expect(opened, 1);
+    await _tapTool(tester, 'viewerControlsButton', secondary: true);
+    expect(randomized, 2);
     expect(opened, 2);
   });
 
@@ -732,16 +743,22 @@ void main() {
     });
   }
 
-  testWidgets('color secondary and direct Palette open the picker',
+  testWidgets('palette quick press randomizes and long press opens the picker',
       (tester) async {
     var opened = 0;
+    var randomized = 0;
     await _pumpControls(tester,
         isExporting: false,
         onOpenPalettePicker: () => opened++,
+        onRandomizePalette: () => randomized++,
         onOpenWallpaper: () {});
     await _tapTool(tester, 'viewerColorCycleButton', secondary: true);
     expect(opened, 1);
     await _tapTool(tester, 'viewerPaletteButton');
+    expect(randomized, 1);
+    expect(opened, 1);
+    await _tapTool(tester, 'viewerPaletteButton', secondary: true);
+    expect(randomized, 1);
     expect(opened, 2);
   });
 

@@ -15,6 +15,10 @@ void main() {
       {VoidCallback? onControls,
       VoidCallback? onPalette,
       VoidCallback? onRandom,
+      VoidCallback? onRandomize,
+      VoidCallback? onRandomizePalette,
+      VoidCallback? onPlay,
+      VoidCallback? onPrevious,
       VoidCallback? onFourier}) async {
     tester.view.devicePixelRatio = 1;
     tester.view.physicalSize = const Size(360, 780);
@@ -49,6 +53,7 @@ void main() {
         home: Scaffold(
           body: FractalViewControls(
             fabController: animation,
+            canGoPreviousFractal: true,
             isExporting: false,
             kaleidoscopeEnabled: false,
             kaleidoscopeSectors: 8,
@@ -60,8 +65,11 @@ void main() {
               toggleFullscreen: () {},
               openRandomFractal: onRandom ?? () {},
               openControls: onControls ?? () {},
-              randomizeParams: () {},
+              randomizeParams: onRandomize ?? () {},
               cycleColorScheme: () {},
+              randomizePalette: onRandomizePalette ?? () {},
+              previousFractal: onPrevious ?? () {},
+              toggleMorphPlayback: onPlay ?? () {},
               openPalettePicker: onPalette ?? () {},
               toggleKaleidoscope: () {},
               setKaleidoscopeSectors: (_) {},
@@ -86,75 +94,100 @@ void main() {
   }
 
   testWidgets(
-      'primary controls are labeled and compact above system navigation',
+      'primary controls are icon-only and compact above system navigation',
       (tester) async {
+    var randomized = 0;
     var opened = 0;
-    await pumpToolbar(tester, onControls: () => opened++);
-    for (final label in ['Controls', 'More']) {
-      expect(find.text(label), findsOneWidget);
+    await pumpToolbar(tester,
+        onRandomize: () => randomized++, onControls: () => opened++);
+    // More actions, no painted captions.
+    for (final caption in ['Play', 'Controls', 'Palette', 'Random', 'More']) {
+      expect(find.text(caption), findsNothing);
+    }
+    for (final key in [
+      'viewerPreviousFractalButton',
+      'viewerMorphPlayButton',
+      'viewerLooperFab',
+      'viewerControlsButton',
+      'viewerPaletteButton',
+      'viewerRandomFractalFab',
+      'viewerOverflowMenu',
+    ]) {
+      expect(find.byKey(ValueKey(key)), findsOneWidget, reason: key);
     }
     final toolbar =
         tester.getRect(find.byKey(const ValueKey('viewerFabColumn')));
     expect(toolbar.height, lessThanOrEqualTo(124));
     expect(toolbar.bottom, lessThanOrEqualTo(732));
     expect(find.byKey(const ValueKey('viewerFourierFab')), findsNothing);
-    await tester.tapAt(tester.getCenter(find.text('Controls')));
+    await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
     await tester.pump();
+    expect(randomized, 1);
+    await tester.longPress(find.byKey(const ValueKey('viewerControlsButton')));
+    await tester.pumpAndSettle();
     expect(opened, 1);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('primary captions and opaque paint fill their full hit regions',
-      (tester) async {
+  testWidgets('primary icon cells fill their full hit regions', (tester) async {
     await pumpToolbar(tester);
-    const captions = {
-      'viewerControlsButton': 'Controls',
-      'viewerPaletteButton': 'Palette',
-      'viewerRandomFractalFab': 'Random',
-      'viewerOverflowMenu': 'More',
-    };
-    for (final entry in captions.entries.where(
-        (entry) => find.byKey(ValueKey(entry.key)).evaluate().isNotEmpty)) {
-      final hitRegion = tester.getRect(find.byKey(ValueKey(entry.key)));
-      final caption = find.text(entry.value);
+    for (final key in const [
+      'viewerPreviousFractalButton',
+      'viewerMorphPlayButton',
+      'viewerLooperFab',
+      'viewerControlsButton',
+      'viewerPaletteButton',
+      'viewerRandomFractalFab',
+      'viewerOverflowMenu',
+    ]) {
+      final hitRegion = tester.getRect(find.byKey(ValueKey(key)));
+      expect(hitRegion.width, greaterThanOrEqualTo(48), reason: key);
+      expect(hitRegion.height, greaterThanOrEqualTo(48), reason: key);
+      final stack = find
+          .ancestor(of: find.byKey(ValueKey(key)), matching: find.byType(Stack))
+          .first;
       final paint = find
-          .ancestor(of: caption, matching: find.byType(IgnorePointer))
+          .descendant(of: stack, matching: find.byType(IgnorePointer))
           .first;
       expect(tester.getRect(paint), hitRegion,
-          reason:
-              'Opaque captions must cover the underlying circular button completely');
-      expect(tester.getCenter(caption).dx, closeTo(hitRegion.center.dx, .01),
-          reason: 'Unequal label lengths must not shift primary alignment');
+          reason: 'Opaque icon cells must cover the full hit target');
     }
   });
 
-  testWidgets('the whole primary captions activate each callback exactly once',
+  testWidgets(
+      'primary icons activate tap and long-press callbacks exactly once',
       (tester) async {
     final calls = <String>[];
     await pumpToolbar(tester,
-        onControls: () => calls.add('controls'),
-        onPalette: () => calls.add('palette'),
-        onRandom: () => calls.add('random'));
-    for (final label in ['Controls', 'Palette', 'Random']) {
-      // A suppressed primary keeps the same callback through More.
-      if (find.text(label).evaluate().isEmpty) {
-        await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
-        await tester.pumpAndSettle();
-        final key = label == 'Random'
-            ? 'viewerRandomFractalFab'
-            : 'viewerPaletteButton';
-        await tester.ensureVisible(find.byKey(ValueKey(key)));
-        await tester.pumpAndSettle();
-      }
-      // Captions are paint-only; their coordinates belong to the shared button.
-      await tester.tapAt(tester.getCenter(find.text(label)));
+        onRandomize: () => calls.add('randomize'),
+        onRandomizePalette: () => calls.add('palette-random'),
+        onRandom: () => calls.add('random'),
+        onPlay: () => calls.add('play'),
+        onPrevious: () => calls.add('previous'),
+        onControls: () => calls.add('controls-sheet'),
+        onPalette: () => calls.add('palette-sheet'));
+    for (final entry in const {
+      'viewerPreviousFractalButton': 'previous',
+      'viewerMorphPlayButton': 'play',
+      'viewerControlsButton': 'randomize',
+      'viewerPaletteButton': 'palette-random',
+      'viewerRandomFractalFab': 'random',
+    }.entries) {
+      await tester.tap(find.byKey(ValueKey(entry.key)));
       await tester.pumpAndSettle();
+      expect(calls, [entry.value], reason: entry.key);
+      calls.clear();
     }
-    expect(calls, ['controls', 'palette', 'random']);
-    await tester.tapAt(tester.getCenter(find.text('More')));
+    await tester.longPress(find.byKey(const ValueKey('viewerControlsButton')));
+    await tester.pumpAndSettle();
+    expect(calls, ['controls-sheet']);
+    calls.clear();
+    await tester.longPress(find.byKey(const ValueKey('viewerPaletteButton')));
+    await tester.pumpAndSettle();
+    expect(calls, ['palette-sheet']);
+    await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
     await tester.pumpAndSettle();
     expect(find.text('Viewer actions'), findsOneWidget);
-    expect(calls, ['controls', 'palette', 'random']);
   });
 
   testWidgets('More preserves named secondary tools and their callbacks',
