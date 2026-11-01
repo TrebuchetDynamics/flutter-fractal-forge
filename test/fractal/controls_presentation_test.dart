@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -12,19 +11,38 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../helpers/fractal_controller_widget_harness.dart';
 
+/// Locates the pinned Flutter SDK's `Roboto-Regular.ttf` without reading the
+/// generated, CWD-relative `.dart_tool/package_config.json`.
+///
+/// That generated file can be absent or replaced while the suite runs, which
+/// must not abort this file in `setUpAll` before any case runs.
+/// `Isolate.resolvePackageUri` is unsupported under `flutter_tester`, so this
+/// uses the `flutter` launcher's `FLUTTER_ROOT` and falls back to the
+/// `flutter_tester` executable location
+/// (`<sdk>/bin/cache/artifacts/engine/<os>/flutter_tester`).
+File _resolveSdkRobotoFont() {
+  final flutterRoot = Platform.environment['FLUTTER_ROOT'];
+  final candidates = <File>[
+    if (flutterRoot != null)
+      File('$flutterRoot/bin/cache/artifacts/material_fonts/'
+          'Roboto-Regular.ttf'),
+    File('${File(Platform.resolvedExecutable).parent.parent.parent.path}'
+        '/material_fonts/Roboto-Regular.ttf'),
+  ];
+  for (final candidate in candidates) {
+    if (candidate.existsSync()) return candidate;
+  }
+  throw StateError('SDK Roboto-Regular.ttf not found under any of: '
+      '${candidates.map((candidate) => candidate.path).join(', ')}');
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   setUpAll(() async {
     // Ahem's square glyphs make a ten-letter word wider than a 320px phone at
     // 3x, independent of layout. Use the SDK's existing Android fallback font
     // for numerical word-break checks; no app font or text scale is changed.
-    final configFile = File('.dart_tool/package_config.json').absolute;
-    final packages =
-        jsonDecode(configFile.readAsStringSync())['packages'] as List;
-    final flutter = packages.singleWhere((entry) => entry['name'] == 'flutter');
-    final root = configFile.uri.resolve('${flutter['rootUri']}/');
-    final font = File.fromUri(root.resolve(
-        '../../bin/cache/artifacts/material_fonts/Roboto-Regular.ttf'));
+    final font = _resolveSdkRobotoFont();
     final bytes = ByteData.sublistView(await font.readAsBytes());
     await (FontLoader(AppTypography.bodyFont)..addFont(Future.value(bytes)))
         .load();
