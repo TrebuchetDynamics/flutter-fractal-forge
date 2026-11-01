@@ -120,3 +120,28 @@ hand edits; `pubspec.lock` SHA-256 was unchanged
   expanded` exited 0 (`+4: All tests passed!`), confirming registry-derived 1029.
 - `flutter analyze --no-pub` reported `No issues found!`; `dart format` and
   `git diff --check` passed.
+
+## Verification refresh (integrated baseline)
+
+The repair is already integrated: `b5ea75f1` is an ancestor of baseline
+`b90f0576072695b9b3400b55f7b2c4b56f3c061d` (merged via `74de0b95`
+`Merge autowork/MAIN-SETTINGS-COUNT-REPAIR-01: derive the settings About count
+from the module registry` and carried through `0b53d8e3`), so the delivered
+test derives the count at `test/screens/settings_screen_a11y_test.dart:230` and
+the tracked localizations already read 1029. Re-verified on the clean integrated
+baseline:
+
+- `flutter pub get --offline --enforce-lockfile` exited 0 and left the tree
+  unchanged; `pubspec.lock` SHA-256 stayed
+  `22b29dbd8f71276012a54b9bdc62ba88408f967a86b34075986c17e1c4506ec3`.
+- `flutter test --no-pub test/screens/settings_screen_a11y_test.dart --reporter
+  expanded` exited 0 (`+21: All tests passed!`), and the isolated case
+  `SettingsScreen content shows the real app version, not a stale literal`
+  passed three consecutive runs (exit 0 each).
+- `flutter test --no-pub test/modules/readme_catalog_claims_test.dart --reporter
+  expanded` exited 0 (`+4: All tests passed!`).
+- `flutter analyze --no-pub` reported `No issues found!`; `git diff --check`
+  passed.
+
+No source, registry, arb, README or generated-localization change is needed on
+the integrated baseline; this refresh only re-records the delivered evidence.
