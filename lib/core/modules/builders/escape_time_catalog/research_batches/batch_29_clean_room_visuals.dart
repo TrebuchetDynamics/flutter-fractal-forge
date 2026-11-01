@@ -1,4 +1,4 @@
-part of '../escape_time_catalog.dart';
+part of '../../escape_time_catalog.dart';
 
 /// Clean-room, single-pass interpretations of requested visual families.
 /// No ShaderToy source, textures, or multipass state is used.

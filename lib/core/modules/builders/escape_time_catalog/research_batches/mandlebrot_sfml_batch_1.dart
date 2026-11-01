@@ -1,4 +1,4 @@
-part of '../escape_time_catalog.dart';
+part of '../../escape_time_catalog.dart';
 
 final List<EscapeTimeConfig> _mandlebrotSfmlBatch1Catalog = [
 // ── From MandlebrotSetSFML open-source research ──────────────────────────

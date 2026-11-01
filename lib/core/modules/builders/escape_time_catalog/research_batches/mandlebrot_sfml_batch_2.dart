@@ -1,4 +1,4 @@
-part of '../escape_time_catalog.dart';
+part of '../../escape_time_catalog.dart';
 
 final List<EscapeTimeConfig> _mandlebrotSfmlBatch2Catalog = [
 // ── MandlebrotSetSFML batch 2 — 8 more unique formulas ──────────────────

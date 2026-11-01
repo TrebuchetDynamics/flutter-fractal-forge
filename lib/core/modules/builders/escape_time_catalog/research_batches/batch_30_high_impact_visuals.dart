@@ -1,4 +1,4 @@
-part of '../escape_time_catalog.dart';
+part of '../../escape_time_catalog.dart';
 
 /// High-visual-impact additions researched in
 /// `research/beautiful-fractals-next/report.md`.

@@ -49,7 +49,7 @@ The owner now explicitly prioritizes `GAUSS-MOAT-001`, authorizes `GAUSS-MOAT-01
 
 ### Current evidence and integration boundary
 
-The existing `gaussian_prime_lattice` entry is defined in `lib/core/modules/builders/escape_time_catalog/batch_26_tenth_wave_research.dart:239–267`. Its shader is `shaders/number_theory/gaussian_prime_lattice_gpu.frag`, declared in `pubspec.yaml`. The shader's `primeInt()` tests odd divisors only through 127; its scale clamp does not bound coordinates after pan/zoom. Do not derive authoritative graph vertices from that shader. The old `f0786_gaussian_integer_lattice_fractal` research-ledger path is not a live module, and `gaussian_prime_spiral` is only a planning candidate.
+The existing `gaussian_prime_lattice` entry is defined in `lib/core/modules/builders/escape_time_catalog/research_batches/batch_26_tenth_wave_research.dart:239–267`. Its shader is `shaders/number_theory/gaussian_prime_lattice_gpu.frag`, declared in `pubspec.yaml`. The shader's `primeInt()` tests odd divisors only through 127; its scale clamp does not bound coordinates after pan/zoom. Do not derive authoritative graph vertices from that shader. The old `f0786_gaussian_integer_lattice_fractal` research-ledger path is not a live module, and `gaussian_prime_spiral` is only a planning candidate.
 
 `ModuleRegistry._buildAll()` gives existing catalog IDs precedence over duplicate custom builders. `CatalogRepository.fromRegistry()` already owns discovery. Reuse the current module rather than create a duplicate registration. Reuse `FractalController.selectModule()`, `updateParam()` and reset lifecycle; keep walk history transient, not in shader uniforms or existing persisted preset schemas.
 

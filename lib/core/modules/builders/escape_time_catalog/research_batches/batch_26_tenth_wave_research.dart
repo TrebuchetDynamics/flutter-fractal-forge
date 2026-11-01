@@ -1,4 +1,4 @@
-part of '../escape_time_catalog.dart';
+part of '../../escape_time_catalog.dart';
 
 /// Tenth research wave: sixteen non-duplicative mathematical systems selected
 /// from `research/fractal-types-tenth-wave/report.md` to take the public catalog

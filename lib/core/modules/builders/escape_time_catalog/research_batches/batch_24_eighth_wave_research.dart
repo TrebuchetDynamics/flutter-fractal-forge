@@ -1,4 +1,4 @@
-part of '../escape_time_catalog.dart';
+part of '../../escape_time_catalog.dart';
 
 final List<EscapeTimeConfig> _batch24EighthWaveResearchCatalog = [
   // Eighth-wave additions from research/fractal-types-eighth-wave/report.md:
