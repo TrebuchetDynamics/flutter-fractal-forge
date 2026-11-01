@@ -249,8 +249,6 @@
   "tooltipColorSchemeWithPalette": "Esquema de color. Mantén presionado para paleta",
   "tooltipRandomizeWithControls": "Aleatorizar. Mantén presionado para Controles",
   "tooltipRandomizePaletteWithSettings": "Aleatorizar paleta. Mantén presionado para ajustes de paleta",
-  "tooltipPlayMorph": "Reproducir transformación aleatoria de fractales",
-  "tooltipPauseMorph": "Pausar transformación aleatoria de fractales",
   "tooltipKaleidoscopeOn": "Kaleidoscopio activado",
   "tooltipKaleidoscopeOff": "Kaleidoscopio desactivado",
   "tooltipCameraLooper": "Bucle de cámara",

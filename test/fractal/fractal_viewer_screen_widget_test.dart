@@ -1553,7 +1553,7 @@ void main() {
 
       const orderedKeys = [
         'viewerPreviousFractalButton',
-        'viewerMorphPlayButton',
+        'viewerBreathingButton',
         'viewerLooperFab',
         'viewerControlsButton',
         'viewerPaletteButton',
@@ -1644,13 +1644,17 @@ void main() {
       expect(controller.view.zoom, view.zoom);
       expect(controller.view.rotation, view.rotation);
       expect(controller.view.trajectory, view.trajectory);
-      // Opening More freezes motion; the row then offers Play again.
       play = await revealBreathing(tester);
       expect(tester.widget<FloatingActionButtonWidget>(play).icon,
-          Icons.play_arrow_rounded);
+          Icons.pause_rounded);
+      await tester.tap(play);
+      await tester.pump();
       final paused = Map<String, Object>.from(controller.params);
       await tester.pump(const Duration(seconds: 2));
       expect(controller.params, paused);
+      play = await revealBreathing(tester);
+      expect(tester.widget<FloatingActionButtonWidget>(play).icon,
+          Icons.play_arrow_rounded);
       expect(find.byIcon(Icons.music_note), findsNothing);
       await tester.pumpWidget(const SizedBox.shrink());
     });
@@ -1768,9 +1772,9 @@ void main() {
       await tester.tap(await revealBreathing(tester));
       await tester.pump(const Duration(seconds: 2));
       expect(store.saves, baseline);
-      // Opening More stops playback and persists the frozen frame once.
-      await revealBreathing(tester);
-      await tester.pumpAndSettle();
+      // Pausing persists the frozen frame once, not every animation tick.
+      await tester.tap(await revealBreathing(tester));
+      await tester.pump();
       expect(store.saves, baseline + 1);
       expect(store.load()!.params, controller.params);
       historyProvider.cancelPendingRecord();
@@ -2745,26 +2749,30 @@ void main() {
     });
 
     testWidgets(
-        'Play morphs random fractals, pauses, and long press opens looper',
+        'Play animates parameters on the same fractal and long press opens looper',
         (tester) async {
+      controller.selectModule(registry.byId('julia'), animate: false);
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
-      final play = find.byKey(const ValueKey('viewerMorphPlayButton'));
-      final initial = controller.module.id;
+      final play = find.byKey(const ValueKey('viewerBreathingButton'));
+      final module = controller.module.id;
+      final before = Map<String, Object>.from(controller.params);
       expect(
           tester.widget<FloatingActionButtonWidget>(play).onPressed, isNotNull);
       await tester.tap(play);
       await tester.pump();
-      await tester.pump(const Duration(milliseconds: 700));
-      expect(controller.module.id, isNot(initial));
+      await tester.pump(const Duration(seconds: 2));
+      expect(controller.module.id, module);
+      expect(controller.params, isNot(equals(before)));
       expect(tester.widget<FloatingActionButtonWidget>(play).icon,
           Icons.pause_rounded);
 
       await tester.tap(play);
       await tester.pump();
-      final paused = controller.module.id;
-      await tester.pump(const Duration(seconds: 7));
-      expect(controller.module.id, paused);
+      final paused = Map<String, Object>.from(controller.params);
+      await tester.pump(const Duration(seconds: 2));
+      expect(controller.module.id, module);
+      expect(controller.params, paused);
       expect(tester.widget<FloatingActionButtonWidget>(play).icon,
           Icons.play_arrow_rounded);
 

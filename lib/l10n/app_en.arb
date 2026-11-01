@@ -257,8 +257,6 @@
   "tooltipColorSchemeWithPalette": "Color Scheme. Long press for palette",
   "tooltipRandomizeWithControls": "Randomize. Long press for Controls",
   "tooltipRandomizePaletteWithSettings": "Randomize palette. Long press for palette settings",
-  "tooltipPlayMorph": "Play random fractal morphing",
-  "tooltipPauseMorph": "Pause random fractal morphing",
   "tooltipKaleidoscopeOn": "Kaleidoscope on",
   "tooltipKaleidoscopeOff": "Kaleidoscope off",
   "tooltipCameraLooper": "Camera looper",

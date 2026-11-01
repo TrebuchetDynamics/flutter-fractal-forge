@@ -69,7 +69,6 @@ void main() {
               cycleColorScheme: () {},
               randomizePalette: onRandomizePalette ?? () {},
               previousFractal: onPrevious ?? () {},
-              toggleMorphPlayback: onPlay ?? () {},
               openPalettePicker: onPalette ?? () {},
               toggleKaleidoscope: () {},
               setKaleidoscopeSectors: (_) {},
@@ -80,7 +79,7 @@ void main() {
               toggleTextOverlay: () {},
               editTextOverlay: () {},
               openLooper: () {},
-              toggleBreathing: () {},
+              toggleBreathing: onPlay ?? () {},
               toggleFourier: onFourier ?? () {},
               openFourierSettings: () {},
               reportFractal: () {},
@@ -106,7 +105,7 @@ void main() {
     }
     for (final key in [
       'viewerPreviousFractalButton',
-      'viewerMorphPlayButton',
+      'viewerBreathingButton',
       'viewerLooperFab',
       'viewerControlsButton',
       'viewerPaletteButton',
@@ -133,7 +132,7 @@ void main() {
     await pumpToolbar(tester);
     for (final key in const [
       'viewerPreviousFractalButton',
-      'viewerMorphPlayButton',
+      'viewerBreathingButton',
       'viewerLooperFab',
       'viewerControlsButton',
       'viewerPaletteButton',
@@ -168,7 +167,7 @@ void main() {
         onPalette: () => calls.add('palette-sheet'));
     for (final entry in const {
       'viewerPreviousFractalButton': 'previous',
-      'viewerMorphPlayButton': 'play',
+      'viewerBreathingButton': 'play',
       'viewerControlsButton': 'randomize',
       'viewerPaletteButton': 'palette-random',
       'viewerRandomFractalFab': 'random',

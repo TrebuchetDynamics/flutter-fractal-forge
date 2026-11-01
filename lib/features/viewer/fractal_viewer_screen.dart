@@ -217,13 +217,9 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   DebugRunnerService? _debugRunner;
   late AnimationController _fabController;
   BreathingController? _breathingController;
-  Timer? _morphPlaybackTimer;
-  static const Duration _morphPlaybackInterval = Duration(seconds: 6);
 
   /// Null means every catalog category is eligible for random navigation.
   Set<String>? _randomCategoryFilter;
-
-  bool get _morphPlaying => _morphPlaybackTimer != null;
 
   // Visual simplification state
   bool _fullscreenUnobtrusive = false;
@@ -321,7 +317,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     if (_appVisible == visible) return;
     _autoExploreService?.setAppVisible(visible);
     if (!visible) _breathingController?.pause();
-    if (!visible) _stopMorphPlayback();
     if (!visible) {
       _lastController?.cancelNumberWallRequest();
       _fourierCaptureTimer?.cancel();
@@ -429,34 +424,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     setState(() {});
   }
 
-  void _stopMorphPlayback({bool notify = true}) {
-    if (_morphPlaybackTimer == null) return;
-    _morphPlaybackTimer!.cancel();
-    _morphPlaybackTimer = null;
-    if (notify && mounted) setState(() {});
-  }
-
-  void _toggleMorphPlayback() {
-    if (_morphPlaying) {
-      _stopMorphPlayback();
-      AccessibilityService.announce(
-          AppLocalizations.of(context)!.tooltipPauseMorph);
-      return;
-    }
-    _autoExploreService?.pause();
-    _breathingController?.pause();
-    _looperController?.stop();
-    _jumpToRandomFractal(context);
-    _morphPlaybackTimer = Timer.periodic(_morphPlaybackInterval, (_) {
-      if (!mounted || !_appVisible) return;
-      _jumpToRandomFractal(context);
-    });
-    HapticService.medium();
-    setState(() {});
-    AccessibilityService.announce(
-        AppLocalizations.of(context)!.tooltipPlayMorph);
-  }
-
   void _toggleBreathing() {
     final breathing = _breathingController;
     if (breathing == null) return;
@@ -465,7 +432,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     } else {
       _autoExploreService?.pause();
       _looperController?.stop();
-      _stopMorphPlayback();
       breathing.play();
     }
     final l10n = AppLocalizations.of(context)!;
@@ -572,7 +538,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   void _persistViewerSession() {
     // Keep animation frames transient. Pause/lifecycle saves the frozen state.
     if (_breathingController?.isPlaying ?? false) return;
-    if (_morphPlaying) return;
     final store = _viewerSessionStore;
     final controller = _lastController;
     if (store == null || controller == null) return;
@@ -600,7 +565,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
 
   @override
   void dispose() {
-    _stopMorphPlayback(notify: false);
     _browserUrlSync?.dispose();
     unawaited(
         _viewerSessionStore?.markViewerInactive() ?? Future<void>.value());
@@ -635,7 +599,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   }
 
   void _toggleControlsHud() {
-    _stopMorphPlayback();
     _breathingController?.pause();
     setState(() {
       _showControlsHud = !_showControlsHud;
@@ -1339,14 +1302,13 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     final history = context.read<HistoryProvider?>();
     final entry = history?.goBack();
     if (history == null || entry == null) return;
-    _stopMorphPlayback();
+    _breathingController?.pause();
     _autoExploreService?.stop();
     history.applyToController(entry, _activeController(context));
     HapticService.light();
   }
 
   void _openRandomCategories(BuildContext context) {
-    _stopMorphPlayback();
     _breathingController?.pause();
     final l10n = AppLocalizations.of(context)!;
     final categories = viewerRandomCategories(context.read<ModuleRegistry>());
@@ -1413,7 +1375,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   }
 
   void _openPalettePicker(BuildContext context) {
-    _stopMorphPlayback();
     _breathingController?.pause();
     final controller = _activeController(context);
     final l10n = AppLocalizations.of(context)!;
@@ -1756,9 +1717,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                             _breathingController?.isPlaying ?? false,
                         breathingAvailable: _canAnimateBreathing &&
                             (_breathingController?.canPlay ?? false),
-                        morphPlaying: _morphPlaying,
-                        breathingIsPlaying: () =>
-                            _breathingController?.isPlaying ?? false,
                         canGoPreviousFractal:
                             context.watch<HistoryProvider?>()?.canGoBack ??
                                 false,
@@ -1799,17 +1757,14 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                           editTextOverlay: _editTextOverlay,
                           openLooper: () {
                             _breathingController?.pause();
-                            _stopMorphPlayback();
                             _openLooper(context);
                           },
-                          toggleMorphPlayback: _toggleMorphPlayback,
                           previousFractal: () => _goToPreviousFractal(context),
                           randomizePalette: () => _randomizePalette(context),
                           openRandomCategories: () =>
                               _openRandomCategories(context),
                           pauseMotion: () {
                             _breathingController?.pause();
-                            _stopMorphPlayback();
                           },
                           toggleBreathing: _toggleBreathing,
                           toggleFourier: _toggleFourier,

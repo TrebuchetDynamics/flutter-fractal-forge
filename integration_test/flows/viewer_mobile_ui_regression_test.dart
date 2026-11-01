@@ -139,7 +139,7 @@ void main() {
         final primary = <String, Object?>{};
         for (final key in [
           'viewerPreviousFractalButton',
-          'viewerMorphPlayButton',
+          'viewerBreathingButton',
           'viewerLooperFab',
           'viewerControlsButton',
           'viewerPaletteButton',
