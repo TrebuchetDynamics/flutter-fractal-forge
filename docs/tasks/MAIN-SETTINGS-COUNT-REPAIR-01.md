@@ -99,3 +99,24 @@ suite result. The complete unchanged offline gate is **NOT_RUN by this worker**;
 the execution instructions reserve it for the coordinator on the merged tree.
 The original red gate above remains a failure and focused passes do not establish
 a green full gate; no goal, device, production or live qualification is claimed.
+
+## Delivered evidence
+
+The test assertion now derives the production count from `ModuleRegistry` with
+the same filter as `test/modules/readme_catalog_claims_test.dart` (exclude
+`shaders/diagnostic/` and `hydrogen_orbital`). The pinned offline `pub get`
+refreshed the tracked generated localizations from the arb (1025 → 1029) without
+hand edits; `pubspec.lock` SHA-256 was unchanged
+(`22b29dbd8f71276012a54b9bdc62ba88408f967a86b34075986c17e1c4506ec3`).
+
+- Before: `flutter test --no-pub test/screens/settings_screen_a11y_test.dart
+  --reporter expanded` exited 1; `SettingsScreen content shows the real app
+  version, not a stale literal` found 0 widgets for `1025 production fractals`
+  (`test/screens/settings_screen_a11y_test.dart:215`).
+- After: the same file exited 0 with `+20: All tests passed!`, and the isolated
+  case (`--plain-name 'shows the real app version, not a stale literal'`) passed
+  three consecutive runs (exit 0 each).
+- `flutter test --no-pub test/modules/readme_catalog_claims_test.dart --reporter
+  expanded` exited 0 (`+4: All tests passed!`), confirming registry-derived 1029.
+- `flutter analyze --no-pub` reported `No issues found!`; `dart format` and
+  `git diff --check` passed.

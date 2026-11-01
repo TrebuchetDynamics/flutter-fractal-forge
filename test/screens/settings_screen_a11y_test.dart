@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_fractals/core/app_version.dart';
+import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/settings/settings_screen.dart';
@@ -212,7 +213,15 @@ void main() {
       await tester.tap(find.text('About').hitTestable().first);
       await tester.pumpAndSettle();
       expect(find.text('Version $kAppVersion'), findsWidgets);
-      expect(find.textContaining('1025 production fractals'), findsOneWidget);
+      // Derive the count so the copy and this assertion cannot drift apart.
+      final production = ModuleRegistry()
+          .modules
+          .where((m) =>
+              !m.shaderAsset.startsWith('shaders/diagnostic/') &&
+              m.id != 'hydrogen_orbital')
+          .length;
+      expect(find.textContaining('$production production fractals'),
+          findsOneWidget);
       expect(find.text('Source code'), findsOneWidget);
       expect(find.text('View Fractal Forge on GitHub ↗'), findsOneWidget);
     });
