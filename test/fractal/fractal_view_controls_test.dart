@@ -598,7 +598,7 @@ void main() {
             matching: find.byType(Container)))
         .map((c) => c.decoration)
         .whereType<BoxDecoration>()
-        .where((d) => d.borderRadius != null)
+        .where((d) => d.shape == BoxShape.circle)
         .last
         .color;
     for (final selected in [false, true]) {
