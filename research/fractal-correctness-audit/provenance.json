@@ -8,6 +8,10 @@
     {
       "provenance_level": "agent_reported",
       "description": "Host-agent audit of shipped root-finding recurrences, repairs, and formula-pinning tests"
+    },
+    {
+      "provenance_level": "agent_reported",
+      "description": "Second-pass family audit: power-family degree consistency, 3D slice-brot distance-bound characterisation, perpendicular/Celtic fold checks"
     }
   ],
   "question": "Which catalog fractals implement a different (or lower-order) method than the one they claim, and what is the correct iteration?",
@@ -170,7 +174,7 @@
     },
     {
       "path": "report.md",
-      "sha256": "3e0f15f5264a966a50bd366717e7ef78c53f5096b3c30a8612be6f24fe9802bc"
+      "sha256": "456674ca016cf55c4b007d9fd799ecd5e7d5f01ea56a0f846308bd4b2127bfc3"
     },
     {
       "path": "measurements/order_measure.py",
@@ -187,6 +191,14 @@
     {
       "path": "measurements/identity_check.json",
       "sha256": "48670cecab5739bc89dd6378a286077ffebbf11d02c8ce530bf8265a30dc190f"
+    },
+    {
+      "path": "measurements/slice_de.py",
+      "sha256": "5a468c2e36bc5e3ca9d3d754374cefbd1dd38ce820e490e54dd9cdbf960f3991"
+    },
+    {
+      "path": "measurements/slice_de.json",
+      "sha256": "1d292ceeb9c29dd041c0f88a4c670159bc88bee12c374114834e3fa1a0c9816d"
     }
   ],
   "errors": [

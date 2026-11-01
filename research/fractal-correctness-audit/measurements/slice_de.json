@@ -1,0 +1,42 @@
+{
+  "arrowheadbrot": {
+    "exceeds_intersection_bound": false,
+    "max_shipped_minus_intersection_bound": 0.0,
+    "max_shipped_minus_union_bound": 1.023924874903856,
+    "samples": 12167,
+    "samples_outside_union": 6999,
+    "slices": 2
+  },
+  "hourglassbrot": {
+    "exceeds_intersection_bound": false,
+    "max_shipped_minus_intersection_bound": 0.0,
+    "max_shipped_minus_union_bound": 0.7849764110164157,
+    "samples": 12167,
+    "samples_outside_union": 5640,
+    "slices": 4
+  },
+  "mousebrot": {
+    "exceeds_intersection_bound": false,
+    "max_shipped_minus_intersection_bound": 0.0,
+    "max_shipped_minus_union_bound": 0.8033549067367635,
+    "samples": 12167,
+    "samples_outside_union": 6684,
+    "slices": 2
+  },
+  "tetrabrot": {
+    "exceeds_intersection_bound": false,
+    "max_shipped_minus_intersection_bound": 0.0,
+    "max_shipped_minus_union_bound": 0.738626034426054,
+    "samples": 12167,
+    "samples_outside_union": 6977,
+    "slices": 2
+  },
+  "turtlebrot": {
+    "exceeds_intersection_bound": false,
+    "max_shipped_minus_intersection_bound": 0.0,
+    "max_shipped_minus_union_bound": 0.7065952137142459,
+    "samples": 12167,
+    "samples_outside_union": 4560,
+    "slices": 4
+  }
+}
