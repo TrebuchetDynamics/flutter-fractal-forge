@@ -1,0 +1,26 @@
+{
+  "jarratt": {
+    "max_abs_diff_shipped_correction_vs_published": 1.758503553725828e-14
+  },
+  "klein_j": {
+    "abs_j_minus_1728_terms64": 4.547473508864641e-12,
+    "j_at_tau_i_terms24": {
+      "im": 0.0,
+      "re": 1728.0000000000045
+    }
+  },
+  "schroeder_degree_family": {
+    "max_abs_diff_halley_vs_first_kind": {
+      "3": 37.27,
+      "4": 34.58,
+      "5": 10.88,
+      "6": 12.86
+    },
+    "max_abs_diff_simple_vs_first_kind": {
+      "3": 5.922e-13,
+      "4": 6.84e-13,
+      "5": 7.998e-14,
+      "6": 9.176e-14
+    }
+  }
+}

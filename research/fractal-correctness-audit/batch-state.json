@@ -1,0 +1,244 @@
+{
+  "job_id": "job_fb37d2de85cb9074b21b3e4222a1db23",
+  "schemaVersion": "1",
+  "createdAt": "2026-11-01T16:59:11Z",
+  "updatedAt": "2026-11-01T17:00:16Z",
+  "queries": [
+    "Jarratt fourth order multipoint iterative method",
+    "Schroeder method root finding convergence order",
+    "Householder method order of convergence root finding",
+    "Neta sixteenth order iterative method nonlinear equations",
+    "Klein j invariant modular function 1728",
+    "Newton fractal basins Halley method comparison",
+    "Ostrowski fourth order iterative method"
+  ],
+  "sources": [
+    "openalex",
+    "crossref",
+    "semantic-scholar",
+    "arxiv"
+  ],
+  "limit": 10,
+  "completed": [
+    {
+      "source": "openalex",
+      "query": "Jarratt fourth order multipoint iterative method",
+      "rawFile": "raw/search-openalex-001-jarratt-fourth-order-multipoint-iterative-method.txt",
+      "records": 10
+    },
+    {
+      "source": "crossref",
+      "query": "Jarratt fourth order multipoint iterative method",
+      "rawFile": "raw/search-crossref-001-jarratt-fourth-order-multipoint-iterative-method.txt",
+      "records": 10
+    },
+    {
+      "source": "semantic-scholar",
+      "query": "Jarratt fourth order multipoint iterative method",
+      "rawFile": "raw/search-semantic-scholar-001-jarratt-fourth-order-multipoint-iterative-method.txt",
+      "records": 10
+    },
+    {
+      "source": "arxiv",
+      "query": "Jarratt fourth order multipoint iterative method",
+      "rawFile": "raw/search-arxiv-001-jarratt-fourth-order-multipoint-iterative-method.txt",
+      "records": 10
+    },
+    {
+      "source": "openalex",
+      "query": "Schroeder method root finding convergence order",
+      "rawFile": "raw/search-openalex-002-schroeder-method-root-finding-convergence-order.txt",
+      "records": 10
+    },
+    {
+      "source": "crossref",
+      "query": "Schroeder method root finding convergence order",
+      "rawFile": "raw/search-crossref-002-schroeder-method-root-finding-convergence-order.txt",
+      "records": 10
+    },
+    {
+      "source": "arxiv",
+      "query": "Schroeder method root finding convergence order",
+      "rawFile": "raw/search-arxiv-002-schroeder-method-root-finding-convergence-order.txt",
+      "records": 10
+    },
+    {
+      "source": "openalex",
+      "query": "Householder method order of convergence root finding",
+      "rawFile": "raw/search-openalex-003-householder-method-order-of-convergence-root-finding.txt",
+      "records": 10
+    },
+    {
+      "source": "crossref",
+      "query": "Householder method order of convergence root finding",
+      "rawFile": "raw/search-crossref-003-householder-method-order-of-convergence-root-finding.txt",
+      "records": 10
+    },
+    {
+      "source": "arxiv",
+      "query": "Householder method order of convergence root finding",
+      "rawFile": "raw/search-arxiv-003-householder-method-order-of-convergence-root-finding.txt",
+      "records": 10
+    },
+    {
+      "source": "openalex",
+      "query": "Neta sixteenth order iterative method nonlinear equations",
+      "rawFile": "raw/search-openalex-004-neta-sixteenth-order-iterative-method-nonlinear-equations.txt",
+      "records": 10
+    },
+    {
+      "source": "crossref",
+      "query": "Neta sixteenth order iterative method nonlinear equations",
+      "rawFile": "raw/search-crossref-004-neta-sixteenth-order-iterative-method-nonlinear-equations.txt",
+      "records": 10
+    },
+    {
+      "source": "semantic-scholar",
+      "query": "Neta sixteenth order iterative method nonlinear equations",
+      "rawFile": "raw/search-semantic-scholar-004-neta-sixteenth-order-iterative-method-nonlinear-equations.txt",
+      "records": 10
+    },
+    {
+      "source": "arxiv",
+      "query": "Neta sixteenth order iterative method nonlinear equations",
+      "rawFile": "raw/search-arxiv-004-neta-sixteenth-order-iterative-method-nonlinear-equations.txt",
+      "records": 10
+    },
+    {
+      "source": "openalex",
+      "query": "Klein j invariant modular function 1728",
+      "rawFile": "raw/search-openalex-005-klein-j-invariant-modular-function-1728.txt",
+      "records": 10
+    },
+    {
+      "source": "crossref",
+      "query": "Klein j invariant modular function 1728",
+      "rawFile": "raw/search-crossref-005-klein-j-invariant-modular-function-1728.txt",
+      "records": 10
+    },
+    {
+      "source": "semantic-scholar",
+      "query": "Klein j invariant modular function 1728",
+      "rawFile": "raw/search-semantic-scholar-005-klein-j-invariant-modular-function-1728.txt",
+      "records": 10
+    },
+    {
+      "source": "arxiv",
+      "query": "Klein j invariant modular function 1728",
+      "rawFile": "raw/search-arxiv-005-klein-j-invariant-modular-function-1728.txt",
+      "records": 10
+    },
+    {
+      "source": "openalex",
+      "query": "Newton fractal basins Halley method comparison",
+      "rawFile": "raw/search-openalex-006-newton-fractal-basins-halley-method-comparison.txt",
+      "records": 10
+    },
+    {
+      "source": "crossref",
+      "query": "Newton fractal basins Halley method comparison",
+      "rawFile": "raw/search-crossref-006-newton-fractal-basins-halley-method-comparison.txt",
+      "records": 10
+    },
+    {
+      "source": "arxiv",
+      "query": "Newton fractal basins Halley method comparison",
+      "rawFile": "raw/search-arxiv-006-newton-fractal-basins-halley-method-comparison.txt",
+      "records": 10
+    },
+    {
+      "source": "openalex",
+      "query": "Ostrowski fourth order iterative method",
+      "rawFile": "raw/search-openalex-007-ostrowski-fourth-order-iterative-method.txt",
+      "records": 10
+    },
+    {
+      "source": "crossref",
+      "query": "Ostrowski fourth order iterative method",
+      "rawFile": "raw/search-crossref-007-ostrowski-fourth-order-iterative-method.txt",
+      "records": 10
+    },
+    {
+      "source": "arxiv",
+      "query": "Ostrowski fourth order iterative method",
+      "rawFile": "raw/search-arxiv-007-ostrowski-fourth-order-iterative-method.txt",
+      "records": 10
+    }
+  ],
+  "failures": [
+    {
+      "source": "semantic-scholar",
+      "query": "Schroeder method root finding convergence order",
+      "error": "source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"
+    },
+    {
+      "source": "semantic-scholar",
+      "query": "Householder method order of convergence root finding",
+      "error": "source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"
+    },
+    {
+      "source": "semantic-scholar",
+      "query": "Newton fractal basins Halley method comparison",
+      "error": "source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"
+    },
+    {
+      "source": "semantic-scholar",
+      "query": "Ostrowski fourth order iterative method",
+      "error": "source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"
+    }
+  ],
+  "result_count": 240,
+  "budget": {
+    "depth": "standard",
+    "max_query_variants": 10,
+    "max_sources": 5,
+    "max_api_calls": 50,
+    "low_yield_threshold": 2,
+    "saturation_queries": 3,
+    "max_consecutive_errors": 5
+  },
+  "stop_reason": "completed",
+  "requests_used": 28,
+  "coverage": {
+    "unique_records": 199,
+    "queries": [
+      {
+        "query": "Jarratt fourth order multipoint iterative method",
+        "new_unique": 33,
+        "complete": true
+      },
+      {
+        "query": "Schroeder method root finding convergence order",
+        "new_unique": 29,
+        "complete": false
+      },
+      {
+        "query": "Householder method order of convergence root finding",
+        "new_unique": 13,
+        "complete": false
+      },
+      {
+        "query": "Neta sixteenth order iterative method nonlinear equations",
+        "new_unique": 35,
+        "complete": true
+      },
+      {
+        "query": "Klein j invariant modular function 1728",
+        "new_unique": 39,
+        "complete": true
+      },
+      {
+        "query": "Newton fractal basins Halley method comparison",
+        "new_unique": 29,
+        "complete": false
+      },
+      {
+        "query": "Ostrowski fourth order iterative method",
+        "new_unique": 21,
+        "complete": false
+      }
+    ],
+    "consecutive_low_yield": 0
+  },
+  "consecutive_errors": 0
+}

@@ -1,0 +1,10 @@
+10.26434/chemrxiv.15005334/v1	Nonlinear Root-Finding via Integrated Geometric Damping and Post-Step Residual Corrections: Theory, High-Order Convergence, and Applications
+10.26782/jmcms.spl.12/2025.08.00011	QUADRATIC CONVERGENCE METHOD FOR COMPLEX AND REAL ROOT-FINDING WITHOUT HIGHER-ORDER DERIVATIVES
+10.1142/9789812811837_0012	The Multipoint Basic Family and its Order of Convergence
+10.2139/ssrn.7129765	Accelerating Convergence in Non-Linear Root Finding: A Finite Difference Modification of the Newton-Raphson Method
+10.3998/mpub.14590346.cmp.nk322h812	Descartes, method for finding the square root of a number
+10.1023/a:1022321325108	On the Order of Convergence of a Determinantal Family of Root-Finding Methods
+10.24128/ijraer.2017.qr12cd	Two modified algorithms with order of convergence five for finding a simple root of nonlinear equations
+10.1016/j.jco.2015.10.001	General convergence theorems for iterative processes and applications to the Weierstrass root-finding method
+10.3840/07000139	Secant Root Finding Method
+10.3840/000139	Secant Root Finding Method

@@ -1,0 +1,10 @@
+10.1155/2013/850365	Four-Point Optimal Sixteenth-Order Iterative Method for Solving Nonlinear Equations
+10.1007/s41478-025-00888-8	High convergence order iterative method for nonlinear system of equations in Banach spaces
+	Improvement of New Eight and Sixteenth Order Iterative Methods for Solving Nonlinear Algebraic Equations by Using Least Square Method
+10.1007/s12346-022-00572-3	An Optimal Thirty-Second-Order Iterative Method for Solving Nonlinear Equations and a Conjecture
+10.1007/s12190-024-02108-1	Optimal fourth- and eighth-order iterative methods for solving nonlinear equations with basins of attraction
+10.1007/s40819-016-0245-9	New Eighth and Sixteenth Order Iterative Methods to Solve Nonlinear Equations
+10.28919/jmcs/6950	Efficient sixth order iterative method free from higher derivatives for nonlinear equations
+10.1007/s12190-021-01647-1	A new fifth-order iterative method free from second derivative for solving nonlinear equations
+10.3390/sym11050691	Sixteenth-Order Optimal Iterative Scheme Based on Inverse Interpolatory Rational Function for Nonlinear Equations
+10.1007/s40065-022-00380-2	A new sixth-order Jarratt-type iterative method for systems of nonlinear equations

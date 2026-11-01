@@ -1,0 +1,110 @@
+{
+  "_map_identity": {
+    "schroeder_shipped == chebyshev": "200/200",
+    "schroeder_shipped == halley": "0/200"
+  },
+  "chebyshev": {
+    "claimed_order": 3,
+    "converged": 283,
+    "median_measured_order": 2.86,
+    "of_starts": 303,
+    "p10": 2.752,
+    "p90": 2.91
+  },
+  "halley": {
+    "claimed_order": 3,
+    "converged": 257,
+    "median_measured_order": 3.069,
+    "of_starts": 303,
+    "p10": 3.042,
+    "p90": 3.097
+  },
+  "jarratt_pre_repair (claimed 4)": {
+    "claimed_order": 4,
+    "converged": 160,
+    "median_measured_order": 2.0,
+    "of_starts": 303,
+    "p10": 1.998,
+    "p90": 2.0
+  },
+  "jarratt_shipped_after_repair": {
+    "claimed_order": 4,
+    "converged": 167,
+    "median_measured_order": 4.059,
+    "of_starts": 303,
+    "p10": 3.811,
+    "p90": 4.192
+  },
+  "neta16_shipped (claims 16)": {
+    "claimed_order": 16,
+    "converged": 84,
+    "median_measured_order": 5.861,
+    "of_starts": 303,
+    "p10": 3.507,
+    "p90": 6.342
+  },
+  "newton": {
+    "claimed_order": 2,
+    "converged": 303,
+    "median_measured_order": 2.0,
+    "of_starts": 303,
+    "p10": 1.998,
+    "p90": 2.0
+  },
+  "ostrowski": {
+    "claimed_order": 4,
+    "converged": 168,
+    "median_measured_order": 4.058,
+    "of_starts": 303,
+    "p10": 3.768,
+    "p90": 4.13
+  },
+  "schroeder_base_shipped (claims Schroeder)": {
+    "claimed_order": 3,
+    "converged": 283,
+    "median_measured_order": 2.86,
+    "of_starts": 303,
+    "p10": 2.752,
+    "p90": 2.91
+  },
+  "schroeder_first_kind": {
+    "claimed_order": 3,
+    "converged": 303,
+    "median_measured_order": 2.0,
+    "of_starts": 303,
+    "p10": 1.999,
+    "p90": 2.0
+  },
+  "steffensen": {
+    "claimed_order": 2,
+    "converged": 96,
+    "median_measured_order": 1.867,
+    "of_starts": 303,
+    "p10": 1.834,
+    "p90": 1.914
+  },
+  "super_halley": {
+    "claimed_order": 3,
+    "converged": 206,
+    "median_measured_order": 3.209,
+    "of_starts": 303,
+    "p10": 3.117,
+    "p90": 3.279
+  },
+  "traub_ostrowski a=0": {
+    "claimed_order": 4,
+    "converged": 168,
+    "median_measured_order": 4.058,
+    "of_starts": 303,
+    "p10": 3.768,
+    "p90": 4.13
+  },
+  "traub_ostrowski a=1": {
+    "claimed_order": 4,
+    "converged": 214,
+    "median_measured_order": 3.702,
+    "of_starts": 303,
+    "p10": 3.139,
+    "p90": 3.826
+  }
+}

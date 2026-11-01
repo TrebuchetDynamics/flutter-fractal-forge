@@ -1,0 +1,10 @@
+10.1016/j.cam.2010.09.012	Ostrowski’s fourth-order iterative method speedily solves cubic equations of state
+10.3934/math.2024501	A new family of fourth-order Ostrowski-type iterative methods for solving nonlinear systems
+10.1007/s11075-009-9345-5	A new family of modified Ostrowski’s methods with accelerated eighth order convergence
+10.1016/j.amc.2006.11.113	A one-parameter fourth-order family of iterative methods for nonlinear equations
+10.1016/j.amc.2007.01.009	A family of modified Ostrowski methods with accelerated sixth order convergence
+10.1137/0710072	A Family of Fourth Order Methods for Nonlinear Equations
+10.1080/00207160.2015.1080354	Multipoint efficient iterative methods and the dynamics of Ostrowski's method
+10.1016/j.camwa.2011.09.039	Simply constructed family of a Ostrowski’s method with optimal order of convergence
+10.1016/j.amc.2015.08.113	Construction of fourth-order optimal families of iterative methods and their dynamics
+10.1016/j.amc.2007.01.006	Some variants of King’s fourth-order family of methods for nonlinear equations

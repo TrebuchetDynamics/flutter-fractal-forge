@@ -1,0 +1,4 @@
+{"source":"semantic-scholar","query":"Schroeder method root finding convergence order","error":"source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"}
+{"source":"semantic-scholar","query":"Householder method order of convergence root finding","error":"source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"}
+{"source":"semantic-scholar","query":"Newton fractal basins Halley method comparison","error":"source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"}
+{"source":"semantic-scholar","query":"Ostrowski fourth order iterative method","error":"source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)"}

@@ -1,0 +1,10 @@
+10.1016/j.cam.2015.09.030	New simultaneous root-finding methods with accelerated convergence for analytic functions
+10.1016/j.cam.2004.12.020	A new higher-order family of inclusion zero-finding methods
+10.1016/j.cam.2009.04.002	Improving order and efficiency: Composition with a modified Newton’s method
+10.25959/23242181	Development of a 2D boundary element method to model Schroeder acoustic diffusers
+10.1145/290590.290592	A comparison of methods for accelerating convergence of Newton's method for multiple polynomial roots
+	New Combinations of Polynomial Root-Finding Iterations
+10.1016/s0898-1221(97)00206-x	A family of simultaneous zero-finding methods
+10.2298/fil0317143p	Inclusion Weierstrass-like root-finders with corrections
+10.1016/j.cam.2015.05.015	On an efficient inclusion method for finding polynomial zeros
+10.1016/j.jco.2009.07.004	Iterative root approximation in p -adic numerical analysis

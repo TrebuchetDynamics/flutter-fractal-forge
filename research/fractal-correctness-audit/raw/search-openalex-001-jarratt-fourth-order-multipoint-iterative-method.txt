@@ -1,0 +1,10 @@
+10.1080/00207160701287347	A family of improved Jarratt multipoint methods
+10.1145/321850.321860	Optimal Order of One-Point and Multipoint Iteration
+10.12732/ijpam.v84i4.3	MODIFIED OPTIMAL FAMILIES OF FOURTH-ORDER JARRATT'S METHOD
+10.5281/zenodo.20741317	Many classes of optimal Jarratt-type fourth-order methods
+10.1016/0377-0427(94)90093-0	The Jarratt method in Banach space setting
+10.3390/computation13060142	Stability Analysis and Local Convergence of a New Fourth-Order Optimal Jarratt-Type Iterative Scheme
+10.4067/s0719-06462018000300065	Ball comparison between Jarratt’s and other fourth order method for solving equations
+	Ball comparison between Jarratt‘s and other fourth order method for solving equations
+10.3390/math7060492	On a Bi-Parametric Family of Fourth Order Composite Newton–Jarratt Methods for Nonlinear Systems
+10.5666/kmj.2010.50.1.007	New Sixth-Order Improvements of the Jarratt Method

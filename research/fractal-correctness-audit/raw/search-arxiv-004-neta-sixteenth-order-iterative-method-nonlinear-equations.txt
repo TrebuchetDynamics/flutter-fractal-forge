@@ -1,0 +1,10 @@
+10.1016/j.jde.2020.08.033	An iterative method for Kirchhoff type equations and its applications
+10.1007/978-3-540-39808-0_1	Exact solutions of nonlinear partial differential equations by singularity analysis
+	Stability tests for second order linear and nonlinear delayed models
+10.1007/s11071-019-05186-0	Two-breather solutions for the class I infinitely extended nonlinear Schrodinger equation and their special cases
+10.1007/s00332-012-9149-y	Breathers for the Discrete Nonlinear Schrödinger equation with nonlinear hopping
+	The Discrete Nonlinear Schrödinger equation - 20 Years on
+10.1016/j.physleta.2013.12.045	Similarity reductions and new nonlinear exact solutions for the 2D incompressible Euler equations
+10.46298/ocnmp.9809	The nonlinear Schrödinger equation with forcing involving products of eigenfunctions
+10.3390/pr6080130	Choosing the optimal multi-point iterative method for the Colebrook flow friction equation -- Numerical validation
+10.2991/jnmp.2008.15.4.4	Doubly periodic waves of a discrete nonlinear Schrödinger system with saturable nonlinearity

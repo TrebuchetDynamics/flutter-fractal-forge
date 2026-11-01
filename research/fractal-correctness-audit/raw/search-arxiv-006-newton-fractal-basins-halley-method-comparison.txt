@@ -1,0 +1,10 @@
+	Fractal Basins of Attraction Associated with a Damped Newton's Method
+10.1142/s0218127422502005	Characterization of Fractal Basins Using Deep Convolutional Neural Networks
+10.3390/fractalfract2040026	Minkowski dimension and explicit tube formulas for $p$-adic fractal strings
+10.1142/s0218127417300439	Basins of convergence of equilibrium points in the generalized Hill problem
+10.1088/0264-9381/33/7/075002	The Dynamics of the Schrodinger-Newton System with Self-Field Coupling
+	Neural-Spectral and Newton-HUM Methods for Reconstructing Controls of Wave Equations
+	An Approximate Newton Method for Markov Decision Processes
+	Simultaneous Global Convergence Failure of Newton's and Halley's Methods in Degree Four
+	Root-finding: from Newton to Halley and beyond
+10.1016/j.newast.2020.101543	Fractal basins of attraction in a binary quasar model

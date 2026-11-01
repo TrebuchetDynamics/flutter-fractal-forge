@@ -1,0 +1,10 @@
+10.1093/oseo/instance.00235260	13. Newton to Halley
+10.1093/oseo/instance.00235259	12. Newton to Halley
+10.1093/oseo/instance.00235258	11. Newton to Halley
+10.4324/9781003538875-12	Halley at Home
+10.13051/ee:doc/halledou0010132a1c	Edmond Halley to Sir Isaac Newton, 1726 [halledOU0010132a1c]
+10.13051/ee:doc/halledou0010199a1c	Sir Isaac Newton to Edmond Halley, 1696 [halledOU0010199a1c]
+10.1155/ddns/2006/28756	Fractal Newton basins
+10.4324/9781003538875	Sir Halley Stewart
+10.13051/ee:doc/halledou0010096a1c	Edmond Halley to Sir Isaac Newton, early Spring 1696 [halledOU0010096a1c]
+10.1017/9781108651820.174	1460. Newton to Halley, 1 March 1725

@@ -1,0 +1,10 @@
+10.1016/j.amc.2009.06.041	Newton’s method’s basins of attraction revisited
+10.1063/1.3637794	Fractal Dimension of the Universal Julia Sets for the Chebyshev-Halley Family of Methods
+10.22373/ekw.v11i2.25438	Computational Study of Classical Fractals and Newton Basins of Attraction in The Complex Plane
+10.48550/arxiv.2312.12305	Root-finding: from Newton to Halley and beyond
+10.3390/fractalfract8030133	A Class of Sixth-Order Iterative Methods for Solving Nonlinear Systems: The Convergence and Fractals of Attractive Basins
+10.1504/ijcse.2020.110201	Basins of attraction and critical curves for Newton-type methods in a phase equilibrium problem
+10.2298/aadm190111015p	On generalized Halley-like methods for solving nonlinear equations
+10.1002/mma.9876	From Halley to Secant: Redefining root finding with memory‐based methods including convergence and stability
+10.3390/fractalfract8030150	A Class of Fifth-Order Chebyshev–Halley-Type Iterative Methods and Its Stability Analysis
+10.1007/s11071-017-3813-6	Fractal patterns from the dynamics of combined polynomial root finding methods

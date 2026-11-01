@@ -60,7 +60,8 @@ void main() {
     vec2 z5m1 = z5 - vec2(1.0, 0.0);
     // Schröder step for n=5: z(z⁵−1)/(3z⁵+2)
     vec2 num   = cmul(z, z5m1);
-    vec2 denom = 3.0*z5 + vec2(2.0, 0.0);
+    // Schroeder first kind for z^n-1: step = z(z^n-1)/(z^n + n-1).
+    vec2 denom = z5 + vec2(4.0, 0.0);
     vec2 step_v = cdiv(num, denom);
     z = z - step_v;
     if (dot(step_v, step_v) < 1e-12) { it = j; rootAngle = atan(z.y, z.x); break; }

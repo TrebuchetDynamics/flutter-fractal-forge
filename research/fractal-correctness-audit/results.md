@@ -1,0 +1,210 @@
+# Search batch results
+
+Deduped records: 199
+
+- A family of improved Jarratt multipoint methods — DOI: `10.1080/00207160701287347`
+- Optimal Order of One-Point and Multipoint Iteration — DOI: `10.1145/321850.321860`
+- MODIFIED OPTIMAL FAMILIES OF FOURTH-ORDER JARRATT'S METHOD — DOI: `10.12732/ijpam.v84i4.3`
+- Many classes of optimal Jarratt-type fourth-order methods — DOI: `10.5281/zenodo.20741317`
+- The Jarratt method in Banach space setting — DOI: `10.1016/0377-0427(94)90093-0`
+- Stability Analysis and Local Convergence of a New Fourth-Order Optimal Jarratt-Type Iterative Scheme — DOI: `10.3390/computation13060142`
+- Ball comparison between Jarratt’s and other fourth order method for solving equations — DOI: `10.4067/s0719-06462018000300065`
+- Ball comparison between Jarratt‘s and other fourth order method for solving equations
+- On a Bi-Parametric Family of Fourth Order Composite Newton–Jarratt Methods for Nonlinear Systems — DOI: `10.3390/math7060492`
+- New Sixth-Order Improvements of the Jarratt Method — DOI: `10.5666/kmj.2010.50.1.007`
+- Some Fourth Order Multipoint Iterative Methods for Solving Equations — DOI: `10.2307/2003602`
+- Some fourth order multipoint iterative methods for solving equations — DOI: `10.1090/s0025-5718-66-99924-8`
+- Some efficient fourth order multipoint methods for solving equations — DOI: `10.1007/bf01933248`
+- Enhancing the applicability of Jarratt-type fourth-order and sixth-order iterative methods — DOI: `10.1007/s40065-025-00510-6`
+- Multipoint Iterative Methods for Solving Certain Equations — DOI: `10.1093/comjnl/8.4.398`
+- A Seventh Order Family of Jarratt Type Iterative Method for Electrical Power Systems — DOI: `10.3390/fractalfract7040317`
+- A new sixth-order Jarratt-type iterative method for systems of nonlinear equations — DOI: `10.1007/s40065-022-00380-2`
+- A numerically stable high-order Chebyshev-Halley type multipoint iterative method for calculating matrix sign function — DOI: `10.3934/math.2023625`
+- Optimal fourth-order iterative method free from derivative — DOI: `10.18514/mmn.2011.303`
+- Some Fifth and Sixth Order Iterative Methods for Solving Nonlinear Equations
+- Some high-order zero-finding methods using almost orthogonal polynomials — DOI: `10.1017/s0334270000000916`
+- New modified optimal families of King’s and Traub-Ostrowski’s methods — DOI: `10.1134/s1995423914010030`
+- Sufficient conditions for semilocal convergence of a fourth order multipoint iterative method for solving equations in Banach spaces.
+- Iterative Methods for Solving Fourth and Sixth Order Time-fractional Cahn-Hillard Equation
+- Solution to the ghost problem in fourth order derivative theories — DOI: `10.1007/s10701-007-9119-7`
+- Fourth-order leapfrog algorithms for numerical time evolution of classical and quantum systems
+- Stabilization and Variations to the Adaptive Local Iterative Filtering Algorithm: the Fast Resampled Iterative Filtering Method — DOI: `10.1007/s00211-024-01394-y`
+- Fourth-Order Hierarchical Array: A Novel Scheme for Sparse Array Design Based on Fourth-Order Difference Co-Array
+- General convergence theorems for iterative processes and applications to the Weierstrass root-finding method
+- An iterative method for Kirchhoff type equations and its applications — DOI: `10.1016/j.jde.2020.08.033`
+- A deflated Schur complement method for the iterative solution of a high-order discontinuous element discretization of the Poisson equation
+- An efficient iterative method for looped pipe network hydraulics — DOI: `10.3390/fluids4020073`
+- Rankin-Selberg L-functions in cyclotomic towers, III
+- New simultaneous root-finding methods with accelerated convergence for analytic functions — DOI: `10.1016/j.cam.2015.09.030`
+- A new higher-order family of inclusion zero-finding methods — DOI: `10.1016/j.cam.2004.12.020`
+- Improving order and efficiency: Composition with a modified Newton’s method — DOI: `10.1016/j.cam.2009.04.002`
+- Development of a 2D boundary element method to model Schroeder acoustic diffusers — DOI: `10.25959/23242181`
+- A comparison of methods for accelerating convergence of Newton's method for multiple polynomial roots — DOI: `10.1145/290590.290592`
+- New Combinations of Polynomial Root-Finding Iterations
+- A family of simultaneous zero-finding methods — DOI: `10.1016/s0898-1221(97)00206-x`
+- Inclusion Weierstrass-like root-finders with corrections — DOI: `10.2298/fil0317143p`
+- On an efficient inclusion method for finding polynomial zeros — DOI: `10.1016/j.cam.2015.05.015`
+- Iterative root approximation in p -adic numerical analysis — DOI: `10.1016/j.jco.2009.07.004`
+- Nonlinear Root-Finding via Integrated Geometric Damping and Post-Step Residual Corrections: Theory, High-Order Convergence, and Applications — DOI: `10.26434/chemrxiv.15005334/v1`
+- QUADRATIC CONVERGENCE METHOD FOR COMPLEX AND REAL ROOT-FINDING WITHOUT HIGHER-ORDER DERIVATIVES — DOI: `10.26782/jmcms.spl.12/2025.08.00011`
+- The Multipoint Basic Family and its Order of Convergence — DOI: `10.1142/9789812811837_0012`
+- Accelerating Convergence in Non-Linear Root Finding: A Finite Difference Modification of the Newton-Raphson Method — DOI: `10.2139/ssrn.7129765`
+- Descartes, method for finding the square root of a number — DOI: `10.3998/mpub.14590346.cmp.nk322h812`
+- On the Order of Convergence of a Determinantal Family of Root-Finding Methods — DOI: `10.1023/a:1022321325108`
+- Two modified algorithms with order of convergence five for finding a simple root of nonlinear equations — DOI: `10.24128/ijraer.2017.qr12cd`
+- General convergence theorems for iterative processes and applications to the Weierstrass root-finding method — DOI: `10.1016/j.jco.2015.10.001`
+- Secant Root Finding Method — DOI: `10.3840/07000139`
+- Secant Root Finding Method — DOI: `10.3840/000139`
+- Conjectures on Convergence and Scalar Curvature — DOI: `10.1142/12644`
+- l1-Norm Minimization with Regula Falsi Type Root Finding Methods — DOI: `10.1109/lsp.2021.3120327`
+- A three point formula for finding roots of equations by the method of least squares
+- Perturbed Fenchel Duality and Primal-Dual Convergence of First-Order Methods
+- A Fourier interpolation method for numerical solution of FBSDEs: Global convergence, stability, and higher order discretizations
+- Can We Remove the Square-Root in Adaptive Gradient Methods? A Second-Order Perspective
+- Primitive Roots In Short Intervals
+- Generalized Artin Primitive Root Conjecture
+- Topics In Primitive Roots
+- Memory order convergence: A Fading memory extensions of Householder's method for root finding — DOI: `10.13140/rg.2.2.27349.38884`
+- MODIFIED HOUSEHOLDER METHOD OF FIFTH ORDER OF CONVERGENCE AND ITS DYNAMICS ON COMPLEX PLANE — DOI: `10.14710/jfma.v6i2.20554`
+- Higher-order root-finding algorithm and its applications — DOI: `10.1080/00207160.2025.2561050`
+- A numerical algorithm to find a root of non-linearequations using householder’s method — DOI: `10.11591/ijaas.v10.i2.pp141-148`
+- A Novel Root-Finding Algorithm With Engineering Applications and its Dynamics via Computer Technology — DOI: `10.1109/access.2022.3150775`
+- Householder's method for solving the $p$-adic polynomial equations — DOI: `10.26637/mjm1001/003`
+- From Halley to Secant: Redefining root finding with memory‐based methods including convergence and stability — DOI: `10.1002/mma.9876`
+- On the use of the root locus of polynomials with complex coefficients for estimating the basin of attraction for the continuous-time Newton and Householder methods — DOI: `10.1016/j.automatica.2024.111570`
+- On High Order Barycentric Root-Finding Methods — DOI: `10.5540/tema.2016.017.03.0321`
+- A Root-Finding Algorithm with Fifth Order Derivatives — DOI: `10.3390/mca13020123`
+- A non-symmetric coupling of the finite volume method and the boundary element method — DOI: `10.1007/s00211-016-0820-3`
+- Efficient Matrix Factorization Via Householder Reflections
+- Chebyshev polynomials involved in the Householder's method for square roots
+- On a 4-Point Sixteenth-Order King Family of Iterative Methods for Solving Nonlinear Equations — DOI: `10.1155/2012/979245`
+- On iterative methods to solve nonlinear equations — DOI: `10.5821/dissertation-2117-98084`
+- An efficient optimal family of sixteenth order methods for nonlinear models — DOI: `10.1016/j.cam.2018.02.011`
+- An Optimal Thirty-Second-Order Iterative Method for Solving Nonlinear Equations and a Conjecture — DOI: `10.1007/s12346-022-00572-3`
+- New higher order iterative methods for solving nonlinear equations and their basins of attraction — DOI: `10.58614/cris241`
+- Optimal High-Order Methods for Solving Nonlinear Equations — DOI: `10.1155/2014/591638`
+- Design and dynamical behavior of a fourth order family of iterative methods for solving nonlinear equations — DOI: `10.3934/math.2024415`
+- A New Family of Optimal Fourth‐Order Iterative Methods for Solving Nonlinear Equations With Applications — DOI: `10.1155/2024/9955247`
+- Numerical iterative methods for nonlinear problems.
+- Eight and ninth-order convergence iterative structures for obtaining nonlinear equations solution — DOI: `10.47974/jim-1745`
+- A New Sixteenth Order Iterative Method for Solving Nonlinear Equations — DOI: `10.28924/2291-8639-23-2025-282`
+- On a Fifth-Order Method for Multiple Roots of Nonlinear Equations — DOI: `10.3390/sym15091694`
+- Sixteenth-Order Optimal Iterative Scheme Based on Inverse Interpolatory Rational Function for Nonlinear Equations — DOI: `10.3390/sym11050691`
+- Equations of infinite order and systems of nonlinear equations — DOI: `10.1017/cbo9781139086639.010`
+- Third Order Methods for Multiple Roots of Nonlinear Equations with Applications — DOI: `10.21203/rs.3.rs-8339198/v1`
+- A Hybrid Third-Order Iterative Process To Solve Nonlinear Equations — DOI: `10.21597/jist.583528`
+- A New Iterative Method with Sixth-Order Convergence for Solving Nonlinear Equations — DOI: `10.4028/www.scientific.net/amr.542-543.1019`
+- Efficient sixth order iterative method free from higher derivatives for nonlinear equations — DOI: `10.28919/jmcs/6950`
+- A higher order method for determining nonisolated solutions of a system of nonlinear equations — DOI: `10.1007/bf02253690`
+- Second Order Differential Equations — DOI: `10.1201/9780203746493-3`
+- Four-Point Optimal Sixteenth-Order Iterative Method for Solving Nonlinear Equations — DOI: `10.1155/2013/850365`
+- High convergence order iterative method for nonlinear system of equations in Banach spaces — DOI: `10.1007/s41478-025-00888-8`
+- Improvement of New Eight and Sixteenth Order Iterative Methods for Solving Nonlinear Algebraic Equations by Using Least Square Method
+- Optimal fourth- and eighth-order iterative methods for solving nonlinear equations with basins of attraction — DOI: `10.1007/s12190-024-02108-1`
+- New Eighth and Sixteenth Order Iterative Methods to Solve Nonlinear Equations — DOI: `10.1007/s40819-016-0245-9`
+- A new fifth-order iterative method free from second derivative for solving nonlinear equations — DOI: `10.1007/s12190-021-01647-1`
+- Exact solutions of nonlinear partial differential equations by singularity analysis — DOI: `10.1007/978-3-540-39808-0_1`
+- Stability tests for second order linear and nonlinear delayed models
+- Two-breather solutions for the class I infinitely extended nonlinear Schrodinger equation and their special cases — DOI: `10.1007/s11071-019-05186-0`
+- Breathers for the Discrete Nonlinear Schrödinger equation with nonlinear hopping — DOI: `10.1007/s00332-012-9149-y`
+- The Discrete Nonlinear Schrödinger equation - 20 Years on
+- Similarity reductions and new nonlinear exact solutions for the 2D incompressible Euler equations — DOI: `10.1016/j.physleta.2013.12.045`
+- The nonlinear Schrödinger equation with forcing involving products of eigenfunctions — DOI: `10.46298/ocnmp.9809`
+- Choosing the optimal multi-point iterative method for the Colebrook flow friction equation -- Numerical validation — DOI: `10.3390/pr6080130`
+- Doubly periodic waves of a discrete nonlinear Schrödinger system with saturable nonlinearity — DOI: `10.2991/jnmp.2008.15.4.4`
+- Continued fractions and modular functions — DOI: `10.1090/s0273-0979-05-01047-5`
+- Modular invariant hilltop inflation — DOI: `10.1088/1475-7516/2024/07/073`
+- Paper CQ-IX: FSC Modular Structure: The Partition Function as a Modular Form and Number-Theoretic Origin of Cosmic Composition — DOI: `10.5281/zenodo.22826776`
+- Modular invariant slow roll inflation — DOI: `10.1088/1475-7516/2024/10/016`
+- The Klein-Vélu septic, 2-Division, and modular function fields of level 14 — DOI: `10.48550/arxiv.2609.03455`
+- Refined BPS invariants of 6d SCFTs from anomalies and modularity — DOI: `10.1007/jhep05(2017)130`
+- Ramanujan’s class invariants, Kronecker’s limit formula, and modular equations — DOI: `10.1090/s0002-9947-97-01738-8`
+- The $q$-deformed cross-ratio: modular invariants and Coxeter friezes — DOI: `10.48550/arxiv.2609.10999`
+- Modular curves and the Eisenstein ideal — DOI: `10.1007/bf02684339`
+- Moonshine at Landau-Ginzburg points — DOI: `10.1090/proc/16667`
+- Rational expression for J-invariant function in terms of generators of modular function fields — DOI: `10.12988/imf.2007.07167`
+- Reflective modular forms and Weyl invariant E8 Jacobi modular forms — DOI: `10.70675/5b473152z6494z42cdza773z8505ec38d8bf`
+- Modular invariant partition function of the Hubbard model — DOI: `10.1007/bf02457674`
+- A modular invariant partition function for the fivebrane — DOI: `10.1016/s0550-3213(98)00537-9`
+- Modular Forms and Invariant Theory — DOI: `10.1017/9781316671504.011`
+- An invariant property of Siegel's modular function — DOI: `10.3792/pia/1195579775`
+- Quantum modular invariant and Hilbert class fields of real quadratic global function fields — DOI: `10.1007/s00029-021-00619-4`
+- Invariant Differential Derivations for Modular Reflection Groups — DOI: `10.12794/metadc2137649`
+- Modular invariant partition function of the Ashkin-Teller model on the critical line and N = 2 superconformal invariance — DOI: `10.1016/0550-3213(87)90334-8`
+- Weighted Statistical Relative Invariant Mean in Modular Function Spaces with Related approximation Results — DOI: `10.1080/01630563.2018.1470096`
+- Explicit height bounds on modular polynomials for the elliptic $j$-invariant, cube root of $j$, and Weber modular function $\mathfrak f$
+- The most efficient indifferentiable hashing to elliptic curves of j-invariant 1728 — DOI: `10.1515/jmc-2021-0051`
+- Quantum Determinism: A Complete Field Theory from Topological Equivariance and j-Invariant Arithmetic — DOI: `10.69710/ljp.v3i1.17599`
+- On the behaviour of cycle integrals of j$j$ invariant — DOI: `10.1112/mtk.70124`
+- Hecke polynomials for the mock modular form arising from the Delta-function
+- Modular invariant Starobinsky inflation and the Species Scale — DOI: `10.1007/jhep04(2025)041`
+- Modular commutator as a robust topological invariant and approximate Markovianity
+- ON EVALUATIONS OF THE MODULAR j-INVARIANT BY MODULAR EQUATIONS OF DEGREE 2 — DOI: `10.4134/bkms.2015.52.1.263`
+- On the reciprocal of Klein’s absolute j-invariant and sign changes — DOI: `10.1007/s40993-019-0179-5`
+- The Physics of the B Factories — DOI: `10.1140/epjc/s10052-014-3026-9`
+- Observation of the $Λ_b^0 \to J/ψΞ^- K^+$ and $Ξ_b^0 \to J/ψΞ^- π^+$ decays — DOI: `10.1140/epjc/s10052-025-14129-6`
+- Measurement of the Branching Fraction of $B^{0} \rightarrow J/ψπ^{0}$ Decays — DOI: `10.1007/jhep05(2024)065`
+- Search for $B_c^+\toπ^+μ^+μ^-$ decays and measurement of the branching fraction ratio ${\cal B}(B_c^+\toψ(2S)π^+)/{\cal B}(B_c^+\to J/ψπ^+)$ — DOI: `10.1140/epjc/s10052-024-12669-x`
+- First measurement of the ratio of $ψ(2S)$-to-$J/ψ$ inclusive production in $p\mathrm{Ar}$ and $pp$ collisions at $\sqrt{s_{\mathrm{NN}}} =113\,\mathrm{GeV}$ with SMOG2
+- Observation of $Ξ_{b}^{0} \to Ξ^{0} J/ψ$ and evidence for $Ξ_{b}^{0} \to Ξ^{0} ψ(2S)$ decays
+- Improved measurement of $η/ η^{\prime}$ mixing in $B^{0}_{(s)} \rightarrow J/ψη^{(\prime)}$ decays — DOI: `10.1007/jhep10(2025)113`
+- Measurement of the branching fraction of the $Λ_b^0\to J/ψΛ$ decay and isospin asymmetry of $B\to J/ψK$ decays — DOI: `10.1007/jhep01(2026)159`
+- Observation of the decay $χ_{c1}(3872)\rightarrow J\mskip -3mu/\mskip -2muψμ^+μ^-$ — DOI: `10.1103/jqvq-sbp7`
+- Associated production of prompt $J/ψ$ and $\mathitΥ$ mesons in $pp$ collisions at $\sqrt{s}=13\,\mathrm{TeV}$ — DOI: `10.1007/jhep08(2023)093`
+- Newton’s method’s basins of attraction revisited — DOI: `10.1016/j.amc.2009.06.041`
+- Fractal Dimension of the Universal Julia Sets for the Chebyshev-Halley Family of Methods — DOI: `10.1063/1.3637794`
+- Computational Study of Classical Fractals and Newton Basins of Attraction in The Complex Plane — DOI: `10.22373/ekw.v11i2.25438`
+- Root-finding: from Newton to Halley and beyond — DOI: `10.48550/arxiv.2312.12305`
+- A Class of Sixth-Order Iterative Methods for Solving Nonlinear Systems: The Convergence and Fractals of Attractive Basins — DOI: `10.3390/fractalfract8030133`
+- Basins of attraction and critical curves for Newton-type methods in a phase equilibrium problem — DOI: `10.1504/ijcse.2020.110201`
+- On generalized Halley-like methods for solving nonlinear equations — DOI: `10.2298/aadm190111015p`
+- A Class of Fifth-Order Chebyshev–Halley-Type Iterative Methods and Its Stability Analysis — DOI: `10.3390/fractalfract8030150`
+- Fractal patterns from the dynamics of combined polynomial root finding methods — DOI: `10.1007/s11071-017-3813-6`
+- 13. Newton to Halley — DOI: `10.1093/oseo/instance.00235260`
+- 12. Newton to Halley — DOI: `10.1093/oseo/instance.00235259`
+- 11. Newton to Halley — DOI: `10.1093/oseo/instance.00235258`
+- Halley at Home — DOI: `10.4324/9781003538875-12`
+- Edmond Halley to Sir Isaac Newton, 1726 [halledOU0010132a1c] — DOI: `10.13051/ee:doc/halledou0010132a1c`
+- Sir Isaac Newton to Edmond Halley, 1696 [halledOU0010199a1c] — DOI: `10.13051/ee:doc/halledou0010199a1c`
+- Fractal Newton basins — DOI: `10.1155/ddns/2006/28756`
+- Sir Halley Stewart — DOI: `10.4324/9781003538875`
+- Edmond Halley to Sir Isaac Newton, early Spring 1696 [halledOU0010096a1c] — DOI: `10.13051/ee:doc/halledou0010096a1c`
+- 1460. Newton to Halley, 1 March 1725 — DOI: `10.1017/9781108651820.174`
+- Fractal Basins of Attraction Associated with a Damped Newton's Method
+- Characterization of Fractal Basins Using Deep Convolutional Neural Networks — DOI: `10.1142/s0218127422502005`
+- Minkowski dimension and explicit tube formulas for $p$-adic fractal strings — DOI: `10.3390/fractalfract2040026`
+- Basins of convergence of equilibrium points in the generalized Hill problem — DOI: `10.1142/s0218127417300439`
+- The Dynamics of the Schrodinger-Newton System with Self-Field Coupling — DOI: `10.1088/0264-9381/33/7/075002`
+- Neural-Spectral and Newton-HUM Methods for Reconstructing Controls of Wave Equations
+- An Approximate Newton Method for Markov Decision Processes
+- Simultaneous Global Convergence Failure of Newton's and Halley's Methods in Degree Four
+- Root-finding: from Newton to Halley and beyond
+- Fractal basins of attraction in a binary quasar model — DOI: `10.1016/j.newast.2020.101543`
+- Ostrowski’s fourth-order iterative method speedily solves cubic equations of state — DOI: `10.1016/j.cam.2010.09.012`
+- A new family of fourth-order Ostrowski-type iterative methods for solving nonlinear systems — DOI: `10.3934/math.2024501`
+- A new family of modified Ostrowski’s methods with accelerated eighth order convergence — DOI: `10.1007/s11075-009-9345-5`
+- A one-parameter fourth-order family of iterative methods for nonlinear equations — DOI: `10.1016/j.amc.2006.11.113`
+- A family of modified Ostrowski methods with accelerated sixth order convergence — DOI: `10.1016/j.amc.2007.01.009`
+- A Family of Fourth Order Methods for Nonlinear Equations — DOI: `10.1137/0710072`
+- Multipoint efficient iterative methods and the dynamics of Ostrowski's method — DOI: `10.1080/00207160.2015.1080354`
+- Simply constructed family of a Ostrowski’s method with optimal order of convergence — DOI: `10.1016/j.camwa.2011.09.039`
+- Construction of fourth-order optimal families of iterative methods and their dynamics — DOI: `10.1016/j.amc.2015.08.113`
+- Some variants of King’s fourth-order family of methods for nonlinear equations — DOI: `10.1016/j.amc.2007.01.006`
+- Uniqueness result and iterative method for fourth order $p$-Laplacian integral boundary value problems with different nonlinear terms — DOI: `10.22541/au.170669727.71218710/v1`
+- Optimal fourth order iterative method for solving nonlinear equation — DOI: `10.58614/cris343`
+- A Newton Type Iterative Method with Fourth-order Convergence — DOI: `10.3126/jie.v12i1.16729`
+- Solving Nonlinear Systems Using Fourth Order Iterative Method — DOI: `10.9734/bjmcs/2014/5175`
+- Optimal fourth order iterative method for solving nonlinear equation — DOI: `10.65036/amse225`
+- Iterative vs. a directive method for solving fourth order elliptic difference equations — DOI: `10.1145/800256.810677`
+- A new fourth order Newton like iterative method for nonlinear equations — DOI: `10.12988/ams.2014.311629`
+- A fourth-order nonlinear iterative method in Banach spaces — DOI: `10.1016/0893-9659(93)90132-7`
+- The Ostrowski quotient of an elliptic curve
+- Cosmic Ray Acceleration at Relativistic Shocks
+- Energetic particle acceleration in shear layers
+
+## Failures
+
+- semantic-scholar / "Schroeder method root finding convergence order": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "Householder method order of convergence root finding": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "Newton fractal basins Halley method comparison": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)
+- semantic-scholar / "Ostrowski fourth order iterative method": source HTTP status 429: rate limited; reduce request frequency, try again later, or configure an API key (check connector env vars)

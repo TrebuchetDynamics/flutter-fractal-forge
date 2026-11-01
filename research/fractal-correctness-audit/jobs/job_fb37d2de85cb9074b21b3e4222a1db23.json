@@ -1,0 +1,110 @@
+{
+  "id": "job_fb37d2de85cb9074b21b3e4222a1db23",
+  "kind": "search.batch",
+  "status": "completed",
+  "progress": {
+    "completed": 24,
+    "total": 28
+  },
+  "stop_reason": "completed",
+  "input": {
+    "queries": [
+      "Jarratt fourth order multipoint iterative method",
+      "Schroeder method root finding convergence order",
+      "Householder method order of convergence root finding",
+      "Neta sixteenth order iterative method nonlinear equations",
+      "Klein j invariant modular function 1728",
+      "Newton fractal basins Halley method comparison",
+      "Ostrowski fourth order iterative method"
+    ],
+    "sources": [
+      "openalex",
+      "crossref",
+      "semantic-scholar",
+      "arxiv"
+    ],
+    "limit": 10,
+    "depth": "standard",
+    "continue_on_error": true,
+    "write_stats": true,
+    "fetch_pdfs": false
+  },
+  "result": {
+    "data": {
+      "budget": {
+        "depth": "standard",
+        "max_query_variants": 10,
+        "max_sources": 5,
+        "max_api_calls": 50,
+        "low_yield_threshold": 2,
+        "saturation_queries": 3,
+        "max_consecutive_errors": 5
+      },
+      "coverage": {
+        "unique_records": 199,
+        "queries": [
+          {
+            "query": "Jarratt fourth order multipoint iterative method",
+            "new_unique": 33,
+            "complete": true
+          },
+          {
+            "query": "Schroeder method root finding convergence order",
+            "new_unique": 29,
+            "complete": false
+          },
+          {
+            "query": "Householder method order of convergence root finding",
+            "new_unique": 13,
+            "complete": false
+          },
+          {
+            "query": "Neta sixteenth order iterative method nonlinear equations",
+            "new_unique": 35,
+            "complete": true
+          },
+          {
+            "query": "Klein j invariant modular function 1728",
+            "new_unique": 39,
+            "complete": true
+          },
+          {
+            "query": "Newton fractal basins Halley method comparison",
+            "new_unique": 29,
+            "complete": false
+          },
+          {
+            "query": "Ostrowski fourth order iterative method",
+            "new_unique": 21,
+            "complete": false
+          }
+        ],
+        "consecutive_low_yield": 0
+      },
+      "deduped": 199,
+      "failures": 4,
+      "fetchFailed": 0,
+      "fetchSkipped": 0,
+      "fetched": 0,
+      "imported": 0,
+      "interrupted": false,
+      "job_id": "job_fb37d2de85cb9074b21b3e4222a1db23",
+      "manifest": "research/fractal-correctness-audit/manifest.json",
+      "out": "research/fractal-correctness-audit",
+      "pending": 0,
+      "provenance_level": "engine_verified",
+      "requests_used": 28,
+      "results": 240,
+      "resumed": false,
+      "resumedPairs": 0,
+      "run_id": "f9dec30510d1d89673b7393cb25ff050",
+      "skippedDuplicate": 0,
+      "skippedNoIdentifier": 0,
+      "skippedSources": 0,
+      "stop_reason": "completed"
+    },
+    "ok": true
+  },
+  "created_at": "2026-11-01T16:59:11.493047357Z",
+  "updated_at": "2026-11-01T17:00:16.92556003Z"
+}

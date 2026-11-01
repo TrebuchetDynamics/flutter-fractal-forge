@@ -1,0 +1,10 @@
+	Iterative Methods for Solving Fourth and Sixth Order Time-fractional Cahn-Hillard Equation
+10.1007/s10701-007-9119-7	Solution to the ghost problem in fourth order derivative theories
+	Fourth-order leapfrog algorithms for numerical time evolution of classical and quantum systems
+10.1007/s00211-024-01394-y	Stabilization and Variations to the Adaptive Local Iterative Filtering Algorithm: the Fast Resampled Iterative Filtering Method
+	Fourth-Order Hierarchical Array: A Novel Scheme for Sparse Array Design Based on Fourth-Order Difference Co-Array
+	General convergence theorems for iterative processes and applications to the Weierstrass root-finding method
+10.1016/j.jde.2020.08.033	An iterative method for Kirchhoff type equations and its applications
+	A deflated Schur complement method for the iterative solution of a high-order discontinuous element discretization of the Poisson equation
+10.3390/fluids4020073	An efficient iterative method for looped pipe network hydraulics
+	Rankin-Selberg L-functions in cyclotomic towers, III

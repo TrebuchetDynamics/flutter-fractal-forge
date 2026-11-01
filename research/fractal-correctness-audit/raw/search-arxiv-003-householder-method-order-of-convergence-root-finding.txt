@@ -1,0 +1,10 @@
+10.1142/12644	Conjectures on Convergence and Scalar Curvature
+10.1109/lsp.2021.3120327	l1-Norm Minimization with Regula Falsi Type Root Finding Methods
+	A three point formula for finding roots of equations by the method of least squares
+	Perturbed Fenchel Duality and Primal-Dual Convergence of First-Order Methods
+10.1007/s00211-016-0820-3	A non-symmetric coupling of the finite volume method and the boundary element method
+	A Fourier interpolation method for numerical solution of FBSDEs: Global convergence, stability, and higher order discretizations
+	General convergence theorems for iterative processes and applications to the Weierstrass root-finding method
+	Efficient Matrix Factorization Via Householder Reflections
+	Can We Remove the Square-Root in Adaptive Gradient Methods? A Second-Order Perspective
+	Chebyshev polynomials involved in the Householder's method for square roots
