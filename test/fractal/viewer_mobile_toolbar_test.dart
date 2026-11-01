@@ -19,7 +19,8 @@ void main() {
       VoidCallback? onRandomizePalette,
       VoidCallback? onPlay,
       VoidCallback? onPrevious,
-      VoidCallback? onFourier}) async {
+      VoidCallback? onFourier,
+      bool largeTargets = false}) async {
     tester.view.devicePixelRatio = 1;
     tester.view.physicalSize = const Size(360, 780);
     tester.view.padding = const FakeViewPadding(top: 24, bottom: 48);
@@ -28,8 +29,10 @@ void main() {
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetPadding);
     addTearDown(tester.view.resetViewPadding);
-    SharedPreferences.setMockInitialValues(
-        {'accessibility_reduced_motion': true});
+    SharedPreferences.setMockInitialValues({
+      'accessibility_reduced_motion': true,
+      'accessibility_large_targets': largeTargets,
+    });
     final accessibility = await AccessibilityService.create();
     final fractal = FractalController(ModuleRegistry());
     final explore = AutoExploreService(controller: fractal);
@@ -142,6 +145,39 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets(
+      'large targets keep circular actions balanced inside a narrow phone',
+      (tester) async {
+    await pumpToolbar(tester, largeTargets: true);
+    const keys = [
+      'viewerPreviousFractalButton',
+      'viewerBreathingButton',
+      'viewerLooperFab',
+      'viewerControlsButton',
+      'viewerPaletteButton',
+      'viewerRandomFractalFab',
+      'viewerOverflowMenu',
+    ];
+    final rects = [
+      for (final key in keys) tester.getRect(find.byKey(ValueKey(key))),
+    ];
+    for (final rect in rects) {
+      expect(rect.width, greaterThanOrEqualTo(56));
+      expect(rect.height, greaterThanOrEqualTo(56));
+      expect(rect.left, greaterThanOrEqualTo(0));
+      expect(rect.right, lessThanOrEqualTo(360));
+    }
+    final rows = <double, int>{};
+    for (final rect in rects) {
+      rows.update(rect.top, (count) => count + 1, ifAbsent: () => 1);
+    }
+    expect(rows.values.toList()..sort(), [3, 4]);
+    final rail =
+        tester.widget<Material>(find.byKey(const ValueKey('viewerFabColumn')));
+    expect(rail.color, Colors.transparent);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('primary icon cells fill their full hit regions', (tester) async {
     await pumpToolbar(tester);
     for (final key in const [
@@ -164,7 +200,22 @@ void main() {
           .first;
       expect(tester.getRect(paint), hitRegion,
           reason: 'Opaque icon cells must cover the full hit target');
+      final circle = tester
+          .widgetList<Container>(
+              find.descendant(of: stack, matching: find.byType(Container)))
+          .map((container) => container.decoration)
+          .whereType<BoxDecoration>()
+          .where((decoration) => decoration.shape == BoxShape.circle)
+          .toList();
+      expect(circle, isNotEmpty, reason: '$key must be a circle');
+      for (final decoration in circle) {
+        expect(decoration.border, isNotNull, reason: key);
+      }
     }
+    final rail =
+        tester.widget<Material>(find.byKey(const ValueKey('viewerFabColumn')));
+    expect(rail.color, Colors.transparent,
+        reason: 'No modal-looking slab behind the circular actions');
   });
 
   testWidgets(
