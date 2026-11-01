@@ -1,0 +1,10 @@
+10.28924/2291-8639-23-2025-282	A New Sixteenth Order Iterative Method for Solving Nonlinear Equations
+10.3390/sym15091694	On a Fifth-Order Method for Multiple Roots of Nonlinear Equations
+10.3390/sym11050691	Sixteenth-Order Optimal Iterative Scheme Based on Inverse Interpolatory Rational Function for Nonlinear Equations
+10.1017/cbo9781139086639.010	Equations of infinite order and systems of nonlinear equations
+10.21203/rs.3.rs-8339198/v1	Third Order Methods for Multiple Roots of Nonlinear Equations with Applications
+10.21597/jist.583528	A Hybrid Third-Order Iterative Process To Solve Nonlinear Equations
+10.4028/www.scientific.net/amr.542-543.1019	A New Iterative Method with Sixth-Order Convergence for Solving Nonlinear Equations
+10.28919/jmcs/6950	Efficient sixth order iterative method free from higher derivatives for nonlinear equations
+10.1007/bf02253690	A higher order method for determining nonisolated solutions of a system of nonlinear equations
+10.1201/9780203746493-3	Second Order Differential Equations

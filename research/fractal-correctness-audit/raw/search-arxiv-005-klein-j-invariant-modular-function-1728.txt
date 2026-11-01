@@ -1,0 +1,10 @@
+10.1140/epjc/s10052-014-3026-9	The Physics of the B Factories
+10.1140/epjc/s10052-025-14129-6	Observation of the $Λ_b^0 \to J/ψΞ^- K^+$ and $Ξ_b^0 \to J/ψΞ^- π^+$ decays
+10.1007/jhep05(2024)065	Measurement of the Branching Fraction of $B^{0} \rightarrow J/ψπ^{0}$ Decays
+10.1140/epjc/s10052-024-12669-x	Search for $B_c^+\toπ^+μ^+μ^-$ decays and measurement of the branching fraction ratio ${\cal B}(B_c^+\toψ(2S)π^+)/{\cal B}(B_c^+\to J/ψπ^+)$
+	First measurement of the ratio of $ψ(2S)$-to-$J/ψ$ inclusive production in $p\mathrm{Ar}$ and $pp$ collisions at $\sqrt{s_{\mathrm{NN}}} =113\,\mathrm{GeV}$ with SMOG2
+	Observation of $Ξ_{b}^{0} \to Ξ^{0} J/ψ$ and evidence for $Ξ_{b}^{0} \to Ξ^{0} ψ(2S)$ decays
+10.1007/jhep10(2025)113	Improved measurement of $η/ η^{\prime}$ mixing in $B^{0}_{(s)} \rightarrow J/ψη^{(\prime)}$ decays
+10.1007/jhep01(2026)159	Measurement of the branching fraction of the $Λ_b^0\to J/ψΛ$ decay and isospin asymmetry of $B\to J/ψK$ decays
+10.1103/jqvq-sbp7	Observation of the decay $χ_{c1}(3872)\rightarrow J\mskip -3mu/\mskip -2muψμ^+μ^-$
+10.1007/jhep08(2023)093	Associated production of prompt $J/ψ$ and $\mathitΥ$ mesons in $pp$ collisions at $\sqrt{s}=13\,\mathrm{TeV}$

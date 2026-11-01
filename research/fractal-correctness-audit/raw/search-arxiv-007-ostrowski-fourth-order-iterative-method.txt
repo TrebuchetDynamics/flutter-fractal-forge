@@ -1,0 +1,10 @@
+	Iterative Methods for Solving Fourth and Sixth Order Time-fractional Cahn-Hillard Equation
+	The Ostrowski quotient of an elliptic curve
+10.1007/s10701-007-9119-7	Solution to the ghost problem in fourth order derivative theories
+	Cosmic Ray Acceleration at Relativistic Shocks
+	Energetic particle acceleration in shear layers
+	Fourth-order leapfrog algorithms for numerical time evolution of classical and quantum systems
+10.1007/s00211-024-01394-y	Stabilization and Variations to the Adaptive Local Iterative Filtering Algorithm: the Fast Resampled Iterative Filtering Method
+	Fourth-Order Hierarchical Array: A Novel Scheme for Sparse Array Design Based on Fourth-Order Difference Co-Array
+	General convergence theorems for iterative processes and applications to the Weierstrass root-finding method
+10.1016/j.jde.2020.08.033	An iterative method for Kirchhoff type equations and its applications

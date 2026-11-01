@@ -1,0 +1,157 @@
+{
+  "depth": "standard",
+  "errors": [],
+  "interrupted": false,
+  "limit": 10,
+  "outputs": [
+    {
+      "path": "results.jsonl",
+      "sha256": "5a6a7022949c76f60450ba5861e6b374548f25fd500421425cc82ca526fd1f8c"
+    },
+    {
+      "path": "results-deduped.jsonl",
+      "sha256": "21a79b011944894d5389e3817bcfa3529431fc6bf67de181822835b311d9dbe8"
+    },
+    {
+      "path": "results.md",
+      "sha256": "9bac66d7565146f475d7f16372d3cca731b843f56177ed0e23e660fa206e6183"
+    },
+    {
+      "path": "failures.jsonl",
+      "sha256": "eafb283cc7a3cde8159ab36fe84927bd03f969379b4fe398ceb1fe3d6695c793"
+    },
+    {
+      "path": "manifest.json",
+      "sha256": "5ad4c6fbe32108fadcae79a075d44cd2177629f27cba78e916923672db0ed7f6"
+    },
+    {
+      "path": "batch-state.json",
+      "sha256": "0a0586b419c9a9c07ba27eaf13eba9fca8b1d41b63291429295921793ef78041"
+    },
+    {
+      "path": "search-stats.txt",
+      "sha256": "7d2b7e25e01bb4a67f7083dae0c6e203e17074476cf781dd97dbca64f0d9a78c"
+    },
+    {
+      "path": "raw/search-openalex-001-jarratt-fourth-order-multipoint-iterative-method.txt",
+      "sha256": "b2ce342865ce7d5211043ff5d22f3d9c6d03b00262bf24fa6ba186d844d11fd7"
+    },
+    {
+      "path": "raw/search-crossref-001-jarratt-fourth-order-multipoint-iterative-method.txt",
+      "sha256": "6e80c8ea93634bcae4085f22ceb784cd0d82610a52d14f6e6bc7b925520bf27d"
+    },
+    {
+      "path": "raw/search-semantic-scholar-001-jarratt-fourth-order-multipoint-iterative-method.txt",
+      "sha256": "b867e5e673c13ea9f2f939d2951510ea1b2372de619f491c7a47438de4640cf7"
+    },
+    {
+      "path": "raw/search-arxiv-001-jarratt-fourth-order-multipoint-iterative-method.txt",
+      "sha256": "2ba00ea536a2461a93542a696cafd740925e870e4b95a27333eccb6f190bbc10"
+    },
+    {
+      "path": "raw/search-openalex-002-schroeder-method-root-finding-convergence-order.txt",
+      "sha256": "5d2659a87b3674f9ae4e5fcf55d8234db3c8d79703e0828bcbe7d3cc706c7156"
+    },
+    {
+      "path": "raw/search-crossref-002-schroeder-method-root-finding-convergence-order.txt",
+      "sha256": "85775f3fe2ae337af188921f0661da2c96cf825b4426088f9e1bbaad99d95dca"
+    },
+    {
+      "path": "raw/search-arxiv-002-schroeder-method-root-finding-convergence-order.txt",
+      "sha256": "a3187724ec320b68ab8e40351756321bf78e017218a20e9c8559d9bb4a625697"
+    },
+    {
+      "path": "raw/search-openalex-003-householder-method-order-of-convergence-root-finding.txt",
+      "sha256": "fe0f114d814125e56ae94df8bef31aa51d4f294cc6f3b61e3867219e121a751b"
+    },
+    {
+      "path": "raw/search-crossref-003-householder-method-order-of-convergence-root-finding.txt",
+      "sha256": "a3bedab1a5ee7adca6a8994d413a5d7136f3d08d2ada564f3bc108457a0cab57"
+    },
+    {
+      "path": "raw/search-arxiv-003-householder-method-order-of-convergence-root-finding.txt",
+      "sha256": "14eede2c663b663d93f6982b606e84c226b5ae332f07b22382a02abd37ef30ab"
+    },
+    {
+      "path": "raw/search-openalex-004-neta-sixteenth-order-iterative-method-nonlinear-equations.txt",
+      "sha256": "d14d3ea7f1ba0ccc48027b3b35d6d1fd1c47596128ffed5df36fe71c997255d4"
+    },
+    {
+      "path": "raw/search-crossref-004-neta-sixteenth-order-iterative-method-nonlinear-equations.txt",
+      "sha256": "fada04a7c3f4761b27a192b9c67d9ef2bcc76d25812cc1b388f3c641217918f6"
+    },
+    {
+      "path": "raw/search-semantic-scholar-004-neta-sixteenth-order-iterative-method-nonlinear-equations.txt",
+      "sha256": "c5b6d4371510e3b1d8bcb62b36b47c8c0ceaa19ba0175b3f5f181dab0aae395d"
+    },
+    {
+      "path": "raw/search-arxiv-004-neta-sixteenth-order-iterative-method-nonlinear-equations.txt",
+      "sha256": "1d09c48178bc23d1b989c2c1f08ba127df0cd717d34bfa5caa3dc0fe01d87fe6"
+    },
+    {
+      "path": "raw/search-openalex-005-klein-j-invariant-modular-function-1728.txt",
+      "sha256": "d843df197c974e73af04d1415a1448f5b80e352c234b74fa5184ef91177d285b"
+    },
+    {
+      "path": "raw/search-crossref-005-klein-j-invariant-modular-function-1728.txt",
+      "sha256": "8ecd755b08d541091c54281a6af022d6dbbd13bd9c5466d04ecbd89b5b6f2c19"
+    },
+    {
+      "path": "raw/search-semantic-scholar-005-klein-j-invariant-modular-function-1728.txt",
+      "sha256": "100a8e25076d18068167ef48bf1a56e4eff2743ec2a083a9e6d3da298f358b5c"
+    },
+    {
+      "path": "raw/search-arxiv-005-klein-j-invariant-modular-function-1728.txt",
+      "sha256": "5fbd26da680102a906e227040cb0d82ef0c8958bccaeb885300fdaeff21428ac"
+    },
+    {
+      "path": "raw/search-openalex-006-newton-fractal-basins-halley-method-comparison.txt",
+      "sha256": "972d9335247f86048740567d9debc9ae6d9f43d6e1a471b242c2dc604a3019c5"
+    },
+    {
+      "path": "raw/search-crossref-006-newton-fractal-basins-halley-method-comparison.txt",
+      "sha256": "b395c69f88ad0f551e41adc8bea82eddd1e016ca34ffbd44a1f8fde6851398ae"
+    },
+    {
+      "path": "raw/search-arxiv-006-newton-fractal-basins-halley-method-comparison.txt",
+      "sha256": "7af68c77857c4acd494d1a12cd41fd803859f27e1e470b81a64d8f80384e6292"
+    },
+    {
+      "path": "raw/search-openalex-007-ostrowski-fourth-order-iterative-method.txt",
+      "sha256": "9be4764820b4312176173cc4e33bcb43e1d91eee77e8e5f686c19feb92bd82be"
+    },
+    {
+      "path": "raw/search-crossref-007-ostrowski-fourth-order-iterative-method.txt",
+      "sha256": "56178fd0c714f67dde2f0e129a82b7713fa998c2e54bc43d76c226bae302157e"
+    },
+    {
+      "path": "raw/search-arxiv-007-ostrowski-fourth-order-iterative-method.txt",
+      "sha256": "b189f0792e8c02730c6e82bbed02e4a169c9f6954a4d4860e2885f48ca27dbf2"
+    }
+  ],
+  "provenance_level": "engine_verified",
+  "queries": [
+    "Jarratt fourth order multipoint iterative method",
+    "Schroeder method root finding convergence order",
+    "Householder method order of convergence root finding",
+    "Neta sixteenth order iterative method nonlinear equations",
+    "Klein j invariant modular function 1728",
+    "Newton fractal basins Halley method comparison",
+    "Ostrowski fourth order iterative method"
+  ],
+  "question": "Jarratt fourth order multipoint iterative method; Schroeder method root finding convergence order; Householder method order of convergence root finding; Neta sixteenth order iterative method nonlinear equations; Klein j invariant modular function 1728; Newton fractal basins Halley method comparison; Ostrowski fourth order iterative method",
+  "rforge_version": {
+    "commit": "7c05dc0",
+    "date": "2026-10-28T03:49:28Z",
+    "version": "dev"
+  },
+  "run_id": "f9dec30510d1d89673b7393cb25ff050",
+  "schema_version": "2",
+  "sources": [
+    "openalex",
+    "crossref",
+    "semantic-scholar",
+    "arxiv"
+  ],
+  "timestamp": "2026-11-01T17:00:16.92470953Z"
+}

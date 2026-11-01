@@ -1,0 +1,10 @@
+10.1090/s0273-0979-05-01047-5	Continued fractions and modular functions
+10.1088/1475-7516/2024/07/073	Modular invariant hilltop inflation
+10.5281/zenodo.22826776	Paper CQ-IX: FSC Modular Structure: The Partition Function as a Modular Form and Number-Theoretic Origin of Cosmic Composition
+10.1088/1475-7516/2024/10/016	Modular invariant slow roll inflation
+10.48550/arxiv.2609.03455	The Klein-Vélu septic, 2-Division, and modular function fields of level 14
+10.1007/jhep05(2017)130	Refined BPS invariants of 6d SCFTs from anomalies and modularity
+10.1090/s0002-9947-97-01738-8	Ramanujan’s class invariants, Kronecker’s limit formula, and modular equations
+10.48550/arxiv.2609.10999	The $q$-deformed cross-ratio: modular invariants and Coxeter friezes
+10.1007/bf02684339	Modular curves and the Eisenstein ideal
+10.1090/proc/16667	Moonshine at Landau-Ginzburg points

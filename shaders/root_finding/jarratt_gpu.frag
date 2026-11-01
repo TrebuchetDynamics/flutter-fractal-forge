@@ -2,22 +2,15 @@
 
 precision highp float;
 
-// Jarratt's method (4th order) on z^3 - 1.
-// y = z - (2/3) * f(z)/f'(z)
-// z_new = z - 0.5 * (f(z)/f'(z)) * (3*f'(y) - f'(z)) / (3*f'(y) - f'(z))
-// Correct Jarratt: z_new = z - f(z)/f'(z) * (f'(z) + f'(y)) / (f'(z) - f'(y))
-// Standard form: z_new = z - 0.5 * f/f' - 0.5 * f/f' * f'(z)/(3f'(y)-f'(z)) * 6*(f'(y)-f'(z))/...
-// Simplest correct Jarratt 4th order:
-//   y = z - (2/3)*f/f'
-//   z_new = z - f/f' * [ (3*f'(y)^2 - f'(z)^2) / (6*f'(y)^2 - 5*f'(y)*f'(z) + f'(z)^2) ]
-// But the most commonly used form is:
-//   z_new = z - 0.5*(f/f')*(3*f'(y)-f'(z))/(3*f'(y)-2*f'(z)) * ... nah.
+// Jarratt's method on z^3 - 1. Two-point, fourth order (Jarratt, 1966).
 //
-// Let's use the well-known Jarratt iteration (JM, 1966):
-//   y = z - (2/3)*f(z)/f'(z)
-//   z_new = z - f(z)/f'(z) * [ (1/2) + f'(y)/(f'(y) - f'(z)) ]
-// which simplifies to:
-//   z_new = z - f(z)/f'(z) * (3*f'(y) - f'(z)) / (2*(3*f'(y) - 2*f'(z)))
+//   y    = z - (2/3) * f(z)/f'(z)
+//   z'   = z - [ f(z)/f'(z) ] * [ (3 f'(y) + f'(z)) / (6 f'(y) - 2 f'(z)) ]
+//
+// The correction weights above are the published ones. An earlier version of
+// this shader used (3 f'(y) - f'(z)) / (2 (3 f'(y) - 2 f'(z))), which measures
+// second order rather than fourth (see
+// research/fractal-correctness-audit/measurements/order_measure.json).
 
 uniform float uTime;          // 0
 uniform vec2  uResolution;    // 1-2
@@ -94,9 +87,9 @@ void main() {
     vec2 y = z - (2.0 / 3.0) * newtonStep;
     vec2 fpy = fprime(y);
 
-    // Jarratt: z_new = z - f/f' * (3*f'(y) - f'(z)) / (2*(3*f'(y) - 2*f'(z)))
-    vec2 num = 3.0 * fpy - fpz;
-    vec2 den = 2.0 * (3.0 * fpy - 2.0 * fpz);
+    // Jarratt (1966): correction = (3 f'(y) + f'(z)) / (6 f'(y) - 2 f'(z))
+    vec2 num = 3.0 * fpy + fpz;
+    vec2 den = 6.0 * fpy - 2.0 * fpz;
     vec2 corr = cdiv(num, den);
 
     vec2 step = cmul(newtonStep, corr);

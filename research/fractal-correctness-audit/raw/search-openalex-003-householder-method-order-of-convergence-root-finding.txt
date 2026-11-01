@@ -1,0 +1,10 @@
+10.13140/rg.2.2.27349.38884	Memory order convergence: A Fading memory extensions of Householder's method for root finding
+10.14710/jfma.v6i2.20554	MODIFIED HOUSEHOLDER METHOD OF FIFTH ORDER OF CONVERGENCE AND ITS DYNAMICS ON COMPLEX PLANE
+10.1080/00207160.2025.2561050	Higher-order root-finding algorithm and its applications
+10.11591/ijaas.v10.i2.pp141-148	A numerical algorithm to find a root of non-linearequations using householder’s method
+10.1109/access.2022.3150775	A Novel Root-Finding Algorithm With Engineering Applications and its Dynamics via Computer Technology
+10.26637/mjm1001/003	Householder's method for solving the $p$-adic polynomial equations
+10.1002/mma.9876	From Halley to Secant: Redefining root finding with memory‐based methods including convergence and stability
+10.1016/j.automatica.2024.111570	On the use of the root locus of polynomials with complex coefficients for estimating the basin of attraction for the continuous-time Newton and Householder methods
+10.5540/tema.2016.017.03.0321	On High Order Barycentric Root-Finding Methods
+10.3390/mca13020123	A Root-Finding Algorithm with Fifth Order Derivatives

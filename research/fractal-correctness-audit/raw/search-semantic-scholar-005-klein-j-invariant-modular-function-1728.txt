@@ -1,0 +1,10 @@
+	Explicit height bounds on modular polynomials for the elliptic $j$-invariant, cube root of $j$, and Weber modular function $\mathfrak f$
+10.1515/jmc-2021-0051	The most efficient indifferentiable hashing to elliptic curves of j-invariant 1728
+10.12988/imf.2007.07167	Rational Expression for J-invariant Function in Terms of Generators of Modular Function Fields
+10.69710/ljp.v3i1.17599	Quantum Determinism: A Complete Field Theory from Topological Equivariance and j-Invariant Arithmetic
+10.1112/mtk.70124	On the behaviour of cycle integrals of j$j$ invariant
+	Hecke polynomials for the mock modular form arising from the Delta-function
+10.1007/jhep04(2025)041	Modular invariant Starobinsky inflation and the Species Scale
+	Modular commutator as a robust topological invariant and approximate Markovianity
+10.4134/bkms.2015.52.1.263	ON EVALUATIONS OF THE MODULAR j-INVARIANT BY MODULAR EQUATIONS OF DEGREE 2
+10.1007/s40993-019-0179-5	On the reciprocal of Klein’s absolute j-invariant and sign changes

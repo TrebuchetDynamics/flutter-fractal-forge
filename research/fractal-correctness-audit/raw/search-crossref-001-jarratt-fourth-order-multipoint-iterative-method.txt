@@ -1,0 +1,10 @@
+10.2307/2003602	Some Fourth Order Multipoint Iterative Methods for Solving Equations
+10.1090/s0025-5718-66-99924-8	Some fourth order multipoint iterative methods for solving equations
+10.1007/bf01933248	Some efficient fourth order multipoint methods for solving equations
+10.1007/s40065-025-00510-6	Enhancing the applicability of Jarratt-type fourth-order and sixth-order iterative methods
+10.1093/comjnl/8.4.398	Multipoint Iterative Methods for Solving Certain Equations
+10.3390/fractalfract7040317	A Seventh Order Family of Jarratt Type Iterative Method for Electrical Power Systems
+10.4067/s0719-06462018000300065	Ball comparison between Jarratt&amp;#8217;s and other fourth order method for solving equations
+10.1007/s40065-022-00380-2	A new sixth-order Jarratt-type iterative method for systems of nonlinear equations
+10.3934/math.2023625	A numerically stable high-order Chebyshev-Halley type multipoint iterative method for calculating matrix sign function
+10.18514/mmn.2011.303	Optimal fourth-order iterative method free from derivative

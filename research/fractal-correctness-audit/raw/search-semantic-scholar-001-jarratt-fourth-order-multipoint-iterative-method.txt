@@ -1,0 +1,10 @@
+10.1090/s0025-5718-66-99924-8	Some fourth order multipoint iterative methods for solving equations
+10.1007/bf01933248	Some efficient fourth order multipoint methods for solving equations
+10.1093/comjnl/8.4.398	Multipoint Iterative Methods for Solving Certain Equations
+	Some Fifth and Sixth Order Iterative Methods for Solving Nonlinear Equations
+10.1017/s0334270000000916	Some high-order zero-finding methods using almost orthogonal polynomials
+10.1134/s1995423914010030	New modified optimal families of King’s and Traub-Ostrowski’s methods
+10.1134/s1995423914010030	New modified optimal families of King’s and Traub-Ostrowski’s methods
+	Sufficient conditions for semilocal convergence of a fourth order multipoint iterative method for solving equations in Banach spaces.
+10.1007/s40065-025-00510-6	Enhancing the applicability of Jarratt-type fourth-order and sixth-order iterative methods
+10.3390/computation13060142	Stability Analysis and Local Convergence of a New Fourth-Order Optimal Jarratt-Type Iterative Scheme

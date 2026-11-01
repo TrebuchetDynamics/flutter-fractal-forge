@@ -1,0 +1,10 @@
+10.12988/imf.2007.07167	Rational expression for J-invariant function in terms of generators of modular function fields
+10.70675/5b473152z6494z42cdza773z8505ec38d8bf	Reflective modular forms and Weyl invariant E8 Jacobi modular forms
+10.1007/bf02457674	Modular invariant partition function of the Hubbard model
+10.1016/s0550-3213(98)00537-9	A modular invariant partition function for the fivebrane
+10.1017/9781316671504.011	Modular Forms and Invariant Theory
+10.3792/pia/1195579775	An invariant property of Siegel's modular function
+10.1007/s00029-021-00619-4	Quantum modular invariant and Hilbert class fields of real quadratic global function fields
+10.12794/metadc2137649	Invariant Differential Derivations for Modular Reflection Groups
+10.1016/0550-3213(87)90334-8	Modular invariant partition function of the Ashkin-Teller model on the critical line and N = 2 superconformal invariance
+10.1080/01630563.2018.1470096	Weighted Statistical Relative Invariant Mean in Modular Function Spaces with Related approximation Results

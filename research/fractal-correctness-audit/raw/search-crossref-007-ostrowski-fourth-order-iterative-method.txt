@@ -1,0 +1,10 @@
+10.3934/math.2024501	A new family of fourth-order Ostrowski-type iterative methods for solving nonlinear systems
+10.18514/mmn.2011.303	Optimal fourth-order iterative method free from derivative
+10.22541/au.170669727.71218710/v1	Uniqueness result and iterative method for fourth order $p$-Laplacian integral boundary value problems with different nonlinear terms
+10.58614/cris343	Optimal fourth order iterative method for solving nonlinear equation
+10.3126/jie.v12i1.16729	A Newton Type Iterative Method with Fourth-order Convergence
+10.9734/bjmcs/2014/5175	Solving Nonlinear Systems Using Fourth Order Iterative Method
+10.65036/amse225	Optimal fourth order iterative method for solving nonlinear equation
+10.1145/800256.810677	Iterative vs. a directive method for solving fourth order elliptic difference equations
+10.12988/ams.2014.311629	A new fourth order Newton like iterative method for nonlinear equations
+10.1016/0893-9659(93)90132-7	A fourth-order nonlinear iterative method in Banach spaces

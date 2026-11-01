@@ -1,0 +1,10 @@
+10.1155/2012/979245	On a 4-Point Sixteenth-Order King Family of Iterative Methods for Solving Nonlinear Equations
+10.5821/dissertation-2117-98084	On iterative methods to solve nonlinear equations
+10.1016/j.cam.2018.02.011	An efficient optimal family of sixteenth order methods for nonlinear models
+10.1007/s12346-022-00572-3	An Optimal Thirty-Second-Order Iterative Method for Solving Nonlinear Equations and a Conjecture
+10.58614/cris241	New higher order iterative methods for solving nonlinear equations and their basins of attraction
+10.1155/2014/591638	Optimal High-Order Methods for Solving Nonlinear Equations
+10.3934/math.2024415	Design and dynamical behavior of a fourth order family of iterative methods for solving nonlinear equations
+10.1155/2024/9955247	A New Family of Optimal Fourth‐Order Iterative Methods for Solving Nonlinear Equations With Applications
+	Numerical iterative methods for nonlinear problems.
+10.47974/jim-1745	Eight and ninth-order convergence iterative structures for obtaining nonlinear equations solution
