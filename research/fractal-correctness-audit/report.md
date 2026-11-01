@@ -136,3 +136,41 @@ identity refuted it, and the shader was left unchanged.
 `flutter test test/modules/root_finding_formula_test.dart` → 11 passing cases,
 including the shader compile/render check for the three edited shaders. The full
 offline gate for the repository is recorded in the task report, not here.
+
+---
+
+## Second pass — four more families
+
+Same method, applied wider. New harness: `measurements/slice_de.py` →
+`slice_de.json`. New regression file: `test/modules/family_degree_consistency_test.dart`.
+
+| Family | Shaders | Check | Result |
+| --- | --- | --- | --- |
+| Escape-time power families (`burning_ship`, `tricorn`, `celtic`, `buffalo`, `perpendicular`, `mandelbar`, `multibrot`, plus Julia variants) | 47 | Map, derivative constant and smooth-colouring normalisation must name the same degree | **0 defects.** All 47 agree. Two ids look wrong and are not: `multibrot_15` / `multibrot_25` are `d = 1.5` / `d = 2.5`, and their display names say so |
+| Degree plumbing across the whole shader tree | 65 shaders that carry both a `der = K *` constant and a `log2(K)` normalisation | Constants must agree | **0 disagreements** |
+| 3D slice-brots (`tetrabrot`, `arrowheadbrot`, `mousebrot`, `turtlebrot`, `hourglassbrot`) | 5 | Characterise the slice combination `sqrt(Σdᵢ²/k)` against the union bound `min(dᵢ)` and the intersection bound `max(dᵢ)` over 16,335 samples each | **Not a defect.** The shipped form never exceeds `max(dᵢ)` (worst excess `≤ 0`), so sphere tracing cannot skip geometry. It exceeds the union bound by at most 0.71–1.02, which means the shape is the slice **intersection**, not a union. Recorded because the shaders do not state which combination they implement |
+| Perpendicular and Celtic folds | 9 | Fold axis and order must match the names | **0 defects.** `perpendicular` folds `Re(z²)`; `perpendicular_burning_ship` folds `Re(z)` before squaring and leaves `Im` alone (distinct from Burning Ship) |
+| Number-theory special functions (`dedekind_eta`, `jacobi_theta`, `eisenstein_series`) | 3 | q-expansion terms against the standard definitions | **0 defects** (see first pass) |
+
+### What "0 defects" means here
+
+It means the shipped code matches the named formula under a check that can fail:
+a degree mismatch, a derivative constant that disagrees with the colouring, or a
+slice combination that oversteps the surface. The root-finding pass proved the
+method finds real defects (2 of 41). These families passed the same kind of
+check, so the earlier finding is a family property, not a general one.
+
+### Where the remaining risk is
+
+The audit has now covered, with falsifiable checks, the families that have a
+published definition: root finding (41), power families (47), 3D slice-brots (5),
+special functions (3), plus a 65-shader degree sweep. That is roughly 160 of the
+582 shaders.
+
+The uncovered shaders are mostly the ones with **no published definition to
+compare against**: `experimental_named` art formulas (~20 hand-tuned maps), the
+cellular/stochastic family, and the strange-attractor renders (where the check
+would be "does the orbit match the stated ODE", not a convergence order). Those
+need a different oracle — a stated source per formula — before a pass/fail check
+means anything. Reporting them as "unaudited" is more honest than calling them
+wrong.
