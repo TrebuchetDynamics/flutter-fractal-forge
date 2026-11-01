@@ -635,6 +635,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   }
 
   void _toggleControlsHud() {
+    _stopMorphPlayback();
+    _breathingController?.pause();
     setState(() {
       _showControlsHud = !_showControlsHud;
     });
@@ -1344,6 +1346,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   }
 
   void _openRandomCategories(BuildContext context) {
+    _stopMorphPlayback();
+    _breathingController?.pause();
     final l10n = AppLocalizations.of(context)!;
     final categories = viewerRandomCategories(context.read<ModuleRegistry>());
     if (categories.isEmpty) return;
@@ -1409,6 +1413,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   }
 
   void _openPalettePicker(BuildContext context) {
+    _stopMorphPlayback();
+    _breathingController?.pause();
     final controller = _activeController(context);
     final l10n = AppLocalizations.of(context)!;
     FractalParameter? colorParam;
