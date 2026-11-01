@@ -139,9 +139,10 @@ class FractalViewControls extends StatelessWidget {
                 width: double.infinity,
                 child: Material(
                   key: const ValueKey('viewerFabColumn'),
-                  color: Theme.of(context).colorScheme.surface,
-                  borderRadius: BorderRadius.circular(20),
-                  clipBehavior: Clip.antiAlias,
+                  // Transparent rail: each action is its own floating circle,
+                  // not a modal-looking slab behind the controls.
+                  color: Colors.transparent,
+                  clipBehavior: Clip.none,
                   child: LayoutBuilder(builder: (context, constraints) {
                     final target = AccessibleSizing.touchTargetSize(
                         largeTargets: context
@@ -830,16 +831,23 @@ class _ViewerToolState extends State<_ViewerTool> {
                   child: Container(
             constraints: BoxConstraints(minWidth: target, minHeight: target),
             decoration: BoxDecoration(
+              shape: BoxShape.circle,
               color: widget.selected == true
-                  ? Color.alphaBlend(
-                      colors.onSurface.withValues(alpha: 0.12), colors.surface)
-                  : colors.surface,
-              borderRadius: BorderRadius.circular(12),
+                  ? Color.alphaBlend(colors.onSurface.withValues(alpha: 0.12),
+                      colors.surface.withValues(alpha: 0.94))
+                  : colors.surface.withValues(alpha: 0.94),
               border: Border.all(
                   color: _focused
                       ? HighContrastColors.focusIndicator
-                      : Colors.transparent,
-                  width: AccessibleSizing.focusIndicatorWidth),
+                      : colors.outlineVariant.withValues(alpha: 0.55),
+                  width: _focused ? AccessibleSizing.focusIndicatorWidth : 1),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.28),
+                  blurRadius: 10,
+                  offset: const Offset(0, 3),
+                ),
+              ],
             ),
             child: Opacity(opacity: disabled ? 0.38 : 1, child: visual),
           ))),
