@@ -752,60 +752,69 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     CatalogFilterResult result,
   ) {
     final isSpanish = Localizations.localeOf(context).languageCode == 'es';
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-          AppSpacing.lg, AppSpacing.xs, AppSpacing.lg, 0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildCompactSearchField(context, l10n),
-          const SizedBox(height: AppSpacing.xs),
-          Row(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  key: const Key('catalogCollectionAndDimensionScroll'),
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      _DimChip(
-                        chipKey: const Key('catalogCollectionChip_explore'),
-                        label: isSpanish ? 'Explorar' : 'Explore',
-                        count: _catalog!.exploreEntries.length,
-                        selected: _selectedCollection == null,
-                        onTap: () => _setSelectedCollection(null),
-                      ),
-                      const SizedBox(width: AppSpacing.xs),
-                      _DimChip(
-                        chipKey: const Key('catalogCategoryChip_favorites'),
-                        label: _categoryDisplayLabel(_favoritesCategory),
-                        count: _favoriteCatalogIds.length,
-                        selected: _selectedCollection == _favoritesCategory,
-                        onTap: () => _setSelectedCollection(_favoritesCategory),
-                      ),
-                      const SizedBox(width: AppSpacing.xs),
-                      _DimChip(
-                        chipKey: const Key('catalogCategoryChip_recent'),
-                        label: _categoryDisplayLabel(_recentCategory),
-                        count: _recentCatalogIds.length,
-                        selected: _selectedCollection == _recentCategory,
-                        onTap: () => _setSelectedCollection(_recentCategory),
-                      ),
-                    ],
+    return LayoutBuilder(builder: (context, constraints) {
+      final compactDimension = constraints.maxWidth < 340;
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(
+            AppSpacing.lg, AppSpacing.xs, AppSpacing.lg, 0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildCompactSearchField(context, l10n),
+            const SizedBox(height: AppSpacing.xs),
+            Row(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    key: const Key('catalogCollectionAndDimensionScroll'),
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        _DimChip(
+                          chipKey: const Key('catalogCollectionChip_explore'),
+                          label: isSpanish ? 'Explorar' : 'Explore',
+                          count: _catalog!.exploreEntries.length,
+                          selected: _selectedCollection == null,
+                          onTap: () => _setSelectedCollection(null),
+                        ),
+                        const SizedBox(width: AppSpacing.xs),
+                        _DimChip(
+                          chipKey: const Key('catalogCategoryChip_favorites'),
+                          label: _categoryDisplayLabel(_favoritesCategory),
+                          count: _favoriteCatalogIds.length,
+                          selected: _selectedCollection == _favoritesCategory,
+                          onTap: () =>
+                              _setSelectedCollection(_favoritesCategory),
+                        ),
+                        const SizedBox(width: AppSpacing.xs),
+                        _DimChip(
+                          chipKey: const Key('catalogCategoryChip_recent'),
+                          label: _categoryDisplayLabel(_recentCategory),
+                          count: _recentCatalogIds.length,
+                          selected: _selectedCollection == _recentCategory,
+                          onTap: () => _setSelectedCollection(_recentCategory),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(width: AppSpacing.xs),
-              _buildDimensionMenu(context, l10n, result),
-            ],
-          ),
-        ],
-      ),
-    );
+                const SizedBox(width: AppSpacing.xs),
+                _buildDimensionMenu(context, l10n, result,
+                    compact: compactDimension),
+              ],
+            ),
+          ],
+        ),
+      );
+    });
   }
 
   Widget _buildDimensionMenu(
-      BuildContext context, AppLocalizations l10n, CatalogFilterResult result) {
+      BuildContext context, AppLocalizations l10n, CatalogFilterResult result,
+      {required bool compact}) {
+    // At phone widths the text menu crowds the three collection tabs. Keep the
+    // same menu and tooltip, but present it as a single 48-pixel icon there.
+    final compactMenu = compact;
     final allLabel = Localizations.localeOf(context).languageCode == 'es'
         ? 'Todas las dimensiones'
         : 'All dimensions';
@@ -817,7 +826,7 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
           CatalogDimensionFilter.kaleidoscope => l10n.dimensionKaleidoscope,
         };
     return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 128),
+      constraints: BoxConstraints(maxWidth: compactMenu ? 48 : 128),
       child: PopupMenuButton<CatalogDimensionFilter>(
         key: const Key('catalogDimensionMenu'),
         tooltip: label(_dimensionFilter),
@@ -848,29 +857,37 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
             ),
         ],
         child: Container(
-          constraints: const BoxConstraints(minHeight: 48, minWidth: 72),
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          constraints:
+              BoxConstraints(minHeight: 48, minWidth: compactMenu ? 48 : 72),
+          padding: EdgeInsets.symmetric(
+              horizontal: compactMenu ? 12 : 8, vertical: 8),
           child: ExcludeSemantics(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.layers_outlined,
-                    size: 16, color: AppColors.textSecondary),
-                const SizedBox(width: 4),
-                Flexible(
-                  child: Text(
-                    _dimensionFilter == CatalogDimensionFilter.all
-                        ? l10n.catalogFilterAll
-                        : label(_dimensionFilter),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTypography.labelSmall.copyWith(fontSize: 12),
+            child: compactMenu
+                ? const Center(
+                    child: Icon(Icons.layers_outlined,
+                        size: 20, color: AppColors.textSecondary),
+                  )
+                : Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.layers_outlined,
+                          size: 16, color: AppColors.textSecondary),
+                      const SizedBox(width: 4),
+                      Flexible(
+                        child: Text(
+                          _dimensionFilter == CatalogDimensionFilter.all
+                              ? l10n.catalogFilterAll
+                              : label(_dimensionFilter),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style:
+                              AppTypography.labelSmall.copyWith(fontSize: 12),
+                        ),
+                      ),
+                      const Icon(Icons.expand_more_rounded,
+                          size: 16, color: AppColors.textSecondary),
+                    ],
                   ),
-                ),
-                const Icon(Icons.expand_more_rounded,
-                    size: 16, color: AppColors.textSecondary),
-              ],
-            ),
           ),
         ),
       ),

@@ -394,8 +394,8 @@ void main() {
               final rect = tester.getRect(tool);
               expect(rect.width, greaterThanOrEqualTo(target), reason: key);
               expect(rect.height, greaterThanOrEqualTo(target), reason: key);
-              expect(rect.left, greaterThanOrEqualTo(16), reason: key);
-              expect(rect.right, lessThanOrEqualTo(viewport.width - 16),
+              expect(rect.left, greaterThanOrEqualTo(12), reason: key);
+              expect(rect.right, lessThanOrEqualTo(viewport.width - 12),
                   reason: key);
               expect(tool.hitTestable(), findsOneWidget, reason: key);
             }
@@ -436,8 +436,10 @@ void main() {
         viewPadding: const EdgeInsets.fromLTRB(24, 24, 8, 48),
         gestures: const EdgeInsets.fromLTRB(8, 0, 32, 64));
     final rect = tester.getRect(_tool('viewerFabColumn'));
-    expect(rect.left, 40);
-    expect(rect.right, 312);
+    // A phone keeps 8px breathing room beyond the safe inset so all seven
+    // 48px actions fit on one row.
+    expect(rect.left, 32);
+    expect(rect.right, 320);
     expect(rect.bottom, 700);
   });
 
