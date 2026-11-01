@@ -14,7 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const _orderedTools = [
   'viewerPreviousFractalButton',
-  'viewerMorphPlayButton',
+  'viewerBreathingButton',
   'viewerLooperFab',
   'viewerControlsButton',
   'viewerPaletteButton',
@@ -25,7 +25,7 @@ const _orderedTools = [
 /// Primary key -> callback it must dispatch on a quick press.
 const _tapCallbacks = {
   'viewerPreviousFractalButton': 'viewerPreviousFractalButton',
-  'viewerMorphPlayButton': 'viewerMorphPlayButton',
+  'viewerBreathingButton': 'viewerBreathingButton',
   'viewerLooperFab': 'viewerLooperFab',
   'viewerControlsButton': 'viewerRandomParamsButton',
   'viewerPaletteButton': 'viewerPaletteButton',
@@ -101,8 +101,6 @@ Future<AutoExploreService> _pumpToolbar(WidgetTester tester,
                 openAutoExploreSettings: onAutoExploreSettings,
                 previousFractal: () =>
                     onAction?.call('viewerPreviousFractalButton'),
-                toggleMorphPlayback: () =>
-                    onAction?.call('viewerMorphPlayButton'),
                 randomizePalette: () => onAction?.call('viewerPaletteButton'),
                 openRandomCategories: () =>
                     onAction?.call('viewerRandomCategories'),
@@ -196,7 +194,7 @@ void main() {
           // Full localized names remain in tooltips and semantics.
           for (final entry in {
             'viewerPreviousFractalButton': l10n.hudPreviousFractal,
-            'viewerMorphPlayButton': l10n.tooltipPlayMorph,
+            'viewerBreathingButton': l10n.tooltipPlayBreathing,
             'viewerLooperFab': l10n.looperTitle,
             'viewerControlsButton': l10n.tooltipRandomizeWithControls,
             'viewerPaletteButton': l10n.tooltipRandomizePaletteWithSettings,
@@ -227,13 +225,6 @@ void main() {
             expect(calls, [entry.value], reason: '${entry.key} long press');
             calls.clear();
           }
-          await _openMore(tester);
-          expect(_tool('viewerBreathingButton'), findsOneWidget);
-          await tester.ensureVisible(_tool('viewerBreathingButton'));
-          await tester.pumpAndSettle();
-          expect(_tool('viewerBreathingButton').hitTestable(), findsOneWidget);
-          await tester.sendKeyEvent(LogicalKeyboardKey.escape);
-          await tester.pumpAndSettle();
           expect(tester.takeException(), isNull);
         });
       }
@@ -313,8 +304,7 @@ void main() {
     });
   }
 
-  testWidgets(
-      'suppressed unavailable Play keeps disabled semantics and tooltip',
+  testWidgets('unavailable Play keeps disabled semantics and tooltip',
       (tester) async {
     final semantics = tester.ensureSemantics();
 
@@ -324,9 +314,8 @@ void main() {
         textScale: 3,
         breathingAvailable: false,
         onAction: calls.add);
-    expect(_tool('viewerBreathingButton'), findsNothing);
-    await _openMore(tester);
     final play = _tool('viewerBreathingButton');
+    expect(play, findsOneWidget);
     await tester.ensureVisible(play);
     await tester.pumpAndSettle();
     final button = tester.widget<FloatingActionButtonWidget>(play);
@@ -334,15 +323,18 @@ void main() {
     expect(button.tooltip, l10n.tooltipBreathingUnavailable);
     expect(button.onPressed, isNull);
     final data = tester
-        .getSemantics(find.bySemanticsLabel(button.tooltip))
+        .getSemantics(find.descendant(
+            of: play, matching: find.bySemanticsLabel(button.tooltip)))
         .getSemanticsData();
     expect(data.hasAction(SemanticsAction.tap), isFalse);
-    // ignore: deprecated_member_use
-    expect(data.hasFlag(SemanticsFlag.isEnabled), isFalse);
-    await tester.tap(play);
+    // The primary Play still offers its looper secondary action.
+    expect(data.hasAction(SemanticsAction.longPress), isTrue);
+    await tester.tap(play, warnIfMissed: false);
     await tester.pumpAndSettle();
     expect(calls, isEmpty);
-    expect(find.byType(BottomSheet), findsOneWidget);
+    await tester.longPress(play);
+    await tester.pumpAndSettle();
+    expect(calls, ['viewerLooperFab']);
     semantics.dispose();
   });
 

@@ -93,7 +93,7 @@ void main() {
               'guidelines above would pass vacuously');
       const primaryNames = {
         'viewerPreviousFractalButton': 'Previous fractal',
-        'viewerMorphPlayButton': 'Play random fractal morphing',
+        'viewerBreathingButton': 'Play parameter animation',
         'viewerLooperFab': 'Camera looper',
         'viewerControlsButton': 'Randomize. Long press for Controls',
         'viewerPaletteButton':

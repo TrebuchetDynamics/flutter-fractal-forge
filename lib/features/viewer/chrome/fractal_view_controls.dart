@@ -31,7 +31,6 @@ class FractalViewControlActions {
   final VoidCallback toggleTextOverlay;
   final VoidCallback editTextOverlay;
   final VoidCallback openLooper;
-  final VoidCallback? toggleMorphPlayback;
   final VoidCallback toggleBreathing;
   final VoidCallback toggleFourier;
   final VoidCallback openFourierSettings;
@@ -59,7 +58,6 @@ class FractalViewControlActions {
     required this.toggleTextOverlay,
     required this.editTextOverlay,
     required this.openLooper,
-    this.toggleMorphPlayback,
     required this.toggleBreathing,
     required this.toggleFourier,
     required this.openFourierSettings,
@@ -77,9 +75,7 @@ class FractalViewControls extends StatelessWidget {
   final bool kaleidoscopeMirror;
   final bool breathingPlaying;
   final bool breathingAvailable;
-  final bool morphPlaying;
   final bool canGoPreviousFractal;
-  final bool Function()? breathingIsPlaying;
   final bool fourierEnabled;
   final bool textOverlayEnabled;
   final bool showFractalReport;
@@ -98,9 +94,7 @@ class FractalViewControls extends StatelessWidget {
     required this.kaleidoscopeMirror,
     required this.breathingPlaying,
     this.breathingAvailable = true,
-    this.morphPlaying = false,
     this.canGoPreviousFractal = false,
-    this.breathingIsPlaying,
     required this.fourierEnabled,
     required this.textOverlayEnabled,
     this.showFractalReport = false,
@@ -165,19 +159,23 @@ class FractalViewControls extends StatelessWidget {
                         sortOrder: 0,
                       ),
                       _ViewerTool(
-                        toolKey: const ValueKey('viewerMorphPlayButton'),
-                        icon: morphPlaying
+                        toolKey: const ValueKey('viewerBreathingButton'),
+                        icon: breathingPlaying
                             ? Icons.pause_rounded
                             : Icons.play_arrow_rounded,
-                        label:
-                            morphPlaying ? l10n.actionPause : l10n.actionPlay,
-                        semanticLabel: morphPlaying
-                            ? l10n.tooltipPauseMorph
-                            : l10n.tooltipPlayMorph,
-                        selected: morphPlaying,
+                        label: breathingPlaying
+                            ? l10n.actionPause
+                            : l10n.actionPlay,
+                        semanticLabel: breathingAvailable
+                            ? (breathingPlaying
+                                ? l10n.tooltipPauseBreathing
+                                : l10n.tooltipPlayBreathing)
+                            : l10n.tooltipBreathingUnavailable,
+                        selected: breathingPlaying,
                         showLabel: false,
-                        onPressed:
-                            isExporting ? null : actions.toggleMorphPlayback,
+                        onPressed: isExporting || !breathingAvailable
+                            ? null
+                            : actions.toggleBreathing,
                         onLongPress: isExporting ? null : actions.openLooper,
                         sortOrder: 1,
                       ),
@@ -302,9 +300,6 @@ class FractalViewControls extends StatelessWidget {
           value: explore,
           child: Builder(builder: (context) {
             final service = context.watch<AutoExploreService?>();
-            // Read live state: opening More freezes motion just before this
-            // builder runs, so a captured bool would paint a stale Pause icon.
-            final breathingNow = breathingIsPlaying?.call() ?? breathingPlaying;
             final status = service == null
                 ? null
                 : AutoExploreControlStatus.fromPlayback(
@@ -393,22 +388,6 @@ class FractalViewControls extends StatelessWidget {
                       row('viewerWallpaperAction', Icons.wallpaper_rounded,
                           l10n.wallpaperTitle, actions.openWallpaper),
                     section(l10n.viewerActionSectionExploreAnimate),
-                    if (supportsAuxiliaryTools)
-                      row(
-                          'viewerBreathingButton',
-                          breathingNow
-                              ? Icons.pause_rounded
-                              : Icons.play_arrow_rounded,
-                          breathingAvailable
-                              ? (breathingNow
-                                  ? l10n.tooltipPauseBreathing
-                                  : l10n.tooltipPlayBreathing)
-                              : l10n.tooltipBreathingUnavailable,
-                          actions.toggleBreathing,
-                          caption:
-                              breathingNow ? l10n.actionPause : l10n.actionPlay,
-                          enabled: breathingAvailable,
-                          selected: breathingNow),
                     row(
                       'viewerRandomOptionsAction',
                       Icons.shuffle_rounded,

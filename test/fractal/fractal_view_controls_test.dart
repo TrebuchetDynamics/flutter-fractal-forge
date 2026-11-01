@@ -47,7 +47,6 @@ Future<bool> _pumpControls(
   VoidCallback? onOpenPalettePicker,
   VoidCallback? onRandomizePalette,
   VoidCallback? onPreviousFractal,
-  VoidCallback? onToggleMorphPlayback,
   VoidCallback? onOpenRandomFractal,
   VoidCallback? onOpenControls,
   VoidCallback? onRandomizeParams,
@@ -106,7 +105,6 @@ Future<bool> _pumpControls(
               openPalettePicker: onOpenPalettePicker ?? () {},
               randomizePalette: onRandomizePalette ?? () {},
               previousFractal: onPreviousFractal ?? () {},
-              toggleMorphPlayback: onToggleMorphPlayback ?? () {},
               toggleKaleidoscope: onToggleKaleidoscope ?? () {},
               setKaleidoscopeSectors: (_) {},
               setKaleidoscopeMirror: (_) {},
@@ -133,7 +131,7 @@ Future<bool> _pumpControls(
 
 const _primaryKeys = [
   'viewerPreviousFractalButton',
-  'viewerMorphPlayButton',
+  'viewerBreathingButton',
   'viewerLooperFab',
   'viewerControlsButton',
   'viewerPaletteButton',
@@ -650,7 +648,7 @@ void main() {
       final labels = locale.languageCode == 'en'
           ? const {
               'viewerPreviousFractalButton': 'Previous fractal',
-              'viewerMorphPlayButton': 'Play random fractal morphing',
+              'viewerBreathingButton': 'Play parameter animation',
               'viewerLooperFab': 'Camera looper',
               'viewerControlsButton': 'Randomize. Long press for Controls',
               'viewerPaletteButton':
@@ -660,8 +658,7 @@ void main() {
             }
           : const {
               'viewerPreviousFractalButton': 'Fractal anterior',
-              'viewerMorphPlayButton':
-                  'Reproducir transformación aleatoria de fractales',
+              'viewerBreathingButton': 'Reproducir animación de parámetros',
               'viewerLooperFab': 'Bucle de cámara',
               'viewerControlsButton':
                   'Aleatorizar. Mantén presionado para Controles',

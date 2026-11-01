@@ -289,7 +289,7 @@ void main() {
 
           for (final key in [
             'viewerPreviousFractalButton',
-            'viewerMorphPlayButton',
+            'viewerBreathingButton',
             'viewerLooperFab',
             'viewerControlsButton',
             'viewerPaletteButton',

@@ -1551,18 +1551,6 @@ abstract class AppLocalizations {
   /// **'Randomize palette. Long press for palette settings'**
   String get tooltipRandomizePaletteWithSettings;
 
-  /// No description provided for @tooltipPlayMorph.
-  ///
-  /// In en, this message translates to:
-  /// **'Play random fractal morphing'**
-  String get tooltipPlayMorph;
-
-  /// No description provided for @tooltipPauseMorph.
-  ///
-  /// In en, this message translates to:
-  /// **'Pause random fractal morphing'**
-  String get tooltipPauseMorph;
-
   /// No description provided for @tooltipKaleidoscopeOn.
   ///
   /// In en, this message translates to:
@@ -3552,7 +3540,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeFractalCountBadge.
   ///
   /// In en, this message translates to:
-  /// **'1025 fractals'**
+  /// **'1029 fractals'**
   String get homeFractalCountBadge;
 
   /// No description provided for @catalogAllFractals.
@@ -4110,7 +4098,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsAboutBlurb.
   ///
   /// In en, this message translates to:
-  /// **'GPU-accelerated exploration of 1025 production fractals, with deep zoom and real-time rendering.'**
+  /// **'GPU-accelerated exploration of 1029 production fractals, with deep zoom and real-time rendering.'**
   String get settingsAboutBlurb;
 
   /// No description provided for @settingsSourceCode.
