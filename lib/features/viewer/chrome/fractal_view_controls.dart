@@ -18,6 +18,10 @@ class FractalViewControlActions {
   final VoidCallback randomizeParams;
   final VoidCallback cycleColorScheme;
   final VoidCallback openPalettePicker;
+  final VoidCallback? randomizePalette;
+  final VoidCallback? previousFractal;
+  final VoidCallback? openRandomCategories;
+  final VoidCallback? pauseMotion;
   final VoidCallback toggleKaleidoscope;
   final ValueChanged<int> setKaleidoscopeSectors;
   final ValueChanged<bool> setKaleidoscopeMirror;
@@ -27,6 +31,7 @@ class FractalViewControlActions {
   final VoidCallback toggleTextOverlay;
   final VoidCallback editTextOverlay;
   final VoidCallback openLooper;
+  final VoidCallback? toggleMorphPlayback;
   final VoidCallback toggleBreathing;
   final VoidCallback toggleFourier;
   final VoidCallback openFourierSettings;
@@ -41,6 +46,10 @@ class FractalViewControlActions {
     required this.randomizeParams,
     required this.cycleColorScheme,
     required this.openPalettePicker,
+    this.randomizePalette,
+    this.previousFractal,
+    this.openRandomCategories,
+    this.pauseMotion,
     required this.toggleKaleidoscope,
     required this.setKaleidoscopeSectors,
     required this.setKaleidoscopeMirror,
@@ -50,6 +59,7 @@ class FractalViewControlActions {
     required this.toggleTextOverlay,
     required this.editTextOverlay,
     required this.openLooper,
+    this.toggleMorphPlayback,
     required this.toggleBreathing,
     required this.toggleFourier,
     required this.openFourierSettings,
@@ -67,6 +77,9 @@ class FractalViewControls extends StatelessWidget {
   final bool kaleidoscopeMirror;
   final bool breathingPlaying;
   final bool breathingAvailable;
+  final bool morphPlaying;
+  final bool canGoPreviousFractal;
+  final bool Function()? breathingIsPlaying;
   final bool fourierEnabled;
   final bool textOverlayEnabled;
   final bool showFractalReport;
@@ -85,6 +98,9 @@ class FractalViewControls extends StatelessWidget {
     required this.kaleidoscopeMirror,
     required this.breathingPlaying,
     this.breathingAvailable = true,
+    this.morphPlaying = false,
+    this.canGoPreviousFractal = false,
+    this.breathingIsPlaying,
     required this.fourierEnabled,
     required this.textOverlayEnabled,
     this.showFractalReport = false,
@@ -121,181 +137,132 @@ class FractalViewControls extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 440),
-              child: Material(
-                key: const ValueKey('viewerFabColumn'),
-                color: Theme.of(context).colorScheme.surface,
-                borderRadius: BorderRadius.circular(20),
-                clipBehavior: Clip.antiAlias,
-                child: LayoutBuilder(builder: (context, constraints) {
-                  final innerWidth = constraints.maxWidth - 16;
-                  final target = AccessibleSizing.touchTargetSize(
-                      largeTargets: context
-                              .watch<AccessibilityService?>()
-                              ?.largeTargetsEnabled ??
-                          false);
-                  final labelStyle = Theme.of(context).textTheme.labelMedium!;
-                  double labelWidth(String label) {
-                    final painter = TextPainter(
-                      text: TextSpan(text: label, style: labelStyle),
-                      textDirection: Directionality.of(context),
-                      textScaler: mq.textScaler,
-                    )..layout();
-                    final width = painter.width.ceilToDouble();
-                    painter.dispose();
-                    return width;
-                  }
-
-                  final compact = compactViewport ||
-                      constraints.maxHeight < mq.textScaler.scale(14) + 64;
-                  final buttons = <_ViewerTool>[
-                    if (supportsAuxiliaryTools)
+              child: SizedBox(
+                width: double.infinity,
+                child: Material(
+                  key: const ValueKey('viewerFabColumn'),
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: BorderRadius.circular(20),
+                  clipBehavior: Clip.antiAlias,
+                  child: LayoutBuilder(builder: (context, constraints) {
+                    final target = AccessibleSizing.touchTargetSize(
+                        largeTargets: context
+                                .watch<AccessibilityService?>()
+                                ?.largeTargetsEnabled ??
+                            false);
+                    // Compact icon rail: more actions, no captions. Tooltips and
+                    // semantics still carry the full localized names, and every
+                    // visual cell keeps a full 48/56-pixel hit target.
+                    final buttons = <_ViewerTool>[
                       _ViewerTool(
-                        toolKey: const ValueKey('viewerBreathingButton'),
-                        icon: breathingPlaying
-                            ? Icons.pause_rounded
-                            : Icons.play_arrow_rounded,
-                        label: breathingPlaying
-                            ? l10n.actionPause
-                            : l10n.actionPlay,
-                        semanticLabel: breathingAvailable
-                            ? (breathingPlaying
-                                ? l10n.tooltipPauseBreathing
-                                : l10n.tooltipPlayBreathing)
-                            : l10n.tooltipBreathingUnavailable,
-                        selected: breathingPlaying,
-                        onPressed: isExporting ||
-                                !breathingAvailable ||
-                                !supportsAuxiliaryTools
+                        toolKey: const ValueKey('viewerPreviousFractalButton'),
+                        icon: Icons.arrow_back_rounded,
+                        label: l10n.hudPreviousFractal,
+                        showLabel: false,
+                        onPressed: isExporting || !canGoPreviousFractal
                             ? null
-                            : actions.toggleBreathing,
-                        row: compact,
-                        compact: compact,
-                        dense: compact,
+                            : actions.previousFractal,
                         sortOrder: 0,
                       ),
-                    _ViewerTool(
-                      toolKey: const ValueKey('viewerControlsButton'),
-                      icon: Icons.tune_rounded,
-                      label: l10n.controlsTitle,
-                      onPressed: isExporting ? null : actions.openControls,
-                      row: compact,
-                      compact: compact,
-                      dense: compact,
-                      sortOrder: 1,
-                    ),
-                    _ViewerTool(
-                      toolKey: const ValueKey('viewerPaletteButton'),
-                      icon: Icons.palette_outlined,
-                      label: l10n.hudPalette,
-                      onPressed: isExporting ? null : actions.openPalettePicker,
-                      row: compact,
-                      compact: compact,
-                      dense: compact,
-                      sortOrder: 2,
-                    ),
-                    _ViewerTool(
-                      toolKey: const ValueKey('viewerRandomFractalFab'),
-                      icon: Icons.shuffle_rounded,
-                      label: l10n.navDockRandom,
-                      onPressed: isExporting ? null : actions.openRandomFractal,
-                      onLongPress: isExporting
-                          ? null
-                          : () => _showRandomOptionsModal(context),
-                      row: compact,
-                      compact: compact,
-                      dense: compact,
-                      sortOrder: 3,
-                    ),
-                    _ViewerTool(
-                      toolKey: const ValueKey('viewerOverflowMenu'),
-                      icon: Icons.more_horiz_rounded,
-                      label: l10n.viewerMoreTools,
-                      // Bound below after allocating the primary actions.
-                      row: compact,
-                      compact: compact,
-                      dense: compact,
-                      sortOrder: 4,
-                    ),
-                  ];
-                  double widthFor(_ViewerTool tool) => math.max(
-                      target,
-                      labelWidth(tool.label) +
-                          2 * AccessibleSizing.focusIndicatorWidth +
-                          (compact ? (tool.selected == null ? 0 : 24) : 16));
-                  final suppressed = <String>{};
-                  void suppressAt(int index) {
-                    suppressed.add(
-                        (buttons.removeAt(index).toolKey as ValueKey<String>)
-                            .value);
-                  }
-
-                  if (compact) {
-                    for (var i = buttons.length - 2; i >= 0; i--) {
-                      if (widthFor(buttons[i]) > innerWidth) suppressAt(i);
-                    }
-                  } else {
-                    // Keep the familiar five when their *actual* labels fit.
-                    // Drop the least essential shortcuts first, never shrink text
-                    // or split words to force a fixed five-column grid.
-                    for (final key in const [
-                      'viewerRandomFractalFab',
-                      'viewerPaletteButton',
-                      'viewerBreathingButton',
-                      'viewerControlsButton'
-                    ]) {
-                      if (buttons.fold<double>(
-                              0, (sum, tool) => sum + widthFor(tool)) <=
-                          innerWidth) break;
-                      final index = buttons
-                          .indexWhere((tool) => tool.toolKey == ValueKey(key));
-                      if (index >= 0) suppressAt(index);
-                    }
-                  }
-                  final extra = math.max(
-                          0.0,
-                          innerWidth -
-                              buttons.fold<double>(
-                                  0, (sum, tool) => sum + widthFor(tool))) /
-                      buttons.length;
-                  return SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: FocusTraversalGroup(
-                        policy: OrderedTraversalPolicy(),
-                        child: Wrap(
-                          children: [
-                            for (final button in buttons)
-                              SizedBox(
-                                key: button.toolKey ==
-                                        const ValueKey('viewerOverflowMenu')
-                                    ? const ValueKey('viewerExportButton')
-                                    : null,
-                                width: compact
-                                    ? innerWidth
-                                    : widthFor(button) + extra,
-                                child: button.toolKey ==
-                                        const ValueKey('viewerOverflowMenu')
-                                    ? _ViewerTool(
-                                        toolKey: button.toolKey,
-                                        icon: button.icon,
-                                        label: button.label,
-                                        row: compact,
-                                        compact: compact,
-                                        dense: compact,
-                                        sortOrder: button.sortOrder,
-                                        onPressed: isExporting
-                                            ? null
-                                            : () =>
-                                                _showMore(context, suppressed),
-                                      )
-                                    : button,
-                              )
-                          ],
+                      _ViewerTool(
+                        toolKey: const ValueKey('viewerMorphPlayButton'),
+                        icon: morphPlaying
+                            ? Icons.pause_rounded
+                            : Icons.play_arrow_rounded,
+                        label:
+                            morphPlaying ? l10n.actionPause : l10n.actionPlay,
+                        semanticLabel: morphPlaying
+                            ? l10n.tooltipPauseMorph
+                            : l10n.tooltipPlayMorph,
+                        selected: morphPlaying,
+                        showLabel: false,
+                        onPressed:
+                            isExporting ? null : actions.toggleMorphPlayback,
+                        onLongPress: isExporting ? null : actions.openLooper,
+                        sortOrder: 1,
+                      ),
+                      if (supportsAuxiliaryTools)
+                        _ViewerTool(
+                          toolKey: const ValueKey('viewerLooperFab'),
+                          icon: Icons.loop_rounded,
+                          label: l10n.looperTitle,
+                          showLabel: false,
+                          onPressed: isExporting ? null : actions.openLooper,
+                          sortOrder: 2,
+                        ),
+                      _ViewerTool(
+                        toolKey: const ValueKey('viewerControlsButton'),
+                        icon: Icons.tune_rounded,
+                        label: l10n.randomize,
+                        semanticLabel: l10n.tooltipRandomizeWithControls,
+                        showLabel: false,
+                        onPressed: isExporting ? null : actions.randomizeParams,
+                        onLongPress: isExporting ? null : actions.openControls,
+                        sortOrder: 3,
+                      ),
+                      _ViewerTool(
+                        toolKey: const ValueKey('viewerPaletteButton'),
+                        icon: Icons.palette_outlined,
+                        label: l10n.randomize,
+                        semanticLabel: l10n.tooltipRandomizePaletteWithSettings,
+                        showLabel: false,
+                        onPressed: isExporting
+                            ? null
+                            : (actions.randomizePalette ??
+                                actions.cycleColorScheme),
+                        onLongPress:
+                            isExporting ? null : actions.openPalettePicker,
+                        sortOrder: 4,
+                      ),
+                      _ViewerTool(
+                        toolKey: const ValueKey('viewerRandomFractalFab'),
+                        icon: Icons.shuffle_rounded,
+                        label: l10n.navDockRandom,
+                        semanticLabel: l10n.tooltipRandomFractal,
+                        showLabel: false,
+                        onPressed:
+                            isExporting ? null : actions.openRandomFractal,
+                        onLongPress: isExporting
+                            ? null
+                            : (actions.openRandomCategories ??
+                                () => _showRandomOptionsModal(context)),
+                        sortOrder: 5,
+                      ),
+                      _ViewerTool(
+                        toolKey: const ValueKey('viewerOverflowMenu'),
+                        icon: Icons.more_horiz_rounded,
+                        label: l10n.viewerMoreTools,
+                        showLabel: false,
+                        sortOrder: 6,
+                        onPressed:
+                            isExporting ? null : () => _showMore(context),
+                      ),
+                    ];
+                    return SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: FocusTraversalGroup(
+                          policy: OrderedTraversalPolicy(),
+                          child: Wrap(
+                            alignment: WrapAlignment.center,
+                            children: [
+                              for (final button in buttons)
+                                SizedBox(
+                                  key: button.toolKey ==
+                                          const ValueKey('viewerOverflowMenu')
+                                      ? const ValueKey('viewerExportButton')
+                                      : null,
+                                  width: target,
+                                  height: target,
+                                  child: button,
+                                )
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                }),
+                    );
+                  }),
+                ),
               ),
             ),
           ),
@@ -304,7 +271,9 @@ class FractalViewControls extends StatelessWidget {
     );
   }
 
-  void _showMore(BuildContext context, Set<String> suppressed) {
+  void _showMore(BuildContext context) {
+    // Opening the menu freezes the scene so its rows act on what the user saw.
+    actions.pauseMotion?.call();
     final l10n = AppLocalizations.of(context)!;
     final contextForOptions = context;
     // The viewer-scoped service is below the Navigator, not above its route.
@@ -333,6 +302,9 @@ class FractalViewControls extends StatelessWidget {
           value: explore,
           child: Builder(builder: (context) {
             final service = context.watch<AutoExploreService?>();
+            // Read live state: opening More freezes motion just before this
+            // builder runs, so a captured bool would paint a stale Pause icon.
+            final breathingNow = breathingIsPlaying?.call() ?? breathingPlaying;
             final status = service == null
                 ? null
                 : AutoExploreControlStatus.fromPlayback(
@@ -421,29 +393,22 @@ class FractalViewControls extends StatelessWidget {
                       row('viewerWallpaperAction', Icons.wallpaper_rounded,
                           l10n.wallpaperTitle, actions.openWallpaper),
                     section(l10n.viewerActionSectionExploreAnimate),
-                    if (suppressed.contains('viewerBreathingButton'))
+                    if (supportsAuxiliaryTools)
                       row(
                           'viewerBreathingButton',
-                          breathingPlaying
+                          breathingNow
                               ? Icons.pause_rounded
                               : Icons.play_arrow_rounded,
                           breathingAvailable
-                              ? (breathingPlaying
+                              ? (breathingNow
                                   ? l10n.tooltipPauseBreathing
                                   : l10n.tooltipPlayBreathing)
                               : l10n.tooltipBreathingUnavailable,
                           actions.toggleBreathing,
-                          caption: breathingPlaying
-                              ? l10n.actionPause
-                              : l10n.actionPlay,
+                          caption:
+                              breathingNow ? l10n.actionPause : l10n.actionPlay,
                           enabled: breathingAvailable,
-                          selected: breathingPlaying),
-                    if (suppressed.contains('viewerRandomFractalFab'))
-                      row('viewerRandomFractalFab', Icons.shuffle_rounded,
-                          l10n.tooltipRandomFractal, actions.openRandomFractal,
-                          caption: l10n.navDockRandom,
-                          onLongPress: () =>
-                              _showRandomOptionsModal(contextForOptions)),
+                          selected: breathingNow),
                     row(
                       'viewerRandomOptionsAction',
                       Icons.shuffle_rounded,
@@ -488,14 +453,8 @@ class FractalViewControls extends StatelessWidget {
                             selected: status.isMotionActive,
                             caption: short ? l10n.tabExplore : null),
                       ],
-                      row('viewerLooperFab', Icons.loop_rounded,
-                          l10n.tooltipCameraLooper, actions.openLooper,
-                          caption: short ? l10n.looperTitle : null),
                     ],
                     section(l10n.viewerActionSectionVisualEffects),
-                    if (suppressed.contains('viewerPaletteButton'))
-                      row('viewerPaletteButton', Icons.palette_outlined,
-                          l10n.hudPalette, actions.openPalettePicker),
                     row(
                         'viewerColorCycleButton',
                         Icons.palette_rounded,
@@ -560,9 +519,6 @@ class FractalViewControls extends StatelessWidget {
                               : null),
                     ],
                     section(l10n.viewerActionSectionViewReport),
-                    if (suppressed.contains('viewerControlsButton'))
-                      row('viewerControlsButton', Icons.tune_rounded,
-                          l10n.controlsTitle, actions.openControls),
                     row('viewerFullscreenButton', Icons.fullscreen_rounded,
                         l10n.tooltipFullscreen, actions.toggleFullscreen),
                     if (showFractalReport)
@@ -785,8 +741,8 @@ class _ViewerTool extends StatefulWidget {
   final VoidCallback? onPressed;
   final VoidCallback? onLongPress;
   final bool row;
-  final bool compact;
   final bool dense;
+  final bool showLabel;
   final bool? selected;
   final double? sortOrder;
 
@@ -799,8 +755,8 @@ class _ViewerTool extends StatefulWidget {
       this.onPressed,
       this.onLongPress,
       this.row = false,
-      this.compact = false,
       this.dense = false,
+      this.showLabel = true,
       this.selected,
       this.sortOrder});
 
@@ -825,29 +781,32 @@ class _ViewerToolState extends State<_ViewerTool> {
             color: colors.onSurface, height: widget.dense ? 1.1 : null));
     final visual = Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: widget.compact || widget.dense ? 0 : 8,
-          vertical: widget.dense ? 0 : 8),
-      child: widget.row
-          ? Row(children: [
-              if (widget.dense && widget.selected != null) ...[
-                Icon(
-                    widget.selected!
-                        ? Icons.check_box_outlined
-                        : Icons.check_box_outline_blank,
-                    size: 20),
-                const SizedBox(width: 4),
-              ],
-              if (!widget.compact && !widget.dense) ...[
-                Icon(widget.icon, size: 20),
-                const SizedBox(width: 12),
-              ],
-              Expanded(child: caption)
-            ])
-          : Column(mainAxisSize: MainAxisSize.min, children: [
-              Icon(widget.icon, size: 20),
-              const SizedBox(height: 4),
-              caption
-            ]),
+          horizontal: widget.dense ? 0 : 8, vertical: widget.dense ? 0 : 8),
+      child: !widget.showLabel
+          ? Center(
+              child:
+                  Icon(widget.icon, size: 20, color: colors.onSurfaceVariant))
+          : widget.row
+              ? Row(children: [
+                  if (widget.dense && widget.selected != null) ...[
+                    Icon(
+                        widget.selected!
+                            ? Icons.check_box_outlined
+                            : Icons.check_box_outline_blank,
+                        size: 20),
+                    const SizedBox(width: 4),
+                  ],
+                  if (!widget.dense) ...[
+                    Icon(widget.icon, size: 20),
+                    const SizedBox(width: 12),
+                  ],
+                  Expanded(child: caption)
+                ])
+              : Column(mainAxisSize: MainAxisSize.min, children: [
+                  Icon(widget.icon, size: 20),
+                  const SizedBox(height: 4),
+                  caption
+                ]),
     );
     return Focus(
       canRequestFocus: false,

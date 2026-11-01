@@ -13,12 +13,24 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const _orderedTools = [
-  'viewerBreathingButton',
+  'viewerPreviousFractalButton',
+  'viewerMorphPlayButton',
+  'viewerLooperFab',
   'viewerControlsButton',
   'viewerPaletteButton',
   'viewerRandomFractalFab',
   'viewerOverflowMenu',
 ];
+
+/// Primary key -> callback it must dispatch on a quick press.
+const _tapCallbacks = {
+  'viewerPreviousFractalButton': 'viewerPreviousFractalButton',
+  'viewerMorphPlayButton': 'viewerMorphPlayButton',
+  'viewerLooperFab': 'viewerLooperFab',
+  'viewerControlsButton': 'viewerRandomParamsButton',
+  'viewerPaletteButton': 'viewerPaletteButton',
+  'viewerRandomFractalFab': 'viewerRandomFractalFab',
+};
 
 Future<AutoExploreService> _pumpToolbar(WidgetTester tester,
     {required Size viewport,
@@ -74,6 +86,7 @@ Future<AutoExploreService> _pumpToolbar(WidgetTester tester,
           child: Scaffold(
             body: FractalViewControls(
               fabController: animation,
+              canGoPreviousFractal: true,
               supportsAuxiliaryTools: supportsAuxiliaryTools,
               isExporting: isExporting,
               breathingAvailable: breathingAvailable,
@@ -86,6 +99,13 @@ Future<AutoExploreService> _pumpToolbar(WidgetTester tester,
               textOverlayEnabled: false,
               actions: FractalViewControlActions(
                 openAutoExploreSettings: onAutoExploreSettings,
+                previousFractal: () =>
+                    onAction?.call('viewerPreviousFractalButton'),
+                toggleMorphPlayback: () =>
+                    onAction?.call('viewerMorphPlayButton'),
+                randomizePalette: () => onAction?.call('viewerPaletteButton'),
+                openRandomCategories: () =>
+                    onAction?.call('viewerRandomCategories'),
                 toggleFullscreen: () =>
                     onAction?.call('viewerFullscreenButton'),
                 openRandomFractal: () =>
@@ -149,60 +169,71 @@ void main() {
               textScale: scale,
               viewPadding: const EdgeInsets.fromLTRB(4, 24, 4, 32),
               gestures: const EdgeInsets.fromLTRB(8, 0, 8, 48));
-          final visible = _orderedTools
-              .where((key) => _tool(key).evaluate().isNotEmpty)
-              .toList();
-          expect(visible, contains('viewerOverflowMenu'));
-          for (final key in visible) {
-            final tool = _tool(key);
-            final rect = tester.getRect(tool);
+          final l10n =
+              AppLocalizations.of(tester.element(_tool('viewerFabColumn')))!;
+          // More actions stay visible as icon-only cells at every size.
+          for (final key in _orderedTools) {
+            expect(_tool(key), findsOneWidget,
+                reason: 'Primary $key must stay reachable');
+            final rect = tester.getRect(_tool(key));
             expect(rect.width, greaterThanOrEqualTo(48), reason: key);
             expect(rect.height, greaterThanOrEqualTo(48), reason: key);
             expect(rect.bottom, lessThanOrEqualTo(viewport.height - 64),
                 reason: key);
           }
-          final captions = find.descendant(
-              of: _tool('viewerFabColumn'), matching: find.byType(RichText));
-          for (final element in captions.evaluate()) {
-            final render = element.renderObject! as RenderParagraph;
-            final painter = TextPainter(
-                text: render.text,
-                textDirection: render.textDirection,
-                textScaler: render.textScaler)
-              ..layout(maxWidth: render.size.width);
-            expect(painter.computeLineMetrics(), hasLength(1),
-                reason: '${render.text.toPlainText()} must not break mid-word');
-            expect(painter.width, lessThanOrEqualTo(render.size.width + .01));
-            painter.dispose();
+          for (final caption in [
+            l10n.controlsTitle,
+            l10n.hudPalette,
+            l10n.navDockRandom,
+            l10n.viewerMoreTools,
+          ]) {
+            expect(
+                find.descendant(
+                    of: _tool('viewerFabColumn'), matching: find.text(caption)),
+                findsNothing,
+                reason: 'Icon rail must not paint captions');
+          }
+          // Full localized names remain in tooltips and semantics.
+          for (final entry in {
+            'viewerPreviousFractalButton': l10n.hudPreviousFractal,
+            'viewerMorphPlayButton': l10n.tooltipPlayMorph,
+            'viewerLooperFab': l10n.looperTitle,
+            'viewerControlsButton': l10n.tooltipRandomizeWithControls,
+            'viewerPaletteButton': l10n.tooltipRandomizePaletteWithSettings,
+            'viewerRandomFractalFab': l10n.tooltipRandomFractal,
+            'viewerOverflowMenu': l10n.viewerMoreTools,
+          }.entries) {
+            final tooltip = find.descendant(
+                of: _tool(entry.key), matching: find.byType(Tooltip));
+            expect(tooltip, findsOneWidget, reason: entry.key);
+            expect(tester.widget<Tooltip>(tooltip).message, entry.value);
+          }
+          for (final entry in _tapCallbacks.entries) {
+            await tester.ensureVisible(_tool(entry.key));
+            await tester.tap(_tool(entry.key));
+            await tester.pumpAndSettle();
+            expect(calls, [entry.value], reason: entry.key);
+            calls.clear();
+          }
+          // Long press keeps the settings surfaces reachable.
+          for (final entry in {
+            'viewerControlsButton': 'viewerControlsButton',
+            'viewerPaletteButton': 'viewerPaletteButton',
+            'viewerRandomFractalFab': 'viewerRandomCategories',
+          }.entries) {
+            await tester.ensureVisible(_tool(entry.key));
+            await tester.longPress(_tool(entry.key));
+            await tester.pumpAndSettle();
+            expect(calls, [entry.value], reason: '${entry.key} long press');
+            calls.clear();
           }
           await _openMore(tester);
-          for (final key
-              in _orderedTools.where((key) => !visible.contains(key))) {
-            expect(_tool(key), findsOneWidget,
-                reason: 'Overflow must retain $key');
-            await tester.ensureVisible(_tool(key));
-            await tester.pumpAndSettle();
-            expect(_tool(key).hitTestable(), findsOneWidget);
-          }
-          // A primary can move, but it must never disappear or change callback.
+          expect(_tool('viewerBreathingButton'), findsOneWidget);
+          await tester.ensureVisible(_tool('viewerBreathingButton'));
+          await tester.pumpAndSettle();
+          expect(_tool('viewerBreathingButton').hitTestable(), findsOneWidget);
           await tester.sendKeyEvent(LogicalKeyboardKey.escape);
           await tester.pumpAndSettle();
-          for (final key
-              in _orderedTools.where((key) => key != 'viewerOverflowMenu')) {
-            if (!visible.contains(key)) await _openMore(tester);
-            await tester.ensureVisible(_tool(key));
-            await tester.pumpAndSettle();
-            expect(tester.getSize(_tool(key)).width, greaterThanOrEqualTo(48));
-            expect(tester.getSize(_tool(key)).height, greaterThanOrEqualTo(48));
-            await tester.tap(_tool(key));
-            await tester.pumpAndSettle();
-            expect(calls.where((call) => call == key), hasLength(1));
-          }
-          expect(
-              calls,
-              _orderedTools
-                  .where((key) => key != 'viewerOverflowMenu')
-                  .toList());
           expect(tester.takeException(), isNull);
         });
       }
@@ -376,9 +407,6 @@ void main() {
                   reason: key);
               expect(tool.hitTestable(), findsOneWidget, reason: key);
             }
-            final first = tester.getRect(_tool(visible.first));
-            final last = tester.getRect(_tool(visible.last));
-            expect(first.top, last.top);
             expect(tester.getSize(_tool('viewerFabColumn')).width,
                 lessThanOrEqualTo(440));
             await _openMore(tester);
@@ -387,7 +415,6 @@ void main() {
               'viewerRandomParamsButton',
               'viewerColorCycleButton',
               'viewerAutoExploreButton',
-              'viewerLooperFab',
               'viewerKaleidoscopeFab',
               'viewerFourierFab',
               'viewerTextOverlayFab',
@@ -437,7 +464,8 @@ void main() {
     final semantics = tester.ensureSemantics();
     try {
       await _pumpToolbar(tester, viewport: const Size(360, 1000));
-      var previousRight = 0.0;
+      var previousTop = double.negativeInfinity;
+      var previousRight = double.negativeInfinity;
       final visible = _orderedTools
           .where((key) => _tool(key).evaluate().isNotEmpty)
           .toList();
@@ -445,7 +473,13 @@ void main() {
         final index = _orderedTools.indexOf(key);
         final tool = _tool(key);
         final rect = tester.getRect(tool);
-        expect(rect.left, greaterThanOrEqualTo(previousRight - 1e-6));
+        // Reading order across wrapped rows: later rows start below, and cells
+        // in the same row advance to the right.
+        expect(rect.top, greaterThanOrEqualTo(previousTop - 1e-6));
+        if ((rect.top - previousTop).abs() < 1e-6) {
+          expect(rect.left, greaterThanOrEqualTo(previousRight - 1e-6));
+        }
+        previousTop = rect.top;
         previousRight = rect.right;
         final semantic = tester.widget<Semantics>(find.descendant(
             of: tool,

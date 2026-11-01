@@ -52,7 +52,7 @@ void main() {
     debugPrint('Viewer loaded successfully');
 
     // 4. Open Controls from the primary toolbar
-    await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
+    await tester.longPress(find.byKey(const ValueKey('viewerControlsButton')));
 
     await pumpForUiTransition(
       tester,

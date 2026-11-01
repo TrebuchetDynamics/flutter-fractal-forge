@@ -19,6 +19,7 @@ import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/core/models/wallpaper/wallpaper_options.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
+import 'package:flutter_fractals/core/modules/fractal_mathematics.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/diagnostics/debug_runner_service.dart';
 import 'package:flutter_fractals/core/services/platform/deep_link_service.dart';
@@ -216,6 +217,13 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   DebugRunnerService? _debugRunner;
   late AnimationController _fabController;
   BreathingController? _breathingController;
+  Timer? _morphPlaybackTimer;
+  static const Duration _morphPlaybackInterval = Duration(seconds: 6);
+
+  /// Null means every catalog category is eligible for random navigation.
+  Set<String>? _randomCategoryFilter;
+
+  bool get _morphPlaying => _morphPlaybackTimer != null;
 
   // Visual simplification state
   bool _fullscreenUnobtrusive = false;
@@ -243,6 +251,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   DateTime? _lastFourierCaptureAt;
   // History tracking
   FractalController? _lastController;
+  HistoryProvider? _historyProvider;
 
   ViewerSessionTracker? _sessionTracker;
 
@@ -312,6 +321,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     if (_appVisible == visible) return;
     _autoExploreService?.setAppVisible(visible);
     if (!visible) _breathingController?.pause();
+    if (!visible) _stopMorphPlayback();
     if (!visible) {
       _lastController?.cancelNumberWallRequest();
       _fourierCaptureTimer?.cancel();
@@ -335,6 +345,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   void didChangeDependencies() {
     super.didChangeDependencies();
     _viewerSessionStore ??= context.read<ViewerSessionStore?>();
+    _historyProvider ??= context.read<HistoryProvider?>();
     final controller = context.read<FractalController>();
     if (kIsWeb && !widget.captureMode) {
       _browserUrlSync ??= BrowserViewUrlSync(
@@ -418,6 +429,34 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     setState(() {});
   }
 
+  void _stopMorphPlayback({bool notify = true}) {
+    if (_morphPlaybackTimer == null) return;
+    _morphPlaybackTimer!.cancel();
+    _morphPlaybackTimer = null;
+    if (notify && mounted) setState(() {});
+  }
+
+  void _toggleMorphPlayback() {
+    if (_morphPlaying) {
+      _stopMorphPlayback();
+      AccessibilityService.announce(
+          AppLocalizations.of(context)!.tooltipPauseMorph);
+      return;
+    }
+    _autoExploreService?.pause();
+    _breathingController?.pause();
+    _looperController?.stop();
+    _jumpToRandomFractal(context);
+    _morphPlaybackTimer = Timer.periodic(_morphPlaybackInterval, (_) {
+      if (!mounted || !_appVisible) return;
+      _jumpToRandomFractal(context);
+    });
+    HapticService.medium();
+    setState(() {});
+    AccessibilityService.announce(
+        AppLocalizations.of(context)!.tooltipPlayMorph);
+  }
+
   void _toggleBreathing() {
     final breathing = _breathingController;
     if (breathing == null) return;
@@ -426,6 +465,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     } else {
       _autoExploreService?.pause();
       _looperController?.stop();
+      _stopMorphPlayback();
       breathing.play();
     }
     final l10n = AppLocalizations.of(context)!;
@@ -532,6 +572,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   void _persistViewerSession() {
     // Keep animation frames transient. Pause/lifecycle saves the frozen state.
     if (_breathingController?.isPlaying ?? false) return;
+    if (_morphPlaying) return;
     final store = _viewerSessionStore;
     final controller = _lastController;
     if (store == null || controller == null) return;
@@ -559,6 +600,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
 
   @override
   void dispose() {
+    _stopMorphPlayback(notify: false);
     _browserUrlSync?.dispose();
     unawaited(
         _viewerSessionStore?.markViewerInactive() ?? Future<void>.value());
@@ -572,6 +614,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
 
     _fourierSpectrumImage?.dispose();
     _breathingController?.dispose();
+    _historyProvider?.cancelPendingRecord();
     _lastController?.removeListener(_onControllerChanged);
     _lastController?.cancelNumberWallRequest();
     _sessionTracker?.end();
@@ -592,6 +635,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   }
 
   void _toggleControlsHud() {
+    _stopMorphPlayback();
+    _breathingController?.pause();
     setState(() {
       _showControlsHud = !_showControlsHud;
     });
@@ -1257,7 +1302,119 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     controller.updateParam('colorScheme', value >= max ? 0 : value + 1);
   }
 
+  /// Picks a different palette instead of advancing one step.
+  void _randomizePalette(BuildContext context) {
+    final controller = _activeController(context);
+    FractalParameter? colorParam;
+    for (final param in controller.module.parameters) {
+      if (param.id == 'colorScheme') {
+        colorParam = param;
+        break;
+      }
+    }
+    if (colorParam == null) {
+      _cycleColorScheme(context);
+      return;
+    }
+    final values = colorParam.options.isNotEmpty
+        ? [for (final option in colorParam.options) option.value]
+        : [
+            for (var value = colorParam.min.ceil();
+                value <= colorParam.max.floor();
+                value++)
+              value,
+          ];
+    final current = controller.params['colorScheme'];
+    final candidates = values.where((value) => value != current).toList();
+    if (candidates.isEmpty) {
+      _cycleColorScheme(context);
+      return;
+    }
+    controller.updateParam(
+        'colorScheme', candidates[math.Random().nextInt(candidates.length)]);
+    HapticService.light();
+  }
+
+  void _goToPreviousFractal(BuildContext context) {
+    final history = context.read<HistoryProvider?>();
+    final entry = history?.goBack();
+    if (history == null || entry == null) return;
+    _stopMorphPlayback();
+    _autoExploreService?.stop();
+    history.applyToController(entry, _activeController(context));
+    HapticService.light();
+  }
+
+  void _openRandomCategories(BuildContext context) {
+    _stopMorphPlayback();
+    _breathingController?.pause();
+    final l10n = AppLocalizations.of(context)!;
+    final categories = viewerRandomCategories(context.read<ModuleRegistry>());
+    if (categories.isEmpty) return;
+    var selected = _randomCategoryFilter == null
+        ? categories.toSet()
+        : categories.where(_randomCategoryFilter!.contains).toSet();
+    if (selected.isEmpty) selected = categories.toSet();
+    showAppBottomSheet<void>(
+      context: context,
+      builder: (sheetContext) => StatefulBuilder(
+        builder: (context, setSheetState) => AppOptionsSheet(
+          icon: Icons.shuffle_rounded,
+          title: l10n.randomCategoriesTitle,
+          subtitle: l10n.randomCategoriesSubtitle,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (final category in categories)
+                CheckboxListTile(
+                  key: ValueKey('randomCategory:$category'),
+                  value: selected.contains(category),
+                  controlAffinity: ListTileControlAffinity.leading,
+                  title: Text(category),
+                  onChanged: selected.length == 1 && selected.contains(category)
+                      ? null
+                      : (value) => setSheetState(() {
+                            if (value ?? false) {
+                              selected.add(category);
+                            } else {
+                              selected.remove(category);
+                            }
+                            _randomCategoryFilter =
+                                selected.length == categories.length
+                                    ? null
+                                    : Set.of(selected);
+                          }),
+                ),
+              if (selected.length == 1)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                  child: Text(
+                    l10n.randomCategoriesRequired,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ),
+              if (selected.length < categories.length)
+                Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: TextButton(
+                    key: const ValueKey('randomCategoriesAll'),
+                    onPressed: () => setSheetState(() {
+                      selected = categories.toSet();
+                      _randomCategoryFilter = null;
+                    }),
+                    child: Text(l10n.randomCategoriesAll),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   void _openPalettePicker(BuildContext context) {
+    _stopMorphPlayback();
+    _breathingController?.pause();
     final controller = _activeController(context);
     final l10n = AppLocalizations.of(context)!;
     FractalParameter? colorParam;
@@ -1411,7 +1568,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
       _viewerEnsureCompareController(this, context);
 
   void _jumpToRandomFractal(BuildContext context) =>
-      _viewerJumpToRandomFractal(this, context);
+      _viewerJumpToRandomFractal(this, context,
+          allowedCategories: _randomCategoryFilter);
 
   void _onRandomFractalFab(BuildContext context) =>
       _viewerOnRandomFractalFab(this, context);
@@ -1598,6 +1756,12 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                             _breathingController?.isPlaying ?? false,
                         breathingAvailable: _canAnimateBreathing &&
                             (_breathingController?.canPlay ?? false),
+                        morphPlaying: _morphPlaying,
+                        breathingIsPlaying: () =>
+                            _breathingController?.isPlaying ?? false,
+                        canGoPreviousFractal:
+                            context.watch<HistoryProvider?>()?.canGoBack ??
+                                false,
                         fourierEnabled: _fourierEnabled,
                         textOverlayEnabled: _textOverlay.enabled,
                         showFractalReport: !kIsWeb &&
@@ -1635,7 +1799,17 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                           editTextOverlay: _editTextOverlay,
                           openLooper: () {
                             _breathingController?.pause();
+                            _stopMorphPlayback();
                             _openLooper(context);
+                          },
+                          toggleMorphPlayback: _toggleMorphPlayback,
+                          previousFractal: () => _goToPreviousFractal(context),
+                          randomizePalette: () => _randomizePalette(context),
+                          openRandomCategories: () =>
+                              _openRandomCategories(context),
+                          pauseMotion: () {
+                            _breathingController?.pause();
+                            _stopMorphPlayback();
                           },
                           toggleBreathing: _toggleBreathing,
                           toggleFourier: _toggleFourier,

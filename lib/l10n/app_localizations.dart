@@ -1545,6 +1545,24 @@ abstract class AppLocalizations {
   /// **'Randomize. Long press for Controls'**
   String get tooltipRandomizeWithControls;
 
+  /// No description provided for @tooltipRandomizePaletteWithSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Randomize palette. Long press for palette settings'**
+  String get tooltipRandomizePaletteWithSettings;
+
+  /// No description provided for @tooltipPlayMorph.
+  ///
+  /// In en, this message translates to:
+  /// **'Play random fractal morphing'**
+  String get tooltipPlayMorph;
+
+  /// No description provided for @tooltipPauseMorph.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause random fractal morphing'**
+  String get tooltipPauseMorph;
+
   /// No description provided for @tooltipKaleidoscopeOn.
   ///
   /// In en, this message translates to:
@@ -3771,6 +3789,30 @@ abstract class AppLocalizations {
   /// **'Jump to a new fractal or keep this one and reshape its parameters.'**
   String get randomOptionsSubtitle;
 
+  /// No description provided for @randomCategoriesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Random categories'**
+  String get randomCategoriesTitle;
+
+  /// No description provided for @randomCategoriesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the fractal categories random can pick from.'**
+  String get randomCategoriesSubtitle;
+
+  /// No description provided for @randomCategoriesAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All categories'**
+  String get randomCategoriesAll;
+
+  /// No description provided for @randomCategoriesRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep at least one category selected.'**
+  String get randomCategoriesRequired;
+
   /// No description provided for @randomOptionsCatalogDescription.
   ///
   /// In en, this message translates to:
@@ -3854,6 +3896,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Palette'**
   String get hudPalette;
+
+  /// No description provided for @hudPreviousFractal.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous fractal'**
+  String get hudPreviousFractal;
 
   /// No description provided for @hudKaleidoscope.
   ///

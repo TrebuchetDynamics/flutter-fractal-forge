@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/modules/fractal_mathematics.dart';
 import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
 import 'package:flutter_fractals/core/services/export/export_service.dart';
 import 'package:flutter_fractals/core/services/export/wallpaper_service.dart';
@@ -625,6 +626,21 @@ void main() {
       return action;
     }
 
+    Future<Finder> revealBreathing(WidgetTester tester) async {
+      // A tapped More row pops its sheet; finish that route transition before
+      // deciding whether a fresh More sheet is needed.
+      if (find.byType(BottomSheet).evaluate().isNotEmpty) {
+        await tester.pump(const Duration(milliseconds: 500));
+      }
+      final key = find.byKey(const ValueKey('viewerBreathingButton'));
+      if (key.evaluate().isEmpty) {
+        return revealMoreAction(tester, 'viewerBreathingButton');
+      }
+      await tester.ensureVisible(key);
+      await tester.pumpAndSettle();
+      return key;
+    }
+
     testWidgets('viewer protects system bars with opaque readable surfaces',
         (tester) async {
       tester.view.devicePixelRatio = 1;
@@ -809,7 +825,7 @@ void main() {
                         in find.byType(FloatingActionButtonWidget).evaluate())
                       find.byWidget(action.widget),
                   ];
-                  expect(actions.length, inInclusiveRange(1, 5));
+                  expect(actions.length, inInclusiveRange(1, 7));
                   for (final action in actions) {
                     await tester.ensureVisible(action);
                     await tester.pumpAndSettle();
@@ -929,7 +945,8 @@ void main() {
               ),
             );
         await tester.pumpAndSettle();
-        await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
+        await tester
+            .longPress(find.byKey(const ValueKey('viewerControlsButton')));
         await tester.pumpAndSettle();
         expect(find.byType(FractalControlsHud), findsOneWidget);
 
@@ -1363,7 +1380,6 @@ void main() {
           'viewerRandomParamsButton',
           'viewerColorCycleButton',
           'viewerFullscreenButton',
-          'viewerLooperFab',
           'viewerKaleidoscopeFab',
           'viewerTextOverlayFab',
           'viewerFourierFab',
@@ -1536,7 +1552,9 @@ void main() {
       await tester.pumpAndSettle();
 
       const orderedKeys = [
-        'viewerBreathingButton',
+        'viewerPreviousFractalButton',
+        'viewerMorphPlayButton',
+        'viewerLooperFab',
         'viewerControlsButton',
         'viewerPaletteButton',
         'viewerRandomFractalFab',
@@ -1560,6 +1578,11 @@ void main() {
         expect((sortKey! as OrdinalSortKey).order, index);
         expect(tester.getSize(finder).width, greaterThanOrEqualTo(48));
         expect(tester.getSize(finder).height, greaterThanOrEqualTo(48));
+        final tool = tester.widget<FloatingActionButtonWidget>(finder);
+        if (tool.onPressed == null && tool.onLongPress == null) {
+          // Previous fractal stays disabled until history has an earlier entry.
+          continue;
+        }
 
         await tester.sendKeyEvent(LogicalKeyboardKey.tab);
         await tester.pump();
@@ -1610,7 +1633,7 @@ void main() {
       controller.selectModule(registry.byId('julia'), animate: false);
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
-      final play = find.byKey(const ValueKey('viewerBreathingButton'));
+      var play = await revealBreathing(tester);
       expect(play.hitTestable(), findsOneWidget);
       final before = Map<String, Object>.from(controller.params);
       final view = controller.view;
@@ -1621,15 +1644,13 @@ void main() {
       expect(controller.view.zoom, view.zoom);
       expect(controller.view.rotation, view.rotation);
       expect(controller.view.trajectory, view.trajectory);
+      // Opening More freezes motion; the row then offers Play again.
+      play = await revealBreathing(tester);
       expect(tester.widget<FloatingActionButtonWidget>(play).icon,
-          Icons.pause_rounded);
-      await tester.tap(play);
-      await tester.pump();
+          Icons.play_arrow_rounded);
       final paused = Map<String, Object>.from(controller.params);
       await tester.pump(const Duration(seconds: 2));
       expect(controller.params, paused);
-      expect(tester.widget<FloatingActionButtonWidget>(play).icon,
-          Icons.play_arrow_rounded);
       expect(find.byIcon(Icons.music_note), findsNothing);
       await tester.pumpWidget(const SizedBox.shrink());
     });
@@ -1640,16 +1661,13 @@ void main() {
       controller.selectModule(registry.byId('julia'), animate: false);
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const ValueKey('viewerBreathingButton')));
+      await tester.tap(await revealBreathing(tester));
       await tester.pump(const Duration(seconds: 1));
       controller.updateParam('juliaCReal', 0.25);
       await tester.pump(const Duration(seconds: 2));
       expect(controller.params['juliaCReal'], 0.25);
-      expect(
-          tester
-              .widget<FloatingActionButtonWidget>(
-                  find.byKey(const ValueKey('viewerBreathingButton')))
-              .icon,
+      final play = await revealBreathing(tester);
+      expect(tester.widget<FloatingActionButtonWidget>(play).icon,
           Icons.play_arrow_rounded);
       await tester.pumpWidget(const SizedBox.shrink());
     });
@@ -1660,8 +1678,7 @@ void main() {
       controller.selectModule(registry.byId('julia'), animate: false);
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
-      final play = find.byKey(const ValueKey('viewerBreathingButton'));
-      await tester.tap(play);
+      await tester.tap(await revealBreathing(tester));
       await tester.pump(const Duration(seconds: 1));
       tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
       final paused = Map.of(controller.params);
@@ -1669,6 +1686,7 @@ void main() {
       tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
       await tester.pump(const Duration(seconds: 2));
       expect(controller.params, paused);
+      final play = await revealBreathing(tester);
       expect(tester.widget<FloatingActionButtonWidget>(play).icon,
           Icons.play_arrow_rounded);
       await tester.pumpWidget(const SizedBox.shrink());
@@ -1681,17 +1699,18 @@ void main() {
       controller.selectModule(registry.byId('julia'), animate: false);
       await tester.pumpWidget(buildTestWidget(accessibility: accessibility));
       await tester.pumpAndSettle();
-      final play = find.byKey(const ValueKey('viewerBreathingButton'));
-      await tester.tap(play);
+      await tester.tap(await revealBreathing(tester));
       await tester.pump(const Duration(seconds: 1));
       await accessibility.setReducedMotion(true);
       final paused = Map.of(controller.params);
       await tester.pump(const Duration(seconds: 2));
       expect(controller.params, paused);
+      var play = await revealBreathing(tester);
       expect(tester.widget<FloatingActionButtonWidget>(play).onPressed, isNull);
       await accessibility.setReducedMotion(false);
       await tester.pump(const Duration(seconds: 2));
       expect(controller.params, paused);
+      play = await revealBreathing(tester);
       expect(tester.widget<FloatingActionButtonWidget>(play).icon,
           Icons.play_arrow_rounded);
       await tester.pumpWidget(const SizedBox.shrink());
@@ -1702,7 +1721,7 @@ void main() {
       controller.selectModule(registry.byId('julia'), animate: false);
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
-      final play = find.byKey(const ValueKey('viewerBreathingButton'));
+      final play = await revealBreathing(tester);
       await tester.tap(play);
       await tester.pump(const Duration(seconds: 1));
       final navigator = Navigator.of(tester.element(play));
@@ -1713,7 +1732,8 @@ void main() {
       navigator.pop();
       await tester.pump(const Duration(seconds: 2));
       expect(controller.params, paused);
-      expect(tester.widget<FloatingActionButtonWidget>(play).icon,
+      final after = await revealBreathing(tester);
+      expect(tester.widget<FloatingActionButtonWidget>(after).icon,
           Icons.play_arrow_rounded);
       await tester.pumpWidget(const SizedBox.shrink());
     });
@@ -1723,13 +1743,13 @@ void main() {
       controller.selectModule(registry.byId('julia'), animate: false);
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
-      final play = find.byKey(const ValueKey('viewerBreathingButton'));
-      await tester.tap(play);
+      await tester.tap(await revealBreathing(tester));
       await tester.pump(const Duration(seconds: 1));
       await rendererSettings.setBackendMode(RendererBackendMode.cpuOnly);
       final paused = Map.of(controller.params);
       await tester.pump(const Duration(seconds: 2));
       expect(controller.params, paused);
+      final play = await revealBreathing(tester);
       expect(tester.widget<FloatingActionButtonWidget>(play).onPressed, isNull);
       await tester.pumpWidget(const SizedBox.shrink());
     });
@@ -1745,12 +1765,12 @@ void main() {
           provideViewerSessionStore: true, restoreViewerSession: false));
       await tester.pumpAndSettle();
       final baseline = store.saves;
-      final play = find.byKey(const ValueKey('viewerBreathingButton'));
-      await tester.tap(play);
+      await tester.tap(await revealBreathing(tester));
       await tester.pump(const Duration(seconds: 2));
       expect(store.saves, baseline);
-      await tester.tap(play);
-      await tester.pump();
+      // Opening More stops playback and persists the frozen frame once.
+      await revealBreathing(tester);
+      await tester.pumpAndSettle();
       expect(store.saves, baseline + 1);
       expect(store.load()!.params, controller.params);
       historyProvider.cancelPendingRecord();
@@ -2351,7 +2371,8 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
+      await tester
+          .longPress(find.byKey(const ValueKey('viewerControlsButton')));
       await tester.pumpAndSettle();
 
       expect(tester.takeException(), isNull);
@@ -2445,7 +2466,7 @@ void main() {
       ));
       await tester.pumpAndSettle();
 
-      await tester.tap(await revealMoreAction(tester, 'viewerLooperFab'));
+      await tester.tap(find.byKey(const ValueKey('viewerLooperFab')));
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('looperSetAButton')));
       controller.updateZoom(2);
@@ -2491,7 +2512,7 @@ void main() {
       );
       await tester.pumpWidget(buildTestWidget(exportService: exportService));
       await tester.pumpAndSettle();
-      await tester.tap(await revealMoreAction(tester, 'viewerLooperFab'));
+      await tester.tap(find.byKey(const ValueKey('viewerLooperFab')));
       await tester.pumpAndSettle();
 
       looper = tester.widget<LooperSheet>(find.byType(LooperSheet)).controller;
@@ -2721,6 +2742,127 @@ void main() {
       await tester.pumpWidget(const SizedBox.shrink());
       await tester.pump();
       historyProvider.cancelPendingRecord();
+    });
+
+    testWidgets(
+        'Play morphs random fractals, pauses, and long press opens looper',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+      final play = find.byKey(const ValueKey('viewerMorphPlayButton'));
+      final initial = controller.module.id;
+      expect(
+          tester.widget<FloatingActionButtonWidget>(play).onPressed, isNotNull);
+      await tester.tap(play);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 700));
+      expect(controller.module.id, isNot(initial));
+      expect(tester.widget<FloatingActionButtonWidget>(play).icon,
+          Icons.pause_rounded);
+
+      await tester.tap(play);
+      await tester.pump();
+      final paused = controller.module.id;
+      await tester.pump(const Duration(seconds: 7));
+      expect(controller.module.id, paused);
+      expect(tester.widget<FloatingActionButtonWidget>(play).icon,
+          Icons.play_arrow_rounded);
+
+      await tester.longPress(play);
+      await tester.pumpAndSettle();
+      expect(find.byType(LooperSheet), findsOneWidget);
+      await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
+      historyProvider.cancelPendingRecord();
+      await tester.pumpWidget(const SizedBox.shrink());
+    });
+
+    testWidgets('palette quick press randomizes and long press opens picker',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+      final palette = find.byKey(const ValueKey('viewerPaletteButton'));
+      final before = controller.params['colorScheme'];
+      await tester.tap(palette);
+      await tester.pump();
+      expect(controller.params['colorScheme'], isNot(before));
+      expect(find.byKey(const ValueKey('paletteChoice0')), findsNothing);
+      await tester.longPress(palette);
+      await tester.pumpAndSettle();
+      expect(find.byKey(const ValueKey('palettePickerScroll')).hitTestable(),
+          findsOneWidget);
+      await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
+      historyProvider.cancelPendingRecord();
+      await tester.pumpWidget(const SizedBox.shrink());
+    });
+
+    testWidgets('random category filter limits later random picks',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+      await tester
+          .longPress(find.byKey(const ValueKey('viewerRandomFractalFab')));
+      await tester.pumpAndSettle();
+      expect(find.text('Random categories'), findsOneWidget);
+      final categories = <String>{
+        for (final module in registry.modules)
+          if (!module.shaderAsset.startsWith('shaders/diagnostic/') &&
+              !module.id.startsWith('test_'))
+            FractalMathematics.forModule(module).family,
+      }.toList()
+        ..sort();
+      expect(categories.length, greaterThan(1));
+      final target = categories.first;
+      final tiles = tester
+          .widgetList<CheckboxListTile>(find.byType(CheckboxListTile))
+          .toList();
+      expect(tiles, hasLength(categories.length));
+      for (final tile in tiles) {
+        final key = tile.key! as ValueKey<String>;
+        if (key.value == 'randomCategory:$target') continue;
+        await tester.ensureVisible(find.byKey(key));
+        await tester.pumpAndSettle();
+        await tester.tap(find.byKey(key));
+        await tester.pumpAndSettle();
+      }
+      await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
+      for (var i = 0; i < 3; i++) {
+        await tester.tap(find.byKey(const ValueKey('viewerRandomFractalFab')));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 700));
+        expect(FractalMathematics.forModule(controller.module).family, target);
+        historyProvider.cancelPendingRecord();
+      }
+      await tester.pumpWidget(const SizedBox.shrink());
+    });
+
+    testWidgets('previous fractal returns to the earlier history entry',
+        (tester) async {
+      await tester.pumpWidget(buildTestWidget());
+      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 600));
+      historyProvider.cancelPendingRecord();
+      final first = controller.module.id;
+      await tester.tap(find.byKey(const ValueKey('viewerRandomFractalFab')));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 700));
+      await tester.pump(const Duration(milliseconds: 600));
+      historyProvider.cancelPendingRecord();
+      final second = controller.module.id;
+      expect(second, isNot(first));
+
+      final previous =
+          find.byKey(const ValueKey('viewerPreviousFractalButton'));
+      expect(tester.widget<FloatingActionButtonWidget>(previous).onPressed,
+          isNotNull);
+      await tester.tap(previous);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 700));
+      expect(controller.module.id, first);
+      historyProvider.cancelPendingRecord();
+      await tester.pumpWidget(const SizedBox.shrink());
     });
   });
 }

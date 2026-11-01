@@ -508,7 +508,8 @@ void main() {
           await tester.tap(fullscreen);
           await tester.pumpAndSettle();
         } else if (mode == 'controls') {
-          await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
+          await tester
+              .longPress(find.byKey(const ValueKey('viewerControlsButton')));
           await tester.pumpAndSettle();
         }
         final back = find.byKey(const Key('viewerBackToCatalogButton'));

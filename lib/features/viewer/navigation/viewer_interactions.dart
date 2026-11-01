@@ -161,21 +161,42 @@ final class ViewerRandomFractalCandidate {
   }
 }
 
+/// Catalog categories that random navigation can currently choose from.
+List<String> viewerRandomCategories(ModuleRegistry registry) {
+  final categories = <String>{
+    for (final module in registry.modules)
+      if (ViewerRandomFractalCandidate.fromModule(
+        module,
+        // Keep the category list stable while browsing: the current module is
+        // excluded from the next pick, not from the chooser itself.
+        currentModuleId: '',
+      ).isEligible)
+        FractalMathematics.forModule(module).family,
+  }.toList()
+    ..sort();
+  return categories;
+}
+
 void _viewerJumpToRandomFractal(
   _FractalViewerScreenState state,
-  BuildContext context,
-) {
+  BuildContext context, {
+  Set<String>? allowedCategories,
+}) {
   state._log.info('action', 'Random fractal');
   final registry = context.read<ModuleRegistry>();
   final controller = context.read<FractalController>();
   final currentId = controller.module.id;
-  // Filter to real fractals (skip diagnostics)
+  // Filter to real fractals (skip diagnostics) and any category filter.
   final candidates = registry.modules
       .where(
-        (m) => ViewerRandomFractalCandidate.fromModule(
-          m,
-          currentModuleId: currentId,
-        ).isEligible,
+        (m) =>
+            ViewerRandomFractalCandidate.fromModule(
+              m,
+              currentModuleId: currentId,
+            ).isEligible &&
+            (allowedCategories == null ||
+                allowedCategories
+                    .contains(FractalMathematics.forModule(m).family)),
       )
       .toList();
   if (candidates.isEmpty) return;
@@ -207,8 +228,11 @@ void _viewerJumpToRandomFractal(
   // Publish the module and palette together. A second update here briefly
   // renders the default palette first, producing a rapid full-screen color
   // flash that is especially unsafe for photosensitive users.
+  final reduceMotion = MediaQuery.disableAnimationsOf(context) ||
+      (context.read<AccessibilityService?>()?.reducedMotionEnabled ?? false);
   controller.selectModule(
     pick,
+    animate: !reduceMotion,
     resetView: true,
     initialParams: initialParams,
   );
