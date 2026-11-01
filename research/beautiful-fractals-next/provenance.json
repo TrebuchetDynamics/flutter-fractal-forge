@@ -327,7 +327,7 @@
     },
     {
       "path": "report.md",
-      "sha256": "1e6f1a7848fea110a9c9831bf20c9c985f37f4f437ecd6757e1d8193c54f3f81"
+      "sha256": "92cf83ccacf273dfdf251fe7fb4a42a7e1450f0ef0b8d231ae9aaf8a8de70477"
     },
     {
       "path": "prototypes/render_prototypes.py",
@@ -350,10 +350,6 @@
       "sha256": "8e928d3c7bc03ecb6ff5b1464706fafca7c572a8d73cd345e9bbc67622e602ab"
     },
     {
-      "path": "prototypes/brimordial_z2_slice.png",
-      "sha256": "101c986609796a76cce3f270ec34982217ee0c185d82eabaec7840af759ad579"
-    },
-    {
       "path": "prototypes/chladni_nodal_fractal.png",
       "sha256": "8e561c6cb9c3e79da41314de5056ae9d326bbc608319a1b8a80fe351b22e4468"
     },
@@ -364,10 +360,6 @@
     {
       "path": "prototypes/hopf_fibration.png",
       "sha256": "c0c8904534f45c4a0eff8aa17163cef2f3a86000933dd8efae1fb45210c4bab9"
-    },
-    {
-      "path": "prototypes/kaliset.png",
-      "sha256": "7ed1dbe248124977a62825aff381ce3bfcfce273e7c4530ce468e68e4c09b2e2"
     },
     {
       "path": "prototypes/kaliset_inversion.png",

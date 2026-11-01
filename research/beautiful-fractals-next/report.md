@@ -242,7 +242,7 @@ Coxeter's hyperbolic groups), so the references are already adequate.
 
 | Candidate | Why deferred |
 | --- | --- |
-| Hopf fibration (nested linked tori) | Visually iconic and cheap in principle, but my stereographic-fibre prototype produced a pole-dominated blob (`darkPixelRatio` 0.77, no readable rings). Needs a proper 3D camera + depth-sorted torus rendering, which is a small project, not a shader one-liner. Worth doing later; not validated here. |
+| Hopf fibration (nested linked tori) | Visually iconic and cheap in principle, but my stereographic-fibre prototype produced a pole-dominated blob (`darkPixelRatio` 0.77, no readable rings). Needs a proper 3D camera + depth-sorted torus rendering, which is a small project, not a shader one-liner. Worth doing later; not validated here. The failed prototype is kept at `prototypes/hopf_fibration.png`. |
 | Gielis superformula / supershapes | Beautiful and well-anchored (3D graphic-arts superformula, doi:10.1145/1186415.1186420; superformula and regular polygons, doi:10.1007/s00022-015-0269-z) but **not self-similar** — it is ornament, and the catalog's own framing is fractal. Rejected on genre, not on feasibility. |
 | Physarum / slime-mould transport networks | Needs agent state in ping-pong textures; the repo has that machinery (Gray-Scott) but the per-frame cost is a different class. Not a single-fragment shader. |
 | 3D reaction–diffusion, Cahn–Hilliard | Same multi-pass cost issue; already deferred by the tenth wave. |
