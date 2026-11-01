@@ -192,13 +192,28 @@ void main() {
       );
     });
 
-    testWidgets('category rail omits cramped step buttons', (tester) async {
+    testWidgets('category rail uses circular edge controls when it clips',
+        (tester) async {
+      await tester.binding.setSurfaceSize(const Size(320, 568));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      expect(
-          find.byKey(const Key('catalogPreviousCategoryButton')), findsNothing);
-      expect(find.byKey(const Key('catalogNextCategoryButton')), findsNothing);
+      final forward =
+          find.byKey(const Key('catalogCategoryScrollForwardButton'));
+      expect(forward, findsOneWidget);
+      expect(forward.hitTestable(), findsOneWidget);
+      expect(find.byKey(const Key('catalogCategoryScrollBackButton')),
+          findsNothing);
+      final button = tester.widget<IconButton>(forward);
+      expect(button.style?.shape?.resolve({}), isA<CircleBorder>());
+      expect(tester.getSize(forward).width, greaterThanOrEqualTo(48));
+      expect(tester.getSize(forward).height, greaterThanOrEqualTo(48));
+
+      await tester.tap(forward);
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('catalogCategoryScrollBackButton')),
+          findsOneWidget);
       expect(find.byKey(const Key('catalogCategoryChip_all')), findsOneWidget);
     });
 

@@ -1893,6 +1893,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get catalogAllFractals => 'All Fractals';
 
   @override
+  String get catalogCategoriesScrollForward => 'More categories';
+
+  @override
+  String get catalogCategoriesScrollBack => 'Previous categories';
+
+  @override
   String get catalogFilterAll => 'All';
 
   @override
