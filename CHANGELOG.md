@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Reconciled the settings accessibility About-dialog assertion with the registry-derived 1029 production fractal count and refreshed the task verification evidence. (MAIN-SETTINGS-COUNT-REPAIR-01)
 - Reconciled the compact controls HUD accessibility tests with the shipped toggles and palette picker ownership, and recorded the verification evidence. (MAIN-CONTROLS-HUD-REPAIR-01)
 - fix(test): bound the 960x720 Milnor preview case with an explicit 2-minute timeout and dispose its readback image before the 32x24 replay draws, removing a loaded-suite timeout without weakening assertions. (MAIN-MILNOR-REPAIR-01)
 - Fixed random-fractal FAB widget coverage to deterministically exercise palette and non-palette modules while retaining atomic palette-publication assertions and exception-safe cleanup. (MAIN-RANDOM-FAB-01)

@@ -1,0 +1,9 @@
+schema = 1
+task = "MAIN-SETTINGS-COUNT-REPAIR-01"
+candidate = "93f8b43ab174d78676db5a067166794aab289c75"
+integration = "87031567b4475d74714dfa7da4fda8a07b544642"
+tree = "6445fc0f63a9190fc83d60e5c36b49c5819180dc"
+contract_hash = "9ebcd0cec49f95f93c274d745cf571ac9e2c0cf3513b415c9c018a77026ff40b"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAIN-SETTINGS-COUNT-REPAIR-01"]
+result = "pass"
+review = "passed"
