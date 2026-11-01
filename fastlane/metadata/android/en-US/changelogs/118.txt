@@ -1,0 +1,4 @@
+Seven-action viewer rail with compact phone layout.
+Faster palette, controls, random and previous-fractal actions.
+Category filtering for random fractals.
+Responsive catalog, settings and viewer layouts.
