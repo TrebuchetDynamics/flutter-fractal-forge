@@ -32,6 +32,7 @@ void main() {
     final prefs = await SharedPreferences.getInstance();
     settings = RendererSettingsService(prefs);
     history = HistoryProvider(store: await HistoryStore.create());
+    addTearDown(history.cancelPendingRecord);
     accessibility = AccessibilityService(prefs);
   });
   tearDown(() {
@@ -106,7 +107,11 @@ void main() {
     expect(tester.getRect(controls).top, greaterThanOrEqualTo(24));
     expect(
         tester.getRect(controls).bottom, lessThanOrEqualTo(size.height - 48));
-    await tester.tap(controls);
+    if (more) {
+      await tester.tap(controls);
+    } else {
+      await tester.longPress(controls);
+    }
     await tester.pumpAndSettle();
   }
 

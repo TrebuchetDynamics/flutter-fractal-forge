@@ -189,6 +189,11 @@ void main() {
           await pumpForUiTransition(tester);
         }
 
+        Future<void> longPressAction(String key) async {
+          await tester.longPress(await reveal(key));
+          await pumpForUiTransition(tester);
+        }
+
         Future<void> closeSheet() async {
           final close = find
               .byTooltip(MaterialLocalizations.of(context).closeButtonTooltip);
@@ -283,6 +288,9 @@ void main() {
           final target = scale == 3 ? 56.0 : 48.0;
 
           for (final key in [
+            'viewerPreviousFractalButton',
+            'viewerMorphPlayButton',
+            'viewerLooperFab',
             'viewerControlsButton',
             'viewerPaletteButton',
             'viewerRandomFractalFab',
@@ -305,7 +313,7 @@ void main() {
           controller.selectModule(registry.byId('f1046_svensson_wave'),
               animate: false);
           await pumpForUiTransition(tester);
-          await tapAction('viewerPaletteButton');
+          await longPressAction('viewerPaletteButton');
           final initialPalette =
               (controller.params['colorScheme'] as num).round();
           expectActualPalettePreview(
@@ -498,7 +506,7 @@ void main() {
           expect(controller.params['iterations'],
               isNot(initialParams['iterations']));
           await pumpForUiTransition(tester);
-          await tapAction('viewerControlsButton');
+          await longPressAction('viewerControlsButton');
           expect(find.byType(FractalControlsHud), findsOneWidget);
           await capture('$tag-controls');
           final details = find.text(l10n.viewerFormulaDetails);

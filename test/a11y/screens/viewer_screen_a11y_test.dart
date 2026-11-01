@@ -92,16 +92,21 @@ void main() {
           reason: 'the toolbar never entered, so the rest of this and the '
               'guidelines above would pass vacuously');
       const primaryNames = {
-        'viewerBreathingButton': 'Play parameter animation',
-        'viewerControlsButton': 'Controls',
-        'viewerPaletteButton': 'Palette',
-        'viewerRandomFractalFab': 'Random',
+        'viewerPreviousFractalButton': 'Previous fractal',
+        'viewerMorphPlayButton': 'Play random fractal morphing',
+        'viewerLooperFab': 'Camera looper',
+        'viewerControlsButton': 'Randomize. Long press for Controls',
+        'viewerPaletteButton':
+            'Randomize palette. Long press for palette settings',
+        'viewerRandomFractalFab': 'Random Fractal',
         'viewerOverflowMenu': 'More',
       };
-      final visible = primaryNames.entries
-          .where(
-              (entry) => find.byKey(ValueKey(entry.key)).evaluate().isNotEmpty)
-          .toList();
+      final visible = primaryNames.entries.where((entry) {
+        final finder = find.byKey(ValueKey(entry.key));
+        if (finder.evaluate().isEmpty) return false;
+        final tool = tester.widget<FloatingActionButtonWidget>(finder);
+        return tool.onPressed != null || tool.onLongPress != null;
+      }).toList();
       expect(visible.map((entry) => entry.key), contains('viewerOverflowMenu'));
       for (final entry in visible) {
         expect(operableControlNames(root).where((name) => name == entry.value),
@@ -123,7 +128,8 @@ void main() {
       await tester.pumpWidget(buildApp());
       await pumpAccessibilityTestFrames(tester);
 
-      await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
+      await tester
+          .longPress(find.byKey(const ValueKey('viewerControlsButton')));
       await pumpAccessibilityTestFrames(tester);
 
       expect(find.byType(FractalControlsHud), findsOneWidget);
@@ -162,7 +168,6 @@ void main() {
           'viewerColorCycleButtonOptions': 'Palette settings',
           'viewerAutoExploreButton': 'Start auto-explore',
           'viewerAutoExploreButtonOptions': 'Exploration settings',
-          'viewerLooperFab': 'Camera looper',
           'viewerKaleidoscopeFab': 'Kaleidoscope off',
           'viewerKaleidoscopeFabOptions': 'Kaleidoscope settings',
           'viewerFourierFab': 'Fourier view off',
@@ -197,8 +202,11 @@ void main() {
           expect(findUnnamedSliders(root), isEmpty, reason: entry.key);
           // Audit the fully revealed control, not unrelated rows clipped by
           // the scroll viewport (whose visible semantics may be a thin sliver).
-          final semanticTarget =
-              tester.getSemantics(find.bySemanticsLabel(entry.value)).rect.size;
+          final semanticTarget = tester
+              .getSemantics(find.descendant(
+                  of: tool, matching: find.bySemanticsLabel(entry.value)))
+              .rect
+              .size;
           expect(semanticTarget.width, greaterThanOrEqualTo(48),
               reason: entry.key);
           expect(semanticTarget.height, greaterThanOrEqualTo(48),
@@ -280,7 +288,7 @@ void main() {
             await tester.ensureVisible(palette);
             await pumpAccessibilityTestFrames(tester);
           }
-          await tester.tap(palette);
+          await tester.longPress(palette);
           await pumpAccessibilityTestFrames(tester);
         },
         reason: 'Palette menu at 3.0x on Size(320, 568)',

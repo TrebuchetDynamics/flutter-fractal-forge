@@ -791,6 +791,16 @@ class AppLocalizationsEn extends AppLocalizations {
       'Randomize. Long press for Controls';
 
   @override
+  String get tooltipRandomizePaletteWithSettings =>
+      'Randomize palette. Long press for palette settings';
+
+  @override
+  String get tooltipPlayMorph => 'Play random fractal morphing';
+
+  @override
+  String get tooltipPauseMorph => 'Pause random fractal morphing';
+
+  @override
   String get tooltipKaleidoscopeOn => 'Kaleidoscope on';
 
   @override
@@ -2013,6 +2023,19 @@ class AppLocalizationsEn extends AppLocalizations {
       'Jump to a new fractal or keep this one and reshape its parameters.';
 
   @override
+  String get randomCategoriesTitle => 'Random categories';
+
+  @override
+  String get randomCategoriesSubtitle =>
+      'Choose the fractal categories random can pick from.';
+
+  @override
+  String get randomCategoriesAll => 'All categories';
+
+  @override
+  String get randomCategoriesRequired => 'Keep at least one category selected.';
+
+  @override
   String get randomOptionsCatalogDescription =>
       'Switch to another catalog entry.';
 
@@ -2062,6 +2085,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get hudPalette => 'Palette';
+
+  @override
+  String get hudPreviousFractal => 'Previous fractal';
 
   @override
   String get hudKaleidoscope => 'Kaleidoscope';

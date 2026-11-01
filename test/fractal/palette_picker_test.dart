@@ -98,7 +98,8 @@ void main() {
         await tester.pumpAndSettle();
       }
       expect(palette.hitTestable(), findsOneWidget);
-      await tester.tap(palette);
+      // Quick press randomizes; the picker stays on the long-press action.
+      await tester.longPress(palette);
       await tester.pumpAndSettle();
     }
 
