@@ -11,12 +11,12 @@ import 'package:flutter_fractals/core/modules/param_reader.dart';
 import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import '../validation/render_validation.dart';
 import '../validation/convergence_detector.dart';
-import 'cpu_render_isolate.dart';
-import 'cpu_tile_worker.dart';
-import 'cpu_iteration_budget.dart';
-import 'cpu_iterators.dart';
-import 'cpu_render_resolution.dart';
-import 'cpu_viewport_mapping.dart';
+import 'formulas/cpu_iterators.dart';
+import 'math/cpu_viewport_mapping.dart';
+import 'pipeline/cpu_iteration_budget.dart';
+import 'pipeline/cpu_render_isolate.dart';
+import 'pipeline/cpu_render_resolution.dart';
+import 'pipeline/cpu_tile_worker.dart';
 
 /// Very small CPU fallback renderer for 2D fractals.
 ///

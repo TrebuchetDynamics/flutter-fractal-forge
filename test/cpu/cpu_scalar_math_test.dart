@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:flutter_fractals/features/renderer/cpu/cpu_scalar_math.dart';
+import 'package:flutter_fractals/features/renderer/cpu/math/cpu_scalar_math.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

@@ -109,8 +109,9 @@ void main() {
 
   test('CPU tile worker closes its receive port on dispose and spawn failure',
       () {
-    final source = File('lib/features/renderer/cpu/cpu_tile_worker.dart')
-        .readAsStringSync();
+    final source =
+        File('lib/features/renderer/cpu/pipeline/cpu_tile_worker.dart')
+            .readAsStringSync();
     final dispose = _methodBody(source, 'void dispose()');
 
     expect(source, contains('final ReceivePort _receivePort;'));
@@ -247,8 +248,9 @@ void main() {
   });
 
   test('app logger dispose keeps ChangeNotifier dispose synchronous', () {
-    final source = File('lib/core/services/diagnostics/logging/app_logger_service.dart')
-        .readAsStringSync();
+    final source =
+        File('lib/core/services/diagnostics/logging/app_logger_service.dart')
+            .readAsStringSync();
     final dispose = _methodBody(source, 'void dispose()');
     final truncate = _methodBody(source, 'Future<void> _truncateDisk()');
 

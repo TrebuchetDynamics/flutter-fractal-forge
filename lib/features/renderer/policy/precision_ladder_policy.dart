@@ -3,7 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter_fractals/core/modules/escape_time_perturb_module.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-import 'package:flutter_fractals/features/renderer/cpu/cpu_formulas.dart';
+import 'package:flutter_fractals/features/renderer/cpu/formulas/cpu_formulas.dart';
 
 const double _extendedGpuLowerZoom = 5e6;
 const double _perturbationUpperZoom = 1e30;

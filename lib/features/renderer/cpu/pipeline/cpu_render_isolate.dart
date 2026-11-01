@@ -2,10 +2,10 @@ import 'dart:typed_data';
 
 import 'package:vector_math/vector_math_64.dart' show Vector2;
 
-import 'cpu_formulas.dart';
-import 'cpu_viewport_mapping.dart';
+import '../formulas/cpu_formulas.dart';
+import '../math/cpu_viewport_mapping.dart';
 
-export 'cpu_viewport_mapping.dart'
+export '../math/cpu_viewport_mapping.dart'
     show CpuRenderDimensions, CpuRenderRect, CpuRenderSamplePoint;
 
 /// Message used to request a CPU frame render from an isolate.

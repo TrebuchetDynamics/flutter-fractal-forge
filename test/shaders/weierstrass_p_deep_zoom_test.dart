@@ -1,5 +1,5 @@
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-import 'package:flutter_fractals/features/renderer/cpu/cpu_formulas.dart';
+import 'package:flutter_fractals/features/renderer/cpu/formulas/cpu_formulas.dart';
 import 'package:flutter_fractals/features/renderer/policy/precision_ladder_policy.dart';
 import 'package:flutter_test/flutter_test.dart';
 

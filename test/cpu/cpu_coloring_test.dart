@@ -1,4 +1,4 @@
-import 'package:flutter_fractals/features/renderer/cpu/cpu_coloring.dart';
+import 'package:flutter_fractals/features/renderer/cpu/formulas/cpu_coloring.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 // Classic Mandelbrot recurrence z -> z^2 + c, used to exercise escapeTime.

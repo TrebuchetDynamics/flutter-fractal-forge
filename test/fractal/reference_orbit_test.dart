@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_fractals/features/renderer/cpu/reference_orbit.dart';
+import 'package:flutter_fractals/features/renderer/cpu/math/reference_orbit.dart';
 
 void main() {
   group('MandelbrotReferenceOrbit', () {

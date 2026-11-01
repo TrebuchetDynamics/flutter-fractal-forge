@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
-import 'package:flutter_fractals/features/renderer/cpu/cpu_formulas.dart';
+import 'package:flutter_fractals/features/renderer/cpu/formulas/cpu_formulas.dart';
 import 'package:flutter_fractals/features/renderer/policy/precision_ladder_policy.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vector_math/vector_math_64.dart';
@@ -56,8 +56,8 @@ void main() {
   }, timeout: const Timeout(Duration(seconds: 60)));
 
   test('Burning Ship Julia CPU fallback is the real fixed-seed map', () {
-    final source =
-        File('lib/features/renderer/cpu/cpu_formulas.dart').readAsStringSync();
+    final source = File('lib/features/renderer/cpu/formulas/cpu_formulas.dart')
+        .readAsStringSync();
     expect(source, isNot(contains('_cpu_synthetic(0x9921bde9')));
 
     final formula = cpuFormulaForModuleId('burning_ship_julia');

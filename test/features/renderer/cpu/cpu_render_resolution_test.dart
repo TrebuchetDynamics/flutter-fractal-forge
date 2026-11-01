@@ -1,4 +1,4 @@
-import 'package:flutter_fractals/features/renderer/cpu/cpu_render_resolution.dart';
+import 'package:flutter_fractals/features/renderer/cpu/pipeline/cpu_render_resolution.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

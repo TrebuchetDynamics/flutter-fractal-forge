@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/features/viewer/rendering/cpu_fallback_pane.dart';
-import 'package:flutter_fractals/features/renderer/cpu/cpu_formulas.dart';
+import 'package:flutter_fractals/features/renderer/cpu/formulas/cpu_formulas.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;

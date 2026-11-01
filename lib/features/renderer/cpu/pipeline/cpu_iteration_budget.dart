@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'cpu_scalar_math.dart';
+import '../math/cpu_scalar_math.dart';
 
 /// Replayable CPU iteration budget policy for zoom-dependent refinement.
 ///

@@ -1,9 +1,9 @@
 import 'dart:typed_data';
 
-import 'package:flutter_fractals/features/renderer/cpu/cpu_coloring.dart';
-import 'package:flutter_fractals/features/renderer/cpu/cpu_formulas.dart'
+import 'package:flutter_fractals/features/renderer/cpu/formulas/cpu_coloring.dart';
+import 'package:flutter_fractals/features/renderer/cpu/formulas/cpu_formulas.dart'
     show CpuFormula;
-import 'package:flutter_fractals/features/renderer/cpu/cpu_render_isolate.dart'
+import 'package:flutter_fractals/features/renderer/cpu/pipeline/cpu_render_isolate.dart'
     show renderCpuRectRgba;
 
 import 'complex.dart';

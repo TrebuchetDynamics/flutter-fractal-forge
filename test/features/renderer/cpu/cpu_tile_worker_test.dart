@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter_fractals/features/renderer/cpu/cpu_render_isolate.dart';
-import 'package:flutter_fractals/features/renderer/cpu/cpu_tile_worker.dart';
+import 'package:flutter_fractals/features/renderer/cpu/pipeline/cpu_render_isolate.dart';
+import 'package:flutter_fractals/features/renderer/cpu/pipeline/cpu_tile_worker.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
