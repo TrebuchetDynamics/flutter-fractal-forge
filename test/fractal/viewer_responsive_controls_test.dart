@@ -206,7 +206,7 @@ void main() {
     }
   }
 
-  testWidgets('normal phone keeps the opaque bottom-aligned 55 percent HUD',
+  testWidgets('normal phone keeps the translucent bottom-aligned 55 percent HUD',
       (tester) async {
     await open(tester, size: const Size(360, 780));
     final surface = find.byKey(const ValueKey('controlsHudSurface'));
@@ -215,7 +215,12 @@ void main() {
     expect(rect.width, 360);
     expect(rect.bottom, 780);
     expect(rect.height, closeTo(429, 0.001));
-    expect(tester.widget<Material>(surface).color!.a, 1);
+    expect(tester.widget<Material>(surface).color!.a, lessThan(1.0));
+    expect(
+      find.ancestor(
+          of: surface, matching: find.byType(BackdropFilter)),
+      findsOneWidget,
+    );
     expect(find.byKey(const Key('viewerTitleChip')), findsOneWidget);
     expect(tester.takeException(), isNull);
   });

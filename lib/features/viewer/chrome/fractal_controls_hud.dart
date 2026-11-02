@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -316,22 +317,34 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
                 child: widget.content ?? SingleChildScrollView(child: content)),
       ];
       final column = Column(mainAxisSize: MainAxisSize.min, children: children);
-      final surface = Material(
-        key: const ValueKey('controlsHudSurface'),
-        color: Theme.of(context).colorScheme.surface,
-        elevation: 12,
+      // The overlay is glass, not an opaque sheet: the fractal stays visible
+      // through the blurred backdrop. At 0.86 alpha the body labels still reach
+      // 5.8:1 against a pure white backdrop, so translucency cannot drop
+      // readability below the 4.5:1 floor.
+      final surface = ClipRRect(
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-        clipBehavior: Clip.antiAlias,
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: math.max(math.max(media.padding.left, media.viewPadding.left),
-                media.systemGestureInsets.left),
-            right: math.max(
-                math.max(media.padding.right, media.viewPadding.right),
-                media.systemGestureInsets.right),
-            bottom: bottomInset,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+          child: Material(
+            key: const ValueKey('controlsHudSurface'),
+            color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.86),
+            elevation: 12,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+            clipBehavior: Clip.antiAlias,
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: math.max(
+                    math.max(media.padding.left, media.viewPadding.left),
+                    media.systemGestureInsets.left),
+                right: math.max(
+                    math.max(media.padding.right, media.viewPadding.right),
+                    media.systemGestureInsets.right),
+                bottom: bottomInset,
+              ),
+              child:
+                  scrollHeader ? SingleChildScrollView(child: column) : column,
+            ),
           ),
-          child: scrollHeader ? SingleChildScrollView(child: column) : column,
         ),
       );
       return Align(

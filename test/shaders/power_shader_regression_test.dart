@@ -10,11 +10,6 @@ void main() {
         'if (dot(c, c) > bailoutSq)',
         'float smoothVal = float(it) + 1.0 - log(max(1e-12, logZn)) / log(max(1.001, abs(power)));',
       ],
-      'shaders/escape_time_family/families/multibrot/integer_powers/multibrot4_gpu.frag':
-          [
-        'if (dot(c, c) > bailoutSq)',
-        'float smoothVal = float(it) + 1.0 - log(max(1e-12, logZn)) / log(4.0);',
-      ],
       'shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_power4_gpu.frag':
           [
         'if (dot(c, c) > bailoutSq)',

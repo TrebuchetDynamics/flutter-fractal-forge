@@ -3956,17 +3956,17 @@
   },
   {
     "id": "multibrot10",
-    "shaderAsset": "shaders/escape_time_family/families/multibrot/multibrot10_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
     "capability": "static"
   },
   {
     "id": "multibrot11",
-    "shaderAsset": "shaders/escape_time_family/families/multibrot/multibrot11_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
     "capability": "static"
   },
   {
     "id": "multibrot12",
-    "shaderAsset": "shaders/escape_time_family/families/multibrot/multibrot12_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
     "capability": "static"
   },
   {
@@ -3976,42 +3976,42 @@
   },
   {
     "id": "multibrot4",
-    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot4_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
     "capability": "static"
   },
   {
     "id": "multibrot5",
-    "shaderAsset": "shaders/escape_time_family/families/multibrot/multibrot5_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
     "capability": "static"
   },
   {
     "id": "multibrot6",
-    "shaderAsset": "shaders/escape_time_family/families/multibrot/multibrot6_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
     "capability": "static"
   },
   {
     "id": "multibrot7",
-    "shaderAsset": "shaders/escape_time_family/families/multibrot/multibrot7_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
     "capability": "static"
   },
   {
     "id": "multibrot8",
-    "shaderAsset": "shaders/escape_time_family/families/multibrot/multibrot8_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
     "capability": "static"
   },
   {
     "id": "multibrot9",
-    "shaderAsset": "shaders/escape_time_family/families/multibrot/multibrot9_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
     "capability": "static"
   },
   {
     "id": "multibrot_15",
-    "shaderAsset": "shaders/escape_time_family/families/multibrot/multibrot_15_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
     "capability": "static"
   },
   {
     "id": "multibrot_25",
-    "shaderAsset": "shaders/escape_time_family/families/multibrot/multibrot_25_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
     "capability": "static"
   },
   {

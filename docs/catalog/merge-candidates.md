@@ -1,6 +1,6 @@
 # Power-variant families that can merge behind one parameter
 
-Status: `mandelbar` merged (see below). The rest is inventory only.
+Status: `mandelbar` and `multibrot` merged (see below). The rest is inventory only.
 Method: strip comments, diff each pair, and confirm the only differences are the
 exponent, the derivative coefficient, and the smooth-colouring `log2(power)`.
 Every claim below is reproducible with `diff` on the named files.
@@ -26,7 +26,7 @@ parameterised form is the exponent.
 | Family | Redundant shaders | Merge target | Fold convention | Payoff |
 | --- | --- | --- | --- | --- |
 | `mandelbar` | 5 (`cubic`, `power6..9`) | `tricorn_gpu.frag` (exists) | conjugate | 5 → 0 new files |
-| `multibrot` | 11 (`4,5,6,7,8,9,10,11,12,15,25`) | new `multibrot_power_gpu.frag` | none | 11 → 1 |
+| `multibrot` | ~~11~~ **merged** | `multibrot3_gpu.frag` (exists) | none | 11 files deleted |
 | `tricorn` plane | 3 (`cubic`, `power4`, `power5`) | `tricorn_gpu.frag` (exists) | conjugate | 3 → 0 new files |
 | `tricorn` julia | 6 (`cubic`, `power4..8`) | new parameterised julia | conjugate | 6 → 1 |
 | `celtic` plane | 5 (`cubic`, `power4..7`) | new `celtic_power_gpu.frag` | `abs(z.x)` | 5 → 1 |
@@ -59,6 +59,32 @@ shader files are deleted. Two fixes were needed in the shared shader first:
 `test/modules/mandelbar_merge_test.dart` compares the merged shader against a
 CPU mirror of `z -> conj(z)^p + c` for all five powers and requires >97% pixel
 agreement, so the parameter is proven to drive the map.
+
+## Merged: `multibrot` → `multibrot3_gpu.frag`
+
+Done. The eleven entries (`multibrot4..12`, `multibrot_15`, `multibrot_25`) now
+point at the parameterised shader that the shared Multibrot catalog already used,
+and each carries a `power` parameter (4–12, 1.5, 2.5). Eleven shader files are
+deleted. No new shader was needed: the shared catalog already pointed about
+thirty entries at that file.
+
+The merge found a real defect. `cpowReal` computed `atan(0, 0)`, which is
+undefined, and every parameter-plane orbit starts at `z = 0`. On this software
+rasterizer that returned NaN and poisoned the orbit, so **every** entry using the
+shared shader rendered one flat colour. The old per-power shaders used unrolled
+multiplies and were not affected. The shader now returns early at the exact
+origin, the same guard `tricorn_gpu.frag` already had. After the fix the entries
+render 100–198 distinct colours instead of 1.
+
+`test/modules/multibrot_merge_test.dart` pins the result: each integer-power
+entry must render more than twenty distinct colours at its own power, and must
+differ from the same entry at the next power. The fractional entries must be
+deterministic and distinct.
+
+Open item: the `z^p + c` parameter plane should be `(p-1)`-fold symmetric, but a
+rotation sweep on `multibrot4` matched a quarter turn better than a third turn.
+The measurement and the algebra disagree, so no symmetry test was shipped. This
+needs a separate look before any symmetry claim is made.
 
 ## Finding 1: `mandelbar` is already `tricorn`
 
@@ -131,8 +157,7 @@ Every merged family touches more than its shader:
 ## Recommended order
 
 1. ~~`mandelbar` → `tricorn_gpu.frag`~~ done.
-2. `multibrot` → one new shader. Largest single payoff, no fold convention to
-   settle, but the widest fixture ripple.
+2. ~~`multibrot` → one new shader~~ done.
 3. `tricorn` plane and julia → existing and new parameterised shaders.
 4. `celtic`, then `buffalo`, plane before julia.
 5. `perpendicular`: settle the fold convention first, then merge.
