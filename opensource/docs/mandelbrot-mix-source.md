@@ -18,8 +18,21 @@ independent GLSL implementation built on this repository's escape-time template
 (palette, smooth colouring, transparent background). No line of the `.frm` file or
 of fract4d is copied.
 
-## Deferred variants
+## Ported variants
 
-`MandelbrotMix3a` (three powers), `multimin` and `multirot` (4D rotation slices)
-need more uniforms than this batch exposes. They stay unported. Add them as their
-own shader when a batching need appears.
+| Batch | Source formula | Entries | Shader |
+| --- | --- | --- | --- |
+| `MandebrotMix4` (two powers) | `MandelbrotMix4` | 10 | `mandelbrot_mix_gpu.frag` |
+| Three powers | `MandelbrotMix3a` | 6 | same shader, third term enabled with `g`, `h` |
+| Affine-plane 4D slices | `multimin-XZ-YW-new`, `multirot-XY-ZW-new` | 6 | `planar_slice_4d_gpu.frag` |
+
+The three-term members set `g = 0` to fall back to two terms, so both variants
+share one shader. The slice entries map the pixel onto two rotated planes before
+the orbit: `z0 = e^{i*b}*x + q`, `c = e^{i*a}*y + q`, `z -> (-z)^p + c`. At zero
+angles the wiring reduces to the real slice `z0 = x`, `c = y` of the Mandelbrot
+map, which the test mirrors and pins.
+
+## Still unported
+
+`MandelbrotMix2` (additive constant inside the seed) and the six-plane `multirot`
+labelling from the same file. They need no new mathematics, only more presets.

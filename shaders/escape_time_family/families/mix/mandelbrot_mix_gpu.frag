@@ -4,7 +4,10 @@ precision highp float;
 
 // Mandelbrot mix family: a two-term power mixture.
 //
-//   z_{n+1} = k * ( a*z^b + d*z^f ) + c
+//   z_{n+1} = k * ( a*z^b + d*z^f + g*z^h ) + c
+//
+// The third term is optional: g = 0 removes it, so the two-term and three-term
+// members of the family share one shader.
 //
 // This is the "MandelbrotMix" construction (Jim Muth), taken from the formula
 // collection in opensource/repos/formula-catalogs/fract4d-formulas
@@ -12,8 +15,9 @@ precision highp float;
 // Mandelbrot map: two powers compete, so the parameter plane shows mixed-degree
 // bulb structure rather than one rotational symmetry.
 //
-// Degenerate case: a = d = 0.5, b = f = 2, k = 1 gives exactly z^2 + c, the
-// ordinary Mandelbrot set. The companion test pins that identity.
+// Degenerate cases pinned by test/modules/mix_family_test.dart:
+//   a = d = 0.5, b = f = 2, g = 0, k = 1  ->  z^2 + c  (ordinary Mandelbrot)
+//   a = d = g = 1/3, b = f = h = 2, k = 1 -> z^2 + c  (three-term reduction)
 //
 // Extras (uniform slots 10+): a, b, d, f, k, juliaMode, juliaReal, juliaImag.
 //   juliaMode 0 uses c = pixel (Mandelbrot family).
@@ -30,10 +34,12 @@ uniform float uMixA;            // 10  first amplitude
 uniform float uMixB;            // 11  first power
 uniform float uMixD;            // 12  second amplitude
 uniform float uMixF;            // 13  second power
-uniform float uMixK;            // 14  overall scale
-uniform float uJuliaMode;       // 15  0 = Mandelbrot family, 1 = Julia
-uniform float uJuliaReal;       // 16
-uniform float uJuliaImag;       // 17
+uniform float uMixG;            // 14  third amplitude (0 disables the term)
+uniform float uMixH;            // 15  third power
+uniform float uMixK;            // 16  overall scale
+uniform float uJuliaMode;       // 17  0 = Mandelbrot family, 1 = Julia
+uniform float uJuliaReal;       // 18
+uniform float uJuliaImag;       // 19
 
 out vec4 fragColor;
 
@@ -82,6 +88,8 @@ void main() {
   float b = uMixB;
   float d = uMixD;
   float f = uMixF;
+  float g = uMixG;
+  float h = uMixH;
   float k = uMixK;
 
   vec2 c = (uJuliaMode > 0.5) ? vec2(uJuliaReal, uJuliaImag) : pixel;
@@ -96,10 +104,11 @@ void main() {
     if (j >= target) { it = target; break; }
 
     // d/dz of k*(a z^b + d z^f) = k*(a b z^(b-1) + d f z^(f-1))
-    vec2 dz = k * (a*b*cpowr(z, b - 1.0) + d*f*cpowr(z, f - 1.0));
+    vec2 dz = k * (a*b*cpowr(z, b - 1.0) + d*f*cpowr(z, f - 1.0)
+                   + g*h*cpowr(z, h - 1.0));
     der = cmul(dz, der) + vec2(1.0, 0.0);
 
-    z = k * (a*cpowr(z, b) + d*cpowr(z, f)) + c;
+    z = k * (a*cpowr(z, b) + d*cpowr(z, f) + g*cpowr(z, h)) + c;
 
     if (dot(z, z) > bailoutSq) { it = j; break; }
     it = j + 1;
@@ -113,7 +122,7 @@ void main() {
   float mag2 = max(1e-12, dot(z, z));
   // Use the larger power for the smooth-colouring normalisation; for b == f it
   // reduces to the single-power case exactly.
-  float degree = max(max(b, f), 2.0);
+  float degree = max(max(max(b, f), h), 2.0);
   float smoothVal = float(it) - log2(log2(mag2)) / log2(degree);
 
   if (schemeInt >= 50) {

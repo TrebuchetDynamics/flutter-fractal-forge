@@ -1,6 +1,6 @@
 {
   "counts": {
-    "app": 1047,
+    "app": 1059,
     "planned": 1,
     "reference": 200,
     "registry": 1623
@@ -6166,6 +6166,54 @@
     },
     {
       "alias_review": "unresolved",
+      "identity": "core.mix3_2_3_4",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.mix3_2_4_6",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.mix3_3_5_7",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.mix3_balanced",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.mix3_frac",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.mix3_negative_tail",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
       "identity": "core.mix_15_2",
       "name": "",
       "namespace": "app",
@@ -7527,6 +7575,54 @@
     {
       "alias_review": "unresolved",
       "identity": "core.sinh_mandelbrot",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.slice_multimin_0",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.slice_multimin_30_60",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.slice_multimin_45",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.slice_multimin_90_45",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.slice_multirot_cubic",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.slice_multirot_planes",
       "name": "",
       "namespace": "app",
       "paper_ids": [],
