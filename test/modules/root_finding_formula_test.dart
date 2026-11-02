@@ -7,7 +7,8 @@ import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-/// Formula pins for the repaired root-finding shaders.
+/// Formula pins for every repaired root-finding shader, plus the order-16
+/// Ostrowski-squared entry and the degree-variant Schroeder family.
 ///
 /// The defects and the measurements that found them live in
 /// `research/fractal-correctness-audit/`. These tests keep the shipped shader
@@ -16,8 +17,14 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  group('repared shaders still compile and render', () {
-    for (final id in ['jarratt', 'schroeder_z5', 'schroeder_z6']) {
+  group('repaired shaders still compile and render', () {
+    for (final id in [
+      'jarratt',
+      'schroeder',
+      'schroeder_z5',
+      'schroeder_z6',
+      'ostrowski_squared_16',
+    ]) {
       test('$id compiles and draws a non-blank frame', () async {
         final module = ModuleRegistry().byId(id);
         final program = await ui.FragmentProgram.fromAsset(module.shaderAsset);
@@ -102,7 +109,7 @@ void main() {
         for (var k = 0; k < 200; k++) {
           final z = _C(0.15 + 0.0137 * k, -1.1 + 0.0111 * k);
           if (_abs(_f(z, n)) < 1e-9) continue;
-          final closed = _scalarDiv(_mul(z, _sub(_pow(z, n), _one)),
+          final closed = _div(_mul(z, _sub(_pow(z, n), _one)),
               _add(_pow(z, n), _C(n - 1, 0)));
           worst = math.max(worst, _abs(_sub(closed, _firstKindStep(z, n))));
         }
@@ -116,13 +123,76 @@ void main() {
         for (var k = 0; k < 200; k++) {
           final z = _C(0.21 + 0.0101 * k, 0.37 - 0.0093 * k);
           if (_abs(_f(z, n)) < 1e-9) continue;
-          final shipped = _scalarDiv(_mul(z, _sub(_pow(z, n), _one)),
+          final shipped = _div(_mul(z, _sub(_pow(z, n), _one)),
               _add(_pow(z, n), _C(n - 1, 0)));
           worst = math.max(worst, _abs(_sub(shipped, _halleyStep(z, n))));
         }
       }
       expect(worst, greaterThan(1e-3),
           reason: 'the family must not silently fall back to Halley');
+    });
+  });
+
+  group('Ostrowski squared order-16', () {
+    test('two composed Ostrowski steps act well above fourth order', () {
+      // Algebraic order is 4^2 = 16. In double precision the second step lands
+      // on the rounding floor, so the observable estimate is floor-limited.
+      // Assert only what the arithmetic can show: clearly above one step (4).
+      final pair = _pairOrder(_ostrowskiSquared);
+      final single = _pairOrder(_ostrowski);
+      expect(single, lessThan(5.0), reason: 'one Ostrowski step: $single');
+      expect(pair, greaterThan(10.0), reason: 'pair order estimate: $pair');
+    });
+
+    test('shader uses two Ostrowski steps and no invented King step', () {
+      final source = File('shaders/root_finding/neta_order16_gpu.frag')
+          .readAsStringSync();
+      expect(source, contains('vec2 y3 = y2 - cdiv(f2, fp2);'));
+      expect(source, contains('cdiv(f2, f2 - 2.0 * fy3)'));
+      expect(source, isNot(contains('King')));
+      expect(source, isNot(contains('Neta')));
+    });
+
+    test('module id renamed but the shader asset path is unchanged', () {
+      final registry = ModuleRegistry();
+      expect(() => registry.byId('ostrowski_squared_16'), returnsNormally);
+      expect(() => registry.byId('neta_order16'), throwsA(anything),
+          reason: 'the registry must not keep the retired id');
+      expect(registry.byId('ostrowski_squared_16').shaderAsset,
+          'shaders/root_finding/neta_order16_gpu.frag',
+          reason: 'asset paths are hashed into release artifacts');
+    });
+  });
+
+  group('Schroeder base entry', () {
+    test('uses the first-kind step, not Chebyshev', () {
+      final source =
+          File('shaders/root_finding/schroeder_gpu.frag').readAsStringSync();
+      expect(source, contains('vec2 denom = cmul(fp, fp) - cmul(fz, fpp);'));
+      expect(source, isNot(contains('term2')));
+      expect(source, isNot(contains("(f^2 f'')")));
+    });
+
+    test('first-kind step equals the closed form z(z^3-1)/(z^3+2)', () {
+      for (var k = 0; k < 60; k++) {
+        final z = _C(-1.1 + 0.037 * k, 0.9 - 0.031 * k);
+        final fz = _sub(_pow(z, 3), _one);
+        final fp = _mul(_C(3, 0), _pow(z, 2));
+        final fpp = _mul(_C(6, 0), z);
+        final step = _div(_mul(fz, fp), _sub(_mul(fp, fp), _mul(fz, fpp)));
+        final closed = _div(_mul(z, fz), _add(_pow(z, 3), _C(2, 0)));
+        expect(_abs(_sub(step, closed)), lessThan(1e-9));
+      }
+    });
+
+    test('chebyshev_fractal stays a different map', () {
+      final cheb = File(
+              'shaders/escape_time_family/newton_and_orthogonal/high_order_root_methods/chebyshev_fractal_gpu.frag')
+          .readAsStringSync();
+      final schroeder =
+          File('shaders/root_finding/schroeder_gpu.frag').readAsStringSync();
+      expect(cheb, contains('Lf'));
+      expect(schroeder, isNot(contains('Lf')));
     });
   });
 
@@ -165,7 +235,6 @@ _C _div(_C a, _C b) {
       (a.imag * b.real - a.real * b.imag) / d);
 }
 
-_C _scalarDiv(_C a, _C b) => _div(a, b);
 double _abs(_C a) => math.sqrt(a.real * a.real + a.imag * a.imag);
 _C _pow(_C z, int n) {
   var out = _one;
@@ -218,6 +287,65 @@ _C _jarrattLegacyWeights(_C z) {
   final num = _sub(_mul(_C(3, 0), fpy), fpz);
   final den = _mul(_C(2, 0), _sub(_mul(_C(3, 0), fpy), _mul(_C(2, 0), fpz)));
   return _sub(z, _mul(_div(fz, fpz), _div(num, den)));
+}
+
+_C _f3(_C z) => _sub(_pow(z, 3), _one);
+
+/// Two composed Ostrowski steps, mirroring the shipped GLSL.
+_C _ostrowskiSquared(_C z) {
+  final fz = _f3(z);
+  final fpz = _mul(_C(3, 0), _pow(z, 2));
+  final y1 = _sub(z, _div(fz, fpz));
+  final fy1 = _f3(y1);
+  final y2 = _sub(y1,
+      _mul(_div(fy1, fpz), _div(fz, _sub(fz, _mul(_C(2, 0), fy1)))));
+
+  final f2 = _f3(y2);
+  final fp2 = _mul(_C(3, 0), _pow(y2, 2));
+  final y3 = _sub(y2, _div(f2, fp2));
+  final fy3 = _f3(y3);
+  return _sub(
+      y3, _mul(_div(fy3, fp2), _div(f2, _sub(f2, _mul(_C(2, 0), fy3)))));
+}
+
+_C _ostrowski(_C z) {
+  final fz = _f3(z);
+  final fpz = _mul(_C(3, 0), _pow(z, 2));
+  final y = _sub(z, _div(fz, fpz));
+  final fy = _f3(y);
+  return _sub(y, _mul(_div(fy, fpz), _div(fz, _sub(fz, _mul(_C(2, 0), fy)))));
+}
+
+/// Empirical order of a high-order method.
+///
+/// An order-16 step takes a moderate error straight to the floating-point floor,
+/// so only the first ratio log(e1)/log(e0) is representable. Take the largest
+/// representable ratio over the starts.
+double _pairOrder(_C Function(_C) rule) {
+  // Moderate starts keep both steps above the rounding floor: one step of order
+  // p turns e0 into C*e0^p, and the pair turns it into C'*e0^(p^2).
+  final starts = <_C>[
+    const _C(0.55, 0.10),
+    const _C(0.62, -0.08),
+    const _C(0.48, 0.14),
+    const _C(0.70, 0.05),
+    const _C(0.58, -0.15),
+    const _C(0.66, 0.18),
+    const _C(0.52, -0.20),
+    const _C(0.74, -0.12),
+  ];
+  var best = 0.0;
+  for (final z0 in starts) {
+    final e0 = _abs(_sub(z0, _one));
+    if (e0 < 0.05 || e0 > 0.8) continue;
+    final z1 = rule(z0);
+    if (!z1.real.isFinite || !z1.imag.isFinite) continue;
+    final e1 = _abs(_sub(z1, _one));
+    if (e1 <= 0 || e1 > e0) continue;
+    final order = math.log(e1) / math.log(e0);
+    if (order.isFinite && order > best) best = order;
+  }
+  return best;
 }
 
 /// Median empirical order log(e_{n+1})/log(e_n) over convergent starts.

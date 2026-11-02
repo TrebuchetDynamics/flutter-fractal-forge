@@ -745,7 +745,7 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     category: 'Escape-Time',
   ),
   EscapeTimeConfig(
-    id: 'neta_order16',
+    id: 'ostrowski_squared_16',
     name: 'Ostrowski Squared (Order 16)',
     shaderAsset: 'shaders/root_finding/neta_order16_gpu.frag',
     defaultIterations: 120,

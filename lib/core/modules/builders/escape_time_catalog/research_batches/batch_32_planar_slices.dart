@@ -48,6 +48,11 @@ final List<EscapeTimeConfig> _batch32PlanarSliceCatalog = [
     angleB: 70,
     description: 'Rotated slice in the multirot convention.',
     mode: 1,
+    presets: const [
+      ('slice_multirot_planes-p0', 'Plane 20/70', 20.0, 70.0),
+      ('slice_multirot_planes-p1', 'Plane 70/20', 70.0, 20.0),
+      ('slice_multirot_planes-p2', 'Plane 35/115', 35.0, 115.0),
+    ],
   ),
   _sliceEntry(
     id: 'slice_multirot_cubic',
@@ -72,6 +77,7 @@ EscapeTimeConfig _sliceEntry({
   double offsetImag = 0,
   double mode = 0,
   double zoom = 0.9,
+  List<(String, String, double, double)> presets = const [],
 }) {
   return EscapeTimeConfig(
     id: id,
@@ -93,6 +99,30 @@ EscapeTimeConfig _sliceEntry({
       _floatParam(id: 'sliceOffsetRe', label: 'Offset Real', min: -2, max: 2, step: 0.01, defaultValue: offsetReal),
       _floatParam(id: 'sliceOffsetIm', label: 'Offset Imag', min: -2, max: 2, step: 0.01, defaultValue: offsetImag),
       _floatParam(id: 'sliceMode', label: 'Variant', min: 0, max: 1, step: 1, defaultValue: mode),
+    ],
+    extraPresets: [
+      for (final (presetId, label, a, b) in presets)
+        catalogPreset(
+          id: presetId,
+          moduleId: id,
+          name: label,
+          params: {
+            'iterations': 140,
+            'bailout': 6.0,
+            'colorScheme': 1,
+            'sliceAngleA': a,
+            'sliceAngleB': b,
+            'slicePower': power,
+            'sliceOffsetRe': offsetReal,
+            'sliceOffsetIm': offsetImag,
+            'sliceMode': mode,
+          },
+          view: FractalViewState(
+            pan: Vector2.zero(),
+            zoom: zoom,
+            rotation: Vector3.zero(),
+          ),
+        ),
     ],
   );
 }

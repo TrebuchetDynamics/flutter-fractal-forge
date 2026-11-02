@@ -32,6 +32,14 @@ the orbit: `z0 = e^{i*b}*x + q`, `c = e^{i*a}*y + q`, `z -> (-z)^p + c`. At zero
 angles the wiring reduces to the real slice `z0 = x`, `c = y` of the Mandelbrot
 map, which the test mirrors and pins.
 
+## Module id rename
+
+`neta_order16` is now `ostrowski_squared_16`, matching the mathematics. Saved
+presets are not orphaned: `legacyModuleIdAliases` in `preset_store.dart` reads the
+old slot as well, and slot ownership is kept so rename/delete stay lossless. The
+shader asset keeps its original path because asset paths are hashed into release
+artifacts.
+
 ## Still unported
 
 `MandelbrotMix2` (additive constant inside the seed) and the six-plane `multirot`

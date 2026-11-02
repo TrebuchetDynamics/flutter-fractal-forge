@@ -6542,14 +6542,6 @@
     },
     {
       "alias_review": "unresolved",
-      "identity": "core.neta_order16",
-      "name": "",
-      "namespace": "app",
-      "paper_ids": [],
-      "status": "gap"
-    },
-    {
-      "alias_review": "unresolved",
       "identity": "core.newton_flow_streamlines",
       "name": "",
       "namespace": "app",
@@ -6799,6 +6791,14 @@
     {
       "alias_review": "unresolved",
       "identity": "core.ostrowski",
+      "name": "",
+      "namespace": "app",
+      "paper_ids": [],
+      "status": "gap"
+    },
+    {
+      "alias_review": "unresolved",
+      "identity": "core.ostrowski_squared_16",
       "name": "",
       "namespace": "app",
       "paper_ids": [],

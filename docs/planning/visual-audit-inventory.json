@@ -781,6 +781,7 @@
       "core.menger_3d_slice",
       "core.menger_sponge_2d",
       "core.meromorphic_sine_julia",
+      "core.milnor_brieskorn",
       "core.mimura_murray_predator_prey",
       "core.minkowski_question_mark",
       "core.mittag_leffler",
@@ -831,7 +832,6 @@
       "core.multijulia8",
       "core.multijulia9",
       "core.nebulabrot",
-      "core.neta_order16",
       "core.newton_flow_streamlines",
       "core.newton_general",
       "core.newton_leipnik",
@@ -864,6 +864,7 @@
       "core.orbit_trap_point",
       "core.orbit_trap_ring",
       "core.ostrowski",
+      "core.ostrowski_squared_16",
       "core.p_adic_mandelbrot",
       "core.paperfolding_curve_atlas",
       "core.parabolic_petal_julia",
@@ -883,6 +884,7 @@
       "core.perpendicular_burning_ship_julia",
       "core.perpendicular_julia",
       "core.perpendicular_mandelbrot",
+      "core.perron_tree",
       "core.peter_de_jong",
       "core.phase_portrait",
       "core.phoenix",
@@ -1072,9 +1074,7 @@
       "core.zaslavsky",
       "core.zeta_newton",
       "core.zhou_chen",
-      "core.zircon_zity",
-      "core.perron_tree",
-      "core.milnor_brieskorn"
+      "core.zircon_zity"
     ],
     "performance": []
   },
@@ -9181,12 +9181,12 @@
       ]
     },
     {
-      "id": "core.neta_order16",
-      "source_id": "neta_order16",
+      "id": "core.ostrowski_squared_16",
+      "source_id": "ostrowski_squared_16",
       "source": "Explore",
       "group": "core",
       "status": "renderer_registered",
-      "module_id": "neta_order16",
+      "module_id": "ostrowski_squared_16",
       "shader": "shaders/root_finding/neta_order16_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",

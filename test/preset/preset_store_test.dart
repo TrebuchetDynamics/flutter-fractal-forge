@@ -34,6 +34,15 @@ void main() {
       expect(store, isNotNull);
     });
 
+    test('renamed module still loads presets saved under the old id', () async {
+      final store = await PresetStore.create();
+      await store.saveUserPreset(_makePreset('old-1', 'neta_order16', name: 'Old'));
+      final presets = await store.loadUserPresets('ostrowski_squared_16');
+      expect(presets.map((p) => p.id), contains('old-1'));
+      expect(presets.single.moduleId, 'neta_order16',
+          reason: 'slot ownership is preserved so rename/delete stay lossless');
+    });
+
     test('loadUserPresets returns empty list for unknown module', () async {
       final store = await PresetStore.create();
       final presets = await store.loadUserPresets('unknown_module');
