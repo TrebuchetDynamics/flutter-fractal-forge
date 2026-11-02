@@ -55,7 +55,7 @@ The public release entry point is root `release.sh`; protected CI jobs use `scri
 
 Scope: developer tooling only. See [the accepted bounded plan](spec.md#mcp-assisted-app-quality); this recipe installs nothing and grants no app mutation, profile setup, live-service or publication authority.
 
-Use the task's pinned isolated/provisioned Flutter 3.44.6 SDK rather than upgrading `/home/xel/flutter`. Inspect `"$FLUTTER_SDK/bin/cache/dart-sdk/bin/dart" --version` and `mcp-server --help`; SDK tool defaults may differ from upstream documentation. The verified read-only probe used this stdio server argument set:
+Use the pinned SDK: `fdroid/flutter.version` names the tag that `/home/xel/flutter` must be checked out at, and `git -C /home/xel/flutter checkout $(cat fdroid/flutter.version)` selects it. Do not provision a private SDK copy. Inspect `"$FLUTTER_SDK/bin/cache/dart-sdk/bin/dart" --version` and `mcp-server --help`; SDK tool defaults may differ from upstream documentation. The verified read-only probe used this stdio server argument set:
 
 ```sh
 "$FLUTTER_SDK/bin/cache/dart-sdk/bin/dart" mcp-server \

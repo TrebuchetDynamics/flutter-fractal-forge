@@ -144,10 +144,14 @@ SH
 @test "full pipeline builds and stages an unsigned source artifact with provenance" {
   tools="$BATS_TEST_TMPDIR/build-tools"
   mkdir -p "$tools"
+  # The build script enforces fdroid/flutter.version, so the fake tool must
+  # report that same version. Pass it through the environment: `run env` drops
+  # unexported bats locals.
+  export FDROID_FLUTTER_VERSION="$(cat "$REPO_ROOT/fdroid/flutter.version")"
   cat >"$tools/flutter" <<'SH'
 #!/usr/bin/env bash
 if [[ "${1:-}" == "--version" ]]; then
-  echo 'Flutter 3.44.6 • channel stable'
+  echo "Flutter $FDROID_FLUTTER_VERSION • channel stable"
   exit 0
 fi
 if [[ "${1:-}" == "pub" && "${2:-}" == "get" ]]; then
@@ -236,7 +240,7 @@ SH
 }
 
 @test "GitLab performs reproducible source builds and official scans" {
-  [ "$(cat "$REPO_ROOT/fdroid/flutter.version")" = 3.44.6 ]
+  [ "$(cat "$REPO_ROOT/fdroid/flutter.version")" = 3.47.9 ]
   grep -Fq 'scripts/build-fdroid.sh' "$REPO_ROOT/scripts/ci/build.sh"
   grep -Fq -- '--reproducible' "$REPO_ROOT/scripts/ci/build.sh"
   grep -Fq 'scanner --exit-code' "$REPO_ROOT/scripts/ci/fdroid-scan.sh"
