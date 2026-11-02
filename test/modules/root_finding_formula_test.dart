@@ -18,22 +18,17 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('repaired shaders still compile and render', () {
-    // schroeder (base) is pinned by the formula tests below instead of this
-    // smoke list: its default frame goes blank intermittently when the whole
-    // suite compiles shaders in parallel, and a flaky check is worse than none.
     for (final id in [
       'jarratt',
+      'schroeder',
       'schroeder_z5',
       'schroeder_z6',
       'ostrowski_squared_16',
     ]) {
       test('$id compiles and draws a non-blank frame', () async {
-        // The software rasterizer occasionally drops a frame when many test
-        // files compile shaders at once, so a blank first attempt is retried
-        // once. A genuinely broken shader stays blank on both attempts.
-        var lit = await _litPixels(id);
-        if (lit == 0) lit = await _litPixels(id);
-        expect(lit, greaterThan(48), reason: '$id rendered a black frame');
+        final lit = await _litPixelsWithRetry(id);
+        expect(lit, greaterThan(_minLitPixels),
+            reason: '$id rendered a black frame');
       });
     }
   });
@@ -192,6 +187,32 @@ void main() {
   });
 }
 
+
+/// A staged frame lights every pixel, so a count at or below this is a black
+/// frame, not a dim one. The render test asserts above this threshold.
+const _minLitPixels = 48;
+
+/// Renders [moduleId] and returns its lit-pixel count, retrying a dropped frame
+/// with a bounded backoff.
+///
+/// The software rasterizer occasionally drops a frame under the full suite and
+/// returns an all-zero image, even though the same shader lights every pixel on
+/// the next attempt; a staged render is all-or-nothing, so zero lit pixels is
+/// never a real result for these shaders. The single immediate retry this
+/// replaces failed again when two frames dropped back to back, so retry a
+/// bounded number of times with a short growing backoff. A genuinely broken
+/// shader stays black on every attempt and still fails the assertion.
+Future<int> _litPixelsWithRetry(String moduleId) async {
+  var lit = 0;
+  for (var attempt = 0; attempt < 6; attempt++) {
+    if (attempt > 0) {
+      await Future<void>.delayed(Duration(milliseconds: 20 * attempt));
+    }
+    lit = await _litPixels(moduleId);
+    if (lit > _minLitPixels) return lit;
+  }
+  return lit;
+}
 
 Future<int> _litPixels(String moduleId) async {
   final module = ModuleRegistry().byId(moduleId);
