@@ -31,8 +31,8 @@ void main() {
       expect(find.text('Bailout'), findsOneWidget);
       // The palette picker lives in the viewer tools, not the controls panel.
       expect(find.text('Palette'), findsNothing);
-      // Transparent background stays available here.
-      expect(find.text('Transparent background'), findsOneWidget);
+      // The viewer never paints a transparent fractal; export options own it.
+      expect(find.text('Transparent background'), findsNothing);
       // Should show close button
       expect(find.byIcon(Icons.close_rounded), findsOneWidget);
     });
@@ -117,23 +117,14 @@ void main() {
       handle.dispose();
     });
 
-    testWidgets('transparent background toggles from the panel',
-        (tester) async {
+    testWidgets('offers no transparent fractal background', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.text('Transparent background'), findsOneWidget);
+      expect(find.text('Transparent background'), findsNothing);
+      expect(find.text('Fondo transparente'), findsNothing);
       expect(harness.controller.transparentBackground, isFalse);
       expect(find.text('Fluid mode'), findsNothing);
-
-      await tester.ensureVisible(find.text('Transparent background'));
-      await tester.tap(find.text('Transparent background'));
-      await tester.pumpAndSettle();
-      expect(harness.controller.transparentBackground, isTrue);
-
-      await tester.tap(find.text('Transparent background'));
-      await tester.pumpAndSettle();
-      expect(harness.controller.transparentBackground, isFalse);
     });
 
     testWidgets('kaleidoscope section toggles', (tester) async {
@@ -195,7 +186,6 @@ void main() {
       await tester.pumpAndSettle();
 
       for (final label in const [
-        'Fondo transparente',
         'Restablecer vista',
         'Restablecer parámetros',
         'Aleatorizar',
@@ -208,6 +198,7 @@ void main() {
         'Palette',
         'Fluid mode',
         'Transparent background',
+        'Fondo transparente',
         'Randomize',
       ]) {
         expect(find.text(label), findsNothing, reason: label);

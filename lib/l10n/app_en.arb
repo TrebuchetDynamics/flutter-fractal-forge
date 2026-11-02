@@ -878,7 +878,6 @@
   "hudPreviousFractal": "Previous fractal",
   "hudKaleidoscope": "Kaleidoscope",
   "hudRotation": "Rotation",
-  "hudTransparentBackground": "Transparent background",
   "hudResetViewLabel": "Reset view",
   "hudResetParamsLabel": "Reset parameters",
   "hudRandomizeTooltip": "Randomize parameters",

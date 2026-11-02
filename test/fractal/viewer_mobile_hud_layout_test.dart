@@ -187,8 +187,7 @@ void main() {
       expect(tester.getSize(find.byWidget(element.widget)).height,
           greaterThanOrEqualTo(56));
     }
-    final effectToggle =
-        find.widgetWithText(SwitchListTile, 'Transparent background');
+    final effectToggle = find.widgetWithText(SwitchListTile, 'Kaleidoscope');
     await tester.ensureVisible(effectToggle);
     await tester.pumpAndSettle();
     expect(tester.getSize(effectToggle).height, greaterThanOrEqualTo(56));

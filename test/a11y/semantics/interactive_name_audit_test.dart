@@ -183,8 +183,6 @@ void main() {
     await settleChrome(tester);
     await tester.tap(find.text('Kaleidoscope'));
     await settleChrome(tester);
-    await tester.tap(find.text('Transparent background'));
-    await settleChrome(tester);
     expectCleanSemantics(tester, 'hud-expanded');
     await expectReadableText(tester, 'hud-expanded');
     handle.dispose();
