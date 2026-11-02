@@ -129,7 +129,31 @@ async function openCatalogExample(page, example) {
 }
 
 async function openViewerMore(page) {
-  await page.getByRole('button', { name: /^(More|Más)$/i }).click();
+  // At large text scale the semantics overlay covers the rail button, so a
+  // pointer click is intercepted. Invoke the node's click handler instead.
+  await page.getByRole('button', { name: /^(More|Más)$/i })
+    .evaluate((node) => node.click());
+}
+
+/// Open the parameter controls from the labelled viewer-actions sheet.
+///
+/// The rail no longer exposes a bare "Controls" button: the controls entry is
+/// the "Parameter controls" row inside the actions sheet, reached through More.
+async function openParameterControls(page) {
+  await openViewerMore(page);
+  await page.getByRole('button', { name: /^(Parameter controls|Controles de parámetros)$/i }).click();
+}
+
+/// Expand the maths disclosure so the full legend is rendered.
+async function expandMathDetails(page) {
+  // The disclosure sits below the fold of the controls panel, so it must be
+  // scrolled into view before Flutter reports it as stable.
+  const details = page.getByRole('button', { name: /^(Formula details|Detalles de la fórmula)$/ });
+  await details.first().scrollIntoViewIfNeeded();
+  // Flutter web renders a semantics overlay above the tile, so invoke the
+  // node's click handler instead of a pointer click.
+  await details.first().evaluate((node) => node.click());
+  await page.waitForTimeout(400);
 }
 
 async function exportHdPng(page, testInfo, moduleName, { transparent = false } = {}) {
@@ -256,7 +280,7 @@ test(
     await openCatalogExample(page, example);
     await expect(page.locator('canvas').first()).toBeVisible({ timeout: 30_000 });
     // Open the labeled primary control without randomizing the current rule.
-    await page.getByRole('button', { name: /^(Controls|Controles)$/i }).click();
+    await openParameterControls(page);
     await expect(page.getByText(/current rule \/ formula/i)).toBeVisible();
     await expect(page.getByText(example.formula, { exact: true })).toBeVisible();
     await expect(page.getByText(example.qualification).first()).toBeVisible();
@@ -272,7 +296,9 @@ test(
     // that the edit is persisted before export.
     const originalState = await page.evaluate(() => localStorage.getItem('flutter.viewer_session_v1'));
     await openViewerMore(page);
-    const colorScheme = page.getByRole('button', { name: /^Color Scheme\. Long press for palette$/i });
+    // The palette row's primary action cycles the colour scheme; the long-press
+    // gesture that used to expose it is gone from the rail.
+    const colorScheme = page.getByRole('button', { name: /^Next palette$/i });
     await colorScheme.click();
     await expect
       .poll(() => page.evaluate(() => localStorage.getItem('flutter.viewer_session_v1')))
@@ -342,7 +368,7 @@ test('sine sphere restores edits and exports a reduced-motion frozen PNG', async
   // Exercise an actual visible edit, then process restoration rather than just
   // reading the initial seed back from storage.
   await openViewerMore(page);
-  await page.getByRole('button', { name: /^Color Scheme\. Long press for palette$/i }).click();
+  await page.getByRole('button', { name: /^Next palette$/i }).click();
   await expect.poll(async () => (await saved()).params.colorScheme).not.toBe(2);
   const edited = await saved();
   expect(edited.params).toMatchObject({ ...session.params, colorScheme: 3 });
@@ -400,7 +426,9 @@ test('Fibonacci catalog edits restore and export the same finite experiment', as
   expect((await saved(page)).params).toMatchObject({ iterations: 45, juliaCReal: -.2, juliaCImag: .25, bailout: 4 });
   await page.mouse.click(80, 200, { button: 'right' });
   await page.getByRole('menuitem', { name: /open controls/i }).click();
-  const legend = page.getByText(/H_c\(z,w\) = \(zw\+c,z\)/);
+  await expandMathDetails(page);
+  // The formula line and the full legend share a prefix; select the legend.
+  const legend = page.getByText(/H_c\(z,w\) = \(zw\+c,z\), fixed c/);
   await expect(legend).toBeVisible();
   const legendEn = await legend.innerText();
   expect(legendEn).toContain('not proven bounded');
@@ -483,7 +511,8 @@ test('Fibonacci catalog edits restore and export the same finite experiment', as
     fs.writeFileSync(testInfo.outputPath('fibonacci-es-initial-semantics.txt'), await narrow.locator('body').ariaSnapshot());
     await narrow.mouse.click(80, 200, { button: 'right' });
     await narrow.getByRole('menuitem', { name: /abrir controles/i }).click();
-    const spanishLegend = narrow.getByText(/H_c\(z,w\) = \(zw\+c,z\)/);
+    await expandMathDetails(narrow);
+    const spanishLegend = narrow.getByText(/H_c\(z,w\) = \(zw\+c,z\), c fijo/);
     await spanishLegend.scrollIntoViewIfNeeded();
     await expect(spanishLegend).toBeVisible();
     const legendEs = await spanishLegend.innerText();
