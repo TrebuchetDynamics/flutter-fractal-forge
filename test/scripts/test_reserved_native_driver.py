@@ -17,6 +17,8 @@ TARGET = "integration_test/flows/double_tap_anchor_test.dart"
 def driver_env(tmp_path):
     sdk = tmp_path / "sdk"
     (sdk / "bin/cache").mkdir(parents=True)
+    # The driver script refuses an SDK that does not match fdroid/flutter.version,
+    # so the fake SDK reports whatever the repository currently pins.
     pinned = (ROOT / "fdroid/flutter.version").read_text().strip()
     (sdk / "bin/cache/flutter.version.json").write_text(
         json.dumps({"flutterVersion": pinned, "frameworkRevision": "fake"})
