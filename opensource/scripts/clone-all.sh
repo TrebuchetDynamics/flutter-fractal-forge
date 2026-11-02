@@ -153,6 +153,48 @@ REPOS=(
 
   # Large/optional support reference.
   "research-toolkits/Psychtoolbox-3|https://github.com/Psychtoolbox-3/Psychtoolbox-3|optional-large"
+
+  # Landscape list from the owner (2026-11-01): 2D explorers, flame/IFS tools,
+  # 3D renderers, terrain generators, creative-coding frameworks. Resolved URLs
+  # were verified with git ls-remote; optional-large entries clone only with
+  # --with-large. Unresolved names are recorded in docs/reference-corpus-workflow.md.
+  "desktop-classics/nextfractal|https://github.com/nextbreakpoint/nextfractal|"
+  "desktop-classics/Fractalshades|https://github.com/GBillotey/Fractalshades|"
+  "desktop-classics/fractal-explorer-lobis|https://github.com/lobis/fractal-explorer|"
+  "desktop-classics/FractalExplorer-williamfiset|https://github.com/williamfiset/FractalExplorer|"
+  "desktop-classics/NewtonFractal|https://github.com/chrizbee/NewtonFractal|"
+  "flames-ifs/apophysis-7x|https://github.com/xyrus02/apophysis-7x|"
+  "flames-ifs/JWildfireSwan|https://github.com/bradparks/JWildfireSwan|"
+  "flames-ifs/barnsley|https://github.com/jmbhughes/barnsley|"
+  "flames-ifs/music-fractals|https://github.com/Imafikus/music-fractals|"
+  "flames-ifs/electric-sheep|https://github.com/scottdraves/electricsheep|"
+  "flames-ifs/FractPunk|https://github.com/TFMV/FractPunk|"
+  "renderers/interactive-cpp/fractals3d|https://github.com/Constantor/fractals3d|"
+  "renderers/rust-wgpu/cuda-mandelbox|https://github.com/kiwijuice56/cuda-mandelbox|"
+  "renderers/rust-wgpu/fractal-path-tracer|https://github.com/loicvdb/Simple-Fractal-Path-Tracer|"
+  "renderers/interactive-cpp/DoomsDay_Fractals|https://github.com/ArnavKucheriya/DoomsDay_Fractals|"
+  "browser-webgpu/react-fractal-renderer|https://github.com/xSNOWM4Nx/react-fractal-renderer|"
+  "browser-webgpu/mandelbrot-svelte|https://github.com/lovasoa/mandelbrot|"
+  "browser-webgpu/fractal-garden|https://github.com/trebeljahr/fractal-garden|"
+  "specialized/projectM|https://github.com/projectM-visualizer/projectm|"
+  "specialized/romanesgo|https://github.com/TheTeaCat/romanesgo|"
+  "specialized/xmountains|https://github.com/spbooth/xmountains|"
+  "specialized/symbios-ground|https://github.com/TheJanusStream/symbios-ground|"
+  "specialized/Dash-Fractal-Explorer|https://github.com/SterlingButters/Dash-Fractal-Explorer|"
+  "specialized/Cinefractal|https://github.com/Carbonfreezer/cinefractal|"
+  "specialized/parallelbrot|https://github.com/prathamhole14/parallelbrot|"
+  "specialized/yapybrot|https://github.com/rustygentile/yapybrot|"
+  "specialized/open-fraksl|https://github.com/mcalus3/open-fraksl|"
+  "specialized/wxChaos|https://github.com/CarlosManuelRodr/wxChaos|"
+  "specialized/FractalRenderingApp|https://github.com/MarkoLeskovar/FractalRenderingApp|"
+  "specialized/XWHQSJ-Fractal|https://github.com/XWHQSJ/Fractal|"
+  "specialized/MathMod|https://github.com/parisolab/mathmod|"
+  "research-toolkits/Processing|https://github.com/processing/processing|optional-large"
+  "research-toolkits/openFrameworks|https://github.com/openframeworks/openFrameworks|optional-large"
+  "research-toolkits/p5.js|https://github.com/processing/p5.js|optional-large"
+  "research-toolkits/Cinder|https://github.com/cinder/Cinder|optional-large"
+  "research-toolkits/nannou|https://github.com/nannou-org/nannou|optional-large"
+  "research-toolkits/glslViewer|https://github.com/patriciogonzalezvivo/glslViewer|"
 )
 
 DEAD_OR_UNRESOLVED=(
