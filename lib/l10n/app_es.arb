@@ -865,7 +865,6 @@
   "hudPreviousFractal": "Fractal anterior",
   "hudKaleidoscope": "Kaleidoscopio",
   "hudRotation": "Rotación",
-  "hudTransparentBackground": "Fondo transparente",
   "hudResetViewLabel": "Restablecer vista",
   "hudResetParamsLabel": "Restablecer parámetros",
   "hudRandomizeTooltip": "Aleatorizar parámetros",

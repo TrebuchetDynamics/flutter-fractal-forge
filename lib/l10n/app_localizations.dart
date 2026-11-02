@@ -3915,12 +3915,6 @@ abstract class AppLocalizations {
   /// **'Rotation'**
   String get hudRotation;
 
-  /// No description provided for @hudTransparentBackground.
-  ///
-  /// In en, this message translates to:
-  /// **'Transparent background'**
-  String get hudTransparentBackground;
-
   /// No description provided for @hudResetViewLabel.
   ///
   /// In en, this message translates to:

@@ -24,10 +24,10 @@ void main() {
     await tester.pumpWidget(
         harness.wrapScaffold(const FractalControlsHud(), theme: AppTheme.dark));
     await tester.pumpAndSettle();
-    for (final target in [
-      find.byType(SwitchListTile).at(0),
-      find.byType(SwitchListTile).at(1)
-    ]) {
+    // Only the kaleidoscope switch remains; the transparent-fractal toggle was
+    // removed because the viewer never paints a transparent background.
+    expect(find.byType(SwitchListTile), findsOneWidget);
+    for (final target in [find.byType(SwitchListTile).at(0)]) {
       var reached = false;
       for (var i = 0; i < 100; i++) {
         await tester.sendKeyEvent(LogicalKeyboardKey.tab);
@@ -48,12 +48,12 @@ void main() {
       await tester.pumpAndSettle();
     }
     expect(harness.controller.kaleidoscopeEnabled, isTrue);
-    expect(harness.controller.transparentBackground, isTrue);
+    expect(harness.controller.transparentBackground, isFalse);
     expect(
         calls.where((c) =>
             c.method == 'HapticFeedback.vibrate' &&
             c.arguments == 'HapticFeedbackType.selectionClick'),
-        hasLength(2));
+        hasLength(1));
   });
 
   testWidgets('live HUD preserves extra-enum option subsets', (tester) async {
@@ -141,9 +141,9 @@ void main() {
         expect(tester.takeException(), isNull);
         final l10n = AppLocalizations.of(
             tester.element(find.byType(FractalControlsHud)))!;
-        // Check the actual hit-test region of the new effect toggle.
+        // Check the actual hit-test region of the effect toggle.
         final toggle =
-            find.widgetWithText(SwitchListTile, l10n.hudTransparentBackground);
+            find.widgetWithText(SwitchListTile, l10n.hudKaleidoscope);
         expect(toggle, findsOneWidget);
         expect(tester.getSize(toggle).height, greaterThanOrEqualTo(48));
         for (final label in [

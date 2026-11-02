@@ -271,14 +271,12 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
               // Effect toggles stay one compact row each; the palette picker
               // lives in the viewer tools, not here. The module declares when
               // its own parameters replace them.
-              if (!controller.module.hidesEffectControls) ...[
+              //
+              // The viewer never paints a transparent fractal: the live overlay
+              // is glass, and transparent output belongs to the export options,
+              // which set it only for the duration of an export.
+              if (!controller.module.hidesEffectControls)
                 _KaleidoscopeSection(controller: controller, l10n: l10n),
-                _HudToggleRow(
-                  label: l10n.hudTransparentBackground,
-                  value: controller.transparentBackground,
-                  onChanged: controller.setTransparentBackground,
-                ),
-              ],
 
               const SizedBox(height: 4),
 

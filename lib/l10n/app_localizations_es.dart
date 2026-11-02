@@ -2119,9 +2119,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get hudRotation => 'Rotación';
 
   @override
-  String get hudTransparentBackground => 'Fondo transparente';
-
-  @override
   String get hudResetViewLabel => 'Restablecer vista';
 
   @override
