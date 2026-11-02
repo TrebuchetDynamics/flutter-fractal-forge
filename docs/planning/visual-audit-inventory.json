@@ -5987,13 +5987,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "mandelbar_cubic",
-      "shader": "shaders/escape_time_family/families/mandelbar/mandelbar_cubic_gpu.frag",
+      "shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/mandelbar/mandelbar_cubic_gpu.frag"
+        "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag"
       ]
     },
     {
@@ -6419,13 +6419,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "mandelbar_power6",
-      "shader": "shaders/escape_time_family/families/mandelbar/mandelbar_power6_gpu.frag",
+      "shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/mandelbar/mandelbar_power6_gpu.frag"
+        "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag"
       ]
     },
     {
@@ -6755,13 +6755,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "mandelbar_power7",
-      "shader": "shaders/escape_time_family/families/mandelbar/mandelbar_power7_gpu.frag",
+      "shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/mandelbar/mandelbar_power7_gpu.frag"
+        "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag"
       ]
     },
     {
@@ -6835,13 +6835,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "mandelbar_power8",
-      "shader": "shaders/escape_time_family/families/mandelbar/mandelbar_power8_gpu.frag",
+      "shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/mandelbar/mandelbar_power8_gpu.frag"
+        "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag"
       ]
     },
     {
@@ -6851,13 +6851,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "mandelbar_power9",
-      "shader": "shaders/escape_time_family/families/mandelbar/mandelbar_power9_gpu.frag",
+      "shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/mandelbar/mandelbar_power9_gpu.frag"
+        "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag"
       ]
     },
     {

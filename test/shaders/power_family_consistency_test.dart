@@ -38,13 +38,6 @@ void main() {
 
   group('power-variant families fold consistently', () {
     const clean = <String, (String, List<String>)>{
-      'mandelbar': ('mandelbar', [
-        'mandelbar_cubic_gpu.frag',
-        'mandelbar_power6_gpu.frag',
-        'mandelbar_power7_gpu.frag',
-        'mandelbar_power8_gpu.frag',
-        'mandelbar_power9_gpu.frag',
-      ]),
       'multibrot': ('multibrot', [
         'integer_powers/multibrot4_gpu.frag',
         'multibrot5_gpu.frag',
@@ -87,10 +80,20 @@ void main() {
       });
     });
 
-    test('mandelbar and multibrot fold nothing', () {
-      expect(familyAxes('mandelbar', const ['mandelbar_power6_gpu.frag']),
-          isEmpty);
+    test('multibrot folds nothing', () {
       expect(familyAxes('multibrot', const ['multibrot7_gpu.frag']), isEmpty);
+    });
+
+    // mandelbar is no longer a family of files: it merged into
+    // tricorn_gpu.frag, which folds nothing either. See
+    // test/modules/mandelbar_merge_test.dart.
+    test('the merged mandelbar shader folds nothing', () {
+      expect(
+        familyAxes('tricorn', const [
+          'parameter_plane/tricorn_gpu.frag',
+        ]),
+        isEmpty,
+      );
     });
   });
 

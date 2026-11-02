@@ -3676,27 +3676,27 @@
   },
   {
     "id": "mandelbar_cubic",
-    "shaderAsset": "shaders/escape_time_family/families/mandelbar/mandelbar_cubic_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
     "capability": "static"
   },
   {
     "id": "mandelbar_power6",
-    "shaderAsset": "shaders/escape_time_family/families/mandelbar/mandelbar_power6_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
     "capability": "static"
   },
   {
     "id": "mandelbar_power7",
-    "shaderAsset": "shaders/escape_time_family/families/mandelbar/mandelbar_power7_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
     "capability": "static"
   },
   {
     "id": "mandelbar_power8",
-    "shaderAsset": "shaders/escape_time_family/families/mandelbar/mandelbar_power8_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
     "capability": "static"
   },
   {
     "id": "mandelbar_power9",
-    "shaderAsset": "shaders/escape_time_family/families/mandelbar/mandelbar_power9_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
     "capability": "static"
   },
   {

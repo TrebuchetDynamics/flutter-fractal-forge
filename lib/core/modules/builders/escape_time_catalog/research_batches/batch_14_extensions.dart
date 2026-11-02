@@ -216,9 +216,19 @@ final List<EscapeTimeConfig> _batch14ExtensionsCatalog = [
     id: 'mandelbar_cubic',
     name: 'Mandelbar Cubic (Tricorn ³)',
     shaderAsset:
-        'shaders/escape_time_family/families/mandelbar/mandelbar_cubic_gpu.frag',
+        'shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
+    extraParams: [
+      _floatParam(
+        id: 'power',
+        label: 'Power',
+        min: 1.0,
+        max: 16.0,
+        step: 0.1,
+        defaultValue: 3.0,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'perpendicular_burning_ship',
@@ -444,9 +454,19 @@ final List<EscapeTimeConfig> _batch14ExtensionsCatalog = [
     id: 'mandelbar_power6',
     name: 'Mandelbar⁶',
     shaderAsset:
-        'shaders/escape_time_family/families/mandelbar/mandelbar_power6_gpu.frag',
+        'shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
+    extraParams: [
+      _floatParam(
+        id: 'power',
+        label: 'Power',
+        min: 1.0,
+        max: 16.0,
+        step: 0.1,
+        defaultValue: 6.0,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'tricorn_power6_julia',
@@ -624,9 +644,19 @@ final List<EscapeTimeConfig> _batch14ExtensionsCatalog = [
     id: 'mandelbar_power7',
     name: 'Mandelbar⁷',
     shaderAsset:
-        'shaders/escape_time_family/families/mandelbar/mandelbar_power7_gpu.frag',
+        'shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
+    extraParams: [
+      _floatParam(
+        id: 'power',
+        label: 'Power',
+        min: 1.0,
+        max: 16.0,
+        step: 0.1,
+        defaultValue: 7.0,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'nova_degree4',
@@ -664,17 +694,37 @@ final List<EscapeTimeConfig> _batch14ExtensionsCatalog = [
     id: 'mandelbar_power8',
     name: 'Mandelbar⁸',
     shaderAsset:
-        'shaders/escape_time_family/families/mandelbar/mandelbar_power8_gpu.frag',
+        'shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
+    extraParams: [
+      _floatParam(
+        id: 'power',
+        label: 'Power',
+        min: 1.0,
+        max: 16.0,
+        step: 0.1,
+        defaultValue: 8.0,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'mandelbar_power9',
     name: 'Mandelbar⁹',
     shaderAsset:
-        'shaders/escape_time_family/families/mandelbar/mandelbar_power9_gpu.frag',
+        'shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
+    extraParams: [
+      _floatParam(
+        id: 'power',
+        label: 'Power',
+        min: 1.0,
+        max: 16.0,
+        step: 0.1,
+        defaultValue: 9.0,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'tricorn_power7_julia',

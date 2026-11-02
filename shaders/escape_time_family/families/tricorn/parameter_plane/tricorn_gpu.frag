@@ -84,9 +84,10 @@ void main() {
   vec2 c   = uv / max(0.000001, uZoom) + uCenter;
   vec2 z   = vec2(0.0);
   // Complex derivative dz/dc for normal-map shading.
-  // Tricorn applies conj() before squaring; chain rule uses conj(z) as the base:
-  //   zc      = conj(z_n)
-  //   der_next = 2 * zc * der + 1   [complex multiply with conj(z)]
+  // The map is anti-holomorphic, so the chain rule conjugates the incoming
+  // derivative as well as the base:
+  //   zc       = conj(z_n)
+  //   der_next = p * zc^(p-1) * conj(der) + 1
   vec2 der = vec2(0.0);
 
   float bailoutSq = uBailout * uBailout;
@@ -95,14 +96,14 @@ void main() {
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
 
+  // Tricorn / Mandelbar family: z_{n+1} = conj(z_n)^p + c
+  float power = max(abs(uPower), 0.5);
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
 
-    // Tricorn / Mandelbar family: z_{n+1} = conj(z_n)^p + c
-    float power = max(abs(uPower), 0.5);
     vec2 zc = vec2(z.x, -z.y);
     vec2 zcPowMinusOne = cpowReal(zc, power - 1.0);
-    der = power * cmul(zcPowMinusOne, der) + vec2(1.0, 0.0);
+    der = power * cmul(zcPowMinusOne, vec2(der.x, -der.y)) + vec2(1.0, 0.0);
     z = cpowReal(zc, power) + c;
 
     if (dot(z, z) > bailoutSq) { it = j; break; }
@@ -115,7 +116,9 @@ void main() {
   }
 
   float mag2      = max(1e-12, dot(z, z));
-  float smoothVal = float(it) - log2(log2(mag2)) + 4.0;
+  // Divide by log2(power) so the band width stays constant as power changes.
+  float smoothVal =
+      float(it) - log2(log2(mag2)) / log2(max(power, 1.0001)) + 4.0;
 
   // ── Normal-map shading (colorScheme 50-63) ──────────────────────────────
   if (schemeInt >= 50) {
