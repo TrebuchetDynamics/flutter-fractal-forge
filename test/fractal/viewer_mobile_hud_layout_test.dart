@@ -79,17 +79,27 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('HUD has an opaque surface and readable label contrast',
+  testWidgets('HUD is translucent glass with readable label contrast',
       (tester) async {
     await pumpPhone(tester);
-    final surface = tester
-        .widget<Material>(find.byKey(const ValueKey('controlsHudSurface')))
-        .color!;
-    expect(surface.a, 1);
+    final surfaceFinder = find.byKey(const ValueKey('controlsHudSurface'));
+    final surface = tester.widget<Material>(surfaceFinder).color!;
+    expect(surface.a, lessThan(1.0),
+        reason: 'the fractal must stay visible through the overlay');
+    expect(
+      find.ancestor(
+          of: surfaceFinder, matching: find.byType(BackdropFilter)),
+      findsOneWidget,
+      reason: 'translucency needs the blurred backdrop, not a flat tint',
+    );
+
     final label = tester.widget<Text>(find.text('Iterations'));
     expect(label.style!.fontSize, greaterThanOrEqualTo(13));
+
+    // Worst case: the overlay sits over a pure white part of the fractal.
+    final overWhite = Color.alphaBlend(surface, const Color(0xFFFFFFFF));
     final contrast = (label.style!.color!.computeLuminance() + 0.05) /
-        (surface.computeLuminance() + 0.05);
+        (overWhite.computeLuminance() + 0.05);
     expect(contrast, greaterThanOrEqualTo(4.5));
     expect(tester.takeException(), isNull);
   });
