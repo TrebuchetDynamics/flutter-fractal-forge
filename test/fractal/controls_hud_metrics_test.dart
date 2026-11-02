@@ -127,6 +127,21 @@ void main() {
     expect(scaled.headerHeight, greaterThan(normal.headerHeight));
   });
 
+  testWidgets('the measured header bounds the header the HUD paints',
+      (tester) async {
+    final metrics = await measureHud(tester, height: 600);
+    // Collapse the HUD so the header is its only child, then compare the bound
+    // with what the surface actually paints. A Linux-desktop capture at 1x text
+    // measured 56 logical, so the metric must stay at or above that and may
+    // keep the 8 px of slack the short-viewport threshold relies on.
+    await tester.tap(find.byIcon(Icons.expand_more_rounded));
+    await tester.pumpAndSettle();
+    final rendered =
+        tester.getSize(find.byKey(const ValueKey('controlsHudDragHandle')));
+    expect(metrics.headerHeight, greaterThanOrEqualTo(rendered.height));
+    expect(rendered.height, metrics.touchTarget + 8);
+  });
+
   testWidgets('the largest bottom inset wins, as the HUD pads with it',
       (tester) async {
     final padding = await measureHud(tester, bottomInset: 48);
