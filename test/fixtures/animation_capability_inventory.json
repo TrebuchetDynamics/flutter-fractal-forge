@@ -4080,11 +4080,6 @@
     "capability": "static"
   },
   {
-    "id": "neta_order16",
-    "shaderAsset": "shaders/root_finding/neta_order16_gpu.frag",
-    "capability": "static"
-  },
-  {
     "id": "newton_flow_streamlines",
     "shaderAsset": "shaders/root_finding/newton_flow_streamlines_gpu.frag",
     "capability": "static"
@@ -4242,6 +4237,11 @@
   {
     "id": "ostrowski",
     "shaderAsset": "shaders/root_finding/ostrowski_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "ostrowski_squared_16",
+    "shaderAsset": "shaders/root_finding/neta_order16_gpu.frag",
     "capability": "static"
   },
   {

@@ -3,6 +3,13 @@ import 'package:flutter_fractals/core/modules/burning_ship_degrees.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/services/storage/preset_storage_slot.dart';
 
+/// Module ids that were renamed. Loading presets for the new id also reads the
+/// old slot, so a rename does not orphan saved presets (same rule that keeps the
+/// `burning_ship_degrees` slots lossless).
+const Map<String, List<String>> legacyModuleIdAliases = {
+  'ostrowski_squared_16': ['neta_order16'],
+};
+
 class PresetStore {
   final SharedPreferences _prefs;
 
@@ -20,6 +27,8 @@ class PresetStore {
       if (moduleId == 'burning_ship')
         for (final legacyId in burningShipDegrees.keys)
           ..._loadSlot(PresetStorageSlot(legacyId)),
+      for (final legacyId in legacyModuleIdAliases[moduleId] ?? const <String>[])
+        ..._loadSlot(PresetStorageSlot(legacyId)),
     ];
   }
 
