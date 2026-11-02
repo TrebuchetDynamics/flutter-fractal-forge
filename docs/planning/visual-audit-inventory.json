@@ -10,7 +10,7 @@
     "module_registry": "lib/core/modules/module_registry.dart"
   },
   "counts": {
-    "explore_core": 1037,
+    "explore_core": 1047,
     "explore_performance": 0,
     "manifest": 200
   },
@@ -784,6 +784,16 @@
       "core.mimura_murray_predator_prey",
       "core.minkowski_question_mark",
       "core.mittag_leffler",
+      "core.mix_15_2",
+      "core.mix_2_25",
+      "core.mix_2_3",
+      "core.mix_2_4",
+      "core.mix_2_neg2",
+      "core.mix_3_4",
+      "core.mix_half_2_3",
+      "core.mix_julia_2_3",
+      "core.mix_julia_dendrite",
+      "core.mix_mandel_core",
       "core.mobius_echo_nest",
       "core.mobius_transformation_julia",
       "core.moore_curve",

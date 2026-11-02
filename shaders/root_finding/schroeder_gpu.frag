@@ -79,20 +79,21 @@ void main() {
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
 
-    // Schröder for f(z)=z^3-1:
-    // z = z - f/f' - (f^2 f'') / (2 (f')^3)
+    // Schroeder first kind for f(z)=z^3-1: step = f f' / (f'^2 - f f''),
+    // which simplifies to z(z^3-1)/(z^3+2) for this polynomial. The degree
+    // variants schroeder_z3..z6 use the same formula, so the family is
+    // consistent. (Schroeder second kind is Chebyshev's method and already
+    // ships as chebyshev_fractal.)
     vec2 z2 = cmul(z, z);
     vec2 z3 = cmul(z2, z);
     vec2 fz = z3 - vec2(1.0, 0.0);
     vec2 fp = 3.0 * z2;
     vec2 fpp = 6.0 * z;
 
-    vec2 term1 = cdivSafe(fz, fp);
-    vec2 fp3 = cmul(cmul(fp, fp), fp);
-    vec2 num2 = cmul(cmul(fz, fz), fpp);
-    vec2 term2 = cdivSafe(num2, 2.0 * fp3);
+    vec2 denom = cmul(fp, fp) - cmul(fz, fpp);
+    vec2 step = cdivSafe(cmul(fz, fp), denom);
 
-    vec2 zNext = z - uRelaxation * (term1 + term2);
+    vec2 zNext = z - uRelaxation * step;
     vec2 dz = zNext - z;
     z = zNext;
 

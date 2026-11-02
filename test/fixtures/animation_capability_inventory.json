@@ -3845,6 +3845,56 @@
     "capability": "static"
   },
   {
+    "id": "mix_15_2",
+    "shaderAsset": "shaders/escape_time_family/families/mix/mandelbrot_mix_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mix_2_25",
+    "shaderAsset": "shaders/escape_time_family/families/mix/mandelbrot_mix_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mix_2_3",
+    "shaderAsset": "shaders/escape_time_family/families/mix/mandelbrot_mix_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mix_2_4",
+    "shaderAsset": "shaders/escape_time_family/families/mix/mandelbrot_mix_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mix_2_neg2",
+    "shaderAsset": "shaders/escape_time_family/families/mix/mandelbrot_mix_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mix_3_4",
+    "shaderAsset": "shaders/escape_time_family/families/mix/mandelbrot_mix_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mix_half_2_3",
+    "shaderAsset": "shaders/escape_time_family/families/mix/mandelbrot_mix_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mix_julia_2_3",
+    "shaderAsset": "shaders/escape_time_family/families/mix/mandelbrot_mix_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mix_julia_dendrite",
+    "shaderAsset": "shaders/escape_time_family/families/mix/mandelbrot_mix_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mix_mandel_core",
+    "shaderAsset": "shaders/escape_time_family/families/mix/mandelbrot_mix_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "mobius_echo_nest",
     "shaderAsset": "shaders/3d_and_hypercomplex/raymarched_volumes/carpathian_recursive_objects_gpu.frag",
     "capability": "timeDriven"
