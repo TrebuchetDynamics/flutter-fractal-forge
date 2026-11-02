@@ -339,9 +339,19 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     id: 'buffalo_power7',
     name: 'Buffalo Power7',
     shaderAsset:
-        'shaders/escape_time_family/families/buffalo/buffalo_power7_gpu.frag',
+        'shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
+    extraParams: [
+      _floatParam(
+        id: 'power',
+        label: 'Power',
+        min: 1.0,
+        max: 24.0,
+        step: 0.05,
+        defaultValue: 7.0,
+      ),
+    ],
     category: 'Escape-Time',
   ),
   EscapeTimeConfig(
@@ -374,9 +384,19 @@ final List<EscapeTimeConfig> _kaleidoscopesCatalog = [
     id: 'celtic_power7',
     name: 'Celtic Power7',
     shaderAsset:
-        'shaders/escape_time_family/families/celtic/celtic_power7_gpu.frag',
+        'shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag',
     defaultIterations: 120,
     defaultBailout: 4.0,
+    extraParams: [
+      _floatParam(
+        id: 'power',
+        label: 'Power',
+        min: 1.0,
+        max: 24.0,
+        step: 0.05,
+        defaultValue: 7.0,
+      ),
+    ],
     category: 'Escape-Time',
   ),
   EscapeTimeConfig(

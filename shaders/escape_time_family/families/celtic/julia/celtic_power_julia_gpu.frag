@@ -2,16 +2,10 @@
 
 precision highp float;
 
-// Celtic⁶ set: z_{n+1} = |Re(z^6)| + Im(z^6) + c.
-// Mandelbrot analogue — pixel = c, z₀ = 0.
-// The degree-6 Celtic map folds only the real part of z⁶ through absolute
-// value. This one-sided fold breaks the bilateral symmetry of the pure z⁶
-// Multibrot: the resulting parameter space has six-fold rotational symmetry
-// but no reflection symmetry, producing Celtic knotwork-like interlocking
-// boundary structures. At degree 6 the Celtic map develops highly intricate
-// overlapping lobe chains with deep cusp valleys separating each pair of
-// adjacent arms. Smooth coloring: log₂(6).
-// Supports normal-map shading (colorScheme 50-63).
+// Celtic power Julia family: z -> |Re(z^p)| + i*Im(z^p) + j, parameterised by p and j.
+// One shader replaces the per-power Julia files; power and the Julia
+// constant are controls.
+// Smooth coloring: log2(power). Normal-map shading at colorScheme 50-63.
 uniform float uTime;
 uniform vec2  uResolution;
 uniform vec2  uCenter;
@@ -20,6 +14,9 @@ uniform float uIterations;
 uniform float uBailout;
 uniform float uColorScheme;
 uniform float uTransparentBg;
+uniform float uPower;         // 10
+uniform float uJuliaRe;        // 11
+uniform float uJuliaImag;      // 12
 
 out vec4 fragColor;
 
@@ -46,32 +43,43 @@ vec3 palette(float t, int scheme) {
 
 vec2 cmul(vec2 a, vec2 b) { return vec2(a.x*b.x-a.y*b.y, a.x*b.y+a.y*b.x); }
 
+vec2 cpowReal(vec2 z, float power) {
+  // Every parameter-plane orbit starts at zero, and atan(0, 0) is undefined.
+  // Some backends return NaN there, which poisons the whole orbit.
+  if (z.x == 0.0 && z.y == 0.0 && power >= 0.0) {
+    return power == 0.0 ? vec2(1.0, 0.0) : vec2(0.0);
+  }
+  float r = max(length(z), 1e-8);
+  float a = atan(z.y, z.x);
+  float rp = pow(r, power);
+  return rp * vec2(cos(power * a), sin(power * a));
+}
+
 void main() {
   vec2 fragCoord = FlutterFragCoord().xy;
   float scale = min(uResolution.x, uResolution.y);
   vec2 uv = (fragCoord - 0.5*uResolution) / max(1.0, scale);
 
   int schemeInt = int(uColorScheme);
-  vec2 c   = uv / max(0.000001, uZoom) + uCenter;
-  vec2 z   = vec2(0.0);
-  vec2 der = vec2(0.0);
+  vec2 z   = uv / max(0.000001, uZoom) + uCenter;
+  vec2 c   = vec2(uJuliaRe, uJuliaImag);
+  vec2 der = vec2(1.0, 0.0);
 
   float bailoutSq = uBailout * uBailout;
   const int MAX_ITERS = 500;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
+  float power = clamp(uPower, 1.0, 24.0);
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
-    vec2 z2 = cmul(z, z);
-    vec2 z4 = cmul(z2, z2);
-    vec2 z5 = cmul(z4, z);
-    vec2 z6 = cmul(z4, z2);
-    // Derivative approximation: 6·z⁵·der + 1 (Mandelbrot mode)
-    der = 6.0 * cmul(z5, der) + vec2(1.0, 0.0);
-    // Celtic fold: |Re(z⁶)| + Im(z⁶)
-    z = vec2(abs(z6.x), z6.y) + c;
-    if (dot(z,z) > bailoutSq) { it = j; break; }
+
+    vec2 zPow = cpowReal(z, power);
+    // Celtic fold: reflect the real part of z^p, keep the imaginary part.
+    der = power * cmul(cpowReal(z, power - 1.0), der);
+    z = vec2(abs(zPow.x), zPow.y) + c;
+
+    if (dot(z, z) > bailoutSq) { it = j; break; }
     it = j + 1;
   }
 
@@ -81,7 +89,7 @@ void main() {
   }
 
   float mag2      = max(1e-12, dot(z, z));
-  float smoothVal = float(it) - log2(log2(mag2)) / log2(6.0);
+  float smoothVal = float(it) - log2(log2(mag2)) / log2(max(power, 1.0001));
 
   if (schemeInt >= 50) {
     float angle   = float(schemeInt - 50) * (3.14159265 / 13.0);

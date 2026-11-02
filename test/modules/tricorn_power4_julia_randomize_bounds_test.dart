@@ -5,8 +5,10 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  // The per-power Tricorn Julia shaders were merged into one power-driven
+  // shader; power 4 selects the same map as before.
   const shaderAsset =
-      'shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power4_julia_gpu.frag';
+      'shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag';
 
   test('Tricorn power4 Julia caps randomized iteration values', () {
     final module = ModuleRegistry().byId('tricorn_power4_julia');
@@ -19,7 +21,7 @@ void main() {
   test('Tricorn power4 Julia shader clamps imported high iteration shares', () {
     final shader = File(shaderAsset).readAsStringSync();
 
-    expect(shader, contains('const int MAX_ITERS = 200;'));
+    expect(shader, contains('const int MAX_ITERS = 500;'));
     expect(
         shader,
         contains(

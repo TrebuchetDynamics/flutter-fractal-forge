@@ -82,11 +82,20 @@ void main() {
         palette: RegExp(r'float\s+t\s*=\s*fract\(smoothVal\s*/\s*64\.0'),
       ),
       (
-        family: 'cubic Buffalo',
+        family: 'powered Buffalo',
         path:
-            'shaders/escape_time_family/families/buffalo/buffalo_cubic_gpu.frag',
+            'shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag',
         formula: RegExp(
-          r'float\s+smoothVal\s*=\s*float\(it\)\s*-\s*log2\(log2\(mag2\)\)\s*/\s*log2\(3\.0\)\s*;',
+          r'float\s+smoothVal\s*=\s*float\(it\)\s*-\s*log2\(log2\(mag2\)\)\s*/\s*log2\(max\(power,\s*1\.0001\)\)\s*;',
+        ),
+        palette: RegExp(r'float\s+t\s*=\s*fract\(smoothVal\s*/\s*64\.0'),
+      ),
+      (
+        family: 'powered Celtic',
+        path:
+            'shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag',
+        formula: RegExp(
+          r'float\s+smoothVal\s*=\s*float\(it\)\s*-\s*log2\(log2\(mag2\)\)\s*/\s*log2\(max\(power,\s*1\.0001\)\)\s*;',
         ),
         palette: RegExp(r'float\s+t\s*=\s*fract\(smoothVal\s*/\s*64\.0'),
       ),
