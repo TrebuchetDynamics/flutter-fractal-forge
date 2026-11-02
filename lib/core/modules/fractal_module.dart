@@ -137,6 +137,14 @@ class FractalModule {
   /// uniform variables. The uniform layout must match the shader code.
   final UniformSetter setUniforms;
 
+  /// Whether the shared effect controls do not apply to this module.
+  ///
+  /// When true, control surfaces omit the kaleidoscope toggle, the transparent
+  /// background toggle and the auxiliary tool rail, because this module
+  /// replaces those effects with its own parameters. Declaring the fact here
+  /// keeps control surfaces from testing module ids.
+  final bool hidesEffectControls;
+
   /// Creates a new [FractalModule] with the specified configuration.
   ///
   /// All parameters are required to ensure a complete module definition.
@@ -146,6 +154,7 @@ class FractalModule {
     required this.dimension,
     this.horizontalOrbitSign = -1,
     this.animationCapability = FractalAnimationCapability.static,
+    this.hidesEffectControls = false,
     required this.shaderAsset,
     required this.parameters,
     required this.defaultPreset,

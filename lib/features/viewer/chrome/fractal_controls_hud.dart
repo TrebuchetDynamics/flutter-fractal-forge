@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
+import 'package:flutter_fractals/features/controls/module_control_sections.dart';
 import 'package:flutter_fractals/features/controls/param_control_plan.dart';
 import 'package:flutter_fractals/features/controls/widgets/number_wall_prime_control.dart';
 import 'package:flutter_fractals/features/controls/widgets/number_wall_style_controls.dart';
@@ -13,6 +14,62 @@ import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/fractal_math_summary.dart';
 import 'package:flutter_fractals/shared/widgets/app_tool_button.dart';
+
+/// Height arithmetic shared by the HUD and the hosts that position it.
+///
+/// The viewer must choose the HUD's height before it builds the HUD: it hides
+/// its chrome header when the HUD needs the whole viewport. Keeping the header
+/// padding, the divider and the trailing gap in one value type stops a host
+/// from re-deriving them and drifting away from the widget it positions.
+@immutable
+class ControlsHudMetrics {
+  const ControlsHudMetrics({
+    required this.headerHeight,
+    required this.bottomInset,
+    required this.touchTarget,
+  });
+
+  /// Measures the ambient theme, media insets and accessibility state.
+  factory ControlsHudMetrics.of(BuildContext context) {
+    final media = MediaQuery.of(context);
+    final theme = Theme.of(context);
+    final touchTarget = AccessibleSizing.touchTargetSize(
+        largeTargets: context
+                .watch<AccessibilityService?>()
+                ?.largeTargetsEnabled ==
+            true);
+    return ControlsHudMetrics(
+      headerHeight: math.max(
+              touchTarget,
+              media.textScaler.scale(
+                      theme.textTheme.titleSmall?.fontSize ?? 14) *
+                  (theme.textTheme.titleSmall?.height ?? 1)) +
+          16,
+      bottomInset: math.max(
+        math.max(media.padding.bottom, media.viewPadding.bottom),
+        media.systemGestureInsets.bottom,
+      ),
+      touchTarget: touchTarget,
+    );
+  }
+
+  /// Height of the drag handle and title row, including its padding.
+  final double headerHeight;
+
+  /// Bottom safe-area inset the HUD pads with.
+  final double bottomInset;
+
+  /// Interactive target size used by the header buttons and the body controls.
+  final double touchTarget;
+
+  /// Smallest height that still keeps the header above one body row.
+  double get minimumUsableHeight =>
+      headerHeight + 1 + bottomInset + touchTarget + 16;
+
+  /// Whether a HUD given [availableHeight] must scroll its header with the body.
+  bool headerScrolls(double availableHeight) =>
+      availableHeight < minimumUsableHeight;
+}
 
 /// Game-like HUD overlay for fractal parameter controls.
 ///
@@ -77,22 +134,12 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
     final controller = context.watch<FractalController>();
     final l10n = AppLocalizations.of(context)!;
 
+    final metrics = ControlsHudMetrics.of(context);
     final media = MediaQuery.of(context);
-    final bottomInset = math.max(
-      math.max(media.padding.bottom, media.viewPadding.bottom),
-      media.systemGestureInsets.bottom,
-    );
     final accessibility = context.watch<AccessibilityService?>();
     final reduceMotion =
         media.disableAnimations || accessibility?.reducedMotionEnabled == true;
-    final target = AccessibleSizing.touchTargetSize(
-        largeTargets: accessibility?.largeTargetsEnabled == true);
-    final headerHeight = math.max(
-            target,
-            media.textScaler.scale(
-                    Theme.of(context).textTheme.titleSmall?.fontSize ?? 14) *
-                (Theme.of(context).textTheme.titleSmall?.height ?? 1)) +
-        16;
+    final bottomInset = metrics.bottomInset;
     final header = GestureDetector(
       key: const ValueKey('controlsHudDragHandle'),
       behavior: HitTestBehavior.opaque,
@@ -159,6 +206,9 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Controller-state hygiene, not a control declaration: a number
+              // wall computation can finish after the viewer switched modules,
+              // and its result must not be announced over another fractal.
               if (controller.module.id != 'number_wall' &&
                   (controller.numberWallPending ||
                       controller.numberWallStatus != null))
@@ -211,8 +261,9 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
               const SizedBox(height: 2),
 
               // Effect toggles stay one compact row each; the palette picker
-              // lives in the viewer tools, not here.
-              if (controller.module.id != 'number_wall') ...[
+              // lives in the viewer tools, not here. The module declares when
+              // its own parameters replace them.
+              if (!controller.module.hidesEffectControls) ...[
                 _KaleidoscopeSection(controller: controller, l10n: l10n),
                 _HudToggleRow(
                   label: l10n.hudTransparentBackground,
@@ -223,8 +274,10 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
 
               const SizedBox(height: 4),
 
-              if (controller.module.id == 'number_wall')
-                const NumberWallRandomizationControls(),
+              // Module-specific sections are widgets, so they live in the
+              // feature layer instead of the module declaration.
+              if (moduleControlSections[controller.module.id] case final build?)
+                Builder(builder: build),
               // Quick action buttons row
               _ActionButtonsRow(
                 onResetView: controller.resetView,
@@ -242,8 +295,7 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
     // scroll the header too, rather than reserving a header taller than the
     // remaining viewport. The OS navigation area stays outside that viewport.
     return LayoutBuilder(builder: (context, constraints) {
-      final scrollHeader =
-          constraints.maxHeight - bottomInset < headerHeight + 1 + target + 16;
+      final scrollHeader = metrics.headerScrolls(constraints.maxHeight);
       final children = <Widget>[
         header,
         if (!_isCollapsed)
@@ -296,15 +348,14 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
     Object value,
     AppLocalizations l10n,
   ) {
-    if (controller.module.id == 'number_wall' && isNumberWallColor(param.id)) {
-      return NumberWallColorControl(
-          param: param,
-          value: value,
-          onChanged: (v) => controller.updateParam(param.id, v));
-    }
-    switch (param.type) {
-      case FractalParamType.float:
-      case FractalParamType.integer:
+    switch (param.resolvedControl) {
+      case FractalParamControl.color:
+        return NumberWallColorControl(
+            param: param,
+            value: value,
+            onChanged: (v) => controller.updateParam(param.id, v));
+
+      case FractalParamControl.slider:
         final plan = NumericParamControlPlan.fromParam(
           param: param,
           value: value,
@@ -324,7 +375,7 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
           ),
         );
 
-      case FractalParamType.enumeration:
+      case FractalParamControl.chips:
         // Show as compact chips
         return Padding(
           padding: const EdgeInsets.only(bottom: 8),
@@ -360,10 +411,10 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
           ),
         );
 
-      case FractalParamType.decimalInteger:
+      case FractalParamControl.prime:
         return const NumberWallPrimeControl();
 
-      case FractalParamType.boolean:
+      case FractalParamControl.toggle:
         return Padding(
           padding: const EdgeInsets.only(bottom: 4),
           child: _HudToggleRow(
@@ -465,11 +516,7 @@ class _CompactHudSliderRow extends StatelessWidget {
               // minimum. A tight height grows the hit area without touching
               // the track, thumb or overlay, which stay centred in it.
               child: SizedBox(
-                height: AccessibleSizing.touchTargetSize(
-                    largeTargets: context
-                            .watch<AccessibilityService?>()
-                            ?.largeTargetsEnabled ==
-                        true),
+                height: ControlsHudMetrics.of(context).touchTarget,
                 child: Slider(
                   value: value.clamp(min, max),
                   min: min,
@@ -651,10 +698,7 @@ class _HudToggleRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final target = AccessibleSizing.touchTargetSize(
-        largeTargets:
-            context.watch<AccessibilityService?>()?.largeTargetsEnabled ??
-                false);
+    final target = ControlsHudMetrics.of(context).touchTarget;
     return Material(
       type: MaterialType.transparency,
       child: SwitchListTile(
@@ -701,10 +745,7 @@ class _HudActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final style = FilledButton.styleFrom(
-      minimumSize: Size.square(AccessibleSizing.touchTargetSize(
-          largeTargets:
-              context.watch<AccessibilityService?>()?.largeTargetsEnabled ==
-                  true)),
+      minimumSize: Size.square(ControlsHudMetrics.of(context).touchTarget),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       foregroundColor: isPrimary ? colors.onPrimary : colors.onSurfaceVariant,
       backgroundColor: isPrimary ? colors.primary : colors.surfaceContainerHigh,
