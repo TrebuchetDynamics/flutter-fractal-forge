@@ -64,3 +64,48 @@ revalidate the `/usr/bin/python3` pytest/Jinja2/MarkupSafe imports, then:
 Record the red-bundle failure lines above and the deterministic local
 reproduction in the task Evidence. An isolated pass is not full-gate
 qualification, and no goal, device, release or live qualification is inferred.
+
+## Resolution and worker verification
+
+The fixture now derives the fake SDK version from the repository pin instead of
+hardcoding it:
+
+```python
+pinned = (ROOT / "fdroid/flutter.version").read_text().strip()
+(sdk / "bin/cache/flutter.version.json").write_text(
+    json.dumps({"flutterVersion": pinned, "frameworkRevision": "fake"})
+)
+```
+
+Only `test/scripts/test_reserved_native_driver.py` changed. All 12 cases, every
+assertion and the driver's version-mismatch refusal are unchanged; the
+hardcoded `3.44.6` was the stale input after `c6440508`
+(`fdroid/flutter.version` `3.44.6` -> `3.47.9`; that commit also changed
+`AGENTS.md`, `analysis_options.yaml`, `docs/engineering/runbook.md`,
+`docs/engineering/spec.md`, `pubspec.lock`, four catalog goldens and
+`test/scripts/fdroid_pipeline.bats`, none of which this fixture change touches).
+
+Worker results on the delivered bytes:
+
+| Command | Actual result |
+| --- | --- |
+| `/usr/bin/python3 -m pytest test/scripts/test_reserved_native_driver.py -q` | Exit 0; **12 passed** (was 5 failed, 7 passed before the fixture fix) |
+| Mismatch probe: fake SDK `flutterVersion` `0.0.0-not-the-pin`, repo pin `3.47.9`, run `scripts/run-native-integration.sh integration_test/flows/double_tap_anchor_test.dart` | Exit 2; stderr `FLUTTER_ROOT must select the pinned fdroid/flutter.version SDK`; no private work directory created. Refusal retained. |
+| `/usr/bin/python3 -m pytest test/scripts -q` | Exit 0; **282 passed, 1 skipped, 148 subtests passed** |
+| Flutter `--version` vs `fdroid/flutter.version`; `/usr/bin/python3` pytest/Jinja2/MarkupSafe imports | Flutter 3.47.9 / Dart 3.13.7 == pin; Python 3.12.3, pytest 9.0.2, Jinja2 3.1.6, `markupsafe.soft_str` callable |
+| `git diff --check` | Clean |
+
+`pubspec.lock` SHA-256 before and after worker checks:
+`d759c63037e4d4f29a7c09b14886854fb8caa832c41f1172ec684a5cdcb7145b`
+(unchanged; this fixture change does not touch dependencies).
+
+Per [MAIN-CHECK-01](MAIN-CHECK-01.md), the complete unchanged offline gate on
+the merged tree is coordinator/runner-owned and was **NOT_RUN** by this worker;
+an isolated pass is not full-gate qualification. The pinned process-local preflight
+`flutter pub get --offline --enforce-lockfile` could not resolve in this checkout:
+the shared `$AUTOWORK_CACHE/pub-cache` is stale relative to the lock refreshed by
+`c6440508`, holding `meta-1.18.0`/`intl-0.20.2`/`matcher-0.12.19`/`test_api-0.7.11`
+while `pubspec.lock` pins `1.19.0`/`0.20.3`/`0.12.20`/`0.7.12` (exit 1,
+`meta ^1.18.3 is forbidden`). No package was installed and the lockfile was not
+changed; provisioning of the pinned cache is runner-owned, so this is recorded as
+an environment limitation, not a repository or fixture failure.
