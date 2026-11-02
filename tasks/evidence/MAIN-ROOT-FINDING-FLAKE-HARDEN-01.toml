@@ -1,0 +1,9 @@
+schema = 1
+task = "MAIN-ROOT-FINDING-FLAKE-HARDEN-01"
+candidate = "abc92942250d5d5b0f9f1cf13853898c95bfca3c"
+integration = "167f233ee3f8dffb965d32394ead9ddf2bbb2f95"
+tree = "3adf9f53f643ed6df2f8b8257ab5f467c79219ab"
+contract_hash = "89b5a323fee338337d070475c6fd1cfead4eadd9706aad5d3023fbee28f972f6"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAIN-ROOT-FINDING-FLAKE-HARDEN-01"]
+result = "pass"
+review = "passed"
