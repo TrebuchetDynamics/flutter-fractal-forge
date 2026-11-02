@@ -39,6 +39,10 @@ class ControlsHudMetrics {
                 ?.largeTargetsEnabled ==
             true);
     return ControlsHudMetrics(
+      // The header row paints one touch target plus 8 px of padding; the extra
+      // 8 keeps the short-viewport threshold conservative, as the pre-metric
+      // viewer formula did. A desktop capture measured the painted header at
+      // 56 logical for this 64.
       headerHeight: math.max(
               touchTarget,
               media.textScaler.scale(
@@ -53,7 +57,10 @@ class ControlsHudMetrics {
     );
   }
 
-  /// Height of the drag handle and title row, including its padding.
+  /// Upper bound for the drag handle and title row height.
+  ///
+  /// The painted row is one touch target plus 8 px of padding, so this bound
+  /// carries 8 px of slack that keeps the short-viewport threshold conservative.
   final double headerHeight;
 
   /// Bottom safe-area inset the HUD pads with.
