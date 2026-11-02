@@ -73,6 +73,8 @@ was added.
 - Shared release gate: source integrity and privacy passed; analyzer clean;
   Flutter **3,423 passed, 9 skipped**.
 - Release-manifest evidence generation and verification passed.
+- Separate full offline gate on the frozen tree: Python **454 passed, 1 skipped,
+  148 subtests**; Bats **25 passed**.
 - Evidence: retained campaign, stage logs, release manifest, SBOM, notices,
   provenance sidecars and device logs under
   `release-artifacts/` in the frozen worktree (ignored, not committed).
