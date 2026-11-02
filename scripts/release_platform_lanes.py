@@ -211,12 +211,28 @@ def run_native_qualification(lane: str, identity: dict[str, str],
         return {name: {**receipt, "reason": "Linux journey requires a Linux host"}
                 for name, receipt in unknown.items()}
     try:
-        port = _allocated_port_base()
+        base = _allocated_port_base()
     except ValueError as error:
         return {name: {**receipt, "reason": str(error)} for name, receipt in unknown.items()}
+    # The web lane binds a server inside the same allocation, so the base port
+    # itself can still be held when this lane starts. Take the first port in the
+    # range that actually binds, and hand that exact value to the driver.
+    port = None
+    for candidate in range(base, base + 100):
+        with socket.socket() as probe:
+            try:
+                probe.bind(("127.0.0.1", candidate))
+            except OSError:
+                continue
+        port = candidate
+        break
+    if port is None:
+        reason = f"no authorized free port in the allocation starting at {base}"
+        return {name: {**receipt, "reason": reason} for name, receipt in unknown.items()}
     command = ["bash", "scripts/run-native-integration.sh", "integration_test/flows/user_flows_test.dart",
                "--timeout", "1200", "--dart-define=FORCE_GPU_RENDER=true"]
     environment = _lane_environment("common")
+    environment["AUTOWORK_PORT_BASE"] = str(port)
     started = time.monotonic()
     try:
         command = [sys.executable, "scripts/run-release-command.py", "--timeout", "1210", "--", *command]
