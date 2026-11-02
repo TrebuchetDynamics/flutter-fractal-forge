@@ -12,6 +12,12 @@ class CircularToolSurface extends StatelessWidget {
   final bool focused;
   final bool hovered;
 
+  /// Where the circle sits inside the caller's box.
+  ///
+  /// List rows pass [AlignmentDirectional.centerStart] so the circle paints on
+  /// the leading edge while the caller keeps a full-width hit area.
+  final AlignmentGeometry alignment;
+
   const CircularToolSurface({
     super.key,
     required this.icon,
@@ -19,6 +25,7 @@ class CircularToolSurface extends StatelessWidget {
     this.pressed = false,
     this.focused = false,
     this.hovered = false,
+    this.alignment = Alignment.center,
   });
 
   @override
@@ -31,7 +38,7 @@ class CircularToolSurface extends StatelessWidget {
     return SizedBox.square(
       dimension: touchSize,
       child: Stack(
-        alignment: Alignment.center,
+        alignment: alignment,
         children: [
           AnimatedContainer(
             duration: reduceMotion ? Duration.zero : AppAnimations.fast,

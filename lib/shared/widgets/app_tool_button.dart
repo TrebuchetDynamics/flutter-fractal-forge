@@ -21,6 +21,12 @@ class AppToolButton extends StatefulWidget {
   final Duration delay;
   final double? sortOrder;
 
+  /// Where the circular surface paints inside this button's box.
+  ///
+  /// Stretched callers (list rows) keep the whole row tappable and align the
+  /// circle to the leading edge.
+  final AlignmentGeometry surfaceAlignment;
+
   const AppToolButton({
     super.key,
     required this.icon,
@@ -32,6 +38,7 @@ class AppToolButton extends StatefulWidget {
     this.selected,
     this.delay = Duration.zero,
     this.sortOrder,
+    this.surfaceAlignment = Alignment.center,
   });
 
   @override
@@ -63,6 +70,7 @@ class _AppToolButtonState extends State<AppToolButton> {
       pressed: _pressed,
       focused: _focused,
       hovered: _hovered,
+      alignment: widget.surfaceAlignment,
     );
     final content = MergeSemantics(
       child: Semantics(
