@@ -780,6 +780,9 @@ class _ViewerToolState extends State<_ViewerTool> {
         textAlign: widget.row ? TextAlign.start : TextAlign.center,
         style: Theme.of(context).textTheme.labelMedium!.copyWith(
             color: colors.onSurface, height: widget.dense ? 1.1 : null));
+    // A row keeps the full width tappable but paints the circle on the leading
+    // edge; drawing the icon and the circle again in the label area duplicated
+    // both and left a stray circle across the text.
     final visual = Padding(
       padding: EdgeInsets.symmetric(
           horizontal: widget.dense ? 0 : 8, vertical: widget.dense ? 0 : 8),
@@ -789,6 +792,9 @@ class _ViewerToolState extends State<_ViewerTool> {
                   Icon(widget.icon, size: 20, color: colors.onSurfaceVariant))
           : widget.row
               ? Row(children: [
+                  // A dense row is text-only so a 3x label keeps the space it
+                  // needs inside a short viewport.
+                  if (!widget.dense) SizedBox(width: target + 12),
                   if (widget.dense && widget.selected != null) ...[
                     Icon(
                         widget.selected!
@@ -796,10 +802,6 @@ class _ViewerToolState extends State<_ViewerTool> {
                             : Icons.check_box_outline_blank,
                         size: 20),
                     const SizedBox(width: 4),
-                  ],
-                  if (!widget.dense) ...[
-                    Icon(widget.icon, size: 20),
-                    const SizedBox(width: 12),
                   ],
                   Expanded(child: caption)
                 ])
@@ -816,39 +818,64 @@ class _ViewerToolState extends State<_ViewerTool> {
         fit: StackFit.passthrough,
         children: [
           Positioned.fill(
+            child: Opacity(
+              // Dense rows keep the full-width hit area and semantics but paint
+              // no circular surface; the label alone carries the row.
+              opacity: widget.row && widget.dense ? 0 : 1,
+              alwaysIncludeSemantics: true,
               child: FloatingActionButtonWidget(
-            key: widget.toolKey,
-            icon: widget.icon,
-            tooltip: widget.semanticLabel ?? widget.label,
-            semanticHint: widget.semanticHint,
-            onPressed: widget.onPressed,
-            onLongPress: widget.onLongPress,
-            selected: widget.selected,
-            sortOrder: widget.sortOrder,
-          )),
+                key: widget.toolKey,
+                icon: widget.icon,
+                tooltip: widget.semanticLabel ?? widget.label,
+                semanticHint: widget.semanticHint,
+                onPressed: widget.onPressed,
+                onLongPress: widget.onLongPress,
+                selected: widget.selected,
+                sortOrder: widget.sortOrder,
+                surfaceAlignment: widget.row
+                    ? AlignmentDirectional.centerStart
+                    : Alignment.center,
+              ),
+            ),
+          ),
           IgnorePointer(
               child: ExcludeSemantics(
                   child: Container(
             constraints: BoxConstraints(minWidth: target, minHeight: target),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: widget.selected == true
-                  ? Color.alphaBlend(colors.onSurface.withValues(alpha: 0.12),
-                      colors.surface.withValues(alpha: 0.94))
-                  : colors.surface.withValues(alpha: 0.94),
-              border: Border.all(
-                  color: _focused
-                      ? HighContrastColors.focusIndicator
-                      : colors.outlineVariant.withValues(alpha: 0.55),
-                  width: _focused ? AccessibleSizing.focusIndicatorWidth : 1),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.28),
-                  blurRadius: 10,
-                  offset: const Offset(0, 3),
-                ),
-              ],
-            ),
+            decoration: widget.row
+                ? BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: widget.selected == true
+                        ? colors.onSurface.withValues(alpha: 0.10)
+                        : null,
+                    border: _focused
+                        ? Border.all(
+                            color: HighContrastColors.focusIndicator,
+                            width: AccessibleSizing.focusIndicatorWidth)
+                        : null,
+                  )
+                : BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: widget.selected == true
+                        ? Color.alphaBlend(
+                            colors.onSurface.withValues(alpha: 0.12),
+                            colors.surface.withValues(alpha: 0.94))
+                        : colors.surface.withValues(alpha: 0.94),
+                    border: Border.all(
+                        color: _focused
+                            ? HighContrastColors.focusIndicator
+                            : colors.outlineVariant.withValues(alpha: 0.55),
+                        width: _focused
+                            ? AccessibleSizing.focusIndicatorWidth
+                            : 1),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.28),
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
             child: Opacity(opacity: disabled ? 0.38 : 1, child: visual),
           ))),
         ],
@@ -873,5 +900,6 @@ class FloatingActionButtonWidget extends AppToolButton {
     super.selected,
     super.delay,
     super.sortOrder,
+    super.surfaceAlignment,
   });
 }
