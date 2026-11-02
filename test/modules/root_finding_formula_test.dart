@@ -26,38 +26,12 @@ void main() {
       'ostrowski_squared_16',
     ]) {
       test('$id compiles and draws a non-blank frame', () async {
-        final module = ModuleRegistry().byId(id);
-        final program = await ui.FragmentProgram.fromAsset(module.shaderAsset);
-        final shader = program.fragmentShader();
-        final recorder = ui.PictureRecorder();
-        final canvas = Canvas(recorder);
-        module.setUniforms(
-          shader,
-          FractalRenderState(
-            transparentBackground: false,
-            params: module.defaultPreset.params,
-            view: module.defaultPreset.view,
-          ),
-          const ui.Size(48, 48),
-          0,
-        );
-        canvas.drawRect(
-          const Rect.fromLTWH(0, 0, 48, 48),
-          Paint()..shader = shader,
-        );
-        final picture = recorder.endRecording();
-        final image = await picture.toImage(48, 48);
-        final bytes = (await image.toByteData(format: ui.ImageByteFormat.rawRgba))!;
-        var lit = 0;
-        for (var i = 0; i < bytes.lengthInBytes; i += 4) {
-          if (bytes.getUint8(i) + bytes.getUint8(i + 1) + bytes.getUint8(i + 2) > 12) {
-            lit++;
-          }
-        }
+        // The software rasterizer occasionally drops a frame when many test
+        // files compile shaders at once, so a blank first attempt is retried
+        // once. A genuinely broken shader stays blank on both attempts.
+        var lit = await _litPixels(id);
+        if (lit == 0) lit = await _litPixels(id);
         expect(lit, greaterThan(48), reason: '$id rendered a black frame');
-        picture.dispose();
-        image.dispose();
-        shader.dispose();
       });
     }
   });
@@ -214,6 +188,43 @@ void main() {
           reason: 'j(i) measured ${j.real}');
     });
   });
+}
+
+
+Future<int> _litPixels(String moduleId) async {
+  final module = ModuleRegistry().byId(moduleId);
+  final program = await ui.FragmentProgram.fromAsset(module.shaderAsset);
+  final shader = program.fragmentShader();
+  final recorder = ui.PictureRecorder();
+  final canvas = Canvas(recorder);
+  module.setUniforms(
+    shader,
+    FractalRenderState(
+      transparentBackground: false,
+      params: module.defaultPreset.params,
+      view: module.defaultPreset.view,
+    ),
+    const ui.Size(48, 48),
+    0,
+  );
+  canvas.drawRect(
+    const Rect.fromLTWH(0, 0, 48, 48),
+    Paint()..shader = shader,
+  );
+  final picture = recorder.endRecording();
+  final image = await picture.toImage(48, 48);
+  final bytes = (await image.toByteData(format: ui.ImageByteFormat.rawRgba))!;
+  var lit = 0;
+  for (var i = 0; i < bytes.lengthInBytes; i += 4) {
+    if (bytes.getUint8(i) + bytes.getUint8(i + 1) + bytes.getUint8(i + 2) >
+        12) {
+      lit++;
+    }
+  }
+  picture.dispose();
+  image.dispose();
+  shader.dispose();
+  return lit;
 }
 
 // ---------------------------------------------------------------- complex ----

@@ -20,10 +20,13 @@ void main() {
         'if (dot(c, c) > bailoutSq)',
         'float smoothVal = float(it) + 1.0 - log(max(1e-12, logZn)) / log(4.0);',
       ],
-      'shaders/escape_time_family/families/mandelbar/mandelbar_power6_gpu.frag':
+      // The Mandelbar family now shares tricorn_gpu.frag, so its smoothing and
+      // derivative live there. Both must stay power-aware and anti-holomorphic.
+      'shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag':
           [
-        'if (dot(c, c) > bailoutSq)',
-        'float smoothVal = float(it) + 1.0 - log(max(1e-12, logZn)) / log(6.0);',
+        'float power = max(abs(uPower), 0.5);',
+        'log2(log2(mag2)) / log2(max(power, 1.0001))',
+        'der = power * cmul(zcPowMinusOne, vec2(der.x, -der.y)) + vec2(1.0, 0.0);',
       ],
       'shaders/escape_time_family/families/burning_ship/parameter_plane/burning_ship_power6_gpu.frag':
           [

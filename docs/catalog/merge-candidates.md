@@ -1,6 +1,6 @@
 # Power-variant families that can merge behind one parameter
 
-Status: inventory only. No shader has been merged yet.
+Status: `mandelbar` merged (see below). The rest is inventory only.
 Method: strip comments, diff each pair, and confirm the only differences are the
 exponent, the derivative coefficient, and the smooth-colouring `log2(power)`.
 Every claim below is reproducible with `diff` on the named files.
@@ -42,6 +42,23 @@ unambiguously. `multibrot_15` is *d = 1.5* and `multibrot_25` is *d = 2.5*; the
 display names are correct, the ids read like 15 and 25. Set the merged `power`
 default from the shader, not from the id. `celtic_heart`, `celtic_mandelbar`, `perp_celtic`, `perp_buffalo`,
 `buffalo2` and `perpendicular_gpu` are different maps, not power variants.
+
+## Merged: `mandelbar` → `tricorn_gpu.frag`
+
+Done. The five entries (`mandelbar_cubic`, `mandelbar_power6..9`) now point at
+`tricorn_gpu.frag` and carry a `power` parameter (3, 6, 7, 8, 9). The five
+shader files are deleted. Two fixes were needed in the shared shader first:
+
+- the derivative now conjugates the incoming value
+  (`der = p * zc^(p-1) * conj(der) + 1`), which is the anti-holomorphic chain
+  rule. This changes bas-relief shading only (colorScheme >= 50).
+- the smooth-colouring divisor is now `log2(max(power, 1.0001))`. At power 2
+  this is a division by 1, so Tricorn is unchanged; at 6..9 it removes the
+  banding the un-divided form produced.
+
+`test/modules/mandelbar_merge_test.dart` compares the merged shader against a
+CPU mirror of `z -> conj(z)^p + c` for all five powers and requires >97% pixel
+agreement, so the parameter is proven to drive the map.
 
 ## Finding 1: `mandelbar` is already `tricorn`
 
@@ -113,8 +130,7 @@ Every merged family touches more than its shader:
 
 ## Recommended order
 
-1. `mandelbar` → `tricorn_gpu.frag`. No new shader, five files deleted, but fix
-   the derivative first (Finding 3).
+1. ~~`mandelbar` → `tricorn_gpu.frag`~~ done.
 2. `multibrot` → one new shader. Largest single payoff, no fold convention to
    settle, but the widest fixture ripple.
 3. `tricorn` plane and julia → existing and new parameterised shaders.
