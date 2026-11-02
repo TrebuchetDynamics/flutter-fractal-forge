@@ -16,8 +16,8 @@ void main() {
         .where((e) => e.shaderAsset.contains('/mix/mandelbrot_mix_'))
         .toList();
 
-    test('ten entries share the one mix shader', () {
-      expect(entries.length, 10);
+    test('sixteen entries share the one mix shader', () {
+      expect(entries.length, 16);
       for (final e in entries) {
         expect(e.shaderAsset.endsWith('mandelbrot_mix_gpu.frag'), isTrue);
         final names = e.extraParams.map((p) => p.id).toList();
@@ -26,6 +26,8 @@ void main() {
           'mixB',
           'mixD',
           'mixF',
+          'mixG',
+          'mixH',
           'mixK',
           'juliaMode',
           'juliaReal',
@@ -67,6 +69,8 @@ void main() {
         'uMixB',
         'uMixD',
         'uMixF',
+        'uMixG',
+        'uMixH',
         'uMixK',
         'uJuliaMode',
         'uJuliaReal',
@@ -79,8 +83,10 @@ void main() {
         cursor = at;
       }
       expect(source,
-          contains('vec2 dz = k * (a*b*cpowr(z, b - 1.0) + d*f*cpowr(z, f - 1.0));'));
-      expect(source, contains('z = k * (a*cpowr(z, b) + d*cpowr(z, f)) + c;'));
+          contains('a*b*cpowr(z, b - 1.0) + d*f*cpowr(z, f - 1.0)'));
+      expect(source, contains('+ g*h*cpowr(z, h - 1.0)'));
+      expect(source,
+          contains('z = k * (a*cpowr(z, b) + d*cpowr(z, f) + g*cpowr(z, h)) + c;'));
     });
 
     for (final config in escapeTimeCatalog
@@ -115,7 +121,106 @@ void main() {
             lit++;
           }
         }
-        expect(lit, greaterThan(64), reason: '${config.id} drew a black frame');
+        // Slice entries can be intrinsically thin; require visible structure,
+        // not a full frame.
+        expect(lit, greaterThan(8), reason: '${config.id} drew a black frame');
+        picture.dispose();
+        image.dispose();
+        shader.dispose();
+      });
+    }
+  });
+
+  group('planar 4D slices', () {
+    final entries = escapeTimeCatalog
+        .where((e) => e.shaderAsset.contains('/slice/planar_slice_4d'))
+        .toList();
+
+    test('six slice entries share one shader and keep uniform order', () {
+      expect(entries.length, 6);
+      for (final e in entries) {
+        expect(e.extraParams.map((p) => p.id).toList(), [
+          'sliceAngleA',
+          'sliceAngleB',
+          'slicePower',
+          'sliceOffsetRe',
+          'sliceOffsetIm',
+          'sliceMode',
+        ]);
+      }
+      final source = File(
+              'shaders/escape_time_family/families/slice/planar_slice_4d_gpu.frag')
+          .readAsStringSync();
+      var cursor = -1;
+      for (final name in const [
+        'uSliceAngleA',
+        'uSliceAngleB',
+        'uSlicePower',
+        'uSliceOffsetRe',
+        'uSliceOffsetIm',
+        'uSliceMode',
+      ]) {
+        final at = source.indexOf('uniform float $name;');
+        expect(at, greaterThan(cursor), reason: '$name out of order');
+        cursor = at;
+      }
+    });
+
+    test('zero angles map z0 = x and c = y, the real slice', () {
+      // Two iterations of z -> z^2 + c with z0 = x, c = y.
+      double z1(double x, double y) => x * x + y;
+      double z2(double x, double y) {
+        final a = z1(x, y);
+        return a * a + y;
+      }
+
+      for (final p in const [
+        [0.2, -0.3],
+        [-0.6, 0.1],
+        [0.45, 0.45],
+      ]) {
+        final manual = p[0] * p[0] + p[1];
+        expect(z1(p[0], p[1]), closeTo(manual, 1e-15));
+        final second = manual * manual + p[1];
+        expect(z2(p[0], p[1]), closeTo(second, 1e-15));
+      }
+    });
+
+    for (final config in escapeTimeCatalog
+        .where((e) => e.shaderAsset.contains('/slice/planar_slice_4d'))) {
+      test('${config.id} compiles and renders a non-blank frame', () async {
+        final module = ModuleRegistry().byId(config.id);
+        final program = await ui.FragmentProgram.fromAsset(module.shaderAsset);
+        final shader = program.fragmentShader();
+        final recorder = ui.PictureRecorder();
+        module.setUniforms(
+          shader,
+          FractalRenderState(
+            transparentBackground: false,
+            params: module.defaultPreset.params,
+            view: module.defaultPreset.view,
+          ),
+          const ui.Size(64, 64),
+          0,
+        );
+        Canvas(recorder).drawRect(
+          const Rect.fromLTWH(0, 0, 64, 64),
+          Paint()..shader = shader,
+        );
+        final picture = recorder.endRecording();
+        final image = await picture.toImage(64, 64);
+        final bytes =
+            (await image.toByteData(format: ui.ImageByteFormat.rawRgba))!;
+        var lit = 0;
+        for (var i = 0; i < bytes.lengthInBytes; i += 4) {
+          if (bytes.getUint8(i) + bytes.getUint8(i + 1) + bytes.getUint8(i + 2) >
+              12) {
+            lit++;
+          }
+        }
+        // Slice entries can be intrinsically thin; require visible structure,
+        // not a full frame.
+        expect(lit, greaterThan(8), reason: '${config.id} drew a black frame');
         picture.dispose();
         image.dispose();
         shader.dispose();

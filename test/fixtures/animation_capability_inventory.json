@@ -3845,6 +3845,36 @@
     "capability": "static"
   },
   {
+    "id": "mix3_2_3_4",
+    "shaderAsset": "shaders/escape_time_family/families/mix/mandelbrot_mix_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mix3_2_4_6",
+    "shaderAsset": "shaders/escape_time_family/families/mix/mandelbrot_mix_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mix3_3_5_7",
+    "shaderAsset": "shaders/escape_time_family/families/mix/mandelbrot_mix_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mix3_balanced",
+    "shaderAsset": "shaders/escape_time_family/families/mix/mandelbrot_mix_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mix3_frac",
+    "shaderAsset": "shaders/escape_time_family/families/mix/mandelbrot_mix_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "mix3_negative_tail",
+    "shaderAsset": "shaders/escape_time_family/families/mix/mandelbrot_mix_gpu.frag",
+    "capability": "static"
+  },
+  {
     "id": "mix_15_2",
     "shaderAsset": "shaders/escape_time_family/families/mix/mandelbrot_mix_gpu.frag",
     "capability": "static"
@@ -4697,6 +4727,36 @@
   {
     "id": "sinh_mandelbrot",
     "shaderAsset": "shaders/trigonometric_and_transcendental/hyperbolic/sinh_mandelbrot_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "slice_multimin_0",
+    "shaderAsset": "shaders/escape_time_family/families/slice/planar_slice_4d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "slice_multimin_30_60",
+    "shaderAsset": "shaders/escape_time_family/families/slice/planar_slice_4d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "slice_multimin_45",
+    "shaderAsset": "shaders/escape_time_family/families/slice/planar_slice_4d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "slice_multimin_90_45",
+    "shaderAsset": "shaders/escape_time_family/families/slice/planar_slice_4d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "slice_multirot_cubic",
+    "shaderAsset": "shaders/escape_time_family/families/slice/planar_slice_4d_gpu.frag",
+    "capability": "static"
+  },
+  {
+    "id": "slice_multirot_planes",
+    "shaderAsset": "shaders/escape_time_family/families/slice/planar_slice_4d_gpu.frag",
     "capability": "static"
   },
   {
