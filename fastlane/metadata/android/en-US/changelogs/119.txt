@@ -1,0 +1,3 @@
+New Mandelbrot-mix family: ten fractals from one two-term power mixture.
+Ostrowski Squared and corrected Schroeder entries.
+Catalog now lists 1039 production fractals.
