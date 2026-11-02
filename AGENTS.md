@@ -48,7 +48,7 @@ Navigation: HomeScreen -> Catalog -> Viewer (with FractalController per tab)
 
 ### Working In This Directory
 - Build with: `flutter run -d linux`
-- Flutter 3.44.6 stable / Dart 3.12.2, Flutter desktop (Linux primary)
+- Flutter 3.47.9 stable / Dart 3.13.7, Flutter desktop (Linux primary)
 - If local linker tooling is needed, keep it outside the repo and on `PATH`.
 - Provider is used for DI; FractalController is the primary state holder
 - Most fractals use the escape-time builder pattern (declarative config + shader)
@@ -88,7 +88,7 @@ Navigation: HomeScreen -> Catalog -> Viewer (with FractalController per tab)
 
 Full check: flutter pub get --offline --enforce-lockfile && flutter analyze --no-pub && flutter test --no-pub && /usr/bin/python3 -m pytest test/research test/scripts -q && bats test/scripts/*.bats
 
-Setup: on the provisioned Linux host, enclose Full check in a subshell with `FLUTTER_ROOT="$AUTOWORK_CACHE/flutter-3.44.6"`, `PUB_CACHE="$AUTOWORK_CACHE/pub-cache"` and `PATH="$FLUTTER_ROOT/bin:/usr/bin:$PATH"` exported (set `FLUTTER_ROOT` before expanding it in `PATH`). This selects the pinned Flutter 3.44.6/Dart 3.12.2 and binds child `python3` invocations to the same existing interpreter as the explicit `/usr/bin/python3` above. Before running, compare `flutter --version` with `fdroid/flutter.version` and run `/usr/bin/python3 -c 'import sys, pytest, jinja2, markupsafe; print(sys.executable, sys.version, pytest.__version__, jinja2.__version__); assert callable(markupsafe.soft_str)'`. The ambient Python 3.14.7 lacks pytest; do not install packages or change host/profile state to repair this binding. Revalidate the provisioned imports on each host; see [MAIN-CHECK-01](docs/tasks/MAIN-CHECK-01.md) for module paths, the evidence discrepancy and verification limits.
+Setup: on the provisioned Linux host, enclose Full check in a subshell with `FLUTTER_ROOT="$AUTOWORK_CACHE/flutter-3.47.9"`, `PUB_CACHE="$AUTOWORK_CACHE/pub-cache"` and `PATH="$FLUTTER_ROOT/bin:/usr/bin:$PATH"` exported (set `FLUTTER_ROOT` before expanding it in `PATH`). This selects the pinned Flutter 3.47.9/Dart 3.13.7 and binds child `python3` invocations to the same existing interpreter as the explicit `/usr/bin/python3` above. Before running, compare `flutter --version` with `fdroid/flutter.version` and run `/usr/bin/python3 -c 'import sys, pytest, jinja2, markupsafe; print(sys.executable, sys.version, pytest.__version__, jinja2.__version__); assert callable(markupsafe.soft_str)'`. The ambient Python 3.14.7 lacks pytest; do not install packages or change host/profile state to repair this binding. Revalidate the provisioned imports on each host; see [MAIN-CHECK-01](docs/tasks/MAIN-CHECK-01.md) for module paths, the evidence discrepancy and verification limits.
 
 Verification: run from the execution checkout root with the pinned isolated/provisioned Flutter SDK and existing Python/Bats tooling. The offline, lockfile-enforced preflight regenerates checkout-local package metadata before the unchanged test families; do not copy a producer checkout's project-root binding into an export. Preserve and verify `pubspec.lock`. The command declaration is not a passing suite result. Missing tools, failed tests or timeouts must remain failures, not skipped success. Device/browser journeys and production/live qualification remain separate task gates. Do not use the device-changing pre-release gate as this offline command.
 <!-- omh:agent-instructions:end -->
