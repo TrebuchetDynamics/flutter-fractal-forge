@@ -2,12 +2,7 @@
 
 precision highp float;
 
-// Neta's 16th-order method on z^3 - 1.
-// Four-step composition achieving 16th-order convergence:
-// Step 1 (Newton):  y1 = z - f(z)/f'(z)
-// Step 2 (Ostrowski): y2 = y1 - f(y1)/f'(z) * f(z)/(f(z)-2*f(y1))
-// Step 3 (King-like): y3 = y2 - f(y2)/f'(z) * f(y1)/(f(y1)-2*f(y2)) * f(z)/(f(z)-2*f(y1))
-// Step 4 (final):    z_new = y3 - f(y3)/f'(z) * (correction from prior steps)
+// Order-16 iteration on z^3 - 1: two composed Ostrowski steps.
 
 uniform float uTime;          // 0
 uniform vec2  uResolution;    // 1-2
@@ -77,29 +72,23 @@ void main() {
     vec2 fz = cmul(z2, z) - vec2(1.0, 0.0);
     vec2 fpz = 3.0 * z2;
 
-    // Step 1: Newton
+    // Two consecutive Ostrowski steps. One Ostrowski step has order 4, and a
+    // method of order p applied at the new point raises the order to p^2, so the
+    // pair has order 16. Measured order on z^3-1: see
+    // research/fractal-correctness-audit/ (order >= 15).
+    //
+    // Earlier versions composed three invented extra correction steps and
+    // measured order 5.86 while claiming 16. The claim could not be traced to a
+    // published scheme, so the displayed name no longer claims that attribution.
     vec2 y1 = z - cdiv(fz, fpz);
     vec2 fy1 = f_z3m1(y1);
+    vec2 y2 = y1 - cmul(cdiv(fy1, fpz), cdiv(fz, fz - 2.0 * fy1));
 
-    // Step 2: Ostrowski
-    vec2 r2a = cdiv(fy1, fpz);
-    vec2 r2b = cdiv(fz, fz - 2.0 * fy1);
-    vec2 y2 = y1 - cmul(r2a, r2b);
-    vec2 fy2 = f_z3m1(y2);
-
-    // Step 3: King-like extension
-    vec2 r3a = cdiv(fy2, fpz);
-    vec2 r3b = cdiv(fy1, fy1 - 2.0 * fy2);
-    vec2 r3c = cdiv(fz, fz - 2.0 * fy1);
-    vec2 y3 = y2 - cmul(cmul(r3a, r3b), r3c);
+    vec2 f2 = f_z3m1(y2);
+    vec2 fp2 = 3.0 * cmul(y2, y2);
+    vec2 y3 = y2 - cdiv(f2, fp2);
     vec2 fy3 = f_z3m1(y3);
-
-    // Step 4: Final correction
-    vec2 r4a = cdiv(fy3, fpz);
-    vec2 r4b = cdiv(fy2, fy2 - 2.0 * fy3);
-    vec2 r4c = cdiv(fy1, fy1 - 2.0 * fy2);
-    vec2 r4d = cdiv(fz, fz - 2.0 * fy1);
-    vec2 zNew = y3 - cmul(cmul(cmul(r4a, r4b), r4c), r4d);
+    vec2 zNew = y3 - cmul(cdiv(fy3, fp2), cdiv(f2, f2 - 2.0 * fy3));
 
     vec2 totalStep = z - zNew;
     z = zNew;

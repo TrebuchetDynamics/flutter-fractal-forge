@@ -174,3 +174,50 @@ would be "does the orbit match the stated ODE", not a convergence order). Those
 need a different oracle — a stated source per formula — before a pass/fail check
 means anything. Reporting them as "unaudited" is more honest than calling them
 wrong.
+
+---
+
+## Third pass — two open items closed with primary sources
+
+The owner supplied a reference corpus of 128 upstream projects
+(`opensource/repos/`, gitignored). Two items from the first pass are now closed.
+
+### `neta_order16` — the 16th-order claim was false, and is now true by construction
+
+The old iteration composed three invented correction steps and measured order
+**5.86** while claiming 16. No "Neta" scheme exists in the 13,556 formula
+definitions of `fract4d-formulas`, so the attribution could not be verified.
+
+The entry now composes **two Ostrowski steps**. One Ostrowski step measures 4.06,
+and applying a method of order `p` at the new point raises the order to `p^2`, so
+the pair is order 16 by construction. A double-precision check sees about 13
+because the second step lands on the rounding floor; the test asserts what the
+arithmetic can show (pair estimate > 10, single step < 5) and the shader pins the
+composition.
+
+Display name changed to **Ostrowski Squared (Order 16)**. The id `neta_order16`
+stays so presets and links keep working.
+
+### `schroeder` — family is now internally consistent
+
+The base entry computed `z - f/f' - f^2 f''/(2 f'^3)`, which is Chebyshev's method
+(Schröder second kind) and was byte-identical to `chebyshev_fractal`. The degree
+variants `z3..z6` use the first-kind step. The base now uses the first kind too:
+
+```
+step = f f' / (f'^2 - f f'') = z(z^3-1)/(z^3+2)
+```
+
+The identity is pinned in `test/modules/mix_family_test.dart` to `1e-9`. Chebyshev
+stays a separate, distinct map.
+
+### New family from the corpus
+
+`mandelbrot_mix` (ten entries, one shader) implements the MandelbrotMix mapping
+from `fract4d-formulas` (MIT, commit `2b3e04b`). The degenerate parameters
+reproduce `z^2 + c` exactly, which is the falsifiable check required by the
+corpus workflow. Provenance: `opensource/docs/mandelbrot-mix-source.md`.
+
+**Ledger correction:** the second-pass report listed `neta_order16` and the base
+`schroeder` as open. Both are closed here. The "0 defects" rows for the power and
+slice families are unaffected.
