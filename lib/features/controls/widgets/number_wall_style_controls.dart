@@ -4,9 +4,6 @@ import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-bool isNumberWallColor(String id) =>
-    const {'foregroundColor', 'zeroColor', 'backgroundColor'}.contains(id);
-
 /// A colour swatch opens an explicit RGB editor, rather than an integer slider.
 /// Palette selection/editing continues to use the ordinary palette controls.
 class NumberWallColorControl extends StatelessWidget {

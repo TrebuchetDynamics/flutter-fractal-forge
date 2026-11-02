@@ -11,8 +11,9 @@ import '../a11y/shared/main_app_a11y_harness.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/features/renderer/widgets/renderer/number_wall_exact_renderer.dart';
+import 'package:flutter_fractals/features/controls/widgets/number_wall_prime_control.dart';
+import 'package:flutter_fractals/features/controls/widgets/number_wall_style_controls.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dart';
-import 'package:flutter_fractals/features/controls/fractal_controls.dart';
 import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/models/number_wall_model.dart';
@@ -134,7 +135,7 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pumpAndSettle();
   });
-  testWidgets('Number Walls hides unsupported effects on both control surfaces',
+  testWidgets('Number Walls hides unsupported effects in the controls HUD',
       (tester) async {
     final controller = FractalController(ModuleRegistry());
     addTearDown(controller.dispose);
@@ -144,10 +145,7 @@ void main() {
         module: wall,
         params: {...wall.defaultPreset.params, 'rows': 4, 'columns': 16},
         view: wall.defaultPreset.view));
-    for (final surface in const [
-      FractalControlsHud(),
-      FractalControlsSheet()
-    ]) {
+    for (final surface in const [FractalControlsHud()]) {
       await tester.pumpWidget(ChangeNotifierProvider.value(
           value: controller,
           child: MaterialApp(
@@ -158,7 +156,27 @@ void main() {
       expect(find.text('Fluid intensity'), findsNothing);
       expect(find.text('Kaleidoscope'), findsNothing);
       expect(find.text('Glow'), findsNothing);
+      expect(find.byType(NumberWallColorControl), findsWidgets,
+          reason: 'declared colour params keep the swatch editor');
+      expect(find.byType(NumberWallPrimeControl), findsOneWidget,
+          reason: 'the declared prime control replaces a numeric slider');
     }
+  });
+  testWidgets('other modules keep the shared effect toggles in the HUD',
+      (tester) async {
+    final controller = FractalController(ModuleRegistry());
+    addTearDown(controller.dispose);
+    await tester.pumpWidget(ChangeNotifierProvider.value(
+        value: controller,
+        child: MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: const Scaffold(body: FractalControlsHud()))));
+    await tester.pumpAndSettle();
+    expect(controller.module.hidesEffectControls, isFalse);
+    expect(find.text('Kaleidoscope'), findsOneWidget);
+    expect(find.byType(NumberWallColorControl), findsNothing);
+    expect(find.byType(NumberWallPrimeControl), findsNothing);
   });
   testWidgets(
       'Number Walls controls stay accessible in EN/ES at required widths',

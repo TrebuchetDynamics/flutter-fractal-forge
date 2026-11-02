@@ -160,7 +160,7 @@
           "id": "component.viewer.appBar.controlsButton",
           "type": "IconButton",
           "icon": "Icons.tune",
-          "opens": "sheet.controls",
+          "opens": "overlay.controlsHud",
           "file": "lib/features/viewer/fractal_viewer_screen.dart"
         },
         {
@@ -230,40 +230,40 @@
       ]
     },
     {
-      "id": "sheet.controls",
+      "id": "overlay.controlsHud",
       "name": "Controls",
-      "widget": "FractalControlsSheet",
-      "file": "lib/features/controls/fractal_controls.dart",
-      "kind": "modalBottomSheet",
+      "widget": "FractalControlsHud",
+      "file": "lib/features/viewer/chrome/fractal_controls_hud.dart",
+      "kind": "inStackOverlay",
       "navigation": {
-        "type": "modal",
+        "type": "overlay",
         "from": "screen.viewer",
-        "method": "showModalBottomSheet(isScrollControlled: true)"
+        "method": "FractalViewerScreen._toggleControlsHud() toggles _showControlsHud; the HUD is a Positioned overlay in the viewer Stack, not a route."
       },
       "key_components": [
         {
           "id": "component.controls.paramControl",
           "type": "Slider / ChoiceChip / SwitchListTile",
           "behavior": "Renders a control per controller.module.parameters; updates controller.updateParam(id, value).",
-          "file": "lib/features/controls/fractal_controls.dart"
+          "file": "lib/features/viewer/chrome/fractal_controls_hud.dart"
         },
         {
           "id": "component.controls.resetView",
-          "type": "OutlinedButton",
+          "type": "Action button",
           "action": "FractalController.resetView()",
-          "file": "lib/features/controls/fractal_controls.dart"
+          "file": "lib/features/viewer/chrome/fractal_controls_hud.dart"
         },
         {
           "id": "component.controls.resetParams",
-          "type": "OutlinedButton",
+          "type": "Action button",
           "action": "FractalController.resetParams()",
-          "file": "lib/features/controls/fractal_controls.dart"
+          "file": "lib/features/viewer/chrome/fractal_controls_hud.dart"
         },
         {
           "id": "component.controls.randomize",
-          "type": "ElevatedButton",
+          "type": "Action button",
           "action": "FractalController.randomizeParams()",
-          "file": "lib/features/controls/fractal_controls.dart"
+          "file": "lib/features/viewer/chrome/fractal_controls_hud.dart"
         }
       ]
     },
@@ -522,7 +522,7 @@
       "screen.home",
       "screen.catalog",
       "screen.viewer",
-      "sheet.controls",
+      "overlay.controlsHud",
       "sheet.presets",
       "sheet.exportPngOptions",
       "screen.arOverlay",
@@ -549,8 +549,8 @@
       },
       {
         "from": "screen.viewer",
-        "to": "sheet.controls",
-        "type": "modal",
+        "to": "overlay.controlsHud",
+        "type": "overlay",
         "label": "Tune"
       },
       {
@@ -581,8 +581,10 @@
       "ArOverlayScreen": "lib/features/ar/ar_overlay_screen.dart"
     },
     "sheets": {
-      "FractalControlsSheet": "lib/features/controls/fractal_controls.dart",
       "PresetSheet": "lib/features/presets/preset_sheet.dart"
+    },
+    "overlays": {
+      "FractalControlsHud": "lib/features/viewer/chrome/fractal_controls_hud.dart"
     },
     "rendering": {
       "FractalRenderer": "lib/features/renderer/widgets/renderer/fractal_renderer.dart",

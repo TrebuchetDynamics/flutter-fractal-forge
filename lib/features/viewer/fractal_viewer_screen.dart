@@ -55,6 +55,7 @@ import 'package:flutter_fractals/features/catalog/data/catalog_family.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dart';
+import 'package:flutter_fractals/features/viewer/chrome/viewer_chrome_layout.dart';
 import 'package:flutter_fractals/features/viewer/gaussian_moat_map.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_view_controls.dart';
 import 'package:flutter_fractals/features/viewer/export/viewer_export_feedback.dart';
@@ -1637,32 +1638,12 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                 math.max(0.0, constraints.maxHeight - overlayTop),
               );
 
-              final hudTarget = AccessibleSizing.touchTargetSize(
-                  largeTargets: context
-                          .watch<AccessibilityService?>()
-                          ?.largeTargetsEnabled ==
-                      true);
-              final hudHeaderHeight = math.max(
-                      hudTarget,
-                      media.textScaler.scale(Theme.of(context)
-                                  .textTheme
-                                  .titleSmall
-                                  ?.fontSize ??
-                              14) *
-                          (Theme.of(context).textTheme.titleSmall?.height ??
-                              1)) +
-                  16;
-              final fullHeightHud = normalHudHeight <
-                  hudHeaderHeight + 1 + safeInsets.bottom + hudTarget + 16;
-              final hudHeight = fullHeightHud
-                  ? math.max(0.0, constraints.maxHeight - topInset)
-                  : normalHudHeight;
-
-              // A fixed title plus toolbar spacers can leave less than one
-              // whole target. Let the title scroll away in that case; preserve
-              // the normal phone's separate header and four-primary card.
+              // Height arithmetic belongs to the HUD; the placement arithmetic
+              // belongs to [ViewerChromeLayout]. The screen only supplies the
+              // inputs and draws the regions the layout names.
+              final hudMetrics = ControlsHudMetrics.of(context);
               final compactRowHeight = math.max(
-                  hudTarget,
+                  hudMetrics.touchTarget,
                   media.textScaler.scale(Theme.of(context)
                                   .textTheme
                                   .labelMedium
@@ -1671,9 +1652,21 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                           1.1 *
                           2 +
                       2 * AccessibleSizing.focusIndicatorWidth);
-              final scrollChrome =
-                  constraints.maxHeight - overlayTop - safeInsets.bottom - 24 <
-                      compactRowHeight + 16;
+              final viewerChrome = ViewerChromeLayout.compute(
+                viewportHeight: constraints.maxHeight,
+                topInset: topInset,
+                bottomInset: safeInsets.bottom,
+                overlayTop: overlayTop,
+                normalHudHeight: normalHudHeight,
+                minimumUsableHudHeight: hudMetrics.minimumUsableHeight,
+                compactRowHeight: compactRowHeight,
+                usesCoreChrome: _usesCoreViewerChrome,
+                showsCoreChrome: _showCoreViewerChrome,
+                controlsVisible: _showControlsHud,
+                hasTools: _autoExploreService != null,
+                canPop: Navigator.of(context).canPop(),
+                captureMode: widget.captureMode,
+              );
               final chromeHeader = _viewerBuildChromeHeader(
                 context, controller,
                 showTitle: _showCoreViewerChrome,
@@ -1703,10 +1696,10 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                   : ChangeNotifierProvider<AutoExploreService>.value(
                       value: _autoExploreService!,
                       child: FractalViewControls(
-                        compactViewport: scrollChrome,
+                        compactViewport: viewerChrome.toolsScrolled,
                         fabController: _fabController,
                         supportsAuxiliaryTools:
-                            activeController.module.id != 'number_wall',
+                            !activeController.module.hidesEffectControls,
                         isExporting: _exportFlowActive,
                         kaleidoscopeEnabled:
                             activeController.kaleidoscopeEnabled,
@@ -1960,13 +1953,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                       ),
                     ),
 
-                  if (!(_showControlsHud && fullHeightHud) &&
-                      !(scrollChrome &&
-                          _showCoreViewerChrome &&
-                          !_showControlsHud) &&
-                      (_showCoreViewerChrome ||
-                          (!widget.captureMode &&
-                              Navigator.of(context).canPop())))
+                  if (viewerChrome.header == ViewerChromeSlot.fixed)
                     Positioned(
                       top: topInset + 8,
                       left: safeInsets.left + 12,
@@ -2114,10 +2101,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                   // unbounded height and overflowed off the top of short
                   // viewports (landscape phones / small web windows), pushing
                   // the upper buttons off-screen and over the status chips.
-                  if (_showCoreViewerChrome &&
-                      !_showControlsHud &&
-                      _autoExploreService != null &&
-                      scrollChrome)
+                  if (viewerChrome.tools == ViewerChromeSlot.scrolled)
                     Positioned(
                       top: topInset,
                       left: 0,
@@ -2138,10 +2122,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                         ]),
                       ),
                     ),
-                  if (_showCoreViewerChrome &&
-                      !_showControlsHud &&
-                      _autoExploreService != null &&
-                      !scrollChrome)
+                  if (viewerChrome.tools == ViewerChromeSlot.fixed)
                     Positioned(
                       top: overlayTop,
                       left: 0,
@@ -2151,16 +2132,16 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                     ),
 
                   // Controls HUD overlay (replaces bottom sheet modal)
-                  if (_usesCoreViewerChrome && _showControlsHud)
+                  if (viewerChrome.hudVisible)
                     Positioned(
                       left: 0,
                       right: 0,
                       bottom: 0,
-                      height: hudHeight,
+                      height: viewerChrome.hudHeight,
                       child: ChangeNotifierProvider.value(
                         value: controller,
                         child: FractalControlsHud(
-                          leading: fullHeightHud &&
+                          leading: viewerChrome.hudFullHeight &&
                                   !widget.captureMode &&
                                   Navigator.of(context).canPop()
                               ? _viewerBuildBackButton(context,

@@ -41,6 +41,34 @@ enum FractalParamType {
   boolean,
 }
 
+/// The widget a control surface should present for a parameter.
+///
+/// [FractalParamType] answers "what is the value"; this enum answers "how is it
+/// edited". A parameter derives its control from its type unless it declares a
+/// different one, so a control surface maps one declared enum instead of
+/// guessing from module or parameter ids.
+///
+/// A declared control must stay compatible with the parameter type, because the
+/// widget reads the stored value as that type.
+enum FractalParamControl {
+  /// A slider over [FractalParameter.min], [FractalParameter.max] and
+  /// [FractalParameter.step]. Value type: num.
+  slider,
+
+  /// One chip per [FractalParamOption]. Value type: the option value.
+  chips,
+
+  /// A switch. Value type: [bool].
+  toggle,
+
+  /// An exact base-10 integer editor that validates a prime modulus.
+  /// Value type: [String].
+  prime,
+
+  /// A colour swatch with an RGB editor. Value type: [int], 0xRRGGBB.
+  color,
+}
+
 /// An option for an enumeration-type parameter.
 ///
 /// Defines a single selectable value with its display label.
@@ -140,6 +168,25 @@ class FractalParameter {
   /// Empty for other types.
   final List<FractalParamOption> options;
 
+  /// Presentation hint for control surfaces.
+  ///
+  /// Leave null to accept the widget that [type] implies. Declare a value only
+  /// where that widget would be wrong for this parameter: a colour stored as an
+  /// integer needs a swatch, not a slider. The hint must stay compatible with
+  /// [type], because the widget reads the value as that type.
+  final FractalParamControl? control;
+
+  /// The presentation hint to render, with the [type] default filled in.
+  FractalParamControl get resolvedControl =>
+      control ??
+      switch (type) {
+        FractalParamType.float || FractalParamType.integer =>
+          FractalParamControl.slider,
+        FractalParamType.enumeration => FractalParamControl.chips,
+        FractalParamType.boolean => FractalParamControl.toggle,
+        FractalParamType.decimalInteger => FractalParamControl.prime,
+      };
+
   /// Creates a new [FractalParameter] with the specified schema.
   ///
   /// For enumeration types, ensure [options] is populated with
@@ -153,5 +200,6 @@ class FractalParameter {
     required this.step,
     required this.defaultValue,
     this.options = const [],
+    this.control,
   });
 }

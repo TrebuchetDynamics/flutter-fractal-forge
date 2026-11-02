@@ -64,6 +64,9 @@ FractalModule buildNumberWallModule() {
     displayName: (l10n) => l10n.numberWalls,
     dimension: FractalDimension.twoD,
     animationCapability: FractalAnimationCapability.static,
+    // Kaleidoscope, transparency and the auxiliary tool rail do not apply here;
+    // this module edits its own colours and grid instead.
+    hidesEffectControls: true,
     shaderAsset: 'shaders/number_theory/number_wall_gpu.frag',
     parameters: [
       FractalParameter(
@@ -83,6 +86,7 @@ FractalModule buildNumberWallModule() {
         id: 'prime',
         label: (l10n) => l10n.numberWallPrime,
         type: FractalParamType.decimalInteger,
+        control: FractalParamControl.prime,
         min: 0,
         max: 0,
         step: 1,
@@ -129,6 +133,7 @@ FractalModule buildNumberWallModule() {
             _ => l10n.numberWallBackground,
           },
           type: FractalParamType.integer,
+          control: FractalParamControl.color,
           min: 0,
           max: 0xffffff,
           step: 1,

@@ -11,7 +11,8 @@ Full fractal viewer screen - the main interactive experience. Integrates the ren
 
 | File                         | Description                                                                                                                                                 |
 | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `fractal_viewer_screen.dart` | `FractalViewerScreen` - full-screen fractal viewer with bottom sheet controls, toolbar buttons (presets, export), and overlay widgets (debug, auto-explore) |
+| `fractal_viewer_screen.dart` | `FractalViewerScreen` - full-screen fractal viewer with the controls HUD overlay, toolbar buttons (presets, export), and overlay widgets (debug, auto-explore) |
+| `chrome/viewer_chrome_layout.dart` | `ViewerChromeLayout` - pure placement value for the header, tools and controls regions; the short-viewport rules are tested here as data |
 
 ## For AI Agents
 
