@@ -1,0 +1,4 @@
+One shader per fractal family with a power control.
+Merged Mandelbar, Multibrot, Tricorn, Celtic, Buffalo and Perpendicular power families.
+Fixed flat-frame rendering in the shared Multibrot shader.
+Fixed the repaired root-finding formulas and renamed one entry.
