@@ -2,14 +2,10 @@
 
 precision highp float;
 
-// Tricorn⁷ Julia: z_{n+1} = conj(z)^7 + c, c = (−0.50, 0.30).
-// Julia set of the degree-7 Tricorn/Mandelbar map — pixel = z₀, c fixed.
-// The anti-holomorphic iteration uses conj(z)^7; the Julia set partitions
-// the plane into seven arms with chiral asymmetry (odd degree). At
-// c = (−0.50, 0.30) the Julia set is connected with visible heptagonal
-// structure and Tricorn cusp junctions at each arm root.
-// Anti-holomorphic derivative: d_{n+1} = 7·conj(z)^6·conj(d_n) (Julia: no +1).
-// Smooth coloring: log₂(7). Supports normal-map shading (colorScheme 50-63).
+// Tricorn power Julia family: z -> conj(z)^p + j, parameterised by p and j.
+// One shader replaces the per-power Julia files; power and the Julia
+// constant are controls.
+// Smooth coloring: log2(power). Normal-map shading at colorScheme 50-63.
 uniform float uTime;
 uniform vec2  uResolution;
 uniform vec2  uCenter;
@@ -18,6 +14,9 @@ uniform float uIterations;
 uniform float uBailout;
 uniform float uColorScheme;
 uniform float uTransparentBg;
+uniform float uPower;         // 10
+uniform float uJuliaRe;        // 11
+uniform float uJuliaImag;      // 12
 
 out vec4 fragColor;
 
@@ -44,6 +43,18 @@ vec3 palette(float t, int scheme) {
 
 vec2 cmul(vec2 a, vec2 b) { return vec2(a.x*b.x-a.y*b.y, a.x*b.y+a.y*b.x); }
 
+vec2 cpowReal(vec2 z, float power) {
+  // Every parameter-plane orbit starts at zero, and atan(0, 0) is undefined.
+  // Some backends return NaN there, which poisons the whole orbit.
+  if (z.x == 0.0 && z.y == 0.0 && power >= 0.0) {
+    return power == 0.0 ? vec2(1.0, 0.0) : vec2(0.0);
+  }
+  float r = max(length(z), 1e-8);
+  float a = atan(z.y, z.x);
+  float rp = pow(r, power);
+  return rp * vec2(cos(power * a), sin(power * a));
+}
+
 void main() {
   vec2 fragCoord = FlutterFragCoord().xy;
   float scale = min(uResolution.x, uResolution.y);
@@ -51,26 +62,25 @@ void main() {
 
   int schemeInt = int(uColorScheme);
   vec2 z   = uv / max(0.000001, uZoom) + uCenter;
-  vec2 c   = vec2(-0.50, 0.30);  // fixed Julia parameter
+  vec2 c   = vec2(uJuliaRe, uJuliaImag);
   vec2 der = vec2(1.0, 0.0);
 
   float bailoutSq = uBailout * uBailout;
   const int MAX_ITERS = 500;
   int target = int(clamp(uIterations, 0.0, float(MAX_ITERS)));
   int it = 0;
+  float power = clamp(uPower, 1.0, 24.0);
 
   for (int j = 0; j < MAX_ITERS; j++) {
     if (j >= target) { it = target; break; }
-    vec2 zc  = vec2(z.x, -z.y);
-    vec2 zc2 = cmul(zc, zc);
-    vec2 zc4 = cmul(zc2, zc2);
-    vec2 zc6 = cmul(zc4, zc2);
-    vec2 zc7 = cmul(zc6, zc);
-    // Anti-holomorphic derivative: d_{n+1} = 7·zc^6·conj(d_n) (Julia: no +1)
-    vec2 derc = vec2(der.x, -der.y);
-    der = 7.0 * cmul(zc6, derc);
-    z = zc7 + c;
-    if (dot(z,z) > bailoutSq) { it = j; break; }
+
+    vec2 zc = vec2(z.x, -z.y);
+    vec2 zPow = cpowReal(zc, power);
+    // Anti-holomorphic chain rule: the incoming derivative is conjugated too.
+    der = power * cmul(cpowReal(zc, power - 1.0), vec2(der.x, -der.y));
+    z = zPow + c;
+
+    if (dot(z, z) > bailoutSq) { it = j; break; }
     it = j + 1;
   }
 
@@ -80,7 +90,7 @@ void main() {
   }
 
   float mag2      = max(1e-12, dot(z, z));
-  float smoothVal = float(it) - log2(log2(mag2)) / log2(7.0);
+  float smoothVal = float(it) - log2(log2(mag2)) / log2(max(power, 1.0001));
 
   if (schemeInt >= 50) {
     float angle   = float(schemeInt - 50) * (3.14159265 / 13.0);

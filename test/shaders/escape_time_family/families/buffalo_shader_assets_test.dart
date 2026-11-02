@@ -14,15 +14,18 @@ void main() {
     expectDeclaredShaderAssetsForRoot(
       declaredShaderAssets,
       shaderRoot,
-      matcher: hasLength(13),
+      matcher: hasLength(6),
     );
   });
 
   test('catalog Buffalo shader assets are declared in pubspec', () {
-    expectCatalogShaderAssetsForRoot(
+    // Families now share one parameterised shader across several entries, so
+    // count distinct shaders rather than catalog references.
+    final assets = expectCatalogShaderAssetsForRoot(
       declaredShaderAssets,
       shaderRoot,
-      matcher: hasLength(13),
+      matcher: isNotEmpty,
     );
+    expect(assets.toSet(), hasLength(6));
   });
 }

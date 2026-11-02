@@ -14,15 +14,18 @@ void main() {
     expectDeclaredShaderAssetsForRoot(
       declaredShaderAssets,
       shaderRoot,
-      matcher: hasLength(16),
+      matcher: hasLength(9),
     );
   });
 
   test('catalog Celtic shader assets are declared in pubspec', () {
-    expectCatalogShaderAssetsForRoot(
+    // Families now share one parameterised shader across several entries, so
+    // count distinct shaders rather than catalog references.
+    final assets = expectCatalogShaderAssetsForRoot(
       declaredShaderAssets,
       shaderRoot,
-      matcher: hasLength(16),
+      matcher: isNotEmpty,
     );
+    expect(assets.toSet(), hasLength(9));
   });
 }

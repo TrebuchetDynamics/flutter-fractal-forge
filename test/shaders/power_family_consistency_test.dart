@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:flutter_fractals/core/modules/builders/escape_time_catalog.dart';
+
 import 'package:flutter_test/flutter_test.dart';
 
 /// Guards the "same map at a different power" claim for the families listed in
@@ -38,20 +40,8 @@ void main() {
 
   group('power-variant families fold consistently', () {
     const clean = <String, (String, List<String>)>{
-      'celtic plane': ('celtic', [
-        'celtic_cubic_gpu.frag',
-        'celtic_power4_gpu.frag',
-        'celtic_power5_gpu.frag',
-        'celtic_power6_gpu.frag',
-        'celtic_power7_gpu.frag',
-      ]),
-      'buffalo plane': ('buffalo', [
-        'buffalo_cubic_gpu.frag',
-        'buffalo_power4_gpu.frag',
-        'buffalo_power5_gpu.frag',
-        'buffalo_power6_gpu.frag',
-        'buffalo_power7_gpu.frag',
-      ]),
+      'celtic plane': ('celtic', ['power_plane/celtic_power_gpu.frag']),
+      'buffalo plane': ('buffalo', ['power_plane/buffalo_power_gpu.frag']),
     };
 
     clean.forEach((label, spec) {
@@ -88,28 +78,30 @@ void main() {
     });
   });
 
-  group('known defect witness', () {
-    // If this test fails, someone unified the perpendicular fold axis. That is
-    // the fix, not a regression: delete this group and add the family to the
-    // consistent list above.
-    test('perpendicular burning ship still folds two different axes', () {
-      final xGroup = familyAxes('perpendicular', const [
-        'perpendicular_burning_ship_gpu.frag',
-        'perpendicular_bs_cubic_gpu.frag',
-      ]);
-      final yGroup = familyAxes('perpendicular', const [
-        'perpendicular_bs_power4_gpu.frag',
-        'perpendicular_bs_power5_gpu.frag',
-      ]);
-      expect(xGroup, {'x'});
-      expect(yGroup, {'y'});
-      expect(xGroup, isNot(equals(yGroup)),
-          reason: 'the family is two maps until one axis is chosen');
+  group('perpendicular fold axis is explicit', () {
+    // The family used to ship two undocumented conventions in one name: some
+    // members folded abs(z.x), others abs(z.y). One shader now carries both and
+    // the control selects one, so the difference is visible in the UI.
+    test('one shader offers both fold axes', () {
+      final source = File(
+              'shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_gpu.frag')
+          .readAsStringSync();
+      expect(source, contains('uniform float uFoldAxis;'));
+      expect(source, contains('vec2(abs(zPow.x), zPow.y)'));
+      expect(source, contains('vec2(zPow.x, abs(zPow.y))'));
     });
 
-    test('perpendicular celtic splits the same way', () {
-      expect(familyAxes('celtic', const ['perp_celtic_gpu.frag']), {'x'});
-      expect(familyAxes('celtic', const ['perp_celtic_cubic_gpu.frag']), {'y'});
+    test('the folded entries split into the two documented axes', () {
+      final registry = escapeTimeCatalog;
+      double axisOf(String id) => (registry.firstWhere((c) => c.id == id)
+              .extraParams
+              .firstWhere((p) => p.id == 'foldAxis')
+              .defaultValue as num)
+          .toDouble();
+      expect(axisOf('perpendicular_burning_ship'), 0.0);
+      expect(axisOf('perpendicular_bs_cubic'), 0.0);
+      expect(axisOf('perpendicular_bs_power4'), 1.0);
+      expect(axisOf('perpendicular_bs_power5'), 1.0);
     });
   });
 }

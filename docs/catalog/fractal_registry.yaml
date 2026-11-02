@@ -1751,7 +1751,7 @@ fractals:
       confidence: 1.0
   - id: buffalo_cubic
     name: Buffalo Cubic
-    shader: shaders/escape_time_family/families/buffalo/buffalo_cubic_gpu.frag
+    shader: shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1786,7 +1786,7 @@ fractals:
       confidence: 1.0
   - id: buffalo_cubic_julia
     name: Buffalo Cubic Julia
-    shader: shaders/escape_time_family/families/buffalo/buffalo_cubic_julia_gpu.frag
+    shader: shaders/escape_time_family/families/buffalo/julia/buffalo_power_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1855,7 +1855,7 @@ fractals:
       confidence: 1.0
   - id: buffalo_power4
     name: Buffalo ⁴
-    shader: shaders/escape_time_family/families/buffalo/buffalo_power4_gpu.frag
+    shader: shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1889,7 +1889,7 @@ fractals:
       confidence: 1.0
   - id: buffalo_power5
     name: Buffalo ⁵
-    shader: shaders/escape_time_family/families/buffalo/buffalo_power5_gpu.frag
+    shader: shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1923,7 +1923,7 @@ fractals:
       confidence: 1.0
   - id: buffalo_power4_julia
     name: Buffalo⁴ Julia
-    shader: shaders/escape_time_family/families/buffalo/buffalo_power4_julia_gpu.frag
+    shader: shaders/escape_time_family/families/buffalo/julia/buffalo_power_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1957,7 +1957,7 @@ fractals:
       confidence: 1.0
   - id: buffalo_power5_julia
     name: Buffalo⁵ Julia
-    shader: shaders/escape_time_family/families/buffalo/buffalo_power5_julia_gpu.frag
+    shader: shaders/escape_time_family/families/buffalo/julia/buffalo_power_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -1991,7 +1991,7 @@ fractals:
       confidence: 1.0
   - id: buffalo_power6
     name: Buffalo⁶
-    shader: shaders/escape_time_family/families/buffalo/buffalo_power6_gpu.frag
+    shader: shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2025,7 +2025,7 @@ fractals:
       confidence: 1.0
   - id: buffalo_power6_julia
     name: Buffalo⁶ Julia
-    shader: shaders/escape_time_family/families/buffalo/buffalo_power6_julia_gpu.frag
+    shader: shaders/escape_time_family/families/buffalo/julia/buffalo_power_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2652,7 +2652,7 @@ fractals:
       confidence: 1.0
   - id: celtic_cubic
     name: Celtic Cubic
-    shader: shaders/escape_time_family/families/celtic/celtic_cubic_gpu.frag
+    shader: shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2687,7 +2687,7 @@ fractals:
       confidence: 1.0
   - id: celtic_cubic_julia
     name: Celtic Cubic Julia
-    shader: shaders/escape_time_family/families/celtic/celtic_cubic_julia_gpu.frag
+    shader: shaders/escape_time_family/families/celtic/julia/celtic_power_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2756,7 +2756,7 @@ fractals:
       confidence: 1.0
   - id: celtic_power4
     name: Celtic ⁴
-    shader: shaders/escape_time_family/families/celtic/celtic_power4_gpu.frag
+    shader: shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2790,7 +2790,7 @@ fractals:
       confidence: 1.0
   - id: celtic_power5
     name: Celtic ⁵
-    shader: shaders/escape_time_family/families/celtic/celtic_power5_gpu.frag
+    shader: shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2824,7 +2824,7 @@ fractals:
       confidence: 1.0
   - id: celtic_power4_julia
     name: Celtic⁴ Julia
-    shader: shaders/escape_time_family/families/celtic/celtic_power4_julia_gpu.frag
+    shader: shaders/escape_time_family/families/celtic/julia/celtic_power_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2858,7 +2858,7 @@ fractals:
       confidence: 1.0
   - id: celtic_power5_julia
     name: Celtic⁵ Julia
-    shader: shaders/escape_time_family/families/celtic/celtic_power5_julia_gpu.frag
+    shader: shaders/escape_time_family/families/celtic/julia/celtic_power_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2892,7 +2892,7 @@ fractals:
       confidence: 1.0
   - id: celtic_power6
     name: Celtic⁶
-    shader: shaders/escape_time_family/families/celtic/celtic_power6_gpu.frag
+    shader: shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -2926,7 +2926,7 @@ fractals:
       confidence: 1.0
   - id: celtic_power6_julia
     name: Celtic⁶ Julia
-    shader: shaders/escape_time_family/families/celtic/celtic_power6_julia_gpu.frag
+    shader: shaders/escape_time_family/families/celtic/julia/celtic_power_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8457,7 +8457,7 @@ fractals:
       confidence: 1.0
   - id: perpendicular_bs_cubic_julia
     name: Perp. BS Cubic Julia
-    shader: shaders/escape_time_family/families/perpendicular/perpendicular_bs_cubic_julia_gpu.frag
+    shader: shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8491,7 +8491,7 @@ fractals:
       confidence: 1.0
   - id: perpendicular_bs_cubic
     name: Perpendicular BS Cubic
-    shader: shaders/escape_time_family/families/perpendicular/perpendicular_bs_cubic_gpu.frag
+    shader: shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8525,7 +8525,7 @@ fractals:
       confidence: 1.0
   - id: perpendicular_burning_ship_julia
     name: Perpendicular BS Julia
-    shader: shaders/escape_time_family/families/perpendicular/perpendicular_burning_ship_julia_gpu.frag
+    shader: shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8559,7 +8559,7 @@ fractals:
       confidence: 1.0
   - id: perpendicular_bs_power4
     name: Perpendicular BS⁴
-    shader: shaders/escape_time_family/families/perpendicular/perpendicular_bs_power4_gpu.frag
+    shader: shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8593,7 +8593,7 @@ fractals:
       confidence: 1.0
   - id: perpendicular_bs_power5
     name: Perpendicular BS⁵
-    shader: shaders/escape_time_family/families/perpendicular/perpendicular_bs_power5_gpu.frag
+    shader: shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -8662,7 +8662,7 @@ fractals:
       confidence: 1.0
   - id: perpendicular_burning_ship
     name: Perpendicular Burning Ship
-    shader: shaders/escape_time_family/families/perpendicular/perpendicular_burning_ship_gpu.frag
+    shader: shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11588,7 +11588,7 @@ fractals:
       confidence: 1.0
   - id: tricorn_cubic
     name: Tricorn Cubic
-    shader: shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_cubic_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11623,7 +11623,7 @@ fractals:
       confidence: 1.0
   - id: tricorn_cubic_julia
     name: Tricorn Cubic Julia
-    shader: shaders/escape_time_family/families/tricorn/julia_sets/tricorn_cubic_julia_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11692,7 +11692,7 @@ fractals:
       confidence: 1.0
   - id: tricorn_power4
     name: Tricorn ⁴ (Mandelbar)
-    shader: shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_power4_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11726,7 +11726,7 @@ fractals:
       confidence: 1.0
   - id: tricorn_power5
     name: Tricorn ⁵ (Mandelbar)
-    shader: shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_power5_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11760,7 +11760,7 @@ fractals:
       confidence: 1.0
   - id: tricorn_power4_julia
     name: Tricorn⁴ Julia
-    shader: shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power4_julia_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11794,7 +11794,7 @@ fractals:
       confidence: 1.0
   - id: tricorn_power5_julia
     name: Tricorn⁵ Julia
-    shader: shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power5_julia_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11828,7 +11828,7 @@ fractals:
       confidence: 1.0
   - id: tricorn_power6_julia
     name: Tricorn⁶ Julia
-    shader: shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power6_julia_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11862,7 +11862,7 @@ fractals:
       confidence: 1.0
   - id: tricorn_power7_julia
     name: Tricorn⁷ Julia
-    shader: shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power7_julia_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0
@@ -11896,7 +11896,7 @@ fractals:
       confidence: 1.0
   - id: tricorn_power8_julia
     name: Tricorn⁸ Julia
-    shader: shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power8_julia_gpu.frag
+    shader: shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag
     category: Escape-Time
     dimension: 2D
     defaultZoom: 1.0

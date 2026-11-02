@@ -191,12 +191,12 @@
   },
   {
     "id": "buffalo_cubic",
-    "shaderAsset": "shaders/escape_time_family/families/buffalo/buffalo_cubic_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag",
     "capability": "static"
   },
   {
     "id": "buffalo_cubic_julia",
-    "shaderAsset": "shaders/escape_time_family/families/buffalo/buffalo_cubic_julia_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/buffalo/julia/buffalo_power_julia_gpu.frag",
     "capability": "static"
   },
   {
@@ -206,37 +206,37 @@
   },
   {
     "id": "buffalo_power4",
-    "shaderAsset": "shaders/escape_time_family/families/buffalo/buffalo_power4_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag",
     "capability": "static"
   },
   {
     "id": "buffalo_power4_julia",
-    "shaderAsset": "shaders/escape_time_family/families/buffalo/buffalo_power4_julia_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/buffalo/julia/buffalo_power_julia_gpu.frag",
     "capability": "static"
   },
   {
     "id": "buffalo_power5",
-    "shaderAsset": "shaders/escape_time_family/families/buffalo/buffalo_power5_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag",
     "capability": "static"
   },
   {
     "id": "buffalo_power5_julia",
-    "shaderAsset": "shaders/escape_time_family/families/buffalo/buffalo_power5_julia_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/buffalo/julia/buffalo_power_julia_gpu.frag",
     "capability": "static"
   },
   {
     "id": "buffalo_power6",
-    "shaderAsset": "shaders/escape_time_family/families/buffalo/buffalo_power6_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag",
     "capability": "static"
   },
   {
     "id": "buffalo_power6_julia",
-    "shaderAsset": "shaders/escape_time_family/families/buffalo/buffalo_power6_julia_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/buffalo/julia/buffalo_power_julia_gpu.frag",
     "capability": "static"
   },
   {
     "id": "buffalo_power7",
-    "shaderAsset": "shaders/escape_time_family/families/buffalo/buffalo_power7_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag",
     "capability": "static"
   },
   {
@@ -376,12 +376,12 @@
   },
   {
     "id": "celtic_cubic",
-    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_cubic_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag",
     "capability": "static"
   },
   {
     "id": "celtic_cubic_julia",
-    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_cubic_julia_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/julia/celtic_power_julia_gpu.frag",
     "capability": "static"
   },
   {
@@ -401,37 +401,37 @@
   },
   {
     "id": "celtic_power4",
-    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_power4_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag",
     "capability": "static"
   },
   {
     "id": "celtic_power4_julia",
-    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_power4_julia_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/julia/celtic_power_julia_gpu.frag",
     "capability": "static"
   },
   {
     "id": "celtic_power5",
-    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_power5_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag",
     "capability": "static"
   },
   {
     "id": "celtic_power5_julia",
-    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_power5_julia_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/julia/celtic_power_julia_gpu.frag",
     "capability": "static"
   },
   {
     "id": "celtic_power6",
-    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_power6_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag",
     "capability": "static"
   },
   {
     "id": "celtic_power6_julia",
-    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_power6_julia_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/julia/celtic_power_julia_gpu.frag",
     "capability": "static"
   },
   {
     "id": "celtic_power7",
-    "shaderAsset": "shaders/escape_time_family/families/celtic/celtic_power7_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag",
     "capability": "static"
   },
   {
@@ -4301,32 +4301,32 @@
   },
   {
     "id": "perpendicular_bs_cubic",
-    "shaderAsset": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_cubic_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_gpu.frag",
     "capability": "static"
   },
   {
     "id": "perpendicular_bs_cubic_julia",
-    "shaderAsset": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_cubic_julia_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_julia_gpu.frag",
     "capability": "static"
   },
   {
     "id": "perpendicular_bs_power4",
-    "shaderAsset": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power4_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_gpu.frag",
     "capability": "static"
   },
   {
     "id": "perpendicular_bs_power5",
-    "shaderAsset": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power5_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_gpu.frag",
     "capability": "static"
   },
   {
     "id": "perpendicular_burning_ship",
-    "shaderAsset": "shaders/escape_time_family/families/perpendicular/perpendicular_burning_ship_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_gpu.frag",
     "capability": "static"
   },
   {
     "id": "perpendicular_burning_ship_julia",
-    "shaderAsset": "shaders/escape_time_family/families/perpendicular/perpendicular_burning_ship_julia_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_julia_gpu.frag",
     "capability": "static"
   },
   {
@@ -5096,12 +5096,12 @@
   },
   {
     "id": "tricorn_cubic",
-    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_cubic_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
     "capability": "static"
   },
   {
     "id": "tricorn_cubic_julia",
-    "shaderAsset": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_cubic_julia_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag",
     "capability": "static"
   },
   {
@@ -5116,37 +5116,37 @@
   },
   {
     "id": "tricorn_power4",
-    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_power4_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
     "capability": "static"
   },
   {
     "id": "tricorn_power4_julia",
-    "shaderAsset": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power4_julia_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag",
     "capability": "static"
   },
   {
     "id": "tricorn_power5",
-    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_power5_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
     "capability": "static"
   },
   {
     "id": "tricorn_power5_julia",
-    "shaderAsset": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power5_julia_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag",
     "capability": "static"
   },
   {
     "id": "tricorn_power6_julia",
-    "shaderAsset": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power6_julia_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag",
     "capability": "static"
   },
   {
     "id": "tricorn_power7_julia",
-    "shaderAsset": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power7_julia_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag",
     "capability": "static"
   },
   {
     "id": "tricorn_power8_julia",
-    "shaderAsset": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power8_julia_gpu.frag",
+    "shaderAsset": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag",
     "capability": "static"
   },
   {

@@ -5027,13 +5027,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "celtic_cubic",
-      "shader": "shaders/escape_time_family/families/celtic/celtic_cubic_gpu.frag",
+      "shader": "shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/celtic/celtic_cubic_gpu.frag"
+        "shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag"
       ]
     },
     {
@@ -5139,13 +5139,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "tricorn_cubic",
-      "shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_cubic_gpu.frag",
+      "shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_cubic_gpu.frag"
+        "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag"
       ]
     },
     {
@@ -5171,13 +5171,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "buffalo_cubic",
-      "shader": "shaders/escape_time_family/families/buffalo/buffalo_cubic_gpu.frag",
+      "shader": "shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/buffalo/buffalo_cubic_gpu.frag"
+        "shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag"
       ]
     },
     {
@@ -5763,13 +5763,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "tricorn_power4",
-      "shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_power4_gpu.frag",
+      "shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_power4_gpu.frag"
+        "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag"
       ]
     },
     {
@@ -5779,13 +5779,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "buffalo_power4",
-      "shader": "shaders/escape_time_family/families/buffalo/buffalo_power4_gpu.frag",
+      "shader": "shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/buffalo/buffalo_power4_gpu.frag"
+        "shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag"
       ]
     },
     {
@@ -5891,13 +5891,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "celtic_power4",
-      "shader": "shaders/escape_time_family/families/celtic/celtic_power4_gpu.frag",
+      "shader": "shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/celtic/celtic_power4_gpu.frag"
+        "shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag"
       ]
     },
     {
@@ -5923,13 +5923,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "tricorn_power5",
-      "shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_power5_gpu.frag",
+      "shader": "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_power5_gpu.frag"
+        "shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag"
       ]
     },
     {
@@ -5955,13 +5955,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "buffalo_cubic_julia",
-      "shader": "shaders/escape_time_family/families/buffalo/buffalo_cubic_julia_gpu.frag",
+      "shader": "shaders/escape_time_family/families/buffalo/julia/buffalo_power_julia_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/buffalo/buffalo_cubic_julia_gpu.frag"
+        "shaders/escape_time_family/families/buffalo/julia/buffalo_power_julia_gpu.frag"
       ]
     },
     {
@@ -6003,13 +6003,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "perpendicular_burning_ship",
-      "shader": "shaders/escape_time_family/families/perpendicular/perpendicular_burning_ship_gpu.frag",
+      "shader": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/perpendicular/perpendicular_burning_ship_gpu.frag"
+        "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_gpu.frag"
       ]
     },
     {
@@ -6035,13 +6035,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "celtic_power5",
-      "shader": "shaders/escape_time_family/families/celtic/celtic_power5_gpu.frag",
+      "shader": "shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/celtic/celtic_power5_gpu.frag"
+        "shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag"
       ]
     },
     {
@@ -6051,13 +6051,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "buffalo_power5",
-      "shader": "shaders/escape_time_family/families/buffalo/buffalo_power5_gpu.frag",
+      "shader": "shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/buffalo/buffalo_power5_gpu.frag"
+        "shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag"
       ]
     },
     {
@@ -6227,13 +6227,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "buffalo_power4_julia",
-      "shader": "shaders/escape_time_family/families/buffalo/buffalo_power4_julia_gpu.frag",
+      "shader": "shaders/escape_time_family/families/buffalo/julia/buffalo_power_julia_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/buffalo/buffalo_power4_julia_gpu.frag"
+        "shaders/escape_time_family/families/buffalo/julia/buffalo_power_julia_gpu.frag"
       ]
     },
     {
@@ -6243,13 +6243,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "celtic_power4_julia",
-      "shader": "shaders/escape_time_family/families/celtic/celtic_power4_julia_gpu.frag",
+      "shader": "shaders/escape_time_family/families/celtic/julia/celtic_power_julia_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/celtic/celtic_power4_julia_gpu.frag"
+        "shaders/escape_time_family/families/celtic/julia/celtic_power_julia_gpu.frag"
       ]
     },
     {
@@ -6259,13 +6259,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "tricorn_power4_julia",
-      "shader": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power4_julia_gpu.frag",
+      "shader": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power4_julia_gpu.frag"
+        "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag"
       ]
     },
     {
@@ -6275,13 +6275,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "tricorn_power5_julia",
-      "shader": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power5_julia_gpu.frag",
+      "shader": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power5_julia_gpu.frag"
+        "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag"
       ]
     },
     {
@@ -6291,13 +6291,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "perpendicular_burning_ship_julia",
-      "shader": "shaders/escape_time_family/families/perpendicular/perpendicular_burning_ship_julia_gpu.frag",
+      "shader": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_julia_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/perpendicular/perpendicular_burning_ship_julia_gpu.frag"
+        "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_julia_gpu.frag"
       ]
     },
     {
@@ -6323,13 +6323,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "celtic_cubic_julia",
-      "shader": "shaders/escape_time_family/families/celtic/celtic_cubic_julia_gpu.frag",
+      "shader": "shaders/escape_time_family/families/celtic/julia/celtic_power_julia_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/celtic/celtic_cubic_julia_gpu.frag"
+        "shaders/escape_time_family/families/celtic/julia/celtic_power_julia_gpu.frag"
       ]
     },
     {
@@ -6339,13 +6339,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "celtic_power5_julia",
-      "shader": "shaders/escape_time_family/families/celtic/celtic_power5_julia_gpu.frag",
+      "shader": "shaders/escape_time_family/families/celtic/julia/celtic_power_julia_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/celtic/celtic_power5_julia_gpu.frag"
+        "shaders/escape_time_family/families/celtic/julia/celtic_power_julia_gpu.frag"
       ]
     },
     {
@@ -6355,13 +6355,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "buffalo_power5_julia",
-      "shader": "shaders/escape_time_family/families/buffalo/buffalo_power5_julia_gpu.frag",
+      "shader": "shaders/escape_time_family/families/buffalo/julia/buffalo_power_julia_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/buffalo/buffalo_power5_julia_gpu.frag"
+        "shaders/escape_time_family/families/buffalo/julia/buffalo_power_julia_gpu.frag"
       ]
     },
     {
@@ -6371,13 +6371,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "tricorn_cubic_julia",
-      "shader": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_cubic_julia_gpu.frag",
+      "shader": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_cubic_julia_gpu.frag"
+        "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag"
       ]
     },
     {
@@ -6435,13 +6435,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "tricorn_power6_julia",
-      "shader": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power6_julia_gpu.frag",
+      "shader": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power6_julia_gpu.frag"
+        "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag"
       ]
     },
     {
@@ -6451,13 +6451,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "perpendicular_bs_cubic",
-      "shader": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_cubic_gpu.frag",
+      "shader": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/perpendicular/perpendicular_bs_cubic_gpu.frag"
+        "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_gpu.frag"
       ]
     },
     {
@@ -6467,13 +6467,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "perpendicular_bs_cubic_julia",
-      "shader": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_cubic_julia_gpu.frag",
+      "shader": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_julia_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/perpendicular/perpendicular_bs_cubic_julia_gpu.frag"
+        "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_julia_gpu.frag"
       ]
     },
     {
@@ -6563,13 +6563,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "buffalo_power6",
-      "shader": "shaders/escape_time_family/families/buffalo/buffalo_power6_gpu.frag",
+      "shader": "shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/buffalo/buffalo_power6_gpu.frag"
+        "shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag"
       ]
     },
     {
@@ -6579,13 +6579,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "celtic_power6",
-      "shader": "shaders/escape_time_family/families/celtic/celtic_power6_gpu.frag",
+      "shader": "shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/celtic/celtic_power6_gpu.frag"
+        "shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag"
       ]
     },
     {
@@ -6707,13 +6707,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "buffalo_power6_julia",
-      "shader": "shaders/escape_time_family/families/buffalo/buffalo_power6_julia_gpu.frag",
+      "shader": "shaders/escape_time_family/families/buffalo/julia/buffalo_power_julia_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/buffalo/buffalo_power6_julia_gpu.frag"
+        "shaders/escape_time_family/families/buffalo/julia/buffalo_power_julia_gpu.frag"
       ]
     },
     {
@@ -6723,13 +6723,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "celtic_power6_julia",
-      "shader": "shaders/escape_time_family/families/celtic/celtic_power6_julia_gpu.frag",
+      "shader": "shaders/escape_time_family/families/celtic/julia/celtic_power_julia_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/celtic/celtic_power6_julia_gpu.frag"
+        "shaders/escape_time_family/families/celtic/julia/celtic_power_julia_gpu.frag"
       ]
     },
     {
@@ -6867,13 +6867,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "tricorn_power7_julia",
-      "shader": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power7_julia_gpu.frag",
+      "shader": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power7_julia_gpu.frag"
+        "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag"
       ]
     },
     {
@@ -6883,13 +6883,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "tricorn_power8_julia",
-      "shader": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power8_julia_gpu.frag",
+      "shader": "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power8_julia_gpu.frag"
+        "shaders/escape_time_family/families/tricorn/julia_sets/tricorn_power_julia_gpu.frag"
       ]
     },
     {
@@ -6899,13 +6899,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "perpendicular_bs_power4",
-      "shader": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power4_gpu.frag",
+      "shader": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power4_gpu.frag"
+        "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_gpu.frag"
       ]
     },
     {
@@ -6915,13 +6915,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "perpendicular_bs_power5",
-      "shader": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power5_gpu.frag",
+      "shader": "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power5_gpu.frag"
+        "shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_gpu.frag"
       ]
     },
     {
@@ -8643,13 +8643,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "buffalo_power7",
-      "shader": "shaders/escape_time_family/families/buffalo/buffalo_power7_gpu.frag",
+      "shader": "shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/buffalo/buffalo_power7_gpu.frag"
+        "shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag"
       ]
     },
     {
@@ -8707,13 +8707,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "celtic_power7",
-      "shader": "shaders/escape_time_family/families/celtic/celtic_power7_gpu.frag",
+      "shader": "shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/celtic/celtic_power7_gpu.frag"
+        "shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag"
       ]
     },
     {

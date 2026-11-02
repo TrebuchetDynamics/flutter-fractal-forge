@@ -1,6 +1,6 @@
 # Power-variant families that can merge behind one parameter
 
-Status: `mandelbar` and `multibrot` merged (see below). The rest is inventory only.
+Status: all candidates merged (see below).
 Method: strip comments, diff each pair, and confirm the only differences are the
 exponent, the derivative coefficient, and the smooth-colouring `log2(power)`.
 Every claim below is reproducible with `diff` on the named files.
@@ -27,12 +27,14 @@ parameterised form is the exponent.
 | --- | --- | --- | --- | --- |
 | `mandelbar` | 5 (`cubic`, `power6..9`) | `tricorn_gpu.frag` (exists) | conjugate | 5 → 0 new files |
 | `multibrot` | ~~11~~ **merged** | `multibrot3_gpu.frag` (exists) | none | 11 files deleted |
-| `tricorn` plane | 3 (`cubic`, `power4`, `power5`) | `tricorn_gpu.frag` (exists) | conjugate | 3 → 0 new files |
-| `tricorn` julia | 6 (`cubic`, `power4..8`) | new parameterised julia | conjugate | 6 → 1 |
-| `celtic` plane | 5 (`cubic`, `power4..7`) | new `celtic_power_gpu.frag` | `abs(z.x)` | 5 → 1 |
-| `celtic` julia | 4 (`cubic`, `power4..6`) | new parameterised julia | `abs(z.x)` | 4 → 1 |
-| `buffalo` plane | 5 (`cubic`, `power4..7`) | new `buffalo_power_gpu.frag` | `abs(z.x)`, `abs(z.y)` | 5 → 1 |
-| `buffalo` julia | 4 (`cubic`, `power4..6`) | new parameterised julia | `abs(z.x)`, `abs(z.y)` | 4 → 1 |
+| `tricorn` plane | ~~3~~ merged | `tricorn_gpu.frag` | conjugate |
+| `tricorn` julia | ~~6~~ merged | `tricorn_power_julia_gpu.frag` | conjugate |
+| `celtic` plane | ~~5~~ merged | `celtic_power_gpu.frag` | `abs(z.x)` |
+| `celtic` julia | ~~4~~ merged | `celtic_power_julia_gpu.frag` | `abs(z.x)` |
+| `buffalo` plane | ~~5~~ merged | `buffalo_power_gpu.frag` | `abs(z.x)`, `abs(z.y)` |
+| `buffalo` julia | ~~4~~ merged | `buffalo_power_julia_gpu.frag` | both |
+| `perpendicular` bs plane | ~~4~~ merged | `perpendicular_bs_power_gpu.frag` | control `foldAxis` |
+| `perpendicular` bs julia | ~~2~~ merged | `perpendicular_bs_power_julia_gpu.frag` | `abs(z.x)` |
 
 `multibrot_neg2` stays separate: it is a rational map (`z^-2 + c`), not a power
 variant.
@@ -85,6 +87,43 @@ Open item: the `z^p + c` parameter plane should be `(p-1)`-fold symmetric, but a
 rotation sweep on `multibrot4` matched a quarter turn better than a third turn.
 The measurement and the algebra disagree, so no symmetry test was shipped. This
 needs a separate look before any symmetry claim is made.
+
+## Merged: the remaining power families
+
+Done. Thirty-three shader files were deleted and seven parameterised shaders
+were added:
+
+| Family | Shader | Controls |
+| --- | --- | --- |
+| Tricorn parameter plane | `tricorn/parameter_plane/tricorn_gpu.frag` | `power` |
+| Tricorn Julia | `tricorn/julia_sets/tricorn_power_julia_gpu.frag` | `power`, `juliaRe`, `juliaImag` |
+| Celtic parameter plane | `celtic/power_plane/celtic_power_gpu.frag` | `power` |
+| Celtic Julia | `celtic/julia/celtic_power_julia_gpu.frag` | `power`, `juliaRe`, `juliaImag` |
+| Buffalo parameter plane | `buffalo/power_plane/buffalo_power_gpu.frag` | `power` |
+| Buffalo Julia | `buffalo/julia/buffalo_power_julia_gpu.frag` | `power`, `juliaRe`, `juliaImag` |
+| Perpendicular Burning Ship | `perpendicular/perpendicular_bs_power_gpu.frag` | `power`, `foldAxis` |
+| Perpendicular Burning Ship Julia | `perpendicular/perpendicular_bs_power_julia_gpu.frag` | `power`, `juliaRe`, `juliaImag` |
+
+Both shader families carry the origin guard in `cpowReal`, so `z0 = 0` no longer
+produces NaN. Each Julia entry keeps its own constant as a default value.
+
+## The perpendicular family was not a defect after all
+
+The two conventions are documented in the retired files, not accidental:
+
+- `perpendicular_burning_ship` and `perpendicular_bs_cubic` fold the **real**
+  part: `(|Re z| + i Im z)^p + c`.
+- `perpendicular_bs_power4` and `perpendicular_bs_power5` fold the
+  **imaginary** part: `(Re z + i|Im z|)^p + c`, and their headers call this
+  "perpendicular to the standard Burning Ship fold".
+
+So the family was correct but its name did not distinguish the two maps. The
+merge keeps both and exposes `foldAxis`: `0` folds the real part, `1` folds the
+imaginary part. `test/modules/power_family_merge_test.dart` proves the control
+changes the rendered map.
+
+The `perp_celtic` pair still splits the same way and stays unmerged, because it
+has no higher-power members to justify a control.
 
 ## Finding 1: `mandelbar` is already `tricorn`
 
@@ -158,6 +197,6 @@ Every merged family touches more than its shader:
 
 1. ~~`mandelbar` → `tricorn_gpu.frag`~~ done.
 2. ~~`multibrot` → one new shader~~ done.
-3. `tricorn` plane and julia → existing and new parameterised shaders.
-4. `celtic`, then `buffalo`, plane before julia.
-5. `perpendicular`: settle the fold convention first, then merge.
+3. ~~`tricorn` plane and julia~~ done.
+4. ~~`celtic`, then `buffalo`, plane before julia~~ done.
+5. ~~`perpendicular`~~ done: both fold conventions ship behind `foldAxis`.

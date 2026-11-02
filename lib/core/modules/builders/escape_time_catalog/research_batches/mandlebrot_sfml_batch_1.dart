@@ -140,9 +140,19 @@ final List<EscapeTimeConfig> _mandlebrotSfmlBatch1Catalog = [
     id: 'celtic_cubic',
     name: 'Celtic Cubic',
     shaderAsset:
-        'shaders/escape_time_family/families/celtic/celtic_cubic_gpu.frag',
+        'shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 4.0,
+    extraParams: [
+      _floatParam(
+        id: 'power',
+        label: 'Power',
+        min: 1.0,
+        max: 24.0,
+        step: 0.05,
+        defaultValue: 3.0,
+      ),
+    ],
     extraPresets: [
       catalogPreset(
         id: 'celtic-cubic-relief',
@@ -317,9 +327,19 @@ final List<EscapeTimeConfig> _mandlebrotSfmlBatch1Catalog = [
     id: 'tricorn_cubic',
     name: 'Tricorn Cubic',
     shaderAsset:
-        'shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_cubic_gpu.frag',
+        'shaders/escape_time_family/families/tricorn/parameter_plane/tricorn_gpu.frag',
     defaultIterations: 180,
     defaultBailout: 4.0,
+    extraParams: [
+      _floatParam(
+        id: 'power',
+        label: 'Power',
+        min: 1.0,
+        max: 24.0,
+        step: 0.05,
+        defaultValue: 3.0,
+      ),
+    ],
     extraPresets: [
       catalogPreset(
         id: 'tricorn-cubic-relief',
@@ -362,9 +382,19 @@ final List<EscapeTimeConfig> _mandlebrotSfmlBatch1Catalog = [
     id: 'buffalo_cubic',
     name: 'Buffalo Cubic',
     shaderAsset:
-        'shaders/escape_time_family/families/buffalo/buffalo_cubic_gpu.frag',
+        'shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag',
     defaultIterations: 160,
     defaultBailout: 4.0,
+    extraParams: [
+      _floatParam(
+        id: 'power',
+        label: 'Power',
+        min: 1.0,
+        max: 24.0,
+        step: 0.05,
+        defaultValue: 3.0,
+      ),
+    ],
     extraPresets: [
       catalogPreset(
         id: 'buffalo-cubic-relief',

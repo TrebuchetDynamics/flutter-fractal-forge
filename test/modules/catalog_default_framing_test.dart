@@ -19,7 +19,15 @@ void main() {
       final program = await ui.FragmentProgram.fromAsset(module.shaderAsset);
       for (final preset in [module.defaultPreset, ...module.builtInPresets]) {
         final params = {...module.defaultPreset.params, ...preset.params};
-        final power = params['power'];
+        // Extra parameters follow the three common ones in declaration order,
+        // starting at uniform slot 10. Read them generically so a family that
+        // gains a control (power, Julia constant, fold axis) stays wired.
+        const common = {'iterations', 'bailout', 'colorScheme', 'colorCount'};
+        final extras = module.parameters
+            .where((p) => !common.contains(p.id))
+            .map((p) =>
+                ((params[p.id] ?? p.defaultValue) as num).toDouble())
+            .toList();
         final bytes = await renderTestShaderFrame(
             program: program,
             shaderAsset: module.shaderAsset,
@@ -36,7 +44,7 @@ void main() {
               (params['bailout']! as num).toDouble(),
               (params['colorScheme']! as num).toDouble(),
               0,
-              if (power != null) (power as num).toDouble(),
+              ...extras,
             ]);
         final image = img.Image.fromBytes(
             width: 96, height: 96, bytes: bytes.buffer, numChannels: 4);

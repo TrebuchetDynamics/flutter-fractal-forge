@@ -20,8 +20,21 @@ void main() {
   }).toList();
 
   test('power families are present in the catalog', () {
-    expect(powerEntries.length, greaterThan(40),
+    // The per-power shaders were merged behind a power control, so the file
+    // count dropped on purpose. The guard now checks that the merged families
+    // are still reachable and that no per-power file was reintroduced.
+    expect(powerEntries.length, greaterThan(15),
         reason: 'power families should not silently disappear');
+    final merged = escapeTimeCatalog
+        .map((c) => c.shaderAsset)
+        .where((a) =>
+            a.contains('_power_gpu.frag') ||
+            a.contains('_power_julia_gpu.frag') ||
+            a.endsWith('tricorn_gpu.frag') ||
+            a.endsWith('multibrot3_gpu.frag'))
+        .toSet();
+    expect(merged.length, greaterThanOrEqualTo(8),
+        reason: 'merged parameterised shaders should exist: $merged');
   });
 
   test('every power shader uses one degree in map, derivative and colouring',
@@ -98,12 +111,16 @@ void main() {
       expect(source, contains('vec2(abs(x2) + c.x, y2 + c.y)'));
     });
 
-    test('perpendicular burning ship folds one axis before squaring', () {
+    test('perpendicular burning ship folds one axis, chosen by a control', () {
+      // The family merged into one shader. Both documented conventions ship:
+      // fold the real part, or fold the imaginary part. The control selects one.
       final source = File(
-              'shaders/escape_time_family/families/perpendicular/perpendicular_burning_ship_gpu.frag')
+              'shaders/escape_time_family/families/perpendicular/perpendicular_bs_power_gpu.frag')
           .readAsStringSync();
-      expect(source, contains('vec2 w = vec2(abs(z.x), z.y)'));
-      expect(source, isNot(contains('abs(z.y)')));
+      expect(source, contains('uniform float uFoldAxis;'));
+      expect(source, contains('(uFoldAxis < 0.5)'));
+      expect(source, contains('vec2(abs(zPow.x), zPow.y)'));
+      expect(source, contains('vec2(zPow.x, abs(zPow.y))'));
     });
   });
 }
