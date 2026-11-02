@@ -76,9 +76,19 @@ final List<EscapeTimeConfig> _batch14ExtensionsCatalog = [
     id: 'multibrot6',
     name: 'Multibrot ⁶',
     shaderAsset:
-        'shaders/escape_time_family/families/multibrot/multibrot6_gpu.frag',
+        'shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
+    extraParams: [
+      _floatParam(
+        id: 'power',
+        label: 'Power',
+        min: -8,
+        max: 24,
+        step: 0.05,
+        defaultValue: 6.0,
+      ),
+    ],
   ),
 
 // Mandelbar degree 4: conj(z)^4+c — anti-holomorphic 4-fold cusp symmetry.
@@ -266,17 +276,37 @@ final List<EscapeTimeConfig> _batch14ExtensionsCatalog = [
     id: 'multibrot7',
     name: 'Multibrot ⁷',
     shaderAsset:
-        'shaders/escape_time_family/families/multibrot/multibrot7_gpu.frag',
+        'shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
+    extraParams: [
+      _floatParam(
+        id: 'power',
+        label: 'Power',
+        min: -8,
+        max: 24,
+        step: 0.05,
+        defaultValue: 7.0,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'multibrot8',
     name: 'Multibrot ⁸',
     shaderAsset:
-        'shaders/escape_time_family/families/multibrot/multibrot8_gpu.frag',
+        'shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
+    extraParams: [
+      _floatParam(
+        id: 'power',
+        label: 'Power',
+        min: -8,
+        max: 24,
+        step: 0.05,
+        defaultValue: 8.0,
+      ),
+    ],
     extraPresets: [
       catalogPreset(
         id: 'multibrot8-wide',
@@ -551,9 +581,19 @@ final List<EscapeTimeConfig> _batch14ExtensionsCatalog = [
     id: 'multibrot9',
     name: 'Multibrot⁹',
     shaderAsset:
-        'shaders/escape_time_family/families/multibrot/multibrot9_gpu.frag',
+        'shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
+    extraParams: [
+      _floatParam(
+        id: 'power',
+        label: 'Power',
+        min: -8,
+        max: 24,
+        step: 0.05,
+        defaultValue: 9.0,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'multijulia9',
@@ -568,9 +608,19 @@ final List<EscapeTimeConfig> _batch14ExtensionsCatalog = [
     id: 'multibrot10',
     name: 'Multibrot¹⁰',
     shaderAsset:
-        'shaders/escape_time_family/families/multibrot/multibrot10_gpu.frag',
+        'shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
+    extraParams: [
+      _floatParam(
+        id: 'power',
+        label: 'Power',
+        min: -8,
+        max: 24,
+        step: 0.05,
+        defaultValue: 10.0,
+      ),
+    ],
     extraPresets: [
       catalogPreset(
         id: 'multibrot10-wide',
@@ -597,17 +647,37 @@ final List<EscapeTimeConfig> _batch14ExtensionsCatalog = [
     id: 'multibrot11',
     name: 'Multibrot¹¹',
     shaderAsset:
-        'shaders/escape_time_family/families/multibrot/multibrot11_gpu.frag',
+        'shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
+    extraParams: [
+      _floatParam(
+        id: 'power',
+        label: 'Power',
+        min: -8,
+        max: 24,
+        step: 0.05,
+        defaultValue: 11.0,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'multibrot12',
     name: 'Multibrot¹²',
     shaderAsset:
-        'shaders/escape_time_family/families/multibrot/multibrot12_gpu.frag',
+        'shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag',
     defaultIterations: 200,
     defaultBailout: 4.0,
+    extraParams: [
+      _floatParam(
+        id: 'power',
+        label: 'Power',
+        min: -8,
+        max: 24,
+        step: 0.05,
+        defaultValue: 12.0,
+      ),
+    ],
   ),
   EscapeTimeConfig(
     id: 'burning_ship_power6_julia',

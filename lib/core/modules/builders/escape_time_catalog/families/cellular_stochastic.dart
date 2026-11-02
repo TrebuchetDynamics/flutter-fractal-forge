@@ -708,7 +708,17 @@ final List<EscapeTimeConfig> _cellularStochasticCatalog = [
     id: 'multibrot4',
     name: 'Multibrot d=4',
     shaderAsset:
-        'shaders/escape_time_family/families/multibrot/integer_powers/multibrot4_gpu.frag',
+        'shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag',
+    extraParams: [
+      _floatParam(
+        id: 'power',
+        label: 'Power',
+        min: -8,
+        max: 24,
+        step: 0.05,
+        defaultValue: 4.0,
+      ),
+    ],
     defaultIterations: 160,
     extraPresets: [
       catalogPreset(
@@ -725,7 +735,17 @@ final List<EscapeTimeConfig> _cellularStochasticCatalog = [
     id: 'multibrot5',
     name: 'Multibrot d=5',
     shaderAsset:
-        'shaders/escape_time_family/families/multibrot/multibrot5_gpu.frag',
+        'shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag',
+    extraParams: [
+      _floatParam(
+        id: 'power',
+        label: 'Power',
+        min: -8,
+        max: 24,
+        step: 0.05,
+        defaultValue: 5.0,
+      ),
+    ],
     defaultZoom: 0.4, // Frame the boundary, not only the bounded interior.
     defaultIterations: 170,
     extraPresets: [

@@ -192,9 +192,19 @@ final List<EscapeTimeConfig> _mandlebrotSfmlBatch1Catalog = [
     id: 'multibrot_15',
     name: 'Multibrot d=1.5',
     shaderAsset:
-        'shaders/escape_time_family/families/multibrot/multibrot_15_gpu.frag',
+        'shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag',
     defaultIterations: 150,
     defaultBailout: 4.0,
+    extraParams: [
+      _floatParam(
+        id: 'power',
+        label: 'Power',
+        min: -8,
+        max: 24,
+        step: 0.05,
+        defaultValue: 1.5,
+      ),
+    ],
     extraPresets: [
       catalogPreset(
         id: 'multibrot15-relief',
@@ -415,9 +425,19 @@ final List<EscapeTimeConfig> _mandlebrotSfmlBatch1Catalog = [
     id: 'multibrot_25',
     name: 'Multibrot d=2.5',
     shaderAsset:
-        'shaders/escape_time_family/families/multibrot/multibrot_25_gpu.frag',
+        'shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag',
     defaultIterations: 150,
     defaultBailout: 4.0,
+    extraParams: [
+      _floatParam(
+        id: 'power',
+        label: 'Power',
+        min: -8,
+        max: 24,
+        step: 0.05,
+        defaultValue: 2.5,
+      ),
+    ],
     extraPresets: [
       catalogPreset(
         id: 'multibrot25-relief',

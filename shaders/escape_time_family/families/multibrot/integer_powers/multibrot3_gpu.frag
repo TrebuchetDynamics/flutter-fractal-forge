@@ -49,6 +49,12 @@ vec2 cmul(vec2 a, vec2 b) { return vec2(a.x*b.x - a.y*b.y, a.x*b.y + a.y*b.x); }
 vec2 cdiv(vec2 a, vec2 b) { return vec2(a.x*b.x + a.y*b.y, a.y*b.x - a.x*b.y) / max(dot(b,b), 1e-12); }
 
 vec2 cpowReal(vec2 z, float power) {
+  // Every parameter-plane orbit starts at zero, and atan(0, 0) is undefined.
+  // Some backends return NaN there, which poisons the whole orbit and renders a
+  // flat frame. Handle the exact origin before the polar form.
+  if (z.x == 0.0 && z.y == 0.0 && power >= 0.0) {
+    return power == 0.0 ? vec2(1.0, 0.0) : vec2(0.0);
+  }
   float r = max(length(z), 1e-8);
   float a = atan(z.y, z.x);
   float rp = pow(r, power);

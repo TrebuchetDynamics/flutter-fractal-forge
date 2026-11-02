@@ -4739,13 +4739,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "multibrot4",
-      "shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot4_gpu.frag",
+      "shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/multibrot/integer_powers/multibrot4_gpu.frag"
+        "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag"
       ]
     },
     {
@@ -4755,13 +4755,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "multibrot5",
-      "shader": "shaders/escape_time_family/families/multibrot/multibrot5_gpu.frag",
+      "shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/multibrot/multibrot5_gpu.frag"
+        "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag"
       ]
     },
     {
@@ -5059,13 +5059,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "multibrot_15",
-      "shader": "shaders/escape_time_family/families/multibrot/multibrot_15_gpu.frag",
+      "shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/multibrot/multibrot_15_gpu.frag"
+        "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag"
       ]
     },
     {
@@ -5219,13 +5219,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "multibrot_25",
-      "shader": "shaders/escape_time_family/families/multibrot/multibrot_25_gpu.frag",
+      "shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/multibrot/multibrot_25_gpu.frag"
+        "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag"
       ]
     },
     {
@@ -5747,13 +5747,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "multibrot6",
-      "shader": "shaders/escape_time_family/families/multibrot/multibrot6_gpu.frag",
+      "shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/multibrot/multibrot6_gpu.frag"
+        "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag"
       ]
     },
     {
@@ -6067,13 +6067,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "multibrot7",
-      "shader": "shaders/escape_time_family/families/multibrot/multibrot7_gpu.frag",
+      "shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/multibrot/multibrot7_gpu.frag"
+        "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag"
       ]
     },
     {
@@ -6083,13 +6083,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "multibrot8",
-      "shader": "shaders/escape_time_family/families/multibrot/multibrot8_gpu.frag",
+      "shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/multibrot/multibrot8_gpu.frag"
+        "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag"
       ]
     },
     {
@@ -6595,13 +6595,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "multibrot9",
-      "shader": "shaders/escape_time_family/families/multibrot/multibrot9_gpu.frag",
+      "shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/multibrot/multibrot9_gpu.frag"
+        "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag"
       ]
     },
     {
@@ -6627,13 +6627,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "multibrot10",
-      "shader": "shaders/escape_time_family/families/multibrot/multibrot10_gpu.frag",
+      "shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/multibrot/multibrot10_gpu.frag"
+        "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag"
       ]
     },
     {
@@ -6659,13 +6659,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "multibrot11",
-      "shader": "shaders/escape_time_family/families/multibrot/multibrot11_gpu.frag",
+      "shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/multibrot/multibrot11_gpu.frag"
+        "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag"
       ]
     },
     {
@@ -6675,13 +6675,13 @@
       "group": "core",
       "status": "renderer_registered",
       "module_id": "multibrot12",
-      "shader": "shaders/escape_time_family/families/multibrot/multibrot12_gpu.frag",
+      "shader": "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag",
       "runtime_preview": "runtime-renderable (not captured in VIS-005)",
       "cpu_formula": "not audited",
       "references": [
         "lib/features/catalog/data/catalog_repository.dart",
         "lib/core/modules/module_registry.dart",
-        "shaders/escape_time_family/families/multibrot/multibrot12_gpu.frag"
+        "shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag"
       ]
     },
     {
