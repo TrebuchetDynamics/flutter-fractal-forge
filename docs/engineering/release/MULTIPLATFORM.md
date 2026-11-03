@@ -42,7 +42,70 @@ The existing Waydroid instance is **already the owner-designated Android test ta
 
 Preparation and publication remain separate invocations, not separate approval requests for an explicitly requested release. The CLI above is the supported local route; publication still requires the lane's configured credentials and cannot make missing qualification pass. Apple signing/store submission is not implemented by the current scripts: if no existing approved production route, signing or native host is available, record skipped-unavailable; this campaign does not authorize building a new store-submission system or buying access. Existing `REL-JOURNEY-*` and their live follow-ups retain their IDs, proof and access gates; reuse them rather than creating duplicate product qualification tasks. Existing user task order/focus and paused schedules are unchanged.
 
+### Local campaign execution environment
+
+`scripts/release_platform_lanes.py` runs the independent campaign without GitLab.
+It reads credentials and host details from the process environment; a missing
+variable is reported as a lane skip, so export the documented values before
+blaming a lane. Secret *locations* below are names only; never commit or echo
+their contents. See [the 1.1.119 execution record](ALL_PLATFORMS_1.1.119.md#local-campaign-execution-environment)
+for the observed failure signatures.
+
+| Variable / tool | Value or location | Why |
+| --- | --- | --- |
+| `FLUTTER_ROOT` | `/home/xel/flutter` | Must select the provisioned SDK named by `fdroid/flutter.version` (currently **3.47.9**); a missing/mismatched SDK rejects the run |
+| `TMPDIR` | existing task-private scratch directory outside the repository | The builder rejects a missing or in-repository `TMPDIR` |
+| `AUTOWORK_PORT_BASE` | current 100-port allocation in `1024..65436` | Required by native and browser qualification; no default range is authorized |
+| `ANDROID_KEYSTORE_BASE64` | `base64 -w0 ~/.android-upload-keys/flutter-fractal-forge/upload-keystore.jks` | Android/Play signing; the authorized upload keystore |
+| `ANDROID_KEY_PROPERTIES_FILE` | `android/key.properties` (gitignored) | `scripts/ci/android-signing.sh` replaces its `storeFile` with the decoded keystore |
+| `PLAY_SERVICE_ACCOUNT_JSON` | `play-console-upload/play-service-account.json` (gitignored) | Play publisher and readback |
+| `PLAY_TRACK` / `PLAY_RELEASE_STATUS` | `production` / `completed` | Defaults; override only for an explicitly requested nonproduction release |
+| `CLOUDFLARE_API_TOKEN` | `./.env` (gitignored) or CI secret store; optional `CLOUDFLARE_PAGES_PROJECT` (default `flutter-fractal-forge`) | Pages publisher and readback |
+| `GH_TOKEN` or authenticated `gh` | `gh auth status` | GitHub release/tag publisher |
+| Node 24 + `wrangler` | `~/.nvm/versions/node/v24.19.0/bin` | Pages deployment CLI |
+| `FDROID_BIN` | `$PWD/scripts/ci/fdroid-container.sh` | Official F-Droid tool via cached rootless Podman image; no host install |
+| `ANDROID_DEVICE` / `ANDROID_DISPOSABLE_DEVICE` | `192.168.240.112:5555` | Waydroid target; run `waydroid adb connect` first |
+
+```bash
+set -a; . ./.env; set +a
+export FLUTTER_ROOT=/home/xel/flutter
+export TMPDIR="$PWD/.git/autowork-execution/release-scratch"
+export AUTOWORK_PORT_BASE=20000            # replace with a current allocation
+export ANDROID_KEYSTORE_BASE64="$(base64 -w0 ~/.android-upload-keys/flutter-fractal-forge/upload-keystore.jks)"
+export ANDROID_KEY_PROPERTIES_FILE="$PWD/android/key.properties"
+export PLAY_SERVICE_ACCOUNT_JSON="$PWD/play-console-upload/play-service-account.json"
+export PLAY_TRACK=production PLAY_RELEASE_STATUS=completed
+export FDROID_BIN="$PWD/scripts/ci/fdroid-container.sh"
+export ANDROID_DEVICE=192.168.240.112:5555
+export PATH="$HOME/.nvm/versions/node/v24.19.0/bin:$HOME/.local/bin:$FLUTTER_ROOT/bin:/usr/bin:$PATH"
+mkdir -p "$TMPDIR"
+waydroid adb connect
+adb devices -l
+
+/usr/bin/python3 scripts/release_platform_lanes.py --best-effort --publish 1.1.119 \
+  --build-number 119 --artifact-dir release-artifacts/lanes-1.1.119-d \
+  --campaign-file release-artifacts/lanes-1.1.119-d/campaign.json
+```
+
+The builder's availability check reports only the *first* missing requirement per
+lane. A lane marked `skipped-unavailable` therefore means "the invocation did not
+supply this prerequisite", not "the repository has no tool for this lane":
+
+- `Android signing credentials unavailable`: export both Android variables above.
+- `F-Droid CLI unavailable …`: set `FDROID_BIN` to the container adapter; the
+  Podman image is cached locally.
+- `required native host unavailable: darwin|windows`: the lane genuinely needs
+  that host; do not substitute a Linux build.
+
+For Waydroid transport, use the helper `waydroid adb connect`; a raw
+`adb connect <ip>:5555` can fail with *No route to host* while the helper
+succeeds. Guest-routing recovery after a real failure needs root for
+`sudo systemctl restart waydroid-container`; unavailable sudo blocks that repair,
+not the settled target choice. See [the Waydroid contract](../testing/waydroid-headless.md#working-android-test-sequence).
+
 ## Current release status
+
+For the most recent campaign outcome see [ALL_PLATFORMS_1.1.119.md](ALL_PLATFORMS_1.1.119.md); the note below is retained operating history.
 
 Historical operating note (2026-10-16; conflicts with the current PRD deferral
 and superseded by the best-effort route above): this document recorded resumed
@@ -160,14 +223,16 @@ checks. This migration preserves the existing unsigned Apple build behavior.
 ## Runner setup
 
 - Linux jobs: GitLab hosted `saas-linux-medium-amd64`, a digest-pinned
-  Android toolchain image; bootstrap installs Flutter **3.44.6** from the official Git tag.
+  Android toolchain image; bootstrap installs the Flutter version named by
+  `fdroid/flutter.version` (currently **3.47.9**) from the official Git tag.
 - Windows: GitLab hosted `saas-windows-medium-amd64`; Git Bash and Visual Studio
   must be available. The job installs the pinned Flutter checkout.
 - Apple: GitLab hosted `saas-macos-medium-m1`, `macos-15-xcode-16`. Hosted macOS
   requires a supported GitLab plan or open-source-program access. Alternatively,
   use an owned macOS runner and change its tag/image in `.gitlab-ci.yml`.
 - Device gate: register a **protected**, tagged shell runner
-  `fractal-android-device`, with Flutter 3.44.6, Android SDK/JDK, adb, and a usable
+  `fractal-android-device`, with the `fdroid/flutter.version` SDK (currently
+  3.47.9), Android SDK/JDK, adb, and a usable
   Android device (or the existing Waydroid environment). Disable untagged jobs.
   The device gate is serialized. Do not run untrusted merge-request jobs on it.
 

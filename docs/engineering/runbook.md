@@ -38,7 +38,7 @@ physical-device/hardware-GPU proof or general publication authority.
 
 ## CI and release operations
 
-GitLab execution is currently deferred by the [owner release policy](../../PRD.md#independent-platform-release-policy). The configured pipeline below is reference material, not permission to mirror, log in, dispatch or publish. Use the [independent-platform preparation contract](release/MULTIPLATFORM.md#independent-platform-release-campaign) for the supported non-GitLab route and keep publication separate.
+GitLab execution is currently deferred by the [owner release policy](../../PRD.md#independent-platform-release-policy). The configured pipeline below is reference material, not permission to mirror, log in, dispatch or publish. Use the [independent-platform preparation contract](release/MULTIPLATFORM.md#independent-platform-release-campaign) for the supported non-GitLab route and keep publication separate. Before blaming a lane, export the documented [local campaign execution environment](release/MULTIPLATFORM.md#local-campaign-execution-environment); `skipped-unavailable` means the invocation omitted a prerequisite, not that the repository lacks the tool.
 
 `.gitlab-ci.yml` is the CI pipeline source. Standard validation runs tracked-artifact checks, script tests, dependency resolution, analysis, and unit/widget tests. Release pipelines run on protected refs when triggered through GitLab’s API or web interface with `RELEASE_MODE=prepare` or `publish`; preflight checks require the applicable secret variables. Keep secrets in the CI secret store; do not copy them into logs or repository files.
 
