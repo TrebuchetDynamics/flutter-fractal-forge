@@ -22,6 +22,21 @@ Shell scripts for development automation, testing, and screenshot generation.
 
 <!-- MANUAL: -->
 
+## Release pipeline
+
+The stage-by-stage pipeline, prerequisites, evidence layout and failure
+signatures are documented in
+[docs/engineering/release/PIPELINE.md](../docs/engineering/release/PIPELINE.md).
+Operational entry points:
+
+- `release-play.sh` — one-command Play release (preflight, gates, upload, readback,
+  evidence). Fail-closed: no gate, no upload; a failed readback never re-uploads.
+- `ci/offline-gate.sh` — the shared lane-agnostic gate (pinned SDK, lockfile,
+  analyzer, host tests, Python, Bats) with a JSON summary.
+- `ci/play-status.sh` — read-only Play track/bundle state; never uploads.
+- `ci/play-api.sh` — sourceable Play API/token helpers used by the two above and
+  by `ci/play-readback.sh`.
+
 <!-- karpathy-guidelines:start -->
 ## Karpathy-Inspired Agent Guardrails
 

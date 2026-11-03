@@ -4,6 +4,9 @@
 
 Status: Accepted
 
+The command-level pipeline (stage order, prerequisites, evidence layout, failure
+signatures and the Play wrapper) is described in [PIPELINE.md](PIPELINE.md).
+
 ### Standing production publication default
 
 The [owner's 2026-10-29 decision](../../../PRD.md#standing-release-defaults) confirms that an explicit release request authorizes production publication of every qualified requested platform. Once preparation and verification pass, publish the qualified subset automatically. Do not request another approval because other platforms failed or are unavailable.
@@ -44,54 +47,19 @@ Preparation and publication remain separate invocations, not separate approval r
 
 ### Local campaign execution environment
 
-`scripts/release_platform_lanes.py` runs the independent campaign without GitLab.
-It reads credentials and host details from the process environment; a missing
-variable is reported as a lane skip, so export the documented values before
-blaming a lane. Secret *locations* below are names only; never commit or echo
-their contents. See [the 1.1.119 execution record](ALL_PLATFORMS_1.1.119.md#local-campaign-execution-environment)
-for the observed failure signatures.
-
-| Variable / tool | Value or location | Why |
-| --- | --- | --- |
-| `FLUTTER_ROOT` | `/home/xel/flutter` | Must select the provisioned SDK named by `fdroid/flutter.version` (currently **3.47.9**); a missing/mismatched SDK rejects the run |
-| `TMPDIR` | existing task-private scratch directory outside the repository | The builder rejects a missing or in-repository `TMPDIR` |
-| `AUTOWORK_PORT_BASE` | current 100-port allocation in `1024..65436` | Required by native and browser qualification; no default range is authorized |
-| `ANDROID_KEYSTORE_BASE64` | `base64 -w0 ~/.android-upload-keys/flutter-fractal-forge/upload-keystore.jks` | Android/Play signing; the authorized upload keystore |
-| `ANDROID_KEY_PROPERTIES_FILE` | `android/key.properties` (gitignored) | `scripts/ci/android-signing.sh` replaces its `storeFile` with the decoded keystore |
-| `PLAY_SERVICE_ACCOUNT_JSON` | `play-console-upload/play-service-account.json` (gitignored) | Play publisher and readback |
-| `PLAY_TRACK` / `PLAY_RELEASE_STATUS` | `production` / `completed` | Defaults; override only for an explicitly requested nonproduction release |
-| `CLOUDFLARE_API_TOKEN` | `./.env` (gitignored) or CI secret store; optional `CLOUDFLARE_PAGES_PROJECT` (default `flutter-fractal-forge`) | Pages publisher and readback |
-| `GH_TOKEN` or authenticated `gh` | `gh auth status` | GitHub release/tag publisher |
-| Node 24 + `wrangler` | `~/.nvm/versions/node/v24.19.0/bin` | Pages deployment CLI |
-| `FDROID_BIN` | `$PWD/scripts/ci/fdroid-container.sh` | Official F-Droid tool via cached rootless Podman image; no host install |
-| `ANDROID_DEVICE` / `ANDROID_DISPOSABLE_DEVICE` | `192.168.240.112:5555` | Waydroid target; run `waydroid adb connect` first |
-
-```bash
-set -a; . ./.env; set +a
-export FLUTTER_ROOT=/home/xel/flutter
-export TMPDIR="$PWD/.git/autowork-execution/release-scratch"
-export AUTOWORK_PORT_BASE=20000            # replace with a current allocation
-export ANDROID_KEYSTORE_BASE64="$(base64 -w0 ~/.android-upload-keys/flutter-fractal-forge/upload-keystore.jks)"
-export ANDROID_KEY_PROPERTIES_FILE="$PWD/android/key.properties"
-export PLAY_SERVICE_ACCOUNT_JSON="$PWD/play-console-upload/play-service-account.json"
-export PLAY_TRACK=production PLAY_RELEASE_STATUS=completed
-export FDROID_BIN="$PWD/scripts/ci/fdroid-container.sh"
-export ANDROID_DEVICE=192.168.240.112:5555
-export PATH="$HOME/.nvm/versions/node/v24.19.0/bin:$HOME/.local/bin:$FLUTTER_ROOT/bin:/usr/bin:$PATH"
-mkdir -p "$TMPDIR"
-waydroid adb connect
-adb devices -l
-
-/usr/bin/python3 scripts/release_platform_lanes.py --best-effort --publish 1.1.119 \
-  --build-number 119 --artifact-dir release-artifacts/lanes-1.1.119-d \
-  --campaign-file release-artifacts/lanes-1.1.119-d/campaign.json
-```
+The campaign reads credentials and host details from the process environment,
+and a missing variable is reported as a lane skip. The canonical prerequisite
+table, the exact exports, the per-lane failure signatures and the single-command
+Play wrapper are maintained in [PIPELINE.md](PIPELINE.md#prerequisites); the
+history of the first observed failures is in the
+[1.1.119 execution record](ALL_PLATFORMS_1.1.119.md#local-campaign-execution-environment).
 
 The builder's availability check reports only the *first* missing requirement per
-lane. A lane marked `skipped-unavailable` therefore means "the invocation did not
-supply this prerequisite", not "the repository has no tool for this lane":
+lane, so `skipped-unavailable` means "the invocation did not supply this
+prerequisite", not "the repository has no tool for this lane":
 
-- `Android signing credentials unavailable`: export both Android variables above.
+- `Android signing credentials unavailable`: export the keystore pair from
+  [PIPELINE.md](PIPELINE.md#prerequisites).
 - `F-Droid CLI unavailable …`: set `FDROID_BIN` to the container adapter; the
   Podman image is cached locally.
 - `required native host unavailable: darwin|windows`: the lane genuinely needs
