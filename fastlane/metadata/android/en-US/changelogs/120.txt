@@ -1,0 +1,5 @@
+One shader per fractal family with an in-app power control.
+Merged Mandelbar, Multibrot, Tricorn, Celtic, Buffalo and Perpendicular power families.
+New three-term mix and affine-plane slice families.
+Translucent glass HUD; the transparent-fractal toggle is gone.
+Viewer list rows no longer paint a second, centred tool circle.
