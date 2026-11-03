@@ -107,6 +107,11 @@ not the settled target choice. See [the Waydroid contract](../testing/waydroid-h
 
 For the most recent campaign outcome see [ALL_PLATFORMS_1.1.119.md](ALL_PLATFORMS_1.1.119.md); the note below is retained operating history.
 
+Play production is **1.1.120 (120)**, status completed, published from `main`
+(application code `7a6daf28`) — see [PLAY_1.1.120.md](PLAY_1.1.120.md). That was
+a Play-only operation: the other lanes keep their 1.1.119 record and were not
+revalidated or republished.
+
 Historical operating note (2026-10-16; conflicts with the current PRD deferral
 and superseded by the best-effort route above): this document recorded resumed
 GitLab release scope. GitLab remains the only CI executor for the legacy route,
