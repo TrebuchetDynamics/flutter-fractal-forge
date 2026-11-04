@@ -54,6 +54,19 @@ Play wrapper are maintained in [PIPELINE.md](PIPELINE.md#prerequisites); the
 history of the first observed failures is in the
 [1.1.119 execution record](ALL_PLATFORMS_1.1.119.md#local-campaign-execution-environment).
 
+Prerequisites for a fresh release worktree:
+
+- Run `flutter pub get --offline --enforce-lockfile` inside the worktree before
+  the campaign. Without its own `.dart_tool/package_config.json`,
+  `flutter analyze --no-pub` falls back to the enclosing checkout's config and
+  reports false duplicate-type errors ("element type … can't be assigned").
+- Link or copy the authorized `android/key.properties` into the worktree; the
+  `android-build` stage dies with `Missing android/key.properties` otherwise.
+- Set both `ANDROID_DEVICE` and `ANDROID_DISPOSABLE_DEVICE` to the same ID. The
+  device gate refuses to run (exit 2) when only one is set.
+- Long campaigns outlive an interactive tool call; run them under `tmux` and
+  poll the campaign file instead of blocking.
+
 The builder's availability check reports only the *first* missing requirement per
 lane, so `skipped-unavailable` means "the invocation did not supply this
 prerequisite", not "the repository has no tool for this lane":
