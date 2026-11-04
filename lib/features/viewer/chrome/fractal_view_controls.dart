@@ -31,7 +31,7 @@ class FractalViewControlActions {
   final VoidCallback toggleTextOverlay;
   final VoidCallback editTextOverlay;
   final VoidCallback openLooper;
-  final VoidCallback toggleBreathing;
+  final VoidCallback toggleLooper;
   final VoidCallback toggleFourier;
   final VoidCallback openFourierSettings;
   final VoidCallback reportFractal;
@@ -58,7 +58,7 @@ class FractalViewControlActions {
     required this.toggleTextOverlay,
     required this.editTextOverlay,
     required this.openLooper,
-    required this.toggleBreathing,
+    required this.toggleLooper,
     required this.toggleFourier,
     required this.openFourierSettings,
     required this.reportFractal,
@@ -73,8 +73,8 @@ class FractalViewControls extends StatelessWidget {
   final bool kaleidoscopeEnabled;
   final int kaleidoscopeSectors;
   final bool kaleidoscopeMirror;
-  final bool breathingPlaying;
-  final bool breathingAvailable;
+  final bool looperPlaying;
+  final bool looperAvailable;
   final bool canGoPreviousFractal;
   final bool fourierEnabled;
   final bool textOverlayEnabled;
@@ -92,8 +92,8 @@ class FractalViewControls extends StatelessWidget {
     required this.kaleidoscopeEnabled,
     required this.kaleidoscopeSectors,
     required this.kaleidoscopeMirror,
-    required this.breathingPlaying,
-    this.breathingAvailable = true,
+    required this.looperPlaying,
+    this.looperAvailable = true,
     this.canGoPreviousFractal = false,
     required this.fourierEnabled,
     required this.textOverlayEnabled,
@@ -164,35 +164,24 @@ class FractalViewControls extends StatelessWidget {
                         sortOrder: 0,
                       ),
                       _ViewerTool(
-                        toolKey: const ValueKey('viewerBreathingButton'),
-                        icon: breathingPlaying
+                        // Play runs the camera looper; a long press edits it.
+                        toolKey: const ValueKey('viewerPlayButton'),
+                        icon: looperPlaying
                             ? Icons.pause_rounded
                             : Icons.play_arrow_rounded,
-                        label: breathingPlaying
-                            ? l10n.actionPause
-                            : l10n.actionPlay,
-                        semanticLabel: breathingAvailable
-                            ? (breathingPlaying
-                                ? l10n.tooltipPauseBreathing
-                                : l10n.tooltipPlayBreathing)
-                            : l10n.tooltipBreathingUnavailable,
-                        selected: breathingPlaying,
+                        label:
+                            looperPlaying ? l10n.actionPause : l10n.actionPlay,
+                        semanticLabel: looperPlaying
+                            ? l10n.tooltipPauseLooper
+                            : l10n.tooltipPlayLooper,
+                        selected: looperPlaying,
                         showLabel: false,
-                        onPressed: isExporting || !breathingAvailable
+                        onPressed: isExporting || !looperAvailable
                             ? null
-                            : actions.toggleBreathing,
+                            : actions.toggleLooper,
                         onLongPress: isExporting ? null : actions.openLooper,
                         sortOrder: 1,
                       ),
-                      if (supportsAuxiliaryTools)
-                        _ViewerTool(
-                          toolKey: const ValueKey('viewerLooperFab'),
-                          icon: Icons.loop_rounded,
-                          label: l10n.looperTitle,
-                          showLabel: false,
-                          onPressed: isExporting ? null : actions.openLooper,
-                          sortOrder: 2,
-                        ),
                       _ViewerTool(
                         toolKey: const ValueKey('viewerControlsButton'),
                         icon: Icons.tune_rounded,
@@ -201,7 +190,7 @@ class FractalViewControls extends StatelessWidget {
                         showLabel: false,
                         onPressed: isExporting ? null : actions.randomizeParams,
                         onLongPress: isExporting ? null : actions.openControls,
-                        sortOrder: 3,
+                        sortOrder: 2,
                       ),
                       _ViewerTool(
                         toolKey: const ValueKey('viewerPaletteButton'),
@@ -215,7 +204,7 @@ class FractalViewControls extends StatelessWidget {
                                 actions.cycleColorScheme),
                         onLongPress:
                             isExporting ? null : actions.openPalettePicker,
-                        sortOrder: 4,
+                        sortOrder: 3,
                       ),
                       _ViewerTool(
                         toolKey: const ValueKey('viewerRandomFractalFab'),
@@ -229,7 +218,19 @@ class FractalViewControls extends StatelessWidget {
                             ? null
                             : (actions.openRandomCategories ??
                                 () => _showRandomOptionsModal(context)),
+                        sortOrder: 4,
+                      ),
+                      _ViewerTool(
+                        // One primary entry point for the share/export actions;
+                        // they no longer hide inside the More sheet.
+                        toolKey: const ValueKey('viewerSaveShareButton'),
+                        icon: Icons.ios_share_rounded,
+                        label: l10n.viewerActionSectionSaveShare,
+                        semanticLabel: l10n.viewerActionSectionSaveShare,
+                        showLabel: false,
                         sortOrder: 5,
+                        onPressed:
+                            isExporting ? null : () => _showSaveShare(context),
                       ),
                       _ViewerTool(
                         toolKey: const ValueKey('viewerOverflowMenu'),
@@ -261,7 +262,7 @@ class FractalViewControls extends StatelessWidget {
                           for (final button in rowButtons)
                             SizedBox(
                               key: button.toolKey ==
-                                      const ValueKey('viewerOverflowMenu')
+                                      const ValueKey('viewerSaveShareButton')
                                   ? const ValueKey('viewerExportButton')
                                   : null,
                               width: target,
@@ -289,6 +290,60 @@ class FractalViewControls extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  /// Save/export actions live behind one primary button instead of a section
+  /// buried in the More sheet.
+  void _showSaveShare(BuildContext context) {
+    actions.pauseMotion?.call();
+    final l10n = AppLocalizations.of(context)!;
+    final short = MediaQuery.of(context).textScaler.scale(14) > 14;
+    showAppBottomSheet<VoidCallback>(
+      context: context,
+      builder: (sheetContext) {
+        Widget row(String key, IconData icon, String label, VoidCallback action,
+                {String? caption, int order = 0}) =>
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: _ViewerTool(
+                toolKey: ValueKey(key),
+                icon: icon,
+                label: caption ?? label,
+                semanticLabel: label,
+                row: true,
+                dense: short,
+                sortOrder: order.toDouble(),
+                onPressed: isExporting
+                    ? null
+                    : () => Navigator.of(sheetContext).pop(action),
+              ),
+            );
+        return AppOptionsSheet(
+          icon: Icons.ios_share_rounded,
+          title: l10n.viewerActionSectionSaveShare,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              row('viewerOpenExportAction', Icons.file_download_outlined,
+                  l10n.tooltipExport, actions.openExport),
+              row('viewerShareLinkAction', Icons.link_rounded,
+                  l10n.shareLinkAction, actions.shareLink,
+                  caption: short ? l10n.viewerCopyLinkAction : null, order: 1),
+              row('viewerShareImageAction', Icons.image_outlined,
+                  l10n.tooltipShareImage, actions.shareImage, order: 2),
+              if (ExportActionAvailability.canSetWallpaper(
+                  isWeb: kIsWeb, platform: defaultTargetPlatform))
+                row('viewerWallpaperAction', Icons.wallpaper_rounded,
+                    l10n.wallpaperTitle, actions.openWallpaper, order: 3),
+            ],
+          ),
+        );
+      },
+    ).then((action) {
+      // Use the still-mounted viewer context, never the dismissed sheet route.
+      if (context.mounted) action?.call();
+    });
   }
 
   void _showMore(BuildContext context) {
@@ -397,18 +452,6 @@ class FractalViewControls extends StatelessWidget {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    section(l10n.viewerActionSectionSaveShare),
-                    row('viewerOpenExportAction', Icons.file_download_outlined,
-                        l10n.tooltipExport, actions.openExport),
-                    row('viewerShareLinkAction', Icons.link_rounded,
-                        l10n.shareLinkAction, actions.shareLink,
-                        caption: short ? l10n.viewerCopyLinkAction : null),
-                    row('viewerShareImageAction', Icons.image_outlined,
-                        l10n.tooltipShareImage, actions.shareImage),
-                    if (ExportActionAvailability.canSetWallpaper(
-                        isWeb: kIsWeb, platform: defaultTargetPlatform))
-                      row('viewerWallpaperAction', Icons.wallpaper_rounded,
-                          l10n.wallpaperTitle, actions.openWallpaper),
                     section(l10n.viewerActionSectionExploreAnimate),
                     row(
                       'viewerRandomOptionsAction',

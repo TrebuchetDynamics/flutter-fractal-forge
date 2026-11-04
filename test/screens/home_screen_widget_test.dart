@@ -208,7 +208,7 @@ void main() {
       navigator.pop();
       ScaffoldMessenger.of(viewerContext).clearSnackBars();
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+      await tester.tap(find.byKey(const ValueKey('viewerSaveShareButton')));
       await tester.pumpAndSettle();
       final export = find.byKey(const ValueKey('viewerOpenExportAction'));
       await tester.ensureVisible(export);
@@ -243,7 +243,7 @@ void main() {
           PathProviderPlatform.instance = previousPathProvider;
           await directory.delete(recursive: true);
         });
-        await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+        await tester.tap(find.byKey(const ValueKey('viewerSaveShareButton')));
         await tester.pumpAndSettle();
         final share = find.byKey(const ValueKey('viewerShareImageAction'));
         await tester.ensureVisible(share);

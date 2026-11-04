@@ -148,7 +148,7 @@ void main() {
       await pumpAccessibilityTestFrames(tester);
 
       // The user's route: open the viewer actions menu, choose Wallpaper, then Apply.
-      await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+      await tester.tap(find.byKey(const ValueKey('viewerSaveShareButton')));
       await tester.pumpAndSettle();
       final es = locale.languageCode == 'es';
       final wallpaper = find.byKey(const ValueKey('viewerWallpaperAction'));

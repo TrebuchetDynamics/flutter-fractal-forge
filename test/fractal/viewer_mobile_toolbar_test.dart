@@ -61,7 +61,7 @@ void main() {
             kaleidoscopeEnabled: false,
             kaleidoscopeSectors: 8,
             kaleidoscopeMirror: true,
-            breathingPlaying: false,
+            looperPlaying: false,
             fourierEnabled: false,
             textOverlayEnabled: false,
             actions: FractalViewControlActions(
@@ -82,7 +82,7 @@ void main() {
               toggleTextOverlay: () {},
               editTextOverlay: () {},
               openLooper: () {},
-              toggleBreathing: onPlay ?? () {},
+              toggleLooper: onPlay ?? () {},
               toggleFourier: onFourier ?? () {},
               openFourierSettings: () {},
               reportFractal: () {},
@@ -108,8 +108,7 @@ void main() {
     }
     for (final key in [
       'viewerPreviousFractalButton',
-      'viewerBreathingButton',
-      'viewerLooperFab',
+      'viewerPlayButton',
       'viewerControlsButton',
       'viewerPaletteButton',
       'viewerRandomFractalFab',
@@ -125,8 +124,7 @@ void main() {
         .getRect(find.byKey(const ValueKey('viewerPreviousFractalButton')))
         .top;
     for (final key in [
-      'viewerBreathingButton',
-      'viewerLooperFab',
+      'viewerPlayButton',
       'viewerControlsButton',
       'viewerPaletteButton',
       'viewerRandomFractalFab',
@@ -151,11 +149,11 @@ void main() {
     await pumpToolbar(tester, largeTargets: true);
     const keys = [
       'viewerPreviousFractalButton',
-      'viewerBreathingButton',
-      'viewerLooperFab',
+      'viewerPlayButton',
       'viewerControlsButton',
       'viewerPaletteButton',
       'viewerRandomFractalFab',
+      'viewerSaveShareButton',
       'viewerOverflowMenu',
     ];
     final rects = [
@@ -171,6 +169,7 @@ void main() {
     for (final rect in rects) {
       rows.update(rect.top, (count) => count + 1, ifAbsent: () => 1);
     }
+    // Seven actions split evenly once large targets no longer fit one row.
     expect(rows.values.toList()..sort(), [3, 4]);
     final rail =
         tester.widget<Material>(find.byKey(const ValueKey('viewerFabColumn')));
@@ -182,8 +181,7 @@ void main() {
     await pumpToolbar(tester);
     for (final key in const [
       'viewerPreviousFractalButton',
-      'viewerBreathingButton',
-      'viewerLooperFab',
+      'viewerPlayButton',
       'viewerControlsButton',
       'viewerPaletteButton',
       'viewerRandomFractalFab',
@@ -232,7 +230,7 @@ void main() {
         onPalette: () => calls.add('palette-sheet'));
     for (final entry in const {
       'viewerPreviousFractalButton': 'previous',
-      'viewerBreathingButton': 'play',
+      'viewerPlayButton': 'play',
       'viewerControlsButton': 'randomize',
       'viewerPaletteButton': 'palette-random',
       'viewerRandomFractalFab': 'random',
@@ -262,7 +260,6 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Fourier view off'), findsOneWidget);
     expect(find.text('Kaleidoscope off'), findsOneWidget);
-    expect(find.text('Export'), findsOneWidget);
     final fourier = find.byKey(const ValueKey('viewerFourierFab'));
     await tester.ensureVisible(fourier);
     await tester.pumpAndSettle();

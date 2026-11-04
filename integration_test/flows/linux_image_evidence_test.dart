@@ -169,7 +169,7 @@ void main() {
             renderer.boundaryKey!, '${directory.path}/preview-repeat.png');
         final stability = _compare(preview, repeated);
 
-        await openViewerTools(tester);
+        await openSaveShareTools(tester);
         final exportAction =
             find.byKey(const ValueKey('viewerOpenExportAction'));
         await tester.ensureVisible(exportAction);

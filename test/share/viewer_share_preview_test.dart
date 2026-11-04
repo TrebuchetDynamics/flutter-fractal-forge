@@ -60,7 +60,7 @@ Future<FractalController> _pumpViewer(
 }
 
 Future<void> _openShare(WidgetTester tester) async {
-  await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+  await tester.tap(find.byKey(const ValueKey('viewerSaveShareButton')));
   await tester.pumpAndSettle();
   final linkAction = find.byKey(const ValueKey('viewerShareLinkAction'));
   await tester.ensureVisible(linkAction);

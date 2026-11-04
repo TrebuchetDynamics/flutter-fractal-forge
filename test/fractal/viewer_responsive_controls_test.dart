@@ -237,9 +237,9 @@ void main() {
           final sheet = find.byType(BottomSheet);
           final buttons = find.descendant(
               of: sheet, matching: find.byType(FloatingActionButtonWidget));
-          expect(buttons.evaluate().length, greaterThanOrEqualTo(19));
+          expect(buttons.evaluate().length, greaterThanOrEqualTo(15));
           final actions = buttons.evaluate().map((e) => e.widget.key!).toList();
-          expect(actions.first, const ValueKey('viewerOpenExportAction'));
+          expect(actions.first, const ValueKey('viewerRandomOptionsAction'));
           expect(actions.last, const ValueKey('viewerReportFractalFab'));
           for (final key in actions) {
             final action = find.byKey(key);
@@ -285,7 +285,7 @@ void main() {
           await tester.tap(close);
           await tester.pumpAndSettle();
           expect(find.byType(BottomSheet), findsNothing);
-          final reopen = find.byKey(const ValueKey('viewerOverflowMenu'));
+          final reopen = find.byKey(const ValueKey('viewerSaveShareButton'));
           await reveal(tester, reopen);
           await tester.tap(reopen);
           await tester.pumpAndSettle();
@@ -339,7 +339,7 @@ void main() {
               .evaluate()
               .map((element) => element.widget.key!)
               .toList();
-          expect(actions.length, greaterThanOrEqualTo(19));
+          expect(actions.length, greaterThanOrEqualTo(15));
           for (final key in actions) {
             final action = find.byKey(key);
             await reveal(tester, action);

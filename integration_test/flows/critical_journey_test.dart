@@ -166,7 +166,7 @@ void main() {
         // ------------------------------------------------------------------
         // Step 6: Open More, then choose Export
         // ------------------------------------------------------------------
-        await openViewerTools(tester);
+        await openSaveShareTools(tester);
 
         final exportAction =
             find.byKey(const ValueKey('viewerOpenExportAction'));

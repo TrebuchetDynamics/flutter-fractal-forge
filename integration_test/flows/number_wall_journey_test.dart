@@ -181,7 +181,7 @@ void main() {
             .list()
             .map((e) => e.path)
             .toSet();
-        await openViewerTools(tester);
+        await openSaveShareTools(tester);
         final export = find.byKey(const ValueKey('viewerOpenExportAction'));
         await tester.ensureVisible(export);
         await settle();

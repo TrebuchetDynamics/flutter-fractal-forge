@@ -77,9 +77,9 @@ void main() {
       onWallpaper: () => invoked.add('wallpaper'),
     );
 
-    final menu = find.byKey(const ValueKey('viewerOverflowMenu'));
+    final menu = find.byKey(const ValueKey('viewerSaveShareButton'));
     expect(menu, findsOneWidget);
-    expect(find.byTooltip('More'), findsOneWidget);
+    expect(find.byTooltip('Save & share'), findsOneWidget);
     await tester.tap(menu);
     await tester.pumpAndSettle();
     expect(find.text('Export'), findsOneWidget);
@@ -109,8 +109,8 @@ void main() {
   testWidgets('viewer overflow localizes its accessible label in Spanish',
       (tester) async {
     await _pumpHarness(tester, locale: const Locale('es'));
-    expect(find.byTooltip('Más'), findsOneWidget);
-    await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+    expect(find.byTooltip('Guardar y compartir'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('viewerSaveShareButton')));
     await tester.pumpAndSettle();
     expect(find.text('Exportar'), findsOneWidget);
     expect(find.text('Compartir imagen'), findsOneWidget);
@@ -123,7 +123,7 @@ void main() {
     addTearDown(() => debugDefaultTargetPlatformOverride = null);
     await _pumpHarness(tester);
 
-    await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+    await tester.tap(find.byKey(const ValueKey('viewerSaveShareButton')));
     await tester.pumpAndSettle();
 
     expect(find.text('Export'), findsOneWidget);
@@ -265,7 +265,6 @@ void main() {
     // are intentionally excluded: their long press runs the edit/settings
     // secondary action instead of opening a sheet.
     for (final entry in const {
-      'viewerLooperFab': false,
       'viewerFullscreenButton': true,
     }.entries) {
       await _pumpHarness(tester);
@@ -430,7 +429,7 @@ class _HarnessState extends State<_Harness>
       kaleidoscopeEnabled: false,
       kaleidoscopeSectors: widget.sectors,
       kaleidoscopeMirror: true,
-      breathingPlaying: false,
+      looperPlaying: false,
       fourierEnabled: false,
       textOverlayEnabled: false,
       actions: FractalViewControlActions(
@@ -449,7 +448,7 @@ class _HarnessState extends State<_Harness>
         toggleTextOverlay: () {},
         editTextOverlay: widget.onEditTextOverlay,
         openLooper: () {},
-        toggleBreathing: () {},
+        toggleLooper: () {},
         toggleFourier: () {},
         openFourierSettings: () {},
         reportFractal: () {},

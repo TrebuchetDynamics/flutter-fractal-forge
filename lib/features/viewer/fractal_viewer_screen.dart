@@ -11,7 +11,6 @@ import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/features/viewer/actions/text_overlay_controller.dart';
-import 'package:flutter_fractals/features/viewer/actions/breathing_controller.dart';
 import 'package:flutter_fractals/features/viewer/actions/viewer_session_tracker.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector2;
 import 'package:flutter_fractals/core/models/export_options.dart';
@@ -217,7 +216,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   FractalController? _compareController;
   DebugRunnerService? _debugRunner;
   late AnimationController _fabController;
-  BreathingController? _breathingController;
 
   /// Null means every catalog category is eligible for random navigation.
   Set<String>? _randomCategoryFilter;
@@ -317,7 +315,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     final visible = state == AppLifecycleState.resumed;
     if (_appVisible == visible) return;
     _autoExploreService?.setAppVisible(visible);
-    if (!visible) _breathingController?.pause();
+    if (!visible) _looperController?.stop();
     if (!visible) {
       _lastController?.cancelNumberWallRequest();
       _fourierCaptureTimer?.cancel();
@@ -383,62 +381,46 @@ class _FractalViewerScreenState extends FractalViewerRouteState
       _scheduleGpuHealthCheck();
       _detectEmulatorProfile();
 
-      _breathingController?.dispose();
-      _breathingController = BreathingController(
-        controller: controller,
-        canAnimate: () => mounted && _canAnimateBreathing,
-      )..addListener(_onBreathingChanged);
-
       // Initialize auto-explore service
       _autoExploreService?.dispose();
       _autoExploreService = AutoExploreService(controller: controller)
         ..setAppVisible(_appVisible);
+      _looperController?.removeListener(_onLooperChanged);
       _looperController?.dispose();
       _looperController = LooperController(
         controller: controller,
         exportIsBusy: () => _exporting || _exportService.coordinator.isBusy,
-      );
+      )..addListener(_onLooperChanged);
       if (!_viewerSessionRestorePending) {
         _persistViewerSession();
       }
     }
   }
 
-  bool get _canAnimateBreathing =>
-      _backendDecision.backend == RendererBackend.gpu &&
-      !_currentRendererPlan(_activeController(context))
-          .precision
-          .usesCpuRenderer &&
-      context.read<RendererSettingsService>().backendMode !=
-          RendererBackendMode.cpuOnly &&
-      _appVisible &&
-      !isNavigationBlocked &&
-      !_freezeFrameForExport &&
-      (ModalRoute.of(context)?.isCurrent ?? true) &&
-      TickerMode.valuesOf(context).enabled &&
-      !(context.read<AccessibilityService?>()?.reducedMotionEnabled ?? false) &&
-      !MediaQuery.disableAnimationsOf(context);
-
-  void _onBreathingChanged() {
+  void _onLooperChanged() {
     if (!mounted) return;
-    if (!(_breathingController?.isPlaying ?? false)) _persistViewerSession();
+    if (!(_looperController?.isPlaying ?? false)) _persistViewerSession();
     setState(() {});
   }
 
-  void _toggleBreathing() {
-    final breathing = _breathingController;
-    if (breathing == null) return;
-    if (breathing.isPlaying) {
-      breathing.pause();
-    } else {
-      _autoExploreService?.pause();
-      _looperController?.stop();
-      breathing.play();
+  void _toggleLooper(BuildContext context) {
+    final looper = _looperController;
+    if (looper == null) return;
+    if (looper.isPlaying) {
+      looper.stop();
+      AccessibilityService.announce(
+          AppLocalizations.of(context)!.tooltipPauseLooper);
+      return;
     }
-    final l10n = AppLocalizations.of(context)!;
-    AccessibilityService.announce(breathing.isPlaying
-        ? l10n.tooltipPauseBreathing
-        : l10n.tooltipPlayBreathing);
+    if (!looper.canLoop) {
+      // No saved plan yet: open the editor so the loop can be built.
+      _openLooper(context);
+      return;
+    }
+    _autoExploreService?.pause();
+    looper.play();
+    AccessibilityService.announce(
+        AppLocalizations.of(context)!.tooltipPlayLooper);
   }
 
   void _onAutoExploreUserCorrection() {
@@ -538,7 +520,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
 
   void _persistViewerSession() {
     // Keep animation frames transient. Pause/lifecycle saves the frozen state.
-    if (_breathingController?.isPlaying ?? false) return;
+    if (_looperController?.isPlaying ?? false) return;
     final store = _viewerSessionStore;
     final controller = _lastController;
     if (store == null || controller == null) return;
@@ -578,7 +560,6 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     _fourierController?.dispose();
 
     _fourierSpectrumImage?.dispose();
-    _breathingController?.dispose();
     _historyProvider?.cancelPendingRecord();
     _lastController?.removeListener(_onControllerChanged);
     _lastController?.cancelNumberWallRequest();
@@ -588,6 +569,9 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     _fabController.dispose();
     _debugRunner?.dispose();
     _autoExploreService?.dispose();
+    // Detach before disposing: LooperController.stop() notifies, and a
+    // notification during dispose would rebuild a defunct element.
+    _looperController?.removeListener(_onLooperChanged);
     _looperController?.dispose();
     _compareController?.dispose();
     _keyboardFocusNode.dispose();
@@ -600,7 +584,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   }
 
   void _toggleControlsHud() {
-    _breathingController?.pause();
+    _looperController?.stop();
     setState(() {
       _showControlsHud = !_showControlsHud;
     });
@@ -1303,14 +1287,14 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     final history = context.read<HistoryProvider?>();
     final entry = history?.goBack();
     if (history == null || entry == null) return;
-    _breathingController?.pause();
+    _looperController?.stop();
     _autoExploreService?.stop();
     history.applyToController(entry, _activeController(context));
     HapticService.light();
   }
 
   void _openRandomCategories(BuildContext context) {
-    _breathingController?.pause();
+    _looperController?.stop();
     final l10n = AppLocalizations.of(context)!;
     final categories = viewerRandomCategories(context.read<ModuleRegistry>());
     if (categories.isEmpty) return;
@@ -1376,7 +1360,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   }
 
   void _openPalettePicker(BuildContext context) {
-    _breathingController?.pause();
+    _looperController?.stop();
     final controller = _activeController(context);
     final l10n = AppLocalizations.of(context)!;
     FractalParameter? colorParam;
@@ -1706,10 +1690,9 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                         kaleidoscopeSectors:
                             activeController.kaleidoscopeSectors,
                         kaleidoscopeMirror: activeController.kaleidoscopeMirror,
-                        breathingPlaying:
-                            _breathingController?.isPlaying ?? false,
-                        breathingAvailable: _canAnimateBreathing &&
-                            (_breathingController?.canPlay ?? false),
+                        looperPlaying:
+                            _looperController?.isPlaying ?? false,
+                        looperAvailable: _looperController != null,
                         canGoPreviousFractal:
                             context.watch<HistoryProvider?>()?.canGoBack ??
                                 false,
@@ -1749,7 +1732,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                           toggleTextOverlay: _toggleTextOverlay,
                           editTextOverlay: _editTextOverlay,
                           openLooper: () {
-                            _breathingController?.pause();
+                            _looperController?.stop();
                             _openLooper(context);
                           },
                           previousFractal: () => _goToPreviousFractal(context),
@@ -1757,9 +1740,9 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                           openRandomCategories: () =>
                               _openRandomCategories(context),
                           pauseMotion: () {
-                            _breathingController?.pause();
+                            _looperController?.stop();
                           },
-                          toggleBreathing: _toggleBreathing,
+                          toggleLooper: () => _toggleLooper(context),
                           toggleFourier: _toggleFourier,
                           openFourierSettings: _openFourierSettings,
                           reportFractal: () => _reportFractal(context),
