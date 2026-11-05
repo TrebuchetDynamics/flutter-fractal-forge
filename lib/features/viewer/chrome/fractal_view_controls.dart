@@ -452,22 +452,33 @@ class FractalViewControls extends StatelessWidget {
       icon: Icons.shuffle_rounded,
       title: l10n.randomOptionsTitle,
       subtitle: l10n.randomOptionsSubtitle,
-      child: Column(
-          children: [
-            _ActionTile(
-              icon: Icons.shuffle_rounded,
-              label: l10n.tooltipRandomFractal,
-              description: l10n.randomOptionsCatalogDescription,
-              onTap: commands.presentation.openRandomFractal,
-            ),
-            _ActionTile(
-              icon: Icons.tune_rounded,
-              label: l10n.randomize,
-              description: l10n.randomOptionsParamsDescription,
-              onTap: commands.presentation.randomizeParams,
-            ),
-          ],
-        ),
+      child: Builder(builder: (sheetContext) {
+        Widget option(IconData icon, String label, String description,
+                VoidCallback command) =>
+            Padding(
+              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+              child: _ViewerTool(
+                toolKey: ValueKey('randomOption_$label'),
+                icon: icon,
+                label: label,
+                description: description,
+                trailingIcon: Icons.chevron_right_rounded,
+                row: true,
+                onPressed: () {
+                  Navigator.of(sheetContext).pop();
+                  command();
+                },
+              ),
+            );
+        return Column(children: [
+          option(Icons.shuffle_rounded, l10n.tooltipRandomFractal,
+              l10n.randomOptionsCatalogDescription,
+              commands.presentation.openRandomFractal),
+          option(Icons.tune_rounded, l10n.randomize,
+              l10n.randomOptionsParamsDescription,
+              commands.presentation.randomizeParams),
+        ]);
+      }),
     );
   }
 
@@ -567,39 +578,6 @@ class FractalViewControls extends StatelessWidget {
   }
 }
 
-class _ActionTile extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final String? description;
-  final VoidCallback onTap;
-
-  const _ActionTile({
-    required this.icon,
-    required this.label,
-    this.description,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-        child: ListTile(
-          minTileHeight: 72,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          tileColor: Theme.of(context).colorScheme.surfaceContainerHighest,
-          leading: Icon(icon),
-          title: Text(label),
-          subtitle: description == null ? null : Text(description!),
-          trailing: const Icon(Icons.chevron_right_rounded),
-          onTap: () {
-            Navigator.of(context).pop();
-            onTap();
-          },
-        ),
-      );
-}
-
 /// Keep all input, haptics and semantics on AppToolButton. The caption is a
 /// paint-only layer over the same hit region, never a second tap handler.
 class _ViewerTool extends StatefulWidget {
@@ -608,6 +586,8 @@ class _ViewerTool extends StatefulWidget {
   final String label;
   final String? semanticLabel;
   final String? semanticHint;
+  final String? description;
+  final IconData? trailingIcon;
   final VoidCallback? onPressed;
   final VoidCallback? onLongPress;
   final bool row;
@@ -622,6 +602,8 @@ class _ViewerTool extends StatefulWidget {
       required this.label,
       this.semanticLabel,
       this.semanticHint,
+      this.description,
+      this.trailingIcon,
       this.onPressed,
       this.onLongPress,
       this.row = false,
@@ -672,7 +654,17 @@ class _ViewerToolState extends State<_ViewerTool> {
                         size: 20),
                     const SizedBox(width: 4),
                   ],
-                  Expanded(child: caption)
+                  Expanded(
+                    child: widget.description == null
+                        ? caption
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [caption, Text(widget.description!)],
+                          ),
+                  ),
+                  if (widget.trailingIcon != null)
+                    Icon(widget.trailingIcon, size: 20),
                 ])
               : Column(mainAxisSize: MainAxisSize.min, children: [
                   Icon(widget.icon, size: 20),
