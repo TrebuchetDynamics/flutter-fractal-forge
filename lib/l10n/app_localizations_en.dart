@@ -804,14 +804,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tooltipCameraLooper => 'Camera looper';
 
   @override
-  String get tooltipPlayBreathing => 'Play parameter animation';
+  String get tooltipPlayLooper => 'Play camera loop';
 
   @override
-  String get tooltipPauseBreathing => 'Pause parameter animation';
-
-  @override
-  String get tooltipBreathingUnavailable =>
-      'Parameter animation unavailable for this fractal or motion setting';
+  String get tooltipPauseLooper => 'Pause camera loop';
 
   @override
   String get tooltipFourierOn => 'Fourier view on';

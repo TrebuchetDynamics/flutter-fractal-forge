@@ -85,7 +85,7 @@ void main() {
     }
 
     Future<File> saveSelectedPng(WidgetTester tester, String moduleId) async {
-      await openViewerTools(tester);
+      await openSaveShareTools(tester);
       final export = find.byKey(const ValueKey('viewerOpenExportAction'));
       await tester.ensureVisible(export);
       await pumpForUiTransition(tester);

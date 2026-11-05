@@ -4,6 +4,9 @@
 
 Status: Accepted
 
+The command-level pipeline (stage order, prerequisites, evidence layout, failure
+signatures and the Play wrapper) is described in [PIPELINE.md](PIPELINE.md).
+
 ### Standing production publication default
 
 The [owner's 2026-10-29 decision](../../../PRD.md#standing-release-defaults) confirms that an explicit release request authorizes production publication of every qualified requested platform. Once preparation and verification pass, publish the qualified subset automatically. Do not request another approval because other platforms failed or are unavailable.
@@ -42,7 +45,53 @@ The existing Waydroid instance is **already the owner-designated Android test ta
 
 Preparation and publication remain separate invocations, not separate approval requests for an explicitly requested release. The CLI above is the supported local route; publication still requires the lane's configured credentials and cannot make missing qualification pass. Apple signing/store submission is not implemented by the current scripts: if no existing approved production route, signing or native host is available, record skipped-unavailable; this campaign does not authorize building a new store-submission system or buying access. Existing `REL-JOURNEY-*` and their live follow-ups retain their IDs, proof and access gates; reuse them rather than creating duplicate product qualification tasks. Existing user task order/focus and paused schedules are unchanged.
 
+### Local campaign execution environment
+
+The campaign reads credentials and host details from the process environment,
+and a missing variable is reported as a lane skip. The canonical prerequisite
+table, the exact exports, the per-lane failure signatures and the single-command
+Play wrapper are maintained in [PIPELINE.md](PIPELINE.md#prerequisites); the
+history of the first observed failures is in the
+[1.1.119 execution record](ALL_PLATFORMS_1.1.119.md#local-campaign-execution-environment).
+
+Prerequisites for a fresh release worktree:
+
+- Run `flutter pub get --offline --enforce-lockfile` inside the worktree before
+  the campaign. Without its own `.dart_tool/package_config.json`,
+  `flutter analyze --no-pub` falls back to the enclosing checkout's config and
+  reports false duplicate-type errors ("element type … can't be assigned").
+- Link or copy the authorized `android/key.properties` into the worktree; the
+  `android-build` stage dies with `Missing android/key.properties` otherwise.
+- Set both `ANDROID_DEVICE` and `ANDROID_DISPOSABLE_DEVICE` to the same ID. The
+  device gate refuses to run (exit 2) when only one is set.
+- Long campaigns outlive an interactive tool call; run them under `tmux` and
+  poll the campaign file instead of blocking.
+
+The builder's availability check reports only the *first* missing requirement per
+lane, so `skipped-unavailable` means "the invocation did not supply this
+prerequisite", not "the repository has no tool for this lane":
+
+- `Android signing credentials unavailable`: export the keystore pair from
+  [PIPELINE.md](PIPELINE.md#prerequisites).
+- `F-Droid CLI unavailable …`: set `FDROID_BIN` to the container adapter; the
+  Podman image is cached locally.
+- `required native host unavailable: darwin|windows`: the lane genuinely needs
+  that host; do not substitute a Linux build.
+
+For Waydroid transport, use the helper `waydroid adb connect`; a raw
+`adb connect <ip>:5555` can fail with *No route to host* while the helper
+succeeds. Guest-routing recovery after a real failure needs root for
+`sudo systemctl restart waydroid-container`; unavailable sudo blocks that repair,
+not the settled target choice. See [the Waydroid contract](../testing/waydroid-headless.md#working-android-test-sequence).
+
 ## Current release status
+
+For the most recent campaign outcome see [ALL_PLATFORMS_1.1.119.md](ALL_PLATFORMS_1.1.119.md); the note below is retained operating history.
+
+Play production is **1.1.120 (120)**, status completed, published from `main`
+(application code `7a6daf28`) — see [PLAY_1.1.120.md](PLAY_1.1.120.md). That was
+a Play-only operation: the other lanes keep their 1.1.119 record and were not
+revalidated or republished.
 
 Historical operating note (2026-10-16; conflicts with the current PRD deferral
 and superseded by the best-effort route above): this document recorded resumed
@@ -160,14 +209,16 @@ checks. This migration preserves the existing unsigned Apple build behavior.
 ## Runner setup
 
 - Linux jobs: GitLab hosted `saas-linux-medium-amd64`, a digest-pinned
-  Android toolchain image; bootstrap installs Flutter **3.44.6** from the official Git tag.
+  Android toolchain image; bootstrap installs the Flutter version named by
+  `fdroid/flutter.version` (currently **3.47.9**) from the official Git tag.
 - Windows: GitLab hosted `saas-windows-medium-amd64`; Git Bash and Visual Studio
   must be available. The job installs the pinned Flutter checkout.
 - Apple: GitLab hosted `saas-macos-medium-m1`, `macos-15-xcode-16`. Hosted macOS
   requires a supported GitLab plan or open-source-program access. Alternatively,
   use an owned macOS runner and change its tag/image in `.gitlab-ci.yml`.
 - Device gate: register a **protected**, tagged shell runner
-  `fractal-android-device`, with Flutter 3.44.6, Android SDK/JDK, adb, and a usable
+  `fractal-android-device`, with the `fdroid/flutter.version` SDK (currently
+  3.47.9), Android SDK/JDK, adb, and a usable
   Android device (or the existing Waydroid environment). Disable untagged jobs.
   The device gate is serialized. Do not run untrusted merge-request jobs on it.
 

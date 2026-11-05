@@ -42,6 +42,19 @@ Future<void> openViewerTools(WidgetTester tester) async {
   expect(more.hitTestable(), findsOneWidget);
   await tester.tap(more);
   await pumpForUiTransition(tester);
+  expect(find.byKey(const ValueKey('viewerRandomOptionsAction')), findsOneWidget);
+}
+
+/// Open the primary Save & share sheet (export, link, image, wallpaper).
+/// Call again after each action: selecting a row dismisses the sheet.
+Future<void> openSaveShareTools(WidgetTester tester) async {
+  final saveShare = find.byKey(const ValueKey('viewerSaveShareButton'));
+  expect(saveShare, findsOneWidget);
+  await tester.ensureVisible(saveShare);
+  await pumpForUiTransition(tester);
+  expect(saveShare.hitTestable(), findsOneWidget);
+  await tester.tap(saveShare);
+  await pumpForUiTransition(tester);
   expect(find.byKey(const ValueKey('viewerOpenExportAction')), findsOneWidget);
 }
 

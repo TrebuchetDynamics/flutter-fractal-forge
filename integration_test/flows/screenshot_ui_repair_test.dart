@@ -174,7 +174,17 @@ void main() {
           await waitForFeedback();
           var action = find.byKey(ValueKey(key));
           if (action.evaluate().isEmpty) {
-            await openViewerTools(tester);
+            const saveShareKeys = {
+              'viewerOpenExportAction',
+              'viewerShareLinkAction',
+              'viewerShareImageAction',
+              'viewerWallpaperAction',
+            };
+            if (saveShareKeys.contains(key)) {
+              await openSaveShareTools(tester);
+            } else {
+              await openViewerTools(tester);
+            }
             action = find.byKey(ValueKey(key));
           }
           expect(action, findsOneWidget);
@@ -289,12 +299,11 @@ void main() {
 
           for (final key in [
             'viewerPreviousFractalButton',
-            'viewerBreathingButton',
-            'viewerLooperFab',
+            'viewerPlayButton',
             'viewerControlsButton',
             'viewerPaletteButton',
             'viewerRandomFractalFab',
-            'viewerBreathingButton',
+            'viewerPlayButton',
             'viewerOverflowMenu',
           ]) {
             final inMenu = find.byKey(ValueKey(key)).evaluate().isEmpty;

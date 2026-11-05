@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/core/services/storage/exploration_stats_service.dart';
@@ -93,12 +94,12 @@ void main() {
               'guidelines above would pass vacuously');
       const primaryNames = {
         'viewerPreviousFractalButton': 'Previous fractal',
-        'viewerBreathingButton': 'Play parameter animation',
-        'viewerLooperFab': 'Camera looper',
+        'viewerPlayButton': 'Play camera loop',
         'viewerControlsButton': 'Randomize. Long press for Controls',
         'viewerPaletteButton':
             'Randomize palette. Long press for palette settings',
         'viewerRandomFractalFab': 'Random Fractal',
+        'viewerSaveShareButton': 'Save & share',
         'viewerOverflowMenu': 'More',
       };
       final visible = primaryNames.entries.where((entry) {
@@ -151,6 +152,46 @@ void main() {
         final handle = tester.ensureSemantics();
         await tester.pumpWidget(buildApp(textScale: scale));
         await pumpAccessibilityTestFrames(tester);
+        Future<void> audit(Iterable<MapEntry<String, String>> entries) async {
+          for (final entry in entries) {
+            final tool = find.byKey(ValueKey(entry.key));
+            await tester.ensureVisible(tool);
+            await pumpAccessibilityTestFrames(tester);
+            expect(tool.hitTestable(), findsOneWidget, reason: entry.key);
+            final target = tester.getSize(tool);
+            expect(target.width, greaterThanOrEqualTo(48), reason: entry.key);
+            expect(target.height, greaterThanOrEqualTo(48), reason: entry.key);
+            final root = semanticsRoot(tester);
+            expect(
+                operableControlNames(root).where((name) => name == entry.value),
+                hasLength(1),
+                reason: entry.key);
+            expect(findUnnamedControls(root), isEmpty, reason: entry.key);
+            expect(findStackedStops(root), isEmpty, reason: entry.key);
+            expect(findUnnamedSliders(root), isEmpty, reason: entry.key);
+            // Audit the fully revealed control, not unrelated rows clipped by
+            // the scroll viewport (whose visible semantics may be a thin sliver).
+            final semanticTarget = tester
+                .getSemantics(find.descendant(
+                    of: tool, matching: find.bySemanticsLabel(entry.value)))
+                .rect
+                .size;
+            expect(semanticTarget.width, greaterThanOrEqualTo(48),
+                reason: entry.key);
+            expect(semanticTarget.height, greaterThanOrEqualTo(48),
+                reason: entry.key);
+            await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
+          }
+        }
+        await tester.tap(find.byKey(const ValueKey('viewerSaveShareButton')));
+        await pumpAccessibilityTestFrames(tester);
+        await audit(const {
+          'viewerOpenExportAction': 'Export',
+          'viewerShareLinkAction': 'Copy view link',
+          'viewerShareImageAction': 'Share image',
+        }.entries);
+        await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+        await pumpAccessibilityTestFrames(tester);
         await tester
             .ensureVisible(find.byKey(const ValueKey('viewerOverflowMenu')));
         await pumpAccessibilityTestFrames(tester);
@@ -158,9 +199,6 @@ void main() {
         await pumpAccessibilityTestFrames(tester);
 
         final tools = {
-          'viewerOpenExportAction': 'Export',
-          'viewerShareLinkAction': 'Copy view link',
-          'viewerShareImageAction': 'Share image',
           'viewerRandomOptionsAction': 'Random options',
           'viewerRandomParamsButton': 'Randomize. Long press for Controls',
           'viewerRandomParamsButtonOptions': 'Parameter controls',
@@ -184,36 +222,7 @@ void main() {
           tools.putIfAbsent(
               (button.key! as ValueKey<String>).value, () => button.tooltip);
         }
-        for (final entry in tools.entries) {
-          final tool = find.byKey(ValueKey(entry.key));
-          await tester.ensureVisible(tool);
-          await pumpAccessibilityTestFrames(tester);
-          expect(tool.hitTestable(), findsOneWidget, reason: entry.key);
-          final target = tester.getSize(tool);
-          expect(target.width, greaterThanOrEqualTo(48), reason: entry.key);
-          expect(target.height, greaterThanOrEqualTo(48), reason: entry.key);
-          final root = semanticsRoot(tester);
-          expect(
-              operableControlNames(root).where((name) => name == entry.value),
-              hasLength(1),
-              reason: entry.key);
-          expect(findUnnamedControls(root), isEmpty, reason: entry.key);
-          expect(findStackedStops(root), isEmpty, reason: entry.key);
-          expect(findUnnamedSliders(root), isEmpty, reason: entry.key);
-          // Audit the fully revealed control, not unrelated rows clipped by
-          // the scroll viewport (whose visible semantics may be a thin sliver).
-          final semanticTarget = tester
-              .getSemantics(find.descendant(
-                  of: tool, matching: find.bySemanticsLabel(entry.value)))
-              .rect
-              .size;
-          expect(semanticTarget.width, greaterThanOrEqualTo(48),
-              reason: entry.key);
-          expect(semanticTarget.height, greaterThanOrEqualTo(48),
-              reason: entry.key);
-          await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
-          await expectLater(tester, meetsGuideline(textContrastGuideline));
-        }
+        await audit(tools.entries);
         handle.dispose();
         await disposeAccessibilityTestWidget(tester);
       });

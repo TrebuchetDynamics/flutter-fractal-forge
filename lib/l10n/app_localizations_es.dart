@@ -812,14 +812,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tooltipCameraLooper => 'Bucle de cámara';
 
   @override
-  String get tooltipPlayBreathing => 'Reproducir animación de parámetros';
+  String get tooltipPlayLooper => 'Reproducir bucle de cámara';
 
   @override
-  String get tooltipPauseBreathing => 'Pausar animación de parámetros';
-
-  @override
-  String get tooltipBreathingUnavailable =>
-      'Animación de parámetros no disponible para este fractal o ajuste de movimiento';
+  String get tooltipPauseLooper => 'Pausar bucle de cámara';
 
   @override
   String get tooltipFourierOn => 'Vista de Fourier activada';

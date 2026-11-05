@@ -1569,23 +1569,17 @@ abstract class AppLocalizations {
   /// **'Camera looper'**
   String get tooltipCameraLooper;
 
-  /// No description provided for @tooltipPlayBreathing.
+  /// No description provided for @tooltipPlayLooper.
   ///
   /// In en, this message translates to:
-  /// **'Play parameter animation'**
-  String get tooltipPlayBreathing;
+  /// **'Play camera loop'**
+  String get tooltipPlayLooper;
 
-  /// No description provided for @tooltipPauseBreathing.
+  /// No description provided for @tooltipPauseLooper.
   ///
   /// In en, this message translates to:
-  /// **'Pause parameter animation'**
-  String get tooltipPauseBreathing;
-
-  /// No description provided for @tooltipBreathingUnavailable.
-  ///
-  /// In en, this message translates to:
-  /// **'Parameter animation unavailable for this fractal or motion setting'**
-  String get tooltipBreathingUnavailable;
+  /// **'Pause camera loop'**
+  String get tooltipPauseLooper;
 
   /// No description provided for @tooltipFourierOn.
   ///

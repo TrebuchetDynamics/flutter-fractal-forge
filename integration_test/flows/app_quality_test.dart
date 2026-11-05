@@ -178,7 +178,7 @@ void main() {
         await tester.tap(card);
         await capture('viewer');
         expect(find.byType(FractalViewerScreen), findsOneWidget);
-        await openViewerTools(tester);
+        await openSaveShareTools(tester);
         expect(find.text(l10n.exportTitle), findsOneWidget);
         final export = find.byKey(const ValueKey('viewerOpenExportAction'));
         await tester.ensureVisible(export);

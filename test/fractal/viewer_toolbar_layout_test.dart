@@ -14,19 +14,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const _orderedTools = [
   'viewerPreviousFractalButton',
-  'viewerBreathingButton',
-  'viewerLooperFab',
+  'viewerPlayButton',
   'viewerControlsButton',
   'viewerPaletteButton',
   'viewerRandomFractalFab',
+  'viewerSaveShareButton',
   'viewerOverflowMenu',
 ];
 
 /// Primary key -> callback it must dispatch on a quick press.
 const _tapCallbacks = {
   'viewerPreviousFractalButton': 'viewerPreviousFractalButton',
-  'viewerBreathingButton': 'viewerBreathingButton',
-  'viewerLooperFab': 'viewerLooperFab',
+  'viewerPlayButton': 'viewerPlayButton',
   'viewerControlsButton': 'viewerRandomParamsButton',
   'viewerPaletteButton': 'viewerPaletteButton',
   'viewerRandomFractalFab': 'viewerRandomFractalFab',
@@ -38,7 +37,7 @@ Future<AutoExploreService> _pumpToolbar(WidgetTester tester,
     bool highContrast = false,
     bool supportsAuxiliaryTools = true,
     bool isExporting = false,
-    bool breathingAvailable = true,
+    bool looperAvailable = true,
     ValueChanged<String>? onAction,
     VoidCallback? onAutoExploreSettings,
     Locale locale = const Locale('en'),
@@ -89,12 +88,12 @@ Future<AutoExploreService> _pumpToolbar(WidgetTester tester,
               canGoPreviousFractal: true,
               supportsAuxiliaryTools: supportsAuxiliaryTools,
               isExporting: isExporting,
-              breathingAvailable: breathingAvailable,
+              looperAvailable: looperAvailable,
               showFractalReport: true,
               kaleidoscopeEnabled: false,
               kaleidoscopeSectors: 8,
               kaleidoscopeMirror: true,
-              breathingPlaying: false,
+              looperPlaying: false,
               fourierEnabled: false,
               textOverlayEnabled: false,
               actions: FractalViewControlActions(
@@ -124,8 +123,8 @@ Future<AutoExploreService> _pumpToolbar(WidgetTester tester,
                 toggleTextOverlay: () => onAction?.call('viewerTextOverlayFab'),
                 editTextOverlay: () =>
                     onAction?.call('viewerTextOverlayFabOptions'),
-                openLooper: () => onAction?.call('viewerLooperFab'),
-                toggleBreathing: () => onAction?.call('viewerBreathingButton'),
+                openLooper: () => onAction?.call('viewerPlayLongPress'),
+                toggleLooper: () => onAction?.call('viewerPlayButton'),
                 toggleFourier: () => onAction?.call('viewerFourierFab'),
                 openFourierSettings: () =>
                     onAction?.call('viewerFourierFabOptions'),
@@ -194,8 +193,7 @@ void main() {
           // Full localized names remain in tooltips and semantics.
           for (final entry in {
             'viewerPreviousFractalButton': l10n.hudPreviousFractal,
-            'viewerBreathingButton': l10n.tooltipPlayBreathing,
-            'viewerLooperFab': l10n.looperTitle,
+            'viewerPlayButton': l10n.tooltipPlayLooper,
             'viewerControlsButton': l10n.tooltipRandomizeWithControls,
             'viewerPaletteButton': l10n.tooltipRandomizePaletteWithSettings,
             'viewerRandomFractalFab': l10n.tooltipRandomFractal,
@@ -249,7 +247,6 @@ void main() {
       final l10n =
           AppLocalizations.of(tester.element(find.byType(BottomSheet)))!;
       final headings = [
-        l10n.viewerActionSectionSaveShare,
         l10n.viewerActionSectionExploreAnimate,
         l10n.viewerActionSectionVisualEffects,
         l10n.viewerActionSectionViewReport
@@ -270,6 +267,15 @@ void main() {
         expect(wrapper.properties.header, isTrue);
       }
       expect(find.text(l10n.viewerToolOptions), findsNothing);
+      // Save & share is a primary button, not a More section.
+      await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+      await tester.pumpAndSettle();
+      await tester.tap(_tool('viewerSaveShareButton'));
+      await tester.pumpAndSettle();
+      expect(find.text(l10n.viewerActionSectionSaveShare), findsOneWidget);
+      await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+      await tester.pumpAndSettle();
+      await _openMore(tester);
       final settings = {
         'viewerRandomParamsButtonOptions': l10n.viewerActionSettingsControls,
         'viewerColorCycleButtonOptions': l10n.viewerActionSettingsPalette,
@@ -303,40 +309,6 @@ void main() {
       semantics.dispose();
     });
   }
-
-  testWidgets('unavailable Play keeps disabled semantics and tooltip',
-      (tester) async {
-    final semantics = tester.ensureSemantics();
-
-    final calls = <String>[];
-    await _pumpToolbar(tester,
-        viewport: const Size(320, 568),
-        textScale: 3,
-        breathingAvailable: false,
-        onAction: calls.add);
-    final play = _tool('viewerBreathingButton');
-    expect(play, findsOneWidget);
-    await tester.ensureVisible(play);
-    await tester.pumpAndSettle();
-    final button = tester.widget<FloatingActionButtonWidget>(play);
-    final l10n = AppLocalizations.of(tester.element(play))!;
-    expect(button.tooltip, l10n.tooltipBreathingUnavailable);
-    expect(button.onPressed, isNull);
-    final data = tester
-        .getSemantics(find.descendant(
-            of: play, matching: find.bySemanticsLabel(button.tooltip)))
-        .getSemanticsData();
-    expect(data.hasAction(SemanticsAction.tap), isFalse);
-    // The primary Play still offers its looper secondary action.
-    expect(data.hasAction(SemanticsAction.longPress), isTrue);
-    await tester.tap(play, warnIfMissed: false);
-    await tester.pumpAndSettle();
-    expect(calls, isEmpty);
-    await tester.longPress(play);
-    await tester.pumpAndSettle();
-    expect(calls, ['viewerLooperFab']);
-    semantics.dispose();
-  });
 
   testWidgets(
       'scaled overflow is export locked for pointer keyboard and semantics',
@@ -498,7 +470,6 @@ void main() {
     await _openMore(tester);
     for (final key in [
       'viewerAutoExploreButton',
-      'viewerLooperFab',
       'viewerKaleidoscopeFab',
       'viewerFourierFab',
       'viewerTextOverlayFab',
