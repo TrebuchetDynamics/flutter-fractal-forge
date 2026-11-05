@@ -7,6 +7,7 @@ import 'package:flutter_fractals/core/services/platform/accessibility_service.da
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore.dart';
 import 'package:flutter_fractals/features/export/export_actions.dart';
+import 'package:flutter_fractals/features/viewer/chrome/viewer_overlay_flow.dart';
 import 'package:flutter_fractals/features/viewer/chrome/viewer_tools.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
@@ -159,6 +160,11 @@ class FractalViewControls extends StatelessWidget {
     );
   }
 
+  ViewerOverlayFlow _overlayFlow(BuildContext context) => ViewerOverlayFlow(
+        context: context,
+        pauseMotion: commands.motion.pauseMotion,
+      );
+
   ViewerToolContext _toolContext(
     BuildContext context,
     AppLocalizations l10n, {
@@ -216,11 +222,9 @@ class FractalViewControls extends StatelessWidget {
   /// Save/export actions live behind one primary button instead of a section
   /// buried in the More sheet.
   void _showSaveShare(BuildContext context) {
-    commands.motion.pauseMotion?.call();
     final l10n = AppLocalizations.of(context)!;
     final short = MediaQuery.of(context).textScaler.scale(14) > 14;
-    showAppBottomSheet<VoidCallback>(
-      context: context,
+    _overlayFlow(context).presentCommand(
       builder: (sheetContext) {
         final toolContext = _toolContext(context, l10n,
             tiny: false, short: short, surface: ViewerToolSurface.saveShare);
@@ -262,21 +266,16 @@ class FractalViewControls extends StatelessWidget {
           ),
         );
       },
-    ).then((action) {
-      // Use the still-mounted viewer context, never the dismissed sheet route.
-      if (context.mounted) action?.call();
-    });
+    );
   }
 
   void _showMore(BuildContext context) {
     // Opening the menu freezes the scene so its rows act on what the user saw.
-    commands.motion.pauseMotion?.call();
     final l10n = AppLocalizations.of(context)!;
     final contextForOptions = context;
     // The viewer-scoped service is below the Navigator, not above its route.
     final explore = context.read<AutoExploreService?>();
-    showAppBottomSheet<VoidCallback>(
-      context: context,
+    _overlayFlow(context).presentCommand(
       builder: (sheetContext) => LayoutBuilder(builder: (context, constraints) {
         final media = MediaQuery.of(context);
         double safe(double padding, double viewPadding, double gesture) =>
@@ -444,22 +443,16 @@ class FractalViewControls extends StatelessWidget {
           }),
         );
       }),
-    ).then((action) {
-      // Use the still-mounted viewer context, never the dismissed sheet route,
-      // when opening a follow-up options sheet.
-      if (context.mounted) action?.call();
-    });
+    );
   }
 
   void _showRandomOptionsModal(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    showAppBottomSheet<void>(
-      context: context,
-      builder: (_) => AppOptionsSheet(
-        icon: Icons.shuffle_rounded,
-        title: l10n.randomOptionsTitle,
-        subtitle: l10n.randomOptionsSubtitle,
-        child: Column(
+    _overlayFlow(context).presentOptions<void>(
+      icon: Icons.shuffle_rounded,
+      title: l10n.randomOptionsTitle,
+      subtitle: l10n.randomOptionsSubtitle,
+      child: Column(
           children: [
             _ActionTile(
               icon: Icons.shuffle_rounded,
@@ -475,7 +468,6 @@ class FractalViewControls extends StatelessWidget {
             ),
           ],
         ),
-      ),
     );
   }
 
@@ -483,8 +475,7 @@ class FractalViewControls extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     var selectedSectors = kaleidoscopeSectors;
     var mirrorEnabled = kaleidoscopeMirror;
-    showAppBottomSheet<void>(
-      context: context,
+    _overlayFlow(context).present<void>(
       builder: (sheetContext) => StatefulBuilder(
         builder: (context, setSheetState) => AppOptionsSheet(
           icon: Icons.filter_vintage_rounded,
