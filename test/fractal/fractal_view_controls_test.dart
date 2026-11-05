@@ -3,6 +3,7 @@ import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_view_controls.dart';
+import 'package:flutter_fractals/features/viewer/chrome/viewer_tools.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -96,29 +97,35 @@ Future<bool> _pumpControls(
             textOverlayEnabled: textOverlayEnabled,
             showFractalReport: showFractalReport,
             supportsAuxiliaryTools: supportsAuxiliaryTools,
-            actions: FractalViewControlActions(
-              toggleFullscreen: onToggleFullscreen ?? () {},
-              openRandomFractal: onOpenRandomFractal ?? () {},
-              openControls: onOpenControls ?? () {},
-              randomizeParams: onRandomizeParams ?? () {},
-              cycleColorScheme: onCycleColorScheme ?? () {},
-              openPalettePicker: onOpenPalettePicker ?? () {},
-              randomizePalette: onRandomizePalette ?? () {},
-              previousFractal: onPreviousFractal ?? () {},
-              toggleKaleidoscope: onToggleKaleidoscope ?? () {},
-              setKaleidoscopeSectors: (_) {},
-              setKaleidoscopeMirror: (_) {},
-              openExport: onOpenExport ?? () {},
-              shareLink: onShareLink ?? () {},
-              shareImage: onShareImage ?? () {},
-              toggleTextOverlay: onToggleTextOverlay ?? () {},
-              editTextOverlay: onEditTextOverlay ?? () {},
-              openLooper: onOpenLooper ?? () {},
-              toggleLooper: onToggleLooper ?? () {},
-              toggleFourier: onToggleFourier ?? () {},
-              openFourierSettings: onOpenFourierSettings ?? () {},
-              reportFractal: onReportFractal ?? () {},
-              openWallpaper: onOpenWallpaper,
+            commands: ViewerCommands(
+              motion: ViewerMotionCommands(
+                toggleLooper: onToggleLooper ?? () {},
+                openLooper: onOpenLooper ?? () {},
+                toggleFourier: onToggleFourier ?? () {},
+                openFourierSettings: onOpenFourierSettings ?? () {},
+              ),
+              presentation: ViewerPresentationCommands(
+                openControls: onOpenControls ?? () {},
+                randomizeParams: onRandomizeParams ?? () {},
+                openRandomFractal: onOpenRandomFractal ?? () {},
+                toggleFullscreen: onToggleFullscreen ?? () {},
+                cycleColorScheme: onCycleColorScheme ?? () {},
+                openPalettePicker: onOpenPalettePicker ?? () {},
+                toggleKaleidoscope: onToggleKaleidoscope ?? () {},
+                setKaleidoscopeSectors: (_) {},
+                setKaleidoscopeMirror: (_) {},
+                toggleTextOverlay: onToggleTextOverlay ?? () {},
+                editTextOverlay: onEditTextOverlay ?? () {},
+                randomizePalette: onRandomizePalette ?? () {},
+                previousFractal: onPreviousFractal ?? () {},
+              ),
+              share: ViewerShareCommands(
+                openExport: onOpenExport ?? () {},
+                shareLink: onShareLink ?? () {},
+                shareImage: onShareImage ?? () {},
+                reportFractal: onReportFractal ?? () {},
+                openWallpaper: onOpenWallpaper,
+              ),
             ),
           ),
         ),

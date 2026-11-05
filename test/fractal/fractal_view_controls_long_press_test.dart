@@ -5,6 +5,7 @@ import 'dart:ui' show Tristate;
 
 import 'package:flutter/semantics.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_view_controls.dart';
+import 'package:flutter_fractals/features/viewer/chrome/viewer_tools.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -432,28 +433,34 @@ class _HarnessState extends State<_Harness>
       looperPlaying: false,
       fourierEnabled: false,
       textOverlayEnabled: false,
-      actions: FractalViewControlActions(
-        toggleFullscreen: () {},
-        openRandomFractal: () {},
-        openControls: () {},
-        randomizeParams: () {},
-        cycleColorScheme: () {},
-        openPalettePicker: () {},
-        toggleKaleidoscope: () {},
-        setKaleidoscopeSectors: widget.onSetSectors,
-        setKaleidoscopeMirror: (_) {},
-        openExport: widget.onExport,
-        shareLink: widget.onShareLink,
-        shareImage: widget.onShareImage,
-        toggleTextOverlay: () {},
-        editTextOverlay: widget.onEditTextOverlay,
-        openLooper: () {},
-        toggleLooper: () {},
-        toggleFourier: () {},
-        openFourierSettings: () {},
-        reportFractal: () {},
-        openWallpaper: widget.onWallpaper,
-        openRandomCategories: widget.onRandomCategories,
+      commands: ViewerCommands(
+        motion: ViewerMotionCommands(
+          toggleLooper: () {},
+          openLooper: () {},
+          toggleFourier: () {},
+          openFourierSettings: () {},
+        ),
+        presentation: ViewerPresentationCommands(
+          openControls: () {},
+          randomizeParams: () {},
+          openRandomFractal: () {},
+          toggleFullscreen: () {},
+          cycleColorScheme: () {},
+          openPalettePicker: () {},
+          toggleKaleidoscope: () {},
+          setKaleidoscopeSectors: widget.onSetSectors,
+          setKaleidoscopeMirror: (_) {},
+          toggleTextOverlay: () {},
+          editTextOverlay: widget.onEditTextOverlay,
+          openRandomCategories: widget.onRandomCategories,
+        ),
+        share: ViewerShareCommands(
+          openExport: widget.onExport,
+          shareLink: widget.onShareLink,
+          shareImage: widget.onShareImage,
+          reportFractal: () {},
+          openWallpaper: widget.onWallpaper,
+        ),
       ),
     );
   }

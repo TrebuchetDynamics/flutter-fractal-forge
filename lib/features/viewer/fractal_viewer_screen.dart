@@ -57,6 +57,7 @@ import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dar
 import 'package:flutter_fractals/features/viewer/chrome/viewer_chrome_layout.dart';
 import 'package:flutter_fractals/features/viewer/gaussian_moat_map.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_view_controls.dart';
+import 'package:flutter_fractals/features/viewer/chrome/viewer_tools.dart';
 import 'package:flutter_fractals/features/viewer/export/viewer_export_feedback.dart';
 import 'package:flutter_fractals/features/viewer/export/viewer_export_overlay.dart';
 import 'package:flutter_fractals/features/viewer/rendering/compare_renderer.dart';
@@ -1703,58 +1704,68 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                                 context
                                     .watch<RendererSettingsService>()
                                     .debugModeEnabled),
-                        actions: FractalViewControlActions(
-                          toggleFullscreen: _toggleFullscreenUnobtrusive,
-                          openRandomFractal: () => _onRandomFractalFab(context),
-                          openControls: () => _toggleControlsHud(),
-                          randomizeParams: () {
-                            HapticFeedback.mediumImpact();
-                            final activeController = _activeController(context);
-                            activeController.randomizeParams();
-                          },
-                          cycleColorScheme: () => _cycleColorScheme(context),
-                          openPalettePicker: () => _openPalettePicker(context),
-                          toggleKaleidoscope: () =>
-                              _toggleKaleidoscope(context),
-                          setKaleidoscopeSectors: (sectors) {
-                            final activeController = _activeController(context);
-                            activeController.setKaleidoscopeEnabled(true);
-                            activeController.setKaleidoscopeSectors(sectors);
-                          },
-                          setKaleidoscopeMirror: (value) {
-                            final activeController = _activeController(context);
-                            activeController.setKaleidoscopeEnabled(true);
-                            activeController.setKaleidoscopeMirror(value);
-                          },
-                          openExport: () => _openExport(context),
-                          shareLink: () => _openShareLink(context),
-                          shareImage: () => _shareCurrentImage(context),
-                          toggleTextOverlay: _toggleTextOverlay,
-                          editTextOverlay: _editTextOverlay,
-                          openLooper: () {
-                            _looperController?.stop();
-                            _openLooper(context);
-                          },
-                          previousFractal: () => _goToPreviousFractal(context),
-                          randomizePalette: () => _randomizePalette(context),
-                          openRandomCategories: () =>
-                              _openRandomCategories(context),
-                          pauseMotion: () {
-                            _looperController?.stop();
-                          },
-                          toggleLooper: () => _toggleLooper(context),
-                          toggleFourier: _toggleFourier,
-                          openFourierSettings: _openFourierSettings,
-                          reportFractal: () => _reportFractal(context),
-                          openWallpaper: () => _openWallpaper(context),
-                          openAutoExploreSettings: () =>
-                              showAppBottomSheet<void>(
-                            context: context,
-                            builder: (_) => ChangeNotifierProvider<
-                                AutoExploreService>.value(
-                              value: _autoExploreService!,
-                              child: const AutoExploreSettingsSheet(),
+                        commands: ViewerCommands(
+                          motion: ViewerMotionCommands(
+                            toggleLooper: () => _toggleLooper(context),
+                            openLooper: () {
+                              _looperController?.stop();
+                              _openLooper(context);
+                            },
+                            pauseMotion: () {
+                              _looperController?.stop();
+                            },
+                            toggleFourier: _toggleFourier,
+                            openFourierSettings: _openFourierSettings,
+                            openAutoExploreSettings: () =>
+                                showAppBottomSheet<void>(
+                              context: context,
+                              builder: (_) => ChangeNotifierProvider<
+                                  AutoExploreService>.value(
+                                value: _autoExploreService!,
+                                child: const AutoExploreSettingsSheet(),
+                              ),
                             ),
+                          ),
+                          presentation: ViewerPresentationCommands(
+                            openControls: () => _toggleControlsHud(),
+                            randomizeParams: () {
+                              HapticFeedback.mediumImpact();
+                              final activeController = _activeController(context);
+                              activeController.randomizeParams();
+                            },
+                            openRandomFractal: () =>
+                                _onRandomFractalFab(context),
+                            toggleFullscreen: _toggleFullscreenUnobtrusive,
+                            cycleColorScheme: () => _cycleColorScheme(context),
+                            openPalettePicker: () =>
+                                _openPalettePicker(context),
+                            toggleKaleidoscope: () =>
+                                _toggleKaleidoscope(context),
+                            setKaleidoscopeSectors: (sectors) {
+                              final activeController =
+                                  _activeController(context);
+                              activeController.setKaleidoscopeEnabled(true);
+                              activeController.setKaleidoscopeSectors(sectors);
+                            },
+                            setKaleidoscopeMirror: (value) {
+                              final activeController =
+                                  _activeController(context);
+                              activeController.setKaleidoscopeEnabled(true);
+                              activeController.setKaleidoscopeMirror(value);
+                            },
+                            toggleTextOverlay: _toggleTextOverlay,
+                            editTextOverlay: _editTextOverlay,
+                            randomizePalette: () => _randomizePalette(context),
+                            previousFractal: () => _goToPreviousFractal(context),
+                            openRandomCategories: () =>
+                                _openRandomCategories(context),
+                          ),
+                          share: ViewerShareCommands(
+                            openExport: () => _openExport(context),
+                            shareLink: () => _openShareLink(context),
+                            shareImage: () => _shareCurrentImage(context),
+                            reportFractal: () => _reportFractal(context),
+                            openWallpaper: () => _openWallpaper(context),
                           ),
                         ),
                       ),
