@@ -7,6 +7,7 @@ import 'package:flutter_fractals/core/services/platform/accessibility_service.da
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_view_controls.dart';
+import 'package:flutter_fractals/features/viewer/chrome/viewer_tools.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -96,40 +97,46 @@ Future<AutoExploreService> _pumpToolbar(WidgetTester tester,
               looperPlaying: false,
               fourierEnabled: false,
               textOverlayEnabled: false,
-              actions: FractalViewControlActions(
-                openAutoExploreSettings: onAutoExploreSettings,
-                previousFractal: () =>
-                    onAction?.call('viewerPreviousFractalButton'),
-                randomizePalette: () => onAction?.call('viewerPaletteButton'),
-                openRandomCategories: () =>
-                    onAction?.call('viewerRandomCategories'),
-                toggleFullscreen: () =>
-                    onAction?.call('viewerFullscreenButton'),
-                openRandomFractal: () =>
-                    onAction?.call('viewerRandomFractalFab'),
-                openControls: () => onAction?.call('viewerControlsButton'),
-                randomizeParams: () =>
-                    onAction?.call('viewerRandomParamsButton'),
-                cycleColorScheme: () =>
-                    onAction?.call('viewerColorCycleButton'),
-                openPalettePicker: () => onAction?.call('viewerPaletteButton'),
-                toggleKaleidoscope: () =>
-                    onAction?.call('viewerKaleidoscopeFab'),
-                setKaleidoscopeSectors: (_) {},
-                setKaleidoscopeMirror: (_) {},
-                openExport: () => onAction?.call('viewerOpenExportAction'),
-                shareLink: () => onAction?.call('viewerShareLinkAction'),
-                shareImage: () => onAction?.call('viewerShareImageAction'),
-                toggleTextOverlay: () => onAction?.call('viewerTextOverlayFab'),
-                editTextOverlay: () =>
-                    onAction?.call('viewerTextOverlayFabOptions'),
-                openLooper: () => onAction?.call('viewerPlayLongPress'),
-                toggleLooper: () => onAction?.call('viewerPlayButton'),
-                toggleFourier: () => onAction?.call('viewerFourierFab'),
-                openFourierSettings: () =>
+              commands: ViewerCommands(
+                motion: ViewerMotionCommands(
+                  toggleLooper: () => onAction?.call('viewerPlayButton'),
+                  openLooper: () => onAction?.call('viewerPlayLongPress'),
+                  toggleFourier: () => onAction?.call('viewerFourierFab'),
+                  openFourierSettings: () =>
                     onAction?.call('viewerFourierFabOptions'),
-                reportFractal: () => onAction?.call('viewerReportFractalFab'),
-                openWallpaper: () => onAction?.call('viewerWallpaperAction'),
+                  openAutoExploreSettings: onAutoExploreSettings,
+                ),
+                presentation: ViewerPresentationCommands(
+                  openControls: () => onAction?.call('viewerControlsButton'),
+                  randomizeParams: () =>
+                    onAction?.call('viewerRandomParamsButton'),
+                  openRandomFractal: () =>
+                    onAction?.call('viewerRandomFractalFab'),
+                  toggleFullscreen: () =>
+                    onAction?.call('viewerFullscreenButton'),
+                  cycleColorScheme: () =>
+                    onAction?.call('viewerColorCycleButton'),
+                  openPalettePicker: () => onAction?.call('viewerPaletteButton'),
+                  toggleKaleidoscope: () =>
+                    onAction?.call('viewerKaleidoscopeFab'),
+                  setKaleidoscopeSectors: (_) {},
+                  setKaleidoscopeMirror: (_) {},
+                  toggleTextOverlay: () => onAction?.call('viewerTextOverlayFab'),
+                  editTextOverlay: () =>
+                    onAction?.call('viewerTextOverlayFabOptions'),
+                  randomizePalette: () => onAction?.call('viewerPaletteButton'),
+                  previousFractal: () =>
+                    onAction?.call('viewerPreviousFractalButton'),
+                  openRandomCategories: () =>
+                    onAction?.call('viewerRandomCategories'),
+                ),
+                share: ViewerShareCommands(
+                  openExport: () => onAction?.call('viewerOpenExportAction'),
+                  shareLink: () => onAction?.call('viewerShareLinkAction'),
+                  shareImage: () => onAction?.call('viewerShareImageAction'),
+                  reportFractal: () => onAction?.call('viewerReportFractalFab'),
+                  openWallpaper: () => onAction?.call('viewerWallpaperAction'),
+                ),
               ),
             ),
           )),

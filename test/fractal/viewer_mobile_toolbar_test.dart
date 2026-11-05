@@ -6,6 +6,7 @@ import 'package:flutter_fractals/core/services/platform/accessibility_service.da
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_view_controls.dart';
+import 'package:flutter_fractals/features/viewer/chrome/viewer_tools.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -64,29 +65,35 @@ void main() {
             looperPlaying: false,
             fourierEnabled: false,
             textOverlayEnabled: false,
-            actions: FractalViewControlActions(
-              toggleFullscreen: () {},
-              openRandomFractal: onRandom ?? () {},
-              openControls: onControls ?? () {},
-              randomizeParams: onRandomize ?? () {},
-              cycleColorScheme: () {},
-              randomizePalette: onRandomizePalette ?? () {},
-              previousFractal: onPrevious ?? () {},
-              openPalettePicker: onPalette ?? () {},
-              toggleKaleidoscope: () {},
-              setKaleidoscopeSectors: (_) {},
-              setKaleidoscopeMirror: (_) {},
-              openExport: () {},
-              shareLink: () {},
-              shareImage: () {},
-              toggleTextOverlay: () {},
-              editTextOverlay: () {},
-              openLooper: () {},
-              toggleLooper: onPlay ?? () {},
-              toggleFourier: onFourier ?? () {},
-              openFourierSettings: () {},
-              reportFractal: () {},
-              openWallpaper: () {},
+            commands: ViewerCommands(
+              motion: ViewerMotionCommands(
+                toggleLooper: onPlay ?? () {},
+                openLooper: () {},
+                toggleFourier: onFourier ?? () {},
+                openFourierSettings: () {},
+              ),
+              presentation: ViewerPresentationCommands(
+                openControls: onControls ?? () {},
+                randomizeParams: onRandomize ?? () {},
+                openRandomFractal: onRandom ?? () {},
+                toggleFullscreen: () {},
+                cycleColorScheme: () {},
+                openPalettePicker: onPalette ?? () {},
+                toggleKaleidoscope: () {},
+                setKaleidoscopeSectors: (_) {},
+                setKaleidoscopeMirror: (_) {},
+                toggleTextOverlay: () {},
+                editTextOverlay: () {},
+                randomizePalette: onRandomizePalette ?? () {},
+                previousFractal: onPrevious ?? () {},
+              ),
+              share: ViewerShareCommands(
+                openExport: () {},
+                shareLink: () {},
+                shareImage: () {},
+                reportFractal: () {},
+                openWallpaper: () {},
+              ),
             ),
           ),
         ),
