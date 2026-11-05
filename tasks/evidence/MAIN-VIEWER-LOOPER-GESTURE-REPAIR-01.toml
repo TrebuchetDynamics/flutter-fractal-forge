@@ -1,0 +1,9 @@
+schema = 1
+task = "MAIN-VIEWER-LOOPER-GESTURE-REPAIR-01"
+candidate = "e40653f93550f0cb5586e0d5113b0ccaec3e6ab4"
+integration = "4d22d3871f5eb86cff26abe887491025133375bc"
+tree = "5b17c02cfe15d5574ff332d945e1e41de82094ab"
+contract_hash = "5d8264cc59502a8582eda6e1382ddff4705c6a205b45ef907726ea21fc567329"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAIN-VIEWER-LOOPER-GESTURE-REPAIR-01"]
+result = "pass"
+review = "passed"

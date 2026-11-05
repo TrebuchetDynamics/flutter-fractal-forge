@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- No changelog entry required — verification only; the reported main-red failures already resolved at tip 55f9434c and no product code changed. (MAIN-VIEWER-LOOPER-GESTURE-REPAIR-01)
 - Fix the reserved-port native driver test fixture to read fdroid/flutter.version instead of hardcoding 3.44.6, so the pinned-toolchain mismatch no longer fails the offline gate and future toolchain updates stay covered. (MAIN-NATIVE-DRIVER-VERSION-REPAIR-01)
 - test(root-finding): restore the schroeder render case with a bounded six-attempt retry instead of dropping it from the smoke list (MAIN-ROOT-FINDING-FLAKE-HARDEN-01)
 - No user-facing change: verified the fractal view controls toggle test is green on current main and recorded the result in docs/tasks/MAIN-VIEW-CONTROLS-TEST-REPAIR-01.md.
