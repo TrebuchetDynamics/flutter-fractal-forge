@@ -57,6 +57,7 @@ import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dar
 import 'package:flutter_fractals/features/viewer/chrome/viewer_chrome_layout.dart';
 import 'package:flutter_fractals/features/viewer/gaussian_moat_map.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_view_controls.dart';
+import 'package:flutter_fractals/features/viewer/chrome/viewer_overlay_flow.dart';
 import 'package:flutter_fractals/features/viewer/chrome/viewer_tools.dart';
 import 'package:flutter_fractals/features/viewer/export/viewer_export_feedback.dart';
 import 'package:flutter_fractals/features/viewer/export/viewer_export_overlay.dart';
@@ -584,6 +585,11 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     if (mounted) setState(() {});
   }
 
+  ViewerOverlayFlow get _overlayFlow => ViewerOverlayFlow(
+        context: context,
+        pauseMotion: () => _looperController?.stop(),
+      );
+
   void _toggleControlsHud() {
     _looperController?.stop();
     setState(() {
@@ -605,8 +611,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   }
 
   Future<void> _editTextOverlay() async {
-    final text = await showAppBottomSheet<String>(
-      context: context,
+    final text = await _overlayFlow.present<String>(
       builder: (_) => _TextOverlayEditorSheet(initialText: _textOverlay.text),
     );
     if (text == null) return;
@@ -868,8 +873,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
   }
 
   Future<void> _openFourierSettings() async {
-    await showAppBottomSheet<void>(
-      context: context,
+    await _overlayFlow.present<void>(
       builder: (sheetContext) => StatefulBuilder(
         builder: (sheetContext, setSheetState) {
           void update(VoidCallback change) {
@@ -1033,8 +1037,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
         .timeout(const Duration(seconds: 2))
         .then<Uint8List?>((bytes) => bytes,
             onError: (Object _, StackTrace __) => null);
-    showAppBottomSheet<void>(
-      context: context,
+    _overlayFlow.present<void>(
       builder: (_) => FutureBuilder<Uint8List?>(
         future: preview,
         builder: (context, snapshot) => ShareSheet(
@@ -1075,8 +1078,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
               'notes': notes.trim(),
             })}\n```';
 
-    final saved = await showAppBottomSheet<bool>(
-      context: context,
+    final saved = await _overlayFlow.present<bool>(
       builder: (sheetContext) => StatefulBuilder(
         builder: (context, setSheetState) => AppSheetScaffold(
           maxHeightFactor: 0.66,
@@ -1303,8 +1305,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
         ? categories.toSet()
         : categories.where(_randomCategoryFilter!.contains).toSet();
     if (selected.isEmpty) selected = categories.toSet();
-    showAppBottomSheet<void>(
-      context: context,
+    _overlayFlow.present<void>(
       builder: (sheetContext) => StatefulBuilder(
         builder: (context, setSheetState) => AppOptionsSheet(
           icon: Icons.shuffle_rounded,
@@ -1384,8 +1385,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
     final headerKey = GlobalKey();
     var initialRevealScheduled = false;
 
-    showAppBottomSheet<void>(
-      context: context,
+    _overlayFlow.present<void>(
       builder: (sheetContext) => LayoutBuilder(builder: (context, constraints) {
         final textScaler = MediaQuery.textScalerOf(context);
         // Width and scaled text both constrain the grid. At phone widths even
@@ -1717,8 +1717,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                             toggleFourier: _toggleFourier,
                             openFourierSettings: _openFourierSettings,
                             openAutoExploreSettings: () =>
-                                showAppBottomSheet<void>(
-                              context: context,
+                                _overlayFlow.present<void>(
                               builder: (_) => ChangeNotifierProvider<
                                   AutoExploreService>.value(
                                 value: _autoExploreService!,

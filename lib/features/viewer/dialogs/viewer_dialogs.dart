@@ -10,8 +10,10 @@ mixin _ViewerDialogsMixin on State<FractalViewerScreen>, _ExportActionsMixin {
     required WidgetBuilder builder,
     bool isScrollControlled = true,
   }) {
-    return showAppBottomSheet<T>(
+    return ViewerOverlayFlow(
       context: context,
+      pauseMotion: () => _looperController?.stop(),
+    ).present<T>(
       isScrollControlled: isScrollControlled,
       builder: builder,
     );
