@@ -79,3 +79,44 @@ Maintainer application suites: **NOT_RUN** (documentation-only inspection).
 Documentation checks: `tasks validate --worktree .` passed (117 tasks, 20 goals,
 no drafts/pending); `git diff --check` and local-link readback passed. A fresh
 slot readback still showed the same reported, unlanded candidate.
+
+## Subsequent check: 81db3d93 — same failures, same landing reservation
+
+Inspected the subsequent bundle in place, without copying or modifying it:
+
+`/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.git/autowork-execution/main-evidence/81db3d938935effa2ce185adb726697ae913c68d`
+
+All five files were read: `main_check.json`, failure/terminal sections of
+`main-check.log`, `main-check.exit`, `main-check-reruns.log` and
+`flaky_history.json`. Checked revision is
+`81db3d938935effa2ce185adb726697ae913c68d`; last green and red-since revisions
+are unchanged. Metadata remains red / TEST_FAILURE, exit 1, flaky=[],
+flaky_history={}, repair_pending=[]; reruns log is empty. Log line 49 reports
+clean analysis; line 16305 ends `+3425 ~9 -42: Some tests failed.` Python/Bats
+were not reached. No isolated reruns or three-revision flakiness evidence exist
+in this bundle; the worker's focused passes are on different candidate bytes.
+
+Readback matched all 42 metadata failures exactly against the current log's
+`[E]` entries, the preceding bundle and the accepted plan's original names:
+3 mobile toolbar, 8 responsive controls, 29 toolbar layout and 2 palette cases.
+No new failing module or repair task is justified. Commits listed since green:
+`81db3d93`, `590bb187`, `c214b37b`, `d2cbfc07`, `09572d13`, `75fec8e6`,
+`bbf42659`, `d05b7822`, `393c45ac`. The newly listed `590bb187` changes only
+this supplementary note; the production/test changes remain those described
+above and already covered by the task's Touches and unchanged full Checks.
+
+Read-only slot/report and Git inspection still find candidate
+`512482818a70baff3b277d666716b9e0463a3e0d` reported and not an ancestor of
+this checkout. Main still has uncommitted changes on all three paths named by
+`writers_busy_reason`. This is an integration conflict wait, not a missing task
+input, product prerequisite or stale task contract. Leave the task entry and
+candidate-owned plan untouched while it waits to land; do not add dependencies,
+close it from the worker's focused passes, create another repair or manipulate
+main's dirty files/runtime state. The next action remains serialized landing
+once conflicting main edits are resolved, followed by the unchanged full gate
+and evidence refresh on that actual composition. No owner decision is missing.
+
+This refresh changes evidence only. Application suites remain **NOT_RUN** by the
+maintainer. Task-store validation passes (117 tasks, 20 goals, no drafts/pending);
+exact inventory and local-link readback and `git diff --check` pass. Main remains
+red; no task/goal closure or qualification is claimed.
