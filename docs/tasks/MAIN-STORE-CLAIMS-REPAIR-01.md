@@ -22,9 +22,10 @@ Read the original bundle in place; do not copy it into a worktree or commit:
   `flaky_history.json`: `{}`. No isolated rerun or flakiness qualification exists.
   The chained check stopped at Flutter tests; later Python/Bats results are not supplied.
 
-Only ACAD-013-4142ef42 is open in the inspected ledger. The completed
+At this repair's creation, only ACAD-013-4142ef42 was open in the inspected
+ledger; no existing open task covered these two failures. The completed
 MAIN-SETTINGS-COUNT-REPAIR-01 addressed a different settings assertion; do not
-reopen it. No existing open task covers these two failures.
+reopen it. See the later integration chronology below for this task's closure.
 
 ## Minimal repair
 
@@ -87,6 +88,42 @@ Unchanged claims test SHA-256:
 The worker did not run the full offline gate. Worker instructions reserve that
 unchanged gate for the runner on the merged tree before review. Focused green
 is not full-gate, goal, device, browser or publication qualification.
+
+## Maintainer follow-up: reported red predates the integrated repair
+
+The newly reported bundle is the worker's failing-before baseline:
+
+`/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/.git/autowork-execution/main-evidence/d9a76106fda0f22a467a100e40fe8a60ca43beb7`
+
+All five bundle files were inspected in place, without copying them. The JSON
+records red / `TEST_FAILURE`, the same two named claims cases, the same last
+green, `flaky=[]`, `flaky_history={}` and `repair_pending=[]`. The log records
+analyzer success, the exact-count failure at test line 48 and undeclared camera
+wording at line 204, ending `+3458 ~9 -2`. Exit is 1; the rerun log is empty and
+`flaky_history.json` is `{}`. No isolated rerun or flakiness qualification exists;
+the chained Python/Bats stages were not reached.
+
+Commits since green listed by this bundle are `d9a76106` (merge of `c9a4dc45`),
+`c9a4dc45` (queue this repair first), `72b498df` (merge of `404f3bc3`),
+`404f3bc3` (store campaign), `6c6ecdec` (merge of `920ac23a`) and `920ac23a`
+(store campaign). This is older failure evidence, not a new post-repair result.
+
+The current checkout contains the later repair `8a08dcde875a6a3b34f6d834f82d2e2d060277c9`,
+its integration `f29c9c11939e07d6359d896de89fa250dad2f93c`, and coordinator
+closure `9b0e16350d32336b2f3505ebbeb59dfcbddcf943`. All three are verified
+ancestors. The saved `slot-data/MAIN-STORE-CLAIMS-REPAIR-01/attempt-1/report.json`
+under `.git/autowork-execution/` reports the focused results above and explicitly
+reports no task-store edits. There are therefore no worker ledger edits from
+that report to replay over the newer closure.
+
+`tasks/evidence/MAIN-STORE-CLAIMS-REPAIR-01.toml` records that candidate and
+integration with `result = "pass"` and `review = "passed"`. Preserve the
+coordinator closure and original Scope, Acceptance, Touches, Checks, Dependencies
+and priority; do not reopen this task or create a duplicate from the old bundle.
+Current canonical JSON, unchanged claims test and lockfile hashes match the
+worker's recorded hashes above. This follow-up only attaches historical evidence
+and corrects chronology; it does not independently execute or qualify the full
+offline gate, verify the goal, or qualify any live platform.
 
 ## Verification limits
 
