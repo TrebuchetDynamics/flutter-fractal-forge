@@ -1618,6 +1618,12 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                   (compactHeader
                       ? titleHeight + gaussianHeight + 8
                       : math.max(80.0, titleHeight + gaussianHeight + 20));
+              // Overlay layers name a slot; the anchors live in one value type.
+              final overlaySlots = ViewerOverlaySlots(
+                insets: safeInsets,
+                overlayTop: overlayTop,
+                bottomPadding: media.padding.bottom,
+              );
               final normalHudHeight = math.min(
                 constraints.maxHeight * (landscape ? 0.75 : 0.55),
                 math.max(0.0, constraints.maxHeight - overlayTop),
@@ -1935,38 +1941,25 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                     ),
 
                   if (_fullscreenUnobtrusive && !widget.captureMode)
-                    Positioned(
-                      right: AppSpacing.lg,
-                      bottom:
-                          MediaQuery.of(context).padding.bottom + AppSpacing.xl,
-                      child: _buildTopFab(
-                        icon: Icons.fullscreen_exit_rounded,
-                        tooltip: l10n.tooltipExitFullscreen,
-                        onPressed: _toggleFullscreenUnobtrusive,
-                      ),
-                    ),
+                    overlaySlots.bottomTrailing(_buildTopFab(
+                      icon: Icons.fullscreen_exit_rounded,
+                      tooltip: l10n.tooltipExitFullscreen,
+                      onPressed: _toggleFullscreenUnobtrusive,
+                    )),
 
                   if (viewerChrome.header == ViewerChromeSlot.fixed)
-                    Positioned(
-                      top: topInset + 8,
-                      left: safeInsets.left + 12,
-                      right: safeInsets.right + 12,
-                      child: chromeHeader,
-                    ),
+                    overlaySlots.topFullWidth(chromeHeader),
 
                   if (_showCoreViewerChrome &&
                       _backendDecision.backend == RendererBackend.cpu)
-                    Positioned(
-                      top: overlayTop,
-                      right: 12,
+                    overlaySlots.topTrailing(
                       // Height-bounded and scrollable because the banner is a
                       // Positioned child: nothing clips or reports it, so at a
                       // 2x text scale in landscape its buttons sat 91px below
                       // the viewport and at 3x up to 343px below — silently
                       // untappable, taking "Try GPU" and "Report" with them.
-                      child: ConstrainedBox(
+                      ConstrainedBox(
                         constraints: BoxConstraints(
-                          maxWidth: 240,
                           maxHeight: math.max(
                               0, constraints.maxHeight - overlayTop - 12),
                         ),
@@ -1992,10 +1985,7 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                   if (_showCoreViewerChrome &&
                       _deepZoomPrecisionActive &&
                       _backendDecision.backend != RendererBackend.cpu)
-                    Positioned(
-                      top: overlayTop,
-                      right: 12,
-                      child: Semantics(
+                    overlaySlots.topTrailing(maxWidth: null, Semantics(
                         label: 'Switch to CPU for deep zoom',
                         button: true,
                         child: GestureDetector(
