@@ -99,6 +99,10 @@ Observed with `scripts/ci/play-observe.sh --expected-version 1.1.121
   That inference is not a Google approval. The Play Console state was **not
   read**: no authorized Console session or saved page was supplied. Play
   Console > Publishing overview and the review email remain the direct sources.
+- Checker: `scripts/ci/play-live-check.sh --input play-observe-121.json
+  --expected-version 1.1.121 --expected-date "Nov 6, 2026"` reports **pass** for
+  track, version code, availability and propagation; review was not required
+  because no Console state was supplied.
 - Evidence: `/tmp/release-play-artifacts-121-release/play-observe-121.json`.
 
 The sample covers one storefront per probed country, not every device or
