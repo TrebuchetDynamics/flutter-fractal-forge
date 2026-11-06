@@ -69,22 +69,28 @@ passing run completed at load near 16 with a fresh device session.
 
 ## Post-publication observation (2026-11-06)
 
-Observed with `scripts/ci/play-observe.sh --expected-version 1.1.122
---expected-date "Nov 6, 2026"` minutes after the upload.
+Two snapshots with `scripts/ci/play-observe.sh --expected-version 1.1.122
+--expected-date "Nov 6, 2026"`.
 
-- Official track: production `completed`, versionCodes `["122"]`.
+- Official track: production `completed`, versionCodes `["122"]` throughout.
 - Country availability: **177** targeted countries plus `restOfWorld: true`.
-- Storefront probe (12 countries): all listed, but every page still shows
-  **1.1.121**, `Updated on` Nov 6, 2026. Inference:
-  **`not-yet-visible`** (pending 12/12). This is the expected review and
-  propagation lag, not a publication failure.
+- Minutes after the upload (first snapshot): the 12 probed storefronts still
+  showed **1.1.121** (`not-yet-visible`, pending 12/12). That is the review and
+  propagation window.
+- At 23:01 UTC (second snapshot): **12/12** probed storefronts show **1.1.122**,
+  `Updated on` **Nov 6, 2026**; pending 0, unavailable 0, probe errors 0.
+  `scripts/ci/play-live-check.sh` returns **PASS** for track, version code,
+  availability and propagation.
 - Google review: **not observable** through the public API; not confirmed by
-  this agent. Console Publishing overview and the review email remain the direct
-  sources.
-- Evidence: `/tmp/release-play-artifacts-1.1.122/play-observe-122.json`.
+  this agent. The storefront listing of the new version is the working signal
+  that the release reached users. Console Publishing overview and the review
+  email remain the direct sources.
+- Evidence: `play-observe-122.json` (pending snapshot) and
+  `play-observe-122-propagated.json` (propagated snapshot) under
+  `/tmp/release-play-artifacts-1.1.122/`.
 
-Re-run `play-observe.sh` later and expect the version to become 1.1.122 in the
-storefronts; use `play-live-check.sh` for a pass/fail verdict once it does.
+A device that still offers only 1.1.121 usually holds a Play Store metadata
+cache; clearing the Play Store cache or waiting for the next check refreshes it.
 
 ## Limits
 
