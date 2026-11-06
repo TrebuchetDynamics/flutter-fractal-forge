@@ -1640,9 +1640,11 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                                   .labelMedium
                                   ?.fontSize ??
                               12) *
-                          1.1 *
+                          (Theme.of(context).textTheme.labelMedium?.height ??
+                              1.4) *
                           2 +
-                      2 * AccessibleSizing.focusIndicatorWidth);
+                      // Icon, caption gap, padding, margin and border.
+                      52);
               final viewerChrome = ViewerChromeLayout.compute(
                 viewportHeight: constraints.maxHeight,
                 topInset: topInset,
