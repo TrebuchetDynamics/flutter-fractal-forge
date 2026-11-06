@@ -43,19 +43,19 @@ PROFILES = {
 
 # Ordered campaigns: output basename -> (raw basename, kicker, headline)
 PHONE_SLIDES = [
-    ('01-mandelbrot', '01-mandelbrot', 'FRACTAL FORGE', 'Fall into the detail'),
+    ('01-mandelbrot', '01-mandelbrot', 'FRACTAL FORGE', 'Fall into infinite detail'),
     ('02-julia', '02-julia', '1,000+ FRACTALS', 'Every constant, a new world'),
-    ('03-mandelbulb', '03-mandelbulb', '3D WORLDS', 'Rotate a mathematical object'),
-    ('04-catalog', '04-catalog', 'FIND YOUR NEXT', 'Search, browse, favourite'),
+    ('03-mandelbulb', '03-mandelbulb', '3D WORLDS', 'Rotate a 3D fractal'),
+    ('04-catalog', '04-catalog', 'FIND YOUR NEXT', 'Search 1,000+ fractals'),
     ('05-palette', '05-palette', 'COLOR', 'Palettes made yours'),
-    ('06-export', '06-export', 'EXPORT', '4K images and wallpapers'),
-    ('07-looper', '07-looper', 'ANIMATION', 'Turn a view into a GIF loop'),
+    ('06-export', '06-export', 'SAVE & SHARE', 'Export 4K or set wallpaper'),
+    ('07-looper', '07-looper', 'ANIMATION', 'Preview a loop, export a GIF'),
 ]
 
 TABLET_SLIDES = [
-    ('01-catalog', '04-catalog', 'FIND YOUR NEXT', 'Search, browse, favourite'),
-    ('02-mandelbrot', '02-mandelbrot', 'DEEP ZOOM', 'Fall into the detail'),
-    ('03-mandelbulb', '03-mandelbulb', '3D WORLDS', 'Rotate a mathematical object'),
+    ('01-catalog', '04-catalog', 'FIND YOUR NEXT', 'Search 1,000+ fractals'),
+    ('02-mandelbrot', '02-mandelbrot', 'DEEP ZOOM', 'Fall into infinite detail'),
+    ('03-mandelbulb', '03-mandelbulb', '3D WORLDS', 'Rotate a 3D fractal'),
     ('04-julia', '01-julia', '1,000+ FRACTALS', 'Every constant, a new world'),
 ]
 
