@@ -9,7 +9,7 @@ never does (ads, accounts, tracking). See the [campaign preview](PREVIEW.md).
 - [Localized copy](../play-store-localized-listings.json): titles, short descriptions and full descriptions for all 15 existing Google Play locales.
 - [Asset manifest](assets.json): ordered image groups shared across those locales.
 - [Feature graphic](feature_graphic.png): 1024×500 promotional illustration; the matching release asset is `assets/feature-graphic.png`.
-- [Phone screenshots](screenshots/phone): seven captioned 1080×1988 images composed from unmodified Android 1.1.120 captures.
+- [Phone screenshots](screenshots/phone): seven captioned 1080×1988 images composed from unmodified Android 1.1.121 captures.
 - [Tablet screenshots](screenshots/tablet): four captioned 1600×2734 images from the same run, using the responsive tablet layout. Used for both tablet listing groups.
 - [Capture manifest](screenshot_captures.json): every composed image's raw capture, caption, dimensions and SHA256 digests.
 - [Artwork provenance and prompt](artwork/PROMPTS.md).
@@ -18,9 +18,20 @@ Only the caption band is added artwork. Everything below it is the device frameb
 with the Android status and navigation bars trimmed; the app's own pixels are not
 rescaled or retouched.
 
-Short descriptions now lead with the search terms people actually use — fractals,
-Mandelbrot, Julia, 3D, 4K wallpaper, GIF, offline — while full descriptions keep a
-scannable Explore / Make it yours / Keep and share / Made to be usable structure.
+Short descriptions lead with the search terms people actually use — fractals,
+Mandelbrot, Julia, 3D, 4K wallpaper, GIF — plus the differentiators offline and
+no ads. Full descriptions keep a scannable Explore / Make it yours / Keep and
+share / Made to be usable structure.
+
+The 2026-11-06 refresh recaptured the campaign from the installed 1.1.121 build
+(the rail now shows the Save & share button), tightened the captions and added
+the Save & share line to the English and Spanish full descriptions. Other locales
+keep their earlier, still-accurate wording.
+
+Known gap: catalog cards print "Unverified identity" for every entry whose
+mathematics has no explicit qualification. The screenshots show the live app, so
+the label remains visible there. Hiding the default in favour of the fractal
+family is a product follow-up for a later build, not a screenshot edit.
 
 ## Screenshot pipeline
 

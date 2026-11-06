@@ -4,10 +4,10 @@
     "phone": [
       {
         "file": "docs/store_listing/screenshots/phone/01-mandelbrot.png",
-        "raw": "release-artifacts/store-listing-captures/20261105/phone/01-mandelbrot.png",
-        "raw_sha256": "efbc00c7503cedd911a448725d6391656a57a89fb3372cb3b65437a4663d913a",
+        "raw": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/release-artifacts/store-listing-captures/20261106/phone/01-mandelbrot.png",
+        "raw_sha256": "80cc1475e0d793a965ed1de22bc923b141e3e0a6a964de5ea05c07d6bc6956d9",
         "kicker": "FRACTAL FORGE",
-        "headline": "Fall into the detail",
+        "headline": "Fall into infinite detail",
         "size": [
           1080,
           1988
@@ -16,12 +16,12 @@
           1080,
           1748
         ],
-        "sha256": "aebf62f2ca9afa8be8be2f7e55cc795415b6ea364c3eb64863cec4a60069ada9"
+        "sha256": "035b5c8ad535c5cb780a341e15b30784e935278a67dc656aabdb8b28a268e803"
       },
       {
         "file": "docs/store_listing/screenshots/phone/02-julia.png",
-        "raw": "release-artifacts/store-listing-captures/20261105/phone/02-julia.png",
-        "raw_sha256": "53d0d28b2bfa60e80bd6ad185c9af9f4802020558c3d00bae9ca2ac420d4b64f",
+        "raw": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/release-artifacts/store-listing-captures/20261106/phone/02-julia.png",
+        "raw_sha256": "9a97f2a945b766f6f19ae17c68f32b4874d685e1069a6b7aee3a954a88934fd2",
         "kicker": "1,000+ FRACTALS",
         "headline": "Every constant, a new world",
         "size": [
@@ -32,14 +32,14 @@
           1080,
           1748
         ],
-        "sha256": "e94b0fa6122ac0a8791b6dc27896dc6e91a444ac151e45dfb61c99f0b005300b"
+        "sha256": "5229c8b00be077dc1c0f7415d49d4ac27860d8847000cf6898a09874a57c4a85"
       },
       {
         "file": "docs/store_listing/screenshots/phone/03-mandelbulb.png",
-        "raw": "release-artifacts/store-listing-captures/20261105/phone/03-mandelbulb.png",
-        "raw_sha256": "b4398a753a0103425b05f3fdda25a242b051eb74178c329d6650056df5659020",
+        "raw": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/release-artifacts/store-listing-captures/20261106/phone/03-mandelbulb.png",
+        "raw_sha256": "f1a08a387444e59d6bba3a4286b55ba836505f313eb00c673b21455037fde2ab",
         "kicker": "3D WORLDS",
-        "headline": "Rotate a mathematical object",
+        "headline": "Rotate a 3D fractal",
         "size": [
           1080,
           1988
@@ -48,14 +48,14 @@
           1080,
           1748
         ],
-        "sha256": "ee80278b49e102c017950dcf8f3d2ec368490ba7d74854eabb511b794e64506d"
+        "sha256": "5a38bb0d9b011c51cba888af9c2384135f8627ec31160ac415853015eac457b3"
       },
       {
         "file": "docs/store_listing/screenshots/phone/04-catalog.png",
-        "raw": "release-artifacts/store-listing-captures/20261105/phone/04-catalog.png",
-        "raw_sha256": "a2ab8889bb53a42d6f1cf85fc064fe62e75538448ed825e6e91d8c2cbc0bc348",
+        "raw": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/release-artifacts/store-listing-captures/20261106/phone/04-catalog.png",
+        "raw_sha256": "3f65a6902213efa47a257179d1e76e739ee8337c0754d35e0da6ce25a405d985",
         "kicker": "FIND YOUR NEXT",
-        "headline": "Search, browse, favourite",
+        "headline": "Search 1,000+ fractals",
         "size": [
           1080,
           1988
@@ -64,12 +64,12 @@
           1080,
           1748
         ],
-        "sha256": "1678ad5006410fdce1f1537d63ac9a802997c5d7ba4a091fd12443e51f11a1fb"
+        "sha256": "dc05d2f7b611f0bfd5c780a396a657b2b4f17d382455f0eb08fb429298a7c588"
       },
       {
         "file": "docs/store_listing/screenshots/phone/05-palette.png",
-        "raw": "release-artifacts/store-listing-captures/20261105/phone/05-palette.png",
-        "raw_sha256": "a72ec96c44360de94d1b973ac0081652392ba3a56379326502d96da81b8adf90",
+        "raw": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/release-artifacts/store-listing-captures/20261106/phone/05-palette.png",
+        "raw_sha256": "5e0fb05941ef164b4efc984d7358d4b1fd8ef613d6b16eec328cc7b6a94c5ea0",
         "kicker": "COLOR",
         "headline": "Palettes made yours",
         "size": [
@@ -80,14 +80,14 @@
           1080,
           1748
         ],
-        "sha256": "1a7c7e8e8d51dbcca27d89749d06745781ff6fe9191298deec70a80e976d8d41"
+        "sha256": "70dce7e5ec90bb9481e1419845a48e1acfc68163d2b1619ba6d2d6ef935a54dc"
       },
       {
         "file": "docs/store_listing/screenshots/phone/06-export.png",
-        "raw": "release-artifacts/store-listing-captures/20261105/phone/06-export.png",
-        "raw_sha256": "3cbd11c8c15c25f39e857941509d47d0f9c69832d9b7e2934b507e6a7cf05072",
-        "kicker": "EXPORT",
-        "headline": "4K images and wallpapers",
+        "raw": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/release-artifacts/store-listing-captures/20261106/phone/06-export.png",
+        "raw_sha256": "27e68a282154f6421c1ada96e549da32c65b82f1d5c8851190f8444b12793381",
+        "kicker": "SAVE & SHARE",
+        "headline": "Export 4K or set wallpaper",
         "size": [
           1080,
           1988
@@ -96,14 +96,14 @@
           1080,
           1748
         ],
-        "sha256": "356e0caaebbf9cf2af4b17159a254901c8066ef6bb13e4d46cfbbda61c6c52e6"
+        "sha256": "10f1891b6e2188e498e024ab56f6bf8b6894a91f0b07bb6424c4ba7ded0ddac5"
       },
       {
         "file": "docs/store_listing/screenshots/phone/07-looper.png",
-        "raw": "release-artifacts/store-listing-captures/20261105/phone/07-looper.png",
-        "raw_sha256": "53d1883701f06385f218c27fb90af1ee519ade9f6ca0ae196375e8acedae0079",
+        "raw": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/release-artifacts/store-listing-captures/20261106/phone/07-looper.png",
+        "raw_sha256": "6d7cb4ec225e55b3ef263736a8f5568432e92a58e7dce55c8e3fd59b694b08db",
         "kicker": "ANIMATION",
-        "headline": "Turn a view into a GIF loop",
+        "headline": "Preview a loop, export a GIF",
         "size": [
           1080,
           1988
@@ -112,16 +112,16 @@
           1080,
           1748
         ],
-        "sha256": "3d77c0d79048069837ac700c4ffaef3aace48d9f49161514bd82b1634ebbf6e0"
+        "sha256": "630c462bc15a2766b3b4bff5b78ab44a7c7babf93335d19321369865882564dc"
       }
     ],
     "tablet": [
       {
         "file": "docs/store_listing/screenshots/tablet/01-catalog.png",
-        "raw": "release-artifacts/store-listing-captures/20261105/tablet/04-catalog.png",
-        "raw_sha256": "56e5a501299571c690a859b27867ee6ab42773d9af4b9948a0e169d3aa3f2c6b",
+        "raw": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/release-artifacts/store-listing-captures/20261106/tablet/04-catalog.png",
+        "raw_sha256": "074b1e037311d2a2846d1d38ca2dad8472e99de64dce92524644d73bdf5d54a5",
         "kicker": "FIND YOUR NEXT",
-        "headline": "Search, browse, favourite",
+        "headline": "Search 1,000+ fractals",
         "size": [
           1600,
           2734
@@ -130,14 +130,14 @@
           1600,
           2434
         ],
-        "sha256": "1d7270c93c0504409e80d51ad7718712ed402679322d7773442796a24063975a"
+        "sha256": "1f61777efa03c15606b4652940d75df25a3db2835637ae7ab8b869f55a581119"
       },
       {
         "file": "docs/store_listing/screenshots/tablet/02-mandelbrot.png",
-        "raw": "release-artifacts/store-listing-captures/20261105/tablet/02-mandelbrot.png",
-        "raw_sha256": "290696c71e43d0ca5a3a54a9bc5228253f2d1a423f7a1fde5b45af42ebe0f24b",
+        "raw": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/release-artifacts/store-listing-captures/20261106/tablet/02-mandelbrot.png",
+        "raw_sha256": "d24fda8a8ea25ea69b556d8676223c4c9062dd4f5c499be6d5c9ad7852373bac",
         "kicker": "DEEP ZOOM",
-        "headline": "Fall into the detail",
+        "headline": "Fall into infinite detail",
         "size": [
           1600,
           2734
@@ -146,14 +146,14 @@
           1600,
           2434
         ],
-        "sha256": "dc17ec6ce77dc637a4fa4497cb465304265c937398929fe2bc3299eb82e046be"
+        "sha256": "e037e8f64ceefec1d29e9ff5db4fc702c45744b68e5120b57ea03022721fcb44"
       },
       {
         "file": "docs/store_listing/screenshots/tablet/03-mandelbulb.png",
-        "raw": "release-artifacts/store-listing-captures/20261105/tablet/03-mandelbulb.png",
-        "raw_sha256": "0955a5d620225fc33c3fdadb5ee61f3684f95448e7c233832d88874c8ccfa9df",
+        "raw": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/release-artifacts/store-listing-captures/20261106/tablet/03-mandelbulb.png",
+        "raw_sha256": "f66778ec79624b2714a9b50adad0f13f7bbeecde8b88456907946a5bde9bb583",
         "kicker": "3D WORLDS",
-        "headline": "Rotate a mathematical object",
+        "headline": "Rotate a 3D fractal",
         "size": [
           1600,
           2734
@@ -162,12 +162,12 @@
           1600,
           2434
         ],
-        "sha256": "2499c20301daca18566e552aa0a0bd4ae59701bdf3e613cbf12ef953270ae236"
+        "sha256": "60f570da7f6ee5a84633bfdc01a253e9814146745f30f6963800a15c785c05d6"
       },
       {
         "file": "docs/store_listing/screenshots/tablet/04-julia.png",
-        "raw": "release-artifacts/store-listing-captures/20261105/tablet/01-julia.png",
-        "raw_sha256": "a00d66005f070654592bb8f0a91df0abc45c85372b13a0a8844aafa8f7437f26",
+        "raw": "/home/xel/git/trebuchet-dynamics/flutter-fractal-forge/release-artifacts/store-listing-captures/20261106/tablet/01-julia.png",
+        "raw_sha256": "2afc5c44ae6cc8961af3658fc718a561381f9235ee8a1a6207a38066bb5c22f1",
         "kicker": "1,000+ FRACTALS",
         "headline": "Every constant, a new world",
         "size": [
@@ -178,7 +178,7 @@
           1600,
           2434
         ],
-        "sha256": "7fac2570fcf8b87f9f41594e6f449955d7235cf939d73545eb48d036257167dd"
+        "sha256": "66dca8f70991c3eeb83b1fb26bccfe508fac891d37ba8954203d3784514cf035"
       }
     ]
   }

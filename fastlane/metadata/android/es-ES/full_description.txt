@@ -14,6 +14,7 @@ HAZLO TUYO
 • Activa la vista de Fourier para una segunda lectura del mismo patrón.
 
 GUARDA Y COMPARTE
+• Guardar y compartir reúne exportar, compartir enlace y fondo de pantalla en un botón.
 • Exporta PNG opaco o transparente hasta 4K, con tamaños para Instagram, historia y personalizados, y exporta por lotes todos tus presets.
 • Pon la vista como fondo de pantalla de inicio o de bloqueo con un toque.
 • Anima el zoom, el desplazamiento y los parámetros en el Looper de animación, previsualiza el bucle y exporta un GIF.
