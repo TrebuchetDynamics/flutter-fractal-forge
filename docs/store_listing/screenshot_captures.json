@@ -1,0 +1,185 @@
+{
+  "source": "Composed by scripts/compose-store-screenshots.py from full-framebuffer Android captures; only the caption band is added, the app pixels are unchanged",
+  "groups": {
+    "phone": [
+      {
+        "file": "docs/store_listing/screenshots/phone/01-mandelbrot.png",
+        "raw": "release-artifacts/store-listing-captures/20261105/phone/01-mandelbrot.png",
+        "raw_sha256": "efbc00c7503cedd911a448725d6391656a57a89fb3372cb3b65437a4663d913a",
+        "kicker": "FRACTAL FORGE",
+        "headline": "Fall into the detail",
+        "size": [
+          1080,
+          1988
+        ],
+        "app_pixels": [
+          1080,
+          1748
+        ],
+        "sha256": "aebf62f2ca9afa8be8be2f7e55cc795415b6ea364c3eb64863cec4a60069ada9"
+      },
+      {
+        "file": "docs/store_listing/screenshots/phone/02-julia.png",
+        "raw": "release-artifacts/store-listing-captures/20261105/phone/02-julia.png",
+        "raw_sha256": "53d0d28b2bfa60e80bd6ad185c9af9f4802020558c3d00bae9ca2ac420d4b64f",
+        "kicker": "1,000+ FRACTALS",
+        "headline": "Every constant, a new world",
+        "size": [
+          1080,
+          1988
+        ],
+        "app_pixels": [
+          1080,
+          1748
+        ],
+        "sha256": "e94b0fa6122ac0a8791b6dc27896dc6e91a444ac151e45dfb61c99f0b005300b"
+      },
+      {
+        "file": "docs/store_listing/screenshots/phone/03-mandelbulb.png",
+        "raw": "release-artifacts/store-listing-captures/20261105/phone/03-mandelbulb.png",
+        "raw_sha256": "b4398a753a0103425b05f3fdda25a242b051eb74178c329d6650056df5659020",
+        "kicker": "3D WORLDS",
+        "headline": "Rotate a mathematical object",
+        "size": [
+          1080,
+          1988
+        ],
+        "app_pixels": [
+          1080,
+          1748
+        ],
+        "sha256": "ee80278b49e102c017950dcf8f3d2ec368490ba7d74854eabb511b794e64506d"
+      },
+      {
+        "file": "docs/store_listing/screenshots/phone/04-catalog.png",
+        "raw": "release-artifacts/store-listing-captures/20261105/phone/04-catalog.png",
+        "raw_sha256": "a2ab8889bb53a42d6f1cf85fc064fe62e75538448ed825e6e91d8c2cbc0bc348",
+        "kicker": "FIND YOUR NEXT",
+        "headline": "Search, browse, favourite",
+        "size": [
+          1080,
+          1988
+        ],
+        "app_pixels": [
+          1080,
+          1748
+        ],
+        "sha256": "1678ad5006410fdce1f1537d63ac9a802997c5d7ba4a091fd12443e51f11a1fb"
+      },
+      {
+        "file": "docs/store_listing/screenshots/phone/05-palette.png",
+        "raw": "release-artifacts/store-listing-captures/20261105/phone/05-palette.png",
+        "raw_sha256": "a72ec96c44360de94d1b973ac0081652392ba3a56379326502d96da81b8adf90",
+        "kicker": "COLOR",
+        "headline": "Palettes made yours",
+        "size": [
+          1080,
+          1988
+        ],
+        "app_pixels": [
+          1080,
+          1748
+        ],
+        "sha256": "1a7c7e8e8d51dbcca27d89749d06745781ff6fe9191298deec70a80e976d8d41"
+      },
+      {
+        "file": "docs/store_listing/screenshots/phone/06-export.png",
+        "raw": "release-artifacts/store-listing-captures/20261105/phone/06-export.png",
+        "raw_sha256": "3cbd11c8c15c25f39e857941509d47d0f9c69832d9b7e2934b507e6a7cf05072",
+        "kicker": "EXPORT",
+        "headline": "4K images and wallpapers",
+        "size": [
+          1080,
+          1988
+        ],
+        "app_pixels": [
+          1080,
+          1748
+        ],
+        "sha256": "356e0caaebbf9cf2af4b17159a254901c8066ef6bb13e4d46cfbbda61c6c52e6"
+      },
+      {
+        "file": "docs/store_listing/screenshots/phone/07-looper.png",
+        "raw": "release-artifacts/store-listing-captures/20261105/phone/07-looper.png",
+        "raw_sha256": "53d1883701f06385f218c27fb90af1ee519ade9f6ca0ae196375e8acedae0079",
+        "kicker": "ANIMATION",
+        "headline": "Turn a view into a GIF loop",
+        "size": [
+          1080,
+          1988
+        ],
+        "app_pixels": [
+          1080,
+          1748
+        ],
+        "sha256": "3d77c0d79048069837ac700c4ffaef3aace48d9f49161514bd82b1634ebbf6e0"
+      }
+    ],
+    "tablet": [
+      {
+        "file": "docs/store_listing/screenshots/tablet/01-catalog.png",
+        "raw": "release-artifacts/store-listing-captures/20261105/tablet/04-catalog.png",
+        "raw_sha256": "56e5a501299571c690a859b27867ee6ab42773d9af4b9948a0e169d3aa3f2c6b",
+        "kicker": "FIND YOUR NEXT",
+        "headline": "Search, browse, favourite",
+        "size": [
+          1600,
+          2734
+        ],
+        "app_pixels": [
+          1600,
+          2434
+        ],
+        "sha256": "1d7270c93c0504409e80d51ad7718712ed402679322d7773442796a24063975a"
+      },
+      {
+        "file": "docs/store_listing/screenshots/tablet/02-mandelbrot.png",
+        "raw": "release-artifacts/store-listing-captures/20261105/tablet/02-mandelbrot.png",
+        "raw_sha256": "290696c71e43d0ca5a3a54a9bc5228253f2d1a423f7a1fde5b45af42ebe0f24b",
+        "kicker": "DEEP ZOOM",
+        "headline": "Fall into the detail",
+        "size": [
+          1600,
+          2734
+        ],
+        "app_pixels": [
+          1600,
+          2434
+        ],
+        "sha256": "dc17ec6ce77dc637a4fa4497cb465304265c937398929fe2bc3299eb82e046be"
+      },
+      {
+        "file": "docs/store_listing/screenshots/tablet/03-mandelbulb.png",
+        "raw": "release-artifacts/store-listing-captures/20261105/tablet/03-mandelbulb.png",
+        "raw_sha256": "0955a5d620225fc33c3fdadb5ee61f3684f95448e7c233832d88874c8ccfa9df",
+        "kicker": "3D WORLDS",
+        "headline": "Rotate a mathematical object",
+        "size": [
+          1600,
+          2734
+        ],
+        "app_pixels": [
+          1600,
+          2434
+        ],
+        "sha256": "2499c20301daca18566e552aa0a0bd4ae59701bdf3e613cbf12ef953270ae236"
+      },
+      {
+        "file": "docs/store_listing/screenshots/tablet/04-julia.png",
+        "raw": "release-artifacts/store-listing-captures/20261105/tablet/01-julia.png",
+        "raw_sha256": "a00d66005f070654592bb8f0a91df0abc45c85372b13a0a8844aafa8f7437f26",
+        "kicker": "1,000+ FRACTALS",
+        "headline": "Every constant, a new world",
+        "size": [
+          1600,
+          2734
+        ],
+        "app_pixels": [
+          1600,
+          2434
+        ],
+        "sha256": "7fac2570fcf8b87f9f41594e6f449955d7235cf939d73545eb48d036257167dd"
+      }
+    ]
+  }
+}

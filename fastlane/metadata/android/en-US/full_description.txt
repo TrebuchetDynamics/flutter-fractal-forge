@@ -1,26 +1,26 @@
-Find a pattern. Follow it deeper. Make it yours.
+Fractal Forge is a free fractal explorer and generative art studio. Explore over 1,000 fractals — Mandelbrot and Julia sets, Burning Ship, tilings, cellular automata and 3D forms like the Mandelbulb — then turn any view into a wallpaper, a print or a looping GIF.
 
-Fractal Forge is a fractal explorer and generative art studio with more than 1,000 fractals to discover. Travel through Mandelbrot and Julia sets, explore intricate 3D forms, and turn mathematical patterns into art for your screen.
+No ads. No account. No tracking. Explore, create and export offline.
 
-Explore beyond the familiar
-• Browse by category or search for a fractal by name.
-• Discover Mandelbrot, Julia, Burning Ship, Newton basins, strange attractors, tilings, cellular automata, Mandelbulb and Mandelbox.
-• Zoom, pan and rotate supported 3D fractals. Start with a preset or try the randomizer when you want a surprise.
+EXPLORE
+• Search by name or browse by category: escape-time sets, root-finding basins, strange attractors, IFS, tilings, cellular automata and ray-marched 3D worlds.
+• Zoom, pan and rotate 3D fractals with real-time GPU rendering, plus a CPU precision path for extreme deep zoom.
+• Open a curated preset, let Randomize pick your next fractal, or let Auto-Explore drift.
+• Write and preview your own formulas in Formula Lab.
 
-Make the colors your own
-• Switch palettes, create your own gradients and adjust fractal parameters in real time.
-• Build symmetrical compositions with kaleidoscope effects, or add a text overlay.
-• Experiment with your own formulas in Formula Lab.
+MAKE IT YOURS
+• Pick a palette or build your own, then tune fractal parameters in real time.
+• Add kaleidoscope symmetry or a text overlay to compose the frame.
+• Switch on the Fourier view for a second reading of the same pattern.
 
-Keep what you create
-• Export PNG images up to 4K for wallpapers, prints and sharing.
-• Animate zoom, pan and parameters with Looper, then export GIF loops.
-• Save presets so you can return to a favorite look. Share a link that reopens your view.
-• Press Play to replay a saved Looper path, or hold Play to build or edit one. Explore Fourier analysis for another view of a pattern.
+KEEP AND SHARE
+• Export opaque or transparent PNG up to 4K, with Instagram, story and custom sizes, and batch-export every saved preset.
+• Set the view as your home or lock-screen wallpaper in one tap.
+• Animate zoom, pan and parameters in the animation looper, preview the loop, then export a GIF.
+• Share a link that reopens your exact view.
 
-Your studio, offline
-No ads, no account and no tracking. Core exploration and creation work offline. Fractal Forge is free and open source under Apache 2.0.
-
-High contrast, reduced motion, screen-reader labels and adjustable touch targets help you explore your way. Rendering speed and the depth of available zoom depend on the fractal and your device.
+MADE TO BE USABLE
+• High contrast, reduced motion, screen-reader labels and adjustable touch targets.
+• Free and open source under Apache 2.0. Rendering speed and available zoom depth depend on the fractal and your device.
 
 Open a fractal. Change one thing. See where it takes you.

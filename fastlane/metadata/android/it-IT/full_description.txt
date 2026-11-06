@@ -1,23 +1,26 @@
-Trova un motivo. Esplorane i dettagli. Rendilo tuo.
+Fractal Forge è un esploratore di frattali e uno studio di arte generativa, gratis. Esplora oltre 1.000 frattali — insiemi di Mandelbrot e Julia, Burning Ship, tassellazioni, automi cellulari e forme 3D come il Mandelbulb — e trasforma ogni vista in sfondo, stampa o GIF in loop.
 
-Fractal Forge è un esploratore di frattali e uno studio di arte generativa con oltre 1.000 frattali. Viaggia negli insiemi di Mandelbrot e Julia, scopri forme 3D e trasforma la matematica in immagini per il tuo schermo.
+Niente pubblicità. Nessun account. Nessun tracciamento. Esplora, crea ed esporta anche offline.
 
-Esplora e scopri
-• Cerca per nome o sfoglia le categorie: Burning Ship, bacini di Newton, attrattori, tassellazioni, automi cellulari, Mandelbulb e Mandelbox.
-• Ingrandisci, sposta la vista e ruota i frattali 3D compatibili. Parti da un preset o prova una scelta casuale.
+ESPLORA
+• Cerca per nome o sfoglia per categoria: insiemi iterativi, bacini delle radici, attrattori strani, IFS, tassellazioni, automi cellulari e mondi 3D in ray marching.
+• Zoom, spostamento e rotazione dei frattali 3D con rendering GPU in tempo reale, più un percorso di precisione CPU per lo zoom profondo estremo.
+• Apri un preset curato, lascia che Casuale scelga il prossimo frattale o lascia vagare Auto-Esplora.
+• Scrivi e visualizza in anteprima le tue formule in Formula Lab.
 
-Crea il tuo stile
-• Cambia palette, crea sfumature e regola i parametri in tempo reale.
-• Componi simmetrie con effetti caleidoscopio e aggiungi testo.
-• Sperimenta le tue formule in Formula Lab.
+COME LO VUOI TU
+• Scegli una palette o creane una tua, poi regola i parametri del frattale in tempo reale.
+• Aggiungi simmetria caleidoscopica o un testo sovrapposto per comporre l’immagine.
+• Attiva la vista di Fourier per una seconda lettura dello stesso motivo.
 
-Conserva le tue creazioni
-• Esporta PNG fino a 4K per sfondi, stampe e condivisioni.
-• Anima zoom, spostamenti e parametri con Looper, poi esporta cicli GIF.
-• Salva preset e condividi link che riaprono la tua vista.
-• Esplora l’analisi di Fourier.
+SALVA E CONDIVIDI
+• Esporta PNG opaco o trasparente fino a 4K, con formati Instagram, storia e personalizzati, ed esporta in batch tutti i preset salvati.
+• Imposta la vista come sfondo della schermata iniziale o di blocco con un tocco.
+• Anima zoom, spostamento e parametri nel Looper di animazione, guarda l’anteprima del loop ed esporta un GIF.
+• Condividi un link che riapre esattamente la tua vista.
 
-Il tuo studio offline
-Senza pubblicità, account o tracciamento. Esplorazione e creazione funzionano offline. Gratis e open source con licenza Apache 2.0.
+FATTO PER ESSERE USATO
+• Alto contrasto, movimento ridotto, etichette per screen reader e aree di tocco regolabili.
+• Gratis e open source con licenza Apache 2.0. Velocità di rendering e profondità di zoom disponibili dipendono dal frattale e dal dispositivo.
 
-Contrasto elevato, movimento ridotto, etichette per lettori di schermo e aree tattili regolabili. Velocità e profondità dello zoom dipendono dal frattale e dal dispositivo.
+Apri un frattale. Cambia una cosa. Guarda dove ti porta.

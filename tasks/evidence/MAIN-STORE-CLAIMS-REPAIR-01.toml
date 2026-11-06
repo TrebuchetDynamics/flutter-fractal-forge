@@ -1,0 +1,9 @@
+schema = 1
+task = "MAIN-STORE-CLAIMS-REPAIR-01"
+candidate = "8a08dcde875a6a3b34f6d834f82d2e2d060277c9"
+integration = "f29c9c11939e07d6359d896de89fa250dad2f93c"
+tree = "95c79b096a32a57aef34092d1c56f2f1ddcbdbe7"
+contract_hash = "d40af4b477710b51935284092d841cb6bc835bd59abe177309d5388fbe65f526"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAIN-STORE-CLAIMS-REPAIR-01"]
+result = "pass"
+review = "passed"

@@ -1,23 +1,26 @@
-Hitta ett mönster. Utforska detaljerna. Gör det till ditt.
+Fractal Forge är en gratis fraktalutforskare och en studio för generativ konst. Utforska över 1 000 fraktaler — Mandelbrot- och Julia-mängder, Burning Ship, tesselleringar, cellulära automater och 3D-former som Mandelbulb — och gör varje vy till en bakgrund, en print eller en loopande GIF.
 
-Fractal Forge är en fraktalutforskare och studio för generativ konst med över 1 000 fraktaler. Utforska Mandelbrot- och Juliamängder, upptäck 3D-former och förvandla matematik till bilder.
+Inga annonser. Inget konto. Ingen spårning. Utforska, skapa och exportera offline.
 
-Utforska och upptäck
-• Sök på namn eller bläddra bland kategorier: Burning Ship, Newtonbassänger, attraktorer, tesselleringar, cellulära automater, Mandelbulb och Mandelbox.
-• Zooma, panorera och rotera fraktaler med 3D-stöd. Börja med en förinställning eller prova ett slumpmässigt val.
+UTFORSKA
+• Sök på namn eller bläddra efter kategori: escape-time-mängder, rotbassänger, märkliga attraktorer, IFS, tesselleringar, cellulära automater och 3D-raymarchingvärldar.
+• Zooma, panorera och rotera 3D-fraktaler med GPU-rendering i realtid, plus en CPU-precisionsväg för extrem djupzoom.
+• Öppna en utvald preset, låt Slumpa välja nästa fraktal eller låt Auto-utforska driva vidare.
+• Skriv och förhandsvisa egna formler i Formula Lab.
 
-Skapa din egen stil
-• Byt palett, skapa färgövergångar och justera parametrar i realtid.
-• Bygg symmetriska kompositioner med kalejdoskopeffekter och lägg till text.
-• Testa egna formler i Formula Lab.
+GÖR DET TILL DITT
+• Välj en palett eller bygg din egen och justera fraktalens parametrar direkt.
+• Lägg till kalejdoskopsymmetri eller en textöverläggning för att komponera bilden.
+• Slå på Fourier-vyn för en andra läsning av samma mönster.
 
-Spara och dela
-• Exportera PNG-bilder upp till 4K för bakgrunder, utskrifter och delning.
-• Animera zoom, rörelse och parametrar med Looper och exportera GIF-loopar.
-• Spara förinställningar och dela länkar som öppnar din vy igen.
-• Utforska Fourieranalys.
+SPARA OCH DELA
+• Exportera ogenomskinlig eller genomskinlig PNG upp till 4K, med Instagram-, story- och egna storlekar, och batch-exportera alla sparade presets.
+• Ställ in vyn som bakgrund på start- eller låsskärmen med ett tryck.
+• Animera zoom, panorering och parametrar i animationsloopern, förhandsgranska loopen och exportera en GIF.
+• Dela en länk som öppnar exakt din vy.
 
-Din studio fungerar offline
-Ingen reklam, inget konto och ingen spårning. Utforska och skapa utan internet. Gratis och med öppen källkod under Apache 2.0.
+GJORD ATT ANVÄNDAS
+• Hög kontrast, minskad rörelse, etiketter för skärmläsare och justerbara pekmål.
+• Gratis och öppen källkod under Apache 2.0. Renderinghastighet och tillgängligt zoomdjup beror på fraktalen och din enhet.
 
-Hög kontrast, minskad rörelse, skärmläsaretiketter och justerbara tryckytor. Hastighet och zoomdjup beror på fraktalen och enheten.
+Öppna en fraktal. Ändra en sak. Se vart det leder.

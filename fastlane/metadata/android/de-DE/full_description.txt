@@ -1,23 +1,26 @@
-Entdecke ein Muster. Geh ins Detail. Mach es zu deinem Bild.
+Fractal Forge ist ein kostenloser Fraktal-Explorer und ein Studio für generative Kunst. Erkunde über 1.000 Fraktale – Mandelbrot- und Julia-Mengen, Burning Ship, Parkettierungen, zelluläre Automaten und 3D-Formen wie Mandelbulb – und mach aus jeder Ansicht ein Wallpaper, einen Druck oder ein Loop-GIF.
 
-Fractal Forge ist Fraktal-Explorer und Studio für generative Kunst. Entdecke über 1.000 Fraktale: von Mandelbrot- und Julia-Mengen bis zu komplexen 3D-Formen. Verwandle Mathematik in Kunst für deinen Bildschirm.
+Keine Werbung. Kein Konto. Kein Tracking. Erkunden, gestalten und exportieren – auch offline.
 
-Entdecken und experimentieren
-• Suche nach Namen oder stöbere in Kategorien: Burning Ship, Newton-Becken, Attraktoren, Parkettierungen, zelluläre Automaten, Mandelbulb und Mandelbox.
-• Zoome, verschiebe die Ansicht und drehe unterstützte 3D-Fraktale. Starte mit einer Vorlage oder dem Zufallsgenerator.
+ERKUNDEN
+• Suche nach Namen oder stöbere in Kategorien: Escape-Time-Mengen, Wurzel-Becken, seltsame Attraktoren, IFS, Parkettierungen, zelluläre Automaten und Raymarching-3D-Welten.
+• Zoome, verschiebe und drehe 3D-Fraktale in Echtzeit per GPU – samt CPU-Präzisionspfad für extremen Deep Zoom.
+• Öffne ein kuratiertes Preset, lass Zufall das nächste Fraktal wählen oder Auto-Explore treiben.
+• Schreibe und prüfe eigene Formeln im Formula Lab.
 
-Deine Farben, dein Stil
-• Wechsle Paletten, erstelle Farbverläufe und ändere Parameter in Echtzeit.
-• Gestalte Symmetrien mit Kaleidoskop-Effekten und füge Text hinzu.
-• Probiere eigene Formeln in Formula Lab aus.
+DEINE GESTALTUNG
+• Wähle eine Palette oder baue deine eigene und justiere Parameter live.
+• Füge Kaleidoskop-Symmetrie oder Text-Overlays hinzu.
+• Schalte die Fourier-Ansicht für einen zweiten Blick auf dasselbe Muster ein.
 
-Speichern und teilen
-• Exportiere PNG-Bilder bis 4K für Hintergründe, Drucke und zum Teilen.
-• Animiere Zoom, Bewegung und Parameter mit Looper und exportiere GIF-Schleifen.
-• Speichere Vorlagen und teile Links, die deine Ansicht wieder öffnen.
-• Erkunde Fourier-Analyse.
+SPEICHERN UND TEILEN
+• Exportiere deckende oder transparente PNGs bis 4K, in Instagram-, Story- und eigenen Größen, und exportiere alle Presets als Stapel.
+• Setze die Ansicht mit einem Tipp als Start- oder Sperrbildschirm-Wallpaper.
+• Animieren Zoom, Verschiebung und Parameter im Animations-Looper, prüfe die Schleife und exportiere ein GIF.
+• Teile einen Link, der genau deine Ansicht wieder öffnet.
 
-Dein Studio funktioniert offline
-Keine Werbung, kein Konto, kein Tracking. Erkunden und Gestalten sind offline möglich. Kostenlos und quelloffen unter Apache 2.0.
+GEMACHT FÜRS BENUTZEN
+• Hoher Kontrast, reduzierte Bewegung, Screenreader-Labels und anpassbare Touch-Ziele.
+• Kostenlos und Open Source unter Apache 2.0. Render-Geschwindigkeit und maximale Zoomtiefe hängen vom Fraktal und deinem Gerät ab.
 
-Mit hohem Kontrast, reduzierter Bewegung, Screenreader-Beschriftungen und einstellbaren Touch-Zielen. Geschwindigkeit und Zoomtiefe hängen vom Fraktal und deinem Gerät ab.
+Öffne ein Fraktal. Ändere eine Sache. Sieh, wohin es dich führt.

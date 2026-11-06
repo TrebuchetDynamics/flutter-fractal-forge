@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_fractals/core/theme/app_theme.dart';
 
 /// Where one viewer control surface is drawn, or that it is not drawn.
 enum ViewerChromeSlot {
@@ -103,4 +104,51 @@ final class ViewerChromeLayout {
 
   /// Whether the tools region scrolls with the header.
   bool get toolsScrolled => tools == ViewerChromeSlot.scrolled;
+}
+
+/// Named placements for the viewer's overlay layers.
+///
+/// Each layer used to re-derive its own anchor from the safe insets. This value
+/// type owns the anchors, so a new overlay names a slot and the order of the
+/// layers stays visible in one place.
+@immutable
+final class ViewerOverlaySlots {
+  const ViewerOverlaySlots({
+    required this.insets,
+    required this.overlayTop,
+    required this.bottomPadding,
+  });
+
+  final EdgeInsets insets;
+
+  /// First usable line below the header; banners and status chips start here.
+  final double overlayTop;
+  final double bottomPadding;
+
+  /// Full-width layer under the system status bar. Used by the header.
+  Widget topFullWidth(Widget child) => Positioned(
+        top: insets.top + 8,
+        left: insets.left + 12,
+        right: insets.right + 12,
+        child: child,
+      );
+
+  /// Narrow top-right layer below the header. Used by banners and chips.
+  Widget topTrailing(Widget child, {double? maxWidth = 240}) => Positioned(
+        top: overlayTop,
+        right: 12,
+        child: maxWidth == null
+            ? child
+            : ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: maxWidth),
+                child: child,
+              ),
+      );
+
+  /// Bottom-right floating action. Used by the fullscreen exit control.
+  Widget bottomTrailing(Widget child) => Positioned(
+        right: AppSpacing.lg,
+        bottom: bottomPadding + AppSpacing.xl,
+        child: child,
+      );
 }

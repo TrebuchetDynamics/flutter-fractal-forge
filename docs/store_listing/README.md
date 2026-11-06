@@ -1,17 +1,42 @@
 # Fractal Forge store listing
 
-The September 2026 campaign leads with exploration and creative output: **Fractal Forge**. It replaces technical sales copy, stale catalog counts, and a feature graphic that misspelled the app name and advertised unsupported AR.
-
-[Preview the campaign](PREVIEW.md).
+**Fractal Forge** is the store title in every locale. The current campaign leads with
+searchable, checkable promises: what the app renders, what you can export, and what it
+never does (ads, accounts, tracking). See the [campaign preview](PREVIEW.md).
 
 ## Source of truth
 
 - [Localized copy](../play-store-localized-listings.json): titles, short descriptions and full descriptions for all 15 existing Google Play locales.
 - [Asset manifest](assets.json): ordered image groups shared across those locales.
 - [Feature graphic](feature_graphic.png): 1024×500 promotional illustration; the matching release asset is `assets/feature-graphic.png`.
-- [Phone screenshots](screenshots/phone): actual Android release 1.1.104 captures at 1080×1920.
-- [Tablet screenshots](screenshots/tablet): actual Android release captures at 1600×2560, using its responsive tablet layout. Used for both tablet listing groups.
+- [Phone screenshots](screenshots/phone): seven captioned 1080×1988 images composed from unmodified Android 1.1.120 captures.
+- [Tablet screenshots](screenshots/tablet): four captioned 1600×2734 images from the same run, using the responsive tablet layout. Used for both tablet listing groups.
+- [Capture manifest](screenshot_captures.json): every composed image's raw capture, caption, dimensions and SHA256 digests.
 - [Artwork provenance and prompt](artwork/PROMPTS.md).
+
+Only the caption band is added artwork. Everything below it is the device framebuffer
+with the Android status and navigation bars trimmed; the app's own pixels are not
+rescaled or retouched.
+
+Short descriptions now lead with the search terms people actually use — fractals,
+Mandelbrot, Julia, 3D, 4K wallpaper, GIF, offline — while full descriptions keep a
+scannable Explore / Make it yours / Keep and share / Made to be usable structure.
+
+## Screenshot pipeline
+
+```sh
+# 1. Capture full-framebuffer Android screenshots (see the recipe below)
+# 2. Compose the captioned delivery images and refresh the capture manifest
+scripts/compose-store-screenshots.py \
+    --raw release-artifacts/store-listing-captures/<run>/ \
+    --out docs/store_listing/screenshots/
+python3 -m pytest test/scripts/test_compose_store_screenshots.py -q
+```
+
+The composer refuses a capture from the wrong device class, a composed aspect ratio
+outside Play's 2:1 limit, or a caption that does not fit its band. Raw captures are
+kept out of Git (ignored `release-artifacts/`); the manifest keeps their digests so a
+delivered image can be traced back to the exact device capture used.
 
 The owner-approved B/open-spiral app-derived Julia icon now supplies the app logo and generated launcher resources. Its [provenance](../../assets/fractal-forge-icon-source.json) retains the untouched app capture and exact transformation. An icon-only Play update was committed and verified across all 15 existing locales, preserving their live text/video and non-icon images. This does not publish an app binary or qualify installed-device appearance; existing installed apps receive the launcher change with a future app update. Screenshots remain English actual captures; localized copy, feature graphic and screenshots are unchanged by this icon-only operation.
 
@@ -38,13 +63,58 @@ Optional environment overrides: `PLAY_PACKAGE_NAME`, `PLAY_LOCALIZED_LISTINGS_JS
 
 ## Copy maintenance
 
-Keep the canonical JSON, `fastlane/metadata/android/<locale>/{title,short_description,full_description}.txt`, and the English text files in this directory synchronized. The regression test checks Fastlane parity. Descriptions use “1,000+” rather than a brittle exact count and qualify device-dependent rendering and zoom. Do not add AR, MP4 export, unlimited zoom, guaranteed frame rates, ratings or ranking claims without product evidence.
+Edit the canonical JSON, then mirror it into Fastlane and the English review files:
+
+```sh
+scripts/sync-store-copy.py           # write the Fastlane and English copies
+scripts/sync-store-copy.py --check   # fail on drift (usable in CI)
+```
+
+The regression test also checks Fastlane parity and the IOS-style text limits.
+Descriptions use “1,000+” rather than a brittle exact count and qualify
+device-dependent rendering and zoom. The JSON `count` metadata must still match
+the exact production count checked by `test/modules/readme_catalog_claims_test.dart`.
+Describe the looper as animation of the view, not as device camera access.
+Keep zoom, pan, parameter animation, loop preview and GIF export in the copy.
+Do not add AR, MP4 export, unlimited zoom, guaranteed frame rates, ratings or
+ranking claims without product evidence.
 
 ## Screenshot capture recipe
 
-Use a clean temporary Android user to avoid exposing personal settings. Launch the installed release, capture with `adb shell screencap -p /sdcard/fractal-store-capture.png`, then pull the file. Phone viewport: 1080×1920 at density 420; tablet: 1600×2560 at density 240. Restore the previous user and display overrides afterward.
+Use a clean temporary Android user to avoid exposing personal settings, and restore
+the previous user and display overrides afterward. The committed images came from an
+installed release build on the designated headless Waydroid instance; that is
+container rendering evidence, not a physical-device/hardware-GPU qualification.
 
-Exploration view: `/view?type=mandelbrot&zoom=100&x=-0.743643887037151&y=0.13182590420533&colorScheme=0&iterations=1000`. 3D view: `/view?type=mandelbulb&zoom=1&x=0&y=0&rotX=0.2&rotY=0.5&colorScheme=0`. Long-press the palette icon for the color sheet; tap Share & export for export options. Open the catalog from a fresh launcher session.
+The capture run is deterministic once the display is set:
+
+```sh
+ADB="adb -s $ANDROID_DEVICE"
+$ADB shell wm size 1080x1920 && $ADB shell wm density 420   # phone
+$ADB shell wm size 1600x2560 && $ADB shell wm density 240  # tablet
+$ADB shell am force-stop com.trebuchetdynamics.fractal.forge
+$ADB shell am start -a android.intent.action.VIEW \
+  -d 'fractalforge://view?type=mandelbrot&x=-0.743643887&y=0.131825904&zoom=2000&iterations=500&colorScheme=6' \
+  com.trebuchetdynamics.fractal.forge
+$ADB shell screencap -p /sdcard/shot.png && $ADB pull /sdcard/shot.png <raw-dir>/phone/01-mandelbrot.png
+```
+
+Deep-link views used for the art slides:
+
+| Slide | View |
+|---|---|
+| Mandelbrot | `type=mandelbrot&x=-0.743643887&y=0.131825904&zoom=2000&iterations=500&colorScheme=6` |
+| Julia | `type=julia&juliaX=-0.8&juliaY=0.156&zoom=1&iterations=500&colorScheme=1` |
+| Mandelbulb | `type=mandelbulb&zoom=1&x=0&y=0&rotX=0.2&rotY=0.5&colorScheme=0` |
+
+UI slides are ordinary taps on the running app, located from `adb shell uiautomator
+dump` rather than guessed coordinates: long-press the palette tool for the color
+sheet, long-press Play to build a two-keyframe camera loop, and open **Save & share →
+Export** for the export sheet. The catalog slide filters the catalog to 3D fractals.
+
+The composer trims 76 px of status bar and 96 px of navigation bar from phone captures
+(42 px / 84 px on tablet). Re-measure those insets if the device changes, and keep the
+caption band free of claims the running build cannot show.
 
 ## Reference requirements
 
