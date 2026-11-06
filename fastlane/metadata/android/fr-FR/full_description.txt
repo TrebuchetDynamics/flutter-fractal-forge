@@ -1,23 +1,26 @@
-Trouvez un motif. Explorez ses détails. Faites-en votre création.
+Fractal Forge est un explorateur de fractales et un studio d’art génératif, gratuit. Parcourez plus de 1 000 fractales — ensembles de Mandelbrot et de Julia, Burning Ship, pavages, automates cellulaires et formes 3D comme le Mandelbulb — puis transformez chaque vue en fond d’écran, en tirage ou en GIF en boucle.
 
-Fractal Forge réunit un explorateur de fractales et un atelier d’art génératif. Découvrez plus de 1 000 fractales, des ensembles de Mandelbrot et Julia aux formes 3D, et transformez les mathématiques en images.
+Sans publicité. Sans compte. Sans pistage. Explorez, créez et exportez hors ligne.
 
-Explorez à votre rythme
-• Recherchez un nom ou parcourez les catégories : Burning Ship, bassins de Newton, attracteurs, pavages, automates cellulaires, Mandelbulb et Mandelbox.
-• Zoomez, déplacez la vue et faites pivoter les fractales 3D compatibles. Essayez un préréglage ou une découverte aléatoire.
+EXPLORER
+• Recherchez par nom ou parcourez par catégorie : ensembles itératifs, bassins de racines, attracteurs étranges, IFS, pavages, automates cellulaires et mondes 3D en ray marching.
+• Zoomez, déplacez la vue et faites pivoter les fractales 3D en temps réel grâce au GPU, avec un mode de précision CPU pour le zoom extrême.
+• Ouvrez un préréglage soigné, laissez Aléatoire choisir la fractale suivante ou laissez Auto-Explore dériver.
+• Écrivez et prévisualisez vos propres formules dans Formula Lab.
 
-Créez votre style
-• Changez de palette, créez des dégradés et ajustez les paramètres en temps réel.
-• Composez avec les effets kaléidoscope et ajoutez du texte.
-• Expérimentez vos propres formules dans Formula Lab.
+À VOTRE FAÇON
+• Choisissez une palette ou créez la vôtre, puis réglez les paramètres de la fractale en temps réel.
+• Ajoutez une symétrie kaléidoscopique ou un texte superposé pour composer l’image.
+• Activez la vue de Fourier pour une seconde lecture du même motif.
 
-Gardez vos découvertes
-• Exportez des PNG jusqu’en 4K pour vos fonds d’écran, impressions et partages.
-• Animez le zoom, le déplacement et les paramètres avec Looper, puis exportez des boucles GIF.
-• Enregistrez vos préréglages et partagez un lien qui rouvre votre vue.
-• Explorez l’analyse de Fourier.
+ENREGISTRER ET PARTAGER
+• Exportez un PNG opaque ou transparent jusqu’en 4K, avec des formats Instagram, story et personnalisés, et exportez tous vos préréglages par lots.
+• Définissez la vue comme fond d’écran d’accueil ou de verrouillage en un geste.
+• Animez le zoom, le déplacement et les paramètres dans le Looper de caméra, prévisualisez la boucle, puis exportez un GIF.
+• Partagez un lien qui rouvre exactement votre vue.
 
-Un atelier hors ligne
-Sans publicité, sans compte et sans pistage. L’exploration et la création fonctionnent hors ligne. Gratuit et open source sous licence Apache 2.0.
+CONÇU POUR ÊTRE UTILISABLE
+• Contraste élevé, mouvement réduit, libellés pour lecteurs d’écran et cibles tactiles ajustables.
+• Gratuit et open source sous Apache 2.0. La vitesse de rendu et la profondeur de zoom disponible dépendent de la fractale et de votre appareil.
 
-Contraste élevé, mouvements réduits, libellés pour lecteurs d’écran et cibles tactiles réglables. La vitesse et la profondeur du zoom varient selon la fractale et l’appareil.
+Ouvrez une fractale. Changez une chose. Voyez où cela vous mène.

@@ -1,23 +1,26 @@
-Temukan pola. Jelajahi detailnya. Jadikan karya Anda.
+Fractal Forge adalah penjelajah fraktal dan studio seni generatif gratis. Jelajahi lebih dari 1.000 fraktal — himpunan Mandelbrot dan Julia, Burning Ship, tiling, automata seluler, dan bentuk 3D seperti Mandelbulb — lalu ubah setiap tampilan menjadi wallpaper, cetakan, atau GIF berulang.
 
-Fractal Forge adalah penjelajah fraktal dan studio seni generatif dengan lebih dari 1.000 fraktal. Jelajahi himpunan Mandelbrot dan Julia, temukan bentuk 3D, lalu ubah pola matematika menjadi gambar untuk layar Anda.
+Tanpa iklan. Tanpa akun. Tanpa pelacakan. Jelajahi, berkarya, dan ekspor secara offline.
 
-Jelajahi dan temukan
-• Cari berdasarkan nama atau telusuri kategori: Burning Ship, basin Newton, atraktor, tiling, automata seluler, Mandelbulb dan Mandelbox.
-• Perbesar, geser, dan putar fraktal 3D yang didukung. Mulai dari preset atau coba pilihan acak.
+JELAJAHI
+• Cari berdasarkan nama atau telusuri per kategori: himpunan escape-time, basin akar, atraktor aneh, IFS, tiling, automata seluler, dan dunia 3D ray marching.
+• Zoom, geser, dan putar fraktal 3D dengan rendering GPU waktu nyata, plus jalur presisi CPU untuk zoom sangat dalam.
+• Buka preset pilihan, biarkan Acak memilih fraktal berikutnya, atau biarkan Auto-Jelajah berjalan sendiri.
+• Tulis dan pratinjau formula Anda sendiri di Formula Lab.
 
-Buat gaya Anda
-• Ganti palet, buat gradasi, dan sesuaikan parameter secara langsung.
-• Susun komposisi simetris dengan efek kaleidoskop dan tambahkan teks.
-• Bereksperimen dengan rumus sendiri di Formula Lab.
+SESUAI SELERA
+• Pilih palet atau buat palet sendiri, lalu atur parameter fraktal secara langsung.
+• Tambahkan simetri kaleidoskop atau overlay teks untuk menyusun komposisi.
+• Aktifkan tampilan Fourier untuk membaca pola yang sama dari sudut lain.
 
-Simpan dan bagikan
-• Ekspor gambar PNG hingga 4K untuk wallpaper, cetakan, dan berbagi.
-• Animasikan zoom, pergeseran, dan parameter dengan Looper, lalu ekspor loop GIF.
-• Simpan preset dan bagikan tautan yang membuka kembali tampilan Anda.
-• Jelajahi analisis Fourier.
+SIMPAN DAN BAGIKAN
+• Ekspor PNG buram atau transparan hingga 4K, dengan ukuran Instagram, story, dan khusus, serta ekspor batch semua preset tersimpan.
+• Jadikan tampilan sebagai wallpaper layar utama atau kunci dengan satu ketuk.
+• Animasi zoom, geser, dan parameter di Looper kamera, pratinjau loop, lalu ekspor GIF.
+• Bagikan tautan yang membuka kembali tampilan yang persis sama.
 
-Studio offline Anda
-Tanpa iklan, akun, atau pelacakan. Fitur utama untuk menjelajah dan berkarya dapat digunakan offline. Gratis dan sumber terbuka dengan lisensi Apache 2.0.
+DIRANCANG UNTUK DIPAKAI
+• Kontras tinggi, gerak dikurangi, label pembaca layar, dan target sentuh yang dapat disesuaikan.
+• Gratis dan open source di bawah Apache 2.0. Kecepatan rendering dan kedalaman zoom bergantung pada fraktal dan perangkat Anda.
 
-Kontras tinggi, pengurangan gerakan, label pembaca layar, dan area sentuh yang dapat diatur. Kecepatan render dan kedalaman zoom bergantung pada fraktal dan perangkat.
+Buka satu fraktal. Ubah satu hal. Lihat ke mana ia membawa Anda.

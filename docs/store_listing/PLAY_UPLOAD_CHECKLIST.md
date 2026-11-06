@@ -21,10 +21,16 @@ This checklist is for Google Play Console maintenance releases. The app is publi
 ### Graphics
 - [DONE] Feature graphic (exact 1024x500)
   - Path: `store_listing/feature_graphic.png`
-- [DONE] Phone screenshots (portrait 9:16)
-  - `docs/store_listing/screenshots/phone/02-catalog.png`
-  - `docs/store_listing/screenshots/phone/01-explore.png`
-  - `docs/store_listing/screenshots/phone/04-3d.png`
+- [DONE] Phone screenshots (seven captioned images, 1080×1988)
+  - `docs/store_listing/screenshots/phone/01-mandelbrot.png`
+  - `docs/store_listing/screenshots/phone/02-julia.png`
+  - `docs/store_listing/screenshots/phone/03-mandelbulb.png`
+  - `docs/store_listing/screenshots/phone/04-catalog.png`
+  - `docs/store_listing/screenshots/phone/05-palette.png`
+  - `docs/store_listing/screenshots/phone/06-export.png`
+  - `docs/store_listing/screenshots/phone/07-looper.png`
+- [DONE] Tablet screenshots (four captioned images, 1600×2734)
+  - `docs/store_listing/screenshots/tablet/*.png`
 
 ### Policy and questionnaire docs
 - [DONE] Content rating answers

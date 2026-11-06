@@ -2,6 +2,8 @@ import copy
 import importlib.util
 import json
 from pathlib import Path
+import subprocess
+import sys
 import tempfile
 import unittest
 from unittest import mock
@@ -125,8 +127,30 @@ class ListingTests(unittest.TestCase):
         self.assertEqual((ROOT / 'assets/feature-graphic.png').read_bytes(), (ROOT / 'docs/store_listing/feature_graphic.png').read_bytes())
         for filename, field in [('title.txt', 'title'), ('short_description.txt', 'shortDescription'), ('full_description.txt', 'fullDescription')]:
             self.assertEqual((ROOT / 'docs/store_listing' / filename).read_text().strip(), locales['en-US'][field])
-        for body in locales.values():
-            self.assertNotIn('MP4', body['fullDescription'], 'MP4 encoding is deferred; do not advertise it')
+        forbidden = ['MP4', 'Fractal Music', 'AR mode', 'camera filter']
+        for locale, body in locales.items():
+            text = ' '.join(body[field] for field in listing.FIELDS)
+            for claim in forbidden:
+                self.assertNotIn(claim, text, f'{locale} advertises unsupported {claim!r}')
+
+    def test_store_copy_mirrors_are_not_drifted(self):
+        result = subprocess.run(
+            [sys.executable, str(ROOT / 'scripts/sync-store-copy.py'), '--check'],
+            capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_committed_screenshots_match_the_capture_manifest(self):
+        manifest = json.loads((ROOT / 'docs/store_listing/screenshot_captures.json').read_text())
+        entries = [entry for group in manifest['groups'].values() for entry in group]
+        self.assertEqual(len(entries), 11)
+        for entry in entries:
+            path = ROOT / entry['file']
+            self.assertEqual(listing.hashlib.sha256(path.read_bytes()).hexdigest(), entry['sha256'], entry['file'])
+            with listing.Image.open(path) as image:
+                self.assertEqual(list(image.size), entry['size'])
+                self.assertEqual(image.mode, 'RGB')
+            self.assertTrue(entry['kicker'].strip())
+            self.assertTrue(entry['headline'].strip())
 
     def test_empty_and_overlong_text_rejected_before_auth(self):
         with tempfile.TemporaryDirectory() as root:

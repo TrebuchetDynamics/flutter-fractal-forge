@@ -1,23 +1,26 @@
-Vind een patroon. Duik in de details. Maak het van jou.
+Fractal Forge is een gratis fractalverkenner en een studio voor generatieve kunst. Verken meer dan 1.000 fractals — Mandelbrot- en Julia-verzamelingen, Burning Ship, betegelingen, cellulaire automaten en 3D-vormen zoals de Mandelbulb — en maak van elke weergave een wallpaper, een print of een loopende GIF.
 
-Fractal Forge is een fractalverkenner en studio voor generatieve kunst met meer dan 1.000 fractals. Verken Mandelbrot- en Julia-verzamelingen, ontdek 3D-vormen en maak kunst voor je scherm.
+Geen advertenties. Geen account. Geen tracking. Verkennen, creëren en exporteren kan offline.
 
-Verkennen en ontdekken
-• Zoek op naam of blader door categorieën: Burning Ship, Newton-bekkens, attractoren, betegelingen, cellulaire automaten, Mandelbulb en Mandelbox.
-• Zoom, verschuif en draai ondersteunde 3D-fractals. Begin met een preset of laat je verrassen door de willekeurige selectie.
+VERKENNEN
+• Zoek op naam of blader per categorie: escape-time-verzamelingen, wortelbekkens, strange attractors, IFS, betegelingen, cellulaire automaten en 3D-raymarchingwerelden.
+• Zoom, verschuif en draai 3D-fractals met realtime GPU-rendering, plus een CPU-precisiepad voor extreme deep zoom.
+• Open een samengestelde preset, laat Willekeurig de volgende fractal kiezen of laat Auto-verkennen zijn gang gaan.
+• Schrijf en bekijk je eigen formules in Formula Lab.
 
-Je eigen kleuren
-• Wissel paletten, maak kleurverlopen en pas parameters direct aan.
-• Maak symmetrische composities met caleidoscoopeffecten en voeg tekst toe.
-• Probeer eigen formules in Formula Lab.
+MAAK HET VAN JOU
+• Kies een palet of bouw je eigen palet en stel fractalparameters live bij.
+• Voeg kaleidoscoopsymmetrie of een tekstoverlay toe om het beeld samen te stellen.
+• Zet de Fourier-weergave aan voor een tweede blik op hetzelfde patroon.
 
-Bewaren en delen
-• Exporteer PNG-afbeeldingen tot 4K voor achtergronden, afdrukken en delen.
-• Animeer zoom, beweging en parameters met Looper en exporteer GIF-loops.
-• Bewaar presets en deel links die jouw weergave opnieuw openen.
-• Ontdek Fourier-analyse.
+BEWAREN EN DELEN
+• Exporteer dekkende of transparante PNG tot 4K, met Instagram-, story- en eigen formaten, en exporteer al je presets in één batch.
+• Zet de weergave met één tik als wallpaper voor je start- of vergrendelscherm.
+• Animeer zoom, verschuiving en parameters in de cameralooper, bekijk de loop en exporteer een GIF.
+• Deel een link die precies jouw weergave opent.
 
-Je studio werkt offline
-Geen advertenties, account of tracking. Verkennen en creëren kan offline. Gratis en open source onder Apache 2.0.
+GEMAAKT OM TE GEBRUIKEN
+• Hoog contrast, minder beweging, labels voor schermlezers en aanpasbare aanraakdoelen.
+• Gratis en open source onder Apache 2.0. Rendertijd en beschikbare zoomdiepte hangen af van de fractal en je toestel.
 
-Met hoog contrast, minder beweging, schermlezerlabels en instelbare aanraakdoelen. Snelheid en zoomdiepte hangen af van de fractal en je apparaat.
+Open een fractal. Verander één ding. Kijk waar het je brengt.
