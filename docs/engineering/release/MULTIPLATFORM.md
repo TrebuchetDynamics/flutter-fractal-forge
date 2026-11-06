@@ -86,7 +86,7 @@ not the settled target choice. See [the Waydroid contract](../testing/waydroid-h
 
 ## Current release status
 
-For the most recent campaign outcome see [ALL_PLATFORMS_1.1.119.md](ALL_PLATFORMS_1.1.119.md); the note below is retained operating history.
+For the most recent campaign outcome see [PLAY_1.1.122.md](PLAY_1.1.122.md); the note below is retained operating history.
 
 Play production is **1.1.120 (120)**, status completed, published from `main`
 (application code `7a6daf28`) — see [PLAY_1.1.120.md](PLAY_1.1.120.md). That was
