@@ -16,7 +16,7 @@ GÖR DET TILL DITT
 SPARA OCH DELA
 • Exportera ogenomskinlig eller genomskinlig PNG upp till 4K, med Instagram-, story- och egna storlekar, och batch-exportera alla sparade presets.
 • Ställ in vyn som bakgrund på start- eller låsskärmen med ett tryck.
-• Animera zoom, panorering och parametrar i kamerloopern, förhandsgranska loopen och exportera en GIF.
+• Animera zoom, panorering och parametrar i animationsloopern, förhandsgranska loopen och exportera en GIF.
 • Dela en länk som öppnar exakt din vy.
 
 GJORD ATT ANVÄNDAS

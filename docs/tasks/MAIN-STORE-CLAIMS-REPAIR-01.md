@@ -50,10 +50,48 @@ composer, upload-checklist, manifest and changelog changes in those commits are
 provenance only: this repair does not require editing them. No product, SDK,
 permission, shader or registry change is indicated by these failures.
 
+## Worker repair and focused verification
+
+The worker reproduced both named failures at baseline
+`d9a76106fda0f22a467a100e40fe8a60ca43beb7` before editing. The unchanged registry
+filter yields 1051 production fractals. Canonical JSON now records
+`1051 production fractals`; localized descriptions retain their 1,000+ campaign floor.
+All 15 full descriptions now describe an animation looper, including compounds
+and translations not matched by the guard. Zoom, pan, parameter animation,
+loop preview and GIF export remain in every locale. The existing sync script
+regenerated the English and Fastlane full descriptions. Titles, short descriptions,
+screenshots, manifests, permissions, product code and test assertions are unchanged.
+No new helper, dependency or duplicate test was needed.
+
+Checks used the AGENTS.md process-local setup: `FLUTTER_ROOT` was
+`$AUTOWORK_CACHE/flutter-3.47.9`, `PUB_CACHE` was `$AUTOWORK_CACHE/pub-cache`, and
+`PATH` began with `$FLUTTER_ROOT/bin:/usr/bin`.
+
+| Command | Result on repaired copy |
+| --- | --- |
+| `flutter --version` compared with `fdroid/flutter.version` | Flutter 3.47.9 matches; Dart 3.13.7. Exit 0. |
+| `/usr/bin/python3 -c 'import sys, pytest, jinja2, markupsafe; print(sys.executable, sys.version, pytest.__version__, jinja2.__version__); assert callable(markupsafe.soft_str)'` | Python 3.12.3, pytest 9.0.2, Jinja2 3.1.6. Exit 0. |
+| `flutter pub get --offline --enforce-lockfile` | Checkout-local package metadata regenerated. Exit 0. |
+| `flutter test --no-pub test/modules/readme_catalog_claims_test.dart --reporter expanded` | Before: exactly the two named failures, exit 1. After: all 4 tests pass, exit 0. No skips. |
+| `/usr/bin/python3 scripts/sync-store-copy.py` | 48 copies synced. Exit 0. |
+| `/usr/bin/python3 scripts/sync-store-copy.py --check` | All 48 copies match. Exit 0. |
+| `/usr/bin/python3 -m pytest test/scripts/test_play_store_listing.py -q` | 27 tests and 46 subtests pass, including screenshot manifest digests and copy limits. Exit 0. |
+
+Repaired canonical JSON SHA-256:
+`2d8d3ee2c735399bf806d3bc9930b102b4ee134a224d45a2f05b357dc60e1cb9`.
+Unchanged claims test SHA-256:
+`fedce35adbb9086aa87ebadfa9df96ff328c0ecce58e3d0ed942585571a64e90`.
+`pubspec.lock` SHA-256 before and after:
+`d759c63037e4d4f29a7c09b14886854fb8caa832c41f1172ec684a5cdcb7145b`.
+
+The worker did not run the full offline gate. Worker instructions reserve that
+unchanged gate for the runner on the merged tree before review. Focused green
+is not full-gate, goal, device, browser or publication qualification.
+
 ## Verification limits
 
-This maintainer pass inspects evidence and creates an executable repair contract;
-it does not implement the repair or run Flutter/Python/Bats product suites.
+The original maintainer pass inspected evidence and created the repair contract.
+It did not implement the repair or run Flutter/Python/Bats product suites.
 No coordinator receipt, owner input, device access, publication, goal verification
 or live qualification is needed or inferred. Preserve unrelated task closures,
 existing live-worker contracts and all authorization boundaries.

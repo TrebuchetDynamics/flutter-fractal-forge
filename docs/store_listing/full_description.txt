@@ -16,7 +16,7 @@ MAKE IT YOURS
 KEEP AND SHARE
 • Export opaque or transparent PNG up to 4K, with Instagram, story and custom sizes, and batch-export every saved preset.
 • Set the view as your home or lock-screen wallpaper in one tap.
-• Animate zoom, pan and parameters in the Camera looper, preview the loop, then export a GIF.
+• Animate zoom, pan and parameters in the animation looper, preview the loop, then export a GIF.
 • Share a link that reopens your exact view.
 
 MADE TO BE USABLE
