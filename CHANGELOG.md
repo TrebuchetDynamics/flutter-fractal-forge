@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Rewrote the Google Play listing copy for all 15 locales around searchable, verifiable promises (Mandelbrot, Julia, 3D, 4K export, GIF loop, offline, free) with a scannable Explore / Make it yours / Keep and share / Made to be usable structure, and replaced the stale screenshots with seven captioned phone and four captioned tablet captures composed from current release pixels. Added `scripts/sync-store-copy.py`, `scripts/compose-store-screenshots.py` and a capture manifest so the mirrors and delivery images are reproducible and drift-checked. (STORE-LISTING-REFRESH-01)
 - No changelog entry required — verification only; the reported main-red failures already resolved at tip 55f9434c and no product code changed. (MAIN-VIEWER-LOOPER-GESTURE-REPAIR-01)
 - Fix the reserved-port native driver test fixture to read fdroid/flutter.version instead of hardcoding 3.44.6, so the pinned-toolchain mismatch no longer fails the offline gate and future toolchain updates stay covered. (MAIN-NATIVE-DRIVER-VERSION-REPAIR-01)
 - test(root-finding): restore the schroeder render case with a bounded six-attempt retry instead of dropping it from the smoke list (MAIN-ROOT-FINDING-FLAKE-HARDEN-01)

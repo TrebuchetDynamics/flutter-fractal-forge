@@ -6,10 +6,16 @@ The current delivery files and their order are defined in [assets.json](assets.j
 |---|---|---|
 | Feature graphic | 1024×500 | Opaque RGB PNG |
 | App icon | 512×512, at most 1024 KB | Opaque sRGB 32-bit RGBA PNG |
-| Phone screenshots | 1080×1920 | RGB PNG |
-| Tablet screenshots | 1600×2560 | RGB PNG |
+| Phone screenshots | 1080×1988 | RGB PNG |
+| Tablet screenshots | 1600×2734 | RGB PNG |
 
-Google Play screenshots must be between 320 and 3840 pixels on each side, with the long side no more than twice the short side. Use actual app captures and up to eight images per device group. This campaign supplies at least four per group.
+Google Play screenshots must be between 320 and 3840 pixels on each side, with the long side no more than twice the short side. Use actual app captures and up to eight images per device group. This campaign supplies seven phone images and four tablet images.
+
+Delivery images are composed by `scripts/compose-store-screenshots.py` from full
+1080×1920 / 1600×2560 device captures. The composer trims the Android status and
+navigation bars and adds a 240 px (phone) or 300 px (tablet) caption band, giving the
+1988 px and 2734 px delivery heights. App pixels are never rescaled or retouched, and
+the composed aspect ratios stay inside Play's 2:1 limit.
 
 Title: at most 30 characters. Short description: at most 80. Full description: at most 4000. All fields must be nonempty.
 
