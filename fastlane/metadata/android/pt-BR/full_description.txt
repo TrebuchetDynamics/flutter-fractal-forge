@@ -1,23 +1,26 @@
-Encontre um padrão. Explore seus detalhes. Faça dele a sua arte.
+Fractal Forge é um explorador de fractais e um estúdio de arte generativa, grátis. Explore mais de 1.000 fractais — conjuntos de Mandelbrot e Julia, Burning Ship, ladrilhamentos, autômatos celulares e formas 3D como o Mandelbulb — e transforme qualquer visualização em papel de parede, impressão ou GIF em loop.
 
-Fractal Forge é um explorador de fractais e um estúdio de arte generativa com mais de 1.000 fractais. Viaje pelos conjuntos de Mandelbrot e Julia, descubra formas 3D e transforme matemática em imagens para sua tela.
+Sem anúncios. Sem conta. Sem rastreamento. Explore, crie e exporte offline.
 
-Explore e descubra
-• Busque por nome ou navegue pelas categorias: Burning Ship, bacias de Newton, atratores, mosaicos, autômatos celulares, Mandelbulb e Mandelbox.
-• Amplie, mova e gire os fractais 3D compatíveis. Comece com uma predefinição ou experimente o modo aleatório.
+EXPLORE
+• Busque por nome ou navegue por categorias: conjuntos iterativos, bacias de raízes, atratores estranhos, IFS, ladrilhamentos, autômatos celulares e mundos 3D com ray marching.
+• Aplique zoom, arraste e gire fractais 3D com renderização em tempo real na GPU, além de um caminho de precisão em CPU para zoom profundo extremo.
+• Abra um preset selecionado, deixe o Aleatório escolher o próximo fractal ou deixe o Auto-Explorar seguir sozinho.
+• Escreva e visualize suas próprias fórmulas no Formula Lab.
 
-Crie seu estilo
-• Troque paletas, crie gradientes e ajuste parâmetros em tempo real.
-• Monte composições com efeitos de caleidoscópio e adicione texto.
-• Experimente suas próprias fórmulas no Formula Lab.
+DO SEU JEITO
+• Escolha uma paleta ou crie a sua e ajuste os parâmetros do fractal em tempo real.
+• Adicione simetria de caleidoscópio ou texto sobreposto para compor a imagem.
+• Ative a visão de Fourier para uma segunda leitura do mesmo padrão.
 
-Guarde suas criações
-• Exporte imagens PNG até 4K para papéis de parede, impressões e compartilhamento.
-• Anime zoom, movimento e parâmetros com Looper e exporte loops GIF.
-• Salve predefinições e compartilhe links que reabrem sua visualização.
-• Explore a análise de Fourier.
+SALVE E COMPARTILHE
+• Exporte PNG opaco ou transparente até 4K, com tamanhos para Instagram, stories e personalizados, e exporte todos os presets em lote.
+• Defina a visualização como papel de parede da tela inicial ou de bloqueio com um toque.
+• Anime zoom, deslocamento e parâmetros no Looper de câmera, visualize o loop e exporte um GIF.
+• Compartilhe um link que reabre exatamente a sua visualização.
 
-Seu estúdio, offline
-Sem anúncios, sem conta e sem rastreamento. Explore e crie sem conexão. Gratuito e de código aberto sob Apache 2.0.
+FEITO PARA USAR
+• Alto contraste, movimento reduzido, rótulos para leitores de tela e alvos de toque ajustáveis.
+• Grátis e de código aberto sob Apache 2.0. A velocidade de renderização e a profundidade de zoom dependem do fractal e do seu aparelho.
 
-Alto contraste, movimento reduzido, rótulos para leitores de tela e áreas de toque ajustáveis. A velocidade e a profundidade do zoom dependem do fractal e do dispositivo.
+Abra um fractal. Mude uma coisa. Veja onde ele leva você.

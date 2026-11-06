@@ -1,23 +1,26 @@
-Znajdź wzór. Odkryj jego szczegóły. Stwórz coś swojego.
+Fractal Forge to darmowa przeglądarka fraktali i studio sztuki generatywnej. Odkrywaj ponad 1 000 fraktali — zbiory Mandelbrota i Julii, Burning Ship, parkietaże, automaty komórkowe oraz formy 3D, takie jak Mandelbulb — i zamieniaj każdy widok w tapetę, wydruk lub zapętlony GIF.
 
-Fractal Forge to przeglądarka fraktali i studio sztuki generatywnej z ponad 1000 fraktali. Odkrywaj zbiory Mandelbrota i Julii, poznawaj formy 3D i zamieniaj matematykę w obrazy.
+Bez reklam. Bez konta. Bez śledzenia. Odkrywaj, twórz i eksportuj offline.
 
-Odkrywaj i eksperymentuj
-• Szukaj po nazwie lub przeglądaj kategorie: Burning Ship, baseny Newtona, atraktory, parkietaże, automaty komórkowe, Mandelbulb i Mandelbox.
-• Przybliżaj, przesuwaj widok i obracaj obsługiwane fraktale 3D. Zacznij od presetu lub losowego wyboru.
+ODKRYWAJ
+• Szukaj po nazwie lub przeglądaj kategorie: zbiory escape-time, baseny pierwiastków, dziwne atraktory, IFS, parkietaże, automaty komórkowe i światy 3D ray marching.
+• Powiększaj, przesuwaj i obracaj fraktale 3D dzięki renderowaniu GPU w czasie rzeczywistym, a do skrajnego zbliżenia użyj ścieżki precyzji CPU.
+• Otwórz wyselekcjonowany preset, pozwól Losuj wybrać kolejny fraktal albo puść Auto-Odkrywanie.
+• Pisz i podglądaj własne formuły w Formula Lab.
 
-Nadaj obrazom swój styl
-• Zmieniaj palety, twórz gradienty i dostosowuj parametry w czasie rzeczywistym.
-• Buduj symetryczne kompozycje efektami kalejdoskopu i dodawaj tekst.
-• Wypróbuj własne wzory w Formula Lab.
+TWÓJ STYL
+• Wybierz paletę lub zbuduj własną, a potem reguluj parametry fraktala na żywo.
+• Dodaj symetrię kalejdoskopu albo nakładkę tekstową, aby skomponować kadr.
+• Włącz widok Fouriera, aby odczytać ten sam wzór inaczej.
 
-Zapisuj i udostępniaj
-• Eksportuj obrazy PNG do 4K na tapety, do druku lub udostępniania.
-• Animuj zoom, przesunięcie i parametry w Looper, a potem eksportuj pętle GIF.
-• Zapisuj presety i udostępniaj linki otwierające Twój widok.
-• Poznaj analizę Fouriera.
+ZAPISUJ I UDOSTĘPNIAJ
+• Eksportuj nieprzezroczysty lub przezroczysty PNG do 4K, w rozmiarach Instagram, relacja i własnych, a wszystkie presety eksportuj partiami.
+• Ustaw widok jako tapetę ekranu głównego lub blokady jednym dotknięciem.
+• Animuj zoom, przesuwanie i parametry w Looperze kamery, obejrzyj pętlę i wyeksportuj GIF.
+• Udostępnij link, który otwiera dokładnie ten widok.
 
-Studio bez internetu
-Bez reklam, konta i śledzenia. Odkrywanie i tworzenie działa offline. Bezpłatna aplikacja z otwartym kodem na licencji Apache 2.0.
+STWORZONE DO UŻYCIA
+• Wysoki kontrast, ograniczony ruch, etykiety dla czytników ekranu i regulowane cele dotykowe.
+• Darmowe i open source na licencji Apache 2.0. Szybkość renderowania i dostępna głębokość zbliżenia zależą od fraktala i urządzenia.
 
-Wysoki kontrast, ograniczenie ruchu, etykiety czytników ekranu i regulowane obszary dotyku. Szybkość i głębokość zoomu zależą od fraktala i urządzenia.
+Otwórz fraktal. Zmień jedną rzecz. Zobacz, dokąd Cię zaprowadzi.
