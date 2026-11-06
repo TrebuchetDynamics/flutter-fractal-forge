@@ -22,8 +22,8 @@ An independent readback returned:
 A fresh `scripts/ci/play-status.sh` lists release `121 completed` and latest
 consumed version code `121`.
 
-Google review status, storefront propagation and end-user availability were not
-observed. No listing payload was sent by this upload; the existing listing was
+Google review status was not observed. Storefront propagation was sampled on
+2026-11-06 (above); per-device and per-account availability was not observed. No listing payload was sent by this upload; the existing listing was
 not changed by this edit.
 
 ## Why 1.1.121
@@ -83,6 +83,26 @@ a product change.
   `/tmp/release-play-artifacts-121-release/gates/`.
 - AAB retained at
   `/tmp/release-play-artifacts-121-release/fractal-forge-v1.1.121-build121-2026-11-06.aab`.
+
+## Post-publication observation (2026-11-06)
+
+Observed with `scripts/ci/play-observe.sh --expected-version 1.1.121
+--expected-date "Nov 6, 2026"`.
+
+- Official track: production `completed`, versionCodes `["121"]`.
+- Country availability: **177** targeted countries plus `restOfWorld: true`.
+- Storefront probe (12 countries: US, AE, AG, AL, AM, AO, AR, AT, AU, AW, AZ, BA):
+  **12/12 available**, version **1.1.121**, `Updated on` **Nov 6, 2026**.
+  Propagated 12/12; pending 0; unavailable 0; probe errors 0.
+- Google review: **not observable** through the public API. The observer infers
+  `published-to-probed-storefronts` (12/12 probes list 1.1.121, Nov 6, 2026).
+  That inference is not a Google approval. The Play Console state was **not
+  read**: no authorized Console session or saved page was supplied. Play
+  Console > Publishing overview and the review email remain the direct sources.
+- Evidence: `/tmp/release-play-artifacts-121-release/play-observe-121.json`.
+
+The sample covers one storefront per probed country, not every device or
+account. A listed page is propagation evidence, not an install guarantee.
 
 ## Limits
 
