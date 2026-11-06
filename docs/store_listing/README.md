@@ -72,8 +72,12 @@ scripts/sync-store-copy.py --check   # fail on drift (usable in CI)
 
 The regression test also checks Fastlane parity and the IOS-style text limits.
 Descriptions use “1,000+” rather than a brittle exact count and qualify
-device-dependent rendering and zoom. Do not add AR, MP4 export, unlimited zoom,
-guaranteed frame rates, ratings or ranking claims without product evidence.
+device-dependent rendering and zoom. The JSON `count` metadata must still match
+the exact production count checked by `test/modules/readme_catalog_claims_test.dart`.
+Describe the looper as animation of the view, not as device camera access.
+Keep zoom, pan, parameter animation, loop preview and GIF export in the copy.
+Do not add AR, MP4 export, unlimited zoom, guaranteed frame rates, ratings or
+ranking claims without product evidence.
 
 ## Screenshot capture recipe
 

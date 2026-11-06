@@ -16,7 +16,7 @@ EXPLORER
 ENREGISTRER ET PARTAGER
 • Exportez un PNG opaque ou transparent jusqu’en 4K, avec des formats Instagram, story et personnalisés, et exportez tous vos préréglages par lots.
 • Définissez la vue comme fond d’écran d’accueil ou de verrouillage en un geste.
-• Animez le zoom, le déplacement et les paramètres dans le Looper de caméra, prévisualisez la boucle, puis exportez un GIF.
+• Animez le zoom, le déplacement et les paramètres dans le Looper d’animation, prévisualisez la boucle, puis exportez un GIF.
 • Partagez un lien qui rouvre exactement votre vue.
 
 CONÇU POUR ÊTRE UTILISABLE
