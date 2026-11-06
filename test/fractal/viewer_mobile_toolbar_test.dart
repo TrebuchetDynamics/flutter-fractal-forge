@@ -102,17 +102,19 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('primary controls are labeled and stay above system navigation',
+  testWidgets('primary controls are labeled and wrap above system navigation',
       (tester) async {
     var randomized = 0;
     var opened = 0;
     await pumpToolbar(tester,
         onRandomize: () => randomized++, onControls: () => opened++);
     for (final caption in [
+      'Previous fractal',
       'Play',
       'Randomize shape',
       'Randomize colors',
       'Random',
+      'Save & share',
       'More',
       'Tap to randomize. Hold to edit.',
     ]) {
@@ -131,21 +133,28 @@ void main() {
     final toolbar =
         tester.getRect(find.byKey(const ValueKey('viewerFabColumn')));
     expect(toolbar.top, greaterThanOrEqualTo(24));
-    expect(toolbar.bottom, lessThanOrEqualTo(732));
+    expect(toolbar.bottom, lessThanOrEqualTo(716));
     final firstTop = tester
         .getRect(find.byKey(const ValueKey('viewerPreviousFractalButton')))
         .top;
+    final rows = <double, int>{};
     for (final key in [
+      'viewerPreviousFractalButton',
       'viewerPlayButton',
       'viewerControlsButton',
       'viewerPaletteButton',
       'viewerRandomFractalFab',
+      'viewerSaveShareButton',
       'viewerOverflowMenu',
     ]) {
       final rect = tester.getRect(find.byKey(ValueKey(key)));
+      expect(rect.top, greaterThanOrEqualTo(toolbar.top), reason: key);
       expect(rect.top, greaterThanOrEqualTo(firstTop), reason: key);
       expect(rect.bottom, lessThanOrEqualTo(toolbar.bottom), reason: key);
+      rows.update(rect.top, (count) => count + 1, ifAbsent: () => 1);
     }
+    // Whole-word randomize captions need wider cells than the old short names.
+    expect(rows.values.toList()..sort(), [1, 2, 2, 2]);
     expect(find.byKey(const ValueKey('viewerFourierFab')), findsNothing);
     await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
     await tester.pump();
@@ -190,7 +199,7 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('primary labeled cells fill their full hit regions',
+  testWidgets('primary labeled cells keep their paint inside full hit regions',
       (tester) async {
     await pumpToolbar(tester);
     for (final key in const [
@@ -211,7 +220,13 @@ void main() {
           .descendant(of: stack, matching: find.byType(IgnorePointer))
           .first;
       expect(tester.getRect(paint), hitRegion,
-          reason: 'Opaque icon cells must cover the full hit target');
+          reason: 'The paint layer must cover the full hit target');
+      final cell = tester.widget<Container>(
+          find.descendant(of: paint, matching: find.byType(Container)).first);
+      expect(cell.margin, const EdgeInsets.all(4));
+      final decoration = cell.decoration! as BoxDecoration;
+      expect(decoration.borderRadius, BorderRadius.circular(12));
+      expect(decoration.border, isNotNull, reason: key);
       final surfaces = tester
           .widgetList<Container>(
               find.descendant(of: stack, matching: find.byType(Container)))
@@ -223,11 +238,18 @@ void main() {
       for (final decoration in surfaces) {
         expect(decoration.border, isNotNull, reason: key);
       }
+      final content = find.descendant(of: paint, matching: find.byType(Column));
+      final bounds = tester.getRect(content);
+      expect(hitRegion.contains(bounds.topLeft), isTrue, reason: key);
+      expect(hitRegion.contains(bounds.bottomRight), isTrue, reason: key);
     }
     final rail =
         tester.widget<Material>(find.byKey(const ValueKey('viewerFabColumn')));
     expect(rail.color, AppTheme.dark.colorScheme.surface,
         reason: 'One shared surface groups the editing tools');
+    expect(rail.elevation, 6);
+    expect((rail.shape! as RoundedRectangleBorder).borderRadius,
+        BorderRadius.circular(20));
   });
 
   testWidgets(

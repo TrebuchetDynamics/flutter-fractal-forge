@@ -94,9 +94,10 @@ void main() {
       if (palette.evaluate().isEmpty) {
         await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
         await tester.pumpAndSettle();
-        await tester.ensureVisible(palette);
-        await tester.pumpAndSettle();
       }
+      // A wrapped rail builds offscreen cells too; existence is not visibility.
+      await tester.ensureVisible(palette);
+      await tester.pumpAndSettle();
       expect(palette.hitTestable(), findsOneWidget);
       // Quick press randomizes; the picker stays on the long-press action.
       await tester.longPress(palette);
@@ -375,6 +376,15 @@ void main() {
         expect(label.hitTestable(), findsOneWidget);
         expect(tester.getRect(label).bottom,
             lessThanOrEqualTo(tester.getRect(grid).bottom));
+        expect(tester.getRect(label).top,
+            greaterThanOrEqualTo(tester.getRect(grid).top));
+        // Select through the visible label when the enlarged tile is taller
+        // than this landscape viewport.
+        controller.updateParam('colorScheme', 0);
+        await tester.pumpAndSettle();
+        await tester.tap(label);
+        await tester.pumpAndSettle();
+        expect(controller.params['colorScheme'], 63);
         final scroll = tester.widget<CustomScrollView>(grid).controller!;
         scroll.jumpTo(0);
         await tester.pumpAndSettle();
