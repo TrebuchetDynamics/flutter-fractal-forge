@@ -10,6 +10,7 @@ import 'package:flutter_fractals/features/viewer/chrome/fractal_controls_hud.dar
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/features/viewer/chrome/fractal_view_controls.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/shared/widgets/app_tool_button.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -92,7 +93,7 @@ void main() {
       expect(operableControlNames(root), isNotEmpty,
           reason: 'the toolbar never entered, so the rest of this and the '
               'guidelines above would pass vacuously');
-      const primaryNames = {
+      const toolbarNames = {
         'viewerPreviousFractalButton': 'Previous fractal',
         'viewerPlayButton': 'Play camera loop',
         'viewerControlsButton': 'Randomize. Long press for Controls',
@@ -101,20 +102,23 @@ void main() {
         'viewerRandomFractalFab': 'Random Fractal',
         'viewerSaveShareButton': 'Save & share',
         'viewerOverflowMenu': 'More',
+        'viewerDismissRandomHint': 'Dismiss tip',
       };
-      final visible = primaryNames.entries.where((entry) {
+      final visible = toolbarNames.entries.where((entry) {
         final finder = find.byKey(ValueKey(entry.key));
         if (finder.evaluate().isEmpty) return false;
-        final tool = tester.widget<FloatingActionButtonWidget>(finder);
+        final tool = tester.widget<AppToolButton>(finder);
         return tool.onPressed != null || tool.onLongPress != null;
       }).toList();
-      expect(visible.map((entry) => entry.key), contains('viewerOverflowMenu'));
+      expect(visible.map((entry) => entry.key),
+          containsAll(['viewerOverflowMenu', 'viewerDismissRandomHint']));
       for (final entry in visible) {
         expect(operableControlNames(root).where((name) => name == entry.value),
             hasLength(1));
       }
       expect(operableControlNames(root), hasLength(visible.length + 1),
-          reason: 'visible primary tools and the canvas, not hidden More rows');
+          reason: 'visible toolbar tools, tip dismissal and the canvas, '
+              'not hidden More rows');
       expect(findUnnamedControls(root).map((c) => '$c').toList(), isEmpty);
       expect(findStackedStops(root), isEmpty);
       expect(findUnnamedSliders(root), isEmpty);
@@ -180,9 +184,11 @@ void main() {
                 reason: entry.key);
             expect(semanticTarget.height, greaterThanOrEqualTo(48),
                 reason: entry.key);
-            await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
+            await expectLater(
+                tester, meetsGuideline(labeledTapTargetGuideline));
           }
         }
+
         await tester.tap(find.byKey(const ValueKey('viewerSaveShareButton')));
         await pumpAccessibilityTestFrames(tester);
         await audit(const {

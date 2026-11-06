@@ -177,30 +177,45 @@ void main() {
               gestures: const EdgeInsets.fromLTRB(8, 0, 8, 48));
           final l10n =
               AppLocalizations.of(tester.element(_tool('viewerFabColumn')))!;
+          final captions = {
+            'viewerPreviousFractalButton': l10n.hudPreviousFractal,
+            'viewerPlayButton': l10n.actionPlay,
+            'viewerControlsButton': l10n.viewerRandomizeShape,
+            'viewerPaletteButton': l10n.viewerRandomizeColors,
+            'viewerRandomFractalFab': l10n.navDockRandom,
+            'viewerSaveShareButton': l10n.viewerActionSectionSaveShare,
+            'viewerOverflowMenu': l10n.viewerMoreTools,
+          };
+          final showsCaptions = viewport.height == 780;
           // Every primary remains reachable with full-size touch targets.
           for (final key in _orderedTools) {
             expect(_tool(key), findsOneWidget,
                 reason: 'Primary $key must stay reachable');
             await tester.ensureVisible(_tool(key));
             await tester.pumpAndSettle();
+            expect(_tool(key).hitTestable(), findsOneWidget, reason: key);
             final rect = tester.getRect(_tool(key));
+            expect(rect.top, greaterThanOrEqualTo(8), reason: key);
             expect(rect.width, greaterThanOrEqualTo(48), reason: key);
             expect(rect.height, greaterThanOrEqualTo(48), reason: key);
             expect(rect.bottom, lessThanOrEqualTo(viewport.height - 64),
                 reason: key);
-          }
-          if (scale == 1 && viewport.height >= 400) {
-            for (final caption in [
-              l10n.viewerRandomizeShape,
-              l10n.viewerRandomizeColors,
-              l10n.navDockRandom,
-              l10n.viewerMoreTools,
-            ]) {
-              expect(
-                  find.descendant(
-                      of: _tool('viewerFabColumn'),
-                      matching: find.text(caption)),
-                  findsOneWidget);
+            // Captions are paint-only siblings of the input button.
+            final cell = find
+                .ancestor(of: _tool(key), matching: find.byType(Stack))
+                .first;
+            final caption =
+                find.descendant(of: cell, matching: find.text(captions[key]!));
+            expect(caption, showsCaptions ? findsOneWidget : findsNothing,
+                reason: key);
+            if (showsCaptions) {
+              final paragraph = tester.renderObject<RenderParagraph>(caption);
+              expect(paragraph.didExceedMaxLines, isFalse, reason: key);
+              final labelRect = tester.getRect(caption);
+              expect(labelRect.left, greaterThanOrEqualTo(rect.left));
+              expect(labelRect.right, lessThanOrEqualTo(rect.right));
+              expect(labelRect.top, greaterThanOrEqualTo(rect.top));
+              expect(labelRect.bottom, lessThanOrEqualTo(rect.bottom));
             }
           }
           // Full localized names remain in tooltips and semantics.
@@ -385,7 +400,7 @@ void main() {
               expect(tool.hitTestable(), findsOneWidget, reason: key);
             }
             expect(tester.getSize(_tool('viewerFabColumn')).width,
-                lessThanOrEqualTo(720));
+                viewport.width == 1200 ? 720 : lessThanOrEqualTo(720));
             await _openMore(tester);
             for (final key in [
               ..._orderedTools.where((key) => !visible.contains(key)),
@@ -421,8 +436,7 @@ void main() {
         viewPadding: const EdgeInsets.fromLTRB(24, 24, 8, 48),
         gestures: const EdgeInsets.fromLTRB(8, 0, 32, 64));
     final rect = tester.getRect(_tool('viewerFabColumn'));
-    // A phone keeps 8px breathing room beyond the safe inset so all seven
-    // 48px actions fit on one row.
+    // A phone keeps 8px breathing room beyond the safe horizontal insets.
     expect(rect.left, 32);
     expect(rect.right, 320);
     expect(rect.bottom, 700);
@@ -448,10 +462,14 @@ void main() {
       final visible = _orderedTools
           .where((key) => _tool(key).evaluate().isNotEmpty)
           .toList();
+      // Snapshot one frame: Tab may scroll a focused cell into view.
+      final rects = {
+        for (final key in visible) key: tester.getRect(_tool(key))
+      };
       for (final key in visible) {
         final index = _orderedTools.indexOf(key);
         final tool = _tool(key);
-        final rect = tester.getRect(tool);
+        final rect = rects[key]!;
         // Reading order across wrapped rows: later rows start below, and cells
         // in the same row advance to the right.
         expect(rect.top, greaterThanOrEqualTo(previousTop - 1e-6));

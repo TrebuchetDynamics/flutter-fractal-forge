@@ -144,5 +144,138 @@ Preserve and hash `pubspec.lock` before and after the full check:
 flutter pub get --offline --enforce-lockfile && flutter analyze --no-pub && flutter test --no-pub && /usr/bin/python3 -m pytest test/research test/scripts -q && bats test/scripts/*.bats
 ```
 
-Maintainer executable app checks: **NOT_RUN** (documentation-only repair).
-Task-store validation and diff checks are separate from a passing application gate.
+## Retry execution evidence (2026-11-06)
+
+Execution baseline: `9ae7366f6569fc9980749a26a6bcbabd38e4006a`, branch
+`autowork/MAIN-VIEWER-LABELED-TOOLS-REPAIR-01-r2`. The `d05b7822` reference above
+is the historical discovery checkout, not this execution source. The original
+42-failure bundle above was read in place, including metadata, exit, empty
+rerun log, flaky history and failure/terminal log sections. No bundle was copied.
+
+### Diagnosis and bounded repair
+
+The baseline already includes `156bf7fd`'s short-screen caption fallback,
+word-aware cell sizing, random-action captions and dismissible editing hint.
+The historical 8 responsive failures and 29 toolbar failures no longer reproduce
+on this source. All 63 responsive cases pass unchanged. No new production
+geometry fix is justified by this reproduction.
+
+The before run uses the five-module command below **plus**
+`test/a11y/screens/viewer_screen_a11y_test.dart`, before `--reporter expanded`.
+It exits 1 with **224 passed, 3 failed**:
+
+- Both original short-landscape palette cases still fail at the hit-testability
+  assertion before opening the picker. The helper reveals the palette only if
+  its key is absent. `FractalViewControls` eagerly builds all wrapped rows inside
+  `SingleChildScrollView`; a present cell can be offscreen. Reveal the actual
+  palette cell unconditionally before asserting hit testing and long-pressing it.
+  At EN/ES, 3x high contrast, retain the whole final label inside the scroll
+  viewport, select palette 63 through that visible label, then reveal and tap
+  Close. No production callback is invoked directly. All other picker cases stay.
+- The retry's reported accessibility failure also reproduces on the baseline:
+  `FractalViewerScreen accessibility every control is named exactly once` expects
+  7 operable names but sees 8, including the shipped `Dismiss tip` button.
+  `_RandomActionHint` owns a real `AppToolButton` with that localized name and
+  focus order 7. Include it in the explicit toolbar inventory and require its
+  presence. Use the common `AppToolButton` base type for callback inspection,
+  because the hint is not the compatibility `FloatingActionButtonWidget`
+  subclass. Keep exactly one name per action, the exact total, and the existing
+  unnamed-control, stacked-stop and slider assertions. Do not hide the tip or
+  discard its semantics to satisfy the old count.
+
+Reuse the inspected earlier candidate `d204a7d8769525a343351395d8de17d6886207e4`'s
+relevant test corrections, not its historical verification claims:
+
+- Extend the existing mobile cases to check all seven captions, 2/2/2/1 wrapping,
+  the stricter safe bottom (716), 4px cell margins, 12px rounded cells, content
+  within the actual input cell, and the surfaced/elevated 20px-rounded rail.
+- Extend the existing EN/ES 1x/2x/3x label matrix to reveal each actual cell before
+  measuring its safe bounds and hit testing. Check each caption's paragraph and
+  full bounds inside its cell; retain the short-screen fallback, callbacks and
+  long-press assertions. Pin the desktop fixture to its shipped 720px maximum.
+- Snapshot input-cell rectangles in one frame before checking reading order and
+  traversing with Tab. Focus reveal can scroll the enclosing viewport. Comparing
+  pre-scroll and post-scroll coordinates caused the historical 770/766 mismatch.
+  Retain the original order/non-overlap tolerances, semantic sort keys and every
+  Tab-focus assertion. No production reorder is needed.
+
+Original-to-final name mapping (all other original inventory names stay unchanged):
+
+| Original mobile test | Final mobile test |
+| --- | --- |
+| primary controls are icon-only and compact above system navigation | primary controls are labeled and wrap above system navigation |
+| large targets keep circular actions balanced inside a narrow phone | large targets keep labeled actions balanced inside a narrow phone |
+| primary icon cells fill their full hit regions | primary labeled cells keep their paint inside full hit regions |
+
+No tests were added, deleted or skipped. Reuse the existing regression matrices,
+`ensureVisible` and shared input/semantics owner. No dependency, new helper,
+visual redesign, shader change or layout rewrite is needed. Both production
+viewer files, the responsive module and the controls module stay unchanged.
+
+### Commands and results
+
+All commands run at the execution checkout root with the pinned exports above.
+`flutter --version` reports Flutter **3.47.9**, framework `c197ca5199`, Dart
+**3.13.7**, matching `fdroid/flutter.version`. The Python probe passes with
+`/usr/bin/python3`, Python 3.12.3, pytest 9.0.2, jinja2 3.1.6 and callable
+`markupsafe.soft_str`. `flutter pub get --offline --enforce-lockfile` exits 0.
+No packages or host tooling were installed. No sharded check runner exists here.
+
+Exact required focused command:
+
+```sh
+flutter test --no-pub test/fractal/palette_picker_test.dart test/fractal/viewer_mobile_toolbar_test.dart test/fractal/viewer_responsive_controls_test.dart test/fractal/viewer_toolbar_layout_test.dart test/fractal/fractal_view_controls_test.dart --reporter expanded
+```
+
+| Run | Result | Exit |
+| --- | --- | --- |
+| Baseline five modules plus accessibility module | +224 -3, 47s test time | 1 |
+| Intermediate five modules plus accessibility module | +226 -1, hint inventory exposed the subclass cast described above | 1 |
+| Final required five modules, repetition 1 | +200, 41s test time | 0 |
+| Final required five modules, repetition 2 | +200, 43s test time | 0 |
+| Final accessibility module alone | +27, 4s test time | 0 |
+
+The final five-module union has 32 picker, 5 mobile, 63 responsive, 60 toolbar
+layout and 40 controls tests. Every original failure maps to a passing final
+case. No skips, unrelated failures, load-dependent variation or timing changes
+were observed. Two focused passes are not full-gate or three-revision flakiness
+proof. Logs remain task-local under `$TMPDIR`: `preflight.log`, `before.log`,
+`after-1.log`, `final-focused-1.log`, `final-focused-2.log`, `final-a11y.log`
+and `analyze.log`.
+
+`autowork-run flutter analyze --no-pub` exits 0: **No issues found**.
+`dart format --output=none --set-exit-if-changed` on the four changed Dart files
+and `git diff --check` exit 0. Before preflight and after testing/analysis,
+`pubspec.lock` SHA-256 is unchanged:
+`d759c63037e4d4f29a7c09b14886854fb8caa832c41f1172ec684a5cdcb7145b`.
+Tested changed Dart blobs (`git hash-object`, delivered by the worker commit):
+
+| Path | Blob |
+| --- | --- |
+| `test/fractal/palette_picker_test.dart` | `f1f433f18f8edb338497c1bf5df5491b6f763f5c` |
+| `test/fractal/viewer_mobile_toolbar_test.dart` | `5ed4e98b6797c796515f70e022f534379267ac2e` |
+| `test/fractal/viewer_toolbar_layout_test.dart` | `9b79e6a444153e5b2605382f5a1150ad076f6092` |
+| `test/a11y/screens/viewer_screen_a11y_test.dart` | `16868cdfe10c75ff447014dc6568fb8ad63df863` |
+
+### Scoped Docs Sync Maintain and remaining gates
+
+Maintain updates only this existing evidence owner. The linked
+[PRD](../../PRD.md#mcp-assisted-architecture-and-ui-improvement),
+[spec](../engineering/spec.md#mcp-assisted-app-quality) and
+[test plan](../engineering/test-plan.md#mcp-assisted-app-quality-verification)
+were inspected. They already preserve localized accessible controls and separate
+offline checks from runtime qualification. No product or architecture contract
+changed. Source, test-name mapping, result inventories, blob hashes, local links
+and lockfile were checked with
+`/usr/bin/python3 "$TMPDIR/verify_viewer_repair_evidence.py"` (exit 0).
+Scoped `docs.py stale .` and `docs.py check .` exit 0 but report **no manifest**;
+they do not certify content. A repeat readback leaves the document bytes stable.
+
+The complete offline chain above is **NOT_RUN by this worker**, as required by
+the retry prompt. The coordinator runs it on the merged tree before review.
+The separate focused and analyzer passes are not a combined gate pass.
+DOCS-MAINTAINER closeout must retain the merged-tree gate's source revision,
+terminal result and lockfile hash. No task, goal, closed-task state, shared
+history or `ACAD-013-4142ef42` device scope was changed. Device/browser/GPU,
+production, release and human visual/accessibility qualification remain unrun
+and separate; these widget tests do not qualify rendering or whole-app visuals.
