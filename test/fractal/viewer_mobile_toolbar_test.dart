@@ -102,16 +102,21 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets(
-      'primary controls are icon-only and compact above system navigation',
+  testWidgets('primary controls are labeled and stay above system navigation',
       (tester) async {
     var randomized = 0;
     var opened = 0;
     await pumpToolbar(tester,
         onRandomize: () => randomized++, onControls: () => opened++);
-    // More actions, no painted captions.
-    for (final caption in ['Play', 'Controls', 'Palette', 'Random', 'More']) {
-      expect(find.text(caption), findsNothing);
+    for (final caption in [
+      'Play',
+      'Randomize shape',
+      'Randomize colors',
+      'Random',
+      'More',
+      'Tap to randomize. Hold to edit.',
+    ]) {
+      expect(find.text(caption), findsOneWidget);
     }
     for (final key in [
       'viewerPreviousFractalButton',
@@ -125,7 +130,7 @@ void main() {
     }
     final toolbar =
         tester.getRect(find.byKey(const ValueKey('viewerFabColumn')));
-    expect(toolbar.height, lessThanOrEqualTo(64));
+    expect(toolbar.top, greaterThanOrEqualTo(24));
     expect(toolbar.bottom, lessThanOrEqualTo(732));
     final firstTop = tester
         .getRect(find.byKey(const ValueKey('viewerPreviousFractalButton')))
@@ -137,8 +142,9 @@ void main() {
       'viewerRandomFractalFab',
       'viewerOverflowMenu',
     ]) {
-      expect(tester.getRect(find.byKey(ValueKey(key))).top, firstTop,
-          reason: '$key must stay on the single mobile row');
+      final rect = tester.getRect(find.byKey(ValueKey(key)));
+      expect(rect.top, greaterThanOrEqualTo(firstTop), reason: key);
+      expect(rect.bottom, lessThanOrEqualTo(toolbar.bottom), reason: key);
     }
     expect(find.byKey(const ValueKey('viewerFourierFab')), findsNothing);
     await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
@@ -151,7 +157,7 @@ void main() {
   });
 
   testWidgets(
-      'large targets keep circular actions balanced inside a narrow phone',
+      'large targets keep labeled actions balanced inside a narrow phone',
       (tester) async {
     await pumpToolbar(tester, largeTargets: true);
     const keys = [
@@ -176,15 +182,16 @@ void main() {
     for (final rect in rects) {
       rows.update(rect.top, (count) => count + 1, ifAbsent: () => 1);
     }
-    // Seven actions split evenly once large targets no longer fit one row.
-    expect(rows.values.toList()..sort(), [3, 4]);
+    final counts = rows.values.toList()..sort();
+    expect(counts.last - counts.first, lessThanOrEqualTo(1));
     final rail =
         tester.widget<Material>(find.byKey(const ValueKey('viewerFabColumn')));
-    expect(rail.color, Colors.transparent);
+    expect(rail.color, AppTheme.dark.colorScheme.surface);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('primary icon cells fill their full hit regions', (tester) async {
+  testWidgets('primary labeled cells fill their full hit regions',
+      (tester) async {
     await pumpToolbar(tester);
     for (final key in const [
       'viewerPreviousFractalButton',
@@ -205,22 +212,22 @@ void main() {
           .first;
       expect(tester.getRect(paint), hitRegion,
           reason: 'Opaque icon cells must cover the full hit target');
-      final circle = tester
+      final surfaces = tester
           .widgetList<Container>(
               find.descendant(of: stack, matching: find.byType(Container)))
           .map((container) => container.decoration)
           .whereType<BoxDecoration>()
-          .where((decoration) => decoration.shape == BoxShape.circle)
+          .where((decoration) => decoration.borderRadius != null)
           .toList();
-      expect(circle, isNotEmpty, reason: '$key must be a circle');
-      for (final decoration in circle) {
+      expect(surfaces, isNotEmpty, reason: '$key must have a rounded surface');
+      for (final decoration in surfaces) {
         expect(decoration.border, isNotNull, reason: key);
       }
     }
     final rail =
         tester.widget<Material>(find.byKey(const ValueKey('viewerFabColumn')));
-    expect(rail.color, Colors.transparent,
-        reason: 'No modal-looking slab behind the circular actions');
+    expect(rail.color, AppTheme.dark.colorScheme.surface,
+        reason: 'One shared surface groups the editing tools');
   });
 
   testWidgets(

@@ -1988,6 +1988,18 @@ class AppLocalizationsEn extends AppLocalizations {
       'Long press or Shift+Enter opens the secondary action.';
 
   @override
+  String get viewerRandomizeShape => 'Randomize shape';
+
+  @override
+  String get viewerRandomizeColors => 'Randomize colors';
+
+  @override
+  String get viewerRandomizeHint => 'Tap to randomize. Hold to edit.';
+
+  @override
+  String get viewerDismissRandomHint => 'Dismiss tip';
+
+  @override
   String get tooltipFullscreen => 'Fullscreen view';
 
   @override

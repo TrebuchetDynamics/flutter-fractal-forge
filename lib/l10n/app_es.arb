@@ -819,6 +819,10 @@
   },
 
   "viewerSecondaryActionHint": "Mantén pulsado o usa Mayús+Intro para abrir la acción secundaria.",
+  "viewerRandomizeShape": "Forma aleatoria",
+  "viewerRandomizeColors": "Colores aleatorios",
+  "viewerRandomizeHint": "Toca para aleatorizar. Mantén pulsado para editar.",
+  "viewerDismissRandomHint": "Ocultar consejo",
   "tooltipFullscreen": "Pantalla completa",
 
   "semanticSliderAdjust": "Ajustar de {min} a {max}",

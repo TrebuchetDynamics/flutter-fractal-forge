@@ -832,6 +832,10 @@
   },
 
   "viewerSecondaryActionHint": "Long press or Shift+Enter opens the secondary action.",
+  "viewerRandomizeShape": "Randomize shape",
+  "viewerRandomizeColors": "Randomize colors",
+  "viewerRandomizeHint": "Tap to randomize. Hold to edit.",
+  "viewerDismissRandomHint": "Dismiss tip",
   "tooltipFullscreen": "Fullscreen view",
 
   "semanticSliderAdjust": "Adjust from {min} to {max}",

@@ -2010,6 +2010,19 @@ class AppLocalizationsEs extends AppLocalizations {
       'Mantén pulsado o usa Mayús+Intro para abrir la acción secundaria.';
 
   @override
+  String get viewerRandomizeShape => 'Forma aleatoria';
+
+  @override
+  String get viewerRandomizeColors => 'Colores aleatorios';
+
+  @override
+  String get viewerRandomizeHint =>
+      'Toca para aleatorizar. Mantén pulsado para editar.';
+
+  @override
+  String get viewerDismissRandomHint => 'Ocultar consejo';
+
+  @override
   String get tooltipFullscreen => 'Pantalla completa';
 
   @override
