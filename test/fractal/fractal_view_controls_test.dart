@@ -561,7 +561,65 @@ void main() {
     expect((first.dy - last.dy).abs(), lessThan(1));
     expect(last.dx, greaterThan(first.dx));
     expect(
-        tester.getSize(_key('viewerFabColumn')).width, lessThanOrEqualTo(440));
+        tester.getSize(_key('viewerFabColumn')).width, lessThanOrEqualTo(720));
+  });
+
+  for (final locale in const [Locale('en'), Locale('es')]) {
+    for (final width in [320.0, 390.0, 768.0]) {
+      testWidgets('labeled toolbar fits $width ${locale.languageCode}',
+          (tester) async {
+        await tester.binding.setSurfaceSize(Size(width, 800));
+        addTearDown(() => tester.binding.setSurfaceSize(null));
+        await _pumpControls(tester,
+            locale: locale,
+            theme: AppTheme.dark,
+            isExporting: false,
+            onOpenWallpaper: () {});
+        final l10n =
+            AppLocalizations.of(tester.element(_key('viewerFabColumn')))!;
+        for (final label in [
+          l10n.hudPreviousFractal,
+          l10n.actionPlay,
+          l10n.randomize,
+          l10n.viewerActionSettingsCyclePalette,
+          l10n.navDockRandom,
+          l10n.viewerActionSectionSaveShare,
+          l10n.viewerMoreTools,
+        ]) {
+          expect(find.text(label), findsOneWidget);
+          final caption = tester.getRect(find.text(label));
+          expect(caption.left, greaterThanOrEqualTo(0));
+          expect(caption.right, lessThanOrEqualTo(width));
+        }
+        for (final key in _primaryKeys) {
+          final rect = tester.getRect(_key(key));
+          expect(rect.left, greaterThanOrEqualTo(0));
+          expect(rect.right, lessThanOrEqualTo(width));
+          expect(rect.width, greaterThanOrEqualTo(48));
+          expect(rect.height, greaterThanOrEqualTo(48));
+        }
+        final toolbar = tester.widget<Material>(_key('viewerFabColumn'));
+        expect(toolbar.color, AppTheme.dark.colorScheme.surface);
+        expect(tester.takeException(), isNull);
+      });
+    }
+  }
+
+  testWidgets('short large-text toolbar keeps all primary targets visible',
+      (tester) async {
+    await tester.binding.setSurfaceSize(const Size(320, 568));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await _pumpControls(tester,
+        isExporting: false, textScale: 2, onOpenWallpaper: () {});
+    for (final key in _primaryKeys) {
+      final rect = tester.getRect(_key(key));
+      expect(rect.top, greaterThanOrEqualTo(0));
+      expect(rect.bottom, lessThanOrEqualTo(568));
+      expect(_key(key).hitTestable(), findsOneWidget);
+      expect(tester.widget<FloatingActionButtonWidget>(_key(key)).tooltip,
+          isNotEmpty);
+    }
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets('keyboard traversal follows the visible primary actions',
