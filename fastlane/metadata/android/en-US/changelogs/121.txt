@@ -1,0 +1,3 @@
+Export, copy link, share image and wallpaper now sit behind one Save & share button.
+Play runs the camera looper; hold Play to build or edit its path.
+The toolbar and the More menu list the same actions in one order.
