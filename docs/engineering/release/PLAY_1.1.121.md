@@ -94,9 +94,11 @@ Observed with `scripts/ci/play-observe.sh --expected-version 1.1.121
 - Storefront probe (12 countries: US, AE, AG, AL, AM, AO, AR, AT, AU, AW, AZ, BA):
   **12/12 available**, version **1.1.121**, `Updated on` **Nov 6, 2026**.
   Propagated 12/12; pending 0; unavailable 0; probe errors 0.
-- Google review: **not observable** through the public API and not confirmed by
-  this agent. Play Console > Publishing overview and the review email remain the
-  only sources.
+- Google review: **not observable** through the public API. The observer infers
+  `published-to-probed-storefronts` (12/12 probes list 1.1.121, Nov 6, 2026).
+  That inference is not a Google approval. The Play Console state was **not
+  read**: no authorized Console session or saved page was supplied. Play
+  Console > Publishing overview and the review email remain the direct sources.
 - Evidence: `/tmp/release-play-artifacts-121-release/play-observe-121.json`.
 
 The sample covers one storefront per probed country, not every device or

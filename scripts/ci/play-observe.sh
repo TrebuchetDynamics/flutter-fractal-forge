@@ -17,6 +17,9 @@
 #   --expected-version X.Y.Z  default: versionName in fdroid/version.properties
 #   --expected-date "Nov 6, 2026"  storefront "Updated on" value to match
 #   --lang en                 storefront language
+#   --console-html FILE       parse a saved Play Console publishing page
+#   --console-url URL         fetch the Console page (requires --console-cookies)
+#   --console-cookies FILE    Netscape cookie file for --console-url (never printed)
 #   --output FILE             also write the JSON document to FILE
 #   --json                    emit JSON to stdout (default)
 #   --help
@@ -35,6 +38,9 @@ EXPECTED_VERSION=""
 EXPECTED_DATE=""
 LANG_CODE="en"
 OUTPUT=""
+CONSOLE_HTML=""
+CONSOLE_URL=""
+CONSOLE_COOKIES=""
 
 die() { echo "[play-observe] ERROR: $*" >&2; exit 2; }
 
@@ -48,6 +54,12 @@ while [[ $# -gt 0 ]]; do
     --expected-date=*) EXPECTED_DATE="${1#*=}"; shift ;;
     --lang) [[ $# -ge 2 ]] || die "--lang requires a value"; LANG_CODE="$2"; shift 2 ;;
     --lang=*) LANG_CODE="${1#*=}"; shift ;;
+    --console-html) [[ $# -ge 2 ]] || die "--console-html requires a value"; CONSOLE_HTML="$2"; shift 2 ;;
+    --console-html=*) CONSOLE_HTML="${1#*=}"; shift ;;
+    --console-url) [[ $# -ge 2 ]] || die "--console-url requires a value"; CONSOLE_URL="$2"; shift 2 ;;
+    --console-url=*) CONSOLE_URL="${1#*=}"; shift ;;
+    --console-cookies) [[ $# -ge 2 ]] || die "--console-cookies requires a value"; CONSOLE_COOKIES="$2"; shift 2 ;;
+    --console-cookies=*) CONSOLE_COOKIES="${1#*=}"; shift ;;
     --output) [[ $# -ge 2 ]] || die "--output requires a value"; OUTPUT="$2"; shift 2 ;;
     --output=*) OUTPUT="${1#*=}"; shift ;;
     --json) shift ;;
@@ -88,10 +100,31 @@ if [[ -n "$EXPECTED_VERSION" ]]; then probe_args+=(--expected-version "$EXPECTED
 if [[ -n "$EXPECTED_DATE" ]]; then probe_args+=(--expected-date "$EXPECTED_DATE"); fi
 python3 "$SCRIPT_DIR/play_storefront.py" "${probe_args[@]}" > "$work/storefront.json"
 
-python3 - "$work" "$PACKAGE" "$TRACK" "$EXPECTED_VERSION" "$EXPECTED_DATE" <<'PY' > "$work/observed.json"
+CONSOLE_ARGS=()
+if [[ -n "$CONSOLE_HTML" ]]; then CONSOLE_ARGS+=(--html "$CONSOLE_HTML"); fi
+if [[ -n "$CONSOLE_URL" ]]; then CONSOLE_ARGS+=(--url "$CONSOLE_URL"); fi
+if [[ -n "$CONSOLE_COOKIES" ]]; then CONSOLE_ARGS+=(--cookies "$CONSOLE_COOKIES"); fi
+if [[ ${#CONSOLE_ARGS[@]} -gt 0 ]]; then
+  set +e
+  python3 "$SCRIPT_DIR/play_console_review.py" "${CONSOLE_ARGS[@]}" > "$work/console.json" 2> "$work/console.err"
+  console_rc=$?
+  set -e
+  if [[ $console_rc -eq 2 ]]; then
+    cat "$work/console.err" >&2
+    die "could not read the Play Console review state"
+  fi
+fi
+
+python3 - "$work" "$PACKAGE" "$TRACK" "$EXPECTED_VERSION" "$EXPECTED_DATE" "$SCRIPT_DIR" <<'PY' > "$work/observed.json"
 import datetime, json, pathlib, sys
-work, package, track, expected_version, expected_date = sys.argv[1:6]
+work, package, track, expected_version, expected_date, script_dir = sys.argv[1:7]
+sys.path.insert(0, script_dir)
+from play_storefront import infer_review
 read = lambda name: json.load(open(pathlib.Path(work) / name, encoding="utf-8"))
+storefront_doc = read("storefront.json")
+console_path = pathlib.Path(work) / "console.json"
+console_doc = json.load(open(console_path, encoding="utf-8")) if console_path.exists() else None
+
 document = {
     "package": package,
     "track": track,
@@ -103,10 +136,12 @@ document = {
         "country_availability": read("availability.json"),
         "details": read("details.json"),
     },
-    "storefront": read("storefront.json"),
+    "storefront": storefront_doc,
     "review": {
         "status": "not-observable",
         "reason": "Google Play app review has no public Developer API endpoint",
+        "inferred_from_storefront": infer_review(storefront_doc, expected_version, expected_date),
+        "console": console_doc,
         "practical_signals": [
             "Play Console > Publishing overview shows changes in review",
             "the developer account receives Google review email",

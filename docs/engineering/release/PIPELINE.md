@@ -200,12 +200,40 @@ The command combines two sources.
 | --- | --- | --- |
 | Play Developer API | track release name, rollout status, version codes, user fraction; targeted countries and `restOfWorld`; default language | Google app-review status |
 | Public storefront per country | HTTP status, listing availability, `Updated on` date, embedded version when the page exposes it | installation on a specific device or account |
+| Play Console page (opt-in) | the review phrase the page shows: changes in review, in review, ready to publish, rejected, approved, published | Google approval as a supported API contract |
 
 The storefront summary splits countries into `propagated` (listed date and
 version match the expectation), `pending` (listed but older), `unavailable`
 (HTTP 404) and `errors` (other status). A 200 page with the release date is
 propagation evidence. It is not proof that an account or device can install the
 build.
+
+### Review: the two workable routes
+
+Direct state needs the Console page of an authorized developer session:
+
+```bash
+# Rendered page saved from the browser (most reliable: the Console loads state by XHR)
+scripts/ci/play-observe.sh \
+  --expected-version 1.1.121 --expected-date "Nov 6, 2026" \
+  --console-html saved-publishing.html
+
+# Live fetch with a Netscape cookie file (never commit or print it)
+scripts/ci/play-observe.sh \
+  --console-url "https://play.google.com/console/u/0/developers/<id>/app/<app-id>/publishing" \
+  --console-cookies cookies.txt
+```
+
+`play_console_review.py` parses the page and returns `state`, `matched` and a
+short `context`. Missing or expired cookies return HTTP 401/403 and exit 2. The
+HTTP response can omit state that arrives by XHR; save the rendered DOM when
+that happens. This is unofficial and can break when the Console changes.
+
+The observer also records `review.inferred_from_storefront`:
+`published-to-probed-storefronts`, `partially-propagated`, `not-yet-visible` or
+`unknown`. A listed storefront means the release reached users. It is not a
+Google approval, and it can disagree with the Console: the previous version can
+be live while a newer change is in review. Keep the two fields separate.
 
 **Google review has no public API endpoint.** The script records
 `review.status = not-observable` and lists the practical signals:

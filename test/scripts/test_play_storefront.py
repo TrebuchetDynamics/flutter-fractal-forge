@@ -78,3 +78,27 @@ def test_summarize_without_expectations_only_reports_availability():
     assert summary["propagated"] == ["US", "GB"]
     assert summary["pending"] == []
     assert summary["available"] == 2
+
+
+def test_infer_review_reports_published_when_every_probe_matches():
+    document = {
+        "summary": {"propagated": ["US", "GB"], "pending": [], "errors": [], "probed": 2}
+    }
+    inferred = storefront.infer_review(document, "1.1.121", "Nov 6, 2026")
+    assert inferred["state"] == "published-to-probed-storefronts"
+    assert inferred["basis"]["propagated"] == 2
+    assert "not the Play Console review state" in inferred["caveats"][2]
+
+
+def test_infer_review_reports_partial_and_not_visible():
+    partial = {
+        "summary": {"propagated": ["US"], "pending": [{"country": "GB"}], "errors": [], "probed": 2}
+    }
+    assert storefront.infer_review(partial, "1.1.121", None)["state"] == "partially-propagated"
+    none = {"summary": {"propagated": [], "pending": [], "errors": [], "probed": 2}}
+    assert storefront.infer_review(none, "1.1.121", None)["state"] == "not-yet-visible"
+
+
+def test_infer_review_without_expectations_is_unknown():
+    inferred = storefront.infer_review({"summary": {"probed": 0}}, None, None)
+    assert inferred["state"] == "unknown"

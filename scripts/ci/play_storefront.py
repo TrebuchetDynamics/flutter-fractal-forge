@@ -128,6 +128,44 @@ def summarize(rows: list[dict], expected_version: str | None, expected_date: str
     }
 
 
+def infer_review(
+    document: dict, expected_version: str | None, expected_date: str | None
+) -> dict:
+    """Infer whether the release reached storefronts. Not a review verdict."""
+    summary = document.get("summary", {})
+    if not expected_version and not expected_date:
+        return {
+            "state": "unknown",
+            "basis": "no expected version or date supplied",
+            "caveats": ["pass --expected-version and --expected-date to infer propagation"],
+        }
+    propagated = summary.get("propagated", [])
+    pending = summary.get("pending", [])
+    errors = summary.get("errors", [])
+    if propagated and not pending and not errors:
+        state = "published-to-probed-storefronts"
+    elif propagated:
+        state = "partially-propagated"
+    else:
+        state = "not-yet-visible"
+    return {
+        "state": state,
+        "basis": {
+            "propagated": len(propagated),
+            "pending": len(pending),
+            "errors": len(errors),
+            "probed": summary.get("probed", 0),
+            "expected_version": expected_version,
+            "expected_updated": expected_date,
+        },
+        "caveats": [
+            "a listed storefront means the release reached users, not that Google approved it publicly",
+            "staged rollout or country targeting can hide a version in some storefronts",
+            "this inference is not the Play Console review state",
+        ],
+    }
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--package", required=True)
