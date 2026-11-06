@@ -53,8 +53,7 @@ class FractalViewControls extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final mq = MediaQuery.of(context);
-    // Keep the seven-icon rail on one row at common phone widths without
-    // reducing the 48/56-pixel targets. Use generous margins on larger screens.
+    // Keep labels and touch targets readable; narrow screens wrap the tools.
     final horizontalMargin =
         compactViewport ? 0.0 : (mq.size.width < 480 ? 8.0 : 16.0);
     final insets = EdgeInsets.fromLTRB(
@@ -80,40 +79,55 @@ class FractalViewControls extends StatelessWidget {
           child: Align(
             alignment: Alignment.bottomCenter,
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 440),
+              constraints: const BoxConstraints(maxWidth: 720),
               child: SizedBox(
                 width: double.infinity,
                 child: Material(
                   key: const ValueKey('viewerFabColumn'),
-                  // Transparent rail: each action is its own floating circle,
-                  // not a modal-looking slab behind the controls.
-                  color: Colors.transparent,
-                  clipBehavior: Clip.none,
+                  color: Theme.of(context).colorScheme.surface,
+                  elevation: 6,
+                  shadowColor: Colors.black.withValues(alpha: 0.3),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    side: BorderSide(
+                        color: Theme.of(context).colorScheme.outlineVariant),
+                  ),
+                  clipBehavior: Clip.antiAlias,
                   child: LayoutBuilder(builder: (context, constraints) {
                     final target = AccessibleSizing.touchTargetSize(
                         largeTargets: context
                                 .watch<AccessibilityService?>()
                                 ?.largeTargetsEnabled ??
                             false);
-                    // Compact icon rail: more actions, no captions. Tooltips and
-                    // semantics still carry the full localized names, and every
-                    // visual cell keeps a full 48/56-pixel hit target.
+                    // Grow cells with text scaling rather than clipping captions.
                     final toolContext = _toolContext(
                       context,
                       l10n,
                       tiny: false,
                       short: false,
                     );
+                    // Keep every primary action visible on short screens with
+                    // enlarged text; full names remain in tooltips and semantics.
+                    final showCaptions = mq.textScaler.scale(12) <= 18 ||
+                        constraints.maxHeight >= 600 ||
+                        compactViewport;
                     final buttons = <_ViewerTool>[
-                      for (final (index, tool)
-                          in ViewerToolLayout.rail.indexed)
+                      for (final (index, tool) in ViewerToolLayout.rail.indexed)
                         if (viewerToolVisible(tool, toolContext))
-                          _railTool(tool, toolContext, index),
+                          _railTool(tool, toolContext, index,
+                              showLabel: showCaptions),
                     ];
                     final availableWidth =
                         constraints.maxWidth - 8; // 4px inset each side
+                    final scaledLabel = mq.textScaler.scale(12);
+                    // At large text sizes, wider cells keep each action short
+                    // enough to fit within the short-screen scroll viewport.
+                    final cellWidth = showCaptions
+                        ? math.max(target,
+                            (scaledLabel > 18 ? 96 : 64) * scaledLabel / 12)
+                        : target + 8;
                     final perRow =
-                        math.max(1, (availableWidth / target).floor());
+                        math.max(1, (availableWidth / cellWidth).floor());
                     final rowCount =
                         math.max(1, (buttons.length / perRow).ceil());
                     final base = buttons.length ~/ rowCount;
@@ -124,7 +138,9 @@ class FractalViewControls extends StatelessWidget {
                       final count = base + (row < extra ? 1 : 0);
                       final rowButtons = buttons.sublist(next, next + count);
                       next += count;
-                      rows.add(Row(
+                      rows.add(IntrinsicHeight(
+                          child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           for (final button in rowButtons)
@@ -133,12 +149,14 @@ class FractalViewControls extends StatelessWidget {
                                       const ValueKey('viewerSaveShareButton')
                                   ? const ValueKey('viewerExportButton')
                                   : null,
-                              width: target,
-                              height: target,
-                              child: button,
+                              width: availableWidth / count,
+                              child: ConstrainedBox(
+                                constraints: BoxConstraints(minHeight: target),
+                                child: button,
+                              ),
                             )
                         ],
-                      ));
+                      )));
                     }
                     return SingleChildScrollView(
                       child: Padding(
@@ -203,16 +221,19 @@ class FractalViewControls extends StatelessWidget {
     );
   }
 
-  _ViewerTool _railTool(
-      ViewerTool tool, ViewerToolContext context, int order) {
+  _ViewerTool _railTool(ViewerTool tool, ViewerToolContext context, int order,
+      {required bool showLabel}) {
     final presentation = resolveViewerTool(tool, context);
     return _ViewerTool(
       toolKey: ValueKey(ViewerToolLayout.keyOf(tool)),
       icon: presentation.icon,
-      label: presentation.caption ?? presentation.semanticLabel,
+      label: tool == ViewerTool.palette
+          ? context.l10n.viewerActionSettingsCyclePalette
+          : presentation.caption ?? presentation.semanticLabel,
       semanticLabel: presentation.semanticLabel,
       selected: presentation.selected,
-      showLabel: false,
+      primary: tool == ViewerTool.saveShare,
+      showLabel: showLabel,
       sortOrder: order.toDouble(),
       onPressed: presentation.enabled ? presentation.onPressed : null,
       onLongPress: presentation.enabled ? presentation.onLongPress : null,
@@ -354,8 +375,7 @@ class FractalViewControls extends StatelessWidget {
                           ? null
                           : close(secondary),
                     ),
-                    if (secondary != null &&
-                        presentation.settingsLabel != null)
+                    if (secondary != null && presentation.settingsLabel != null)
                       Padding(
                         padding: const EdgeInsetsDirectional.only(start: 16),
                         child: _ViewerTool(
@@ -471,10 +491,14 @@ class FractalViewControls extends StatelessWidget {
               ),
             );
         return Column(children: [
-          option(Icons.shuffle_rounded, l10n.tooltipRandomFractal,
+          option(
+              Icons.shuffle_rounded,
+              l10n.tooltipRandomFractal,
               l10n.randomOptionsCatalogDescription,
               commands.presentation.openRandomFractal),
-          option(Icons.tune_rounded, l10n.randomize,
+          option(
+              Icons.tune_rounded,
+              l10n.randomize,
               l10n.randomOptionsParamsDescription,
               commands.presentation.randomizeParams),
         ]);
@@ -550,7 +574,8 @@ class FractalViewControls extends StatelessWidget {
                           ),
                           onSelected: (_) {
                             selectedSectors = sectors;
-                            commands.presentation.setKaleidoscopeSectors(sectors);
+                            commands.presentation
+                                .setKaleidoscopeSectors(sectors);
                             setSheetState(() {});
                           },
                         ),
@@ -592,6 +617,7 @@ class _ViewerTool extends StatefulWidget {
   final VoidCallback? onLongPress;
   final bool row;
   final bool dense;
+  final bool primary;
   final bool showLabel;
   final bool? selected;
   final double? sortOrder;
@@ -608,6 +634,7 @@ class _ViewerTool extends StatefulWidget {
       this.onLongPress,
       this.row = false,
       this.dense = false,
+      this.primary = false,
       this.showLabel = true,
       this.selected,
       this.sortOrder});
@@ -618,6 +645,8 @@ class _ViewerTool extends StatefulWidget {
 
 class _ViewerToolState extends State<_ViewerTool> {
   bool _focused = false;
+  bool _hovered = false;
+  bool _pressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -627,20 +656,26 @@ class _ViewerToolState extends State<_ViewerTool> {
             context.watch<AccessibilityService?>()?.largeTargetsEnabled ??
                 false);
     final disabled = widget.onPressed == null && widget.onLongPress == null;
+    final foreground = widget.primary
+        ? colors.onPrimary
+        : !widget.row && widget.selected == true
+            ? colors.onSecondaryContainer
+            : colors.onSurface;
     final caption = Text(widget.label,
         textAlign: widget.row ? TextAlign.start : TextAlign.center,
-        style: Theme.of(context).textTheme.labelMedium!.copyWith(
-            color: colors.onSurface, height: widget.dense ? 1.1 : null));
+        style: Theme.of(context)
+            .textTheme
+            .labelMedium!
+            .copyWith(color: foreground, height: widget.dense ? 1.1 : null));
     // A row keeps the full width tappable but paints the circle on the leading
     // edge; drawing the icon and the circle again in the label area duplicated
     // both and left a stray circle across the text.
     final visual = Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: widget.dense ? 0 : 8, vertical: widget.dense ? 0 : 8),
+          horizontal: widget.dense ? 0 : (widget.row ? 8 : 4),
+          vertical: widget.dense ? 0 : 8),
       child: !widget.showLabel
-          ? Center(
-              child:
-                  Icon(widget.icon, size: 20, color: colors.onSurfaceVariant))
+          ? Icon(widget.icon, size: 22, color: foreground)
           : widget.row
               ? Row(children: [
                   // A dense row is text-only so a 3x label keeps the space it
@@ -667,7 +702,7 @@ class _ViewerToolState extends State<_ViewerTool> {
                     Icon(widget.trailingIcon, size: 20),
                 ])
               : Column(mainAxisSize: MainAxisSize.min, children: [
-                  Icon(widget.icon, size: 20),
+                  Icon(widget.icon, size: 22, color: foreground),
                   const SizedBox(height: 4),
                   caption
                 ]),
@@ -675,71 +710,91 @@ class _ViewerToolState extends State<_ViewerTool> {
     return Focus(
       canRequestFocus: false,
       onFocusChange: (focused) => setState(() => _focused = focused),
-      child: Stack(
-        fit: StackFit.passthrough,
-        children: [
-          Positioned.fill(
-            child: Opacity(
-              // Dense rows keep the full-width hit area and semantics but paint
-              // no circular surface; the label alone carries the row.
-              opacity: widget.row && widget.dense ? 0 : 1,
-              alwaysIncludeSemantics: true,
-              child: FloatingActionButtonWidget(
-                key: widget.toolKey,
-                icon: widget.icon,
-                tooltip: widget.semanticLabel ?? widget.label,
-                semanticHint: widget.semanticHint,
-                onPressed: widget.onPressed,
-                onLongPress: widget.onLongPress,
-                selected: widget.selected,
-                sortOrder: widget.sortOrder,
-                surfaceAlignment: widget.row
-                    ? AlignmentDirectional.centerStart
-                    : Alignment.center,
-              ),
-            ),
-          ),
-          IgnorePointer(
-              child: ExcludeSemantics(
-                  child: Container(
-            constraints: BoxConstraints(minWidth: target, minHeight: target),
-            decoration: widget.row
-                ? BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: widget.selected == true
-                        ? colors.onSurface.withValues(alpha: 0.10)
-                        : null,
-                    border: _focused
-                        ? Border.all(
-                            color: HighContrastColors.focusIndicator,
-                            width: AccessibleSizing.focusIndicatorWidth)
-                        : null,
-                  )
-                : BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: widget.selected == true
-                        ? Color.alphaBlend(
-                            colors.onSurface.withValues(alpha: 0.12),
-                            colors.surface.withValues(alpha: 0.94))
-                        : colors.surface.withValues(alpha: 0.94),
-                    border: Border.all(
-                        color: _focused
-                            ? HighContrastColors.focusIndicator
-                            : colors.outlineVariant.withValues(alpha: 0.55),
-                        width: _focused
-                            ? AccessibleSizing.focusIndicatorWidth
-                            : 1),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.28),
-                        blurRadius: 10,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
+      child: MouseRegion(
+        onEnter: (_) => setState(() => _hovered = true),
+        onExit: (_) {
+          if (mounted) setState(() => _hovered = false);
+        },
+        child: Listener(
+          onPointerDown: (_) => setState(() => _pressed = true),
+          onPointerUp: (_) {
+            if (mounted) setState(() => _pressed = false);
+          },
+          onPointerCancel: (_) {
+            if (mounted) setState(() => _pressed = false);
+          },
+          child: Stack(
+            fit: StackFit.passthrough,
+            children: [
+              Positioned.fill(
+                child: Opacity(
+                  // Dense rows keep the full-width hit area and semantics but paint
+                  // no circular surface; the label alone carries the row.
+                  opacity: !widget.row || widget.dense ? 0 : 1,
+                  alwaysIncludeSemantics: true,
+                  child: FloatingActionButtonWidget(
+                    key: widget.toolKey,
+                    icon: widget.icon,
+                    tooltip: widget.semanticLabel ?? widget.label,
+                    semanticHint: widget.semanticHint,
+                    onPressed: widget.onPressed,
+                    onLongPress: widget.onLongPress,
+                    selected: widget.selected,
+                    sortOrder: widget.sortOrder,
+                    surfaceAlignment: widget.row
+                        ? AlignmentDirectional.centerStart
+                        : Alignment.center,
                   ),
-            child: Opacity(opacity: disabled ? 0.38 : 1, child: visual),
-          ))),
-        ],
+                ),
+              ),
+              IgnorePointer(
+                  child: ExcludeSemantics(
+                      child: Container(
+                margin: widget.row ? null : const EdgeInsets.all(4),
+                constraints:
+                    BoxConstraints(minWidth: target, minHeight: target),
+                decoration: widget.row
+                    ? BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: widget.selected == true
+                            ? colors.onSurface.withValues(alpha: 0.10)
+                            : null,
+                        border: _focused
+                            ? Border.all(
+                                color: HighContrastColors.focusIndicator,
+                                width: AccessibleSizing.focusIndicatorWidth)
+                            : null,
+                      )
+                    : BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: widget.primary
+                            ? colors.primary.withValues(
+                                alpha: disabled
+                                    ? 0.38
+                                    : _pressed
+                                        ? 0.8
+                                        : _hovered
+                                            ? 0.9
+                                            : 1)
+                            : widget.selected == true
+                                ? colors.secondaryContainer
+                                : !disabled && (_hovered || _pressed)
+                                    ? colors.onSurface.withValues(
+                                        alpha: _pressed ? 0.12 : 0.08)
+                                    : Colors.transparent,
+                        border: Border.all(
+                            color: _focused
+                                ? HighContrastColors.focusIndicator
+                                : Colors.transparent,
+                            width: _focused
+                                ? AccessibleSizing.focusIndicatorWidth
+                                : 1),
+                      ),
+                child: Opacity(opacity: disabled ? 0.38 : 1, child: visual),
+              ))),
+            ],
+          ),
+        ),
       ),
     );
   }
