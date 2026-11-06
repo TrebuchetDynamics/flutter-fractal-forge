@@ -178,8 +178,49 @@ consumed-code check.
 5. Copy `PLAY_RECORD_STUB.md` into a `PLAY_<version>.md` record, fill in the
    prose, and commit it together with any release-identity change.
 6. Update the "Current release status" pointer in [MULTIPLATFORM.md](MULTIPLATFORM.md).
-7. Push. Store reading, review outcome and user availability are separate,
-   later observations.
+7. Push. Then run `scripts/ci/play-observe.sh` and attach its JSON to the
+   record. Review outcome and per-device availability remain separate
+   observations; the script records review as not observable.
+
+## Observing review, storefront propagation and availability
+
+`scripts/ci/play-observe.sh` reports what Play serves after a publication. It is
+read-only and does not replace any gate.
+
+```bash
+scripts/ci/play-observe.sh \
+  --expected-version 1.1.121 \
+  --expected-date "Nov 6, 2026" \
+  --output release-artifacts/play-1.1.121/play-observe.json
+```
+
+The command combines two sources.
+
+| Source | Observed | Not observed |
+| --- | --- | --- |
+| Play Developer API | track release name, rollout status, version codes, user fraction; targeted countries and `restOfWorld`; default language | Google app-review status |
+| Public storefront per country | HTTP status, listing availability, `Updated on` date, embedded version when the page exposes it | installation on a specific device or account |
+
+The storefront summary splits countries into `propagated` (listed date and
+version match the expectation), `pending` (listed but older), `unavailable`
+(HTTP 404) and `errors` (other status). A 200 page with the release date is
+propagation evidence. It is not proof that an account or device can install the
+build.
+
+**Google review has no public API endpoint.** The script records
+`review.status = not-observable` and lists the practical signals:
+
+- Play Console > Publishing overview shows changes in review.
+- The developer account receives the Google review email.
+- The storefront lists the new date and version after approval and propagation.
+- A track status of `completed` is rollout state, not review approval.
+
+Do not convert any of these signals into an approval claim. Record the review as
+not observed until the Console or the email confirms it.
+
+Limits: the storefront page is not an official API. Geo/IP, consent walls, A/B
+tests and bot handling can change it. Storefront markup can change without
+notice; the parser reports what it can and leaves unknown fields null.
 
 ## Limits
 
