@@ -3735,6 +3735,30 @@ abstract class AppLocalizations {
   /// **'Long press or Shift+Enter opens the secondary action.'**
   String get viewerSecondaryActionHint;
 
+  /// No description provided for @viewerRandomizeShape.
+  ///
+  /// In en, this message translates to:
+  /// **'Randomize shape'**
+  String get viewerRandomizeShape;
+
+  /// No description provided for @viewerRandomizeColors.
+  ///
+  /// In en, this message translates to:
+  /// **'Randomize colors'**
+  String get viewerRandomizeColors;
+
+  /// No description provided for @viewerRandomizeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to randomize. Hold to edit.'**
+  String get viewerRandomizeHint;
+
+  /// No description provided for @viewerDismissRandomHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss tip'**
+  String get viewerDismissRandomHint;
+
   /// No description provided for @tooltipFullscreen.
   ///
   /// In en, this message translates to:

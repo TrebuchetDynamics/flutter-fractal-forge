@@ -103,32 +103,34 @@ Future<AutoExploreService> _pumpToolbar(WidgetTester tester,
                   openLooper: () => onAction?.call('viewerPlayLongPress'),
                   toggleFourier: () => onAction?.call('viewerFourierFab'),
                   openFourierSettings: () =>
-                    onAction?.call('viewerFourierFabOptions'),
+                      onAction?.call('viewerFourierFabOptions'),
                   openAutoExploreSettings: onAutoExploreSettings,
                 ),
                 presentation: ViewerPresentationCommands(
                   openControls: () => onAction?.call('viewerControlsButton'),
                   randomizeParams: () =>
-                    onAction?.call('viewerRandomParamsButton'),
+                      onAction?.call('viewerRandomParamsButton'),
                   openRandomFractal: () =>
-                    onAction?.call('viewerRandomFractalFab'),
+                      onAction?.call('viewerRandomFractalFab'),
                   toggleFullscreen: () =>
-                    onAction?.call('viewerFullscreenButton'),
+                      onAction?.call('viewerFullscreenButton'),
                   cycleColorScheme: () =>
-                    onAction?.call('viewerColorCycleButton'),
-                  openPalettePicker: () => onAction?.call('viewerPaletteButton'),
+                      onAction?.call('viewerColorCycleButton'),
+                  openPalettePicker: () =>
+                      onAction?.call('viewerPaletteButton'),
                   toggleKaleidoscope: () =>
-                    onAction?.call('viewerKaleidoscopeFab'),
+                      onAction?.call('viewerKaleidoscopeFab'),
                   setKaleidoscopeSectors: (_) {},
                   setKaleidoscopeMirror: (_) {},
-                  toggleTextOverlay: () => onAction?.call('viewerTextOverlayFab'),
+                  toggleTextOverlay: () =>
+                      onAction?.call('viewerTextOverlayFab'),
                   editTextOverlay: () =>
-                    onAction?.call('viewerTextOverlayFabOptions'),
+                      onAction?.call('viewerTextOverlayFabOptions'),
                   randomizePalette: () => onAction?.call('viewerPaletteButton'),
                   previousFractal: () =>
-                    onAction?.call('viewerPreviousFractalButton'),
+                      onAction?.call('viewerPreviousFractalButton'),
                   openRandomCategories: () =>
-                    onAction?.call('viewerRandomCategories'),
+                      onAction?.call('viewerRandomCategories'),
                 ),
                 share: ViewerShareCommands(
                   openExport: () => onAction?.call('viewerOpenExportAction'),
@@ -175,27 +177,31 @@ void main() {
               gestures: const EdgeInsets.fromLTRB(8, 0, 8, 48));
           final l10n =
               AppLocalizations.of(tester.element(_tool('viewerFabColumn')))!;
-          // More actions stay visible as icon-only cells at every size.
+          // Every primary remains reachable with full-size touch targets.
           for (final key in _orderedTools) {
             expect(_tool(key), findsOneWidget,
                 reason: 'Primary $key must stay reachable');
+            await tester.ensureVisible(_tool(key));
+            await tester.pumpAndSettle();
             final rect = tester.getRect(_tool(key));
             expect(rect.width, greaterThanOrEqualTo(48), reason: key);
             expect(rect.height, greaterThanOrEqualTo(48), reason: key);
             expect(rect.bottom, lessThanOrEqualTo(viewport.height - 64),
                 reason: key);
           }
-          for (final caption in [
-            l10n.controlsTitle,
-            l10n.hudPalette,
-            l10n.navDockRandom,
-            l10n.viewerMoreTools,
-          ]) {
-            expect(
-                find.descendant(
-                    of: _tool('viewerFabColumn'), matching: find.text(caption)),
-                findsNothing,
-                reason: 'Icon rail must not paint captions');
+          if (scale == 1 && viewport.height >= 400) {
+            for (final caption in [
+              l10n.viewerRandomizeShape,
+              l10n.viewerRandomizeColors,
+              l10n.navDockRandom,
+              l10n.viewerMoreTools,
+            ]) {
+              expect(
+                  find.descendant(
+                      of: _tool('viewerFabColumn'),
+                      matching: find.text(caption)),
+                  findsOneWidget);
+            }
           }
           // Full localized names remain in tooltips and semantics.
           for (final entry in {
@@ -379,7 +385,7 @@ void main() {
               expect(tool.hitTestable(), findsOneWidget, reason: key);
             }
             expect(tester.getSize(_tool('viewerFabColumn')).width,
-                lessThanOrEqualTo(440));
+                lessThanOrEqualTo(720));
             await _openMore(tester);
             for (final key in [
               ..._orderedTools.where((key) => !visible.contains(key)),

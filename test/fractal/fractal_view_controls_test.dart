@@ -551,15 +551,17 @@ void main() {
     }
   });
 
-  testWidgets('primary controls stay in a compact bottom row in landscape',
+  testWidgets('landscape toolbar stays bounded with readable labels',
       (tester) async {
     await tester.binding.setSurfaceSize(const Size(844, 390));
     addTearDown(() => tester.binding.setSurfaceSize(null));
     await _pumpControls(tester, isExporting: false, onOpenWallpaper: () {});
     final first = tester.getTopLeft(_key(_primaryKeys.first));
     final last = tester.getTopLeft(_key(_primaryKeys.last));
-    expect((first.dy - last.dy).abs(), lessThan(1));
-    expect(last.dx, greaterThan(first.dx));
+    expect(last.dy, greaterThanOrEqualTo(first.dy));
+    for (final key in _primaryKeys) {
+      expect(_key(key).hitTestable(), findsOneWidget);
+    }
     expect(
         tester.getSize(_key('viewerFabColumn')).width, lessThanOrEqualTo(720));
   });
@@ -580,8 +582,8 @@ void main() {
         for (final label in [
           l10n.hudPreviousFractal,
           l10n.actionPlay,
-          l10n.randomize,
-          l10n.viewerActionSettingsCyclePalette,
+          l10n.viewerRandomizeShape,
+          l10n.viewerRandomizeColors,
           l10n.navDockRandom,
           l10n.viewerActionSectionSaveShare,
           l10n.viewerMoreTools,
@@ -621,6 +623,29 @@ void main() {
     }
     expect(tester.takeException(), isNull);
   });
+
+  for (final locale in const [Locale('en'), Locale('es')]) {
+    testWidgets('random-action hint can be dismissed ${locale.languageCode}',
+        (tester) async {
+      var randomized = 0;
+      await _pumpControls(tester,
+          locale: locale,
+          isExporting: false,
+          onRandomizeParams: () => randomized++,
+          onOpenWallpaper: () {});
+      final l10n =
+          AppLocalizations.of(tester.element(_key('viewerFabColumn')))!;
+      expect(find.text(l10n.viewerRandomizeHint), findsOneWidget);
+      await tester.tap(_key('viewerDismissRandomHint'));
+      await tester.pumpAndSettle();
+      expect(find.text(l10n.viewerRandomizeHint), findsNothing);
+      await tester.tap(_key('viewerControlsButton'));
+      await tester.pumpAndSettle();
+      expect(randomized, 1);
+      expect(find.text(l10n.viewerRandomizeHint), findsNothing);
+      expect(tester.takeException(), isNull);
+    });
+  }
 
   testWidgets('keyboard traversal follows the visible primary actions',
       (tester) async {
@@ -918,8 +943,10 @@ void main() {
     expect(unlabeled, 0);
     final visibleCount =
         _primaryKeys.where((key) => _key(key).evaluate().isNotEmpty).length;
-    expect(labels, hasLength(visibleCount));
-    expect(labels.toSet(), hasLength(visibleCount));
+    expect(labels, hasLength(visibleCount + 1));
+    expect(labels.toSet(), hasLength(visibleCount + 1));
+    expect(
+        find.byKey(const ValueKey('viewerDismissRandomHint')), findsOneWidget);
     handle.dispose();
   });
 

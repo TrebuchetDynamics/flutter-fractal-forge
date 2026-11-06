@@ -108,9 +108,9 @@ class FractalViewControls extends StatelessWidget {
                     );
                     // Keep every primary action visible on short screens with
                     // enlarged text; full names remain in tooltips and semantics.
-                    final showCaptions = mq.textScaler.scale(12) <= 18 ||
-                        constraints.maxHeight >= 600 ||
-                        compactViewport;
+                    final showCaptions = constraints.maxHeight >= 320 &&
+                        (mq.textScaler.scale(12) <= 18 ||
+                            constraints.maxHeight >= 600);
                     final buttons = <_ViewerTool>[
                       for (final (index, tool) in ViewerToolLayout.rail.indexed)
                         if (viewerToolVisible(tool, toolContext))
@@ -119,13 +119,22 @@ class FractalViewControls extends StatelessWidget {
                     ];
                     final availableWidth =
                         constraints.maxWidth - 8; // 4px inset each side
-                    final scaledLabel = mq.textScaler.scale(12);
-                    // At large text sizes, wider cells keep each action short
-                    // enough to fit within the short-screen scroll viewport.
-                    final cellWidth = showCaptions
-                        ? math.max(target,
-                            (scaledLabel > 18 ? 96 : 64) * scaledLabel / 12)
-                        : target + 8;
+                    var cellWidth = target + 8;
+                    if (showCaptions) {
+                      // Keep words whole across fonts, translations and scaling.
+                      for (final button in buttons) {
+                        final painter = TextPainter(
+                          text: TextSpan(
+                              text: button.label,
+                              style: Theme.of(context).textTheme.labelMedium),
+                          textDirection: Directionality.of(context),
+                          textScaler: mq.textScaler,
+                        )..layout();
+                        cellWidth =
+                            math.max(cellWidth, painter.minIntrinsicWidth + 24);
+                        painter.dispose();
+                      }
+                    }
                     final perRow =
                         math.max(1, (availableWidth / cellWidth).floor());
                     final rowCount =
@@ -164,7 +173,13 @@ class FractalViewControls extends StatelessWidget {
                             horizontal: 4, vertical: 8),
                         child: FocusTraversalGroup(
                           policy: OrderedTraversalPolicy(),
-                          child: Column(children: rows),
+                          child: Column(children: [
+                            ...rows,
+                            if (showCaptions &&
+                                !compactViewport &&
+                                mq.textScaler.scale(12) <= 18)
+                              const _RandomActionHint(),
+                          ]),
                         ),
                       ),
                     );
@@ -227,9 +242,11 @@ class FractalViewControls extends StatelessWidget {
     return _ViewerTool(
       toolKey: ValueKey(ViewerToolLayout.keyOf(tool)),
       icon: presentation.icon,
-      label: tool == ViewerTool.palette
-          ? context.l10n.viewerActionSettingsCyclePalette
-          : presentation.caption ?? presentation.semanticLabel,
+      label: switch (tool) {
+        ViewerTool.controls => context.l10n.viewerRandomizeShape,
+        ViewerTool.palette => context.l10n.viewerRandomizeColors,
+        _ => presentation.caption ?? presentation.semanticLabel,
+      },
       semanticLabel: presentation.semanticLabel,
       selected: presentation.selected,
       primary: tool == ViewerTool.saveShare,
@@ -603,6 +620,50 @@ class FractalViewControls extends StatelessWidget {
   }
 }
 
+/// A dismissible reminder for this toolbar, without a timer or stored setting.
+class _RandomActionHint extends StatefulWidget {
+  const _RandomActionHint();
+
+  @override
+  State<_RandomActionHint> createState() => _RandomActionHintState();
+}
+
+class _RandomActionHintState extends State<_RandomActionHint> {
+  bool _dismissed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    if (_dismissed) return const SizedBox.shrink();
+    final l10n = AppLocalizations.of(context)!;
+    final target = AccessibleSizing.touchTargetSize(
+        largeTargets:
+            context.watch<AccessibilityService?>()?.largeTargetsEnabled ??
+                false);
+    return Padding(
+      padding: const EdgeInsetsDirectional.only(start: 12, end: 4),
+      child: Row(children: [
+        Expanded(
+          child: Text(l10n.viewerRandomizeHint,
+              style: Theme.of(context).textTheme.bodySmall),
+        ),
+        FocusTraversalOrder(
+          order: const NumericFocusOrder(7),
+          child: SizedBox.square(
+            dimension: target,
+            child: AppToolButton(
+              key: const ValueKey('viewerDismissRandomHint'),
+              tooltip: l10n.viewerDismissRandomHint,
+              icon: Icons.close_rounded,
+              sortOrder: 7,
+              onPressed: () => setState(() => _dismissed = true),
+            ),
+          ),
+        ),
+      ]),
+    );
+  }
+}
+
 /// Keep all input, haptics and semantics on AppToolButton. The caption is a
 /// paint-only layer over the same hit region, never a second tap handler.
 class _ViewerTool extends StatefulWidget {
@@ -786,9 +847,7 @@ class _ViewerToolState extends State<_ViewerTool> {
                             color: _focused
                                 ? HighContrastColors.focusIndicator
                                 : Colors.transparent,
-                            width: _focused
-                                ? AccessibleSizing.focusIndicatorWidth
-                                : 1),
+                            width: AccessibleSizing.focusIndicatorWidth),
                       ),
                 child: Opacity(opacity: disabled ? 0.38 : 1, child: visual),
               ))),
