@@ -590,6 +590,11 @@ impl NumberWallGridJob {
         self.result()
     }
 
+    /// Move completed storage into the composing frame without cloning cells.
+    pub(crate) fn into_result(self) -> Option<Result<NumberWallGrid>> {
+        self.result
+    }
+
     fn finish(&mut self, result: Result<NumberWallGrid>) {
         self.result = Some(result);
         self.phase = GridPhase::Finished;
