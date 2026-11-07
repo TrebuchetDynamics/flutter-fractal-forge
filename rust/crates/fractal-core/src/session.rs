@@ -1,4 +1,7 @@
-//! Inert ordinary-state candidate. No app routing, storage, effects or Number Walls.
+//! Inert scalar/effect candidate. No app routing, storage or Number Walls.
+
+#[path = "session_effects.rs"]
+mod effects;
 
 use crate::{
     catalog_baseline::{
@@ -52,6 +55,17 @@ pub enum Command {
         initial_params: RawParams,
     },
     Transparent(bool),
+    GlowEnabled(bool),
+    GlowSigma(f64),
+    GlowIntensity(f64),
+    FluidModeEnabled(bool),
+    FluidStrength(f64),
+    RotationLocked(bool),
+    KaleidoscopeEnabled(bool),
+    KaleidoscopeSectors(i64),
+    KaleidoscopeMirror(bool),
+    KaleidoscopeRotation(f64),
+    KaleidoscopeMirrorMode(i64),
     /// Like the ordinary Dart API, normalizes against the current module;
     /// a supported preset module ID does not itself select a different module.
     ApplyPreset {
@@ -102,6 +116,7 @@ pub struct Snapshot {
     view: FiniteView,
     transparent_background: bool,
     last_adaptive_zoom: f64,
+    effects: effects::Effects,
 }
 
 impl Snapshot {
@@ -144,6 +159,8 @@ impl Session {
     ) -> Result<Self, SessionError> {
         let data = module_data(&catalog, module_id)?;
         let view = normalize_view(default_camera(data.default)?.view, INITIAL_VIEW, module_id);
+        let mut effects = effects::Effects::default();
+        effects.apply_module_policy(module_id);
         let state = Snapshot {
             session_id,
             revision: 0,
@@ -152,6 +169,7 @@ impl Session {
             view,
             transparent_background: false,
             last_adaptive_zoom: view.zoom(),
+            effects,
         };
         Ok(Self { catalog, state })
     }
@@ -200,7 +218,12 @@ struct ModuleData<'a> {
 
 fn supported(module_id: &str) -> Result<(), SessionError> {
     match module_id {
-        "mandelbrot" | "julia" | "cantor_set" | "recursive_sine_sphere" => Ok(()),
+        "mandelbrot"
+        | "julia"
+        | "cantor_set"
+        | "recursive_sine_sphere"
+        | "kaleidoscope_basic"
+        | "kaleidoscope_fractal" => Ok(()),
         _ => Err(SessionError::UnsupportedModule(module_id.into())),
     }
 }
@@ -375,12 +398,44 @@ fn apply_command(
                 state.module_id = module_id.clone();
                 state.params = default_params(&data, initial_params);
                 set_view(state, default_camera(data.default)?, false)?;
+                state.effects.apply_module_policy(module_id);
             }
             if *reset {
                 reset_view(state);
             }
         }
         Command::Transparent(value) => state.transparent_background = *value,
+        Command::GlowEnabled(value) => state.effects.glow_enabled = *value,
+        Command::GlowSigma(value) => {
+            state.effects.glow_sigma = effects::bounded(*value, state.effects.glow_sigma, 0.1, 5.0);
+        }
+        Command::GlowIntensity(value) => {
+            state.effects.glow_intensity =
+                effects::bounded(*value, state.effects.glow_intensity, 0.0, 1.0);
+        }
+        Command::FluidModeEnabled(value) => state.effects.fluid_mode_enabled = *value,
+        Command::FluidStrength(value) => {
+            state.effects.fluid_strength =
+                effects::bounded(*value, state.effects.fluid_strength, 0.0, 2.0);
+        }
+        Command::RotationLocked(value) => state.effects.rotation_locked = *value,
+        Command::KaleidoscopeEnabled(value) => {
+            state.effects.kaleidoscope.enabled =
+                *value || effects::is_forced_module(&state.module_id);
+        }
+        Command::KaleidoscopeSectors(value) => {
+            let clamped = (*value).clamp(4, 16);
+            state.effects.kaleidoscope.sectors = clamped - clamped % 2;
+        }
+        Command::KaleidoscopeMirror(value) => state.effects.kaleidoscope.mirror = *value,
+        Command::KaleidoscopeRotation(value) => {
+            if value.is_finite() {
+                state.effects.kaleidoscope.rotation = *value;
+            }
+        }
+        Command::KaleidoscopeMirrorMode(value) => {
+            state.effects.kaleidoscope.mirror_mode = (*value).clamp(0, 3);
+        }
         Command::ApplyPreset {
             module_id,
             params,
@@ -400,6 +455,7 @@ fn apply_command(
             let id = module_id.as_deref().unwrap_or(&state.module_id);
             let data = module_data(catalog, id)?;
             state.module_id = id.into();
+            state.effects.apply_module_policy(&state.module_id);
             state.params = normalized_params(data.parameters, params);
             set_view(state, *camera, false)?;
             state.transparent_background = *transparent;
@@ -414,6 +470,7 @@ fn apply_command(
                 default_params(&module_data(catalog, &state.module_id)?, &RawParams::new());
             reset_view(state);
             state.transparent_background = false;
+            state.effects.rotation_locked = false;
         }
         Command::Unsupported { operation } => {
             return Err(SessionError::UnsupportedOperation(operation.clone()));
