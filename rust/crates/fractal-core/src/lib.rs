@@ -2,6 +2,7 @@
 
 pub mod catalog_baseline;
 pub mod normalization;
+pub mod number_wall_prime;
 pub mod session;
 
 /// Rust engine version, independent of the Flutter app version.
