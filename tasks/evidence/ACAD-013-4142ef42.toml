@@ -1,0 +1,9 @@
+schema = 1
+task = "ACAD-013-4142ef42"
+candidate = "99845951a3005b1f3a7c6d7a2c748a9298e8d6ef"
+integration = "477917dbddc1effe1c6086b6adb84495b474eb5a"
+tree = "37c0913dfd2eceb772cc8db30c9d0e4d42c4e694"
+contract_hash = "73d94b8d38998d40b35913eb0318500eef13aaeb8e7405a6b490091589e2ff59"
+checks = ["<path>", "<path>", "--verify", "<path>", "ACAD-013-4142ef42"]
+result = "pass"
+review = "passed"
