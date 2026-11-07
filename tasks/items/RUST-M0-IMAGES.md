@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-M0-IMAGES"
 title = "Retain source-bound representative Flutter reference renders"
 short = "Capture real 2D 3D discrete and inspired-module defaults and edited views."
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Next"
 rank = 1000
@@ -16,6 +16,8 @@ scope = "Consume baseline v1 inventory. Add a real Flutter draw/readback harness
 acceptance = ["Given every named real descriptor and state, reference_render_test.dart draws/readbacks finite 256x256 RGBA output and verifies renderer inputs and state bindings; missing modules, failed draws or substituted paths fail visibly rather than skip.", "Given an opt-in artifact capture, manifest and PNG readback agree on dimensions/alpha/state/hash; a second same-backend capture records equality or measured variance without inventing a cross-GPU pixel-perfect threshold. Inspired status and software backend remain labelled."]
 checks = ["flutter test --no-pub test/migration/reference_render_test.dart test/modules/catalog_preset_render_health_test.dart", "flutter test --no-pub test/migration/reference_render_test.dart --dart-define=MIGRATION_REFERENCE_OUT=/tmp/fractal-m0-reference-a && flutter test --no-pub test/migration/reference_render_test.dart --dart-define=MIGRATION_REFERENCE_OUT=/tmp/fractal-m0-reference-b", "( export FLUTTER_ROOT=\"$AUTOWORK_CACHE/flutter-3.47.9\"; export PUB_CACHE=\"$AUTOWORK_CACHE/pub-cache\"; export PATH=\"$FLUTTER_ROOT/bin:/usr/bin:$PATH\"; flutter --version && /usr/bin/python3 -c 'import sys, pytest, jinja2, markupsafe; print(sys.executable, sys.version, pytest.__version__, jinja2.__version__); assert callable(markupsafe.soft_str)' && scripts/ci/offline-gate.sh --python-bin /usr/bin/python3 )"]
 exclusions = ["No state/render replacement, ID renames, saved-data schema changes, publication or live device mutation in this offline task.", "Do not edit the seven pre-existing dirty test files; use isolated execution and preserve their work."]
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/RUST-M0-IMAGES.toml"
 +++
 
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration
@@ -25,3 +27,4 @@ exclusions = ["No state/render replacement, ID renames, saved-data schema change
 - Next action: Wait for RUST-M0-SHIP-REPAIR to land, then freshly check writer activity before reusing the preserved uncommitted candidate in .worktrees/autowork-RUST-M0-IMAGES. Consume the repaired source and reviewed inventory; rerun every original check, complete both source-bound capture sets and measured variance, then explicitly promote the complete manifest/PNGs. Keep renderer failures as failures and software/inspired/live labels unchanged. No mathematical, hardware or goal qualification is supplied by the producer or this documentation repair.
 - Check setup: output paths denote private task scratch. Harness decodes both capture sets, validates manifests and reports measured same-backend pixel variance; byte equality is not a fabricated hardware parity gate.
 - Evidence: Attempt 1 report.json and contract.txt under the common Git directory autowork-execution/slot-data/RUST-M0-IMAGES/attempt-1/ record a real unmodified Burning Ship default all-black failure, independently reproduced by the catalog readback seam at baseline 8345b8e2e296211c2d596eaeb4e451793e16d742. No commit, complete manifest or reference promotion was produced. This is not a no-change closure or completed baseline. RUST-M0-SHIP-REPAIR produces a minimal semantics-preserving existing-defect repair and refreshed source-bound inventory before capture can complete; see docs/tasks/RUST-M0-SHIP-REPAIR.md. Original Scope, Acceptance, Checks, Touches and production-change prohibition remain unchanged.
+- Pending live: Hardware-GPU and installed-device/browser qualification, native texture/performance gates and human mathematical/visual review remain separate from these Linux Flutter tester software readbacks. No device mutation, publication, hardware parity or mathematical qualification is claimed.

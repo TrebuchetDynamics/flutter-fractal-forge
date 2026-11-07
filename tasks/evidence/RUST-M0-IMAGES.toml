@@ -1,0 +1,9 @@
+schema = 1
+task = "RUST-M0-IMAGES"
+candidate = "9f38158ffb3a8593f567891d17f495ac56c142b9"
+integration = "e1853fdbc95fa7bdc729bf3f6966341f8bc79226"
+tree = "92da14638bf4997dc8dec6c9911af0a71f4af83b"
+contract_hash = "5f45f86ea438657aad33ce408651bee726c38a582b61849e29b4af92e99ef2b9"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M0-IMAGES"]
+result = "pass"
+review = "passed"
