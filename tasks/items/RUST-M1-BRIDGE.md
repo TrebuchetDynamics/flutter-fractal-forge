@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-M1-BRIDGE"
 title = "Connect opt-in Flutter Rust engine handle without changing rendering"
 short = "Exercise FRB version capabilities and lifecycle behind a default-off flag."
-status = "open"
+status = "superseded"
 goal = "RUST-ENGINE-001"
 section = "Next"
 rank = 2000
@@ -26,3 +26,4 @@ exclusions = ["No state/render replacement, ID renames, saved-data schema change
 - Next action: add failing persistent snapshot/default-no-load tests, then implement only the three requested public APIs. Revision mutation tests stay internal; no camera FFI endpoint.
 
 - Builder resolution: inventory _sourceHashes binds pubspec.yaml/lock; replaySourceBindings binds lock/harness. FRB therefore invalidates frozen comparisons. Preserve all original JSON/receipts; sidecar records original fixture SHA256, complete old/new maps, approved change reference and exact allowlist: pubspec.yaml, pubspec.lock, test/migration/baseline_contracts_test.dart, test/migration/state_replay_test.dart, test/migration/support/provenance_transition.dart. No production math/shader/SDK/default drift may pass. Keep exact semantic input/expected/payload and other metadata checks; assert current complete bindings against transition. Negative tests cover unauthorized changed/added/removed bindings, semantic mutation and fixture/transition mismatch. Two scratch exports must agree before reviewed transition metadata is saved; never promote changed original fixtures. Tests/helper/sidecar are in touches. Checks unrun.
+- Superseded by: RUST-CORE-BOOTSTRAP; Owner instruction consolidates the minimal bridge and additive Cargo gate into RUST-CORE-BOOTSTRAP; obligations retained without duplicate implementation.

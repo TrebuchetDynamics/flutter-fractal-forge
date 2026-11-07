@@ -7,7 +7,7 @@ status = "open"
 goal = "RUST-ENGINE-001"
 section = "Next"
 rank = 3000
-depends_on = ["RUST-M0-CONTRACTS", "RUST-M0-REPLAY", "RUST-M0-IMAGES", "RUST-M1-WORKSPACE", "RUST-M1-BRIDGE", "RUST-CORE-BOOTSTRAP", "RUST-CORE-PRECISION", "RUST-CORE-01"]
+depends_on = ["RUST-M0-CONTRACTS", "RUST-M0-REPLAY", "RUST-M0-IMAGES", "RUST-M1-WORKSPACE", "RUST-CORE-BOOTSTRAP", "RUST-CORE-PRECISION", "RUST-CORE-01"]
 touches = ["docs/planning/refactor-plan.md", "docs/engineering/spec.md", "docs/engineering/test-plan.md"]
 resources = []
 kind = "plan"
@@ -26,3 +26,6 @@ exclusions = ["No implementation, services, workers, installation, publication o
 
 - Sources: docs/planning/refactor-plan.md#rust-core-01-bootstrap-refinement
 - Owner boundary update: stop at RUST-CORE-01; no automatic camera/registry/CPU/GPU successor. This is a scoped progression limit, not a blanket task hold or instruction to interrupt a worker. Reuse existing coordinator candidates/receipts; branch-local metadata is not runner delivery.
+- Held by: OWNER-STOP-REVIEW
+
+- Owner STOP / REVIEW: explicit latest instruction prohibits automatic next-milestone work after a green RUST-CORE-01. Retain OWNER-STOP-REVIEW until the owner reviews the aggregate evidence and gives later direction; neither green tests nor an empty eligible queue releases it.

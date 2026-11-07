@@ -690,16 +690,17 @@ This is not proof that no implementation exists elsewhere:
   `7e56bc8d` / integration `c17aa752` and `0cf68df2` /
   integration `2003c198`. The actual fixtures/harnesses exist on that branch.
   Reuse them; do not duplicate tasks or copy a producer's package metadata.
-- `RUST-M1-WORKSPACE` is in flight, at verification with no worker currently
-  running at inspection. Candidate `d18e13389d30bed3299f9bdbb5edd06609f81e93`
-  contains the three-crate workspace, version/capabilities and Rust checks.
-  Its clean worktree is `.worktrees/autowork-RUST-M1-WORKSPACE`.
-  The current review/landing result was not independently requalified here.
-- The consumer reports READY, with this in-flight contract. Do not interrupt it,
-  change its admitted contract, overwrite its worktree, fabricate closure or
-  repin its evidence. Return this owner scope correction to that same coordinator.
-  New RUST-CORE-BOOTSTRAP consumes its retained/integrated result and makes the
-  two-crate correction; it does not create another worker or workspace from scratch.
+- At the original refinement, `RUST-M1-WORKSPACE` candidate `d18e1338`
+  was in verification. Fresh reconciliation found its corrected successor
+  `e59efc24`, integrated by `b0d8c4b4` and coordinator-verified closure
+  `8345b8e2`. Preserve that history and receipt. It remains a previous-contract
+  three-crate foundation, not the refined bootstrap or a working Flutter bridge.
+  The integration-only pass does not rerun or extend its build qualification.
+- Fresh consumer preparation reports READY; RUST-M0-IMAGES is the live worker.
+  Preserve its contract/worktree, all baseline receipts and the workspace closure.
+  RUST-CORE-BOOTSTRAP adopts only compatible previous-foundation work, performs
+  the two-crate correction and owns the complete minimal bridge plus Cargo gate.
+  It does not duplicate an existing implementation or start during integration.
 - The old consumer/remote still lacks those integrated outputs. Task dependencies
   remain real source-inclusion prerequisites until the coordinator lands them.
   A branch-local plan commit is not delivery to the runner or a main merge.
@@ -815,9 +816,9 @@ reconciliation, never blanket repinning. This resolves the builder finding.
 | Owner request | Saved execution contract |
 | --- | --- |
 | Dedicated branch, pinned two-crate workspace, independent pure core | RUST-CORE-BOOTSTRAP, consuming RUST-M1-WORKSPACE without altering its live contract |
-| Exact FRB pins, persistent version/create/snapshot API, crossing revision/view data | Existing RUST-M1-BRIDGE, revised in place; consumes two-crate correction and M0 source inclusion |
+| Exact FRB pins, persistent version/create/snapshot API, crossing revision/view data | RUST-CORE-BOOTSTRAP now includes this entire slice; old pending RUST-M1-BRIDGE is superseded by it with obligations/checks retained |
 | Precision first, named and generated Dart/Rust parity, Dart retained | RUST-CORE-PRECISION, depending on bridge and prior replay source |
-| Cargo checks plus full pinned gate | RUST-CORE-PRECISION; preserve native build/glue/default/Web checks in RUST-M1-BRIDGE |
+| Cargo checks plus full pinned gate | RUST-CORE-BOOTSTRAP owns additive gate/Bats/AGENTS changes and native build/glue/default/Web checks; precision runs the completed gate |
 | Actual existing Flutter app creates Rust engine and still renders unchanged | RUST-CORE-01 aggregate inspection, with separate real Linux/Waydroid receipts; not proved by mocks/builds |
 | Camera commands and FractalController façade | Deferred beyond RUST-CORE-01; preserve event ownership/clamps and API, no current implementation card |
 | ModuleDescriptor versus temporary FlutterShaderBinding, then three-module registry | Deferred in that order; preserve both ID namespaces, exact parameter types and l10n; no registry port now |
@@ -837,9 +838,9 @@ never require a physical phone instead. Missing device/backend evidence remains
 pending, not an offline failure waived into success.
 
 Keep baseline task IDs/history and the active workspace contract. No new product
-dependency is invented for shared files: new layout correction consumes the old
-workspace; bridge needs the corrected ABI/layout; differential integration consumes
-bridge and replays; aggregate inspection consumes all three. Shared spec/build/lock
+dependency is invented for shared files: combined bootstrap consumes the retained workspace and M0 inputs;
+differential precision consumes the completed bridge and replays; aggregate
+inspection consumes both implementation results. Shared spec/build/lock
 writes require serialized landing. RUST-PLAN-02 retains the round-1 evidence
 closeout, but must stop at this milestone and create no camera/registry/GPU successor
 or automatic new batch under this request. This is an explicit owner scope limit,
@@ -848,6 +849,87 @@ not a blanket hold on independent baseline work or permission to stop workers.
 All implementation, build, generator, differential and device commands in this
 refinement are proposed/unrun. Planning validates documents/tasks only. Reuse valid
 baseline receipts after source-inclusion checks; do not claim their old receipts
-validate new Rust code. Expected implementation: three building changes (one is the
-revised existing bridge) and one aggregate qualification, with normal independent
-review/integration, separate from this planning commit.
+validate new Rust code. Expected implementation: two building changes (combined bootstrap, then precision)
+and one aggregate qualification, with normal independent review/integration.
+The owner explicitly requires **STOP / REVIEW** after RUST-CORE-01. The existing
+RUST-PLAN-02 is held by OWNER-STOP-REVIEW until that evidence is reviewed and later
+direction is given; a green gate does not release it.
+
+### Integration-only reconciliation
+
+The integration candidate is based on fresh coordinator head `8345b8e2`, merges
+`5eceac9b` and preserves both M0 evidence sections, every original baseline JSON,
+its old source hashes and all three verified producer closures. Conflicts were
+limited to spec, plan and RUST-PLAN-02 notes; task edits use the task-store CLI.
+No Rust/Dart/shader/fixture source is changed by this integration pass. The old
+three-crate source remains historical input to the next bounded implementation,
+not a claim of refined bootstrap acceptance. The latest owner instruction unifies
+the pending bridge into RUST-CORE-BOOTSTRAP and retires its separate card without
+calling it completed; task count remains 126, goal count 21.
+
+At inspection the canonical writer guard returned BUSY for Pi PID757068, with
+running-command evidence and no written paths. That session confirmed no actual
+writer remained but could not safely identify/close its persistent MCP children.
+Do not bypass the guard, kill those children, reset/stash foreign tests or move
+canonical HEAD from another worktree. Keep this source-bound integration candidate
+until the same coordinator can land it normally. RUST-CORE-BOOTSTRAP remains held
+by OWNER-CANONICAL-INTEGRATION until canonical source/metadata/baseline checks pass.
+
+No new Flutter/Cargo build, full suite or device qualification ran in this
+integration-only pass. Prior source-bound receipts remain historical; metadata,
+link and fixture/hash checks do not prove a working bridge.
+
+### Fresh planning handoff: canonical delivery still pending
+
+The owner reaffirmed the same sequence: canonical integrated plan, then
+RUST-CORE-BOOTSTRAP, RUST-CORE-PRECISION, RUST-CORE-01 FULL GATE, then
+**STOP / REVIEW**. Reuse these IDs and the existing integration candidate
+`dd4b9724`; do not create a second roadmap or release either owner hold.
+
+Fresh inspection found canonical `main` at `cd728419`, with seven unrelated dirty
+test files. It does not include `5eceac9b` or `dd4b9724`. The active coordinator
+branch `pi-autowork/20261027-235818` was at `9edaab45`, with 143 task records and
+RUST-M2-INGRESS running. Its RUST-PLAN-06 would continue beyond this requested
+stop boundary. Preserve its work, reports and admitted contracts. This is a
+source/continuation reconciliation for that same coordinator, not a request for
+new product design, a replacement implementation or permission to interrupt it.
+
+The retained integration candidate has 126 tasks, 21 goals and no drafts.
+Its seven original baseline JSON files are byte-identical to `8345b8e2`, and all
+three producer receipts are retained. The newer coordinator differs in each
+original JSON: five inventory documents change provenance, and the two replay
+documents change source_bindings. Their other top-level fields compare equal.
+That comparison does not authorize the changed provenance or qualify the newer
+source. Do not overwrite either set or repin hashes to hide the difference.
+The coordinator must account for those exact source-binding changes and retain
+original evidence before declaring canonical reconciliation complete.
+
+Planner call: retain the existing candidate and integration-first hold rather
+than merge an obsolete 126-record snapshot over the 143-record coordinator.
+Inspect fresh overlapping plan/spec/task contracts and source-bound reports in
+one serialized integration. Preserve compatible work and completed history;
+apply the refined two-crate/minimal-bridge authority and explicit stop without
+fabricating acceptance of later work. Before release, validate the actual merged
+store, report its real counts and explain any difference from 126/21. Recheck
+links, original fixture hashes and receipt bindings on that merged source.
+This standalone planning handoff does not perform that integration, dispatch,
+service recovery, builds or device checks. No bootstrap task is newly released.
+
+### Scoped publication of the planning contract
+
+This delivery carries the refined planning contract, not the implementation
+ancestors of the retained integration candidate. The original seven baseline
+JSON files and verified producer receipts remain on that candidate and the
+coordinator; none are copied, regenerated or declared verified on this branch.
+Existing canonical producer records retain their current open status until their
+source-bound results are integrated through the same coordinator.
+
+The shared canonical checkout's seven dirty test files delete existing tests.
+Their completion and approval are not established; publication preserves them
+locally and does not import those deletions. Active RUST-M2 work and unqualified
+historical candidates are likewise excluded, not discarded. This publication
+resolves visibility of the accepted plan only. OWNER-CANONICAL-INTEGRATION stays
+in force until implementation-source, metadata and baseline reconciliation is
+complete. STOP / REVIEW remains a separate owner boundary, never automatically
+released by publication or passing tests. No builds or device tests ran for this
+docs/task-only delivery.
