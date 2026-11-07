@@ -436,6 +436,29 @@ Dart on the interactive GPU path, renaming IDs, precision loss and regressions h
 by weaker tests. The supplied 60/120 Hz outcome is a qualification target, not a
 measurement made in this planning session.
 
+### Owner-confirmed scope and performance clarification
+
+The owner accepted both recommendations in Grill With Docs round 1 through LGTM.
+These are owner decisions, not planner defaults:
+
+- The final Rust boundary includes all mathematical domain logic, not only fractal
+  formulas/shaders: Fourier/analysis, trajectories, exact discrete models and
+  special mathematical visualizations are included. Ordinary widget layout and
+  formatting stay in Flutter. The first five building tasks do not expand.
+- The native architecture demonstration targets 60 Hz on defined hardware and a
+  defined scenario, with 120 Hz additional on compatible hardware. This is not a
+  universal FPS promise for every fractal or precision tier. Correctness and honest
+  precision remain mandatory; Waydroid functional evidence does not certify
+  physical hardware performance.
+
+See [ADR 0005](../adr/0005-rust-owns-all-mathematical-domain-logic.md),
+[ADR 0006](../adr/0006-native-demonstration-performance-is-target-specific.md) and
+[the migration terms](../engineering/GLOSSARY.md). RUST-PLAN-02 must carry this
+auxiliary-domain inventory and hardware/scenario-bound qualification into later
+rounds without dropping any existing phase. Benchmark protocol details are to be
+fixed before measurement; no benchmark has been run or passed here. ADR 0002's
+initial pure-Dart prototype remains a valid oracle, not the final engine owner.
+
 ### Repository evidence and corrections
 
 Inspection baseline: local main `0b1ecfcde8d484950a71ad1dc28729426c4557e9`.
