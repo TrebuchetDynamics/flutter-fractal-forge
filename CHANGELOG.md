@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Added an isolated, nonpublishable three-crate Rust workspace with version/nonrendering capability APIs and pinned offline CI checks, without changing Flutter behavior. (RUST-M1-WORKSPACE)
 - Added source-bound schema-1 Dart camera, parameter, Number Walls and precision replay corpora with deterministic parity checks. (RUST-M0-REPLAY)
 - Added deterministic, source-bound Dart catalog, parameter, preset, capability and shader-interface inventories for the Rust migration. (RUST-M0-CONTRACTS)
 - Repair labeled viewer toolbar regression coverage, short-landscape palette reachability and the dismissible editing tip's accessibility inventory. (MAIN-VIEWER-LABELED-TOOLS-REPAIR-01)

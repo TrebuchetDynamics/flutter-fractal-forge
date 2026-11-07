@@ -1,0 +1,9 @@
+schema = 1
+task = "RUST-M1-WORKSPACE"
+candidate = "e59efc24e7ec05cfc950f7b5cc948cedd81a5fce"
+integration = "b0d8c4b4be506334d5c3badb21360d9aa0c96dde"
+tree = "b4b45486078b58183b53ba1be4dc44e92b900706"
+contract_hash = "cca580fcaf68638ebab81713c65c07e1e59b9dc6239257845766aac1ec86cda0"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M1-WORKSPACE"]
+result = "pass"
+review = "passed"

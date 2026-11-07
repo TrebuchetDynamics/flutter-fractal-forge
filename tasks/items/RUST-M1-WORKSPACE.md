@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-M1-WORKSPACE"
 title = "Add isolated three-crate Rust workspace and nonpublishing CI checks"
 short = "Create domain render and bridge boundaries with no Flutter behavior change."
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Now"
 rank = 4000
@@ -16,9 +16,13 @@ scope = "Create rust workspace with fractal-core, fractal-render and fractal-bri
 acceptance = ["Given the new workspace, cargo tests exercise engine_version and capability serialization shape plus a dependency-boundary check; core/render contain no UI/platform dependencies and the app loads no Rust.", "Given the CI script/workflow, fmt, clippy with denied warnings and workspace tests execute with the pinned Rust and locked dependency graph; GitLab/publication/signing/Flutter lanes are not altered."]
 checks = ["PATH=/home/xel/.rustup/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:$PATH cargo fmt --manifest-path rust/Cargo.toml --all -- --check", "PATH=/home/xel/.rustup/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:$PATH cargo clippy --manifest-path rust/Cargo.toml --workspace --all-targets --locked --offline -- -D warnings", "PATH=/home/xel/.rustup/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:$PATH cargo test --manifest-path rust/Cargo.toml --workspace --locked --offline", "( export PATH=/home/xel/.rustup/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:$PATH; bash -n scripts/ci/rust-check.sh && scripts/ci/rust-check.sh )", "( export FLUTTER_ROOT=\"$AUTOWORK_CACHE/flutter-3.47.9\"; export PUB_CACHE=\"$AUTOWORK_CACHE/pub-cache\"; export PATH=\"$FLUTTER_ROOT/bin:/usr/bin:$PATH\"; flutter --version && /usr/bin/python3 -c 'import sys, pytest, jinja2, markupsafe; print(sys.executable, sys.version, pytest.__version__, jinja2.__version__); assert callable(markupsafe.soft_str)' && scripts/ci/offline-gate.sh --python-bin /usr/bin/python3 )"]
 exclusions = ["No state/render replacement, ID renames, saved-data schema changes, publication or live device mutation in this offline task.", "Do not edit the seven pre-existing dirty test files; use isolated execution and preserve their work."]
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/RUST-M1-WORKSPACE.toml"
 +++
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration
 - Planner call: no third-party dependencies required for this foundation; matched bridge/codegen dependency provisioning belongs to RUST-M1-BRIDGE. Existing direct Rust1.95.0 binaries were verified with --version; no installation or build ran. Workflow may acquire pinned toolchain in its disposable CI job, never mutate the owner's host.
 - Produces: cargo workspace packages fractal-core/fractal-render/fractal-bridge; engine_version() -> String and capability descriptor with no rendering support advertised.
 - Repo obligations triggered: spec.md Planned Rust engine boundary; explicit new protected manifests/lock/toolchain/workflow paths listed in touches. The dependency test belongs inline in crate tests, no artificial prose test. Update spec only to actual foundation status; no claim M1 platform qualification.
 - Next action: implement the missing crate API/negative dependency-boundary tests, then the minimal workspace. All checks proposed/unrun.
+- Pending live: GitHub-hosted workflow was not dispatched; YAML/source readback and the same offline script passed locally.
+- Pending live: M1 Linux and designated Waydroid smoke/lifecycle qualification remains separate after RUST-M1-BRIDGE. No bridge integration, rendering or M1 platform qualification is claimed.
