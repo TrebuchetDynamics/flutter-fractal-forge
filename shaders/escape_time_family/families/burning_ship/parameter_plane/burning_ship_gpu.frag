@@ -32,7 +32,8 @@ vec2 cmul(vec2 a, vec2 b) {
 
 vec2 cpowReal(vec2 z, float p) {
   float r = max(length(z), 1e-12);
-  float theta = atan(z.y, z.x);
+  // atan(0, 0) is undefined; retain the radius regularization for all exponents.
+  float theta = (z.x == 0.0 && z.y == 0.0) ? 0.0 : atan(z.y, z.x);
   float rp = pow(r, p);
   return rp * vec2(cos(p * theta), sin(p * theta));
 }

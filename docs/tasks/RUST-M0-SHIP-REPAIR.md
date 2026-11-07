@@ -4,8 +4,9 @@
 
 RUST-M0-IMAGES attempt 1 was blocked, not completed. Read in place:
 
-- `.git/autowork-execution/slot-data/RUST-M0-IMAGES/attempt-1/report.json`
-  and `contract.txt` in the repository common Git directory.
+- `.git/autowork-execution/slot-history/RUST-M0-IMAGES/1/slot-data/attempt-1/report.json`
+  and `contract.txt` in the repository common Git directory. The runner archived
+  the original `slot-data/RUST-M0-IMAGES/attempt-1/` evidence there.
 - `/var/tmp/aw-1000-48137133-2/burning_ship_readback_test.dart` and
   `burning-ship-isolated.log`: the independent existing catalog draw/readback
   seam produced exactly 65,536 opaque black pixels at 256×256, time zero,
@@ -80,6 +81,114 @@ complete manifest and PNGs. Preserve the idle uncommitted candidate in
 Do not close either task or qualify RUST-ENGINE-001 from this planning document.
 Software readback is not device/browser, hardware-GPU or mathematical acceptance.
 
-Maintainer verification: repository/source/report inspection only; no Flutter
-checks were executed by the maintainer. This document is a repair plan, not proof
-that the hypothesis or the proposed repair passes.
+## Producer diagnosis and offline evidence
+
+Execution base: `c103e2bb0835508f49e1a72ee40a267d3d39a382`.
+The standalone regression reuses the catalog's registered module, uniform setter,
+FragmentProgram, Picture and raw-RGBA readback. It keeps the shader alive until
+readback and does not use the unfinished capture candidate.
+
+The only production change defines the angle as zero at the exact complex origin.
+All nonzero inputs still use the original `atan` expression. The existing
+`max(length(z), 1e-12)` and `pow(r, p)` remain unchanged. This also preserves the
+regularized derivative call with exponent `power - 1`: exponent zero returns one,
+and negative exponents remain finite before multiplication by the zero sign gate.
+No early return of zero for every exponent was introduced. The real module clamps
+power to `[1, 16]` before setting uniforms, so negative derivative exponents are
+not exposed by its controls. No formula, derivative update, palette, pan mapping,
+default, uniform slot, module ID, SDK or dependency changed.
+
+### Controlled reproduction
+
+All runs used pinned Flutter tester software rendering, not a CPU replacement or
+hardware GPU. Run from the checkout root with:
+
+```sh
+export FLUTTER_ROOT="$AUTOWORK_CACHE/flutter-3.47.9"
+export PUB_CACHE="$AUTOWORK_CACHE/pub-cache"
+export PATH="$FLUTTER_ROOT/bin:/usr/bin:$PATH"
+flutter test --no-pub test/modules/burning_ship_default_render_health_test.dart --reporter expanded
+```
+
+The default is 256×256, time zero, opaque, power 2, 300 iterations, bailout 4,
+palette 0, pan `(-0.5, 0)` and zoom `0.35`. The test obtains these settings from
+the real default preset, not a replacement state.
+
+| Shader | Terminal result | Default pixel readback |
+|---|---|---|
+| Original `3056d5a7…ba8db7a3` | FAIL | 65,536 opaque black pixels, one RGB color, nonblack ratio 0, luminance standard deviation 0 |
+| Origin-angle guard only | PASS | 1,207 RGB colors, nonblack ratio 0.7862, luminance standard deviation 45.3509, every alpha 255 |
+| Original shader restored byte-for-byte | FAIL | Same all-black result; independent escaping sample also incorrectly remained transparent |
+| Guard reapplied, final focused run | PASS | Same healthy default metrics; all classification and normal-map samples pass |
+
+This original/guard/original/guard sequence isolates the undefined origin-angle
+path. It does not identify a particular internal Skia instruction or certify
+other backends. A zero radius alone was not the cause: the original already
+clamped it to `1e-12`. Transparency was not the cause: every default alpha was 255.
+A normal-map-only derivative defect cannot explain the default failure: scheme 0
+never enters that branch. Uniform, default, pan and palette hypotheses do not
+require changes: the angle-only intervention repairs the same registered draw.
+No SDK upgrade or quadratic-only fast path is needed.
+
+The second test keeps classification separate from color. With 40 steps and
+radius 4, independent scalar-complex evaluation of
+`z_next = (|Re(z)| + i|Im(z)|)^p + c` classifies `c=0` and `c=(-0.2,-0.1)` as bounded for powers 1, 1.5, 2, 2.5 and 3.
+At `c=(-0.8,-0.6)`, powers 1, 1.5 and 2 remain bounded, while 2.5 and 3 escape
+at zero-based steps 14 and 5. Transparent-interior readbacks assert those
+classifications for both palette and normal-map modes. Additional escaping
+samples compare RGB with independent scalar recurrence, abs-sign-gated derivative,
+light angle zero, palette zero and sRGB transfer calculations. The table is in
+the test, with a two-level tolerance per 8-bit RGB channel, not an image golden.
+These selected samples guard controls and shading, not mathematical qualification.
+
+Final shader SHA-256:
+`cc27b6f847e8fa2c9f9f6a4c8d309f497f72d1f70d6dfb698c6a2a7c601b3511`.
+Final standalone test SHA-256:
+`8246ff3f0166e0b4b86ebb127fe921784cbf957271096b85568c3a0fa9559fec`.
+
+### Executed checks and inventory promotion
+
+- Environment preflight: PASS. `flutter --version` matches
+  `fdroid/flutter.version` (3.47.9, Dart 3.13.7). `/usr/bin/python3` is 3.12.3,
+  imports pytest 9.0.2 and Jinja2 3.1.6, and has callable `markupsafe.soft_str`.
+- `flutter pub get --offline --enforce-lockfile`: PASS. Before and after,
+  `pubspec.lock` SHA-256 is
+  `d759c63037e4d4f29a7c09b14886854fb8caa832c41f1172ec684a5cdcb7145b`.
+- The following unchanged selection, plus the new regression: PASS, 41 tests.
+  The potentially long command ran through `autowork-run timeout 900`.
+
+```sh
+flutter test --no-pub \
+  test/modules/burning_ship_default_render_health_test.dart \
+  test/modules/burning_ship_pan_direction_test.dart \
+  test/modules/burning_ship_consolidation_test.dart \
+  test/modules/burning_ship_julia_visual_contract_test.dart \
+  test/renderer/burning_ship_degree_rendering_test.dart \
+  test/cpu/cpu_burning_ship_iterator_test.dart \
+  test/shaders/escape_time_family/families/burning_ship_shader_assets_test.dart \
+  test/modules/escape_time_uniform_contract_test.dart \
+  test/modules/escape_time_shader_manifest_test.dart \
+  test/modules/catalog_preset_render_health_test.dart --reporter expanded
+```
+
+Two empty, private absolute scratch exports used the unchanged exporter:
+
+```sh
+flutter test --no-pub test/migration/baseline_contracts_test.dart --dart-define=MIGRATION_BASELINE_OUT="$TMPDIR/ship-contracts-a" --reporter expanded
+flutter test --no-pub test/migration/baseline_contracts_test.dart --dart-define=MIGRATION_BASELINE_OUT="$TMPDIR/ship-contracts-b" --reporter expanded
+diff -r "$TMPDIR/ship-contracts-a" "$TMPDIR/ship-contracts-b"
+flutter test --no-pub test/migration/baseline_contracts_test.dart test/migration/state_replay_test.dart --reporter expanded
+```
+
+Both exports passed (two tests each), and their recursive diff was empty.
+Structural review found exactly two changed provenance values in each of the five
+JSONs: the registered shader hash and the resulting source-set hash. Every payload,
+including descriptors, defaults, capabilities and binding layouts, was equal.
+Only then were those five exported files explicitly copied into the baseline.
+The default baseline and unchanged state/precision replay checks passed (four tests).
+No hashes or replay expectations were hand-edited.
+
+The merged-tree full offline gate belongs to the coordinator under the worker
+execution rules. It was not run or claimed here. Reference images, repeat-capture
+variance, device/browser, hardware-GPU and mathematical acceptance remain open.
+The original RUST-M0-IMAGES candidate and all its acceptance checks are unchanged.
