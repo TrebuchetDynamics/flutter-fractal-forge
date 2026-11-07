@@ -1,0 +1,9 @@
+schema = 1
+task = "RUST-M2-WAYDROID-EXTENDED"
+candidate = "e0682b4097b7561d4805b5667e7778b789494303"
+integration = "2cd9c1294207272ba02b9e75b188b525ba9d764f"
+tree = "0446d3c4b54a1c2e998c800e4c84094f97ed45da"
+contract_hash = "12a58f2a50340907b3b1b295f86c01c842b66ba8aee47b8e6b408e24f3eca588"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-WAYDROID-EXTENDED"]
+result = "pass"
+review = "passed"

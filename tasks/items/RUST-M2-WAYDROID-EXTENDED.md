@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-M2-WAYDROID-EXTENDED"
 title = "Execute effects and off-UI request targets on the standing Waydroid test instance"
 short = "Prove Waydroid effects and Future transport"
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Next"
 rank = 17000
@@ -20,6 +20,8 @@ live = "authorized"
 live_actor = "owner"
 live_at = "2026-10-26"
 live_scope = ["live", "waydroid", "integration_test/migration/rust_state_extended_smoke_test.dart", "integration_test/migration/rust_state_async_smoke_test.dart", "scripts/migration/run_state_session_smoke.py", "scripts/migration/tests/test_state_session_smoke.py", "docs/tasks/RUST-M2-WAYDROID-EXTENDED.md"]
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/RUST-M2-WAYDROID-EXTENDED.toml"
 +++
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration; docs/tasks/RUST-PLAN-07.md#installed-native-qualification
 - Consent sources: docs/engineering/testing/waydroid-headless.md#standing-owner-designation-use-this-waydroid-target; AGENTS.md#standing-android-test-target-waydroid; tasks/items/RUST-005-c9f7f34a.md. Encode only owner 2026-10-26 existing designation and app-test/install/replacement consent, not new planner permission, publication, reset or credentials.
