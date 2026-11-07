@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-PLAN-07"
 title = "Plan whole-session state and installed exact transport proof from the reachable kernel and fixture results"
 short = "Continue full Rust session proof"
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Next"
 rank = 15000
@@ -16,6 +16,11 @@ scope = "For RUST-ENGINE-001 read all four new building records and actual Git-c
 acceptance = ["Given actual reports/current source, next saved contracts separate kernel/bridge/compile-only slices from missing full-session/app/executor/installed/browser/hardware proof. Inputs/producers, bounded Touches, source-backed dependencies and exact checks preserve every accepted gate, standing consent and no per-field ownership switch. Failed/unrun operations retain exact evidence for same-coordinator recovery.", "Given final batch, task readback/Sources and validate pass without unintended drafts/pending errors. Close this planning task manually, not a receipt or goal qualification. Exactly one round-7-of-10 successor follows only new building work before round 10; stopping preserves BLOCKERS question and open remaining-proof task."]
 checks = ["Read tasks/items and absolute Git-common-directory autowork-execution/slot-data reports for RUST-M2-TRAJECTORY, RUST-M2-PHYSICAL, RUST-M2-WALL-BRIDGE and RUST-M2-EXTENDED-FIXTURE plus current code, tasks/goals/RUST-ENGINE-001.md and docs/tasks/RUST-PLAN-06.md#remaining-proof-and-continuation. Preserve exact failed operation/setup/target evidence with same coordinator/candidate.", "/home/xel/.local/bin/python3 /home/xel/.local/state/pi-autowork/releases/d8f709d3552a19beea878b98bf351419a5400acb/pi-autowork/pi_autowork/command.py tasks validate --worktree .; read back all affected records/Sources/anchors; after the one planning commit run tasks why on first new building task."]
 exclusions = ["No implementation/dispatch, install, runtime-state changes, new authority, receipt/waiver, goal qualification or publication. Task-store writes only through supported tasks commands."]
+closure = "manual"
+closure_actor = "DOCS-MAINTAINER"
+closure_timestamp = "2026-11-07T16:53:24.735952+00:00"
+closure_reason = "Completed round 6 planning from the four verified batch records, actual saved worker reports and current source; saved docs/tasks/RUST-PLAN-07.md, six bounded building contracts and exactly one round-7-of-10 successor depending on all six. Manual planning closure only, not a receipt or goal qualification; all remaining M0-M14/final proof gates persist."
+closure_evidence = "docs/tasks/RUST-PLAN-07.md"
 +++
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration; docs/tasks/RUST-PLAN-06.md#remaining-proof-and-continuation
 - Plan round: 6 of 10
