@@ -1,0 +1,9 @@
+schema = 1
+task = "RUST-M2-EXTENDED-FIXTURE"
+candidate = "66cc97c109d36726552ae0637d12995a40a8de7b"
+integration = "1379b315c03cf15b9c768809485b8b9dccde3c2a"
+tree = "c1e57a5dc4cf77f0f003d0d146235f92545f738b"
+contract_hash = "82f141dd7989498ea3d4c2bf9cf93faf26828e8c62fd86a61cba7213f6a174d2"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-EXTENDED-FIXTURE"]
+result = "pass"
+review = "passed"

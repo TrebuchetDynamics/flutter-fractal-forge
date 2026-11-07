@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Add an opt-in seven-module source-bound native effects/Number Walls fixture with compile-only Linux/Android proof, preserving the original four-module fixture. (RUST-M2-EXTENDED-FIXTURE)
 - Expose bounded typed Number Walls requests, independently revocable guards, same-lock progress snapshots and immutable exact full-grid frames through generated Rust/Dart transport. (RUST-M2-WALL-BRIDGE)
 - Add validated trajectory settings and cancellable bounded RK4 jobs for three attractor systems to the inert Rust core; Session/bridge trajectory admission remains unsupported. (RUST-M2-TRAJECTORY)
 - Add inert Rust physical camera transforms and elapsed-time pan/zoom momentum kernels while preserving Dart event and animation ownership. (RUST-M2-PHYSICAL)
