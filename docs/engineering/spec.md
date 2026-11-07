@@ -2,7 +2,7 @@
 
 ## Scope and status
 
-This document describes the current Flutter application architecture. Product intent is in [`../../PRD.md`](../../PRD.md); historical and planned work remains identified in [`../../TODO.md`](../../TODO.md).
+This document describes the current Flutter application architecture. Product intent is in [`../../PRD.md`](../../PRD.md); planned work remains identified in [`../../tasks/`](../../tasks/).
 
 ## Components and data flow
 
@@ -28,6 +28,7 @@ Provider supplies application dependencies. `ChangeNotifier`-based controllers e
 - GPU health and precision policy can route eligible modules to a supported fallback. Unsupported precision must remain explicitly unavailable rather than implying correctness.
 - Export, share, wallpaper, and platform integrations depend on the target platform. Their failure must not corrupt the viewer's current fractal state.
 - Platform features and browser parity vary. See [`rendering/renderer_backend_matrix.md`](rendering/renderer_backend_matrix.md).
+- The opt-in Rust probe reports load/version/capability errors through the existing zone crash reporter; it never changes renderer selection or viewer state. Closed sessions reject capability reads explicitly. Shutdown is idempotent per session.
 
 ## Security and compatibility
 
@@ -38,7 +39,8 @@ The repository's privacy policy states that fractal processing is local. Do not 
 The owner requested a staged Flutter-shell/Rust-engine migration. Its accepted
 planning scope, engineering decisions, complete milestone map and first task batch
 are in [the migration plan](../planning/refactor-plan.md#flutter-shell-and-rust-engine-migration).
-This is a future architecture, not a claim that Rust is integrated today. The
+Only the default-off version/capability/lifecycle probe below is integrated today;
+mathematical state and rendering migration remain future work. The
 current components, shader interface and persistence behavior above remain normative
 until each replacement has source-bound parity and platform evidence. Domain/render
 crates must not depend on Flutter, Android, GPUI or widgets; the bridge/platform
@@ -57,8 +59,9 @@ These are future acceptance boundaries, not measured results.
 
 The [workspace](../../rust/Cargo.toml) contains three nonpublishable packages:
 `fractal-core` (domain), `fractal-render` (depends on core), and
-`fractal-bridge` (depends on both). All dependencies are local paths.
-The bridge remains framework-free and exposes these initial APIs:
+`fractal-bridge` (depends on both). Core/render dependencies remain local paths;
+only the bridge depends on the pinned `flutter_rust_bridge = 2.11.1` runtime.
+The foundation seam still exposes these APIs:
 
 - `engine_version() -> String` returns `0.1.0`, the Rust engine version,
   not the Flutter app version.
@@ -66,9 +69,8 @@ The bridge remains framework-free and exposes these initial APIs:
   Its `to_json() -> String` representation is `{"rendering":false}`.
   This describes Rust support only, not the existing Flutter renderer.
 
-There are no Rust renderers, engine handles, codegen or Flutter bindings yet.
-The app does not load Rust. State, persistence, shaders and routing are unchanged.
-This foundation does not qualify M1. Bridge integration and actual Linux/Waydroid
+There are no Rust renderers. State, persistence, shaders and routing are unchanged.
+The foundation and opt-in bridge do not qualify M1: actual installed Linux/Waydroid
 smoke and lifecycle evidence remain required by the migration plan.
 
 Use Rust `1.95.0` with `rustfmt` and `clippy`, as pinned in
@@ -85,6 +87,113 @@ The path-scoped [GitHub workflow](../../.github/workflows/rust.yml) provisions
 the pinned toolchain and fetches locked dependencies in its disposable check job.
 It runs the same offline script without publishing or signing.
 Existing Flutter, GitLab and release lanes are unchanged.
+
+### Opt-in native engine probe
+
+[`RustEngineAdapter`](../../lib/core/services/engine/rust_engine_adapter.dart)
+loads the native bridge only with `--dart-define=RUST_CORE=true`, and never on Web.
+The normal startup path launches the existing UI first, then probes a short-lived
+session and closes it in `finally`; safe/diagnostic boot paths remain unchanged.
+A successful probe uses the existing `AppLogger.instance.info` API in category
+`engine`, with structured `version` and `rendering` data visible in the in-memory
+log/export before persistence initialization. It does not bypass the logger sinks
+with `debugPrint`. Disabled/Web probes produce no native probe event.
+This is diagnostics only, not a controller, renderer or export owner. Default-off
+and Web builds require no Rust library; Web excludes the native loader with a
+conditional import even when the flag is true.
+
+The bridge [`api.rs`](../../rust/crates/fractal-bridge/src/api.rs) exposes synchronous
+`engine_version()`, opaque `Engine::new()`, `capabilities()` and `shutdown()`.
+Capabilities currently report only `rendering = false`. Each handle has independent
+closed state; repeated shutdown succeeds and capability reads after shutdown return
+`Rust engine session is closed`. The Dart adapter also rejects use after close
+with `StateError` and releases the opaque reference on shutdown. Transport
+initialization is shared, not the session. Load/protocol failures propagate rather
+than pretending the Rust engine is available.
+
+[`fractal_engine_bridge`](../../packages/fractal_engine_bridge/pubspec.yaml) owns
+Linux CMake and Android Gradle/NDK integration. These build rules run Cargo only
+when the Dart flag is true, use `--locked --offline`, and bundle
+`libfractal_bridge.so`. Android builds the requested armv7, arm64 and/or x86_64
+ABIs using NDK `28.2.13676358`; the current build script requires a Linux host.
+Missing Cargo, target standard libraries, NDK or locked crates fail explicitly.
+No Android app signing/build configuration is replaced.
+
+Rust runtime, Dart runtime and codegen are all pinned to **2.11.1**. The app's
+`pubspec.lock` is the Dart lock authority for the local plugin; it has no separate
+lockfile. The plugin includes the repository's Apache-2.0 license text in
+[`LICENSE`](../../packages/fractal_engine_bridge/LICENSE). Release notices resolve
+this local package through checkout-local Pub metadata and hosted dependencies
+through `PUB_CACHE`; missing licenses remain a failure, as described in
+[the release pipeline](release/PIPELINE.md#multi-lane-campaign).
+Generated bindings are committed under the plugin's `lib/src/rust/` and
+`rust/crates/fractal-bridge/src/frb_generated.rs`. Web glue is generated for
+analyzer completeness, but the app does not import it or load WASM. Regenerate from
+the repository root using [`flutter_rust_bridge.yaml`](../../flutter_rust_bridge.yaml):
+
+```sh
+# Provision once in an isolated cache, with the pinned Rust/Flutter tools on PATH.
+cargo install flutter_rust_bridge_codegen --version 2.11.1 --locked --root "$AUTOWORK_CACHE/flutter-rust-bridge-2.11.1"
+cargo install cargo-expand --version 1.0.127 --locked --root "$AUTOWORK_CACHE/cargo-expand-1.0.127"
+flutter_rust_bridge_codegen generate --config-file flutter_rust_bridge.yaml
+```
+
+Use an isolated `CARGO_HOME` and the pinned Rust toolchain, including `rustfmt`.
+Put both installed tools on `PATH`. Do not let codegen install a newer cargo-expand
+implicitly. For every Flutter check, including the coordinator's merged-tree gate,
+select the provisioned SDK and package cache before resolving dependencies.
+The executable [root Full check declaration](../../AGENTS.md#common-offline-integration-gate)
+embeds this setup and calls `scripts/ci/offline-gate.sh`. If `AUTOWORK_CACHE` is
+unset or empty, the declaration locates the existing shared cache under Git's
+absolute common directory. This also works in the runner's detached worktrees
+without worker environment variables. Explicit cache overrides remain supported;
+missing cache inputs fail rather than selecting ambient tools. The runner does
+not need to interpret Setup prose. Focused commands use the same environment:
+
+```sh
+export FLUTTER_ROOT="$AUTOWORK_CACHE/flutter-3.47.9"
+export PUB_CACHE="$AUTOWORK_CACHE/pub-cache"
+export PATH="$FLUTTER_ROOT/bin:/usr/bin:$PATH"
+flutter --version
+flutter pub get --offline --enforce-lockfile
+```
+
+Compare the SDK version with `fdroid/flutter.version`. The provisioned cache must
+contain `flutter_rust_bridge` 2.11.1 and its locked dependencies. An ambient cache
+without that package fails offline resolution, even if another cache contains it.
+Keep `pubspec.lock` unchanged during this preflight. Missing packages are setup
+failures, not reasons to relax the lock or silently skip the bridge.
+
+Generate twice and compare SHA-256 inventories of
+`lib/core/services/engine`, `rust/crates/fractal-bridge` and
+`packages/fractal_engine_bridge`, excluding build/target output. Matching hashes
+prove deterministic glue only, not platform or installed execution.
+
+The focused [adapter tests](../../test/migration/rust_engine_adapter_test.dart)
+cover default-off/Web no-load, visible failures and independent idempotent closure.
+Rust workspace tests exercise the real session API. The
+[native smoke fixture](../../integration_test/migration/rust_engine_smoke_test.dart)
+uses real FRB calls (including a closed native handle), not mocks. Compile it with
+`flutter build linux --debug --no-pub --dart-define=RUST_CORE=true -t integration_test/migration/rust_engine_smoke_test.dart`
+and the equivalent `flutter build apk` command. Also compile the ordinary Web app
+with both flag values. These offline checks do not establish installed execution.
+M0 inventory/replay payloads remain unchanged; dependency provenance is refreshed
+through two deterministic scratch exports, and reference images through actual
+offline software captures, not by weakening source-binding checks.
+
+Pending M1 live qualification must follow
+[the owned Linux runtime](runbook.md#owned-linux-runtime-with-reserved-ports) and
+[the designated Waydroid contract](testing/waydroid-headless.md#standing-owner-designation-use-this-waydroid-target).
+For Linux, with a task-private `TMPDIR`, actual `AUTOWORK_PORT_BASE` lease and pinned SDK, run:
+
+```sh
+autowork-run timeout --kill-after=10s 660 bash scripts/run-native-integration.sh integration_test/migration/rust_engine_smoke_test.dart --timeout 600 --dart-define=RUST_CORE=true
+```
+
+Require `protocol_success: true`, exit 0 and no remaining owned PIDs. Do not use
+`flutter test -d linux`. Waydroid installed execution must revalidate transport and
+serial, encode standing disposable-target consent, and coordinate target ownership
+with `ACAD-013-4142ef42`. Neither live journey is run by this offline task.
 
 ## Interfaces not present
 

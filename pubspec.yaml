@@ -11,6 +11,8 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  fractal_engine_bridge:
+    path: packages/fractal_engine_bridge
   provider: ^6.1.2
   vector_math: ^2.1.4
   equatable: ^2.0.5

@@ -1489,7 +1489,7 @@
     "lib/l10n/app_localizations.dart": "4e1f93c20a0b486c8843cf040ffb073c1c1adaa34b0bb99c85a8e8f884d560e3",
     "lib/l10n/app_localizations_en.dart": "ad8461355322e9c8d65d2ba258e8adb45039b3ef463c92e66c7f7086eeed9d04",
     "lib/l10n/app_localizations_es.dart": "be6d21bf71780ec16283de5d409e35a0f10fe4d193ef968f293a19acd0e83780",
-    "pubspec.lock": "d759c63037e4d4f29a7c09b14886854fb8caa832c41f1172ec684a5cdcb7145b",
+    "pubspec.lock": "d919ab7eb6ad10b5939c81092b6f1657ba84642109ca677684184ccf30c55451",
     "test/migration/state_replay_test.dart": "e7c47dd448fbefcc5651859f083b47b7ebd17e8d17390651b6f491667ef982e1",
     "test/migration/support/baseline_inventory.dart": "35b0bf8ed9815de2d9ab8a0724f967b4befd76afe7d1e48ae3e268aae7f41589",
     "test/migration/support/replay_codec.dart": "ccbdf52028eeb98d56640171e081343d004b2efc5d54fa2583cde922887c3e79"

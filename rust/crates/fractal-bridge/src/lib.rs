@@ -1,4 +1,7 @@
-//! Framework-free adapter seam. Flutter does not load this crate yet.
+//! Flutter-facing probe adapter. Domain/render crates remain platform-independent.
+
+pub mod api;
+mod frb_generated;
 
 pub use fractal_core::engine_version;
 pub use fractal_render::{EngineCapabilities, engine_capabilities};

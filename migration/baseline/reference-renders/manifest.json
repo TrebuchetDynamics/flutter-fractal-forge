@@ -13,11 +13,11 @@
     },
     "backend_sha256": "cd3d30f3598ae2ab972dbc48637edea0f87147b6e45b0476d6b30a9f04860e56",
     "baseline_files_sha256": {
-      "capabilities": "b9993d8516aae1dc3a42f63cfe002521f45eddc489f14fc170b73647ae8407eb",
-      "modules": "050105b00125351d1adb091807564baa784185f186e6bd481c543016f2d46585",
-      "parameters": "92a414ee096ab0a9deaa8c68eff4bb8d4d2857ee89f3754b1c94d8a5204e65c2",
-      "presets": "ac3fd5451751bd3328f755b8fd7ef3373f08a1ed89c94ff88105d203956549f5",
-      "shader-contracts": "e4ea1dd5172061fe7de3e2c3f4c64d0b6a7cbf468216cfe35fd221d43d383b40"
+      "capabilities": "5f6e0c69a46faf5ebfa627757a9fc29b7124624b038ada4ca21241fe240261aa",
+      "modules": "571fb9c2c6ae14572485574c4ca382de2a55eeb6a32e5958869a671d2fbd62d3",
+      "parameters": "5c8dff3eef955aed9d46f203136dea42b0b070d9bda2966fa4938fac1a6d9517",
+      "presets": "318a6c336b2f4310d4fef0d5b7ae09f8a2bff5597471eac742757b088c6b381e",
+      "shader-contracts": "2853d6d7958ea8cbbbc0cf609725644debb99b626cc80152832a10e8e1b0dfc2"
     },
     "dart": "3.13.7 (stable) (Thu Oct 22 14:28:57 2026 -0700) on \"linux_x64\"",
     "flutter": {
@@ -209,8 +209,8 @@
       "lib/l10n/app_localizations.dart": "4e1f93c20a0b486c8843cf040ffb073c1c1adaa34b0bb99c85a8e8f884d560e3",
       "lib/l10n/app_localizations_en.dart": "ad8461355322e9c8d65d2ba258e8adb45039b3ef463c92e66c7f7086eeed9d04",
       "lib/l10n/app_localizations_es.dart": "be6d21bf71780ec16283de5d409e35a0f10fe4d193ef968f293a19acd0e83780",
-      "pubspec.lock": "d759c63037e4d4f29a7c09b14886854fb8caa832c41f1172ec684a5cdcb7145b",
-      "pubspec.yaml": "ea234ece2689661b9933852c0a8e108c74df21a97d8c4ceea0b3c8cd0c158470",
+      "pubspec.lock": "d919ab7eb6ad10b5939c81092b6f1657ba84642109ca677684184ccf30c55451",
+      "pubspec.yaml": "960ec40a262ea78474eba057977f3cdaa7037a2ee31ae9871cf23fa3fb7c6c57",
       "shaders/3d_and_hypercomplex/hypercomplex_escape_time/bicomplex_gpu.frag": "7e8e3652bccbd6aaf5b562e7bdc277df719d81dd1b36fa0341fc00ce98d7cd85",
       "shaders/3d_and_hypercomplex/hypercomplex_escape_time/dual_complex_gpu.frag": "d4381f751f57537e0b8addc9734bcfd42c25f8e71f7e15f49ebb666c1356152b",
       "shaders/3d_and_hypercomplex/hypercomplex_escape_time/hypercomplex_newton_gpu.frag": "27d6ebf4c8c445f2a45ae96162552a61c54c921e701f25ab63d57eb63c9234db",
@@ -762,8 +762,8 @@
       "test/migration/support/reference_capture.dart": "76d93158937d4c9287ad2a25b651e2f93a4261e3e5124f20632c78649b53b847",
       "test/shaders/recursive_sine_sphere_kernel_fixture.frag": "7fefc279f95b75ca3925df77e4e9d2f51aba9f246dc3193fa5402719160afdd6"
     },
-    "source_revision": "290d82c9bad753b170108e9eb819084a439afd7e",
-    "source_set_sha256": "6316b2bda9f5ae806b0110ae79e930abafc37e287fd91d171bdc9070512e2589"
+    "source_revision": "bb3e5bf466f94a332260ee7cace9c78992e50ec5",
+    "source_set_sha256": "a146e9e08ad477cfc879e748eaf831607dd0fd09166348daf0aa235e824d98c5"
   },
   "records": [
     {
@@ -829,7 +829,7 @@
         "max_channel_delta": 0,
         "mean_absolute_channel_delta": 0.0,
         "png_equal": true,
-        "reference_manifest_sha256": "ad964e70a4285bae9c3c2e9d7d174dd16235b0d0c9a38553bd0a36d647b1fa26",
+        "reference_manifest_sha256": "a6f24a9c2822a330256acdc9658ee339e1ddb2405f5b4fd8f502357d490e4797",
         "reference_rgba_sha256": "3f1f1c0a524d1b3c25cd03f0442088a4a26dbe308614951f093b9284a6de40cb"
       },
       "state_id": "mandelbrot"
@@ -899,7 +899,7 @@
         "max_channel_delta": 0,
         "mean_absolute_channel_delta": 0.0,
         "png_equal": true,
-        "reference_manifest_sha256": "ad964e70a4285bae9c3c2e9d7d174dd16235b0d0c9a38553bd0a36d647b1fa26",
+        "reference_manifest_sha256": "a6f24a9c2822a330256acdc9658ee339e1ddb2405f5b4fd8f502357d490e4797",
         "reference_rgba_sha256": "ec4a62555ade08f41e37f982a55bc6ca89a10b6fbf678e02530a4457b09c7089"
       },
       "state_id": "julia"
@@ -968,7 +968,7 @@
         "max_channel_delta": 0,
         "mean_absolute_channel_delta": 0.0,
         "png_equal": true,
-        "reference_manifest_sha256": "ad964e70a4285bae9c3c2e9d7d174dd16235b0d0c9a38553bd0a36d647b1fa26",
+        "reference_manifest_sha256": "a6f24a9c2822a330256acdc9658ee339e1ddb2405f5b4fd8f502357d490e4797",
         "reference_rgba_sha256": "eb450ae0b2c163275a6fbf55f95c4d5c9e6b1a22220ddc1ea32f88dcdc0a7af9"
       },
       "state_id": "burning_ship"
@@ -1037,7 +1037,7 @@
         "max_channel_delta": 0,
         "mean_absolute_channel_delta": 0.0,
         "png_equal": true,
-        "reference_manifest_sha256": "ad964e70a4285bae9c3c2e9d7d174dd16235b0d0c9a38553bd0a36d647b1fa26",
+        "reference_manifest_sha256": "a6f24a9c2822a330256acdc9658ee339e1ddb2405f5b4fd8f502357d490e4797",
         "reference_rgba_sha256": "6fb948718b764edbcb64127f0dbef049e2591f915e32789252fb3aef0668a1ec"
       },
       "state_id": "newton_z3"
@@ -1118,7 +1118,7 @@
         "max_channel_delta": 0,
         "mean_absolute_channel_delta": 0.0,
         "png_equal": true,
-        "reference_manifest_sha256": "ad964e70a4285bae9c3c2e9d7d174dd16235b0d0c9a38553bd0a36d647b1fa26",
+        "reference_manifest_sha256": "a6f24a9c2822a330256acdc9658ee339e1ddb2405f5b4fd8f502357d490e4797",
         "reference_rgba_sha256": "7e23eb6ffe8970078d4fde74d929cb856dfb2538201561c41f39178be4fa0332"
       },
       "state_id": "lorenz_2d"
@@ -1186,7 +1186,7 @@
         "max_channel_delta": 0,
         "mean_absolute_channel_delta": 0.0,
         "png_equal": true,
-        "reference_manifest_sha256": "ad964e70a4285bae9c3c2e9d7d174dd16235b0d0c9a38553bd0a36d647b1fa26",
+        "reference_manifest_sha256": "a6f24a9c2822a330256acdc9658ee339e1ddb2405f5b4fd8f502357d490e4797",
         "reference_rgba_sha256": "f805a6870f3bbd076455d858c9da015bddbae74f27f0d1282f0ad17159519b45"
       },
       "state_id": "sierpinski_triangle"
@@ -1263,7 +1263,7 @@
         "max_channel_delta": 0,
         "mean_absolute_channel_delta": 0.0,
         "png_equal": true,
-        "reference_manifest_sha256": "ad964e70a4285bae9c3c2e9d7d174dd16235b0d0c9a38553bd0a36d647b1fa26",
+        "reference_manifest_sha256": "a6f24a9c2822a330256acdc9658ee339e1ddb2405f5b4fd8f502357d490e4797",
         "reference_rgba_sha256": "20f712c7dcc46cf34415aceaaee53c49753b085553761ba71f7a3b31ff7f062c"
       },
       "state_id": "number_wall"
@@ -1334,7 +1334,7 @@
         "max_channel_delta": 0,
         "mean_absolute_channel_delta": 0.0,
         "png_equal": true,
-        "reference_manifest_sha256": "ad964e70a4285bae9c3c2e9d7d174dd16235b0d0c9a38553bd0a36d647b1fa26",
+        "reference_manifest_sha256": "a6f24a9c2822a330256acdc9658ee339e1ddb2405f5b4fd8f502357d490e4797",
         "reference_rgba_sha256": "4933c5ac99c5cb743e7bbd6fd7ff3efea8118f64599e015cf82c6a05f82ffe18"
       },
       "state_id": "mandelbulb"
@@ -1402,7 +1402,7 @@
         "max_channel_delta": 0,
         "mean_absolute_channel_delta": 0.0,
         "png_equal": true,
-        "reference_manifest_sha256": "ad964e70a4285bae9c3c2e9d7d174dd16235b0d0c9a38553bd0a36d647b1fa26",
+        "reference_manifest_sha256": "a6f24a9c2822a330256acdc9658ee339e1ddb2405f5b4fd8f502357d490e4797",
         "reference_rgba_sha256": "3d05cb4083852175653f0d1d56935e9b2f4fc5f646d033cf954d4dce0d35495f"
       },
       "state_id": "milnor_brieskorn"
@@ -1470,7 +1470,7 @@
         "max_channel_delta": 0,
         "mean_absolute_channel_delta": 0.0,
         "png_equal": true,
-        "reference_manifest_sha256": "ad964e70a4285bae9c3c2e9d7d174dd16235b0d0c9a38553bd0a36d647b1fa26",
+        "reference_manifest_sha256": "a6f24a9c2822a330256acdc9658ee339e1ddb2405f5b4fd8f502357d490e4797",
         "reference_rgba_sha256": "6bdc9af12fbdb207e1d8e30225ec972c686910b6811191a342ccb760da3ff479"
       },
       "state_id": "mandelbrot-edited"
@@ -1541,7 +1541,7 @@
         "max_channel_delta": 0,
         "mean_absolute_channel_delta": 0.0,
         "png_equal": true,
-        "reference_manifest_sha256": "ad964e70a4285bae9c3c2e9d7d174dd16235b0d0c9a38553bd0a36d647b1fa26",
+        "reference_manifest_sha256": "a6f24a9c2822a330256acdc9658ee339e1ddb2405f5b4fd8f502357d490e4797",
         "reference_rgba_sha256": "8d5575d906b47a724b9febe51580d9bd3348b6f31f2307ae80af11bb8c356fcc"
       },
       "state_id": "mandelbulb-edited"

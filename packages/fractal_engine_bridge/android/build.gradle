@@ -1,0 +1,40 @@
+group = 'com.trebuchetdynamics.fractal.engine_bridge'
+version = '0.1.0'
+
+apply plugin: 'com.android.library'
+
+def rustEnabled = (project.findProperty('dart-defines') ?: '').split(',').any {
+    new String(it.decodeBase64(), 'UTF-8') == 'RUST_CORE=true'
+}
+
+android {
+    namespace = 'com.trebuchetdynamics.fractal.engine_bridge'
+    compileSdk = 36
+    ndkVersion = '28.2.13676358'
+    defaultConfig {
+        minSdk = 24
+    }
+}
+
+if (rustEnabled) {
+    ['debug', 'profile', 'release'].each { mode ->
+        def outputDir = layout.buildDirectory.dir("rustJniLibs/${mode}")
+        android.sourceSets.maybeCreate(mode).jniLibs.srcDir(outputDir)
+        def rustTask = tasks.register("buildRust${mode.capitalize()}", Exec) {
+            def repoRoot = projectDir.canonicalFile.parentFile.parentFile.parentFile
+            inputs.file(file('build_rust.sh'))
+            workingDir file("${repoRoot}/rust")
+            inputs.files(fileTree("${repoRoot}/rust") {
+                include 'Cargo.toml', 'Cargo.lock', 'rust-toolchain.toml', 'crates/**/Cargo.toml', 'crates/**/*.rs'
+            })
+            inputs.property('target-platform', project.findProperty('target-platform') ?: 'android-arm,android-arm64,android-x64')
+            outputs.dir(outputDir)
+            commandLine 'bash', file('build_rust.sh'), repoRoot,
+                android.ndkDirectory, mode, outputDir.get().asFile,
+                (project.findProperty('target-platform') ?: 'android-arm,android-arm64,android-x64')
+        }
+        tasks.configureEach {
+            if (name == "pre${mode.capitalize()}Build") dependsOn(rustTask)
+        }
+    }
+}
