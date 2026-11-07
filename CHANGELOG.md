@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Add the default-off Rust lifecycle probe with structured diagnostics, reproducible bridge glue and cache-aware dependency-license evidence; preserve legacy rendering. (RUST-M1-BRIDGE)
 - Retain source-bound Flutter migration reference PNGs for nine default and two edited states, with real discrete/trajectory paths, backend provenance and measured repeat-capture variance. (RUST-M0-IMAGES)
 - Fix Burning Ship's all-black software-rendered default by guarding the undefined complex-origin angle, preserving power controls and refreshing source-bound inventory provenance. (RUST-M0-SHIP-REPAIR)
 - Added an isolated, nonpublishable three-crate Rust workspace with version/nonrendering capability APIs and pinned offline CI checks, without changing Flutter behavior. (RUST-M1-WORKSPACE)
