@@ -1,0 +1,10 @@
+[package]
+name = "fractal-bridge"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[dependencies]
+fractal-core.workspace = true
+fractal-render.workspace = true

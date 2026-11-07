@@ -6,6 +6,9 @@
 .pub/
 build/
 
+# Rust build output
+/rust/target/
+
 # IDE
 .vscode/
 .idea/
