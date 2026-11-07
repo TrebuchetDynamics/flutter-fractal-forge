@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-005-c9f7f34a"
 title = "Execute source-bound StateSession transport on the designated Waydroid instance"
 short = "Prove Waydroid state transport"
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Next"
 rank = 9000
@@ -20,6 +20,8 @@ live = "authorized"
 live_actor = "owner"
 live_at = "2026-10-26"
 live_scope = ["live", "waydroid", "integration_test/migration/rust_state_session_smoke_test.dart", "scripts/migration/run_state_session_smoke.py", "scripts/migration/tests/test_state_session_smoke.py", "docs/tasks/RUST-M2-WAYDROID-STATE.md"]
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/RUST-005-c9f7f34a.toml"
 +++
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration; docs/tasks/RUST-PLAN-04.md#decided-implementation-seams
 - Consent sources: docs/engineering/testing/waydroid-headless.md#standing-owner-designation-use-this-waydroid-target; AGENTS.md#standing-android-test-target-waydroid; tasks/items/RUST-M1-WAYDROID.md
