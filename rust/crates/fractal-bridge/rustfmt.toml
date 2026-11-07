@@ -1,0 +1,2 @@
+# FRB 2.11.1 invokes rustfmt with edition 2018; keep its style aligned with Cargo.
+style_edition = "2024"

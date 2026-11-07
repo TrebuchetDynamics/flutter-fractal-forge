@@ -1,0 +1,9 @@
+rust_input: crate::api
+rust_root: rust/crates/fractal-bridge
+rust_output: rust/crates/fractal-bridge/src/frb_generated.rs
+dart_output: packages/fractal_engine_bridge/lib/src/rust
+dart_root: packages/fractal_engine_bridge
+web: true
+add_mod_to_lib: false
+build_runner: false
+auto_upgrade_dependency: false

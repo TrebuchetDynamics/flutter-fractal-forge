@@ -391,6 +391,13 @@ class ReleaseEvidenceTest(unittest.TestCase):
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
+  local_probe:
+    dependency: "direct main"
+    description:
+      path: packages/local_probe
+      relative: true
+    source: path
+    version: "0.1.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -404,9 +411,18 @@ class ReleaseEvidenceTest(unittest.TestCase):
             empty_device_log = temp / "device-log.txt"
             empty_device_log.write_bytes(b"")
             output = temp / "evidence"
-            license_dir = temp / ".pub-cache/hosted/pub.dev/alpha-1.2.3"
+            cache = temp / "pub-cache"
+            license_dir = cache / "hosted/pub.dev/alpha-1.2.3"
             license_dir.mkdir(parents=True)
             (license_dir / "LICENSE").write_text("Alpha fixture license\n")
+            local = temp / "packages/local_probe"
+            local.mkdir(parents=True)
+            (local / "LICENSE").write_text("Local fixture license\n")
+            (temp / ".dart_tool").mkdir()
+            (temp / ".dart_tool/package_config.json").write_text(json.dumps({
+                "configVersion": 2,
+                "packages": [{"name": "local_probe", "rootUri": "../packages/local_probe"}],
+            }))
             # Gradle creates this directory; inventory discovery must not try
             # to read a directory whose name happens to end in `.gradle`.
             (temp / "android/.gradle").mkdir(parents=True)
@@ -429,7 +445,7 @@ class ReleaseEvidenceTest(unittest.TestCase):
                     "56",
                 ],
                 check=True,
-                env={**os.environ, "HOME": str(temp)},
+                env={**os.environ, "HOME": str(temp / "home"), "PUB_CACHE": str(cache)},
             )
 
             manifest = json.loads((output / "release-manifest.json").read_text())
@@ -449,7 +465,10 @@ class ReleaseEvidenceTest(unittest.TestCase):
                 },
             )
             self.assertEqual(sbom["components"][0]["name"], "alpha")
-            self.assertIn("alpha 1.2.3", (output / "THIRD_PARTY_NOTICES.txt").read_text())
+            notices = (output / "THIRD_PARTY_NOTICES.txt").read_text()
+            self.assertIn("alpha 1.2.3", notices)
+            self.assertIn("Alpha fixture license", notices)
+            self.assertIn("Local fixture license", notices)
             checksums = (output / "SHA256SUMS").read_text()
             self.assertIn(expected_hash, checksums)
             self.assertIn("release-manifest.json", checksums)
@@ -619,7 +638,7 @@ class ReleaseEvidenceTest(unittest.TestCase):
                     str(temp / "b.bin"),
                 ],
                 check=True,
-                env={**os.environ, "HOME": str(temp)},
+                env={**os.environ, "HOME": str(temp), "PUB_CACHE": ""},
             )
             specification = importlib.util.spec_from_file_location(
                 "release_evidence_under_test", script

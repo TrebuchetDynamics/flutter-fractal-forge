@@ -1,8 +1,8 @@
 # RUST-M1-BRIDGE — offline review repairs
 
-## Current finding: startup probe bypasses structured logging
+## Retained finding: startup probe bypassed structured logging
 
-The latest retained review is integration
+The retained logging-policy review is integration
 `72b572baa72bc6da0b2d129cb5012b769cbdc6a8`, candidate
 `af094297a235ceaade3ba1f2416c38a685cd9fe6`. Read in place under
 `/home/xel/.local/state/pi-autowork/481371330a53e93e/`:
@@ -64,6 +64,48 @@ A policy-equivalent static scan found zero violations at base b89c8872 and exact
 `lib/main.dart:40` at both af094297 and 72b572ba. Receipt log SHA-256 and
 base/candidate command equality, preserved task-contract fields, local link targets
 and `git diff --check` passed. No Flutter suite or candidate repair ran here.
+
+## Local structured-logging repair
+
+The retained bridge, generated glue, dependency locks, M0 fixtures and working
+Git-common-directory cache discovery were reused from `af094297` unchanged.
+Candidate documentation was not copied over the current review/planning record.
+The only product-code delta from that candidate is the startup diagnostic:
+`AppLogger.instance.info('engine', 'Rust engine capability probe', data: ...)`
+records `version` and `rendering` through the existing logger. The default-off/Web
+return, native capability read, `finally` shutdown and zone error handling are
+unchanged; no logger sink or policy exception was added.
+
+The unchanged `production diagnostics use structured logging` case now passes.
+The existing adapter/logger checks also pass; no duplicate test was added.
+The worker's focused checks are not the runner's complete merged-tree gate.
+That gate must still run on the delivered composition; no repaired full-gate
+pass, installed Linux/Waydroid smoke or browser execution is claimed here.
+
+## Dependency-license lookup exposed by the bridge
+
+The subsequent integration's retained `full-check/RUST-M1-BRIDGE-merged.log`
+records successful locked resolution, analysis and Flutter tests. Its Python
+stage fails
+`test_cli_prepare_verifies_only_supported_web_subset_without_publishing`.
+The worker reproduced that test alone: evidence generation reported
+`Missing license text for build_cli_annotations 2.1.1` even though its `LICENSE`
+exists in the configured provisioned `PUB_CACHE`. The collector had hardcoded
+`~/.pub-cache`, so this is an attributable lookup defect, not a waived license or
+an unrelated/flaky test. No baseline rerun is needed to excuse it.
+
+The existing collector now honors `PUB_CACHE`, retaining its default when unset
+or empty. For path dependencies it reads the resolved package root from the
+checkout's `.dart_tool/package_config.json`. The local bridge includes an exact
+copy of the repository's Apache-2.0 `LICENSE`; no third-party license text was
+invented. Unsupported package-root URIs, missing metadata and missing licenses
+still fail. The existing bound-evidence test now covers a configured hosted cache
+and a relative path package, while the snapshot fixture explicitly exercises the
+default cache. The missing-license regression is unchanged.
+
+Focused evidence tests and the previously failing prepare-only fixture pass.
+The release policy test, dependency constraints and mock publisher exclusions
+remain unchanged. No production publication or live qualification ran.
 
 ## Historical setup evidence (not the latest blocker)
 

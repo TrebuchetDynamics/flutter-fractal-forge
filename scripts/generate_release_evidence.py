@@ -14,6 +14,8 @@ import sys
 import uuid
 from pathlib import Path
 from typing import Any
+from urllib.parse import urljoin, urlparse
+from urllib.request import url2pathname
 
 
 def sha256_file(path: Path) -> str:
@@ -118,8 +120,19 @@ def dependency_components(project_root: Path) -> list[dict[str, Any]]:
     return components
 
 
-def license_text(name: str, version: str) -> str:
-    package_dir = Path.home() / ".pub-cache" / "hosted" / "pub.dev" / f"{name}-{version}"
+def license_text(name: str, version: str, project_root: Path | None = None) -> str:
+    cache = Path(os.environ.get("PUB_CACHE") or Path.home() / ".pub-cache")
+    package_dir = cache / "hosted" / "pub.dev" / f"{name}-{version}"
+    if project_root is not None:
+        config = project_root / ".dart_tool" / "package_config.json"
+        packages = json.loads(config.read_text(encoding="utf-8"))["packages"]
+        package = next((p for p in packages if p["name"] == name), None)
+        if package is None:
+            raise ValueError(f"Missing resolved path package {name}; run flutter pub get")
+        uri = urlparse(urljoin(config.as_uri(), package["rootUri"]))
+        if uri.scheme != "file" or uri.netloc not in ("", "localhost"):
+            raise ValueError(f"Unsupported path package root for {name}: {uri.geturl()}")
+        package_dir = Path(url2pathname(uri.path))
     for candidate_name in ("LICENSE", "LICENSE.txt", "LICENSE.md", "COPYING"):
         candidate = package_dir / candidate_name
         if candidate.is_file():
@@ -282,7 +295,13 @@ def generate(args: argparse.Namespace) -> None:
         notices.extend(
             [
                 f"===== {component['name']} {component['version']} =====",
-                license_text(component["name"], component["version"]),
+                license_text(
+                    component["name"],
+                    component["version"],
+                    project_root
+                    if {"name": "pub:source", "value": "path"} in component["properties"]
+                    else None,
+                ),
                 "",
             ]
         )

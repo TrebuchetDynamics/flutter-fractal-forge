@@ -1,0 +1,17 @@
+name: fractal_engine_bridge
+description: Native-only version and opaque lifecycle probe for Fractal Forge.
+version: 0.1.0
+publish_to: none
+environment:
+  sdk: ^3.4.0
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_rust_bridge: 2.11.1
+flutter:
+  plugin:
+    platforms:
+      linux:
+        ffiPlugin: true
+      android:
+        ffiPlugin: true
