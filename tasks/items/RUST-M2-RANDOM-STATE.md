@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-M2-RANDOM-STATE"
 title = "Own seeded immediate randomization and successful-only Number Walls undo in inert Session"
 short = "Own staged randomization and undo"
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Next"
 rank = 19000
@@ -16,6 +16,8 @@ scope = "Consume pure seeded targets in inert core immediate ordinary randomizat
 acceptance = ["Given session_randomization public tests using every applicable actual-module randomization.json case and ordered unsuccessful actions, ordinary immediate targets and staged wall params/status/exact cells match Dart. Begin captures prior committed frame but installs undo only at the same request's successful publication; rejected/cancelled/revoked/superseded work cannot overwrite prior undo.", "Given changed current view/transparency then undo, exactly one prior params/grid frame returns atomically with current camera/transparency retained; second undo is false/no change. Ordinary load/reset/edit/select clearing/retention follows controller source, including navigation clearing. Identity/stale/overflow, pending work and failed mixed batches preserve visible and hidden undo/provenance state and existing terminal revision reservation.", "Given unchanged replay/wall regression and Dart oracle checks, all 68 original outputs and exact validation/last-good semantics remain. Synthetic modules are not admitted, original fixtures/production Dart/bridge/flags/locks stay unchanged; note separates core immediate/staged behavior from pending animated/app/native ownership."]
 checks = ["PATH=/home/xel/.rustup/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:$PATH CARGO_HOME=\"$AUTOWORK_CACHE/cargo-1.95.0\" cargo test --manifest-path rust/Cargo.toml -p fractal-core --test session_randomization --test session_replay --test session_number_wall --locked --offline", "( export PATH=/home/xel/.rustup/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:$PATH; export CARGO_HOME=\"$AUTOWORK_CACHE/cargo-1.95.0\"; scripts/ci/rust-check.sh )", "flutter test --no-pub test/migration/randomization_oracle_test.dart test/number_walls/number_wall_state_test.dart", "git diff --exit-code -- lib migration packages rust/crates/fractal-bridge rust/Cargo.lock pubspec.lock && git diff --check", "( AUTOWORK_CACHE=\"${AUTOWORK_CACHE:-$(git rev-parse --path-format=absolute --git-common-dir)/autowork-execution/cache}\" && export AUTOWORK_CACHE && export FLUTTER_ROOT=\"$AUTOWORK_CACHE/flutter-3.47.9\" && export PUB_CACHE=\"$AUTOWORK_CACHE/pub-cache\" && test -x \"$FLUTTER_ROOT/bin/flutter\" && test -d \"$PUB_CACHE\" && export PATH=\"$FLUTTER_ROOT/bin:/usr/bin:$PATH\" && scripts/ci/offline-gate.sh --python-bin /usr/bin/python3 )"]
 exclusions = ["No production Dart/bridge/generated/fixture/lock changes, animation/morph/physical-event/executor or app/render/flag switch, native/browser/hardware/full-M2 qualification."]
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/RUST-M2-RANDOM-STATE.toml"
 +++
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration; docs/tasks/RUST-PLAN-08.md#staged-session-randomization-and-undo
 - Consumes: RUST-M2-SEEDED-RANDOM pure targets and existing request/frame lifecycle; fractal_controller.dart:603-681 and randomization.json lifecycle outputs.

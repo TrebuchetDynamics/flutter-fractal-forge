@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Added inert Rust Session seeded immediate randomization and certified staged Number Walls randomization with successful-only, current-view-preserving single undo; production ownership is unchanged. (RUST-M2-RANDOM-STATE)
 - Added core-owned bounded trajectory requests with detached frames and an explicitly shared three-entry touched LRU sample cache, preserving independent Number Walls requests. (RUST-M2-TRAJECTORY-JOBS)
 - Added inert Rust Session parameter timelines with explicit ordered ticks, transactional replacement/cancellation and source-bound interpolation parity. (RUST-M2-PARAM-TIMELINE)
 - Added pinned Dart VM seeded draws and pure ordered-schema general/Number Walls randomization targets with exact source-bound oracle parity. (RUST-M2-SEEDED-RANDOM)
