@@ -1,0 +1,9 @@
+schema = 1
+task = "RUST-004-2dccfb82"
+candidate = "2dbbceb6cc2f0509868ff6a9ca3ce967e90dd695"
+integration = "d2161fbefa3a91d293f38128257a94edfbe25c4a"
+tree = "72d8e3a112ff84de98b90699a1232c4c4de1e3d5"
+contract_hash = "10dfa2777e99bec81dc204ccccf727ade52d21ef2cf63eb944ca74d03a1f03c3"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-004-2dccfb82"]
+result = "pass"
+review = "passed"

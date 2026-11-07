@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-004-2dccfb82"
 title = "Execute source-bound Linux StateSession transport through the reserved-port driver"
 short = "Prove installed Linux state transport"
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Next"
 rank = 8000
@@ -16,6 +16,8 @@ scope = "Execute the produced real StateSession fixture/launcher with RUST_CORE=
 acceptance = ["Given the real worker port allocation and exact source-bound four-module projection launcher, the official integrationDriver executes rust_state_session_smoke_test.dart's StateSession assertions to completion. Retained run.json has exit_code=0, protocol_success=true, cleanup.remaining_pids=[] and protocol-success.json has allTestsPassed=true. Build-only, skipped assertions, raw flutter test -d linux or probe-only output fails this gate.", "Given durable private evidence, the designated note binds revision, original envelope/target/launcher/library/build hashes, SDK/Rust/FRB and actual software/hardware backend to exact command/terminal outcome and cleanup. Report unreachable high-u64 output and all full-session/Waydroid/hardware/browser limits; errors/timeouts remain failed and return to the same coordinator/candidate without a new approval question."]
 checks = ["/usr/bin/python3 -m pytest -q scripts/migration/tests/test_state_session_smoke.py", "/usr/bin/python3 scripts/migration/run_state_session_smoke.py -- autowork-run timeout --kill-after=10s 660 bash scripts/run-native-integration.sh integration_test/migration/rust_state_session_smoke_test.dart --timeout 600 --dart-define=RUST_CORE=true", "Read actual emitted native-integration evidence: run.json exit_code=0, protocol_success=true, cleanup.remaining_pids=[]; protocol-success.json allTestsPassed=true. Retain full driver.log, original input hashes and source/build/library/backend identities in persistent private evidence outside the checkout. Missing real AUTOWORK_PORT_BASE/private TMPDIR must refuse. Run git diff --check.", "( AUTOWORK_CACHE=\"${AUTOWORK_CACHE:-$(git rev-parse --path-format=absolute --git-common-dir)/autowork-execution/cache}\" && export AUTOWORK_CACHE && export FLUTTER_ROOT=\"$AUTOWORK_CACHE/flutter-3.47.9\" && export PUB_CACHE=\"$AUTOWORK_CACHE/pub-cache\" && test -x \"$FLUTTER_ROOT/bin/flutter\" && test -d \"$PUB_CACHE\" && export PATH=\"$FLUTTER_ROOT/bin:/usr/bin:$PATH\" && scripts/ci/offline-gate.sh --python-bin /usr/bin/python3 )"]
 exclusions = ["No raw flutter test -d linux, arbitrary port, SDK/profile edits, unrelated process cleanup, new renderer/bridge API, manifest/lock/baseline change, hardware-performance qualification, device operation or publication."]
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/RUST-004-2dccfb82.toml"
 +++
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration; docs/tasks/RUST-PLAN-04.md#decided-implementation-seams
 - Consumes: RUST-003-2b8363f4 target and launcher CLI; the launcher appends ordinary define flags accepted by the existing Linux wrapper. Produces: source-bound installed Linux StateSession outcome and durable private logs, not a new receipt mechanism.
@@ -25,3 +27,6 @@ exclusions = ["No raw flutter test -d linux, arbitrary port, SDK/profile edits, 
 - Next action: run the produced fixture through the actual reserved-port wrapper and preserve terminal results. An actual bridge/runtime failure outside Touches returns with operation/source/evidence for supported same-coordinator recovery; no duplicate candidate.
 
 - Input boundary: consume the corrected four-module complete-record projection protocol from RUST-003-2b8363f4; retain original AND projected input hashes and <=32768-byte Flutter aggregate guard. Whole original-envelope byte transport/full-catalog parity are not claimed; no staging-only success can count as StateSession execution.
+- Pending live: Waydroid StateSession execution is the separate RUST-005-c9f7f34a task; no Android operation was performed here.
+- Pending live: Physical hardware/GPU, rendering/performance, browser/WASM and production qualification remain unrun and are not established by Linux/Xvfb software transport.
+- Pending live: Successful installed identity/revision outputs above 2^53 remain unproved and unreachable through this fixture's low counters/revisions; rejected large stale operands are input evidence only.

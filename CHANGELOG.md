@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Verified source-bound four-module Linux StateSession transport through the official reserved-port driver with retained private input/build/library/backend and terminal cleanup evidence; production routing is unchanged. (RUST-004-2dccfb82)
 - Add source-bound four-module native StateSession smoke fixture and bounded argv input launcher, with Linux/Android compilation-only checks. (RUST-003-2b8363f4)
 - Extend inert Rust sessions with source-matched glow, fluid, rotation-lock and kaleidoscope state, including atomic forced-module restoration; app and bridge routing remain unchanged. (RUST-002-07ee2543)
 - Added dependency-free resumable exact Number Walls prime certification in fractal-core, with bounded chunks, cancellation and source-matched status/count tests; no app routing change. (RUST-001-0fdde2b6)
