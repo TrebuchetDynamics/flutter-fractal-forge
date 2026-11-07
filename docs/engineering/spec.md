@@ -65,10 +65,14 @@ four schema-1 catalog envelopes. Its inert `session::Session` candidate owns
 ordinary module/parameter/scalar-view state and ordered atomic transactions.
 The separate bridge `StateSession` exposes this candidate without app routing;
 see [the transport result and remaining proof](../tasks/RUST-M2-BRIDGE.md).
-Core/render use local paths plus the locked pure-domain serde graph:
+Core/render use local paths plus the locked pure-domain serde/arithmetic graph:
 `serde`/`serde_core`/`serde_derive` 1.0.229, `serde_json` 1.0.108 with
 `arbitrary_precision`/`raw_value`, `itoa` 1.0.18, `ryu` 1.0.23, and derive dependencies
 `proc-macro2` 1.0.107, `quote` 1.0.47, `syn` 3.0.9 and `unicode-ident` 1.0.27.
+Exact [Number Walls grid arithmetic](../tasks/RUST-M2-GRID.md) adds only
+`num-bigint` 0.4.6 with default std support, `num-integer` 0.1.47,
+`num-traits` 0.2.19 and its build dependency `autocfg` 1.5.1.
+No rand/serde arithmetic features or platform dependencies are enabled.
 Only the bridge depends on the pinned `flutter_rust_bridge = 2.11.1` runtime.
 The foundation seam still exposes these APIs:
 
@@ -91,7 +95,7 @@ It checks the compiler version, formatting, clippy with denied warnings, and
 workspace tests using the locked, offline dependency graph.
 Inline tests cover the bridge version, nonrendering capability JSON shape, and
 the core/render dependency boundary across features, targets, build and dev edges.
-Only the local foundation and locked pure-domain serde graph above are allowed,
+Only the local foundation and locked pure-domain serde/arithmetic graph above are allowed,
 so Flutter/Android/GPUI and other UI/platform dependencies still fail.
 
 The path-scoped [GitHub workflow](../../.github/workflows/rust.yml) provisions
