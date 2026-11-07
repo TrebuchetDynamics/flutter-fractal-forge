@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Added an inert typed Rust StateSession bridge with exact u64 identities/revisions, atomic batches and immutable snapshot handles; app routing remains unchanged. (RUST-M2-BRIDGE)
 - Added inert transactional Rust candidate sessions for four ordinary modules with strict M0 events 0–46 replay parity; Dart ownership and Number Walls remain unchanged. (RUST-M2-SESSION)
 - Added inert Rust parameter and scalar-view normalization matching Dart defaults, bounds, enum/boolean policies and exact decimal text; live routing remains unchanged. (RUST-M2-NORMALIZATION)
 - Add a typed, fallible Rust catalog baseline reader with lossless semantic payload readback and strict domain dependency guards; keep Flutter runtime ownership unchanged. (RUST-M3-CATALOG-PARITY)
