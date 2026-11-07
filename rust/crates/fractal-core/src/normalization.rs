@@ -127,7 +127,7 @@ fn integer_equals_float(integer: &Number, float: &Number) -> bool {
 }
 
 // Dart compareTo/clamp orders -0.0 below +0.0, unlike partial comparisons.
-fn clamp(value: f64, min: f64, max: f64) -> f64 {
+pub(crate) fn clamp(value: f64, min: f64, max: f64) -> f64 {
     if value.total_cmp(&min).is_lt() {
         min
     } else if value.total_cmp(&max).is_gt() {
