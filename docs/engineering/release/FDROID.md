@@ -77,7 +77,7 @@ The owner requested F-Droid deployment, then requested this planning-only pass f
 - The existing MR was reopened in the preceding deployment attempt. [Follow-up note 4185349142](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/46920#note_4185349142) acknowledges the unresolved finding. Reopening is not publication.
 - Current main already contains a candidate mitigation integrated by `fffb687a2a261afecebbb076af039ef4ffc6a19a`: `mengerSpongeDE` uses `MAX_KIFS_ITERATIONS = 8` and returns early for removed cells. The catalog sets default/max iterations to 8. `test/modules/kifs_menger_gpu_safety_test.dart` covers bounds, distinct Sponge/Cross pixels, a 64px maximum-quality render, Mandelbulb, and two analytic distance samples. These are not Adreno watchdog or release-resolution proofs. No tests or device journeys ran during this planning pass.
 - `fdroid/version.properties` currently reads 1.1.122/122. This is an observed marker, not a reserved release identity or a qualified release. Reconcile live tags, reference assets, and consumed version codes before freezing the candidate. `fdroid/flutter.version` currently pins 3.47.9. Earlier MR prose uses 3.44.6.
-- Existing release task `RELEASE-002-75` is closed and retains pending F-Droid/live gates. Preserve its history. No existing task record names the KIFS/Adreno finding. The current runner has an in-flight Waydroid task, `ACAD-013-4142ef42`; coordinate device ownership rather than starting a competing run.
+- Existing release task `RELEASE-002-75` is closed and retains pending F-Droid/live gates. Preserve its history. The saved FDROID-001 through FDROID-005 batch below owns the KIFS/Adreno continuation. Planning observed an in-flight Waydroid task, `ACAD-013-4142ef42`; recheck device ownership before a device run.
 
 ### Planner decisions and bounds
 
@@ -99,9 +99,52 @@ The owner requested F-Droid deployment, then requested this planning-only pass f
 | FDROID-004-29b7a404 | Freeze and qualify updated F-Droid source, metadata and three ABI reference binaries | FDROID-002-29b7a402 |
 | FDROID-005-29b7a405 | Update !46920, address review and read back acceptance/catalog state | FDROID-003-29b7a403, FDROID-004-29b7a404 |
 
-All execution checks are proposed/unrun in this pass. Exact commands and setup are in the task records. Local checks use the root AGENTS.md pinned offline gate. Official qualification additionally requires twice-built identical unsigned ABI APKs, lint/source and binary scans, official reproducibility against signed references, and the relevant Android release gate. The restricted local container adapter supplies lint/scanner only, not `fdroid build`, `readmeta` or `rewritemeta`; those need the official supported tool/buildserver environment or maintainer CI.
+All execution checks were proposed/unrun in the planning pass. FDROID-001 local results are recorded below; device and release qualification remain unrun. Exact commands and setup are in the task records. Local checks use the root AGENTS.md pinned offline gate. Official qualification additionally requires twice-built identical unsigned ABI APKs, lint/source and binary scans, official reproducibility against signed references, and the relevant Android release gate. The restricted local container adapter supplies lint/scanner only, not `fdroid build`, `readmeta` or `rewritemeta`; those need the official supported tool/buildserver environment or maintainer CI.
 
 This is one complete bounded batch, not a rolling roadmap. The first task uses normal local worker execution. Device/build/publication and external follow-up belong to the coordinator with exclusive resource coordination. FDROID-003 and FDROID-004 have no product dependency on each other, but their shared live, MR and release-candidate resources must serialize mutable candidate/artifact work. FDROID-004 also reserves Waydroid for any final-candidate rerun. Do not retain a resource lease while waiting for an external reply. Live records remain coordinator-owned with `live = "denied"` until that coordinator records the structured grant for the actual operation/candidate under the existing deployment request and Waydroid consent. This is admission bookkeeping, not a request for renewed target or publication approval. Expected implementation delivery is one local test/repair merge plus a release-identity/metadata merge if needed. Each code-bearing delivery retains the existing required independent review and merged-tree gates. The planning commit is separate. No runner is started, no task is dispatched, and no hardware or catalog acceptance is inferred from task creation.
+
+### FDROID-001 local regression evidence
+
+Baseline: `0cf41c31cc86fe7de75bd437aec0d4b670c47632`. Before edits, `flutter test --no-pub test/modules/kifs_menger_gpu_safety_test.dart --reporter expanded` passed all six tests. No local failure reproduced. The bounded fold remains a **candidate mitigation, not Adreno-qualified**. The shader and catalog remain byte-identical to this baseline:
+
+| Retained production file | SHA-256 |
+| --- | --- |
+| `shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag` | `3d4db8598e7f759d690ff37729dd65f99c05c86829ea5da8c41e615850825795` |
+| `lib/core/modules/builders/raymarched_3d/catalog_impl.dart` | `4192187a726eb909738ef93c52b4e23487948f0a2b5c072dab7c8911e2b5cde8` |
+
+The existing host raster case now checks registered Default and Cathedral settings, the original 64px quality sample, and all eight scale/iteration/step boundary combinations. The supported bounds are scale 2–5, iterations 5–8 and steps 20–200. The shader still caps ray marching at 150 evaluations; testing the UI maximum of 200 does not change that cap. Each frame must be opaque, contain more than 16 RGB colors, and show horizontal foreground contrast in more than 0.5% of pixels. The background gradient varies only vertically, so it cannot satisfy the foreground check. Existing Sponge/Cross pixel distinctions, Cross 12/20 iteration bounds, Mandelbulb rendering, and center/corner analytic assertions remain.
+
+Local verification used Flutter 3.47.9/Dart 3.13.7 from the shared cache and `/usr/bin/python3` 3.12.3. The pinned version matched `fdroid/flutter.version`; pytest, Jinja2 and `markupsafe.soft_str` imports passed. `flutter pub get --offline --enforce-lockfile` passed. The lockfile SHA-256 remains `d919ab7eb6ad10b5939c81092b6f1657ba84642109ca677684184ccf30c55451`.
+
+- The focused safety file passed all six tests after extension.
+- The required five-file command passed all 20 tests: safety, `three_d_catalog_identity_test.dart`, `uniform_layout_test.dart`, `raymarched_3d_builder_test.dart` and `raymarched_3d_pan_target_test.dart`.
+- `flutter analyze --no-pub`, Dart formatting and `git diff --check` passed.
+- Installed execution: **NOT_RUN**, deferred to FDROID-002. Host raster results are not native viewport, watchdog, hardware-GPU or release-build evidence. The coordinator owns the merged-tree full gate and independent review.
+
+### Installed regression procedure for FDROID-002
+
+`integration_test/flows/kifs_menger_safety_test.dart` implements one process journey. It uses the registered catalog cards and viewer, selects Cathedral through the preset sheet, and keeps the current viewport and device pixel ratio. It runs a wall-clock soak of at least 60 seconds for each of Default and Cathedral. Rotation and two-finger pan/zoom must change the controller state. Exact parameter extremes use the controller's public editing seam. The journey then leaves and re-enters KIFS and opens Menger Cross variant 1 and Mandelbulb as controls.
+
+The test captures only the renderer boundary, not viewer chrome. It rejects missing shader snapshots, exceptions, transparent pixels, blank frames and background-only gradients. `KIFS_SAMPLE` records UTC time, PID, effective parameters/camera, pixel dimensions, sampled color count and horizontal foreground fraction. `KIFS_COMPLETE` and integration `reportData` record both soak durations and process survival only after the full journey succeeds. A start line or partial samples are not a pass. Thresholds are regression signals, not image-quality or performance certification.
+
+After FDROID-002 admits the designated Waydroid target, use a clean candidate checkout and the pinned offline environment. Encode the existing device consent with matching `ANDROID_DEVICE` and `ANDROID_DISPOSABLE_DEVICE`. Run three separate process launches, not three widget remounts:
+
+```sh
+test -n "$ANDROID_DEVICE" && test "$ANDROID_DEVICE" = "$ANDROID_DISPOSABLE_DEVICE" || exit 1
+test -z "$(git status --porcelain)" || exit 1
+source_revision="$(git rev-parse HEAD)"
+for launch in 1 2 3; do
+  adb -s "$ANDROID_DEVICE" shell am force-stop com.trebuchetdynamics.fractal.forge || exit 1
+  autowork-run timeout 600 flutter test --no-pub --no-uninstall \
+    integration_test/flows/kifs_menger_safety_test.dart -d "$ANDROID_DEVICE" \
+    --dart-define=FORCE_GPU_RENDER=true \
+    --dart-define=KIFS_SOURCE="$source_revision" \
+    --dart-define=KIFS_COLD_START="$launch" --reporter expanded \
+    > "$TMPDIR/kifs-cold-$launch.log" 2>&1 || exit 1
+done
+```
+
+Retain each command's exit code, complete test log and timestamp-bounded app/GPU logs under the existing device-test contract. Do not clear logs or reset the device. Reconcile all three launch IDs, start/end UTC times, PIDs, two completed soaks, eight extreme samples, controls and re-entry before claiming three cold-start passes. The test cannot collect Android driver logs or attest external force-stop operations itself. FDROID-002 owns that evidence and the Android release gate. Waydroid remains container/emulator evidence; FDROID-003 still owns the candidate-bound Adreno retest.
 
 Authoritative references:
 
