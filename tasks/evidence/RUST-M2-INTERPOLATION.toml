@@ -1,0 +1,9 @@
+schema = 1
+task = "RUST-M2-INTERPOLATION"
+candidate = "e959128013adf325950e5b267520ba44cc0f894a"
+integration = "d68d111b218965a2efc4b73595585001e4c8148f"
+tree = "243178e18d89e0d6dcf62ad16fe1878ea7bc7c3b"
+contract_hash = "2fcbc7f37828ebebc2a7d76ccc48ff229c89179b1bd9b1c9af24d7caf8aee98f"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-INTERPOLATION"]
+result = "pass"
+review = "passed"
