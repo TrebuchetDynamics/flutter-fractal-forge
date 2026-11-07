@@ -6,6 +6,7 @@ pub mod number_wall_frame;
 pub mod number_wall_grid;
 pub mod number_wall_prime;
 pub mod session;
+pub mod trajectory;
 
 /// Rust engine version, independent of the Flutter app version.
 pub fn engine_version() -> String {
