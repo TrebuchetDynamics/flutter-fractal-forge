@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-001-0fdde2b6"
 title = "Port exact bounded Number Walls prime validation as a resumable Rust job"
 short = "Prepare exact prime certification"
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Now"
 rank = 2000
@@ -16,6 +16,8 @@ scope = "Add a pure fractal_core::number_wall_prime resumable validator matching
 acceptance = ["Given proposed rust/crates/fractal-core/tests/number_wall_prime.rs and original replay Number Walls operands plus source-matched Dart validator cases, complete versus chunked jobs return identical exact statuses, verified text and division counts. Leading zeros canonicalize only after the raw length check; zero/one, signs/whitespace/non-ASCII digits, composites including Carmichael numbers, 2^53+1, 127-bit unverified input and 256/257-digit cases preserve the Dart distinction between invalid/composite/unverified/verifiedPrime. No nonverified status carries certified text.", "Given the same public seam, zero/limited/default budgets, square-boundary neighbors and cancellation before small-prime work, between chunks and at completion preserve source budget/root/count precedence. Each advance performs at most 1024 odd trials; completion is stable and arithmetic never wraps. An altered expected status/text/count fails; syntax acceptance never certifies primality.", "Given final focused/workspace/Dart oracle checks, original baselines, Dart owners, locks and dependencies remain unchanged. docs/tasks/RUST-M2-PRIME.md records API, algorithm equivalence, executed evidence and missing exact grids/async ingress/full 68-event replay, with no runtime or mathematical claim upgrade."]
 checks = ["PATH=/home/xel/.rustup/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:$PATH CARGO_HOME=\"$AUTOWORK_CACHE/cargo-1.95.0\" cargo test --manifest-path rust/Cargo.toml -p fractal-core --test number_wall_prime --locked --offline", "( export PATH=/home/xel/.rustup/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:$PATH; export CARGO_HOME=\"$AUTOWORK_CACHE/cargo-1.95.0\"; scripts/ci/rust-check.sh )", "flutter test --no-pub test/modules/number_wall_model_test.dart test/migration/state_replay_test.dart", "git diff --exit-code -- migration/baseline lib rust/Cargo.lock rust/Cargo.toml pubspec.lock && git diff --check; read back API/status/count claims against tests and source.", "( AUTOWORK_CACHE=\"${AUTOWORK_CACHE:-$(git rev-parse --path-format=absolute --git-common-dir)/autowork-execution/cache}\" && export AUTOWORK_CACHE && export FLUTTER_ROOT=\"$AUTOWORK_CACHE/flutter-3.47.9\" && export PUB_CACHE=\"$AUTOWORK_CACHE/pub-cache\" && test -x \"$FLUTTER_ROOT/bin/flutter\" && test -d \"$PUB_CACHE\" && export PATH=\"$FLUTTER_ROOT/bin:/usr/bin:$PATH\" && scripts/ci/offline-gate.sh --python-bin /usr/bin/python3 )"]
 exclusions = ["No Session/bridge/app routing, grids, prime-cache authority, randomizer, asynchronous platform executor, new dependency/manifest/lock/schema, probable-prime substitute, baseline refresh, install or qualification."]
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/RUST-001-0fdde2b6.toml"
 +++
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration; docs/tasks/RUST-PLAN-04.md#decided-implementation-seams
 - Consumes: original RUST-M0-REPLAY Number Walls inputs and current NumberWallPrimeValidator source/tests, not generic decimal normalization. Produces: resumable exact typed certification/status/count seam for later NumberWallFrame/grid ingress planning.
