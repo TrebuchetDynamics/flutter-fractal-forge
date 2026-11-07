@@ -406,3 +406,237 @@ Delivery authority covers this planning-only publication, not implementation or 
 The owner's later “Merge all main” request authorizes composition of local main history, the published planning batch and the catalog checkpoint, not implementation of either refactor. The [main integration record](../tasks/MAIN-MERGE-20261025.md) binds the combined-source checks and repaired ingress-ownership blocker.
 
 That composition includes NUM-WALL-02's source and both required Number Walls test files, retaining its existing completed record and receipt. The codec's typed dependency remains, but its missing-source hold from the planning-only publication no longer describes this combined source. Both refactor tasks remain open and unimplemented; their actual execution still follows the authorized task-selection and verification workflow. Do not conflate source inclusion, task selection eligibility, live qualification and completed refactoring.
+
+## Flutter shell and Rust engine migration
+
+Status: Accepted
+
+Acceptance source: the owner's standalone Plan For Me request supplied the full
+Flutter + Rust strangler migration, phases 0–14, operational rules and final DoD.
+This accepts the migration direction for planning, not implementation or publication.
+Everything labelled **Planner call** below is a delegated engineering decision.
+This section owns this migration plan; earlier refactor proposals are not changed.
+
+### Brief and invariant
+
+Keep Flutter as the working UI/platform shell throughout migration. Rust will own
+catalog semantics, parameter validation, mathematical state/camera, presets,
+precision/capabilities, CPU/deep zoom/perturbation, GPU rendering, scheduling,
+cancellation, export pixels/PNG and renderer diagnostics. Flutter retains widgets,
+navigation, l10n/accessibility, physical input capture, storage transport, file
+selection, MediaStore, share and wallpaper APIs. GPUI/CLI reuse is an architectural
+benefit, not a second app or repository in this project.
+
+Invariant for every task: preserve IDs, saved data, mathematical claims, observable
+controls, renderer honesty and the existing working Flutter path. No silent fallback
+to a different formula, no fabricated CPU precision, no two synchronized state owners.
+Non-goals: catalog expansion, mathematical improvements during ports, new UI, server,
+publication, host changes or GPUI implementation. Anti-goals: copied frames through
+Dart on the interactive GPU path, renaming IDs, precision loss and regressions hidden
+by weaker tests. The supplied 60/120 Hz outcome is a qualification target, not a
+measurement made in this planning session.
+
+### Repository evidence and corrections
+
+Inspection baseline: local main `0b1ecfcde8d484950a71ad1dc28729426c4557e9`.
+Seven unrelated dirty test files were present and are outside this plan's writes.
+No Rust workspace or FRB dependency was found in the inspected tracked source.
+The existing Rust 1.95.0 binaries are under
+`/home/xel/.rustup/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin`; ambient PATH does
+not expose cargo/rustc. Use a task-local PATH; do not change shell profiles.
+
+- `lib/core/modules/module_registry.dart:81–142` merges declarative/custom modules,
+  preserving existing entries and adding diagnostics under `kDebugMode`.
+  `lib/features/catalog/data/catalog_repository.dart:63–70` creates a separate
+  catalog identity. Preserve both `mandelbrot` and `core.mandelbrot`, not one
+  renamed namespace. Registry order, performance-family entries, hidden legacy
+  degree cards, diagnostics and public fractal counts are distinct inventories.
+  `test/catalog/catalog_id_integrity_test.dart:16–29` contains historical counts;
+  derive baseline counts from actual descriptors, not those comments or README.
+- `lib/core/models/fractal_parameter.dart:13–40` includes `decimalInteger` as well
+  as float/integer/enum/bool. Number Walls certification is asynchronous and
+  module-owned (`docs/engineering/spec.md#number-walls-replay-validation-boundary`).
+  Preserve exact decimal strings and prior committed grids on invalid ingress.
+- `lib/core/controllers/fractal_controller.dart:796–839` normalizes view input;
+  `input/fractal_view_input_bounds.dart:14–18` defines `maxZoom = 1e12`,
+  `defaultMinZoom = 1e-9`, `cantorSetMinZoom = 0.2`, `minPan = -3.0`,
+  `maxPan = 3.0`. NaN retains bounded last-good state; infinities clamp for pan/zoom;
+  nonfinite rotations retain finite prior angles. Keep these in the first port.
+  New arbitrary-depth navigation is later work, not an accidental relaxation.
+- `test/fractal/fractal_controller_behavior_test.dart:12–25` asserts the normal
+  zoom bounds; retain it. Replay also covers clamps, boolean normalization, reset,
+  adaptive iterations, snapshots and saved presets. Gesture ownership remains in
+  `lib/features/renderer/widgets/renderer/input/gesture_handler.dart` and renderer
+  pointer/scale/double-tap handlers (`fractal_renderer.dart:322–333`); preserve
+  wheel, pinch anchor, keyboard, drag/fling direction and nested controls.
+- `lib/features/renderer/policy/precision_ladder_policy.dart:8–12,129–131` defines
+  `5e6`, `1e30`, `1e12`, `1e9`, `1e7` thresholds and `hysteresisFrames = 2`
+  (the latter at line 122).
+  The policy's perturbation ceiling is not the controller's navigation ceiling.
+  Replay decisions across boundary neighbors, power, module capabilities and
+  hysteresis history, not just `(module, zoom)` stateless calls.
+- `test/modules/escape_time_uniform_contract_test.dart:13–37` checks minimum slot
+  capacity, not full semantic equivalence. Reuse it and
+  `test/modules/escape_time_shader_manifest_test.dart`; do not call their pass
+  complete shader ABI or mathematical proof. `builders/uniform_layout.dart`
+  already provides family slot constants. Samplers are separate from float slots.
+- `test/modules/catalog_preset_render_health_test.dart:36–66` demonstrates real
+  FragmentProgram draw/readback and disposal. Reuse that seam, not mock images.
+  Existing Number Walls, Gaussian/quaternion/trajectory and Fibonacci paths must
+  appear in inventory; they are not all interchangeable FragmentShader formulas.
+- `docs/engineering/spec.md#rendering-interface` and
+  `#export-and-compatibility-boundary` preserve CPU support and transparency limits.
+  CPU alpha is not to be silently improved during a port. Mathematical or inspired/
+  unverified provenance is retained independently of successful image rendering.
+
+### Decided architecture and research
+
+**Planner call:** use one in-repo workspace and three crates: `fractal-core`
+(domain only), `fractal-render` (CPU/GPU services depending on core),
+`fractal-bridge` (Flutter-facing adapter depending on both). The rule forbidding
+Flutter/Android/GPUI knowledge applies to core/render, not bridge/platform glue.
+Reject a big-bang rewrite and a second repository: both weaken differential parity
+and rollback. Do not introduce wgpu into the initial nonrendering bridge.
+
+**Planner call:** use flutter_rust_bridge v2 for commands, snapshots and opaque
+engine handles; keep its Rust/Dart/codegen versions matched and locked at integration.
+Exact patch selection and generated build-file layout are worker-reversible under
+that compatibility contract. Upstream documents existing-project integration and
+Web support: [FRB quickstart](https://cjycode.com/flutter_rust_bridge/quickstart),
+[crate API](https://docs.rs/flutter_rust_bridge/latest/flutter_rust_bridge/).
+Never run its project generator over the app without reviewing its write set.
+
+**Planner call:** the sole state owner moves per engine session, not per field.
+A migrated session accepts typed batched commands and returns immutable snapshots;
+Dart's controller becomes a presentation adapter. Nonmigrated sessions stay entirely
+Dart-owned. Use engine/session identity plus monotonic u64 revisions, reject stale
+snapshots/frames after switch/reset/disposal, and pin exports to their captured
+revision rather than discard an explicit export when the viewport changes.
+Coalesce render requests (latest state wins), not incremental pan/zoom commands:
+apply each ordered input transaction before publishing the newest render state.
+Errors preserve last-good state; shutdown is idempotent and invalidates handles.
+No mathematical callbacks or per-pixel FFI. Flutter gestures send physical inputs;
+Rust eventually computes camera transforms and clamps. UI timers are not duplicated
+as mathematical state authorities.
+
+**Planner call:** typed parameters retain enum underlying values and canonical
+arbitrary integers; deep coordinates use canonical decimal significand/exponent
+strings internally validated by Rust, not an f64 round trip or a bigfloat FFI ABI.
+Keep legacy preset readers and unknown/invalid ingress behavior until round-trip
+fixtures prove a versioned migration. Rust returns localization keys; closures and
+translated text stay in the Flutter adapter. Preserve built-in literal labels via
+an explicit presentation mapping until keys exist; no catalog translation rewrite.
+
+**Planner call:** WGSL becomes canonical only for migrated families. Keep a
+versioned, generated shader binding manifest with alignment/types/sampler bindings,
+not a promise that separate `floats`/`ints` vectors alone define a wgpu ABI.
+Until then emit validated Flutter float-slot packets plus separate sampler bindings.
+Use source hashes, resolved includes and existing slot tests in the baseline.
+Automated GLSL normalization/Naga conversion can assist, never establish correctness.
+
+[wgpu's platform table](https://github.com/gfx-rs/wgpu#supported-platforms) lists
+Vulkan for Linux/Android and native Metal/DX12; WebGL2 is downlevel/best-effort,
+not equivalent to WebGPU. [Flutter's SurfaceProducer guidance](https://docs.flutter.dev/release/breaking-changes/android-surface-plugins)
+supports the Android surface route, not a cross-platform zero-copy guarantee.
+Crucially, [flutter_wgpu 0.1.0](https://pub.dev/packages/flutter_wgpu) declares
+Android SurfaceProducer but **Windows/Linux pixel buffer copy**. Use it as a
+reference only, not as proof of the required Linux GPU composition path. The later
+native texture spike must prove Android surface and Linux external-texture ownership,
+fences, orientation, resize, context loss, background/resume and cleanup. Native
+copying, if used diagnostically, is labelled and does not pass the zero-copy goal.
+No claim of portable zero-copy or 120 Hz follows from these documents.
+
+### Complete outcome map and ordered gates
+
+This maps every supplied phase, operational requirement and final DoD. Later gates
+are accepted scope, not speculative ready implementation cards. The closing planning
+card expands them from implementation evidence; it may not drop or weaken them.
+
+| Requested slice | Gate and proof / task mapping |
+| --- | --- |
+| Phase 0, baseline and differential harness | M0: RUST-M0-CONTRACTS, RUST-M0-REPLAY, RUST-M0-IMAGES; inventory plus deterministic replay plus source-bound real images. Capture before controller/render replacement. |
+| Phase 1, workspace/CI/version/engine handles | RUST-M1-WORKSPACE, RUST-M1-BRIDGE; fmt/clippy/test plus unchanged Flutter guards. M1 additionally needs actual Linux and designated Waydroid smoke/lifecycle evidence; offline tests alone do not pass M1. |
+| Phase 2, state/camera/parameters/controller adapter | M2: consume replay corpus, Rust owns full migrated session, old Flutter renderer consumes snapshots; invalid input and stale revisions preserve prior state. No dual mutable owner. |
+| Phase 3, registry/catalog/presets/capabilities | M3: full baseline parity including production/debug/performance distinctions, ordering, stable IDs, exact integers, provenance and presentation keys; controls remain Flutter. |
+| Phase 4, uniform mathematics | M4: family packets exactly reproduce legacy binding values/samplers and transparency; only adapter writes FragmentShader slots. |
+| Phase 5, precision ladder | M5: deterministic Rust/Dart boundary/hysteresis/capability parity, no fictional CPU support; remove Dart policy only after matching replays. |
+| Phase 6, CPU formulas/tiles/workers | M6: port only genuinely supported formulas, analytic/classification and RGBA parity, bounded jobs/memory, progress and cancellation; CPU work off UI thread. |
+| Phase 7, deep zoom/perturbation | M7: reference orbits, double-float and arbitrary-precision references, stable coordinate serialization and honest fallback, without exposing library types through FFI. |
+| Phase 8, wgpu Mandelbrot/native texture | M8: long-lived device/queue/pipelines/cache, renderer-owned task/mailbox; actual pinch → Rust → Vulkan/wgpu → compositor on Linux and Waydroid, no frame bytes through Dart. Hardware performance remains separate. |
+| Phase 9, Mandelbulb | M9: prove 3D raymarch/camera/depth/lifecycle and edited-state rendering on both native targets, not just a second shader compilation. |
+| Phase 10, families/WGSL/conversion/manifest | M10: escape-time, roots, attractors, IFS, cellular, number systems, 3D, hypercomplex and custom families port with descriptor/binding validation plus analytic/image parity and provenance retained. |
+| Phase 11, viewport ownership | M11: Flutter viewport is presentation/input only, Rust owns render/backend/scheduler/cancellation/diagnostics; retire legacy renderer only after every required module has a qualified replacement. |
+| Phase 12, export/PNG | M12: same engine and pinned snapshot for viewport and 4K/8K export; bounded memory/tiles/cancel, exact dimensions/crop/color/alpha/error semantics and PNG readback; Flutter saves/shares/platform actions only. |
+| Phase 13, presets/persistence | M13: legacy fixtures → versioned Rust semantics → unchanged Flutter storage transport; saved/history/import/deep-link round trips, exact primes and rejection behavior remain compatible. |
+| Phase 14, Web | M14A: Rust WASM core with legacy renderer; M14B: Rust WebGPU renderer and export/download; separate browser capabilities and loss/fallback checks. Native migration does not wait for Web, but final retirement cannot strand Web. |
+| Flags, module routing, performance rules and final CI | Cross-cutting all gates: RUST_CORE/CPU/GPU/EXPORT default off until qualified, module/backend routing with compatible flag combinations, safe rollback without state loss. Coarse FFI, revision/session checks, latest-state scheduling, bounded threads and long-lived GPU resources. Preserve common offline checks; add Rust/analytic/shader/differential lanes and separately qualified Linux/Android/Web journeys. |
+| Final 100% Rust DoD | All gates plus full catalog Rust-owned, PNG/diagnostics included, no Dart fractal formulas, backend decisions, uniform math or fractal rendering. Flutter UI/platform/accessibility remain. Audit dependencies/imports and actual runtime routing, not file extensions alone. |
+
+### First executable frontier and checks
+
+Plan round: 1 of 10. Six new tasks under RUST-ENGINE-001: five building tasks and
+one closing `kind = plan` task RUST-PLAN-02 depending on all five.
+RUST-M0-CONTRACTS and RUST-M0-REPLAY can run independently of
+RUST-M1-WORKSPACE in isolated worktrees. RUST-M0-IMAGES consumes the contracts
+manifest; RUST-M1-BRIDGE consumes the workspace and all M0 evidence. These edges
+are data/gate prerequisites, not shared-file scheduling tricks. Shared plan/spec
+updates require serialized integration; no shared live resource is needed offline.
+Do not rerank the existing Waydroid recovery or change goal focus.
+
+Planner calls for baseline: canonical JSON v1, stable sorted records with registry
+order retained explicitly, no timestamps in deterministic payloads; hashes/toolchain/
+backend/revision in provenance. Keep five named inventory files and separate replay
+corpus. Export options/ranges/defaults, built-in preset semantics, CPU membership,
+precision capability and resolved shader ABI without executing mathematical ports.
+Render representatives: mandelbrot, julia, burning_ship, newton_z3, lorenz_2d,
+sierpinski_triangle, number_wall, mandelbulb, milnor_brieskorn. The last is inspired; retain
+its actual claim status. Resolve names to real descriptors and fail missing entries,
+never replace one with a convenient gradient. Freeze 256×256, time zero, opaque
+module defaults plus edited Mandelbrot/Mandelbulb views; capture true module-specific
+paths (including Number Walls), not a forced shared shader. Images record source,
+settings, backend and decoded hash; image health is not mathematical qualification.
+
+New harnesses/fixtures and commands named in tasks are **proposed, unrun**. No test,
+Flutter build, Rust build, install, benchmark or device journey ran during planning.
+All implementation checks retain the pinned offline gate in AGENTS.md. First-round
+Rust uses the existing 1.95.0 toolchain with task-local PATH; dependencies/codegen
+must be provisioned in an isolated cache during execution, then tested locked/offline.
+A missing cache/download is reported as setup failure, never a skipped pass.
+Do not install packages or update Flutter during planning.
+
+Risk/guard map: lost exact preset values → tagged decimal/enum replay fixtures;
+stale sessions/exports → identity/revision lifecycle tests; false GPU success → real
+source-bound readback and platform-specific texture gate. Frame tolerances for each
+ported family must be chosen from M0 evidence, with analytic classification exact
+where defined; do not invent one global SSIM threshold before baseline measurements.
+
+Builder dispositions: ID namespace, decimal integers, controller/precision ceilings,
+float/sampler ABI and Linux-copy claims are resolved above; build-file layout and
+matched FRB patch selection are worker-reversible. Device transport/contention,
+hardware-GPU timing and browser availability remain unassessed live checks, not
+owner approval questions or reasons to block independent offline work. Follow the
+standing Waydroid diagnosis/consent contract, coordinate ACAD-013-4142ef42, and never
+demand a physical phone in place of Waydroid. Physical/hardware claims stay separate.
+A fresh read-only builder review found two material verification gaps, both resolved
+in RUST-M1-BRIDGE: compile Web with RUST_CORE both false and true, and use the
+existing reserved-port native driver wrapper for later Linux smoke, not
+`flutter test -d linux`. The wrapper must receive an actual task port lease and
+private TMPDIR and return terminal protocol success with owned-process cleanup.
+These procedures are planned, not run. No missing product decision remains for
+this first offline batch. Live transport and capacity remain unassessed.
+
+Expected first-round implementation delivery: five bounded changes/merges with the
+repository's required review/integration gates, separate from this planning commit;
+no measured delivery-time or runtime guarantee. Next-round planning must reconcile
+M0/M1 reports and native qualification before admitting state migration and the
+later texture spike. The goal remains unmet until final proof, not until the first
+queue empties. An already-authorized runner can continue the chain; this session
+starts none. Stop the chain by placing RUST-PLAN-02 in Needs decision.
+
+Planning checks: `autowork capabilities` reported prepare_api 4, and consumer
+preparation returned READY with no actions, in-flight contracts or pending migration.
+Existing unrelated legacy-source/goal diagnostics remain outside this migration.
+Final task validation passed: 123 tasks, 21 goals, no drafts; the six new task
+records and goal were read back. No implementation checks were run. Selection is
+assessed separately from committed-store contents; runtime/ownership admission and
+remote inclusion are not established by this plan.
