@@ -745,6 +745,15 @@ impl StateSession {
 
     #[frb(sync)]
     pub fn snapshot(&self) -> Result<StateSnapshot, String> {
+        self.snapshot_impl()
+    }
+
+    /// Normal-mode FRB transport: runs on the existing pool, not the UI thread.
+    pub fn snapshot_async(&self) -> Result<StateSnapshot, String> {
+        self.snapshot_impl()
+    }
+
+    fn snapshot_impl(&self) -> Result<StateSnapshot, String> {
         let guard = self
             .inner
             .lock()
@@ -784,6 +793,41 @@ impl StateSession {
         request_guard: &StateNumberWallGuard,
         max_trial_divisions: u32,
     ) -> Result<Option<StateNumberWallRequest>, String> {
+        self.begin_number_wall_impl(
+            session_id,
+            expected_revision,
+            command,
+            request_guard,
+            max_trial_divisions,
+        )
+    }
+
+    /// Normal-mode FRB transport: runs on the existing pool, not the UI thread.
+    pub fn begin_number_wall_async(
+        &self,
+        session_id: u64,
+        expected_revision: u64,
+        command: StateCommand,
+        request_guard: &StateNumberWallGuard,
+        max_trial_divisions: u32,
+    ) -> Result<Option<StateNumberWallRequest>, String> {
+        self.begin_number_wall_impl(
+            session_id,
+            expected_revision,
+            command,
+            request_guard,
+            max_trial_divisions,
+        )
+    }
+
+    fn begin_number_wall_impl(
+        &self,
+        session_id: u64,
+        expected_revision: u64,
+        command: StateCommand,
+        request_guard: &StateNumberWallGuard,
+        max_trial_divisions: u32,
+    ) -> Result<Option<StateNumberWallRequest>, String> {
         let mut guard = self
             .inner
             .lock()
@@ -804,6 +848,27 @@ impl StateSession {
     /// Exactly one bounded core step, including revocation observation at zero work.
     #[frb(sync)]
     pub fn advance_number_wall(
+        &self,
+        session_id: u64,
+        expected_revision: u64,
+        request: &StateNumberWallRequest,
+        work_limit: u32,
+    ) -> Result<StateNumberWallProgress, String> {
+        self.advance_number_wall_impl(session_id, expected_revision, request, work_limit)
+    }
+
+    /// Normal-mode FRB transport: runs on the existing pool, not the UI thread.
+    pub fn advance_number_wall_async(
+        &self,
+        session_id: u64,
+        expected_revision: u64,
+        request: &StateNumberWallRequest,
+        work_limit: u32,
+    ) -> Result<StateNumberWallProgress, String> {
+        self.advance_number_wall_impl(session_id, expected_revision, request, work_limit)
+    }
+
+    fn advance_number_wall_impl(
         &self,
         session_id: u64,
         expected_revision: u64,
@@ -832,6 +897,25 @@ impl StateSession {
         expected_revision: u64,
         request: &StateNumberWallRequest,
     ) -> Result<StateNumberWallProgress, String> {
+        self.cancel_number_wall_impl(session_id, expected_revision, request)
+    }
+
+    /// Normal-mode FRB transport: runs on the existing pool, not the UI thread.
+    pub fn cancel_number_wall_async(
+        &self,
+        session_id: u64,
+        expected_revision: u64,
+        request: &StateNumberWallRequest,
+    ) -> Result<StateNumberWallProgress, String> {
+        self.cancel_number_wall_impl(session_id, expected_revision, request)
+    }
+
+    fn cancel_number_wall_impl(
+        &self,
+        session_id: u64,
+        expected_revision: u64,
+        request: &StateNumberWallRequest,
+    ) -> Result<StateNumberWallProgress, String> {
         let mut guard = self
             .inner
             .lock()
@@ -848,6 +932,15 @@ impl StateSession {
 
     #[frb(sync)]
     pub fn shutdown(&self) -> Result<(), String> {
+        self.shutdown_impl()
+    }
+
+    /// Normal-mode FRB transport: runs on the existing pool, not the UI thread.
+    pub fn shutdown_async(&self) -> Result<(), String> {
+        self.shutdown_impl()
+    }
+
+    fn shutdown_impl(&self) -> Result<(), String> {
         self.inner
             .lock()
             .map_err(|_| "Rust state session lock poisoned")?
