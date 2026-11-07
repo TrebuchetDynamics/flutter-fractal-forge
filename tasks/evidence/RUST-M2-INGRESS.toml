@@ -1,0 +1,9 @@
+schema = 1
+task = "RUST-M2-INGRESS"
+candidate = "393f183012b9f338786111f10a4921bc37421659"
+integration = "5274c72de34e2910f8d1ed7b573ef0e84cce02ea"
+tree = "bde5eb7390595278c876e736420552eb6df4e7c2"
+contract_hash = "322a741e43f205480ed72a3e2c0ca4be8fc7c98c81f4b9929d781abe6ea20ceb"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-INGRESS"]
+result = "pass"
+review = "passed"
