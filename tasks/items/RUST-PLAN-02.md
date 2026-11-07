@@ -29,3 +29,17 @@ closure_evidence = "docs/tasks/RUST-PLAN-02.md"
 - Next action: inspect source-bound results, especially missing real native qualification; no repeat product interview. Move this card to Needs decision to stop the chain.
 - Owner clarification (Grill With Docs round 1, accepted via LGTM): final Rust scope includes all mathematical domain algorithms, including Fourier/analysis, trajectories and exact/special visualizations; Flutter retains presentation/platform logic. Preserve the first five building contracts. Native demonstration targets 60 Hz on a defined hardware/scenario pair; 120 Hz is additional on compatible hardware, not universal. Carry this inventory and a predeclared hardware measurement protocol into later rounds. Waydroid functional evidence cannot certify physical GPU timing. See docs/adr/0005-rust-owns-all-mathematical-domain-logic.md, docs/adr/0006-native-demonstration-performance-is-target-specific.md and docs/engineering/GLOSSARY.md. ADR 0002 remains a prototype/oracle decision; no implementation or benchmark was performed by this clarification.
 - Planning outcome: Completed Plan round: 1 of 10 in docs/tasks/RUST-PLAN-02.md. Read the five finished reports and current source; M0 offline baseline delivered, M1 installed Linux/Waydroid proof still pending. Saved RUST-M1-LINUX, RUST-M1-WAYDROID and RUST-M3-CATALOG-PARITY plus exactly one successor RUST-PLAN-03, Plan round: 2 of 10, depending on all three. Fresh read-only builder review found nothing important left. No implementation or goal qualification; first-round closures preserved.
+
+## Later owner boundary (not covered by the historical closure)
+
+The original round-1 contract and closure above remain historical evidence.
+The later RUST-CORE-01 closeout is not established by that closure. Its bootstrap,
+precision and aggregate tasks retain their own unmet acceptance criteria; the
+latest owner boundary below governs further progression without undoing existing
+work, receipts or task history.
+
+- Sources: docs/planning/refactor-plan.md#rust-core-01-bootstrap-refinement
+- Owner boundary update: stop at RUST-CORE-01; no automatic camera/registry/CPU/GPU successor. This is a scoped progression limit, not a blanket task hold or instruction to interrupt a worker. Reuse existing coordinator candidates/receipts; branch-local metadata is not runner delivery.
+- Held by: OWNER-STOP-REVIEW
+
+- Owner STOP / REVIEW: explicit latest instruction prohibits automatic next-milestone work after a green RUST-CORE-01. Retain OWNER-STOP-REVIEW until the owner reviews the aggregate evidence and gives later direction; neither green tests nor an empty eligible queue releases it.

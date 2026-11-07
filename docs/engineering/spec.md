@@ -55,6 +55,15 @@ additionally where supported, not a universal FPS guarantee; see
 [ADR 0006](../adr/0006-native-demonstration-performance-is-target-specific.md).
 These are future acceptance boundaries, not measured results.
 
+The owner's later [RUST-CORE-01 refinement](../planning/refactor-plan.md#rust-core-01-bootstrap-refinement)
+limits the next implementation frontier to two crates (`fractal-core` and
+`fractal-bridge`), a persistent snapshot probe and differential precision policy.
+Defer `fractal-render` until CPU rendering. Core has no Flutter/Dart, Android,
+GPUI, bridge or wgpu dependency. Preserve the running three-crate candidate as
+historical work; reconcile it through its coordinator, then perform the bounded
+layout correction. Camera execution, registry migration and GPU work remain out
+of this bootstrap. This clarification is a plan, not an implemented engine.
+
 ### Isolated Rust workspace foundation
 
 The [workspace](../../rust/Cargo.toml) contains three nonpublishable packages:

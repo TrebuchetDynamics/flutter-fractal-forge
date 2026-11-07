@@ -1,0 +1,25 @@
++++
+schema = 1
+id = "RUST-CORE-01"
+title = "Qualify the bounded Rust core bootstrap without advancing migration"
+short = "Aggregate offline proof and real persistent bridge smoke; stop before camera registry CPU or GPU."
+status = "open"
+goal = "RUST-ENGINE-001"
+section = "Next"
+rank = 6000
+depends_on = ["RUST-CORE-BOOTSTRAP", "RUST-CORE-PRECISION"]
+touches = ["docs/engineering/test-plan.md", "docs/planning/refactor-plan.md", "docs/qa/rust-core-01/"]
+resources = ["android-waydroid"]
+kind = "inspection"
+ownership = "coordinator"
+scope = "Read source-bound reports and inspect actual merged two-crate source; verify every RUST-CORE-01 checkbox without implementing later stages. Run the compiled real native Flutter smoke through the supported reserved-port Linux driver and designated Waydroid contract, creating a persistent engine/version0.1.0/snapshots/revision while the current viewer still uses Flutter rendering. Compare unchanged representative default/edited viewport inputs and actual output against M0 bindings, preserving legitimate backend variance. Record device/toolchain/backend/build/source/hash and actual errors. Missing native/transport/protocol/readback remains unmet; do not infer bridge success from a fake or build. No physical GPU throughput claim. Stop here; no camera/registry/CPU/wgpu successor."
+acceptance = ["Given actual source-bound offline reports, all workspace/pinning/pure-core/bridge/snapshot/revision/precision/parity and full Cargo+Flutter/Python/Bats checks are accounted for, with exact pins and both locks stable; forbidden GPU/registry/shader/UI/Dart-deletion changes are absent.", "Given Linux and Waydroid runtime checks, retain real engine0.1.0/create/repeated snapshot evidence and unchanged Flutter viewer/render bindings, terminal success and owned-process cleanup. Keep runtime checks distinct from offline acceptance; the aggregate milestone remains pending until both platform receipts exist."]
+checks = ["( export FLUTTER_ROOT=\"$AUTOWORK_CACHE/flutter-3.47.9\"; export PUB_CACHE=\"$AUTOWORK_CACHE/pub-cache\"; export PATH=\"$FLUTTER_ROOT/bin:/usr/bin:$PATH\"; flutter --version && /usr/bin/python3 -c 'import sys, pytest, jinja2, markupsafe; print(sys.executable, sys.version, pytest.__version__, jinja2.__version__); assert callable(markupsafe.soft_str)' && scripts/ci/offline-gate.sh --python-bin /usr/bin/python3 )", "autowork-run timeout --kill-after=10s 660 bash scripts/run-native-integration.sh integration_test/migration/rust_engine_smoke_test.dart --timeout 600 --dart-define=RUST_CORE=true", "( set -eu; : \"${ANDROID_DEVICE:?revalidate standing Waydroid first}\" \"${AUTOWORK_PORT_BASE:?real port lease required}\"; export ANDROID_DISPOSABLE_DEVICE=\"$ANDROID_DEVICE\"; adb -s \"$ANDROID_DEVICE\" get-state; flutter drive --no-pub --driver=test_driver/integration_test.dart --target=integration_test/migration/rust_engine_smoke_test.dart -d \"$ANDROID_DEVICE\" --no-dds --no-devtools --host-vmservice-port=\"$AUTOWORK_PORT_BASE\" --device-vmservice-port=\"$AUTOWORK_PORT_BASE\" --dart-define=RUST_CORE=true )", "Read back actual PNG/state/backend evidence and all constituent check logs; verify exit_code0, protocol_success true and cleanup.remaining_pids empty for Linux. No passing status inferred from app console text."]
+exclusions = ["No implementation, new pipeline/shader/module/catalog, physical-device substitution, release/publication, target reset or unrelated app/data/process changes.", "Do not fabricate receipts, owner waivers or coordinator closure from this checklist."]
++++
+- Sources: docs/planning/refactor-plan.md#rust-core-01-bootstrap-refinement
+- Consumes: three implementation reports plus actual M0 bindings and real smoke fixture. This is the aggregate milestone, not a second bootstrap implementation. Separate offline implementation completion from platform qualification; missing runtime evidence leaves this card open.
+- Resource reason: android-waydroid is the existing shared device; coordinate active ACAD-013-4142ef42 and actual target users. Standing owner designation permits documented install/testing with matching ANDROID_DEVICE/ANDROID_DISPOSABLE_DEVICE; no new production/live-account authority is granted. No target mutation occurs during this planning pass.
+- Execution setup: use actual runner-provided AUTOWORK_PORT_BASE/TMPDIR and pinned SDK for Linux; the runbook forbids flutter test -d linux raw-listener launch. Waydroid serial/model/boot and get-state must be revalidated, not hardcoded; apply documented diagnosis/recovery and retain exact error if transport fails. Never demand a physical phone.
+- Repo obligations triggered: test-plan.md native/platform evidence split and spec.md RUST-CORE-01 boundary. Update only actual evidence in listed docs; no new tests/fixtures/manifests. Native/device commands proposed/unrun; lack of capacity is an execution setup issue, not a new product interview.
+- Next action: reconcile current constituent reports/source, then execute only the still-missing authorized qualification checks.

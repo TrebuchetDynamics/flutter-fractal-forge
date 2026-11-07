@@ -36,3 +36,22 @@ closure_evidence = "tasks/evidence/RUST-M1-BRIDGE.toml"
 - Pending live: Installed Linux real-native lifecycle/version smoke remains unrun. Use autowork-run timeout --kill-after=10s 660 bash scripts/run-native-integration.sh integration_test/migration/rust_engine_smoke_test.dart --timeout 600 --dart-define=RUST_CORE=true with actual task AUTOWORK_PORT_BASE/private TMPDIR/pinned SDK/cache. Require protocol_success true, exit 0 and cleanup.remaining_pids empty; never substitute flutter test -d linux.
 - Pending live: Installed designated Waydroid smoke remains unrun. Coordinate ACAD-013-4142ef42, revalidate current serial/working transport/model/boot and encode standing disposable-target consent. No physical-phone demand or device mutation.
 - Pending live: Browser runtime, hardware/GPU and performance qualification remain separate from successful offline compilation and software reference readback. M1 is not qualified by this commit.
+
+## Later bootstrap refinement (not covered by this closure)
+
+The completed contract and coordinator receipt above are retained as historical
+implementation evidence. The remote plan supersedes the proposed next bridge
+contract through RUST-CORE-BOOTSTRAP, not this task's already completed result.
+Its exact-pin, persistent-snapshot and provenance obligations remain pending
+under that task; this merge does not claim they were implemented or verified.
+
+- Sources: docs/planning/refactor-plan.md#rust-core-01-bootstrap-refinement
+- Prior source/history: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration. The owner replaces the pending capabilities/shutdown probe with version/create/snapshot; the active workspace contract remains untouched.
+- Consumes: corrected core ViewState/snapshot/session/revision from RUST-CORE-BOOTSTRAP and included M0 outputs. Produces: matched2.13.0 persistent opaque probe, not a Rust-owned viewer.
+- Planner call: exact2.13.0 stable from pub.dev/upstream release evidence; isolate dependency/codegen provisioning, verify executable version before generation, retain locks. No caret/range/prerelease, global installs, template overwrite or signing changes. All checks proposed/unrun.
+- Repo obligations triggered: spec.md Planned Rust engine boundary and Failure behavior; protected manifests/locks already in touches. Add version guard and dependency-pin assertion at existing adapter test seam. Smoke fixture asserts actual repeated snapshots and unchanged Flutter rendering. Do not alter public controller/policy APIs or render code.
+- Live checks: aggregate RUST-CORE-01 requires actual Linux reserved-port protocol and designated Waydroid evidence; no fake/build substitution. Use runbook wrapper, real task port lease/TMPDIR, standing serial/model/boot/consent/transport checks, no physical-phone demand.
+- Next action: add failing persistent snapshot/default-no-load tests, then implement only the three requested public APIs. Revision mutation tests stay internal; no camera FFI endpoint.
+
+- Builder resolution: inventory _sourceHashes binds pubspec.yaml/lock; replaySourceBindings binds lock/harness. FRB therefore invalidates frozen comparisons. Preserve all original JSON/receipts; sidecar records original fixture SHA256, complete old/new maps, approved change reference and exact allowlist: pubspec.yaml, pubspec.lock, test/migration/baseline_contracts_test.dart, test/migration/state_replay_test.dart, test/migration/support/provenance_transition.dart. No production math/shader/SDK/default drift may pass. Keep exact semantic input/expected/payload and other metadata checks; assert current complete bindings against transition. Negative tests cover unauthorized changed/added/removed bindings, semantic mutation and fixture/transition mismatch. Two scratch exports must agree before reviewed transition metadata is saved; never promote changed original fixtures. Tests/helper/sidecar are in touches. Checks unrun.
+- Superseded by: RUST-CORE-BOOTSTRAP; Owner instruction consolidates the minimal bridge and additive Cargo gate into RUST-CORE-BOOTSTRAP; obligations retained without duplicate implementation.
