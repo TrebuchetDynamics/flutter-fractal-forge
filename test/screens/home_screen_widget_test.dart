@@ -499,7 +499,7 @@ void main() {
         await tester.pumpAndSettle();
         expect(find.byKey(const Key('fractalViewerRoot')), findsOneWidget);
         if (mode == 'fullscreen') {
-          await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+          await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
           await tester.pumpAndSettle();
           final fullscreen =
               find.byKey(const ValueKey('viewerFullscreenButton'));

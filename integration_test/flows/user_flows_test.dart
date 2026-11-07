@@ -166,7 +166,7 @@ void main() {
       await openMandelbrotModule(tester);
 
       expect(find.byKey(const Key('viewerControlsButton')), findsOneWidget);
-      expect(find.byKey(const Key('viewerOverflowMenu')), findsOneWidget);
+      expect(find.byKey(const Key('viewerSaveShareButton')), findsOneWidget);
 
       Navigator.of(tester.element(find.byType(FractalRenderer))).pop();
       await tester.pump();

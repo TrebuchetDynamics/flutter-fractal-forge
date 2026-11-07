@@ -96,13 +96,11 @@ void main() {
       const toolbarNames = {
         'viewerPreviousFractalButton': 'Previous fractal',
         'viewerPlayButton': 'Play camera loop',
-        'viewerControlsButton': 'Randomize. Long press for Controls',
+        'viewerControlsButton': 'Edit fractal',
         'viewerPaletteButton':
-            'Randomize palette. Long press for palette settings',
+            'Choose colors. Long press to randomize',
         'viewerRandomFractalFab': 'Random Fractal',
         'viewerSaveShareButton': 'Save & share',
-        'viewerOverflowMenu': 'More',
-        'viewerDismissRandomHint': 'Dismiss tip',
       };
       final visible = toolbarNames.entries.where((entry) {
         final finder = find.byKey(ValueKey(entry.key));
@@ -111,13 +109,13 @@ void main() {
         return tool.onPressed != null || tool.onLongPress != null;
       }).toList();
       expect(visible.map((entry) => entry.key),
-          containsAll(['viewerOverflowMenu', 'viewerDismissRandomHint']));
+          containsAll(['viewerControlsButton', 'viewerSaveShareButton']));
       for (final entry in visible) {
         expect(operableControlNames(root).where((name) => name == entry.value),
             hasLength(1));
       }
       expect(operableControlNames(root), hasLength(visible.length + 1),
-          reason: 'visible toolbar tools, tip dismissal and the canvas, '
+          reason: 'visible toolbar tools and the canvas, '
               'not hidden More rows');
       expect(findUnnamedControls(root).map((c) => '$c').toList(), isEmpty);
       expect(findStackedStops(root), isEmpty);
@@ -189,6 +187,8 @@ void main() {
           }
         }
 
+        await tester.ensureVisible(find.byKey(const ValueKey('viewerSaveShareButton')));
+        await pumpAccessibilityTestFrames(tester);
         await tester.tap(find.byKey(const ValueKey('viewerSaveShareButton')));
         await pumpAccessibilityTestFrames(tester);
         await audit(const {
@@ -199,9 +199,9 @@ void main() {
         await tester.sendKeyEvent(LogicalKeyboardKey.escape);
         await pumpAccessibilityTestFrames(tester);
         await tester
-            .ensureVisible(find.byKey(const ValueKey('viewerOverflowMenu')));
+            .ensureVisible(find.byKey(const ValueKey('viewerControlsButton')));
         await pumpAccessibilityTestFrames(tester);
-        await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+        await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
         await pumpAccessibilityTestFrames(tester);
 
         final tools = {
@@ -242,7 +242,7 @@ void main() {
       await tester.pumpWidget(buildApp());
       await pumpAccessibilityTestFrames(tester);
 
-      await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+      await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
       await pumpAccessibilityTestFrames(tester);
       final fullscreen = find.byKey(const ValueKey('viewerFullscreenButton'));
       await tester.ensureVisible(fullscreen);
@@ -298,12 +298,14 @@ void main() {
           await pumpAccessibilityTestFrames(tester);
           final palette = find.byKey(const ValueKey('viewerPaletteButton'));
           if (palette.evaluate().isEmpty) {
-            await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+            await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
             await pumpAccessibilityTestFrames(tester);
             await tester.ensureVisible(palette);
             await pumpAccessibilityTestFrames(tester);
           }
-          await tester.longPress(palette);
+          await tester.ensureVisible(palette);
+          await pumpAccessibilityTestFrames(tester);
+          await tester.tap(palette);
           await pumpAccessibilityTestFrames(tester);
         },
         reason: 'Palette menu at 3.0x on Size(320, 568)',

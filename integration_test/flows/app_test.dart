@@ -89,7 +89,7 @@ void main() {
       // Should be on viewer screen with the compact action set.
       expect(find.byKey(const Key('viewerControlsButton')), findsOneWidget);
       expect(find.byKey(const Key('viewerPaletteButton')), findsOneWidget);
-      expect(find.byKey(const Key('viewerOverflowMenu')), findsOneWidget);
+      expect(find.byKey(const Key('viewerSaveShareButton')), findsOneWidget);
       expect(find.byKey(const Key('viewerRandomFractalFab')), findsOneWidget);
 
       logger.logNavigation('Navigated to viewer');
@@ -211,7 +211,7 @@ void main() {
       expect(find.byType(FractalRenderer), findsOneWidget);
       expect(find.byKey(const Key('viewerControlsButton')), findsOneWidget);
       expect(find.byKey(const Key('viewerPaletteButton')), findsOneWidget);
-      expect(find.byKey(const Key('viewerOverflowMenu')), findsOneWidget);
+      expect(find.byKey(const Key('viewerSaveShareButton')), findsOneWidget);
 
       logger.logNavigation('Search->open Burning Ship viewer');
       semantics.dispose();

@@ -618,7 +618,9 @@ void main() {
     }
 
     Future<Finder> revealMoreAction(WidgetTester tester, String key) async {
-      await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+      await tester.ensureVisible(find.byKey(const ValueKey('viewerControlsButton')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
       await tester.pumpAndSettle();
       final action = find.byKey(ValueKey(key));
       await tester.ensureVisible(action);
@@ -794,7 +796,7 @@ void main() {
                   expect(titleRect.bottom,
                       lessThanOrEqualTo(size.height - padding.bottom));
                   expect(rect.overlaps(titleRect), isFalse);
-                  final overflow = find.byKey(const Key('viewerOverflowMenu'));
+                  final overflow = find.byKey(const Key('viewerControlsButton'));
                   final target = largeTargets ? 56.0 : 48.0;
                   expect(tester.getSize(overflow).width,
                       greaterThanOrEqualTo(target));
@@ -1338,11 +1340,13 @@ void main() {
           'viewerControlsButton',
           'viewerPaletteButton',
           'viewerRandomFractalFab',
-          'viewerOverflowMenu',
+          'viewerSaveShareButton',
         ]) {
           final finder = find.byKey(ValueKey(key));
           final suppressed = finder.evaluate().isEmpty;
           if (suppressed) await revealMoreAction(tester, key);
+          await tester.ensureVisible(finder);
+          await tester.pumpAndSettle();
           expect(finder, findsOneWidget,
               reason: '$key missing from toolbar and More at $configuration');
           final rect = tester.getRect(finder);
@@ -1543,7 +1547,6 @@ void main() {
         'viewerPaletteButton',
         'viewerRandomFractalFab',
         'viewerSaveShareButton',
-        'viewerOverflowMenu',
       ];
       for (var index = 0; index < orderedKeys.length; index++) {
         if (find.byKey(ValueKey(orderedKeys[index])).evaluate().isEmpty)
@@ -1885,7 +1888,7 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+      await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
       await tester.pumpAndSettle();
       expect(
           find.byKey(const ValueKey('viewerReportFractalFab')), findsNothing);
@@ -2709,17 +2712,17 @@ void main() {
       await tester.pumpWidget(const SizedBox.shrink());
     });
 
-    testWidgets('palette quick press randomizes and long press opens picker',
+    testWidgets('Color opens picker and long press randomizes',
         (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
       final palette = find.byKey(const ValueKey('viewerPaletteButton'));
       final before = controller.params['colorScheme'];
-      await tester.tap(palette);
+      await tester.longPress(palette);
       await tester.pump();
       expect(controller.params['colorScheme'], isNot(before));
       expect(find.byKey(const ValueKey('paletteChoice0')), findsNothing);
-      await tester.longPress(palette);
+      await tester.tap(palette);
       await tester.pumpAndSettle();
       expect(find.byKey(const ValueKey('palettePickerScroll')).hitTestable(),
           findsOneWidget);

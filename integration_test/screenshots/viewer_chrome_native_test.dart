@@ -74,7 +74,17 @@ void main() {
           final minimumTarget = accessibleLandscape ? 56 : 48;
           final viewport = Offset.zero & size;
           expect(find.byTooltip(l10n.viewerBackToCatalog), findsOneWidget);
-          final overflow = find.byKey(const ValueKey('viewerOverflowMenu'));
+          if (!accessibleLandscape) {
+            final scroll = tester.state<ScrollableState>(find.descendant(
+              of: find.byKey(const ValueKey('viewerToolbarScroll')),
+              matching: find.byType(Scrollable),
+            ).first);
+            expect(scroll.position.maxScrollExtent, 0,
+                reason: 'All six captions must fit at default text size');
+          }
+          final overflow = find.byKey(const ValueKey('viewerControlsButton'));
+          await tester.ensureVisible(overflow);
+          await pumpForUiTransition(tester);
           expect(overflow.hitTestable(), findsOneWidget);
           final overflowTarget = tester.getRect(overflow);
           expect(overflowTarget.width, greaterThanOrEqualTo(minimumTarget));
@@ -114,8 +124,9 @@ void main() {
           final controls = find.byKey(const ValueKey('viewerControlsButton'));
           await tester.ensureVisible(controls);
           await pumpForUiTransition(tester);
-          await tester.tap(controls);
+          await tester.longPress(controls);
           await pumpForUiTransition(tester);
+          expect(find.byKey(const ValueKey('controlsHudSurface')), findsOneWidget);
           expect(find.text(l10n.controlsTitle), findsOneWidget);
 
           // Explicit catalog Back pops directly, unlike system Back, which

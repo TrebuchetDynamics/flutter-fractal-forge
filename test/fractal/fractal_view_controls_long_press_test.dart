@@ -278,7 +278,7 @@ void main() {
           find.byType(BottomSheet), entry.value ? findsOneWidget : findsNothing,
           reason: entry.key);
       if (entry.value) {
-        expect(find.text('Viewer actions'), findsOneWidget, reason: entry.key);
+        expect(find.text('Edit fractal'), findsOneWidget, reason: entry.key);
         await tester.ensureVisible(find.byTooltip('Close'));
         await tester.pumpAndSettle();
         await tester.tap(find.byTooltip('Close'));
@@ -338,7 +338,7 @@ void main() {
 }
 
 Future<void> _openMore(WidgetTester tester) async {
-  await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+  await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
   await tester.pumpAndSettle();
 }
 

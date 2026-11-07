@@ -21,6 +21,7 @@ Future<void> _pumpCatalog(
   Locale locale = const Locale('en'),
   String query = '',
   double keyboardInset = 0,
+  ThemeData? theme,
 }) async {
   if (size != null) {
     await tester.binding.setSurfaceSize(size);
@@ -44,7 +45,7 @@ Future<void> _pumpCatalog(
         ChangeNotifierProvider.value(value: rendererSettings),
       ],
       child: MaterialApp(
-        theme: AppTheme.dark,
+        theme: theme ?? AppTheme.dark,
         locale: locale,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
@@ -170,6 +171,26 @@ void main() {
         );
         expect(find.byKey(const Key('fibonacciComplexLegend')), findsOneWidget);
       });
+    }
+
+    for (final highContrast in [false, true]) {
+      for (final scale in [1.0, 2.0, 3.0]) {
+        testWidgets('filter header accounts for large-target density contrast=$highContrast scale=$scale',
+            (tester) async {
+          final theme = (highContrast ? AppTheme.highContrast : AppTheme.dark)
+              .copyWith(visualDensity: const VisualDensity(horizontal: 4, vertical: 4));
+          await expectNoOverflow(
+            () => _pumpCatalog(tester, size: const Size(320, 780),
+                textScale: scale, theme: theme),
+            reason: 'The search prefix icon grows with the app large-target theme',
+          );
+          final header = tester.renderObject<RenderSliver>(
+              find.byKey(const Key('catalogPinnedFilterBar')));
+          final search = tester.getSize(find.byKey(const Key('catalogSearchField')));
+          expect(search.height, greaterThanOrEqualTo(64));
+          expect(header.geometry!.maxPaintExtent, greaterThanOrEqualTo(search.height + 112));
+        });
+      }
     }
 
     testWidgets('phone filter bar leaves room for the artwork', (tester) async {

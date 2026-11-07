@@ -303,8 +303,7 @@ void main() {
             'viewerControlsButton',
             'viewerPaletteButton',
             'viewerRandomFractalFab',
-            'viewerPlayButton',
-            'viewerOverflowMenu',
+            'viewerSaveShareButton',
           ]) {
             final inMenu = find.byKey(ValueKey(key)).evaluate().isEmpty;
             final action = await reveal(key);
@@ -322,7 +321,7 @@ void main() {
           controller.selectModule(registry.byId('f1046_svensson_wave'),
               animate: false);
           await pumpForUiTransition(tester);
-          await longPressAction('viewerPaletteButton');
+          await tapAction('viewerPaletteButton');
           final initialPalette =
               (controller.params['colorScheme'] as num).round();
           expectActualPalettePreview(

@@ -143,7 +143,7 @@ void main() {
           'viewerControlsButton',
           'viewerPaletteButton',
           'viewerRandomFractalFab',
-          'viewerOverflowMenu'
+          'viewerSaveShareButton'
         ]) {
           final finder = find.byKey(ValueKey(key));
           await tester.ensureVisible(finder);

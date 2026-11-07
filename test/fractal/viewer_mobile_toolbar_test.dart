@@ -102,21 +102,30 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('primary controls are labeled and wrap above system navigation',
+  testWidgets('toolbar has one row and no tip at normal phone size',
+      (tester) async {
+    await pumpToolbar(tester);
+    final first = tester.getRect(find.byKey(const ValueKey('viewerPlayButton')));
+    final last = tester.getRect(find.byKey(const ValueKey('viewerSaveShareButton')));
+    expect(last.top, first.top, reason: 'All tools must share one row');
+    expect(tester.getSize(find.byKey(const ValueKey('viewerFabColumn'))).height,
+        lessThanOrEqualTo(80), reason: 'Do not cover the scene with a tip or extra rows');
+    expect(find.byKey(const ValueKey('viewerOverflowMenu')), findsNothing);
+  });
+
+  testWidgets('primary controls stay in one row above system navigation',
       (tester) async {
     var randomized = 0;
     var opened = 0;
     await pumpToolbar(tester,
         onRandomize: () => randomized++, onControls: () => opened++);
     for (final caption in [
-      'Previous fractal',
+      'Back',
       'Play',
-      'Randomize shape',
-      'Randomize colors',
-      'Random',
-      'Save & share',
-      'More',
-      'Tap to randomize. Hold to edit.',
+      'Edit',
+      'Color',
+      'Mix',
+      'Save',
     ]) {
       expect(find.text(caption), findsOneWidget);
     }
@@ -126,7 +135,7 @@ void main() {
       'viewerControlsButton',
       'viewerPaletteButton',
       'viewerRandomFractalFab',
-      'viewerOverflowMenu',
+      'viewerSaveShareButton',
     ]) {
       expect(find.byKey(ValueKey(key)), findsOneWidget, reason: key);
     }
@@ -145,7 +154,6 @@ void main() {
       'viewerPaletteButton',
       'viewerRandomFractalFab',
       'viewerSaveShareButton',
-      'viewerOverflowMenu',
     ]) {
       final rect = tester.getRect(find.byKey(ValueKey(key)));
       expect(rect.top, greaterThanOrEqualTo(toolbar.top), reason: key);
@@ -153,13 +161,16 @@ void main() {
       expect(rect.bottom, lessThanOrEqualTo(toolbar.bottom), reason: key);
       rows.update(rect.top, (count) => count + 1, ifAbsent: () => 1);
     }
-    // Whole-word randomize captions need wider cells than the old short names.
-    expect(rows.values.toList()..sort(), [1, 2, 2, 2]);
+    expect(rows.values.toList(), [6]);
+    expect(toolbar.height, lessThanOrEqualTo(80));
+    expect(find.byKey(const ValueKey('viewerOverflowMenu')), findsNothing);
+    expect(find.byKey(const ValueKey('viewerDismissRandomHint')), findsNothing);
     expect(find.byKey(const ValueKey('viewerFourierFab')), findsNothing);
     await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
-    await tester.pump();
-    expect(randomized, 1);
-    await tester.longPress(find.byKey(const ValueKey('viewerControlsButton')));
+    await tester.pumpAndSettle();
+    expect(randomized, 0);
+    expect(find.byType(BottomSheet), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('viewerEditParametersAction')));
     await tester.pumpAndSettle();
     expect(opened, 1);
     expect(tester.takeException(), isNull);
@@ -176,11 +187,13 @@ void main() {
       'viewerPaletteButton',
       'viewerRandomFractalFab',
       'viewerSaveShareButton',
-      'viewerOverflowMenu',
     ];
-    final rects = [
-      for (final key in keys) tester.getRect(find.byKey(ValueKey(key))),
-    ];
+    final rects = <Rect>[];
+    for (final key in keys) {
+      await tester.ensureVisible(find.byKey(ValueKey(key)));
+      await tester.pumpAndSettle();
+      rects.add(tester.getRect(find.byKey(ValueKey(key))));
+    }
     for (final rect in rects) {
       expect(rect.width, greaterThanOrEqualTo(56));
       expect(rect.height, greaterThanOrEqualTo(56));
@@ -208,7 +221,7 @@ void main() {
       'viewerControlsButton',
       'viewerPaletteButton',
       'viewerRandomFractalFab',
-      'viewerOverflowMenu',
+      'viewerSaveShareButton',
     ]) {
       final hitRegion = tester.getRect(find.byKey(ValueKey(key)));
       expect(hitRegion.width, greaterThanOrEqualTo(48), reason: key);
@@ -223,7 +236,7 @@ void main() {
           reason: 'The paint layer must cover the full hit target');
       final cell = tester.widget<Container>(
           find.descendant(of: paint, matching: find.byType(Container)).first);
-      expect(cell.margin, const EdgeInsets.all(4));
+      expect(cell.margin, isNull);
       final decoration = cell.decoration! as BoxDecoration;
       expect(decoration.borderRadius, BorderRadius.circular(12));
       expect(decoration.border, isNotNull, reason: key);
@@ -267,10 +280,10 @@ void main() {
     for (final entry in const {
       'viewerPreviousFractalButton': 'previous',
       'viewerPlayButton': 'play',
-      'viewerControlsButton': 'randomize',
-      'viewerPaletteButton': 'palette-random',
+      'viewerPaletteButton': 'palette-sheet',
       'viewerRandomFractalFab': 'random',
     }.entries) {
+      await tester.ensureVisible(find.byKey(ValueKey(entry.key)));
       await tester.tap(find.byKey(ValueKey(entry.key)));
       await tester.pumpAndSettle();
       expect(calls, [entry.value], reason: entry.key);
@@ -282,17 +295,17 @@ void main() {
     calls.clear();
     await tester.longPress(find.byKey(const ValueKey('viewerPaletteButton')));
     await tester.pumpAndSettle();
-    expect(calls, ['palette-sheet']);
-    await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+    expect(calls, ['palette-random']);
+    await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
     await tester.pumpAndSettle();
-    expect(find.text('Viewer actions'), findsOneWidget);
+    expect(find.text('Edit fractal'), findsOneWidget);
   });
 
   testWidgets('More preserves named secondary tools and their callbacks',
       (tester) async {
     var toggled = 0;
     await pumpToolbar(tester, onFourier: () => toggled++);
-    await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+    await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
     await tester.pumpAndSettle();
     expect(find.text('Fourier view off'), findsOneWidget);
     expect(find.text('Kaleidoscope off'), findsOneWidget);
@@ -302,7 +315,7 @@ void main() {
     await tester.tap(fourier);
     await tester.pumpAndSettle();
     expect(toggled, 1);
-    expect(find.text('Viewer actions'), findsNothing);
+    expect(find.text('Edit fractal'), findsNothing);
     expect(tester.takeException(), isNull);
   });
 }

@@ -721,7 +721,9 @@ class _FractalCatalogScreenState extends State<FractalCatalogScreen>
     final scaler = MediaQuery.textScalerOf(context);
     final searchHeight = math.max(48.0, scaler.scale(14) * 1.5 + 22);
     final chipHeight = math.max(48.0, scaler.scale(12) * 1.4 + 18);
-    return searchHeight + chipHeight * 2 + 16;
+    // InputDecorator adds theme density on top of the search field metrics.
+    final density = math.max(0.0, Theme.of(context).visualDensity.baseSizeAdjustment.dy);
+    return searchHeight + density + chipHeight * 2 + 16;
   }
 
   Widget _buildPinnedTopBar(

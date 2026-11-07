@@ -107,13 +107,14 @@ void main() {
 
         await takeScreenshotIfAvailable('02_viewer');
 
-        // The primary Controls action must open the tune-panel capture.
+        // Holding Edit opens the parameter HUD, not the editing tools sheet.
         final controls = find.byKey(const ValueKey('viewerControlsButton'));
         expect(controls, findsOneWidget);
         await tester.ensureVisible(controls);
         await pumpForUiTransition(tester);
-        await tester.tap(controls);
+        await tester.longPress(controls);
         await pumpForUiTransition(tester);
+        expect(find.byKey(const ValueKey('controlsHudSurface')), findsOneWidget);
         expect(find.text('Controls'), findsOneWidget);
         await takeScreenshotIfAvailable('03_tune_panel');
 

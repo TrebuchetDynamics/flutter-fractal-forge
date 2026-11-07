@@ -46,7 +46,7 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(seconds: 2));
 
-    await tester.tap(find.byKey(const ValueKey('viewerOverflowMenu')));
+    await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
     await tester.pump(const Duration(milliseconds: 500));
     final options = find.byKey(const ValueKey('viewerTextOverlayFabOptions'));
     await tester.ensureVisible(options);
