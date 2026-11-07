@@ -1,0 +1,9 @@
+schema = 1
+task = "RUST-M0-SHIP-REPAIR"
+candidate = "7a29d17b648707955fd7245e9be768758c54d8c8"
+integration = "174ea3ebf6f2a7fca7b9ecb0422b1439b2759c07"
+tree = "ac00968aa01ddc9cdf34cbe233c249ccd13128c3"
+contract_hash = "608d5853b42e7dff6e4df34e6ddd928ed9d0c74ee157e586edd2a4fd967cf0c3"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M0-SHIP-REPAIR"]
+result = "pass"
+review = "passed"
