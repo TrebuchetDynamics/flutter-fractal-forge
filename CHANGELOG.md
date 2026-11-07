@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Add validated trajectory settings and cancellable bounded RK4 jobs for three attractor systems to the inert Rust core; Session/bridge trajectory admission remains unsupported. (RUST-M2-TRAJECTORY)
 - Add inert Rust physical camera transforms and elapsed-time pan/zoom momentum kernels while preserving Dart event and animation ownership. (RUST-M2-PHYSICAL)
 - Added inert Number Walls staged session ownership with certified cancellation/rollback and exact parity for all 68 original replay events. (RUST-M2-INGRESS)
 - Added pure resumable certified Number Walls frame preparation with exact proof reuse, immutable grid sharing and atomic cancellation-safe publication. (RUST-M2-FRAME)

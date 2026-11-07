@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-M2-TRAJECTORY"
 title = "Port validated trajectory settings and bounded RK4 generation to the inert Rust core"
 short = "Build bounded trajectory kernels"
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Now"
 rank = 2000
@@ -16,6 +16,8 @@ scope = "Port current OrbitTrajectorySettings version-1 JSON/defaults/compatibil
 acceptance = ["Given proposed public trajectory tests, version-1/rk4 settings preserve enum spellings, numeric JSON round trips, three exact module defaults/projection compatibility, legacy-null decode and rejection of malformed/version/integrator/nonfinite/work-cap input. Finite seed, 0 < stepSize <= 0.1, retained <=20000 and total <=25000 match Dart. Invalid public construction cannot bypass validation. Session still rejects trajectories.", "Given trajectory tests against unchanged attractor_trajectory_model_test.dart, all three one-step RK4 fixtures match within 1e-12 per coordinate, standard versus half-step distance is <1e-4 over the existing short horizon, and both projection fixtures retain source tolerances. Burn-in then retained ordering, finite projected bounds and source divergence errors match; do not demand long chaotic bit identity.", "Given stepped/cancellation trajectory tests, synchronous and stepped same-kernel results agree, each advance uses <=256 integration steps including burn-in, bounds accumulation does not hide an unbounded final scan, cancellation at step/final boundaries publishes no partial trajectory, and completed storage/retained results remain immutable. Result note records actual checks and unported Session/cache/native/render ownership."]
 checks = ["PATH=/home/xel/.rustup/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:$PATH CARGO_HOME=\"$AUTOWORK_CACHE/cargo-1.95.0\" cargo test --manifest-path rust/Cargo.toml -p fractal-core --test trajectory --locked --offline", "( export PATH=/home/xel/.rustup/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:$PATH; export CARGO_HOME=\"$AUTOWORK_CACHE/cargo-1.95.0\"; scripts/ci/rust-check.sh )", "flutter test --no-pub test/modules/attractor_trajectory_model_test.dart test/fractal/attractor_trajectory_compatibility_test.dart", "git diff --exit-code -- lib migration/baseline packages/fractal_engine_bridge rust/crates/fractal-bridge rust/Cargo.lock pubspec.lock && git diff --check; read back settings/derivatives/cancellation against original Dart owners.", "( AUTOWORK_CACHE=\"${AUTOWORK_CACHE:-$(git rev-parse --path-format=absolute --git-common-dir)/autowork-execution/cache}\" && export AUTOWORK_CACHE && export FLUTTER_ROOT=\"$AUTOWORK_CACHE/flutter-3.47.9\" && export PUB_CACHE=\"$AUTOWORK_CACHE/pub-cache\" && test -x \"$FLUTTER_ROOT/bin/flutter\" && test -d \"$PUB_CACHE\" && export PATH=\"$FLUTTER_ROOT/bin:/usr/bin:$PATH\" && scripts/ci/offline-gate.sh --python-bin /usr/bin/python3 )"]
 exclusions = ["No Session/bridge trajectory admission, app/renderer/persistence or flag changes, new cache framework, dependency/lock changes, baseline refresh, native/browser/device or hardware qualification."]
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/RUST-M2-TRAJECTORY.toml"
 +++
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration; docs/tasks/RUST-PLAN-06.md#trajectory-kernel
 - Consumes: lib/core/models/attractor_trajectory_settings.dart and lib/core/modules/attractor_trajectory.dart plus original model/compatibility tests. Produces: pure validated trajectory settings/RK4/projection and bounded job/result API for later Session ownership.
