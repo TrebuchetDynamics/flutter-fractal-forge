@@ -7,6 +7,8 @@ mod param_timeline;
 pub use param_timeline::ParamTimelineToken;
 #[path = "session_number_wall.rs"]
 mod number_wall;
+#[path = "session_randomization.rs"]
+mod randomization;
 pub use number_wall::{RequestGuard, RequestKind, RequestProgress, RequestToken};
 #[path = "session_trajectory_jobs.rs"]
 mod trajectory_jobs;
@@ -100,6 +102,7 @@ pub enum SessionError {
     UnsupportedOperation(String),
     InvalidCatalog(String),
     InvalidParameterTarget(String),
+    Randomization(crate::param_randomization::RandomizationError),
 }
 
 impl fmt::Display for SessionError {
@@ -128,6 +131,7 @@ pub struct Snapshot {
     pending: Option<RequestToken>,
     number_wall_status: Option<NumberWallPrimeStatus>,
     number_wall_frame: Option<Arc<NumberWallFrame>>,
+    number_wall_randomize_undo: Option<Arc<NumberWallFrame>>,
 }
 
 impl Snapshot {
@@ -204,6 +208,7 @@ impl Session {
             pending: None,
             number_wall_status: None,
             number_wall_frame: None,
+            number_wall_randomize_undo: None,
         };
         Ok(Self {
             catalog,
@@ -440,6 +445,9 @@ fn apply_command(
             initial_params,
         } => {
             let data = module_data(catalog, module_id)?;
+            if module_id != "number_wall" {
+                state.number_wall_randomize_undo = None;
+            }
             if state.module_id != *module_id {
                 state.module_id = module_id.clone();
                 state.params = default_params(&data, initial_params);
@@ -501,6 +509,9 @@ fn apply_command(
             let id = module_id.as_deref().unwrap_or(&state.module_id);
             let data = module_data(catalog, id)?;
             state.module_id = id.into();
+            if state.module_id != "number_wall" {
+                state.number_wall_randomize_undo = None;
+            }
             state.effects.apply_module_policy(&state.module_id);
             state.params = normalized_params(data.parameters, params);
             set_view(state, *camera, false)?;
@@ -694,7 +705,80 @@ mod tests {
                 Err(SessionError::RevisionOverflow)
             );
             assert_eq!(session.snapshot(), before);
+            if revision == u64::MAX {
+                assert_eq!(
+                    session.randomize_params(1, revision, 42),
+                    Err(SessionError::RevisionOverflow)
+                );
+                assert_eq!(session.snapshot(), before);
+            }
         }
+
+        let mut session = Session::new(catalog, 1, "number_wall").unwrap();
+        let token = session
+            .begin_number_wall(1, 0, &command, RequestGuard::new(true), 100_000)
+            .unwrap()
+            .unwrap();
+        while matches!(
+            session.advance_number_wall(1, 1, token, 1024).unwrap(),
+            RequestProgress::Pending
+        ) {}
+        let original = session.snapshot();
+        let token = session
+            .begin_number_wall_randomization(1, 2, 42, RequestGuard::new(true), 100_000)
+            .unwrap()
+            .unwrap();
+        while matches!(
+            session.advance_number_wall(1, 3, token, 1024).unwrap(),
+            RequestProgress::Pending
+        ) {}
+        session.state.revision = u64::MAX - 2;
+        let token = session
+            .begin_number_wall_randomization(1, u64::MAX - 2, 1, RequestGuard::new(true), 100_000)
+            .unwrap()
+            .unwrap();
+        let pending = session.snapshot();
+        assert_eq!(
+            session.begin_number_wall_randomization(
+                1,
+                u64::MAX - 1,
+                0,
+                RequestGuard::new(true),
+                100_000
+            ),
+            Err(SessionError::RevisionOverflow)
+        );
+        assert_eq!(session.snapshot(), pending);
+        assert!(
+            session
+                .undo_number_wall_randomization(1, u64::MAX - 1)
+                .unwrap()
+        );
+        assert_eq!(session.snapshot().params(), original.params());
+        assert_eq!(
+            session
+                .advance_number_wall(1, u64::MAX, token, 1024)
+                .unwrap(),
+            RequestProgress::Finished(NumberWallPrimeStatus::Cancelled)
+        );
+        assert!(!session.undo_number_wall_randomization(1, u64::MAX).unwrap());
+        // Overflow must preserve the undo frame, not consume it before checking.
+        session.state = pending;
+        session.state.pending = None;
+        session.state.revision = u64::MAX;
+        let before = session.snapshot();
+        assert_eq!(
+            session.undo_number_wall_randomization(1, u64::MAX),
+            Err(SessionError::RevisionOverflow)
+        );
+        assert_eq!(session.snapshot(), before);
+        session.state.revision = u64::MAX - 1;
+        assert!(
+            session
+                .undo_number_wall_randomization(1, u64::MAX - 1)
+                .unwrap()
+        );
+        assert_eq!(session.snapshot().params(), original.params());
     }
 
     #[test]
