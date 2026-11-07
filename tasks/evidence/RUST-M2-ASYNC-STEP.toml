@@ -1,0 +1,9 @@
+schema = 1
+task = "RUST-M2-ASYNC-STEP"
+candidate = "ab5e75b25604cc86c931faed3a02c72f61b59875"
+integration = "3fcff017360c444adb27f5d6f0aa33759af8e50f"
+tree = "8dd05b3f893c850e61053f3839492bdb635b6aaa"
+contract_hash = "221e88a752694e6352ce4d26a0325fd41b5882cfcbdb66b5f22f5c85739fd244"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-ASYNC-STEP"]
+result = "pass"
+review = "passed"
