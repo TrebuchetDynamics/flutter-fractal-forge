@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Retain source-bound Waydroid Rust probe lifecycle proof with installed APK/native-library hashes and owned cleanup; keep the Rust probe default-off and rendering unqualified. (RUST-M1-WAYDROID)
 - Retain source-bound Linux Rust probe lifecycle evidence from the official reserved-port integration driver; M1 still requires the separate Waydroid result. (RUST-M1-LINUX)
 - Add the default-off Rust lifecycle probe with structured diagnostics, reproducible bridge glue and cache-aware dependency-license evidence; preserve legacy rendering. (RUST-M1-BRIDGE)
 - Retain source-bound Flutter migration reference PNGs for nine default and two edited states, with real discrete/trajectory paths, backend provenance and measured repeat-capture variance. (RUST-M0-IMAGES)

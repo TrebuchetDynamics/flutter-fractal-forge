@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-M1-WAYDROID"
 title = "Execute and retain the designated Waydroid Rust probe lifecycle"
 short = "Close the missing Android M1 runtime-proof gap on the existing consented test target."
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Now"
 rank = 3000
@@ -20,6 +20,8 @@ live = "authorized"
 live_actor = "owner"
 live_at = "2026-10-26"
 live_scope = ["live", "waydroid", "integration_test/migration/rust_engine_smoke_test.dart", "docs/tasks/RUST-M1-WAYDROID.md"]
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/RUST-M1-WAYDROID.toml"
 +++
 
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration; docs/tasks/RUST-PLAN-02.md#next-executable-batch; docs/engineering/testing/waydroid-headless.md#standing-owner-designation-use-this-waydroid-target
