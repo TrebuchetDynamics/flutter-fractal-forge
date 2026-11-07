@@ -147,7 +147,9 @@ void main() {
       ));
       await pumpAccessibilityTestFrames(tester);
 
-      // The user's route: open the viewer actions menu, choose Wallpaper, then Apply.
+      // The user's route: open Save, choose Wallpaper, then Apply.
+      await tester.ensureVisible(find.byKey(const ValueKey('viewerSaveShareButton')));
+      await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('viewerSaveShareButton')));
       await tester.pumpAndSettle();
       final es = locale.languageCode == 'es';

@@ -14,7 +14,6 @@ enum ViewerTool {
   palette,
   randomFractal,
   saveShare,
-  more,
   randomOptions,
   randomParams,
   autoExplore,
@@ -45,7 +44,6 @@ abstract final class ViewerToolLayout {
     ViewerTool.palette,
     ViewerTool.randomFractal,
     ViewerTool.saveShare,
-    ViewerTool.more,
   ];
 
   static const saveShare = <ViewerTool>[
@@ -81,7 +79,6 @@ abstract final class ViewerToolLayout {
         ViewerTool.palette => 'viewerPaletteButton',
         ViewerTool.randomFractal => 'viewerRandomFractalFab',
         ViewerTool.saveShare => 'viewerSaveShareButton',
-        ViewerTool.more => 'viewerOverflowMenu',
         ViewerTool.randomOptions => 'viewerRandomOptionsAction',
         ViewerTool.randomParams => 'viewerRandomParamsButton',
         ViewerTool.autoExplore => 'viewerAutoExploreButton',
@@ -309,6 +306,7 @@ ViewerToolPresentation resolveViewerTool(
       return ViewerToolPresentation(
         icon: Icons.arrow_back_rounded,
         semanticLabel: l10n.hudPreviousFractal,
+        caption: l10n.viewerBackCompact,
         enabled: context.canGoPreviousFractal,
         onPressed: gated(commands.presentation.previousFractal),
       );
@@ -320,7 +318,8 @@ ViewerToolPresentation resolveViewerTool(
         semanticLabel: context.looperPlaying
             ? l10n.tooltipPauseLooper
             : l10n.tooltipPlayLooper,
-        caption: context.looperPlaying ? l10n.actionPause : l10n.actionPlay,
+        caption:
+            context.looperPlaying ? l10n.actionPause : l10n.viewerPlayCompact,
         selected: context.looperPlaying,
         enabled: context.looperAvailable,
         onPressed: gated(commands.motion.toggleLooper),
@@ -329,25 +328,25 @@ ViewerToolPresentation resolveViewerTool(
     case ViewerTool.controls:
       return ViewerToolPresentation(
         icon: Icons.tune_rounded,
-        semanticLabel: l10n.tooltipRandomizeWithControls,
-        caption: l10n.randomize,
-        onPressed: gated(commands.presentation.randomizeParams),
+        semanticLabel: l10n.viewerEditTools,
+        caption: l10n.viewerEditCompact,
+        onPressed: gated(context.onShowMore),
         onLongPress: gated(commands.presentation.openControls),
       );
     case ViewerTool.palette:
       return ViewerToolPresentation(
         icon: Icons.palette_outlined,
-        semanticLabel: l10n.tooltipRandomizePaletteWithSettings,
-        caption: l10n.randomize,
-        onPressed: gated(commands.presentation.randomizePalette ??
+        semanticLabel: l10n.viewerChooseColors,
+        caption: l10n.viewerColorCompact,
+        onPressed: gated(commands.presentation.openPalettePicker),
+        onLongPress: gated(commands.presentation.randomizePalette ??
             commands.presentation.cycleColorScheme),
-        onLongPress: gated(commands.presentation.openPalettePicker),
       );
     case ViewerTool.randomFractal:
       return ViewerToolPresentation(
         icon: Icons.shuffle_rounded,
         semanticLabel: l10n.tooltipRandomFractal,
-        caption: l10n.navDockRandom,
+        caption: l10n.viewerMixCompact,
         onPressed: gated(commands.presentation.openRandomFractal),
         onLongPress: gated(commands.presentation.openRandomCategories ??
             context.onShowRandomOptions),
@@ -356,13 +355,8 @@ ViewerToolPresentation resolveViewerTool(
       return ViewerToolPresentation(
         icon: Icons.ios_share_rounded,
         semanticLabel: l10n.viewerActionSectionSaveShare,
+        caption: l10n.viewerSaveCompact,
         onPressed: gated(context.onShowSaveShare),
-      );
-    case ViewerTool.more:
-      return ViewerToolPresentation(
-        icon: Icons.more_horiz_rounded,
-        semanticLabel: l10n.viewerMoreTools,
-        onPressed: gated(context.onShowMore),
       );
     case ViewerTool.randomOptions:
       return ViewerToolPresentation(
@@ -384,9 +378,8 @@ ViewerToolPresentation resolveViewerTool(
     case ViewerTool.autoExplore:
       final status = context.autoExploreStatus!;
       return ViewerToolPresentation(
-        icon: status.isMotionActive
-            ? Icons.pause_rounded
-            : Icons.explore_rounded,
+        icon:
+            status.isMotionActive ? Icons.pause_rounded : Icons.explore_rounded,
         semanticLabel: status.primaryActionLabel(
           startLabel: l10n.tooltipStartExplore,
           pauseLabel: l10n.tooltipPauseExplore,
@@ -431,8 +424,9 @@ ViewerToolPresentation resolveViewerTool(
     case ViewerTool.fourier:
       return ViewerToolPresentation(
         icon: Icons.blur_on_rounded,
-        semanticLabel:
-            context.fourierEnabled ? l10n.tooltipFourierOn : l10n.tooltipFourierOff,
+        semanticLabel: context.fourierEnabled
+            ? l10n.tooltipFourierOn
+            : l10n.tooltipFourierOff,
         caption: tiny
             ? l10n.viewerActionSettingsFourierCompactTitle
             : (short ? l10n.fourierSettingsTitle : null),

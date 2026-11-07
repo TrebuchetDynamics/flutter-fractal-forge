@@ -32,10 +32,10 @@ Future<void> pumpForUiTransition(
   await tester.pump(settle);
 }
 
-/// Open the viewer's secondary tools through its primary More entry point.
+/// Open the viewer's secondary tools through its Edit entry point.
 /// Call again after each action: selecting a row dismisses the tools sheet.
 Future<void> openViewerTools(WidgetTester tester) async {
-  final more = find.byKey(const ValueKey('viewerOverflowMenu'));
+  final more = find.byKey(const ValueKey('viewerControlsButton'));
   expect(more, findsOneWidget);
   await tester.ensureVisible(more);
   await pumpForUiTransition(tester);

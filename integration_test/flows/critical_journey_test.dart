@@ -144,11 +144,11 @@ void main() {
           reason: 'Viewer Controls button must be present',
         );
 
-        // Primary More entry point for exports and secondary tools
+        // Save is the primary entry point for export and sharing.
         expect(
-          find.byKey(const Key('viewerOverflowMenu')),
+          find.byKey(const Key('viewerSaveShareButton')),
           findsOneWidget,
-          reason: 'Viewer More button must be present',
+          reason: 'Viewer Save button must be present',
         );
 
         // Random fractal remains a primary toolbar action.

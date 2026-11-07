@@ -143,7 +143,6 @@ const _primaryKeys = [
   'viewerPaletteButton',
   'viewerRandomFractalFab',
   'viewerSaveShareButton',
-  'viewerOverflowMenu',
 ];
 const _saveShareKeys = {
   'viewerOpenExportAction',
@@ -177,7 +176,7 @@ Future<void> _openTools(WidgetTester tester, String key) async {
   }
   final button = _saveShareKeys.contains(key)
       ? 'viewerSaveShareButton'
-      : 'viewerOverflowMenu';
+      : 'viewerControlsButton';
   await tester.ensureVisible(_key(button));
   await tester.tap(_key(button));
   await tester.pumpAndSettle();
@@ -580,20 +579,21 @@ void main() {
         final l10n =
             AppLocalizations.of(tester.element(_key('viewerFabColumn')))!;
         for (final label in [
-          l10n.hudPreviousFractal,
-          l10n.actionPlay,
-          l10n.viewerRandomizeShape,
-          l10n.viewerRandomizeColors,
-          l10n.navDockRandom,
-          l10n.viewerActionSectionSaveShare,
-          l10n.viewerMoreTools,
+          l10n.viewerBackCompact,
+          l10n.viewerPlayCompact,
+          l10n.viewerEditCompact,
+          l10n.viewerColorCompact,
+          l10n.viewerMixCompact,
+          l10n.viewerSaveCompact,
         ]) {
           expect(find.text(label), findsOneWidget);
+          await tester.ensureVisible(find.text(label));
           final caption = tester.getRect(find.text(label));
           expect(caption.left, greaterThanOrEqualTo(0));
           expect(caption.right, lessThanOrEqualTo(width));
         }
         for (final key in _primaryKeys) {
+          await tester.ensureVisible(_key(key));
           final rect = tester.getRect(_key(key));
           expect(rect.left, greaterThanOrEqualTo(0));
           expect(rect.right, lessThanOrEqualTo(width));
@@ -614,6 +614,7 @@ void main() {
     await _pumpControls(tester,
         isExporting: false, textScale: 2, onOpenWallpaper: () {});
     for (final key in _primaryKeys) {
+      await tester.ensureVisible(_key(key));
       final rect = tester.getRect(_key(key));
       expect(rect.top, greaterThanOrEqualTo(0));
       expect(rect.bottom, lessThanOrEqualTo(568));
@@ -625,24 +626,25 @@ void main() {
   });
 
   for (final locale in const [Locale('en'), Locale('es')]) {
-    testWidgets('random-action hint can be dismissed ${locale.languageCode}',
+    testWidgets('Edit replaces More and the tip row ${locale.languageCode}',
         (tester) async {
+      var opened = 0;
       var randomized = 0;
       await _pumpControls(tester,
           locale: locale,
           isExporting: false,
+          onOpenControls: () => opened++,
           onRandomizeParams: () => randomized++,
           onOpenWallpaper: () {});
-      final l10n =
-          AppLocalizations.of(tester.element(_key('viewerFabColumn')))!;
-      expect(find.text(l10n.viewerRandomizeHint), findsOneWidget);
-      await tester.tap(_key('viewerDismissRandomHint'));
+      expect(_key('viewerOverflowMenu'), findsNothing);
+      expect(_key('viewerDismissRandomHint'), findsNothing);
+      await _tapTool(tester, 'viewerControlsButton');
+      expect(find.byType(BottomSheet), findsOneWidget);
+      expect(randomized, 0);
+      await tester.tap(_key('viewerEditParametersAction'));
       await tester.pumpAndSettle();
-      expect(find.text(l10n.viewerRandomizeHint), findsNothing);
-      await tester.tap(_key('viewerControlsButton'));
-      await tester.pumpAndSettle();
-      expect(randomized, 1);
-      expect(find.text(l10n.viewerRandomizeHint), findsNothing);
+      expect(opened, 1);
+      expect(find.byType(BottomSheet), findsNothing);
       expect(tester.takeException(), isNull);
     });
   }
@@ -664,7 +666,7 @@ void main() {
       'More tab order retains secondary shortcuts and scrolls to fullscreen',
       (tester) async {
     await _pumpControls(tester, isExporting: false, onOpenWallpaper: () {});
-    await _focus(tester, 'viewerRandomOptionsAction');
+    await _focus(tester, 'viewerEditParametersAction');
     final menuTools = tester
         .widgetList<FloatingActionButtonWidget>(find.descendant(
             of: find.byType(BottomSheet),
@@ -762,21 +764,19 @@ void main() {
           ? const {
               'viewerPreviousFractalButton': 'Previous fractal',
               'viewerPlayButton': 'Play camera loop',
-              'viewerControlsButton': 'Randomize. Long press for Controls',
+              'viewerControlsButton': 'Edit fractal',
               'viewerPaletteButton':
-                  'Randomize palette. Long press for palette settings',
+                  'Choose colors. Long press to randomize',
               'viewerRandomFractalFab': 'Random Fractal',
-              'viewerOverflowMenu': 'More',
             }
           : const {
               'viewerPreviousFractalButton': 'Fractal anterior',
               'viewerPlayButton': 'Reproducir bucle de cámara',
               'viewerControlsButton':
-                  'Aleatorizar. Mantén presionado para Controles',
+                  'Editar fractal',
               'viewerPaletteButton':
-                  'Aleatorizar paleta. Mantén presionado para ajustes de paleta',
+                  'Elegir colores. Mantén pulsado para aleatorizar',
               'viewerRandomFractalFab': 'Fractal aleatorio',
-              'viewerOverflowMenu': 'Más',
             };
       for (final entry in labels.entries) {
         await _reveal(tester, entry.key);
@@ -821,10 +821,11 @@ void main() {
     expect(randomized, 1);
     expect(opened, 1);
     await _tapTool(tester, 'viewerControlsButton');
-    expect(randomized, 2);
+    expect(find.byType(BottomSheet), findsOneWidget);
+    expect(randomized, 1);
     expect(opened, 1);
     await _tapTool(tester, 'viewerControlsButton', secondary: true);
-    expect(randomized, 2);
+    expect(randomized, 1);
     expect(opened, 2);
   });
 
@@ -851,7 +852,7 @@ void main() {
     });
   }
 
-  testWidgets('palette quick press randomizes and long press opens the picker',
+  testWidgets('Color opens the picker and long press randomizes',
       (tester) async {
     var opened = 0;
     var randomized = 0;
@@ -863,8 +864,8 @@ void main() {
     await _tapTool(tester, 'viewerColorCycleButton', secondary: true);
     expect(opened, 1);
     await _tapTool(tester, 'viewerPaletteButton');
-    expect(randomized, 1);
-    expect(opened, 1);
+    expect(randomized, 0);
+    expect(opened, 2);
     await _tapTool(tester, 'viewerPaletteButton', secondary: true);
     expect(randomized, 1);
     expect(opened, 2);
@@ -903,7 +904,7 @@ void main() {
                   .byWidgetPredicate((w) => w is Opacity && w.opacity == 0.38)),
           findsWidgets);
     }
-    await _focus(tester, 'viewerOverflowMenu');
+    await _focus(tester, 'viewerControlsButton');
     await tester.sendKeyEvent(LogicalKeyboardKey.enter);
     await tester.pumpAndSettle();
     expect(find.byType(BottomSheet), findsNothing);
@@ -924,7 +925,9 @@ void main() {
     void walk(SemanticsNode node) {
       if (!node.isMergedIntoParent) {
         final data = node.getSemanticsData();
-        if (data.actions != 0) {
+        // Scroll containers are not extra button stops.
+        // ignore: deprecated_member_use
+        if (data.hasFlag(SemanticsFlag.isButton)) {
           if (data.label.isEmpty) {
             unlabeled++;
           } else {
@@ -943,10 +946,9 @@ void main() {
     expect(unlabeled, 0);
     final visibleCount =
         _primaryKeys.where((key) => _key(key).evaluate().isNotEmpty).length;
-    expect(labels, hasLength(visibleCount + 1));
-    expect(labels.toSet(), hasLength(visibleCount + 1));
-    expect(
-        find.byKey(const ValueKey('viewerDismissRandomHint')), findsOneWidget);
+    expect(labels, hasLength(visibleCount));
+    expect(labels.toSet(), hasLength(visibleCount));
+    expect(_key('viewerDismissRandomHint'), findsNothing);
     handle.dispose();
   });
 

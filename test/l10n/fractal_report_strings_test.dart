@@ -59,7 +59,7 @@ Future<void> openReportSheet(
   ));
   await pumpAccessibilityTestFrames(tester);
 
-  final more = find.byKey(const ValueKey('viewerOverflowMenu'));
+  final more = find.byKey(const ValueKey('viewerControlsButton'));
   await tester.ensureVisible(more);
   await tester.tap(more);
   await tester.pumpAndSettle();

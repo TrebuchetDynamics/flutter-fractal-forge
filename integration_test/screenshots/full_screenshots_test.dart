@@ -271,12 +271,14 @@ void main() {
       await tester.pump(const Duration(seconds: 3));
       expectViewerOpened(tester, 'mandelbrot');
 
-      // Open controls panel from its primary toolbar action.
+      // Holding Edit opens the parameter HUD.
       expect(find.byKey(const Key('viewerControlsButton')), findsOneWidget);
-      await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
+      await tester.ensureVisible(find.byKey(const ValueKey('viewerControlsButton')));
+      await tester.longPress(find.byKey(const ValueKey('viewerControlsButton')));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 800));
 
+      expect(find.byKey(const ValueKey('controlsHudSurface')), findsOneWidget);
       await snap(tester, '07_controls_panel');
     });
 

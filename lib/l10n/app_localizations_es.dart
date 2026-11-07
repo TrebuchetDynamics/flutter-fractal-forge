@@ -2419,6 +2419,31 @@ class AppLocalizationsEs extends AppLocalizations {
   String get viewerFormulaDetails => 'Detalles de la fórmula';
 
   @override
+  String get viewerBackCompact => 'Atrás';
+
+  @override
+  String get viewerPlayCompact => 'Bucle';
+
+  @override
+  String get viewerEditCompact => 'Editar';
+
+  @override
+  String get viewerColorCompact => 'Color';
+
+  @override
+  String get viewerMixCompact => 'Azar';
+
+  @override
+  String get viewerSaveCompact => 'Guardar';
+
+  @override
+  String get viewerEditTools => 'Editar fractal';
+
+  @override
+  String get viewerChooseColors =>
+      'Elegir colores. Mantén pulsado para aleatorizar';
+
+  @override
   String get viewerMoreTools => 'Más';
 
   @override

@@ -93,9 +93,9 @@ void main() {
         );
     await tester.pumpAndSettle();
     final controls = find
-        .byKey(ValueKey(more ? 'viewerOverflowMenu' : 'viewerControlsButton'));
+        .byKey(const ValueKey('viewerControlsButton'));
     if (!more && controls.evaluate().isEmpty) {
-      final overflow = find.byKey(const ValueKey('viewerOverflowMenu'));
+      final overflow = find.byKey(const ValueKey('viewerControlsButton'));
       await tester.ensureVisible(overflow);
       await tester.pumpAndSettle();
       await tester.tap(overflow);
@@ -182,13 +182,16 @@ void main() {
           expect(find.byType(FractalControlsHud), findsNothing);
           final controls = find.byKey(const ValueKey('viewerControlsButton'));
           if (controls.evaluate().isEmpty) {
-            final overflow = find.byKey(const ValueKey('viewerOverflowMenu'));
+            final overflow = find.byKey(const ValueKey('viewerControlsButton'));
             await reveal(tester, overflow);
             await tester.tap(overflow);
             await tester.pumpAndSettle();
           }
           await reveal(tester, controls);
           await tester.tap(controls);
+          await tester.pumpAndSettle();
+          expect(find.byType(BottomSheet), findsOneWidget);
+          await tester.binding.handlePopRoute();
           await tester.pumpAndSettle();
           final back = find.byKey(const Key('viewerBackToCatalogButton'));
           expect(back, findsOneWidget);
@@ -239,7 +242,7 @@ void main() {
               of: sheet, matching: find.byType(FloatingActionButtonWidget));
           expect(buttons.evaluate().length, greaterThanOrEqualTo(15));
           final actions = buttons.evaluate().map((e) => e.widget.key!).toList();
-          expect(actions.first, const ValueKey('viewerRandomOptionsAction'));
+          expect(actions.first, const ValueKey('viewerEditParametersAction'));
           expect(actions.last, const ValueKey('viewerReportFractalFab'));
           for (final key in actions) {
             final action = find.byKey(key);
@@ -301,7 +304,7 @@ void main() {
           await tester.pumpAndSettle();
           tester.view.physicalSize = const Size(320, 200);
           await tester.pumpAndSettle();
-          final moreButton = find.byKey(const ValueKey('viewerOverflowMenu'));
+          final moreButton = find.byKey(const ValueKey('viewerControlsButton'));
           await reveal(tester, moreButton);
           await tester.tap(moreButton);
           await tester.pumpAndSettle();

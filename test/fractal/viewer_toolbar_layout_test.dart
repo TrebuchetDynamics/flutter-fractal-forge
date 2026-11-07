@@ -20,14 +20,12 @@ const _orderedTools = [
   'viewerPaletteButton',
   'viewerRandomFractalFab',
   'viewerSaveShareButton',
-  'viewerOverflowMenu',
 ];
 
 /// Primary key -> callback it must dispatch on a quick press.
 const _tapCallbacks = {
   'viewerPreviousFractalButton': 'viewerPreviousFractalButton',
   'viewerPlayButton': 'viewerPlayButton',
-  'viewerControlsButton': 'viewerRandomParamsButton',
   'viewerPaletteButton': 'viewerPaletteButton',
   'viewerRandomFractalFab': 'viewerRandomFractalFab',
 };
@@ -150,8 +148,8 @@ Future<AutoExploreService> _pumpToolbar(WidgetTester tester,
 
 Finder _tool(String key) => find.byKey(ValueKey(key));
 Future<void> _openMore(WidgetTester tester) async {
-  await tester.ensureVisible(_tool('viewerOverflowMenu'));
-  await tester.tap(_tool('viewerOverflowMenu'));
+  await tester.ensureVisible(_tool('viewerControlsButton'));
+  await tester.tap(_tool('viewerControlsButton'));
   await tester.pumpAndSettle();
 }
 
@@ -178,15 +176,13 @@ void main() {
           final l10n =
               AppLocalizations.of(tester.element(_tool('viewerFabColumn')))!;
           final captions = {
-            'viewerPreviousFractalButton': l10n.hudPreviousFractal,
-            'viewerPlayButton': l10n.actionPlay,
-            'viewerControlsButton': l10n.viewerRandomizeShape,
-            'viewerPaletteButton': l10n.viewerRandomizeColors,
-            'viewerRandomFractalFab': l10n.navDockRandom,
-            'viewerSaveShareButton': l10n.viewerActionSectionSaveShare,
-            'viewerOverflowMenu': l10n.viewerMoreTools,
+            'viewerPreviousFractalButton': l10n.viewerBackCompact,
+            'viewerPlayButton': l10n.viewerPlayCompact,
+            'viewerControlsButton': l10n.viewerEditCompact,
+            'viewerPaletteButton': l10n.viewerColorCompact,
+            'viewerRandomFractalFab': l10n.viewerMixCompact,
+            'viewerSaveShareButton': l10n.viewerSaveCompact,
           };
-          final showsCaptions = viewport.height == 780;
           // Every primary remains reachable with full-size touch targets.
           for (final key in _orderedTools) {
             expect(_tool(key), findsOneWidget,
@@ -206,9 +202,8 @@ void main() {
                 .first;
             final caption =
                 find.descendant(of: cell, matching: find.text(captions[key]!));
-            expect(caption, showsCaptions ? findsOneWidget : findsNothing,
-                reason: key);
-            if (showsCaptions) {
+            expect(caption, findsOneWidget, reason: key);
+            {
               final paragraph = tester.renderObject<RenderParagraph>(caption);
               expect(paragraph.didExceedMaxLines, isFalse, reason: key);
               final labelRect = tester.getRect(caption);
@@ -222,10 +217,9 @@ void main() {
           for (final entry in {
             'viewerPreviousFractalButton': l10n.hudPreviousFractal,
             'viewerPlayButton': l10n.tooltipPlayLooper,
-            'viewerControlsButton': l10n.tooltipRandomizeWithControls,
-            'viewerPaletteButton': l10n.tooltipRandomizePaletteWithSettings,
+            'viewerControlsButton': l10n.viewerEditTools,
+            'viewerPaletteButton': l10n.viewerChooseColors,
             'viewerRandomFractalFab': l10n.tooltipRandomFractal,
-            'viewerOverflowMenu': l10n.viewerMoreTools,
           }.entries) {
             final tooltip = find.descendant(
                 of: _tool(entry.key), matching: find.byType(Tooltip));
@@ -298,6 +292,7 @@ void main() {
       // Save & share is a primary button, not a More section.
       await tester.sendKeyEvent(LogicalKeyboardKey.escape);
       await tester.pumpAndSettle();
+      await tester.ensureVisible(_tool('viewerSaveShareButton'));
       await tester.tap(_tool('viewerSaveShareButton'));
       await tester.pumpAndSettle();
       expect(find.text(l10n.viewerActionSectionSaveShare), findsOneWidget);
@@ -349,7 +344,9 @@ void main() {
         textScale: 3,
         isExporting: true,
         onAction: calls.add);
-    final more = _tool('viewerOverflowMenu');
+    final more = _tool('viewerControlsButton');
+    await tester.ensureVisible(more);
+    await tester.pumpAndSettle();
     final button = tester.widget<FloatingActionButtonWidget>(more);
     expect(button.onPressed, isNull);
     final data = tester
@@ -394,8 +391,8 @@ void main() {
               final rect = tester.getRect(tool);
               expect(rect.width, greaterThanOrEqualTo(target), reason: key);
               expect(rect.height, greaterThanOrEqualTo(target), reason: key);
-              expect(rect.left, greaterThanOrEqualTo(12), reason: key);
-              expect(rect.right, lessThanOrEqualTo(viewport.width - 12),
+              expect(rect.left, greaterThanOrEqualTo(10), reason: key);
+              expect(rect.right, lessThanOrEqualTo(viewport.width - 10),
                   reason: key);
               expect(tool.hitTestable(), findsOneWidget, reason: key);
             }
@@ -445,7 +442,7 @@ void main() {
   testWidgets('short viewport scrolls the primary grid vertically',
       (tester) async {
     await _pumpToolbar(tester, viewport: const Size(240, 100), textScale: 1);
-    final more = _tool('viewerOverflowMenu');
+    final more = _tool('viewerControlsButton');
     await tester.ensureVisible(more);
     await tester.pumpAndSettle();
     expect(more.hitTestable(), findsOneWidget);

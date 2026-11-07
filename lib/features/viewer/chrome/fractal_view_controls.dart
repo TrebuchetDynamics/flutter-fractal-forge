@@ -53,7 +53,7 @@ class FractalViewControls extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final mq = MediaQuery.of(context);
-    // Keep labels and touch targets readable; narrow screens wrap the tools.
+    // A single row keeps the scene visible; enlarged labels scroll horizontally.
     final horizontalMargin =
         compactViewport ? 0.0 : (mq.size.width < 480 ? 8.0 : 16.0);
     final insets = EdgeInsets.fromLTRB(
@@ -99,87 +99,55 @@ class FractalViewControls extends StatelessWidget {
                                 .watch<AccessibilityService?>()
                                 ?.largeTargetsEnabled ??
                             false);
-                    // Grow cells with text scaling rather than clipping captions.
                     final toolContext = _toolContext(
                       context,
                       l10n,
                       tiny: false,
                       short: false,
                     );
-                    // Keep every primary action visible on short screens with
-                    // enlarged text; full names remain in tooltips and semantics.
-                    final showCaptions = constraints.maxHeight >= 320 &&
-                        (mq.textScaler.scale(12) <= 18 ||
-                            constraints.maxHeight >= 600);
-                    final buttons = <_ViewerTool>[
+                    final buttons = [
                       for (final (index, tool) in ViewerToolLayout.rail.indexed)
                         if (viewerToolVisible(tool, toolContext))
-                          _railTool(tool, toolContext, index,
-                              showLabel: showCaptions),
+                          _railTool(tool, toolContext, index, showLabel: true),
                     ];
-                    final availableWidth =
-                        constraints.maxWidth - 8; // 4px inset each side
-                    var cellWidth = target + 8;
-                    if (showCaptions) {
-                      // Keep words whole across fonts, translations and scaling.
-                      for (final button in buttons) {
-                        final painter = TextPainter(
-                          text: TextSpan(
-                              text: button.label,
-                              style: Theme.of(context).textTheme.labelMedium),
-                          textDirection: Directionality.of(context),
-                          textScaler: mq.textScaler,
-                        )..layout();
-                        cellWidth =
-                            math.max(cellWidth, painter.minIntrinsicWidth + 24);
-                        painter.dispose();
-                      }
-                    }
-                    final perRow =
-                        math.max(1, (availableWidth / cellWidth).floor());
-                    final rowCount =
-                        math.max(1, (buttons.length / perRow).ceil());
-                    final base = buttons.length ~/ rowCount;
-                    final extra = buttons.length % rowCount;
-                    final rows = <Widget>[];
-                    var next = 0;
-                    for (var row = 0; row < rowCount; row++) {
-                      final count = base + (row < extra ? 1 : 0);
-                      final rowButtons = buttons.sublist(next, next + count);
-                      next += count;
-                      rows.add(IntrinsicHeight(
-                          child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          for (final button in rowButtons)
-                            SizedBox(
-                              key: button.toolKey ==
-                                      const ValueKey('viewerSaveShareButton')
-                                  ? const ValueKey('viewerExportButton')
-                                  : null,
-                              width: availableWidth / count,
-                              child: ConstrainedBox(
-                                constraints: BoxConstraints(minHeight: target),
-                                child: button,
-                              ),
-                            )
-                        ],
-                      )));
-                    }
+                    // Measure whole captions, not individual words. Never wrap
+                    // the toolbar or shrink a touch target to fit a phone.
+                    final widths = [
+                      for (final button in buttons)
+                        math.min(constraints.maxWidth - 4,
+                            _captionWidth(context, button.label, target)),
+                    ];
+                    final availableWidth = constraints.maxWidth - 4;
+                    final totalWidth =
+                        widths.fold(0.0, (sum, width) => sum + width);
+                    final extra = math.max(0.0, availableWidth - totalWidth) /
+                        buttons.length;
                     return SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 4, vertical: 8),
-                        child: FocusTraversalGroup(
-                          policy: OrderedTraversalPolicy(),
-                          child: Column(children: [
-                            ...rows,
-                            if (showCaptions &&
-                                !compactViewport &&
-                                mq.textScaler.scale(12) <= 18)
-                              const _RandomActionHint(),
-                          ]),
+                      child: SingleChildScrollView(
+                        key: const ValueKey('viewerToolbarScroll'),
+                        scrollDirection: Axis.horizontal,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+                          child: FocusTraversalGroup(
+                            policy: OrderedTraversalPolicy(),
+                            child: IntrinsicHeight(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  for (final (index, button) in buttons.indexed)
+                                    SizedBox(
+                                      key: button.toolKey ==
+                                              const ValueKey(
+                                                  'viewerSaveShareButton')
+                                          ? const ValueKey('viewerExportButton')
+                                          : null,
+                                      width: widths[index] + extra,
+                                      child: button,
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     );
@@ -191,6 +159,18 @@ class FractalViewControls extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  double _captionWidth(BuildContext context, String caption, double target) {
+    final painter = TextPainter(
+      text: TextSpan(
+          text: caption, style: Theme.of(context).textTheme.labelMedium),
+      textDirection: Directionality.of(context),
+      textScaler: MediaQuery.textScalerOf(context),
+    )..layout();
+    final width = math.max(target, painter.width.ceilToDouble() + 8);
+    painter.dispose();
+    return width;
   }
 
   ViewerOverlayFlow _overlayFlow(BuildContext context) => ViewerOverlayFlow(
@@ -242,11 +222,7 @@ class FractalViewControls extends StatelessWidget {
     return _ViewerTool(
       toolKey: ValueKey(ViewerToolLayout.keyOf(tool)),
       icon: presentation.icon,
-      label: switch (tool) {
-        ViewerTool.controls => context.l10n.viewerRandomizeShape,
-        ViewerTool.palette => context.l10n.viewerRandomizeColors,
-        _ => presentation.caption ?? presentation.semanticLabel,
-      },
+      label: presentation.caption ?? presentation.semanticLabel,
       semanticLabel: presentation.semanticLabel,
       selected: presentation.selected,
       primary: tool == ViewerTool.saveShare,
@@ -355,6 +331,8 @@ class FractalViewControls extends StatelessWidget {
               autoExploreStatus: status,
               optionsContext: contextForOptions,
             );
+            VoidCallback close(VoidCallback callback) =>
+                () => Navigator.of(sheetContext).pop(callback);
             var rowOrder = 0.0;
             Widget section(String label) => Padding(
                   padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
@@ -367,8 +345,6 @@ class FractalViewControls extends StatelessWidget {
               final presentation = resolveViewerTool(tool, toolContext);
               final order = rowOrder++;
               final secondary = presentation.onLongPress;
-              VoidCallback close(VoidCallback callback) =>
-                  () => Navigator.of(sheetContext).pop(callback);
               return Padding(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Column(
@@ -438,6 +414,17 @@ class FractalViewControls extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  _ViewerTool(
+                    toolKey: const ValueKey('viewerEditParametersAction'),
+                    icon: Icons.tune_rounded,
+                    label: l10n.controlsTitle,
+                    row: true,
+                    dense: short,
+                    sortOrder: -1,
+                    onPressed: isExporting
+                        ? null
+                        : close(commands.presentation.openControls),
+                  ),
                   sectionBlock(ViewerToolSection.exploreAnimate,
                       l10n.viewerActionSectionExploreAnimate),
                   sectionBlock(ViewerToolSection.visualEffects,
@@ -463,8 +450,8 @@ class FractalViewControls extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           AppBottomSheetHeader(
-                            icon: Icons.more_horiz_rounded,
-                            title: l10n.viewerActionsMenu,
+                            icon: Icons.tune_rounded,
+                            title: l10n.viewerEditTools,
                             onClose: () => Navigator.of(sheetContext).pop(),
                           ),
                           const Divider(height: 1),
@@ -620,50 +607,6 @@ class FractalViewControls extends StatelessWidget {
   }
 }
 
-/// A dismissible reminder for this toolbar, without a timer or stored setting.
-class _RandomActionHint extends StatefulWidget {
-  const _RandomActionHint();
-
-  @override
-  State<_RandomActionHint> createState() => _RandomActionHintState();
-}
-
-class _RandomActionHintState extends State<_RandomActionHint> {
-  bool _dismissed = false;
-
-  @override
-  Widget build(BuildContext context) {
-    if (_dismissed) return const SizedBox.shrink();
-    final l10n = AppLocalizations.of(context)!;
-    final target = AccessibleSizing.touchTargetSize(
-        largeTargets:
-            context.watch<AccessibilityService?>()?.largeTargetsEnabled ??
-                false);
-    return Padding(
-      padding: const EdgeInsetsDirectional.only(start: 12, end: 4),
-      child: Row(children: [
-        Expanded(
-          child: Text(l10n.viewerRandomizeHint,
-              style: Theme.of(context).textTheme.bodySmall),
-        ),
-        FocusTraversalOrder(
-          order: const NumericFocusOrder(7),
-          child: SizedBox.square(
-            dimension: target,
-            child: AppToolButton(
-              key: const ValueKey('viewerDismissRandomHint'),
-              tooltip: l10n.viewerDismissRandomHint,
-              icon: Icons.close_rounded,
-              sortOrder: 7,
-              onPressed: () => setState(() => _dismissed = true),
-            ),
-          ),
-        ),
-      ]),
-    );
-  }
-}
-
 /// Keep all input, haptics and semantics on AppToolButton. The caption is a
 /// paint-only layer over the same hit region, never a second tap handler.
 class _ViewerTool extends StatefulWidget {
@@ -733,7 +676,7 @@ class _ViewerToolState extends State<_ViewerTool> {
     // both and left a stray circle across the text.
     final visual = Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: widget.dense ? 0 : (widget.row ? 8 : 4),
+          horizontal: widget.row && !widget.dense ? 8 : 0,
           vertical: widget.dense ? 0 : 8),
       child: !widget.showLabel
           ? Icon(widget.icon, size: 22, color: foreground)
@@ -811,7 +754,7 @@ class _ViewerToolState extends State<_ViewerTool> {
               IgnorePointer(
                   child: ExcludeSemantics(
                       child: Container(
-                margin: widget.row ? null : const EdgeInsets.all(4),
+                margin: null,
                 constraints:
                     BoxConstraints(minWidth: target, minHeight: target),
                 decoration: widget.row

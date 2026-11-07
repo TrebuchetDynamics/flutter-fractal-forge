@@ -4461,6 +4461,54 @@ abstract class AppLocalizations {
   /// **'Formula details'**
   String get viewerFormulaDetails;
 
+  /// No description provided for @viewerBackCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get viewerBackCompact;
+
+  /// No description provided for @viewerPlayCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Play'**
+  String get viewerPlayCompact;
+
+  /// No description provided for @viewerEditCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get viewerEditCompact;
+
+  /// No description provided for @viewerColorCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Color'**
+  String get viewerColorCompact;
+
+  /// No description provided for @viewerMixCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Mix'**
+  String get viewerMixCompact;
+
+  /// No description provided for @viewerSaveCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get viewerSaveCompact;
+
+  /// No description provided for @viewerEditTools.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit fractal'**
+  String get viewerEditTools;
+
+  /// No description provided for @viewerChooseColors.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose colors. Long press to randomize'**
+  String get viewerChooseColors;
+
   /// No description provided for @viewerMoreTools.
   ///
   /// In en, this message translates to:

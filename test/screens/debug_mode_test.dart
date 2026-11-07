@@ -16,7 +16,7 @@ void main() {
   setUp(() => SharedPreferences.setMockInitialValues({}));
 
   Future<void> openTools(WidgetTester tester) async {
-    final more = find.byKey(const ValueKey('viewerOverflowMenu'));
+    final more = find.byKey(const ValueKey('viewerControlsButton'));
     await tester.ensureVisible(more);
     await tester.tap(more);
     await tester.pumpAndSettle();
@@ -78,7 +78,7 @@ void main() {
       await openTools(tester);
       expect(report, findsNothing);
       Navigator.of(
-              tester.element(find.byKey(const ValueKey('viewerOverflowMenu'))))
+              tester.element(find.byKey(const ValueKey('viewerControlsButton'))))
           .pop();
       await tester.pumpAndSettle();
       await settings.setDebugModeEnabled(true);
@@ -97,7 +97,7 @@ void main() {
       await openTools(tester);
       expect(report, findsNothing);
       Navigator.of(
-              tester.element(find.byKey(const ValueKey('viewerOverflowMenu'))))
+              tester.element(find.byKey(const ValueKey('viewerControlsButton'))))
           .pop();
       await tester.pumpAndSettle();
       debugDefaultTargetPlatformOverride = null;
