@@ -52,6 +52,7 @@ pub(super) struct PendingRequest {
     pub(super) target: Snapshot,
     guard: RequestGuard,
     job: NumberWallFrameJob,
+    randomization_undo: Option<Arc<NumberWallFrame>>,
 }
 
 impl Snapshot {
@@ -88,6 +89,25 @@ impl Session {
         command: &Command,
         guard: RequestGuard,
         max_trial_divisions: u32,
+    ) -> Result<Option<RequestToken>, SessionError> {
+        self.begin_number_wall_request(
+            session_id,
+            expected_revision,
+            command,
+            guard,
+            max_trial_divisions,
+            None,
+        )
+    }
+
+    pub(super) fn begin_number_wall_request(
+        &mut self,
+        session_id: u64,
+        expected_revision: u64,
+        command: &Command,
+        guard: RequestGuard,
+        max_trial_divisions: u32,
+        randomization_undo: Option<Arc<NumberWallFrame>>,
     ) -> Result<Option<RequestToken>, SessionError> {
         self.check_owner(session_id, expected_revision)?;
         if !guard.is_active() {
@@ -137,6 +157,7 @@ impl Session {
             target,
             guard,
             job,
+            randomization_undo,
         });
         self.param_timeline = None;
         self.publish_candidate(candidate);
@@ -186,6 +207,9 @@ impl Session {
             trajectory_jobs::invalidate_changed(&self.state, &mut target, revision);
             target.params = frame.params().clone();
             target.number_wall_frame = Some(Arc::new(frame.clone()));
+            if let Some(previous) = request.randomization_undo {
+                target.number_wall_randomize_undo = Some(previous);
+            }
             self.publish_candidate(target);
         }
         self.state.pending = None;
