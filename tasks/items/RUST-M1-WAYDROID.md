@@ -1,0 +1,31 @@
++++
+schema = 1
+id = "RUST-M1-WAYDROID"
+title = "Execute and retain the designated Waydroid Rust probe lifecycle"
+short = "Close the missing Android M1 runtime-proof gap on the existing consented test target."
+status = "open"
+goal = "RUST-ENGINE-001"
+section = "Now"
+rank = 3000
+depends_on = ["RUST-M1-BRIDGE"]
+touches = ["integration_test/migration/rust_engine_smoke_test.dart", "docs/tasks/RUST-M1-WAYDROID.md"]
+resources = ["live", "waydroid"]
+kind = "implementation"
+ownership = "worker"
+scope = "Run the existing real-native Rust smoke fixture with RUST_CORE=true on the designated existing Waydroid instance, using the standing app-test/install/replacement consent. Coordinate active device workers, rediscover current serial, verify actual transport/model/boot and set matching ANDROID_DEVICE/ANDROID_DISPOSABLE_DEVICE before testing. Retain exact source/build/library/toolchain/target identities, command, terminal native lifecycle outcome and owned app/test cleanup in private evidence linked by docs/tasks/RUST-M1-WAYDROID.md. Follow documented read-only transport diagnosis and the normal ADB helper on failure; record exact transport/permission/contention errors and next diagnostic. No physical-phone request, new device, container restart/reset, key enrollment, credential change or broader release gate. Fixture instrumentation only if needed, without weakened assertions or production migration."
+acceptance = ["Given a verified current Waydroid serial/model/boot and matching standing-consent variables, the real Android integration fixture passes version 0.1.0, rendering=false, independent sessions, duplicate shutdown and closed-read assertions with terminal exit 0. Compilation, RUNNING and Established ADB connection alone never count.", "Given retained evidence, docs/tasks/RUST-M1-WAYDROID.md binds revision, APK/native SO hashes, SDK/Rust/FRB, serial/model/boot/backend, exact command, terminal outcomes and owned cleanup to durable private logs. Actual failures remain failed; container evidence does not qualify physical GPU timing, Linux, browser or full M1 without the other native result."]
+checks = ["waydroid status; waydroid adb connect; adb devices -l; rediscover only the designated instance current IP per docs/engineering/testing/waydroid-headless.md#working-android-test-sequence. Export matching ANDROID_DEVICE and ANDROID_DISPOSABLE_DEVICE; no arbitrary serial substitution.", "test \"$ANDROID_DEVICE\" = \"$ANDROID_DISPOSABLE_DEVICE\" && test \"$(adb -s \"$ANDROID_DEVICE\" get-state)\" = device && test \"$(adb -s \"$ANDROID_DEVICE\" shell getprop ro.product.model | tr -d '\\r')\" = 'WayDroid x86_64 Device' && test \"$(adb -s \"$ANDROID_DEVICE\" shell getprop sys.boot_completed | tr -d '\\r')\" = 1", "flutter test --no-pub --no-uninstall integration_test/migration/rust_engine_smoke_test.dart -d \"$ANDROID_DEVICE\" --dart-define=RUST_CORE=true --reporter expanded", "Retain terminal Flutter exit and full output, tested APK/SO hashes and target identity; inspect owned app/test cleanup without killing unrelated processes or deleting unrelated data. If unavailable, retain actual waydroid status/helper/adb get-state errors and next diagnostic, not a passing receipt. Run git diff --check.", "( AUTOWORK_CACHE=\"${AUTOWORK_CACHE:-$(git rev-parse --path-format=absolute --git-common-dir)/autowork-execution/cache}\" && export AUTOWORK_CACHE && export FLUTTER_ROOT=\"$AUTOWORK_CACHE/flutter-3.47.9\" && export PUB_CACHE=\"$AUTOWORK_CACHE/pub-cache\" && test -x \"$FLUTTER_ROOT/bin/flutter\" && test -d \"$PUB_CACHE\" && export PATH=\"$FLUTTER_ROOT/bin:/usr/bin:$PATH\" && scripts/ci/offline-gate.sh --python-bin /usr/bin/python3 )"]
+exclusions = ["No other Android device/profile, container/session restart/reset, unrelated data removal, new credentials, production signing/publication, full release campaign, hardware-performance claim or M0 refresh."]
+live = "authorized"
+live_actor = "owner"
+live_at = "2026-10-26"
+live_scope = ["live", "waydroid", "integration_test/migration/rust_engine_smoke_test.dart", "docs/tasks/RUST-M1-WAYDROID.md"]
++++
+
+- Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration; docs/tasks/RUST-PLAN-02.md#next-executable-batch; docs/engineering/testing/waydroid-headless.md#standing-owner-designation-use-this-waydroid-target
+- Consumes: RUST-M1-BRIDGE Android native library and integration_test/migration/rust_engine_smoke_test.dart. Produces: source-bound Waydroid native outcome in docs/tasks/RUST-M1-WAYDROID.md plus retained private logs; exact failed transport is not a pass.
+- Owner decision: existing owner Waydroid target designation reaffirmed 2026-10-26 (root AGENTS.md and canonical Waydroid contract) covers the documented app-testing/install/replacement cycle. Typed live metadata records only that existing consent, not new authority, publication, resets or credential access.
+- Resource reason: Waydroid is a real shared mutable device. Serialize with active users, including ACAD-013-4142ef42 if active; do not demand a coordinator ownership receipt or add a product dependency for contention. Use supported admission/coordination and retain any actual wait.
+- Repo obligations triggered: spec.md Planned Rust engine boundary and Waydroid working-sequence/transport contract. Preserve every smoke assertion, exact native model spelling and default-off behavior. Only the task result note changes unless fixture instrumentation is required; no generated/manifests/saved formats.
+- Check setup: use root AGENTS.md pinned offline setup, compare flutter --version with fdroid/flutter.version and verify /usr/bin/python3 pytest/jinja2/markupsafe imports. Use existing Rust 1.95.0 through task-local PATH, existing cargo/codegen cache and private TMPDIR. Missing tool/target/cache, timeout or failed assertion is failure, not skipped success. The runner owns merged-tree/full-main verification; the Full check entry is required there, not another worker full-suite loop.
+- Next action: verify current designated transport then execute the existing Android fixture. If the diagnostic needs privileges or a restart excluded here, report the exact operation/error as infrastructure blocked; do not re-ask target consent or substitute another device.
