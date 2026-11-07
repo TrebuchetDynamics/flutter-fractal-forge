@@ -2,6 +2,7 @@
 
 pub mod catalog_baseline;
 pub mod normalization;
+pub mod number_wall_grid;
 pub mod number_wall_prime;
 pub mod session;
 
@@ -24,9 +25,13 @@ mod tests {
 
     #[test]
     fn core_and_render_reject_platform_dependencies() {
-        // Allow only the locked pure-domain serde graph across all edge kinds.
+        // Allow only the locked pure-domain serde/arithmetic graph across all edge kinds.
         let core_graph = [
             "fractal-core",
+            "num-bigint",
+            "num-integer",
+            "num-traits",
+            "autocfg",
             "serde",
             "serde_core",
             "serde_derive",
