@@ -1,0 +1,9 @@
+schema = 1
+task = "RUST-M2-PHYSICAL"
+candidate = "4045df89b94a8dd2e15497d98f783de9e1f46e2e"
+integration = "e0df0d252fe2637de49a86a99a2f3c4e794f3d35"
+tree = "eafa2f6dde5c1131b85e994e196a45b00abc22b6"
+contract_hash = "0bcbe600a628daec27b512d3532f770e3f36b6a121984884e720118cfd1b89cc"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-PHYSICAL"]
+result = "pass"
+review = "passed"
