@@ -44,6 +44,14 @@ until each replacement has source-bound parity and platform evidence. Domain/ren
 crates must not depend on Flutter, Android, GPUI or widgets; the bridge/platform
 adapter is the explicit exception. Preserve exact integer parameters, separate
 module/catalog IDs, existing saved data and honest precision/export limitations.
+The final boundary also includes Fourier/analysis, trajectories and exact/special
+mathematical visualizations, not only fractal shaders; see
+[ADR 0005](../adr/0005-rust-owns-all-mathematical-domain-logic.md).
+Flutter still owns presentation calculations and platform I/O. The native
+demonstration targets 60 Hz in a defined hardware/scenario pair and 120 Hz
+additionally where supported, not a universal FPS guarantee; see
+[ADR 0006](../adr/0006-native-demonstration-performance-is-target-specific.md).
+These are future acceptance boundaries, not measured results.
 
 ## Interfaces not present
 
