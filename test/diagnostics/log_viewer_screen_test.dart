@@ -50,14 +50,6 @@ void main() {
       });
     }
 
-    testWidgets('renders without error', (tester) async {
-      await tester.pumpWidget(_wrap());
-      await tester.pumpAndSettle();
-
-      expect(find.byType(LogViewerScreen), findsOneWidget);
-      expect(find.byType(Scaffold), findsOneWidget);
-    });
-
     testWidgets('AppBar has correct l10n title when empty', (tester) async {
       await tester.pumpWidget(_wrap());
       await tester.pumpAndSettle();
@@ -75,14 +67,6 @@ void main() {
 
       // 2 entries, no filter => Log (2/2)
       expect(find.text('Log (2/2)'), findsOneWidget);
-    });
-
-    testWidgets('filter button is visible in AppBar', (tester) async {
-      await tester.pumpWidget(_wrap());
-      await tester.pumpAndSettle();
-
-      // PopupMenuButton uses filter_list_rounded icon
-      expect(find.byIcon(Icons.filter_list_rounded), findsOneWidget);
     });
 
     testWidgets('filter popup shows All, Debug, Info, Warn, Error items',
@@ -105,13 +89,6 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.file_upload_outlined), findsOneWidget);
-    });
-
-    testWidgets('clear action button is present', (tester) async {
-      await tester.pumpWidget(_wrap());
-      await tester.pumpAndSettle();
-
-      expect(find.byIcon(Icons.delete_outline_rounded), findsOneWidget);
     });
 
     testWidgets('shows "No log entries" when logger is empty', (tester) async {

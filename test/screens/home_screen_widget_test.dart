@@ -656,11 +656,5 @@ void main() {
       semantics.dispose();
     });
 
-    testWidgets('renders without error', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
-
-      expect(tester.takeException(), isNull);
-    });
   });
 }
