@@ -1,0 +1,9 @@
+schema = 1
+task = "RUST-M2-SEEDED-RANDOM"
+candidate = "7d59b364f668a2ab4c6c3e295ff2f117b947ec86"
+integration = "26ee422d6f343f01efefe8695e8d5802c2c1ba48"
+tree = "4fb6549df2d2b1d9d5aaeaf5da955bb7c10fe477"
+contract_hash = "8f294a07a9bd5aafd8c7f413950da604a1686e3185405d2bd1b20db9f3775048"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-SEEDED-RANDOM"]
+result = "pass"
+review = "passed"
