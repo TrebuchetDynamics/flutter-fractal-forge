@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-M2-SESSION"
 title = "Add transactional Rust candidate sessions with ordinary replay parity"
 short = "Prove ordered candidate state parity"
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Next"
 rank = 5000
@@ -16,6 +16,8 @@ scope = "Implement the inert fractal-core::session candidate API decided in docs
 acceptance = ["Given proposed rust/crates/fractal-core/tests/session_replay.rs and original state-replay.json plus four catalog envelopes, when ordinary prefix events 0-46 run twice through the public Session API and legacy serializer framing, every result/history/view/params/transparency/null Number Walls field equals the original expected output. Mutated expectations fail. Assert the exact prefix boundary and document all remaining 47-67 events as unported, not skipped full parity.", "Given the same proposed seam, ordered batches preserve adaptive zoom, defaults/preset precedence, reset and valid no-ops. Nonempty success publishes once with one u64 revision increment and matches equivalent ordered singleton state; empty batches do not advance. Wrong identity, stale revision, unsupported module/trajectory/operation and overflow reject atomically. Retained snapshots and other sessions stay unchanged.", "Given final checks, no Dart owner, baseline or saved-format bytes change. docs/tasks/RUST-M2-SESSION.md records supported commands/modules, actual parity/negative results and missing full-session/Number Walls/physical-input proof; no runtime ownership or M2 qualification is inferred."]
 checks = ["PATH=/home/xel/.rustup/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:$PATH CARGO_HOME=\"$AUTOWORK_CACHE/cargo-1.95.0\" cargo test --manifest-path rust/Cargo.toml -p fractal-core --test session_replay --locked --offline", "( export PATH=/home/xel/.rustup/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:$PATH; export CARGO_HOME=\"$AUTOWORK_CACHE/cargo-1.95.0\"; scripts/ci/rust-check.sh )", "flutter test --no-pub test/migration/state_replay_test.dart test/fractal/fractal_controller_behavior_test.dart test/fractal/fractal_controller_reset_session_test.dart test/core/controllers/fractal_controller_state_exposure_test.dart", "git diff --exit-code -- migration/baseline lib test/migration && git diff --check; read back result-note links and the supported/unsupported command boundary.", "( AUTOWORK_CACHE=\"${AUTOWORK_CACHE:-$(git rev-parse --path-format=absolute --git-common-dir)/autowork-execution/cache}\" && export AUTOWORK_CACHE && export FLUTTER_ROOT=\"$AUTOWORK_CACHE/flutter-3.47.9\" && export PUB_CACHE=\"$AUTOWORK_CACHE/pub-cache\" && test -x \"$FLUTTER_ROOT/bin/flutter\" && test -d \"$PUB_CACHE\" && export PATH=\"$FLUTTER_ROOT/bin:/usr/bin:$PATH\" && scripts/ci/offline-gate.sh --python-bin /usr/bin/python3 )"]
 exclusions = ["No app owner switch, FRB/codegen, Number Walls validation/grid port, effects/kaleidoscope/randomization/trajectory port, physical gesture transforms, runtime catalog/precision authority, new dependency, copied fixture or baseline refresh."]
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/RUST-M2-SESSION.toml"
 +++
 
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration; docs/tasks/RUST-PLAN-03.md#next-executable-batch; docs/tasks/RUST-PLAN-03.md#decided-interfaces-and-error-semantics
@@ -25,3 +27,4 @@ exclusions = ["No app owner switch, FRB/codegen, Number Walls validation/grid po
 - Check setup: use AGENTS.md pinned Flutter 3.47.9/cache and Python imports; Rust 1.95.0 on local PATH, CARGO_HOME=$AUTOWORK_CACHE/cargo-1.95.0 and private TMPDIR. Missing tools/cache, timeouts and failures are not skips. Focused worker checks and runner merged-tree/full-main checks remain separate; the full-check entry is for the runner gate, not repeated worker loops.
 - Invariants: preserve all original baselines and the working Dart state/gesture/render paths. Unsupported Number Walls is not a substitute for its required exact asynchronous certification. No task ledger edits or new authority.
 - Next action: add failing prefix replay tests and the explicit cut assertion, then implement ordered transactions and atomic/stale/snapshot negatives. Internal helper/error spelling is worker-reversible.
+- Pending live: Physical-input/device and hardware/browser qualification were not run. This is an inert offline candidate, not a runtime owner switch or M2 qualification.
