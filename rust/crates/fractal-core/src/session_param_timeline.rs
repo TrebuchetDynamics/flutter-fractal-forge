@@ -55,6 +55,9 @@ impl Session {
         let revision = expected_revision
             .checked_add(1)
             .ok_or(SessionError::RevisionOverflow)?;
+        revision
+            .checked_add(u64::from(self.state.trajectory_pending.is_some()))
+            .ok_or(SessionError::RevisionOverflow)?;
         let token = ParamTimelineToken {
             session_id,
             revision,
@@ -90,6 +93,7 @@ impl Session {
         let revision = expected_revision
             .checked_add(1)
             .ok_or(SessionError::RevisionOverflow)?;
+        self.state.reserve_terminals(revision)?;
         let data = module_data(&self.catalog, &self.state.module_id)?;
         let step = timeline.step + 1;
         let params =
@@ -123,6 +127,7 @@ impl Session {
             let revision = expected_revision
                 .checked_add(1)
                 .ok_or(SessionError::RevisionOverflow)?;
+            self.state.reserve_terminals(revision)?;
             self.param_timeline = None;
             self.state.revision = revision;
         }

@@ -402,6 +402,10 @@ impl TrajectoryJob {
         self.result.as_ref()
     }
 
+    pub(crate) fn into_result(self) -> Option<Result<AttractorTrajectory, TrajectoryError>> {
+        self.result
+    }
+
     /// At most 256 integration steps, including burn-in. Bounds are accumulated
     /// per retained point. An exact chunk boundary yields before final publication.
     /// Cancellation is checked at every step and immediately before publication.
