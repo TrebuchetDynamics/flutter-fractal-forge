@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-PLAN-03"
 title = "Plan Rust session ownership from native lifecycle and typed catalog evidence"
 short = "Continue round 2 of 10 with every remaining mathematical and platform gate retained."
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Next"
 rank = 4000
@@ -16,6 +16,11 @@ scope = "For RUST-ENGINE-001 read RUST-M1-LINUX, RUST-M1-WAYDROID and RUST-M3-CA
 acceptance = ["Given actual reports and current implementation, the saved plan and complete records state whether native M1 is proven or pending, distinguish typed catalog preparation from runtime M3, and choose executable bounded sole-owner migration work with true prerequisites, exact checks and no lost proof-map or auxiliary-domain outcome.", "Given the saved batch, readback/links and task validation pass with no unintended drafts, RUST-PLAN-03 closes manually without a receipt, and continuation uses one plan of round 3 of 10 only when new building tasks exist; stopping instead preserves the unmet goal with its required question/open proof task. No implementation or new authority occurs."]
 checks = ["/home/xel/.local/bin/python3 /home/xel/.local/state/pi-autowork/releases/fbd1f2fe92b32133a8ab6356e7454fa097e33408/pi-autowork/pi_autowork/command.py tasks show RUST-M1-LINUX --worktree; /home/xel/.local/bin/python3 /home/xel/.local/state/pi-autowork/releases/fbd1f2fe92b32133a8ab6356e7454fa097e33408/pi-autowork/pi_autowork/command.py tasks show RUST-M1-WAYDROID --worktree; /home/xel/.local/bin/python3 /home/xel/.local/state/pi-autowork/releases/fbd1f2fe92b32133a8ab6356e7454fa097e33408/pi-autowork/pi_autowork/command.py tasks show RUST-M3-CATALOG-PARITY --worktree; read their actual slot reports and current code plus docs/tasks/RUST-PLAN-02.md, not closure status alone.", "/home/xel/.local/bin/python3 /home/xel/.local/state/pi-autowork/releases/fbd1f2fe92b32133a8ab6356e7454fa097e33408/pi-autowork/pi_autowork/command.py tasks validate --worktree .; read back all changed records and verify their local links/anchors; after the single planning commit run tasks why on the first new ready building task."]
 exclusions = ["No implementation, worker dispatch, services, installs, live operations, acceptance waivers, receipt creation, goal qualification or publication; task ledger edits only through supported tasks commands."]
+closure = "manual"
+closure_actor = "DOCS-MAINTAINER"
+closure_timestamp = "2026-11-07T09:36:16.845872+00:00"
+closure_reason = "Reconciled native M1 lifecycle and typed catalog reports; saved three bounded M2 preparation tasks and one round-3 successor, with all remaining proof retained. Planning only, not goal qualification."
+closure_evidence = "docs/tasks/RUST-PLAN-03.md"
 +++
 
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration; docs/tasks/RUST-PLAN-02.md#next-executable-batch
