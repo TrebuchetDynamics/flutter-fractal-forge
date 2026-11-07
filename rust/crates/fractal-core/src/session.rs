@@ -2,6 +2,9 @@
 
 #[path = "session_effects.rs"]
 mod effects;
+#[path = "session_param_timeline.rs"]
+mod param_timeline;
+pub use param_timeline::ParamTimelineToken;
 #[path = "session_number_wall.rs"]
 mod number_wall;
 pub use number_wall::{RequestGuard, RequestProgress, RequestToken};
@@ -93,6 +96,7 @@ pub enum SessionError {
     UnsupportedTrajectory,
     UnsupportedOperation(String),
     InvalidCatalog(String),
+    InvalidParameterTarget(String),
 }
 
 impl fmt::Display for SessionError {
@@ -150,6 +154,7 @@ pub struct Session {
     catalog: Arc<CatalogBaseline>,
     state: Snapshot,
     pending: Option<number_wall::PendingRequest>,
+    param_timeline: Option<param_timeline::ParamTimeline>,
 }
 
 impl Session {
@@ -181,6 +186,7 @@ impl Session {
             catalog,
             state,
             pending: None,
+            param_timeline: None,
         })
     }
 
@@ -206,7 +212,9 @@ impl Session {
             .checked_add(1)
             .ok_or(SessionError::RevisionOverflow)?;
         let mut candidate = self.state.clone();
+        let mut cancel_param_timeline = false;
         for command in commands {
+            cancel_param_timeline |= param_timeline::cancelled_by(&candidate, command);
             if number_wall::plan_command(
                 &self.catalog,
                 &mut candidate,
@@ -222,6 +230,9 @@ impl Session {
             return Err(SessionError::RevisionOverflow);
         }
         candidate.revision = revision;
+        if cancel_param_timeline {
+            self.param_timeline = None;
+        }
         if candidate.pending.is_none() {
             self.pending = None;
         }
@@ -683,5 +694,39 @@ mod tests {
             Err(SessionError::RevisionOverflow)
         );
         assert_eq!(session.snapshot(), last);
+
+        // Overflow must not consume a tick, replace its generation or cancel it.
+        session.state.revision = 0;
+        let mut target = session.state.params.clone();
+        target.insert("iterations".into(), ParameterValue::Number(438.into()));
+        let token = session.start_param_timeline(1, 0, target.clone()).unwrap();
+        session.state.revision = u64::MAX;
+        let before = session.snapshot();
+        let timeline = session.param_timeline.clone();
+        assert_eq!(
+            session.start_param_timeline(1, u64::MAX, target),
+            Err(SessionError::RevisionOverflow)
+        );
+        assert_eq!(
+            session.tick_param_timeline(1, u64::MAX, token),
+            Err(SessionError::RevisionOverflow)
+        );
+        assert_eq!(
+            session.cancel_param_timeline(1, u64::MAX, token),
+            Err(SessionError::RevisionOverflow)
+        );
+        assert_eq!(
+            session.apply_batch(1, u64::MAX, &[Command::ResetParams]),
+            Err(SessionError::RevisionOverflow)
+        );
+        assert_eq!(session.snapshot(), before);
+        assert_eq!(session.param_timeline, timeline);
+        session.state.revision = u64::MAX - 1;
+        let ticked = session.tick_param_timeline(1, u64::MAX - 1, token).unwrap();
+        assert_eq!(ticked.revision(), u64::MAX);
+        assert_eq!(
+            ticked.params()["iterations"],
+            ParameterValue::Number(357.into())
+        );
     }
 }

@@ -122,6 +122,7 @@ impl Session {
             guard,
             job,
         });
+        self.param_timeline = None;
         self.state = candidate;
         Ok(Some(token))
     }
@@ -192,7 +193,7 @@ impl Session {
     }
 }
 
-fn cancel_state(state: &mut Snapshot) {
+pub(super) fn cancel_state(state: &mut Snapshot) {
     if state.pending.take().is_some() {
         state.number_wall_status = Some(NumberWallPrimeStatus::Cancelled);
     }
