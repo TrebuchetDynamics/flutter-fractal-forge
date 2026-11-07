@@ -1,6 +1,7 @@
 //! Platform-independent engine domain boundary.
 
 pub mod catalog_baseline;
+pub mod normalization;
 
 /// Rust engine version, independent of the Flutter app version.
 pub fn engine_version() -> String {
