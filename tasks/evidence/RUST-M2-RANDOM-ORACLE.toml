@@ -1,0 +1,9 @@
+schema = 1
+task = "RUST-M2-RANDOM-ORACLE"
+candidate = "7362ce0d9a96aaf2e8df6ee757365ad219047775"
+integration = "32e644919d5361657b98d53c6e15b161d6feaa26"
+tree = "222e581d206ff283d5e25020f80e9ac308a15f9c"
+contract_hash = "5172bcef1ab2974329f70d6ec5c3960543e08029cf53aaa1a54198bcb3e7280c"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-RANDOM-ORACLE"]
+result = "pass"
+review = "passed"
