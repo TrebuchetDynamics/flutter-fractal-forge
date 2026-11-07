@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-M0-CONTRACTS"
 title = "Freeze generated Dart catalog and shader interface inventories"
 short = "Generate deterministic baseline v1 from real registry and catalog descriptors."
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Now"
 rank = 2000
@@ -16,6 +16,8 @@ scope = "Implement a read-only default Flutter test exporter. Opt-in MIGRATION_B
 acceptance = ["Given the current registry and CatalogRepository, baseline_contracts_test.dart compares canonical output across two exports and fixtures; every descriptor is accounted for without fixed catalog counts, exact decimal/enum values survive, and output reads are side-effect free without the opt-in define.", "Given shader declarations, resolved includes and family constants, the same test detects an intentionally changed binding/asset/default/ID and preserves distinct sampler and float-slot records; unresolved custom ABI is reported with source path, not certified."]
 checks = ["flutter test --no-pub test/migration/baseline_contracts_test.dart test/catalog/catalog_id_integrity_test.dart test/modules/escape_time_uniform_contract_test.dart test/modules/escape_time_shader_manifest_test.dart", "flutter test --no-pub test/migration/baseline_contracts_test.dart --dart-define=MIGRATION_BASELINE_OUT=/tmp/fractal-m0-contracts-a && flutter test --no-pub test/migration/baseline_contracts_test.dart --dart-define=MIGRATION_BASELINE_OUT=/tmp/fractal-m0-contracts-b && diff -r /tmp/fractal-m0-contracts-a /tmp/fractal-m0-contracts-b", "( export FLUTTER_ROOT=\"$AUTOWORK_CACHE/flutter-3.47.9\"; export PUB_CACHE=\"$AUTOWORK_CACHE/pub-cache\"; export PATH=\"$FLUTTER_ROOT/bin:/usr/bin:$PATH\"; flutter --version && /usr/bin/python3 -c 'import sys, pytest, jinja2, markupsafe; print(sys.executable, sys.version, pytest.__version__, jinja2.__version__); assert callable(markupsafe.soft_str)' && scripts/ci/offline-gate.sh --python-bin /usr/bin/python3 )"]
 exclusions = ["No state/render replacement, ID renames, saved-data schema changes, publication or live device mutation in this offline task.", "Do not edit the seven pre-existing dirty test files; use isolated execution and preserve their work."]
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/RUST-M0-CONTRACTS.toml"
 +++
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration
 - Planner call: canonical JSON schema=1; ordered identity field plus sorted serialization; provenance hashes outside deterministic payload. Reuse uniform_layout.dart, catalog repository and native CPU capability lookup, not README totals.
