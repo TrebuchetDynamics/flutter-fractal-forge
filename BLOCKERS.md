@@ -10,6 +10,38 @@ The generated block below is preserved historical runner output, not five fresh 
 
 <!-- pi-autowork:questions:start -->
 
+### Q-FDROID-002-29b7a402 — USER_DECISION — effort decision — unblocks 1
+
+- Task: FDROID-002-29b7a402 — Qualify KIFS installed behavior on the designated Waydroid instance
+- Needs: FDROID-002-29b7a402 requires owner action or recorded live authorization; an unattended runner cannot run it.
+- Since: 2026-11-07T23:07:02Z
+- Answer: Run it yourself, set `live = "authorized"` in tasks/items/FDROID-002-29b7a402.md with an `Owner decision:` note (who authorized which live scope and when), or move it to Needs decision. Only the owner grants it; a worker's edit to the record never does.
+- Kind: outside
+
+### Q-FDROID-003-29b7a403 — USER_DECISION — effort decision — unblocks 1
+
+- Task: FDROID-003-29b7a403 — Obtain candidate-bound confirmation of the Adreno 610 crash resolution
+- Needs: FDROID-003-29b7a403 requires owner action or recorded live authorization; an unattended runner cannot run it.
+- Since: 2026-11-07T23:07:02Z
+- Answer: Run it yourself, set `live = "authorized"` in tasks/items/FDROID-003-29b7a403.md with an `Owner decision:` note (who authorized which live scope and when), or move it to Needs decision. Only the owner grants it; a worker's edit to the record never does.
+- Kind: outside
+
+### Q-FDROID-004-29b7a404 — USER_DECISION — effort decision — unblocks 1
+
+- Task: FDROID-004-29b7a404 — Qualify updated F-Droid metadata and reproducible ABI release artifacts
+- Needs: FDROID-004-29b7a404 requires owner action or recorded live authorization; an unattended runner cannot run it.
+- Since: 2026-11-07T23:07:02Z
+- Answer: Run it yourself, set `live = "authorized"` in tasks/items/FDROID-004-29b7a404.md with an `Owner decision:` note (who authorized which live scope and when), or move it to Needs decision. Only the owner grants it; a worker's edit to the record never does.
+- Kind: outside
+
+### Q-FDROID-005-29b7a405 — USER_DECISION — effort decision — unblocks 1
+
+- Task: FDROID-005-29b7a405 — Complete the existing F-Droid MR review and verify catalog acceptance
+- Needs: FDROID-005-29b7a405 requires owner action or recorded live authorization; an unattended runner cannot run it.
+- Since: 2026-11-07T23:07:02Z
+- Answer: Run it yourself, set `live = "authorized"` in tasks/items/FDROID-005-29b7a405.md with an `Owner decision:` note (who authorized which live scope and when), or move it to Needs decision. Only the owner grants it; a worker's edit to the record never does.
+- Kind: outside
+
 <!-- pi-autowork:questions:end -->
 
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
