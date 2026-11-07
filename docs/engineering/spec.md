@@ -33,6 +33,18 @@ Provider supplies application dependencies. `ChangeNotifier`-based controllers e
 
 The repository's privacy policy states that fractal processing is local. Do not add analytics, account, cloud-sync, or camera-data collection without approved product scope. Keep signing material and service credentials outside source control. Android, desktop, and web behavior are separately constrained by Flutter plugins and renderer support; consult the backend matrix and platform build configuration before claiming parity.
 
+## Planned Rust engine boundary
+
+The owner requested a staged Flutter-shell/Rust-engine migration. Its accepted
+planning scope, engineering decisions, complete milestone map and first task batch
+are in [the migration plan](../planning/refactor-plan.md#flutter-shell-and-rust-engine-migration).
+This is a future architecture, not a claim that Rust is integrated today. The
+current components, shader interface and persistence behavior above remain normative
+until each replacement has source-bound parity and platform evidence. Domain/render
+crates must not depend on Flutter, Android, GPUI or widgets; the bridge/platform
+adapter is the explicit exception. Preserve exact integer parameters, separate
+module/catalog IDs, existing saved data and honest precision/export limitations.
+
 ## Interfaces not present
 
 The app has no repository-owned HTTP API, database migration interface, or server deployment contract. The web preview is a static Flutter build published through the separately documented deployment procedure. No OpenAPI document applies.
