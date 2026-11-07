@@ -1,16 +1,21 @@
-//! Inert scalar/effect/Number Walls owner. No app routing, executor or storage.
+//! Inert scalar/effect/Number Walls/trajectory metadata owner. No app routing, executor or storage.
 
 #[path = "session_effects.rs"]
 mod effects;
 #[path = "session_number_wall.rs"]
 mod number_wall;
 pub use number_wall::{RequestGuard, RequestProgress, RequestToken};
+#[path = "session_trajectory.rs"]
+mod trajectory;
+use crate::trajectory::OrbitTrajectorySettings;
+pub use trajectory::CameraInput;
+use trajectory::default_camera;
 
 use crate::{number_wall_frame::NumberWallFrame, number_wall_prime::NumberWallPrimeStatus};
 
 use crate::{
     catalog_baseline::{
-        CatalogBaseline, Dimension, Module, Parameter, ParameterKind, ParameterValue, Preset, View,
+        CatalogBaseline, Dimension, Module, Parameter, ParameterKind, ParameterValue, Preset,
     },
     normalization::{FiniteView, RawScalar, ViewInput, normalize_parameter, normalize_view},
 };
@@ -23,23 +28,6 @@ const INITIAL_VIEW: ViewInput = ViewInput {
     pan: [0.0; 2],
     rotation: [0.0; 3],
 };
-
-/// Trajectories have no candidate representation yet. Ingress must set the
-/// presence flag for every non-null trajectory, so it is rejected, not dropped.
-#[derive(Debug, Clone, Copy, PartialEq)]
-pub struct CameraInput {
-    pub view: ViewInput,
-    pub has_trajectory: bool,
-}
-
-impl From<ViewInput> for CameraInput {
-    fn from(view: ViewInput) -> Self {
-        Self {
-            view,
-            has_trajectory: false,
-        }
-    }
-}
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Command {
@@ -122,6 +110,7 @@ pub struct Snapshot {
     module_id: String,
     params: BTreeMap<String, ParameterValue>,
     view: FiniteView,
+    trajectory: Option<OrbitTrajectorySettings>,
     transparent_background: bool,
     last_adaptive_zoom: f64,
     effects: effects::Effects,
@@ -170,7 +159,8 @@ impl Session {
         module_id: &str,
     ) -> Result<Self, SessionError> {
         let data = module_data(&catalog, module_id)?;
-        let view = normalize_view(default_camera(data.default)?.view, INITIAL_VIEW, module_id);
+        let camera = default_camera(data.default)?;
+        let view = normalize_view(camera.view, INITIAL_VIEW, module_id);
         let mut effects = effects::Effects::default();
         effects.apply_module_policy(module_id);
         let state = Snapshot {
@@ -179,6 +169,7 @@ impl Session {
             module_id: module_id.into(),
             params: default_params(&data, &RawParams::new()),
             view,
+            trajectory: camera.trajectory_for(module_id)?,
             transparent_background: false,
             last_adaptive_zoom: view.zoom(),
             effects,
@@ -253,7 +244,10 @@ fn supported(module_id: &str) -> Result<(), SessionError> {
         | "recursive_sine_sphere"
         | "kaleidoscope_basic"
         | "kaleidoscope_fractal"
-        | "number_wall" => Ok(()),
+        | "number_wall"
+        | "thomas_attractor"
+        | "four_wing"
+        | "lorenz_2d" => Ok(()),
         _ => Err(SessionError::UnsupportedModule(module_id.into())),
     }
 }
@@ -288,42 +282,6 @@ fn module_data<'a>(catalog: &'a CatalogBaseline, id: &str) -> Result<ModuleData<
     })
 }
 
-fn default_camera(preset: &Preset) -> Result<CameraInput, SessionError> {
-    let View {
-        zoom,
-        pan_x,
-        pan_y,
-        rot_x,
-        rot_y,
-        rot_z,
-        metadata,
-    } = &preset.view;
-    let n = |value: &serde_json::Number| {
-        value
-            .as_f64()
-            .filter(|n| n.is_finite())
-            .ok_or_else(|| SessionError::InvalidCatalog(preset.id.clone()))
-    };
-    let camera = CameraInput {
-        view: ViewInput {
-            zoom: n(zoom)?,
-            pan: [n(pan_x)?, n(pan_y)?],
-            rotation: [n(rot_x)?, n(rot_y)?, n(rot_z)?],
-        },
-        has_trajectory: metadata.get("trajectory").is_some_and(|v| !v.is_null()),
-    };
-    check_camera(camera)?;
-    Ok(camera)
-}
-
-fn check_camera(camera: CameraInput) -> Result<(), SessionError> {
-    if camera.has_trajectory {
-        Err(SessionError::UnsupportedTrajectory)
-    } else {
-        Ok(())
-    }
-}
-
 fn normalized_params(
     parameters: &[Parameter],
     values: &RawParams,
@@ -355,7 +313,7 @@ fn default_params(
 }
 
 fn set_view(state: &mut Snapshot, camera: CameraInput, adaptive: bool) -> Result<(), SessionError> {
-    check_camera(camera)?;
+    state.trajectory = camera.trajectory_for(&state.module_id)?;
     let current = ViewInput {
         zoom: state.view.zoom(),
         pan: state.view.pan(),
@@ -369,6 +327,7 @@ fn set_view(state: &mut Snapshot, camera: CameraInput, adaptive: bool) -> Result
 }
 
 fn reset_view(state: &mut Snapshot) {
+    state.trajectory = None;
     state.view = normalize_view(INITIAL_VIEW, INITIAL_VIEW, &state.module_id);
     state.last_adaptive_zoom = state.view.zoom();
 }
@@ -385,7 +344,14 @@ fn apply_command(
                 pan: state.view.pan(),
                 rotation: state.view.rotation(),
             };
-            set_view(state, camera.into(), true)?;
+            set_view(
+                state,
+                CameraInput {
+                    trajectory: state.trajectory,
+                    ..camera.into()
+                },
+                true,
+            )?;
             adaptive_iterations(catalog, state)?;
         }
         Command::Pan(pan) => {
@@ -394,7 +360,14 @@ fn apply_command(
                 pan: *pan,
                 rotation: state.view.rotation(),
             };
-            set_view(state, camera.into(), false)?;
+            set_view(
+                state,
+                CameraInput {
+                    trajectory: state.trajectory,
+                    ..camera.into()
+                },
+                false,
+            )?;
         }
         Command::Rotation(rotation) => {
             let camera = ViewInput {
@@ -402,7 +375,14 @@ fn apply_command(
                 pan: state.view.pan(),
                 rotation: *rotation,
             };
-            set_view(state, camera.into(), false)?;
+            set_view(
+                state,
+                CameraInput {
+                    trajectory: state.trajectory,
+                    ..camera.into()
+                },
+                false,
+            )?;
         }
         Command::View { camera, adaptive } => {
             set_view(state, *camera, *adaptive)?;

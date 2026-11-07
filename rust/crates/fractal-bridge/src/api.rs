@@ -161,6 +161,8 @@ impl StateCamera {
                 pan: [self.view.pan_x, self.view.pan_y],
                 rotation: [self.view.rot_x, self.view.rot_y, self.view.rot_z],
             },
+            // Public presence markers do not carry typed settings and still reject.
+            trajectory: None,
             has_trajectory: self.has_trajectory,
         }
     }
