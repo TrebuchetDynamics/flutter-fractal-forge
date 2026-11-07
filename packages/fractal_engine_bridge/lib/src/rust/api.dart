@@ -6,7 +6,7 @@
 import 'frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// These functions are ignored because they are not marked as `pub`: `allocate_session_id`, `core_params`, `into_core`
+// These functions are ignored because they are not marked as `pub`: `advance_number_wall_impl`, `allocate_session_id`, `begin_number_wall_impl`, `cancel_number_wall_impl`, `core_params`, `into_core`, `shutdown_impl`, `snapshot_impl`
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_fields_are_eq`, `assert_fields_are_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`
 // These functions are ignored (category: IgnoreBecauseExplicitAttribute): `default`
 
@@ -178,6 +178,13 @@ abstract class StateSession implements RustOpaqueInterface {
       required StateNumberWallRequest request,
       required int workLimit});
 
+  /// Normal-mode FRB transport: runs on the existing pool, not the UI thread.
+  Future<StateNumberWallProgress> advanceNumberWallAsync(
+      {required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateNumberWallRequest request,
+      required int workLimit});
+
   StateSnapshot applyBatch(
       {required BigInt sessionId,
       required BigInt expectedRevision,
@@ -191,7 +198,21 @@ abstract class StateSession implements RustOpaqueInterface {
       required StateNumberWallGuard requestGuard,
       required int maxTrialDivisions});
 
+  /// Normal-mode FRB transport: runs on the existing pool, not the UI thread.
+  Future<StateNumberWallRequest?> beginNumberWallAsync(
+      {required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateCommand command,
+      required StateNumberWallGuard requestGuard,
+      required int maxTrialDivisions});
+
   StateNumberWallProgress cancelNumberWall(
+      {required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateNumberWallRequest request});
+
+  /// Normal-mode FRB transport: runs on the existing pool, not the UI thread.
+  Future<StateNumberWallProgress> cancelNumberWallAsync(
       {required BigInt sessionId,
       required BigInt expectedRevision,
       required StateNumberWallRequest request});
@@ -212,7 +233,13 @@ abstract class StateSession implements RustOpaqueInterface {
 
   void shutdown();
 
+  /// Normal-mode FRB transport: runs on the existing pool, not the UI thread.
+  Future<void> shutdownAsync();
+
   StateSnapshot snapshot();
+
+  /// Normal-mode FRB transport: runs on the existing pool, not the UI thread.
+  Future<StateSnapshot> snapshotAsync();
 }
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateSnapshot>>

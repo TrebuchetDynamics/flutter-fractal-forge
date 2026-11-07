@@ -16,15 +16,89 @@ const PARAMETERS: &str = include_str!("../../../../migration/baseline/parameters
 const PRESETS: &str = include_str!("../../../../migration/baseline/presets.json");
 const CAPABILITIES: &str = include_str!("../../../../migration/baseline/capabilities.json");
 
-fn session() -> StateSession {
-    StateSession::new(
-        MODULES.into(),
-        PARAMETERS.into(),
-        PRESETS.into(),
-        CAPABILITIES.into(),
-        "mandelbrot".into(),
-    )
-    .unwrap()
+struct Transport {
+    normal: bool,
+    inner: StateSession,
+}
+
+impl std::ops::Deref for Transport {
+    type Target = StateSession;
+    fn deref(&self) -> &Self::Target {
+        &self.inner
+    }
+}
+
+// Reuse every existing public-seam assertion for both entry points.
+impl Transport {
+    fn snapshot(&self) -> Result<StateSnapshot, String> {
+        if self.normal {
+            self.inner.snapshot_async()
+        } else {
+            self.inner.snapshot()
+        }
+    }
+    fn shutdown(&self) -> Result<(), String> {
+        if self.normal {
+            self.inner.shutdown_async()
+        } else {
+            self.inner.shutdown()
+        }
+    }
+    fn begin_number_wall(
+        &self,
+        id: u64,
+        rev: u64,
+        command: StateCommand,
+        guard: &StateNumberWallGuard,
+        budget: u32,
+    ) -> Result<Option<StateNumberWallRequest>, String> {
+        if self.normal {
+            self.inner
+                .begin_number_wall_async(id, rev, command, guard, budget)
+        } else {
+            self.inner
+                .begin_number_wall(id, rev, command, guard, budget)
+        }
+    }
+    fn advance_number_wall(
+        &self,
+        id: u64,
+        rev: u64,
+        request: &StateNumberWallRequest,
+        work: u32,
+    ) -> Result<StateNumberWallProgress, String> {
+        if self.normal {
+            self.inner.advance_number_wall_async(id, rev, request, work)
+        } else {
+            self.inner.advance_number_wall(id, rev, request, work)
+        }
+    }
+    fn cancel_number_wall(
+        &self,
+        id: u64,
+        rev: u64,
+        request: &StateNumberWallRequest,
+    ) -> Result<StateNumberWallProgress, String> {
+        if self.normal {
+            self.inner.cancel_number_wall_async(id, rev, request)
+        } else {
+            self.inner.cancel_number_wall(id, rev, request)
+        }
+    }
+}
+
+fn session(normal: bool) -> Transport {
+    Transport {
+        normal,
+        inner: StateSession::new(
+            MODULES.into(),
+            PARAMETERS.into(),
+            PRESETS.into(),
+            CAPABILITIES.into(),
+            "mandelbrot".into(),
+        )
+        .unwrap(),
+    }
 }
 fn camera() -> StateCamera {
     StateCamera {
@@ -60,7 +134,7 @@ fn load(prime: &str) -> StateCommand {
     )
 }
 fn begin(
-    s: &StateSession,
+    s: &Transport,
     command: StateCommand,
     guard: &StateNumberWallGuard,
 ) -> StateNumberWallRequest {
@@ -75,12 +149,12 @@ fn begin(
     .unwrap()
     .unwrap()
 }
-fn step(s: &StateSession, request: &StateNumberWallRequest, work: u32) -> StateNumberWallProgress {
+fn step(s: &Transport, request: &StateNumberWallRequest, work: u32) -> StateNumberWallProgress {
     let before = s.snapshot().unwrap();
     s.advance_number_wall(before.session_id(), before.revision(), request, work)
         .unwrap()
 }
-fn finish(s: &StateSession, request: &StateNumberWallRequest) -> StateNumberWallProgress {
+fn finish(s: &Transport, request: &StateNumberWallRequest) -> StateNumberWallProgress {
     for _ in 0..100_000 {
         let progress = step(s, request, 1024);
         if !progress.is_pending() {
@@ -89,7 +163,7 @@ fn finish(s: &StateSession, request: &StateNumberWallRequest) -> StateNumberWall
     }
     panic!("bounded request did not terminate");
 }
-fn apply(s: &StateSession, commands: Vec<StateCommand>) -> StateSnapshot {
+fn apply(s: &Transport, commands: Vec<StateCommand>) -> StateSnapshot {
     let before = s.snapshot().unwrap();
     s.apply_batch(before.session_id(), before.revision(), commands)
         .unwrap()
@@ -104,7 +178,12 @@ fn params(snapshot: &StateSnapshot) -> HashMap<String, String> {
 
 #[test]
 fn each_step_and_complete_exact_frame_match_direct_core() {
-    let s = session();
+    for normal in [false, true] {
+        check_each_step_and_complete_exact_frame_match_direct_core(normal);
+    }
+}
+fn check_each_step_and_complete_exact_frame_match_direct_core(normal: bool) {
+    let s = session(normal);
     let before = s.snapshot().unwrap();
     let mut core = Session::new(
         Arc::new(CatalogBaseline::from_jsons(MODULES, PARAMETERS, PRESETS, CAPABILITIES).unwrap()),
@@ -206,7 +285,12 @@ fn each_step_and_complete_exact_frame_match_direct_core() {
 
 #[test]
 fn uncertified_results_retain_last_good_frame_and_settings() {
-    let s = session();
+    for normal in [false, true] {
+        check_uncertified_results_retain_last_good_frame_and_settings(normal);
+    }
+}
+fn check_uncertified_results_retain_last_good_frame_and_settings(normal: bool) {
+    let s = session(normal);
     let request = begin(&s, load("97"), &StateNumberWallGuard::new(true));
     let good = finish(&s, &request).snapshot();
     let frame = good.number_wall_frame().unwrap();
@@ -244,7 +328,12 @@ fn uncertified_results_retain_last_good_frame_and_settings() {
 
 #[test]
 fn inactive_revoke_supersede_edit_navigation_and_cancel_preserve_ownership() {
-    let s = session();
+    for normal in [false, true] {
+        check_inactive_revoke_supersede_edit_navigation_and_cancel_preserve_ownership(normal);
+    }
+}
+fn check_inactive_revoke_supersede_edit_navigation_and_cancel_preserve_ownership(normal: bool) {
+    let s = session(normal);
     let inactive = StateNumberWallGuard::new(false);
     assert!(!inactive.is_active());
     let before = s.snapshot().unwrap();
@@ -329,9 +418,94 @@ fn inactive_revoke_supersede_edit_navigation_and_cancel_preserve_ownership() {
 }
 
 #[test]
+fn normal_calls_check_revision_and_close_at_execution_in_channel_order() {
+    use std::{sync::mpsc::channel, thread};
+
+    let s = session(true);
+    let request = begin(&s, load("97"), &StateNumberWallGuard::new(true));
+    let retained = finish(&s, &request).snapshot();
+    let frame = retained.number_wall_frame().unwrap();
+    let values = frame.values();
+    let guard = StateNumberWallGuard::new(true);
+    let old = begin(&s, load("101"), &guard);
+    let captured = s.snapshot().unwrap();
+    thread::scope(|scope| {
+        let (ready_tx, ready_rx) = channel();
+        let (run_tx, run_rx) = channel();
+        let (s, captured, guard, old) = (&s, &captured, &guard, &old);
+        let worker = scope.spawn(move || {
+            ready_tx.send(()).unwrap();
+            run_rx.recv().unwrap();
+            let id = captured.session_id();
+            let rev = captured.revision();
+            assert_eq!(
+                s.begin_number_wall(id, rev, load("107"), guard, 1)
+                    .unwrap_err(),
+                "StaleRevision"
+            );
+            assert_eq!(
+                s.advance_number_wall(id, rev, old, 1).unwrap_err(),
+                "StaleRevision"
+            );
+            assert_eq!(
+                s.cancel_number_wall(id, rev, old).unwrap_err(),
+                "StaleRevision"
+            );
+            let current = s.snapshot().unwrap();
+            let cancelled = s
+                .advance_number_wall(id, current.revision(), old, 0)
+                .unwrap();
+            assert_eq!(cancelled.status(), Some(Status::Cancelled));
+            assert_eq!(cancelled.snapshot().revision(), current.revision());
+            assert!(cancelled.snapshot().number_wall_pending());
+            ready_tx.send(()).unwrap();
+            run_rx.recv().unwrap();
+            assert!(s.snapshot().unwrap_err().contains("session is closed"));
+            assert!(
+                s.begin_number_wall(id, current.revision(), load("109"), guard, 1)
+                    .unwrap_err()
+                    .contains("session is closed")
+            );
+            assert!(
+                s.advance_number_wall(id, current.revision(), old, 0)
+                    .unwrap_err()
+                    .contains("session is closed")
+            );
+            assert!(
+                s.cancel_number_wall(id, current.revision(), old)
+                    .unwrap_err()
+                    .contains("session is closed")
+            );
+            s.shutdown().unwrap();
+        });
+        ready_rx.recv().unwrap();
+        let successor = begin(s, load("103"), &StateNumberWallGuard::new(true));
+        guard.revoke();
+        run_tx.send(()).unwrap();
+        ready_rx.recv().unwrap();
+        // The worker's step completed before close; its detached result survived.
+        s.shutdown().unwrap();
+        run_tx.send(()).unwrap();
+        worker.join().unwrap();
+        assert!(
+            s.advance_number_wall_async(captured.session_id(), 0, &successor, 0)
+                .is_err()
+        );
+    });
+    assert_eq!(frame.values(), values);
+    assert_eq!(retained.number_wall_frame().unwrap().values(), values);
+    assert_eq!(frame.modulus(), "97");
+}
+
+#[test]
 fn identity_revision_atomic_rejection_and_closed_lifecycle() {
-    let s = session();
-    let other = session();
+    for normal in [false, true] {
+        check_identity_revision_atomic_rejection_and_closed_lifecycle(normal);
+    }
+}
+fn check_identity_revision_atomic_rejection_and_closed_lifecycle(normal: bool) {
+    let s = session(normal);
+    let other = session(normal);
     let foreign = begin(&other, load("103"), &StateNumberWallGuard::new(true));
     let request = begin(&s, load("97"), &StateNumberWallGuard::new(true));
     let before = s.snapshot().unwrap();

@@ -38,7 +38,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1535757895;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -2108742912;
 
 // Section: executor
 
@@ -1732,6 +1732,75 @@ fn wire__crate__api__StateSession_advance_number_wall_impl(
         },
     )
 }
+fn wire__crate__api__StateSession_advance_number_wall_async_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "StateSession_advance_number_wall_async",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateSession>,
+            >>::sse_decode(&mut deserializer);
+            let api_session_id = <u64>::sse_decode(&mut deserializer);
+            let api_expected_revision = <u64>::sse_decode(&mut deserializer);
+            let api_request = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateNumberWallRequest>,
+            >>::sse_decode(&mut deserializer);
+            let api_work_limit = <u32>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, String>((move || {
+                    let mut api_that_guard = None;
+                    let mut api_request_guard = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                &api_that, 0, false,
+                            ),
+                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                &api_request,
+                                1,
+                                false,
+                            ),
+                        ]);
+                    for i in decode_indices_ {
+                        match i {
+                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                            1 => api_request_guard = Some(api_request.lockable_decode_sync_ref()),
+                            _ => unreachable!(),
+                        }
+                    }
+                    let api_that_guard = api_that_guard.unwrap();
+                    let api_request_guard = api_request_guard.unwrap();
+                    let output_ok = crate::api::StateSession::advance_number_wall_async(
+                        &*api_that_guard,
+                        api_session_id,
+                        api_expected_revision,
+                        &*api_request_guard,
+                        api_work_limit,
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
 fn wire__crate__api__StateSession_apply_batch_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -1857,6 +1926,80 @@ fn wire__crate__api__StateSession_begin_number_wall_impl(
         },
     )
 }
+fn wire__crate__api__StateSession_begin_number_wall_async_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "StateSession_begin_number_wall_async",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateSession>,
+            >>::sse_decode(&mut deserializer);
+            let api_session_id = <u64>::sse_decode(&mut deserializer);
+            let api_expected_revision = <u64>::sse_decode(&mut deserializer);
+            let api_command = <StateCommand>::sse_decode(&mut deserializer);
+            let api_request_guard = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateNumberWallGuard>,
+            >>::sse_decode(&mut deserializer);
+            let api_max_trial_divisions = <u32>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, String>((move || {
+                    let mut api_that_guard = None;
+                    let mut api_request_guard_guard = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                &api_that, 0, false,
+                            ),
+                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                &api_request_guard,
+                                1,
+                                false,
+                            ),
+                        ]);
+                    for i in decode_indices_ {
+                        match i {
+                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                            1 => {
+                                api_request_guard_guard =
+                                    Some(api_request_guard.lockable_decode_sync_ref())
+                            }
+                            _ => unreachable!(),
+                        }
+                    }
+                    let api_that_guard = api_that_guard.unwrap();
+                    let api_request_guard_guard = api_request_guard_guard.unwrap();
+                    let output_ok = crate::api::StateSession::begin_number_wall_async(
+                        &*api_that_guard,
+                        api_session_id,
+                        api_expected_revision,
+                        api_command,
+                        &*api_request_guard_guard,
+                        api_max_trial_divisions,
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
 fn wire__crate__api__StateSession_cancel_number_wall_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -1918,6 +2061,73 @@ fn wire__crate__api__StateSession_cancel_number_wall_impl(
                 )?;
                 Ok(output_ok)
             })())
+        },
+    )
+}
+fn wire__crate__api__StateSession_cancel_number_wall_async_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "StateSession_cancel_number_wall_async",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateSession>,
+            >>::sse_decode(&mut deserializer);
+            let api_session_id = <u64>::sse_decode(&mut deserializer);
+            let api_expected_revision = <u64>::sse_decode(&mut deserializer);
+            let api_request = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateNumberWallRequest>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, String>((move || {
+                    let mut api_that_guard = None;
+                    let mut api_request_guard = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                &api_that, 0, false,
+                            ),
+                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                &api_request,
+                                1,
+                                false,
+                            ),
+                        ]);
+                    for i in decode_indices_ {
+                        match i {
+                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                            1 => api_request_guard = Some(api_request.lockable_decode_sync_ref()),
+                            _ => unreachable!(),
+                        }
+                    }
+                    let api_that_guard = api_that_guard.unwrap();
+                    let api_request_guard = api_request_guard.unwrap();
+                    let output_ok = crate::api::StateSession::cancel_number_wall_async(
+                        &*api_that_guard,
+                        api_session_id,
+                        api_expected_revision,
+                        &*api_request_guard,
+                    )?;
+                    Ok(output_ok)
+                })())
+            }
         },
     )
 }
@@ -2007,6 +2217,55 @@ fn wire__crate__api__StateSession_shutdown_impl(
         },
     )
 }
+fn wire__crate__api__StateSession_shutdown_async_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "StateSession_shutdown_async",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateSession>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, String>((move || {
+                    let mut api_that_guard = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                &api_that, 0, false,
+                            ),
+                        ]);
+                    for i in decode_indices_ {
+                        match i {
+                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                            _ => unreachable!(),
+                        }
+                    }
+                    let api_that_guard = api_that_guard.unwrap();
+                    let output_ok = crate::api::StateSession::shutdown_async(&*api_that_guard)?;
+                    Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
 fn wire__crate__api__StateSession_snapshot_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -2050,6 +2309,55 @@ fn wire__crate__api__StateSession_snapshot_impl(
                 let output_ok = crate::api::StateSession::snapshot(&*api_that_guard)?;
                 Ok(output_ok)
             })())
+        },
+    )
+}
+fn wire__crate__api__StateSession_snapshot_async_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "StateSession_snapshot_async",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateSession>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, String>((move || {
+                    let mut api_that_guard = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                &api_that, 0, false,
+                            ),
+                        ]);
+                    for i in decode_indices_ {
+                        match i {
+                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                            _ => unreachable!(),
+                        }
+                    }
+                    let api_that_guard = api_that_guard.unwrap();
+                    let output_ok = crate::api::StateSession::snapshot_async(&*api_that_guard)?;
+                    Ok(output_ok)
+                })())
+            }
         },
     )
 }
@@ -3903,6 +4211,26 @@ fn pde_ffi_dispatcher_primary_impl(
 ) {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
+        45 => wire__crate__api__StateSession_advance_number_wall_async_impl(
+            port,
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
+        48 => wire__crate__api__StateSession_begin_number_wall_async_impl(
+            port,
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
+        50 => wire__crate__api__StateSession_cancel_number_wall_async_impl(
+            port,
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
+        53 => wire__crate__api__StateSession_shutdown_async_impl(port, ptr, rust_vec_len, data_len),
+        55 => wire__crate__api__StateSession_snapshot_async_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -3969,54 +4297,54 @@ fn pde_ffi_dispatcher_sync_impl(
         42 => wire__crate__api__StateNumberWallProgress_snapshot_impl(ptr, rust_vec_len, data_len),
         43 => wire__crate__api__StateNumberWallProgress_status_impl(ptr, rust_vec_len, data_len),
         44 => wire__crate__api__StateSession_advance_number_wall_impl(ptr, rust_vec_len, data_len),
-        45 => wire__crate__api__StateSession_apply_batch_impl(ptr, rust_vec_len, data_len),
-        46 => wire__crate__api__StateSession_begin_number_wall_impl(ptr, rust_vec_len, data_len),
-        47 => wire__crate__api__StateSession_cancel_number_wall_impl(ptr, rust_vec_len, data_len),
-        48 => wire__crate__api__StateSession_new_impl(ptr, rust_vec_len, data_len),
-        49 => wire__crate__api__StateSession_shutdown_impl(ptr, rust_vec_len, data_len),
-        50 => wire__crate__api__StateSession_snapshot_impl(ptr, rust_vec_len, data_len),
-        51 => wire__crate__api__StateSnapshot_fluid_mode_enabled_impl(ptr, rust_vec_len, data_len),
-        52 => wire__crate__api__StateSnapshot_fluid_strength_impl(ptr, rust_vec_len, data_len),
-        53 => wire__crate__api__StateSnapshot_glow_enabled_impl(ptr, rust_vec_len, data_len),
-        54 => wire__crate__api__StateSnapshot_glow_intensity_impl(ptr, rust_vec_len, data_len),
-        55 => wire__crate__api__StateSnapshot_glow_sigma_impl(ptr, rust_vec_len, data_len),
-        56 => {
+        46 => wire__crate__api__StateSession_apply_batch_impl(ptr, rust_vec_len, data_len),
+        47 => wire__crate__api__StateSession_begin_number_wall_impl(ptr, rust_vec_len, data_len),
+        49 => wire__crate__api__StateSession_cancel_number_wall_impl(ptr, rust_vec_len, data_len),
+        51 => wire__crate__api__StateSession_new_impl(ptr, rust_vec_len, data_len),
+        52 => wire__crate__api__StateSession_shutdown_impl(ptr, rust_vec_len, data_len),
+        54 => wire__crate__api__StateSession_snapshot_impl(ptr, rust_vec_len, data_len),
+        56 => wire__crate__api__StateSnapshot_fluid_mode_enabled_impl(ptr, rust_vec_len, data_len),
+        57 => wire__crate__api__StateSnapshot_fluid_strength_impl(ptr, rust_vec_len, data_len),
+        58 => wire__crate__api__StateSnapshot_glow_enabled_impl(ptr, rust_vec_len, data_len),
+        59 => wire__crate__api__StateSnapshot_glow_intensity_impl(ptr, rust_vec_len, data_len),
+        60 => wire__crate__api__StateSnapshot_glow_sigma_impl(ptr, rust_vec_len, data_len),
+        61 => {
             wire__crate__api__StateSnapshot_kaleidoscope_enabled_impl(ptr, rust_vec_len, data_len)
         }
-        57 => wire__crate__api__StateSnapshot_kaleidoscope_mirror_impl(ptr, rust_vec_len, data_len),
-        58 => wire__crate__api__StateSnapshot_kaleidoscope_mirror_mode_impl(
+        62 => wire__crate__api__StateSnapshot_kaleidoscope_mirror_impl(ptr, rust_vec_len, data_len),
+        63 => wire__crate__api__StateSnapshot_kaleidoscope_mirror_mode_impl(
             ptr,
             rust_vec_len,
             data_len,
         ),
-        59 => {
+        64 => {
             wire__crate__api__StateSnapshot_kaleidoscope_rotation_impl(ptr, rust_vec_len, data_len)
         }
-        60 => {
+        65 => {
             wire__crate__api__StateSnapshot_kaleidoscope_sectors_impl(ptr, rust_vec_len, data_len)
         }
-        61 => wire__crate__api__StateSnapshot_last_adaptive_zoom_impl(ptr, rust_vec_len, data_len),
-        62 => wire__crate__api__StateSnapshot_module_id_impl(ptr, rust_vec_len, data_len),
-        63 => wire__crate__api__StateSnapshot_number_wall_frame_impl(ptr, rust_vec_len, data_len),
-        64 => wire__crate__api__StateSnapshot_number_wall_pending_impl(ptr, rust_vec_len, data_len),
-        65 => wire__crate__api__StateSnapshot_number_wall_status_impl(ptr, rust_vec_len, data_len),
-        66 => wire__crate__api__StateSnapshot_params_impl(ptr, rust_vec_len, data_len),
-        67 => wire__crate__api__StateSnapshot_revision_impl(ptr, rust_vec_len, data_len),
-        68 => wire__crate__api__StateSnapshot_rotation_locked_impl(ptr, rust_vec_len, data_len),
-        69 => wire__crate__api__StateSnapshot_session_id_impl(ptr, rust_vec_len, data_len),
-        70 => {
+        66 => wire__crate__api__StateSnapshot_last_adaptive_zoom_impl(ptr, rust_vec_len, data_len),
+        67 => wire__crate__api__StateSnapshot_module_id_impl(ptr, rust_vec_len, data_len),
+        68 => wire__crate__api__StateSnapshot_number_wall_frame_impl(ptr, rust_vec_len, data_len),
+        69 => wire__crate__api__StateSnapshot_number_wall_pending_impl(ptr, rust_vec_len, data_len),
+        70 => wire__crate__api__StateSnapshot_number_wall_status_impl(ptr, rust_vec_len, data_len),
+        71 => wire__crate__api__StateSnapshot_params_impl(ptr, rust_vec_len, data_len),
+        72 => wire__crate__api__StateSnapshot_revision_impl(ptr, rust_vec_len, data_len),
+        73 => wire__crate__api__StateSnapshot_rotation_locked_impl(ptr, rust_vec_len, data_len),
+        74 => wire__crate__api__StateSnapshot_session_id_impl(ptr, rust_vec_len, data_len),
+        75 => {
             wire__crate__api__StateSnapshot_transparent_background_impl(ptr, rust_vec_len, data_len)
         }
-        71 => wire__crate__api__StateSnapshot_view_impl(ptr, rust_vec_len, data_len),
-        72 => wire__crate__api__StateValue_boolean_impl(ptr, rust_vec_len, data_len),
-        73 => wire__crate__api__StateValue_float_impl(ptr, rust_vec_len, data_len),
-        74 => wire__crate__api__StateValue_from_boolean_impl(ptr, rust_vec_len, data_len),
-        75 => wire__crate__api__StateValue_from_float_impl(ptr, rust_vec_len, data_len),
-        76 => wire__crate__api__StateValue_from_number_impl(ptr, rust_vec_len, data_len),
-        77 => wire__crate__api__StateValue_from_text_impl(ptr, rust_vec_len, data_len),
-        78 => wire__crate__api__StateValue_number_impl(ptr, rust_vec_len, data_len),
-        79 => wire__crate__api__StateValue_text_impl(ptr, rust_vec_len, data_len),
-        80 => wire__crate__api__engine_version_impl(ptr, rust_vec_len, data_len),
+        76 => wire__crate__api__StateSnapshot_view_impl(ptr, rust_vec_len, data_len),
+        77 => wire__crate__api__StateValue_boolean_impl(ptr, rust_vec_len, data_len),
+        78 => wire__crate__api__StateValue_float_impl(ptr, rust_vec_len, data_len),
+        79 => wire__crate__api__StateValue_from_boolean_impl(ptr, rust_vec_len, data_len),
+        80 => wire__crate__api__StateValue_from_float_impl(ptr, rust_vec_len, data_len),
+        81 => wire__crate__api__StateValue_from_number_impl(ptr, rust_vec_len, data_len),
+        82 => wire__crate__api__StateValue_from_text_impl(ptr, rust_vec_len, data_len),
+        83 => wire__crate__api__StateValue_number_impl(ptr, rust_vec_len, data_len),
+        84 => wire__crate__api__StateValue_text_impl(ptr, rust_vec_len, data_len),
+        85 => wire__crate__api__engine_version_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
