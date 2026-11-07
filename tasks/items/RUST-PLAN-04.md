@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-PLAN-04"
 title = "Plan full Rust session parity from candidate state and transport results"
 short = "Continue full-session proof frontier"
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Next"
 rank = 7000
@@ -16,6 +16,11 @@ scope = "For RUST-ENGINE-001 read all three M2 preparation records and actual re
 acceptance = ["Given actual reports and current source, saved tasks identify exactly which scalar/session/transport proofs passed and which full-session/native/runtime proofs remain. Executable tasks use reachable inputs, genuine producer dependencies, bounded Touches and exact checks without losing any accepted gate or changing authority.", "Given the final batch, all changed records and local links read back correctly and validation has no unintended drafts/pending errors. RUST-PLAN-04 closes manually without a receipt, and continuation uses one round-4-of-10 plan only with new building work; stopping instead preserves the required question and open remaining-proof task. No implementation or goal qualification occurs."]
 checks = ["/home/xel/.local/bin/python3 /home/xel/.local/state/pi-autowork/releases/fbd1f2fe92b32133a8ab6356e7454fa097e33408/pi-autowork/pi_autowork/command.py tasks show RUST-M2-NORMALIZATION --worktree; /home/xel/.local/bin/python3 /home/xel/.local/state/pi-autowork/releases/fbd1f2fe92b32133a8ab6356e7454fa097e33408/pi-autowork/pi_autowork/command.py tasks show RUST-M2-SESSION --worktree; /home/xel/.local/bin/python3 /home/xel/.local/state/pi-autowork/releases/fbd1f2fe92b32133a8ab6356e7454fa097e33408/pi-autowork/pi_autowork/command.py tasks show RUST-M2-BRIDGE --worktree; read their actual slot reports and current source plus docs/tasks/RUST-PLAN-03.md, not closure status alone.", "/home/xel/.local/bin/python3 /home/xel/.local/state/pi-autowork/releases/fbd1f2fe92b32133a8ab6356e7454fa097e33408/pi-autowork/pi_autowork/command.py tasks validate --worktree .; read back changed records and verify local paths/anchors; after the single planning commit run tasks why on the first new building task."]
 exclusions = ["No implementation/dispatch, install, service change, live operation, receipt creation, acceptance waiver, goal qualification or publication; task records only through supported tasks commands."]
+closure = "manual"
+closure_actor = "DOCS-MAINTAINER"
+closure_timestamp = "2026-11-07T11:19:31.382508+00:00"
+closure_reason = "Read the three integrated M2 reports and current sources; saved five bounded building tasks plus one round-4-of-10 successor. Full session/native/runtime proof remains explicit; no implementation or goal qualification."
+closure_evidence = "docs/tasks/RUST-PLAN-04.md"
 +++
 
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration; docs/tasks/RUST-PLAN-03.md#remaining-proof-and-continuation
