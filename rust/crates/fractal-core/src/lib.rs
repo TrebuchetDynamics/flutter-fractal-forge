@@ -5,6 +5,7 @@ pub mod normalization;
 pub mod number_wall_frame;
 pub mod number_wall_grid;
 pub mod number_wall_prime;
+pub mod physical_view;
 pub mod session;
 
 /// Rust engine version, independent of the Flutter app version.
