@@ -7,13 +7,26 @@ use std::sync::atomic::{AtomicBool, Ordering};
 /// Session-local identity, allocated only by an accepted begin publication.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct RequestToken {
-    session_id: u64,
-    revision: u64,
+    pub(super) session_id: u64,
+    pub(super) revision: u64,
+    pub(super) kind: RequestKind,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum RequestKind {
+    NumberWall,
+    Trajectory,
+}
+
+impl RequestToken {
+    pub fn kind(self) -> RequestKind {
+        self.kind
+    }
 }
 
 /// Monotonic revocation shared by the owner and its request, not foreign code.
 #[derive(Debug, Clone)]
-pub struct RequestGuard(Arc<AtomicBool>);
+pub struct RequestGuard(pub(super) Arc<AtomicBool>);
 
 impl RequestGuard {
     pub fn new(active: bool) -> Self {
@@ -99,6 +112,7 @@ impl Session {
         let token = RequestToken {
             session_id,
             revision,
+            kind: RequestKind::NumberWall,
         };
         let prime = match target.params.get("prime") {
             Some(ParameterValue::Text(prime)) => prime.as_str(),
@@ -116,6 +130,8 @@ impl Session {
         candidate.revision = revision;
         candidate.pending = Some(token);
         candidate.number_wall_status = None;
+        trajectory_jobs::invalidate_changed(&self.state, &mut candidate, revision);
+        candidate.reserve_terminals(revision)?;
         self.pending = Some(PendingRequest {
             token,
             target,
@@ -123,7 +139,7 @@ impl Session {
             job,
         });
         self.param_timeline = None;
-        self.state = candidate;
+        self.publish_candidate(candidate);
         Ok(Some(token))
     }
 
@@ -161,9 +177,16 @@ impl Session {
             .ok_or(SessionError::RevisionOverflow)?;
         let request = self.pending.take().expect("current request");
         if let Some(frame) = result.frame() {
-            self.state = request.target;
-            self.state.params = frame.params().clone();
-            self.state.number_wall_frame = Some(Arc::new(frame.clone()));
+            let mut target = request.target;
+            // A staged wall target must not resurrect or roll back trajectory ownership.
+            target.trajectory_generation = self.state.trajectory_generation;
+            target.trajectory_pending = self.state.trajectory_pending;
+            target.trajectory_status = self.state.trajectory_status;
+            target.trajectory_frame = self.state.trajectory_frame.clone();
+            trajectory_jobs::invalidate_changed(&self.state, &mut target, revision);
+            target.params = frame.params().clone();
+            target.number_wall_frame = Some(Arc::new(frame.clone()));
+            self.publish_candidate(target);
         }
         self.state.pending = None;
         self.state.number_wall_status = Some(result.status());

@@ -1,4 +1,4 @@
-//! Inert scalar/effect/Number Walls/trajectory metadata owner. No app routing, executor or storage.
+//! Inert scalar/effect/Number Walls/trajectory owner. No app routing, executor or storage.
 
 #[path = "session_effects.rs"]
 mod effects;
@@ -7,7 +7,10 @@ mod param_timeline;
 pub use param_timeline::ParamTimelineToken;
 #[path = "session_number_wall.rs"]
 mod number_wall;
-pub use number_wall::{RequestGuard, RequestProgress, RequestToken};
+pub use number_wall::{RequestGuard, RequestKind, RequestProgress, RequestToken};
+#[path = "session_trajectory_jobs.rs"]
+mod trajectory_jobs;
+pub use trajectory_jobs::{TrajectoryCache, TrajectoryFrame, TrajectoryProgress};
 #[path = "session_trajectory.rs"]
 mod trajectory;
 use crate::trajectory::OrbitTrajectorySettings;
@@ -115,6 +118,10 @@ pub struct Snapshot {
     params: BTreeMap<String, ParameterValue>,
     view: FiniteView,
     trajectory: Option<OrbitTrajectorySettings>,
+    trajectory_generation: u64,
+    trajectory_pending: Option<RequestToken>,
+    trajectory_status: Option<Result<(), crate::trajectory::TrajectoryError>>,
+    trajectory_frame: Option<Arc<TrajectoryFrame>>,
     transparent_background: bool,
     last_adaptive_zoom: f64,
     effects: effects::Effects,
@@ -155,6 +162,8 @@ pub struct Session {
     state: Snapshot,
     pending: Option<number_wall::PendingRequest>,
     param_timeline: Option<param_timeline::ParamTimeline>,
+    trajectory_request: Option<trajectory_jobs::PendingTrajectory>,
+    trajectory_cache: TrajectoryCache,
 }
 
 impl Session {
@@ -162,6 +171,16 @@ impl Session {
         catalog: Arc<CatalogBaseline>,
         session_id: u64,
         module_id: &str,
+    ) -> Result<Self, SessionError> {
+        Self::with_trajectory_cache(catalog, session_id, module_id, TrajectoryCache::default())
+    }
+
+    /// Callers share one explicit service across Sessions to share completed samples.
+    pub fn with_trajectory_cache(
+        catalog: Arc<CatalogBaseline>,
+        session_id: u64,
+        module_id: &str,
+        trajectory_cache: TrajectoryCache,
     ) -> Result<Self, SessionError> {
         let data = module_data(&catalog, module_id)?;
         let camera = default_camera(data.default)?;
@@ -175,6 +194,10 @@ impl Session {
             params: default_params(&data, &RawParams::new()),
             view,
             trajectory: camera.trajectory_for(module_id)?,
+            trajectory_generation: 0,
+            trajectory_pending: None,
+            trajectory_status: None,
+            trajectory_frame: None,
             transparent_background: false,
             last_adaptive_zoom: view.zoom(),
             effects,
@@ -187,6 +210,8 @@ impl Session {
             state,
             pending: None,
             param_timeline: None,
+            trajectory_request: None,
+            trajectory_cache,
         })
     }
 
@@ -215,6 +240,7 @@ impl Session {
         let mut cancel_param_timeline = false;
         for command in commands {
             cancel_param_timeline |= param_timeline::cancelled_by(&candidate, command);
+            let before = candidate.clone();
             if number_wall::plan_command(
                 &self.catalog,
                 &mut candidate,
@@ -225,10 +251,9 @@ impl Session {
             {
                 return Err(SessionError::DeferredOperation);
             }
+            trajectory_jobs::invalidate_changed(&before, &mut candidate, revision);
         }
-        if candidate.pending.is_some() && revision.checked_add(1).is_none() {
-            return Err(SessionError::RevisionOverflow);
-        }
+        candidate.reserve_terminals(revision)?;
         candidate.revision = revision;
         if cancel_param_timeline {
             self.param_timeline = None;
@@ -236,7 +261,7 @@ impl Session {
         if candidate.pending.is_none() {
             self.pending = None;
         }
-        self.state = candidate;
+        self.publish_candidate(candidate);
         Ok(self.snapshot())
     }
 }
@@ -669,6 +694,204 @@ mod tests {
                 Err(SessionError::RevisionOverflow)
             );
             assert_eq!(session.snapshot(), before);
+        }
+    }
+
+    #[test]
+    fn trajectory_reservations_cover_admission_edits_timelines_and_both_terminal_owners() {
+        let catalog = Arc::new(
+            CatalogBaseline::from_jsons(
+                include_str!("../../../../migration/baseline/modules.json"),
+                include_str!("../../../../migration/baseline/parameters.json"),
+                include_str!("../../../../migration/baseline/presets.json"),
+                include_str!("../../../../migration/baseline/capabilities.json"),
+            )
+            .unwrap(),
+        );
+        for terminal in [
+            "complete",
+            "cancel",
+            "revoke",
+            "invalidate",
+            "diverge",
+            "cached",
+        ] {
+            let mut s = Session::new(catalog.clone(), 1, "thomas_attractor").unwrap();
+            let d = s.snapshot().trajectory().unwrap();
+            let settings = OrbitTrajectorySettings::new(
+                d.system(),
+                if terminal == "diverge" {
+                    [1e13; 3].into()
+                } else {
+                    d.seed()
+                },
+                d.step_size(),
+                0,
+                256,
+                d.projection(),
+            )
+            .unwrap();
+            s.apply_batch(
+                1,
+                0,
+                &[Command::View {
+                    camera: CameraInput {
+                        trajectory: Some(settings),
+                        ..INITIAL_VIEW.into()
+                    },
+                    adaptive: false,
+                }],
+            )
+            .unwrap();
+            if terminal == "cached" {
+                let token = s
+                    .begin_trajectory(1, 1, RequestGuard::new(true))
+                    .unwrap()
+                    .unwrap();
+                while matches!(
+                    s.advance_trajectory(1, 2, token).unwrap(),
+                    TrajectoryProgress::Pending { .. }
+                ) {}
+            }
+            let timeline = s
+                .start_param_timeline(1, s.snapshot().revision(), s.snapshot().params().clone())
+                .unwrap();
+            s.state.revision = u64::MAX - 2; // White-box setup; mutations use public seams.
+            let guard = RequestGuard::new(true);
+            let token = s
+                .begin_trajectory(1, u64::MAX - 2, guard.clone())
+                .unwrap()
+                .unwrap();
+            let before = s.snapshot();
+            assert_eq!(
+                s.begin_trajectory(1, before.revision(), RequestGuard::new(true)),
+                Err(SessionError::RevisionOverflow)
+            );
+            assert_eq!(
+                s.apply_batch(1, before.revision(), &[Command::Zoom(3.0)]),
+                Err(SessionError::RevisionOverflow)
+            );
+            assert_eq!(
+                s.start_param_timeline(1, before.revision(), before.params().clone()),
+                Err(SessionError::RevisionOverflow)
+            );
+            assert_eq!(
+                s.tick_param_timeline(1, before.revision(), timeline),
+                Err(SessionError::RevisionOverflow)
+            );
+            assert_eq!(
+                s.cancel_param_timeline(1, before.revision(), timeline),
+                Err(SessionError::RevisionOverflow)
+            );
+            assert_eq!(s.snapshot(), before);
+            match terminal {
+                "cancel" => {
+                    s.cancel_trajectory(1, before.revision(), token).unwrap();
+                }
+                "invalidate" => {
+                    s.apply_batch(1, before.revision(), &[Command::ResetSession])
+                        .unwrap();
+                }
+                _ => {
+                    if terminal == "revoke" {
+                        guard.revoke();
+                    }
+                    let result = loop {
+                        if let TrajectoryProgress::Finished(result) =
+                            s.advance_trajectory(1, before.revision(), token).unwrap()
+                        {
+                            break result;
+                        }
+                    };
+                    match terminal {
+                        "revoke" => {
+                            assert_eq!(result, Err(crate::trajectory::TrajectoryError::Cancelled))
+                        }
+                        "diverge" => assert_eq!(
+                            result,
+                            Err(crate::trajectory::TrajectoryError::SafetyBounds)
+                        ),
+                        _ => assert_eq!(result.unwrap().cache_hit(), terminal == "cached"),
+                    }
+                }
+            }
+            assert_eq!(s.snapshot().revision(), u64::MAX);
+            assert_eq!(s.snapshot().trajectory_pending(), None);
+            let done = s.snapshot();
+            assert_eq!(
+                s.begin_trajectory(1, u64::MAX, RequestGuard::new(true)),
+                Err(if terminal == "invalidate" {
+                    SessionError::UnsupportedTrajectory
+                } else {
+                    SessionError::RevisionOverflow
+                })
+            );
+            assert_eq!(s.snapshot(), done);
+        }
+        // Two independent requests reserve two terminal revisions, in either order.
+        for trajectory_first in [false, true] {
+            let mut s = Session::new(catalog.clone(), 1, "thomas_attractor").unwrap();
+            let trajectory = s
+                .begin_trajectory(1, 0, RequestGuard::new(true))
+                .unwrap()
+                .unwrap();
+            let load = Command::Load {
+                module_id: Some("number_wall".into()),
+                params: [
+                    ("prime".into(), RawScalar::Text("97".into())),
+                    ("rows".into(), RawScalar::Number(4.into())),
+                    ("columns".into(), RawScalar::Number(16.into())),
+                    ("columnStart".into(), RawScalar::Number(3.into())),
+                ]
+                .into_iter()
+                .collect(),
+                camera: INITIAL_VIEW.into(),
+                transparent: false,
+            };
+            s.state.revision = u64::MAX - 2;
+            let before = s.snapshot();
+            assert_eq!(
+                s.begin_number_wall(
+                    1,
+                    before.revision(),
+                    &load,
+                    RequestGuard::new(true),
+                    100_000
+                ),
+                Err(SessionError::RevisionOverflow)
+            );
+            assert_eq!(s.snapshot(), before);
+            s.state.revision = u64::MAX - 3;
+            let wall = s
+                .begin_number_wall(1, u64::MAX - 3, &load, RequestGuard::new(true), 100_000)
+                .unwrap()
+                .unwrap();
+            if trajectory_first {
+                while matches!(
+                    s.advance_trajectory(1, u64::MAX - 2, trajectory).unwrap(),
+                    TrajectoryProgress::Pending { .. }
+                ) {}
+                assert_eq!(s.snapshot().revision(), u64::MAX - 1);
+            }
+            while matches!(
+                s.advance_number_wall(1, s.snapshot().revision(), wall, 1024)
+                    .unwrap(),
+                RequestProgress::Pending
+            ) {}
+            assert_eq!(
+                s.snapshot().revision(),
+                if trajectory_first {
+                    u64::MAX
+                } else {
+                    u64::MAX - 1
+                }
+            );
+            assert_eq!(s.snapshot().trajectory_pending(), None);
+            assert_eq!(
+                s.advance_trajectory(1, s.snapshot().revision(), trajectory)
+                    .unwrap(),
+                TrajectoryProgress::Finished(Err(crate::trajectory::TrajectoryError::Cancelled))
+            );
         }
     }
 
