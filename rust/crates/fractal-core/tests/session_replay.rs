@@ -68,6 +68,7 @@ fn camera(value: &Value) -> CameraInput {
             pan: [n("panX", 0.0), n("panY", 0.0)],
             rotation: [n("rotX", 0.0), n("rotY", 0.0), n("rotZ", 0.0)],
         },
+        trajectory: None,
         has_trajectory: value.get("trajectory").is_some_and(|v| !v.is_null()),
     }
 }
