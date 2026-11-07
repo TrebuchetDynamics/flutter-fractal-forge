@@ -61,7 +61,10 @@ The [workspace](../../rust/Cargo.toml) contains three nonpublishable packages:
 `fractal-core` (domain), `fractal-render` (depends on core), and
 `fractal-bridge` (depends on both). Core now provides the read-only
 [`CatalogBaseline::from_jsons`](../tasks/RUST-M3-CATALOG-PARITY.md) API for the
-four schema-1 catalog envelopes.
+four schema-1 catalog envelopes. Its inert `session::Session` candidate owns
+ordinary module/parameter/scalar-view state and ordered atomic transactions.
+The separate bridge `StateSession` exposes this candidate without app routing;
+see [the transport result and remaining proof](../tasks/RUST-M2-BRIDGE.md).
 Core/render use local paths plus the locked pure-domain serde graph:
 `serde`/`serde_core`/`serde_derive` 1.0.229, `serde_json` 1.0.108 with
 `arbitrary_precision`/`raw_value`, `itoa` 1.0.18, `ryu` 1.0.23, and derive dependencies
@@ -75,7 +78,8 @@ The foundation seam still exposes these APIs:
   Its `to_json() -> String` representation is `{"rendering":false}`.
   This describes Rust support only, not the existing Flutter renderer.
 
-There are no Rust renderers. State, persistence, shaders and routing are unchanged.
+There are no Rust renderers. App state ownership, persistence, shaders and routing
+are unchanged; the candidate state transport is inert.
 The foundation and opt-in bridge do not qualify M1: actual installed Linux/Waydroid
 smoke and lifecycle evidence remain required by the migration plan.
 
@@ -117,6 +121,19 @@ closed state; repeated shutdown succeeds and capability reads after shutdown ret
 with `StateError` and releases the opaque reference on shutdown. Transport
 initialization is shared, not the session. Load/protocol failures propagate rather
 than pretending the Rust engine is available.
+
+The separate opaque `StateSession::new()` validates four envelope strings once
+through core and assigns a checked process-local `u64` identity. Typed
+`StateCommand`/`StateValue` constructors and `StateCamera`/`StateView` payloads feed
+`apply_batch(session_id, expected_revision, commands)`. One lock serializes it with
+`snapshot()` and idempotent `shutdown()`. Read-only `StateSnapshot` handles retain
+copies; their parameter/view getters return detached copies. Generated Dart uses
+`BigInt` and unsigned 64-bit codecs for identity/revision, not `double`. Exact
+numbers travel as decimal representations, exact text remains text, and raw
+floats can carry nonfinite input for core normalization. Opaque typed payloads
+avoid a new Freezed dependency. This package seam does not change `Engine`, the
+app adapter or startup. [Offline Rust/build evidence](../tasks/RUST-M2-BRIDGE.md)
+is not installed state-session transport proof or full M2/M3 qualification.
 
 [`fractal_engine_bridge`](../../packages/fractal_engine_bridge/pubspec.yaml) owns
 Linux CMake and Android Gradle/NDK integration. These build rules run Cargo only

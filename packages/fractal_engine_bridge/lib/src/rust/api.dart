@@ -6,6 +6,8 @@
 import 'frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
+// These functions are ignored because they are not marked as `pub`: `allocate_session_id`, `core_params`, `into_core`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `clone`, `clone`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`
 // These functions are ignored (category: IgnoreBecauseExplicitAttribute): `default`
 
 String engineVersion() => RustLib.instance.api.crateApiEngineVersion();
@@ -17,6 +19,137 @@ abstract class Engine implements RustOpaqueInterface {
   factory Engine() => RustLib.instance.api.crateApiEngineNew();
 
   void shutdown();
+}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateCommand>>
+abstract class StateCommand implements RustOpaqueInterface {
+  static StateCommand applyPreset(
+          {required String moduleId,
+          required Map<String, StateValue> params,
+          required StateCamera camera}) =>
+      RustLib.instance.api.crateApiStateCommandApplyPreset(
+          moduleId: moduleId, params: params, camera: camera);
+
+  static StateCommand load(
+          {String? moduleId,
+          required Map<String, StateValue> params,
+          required StateCamera camera,
+          required bool transparent}) =>
+      RustLib.instance.api.crateApiStateCommandLoad(
+          moduleId: moduleId,
+          params: params,
+          camera: camera,
+          transparent: transparent);
+
+  static StateCommand pan({required double x, required double y}) =>
+      RustLib.instance.api.crateApiStateCommandPan(x: x, y: y);
+
+  static StateCommand param({required String id, required StateValue value}) =>
+      RustLib.instance.api.crateApiStateCommandParam(id: id, value: value);
+
+  static StateCommand resetParams() =>
+      RustLib.instance.api.crateApiStateCommandResetParams();
+
+  static StateCommand resetSession() =>
+      RustLib.instance.api.crateApiStateCommandResetSession();
+
+  static StateCommand resetView() =>
+      RustLib.instance.api.crateApiStateCommandResetView();
+
+  static StateCommand rotation(
+          {required double x, required double y, required double z}) =>
+      RustLib.instance.api.crateApiStateCommandRotation(x: x, y: y, z: z);
+
+  static StateCommand selectModule(
+          {required String moduleId,
+          required bool resetView,
+          required Map<String, StateValue> initialParams}) =>
+      RustLib.instance.api.crateApiStateCommandSelectModule(
+          moduleId: moduleId,
+          resetView: resetView,
+          initialParams: initialParams);
+
+  static StateCommand transparent({required bool value}) =>
+      RustLib.instance.api.crateApiStateCommandTransparent(value: value);
+
+  static StateCommand unsupported({required String operation}) =>
+      RustLib.instance.api
+          .crateApiStateCommandUnsupported(operation: operation);
+
+  static StateCommand view(
+          {required StateCamera camera, required bool adaptive}) =>
+      RustLib.instance.api
+          .crateApiStateCommandView(camera: camera, adaptive: adaptive);
+
+  static StateCommand zoom({required double value}) =>
+      RustLib.instance.api.crateApiStateCommandZoom(value: value);
+}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateSession>>
+abstract class StateSession implements RustOpaqueInterface {
+  StateSnapshot applyBatch(
+      {required BigInt sessionId,
+      required BigInt expectedRevision,
+      required List<StateCommand> commands});
+
+  /// Consume and validate all four original envelopes once, not per command/frame.
+  factory StateSession(
+          {required String modules,
+          required String parameters,
+          required String presets,
+          required String capabilities,
+          required String moduleId}) =>
+      RustLib.instance.api.crateApiStateSessionNew(
+          modules: modules,
+          parameters: parameters,
+          presets: presets,
+          capabilities: capabilities,
+          moduleId: moduleId);
+
+  void shutdown();
+
+  StateSnapshot snapshot();
+}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateSnapshot>>
+abstract class StateSnapshot implements RustOpaqueInterface {
+  double lastAdaptiveZoom();
+
+  String moduleId();
+
+  Map<String, StateValue> params();
+
+  BigInt revision();
+
+  BigInt sessionId();
+
+  bool transparentBackground();
+
+  StateView view();
+}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateValue>>
+abstract class StateValue implements RustOpaqueInterface {
+  bool? boolean();
+
+  double? float();
+
+  static StateValue fromBoolean({required bool value}) =>
+      RustLib.instance.api.crateApiStateValueFromBoolean(value: value);
+
+  static StateValue fromFloat({required double value}) =>
+      RustLib.instance.api.crateApiStateValueFromFloat(value: value);
+
+  /// Exact JSON number representation, distinct from exact text parameters.
+  static StateValue fromNumber({required String value}) =>
+      RustLib.instance.api.crateApiStateValueFromNumber(value: value);
+
+  static StateValue fromText({required String value}) =>
+      RustLib.instance.api.crateApiStateValueFromText(value: value);
+
+  String? number();
+
+  String? text();
 }
 
 class Capabilities {
@@ -35,4 +168,64 @@ class Capabilities {
       other is Capabilities &&
           runtimeType == other.runtimeType &&
           rendering == other.rendering;
+}
+
+class StateCamera {
+  final StateView view;
+  final bool hasTrajectory;
+
+  const StateCamera({
+    required this.view,
+    required this.hasTrajectory,
+  });
+
+  @override
+  int get hashCode => view.hashCode ^ hasTrajectory.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is StateCamera &&
+          runtimeType == other.runtimeType &&
+          view == other.view &&
+          hasTrajectory == other.hasTrajectory;
+}
+
+class StateView {
+  final double zoom;
+  final double panX;
+  final double panY;
+  final double rotX;
+  final double rotY;
+  final double rotZ;
+
+  const StateView({
+    required this.zoom,
+    required this.panX,
+    required this.panY,
+    required this.rotX,
+    required this.rotY,
+    required this.rotZ,
+  });
+
+  @override
+  int get hashCode =>
+      zoom.hashCode ^
+      panX.hashCode ^
+      panY.hashCode ^
+      rotX.hashCode ^
+      rotY.hashCode ^
+      rotZ.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is StateView &&
+          runtimeType == other.runtimeType &&
+          zoom == other.zoom &&
+          panX == other.panX &&
+          panY == other.panY &&
+          rotX == other.rotX &&
+          rotY == other.rotY &&
+          rotZ == other.rotZ;
 }
