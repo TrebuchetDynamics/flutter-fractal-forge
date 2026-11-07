@@ -1,0 +1,17 @@
+[workspace]
+members = [
+    "crates/fractal-core",
+    "crates/fractal-render",
+    "crates/fractal-bridge",
+]
+resolver = "3"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.95"
+publish = false
+
+[workspace.dependencies]
+fractal-core = { path = "crates/fractal-core" }
+fractal-render = { path = "crates/fractal-render" }

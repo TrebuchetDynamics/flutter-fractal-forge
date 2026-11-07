@@ -246,5 +246,6 @@ SH
   grep -Fq 'scanner --exit-code' "$REPO_ROOT/scripts/ci/fdroid-scan.sh"
   grep -Fq 'base_code * 10 + 3' "$REPO_ROOT/scripts/ci/fdroid-scan.sh"
   grep -Fq 'release-artifacts/fdroid' "$REPO_ROOT/.gitlab-ci.yml"
-  [ ! -d "$REPO_ROOT/.github/workflows" ] || [ -z "$(ls -A "$REPO_ROOT/.github/workflows")" ]
+  # Only the isolated, nonpublishing Rust check is authorized on GitHub.
+  [ "$(ls -A "$REPO_ROOT/.github/workflows")" = rust.yml ]
 }

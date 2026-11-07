@@ -53,6 +53,39 @@ additionally where supported, not a universal FPS guarantee; see
 [ADR 0006](../adr/0006-native-demonstration-performance-is-target-specific.md).
 These are future acceptance boundaries, not measured results.
 
+### Isolated Rust workspace foundation
+
+The [workspace](../../rust/Cargo.toml) contains three nonpublishable packages:
+`fractal-core` (domain), `fractal-render` (depends on core), and
+`fractal-bridge` (depends on both). All dependencies are local paths.
+The bridge remains framework-free and exposes these initial APIs:
+
+- `engine_version() -> String` returns `0.1.0`, the Rust engine version,
+  not the Flutter app version.
+- `engine_capabilities() -> EngineCapabilities` returns `rendering = false`.
+  Its `to_json() -> String` representation is `{"rendering":false}`.
+  This describes Rust support only, not the existing Flutter renderer.
+
+There are no Rust renderers, engine handles, codegen or Flutter bindings yet.
+The app does not load Rust. State, persistence, shaders and routing are unchanged.
+This foundation does not qualify M1. Bridge integration and actual Linux/Waydroid
+smoke and lifecycle evidence remain required by the migration plan.
+
+Use Rust `1.95.0` with `rustfmt` and `clippy`, as pinned in
+[`rust-toolchain.toml`](../../rust/rust-toolchain.toml).
+After provisioning the toolchain and locked dependencies, run
+[`scripts/ci/rust-check.sh`](../../scripts/ci/rust-check.sh).
+It checks the compiler version, formatting, clippy with denied warnings, and
+workspace tests using the locked, offline dependency graph.
+Inline tests cover the bridge version, nonrendering capability JSON shape, and
+the core/render dependency boundary across features, targets, build and dev edges.
+Only the local foundation graph is allowed, so UI/platform dependencies fail.
+
+The path-scoped [GitHub workflow](../../.github/workflows/rust.yml) provisions
+the pinned toolchain and fetches locked dependencies in its disposable check job.
+It runs the same offline script without publishing or signing.
+Existing Flutter, GitLab and release lanes are unchanged.
+
 ## Interfaces not present
 
 The app has no repository-owned HTTP API, database migration interface, or server deployment contract. The web preview is a static Flutter build published through the separately documented deployment procedure. No OpenAPI document applies.
