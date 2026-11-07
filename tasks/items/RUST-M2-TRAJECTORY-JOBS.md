@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-M2-TRAJECTORY-JOBS"
 title = "Own bounded trajectory requests and shared three-entry sample cache in core"
 short = "Own bounded trajectory requests"
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Now"
 rank = 5000
@@ -16,6 +16,8 @@ scope = "Extend inert Session trajectory metadata with begin/one-chunk advance/c
 acceptance = ["Given session_trajectory_jobs public tests, admission captures typed current settings/owner/generation without draining work; each advance performs at most one existing <=256-step chunk. Identity/stale/foreign/superseded/guard-revoked/cancelled work cannot publish; reserve terminal revision capacity before admission. Exact chunk-boundary cancellation/divergence/overflow and settings/module/reset invalidation preserve last-good state and independent wall request/rollback semantics.", "Given two Sessions sharing the explicit cache in those tests, equal settings hit across camera/palette changes, lookup touches LRU, and the fourth distinct completion evicts the least-recently-used of exactly three entries. Include all validated settings fields in keys; independent misses are not deduplicated. A->B supersession cannot publish late A; terminal samples/bounds/metadata stay immutable across subsequent mutation/drop.", "Given trajectory/kernel/replay/wall checks, sample/bounds results preserve landed RK4 expectations and all 68 replay outputs. No generated/app/renderer/fixture/flag/lock change. Result note states shared service scope, detached result/provenance and APIs for the bridge consumer; no total executor/admission/latency/renderer/full-M2 claim."]
 checks = ["PATH=/home/xel/.rustup/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:$PATH CARGO_HOME=\"$AUTOWORK_CACHE/cargo-1.95.0\" cargo test --manifest-path rust/Cargo.toml -p fractal-core --test session_trajectory_jobs --test session_trajectory --test trajectory --test session_number_wall --test session_replay --locked --offline", "( export PATH=/home/xel/.rustup/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:$PATH; export CARGO_HOME=\"$AUTOWORK_CACHE/cargo-1.95.0\"; scripts/ci/rust-check.sh )", "flutter test --no-pub test/modules/attractor_trajectory_model_test.dart test/fractal/attractor_trajectory_compatibility_test.dart", "git diff --exit-code -- lib migration packages rust/crates/fractal-bridge rust/Cargo.lock pubspec.lock && git diff --check", "( AUTOWORK_CACHE=\"${AUTOWORK_CACHE:-$(git rev-parse --path-format=absolute --git-common-dir)/autowork-execution/cache}\" && export AUTOWORK_CACHE && export FLUTTER_ROOT=\"$AUTOWORK_CACHE/flutter-3.47.9\" && export PUB_CACHE=\"$AUTOWORK_CACHE/pub-cache\" && test -x \"$FLUTTER_ROOT/bin/flutter\" && test -d \"$PUB_CACHE\" && export PATH=\"$FLUTTER_ROOT/bin:/usr/bin:$PATH\" && scripts/ci/offline-gate.sh --python-bin /usr/bin/python3 )"]
 exclusions = ["No integrator redesign, RK4 work in apply_batch, in-flight cache deduplication, per-Session cache presented as shared-policy parity, bridge/generated/app/renderer/flag/lock changes, executor scheduling or native/browser/hardware/full-M2 qualification."]
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/RUST-M2-TRAJECTORY-JOBS.toml"
 +++
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration; docs/tasks/RUST-PLAN-08.md#trajectory-jobs-and-shared-cache
 - Consumes: Session typed metadata, trajectory::TrajectoryJob and Dart AttractorTrajectoryCache/canvas source policy (shared touched three-entry LRU, widget generation/cancellation, camera/palette reuse).

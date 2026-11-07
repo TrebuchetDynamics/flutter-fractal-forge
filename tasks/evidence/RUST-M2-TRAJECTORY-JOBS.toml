@@ -1,0 +1,9 @@
+schema = 1
+task = "RUST-M2-TRAJECTORY-JOBS"
+candidate = "b228e943b184d44dc04aedc9f87a76d11eb6be08"
+integration = "a1d616a561d05b2bd0ab601a0cac454386ca5e6d"
+tree = "9afa39e6bfadbcd12a491c4735a982d02fd4afab"
+contract_hash = "50ca7e91d245b065ca007ae5ae3eedb2a3ce22e0beeb0deaa00ce91f261d949e"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-TRAJECTORY-JOBS"]
+result = "pass"
+review = "passed"
