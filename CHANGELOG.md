@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Extend inert Rust sessions with source-matched glow, fluid, rotation-lock and kaleidoscope state, including atomic forced-module restoration; app and bridge routing remain unchanged. (RUST-002-07ee2543)
 - Added dependency-free resumable exact Number Walls prime certification in fractal-core, with bounded chunks, cancellation and source-matched status/count tests; no app routing change. (RUST-001-0fdde2b6)
 - Added an inert typed Rust StateSession bridge with exact u64 identities/revisions, atomic batches and immutable snapshot handles; app routing remains unchanged. (RUST-M2-BRIDGE)
 - Added inert transactional Rust candidate sessions for four ordinary modules with strict M0 events 0–46 replay parity; Dart ownership and Number Walls remain unchanged. (RUST-M2-SESSION)
