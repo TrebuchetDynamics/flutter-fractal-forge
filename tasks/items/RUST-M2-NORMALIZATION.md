@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-M2-NORMALIZATION"
 title = "Port pure parameter and view normalization to Rust"
 short = "Match scalar normalization oracles"
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Now"
 rank = 2000
@@ -16,6 +16,8 @@ scope = "Add fractal-core::normalization with typed raw scalar inputs (numeric i
 acceptance = ["Given original baseline descriptors and proposed rust/crates/fractal-core/tests/normalization.rs, when raw values cover finite bounds, half-integer rounding, nonfinite/default, numeric-versus-text enum equality, strict boolean and canonical decimal cases, public normalization matches lib/core/controllers/params/fractal_param_value_normalizer.dart. Decimal text beyond binary64/u64 stays text; no primality or capability is inferred.", "Given the same proposed test seam and the original view events, when view inputs cover both ordinary and Cantor zoom boundaries, pan NaN/infinities and nonfinite rotations, finite outputs match FractalViewInputBounds: maxZoom=1e12, minZoom=1e-9 or 0.2, pan [-3,3], last-good fallback. Unsupported trajectory semantics are explicitly outside this scalar API, not silently certified.", "Given final source, focused tests and the existing dependency guard pass, original catalog/replay/reference files and live Dart owners remain unchanged. docs/tasks/RUST-M2-NORMALIZATION.md records exact APIs, actual checks and the unqualified full-session boundary."]
 checks = ["PATH=/home/xel/.rustup/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:$PATH CARGO_HOME=\"$AUTOWORK_CACHE/cargo-1.95.0\" cargo test --manifest-path rust/Cargo.toml -p fractal-core --test normalization --locked --offline", "( export PATH=/home/xel/.rustup/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:$PATH; export CARGO_HOME=\"$AUTOWORK_CACHE/cargo-1.95.0\"; scripts/ci/rust-check.sh )", "flutter test --no-pub test/migration/state_replay_test.dart test/fractal/fractal_controller_clamp_test.dart test/fractal/fractal_controller_boolean_clamp_test.dart", "git diff --exit-code -- migration/baseline lib/core/controllers lib/core/models && git diff --check; read back result-note links and API against actual source.", "( AUTOWORK_CACHE=\"${AUTOWORK_CACHE:-$(git rev-parse --path-format=absolute --git-common-dir)/autowork-execution/cache}\" && export AUTOWORK_CACHE && export FLUTTER_ROOT=\"$AUTOWORK_CACHE/flutter-3.47.9\" && export PUB_CACHE=\"$AUTOWORK_CACHE/pub-cache\" && test -x \"$FLUTTER_ROOT/bin/flutter\" && test -d \"$PUB_CACHE\" && export PATH=\"$FLUTTER_ROOT/bin:/usr/bin:$PATH\" && scripts/ci/offline-gate.sh --python-bin /usr/bin/python3 )"]
 exclusions = ["No live/device/native journey, bridge/codegen, Dart behavior changes, runtime routing, prime certification, trajectory port, precision policy, new dependency or M0 refresh."]
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/RUST-M2-NORMALIZATION.toml"
 +++
 
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration; docs/tasks/RUST-PLAN-03.md#next-executable-batch

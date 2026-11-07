@@ -1,0 +1,9 @@
+schema = 1
+task = "RUST-M2-NORMALIZATION"
+candidate = "41263c17f898493a5060f47d46b1a3081fa57131"
+integration = "1c449a2ad85b150a6e194b20182869c37d6aea26"
+tree = "eb1a6810f593084d673fa595f7b0baa4bcef14d6"
+contract_hash = "f21925ef46a6712d15bb97d2a0eda744b995388c8f26ea242c30d648000beefb"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-NORMALIZATION"]
+result = "pass"
+review = "passed"
