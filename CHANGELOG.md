@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Added pure resumable certified Number Walls frame preparation with exact proof reuse, immutable grid sharing and atomic cancellation-safe publication. (RUST-M2-FRAME)
 - Expose eleven inert Rust effect commands and detached snapshot getters through regenerated typed FRB bindings, with public Rust boundary tests and Linux/Android/Web regression build proof. (RUST-M2-EFFECTS-BRIDGE)
 - Added exact six-sequence Number Walls arithmetic and immutable resumable modular grids with bounded scalar work and cancellation in the isolated Rust core. (RUST-M2-GRID)
 - Verified source-bound native StateSession transport and owned lifecycle cleanup on the designated Waydroid instance, with private input/build/target evidence; no full-session or hardware qualification claimed. (RUST-005-c9f7f34a)
