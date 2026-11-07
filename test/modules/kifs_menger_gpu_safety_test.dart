@@ -20,6 +20,10 @@ void main() {
   test('KIFS Menger uses a bounded, escape-terminating fold estimator', () {
     expect(kifs.defaultIterations, 8);
     expect(kifs.maxIterations, 8);
+    expect(kifs.minPower, 2.0);
+    expect(kifs.maxPower, 5.0);
+    expect(kifs.defaultSteps, 120);
+    expect(kifs.extraPresets.single.params['steps'], 150);
     expect(kifs.extraPresets.single.params['iterations'], 8);
     expect(shader, contains('const int MAX_KIFS_ITERATIONS = 8;'));
     expect(shader, contains('float boxSDF(vec3 p)'));
@@ -87,34 +91,80 @@ void main() {
     expect(differingPixels, greaterThan(0));
   });
 
-  test('KIFS Menger survives its maximum interactive quality settings',
+  test('KIFS Menger renders presets and supported interactive extremes',
       () async {
     const size = 64;
-    final program = await ui.FragmentProgram.fromAsset(kifs.shaderAsset);
-    final frame = await _renderShader(
-      program,
-      <double>[
-        0.0,
-        size.toDouble(),
-        size.toDouble(),
-        0.0,
-        0.0,
-        2.0,
-        0.5,
-        0.3,
-        0.0,
-        5.0,
-        8.0,
-        150.0,
-        4.0,
-        0.0,
-        0.0,
-        0.0,
-      ],
-      size,
-    );
-
-    expect(frame.length, size * size * 4);
+    final module = ModuleRegistry().byId('kifs_menger');
+    final program = await ui.FragmentProgram.fromAsset(module.shaderAsset);
+    final power = module.parameters.singleWhere((p) => p.id == 'power');
+    final iterations =
+        module.parameters.singleWhere((p) => p.id == 'iterations');
+    final steps = module.parameters.singleWhere((p) => p.id == 'steps');
+    final cathedral = kifs.extraPresets.single;
+    final cases = [
+      module.defaultPreset,
+      cathedral,
+      // Retain the original maximum-quality sample as well as the UI bounds.
+      cathedral.copyWith(params: {
+        ...cathedral.params,
+        'power': 5.0,
+        'colorScheme': 0,
+      }),
+      for (final scale in [power.min, power.max])
+        for (final folds in [iterations.min, iterations.max])
+          for (final rays in [steps.min, steps.max])
+            module.defaultPreset.copyWith(params: {
+              ...module.defaultPreset.params,
+              'power': scale,
+              'iterations': folds,
+              'steps': rays,
+            }),
+    ];
+    for (final preset in cases) {
+      final params = preset.params;
+      final view = preset.view;
+      final frame = await _renderShader(
+          program,
+          <double>[
+            0.0,
+            size.toDouble(),
+            size.toDouble(),
+            view.pan.x,
+            view.pan.y,
+            view.zoom,
+            view.rotation.x,
+            view.rotation.y,
+            view.rotation.z,
+            (params['power'] as num).toDouble(),
+            (params['iterations'] as num).toDouble(),
+            (params['steps'] as num).toDouble(),
+            (params['bailout'] as num).toDouble(),
+            (params['colorScheme'] as num).toDouble(),
+            0.0,
+            0.0,
+          ],
+          size);
+      var foregroundPixels = 0;
+      final colors = <int>{};
+      for (var y = 0; y < size; y++) {
+        for (var x = 0; x < size; x++) {
+          final i = (y * size + x) * 4;
+          colors.add((frame[i] << 16) | (frame[i + 1] << 8) | frame[i + 2]);
+          // The shader's background varies only vertically. Horizontal
+          // contrast rejects a background-only gradient, not just black frames.
+          final edge = y * size * 4;
+          if ((frame[i] - frame[edge]).abs() +
+                  (frame[i + 1] - frame[edge + 1]).abs() +
+                  (frame[i + 2] - frame[edge + 2]).abs() >
+              24) foregroundPixels++;
+          expect(frame[i + 3], 255);
+        }
+      }
+      expect(frame.length, size * size * 4);
+      expect(colors.length, greaterThan(16), reason: '$params');
+      expect(foregroundPixels, greaterThan(size * size * 0.005),
+          reason: '$params');
+    }
   });
 
   test('registered Mandelbulb still rasterizes its 3D shader', () async {
