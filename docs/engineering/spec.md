@@ -59,8 +59,14 @@ These are future acceptance boundaries, not measured results.
 
 The [workspace](../../rust/Cargo.toml) contains three nonpublishable packages:
 `fractal-core` (domain), `fractal-render` (depends on core), and
-`fractal-bridge` (depends on both). Core/render dependencies remain local paths;
-only the bridge depends on the pinned `flutter_rust_bridge = 2.11.1` runtime.
+`fractal-bridge` (depends on both). Core now provides the read-only
+[`CatalogBaseline::from_jsons`](../tasks/RUST-M3-CATALOG-PARITY.md) API for the
+four schema-1 catalog envelopes.
+Core/render use local paths plus the locked pure-domain serde graph:
+`serde`/`serde_core`/`serde_derive` 1.0.229, `serde_json` 1.0.108 with
+`arbitrary_precision`/`raw_value`, `itoa` 1.0.18, `ryu` 1.0.23, and derive dependencies
+`proc-macro2` 1.0.107, `quote` 1.0.47, `syn` 3.0.9 and `unicode-ident` 1.0.27.
+Only the bridge depends on the pinned `flutter_rust_bridge = 2.11.1` runtime.
 The foundation seam still exposes these APIs:
 
 - `engine_version() -> String` returns `0.1.0`, the Rust engine version,
@@ -81,7 +87,8 @@ It checks the compiler version, formatting, clippy with denied warnings, and
 workspace tests using the locked, offline dependency graph.
 Inline tests cover the bridge version, nonrendering capability JSON shape, and
 the core/render dependency boundary across features, targets, build and dev edges.
-Only the local foundation graph is allowed, so UI/platform dependencies fail.
+Only the local foundation and locked pure-domain serde graph above are allowed,
+so Flutter/Android/GPUI and other UI/platform dependencies still fail.
 
 The path-scoped [GitHub workflow](../../.github/workflows/rust.yml) provisions
 the pinned toolchain and fetches locked dependencies in its disposable check job.
