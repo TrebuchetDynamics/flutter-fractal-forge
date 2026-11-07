@@ -68,7 +68,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => 500237315;
+  int get rustContentHash => -1014658475;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -90,6 +90,29 @@ abstract class RustLibApi extends BaseApi {
       required Map<String, StateValue> params,
       required StateCamera camera});
 
+  StateCommand crateApiStateCommandFluidModeEnabled({required bool value});
+
+  StateCommand crateApiStateCommandFluidStrength({required double value});
+
+  StateCommand crateApiStateCommandGlowEnabled({required bool value});
+
+  StateCommand crateApiStateCommandGlowIntensity({required double value});
+
+  StateCommand crateApiStateCommandGlowSigma({required double value});
+
+  StateCommand crateApiStateCommandKaleidoscopeEnabled({required bool value});
+
+  StateCommand crateApiStateCommandKaleidoscopeMirror({required bool value});
+
+  StateCommand crateApiStateCommandKaleidoscopeMirrorMode(
+      {required PlatformInt64 value});
+
+  StateCommand crateApiStateCommandKaleidoscopeRotation(
+      {required double value});
+
+  StateCommand crateApiStateCommandKaleidoscopeSectors(
+      {required PlatformInt64 value});
+
   StateCommand crateApiStateCommandLoad(
       {String? moduleId,
       required Map<String, StateValue> params,
@@ -109,6 +132,8 @@ abstract class RustLibApi extends BaseApi {
 
   StateCommand crateApiStateCommandRotation(
       {required double x, required double y, required double z});
+
+  StateCommand crateApiStateCommandRotationLocked({required bool value});
 
   StateCommand crateApiStateCommandSelectModule(
       {required String moduleId,
@@ -141,6 +166,29 @@ abstract class RustLibApi extends BaseApi {
 
   StateSnapshot crateApiStateSessionSnapshot({required StateSession that});
 
+  bool crateApiStateSnapshotFluidModeEnabled({required StateSnapshot that});
+
+  double crateApiStateSnapshotFluidStrength({required StateSnapshot that});
+
+  bool crateApiStateSnapshotGlowEnabled({required StateSnapshot that});
+
+  double crateApiStateSnapshotGlowIntensity({required StateSnapshot that});
+
+  double crateApiStateSnapshotGlowSigma({required StateSnapshot that});
+
+  bool crateApiStateSnapshotKaleidoscopeEnabled({required StateSnapshot that});
+
+  bool crateApiStateSnapshotKaleidoscopeMirror({required StateSnapshot that});
+
+  PlatformInt64 crateApiStateSnapshotKaleidoscopeMirrorMode(
+      {required StateSnapshot that});
+
+  double crateApiStateSnapshotKaleidoscopeRotation(
+      {required StateSnapshot that});
+
+  PlatformInt64 crateApiStateSnapshotKaleidoscopeSectors(
+      {required StateSnapshot that});
+
   double crateApiStateSnapshotLastAdaptiveZoom({required StateSnapshot that});
 
   String crateApiStateSnapshotModuleId({required StateSnapshot that});
@@ -149,6 +197,8 @@ abstract class RustLibApi extends BaseApi {
       {required StateSnapshot that});
 
   BigInt crateApiStateSnapshotRevision({required StateSnapshot that});
+
+  bool crateApiStateSnapshotRotationLocked({required StateSnapshot that});
 
   BigInt crateApiStateSnapshotSessionId({required StateSnapshot that});
 
@@ -326,6 +376,259 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  StateCommand crateApiStateCommandFluidModeEnabled({required bool value}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_bool(value, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateCommand,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateCommandFluidModeEnabledConstMeta,
+      argValues: [value],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateCommandFluidModeEnabledConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateCommand_fluid_mode_enabled",
+        argNames: ["value"],
+      );
+
+  @override
+  StateCommand crateApiStateCommandFluidStrength({required double value}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_f_64(value, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateCommand,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateCommandFluidStrengthConstMeta,
+      argValues: [value],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateCommandFluidStrengthConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateCommand_fluid_strength",
+        argNames: ["value"],
+      );
+
+  @override
+  StateCommand crateApiStateCommandGlowEnabled({required bool value}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_bool(value, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateCommand,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateCommandGlowEnabledConstMeta,
+      argValues: [value],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateCommandGlowEnabledConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateCommand_glow_enabled",
+        argNames: ["value"],
+      );
+
+  @override
+  StateCommand crateApiStateCommandGlowIntensity({required double value}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_f_64(value, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateCommand,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateCommandGlowIntensityConstMeta,
+      argValues: [value],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateCommandGlowIntensityConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateCommand_glow_intensity",
+        argNames: ["value"],
+      );
+
+  @override
+  StateCommand crateApiStateCommandGlowSigma({required double value}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_f_64(value, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateCommand,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateCommandGlowSigmaConstMeta,
+      argValues: [value],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateCommandGlowSigmaConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateCommand_glow_sigma",
+        argNames: ["value"],
+      );
+
+  @override
+  StateCommand crateApiStateCommandKaleidoscopeEnabled({required bool value}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_bool(value, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 10)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateCommand,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateCommandKaleidoscopeEnabledConstMeta,
+      argValues: [value],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateCommandKaleidoscopeEnabledConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateCommand_kaleidoscope_enabled",
+        argNames: ["value"],
+      );
+
+  @override
+  StateCommand crateApiStateCommandKaleidoscopeMirror({required bool value}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_bool(value, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateCommand,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateCommandKaleidoscopeMirrorConstMeta,
+      argValues: [value],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateCommandKaleidoscopeMirrorConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateCommand_kaleidoscope_mirror",
+        argNames: ["value"],
+      );
+
+  @override
+  StateCommand crateApiStateCommandKaleidoscopeMirrorMode(
+      {required PlatformInt64 value}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_i_64(value, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 12)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateCommand,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateCommandKaleidoscopeMirrorModeConstMeta,
+      argValues: [value],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateCommandKaleidoscopeMirrorModeConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateCommand_kaleidoscope_mirror_mode",
+        argNames: ["value"],
+      );
+
+  @override
+  StateCommand crateApiStateCommandKaleidoscopeRotation(
+      {required double value}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_f_64(value, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateCommand,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateCommandKaleidoscopeRotationConstMeta,
+      argValues: [value],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateCommandKaleidoscopeRotationConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateCommand_kaleidoscope_rotation",
+        argNames: ["value"],
+      );
+
+  @override
+  StateCommand crateApiStateCommandKaleidoscopeSectors(
+      {required PlatformInt64 value}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_i_64(value, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 14)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateCommand,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateCommandKaleidoscopeSectorsConstMeta,
+      argValues: [value],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateCommandKaleidoscopeSectorsConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateCommand_kaleidoscope_sectors",
+        argNames: ["value"],
+      );
+
+  @override
   StateCommand crateApiStateCommandLoad(
       {String? moduleId,
       required Map<String, StateValue> params,
@@ -339,7 +642,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             params, serializer);
         sse_encode_box_autoadd_state_camera(camera, serializer);
         sse_encode_bool(transparent, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 15)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -364,7 +667,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_f_64(x, serializer);
         sse_encode_f_64(y, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 16)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -391,7 +694,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_String(id, serializer);
         sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue(
             value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 17)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -414,7 +717,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 18)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -438,7 +741,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 19)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -462,7 +765,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 10)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 20)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -490,7 +793,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_f_64(x, serializer);
         sse_encode_f_64(y, serializer);
         sse_encode_f_64(z, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 21)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -510,6 +813,31 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  StateCommand crateApiStateCommandRotationLocked({required bool value}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_bool(value, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 22)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateCommand,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateCommandRotationLockedConstMeta,
+      argValues: [value],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateCommandRotationLockedConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateCommand_rotation_locked",
+        argNames: ["value"],
+      );
+
+  @override
   StateCommand crateApiStateCommandSelectModule(
       {required String moduleId,
       required bool resetView,
@@ -521,7 +849,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_bool(resetView, serializer);
         sse_encode_Map_String_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue_None(
             initialParams, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 12)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 23)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -546,7 +874,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_bool(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 24)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -571,7 +899,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(operation, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 14)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 25)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -598,7 +926,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_box_autoadd_state_camera(camera, serializer);
         sse_encode_bool(adaptive, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 15)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 26)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -622,7 +950,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_f_64(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 16)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 27)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -655,7 +983,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_u_64(expectedRevision, serializer);
         sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateCommand(
             commands, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 17)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 28)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -689,7 +1017,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_String(presets, serializer);
         sse_encode_String(capabilities, serializer);
         sse_encode_String(moduleId, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 18)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 29)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -720,7 +1048,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSession(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 19)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 30)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -745,7 +1073,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSession(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 20)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 31)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -765,13 +1093,266 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  bool crateApiStateSnapshotFluidModeEnabled({required StateSnapshot that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 32)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_bool,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateSnapshotFluidModeEnabledConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateSnapshotFluidModeEnabledConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateSnapshot_fluid_mode_enabled",
+        argNames: ["that"],
+      );
+
+  @override
+  double crateApiStateSnapshotFluidStrength({required StateSnapshot that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 33)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_f_64,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateSnapshotFluidStrengthConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateSnapshotFluidStrengthConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateSnapshot_fluid_strength",
+        argNames: ["that"],
+      );
+
+  @override
+  bool crateApiStateSnapshotGlowEnabled({required StateSnapshot that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 34)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_bool,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateSnapshotGlowEnabledConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateSnapshotGlowEnabledConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateSnapshot_glow_enabled",
+        argNames: ["that"],
+      );
+
+  @override
+  double crateApiStateSnapshotGlowIntensity({required StateSnapshot that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 35)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_f_64,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateSnapshotGlowIntensityConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateSnapshotGlowIntensityConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateSnapshot_glow_intensity",
+        argNames: ["that"],
+      );
+
+  @override
+  double crateApiStateSnapshotGlowSigma({required StateSnapshot that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 36)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_f_64,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateSnapshotGlowSigmaConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateSnapshotGlowSigmaConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateSnapshot_glow_sigma",
+        argNames: ["that"],
+      );
+
+  @override
+  bool crateApiStateSnapshotKaleidoscopeEnabled({required StateSnapshot that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 37)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_bool,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateSnapshotKaleidoscopeEnabledConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateSnapshotKaleidoscopeEnabledConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateSnapshot_kaleidoscope_enabled",
+        argNames: ["that"],
+      );
+
+  @override
+  bool crateApiStateSnapshotKaleidoscopeMirror({required StateSnapshot that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 38)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_bool,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateSnapshotKaleidoscopeMirrorConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateSnapshotKaleidoscopeMirrorConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateSnapshot_kaleidoscope_mirror",
+        argNames: ["that"],
+      );
+
+  @override
+  PlatformInt64 crateApiStateSnapshotKaleidoscopeMirrorMode(
+      {required StateSnapshot that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 39)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_i_64,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateSnapshotKaleidoscopeMirrorModeConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateSnapshotKaleidoscopeMirrorModeConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateSnapshot_kaleidoscope_mirror_mode",
+        argNames: ["that"],
+      );
+
+  @override
+  double crateApiStateSnapshotKaleidoscopeRotation(
+      {required StateSnapshot that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 40)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_f_64,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateSnapshotKaleidoscopeRotationConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateSnapshotKaleidoscopeRotationConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateSnapshot_kaleidoscope_rotation",
+        argNames: ["that"],
+      );
+
+  @override
+  PlatformInt64 crateApiStateSnapshotKaleidoscopeSectors(
+      {required StateSnapshot that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 41)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_i_64,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateSnapshotKaleidoscopeSectorsConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateSnapshotKaleidoscopeSectorsConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateSnapshot_kaleidoscope_sectors",
+        argNames: ["that"],
+      );
+
+  @override
   double crateApiStateSnapshotLastAdaptiveZoom({required StateSnapshot that}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 21)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 42)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_f_64,
@@ -796,7 +1377,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 22)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 43)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -822,7 +1403,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 23)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 44)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -848,7 +1429,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 24)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 45)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_u_64,
@@ -867,13 +1448,38 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  bool crateApiStateSnapshotRotationLocked({required StateSnapshot that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 46)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_bool,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateSnapshotRotationLockedConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateSnapshotRotationLockedConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateSnapshot_rotation_locked",
+        argNames: ["that"],
+      );
+
+  @override
   BigInt crateApiStateSnapshotSessionId({required StateSnapshot that}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 25)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 47)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_u_64,
@@ -899,7 +1505,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 26)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 48)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_bool,
@@ -924,7 +1530,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 27)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 49)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_state_view,
@@ -948,7 +1554,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 28)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 50)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_opt_box_autoadd_bool,
@@ -972,7 +1578,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 29)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 51)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_opt_box_autoadd_f_64,
@@ -995,7 +1601,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_bool(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 30)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 52)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1020,7 +1626,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_f_64(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 31)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 53)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1045,7 +1651,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 32)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 54)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1070,7 +1676,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 33)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 55)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1095,7 +1701,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 34)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 56)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_opt_String,
@@ -1119,7 +1725,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 35)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 57)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_opt_String,
@@ -1141,7 +1747,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 36)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 58)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -1366,6 +1972,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   double dco_decode_f_64(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as double;
+  }
+
+  @protected
+  PlatformInt64 dco_decode_i_64(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dcoDecodeI64(raw);
   }
 
   @protected
@@ -1664,6 +2276,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   double sse_decode_f_64(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getFloat64();
+  }
+
+  @protected
+  PlatformInt64 sse_decode_i_64(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getPlatformInt64();
   }
 
   @protected
@@ -1994,6 +2612,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_i_64(PlatformInt64 self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putPlatformInt64(self);
+  }
+
+  @protected
   void
       sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateCommand(
           List<StateCommand> self, SseSerializer serializer) {
@@ -2219,6 +2843,54 @@ class StateSnapshotImpl extends RustOpaque implements StateSnapshot {
         RustLib.instance.api.rust_arc_decrement_strong_count_StateSnapshotPtr,
   );
 
+  bool fluidModeEnabled() =>
+      RustLib.instance.api.crateApiStateSnapshotFluidModeEnabled(
+        that: this,
+      );
+
+  double fluidStrength() =>
+      RustLib.instance.api.crateApiStateSnapshotFluidStrength(
+        that: this,
+      );
+
+  bool glowEnabled() => RustLib.instance.api.crateApiStateSnapshotGlowEnabled(
+        that: this,
+      );
+
+  double glowIntensity() =>
+      RustLib.instance.api.crateApiStateSnapshotGlowIntensity(
+        that: this,
+      );
+
+  double glowSigma() => RustLib.instance.api.crateApiStateSnapshotGlowSigma(
+        that: this,
+      );
+
+  bool kaleidoscopeEnabled() =>
+      RustLib.instance.api.crateApiStateSnapshotKaleidoscopeEnabled(
+        that: this,
+      );
+
+  bool kaleidoscopeMirror() =>
+      RustLib.instance.api.crateApiStateSnapshotKaleidoscopeMirror(
+        that: this,
+      );
+
+  PlatformInt64 kaleidoscopeMirrorMode() =>
+      RustLib.instance.api.crateApiStateSnapshotKaleidoscopeMirrorMode(
+        that: this,
+      );
+
+  double kaleidoscopeRotation() =>
+      RustLib.instance.api.crateApiStateSnapshotKaleidoscopeRotation(
+        that: this,
+      );
+
+  PlatformInt64 kaleidoscopeSectors() =>
+      RustLib.instance.api.crateApiStateSnapshotKaleidoscopeSectors(
+        that: this,
+      );
+
   double lastAdaptiveZoom() =>
       RustLib.instance.api.crateApiStateSnapshotLastAdaptiveZoom(
         that: this,
@@ -2234,6 +2906,11 @@ class StateSnapshotImpl extends RustOpaque implements StateSnapshot {
       );
 
   BigInt revision() => RustLib.instance.api.crateApiStateSnapshotRevision(
+        that: this,
+      );
+
+  bool rotationLocked() =>
+      RustLib.instance.api.crateApiStateSnapshotRotationLocked(
         that: this,
       );
 

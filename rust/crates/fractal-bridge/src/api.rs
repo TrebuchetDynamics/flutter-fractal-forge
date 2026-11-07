@@ -239,6 +239,83 @@ impl StateCommand {
     }
 
     #[frb(sync)]
+    pub fn glow_enabled(value: bool) -> Self {
+        Self {
+            inner: Command::GlowEnabled(value),
+        }
+    }
+
+    #[frb(sync)]
+    pub fn glow_sigma(value: f64) -> Self {
+        Self {
+            inner: Command::GlowSigma(value),
+        }
+    }
+
+    #[frb(sync)]
+    pub fn glow_intensity(value: f64) -> Self {
+        Self {
+            inner: Command::GlowIntensity(value),
+        }
+    }
+
+    #[frb(sync)]
+    pub fn fluid_mode_enabled(value: bool) -> Self {
+        Self {
+            inner: Command::FluidModeEnabled(value),
+        }
+    }
+
+    #[frb(sync)]
+    pub fn fluid_strength(value: f64) -> Self {
+        Self {
+            inner: Command::FluidStrength(value),
+        }
+    }
+
+    #[frb(sync)]
+    pub fn rotation_locked(value: bool) -> Self {
+        Self {
+            inner: Command::RotationLocked(value),
+        }
+    }
+
+    #[frb(sync)]
+    pub fn kaleidoscope_enabled(value: bool) -> Self {
+        Self {
+            inner: Command::KaleidoscopeEnabled(value),
+        }
+    }
+
+    #[frb(sync)]
+    pub fn kaleidoscope_sectors(value: i64) -> Self {
+        Self {
+            inner: Command::KaleidoscopeSectors(value),
+        }
+    }
+
+    #[frb(sync)]
+    pub fn kaleidoscope_mirror(value: bool) -> Self {
+        Self {
+            inner: Command::KaleidoscopeMirror(value),
+        }
+    }
+
+    #[frb(sync)]
+    pub fn kaleidoscope_rotation(value: f64) -> Self {
+        Self {
+            inner: Command::KaleidoscopeRotation(value),
+        }
+    }
+
+    #[frb(sync)]
+    pub fn kaleidoscope_mirror_mode(value: i64) -> Self {
+        Self {
+            inner: Command::KaleidoscopeMirrorMode(value),
+        }
+    }
+
+    #[frb(sync)]
     pub fn apply_preset(
         module_id: String,
         params: HashMap<String, StateValue>,
@@ -354,6 +431,61 @@ impl StateSnapshot {
     #[frb(sync)]
     pub fn transparent_background(&self) -> bool {
         self.inner.transparent_background()
+    }
+
+    #[frb(sync)]
+    pub fn glow_enabled(&self) -> bool {
+        self.inner.glow_enabled()
+    }
+
+    #[frb(sync)]
+    pub fn glow_sigma(&self) -> f64 {
+        self.inner.glow_sigma()
+    }
+
+    #[frb(sync)]
+    pub fn glow_intensity(&self) -> f64 {
+        self.inner.glow_intensity()
+    }
+
+    #[frb(sync)]
+    pub fn fluid_mode_enabled(&self) -> bool {
+        self.inner.fluid_mode_enabled()
+    }
+
+    #[frb(sync)]
+    pub fn fluid_strength(&self) -> f64 {
+        self.inner.fluid_strength()
+    }
+
+    #[frb(sync)]
+    pub fn rotation_locked(&self) -> bool {
+        self.inner.rotation_locked()
+    }
+
+    #[frb(sync)]
+    pub fn kaleidoscope_enabled(&self) -> bool {
+        self.inner.kaleidoscope_enabled()
+    }
+
+    #[frb(sync)]
+    pub fn kaleidoscope_sectors(&self) -> i64 {
+        self.inner.kaleidoscope_sectors()
+    }
+
+    #[frb(sync)]
+    pub fn kaleidoscope_mirror(&self) -> bool {
+        self.inner.kaleidoscope_mirror()
+    }
+
+    #[frb(sync)]
+    pub fn kaleidoscope_rotation(&self) -> f64 {
+        self.inner.kaleidoscope_rotation()
+    }
+
+    #[frb(sync)]
+    pub fn kaleidoscope_mirror_mode(&self) -> i64 {
+        self.inner.kaleidoscope_mirror_mode()
     }
 
     #[frb(sync)]

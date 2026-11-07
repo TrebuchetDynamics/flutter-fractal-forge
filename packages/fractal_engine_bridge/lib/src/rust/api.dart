@@ -30,6 +30,40 @@ abstract class StateCommand implements RustOpaqueInterface {
       RustLib.instance.api.crateApiStateCommandApplyPreset(
           moduleId: moduleId, params: params, camera: camera);
 
+  static StateCommand fluidModeEnabled({required bool value}) =>
+      RustLib.instance.api.crateApiStateCommandFluidModeEnabled(value: value);
+
+  static StateCommand fluidStrength({required double value}) =>
+      RustLib.instance.api.crateApiStateCommandFluidStrength(value: value);
+
+  static StateCommand glowEnabled({required bool value}) =>
+      RustLib.instance.api.crateApiStateCommandGlowEnabled(value: value);
+
+  static StateCommand glowIntensity({required double value}) =>
+      RustLib.instance.api.crateApiStateCommandGlowIntensity(value: value);
+
+  static StateCommand glowSigma({required double value}) =>
+      RustLib.instance.api.crateApiStateCommandGlowSigma(value: value);
+
+  static StateCommand kaleidoscopeEnabled({required bool value}) =>
+      RustLib.instance.api
+          .crateApiStateCommandKaleidoscopeEnabled(value: value);
+
+  static StateCommand kaleidoscopeMirror({required bool value}) =>
+      RustLib.instance.api.crateApiStateCommandKaleidoscopeMirror(value: value);
+
+  static StateCommand kaleidoscopeMirrorMode({required PlatformInt64 value}) =>
+      RustLib.instance.api
+          .crateApiStateCommandKaleidoscopeMirrorMode(value: value);
+
+  static StateCommand kaleidoscopeRotation({required double value}) =>
+      RustLib.instance.api
+          .crateApiStateCommandKaleidoscopeRotation(value: value);
+
+  static StateCommand kaleidoscopeSectors({required PlatformInt64 value}) =>
+      RustLib.instance.api
+          .crateApiStateCommandKaleidoscopeSectors(value: value);
+
   static StateCommand load(
           {String? moduleId,
           required Map<String, StateValue> params,
@@ -59,6 +93,9 @@ abstract class StateCommand implements RustOpaqueInterface {
   static StateCommand rotation(
           {required double x, required double y, required double z}) =>
       RustLib.instance.api.crateApiStateCommandRotation(x: x, y: y, z: z);
+
+  static StateCommand rotationLocked({required bool value}) =>
+      RustLib.instance.api.crateApiStateCommandRotationLocked(value: value);
 
   static StateCommand selectModule(
           {required String moduleId,
@@ -113,6 +150,26 @@ abstract class StateSession implements RustOpaqueInterface {
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateSnapshot>>
 abstract class StateSnapshot implements RustOpaqueInterface {
+  bool fluidModeEnabled();
+
+  double fluidStrength();
+
+  bool glowEnabled();
+
+  double glowIntensity();
+
+  double glowSigma();
+
+  bool kaleidoscopeEnabled();
+
+  bool kaleidoscopeMirror();
+
+  PlatformInt64 kaleidoscopeMirrorMode();
+
+  double kaleidoscopeRotation();
+
+  PlatformInt64 kaleidoscopeSectors();
+
   double lastAdaptiveZoom();
 
   String moduleId();
@@ -120,6 +177,8 @@ abstract class StateSnapshot implements RustOpaqueInterface {
   Map<String, StateValue> params();
 
   BigInt revision();
+
+  bool rotationLocked();
 
   BigInt sessionId();
 
