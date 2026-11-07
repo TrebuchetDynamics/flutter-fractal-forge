@@ -596,8 +596,9 @@ module defaults plus edited Mandelbrot/Mandelbulb views; capture true module-spe
 paths (including Number Walls), not a forced shared shader. Images record source,
 settings, backend and decoded hash; image health is not mathematical qualification.
 
-New harnesses/fixtures and commands named in tasks are **proposed, unrun**. No test,
-Flutter build, Rust build, install, benchmark or device journey ran during planning.
+At planning time, new harnesses/fixtures and commands named in tasks were
+**proposed, unrun**. No test, Flutter build, Rust build, install, benchmark or device
+journey ran during planning. Subsequent contracts evidence is recorded below.
 All implementation checks retain the pinned offline gate in AGENTS.md. First-round
 Rust uses the existing 1.95.0 toolchain with task-local PATH; dependencies/codegen
 must be provisioned in an isolated cache during execution, then tested locked/offline.
@@ -640,3 +641,57 @@ Final task validation passed: 123 tasks, 21 goals, no drafts; the six new task
 records and goal were read back. No implementation checks were run. Selection is
 assessed separately from committed-store contents; runtime/ownership admission and
 remote inclusion are not established by this plan.
+
+### M0 contracts evidence — RUST-M0-CONTRACTS
+
+The read-only [inventory helper](../../test/migration/support/baseline_inventory.dart)
+now derives schema-1 JSON from `ModuleRegistry`, `CatalogRepository`, native CPU
+membership, precision policy/module resolution and the shader asset manifest.
+The five committed files in [`migration/baseline`](../../migration/baseline/)
+are `modules.json`, `parameters.json`, `presets.json`, `capabilities.json` and
+`shader-contracts.json`. Each has `schema`, `kind`, deterministic `payload` and
+separate `provenance`. Records are sorted by module ID or shader asset; explicit
+registry/catalog/parameter/preset order fields preserve presentation order.
+Source SHA-256 hashes cover the local import graph, shader sources/resolved
+includes, the exporter, manifest, lockfile and Flutter version pin. SDK include
+identities are portable logical paths, not host-specific installation paths.
+No timestamps, host paths or generated preset creation times enter the payload.
+
+The inventory retains core/performance catalog families, debug diagnostics and
+hidden Explore entries, typed defaults/options (including exact decimal strings),
+all built-in preset semantics, English presentation literals and existing
+mathematical qualifications. Precision records are sampled routing decisions at
+module-default power with resolved GPU assets, not exhaustive parameter-space or
+mathematical certification. Float slots and sampler bindings remain separate.
+Resolved declarations do **not** certify opaque Dart `UniformSetter` closures or
+a wgpu ABI: every setter ABI is explicitly unresolved with source paths. Arrays
+and preprocessor-dependent declarations also remain unresolved rather than being
+assigned guessed layouts. The existing `uniform_layout.dart` family constants are
+recorded; no uniform mathematics, rendering or saved-data interfaces changed.
+
+Verification on the pinned Flutter 3.47.9/Dart 3.13.7 SDK: the
+[baseline contract test](../../test/migration/baseline_contracts_test.dart), catalog
+ID integrity, escape-time uniform contract and shader manifest tests passed
+(19 tests); focused analysis of `test/migration` passed. Two scratch exports from
+unchanged inputs were byte-identical before explicit fixture promotion. The test
+also exercises independent ID/asset/default changes, changed float bindings,
+include expansion, separate sampler indices and unresolved custom declarations.
+The default invocation only reads and compares fixtures; it never regenerates them.
+The runner's merged-tree offline gate remains separate; replay/images, Rust and
+live/device qualification are not established by this inventory.
+
+To review an intentional refresh, use the pinned offline setup and two **empty**
+absolute scratch paths outside the checkout (set a private `TMPDIR` first):
+
+```sh
+flutter test --no-pub test/migration/baseline_contracts_test.dart --dart-define=MIGRATION_BASELINE_OUT="$TMPDIR/contracts-a" &&
+flutter test --no-pub test/migration/baseline_contracts_test.dart --dart-define=MIGRATION_BASELINE_OUT="$TMPDIR/contracts-b" &&
+diff -r "$TMPDIR/contracts-a" "$TMPDIR/contracts-b"
+# Only after reviewing the identical exports and intended source changes:
+cp "$TMPDIR/contracts-a/"*.json migration/baseline/
+flutter test --no-pub test/migration/baseline_contracts_test.dart
+```
+
+Reuse: existing descriptors, capability lookups, precision resolver, slot constants
+and locked test hashing support. Deliberately omitted: new dependencies, production
+or CI changes, README totals, guessed custom setter layouts and implicit promotion.
