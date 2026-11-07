@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-M0-REPLAY"
 title = "Capture deterministic camera parameter and precision replay corpus"
 short = "Freeze Dart semantics before any state owner moves."
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Now"
 rank = 3000
@@ -16,6 +16,8 @@ scope = "Add a versioned JSON replay corpus and one Flutter test harness that ex
 acceptance = ["Given stored input sequences, state_replay_test.dart recomputes existing public Dart snapshot/parameter outputs and rejects a deliberately altered expectation; exact integer strings and finite last-good semantics do not use lossy JSON numbers.", "Given precision boundary/history vectors, the same harness checks renderPath, tier, exactness and fallback-pending state against current policy; capability absence never becomes CPU precision."]
 checks = ["flutter test --no-pub test/migration/state_replay_test.dart test/fractal/fractal_controller_behavior_test.dart test/fractal/fractal_controller_clamp_test.dart test/fractal/fractal_controller_boolean_clamp_test.dart test/fractal/fractal_controller_reset_session_test.dart test/core/controllers/fractal_controller_state_exposure_test.dart test/renderer/precision_ladder_policy_test.dart test/number_walls/number_wall_state_test.dart", "( export FLUTTER_ROOT=\"$AUTOWORK_CACHE/flutter-3.47.9\"; export PUB_CACHE=\"$AUTOWORK_CACHE/pub-cache\"; export PATH=\"$FLUTTER_ROOT/bin:/usr/bin:$PATH\"; flutter --version && /usr/bin/python3 -c 'import sys, pytest, jinja2, markupsafe; print(sys.executable, sys.version, pytest.__version__, jinja2.__version__); assert callable(markupsafe.soft_str)' && scripts/ci/offline-gate.sh --python-bin /usr/bin/python3 )"]
 exclusions = ["No state/render replacement, ID renames, saved-data schema changes, publication or live device mutation in this offline task.", "Do not edit the seven pre-existing dirty test files; use isolated execution and preserve their work."]
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/RUST-M0-REPLAY.toml"
 +++
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration
 - Planner call: nonfinite input uses tagged operands, never invalid JSON; snapshots retain existing serialized shapes. No new gesture math, precision ceiling or random timing. Use deterministic public API events and await actual candidate completion.

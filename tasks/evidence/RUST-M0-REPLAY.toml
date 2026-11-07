@@ -1,0 +1,9 @@
+schema = 1
+task = "RUST-M0-REPLAY"
+candidate = "0cf68df211c3d76d1a611f53c860a02aa402c13b"
+integration = "2003c19871b1231e75724a339b407bc015e47006"
+tree = "ce812d779457edfc21ae066d96536df63691767c"
+contract_hash = "a0dd3c75196c3e10541535324828e0a167a4d1ea216ba90b2523e14f9668f59e"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M0-REPLAY"]
+result = "pass"
+review = "passed"
