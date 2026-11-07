@@ -2,6 +2,7 @@
 
 pub mod catalog_baseline;
 pub mod normalization;
+pub mod session;
 
 /// Rust engine version, independent of the Flutter app version.
 pub fn engine_version() -> String {
