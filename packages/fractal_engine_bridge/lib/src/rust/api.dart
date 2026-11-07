@@ -7,7 +7,7 @@ import 'frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 // These functions are ignored because they are not marked as `pub`: `allocate_session_id`, `core_params`, `into_core`
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `clone`, `clone`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_fields_are_eq`, `assert_fields_are_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`
 // These functions are ignored (category: IgnoreBecauseExplicitAttribute): `default`
 
 String engineVersion() => RustLib.instance.api.crateApiEngineVersion();
@@ -75,6 +75,9 @@ abstract class StateCommand implements RustOpaqueInterface {
           camera: camera,
           transparent: transparent);
 
+  static StateCommand numberWallPrime({required String value}) =>
+      RustLib.instance.api.crateApiStateCommandNumberWallPrime(value: value);
+
   static StateCommand pan({required double x, required double y}) =>
       RustLib.instance.api.crateApiStateCommandPan(x: x, y: y);
 
@@ -122,12 +125,76 @@ abstract class StateCommand implements RustOpaqueInterface {
       RustLib.instance.api.crateApiStateCommandZoom(value: value);
 }
 
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateNumberWallFrame>>
+abstract class StateNumberWallFrame implements RustOpaqueInterface {
+  int columnCount();
+
+  PlatformInt64 columnStart();
+
+  String modulus();
+
+  Map<String, StateValue> params();
+
+  int rowCount();
+
+  StateNumberWallSequence sequence();
+
+  PlatformInt64 supportEnd();
+
+  PlatformInt64 supportStart();
+
+  /// Complete detached decimal-string grid; never narrowed through floating point.
+  List<List<String>> values();
+}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateNumberWallGuard>>
+abstract class StateNumberWallGuard implements RustOpaqueInterface {
+  bool isActive();
+
+  factory StateNumberWallGuard({required bool active}) =>
+      RustLib.instance.api.crateApiStateNumberWallGuardNew(active: active);
+
+  void revoke();
+}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateNumberWallProgress>>
+abstract class StateNumberWallProgress implements RustOpaqueInterface {
+  bool isPending();
+
+  StateSnapshot snapshot();
+
+  StateNumberWallStatus? status();
+}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateNumberWallRequest>>
+abstract class StateNumberWallRequest implements RustOpaqueInterface {}
+
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateSession>>
 abstract class StateSession implements RustOpaqueInterface {
+  /// Exactly one bounded core step, including revocation observation at zero work.
+  StateNumberWallProgress advanceNumberWall(
+      {required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateNumberWallRequest request,
+      required int workLimit});
+
   StateSnapshot applyBatch(
       {required BigInt sessionId,
       required BigInt expectedRevision,
       required List<StateCommand> commands});
+
+  /// Stages a complete ingress or applies an immediate command; never drains work.
+  StateNumberWallRequest? beginNumberWall(
+      {required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateCommand command,
+      required StateNumberWallGuard requestGuard,
+      required int maxTrialDivisions});
+
+  StateNumberWallProgress cancelNumberWall(
+      {required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateNumberWallRequest request});
 
   /// Consume and validate all four original envelopes once, not per command/frame.
   factory StateSession(
@@ -173,6 +240,12 @@ abstract class StateSnapshot implements RustOpaqueInterface {
   double lastAdaptiveZoom();
 
   String moduleId();
+
+  StateNumberWallFrame? numberWallFrame();
+
+  bool numberWallPending();
+
+  StateNumberWallStatus? numberWallStatus();
 
   Map<String, StateValue> params();
 
@@ -248,6 +321,25 @@ class StateCamera {
           runtimeType == other.runtimeType &&
           view == other.view &&
           hasTrajectory == other.hasTrajectory;
+}
+
+enum StateNumberWallSequence {
+  signedPagoda,
+  rook,
+  thueMorse,
+  rudinShapiro,
+  fibonacci,
+  squares,
+  ;
+}
+
+enum StateNumberWallStatus {
+  verifiedPrime,
+  composite,
+  invalid,
+  unverified,
+  cancelled,
+  ;
 }
 
 class StateView {

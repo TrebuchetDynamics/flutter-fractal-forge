@@ -10,7 +10,12 @@ use std::{
 use fractal_core::{
     catalog_baseline::CatalogBaseline,
     normalization::{RawScalar, ViewInput},
-    session::{CameraInput, Command, Session, Snapshot},
+    number_wall_frame::NumberWallFrame,
+    number_wall_grid::NumberWallSequence,
+    number_wall_prime::NumberWallPrimeStatus,
+    session::{
+        CameraInput, Command, RequestGuard, RequestProgress, RequestToken, Session, Snapshot,
+    },
 };
 
 use flutter_rust_bridge::frb;
@@ -217,6 +222,13 @@ impl StateCommand {
     }
 
     #[frb(sync)]
+    pub fn number_wall_prime(value: String) -> Self {
+        Self {
+            inner: Command::NumberWallPrime(value),
+        }
+    }
+
+    #[frb(sync)]
     pub fn select_module(
         module_id: String,
         reset_view: bool,
@@ -376,6 +388,181 @@ impl StateCommand {
     }
 }
 
+/// Independently revocable; no session lock or foreign callback is needed.
+#[derive(Debug)]
+#[frb(opaque)]
+pub struct StateNumberWallGuard {
+    inner: RequestGuard,
+}
+
+impl StateNumberWallGuard {
+    #[frb(sync)]
+    pub fn new(active: bool) -> Self {
+        Self {
+            inner: RequestGuard::new(active),
+        }
+    }
+
+    #[frb(sync)]
+    pub fn revoke(&self) {
+        self.inner.revoke();
+    }
+
+    #[frb(sync)]
+    pub fn is_active(&self) -> bool {
+        self.inner.is_active()
+    }
+}
+
+/// Only begin can create a request. Advance/cancel borrow it across bounded steps.
+#[derive(Debug)]
+#[frb(opaque)]
+pub struct StateNumberWallRequest {
+    inner: RequestToken,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum StateNumberWallStatus {
+    VerifiedPrime,
+    Composite,
+    Invalid,
+    Unverified,
+    Cancelled,
+}
+
+impl From<NumberWallPrimeStatus> for StateNumberWallStatus {
+    fn from(status: NumberWallPrimeStatus) -> Self {
+        match status {
+            NumberWallPrimeStatus::VerifiedPrime => Self::VerifiedPrime,
+            NumberWallPrimeStatus::Composite => Self::Composite,
+            NumberWallPrimeStatus::Invalid => Self::Invalid,
+            NumberWallPrimeStatus::Unverified => Self::Unverified,
+            NumberWallPrimeStatus::Cancelled => Self::Cancelled,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum StateNumberWallSequence {
+    SignedPagoda,
+    Rook,
+    ThueMorse,
+    RudinShapiro,
+    Fibonacci,
+    Squares,
+}
+
+/// Owned read-only handle, constructible only from a certified core frame.
+#[derive(Debug)]
+#[frb(opaque)]
+pub struct StateNumberWallFrame {
+    inner: Arc<NumberWallFrame>,
+}
+
+impl StateNumberWallFrame {
+    #[frb(sync)]
+    pub fn params(&self) -> HashMap<String, StateValue> {
+        self.inner
+            .params()
+            .iter()
+            .map(|(id, value)| {
+                (
+                    id.clone(),
+                    StateValue {
+                        inner: value.clone().into(),
+                    },
+                )
+            })
+            .collect()
+    }
+
+    #[frb(sync)]
+    pub fn sequence(&self) -> StateNumberWallSequence {
+        match self.inner.grid().sequence() {
+            NumberWallSequence::SignedPagoda => StateNumberWallSequence::SignedPagoda,
+            NumberWallSequence::Rook => StateNumberWallSequence::Rook,
+            NumberWallSequence::ThueMorse => StateNumberWallSequence::ThueMorse,
+            NumberWallSequence::RudinShapiro => StateNumberWallSequence::RudinShapiro,
+            NumberWallSequence::Fibonacci => StateNumberWallSequence::Fibonacci,
+            NumberWallSequence::Squares => StateNumberWallSequence::Squares,
+        }
+    }
+
+    #[frb(sync)]
+    pub fn modulus(&self) -> String {
+        self.inner.grid().modulus().to_owned()
+    }
+
+    #[frb(sync)]
+    pub fn row_count(&self) -> u32 {
+        self.inner
+            .grid()
+            .row_count()
+            .try_into()
+            .expect("bounded core grid rows")
+    }
+
+    #[frb(sync)]
+    pub fn column_count(&self) -> u32 {
+        self.inner
+            .grid()
+            .column_count()
+            .try_into()
+            .expect("bounded core grid columns")
+    }
+
+    #[frb(sync)]
+    pub fn column_start(&self) -> i64 {
+        self.inner.grid().column_start()
+    }
+
+    #[frb(sync)]
+    pub fn support_start(&self) -> i64 {
+        self.inner.grid().support().0
+    }
+
+    #[frb(sync)]
+    pub fn support_end(&self) -> i64 {
+        self.inner.grid().support().1
+    }
+
+    /// Complete detached decimal-string grid; never narrowed through floating point.
+    #[frb(sync)]
+    pub fn values(&self) -> Vec<Vec<String>> {
+        self.inner.grid().values().to_vec()
+    }
+}
+
+/// Progress and its detached snapshot are captured under the same session lock.
+#[derive(Debug)]
+#[frb(opaque)]
+pub struct StateNumberWallProgress {
+    inner: RequestProgress,
+    snapshot: Snapshot,
+}
+
+impl StateNumberWallProgress {
+    #[frb(sync)]
+    pub fn is_pending(&self) -> bool {
+        self.inner == RequestProgress::Pending
+    }
+
+    #[frb(sync)]
+    pub fn status(&self) -> Option<StateNumberWallStatus> {
+        match self.inner {
+            RequestProgress::Pending => None,
+            RequestProgress::Finished(status) => Some(status.into()),
+        }
+    }
+
+    #[frb(sync)]
+    pub fn snapshot(&self) -> StateSnapshot {
+        StateSnapshot {
+            inner: self.snapshot.clone(),
+        }
+    }
+}
+
 /// Detached immutable core copy; collection getters return further detached copies.
 #[derive(Debug)]
 #[frb(opaque)]
@@ -492,6 +679,25 @@ impl StateSnapshot {
     pub fn last_adaptive_zoom(&self) -> f64 {
         self.inner.last_adaptive_zoom()
     }
+
+    #[frb(sync)]
+    pub fn number_wall_pending(&self) -> bool {
+        self.inner.number_wall_pending().is_some()
+    }
+
+    #[frb(sync)]
+    pub fn number_wall_status(&self) -> Option<StateNumberWallStatus> {
+        self.inner.number_wall_status().map(Into::into)
+    }
+
+    #[frb(sync)]
+    pub fn number_wall_frame(&self) -> Option<StateNumberWallFrame> {
+        self.inner
+            .number_wall_frame()
+            .map(|frame| StateNumberWallFrame {
+                inner: Arc::clone(frame),
+            })
+    }
 }
 
 static LAST_SESSION_ID: AtomicU64 = AtomicU64::new(0);
@@ -564,6 +770,78 @@ impl StateSession {
             .apply_batch(session_id, expected_revision, &commands)
             .map(|inner| StateSnapshot { inner })
             .map_err(|e| e.to_string())
+    }
+
+    /// Stages a complete ingress or applies an immediate command; never drains work.
+    #[frb(sync)]
+    pub fn begin_number_wall(
+        &self,
+        session_id: u64,
+        expected_revision: u64,
+        command: StateCommand,
+        request_guard: &StateNumberWallGuard,
+        max_trial_divisions: u32,
+    ) -> Result<Option<StateNumberWallRequest>, String> {
+        let mut guard = self
+            .inner
+            .lock()
+            .map_err(|_| "Rust state session lock poisoned")?;
+        let session = guard.as_mut().ok_or("Rust state session is closed")?;
+        session
+            .begin_number_wall(
+                session_id,
+                expected_revision,
+                &command.inner,
+                request_guard.inner.clone(),
+                max_trial_divisions,
+            )
+            .map(|token| token.map(|inner| StateNumberWallRequest { inner }))
+            .map_err(|e| e.to_string())
+    }
+
+    /// Exactly one bounded core step, including revocation observation at zero work.
+    #[frb(sync)]
+    pub fn advance_number_wall(
+        &self,
+        session_id: u64,
+        expected_revision: u64,
+        request: &StateNumberWallRequest,
+        work_limit: u32,
+    ) -> Result<StateNumberWallProgress, String> {
+        let work_limit = usize::try_from(work_limit).map_err(|_| "Work limit exceeds usize")?;
+        let mut guard = self
+            .inner
+            .lock()
+            .map_err(|_| "Rust state session lock poisoned")?;
+        let session = guard.as_mut().ok_or("Rust state session is closed")?;
+        let inner = session
+            .advance_number_wall(session_id, expected_revision, request.inner, work_limit)
+            .map_err(|e| e.to_string())?;
+        Ok(StateNumberWallProgress {
+            inner,
+            snapshot: session.snapshot(),
+        })
+    }
+
+    #[frb(sync)]
+    pub fn cancel_number_wall(
+        &self,
+        session_id: u64,
+        expected_revision: u64,
+        request: &StateNumberWallRequest,
+    ) -> Result<StateNumberWallProgress, String> {
+        let mut guard = self
+            .inner
+            .lock()
+            .map_err(|_| "Rust state session lock poisoned")?;
+        let session = guard.as_mut().ok_or("Rust state session is closed")?;
+        let inner = session
+            .cancel_number_wall(session_id, expected_revision, request.inner)
+            .map_err(|e| e.to_string())?;
+        Ok(StateNumberWallProgress {
+            inner,
+            snapshot: session.snapshot(),
+        })
     }
 
     #[frb(sync)]
