@@ -776,3 +776,78 @@ locked hashing support and the existing canonical JSON writer. No production,
 CI, dependency or saved-data schema changes, new gesture math or precision ceiling.
 Rust parity, real images, live/device qualification and the runner's merged-tree
 offline gate remain separate; recording Dart outputs does not qualify them.
+
+### M0 reference-render evidence — RUST-M0-IMAGES
+
+The [reference test](../../test/migration/reference_render_test.dart) and
+[test-only capture helper](../../test/migration/support/reference_capture.dart)
+retain eleven real 256×256 opaque RGBA8 states at time zero. They consume the
+reviewed schema-1 inventory after the
+[Burning Ship repair](../tasks/RUST-M0-SHIP-REPAIR.md). The earlier all-black
+attempt remains failed historical evidence, not a completed capture.
+
+The [manifest](../../migration/baseline/reference-renders/manifest.json) and its
+PNGs contain the second capture. The
+[first capture](../../migration/baseline/reference-renders/first-capture/manifest.json)
+and its PNGs are retained so repeat measurements remain independently checkable.
+Both captures record HEAD `290d82c9bad753b170108e9eb819084a439afd7e`, plus SHA-256
+bindings for the actual source graph, including the then-uncommitted harness.
+HEAD identifies the capture base, not the later commit containing these artifacts.
+The manifests also retain inventory file hashes, input/state hashes, compiled
+shader hashes where used, PNG and decoded RGBA hashes, Flutter/Dart identity,
+and the software backend's executable hash and observed flags. No private scratch
+path or wall-clock capture timestamp is required to read the evidence.
+
+| States | Actual render path |
+| --- | --- |
+| mandelbrot, julia, burning_ship, newton_z3, sierpinski_triangle, mandelbulb, milnor_brieskorn | Registered `FragmentProgram`, real module uniform setter, Picture rasterization and RGBA readback. Shader lifetime extends through readback. |
+| lorenz_2d | Default finite RK4 trajectory model and `AttractorTrajectoryPainter`, as selected by the viewer. The legacy shader is not substituted for this trajectory view. |
+| number_wall | Awaited controller certification/commit, then the shared `NumberWallPainter` exact Canvas display/export path. No placeholder shader, float modulus or invented grid. |
+| mandelbrot-edited, mandelbulb-edited | The same registered shader paths with deterministic edited cameras. Both decoded frames differ from their respective defaults. |
+
+Defaults fill omitted preset parameters from the real module schema. Number Walls
+uses signed Pagoda, exact prime string `"2"`, 96 columns, 32 rows and column origin
+64. Lorenz retains its default seed, RK4 step size 0.01, 5,000 burn-in steps,
+20,000 retained samples and xz projection. Glow and kaleidoscope are off.
+The edited Mandelbrot camera is pan `(-0.55, 0.12)`, zoom 3. The edited Mandelbulb
+camera is pan `(0.1, -0.08)`, zoom 1.4, rotation `(0.25, 0.65, 0.1)` radians.
+All other module parameters remain at their defaults.
+
+Executed with Flutter 3.47.9/Dart 3.13.7 on Linux Flutter tester, using observed
+`--enable-software-rendering` and `--skia-deterministic-rendering` flags:
+
+- Both fresh capture commands passed 12 tests each: eleven independent render
+  cases and one small variance-reporting case. Each PNG decoded back to its
+  original RGBA bytes, dimensions and opaque alpha.
+- All eleven repeat pairs had equal encoded PNGs and decoded pixels. Per state,
+  changed pixels = 0, maximum channel delta = 0, mean absolute channel delta = 0.
+  These are measured same-backend results, not cross-GPU tolerances.
+- The default reference plus existing catalog health command passed 19 tests.
+  Default execution writes no reference files. It validates both retained sets,
+  their measured comparison, state bindings, provenance and current image health.
+  Current-versus-retained pixel differences are reported, not treated as a
+  universal pixel-perfect gate.
+- Focused analysis of the two harness files passed. The runner's merged-tree
+  full offline gate remains separate and is not claimed here.
+
+For an intentional refresh, use the pinned offline setup and two empty absolute
+scratch directories outside the checkout. Review source/settings changes and
+both manifests before explicit promotion:
+
+```sh
+flutter test --no-pub test/migration/reference_render_test.dart --dart-define=MIGRATION_REFERENCE_OUT="$TMPDIR/fractal-m0-reference-a" &&
+flutter test --no-pub test/migration/reference_render_test.dart --dart-define=MIGRATION_REFERENCE_OUT="$TMPDIR/fractal-m0-reference-b" --dart-define=MIGRATION_REFERENCE_COMPARE="$TMPDIR/fractal-m0-reference-a"
+# Only after reviewing both complete captures and their measured variance:
+cp "$TMPDIR/fractal-m0-reference-a/"*.png "$TMPDIR/fractal-m0-reference-a/manifest.json" migration/baseline/reference-renders/first-capture/
+cp "$TMPDIR/fractal-m0-reference-b/"*.png "$TMPDIR/fractal-m0-reference-b/manifest.json" migration/baseline/reference-renders/
+flutter test --no-pub test/migration/reference_render_test.dart test/modules/catalog_preset_render_health_test.dart
+```
+
+Reuse: baseline canonical JSON and locked hashing support, production descriptors,
+real uniform setters, Number Walls certification/painter and trajectory model/painter.
+No dependencies, production rendering, saved-data schema, CI or unrelated tests
+changed. Health, mathematical classification and provenance remain independent.
+Milnor–Brieskorn retains its **Inspired; not an exotic sphere** qualification and
+**No verified relationship** status. The Number Walls sampler backend, hardware
+GPUs, installed devices/browsers, mathematical qualification, Rust parity and later
+native texture/performance gates remain unqualified by these software readbacks.
