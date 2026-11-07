@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-M3-CATALOG-PARITY"
 title = "Add typed Rust catalog baseline loading with complete payload parity"
 short = "Prepare registry semantics without changing live ownership or duplicating fixtures."
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Now"
 rank = 4000
@@ -16,6 +16,8 @@ scope = "Implement CatalogBaseline::from_jsons(modules, parameters, presets, cap
 acceptance = ["Given all four current baseline envelopes, proposed rust/crates/fractal-core/tests/catalog_baseline.rs loads the typed model and round-trips every original payload semantically without loss or fixed catalog counts; separate module/catalog IDs, registry/catalog order including nulls, parameter types/options, built-in/default presets, exact decimal strings, capability/provenance claims and presentation literals remain intact.", "Given in-memory mutations in the same test seam, malformed/schema/kind/duplicate/reference errors fail atomically, altered module/enum/exact-decimal values cannot pass parity, and an integer string beyond binary64 exact range is unchanged in value and type. No absent native capability or unverified mathematical claim becomes certified by loading.", "Given the approved locked serde dependency graph, existing core_and_render_reject_platform_dependencies still rejects an injected platform dependency and the normal workspace fmt/clippy/tests pass; default Flutter selection/state/rendering, baseline payloads/replays/PNGs and saved-data formats remain unchanged."]
 checks = ["PATH=/home/xel/.rustup/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:$PATH cargo test --manifest-path rust/Cargo.toml -p fractal-core --test catalog_baseline --locked --offline", "( export PATH=/home/xel/.rustup/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:$PATH; scripts/ci/rust-check.sh )", "flutter test --no-pub test/migration test/catalog/catalog_id_integrity_test.dart", "git diff --exit-code -- migration/baseline && git diff --check; review the locked dependency tree and execute a temporary injected UI/platform-edge rejection in isolated scratch, restoring task-owned source before final tests. Preserve existing default registry/state/render paths.", "( AUTOWORK_CACHE=\"${AUTOWORK_CACHE:-$(git rev-parse --path-format=absolute --git-common-dir)/autowork-execution/cache}\" && export AUTOWORK_CACHE && export FLUTTER_ROOT=\"$AUTOWORK_CACHE/flutter-3.47.9\" && export PUB_CACHE=\"$AUTOWORK_CACHE/pub-cache\" && test -x \"$FLUTTER_ROOT/bin/flutter\" && test -d \"$PUB_CACHE\" && export PATH=\"$FLUTTER_ROOT/bin:/usr/bin:$PATH\" && scripts/ci/offline-gate.sh --python-bin /usr/bin/python3 )"]
 exclusions = ["No live/device use, runtime ownership/registry switch, Dart descriptor edits, preset migration, normalized defaults/claims, shader ABI promise, M0 export/refresh, bridge generation, host upgrades or publication."]
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/RUST-M3-CATALOG-PARITY.toml"
 +++
 
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration; docs/tasks/RUST-PLAN-02.md#next-executable-batch

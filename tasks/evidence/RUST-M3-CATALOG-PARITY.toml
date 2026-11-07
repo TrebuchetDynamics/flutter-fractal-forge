@@ -1,0 +1,9 @@
+schema = 1
+task = "RUST-M3-CATALOG-PARITY"
+candidate = "c11f388d8e273dc29a1e4a6cfd2b508358327d84"
+integration = "621c3309eeb41fcde42315316aa0841031a8f514"
+tree = "43c42436c25a9846c35700ea1c6cedd701ea6b6a"
+contract_hash = "3009680450247f513ae46168e679c32bb48e305d6b55f6fa1bfc321786cec4fa"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M3-CATALOG-PARITY"]
+result = "pass"
+review = "passed"
