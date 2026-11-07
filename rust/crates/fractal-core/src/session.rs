@@ -1,7 +1,12 @@
-//! Inert scalar/effect candidate. No app routing, storage or Number Walls.
+//! Inert scalar/effect/Number Walls owner. No app routing, executor or storage.
 
 #[path = "session_effects.rs"]
 mod effects;
+#[path = "session_number_wall.rs"]
+mod number_wall;
+pub use number_wall::{RequestGuard, RequestProgress, RequestToken};
+
+use crate::{number_wall_frame::NumberWallFrame, number_wall_prime::NumberWallPrimeStatus};
 
 use crate::{
     catalog_baseline::{
@@ -66,8 +71,8 @@ pub enum Command {
     KaleidoscopeMirror(bool),
     KaleidoscopeRotation(f64),
     KaleidoscopeMirrorMode(i64),
-    /// Like the ordinary Dart API, normalizes against the current module;
-    /// a supported preset module ID does not itself select a different module.
+    /// Ordinary presets normalize against the current module. Number Walls
+    /// presets instead stage a complete, certified module load, as in Dart.
     ApplyPreset {
         module_id: String,
         params: RawParams,
@@ -80,6 +85,8 @@ pub enum Command {
         camera: CameraInput,
         transparent: bool,
     },
+    /// Exact text, never a schema-normalized or externally certified prime.
+    NumberWallPrime(String),
     ResetParams,
     ResetView,
     ResetSession,
@@ -93,6 +100,7 @@ pub enum SessionError {
     WrongSession,
     StaleRevision,
     RevisionOverflow,
+    DeferredOperation,
     UnsupportedModule(String),
     UnsupportedTrajectory,
     UnsupportedOperation(String),
@@ -117,6 +125,9 @@ pub struct Snapshot {
     transparent_background: bool,
     last_adaptive_zoom: f64,
     effects: effects::Effects,
+    pending: Option<RequestToken>,
+    number_wall_status: Option<NumberWallPrimeStatus>,
+    number_wall_frame: Option<Arc<NumberWallFrame>>,
 }
 
 impl Snapshot {
@@ -149,6 +160,7 @@ impl Snapshot {
 pub struct Session {
     catalog: Arc<CatalogBaseline>,
     state: Snapshot,
+    pending: Option<number_wall::PendingRequest>,
 }
 
 impl Session {
@@ -170,8 +182,15 @@ impl Session {
             transparent_background: false,
             last_adaptive_zoom: view.zoom(),
             effects,
+            pending: None,
+            number_wall_status: None,
+            number_wall_frame: None,
         };
-        Ok(Self { catalog, state })
+        Ok(Self {
+            catalog,
+            state,
+            pending: None,
+        })
     }
 
     pub fn snapshot(&self) -> Snapshot {
@@ -186,12 +205,7 @@ impl Session {
         expected_revision: u64,
         commands: &[Command],
     ) -> Result<Snapshot, SessionError> {
-        if session_id != self.state.session_id {
-            return Err(SessionError::WrongSession);
-        }
-        if expected_revision != self.state.revision {
-            return Err(SessionError::StaleRevision);
-        }
+        self.check_owner(session_id, expected_revision)?;
         if commands.is_empty() {
             return Ok(self.snapshot());
         }
@@ -202,9 +216,24 @@ impl Session {
             .ok_or(SessionError::RevisionOverflow)?;
         let mut candidate = self.state.clone();
         for command in commands {
-            apply_command(&self.catalog, &mut candidate, command)?;
+            if number_wall::plan_command(
+                &self.catalog,
+                &mut candidate,
+                command,
+                self.pending.as_ref().map(|p| &p.target),
+            )?
+            .is_some()
+            {
+                return Err(SessionError::DeferredOperation);
+            }
+        }
+        if candidate.pending.is_some() && revision.checked_add(1).is_none() {
+            return Err(SessionError::RevisionOverflow);
         }
         candidate.revision = revision;
+        if candidate.pending.is_none() {
+            self.pending = None;
+        }
         self.state = candidate;
         Ok(self.snapshot())
     }
@@ -223,7 +252,8 @@ fn supported(module_id: &str) -> Result<(), SessionError> {
         | "cantor_set"
         | "recursive_sine_sphere"
         | "kaleidoscope_basic"
-        | "kaleidoscope_fractal" => Ok(()),
+        | "kaleidoscope_fractal"
+        | "number_wall" => Ok(()),
         _ => Err(SessionError::UnsupportedModule(module_id.into())),
     }
 }
@@ -472,6 +502,9 @@ fn apply_command(
             state.transparent_background = false;
             state.effects.rotation_locked = false;
         }
+        Command::NumberWallPrime(_) => {
+            return Err(SessionError::DeferredOperation);
+        }
         Command::Unsupported { operation } => {
             return Err(SessionError::UnsupportedOperation(operation.clone()));
         }
@@ -543,6 +576,110 @@ fn adaptive_iterations(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn pending_requests_reserve_terminal_revision_capacity() {
+        let catalog = Arc::new(
+            CatalogBaseline::from_jsons(
+                include_str!("../../../../migration/baseline/modules.json"),
+                include_str!("../../../../migration/baseline/parameters.json"),
+                include_str!("../../../../migration/baseline/presets.json"),
+                include_str!("../../../../migration/baseline/capabilities.json"),
+            )
+            .unwrap(),
+        );
+        let command = Command::Load {
+            module_id: Some("number_wall".into()),
+            params: [
+                ("prime", RawScalar::Text("97".into())),
+                ("rows", RawScalar::Number(4.into())),
+                ("columns", RawScalar::Number(16.into())),
+                ("columnStart", RawScalar::Number(3.into())),
+            ]
+            .into_iter()
+            .map(|(k, v)| (k.into(), v))
+            .collect(),
+            camera: INITIAL_VIEW.into(),
+            transparent: true,
+        };
+        for termination in ["complete", "edit", "cancel"] {
+            let mut session = Session::new(catalog.clone(), 1, "mandelbrot").unwrap();
+            // Only white-box setup; all mutations under test use production seams.
+            session.state.revision = u64::MAX - 2;
+            let token = session
+                .begin_number_wall(1, u64::MAX - 2, &command, RequestGuard::new(true), 100_000)
+                .unwrap()
+                .unwrap();
+            let pending = session.snapshot();
+            assert_eq!(pending.revision(), u64::MAX - 1);
+            assert_eq!(
+                session.begin_number_wall(
+                    1,
+                    u64::MAX - 1,
+                    &command,
+                    RequestGuard::new(true),
+                    100_000
+                ),
+                Err(SessionError::RevisionOverflow)
+            );
+            assert_eq!(
+                session.apply_batch(1, u64::MAX - 1, &[Command::Transparent(false)]),
+                Err(SessionError::RevisionOverflow)
+            );
+            assert_eq!(session.snapshot(), pending);
+            if termination == "cancel" {
+                assert_eq!(
+                    session.cancel_number_wall(1, u64::MAX - 1, token).unwrap(),
+                    RequestProgress::Finished(NumberWallPrimeStatus::Cancelled)
+                );
+                let done = session.snapshot();
+                assert_eq!(
+                    session.cancel_number_wall(1, u64::MAX, token).unwrap(),
+                    RequestProgress::Finished(NumberWallPrimeStatus::Cancelled)
+                );
+                assert_eq!(session.snapshot(), done);
+            } else if termination == "edit" {
+                let done = session
+                    .apply_batch(1, u64::MAX - 1, &[Command::Rotation([0.0; 3])])
+                    .unwrap();
+                assert_eq!(
+                    done.number_wall_status(),
+                    Some(NumberWallPrimeStatus::Cancelled)
+                );
+                assert_eq!(
+                    session
+                        .advance_number_wall(1, u64::MAX, token, 1024)
+                        .unwrap(),
+                    RequestProgress::Finished(NumberWallPrimeStatus::Cancelled)
+                );
+            } else {
+                loop {
+                    match session
+                        .advance_number_wall(1, u64::MAX - 1, token, 1024)
+                        .unwrap()
+                    {
+                        RequestProgress::Pending => assert_eq!(session.snapshot(), pending),
+                        RequestProgress::Finished(status) => {
+                            assert_eq!(status, NumberWallPrimeStatus::VerifiedPrime);
+                            break;
+                        }
+                    }
+                }
+            }
+            assert_eq!(session.snapshot().revision(), u64::MAX);
+            assert_eq!(session.snapshot().number_wall_pending(), None);
+        }
+        for revision in [u64::MAX - 1, u64::MAX] {
+            let mut session = Session::new(catalog.clone(), 1, "mandelbrot").unwrap();
+            session.state.revision = revision;
+            let before = session.snapshot();
+            assert_eq!(
+                session.begin_number_wall(1, revision, &command, RequestGuard::new(true), 100_000),
+                Err(SessionError::RevisionOverflow)
+            );
+            assert_eq!(session.snapshot(), before);
+        }
+    }
 
     #[test]
     fn revision_exhaustion_rejects_at_the_transaction_seam() {
