@@ -1,0 +1,9 @@
+schema = 1
+task = "RUST-M2-PARAM-TIMELINE"
+candidate = "69e6e2ffaebc6d3fcfdfb2087a96ad7c1b3f9ff6"
+integration = "3dd45dfaf868d80f11d86e2f7f521b5cb16b248f"
+tree = "6bf85d7c885188afb88c5164d4f232c703db74d1"
+contract_hash = "92d8e5e3ac65e7725e9a7dbf54d22987df9af0998f0c9e1722743b5f11fab2ed"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-PARAM-TIMELINE"]
+result = "pass"
+review = "passed"
