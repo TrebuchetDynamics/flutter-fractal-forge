@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Launch a command with source-bound, four-module native fixture inputs only."""
+"""Launch with complete source-bound inputs (four modules, or seven with --extended)."""
 
 import base64
 import hashlib
@@ -12,6 +12,7 @@ import zlib
 
 ROOT = Path(__file__).resolve().parents[2]
 MODULE_IDS = ("mandelbrot", "julia", "cantor_set", "recursive_sine_sphere")
+EXTENDED_MODULE_IDS = MODULE_IDS + ("kaleidoscope_basic", "kaleidoscope_fractal", "number_wall")
 ORIGINAL_SHA256 = {
     "modules": "571fb9c2c6ae14572485574c4ca382de2a55eeb6a32e5958869a671d2fbd62d3",
     "parameters": "5c8dff3eef955aed9d46f203136dea42b0b070d9bda2966fa4938fac1a6d9517",
@@ -38,14 +39,15 @@ def compact(value):
     return json.dumps(value, ensure_ascii=False, allow_nan=False, separators=(",", ":"))
 
 
-def project(kind, raw):
+def project(kind, raw, *, extended=False):
     digest = hashlib.sha256(raw).hexdigest()
     if digest != ORIGINAL_SHA256[kind]:
         raise ValueError(f"{kind}: original SHA-256 mismatch")
     envelope = json.loads(raw, parse_int=NumberToken, parse_float=NumberToken)
     key = "id" if kind == "modules" else "module_id"
-    records = [r for r in envelope["payload"]["records"] if r[key] in MODULE_IDS]
-    if len(records) != 4 or {r[key] for r in records} != set(MODULE_IDS):
+    ids = EXTENDED_MODULE_IDS if extended else MODULE_IDS
+    records = [r for r in envelope["payload"]["records"] if r[key] in ids]
+    if len(records) != len(ids) or {r[key] for r in records} != set(ids):
         raise ValueError(f"{kind}: missing or duplicate selected records")
     envelope["payload"]["records"] = records
     original = envelope["provenance"]
@@ -55,16 +57,17 @@ def project(kind, raw):
         "sources": sources,
         "source_set_sha256": hashlib.sha256(compact(sources).encode()).hexdigest(),
         "fixture_projection": {
-            "selected_ids": list(MODULE_IDS),
+            "selected_ids": list(ids),
             "original_source_set_sha256": original["source_set_sha256"],
         },
     }
     return compact(envelope).encode("utf-8")
 
 
-def fixture_inputs():
+def fixture_inputs(*, extended=False):
     return {
-        kind: project(kind, (ROOT / "migration/baseline" / f"{kind}.json").read_bytes())
+        kind: project(kind, (ROOT / "migration/baseline" / f"{kind}.json").read_bytes(),
+                      extended=extended)
         for kind in ORIGINAL_SHA256
     }
 
@@ -74,7 +77,7 @@ def flutter_encoded(defines):
     return b",".join(base64.b64encode(d.encode("utf-8")) for d in defines)
 
 
-def launch(command):
+def launch(command, *, extended=False):
     if not command:
         raise ValueError("expected -- COMMAND ARGS...")
     supplied = []
@@ -95,7 +98,7 @@ def launch(command):
         raise ValueError("fixture define override refused")
     if os.environ.get("DART_DEFINES"):
         raise ValueError("inherited DART_DEFINES refused; supply explicit flags")
-    inputs = fixture_inputs()
+    inputs = fixture_inputs(extended=extended)
     defines = [
         f"{PREFIX}{kind.upper()}={base64.b64encode(zlib.compress(raw, 9)).decode('ascii')}"
         for kind, raw in inputs.items()
@@ -113,9 +116,13 @@ def launch(command):
 
 def main():
     try:
-        if len(sys.argv) < 3 or sys.argv[1] != "--":
-            raise ValueError("usage: run_state_session_smoke.py -- COMMAND ARGS...")
-        return launch(sys.argv[2:])
+        args = sys.argv[1:]
+        extended = args[:1] == ["--extended"]
+        if extended:
+            args = args[1:]
+        if len(args) < 2 or args[0] != "--":
+            raise ValueError("usage: run_state_session_smoke.py [--extended] -- COMMAND ARGS...")
+        return launch(args[1:], extended=extended)
     except (ValueError, OSError) as error:
         print(f"state-session fixture: {error}", file=sys.stderr)
         return 2
