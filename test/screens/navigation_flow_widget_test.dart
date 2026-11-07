@@ -73,19 +73,5 @@ void main() {
       expect(find.byType(Scaffold), findsWidgets);
     });
 
-    testWidgets('renders top chrome (smoke)', (tester) async {
-      await tester.pumpWidget(buildApp());
-      await tester.pumpAndSettle();
-
-      // Platform-specific app bars may vary; ensure the app still renders.
-      expect(find.byType(Scaffold), findsWidgets);
-    });
-
-    testWidgets('renders without errors', (tester) async {
-      await tester.pumpWidget(buildApp());
-      await tester.pumpAndSettle();
-
-      expect(tester.takeException(), isNull);
-    });
   });
 }

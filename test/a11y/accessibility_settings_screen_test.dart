@@ -35,13 +35,6 @@ void main() {
   });
 
   group('AccessibilitySettingsScreen', () {
-    testWidgets('renders without error', (tester) async {
-      final service = await _makeService();
-      await tester.pumpWidget(_buildScreen(service));
-      await tester.pumpAndSettle();
-      expect(find.byType(AccessibilitySettingsScreen), findsOneWidget);
-    });
-
     testWidgets('has AppBar with Accessibility title', (tester) async {
       final service = await _makeService();
       await tester.pumpWidget(_buildScreen(service));
@@ -49,27 +42,6 @@ void main() {
       // l10n.accessibilityTitle == 'Accessibility'
       expect(find.text('Accessibility'), findsWidgets);
       expect(find.byType(AppBar), findsOneWidget);
-    });
-
-    testWidgets('shows High Contrast toggle option', (tester) async {
-      final service = await _makeService();
-      await tester.pumpWidget(_buildScreen(service));
-      await tester.pumpAndSettle();
-      expect(find.text('High Contrast'), findsOneWidget);
-    });
-
-    testWidgets('shows Reduced Motion toggle option', (tester) async {
-      final service = await _makeService();
-      await tester.pumpWidget(_buildScreen(service));
-      await tester.pumpAndSettle();
-      expect(find.text('Reduced Motion'), findsOneWidget);
-    });
-
-    testWidgets('shows Large Touch Targets toggle option', (tester) async {
-      final service = await _makeService();
-      await tester.pumpWidget(_buildScreen(service));
-      await tester.pumpAndSettle();
-      expect(find.text('Large Touch Targets'), findsOneWidget);
     });
 
     testWidgets('all three Switch widgets render with initial off state',

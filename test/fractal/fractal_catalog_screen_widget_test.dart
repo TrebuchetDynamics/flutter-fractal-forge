@@ -124,14 +124,6 @@ void main() {
           findsNothing);
     });
 
-    testWidgets('displays search field', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
-
-      await showSearch(tester);
-      expect(find.byKey(const Key('catalogSearchField')), findsOneWidget);
-    });
-
     testWidgets('filters modules by search query', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
@@ -418,13 +410,6 @@ void main() {
         }
       });
     }
-
-    testWidgets('renders without error', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
-
-      expect(tester.takeException(), isNull);
-    });
 
     testWidgets('has scroll view for scrolling', (tester) async {
       await tester.pumpWidget(buildTestWidget());

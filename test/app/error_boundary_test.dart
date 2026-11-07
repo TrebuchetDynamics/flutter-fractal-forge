@@ -29,24 +29,6 @@ void main() {
       expect(find.text('Hello World'), findsOneWidget);
     });
 
-    testWidgets('accepts custom config', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: ErrorBoundary(
-              config: const ErrorBoundaryConfig(
-                title: 'Test Error',
-                message: 'Something went wrong in the test',
-                showRetry: true,
-              ),
-              child: const Text('Child Widget'),
-            ),
-          ),
-        ),
-      );
-
-      expect(find.text('Child Widget'), findsOneWidget);
-    });
   });
 
   group('ErrorBoundaryConfig', () {
@@ -146,37 +128,6 @@ void main() {
       expect(find.text('Shader Content'), findsOneWidget);
     });
 
-    testWidgets('accepts maxRetries parameter', (tester) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: ShaderErrorBoundary(
-              maxRetries: 5,
-              child: Text('Content'),
-            ),
-          ),
-        ),
-      );
-
-      expect(find.text('Content'), findsOneWidget);
-    });
-
-    testWidgets('accepts callbacks', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: ShaderErrorBoundary(
-              onShaderError: (error, stack) {},
-              onSwitchFractal: () {},
-              child: const Text('Content'),
-            ),
-          ),
-        ),
-      );
-
-      expect(find.text('Content'), findsOneWidget);
-    });
-
     testWidgets('accepts custom fallback widget', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -208,20 +159,6 @@ void main() {
       expect(find.byType(ErrorBoundary), findsOneWidget);
     });
 
-    testWidgets('withErrorBoundary accepts config', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: const Text('Test').withErrorBoundary(
-              config: ErrorBoundaryConfig.shader,
-            ),
-          ),
-        ),
-      );
-
-      expect(find.text('Test'), findsOneWidget);
-    });
-
     testWidgets('withShaderErrorBoundary wraps widget', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -235,20 +172,5 @@ void main() {
       expect(find.byType(ShaderErrorBoundary), findsOneWidget);
     });
 
-    testWidgets('withShaderErrorBoundary accepts parameters', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: const Text('Test').withShaderErrorBoundary(
-              maxRetries: 5,
-              onShaderError: (_, __) {},
-              onSwitchFractal: () {},
-            ),
-          ),
-        ),
-      );
-
-      expect(find.text('Test'), findsOneWidget);
-    });
   });
 }

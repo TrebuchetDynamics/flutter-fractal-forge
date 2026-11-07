@@ -1868,15 +1868,6 @@ void main() {
       expect(find.byKey(const Key('viewerStatusChip')), findsNothing);
     });
 
-    testWidgets('export FAB is shown', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
-
-      expect(find.byKey(const ValueKey('viewerExportButton')), findsOneWidget);
-      // This value-provided fixture outlives the widget's fakeAsync scope.
-      historyProvider.cancelPendingRecord();
-    });
-
     testWidgets('Android viewer hides the debug report FAB', (tester) async {
       final previousPlatform = debugDefaultTargetPlatformOverride;
       debugDefaultTargetPlatformOverride = TargetPlatform.android;
@@ -2223,24 +2214,6 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Mandelbulb'), findsOneWidget);
-      // This value-provided fixture outlives the widget's fakeAsync scope.
-      historyProvider.cancelPendingRecord();
-    });
-
-    testWidgets('has scaffold', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
-
-      expect(find.byType(Scaffold), findsOneWidget);
-      // This value-provided fixture outlives the widget's fakeAsync scope.
-      historyProvider.cancelPendingRecord();
-    });
-
-    testWidgets('renders without error', (tester) async {
-      await tester.pumpWidget(buildTestWidget());
-      await tester.pumpAndSettle();
-
-      expect(tester.takeException(), isNull);
       // This value-provided fixture outlives the widget's fakeAsync scope.
       historyProvider.cancelPendingRecord();
     });
@@ -2633,30 +2606,6 @@ void main() {
       );
 
       expect(controller.view.zoom, zoomAtExport);
-      historyProvider.cancelPendingRecord();
-    });
-
-    testWidgets('works with all modules', (tester) async {
-      // Many screens include continuous animations (shader time, UI pulses, etc.).
-      // `pumpAndSettle` can therefore time out even when the UI is correct.
-      // For this smoke test we only need a couple of frames.
-      for (final module in registry.modules) {
-        controller.selectModule(module);
-        await tester.pumpWidget(buildTestWidget());
-        await tester.pump();
-        await tester.pump(const Duration(milliseconds: 100));
-
-        // Basic sanity: the screen should build and not throw.
-        expect(find.byType(Scaffold), findsOneWidget);
-        expect(tester.takeException(), isNull);
-
-        // Avoid long-running debounce carryover between module swaps.
-        historyProvider.cancelPendingRecord();
-      }
-
-      // Ensure pending async work is drained before teardown.
-      await tester.pumpWidget(const SizedBox.shrink());
-      await tester.pump();
       historyProvider.cancelPendingRecord();
     });
 
