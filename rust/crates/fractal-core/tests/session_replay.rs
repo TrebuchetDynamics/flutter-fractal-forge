@@ -1,12 +1,16 @@
 use fractal_core::{
     catalog_baseline::{CatalogBaseline, ParameterValue},
     normalization::{RawScalar, ViewInput},
-    session::{CameraInput, Command, Session, SessionError, Snapshot},
+    number_wall_prime::{DEFAULT_MAX_TRIAL_DIVISIONS, NumberWallPrimeStatus},
+    session::{
+        CameraInput, Command, RequestGuard, RequestProgress, RequestToken, Session, SessionError,
+        Snapshot,
+    },
 };
 use serde_json::{Value, json};
 use std::{collections::BTreeMap, fs, path::Path, sync::Arc};
 
-const PREFIX_LEN: usize = 47;
+const REPLAY_LEN: usize = 68;
 const EPOCH: &str = "2026-01-01T00:00:00.000Z";
 
 fn baseline(name: &str) -> String {
@@ -105,7 +109,8 @@ fn command(event: &Value, current_module: &str) -> Command {
             params: params(&event["params"]),
             camera: camera(&event["view"]),
         },
-        "load" => Command::Load {
+        "prime" => Command::NumberWallPrime(event["value"].as_str().unwrap().into()),
+        "load" | "startLoad" => Command::Load {
             module_id: module_id(),
             params: params(&event["params"]),
             camera: camera(&event["view"]),
@@ -118,6 +123,45 @@ fn command(event: &Value, current_module: &str) -> Command {
     }
 }
 
+fn drive(session: &mut Session, token: RequestToken) -> NumberWallPrimeStatus {
+    for _ in 0..1_000_000 {
+        let s = session.snapshot();
+        match session
+            .advance_number_wall(s.session_id(), s.revision(), token, 1024)
+            .unwrap()
+        {
+            RequestProgress::Pending => {}
+            RequestProgress::Finished(status) => return status,
+        }
+    }
+    panic!("bounded jobs must terminate");
+}
+
+fn execute(session: &mut Session, cmd: &Command) -> bool {
+    let before = session.snapshot();
+    match session.apply_batch(
+        before.session_id(),
+        before.revision(),
+        std::slice::from_ref(cmd),
+    ) {
+        Ok(_) => true,
+        Err(SessionError::DeferredOperation) => {
+            let token = session
+                .begin_number_wall(
+                    before.session_id(),
+                    before.revision(),
+                    cmd,
+                    RequestGuard::new(true),
+                    DEFAULT_MAX_TRIAL_DIVISIONS,
+                )
+                .unwrap()
+                .unwrap();
+            drive(session, token) == NumberWallPrimeStatus::VerifiedPrime
+        }
+        Err(e) => panic!("{e}"),
+    }
+}
+
 fn apply(session: &mut Session, commands: &[Command]) -> Snapshot {
     let before = session.snapshot();
     session
@@ -125,9 +169,25 @@ fn apply(session: &mut Session, commands: &[Command]) -> Snapshot {
         .unwrap()
 }
 
+fn status_json(status: Option<NumberWallPrimeStatus>) -> Value {
+    use NumberWallPrimeStatus::*;
+    status
+        .map(|s| {
+            json!(match s {
+                VerifiedPrime => "verifiedPrime",
+                Composite => "composite",
+                Invalid => "invalid",
+                Unverified => "unverified",
+                Cancelled => "cancelled",
+            })
+        })
+        .unwrap_or(Value::Null)
+}
+
 fn replay(inputs: &[Value]) -> Vec<Value> {
     let mut session = Session::new(catalog(), 7, "mandelbrot").unwrap();
     let mut saved = BTreeMap::<String, Value>::new();
+    let mut requests = BTreeMap::<String, RequestToken>::new();
     inputs.iter().map(|event| {
         let before = session.snapshot();
         let mut result = Value::Null;
@@ -139,11 +199,20 @@ fn replay(inputs: &[Value]) -> Vec<Value> {
             },
             "restoreHistory" => {
                 let entry = &saved[event["key"].as_str().unwrap()];
-                apply(&mut session, &[Command::Load {
+                result = json!(execute(&mut session, &Command::Load {
                     module_id: Some(entry["moduleId"].as_str().unwrap().into()),
                     params: params(&entry["params"]), camera: camera(&entry["view"]), transparent: false,
-                }]);
-                result = json!(true);
+                }));
+            },
+            "startLoad" => {
+                let token = session.begin_number_wall(before.session_id(), before.revision(),
+                    &command(event, before.module_id()), RequestGuard::new(true), DEFAULT_MAX_TRIAL_DIVISIONS)
+                    .unwrap().unwrap();
+                requests.insert(event["key"].as_str().unwrap().into(), token);
+            },
+            "awaitLoad" => {
+                result = json!(drive(&mut session, requests[event["key"].as_str().unwrap()])
+                    == NumberWallPrimeStatus::VerifiedPrime);
             },
             op => {
                 let cmd = command(event, before.module_id());
@@ -153,22 +222,26 @@ fn replay(inputs: &[Value]) -> Vec<Value> {
                         "name": "Replay", "params": event["params"], "createdAt": EPOCH,
                         "isBuiltIn": false, "thumbnailPath": null, "view": view_json(camera(&event["view"]).view)});
                     let decoded: Value = serde_json::from_str(&result.to_string()).unwrap();
-                    apply(&mut session, &[command(&json!({"op":"preset", "moduleId":decoded["moduleId"], "params":decoded["params"], "view":decoded["view"]}), before.module_id())]);
+                    execute(&mut session, &command(&json!({"op":"preset", "moduleId":decoded["moduleId"], "params":decoded["params"], "view":decoded["view"]}), before.module_id()));
                 } else {
-                    apply(&mut session, &[cmd]);
+                    let success = execute(&mut session, &cmd);
+                    if op == "load" { result = json!(success); }
+                    if op == "prime" { result = status_json(session.snapshot().number_wall_status()); }
                 }
-                if op == "load" { result = json!(true); }
             },
         }
         let snapshot = session.snapshot();
         json!({"result": result, "history": history(&snapshot),
             "transparentBackground": snapshot.transparent_background(),
-            "numberWall": {"pending": false, "status": null, "prime": null, "firstCell": null}})
+            "numberWall": {"pending": snapshot.number_wall_pending().is_some(),
+                "status": status_json(snapshot.number_wall_status()),
+                "prime": snapshot.number_wall_frame().map(|f| f.grid().modulus()),
+                "firstCell": snapshot.number_wall_frame().map(|f| &f.grid().values()[0][0])}})
     }).collect()
 }
 
 #[test]
-fn original_ordinary_prefix_replays_twice_and_rejects_expectation_drift() {
+fn original_complete_replay_twice_and_rejects_expectation_drift() {
     let original = baseline("state-replay");
     let document: Value = serde_json::from_str(&original).unwrap();
     assert_eq!(document["schema"], 1);
@@ -184,15 +257,17 @@ fn original_ordinary_prefix_replays_twice_and_rejects_expectation_drift() {
         (inputs[47]["op"].as_str(), inputs[47]["moduleId"].as_str()),
         (Some("load"), Some("number_wall"))
     );
-    // Events 47–67 are deliberately unported, not a skipped full-replay pass.
-    let actual = replay(&inputs[..PREFIX_LEN]);
-    assert_eq!(replay(&inputs[..PREFIX_LEN]), actual);
+    let actual = replay(&inputs[..REPLAY_LEN]);
+    assert_eq!(replay(&inputs[..REPLAY_LEN]), actual);
     for (i, output) in actual.iter().enumerate() {
         assert_eq!(output, &expected[i], "event {i}: {}", inputs[i]["label"]);
     }
     let actual = Value::Array(actual);
-    let mut altered = Value::Array(expected[..PREFIX_LEN].to_vec());
-    altered[0]["history"]["view"]["zoom"] = json!(-123);
+    let mut altered = Value::Array(expected[..REPLAY_LEN].to_vec());
+    altered[67]["numberWall"]["status"] = json!("verifiedPrime");
+    assert_ne!(actual, altered);
+    let mut altered = Value::Array(expected[..REPLAY_LEN].to_vec());
+    altered[47]["numberWall"]["firstCell"] = json!("999");
     assert_ne!(actual, altered);
     assert_eq!(baseline("state-replay"), original);
 }
@@ -360,7 +435,7 @@ fn ordered_batches_publish_once_without_coalescing_and_keep_snapshots_isolated()
 #[test]
 fn wrong_identity_stale_revision_and_unsupported_inputs_reject_atomically() {
     let catalog = catalog();
-    for module in ["number_wall", "unknown", "core.mandelbrot"] {
+    for module in ["unknown", "core.mandelbrot"] {
         assert!(matches!(
             Session::new(catalog.clone(), 1, module),
             Err(SessionError::UnsupportedModule(_))
@@ -383,7 +458,7 @@ fn wrong_identity_stale_revision_and_unsupported_inputs_reject_atomically() {
     trajectory.has_trajectory = true;
     for rejected in [
         Command::SelectModule {
-            module_id: "number_wall".into(),
+            module_id: "unknown".into(),
             reset_view: true,
             initial_params: BTreeMap::new(),
         },
@@ -393,7 +468,7 @@ fn wrong_identity_stale_revision_and_unsupported_inputs_reject_atomically() {
             camera: camera(&json!({})),
         },
         Command::Load {
-            module_id: Some("number_wall".into()),
+            module_id: Some("unknown".into()),
             params: BTreeMap::new(),
             camera: camera(&json!({})),
             transparent: false,

@@ -38,6 +38,26 @@ impl NumberWallFrame {
         &self.grid
     }
 
+    /// Session style edits cannot alter any certified mathematical input.
+    pub(crate) fn restyle(&self, id: &str, value: ParameterValue) -> Option<Self> {
+        if !matches!(
+            id,
+            "colorMode"
+                | "colorScheme"
+                | "foregroundColor"
+                | "zeroColor"
+                | "backgroundColor"
+                | "showGrid"
+                | "randomizeModulus"
+                | "randomSeed"
+        ) {
+            return None;
+        }
+        let mut frame = self.clone();
+        frame.params.insert(id.into(), value);
+        Some(frame)
+    }
+
     /// Synchronous convenience driver of the identical resumable job.
     pub fn prepare(
         raw_prime: &str,
