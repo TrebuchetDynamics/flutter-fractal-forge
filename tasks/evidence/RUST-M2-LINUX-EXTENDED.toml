@@ -1,0 +1,9 @@
+schema = 1
+task = "RUST-M2-LINUX-EXTENDED"
+candidate = "176382d437ae2df3fae26a01a811d4c8499f4235"
+integration = "be3c26a9445343279d3ea90e5e2d9c8eca952360"
+tree = "fc2b8a640ea5fc0496fd226bf2b6b2f0f877805e"
+contract_hash = "133166a51eb8632d5a7a71a03cc431ca4822e4bfce8a02e163bdb0d375969900"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-LINUX-EXTENDED"]
+result = "pass"
+review = "passed"

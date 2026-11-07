@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Verified Linux native effects/full-grid and awaited request lifecycle transport through both official integration-driver targets, with source-bound private evidence and owned cleanup. (RUST-M2-LINUX-EXTENDED)
 - Added bounded normal-mode FRB Number Walls request methods and a source-bound compile-only Future fixture for Linux and Android. (RUST-M2-ASYNC-STEP)
 - Add pure Rust parameter-step interpolation verified against immutable, source-bound fake-time Dart oracles without switching runtime ownership. (RUST-M2-INTERPOLATION)
 - Rust candidate sessions retain validated optional trajectory metadata with compatible ingress/reset semantics, while public Dart trajectory markers still reject. (RUST-M2-TRAJECTORY-STATE)
