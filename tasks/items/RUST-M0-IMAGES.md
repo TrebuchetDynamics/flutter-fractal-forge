@@ -7,7 +7,7 @@ status = "open"
 goal = "RUST-ENGINE-001"
 section = "Next"
 rank = 1000
-depends_on = ["RUST-M0-CONTRACTS"]
+depends_on = ["RUST-M0-CONTRACTS", "RUST-M0-SHIP-REPAIR"]
 touches = ["test/migration/reference_render_test.dart", "test/migration/support/reference_capture.dart", "migration/baseline/reference-renders/", "docs/planning/refactor-plan.md"]
 resources = []
 kind = "implementation"
@@ -17,9 +17,11 @@ acceptance = ["Given every named real descriptor and state, reference_render_tes
 checks = ["flutter test --no-pub test/migration/reference_render_test.dart test/modules/catalog_preset_render_health_test.dart", "flutter test --no-pub test/migration/reference_render_test.dart --dart-define=MIGRATION_REFERENCE_OUT=/tmp/fractal-m0-reference-a && flutter test --no-pub test/migration/reference_render_test.dart --dart-define=MIGRATION_REFERENCE_OUT=/tmp/fractal-m0-reference-b", "( export FLUTTER_ROOT=\"$AUTOWORK_CACHE/flutter-3.47.9\"; export PUB_CACHE=\"$AUTOWORK_CACHE/pub-cache\"; export PATH=\"$FLUTTER_ROOT/bin:/usr/bin:$PATH\"; flutter --version && /usr/bin/python3 -c 'import sys, pytest, jinja2, markupsafe; print(sys.executable, sys.version, pytest.__version__, jinja2.__version__); assert callable(markupsafe.soft_str)' && scripts/ci/offline-gate.sh --python-bin /usr/bin/python3 )"]
 exclusions = ["No state/render replacement, ID renames, saved-data schema changes, publication or live device mutation in this offline task.", "Do not edit the seven pre-existing dirty test files; use isolated execution and preserve their work."]
 +++
+
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration
 - Consumes: RUST-M0-CONTRACTS baseline v1 descriptors and source hashes. Produces: reference-renders/manifest.json and actual PNGs with captured input/backend hashes.
 - Planner call: reuse catalog_preset_render_health_test.dart:36-66 real FragmentProgram seam plus actual Number Walls renderer; one bounded state per test avoids shared raster deadlines. A renderer failure is a failure; task-owned harness fixes allowed, source behavior changes are not.
 - Repo obligations triggered: spec.md Rendering interface and Number walls contract; test-plan.md distinguishes image health from mathematical/platform qualification. Update migration evidence only. Artifact generation is a deliverable, not an action performed during planning; no production/CI/manifest edits.
-- Next action: implement missing representative readback test, then capture; commands unrun.
+- Next action: Wait for RUST-M0-SHIP-REPAIR to land, then freshly check writer activity before reusing the preserved uncommitted candidate in .worktrees/autowork-RUST-M0-IMAGES. Consume the repaired source and reviewed inventory; rerun every original check, complete both source-bound capture sets and measured variance, then explicitly promote the complete manifest/PNGs. Keep renderer failures as failures and software/inspired/live labels unchanged. No mathematical, hardware or goal qualification is supplied by the producer or this documentation repair.
 - Check setup: output paths denote private task scratch. Harness decodes both capture sets, validates manifests and reports measured same-backend pixel variance; byte equality is not a fabricated hardware parity gate.
+- Evidence: Attempt 1 report.json and contract.txt under the common Git directory autowork-execution/slot-data/RUST-M0-IMAGES/attempt-1/ record a real unmodified Burning Ship default all-black failure, independently reproduced by the catalog readback seam at baseline 8345b8e2e296211c2d596eaeb4e451793e16d742. No commit, complete manifest or reference promotion was produced. This is not a no-change closure or completed baseline. RUST-M0-SHIP-REPAIR produces a minimal semantics-preserving existing-defect repair and refreshed source-bound inventory before capture can complete; see docs/tasks/RUST-M0-SHIP-REPAIR.md. Original Scope, Acceptance, Checks, Touches and production-change prohibition remain unchanged.
