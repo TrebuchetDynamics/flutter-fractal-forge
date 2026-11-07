@@ -695,3 +695,61 @@ flutter test --no-pub test/migration/baseline_contracts_test.dart
 Reuse: existing descriptors, capability lookups, precision resolver, slot constants
 and locked test hashing support. Deliberately omitted: new dependencies, production
 or CI changes, README totals, guessed custom setter layouts and implicit promotion.
+
+### M0 replay evidence — RUST-M0-REPLAY
+
+The [replay harness](../../test/migration/state_replay_test.dart) and
+[test-only codec](../../test/migration/support/replay_codec.dart) capture the
+current Dart public APIs in [state-replay.json](../../migration/baseline/state-replay.json)
+and [precision-replay.json](../../migration/baseline/precision-replay.json).
+Both use `schema = 1`, a Dart baseline revision, SHA-256 `source_bindings` for the
+local semantic import graph/toolchain pins, and positional `inputs`/`expected`
+arrays. Input labels explain each event; array order is execution order, not a
+set of independent samples. No wall-clock capture time or host path is recorded.
+
+The 68 state events cover ordinary/Cantor camera bounds, finite last-good camera
+components, adaptive iteration increases, numeric/boolean/enum normalization,
+module changes, native preset/history serialization, restoration and resets.
+Nonfinite operands are input-only objects such as `{"nonfinite":"nan"}`,
+`{"nonfinite":"+infinity"}` and `{"nonfinite":"-infinity"}`. Expected snapshots
+retain the existing `HistoryEntry.toJson()` shape; serialized preset ingress uses
+`FractalPreset.toJson()`. Fixed test IDs/dates make those shapes deterministic.
+Number Walls decimal inputs, serialized ingress, committed moduli and grid-cell
+observations remain strings, including values beyond binary64's exact range.
+Composite, oversized and unverified candidates preserve committed settings;
+newer loads, module changes and active-module edits reject stale candidates.
+Every started candidate is awaited through its returned future, without sleeps.
+The Number Walls sidecar also records pending/status and the retained grid even
+when another module is active; it does not imply a wall is currently displayed.
+
+The 81 precision events cover adjacent binary64 lower/equal/upper neighbors of
+`5e6`, `1e30`, `1e12`, `1e9`, `1e7` and `1e5`, both CPU-active inputs, native and
+absent CPU capabilities, dimensions, Burning Ship power changes, iteration
+budgets and ordered hysteresis histories. Pending first and active second CPU
+samples preserve the existing two-frame activation rule, with module/below-boundary/
+explicit resets. Decisions record `renderPath`, `tier`, `exactness` and
+`cpuFallbackPending`; capability absence never becomes CPU precision. Plain
+Mandelbrot exercises DF2 boundaries; quadratic Burning Ship exercises perturbation.
+These are policy outputs, not numerical precision or rendered-image certification.
+
+Verification on Flutter 3.47.9/Dart 3.13.7: the task's eight-file focused command
+passed 38 tests; focused analysis of the two new Dart files passed. Each corpus is
+executed twice, round-tripped as finite JSON, and rejects an altered expectation.
+Two scratch exports were byte-identical before explicit promotion. Refresh only
+after reviewing intended source changes, with two empty absolute scratch paths:
+
+```sh
+flutter test --no-pub test/migration/state_replay_test.dart --dart-define=MIGRATION_REPLAY_OUT="$TMPDIR/replays-a" &&
+flutter test --no-pub test/migration/state_replay_test.dart --dart-define=MIGRATION_REPLAY_OUT="$TMPDIR/replays-b" &&
+diff -r "$TMPDIR/replays-a" "$TMPDIR/replays-b"
+# After reviewing both exports, promote only these two replay files:
+cp "$TMPDIR/replays-a/state-replay.json" migration/baseline/state-replay.json
+cp "$TMPDIR/replays-a/precision-replay.json" migration/baseline/precision-replay.json
+flutter test --no-pub test/migration/state_replay_test.dart
+```
+
+Reuse: production controller/normalizer/serializers/precision/capability owners,
+locked hashing support and the existing canonical JSON writer. No production,
+CI, dependency or saved-data schema changes, new gesture math or precision ceiling.
+Rust parity, real images, live/device qualification and the runner's merged-tree
+offline gate remain separate; recording Dart outputs does not qualify them.
