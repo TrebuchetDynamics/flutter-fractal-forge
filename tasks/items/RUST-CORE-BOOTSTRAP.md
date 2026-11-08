@@ -2,7 +2,7 @@
 schema = 1
 id = "RUST-CORE-BOOTSTRAP"
 title = "Adopt the retained Rust foundation and demonstrate the complete minimal bridge"
-short = "Preserve the existing producer, defer fractal-render and add view/snapshot revision infrastructure."
+short = "Adopt Rust core and persistent bridge"
 status = "open"
 goal = "RUST-ENGINE-001"
 section = "Next"

@@ -2,7 +2,7 @@
 schema = 1
 id = "RUST-CORE-PRECISION"
 title = "Port deterministic precision policy with exact Dart Rust parity"
-short = "Keep both implementations and compare named cases plus 1024 generated inputs."
+short = "Prove Dart/Rust precision policy parity"
 status = "open"
 goal = "RUST-ENGINE-001"
 section = "Next"
