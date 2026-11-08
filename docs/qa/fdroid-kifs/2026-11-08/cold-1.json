@@ -1,0 +1,2009 @@
+{
+  "source": "6ec81df95e936fb82c9a0a13f0aa4a80113de6c1",
+  "coldStart": 1,
+  "startedUtc": "2026-11-08T01:10:59.155611Z",
+  "pid": 27392,
+  "physicalViewport": [
+    1600.0,
+    2560.0
+  ],
+  "devicePixelRatio": 1.5,
+  "samples": [
+    {
+      "state": "kifs_menger-entry",
+      "utc": "2026-11-08T01:11:10.891245Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 2162902419,
+      "pan": [
+        0.0,
+        0.0
+      ],
+      "zoom": 1.0,
+      "rotation": [
+        0.3,
+        -0.4,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1306,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.31760803684348676
+    },
+    {
+      "state": "default-before",
+      "utc": "2026-11-08T01:11:11.724821Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 2162902419,
+      "pan": [
+        0.0,
+        0.0
+      ],
+      "zoom": 1.0,
+      "rotation": [
+        0.3,
+        -0.4,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1306,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.31760803684348676
+    },
+    {
+      "state": "default-soak-0",
+      "utc": "2026-11-08T01:11:16.432673Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1555151001,
+      "pan": [
+        -0.031333270549368374,
+        0.0719886527426003
+      ],
+      "zoom": 0.625,
+      "rotation": [
+        0.27791067665444674,
+        -0.3764380550980766,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 901,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.1084305724580619
+    },
+    {
+      "state": "default-soak-1",
+      "utc": "2026-11-08T01:11:19.275044Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 2968809881,
+      "pan": [
+        -0.031333270549368374,
+        0.0719886527426003
+      ],
+      "zoom": 0.625,
+      "rotation": [
+        0.27791067665444674,
+        -0.4706858347057704,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 859,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.11041114849547808
+    },
+    {
+      "state": "default-soak-2",
+      "utc": "2026-11-08T01:11:22.093969Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1555151001,
+      "pan": [
+        -0.031333270549368374,
+        0.0719886527426003
+      ],
+      "zoom": 0.625,
+      "rotation": [
+        0.27791067665444674,
+        -0.3764380550980766,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 901,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.1084305724580619
+    },
+    {
+      "state": "default-soak-3",
+      "utc": "2026-11-08T01:11:24.972354Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 2968809881,
+      "pan": [
+        -0.031333270549368374,
+        0.0719886527426003
+      ],
+      "zoom": 0.625,
+      "rotation": [
+        0.27791067665444674,
+        -0.4706858347057704,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 859,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.11041114849547808
+    },
+    {
+      "state": "default-soak-4",
+      "utc": "2026-11-08T01:11:27.791975Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1555151001,
+      "pan": [
+        -0.031333270549368374,
+        0.0719886527426003
+      ],
+      "zoom": 0.625,
+      "rotation": [
+        0.27791067665444674,
+        -0.3764380550980766,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 901,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.1084305724580619
+    },
+    {
+      "state": "default-soak-5",
+      "utc": "2026-11-08T01:11:30.594097Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 2968809881,
+      "pan": [
+        -0.031333270549368374,
+        0.0719886527426003
+      ],
+      "zoom": 0.625,
+      "rotation": [
+        0.27791067665444674,
+        -0.4706858347057704,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 859,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.11041114849547808
+    },
+    {
+      "state": "default-soak-6",
+      "utc": "2026-11-08T01:11:33.429274Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1555151001,
+      "pan": [
+        -0.031333270549368374,
+        0.0719886527426003
+      ],
+      "zoom": 0.625,
+      "rotation": [
+        0.27791067665444674,
+        -0.3764380550980766,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 901,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.1084305724580619
+    },
+    {
+      "state": "default-soak-7",
+      "utc": "2026-11-08T01:11:36.262148Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 2968809881,
+      "pan": [
+        -0.031333270549368374,
+        0.0719886527426003
+      ],
+      "zoom": 0.625,
+      "rotation": [
+        0.27791067665444674,
+        -0.4706858347057704,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 859,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.11041114849547808
+    },
+    {
+      "state": "default-soak-8",
+      "utc": "2026-11-08T01:11:39.105853Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1555151001,
+      "pan": [
+        -0.031333270549368374,
+        0.0719886527426003
+      ],
+      "zoom": 0.625,
+      "rotation": [
+        0.27791067665444674,
+        -0.3764380550980766,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 901,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.1084305724580619
+    },
+    {
+      "state": "default-soak-9",
+      "utc": "2026-11-08T01:11:41.936078Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 2968809881,
+      "pan": [
+        -0.031333270549368374,
+        0.0719886527426003
+      ],
+      "zoom": 0.625,
+      "rotation": [
+        0.27791067665444674,
+        -0.4706858347057704,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 859,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.11041114849547808
+    },
+    {
+      "state": "default-soak-10",
+      "utc": "2026-11-08T01:11:44.782254Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1555151001,
+      "pan": [
+        -0.031333270549368374,
+        0.0719886527426003
+      ],
+      "zoom": 0.625,
+      "rotation": [
+        0.27791067665444674,
+        -0.3764380550980766,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 901,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.1084305724580619
+    },
+    {
+      "state": "default-soak-11",
+      "utc": "2026-11-08T01:11:47.622940Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 2968809881,
+      "pan": [
+        -0.031333270549368374,
+        0.0719886527426003
+      ],
+      "zoom": 0.625,
+      "rotation": [
+        0.27791067665444674,
+        -0.4706858347057704,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 859,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.11041114849547808
+    },
+    {
+      "state": "default-soak-12",
+      "utc": "2026-11-08T01:11:50.442458Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1555151001,
+      "pan": [
+        -0.031333270549368374,
+        0.0719886527426003
+      ],
+      "zoom": 0.625,
+      "rotation": [
+        0.27791067665444674,
+        -0.3764380550980766,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 901,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.1084305724580619
+    },
+    {
+      "state": "default-soak-13",
+      "utc": "2026-11-08T01:11:53.287351Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 2968809881,
+      "pan": [
+        -0.031333270549368374,
+        0.0719886527426003
+      ],
+      "zoom": 0.625,
+      "rotation": [
+        0.27791067665444674,
+        -0.4706858347057704,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 859,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.11041114849547808
+    },
+    {
+      "state": "default-soak-14",
+      "utc": "2026-11-08T01:11:56.103789Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1555151001,
+      "pan": [
+        -0.031333270549368374,
+        0.0719886527426003
+      ],
+      "zoom": 0.625,
+      "rotation": [
+        0.27791067665444674,
+        -0.3764380550980766,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 901,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.1084305724580619
+    },
+    {
+      "state": "default-soak-15",
+      "utc": "2026-11-08T01:11:58.934335Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 2968809881,
+      "pan": [
+        -0.031333270549368374,
+        0.0719886527426003
+      ],
+      "zoom": 0.625,
+      "rotation": [
+        0.27791067665444674,
+        -0.4706858347057704,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 859,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.11041114849547808
+    },
+    {
+      "state": "default-soak-16",
+      "utc": "2026-11-08T01:12:01.767211Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1555151001,
+      "pan": [
+        -0.031333270549368374,
+        0.0719886527426003
+      ],
+      "zoom": 0.625,
+      "rotation": [
+        0.27791067665444674,
+        -0.3764380550980766,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 901,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.1084305724580619
+    },
+    {
+      "state": "default-soak-17",
+      "utc": "2026-11-08T01:12:04.608153Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 2968809881,
+      "pan": [
+        -0.031333270549368374,
+        0.0719886527426003
+      ],
+      "zoom": 0.625,
+      "rotation": [
+        0.27791067665444674,
+        -0.4706858347057704,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 859,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.11041114849547808
+    },
+    {
+      "state": "default-soak-18",
+      "utc": "2026-11-08T01:12:07.429470Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1555151001,
+      "pan": [
+        -0.031333270549368374,
+        0.0719886527426003
+      ],
+      "zoom": 0.625,
+      "rotation": [
+        0.27791067665444674,
+        -0.3764380550980766,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 901,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.1084305724580619
+    },
+    {
+      "state": "default-soak-19",
+      "utc": "2026-11-08T01:12:10.245347Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 2968809881,
+      "pan": [
+        -0.031333270549368374,
+        0.0719886527426003
+      ],
+      "zoom": 0.625,
+      "rotation": [
+        0.27791067665444674,
+        -0.4706858347057704,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 859,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.11041114849547808
+    },
+    {
+      "state": "default-soak-20",
+      "utc": "2026-11-08T01:12:13.070450Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1555151001,
+      "pan": [
+        -0.031333270549368374,
+        0.0719886527426003
+      ],
+      "zoom": 0.625,
+      "rotation": [
+        0.27791067665444674,
+        -0.3764380550980766,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 901,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.1084305724580619
+    },
+    {
+      "state": "default-after",
+      "utc": "2026-11-08T01:12:13.877345Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1555151001,
+      "pan": [
+        -0.031333270549368374,
+        0.0719886527426003
+      ],
+      "zoom": 0.625,
+      "rotation": [
+        0.27791067665444674,
+        -0.3764380550980766,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 901,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.1084305724580619
+    },
+    {
+      "state": "cathedral-before",
+      "utc": "2026-11-08T01:12:17.618018Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1999117605,
+      "pan": [
+        0.0,
+        0.0
+      ],
+      "zoom": 2.0,
+      "rotation": [
+        0.5,
+        0.3,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1833,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.8739709356432099
+    },
+    {
+      "state": "cathedral-soak-0",
+      "utc": "2026-11-08T01:12:22.297707Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1802127376,
+      "pan": [
+        0.008558987000093608,
+        0.01652748912262373
+      ],
+      "zoom": 1.520571842539411,
+      "rotation": [
+        0.47791067665444675,
+        0.32356194490192347,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1764,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.7344715679958003
+    },
+    {
+      "state": "cathedral-soak-1",
+      "utc": "2026-11-08T01:12:25.107439Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 758526923,
+      "pan": [
+        0.008558987000093608,
+        0.01652748912262373
+      ],
+      "zoom": 1.520571842539411,
+      "rotation": [
+        0.47791067665444675,
+        0.22931416529422968,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1729,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.6868303624692772
+    },
+    {
+      "state": "cathedral-soak-2",
+      "utc": "2026-11-08T01:12:27.927338Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1802127376,
+      "pan": [
+        0.008558987000093608,
+        0.01652748912262373
+      ],
+      "zoom": 1.520571842539411,
+      "rotation": [
+        0.47791067665444675,
+        0.32356194490192347,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1764,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.7344715679958003
+    },
+    {
+      "state": "cathedral-soak-3",
+      "utc": "2026-11-08T01:12:30.745334Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 758526923,
+      "pan": [
+        0.008558987000093608,
+        0.01652748912262373
+      ],
+      "zoom": 1.520571842539411,
+      "rotation": [
+        0.47791067665444675,
+        0.22931416529422968,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1729,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.6868303624692772
+    },
+    {
+      "state": "cathedral-soak-4",
+      "utc": "2026-11-08T01:12:33.576787Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1802127376,
+      "pan": [
+        0.008558987000093608,
+        0.01652748912262373
+      ],
+      "zoom": 1.520571842539411,
+      "rotation": [
+        0.47791067665444675,
+        0.32356194490192347,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1764,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.7344715679958003
+    },
+    {
+      "state": "cathedral-soak-5",
+      "utc": "2026-11-08T01:12:36.397930Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 758526923,
+      "pan": [
+        0.008558987000093608,
+        0.01652748912262373
+      ],
+      "zoom": 1.520571842539411,
+      "rotation": [
+        0.47791067665444675,
+        0.22931416529422968,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1729,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.6868303624692772
+    },
+    {
+      "state": "cathedral-soak-6",
+      "utc": "2026-11-08T01:12:39.227735Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1802127376,
+      "pan": [
+        0.008558987000093608,
+        0.01652748912262373
+      ],
+      "zoom": 1.520571842539411,
+      "rotation": [
+        0.47791067665444675,
+        0.32356194490192347,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1764,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.7344715679958003
+    },
+    {
+      "state": "cathedral-soak-7",
+      "utc": "2026-11-08T01:12:42.103197Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 758526923,
+      "pan": [
+        0.008558987000093608,
+        0.01652748912262373
+      ],
+      "zoom": 1.520571842539411,
+      "rotation": [
+        0.47791067665444675,
+        0.22931416529422968,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1729,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.6868303624692772
+    },
+    {
+      "state": "cathedral-soak-8",
+      "utc": "2026-11-08T01:12:44.964970Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1802127376,
+      "pan": [
+        0.008558987000093608,
+        0.01652748912262373
+      ],
+      "zoom": 1.520571842539411,
+      "rotation": [
+        0.47791067665444675,
+        0.32356194490192347,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1764,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.7344715679958003
+    },
+    {
+      "state": "cathedral-soak-9",
+      "utc": "2026-11-08T01:12:47.843136Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 758526923,
+      "pan": [
+        0.008558987000093608,
+        0.01652748912262373
+      ],
+      "zoom": 1.520571842539411,
+      "rotation": [
+        0.47791067665444675,
+        0.22931416529422968,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1729,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.6868303624692772
+    },
+    {
+      "state": "cathedral-soak-10",
+      "utc": "2026-11-08T01:12:50.702943Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1802127376,
+      "pan": [
+        0.008558987000093608,
+        0.01652748912262373
+      ],
+      "zoom": 1.520571842539411,
+      "rotation": [
+        0.47791067665444675,
+        0.32356194490192347,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1764,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.7344715679958003
+    },
+    {
+      "state": "cathedral-soak-11",
+      "utc": "2026-11-08T01:12:53.571451Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 758526923,
+      "pan": [
+        0.008558987000093608,
+        0.01652748912262373
+      ],
+      "zoom": 1.520571842539411,
+      "rotation": [
+        0.47791067665444675,
+        0.22931416529422968,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1729,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.6868303624692772
+    },
+    {
+      "state": "cathedral-soak-12",
+      "utc": "2026-11-08T01:12:56.438052Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1802127376,
+      "pan": [
+        0.008558987000093608,
+        0.01652748912262373
+      ],
+      "zoom": 1.520571842539411,
+      "rotation": [
+        0.47791067665444675,
+        0.32356194490192347,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1764,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.7344715679958003
+    },
+    {
+      "state": "cathedral-soak-13",
+      "utc": "2026-11-08T01:12:59.302186Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 758526923,
+      "pan": [
+        0.008558987000093608,
+        0.01652748912262373
+      ],
+      "zoom": 1.520571842539411,
+      "rotation": [
+        0.47791067665444675,
+        0.22931416529422968,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1729,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.6868303624692772
+    },
+    {
+      "state": "cathedral-soak-14",
+      "utc": "2026-11-08T01:13:02.156639Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1802127376,
+      "pan": [
+        0.008558987000093608,
+        0.01652748912262373
+      ],
+      "zoom": 1.520571842539411,
+      "rotation": [
+        0.47791067665444675,
+        0.32356194490192347,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1764,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.7344715679958003
+    },
+    {
+      "state": "cathedral-soak-15",
+      "utc": "2026-11-08T01:13:05.007001Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 758526923,
+      "pan": [
+        0.008558987000093608,
+        0.01652748912262373
+      ],
+      "zoom": 1.520571842539411,
+      "rotation": [
+        0.47791067665444675,
+        0.22931416529422968,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1729,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.6868303624692772
+    },
+    {
+      "state": "cathedral-soak-16",
+      "utc": "2026-11-08T01:13:07.859056Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1802127376,
+      "pan": [
+        0.008558987000093608,
+        0.01652748912262373
+      ],
+      "zoom": 1.520571842539411,
+      "rotation": [
+        0.47791067665444675,
+        0.32356194490192347,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1764,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.7344715679958003
+    },
+    {
+      "state": "cathedral-soak-17",
+      "utc": "2026-11-08T01:13:10.738858Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 758526923,
+      "pan": [
+        0.008558987000093608,
+        0.01652748912262373
+      ],
+      "zoom": 1.520571842539411,
+      "rotation": [
+        0.47791067665444675,
+        0.22931416529422968,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1729,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.6868303624692772
+    },
+    {
+      "state": "cathedral-soak-18",
+      "utc": "2026-11-08T01:13:13.595515Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1802127376,
+      "pan": [
+        0.008558987000093608,
+        0.01652748912262373
+      ],
+      "zoom": 1.520571842539411,
+      "rotation": [
+        0.47791067665444675,
+        0.32356194490192347,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1764,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.7344715679958003
+    },
+    {
+      "state": "cathedral-soak-19",
+      "utc": "2026-11-08T01:13:16.451948Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 758526923,
+      "pan": [
+        0.008558987000093608,
+        0.01652748912262373
+      ],
+      "zoom": 1.520571842539411,
+      "rotation": [
+        0.47791067665444675,
+        0.22931416529422968,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1729,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.6868303624692772
+    },
+    {
+      "state": "cathedral-soak-20",
+      "utc": "2026-11-08T01:13:19.308868Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1802127376,
+      "pan": [
+        0.008558987000093608,
+        0.01652748912262373
+      ],
+      "zoom": 1.520571842539411,
+      "rotation": [
+        0.47791067665444675,
+        0.32356194490192347,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1764,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.7344715679958003
+    },
+    {
+      "state": "cathedral-after",
+      "utc": "2026-11-08T01:13:20.165884Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 9,
+        "steps": 150,
+        "bailout": 4.0,
+        "colorScheme": 1.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1802127376,
+      "pan": [
+        0.008558987000093608,
+        0.01652748912262373
+      ],
+      "zoom": 1.520571842539411,
+      "rotation": [
+        0.47791067665444675,
+        0.32356194490192347,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1764,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.7344715679958003
+    },
+    {
+      "state": "extreme-2.0-5.0-20.0",
+      "utc": "2026-11-08T01:13:21.035270Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 2.0,
+        "iterations": 5,
+        "steps": 20,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1154003312,
+      "pan": [
+        0.0,
+        0.0
+      ],
+      "zoom": 1.0,
+      "rotation": [
+        0.3,
+        -0.4,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 258,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.2726394158493808
+    },
+    {
+      "state": "extreme-2.0-5.0-200.0",
+      "utc": "2026-11-08T01:13:21.895972Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 2.0,
+        "iterations": 5,
+        "steps": 200,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 3219068508,
+      "pan": [
+        0.0,
+        0.0
+      ],
+      "zoom": 1.0,
+      "rotation": [
+        0.3,
+        -0.4,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 543,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.3240985992793567
+    },
+    {
+      "state": "extreme-2.0-8.0-20.0",
+      "utc": "2026-11-08T01:13:22.760154Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 2.0,
+        "iterations": 8,
+        "steps": 20,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1827971440,
+      "pan": [
+        0.0,
+        0.0
+      ],
+      "zoom": 1.0,
+      "rotation": [
+        0.3,
+        -0.4,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 250,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.2726394158493808
+    },
+    {
+      "state": "extreme-2.0-8.0-200.0",
+      "utc": "2026-11-08T01:13:23.633087Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 2.0,
+        "iterations": 8,
+        "steps": 200,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 2966653276,
+      "pan": [
+        0.0,
+        0.0
+      ],
+      "zoom": 1.0,
+      "rotation": [
+        0.3,
+        -0.4,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 673,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.3240985992793567
+    },
+    {
+      "state": "extreme-5.0-5.0-20.0",
+      "utc": "2026-11-08T01:13:24.491674Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 5.0,
+        "iterations": 5,
+        "steps": 20,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 1300043169,
+      "pan": [
+        0.0,
+        0.0
+      ],
+      "zoom": 1.0,
+      "rotation": [
+        0.3,
+        -0.4,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 463,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.15151406686233804
+    },
+    {
+      "state": "extreme-5.0-5.0-200.0",
+      "utc": "2026-11-08T01:13:25.357179Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 5.0,
+        "iterations": 5,
+        "steps": 200,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 3002360600,
+      "pan": [
+        0.0,
+        0.0
+      ],
+      "zoom": 1.0,
+      "rotation": [
+        0.3,
+        -0.4,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1651,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.2586560717779846
+    },
+    {
+      "state": "extreme-5.0-8.0-20.0",
+      "utc": "2026-11-08T01:13:26.217041Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 5.0,
+        "iterations": 8,
+        "steps": 20,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 629602465,
+      "pan": [
+        0.0,
+        0.0
+      ],
+      "zoom": 1.0,
+      "rotation": [
+        0.3,
+        -0.4,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 423,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.15151406686233804
+    },
+    {
+      "state": "extreme-5.0-8.0-200.0",
+      "utc": "2026-11-08T01:13:27.086708Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 5.0,
+        "iterations": 8,
+        "steps": 200,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 4252307736,
+      "pan": [
+        0.0,
+        0.0
+      ],
+      "zoom": 1.0,
+      "rotation": [
+        0.3,
+        -0.4,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1944,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.2586560717779846
+    },
+    {
+      "state": "kifs_menger-entry",
+      "utc": "2026-11-08T01:13:30.278873Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 2162902419,
+      "pan": [
+        0.0,
+        0.0
+      ],
+      "zoom": 1.0,
+      "rotation": [
+        0.3,
+        -0.4,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1306,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.31760803684348676
+    },
+    {
+      "state": "kifs-reentered",
+      "utc": "2026-11-08T01:13:31.097614Z",
+      "pid": 27392,
+      "module": "kifs_menger",
+      "params": {
+        "power": 3.0,
+        "iterations": 8,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 2162902419,
+      "pan": [
+        0.0,
+        0.0
+      ],
+      "zoom": 1.0,
+      "rotation": [
+        0.3,
+        -0.4,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 1306,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.31760803684348676
+    },
+    {
+      "state": "f0597_sierpinski_carpet_3d_menger_cross-entry",
+      "utc": "2026-11-08T01:13:34.586627Z",
+      "pid": 27392,
+      "module": "f0597_sierpinski_carpet_3d_menger_cross",
+      "params": {
+        "power": 3.0,
+        "iterations": 12,
+        "steps": 120,
+        "bailout": 4.0,
+        "colorScheme": 0.0
+      },
+      "effectiveFractalType": 1,
+      "rgbHash": 3019192231,
+      "pan": [
+        0.0,
+        0.0
+      ],
+      "zoom": 1.0,
+      "rotation": [
+        0.3,
+        -0.4,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 547,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.3159257403297778
+    },
+    {
+      "state": "mandelbulb-entry",
+      "utc": "2026-11-08T01:13:38.007911Z",
+      "pid": 27392,
+      "module": "mandelbulb",
+      "params": {
+        "power": 8.0,
+        "iterations": 50,
+        "steps": 120,
+        "bailout": 2.0,
+        "colorScheme": 0.0,
+        "fractalType": 0
+      },
+      "effectiveFractalType": 0,
+      "rgbHash": 897157329,
+      "pan": [
+        0.0,
+        0.0
+      ],
+      "zoom": 1.0,
+      "rotation": [
+        0.3,
+        -0.4,
+        0.0
+      ],
+      "pixels": [
+        1600,
+        2560
+      ],
+      "sampledPixels": 83814,
+      "rgbColors": 4155,
+      "opaquePixels": 83814,
+      "horizontalForegroundFraction": 0.16198964373493688
+    }
+  ],
+  "soaks": [
+    {
+      "state": "default",
+      "elapsedMs": 61345,
+      "interactionSamples": 21,
+      "pid": 27392
+    },
+    {
+      "state": "cathedral",
+      "elapsedMs": 61690,
+      "interactionSamples": 21,
+      "pid": 27392
+    }
+  ],
+  "complete": true,
+  "endedUtc": "2026-11-08T01:13:38.876479Z",
+  "survived": true,
+  "apkSha256": "d73758b909c81a7d3b04f9e92ae54d7f752697130035e1296326f61ea943878e",
+  "apkVersion": "versionCode=38 minSdk=24 targetSdk=36\n    versionName=1.1.0",
+  "commandExit": 0,
+  "rawTestLogSha256": "68222e219c59300db09b5dc3838be19be637bbbd2095c87208d10f5133dc266b",
+  "rawLogcatSha256": "5115ab77758a95001889d4cc9c2233d699131aeafa462d94b658e166d023ccc4",
+  "postRunnerPidof": "absent; runner force-stopped app after KIFS_COMPLETE",
+  "appGpuLogExcerpt": [
+    "[01:11:09.279][debug][renderer] Backend decision {\"decision\":\"[renderer] backend_decision backend=gpu reason=none module=kifs_menger detail=3d_gpu_path\"}",
+    "[01:11:09.655][info][gpu] Shader loaded {\"asset\":\"shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag\",\"compileMs\":340}",
+    "[01:11:09.705][debug][perf] gpu_first_frame {\"first_frame_ms\":391,\"module\":\"kifs_menger\",\"backend\":\"gpu\"}",
+    "[01:13:28.855][debug][renderer] Backend decision {\"decision\":\"[renderer] backend_decision backend=gpu reason=none module=kifs_menger detail=3d_gpu_path\"}",
+    "[01:13:28.862][info][gpu] Shader loaded {\"asset\":\"shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag\",\"compileMs\":0,\"fromCache\":true}",
+    "[01:13:28.864][debug][perf] gpu_first_frame {\"first_frame_ms\":1,\"module\":\"kifs_menger\",\"backend\":\"gpu\"}",
+    "[01:13:33.172][debug][renderer] Backend decision {\"decision\":\"[renderer] backend_decision backend=gpu reason=none module=f0597_sierpinski_carpet_3d_menger_cross detail=3d_gpu_path\"}",
+    "[01:13:33.178][info][gpu] Shader loaded {\"asset\":\"shaders/ifs_and_geometric/raymarched_3d/kifs_menger_gpu.frag\",\"compileMs\":0,\"fromCache\":true}",
+    "[01:13:33.179][debug][perf] gpu_first_frame {\"first_frame_ms\":1,\"module\":\"f0597_sierpinski_carpet_3d_menger_cross\",\"backend\":\"gpu\"}",
+    "[01:13:36.678][debug][renderer] Backend decision {\"decision\":\"[renderer] backend_decision backend=gpu reason=none module=mandelbulb detail=3d_gpu_path\"}",
+    "[01:13:36.872][info][gpu] Shader loaded {\"asset\":\"shaders/legacy/raymarched_3d/mandelbulb.frag\",\"compileMs\":186}",
+    "[01:13:36.940][debug][perf] gpu_first_frame {\"first_frame_ms\":255,\"module\":\"mandelbulb\",\"backend\":\"gpu\"}"
+  ],
+  "systemLogExcerpt": [
+    "11-08 01:09:05.808   310  5899 I ActivityManager: Force stopping com.trebuchetdynamics.fractal.forge appid=10182 user=0: from pid 27345",
+    "11-08 01:10:54.582   310  5899 I ActivityManager: Force stopping com.trebuchetdynamics.fractal.forge appid=10182 user=0: from pid 27354",
+    "11-08 01:10:55.995   310   341 I ActivityManager: Force stopping com.trebuchetdynamics.fractal.forge appid=10182 user=-1: installPackageLI",
+    "11-08 01:10:56.053   310   361 I ActivityManager: Force stopping com.trebuchetdynamics.fractal.forge appid=10182 user=0: pkg removed",
+    "11-08 01:10:56.520   559   842 E OpenGLRenderer: Unable to match the desired swap behavior.",
+    "11-08 01:10:57.718 27392 27410 E OpenGLRenderer: Unable to match the desired swap behavior.",
+    "11-08 01:13:39.011   310  5899 I ActivityManager: Force stopping com.trebuchetdynamics.fractal.forge appid=10182 user=0: from pid 27526",
+    "11-08 01:13:39.048   853  1167 E OpenGLRenderer: Unable to match the desired swap behavior.",
+    "11-08 01:13:39.075    93    93 I Zygote  : Process 27392 exited due to signal 9 (Killed)"
+  ]
+}

@@ -99,7 +99,7 @@ The owner requested F-Droid deployment, then requested this planning-only pass f
 | FDROID-004-29b7a404 | Freeze and qualify updated F-Droid source, metadata and three ABI reference binaries | FDROID-002-29b7a402 |
 | FDROID-005-29b7a405 | Update !46920, address review and read back acceptance/catalog state | FDROID-003-29b7a403, FDROID-004-29b7a404 |
 
-All execution checks were proposed/unrun in the planning pass. FDROID-001 local results are recorded below; device and release qualification remain unrun. Exact commands and setup are in the task records. Local checks use the root AGENTS.md pinned offline gate. Official qualification additionally requires twice-built identical unsigned ABI APKs, lint/source and binary scans, official reproducibility against signed references, and the relevant Android release gate. The restricted local container adapter supplies lint/scanner only, not `fdroid build`, `readmeta` or `rewritemeta`; those need the official supported tool/buildserver environment or maintainer CI.
+All execution checks were proposed/unrun in the planning pass. FDROID-001 local results are recorded below. FDROID-002 subsequently passed three focused KIFS Waydroid journeys; its mandatory Android gate attempts timed out and release qualification remains incomplete (see the installed evidence below). Exact commands and setup are in the task records. Local checks use the root AGENTS.md pinned offline gate. Official qualification additionally requires twice-built identical unsigned ABI APKs, lint/source and binary scans, official reproducibility against signed references, and the relevant Android release gate. The restricted local container adapter supplies lint/scanner only, not `fdroid build`, `readmeta` or `rewritemeta`; those need the official supported tool/buildserver environment or maintainer CI.
 
 This is one complete bounded batch, not a rolling roadmap. The first task uses normal local worker execution. Device/build/publication and external follow-up belong to the coordinator with exclusive resource coordination. FDROID-003 and FDROID-004 have no product dependency on each other, but their shared live, MR and release-candidate resources must serialize mutable candidate/artifact work. FDROID-004 also reserves Waydroid for any final-candidate rerun. Do not retain a resource lease while waiting for an external reply. Live records remain coordinator-owned with `live = "denied"` until that coordinator records the structured grant for the actual operation/candidate under the existing deployment request and Waydroid consent. This is admission bookkeeping, not a request for renewed target or publication approval. Expected implementation delivery is one local test/repair merge plus a release-identity/metadata merge if needed. Each code-bearing delivery retains the existing required independent review and merged-tree gates. The planning commit is separate. No runner is started, no task is dispatched, and no hardware or catalog acceptance is inferred from task creation.
 
@@ -145,6 +145,31 @@ done
 ```
 
 Retain each command's exit code, complete test log and timestamp-bounded app/GPU logs under the existing device-test contract. Do not clear logs or reset the device. Reconcile all three launch IDs, start/end UTC times, PIDs, two completed soaks, eight extreme samples, controls and re-entry before claiming three cold-start passes. The test cannot collect Android driver logs or attest external force-stop operations itself. FDROID-002 owns that evidence and the Android release gate. Waydroid remains container/emulator evidence; FDROID-003 still owns the candidate-bound Adreno retest.
+
+### FDROID-002 installed evidence — 2026-11-08
+
+[Sanitized receipts and resume instructions](../../qa/fdroid-kifs/README.md)
+record three passing cold-start journeys at source
+`6ec81df95e936fb82c9a0a13f0aa4a80113de6c1`, with all six soaks exceeding
+60 seconds, eight supported parameter extremes per launch, gestures, re-entry,
+Cross/Mandelbulb controls, nonblank/distinct frames and bounded app/GPU logs.
+The reviewed production source is unchanged; the source commit repairs the
+installed test stimulus and preserves shared logcat in the gate. The test uses
+Flutter's registered text input, not the native IME. Cross's fixed variant uses
+the registered default when absent from editable controller params.
+
+The actual target was booted Android 13 Waydroid, native 1600×2560/DPR 1.5,
+AMD/Mesa OpenGL ES—not Adreno. Tested debug identity was `1.1.0+38`; it is not
+the F-Droid marker `1.1.122/122` or a frozen production release. Receipts identify
+each instrumented APK hash, source, SDK, lockfile and process interval.
+
+**Android gate: INCOMPLETE, not passed.** The full invocation timed out after
+1,700 seconds during host tests. A separate bounded device-only continuation
+also timed out during integration execution. Production build, restoration,
+offline, performance and production-soak qualification remain pending. Resume
+the full gate under exclusive ownership with adequate scheduled runtime; retain
+these timeouts. No publication occurred. Waydroid is container/emulator evidence;
+FDROID-003's candidate-bound Adreno 610 verdict remains explicitly pending.
 
 Authoritative references:
 

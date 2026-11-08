@@ -1,0 +1,133 @@
+{
+  "task": "FDROID-002-29b7a402",
+  "status": "KIFS_PASS_ANDROID_GATE_INCOMPLETE",
+  "source": "6ec81df95e936fb82c9a0a13f0aa4a80113de6c1",
+  "baseline": "ebb8b5c2ead6c378d4c1f767a27e676cefd08a1c",
+  "reviewedInput": "25534a68cc43abb0bb4a409008d9e3378200ee55",
+  "productionDrift": "lib, shaders, android, pubspec.yaml and pubspec.lock unchanged from reviewed input; only QA stimulus/gate repair in source commit",
+  "sdk": "Flutter 3.47.9 \u2022 channel [user-branch] \u2022 https://github.com/flutter/flutter.git\nFramework \u2022 revision c197ca5199 (9 days ago) \u2022 2026-10-29 10:10:20 -0400\nEngine \u2022 hash 9e025265bef30b838c0c1b68cad19decf97048f2 (revision 89c39edfdf) (11 days ago) \u2022 2026-10-27 19:51:20.000Z\nTools \u2022 Dart 3.13.7 \u2022 DevTools 2.60.0",
+  "python": "/usr/bin/python3 3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0] 9.0.2 3.1.6",
+  "lockSha256": "d919ab7eb6ad10b5939c81092b6f1657ba84642109ca677684184ccf30c55451",
+  "pubspecIdentity": "1.1.0+38",
+  "fdroidMarker": "1.1.122/122; not the tested artifact version, no release identity reserved",
+  "target": {
+    "serial": "192.168.240.112:5555",
+    "model": "WayDroid x86_64 Device",
+    "bootCompleted": "1",
+    "bootId": "df2621c1-6e43-4358-b9f1-a7b99dcec23e",
+    "android": "13",
+    "viewport": [
+      1600,
+      2560
+    ],
+    "dpr": 1.5,
+    "backend": "GLES: AMD, AMD Radeon Graphics (radeonsi, navi21, ACO, DRM 3.64, 7.0.0-42-generic), OpenGL ES 3.2 Mesa 26.0.5"
+  },
+  "runs": [
+    {
+      "coldStart": 1,
+      "pid": 27392,
+      "apkSha256": "d73758b909c81a7d3b04f9e92ae54d7f752697130035e1296326f61ea943878e",
+      "soaks": [
+        {
+          "state": "default",
+          "elapsedMs": 61345,
+          "interactionSamples": 21,
+          "pid": 27392
+        },
+        {
+          "state": "cathedral",
+          "elapsedMs": 61690,
+          "interactionSamples": 21,
+          "pid": 27392
+        }
+      ]
+    },
+    {
+      "coldStart": 2,
+      "pid": 27584,
+      "apkSha256": "8932891a7f864f6d82ae4e3e978b8f96991460b041f9d3a14dd354de4a06de2c",
+      "soaks": [
+        {
+          "state": "default",
+          "elapsedMs": 61115,
+          "interactionSamples": 21,
+          "pid": 27584
+        },
+        {
+          "state": "cathedral",
+          "elapsedMs": 61624,
+          "interactionSamples": 21,
+          "pid": 27584
+        }
+      ]
+    },
+    {
+      "coldStart": 3,
+      "pid": 27784,
+      "apkSha256": "9da4d5609618eb29987a64dc88c750a8e60de18011d21142e78b5c375ba897e8",
+      "soaks": [
+        {
+          "state": "default",
+          "elapsedMs": 61023,
+          "interactionSamples": 21,
+          "pid": 27784
+        },
+        {
+          "state": "cathedral",
+          "elapsedMs": 61484,
+          "interactionSamples": 21,
+          "pid": 27784
+        }
+      ]
+    }
+  ],
+  "commands": {
+    "coldStart": "ANDROID_DEVICE=192.168.240.112:5555 ANDROID_DISPOSABLE_DEVICE=192.168.240.112:5555; adb -s \"$ANDROID_DEVICE\" shell am force-stop com.trebuchetdynamics.fractal.forge; autowork-run timeout --signal=TERM --kill-after=20 900 flutter test --no-pub --no-uninstall integration_test/flows/kifs_menger_safety_test.dart -d \"$ANDROID_DEVICE\" --dart-define=FORCE_GPU_RENDER=true --dart-define=KIFS_SOURCE=6ec81df95e936fb82c9a0a13f0aa4a80113de6c1 --dart-define=KIFS_COLD_START=<1|2|3> --dds-port=20101 --reporter expanded",
+    "logcat": "start=$(adb -s \"$ANDROID_DEVICE\" shell date +%m-%d_%H:%M:%S.000 | tr _ \" \"); adb -s \"$ANDROID_DEVICE\" logcat -d -v threadtime -T \"$start\"",
+    "fullGate": "autowork-run timeout --signal=TERM --kill-after=30 1700 bash scripts/pre-release-gate.sh --device 192.168.240.112:5555 --disposable-device 192.168.240.112:5555 --build-name 1.1.0 --build-number 38 --log-dir \"$TMPDIR/evidence/android-gate\"",
+    "deviceContinuation": "autowork-run timeout --signal=TERM --kill-after=20 600 bash scripts/pre-release-gate.sh --skip-host --device 192.168.240.112:5555 --disposable-device 192.168.240.112:5555 --build-name 1.1.0 --build-number 38 --log-dir \"$TMPDIR/evidence/android-device-continuation\""
+  },
+  "gateEnvironment": "FLUTTER_BIN was a private adapter to pinned flutter; appended --no-pub to analyze/test/build and --dds-port=20102 to test. No gate omitted in full invocation. Device continuation explicitly omitted host and cannot qualify the whole gate.",
+  "gates": [
+    {
+      "label": "android-gate",
+      "exit": 124,
+      "classification": "environment_timeout",
+      "summary": "Timed out in full host suite; last progress +3416 ~8; no terminal aggregate or device phase.",
+      "terminalLogSha256": "5f9bb787a7bc73df74bf48ca649937c00a373779c9eacf4579cdfabbe41c33ed",
+      "terminalExcerpt": [
+        "27:53 +3414 ~8: <checkout>/test/core/controllers/fractal_param_randomizer_test.dart: randomFractalParamValue does not crash when a float schema has a non-finite step",
+        "27:53 +3415 ~8: <checkout>/test/core/controllers/fractal_param_randomizer_test.dart: randomFractalParamValue keeps Julia seed randomization near the curated default",
+        "27:53 +3416 ~8: loading <checkout>/test/palette/palette_texture_rasterization_test.dart"
+      ]
+    },
+    {
+      "label": "android-device-continuation",
+      "exit": 124,
+      "classification": "environment_timeout",
+      "summary": "Timed out building perf_smoke_test.dart after +10 ~8; accessibility and later release stages not reached.",
+      "terminalLogSha256": "14ddb78d8f76b474a152e169e3133c2af55071535acfc6ec664c1e07afa839fe",
+      "terminalExcerpt": [
+        "06:44 +10 ~8: <checkout>/integration_test/rendering/shader_family_validation_test.dart: (tearDownAll)",
+        "06:44 +10 ~8: loading <checkout>/integration_test/performance/perf_smoke_test.dart",
+        "Running Gradle task 'assembleDebug'...                          Terminated"
+      ]
+    }
+  ],
+  "limitations": [
+    "Waydroid emulator/container evidence, not Adreno 610 hardware proof.",
+    "Debug instrumented APKs differ by cold-start/source defines; each exact hash is recorded, not claimed byte-identical.",
+    "Flutter runner force-stops the app after successful test completion; post-command pidof is empty. Internal PID checks and samples attest only the journey interval.",
+    "No production APK built or qualified; production mode, signing, release gate and Adreno verdict remain pending.",
+    "Automatic zoom adaptation can report iterations 9 in Cathedral; shader remains capped at 8.",
+    "Initial failed diagnostic logcat commands used an incorrectly spaced date argument and returned logcat time-format errors; only final three runs have validated bounded logcat."
+  ],
+  "diagnosticRepairs": [
+    "Original pinch was below touch slop and failed zoom assertion. Larger inward pinch and post-recognition update preserve assertions without moving the Cathedral camera inside solid geometry.",
+    "Original 8px soak drags registered taps and repeated double-tap zoom-out until foreground disappeared; 32px drags now exercise actual rotation.",
+    "Fixed Cross variant is supplied by registered uniform fallback, not editable controller params; retain effective variant assertion and add sampled RGB distinction.",
+    "Native IME callbacks restored stale search input; this rendering-only test now registers Flutter test input and unregisters it at teardown.",
+    "Gate now uses a validated device timestamp and bounded logcat reads, never logcat -c."
+  ]
+}
