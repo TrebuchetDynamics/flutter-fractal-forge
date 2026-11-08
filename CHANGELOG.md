@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Repair installed KIFS regression gestures, native test input and fixed-variant checks; preserve shared Android logs and record three passing Waydroid KIFS journeys with full Android qualification still pending. (FDROID-002-29b7a402)
 - Add KIFS preset and parameter-bound image-health regression coverage plus a native-viewport installed journey; retain the bounded mitigation as an Adreno-unqualified candidate. (FDROID-001-29b7a401)
 - No new entry: the approved Monkey catch-all exclusion and five-minute default already landed in 308f7484; this verification-only commit changes no product files. (ACAD-013-4142ef42)
 - Added inert Rust Session seeded immediate randomization and certified staged Number Walls randomization with successful-only, current-view-preserving single undo; production ownership is unchanged. (RUST-M2-RANDOM-STATE)
