@@ -295,3 +295,55 @@ These logs remain task scratch, not durable published evidence.
 5. Keep FDROID-003's candidate-bound Adreno confirmation and F-Droid maintainer
    acceptance/public catalog readback separate. This partial receipt is not a
    qualified handoff to FDROID-005 and cannot close combined release acceptance.
+
+## FDROID-005 submission disposition — 2026-11-08
+
+**Final submission: NOT_RUN. Catalog publication: NOT_VERIFIED. Acceptance
+remains open.** This disposition inspects the receipts at execution baseline
+`f081af5d1a70c5a3f8c46701879927a59f6ac16c`; it is not a fresh remote readback.
+The task-store closure of FDROID-003/004 does not supply their missing live
+qualification. Their retained evidence explicitly leaves these gates pending:
+
+| Prerequisite | Consumed evidence and remaining gap |
+| --- | --- |
+| FDROID-003 hardware confirmation | The [discussion readback](#discussion-readback) contains the historical v1.1.104 crash, not a candidate-bound Adreno retest. No bound request or reply exists in that receipt. |
+| FDROID-004 release qualification | The [source-build receipt](#fdroid-004-source-build-and-scan-evidence--unqualified) proves local unsigned reproducibility and source scans at `0e4d9338ee581a555da86293cae7a4768bff769f`, not signed references, official verification or final-candidate Android qualification. |
+
+The saved FDROID-005 live scope requires both qualifications before final MR
+review/submission and catalog readback. No live operation ran here.
+No MR body, checklist, thread, branch, pipeline or reference asset was changed.
+This worker requested no operation lease for an external wait. Reuse the existing
+MR and evidence owners; no duplicate submission, runner, polling schedule, code,
+recipe, dependency or generated asset is needed for this disposition.
+
+### Separate delivery verdicts
+
+| Stage | Verdict supported by the consumed receipts |
+| --- | --- |
+| Existing submission | Last read at `2026-11-08T03:41:16Z`: [!46920](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/46920) opened, source project `85800484`, branch `new-app-com-trebuchetdynamics-fractal-forge`, head `16238180cb87bc3e488bfa0bc461ca99e51eea67`. Recipe: v1.1.104, codes 1041/1042/1043, app source `987eb6764b51520df74566068132fb29971ccb99`. Not the mitigated candidate. |
+| Maintainer CI | [Pipeline 2832429861](https://gitlab.com/fdroid/fdroiddata/-/pipelines/2832429861) succeeded on that old MR head only. No final-candidate CI result is supplied. |
+| Maintainer acceptance/merge | Not established for a qualified mitigated candidate. Current review/merge state was not queried in this pass. |
+| Public catalog | Package/version/source/APK SHA-256/signer comparison is NOT_RUN. No qualified signed reference set exists in the consumed receipts to compare against. This is not evidence of catalog absence or publication. |
+
+### Resume after qualification
+
+Complete the pending final-candidate Android, signing/reference and official
+verification gates in FDROID-004, then obtain/rebind FDROID-003 hardware evidence
+to those exact source/APK identities. The explicitly unqualified maintainer
+build-verification request remains FDROID-004 work, not final submission here.
+
+Once those gates pass, the coordinator must bind the candidate/artifact hashes
+and acquire the applicable operation leases. Read the current MR and all
+paginated discussions with `glab api` before writing. Verify source project,
+branch and head ownership; retain the exact metadata diff and remote head.
+Update only !46920 with the same candidate's evidence and accurate checklist.
+Read back the body, note, diff SHA and pipeline before any retry. Request missing
+official checks only when needed. Release leases while awaiting external replies.
+
+F-Droid maintainer acceptance/merge and public build/index publication remain
+external. On an actual response, read the current MR head/review/pipeline and
+[public package metadata](https://f-droid.org/en/packages/com.trebuchetdynamics.fractal.forge/).
+Compare every published ABI's version code, source tag/commit, APK hash and signer
+against the qualified references. Until both acceptance and matching catalog
+readback are observed, keep FDROID-005 and goal FDROID-KIFS-001 unaccepted.
+Submission, successful CI or merge alone cannot establish catalog publication.

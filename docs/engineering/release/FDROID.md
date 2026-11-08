@@ -203,6 +203,22 @@ qualified handoff to FDROID-005. The coordinator can request explicitly unqualif
 maintainer build verification in !46920 during FDROID-004; that prerequisite must
 not be deferred to FDROID-005. Adreno confirmation remains independent.
 
+### FDROID-005 final submission disposition — 2026-11-08
+
+[Submission verdicts and resume condition](../../qa/fdroid-kifs/README.md#fdroid-005-submission-disposition--2026-11-08)
+record **NOT_RUN final submission and NOT_VERIFIED catalog publication** at
+baseline `f081af5d1a70c5a3f8c46701879927a59f6ac16c`. FDROID-003/004 task-store
+closure is not their missing live qualification. Candidate-bound Adreno evidence,
+signed references, official verification and the final Android gate remain
+pending. This pass performed no live operation or fresh MR/catalog readback.
+Historical !46920 head/pipeline results cannot qualify the mitigated candidate.
+
+Resume final review/submission only after those prerequisites qualify the same
+source/artifact identities under coordinator admission and operation leases.
+Maintainer acceptance and matching public package/version/source/hash/signer
+readback remain separate external gates. Keep acceptance open until observed;
+metadata upload, CI success and merge alone are not publication.
+
 Authoritative references:
 
 - [Submitting to F-Droid quick start](https://f-droid.org/en/docs/Submitting_to_F-Droid_Quick_Start_Guide/)
