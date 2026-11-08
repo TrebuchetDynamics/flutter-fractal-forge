@@ -24,6 +24,10 @@ void main() {
   testWidgets(
       'installed KIFS presets, extremes, gestures and re-entry stay healthy',
       (tester) async {
+    // This journey tests rendering, not the host IME. Prevent native keyboard
+    // callbacks from replacing injected catalog queries after a cold start.
+    tester.testTextInput.register();
+    addTearDown(tester.testTextInput.unregister);
     const launch = int.fromEnvironment('KIFS_COLD_START', defaultValue: 1);
     expect(launch, inInclusiveRange(1, 3));
     expect(RuntimeModeService.forceGpuRender, isTrue);
@@ -94,13 +98,16 @@ void main() {
         var foreground = 0;
         var opaque = 0;
         var count = 0;
+        var rgbHash = 0x811c9dc5;
         // Sample about 256 columns without resizing the native capture.
         final stride = (frame.width / 256).ceil().clamp(1, frame.width);
         for (var y = 0; y < frame.height; y += stride) {
           final edge = y * frame.width * 4;
           for (var x = 0; x < frame.width; x += stride) {
             final i = (y * frame.width + x) * 4;
-            colors.add((bytes[i] << 16) | (bytes[i + 1] << 8) | bytes[i + 2]);
+            final rgb = (bytes[i] << 16) | (bytes[i + 1] << 8) | bytes[i + 2];
+            colors.add(rgb);
+            rgbHash = ((rgbHash ^ rgb) * 0x01000193) & 0xffffffff;
             // KIFS and both controls have a vertical-only miss gradient.
             // Same-row contrast cannot count that background as geometry.
             if ((bytes[i] - bytes[edge]).abs() +
@@ -117,6 +124,10 @@ void main() {
           'pid': pid,
           'module': snapshot.module.id,
           'params': snapshot.state.params,
+          'effectiveFractalType': snapshot.state.params['fractalType'] ??
+              snapshot.module.defaultPreset.params['fractalType'] ??
+              0,
+          'rgbHash': rgbHash,
           'pan': [snapshot.state.view.pan.x, snapshot.state.view.pan.y],
           'zoom': snapshot.state.view.zoom,
           'rotation': [
@@ -177,12 +188,16 @@ void main() {
       expect((controller().view.rotation - before.rotation).length,
           greaterThan(0));
       final a =
-          await tester.startGesture(center - const Offset(40, 0), pointer: 1);
+          await tester.startGesture(center - const Offset(80, 0), pointer: 1);
       final b =
-          await tester.startGesture(center + const Offset(40, 0), pointer: 2);
+          await tester.startGesture(center + const Offset(80, 0), pointer: 2);
       await tester.pump(const Duration(milliseconds: 100));
-      await a.moveTo(center - const Offset(44, -12));
-      await b.moveTo(center + const Offset(52, 12));
+      // Cross touch slop, then deliver an update after recognition starts.
+      await a.moveTo(center + const Offset(-50, 20));
+      await b.moveTo(center + const Offset(70, 20));
+      await tester.pump(const Duration(milliseconds: 100));
+      await a.moveTo(center + const Offset(-40, 20));
+      await b.moveTo(center + const Offset(60, 20));
       await tester.pump(const Duration(milliseconds: 100));
       await a.up();
       await b.up();
@@ -198,7 +213,7 @@ void main() {
       var tick = 0;
       while (watch.elapsed < const Duration(seconds: 60)) {
         await tester.dragFrom(
-            tester.getCenter(renderer), Offset(tick.isEven ? -8 : 8, 0));
+            tester.getCenter(renderer), Offset(tick.isEven ? -32 : 32, 0));
         await tester.pump(const Duration(seconds: 2));
         await capture('$state-soak-${tick++}');
       }
@@ -251,7 +266,10 @@ void main() {
     await capture('kifs-reentered');
     await leave();
     await enter('Menger Cross 3D', 'f0597_sierpinski_carpet_3d_menger_cross');
-    expect(controller().params['fractalType'], 1);
+    // Fixed variants are not editable params; the uniform setter uses the
+    // registered default when the controller omits that key.
+    expect(samples.last['effectiveFractalType'], 1);
+    expect(samples.last['rgbHash'], isNot(samples.first['rgbHash']));
     await leave();
     await enter('Mandelbulb', 'mandelbulb');
     await leave();

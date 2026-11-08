@@ -63,6 +63,12 @@ Arbitrary-key coverage is deliberately excluded from this app-interaction soak.
 The deterministic lifecycle/navigation gates remain required. Real execution and
 the dry-run plan use the same input boundary.
 
+The gate preserves shared logcat. It records the device timestamp immediately
+before the soak and uses `logcat -d -T` for soak/crash evidence instead of clearing
+the buffers. An unreadable timestamp fails the soak; historical crash records are
+not counted as new soak failures. Retain timestamp-bounded logs from earlier
+integration phases separately.
+
 The approved default is **300 seconds (five minutes)**. Use `--soak-seconds 1800`
 when a run requires the previous thirty-minute duration. Five minutes gives less
 evidence for slow memory leaks; it does not satisfy an explicit 1,800-second check.

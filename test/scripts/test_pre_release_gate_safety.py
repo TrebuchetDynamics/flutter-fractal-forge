@@ -40,7 +40,9 @@ def gate(tmp_path):
         if name == "adb":
             if args[:2] == ["-s", os.environ["TEST_DEVICE"]]:
                 args = args[2:]
-            if args == ["shell", "getprop", "ro.product.cpu.abi"]:
+            if args == ["shell", "date", "+%m-%d_%H:%M:%S.000"]:
+                print("11-08_00:00:00.000")
+            elif args == ["shell", "getprop", "ro.product.cpu.abi"]:
                 print("x86_64")
             elif args[:3] == ["shell", "pm", "path"] and installed.exists():
                 print("package:/data/app/release-signed/base.apk")
@@ -231,6 +233,8 @@ def test_disposable_route_runs_mandatory_gates_and_rejects_missing_soak(
                for call in calls[offline_index + 1:])
     assert sum(call == ["adb", "-s", DEVICE, "install", "build/app/outputs/flutter-apk/app-release.apk"]
                for call in calls) == 2
+    assert ["adb", "-s", DEVICE, "shell", "date", "+%m-%d_%H:%M:%S.000"] in calls
+    assert not any(call[3:5] == ["logcat", "-c"] for call in calls)
     soak = next(call for call in calls if call[:2] == ["timeout", "--signal=INT"])
     assert soak[3] == expected_deadline
     # Arbitrary keys can bypass the disabled system/navigation categories.
