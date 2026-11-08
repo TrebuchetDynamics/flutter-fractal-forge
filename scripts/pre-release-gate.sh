@@ -27,6 +27,7 @@ LOG_DIR=""
 WIFI_WAS_ENABLED=""
 DATA_WAS_ENABLED=""
 FOREGROUND_GUARD_PID=""
+SOAK_LOGCAT_START=""
 
 usage() {
   cat <<'EOF'
@@ -287,6 +288,7 @@ run_device_soak() {
     print_command adb -s "$DEVICE" shell dumpsys gfxinfo "$PACKAGE"
     print_command adb -s "$DEVICE" shell dumpsys battery
     print_command adb -s "$DEVICE" shell dumpsys thermalservice
+    printf '+ preserve shared logcat; collect only entries since device soak start\n'
     printf '+ validate bounded PSS: peak <= %s KiB, growth <= %s KiB\n' \
       "$MAX_PSS_KB" "$MAX_PSS_GROWTH_KB"
     printf '+ validate crash/ANR count: 0\n'
@@ -297,6 +299,11 @@ run_device_soak() {
 
   printf '\n=== long-duration interaction soak ===\n' | tee -a "$LOG_DIR/gate.log"
   local soak_started_at=$SECONDS
+  SOAK_LOGCAT_START="$(adb -s "$DEVICE" shell date '+%m-%d_%H:%M:%S.000' | tr '_' ' ' | tr -d '\r')"
+  [[ "$SOAK_LOGCAT_START" =~ ^[0-9]{2}-[0-9]{2}\ [0-9]{2}:[0-9]{2}:[0-9]{2}\.000$ ]] || {
+    echo 'Could not read device timestamp for bounded soak logcat.' >&2
+    return 1
+  }
   timeout --signal=INT --kill-after=10 "${SOAK_SECONDS}s" \
     adb -s "$DEVICE" shell monkey -p "$PACKAGE" \
     --pct-syskeys 0 --pct-nav 0 --pct-majornav 0 --pct-appswitch 0 \
@@ -341,7 +348,7 @@ run_device_soak() {
     return 1
   }
 
-  adb -s "$DEVICE" logcat -d >"$LOG_DIR/soak-logcat.log" 2>&1
+  adb -s "$DEVICE" logcat -d -T "$SOAK_LOGCAT_START" >"$LOG_DIR/soak-logcat.log" 2>&1
   local crash_anr_count
   crash_anr_count="$(
     awk 'BEGIN { IGNORECASE = 1 }
@@ -628,14 +635,13 @@ install_production_app
 adb_gate "launch production app for soak" shell am start -W -n "$COMPONENT"
 
 # Constrained random interaction catches lifecycle, route, and renderer leaks.
-adb_gate "clear logcat before soak" logcat -c
 run_guarded_device_soak
 
 adb_gate "memory evidence" shell dumpsys meminfo "$PACKAGE"
 adb_gate "frame evidence" shell dumpsys gfxinfo "$PACKAGE"
 adb_gate "battery evidence" shell dumpsys battery
 adb_gate "thermal evidence" shell dumpsys thermalservice
-adb_gate "crash evidence" logcat -d -b crash
+adb_gate "crash evidence" logcat -d -b crash -T "$SOAK_LOGCAT_START"
 
 if [[ "$DRY_RUN" -eq 0 ]]; then
   git diff --check | tee -a "$LOG_DIR/gate.log"
