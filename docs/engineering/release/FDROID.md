@@ -171,6 +171,18 @@ the full gate under exclusive ownership with adequate scheduled runtime; retain
 these timeouts. No publication occurred. Waydroid is container/emulator evidence;
 FDROID-003's candidate-bound Adreno 610 verdict remains explicitly pending.
 
+### FDROID-003 reviewer readback — 2026-11-08
+
+The [sanitized discussion readback and exact resume condition](../../qa/fdroid-kifs/README.md#fdroid-003-adreno-reviewer-evidence--unresolved)
+identify MiggiV2's unresolved crash thread in !46920. The crash-related notes
+retain the v1.1.104 finding and existing acknowledgement, not a mitigated
+candidate retest. **FDROID-003 remains open; Adreno confirmation is pending.**
+No new request was posted: FDROID-002's Android gate is incomplete, and its debug
+receipts supply no qualified production APK with a safe artifact URL and hash.
+Resume the existing-thread request once the reviewed source/version and exact
+distributable APK are bound. Do not substitute Waydroid or historical CI evidence.
+Any later candidate change requires renewed hardware binding before final submission.
+
 Authoritative references:
 
 - [Submitting to F-Droid quick start](https://f-droid.org/en/docs/Submitting_to_F-Droid_Quick_Start_Guide/)

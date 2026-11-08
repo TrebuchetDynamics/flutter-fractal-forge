@@ -90,3 +90,75 @@ continuation cannot replace its missing full result. Freeze/hash the eventual
 production artifact and rerun affected checks on any source/version change.
 Keep FDROID-002 qualification pending; FDROID-003 owns the separate candidate-bound
 Adreno verdict, and FDROID-004 owns final F-Droid identity/build qualification.
+
+## FDROID-003 Adreno reviewer evidence — unresolved
+
+**Hardware verdict: PENDING. FDROID-003 must remain open, not done.**
+This is a sanitized discussion readback, not a hardware test or crash-resolution
+receipt. Execution baseline: `ca0c54efb405a246a6699a8efead55669d81389d`.
+
+### Discussion readback
+
+At `2026-11-08T02:38:04Z`, the following read-only command returned all 30
+current discussions successfully:
+
+```sh
+glab api projects/fdroid%2Ffdroiddata/merge_requests/46920/discussions --paginate
+```
+
+- Crash discussion: `6463a324c55d25d0d6dd342eee3232d014c674bd`.
+  [MiggiV2 note 3986993227](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/46920#note_3986993227)
+  was created and last updated at `2026-10-09T19:05:43.105Z`.
+  It reports v1.1.104 (1042, arm64-v8a), Redmi Note 8T, Android 13/API 33,
+  Adreno 610. Opening KIFS Menger Sponge reproduced
+  `IOCTL_KGSL_GPU_COMMAND failed: errno 35` and SIGKILL twice.
+  Menger Cross 3D and Mandelbulb rendered correctly. This is **historical crash
+  evidence**, not a retest of the mitigation.
+- The only reply in that thread is linsui's “Thanks!”
+  ([note 3988567642](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/46920#note_3988567642),
+  `2026-10-10T05:59:41.258Z`). The crash remains unresolved.
+- [Existing follow-up 4185349142](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/46920#note_4185349142)
+  by XelHaku was created and last updated at `2026-11-07T22:14:50.928Z`.
+  It acknowledges the outstanding crash and says the MR still targets v1.1.104.
+  No newer candidate-bound reviewer reply appears in the discussion inventory.
+- Separate GETs of `discussions/6463a324c55d25d0d6dd342eee3232d014c674bd`
+  and `notes/4185349142`, under the same MR API path, confirmed these records.
+  No new note was created, so there is no created-note readback or retest reply.
+
+The private discussion response has SHA-256
+`dcd1d093f95868312dea486dbb416776a3fa686d5629fecae622d7fd7032ef2c`.
+Only relevant public identifiers and findings are retained here, not account
+metadata, unrelated review content or raw device logs.
+
+### Missing binding and resume condition
+
+| Required evidence | Current gap |
+| --- | --- |
+| Same candidate source, APK SHA-256 and version | Reviewer tested v1.1.104. No mitigated candidate identity or APK hash was confirmed. |
+| Safe test artifact | FDROID-002 supplies instrumented debug hashes, not a qualified production APK or safe public download location. The F-Droid marker is not its tested version. |
+| Device, OS and rendering backend | Historical Redmi Note 8T/Adreno 610/Android 13 identity exists. No new run or backend/log identity is confirmed. |
+| Default and Cathedral, three cold starts, at least 60 seconds per state | No reviewer retest timings or repetitions are supplied. The historical two crash reproductions do not meet this scenario. |
+| Supported extremes, rotation, pan/zoom, leave/re-entry and controls | No candidate-bound hardware journey or visible-frame evidence is supplied. Historical working controls cannot qualify the new candidate. |
+| Liveness and timestamp-bounded app/GPU logs | No candidate-bound evidence excludes IOCTL_KGSL failure, SIGKILL, ANR or GPU reset. |
+
+**Request posting: NOT_RUN.** The prerequisite Android release gate remains
+incomplete. No reviewed, distributable production artifact with a safe URL and
+SHA-256 is supplied by the consumed receipts. Posting the debug hashes or the
+1.1.122/122 marker as a qualified candidate would misstate that evidence.
+Existing scoped deployment authority is retained; no new owner approval or
+physical target is requested. No device, publication, pipeline or MR mutation
+was performed, and no external-response wait retains a resource lease.
+
+**Resume:** complete the pending FDROID-002 Android gate and bind the reviewed
+source/version to the exact distributable APK, SHA-256 and safe artifact URL.
+Under coordinator admission and exclusive candidate/MR ownership, reread the
+crash thread to avoid a duplicate request. Post one truthful retest request in
+that existing thread, with those identities and the acceptance scenarios above.
+Read back the created note, then release operation leases while awaiting feedback.
+Accept only the original reviewer or an already-authorized comparable Adreno 610
+target, with hardware/OS/backend differences recorded. Compare the reply and
+sanitized logs/visible frames against every required row before a hardware pass.
+A v1.1.104 or different-APK reply remains historical/unbound, not a pass.
+A later FDROID-004 source/artifact change requires renewed binding and affected
+hardware retesting before FDROID-005 final submission. Waydroid, host raster and
+pipeline #2832429861 cannot replace this confirmation.
