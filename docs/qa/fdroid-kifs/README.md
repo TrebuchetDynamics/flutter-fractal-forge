@@ -162,3 +162,136 @@ A v1.1.104 or different-APK reply remains historical/unbound, not a pass.
 A later FDROID-004 source/artifact change requires renewed binding and affected
 hardware retesting before FDROID-005 final submission. Waydroid, host raster and
 pipeline #2832429861 cannot replace this confirmation.
+
+## FDROID-004 source-build and scan evidence — unqualified
+
+**Local unsigned reproducibility and source scan: PASS. Release qualification:
+INCOMPLETE.** This pass tested source
+`0e4d9338ee581a555da86293cae7a4768bff769f`. It did not freeze a qualified
+release, reserve a new version, sign/distribute an APK or mutate !46920.
+The mitigation and catalog retain the SHA-256 values recorded in
+[FDROID-001](../../engineering/release/FDROID.md#fdroid-001-local-regression-evidence).
+Reuse the existing builders and adapter. No source, recipe, SDK, dependency,
+lockfile or signing-policy change was needed.
+
+### Identity and live inventory
+
+- Local marker: `1.1.122/122`, unchanged. Matching Fastlane `122.txt` exists
+  and passes the builder's metadata limits. Derived ABI codes are 1221/1222/1223.
+- SDK: Flutter 3.47.9, framework `c197ca5199`, engine `89c39edfdf`, Dart 3.13.7.
+  The shared provisioned SDK matches `fdroid/flutter.version`.
+- Lockfile SHA-256: `d919ab7eb6ad10b5939c81092b6f1657ba84642109ca677684184ccf30c55451`.
+  Offline enforced resolution passed; the build and scan left it unchanged.
+- Android SDK: existing `/usr/lib/android-sdk`, compile/target 36,
+  NDK `28.2.13676358`. No host tooling install, image pull or validation bypass ran.
+- Read-only remote inventory at `2026-11-08T03:41:16Z`: GitHub's latest
+  [published release](https://github.com/TrebuchetDynamics/flutter-fractal-forge/releases/tag/v1.1.112)
+  is v1.1.112, tag/source `988a7145fc9a5fbd4995bf8804a7d5a509707f86`.
+  All three ABI reference assets exist there. They are a different source/version,
+  not references for this checkout. Their API digests were read, not downloaded
+  and certificate-verified. A v1.1.122 release lookup returned `release not found`.
+- Public GitLab source tags still stop at v1.1.104. Existing
+  [!46920](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/46920)
+  remains opened, source project `85800484`, branch
+  `new-app-com-trebuchetdynamics-fractal-forge`, head
+  `16238180cb87bc3e488bfa0bc461ca99e51eea67`.
+  Its recipe still binds app source `987eb6764b51520df74566068132fb29971ccb99`,
+  version 1.1.104, codes 1041/1042/1043. The successful
+  [pipeline 2832429861](https://gitlab.com/fdroid/fdroiddata/-/pipelines/2832429861)
+  and its nine successful jobs, including `fdroid build`, apply only to that head.
+- Version 122 is above these observed GitHub/F-Droid identities. That comparison
+  does not reserve it or prove that every distribution has never consumed it.
+  Re-read inventory before final freeze. Older artifacts cannot qualify current source.
+
+Inventory used `gh release list`, `gh api` release/tag/commit endpoints, and
+`glab api` public source tags, MR head/recipe and pipeline jobs. The tested full
+source commit was also readable through GitHub's commits API. No remote write ran.
+
+### Executed checks and artifacts
+
+The following commands used the root AGENTS.md pinned environment, with
+`RELEASE_COMMIT=0e4d9338ee581a555da86293cae7a4768bff769f`,
+`RELEASE_VERSION=1.1.122`, `RELEASE_BUILD_NUMBER=122` and
+`RELEASE_ARTIFACT_DIR="$PWD/release-artifacts"`:
+
+```sh
+autowork-run timeout --signal=TERM --kill-after=30 1700 \
+  bash scripts/build-fdroid.sh --version="$RELEASE_VERSION" \
+  --build-number="$RELEASE_BUILD_NUMBER" --commit="$RELEASE_COMMIT" \
+  --reproducible --output-dir="$RELEASE_ARTIFACT_DIR/fdroid" \
+  --flutter-bin="$FLUTTER_ROOT/bin/flutter"
+
+export RELEASE_LOCAL_STAGE=1
+export FDROID_BIN="$PWD/scripts/ci/fdroid-container.sh"
+autowork-run timeout --signal=TERM --kill-after=30 1700 \
+  bash scripts/ci/fdroid-scan.sh
+```
+
+Both exited **0**. Each build round verified the package
+`com.trebuchetdynamics.fractal.forge`, version, ABI, derived code and absence of
+signatures. The builder reported byte-for-byte equality for all three clean
+rebuilds. Generated APKs, per-ABI `.sha256`/`.provenance` files and metadata bundle
+remain in this worker's ignored `release-artifacts/fdroid/`, not in Git or a
+published release. Preserve these outputs before worktree cleanup, or reproduce
+them from the exact source. **Do not distribute unsigned verification APKs.**
+
+| Unsigned ABI | Code | APK SHA-256 |
+| --- | --- | --- |
+| armeabi-v7a | 1221 | `3ab16d7abdefae34050776165e32515421030851a96e6c976d774400553b59a0` |
+| arm64-v8a | 1222 | `ffd8752a9635095872f5ea5de60eb0de4fef425a29ab496aedd77bd0b269db30` |
+| x86_64 | 1223 | `00695f89a9c89e98146112af3940b187afcd22a5eacf7ed608873bca0ecfdd76` |
+
+All provenance files bind that full source, Flutter 3.47.9, base 122 and source
+epoch `1794109104`. The metadata bundle SHA-256 is
+`bcd70f0461bbb5d24b45b9fb4891e0d2e18e78fe68f0f2808af29fe04d3a0389`.
+A second metadata-only render matched the archive byte-for-byte; all four staged
+checksum files verified. The generated recipe contains the full tested commit,
+three reference URL templates and allowed certificate
+`8d5f69b91dd44476ceaad141f1fa9f6abeccdfa20cd3f7bcdfe709df623878fd`.
+A recipe pin is not evidence that a reference APK has that certificate.
+
+The already-cached rootless adapter reported tool version `399ac60` using the
+[pinned image](../../engineering/release/FDROID_CONTAINER.md).
+Lint exited zero. Source preparation/scanning ran for all three derived codes and
+ended with exactly one `0 problems found` summary. Dependency font/WASM warnings
+remain warnings, not a signed-APK scan verdict. The adapter's owned temporary
+workspace was removed on exit. No unsupported adapter command ran.
+
+Additional checks passed: Python pytest/Jinja2/MarkupSafe imports; eight
+`fdroid_pipeline.bats` cases; 80 container-adapter pytest cases; and all six
+`kifs_menger_gpu_safety_test.dart` host tests. No new test was needed because this
+pass changed only evidence/docs. The coordinator owns the final merged-tree
+offline integration gate; this receipt does not claim it ran here.
+
+Private full build/scan log SHA-256 values, respectively:
+`bc7d6176efd68a66619b5a01c04e66fde56708168848c839d3f4eaaa14e95d35` and
+`0a5dc5def3f3222e7123f5dff0466fde5391d0c5d9405894dcf9744e609a0fdc`.
+These logs remain task scratch, not durable published evidence.
+
+### Remaining qualification and resume
+
+1. Bind one reviewed final source/version/artifact identity. The previous
+   FDROID-002 debug `1.1.0+38` journeys at `6ec81df9` do not qualify these release
+   APKs. Rerun the focused installed journey and full Android gate on the final
+   candidate using the designated Waydroid target and matching consent variables.
+   Retain the prior timeouts. Waydroid evidence is not Adreno confirmation.
+2. Produce three signed reproducible references through the existing signing
+   workflow. This isolated checkout has no `android/key.properties`; no signing
+   was attempted or key accessed. Verify package/version/ABI, pinned certificate
+   and reproducibility. Do not substitute historical references or debug signing.
+3. The host has no `fdroid` executable or discovered official fdroiddata/buildserver
+   workspace. Official `readmeta`, `rewritemeta`, `checkupdates --auto`,
+   `build --test --no-tarball` and signed-reference APK scans are **NOT_RUN**.
+   Local container lint/source scans cannot replace them. Under coordinator
+   admission and candidate/MR leases, update existing !46920 and request explicitly
+   **unqualified** candidate build verification during FDROID-004, not FDROID-005.
+   Bind the actual head/source/hash and every pending gate. Do not claim missing
+   references exist. Read back the new head, pipeline and three verified builds.
+   Release operation leases while awaiting maintainers. No request was posted here.
+4. Before reference publication, require source/legal/privacy/compatibility,
+   Android and signing gates. After publication, download all three exact URLs and
+   compare SHA-256, certificate and package identities. None of these publication
+   or signed-reference readbacks ran here. Do not infer them from unsigned hashes.
+5. Keep FDROID-003's candidate-bound Adreno confirmation and F-Droid maintainer
+   acceptance/public catalog readback separate. This partial receipt is not a
+   qualified handoff to FDROID-005 and cannot close combined release acceptance.
