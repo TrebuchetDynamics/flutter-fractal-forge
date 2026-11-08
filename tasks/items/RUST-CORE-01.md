@@ -2,7 +2,7 @@
 schema = 1
 id = "RUST-CORE-01"
 title = "Qualify the bounded Rust core bootstrap without advancing migration"
-short = "Aggregate offline proof and real persistent bridge smoke; stop before camera registry CPU or GPU."
+short = "Qualify Rust bootstrap, then stop"
 status = "open"
 goal = "RUST-ENGINE-001"
 section = "Next"
