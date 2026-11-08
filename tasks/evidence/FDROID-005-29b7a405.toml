@@ -1,0 +1,9 @@
+schema = 1
+task = "FDROID-005-29b7a405"
+candidate = "78f446e65bd1b2b570d1c5706476a3e40bb99492"
+integration = "632d9884f84ff05d35f1e308d0c96e13d4048f4c"
+tree = "059221daa64512c2417beceaaa53c91ec1c024a8"
+contract_hash = "9a8eabc57929ab34af8ab5de4128ce945e9aea91fc55c4591e391c676d8e6f2e"
+checks = ["<path>", "<path>", "--verify", "<path>", "FDROID-005-29b7a405"]
+result = "pass"
+review = "passed"
