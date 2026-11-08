@@ -101,7 +101,7 @@ The owner requested F-Droid deployment, then requested this planning-only pass f
 
 All execution checks were proposed/unrun in the planning pass. FDROID-001 local results are recorded below. FDROID-002 subsequently passed three focused KIFS Waydroid journeys; its mandatory Android gate attempts timed out and release qualification remains incomplete (see the installed evidence below). Exact commands and setup are in the task records. Local checks use the root AGENTS.md pinned offline gate. Official qualification additionally requires twice-built identical unsigned ABI APKs, lint/source and binary scans, official reproducibility against signed references, and the relevant Android release gate. The restricted local container adapter supplies lint/scanner only, not `fdroid build`, `readmeta` or `rewritemeta`; those need the official supported tool/buildserver environment or maintainer CI.
 
-This is one complete bounded batch, not a rolling roadmap. The first task uses normal local worker execution. Device/build/publication and external follow-up belong to the coordinator with exclusive resource coordination. FDROID-003 and FDROID-004 have no product dependency on each other, but their shared live, MR and release-candidate resources must serialize mutable candidate/artifact work. FDROID-004 also reserves Waydroid for any final-candidate rerun. Do not retain a resource lease while waiting for an external reply. Live records remain coordinator-owned with `live = "denied"` until that coordinator records the structured grant for the actual operation/candidate under the existing deployment request and Waydroid consent. This is admission bookkeeping, not a request for renewed target or publication approval. Expected implementation delivery is one local test/repair merge plus a release-identity/metadata merge if needed. Each code-bearing delivery retains the existing required independent review and merged-tree gates. The planning commit is separate. No runner is started, no task is dispatched, and no hardware or catalog acceptance is inferred from task creation.
+This is one complete bounded batch, not a rolling roadmap. The first task uses normal local worker execution. Device/build/publication and external follow-up belong to the coordinator with exclusive resource coordination. FDROID-003 and FDROID-004 have no product dependency on each other, but their shared live, MR and release-candidate resources must serialize mutable candidate/artifact work. FDROID-004 also reserves Waydroid for any final-candidate rerun. Do not retain a resource lease while waiting for an external reply. The saved FDROID-003/004/005 records have typed `live = "authorized"` under the existing owner deploy-fdroid grant recorded by xel in `9aba8f4d`. Its documentary date is 2026-11-07, not a verified timestamp of the original instruction. This corrects the earlier pre-grant denial; it is not a new release request or authority expansion. FDROID-004 permits qualified reference artifacts at the existing GitHub destination and an explicitly unqualified candidate recipe/CI verification request in existing !46920. FDROID-003 permits candidate-bound reviewer follow-up; FDROID-005 permits final submission/readback only after FDROID-003/004 qualify. Live admission remains coordinator-owned: bind each actual operation to its reviewed candidate/artifact hashes, satisfy prerequisites and acquire the applicable exclusive leases. Release those leases while awaiting external replies. Preserve every source, signing, reproducibility, device, privacy and compatibility gate. Waydroid consent is not publication authority. No duplicate MR, self-merge, unrelated GitLab activity, Play/website release, new credentials, paid capacity, evidence repinning or qualification waiver is implied. Expected implementation delivery is one local test/repair merge plus a release-identity/metadata merge if needed. Each code-bearing delivery retains the existing required independent review and merged-tree gates. The planning commit is separate. No runner is started, no task is dispatched, and no hardware or catalog acceptance is inferred from task creation.
 
 ### FDROID-001 local regression evidence
 
@@ -182,6 +182,26 @@ receipts supply no qualified production APK with a safe artifact URL and hash.
 Resume the existing-thread request once the reviewed source/version and exact
 distributable APK are bound. Do not substitute Waydroid or historical CI evidence.
 Any later candidate change requires renewed hardware binding before final submission.
+
+### FDROID-004 local build and scan evidence — 2026-11-08
+
+[Source-bound hashes, live inventory and qualification gaps](../../qa/fdroid-kifs/README.md#fdroid-004-source-build-and-scan-evidence--unqualified)
+record two byte-identical clean builds for each unsigned ABI at source
+`0e4d9338ee581a555da86293cae7a4768bff769f`, using the unchanged
+`1.1.122/122` marker. Package, ABI, derived codes 1221/1222/1223 and absence
+of signatures passed verification. The cached official adapter (`399ac60`)
+passed lint and preparation/source scans for all three recipes with exactly one
+terminal `0 problems found` summary. These are **local build/scan results, not
+complete release qualification**.
+
+Readback still shows !46920 at v1.1.104 and GitHub's latest published release at
+v1.1.112. Neither is the tested source or a reusable reference for it. No release
+identity was changed or reserved, and no MR, tag, reference asset or catalog was
+published. Signed references, official buildserver verification and the
+final-candidate Android gate remain pending. FDROID-004 must not be treated as a
+qualified handoff to FDROID-005. The coordinator can request explicitly unqualified
+maintainer build verification in !46920 during FDROID-004; that prerequisite must
+not be deferred to FDROID-005. Adreno confirmation remains independent.
 
 Authoritative references:
 
