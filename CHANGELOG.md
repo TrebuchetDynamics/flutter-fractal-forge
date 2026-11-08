@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Document the unresolved candidate-bound Adreno 610 reviewer retest, historical crash-thread readback and exact resume conditions without claiming crash resolution. (FDROID-003-29b7a403)
 - Repair installed KIFS regression gestures, native test input and fixed-variant checks; preserve shared Android logs and record three passing Waydroid KIFS journeys with full Android qualification still pending. (FDROID-002-29b7a402)
 - Add KIFS preset and parameter-bound image-health regression coverage plus a native-viewport installed journey; retain the bounded mitigation as an Adreno-unqualified candidate. (FDROID-001-29b7a401)
 - No new entry: the approved Monkey catch-all exclusion and five-minute default already landed in 308f7484; this verification-only commit changes no product files. (ACAD-013-4142ef42)
