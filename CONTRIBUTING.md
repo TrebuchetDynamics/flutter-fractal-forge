@@ -40,10 +40,12 @@ Be respectful and inclusive. We welcome contributors of all experience levels an
 
 ### Prerequisites
 
-- Flutter SDK 3.44.6, matching `fdroid/flutter.version`
-- Bundled Dart 3.12.2 for the verified toolchain; do not independently upgrade Dart
+- Flutter SDK matching the [repository toolchain pin](fdroid/flutter.version)
+- Bundled Dart from that Flutter SDK; do not independently upgrade Dart
 - IDE with Flutter support (VS Code or Android Studio recommended)
 - Device/emulator for testing
+
+For provisioned offline work, follow the [common offline setup](AGENTS.md#common-offline-integration-gate). Use its existing SDK/cache and process-local environment; install nothing and do not change a shared SDK.
 
 ### Running in Development
 

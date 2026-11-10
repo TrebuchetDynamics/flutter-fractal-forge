@@ -55,12 +55,20 @@ The public release entry point is root `release.sh`; protected CI jobs use `scri
 
 Scope: developer tooling only. See [the accepted bounded plan](spec.md#mcp-assisted-app-quality); this recipe installs nothing and grants no app mutation, profile setup, live-service or publication authority.
 
-Use the pinned SDK: `fdroid/flutter.version` names the tag that `/home/xel/flutter` must be checked out at, and `git -C /home/xel/flutter checkout $(cat fdroid/flutter.version)` selects it. Do not provision a private SDK copy. Inspect `"$FLUTTER_SDK/bin/cache/dart-sdk/bin/dart" --version` and `mcp-server --help`; SDK tool defaults may differ from upstream documentation. The verified read-only probe used this stdio server argument set:
+Use the existing provisioned SDK and package cache from the [common offline setup](../../AGENTS.md#common-offline-integration-gate). The subshell below selects them only for this process. An unset or empty `AUTOWORK_CACHE` resolves under the checkout's absolute Git common directory. Missing SDK/cache is a setup failure: install nothing, do not fall back to ambient tools, and never check out or mutate a shared SDK. Before launching, compare `flutter --version` with [`fdroid/flutter.version`](../../fdroid/flutter.version) and verify the Python imports specified by the common setup. Inspect the bundled Dart's `--version` and `mcp-server --help`; tool defaults may differ from upstream documentation. The retained read-only probe used the stdio server arguments shown below; current protocol/runtime qualification remains separate.
 
 ```sh
-"$FLUTTER_SDK/bin/cache/dart-sdk/bin/dart" mcp-server \
-  --disable all --enable roots --enable lsp --enable analyze_files \
-  --enable dtd --enable get_runtime_errors --enable widget_inspector
+(
+  AUTOWORK_CACHE="${AUTOWORK_CACHE:-$(git rev-parse --path-format=absolute --git-common-dir)/autowork-execution/cache}" &&
+  export AUTOWORK_CACHE &&
+  export FLUTTER_ROOT="$AUTOWORK_CACHE/flutter-3.47.9" &&
+  export PUB_CACHE="$AUTOWORK_CACHE/pub-cache" &&
+  test -x "$FLUTTER_ROOT/bin/flutter" && test -d "$PUB_CACHE" &&
+  export PATH="$FLUTTER_ROOT/bin:/usr/bin:$PATH" &&
+  "$FLUTTER_ROOT/bin/cache/dart-sdk/bin/dart" mcp-server \
+    --disable all --enable roots --enable lsp --enable analyze_files \
+    --enable dtd --enable get_runtime_errors --enable widget_inspector
+)
 ```
 
 MCP is a protocol, not an interactive shell: connect through the current native client's supported tools/resources/roots features, or use the installed Python MCP SDK's `stdio_client` and `ClientSession` context managers for an ephemeral scoped session. No custom bridge, npm package or application dependency is needed. With redirected notebook output, give `stdio_client` a real private scratch-backed `errlog` file handle; do not assume redirected stderr has `fileno()`. Read result model fields from that installed SDK (`server_info`/`input_schema`, or `model_dump(by_alias=True)`), not guessed camelCase attributes. Initialize, list tools and verify the allowlist; then `roots` add only the task checkout URI (`command: add`, `uris: [file URI]`). Use `lsp`'s discovered schema for symbols and `analyze_files` for scoped diagnostics. Record actual results and close both contexts within a bounded timeout.
@@ -81,19 +89,23 @@ Initialize the official MCP stdio session, discover schemas, add only the checko
 
 The pinned `flutter test` command does **not** accept `--host-vmservice-port`; its native integration path constructs debugging options without a caller-specified raw VM-service port (`packages/flutter_tools/lib/src/commands/test.dart`). A DDS port alone does not bind that raw listener. Do not run it on arbitrary ports, patch the SDK or relax the task's port policy. `flutter run` output remains **supplemental native evidence**, not a passed driver/protocol gate. See [the historical composed-batch result](test-plan.md#app-005-7f-composed-batch-evidence).
 
-For a supported host-protocol run, use [`scripts/run-native-integration.sh`](../../scripts/run-native-integration.sh) and the official SDK `integrationDriver` adapter in [`test_driver/integration_test.dart`](../../test_driver/integration_test.dart). Flutter 3.44.6's `DriveCommand` inherits `RunCommandBase.createDebuggingOptions`, including both VM-service port options. With DDS disabled, the explicit host port is not reassigned to DDS and the device port binds the Linux VM listener. No separate DTD, DevTools, WebDriver or host Dart VM-service listener is needed.
+For a supported host-protocol run, use [`scripts/run-native-integration.sh`](../../scripts/run-native-integration.sh) and the official SDK `integrationDriver` adapter in [`test_driver/integration_test.dart`](../../test_driver/integration_test.dart). In the retained Flutter 3.44.6 inspection, `DriveCommand` inherited `RunCommandBase.createDebuggingOptions`, including both VM-service port options. With DDS disabled, the explicit host port is not reassigned to DDS and the device port binds the Linux VM listener. No separate DTD, DevTools, WebDriver or host Dart VM-service listener is needed.
 
-Prerequisites: existing Linux build tools, `/usr/bin/python3`, `xvfb-run`/Xvfb, the pinned provisioned SDK and offline package cache. Use the **actual** task-provided `AUTOWORK_PORT_BASE` and `TMPDIR`; do not substitute another allocation or use an arbitrary temporary directory. From the task checkout:
+Prerequisites: existing Linux build tools, `/usr/bin/python3`, `xvfb-run`/Xvfb, the pinned provisioned SDK and offline package cache. Reuse the [common offline setup](../../AGENTS.md#common-offline-integration-gate), including its version/import probes and missing-tool refusal; install nothing. The wrapper rejects an SDK that differs from [`fdroid/flutter.version`](../../fdroid/flutter.version). Use the **actual** task-provided `AUTOWORK_PORT_BASE` and `TMPDIR`; do not substitute another allocation or use an arbitrary temporary directory. From the task checkout, select the existing cache in a subshell before the authorized integration run:
 
 ```sh
-export FLUTTER_ROOT="$AUTOWORK_CACHE/flutter-3.44.6"
-export PUB_CACHE="$AUTOWORK_CACHE/pub-cache"
-export PATH="$FLUTTER_ROOT/bin:/usr/bin:$PATH"
-flutter pub get --offline --enforce-lockfile
-
-autowork-run timeout --kill-after=10s 660 bash scripts/run-native-integration.sh \
-  integration_test/flows/double_tap_anchor_test.dart --timeout 600 \
-  --dart-define=FORCE_GPU_RENDER=true
+(
+  AUTOWORK_CACHE="${AUTOWORK_CACHE:-$(git rev-parse --path-format=absolute --git-common-dir)/autowork-execution/cache}" &&
+  export AUTOWORK_CACHE &&
+  export FLUTTER_ROOT="$AUTOWORK_CACHE/flutter-3.47.9" &&
+  export PUB_CACHE="$AUTOWORK_CACHE/pub-cache" &&
+  test -x "$FLUTTER_ROOT/bin/flutter" && test -d "$PUB_CACHE" &&
+  export PATH="$FLUTTER_ROOT/bin:/usr/bin:$PATH" &&
+  flutter pub get --offline --enforce-lockfile &&
+  autowork-run timeout --kill-after=10s 660 bash scripts/run-native-integration.sh \
+    integration_test/flows/double_tap_anchor_test.dart --timeout 600 \
+    --dart-define=FORCE_GPU_RENDER=true
+)
 ```
 
 For an authorized interactive qualification session without a worker-provided allocation, obtain a fresh lease through the existing host-wide Autowork `parallel_dispatch.port_lease` allocator and keep its returned descriptor open for the entire supervised run; export its returned base as `AUTOWORK_PORT_BASE` and provide fresh private scratch. Do not merely set the variable to an unused-looking port or copy a finished worker's range. Release the descriptor only after owned-process cleanup. Missing allocation is an execution setup issue, not a new product decision; inability to acquire a real lease remains a refusal. The [2026-10-28 Web/Linux recovery](../qa/web-linux-port-recovery-20261028.md) records an actual leased execution and its remaining failed/unknown qualification checks.
@@ -102,7 +114,7 @@ The wrapper refuses missing/invalid allocations before launch and uses the alloc
 
 Each run prints its private `$TMPDIR/native-integration-*` evidence directory. Preserve `driver.log`, `outputs/`, and `run.json` (source revision and target/driver/wrapper hashes, exact command, SDK identity, observed TCP listeners, exit status and cleanup). XDG preferences/cache/data/state and test outputs are isolated there; Xvfb uses `-nolisten tcp`. Linux `/proc` listener sampling is an audit, not a network sandbox: supported launch flags prevent random VM/service listeners, and an observed owned listener other than the reserved IPv4 loopback endpoint aborts the run. The supervisor bounds the **whole** build/driver run (default 600 seconds; maximum 1200), handles INT/TERM, terminates only its new process group with TERM then KILL, reaps owned orphan children, and records remaining PIDs. Timeout exits 124; signals exit 128 + signal; other driver failures remain nonzero. A pass requires `exit_code: 0`, `protocol_success: true`, and `cleanup.remaining_pids: []`. On failure inspect the retained log/receipt; never clean up by application name or kill another port owner.
 
-NATIVE-PORT-DRIVER-01 qualification (2026-10-25 UTC): the command above ran the **unchanged** double-tap/pan fixture at source baseline `5558c33898c247d241553c426324338170ccca7c` plus the hash-bound driver/wrapper candidate. Pinned Flutter framework `ee80f08bbf97172ec030b8751ceab557177a34a6` / Dart 3.12.2 accepted the flags; the binding completed its test and teardown (`+2`), and the official host adapter received success and exited 0. The only observed TCP listener was `127.0.0.1:20200`, within that worker's actual `20200..20299` allocation; no DDS/DevTools listener or plugin-not-detected warning occurred. Owned cleanup recorded no remaining PIDs. GDK monitor/cursor and OpenGL resize warnings remain in the private log; this is protocol/gesture qualification on Linux/Xvfb, not hardware-GPU or visual-quality acceptance. The worker report retains the evidence path and exact candidate hashes. Focused offline regressions cover allocation refusal, fixed invocation/private outputs, nonzero/missing-response propagation, and bounded timeout/signal cleanup without terminating an unrelated process.
+NATIVE-PORT-DRIVER-01 historical qualification (2026-10-25 UTC): the driver invocation at that time ran the **unchanged** double-tap/pan fixture at source baseline `5558c33898c247d241553c426324338170ccca7c` plus the hash-bound driver/wrapper candidate. Pinned Flutter framework `ee80f08bbf97172ec030b8751ceab557177a34a6` / Dart 3.12.2 accepted the flags; the binding completed its test and teardown (`+2`), and the official host adapter received success and exited 0. The only observed TCP listener was `127.0.0.1:20200`, within that worker's actual `20200..20299` allocation; no DDS/DevTools listener or plugin-not-detected warning occurred. Owned cleanup recorded no remaining PIDs. GDK monitor/cursor and OpenGL resize warnings remain in the private log; this is protocol/gesture qualification on Linux/Xvfb, not hardware-GPU or visual-quality acceptance. The worker report retains the evidence path and exact candidate hashes. Focused offline regressions cover allocation refusal, fixed invocation/private outputs, nonzero/missing-response propagation, and bounded timeout/signal cleanup without terminating an unrelated process.
 
 This prerequisite does **not** qualify Number Walls or close NUM-WALL-04/NUM-WALL-05. NUM-WALL-04 must reuse its retained candidate and existing native journey through this supported invocation, then retain its exact Linux/browser cell parity, rendering, PNG and replay evidence. Its historical supplemental `flutter run` output must not be relabeled as a passed driver run. Installed-device/Android and physical hardware qualification remain separate.
 
@@ -119,6 +131,6 @@ The subsequent full offline rerun on that source base plus the gate/runbook repa
 
 ## Queue and retained-check handoff
 
-The owner retains `TODO.md` as the central queue and `goals.json` as its synchronized index. Preserve IDs, relative priority, focus and completed history. The installed `autowork tasks` validator expects `tasks/`; its read-only preparation check currently refuses conversion because historical slots/consumers remain. This is an execution-tool compatibility gap, not permission to migrate the owner's queue, clear historical attempts, restart a paused runner or relabel tasks runnable. Documentation validation checks the retained queue directly and reports the tool mismatch separately.
+The authoritative queue is [task items](../../tasks/items/) and [goals](../../tasks/goals/), as retained by the owner in the [release continuation decision](../../PRD.md#release-continuation-plan--2026-10-23). Do not recreate `TODO.md` or `goals.json`. Preserve IDs, relative priority, focus, active owners, completed history and qualification gates. Read current committed records and source-bound evidence; this documentation does not establish task eligibility or admission. Do not clear historical attempts, restart a paused runner, relabel tasks runnable or mutate runner/slot/report state.
 
-`ACAD-008-74` is completed and archived; `7ae1dbd6` integrated the bounded metadata preparation and recorded full offline evidence. A stopped runner can still display an older failed-main notice and old slot questions. Read current committed tasks and source-bound logs before acting on that cache: historical slot names alone are not live ownership or a fresh user decision. APP-001-47, ACAD-007-f8 and SINEWARP-001-aa still need their own retained-candidate/composed checks; the common repair is reusable setup, not automatic acceptance of their different inputs. No runner/slot/report mutation is part of Docs Sync.
+**Historical retained-check handoff (not current task status):** `ACAD-008-74` is completed and archived; `7ae1dbd6` integrated the bounded metadata preparation and recorded full offline evidence. A stopped runner can still display an older failed-main notice and old slot questions. Read current committed tasks and source-bound logs before acting on that cache: historical slot names alone are not live ownership or a fresh user decision. At that handoff, APP-001-47, ACAD-007-f8 and SINEWARP-001-aa still needed their own retained-candidate/composed checks; the common repair is reusable setup, not automatic acceptance of their different inputs. No runner/slot/report mutation is part of Docs Sync.

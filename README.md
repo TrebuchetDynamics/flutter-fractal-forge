@@ -37,7 +37,7 @@ Fractal Forge is an open-source Flutter explorer for mathematical systems and ge
 
 ## Current development priority
 
-Improve existing quality before expanding the catalog: compact viewer navigation first, then a diverse pilot with attractive defaults, useful controls and matching PNG export. The OpenAI-math shortlist is proposed, not implemented. Local Gaussian MAP review does not establish main integration or platform qualification. See [the owner decision](PRD.md#quality-first-planning-priority), [live work queue](TODO.md), and [verification plan](docs/engineering/test-plan.md).
+Improve existing quality before expanding the catalog: compact viewer navigation first, then a diverse pilot with attractive defaults, useful controls and matching PNG export. The OpenAI-math shortlist is proposed, not implemented. Local Gaussian MAP review does not establish main integration or platform qualification. See [the owner decision](PRD.md#quality-first-planning-priority), [live work queue](tasks/items/), and [verification plan](docs/engineering/test-plan.md).
 
 ## What makes it useful
 
@@ -107,9 +107,11 @@ Install **[Fractal Forge from Google Play](https://play.google.com/store/apps/de
 
 ### Prerequisites
 
-- Flutter SDK 3.44.6 (repository toolchain pin in `fdroid/flutter.version`; [installation guide](https://docs.flutter.dev/get-started/install))
-- Dart 3.x, included with Flutter
+- Flutter SDK matching the [repository toolchain pin](fdroid/flutter.version) ([installation guide](https://docs.flutter.dev/get-started/install))
+- Bundled Dart from that Flutter SDK; do not independently upgrade Dart
 - A GPU or emulator with shader support: WebGL 2.0 for browsers, or compatible GPU drivers for installable targets
+
+For provisioned offline work, use the [common offline setup](AGENTS.md#common-offline-integration-gate). It selects the existing pinned SDK and package cache for the process without installing tools or changing a shared SDK.
 
 ```bash
 git clone https://github.com/TrebuchetDynamics/flutter-fractal-forge.git
@@ -199,7 +201,7 @@ for headless runs, focused reruns, and GitLab artifacts. See
 - [Performance engineering docs](docs/engineering/performance/README.md)
 - [Shader optimization notes](docs/engineering/performance/SHADER_OPTIMIZATIONS.md)
 - [Formula coverage limitation](docs/engineering/rendering/formula_coverage_limitation.md)
-- [Current tasks and status](TODO.md)
+- [Current tasks and status](tasks/items/)
 - [System specification](docs/engineering/spec.md)
 - [Verification plan](docs/engineering/test-plan.md)
 - [Local operations runbook](docs/engineering/runbook.md)
