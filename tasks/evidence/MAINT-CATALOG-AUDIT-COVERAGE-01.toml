@@ -1,0 +1,9 @@
+schema = 1
+task = "MAINT-CATALOG-AUDIT-COVERAGE-01"
+candidate = "773c9aa07fea59f139373624317b24048b8df02a"
+integration = "5da49c37a73d4ed915f21a42b880cb5249848a0b"
+tree = "0d83f2963487caaa6e6508623ba57cdf1e16ca90"
+contract_hash = "9991b96664df0f074bb97838b28cbbf64a24aa0393fab59f9abb538039c4a2f1"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAINT-CATALOG-AUDIT-COVERAGE-01"]
+result = "pass"
+review = "passed"
