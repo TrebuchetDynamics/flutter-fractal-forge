@@ -573,6 +573,23 @@ pub struct StateSnapshot {
 }
 
 impl StateSnapshot {
+    /// Fixed detached debug instrumentation; release builds explicitly refuse.
+    /// Not a security boundary or a production identity source.
+    #[frb(sync)]
+    pub fn debug_u64_fixtures(&self) -> Result<Vec<StateSnapshot>, String> {
+        #[cfg(debug_assertions)]
+        {
+            Ok(self
+                .inner
+                .debug_u64_fixtures()
+                .into_iter()
+                .map(|inner| StateSnapshot { inner })
+                .collect())
+        }
+        #[cfg(not(debug_assertions))]
+        Err("High-u64 snapshot fixtures require debug assertions".into())
+    }
+
     #[frb(sync)]
     pub fn session_id(&self) -> u64 {
         self.inner.session_id()
