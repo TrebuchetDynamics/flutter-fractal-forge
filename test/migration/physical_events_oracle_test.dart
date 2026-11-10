@@ -9,6 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
 import 'support/physical_events_oracle.dart';
+import 'support/provenance_transition.dart';
 
 void main() {
   testWidgets(
@@ -179,11 +180,12 @@ void main() {
       }
     }
 
-    void compare(Object? expected) => expect(actual, expected);
-    if (physicalEventsOutput.isEmpty) {
-      compare(jsonDecode(file.readAsStringSync()));
-      expect(before, canonicalJson(actual));
-    }
+    void compare(Object? expected) => expect(
+        () => verifyBoundDocument('physical-events', before!, expected as Map),
+        returnsNormally);
+    compare(actual);
+    compare(jsonDecode(canonicalJson(actual)));
+    expect(before, canonicalJson(jsonDecode(before!)));
     final sourceMutation = jsonDecode(canonicalJson(actual)) as Map;
     sourceMutation['source_bindings'][
             'lib/features/renderer/widgets/renderer/input/gesture_handler.dart'] =

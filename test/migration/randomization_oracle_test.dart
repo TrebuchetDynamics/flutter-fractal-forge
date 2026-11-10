@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'support/randomization_oracle.dart';
+import 'support/provenance_transition.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -109,11 +110,12 @@ void main() {
     expect(actions('selectModule').single['state']['canUndo'], isFalse,
         reason: 'Navigation clears the previously committed undo');
 
-    void compare(Object? document) => expect(actual, document);
-    if (randomizationOutput.isEmpty) {
-      compare(jsonDecode(file.readAsStringSync()));
-      expect(before, canonicalJson(actual));
-    }
+    void compare(Object? document) => expect(
+        () => verifyBoundDocument('randomization', before!, document as Map),
+        returnsNormally);
+    compare(actual);
+    compare(jsonDecode(canonicalJson(actual)));
+    expect(before, canonicalJson(jsonDecode(before!)));
     final changedSource = jsonDecode(canonicalJson(actual)) as Map;
     (changedSource['source_bindings']
         as Map)['lib/core/controllers/fractal_controller.dart'] = 'changed';

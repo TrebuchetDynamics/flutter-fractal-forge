@@ -13,6 +13,7 @@ import 'package:flutter_fractals/l10n/app_localizations_en.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'support/replay_codec.dart' show canonicalJson, replaySourceBindings;
+import 'support/provenance_transition.dart';
 
 const _output = String.fromEnvironment('MIGRATION_INTERPOLATION_OUT');
 const _tick = Duration(milliseconds: 16);
@@ -275,11 +276,13 @@ void main() {
     expect((actual['runtime'] as Map)['dart'], '3.13.7');
     expect((actual['runtime'] as Map)['flutter'], '3.47.9');
     expect(jsonDecode(canonicalJson(actual)), actual);
-    void compare(Object? expected) => expect(actual, expected);
-    if (_output.isEmpty) {
-      compare(jsonDecode(file.readAsStringSync()));
-      expect(before, canonicalJson(actual));
-    }
+    void compare(Object? expected) => expect(
+        () => verifyBoundDocument(
+            'param-interpolation', before!, expected as Map),
+        returnsNormally);
+    compare(actual);
+    compare(jsonDecode(canonicalJson(actual)));
+    expect(before, canonicalJson(jsonDecode(before!)));
     final changed = jsonDecode(canonicalJson(actual)) as Map;
     changed['cases'][0]['expected'][18]['params']['iterations'] = -999;
     expect(() => compare(changed), throwsA(isA<TestFailure>()),

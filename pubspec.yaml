@@ -62,6 +62,12 @@ flutter:
   uses-material-design: true
   assets:
     - assets/icon/
+    # Frozen M0 inputs/images consumed by the native bootstrap evidence fixture.
+    - migration/baseline/reference-renders/manifest.json
+    - migration/baseline/reference-renders/mandelbrot.png
+    - migration/baseline/reference-renders/mandelbrot-edited.png
+    - migration/baseline/reference-renders/mandelbulb.png
+    - migration/baseline/reference-renders/mandelbulb-edited.png
   shaders:
     - shaders/ifs_and_geometric/perron_tree_gpu.frag
     - shaders/escape_time_family/milnor_brieskorn_gpu.frag

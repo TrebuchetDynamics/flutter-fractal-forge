@@ -7,10 +7,11 @@
 #   1. pinned-SDK identity   (fdroid/flutter.version vs `flutter --version`)
 #   2. flutter pub get       (--offline --enforce-lockfile)
 #   3. lockfile integrity    (sha256 before/after must match)
-#   4. flutter analyze       (--no-pub)
-#   5. flutter test          (--no-pub)
-#   6. python unit tests     (test/research test/scripts)
-#   7. bats script tests     (test/scripts/*.bats)
+#   4. cargo fmt/clippy/test (locked/offline, clippy denies warnings)
+#   5. flutter analyze       (--no-pub)
+#   6. flutter test          (--no-pub)
+#   7. python unit tests     (test/research test/scripts)
+#   8. bats script tests     (test/scripts/*.bats)
 #
 # Usage: scripts/ci/offline-gate.sh [options]
 #   --json                   print the machine summary as one JSON line
@@ -83,6 +84,7 @@ done
 [[ "$STAGE_TIMEOUT" =~ ^[0-9]+$ ]] || die "--stage-timeout must be an integer"
 [[ -f "$ROOT/pubspec.yaml" ]] || die "pubspec.yaml not found; run from the repository checkout"
 [[ -f "$ROOT/pubspec.lock" ]] || die "pubspec.lock not found; the offline gate requires the committed lockfile"
+[[ -f "$ROOT/rust/Cargo.lock" ]] || die "rust/Cargo.lock not found; the offline gate requires the committed Rust lockfile"
 
 if [[ -z "$LOG_DIR" ]]; then
   LOG_DIR="$(mktemp -d "${TMPDIR:-/tmp}/offline-gate-XXXXXX")"
@@ -114,15 +116,17 @@ if [[ -n "$PINNED_VERSION" && "$OBSERVED_VERSION" != "$PINNED_VERSION" ]]; then
 fi
 
 LOCK_SHA_BEFORE="$(sha256sum "$ROOT/pubspec.lock" | awk '{print $1}')"
+RUST_LOCK_SHA_BEFORE="$(sha256sum "$ROOT/rust/Cargo.lock" | awk '{print $1}')"
 
 finish() {
-  local lock_after
+  local lock_after rust_lock_after
   lock_after="$(sha256sum "$ROOT/pubspec.lock" | awk '{print $1}')"
-  if [[ "$lock_after" != "$LOCK_SHA_BEFORE" ]]; then
+  rust_lock_after="$(sha256sum "$ROOT/rust/Cargo.lock" | awk '{print $1}')"
+  if [[ "$lock_after" != "$LOCK_SHA_BEFORE" || "$rust_lock_after" != "$RUST_LOCK_SHA_BEFORE" ]]; then
     VERDICT="failed"
     if [[ -z "$FAILED_STAGE" ]]; then
       FAILED_STAGE="lockfile"
-      log "pubspec.lock changed during the gate"
+      log "pubspec.lock or rust/Cargo.lock changed during the gate"
     fi
   fi
   STAGE_NAMES_JOINED="$(printf '%s\n' "${STAGE_NAMES[@]}")" \
@@ -130,6 +134,7 @@ finish() {
   STAGE_SECONDS_JOINED="$(printf '%s\n' "${STAGE_SECONDS[@]}")" \
   OBSERVED="$OBSERVED_VERSION" PINNED="$PINNED_VERSION" \
   LOCK_BEFORE="$LOCK_SHA_BEFORE" LOCK_AFTER="$lock_after" \
+  RUST_LOCK_BEFORE="$RUST_LOCK_SHA_BEFORE" RUST_LOCK_AFTER="$rust_lock_after" \
   VERDICT="$VERDICT" FAILED="$FAILED_STAGE" LOG_DIR="$LOG_DIR" \
     python3 - <<'PY'
 import json, os
@@ -145,6 +150,9 @@ payload = {
     "lock_sha256_before": os.environ["LOCK_BEFORE"],
     "lock_sha256_after": os.environ["LOCK_AFTER"],
     "lock_unchanged": os.environ["LOCK_BEFORE"] == os.environ["LOCK_AFTER"],
+    "rust_lock_sha256_before": os.environ["RUST_LOCK_BEFORE"],
+    "rust_lock_sha256_after": os.environ["RUST_LOCK_AFTER"],
+    "rust_lock_unchanged": os.environ["RUST_LOCK_BEFORE"] == os.environ["RUST_LOCK_AFTER"],
     "log_dir": os.environ["LOG_DIR"],
     "stages": [
         {"stage": name, "exit_code": int(code), "seconds": float(elapsed)}
@@ -187,6 +195,9 @@ finish_and_exit() {
   else
     log "summary: $LOG_DIR/offline-gate.json"
   fi
+  if [[ "$status" -eq 0 && "$summary_line" == *'"verdict": "failed"'* ]]; then
+    status=1
+  fi
   exit "$status"
 }
 
@@ -200,10 +211,22 @@ run_stage_or_stop flutter-pub-get "$FLUTTER_BIN" pub get --offline --enforce-loc
 
 # Dependency preparation is the only network-free resolution step. Any lockfile
 # change here is a metadata violation, so check it before the remaining stages.
-if [[ "$(sha256sum "$ROOT/pubspec.lock" | awk '{print $1}')" != "$LOCK_SHA_BEFORE" ]]; then
+if [[ "$(sha256sum "$ROOT/pubspec.lock" | awk '{print $1}')" != "$LOCK_SHA_BEFORE" ||
+      "$(sha256sum "$ROOT/rust/Cargo.lock" | awk '{print $1}')" != "$RUST_LOCK_SHA_BEFORE" ]]; then
   FAILED_STAGE="lockfile"
   VERDICT="failed"
-  log "pubspec.lock changed during dependency preparation"
+  log "pubspec.lock or rust/Cargo.lock changed during dependency preparation"
+  finish_and_exit 1
+fi
+
+# Provision Cargo/toolchain/cache separately. Missing tools fail the stage.
+run_stage_or_stop cargo-fmt cargo fmt --manifest-path rust/Cargo.toml --all -- --check
+run_stage_or_stop cargo-clippy cargo clippy --manifest-path rust/Cargo.toml --workspace --all-targets --locked --offline -- -D warnings
+run_stage_or_stop cargo-test cargo test --manifest-path rust/Cargo.toml --workspace --locked --offline
+if [[ "$(sha256sum "$ROOT/rust/Cargo.lock" | awk '{print $1}')" != "$RUST_LOCK_SHA_BEFORE" ]]; then
+  FAILED_STAGE="lockfile"
+  VERDICT="failed"
+  log "rust/Cargo.lock changed during Cargo checks"
   finish_and_exit 1
 fi
 

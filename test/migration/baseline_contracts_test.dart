@@ -8,6 +8,7 @@ import 'package:flutter_fractals/features/catalog/data/catalog_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'support/baseline_inventory.dart';
+import 'support/provenance_transition.dart';
 
 List<Map<String, dynamic>> records(Map<String, Object?> document) =>
     ((document['payload'] as Map)['records'] as List)
@@ -33,11 +34,8 @@ void main() {
       expect(canonicalJson(second[name]), encoded,
           reason: '$name export drift');
       expect(canonicalJson(jsonDecode(encoded)), encoded);
-      if (baselineOutput.isEmpty) {
-        expect(before[name], encoded,
-            reason:
-                '$name fixture drift; export twice to empty scratch directories, diff, then explicitly promote');
-      }
+      verifyProvenanceTransition(
+          name, before[name]!, first[name]!, readProvenanceTransition());
     }
 
     final registry = ModuleRegistry();
@@ -105,6 +103,54 @@ void main() {
           before[name],
           reason: 'Exports must never promote fixtures implicitly');
     }
+  });
+
+  test(
+      'provenance rejects unauthorized maps, semantic drift and custody tampering',
+      () {
+    final before = File('migration/baseline/modules.json').readAsStringSync();
+    final current = buildBaselineInventory()['modules']!;
+    final transition = readProvenanceTransition();
+    Map<String, dynamic> copy(Object value) =>
+        jsonDecode(jsonEncode(value)) as Map<String, dynamic>;
+    for (final mutation in [
+      'changed',
+      'added',
+      'removed',
+      'semantic',
+      'metadata',
+      'transition',
+      'fixture'
+    ]) {
+      final changed = copy(current);
+      final sidecar = copy(transition);
+      final sources = changed['provenance']['sources'] as Map;
+      final maps = sidecar['binding_maps']['modules']['after'] as Map;
+      const path = 'fdroid/flutter.version';
+      if (mutation == 'changed') {
+        sources[path] = maps[path] = 'unauthorized';
+      } else if (mutation == 'added') {
+        sources['unlisted.dart'] = maps['unlisted.dart'] = 'unauthorized';
+      } else if (mutation == 'removed') {
+        sources.remove(path);
+        maps.remove(path);
+      } else if (mutation == 'semantic') {
+        changed['payload']['records'].removeLast();
+      } else if (mutation == 'metadata') {
+        changed['provenance']['registry_mode'] = 'different';
+      } else if (mutation == 'transition') {
+        maps['pubspec.lock'] = 'mismatch';
+      }
+      expect(
+          () => verifyProvenanceTransition('modules',
+              mutation == 'fixture' ? '$before ' : before, changed, sidecar),
+          throwsStateError,
+          reason: mutation);
+    }
+    expect(
+        () => verifyProvenanceTransition('modules', before, current, transition,
+            originalBytes: '{}'),
+        throwsStateError);
   });
 
   test(

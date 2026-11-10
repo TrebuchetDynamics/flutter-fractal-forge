@@ -35,10 +35,24 @@ void main() {
     ))!;
     expect(first.version, '0.1.0');
     expect(first.rendering, isFalse);
+    final snapshot = first.snapshot();
+    expect(snapshot, first.snapshot());
+    expect(snapshot.revision, BigInt.zero);
+    expect(
+        snapshot.view,
+        const ViewState(
+            centerX: 0,
+            centerY: 0,
+            zoom: 1,
+            rotationX: 0,
+            rotationY: 0,
+            rotationZ: 0));
+    expect(snapshot.sessionId, isNot(second.snapshot().sessionId));
     first.shutdown();
     first.shutdown();
     expect(bridge.sessions.first.shutdowns, 1);
     expect(() => first.rendering, throwsStateError);
+    expect(() => first.snapshot(), throwsStateError);
     expect(second.rendering, isFalse);
     second.shutdown();
   });
@@ -58,6 +72,7 @@ void main() {
     ))!;
     bridge.sessions.single.failure = failure;
     expect(() => adapter.rendering, throwsA(same(failure)));
+    expect(() => adapter.snapshot(), throwsA(same(failure)));
     adapter.shutdown();
     expect(const RendererBackendPolicy().decide(_legacyInput).backend,
         RendererBackend.gpu);
@@ -80,13 +95,30 @@ class _Bridge implements RustEngineBridge {
   String engineVersion() => '0.1.0';
   @override
   RustEngineSession createEngine() {
-    final session = _Session();
+    final session = _Session(sessions.length + 1);
     sessions.add(session);
     return session;
   }
 }
 
 class _Session implements RustEngineSession {
+  _Session(this.id);
+  final int id;
+  @override
+  EngineSnapshot snapshot() {
+    if (failure != null) throw failure!;
+    return EngineSnapshot(
+        sessionId: BigInt.from(id),
+        revision: BigInt.zero,
+        view: const ViewState(
+            centerX: 0,
+            centerY: 0,
+            zoom: 1,
+            rotationX: 0,
+            rotationY: 0,
+            rotationZ: 0));
+  }
+
   int shutdowns = 0;
   Object? failure;
   @override

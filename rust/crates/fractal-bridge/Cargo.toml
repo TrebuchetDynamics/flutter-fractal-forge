@@ -12,6 +12,5 @@ crate-type = ["cdylib", "staticlib", "rlib"]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(frb_expand)'] }
 
 [dependencies]
-flutter_rust_bridge = "=2.11.1"
+flutter_rust_bridge = "=2.13.0"
 fractal-core.workspace = true
-fractal-render.workspace = true

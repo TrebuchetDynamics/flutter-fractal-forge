@@ -1,4 +1,9 @@
 import 'package:flutter/foundation.dart';
+import 'package:fractal_engine_bridge/fractal_engine_bridge.dart'
+    show EngineSnapshot;
+
+export 'package:fractal_engine_bridge/fractal_engine_bridge.dart'
+    show EngineSnapshot, ViewState;
 
 import 'rust_engine_loader_stub.dart'
     if (dart.library.io) 'rust_engine_loader_native.dart' as platform;
@@ -11,6 +16,7 @@ abstract interface class RustEngineBridge {
 
 abstract interface class RustEngineSession {
   bool get rendering;
+  EngineSnapshot snapshot();
   void shutdown();
 }
 
@@ -35,6 +41,11 @@ class RustEngineAdapter {
   bool get rendering {
     if (_closed) throw StateError('Rust engine session is closed');
     return _session.rendering;
+  }
+
+  EngineSnapshot snapshot() {
+    if (_closed) throw StateError('Rust engine session is closed');
+    return _session.snapshot();
   }
 
   void shutdown() {
