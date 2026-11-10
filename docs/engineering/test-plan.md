@@ -89,6 +89,51 @@ It does not authorize producer, collector, clock-validator or evidence changes.
 Fresh focused checks and a terminal full-gate result are still required for each
 candidate. Live protocol and pixel evidence remain unrun by this offline task.
 
+## Rust precision policy parity
+
+[`precision_parity_test.dart`](../../test/migration/precision_parity_test.dart)
+calls the unchanged `replayPrecision` oracle on the complete 81-event frozen
+stream, named power/zoom cases and 1,024 fixed-seed policy samples with additional
+ordered resets. Existing threshold neighbors, fallback on/off, native/absent CPU,
+3D and module-switch history remain in order. Added Burning Ship cases include
+both adjacent binary64 powers around 2 and tagged nonfinite powers. Direct policy
+zoom `1e20` is not passed through the camera's `1e12` clamp.
+
+The companion envelope contains `replaySourceBindings()`, actual
+`hasNativeCpuFormula` and perturbation membership facts, fresh GPU ceilings and
+decision getters. It changes neither the replay codec nor frozen fixtures.
+Default mode writes nothing. `RUST_PRECISION_OUT` explicitly exports one new
+absolute scratch file outside the checkout; existing files are refused. Rust's
+[`precision_parity.rs`](../../rust/crates/fractal-core/tests/precision_parity.rs)
+compares every decision, tier/exactness/pending flag, scaled iteration count,
+history, getter and ceiling exactly. It consumes exported facts, not a ported
+registry. Ordinary Cargo tests run embedded named/core cases; the live comparison
+is opt-in and is not certified by those embedded cases. An explicitly supplied
+missing or malformed vector file fails.
+
+With the pinned offline environment from the root instructions, regenerate fresh
+Dart results before requesting the full differential comparison:
+
+```sh
+# Use a new path for each export; never overwrite a frozen fixture.
+flutter test --no-pub test/migration/precision_parity_test.dart \
+  --dart-define=RUST_PRECISION_OUT="$TMPDIR/rust-precision-vectors.json" &&
+RUST_PRECISION_VECTORS="$TMPDIR/rust-precision-vectors.json" \
+  cargo test --manifest-path rust/Cargo.toml --package fractal-core \
+  --test precision_parity --locked --offline
+```
+
+Focused candidate evidence on Flutter 3.47.9 / Dart 3.13.7 and Rust 1.95.0:
+1,132 ordered events and 1,060 GPU ceilings matched with zero mismatches. The
+precision, original state-replay and renderer-policy Dart modules passed 18 tests;
+scoped analysis of the new harness passed. Workspace Cargo fmt/clippy/tests and
+all six offline-gate Bats regressions passed. Requested missing vectors and an
+altered expected path were both rejected. The Dart oracle, renderer consumers,
+original fixtures and both lockfiles are unchanged. These are deterministic
+policy checks, not numerical fractal accuracy, rendered pixels, hardware timing
+or native/backend qualification. The coordinator's merged-tree full gate and
+RUST-CORE-01 Linux/Waydroid evidence remain separate required gates.
+
 ## Current quality-first verification frontier
 
 Owner order: verify the compact catalog-back control and circular overflow surface (`VIEW-UI-01`, `VIEW-UI-02`), then assess the diverse catalog pilot (`CAT-QUALITY-01`) before its defect repairs (`CAT-QUALITY-02`). UI changes require actual-viewer layout/interaction and same-state image checks; pilot promotion requires attractive defaults, useful controls and matching PNG output with honest mathematics and accessibility. Both viewer corrections have local implementations; the wrapped-rail and keyboard/semantics follow-ups are `d79b2eb0` and `72d08ba1`, and circular overflow is `06f6ec46`. The 247-test home/viewer/control/coral union passes on Flutter 3.44.6 / Dart 3.12.2, including the corrected compact-Back keyboard selector and coral render checks at zoom 0.85, 6 and 10. This is focused host evidence, not a whole-suite, device or store pass. Earlier widget captures used substituted Roboto and a blank renderer. Matched native Linux/Xvfb evidence now covers 16 EN/ES pairs at widths 320/768/1024/1440, portrait/default and landscape/2× text/high contrast/large targets, using the real alternated_iteration shader and native font fallback without test-font loading. The baseline selectively restores the two viewer chrome files from `14a9eca4` on otherwise current `f90a3681` sources; it is not a complete historical app build. Both sides initialize accessibility before mounting: the original attempt with live toggling failed on the historical text pill's TextStyle interpolation and remains failed evidence, not a fixed production bug. The historical observation harness omits the absent tooltip and current overflow-size acceptance; the current harness retains its stronger assertions. All 32 capture cases and 228 viewer/control tests pass; full candidate analysis, formatting and independent source review pass on Flutter 3.44.2 / Dart 3.12.2. All 32 PNGs decode at expected dimensions. Back widths measure 157.7–264.6px historically versus current 48/56px; inspected 320px comparisons show the title beside Back, the portrait rail no longer clipped at the right edge, and a matching circular overflow. Enlarged landscape titles still ellipsize. The native Linux cases also open the controls HUD and verify that explicit catalog Back pops directly; viewer widget tests separately verify system Back dismisses the HUD first. Xvfb reports Mesa llvmpipe, not hardware acceleration; synthetic viewport states, native font fallback and selective historical chrome do not establish bundled production typography, full historical pixel equivalence, live accessibility-setting transitions, device rotation or screen-reader acceptance. Physical-device interaction and screen-reader qualification remain required. Viewer task acceptance and the quality pilot remain open. Existing regressions cover direct/system Back, capture/export states, safe areas and longest localized titles across the 128-case widget layout matrix; 16 paired widget-chrome captures used substituted Roboto and a blank renderer and are not production-typography, device or GPU acceptance.
