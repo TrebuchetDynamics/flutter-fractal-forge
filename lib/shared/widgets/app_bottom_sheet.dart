@@ -116,6 +116,21 @@ class AppSheetScaffold extends StatelessWidget {
       );
 }
 
+({double contentPadding, double keyboardPadding}) _bottomSheetInsets(
+  MediaQueryData mq,
+) {
+  // Edge-to-edge navigation may report only gestures; buttons use viewPadding.
+  final contentPadding = math.max(
+    AppSpacing.xl,
+    math.max(mq.viewPadding.bottom, mq.systemGestureInsets.bottom),
+  );
+  // The surface reaches the edge; reserve only the keyboard's excess outside it.
+  return (
+    contentPadding: contentPadding,
+    keyboardPadding: math.max(0, mq.viewInsets.bottom - contentPadding),
+  );
+}
+
 /// Standard bottom sheet container with drag handle and rounded top corners.
 ///
 /// Eliminates the repeated [Container] + drag-handle + decoration boilerplate
@@ -143,29 +158,16 @@ class AppBottomSheet extends StatelessWidget {
     final isLandscape = mq.orientation == Orientation.landscape;
     final effectiveFactor =
         isLandscape ? maxHeightFactor.clamp(0.85, 0.92) : maxHeightFactor;
-    // Inset content above either form of Android navigation. Edge-to-edge
-    // devices may report only systemGestureInsets while classic navigation
-    // buttons are exposed through viewPadding.
-    // The surface still extends to the screen edge — only the content is
-    // padded — and the extra inset is added to the height budget so the
-    // visible content area is unchanged.
-    final systemBottomInset = math.max(
-      mq.viewPadding.bottom,
-      mq.systemGestureInsets.bottom,
-    );
-    final bottomInset = math.max(systemBottomInset, AppSpacing.xl);
-    // Navigation is already covered by a visible keyboard; reserve the larger
-    // inset, rather than adding both and starving short viewports.
+    final insets = _bottomSheetInsets(mq);
     return Padding(
-      padding: EdgeInsets.only(
-        bottom: math.max(0, mq.viewInsets.bottom - bottomInset),
-      ),
+      padding: EdgeInsets.only(bottom: insets.keyboardPadding),
       child: LayoutBuilder(
           builder: (context, constraints) => Container(
                 constraints: BoxConstraints(
                   maxHeight: math.min(
                     constraints.maxHeight,
-                    mq.size.height * effectiveFactor + bottomInset,
+                    // Include content padding so the visible budget is unchanged.
+                    mq.size.height * effectiveFactor + insets.contentPadding,
                   ),
                 ),
                 decoration: BoxDecoration(
@@ -181,7 +183,7 @@ class AppBottomSheet extends StatelessWidget {
                   ],
                 ),
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: bottomInset),
+                  padding: EdgeInsets.only(bottom: insets.contentPadding),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -253,17 +255,10 @@ class AppDraggableBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mq = MediaQuery.of(context);
-    final systemBottomInset = math.max(
-      mq.viewPadding.bottom,
-      mq.systemGestureInsets.bottom,
-    );
-    final bottomInset = math.max(systemBottomInset, AppSpacing.xl);
+    final insets = _bottomSheetInsets(MediaQuery.of(context));
 
     return Padding(
-      padding: EdgeInsets.only(
-        bottom: math.max(0, mq.viewInsets.bottom - bottomInset),
-      ),
+      padding: EdgeInsets.only(bottom: insets.keyboardPadding),
       child: DraggableScrollableSheet(
         initialChildSize: initialChildSize,
         minChildSize: minChildSize,
@@ -277,7 +272,7 @@ class AppDraggableBottomSheet extends StatelessWidget {
             borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
             clipBehavior: Clip.antiAlias,
             child: Padding(
-              padding: EdgeInsets.only(bottom: bottomInset),
+              padding: EdgeInsets.only(bottom: insets.contentPadding),
               child: Column(
                 children: [
                   const _DragHandle(),
