@@ -1137,3 +1137,108 @@ bootstrap, precision or aggregate milestone. The revised bridge obligations live
 in RUST-CORE-BOOTSTRAP rather than retroactively replacing the completed bridge
 contract. No fixture or receipt is regenerated, no owner hold is released, and
 no later-stage acceptance or permission to advance is inferred from this merge.
+
+### Rust core completion handoff
+
+This standalone Plan For Me request is to finish the Rust core implementation.
+Planner scope: complete the accepted RUST-CORE-01 slice using the existing three
+records, not the entire mathematical-engine migration. Preserve the later
+STOP / REVIEW boundary, StateSession/camera APIs, Flutter rendering authority,
+exact FRB 2.13.0 decision and all existing qualification requirements. This pass
+saves planning only. No replacement tasks, automatic successor or worker dispatch.
+
+#### Current source and reconciliation evidence
+
+Read-only inspection began at `239590ee`; unrelated maintenance-note commit
+`f874fddb` then advanced canonical main. It did not change these Rust contracts.
+The canonical task store has 172 records and 22 goals, no drafts. Historical
+126/21 and 166/21 counts above describe older snapshots, not release conditions
+for today's store. Consumer preparation is READY. Its coordinator uses
+`.worktrees/pi-autowork-20261027-235818` and reports no active/in-flight workers.
+RUST-CORE-BOOTSTRAP is attempt zero, waiting on OWNER-CANONICAL-INTEGRATION;
+there is no failed bootstrap build or implementation candidate to replace.
+
+The actual source still has three crates and FRB `=2.11.1` in the bridge.
+`fractal-core/src/lib.rs` has no view/snapshot/precision modules. The native smoke
+fixture exercises the old capabilities/shutdown probe, not persistent snapshots
+or viewer pixels. Retain the integrated M0/M1 and StateSession work. The clean
+retained `integration/rust-core-bootstrap` at `ca226506` contains the earlier
+planning integration `dd4b9724`; it is not a completed Rust implementation.
+`5eceac9b` is now an ancestor of main; `dd4b9724` is not. Do not merge its old task
+snapshot wholesale or reset current source to it.
+
+All seven top-level baseline JSONs differ from `8345b8e2`: five only in
+`provenance`, two only in `source_bindings`; all other top-level values compare
+equal. Git history traces inventory changes to the scoped Burning Ship repair
+`7a29d17b` and the bridge refresh `8d7b547d`. The original CONTRACTS, REPLAY and
+WORKSPACE receipts remain byte-identical. See `docs/tasks/RUST-M0-SHIP-REPAIR.md`
+and `docs/tasks/RUST-M1-BRIDGE-review.md` for their source-bound history. This trace
+is not approval of original-fixture preservation. The same coordinator must
+reconcile the retained originals, current source and their actual receipts before
+releasing the integration hold. Neither blind restoration nor a new blanket hash
+refresh satisfies it. No hold is released here and no owner waiver is invented.
+
+#### Closed engineering choices and evidence producers
+
+- **Bootstrap:** remove only the unused render placeholder/edges. Preserve the
+  existing false-rendering capability contract by relocating its implementation
+  into the bridge, alongside preserved legacy APIs. The three-function limit
+  applies to the new default-off probe only. Add persistent view/snapshot state,
+  matched pins/generation, and the additive Cargo gate under the existing task.
+- **Precision:** the new parity harness wraps the unchanged replay input/output
+  stream. Obtain `hasNativeCpuFormula(id)` and
+  `kJuliaVariantSpecs.containsKey(id) || kPerturbableEscapeTimeIds.contains(id)`
+  from current Dart source, not a duplicated registry. Export source bindings,
+  those capability facts and fresh `gpuRenderableCeilingZoom(id)` results beside
+  `replayPrecision(inputs)`. Rust consumes explicit facts and compares decisions,
+  history, scaled iterations and ceilings exactly. Keep ceiling semantics
+  independent of the quadratic Burning Ship decision restriction. Preserve
+  nonfinite tags and the complete ordered stream/reset semantics. Existing checks
+  run the new harness and Rust comparison; no frozen replay or oracle change.
+- **Native viewer evidence:** bootstrap owns extending the existing smoke fixture
+  to mount the production Flutter viewer, not a replacement test surface. Use the
+  M0 default/edited Mandelbrot and Mandelbulb inputs, frozen time zero and a
+  256x256 renderer capture. Compare effective state/backend and decoded pixels
+  before, during and after the real persistent probe's lifetime on the same
+  target. Probe snapshots remain neutral and cannot replace viewer state. Require
+  exact same-backend A/B equality; retain PNG/state/backend and M0-input bindings
+  through integration `reportData`. Keep cross-backend M0 image variance measured
+  and attributed, not coerced into exact equality. The aggregate consumes these
+  actual outputs rather than assuming lifecycle smoke proves unchanged rendering.
+
+These are planner calls inside existing acceptance, not new owner decisions.
+The precision oracle, production renderer and original fixtures are read-only.
+Before implementation, verify isolated FRB 2.13.0 provisioning; the inspected cache
+shows a 2.11.1 generator, not evidence that 2.13.0 is available or unavailable.
+Use task-local provisioning only under execution authority, never a host upgrade.
+Follow the root AGENTS pinned SDK/cache setup, explicitly set
+`CARGO_HOME=$AUTOWORK_CACHE/cargo-1.95.0`, regenerate checkout-local package
+metadata offline after provisioning, and retain both lockfiles. All future checks
+are proposed/unrun in this planning pass.
+
+#### Ordered finish and stop
+
+1. Same coordinator resolves canonical/source/fixture custody on
+   RUST-CORE-BOOTSTRAP, records the actual store/link/original-hash/receipt checks
+   and releases only the satisfied integration hold through the supported path.
+   Then finish that task with independent review and merged-tree checks.
+2. RUST-CORE-PRECISION consumes the completed bootstrap and existing replay
+   source; prove named cases, threshold neighbors, helper results and at least
+   1,024 deterministic generated inputs against freshly evaluated Dart.
+3. RUST-CORE-01 consumes those two reports plus retained M0 evidence. Run the
+   official-driver Linux smoke with a real current port lease/private scratch and
+   the same fixture on the standing Waydroid target. The Android driver needs its
+   own fresh `NATIVE_INTEGRATION_RESULT` output, just as the Linux supervisor
+   supplies one; the saved command now provides it. Read terminal protocol,
+   image/state/backend and owned-process cleanup evidence, not console text.
+4. Stop for review. No camera ownership, catalog/CPU/wgpu work or automatic
+   RUST-PLAN-09 continuation is authorized by this completion slice.
+
+Expected delivery remains two implementation changes and one aggregate evidence
+closeout, with independent review and required merged/full gates, separate from
+this planning commit. These three tasks have real sequential prerequisites and
+shared manifests/generated outputs; they are not independent parallel lanes.
+The first task remains held, its successors dependency-waiting. No Rust-core
+selection-ready task is claimed until the existing reconciliation condition is
+actually satisfied. Metadata validation and the Play release's previous Flutter
+gate do not qualify the new Rust code or native bridge.
