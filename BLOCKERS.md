@@ -37,14 +37,6 @@ for the runner to reconcile against the amended records.
 
 <!-- pi-autowork:questions:start -->
 
-### Q-RUST-CORE-BOOTSTRAP — USER_DECISION — effort decision — unblocks 1
-
-- Task: RUST-CORE-BOOTSTRAP — Adopt the retained Rust foundation and demonstrate the complete minimal bridge
-- Needs: worker reported a blocker: Explicit scope reconciliation is required, not another implementation/tool input. The mandatory FRB2.13 lock change invalidates three immutable oracle documents and ReferenceCapture's complete inventory/capture comparisons. Existing oracle consumers do not use the approved bootstrap transition; modifying their comparison/source collectors would require paths beyond the exact five-path future allow…; DOCS-MAINTAINER already changed Checks, Contract reconciliation, Reconciliation evidence, Scope, Touches, but the task is still waiting for the same reason.
-- Since: 2026-11-10T17:10:25Z
-- Answer: Decide the missing input or disposition in tasks/items/RUST-CORE-BOOTSTRAP.md, or move it to Needs decision. The maintainer will not repeat this repair unless the record or waiting reason changes.
-- Kind: maintainer
-
 <!-- pi-autowork:questions:end -->
 
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
