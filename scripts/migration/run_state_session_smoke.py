@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Launch with complete source-bound inputs (four modules, or seven with --extended)."""
+"""Launch with complete source-bound default, extended or trajectory inputs."""
 
 import base64
 import hashlib
@@ -13,6 +13,7 @@ import zlib
 ROOT = Path(__file__).resolve().parents[2]
 MODULE_IDS = ("mandelbrot", "julia", "cantor_set", "recursive_sine_sphere")
 EXTENDED_MODULE_IDS = MODULE_IDS + ("kaleidoscope_basic", "kaleidoscope_fractal", "number_wall")
+TRAJECTORY_MODULE_IDS = ("thomas_attractor", "four_wing", "lorenz_2d")
 ORIGINAL_SHA256 = {
     "modules": "571fb9c2c6ae14572485574c4ca382de2a55eeb6a32e5958869a671d2fbd62d3",
     "parameters": "5c8dff3eef955aed9d46f203136dea42b0b070d9bda2966fa4938fac1a6d9517",
@@ -39,13 +40,15 @@ def compact(value):
     return json.dumps(value, ensure_ascii=False, allow_nan=False, separators=(",", ":"))
 
 
-def project(kind, raw, *, extended=False):
+def project(kind, raw, *, extended=False, trajectory=False):
+    if extended and trajectory:
+        raise ValueError("--extended and --trajectory are mutually exclusive")
     digest = hashlib.sha256(raw).hexdigest()
     if digest != ORIGINAL_SHA256[kind]:
         raise ValueError(f"{kind}: original SHA-256 mismatch")
     envelope = json.loads(raw, parse_int=NumberToken, parse_float=NumberToken)
     key = "id" if kind == "modules" else "module_id"
-    ids = EXTENDED_MODULE_IDS if extended else MODULE_IDS
+    ids = TRAJECTORY_MODULE_IDS if trajectory else (EXTENDED_MODULE_IDS if extended else MODULE_IDS)
     records = [r for r in envelope["payload"]["records"] if r[key] in ids]
     if len(records) != len(ids) or {r[key] for r in records} != set(ids):
         raise ValueError(f"{kind}: missing or duplicate selected records")
@@ -64,10 +67,12 @@ def project(kind, raw, *, extended=False):
     return compact(envelope).encode("utf-8")
 
 
-def fixture_inputs(*, extended=False):
+def fixture_inputs(*, extended=False, trajectory=False):
+    if extended and trajectory:
+        raise ValueError("--extended and --trajectory are mutually exclusive")
     return {
         kind: project(kind, (ROOT / "migration/baseline" / f"{kind}.json").read_bytes(),
-                      extended=extended)
+                      extended=extended, trajectory=trajectory)
         for kind in ORIGINAL_SHA256
     }
 
@@ -77,7 +82,7 @@ def flutter_encoded(defines):
     return b",".join(base64.b64encode(d.encode("utf-8")) for d in defines)
 
 
-def launch(command, *, extended=False):
+def launch(command, *, extended=False, trajectory=False):
     if not command:
         raise ValueError("expected -- COMMAND ARGS...")
     supplied = []
@@ -98,7 +103,7 @@ def launch(command, *, extended=False):
         raise ValueError("fixture define override refused")
     if os.environ.get("DART_DEFINES"):
         raise ValueError("inherited DART_DEFINES refused; supply explicit flags")
-    inputs = fixture_inputs(extended=extended)
+    inputs = fixture_inputs(extended=extended, trajectory=trajectory)
     defines = [
         f"{PREFIX}{kind.upper()}={base64.b64encode(zlib.compress(raw, 9)).decode('ascii')}"
         for kind, raw in inputs.items()
@@ -117,12 +122,18 @@ def launch(command, *, extended=False):
 def main():
     try:
         args = sys.argv[1:]
-        extended = args[:1] == ["--extended"]
-        if extended:
+        extended = trajectory = False
+        while args and args[0] in ("--extended", "--trajectory"):
+            if args[0] == "--extended":
+                extended = True
+            else:
+                trajectory = True
             args = args[1:]
+        if extended and trajectory:
+            raise ValueError("--extended and --trajectory are mutually exclusive")
         if len(args) < 2 or args[0] != "--":
-            raise ValueError("usage: run_state_session_smoke.py [--extended] -- COMMAND ARGS...")
-        return launch(args[1:], extended=extended)
+            raise ValueError("usage: run_state_session_smoke.py [--extended | --trajectory] -- COMMAND ARGS...")
+        return launch(args[1:], extended=extended, trajectory=trajectory)
     except (ValueError, OSError) as error:
         print(f"state-session fixture: {error}", file=sys.stderr)
         return 2
