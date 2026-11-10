@@ -68,7 +68,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.11.1';
 
   @override
-  int get rustContentHash => 35396611;
+  int get rustContentHash => 1822697857;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -89,6 +89,11 @@ abstract class RustLibApi extends BaseApi {
       {required String moduleId,
       required Map<String, StateValue> params,
       required StateCamera camera});
+
+  StateCommand crateApiStateCommandApplyPresetTrajectory(
+      {required String moduleId,
+      required Map<String, StateValue> params,
+      required StateTrajectoryCamera camera});
 
   StateCommand crateApiStateCommandFluidModeEnabled({required bool value});
 
@@ -117,6 +122,12 @@ abstract class RustLibApi extends BaseApi {
       {String? moduleId,
       required Map<String, StateValue> params,
       required StateCamera camera,
+      required bool transparent});
+
+  StateCommand crateApiStateCommandLoadTrajectory(
+      {String? moduleId,
+      required Map<String, StateValue> params,
+      required StateTrajectoryCamera camera,
       required bool transparent});
 
   StateCommand crateApiStateCommandNumberWallPrime({required String value});
@@ -148,6 +159,9 @@ abstract class RustLibApi extends BaseApi {
 
   StateCommand crateApiStateCommandView(
       {required StateCamera camera, required bool adaptive});
+
+  StateCommand crateApiStateCommandViewTrajectory(
+      {required StateTrajectoryCamera camera, required bool adaptive});
 
   StateCommand crateApiStateCommandZoom({required double value});
 
@@ -208,6 +222,12 @@ abstract class RustLibApi extends BaseApi {
       required StateNumberWallRequest request,
       required int workLimit});
 
+  Future<StateTrajectoryProgress> crateApiStateSessionAdvanceTrajectoryAsync(
+      {required StateSession that,
+      required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateTrajectoryRequest request});
+
   StateSnapshot crateApiStateSessionApplyBatch(
       {required StateSession that,
       required BigInt sessionId,
@@ -230,6 +250,12 @@ abstract class RustLibApi extends BaseApi {
       required StateNumberWallGuard requestGuard,
       required int maxTrialDivisions});
 
+  Future<StateTrajectoryRequest?> crateApiStateSessionBeginTrajectoryAsync(
+      {required StateSession that,
+      required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateTrajectoryGuard requestGuard});
+
   StateNumberWallProgress crateApiStateSessionCancelNumberWall(
       {required StateSession that,
       required BigInt sessionId,
@@ -241,6 +267,12 @@ abstract class RustLibApi extends BaseApi {
       required BigInt sessionId,
       required BigInt expectedRevision,
       required StateNumberWallRequest request});
+
+  Future<StateTrajectoryProgress> crateApiStateSessionCancelTrajectoryAsync(
+      {required StateSession that,
+      required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateTrajectoryRequest request});
 
   StateSession crateApiStateSessionNew(
       {required String modules,
@@ -305,10 +337,104 @@ abstract class RustLibApi extends BaseApi {
 
   BigInt crateApiStateSnapshotSessionId({required StateSnapshot that});
 
+  StateTrajectorySettings? crateApiStateSnapshotTrajectory(
+      {required StateSnapshot that});
+
+  StateTrajectoryFrame? crateApiStateSnapshotTrajectoryFrame(
+      {required StateSnapshot that});
+
+  BigInt crateApiStateSnapshotTrajectoryGeneration(
+      {required StateSnapshot that});
+
+  bool crateApiStateSnapshotTrajectoryPending({required StateSnapshot that});
+
+  StateTrajectoryStatus? crateApiStateSnapshotTrajectoryStatus(
+      {required StateSnapshot that});
+
   bool crateApiStateSnapshotTransparentBackground(
       {required StateSnapshot that});
 
   StateView crateApiStateSnapshotView({required StateSnapshot that});
+
+  StateTrajectoryCamera crateApiStateTrajectoryCameraNew(
+      {required StateView view, StateTrajectorySettings? trajectory});
+
+  StateOrbitBounds crateApiStateTrajectoryFrameBounds(
+      {required StateTrajectoryFrame that});
+
+  bool crateApiStateTrajectoryFrameCacheHit(
+      {required StateTrajectoryFrame that});
+
+  String crateApiStateTrajectoryFrameModuleId(
+      {required StateTrajectoryFrame that});
+
+  List<StateOrbitPoint> crateApiStateTrajectoryFramePoints(
+      {required StateTrajectoryFrame that});
+
+  BigInt crateApiStateTrajectoryFrameSessionId(
+      {required StateTrajectoryFrame that});
+
+  StateTrajectorySettings crateApiStateTrajectoryFrameSettings(
+      {required StateTrajectoryFrame that});
+
+  BigInt crateApiStateTrajectoryFrameSettingsGeneration(
+      {required StateTrajectoryFrame that});
+
+  bool crateApiStateTrajectoryGuardIsActive(
+      {required StateTrajectoryGuard that});
+
+  StateTrajectoryGuard crateApiStateTrajectoryGuardNew({required bool active});
+
+  void crateApiStateTrajectoryGuardRevoke({required StateTrajectoryGuard that});
+
+  StateTrajectoryFrame? crateApiStateTrajectoryProgressFrame(
+      {required StateTrajectoryProgress that});
+
+  bool crateApiStateTrajectoryProgressIsPending(
+      {required StateTrajectoryProgress that});
+
+  StateSnapshot crateApiStateTrajectoryProgressSnapshot(
+      {required StateTrajectoryProgress that});
+
+  StateTrajectoryStatus? crateApiStateTrajectoryProgressStatus(
+      {required StateTrajectoryProgress that});
+
+  int? crateApiStateTrajectoryProgressStepsCompleted(
+      {required StateTrajectoryProgress that});
+
+  int crateApiStateTrajectorySettingsBurnInSteps(
+      {required StateTrajectorySettings that});
+
+  String crateApiStateTrajectorySettingsIntegrator(
+      {required StateTrajectorySettings that});
+
+  StateTrajectorySettings crateApiStateTrajectorySettingsNew(
+      {required int version,
+      required String integrator,
+      required StateAttractorSystem system,
+      required StateOrbitPoint seed,
+      required double stepSize,
+      required int burnInSteps,
+      required int retainedSteps,
+      required StateOrbitProjection projection});
+
+  StateOrbitProjection crateApiStateTrajectorySettingsProjection(
+      {required StateTrajectorySettings that});
+
+  int crateApiStateTrajectorySettingsRetainedSteps(
+      {required StateTrajectorySettings that});
+
+  StateOrbitPoint crateApiStateTrajectorySettingsSeed(
+      {required StateTrajectorySettings that});
+
+  double crateApiStateTrajectorySettingsStepSize(
+      {required StateTrajectorySettings that});
+
+  StateAttractorSystem crateApiStateTrajectorySettingsSystem(
+      {required StateTrajectorySettings that});
+
+  int crateApiStateTrajectorySettingsVersion(
+      {required StateTrajectorySettings that});
 
   bool? crateApiStateValueBoolean({required StateValue that});
 
@@ -394,6 +520,60 @@ abstract class RustLibApi extends BaseApi {
 
   CrossPlatformFinalizerArg
       get rust_arc_decrement_strong_count_StateSnapshotPtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_StateTrajectoryCamera;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_StateTrajectoryCamera;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_StateTrajectoryCameraPtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_StateTrajectoryFrame;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_StateTrajectoryFrame;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_StateTrajectoryFramePtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_StateTrajectoryGuard;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_StateTrajectoryGuard;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_StateTrajectoryGuardPtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_StateTrajectoryProgress;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_StateTrajectoryProgress;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_StateTrajectoryProgressPtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_StateTrajectoryRequest;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_StateTrajectoryRequest;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_StateTrajectoryRequestPtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_StateTrajectorySettings;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_StateTrajectorySettings;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_StateTrajectorySettingsPtr;
 
   RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_StateValue;
@@ -515,12 +695,44 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  StateCommand crateApiStateCommandApplyPresetTrajectory(
+      {required String moduleId,
+      required Map<String, StateValue> params,
+      required StateTrajectoryCamera camera}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_String(moduleId, serializer);
+        sse_encode_Map_String_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue_None(
+            params, serializer);
+        sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryCamera(
+            camera, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateCommand,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateCommandApplyPresetTrajectoryConstMeta,
+      argValues: [moduleId, params, camera],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateCommandApplyPresetTrajectoryConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateCommand_apply_preset_trajectory",
+        argNames: ["moduleId", "params", "camera"],
+      );
+
+  @override
   StateCommand crateApiStateCommandFluidModeEnabled({required bool value}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_bool(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -545,7 +757,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_f_64(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -570,7 +782,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_bool(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -595,7 +807,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_f_64(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -620,7 +832,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_f_64(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 10)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -645,7 +857,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_bool(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 10)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -670,7 +882,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_bool(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 12)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -696,7 +908,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_i_64(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 12)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -722,7 +934,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_f_64(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 14)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -748,7 +960,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_i_64(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 14)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 15)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -781,7 +993,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             params, serializer);
         sse_encode_box_autoadd_state_camera(camera, serializer);
         sse_encode_bool(transparent, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 15)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 16)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -800,12 +1012,46 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  StateCommand crateApiStateCommandLoadTrajectory(
+      {String? moduleId,
+      required Map<String, StateValue> params,
+      required StateTrajectoryCamera camera,
+      required bool transparent}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_opt_String(moduleId, serializer);
+        sse_encode_Map_String_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue_None(
+            params, serializer);
+        sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryCamera(
+            camera, serializer);
+        sse_encode_bool(transparent, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 17)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateCommand,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateCommandLoadTrajectoryConstMeta,
+      argValues: [moduleId, params, camera, transparent],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateCommandLoadTrajectoryConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateCommand_load_trajectory",
+        argNames: ["moduleId", "params", "camera", "transparent"],
+      );
+
+  @override
   StateCommand crateApiStateCommandNumberWallPrime({required String value}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 16)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 18)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -831,7 +1077,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_f_64(x, serializer);
         sse_encode_f_64(y, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 17)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 19)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -858,7 +1104,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_String(id, serializer);
         sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue(
             value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 18)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 20)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -881,7 +1127,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 19)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 21)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -905,7 +1151,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 20)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 22)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -929,7 +1175,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 21)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 23)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -957,7 +1203,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_f_64(x, serializer);
         sse_encode_f_64(y, serializer);
         sse_encode_f_64(z, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 22)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 24)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -982,7 +1228,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_bool(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 23)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 25)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1013,7 +1259,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_bool(resetView, serializer);
         sse_encode_Map_String_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue_None(
             initialParams, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 24)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 26)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1038,7 +1284,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_bool(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 25)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 27)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1063,7 +1309,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(operation, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 26)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 28)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1090,7 +1336,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_box_autoadd_state_camera(camera, serializer);
         sse_encode_bool(adaptive, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 27)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 29)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1109,12 +1355,40 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  StateCommand crateApiStateCommandViewTrajectory(
+      {required StateTrajectoryCamera camera, required bool adaptive}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryCamera(
+            camera, serializer);
+        sse_encode_bool(adaptive, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 30)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateCommand,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateCommandViewTrajectoryConstMeta,
+      argValues: [camera, adaptive],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateCommandViewTrajectoryConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateCommand_view_trajectory",
+        argNames: ["camera", "adaptive"],
+      );
+
+  @override
   StateCommand crateApiStateCommandZoom({required double value}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_f_64(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 28)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 31)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1140,7 +1414,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallFrame(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 29)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 32)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_u_32,
@@ -1166,7 +1440,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallFrame(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 30)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 33)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_i_64,
@@ -1192,7 +1466,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallFrame(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 31)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 34)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -1218,7 +1492,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallFrame(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 32)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 35)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1245,7 +1519,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallFrame(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 33)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 36)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_u_32,
@@ -1271,7 +1545,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallFrame(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 34)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 37)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_state_number_wall_sequence,
@@ -1297,7 +1571,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallFrame(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 35)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 38)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_i_64,
@@ -1323,7 +1597,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallFrame(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 36)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 39)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_i_64,
@@ -1349,7 +1623,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallFrame(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 37)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 40)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_list_list_String,
@@ -1375,7 +1649,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallGuard(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 38)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 41)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_bool,
@@ -1399,7 +1673,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_bool(active, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 39)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 42)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1426,7 +1700,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallGuard(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 40)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 43)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -1452,7 +1726,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallProgress(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 41)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 44)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_bool,
@@ -1478,7 +1752,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallProgress(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 42)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 45)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1505,7 +1779,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallProgress(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 43)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 46)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_opt_box_autoadd_state_number_wall_status,
@@ -1540,7 +1814,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallRequest(
             request, serializer);
         sse_encode_u_32(workLimit, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 44)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 47)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1583,7 +1857,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             request, serializer);
         sse_encode_u_32(workLimit, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 45, port: port_);
+            funcId: 48, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1609,6 +1883,41 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<StateTrajectoryProgress> crateApiStateSessionAdvanceTrajectoryAsync(
+      {required StateSession that,
+      required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateTrajectoryRequest request}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSession(
+            that, serializer);
+        sse_encode_u_64(sessionId, serializer);
+        sse_encode_u_64(expectedRevision, serializer);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+            request, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 49, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryProgress,
+        decodeErrorData: sse_decode_String,
+      ),
+      constMeta: kCrateApiStateSessionAdvanceTrajectoryAsyncConstMeta,
+      argValues: [that, sessionId, expectedRevision, request],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateSessionAdvanceTrajectoryAsyncConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateSession_advance_trajectory_async",
+        argNames: ["that", "sessionId", "expectedRevision", "request"],
+      );
+
+  @override
   StateSnapshot crateApiStateSessionApplyBatch(
       {required StateSession that,
       required BigInt sessionId,
@@ -1623,7 +1932,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_u_64(expectedRevision, serializer);
         sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateCommand(
             commands, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 46)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 50)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1662,7 +1971,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallGuard(
             requestGuard, serializer);
         sse_encode_u_32(maxTrialDivisions, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 47)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 51)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1716,7 +2025,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             requestGuard, serializer);
         sse_encode_u_32(maxTrialDivisions, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 48, port: port_);
+            funcId: 52, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1750,6 +2059,41 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<StateTrajectoryRequest?> crateApiStateSessionBeginTrajectoryAsync(
+      {required StateSession that,
+      required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateTrajectoryGuard requestGuard}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSession(
+            that, serializer);
+        sse_encode_u_64(sessionId, serializer);
+        sse_encode_u_64(expectedRevision, serializer);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryGuard(
+            requestGuard, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 53, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest,
+        decodeErrorData: sse_decode_String,
+      ),
+      constMeta: kCrateApiStateSessionBeginTrajectoryAsyncConstMeta,
+      argValues: [that, sessionId, expectedRevision, requestGuard],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateSessionBeginTrajectoryAsyncConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateSession_begin_trajectory_async",
+        argNames: ["that", "sessionId", "expectedRevision", "requestGuard"],
+      );
+
+  @override
   StateNumberWallProgress crateApiStateSessionCancelNumberWall(
       {required StateSession that,
       required BigInt sessionId,
@@ -1764,7 +2108,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_u_64(expectedRevision, serializer);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallRequest(
             request, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 49)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 54)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1799,7 +2143,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallRequest(
             request, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 50, port: port_);
+            funcId: 55, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1819,6 +2163,41 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<StateTrajectoryProgress> crateApiStateSessionCancelTrajectoryAsync(
+      {required StateSession that,
+      required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateTrajectoryRequest request}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSession(
+            that, serializer);
+        sse_encode_u_64(sessionId, serializer);
+        sse_encode_u_64(expectedRevision, serializer);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+            request, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 56, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryProgress,
+        decodeErrorData: sse_decode_String,
+      ),
+      constMeta: kCrateApiStateSessionCancelTrajectoryAsyncConstMeta,
+      argValues: [that, sessionId, expectedRevision, request],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateSessionCancelTrajectoryAsyncConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateSession_cancel_trajectory_async",
+        argNames: ["that", "sessionId", "expectedRevision", "request"],
+      );
+
+  @override
   StateSession crateApiStateSessionNew(
       {required String modules,
       required String parameters,
@@ -1833,7 +2212,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_String(presets, serializer);
         sse_encode_String(capabilities, serializer);
         sse_encode_String(moduleId, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 51)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 57)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1864,7 +2243,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSession(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 52)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 58)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -1890,7 +2269,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSession(
             that, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 53, port: port_);
+            funcId: 59, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_unit,
@@ -1915,7 +2294,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSession(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 54)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 60)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1943,7 +2322,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSession(
             that, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 55, port: port_);
+            funcId: 61, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1970,7 +2349,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 56)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 62)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -1996,7 +2375,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 57)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 63)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_bool,
@@ -2021,7 +2400,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 58)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 64)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_f_64,
@@ -2046,7 +2425,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 59)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 65)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_bool,
@@ -2071,7 +2450,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 60)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 66)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_f_64,
@@ -2096,7 +2475,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 61)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 67)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_f_64,
@@ -2121,7 +2500,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 62)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 68)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_bool,
@@ -2146,7 +2525,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 63)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 69)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_bool,
@@ -2172,7 +2551,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 64)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 70)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_i_64,
@@ -2198,7 +2577,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 65)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 71)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_f_64,
@@ -2224,7 +2603,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 66)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 72)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_i_64,
@@ -2249,7 +2628,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 67)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 73)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_f_64,
@@ -2274,7 +2653,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 68)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 74)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -2300,7 +2679,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 69)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 75)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -2326,7 +2705,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 70)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 76)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_bool,
@@ -2352,7 +2731,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 71)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 77)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_opt_box_autoadd_state_number_wall_status,
@@ -2378,7 +2757,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 72)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 78)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -2404,7 +2783,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 73)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 79)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_u_64,
@@ -2429,7 +2808,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 74)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 80)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_bool,
@@ -2454,7 +2833,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 75)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 81)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_u_64,
@@ -2473,6 +2852,137 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  StateTrajectorySettings? crateApiStateSnapshotTrajectory(
+      {required StateSnapshot that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 82)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateSnapshotTrajectoryConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateSnapshotTrajectoryConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateSnapshot_trajectory",
+        argNames: ["that"],
+      );
+
+  @override
+  StateTrajectoryFrame? crateApiStateSnapshotTrajectoryFrame(
+      {required StateSnapshot that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 83)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateSnapshotTrajectoryFrameConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateSnapshotTrajectoryFrameConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateSnapshot_trajectory_frame",
+        argNames: ["that"],
+      );
+
+  @override
+  BigInt crateApiStateSnapshotTrajectoryGeneration(
+      {required StateSnapshot that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 84)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_u_64,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateSnapshotTrajectoryGenerationConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateSnapshotTrajectoryGenerationConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateSnapshot_trajectory_generation",
+        argNames: ["that"],
+      );
+
+  @override
+  bool crateApiStateSnapshotTrajectoryPending({required StateSnapshot that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 85)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_bool,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateSnapshotTrajectoryPendingConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateSnapshotTrajectoryPendingConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateSnapshot_trajectory_pending",
+        argNames: ["that"],
+      );
+
+  @override
+  StateTrajectoryStatus? crateApiStateSnapshotTrajectoryStatus(
+      {required StateSnapshot that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 86)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_opt_box_autoadd_state_trajectory_status,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateSnapshotTrajectoryStatusConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateSnapshotTrajectoryStatusConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateSnapshot_trajectory_status",
+        argNames: ["that"],
+      );
+
+  @override
   bool crateApiStateSnapshotTransparentBackground(
       {required StateSnapshot that}) {
     return handler.executeSync(SyncTask(
@@ -2480,7 +2990,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 76)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 87)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_bool,
@@ -2505,7 +3015,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 77)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 88)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_state_view,
@@ -2523,13 +3033,699 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  StateTrajectoryCamera crateApiStateTrajectoryCameraNew(
+      {required StateView view, StateTrajectorySettings? trajectory}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_box_autoadd_state_view(view, serializer);
+        sse_encode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+            trajectory, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 89)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryCamera,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectoryCameraNewConstMeta,
+      argValues: [view, trajectory],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectoryCameraNewConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectoryCamera_new",
+        argNames: ["view", "trajectory"],
+      );
+
+  @override
+  StateOrbitBounds crateApiStateTrajectoryFrameBounds(
+      {required StateTrajectoryFrame that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 90)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_state_orbit_bounds,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectoryFrameBoundsConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectoryFrameBoundsConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectoryFrame_bounds",
+        argNames: ["that"],
+      );
+
+  @override
+  bool crateApiStateTrajectoryFrameCacheHit(
+      {required StateTrajectoryFrame that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 91)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_bool,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectoryFrameCacheHitConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectoryFrameCacheHitConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectoryFrame_cache_hit",
+        argNames: ["that"],
+      );
+
+  @override
+  String crateApiStateTrajectoryFrameModuleId(
+      {required StateTrajectoryFrame that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 92)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_String,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectoryFrameModuleIdConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectoryFrameModuleIdConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectoryFrame_module_id",
+        argNames: ["that"],
+      );
+
+  @override
+  List<StateOrbitPoint> crateApiStateTrajectoryFramePoints(
+      {required StateTrajectoryFrame that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 93)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_list_state_orbit_point,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectoryFramePointsConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectoryFramePointsConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectoryFrame_points",
+        argNames: ["that"],
+      );
+
+  @override
+  BigInt crateApiStateTrajectoryFrameSessionId(
+      {required StateTrajectoryFrame that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 94)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_u_64,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectoryFrameSessionIdConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectoryFrameSessionIdConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectoryFrame_session_id",
+        argNames: ["that"],
+      );
+
+  @override
+  StateTrajectorySettings crateApiStateTrajectoryFrameSettings(
+      {required StateTrajectoryFrame that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 95)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectoryFrameSettingsConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectoryFrameSettingsConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectoryFrame_settings",
+        argNames: ["that"],
+      );
+
+  @override
+  BigInt crateApiStateTrajectoryFrameSettingsGeneration(
+      {required StateTrajectoryFrame that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 96)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_u_64,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectoryFrameSettingsGenerationConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectoryFrameSettingsGenerationConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectoryFrame_settings_generation",
+        argNames: ["that"],
+      );
+
+  @override
+  bool crateApiStateTrajectoryGuardIsActive(
+      {required StateTrajectoryGuard that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryGuard(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 97)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_bool,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectoryGuardIsActiveConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectoryGuardIsActiveConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectoryGuard_is_active",
+        argNames: ["that"],
+      );
+
+  @override
+  StateTrajectoryGuard crateApiStateTrajectoryGuardNew({required bool active}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_bool(active, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 98)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryGuard,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectoryGuardNewConstMeta,
+      argValues: [active],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectoryGuardNewConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectoryGuard_new",
+        argNames: ["active"],
+      );
+
+  @override
+  void crateApiStateTrajectoryGuardRevoke(
+      {required StateTrajectoryGuard that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryGuard(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 99)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectoryGuardRevokeConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectoryGuardRevokeConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectoryGuard_revoke",
+        argNames: ["that"],
+      );
+
+  @override
+  StateTrajectoryFrame? crateApiStateTrajectoryProgressFrame(
+      {required StateTrajectoryProgress that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryProgress(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 100)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectoryProgressFrameConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectoryProgressFrameConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectoryProgress_frame",
+        argNames: ["that"],
+      );
+
+  @override
+  bool crateApiStateTrajectoryProgressIsPending(
+      {required StateTrajectoryProgress that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryProgress(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 101)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_bool,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectoryProgressIsPendingConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectoryProgressIsPendingConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectoryProgress_is_pending",
+        argNames: ["that"],
+      );
+
+  @override
+  StateSnapshot crateApiStateTrajectoryProgressSnapshot(
+      {required StateTrajectoryProgress that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryProgress(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 102)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectoryProgressSnapshotConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectoryProgressSnapshotConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectoryProgress_snapshot",
+        argNames: ["that"],
+      );
+
+  @override
+  StateTrajectoryStatus? crateApiStateTrajectoryProgressStatus(
+      {required StateTrajectoryProgress that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryProgress(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 103)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_opt_box_autoadd_state_trajectory_status,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectoryProgressStatusConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectoryProgressStatusConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectoryProgress_status",
+        argNames: ["that"],
+      );
+
+  @override
+  int? crateApiStateTrajectoryProgressStepsCompleted(
+      {required StateTrajectoryProgress that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryProgress(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 104)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_opt_box_autoadd_u_32,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectoryProgressStepsCompletedConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectoryProgressStepsCompletedConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectoryProgress_steps_completed",
+        argNames: ["that"],
+      );
+
+  @override
+  int crateApiStateTrajectorySettingsBurnInSteps(
+      {required StateTrajectorySettings that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 105)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_u_32,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectorySettingsBurnInStepsConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectorySettingsBurnInStepsConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectorySettings_burn_in_steps",
+        argNames: ["that"],
+      );
+
+  @override
+  String crateApiStateTrajectorySettingsIntegrator(
+      {required StateTrajectorySettings that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 106)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_String,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectorySettingsIntegratorConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectorySettingsIntegratorConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectorySettings_integrator",
+        argNames: ["that"],
+      );
+
+  @override
+  StateTrajectorySettings crateApiStateTrajectorySettingsNew(
+      {required int version,
+      required String integrator,
+      required StateAttractorSystem system,
+      required StateOrbitPoint seed,
+      required double stepSize,
+      required int burnInSteps,
+      required int retainedSteps,
+      required StateOrbitProjection projection}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_u_32(version, serializer);
+        sse_encode_String(integrator, serializer);
+        sse_encode_state_attractor_system(system, serializer);
+        sse_encode_box_autoadd_state_orbit_point(seed, serializer);
+        sse_encode_f_64(stepSize, serializer);
+        sse_encode_u_32(burnInSteps, serializer);
+        sse_encode_u_32(retainedSteps, serializer);
+        sse_encode_state_orbit_projection(projection, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 107)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings,
+        decodeErrorData: sse_decode_String,
+      ),
+      constMeta: kCrateApiStateTrajectorySettingsNewConstMeta,
+      argValues: [
+        version,
+        integrator,
+        system,
+        seed,
+        stepSize,
+        burnInSteps,
+        retainedSteps,
+        projection
+      ],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectorySettingsNewConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectorySettings_new",
+        argNames: [
+          "version",
+          "integrator",
+          "system",
+          "seed",
+          "stepSize",
+          "burnInSteps",
+          "retainedSteps",
+          "projection"
+        ],
+      );
+
+  @override
+  StateOrbitProjection crateApiStateTrajectorySettingsProjection(
+      {required StateTrajectorySettings that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 108)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_state_orbit_projection,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectorySettingsProjectionConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectorySettingsProjectionConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectorySettings_projection",
+        argNames: ["that"],
+      );
+
+  @override
+  int crateApiStateTrajectorySettingsRetainedSteps(
+      {required StateTrajectorySettings that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 109)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_u_32,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectorySettingsRetainedStepsConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectorySettingsRetainedStepsConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectorySettings_retained_steps",
+        argNames: ["that"],
+      );
+
+  @override
+  StateOrbitPoint crateApiStateTrajectorySettingsSeed(
+      {required StateTrajectorySettings that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 110)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_state_orbit_point,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectorySettingsSeedConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectorySettingsSeedConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectorySettings_seed",
+        argNames: ["that"],
+      );
+
+  @override
+  double crateApiStateTrajectorySettingsStepSize(
+      {required StateTrajectorySettings that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 111)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_f_64,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectorySettingsStepSizeConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectorySettingsStepSizeConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectorySettings_step_size",
+        argNames: ["that"],
+      );
+
+  @override
+  StateAttractorSystem crateApiStateTrajectorySettingsSystem(
+      {required StateTrajectorySettings that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 112)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_state_attractor_system,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectorySettingsSystemConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectorySettingsSystemConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectorySettings_system",
+        argNames: ["that"],
+      );
+
+  @override
+  int crateApiStateTrajectorySettingsVersion(
+      {required StateTrajectorySettings that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 113)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_u_32,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateTrajectorySettingsVersionConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateTrajectorySettingsVersionConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateTrajectorySettings_version",
+        argNames: ["that"],
+      );
+
+  @override
   bool? crateApiStateValueBoolean({required StateValue that}) {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 78)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 114)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_opt_box_autoadd_bool,
@@ -2553,7 +3749,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 79)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 115)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_opt_box_autoadd_f_64,
@@ -2576,7 +3772,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_bool(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 80)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 116)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -2601,7 +3797,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_f_64(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 81)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 117)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -2626,7 +3822,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 82)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 118)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -2651,7 +3847,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_String(value, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 83)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 119)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -2676,7 +3872,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 84)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 120)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_opt_String,
@@ -2700,7 +3896,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue(
             that, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 85)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 121)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_opt_String,
@@ -2722,7 +3918,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 86)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 122)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -2804,6 +4000,54 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot;
 
   RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_StateTrajectoryCamera => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryCamera;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_StateTrajectoryCamera => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryCamera;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_StateTrajectoryFrame => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_StateTrajectoryFrame => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_StateTrajectoryGuard => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryGuard;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_StateTrajectoryGuard => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryGuard;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_StateTrajectoryProgress => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryProgress;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_StateTrajectoryProgress => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryProgress;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_StateTrajectoryRequest => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_StateTrajectoryRequest => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_StateTrajectorySettings => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_StateTrajectorySettings => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings;
+
+  RustArcIncrementStrongCountFnType
       get rust_arc_increment_strong_count_StateValue => wire
           .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue;
 
@@ -2878,6 +4122,57 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  StateTrajectoryCamera
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryCamera(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateTrajectoryCameraImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  StateTrajectoryFrame
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateTrajectoryFrameImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  StateTrajectoryGuard
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryGuard(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateTrajectoryGuardImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  StateTrajectoryProgress
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryProgress(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateTrajectoryProgressImpl.frbInternalDcoDecode(
+        raw as List<dynamic>);
+  }
+
+  @protected
+  StateTrajectoryRequest
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateTrajectoryRequestImpl.frbInternalDcoDecode(
+        raw as List<dynamic>);
+  }
+
+  @protected
+  StateTrajectorySettings
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateTrajectorySettingsImpl.frbInternalDcoDecode(
+        raw as List<dynamic>);
+  }
+
+  @protected
   StateValue
       dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue(
           dynamic raw) {
@@ -2941,6 +4236,49 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return StateSnapshotImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  StateTrajectoryFrame
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateTrajectoryFrameImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  StateTrajectoryGuard
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryGuard(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateTrajectoryGuardImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  StateTrajectoryProgress
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryProgress(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateTrajectoryProgressImpl.frbInternalDcoDecode(
+        raw as List<dynamic>);
+  }
+
+  @protected
+  StateTrajectoryRequest
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateTrajectoryRequestImpl.frbInternalDcoDecode(
+        raw as List<dynamic>);
+  }
+
+  @protected
+  StateTrajectorySettings
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateTrajectorySettingsImpl.frbInternalDcoDecode(
+        raw as List<dynamic>);
   }
 
   @protected
@@ -3029,6 +4367,57 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  StateTrajectoryCamera
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryCamera(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateTrajectoryCameraImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  StateTrajectoryFrame
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateTrajectoryFrameImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  StateTrajectoryGuard
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryGuard(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateTrajectoryGuardImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  StateTrajectoryProgress
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryProgress(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateTrajectoryProgressImpl.frbInternalDcoDecode(
+        raw as List<dynamic>);
+  }
+
+  @protected
+  StateTrajectoryRequest
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateTrajectoryRequestImpl.frbInternalDcoDecode(
+        raw as List<dynamic>);
+  }
+
+  @protected
+  StateTrajectorySettings
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateTrajectorySettingsImpl.frbInternalDcoDecode(
+        raw as List<dynamic>);
+  }
+
+  @protected
   StateValue
       dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue(
           dynamic raw) {
@@ -3067,6 +4456,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  StateTrajectoryFrame
+      dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+        raw);
+  }
+
+  @protected
+  StateTrajectoryRequest
+      dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+        raw);
+  }
+
+  @protected
+  StateTrajectorySettings
+      dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+        raw);
+  }
+
+  @protected
   bool dco_decode_box_autoadd_bool(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as bool;
@@ -3089,6 +4505,31 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_state_number_wall_status(raw);
+  }
+
+  @protected
+  StateOrbitPoint dco_decode_box_autoadd_state_orbit_point(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_state_orbit_point(raw);
+  }
+
+  @protected
+  StateTrajectoryStatus dco_decode_box_autoadd_state_trajectory_status(
+      dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_state_trajectory_status(raw);
+  }
+
+  @protected
+  StateView dco_decode_box_autoadd_state_view(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_state_view(raw);
+  }
+
+  @protected
+  int dco_decode_box_autoadd_u_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as int;
   }
 
   @protected
@@ -3172,6 +4613,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  List<StateOrbitPoint> dco_decode_list_state_orbit_point(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_state_orbit_point).toList();
+  }
+
+  @protected
   String? dco_decode_opt_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_String(raw);
@@ -3200,6 +4647,39 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  StateTrajectoryFrame?
+      dco_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null
+        ? null
+        : dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+            raw);
+  }
+
+  @protected
+  StateTrajectoryRequest?
+      dco_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null
+        ? null
+        : dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+            raw);
+  }
+
+  @protected
+  StateTrajectorySettings?
+      dco_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null
+        ? null
+        : dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+            raw);
+  }
+
+  @protected
   bool? dco_decode_opt_box_autoadd_bool(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_box_autoadd_bool(raw);
@@ -3221,6 +4701,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  StateTrajectoryStatus? dco_decode_opt_box_autoadd_state_trajectory_status(
+      dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null
+        ? null
+        : dco_decode_box_autoadd_state_trajectory_status(raw);
+  }
+
+  @protected
+  int? dco_decode_opt_box_autoadd_u_32(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_u_32(raw);
+  }
+
+  @protected
   (
     String,
     StateValue
@@ -3236,6 +4731,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue(
           arr[1]),
     );
+  }
+
+  @protected
+  StateAttractorSystem dco_decode_state_attractor_system(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateAttractorSystem.values[raw as int];
   }
 
   @protected
@@ -3260,6 +4761,45 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   StateNumberWallStatus dco_decode_state_number_wall_status(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return StateNumberWallStatus.values[raw as int];
+  }
+
+  @protected
+  StateOrbitBounds dco_decode_state_orbit_bounds(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    return StateOrbitBounds(
+      minX: dco_decode_f_64(arr[0]),
+      maxX: dco_decode_f_64(arr[1]),
+      minY: dco_decode_f_64(arr[2]),
+      maxY: dco_decode_f_64(arr[3]),
+    );
+  }
+
+  @protected
+  StateOrbitPoint dco_decode_state_orbit_point(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 3)
+      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    return StateOrbitPoint(
+      x: dco_decode_f_64(arr[0]),
+      y: dco_decode_f_64(arr[1]),
+      z: dco_decode_f_64(arr[2]),
+    );
+  }
+
+  @protected
+  StateOrbitProjection dco_decode_state_orbit_projection(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateOrbitProjection.values[raw as int];
+  }
+
+  @protected
+  StateTrajectoryStatus dco_decode_state_trajectory_status(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateTrajectoryStatus.values[raw as int];
   }
 
   @protected
@@ -3381,6 +4921,60 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  StateTrajectoryCamera
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryCamera(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateTrajectoryCameraImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  StateTrajectoryFrame
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateTrajectoryFrameImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  StateTrajectoryGuard
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryGuard(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateTrajectoryGuardImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  StateTrajectoryProgress
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryProgress(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateTrajectoryProgressImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  StateTrajectoryRequest
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateTrajectoryRequestImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  StateTrajectorySettings
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateTrajectorySettingsImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
   StateValue
       sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue(
           SseDeserializer deserializer) {
@@ -3449,6 +5043,51 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return StateSnapshotImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  StateTrajectoryFrame
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateTrajectoryFrameImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  StateTrajectoryGuard
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryGuard(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateTrajectoryGuardImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  StateTrajectoryProgress
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryProgress(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateTrajectoryProgressImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  StateTrajectoryRequest
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateTrajectoryRequestImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  StateTrajectorySettings
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateTrajectorySettingsImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
@@ -3545,6 +5184,60 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  StateTrajectoryCamera
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryCamera(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateTrajectoryCameraImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  StateTrajectoryFrame
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateTrajectoryFrameImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  StateTrajectoryGuard
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryGuard(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateTrajectoryGuardImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  StateTrajectoryProgress
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryProgress(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateTrajectoryProgressImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  StateTrajectoryRequest
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateTrajectoryRequestImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  StateTrajectorySettings
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateTrajectorySettingsImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
   StateValue
       sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue(
           SseDeserializer deserializer) {
@@ -3585,6 +5278,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  StateTrajectoryFrame
+      sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+        deserializer));
+  }
+
+  @protected
+  StateTrajectoryRequest
+      sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+        deserializer));
+  }
+
+  @protected
+  StateTrajectorySettings
+      sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+        deserializer));
+  }
+
+  @protected
   bool sse_decode_box_autoadd_bool(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_bool(deserializer));
@@ -3608,6 +5328,32 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_state_number_wall_status(deserializer));
+  }
+
+  @protected
+  StateOrbitPoint sse_decode_box_autoadd_state_orbit_point(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_state_orbit_point(deserializer));
+  }
+
+  @protected
+  StateTrajectoryStatus sse_decode_box_autoadd_state_trajectory_status(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_state_trajectory_status(deserializer));
+  }
+
+  @protected
+  StateView sse_decode_box_autoadd_state_view(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_state_view(deserializer));
+  }
+
+  @protected
+  int sse_decode_box_autoadd_u_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_u_32(deserializer));
   }
 
   @protected
@@ -3715,6 +5461,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  List<StateOrbitPoint> sse_decode_list_state_orbit_point(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <StateOrbitPoint>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_state_orbit_point(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
   String? sse_decode_opt_String(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
@@ -3747,6 +5506,48 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallRequest(
+          deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  StateTrajectoryFrame?
+      sse_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+          deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  StateTrajectoryRequest?
+      sse_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+          deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  StateTrajectorySettings?
+      sse_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
           deserializer));
     } else {
       return null;
@@ -3788,6 +5589,29 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  StateTrajectoryStatus? sse_decode_opt_box_autoadd_state_trajectory_status(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_state_trajectory_status(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_u_32(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
   (
     String,
     StateValue
@@ -3799,6 +5623,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue(
             deserializer);
     return (var_field0, var_field1);
+  }
+
+  @protected
+  StateAttractorSystem sse_decode_state_attractor_system(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_i_32(deserializer);
+    return StateAttractorSystem.values[inner];
   }
 
   @protected
@@ -3823,6 +5655,42 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_i_32(deserializer);
     return StateNumberWallStatus.values[inner];
+  }
+
+  @protected
+  StateOrbitBounds sse_decode_state_orbit_bounds(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_minX = sse_decode_f_64(deserializer);
+    var var_maxX = sse_decode_f_64(deserializer);
+    var var_minY = sse_decode_f_64(deserializer);
+    var var_maxY = sse_decode_f_64(deserializer);
+    return StateOrbitBounds(
+        minX: var_minX, maxX: var_maxX, minY: var_minY, maxY: var_maxY);
+  }
+
+  @protected
+  StateOrbitPoint sse_decode_state_orbit_point(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_x = sse_decode_f_64(deserializer);
+    var var_y = sse_decode_f_64(deserializer);
+    var var_z = sse_decode_f_64(deserializer);
+    return StateOrbitPoint(x: var_x, y: var_y, z: var_z);
+  }
+
+  @protected
+  StateOrbitProjection sse_decode_state_orbit_projection(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_i_32(deserializer);
+    return StateOrbitProjection.values[inner];
+  }
+
+  @protected
+  StateTrajectoryStatus sse_decode_state_trajectory_status(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_i_32(deserializer);
+    return StateTrajectoryStatus.values[inner];
   }
 
   @protected
@@ -3953,6 +5821,66 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryCamera(
+          StateTrajectoryCamera self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateTrajectoryCameraImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+          StateTrajectoryFrame self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateTrajectoryFrameImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryGuard(
+          StateTrajectoryGuard self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateTrajectoryGuardImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryProgress(
+          StateTrajectoryProgress self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateTrajectoryProgressImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+          StateTrajectoryRequest self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateTrajectoryRequestImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+          StateTrajectorySettings self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateTrajectorySettingsImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
       sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue(
           StateValue self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -4026,6 +5954,56 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
         (self as StateSnapshotImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+          StateTrajectoryFrame self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateTrajectoryFrameImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryGuard(
+          StateTrajectoryGuard self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateTrajectoryGuardImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryProgress(
+          StateTrajectoryProgress self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateTrajectoryProgressImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+          StateTrajectoryRequest self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateTrajectoryRequestImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+          StateTrajectorySettings self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateTrajectorySettingsImpl).frbInternalSseEncode(move: false),
         serializer);
   }
 
@@ -4128,6 +6106,66 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryCamera(
+          StateTrajectoryCamera self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateTrajectoryCameraImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+          StateTrajectoryFrame self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateTrajectoryFrameImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryGuard(
+          StateTrajectoryGuard self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateTrajectoryGuardImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryProgress(
+          StateTrajectoryProgress self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateTrajectoryProgressImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+          StateTrajectoryRequest self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateTrajectoryRequestImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+          StateTrajectorySettings self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateTrajectorySettingsImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
       sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue(
           StateValue self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -4166,6 +6204,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void
+      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+          StateTrajectoryFrame self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+        self, serializer);
+  }
+
+  @protected
+  void
+      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+          StateTrajectoryRequest self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+        self, serializer);
+  }
+
+  @protected
+  void
+      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+          StateTrajectorySettings self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+        self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_bool(bool self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_bool(self, serializer);
@@ -4189,6 +6254,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       StateNumberWallStatus self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_state_number_wall_status(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_state_orbit_point(
+      StateOrbitPoint self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_state_orbit_point(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_state_trajectory_status(
+      StateTrajectoryStatus self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_state_trajectory_status(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_state_view(
+      StateView self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_state_view(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_u_32(int self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_32(self, serializer);
   }
 
   @protected
@@ -4279,6 +6371,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_list_state_orbit_point(
+      List<StateOrbitPoint> self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_state_orbit_point(item, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_opt_String(String? self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
@@ -4315,6 +6417,45 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void
+      sse_encode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+          StateTrajectoryFrame? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
+          self, serializer);
+    }
+  }
+
+  @protected
+  void
+      sse_encode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+          StateTrajectoryRequest? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryRequest(
+          self, serializer);
+    }
+  }
+
+  @protected
+  void
+      sse_encode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+          StateTrajectorySettings? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectorySettings(
+          self, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_opt_box_autoadd_bool(bool? self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
@@ -4346,6 +6487,27 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_opt_box_autoadd_state_trajectory_status(
+      StateTrajectoryStatus? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_state_trajectory_status(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_u_32(self, serializer);
+    }
+  }
+
+  @protected
   void
       sse_encode_record_string_auto_owned_rust_opaque_flutter_rust_bridgefor_generated_rust_auto_opaque_inner_state_value(
           (String, StateValue) self, SseSerializer serializer) {
@@ -4353,6 +6515,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_String(self.$1, serializer);
     sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue(
         self.$2, serializer);
+  }
+
+  @protected
+  void sse_encode_state_attractor_system(
+      StateAttractorSystem self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.index, serializer);
   }
 
   @protected
@@ -4372,6 +6541,39 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   void sse_encode_state_number_wall_status(
       StateNumberWallStatus self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.index, serializer);
+  }
+
+  @protected
+  void sse_encode_state_orbit_bounds(
+      StateOrbitBounds self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_f_64(self.minX, serializer);
+    sse_encode_f_64(self.maxX, serializer);
+    sse_encode_f_64(self.minY, serializer);
+    sse_encode_f_64(self.maxY, serializer);
+  }
+
+  @protected
+  void sse_encode_state_orbit_point(
+      StateOrbitPoint self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_f_64(self.x, serializer);
+    sse_encode_f_64(self.y, serializer);
+    sse_encode_f_64(self.z, serializer);
+  }
+
+  @protected
+  void sse_encode_state_orbit_projection(
+      StateOrbitProjection self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.index, serializer);
+  }
+
+  @protected
+  void sse_encode_state_trajectory_status(
+      StateTrajectoryStatus self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.index, serializer);
   }
@@ -4666,6 +6868,17 @@ class StateSessionImpl extends RustOpaque implements StateSession {
           request: request,
           workLimit: workLimit);
 
+  /// Exactly one core chunk (<=256 steps), never a drain loop or a new runtime.
+  Future<StateTrajectoryProgress> advanceTrajectoryAsync(
+          {required BigInt sessionId,
+          required BigInt expectedRevision,
+          required StateTrajectoryRequest request}) =>
+      RustLib.instance.api.crateApiStateSessionAdvanceTrajectoryAsync(
+          that: this,
+          sessionId: sessionId,
+          expectedRevision: expectedRevision,
+          request: request);
+
   StateSnapshot applyBatch(
           {required BigInt sessionId,
           required BigInt expectedRevision,
@@ -4706,6 +6919,17 @@ class StateSessionImpl extends RustOpaque implements StateSession {
           requestGuard: requestGuard,
           maxTrialDivisions: maxTrialDivisions);
 
+  /// Normal-mode FRB dispatch; captures settings without running integration.
+  Future<StateTrajectoryRequest?> beginTrajectoryAsync(
+          {required BigInt sessionId,
+          required BigInt expectedRevision,
+          required StateTrajectoryGuard requestGuard}) =>
+      RustLib.instance.api.crateApiStateSessionBeginTrajectoryAsync(
+          that: this,
+          sessionId: sessionId,
+          expectedRevision: expectedRevision,
+          requestGuard: requestGuard);
+
   StateNumberWallProgress cancelNumberWall(
           {required BigInt sessionId,
           required BigInt expectedRevision,
@@ -4722,6 +6946,16 @@ class StateSessionImpl extends RustOpaque implements StateSession {
           required BigInt expectedRevision,
           required StateNumberWallRequest request}) =>
       RustLib.instance.api.crateApiStateSessionCancelNumberWallAsync(
+          that: this,
+          sessionId: sessionId,
+          expectedRevision: expectedRevision,
+          request: request);
+
+  Future<StateTrajectoryProgress> cancelTrajectoryAsync(
+          {required BigInt sessionId,
+          required BigInt expectedRevision,
+          required StateTrajectoryRequest request}) =>
+      RustLib.instance.api.crateApiStateSessionCancelTrajectoryAsync(
           that: this,
           sessionId: sessionId,
           expectedRevision: expectedRevision,
@@ -4864,12 +7098,275 @@ class StateSnapshotImpl extends RustOpaque implements StateSnapshot {
         that: this,
       );
 
+  StateTrajectorySettings? trajectory() =>
+      RustLib.instance.api.crateApiStateSnapshotTrajectory(
+        that: this,
+      );
+
+  StateTrajectoryFrame? trajectoryFrame() =>
+      RustLib.instance.api.crateApiStateSnapshotTrajectoryFrame(
+        that: this,
+      );
+
+  BigInt trajectoryGeneration() =>
+      RustLib.instance.api.crateApiStateSnapshotTrajectoryGeneration(
+        that: this,
+      );
+
+  bool trajectoryPending() =>
+      RustLib.instance.api.crateApiStateSnapshotTrajectoryPending(
+        that: this,
+      );
+
+  StateTrajectoryStatus? trajectoryStatus() =>
+      RustLib.instance.api.crateApiStateSnapshotTrajectoryStatus(
+        that: this,
+      );
+
   bool transparentBackground() =>
       RustLib.instance.api.crateApiStateSnapshotTransparentBackground(
         that: this,
       );
 
   StateView view() => RustLib.instance.api.crateApiStateSnapshotView(
+        that: this,
+      );
+}
+
+@sealed
+class StateTrajectoryCameraImpl extends RustOpaque
+    implements StateTrajectoryCamera {
+  // Not to be used by end users
+  StateTrajectoryCameraImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  StateTrajectoryCameraImpl.frbInternalSseDecode(
+      BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount: RustLib
+        .instance.api.rust_arc_increment_strong_count_StateTrajectoryCamera,
+    rustArcDecrementStrongCount: RustLib
+        .instance.api.rust_arc_decrement_strong_count_StateTrajectoryCamera,
+    rustArcDecrementStrongCountPtr: RustLib
+        .instance.api.rust_arc_decrement_strong_count_StateTrajectoryCameraPtr,
+  );
+}
+
+@sealed
+class StateTrajectoryFrameImpl extends RustOpaque
+    implements StateTrajectoryFrame {
+  // Not to be used by end users
+  StateTrajectoryFrameImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  StateTrajectoryFrameImpl.frbInternalSseDecode(
+      BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount: RustLib
+        .instance.api.rust_arc_increment_strong_count_StateTrajectoryFrame,
+    rustArcDecrementStrongCount: RustLib
+        .instance.api.rust_arc_decrement_strong_count_StateTrajectoryFrame,
+    rustArcDecrementStrongCountPtr: RustLib
+        .instance.api.rust_arc_decrement_strong_count_StateTrajectoryFramePtr,
+  );
+
+  StateOrbitBounds bounds() =>
+      RustLib.instance.api.crateApiStateTrajectoryFrameBounds(
+        that: this,
+      );
+
+  bool cacheHit() => RustLib.instance.api.crateApiStateTrajectoryFrameCacheHit(
+        that: this,
+      );
+
+  String moduleId() =>
+      RustLib.instance.api.crateApiStateTrajectoryFrameModuleId(
+        that: this,
+      );
+
+  List<StateOrbitPoint> points() =>
+      RustLib.instance.api.crateApiStateTrajectoryFramePoints(
+        that: this,
+      );
+
+  BigInt sessionId() =>
+      RustLib.instance.api.crateApiStateTrajectoryFrameSessionId(
+        that: this,
+      );
+
+  StateTrajectorySettings settings() =>
+      RustLib.instance.api.crateApiStateTrajectoryFrameSettings(
+        that: this,
+      );
+
+  BigInt settingsGeneration() =>
+      RustLib.instance.api.crateApiStateTrajectoryFrameSettingsGeneration(
+        that: this,
+      );
+}
+
+@sealed
+class StateTrajectoryGuardImpl extends RustOpaque
+    implements StateTrajectoryGuard {
+  // Not to be used by end users
+  StateTrajectoryGuardImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  StateTrajectoryGuardImpl.frbInternalSseDecode(
+      BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount: RustLib
+        .instance.api.rust_arc_increment_strong_count_StateTrajectoryGuard,
+    rustArcDecrementStrongCount: RustLib
+        .instance.api.rust_arc_decrement_strong_count_StateTrajectoryGuard,
+    rustArcDecrementStrongCountPtr: RustLib
+        .instance.api.rust_arc_decrement_strong_count_StateTrajectoryGuardPtr,
+  );
+
+  bool isActive() => RustLib.instance.api.crateApiStateTrajectoryGuardIsActive(
+        that: this,
+      );
+
+  void revoke() => RustLib.instance.api.crateApiStateTrajectoryGuardRevoke(
+        that: this,
+      );
+}
+
+@sealed
+class StateTrajectoryProgressImpl extends RustOpaque
+    implements StateTrajectoryProgress {
+  // Not to be used by end users
+  StateTrajectoryProgressImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  StateTrajectoryProgressImpl.frbInternalSseDecode(
+      BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount: RustLib
+        .instance.api.rust_arc_increment_strong_count_StateTrajectoryProgress,
+    rustArcDecrementStrongCount: RustLib
+        .instance.api.rust_arc_decrement_strong_count_StateTrajectoryProgress,
+    rustArcDecrementStrongCountPtr: RustLib.instance.api
+        .rust_arc_decrement_strong_count_StateTrajectoryProgressPtr,
+  );
+
+  StateTrajectoryFrame? frame() =>
+      RustLib.instance.api.crateApiStateTrajectoryProgressFrame(
+        that: this,
+      );
+
+  bool isPending() =>
+      RustLib.instance.api.crateApiStateTrajectoryProgressIsPending(
+        that: this,
+      );
+
+  StateSnapshot snapshot() =>
+      RustLib.instance.api.crateApiStateTrajectoryProgressSnapshot(
+        that: this,
+      );
+
+  StateTrajectoryStatus? status() =>
+      RustLib.instance.api.crateApiStateTrajectoryProgressStatus(
+        that: this,
+      );
+
+  int? stepsCompleted() =>
+      RustLib.instance.api.crateApiStateTrajectoryProgressStepsCompleted(
+        that: this,
+      );
+}
+
+@sealed
+class StateTrajectoryRequestImpl extends RustOpaque
+    implements StateTrajectoryRequest {
+  // Not to be used by end users
+  StateTrajectoryRequestImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  StateTrajectoryRequestImpl.frbInternalSseDecode(
+      BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount: RustLib
+        .instance.api.rust_arc_increment_strong_count_StateTrajectoryRequest,
+    rustArcDecrementStrongCount: RustLib
+        .instance.api.rust_arc_decrement_strong_count_StateTrajectoryRequest,
+    rustArcDecrementStrongCountPtr: RustLib
+        .instance.api.rust_arc_decrement_strong_count_StateTrajectoryRequestPtr,
+  );
+}
+
+@sealed
+class StateTrajectorySettingsImpl extends RustOpaque
+    implements StateTrajectorySettings {
+  // Not to be used by end users
+  StateTrajectorySettingsImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  StateTrajectorySettingsImpl.frbInternalSseDecode(
+      BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount: RustLib
+        .instance.api.rust_arc_increment_strong_count_StateTrajectorySettings,
+    rustArcDecrementStrongCount: RustLib
+        .instance.api.rust_arc_decrement_strong_count_StateTrajectorySettings,
+    rustArcDecrementStrongCountPtr: RustLib.instance.api
+        .rust_arc_decrement_strong_count_StateTrajectorySettingsPtr,
+  );
+
+  int burnInSteps() =>
+      RustLib.instance.api.crateApiStateTrajectorySettingsBurnInSteps(
+        that: this,
+      );
+
+  String integrator() =>
+      RustLib.instance.api.crateApiStateTrajectorySettingsIntegrator(
+        that: this,
+      );
+
+  StateOrbitProjection projection() =>
+      RustLib.instance.api.crateApiStateTrajectorySettingsProjection(
+        that: this,
+      );
+
+  int retainedSteps() =>
+      RustLib.instance.api.crateApiStateTrajectorySettingsRetainedSteps(
+        that: this,
+      );
+
+  StateOrbitPoint seed() =>
+      RustLib.instance.api.crateApiStateTrajectorySettingsSeed(
+        that: this,
+      );
+
+  double stepSize() =>
+      RustLib.instance.api.crateApiStateTrajectorySettingsStepSize(
+        that: this,
+      );
+
+  StateAttractorSystem system() =>
+      RustLib.instance.api.crateApiStateTrajectorySettingsSystem(
+        that: this,
+      );
+
+  int version() => RustLib.instance.api.crateApiStateTrajectorySettingsVersion(
         that: this,
       );
 }

@@ -2,7 +2,7 @@
 use std::{
     collections::{BTreeMap, HashMap},
     sync::{
-        Arc, Mutex,
+        Arc, Mutex, OnceLock,
         atomic::{AtomicBool, AtomicU64, Ordering},
     },
 };
@@ -15,10 +15,14 @@ use fractal_core::{
     number_wall_prime::NumberWallPrimeStatus,
     session::{
         CameraInput, Command, RequestGuard, RequestProgress, RequestToken, Session, Snapshot,
+        TrajectoryCache, TrajectoryFrame, TrajectoryProgress,
     },
 };
 
 use flutter_rust_bridge::frb;
+use fractal_core::trajectory::{
+    AttractorSystem, OrbitProjection, OrbitTrajectorySettings, TrajectoryError,
+};
 
 /// An opaque session; closing one handle never closes another.
 #[frb(opaque)]
@@ -168,6 +172,152 @@ impl StateCamera {
     }
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum StateAttractorSystem {
+    Thomas,
+    FourWing,
+    Lorenz2d,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum StateOrbitProjection {
+    Xz,
+    ThomasOblique,
+}
+
+#[derive(Debug, Clone)]
+pub struct StateOrbitPoint {
+    pub x: f64,
+    pub y: f64,
+    pub z: f64,
+}
+
+#[derive(Debug, Clone)]
+pub struct StateOrbitBounds {
+    pub min_x: f64,
+    pub max_x: f64,
+    pub min_y: f64,
+    pub max_y: f64,
+}
+
+/// Validated once by core; no unchecked fields or JSON command protocol.
+#[derive(Debug, Clone)]
+#[frb(opaque)]
+pub struct StateTrajectorySettings {
+    inner: OrbitTrajectorySettings,
+}
+
+impl StateTrajectorySettings {
+    #[frb(sync)]
+    #[allow(clippy::too_many_arguments)]
+    pub fn new(
+        version: u32,
+        integrator: String,
+        system: StateAttractorSystem,
+        seed: StateOrbitPoint,
+        step_size: f64,
+        burn_in_steps: u32,
+        retained_steps: u32,
+        projection: StateOrbitProjection,
+    ) -> Result<Self, String> {
+        if version != 1 || integrator != "rk4" {
+            return Err(TrajectoryError::InvalidSettings.to_string());
+        }
+        let system = match system {
+            StateAttractorSystem::Thomas => AttractorSystem::Thomas,
+            StateAttractorSystem::FourWing => AttractorSystem::FourWing,
+            StateAttractorSystem::Lorenz2d => AttractorSystem::Lorenz2d,
+        };
+        let projection = match projection {
+            StateOrbitProjection::Xz => OrbitProjection::Xz,
+            StateOrbitProjection::ThomasOblique => OrbitProjection::ThomasOblique,
+        };
+        OrbitTrajectorySettings::new(
+            system,
+            [seed.x, seed.y, seed.z].into(),
+            step_size,
+            burn_in_steps,
+            retained_steps,
+            projection,
+        )
+        .map(|inner| Self { inner })
+        .map_err(|e| e.to_string())
+    }
+    #[frb(sync)]
+    pub fn version(&self) -> u32 {
+        self.inner.version()
+    }
+
+    #[frb(sync)]
+    pub fn integrator(&self) -> String {
+        self.inner.integrator().into()
+    }
+
+    #[frb(sync)]
+    pub fn seed(&self) -> StateOrbitPoint {
+        {
+            let p = self.inner.seed();
+            StateOrbitPoint {
+                x: p.x,
+                y: p.y,
+                z: p.z,
+            }
+        }
+    }
+
+    #[frb(sync)]
+    pub fn step_size(&self) -> f64 {
+        self.inner.step_size()
+    }
+
+    #[frb(sync)]
+    pub fn burn_in_steps(&self) -> u32 {
+        self.inner.burn_in_steps()
+    }
+
+    #[frb(sync)]
+    pub fn retained_steps(&self) -> u32 {
+        self.inner.retained_steps()
+    }
+
+    #[frb(sync)]
+    pub fn system(&self) -> StateAttractorSystem {
+        match self.inner.system() {
+            AttractorSystem::Thomas => StateAttractorSystem::Thomas,
+            AttractorSystem::FourWing => StateAttractorSystem::FourWing,
+            AttractorSystem::Lorenz2d => StateAttractorSystem::Lorenz2d,
+        }
+    }
+
+    #[frb(sync)]
+    pub fn projection(&self) -> StateOrbitProjection {
+        match self.inner.projection() {
+            OrbitProjection::Xz => StateOrbitProjection::Xz,
+            OrbitProjection::ThomasOblique => StateOrbitProjection::ThomasOblique,
+        }
+    }
+}
+
+/// Separate from StateCamera: null remains absence; bare markers still reject.
+#[derive(Debug, Clone)]
+#[frb(opaque)]
+pub struct StateTrajectoryCamera {
+    inner: CameraInput,
+}
+
+impl StateTrajectoryCamera {
+    #[frb(sync)]
+    pub fn new(view: StateView, trajectory: Option<StateTrajectorySettings>) -> Self {
+        let mut inner = StateCamera {
+            view,
+            has_trajectory: false,
+        }
+        .into_core();
+        inner.trajectory = trajectory.map(|s| s.inner);
+        Self { inner }
+    }
+}
+
 fn core_params(params: HashMap<String, StateValue>) -> BTreeMap<String, RawScalar> {
     params
         .into_iter()
@@ -182,6 +332,48 @@ pub struct StateCommand {
 }
 
 impl StateCommand {
+    #[frb(sync)]
+    pub fn view_trajectory(camera: StateTrajectoryCamera, adaptive: bool) -> Self {
+        Self {
+            inner: Command::View {
+                camera: camera.inner,
+                adaptive,
+            },
+        }
+    }
+
+    #[frb(sync)]
+    pub fn apply_preset_trajectory(
+        module_id: String,
+        params: HashMap<String, StateValue>,
+        camera: StateTrajectoryCamera,
+    ) -> Self {
+        Self {
+            inner: Command::ApplyPreset {
+                module_id,
+                params: core_params(params),
+                camera: camera.inner,
+            },
+        }
+    }
+
+    #[frb(sync)]
+    pub fn load_trajectory(
+        module_id: Option<String>,
+        params: HashMap<String, StateValue>,
+        camera: StateTrajectoryCamera,
+        transparent: bool,
+    ) -> Self {
+        Self {
+            inner: Command::Load {
+                module_id,
+                params: core_params(params),
+                camera: camera.inner,
+                transparent,
+            },
+        }
+    }
+
     #[frb(sync)]
     pub fn zoom(value: f64) -> Self {
         Self {
@@ -565,6 +757,169 @@ impl StateNumberWallProgress {
     }
 }
 
+#[derive(Debug)]
+#[frb(opaque)]
+pub struct StateTrajectoryGuard {
+    inner: RequestGuard,
+}
+
+impl StateTrajectoryGuard {
+    #[frb(sync)]
+    pub fn new(active: bool) -> Self {
+        Self {
+            inner: RequestGuard::new(active),
+        }
+    }
+    #[frb(sync)]
+    pub fn revoke(&self) {
+        self.inner.revoke();
+    }
+    #[frb(sync)]
+    pub fn is_active(&self) -> bool {
+        self.inner.is_active()
+    }
+}
+
+#[derive(Debug)]
+#[frb(opaque)]
+pub struct StateTrajectoryRequest {
+    inner: RequestToken,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum StateTrajectoryStatus {
+    Success,
+    InvalidSettings,
+    InvalidIntegrationInputs,
+    NonFiniteIntegration,
+    SafetyBounds,
+    Cancelled,
+}
+
+fn trajectory_status(result: Result<(), TrajectoryError>) -> StateTrajectoryStatus {
+    match result {
+        Ok(()) => StateTrajectoryStatus::Success,
+        Err(TrajectoryError::InvalidSettings) => StateTrajectoryStatus::InvalidSettings,
+        Err(TrajectoryError::InvalidIntegrationInputs) => {
+            StateTrajectoryStatus::InvalidIntegrationInputs
+        }
+        Err(TrajectoryError::NonFiniteIntegration) => StateTrajectoryStatus::NonFiniteIntegration,
+        Err(TrajectoryError::SafetyBounds) => StateTrajectoryStatus::SafetyBounds,
+        Err(TrajectoryError::Cancelled) => StateTrajectoryStatus::Cancelled,
+    }
+}
+
+/// Detached terminal frame with sample settings and publication provenance.
+#[derive(Debug)]
+#[frb(opaque)]
+pub struct StateTrajectoryFrame {
+    inner: Arc<TrajectoryFrame>,
+    session_id: u64,
+}
+
+impl StateTrajectoryFrame {
+    #[frb(sync)]
+    pub fn module_id(&self) -> String {
+        self.inner.module_id().into()
+    }
+
+    #[frb(sync)]
+    pub fn session_id(&self) -> u64 {
+        self.session_id
+    }
+
+    #[frb(sync)]
+    pub fn settings_generation(&self) -> u64 {
+        self.inner.settings_generation()
+    }
+
+    #[frb(sync)]
+    pub fn cache_hit(&self) -> bool {
+        self.inner.cache_hit()
+    }
+
+    #[frb(sync)]
+    pub fn settings(&self) -> StateTrajectorySettings {
+        StateTrajectorySettings {
+            inner: *self.inner.trajectory().settings(),
+        }
+    }
+
+    #[frb(sync)]
+    pub fn points(&self) -> Vec<StateOrbitPoint> {
+        self.inner
+            .trajectory()
+            .points()
+            .iter()
+            .map(|p| StateOrbitPoint {
+                x: p.x,
+                y: p.y,
+                z: p.z,
+            })
+            .collect()
+    }
+
+    #[frb(sync)]
+    pub fn bounds(&self) -> StateOrbitBounds {
+        {
+            let b = self.inner.trajectory().bounds();
+            StateOrbitBounds {
+                min_x: b.min_x,
+                max_x: b.max_x,
+                min_y: b.min_y,
+                max_y: b.max_y,
+            }
+        }
+    }
+}
+
+/// Progress and snapshot captured under the same lock.
+#[derive(Debug)]
+#[frb(opaque)]
+pub struct StateTrajectoryProgress {
+    inner: TrajectoryProgress,
+    snapshot: Snapshot,
+}
+
+impl StateTrajectoryProgress {
+    #[frb(sync)]
+    pub fn is_pending(&self) -> bool {
+        matches!(self.inner, TrajectoryProgress::Pending { .. })
+    }
+    #[frb(sync)]
+    pub fn steps_completed(&self) -> Option<u32> {
+        match self.inner {
+            TrajectoryProgress::Pending { steps_completed } => Some(steps_completed),
+            _ => None,
+        }
+    }
+    #[frb(sync)]
+    pub fn status(&self) -> Option<StateTrajectoryStatus> {
+        match &self.inner {
+            TrajectoryProgress::Pending { .. } => None,
+            TrajectoryProgress::Finished(result) => Some(trajectory_status(
+                result.as_ref().map(|_| ()).map_err(|e| *e),
+            )),
+        }
+    }
+    #[frb(sync)]
+    pub fn frame(&self) -> Option<StateTrajectoryFrame> {
+        match &self.inner {
+            TrajectoryProgress::Finished(Ok(frame)) => Some(StateTrajectoryFrame {
+                inner: frame.clone(),
+                session_id: self.snapshot.session_id(),
+            }),
+            _ => None,
+        }
+    }
+    #[frb(sync)]
+    pub fn snapshot(&self) -> StateSnapshot {
+        StateSnapshot {
+            inner: self.snapshot.clone(),
+        }
+    }
+}
+
 /// Detached immutable core copy; collection getters return further detached copies.
 #[derive(Debug)]
 #[frb(opaque)]
@@ -573,6 +928,34 @@ pub struct StateSnapshot {
 }
 
 impl StateSnapshot {
+    #[frb(sync)]
+    pub fn trajectory(&self) -> Option<StateTrajectorySettings> {
+        self.inner
+            .trajectory()
+            .map(|inner| StateTrajectorySettings { inner })
+    }
+    #[frb(sync)]
+    pub fn trajectory_generation(&self) -> u64 {
+        self.inner.trajectory_generation()
+    }
+    #[frb(sync)]
+    pub fn trajectory_pending(&self) -> bool {
+        self.inner.trajectory_pending().is_some()
+    }
+    #[frb(sync)]
+    pub fn trajectory_status(&self) -> Option<StateTrajectoryStatus> {
+        self.inner.trajectory_status().map(trajectory_status)
+    }
+    #[frb(sync)]
+    pub fn trajectory_frame(&self) -> Option<StateTrajectoryFrame> {
+        self.inner
+            .trajectory_frame()
+            .map(|inner| StateTrajectoryFrame {
+                inner: inner.clone(),
+                session_id: self.inner.session_id(),
+            })
+    }
+
     /// Fixed detached debug instrumentation; release builds explicitly refuse.
     /// Not a security boundary or a production identity source.
     #[frb(sync)]
@@ -719,6 +1102,8 @@ impl StateSnapshot {
     }
 }
 
+static TRAJECTORY_CACHE: OnceLock<TrajectoryCache> = OnceLock::new();
+
 static LAST_SESSION_ID: AtomicU64 = AtomicU64::new(0);
 
 fn allocate_session_id(last: &AtomicU64) -> Result<u64, String> {
@@ -738,6 +1123,65 @@ pub struct StateSession {
 }
 
 impl StateSession {
+    /// Normal-mode FRB dispatch; captures settings without running integration.
+    pub fn begin_trajectory_async(
+        &self,
+        session_id: u64,
+        expected_revision: u64,
+        request_guard: &StateTrajectoryGuard,
+    ) -> Result<Option<StateTrajectoryRequest>, String> {
+        let mut guard = self
+            .inner
+            .lock()
+            .map_err(|_| "Rust state session lock poisoned")?;
+        let session = guard.as_mut().ok_or("Rust state session is closed")?;
+        session
+            .begin_trajectory(session_id, expected_revision, request_guard.inner.clone())
+            .map(|r| r.map(|inner| StateTrajectoryRequest { inner }))
+            .map_err(|e| e.to_string())
+    }
+
+    /// Exactly one core chunk (<=256 steps), never a drain loop or a new runtime.
+    pub fn advance_trajectory_async(
+        &self,
+        session_id: u64,
+        expected_revision: u64,
+        request: &StateTrajectoryRequest,
+    ) -> Result<StateTrajectoryProgress, String> {
+        let mut guard = self
+            .inner
+            .lock()
+            .map_err(|_| "Rust state session lock poisoned")?;
+        let session = guard.as_mut().ok_or("Rust state session is closed")?;
+        let inner = session
+            .advance_trajectory(session_id, expected_revision, request.inner)
+            .map_err(|e| e.to_string())?;
+        Ok(StateTrajectoryProgress {
+            inner,
+            snapshot: session.snapshot(),
+        })
+    }
+
+    pub fn cancel_trajectory_async(
+        &self,
+        session_id: u64,
+        expected_revision: u64,
+        request: &StateTrajectoryRequest,
+    ) -> Result<StateTrajectoryProgress, String> {
+        let mut guard = self
+            .inner
+            .lock()
+            .map_err(|_| "Rust state session lock poisoned")?;
+        let session = guard.as_mut().ok_or("Rust state session is closed")?;
+        let inner = session
+            .cancel_trajectory(session_id, expected_revision, request.inner)
+            .map_err(|e| e.to_string())?;
+        Ok(StateTrajectoryProgress {
+            inner,
+            snapshot: session.snapshot(),
+        })
+    }
+
     /// Consume and validate all four original envelopes once, not per command/frame.
     #[frb(sync)]
     pub fn new(
@@ -749,10 +1193,13 @@ impl StateSession {
     ) -> Result<Self, String> {
         let catalog = CatalogBaseline::from_jsons(&modules, &parameters, &presets, &capabilities)
             .map_err(|e| e.to_string())?;
-        let session = Session::new(
+        let session = Session::with_trajectory_cache(
             Arc::new(catalog),
             allocate_session_id(&LAST_SESSION_ID)?,
             &module_id,
+            TRAJECTORY_CACHE
+                .get_or_init(TrajectoryCache::default)
+                .clone(),
         )
         .map_err(|e| e.to_string())?;
         Ok(Self {

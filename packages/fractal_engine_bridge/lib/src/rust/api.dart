@@ -6,8 +6,8 @@
 import 'frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// These functions are ignored because they are not marked as `pub`: `advance_number_wall_impl`, `allocate_session_id`, `begin_number_wall_impl`, `cancel_number_wall_impl`, `core_params`, `into_core`, `shutdown_impl`, `snapshot_impl`
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_fields_are_eq`, `assert_fields_are_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`
+// These functions are ignored because they are not marked as `pub`: `advance_number_wall_impl`, `allocate_session_id`, `begin_number_wall_impl`, `cancel_number_wall_impl`, `core_params`, `into_core`, `shutdown_impl`, `snapshot_impl`, `trajectory_status`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `eq`, `eq`, `eq`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`
 // These functions are ignored (category: IgnoreBecauseExplicitAttribute): `default`
 
 String engineVersion() => RustLib.instance.api.crateApiEngineVersion();
@@ -28,6 +28,13 @@ abstract class StateCommand implements RustOpaqueInterface {
           required Map<String, StateValue> params,
           required StateCamera camera}) =>
       RustLib.instance.api.crateApiStateCommandApplyPreset(
+          moduleId: moduleId, params: params, camera: camera);
+
+  static StateCommand applyPresetTrajectory(
+          {required String moduleId,
+          required Map<String, StateValue> params,
+          required StateTrajectoryCamera camera}) =>
+      RustLib.instance.api.crateApiStateCommandApplyPresetTrajectory(
           moduleId: moduleId, params: params, camera: camera);
 
   static StateCommand fluidModeEnabled({required bool value}) =>
@@ -70,6 +77,17 @@ abstract class StateCommand implements RustOpaqueInterface {
           required StateCamera camera,
           required bool transparent}) =>
       RustLib.instance.api.crateApiStateCommandLoad(
+          moduleId: moduleId,
+          params: params,
+          camera: camera,
+          transparent: transparent);
+
+  static StateCommand loadTrajectory(
+          {String? moduleId,
+          required Map<String, StateValue> params,
+          required StateTrajectoryCamera camera,
+          required bool transparent}) =>
+      RustLib.instance.api.crateApiStateCommandLoadTrajectory(
           moduleId: moduleId,
           params: params,
           camera: camera,
@@ -120,6 +138,11 @@ abstract class StateCommand implements RustOpaqueInterface {
           {required StateCamera camera, required bool adaptive}) =>
       RustLib.instance.api
           .crateApiStateCommandView(camera: camera, adaptive: adaptive);
+
+  static StateCommand viewTrajectory(
+          {required StateTrajectoryCamera camera, required bool adaptive}) =>
+      RustLib.instance.api.crateApiStateCommandViewTrajectory(
+          camera: camera, adaptive: adaptive);
 
   static StateCommand zoom({required double value}) =>
       RustLib.instance.api.crateApiStateCommandZoom(value: value);
@@ -185,6 +208,12 @@ abstract class StateSession implements RustOpaqueInterface {
       required StateNumberWallRequest request,
       required int workLimit});
 
+  /// Exactly one core chunk (<=256 steps), never a drain loop or a new runtime.
+  Future<StateTrajectoryProgress> advanceTrajectoryAsync(
+      {required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateTrajectoryRequest request});
+
   StateSnapshot applyBatch(
       {required BigInt sessionId,
       required BigInt expectedRevision,
@@ -206,6 +235,12 @@ abstract class StateSession implements RustOpaqueInterface {
       required StateNumberWallGuard requestGuard,
       required int maxTrialDivisions});
 
+  /// Normal-mode FRB dispatch; captures settings without running integration.
+  Future<StateTrajectoryRequest?> beginTrajectoryAsync(
+      {required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateTrajectoryGuard requestGuard});
+
   StateNumberWallProgress cancelNumberWall(
       {required BigInt sessionId,
       required BigInt expectedRevision,
@@ -216,6 +251,11 @@ abstract class StateSession implements RustOpaqueInterface {
       {required BigInt sessionId,
       required BigInt expectedRevision,
       required StateNumberWallRequest request});
+
+  Future<StateTrajectoryProgress> cancelTrajectoryAsync(
+      {required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateTrajectoryRequest request});
 
   /// Consume and validate all four original envelopes once, not per command/frame.
   factory StateSession(
@@ -286,9 +326,108 @@ abstract class StateSnapshot implements RustOpaqueInterface {
 
   BigInt sessionId();
 
+  StateTrajectorySettings? trajectory();
+
+  StateTrajectoryFrame? trajectoryFrame();
+
+  BigInt trajectoryGeneration();
+
+  bool trajectoryPending();
+
+  StateTrajectoryStatus? trajectoryStatus();
+
   bool transparentBackground();
 
   StateView view();
+}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateTrajectoryCamera>>
+abstract class StateTrajectoryCamera implements RustOpaqueInterface {
+  factory StateTrajectoryCamera(
+          {required StateView view, StateTrajectorySettings? trajectory}) =>
+      RustLib.instance.api
+          .crateApiStateTrajectoryCameraNew(view: view, trajectory: trajectory);
+}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateTrajectoryFrame>>
+abstract class StateTrajectoryFrame implements RustOpaqueInterface {
+  StateOrbitBounds bounds();
+
+  bool cacheHit();
+
+  String moduleId();
+
+  List<StateOrbitPoint> points();
+
+  BigInt sessionId();
+
+  StateTrajectorySettings settings();
+
+  BigInt settingsGeneration();
+}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateTrajectoryGuard>>
+abstract class StateTrajectoryGuard implements RustOpaqueInterface {
+  bool isActive();
+
+  factory StateTrajectoryGuard({required bool active}) =>
+      RustLib.instance.api.crateApiStateTrajectoryGuardNew(active: active);
+
+  void revoke();
+}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateTrajectoryProgress>>
+abstract class StateTrajectoryProgress implements RustOpaqueInterface {
+  StateTrajectoryFrame? frame();
+
+  bool isPending();
+
+  StateSnapshot snapshot();
+
+  StateTrajectoryStatus? status();
+
+  int? stepsCompleted();
+}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateTrajectoryRequest>>
+abstract class StateTrajectoryRequest implements RustOpaqueInterface {}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateTrajectorySettings>>
+abstract class StateTrajectorySettings implements RustOpaqueInterface {
+  int burnInSteps();
+
+  String integrator();
+
+  factory StateTrajectorySettings(
+          {required int version,
+          required String integrator,
+          required StateAttractorSystem system,
+          required StateOrbitPoint seed,
+          required double stepSize,
+          required int burnInSteps,
+          required int retainedSteps,
+          required StateOrbitProjection projection}) =>
+      RustLib.instance.api.crateApiStateTrajectorySettingsNew(
+          version: version,
+          integrator: integrator,
+          system: system,
+          seed: seed,
+          stepSize: stepSize,
+          burnInSteps: burnInSteps,
+          retainedSteps: retainedSteps,
+          projection: projection);
+
+  StateOrbitProjection projection();
+
+  int retainedSteps();
+
+  StateOrbitPoint seed();
+
+  double stepSize();
+
+  StateAttractorSystem system();
+
+  int version();
 }
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateValue>>
@@ -333,6 +472,13 @@ class Capabilities {
           rendering == other.rendering;
 }
 
+enum StateAttractorSystem {
+  thomas,
+  fourWing,
+  lorenz2D,
+  ;
+}
+
 class StateCamera {
   final StateView view;
   final bool hasTrajectory;
@@ -369,6 +515,74 @@ enum StateNumberWallStatus {
   composite,
   invalid,
   unverified,
+  cancelled,
+  ;
+}
+
+class StateOrbitBounds {
+  final double minX;
+  final double maxX;
+  final double minY;
+  final double maxY;
+
+  const StateOrbitBounds({
+    required this.minX,
+    required this.maxX,
+    required this.minY,
+    required this.maxY,
+  });
+
+  @override
+  int get hashCode =>
+      minX.hashCode ^ maxX.hashCode ^ minY.hashCode ^ maxY.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is StateOrbitBounds &&
+          runtimeType == other.runtimeType &&
+          minX == other.minX &&
+          maxX == other.maxX &&
+          minY == other.minY &&
+          maxY == other.maxY;
+}
+
+class StateOrbitPoint {
+  final double x;
+  final double y;
+  final double z;
+
+  const StateOrbitPoint({
+    required this.x,
+    required this.y,
+    required this.z,
+  });
+
+  @override
+  int get hashCode => x.hashCode ^ y.hashCode ^ z.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is StateOrbitPoint &&
+          runtimeType == other.runtimeType &&
+          x == other.x &&
+          y == other.y &&
+          z == other.z;
+}
+
+enum StateOrbitProjection {
+  xz,
+  thomasOblique,
+  ;
+}
+
+enum StateTrajectoryStatus {
+  success,
+  invalidSettings,
+  invalidIntegrationInputs,
+  nonFiniteIntegration,
+  safetyBounds,
   cancelled,
   ;
 }
