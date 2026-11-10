@@ -1,0 +1,9 @@
+schema = 1
+task = "MAINT-LOCAL-SETUP-DOCS-01"
+candidate = "972f407762660ce269ddcbf05ccc663b78707639"
+integration = "bcc6a814e0c836ef8ed3cf603e0651046b54ff75"
+tree = "bc76321bf2c30a8157606cb56dc1286f7b2e6977"
+contract_hash = "b5e1e9217e72722baede70b41b884cdb29d040900bc6c6583a9dd43d480bed94"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAINT-LOCAL-SETUP-DOCS-01"]
+result = "pass"
+review = "passed"
