@@ -39,6 +39,51 @@ class AppOptionsSheet extends StatelessWidget {
   });
 
   @override
+  Widget build(BuildContext context) => AppSheetScaffold(
+        icon: icon,
+        title: title,
+        subtitle: subtitle,
+        maxHeightFactor: maxHeightFactor,
+        bodyPadding: const EdgeInsets.fromLTRB(
+            AppSpacing.lg, AppSpacing.md, AppSpacing.lg, AppSpacing.xxxl),
+        onClose: () => Navigator.of(context).pop(),
+        body: child,
+      );
+}
+
+/// Shared modal frame: header and body scroll together; [actions] stay pinned.
+///
+/// A fixed header can consume the entire viewport in short landscape at large
+/// text sizes. Keep it in the same viewport as the body so both remain reachable.
+class AppSheetScaffold extends StatelessWidget {
+  final IconData icon;
+  final Gradient? iconGradient;
+  final String title;
+  final String? subtitle;
+  final double maxHeightFactor;
+  final EdgeInsetsGeometry bodyPadding;
+
+  /// Content of the shared scroll viewport; do not add another scroll view.
+  final Widget body;
+  final Widget? actions;
+
+  /// Defaults to dismissing the sheet with a null result via maybePop.
+  final VoidCallback? onClose;
+
+  const AppSheetScaffold({
+    super.key,
+    required this.icon,
+    this.iconGradient,
+    required this.title,
+    this.subtitle,
+    this.maxHeightFactor = 0.68,
+    this.bodyPadding = const EdgeInsets.all(AppSpacing.md),
+    required this.body,
+    this.actions,
+    this.onClose,
+  });
+
+  @override
   Widget build(BuildContext context) => AppBottomSheet(
         maxHeightFactor: maxHeightFactor,
         children: [
@@ -50,22 +95,23 @@ class AppOptionsSheet extends StatelessWidget {
                 children: [
                   AppBottomSheetHeader(
                     icon: icon,
+                    iconGradient: iconGradient,
                     title: title,
                     subtitle: subtitle,
-                    onClose: () => Navigator.of(context).pop(),
+                    onClose: onClose ?? () => Navigator.of(context).maybePop(),
                   ),
                   Divider(
                       height: 1,
                       color: Theme.of(context).colorScheme.outlineVariant),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(AppSpacing.lg,
-                        AppSpacing.md, AppSpacing.lg, AppSpacing.xxxl),
-                    child: Material(color: Colors.transparent, child: child),
+                    padding: bodyPadding,
+                    child: Material(color: Colors.transparent, child: body),
                   ),
                 ],
               ),
             ),
           ),
+          if (actions != null) actions!,
         ],
       );
 }

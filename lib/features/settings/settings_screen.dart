@@ -120,94 +120,73 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final l10n = AppLocalizations.of(context)!;
     final accessibility = context.read<AccessibilityService>();
 
-    showModalBottomSheet(
+    showAppBottomSheet<void>(
       context: context,
-      useSafeArea: true,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (sheetContext) => AppBottomSheet(
+      builder: (sheetContext) => AppSheetScaffold(
         maxHeightFactor: 0.56,
-        children: [
-          AppBottomSheetHeader(
-            icon: Icons.palette_outlined,
-            title: l10n.settingsColorTheme,
-            subtitle: l10n.settingsColorThemeSubtitle,
-            onClose: () => Navigator.pop(sheetContext),
-          ),
-          const Divider(height: 1, color: AppColors.divider),
-          // Flexible and scrollable, like every other sheet body: as a plain
-          // fixed child this Column overflowed the 0.56 height factor by 192px,
-          // because three theme cards plus the cancel button exceed it and
-          // AppBottomSheet gives its children no scroll region of its own.
-          Flexible(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(
-                AppSpacing.md,
-                AppSpacing.md,
-                AppSpacing.md,
-                0,
+        icon: Icons.palette_outlined,
+        title: l10n.settingsColorTheme,
+        subtitle: l10n.settingsColorThemeSubtitle,
+        onClose: () => Navigator.pop(sheetContext),
+        bodyPadding: const EdgeInsets.fromLTRB(
+            AppSpacing.md, AppSpacing.md, AppSpacing.md, 0),
+        body: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _ThemeOption(
+              title: l10n.settingsThemeDark,
+              subtitle: l10n.settingsThemeDarkDescription,
+              gradient: const LinearGradient(
+                colors: [Color(0xFF0A0A12), Color(0xFF7C4DFF)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _ThemeOption(
-                    title: l10n.settingsThemeDark,
-                    subtitle: l10n.settingsThemeDarkDescription,
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFF0A0A12), Color(0xFF7C4DFF)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    isSelected: accessibility.themeMode == AppThemeMode.dark,
-                    onTap: () {
-                      accessibility.setThemeMode(AppThemeMode.dark);
-                      Navigator.pop(sheetContext);
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                  _ThemeOption(
-                    title: l10n.settingsThemeOled,
-                    subtitle: l10n.settingsThemeOledDescription,
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFF000000), Color(0xFF7C4DFF)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    isSelected: accessibility.themeMode == AppThemeMode.oled,
-                    onTap: () {
-                      accessibility.setThemeMode(AppThemeMode.oled);
-                      Navigator.pop(sheetContext);
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                  _ThemeOption(
-                    title: l10n.settingsThemeHighContrast,
-                    subtitle: l10n.settingsThemeHighContrastDescription,
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFF000000), Color(0xFFFFFF00)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    isSelected:
-                        accessibility.themeMode == AppThemeMode.highContrast,
-                    onTap: () {
-                      accessibility.setThemeMode(AppThemeMode.highContrast);
-                      Navigator.pop(sheetContext);
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    width: double.infinity,
-                    child: TextButton(
-                      onPressed: () => Navigator.pop(sheetContext),
-                      child: Text(l10n.actionCancel),
-                    ),
-                  ),
-                ],
+              isSelected: accessibility.themeMode == AppThemeMode.dark,
+              onTap: () {
+                accessibility.setThemeMode(AppThemeMode.dark);
+                Navigator.pop(sheetContext);
+              },
+            ),
+            const SizedBox(height: 12),
+            _ThemeOption(
+              title: l10n.settingsThemeOled,
+              subtitle: l10n.settingsThemeOledDescription,
+              gradient: const LinearGradient(
+                colors: [Color(0xFF000000), Color(0xFF7C4DFF)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              isSelected: accessibility.themeMode == AppThemeMode.oled,
+              onTap: () {
+                accessibility.setThemeMode(AppThemeMode.oled);
+                Navigator.pop(sheetContext);
+              },
+            ),
+            const SizedBox(height: 12),
+            _ThemeOption(
+              title: l10n.settingsThemeHighContrast,
+              subtitle: l10n.settingsThemeHighContrastDescription,
+              gradient: const LinearGradient(
+                colors: [Color(0xFF000000), Color(0xFFFFFF00)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              isSelected: accessibility.themeMode == AppThemeMode.highContrast,
+              onTap: () {
+                accessibility.setThemeMode(AppThemeMode.highContrast);
+                Navigator.pop(sheetContext);
+              },
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              child: TextButton(
+                onPressed: () => Navigator.pop(sheetContext),
+                child: Text(l10n.actionCancel),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
