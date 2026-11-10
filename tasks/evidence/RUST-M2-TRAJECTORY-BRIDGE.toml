@@ -1,0 +1,9 @@
+schema = 1
+task = "RUST-M2-TRAJECTORY-BRIDGE"
+candidate = "0862f15be9ba8e66eaa2235a27e0176452498989"
+integration = "1ac79f1f23943696348119d839f75d553f76a9cc"
+tree = "d944295a2221ede0cbd1c7245dad32d24f62d2df"
+contract_hash = "22a09dc722cf108f6e5352d393462abb5f6127c9ac812187e50d44899a8e78ef"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-TRAJECTORY-BRIDGE"]
+result = "pass"
+review = "passed"

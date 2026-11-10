@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Added typed bounded trajectory bridge metadata/Future requests, source-bound --trajectory inputs and compile-only native coverage with explicit Lorenz enum mapping; installed qualification remains pending. (RUST-M2-TRAJECTORY-BRIDGE)
 - Added fixed debug-only detached high-u64 snapshots through the production generated bridge, explicit release refusal, and a compile-verified BigInt smoke target; installed Linux/Waydroid readback remains pending. (RUST-M2-U64-FIXTURE)
 - Add the deterministic physical-input oracle and exact reference-source transition guard, preserving original baseline images and gesture behavior. (RUST-M2-PHYSICAL-ORACLE)
 - Share bottom-sheet keyboard/navigation inset policy while preserving shell sizing and draggable scrolling, with expanded viewport-bound regression coverage. (UI-OVERLAY-SHELL-INSETS-02)
