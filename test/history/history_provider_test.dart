@@ -198,6 +198,46 @@ void main() {
       expect(store.loadFavorites().length, HistoryStore.maxFavoriteEntries);
     });
 
+    testWidgets('restores the healthy slot when the other slot is mistyped',
+        (tester) async {
+      final healthyPayload = jsonEncode([_entryJson(1), _entryJson(2)]);
+      for (final mistypedKey in [
+        'exploration_history',
+        'exploration_favorites',
+      ]) {
+        final historyIsMistyped = mistypedKey == 'exploration_history';
+        final initialValues = <String, Object>{
+          'exploration_history': historyIsMistyped ? 42 : healthyPayload,
+          'exploration_favorites': historyIsMistyped ? healthyPayload : true,
+        };
+        SharedPreferences.setMockInitialValues(initialValues);
+        final preferences = await SharedPreferences.getInstance();
+        final store = await HistoryStore.create();
+        final provider = HistoryProvider(store: store);
+        addTearDown(provider.dispose);
+
+        expect(provider.historyCount, historyIsMistyped ? 0 : 2);
+        expect(provider.favoritesCount, historyIsMistyped ? 2 : 0);
+        expect(provider.currentPosition, historyIsMistyped ? 0 : 2);
+        expect(provider.canGoBack, !historyIsMistyped);
+        expect(provider.canGoForward, isFalse);
+        if (historyIsMistyped) {
+          expect(provider.currentEntry, isNull);
+          expect(provider.favorites.map((entry) => entry.view.zoom), [1, 2]);
+        } else {
+          expect(provider.currentEntry!.view.zoom, 2);
+          expect(provider.goBack()!.view.zoom, 1);
+          expect(provider.canGoForward, isTrue);
+          expect(provider.goForward()!.view.zoom, 2);
+        }
+
+        await tester.pump(const Duration(milliseconds: 501));
+        for (final entry in initialValues.entries) {
+          expect(preferences.get(entry.key), entry.value);
+        }
+      }
+    });
+
     testWidgets('restored history and favorites are capped before display',
         (tester) async {
       SharedPreferences.setMockInitialValues({

@@ -82,8 +82,9 @@ class HistoryStore {
   }
 
   List<HistoryEntry> _loadEntries(_HistoryStoreSlot slot) {
-    final payload = _prefs.getString(slot.key);
-    return _HistoryEntryCodec.parse(payload, slotLabel: slot.label);
+    final payload = _prefs.get(slot.key);
+    return _HistoryEntryCodec.parse(payload is String ? payload : null,
+        slotLabel: slot.label);
   }
 
   Future<void> _saveEntries(
