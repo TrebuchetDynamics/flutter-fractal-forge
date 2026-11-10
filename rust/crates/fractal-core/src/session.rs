@@ -1,5 +1,8 @@
 //! Inert scalar/effect/Number Walls/trajectory owner. No app routing, executor or storage.
 
+#[cfg(debug_assertions)]
+#[path = "session_codec_fixture.rs"]
+mod codec_fixture;
 #[path = "session_effects.rs"]
 mod effects;
 #[path = "session_param_timeline.rs"]

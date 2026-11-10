@@ -244,6 +244,10 @@ abstract class StateSession implements RustOpaqueInterface {
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateSnapshot>>
 abstract class StateSnapshot implements RustOpaqueInterface {
+  /// Fixed detached debug instrumentation; release builds explicitly refuse.
+  /// Not a security boundary or a production identity source.
+  List<StateSnapshot> debugU64Fixtures();
+
   bool fluidModeEnabled();
 
   double fluidStrength();

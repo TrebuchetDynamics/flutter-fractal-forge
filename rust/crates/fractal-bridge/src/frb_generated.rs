@@ -38,7 +38,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -2108742912;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 35396611;
 
 // Section: executor
 
@@ -2361,6 +2361,52 @@ fn wire__crate__api__StateSession_snapshot_async_impl(
         },
     )
 }
+fn wire__crate__api__StateSnapshot_debug_u64_fixtures_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "StateSnapshot_debug_u64_fixtures",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateSnapshot>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            transform_result_sse::<_, String>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, false,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                        _ => unreachable!(),
+                    }
+                }
+                let api_that_guard = api_that_guard.unwrap();
+                let output_ok = crate::api::StateSnapshot::debug_u64_fixtures(&*api_that_guard)?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
 fn wire__crate__api__StateSnapshot_fluid_mode_enabled_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -3981,6 +4027,18 @@ impl SseDecode for Vec<StateCommand> {
     }
 }
 
+impl SseDecode for Vec<StateSnapshot> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = vec![];
+        for idx_ in 0..len_ {
+            ans_.push(<StateSnapshot>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
 impl SseDecode for Vec<String> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -4303,48 +4361,49 @@ fn pde_ffi_dispatcher_sync_impl(
         51 => wire__crate__api__StateSession_new_impl(ptr, rust_vec_len, data_len),
         52 => wire__crate__api__StateSession_shutdown_impl(ptr, rust_vec_len, data_len),
         54 => wire__crate__api__StateSession_snapshot_impl(ptr, rust_vec_len, data_len),
-        56 => wire__crate__api__StateSnapshot_fluid_mode_enabled_impl(ptr, rust_vec_len, data_len),
-        57 => wire__crate__api__StateSnapshot_fluid_strength_impl(ptr, rust_vec_len, data_len),
-        58 => wire__crate__api__StateSnapshot_glow_enabled_impl(ptr, rust_vec_len, data_len),
-        59 => wire__crate__api__StateSnapshot_glow_intensity_impl(ptr, rust_vec_len, data_len),
-        60 => wire__crate__api__StateSnapshot_glow_sigma_impl(ptr, rust_vec_len, data_len),
-        61 => {
+        56 => wire__crate__api__StateSnapshot_debug_u64_fixtures_impl(ptr, rust_vec_len, data_len),
+        57 => wire__crate__api__StateSnapshot_fluid_mode_enabled_impl(ptr, rust_vec_len, data_len),
+        58 => wire__crate__api__StateSnapshot_fluid_strength_impl(ptr, rust_vec_len, data_len),
+        59 => wire__crate__api__StateSnapshot_glow_enabled_impl(ptr, rust_vec_len, data_len),
+        60 => wire__crate__api__StateSnapshot_glow_intensity_impl(ptr, rust_vec_len, data_len),
+        61 => wire__crate__api__StateSnapshot_glow_sigma_impl(ptr, rust_vec_len, data_len),
+        62 => {
             wire__crate__api__StateSnapshot_kaleidoscope_enabled_impl(ptr, rust_vec_len, data_len)
         }
-        62 => wire__crate__api__StateSnapshot_kaleidoscope_mirror_impl(ptr, rust_vec_len, data_len),
-        63 => wire__crate__api__StateSnapshot_kaleidoscope_mirror_mode_impl(
+        63 => wire__crate__api__StateSnapshot_kaleidoscope_mirror_impl(ptr, rust_vec_len, data_len),
+        64 => wire__crate__api__StateSnapshot_kaleidoscope_mirror_mode_impl(
             ptr,
             rust_vec_len,
             data_len,
         ),
-        64 => {
+        65 => {
             wire__crate__api__StateSnapshot_kaleidoscope_rotation_impl(ptr, rust_vec_len, data_len)
         }
-        65 => {
+        66 => {
             wire__crate__api__StateSnapshot_kaleidoscope_sectors_impl(ptr, rust_vec_len, data_len)
         }
-        66 => wire__crate__api__StateSnapshot_last_adaptive_zoom_impl(ptr, rust_vec_len, data_len),
-        67 => wire__crate__api__StateSnapshot_module_id_impl(ptr, rust_vec_len, data_len),
-        68 => wire__crate__api__StateSnapshot_number_wall_frame_impl(ptr, rust_vec_len, data_len),
-        69 => wire__crate__api__StateSnapshot_number_wall_pending_impl(ptr, rust_vec_len, data_len),
-        70 => wire__crate__api__StateSnapshot_number_wall_status_impl(ptr, rust_vec_len, data_len),
-        71 => wire__crate__api__StateSnapshot_params_impl(ptr, rust_vec_len, data_len),
-        72 => wire__crate__api__StateSnapshot_revision_impl(ptr, rust_vec_len, data_len),
-        73 => wire__crate__api__StateSnapshot_rotation_locked_impl(ptr, rust_vec_len, data_len),
-        74 => wire__crate__api__StateSnapshot_session_id_impl(ptr, rust_vec_len, data_len),
-        75 => {
+        67 => wire__crate__api__StateSnapshot_last_adaptive_zoom_impl(ptr, rust_vec_len, data_len),
+        68 => wire__crate__api__StateSnapshot_module_id_impl(ptr, rust_vec_len, data_len),
+        69 => wire__crate__api__StateSnapshot_number_wall_frame_impl(ptr, rust_vec_len, data_len),
+        70 => wire__crate__api__StateSnapshot_number_wall_pending_impl(ptr, rust_vec_len, data_len),
+        71 => wire__crate__api__StateSnapshot_number_wall_status_impl(ptr, rust_vec_len, data_len),
+        72 => wire__crate__api__StateSnapshot_params_impl(ptr, rust_vec_len, data_len),
+        73 => wire__crate__api__StateSnapshot_revision_impl(ptr, rust_vec_len, data_len),
+        74 => wire__crate__api__StateSnapshot_rotation_locked_impl(ptr, rust_vec_len, data_len),
+        75 => wire__crate__api__StateSnapshot_session_id_impl(ptr, rust_vec_len, data_len),
+        76 => {
             wire__crate__api__StateSnapshot_transparent_background_impl(ptr, rust_vec_len, data_len)
         }
-        76 => wire__crate__api__StateSnapshot_view_impl(ptr, rust_vec_len, data_len),
-        77 => wire__crate__api__StateValue_boolean_impl(ptr, rust_vec_len, data_len),
-        78 => wire__crate__api__StateValue_float_impl(ptr, rust_vec_len, data_len),
-        79 => wire__crate__api__StateValue_from_boolean_impl(ptr, rust_vec_len, data_len),
-        80 => wire__crate__api__StateValue_from_float_impl(ptr, rust_vec_len, data_len),
-        81 => wire__crate__api__StateValue_from_number_impl(ptr, rust_vec_len, data_len),
-        82 => wire__crate__api__StateValue_from_text_impl(ptr, rust_vec_len, data_len),
-        83 => wire__crate__api__StateValue_number_impl(ptr, rust_vec_len, data_len),
-        84 => wire__crate__api__StateValue_text_impl(ptr, rust_vec_len, data_len),
-        85 => wire__crate__api__engine_version_impl(ptr, rust_vec_len, data_len),
+        77 => wire__crate__api__StateSnapshot_view_impl(ptr, rust_vec_len, data_len),
+        78 => wire__crate__api__StateValue_boolean_impl(ptr, rust_vec_len, data_len),
+        79 => wire__crate__api__StateValue_float_impl(ptr, rust_vec_len, data_len),
+        80 => wire__crate__api__StateValue_from_boolean_impl(ptr, rust_vec_len, data_len),
+        81 => wire__crate__api__StateValue_from_float_impl(ptr, rust_vec_len, data_len),
+        82 => wire__crate__api__StateValue_from_number_impl(ptr, rust_vec_len, data_len),
+        83 => wire__crate__api__StateValue_from_text_impl(ptr, rust_vec_len, data_len),
+        84 => wire__crate__api__StateValue_number_impl(ptr, rust_vec_len, data_len),
+        85 => wire__crate__api__StateValue_text_impl(ptr, rust_vec_len, data_len),
+        86 => wire__crate__api__engine_version_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -4839,6 +4898,16 @@ impl SseEncode for Vec<StateCommand> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <StateCommand>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<StateSnapshot> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <StateSnapshot>::sse_encode(item, serializer);
         }
     }
 }
