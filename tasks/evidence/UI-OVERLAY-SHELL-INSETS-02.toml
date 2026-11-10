@@ -1,0 +1,9 @@
+schema = 1
+task = "UI-OVERLAY-SHELL-INSETS-02"
+candidate = "0b2174df347ed9e113c733675780074c0bc8209a"
+integration = "4fc5d514815e4c0ace618b73faf74074ddc9c60e"
+tree = "75b95f19f12b7605bc7f1b96083dbf713a65d5a3"
+contract_hash = "b446c21e6ba16e947070f8843ece0f248dd33aa3b8d00b4da1e229a2001e568f"
+checks = ["<path>", "<path>", "--verify", "<path>", "UI-OVERLAY-SHELL-INSETS-02"]
+result = "pass"
+review = "passed"
