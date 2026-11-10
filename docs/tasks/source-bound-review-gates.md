@@ -1,6 +1,10 @@
 # Retained candidate full-gate findings
 
-## Disposition
+## Initial disposition (historical)
+
+The scoped reconciliation below supersedes this initial diagnosis's unchanged-Touches
+and stop-for-scope restrictions only for the explicitly named comparison repairs.
+It does not supersede immutable-evidence, acceptance or qualification requirements.
 
 This is a documentation-only diagnosis for `MAINT-A11Y-STATUS-COPY-01` and
 `RUST-CORE-BOOTSTRAP`, not acceptance, a fixture refresh, an engineering-incident
@@ -94,15 +98,149 @@ Paths below are host-local evidence, not files copied into this checkout.
    semantic drift and load/isolation effects. Compare complete binding maps and
    semantic fields read-only; enumerate changed/added/removed paths against the
    task's exact existing allowlist. Compare base/candidate under the same setup.
-4. Repair only a demonstrated defect already permitted by Scope and Touches, then
-   repeat focused checks and the full gate. If resolving the mismatch requires
-   prohibited fixture/evidence edits or source paths outside the approved contract,
-   retain the exact delta as the blocker for scoped reconciliation. Do not refresh
-   or strip hashes, shrink the source graph, weaken negative tests, change the
-   clock-only transition or silently extend bootstrap's pubspec/harness allowlist.
+4. Apply the explicitly bounded comparison repair in the scoped reconciliation
+   below, then repeat focused checks and the full gate. Further source deltas or
+   prohibited fixture/evidence edits remain blockers. Do not refresh or strip
+   hashes, shrink the source graph, weaken negative tests or change the clock-only
+   transition. The supplement names the additional harness paths; it is not a
+   general extension of bootstrap's pubspec/harness allowlist.
 
 No new dependency follows from shared source paths or these concurrent failures.
 No passing main check, native execution, human language review, release authority,
 goal qualification or STOP / REVIEW release is claimed. Bootstrap's suggested
 `FORCE_GPU_RENDER` aggregate command amendment is deferred: its report requests it
 **after integration**, and this candidate has not integrated.
+
+## Scoped reconciliation — 2026-11-10
+
+### Evidence and authority
+
+The latest held workers supplied the previously missing diagnosis:
+
+- Accessibility: `slot-data/MAINT-A11Y-STATUS-COPY-01/attempt-1/report.json`
+  and `MAINT-A11Y-STATUS-COPY-01-diagnostics.tar.gz` under the execution root.
+  Base `021bf2ded098971bffc2c539af2f1e215bce1968`; uncommitted candidate tree
+  `8faa284af3ae42e072a267184c7c6bea56a99eb2`. All seven affected migration
+  modules pass individually on base and fail on candidate. Eleven complete
+  document comparisons show identical nonbinding fields, no added/removed source
+  paths, and changes only to the three generated localization Dart bindings.
+- Bootstrap: `slot-data/RUST-CORE-BOOTSTRAP/attempt-1/report.json` and
+  `evidence-current/{binding-comparison,semantic-comparison}.json` in place.
+  Base `51007727592d8365dfea29eb3ae6a58adb5571b5`; tested tree
+  `f6695984a8f22342526340768f03be66c003c56b`; final staged tree
+  `da3d678a5be997959678a05ad29976cd1d8813d0` adds only a historical-check wording
+  correction. Five affected modules pass individually on base and fail on
+  candidate. Fresh exports show identical nonbinding fields. In addition to
+  pubspec bindings, interpolation/randomization bind the changed replay test and
+  new provenance helper. The required seven original archives and bootstrap
+  sidecar conflict with the clock guard's complete baseline-file inventory.
+- Neither latest attempt completed the full gate: accessibility timed out at
+  1500 seconds, bootstrap at 1700 seconds. Neither has a terminal passing suite
+  aggregate or an original gate JSON summary. The retained diagnostics are not
+  accepted transition metadata and must not be promoted unchanged.
+
+The accepted [provenance plan](../planning/refactor-plan.md#baseline-provenance-transition-and-builder-disposition)
+identifies hash-only prerequisites and returns further deltas for scoped
+reconciliation. The standing autonomous-local-progress policy and this maintainer
+request permit repairing those check consumers within the existing outcomes.
+This supplement supplies that engineering contract, not a new product decision,
+fixture refresh, review acceptance, live authority or release of STOP / REVIEW.
+At this inspection both slots were held, both recorded worker PIDs were absent,
+and neither latest report had a commit waiting to land. Candidates remain intact.
+
+### Exact comparison scope
+
+Both existing tasks may adapt only these comparison/helper files under
+`test/migration/`, in addition to their original Touches:
+
+- `baseline_contracts_test.dart`
+- `state_replay_test.dart`
+- `param_interpolation_oracle_test.dart`
+- `physical_events_oracle_test.dart`
+- `randomization_oracle_test.dart`
+- `reference_source_transition_test.dart`
+- `support/reference_capture.dart`
+- `support/provenance_transition.dart`
+
+Reuse the bootstrap's planned helper for composition, not a second provenance
+framework. Accessibility may add only
+`migration/oracles/a11y-status-copy-source-transitions.json` for its transition;
+bootstrap retains its already-declared
+`migration/baseline/provenance-transitions.json` and exact seven archive paths.
+If the helper already exists on the actual base, extend it compatibly and retain
+all existing stages and tests. No producer dependency follows from sharing it.
+
+For accessibility the only permitted non-harness source-map deltas are
+`lib/l10n/app_localizations.dart`, `lib/l10n/app_localizations_en.dart`, and
+`lib/l10n/app_localizations_es.dart`, generated from its scoped ARB additions.
+The original eight application/a11y paths remain the entire copy/semantics repair.
+For bootstrap the non-harness map deltas remain only `pubspec.yaml` and
+`pubspec.lock`. Each task's additional harness binding allowlist is exactly the
+eight files above; paths not actually collected must not be invented in a map.
+For each map record the exact observed changed/added sets, not just an allowed
+superset; removals are rejected. This does not authorize changes to source
+collectors, replay_codec.dart, production mathematics/controller/renderer,
+shaders, SDK or other evidence. Baseline/replay and oracle collectors must still
+traverse and hash their complete existing source graphs, including new imports.
+
+### Implementation and verification contract
+
+1. Preserve every existing baseline/oracle JSON, PNG, manifest, receipt and
+   `migration/oracles/reference-source-transitions.json` byte-for-byte. Keep
+   `support/reference_source_transition.dart` unchanged: its clock-only changed/
+   added allowlists and independent original-fixture anchor are not broadened.
+   Bootstrap still materializes its exact pinned original archives, not refreshed
+   semantic substitutes. Existing Acceptance items remain verbatim.
+2. At the named consumers, replace impossible current-document-versus-historical-
+   bytes equality with two separate assertions: retained canonical bytes and
+   immutability, plus equality of **every** nonbinding field and validation of
+   complete recorded before/after binding maps and derived digests. Do not drop
+   metadata/runtime/backend checks, inputs/expected/payload comparisons, image
+   readback/variance checks or existing mutation negatives.
+3. For both reference manifests, compose retained sources -> recorded clock-after
+   using the unchanged clock validator, then clock-after -> current through the
+   separate per-task stage(s). Check adjacency of complete maps and final equality
+   with freshly collected sources. Do not feed a historical map to the clock
+   validator and omit the subsequent current-map validation. Preserve earlier
+   integrated stages; each new stage has its own task-specific allowlist, never
+   the union of both tasks' production deltas. Either task can run first; shared
+   writes use normal serialized integration and merged-candidate revalidation,
+   not a new dependency or permission to overwrite a sibling transition.
+4. Partition custody at the composition layer, not in the clock validator:
+   inventory **every** baseline file, validate the complete original set against
+   its unchanged independent anchor, and separately validate exactly bootstrap's
+   seven declared archives against the task's pinned Git bytes/hashes plus its
+   named new sidecar. Reject unknown additions, missing originals and changed
+   bytes. No `original/**`, directory or JSON-wide exclusions. The accessibility
+   sidecar lives outside the baseline fixture tree. New transition documents are
+   structurally validated metadata, not replacements for historical fixtures.
+5. Finalize comparator/helper source before recording maps. Two identical private
+   scratch exports must prove all nonbinding fields equal and enumerate complete
+   before/after maps for five inventories, two replays, three oracles, and reference
+   sources for both manifests. Record base/candidate identities, original fixture
+   hashes, per-map exact changed/added/removed sets and task/change reference in
+   runtime-read sidecars. Do not embed maps in source files they hash, a sidecar
+   checksum in its hashed helper, or a sidecar's own hash inside itself. This
+   avoids circular provenance without shrinking collection. Retained worker maps
+   precede comparator edits and therefore cannot substitute for these exports.
+6. Preserve existing negatives and add cases rejecting changed/added/removed
+   unlisted bindings, broken stage adjacency, semantic/metadata drift, altered
+   retained bytes, clock-sidecar/anchor mutation, changed/missing archive bytes
+   and unknown baseline additions. Reject self-consistent sidecar mutations that
+   attempt to authorize unrelated source or fixture changes. Demonstrate the
+   source-bound failures before the comparator repair and passing cases after it;
+   run all seven migration modules individually, analyze/format changed handwritten
+   Dart, verify deterministic transition exports and run `git diff --check`.
+7. Run the unchanged mandatory full offline gate with complete persistent stage
+   diagnostics. A timeout, isolated passes or a truncated aggregate is not success.
+   Keep actual device/browser/native, human-language, production, goal and
+   aggregate Rust qualification separate. Report any further out-of-contract
+   delta precisely; this supplement grants no blanket evidence-rebinding power.
+
+### Documentation-only validation
+
+Task records are amended through the task CLI, retaining IDs, Acceptance,
+Dependencies, ownership, section/rank, resources and all authorization. No source,
+fixture, retained candidate or runtime state is edited by this reconciliation.
+Only ledger validation, contract-preservation assertions and whitespace checks
+are performed here; implementation and full-gate proof remain with the workers.

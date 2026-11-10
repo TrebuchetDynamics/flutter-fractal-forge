@@ -25,6 +25,16 @@ user hold, start another worker, or claim deployment.
 
 The generated block below is preserved historical runner output, not five fresh requests for owner decisions. Current committed task records take precedence. NUM-WALL-02 already has its 2026-10-19 task-only loopback decision; APP-001-47, SINEWARP-001-aa and ACAD-007-f8 retain technical integration/qualification work after the completed ACAD-008-74 setup repair; EXPORT-001-f3 retains a failed-check/report-consistency issue. These are not new scope approvals. The stopped runner has not consumed this documentation reconciliation, and its marked block/slots/reports are deliberately unchanged. See [the handoff limits](docs/engineering/runbook.md#queue-and-retained-check-handoff).
 
+**2026-11-10 source-bound check reconciliation:** The accessibility notice below
+and the `RUST-CORE-BOOTSTRAP` worker's matching scope hold now have a bounded
+[comparison-repair contract](docs/tasks/source-bound-review-gates.md#scoped-reconciliation--2026-11-10)
+in their existing task records. No new owner answer is required for those named
+harness changes. Retained fixtures and the clock-only guard remain immutable;
+actual implementation, complete full-gate results and all live/qualification
+requirements remain outstanding. This documentation does not edit runner state,
+accept either candidate or release another hold. The generated notice is retained
+for the runner to reconcile against the amended records.
+
 <!-- pi-autowork:questions:start -->
 
 ### Q-MAINT-A11Y-STATUS-COPY-01 — USER_INPUT — effort input — unblocks 0
