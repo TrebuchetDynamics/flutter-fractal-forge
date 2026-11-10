@@ -2,10 +2,11 @@
 
 setup() {
   PROJECT="$BATS_TEST_TMPDIR/project"
-  mkdir -p "$PROJECT/scripts/ci" "$PROJECT/fdroid" "$PROJECT/test/scripts" "$PROJECT/bin"
+  mkdir -p "$PROJECT/scripts/ci" "$PROJECT/fdroid" "$PROJECT/test/scripts" "$PROJECT/bin" "$PROJECT/rust"
   cp "$BATS_TEST_DIRNAME/../../scripts/ci/offline-gate.sh" "$PROJECT/scripts/ci/offline-gate.sh"
   printf 'name: fixture\nversion: 1.2.3+45\n' > "$PROJECT/pubspec.yaml"
   printf 'lock\n' > "$PROJECT/pubspec.lock"
+  printf 'rust lock\n' > "$PROJECT/rust/Cargo.lock"
   printf '9.9.9\n' > "$PROJECT/fdroid/flutter.version"
   printf '@test "placeholder" { true; }\n' > "$PROJECT/test/scripts/example.bats"
 
@@ -28,6 +29,7 @@ EOF_FLUTTER
 
   cat > "$PROJECT/bin/python3" <<'EOF_PY'
 #!/usr/bin/env bash
+if [[ "${1:-}" != "-m" ]]; then exec /usr/bin/python3 "$@"; fi
 printf 'python %s\n' "$*" >> "${CALLS:?}"
 if [[ "${FAKE_FAIL_STAGE:-}" == "python" ]]; then exit 43; fi
 EOF_PY
@@ -38,7 +40,14 @@ printf 'bats %s\n' "$*" >> "${CALLS:?}"
 if [[ "${FAKE_FAIL_STAGE:-}" == "bats" ]]; then exit 44; fi
 EOF_BATS
 
-  chmod +x "$PROJECT/bin/flutter" "$PROJECT/bin/python3" "$PROJECT/bin/bats"
+  cat > "$PROJECT/bin/cargo" <<'EOF_CARGO'
+#!/usr/bin/env bash
+printf 'cargo %s\n' "$*" >> "${CALLS:?}"
+if [[ "${FAKE_FAIL_STAGE:-}" == "cargo-${1:-}" ]]; then exit 45; fi
+if [[ "${FAKE_FAIL_STAGE:-}" == "rust-lock" ]]; then printf 'drift\n' >> rust/Cargo.lock; fi
+EOF_CARGO
+  export PATH="$PROJECT/bin:$PATH"
+  chmod +x "$PROJECT/bin/flutter" "$PROJECT/bin/python3" "$PROJECT/bin/bats" "$PROJECT/bin/cargo"
 }
 
 run_gate() {
@@ -58,13 +67,46 @@ run_gate() {
 
   mapfile -t calls < <(cat "$CALLS")
   [ "${calls[0]}" = "flutter pub get --offline --enforce-lockfile" ]
-  [ "${calls[1]}" = "flutter analyze --no-pub" ]
-  [ "${calls[2]}" = "flutter test --no-pub" ]
-  [ "${calls[3]}" = "python -m pytest test/research test/scripts -q" ]
-  [[ "${calls[4]}" == bats\ test/scripts/* ]]
+  [ "${calls[1]}" = "cargo fmt --manifest-path rust/Cargo.toml --all -- --check" ]
+  [ "${calls[2]}" = "cargo clippy --manifest-path rust/Cargo.toml --workspace --all-targets --locked --offline -- -D warnings" ]
+  [ "${calls[3]}" = "cargo test --manifest-path rust/Cargo.toml --workspace --locked --offline" ]
+  [ "${calls[4]}" = "flutter analyze --no-pub" ]
+  [ "${calls[5]}" = "flutter test --no-pub" ]
+  [ "${calls[6]}" = "python -m pytest test/research test/scripts -q" ]
+  [[ "${calls[7]}" == bats\ test/scripts/* ]]
 
   [ -f "$BATS_TEST_TMPDIR/logs/offline-gate.json" ]
   [ -f "$BATS_TEST_TMPDIR/logs/flutter-tests.log" ]
+  [[ "$output" == *'"rust_lock_unchanged": true'* ]]
+  export FAKE_FAIL_STAGE="rust-lock"
+  : > "$CALLS"
+  run_gate --json
+  [ "$status" -eq 1 ]
+  [[ "$output" == *'"rust_lock_unchanged": false'* ]]
+  ! grep -q '^flutter analyze' "$CALLS"
+}
+
+@test "Cargo failures and a missing executable fail closed before Flutter checks" {
+  for stage in fmt clippy test; do
+    export FAKE_FAIL_STAGE="cargo-$stage"
+    : > "$CALLS"
+    run_gate --json
+    [ "$status" -eq 1 ]
+    [[ "$output" == *"\"failed_stage\": \"cargo-$stage\""* ]]
+    ! grep -q '^flutter analyze' "$CALLS"
+  done
+  # A PATH-only missing command must not fall back to the real host cargo.
+  rm "$PROJECT/bin/cargo"
+  mkdir "$PROJECT/without-cargo"
+  for tool in bash dirname basename mkdir tr grep head sha256sum awk timeout tail python3; do
+    ln -s "$(command -v "$tool")" "$PROJECT/without-cargo/$tool"
+  done
+  local original_path="$PATH"
+  export PATH="$PROJECT/without-cargo"
+  run_gate --json
+  [ "$status" -eq 1 ]
+  [[ "$output" == *'"failed_stage": "cargo-fmt"'* ]]
+  export PATH="$original_path"
 }
 
 @test "a failing stage stops later stages and reports the failed stage" {

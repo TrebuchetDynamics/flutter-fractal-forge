@@ -1,7 +1,6 @@
 [workspace]
 members = [
     "crates/fractal-core",
-    "crates/fractal-render",
     "crates/fractal-bridge",
 ]
 resolver = "3"
@@ -14,4 +13,3 @@ publish = false
 
 [workspace.dependencies]
 fractal-core = { path = "crates/fractal-core" }
-fractal-render = { path = "crates/fractal-render" }

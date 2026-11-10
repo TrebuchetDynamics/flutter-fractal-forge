@@ -1,10 +1,24 @@
-//! Flutter-facing probe adapter. Domain/render crates remain platform-independent.
+//! Flutter-facing probe adapter. The core remains platform-independent.
 
 pub mod api;
 mod frb_generated;
 
 pub use fractal_core::engine_version;
-pub use fractal_render::{EngineCapabilities, engine_capabilities};
+/// Rust support only, not the active Flutter renderer's capabilities.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct EngineCapabilities {
+    pub rendering: bool,
+}
+
+impl EngineCapabilities {
+    pub fn to_json(self) -> String {
+        format!(r#"{{"rendering":{}}}"#, self.rendering)
+    }
+}
+
+pub fn engine_capabilities() -> EngineCapabilities {
+    EngineCapabilities { rendering: false }
+}
 
 #[cfg(test)]
 mod tests {

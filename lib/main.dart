@@ -24,28 +24,14 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 
 import 'package:flutter_fractals/app/diagnostic_apps.dart';
 import 'package:flutter_fractals/app/startup.dart';
-import 'package:flutter_fractals/core/services/diagnostics/app_logger_service.dart';
 import 'package:flutter_fractals/core/services/diagnostics/crash_reporter.dart';
-import 'package:flutter_fractals/core/services/engine/rust_engine_adapter.dart';
+import 'package:flutter_fractals/core/services/engine/rust_engine_probe.dart';
 import 'package:flutter_fractals/core/services/platform/deep_link_service.dart';
 
 export 'package:flutter_fractals/app/flutter_fractals_app.dart';
 
 const int kSafeMode = int.fromEnvironment('SAFE_MODE', defaultValue: 0);
 const int kBootStep = int.fromEnvironment('BOOT_STEP', defaultValue: 0);
-
-Future<void> _probeRustEngine() async {
-  final engine = await RustEngineAdapter.create();
-  if (engine == null) return;
-  try {
-    AppLogger.instance.info('engine', 'Rust engine capability probe', data: {
-      'version': engine.version,
-      'rendering': engine.rendering,
-    });
-  } finally {
-    engine.shutdown();
-  }
-}
 
 /// Application entry point.
 ///
@@ -96,8 +82,7 @@ Future<void> main() async {
     // Launch UI immediately to prevent Android from killing the process
     // for taking too long to attach (process start timeout ~10-12s).
     // Services are initialized asynchronously after the first frame.
-    runApp(const DeferredStartupApp());
-    unawaited(_probeRustEngine());
+    runApp(const RustEngineProbe(child: DeferredStartupApp()));
   }, (Object error, StackTrace stack) {
     CrashReporter.instance.record(
       error,

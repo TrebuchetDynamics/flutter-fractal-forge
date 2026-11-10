@@ -8,9 +8,12 @@ pub mod number_wall_prime;
 pub mod param_interpolation;
 pub mod param_randomization;
 pub mod physical_view;
+pub mod precision;
 pub mod seeded_random;
 pub mod session;
+pub mod snapshot;
 pub mod trajectory;
+pub mod view;
 
 /// Rust engine version, independent of the Flutter app version.
 pub fn engine_version() -> String {
@@ -19,41 +22,30 @@ pub fn engine_version() -> String {
 
 #[cfg(test)]
 mod tests {
-    use std::{collections::BTreeSet, process::Command};
+    use std::process::Command;
 
-    fn matches_domain_graph(tree: &str, expected: &[&str]) -> bool {
-        let actual: BTreeSet<_> = tree
-            .lines()
-            .map(|line| line.split_whitespace().next().expect("package name"))
-            .collect();
-        actual == expected.iter().copied().collect()
+    fn matches_domain_graph(tree: &str, forbidden: &[&str]) -> bool {
+        tree.lines().all(|line| {
+            let name = line.split_whitespace().next().expect("package name");
+            !forbidden.iter().any(|prefix| name.starts_with(prefix))
+        })
     }
 
     #[test]
-    fn core_and_render_reject_platform_dependencies() {
-        // Allow only the locked pure-domain serde/arithmetic graph across all edge kinds.
-        let core_graph = [
-            "fractal-core",
-            "num-bigint",
-            "num-integer",
-            "num-traits",
-            "autocfg",
-            "serde",
-            "serde_core",
-            "serde_derive",
-            "serde_json",
-            "proc-macro2",
-            "quote",
-            "syn",
-            "unicode-ident",
-            "itoa",
-            "ryu",
+    fn core_rejects_platform_dependencies() {
+        // Reject platform families across normal, build, dev and transitive edges;
+        // ordinary pure-Rust math/serialization dependencies are allowed.
+        let forbidden = [
+            "fractal-bridge",
+            "flutter",
+            "frb",
+            "dart",
+            "android",
+            "jni",
+            "gpui",
+            "wgpu",
         ];
-        for package in ["fractal-core", "fractal-render"] {
-            let mut expected = core_graph.to_vec();
-            if package == "fractal-render" {
-                expected.push("fractal-render");
-            }
+        for package in ["fractal-core"] {
             let output = Command::new(env!("CARGO"))
                 .current_dir(env!("CARGO_MANIFEST_DIR"))
                 .args([
@@ -79,13 +71,13 @@ mod tests {
             );
             let tree = String::from_utf8(output.stdout).expect("cargo tree emits UTF-8");
             assert!(
-                matches_domain_graph(&tree, &expected),
+                matches_domain_graph(&tree, &forbidden),
                 "unexpected dependency in {package}: {tree}"
             );
-            for forbidden in ["flutter_rust_bridge", "android-activity", "gpui"] {
+            for dependency in forbidden {
                 assert!(!matches_domain_graph(
-                    &format!("{tree}{forbidden} v0.0.0\n"),
-                    &expected
+                    &format!("{tree}{dependency} v0.0.0\n"),
+                    &forbidden
                 ));
             }
         }

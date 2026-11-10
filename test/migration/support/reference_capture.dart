@@ -20,6 +20,7 @@ import 'package:image/image.dart' as img;
 import 'package:vector_math/vector_math_64.dart';
 
 import 'baseline_inventory.dart';
+import 'provenance_transition.dart';
 import 'reference_source_transition.dart';
 
 const referenceOutput = String.fromEnvironment('MIGRATION_REFERENCE_OUT');
@@ -269,8 +270,7 @@ class ReferenceCapture {
     final baselineHashes = <String, String>{};
     for (final name in baselineNames) {
       final file = File('migration/baseline/$name.json');
-      expect(canonicalJson(inventory[name]), file.readAsStringSync(),
-          reason: '$name baseline drift');
+      verifyBoundDocument(name, file.readAsStringSync(), inventory[name]!);
       baselineHashes[name] = referenceHash(file.readAsBytesSync());
     }
     final sdk = Platform.environment['FLUTTER_ROOT']!;
@@ -324,12 +324,7 @@ class ReferenceCapture {
     } else {
       retained = readManifest(referenceRoot);
       validateManifest(retained!);
-      validateReferenceSourceTransition(
-        transition: readReferenceSourceTransition(),
-        retainedSources: retained!['provenance']['source_bindings'] as Map,
-        currentSources: sources,
-        fixtureHashes: referenceFixtureHashes(),
-      );
+      _validateComposedSources(referenceRoot, retained!, sources);
       expect(retained!['provenance']['baseline_files_sha256'], baselineHashes);
       comparisonDirectory = '$referenceRoot/first-capture';
     }
@@ -342,12 +337,7 @@ class ReferenceCapture {
       if (retained == null) {
         expect(comparison!['provenance']['source_bindings'], sources);
       } else {
-        validateReferenceSourceTransition(
-          transition: readReferenceSourceTransition(),
-          retainedSources: comparison!['provenance']['source_bindings'] as Map,
-          currentSources: sources,
-          fixtureHashes: referenceFixtureHashes(),
-        );
+        _validateComposedSources(comparisonDirectory, comparison!, sources);
       }
       expect(comparison!['provenance']['flutter'],
           retained?['provenance']['flutter'] ?? provenance['flutter']);
@@ -356,6 +346,30 @@ class ReferenceCapture {
       expect(
           comparison!['provenance']['baseline_files_sha256'], baselineHashes);
     }
+  }
+
+  void _validateComposedSources(String directory, Map manifest, Map sources) {
+    final clock = readReferenceSourceTransition();
+    final retainedSources = manifest['provenance']['source_bindings'] as Map;
+    validateReferenceComposition(
+      clock: clock,
+      retainedSources: retainedSources,
+      currentSources: sources,
+      fixtureHashes: referenceFixtureHashes(),
+      validateClock: (after, originals) => validateReferenceSourceTransition(
+        transition: clock,
+        retainedSources: retainedSources,
+        currentSources: after,
+        fixtureHashes: originals,
+      ),
+    );
+    recordReferenceObservation(
+      directory == referenceRoot
+          ? 'reference-manifest'
+          : 'reference-first-manifest',
+      File('$directory/manifest.json').readAsStringSync(),
+      sources,
+    );
   }
 
   void validateManifest(Map manifest) {

@@ -28,7 +28,7 @@ Provider supplies application dependencies. `ChangeNotifier`-based controllers e
 - GPU health and precision policy can route eligible modules to a supported fallback. Unsupported precision must remain explicitly unavailable rather than implying correctness.
 - Export, share, wallpaper, and platform integrations depend on the target platform. Their failure must not corrupt the viewer's current fractal state.
 - Platform features and browser parity vary. See [`rendering/renderer_backend_matrix.md`](rendering/renderer_backend_matrix.md).
-- The opt-in Rust probe reports load/version/capability errors through the existing zone crash reporter; it never changes renderer selection or viewer state. Closed sessions reject capability reads explicitly. Shutdown is idempotent per session.
+- The opt-in Rust probe reports load/version/snapshot errors through the existing zone crash reporter. It never changes renderer selection or viewer state. The adapter rejects reads after shutdown with `StateError`; generated opaque disposal rejects stale native handles. Shutdown is idempotent per adapter. Legacy capability sessions retain their explicit closed-session errors.
 
 ## Security and compatibility
 
@@ -39,7 +39,7 @@ The repository's privacy policy states that fractal processing is local. Do not 
 The owner requested a staged Flutter-shell/Rust-engine migration. Its accepted
 planning scope, engineering decisions, complete milestone map and first task batch
 are in [the migration plan](../planning/refactor-plan.md#flutter-shell-and-rust-engine-migration).
-Only the default-off version/capability/lifecycle probe below is integrated today;
+The default-off version/create/snapshot probe below is implemented;
 mathematical state and rendering migration remain future work. The
 current components, shader interface and persistence behavior above remain normative
 until each replacement has source-bound parity and platform evidence. Domain/render
@@ -56,25 +56,26 @@ additionally where supported, not a universal FPS guarantee; see
 These are future acceptance boundaries, not measured results.
 
 The owner's later [RUST-CORE-01 refinement](../planning/refactor-plan.md#rust-core-01-bootstrap-refinement)
-limits the next implementation frontier to two crates (`fractal-core` and
-`fractal-bridge`), a persistent snapshot probe and differential precision policy.
-Defer `fractal-render` until CPU rendering. Core has no Flutter/Dart, Android,
-GPUI, bridge or wgpu dependency. Preserve the running three-crate candidate as
-historical work; reconcile it through its coordinator, then perform the bounded
-layout correction. Camera execution, registry migration and GPU work remain out
-of this bootstrap. This clarification is a plan, not an implemented engine.
+limits this bootstrap to two crates (`fractal-core` and `fractal-bridge`) and a
+persistent neutral snapshot probe. Differential precision policy remains
+RUST-CORE-PRECISION. Defer `fractal-render` until CPU rendering. Core has no
+Flutter/Dart, Android, GPUI, bridge or wgpu dependency. The retained three-crate
+foundation remains in Git history. Existing StateSession/camera transport is
+preserved, but this bootstrap adds no camera commands or viewer state ownership.
+Registry migration and GPU work remain outside this task.
 
 ### Isolated Rust workspace foundation
 
-The [workspace](../../rust/Cargo.toml) contains three nonpublishable packages:
-`fractal-core` (domain), `fractal-render` (depends on core), and
-`fractal-bridge` (depends on both). Core now provides the read-only
+The [workspace](../../rust/Cargo.toml) contains two nonpublishable packages:
+`fractal-core` (domain) and `fractal-bridge` (depends on core).
+The unused render placeholder has been removed. Its false-rendering capability
+descriptor now lives in bridge, preserving existing callers. Core provides the read-only
 [`CatalogBaseline::from_jsons`](../tasks/RUST-M3-CATALOG-PARITY.md) API for the
 four schema-1 catalog envelopes. Its inert `session::Session` candidate owns
 ordinary module/parameter/scalar-view state and ordered atomic transactions.
 The separate bridge `StateSession` exposes this candidate without app routing;
 see [the transport result and remaining proof](../tasks/RUST-M2-BRIDGE.md).
-Core/render use local paths plus the locked pure-domain serde/arithmetic graph:
+Core uses the locked pure-domain serde/arithmetic graph:
 `serde`/`serde_core`/`serde_derive` 1.0.229, `serde_json` 1.0.108 with
 `arbitrary_precision`/`raw_value`, `itoa` 1.0.18, `ryu` 1.0.23, and derive dependencies
 `proc-macro2` 1.0.107, `quote` 1.0.47, `syn` 3.0.9 and `unicode-ident` 1.0.27.
@@ -82,7 +83,7 @@ Exact [Number Walls grid arithmetic](../tasks/RUST-M2-GRID.md) adds only
 `num-bigint` 0.4.6 with default std support, `num-integer` 0.1.47,
 `num-traits` 0.2.19 and its build dependency `autocfg` 1.5.1.
 No rand/serde arithmetic features or platform dependencies are enabled.
-Only the bridge depends on the pinned `flutter_rust_bridge = 2.11.1` runtime.
+Only the bridge depends on the pinned `flutter_rust_bridge = "=2.13.0"` runtime.
 The foundation seam still exposes these APIs:
 
 - `engine_version() -> String` returns `0.1.0`, the Rust engine version,
@@ -103,9 +104,9 @@ After provisioning the toolchain and locked dependencies, run
 It checks the compiler version, formatting, clippy with denied warnings, and
 workspace tests using the locked, offline dependency graph.
 Inline tests cover the bridge version, nonrendering capability JSON shape, and
-the core/render dependency boundary across features, targets, build and dev edges.
-Only the local foundation and locked pure-domain serde/arithmetic graph above are allowed,
-so Flutter/Android/GPUI and other UI/platform dependencies still fail.
+the core dependency boundary across features, targets, build and dev edges.
+The guard rejects Flutter/Dart, Android/JNI, GPUI and wgpu families while admitting
+ordinary pure-Rust dependencies. No rendering implementation is moved into core.
 
 The path-scoped [GitHub workflow](../../.github/workflows/rust.yml) provisions
 the pinned toolchain and fetches locked dependencies in its disposable check job.
@@ -116,24 +117,31 @@ Existing Flutter, GitLab and release lanes are unchanged.
 
 [`RustEngineAdapter`](../../lib/core/services/engine/rust_engine_adapter.dart)
 loads the native bridge only with `--dart-define=RUST_CORE=true`, and never on Web.
-The normal startup path launches the existing UI first, then probes a short-lived
-session and closes it in `finally`; safe/diagnostic boot paths remain unchanged.
+The normal startup path wraps the existing UI in a
+[`RustEngineProbe`](../../lib/core/services/engine/rust_engine_probe.dart) owner.
+It creates one persistent handle and releases it when disposed, including late
+initialization after unmount. Safe/diagnostic boot paths remain unchanged.
 A successful probe uses the existing `AppLogger.instance.info` API in category
-`engine`, with structured `version` and `rendering` data visible in the in-memory
-log/export before persistence initialization. It does not bypass the logger sinks
+`engine`, with structured `version`, `sessionId` and `revision` strings. It does not bypass the logger sinks
 with `debugPrint`. Disabled/Web probes produce no native probe event.
 This is diagnostics only, not a controller, renderer or export owner. Default-off
 and Web builds require no Rust library; Web excludes the native loader with a
 conditional import even when the flag is true.
 
-The bridge [`api.rs`](../../rust/crates/fractal-bridge/src/api.rs) exposes synchronous
-`engine_version()`, opaque `Engine::new()`, `capabilities()` and `shutdown()`.
-Capabilities currently report only `rendering = false`. Each handle has independent
-closed state; repeated shutdown succeeds and capability reads after shutdown return
-`Rust engine session is closed`. The Dart adapter also rejects use after close
-with `StateError` and releases the opaque reference on shutdown. Transport
-initialization is shared, not the session. Load/protocol failures propagate rather
-than pretending the Rust engine is available.
+The bootstrap surface in [`api.rs`](../../rust/crates/fractal-bridge/src/api.rs)
+is synchronous `engine_version()`, `create_engine()` and
+`engine_snapshot(engine: &EngineHandle)`. Generated opaque disposal releases the
+handle. Reads borrow it rather than consuming it. Snapshots carry process-local
+session identity, revision `u64` (Dart `BigInt`) and six `f64` view fields:
+center_x, center_y, zoom, rotation_x, rotation_y, rotation_z. Center retains Dart
+pan semantics. Neutral state has zero center/rotation and zoom 1. Revision starts
+at zero; repeated reads are stable. Internal commits reject nonfinite fields and
+checked revision overflow before changing state. No mutation endpoint crosses FFI.
+The neutral snapshot is never applied to the viewer.
+Legacy `Engine::new()`, `capabilities()` and `shutdown()` remain available.
+They retain independent closure, false rendering and explicit closed-read errors.
+The adapter rejects reads after shutdown and disposes its opaque handle once.
+Transport initialization is shared, not the engine. Load/protocol failures propagate.
 
 The separate opaque `StateSession::new()` validates four envelope strings once
 through core and assigns a checked process-local `u64` identity. Typed
@@ -156,7 +164,7 @@ ABIs using NDK `28.2.13676358`; the current build script requires a Linux host.
 Missing Cargo, target standard libraries, NDK or locked crates fail explicitly.
 No Android app signing/build configuration is replaced.
 
-Rust runtime, Dart runtime and codegen are all pinned to **2.11.1**. The app's
+Rust runtime, Dart runtime and codegen are all pinned exactly to **2.13.0**. The app's
 `pubspec.lock` is the Dart lock authority for the local plugin; it has no separate
 lockfile. The plugin includes the repository's Apache-2.0 license text in
 [`LICENSE`](../../packages/fractal_engine_bridge/LICENSE). Release notices resolve
@@ -165,14 +173,14 @@ through `PUB_CACHE`; missing licenses remain a failure, as described in
 [the release pipeline](release/PIPELINE.md#multi-lane-campaign).
 Generated bindings are committed under the plugin's `lib/src/rust/` and
 `rust/crates/fractal-bridge/src/frb_generated.rs`. Web glue is generated for
-analyzer completeness, but the app does not import it or load WASM. Regenerate from
+Web type completeness, but the app never initializes it or loads WASM. Regenerate from
 the repository root using [`flutter_rust_bridge.yaml`](../../flutter_rust_bridge.yaml):
 
 ```sh
 # Provision once in an isolated cache, with the pinned Rust/Flutter tools on PATH.
-cargo install flutter_rust_bridge_codegen --version 2.11.1 --locked --root "$AUTOWORK_CACHE/flutter-rust-bridge-2.11.1"
+cargo install flutter_rust_bridge_codegen --version 2.13.0 --locked --root "$AUTOWORK_CACHE/flutter-rust-bridge-2.13.0"
 cargo install cargo-expand --version 1.0.127 --locked --root "$AUTOWORK_CACHE/cargo-expand-1.0.127"
-flutter_rust_bridge_codegen generate --config-file flutter_rust_bridge.yaml
+scripts/ci/rust-bridge-codegen.sh
 ```
 
 Use an isolated `CARGO_HOME` and the pinned Rust toolchain, including `rustfmt`.
@@ -196,7 +204,7 @@ flutter pub get --offline --enforce-lockfile
 ```
 
 Compare the SDK version with `fdroid/flutter.version`. The provisioned cache must
-contain `flutter_rust_bridge` 2.11.1 and its locked dependencies. An ambient cache
+contain `flutter_rust_bridge` 2.13.0 and its locked dependencies. An ambient cache
 without that package fails offline resolution, even if another cache contains it.
 Keep `pubspec.lock` unchanged during this preflight. Missing packages are setup
 failures, not reasons to relax the lock or silently skip the bridge.
@@ -214,9 +222,38 @@ uses real FRB calls (including a closed native handle), not mocks. Compile it wi
 `flutter build linux --debug --no-pub --dart-define=RUST_CORE=true -t integration_test/migration/rust_engine_smoke_test.dart`
 and the equivalent `flutter build apk` command. Also compile the ordinary Web app
 with both flag values. These offline checks do not establish installed execution.
-M0 inventory/replay payloads remain unchanged; dependency provenance is refreshed
-through two deterministic scratch exports, and reference images through actual
-offline software captures, not by weakening source-binding checks.
+All seven current M0 fixtures and historical receipts remain unchanged.
+Exact Git-original bytes from `8345b8e2` are archived under
+[`migration/baseline/original/`](../../migration/baseline/original/).
+The [transition sidecar](../../migration/baseline/provenance-transitions.json)
+separates historical original-to-current custody from the bridge transition.
+The comparator pins retained canonical bytes, original/current fixture hashes,
+complete before/after maps, exact changed/added sets and source-set digests.
+Removals and nonbinding semantic/metadata drift fail, including during export.
+The sidecar records the base revision and a complete current-binding fingerprint;
+it does not contain its own checksum. Eleven source-map sets cover five
+inventories, two replays, three oracles and reference sources for both manifests.
+
+The [scoped comparison repair](../tasks/source-bound-review-gates.md#scoped-reconciliation--2026-11-10)
+permits only pubspec bindings plus its eight named harness paths for bootstrap.
+An optional accessibility stage has its own localization/harness policy, not a
+union allowlist. Complete-map adjacency determines order and must reach freshly
+collected sources. Unknown, duplicate, disconnected or ambiguous stages fail.
+The historical Burning Ship repair never permits a future shader change.
+
+Reference checks first run the unchanged clock-only validator against its complete
+original fixture set and recorded clock-after map. The composition layer then
+checks the separate task stages against current sources. It inventories every
+baseline file, verifies exactly seven pinned archives plus the named bootstrap
+sidecar, and rejects unknown additions or missing/changed originals. The existing
+clock sidecar and independent fixture anchor remain unchanged. Both reference
+manifests retain all backend, image readback, health, shader and variance checks.
+Two identical private scratch exports must verify all twelve retained document
+comparisons before transition metadata is finalized; no fixture is promoted. Native viewer
+evidence bundles the four unchanged M0 PNGs and manifest. It records exact
+same-target/backend before/during/after pixel/state equality and measured,
+attributed cross-backend variance through integration `reportData`.
+Compilation alone does not qualify that producer or the native bridge.
 
 Pending M1 live qualification must follow
 [the owned Linux runtime](runbook.md#owned-linux-runtime-with-reserved-ports) and
@@ -224,9 +261,12 @@ Pending M1 live qualification must follow
 For Linux, with a task-private `TMPDIR`, actual `AUTOWORK_PORT_BASE` lease and pinned SDK, run:
 
 ```sh
-autowork-run timeout --kill-after=10s 660 bash scripts/run-native-integration.sh integration_test/migration/rust_engine_smoke_test.dart --timeout 600 --dart-define=RUST_CORE=true
+autowork-run timeout --kill-after=10s 660 bash scripts/run-native-integration.sh integration_test/migration/rust_engine_smoke_test.dart --timeout 600 --dart-define=RUST_CORE=true --dart-define=FORCE_GPU_RENDER=true
 ```
 
+Both native execution commands require `RUST_CORE=true` and
+`FORCE_GPU_RENDER=true`; otherwise the viewer fixture fails rather than accepting
+a placeholder. Pass both defines to the Android `flutter drive` command too.
 Require `protocol_success: true`, exit 0 and no remaining owned PIDs. Do not use
 `flutter test -d linux`. Waydroid installed execution must revalidate transport and
 serial, encode standing disposable-target consent, and coordinate target ownership

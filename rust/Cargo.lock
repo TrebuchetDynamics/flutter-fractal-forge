@@ -223,9 +223,9 @@ checksum = "1c66915cc5391097de7a2b0b972e8505aa33c0df401fd3a6811dbdb32881ba48"
 
 [[package]]
 name = "flutter_rust_bridge"
-version = "2.11.1"
+version = "2.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dde126295b2acc5f0a712e265e91b6fdc0ed38767496483e592ae7134db83725"
+checksum = "24a973d15b8fc7de9fb29cdfbec58a2ac41f6252492d3b882abfdc603e32b34f"
 dependencies = [
  "allo-isolate",
  "android_logger",
@@ -252,9 +252,9 @@ dependencies = [
 
 [[package]]
 name = "flutter_rust_bridge_macros"
-version = "2.11.1"
+version = "2.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d5f0420326b13675321b194928bb7830043b68cf8b810e1c651285c747abb080"
+checksum = "901eec2d226107dad1c55b30f7421c4687bebcf70ed43ca44d1b447ca087b238"
 dependencies = [
  "hex",
  "md-5",
@@ -269,7 +269,6 @@ version = "0.1.0"
 dependencies = [
  "flutter_rust_bridge",
  "fractal-core",
- "fractal-render",
 ]
 
 [[package]]
@@ -279,13 +278,6 @@ dependencies = [
  "num-bigint",
  "serde",
  "serde_json",
-]
-
-[[package]]
-name = "fractal-render"
-version = "0.1.0"
-dependencies = [
- "fractal-core",
 ]
 
 [[package]]

@@ -24,7 +24,56 @@ use fractal_core::trajectory::{
     AttractorSystem, OrbitProjection, OrbitTrajectorySettings, TrajectoryError,
 };
 
-/// An opaque session; closing one handle never closes another.
+/// Opaque persistent bootstrap ownership. Generated disposal releases the state.
+#[frb(opaque)]
+pub struct EngineHandle {
+    inner: fractal_core::snapshot::EngineState,
+}
+
+/// Detached neutral probe snapshot; never applied to the Flutter viewer.
+#[derive(Debug, Clone, PartialEq)]
+pub struct EngineSnapshot {
+    pub session_id: u64,
+    pub revision: u64,
+    pub view: ViewState,
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct ViewState {
+    pub center_x: f64,
+    pub center_y: f64,
+    pub zoom: f64,
+    pub rotation_x: f64,
+    pub rotation_y: f64,
+    pub rotation_z: f64,
+}
+
+#[frb(sync)]
+pub fn create_engine() -> Result<EngineHandle, String> {
+    Ok(EngineHandle {
+        inner: fractal_core::snapshot::EngineState::new(allocate_session_id(&LAST_SESSION_ID)?),
+    })
+}
+
+#[frb(sync)]
+pub fn engine_snapshot(engine: &EngineHandle) -> EngineSnapshot {
+    let snapshot = engine.inner.snapshot();
+    let view = snapshot.view;
+    EngineSnapshot {
+        session_id: snapshot.session_id,
+        revision: snapshot.revision,
+        view: ViewState {
+            center_x: view.center_x,
+            center_y: view.center_y,
+            zoom: view.zoom,
+            rotation_x: view.rotation_x,
+            rotation_y: view.rotation_y,
+            rotation_z: view.rotation_z,
+        },
+    }
+}
+
+/// An opaque legacy session; closing one handle never closes another.
 #[frb(opaque)]
 pub struct Engine {
     closed: AtomicBool,
@@ -53,7 +102,7 @@ impl Engine {
             return Err("Rust engine session is closed".to_owned());
         }
         Ok(Capabilities {
-            rendering: fractal_render::engine_capabilities().rendering,
+            rendering: crate::engine_capabilities().rendering,
         })
     }
 
@@ -1481,6 +1530,13 @@ mod tests {
     #[test]
     fn opaque_sessions_close_idempotently_and_independently() {
         assert_eq!(engine_version(), "0.1.0");
+        let probe = create_engine().unwrap();
+        let other = create_engine().unwrap();
+        let snapshot = engine_snapshot(&probe);
+        assert_eq!(snapshot, engine_snapshot(&probe));
+        assert_eq!(snapshot.revision, 0);
+        assert_ne!(snapshot.session_id, engine_snapshot(&other).session_id);
+        assert_eq!(engine_snapshot(&other).revision, 0);
         let first = Engine::new();
         let second = Engine::new();
         assert!(!first.capabilities().unwrap().rendering);

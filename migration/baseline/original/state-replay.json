@@ -1,0 +1,3104 @@
+{
+  "dart_baseline_revision": "0ae4736cbc4cdb2700bc2adb9dd313f378b7e307",
+  "expected": [
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350
+        },
+        "view": {
+          "panX": -0.5,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 0.35
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350
+        },
+        "view": {
+          "panX": -0.5,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1e-9
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 382
+        },
+        "view": {
+          "panX": -0.5,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1000000000000.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 366
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 398
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 32.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 398
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350.0
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350.0
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350.0
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 8.0,
+          "colorScheme": 0,
+          "iterations": 350.0
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350.0
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350.0
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350.0
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 1,
+          "iterations": 350.0
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350.0
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350.0
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350.0
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350.0
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": 3.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350.0
+        },
+        "view": {
+          "panX": -3.0,
+          "panY": 3.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350.0
+        },
+        "view": {
+          "panX": -3.0,
+          "panY": 3.0,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350.0
+        },
+        "view": {
+          "panX": -3.0,
+          "panY": 3.0,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350.0
+        },
+        "view": {
+          "panX": -3.0,
+          "panY": -3.0,
+          "rotX": 0.4,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 500
+        },
+        "view": {
+          "panX": -3.0,
+          "panY": 3.0,
+          "rotX": 0.4,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.5,
+          "colorScheme": 1,
+          "iterations": 321
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": {
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "id": "replay",
+        "isBuiltIn": false,
+        "moduleId": "mandelbrot",
+        "name": "Replay",
+        "params": {
+          "bailout": 4.5,
+          "colorScheme": 1,
+          "iterations": 321
+        },
+        "thumbnailPath": null,
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        }
+      },
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.5,
+          "colorScheme": 1,
+          "iterations": 321
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": true
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.5,
+          "colorScheme": 1,
+          "iterations": 321
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.5,
+          "colorScheme": 1,
+          "iterations": 321
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "transparentBackground": true
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "julia",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 160,
+          "juliaCImag": 0.156,
+          "juliaCReal": -0.8
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": true
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.5,
+          "colorScheme": 1,
+          "iterations": 321
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": true,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": true
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "cantor_set",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 130
+        },
+        "view": {
+          "panX": -0.5549019607843138,
+          "panY": 0.014901960784313717,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 0.8335294117647059
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "cantor_set",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 130
+        },
+        "view": {
+          "panX": -0.5549019607843138,
+          "panY": 0.014901960784313717,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 0.2
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "cantor_set",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 130
+        },
+        "view": {
+          "panX": -0.5549019607843138,
+          "panY": 0.014901960784313717,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 0.2
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "cantor_set",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 130
+        },
+        "view": {
+          "panX": -0.5549019607843138,
+          "panY": 0.014901960784313717,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 0.2
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "cantor_set",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 130
+        },
+        "view": {
+          "panX": -0.5549019607843138,
+          "panY": 0.014901960784313717,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 0.20000000000000004
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "cantor_set",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 194
+        },
+        "view": {
+          "panX": -0.5549019607843138,
+          "panY": 0.014901960784313717,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1000000000000.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "cantor_set",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 194
+        },
+        "view": {
+          "panX": -0.5549019607843138,
+          "panY": 0.014901960784313717,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1000000000000.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "cantor_set",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 194
+        },
+        "view": {
+          "panX": -0.5549019607843138,
+          "panY": 0.014901960784313717,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 0.2
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "cantor_set",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 130
+        },
+        "view": {
+          "panX": -0.5549019607843138,
+          "panY": 3.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 0.2
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": true,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "recursive_sine_sphere",
+        "name": null,
+        "params": {
+          "animate": false,
+          "colorScheme": 0,
+          "depth": 3,
+          "phase": 0.0,
+          "radius": 1.0,
+          "steps": 256,
+          "strength": 0.8
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.3,
+          "rotY": -0.4,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "recursive_sine_sphere",
+        "name": null,
+        "params": {
+          "animate": true,
+          "colorScheme": 0,
+          "depth": 3,
+          "phase": 0.0,
+          "radius": 1.0,
+          "steps": 256,
+          "strength": 0.8
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.3,
+          "rotY": -0.4,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "recursive_sine_sphere",
+        "name": null,
+        "params": {
+          "animate": false,
+          "colorScheme": 0,
+          "depth": 3,
+          "phase": 0.0,
+          "radius": 1.0,
+          "steps": 256,
+          "strength": 0.8
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.3,
+          "rotY": -0.4,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "recursive_sine_sphere",
+        "name": null,
+        "params": {
+          "animate": false,
+          "colorScheme": 0,
+          "depth": 3,
+          "phase": 0.0,
+          "radius": 1.0,
+          "steps": 256,
+          "strength": 0.8
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.3,
+          "rotY": -0.4,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "recursive_sine_sphere",
+        "name": null,
+        "params": {
+          "animate": false,
+          "colorScheme": 0,
+          "depth": 3,
+          "phase": 0.0,
+          "radius": 1.0,
+          "steps": 256,
+          "strength": 0.8
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.3,
+          "rotY": -0.4,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": null,
+        "pending": false,
+        "prime": null,
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "number_wall",
+        "name": null,
+        "params": {
+          "backgroundColor": 592658,
+          "colorMode": 0,
+          "colorScheme": 0,
+          "columnStart": 3,
+          "columns": 16,
+          "foregroundColor": 2107451,
+          "prime": "97",
+          "randomSeed": 0,
+          "randomizeModulus": false,
+          "rows": 4,
+          "showGrid": false,
+          "source": "rook",
+          "zeroColor": 16042333
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": "1",
+        "pending": false,
+        "prime": "97",
+        "status": "verifiedPrime"
+      },
+      "result": true,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "number_wall",
+        "name": null,
+        "params": {
+          "backgroundColor": 592658,
+          "colorMode": 0,
+          "colorScheme": 0,
+          "columnStart": 3,
+          "columns": 16,
+          "foregroundColor": 2107451,
+          "prime": "97",
+          "randomSeed": 0,
+          "randomizeModulus": false,
+          "rows": 4,
+          "showGrid": true,
+          "source": "thueMorse",
+          "zeroColor": 16042333
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": "0",
+        "pending": false,
+        "prime": "97",
+        "status": "verifiedPrime"
+      },
+      "result": true,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "number_wall",
+        "name": null,
+        "params": {
+          "backgroundColor": 592658,
+          "colorMode": 0,
+          "colorScheme": 0,
+          "columnStart": 3,
+          "columns": 16,
+          "foregroundColor": 2107451,
+          "prime": "97",
+          "randomSeed": 0,
+          "randomizeModulus": false,
+          "rows": 4,
+          "showGrid": false,
+          "source": "signedPagoda",
+          "zeroColor": 16042333
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": "0",
+        "pending": false,
+        "prime": "97",
+        "status": "verifiedPrime"
+      },
+      "result": true,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "number_wall",
+        "name": null,
+        "params": {
+          "backgroundColor": 592658,
+          "colorMode": 0,
+          "colorScheme": 0,
+          "columnStart": 3,
+          "columns": 16,
+          "foregroundColor": 2107451,
+          "prime": "97",
+          "randomSeed": 0,
+          "randomizeModulus": false,
+          "rows": 4,
+          "showGrid": false,
+          "source": "signedPagoda",
+          "zeroColor": 16042333
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": "0",
+        "pending": false,
+        "prime": "97",
+        "status": "verifiedPrime"
+      },
+      "result": {
+        "id": "replay",
+        "moduleId": "number_wall",
+        "name": null,
+        "params": {
+          "backgroundColor": 592658,
+          "colorMode": 0,
+          "colorScheme": 0,
+          "columnStart": 3,
+          "columns": 16,
+          "foregroundColor": 2107451,
+          "prime": "97",
+          "randomSeed": 0,
+          "randomizeModulus": false,
+          "rows": 4,
+          "showGrid": false,
+          "source": "signedPagoda",
+          "zeroColor": 16042333
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "number_wall",
+        "name": null,
+        "params": {
+          "backgroundColor": 592658,
+          "colorMode": 0,
+          "colorScheme": 0,
+          "columnStart": 3,
+          "columns": 16,
+          "foregroundColor": 2107451,
+          "prime": "97",
+          "randomSeed": 0,
+          "randomizeModulus": false,
+          "rows": 4,
+          "showGrid": false,
+          "source": "signedPagoda",
+          "zeroColor": 16042333
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": "0",
+        "pending": false,
+        "prime": "97",
+        "status": "composite"
+      },
+      "result": {
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "id": "replay",
+        "isBuiltIn": false,
+        "moduleId": "number_wall",
+        "name": "Replay",
+        "params": {
+          "columnStart": 3,
+          "columns": 16,
+          "prime": "561",
+          "primeVerified": true,
+          "rows": 4,
+          "source": "rook"
+        },
+        "thumbnailPath": null,
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        }
+      },
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "number_wall",
+        "name": null,
+        "params": {
+          "backgroundColor": 592658,
+          "colorMode": 0,
+          "colorScheme": 0,
+          "columnStart": 3,
+          "columns": 16,
+          "foregroundColor": 2107451,
+          "prime": "97",
+          "randomSeed": 0,
+          "randomizeModulus": false,
+          "rows": 4,
+          "showGrid": false,
+          "source": "signedPagoda",
+          "zeroColor": 16042333
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": "0",
+        "pending": false,
+        "prime": "97",
+        "status": "unverified"
+      },
+      "result": {
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "id": "replay",
+        "isBuiltIn": false,
+        "moduleId": "number_wall",
+        "name": "Replay",
+        "params": {
+          "columnStart": 3,
+          "columns": 16,
+          "prime": "170141183460469231731687303715884105727",
+          "primeVerified": true,
+          "rows": 4,
+          "source": "rook"
+        },
+        "thumbnailPath": null,
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        }
+      },
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "number_wall",
+        "name": null,
+        "params": {
+          "backgroundColor": 592658,
+          "colorMode": 0,
+          "colorScheme": 0,
+          "columnStart": 3,
+          "columns": 16,
+          "foregroundColor": 2107451,
+          "prime": "97",
+          "randomSeed": 0,
+          "randomizeModulus": false,
+          "rows": 4,
+          "showGrid": false,
+          "source": "signedPagoda",
+          "zeroColor": 16042333
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": "0",
+        "pending": false,
+        "prime": "97",
+        "status": "composite"
+      },
+      "result": {
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "id": "replay",
+        "isBuiltIn": false,
+        "moduleId": "number_wall",
+        "name": "Replay",
+        "params": {
+          "columnStart": 3,
+          "columns": 16,
+          "prime": "9007199254740993",
+          "rows": 4,
+          "source": "rook"
+        },
+        "thumbnailPath": null,
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        }
+      },
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "number_wall",
+        "name": null,
+        "params": {
+          "backgroundColor": 592658,
+          "colorMode": 0,
+          "colorScheme": 0,
+          "columnStart": 3,
+          "columns": 16,
+          "foregroundColor": 2107451,
+          "prime": "97",
+          "randomSeed": 0,
+          "randomizeModulus": false,
+          "rows": 4,
+          "showGrid": false,
+          "source": "signedPagoda",
+          "zeroColor": 16042333
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": "0",
+        "pending": false,
+        "prime": "97",
+        "status": "invalid"
+      },
+      "result": {
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "id": "replay",
+        "isBuiltIn": false,
+        "moduleId": "number_wall",
+        "name": "Replay",
+        "params": {
+          "columnStart": 3,
+          "columns": 16,
+          "prime": "99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+          "rows": 4,
+          "source": "rook"
+        },
+        "thumbnailPath": null,
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        }
+      },
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "number_wall",
+        "name": null,
+        "params": {
+          "backgroundColor": 592658,
+          "colorMode": 0,
+          "colorScheme": 0,
+          "columnStart": 3,
+          "columns": 16,
+          "foregroundColor": 2107451,
+          "prime": "101",
+          "randomSeed": 0,
+          "randomizeModulus": false,
+          "rows": 4,
+          "showGrid": false,
+          "source": "signedPagoda",
+          "zeroColor": 16042333
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": "0",
+        "pending": false,
+        "prime": "101",
+        "status": "verifiedPrime"
+      },
+      "result": "verifiedPrime",
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "number_wall",
+        "name": null,
+        "params": {
+          "backgroundColor": 592658,
+          "colorMode": 0,
+          "colorScheme": 0,
+          "columnStart": 3,
+          "columns": 16,
+          "foregroundColor": 2107451,
+          "prime": "101",
+          "randomSeed": 0,
+          "randomizeModulus": false,
+          "rows": 4,
+          "showGrid": false,
+          "source": "signedPagoda",
+          "zeroColor": 16042333
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": "0",
+        "pending": false,
+        "prime": "101",
+        "status": "invalid"
+      },
+      "result": "invalid",
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "number_wall",
+        "name": null,
+        "params": {
+          "backgroundColor": 592658,
+          "colorMode": 0,
+          "colorScheme": 0,
+          "columnStart": 3,
+          "columns": 16,
+          "foregroundColor": 2107451,
+          "prime": "101",
+          "randomSeed": 0,
+          "randomizeModulus": false,
+          "rows": 4,
+          "showGrid": false,
+          "source": "signedPagoda",
+          "zeroColor": 16042333
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": "0",
+        "pending": true,
+        "prime": "101",
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "number_wall",
+        "name": null,
+        "params": {
+          "backgroundColor": 592658,
+          "colorMode": 0,
+          "colorScheme": 0,
+          "columnStart": 3,
+          "columns": 16,
+          "foregroundColor": 2107451,
+          "prime": "103",
+          "randomSeed": 0,
+          "randomizeModulus": false,
+          "rows": 4,
+          "showGrid": false,
+          "source": "rook",
+          "zeroColor": 16042333
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": "1",
+        "pending": false,
+        "prime": "103",
+        "status": "verifiedPrime"
+      },
+      "result": true,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "number_wall",
+        "name": null,
+        "params": {
+          "backgroundColor": 592658,
+          "colorMode": 0,
+          "colorScheme": 0,
+          "columnStart": 3,
+          "columns": 16,
+          "foregroundColor": 2107451,
+          "prime": "103",
+          "randomSeed": 0,
+          "randomizeModulus": false,
+          "rows": 4,
+          "showGrid": false,
+          "source": "rook",
+          "zeroColor": 16042333
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": "1",
+        "pending": false,
+        "prime": "103",
+        "status": "verifiedPrime"
+      },
+      "result": false,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "number_wall",
+        "name": null,
+        "params": {
+          "backgroundColor": 592658,
+          "colorMode": 0,
+          "colorScheme": 0,
+          "columnStart": 3,
+          "columns": 16,
+          "foregroundColor": 2107451,
+          "prime": "97",
+          "randomSeed": 0,
+          "randomizeModulus": false,
+          "rows": 4,
+          "showGrid": false,
+          "source": "signedPagoda",
+          "zeroColor": 16042333
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": "0",
+        "pending": false,
+        "prime": "97",
+        "status": "verifiedPrime"
+      },
+      "result": true,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "number_wall",
+        "name": null,
+        "params": {
+          "backgroundColor": 592658,
+          "colorMode": 0,
+          "colorScheme": 0,
+          "columnStart": 3,
+          "columns": 16,
+          "foregroundColor": 2107451,
+          "prime": "97",
+          "randomSeed": 0,
+          "randomizeModulus": false,
+          "rows": 4,
+          "showGrid": false,
+          "source": "signedPagoda",
+          "zeroColor": 16042333
+        },
+        "view": {
+          "panX": 0.5,
+          "panY": -0.5,
+          "rotX": 0.1,
+          "rotY": 0.2,
+          "rotZ": 0.3,
+          "zoom": 2.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": "0",
+        "pending": true,
+        "prime": "97",
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": "0",
+        "pending": false,
+        "prime": "97",
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": "0",
+        "pending": false,
+        "prime": "97",
+        "status": null
+      },
+      "result": false,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": "0",
+        "pending": true,
+        "prime": "97",
+        "status": null
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 123
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": "0",
+        "pending": false,
+        "prime": "97",
+        "status": "cancelled"
+      },
+      "result": null,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 123
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": "0",
+        "pending": false,
+        "prime": "97",
+        "status": "cancelled"
+      },
+      "result": false,
+      "transparentBackground": false
+    },
+    {
+      "history": {
+        "id": "replay",
+        "moduleId": "mandelbrot",
+        "name": null,
+        "params": {
+          "bailout": 4.0,
+          "colorScheme": 0,
+          "iterations": 350
+        },
+        "view": {
+          "panX": 0.0,
+          "panY": 0.0,
+          "rotX": 0.0,
+          "rotY": 0.0,
+          "rotZ": 0.0,
+          "zoom": 1.0
+        },
+        "visitedAt": "2026-01-01T00:00:00.000Z"
+      },
+      "numberWall": {
+        "firstCell": "0",
+        "pending": false,
+        "prime": "97",
+        "status": "cancelled"
+      },
+      "result": null,
+      "transparentBackground": false
+    }
+  ],
+  "inputs": [
+    {
+      "label": "initial",
+      "op": "snapshot"
+    },
+    {
+      "label": "ordinary below zoom minimum",
+      "op": "zoom",
+      "value": -1
+    },
+    {
+      "label": "ordinary above zoom maximum",
+      "op": "zoom",
+      "value": 100000000000000000000.0
+    },
+    {
+      "label": "reset ordinary session",
+      "op": "resetSession"
+    },
+    {
+      "label": "adaptive zoom 2",
+      "op": "zoom",
+      "value": 2
+    },
+    {
+      "label": "adaptive zoom 32",
+      "op": "zoom",
+      "value": 32
+    },
+    {
+      "label": "adaptive zoom 1",
+      "op": "zoom",
+      "value": 1
+    },
+    {
+      "id": "iterations",
+      "label": "integer NaN uses schema default",
+      "op": "param",
+      "value": {
+        "nonfinite": "nan"
+      }
+    },
+    {
+      "id": "iterations",
+      "label": "integer infinity maximum",
+      "op": "param",
+      "value": {
+        "nonfinite": "+infinity"
+      }
+    },
+    {
+      "id": "iterations",
+      "label": "integer negative infinity minimum",
+      "op": "param",
+      "value": {
+        "nonfinite": "-infinity"
+      }
+    },
+    {
+      "id": "bailout",
+      "label": "float finite value",
+      "op": "param",
+      "value": 9.94
+    },
+    {
+      "id": "bailout",
+      "label": "float NaN uses default not previous",
+      "op": "param",
+      "value": {
+        "nonfinite": "nan"
+      }
+    },
+    {
+      "id": "bailout",
+      "label": "float infinity maximum",
+      "op": "param",
+      "value": {
+        "nonfinite": "+infinity"
+      }
+    },
+    {
+      "id": "bailout",
+      "label": "float negative infinity minimum",
+      "op": "param",
+      "value": {
+        "nonfinite": "-infinity"
+      }
+    },
+    {
+      "id": "colorScheme",
+      "label": "numeric enum option",
+      "op": "param",
+      "value": 1
+    },
+    {
+      "id": "colorScheme",
+      "label": "invalid numeric enum default",
+      "op": "param",
+      "value": 999
+    },
+    {
+      "id": "colorScheme",
+      "label": "wrong enum scalar type",
+      "op": "param",
+      "value": "1"
+    },
+    {
+      "label": "finite pan",
+      "op": "pan",
+      "value": [
+        0.5,
+        -0.5
+      ]
+    },
+    {
+      "label": "pan NaN retains x infinity clamps y",
+      "op": "pan",
+      "value": [
+        {
+          "nonfinite": "nan"
+        },
+        {
+          "nonfinite": "+infinity"
+        }
+      ]
+    },
+    {
+      "label": "pan negative infinity clamps x NaN retains y",
+      "op": "pan",
+      "value": [
+        {
+          "nonfinite": "-infinity"
+        },
+        {
+          "nonfinite": "nan"
+        }
+      ]
+    },
+    {
+      "label": "finite rotation",
+      "op": "rotation",
+      "value": [
+        0.1,
+        0.2,
+        0.3
+      ]
+    },
+    {
+      "label": "nonfinite rotation retains finite components",
+      "op": "rotation",
+      "value": [
+        {
+          "nonfinite": "nan"
+        },
+        {
+          "nonfinite": "+infinity"
+        },
+        {
+          "nonfinite": "-infinity"
+        }
+      ]
+    },
+    {
+      "adaptive": true,
+      "label": "atomic view finite last-good components",
+      "op": "view",
+      "value": {
+        "panX": {
+          "nonfinite": "nan"
+        },
+        "panY": {
+          "nonfinite": "-infinity"
+        },
+        "rotX": 0.4,
+        "rotY": {
+          "nonfinite": "+infinity"
+        },
+        "rotZ": {
+          "nonfinite": "-infinity"
+        },
+        "zoom": {
+          "nonfinite": "nan"
+        }
+      }
+    },
+    {
+      "label": "preset invalid camera and schema values",
+      "op": "preset",
+      "params": {
+        "bailout": {
+          "nonfinite": "nan"
+        },
+        "colorScheme": 999,
+        "iterations": 9999
+      },
+      "view": {
+        "panX": {
+          "nonfinite": "nan"
+        },
+        "panY": {
+          "nonfinite": "+infinity"
+        },
+        "rotX": {
+          "nonfinite": "nan"
+        },
+        "rotY": {
+          "nonfinite": "+infinity"
+        },
+        "rotZ": {
+          "nonfinite": "-infinity"
+        },
+        "zoom": {
+          "nonfinite": "nan"
+        }
+      }
+    },
+    {
+      "label": "finite preset serialized round trip",
+      "op": "preset",
+      "params": {
+        "bailout": 4.5,
+        "colorScheme": 1,
+        "iterations": 321
+      },
+      "roundTrip": true,
+      "view": {
+        "panX": 0.5,
+        "panY": -0.5,
+        "rotX": 0.1,
+        "rotY": 0.2,
+        "rotZ": 0.3,
+        "zoom": 2
+      }
+    },
+    {
+      "label": "transparency on",
+      "op": "transparent",
+      "value": true
+    },
+    {
+      "key": "ordinary",
+      "label": "save native history snapshot",
+      "op": "saveHistory"
+    },
+    {
+      "label": "module switch without animation",
+      "moduleId": "julia",
+      "op": "module",
+      "resetView": true
+    },
+    {
+      "key": "ordinary",
+      "label": "restore saved history and module",
+      "op": "restoreHistory"
+    },
+    {
+      "label": "params reset preserves camera",
+      "op": "resetParams"
+    },
+    {
+      "label": "view reset preserves params",
+      "op": "resetView"
+    },
+    {
+      "label": "set transparency before full reset",
+      "op": "transparent",
+      "value": true
+    },
+    {
+      "label": "session reset also clears transparency",
+      "op": "resetSession"
+    },
+    {
+      "label": "Cantor module switch",
+      "moduleId": "cantor_set",
+      "op": "module"
+    },
+    {
+      "label": "Cantor zoom vector 0",
+      "op": "zoom",
+      "value": -1
+    },
+    {
+      "label": "Cantor zoom vector 1",
+      "op": "zoom",
+      "value": 0.19999999999999998
+    },
+    {
+      "label": "Cantor zoom vector 2",
+      "op": "zoom",
+      "value": 0.2
+    },
+    {
+      "label": "Cantor zoom vector 3",
+      "op": "zoom",
+      "value": 0.20000000000000004
+    },
+    {
+      "label": "Cantor zoom vector 4",
+      "op": "zoom",
+      "value": {
+        "nonfinite": "+infinity"
+      }
+    },
+    {
+      "label": "Cantor zoom vector 5",
+      "op": "zoom",
+      "value": {
+        "nonfinite": "nan"
+      }
+    },
+    {
+      "label": "Cantor zoom vector 6",
+      "op": "zoom",
+      "value": {
+        "nonfinite": "-infinity"
+      }
+    },
+    {
+      "label": "Cantor loaded nonfinite camera",
+      "op": "load",
+      "params": {},
+      "view": {
+        "panX": {
+          "nonfinite": "nan"
+        },
+        "panY": {
+          "nonfinite": "+infinity"
+        },
+        "rotX": {
+          "nonfinite": "nan"
+        },
+        "rotY": {
+          "nonfinite": "+infinity"
+        },
+        "rotZ": {
+          "nonfinite": "-infinity"
+        },
+        "zoom": {
+          "nonfinite": "nan"
+        }
+      }
+    },
+    {
+      "label": "boolean module",
+      "moduleId": "recursive_sine_sphere",
+      "op": "module"
+    },
+    {
+      "id": "animate",
+      "label": "boolean true",
+      "op": "param",
+      "value": true
+    },
+    {
+      "id": "animate",
+      "label": "boolean false",
+      "op": "param",
+      "value": false
+    },
+    {
+      "id": "animate",
+      "label": "boolean wrong numeric type",
+      "op": "param",
+      "value": 1
+    },
+    {
+      "id": "animate",
+      "label": "boolean wrong string type",
+      "op": "param",
+      "value": "true"
+    },
+    {
+      "label": "Number Walls exact decimal ingress",
+      "moduleId": "number_wall",
+      "op": "load",
+      "params": {
+        "columnStart": 3,
+        "columns": 16,
+        "prime": "00097",
+        "rows": 4,
+        "source": "rook"
+      },
+      "view": {
+        "panX": 0.5,
+        "panY": -0.5,
+        "rotX": 0.1,
+        "rotY": 0.2,
+        "rotZ": 0.3,
+        "zoom": 2
+      }
+    },
+    {
+      "label": "Number Walls string enum and boolean ingress",
+      "op": "load",
+      "params": {
+        "columnStart": 3,
+        "columns": 16,
+        "prime": "97",
+        "rows": 4,
+        "showGrid": true,
+        "source": "thueMorse"
+      },
+      "view": {
+        "panX": 0.5,
+        "panY": -0.5,
+        "rotX": 0.1,
+        "rotY": 0.2,
+        "rotZ": 0.3,
+        "zoom": 2
+      }
+    },
+    {
+      "label": "Number Walls wrong enum and boolean types",
+      "op": "load",
+      "params": {
+        "columnStart": 3,
+        "columns": 16,
+        "prime": "97",
+        "rows": 4,
+        "showGrid": "true",
+        "source": 999
+      },
+      "view": {
+        "panX": 0.5,
+        "panY": -0.5,
+        "rotX": 0.1,
+        "rotY": 0.2,
+        "rotZ": 0.3,
+        "zoom": 2
+      }
+    },
+    {
+      "key": "wall",
+      "label": "Number Walls history retains decimal string",
+      "op": "saveHistory"
+    },
+    {
+      "label": "composite preset cannot self-certify",
+      "moduleId": "number_wall",
+      "op": "preset",
+      "params": {
+        "columnStart": 3,
+        "columns": 16,
+        "prime": "561",
+        "primeVerified": true,
+        "rows": 4,
+        "source": "rook"
+      },
+      "roundTrip": true,
+      "view": {
+        "panX": 0.5,
+        "panY": -0.5,
+        "rotX": 0.1,
+        "rotY": 0.2,
+        "rotZ": 0.3,
+        "zoom": 2
+      }
+    },
+    {
+      "label": "large exact integer stays string and unverified",
+      "moduleId": "number_wall",
+      "op": "preset",
+      "params": {
+        "columnStart": 3,
+        "columns": 16,
+        "prime": "170141183460469231731687303715884105727",
+        "primeVerified": true,
+        "rows": 4,
+        "source": "rook"
+      },
+      "roundTrip": true,
+      "view": {
+        "panX": 0.5,
+        "panY": -0.5,
+        "rotX": 0.1,
+        "rotY": 0.2,
+        "rotZ": 0.3,
+        "zoom": 2
+      }
+    },
+    {
+      "label": "integer above binary64 safe range",
+      "moduleId": "number_wall",
+      "op": "preset",
+      "params": {
+        "columnStart": 3,
+        "columns": 16,
+        "prime": "9007199254740993",
+        "rows": 4,
+        "source": "rook"
+      },
+      "roundTrip": true,
+      "view": {
+        "panX": 0.5,
+        "panY": -0.5,
+        "rotX": 0.1,
+        "rotY": 0.2,
+        "rotZ": 0.3,
+        "zoom": 2
+      }
+    },
+    {
+      "label": "oversized decimal rejected",
+      "moduleId": "number_wall",
+      "op": "preset",
+      "params": {
+        "columnStart": 3,
+        "columns": 16,
+        "prime": "99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+        "rows": 4,
+        "source": "rook"
+      },
+      "roundTrip": true,
+      "view": {
+        "panX": 0.5,
+        "panY": -0.5,
+        "rotX": 0.1,
+        "rotY": 0.2,
+        "rotZ": 0.3,
+        "zoom": 2
+      }
+    },
+    {
+      "label": "prime public Apply commits",
+      "op": "prime",
+      "value": "101"
+    },
+    {
+      "label": "nondecimal ingress rejected",
+      "op": "prime",
+      "value": "1e2"
+    },
+    {
+      "key": "older",
+      "label": "start candidate to supersede",
+      "moduleId": "number_wall",
+      "op": "startLoad",
+      "params": {
+        "columnStart": 3,
+        "columns": 16,
+        "prime": "100003",
+        "rows": 4,
+        "source": "rook"
+      },
+      "view": {
+        "panX": 0.5,
+        "panY": -0.5,
+        "rotX": 0.1,
+        "rotY": 0.2,
+        "rotZ": 0.3,
+        "zoom": 2
+      }
+    },
+    {
+      "label": "newer candidate completes",
+      "op": "load",
+      "params": {
+        "columnStart": 3,
+        "columns": 16,
+        "prime": "103",
+        "rows": 4,
+        "source": "rook"
+      },
+      "view": {
+        "panX": 0.5,
+        "panY": -0.5,
+        "rotX": 0.1,
+        "rotY": 0.2,
+        "rotZ": 0.3,
+        "zoom": 2
+      }
+    },
+    {
+      "key": "older",
+      "label": "await stale candidate rejection",
+      "op": "awaitLoad"
+    },
+    {
+      "key": "wall",
+      "label": "restore wall history through certification",
+      "op": "restoreHistory"
+    },
+    {
+      "key": "navigation",
+      "label": "start candidate before navigation",
+      "op": "startLoad",
+      "params": {
+        "columnStart": 3,
+        "columns": 16,
+        "prime": "100003",
+        "rows": 4,
+        "source": "rook"
+      },
+      "view": {
+        "panX": 0.5,
+        "panY": -0.5,
+        "rotX": 0.1,
+        "rotY": 0.2,
+        "rotZ": 0.3,
+        "zoom": 2
+      }
+    },
+    {
+      "label": "navigation invalidates candidate",
+      "moduleId": "mandelbrot",
+      "op": "module",
+      "resetView": true
+    },
+    {
+      "key": "navigation",
+      "label": "await navigation rejection",
+      "op": "awaitLoad"
+    },
+    {
+      "key": "edited",
+      "label": "start cross-module replay",
+      "moduleId": "number_wall",
+      "op": "startLoad",
+      "params": {
+        "columnStart": 3,
+        "columns": 16,
+        "prime": "100003",
+        "rows": 4,
+        "source": "rook"
+      },
+      "view": {
+        "panX": 0.5,
+        "panY": -0.5,
+        "rotX": 0.1,
+        "rotY": 0.2,
+        "rotZ": 0.3,
+        "zoom": 2
+      }
+    },
+    {
+      "id": "iterations",
+      "label": "ordinary edit invalidates cross-module replay",
+      "op": "param",
+      "value": 123
+    },
+    {
+      "key": "edited",
+      "label": "await edited candidate rejection",
+      "op": "awaitLoad"
+    },
+    {
+      "label": "final ordinary reset",
+      "op": "resetSession"
+    }
+  ],
+  "kind": "state-replay",
+  "schema": 1,
+  "source_bindings": {
+    "fdroid/flutter.version": "3643b714d5f0c18e13c9066f514e45cdbe7fea071b4d427c3aa6e0fbf3bfcaf0",
+    "lib/core/controllers/fractal_controller.dart": "03c82015fc2357179569295ddb791b44bbd7b42dd2fa0d76a88a813a4eaef5a1",
+    "lib/core/controllers/input/fractal_effect_input_bounds.dart": "5c7cf49fe16fb96fec80462fdceb0f425ec895ca9b881d3fa3b9051fcc171df1",
+    "lib/core/controllers/input/fractal_view_input_bounds.dart": "50933ba08fedf0d9b213a08e986f010e29272851d1154fb231ff53c4c3c4cdba",
+    "lib/core/controllers/params/fractal_param_randomizer.dart": "1fbdc056fc5190b131b9304601bc696b604c48d7d370076dce086b88dd1dd054",
+    "lib/core/controllers/params/fractal_param_value_normalizer.dart": "5b0d324b41784ba7a440b3cc77a4c6104107f97d56d786a00744ea5ceedeaad2",
+    "lib/core/controllers/state/fractal_controller_snapshots.dart": "bffc46a08ce3bebee38131afe81bda105fef1cc27eae642c3199837ea6bf7284",
+    "lib/core/controllers/state/fractal_kaleidoscope_state.dart": "fcb10ca721f10bf88f3f1f5a446fd652524ceffb43bbfbe7c7be8f50bd0c9072",
+    "lib/core/models/attractor_trajectory_settings.dart": "3f056f9f29ca088a0f2f1e677b68406c749fc072fd3d7a4932d499228762edd7",
+    "lib/core/models/fibonacci_complex_model.dart": "395d052c4ee945d52c3b4cff608b9e8b1de39c770a5f4f25b93f759bdab01d90",
+    "lib/core/models/fractal_palette.dart": "942b3aac6cb7bdc4ba81faf4a1376e610cefc456f8c000b757ce1358eb53a3d7",
+    "lib/core/models/fractal_parameter.dart": "0211eb950500fc33f34c0e17af2477c13896b74fc05a430677fac994462c3cc9",
+    "lib/core/models/fractal_preset.dart": "509046c7504002cca6695d70c6f16d80a42fed712c3e8eaef098286280c17f2c",
+    "lib/core/models/fractal_view_state.dart": "c763398f862a4ee444bcd124b5f6c91f7ec3485b868dbb0aee2653243582b143",
+    "lib/core/models/history/history_entry.dart": "e2588929252b3036b4f430ae3ff25555635160a5c853997810013ebfe5441b6d",
+    "lib/core/models/history/history_location.dart": "f8a13e10b2aee8f60178ab981f6f44a9bd4bb82d0efa6f15ccb444987270faf5",
+    "lib/core/models/number_wall_model.dart": "44d83b8c3df1ddcb785a76586a438efcc84dd129c67811706ba2288a1b65df4f",
+    "lib/core/models/palette/built_in_palette_names.dart": "12a5be66bd515b0e985db074b418b8a2631e1b03f3aed30bbec41e3c3b3c2dbb",
+    "lib/core/models/palette/fractal_palette.dart": "62d57f0b8364d24946e93889100b3686be60426f87709105f34a26e0fcac9577",
+    "lib/core/models/perron_tree_model.dart": "0e7b5c6d019714bf8de5e7fca9a92df54129af5c639bb3e773730fec53948fb2",
+    "lib/core/modules/builders/built_in_preset_contract.dart": "c6abac2e5d38466b009e95f19c419f537e7cf21007738725557b3e9b935642c1",
+    "lib/core/modules/builders/escape_time/builder.dart": "6eead995d5ef808efbc7c1886c2b2142c5bfa2fb96d791af751ed59021c29ce2",
+    "lib/core/modules/builders/escape_time/catalog.dart": "d56f47ab942d92d1a8d5daf23b3a1262f64cafb1b00fd7b9d3ed214e526d3d3b",
+    "lib/core/modules/builders/escape_time_builder.dart": "b42e9a3f90c92418f09d5aadbf6c2e1191d0c02c8c4937954beaed450b4d8cc1",
+    "lib/core/modules/builders/escape_time_catalog.dart": "0329d0c716182eb1ddc50aaa18d31de29c39cceafc08af40df13f23bd61d4f91",
+    "lib/core/modules/builders/escape_time_catalog/families/cellular_stochastic.dart": "dce295efc55259e1838f80492be141bf8449622627e2d4ab8df9ec18847ef7d3",
+    "lib/core/modules/builders/escape_time_catalog/families/convergent_root_finding.dart": "fbd38e5aac19fb93f3f583e8550b1a3e0034e1658d9cb444287c3b39325abf34",
+    "lib/core/modules/builders/escape_time_catalog/families/core_escape_time_family.dart": "eeb6df8af76f7536927a8c40492e16a789ada8ecb908d7dae979283d16b869d3",
+    "lib/core/modules/builders/escape_time_catalog/families/hypercomplex_slices.dart": "c1413ebc9f922cfed145231f9a4621aa7a20780b9064a24dd21520a842391945",
+    "lib/core/modules/builders/escape_time_catalog/families/ifs_geometric_fractals.dart": "1709f5638cfe52c1144d0084635c7d37f01878e175429f0176ecc95297595a4c",
+    "lib/core/modules/builders/escape_time_catalog/families/kaleidoscopes.dart": "9bfdf5736c63884cbda6891f3ee4d6799ebf57a32e3d605618c82819925b3b89",
+    "lib/core/modules/builders/escape_time_catalog/families/lyapunov.dart": "8b45661e22e6de13f4b6a64e8b35823edc5719a6eaf555e142846c7bb7a61bff",
+    "lib/core/modules/builders/escape_time_catalog/families/maps_attractors.dart": "6a1df550a9591156886dddbbe691559b121c49503b5b01e967393b8a197888be",
+    "lib/core/modules/builders/escape_time_catalog/families/new_escape_time_fractals.dart": "4cd3e050b319cf1db9aba6ed98491189fed2f41ddd7ab9afd38b904a053c9503",
+    "lib/core/modules/builders/escape_time_catalog/families/rational_polynomial.dart": "d3f0b1932162d7703c5d3a9801cd53dc78353f51eff354a2e5ad7519249a1f3d",
+    "lib/core/modules/builders/escape_time_catalog/families/trigonometric.dart": "be47745b257675f7136eb3ba6e001b6bd3de3ef8a44097ae915c357f2aa75a4e",
+    "lib/core/modules/builders/escape_time_catalog/research_batches/batch_14_extensions.dart": "61870e6ecfa2ee075c42ce618b33d0e528896d7828a89ecfab89d1d369212714",
+    "lib/core/modules/builders/escape_time_catalog/research_batches/batch_16_novel_dynamics.dart": "d59a8e67b60de5cac079718eeefbfaf756746555b526999523199b34d36b8544",
+    "lib/core/modules/builders/escape_time_catalog/research_batches/batch_17_weierstrass_steffensen.dart": "d919ad359fcbe5da1d739c9e1cdc6ca2c856b3dc96ca3a0df7694067c9f23660",
+    "lib/core/modules/builders/escape_time_catalog/research_batches/batch_18_web_researched.dart": "535e16c042a8ff8d5ff9495dc7ea9e8925c2f1edbec4dbe7335e8a036de5c259",
+    "lib/core/modules/builders/escape_time_catalog/research_batches/batch_19_researched_additions.dart": "b67c5ecb99e15c71ad7ae46ed427e8e9669ea319cfdfe553dcf898f80dd29fdb",
+    "lib/core/modules/builders/escape_time_catalog/research_batches/batch_20_next_wave_research.dart": "a5fbe3aa4c2ebe1fb90d6b2f9681e8dcbb1193ba99d0780c2be6fc984ae391a3",
+    "lib/core/modules/builders/escape_time_catalog/research_batches/batch_21_third_wave_research.dart": "2a78b8b649cd0a0a56f571d2001e86a5b74ae95afea8ef17754157c41372726b",
+    "lib/core/modules/builders/escape_time_catalog/research_batches/batch_22_fourth_wave_research.dart": "a943eb09a47a3c986c244b44b95b9594823f3de346e71a42069b6083e74cadca",
+    "lib/core/modules/builders/escape_time_catalog/research_batches/batch_23_fifth_wave_research.dart": "048a91a89c607072960b196ba256c0b7ade48954741825a38bc8f66360946550",
+    "lib/core/modules/builders/escape_time_catalog/research_batches/batch_24_eighth_wave_research.dart": "1d3b8c99bde8792298b122528d7e4a8506b922e296f3f691c2d166599cb3d377",
+    "lib/core/modules/builders/escape_time_catalog/research_batches/batch_25_ninth_wave_research.dart": "2e445f21f479a9fb431f2143255a9888632ef9d3a7ed3087be6399f1ed0855ea",
+    "lib/core/modules/builders/escape_time_catalog/research_batches/batch_26_tenth_wave_research.dart": "e6851f314d11961d5e95a701903fccddb6b77cdba1a6537da0de00ce353ecf5a",
+    "lib/core/modules/builders/escape_time_catalog/research_batches/batch_27_log_polar_tessellations.dart": "527e699a5eddf8375fdb5bf7dc5e2f672aeee1733455569024ac686f66e3c526",
+    "lib/core/modules/builders/escape_time_catalog/research_batches/batch_28_fractalish_motion.dart": "e8ba3bd7c19971ef58ca1db7bb5866d2ec15132c3e9af2178acc077600a7474e",
+    "lib/core/modules/builders/escape_time_catalog/research_batches/batch_29_clean_room_visuals.dart": "50050fe4b0ee2fb3fb4e10007c06f6ddd4a201bbb2016bdb70cc83958b64aadf",
+    "lib/core/modules/builders/escape_time_catalog/research_batches/batch_30_high_impact_visuals.dart": "fdd005e8d28a2adde321d66ebd4891036792ec3d34f5ae038210b0cd4885622e",
+    "lib/core/modules/builders/escape_time_catalog/research_batches/batch_31_mix_family.dart": "9c69686cc5161aefcc2437d6be0d1e7fa3a857deb818bb9054dbd66f5f61c092",
+    "lib/core/modules/builders/escape_time_catalog/research_batches/batch_32_planar_slices.dart": "8209409e4572c205672757d9265753358e210dc2f50dbb2e067aef32a7c0934d",
+    "lib/core/modules/builders/escape_time_catalog/research_batches/final_entries.dart": "04ec4f99e1548de8d829cd31d985c1ef21df95fb6a08363e6881d25dbacf1462",
+    "lib/core/modules/builders/escape_time_catalog/research_batches/mandlebrot_sfml_batch_1.dart": "0296e12f3d9b78c486432b049138977f6f38c67f870ab091547f1b621aa4d343",
+    "lib/core/modules/builders/escape_time_catalog/research_batches/mandlebrot_sfml_batch_2.dart": "98e0c1f8aa40fdfab42d7b1e2d2bc1173b68b6030adaf83b0560f5defca41b42",
+    "lib/core/modules/builders/fibonacci_complex_module.dart": "360490756276f3224a49520574e59994ae658e650901543bff5bb7b402f48339",
+    "lib/core/modules/builders/raymarched_3d/builder.dart": "7c84a63beb7b62556f3fc2ca2909c4aa718bb51536c6c14b83229cdbd247f0e9",
+    "lib/core/modules/builders/raymarched_3d/catalog.dart": "eadee82ade7e064c3b2da487d59c970376f1771c1695530ec065e05983195c47",
+    "lib/core/modules/builders/raymarched_3d/catalog_impl.dart": "4192187a726eb909738ef93c52b4e23487948f0a2b5c072dab7c8911e2b5cde8",
+    "lib/core/modules/builders/raymarched_3d_builder.dart": "89bb40f00c67e441d0a6fd4d8b9d33cae5ad26f20c569d2aa35f927ac03db9b5",
+    "lib/core/modules/builders/shared_catalogs/shared_clifford_catalog.dart": "5f9e97863f557faaf1bc9cf0aad6d792e5c42060b74d756f7a36eb724d7b7b6a",
+    "lib/core/modules/builders/shared_catalogs/shared_coefficient_attractor_builder.dart": "62448412a10f26f73e36b3203819dd0284e483446e7c1f7afecff34c9d25f58c",
+    "lib/core/modules/builders/shared_catalogs/shared_de_jong_catalog.dart": "b7f3d7ccd802e6e905364b7012ebc04f45cff275b0b4cb1196db700445ca9813",
+    "lib/core/modules/builders/shared_catalogs/shared_direct_transcendental_catalog.dart": "82341cb9e6fda0aa46278303480262ee7e9d7cd142a1168c5191527cd191315c",
+    "lib/core/modules/builders/shared_catalogs/shared_escape_expression_catalog.dart": "c4a34465731f57b8cc06092e3ce98af0e1230b988e6e17e144b9c683adfb2003",
+    "lib/core/modules/builders/shared_catalogs/shared_escape_power_catalog.dart": "1460a5df548e52f5febd7db697e3b266b6781860aa57eb3e32232958f96a10af",
+    "lib/core/modules/builders/shared_catalogs/shared_exact_attractor_catalog.dart": "4e6e998331b91c80d2478903c2b768e85cfd119b99b69fda06641e9cd211b5fc",
+    "lib/core/modules/builders/shared_catalogs/shared_exact_escape_catalog.dart": "cfda17d49e555866472044d7716ac2bd0131d34f9ce15b831d0ad56214e12777",
+    "lib/core/modules/builders/shared_catalogs/shared_fractal_flame_catalog.dart": "260d122a0684c5e8386802c5c235a57b3eafcf898cc7f87b2fb0176ea41f7b51",
+    "lib/core/modules/builders/shared_catalogs/shared_gumowski_mira_catalog.dart": "13384364ff385cdc1e36ea2f45fd0f6d739fb2ef2455354ba2a3383030902fa5",
+    "lib/core/modules/builders/shared_catalogs/shared_hopalong_catalog.dart": "dfa0056585977389b8dcffdb42ef708985676904784b194718b45fb5f9102a5e",
+    "lib/core/modules/builders/shared_catalogs/shared_julia_catalog.dart": "22bbcc6dfa296e034acabb9b90926bb5e393716927c3d2b6b1db2953aba2785b",
+    "lib/core/modules/builders/shared_catalogs/shared_life_like_catalog.dart": "0b49d39d0ead2a965ddbcce7087dcc1ddb73613cd918520a171b49a060f3ddcc",
+    "lib/core/modules/builders/shared_catalogs/shared_lozi_catalog.dart": "410697fae01ec33b4d6d99f7c1719f0f4ef8208c636ec46d6ab2c65c07daac62",
+    "lib/core/modules/builders/shared_catalogs/shared_multibrot_catalog.dart": "c2d0028855919124425a8c93edb9ecef60d40dbe53007c764e344aa439395c45",
+    "lib/core/modules/builders/shared_catalogs/shared_number_theory_catalog.dart": "38508d9c415bc71e18d3534f04b1f5149367c3c635a94d0759d54471330dae72",
+    "lib/core/modules/builders/shared_catalogs/shared_orbit_trap_catalog.dart": "606bae286564b431d50ff6e01d97004487804cdca486b80f91a69f8772290240",
+    "lib/core/modules/builders/shared_catalogs/shared_phoenix_catalog.dart": "493179ef0a9c64480c1ff49c6b308dfa19bed331ba4d67c014502cd2169945ce",
+    "lib/core/modules/builders/shared_catalogs/shared_residual_ca_catalog.dart": "52c15b0914d5c9599ea8815c604869164805b51f78fb53532dd791292763ab2a",
+    "lib/core/modules/builders/shared_catalogs/shared_sprott_catalog.dart": "4088d9b416a3942efac34a340eb8a0513f1dfde4e88047d79d260a55bb9f2bec",
+    "lib/core/modules/builders/shared_catalogs/shared_standard_map_catalog.dart": "fd4b2d44b744c011a86ce88ce4c2a9e97b21da3ed14e0e627549d76945e91fe5",
+    "lib/core/modules/builders/shared_catalogs/shared_svensson_catalog.dart": "93c559c7cddb248932eacd9c54a2b2d8cb57316e136ffa5deaa4aea13d2870a2",
+    "lib/core/modules/builders/shared_catalogs/shared_tinkerbell_catalog.dart": "ae4935ba3d5260694f44ed83fb15ef2a689d02d4166bd7f944ed4ea34a5ec123",
+    "lib/core/modules/builders/uniform_layout.dart": "bf052335102bf22e6610ffbba3cb778f7a7b7788e6b57c6dc2180f9d85ae5a7d",
+    "lib/core/modules/burning_ship_degrees.dart": "e7319677552d8f53aec908f5cd95ed0a657a4b9f589ddc46ded9020fdd270ba6",
+    "lib/core/modules/common_params.dart": "6b5b80ce249bb0c1b5fb1d1841b8ffce99d14dd842b6edf27e4c691dc3b37fd8",
+    "lib/core/modules/escape_time_perturb_module.dart": "f05ead6a5f5376abdc318986f34585a583fba2ebd8f5b77022114117339189cd",
+    "lib/core/modules/fractal_mathematics.dart": "e86ec2c280d4c7e00da89ea520ef542fa7fa8d330d16430eb5dca7f219ccc3fc",
+    "lib/core/modules/fractal_module.dart": "1ac1d9f086f33b6f7c5a1acb862b2665008daccce64f4008c152cfc19a0c98cc",
+    "lib/core/modules/fractals/gpu_gradient_module.dart": "384372998c7e83f55699c9ed557ae6299a9a5b63494288fe775177e3919d6265",
+    "lib/core/modules/fractals/gpu_sampler_diag_module.dart": "26c3f21d87046db039fa41e6c126dcf65c7418fd632b48c58e4073233db8cb51",
+    "lib/core/modules/fractals/hydrogen_orbital_module.dart": "943adea4cf45c6283f9ffdd3927c75643672740c6dba92b471e2b52846275808",
+    "lib/core/modules/fractals/julia_dual_module.dart": "cb782168174b613dd4b2facb752198b45ee904de50fecd141cd950d22501f95b",
+    "lib/core/modules/fractals/julia_module.dart": "4b3f1338d4e8aa11bcf6e601d7f4c442d53cef90d5a3ed249f8fd991ff619c2b",
+    "lib/core/modules/fractals/juliabulb_3d_module.dart": "fc69f0b122c949d65af6c783aa80d6a3cf4a4a4f6f31d7f040ddc4e1fe6e346c",
+    "lib/core/modules/fractals/mandelbox_module.dart": "3705a4379df0d161c90a2d9a3f8bd452426d4af2d91b8030bc40815faadab3d4",
+    "lib/core/modules/fractals/mandelbulb_module.dart": "8c653a28aeebd8f9903ed91e6c81fe0e18336dfc8d2ffc6348a6d73d1c80d891",
+    "lib/core/modules/fractals/milnor_brieskorn_module.dart": "9c04dbc8aba8dc588ae55e2957afc11c34b990ec80db4fef2def9b579d8e0c79",
+    "lib/core/modules/fractals/nova_module.dart": "8beef75439e977d2aa73460be03e7bbd781cc7aad6c253b1f5cc52644c7a90dc",
+    "lib/core/modules/fractals/number_wall_frame.dart": "45be20e86c86d660faf1ab27fa04a76c2bf0ddb5188746115facb7530b5fdcc4",
+    "lib/core/modules/fractals/number_wall_module.dart": "551926219d4af304c367f263b1efc055ace5b0ee3f42dc7e0622ffc8921ba971",
+    "lib/core/modules/fractals/perron_tree_module.dart": "d358a6c4226e453794c5a1e542fb7257d04632061b4b2d20abacb9fef6f8c03e",
+    "lib/core/modules/fractals/phoenix_module.dart": "9975e0338784ccb41bde56c79e993d6c8860fa0606b41b6483a7872ab7417249",
+    "lib/core/modules/fractals/quaternion_julia_3d_module.dart": "0188c865888bef4e198d3496fdc8666c7994a2761db6c5dcf0c7e9c694cd5700",
+    "lib/core/modules/fractals/recursive_sine_sphere_module.dart": "471cb446e611b7b211713be3d443d35cdf9af5619baf6247c9c36d208480f80a",
+    "lib/core/modules/fractals/test_shaders_module.dart": "5996264cc9ea6da77259c30b84651c0fcfe3da670b232e11dbb59dbc67af9552",
+    "lib/core/modules/life_like_rule.dart": "5289ee7fa2683372c6e2287fd80f618ca0b874679f4d965d43976432b4ab5ac3",
+    "lib/core/modules/mandelbrot_df2_module.dart": "acd649ec7e171036a9ffd0835e2055a98275ed97ba4adcb900282241eb05a3b3",
+    "lib/core/modules/module_registry.dart": "c317052ee4d01f6a355ee07613d47fa54dd5441a9ee905552e57cd3e9df224f0",
+    "lib/core/modules/param_reader.dart": "d496a5c857f545671f2895faee46b80cf4620b2bd31815171cda28384fa9feeb",
+    "lib/core/services/diagnostics/app_logger_service.dart": "a660ad91fd5dbf6660a7e4a732004188eb860fca49bc519af5fb3d6548e021ef",
+    "lib/core/services/diagnostics/logging/app_logger_service.dart": "fb7741e48dd1defcda90742141d1b60e130c97368a26b5f98faa5bbbefd1f02b",
+    "lib/core/services/diagnostics/logging/event_retention.dart": "663d20d0fa004f4f2effd516b05ce2b036aacbb4d1d7276d4f767b1f62b9084b",
+    "lib/core/services/diagnostics/logging/test_logger.dart": "796b29e6c14b0599953244008fefd8b4645400588771b8430adb5e2d5e562419",
+    "lib/core/services/diagnostics/test_logger.dart": "2a64c0ce9e24c02ef1cd92b5751f085776640b6a138b7cc10ead3921d1e6af68",
+    "lib/core/services/platform/runtime_mode_service.dart": "76b1d497fd23c3a21129d221fdd79118c0869a5bff9e73b512bb2b36f581b6b2",
+    "lib/core/services/rendering/palette/palette_service.dart": "c7f4e6c07852c2af800395431958cee9492517c1f34bd6274ff2421c5fc5fb6f",
+    "lib/core/services/rendering/palette/palette_shader_adapter.dart": "207fb9b42b7263f8435fb17aa67f58d50be4bf33763ccd1f265ae8a9988eebfa",
+    "lib/core/services/rendering/palette/palette_texture_cache.dart": "3116484ed809262bc7d1936aa2f3cc06954cc713aa48522b8d3e801ca458eff3",
+    "lib/core/services/rendering/perturb_orbit_texture.dart": "861a3f4e828f084396c70ce42cdb783d9779b8cf4321a8baac447da35c3811fd",
+    "lib/core/services/storage/palette_store.dart": "73b5e945e613663ca5fb1de3ffed2f90c1338285ed5ecd46e1c57c1f710a9159",
+    "lib/core/services/storage/renderer_settings_service.dart": "330c47896ab2c524f9ff0ddaff665982811f74271df504b43f8c07c6d077d479",
+    "lib/features/catalog/data/catalog_entry.dart": "db423b09a1f21c4bd721d003a419dfda6f88c79ced6abdb995d2fdc314f44e79",
+    "lib/features/catalog/data/catalog_family.dart": "a3d30511e33a2e91a5e2e3c92fb370a20c37221e527d09c028106266e3937fff",
+    "lib/features/catalog/data/catalog_repository.dart": "4a9582672f1bee37dc05626c98176638824a9da936c29853489798c5a494a084",
+    "lib/features/catalog/data/performance_fractal_catalog.dart": "bb17e4a2092a4f5e765e9eb47da042424909c5c9e5bfe43e23dcca5a2638c613",
+    "lib/features/renderer/cpu/formulas/academic_expansion_formula_helpers.dart": "cdad413a2fae360bd38807cb5bdf676064bc1eec545084e81633fca7b5c2324e",
+    "lib/features/renderer/cpu/formulas/cpu_coloring.dart": "36492f5ca22fa307e52797b5fbc07201a9748d5fdfea79a936d293f00c973905",
+    "lib/features/renderer/cpu/formulas/cpu_formulas.dart": "ce06cf0ca139f5631dce2947014d0117577d293f3bc80f512db77ce7667ec628",
+    "lib/features/renderer/cpu/formulas/cpu_seed_hash.dart": "78b8101e96b394cd94634e263095129fe36affc0db63161135d74a9edc79f63c",
+    "lib/features/renderer/cpu/math/cpu_complex_math.dart": "7f57e7cf7f394702ec7ba9b4680a4cec6ce26b8696effa3d49961bbcd7cb9c53",
+    "lib/features/renderer/cpu/math/cpu_scalar_math.dart": "569dcebddaf90f826d74c6b8843d533574162b6a5d6695f45a52afd2ac24ac0b",
+    "lib/features/renderer/policy/backend_policy.dart": "ae5bfca9dffc3ba8ca4a995700d5c896590ae0ee605ca810c5621094216ab1bd",
+    "lib/features/renderer/policy/precision_ladder_policy.dart": "75effcc996a2e491e0f03f5852b336634ab2dcb586629a2f5586cded65c630fb",
+    "lib/features/renderer/policy/render_plan.dart": "f1b3f188827e5e314b413055614224dd3c28e63cb3d662243356a373b0f9bbf6",
+    "lib/l10n/app_localizations.dart": "4e1f93c20a0b486c8843cf040ffb073c1c1adaa34b0bb99c85a8e8f884d560e3",
+    "lib/l10n/app_localizations_en.dart": "ad8461355322e9c8d65d2ba258e8adb45039b3ef463c92e66c7f7086eeed9d04",
+    "lib/l10n/app_localizations_es.dart": "be6d21bf71780ec16283de5d409e35a0f10fe4d193ef968f293a19acd0e83780",
+    "pubspec.lock": "d759c63037e4d4f29a7c09b14886854fb8caa832c41f1172ec684a5cdcb7145b",
+    "test/migration/state_replay_test.dart": "e7c47dd448fbefcc5651859f083b47b7ebd17e8d17390651b6f491667ef982e1",
+    "test/migration/support/baseline_inventory.dart": "35b0bf8ed9815de2d9ab8a0724f967b4befd76afe7d1e48ae3e268aae7f41589",
+    "test/migration/support/replay_codec.dart": "ccbdf52028eeb98d56640171e081343d004b2efc5d54fa2583cde922887c3e79"
+  }
+}

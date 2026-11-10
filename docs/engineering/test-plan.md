@@ -14,17 +14,80 @@ GitLab execution remains deferred under the [current owner policy](../../PRD.md#
 
 ## Common offline gate
 
-Run from the execution checkout root with the pinned Flutter 3.44.6 SDK and provisioned Python/Bats tooling:
+Run from the execution checkout root with Flutter 3.47.9, Rust 1.95.0 and provisioned Cargo/Pub/Python/Bats caches. Use the [root gate setup](../../AGENTS.md#common-offline-integration-gate). The shared gate retains this order:
 
 ```sh
 flutter pub get --offline --enforce-lockfile &&
+cargo fmt --manifest-path rust/Cargo.toml --all -- --check &&
+cargo clippy --manifest-path rust/Cargo.toml --workspace --all-targets --locked --offline -- -D warnings &&
+cargo test --manifest-path rust/Cargo.toml --workspace --locked --offline &&
 flutter analyze --no-pub &&
 flutter test --no-pub &&
 python3 -m pytest test/research test/scripts -q &&
 bats test/scripts/*.bats
 ```
 
-The preflight regenerates checkout-local metadata without changing the lockfile. A full gate requires every terminal stage result; targeted unittest runs above are not a substitute for the complete Python family. See [the export-preparation runbook](runbook.md#offline-check-export-preparation) for the bounded native-assets repair and its dated source-bound results. ACAD-008-74 is done in `7ae1dbd6`; this does not qualify unintegrated feature candidates, device/browser journeys or a later source snapshot. No app suite was rerun by this documentation pass.
+The preflight regenerates checkout-local metadata without changing `pubspec.lock` or `rust/Cargo.lock`. Both lock hashes are checked and reported; Rust lock drift stops the gate before Flutter analysis. A full gate requires every terminal stage result; targeted unittest runs above are not a substitute for the complete Python family. See [the export-preparation runbook](runbook.md#offline-check-export-preparation) for the bounded native-assets repair and its dated source-bound results. ACAD-008-74 is done in `7ae1dbd6`; this does not qualify unintegrated feature candidates, device/browser journeys or a later source snapshot. No app suite was rerun by this documentation pass.
+
+## Rust bootstrap verification
+
+RUST-CORE-BOOTSTRAP preserves the Flutter renderer and existing StateSession/camera
+APIs. Its focused offline checks are workspace fmt/clippy/tests, independent core
+tests plus all-edge dependency inspection, migration baseline/replay and adapter
+tests, scoped Dart analysis, two deterministic bridge generations, Linux/Android
+smoke compilation and Web compilation with both RUST_CORE values. The Bats gate
+regression checks Cargo flags, denied warnings, missing executables, Rust lock
+drift and failure ordering without dropping SDK, Pub lock, Flutter, Python or Bats
+stages.
+
+The provenance comparator pins retained canonical bytes and original/current
+fixture hashes. Eleven complete map sets cover twelve retained documents,
+including both reference manifests. Each runtime stage records its base revision,
+current-binding fingerprint and exact changed/added sets; removals fail.
+Per-task policies remain separate. Complete-map adjacency must end at freshly
+collected sources, with every nonbinding semantic/metadata field preserved.
+
+Run the seven baseline, replay, interpolation, physical-events, randomization,
+reference-render and reference-transition modules individually. Negative cases
+cover unauthorized changed/added/removed bindings, allowlisted removals, broken
+adjacency, disconnected/duplicate stages, wrong-task policy, altered metadata,
+fixtures, digests and sidecars. Both task orders are exercised. The unchanged
+clock-only validator still checks its independently anchored original fixture
+inventory. Composition separately permits exactly the seven pinned archives and
+bootstrap sidecar; unknown, missing or altered baseline files fail.
+Two identical private scratch exports must verify all document comparisons and
+complete maps after the handwritten comparators are finalized. Export mode uses
+the same guards and never promotes a fixture. Preserve all prior JSON/PNG/receipt
+and clock-sidecar bytes. Run migration analysis, handwritten formatting and
+deterministic bridge generation before the mandatory complete offline gate.
+
+The [native smoke fixture](../../integration_test/migration/rust_engine_smoke_test.dart)
+uses actual FRB version/create/snapshot/disposal calls. Its production-viewer case
+uses the four M0 default/edited Mandelbrot/Mandelbulb inputs and frozen time zero.
+It retains 256×256 PNG/state/effective-backend evidence before, during and after a
+persistent probe. Same-backend decoded pixels and viewer state must remain exact;
+M0 cross-backend variance is measured and attributed separately. No mock renderer
+or overrideChild is accepted. Compile success is not target execution.
+RUST-CORE-01 must execute this fixture through the reserved-port Linux wrapper and
+the designated Waydroid protocol, inspect reportData and cleanup, then retain
+source-bound receipts. Both commands must pass `--dart-define=RUST_CORE=true`
+and `--dart-define=FORCE_GPU_RENDER=true` so the integration binding cannot use
+its placeholder surface. This task does not execute those live journeys or release
+the later STOP / REVIEW hold. The coordinator runs the full offline gate on the
+merged tree; focused checks are not a substitute.
+
+The retained bootstrap candidate `b351b97c6f3d0befe6cb4d11ea889facfe1a60d6`
+reported focused passes on Flutter 3.47.9 / Dart 3.13.7 and Rust 1.95.0:
+workspace and independent-core checks, baseline/replay and adapter tests, scoped
+analysis, structured-logging/viewer guards, deterministic generation and native
+smoke compilation. Its two JavaScript Web builds passed with an upstream FRB
+WebAssembly dry-run warning, not WebAssembly qualification. Those results do not
+certify a newer candidate or resolve the [retained full-gate rejection](../tasks/source-bound-review-gates.md#rust-core-bootstrap).
+The [scoped reconciliation](../tasks/source-bound-review-gates.md#scoped-reconciliation--2026-11-10)
+now names the permitted oracle/capture consumers and separate custody composition.
+It does not authorize producer, collector, clock-validator or evidence changes.
+Fresh focused checks and a terminal full-gate result are still required for each
+candidate. Live protocol and pixel evidence remain unrun by this offline task.
 
 ## Current quality-first verification frontier
 

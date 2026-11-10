@@ -12,19 +12,21 @@ class _NativeBridge implements RustEngineBridge {
   String engineVersion() => native.engineVersion();
 
   @override
-  RustEngineSession createEngine() => _NativeSession(native.Engine());
+  RustEngineSession createEngine() => _NativeSession(native.createEngine());
 }
 
 class _NativeSession implements RustEngineSession {
   _NativeSession(this._engine);
-  final native.Engine _engine;
+  final native.EngineHandle _engine;
 
   @override
-  bool get rendering => _engine.capabilities().rendering;
+  bool get rendering => false;
+
+  @override
+  native.EngineSnapshot snapshot() => native.engineSnapshot(engine: _engine);
 
   @override
   void shutdown() {
-    _engine.shutdown();
     _engine.dispose();
   }
 }

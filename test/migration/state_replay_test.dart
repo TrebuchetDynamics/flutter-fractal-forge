@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'support/replay_codec.dart';
+import 'support/provenance_transition.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -30,13 +31,15 @@ void main() {
           reason:
               'Outputs must be finite JSON and retain exact decimal strings');
       final sources = replaySourceBindings();
-      if (replayOutput.isEmpty) {
-        expect(document['source_bindings'], sources,
-            reason:
-                'Source drift requires an explicitly reviewed scratch refresh');
-        expect(actual, document['expected'], reason: name);
-        expect(before, canonicalJson(document));
-      }
+      final generated = <String, Object?>{
+        ...document,
+        'source_bindings': sources,
+        'expected': actual,
+      };
+      verifyProvenanceTransition(
+          name, before, generated, readProvenanceTransition());
+      expect(actual, document['expected'], reason: name);
+      expect(before, canonicalJson(document));
 
       final altered = jsonDecode(jsonEncode(actual)) as List;
       if (name == 'state-replay') {
@@ -46,11 +49,13 @@ void main() {
       }
       expect(() => expect(actual, altered), throwsA(isA<TestFailure>()),
           reason: 'The replay comparator must reject an altered expectation');
-      recorded[name] = {
-        ...document,
-        'source_bindings': sources,
-        'expected': actual,
-      };
+      final changed = jsonDecode(jsonEncode(generated)) as Map<String, dynamic>;
+      changed['expected'] = altered;
+      expect(
+          () => verifyProvenanceTransition(
+              name, before, changed, readProvenanceTransition()),
+          throwsStateError);
+      recorded[name] = generated;
       expect(file.readAsStringSync(), before,
           reason: 'Recording must never promote fixtures implicitly');
     });
