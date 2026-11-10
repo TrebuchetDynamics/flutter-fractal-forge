@@ -7,11 +7,24 @@ set -euo pipefail
 
 pattern='(^|/)\.claude|(^|/)\.claude-flow|(^|/)\.pi|(^|/)\.swarm|(^|/)\.superpowers|(^|/)\.mcp\.json$|(^|/)\.env(\..*)?$|(^|/)\.flutter-plugins(-dependencies)?$|(^|/)\.vscode/|(^|/)\.pytest_cache/|maestro_reports|__pycache__|\.pyc$|\.bak$|\.log$|\.(jks|keystore|p12|pfx|pem)$|(^|/)google-services\.json$|(^|/)GoogleService-Info\.plist$|(^|/)play-service-account\.json$|android/(.*/)?key\.properties$|android/(.*/)?build/|^playwright-report/|^test/results/|^screenshots/|^release-artifacts/|^reports/|play-console-upload/.*\.aab(\.sha256)?$|play-console-upload/(LATEST_AAB|LATEST_BUILD_INFO|LAST_BUILD_NUMBER)\.txt$'
 
-mapfile -t offenders < <(git ls-files | grep -E "$pattern" || true)
+# Check Git's status before consuming its NUL-delimited literal paths.
+tracked_files="$(mktemp)"
+trap 'rm -f -- "$tracked_files"' EXIT
+if ! git ls-files -z > "$tracked_files"; then
+  printf 'Unable to enumerate tracked files with git ls-files.\n' >&2
+  exit 1
+fi
+
+offenders=()
+while IFS= read -r -d '' path; do
+  if [[ "$path" =~ $pattern ]]; then
+    offenders+=("$path")
+  fi
+done < "$tracked_files"
 
 if (( ${#offenders[@]} > 0 )); then
   printf 'Tracked local/generated/secret artifacts found:\n' >&2
-  printf '  %s\n' "${offenders[@]}" >&2
+  printf '  %q\n' "${offenders[@]}" >&2
   printf '\nRemove from the index with git rm --cached (or git rm for generated junk) and keep .gitignore updated.\n' >&2
   exit 1
 fi
