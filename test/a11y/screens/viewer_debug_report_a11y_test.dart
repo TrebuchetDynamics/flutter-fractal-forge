@@ -12,6 +12,7 @@ import 'package:flutter_fractals/core/services/storage/renderer_settings_service
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -130,8 +131,15 @@ void main() {
       expect(report, findsOneWidget,
           reason: 'the CPU fallback banner never rendered, so nothing below '
               'would be measuring the sheet');
+      await tester.ensureVisible(report);
+      await pumpAccessibilityTestFrames(tester);
+      expect(report.hitTestable(), findsOneWidget,
+          reason: 'Report at ${tester.getRect(report)} must not be covered '
+              'by another overlay');
       await tester.tap(report);
       await pumpAccessibilityTestFrames(tester);
+      expect(find.byType(AppSheetScaffold), findsOneWidget,
+          reason: 'Every report case must render the actual sheet');
     }
 
     testWidgets('the injected service is what the report writes through',

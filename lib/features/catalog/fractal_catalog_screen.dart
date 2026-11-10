@@ -28,6 +28,7 @@ import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/features/viewer/fractal_viewer_screen.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/shared/utils/slugify.dart';
+import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 
 part 'widgets/catalog_widgets.dart';
 

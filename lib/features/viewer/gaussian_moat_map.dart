@@ -211,50 +211,41 @@ class _GaussianMoatMapState extends State<GaussianMoatMap>
   Future<void> _domainSheet() async {
     var input = '$_bound';
     String? error;
-    await showModalBottomSheet<void>(
+    await showAppBottomSheet<void>(
         context: context,
-        useSafeArea: true,
-        backgroundColor: Colors.transparent,
-        isScrollControlled: true,
         builder: (sheetContext) => StatefulBuilder(builder: (context, update) {
               final l10n = AppLocalizations.of(context)!;
-              return AppBottomSheet(children: [
-                AppBottomSheetHeader(
-                    icon: Icons.grid_on_rounded,
-                    title: l10n.gaussianBound,
-                    onClose: () => Navigator.of(context).pop()),
-                Flexible(
-                    child: SingleChildScrollView(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(children: [
-                          TextFormField(
-                              key: const Key('gaussianBoundInput'),
-                              initialValue: input,
-                              onChanged: (value) => input = value,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                  labelText: l10n.gaussianBound,
-                                  errorText: error)),
-                          FilledButton(
-                              style: FilledButton.styleFrom(
-                                  minimumSize: const Size(48, 48)),
-                              onPressed: () {
-                                final value = num.tryParse(input);
-                                int bound;
-                                try {
-                                  bound = GaussianPrimeMap.validateBound(
-                                      value ?? double.nan);
-                                } on ArgumentError {
-                                  update(
-                                      () => error = l10n.gaussianInvalidBound);
-                                  return;
-                                }
-                                setState(() => _request(bound));
-                                Navigator.of(sheetContext).pop();
-                              },
-                              child: Text(l10n.actionApply)),
-                        ]))),
-              ]);
+              return AppSheetScaffold(
+                icon: Icons.grid_on_rounded,
+                title: l10n.gaussianBound,
+                onClose: () => Navigator.of(context).pop(),
+                body: Column(children: [
+                  TextFormField(
+                      key: const Key('gaussianBoundInput'),
+                      initialValue: input,
+                      onChanged: (value) => input = value,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                          labelText: l10n.gaussianBound, errorText: error)),
+                  FilledButton(
+                      style: FilledButton.styleFrom(
+                          minimumSize: const Size(48, 48)),
+                      onPressed: () {
+                        final value = num.tryParse(input);
+                        int bound;
+                        try {
+                          bound = GaussianPrimeMap.validateBound(
+                              value ?? double.nan);
+                        } on ArgumentError {
+                          update(() => error = l10n.gaussianInvalidBound);
+                          return;
+                        }
+                        setState(() => _request(bound));
+                        Navigator.of(sheetContext).pop();
+                      },
+                      child: Text(l10n.actionApply)),
+                ]),
+              );
             }));
   }
 
@@ -370,21 +361,14 @@ class _GaussianMoatMapState extends State<GaussianMoatMap>
                 .updateZoom((_camera!.view.zoom / 1.2).clamp(0.01, 1e6))),
         _button(
             l10n.gaussianAbout,
-            () => showModalBottomSheet<void>(
+            () => showAppBottomSheet<void>(
                 context: context,
-                useSafeArea: true,
-                backgroundColor: Colors.transparent,
-                isScrollControlled: true,
-                builder: (sheetContext) => AppBottomSheet(children: [
-                      AppBottomSheetHeader(
-                          icon: Icons.info_outline_rounded,
-                          title: l10n.gaussianAbout,
-                          onClose: () => Navigator.of(sheetContext).pop()),
-                      Flexible(
-                          child: SingleChildScrollView(
-                              padding: const EdgeInsets.all(16),
-                              child: Text(l10n.gaussianMath)))
-                    ]))),
+                builder: (sheetContext) => AppSheetScaffold(
+                      icon: Icons.info_outline_rounded,
+                      title: l10n.gaussianAbout,
+                      onClose: () => Navigator.of(sheetContext).pop(),
+                      body: Text(l10n.gaussianMath),
+                    ))),
         Text(l10n.gaussianUnavailable),
         Text(l10n.gaussianMapOnly),
       ]));

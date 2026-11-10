@@ -56,6 +56,21 @@ Future<void> _pumpSheet(
 
 void main() {
   group('PresetSheet accessibility', () {
+    testWidgets('short large-text presets retain a usable scroll viewport',
+        (tester) async {
+      await tester.binding.setSurfaceSize(const Size(640, 200));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+      await _pumpSheet(tester, textScale: 3);
+      expect(tester.takeException(), isNull);
+      final scroll = find.byType(SingleChildScrollView).first;
+      expect(tester.getSize(scroll).height, greaterThanOrEqualTo(100));
+      final input = find.byType(TextField).first;
+      await tester.ensureVisible(input);
+      await tester.pumpAndSettle();
+      expect(input.hitTestable(), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
     testWidgets('text meets the AA contrast ratio', (tester) async {
       final handle = tester.ensureSemantics();
       await _pumpSheet(tester);

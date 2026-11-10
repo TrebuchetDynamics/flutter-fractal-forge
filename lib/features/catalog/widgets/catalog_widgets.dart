@@ -700,57 +700,28 @@ class _CatalogMathDetailsButton extends StatelessWidget {
             size: 18, color: Colors.white),
       ),
       onPressed: () {
-        showModalBottomSheet<void>(
+        showAppBottomSheet<void>(
           context: context,
-          isScrollControlled: true,
-          useSafeArea: true,
-          builder: (context) => ConstrainedBox(
-            constraints: BoxConstraints(
-                maxHeight: MediaQuery.sizeOf(context).height * 0.8),
-            child: SafeArea(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 8, 8, 0),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(l10n.catalogMathDetails,
-                              style: AppTypography.titleMedium),
-                        ),
-                        IconButton(
-                          tooltip: l10n.actionClose,
-                          onPressed: () => Navigator.of(context).pop(),
-                          icon: const Icon(Icons.close_rounded),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Flexible(
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(entry.catalogId,
-                              style: AppTypography.labelSmall),
-                          const SizedBox(height: AppSpacing.md),
-                          FractalMathSummary(
-                              module: entry.module, category: entry.category),
-                          const SizedBox(height: AppSpacing.sm),
-                          Text(
-                            Localizations.localeOf(context).languageCode == 'es'
-                                ? 'Vista previa aproximada; calidad reducida'
-                                : 'Approximate preview; reduced quality',
-                            style: AppTypography.bodySmall,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+          builder: (context) => AppSheetScaffold(
+            maxHeightFactor: 0.8,
+            icon: Icons.info_outline_rounded,
+            title: l10n.catalogMathDetails,
+            onClose: () => Navigator.of(context).pop(),
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(entry.catalogId, style: AppTypography.labelSmall),
+                const SizedBox(height: AppSpacing.md),
+                FractalMathSummary(
+                    module: entry.module, category: entry.category),
+                const SizedBox(height: AppSpacing.sm),
+                Text(
+                  Localizations.localeOf(context).languageCode == 'es'
+                      ? 'Vista previa aproximada; calidad reducida'
+                      : 'Approximate preview; reduced quality',
+                  style: AppTypography.bodySmall,
+                ),
+              ],
             ),
           ),
         );

@@ -1954,15 +1954,19 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                   if (_showCoreViewerChrome &&
                       _backendDecision.backend == RendererBackend.cpu)
                     overlaySlots.topTrailing(
-                      // Height-bounded and scrollable because the banner is a
-                      // Positioned child: nothing clips or reports it, so at a
-                      // 2x text scale in landscape its buttons sat 91px below
-                      // the viewport and at 3x up to 343px below — silently
-                      // untappable, taking "Try GPU" and "Report" with them.
+                      // Reserve the tools region too: a button can be inside
+                      // the viewport but covered by the bottom toolbar.
                       ConstrainedBox(
                         constraints: BoxConstraints(
                           maxHeight: math.max(
-                              0, constraints.maxHeight - overlayTop - 12),
+                              0,
+                              constraints.maxHeight -
+                                  overlayTop -
+                                  safeInsets.bottom -
+                                  (viewerChrome.tools == ViewerChromeSlot.fixed
+                                      ? compactRowHeight
+                                      : 0) -
+                                  12),
                         ),
                         child: SingleChildScrollView(
                           child: CpuFallbackBanner(
@@ -1980,6 +1984,8 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                           ),
                         ),
                       ),
+                      maxWidth: math.min(constraints.maxWidth - 24,
+                          media.textScaler.scale(240)),
                     ),
 
                   // Deep-zoom precision indicator
@@ -2185,68 +2191,47 @@ class _TextOverlayEditorSheetState extends State<_TextOverlayEditorSheet> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return AppBottomSheet(
+    return AppSheetScaffold(
       maxHeightFactor: 0.52,
-      children: [
-        AppBottomSheetHeader(
-          icon: Icons.format_quote_rounded,
-          title: l10n.textOverlayTitle,
-          subtitle: l10n.textOverlaySubtitle,
-          onClose: () => Navigator.of(context).pop(),
-        ),
-        const Divider(height: 1, color: AppColors.divider),
-        Flexible(
-            child: SingleChildScrollView(
-                child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(AppSpacing.md),
-              child: TextField(
-                key: const ValueKey('viewerTextOverlayField'),
-                controller: _controller,
-                autofocus: true,
-                minLines: 1,
-                maxLines: 3,
-                decoration: InputDecoration(
-                  hintText: l10n.exportQuoteOverlayPlaceholder,
-                  filled: true,
-                  fillColor: AppColors.surfaceVariant,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
+      icon: Icons.format_quote_rounded,
+      title: l10n.textOverlayTitle,
+      subtitle: l10n.textOverlaySubtitle,
+      onClose: () => Navigator.of(context).pop(),
+      bodyPadding: EdgeInsets.zero,
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(AppSpacing.md),
+            child: TextField(
+              key: const ValueKey('viewerTextOverlayField'),
+              controller: _controller,
+              autofocus: true,
+              minLines: 1,
+              maxLines: 3,
+              decoration: InputDecoration(
+                hintText: l10n.exportQuoteOverlayPlaceholder,
+                filled: true,
+                fillColor: AppColors.surfaceVariant,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                AppSpacing.md,
-                0,
-                AppSpacing.md,
-                AppSpacing.md,
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      child: Text(l10n.actionCancel),
-                    ),
-                  ),
-                  const SizedBox(width: AppSpacing.sm),
-                  Expanded(
-                    child: FilledButton(
-                      onPressed: () =>
-                          Navigator.of(context).pop(_controller.text),
-                      child: Text(l10n.actionApply),
-                    ),
-                  ),
-                ],
-              ),
+          ),
+          AppSheetActions(actions: [
+            AppActionButton(
+              label: l10n.actionCancel,
+              emphasis: AppActionEmphasis.secondary,
+              onPressed: () => Navigator.of(context).pop(),
             ),
-          ],
-        ))),
-      ],
+            AppActionButton(
+              label: l10n.actionApply,
+              onPressed: () => Navigator.of(context).pop(_controller.text),
+            ),
+          ]),
+        ],
+      ),
     );
   }
 }

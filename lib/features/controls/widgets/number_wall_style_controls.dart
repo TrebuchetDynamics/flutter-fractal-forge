@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/models/fractal_parameter.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
+import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
 /// A colour swatch opens an explicit RGB editor, rather than an integer slider.
@@ -39,8 +40,9 @@ class NumberWallColorControl extends StatelessWidget {
             final form = GlobalKey<FormState>();
             final result = await showDialog<int>(
                 context: context,
-                builder: (context) => AlertDialog(
-                      title: Text(param.label(l10n)),
+                builder: (context) => AppDialog(
+                      icon: Icons.palette_outlined,
+                      title: param.label(l10n),
                       content: Form(
                           key: form,
                           child: TextFormField(
@@ -55,18 +57,14 @@ class NumberWallColorControl extends StatelessWidget {
                                 ? null
                                 : l10n.numberWallColorHex,
                           )),
-                      actions: [
-                        TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text(l10n.actionCancel)),
-                        TextButton(
-                            onPressed: () {
-                              if (form.currentState!.validate())
-                                Navigator.pop(
-                                    context, int.parse(text, radix: 16));
-                            },
-                            child: Text(l10n.actionApply)),
-                      ],
+                      cancelLabel: l10n.actionCancel,
+                      onCancel: () => Navigator.pop(context),
+                      confirmLabel: l10n.actionApply,
+                      onConfirm: () {
+                        if (form.currentState!.validate()) {
+                          Navigator.pop(context, int.parse(text, radix: 16));
+                        }
+                      },
                     ));
             if (result != null && context.mounted) onChanged(result);
           },
