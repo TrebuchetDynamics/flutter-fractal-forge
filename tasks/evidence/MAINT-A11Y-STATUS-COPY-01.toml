@@ -1,0 +1,9 @@
+schema = 1
+task = "MAINT-A11Y-STATUS-COPY-01"
+candidate = "7c1adce833c00e8bdfe07e7815463a8a3bc7d962"
+integration = "f10f4b3a7d93dc85ac48b6c73cb4a39d8dd53715"
+tree = "8a2eeb0b06528b93018b7126cc9a078f66c307ea"
+contract_hash = "84de3bb341061e7074ba5e1ce8bc8c43d26e235a746cb22e21452cfe6653a9f4"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAINT-A11Y-STATUS-COPY-01"]
+result = "pass"
+review = "passed"

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Localized EN/ES accessibility status hints, removed duplicate announcements, and composed their exact localization provenance without changing retained evidence. (MAINT-A11Y-STATUS-COPY-01)
 - Added a pure Rust Precision Ladder policy with source-bound Dart differential coverage for decisions, helpers, ceilings and CPU hysteresis; Dart retains renderer authority. (RUST-CORE-PRECISION)
 - Adopt the retained two-crate Rust foundation and default-off persistent snapshot bridge with exact FRB2.13 pins, additive Cargo gate and guarded immutable baseline/oracle/capture provenance composition. (RUST-CORE-BOOTSTRAP)
 - Added typed bounded trajectory bridge metadata/Future requests, source-bound --trajectory inputs and compile-only native coverage with explicit Lorenz enum mapping; installed qualification remains pending. (RUST-M2-TRAJECTORY-BRIDGE)
