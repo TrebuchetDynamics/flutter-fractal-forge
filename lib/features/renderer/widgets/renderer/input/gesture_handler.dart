@@ -517,7 +517,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
 
       // Track velocity history for Google Maps fling.
       final now = details.sourceTimeStamp?.inMilliseconds ??
-          DateTime.now().millisecondsSinceEpoch;
+          widget.gestureClock().millisecondsSinceEpoch;
       _velHistory.add((pos: localFocal, ms: now));
       if (_velHistory.length > _velHistorySize) _velHistory.removeAt(0);
 
@@ -753,7 +753,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
   }
 
   void _triggerDoubleTapAt(Offset? localPosition) {
-    final now = DateTime.now();
+    final now = widget.gestureClock();
     final last = _lastDoubleTapTriggeredAt;
     if (last != null && now.difference(last).inMilliseconds < 120) {
       return;
@@ -802,7 +802,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
 
     if (_activePointers.length == 2) {
       _twoFingerTapCandidate = true;
-      _twoFingerTapStartedAt = DateTime.now();
+      _twoFingerTapStartedAt = widget.gestureClock();
       _twoFingerTapDownPositions
         ..clear()
         ..addAll(_activePointers);
@@ -847,7 +847,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
       activePointerCount: _activePointers.length,
       elapsed: _twoFingerTapStartedAt == null
           ? null
-          : DateTime.now().difference(_twoFingerTapStartedAt!),
+          : widget.gestureClock().difference(_twoFingerTapStartedAt!),
       activePositions: _activePointers.values,
     );
     final midpoint = twoFingerTap.midpoint;
@@ -882,7 +882,7 @@ mixin _GestureHandlerMixin on State<FractalRenderer> {
 
     // Check single-finger double-tap (only when 1 finger remains)
     if (_activePointers.length == 1 && event is PointerUpEvent) {
-      final now = DateTime.now();
+      final now = widget.gestureClock();
       final prevAt = _lastRawTapAt;
       final prevPos = _lastRawTapPos;
 
