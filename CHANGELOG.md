@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Add the deterministic physical-input oracle and exact reference-source transition guard, preserving original baseline images and gesture behavior. (RUST-M2-PHYSICAL-ORACLE)
 - Share bottom-sheet keyboard/navigation inset policy while preserving shell sizing and draggable scrolling, with expanded viewport-bound regression coverage. (UI-OVERLAY-SHELL-INSETS-02)
 - Correct local pinned-SDK setup and authoritative task-queue entry points, preserving historical evidence and adding focused offline regressions. (MAINT-LOCAL-SETUP-DOCS-01)
 - Fix history and favorites restoration when a preference slot contains a non-string value, preserving stored data and the healthy collection. (MAINT-HISTORY-TYPED-READ-01)

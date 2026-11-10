@@ -1,0 +1,9 @@
+schema = 1
+task = "RUST-M2-PHYSICAL-ORACLE"
+candidate = "3045f6d451d00cdecffb057e36917045157fcf35"
+integration = "cfe7f69527845cc2c20bea263c20cbdd300571d9"
+tree = "8ba0e0eef8f5739b25b778ff661c2f347ece5c0a"
+contract_hash = "2486e72068ff592a5ccadfd2fba7e44ed35dbfea707cd1bed26b2f95805d45cb"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-PHYSICAL-ORACLE"]
+result = "pass"
+review = "passed"
