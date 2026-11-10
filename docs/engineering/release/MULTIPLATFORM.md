@@ -86,7 +86,7 @@ not the settled target choice. See [the Waydroid contract](../testing/waydroid-h
 
 ## Current release status
 
-For the most recent campaign outcome see [PLAY_1.1.122.md](PLAY_1.1.122.md); the note below is retained operating history.
+For the most recent Play-only outcome see [PLAY_1.1.123.md](PLAY_1.1.123.md): production/completed and exact AAB hash readback are confirmed. Google review is unobserved and the first storefront probes still show 1.1.122. Other lanes were not requalified or republished. The note below is retained operating history.
 
 Play production is **1.1.120 (120)**, status completed, published from `main`
 (application code `7a6daf28`) — see [PLAY_1.1.120.md](PLAY_1.1.120.md). That was
