@@ -27,6 +27,14 @@ The generated block below is preserved historical runner output, not five fresh 
 
 <!-- pi-autowork:questions:start -->
 
+### Q-MAINT-A11Y-STATUS-COPY-01 — USER_INPUT — effort input — unblocks 0
+
+- Task: MAINT-A11Y-STATUS-COPY-01 — Localize accessibility status hints and expose each message once
+- Needs: worker reported a blocker: Scope decision required for source-bound localization reconciliation. Required ARB generation changes lib/l10n/app_localizations.dart (4e1f93c20a0b486c8843cf040ffb073c1c1adaa34b0bb99c85a8e8f884d560e3 -> 5ad7d0be9a24fc2fcaa0b2aa5478535daccad62ee71b71bd33fe088bdec4dde0), app_localizations_en.dart (ad8461355322e9c8d65d2ba258e8adb45039b3ef463c92e66c7f7086eeed9d04 -> 2862de70632e49a95a74a50dfcb413407ee…
+- Since: 2026-11-10T16:24:20Z
+- Answer: Answer in tasks/items/MAINT-A11Y-STATUS-COPY-01.md with the evidence or a dated `Owner decision:` deferral. Supply the actual missing input, handoff or evidence described in the failure reason; add a producer task and dependency if needed. Keep the task in Needs decision if the input is unavailable; preserve the acceptance criteria, live authorization and ownership gates. A record edit does not supply signatures or transfer live ownership, and does not by itself establish that the blocker is resolved.
+- Kind: held
+
 <!-- pi-autowork:questions:end -->
 
 ### BLK-20261005-003 — Choose which viewer actions remain directly visible
