@@ -1,0 +1,9 @@
+schema = 1
+task = "RUST-CORE-PRECISION"
+candidate = "01e62ff491b4643b9541ed9f75c988923909a51b"
+integration = "9ad099f9a53162ad12b670d19cfe158a59af1087"
+tree = "be25978508b322babc3b2e1101d3c80a70633e53"
+contract_hash = "f4dcb9440eb8ed9d454e0face6849fbd99f6d670410bcd72b1777855d90e9dc6"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-CORE-PRECISION"]
+result = "pass"
+review = "passed"
