@@ -18,6 +18,18 @@ Each module supplies a stable ID, shader asset, parameter definitions, presets, 
 
 Rendering follows the capability policy in `lib/features/renderer/policy/`. Do not label a synthetic fallback as CPU precision. CPU refinement is available only when a native CPU formula supports the module. The renderer uses asynchronous Flutter shader/GPU operations and tiled CPU rendering; long-running CPU work must remain off the UI thread and support cancellation where the existing renderer contract provides it.
 
+The pure Rust counterpart in [`precision.rs`](../../rust/crates/fractal-core/src/precision.rs)
+accepts raw module/dimension/zoom/power operands and caller-supplied native-CPU and
+perturbation facts. It does not own a registry or select the live renderer. The
+Dart `PrecisionLadderPolicy` remains the oracle and production owner. Both retain
+the 3D early return, perturbation-before-double-float precedence, exact Burning
+Ship `power == 2` restriction and two-frame, module-scoped CPU hysteresis. Policy
+zoom is not clamped through camera ingress. GPU ceilings depend on perturbation
+capability, independently of Burning Ship's power restriction; CPU availability
+never grants an unsupported module an exactness claim. See the
+[precision parity checks](test-plan.md#rust-precision-policy-parity) for evidence
+and limits.
+
 ## State and persistence
 
 Provider supplies application dependencies. `ChangeNotifier`-based controllers expose mutable view state to widgets. Shared preferences and the project's storage services persist supported user settings and presets. Module IDs remain language-independent; localized display names are presentation values, not persistence keys.
@@ -57,8 +69,9 @@ These are future acceptance boundaries, not measured results.
 
 The owner's later [RUST-CORE-01 refinement](../planning/refactor-plan.md#rust-core-01-bootstrap-refinement)
 limits this bootstrap to two crates (`fractal-core` and `fractal-bridge`) and a
-persistent neutral snapshot probe. Differential precision policy remains
-RUST-CORE-PRECISION. Defer `fractal-render` until CPU rendering. Core has no
+persistent neutral snapshot probe. RUST-CORE-PRECISION adds the pure policy and
+source-bound differential harness described above, without bridge or renderer
+routing changes. Defer `fractal-render` until CPU rendering. Core has no
 Flutter/Dart, Android, GPUI, bridge or wgpu dependency. The retained three-crate
 foundation remains in Git history. Existing StateSession/camera transport is
 preserved, but this bootstrap adds no camera commands or viewer state ownership.
