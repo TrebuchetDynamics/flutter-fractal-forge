@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -28,80 +29,89 @@ class ExportOverlay extends StatelessWidget {
       filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
       child: Container(
         color: AppColors.background.withValues(alpha: 0.7),
-        child: Center(
-          child: FadeIn(
-            child: Container(
-              padding: const EdgeInsets.all(AppSpacing.xxl),
-              decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(AppSpacing.xl),
-                border:
-                    Border.all(color: AppColors.border.withValues(alpha: 0.5)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.3),
-                    blurRadius: 20,
-                    offset: const Offset(0, 8),
+        child: SafeArea(
+          maintainBottomViewPadding: true,
+          minimum: EdgeInsets.only(
+            bottom: math.max(MediaQuery.systemGestureInsetsOf(context).bottom,
+                MediaQuery.viewInsetsOf(context).bottom),
+          ),
+          child: Center(
+            child: SingleChildScrollView(
+              child: FadeIn(
+                child: Container(
+                  padding: const EdgeInsets.all(AppSpacing.xxl),
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(AppSpacing.xl),
+                    border: Border.all(
+                        color: AppColors.border.withValues(alpha: 0.5)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.3),
+                        blurRadius: 20,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(AppSpacing.lg),
-                    decoration: BoxDecoration(
-                      gradient: AppColors.primaryGradient,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.downloading_rounded,
-                      color: Colors.white,
-                      size: 28,
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  Text(
-                    l10n.exporting,
-                    style: AppTypography.titleMedium,
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  SizedBox(
-                    width: 200,
-                    child: Column(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
-                          child: LinearProgressIndicator(
-                            value: progress,
-                            minHeight: 6,
-                            backgroundColor: AppColors.surfaceVariant,
-                            valueColor: const AlwaysStoppedAnimation<Color>(
-                                AppColors.primary),
-                          ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(AppSpacing.lg),
+                        decoration: BoxDecoration(
+                          gradient: AppColors.primaryGradient,
+                          shape: BoxShape.circle,
                         ),
-                        if (progress != null) ...[
-                          const SizedBox(height: AppSpacing.sm),
-                          Text(
-                            '${(progress! * 100).round()}%',
-                            style: AppTypography.labelSmall.copyWith(
-                              color: AppColors.primary,
+                        child: const Icon(
+                          Icons.downloading_rounded,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.lg),
+                      Text(
+                        l10n.exporting,
+                        style: AppTypography.titleMedium,
+                      ),
+                      const SizedBox(height: AppSpacing.lg),
+                      SizedBox(
+                        width: 200,
+                        child: Column(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(4),
+                              child: LinearProgressIndicator(
+                                value: progress,
+                                minHeight: 6,
+                                backgroundColor: AppColors.surfaceVariant,
+                                valueColor: const AlwaysStoppedAnimation<Color>(
+                                    AppColors.primary),
+                              ),
                             ),
-                          ),
-                        ],
+                            if (progress != null) ...[
+                              const SizedBox(height: AppSpacing.sm),
+                              Text(
+                                '${(progress! * 100).round()}%',
+                                style: AppTypography.labelSmall.copyWith(
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                      if (onCancel != null) ...[
+                        const SizedBox(height: AppSpacing.lg),
+                        TextButton.icon(
+                          key: const ValueKey('cancelActiveExportButton'),
+                          onPressed: onCancel,
+                          icon: const Icon(Icons.close_rounded),
+                          label: Text(l10n.actionCancel),
+                        ),
                       ],
-                    ),
+                    ],
                   ),
-                  if (onCancel != null) ...[
-                    const SizedBox(height: AppSpacing.lg),
-                    TextButton.icon(
-                      key: const ValueKey('cancelActiveExportButton'),
-                      onPressed: onCancel,
-                      icon: const Icon(Icons.close_rounded),
-                      label: Text(l10n.actionCancel),
-                    ),
-                  ],
-                ],
+                ),
               ),
             ),
           ),
@@ -191,156 +201,124 @@ class _ShareSheetState extends State<ShareSheet> {
         EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       ),
     );
-    return AppBottomSheet(
+    return AppSheetScaffold(
       maxHeightFactor: 0.85,
-      children: [
-        Flexible(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                AppBottomSheetHeader(
-                  icon: Icons.link_rounded,
-                  title: l10n.shareViewLinkTitle,
-                  onClose: () => Navigator.of(context).pop(),
-                ),
-                const Divider(height: 1),
-                Padding(
-                  padding: const EdgeInsets.all(AppSpacing.lg),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      if (preview != null)
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Image.memory(
-                            preview,
-                            height: 160,
-                            fit: BoxFit.cover,
-                            semanticLabel: widget.fractalName,
-                            errorBuilder: (_, __, ___) =>
-                                _previewFallback(l10n),
-                          ),
-                        )
-                      else
-                        _previewFallback(l10n),
-                      const SizedBox(height: AppSpacing.md),
-                      Text(widget.fractalName,
-                          style: theme.textTheme.titleMedium),
-                      const SizedBox(height: AppSpacing.sm),
-                      Text(l10n.shareViewLinkDescription,
-                          style: theme.textTheme.bodyMedium),
-                      const SizedBox(height: AppSpacing.md),
-                      Text(displayLink,
-                          style: theme.textTheme.labelLarge,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis),
-                      const SizedBox(height: AppSpacing.sm),
-                      TextButton.icon(
-                        style: actionStyle,
-                        onPressed: () =>
-                            setState(() => _showFullLink = !_showFullLink),
-                        icon: Icon(_showFullLink
-                            ? Icons.expand_less
-                            : Icons.expand_more),
-                        label: Semantics(
-                          expanded: _showFullLink,
-                          child: Text(_showFullLink
-                              ? l10n.shareFullLinkHide
-                              : l10n.shareFullLinkShow),
-                        ),
-                      ),
-                      if (_showFullLink)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: AppSpacing.md),
-                          child: SelectableText(uri.toString(),
-                              style: theme.textTheme.bodyMedium),
-                        ),
-                      if (_failure != null) ...[
-                        const SizedBox(height: AppSpacing.md),
-                        Semantics(
-                          key: const ValueKey('shareLinkActionError'),
-                          liveRegion: true,
-                          child: Material(
-                            color: theme.colorScheme.errorContainer,
-                            borderRadius: BorderRadius.circular(12),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: Text(_failure!,
-                                  style: theme.textTheme.bodyMedium?.copyWith(
-                                    color: theme.colorScheme.onErrorContainer,
-                                  )),
-                            ),
-                          ),
-                        ),
-                      ],
-                      const SizedBox(height: AppSpacing.md),
-                      LayoutBuilder(builder: (context, constraints) {
-                        // Stack equal-width actions before enlarged labels wrap.
-                        final stacked = constraints.maxWidth < 340 ||
-                            MediaQuery.textScalerOf(context).scale(14) > 20;
-                        final actionWidth = stacked
-                            ? constraints.maxWidth
-                            : (constraints.maxWidth - 12) / 2;
-                        var actionHeight = 48.0;
-                        for (final label in [
-                          l10n.shareViewLinkCopy,
-                          l10n.shareViewLinkShare
-                        ]) {
-                          final painter = TextPainter(
-                            text: TextSpan(
-                                text: label, style: theme.textTheme.labelLarge),
-                            textDirection: Directionality.of(context),
-                            textScaler: MediaQuery.textScalerOf(context),
-                          )..layout(
-                              maxWidth:
-                                  (actionWidth - 64).clamp(1, double.infinity));
-                          if (painter.height + 24 > actionHeight)
-                            actionHeight = painter.height + 24;
-                          painter.dispose();
-                        }
-                        final matchingStyle = actionStyle.copyWith(
-                          minimumSize:
-                              WidgetStatePropertyAll(Size(48, actionHeight)),
-                          textStyle: WidgetStatePropertyAll(
-                              theme.textTheme.labelLarge),
-                        );
-                        final copy = OutlinedButton.icon(
-                          style: matchingStyle,
-                          onPressed: _busy ? null : () => _send(copy: true),
-                          icon: const Icon(Icons.copy_rounded),
-                          label: Text(l10n.shareViewLinkCopy),
-                        );
-                        final share = FilledButton.icon(
-                          style: matchingStyle,
-                          onPressed: _busy ? null : () => _send(copy: false),
-                          icon: const Icon(Icons.share_rounded),
-                          label: Text(l10n.shareViewLinkShare),
-                        );
-                        return stacked
-                            ? Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                    copy,
-                                    const SizedBox(height: 12),
-                                    share
-                                  ])
-                            : Row(children: [
-                                Expanded(child: copy),
-                                const SizedBox(width: 12),
-                                Expanded(child: share)
-                              ]);
-                      }),
-                    ],
-                  ),
-                ),
-              ],
+      icon: Icons.link_rounded,
+      title: l10n.shareViewLinkTitle,
+      onClose: () => Navigator.of(context).pop(),
+      bodyPadding: const EdgeInsets.all(AppSpacing.lg),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (preview != null)
+            ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Image.memory(
+                preview,
+                height: 160,
+                fit: BoxFit.cover,
+                semanticLabel: widget.fractalName,
+                errorBuilder: (_, __, ___) => _previewFallback(l10n),
+              ),
+            )
+          else
+            _previewFallback(l10n),
+          const SizedBox(height: AppSpacing.md),
+          Text(widget.fractalName, style: theme.textTheme.titleMedium),
+          const SizedBox(height: AppSpacing.sm),
+          Text(l10n.shareViewLinkDescription,
+              style: theme.textTheme.bodyMedium),
+          const SizedBox(height: AppSpacing.md),
+          Text(displayLink,
+              style: theme.textTheme.labelLarge,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis),
+          const SizedBox(height: AppSpacing.sm),
+          TextButton.icon(
+            style: actionStyle,
+            onPressed: () => setState(() => _showFullLink = !_showFullLink),
+            icon: Icon(_showFullLink ? Icons.expand_less : Icons.expand_more),
+            label: Semantics(
+              expanded: _showFullLink,
+              child: Text(_showFullLink
+                  ? l10n.shareFullLinkHide
+                  : l10n.shareFullLinkShow),
             ),
           ),
-        ),
-      ],
+          if (_showFullLink)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+              child: SelectableText(uri.toString(),
+                  style: theme.textTheme.bodyMedium),
+            ),
+          if (_failure != null) ...[
+            const SizedBox(height: AppSpacing.md),
+            Semantics(
+              key: const ValueKey('shareLinkActionError'),
+              liveRegion: true,
+              child: Material(
+                color: theme.colorScheme.errorContainer,
+                borderRadius: BorderRadius.circular(12),
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Text(_failure!,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onErrorContainer,
+                      )),
+                ),
+              ),
+            ),
+          ],
+          const SizedBox(height: AppSpacing.md),
+          LayoutBuilder(builder: (context, constraints) {
+            // Stack equal-width actions before enlarged labels wrap.
+            final stacked = constraints.maxWidth < 340 ||
+                MediaQuery.textScalerOf(context).scale(14) > 20;
+            final actionWidth = stacked
+                ? constraints.maxWidth
+                : (constraints.maxWidth - 12) / 2;
+            var actionHeight = 48.0;
+            for (final label in [
+              l10n.shareViewLinkCopy,
+              l10n.shareViewLinkShare
+            ]) {
+              final painter = TextPainter(
+                text: TextSpan(text: label, style: theme.textTheme.labelLarge),
+                textDirection: Directionality.of(context),
+                textScaler: MediaQuery.textScalerOf(context),
+              )..layout(maxWidth: (actionWidth - 64).clamp(1, double.infinity));
+              if (painter.height + 24 > actionHeight)
+                actionHeight = painter.height + 24;
+              painter.dispose();
+            }
+            final matchingStyle = actionStyle.copyWith(
+              minimumSize: WidgetStatePropertyAll(Size(48, actionHeight)),
+              textStyle: WidgetStatePropertyAll(theme.textTheme.labelLarge),
+            );
+            final copy = OutlinedButton.icon(
+              style: matchingStyle,
+              onPressed: _busy ? null : () => _send(copy: true),
+              icon: const Icon(Icons.copy_rounded),
+              label: Text(l10n.shareViewLinkCopy),
+            );
+            final share = FilledButton.icon(
+              style: matchingStyle,
+              onPressed: _busy ? null : () => _send(copy: false),
+              icon: const Icon(Icons.share_rounded),
+              label: Text(l10n.shareViewLinkShare),
+            );
+            return stacked
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [copy, const SizedBox(height: 12), share])
+                : Row(children: [
+                    Expanded(child: copy),
+                    const SizedBox(width: 12),
+                    Expanded(child: share)
+                  ]);
+          }),
+        ],
+      ),
     );
   }
 

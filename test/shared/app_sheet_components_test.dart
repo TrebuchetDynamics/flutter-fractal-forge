@@ -18,6 +18,60 @@ void main() {
       );
 
   group('AppSheetScaffold', () {
+    testWidgets('focused field and pinned real actions share keyboard space',
+        (tester) async {
+      await tester.binding.setSurfaceSize(const Size(640, 360));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+      var cancelled = 0;
+      var saved = 0;
+      await tester.pumpWidget(MaterialApp(
+        theme: AppTheme.dark,
+        builder: (context, child) => MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            textScaler: const TextScaler.linear(3),
+            viewPadding: const EdgeInsets.only(bottom: 24),
+            systemGestureInsets: const EdgeInsets.only(bottom: 32),
+            viewInsets: const EdgeInsets.only(bottom: 100),
+          ),
+          child: child!,
+        ),
+        home: Scaffold(
+            body: Align(
+          alignment: Alignment.bottomCenter,
+          child: AppSheetScaffold(
+            icon: Icons.edit_rounded,
+            title: 'Edit fractal',
+            body: const Column(children: [
+              SizedBox(height: 400),
+              TextField(autofocus: true),
+            ]),
+            actions: AppSheetActions(pinned: true, actions: [
+              AppActionButton(
+                  label: 'Cancel',
+                  emphasis: AppActionEmphasis.secondary,
+                  onPressed: () => cancelled++),
+              AppActionButton(label: 'Save', onPressed: () => saved++),
+            ]),
+          ),
+        )),
+      ));
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+      expect(tester.testTextInput.hasAnyClients, isTrue);
+      final footer = tester.getRect(find.byType(AppSheetActions));
+      expect(footer.bottom, lessThanOrEqualTo(260));
+      final scroll = tester.getRect(find.byType(SingleChildScrollView));
+      expect(scroll.bottom, lessThanOrEqualTo(footer.top));
+      await tester.ensureVisible(find.byType(TextField));
+      await tester.pumpAndSettle();
+      expect(find.byType(TextField).hitTestable(), findsOneWidget);
+      expect(tester.getRect(find.byType(AppSheetActions)), footer);
+      await tester.tap(find.text('Cancel'));
+      await tester.tap(find.text('Save'));
+      expect(cancelled, 1);
+      expect(saved, 1);
+      expect(tester.takeException(), isNull);
+    });
     for (final keyboard in [0.0, 100.0]) {
       testWidgets(
           'short large-text sheet scrolls header and body keyboard=$keyboard',

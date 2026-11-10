@@ -62,105 +62,91 @@ mixin _DebugReportMixin on State<FractalViewerScreen>, _GpuHealthMixin {
       }
 
       if (!context.mounted) return;
-      await showModalBottomSheet<void>(
+      await showAppBottomSheet<void>(
         context: context,
-        useSafeArea: true,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (_) {
-          return AppBottomSheet(
+        builder: (sheetContext) {
+          return AppSheetScaffold(
             maxHeightFactor: 0.72,
-            children: [
-              AppBottomSheetHeader(
-                icon: Icons.science_rounded,
-                iconGradient: const LinearGradient(
-                  colors: [Colors.amber, AppColors.warning],
-                ),
-                title: l10n.debugReportTitle,
-                onClose: () => Navigator.of(context).pop(),
-              ),
-              const Divider(height: 1, color: AppColors.divider),
-              Flexible(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(AppSpacing.md),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: double.infinity,
-                        child: OutlinedButton.icon(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => const ShaderLabScreen(),
-                              ),
-                            );
-                          },
-                          icon: const Icon(Icons.science_rounded),
-                          label: Text(
-                            l10n.debugReportOpenShaderLab,
-                          ),
+            icon: Icons.science_rounded,
+            iconGradient: const LinearGradient(
+              colors: [Colors.amber, AppColors.warning],
+            ),
+            title: l10n.debugReportTitle,
+            onClose: () => Navigator.of(sheetContext).pop(),
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const ShaderLabScreen(),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        l10n.debugReportSavedReport(reportFile.path),
-                        style: AppTypography.bodySmall.copyWith(
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
-                      if (screenshotFile != null)
-                        Text(
-                          l10n.debugReportSavedScreenshot(screenshotFile.path),
-                          style: AppTypography.bodySmall.copyWith(
-                            color: AppColors.textSecondary,
-                          ),
-                        ),
-                      const SizedBox(height: 10),
-                      ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxHeight: MediaQuery.of(context).size.height * 0.45,
-                        ),
-                        child: SingleChildScrollView(
-                          child: SelectableText(
-                            reportText,
-                            style: AppTypography.bodySmall.copyWith(
-                              fontFamily: 'monospace',
-                              color: AppColors.textPrimary,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Wrap(
-                        spacing: 10,
-                        runSpacing: 6,
-                        children: [
-                          OutlinedButton(
-                            onPressed: () {
-                              Clipboard.setData(
-                                  ClipboardData(text: reportText));
-                              Navigator.of(context).pop();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(l10n.debugReportCopiedJson),
-                                ),
-                              );
-                            },
-                            child: Text(l10n.debugReportCopyJson),
-                          ),
-                          OutlinedButton(
-                            onPressed: () => Navigator.of(context).pop(),
-                            child: Text(l10n.actionClose),
-                          ),
-                        ],
-                      ),
-                    ],
+                      );
+                    },
+                    icon: const Icon(Icons.science_rounded),
+                    label: Text(
+                      l10n.debugReportOpenShaderLab,
+                    ),
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 8),
+                Text(
+                  l10n.debugReportSavedReport(reportFile.path),
+                  style: AppTypography.bodySmall.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                if (screenshotFile != null)
+                  Text(
+                    l10n.debugReportSavedScreenshot(screenshotFile.path),
+                    style: AppTypography.bodySmall.copyWith(
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                const SizedBox(height: 10),
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: MediaQuery.of(context).size.height * 0.45,
+                  ),
+                  child: SingleChildScrollView(
+                    child: SelectableText(
+                      reportText,
+                      style: AppTypography.bodySmall.copyWith(
+                        fontFamily: 'monospace',
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Wrap(
+                  spacing: 10,
+                  runSpacing: 6,
+                  children: [
+                    OutlinedButton(
+                      onPressed: () {
+                        Clipboard.setData(ClipboardData(text: reportText));
+                        Navigator.of(context).pop();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(l10n.debugReportCopiedJson),
+                          ),
+                        );
+                      },
+                      child: Text(l10n.debugReportCopyJson),
+                    ),
+                    OutlinedButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: Text(l10n.actionClose),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           );
         },
       );
