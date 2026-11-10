@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Fix history and favorites restoration when a preference slot contains a non-string value, preserving stored data and the healthy collection. (MAINT-HISTORY-TYPED-READ-01)
 - Document pending F-Droid submission qualification and separate historical CI, maintainer acceptance and public catalog publication verdicts; no new release or publication is claimed. (FDROID-005-29b7a405)
 - Recorded source-bound F-Droid unsigned ABI reproducibility and clean source scans; signed-reference, official-buildserver and final Android qualification remain pending. (FDROID-004-29b7a404)
 - Document the unresolved candidate-bound Adreno 610 reviewer retest, historical crash-thread readback and exact resume conditions without claiming crash resolution. (FDROID-003-29b7a403)

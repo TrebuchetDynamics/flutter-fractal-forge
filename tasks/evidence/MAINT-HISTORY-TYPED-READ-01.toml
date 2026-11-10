@@ -1,0 +1,9 @@
+schema = 1
+task = "MAINT-HISTORY-TYPED-READ-01"
+candidate = "0a7f7a627e4f1e00a40fe55a2d0c6070b584bd70"
+integration = "346b855ff99d68e86cba75a796c49d5e9830ebc5"
+tree = "7d1ec7b114f1bcfde55f6e2ba86673fb30a2ba5b"
+contract_hash = "fa0d5dbca21e65920a6a63b8a0e7f739595e5a99dfd45325be87ee2fbbb763d8"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAINT-HISTORY-TYPED-READ-01"]
+result = "pass"
+review = "passed"
