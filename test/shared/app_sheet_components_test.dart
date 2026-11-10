@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
-import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
+import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart'
+    hide AppSheetScaffold;
 import 'package:flutter_fractals/shared/widgets/app_sheet_actions.dart';
 import 'package:flutter_fractals/shared/widgets/app_sheet_scaffold.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -17,6 +18,66 @@ void main() {
       );
 
   group('AppSheetScaffold', () {
+    for (final keyboard in [0.0, 100.0]) {
+      testWidgets(
+          'short large-text sheet scrolls header and body keyboard=$keyboard',
+          (tester) async {
+        await tester.binding.setSurfaceSize(const Size(640, 240));
+        addTearDown(() => tester.binding.setSurfaceSize(null));
+        var closed = 0;
+        await tester.pumpWidget(MaterialApp(
+          theme: AppTheme.dark,
+          builder: (context, child) => MediaQuery(
+            data: MediaQuery.of(context).copyWith(
+              textScaler: const TextScaler.linear(3),
+              viewPadding: const EdgeInsets.only(bottom: 24),
+              systemGestureInsets: const EdgeInsets.only(bottom: 32),
+              viewInsets: EdgeInsets.only(bottom: keyboard),
+            ),
+            child: child!,
+          ),
+          home: Scaffold(
+              body: Builder(
+                  builder: (context) => TextButton(
+                        onPressed: () => showAppBottomSheet<void>(
+                          context: context,
+                          builder: (context) => AppSheetScaffold(
+                            icon: Icons.tune_rounded,
+                            title: 'Fractal parameter controls',
+                            subtitle: 'Explore and adjust the current fractal',
+                            onClose: () {
+                              closed++;
+                              Navigator.of(context).pop();
+                            },
+                            body: const Column(children: [
+                              SizedBox(height: 600),
+                              Text('Last control',
+                                  key: ValueKey('lastControl')),
+                            ]),
+                          ),
+                        ),
+                        child: const Text('Open'),
+                      ))),
+        ));
+        await tester.tap(find.text('Open'));
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull);
+        final viewport = tester.getRect(find.byType(SingleChildScrollView));
+        expect(viewport.bottom,
+            lessThanOrEqualTo(240 - (keyboard > 32 ? keyboard : 32)));
+        await tester.ensureVisible(find.byKey(const ValueKey('lastControl')));
+        await tester.pumpAndSettle();
+        expect(find.byKey(const ValueKey('lastControl')).hitTestable(),
+            findsOneWidget);
+        await tester.ensureVisible(find.byIcon(Icons.close_rounded));
+        await tester.pumpAndSettle();
+        await tester.tap(find.byIcon(Icons.close_rounded));
+        await tester.pumpAndSettle();
+        expect(closed, 1);
+        expect(find.byType(BottomSheet), findsNothing);
+        expect(tester.takeException(), isNull);
+      });
+    }
     testWidgets('renders header, scrollable body and pinned actions',
         (tester) async {
       await tester.pumpWidget(host(const AppSheetScaffold(
@@ -41,6 +102,12 @@ void main() {
           findsOneWidget);
       expect(tester.getRect(find.byType(AppBottomSheetHeader)).top,
           lessThan(tester.getRect(find.text('parameter body')).top));
+      final footer = tester.getRect(find.text('action'));
+      await tester.drag(
+          find.byType(SingleChildScrollView), const Offset(0, -300));
+      await tester.pumpAndSettle();
+      expect(tester.getRect(find.text('action')), footer);
+      expect(find.text('action').hitTestable(), findsOneWidget);
     });
 
     testWidgets('closes through the header button', (tester) async {

@@ -80,7 +80,6 @@ import 'package:flutter_fractals/features/viewer/diagnostics/gpu_health_probe.da
 import 'package:flutter_fractals/shared/widgets/app_bottom_sheet.dart';
 import 'package:flutter_fractals/shared/widgets/app_feedback_snack_bar.dart';
 import 'package:flutter_fractals/shared/widgets/app_sheet_actions.dart';
-import 'package:flutter_fractals/shared/widgets/app_sheet_scaffold.dart';
 
 part 'diagnostics/viewer_gpu_health.dart';
 part 'diagnostics/viewer_debug_report.dart';

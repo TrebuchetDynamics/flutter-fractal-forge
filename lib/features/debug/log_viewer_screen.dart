@@ -74,58 +74,46 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
 
     final ts = DateTime.now().millisecondsSinceEpoch;
 
-    showModalBottomSheet<void>(
+    showAppBottomSheet<void>(
       context: context,
-      useSafeArea: true,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (ctx) => AppBottomSheet(
+      builder: (ctx) => AppSheetScaffold(
         maxHeightFactor: 0.44,
-        children: [
-          AppBottomSheetHeader(
-            icon: Icons.article_rounded,
-            title: l10n.logExportTitle(_log.length),
-            onClose: () => Navigator.pop(ctx),
-          ),
-          const Divider(height: 1, color: AppColors.divider),
-          Flexible(
-              child: SingleChildScrollView(
-            padding: const EdgeInsets.all(AppSpacing.md),
-            child: Wrap(
-              spacing: AppSpacing.sm,
-              runSpacing: AppSpacing.sm,
-              children: [
-                OutlinedButton.icon(
-                  icon: const Icon(Icons.copy_rounded),
-                  label: Text(l10n.logCopyText),
-                  onPressed: () {
-                    Clipboard.setData(ClipboardData(text: text));
-                    Navigator.pop(ctx);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(l10n.logCopied)),
-                    );
-                  },
-                ),
-                OutlinedButton.icon(
-                  icon: const Icon(Icons.share_rounded),
-                  label: Text(l10n.logShareText),
-                  onPressed: () async {
-                    Navigator.pop(ctx);
-                    await _shareText(text, 'fractal_log_$ts.txt');
-                  },
-                ),
-                OutlinedButton.icon(
-                  icon: const Icon(Icons.data_object_rounded),
-                  label: Text(l10n.logShareJson),
-                  onPressed: () async {
-                    Navigator.pop(ctx);
-                    await _shareText(json, 'fractal_log_$ts.json');
-                  },
-                ),
-              ],
+        icon: Icons.article_rounded,
+        title: l10n.logExportTitle(_log.length),
+        onClose: () => Navigator.pop(ctx),
+        body: Wrap(
+          spacing: AppSpacing.sm,
+          runSpacing: AppSpacing.sm,
+          children: [
+            OutlinedButton.icon(
+              icon: const Icon(Icons.copy_rounded),
+              label: Text(l10n.logCopyText),
+              onPressed: () {
+                Clipboard.setData(ClipboardData(text: text));
+                Navigator.pop(ctx);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(l10n.logCopied)),
+                );
+              },
             ),
-          )),
-        ],
+            OutlinedButton.icon(
+              icon: const Icon(Icons.share_rounded),
+              label: Text(l10n.logShareText),
+              onPressed: () async {
+                Navigator.pop(ctx);
+                await _shareText(text, 'fractal_log_$ts.txt');
+              },
+            ),
+            OutlinedButton.icon(
+              icon: const Icon(Icons.data_object_rounded),
+              label: Text(l10n.logShareJson),
+              onPressed: () async {
+                Navigator.pop(ctx);
+                await _shareText(json, 'fractal_log_$ts.json');
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
