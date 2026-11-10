@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,8 +19,7 @@ class _DelayedHistoryPreferences implements SharedPreferences {
   }
 
   @override
-  String? getString(String key) =>
-      key == HistoryStore.historyKey ? _value : null;
+  Object? get(String key) => key == HistoryStore.historyKey ? _value : null;
 
   @override
   Future<bool> setString(String key, String value) {
@@ -203,6 +203,46 @@ void main() {
       });
       final store = await HistoryStore.create();
       expect(store.loadHistory(), isEmpty);
+    });
+
+    test('mistyped slots load empty without changing either payload', () async {
+      final healthyPayload = jsonEncode([_makeEntry('healthy').toJson()]);
+      for (final value in <Object>[
+        42,
+        true,
+        1.5,
+        <String>['not JSON']
+      ]) {
+        for (final mistypedKeys in const [
+          ['exploration_history'],
+          ['exploration_favorites'],
+          ['exploration_history', 'exploration_favorites'],
+        ]) {
+          final initialValues = <String, Object>{
+            for (final key in ['exploration_history', 'exploration_favorites'])
+              key: mistypedKeys.contains(key) ? value : healthyPayload,
+          };
+          SharedPreferences.setMockInitialValues(initialValues);
+          final preferences = await SharedPreferences.getInstance();
+          final store = await HistoryStore.create();
+
+          for (var read = 0; read < 2; read++) {
+            expect(
+                store.loadHistory().map((entry) => entry.id),
+                mistypedKeys.contains('exploration_history')
+                    ? []
+                    : ['healthy']);
+            expect(
+                store.loadFavorites().map((entry) => entry.id),
+                mistypedKeys.contains('exploration_favorites')
+                    ? []
+                    : ['healthy']);
+            for (final entry in initialValues.entries) {
+              expect(preferences.get(entry.key), entry.value);
+            }
+          }
+        }
+      }
     });
 
     test('loadHistory skips corrupted individual entries', () async {
