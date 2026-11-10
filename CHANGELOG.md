@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Adopt the retained two-crate Rust foundation and default-off persistent snapshot bridge with exact FRB2.13 pins, additive Cargo gate and guarded immutable baseline/oracle/capture provenance composition. (RUST-CORE-BOOTSTRAP)
 - Added typed bounded trajectory bridge metadata/Future requests, source-bound --trajectory inputs and compile-only native coverage with explicit Lorenz enum mapping; installed qualification remains pending. (RUST-M2-TRAJECTORY-BRIDGE)
 - Added fixed debug-only detached high-u64 snapshots through the production generated bridge, explicit release refusal, and a compile-verified BigInt smoke target; installed Linux/Waydroid readback remains pending. (RUST-M2-U64-FIXTURE)
 - Add the deterministic physical-input oracle and exact reference-source transition guard, preserving original baseline images and gesture behavior. (RUST-M2-PHYSICAL-ORACLE)

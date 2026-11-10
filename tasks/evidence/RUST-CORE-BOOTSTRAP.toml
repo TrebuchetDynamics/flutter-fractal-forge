@@ -1,0 +1,9 @@
+schema = 1
+task = "RUST-CORE-BOOTSTRAP"
+candidate = "7a53b9ea9c67ceaadf914d5aa27ed2254a8e859e"
+integration = "c33a368b6268641564c837258cb56de864d4d11b"
+tree = "39bbb7a646f3159a9167824eb9669aba58efb5b8"
+contract_hash = "ecd1afd82f10924332f60eabaabc49da1f02cf6c34c6f9b598ed7ba6490ac9b4"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-CORE-BOOTSTRAP"]
+result = "pass"
+review = "passed"
