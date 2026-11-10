@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Fix tracked-artifact audit to match literal NUL-delimited Git paths, escape offender diagnostics and fail closed on Git enumeration errors. (MAINT-ARTIFACT-AUDIT-01)
 - Localized EN/ES accessibility status hints, removed duplicate announcements, and composed their exact localization provenance without changing retained evidence. (MAINT-A11Y-STATUS-COPY-01)
 - Added a pure Rust Precision Ladder policy with source-bound Dart differential coverage for decisions, helpers, ceilings and CPU hysteresis; Dart retains renderer authority. (RUST-CORE-PRECISION)
 - Adopt the retained two-crate Rust foundation and default-off persistent snapshot bridge with exact FRB2.13 pins, additive Cargo gate and guarded immutable baseline/oracle/capture provenance composition. (RUST-CORE-BOOTSTRAP)

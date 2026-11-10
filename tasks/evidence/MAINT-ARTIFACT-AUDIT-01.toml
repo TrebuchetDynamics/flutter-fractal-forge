@@ -1,0 +1,9 @@
+schema = 1
+task = "MAINT-ARTIFACT-AUDIT-01"
+candidate = "b4147e5b5555ccd67a1af0ececc0a3088b811792"
+integration = "1b407e85d815df9729a4296e18622c8fe6ac4a90"
+tree = "50f89a316406e1c1c6a4d7562648ad57a21384ae"
+contract_hash = "007ab759a8156d3fbac879d033614c45c398a322e8a552790da708d4c092d0c1"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAINT-ARTIFACT-AUDIT-01"]
+result = "pass"
+review = "passed"
