@@ -20,6 +20,7 @@ import 'package:image/image.dart' as img;
 import 'package:vector_math/vector_math_64.dart';
 
 import 'baseline_inventory.dart';
+import 'reference_source_transition.dart';
 
 const referenceOutput = String.fromEnvironment('MIGRATION_REFERENCE_OUT');
 const referenceCompare = String.fromEnvironment('MIGRATION_REFERENCE_COMPARE');
@@ -231,7 +232,7 @@ Map<String, Object> referenceVariance(Uint8List a, Uint8List b) {
   };
 }
 
-Map<String, String> _captureSources(Map baselineSources) {
+Map<String, String> captureReferenceSources(Map baselineSources) {
   final hashes = Map<String, String>.from(baselineSources);
   final visited = <String>{};
   void visit(String path) {
@@ -291,7 +292,7 @@ class ReferenceCapture {
       'flutter_tester_sha256':
           referenceHash(File(Platform.resolvedExecutable).readAsBytesSync()),
     };
-    final sources = _captureSources(
+    final sources = captureReferenceSources(
         (inventory['modules']!['provenance'] as Map)['sources'] as Map);
     provenance = {
       'source_revision':
@@ -323,7 +324,12 @@ class ReferenceCapture {
     } else {
       retained = readManifest(referenceRoot);
       validateManifest(retained!);
-      expect(retained!['provenance']['source_bindings'], sources);
+      validateReferenceSourceTransition(
+        transition: readReferenceSourceTransition(),
+        retainedSources: retained!['provenance']['source_bindings'] as Map,
+        currentSources: sources,
+        fixtureHashes: referenceFixtureHashes(),
+      );
       expect(retained!['provenance']['baseline_files_sha256'], baselineHashes);
       comparisonDirectory = '$referenceRoot/first-capture';
     }
@@ -333,7 +339,16 @@ class ReferenceCapture {
       expect(comparison!['provenance']['backend_sha256'],
           retained?['provenance']['backend_sha256'] ?? objectHash(backend),
           reason: 'Variance must compare the same backend');
-      expect(comparison!['provenance']['source_bindings'], sources);
+      if (retained == null) {
+        expect(comparison!['provenance']['source_bindings'], sources);
+      } else {
+        validateReferenceSourceTransition(
+          transition: readReferenceSourceTransition(),
+          retainedSources: comparison!['provenance']['source_bindings'] as Map,
+          currentSources: sources,
+          fixtureHashes: referenceFixtureHashes(),
+        );
+      }
       expect(comparison!['provenance']['flutter'],
           retained?['provenance']['flutter'] ?? provenance['flutter']);
       expect(comparison!['provenance']['dart'],
@@ -397,7 +412,20 @@ class ReferenceCapture {
       }
       final variance =
           referenceVariance(readReferencePng(referenceRoot, old), rgba);
-      // Equality is observed, never required across different backend/toolchains.
+      // This transition qualifies only the retained same-backend image contract.
+      expect(objectHash(backend), retained!['provenance']['backend_sha256']);
+      expect(variance['equal'], isTrue,
+          reason: '$stateId clock seam must preserve same-backend pixels');
+      for (final key in [
+        'health',
+        'png_sha256',
+        'rgba_sha256',
+        'pixel_format',
+        'alpha',
+        'compiled_shader_sha256'
+      ]) {
+        expect(record[key], old[key], reason: '$stateId retained $key');
+      }
       print('$stateId retained comparison: ${canonicalJson(variance).trim()}');
     }
     if (referenceOutput.isNotEmpty) {

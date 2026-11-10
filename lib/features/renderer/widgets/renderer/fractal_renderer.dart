@@ -173,6 +173,11 @@ class FractalRenderer extends StatefulWidget {
   /// Stable sink for the effective base-field state used by visible GPU frames.
   final FractalRenderSnapshotSink? renderSnapshotSink;
 
+  /// Wall clock for gesture classification and missing source timestamps.
+  /// Animation elapsed time and pointer source timestamps remain independent.
+  /// Defaults to [DateTime.now]; injectable for deterministic input tests.
+  final DateTime Function() gestureClock;
+
   /// Creates a [FractalRenderer] widget.
   const FractalRenderer({
     Key? key,
@@ -190,6 +195,7 @@ class FractalRenderer extends StatefulWidget {
     this.renderPlan,
     this.showRendererIndicator = true,
     this.renderSnapshotSink,
+    this.gestureClock = DateTime.now,
   }) : super(key: key);
 
   @override
