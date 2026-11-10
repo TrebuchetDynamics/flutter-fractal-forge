@@ -1,0 +1,3 @@
+Viewer tools stay in one labeled row with horizontal scrolling.
+Catalog search layout handles larger touch targets more reliably.
+Burning Ship rendering avoids an undefined angle at the origin.

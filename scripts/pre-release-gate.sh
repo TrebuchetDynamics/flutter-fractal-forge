@@ -585,7 +585,7 @@ if [[ "$DRY_RUN" -eq 1 ]]; then
   print_command adb -s "$DEVICE" exec-out screencap -p
   print_command adb -s "$DEVICE" exec-out uiautomator dump /dev/tty
   printf '+ assert foreground package is Fractal Forge\n'
-  printf '+ assert restored UI contains Julia and Controls when semantics capture is available\n'
+  printf '+ assert restored UI contains Julia and Edit fractal when semantics capture is available\n'
 else
   adb -s "$DEVICE" exec-out screencap -p \
     >"$LOG_DIR/process-restoration.png"
@@ -606,7 +606,7 @@ else
   if adb -s "$DEVICE" exec-out uiautomator dump /dev/tty \
       >"$ui_dump" 2>"$LOG_DIR/process-restoration-uiautomator.log" && \
       grep -q '<hierarchy' "$ui_dump"; then
-    if ! grep -q 'Julia' "$ui_dump" || ! grep -q 'Controls' "$ui_dump"; then
+    if ! grep -q 'Julia' "$ui_dump" || ! grep -q 'Edit fractal' "$ui_dump"; then
       echo 'Process-death restoration did not return to the Julia viewer.' >&2
       exit 1
     fi

@@ -55,7 +55,7 @@ def gate(tmp_path):
             elif args == ["shell", "dumpsys", "activity", "activities"]:
                 print("ResumedActivity: ActivityRecord{123 u0 com.trebuchetdynamics.fractal.forge/.MainActivity t1}")
             elif args[:2] == ["exec-out", "uiautomator"]:
-                print('<hierarchy text="Julia Controls"/>')
+                print('<hierarchy text="' + os.environ.get("RESTORED_UI", "Julia Edit fractal") + '"/>')
         elif name == "flutter":
             if "integration_test" in " ".join(args):
                 # Flutter may uninstall/reinstall the production package itself.
@@ -76,8 +76,10 @@ def gate(tmp_path):
     env.update(PATH=f"{bin_dir}:/usr/bin:/bin", COMMANDS=str(commands),
                INSTALLED=str(installed), TEST_DEVICE=DEVICE)
 
-    def run(*args, fail_gate=None, android_device=None):
+    def run(*args, fail_gate=None, android_device=None, restored_ui=None):
         run_env = env.copy()
+        if restored_ui is not None:
+            run_env["RESTORED_UI"] = restored_ui
         if android_device is not None:
             run_env["ANDROID_DEVICE"] = android_device
         if fail_gate:
@@ -209,6 +211,16 @@ def test_android_device_environment_accepts_only_explicit_matching_consent(gate)
     assert result.returncode == 17
     assert calls == [["flutter", "analyze"]]
     assert installed.read_text() == "release-signed app with irreplaceable presets"
+
+
+@pytest.mark.parametrize("restored_ui", ["Julia", "Edit fractal", "Julia Controls"])
+def test_restoration_requires_julia_and_current_edit_control(gate, restored_ui):
+    result, calls, _ = gate("--device", DEVICE, "--disposable-device", DEVICE,
+                            restored_ui=restored_ui)
+    assert result.returncode != 0
+    assert "Process-death restoration did not return to the Julia viewer" in result.stderr
+    assert not any(call[0] == "timeout" for call in calls)
+    assert not any("lifecycle_restoration_test.dart" in " ".join(call) for call in calls)
 
 
 @pytest.mark.parametrize("soak_args, expected_deadline", [
