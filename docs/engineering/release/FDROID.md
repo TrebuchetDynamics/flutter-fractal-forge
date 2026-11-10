@@ -2,6 +2,48 @@
 
 Fractal Forge targets the official F-Droid catalog with reproducible builds. F-Droid builds each Android ABI package from the public source commit, verifies it against the developer-signed reference APK, and publishes the verified developer-signed package.
 
+## Deployment blockers and recovery — 2026-11-10
+
+**Deployment: BLOCKED. No qualified mitigated release or catalog publication is established.**
+This is a planning-only reconciliation at main `44dc32f629ae975dbf1e3fc57b3be174b5948c58`.
+It preserves the [accepted continuation](#kifs-crash-and-catalog-submission-continuation)
+and [detailed evidence](../../qa/fdroid-kifs/README.md). It does not restart execution.
+
+### Evidence-backed blockers
+
+| Blocker / owner | Exact evidence and affected scope | Resume action and required success evidence |
+| --- | --- | --- |
+| **Queue accounting conflict — existing Autowork coordinator, FDROID-002 through FDROID-005** | All four records have `status = "done"` and coordinator receipts with `result = "pass"`, while their `Pending live` notes and QA evidence explicitly leave acceptance incomplete. Their receipt `checks` arrays contain placeholder-like `<path>` entries and `--verify`, not the required terminal device/hardware/signing/catalog results. The CLI accepts the receipts structurally; that does not prove those outcomes. Goal FDROID-KIFS-001 remains unmet. | Reconcile the existing records through the coordinator's supported recovery/reopen path, retaining IDs, candidate work, receipt history and original acceptance. Resume FDROID-002 first. Do not create replacement tasks, hand-edit receipt/status metadata, waive acceptance or treat a documentation merge as release verification. This pass only adds recovery notes; it does not perform the transition. |
+| **Incomplete Android gate — coordinator, FDROID-002** | At source `6ec81df95e936fb82c9a0a13f0aa4a80113de6c1`, three KIFS journeys passed on Waydroid. The full pre-release gate exited 124 after 1,700 seconds during host tests. The partial `--skip-host` continuation exited 124 after 600 seconds while building `perf_smoke_test.dart`. Accessibility, runtime-thumbnail performance, production APK identity, restoration, offline journey and five-minute production soak remain unqualified. The three debug APKs are `1.1.0+38` with differing hashes, not one production release. | Revalidate current designated Waydroid serial/model/boot and exclusive device ownership under the existing consent. Preserve the timed-out candidate and logs. Run the task's exact full gate with enough scheduled runtime for every phase; a device-only continuation cannot replace it. Bind terminal results and production APK hashes to the reviewed final source/version. Source changes require affected reruns. No physical phone or new target approval is required. |
+| **No final signed reference set — coordinator, FDROID-004** | Local unsigned double-build and source scan passed at `0e4d9338ee581a555da86293cae7a4768bff769f`, marker 1.1.122/122, codes 1221/1222/1223. This differs from the instrumented Waydroid source. No final identity was frozen and no matching signed references were produced. The isolated build checkout lacked `android/key.properties`; this is not proof that the authorized signing workflow or key is globally unavailable. Ignored build outputs may require recovery or exact-source rebuild. | Recheck live version/tag/reference inventory, then freeze one reviewed source/SDK/lock/version identity. Use the existing authorized signing workflow without copying secrets into this checkout. Require three ABI references with matching package/code/hash and allowed certificate, reproducibility against source APKs, final-candidate Android qualification, and download/hash/certificate readback after qualified reference publication. Do not distribute unsigned verification APKs or reuse older binaries for a different source. |
+| **Official verification missing — coordinator with F-Droid maintainers, FDROID-004** | The retained attempt has no host `fdroid` or discovered official buildserver workspace. This pass also found no `fdroid` executable on PATH. The cached restricted adapter passed lint/source scans but cannot run `readmeta`, `rewritemeta`, `checkupdates`, `build` or signed-reference binary verification. No candidate-verification request was posted in that attempt. | Use the supported official environment, or request explicitly **unqualified** candidate verification in existing !46920 during FDROID-004 once its required inputs exist. Require exact head/source/reference binding, clean metadata checks, signed-APK scans and three successfully verified reproducible builds. Preserve missing-reference/tool/maintainer failures precisely. No tool install, new pipeline infrastructure or bypass is authorized by this plan. Release operation leases while waiting. |
+| **Adreno 610 confirmation missing — original reviewer or already-authorized comparable target, FDROID-003** | Fresh read-only MR discussion inventory on 2026-11-10 contains 30 discussions. Crash note [3986993227](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/46920#note_3986993227) still has only the historical reviewer finding and maintainer acknowledgement. No mitigated candidate request/retest is present. Waydroid uses AMD/Mesa, not Adreno. | After a safely distributable reviewed candidate URL/SHA-256 exists and required Android gates pass, post one bound request in the existing crash thread and read it back. Obtain device/OS/backend, exact source/APK identity, scenario timings, visible frames, process survival and bounded GPU logs under the saved acceptance. A different final artifact requires renewed binding/retest. This is external hardware evidence, not a demand to replace Waydroid or approve another target. |
+| **Maintainer acceptance and catalog publication unobserved — F-Droid maintainers, FDROID-005** | Fresh GET on 2026-11-10 returned !46920 `opened`, `merged_at = null`, head `16238180cb87bc3e488bfa0bc461ca99e51eea67`. Successful pipeline 2832429861 belongs to that old v1.1.104 head, not the mitigated candidate. Public catalog identity/hash/signer readback was not performed in this pass. No catalog absence is inferred. | After FDROID-003/004 actually qualify the same candidate, update only !46920, read back the current head/body/pipeline and await maintainer review/merge. Then compare public package/version/source/APK hashes/signers to qualified references. Submission, CI success and merge are separate from publication. Keep the goal unmet until required acceptance and public readback exist. |
+
+### Exact handoff, not a replacement plan
+
+The next action belongs to the existing coordinator: reconcile the premature
+FDROID-002/003/004/005 closures, then recover the FDROID-002 timed-out full gate.
+The public task CLI exposes no `reopen` subcommand; planning must not invent one
+or call internal engine functions to bypass the coordinator. `autowork tasks why`
+currently reports these tasks as DONE, not selection-ready. This accounting
+failure, rather than missing product intent, prevents normal queue continuation.
+No new task, goal, owner decision, execution lease, runner or dispatch is created.
+
+Use the existing source-bound task checks. After Android recovery, FDROID-003
+reviewer follow-up and FDROID-004 build qualification are product-independent,
+but share candidate/MR resources and documentation writes. Serialize those
+operations and release leases during external waits. Final FDROID-005 submission
+still requires both qualifications. Preserve current typed live grants: no renewed
+owner deployment approval or Waydroid designation is missing. Signing capability,
+reviewer input and official verification remain unassessed/missing as described,
+not silently supplied by authority.
+
+Current mode is planning/documentation only. The later execution handoff is the
+existing coordinator's supported recovery of **FDROID-002-29b7a402**, not a second
+worker or an unconditional deployment command. Production code, tests, manifests,
+locks, receipts, remote MR and release artifacts are unchanged by this pass.
+
 ## Automated release contract
 
 `./release.sh all --publish=X.Y.Z` includes the `fdroid` stage before publication. The stage:

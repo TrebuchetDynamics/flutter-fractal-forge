@@ -4,6 +4,23 @@ This file contains only hard blockers that require user action.
 
 ## Active
 
+### F-Droid external qualification inputs — 2026-11-10
+
+**These are external evidence requirements, not new owner-approval requests.**
+The existing deploy-fdroid grant and designated Waydroid consent remain valid.
+Internal gate timeouts and premature task closure belong to the existing
+coordinator, not the user. The [deployment blocker table](docs/engineering/release/FDROID.md#deployment-blockers-and-recovery--2026-11-10)
+owns the full evidence, affected task IDs, next actions and success criteria.
+
+- **FDROID-003-29b7a403 — Adreno retest:** The original reviewer or an already-authorized comparable Adreno 610 target must supply a retest bound to the final reviewed APK/source/hash and saved scenarios. Fresh MR discussion readback still contains only the historical v1.1.104 crash. First complete the required Android gate and provide a safe, bound artifact, then post/read back one request in the existing thread. No physical phone is required instead of Waydroid. Release leases while waiting.
+- **FDROID-004-29b7a404 — Official verification:** The retained local environment lacks the official buildserver/CLI verification outputs. The restricted adapter supplies lint/source scans only. Resume through the supported official environment or an explicitly unqualified existing-MR maintainer verification request once the source/reference inputs exist. Require the actual three-build reproducibility, metadata and signed-APK scan outputs; old CI cannot substitute.
+- **FDROID-005-29b7a405 — Maintainer acceptance/indexing:** After same-candidate Android, signed-reference, official and Adreno qualification, F-Droid maintainers must review/merge and publish/index the app. Fresh MR readback is opened/unmerged on the old head. Public catalog comparison is unrun, not evidence of absence. Resume on actual maintainer response and verify package/version/source/APK hash/signer before claiming publication.
+
+The task store currently labels FDROID-002 through FDROID-005 done/Verified despite
+retained incomplete acceptance. Coordinator recovery of those same records is the
+first internal action. This entry does not reopen them, fabricate receipts, add a
+user hold, start another worker, or claim deployment.
+
 ### Current triage of retained runner notices
 
 The generated block below is preserved historical runner output, not five fresh requests for owner decisions. Current committed task records take precedence. NUM-WALL-02 already has its 2026-10-19 task-only loopback decision; APP-001-47, SINEWARP-001-aa and ACAD-007-f8 retain technical integration/qualification work after the completed ACAD-008-74 setup repair; EXPORT-001-f3 retains a failed-check/report-consistency issue. These are not new scope approvals. The stopped runner has not consumed this documentation reconciliation, and its marked block/slots/reports are deliberately unchanged. See [the handoff limits](docs/engineering/runbook.md#queue-and-retained-check-handoff).
