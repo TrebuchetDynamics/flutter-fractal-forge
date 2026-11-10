@@ -9,14 +9,30 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'shared/a11y_test_helpers.dart';
+
 /// Builds the widget under test wrapped with required infrastructure.
-Widget _buildScreen(AccessibilityService service) {
+Widget _buildScreen(
+  AccessibilityService service, {
+  String language = 'en',
+  bool disableAnimations = false,
+  bool highContrast = false,
+  bool accessibleNavigation = false,
+}) {
   return ChangeNotifierProvider<AccessibilityService>.value(
     value: service,
     child: MaterialApp(
-      locale: const Locale('en'),
+      locale: Locale(language),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+      builder: (context, child) => MediaQuery(
+        data: MediaQuery.of(context).copyWith(
+          disableAnimations: disableAnimations,
+          highContrast: highContrast,
+          accessibleNavigation: accessibleNavigation,
+        ),
+        child: child!,
+      ),
       home: const AccessibilitySettingsScreen(),
     ),
   );
@@ -35,6 +51,59 @@ void main() {
   });
 
   group('AccessibilitySettingsScreen', () {
+    testWidgets('localized status copy follows only system preferences',
+        (tester) async {
+      final service = await _makeService();
+      addTearDown(service.dispose);
+      for (final language in ['en', 'es']) {
+        final messages = language == 'en'
+            ? [
+                'Reduced motion is enabled at system level',
+                'High contrast is enabled at system level',
+                'Screen reader is active',
+              ]
+            : [
+                'El movimiento reducido está activado en el sistema',
+                'El alto contraste está activado en el sistema',
+                'El lector de pantalla está activo',
+              ];
+        for (var flags = 0; flags < 8; flags++) {
+          await tester.pumpWidget(_buildScreen(
+            service,
+            language: language,
+            disableAnimations: flags & 1 != 0,
+            highContrast: flags & 2 != 0,
+            accessibleNavigation: flags & 4 != 0,
+          ));
+          await pumpAccessibilityTestFrames(tester);
+          for (var i = 0; i < messages.length; i++) {
+            expect(
+              find.textContaining(messages[i]),
+              flags & (1 << i) != 0 ? findsOneWidget : findsNothing,
+              reason: '$language flags=$flags message=${messages[i]}',
+            );
+          }
+          if (language == 'es') {
+            expect(
+                find.textContaining('enabled at system level'), findsNothing);
+          }
+        }
+        await tester.pumpWidget(_buildScreen(service, language: language));
+        await service.setHighContrast(true);
+        await service.setReducedMotion(true);
+        await service.setLargeTargets(true);
+        await pumpAccessibilityTestFrames(tester);
+        for (final message in messages) {
+          expect(find.textContaining(message), findsNothing,
+              reason: '$language app-only preferences');
+        }
+        await service.setHighContrast(false);
+        await service.setReducedMotion(false);
+        await service.setLargeTargets(false);
+      }
+      await disposeAccessibilityTestWidget(tester);
+    });
+
     testWidgets('has AppBar with Accessibility title', (tester) async {
       final service = await _makeService();
       await tester.pumpWidget(_buildScreen(service));

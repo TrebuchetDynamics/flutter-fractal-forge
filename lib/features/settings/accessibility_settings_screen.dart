@@ -100,7 +100,6 @@ class _InfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       container: true,
-      label: text,
       child: Container(
         padding: const EdgeInsets.all(AppSpacing.lg),
         decoration: BoxDecoration(
@@ -235,6 +234,7 @@ class _SystemSettingsHint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final prefersReducedMotion = context.shouldReduceMotion;
     final prefersHighContrast = context.prefersHighContrast;
 
@@ -244,15 +244,14 @@ class _SystemSettingsHint extends StatelessWidget {
 
     final hints = <String>[];
     if (prefersReducedMotion) {
-      hints.add('Reduced motion is enabled at system level');
+      hints.add(l10n.accessibilitySystemReducedMotion);
     }
     if (prefersHighContrast) {
-      hints.add('High contrast is enabled at system level');
+      hints.add(l10n.accessibilitySystemHighContrast);
     }
 
     return Semantics(
       container: true,
-      label: hints.join('. '),
       child: Container(
         padding: const EdgeInsets.all(AppSpacing.lg),
         decoration: BoxDecoration(

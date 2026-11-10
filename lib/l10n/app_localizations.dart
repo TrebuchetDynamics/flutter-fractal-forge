@@ -2265,6 +2265,18 @@ abstract class AppLocalizations {
   /// **'Screen reader is active'**
   String get accessibilityScreenReaderActive;
 
+  /// No description provided for @accessibilitySystemReducedMotion.
+  ///
+  /// In en, this message translates to:
+  /// **'Reduced motion is enabled at system level'**
+  String get accessibilitySystemReducedMotion;
+
+  /// No description provided for @accessibilitySystemHighContrast.
+  ///
+  /// In en, this message translates to:
+  /// **'High contrast is enabled at system level'**
+  String get accessibilitySystemHighContrast;
+
   /// No description provided for @soundEffectsTitle.
   ///
   /// In en, this message translates to:

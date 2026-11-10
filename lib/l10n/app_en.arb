@@ -396,6 +396,8 @@
   "accessibilityLargeTargets": "Large Touch Targets",
   "accessibilityLargeTargetsHint": "Increase size of interactive elements",
   "accessibilityScreenReaderActive": "Screen reader is active",
+  "accessibilitySystemReducedMotion": "Reduced motion is enabled at system level",
+  "accessibilitySystemHighContrast": "High contrast is enabled at system level",
 
   "soundEffectsTitle": "Sound Effects",
   "soundEffectsEnabled": "UI Sounds",

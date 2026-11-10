@@ -389,6 +389,8 @@
   "accessibilityLargeTargets": "Objetivos Táctiles Grandes",
   "accessibilityLargeTargetsHint": "Aumentar el tamaño de los elementos interactivos",
   "accessibilityScreenReaderActive": "El lector de pantalla está activo",
+  "accessibilitySystemReducedMotion": "El movimiento reducido está activado en el sistema",
+  "accessibilitySystemHighContrast": "El alto contraste está activado en el sistema",
 
   "soundEffectsTitle": "Efectos de Sonido",
   "soundEffectsEnabled": "Sonidos de Interfaz",
