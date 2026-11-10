@@ -195,8 +195,9 @@ void main() {
       }
       seal(bootstrap);
       seal(sibling);
-      final sources = Map.from(current)
-        ..['lib/l10n/app_localizations_en.dart'] = changedHash;
+      final sources =
+          Map.from(bootstrap['binding_maps']['reference']['after'] as Map)
+            ..['lib/l10n/app_localizations_en.dart'] = changedHash;
       validate(stages: [sibling, bootstrap], sources: sources);
       final broken = jsonDecode(canonicalJson(sibling)) as Map;
       broken['binding_maps']['reference']['before']['pubspec.lock'] =
@@ -205,6 +206,45 @@ void main() {
       expect(() => validate(stages: [broken, bootstrap], sources: sources),
           throwsA(isA<TestFailure>()),
           reason: 'disconnected sibling');
+    }
+    final a11y = readProvenanceStages()
+        .singleWhere((stage) => stage['task'] == 'MAINT-A11Y-STATUS-COPY-01');
+    for (final mutation in [
+      'unlisted-change',
+      'unlisted-add',
+      'unlisted-remove',
+      'allowed-remove',
+      'gap',
+      'wrong-task-policy',
+      'delta-set',
+      'identity',
+      'anchor',
+    ]) {
+      final stage = jsonDecode(canonicalJson(a11y)) as Map;
+      final record = stage['binding_maps']['reference'] as Map;
+      final after = record['after'] as Map;
+      switch (mutation) {
+        case 'unlisted-change':
+          after[unrelated] = changedHash;
+        case 'unlisted-add':
+          after['unexpected.dart'] = changedHash;
+        case 'unlisted-remove':
+          after.remove(unrelated);
+        case 'allowed-remove':
+          after.remove('lib/l10n/app_localizations_en.dart');
+        case 'gap':
+          record['before']['lib/l10n/app_localizations_en.dart'] = changedHash;
+        case 'wrong-task-policy':
+          after['pubspec.lock'] = changedHash;
+      }
+      seal(stage);
+      if (mutation == 'delta-set') record['changed'] = [];
+      if (mutation == 'identity') stage['candidate_identity'] = changedHash;
+      if (mutation == 'anchor')
+        stage['original_fixture_hashes']['modules'] = changedHash;
+      expect(() => validate(stages: [stageCopy(), stage], sources: after),
+          throwsA(isA<TestFailure>()),
+          reason: 'self-consistent accessibility stage mutation: $mutation');
     }
     for (final path in [
       'migration/baseline/original/modules.json',

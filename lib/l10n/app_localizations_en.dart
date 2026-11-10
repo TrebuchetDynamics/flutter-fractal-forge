@@ -1171,6 +1171,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accessibilityScreenReaderActive => 'Screen reader is active';
 
   @override
+  String get accessibilitySystemReducedMotion =>
+      'Reduced motion is enabled at system level';
+
+  @override
+  String get accessibilitySystemHighContrast =>
+      'High contrast is enabled at system level';
+
+  @override
   String get soundEffectsTitle => 'Sound Effects';
 
   @override

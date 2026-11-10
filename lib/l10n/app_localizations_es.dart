@@ -1184,6 +1184,14 @@ class AppLocalizationsEs extends AppLocalizations {
       'El lector de pantalla está activo';
 
   @override
+  String get accessibilitySystemReducedMotion =>
+      'El movimiento reducido está activado en el sistema';
+
+  @override
+  String get accessibilitySystemHighContrast =>
+      'El alto contraste está activado en el sistema';
+
+  @override
   String get soundEffectsTitle => 'Efectos de Sonido';
 
   @override
