@@ -1992,42 +1992,36 @@ class _FractalViewerScreenState extends FractalViewerRouteState
                   if (_showCoreViewerChrome &&
                       _deepZoomPrecisionActive &&
                       _backendDecision.backend != RendererBackend.cpu)
-                    overlaySlots.topTrailing(maxWidth: null, Semantics(
-                        label: 'Switch to CPU for deep zoom',
-                        button: true,
-                        child: GestureDetector(
-                          onTap: () {
-                            context
-                                .read<RendererSettingsService>()
-                                .setBackendMode(RendererBackendMode.cpuOnly);
-                            setState(() {
-                              _refreshBackendDecision();
-                            });
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 6),
-                            decoration: BoxDecoration(
-                              color: Colors.black.withValues(alpha: 0.6),
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                  color: Colors.cyan.withValues(alpha: 0.7)),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(Icons.precision_manufacturing_rounded,
-                                    color: Colors.cyan, size: 16),
-                                SizedBox(width: 6),
-                                Text(
-                                  l10n.deepZoomCpuFallback,
-                                  style: const TextStyle(
-                                      color: Colors.cyan, fontSize: 11),
-                                ),
-                              ],
-                            ),
-                          ),
+                    overlaySlots.topTrailing(
+                      maxWidth: null,
+                      // A real button: keyboard focus, a 48 px hit area and
+                      // the localized caption as its accessible name.
+                      FilledButton.icon(
+                        key: const ValueKey('viewerDeepZoomCpuButton'),
+                        style: FilledButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.surface,
+                          foregroundColor:
+                              Theme.of(context).colorScheme.secondary,
+                          side: BorderSide(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .secondary
+                                  .withValues(alpha: 0.7)),
+                          minimumSize: const Size(0, 36),
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          textStyle: Theme.of(context).textTheme.labelMedium,
                         ),
+                        onPressed: () {
+                          context
+                              .read<RendererSettingsService>()
+                              .setBackendMode(RendererBackendMode.cpuOnly);
+                          setState(() {
+                            _refreshBackendDecision();
+                          });
+                        },
+                        icon: const Icon(Icons.precision_manufacturing_rounded,
+                            size: 16),
+                        label: Text(l10n.deepZoomCpuFallback),
                       ),
                     ),
 

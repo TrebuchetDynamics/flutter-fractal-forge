@@ -173,7 +173,7 @@ void main() {
 
         final controls = find.byKey(const ValueKey('viewerControlsButton'));
         await tester.ensureVisible(controls);
-        await tester.longPress(controls);
+        await openViewerControlsHud(tester);
         await pumpForUiTransition(tester);
         final surface = find.byKey(const ValueKey('controlsHudSurface'));
         expect(tester.widget<Material>(surface).color!.a, 1);

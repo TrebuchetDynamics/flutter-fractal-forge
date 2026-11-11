@@ -338,7 +338,7 @@ void main() {
 }
 
 Future<void> _openMore(WidgetTester tester) async {
-  await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
+  await tester.longPress(find.byKey(const ValueKey('viewerControlsButton')));
   await tester.pumpAndSettle();
 }
 

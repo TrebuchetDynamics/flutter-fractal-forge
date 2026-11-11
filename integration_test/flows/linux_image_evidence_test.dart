@@ -118,8 +118,7 @@ void main() {
         await pumpForUiTransition(tester);
         expect(_state(controller)['view'], isNot(original['view']),
             reason: 'Real viewer gesture must change the camera');
-        await tester
-            .longPress(find.byKey(const ValueKey('viewerControlsButton')));
+        await openViewerControlsHud(tester);
         await pumpForUiTransition(tester);
         final iterationsBefore = controller.params['iterations'];
         // The HUD puts iterations before other numeric parameters in all three

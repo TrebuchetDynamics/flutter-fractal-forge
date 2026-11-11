@@ -178,7 +178,12 @@ Future<void> _openTools(WidgetTester tester, String key) async {
       ? 'viewerSaveShareButton'
       : 'viewerControlsButton';
   await tester.ensureVisible(_key(button));
-  await tester.tap(_key(button));
+  // Save opens on a press; the Edit sheet opens on a long press.
+  if (button == 'viewerControlsButton') {
+    await tester.longPress(_key(button));
+  } else {
+    await tester.tap(_key(button));
+  }
   await tester.pumpAndSettle();
 }
 
@@ -639,8 +644,11 @@ void main() {
       expect(_key('viewerOverflowMenu'), findsNothing);
       expect(_key('viewerDismissRandomHint'), findsNothing);
       await _tapTool(tester, 'viewerControlsButton');
+      expect(find.byType(BottomSheet), findsNothing);
+      expect(randomized, 1);
+      await _tapTool(tester, 'viewerControlsButton', secondary: true);
       expect(find.byType(BottomSheet), findsOneWidget);
-      expect(randomized, 0);
+      expect(randomized, 1);
       await tester.tap(_key('viewerEditParametersAction'));
       await tester.pumpAndSettle();
       expect(opened, 1);
@@ -764,18 +772,17 @@ void main() {
           ? const {
               'viewerPreviousFractalButton': 'Previous fractal',
               'viewerPlayButton': 'Play camera loop',
-              'viewerControlsButton': 'Edit fractal',
+              'viewerControlsButton': 'Randomize parameters',
               'viewerPaletteButton':
-                  'Choose colors. Long press to randomize',
+                  'Randomize palette. Long press for palette settings',
               'viewerRandomFractalFab': 'Random Fractal',
             }
           : const {
               'viewerPreviousFractalButton': 'Fractal anterior',
               'viewerPlayButton': 'Reproducir bucle de cámara',
-              'viewerControlsButton':
-                  'Editar fractal',
+              'viewerControlsButton': 'Aleatorizar parámetros',
               'viewerPaletteButton':
-                  'Elegir colores. Mantén pulsado para aleatorizar',
+                  'Aleatorizar paleta. Mantén presionado para ajustes de paleta',
               'viewerRandomFractalFab': 'Fractal aleatorio',
             };
       for (final entry in labels.entries) {
@@ -821,12 +828,13 @@ void main() {
     expect(randomized, 1);
     expect(opened, 1);
     await _tapTool(tester, 'viewerControlsButton');
-    expect(find.byType(BottomSheet), findsOneWidget);
-    expect(randomized, 1);
+    expect(find.byType(BottomSheet), findsNothing);
+    expect(randomized, 2);
     expect(opened, 1);
     await _tapTool(tester, 'viewerControlsButton', secondary: true);
-    expect(randomized, 1);
-    expect(opened, 2);
+    expect(find.byType(BottomSheet), findsOneWidget);
+    expect(randomized, 2);
+    expect(opened, 1);
   });
 
   for (final secondary in [false, true]) {
@@ -852,7 +860,7 @@ void main() {
     });
   }
 
-  testWidgets('Color opens the picker and long press randomizes',
+  testWidgets('Color randomizes and long press opens the picker',
       (tester) async {
     var opened = 0;
     var randomized = 0;
@@ -864,8 +872,8 @@ void main() {
     await _tapTool(tester, 'viewerColorCycleButton', secondary: true);
     expect(opened, 1);
     await _tapTool(tester, 'viewerPaletteButton');
-    expect(randomized, 0);
-    expect(opened, 2);
+    expect(randomized, 1);
+    expect(opened, 1);
     await _tapTool(tester, 'viewerPaletteButton', secondary: true);
     expect(randomized, 1);
     expect(opened, 2);

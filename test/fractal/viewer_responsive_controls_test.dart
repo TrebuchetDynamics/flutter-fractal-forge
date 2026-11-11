@@ -92,8 +92,7 @@ void main() {
                   )),
         );
     await tester.pumpAndSettle();
-    final controls = find
-        .byKey(const ValueKey('viewerControlsButton'));
+    final controls = find.byKey(const ValueKey('viewerControlsButton'));
     if (!more && controls.evaluate().isEmpty) {
       final overflow = find.byKey(const ValueKey('viewerControlsButton'));
       await tester.ensureVisible(overflow);
@@ -107,12 +106,16 @@ void main() {
     expect(tester.getRect(controls).top, greaterThanOrEqualTo(24));
     expect(
         tester.getRect(controls).bottom, lessThanOrEqualTo(size.height - 48));
-    if (more) {
-      await tester.tap(controls);
-    } else {
-      await tester.longPress(controls);
-    }
+    // A long press opens the Edit sheet; its first row opens the HUD.
+    await tester.longPress(controls);
     await tester.pumpAndSettle();
+    if (!more) {
+      final open = find.byKey(const ValueKey('viewerEditParametersAction'));
+      await tester.ensureVisible(open);
+      await tester.pumpAndSettle();
+      await tester.tap(open);
+      await tester.pumpAndSettle();
+    }
   }
 
   Future<void> reveal(WidgetTester tester, Finder target) async {
@@ -188,7 +191,7 @@ void main() {
             await tester.pumpAndSettle();
           }
           await reveal(tester, controls);
-          await tester.tap(controls);
+          await tester.longPress(controls);
           await tester.pumpAndSettle();
           expect(find.byType(BottomSheet), findsOneWidget);
           await tester.binding.handlePopRoute();
@@ -209,7 +212,8 @@ void main() {
     }
   }
 
-  testWidgets('normal phone keeps the translucent bottom-aligned 55 percent HUD',
+  testWidgets(
+      'normal phone keeps the translucent bottom-aligned 55 percent HUD',
       (tester) async {
     await open(tester, size: const Size(360, 780));
     final surface = find.byKey(const ValueKey('controlsHudSurface'));
@@ -220,8 +224,7 @@ void main() {
     expect(rect.height, closeTo(429, 0.001));
     expect(tester.widget<Material>(surface).color!.a, lessThan(1.0));
     expect(
-      find.ancestor(
-          of: surface, matching: find.byType(BackdropFilter)),
+      find.ancestor(of: surface, matching: find.byType(BackdropFilter)),
       findsOneWidget,
     );
     expect(find.byKey(const Key('viewerTitleChip')), findsOneWidget);
@@ -306,7 +309,7 @@ void main() {
           await tester.pumpAndSettle();
           final moreButton = find.byKey(const ValueKey('viewerControlsButton'));
           await reveal(tester, moreButton);
-          await tester.tap(moreButton);
+          await tester.longPress(moreButton);
           await tester.pumpAndSettle();
           final report = find.byKey(const ValueKey('viewerReportFractalFab'));
           await reveal(tester, report);

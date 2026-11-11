@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -26,7 +29,8 @@ const _orderedTools = [
 const _tapCallbacks = {
   'viewerPreviousFractalButton': 'viewerPreviousFractalButton',
   'viewerPlayButton': 'viewerPlayButton',
-  'viewerPaletteButton': 'viewerPaletteButton',
+  'viewerControlsButton': 'viewerRandomParamsButton',
+  'viewerPaletteButton': 'viewerPaletteRandom',
   'viewerRandomFractalFab': 'viewerRandomFractalFab',
 };
 
@@ -75,7 +79,8 @@ Future<AutoExploreService> _pumpToolbar(WidgetTester tester,
             viewPadding: viewPadding,
             systemGestureInsets: gestures,
           ),
-          child: child!),
+          child: RepaintBoundary(
+              key: const ValueKey('toolbarCapture'), child: child!)),
       theme: highContrast ? AppTheme.highContrast : AppTheme.dark,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
@@ -124,7 +129,7 @@ Future<AutoExploreService> _pumpToolbar(WidgetTester tester,
                       onAction?.call('viewerTextOverlayFab'),
                   editTextOverlay: () =>
                       onAction?.call('viewerTextOverlayFabOptions'),
-                  randomizePalette: () => onAction?.call('viewerPaletteButton'),
+                  randomizePalette: () => onAction?.call('viewerPaletteRandom'),
                   previousFractal: () =>
                       onAction?.call('viewerPreviousFractalButton'),
                   openRandomCategories: () =>
@@ -149,11 +154,74 @@ Future<AutoExploreService> _pumpToolbar(WidgetTester tester,
 Finder _tool(String key) => find.byKey(ValueKey(key));
 Future<void> _openMore(WidgetTester tester) async {
   await tester.ensureVisible(_tool('viewerControlsButton'));
-  await tester.tap(_tool('viewerControlsButton'));
+  // A long press opens the Edit sheet; a quick press randomizes.
+  await tester.longPress(_tool('viewerControlsButton'));
   await tester.pumpAndSettle();
 }
 
 void main() {
+  for (final size in const [Size(390, 844), Size(360, 780), Size(1200, 800)]) {
+    testWidgets('Edit uses compact paired settings at $size', (tester) async {
+      final captureDir = Platform.environment['UI_CAPTURE_DIR'];
+      if (captureDir != null) {
+        // Captures use SDK Roboto for unbundled app font families, not Ahem.
+        await tester.runAsync(() async {
+          final bytes =
+              await File('${Platform.environment['FLUTTER_ROOT']}/bin/cache/'
+                      'artifacts/material_fonts/Roboto-Regular.ttf')
+                  .readAsBytes();
+          for (final family in ['Roboto', 'Inter', 'Poppins']) {
+            final font = FontLoader(family)
+              ..addFont(Future.value(ByteData.sublistView(bytes)));
+            await font.load();
+          }
+          final icons = FontLoader('MaterialIcons')
+            ..addFont(File('${Platform.environment['FLUTTER_ROOT']}/bin/cache/'
+                    'artifacts/material_fonts/MaterialIcons-Regular.otf')
+                .readAsBytes()
+                .then(ByteData.sublistView));
+          await icons.load();
+        });
+      }
+      final calls = <String>[];
+      await _pumpToolbar(tester,
+          viewport: size,
+          viewPadding: const EdgeInsets.only(bottom: 24),
+          gestures: const EdgeInsets.only(bottom: 24),
+          onAutoExploreSettings: () {},
+          onAction: calls.add);
+      await _openMore(tester);
+      final random = tester.getRect(_tool('viewerRandomParamsButton'));
+      final settings = tester.getRect(_tool('viewerRandomParamsButtonOptions'));
+      expect(settings.center.dy, random.center.dy);
+      expect(settings.left, greaterThanOrEqualTo(random.right));
+      expect(settings.width, greaterThanOrEqualTo(48));
+      expect(settings.height, greaterThanOrEqualTo(48));
+      final controls = tester.getRect(_tool('viewerEditParametersAction'));
+      final effects = tester.getRect(_tool('viewerKaleidoscopeFab'));
+      // Effects must be visible without scrolling on a standard phone.
+      final viewport = tester.getRect(_tool('viewerShortMoreViewport'));
+      expect(effects.bottom, lessThanOrEqualTo(viewport.bottom));
+      expect(effects.bottom - controls.top, lessThan(510));
+      if (captureDir != null) {
+        final boundary =
+            tester.renderObject<RenderRepaintBoundary>(_tool('toolbarCapture'));
+        await tester.runAsync(() async {
+          final image = await boundary.toImage(pixelRatio: 2);
+          final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
+          await Directory(captureDir).create(recursive: true);
+          await File('$captureDir/editor-${size.width.toInt()}.png')
+              .writeAsBytes(bytes!.buffer.asUint8List());
+          image.dispose();
+        });
+      }
+      await tester.tap(_tool('viewerRandomParamsButtonOptions'));
+      await tester.pumpAndSettle();
+      expect(calls, ['viewerControlsButton']);
+      expect(find.byType(BottomSheet), findsNothing);
+      expect(tester.takeException(), isNull);
+    });
+  }
   for (final locale in const [Locale('en'), Locale('es')]) {
     for (final viewport in const [
       Size(320, 780),
@@ -217,8 +285,8 @@ void main() {
           for (final entry in {
             'viewerPreviousFractalButton': l10n.hudPreviousFractal,
             'viewerPlayButton': l10n.tooltipPlayLooper,
-            'viewerControlsButton': l10n.viewerEditTools,
-            'viewerPaletteButton': l10n.viewerChooseColors,
+            'viewerControlsButton': l10n.hudRandomizeTooltip,
+            'viewerPaletteButton': l10n.tooltipRandomizePaletteWithSettings,
             'viewerRandomFractalFab': l10n.tooltipRandomFractal,
           }.entries) {
             final tooltip = find.descendant(
@@ -235,7 +303,6 @@ void main() {
           }
           // Long press keeps the settings surfaces reachable.
           for (final entry in {
-            'viewerControlsButton': 'viewerControlsButton',
             'viewerPaletteButton': 'viewerPaletteButton',
             'viewerRandomFractalFab': 'viewerRandomCategories',
           }.entries) {

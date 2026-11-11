@@ -618,9 +618,11 @@ void main() {
     }
 
     Future<Finder> revealMoreAction(WidgetTester tester, String key) async {
-      await tester.ensureVisible(find.byKey(const ValueKey('viewerControlsButton')));
+      await tester
+          .ensureVisible(find.byKey(const ValueKey('viewerControlsButton')));
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
+      await tester
+          .longPress(find.byKey(const ValueKey('viewerControlsButton')));
       await tester.pumpAndSettle();
       final action = find.byKey(ValueKey(key));
       await tester.ensureVisible(action);
@@ -796,7 +798,8 @@ void main() {
                   expect(titleRect.bottom,
                       lessThanOrEqualTo(size.height - padding.bottom));
                   expect(rect.overlaps(titleRect), isFalse);
-                  final overflow = find.byKey(const Key('viewerControlsButton'));
+                  final overflow =
+                      find.byKey(const Key('viewerControlsButton'));
                   final target = largeTargets ? 56.0 : 48.0;
                   expect(tester.getSize(overflow).width,
                       greaterThanOrEqualTo(target));
@@ -847,7 +850,7 @@ void main() {
                   if (suppressed.isNotEmpty) {
                     await tester.ensureVisible(overflow);
                     await tester.pumpAndSettle();
-                    await tester.tap(overflow);
+                    await tester.longPress(overflow);
                     await tester.pumpAndSettle();
                     for (final key in suppressed) {
                       final action = find.byKey(ValueKey(key));
@@ -934,6 +937,10 @@ void main() {
         await tester.pumpAndSettle();
         await tester
             .longPress(find.byKey(const ValueKey('viewerControlsButton')));
+        await tester.pumpAndSettle();
+        // The Edit sheet's first row opens the HUD.
+        await tester
+            .tap(find.byKey(const ValueKey('viewerEditParametersAction')));
         await tester.pumpAndSettle();
         expect(find.byType(FractalControlsHud), findsOneWidget);
 
@@ -1879,7 +1886,8 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
+      await tester
+          .longPress(find.byKey(const ValueKey('viewerControlsButton')));
       await tester.pumpAndSettle();
       expect(
           find.byKey(const ValueKey('viewerReportFractalFab')), findsNothing);
@@ -2265,6 +2273,10 @@ void main() {
 
       await tester
           .longPress(find.byKey(const ValueKey('viewerControlsButton')));
+      await tester.pumpAndSettle();
+      // The Edit sheet's first row opens the HUD.
+      await tester
+          .tap(find.byKey(const ValueKey('viewerEditParametersAction')));
       await tester.pumpAndSettle();
 
       expect(tester.takeException(), isNull);
@@ -2661,17 +2673,16 @@ void main() {
       await tester.pumpWidget(const SizedBox.shrink());
     });
 
-    testWidgets('Color opens picker and long press randomizes',
-        (tester) async {
+    testWidgets('Color randomizes and long press opens picker', (tester) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
       final palette = find.byKey(const ValueKey('viewerPaletteButton'));
       final before = controller.params['colorScheme'];
-      await tester.longPress(palette);
+      await tester.tap(palette);
       await tester.pump();
       expect(controller.params['colorScheme'], isNot(before));
       expect(find.byKey(const ValueKey('paletteChoice0')), findsNothing);
-      await tester.tap(palette);
+      await tester.longPress(palette);
       await tester.pumpAndSettle();
       expect(find.byKey(const ValueKey('palettePickerScroll')).hitTestable(),
           findsOneWidget);

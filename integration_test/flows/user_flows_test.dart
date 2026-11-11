@@ -179,8 +179,7 @@ void main() {
       await pumpApp(tester);
       await openMandelbrotModule(tester);
 
-      await tester
-          .longPress(find.byKey(const ValueKey('viewerControlsButton')));
+      await openViewerControlsHud(tester);
       await pumpForUiTransition(tester);
 
       expect(find.byType(FractalControlsHud), findsOneWidget);
@@ -296,8 +295,7 @@ void main() {
             reason: '${module.id} viewer gesture should edit its view',
           );
 
-          await tester
-              .longPress(find.byKey(const ValueKey('viewerControlsButton')));
+          await openViewerControlsHud(tester);
           await pumpForUiTransition(tester);
           final formula = tester.widget<Text>(
             find.byKey(const Key('currentMathematicalFormula')),
@@ -403,8 +401,7 @@ void main() {
         catalogId: 'core.burning_ship',
       );
 
-      await tester
-          .longPress(find.byKey(const ValueKey('viewerControlsButton')));
+      await openViewerControlsHud(tester);
       await pumpForUiTransition(tester);
       expect(find.byType(FractalControlsHud), findsOneWidget);
       await tester.tap(find.byIcon(Icons.close_rounded).last);

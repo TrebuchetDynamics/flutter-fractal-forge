@@ -96,9 +96,9 @@ void main() {
       const toolbarNames = {
         'viewerPreviousFractalButton': 'Previous fractal',
         'viewerPlayButton': 'Play camera loop',
-        'viewerControlsButton': 'Edit fractal',
+        'viewerControlsButton': 'Randomize parameters',
         'viewerPaletteButton':
-            'Choose colors. Long press to randomize',
+            'Randomize palette. Long press for palette settings',
         'viewerRandomFractalFab': 'Random Fractal',
         'viewerSaveShareButton': 'Save & share',
       };
@@ -131,8 +131,12 @@ void main() {
       await tester.pumpWidget(buildApp());
       await pumpAccessibilityTestFrames(tester);
 
+      // A long press opens the Edit sheet; its first row opens the HUD.
       await tester
           .longPress(find.byKey(const ValueKey('viewerControlsButton')));
+      await pumpAccessibilityTestFrames(tester);
+      await tester
+          .tap(find.byKey(const ValueKey('viewerEditParametersAction')));
       await pumpAccessibilityTestFrames(tester);
 
       expect(find.byType(FractalControlsHud), findsOneWidget);
@@ -187,7 +191,8 @@ void main() {
           }
         }
 
-        await tester.ensureVisible(find.byKey(const ValueKey('viewerSaveShareButton')));
+        await tester
+            .ensureVisible(find.byKey(const ValueKey('viewerSaveShareButton')));
         await pumpAccessibilityTestFrames(tester);
         await tester.tap(find.byKey(const ValueKey('viewerSaveShareButton')));
         await pumpAccessibilityTestFrames(tester);
@@ -201,7 +206,8 @@ void main() {
         await tester
             .ensureVisible(find.byKey(const ValueKey('viewerControlsButton')));
         await pumpAccessibilityTestFrames(tester);
-        await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
+        await tester
+            .longPress(find.byKey(const ValueKey('viewerControlsButton')));
         await pumpAccessibilityTestFrames(tester);
 
         final tools = {
@@ -242,7 +248,8 @@ void main() {
       await tester.pumpWidget(buildApp());
       await pumpAccessibilityTestFrames(tester);
 
-      await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
+      await tester
+          .longPress(find.byKey(const ValueKey('viewerControlsButton')));
       await pumpAccessibilityTestFrames(tester);
       final fullscreen = find.byKey(const ValueKey('viewerFullscreenButton'));
       await tester.ensureVisible(fullscreen);
@@ -298,14 +305,15 @@ void main() {
           await pumpAccessibilityTestFrames(tester);
           final palette = find.byKey(const ValueKey('viewerPaletteButton'));
           if (palette.evaluate().isEmpty) {
-            await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
+            await tester
+                .longPress(find.byKey(const ValueKey('viewerControlsButton')));
             await pumpAccessibilityTestFrames(tester);
             await tester.ensureVisible(palette);
             await pumpAccessibilityTestFrames(tester);
           }
           await tester.ensureVisible(palette);
           await pumpAccessibilityTestFrames(tester);
-          await tester.tap(palette);
+          await tester.longPress(palette);
           await pumpAccessibilityTestFrames(tester);
         },
         reason: 'Palette menu at 3.0x on Size(320, 568)',

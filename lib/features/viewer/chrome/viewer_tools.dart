@@ -325,22 +325,23 @@ ViewerToolPresentation resolveViewerTool(
         onPressed: gated(commands.motion.toggleLooper),
         onLongPress: gated(commands.motion.openLooper),
       );
+    // A quick press on Edit and Color randomizes; a long press opens the sheet.
     case ViewerTool.controls:
       return ViewerToolPresentation(
         icon: Icons.tune_rounded,
-        semanticLabel: l10n.viewerEditTools,
+        semanticLabel: l10n.hudRandomizeTooltip,
         caption: l10n.viewerEditCompact,
-        onPressed: gated(context.onShowMore),
-        onLongPress: gated(commands.presentation.openControls),
+        onPressed: gated(commands.presentation.randomizeParams),
+        onLongPress: gated(context.onShowMore),
       );
     case ViewerTool.palette:
       return ViewerToolPresentation(
         icon: Icons.palette_outlined,
-        semanticLabel: l10n.viewerChooseColors,
+        semanticLabel: l10n.tooltipRandomizePaletteWithSettings,
         caption: l10n.viewerColorCompact,
-        onPressed: gated(commands.presentation.openPalettePicker),
-        onLongPress: gated(commands.presentation.randomizePalette ??
+        onPressed: gated(commands.presentation.randomizePalette ??
             commands.presentation.cycleColorScheme),
+        onLongPress: gated(commands.presentation.openPalettePicker),
       );
     case ViewerTool.randomFractal:
       return ViewerToolPresentation(
