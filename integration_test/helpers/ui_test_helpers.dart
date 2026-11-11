@@ -40,9 +40,20 @@ Future<void> openViewerTools(WidgetTester tester) async {
   await tester.ensureVisible(more);
   await pumpForUiTransition(tester);
   expect(more.hitTestable(), findsOneWidget);
-  await tester.tap(more);
+  // A quick press randomizes; a long press opens the Edit sheet.
+  await tester.longPress(more);
   await pumpForUiTransition(tester);
   expect(find.byKey(const ValueKey('viewerRandomOptionsAction')), findsOneWidget);
+}
+
+/// Open the parameter HUD: hold Edit, then choose Controls in the Edit sheet.
+Future<void> openViewerControlsHud(WidgetTester tester) async {
+  await openViewerTools(tester);
+  final controls = find.byKey(const ValueKey('viewerEditParametersAction'));
+  await tester.ensureVisible(controls);
+  await pumpForUiTransition(tester);
+  await tester.tap(controls);
+  await pumpForUiTransition(tester);
 }
 
 /// Open the primary Save & share sheet (export, link, image, wallpaper).

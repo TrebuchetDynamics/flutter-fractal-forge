@@ -92,15 +92,16 @@ void main() {
       await tester.pumpAndSettle();
       final palette = find.byKey(const ValueKey('viewerPaletteButton'));
       if (palette.evaluate().isEmpty) {
-        await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
+        await tester
+            .longPress(find.byKey(const ValueKey('viewerControlsButton')));
         await tester.pumpAndSettle();
       }
       // A wrapped rail builds offscreen cells too; existence is not visibility.
       await tester.ensureVisible(palette);
       await tester.pumpAndSettle();
       expect(palette.hitTestable(), findsOneWidget);
-      // Color opens the picker directly.
-      await tester.tap(palette);
+      // A long press on Color opens the picker.
+      await tester.longPress(palette);
       await tester.pumpAndSettle();
     }
 

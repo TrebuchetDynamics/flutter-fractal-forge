@@ -61,7 +61,7 @@ Future<void> openReportSheet(
 
   final more = find.byKey(const ValueKey('viewerControlsButton'));
   await tester.ensureVisible(more);
-  await tester.tap(more);
+  await tester.longPress(more);
   await tester.pumpAndSettle();
   final report = find.byKey(const ValueKey('viewerReportFractalFab'));
   await tester.ensureVisible(report);

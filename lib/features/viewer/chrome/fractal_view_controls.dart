@@ -89,8 +89,11 @@ class FractalViewControls extends StatelessWidget {
                   shadowColor: Colors.black.withValues(alpha: 0.3),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
+                    // The themes define no quiet outline role, so the fallback
+                    // is pure white. The divider colour is the defined hairline.
                     side: BorderSide(
-                        color: Theme.of(context).colorScheme.outlineVariant),
+                        color: Theme.of(context).dividerTheme.color ??
+                            Theme.of(context).colorScheme.outlineVariant),
                   ),
                   clipBehavior: Clip.antiAlias,
                   child: LayoutBuilder(builder: (context, constraints) {
@@ -127,7 +130,8 @@ class FractalViewControls extends StatelessWidget {
                         key: const ValueKey('viewerToolbarScroll'),
                         scrollDirection: Axis.horizontal,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 2, vertical: 4),
                           child: FocusTraversalGroup(
                             policy: OrderedTraversalPolicy(),
                             child: IntrinsicHeight(
@@ -335,42 +339,57 @@ class FractalViewControls extends StatelessWidget {
                 () => Navigator.of(sheetContext).pop(callback);
             var rowOrder = 0.0;
             Widget section(String label) => Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
+                  padding: const EdgeInsets.fromLTRB(12, 20, 12, 6),
                   child: Semantics(
                       header: true,
                       child: Text(label,
-                          style: Theme.of(context).textTheme.titleSmall)),
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelMedium
+                              ?.copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant,
+                                  letterSpacing: 0.3))),
                 );
             Widget rowFor(ViewerTool tool) {
               final presentation = resolveViewerTool(tool, toolContext);
               final order = rowOrder++;
               final secondary = presentation.onLongPress;
               return Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                padding: const EdgeInsets.only(bottom: 2),
+                child: Flex(
+                  direction: short ? Axis.vertical : Axis.horizontal,
+                  crossAxisAlignment: short
+                      ? CrossAxisAlignment.stretch
+                      : CrossAxisAlignment.center,
                   children: [
-                    _ViewerTool(
-                      toolKey: ValueKey(ViewerToolLayout.keyOf(tool)),
-                      icon: presentation.icon,
-                      label: presentation.caption ?? presentation.semanticLabel,
-                      semanticLabel: presentation.semanticLabel,
-                      semanticHint: presentation.hint,
-                      row: true,
-                      dense: short,
-                      sortOrder: order,
-                      selected: presentation.selected,
-                      onPressed: !presentation.enabled ||
-                              presentation.onPressed == null
-                          ? null
-                          : close(presentation.onPressed!),
-                      onLongPress: !presentation.enabled || secondary == null
-                          ? null
-                          : close(secondary),
+                    Flexible(
+                      flex: short ? 0 : 1,
+                      child: _ViewerTool(
+                        toolKey: ValueKey(ViewerToolLayout.keyOf(tool)),
+                        icon: presentation.icon,
+                        label:
+                            presentation.caption ?? presentation.semanticLabel,
+                        semanticLabel: presentation.semanticLabel,
+                        semanticHint: presentation.hint,
+                        row: true,
+                        dense: short,
+                        sortOrder: order,
+                        selected: presentation.selected,
+                        onPressed: !presentation.enabled ||
+                                presentation.onPressed == null
+                            ? null
+                            : close(presentation.onPressed!),
+                        onLongPress: !presentation.enabled || secondary == null
+                            ? null
+                            : close(secondary),
+                      ),
                     ),
                     if (secondary != null && presentation.settingsLabel != null)
                       Padding(
-                        padding: const EdgeInsetsDirectional.only(start: 16),
+                        padding:
+                            EdgeInsetsDirectional.only(start: short ? 16 : 4),
                         child: _ViewerTool(
                           toolKey: ValueKey(
                               '${ViewerToolLayout.keyOf(tool)}Options'),
@@ -380,6 +399,7 @@ class FractalViewControls extends StatelessWidget {
                               presentation.settingsLabel!,
                           semanticLabel: presentation.settingsLabel,
                           row: true,
+                          showLabel: short,
                           dense: short,
                           onPressed: isExporting ? null : close(secondary),
                         ),
@@ -402,7 +422,14 @@ class FractalViewControls extends StatelessWidget {
                   for (final tool in tools) ...[
                     if (tool == ViewerTool.autoExplore &&
                         (status?.showsYieldBadge ?? false))
-                      Text(l10n.autoExplorePausedUserCorrection),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(12, 0, 12, 4),
+                        child: Text(l10n.autoExplorePausedUserCorrection,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(color: AppColors.textSecondary)),
+                      ),
                     rowFor(tool),
                   ],
                 ],
@@ -418,6 +445,8 @@ class FractalViewControls extends StatelessWidget {
                     toolKey: const ValueKey('viewerEditParametersAction'),
                     icon: Icons.tune_rounded,
                     label: l10n.controlsTitle,
+                    primary: true,
+                    trailingIcon: Icons.chevron_right_rounded,
                     row: true,
                     dense: short,
                     sortOrder: -1,
@@ -449,14 +478,37 @@ class FractalViewControls extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          AppBottomSheetHeader(
-                            icon: Icons.tune_rounded,
-                            title: l10n.viewerEditTools,
-                            onClose: () => Navigator.of(sheetContext).pop(),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 4, 12, 12),
+                            child: Row(children: [
+                              Expanded(
+                                child: Semantics(
+                                  header: true,
+                                  child: Text(l10n.viewerEditTools,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge),
+                                ),
+                              ),
+                              // The shared tool button follows the large
+                              // touch target setting, as other sheets do.
+                              AppToolButton(
+                                tooltip: MaterialLocalizations.of(context)
+                                    .closeButtonTooltip,
+                                onPressed: () =>
+                                    Navigator.of(sheetContext).pop(),
+                                icon: Icons.close_rounded,
+                              ),
+                            ]),
                           ),
                           const Divider(height: 1),
                           Padding(
-                              padding: const EdgeInsets.all(8), child: content),
+                              // Large text keeps the narrow gutter: a
+                              // wider one wraps captions past a short
+                              // viewport.
+                              padding: EdgeInsets.fromLTRB(
+                                  short ? 8 : 16, 12, short ? 8 : 16, 16),
+                              child: content),
                         ],
                       ),
                     ),
@@ -516,92 +568,99 @@ class FractalViewControls extends StatelessWidget {
     var mirrorEnabled = kaleidoscopeMirror;
     _overlayFlow(context).present<void>(
       builder: (sheetContext) => StatefulBuilder(
-        builder: (context, setSheetState) => AppOptionsSheet(
-          icon: Icons.filter_vintage_rounded,
-          title: l10n.kaleidoscopeOptionsTitle,
-          subtitle: l10n.kaleidoscopeOptionsSubtitle,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                l10n.kaleidoscopeWedgeCount,
-                style: AppTypography.labelLarge.copyWith(
-                  color: AppColors.textSecondary,
+        builder: (context, setSheetState) {
+          final colors = Theme.of(context).colorScheme;
+          return AppOptionsSheet(
+            icon: Icons.filter_vintage_rounded,
+            title: l10n.kaleidoscopeOptionsTitle,
+            subtitle: l10n.kaleidoscopeOptionsSubtitle,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  l10n.kaleidoscopeWedgeCount,
+                  style: AppTypography.labelLarge.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
                 ),
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              LayoutBuilder(
-                builder: (context, constraints) {
-                  final columns = constraints.maxWidth >= 560 ? 7 : 4;
-                  // gridDelegate form instead of GridView.count:
-                  // mainAxisExtent is not a GridView.count parameter on all
-                  // supported SDK versions.
-                  return GridView(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: columns,
-                      crossAxisSpacing: AppSpacing.sm,
-                      mainAxisSpacing: AppSpacing.sm,
-                      mainAxisExtent: AccessibleSizing.touchTargetSize(
-                          largeTargets: context
-                                  .watch<AccessibilityService?>()
-                                  ?.largeTargetsEnabled ??
-                              false),
-                    ),
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      // Every value FractalController.setKaleidoscopeSectors can
-                      // hold: it clamps to 4..16 and snaps odd inputs down to even,
-                      // so a gap here means an unselectable, unreachable-by-chip
-                      // state rather than a missing shortcut.
-                      for (final sectors in const [4, 6, 8, 10, 12, 14, 16])
-                        ChoiceChip(
-                          label: Text('$sectors'),
-                          selected: selectedSectors == sectors,
-                          showCheckmark: false,
-                          selectedColor:
-                              AppColors.primary.withValues(alpha: 0.28),
-                          backgroundColor:
-                              AppColors.surfaceVariant.withValues(alpha: 0.9),
-                          side: BorderSide(
-                            color: selectedSectors == sectors
-                                ? AppColors.primaryLight
-                                : AppColors.glassBorder,
+                const SizedBox(height: AppSpacing.sm),
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    final columns = constraints.maxWidth >= 560 ? 7 : 4;
+                    // gridDelegate form instead of GridView.count:
+                    // mainAxisExtent is not a GridView.count parameter on all
+                    // supported SDK versions.
+                    return GridView(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: columns,
+                        crossAxisSpacing: AppSpacing.sm,
+                        mainAxisSpacing: AppSpacing.sm,
+                        mainAxisExtent: AccessibleSizing.touchTargetSize(
+                            largeTargets: context
+                                    .watch<AccessibilityService?>()
+                                    ?.largeTargetsEnabled ??
+                                false),
+                      ),
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        // Every value FractalController.setKaleidoscopeSectors can
+                        // hold: it clamps to 4..16 and snaps odd inputs down to even,
+                        // so a gap here means an unselectable, unreachable-by-chip
+                        // state rather than a missing shortcut.
+                        for (final sectors in const [4, 6, 8, 10, 12, 14, 16])
+                          ChoiceChip(
+                            // Fill the grid cell so every chip has one width.
+                            label: SizedBox(
+                                width: double.infinity,
+                                child: Text('$sectors',
+                                    textAlign: TextAlign.center)),
+                            selected: selectedSectors == sectors,
+                            showCheckmark: false,
+                            selectedColor:
+                                colors.primary.withValues(alpha: 0.28),
+                            backgroundColor:
+                                AppColors.surfaceVariant.withValues(alpha: 0.9),
+                            side: BorderSide(
+                              color: selectedSectors == sectors
+                                  ? colors.primary
+                                  : AppColors.glassBorder,
+                            ),
+                            labelStyle: AppTypography.labelMedium.copyWith(
+                              color: selectedSectors == sectors
+                                  ? colors.onSurface
+                                  : AppColors.textSecondary,
+                              fontWeight: selectedSectors == sectors
+                                  ? FontWeight.w700
+                                  : FontWeight.w500,
+                            ),
+                            onSelected: (_) {
+                              selectedSectors = sectors;
+                              commands.presentation
+                                  .setKaleidoscopeSectors(sectors);
+                              setSheetState(() {});
+                            },
                           ),
-                          labelStyle: AppTypography.labelMedium.copyWith(
-                            color: selectedSectors == sectors
-                                ? AppColors.textPrimary
-                                : AppColors.textSecondary,
-                            fontWeight: selectedSectors == sectors
-                                ? FontWeight.w700
-                                : FontWeight.w500,
-                          ),
-                          onSelected: (_) {
-                            selectedSectors = sectors;
-                            commands.presentation
-                                .setKaleidoscopeSectors(sectors);
-                            setSheetState(() {});
-                          },
-                        ),
-                    ],
-                  );
-                },
-              ),
-              const SizedBox(height: AppSpacing.md),
-              SwitchListTile.adaptive(
-                secondary: const Icon(Icons.flip_rounded),
-                title: Text(l10n.kaleidoscopeMirrorWedges),
-                subtitle: Text(l10n.kaleidoscopeMirrorWedgesDescription),
-                value: mirrorEnabled,
-                onChanged: (value) {
-                  mirrorEnabled = value;
-                  commands.presentation.setKaleidoscopeMirror(value);
-                  setSheetState(() {});
-                },
-              ),
-            ],
-          ),
-        ),
+                      ],
+                    );
+                  },
+                ),
+                const SizedBox(height: AppSpacing.md),
+                SwitchListTile.adaptive(
+                  secondary: const Icon(Icons.flip_rounded),
+                  title: Text(l10n.kaleidoscopeMirrorWedges),
+                  subtitle: Text(l10n.kaleidoscopeMirrorWedgesDescription),
+                  value: mirrorEnabled,
+                  onChanged: (value) {
+                    mirrorEnabled = value;
+                    commands.presentation.setKaleidoscopeMirror(value);
+                    setSheetState(() {});
+                  },
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
@@ -662,7 +721,7 @@ class _ViewerToolState extends State<_ViewerTool> {
     final disabled = widget.onPressed == null && widget.onLongPress == null;
     final foreground = widget.primary
         ? colors.onPrimary
-        : !widget.row && widget.selected == true
+        : widget.selected == true
             ? colors.onSecondaryContainer
             : colors.onSurface;
     final caption = Text(widget.label,
@@ -671,12 +730,11 @@ class _ViewerToolState extends State<_ViewerTool> {
             .textTheme
             .labelMedium!
             .copyWith(color: foreground, height: widget.dense ? 1.1 : null));
-    // A row keeps the full width tappable but paints the circle on the leading
-    // edge; drawing the icon and the circle again in the label area duplicated
-    // both and left a stray circle across the text.
+    // Row icons belong to the label, not a second floating-button surface.
+    // Keep the shared input/semantics layer without painting its circle.
     final visual = Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: widget.row && !widget.dense ? 8 : 0,
+          horizontal: widget.row && !widget.dense ? 12 : 0,
           vertical: widget.dense ? 0 : 8),
       child: !widget.showLabel
           ? Icon(widget.icon, size: 22, color: foreground)
@@ -684,13 +742,17 @@ class _ViewerToolState extends State<_ViewerTool> {
               ? Row(children: [
                   // A dense row is text-only so a 3x label keeps the space it
                   // needs inside a short viewport.
-                  if (!widget.dense) SizedBox(width: target + 12),
+                  if (!widget.dense) ...[
+                    Icon(widget.icon, size: 22, color: foreground),
+                    const SizedBox(width: 12),
+                  ],
                   if (widget.dense && widget.selected != null) ...[
                     Icon(
                         widget.selected!
                             ? Icons.check_box_outlined
                             : Icons.check_box_outline_blank,
-                        size: 20),
+                        size: 20,
+                        color: foreground),
                     const SizedBox(width: 4),
                   ],
                   Expanded(
@@ -699,11 +761,23 @@ class _ViewerToolState extends State<_ViewerTool> {
                         : Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
-                            children: [caption, Text(widget.description!)],
+                            children: [
+                              caption,
+                              const SizedBox(height: 2),
+                              Text(widget.description!,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                          color: widget.primary ||
+                                                  widget.selected == true
+                                              ? foreground
+                                              : AppColors.textSecondary)),
+                            ],
                           ),
                   ),
                   if (widget.trailingIcon != null)
-                    Icon(widget.trailingIcon, size: 20),
+                    Icon(widget.trailingIcon, size: 20, color: foreground),
                 ])
               : Column(mainAxisSize: MainAxisSize.min, children: [
                   Icon(widget.icon, size: 22, color: foreground),
@@ -732,9 +806,7 @@ class _ViewerToolState extends State<_ViewerTool> {
             children: [
               Positioned.fill(
                 child: Opacity(
-                  // Dense rows keep the full-width hit area and semantics but paint
-                  // no circular surface; the label alone carries the row.
-                  opacity: !widget.row || widget.dense ? 0 : 1,
+                  opacity: 0,
                   alwaysIncludeSemantics: true,
                   child: FloatingActionButtonWidget(
                     key: widget.toolKey,
@@ -757,41 +829,42 @@ class _ViewerToolState extends State<_ViewerTool> {
                 margin: null,
                 constraints:
                     BoxConstraints(minWidth: target, minHeight: target),
-                decoration: widget.row
+                // Rows and rail tools share one state layer. A row paints its
+                // focus ring in the foreground, so focus does not shift or
+                // shrink the label.
+                foregroundDecoration: widget.row && _focused
                     ? BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        color: widget.selected == true
-                            ? colors.onSurface.withValues(alpha: 0.10)
-                            : null,
-                        border: _focused
-                            ? Border.all(
-                                color: HighContrastColors.focusIndicator,
-                                width: AccessibleSizing.focusIndicatorWidth)
-                            : null,
-                      )
-                    : BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: widget.primary
-                            ? colors.primary.withValues(
-                                alpha: disabled
-                                    ? 0.38
-                                    : _pressed
-                                        ? 0.8
-                                        : _hovered
-                                            ? 0.9
-                                            : 1)
-                            : widget.selected == true
-                                ? colors.secondaryContainer
-                                : !disabled && (_hovered || _pressed)
-                                    ? colors.onSurface.withValues(
-                                        alpha: _pressed ? 0.12 : 0.08)
-                                    : Colors.transparent,
                         border: Border.all(
-                            color: _focused
-                                ? HighContrastColors.focusIndicator
-                                : Colors.transparent,
+                            color: HighContrastColors.focusIndicator,
                             width: AccessibleSizing.focusIndicatorWidth),
-                      ),
+                      )
+                    : null,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: widget.primary
+                      ? colors.primary.withValues(
+                          alpha: disabled
+                              ? 0.38
+                              : _pressed
+                                  ? 0.8
+                                  : _hovered
+                                      ? 0.9
+                                      : 1)
+                      : widget.selected == true
+                          ? colors.secondaryContainer
+                          : !disabled && (_hovered || _pressed)
+                              ? colors.onSurface
+                                  .withValues(alpha: _pressed ? 0.12 : 0.08)
+                              : Colors.transparent,
+                  border: widget.row
+                      ? null
+                      : Border.all(
+                          color: _focused
+                              ? HighContrastColors.focusIndicator
+                              : Colors.transparent,
+                          width: AccessibleSizing.focusIndicatorWidth),
+                ),
                 child: Opacity(opacity: disabled ? 0.38 : 1, child: visual),
               ))),
             ],

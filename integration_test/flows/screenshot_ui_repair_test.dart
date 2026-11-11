@@ -321,7 +321,7 @@ void main() {
           controller.selectModule(registry.byId('f1046_svensson_wave'),
               animate: false);
           await pumpForUiTransition(tester);
-          await tapAction('viewerPaletteButton');
+          await longPressAction('viewerPaletteButton');
           final initialPalette =
               (controller.params['colorScheme'] as num).round();
           expectActualPalettePreview(
@@ -514,7 +514,7 @@ void main() {
           expect(controller.params['iterations'],
               isNot(initialParams['iterations']));
           await pumpForUiTransition(tester);
-          await longPressAction('viewerControlsButton');
+          await openViewerControlsHud(tester);
           expect(find.byType(FractalControlsHud), findsOneWidget);
           await capture('$tag-controls');
           final details = find.text(l10n.viewerFormulaDetails);

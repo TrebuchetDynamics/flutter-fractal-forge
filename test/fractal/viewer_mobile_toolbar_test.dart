@@ -105,11 +105,14 @@ void main() {
   testWidgets('toolbar has one row and no tip at normal phone size',
       (tester) async {
     await pumpToolbar(tester);
-    final first = tester.getRect(find.byKey(const ValueKey('viewerPlayButton')));
-    final last = tester.getRect(find.byKey(const ValueKey('viewerSaveShareButton')));
+    final first =
+        tester.getRect(find.byKey(const ValueKey('viewerPlayButton')));
+    final last =
+        tester.getRect(find.byKey(const ValueKey('viewerSaveShareButton')));
     expect(last.top, first.top, reason: 'All tools must share one row');
     expect(tester.getSize(find.byKey(const ValueKey('viewerFabColumn'))).height,
-        lessThanOrEqualTo(80), reason: 'Do not cover the scene with a tip or extra rows');
+        lessThanOrEqualTo(80),
+        reason: 'Do not cover the scene with a tip or extra rows');
     expect(find.byKey(const ValueKey('viewerOverflowMenu')), findsNothing);
   });
 
@@ -166,9 +169,14 @@ void main() {
     expect(find.byKey(const ValueKey('viewerOverflowMenu')), findsNothing);
     expect(find.byKey(const ValueKey('viewerDismissRandomHint')), findsNothing);
     expect(find.byKey(const ValueKey('viewerFourierFab')), findsNothing);
+    // A quick press randomizes; a long press opens the Edit sheet.
     await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
     await tester.pumpAndSettle();
-    expect(randomized, 0);
+    expect(randomized, 1);
+    expect(find.byType(BottomSheet), findsNothing);
+    await tester.longPress(find.byKey(const ValueKey('viewerControlsButton')));
+    await tester.pumpAndSettle();
+    expect(randomized, 1);
     expect(find.byType(BottomSheet), findsOneWidget);
     await tester.tap(find.byKey(const ValueKey('viewerEditParametersAction')));
     await tester.pumpAndSettle();
@@ -280,7 +288,8 @@ void main() {
     for (final entry in const {
       'viewerPreviousFractalButton': 'previous',
       'viewerPlayButton': 'play',
-      'viewerPaletteButton': 'palette-sheet',
+      'viewerControlsButton': 'randomize',
+      'viewerPaletteButton': 'palette-random',
       'viewerRandomFractalFab': 'random',
     }.entries) {
       await tester.ensureVisible(find.byKey(ValueKey(entry.key)));
@@ -289,15 +298,13 @@ void main() {
       expect(calls, [entry.value], reason: entry.key);
       calls.clear();
     }
-    await tester.longPress(find.byKey(const ValueKey('viewerControlsButton')));
-    await tester.pumpAndSettle();
-    expect(calls, ['controls-sheet']);
-    calls.clear();
     await tester.longPress(find.byKey(const ValueKey('viewerPaletteButton')));
     await tester.pumpAndSettle();
-    expect(calls, ['palette-random']);
-    await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
+    expect(calls, ['palette-sheet']);
+    calls.clear();
+    await tester.longPress(find.byKey(const ValueKey('viewerControlsButton')));
     await tester.pumpAndSettle();
+    expect(calls, isEmpty);
     expect(find.text('Edit fractal'), findsOneWidget);
   });
 
@@ -305,7 +312,7 @@ void main() {
       (tester) async {
     var toggled = 0;
     await pumpToolbar(tester, onFourier: () => toggled++);
-    await tester.tap(find.byKey(const ValueKey('viewerControlsButton')));
+    await tester.longPress(find.byKey(const ValueKey('viewerControlsButton')));
     await tester.pumpAndSettle();
     expect(find.text('Fourier view off'), findsOneWidget);
     expect(find.text('Kaleidoscope off'), findsOneWidget);

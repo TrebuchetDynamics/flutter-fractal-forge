@@ -33,7 +33,9 @@ Widget _viewerBuildViewerTitleChip(
       decoration: BoxDecoration(
         color: colors.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: colors.outlineVariant),
+        border: Border.all(
+            color:
+                Theme.of(context).dividerTheme.color ?? colors.outlineVariant),
       ),
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: maxWidth, minHeight: 32),
@@ -117,7 +119,9 @@ Widget _viewerBuildBackButton(BuildContext context, {VoidCallback? onPressed}) {
         decoration: BoxDecoration(
           color: colors.surface,
           shape: BoxShape.circle,
-          border: Border.all(color: colors.outlineVariant),
+          border: Border.all(
+              color: Theme.of(context).dividerTheme.color ??
+                  colors.outlineVariant),
         ),
         child: Icon(
           Icons.arrow_back_rounded,

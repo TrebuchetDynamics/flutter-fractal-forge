@@ -124,7 +124,7 @@ void main() {
           final controls = find.byKey(const ValueKey('viewerControlsButton'));
           await tester.ensureVisible(controls);
           await pumpForUiTransition(tester);
-          await tester.longPress(controls);
+          await openViewerControlsHud(tester);
           await pumpForUiTransition(tester);
           expect(find.byKey(const ValueKey('controlsHudSurface')), findsOneWidget);
           expect(find.text(l10n.controlsTitle), findsOneWidget);

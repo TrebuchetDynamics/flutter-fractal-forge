@@ -107,12 +107,12 @@ void main() {
 
         await takeScreenshotIfAvailable('02_viewer');
 
-        // Holding Edit opens the parameter HUD, not the editing tools sheet.
+        // Holding Edit opens the Edit sheet; its Controls row opens the HUD.
         final controls = find.byKey(const ValueKey('viewerControlsButton'));
         expect(controls, findsOneWidget);
         await tester.ensureVisible(controls);
         await pumpForUiTransition(tester);
-        await tester.longPress(controls);
+        await openViewerControlsHud(tester);
         await pumpForUiTransition(tester);
         expect(find.byKey(const ValueKey('controlsHudSurface')), findsOneWidget);
         expect(find.text('Controls'), findsOneWidget);

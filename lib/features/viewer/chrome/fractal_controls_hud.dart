@@ -35,10 +35,9 @@ class ControlsHudMetrics {
     final media = MediaQuery.of(context);
     final theme = Theme.of(context);
     final touchTarget = AccessibleSizing.touchTargetSize(
-        largeTargets: context
-                .watch<AccessibilityService?>()
-                ?.largeTargetsEnabled ==
-            true);
+        largeTargets:
+            context.watch<AccessibilityService?>()?.largeTargetsEnabled ==
+                true);
     return ControlsHudMetrics(
       // The header row paints one touch target plus 8 px of padding; the extra
       // 8 keeps the short-viewport threshold conservative, as the pre-metric
@@ -46,8 +45,8 @@ class ControlsHudMetrics {
       // 56 logical for this 64.
       headerHeight: math.max(
               touchTarget,
-              media.textScaler.scale(
-                      theme.textTheme.titleSmall?.fontSize ?? 14) *
+              media.textScaler
+                      .scale(theme.textTheme.titleSmall?.fontSize ?? 14) *
                   (theme.textTheme.titleSmall?.height ?? 1)) +
           16,
       bottomInset: math.max(
@@ -226,7 +225,8 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
                         controller.numberWallPending
                             ? l10n.numberWallComputing
                             : l10n.numberWallRetainedInvalid,
-                        style: const TextStyle(color: Colors.white))),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface))),
               FractalMathSummary(
                 module: controller.module,
                 params: controller.params,
@@ -304,9 +304,7 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
       final scrollHeader = metrics.headerScrolls(constraints.maxHeight);
       final children = <Widget>[
         header,
-        if (!_isCollapsed)
-          Divider(
-              height: 1, color: Theme.of(context).colorScheme.outlineVariant),
+        if (!_isCollapsed) const Divider(height: 1),
         if (!_isCollapsed)
           if (scrollHeader)
             content
@@ -325,7 +323,8 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
           filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
           child: Material(
             key: const ValueKey('controlsHudSurface'),
-            color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.86),
+            color:
+                Theme.of(context).colorScheme.surface.withValues(alpha: 0.86),
             elevation: 12,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
             clipBehavior: Clip.antiAlias,
@@ -402,7 +401,7 @@ class _FractalControlsHudState extends State<FractalControlsHud> {
             children: [
               Text(
                 param.label(l10n),
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.textSecondary,
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
@@ -470,6 +469,7 @@ class _CompactHudSliderRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final colors = Theme.of(context).colorScheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -481,7 +481,7 @@ class _CompactHudSliderRow extends StatelessWidget {
               Expanded(
                 child: Text(
                   label,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.textSecondary,
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
@@ -493,8 +493,8 @@ class _CompactHudSliderRow extends StatelessWidget {
                 child: Text(
                   valueLabel,
                   textAlign: TextAlign.end,
-                  style: const TextStyle(
-                    color: Colors.cyanAccent,
+                  style: TextStyle(
+                    color: colors.secondary,
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
                     fontFeatures: [FontFeature.tabularFigures()],
@@ -520,13 +520,13 @@ class _CompactHudSliderRow extends StatelessWidget {
                 trackHeight: 3,
                 thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 7),
                 overlayShape: const RoundSliderOverlayShape(overlayRadius: 12),
-                activeTrackColor: Colors.cyanAccent,
-                inactiveTrackColor: Colors.white.withValues(alpha: 0.15),
-                thumbColor: Colors.white,
-                valueIndicatorColor: Colors.cyanAccent,
-                valueIndicatorTextStyle: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 10,
+                activeTrackColor: colors.secondary,
+                inactiveTrackColor: colors.onSurface.withValues(alpha: 0.15),
+                thumbColor: colors.onSurface,
+                valueIndicatorColor: colors.secondary,
+                valueIndicatorTextStyle: TextStyle(
+                  color: colors.onSecondary,
+                  fontSize: 12,
                 ),
               ),
               // The compact theme (3px track, radius-12 overlay) sizes the
@@ -676,6 +676,7 @@ class _HudChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     return ChoiceChip(
       visualDensity:
           context.watch<AccessibilityService?>()?.largeTargetsEnabled == true
@@ -686,15 +687,15 @@ class _HudChip extends StatelessWidget {
       onSelected: (_) => onTap(),
       materialTapTargetSize: MaterialTapTargetSize.padded,
       showCheckmark: true,
-      checkmarkColor: Colors.cyanAccent,
-      backgroundColor: Colors.white.withValues(alpha: 0.08),
-      selectedColor: Colors.cyanAccent.withValues(alpha: 0.25),
+      checkmarkColor: colors.secondary,
+      backgroundColor: colors.onSurface.withValues(alpha: 0.08),
+      selectedColor: colors.secondary.withValues(alpha: 0.25),
       side: BorderSide(
           color: selected
-              ? Colors.cyanAccent.withValues(alpha: 0.6)
-              : Colors.white.withValues(alpha: 0.15)),
+              ? colors.secondary.withValues(alpha: 0.6)
+              : colors.onSurface.withValues(alpha: 0.15)),
       labelStyle: TextStyle(
-        color: selected ? Colors.cyanAccent : Colors.white70,
+        color: selected ? colors.secondary : AppColors.textSecondary,
         fontSize: 12,
         fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
       ),
@@ -717,6 +718,7 @@ class _HudToggleRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final target = ControlsHudMetrics.of(context).touchTarget;
+    final colors = Theme.of(context).colorScheme;
     return Material(
       type: MaterialType.transparency,
       child: SwitchListTile(
@@ -724,14 +726,14 @@ class _HudToggleRow extends StatelessWidget {
         dense: true,
         minTileHeight: target,
         title: Text(label,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: colors.onSurface,
               fontSize: 14,
               fontWeight: FontWeight.w500,
             )),
         value: value,
-        activeThumbColor: Colors.cyanAccent,
-        activeTrackColor: Colors.cyanAccent.withValues(alpha: 0.28),
+        activeThumbColor: colors.secondary,
+        activeTrackColor: colors.secondary.withValues(alpha: 0.28),
         inactiveThumbColor: AppColors.textSecondary,
         inactiveTrackColor: AppColors.surfaceVariant,
         onChanged: (next) {

@@ -271,10 +271,10 @@ void main() {
       await tester.pump(const Duration(seconds: 3));
       expectViewerOpened(tester, 'mandelbrot');
 
-      // Holding Edit opens the parameter HUD.
+      // Holding Edit opens the Edit sheet; its Controls row opens the HUD.
       expect(find.byKey(const Key('viewerControlsButton')), findsOneWidget);
       await tester.ensureVisible(find.byKey(const ValueKey('viewerControlsButton')));
-      await tester.longPress(find.byKey(const ValueKey('viewerControlsButton')));
+      await openViewerControlsHud(tester);
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 800));
 

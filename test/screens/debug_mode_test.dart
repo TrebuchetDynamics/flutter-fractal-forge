@@ -18,7 +18,7 @@ void main() {
   Future<void> openTools(WidgetTester tester) async {
     final more = find.byKey(const ValueKey('viewerControlsButton'));
     await tester.ensureVisible(more);
-    await tester.tap(more);
+    await tester.longPress(more);
     await tester.pumpAndSettle();
   }
 
@@ -77,8 +77,8 @@ void main() {
       final report = find.byKey(const ValueKey('viewerReportFractalFab'));
       await openTools(tester);
       expect(report, findsNothing);
-      Navigator.of(
-              tester.element(find.byKey(const ValueKey('viewerControlsButton'))))
+      Navigator.of(tester
+              .element(find.byKey(const ValueKey('viewerControlsButton'))))
           .pop();
       await tester.pumpAndSettle();
       await settings.setDebugModeEnabled(true);
@@ -96,8 +96,8 @@ void main() {
       await tester.pumpAndSettle();
       await openTools(tester);
       expect(report, findsNothing);
-      Navigator.of(
-              tester.element(find.byKey(const ValueKey('viewerControlsButton'))))
+      Navigator.of(tester
+              .element(find.byKey(const ValueKey('viewerControlsButton'))))
           .pop();
       await tester.pumpAndSettle();
       debugDefaultTargetPlatformOverride = null;

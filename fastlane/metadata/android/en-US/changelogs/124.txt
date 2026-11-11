@@ -1,0 +1,3 @@
+Edit and Color now randomize on a quick press; a long press opens their sheets.
+Selected tools, option descriptions and focus rings are easier to read.
+The deep-zoom CPU switch is a full-size, keyboard-reachable button.
