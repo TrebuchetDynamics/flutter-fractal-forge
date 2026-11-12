@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-M2-PHYSICAL-STATE"
 title = "Own instantaneous raw physical-input transactions in the inert Rust Session"
 short = "Own raw physical transactions"
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Now"
 rank = 1000
@@ -16,6 +16,8 @@ scope = "Add a public typed raw physical-event reducer and atomic Session adapte
 acceptance = ["Given session_physical_events tests, raw down/move/up/cancel/wheel/key/focus events (not precomputed camera or ScaleDetails) reproduce all wheel checkpoints and drag/bounds/pinched/handoff/resumed/twisted checkpoints before timed advancement. Match source float values within 1e-8 and exact module/params/effects/key disposition/interaction order where applicable; test mandelbulb/quaternion geometry at pure seam without claiming Session coverage.", "Given those public transaction tests, identity/revision/sequence rejection, invalid mixed batches and overflow preserve camera/adaptive params and hidden pointers/anchors; retained snapshots stay detached. Source pointer-count handoff, first accepted delta, rotation lock/>.12 twist, shortest-side 2D versus height/axis-sign 3D, no-layout fallback, .08 rotated keyboard pan/1.2 zoom/R and nested/Gaussian key precedence remain unchanged.", "Given session_replay/param timeline and unchanged Dart oracle/gesture checks, all 68 outputs, camera-only interpolation retention and current bounds remain. The component note identifies exact pure/core coverage and excludes timed checkpoints, unsupported-module Session/app/native proof."]
 checks = ["cargo test --manifest-path rust/Cargo.toml -p fractal-core --test session_physical_events --test physical_view --test session_replay --test session_param_timeline --locked --offline", "scripts/ci/rust-check.sh", "flutter test --no-pub test/migration/physical_events_oracle_test.dart test/fractal/fractal_renderer_gesture_test.dart test/fractal/fractal_viewer_screen_widget_test.dart", "git diff --exit-code -- lib migration packages rust/crates/fractal-bridge rust/Cargo.lock pubspec.lock && git diff --check", "( AUTOWORK_CACHE=\"${AUTOWORK_CACHE:-$(git rev-parse --path-format=absolute --git-common-dir)/autowork-execution/cache}\" && export AUTOWORK_CACHE && export FLUTTER_ROOT=\"$AUTOWORK_CACHE/flutter-3.47.9\" && export PUB_CACHE=\"$AUTOWORK_CACHE/pub-cache\" && export CARGO_HOME=\"$AUTOWORK_CACHE/cargo-1.95.0\" && export RUSTUP_HOME=\"$AUTOWORK_CACHE/rustup-1.95.0\" && test -x \"$RUSTUP_HOME/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin/cargo\" && test -d \"$CARGO_HOME/registry\" && test -x \"$FLUTTER_ROOT/bin/flutter\" && test -d \"$PUB_CACHE\" && export PATH=\"$FLUTTER_ROOT/bin:$RUSTUP_HOME/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:/usr/bin:$PATH\" && scripts/ci/offline-gate.sh --python-bin /usr/bin/python3 --json )"]
 exclusions = ["No app/controller/renderer ownership switch, flag enablement, new module admission, baseline/original-oracle refresh, dependency/lock changes, new live/publication/security authority or full-M2/browser/hardware/performance qualification."]
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/RUST-M2-PHYSICAL-STATE.toml"
 +++
 
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration; docs/tasks/RUST-PLAN-09.md#raw-physical-transactions

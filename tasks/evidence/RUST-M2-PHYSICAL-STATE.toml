@@ -1,0 +1,25 @@
+schema = 1
+task = "RUST-M2-PHYSICAL-STATE"
+candidate = "1040581abbfffcb9be302983b84669546ddfc2ec"
+integration = "c6a0f8cc43dd8c94bdf6956daa5682273d8087d1"
+tree = "6af03f8ff70257ffeeb950bd4c758063503e72c7"
+contract_hash = "1d75db446452bf58144c61ed51927f6a105b3892ca7f476736422dcff09ecf68"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-PHYSICAL-STATE"]
+result = "pass"
+review = "passed"
+model_review = "passed"
+
+[[acceptance]]
+item = "Given session_physical_events tests, raw down/move/up/cancel/wheel/key/focus events (not precomputed camera or ScaleDetails) reproduce all wheel checkpoints and drag/bounds/pinched/handoff/resumed/twisted checkpoints before timed advancement. Match source float values within 1e-8 and exact module/params/effects/key disposition/interaction order where applicable; test mandelbulb/quaternion geometry at pure seam without claiming Session coverage."
+result = "met"
+evidence = "Public session_physical_events tests pass: 191 pre-timed outputs across 33 scenarios from unchanged physical-events.json, tolerance 1e-8; exact supported module/parameter/effect/disposition/callback assertions. Unsupported mandelbulb/quaternion and Gaussian routing tested only at pure seam."
+
+[[acceptance]]
+item = "Given those public transaction tests, identity/revision/sequence rejection, invalid mixed batches and overflow preserve camera/adaptive params and hidden pointers/anchors; retained snapshots stay detached. Source pointer-count handoff, first accepted delta, rotation lock/>.12 twist, shortest-side 2D versus height/axis-sign 3D, no-layout fallback, .08 rotated keyboard pan/1.2 zoom/R and nested/Gaussian key precedence remain unchanged."
+result = "met"
+evidence = "Public rejection/rollback and absent-layout cases passed; existing Session exhaustion unit case passes in rust-check.sh and asserts hidden state and snapshot equality at overflow. Oracle checks handoff/first delta, twist/lock, dimensional geometry, keyboard reset/pan/zoom, nested and Gaussian routing. Mixed candidate mutations are discarded before publication."
+
+[[acceptance]]
+item = "Given session_replay/param timeline and unchanged Dart oracle/gesture checks, all 68 outputs, camera-only interpolation retention and current bounds remain. The component note identifies exact pure/core coverage and excludes timed checkpoints, unsupported-module Session/app/native proof."
+result = "met"
+evidence = "All 68 replay outputs and parameter timeline tests passed; 241 unchanged Dart oracle/gesture/viewer tests passed. docs/tasks/RUST-M2-PHYSICAL-STATE.md documents supported core versus pure-only coverage and explicitly excludes timed, app/native and unsupported-module Session proof."
