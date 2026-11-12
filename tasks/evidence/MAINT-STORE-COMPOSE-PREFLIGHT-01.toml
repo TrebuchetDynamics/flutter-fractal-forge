@@ -1,0 +1,25 @@
+schema = 1
+task = "MAINT-STORE-COMPOSE-PREFLIGHT-01"
+candidate = "7393341710f30dc9cd37939048e80f8f47927ccb"
+integration = "8929b61fec9d77a34bb4752ed448334c66803067"
+tree = "f55d1e1d51688a702d294ed94159b3e7b48522ab"
+contract_hash = "ba6ccdccb3c590ad0660828c8f96022604f4297efe75aa992ceb856d25bd1e9d"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAINT-STORE-COMPOSE-PREFLIGHT-01"]
+result = "pass"
+review = "passed"
+model_review = "passed"
+
+[[acceptance]]
+item = "Add failing-before/passing-after actual-CLI regressions in private temporary trees with explicit --raw, --out and --manifest. A missing, undecodable or wrong-device-class capture late in either phone or tablet selection fails nonzero with a useful path-specific diagnostic before any delivered image or manifest changes or new output directories/files are created. Include the reproduced missing-second-phone case and a late tablet failure to prove all-profile preflight, not just per-slide or per-profile checking. Snapshot sentinel output bytes and the complete temporary tree, not merely the exit status. Keep direct compose_campaign valid usage covered."
+result = "met"
+evidence = "Actual-CLI test_cli_preflights_all_inputs_before_any_writes covers reproduced missing second phone plus late missing/undecodable/wrong-class input in both profiles, each with fresh and sentinel prior outputs. Complete tree snapshots compare mode, symlink targets and regular-file bytes; diagnostics name input paths. Existing direct compose_campaign valid assertions retained and extended with refusal checks. Baseline failures retained in failing-before.log; focused and combined final checks pass."
+
+[[acceptance]]
+item = "Before writes, reject planned output or manifest aliases to any required raw input, and manifest/image or image/image destination collisions. Cover identical/resolved paths, symlink aliases and existing hard links; reject an output root that overlaps required raw paths when that would overwrite a capture. Include the reproduced raw-PNG-as-manifest and hard-linked output cases with full raw hashes unchanged after refusal. Reject preexisting non-regular destination conflicts, including a late directory and a FIFO, without opening/blocking on them or mutating earlier outputs. Diagnostics identify conflicting paths. No need for race-proof writes, rollback after arbitrary I/O failures or an atomic multi-file commit subsystem."
+result = "met"
+evidence = "Shared _preflight is called before any mkdir/save from main (all profiles and manifest) and compose_campaign (own profile). Resolved paths and samefile reject raw aliases and destination collisions; destination type/ancestor checks refuse directories, FIFO and invalid parents without opening. CLI alias test covers identical/resolved/symlink/hardlink paths, raw manifest and output hardlink reproductions, overlapping output roots, image/manifest and image/image collisions. Raw SHA256 and complete trees unchanged after refusal. Nonregular destination test covers late directory, FIFO, manifest FIFO and invalid parents; all pass under bounded CLI timeouts. Reused reviewed prior scoped patch and existing rendering; intentionally omitted race-proofing, rollback and transactional machinery."
+
+[[acceptance]]
+item = "Valid fresh output and repeat writes to independent regular files still produce all seven phone and four tablet images and the current manifest. Verify actual raw/output SHA256 values, dimensions and exact app-strip pixel equality against synthetic originals; repeat runs preserve raw bytes. Retain existing fit, ratio and wrong-class checks, caption text, ordering, cropping and manifest schema. Test with explicit private manifest paths so regression runs cannot touch tracked screenshots or receipts. Offline tooling checks do not authenticate genuine captures or qualify store artwork, device/platform behavior, a release or a goal."
+result = "met"
+evidence = "test_cli_fresh_and_repeat_preserve_pixels_and_manifest passes twice with seven phone and four tablet outputs, explicit private manifest, actual input/output SHA256, dimensions, ordered captions/paths, entry schema and exact cropped app-strip bytes. Raw snapshot unchanged on repeat. Existing fit, ratio and wrong-class tests unchanged and passing. Synthetic offline evidence only: no genuine-capture, artwork, device/platform or release qualification claimed."

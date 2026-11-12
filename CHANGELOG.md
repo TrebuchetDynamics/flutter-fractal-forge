@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Preflight all store screenshot inputs and destinations before writing, preserving raw captures and existing media on detectable input/path errors. (MAINT-STORE-COMPOSE-PREFLIGHT-01)
 - Reject aliased and non-regular icon staging outputs before any output mutation while preserving valid reruns. (MAINT-ICON-STAGING-PREFLIGHT-01)
 - Expose offline-gate terminal JSON and complete failed-stage diagnostics while preserving private logs, stage exits and fail-closed checks. (MAIN-CHECK-RESULTS-01)
 - Correct shader coloring guidance to match shared Multibrot/Buffalo bindings and distinguish source assertions from numeric-only coverage. (MAINT-SHADER-GUIDE-BINDINGS-01)
