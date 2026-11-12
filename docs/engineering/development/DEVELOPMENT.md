@@ -24,11 +24,15 @@ This guide covers setup, testing, and development workflows for Flutter Fractal 
 
 ### Flutter SDK Installation
 
-Use an isolated/provisioned SDK matching `fdroid/flutter.version` (currently Flutter 3.44.6 with bundled Dart 3.12.2). Do not switch an existing shared SDK to a floating stable branch. For a new standalone checkout:
+Use an isolated/provisioned SDK matching `fdroid/flutter.version` (currently Flutter 3.47.9 with its bundled Dart toolchain). Do not switch an existing shared SDK to a floating stable branch.
+
+For offline work with an existing provisioned SDK/cache, follow the [common offline setup](../../../AGENTS.md#common-offline-integration-gate). The optional standalone human setup below is not for offline workers.
+
+For a new standalone checkout:
 
 ```bash
 cd ~
-git clone --branch 3.44.6 --depth 1 https://github.com/flutter/flutter.git
+git clone --branch 3.47.9 --depth 1 https://github.com/flutter/flutter.git
 ```
 
 Add to your shell profile (`~/.bashrc` or `~/.zshrc`):
@@ -611,7 +615,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.38.7"
+          flutter-version: "3.47.9"
       - name: Run integration tests on emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
