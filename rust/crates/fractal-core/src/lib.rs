@@ -7,6 +7,7 @@ pub mod number_wall_grid;
 pub mod number_wall_prime;
 pub mod param_interpolation;
 pub mod param_randomization;
+pub mod physical_events;
 pub mod physical_view;
 pub mod precision;
 pub mod seeded_random;
