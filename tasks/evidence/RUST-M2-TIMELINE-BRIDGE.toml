@@ -1,0 +1,25 @@
+schema = 1
+task = "RUST-M2-TIMELINE-BRIDGE"
+candidate = "ff1e6cc93664e9d97efd6f2ea4ee3cc89f96a327"
+integration = "0f708b2fd337398052715bfeb0e90b2f402cef34"
+tree = "e98384b9b63e1b319cf202e43e0f586312826527"
+contract_hash = "a1a6865c507a7e4248fa519ba8e8674599ba786efa84758664f1d1b3dcc4a15b"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-TIMELINE-BRIDGE"]
+result = "pass"
+review = "passed"
+model_review = "passed"
+
+[[acceptance]]
+item = "Given new state_timelines bridge and extended session_randomization tests, immediate/animated ordinary seeds use the existing signed-i64 VM algorithm and exact typed targets. Parameter start returns token/snapshot under one lock; all 36 parameter/morph ticks preserve source values, independent generations, stale/foreign/idempotent behavior and explicit animate semantics. No external timer, caller-built token or blanket morph cancel."
+result = "met"
+evidence = "New state_timelines cases pass at the public bridge seam; all 36 callbacks compare with core, including independent generations, replacement, foreign/stale/idempotent behavior and explicit animation. Extended session_randomization compares every admitted ordinary oracle's exact typed final targets after 36 seeded ticks. start methods capture token/snapshot under the existing Session mutex. The helper reuses general_targets, SeededRandom and start_param_timeline; no Dart math, timer or blanket morph cancellation was added."
+
+[[acceptance]]
+item = "Given composed tests, rejection/overflow/mixed operations preserve hidden/visible owners, deferred wall commits preserve current morph progress, and bounded undo returns changed/snapshot/availability exactly. Retained values survive shutdown; existing 68 replay outputs and successful-only wall undo remain. Staged scheduled wall randomization and non-skipped Dart morph are not qualified."
+result = "met"
+evidence = "Named composed core/bridge tests and all 125 workspace tests pass, including existing overflow/hidden-owner rejection, deferred wall morph preservation, successful-only bounded undo and original 68-output replay. New bridge tests verify unchanged unavailable undo/revision, invalid typed target rejection without losing the next callback, and detached morph/parameter snapshots after shutdown. Undo returns changed plus the detached snapshot under the same lock; availability delegates to core. Scheduled wall randomization remains unexposed and non-skipped Dart morph remains explicitly unqualified."
+
+[[acceptance]]
+item = "Given twice-generated complete five-file inventories and existing Linux/APK/Web checks, current FRB 2.13.0 output agrees and compiles. Note distinguishes source-derived, differential, compiled and installed proof, preserving logical 36x16-ms scheduling without a measured 600-ms claim."
+result = "met"
+evidence = "Complete five-file inventories from two current FRB 2.13.0 generations have identical SHA-256 values, recorded and checked in docs/tasks/RUST-M2-TIMELINE-BRIDGE.md. Rust/clippy, Dart analysis, both trajectory/u64 Linux and Android-x64 builds, and both root Web flags passed. The note separates source-derived/Rust differential checks from native compilation and unexecuted installed assertions; it preserves logical 36 callbacks at integer 16-ms intervals and rejects a measured 600-ms claim. full check: runner gate"
