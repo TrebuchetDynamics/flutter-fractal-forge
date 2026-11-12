@@ -1,0 +1,25 @@
+schema = 1
+task = "MAINT-ICON-STAGING-PREFLIGHT-01"
+candidate = "09b853ab5e17e3c473e29b55147fa862fa4c54f7"
+integration = "88a295276adc4115a1e4a1c4c9e55e9e13a5cf67"
+tree = "00c6c1400b0a1c7c872e4e0f501f28e0f9d402e9"
+contract_hash = "ed89bd5bfc8a759412c6241d9a83d8e5e8649853726a223c644d6e44d46146b9"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAINT-ICON-STAGING-PREFLIGHT-01"]
+result = "pass"
+review = "passed"
+model_review = "passed"
+
+[[acceptance]]
+item = "Add failing-before/passing-after subprocess regressions using only disposable synthetic PNG/state fixtures. A pair of existing output targets sharing an inode is rejected with CLI exit 2 and a useful error before any output mutation, including source.png linked to ic_launcher.png and a derivative/manifest alias pair. Verify complete before/after tree bytes and inode relationships, not only nonzero status. Original source/state remain unchanged. Never return success with a retained source whose dimensions or bytes differ from the input."
+result = "met"
+evidence = "Failing-before mutations retained in <path> passing-after in <path> CLI rejects source.png/ic_launcher.png and logo_64.png/manifest hard-link pairs with exit 2 and both destination names. Whole temporary-tree snapshots compare bytes, modes, device/inode and link counts, including original source/state. Valid fresh and repeat outputs verify raw input byte equality and 2048x2048 retained source dimensions."
+
+[[acceptance]]
+item = "An existing directory at a late destination (proof.png and the final fractal-forge-icon-source.json) is rejected before earlier destinations are overwritten or new files created. Preflight must reject other existing non-regular file destinations without opening/blocking on them. Preserve existing source/state alias protections, symlink rejection including dangling links, and invalid-input no-output behavior. Diagnostics identify the conflicting destination(s). Do not require a broad race-proof or all-I/O-failure transaction rewrite."
+result = "met"
+evidence = "Passing subprocess subtests cover late proof.png and final manifest directories with nested sentinels, FIFO, symlink to source and dangling symlink. Whole-tree snapshots prove no overwritten sentinel, new files, changed input or inode/link relationships; exit 2 and destination name required. Source and state hard-link protections and invalid-input/no-output regressions pass. lstat and stat.S_ISREG reject non-regular targets before mkdir/copy/save without opening them."
+
+[[acceptance]]
+item = "Valid empty/fresh staging and repeat writes into independent regular-file outputs still work, including rotated and unrotated recipes; complete lineage hashes, raw input copies, pixel equality, ICC reproducibility and current CLI remain intact. Keep the approved B artwork, tracked assets/manifests and capture recipe unchanged. Offline fixtures validate tooling behavior only, not genuine capture authenticity, installed launcher presentation, platform qualification, release readiness or a goal."
+result = "met"
+evidence = "Icon module and combined module runs pass all synthetic subtests. Existing check_assets verifies complete lineage hashes and pixel equality; extended reproducibility case verifies fresh and independent regular-file reruns for both rotation options across ICC timestamp boundary and exact raw source/state copies. Only two tool/test paths changed; recipe, approved artwork, tracked assets/manifests untouched. Genuine-capture test skipped; no capture authenticity, installed-launcher, platform or release qualification claimed."
