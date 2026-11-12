@@ -1,4 +1,4 @@
-// Compile-only here; installed Linux/Waydroid high-u64 proof is a separate gate.
+// Installed qualification results are recorded per target in docs/tasks/.
 import 'dart:convert';
 import 'dart:io';
 
@@ -95,6 +95,16 @@ void main() {
     final adapter = (await RustEngineAdapter.create())!;
     addTearDown(adapter.shutdown);
     expect(adapter.rendering, isFalse);
+    // Waydroid can deny run-as; bind the loaded library from inside the process.
+    if (Platform.isAndroid) {
+      final mappings = File('/proc/self/maps').readAsLinesSync().where(
+          (line) => line.trim().endsWith('/libfractal_bridge.so'));
+      expect(mappings, isNotEmpty);
+      final path = mappings.first.trim().split(RegExp(r'\s+')).last;
+      final digest = sha256.convert(File(path).readAsBytesSync());
+      // ignore: avoid_print
+      print('Loaded Rust SO: $path sha256=$digest rendering=${adapter.rendering}');
+    }
     final session = native.StateSession(
         modules: inputs['modules']!,
         parameters: inputs['parameters']!,
