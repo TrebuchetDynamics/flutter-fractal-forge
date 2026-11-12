@@ -6,9 +6,9 @@
 import 'frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// These functions are ignored because they are not marked as `pub`: `advance_number_wall_impl`, `allocate_session_id`, `begin_number_wall_impl`, `cancel_number_wall_impl`, `core_params`, `into_core`, `shutdown_impl`, `snapshot_impl`, `trajectory_status`
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`
-// These functions are ignored (category: IgnoreBecauseExplicitAttribute): `default`
+// These functions are ignored because they are not marked as `pub`: `advance_number_wall_impl`, `allocate_session_id`, `begin_number_wall_impl`, `cancel_number_wall_impl`, `cancel_scheduled`, `core_params`, `into_core`, `shutdown_impl`, `snapshot_impl`, `trajectory_status`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `drop`, `drop`, `drop`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`
+// These functions are ignored (category: IgnoreBecauseExplicitAttribute): `default`, `default`, `with_submitter`
 
 EngineHandle createEngine() => RustLib.instance.api.crateApiCreateEngine();
 
@@ -462,6 +462,45 @@ abstract class StateValue implements RustOpaqueInterface {
   String? text();
 }
 
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateWorkService>>
+abstract class StateWorkService implements RustOpaqueInterface {
+  factory StateWorkService() =>
+      RustLib.instance.api.crateApiStateWorkServiceNew();
+
+  StateWorkTicket replaceNumberWall(
+      {required StateSession session,
+      required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateCommand command,
+      required int maxTrialDivisions,
+      required StateWorkTicket replace});
+
+  StateWorkTicket replaceTrajectory(
+      {required StateSession session,
+      required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateWorkTicket replace});
+
+  StateWorkTicket submitNumberWall(
+      {required StateSession session,
+      required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateCommand command,
+      required int maxTrialDivisions});
+
+  StateWorkTicket submitTrajectory(
+      {required StateSession session,
+      required BigInt sessionId,
+      required BigInt expectedRevision});
+}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateWorkTicket>>
+abstract class StateWorkTicket implements RustOpaqueInterface {
+  void cancel();
+
+  StateWorkStatus status();
+}
+
 class Capabilities {
   final bool rendering;
 
@@ -657,6 +696,51 @@ class StateView {
           rotX == other.rotX &&
           rotY == other.rotY &&
           rotZ == other.rotZ;
+}
+
+enum StateWorkPhase {
+  queued,
+  running,
+  finished,
+  cancelled,
+  failed,
+  ;
+}
+
+/// Detached cached progress. Reading it never locks a Session or advances work.
+class StateWorkStatus {
+  final StateWorkPhase phase;
+  final String? error;
+  final StateSnapshot? snapshot;
+  final StateNumberWallStatus? wallStatus;
+  final int? stepsCompleted;
+
+  const StateWorkStatus({
+    required this.phase,
+    this.error,
+    this.snapshot,
+    this.wallStatus,
+    this.stepsCompleted,
+  });
+
+  @override
+  int get hashCode =>
+      phase.hashCode ^
+      error.hashCode ^
+      snapshot.hashCode ^
+      wallStatus.hashCode ^
+      stepsCompleted.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is StateWorkStatus &&
+          runtimeType == other.runtimeType &&
+          phase == other.phase &&
+          error == other.error &&
+          snapshot == other.snapshot &&
+          wallStatus == other.wallStatus &&
+          stepsCompleted == other.stepsCompleted;
 }
 
 class ViewState {

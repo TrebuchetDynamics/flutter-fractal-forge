@@ -68,7 +68,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.13.0';
 
   @override
-  int get rustContentHash => 846635164;
+  int get rustContentHash => -1064006418;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -453,6 +453,43 @@ abstract class RustLibApi extends BaseApi {
 
   String? crateApiStateValueText({required StateValue that});
 
+  StateWorkService crateApiStateWorkServiceNew();
+
+  StateWorkTicket crateApiStateWorkServiceReplaceNumberWall(
+      {required StateWorkService that,
+      required StateSession session,
+      required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateCommand command,
+      required int maxTrialDivisions,
+      required StateWorkTicket replace});
+
+  StateWorkTicket crateApiStateWorkServiceReplaceTrajectory(
+      {required StateWorkService that,
+      required StateSession session,
+      required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateWorkTicket replace});
+
+  StateWorkTicket crateApiStateWorkServiceSubmitNumberWall(
+      {required StateWorkService that,
+      required StateSession session,
+      required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateCommand command,
+      required int maxTrialDivisions});
+
+  StateWorkTicket crateApiStateWorkServiceSubmitTrajectory(
+      {required StateWorkService that,
+      required StateSession session,
+      required BigInt sessionId,
+      required BigInt expectedRevision});
+
+  void crateApiStateWorkTicketCancel({required StateWorkTicket that});
+
+  StateWorkStatus crateApiStateWorkTicketStatus(
+      {required StateWorkTicket that});
+
   EngineHandle crateApiCreateEngine();
 
   EngineSnapshot crateApiEngineSnapshot({required EngineHandle engine});
@@ -595,6 +632,24 @@ abstract class RustLibApi extends BaseApi {
       get rust_arc_decrement_strong_count_StateValue;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_StateValuePtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_StateWorkService;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_StateWorkService;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_StateWorkServicePtr;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_StateWorkTicket;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_StateWorkTicket;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_StateWorkTicketPtr;
 }
 
 class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
@@ -3927,11 +3982,274 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  EngineHandle crateApiCreateEngine() {
+  StateWorkService crateApiStateWorkServiceNew() {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 122)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkService,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateWorkServiceNewConstMeta,
+      argValues: [],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateWorkServiceNewConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateWorkService_new",
+        argNames: [],
+      );
+
+  @override
+  StateWorkTicket crateApiStateWorkServiceReplaceNumberWall(
+      {required StateWorkService that,
+      required StateSession session,
+      required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateCommand command,
+      required int maxTrialDivisions,
+      required StateWorkTicket replace}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkService(
+            that, serializer);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSession(
+            session, serializer);
+        sse_encode_u_64(sessionId, serializer);
+        sse_encode_u_64(expectedRevision, serializer);
+        sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateCommand(
+            command, serializer);
+        sse_encode_u_32(maxTrialDivisions, serializer);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkTicket(
+            replace, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 123)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkTicket,
+        decodeErrorData: sse_decode_String,
+      ),
+      constMeta: kCrateApiStateWorkServiceReplaceNumberWallConstMeta,
+      argValues: [
+        that,
+        session,
+        sessionId,
+        expectedRevision,
+        command,
+        maxTrialDivisions,
+        replace
+      ],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateWorkServiceReplaceNumberWallConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateWorkService_replace_number_wall",
+        argNames: [
+          "that",
+          "session",
+          "sessionId",
+          "expectedRevision",
+          "command",
+          "maxTrialDivisions",
+          "replace"
+        ],
+      );
+
+  @override
+  StateWorkTicket crateApiStateWorkServiceReplaceTrajectory(
+      {required StateWorkService that,
+      required StateSession session,
+      required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateWorkTicket replace}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkService(
+            that, serializer);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSession(
+            session, serializer);
+        sse_encode_u_64(sessionId, serializer);
+        sse_encode_u_64(expectedRevision, serializer);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkTicket(
+            replace, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 124)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkTicket,
+        decodeErrorData: sse_decode_String,
+      ),
+      constMeta: kCrateApiStateWorkServiceReplaceTrajectoryConstMeta,
+      argValues: [that, session, sessionId, expectedRevision, replace],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateWorkServiceReplaceTrajectoryConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateWorkService_replace_trajectory",
+        argNames: [
+          "that",
+          "session",
+          "sessionId",
+          "expectedRevision",
+          "replace"
+        ],
+      );
+
+  @override
+  StateWorkTicket crateApiStateWorkServiceSubmitNumberWall(
+      {required StateWorkService that,
+      required StateSession session,
+      required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateCommand command,
+      required int maxTrialDivisions}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkService(
+            that, serializer);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSession(
+            session, serializer);
+        sse_encode_u_64(sessionId, serializer);
+        sse_encode_u_64(expectedRevision, serializer);
+        sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateCommand(
+            command, serializer);
+        sse_encode_u_32(maxTrialDivisions, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 125)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkTicket,
+        decodeErrorData: sse_decode_String,
+      ),
+      constMeta: kCrateApiStateWorkServiceSubmitNumberWallConstMeta,
+      argValues: [
+        that,
+        session,
+        sessionId,
+        expectedRevision,
+        command,
+        maxTrialDivisions
+      ],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateWorkServiceSubmitNumberWallConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateWorkService_submit_number_wall",
+        argNames: [
+          "that",
+          "session",
+          "sessionId",
+          "expectedRevision",
+          "command",
+          "maxTrialDivisions"
+        ],
+      );
+
+  @override
+  StateWorkTicket crateApiStateWorkServiceSubmitTrajectory(
+      {required StateWorkService that,
+      required StateSession session,
+      required BigInt sessionId,
+      required BigInt expectedRevision}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkService(
+            that, serializer);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSession(
+            session, serializer);
+        sse_encode_u_64(sessionId, serializer);
+        sse_encode_u_64(expectedRevision, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 126)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkTicket,
+        decodeErrorData: sse_decode_String,
+      ),
+      constMeta: kCrateApiStateWorkServiceSubmitTrajectoryConstMeta,
+      argValues: [that, session, sessionId, expectedRevision],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateWorkServiceSubmitTrajectoryConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateWorkService_submit_trajectory",
+        argNames: ["that", "session", "sessionId", "expectedRevision"],
+      );
+
+  @override
+  void crateApiStateWorkTicketCancel({required StateWorkTicket that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkTicket(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 127)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateWorkTicketCancelConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateWorkTicketCancelConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateWorkTicket_cancel",
+        argNames: ["that"],
+      );
+
+  @override
+  StateWorkStatus crateApiStateWorkTicketStatus(
+      {required StateWorkTicket that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkTicket(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 128)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_state_work_status,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiStateWorkTicketStatusConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiStateWorkTicketStatusConstMeta =>
+      const TaskConstMeta(
+        debugName: "StateWorkTicket_status",
+        argNames: ["that"],
+      );
+
+  @override
+  EngineHandle crateApiCreateEngine() {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 129)!;
       },
       codec: SseCodec(
         decodeSuccessData:
@@ -3956,7 +4274,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         final serializer = SseSerializer(generalizedFrbRustBinding);
         sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEngineHandle(
             engine, serializer);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 123)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 130)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_engine_snapshot,
@@ -3978,7 +4296,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     return handler.executeSync(SyncTask(
       callFfi: () {
         final serializer = SseSerializer(generalizedFrbRustBinding);
-        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 124)!;
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 131)!;
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_String,
@@ -4123,6 +4441,22 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       get rust_arc_decrement_strong_count_StateValue => wire
           .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateValue;
 
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_StateWorkService => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkService;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_StateWorkService => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkService;
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_StateWorkTicket => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkTicket;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_StateWorkTicket => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkTicket;
+
   @protected
   Engine
       dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEngine(
@@ -4257,6 +4591,22 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  StateWorkService
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkService(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateWorkServiceImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  StateWorkTicket
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkTicket(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateWorkTicketImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
   Engine
       dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEngine(
           dynamic raw) {
@@ -4371,6 +4721,22 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return StateValueImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  StateWorkService
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkService(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateWorkServiceImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  StateWorkTicket
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkTicket(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateWorkTicketImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -4518,6 +4884,22 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  StateWorkService
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkService(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateWorkServiceImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  StateWorkTicket
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkTicket(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateWorkTicketImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
   String dco_decode_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as String;
@@ -4544,6 +4926,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallRequest(
+        raw);
+  }
+
+  @protected
+  StateSnapshot
+      dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
         raw);
   }
 
@@ -4752,6 +5143,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  StateSnapshot?
+      dco_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null
+        ? null
+        : dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+            raw);
+  }
+
+  @protected
   StateTrajectoryFrame?
       dco_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
           dynamic raw) {
@@ -4920,6 +5322,29 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       rotX: dco_decode_f_64(arr[3]),
       rotY: dco_decode_f_64(arr[4]),
       rotZ: dco_decode_f_64(arr[5]),
+    );
+  }
+
+  @protected
+  StateWorkPhase dco_decode_state_work_phase(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return StateWorkPhase.values[raw as int];
+  }
+
+  @protected
+  StateWorkStatus dco_decode_state_work_status(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 5)
+      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    return StateWorkStatus(
+      phase: dco_decode_state_work_phase(arr[0]),
+      error: dco_decode_opt_String(arr[1]),
+      snapshot:
+          dco_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+              arr[2]),
+      wallStatus: dco_decode_opt_box_autoadd_state_number_wall_status(arr[3]),
+      stepsCompleted: dco_decode_opt_box_autoadd_u_32(arr[4]),
     );
   }
 
@@ -5114,6 +5539,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  StateWorkService
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkService(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateWorkServiceImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  StateWorkTicket
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkTicket(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateWorkTicketImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
   Engine
       sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEngine(
           SseDeserializer deserializer) {
@@ -5236,6 +5679,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return StateValueImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  StateWorkService
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkService(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateWorkServiceImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  StateWorkTicket
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkTicket(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateWorkTicketImpl.frbInternalSseDecode(
         sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
@@ -5395,6 +5856,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  StateWorkService
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkService(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateWorkServiceImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  StateWorkTicket
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkTicket(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return StateWorkTicketImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
   String sse_decode_String(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var inner = sse_decode_list_prim_u_8_strict(deserializer);
@@ -5422,6 +5901,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallRequest(
+        deserializer));
+  }
+
+  @protected
+  StateSnapshot
+      sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
         deserializer));
   }
 
@@ -5671,6 +6159,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  StateSnapshot?
+      sse_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+          deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
   StateTrajectoryFrame?
       sse_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
           SseDeserializer deserializer) {
@@ -5867,6 +6369,32 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         rotX: var_rotX,
         rotY: var_rotY,
         rotZ: var_rotZ);
+  }
+
+  @protected
+  StateWorkPhase sse_decode_state_work_phase(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_i_32(deserializer);
+    return StateWorkPhase.values[inner];
+  }
+
+  @protected
+  StateWorkStatus sse_decode_state_work_status(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_phase = sse_decode_state_work_phase(deserializer);
+    var var_error = sse_decode_opt_String(deserializer);
+    var var_snapshot =
+        sse_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+            deserializer);
+    var var_wallStatus =
+        sse_decode_opt_box_autoadd_state_number_wall_status(deserializer);
+    var var_stepsCompleted = sse_decode_opt_box_autoadd_u_32(deserializer);
+    return StateWorkStatus(
+        phase: var_phase,
+        error: var_error,
+        snapshot: var_snapshot,
+        wallStatus: var_wallStatus,
+        stepsCompleted: var_stepsCompleted);
   }
 
   @protected
@@ -6076,6 +6604,26 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkService(
+          StateWorkService self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateWorkServiceImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkTicket(
+          StateWorkTicket self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateWorkTicketImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
       sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerEngine(
           Engine self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -6210,6 +6758,26 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
         (self as StateValueImpl).frbInternalSseEncode(move: false), serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkService(
+          StateWorkService self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateWorkServiceImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkTicket(
+          StateWorkTicket self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateWorkTicketImpl).frbInternalSseEncode(move: false),
+        serializer);
   }
 
   @protected
@@ -6380,6 +6948,26 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkService(
+          StateWorkService self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateWorkServiceImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateWorkTicket(
+          StateWorkTicket self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as StateWorkTicketImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
   void sse_encode_String(String self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_list_prim_u_8_strict(utf8.encoder.convert(self), serializer);
@@ -6406,6 +6994,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           StateNumberWallRequest self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallRequest(
+        self, serializer);
+  }
+
+  @protected
+  void
+      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+          StateSnapshot self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
         self, serializer);
   }
 
@@ -6633,6 +7230,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void
+      sse_encode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+          StateSnapshot? self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+          self, serializer);
+    }
+  }
+
+  @protected
+  void
       sse_encode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateTrajectoryFrame(
           StateTrajectoryFrame? self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -6802,6 +7412,26 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_f_64(self.rotX, serializer);
     sse_encode_f_64(self.rotY, serializer);
     sse_encode_f_64(self.rotZ, serializer);
+  }
+
+  @protected
+  void sse_encode_state_work_phase(
+      StateWorkPhase self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.index, serializer);
+  }
+
+  @protected
+  void sse_encode_state_work_status(
+      StateWorkStatus self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_state_work_phase(self.phase, serializer);
+    sse_encode_opt_String(self.error, serializer);
+    sse_encode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
+        self.snapshot, serializer);
+    sse_encode_opt_box_autoadd_state_number_wall_status(
+        self.wallStatus, serializer);
+    sse_encode_opt_box_autoadd_u_32(self.stepsCompleted, serializer);
   }
 
   @protected
@@ -7649,6 +8279,108 @@ class StateValueImpl extends RustOpaque implements StateValue {
       );
 
   String? text() => RustLib.instance.api.crateApiStateValueText(
+        that: this,
+      );
+}
+
+@sealed
+class StateWorkServiceImpl extends RustOpaque implements StateWorkService {
+  // Not to be used by end users
+  StateWorkServiceImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  StateWorkServiceImpl.frbInternalSseDecode(
+      BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib.instance.api.rust_arc_increment_strong_count_StateWorkService,
+    rustArcDecrementStrongCount:
+        RustLib.instance.api.rust_arc_decrement_strong_count_StateWorkService,
+    rustArcDecrementStrongCountPtr: RustLib
+        .instance.api.rust_arc_decrement_strong_count_StateWorkServicePtr,
+  );
+
+  StateWorkTicket replaceNumberWall(
+          {required StateSession session,
+          required BigInt sessionId,
+          required BigInt expectedRevision,
+          required StateCommand command,
+          required int maxTrialDivisions,
+          required StateWorkTicket replace}) =>
+      RustLib.instance.api.crateApiStateWorkServiceReplaceNumberWall(
+          that: this,
+          session: session,
+          sessionId: sessionId,
+          expectedRevision: expectedRevision,
+          command: command,
+          maxTrialDivisions: maxTrialDivisions,
+          replace: replace);
+
+  StateWorkTicket replaceTrajectory(
+          {required StateSession session,
+          required BigInt sessionId,
+          required BigInt expectedRevision,
+          required StateWorkTicket replace}) =>
+      RustLib.instance.api.crateApiStateWorkServiceReplaceTrajectory(
+          that: this,
+          session: session,
+          sessionId: sessionId,
+          expectedRevision: expectedRevision,
+          replace: replace);
+
+  StateWorkTicket submitNumberWall(
+          {required StateSession session,
+          required BigInt sessionId,
+          required BigInt expectedRevision,
+          required StateCommand command,
+          required int maxTrialDivisions}) =>
+      RustLib.instance.api.crateApiStateWorkServiceSubmitNumberWall(
+          that: this,
+          session: session,
+          sessionId: sessionId,
+          expectedRevision: expectedRevision,
+          command: command,
+          maxTrialDivisions: maxTrialDivisions);
+
+  StateWorkTicket submitTrajectory(
+          {required StateSession session,
+          required BigInt sessionId,
+          required BigInt expectedRevision}) =>
+      RustLib.instance.api.crateApiStateWorkServiceSubmitTrajectory(
+          that: this,
+          session: session,
+          sessionId: sessionId,
+          expectedRevision: expectedRevision);
+}
+
+@sealed
+class StateWorkTicketImpl extends RustOpaque implements StateWorkTicket {
+  // Not to be used by end users
+  StateWorkTicketImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  StateWorkTicketImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib.instance.api.rust_arc_increment_strong_count_StateWorkTicket,
+    rustArcDecrementStrongCount:
+        RustLib.instance.api.rust_arc_decrement_strong_count_StateWorkTicket,
+    rustArcDecrementStrongCountPtr:
+        RustLib.instance.api.rust_arc_decrement_strong_count_StateWorkTicketPtr,
+  );
+
+  void cancel() => RustLib.instance.api.crateApiStateWorkTicketCancel(
+        that: this,
+      );
+
+  StateWorkStatus status() =>
+      RustLib.instance.api.crateApiStateWorkTicketStatus(
         that: this,
       );
 }

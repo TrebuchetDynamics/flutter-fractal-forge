@@ -970,10 +970,10 @@ impl StateTrajectoryProgress {
 }
 
 /// Detached immutable core copy; collection getters return further detached copies.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 #[frb(opaque)]
 pub struct StateSnapshot {
-    inner: Snapshot,
+    pub(crate) inner: Snapshot,
 }
 
 impl StateSnapshot {
@@ -1168,7 +1168,10 @@ fn allocate_session_id(last: &AtomicU64) -> Result<u64, String> {
 pub struct StateSession {
     // A single lock linearizes transactions, snapshots and shutdown. Dropping the
     // option releases the catalog/state; a poisoned lock never exposes last-good state.
-    inner: Mutex<Option<Session>>,
+    pub(crate) inner: Arc<Mutex<Option<Session>>>,
+    pub(crate) id: u64,
+    pub(crate) scheduled:
+        Mutex<Option<Vec<std::sync::Weak<crate::state_work_executor::TicketData>>>>,
 }
 
 impl StateSession {
@@ -1252,7 +1255,9 @@ impl StateSession {
         )
         .map_err(|e| e.to_string())?;
         Ok(Self {
-            inner: Mutex::new(Some(session)),
+            id: session.snapshot().session_id(),
+            inner: Arc::new(Mutex::new(Some(session))),
+            scheduled: Mutex::new(Some(Vec::new())),
         })
     }
 
@@ -1454,11 +1459,176 @@ impl StateSession {
     }
 
     fn shutdown_impl(&self) -> Result<(), String> {
+        self.cancel_scheduled();
         self.inner
             .lock()
             .map_err(|_| "Rust state session lock poisoned")?
             .take();
         Ok(())
+    }
+}
+
+/// Inert bounded scheduling domain, using the existing generated FRB pool.
+#[frb(opaque)]
+pub struct StateWorkService {
+    pub(crate) inner: Arc<crate::state_work_executor::Executor>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum StateWorkPhase {
+    Queued,
+    Running,
+    Finished,
+    Cancelled,
+    Failed,
+}
+
+/// Detached cached progress. Reading it never locks a Session or advances work.
+#[derive(Debug, Clone)]
+pub struct StateWorkStatus {
+    pub phase: StateWorkPhase,
+    pub error: Option<String>,
+    pub snapshot: Option<StateSnapshot>,
+    pub wall_status: Option<StateNumberWallStatus>,
+    pub steps_completed: Option<u32>,
+}
+
+#[frb(opaque)]
+pub struct StateWorkTicket {
+    pub(crate) inner: Arc<crate::state_work_executor::TicketData>,
+}
+
+impl StateWorkService {
+    #[frb(sync)]
+    pub fn new() -> Self {
+        Self::with_submitter(crate::state_work_executor::submit_to_frb)
+    }
+
+    #[frb(ignore)]
+    pub fn with_submitter(
+        submit: impl Fn(Box<dyn FnOnce() + Send>) + Send + Sync + 'static,
+    ) -> Self {
+        Self {
+            inner: crate::state_work_executor::Executor::new(submit),
+        }
+    }
+
+    #[frb(sync)]
+    pub fn submit_trajectory(
+        &self,
+        session: &StateSession,
+        session_id: u64,
+        expected_revision: u64,
+    ) -> Result<StateWorkTicket, String> {
+        self.inner.submit(
+            session,
+            session_id,
+            expected_revision,
+            crate::state_work_executor::Operand::Trajectory,
+            None,
+        )
+    }
+
+    #[frb(sync)]
+    pub fn replace_trajectory(
+        &self,
+        session: &StateSession,
+        session_id: u64,
+        expected_revision: u64,
+        replace: &StateWorkTicket,
+    ) -> Result<StateWorkTicket, String> {
+        self.inner.submit(
+            session,
+            session_id,
+            expected_revision,
+            crate::state_work_executor::Operand::Trajectory,
+            Some(replace),
+        )
+    }
+
+    #[frb(sync)]
+    pub fn submit_number_wall(
+        &self,
+        session: &StateSession,
+        session_id: u64,
+        expected_revision: u64,
+        command: StateCommand,
+        max_trial_divisions: u32,
+    ) -> Result<StateWorkTicket, String> {
+        self.inner.submit(
+            session,
+            session_id,
+            expected_revision,
+            crate::state_work_executor::Operand::Wall(command.inner, max_trial_divisions),
+            None,
+        )
+    }
+
+    #[frb(sync)]
+    #[allow(clippy::too_many_arguments)]
+    pub fn replace_number_wall(
+        &self,
+        session: &StateSession,
+        session_id: u64,
+        expected_revision: u64,
+        command: StateCommand,
+        max_trial_divisions: u32,
+        replace: &StateWorkTicket,
+    ) -> Result<StateWorkTicket, String> {
+        self.inner.submit(
+            session,
+            session_id,
+            expected_revision,
+            crate::state_work_executor::Operand::Wall(command.inner, max_trial_divisions),
+            Some(replace),
+        )
+    }
+}
+
+impl Default for StateWorkService {
+    #[frb(ignore)]
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Drop for StateWorkService {
+    fn drop(&mut self) {
+        self.inner.close();
+    }
+}
+impl StateWorkTicket {
+    #[frb(sync)]
+    pub fn status(&self) -> StateWorkStatus {
+        self.inner.status()
+    }
+    #[frb(sync)]
+    pub fn cancel(&self) {
+        self.inner.cancel();
+    }
+}
+impl Drop for StateWorkTicket {
+    fn drop(&mut self) {
+        self.inner.cancel();
+    }
+}
+impl StateSession {
+    pub(crate) fn cancel_scheduled(&self) {
+        for ticket in self
+            .scheduled
+            .lock()
+            .expect("scheduled subscriptions poisoned")
+            .take()
+            .into_iter()
+            .flatten()
+            .filter_map(|w| w.upgrade())
+        {
+            ticket.cancel();
+        }
+    }
+}
+impl Drop for StateSession {
+    fn drop(&mut self) {
+        self.cancel_scheduled();
     }
 }
 
@@ -1499,9 +1669,11 @@ mod tests {
         .unwrap();
         // Private setup only: no public identity/revision setter is exposed.
         let session = StateSession {
-            inner: Mutex::new(Some(
+            id,
+            scheduled: Mutex::new(Some(Vec::new())),
+            inner: Arc::new(Mutex::new(Some(
                 Session::new(Arc::new(catalog), id, "mandelbrot").unwrap(),
-            )),
+            ))),
         };
         assert_eq!(session.snapshot().unwrap().session_id(), id);
         assert_eq!(
