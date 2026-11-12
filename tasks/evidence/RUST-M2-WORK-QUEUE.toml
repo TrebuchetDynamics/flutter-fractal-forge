@@ -1,0 +1,25 @@
+schema = 1
+task = "RUST-M2-WORK-QUEUE"
+candidate = "2f67255b70baed4d2118973a576bf52e61ee6191"
+integration = "7d9e74f76a6a465be5dbd5d873753204d8f41176"
+tree = "7a28ecde47ebd0c7fbba42f2b02a700b39db8cfb"
+contract_hash = "4b3a51af5f11190712a614a608c55102dfa91e884147c1a4b2102034e3b7b546"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-WORK-QUEUE"]
+result = "pass"
+review = "passed"
+model_review = "passed"
+
+[[acceptance]]
+item = "Given work_queue tests with capacity+1 and replacement, no more than 8 total permits exist including stepped jobs; full admission returns Busy without state mutation/hidden retry list. Kind/identity/generation and checked ticket allocation reject foreign/stale/double release; completion/error/revoke/close/drop/panic-unwind simulations reclaim capacity exactly once."
+result = "met"
+evidence = "Queue public tests observe eight admitted entries even after selection, Busy without retry/order mutation, matching replacement at full capacity, foreign/stale/double-release rejection, and exact finish/revoke/close/drop/unwind reclamation. Private unit test verifies checked ticket exhaustion preserves old work. All passed in rust-check.sh."
+
+[[acceptance]]
+item = "Given deterministic composed tests with real Session wall and trajectory requests, S runnable Sessions each receive a turn within S selections, alternating their runnable kinds; one turn performs at most existing bounded wall work or <=256 RK4 steps. Supersession/stale/overflow/divergence/cancel preserve last-good/retained frames and wall/trajectory isolation; no mathematical drain in queue operations."
+result = "met"
+evidence = "Composed public test steps actual Session wall and trajectory jobs across three Sessions: ordered Session turns each round, alternating kinds, one wall budget unit or 256 RK4 steps per selection, unchanged snapshots before terminal publication. Wall replacement and Session close revoke actual guards without cross-kind publication. Reused passing session_trajectory_jobs/session_number_wall/session_replay tests cover supersession, stale/revision overflow, divergence, cancellation and retained last-good frames. Queue source contains no mathematical job execution or drain."
+
+[[acceptance]]
+item = "Given workspace and unchanged Dart trajectory/wall checks, no new runtime/dependency/thread/cache policy or fixture change occurs. Note records proposed internal capacity, policy API and exact pure-versus-executor limits for WORK-BRIDGE; no latency/throughput/native admission claim."
+result = "met"
+evidence = "Workspace fmt/clippy/tests and 15 unchanged Dart tests passed. Commit changes only core policy/export/tests and component note; manifests, locks, fixtures, app and bridge unchanged. Component note records internal eight-job capacity, API, serialized-consumer/guard-release obligations and WORK-BRIDGE executor responsibilities, explicitly denying performance/native admission claims. Reuses RequestKind, RequestGuard and existing Session/kernel tests; omits executor, runtime, threads, cache changes and duplicate numerical fixtures. full check: runner gate"
