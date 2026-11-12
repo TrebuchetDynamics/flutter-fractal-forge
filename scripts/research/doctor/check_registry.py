@@ -11,12 +11,15 @@ from __future__ import annotations
 
 import json
 from collections import Counter
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from ruamel.yaml.error import YAMLError
+
 from scripts.research.academic.library import validate_catalog_bindings
 from scripts.research.doctor.app_catalog_audit import audit_app_catalog
-from scripts.research.lib.registry import Registry
+from scripts.research.lib.registry import _make_yaml
 from scripts.research.lib.schema_lint import SchemaLintError, lint
 
 
@@ -52,17 +55,35 @@ def check_registry(
     include_app_catalog: bool = False,
     strict_app_catalog: bool = False,
 ) -> DoctorResult:
-    registry = Registry.load(path)
-    entries = registry.entries
+    # Validate the envelope locally; shared Registry callers keep their API.
+    try:
+        with path.open("r") as stream:
+            document = _make_yaml().load(stream)
+    except (OSError, UnicodeError, YAMLError) as exc:
+        return DoctorResult(ok=False, errors=[f"{path}: registry unreadable: {exc}"])
+    if not isinstance(document, Mapping):
+        return DoctorResult(ok=False, errors=[
+            f"{path}: expected mapping at <root>, got {type(document).__name__}"
+        ])
+    if "fractals" not in document:
+        return DoctorResult(ok=False, errors=[f"{path}: missing top-level 'fractals' list"])
+    if not isinstance(document["fractals"], list):
+        return DoctorResult(ok=False, errors=[
+            f"{path}: fractals: expected list, got {type(document['fractals']).__name__}"
+        ])
+    entry_count = len(document["fractals"])
+    entries: list[dict] = []
     errors: list[str] = []
 
-    # 1. Schema lint
-    for entry in entries:
-        eid = entry.get("id", "?")
+    # 1. Schema lint; downstream invariants require schema-valid shapes.
+    for index, entry in enumerate(document["fractals"]):
         try:
             lint("registry_entry", entry)
         except SchemaLintError as e:
-            errors.append(f"{eid}: {e}")
+            eid = entry.get("id", "?") if isinstance(entry, Mapping) else "?"
+            errors.append(f"{path}: fractals[{index}] ({eid}): {e}")
+        else:
+            entries.append(entry)
 
     # 2. Duplicate ids
     id_counts = Counter(e.get("id") for e in entries)
@@ -129,7 +150,7 @@ def check_registry(
         ok=not errors,
         errors=errors,
         warnings=warnings,
-        entry_count=len(entries),
+        entry_count=entry_count,
     )
 
 
