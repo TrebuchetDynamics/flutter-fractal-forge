@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fractals/l10n/app_localizations.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
 import 'package:flutter_fractals/features/auto_explore/auto_explore_service.dart';
 
@@ -21,7 +22,8 @@ class AutoPilotAlignmentOverlay extends StatelessWidget {
         return IgnorePointer(
           child: Semantics(
             liveRegion: true,
-            label: 'Auto-pilot paused. Align zoom with the center crosshair.',
+            label: AppLocalizations.of(context)?.autoPilotAlignmentLabel ??
+                'Auto-pilot paused. Align zoom with the center crosshair.',
             child: const RepaintBoundary(
               key: ValueKey('autoPilotAlignmentCrosshair'),
               child: Center(

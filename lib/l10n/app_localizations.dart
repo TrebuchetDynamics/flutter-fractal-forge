@@ -2793,6 +2793,12 @@ abstract class AppLocalizations {
   /// **'History'**
   String get tooltipOpenHistory;
 
+  /// Live semantics announcement while auto-pilot yields to manual zoom alignment
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-pilot paused. Align zoom with the center crosshair.'**
+  String get autoPilotAlignmentLabel;
+
   /// No description provided for @autoExploreTitle.
   ///
   /// In en, this message translates to:

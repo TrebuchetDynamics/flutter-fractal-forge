@@ -1487,6 +1487,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tooltipOpenHistory => 'Historial';
 
   @override
+  String get autoPilotAlignmentLabel =>
+      'Piloto automático en pausa. Alinea el zoom con la retícula central.';
+
+  @override
   String get autoExploreTitle => 'Auto-Explorar';
 
   @override

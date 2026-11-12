@@ -566,6 +566,7 @@
   "tooltipExportVideo": "Exportar Video",
   "tooltipOpenHistory": "Historial",
 
+  "autoPilotAlignmentLabel": "Piloto automático en pausa. Alinea el zoom con la retícula central.",
   "autoExploreTitle": "Auto-Explorar",
   "autoExploreSubtitle": "Descubre automáticamente áreas interesantes",
   "autoExplorePausedUserCorrection": "El piloto automático está en pausa mientras ajustas la vista.",

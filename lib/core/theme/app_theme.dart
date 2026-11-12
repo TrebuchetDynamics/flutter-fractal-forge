@@ -477,6 +477,10 @@ class AppTheme {
         onPrimary: Colors.white,
         onSecondary: Colors.black,
         onSurface: AppColors.textPrimary,
+        onSurfaceVariant: AppColors.textSecondary,
+        outlineVariant: AppColors.border,
+        surfaceContainerHigh: AppColors.surfaceVariant,
+        surfaceContainerHighest: AppColors.surfaceElevated,
         error: AppColors.error,
       ),
       textTheme: TextTheme(
@@ -981,6 +985,10 @@ class AppTheme {
         onPrimary: Colors.white,
         onSecondary: Colors.black,
         onSurface: OledColors.textPrimary,
+        onSurfaceVariant: OledColors.textSecondary,
+        outlineVariant: OledColors.border,
+        surfaceContainerHigh: OledColors.surfaceVariant,
+        surfaceContainerHighest: OledColors.surfaceElevated,
         error: OledColors.error,
       ),
       textTheme: TextTheme(
