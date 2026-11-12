@@ -1,0 +1,25 @@
+schema = 1
+task = "MAINT-DEVELOPMENT-GUIDE-PIN-01"
+candidate = "1d9e1bec64ae5fa5025086a03be77c87fe6ac2dc"
+integration = "cbd8087e2d94856bc47d42f7cd421341a4270585"
+tree = "327e9a8296249f84b87763c7ec062ab456dad98f"
+contract_hash = "1fbfc7121a84f34625d32541df602212c7931e760f479cc2c20eae84ef40335a"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAINT-DEVELOPMENT-GUIDE-PIN-01"]
+result = "pass"
+review = "passed"
+model_review = "passed"
+
+[[acceptance]]
+item = "The development guide's current Flutter prerequisite prose, standalone clone branch and illustrative CI flutter-version all agree with fdroid/flutter.version, or derive the value from that file in a valid example. Any current bundled Dart literal agrees with the root setup or is replaced with a reference to the bundled toolchain. Add a resolving relative link to AGENTS.md#common-offline-integration-gate distinguishing existing provisioned offline work from optional standalone human setup. Do not direct offline workers to install tools, mutate a shared SDK or change profiles; reuse the authoritative setup rather than duplicate its policy."
+result = "met"
+evidence = "Final guide SDK section selects Flutter 3.47.9 in prose and standalone clone; CI flutter-version is 3.47.9. Replaced duplicate Dart number with bundled toolchain reference. Relative ../../../AGENTS.md#common-offline-integration-gate resolves and explicitly separates existing offline provisioning from optional human setup. Readback check 4 and focused tests check 3 pass; no setup recipe executed."
+
+[[acceptance]]
+item = "Add test/scripts/test_development_guide_docs.py using the existing file-based pytest style. Read the actual pin and target the current SDK installation and CI-example sections, not a hardcoded new SDK version or whole-file prose snapshot. Require every current selector to agree with the pin and the offline-setup link to resolve. Verify both stale local clone selection and stale CI selection independently, and any duplicated current Dart value. Retain failing-before/passing-after evidence; permit separately labeled historical evidence rather than banning old version strings everywhere."
+result = "met"
+evidence = "New 41-line file reuses the existing section helper, ROOT, PIN and SETUP. Three separately parameterized current-selector cases plus Dart and link cases read real files, scoped to SDK/CI sections rather than whole-file historical bans. Check 2 observes actual baseline pytest exit 1 and five distinct failures, with independent clone/CI failures; original five cases pass. Check 3 observes final 10 passed. Helper sources, full logs and per-case RED outcomes are embedded in verification_artifacts."
+
+[[acceptance]]
+item = "Changes are confined to the two Touches and these current SDK instructions; existing local-setup tests remain intact and pass. Preserve the repository pin, lockfiles, accepted instructions/decisions, Android/emulator commands, application code, CI workflow files and all qualification gates. A documentation check is not execution of any setup recipe, supported-device/browser qualification, a repaired CI run, runtime admission or goal acceptance."
+result = "met"
+evidence = "Check 7 and scoped readback confirm only the two Touches changed and all non-SDK/CI guide bytes are preserved. Check 6 confirms pin, both locks and existing local-setup tests unchanged; all five original cases pass. No application, CI/workflow, Android/emulator, policy or qualification gate edits. No setup recipe, device/browser, wrapper, workflow or publication executed; focused documentation results establish no runtime admission or goal acceptance."
