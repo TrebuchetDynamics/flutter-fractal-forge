@@ -22,6 +22,20 @@ There is a material evidence discrepancy: metadata says `broken/INCOMPLETE`, `fa
 4. Use executable doubles in `test/scripts/offline_gate.bats` to show successful and failed stages remain distinguishable, a failure with diagnostic context outside the final 40 lines remains observable, and the JSON/exit agrees with retained logs. Keep stop-on-failure, timeout/setup failures and both lock guards; do not turn failed stages into success or run skipped families as if they had passed.
 5. Run the complete unchanged-family gate on delivered bytes using the restated command. Record actual source/command/exits, stage terminal results and both lock hashes in this note. A genuine stage failure is an observable result, not successful qualification; remaining short-circuited families are NOT_RUN. If the external classifier still rejects an otherwise explicit result, report its exact boundary without editing runner state or claiming acceptance.
 
+## Retained-report correction
+
+See [the check-receipt protocol](maintainer-check-receipts.md). Attempt 2 report for
+`20dcd625c0832af973ba5286222ef7e297ace51b` explicitly says the worker did not run
+the complete gate. Its focused results and future runner gate do not satisfy the
+third acceptance item. The normalized executable Checks retain the complete root
+setup, add supported terminal JSON reporting and perform version/import preflight;
+no full-gate obligation or failure is waived. Record actual delivered-tree results,
+including both lock hashes before/after, not a promised coordinator closeout.
+
+The historical bundle named above is absent on this host during this maintainer
+pass; its prior recorded readback is not a new verification. No named-test repair
+or goal qualification follows from it.
+
 ## Maintainer limits
 
 This pass only creates the execution contract. Full gate and worker implementation checks are NOT_RUN. Initial `tasks validate --worktree .` passes (180 tasks, 22 goals). No open task covers full-check result reporting; the prior MAIN-CHECK-01 Python binding repair and physical-oracle producer are already closed and remain closed. `tasks handoff .` reports no pending saved edits, so no ledger proposal is applied or historical closure undone. No goal, live, device or release qualification is inferred.
