@@ -40,7 +40,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.13.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -775858231;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 604871858;
 
 // Section: executor
 
@@ -1953,6 +1953,467 @@ fn wire__crate__api__StateParamTimelineStart_token_impl(
         },
     )
 }
+fn wire__crate__api__StatePhysicalEvent_new_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "StatePhysicalEvent_new",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_sequence = <u64>::sse_decode(&mut deserializer);
+            let api_source_us = <Option<i64>>::sse_decode(&mut deserializer);
+            let api_consumed = <bool>::sse_decode(&mut deserializer);
+            let api_input = <StatePhysicalInput>::sse_decode(&mut deserializer);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Ok::<_, ()>(crate::api::StatePhysicalEvent::new(
+                    api_sequence,
+                    api_source_us,
+                    api_consumed,
+                    api_input,
+                ))?;
+                std::result::Result::Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__StatePhysicalInput_dispose_input_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "StatePhysicalInput_dispose_input",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Ok::<_, ()>(crate::api::StatePhysicalInput::dispose_input())?;
+                std::result::Result::Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__StatePhysicalInput_focus_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "StatePhysicalInput_focus",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_focus = <crate::api::StateFocus>::sse_decode(&mut deserializer);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Ok::<_, ()>(crate::api::StatePhysicalInput::focus(api_focus))?;
+                std::result::Result::Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__StatePhysicalInput_key_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "StatePhysicalInput_key",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_key = <crate::api::StateKey>::sse_decode(&mut deserializer);
+            let api_phase = <crate::api::StateKeyPhase>::sse_decode(&mut deserializer);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok =
+                    Ok::<_, ()>(crate::api::StatePhysicalInput::key(api_key, api_phase))?;
+                std::result::Result::Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__StatePhysicalInput_pointer_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "StatePhysicalInput_pointer",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_id = <u64>::sse_decode(&mut deserializer);
+            let api_local_x = <f64>::sse_decode(&mut deserializer);
+            let api_local_y = <f64>::sse_decode(&mut deserializer);
+            let api_phase = <crate::api::StatePointerPhase>::sse_decode(&mut deserializer);
+            let api_kind = <crate::api::StatePointerKind>::sse_decode(&mut deserializer);
+            let api_buttons = <u64>::sse_decode(&mut deserializer);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Ok::<_, ()>(crate::api::StatePhysicalInput::pointer(
+                    api_id,
+                    api_local_x,
+                    api_local_y,
+                    api_phase,
+                    api_kind,
+                    api_buttons,
+                ))?;
+                std::result::Result::Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__StatePhysicalInput_pump_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "StatePhysicalInput_pump",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_generation = <u64>::sse_decode(&mut deserializer);
+            let api_delta_us = <i64>::sse_decode(&mut deserializer);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Ok::<_, ()>(crate::api::StatePhysicalInput::pump(
+                    api_generation,
+                    api_delta_us,
+                ))?;
+                std::result::Result::Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__StatePhysicalInput_wall_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "StatePhysicalInput_wall",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_us = <i64>::sse_decode(&mut deserializer);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Ok::<_, ()>(crate::api::StatePhysicalInput::wall(api_us))?;
+                std::result::Result::Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__StatePhysicalInput_wheel_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "StatePhysicalInput_wheel",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_local_x = <f64>::sse_decode(&mut deserializer);
+            let api_local_y = <f64>::sse_decode(&mut deserializer);
+            let api_dy = <f64>::sse_decode(&mut deserializer);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Ok::<_, ()>(crate::api::StatePhysicalInput::wheel(
+                    api_local_x,
+                    api_local_y,
+                    api_dy,
+                ))?;
+                std::result::Result::Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__StatePhysicalResult_generation_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "StatePhysicalResult_generation",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalResult>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, false,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                        _ => unreachable!(),
+                    }
+                }
+                let api_that_guard = api_that_guard.unwrap();
+                let output_ok = Ok::<_, ()>(crate::api::StatePhysicalResult::generation(
+                    &*api_that_guard,
+                ))?;
+                std::result::Result::Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__StatePhysicalResult_interactions_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "StatePhysicalResult_interactions",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalResult>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, false,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                        _ => unreachable!(),
+                    }
+                }
+                let api_that_guard = api_that_guard.unwrap();
+                let output_ok = Ok::<_, ()>(crate::api::StatePhysicalResult::interactions(
+                    &*api_that_guard,
+                ))?;
+                std::result::Result::Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__StatePhysicalResult_keys_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "StatePhysicalResult_keys",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalResult>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, false,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                        _ => unreachable!(),
+                    }
+                }
+                let api_that_guard = api_that_guard.unwrap();
+                let output_ok =
+                    Ok::<_, ()>(crate::api::StatePhysicalResult::keys(&*api_that_guard))?;
+                std::result::Result::Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__StatePhysicalResult_snapshot_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "StatePhysicalResult_snapshot",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalResult>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, false,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                        _ => unreachable!(),
+                    }
+                }
+                let api_that_guard = api_that_guard.unwrap();
+                let output_ok =
+                    Ok::<_, ()>(crate::api::StatePhysicalResult::snapshot(&*api_that_guard))?;
+                std::result::Result::Ok(output_ok)
+            })())
+        },
+    )
+}
 fn wire__crate__api__StateSession_advance_number_wall_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -2261,6 +2722,65 @@ fn wire__crate__api__StateSession_apply_batch_with_module_animation_impl(
                         api_expected_revision,
                         api_commands,
                         api_animate,
+                    )?;
+                    std::result::Result::Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__StateSession_apply_physical_async_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "StateSession_apply_physical_async",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateSession>,
+            >>::sse_decode(&mut deserializer);
+            let api_session_id = <u64>::sse_decode(&mut deserializer);
+            let api_expected_revision = <u64>::sse_decode(&mut deserializer);
+            let api_viewport = <Option<crate::api::StateViewport>>::sse_decode(&mut deserializer);
+            let api_events = <Vec<StatePhysicalEvent>>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, String>((move || {
+                    let mut api_that_guard = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                &api_that, 0, false,
+                            ),
+                        ]);
+                    for i in decode_indices_ {
+                        match i {
+                            0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                            _ => unreachable!(),
+                        }
+                    }
+                    let api_that_guard = api_that_guard.unwrap();
+                    let output_ok = crate::api::StateSession::apply_physical_async(
+                        &*api_that_guard,
+                        api_session_id,
+                        api_expected_revision,
+                        api_viewport,
+                        api_events,
                     )?;
                     std::result::Result::Ok(output_ok)
                 })())
@@ -2846,6 +3366,52 @@ fn wire__crate__api__StateSession_new_impl(
                     api_capabilities,
                     api_module_id,
                 )?;
+                std::result::Result::Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__StateSession_physical_generation_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "StateSession_physical_generation",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateSession>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            transform_result_sse::<_, String>((move || {
+                let mut api_that_guard = None;
+                let decode_indices_ =
+                    flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                        flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                            &api_that, 0, false,
+                        ),
+                    ]);
+                for i in decode_indices_ {
+                    match i {
+                        0 => api_that_guard = Some(api_that.lockable_decode_sync_ref()),
+                        _ => unreachable!(),
+                    }
+                }
+                let api_that_guard = api_that_guard.unwrap();
+                let output_ok = crate::api::StateSession::physical_generation(&*api_that_guard)?;
                 std::result::Result::Ok(output_ok)
             })())
         },
@@ -6935,6 +7501,15 @@ flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
     flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateParamTimelineToken>
 );
 flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
+    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalEvent>
+);
+flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
+    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalInput>
+);
+flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
+    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalResult>
+);
+flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
     flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateSession>
 );
 flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
@@ -7075,6 +7650,36 @@ impl SseDecode for StateParamTimelineToken {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <RustOpaqueMoi<
             flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateParamTimelineToken>,
+        >>::sse_decode(deserializer);
+        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
+    }
+}
+
+impl SseDecode for StatePhysicalEvent {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <RustOpaqueMoi<
+            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalEvent>,
+        >>::sse_decode(deserializer);
+        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
+    }
+}
+
+impl SseDecode for StatePhysicalInput {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <RustOpaqueMoi<
+            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalInput>,
+        >>::sse_decode(deserializer);
+        return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
+    }
+}
+
+impl SseDecode for StatePhysicalResult {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <RustOpaqueMoi<
+            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalResult>,
         >>::sse_decode(deserializer);
         return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
     }
@@ -7317,6 +7922,36 @@ impl SseDecode
 }
 
 impl SseDecode
+    for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalEvent>>
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <usize>::sse_decode(deserializer);
+        return decode_rust_opaque_moi(inner);
+    }
+}
+
+impl SseDecode
+    for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalInput>>
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <usize>::sse_decode(deserializer);
+        return decode_rust_opaque_moi(inner);
+    }
+}
+
+impl SseDecode
+    for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalResult>>
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <usize>::sse_decode(deserializer);
+        return decode_rust_opaque_moi(inner);
+    }
+}
+
+impl SseDecode
     for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateSession>>
 {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -7506,6 +8141,18 @@ impl SseDecode for Vec<StateCommand> {
     }
 }
 
+impl SseDecode for Vec<StatePhysicalEvent> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = Vec::with_capacity(len_ as usize);
+        for idx_ in 0..len_ {
+            ans_.push(<StatePhysicalEvent>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
 impl SseDecode for Vec<StateSnapshot> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -7561,6 +8208,30 @@ impl SseDecode for Vec<(String, StateValue)> {
         let mut ans_ = Vec::with_capacity(len_ as usize);
         for idx_ in 0..len_ {
             ans_.push(<(String, StateValue)>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<crate::api::StateInteraction> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = Vec::with_capacity(len_ as usize);
+        for idx_ in 0..len_ {
+            ans_.push(<crate::api::StateInteraction>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<crate::api::StateKeyDisposition> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = Vec::with_capacity(len_ as usize);
+        for idx_ in 0..len_ {
+            ans_.push(<crate::api::StateKeyDisposition>::sse_decode(deserializer));
         }
         return ans_;
     }
@@ -7688,6 +8359,17 @@ impl SseDecode for Option<f64> {
     }
 }
 
+impl SseDecode for Option<i64> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<i64>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
 impl SseDecode for Option<crate::api::StateNumberWallStatus> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -7708,6 +8390,17 @@ impl SseDecode for Option<crate::api::StateTrajectoryStatus> {
             return Some(<crate::api::StateTrajectoryStatus>::sse_decode(
                 deserializer,
             ));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<crate::api::StateViewport> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<crate::api::StateViewport>::sse_decode(deserializer));
         } else {
             return None;
         }
@@ -7755,6 +8448,76 @@ impl SseDecode for crate::api::StateCamera {
         return crate::api::StateCamera {
             view: var_view,
             has_trajectory: var_hasTrajectory,
+        };
+    }
+}
+
+impl SseDecode for crate::api::StateFocus {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <i32>::sse_decode(deserializer);
+        return match inner {
+            0 => crate::api::StateFocus::Canvas,
+            1 => crate::api::StateFocus::Control,
+            2 => crate::api::StateFocus::None,
+            _ => unreachable!("Invalid variant for StateFocus: {}", inner),
+        };
+    }
+}
+
+impl SseDecode for crate::api::StateInteraction {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <i32>::sse_decode(deserializer);
+        return match inner {
+            0 => crate::api::StateInteraction::Start,
+            1 => crate::api::StateInteraction::End,
+            2 => crate::api::StateInteraction::Correction,
+            _ => unreachable!("Invalid variant for StateInteraction: {}", inner),
+        };
+    }
+}
+
+impl SseDecode for crate::api::StateKey {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <i32>::sse_decode(deserializer);
+        return match inner {
+            0 => crate::api::StateKey::Left,
+            1 => crate::api::StateKey::Right,
+            2 => crate::api::StateKey::Up,
+            3 => crate::api::StateKey::Down,
+            4 => crate::api::StateKey::Plus,
+            5 => crate::api::StateKey::Minus,
+            6 => crate::api::StateKey::Reset,
+            7 => crate::api::StateKey::Unknown,
+            _ => unreachable!("Invalid variant for StateKey: {}", inner),
+        };
+    }
+}
+
+impl SseDecode for crate::api::StateKeyDisposition {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <i32>::sse_decode(deserializer);
+        return match inner {
+            0 => crate::api::StateKeyDisposition::Handled,
+            1 => crate::api::StateKeyDisposition::ControlHandled,
+            2 => crate::api::StateKeyDisposition::Ignored,
+            _ => unreachable!("Invalid variant for StateKeyDisposition: {}", inner),
+        };
+    }
+}
+
+impl SseDecode for crate::api::StateKeyPhase {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <i32>::sse_decode(deserializer);
+        return match inner {
+            0 => crate::api::StateKeyPhase::Down,
+            1 => crate::api::StateKeyPhase::Repeat,
+            2 => crate::api::StateKeyPhase::Up,
+            _ => unreachable!("Invalid variant for StateKeyPhase: {}", inner),
         };
     }
 }
@@ -7832,6 +8595,33 @@ impl SseDecode for crate::api::StateOrbitProjection {
     }
 }
 
+impl SseDecode for crate::api::StatePointerKind {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <i32>::sse_decode(deserializer);
+        return match inner {
+            0 => crate::api::StatePointerKind::Touch,
+            1 => crate::api::StatePointerKind::Mouse,
+            2 => crate::api::StatePointerKind::Stylus,
+            _ => unreachable!("Invalid variant for StatePointerKind: {}", inner),
+        };
+    }
+}
+
+impl SseDecode for crate::api::StatePointerPhase {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <i32>::sse_decode(deserializer);
+        return match inner {
+            0 => crate::api::StatePointerPhase::Down,
+            1 => crate::api::StatePointerPhase::Move,
+            2 => crate::api::StatePointerPhase::Up,
+            3 => crate::api::StatePointerPhase::Cancel,
+            _ => unreachable!("Invalid variant for StatePointerPhase: {}", inner),
+        };
+    }
+}
+
 impl SseDecode for crate::api::StateTrajectoryStatus {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -7864,6 +8654,18 @@ impl SseDecode for crate::api::StateView {
             rot_x: var_rotX,
             rot_y: var_rotY,
             rot_z: var_rotZ,
+        };
+    }
+}
+
+impl SseDecode for crate::api::StateViewport {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_width = <f64>::sse_decode(deserializer);
+        let mut var_height = <f64>::sse_decode(deserializer);
+        return crate::api::StateViewport {
+            width: var_width,
+            height: var_height,
         };
     }
 }
@@ -7964,90 +8766,96 @@ fn pde_ffi_dispatcher_primary_impl(
 ) {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        52 => wire__crate__api__StateSession_advance_number_wall_async_impl(
+        64 => wire__crate__api__StateSession_advance_number_wall_async_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        53 => wire__crate__api__StateSession_advance_trajectory_async_impl(
+        65 => wire__crate__api__StateSession_advance_trajectory_async_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        55 => wire__crate__api__StateSession_apply_batch_with_module_animation_impl(
+        67 => wire__crate__api__StateSession_apply_batch_with_module_animation_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        57 => wire__crate__api__StateSession_begin_number_wall_async_impl(
+        68 => wire__crate__api__StateSession_apply_physical_async_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        58 => wire__crate__api__StateSession_begin_trajectory_async_impl(
+        70 => wire__crate__api__StateSession_begin_number_wall_async_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        59 => wire__crate__api__StateSession_cancel_morph_timeline_impl(
+        71 => wire__crate__api__StateSession_begin_trajectory_async_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        61 => wire__crate__api__StateSession_cancel_number_wall_async_impl(
+        72 => wire__crate__api__StateSession_cancel_morph_timeline_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        62 => wire__crate__api__StateSession_cancel_param_timeline_impl(
+        74 => wire__crate__api__StateSession_cancel_number_wall_async_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        63 => wire__crate__api__StateSession_cancel_trajectory_async_impl(
+        75 => wire__crate__api__StateSession_cancel_param_timeline_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        65 => {
+        76 => wire__crate__api__StateSession_cancel_trajectory_async_impl(
+            port,
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
+        79 => {
             wire__crate__api__StateSession_randomize_params_impl(port, ptr, rust_vec_len, data_len)
         }
-        67 => wire__crate__api__StateSession_shutdown_async_impl(port, ptr, rust_vec_len, data_len),
-        69 => wire__crate__api__StateSession_snapshot_async_impl(port, ptr, rust_vec_len, data_len),
-        70 => wire__crate__api__StateSession_start_param_timeline_impl(
+        81 => wire__crate__api__StateSession_shutdown_async_impl(port, ptr, rust_vec_len, data_len),
+        83 => wire__crate__api__StateSession_snapshot_async_impl(port, ptr, rust_vec_len, data_len),
+        84 => wire__crate__api__StateSession_start_param_timeline_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        71 => wire__crate__api__StateSession_start_seeded_param_timeline_impl(
+        85 => wire__crate__api__StateSession_start_seeded_param_timeline_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        72 => wire__crate__api__StateSession_tick_morph_timeline_impl(
+        86 => wire__crate__api__StateSession_tick_morph_timeline_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        73 => wire__crate__api__StateSession_tick_param_timeline_impl(
+        87 => wire__crate__api__StateSession_tick_param_timeline_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        74 => wire__crate__api__StateSession_undo_number_wall_randomization_impl(
+        88 => wire__crate__api__StateSession_undo_number_wall_randomization_impl(
             port,
             ptr,
             rust_vec_len,
@@ -8127,140 +8935,155 @@ fn pde_ffi_dispatcher_sync_impl(
         48 => wire__crate__api__StateNumberWallUndo_snapshot_impl(ptr, rust_vec_len, data_len),
         49 => wire__crate__api__StateParamTimelineStart_snapshot_impl(ptr, rust_vec_len, data_len),
         50 => wire__crate__api__StateParamTimelineStart_token_impl(ptr, rust_vec_len, data_len),
-        51 => wire__crate__api__StateSession_advance_number_wall_impl(ptr, rust_vec_len, data_len),
-        54 => wire__crate__api__StateSession_apply_batch_impl(ptr, rust_vec_len, data_len),
-        56 => wire__crate__api__StateSession_begin_number_wall_impl(ptr, rust_vec_len, data_len),
-        60 => wire__crate__api__StateSession_cancel_number_wall_impl(ptr, rust_vec_len, data_len),
-        64 => wire__crate__api__StateSession_new_impl(ptr, rust_vec_len, data_len),
-        66 => wire__crate__api__StateSession_shutdown_impl(ptr, rust_vec_len, data_len),
-        68 => wire__crate__api__StateSession_snapshot_impl(ptr, rust_vec_len, data_len),
-        75 => wire__crate__api__StateSnapshot_can_undo_number_wall_randomization_impl(
+        51 => wire__crate__api__StatePhysicalEvent_new_impl(ptr, rust_vec_len, data_len),
+        52 => wire__crate__api__StatePhysicalInput_dispose_input_impl(ptr, rust_vec_len, data_len),
+        53 => wire__crate__api__StatePhysicalInput_focus_impl(ptr, rust_vec_len, data_len),
+        54 => wire__crate__api__StatePhysicalInput_key_impl(ptr, rust_vec_len, data_len),
+        55 => wire__crate__api__StatePhysicalInput_pointer_impl(ptr, rust_vec_len, data_len),
+        56 => wire__crate__api__StatePhysicalInput_pump_impl(ptr, rust_vec_len, data_len),
+        57 => wire__crate__api__StatePhysicalInput_wall_impl(ptr, rust_vec_len, data_len),
+        58 => wire__crate__api__StatePhysicalInput_wheel_impl(ptr, rust_vec_len, data_len),
+        59 => wire__crate__api__StatePhysicalResult_generation_impl(ptr, rust_vec_len, data_len),
+        60 => wire__crate__api__StatePhysicalResult_interactions_impl(ptr, rust_vec_len, data_len),
+        61 => wire__crate__api__StatePhysicalResult_keys_impl(ptr, rust_vec_len, data_len),
+        62 => wire__crate__api__StatePhysicalResult_snapshot_impl(ptr, rust_vec_len, data_len),
+        63 => wire__crate__api__StateSession_advance_number_wall_impl(ptr, rust_vec_len, data_len),
+        66 => wire__crate__api__StateSession_apply_batch_impl(ptr, rust_vec_len, data_len),
+        69 => wire__crate__api__StateSession_begin_number_wall_impl(ptr, rust_vec_len, data_len),
+        73 => wire__crate__api__StateSession_cancel_number_wall_impl(ptr, rust_vec_len, data_len),
+        77 => wire__crate__api__StateSession_new_impl(ptr, rust_vec_len, data_len),
+        78 => wire__crate__api__StateSession_physical_generation_impl(ptr, rust_vec_len, data_len),
+        80 => wire__crate__api__StateSession_shutdown_impl(ptr, rust_vec_len, data_len),
+        82 => wire__crate__api__StateSession_snapshot_impl(ptr, rust_vec_len, data_len),
+        89 => wire__crate__api__StateSnapshot_can_undo_number_wall_randomization_impl(
             ptr,
             rust_vec_len,
             data_len,
         ),
-        76 => wire__crate__api__StateSnapshot_debug_u64_fixtures_impl(ptr, rust_vec_len, data_len),
-        77 => wire__crate__api__StateSnapshot_fluid_mode_enabled_impl(ptr, rust_vec_len, data_len),
-        78 => wire__crate__api__StateSnapshot_fluid_strength_impl(ptr, rust_vec_len, data_len),
-        79 => wire__crate__api__StateSnapshot_glow_enabled_impl(ptr, rust_vec_len, data_len),
-        80 => wire__crate__api__StateSnapshot_glow_intensity_impl(ptr, rust_vec_len, data_len),
-        81 => wire__crate__api__StateSnapshot_glow_sigma_impl(ptr, rust_vec_len, data_len),
-        82 => wire__crate__api__StateSnapshot_is_morphing_impl(ptr, rust_vec_len, data_len),
-        83 => {
+        90 => wire__crate__api__StateSnapshot_debug_u64_fixtures_impl(ptr, rust_vec_len, data_len),
+        91 => wire__crate__api__StateSnapshot_fluid_mode_enabled_impl(ptr, rust_vec_len, data_len),
+        92 => wire__crate__api__StateSnapshot_fluid_strength_impl(ptr, rust_vec_len, data_len),
+        93 => wire__crate__api__StateSnapshot_glow_enabled_impl(ptr, rust_vec_len, data_len),
+        94 => wire__crate__api__StateSnapshot_glow_intensity_impl(ptr, rust_vec_len, data_len),
+        95 => wire__crate__api__StateSnapshot_glow_sigma_impl(ptr, rust_vec_len, data_len),
+        96 => wire__crate__api__StateSnapshot_is_morphing_impl(ptr, rust_vec_len, data_len),
+        97 => {
             wire__crate__api__StateSnapshot_kaleidoscope_enabled_impl(ptr, rust_vec_len, data_len)
         }
-        84 => wire__crate__api__StateSnapshot_kaleidoscope_mirror_impl(ptr, rust_vec_len, data_len),
-        85 => wire__crate__api__StateSnapshot_kaleidoscope_mirror_mode_impl(
+        98 => wire__crate__api__StateSnapshot_kaleidoscope_mirror_impl(ptr, rust_vec_len, data_len),
+        99 => wire__crate__api__StateSnapshot_kaleidoscope_mirror_mode_impl(
             ptr,
             rust_vec_len,
             data_len,
         ),
-        86 => {
+        100 => {
             wire__crate__api__StateSnapshot_kaleidoscope_rotation_impl(ptr, rust_vec_len, data_len)
         }
-        87 => {
+        101 => {
             wire__crate__api__StateSnapshot_kaleidoscope_sectors_impl(ptr, rust_vec_len, data_len)
         }
-        88 => wire__crate__api__StateSnapshot_last_adaptive_zoom_impl(ptr, rust_vec_len, data_len),
-        89 => wire__crate__api__StateSnapshot_module_id_impl(ptr, rust_vec_len, data_len),
-        90 => wire__crate__api__StateSnapshot_morph_progress_impl(ptr, rust_vec_len, data_len),
-        91 => {
+        102 => wire__crate__api__StateSnapshot_last_adaptive_zoom_impl(ptr, rust_vec_len, data_len),
+        103 => wire__crate__api__StateSnapshot_module_id_impl(ptr, rust_vec_len, data_len),
+        104 => wire__crate__api__StateSnapshot_morph_progress_impl(ptr, rust_vec_len, data_len),
+        105 => {
             wire__crate__api__StateSnapshot_morph_timeline_token_impl(ptr, rust_vec_len, data_len)
         }
-        92 => wire__crate__api__StateSnapshot_number_wall_frame_impl(ptr, rust_vec_len, data_len),
-        93 => wire__crate__api__StateSnapshot_number_wall_pending_impl(ptr, rust_vec_len, data_len),
-        94 => wire__crate__api__StateSnapshot_number_wall_status_impl(ptr, rust_vec_len, data_len),
-        95 => wire__crate__api__StateSnapshot_params_impl(ptr, rust_vec_len, data_len),
-        96 => wire__crate__api__StateSnapshot_previous_module_id_impl(ptr, rust_vec_len, data_len),
-        97 => wire__crate__api__StateSnapshot_revision_impl(ptr, rust_vec_len, data_len),
-        98 => wire__crate__api__StateSnapshot_rotation_locked_impl(ptr, rust_vec_len, data_len),
-        99 => wire__crate__api__StateSnapshot_session_id_impl(ptr, rust_vec_len, data_len),
-        100 => wire__crate__api__StateSnapshot_trajectory_impl(ptr, rust_vec_len, data_len),
-        101 => wire__crate__api__StateSnapshot_trajectory_frame_impl(ptr, rust_vec_len, data_len),
-        102 => {
+        106 => wire__crate__api__StateSnapshot_number_wall_frame_impl(ptr, rust_vec_len, data_len),
+        107 => {
+            wire__crate__api__StateSnapshot_number_wall_pending_impl(ptr, rust_vec_len, data_len)
+        }
+        108 => wire__crate__api__StateSnapshot_number_wall_status_impl(ptr, rust_vec_len, data_len),
+        109 => wire__crate__api__StateSnapshot_params_impl(ptr, rust_vec_len, data_len),
+        110 => wire__crate__api__StateSnapshot_previous_module_id_impl(ptr, rust_vec_len, data_len),
+        111 => wire__crate__api__StateSnapshot_revision_impl(ptr, rust_vec_len, data_len),
+        112 => wire__crate__api__StateSnapshot_rotation_locked_impl(ptr, rust_vec_len, data_len),
+        113 => wire__crate__api__StateSnapshot_session_id_impl(ptr, rust_vec_len, data_len),
+        114 => wire__crate__api__StateSnapshot_trajectory_impl(ptr, rust_vec_len, data_len),
+        115 => wire__crate__api__StateSnapshot_trajectory_frame_impl(ptr, rust_vec_len, data_len),
+        116 => {
             wire__crate__api__StateSnapshot_trajectory_generation_impl(ptr, rust_vec_len, data_len)
         }
-        103 => wire__crate__api__StateSnapshot_trajectory_pending_impl(ptr, rust_vec_len, data_len),
-        104 => wire__crate__api__StateSnapshot_trajectory_status_impl(ptr, rust_vec_len, data_len),
-        105 => {
+        117 => wire__crate__api__StateSnapshot_trajectory_pending_impl(ptr, rust_vec_len, data_len),
+        118 => wire__crate__api__StateSnapshot_trajectory_status_impl(ptr, rust_vec_len, data_len),
+        119 => {
             wire__crate__api__StateSnapshot_transparent_background_impl(ptr, rust_vec_len, data_len)
         }
-        106 => wire__crate__api__StateSnapshot_view_impl(ptr, rust_vec_len, data_len),
-        107 => wire__crate__api__StateTrajectoryCamera_new_impl(ptr, rust_vec_len, data_len),
-        108 => wire__crate__api__StateTrajectoryFrame_bounds_impl(ptr, rust_vec_len, data_len),
-        109 => wire__crate__api__StateTrajectoryFrame_cache_hit_impl(ptr, rust_vec_len, data_len),
-        110 => wire__crate__api__StateTrajectoryFrame_module_id_impl(ptr, rust_vec_len, data_len),
-        111 => wire__crate__api__StateTrajectoryFrame_points_impl(ptr, rust_vec_len, data_len),
-        112 => wire__crate__api__StateTrajectoryFrame_session_id_impl(ptr, rust_vec_len, data_len),
-        113 => wire__crate__api__StateTrajectoryFrame_settings_impl(ptr, rust_vec_len, data_len),
-        114 => wire__crate__api__StateTrajectoryFrame_settings_generation_impl(
+        120 => wire__crate__api__StateSnapshot_view_impl(ptr, rust_vec_len, data_len),
+        121 => wire__crate__api__StateTrajectoryCamera_new_impl(ptr, rust_vec_len, data_len),
+        122 => wire__crate__api__StateTrajectoryFrame_bounds_impl(ptr, rust_vec_len, data_len),
+        123 => wire__crate__api__StateTrajectoryFrame_cache_hit_impl(ptr, rust_vec_len, data_len),
+        124 => wire__crate__api__StateTrajectoryFrame_module_id_impl(ptr, rust_vec_len, data_len),
+        125 => wire__crate__api__StateTrajectoryFrame_points_impl(ptr, rust_vec_len, data_len),
+        126 => wire__crate__api__StateTrajectoryFrame_session_id_impl(ptr, rust_vec_len, data_len),
+        127 => wire__crate__api__StateTrajectoryFrame_settings_impl(ptr, rust_vec_len, data_len),
+        128 => wire__crate__api__StateTrajectoryFrame_settings_generation_impl(
             ptr,
             rust_vec_len,
             data_len,
         ),
-        115 => wire__crate__api__StateTrajectoryGuard_is_active_impl(ptr, rust_vec_len, data_len),
-        116 => wire__crate__api__StateTrajectoryGuard_new_impl(ptr, rust_vec_len, data_len),
-        117 => wire__crate__api__StateTrajectoryGuard_revoke_impl(ptr, rust_vec_len, data_len),
-        118 => wire__crate__api__StateTrajectoryProgress_frame_impl(ptr, rust_vec_len, data_len),
-        119 => {
+        129 => wire__crate__api__StateTrajectoryGuard_is_active_impl(ptr, rust_vec_len, data_len),
+        130 => wire__crate__api__StateTrajectoryGuard_new_impl(ptr, rust_vec_len, data_len),
+        131 => wire__crate__api__StateTrajectoryGuard_revoke_impl(ptr, rust_vec_len, data_len),
+        132 => wire__crate__api__StateTrajectoryProgress_frame_impl(ptr, rust_vec_len, data_len),
+        133 => {
             wire__crate__api__StateTrajectoryProgress_is_pending_impl(ptr, rust_vec_len, data_len)
         }
-        120 => wire__crate__api__StateTrajectoryProgress_snapshot_impl(ptr, rust_vec_len, data_len),
-        121 => wire__crate__api__StateTrajectoryProgress_status_impl(ptr, rust_vec_len, data_len),
-        122 => wire__crate__api__StateTrajectoryProgress_steps_completed_impl(
+        134 => wire__crate__api__StateTrajectoryProgress_snapshot_impl(ptr, rust_vec_len, data_len),
+        135 => wire__crate__api__StateTrajectoryProgress_status_impl(ptr, rust_vec_len, data_len),
+        136 => wire__crate__api__StateTrajectoryProgress_steps_completed_impl(
             ptr,
             rust_vec_len,
             data_len,
         ),
-        123 => wire__crate__api__StateTrajectorySettings_burn_in_steps_impl(
+        137 => wire__crate__api__StateTrajectorySettings_burn_in_steps_impl(
             ptr,
             rust_vec_len,
             data_len,
         ),
-        124 => {
+        138 => {
             wire__crate__api__StateTrajectorySettings_integrator_impl(ptr, rust_vec_len, data_len)
         }
-        125 => wire__crate__api__StateTrajectorySettings_new_impl(ptr, rust_vec_len, data_len),
-        126 => {
+        139 => wire__crate__api__StateTrajectorySettings_new_impl(ptr, rust_vec_len, data_len),
+        140 => {
             wire__crate__api__StateTrajectorySettings_projection_impl(ptr, rust_vec_len, data_len)
         }
-        127 => wire__crate__api__StateTrajectorySettings_retained_steps_impl(
+        141 => wire__crate__api__StateTrajectorySettings_retained_steps_impl(
             ptr,
             rust_vec_len,
             data_len,
         ),
-        128 => wire__crate__api__StateTrajectorySettings_seed_impl(ptr, rust_vec_len, data_len),
-        129 => {
+        142 => wire__crate__api__StateTrajectorySettings_seed_impl(ptr, rust_vec_len, data_len),
+        143 => {
             wire__crate__api__StateTrajectorySettings_step_size_impl(ptr, rust_vec_len, data_len)
         }
-        130 => wire__crate__api__StateTrajectorySettings_system_impl(ptr, rust_vec_len, data_len),
-        131 => wire__crate__api__StateTrajectorySettings_version_impl(ptr, rust_vec_len, data_len),
-        132 => wire__crate__api__StateValue_boolean_impl(ptr, rust_vec_len, data_len),
-        133 => wire__crate__api__StateValue_float_impl(ptr, rust_vec_len, data_len),
-        134 => wire__crate__api__StateValue_from_boolean_impl(ptr, rust_vec_len, data_len),
-        135 => wire__crate__api__StateValue_from_float_impl(ptr, rust_vec_len, data_len),
-        136 => wire__crate__api__StateValue_from_number_impl(ptr, rust_vec_len, data_len),
-        137 => wire__crate__api__StateValue_from_text_impl(ptr, rust_vec_len, data_len),
-        138 => wire__crate__api__StateValue_number_impl(ptr, rust_vec_len, data_len),
-        139 => wire__crate__api__StateValue_text_impl(ptr, rust_vec_len, data_len),
-        140 => wire__crate__api__StateWorkService_new_impl(ptr, rust_vec_len, data_len),
-        141 => {
+        144 => wire__crate__api__StateTrajectorySettings_system_impl(ptr, rust_vec_len, data_len),
+        145 => wire__crate__api__StateTrajectorySettings_version_impl(ptr, rust_vec_len, data_len),
+        146 => wire__crate__api__StateValue_boolean_impl(ptr, rust_vec_len, data_len),
+        147 => wire__crate__api__StateValue_float_impl(ptr, rust_vec_len, data_len),
+        148 => wire__crate__api__StateValue_from_boolean_impl(ptr, rust_vec_len, data_len),
+        149 => wire__crate__api__StateValue_from_float_impl(ptr, rust_vec_len, data_len),
+        150 => wire__crate__api__StateValue_from_number_impl(ptr, rust_vec_len, data_len),
+        151 => wire__crate__api__StateValue_from_text_impl(ptr, rust_vec_len, data_len),
+        152 => wire__crate__api__StateValue_number_impl(ptr, rust_vec_len, data_len),
+        153 => wire__crate__api__StateValue_text_impl(ptr, rust_vec_len, data_len),
+        154 => wire__crate__api__StateWorkService_new_impl(ptr, rust_vec_len, data_len),
+        155 => {
             wire__crate__api__StateWorkService_replace_number_wall_impl(ptr, rust_vec_len, data_len)
         }
-        142 => {
+        156 => {
             wire__crate__api__StateWorkService_replace_trajectory_impl(ptr, rust_vec_len, data_len)
         }
-        143 => {
+        157 => {
             wire__crate__api__StateWorkService_submit_number_wall_impl(ptr, rust_vec_len, data_len)
         }
-        144 => {
+        158 => {
             wire__crate__api__StateWorkService_submit_trajectory_impl(ptr, rust_vec_len, data_len)
         }
-        145 => wire__crate__api__StateWorkTicket_cancel_impl(ptr, rust_vec_len, data_len),
-        146 => wire__crate__api__StateWorkTicket_status_impl(ptr, rust_vec_len, data_len),
-        147 => wire__crate__api__create_engine_impl(ptr, rust_vec_len, data_len),
-        148 => wire__crate__api__engine_snapshot_impl(ptr, rust_vec_len, data_len),
-        149 => wire__crate__api__engine_version_impl(ptr, rust_vec_len, data_len),
+        159 => wire__crate__api__StateWorkTicket_cancel_impl(ptr, rust_vec_len, data_len),
+        160 => wire__crate__api__StateWorkTicket_status_impl(ptr, rust_vec_len, data_len),
+        161 => wire__crate__api__create_engine_impl(ptr, rust_vec_len, data_len),
+        162 => wire__crate__api__engine_snapshot_impl(ptr, rust_vec_len, data_len),
+        163 => wire__crate__api__engine_version_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -8462,6 +9285,60 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<StateParamTimelineToken>>
     for StateParamTimelineToken
 {
     fn into_into_dart(self) -> FrbWrapper<StateParamTimelineToken> {
+        self.into()
+    }
+}
+
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<StatePhysicalEvent> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self.0)
+            .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<StatePhysicalEvent>
+{
+}
+
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<StatePhysicalEvent>> for StatePhysicalEvent {
+    fn into_into_dart(self) -> FrbWrapper<StatePhysicalEvent> {
+        self.into()
+    }
+}
+
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<StatePhysicalInput> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self.0)
+            .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<StatePhysicalInput>
+{
+}
+
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<StatePhysicalInput>> for StatePhysicalInput {
+    fn into_into_dart(self) -> FrbWrapper<StatePhysicalInput> {
+        self.into()
+    }
+}
+
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for FrbWrapper<StatePhysicalResult> {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self.0)
+            .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for FrbWrapper<StatePhysicalResult>
+{
+}
+
+impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<StatePhysicalResult>> for StatePhysicalResult {
+    fn into_into_dart(self) -> FrbWrapper<StatePhysicalResult> {
         self.into()
     }
 }
@@ -8725,6 +9602,103 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::StateCamera> for crate::api::
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::StateFocus {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            Self::Canvas => 0.into_dart(),
+            Self::Control => 1.into_dart(),
+            Self::None => 2.into_dart(),
+            _ => unreachable!(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::StateFocus {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::StateFocus> for crate::api::StateFocus {
+    fn into_into_dart(self) -> crate::api::StateFocus {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::StateInteraction {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            Self::Start => 0.into_dart(),
+            Self::End => 1.into_dart(),
+            Self::Correction => 2.into_dart(),
+            _ => unreachable!(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::StateInteraction {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::StateInteraction>
+    for crate::api::StateInteraction
+{
+    fn into_into_dart(self) -> crate::api::StateInteraction {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::StateKey {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            Self::Left => 0.into_dart(),
+            Self::Right => 1.into_dart(),
+            Self::Up => 2.into_dart(),
+            Self::Down => 3.into_dart(),
+            Self::Plus => 4.into_dart(),
+            Self::Minus => 5.into_dart(),
+            Self::Reset => 6.into_dart(),
+            Self::Unknown => 7.into_dart(),
+            _ => unreachable!(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::StateKey {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::StateKey> for crate::api::StateKey {
+    fn into_into_dart(self) -> crate::api::StateKey {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::StateKeyDisposition {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            Self::Handled => 0.into_dart(),
+            Self::ControlHandled => 1.into_dart(),
+            Self::Ignored => 2.into_dart(),
+            _ => unreachable!(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::StateKeyDisposition
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::StateKeyDisposition>
+    for crate::api::StateKeyDisposition
+{
+    fn into_into_dart(self) -> crate::api::StateKeyDisposition {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::StateKeyPhase {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            Self::Down => 0.into_dart(),
+            Self::Repeat => 1.into_dart(),
+            Self::Up => 2.into_dart(),
+            _ => unreachable!(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::StateKeyPhase {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::StateKeyPhase> for crate::api::StateKeyPhase {
+    fn into_into_dart(self) -> crate::api::StateKeyPhase {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::StateNumberWallSequence {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         match self {
@@ -8834,6 +9808,45 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::StateOrbitProjection>
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::StatePointerKind {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            Self::Touch => 0.into_dart(),
+            Self::Mouse => 1.into_dart(),
+            Self::Stylus => 2.into_dart(),
+            _ => unreachable!(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::StatePointerKind {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::StatePointerKind>
+    for crate::api::StatePointerKind
+{
+    fn into_into_dart(self) -> crate::api::StatePointerKind {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::StatePointerPhase {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            Self::Down => 0.into_dart(),
+            Self::Move => 1.into_dart(),
+            Self::Up => 2.into_dart(),
+            Self::Cancel => 3.into_dart(),
+            _ => unreachable!(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::StatePointerPhase {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::StatePointerPhase>
+    for crate::api::StatePointerPhase
+{
+    fn into_into_dart(self) -> crate::api::StatePointerPhase {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::StateTrajectoryStatus {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         match self {
@@ -8875,6 +9888,22 @@ impl flutter_rust_bridge::IntoDart for crate::api::StateView {
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::StateView {}
 impl flutter_rust_bridge::IntoIntoDart<crate::api::StateView> for crate::api::StateView {
     fn into_into_dart(self) -> crate::api::StateView {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::StateViewport {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.width.into_into_dart().into_dart(),
+            self.height.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::StateViewport {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::StateViewport> for crate::api::StateViewport {
+    fn into_into_dart(self) -> crate::api::StateViewport {
         self
     }
 }
@@ -9048,6 +10077,27 @@ impl SseEncode for StateParamTimelineToken {
             flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self),
             serializer,
         );
+    }
+}
+
+impl SseEncode for StatePhysicalEvent {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalEvent>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self), serializer);
+    }
+}
+
+impl SseEncode for StatePhysicalInput {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalInput>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self), serializer);
+    }
+}
+
+impl SseEncode for StatePhysicalResult {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalResult>>>::sse_encode(flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self), serializer);
     }
 }
 
@@ -9295,6 +10345,39 @@ impl SseEncode
 }
 
 impl SseEncode
+    for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalEvent>>
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        let (ptr, size) = self.sse_encode_raw();
+        <usize>::sse_encode(ptr, serializer);
+        <i32>::sse_encode(size, serializer);
+    }
+}
+
+impl SseEncode
+    for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalInput>>
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        let (ptr, size) = self.sse_encode_raw();
+        <usize>::sse_encode(ptr, serializer);
+        <i32>::sse_encode(size, serializer);
+    }
+}
+
+impl SseEncode
+    for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalResult>>
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        let (ptr, size) = self.sse_encode_raw();
+        <usize>::sse_encode(ptr, serializer);
+        <i32>::sse_encode(size, serializer);
+    }
+}
+
+impl SseEncode
     for RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateSession>>
 {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -9484,6 +10567,16 @@ impl SseEncode for Vec<StateCommand> {
     }
 }
 
+impl SseEncode for Vec<StatePhysicalEvent> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <StatePhysicalEvent>::sse_encode(item, serializer);
+        }
+    }
+}
+
 impl SseEncode for Vec<StateSnapshot> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -9530,6 +10623,26 @@ impl SseEncode for Vec<(String, StateValue)> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <(String, StateValue)>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<crate::api::StateInteraction> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::StateInteraction>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<crate::api::StateKeyDisposition> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::StateKeyDisposition>::sse_encode(item, serializer);
         }
     }
 }
@@ -9644,6 +10757,16 @@ impl SseEncode for Option<f64> {
     }
 }
 
+impl SseEncode for Option<i64> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <i64>::sse_encode(value, serializer);
+        }
+    }
+}
+
 impl SseEncode for Option<crate::api::StateNumberWallStatus> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -9660,6 +10783,16 @@ impl SseEncode for Option<crate::api::StateTrajectoryStatus> {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
             <crate::api::StateTrajectoryStatus>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<crate::api::StateViewport> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::StateViewport>::sse_encode(value, serializer);
         }
     }
 }
@@ -9704,6 +10837,96 @@ impl SseEncode for crate::api::StateCamera {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <crate::api::StateView>::sse_encode(self.view, serializer);
         <bool>::sse_encode(self.has_trajectory, serializer);
+    }
+}
+
+impl SseEncode for crate::api::StateFocus {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(
+            match self {
+                crate::api::StateFocus::Canvas => 0,
+                crate::api::StateFocus::Control => 1,
+                crate::api::StateFocus::None => 2,
+                _ => {
+                    unimplemented!("");
+                }
+            },
+            serializer,
+        );
+    }
+}
+
+impl SseEncode for crate::api::StateInteraction {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(
+            match self {
+                crate::api::StateInteraction::Start => 0,
+                crate::api::StateInteraction::End => 1,
+                crate::api::StateInteraction::Correction => 2,
+                _ => {
+                    unimplemented!("");
+                }
+            },
+            serializer,
+        );
+    }
+}
+
+impl SseEncode for crate::api::StateKey {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(
+            match self {
+                crate::api::StateKey::Left => 0,
+                crate::api::StateKey::Right => 1,
+                crate::api::StateKey::Up => 2,
+                crate::api::StateKey::Down => 3,
+                crate::api::StateKey::Plus => 4,
+                crate::api::StateKey::Minus => 5,
+                crate::api::StateKey::Reset => 6,
+                crate::api::StateKey::Unknown => 7,
+                _ => {
+                    unimplemented!("");
+                }
+            },
+            serializer,
+        );
+    }
+}
+
+impl SseEncode for crate::api::StateKeyDisposition {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(
+            match self {
+                crate::api::StateKeyDisposition::Handled => 0,
+                crate::api::StateKeyDisposition::ControlHandled => 1,
+                crate::api::StateKeyDisposition::Ignored => 2,
+                _ => {
+                    unimplemented!("");
+                }
+            },
+            serializer,
+        );
+    }
+}
+
+impl SseEncode for crate::api::StateKeyPhase {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(
+            match self {
+                crate::api::StateKeyPhase::Down => 0,
+                crate::api::StateKeyPhase::Repeat => 1,
+                crate::api::StateKeyPhase::Up => 2,
+                _ => {
+                    unimplemented!("");
+                }
+            },
+            serializer,
+        );
     }
 }
 
@@ -9781,6 +11004,41 @@ impl SseEncode for crate::api::StateOrbitProjection {
     }
 }
 
+impl SseEncode for crate::api::StatePointerKind {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(
+            match self {
+                crate::api::StatePointerKind::Touch => 0,
+                crate::api::StatePointerKind::Mouse => 1,
+                crate::api::StatePointerKind::Stylus => 2,
+                _ => {
+                    unimplemented!("");
+                }
+            },
+            serializer,
+        );
+    }
+}
+
+impl SseEncode for crate::api::StatePointerPhase {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(
+            match self {
+                crate::api::StatePointerPhase::Down => 0,
+                crate::api::StatePointerPhase::Move => 1,
+                crate::api::StatePointerPhase::Up => 2,
+                crate::api::StatePointerPhase::Cancel => 3,
+                _ => {
+                    unimplemented!("");
+                }
+            },
+            serializer,
+        );
+    }
+}
+
 impl SseEncode for crate::api::StateTrajectoryStatus {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -9810,6 +11068,14 @@ impl SseEncode for crate::api::StateView {
         <f64>::sse_encode(self.rot_x, serializer);
         <f64>::sse_encode(self.rot_y, serializer);
         <f64>::sse_encode(self.rot_z, serializer);
+    }
+}
+
+impl SseEncode for crate::api::StateViewport {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <f64>::sse_encode(self.width, serializer);
+        <f64>::sse_encode(self.height, serializer);
     }
 }
 
@@ -10062,6 +11328,48 @@ mod io {
         ptr: *const std::ffi::c_void,
     ) {
         MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateParamTimelineToken>>::decrement_strong_count(ptr as _);
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_fractal_engine_bridge_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalEvent(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalEvent>>::increment_strong_count(ptr as _);
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_fractal_engine_bridge_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalEvent(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalEvent>>::decrement_strong_count(ptr as _);
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_fractal_engine_bridge_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalInput(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalInput>>::increment_strong_count(ptr as _);
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_fractal_engine_bridge_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalInput(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalInput>>::decrement_strong_count(ptr as _);
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_fractal_engine_bridge_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalResult(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalResult>>::increment_strong_count(ptr as _);
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_fractal_engine_bridge_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalResult(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalResult>>::decrement_strong_count(ptr as _);
     }
 
     #[unsafe(no_mangle)]
@@ -10395,6 +11703,48 @@ mod web {
         ptr: *const std::ffi::c_void,
     ) {
         MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateParamTimelineToken>>::decrement_strong_count(ptr as _);
+    }
+
+    #[wasm_bindgen]
+    pub fn rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalEvent(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalEvent>>::increment_strong_count(ptr as _);
+    }
+
+    #[wasm_bindgen]
+    pub fn rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalEvent(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalEvent>>::decrement_strong_count(ptr as _);
+    }
+
+    #[wasm_bindgen]
+    pub fn rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalInput(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalInput>>::increment_strong_count(ptr as _);
+    }
+
+    #[wasm_bindgen]
+    pub fn rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalInput(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalInput>>::decrement_strong_count(ptr as _);
+    }
+
+    #[wasm_bindgen]
+    pub fn rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalResult(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalResult>>::increment_strong_count(ptr as _);
+    }
+
+    #[wasm_bindgen]
+    pub fn rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalResult(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalResult>>::decrement_strong_count(ptr as _);
     }
 
     #[wasm_bindgen]

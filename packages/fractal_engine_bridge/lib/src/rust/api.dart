@@ -7,7 +7,7 @@ import 'frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 // These functions are ignored because they are not marked as `pub`: `advance_number_wall_impl`, `allocate_session_id`, `begin_number_wall_impl`, `cancel_number_wall_impl`, `cancel_scheduled`, `core_params`, `into_core`, `shutdown_impl`, `snapshot_impl`, `trajectory_status`
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `drop`, `drop`, `drop`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `drop`, `drop`, `drop`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`
 // These functions are ignored (category: IgnoreBecauseExplicitAttribute): `default`, `default`, `with_submitter`
 
 EngineHandle createEngine() => RustLib.instance.api.crateApiCreateEngine();
@@ -220,6 +220,75 @@ abstract class StateParamTimelineStart implements RustOpaqueInterface {
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateParamTimelineToken>>
 abstract class StateParamTimelineToken implements RustOpaqueInterface {}
 
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalEvent>>
+abstract class StatePhysicalEvent implements RustOpaqueInterface {
+  factory StatePhysicalEvent(
+          {required BigInt sequence,
+          PlatformInt64? sourceUs,
+          required bool consumed,
+          required StatePhysicalInput input}) =>
+      RustLib.instance.api.crateApiStatePhysicalEventNew(
+          sequence: sequence,
+          sourceUs: sourceUs,
+          consumed: consumed,
+          input: input);
+}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalInput>>
+abstract class StatePhysicalInput implements RustOpaqueInterface {
+  static StatePhysicalInput disposeInput() =>
+      RustLib.instance.api.crateApiStatePhysicalInputDisposeInput();
+
+  static StatePhysicalInput focus({required StateFocus focus}) =>
+      RustLib.instance.api.crateApiStatePhysicalInputFocus(focus: focus);
+
+  static StatePhysicalInput key(
+          {required StateKey key, required StateKeyPhase phase}) =>
+      RustLib.instance.api
+          .crateApiStatePhysicalInputKey(key: key, phase: phase);
+
+  static StatePhysicalInput pointer(
+          {required BigInt id,
+          required double localX,
+          required double localY,
+          required StatePointerPhase phase,
+          required StatePointerKind kind,
+          required BigInt buttons}) =>
+      RustLib.instance.api.crateApiStatePhysicalInputPointer(
+          id: id,
+          localX: localX,
+          localY: localY,
+          phase: phase,
+          kind: kind,
+          buttons: buttons);
+
+  static StatePhysicalInput pump(
+          {required BigInt generation, required PlatformInt64 deltaUs}) =>
+      RustLib.instance.api.crateApiStatePhysicalInputPump(
+          generation: generation, deltaUs: deltaUs);
+
+  static StatePhysicalInput wall({required PlatformInt64 us}) =>
+      RustLib.instance.api.crateApiStatePhysicalInputWall(us: us);
+
+  static StatePhysicalInput wheel(
+          {required double localX,
+          required double localY,
+          required double dy}) =>
+      RustLib.instance.api.crateApiStatePhysicalInputWheel(
+          localX: localX, localY: localY, dy: dy);
+}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalResult>>
+abstract class StatePhysicalResult implements RustOpaqueInterface {
+  BigInt generation();
+
+  List<StateInteraction> interactions();
+
+  List<StateKeyDisposition> keys();
+
+  StateSnapshot snapshot();
+}
+
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateSession>>
 abstract class StateSession implements RustOpaqueInterface {
   /// Exactly one bounded core step, including revocation observation at zero work.
@@ -253,6 +322,13 @@ abstract class StateSession implements RustOpaqueInterface {
       required BigInt expectedRevision,
       required List<StateCommand> commands,
       required bool animate});
+
+  /// Normal-mode FRB Future transport, one atomic core transaction on the existing pool.
+  Future<StatePhysicalResult> applyPhysicalAsync(
+      {required BigInt sessionId,
+      required BigInt expectedRevision,
+      StateViewport? viewport,
+      required List<StatePhysicalEvent> events});
 
   /// Stages a complete ingress or applies an immediate command; never drains work.
   StateNumberWallRequest? beginNumberWall(
@@ -315,6 +391,9 @@ abstract class StateSession implements RustOpaqueInterface {
           presets: presets,
           capabilities: capabilities,
           moduleId: moduleId);
+
+  /// Read the actual initial/current pump generation under the session lock.
+  BigInt physicalGeneration();
 
   Future<StateSnapshot> randomizeParams(
       {required BigInt sessionId,
@@ -647,6 +726,46 @@ class StateCamera {
           hasTrajectory == other.hasTrajectory;
 }
 
+enum StateFocus {
+  canvas,
+  control,
+  none,
+  ;
+}
+
+enum StateInteraction {
+  start,
+  end,
+  correction,
+  ;
+}
+
+enum StateKey {
+  left,
+  right,
+  up,
+  down,
+  plus,
+  minus,
+  reset,
+  unknown,
+  ;
+}
+
+enum StateKeyDisposition {
+  handled,
+  controlHandled,
+  ignored,
+  ;
+}
+
+enum StateKeyPhase {
+  down,
+  repeat,
+  up,
+  ;
+}
+
 enum StateNumberWallSequence {
   signedPagoda,
   rook,
@@ -724,6 +843,21 @@ enum StateOrbitProjection {
   ;
 }
 
+enum StatePointerKind {
+  touch,
+  mouse,
+  stylus,
+  ;
+}
+
+enum StatePointerPhase {
+  down,
+  move,
+  up,
+  cancel,
+  ;
+}
+
 enum StateTrajectoryStatus {
   success,
   invalidSettings,
@@ -771,6 +905,28 @@ class StateView {
           rotX == other.rotX &&
           rotY == other.rotY &&
           rotZ == other.rotZ;
+}
+
+/// Optional shell layout, in logical pixels; no resolved camera geometry.
+class StateViewport {
+  final double width;
+  final double height;
+
+  const StateViewport({
+    required this.width,
+    required this.height,
+  });
+
+  @override
+  int get hashCode => width.hashCode ^ height.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is StateViewport &&
+          runtimeType == other.runtimeType &&
+          width == other.width &&
+          height == other.height;
 }
 
 enum StateWorkPhase {
