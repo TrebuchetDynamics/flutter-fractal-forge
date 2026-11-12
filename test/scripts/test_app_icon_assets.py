@@ -2,6 +2,7 @@
 import hashlib
 import json
 import os
+import stat
 from pathlib import Path
 import subprocess
 import sys
@@ -55,8 +56,18 @@ class IconAssetsTests(unittest.TestCase):
             [sys.executable, str(SCRIPT), '--source', str(self.source),
              '--state', str(self.state), '--output', str(output or self.output)]
             + (['--rotate-clockwise-45'] if rotated else []),
-            capture_output=True, text=True,
+            capture_output=True, text=True, timeout=15,
         )
+
+    def tree_snapshot(self):
+        snapshot = {}
+        for path in self.root.rglob('*'):
+            metadata = path.lstat()
+            content = (path.read_bytes() if stat.S_ISREG(metadata.st_mode)
+                       else os.readlink(path) if stat.S_ISLNK(metadata.st_mode) else None)
+            snapshot[str(path.relative_to(self.root))] = (
+                metadata.st_mode, metadata.st_dev, metadata.st_ino, metadata.st_nlink, content)
+        return snapshot
 
     def check_assets(self, output):
         manifest = json.loads((output / 'fractal-forge-icon-source.json').read_text())
@@ -211,13 +222,54 @@ class IconAssetsTests(unittest.TestCase):
                 self.assert_rejected()
 
     def test_reject_input_output_aliases_without_changing_inputs(self):
-        before = digest(self.source)
-        self.output.mkdir()
-        (self.output / 'source.png').hardlink_to(self.source)
-        result = self.run_cli()
-        self.assertNotEqual(result.returncode, 0)
-        self.assertEqual(digest(self.source), before)
-        self.assertEqual(sorted(p.name for p in self.output.iterdir()), ['source.png'])
+        for original, name in [(self.source, 'source.png'), (self.state, 'source-state.json')]:
+            with self.subTest(name=name):
+                self.output = self.root / name
+                self.output.mkdir()
+                (self.output / name).hardlink_to(original)
+                before = self.tree_snapshot()
+                result = self.run_cli()
+                self.assertEqual(result.returncode, 2, result.stderr)
+                self.assertIn(name, result.stderr)
+                self.assertEqual(self.tree_snapshot(), before)
+
+    def test_reject_cross_output_aliases_before_any_mutation(self):
+        for first, second in [('source.png', 'ic_launcher.png'),
+                              ('logo_64.png', 'fractal-forge-icon-source.json')]:
+            with self.subTest(first=first, second=second):
+                self.output = self.root / first
+                self.assertEqual(self.run_cli().returncode, 0)
+                (self.output / second).unlink()
+                (self.output / second).hardlink_to(self.output / first)
+                before = self.tree_snapshot()
+                result = self.run_cli()
+                self.assertTrue(before == self.tree_snapshot(), 'rejected aliases must not mutate tree bytes or inodes')
+                self.assertEqual(result.returncode, 2, result.stderr)
+                self.assertIn(first, result.stderr)
+                self.assertIn(second, result.stderr)
+
+    def test_reject_non_file_destinations_before_any_mutation(self):
+        for kind, name in [('directory', 'proof.png'),
+                           ('directory', 'fractal-forge-icon-source.json'),
+                           ('fifo', 'proof.png'), ('symlink', 'proof.png'),
+                           ('dangling-symlink', 'proof.png')]:
+            with self.subTest(kind=kind, name=name):
+                self.output = self.root / f'{kind}-{name}'
+                self.output.mkdir()
+                (self.output / 'ic_launcher.png').write_bytes(b'existing artwork')
+                target = self.output / name
+                if kind == 'directory':
+                    target.mkdir()
+                    (target / 'keep').write_bytes(b'keep nested contents')
+                elif kind == 'fifo':
+                    os.mkfifo(target)
+                else:
+                    target.symlink_to(self.source if kind == 'symlink' else self.root / 'missing')
+                before = self.tree_snapshot()  # Read FIFO metadata only, never open it.
+                result = self.run_cli()
+                self.assertTrue(before == self.tree_snapshot(), 'rejected destinations must not mutate tree bytes or inodes')
+                self.assertEqual(result.returncode, 2, result.stderr)
+                self.assertIn(name, result.stderr)
 
     def test_invalid_state_preserves_existing_output(self):
         self.output.mkdir()
@@ -231,13 +283,19 @@ class IconAssetsTests(unittest.TestCase):
 
     def test_reproducible_bytes_across_runs(self):
         import time
-        self.assertEqual(self.run_cli().returncode, 0)
-        time.sleep(1.1)  # Cross the ICC timestamp boundary.
-        other = self.root / 'repeat'
-        result = self.run_cli(other)
-        self.assertEqual(result.returncode, 0, result.stderr)
-        expected = {p.name: digest(p) for p in self.output.iterdir()}
-        self.assertEqual(expected, {p.name: digest(p) for p in other.iterdir()})
+        for rotated in (False, True):
+            with self.subTest(rotated=rotated):
+                self.output = self.root / f'staged-{rotated}'
+                self.assertEqual(self.run_cli(rotated=rotated).returncode, 0)
+                time.sleep(1.1)  # Cross the ICC timestamp boundary.
+                expected = {p.name: digest(p) for p in self.output.iterdir()}
+                for destination in (self.root / f'repeat-{rotated}', self.output):
+                    result = self.run_cli(destination, rotated=rotated)
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    self.assertEqual(expected, {p.name: digest(p) for p in destination.iterdir()})
+                self.check_assets(self.output)
+                self.assertEqual((self.output / 'source.png').read_bytes(), self.source.read_bytes())
+                self.assertEqual((self.output / 'source-state.json').read_bytes(), self.state.read_bytes())
 
     @unittest.skipUnless(os.environ.get('APP_ICON_STAGING_DIR'), 'APP_ICON_STAGING_DIR not set; genuine app capture not checked')
     def test_real_staged_assets(self):
@@ -247,7 +305,7 @@ class IconAssetsTests(unittest.TestCase):
             [sys.executable, str(SCRIPT), '--source', str(staging / 'source.png'),
              '--state', str(staging / 'source-state.json'), '--output', str(self.output)]
             + (['--rotate-clockwise-45'] if json.loads((staging / 'fractal-forge-icon-source.json').read_text())['recipe'].get('rotationDegreesCounterclockwise') == -45 else []),
-            capture_output=True, text=True,
+            capture_output=True, text=True, timeout=15,
         )
         self.assertEqual(result.returncode, 0, result.stderr)
         for name in (*OUTPUTS, 'source.png', 'source-state.json', 'proof.png'):
