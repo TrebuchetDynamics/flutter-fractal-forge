@@ -1,0 +1,25 @@
+schema = 1
+task = "MAINT-DOCTOR-MALFORMED-REGISTRY-01"
+candidate = "b8a4d6f61046a3e9d3cc241553034a4b4dca4eac"
+integration = "b3c2358d9f14ea6e28ed6acf08b243b4421e6f55"
+tree = "b802637605c7eac8ccd65256c862b54fe998f6f4"
+contract_hash = "a1bff4085af67c3e583798cd35b8f518921fb19921fe7a038a0d063c19cdaef2"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAINT-DOCTOR-MALFORMED-REGISTRY-01"]
+result = "pass"
+review = "passed"
+model_review = "passed"
+
+[[acceptance]]
+item = "Reject a non-mapping registry document, a missing fractals key, and non-list fractals values including empty mapping/string/null as DoctorResult errors with ok=false. The documented CLI must return nonzero with FAIL and a useful path/type diagnostic, not report OK or leak an ordinary input-validation traceback. Preserve the existing policy for a genuinely empty fractals list; do not add a catalog minimum-count requirement."
+result = "met"
+evidence = "test_doctor_validates_input_read_only covers non-mapping documents, missing fractals, mapping/string/null/numeric fractals, malformed YAML, invalid encoding, missing input, unreadable directory input, and genuine empty list. Direct DoctorResult and forge.main([\"doctor\"]) assertions verify error/path/type diagnostics, FAIL/nonzero, or OK/zero for the empty list. All pass within the 65-test focused run."
+
+[[acceptance]]
+item = "Handle schema-invalid entries (null/scalars, malformed quality objects, list/dict id or formula_hash values) without get/hash crashes. Retain schema diagnostics identifying the offending entry/index and all existing duplicate, hash-consistency, tier, academic-binding and strict-app-catalog checks for valid data. Do not normalize/drop invalid entries into a passing result or catch arbitrary programming errors as success. Check malformed YAML and missing/unreadable input via bounded known load-error handling; do not hide unrelated validator bugs."
+result = "met"
+evidence = "Reused the existing _make_yaml configuration and registry_entry lint. The load catch is bounded to OSError, UnicodeError and YAMLError; only SchemaLintError is caught around validation, leaving unrelated validator bugs visible. Schema-invalid entries retain path/index/id diagnostics and count toward entry_count but never reach get/hash invariants. Twelve mixed-list cases cover scalar/null/list entries, malformed quality and list/dict id or formula_hash, while asserting valid duplicate invariants still fire. Existing consistency, tier, academic-binding and strict/warning behavior is unchanged and the full research suite passed 198 tests."
+
+[[acceptance]]
+item = "Add deterministic fixture-only regression cases in test_doctor.py through check_registry and the existing forge.main doctor dispatch with temporary REPO_ROOT, checking nonzero status/FAIL diagnostics and byte-for-byte no writes. Cover malformed envelope/entries, a mixed valid-invalid list, valid empty list and existing valid registry behavior. Preserve all current assertions and valid-data warning/strict semantics. Only the two Touches change; no registry, academic index, emitted Dart or real research data is regenerated. These are offline tooling checks, not catalog/math/platform/release qualification."
+result = "met"
+evidence = "Added only two parametrized fixture-only regression tests (26 cases), preserving every existing assertion. Both direct check_registry and forge.main dispatch use temporary fixtures and verify unchanged file bytes and path sets. Existing green/real-registry-copy tests and app-catalog warning/strict tests pass. Only the two Touches changed, confirmed against the baseline and clean final status. No real data regeneration, dependencies, shared API changes, framework, or documentation rewrite; this is offline tooling evidence only."
