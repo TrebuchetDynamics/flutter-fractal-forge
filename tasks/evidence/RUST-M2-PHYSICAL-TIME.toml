@@ -1,0 +1,25 @@
+schema = 1
+task = "RUST-M2-PHYSICAL-TIME"
+candidate = "8bc3753a75f7a9d43117517f9f571863768d8714"
+integration = "5a5732810fa6998e29a324ace8b6794a545c349a"
+tree = "a2325b56318800f696cf699f19c4e85737414c70"
+contract_hash = "73c8ff0bb4b0062a6cec82fb3c7cc811bacc615f5dcbcc6a2470d99d65e0f4ca"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-PHYSICAL-TIME"]
+result = "pass"
+review = "passed"
+model_review = "not_recorded"
+
+[[acceptance]]
+item = "Given session_physical_time tests, every timed checkpoint of all 67 physical-events.json scenarios matches camera/adaptive state within existing 1e-8 tolerance and exact lifecycle/key/effect ordering. Keep source/wall/elapsed clocks separate, five-sample >5 pan and >.01 zoom admission, .95/.92 decay, .1/.0001 cutoffs, 16000-us reference frames, 2-second limits and .5 boundary damping."
+result = "met"
+evidence = "all_raw_timed_oracle_checkpoints passes all 67 scenarios/382 checkpoints at public reducer/Session seams, comparing camera within 1e-8 and lifecycle, routing, parameters and effects exactly. PhysicalTime separates wall/source/pump clocks and reuses physical_view decay and bounds; unchanged physical_view cadence/cutoff tests pass."
+
+[[acceptance]]
+item = "Given boundary/interruption cases in that test, <=220-ms/18-px two-finger, <=280-ms/28-px raw-double and <120-ms duplicate rules, 200-ms easeOutCubic/inverse-zoom pan, all four pump cadences, cancel/new-input/module/dispose and delayed end after both momentum owners match source. Old generations cannot finish new interactions; stale/overflow/failed batches preserve hidden time and visible state."
+result = "met"
+evidence = "The complete raw replay passes source boundary/interruption and 8333/16667/33333/100000-us cadence checkpoints. stale_generation_and_failed_batch_preserve_time passes rollback, overflow, wrong owner/stale revision and stale completion comparisons against a control Session. Generation invalidation occurs on replacement/module/dispose; pending end waits for both momentum owners. Source cubic control points and inverse-zoom interpolation are reused."
+
+[[acceptance]]
+item = "Given existing instant physical/replay/timeline tests and unchanged Dart oracle/gesture/momentum checks, no regression/fixture refresh occurs. Note explicitly distinguishes pure unsupported-3D results, supported Session results and pending full module/bridge/app/browser/hardware ownership."
+result = "met"
+evidence = "22 focused Rust tests, rust-check.sh (123 tests/doc tests), and all 47 named Dart tests pass. Protected-path diff confirms no fixture/bridge/Dart/lock changes. docs/tasks/RUST-M2-PHYSICAL-TIME.md explicitly separates pure unsupported-3D and supported Session coverage from pending full module/bridge/app/browser/hardware qualification; scoped readback passes."

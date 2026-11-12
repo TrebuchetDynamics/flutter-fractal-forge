@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-M2-PHYSICAL-TIME"
 title = "Own physical momentum and tap animation lifetimes with explicit elapsed inputs"
 short = "Own physical timing and completion"
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Next"
 rank = 33000
@@ -16,6 +16,8 @@ scope = "Extend PHYSICAL-STATE with raw tap classification, source-timestamp vel
 acceptance = ["Given session_physical_time tests, every timed checkpoint of all 67 physical-events.json scenarios matches camera/adaptive state within existing 1e-8 tolerance and exact lifecycle/key/effect ordering. Keep source/wall/elapsed clocks separate, five-sample >5 pan and >.01 zoom admission, .95/.92 decay, .1/.0001 cutoffs, 16000-us reference frames, 2-second limits and .5 boundary damping.", "Given boundary/interruption cases in that test, <=220-ms/18-px two-finger, <=280-ms/28-px raw-double and <120-ms duplicate rules, 200-ms easeOutCubic/inverse-zoom pan, all four pump cadences, cancel/new-input/module/dispose and delayed end after both momentum owners match source. Old generations cannot finish new interactions; stale/overflow/failed batches preserve hidden time and visible state.", "Given existing instant physical/replay/timeline tests and unchanged Dart oracle/gesture/momentum checks, no regression/fixture refresh occurs. Note explicitly distinguishes pure unsupported-3D results, supported Session results and pending full module/bridge/app/browser/hardware ownership."]
 checks = ["cargo test --manifest-path rust/Cargo.toml -p fractal-core --test session_physical_time --test session_physical_events --test physical_view --test session_replay --test session_param_timeline --locked --offline", "scripts/ci/rust-check.sh", "flutter test --no-pub test/migration/physical_events_oracle_test.dart test/fractal/fractal_renderer_gesture_test.dart test/features/renderer/widgets/renderer/input/gesture_tap_classification_test.dart test/renderer/pan_momentum_test.dart test/renderer/zoom_momentum_test.dart", "git diff --exit-code -- lib migration packages rust/crates/fractal-bridge rust/Cargo.lock pubspec.lock && git diff --check", "( AUTOWORK_CACHE=\"${AUTOWORK_CACHE:-$(git rev-parse --path-format=absolute --git-common-dir)/autowork-execution/cache}\" && export AUTOWORK_CACHE && export FLUTTER_ROOT=\"$AUTOWORK_CACHE/flutter-3.47.9\" && export PUB_CACHE=\"$AUTOWORK_CACHE/pub-cache\" && export CARGO_HOME=\"$AUTOWORK_CACHE/cargo-1.95.0\" && export RUSTUP_HOME=\"$AUTOWORK_CACHE/rustup-1.95.0\" && test -x \"$RUSTUP_HOME/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin/cargo\" && test -d \"$CARGO_HOME/registry\" && test -x \"$FLUTTER_ROOT/bin/flutter\" && test -d \"$PUB_CACHE\" && export PATH=\"$FLUTTER_ROOT/bin:$RUSTUP_HOME/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:/usr/bin:$PATH\" && scripts/ci/offline-gate.sh --python-bin /usr/bin/python3 --json )"]
 exclusions = ["No app/controller/renderer ownership switch, flag enablement, new module admission, baseline/original-oracle refresh, dependency/lock changes, new live/publication/security authority or full-M2/browser/hardware/performance qualification."]
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/RUST-M2-PHYSICAL-TIME.toml"
 +++
 
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration; docs/tasks/RUST-PLAN-09.md#raw-physical-transactions
@@ -25,3 +27,4 @@ exclusions = ["No app/controller/renderer ownership switch, flag enablement, new
 - Consumes: PHYSICAL-STATE raw event/transaction seam and its hidden pointer owner, never a second independently mutable camera.
 - Produces: complete oracle-covered physical timing state and logical effect signals for later typed bridge/app transport. Unsupported 3D module admission remains separate.
 - Next action: add failing full raw-oracle timed replay and stale-completion test before adding momentum/tap state.
+- Pending live: Full module admission, typed bridge/app ownership, browser/device/hardware-GPU and performance qualification remain separate migration gates; none is claimed or required as live acceptance for this inert core task.

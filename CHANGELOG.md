@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Add inert generation-owned physical momentum and 200-ms tap timing with explicit elapsed pumps, atomic rollback and parity across all 67 raw oracle scenarios. (RUST-M2-PHYSICAL-TIME)
 - Qualified source-bound trajectory and successful exact high-u64 native assertions on the standing Waydroid container; preserved artifact identities and owned cleanup evidence. (RUST-M2-WAYDROID-TRAJECTORY-U64)
 - Added inert Rust Session transactions for instantaneous raw physical input with atomic hidden-state rollback and source-oracle parity. (RUST-M2-PHYSICAL-STATE)
 - Add inert bounded Rust work admission and a fair single-pump FRB service with detached cached tickets; preserve legacy APIs and default-off app routing. (RUST-M2-WORK-BRIDGE)
