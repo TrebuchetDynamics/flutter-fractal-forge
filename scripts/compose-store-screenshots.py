@@ -19,6 +19,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import stat
 
 from PIL import Image, ImageDraw, ImageFont
 
@@ -104,7 +105,8 @@ def fit_headline(draw, text, font_path, start_size, max_width, min_size):
 
 
 def compose_capture(raw_path, kicker, headline, profile):
-    raw = Image.open(raw_path).convert('RGB')
+    with Image.open(raw_path) as source:
+        raw = source.convert('RGB')
     width, height = raw.size
     expected = CAMPAIGNS[profile][0]
     if f'{width}x{height}' != expected:
@@ -153,7 +155,55 @@ def compose_capture(raw_path, kicker, headline, profile):
     return canvas, app.size
 
 
+def _preflight(raw_dir, out_dir, profiles, manifest=None):
+    captures = []
+    destinations = []
+    for profile in profiles:
+        for name, raw_name, kicker, headline in CAMPAIGNS[profile][1]:
+            raw_path = Path(raw_dir) / profile / f'{raw_name}.png'
+            if not raw_path.is_file():
+                raise ValueError(f'missing or non-regular raw capture: {raw_path}')
+            captures.append((raw_path, kicker, headline, profile))
+            destinations.append(Path(out_dir) / profile / f'{name}.png')
+    if manifest is not None:
+        destinations.append(Path(manifest))
+
+    def aliases(first, second):
+        return (first.resolve() == second.resolve() or
+                (first.exists() and second.exists() and first.samefile(second)))
+
+    for index, path in enumerate(destinations):
+        for raw_path, *_ in captures:
+            if aliases(path, raw_path):
+                raise ValueError(f'destination {path} aliases raw capture {raw_path}')
+        for other in destinations[:index]:
+            resolved, other_resolved = path.resolve(), other.resolve()
+            if (aliases(path, other) or resolved in other_resolved.parents or
+                    other_resolved in resolved.parents):
+                raise ValueError(f'conflicting destinations: {path} and {other}')
+        if path.is_symlink() and not path.exists():
+            raise ValueError(f'dangling destination symlink: {path}')
+        if path.exists() and not stat.S_ISREG(path.stat().st_mode):
+            raise ValueError(f'non-regular destination: {path}')
+        for parent in path.parents:
+            if (parent.exists() or parent.is_symlink()) and not parent.is_dir():
+                raise ValueError(f'non-directory destination parent: {parent} for {path}')
+
+    # Render and discard one at a time to validate without retaining the campaign in RAM.
+    for raw_path, kicker, headline, profile in captures:
+        try:
+            canvas, _ = compose_capture(raw_path, kicker, headline, profile)
+            canvas.close()
+        except (OSError, ValueError) as error:
+            raise ValueError(f'{raw_path}: {error}') from error
+
+
 def compose_campaign(raw_dir, out_dir, profile):
+    _preflight(raw_dir, out_dir, [profile])
+    return _write_campaign(raw_dir, out_dir, profile)
+
+
+def _write_campaign(raw_dir, out_dir, profile):
     raw_dir = Path(raw_dir) / profile
     out_dir = Path(out_dir) / profile
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -193,8 +243,10 @@ def main():
     manifest = {'source': 'Composed by scripts/compose-store-screenshots.py from full-framebuffer '
                           'Android captures; only the caption band is added, the app pixels are unchanged',
                 'groups': {}}
+    _preflight(args.raw, args.out, CAMPAIGNS, args.manifest)
     for profile in CAMPAIGNS:
-        manifest['groups'][profile] = compose_campaign(args.raw, args.out, profile)
+        manifest['groups'][profile] = _write_campaign(args.raw, args.out, profile)
+    Path(args.manifest).parent.mkdir(parents=True, exist_ok=True)
     Path(args.manifest).write_text(json.dumps(manifest, indent=2) + '\n')
     print(f'manifest: {args.manifest}')
 
