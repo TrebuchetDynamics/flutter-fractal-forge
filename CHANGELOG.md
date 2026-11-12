@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Honor OS and saved reduced-motion preferences, including live changes, in the timed branded splash decoration without changing completion timing. (MAINT-SPLASH-REDUCED-MOTION-01)
 - Preflight all store screenshot inputs and destinations before writing, preserving raw captures and existing media on detectable input/path errors. (MAINT-STORE-COMPOSE-PREFLIGHT-01)
 - Reject aliased and non-regular icon staging outputs before any output mutation while preserving valid reruns. (MAINT-ICON-STAGING-PREFLIGHT-01)
 - Expose offline-gate terminal JSON and complete failed-stage diagnostics while preserving private logs, stage exits and fail-closed checks. (MAIN-CHECK-RESULTS-01)

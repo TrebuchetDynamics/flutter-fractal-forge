@@ -1,0 +1,25 @@
+schema = 1
+task = "MAINT-SPLASH-REDUCED-MOTION-01"
+candidate = "caba96064f04d9deca88066877654e6bc9d8de37"
+integration = "cdf987342f0bd0335cead81d727099c6dffcd69d"
+tree = "00b214e01e77133bbf08373e3bfc31eae8364aa4"
+contract_hash = "7646619734b539480d0dabde62594626a21b7196c4df8bcceeee05f71d83f709"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAINT-SPLASH-REDUCED-MOTION-01"]
+result = "pass"
+review = "passed"
+model_review = "passed"
+
+[[acceptance]]
+item = "Suppress the splash-owned repeating decorative animation whenever OS disableAnimations is true or an available AccessibilityService has reducedMotionEnabled true. Retain a static readable title/decoration and the existing completion deadline/callback, including the no-ModuleRegistry standalone fallback. Preserve ordinary animation when neither preference requests reduced motion. Handle a missing accessibility provider in standalone previews/tests without throwing; do not initialize preferences earlier or require a new service API."
+result = "met"
+evidence = "Nullable context.watch<AccessibilityService?> and MediaQuery.disableAnimationsOf reuse existing service/platform dependencies without early initialization or API changes. Controller stays stopped when either flag is true; existing fallback gradient/title remain. Initial OS true, OS false/no provider and saved true/OS false cases pass angle and transient callback assertions. Completion count remains 0 at 2399 ms and 1 at 2400 ms; no ModuleRegistry is supplied. Focused tests: 7 passed."
+
+[[acceptance]]
+item = "Respond to OS and available saved-preference changes while the splash is mounted: stop its ticker on reduced motion and resume ordinary decoration only when both flags allow it. The delayed 200-ms start must not restart motion after a preference change. Add deterministic widget regressions for initial OS true/false, saved flag true with OS false, live toggles before and after delayed start, and unmount before delayed start/completion. Assert bounded animation/frame behavior, callback timing/count and no post-disposal exceptions. Restore platform overrides and dispose any owned mock services/widgets exception-safely. Preserve the existing title/completion regression; do not use sleeps or pumpAndSettle against a repeating animation."
+result = "met"
+evidence = "The shared animation gate runs on dependency changes and delayed start, stopping motion or resuming only once the 200-ms start is ready and both flags permit it. Live test covers both preference sources before and after delayed start, including OS/saved OR precedence. Bounded pumps verify 0/1 transient callbacks plus static/changing gradient angle, readable title, original deadline and callback count. Unmount tests at 100 and 300 ms drain beyond completion and assert no callback, ticker or exception. Cleanup is registered before mounting and restores overrides/disposes service in finally. Existing title/completion regression retained. No sleeps or pumpAndSettle. All 7 focused and 41 onboarding/app tests passed."
+
+[[acceptance]]
+item = "Only the two Touches change. Preserve fractal selection/randomization, renderer/controller ownership, 2400-ms default duration, onFinished API, skipSplash/automated boot policy, title/strings and navigation. This repairs splash-owned decorative motion only, not renderer animation policy or a general lifecycle/redesign project. Offline widget checks are not native startup, screen-reader, physical GPU, performance, release or broader goal qualification."
+result = "met"
+evidence = "Commit diff contains only the two Touches. Fractal selection/randomization, renderer/controller ownership, 2400-ms default, onFinished API, title/strings, skipSplash/automated boot policy and navigation are untouched. Reused the existing controller and nullable Provider subscription; omitted service changes, renderer policy, dependencies, new abstractions and lifecycle redesign. These are offline widget checks only, not native startup, screen-reader, GPU, performance, release or broader goal qualification. full check: runner gate"
