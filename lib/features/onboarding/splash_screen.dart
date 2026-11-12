@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_fractals/core/theme/app_theme.dart';
+import 'package:flutter_fractals/core/services/platform/accessibility_service.dart';
 import 'package:flutter_fractals/features/renderer/widgets/renderer/fractal_renderer.dart';
 import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/l10n/app_localizations.dart';
@@ -29,6 +30,8 @@ class _FractalSplashScreenState extends State<FractalSplashScreen>
   late final AnimationController _controller;
   FractalController? _fractalController;
   bool _didPickSplashFractal = false;
+  bool _animationStartReady = false;
+  bool _reduceMotion = false;
 
   @override
   void initState() {
@@ -40,7 +43,9 @@ class _FractalSplashScreenState extends State<FractalSplashScreen>
 
     // Defer animation start to avoid competing with first-frame layout.
     Future<void>.delayed(const Duration(milliseconds: 200), () {
-      if (mounted) _controller.repeat();
+      if (!mounted) return;
+      _animationStartReady = true;
+      _updateDecorativeAnimation();
     });
 
     Future<void>.delayed(widget.duration, () {
@@ -51,6 +56,10 @@ class _FractalSplashScreenState extends State<FractalSplashScreen>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    final accessibility = context.watch<AccessibilityService?>();
+    _reduceMotion = MediaQuery.disableAnimationsOf(context) ||
+        (accessibility?.reducedMotionEnabled ?? false);
+    _updateDecorativeAnimation();
     if (_didPickSplashFractal) return;
     _didPickSplashFractal = true;
 
@@ -70,6 +79,14 @@ class _FractalSplashScreenState extends State<FractalSplashScreen>
       _fractalController = controller;
     } catch (_) {
       // Standalone splash previews/tests can render the lightweight fallback.
+    }
+  }
+
+  void _updateDecorativeAnimation() {
+    if (_reduceMotion) {
+      _controller.stop();
+    } else if (_animationStartReady && !_controller.isAnimating) {
+      _controller.repeat();
     }
   }
 
