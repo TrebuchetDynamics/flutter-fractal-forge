@@ -2,6 +2,7 @@
 
 pub mod api;
 mod frb_generated;
+mod state_work_executor;
 
 pub use fractal_core::engine_version;
 /// Rust support only, not the active Flutter renderer's capabilities.
