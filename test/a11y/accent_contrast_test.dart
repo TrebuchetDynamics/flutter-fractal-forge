@@ -64,6 +64,39 @@ void main() {
       );
     });
 
+    test('quiet scheme roles use palette steps and readable text', () {
+      for (final (theme, secondary, border, high, highest) in [
+        (
+          AppTheme.dark,
+          AppColors.textSecondary,
+          AppColors.border,
+          AppColors.surfaceVariant,
+          AppColors.surfaceElevated
+        ),
+        (
+          AppTheme.oled,
+          OledColors.textSecondary,
+          OledColors.border,
+          OledColors.surfaceVariant,
+          OledColors.surfaceElevated
+        ),
+      ]) {
+        final scheme = theme.colorScheme;
+        expect(scheme.onSurfaceVariant, secondary);
+        expect(scheme.outlineVariant, border);
+        expect(scheme.surfaceContainerHigh, high);
+        expect(scheme.surfaceContainerHighest, highest);
+        for (final text in [
+          scheme.onSurface,
+          scheme.onSurfaceVariant,
+          theme.textTheme.bodyLarge!.color!,
+          theme.textTheme.bodyMedium!.color!,
+        ]) {
+          expect(contrastRatio(text, scheme.surface), greaterThanOrEqualTo(aa));
+        }
+      }
+    });
+
     test('body text tokens clear AAA', () {
       for (final surface in const [
         AppColors.surface,

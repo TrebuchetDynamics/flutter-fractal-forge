@@ -579,6 +579,10 @@
   "tooltipExportVideo": "Export Video",
   "tooltipOpenHistory": "History",
 
+  "autoPilotAlignmentLabel": "Auto-pilot paused. Align zoom with the center crosshair.",
+  "@autoPilotAlignmentLabel": {
+    "description": "Live semantics announcement while auto-pilot yields to manual zoom alignment"
+  },
   "autoExploreTitle": "Auto-Explore",
   "autoExploreSubtitle": "Automatically discover interesting areas",
   "autoExplorePausedUserCorrection": "Auto-pilot paused while you adjust the view.",

@@ -11,6 +11,10 @@ const bootstrapTransitionPath =
     'migration/baseline/provenance-transitions.json';
 const _a11yTransitionPath =
     'migration/oracles/a11y-status-copy-source-transitions.json';
+const _baselineThemeTransitionPath =
+    'migration/oracles/acad-015-baseline-source-transitions.json';
+const _quietThemeTransitionPath =
+    'migration/oracles/acad-015-source-transitions.json';
 const _clockPath = 'migration/oracles/reference-source-transitions.json';
 const _changeReference =
     'docs/tasks/source-bound-review-gates.md#scoped-reconciliation--2026-11-10';
@@ -34,6 +38,26 @@ const _a11yBindingAllowlist = [
   'lib/l10n/app_localizations_en.dart',
   'lib/l10n/app_localizations_es.dart',
   ..._harnessPaths,
+];
+const _baselineThemeBindingAllowlist = [
+  'lib/features/controls/widgets/number_wall_style_controls.dart',
+  'lib/features/presets/preset_sheet.dart',
+  'lib/features/viewer/chrome/fractal_controls_hud.dart',
+  'lib/features/viewer/chrome/fractal_view_controls.dart',
+  'lib/features/viewer/chrome/viewer_tools.dart',
+  'lib/features/viewer/diagnostics/viewer_debug_report.dart',
+  'lib/features/viewer/export/viewer_export_overlay.dart',
+  'lib/features/viewer/fractal_viewer_screen.dart',
+  'lib/features/viewer/gaussian_moat_map.dart',
+  'lib/features/viewer/overlays/viewer_hud.dart',
+];
+const _quietThemeBindingAllowlist = [
+  'lib/core/theme/app_theme.dart',
+  'lib/features/viewer/overlays/auto_pilot_alignment_overlay.dart',
+  'lib/l10n/app_localizations.dart',
+  'lib/l10n/app_localizations_en.dart',
+  'lib/l10n/app_localizations_es.dart',
+  'test/migration/support/provenance_transition.dart',
 ];
 const originalFixtureHashes = {
   'capabilities':
@@ -105,7 +129,12 @@ Map<String, dynamic> readProvenanceTransition() =>
     jsonDecode(File(bootstrapTransitionPath).readAsStringSync())
         as Map<String, dynamic>;
 List<Map> readProvenanceStages() => [
-      for (final path in [bootstrapTransitionPath, _a11yTransitionPath])
+      for (final path in [
+        bootstrapTransitionPath,
+        _a11yTransitionPath,
+        _baselineThemeTransitionPath,
+        _quietThemeTransitionPath,
+      ])
         if (File(path).existsSync())
           jsonDecode(File(path).readAsStringSync()) as Map,
     ];
@@ -142,11 +171,20 @@ void validateProvenanceStage(Map stage) {
   final allowed = switch (task) {
     'RUST-CORE-BOOTSTRAP' => bootstrapBindingAllowlist,
     'MAINT-A11Y-STATUS-COPY-01' => _a11yBindingAllowlist,
+    'ACAD-015-BASELINE' => _baselineThemeBindingAllowlist,
+    'ACAD-015' => _quietThemeBindingAllowlist,
     _ => throw StateError('Provenance: unknown task $task'),
   };
   _require(
       stage['schema'] == 2 &&
-          stage['change_reference'] == _changeReference &&
+          stage['change_reference'] ==
+              switch (task) {
+                'ACAD-015-BASELINE' =>
+                  'docs/tasks/source-bound-review-gates.md#acad-015-baseline-provenance-repair',
+                'ACAD-015' =>
+                  'docs/tasks/source-bound-review-gates.md#acad-015-quiet-theme-and-crosshair-localization',
+                _ => _changeReference,
+              } &&
           RegExp(r'^[0-9a-f]{40}$')
               .hasMatch(stage['base_revision'] as String) &&
           _equal.equals(stage['allowed_paths'], allowed) &&
@@ -265,8 +303,13 @@ void verifySourceStages(String id, Map before, Map current,
     final adjacent = pending
         .where((s) => _equal.equals(s['binding_maps'][id]['before'], cursor))
         .toList();
-    _require(adjacent.length == 1, 'broken/ambiguous stage adjacency for $id');
-    final stage = adjacent.single;
+    // A scoped stage can leave this map unchanged; consume it before advancing.
+    final unchanged = adjacent
+        .where((s) => _equal.equals(s['binding_maps'][id]['after'], cursor))
+        .toList();
+    final next = unchanged.isEmpty ? adjacent : unchanged;
+    _require(next.length == 1, 'broken/ambiguous stage adjacency for $id');
+    final stage = next.single;
     cursor = stage['binding_maps'][id]['after'] as Map;
     pending.remove(stage);
   }

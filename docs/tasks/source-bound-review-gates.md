@@ -244,3 +244,59 @@ Dependencies, ownership, section/rank, resources and all authorization. No sourc
 fixture, retained candidate or runtime state is edited by this reconciliation.
 Only ledger validation, contract-preservation assertions and whitespace checks
 are performed here; implementation and full-gate proof remain with the workers.
+
+## ACAD-015 quiet theme and crosshair localization
+
+ACAD-015 records a schema-2 stage in
+`migration/oracles/acad-015-source-transitions.json`, based on
+`797b4fc69c0755a1ee14bd965e621386100f1252`. Its exact policy permits only:
+
+- `lib/core/theme/app_theme.dart`
+- `lib/features/viewer/overlays/auto_pilot_alignment_overlay.dart`
+- `lib/l10n/app_localizations.dart`
+- `lib/l10n/app_localizations_en.dart`
+- `lib/l10n/app_localizations_es.dart`
+- `test/migration/support/provenance_transition.dart`
+
+Dark and OLED use their existing `textSecondary`, `border`, `surfaceVariant`
+and `surfaceElevated` tokens for the four quiet roles. High contrast is unchanged.
+The crosshair uses the generated `autoPilotAlignmentLabel` in English and Spanish,
+with the English fallback when localizations are absent. The focused contrast
+case checks the four roles and the 4.5:1 body/secondary surface contrast floor;
+the overlay widget tests cover Spanish semantics and the English fallback.
+
+### ACAD-015 baseline provenance repair
+
+The retained stages' terminal physical-event map differs from the admitted base
+in these ten paths, already changed by `9436d5cd` (shared overlays), `7888bfc6`
+(HUD toggle removal) and `8e5d7cd6` (viewer chrome):
+
+- `lib/features/controls/widgets/number_wall_style_controls.dart`
+- `lib/features/presets/preset_sheet.dart`
+- `lib/features/viewer/chrome/fractal_controls_hud.dart`
+- `lib/features/viewer/chrome/fractal_view_controls.dart`
+- `lib/features/viewer/chrome/viewer_tools.dart`
+- `lib/features/viewer/diagnostics/viewer_debug_report.dart`
+- `lib/features/viewer/export/viewer_export_overlay.dart`
+- `lib/features/viewer/fractal_viewer_screen.dart`
+- `lib/features/viewer/gaussian_moat_map.dart`
+- `lib/features/viewer/overlays/viewer_hud.dart`
+
+`migration/oracles/acad-015-baseline-source-transitions.json` records a separate
+`ACAD-015-BASELINE` stage with exactly this policy. Its before maps are the
+complete terminal maps of the retained stages; its after hashes use Git bytes
+at the admitted base, not candidate bytes. Only the physical-event map changes;
+all other maps are explicit identities. The ACAD-015 stage begins at these
+baseline-after maps and applies only its own six-path policy, not their union.
+
+Both stages retain all eleven complete binding maps, exact delta sets and the
+canonical SHA-256 identity of their after maps. Composition consumes adjacent
+identity stages before advancing; missing stages, competing successors,
+unauthorized deltas and final current-map mismatches still fail. The focused
+comparator test covers composition and rejects policy widening or a missing stage.
+Retained fixtures, earlier sidecars, PNGs, manifests, custody anchors, collectors
+and the independent clock validator stay unchanged. Private repeated exports and
+migration checks validate complete current bindings and all nonbinding fields;
+this is not a fixture refresh or a hash-only waiver. The worker report records
+executed checks; the full offline check remains the runner gate. No device,
+production or human-language qualification is claimed.
