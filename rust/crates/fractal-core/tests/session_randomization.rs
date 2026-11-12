@@ -413,6 +413,28 @@ fn ordinary_immediate_randomization_matches_every_actual_module_oracle() {
         );
         assert_state(&s.snapshot(), &case["expected"]["before"]);
         let before = s.snapshot();
+        let mut animated = Session::new(catalog(), 1, before.module_id()).unwrap();
+        apply(
+            &mut animated,
+            &[load(
+                &case["input"]["params"],
+                &case["expected"]["before"]["view"],
+            )],
+        );
+        let token = animated
+            .start_seeded_param_timeline(
+                1,
+                animated.snapshot().revision(),
+                case["input"]["seed"].as_i64().unwrap(),
+            )
+            .unwrap();
+        assert_eq!(animated.snapshot().params(), before.params());
+        for _ in 0..36 {
+            animated
+                .tick_param_timeline(1, animated.snapshot().revision(), token)
+                .unwrap();
+        }
+        assert_state(&animated.snapshot(), &case["expected"]["after"]);
         s.randomize_params(
             1,
             before.revision(),
