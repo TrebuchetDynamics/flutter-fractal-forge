@@ -8,6 +8,10 @@ pub struct PhysicalTransaction {
     pub output: PhysicalOutput,
 }
 impl Session {
+    pub fn physical_generation(&self) -> u64 {
+        self.physical.generation()
+    }
+
     pub fn apply_physical(
         &mut self,
         session_id: u64,

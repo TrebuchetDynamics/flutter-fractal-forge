@@ -1,6 +1,8 @@
-//! Inert instantaneous raw-input owner. Flutter still owns arena/focus routing.
-//! No elapsed advancement or tap/momentum completion is performed here.
+//! Raw-input and explicit-time owner. Flutter still owns arena/focus routing.
+#[path = "physical_event_time.rs"]
+mod time;
 use crate::{catalog_baseline::Dimension, normalization::ViewInput, physical_view};
+use time::PhysicalTime;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum PointerPhase {
@@ -58,6 +60,12 @@ pub enum PhysicalInput {
     },
     Focus(Focus),
     Wall(i64),
+    /// Delta from the shell pump clock, not source or wall time.
+    Pump {
+        generation: u64,
+        delta_us: i64,
+    },
+    Dispose,
 }
 #[derive(Debug, Clone, PartialEq)]
 pub struct PhysicalEvent {
@@ -129,6 +137,7 @@ pub enum PhysicalError {
     InvalidInput,
     UnknownPointer,
     DuplicatePointer,
+    TimeOverflow,
 }
 #[derive(Debug, Clone, PartialEq)]
 struct Pointer {
@@ -155,6 +164,7 @@ pub struct PhysicalState {
     rotation_active: bool,
     last_rotation: f64,
     history: Vec<([f64; 2], i64)>,
+    time: PhysicalTime,
 }
 fn sub(a: [f64; 2], b: [f64; 2]) -> [f64; 2] {
     [a[0] - b[0], a[1] - b[1]]
@@ -210,10 +220,18 @@ impl PhysicalState {
         self.viewport = c.viewport;
         self.source_us = e.source_us;
         let mut out = PhysicalOutput::default();
-        if e.consumed {
+        if e.consumed || self.time.disposed {
             return Ok(out);
         }
         match e.input {
+            PhysicalInput::Pump {
+                generation,
+                delta_us,
+            } => self.pump(c, generation, delta_us, &mut out)?,
+            PhysicalInput::Dispose => {
+                self.invalidate()?;
+                self.time.disposed = true;
+            }
             PhysicalInput::Wall(us) => self.wall_us = us,
             PhysicalInput::Focus(focus) => self.focus = focus,
             PhysicalInput::Wheel { local, dy } => {
@@ -278,6 +296,7 @@ impl PhysicalState {
                 if local.iter().any(|x| !x.is_finite()) {
                     return Err(PhysicalError::InvalidInput);
                 }
+                self.raw_time(c, id, local, phase, &mut out)?;
                 let previous_focal = self.geometry().0;
                 let index = self.pointers.iter().position(|p| p.id == id);
                 match phase {
@@ -304,11 +323,22 @@ impl PhysicalState {
                 }
                 let (focal, span, angle) = self.geometry();
                 if phase != PointerPhase::Move {
+                    let old_initial_focal = self.initial_focal;
                     self.initial_focal = focal;
                     self.initial_span = span;
                     self.initial_angle = angle;
                     if self.started {
+                        self.release(&mut out)?;
                         self.started = false;
+                    } else if !self.accepted
+                        && matches!(phase, PointerPhase::Up | PointerPhase::Cancel)
+                        && !self.pointers.is_empty()
+                        && length(sub(focal, old_initial_focal)) > 36.0
+                    {
+                        self.accepted = true;
+                        self.begin(&mut out)?;
+                        self.started = true;
+                        self.history.clear();
                     }
                     if self.pointers.len() == 2 && phase == PointerPhase::Down {
                         self.two_start = Some((c.view, focal, span));
@@ -346,7 +376,7 @@ impl PhysicalState {
                     self.rotation_active = false;
                     self.last_rotation = 0.0;
                     self.history.clear();
-                    out.interactions.push(Interaction::Start);
+                    self.begin(&mut out)?;
                     if !was_accepted {
                         self.initial_focal = focal;
                         self.initial_span = span;
@@ -398,6 +428,11 @@ impl PhysicalState {
                         start_focal = focal;
                         scale = span / span0;
                     }
+                    if scale > 0.0 {
+                        self.time.zoom_velocity = (scale / self.time.last_scale).log2() / 16.0;
+                    }
+                    self.time.last_scale = scale;
+                    self.time.zoom_focal = focal;
                     let rotation = angle - self.initial_angle;
                     if !c.rotation_locked && rotation.abs() > 0.12 {
                         self.rotation_active = true;
