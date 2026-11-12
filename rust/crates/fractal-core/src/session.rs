@@ -8,6 +8,9 @@ mod effects;
 #[path = "session_param_timeline.rs"]
 mod param_timeline;
 pub use param_timeline::ParamTimelineToken;
+#[path = "session_morph_timeline.rs"]
+mod morph_timeline;
+pub use morph_timeline::MorphTimelineToken;
 #[path = "session_number_wall.rs"]
 mod number_wall;
 #[path = "session_randomization.rs"]
@@ -131,6 +134,7 @@ pub struct Snapshot {
     transparent_background: bool,
     last_adaptive_zoom: f64,
     effects: effects::Effects,
+    morph: morph_timeline::MorphTimeline,
     pending: Option<RequestToken>,
     number_wall_status: Option<NumberWallPrimeStatus>,
     number_wall_frame: Option<Arc<NumberWallFrame>>,
@@ -208,6 +212,7 @@ impl Session {
             transparent_background: false,
             last_adaptive_zoom: view.zoom(),
             effects,
+            morph: morph_timeline::MorphTimeline::default(),
             pending: None,
             number_wall_status: None,
             number_wall_frame: None,
@@ -235,6 +240,28 @@ impl Session {
         expected_revision: u64,
         commands: &[Command],
     ) -> Result<Snapshot, SessionError> {
+        self.apply_batch_animation(session_id, expected_revision, commands, None)
+    }
+
+    /// Explicit controller animate/animateModule option. Without this override,
+    /// ordinary selections animate and loads do not, matching source defaults.
+    pub fn apply_batch_with_module_animation(
+        &mut self,
+        session_id: u64,
+        expected_revision: u64,
+        commands: &[Command],
+        animate: bool,
+    ) -> Result<Snapshot, SessionError> {
+        self.apply_batch_animation(session_id, expected_revision, commands, Some(animate))
+    }
+
+    fn apply_batch_animation(
+        &mut self,
+        session_id: u64,
+        expected_revision: u64,
+        commands: &[Command],
+        animate: Option<bool>,
+    ) -> Result<Snapshot, SessionError> {
         self.check_owner(session_id, expected_revision)?;
         if commands.is_empty() {
             return Ok(self.snapshot());
@@ -259,6 +286,7 @@ impl Session {
             {
                 return Err(SessionError::DeferredOperation);
             }
+            morph_timeline::selection(&before, &mut candidate, command, animate)?;
             trajectory_jobs::invalidate_changed(&before, &mut candidate, revision);
         }
         candidate.reserve_terminals(revision)?;
@@ -1007,12 +1035,48 @@ mod tests {
 
         // Overflow must not consume a tick, replace its generation or cancel it.
         session.state.revision = 0;
+        for id in ["julia", "mandelbrot"] {
+            session
+                .apply_batch(
+                    1,
+                    session.state.revision,
+                    &[Command::SelectModule {
+                        module_id: id.into(),
+                        reset_view: false,
+                        initial_params: RawParams::new(),
+                    }],
+                )
+                .unwrap();
+        }
+        let morph = session.snapshot().morph_timeline_token().unwrap();
         let mut target = session.state.params.clone();
         target.insert("iterations".into(), ParameterValue::Number(438.into()));
-        let token = session.start_param_timeline(1, 0, target.clone()).unwrap();
+        let token = session
+            .start_param_timeline(1, session.state.revision, target.clone())
+            .unwrap();
         session.state.revision = u64::MAX;
         let before = session.snapshot();
         let timeline = session.param_timeline.clone();
+        assert_eq!(
+            session.tick_morph_timeline(1, u64::MAX, morph),
+            Err(SessionError::RevisionOverflow)
+        );
+        assert_eq!(
+            session.cancel_morph_timeline(1, u64::MAX, morph),
+            Err(SessionError::RevisionOverflow)
+        );
+        assert_eq!(
+            session.apply_batch(
+                1,
+                u64::MAX,
+                &[Command::SelectModule {
+                    module_id: "julia".into(),
+                    reset_view: false,
+                    initial_params: RawParams::new(),
+                }]
+            ),
+            Err(SessionError::RevisionOverflow)
+        );
         assert_eq!(
             session.start_param_timeline(1, u64::MAX, target),
             Err(SessionError::RevisionOverflow)
