@@ -278,6 +278,7 @@ impl Session {
             .checked_add(1)
             .ok_or(SessionError::RevisionOverflow)?;
         let mut candidate = self.state.clone();
+        let mut physical = self.physical.clone();
         let mut cancel_param_timeline = false;
         for command in commands {
             cancel_param_timeline |= param_timeline::cancelled_by(&candidate, command);
@@ -293,10 +294,14 @@ impl Session {
                 return Err(SessionError::DeferredOperation);
             }
             morph_timeline::selection(&before, &mut candidate, command, animate)?;
+            if before.module_id != candidate.module_id {
+                physical.invalidate().map_err(SessionError::Physical)?;
+            }
             trajectory_jobs::invalidate_changed(&before, &mut candidate, revision);
         }
         candidate.reserve_terminals(revision)?;
         candidate.revision = revision;
+        self.physical = physical;
         if cancel_param_timeline {
             self.param_timeline = None;
         }
