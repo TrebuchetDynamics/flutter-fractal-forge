@@ -199,6 +199,8 @@ impl Session {
         let request = self.pending.take().expect("current request");
         if let Some(frame) = result.frame() {
             let mut target = request.target;
+            // The load does not own the concurrent morph timer.
+            target.morph = self.state.morph.clone();
             // A staged wall target must not resurrect or roll back trajectory ownership.
             target.trajectory_generation = self.state.trajectory_generation;
             target.trajectory_pending = self.state.trajectory_pending;
