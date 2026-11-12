@@ -1,0 +1,25 @@
+schema = 1
+task = "RUST-M2-WORK-BRIDGE"
+candidate = "97cd8697be97ab3154a7bad4f13558024ecb6e85"
+integration = "f2c2323134fde44310dccf54cbc470180ad748cf"
+tree = "2c4b7d255f38e4cf6b0183e0dee42bb5a19ef2fa"
+contract_hash = "c5d2be3fea3333fcd4165f72bda5c1e57bc3e337c2728d47c51990771a513e25"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-WORK-BRIDGE"]
+result = "pass"
+review = "passed"
+model_review = "passed"
+
+[[acceptance]]
+item = "Given state_work_executor tests with an injected counted submission seam and concurrent admission/empty-exit/replacement, capacity+1 gets immediate Busy before any extra pool submission; no more than one service pump is queued/running, no lost wake or hidden retry queue. Admission/status do no math. Round-robin chunks obey WORK-QUEUE and existing work bounds; queue lock is never held during math/Session locking."
+result = "met"
+evidence = "state_work_executor public counted tests passed: capacity+1 returns Busy with one pending submission, replacement is atomic, and concurrent admission/empty exit/replacement terminates without lost work. The executor keeps its pump flag and WorkQueue entries under one mutex and releases it before Session acquisition/math. The unit turn test steps actual wall/trajectory jobs, rotates Sessions/kinds, and checks a <=256 trajectory chunk. Sync status clones cached data only; admission captures operands and reserves the existing WorkQueue permit before BaseThreadPool::execute."
+
+[[acceptance]]
+item = "Given those public bridge lifecycle tests, shared Arc Session mutex preserves one mutable owner; stale/manual interference/revoked/closed jobs never publish late. Job panic/error/drop/cancel/terminal paths release permits once, service remains usable and bounded ticket-held terminal data survives without a global unbounded result map. Existing StateSession/trajectory/wall APIs and detached snapshots remain compatible."
+result = "met"
+evidence = "Final Rust workspace gate and all 14 focused bridge tests passed. StateSession now shares the existing Arc<Mutex<Option<Session>>> with weak scheduled ownership; no second mutable Session exists. Public lifecycle tests cover stale revision, revoke/cancel, ticket drop, shutdown/drop, closed admission and continued use. Unit cases cover manual diagnostic token replacement and a caught panic with a poisoned Session mutex while another Session still completes. Permits are non-cloneable and removed once on all terminal paths; only bounded active weak entries are indexed, with detached terminal snapshots held by caller tickets. Existing state_session/state_trajectory/state_number_wall APIs remain compatible."
+
+[[acceptance]]
+item = "Given twice-generated complete five-file inventories, current FRB 2.13.0 outputs agree; analyzer/adapter, Linux/APK compile of existing trajectory/u64 targets and both root Web flags pass. Note binds tools/generated inputs and scopes admission/fairness to this new inert service, explicitly leaving legacy async bypasses, installed scheduler/app/full-executor responsiveness unqualified."
+result = "met"
+evidence = "Both complete five-file FRB 2.13.0 generation inventories agree and match committed outputs; analyzer and 3 adapter tests pass. Both existing trajectory/u64 targets compile for Linux and Android-x64, and both root Web flags compile. docs/tasks/RUST-M2-WORK-BRIDGE.md binds tools, API/config/lock input hashes and all five output hashes. It explicitly limits admission/fairness to each inert service, retains legacy bypasses, and leaves installed scheduler/app/full-executor responsiveness unqualified. No app route, dependency, lock, fixture or codegen-configuration change."
