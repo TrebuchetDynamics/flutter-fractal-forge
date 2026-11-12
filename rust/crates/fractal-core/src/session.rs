@@ -8,6 +8,9 @@ mod effects;
 #[path = "session_param_timeline.rs"]
 mod param_timeline;
 pub use param_timeline::ParamTimelineToken;
+#[path = "session_physical_events.rs"]
+mod physical_events;
+pub use physical_events::PhysicalTransaction;
 #[path = "session_morph_timeline.rs"]
 mod morph_timeline;
 pub use morph_timeline::MorphTimelineToken;
@@ -109,6 +112,7 @@ pub enum SessionError {
     InvalidCatalog(String),
     InvalidParameterTarget(String),
     Randomization(crate::param_randomization::RandomizationError),
+    Physical(crate::physical_events::PhysicalError),
 }
 
 impl fmt::Display for SessionError {
@@ -175,6 +179,7 @@ pub struct Session {
     param_timeline: Option<param_timeline::ParamTimeline>,
     trajectory_request: Option<trajectory_jobs::PendingTrajectory>,
     trajectory_cache: TrajectoryCache,
+    physical: crate::physical_events::PhysicalState,
 }
 
 impl Session {
@@ -225,6 +230,7 @@ impl Session {
             param_timeline: None,
             trajectory_request: None,
             trajectory_cache,
+            physical: crate::physical_events::PhysicalState::default(),
         })
     }
 
@@ -1020,6 +1026,25 @@ mod tests {
         )
         .unwrap();
         let mut session = Session::new(Arc::new(catalog), 1, "mandelbrot").unwrap();
+        session
+            .apply_physical(
+                1,
+                0,
+                Some([300.0, 240.0]),
+                &[crate::physical_events::PhysicalEvent {
+                    sequence: 0,
+                    source_us: Some(0),
+                    consumed: false,
+                    input: crate::physical_events::PhysicalInput::Pointer {
+                        id: 1,
+                        local: [80.0, 80.0],
+                        phase: crate::physical_events::PointerPhase::Down,
+                        kind: crate::physical_events::PointerKind::Touch,
+                        buttons: 1,
+                    },
+                }],
+            )
+            .unwrap();
         // White-box setup only: production construction always starts at zero.
         session.state.revision = u64::MAX - 1;
         let last = session
@@ -1031,6 +1056,31 @@ mod tests {
             session.apply_batch(1, u64::MAX, &[Command::Zoom(32.0), Command::ResetSession]),
             Err(SessionError::RevisionOverflow)
         );
+        assert_eq!(session.snapshot(), last);
+
+        // Raw transactions reserve revision capacity before publishing hidden anchors.
+        let physical = session.physical.clone();
+        assert_eq!(
+            session.apply_physical(
+                1,
+                u64::MAX,
+                Some([300.0, 240.0]),
+                &[crate::physical_events::PhysicalEvent {
+                    sequence: 1,
+                    source_us: Some(16000),
+                    consumed: false,
+                    input: crate::physical_events::PhysicalInput::Pointer {
+                        id: 1,
+                        local: [120.0, 100.0],
+                        phase: crate::physical_events::PointerPhase::Move,
+                        kind: crate::physical_events::PointerKind::Touch,
+                        buttons: 1,
+                    },
+                },]
+            ),
+            Err(SessionError::RevisionOverflow)
+        );
+        assert_eq!(session.physical, physical);
         assert_eq!(session.snapshot(), last);
 
         // Overflow must not consume a tick, replace its generation or cancel it.
