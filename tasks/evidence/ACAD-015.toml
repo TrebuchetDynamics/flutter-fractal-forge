@@ -1,0 +1,30 @@
+schema = 1
+task = "ACAD-015"
+candidate = "075ebba19465e99bde543df7818abe8c94de123b"
+integration = "b3581a7da2ca21da927b3fc8fff090f756561cf8"
+tree = "675f925bb9aff762c3df1b9da4ea93f27f4f5830"
+contract_hash = "966ce5d2b6b4eec9f34cc91ba18cf640365d098207468907c2364a4d12739d57"
+checks = ["<path>", "<path>", "--verify", "<path>", "ACAD-015"]
+result = "pass"
+review = "passed"
+model_review = "passed"
+
+[[acceptance]]
+item = "Dark and OLED ColorScheme define onSurfaceVariant, outlineVariant, surfaceContainerHigh and surfaceContainerHighest; high contrast is unchanged"
+result = "met"
+evidence = "Both schemes explicitly reuse textSecondary, border, surfaceVariant and surfaceElevated. Focused palette-role assertions pass; r2-verify.py confirms the complete high-contrast block is byte-identical to baseline."
+
+[[acceptance]]
+item = "AutoPilotAlignmentOverlay reads its semantics label from AppLocalizations and a Spanish widget test finds the Spanish label"
+result = "met"
+evidence = "Overlay reads AppLocalizations.of(context)?.autoPilotAlignmentLabel with the exact requested English fallback. ARB sources regenerated using flutter gen-l10n. Spanish widget test finds 'Piloto automático en pausa. Alinea el zoom con la retícula central.'; existing nonlocalized English case also passes."
+
+[[acceptance]]
+item = "test/migration passes with a recorded provenance transition for the changed bound files"
+result = "met"
+evidence = "All 27 test/migration tests pass. Reused the existing schema-2 comparator and prior task-scoped implementation rather than adding a framework. Recorded separate exact-policy baseline and ACAD-015 stages, updated to admitted revision 797b4fc69c0755a1ee14bd965e621386100f1252. Ten pre-existing physical-map deltas are pinned separately to baseline Git bytes; task policy remains six paths. Repeated twelve-document exports match, and retained artifacts/collectors/clock validator are unchanged. Process recorded in docs/tasks/source-bound-review-gates.md."
+
+[[acceptance]]
+item = "Body and secondary text keep at least 4.5:1 contrast on the surface in dark and OLED themes"
+result = "met"
+evidence = "One focused palette/contrast case checks onSurface, onSurfaceVariant, bodyLarge and bodyMedium against each scheme surface at a minimum 4.5:1 ratio; passes in focused and complete Flutter runs. Existing palette tokens are reused without recoloring high contrast or adding dependencies."

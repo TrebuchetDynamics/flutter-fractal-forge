@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Define quiet dark/OLED colour roles and localize the auto-pilot crosshair announcement in English and Spanish. (ACAD-015)
 - Reject incomplete, duplicate, unexpected or ambiguous resumed catalog-audit evidence before merging; preserve raw reports and strict diagnostics. (MAINT-CATALOG-AUDIT-COVERAGE-01)
 - Fix tracked-artifact audit to match literal NUL-delimited Git paths, escape offender diagnostics and fail closed on Git enumeration errors. (MAINT-ARTIFACT-AUDIT-01)
 - Localized EN/ES accessibility status hints, removed duplicate announcements, and composed their exact localization provenance without changing retained evidence. (MAINT-A11Y-STATUS-COPY-01)

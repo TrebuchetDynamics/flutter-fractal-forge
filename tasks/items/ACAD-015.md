@@ -3,7 +3,7 @@ schema = 1
 id = "ACAD-015"
 title = "Define quiet colour roles in dark and OLED themes and localize the auto-pilot crosshair label"
 short = "Theme quiet roles + crosshair l10n"
-status = "open"
+status = "done"
 section = "Next"
 rank = 32000
 depends_on = []
@@ -15,4 +15,6 @@ scope = "The dark and OLED colour schemes in lib/core/theme/app_theme.dart do no
 acceptance = ["Dark and OLED ColorScheme define onSurfaceVariant, outlineVariant, surfaceContainerHigh and surfaceContainerHighest; high contrast is unchanged", "AutoPilotAlignmentOverlay reads its semantics label from AppLocalizations and a Spanish widget test finds the Spanish label", "test/migration passes with a recorded provenance transition for the changed bound files", "Body and secondary text keep at least 4.5:1 contrast on the surface in dark and OLED themes"]
 checks = ["flutter analyze", "flutter test"]
 exclusions = []
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/ACAD-015.toml"
 +++
