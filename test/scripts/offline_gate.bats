@@ -21,8 +21,16 @@ if [[ "${1:-}" == "--version" ]]; then
   exit 0
 fi
 printf 'flutter %s\n' "$*" >> "${CALLS:?}"
+if [[ "${FAKE_FAIL_STAGE:-}" == "pub-lock" ]]; then printf 'drift\n' >> pubspec.lock; fi
+if [[ "${FAKE_FAIL_STAGE:-}" == "timeout" && "${1:-}" == "test" ]]; then
+  printf 'diagnostic before timeout\n' >&2
+  sleep 5
+fi
 if [[ -n "${FAKE_FAIL_STAGE:-}" && "${1:-} ${2:-}" == *"$FAKE_FAIL_STAGE"* ]]; then
   printf 'simulated %s failure\n' "$FAKE_FAIL_STAGE" >&2
+  if [[ "${FAKE_LONG_OUTPUT:-}" == 1 ]]; then
+    for ((i=0; i<60; i++)); do printf 'later progress %s\n' "$i"; done
+  fi
   exit 42
 fi
 EOF_FLUTTER
@@ -78,12 +86,25 @@ run_gate() {
   [ -f "$BATS_TEST_TMPDIR/logs/offline-gate.json" ]
   [ -f "$BATS_TEST_TMPDIR/logs/flutter-tests.log" ]
   [[ "$output" == *'"rust_lock_unchanged": true'* ]]
-  export FAKE_FAIL_STAGE="rust-lock"
-  : > "$CALLS"
-  run_gate --json
-  [ "$status" -eq 1 ]
-  [[ "$output" == *'"rust_lock_unchanged": false'* ]]
-  ! grep -q '^flutter analyze' "$CALLS"
+  [ "${lines[-1]}" = "$(< "$BATS_TEST_TMPDIR/logs/offline-gate.json")" ]
+  /usr/bin/python3 - "$BATS_TEST_TMPDIR/logs/offline-gate.json" <<'PY'
+import json, sys
+summary = json.load(open(sys.argv[1]))
+assert summary['failed_stage'] is None
+assert len(summary['stages']) == 8
+assert all(stage['exit_code'] == 0 for stage in summary['stages'])
+PY
+  for lock in pub rust; do
+    export FAKE_FAIL_STAGE="$lock-lock"
+    : > "$CALLS"
+    run_gate --json
+    [ "$status" -eq 1 ]
+    [[ "$output" == *'"failed_stage": "lockfile"'* ]]
+    local key="lock_unchanged"
+    [[ "$lock" == rust ]] && key="rust_lock_unchanged"
+    [[ "$output" == *"\"$key\": false"* ]]
+    ! grep -q '^flutter analyze' "$CALLS"
+  done
 }
 
 @test "Cargo failures and a missing executable fail closed before Flutter checks" {
@@ -98,7 +119,7 @@ run_gate() {
   # A PATH-only missing command must not fall back to the real host cargo.
   rm "$PROJECT/bin/cargo"
   mkdir "$PROJECT/without-cargo"
-  for tool in bash dirname basename mkdir tr grep head sha256sum awk timeout tail python3; do
+  for tool in bash dirname basename mkdir tr grep head sha256sum awk timeout cat python3; do
     ln -s "$(command -v "$tool")" "$PROJECT/without-cargo/$tool"
   done
   local original_path="$PATH"
@@ -109,17 +130,39 @@ run_gate() {
   export PATH="$original_path"
 }
 
-@test "a failing stage stops later stages and reports the failed stage" {
-  export FAKE_FAIL_STAGE="test"
+@test "a long failing stage exposes complete diagnostics and consistent terminal results" {
+  export FAKE_FAIL_STAGE="test" FAKE_LONG_OUTPUT=1
   run_gate --json
   [ "$status" -eq 1 ]
-
-  run grep -q '"failed_stage": "flutter-tests"' "$BATS_TEST_TMPDIR/logs/offline-gate.json"
-  [ "$status" -eq 0 ]
+  [[ "$output" == *"$(< "$BATS_TEST_TMPDIR/logs/flutter-tests.log")"* ]]
+  [[ "$output" == *"simulated test failure"*"later progress 59"* ]]
+  [ "${lines[-1]}" = "$(< "$BATS_TEST_TMPDIR/logs/offline-gate.json")" ]
+  /usr/bin/python3 - "$BATS_TEST_TMPDIR/logs/offline-gate.json" <<'PY'
+import json, sys
+summary = json.load(open(sys.argv[1]))
+assert summary['verdict'] == 'failed'
+assert summary['failed_stage'] == 'flutter-tests'
+assert summary['stages'][-1]['stage'] == 'flutter-tests'
+assert summary['stages'][-1]['exit_code'] == 42
+assert len(summary['stages']) == 6
+assert summary['lock_unchanged'] and summary['rust_lock_unchanged']
+PY
   run grep -q '^python ' "$CALLS"
   [ "$status" -ne 0 ]
   run grep -q '^bats ' "$CALLS"
   [ "$status" -ne 0 ]
+}
+
+@test "a timed out stage remains failed and stops later families" {
+  export FAKE_FAIL_STAGE="timeout"
+  run_gate --json --stage-timeout 1
+  [ "$status" -eq 1 ]
+  [[ "$output" == *'diagnostic before timeout'* ]]
+  [[ "$output" == *'"verdict": "failed"'* ]]
+  [[ "$output" == *'"failed_stage": "flutter-tests"'* ]]
+  [[ "$output" == *'"exit_code": 124'* ]]
+  [ "${lines[-1]}" = "$(< "$BATS_TEST_TMPDIR/logs/offline-gate.json")" ]
+  ! grep -qE '^(python|bats) ' "$CALLS"
 }
 
 @test "reports the failing script stage without hiding the exit" {

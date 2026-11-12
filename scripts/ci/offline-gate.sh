@@ -180,7 +180,8 @@ run_stage() {
     FAILED_STAGE="$name"
     VERDICT="failed"
     log "stage $name failed with exit $status (log: $log_file)"
-    tail -n 40 "$log_file" >&2 || true
+    # Keep early failure context observable even when later progress is verbose.
+    cat "$log_file" >&2 || true
     return "$status"
   fi
   log "stage $name passed in $((SECONDS - started))s"
