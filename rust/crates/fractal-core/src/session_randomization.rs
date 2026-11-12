@@ -13,6 +13,28 @@ impl Snapshot {
 }
 
 impl Session {
+    /// Generate ordinary seeded targets using the same VM algorithm as immediate
+    /// randomization, then delegate validation and ownership to the timeline.
+    pub fn start_seeded_param_timeline(
+        &mut self,
+        session_id: u64,
+        expected_revision: u64,
+        seed: i64,
+    ) -> Result<ParamTimelineToken, SessionError> {
+        self.check_owner(session_id, expected_revision)?;
+        if self.state.module_id == "number_wall" {
+            return Err(SessionError::DeferredOperation);
+        }
+        let data = module_data(&self.catalog, &self.state.module_id)?;
+        let target = general_targets(
+            data.parameters,
+            &self.state.params,
+            &mut SeededRandom::new(seed),
+        )
+        .map_err(SessionError::Randomization)?;
+        self.start_param_timeline(session_id, expected_revision, target)
+    }
+
     /// Ordinary modules commit immediately. Number Walls must use certified
     /// staged ingress; pure typed targets remain available for the timeline.
     pub fn randomize_params(

@@ -7,7 +7,7 @@ import 'frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 // These functions are ignored because they are not marked as `pub`: `advance_number_wall_impl`, `allocate_session_id`, `begin_number_wall_impl`, `cancel_number_wall_impl`, `cancel_scheduled`, `core_params`, `into_core`, `shutdown_impl`, `snapshot_impl`, `trajectory_status`
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `drop`, `drop`, `drop`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `drop`, `drop`, `drop`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`
 // These functions are ignored (category: IgnoreBecauseExplicitAttribute): `default`, `default`, `with_submitter`
 
 EngineHandle createEngine() => RustLib.instance.api.crateApiCreateEngine();
@@ -156,6 +156,9 @@ abstract class StateCommand implements RustOpaqueInterface {
       RustLib.instance.api.crateApiStateCommandZoom(value: value);
 }
 
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateMorphTimelineToken>>
+abstract class StateMorphTimelineToken implements RustOpaqueInterface {}
+
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateNumberWallFrame>>
 abstract class StateNumberWallFrame implements RustOpaqueInterface {
   int columnCount();
@@ -199,6 +202,23 @@ abstract class StateNumberWallProgress implements RustOpaqueInterface {
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateNumberWallRequest>>
 abstract class StateNumberWallRequest implements RustOpaqueInterface {}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateNumberWallUndo>>
+abstract class StateNumberWallUndo implements RustOpaqueInterface {
+  bool changed();
+
+  StateSnapshot snapshot();
+}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateParamTimelineStart>>
+abstract class StateParamTimelineStart implements RustOpaqueInterface {
+  StateSnapshot snapshot();
+
+  StateParamTimelineToken token();
+}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateParamTimelineToken>>
+abstract class StateParamTimelineToken implements RustOpaqueInterface {}
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StatePhysicalEvent>>
 abstract class StatePhysicalEvent implements RustOpaqueInterface {
@@ -296,6 +316,13 @@ abstract class StateSession implements RustOpaqueInterface {
       required BigInt expectedRevision,
       required List<StateCommand> commands});
 
+  /// Explicit animation option; default batch semantics are unchanged.
+  Future<StateSnapshot> applyBatchWithModuleAnimation(
+      {required BigInt sessionId,
+      required BigInt expectedRevision,
+      required List<StateCommand> commands,
+      required bool animate});
+
   /// Normal-mode FRB Future transport, one atomic core transaction on the existing pool.
   Future<StatePhysicalResult> applyPhysicalAsync(
       {required BigInt sessionId,
@@ -325,6 +352,11 @@ abstract class StateSession implements RustOpaqueInterface {
       required BigInt expectedRevision,
       required StateTrajectoryGuard requestGuard});
 
+  Future<StateSnapshot> cancelMorphTimeline(
+      {required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateMorphTimelineToken token});
+
   StateNumberWallProgress cancelNumberWall(
       {required BigInt sessionId,
       required BigInt expectedRevision,
@@ -335,6 +367,11 @@ abstract class StateSession implements RustOpaqueInterface {
       {required BigInt sessionId,
       required BigInt expectedRevision,
       required StateNumberWallRequest request});
+
+  Future<StateSnapshot> cancelParamTimeline(
+      {required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateParamTimelineToken token});
 
   Future<StateTrajectoryProgress> cancelTrajectoryAsync(
       {required BigInt sessionId,
@@ -358,6 +395,11 @@ abstract class StateSession implements RustOpaqueInterface {
   /// Read the actual initial/current pump generation under the session lock.
   BigInt physicalGeneration();
 
+  Future<StateSnapshot> randomizeParams(
+      {required BigInt sessionId,
+      required BigInt expectedRevision,
+      required PlatformInt64 seed});
+
   void shutdown();
 
   /// Normal-mode FRB transport: runs on the existing pool, not the UI thread.
@@ -367,10 +409,35 @@ abstract class StateSession implements RustOpaqueInterface {
 
   /// Normal-mode FRB transport: runs on the existing pool, not the UI thread.
   Future<StateSnapshot> snapshotAsync();
+
+  Future<StateParamTimelineStart> startParamTimeline(
+      {required BigInt sessionId,
+      required BigInt expectedRevision,
+      required Map<String, StateValue> target});
+
+  Future<StateParamTimelineStart> startSeededParamTimeline(
+      {required BigInt sessionId,
+      required BigInt expectedRevision,
+      required PlatformInt64 seed});
+
+  Future<StateSnapshot> tickMorphTimeline(
+      {required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateMorphTimelineToken token});
+
+  Future<StateSnapshot> tickParamTimeline(
+      {required BigInt sessionId,
+      required BigInt expectedRevision,
+      required StateParamTimelineToken token});
+
+  Future<StateNumberWallUndo> undoNumberWallRandomization(
+      {required BigInt sessionId, required BigInt expectedRevision});
 }
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<StateSnapshot>>
 abstract class StateSnapshot implements RustOpaqueInterface {
+  bool canUndoNumberWallRandomization();
+
   /// Fixed detached debug instrumentation; release builds explicitly refuse.
   /// Not a security boundary or a production identity source.
   List<StateSnapshot> debugU64Fixtures();
@@ -384,6 +451,8 @@ abstract class StateSnapshot implements RustOpaqueInterface {
   double glowIntensity();
 
   double glowSigma();
+
+  bool isMorphing();
 
   bool kaleidoscopeEnabled();
 
@@ -399,6 +468,10 @@ abstract class StateSnapshot implements RustOpaqueInterface {
 
   String moduleId();
 
+  double morphProgress();
+
+  StateMorphTimelineToken? morphTimelineToken();
+
   StateNumberWallFrame? numberWallFrame();
 
   bool numberWallPending();
@@ -406,6 +479,8 @@ abstract class StateSnapshot implements RustOpaqueInterface {
   StateNumberWallStatus? numberWallStatus();
 
   Map<String, StateValue> params();
+
+  String? previousModuleId();
 
   BigInt revision();
 
