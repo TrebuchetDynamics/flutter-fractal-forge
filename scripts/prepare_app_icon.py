@@ -8,6 +8,7 @@ import hashlib
 import json
 from pathlib import Path
 import shutil
+import stat
 import struct
 
 from PIL import Image, ImageDraw, PngImagePlugin
@@ -110,13 +111,24 @@ def prepare(source, state_path, output, rotate_clockwise_45=False):
             raise ValueError('rotated crop contains non-source corner pixels')
         image = working.convert('RGB')
     names = [*OUTPUTS, 'source.png', 'source-state.json', 'proof.png', 'fractal-forge-icon-source.json']
+    existing_targets = {}
     for name in names:
         target = output / name
         for original in (source, state_path):
             if target.resolve() == original.resolve() or (target.exists() and target.samefile(original)):
-                raise ValueError('output must not overwrite either input (including aliases)')
+                raise ValueError(f'output must not overwrite either input (including aliases): {target}')
         if target.is_symlink():
-            raise ValueError('output files must not be symlinks')
+            raise ValueError(f'output files must not be symlinks: {target}')
+        try:
+            metadata = target.lstat()
+        except FileNotFoundError:
+            continue
+        if not stat.S_ISREG(metadata.st_mode):
+            raise ValueError(f'output must be a regular file: {target}')
+        identity = (metadata.st_dev, metadata.st_ino)
+        if identity in existing_targets:
+            raise ValueError(f'output files must not alias each other: {existing_targets[identity]} and {target}')
+        existing_targets[identity] = target
     try:
         from PIL import ImageCms
     except ImportError:
