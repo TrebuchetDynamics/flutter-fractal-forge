@@ -8,14 +8,15 @@ use std::{
 };
 
 use fractal_core::{
-    catalog_baseline::CatalogBaseline,
+    catalog_baseline::{CatalogBaseline, ParameterValue},
     normalization::{RawScalar, ViewInput},
     number_wall_frame::NumberWallFrame,
     number_wall_grid::NumberWallSequence,
     number_wall_prime::NumberWallPrimeStatus,
     session::{
-        CameraInput, Command, RequestGuard, RequestProgress, RequestToken, Session, Snapshot,
-        TrajectoryCache, TrajectoryFrame, TrajectoryProgress,
+        CameraInput, Command, MorphTimelineToken, ParamTimelineToken, RequestGuard,
+        RequestProgress, RequestToken, Session, Snapshot, TrajectoryCache, TrajectoryFrame,
+        TrajectoryProgress,
     },
 };
 
@@ -978,6 +979,33 @@ pub struct StateSnapshot {
 
 impl StateSnapshot {
     #[frb(sync)]
+    pub fn is_morphing(&self) -> bool {
+        self.inner.is_morphing()
+    }
+
+    #[frb(sync)]
+    pub fn morph_progress(&self) -> f64 {
+        self.inner.morph_progress()
+    }
+
+    #[frb(sync)]
+    pub fn previous_module_id(&self) -> Option<String> {
+        self.inner.previous_module_id().map(str::to_owned)
+    }
+
+    #[frb(sync)]
+    pub fn morph_timeline_token(&self) -> Option<StateMorphTimelineToken> {
+        self.inner
+            .morph_timeline_token()
+            .map(|inner| StateMorphTimelineToken { inner })
+    }
+
+    #[frb(sync)]
+    pub fn can_undo_number_wall_randomization(&self) -> bool {
+        self.inner.can_undo_number_wall_randomization()
+    }
+
+    #[frb(sync)]
     pub fn trajectory(&self) -> Option<StateTrajectorySettings> {
         self.inner
             .trajectory()
@@ -1151,6 +1179,60 @@ impl StateSnapshot {
     }
 }
 
+/// Session-bound capabilities: no caller-built identity or generation.
+#[derive(Debug)]
+#[frb(opaque)]
+pub struct StateParamTimelineToken {
+    inner: ParamTimelineToken,
+}
+
+#[derive(Debug)]
+#[frb(opaque)]
+pub struct StateMorphTimelineToken {
+    inner: MorphTimelineToken,
+}
+
+/// Token and detached snapshot captured under one Session lock.
+pub struct StateParamTimelineStart {
+    token: StateParamTimelineToken,
+    snapshot: StateSnapshot,
+}
+
+impl StateParamTimelineStart {
+    #[frb(sync)]
+    pub fn token(&self) -> StateParamTimelineToken {
+        StateParamTimelineToken {
+            inner: self.token.inner,
+        }
+    }
+
+    #[frb(sync)]
+    pub fn snapshot(&self) -> StateSnapshot {
+        StateSnapshot {
+            inner: self.snapshot.inner.clone(),
+        }
+    }
+}
+
+pub struct StateNumberWallUndo {
+    changed: bool,
+    snapshot: StateSnapshot,
+}
+
+impl StateNumberWallUndo {
+    #[frb(sync)]
+    pub fn changed(&self) -> bool {
+        self.changed
+    }
+
+    #[frb(sync)]
+    pub fn snapshot(&self) -> StateSnapshot {
+        StateSnapshot {
+            inner: self.snapshot.inner.clone(),
+        }
+    }
+}
+
 static TRAJECTORY_CACHE: OnceLock<TrajectoryCache> = OnceLock::new();
 
 static LAST_SESSION_ID: AtomicU64 = AtomicU64::new(0);
@@ -1175,6 +1257,193 @@ pub struct StateSession {
 }
 
 impl StateSession {
+    /// Explicit animation option; default batch semantics are unchanged.
+    pub fn apply_batch_with_module_animation(
+        &self,
+        session_id: u64,
+        expected_revision: u64,
+        commands: Vec<StateCommand>,
+        animate: bool,
+    ) -> Result<StateSnapshot, String> {
+        let mut guard = self
+            .inner
+            .lock()
+            .map_err(|_| "Rust state session lock poisoned")?;
+        let session = guard.as_mut().ok_or("Rust state session is closed")?;
+        let commands: Vec<_> = commands.into_iter().map(|command| command.inner).collect();
+        session
+            .apply_batch_with_module_animation(session_id, expected_revision, &commands, animate)
+            .map(|inner| StateSnapshot { inner })
+            .map_err(|e| e.to_string())
+    }
+
+    pub fn start_param_timeline(
+        &self,
+        session_id: u64,
+        expected_revision: u64,
+        target: HashMap<String, StateValue>,
+    ) -> Result<StateParamTimelineStart, String> {
+        let mut guard = self
+            .inner
+            .lock()
+            .map_err(|_| "Rust state session lock poisoned")?;
+        let session = guard.as_mut().ok_or("Rust state session is closed")?;
+        let target = target
+            .into_iter()
+            .map(|(id, value)| {
+                let value = match value.inner {
+                    RawScalar::Number(n) => ParameterValue::Number(n),
+                    // Debug spelling retains floating-point kind (including 3.0/-0.0).
+                    RawScalar::Float(n) => ParameterValue::Number(
+                        format!("{n:?}")
+                            .parse()
+                            .map_err(|_| "Non-finite timeline target")?,
+                    ),
+                    RawScalar::Boolean(b) => ParameterValue::Boolean(b),
+                    RawScalar::Text(s) => ParameterValue::Text(s),
+                };
+                Ok((id, value))
+            })
+            .collect::<Result<BTreeMap<_, _>, String>>()?;
+        let inner = session
+            .start_param_timeline(session_id, expected_revision, target)
+            .map_err(|e| e.to_string())?;
+        Ok(StateParamTimelineStart {
+            token: StateParamTimelineToken { inner },
+            snapshot: StateSnapshot {
+                inner: session.snapshot(),
+            },
+        })
+    }
+
+    pub fn start_seeded_param_timeline(
+        &self,
+        session_id: u64,
+        expected_revision: u64,
+        seed: i64,
+    ) -> Result<StateParamTimelineStart, String> {
+        let mut guard = self
+            .inner
+            .lock()
+            .map_err(|_| "Rust state session lock poisoned")?;
+        let session = guard.as_mut().ok_or("Rust state session is closed")?;
+        let inner = session
+            .start_seeded_param_timeline(session_id, expected_revision, seed)
+            .map_err(|e| e.to_string())?;
+        Ok(StateParamTimelineStart {
+            token: StateParamTimelineToken { inner },
+            snapshot: StateSnapshot {
+                inner: session.snapshot(),
+            },
+        })
+    }
+
+    pub fn randomize_params(
+        &self,
+        session_id: u64,
+        expected_revision: u64,
+        seed: i64,
+    ) -> Result<StateSnapshot, String> {
+        let mut guard = self
+            .inner
+            .lock()
+            .map_err(|_| "Rust state session lock poisoned")?;
+        let session = guard.as_mut().ok_or("Rust state session is closed")?;
+        session
+            .randomize_params(session_id, expected_revision, seed)
+            .map(|inner| StateSnapshot { inner })
+            .map_err(|e| e.to_string())
+    }
+
+    pub fn tick_param_timeline(
+        &self,
+        session_id: u64,
+        expected_revision: u64,
+        token: &StateParamTimelineToken,
+    ) -> Result<StateSnapshot, String> {
+        let mut guard = self
+            .inner
+            .lock()
+            .map_err(|_| "Rust state session lock poisoned")?;
+        let session = guard.as_mut().ok_or("Rust state session is closed")?;
+        session
+            .tick_param_timeline(session_id, expected_revision, token.inner)
+            .map(|inner| StateSnapshot { inner })
+            .map_err(|e| e.to_string())
+    }
+
+    pub fn cancel_param_timeline(
+        &self,
+        session_id: u64,
+        expected_revision: u64,
+        token: &StateParamTimelineToken,
+    ) -> Result<StateSnapshot, String> {
+        let mut guard = self
+            .inner
+            .lock()
+            .map_err(|_| "Rust state session lock poisoned")?;
+        let session = guard.as_mut().ok_or("Rust state session is closed")?;
+        session
+            .cancel_param_timeline(session_id, expected_revision, token.inner)
+            .map(|inner| StateSnapshot { inner })
+            .map_err(|e| e.to_string())
+    }
+
+    pub fn tick_morph_timeline(
+        &self,
+        session_id: u64,
+        expected_revision: u64,
+        token: &StateMorphTimelineToken,
+    ) -> Result<StateSnapshot, String> {
+        let mut guard = self
+            .inner
+            .lock()
+            .map_err(|_| "Rust state session lock poisoned")?;
+        let session = guard.as_mut().ok_or("Rust state session is closed")?;
+        session
+            .tick_morph_timeline(session_id, expected_revision, token.inner)
+            .map(|inner| StateSnapshot { inner })
+            .map_err(|e| e.to_string())
+    }
+
+    pub fn cancel_morph_timeline(
+        &self,
+        session_id: u64,
+        expected_revision: u64,
+        token: &StateMorphTimelineToken,
+    ) -> Result<StateSnapshot, String> {
+        let mut guard = self
+            .inner
+            .lock()
+            .map_err(|_| "Rust state session lock poisoned")?;
+        let session = guard.as_mut().ok_or("Rust state session is closed")?;
+        session
+            .cancel_morph_timeline(session_id, expected_revision, token.inner)
+            .map(|inner| StateSnapshot { inner })
+            .map_err(|e| e.to_string())
+    }
+
+    pub fn undo_number_wall_randomization(
+        &self,
+        session_id: u64,
+        expected_revision: u64,
+    ) -> Result<StateNumberWallUndo, String> {
+        let mut guard = self
+            .inner
+            .lock()
+            .map_err(|_| "Rust state session lock poisoned")?;
+        let session = guard.as_mut().ok_or("Rust state session is closed")?;
+        let changed = session
+            .undo_number_wall_randomization(session_id, expected_revision)
+            .map_err(|e| e.to_string())?;
+        Ok(StateNumberWallUndo {
+            changed,
+            snapshot: StateSnapshot {
+                inner: session.snapshot(),
+            },
+        })
+    }
+
     /// Normal-mode FRB dispatch; captures settings without running integration.
     pub fn begin_trajectory_async(
         &self,
