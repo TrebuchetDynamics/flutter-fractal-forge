@@ -2,7 +2,7 @@
 schema = 1
 id = "RUST-PLAN-09"
 title = "Plan remaining Session event scheduling and installed trajectory/high-u64 proof from the new producers"
-short = "Continue full Session and native proof"
+short = "Plan Session scheduling and native proof"
 status = "open"
 goal = "RUST-ENGINE-001"
 section = "Next"
