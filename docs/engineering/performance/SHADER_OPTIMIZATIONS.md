@@ -10,37 +10,47 @@ Standard escape-time modules use the slot definitions in `lib/core/modules/build
 
 ## Coloring coverage
 
-`test/shaders/smooth_coloring_family_coverage_test.dart` checks source-level smooth-coloring paths in ten bounded families (23 shaders):
+`test/shaders/smooth_coloring_family_coverage_test.dart` checks the following bounded source-level smooth-coloring cases (family labels follow the test):
 
 | Family | Shader paths | Checked coloring form |
 |---|---|---|
 | Quadratic legacy | `shaders/legacy/escape_time/mandel_step_smooth.frag`, `shaders/legacy/escape_time/julia.frag`, `shaders/legacy/escape_time/burning_ship.frag` | Quadratic `log2(log2(|z|²))` correction; palette coordinate uses the smoothed iteration |
 | Quadratic perturbation | `shaders/escape_time_family/core/escape_time_perturb_gpu.frag` | Quadratic correction from saved escaped `finalMag2` |
-| Integer-power polynomial | `shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag`, `shaders/escape_time_family/families/multibrot/integer_powers/multibrot4_gpu.frag`, `shaders/escape_time_family/polynomial_maps/druid_gpu.frag` | Degree-aware correction using the configured power, degree 4, or degree 3 |
+| Integer-power polynomial | `shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag`, `shaders/escape_time_family/polynomial_maps/druid_gpu.frag` | Degree-aware correction using the configured power for shared Multibrot, or degree 3 for Druid |
 | Rational escape map | `shaders/escape_time_family/geometry_and_ifs/mcmullen_map_gpu.frag` | Degree-aware correction using its `nf` parameter |
 | Quadratic Buffalo | `shaders/escape_time_family/families/buffalo/buffalo_gpu.frag` | Quadratic `log2(log2(|z|²))` correction |
-| Cubic Buffalo | `shaders/escape_time_family/families/buffalo/buffalo_cubic_gpu.frag` | Cubic correction divides `log2(log2(|z|²))` by `log2(3)` |
+| Powered Buffalo | `shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag` | Configurable-power correction divides `log2(log2(mag2))` by `log2(max(power, 1.0001))` |
+| Powered Celtic | `shaders/escape_time_family/families/celtic/power_plane/celtic_power_gpu.frag` | Configurable-power correction divides `log2(log2(mag2))` by `log2(max(power, 1.0001))` |
 | Transcendental map | `shaders/escape_time_family/transcendental_maps/collatz_gpu.frag` | Escape-iteration correction `it - log2(log2(|z|²))`; palette coordinate uses the smoothed iteration |
-| Feather map | `shaders/escape_time_family/julia_variants/feather_gpu.frag`, `shaders/escape_time_family/julia_variants/feather_julia_gpu.frag` | Degree-3 correction; both standard and normal-map palette coordinates use the smoothed iteration |
+| Feather map | `shaders/escape_time_family/julia_variants/feather_gpu.frag`, `shaders/escape_time_family/julia_variants/feather_julia_gpu.frag` | Degree-3 correction; normal-map palette coordinate uses the smoothed iteration |
 | Shark Fin map | `shaders/escape_time_family/polynomial_maps/shark_fin_gpu.frag` | Quadratic correction; standard palette coordinate uses the smoothed iteration |
-| Phoenix memory map | `shaders/escape_time_family/core/phoenix_gpu.frag` | Memory-term quadratic recurrence; escaped magnitude correction feeds standard and normal-map palette coordinates |
+| Phoenix memory map | `shaders/escape_time_family/core/phoenix_gpu.frag` | Memory-term quadratic recurrence; escaped magnitude correction feeds the standard palette coordinate |
 
-The regression asserts each listed shader's expected formula, its use in the escaped-pixel palette coordinate, and distinct inside-set output. For the integer-power Multibrot family, the live catalog bindings and current smooth-coloring assertions reconcile as follows:
+The regression asserts each listed shader's expected formula, its use in the escaped-pixel palette coordinate, and distinct inside-set output. These are bounded source assertions only, not visual or hardware-GPU qualification. In particular, the shared Multibrot case asserts the standard palette coordinate, not its normal-map branch.
 
-| Module | Live shader binding | Status in source regression tests |
+The live catalog uses shared configurable-power shaders, not dedicated degree-specific assets:
+
+| Module | Live shader binding | Default power |
 |---|---|---|
-| `multibrot3` | `shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/families/core_escape_time_family.dart:338`) | Checked: degree-aware formula using `log(max(1.001, abs(power)))`, smoothed palette coordinate, and distinct inside-set path. |
-| `multibrot4` | `shaders/escape_time_family/families/multibrot/integer_powers/multibrot4_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/families/cellular_stochastic.dart:708`) | Checked: degree-4 `log(4.0)` correction, smoothed palette coordinate, and distinct inside-set path. The existing power regression also checks its correction and early-out. |
-| `multibrot5` | `shaders/escape_time_family/families/multibrot/multibrot5_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/families/cellular_stochastic.dart:725`) | Checked: degree-5 `log2(5.0)` correction, standard/normal-map smooth palette coordinates, and distinct inside-set output. |
-| `multibrot6` | `shaders/escape_time_family/families/multibrot/multibrot6_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/research_batches/batch_14_extensions.dart:76`) | Checked: degree-6 `log2(6.0)` correction, standard/normal-map smooth palette coordinates, and distinct inside-set output. |
-| `multibrot7` | `shaders/escape_time_family/families/multibrot/multibrot7_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/research_batches/batch_14_extensions.dart:256`) | Checked: degree-7 `log2(7.0)` correction, standard/normal-map smooth palette coordinates, and distinct inside-set output. |
-| `multibrot8` | `shaders/escape_time_family/families/multibrot/multibrot8_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/research_batches/batch_14_extensions.dart:264`) | Checked: degree-8 `/ 3.0` correction, standard/normal-map smooth palette coordinates, and distinct inside-set output. |
-| `multibrot9` | `shaders/escape_time_family/families/multibrot/multibrot9_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/research_batches/batch_14_extensions.dart:531`) | Checked: degree-9 `log2(9.0)` correction, standard/normal-map smooth palette coordinates, and distinct inside-set output. |
-| `multibrot10` | `shaders/escape_time_family/families/multibrot/multibrot10_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/research_batches/batch_14_extensions.dart:548`) | Checked: degree-10 `log2(10.0)` correction, standard/normal-map smooth palette coordinates, and distinct inside-set output. |
-| `multibrot11` | `shaders/escape_time_family/families/multibrot/multibrot11_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/research_batches/batch_14_extensions.dart:577`) | Checked: degree-11 `log2(11.0)` correction, standard/normal-map smooth palette coordinates, and distinct inside-set output. |
-| `multibrot12` | `shaders/escape_time_family/families/multibrot/multibrot12_gpu.frag` (`lib/core/modules/builders/escape_time_catalog/research_batches/batch_14_extensions.dart:585`) | Checked: degree-12 `log2(12.0)` correction, standard/normal-map smooth palette coordinates, and distinct inside-set output. |
+| `multibrot3` | `shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag` | 3 |
+| `multibrot4` | `shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag` | 4 |
+| `multibrot5` | `shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag` | 5 |
+| `multibrot6` | `shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag` | 6 |
+| `multibrot7` | `shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag` | 7 |
+| `multibrot8` | `shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag` | 8 |
+| `multibrot9` | `shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag` | 9 |
+| `multibrot10` | `shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag` | 10 |
+| `multibrot11` | `shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag` | 11 |
+| `multibrot12` | `shaders/escape_time_family/families/multibrot/integer_powers/multibrot3_gpu.frag` | 12 |
+| `buffalo_cubic` | `shaders/escape_time_family/families/buffalo/power_plane/buffalo_power_gpu.frag` | 3 |
 
-“Checked” here means bounded source assertions only, not visual or hardware-GPU qualification. The family regression now covers the degree-aware formulas and inside-set branches for integer-power degrees 5–12; its numeric fixture confirms the expected degree correction changes the palette coordinate from raw iterations. The integer-power inventory does not include the non-integer degree 1.5/2.5 variants or the negative-power map. Those variants, the other shader families and unlisted shaders remain outside this bounded test, so P1-3 is still open for a complete audit.
+Catalog owners are `lib/core/modules/builders/escape_time_catalog/families/core_escape_time_family.dart` (d=3), `lib/core/modules/builders/escape_time_catalog/families/cellular_stochastic.dart` (d=4–5), `lib/core/modules/builders/escape_time_catalog/research_batches/batch_14_extensions.dart` (d=6–12), and `lib/core/modules/builders/escape_time_catalog/research_batches/mandlebrot_sfml_batch_1.dart` (Buffalo Cubic).
+
+For Multibrot d=3–12, the shared shader computes `logZn = 0.5 * log(mag2)` and `smoothVal = float(it) + 1.0 - log(max(1e-12, logZn)) / log(max(1.001, abs(power)))`. The source regression checks that configurable formula once, not a separate source case for each degree. Buffalo Cubic defaults to power 3 in the shared powered-Buffalo shader; its checked formula is `smoothVal = float(it) - log2(log2(mag2)) / log2(max(power, 1.0001))`, not a dedicated cubic-source formula.
+
+The separate higher-degree Multibrot fixture is numeric-only: for degrees 5–12 it checks the arithmetic example `iterations - log2(log2(magnitudeSquared)) / log2(degree)` changes the palette coordinate from raw iterations. These are not per-degree shader-source assertions and not rendered proof; the fixture does not read shader files or establish equivalence with the shared shader's formula. The separate Phoenix fixture does read its shader source and also checks a numeric palette example, but does not render pixels.
+
+The integer-power inventory does not qualify the non-integer degree 1.5/2.5 variants or the negative-power map, even where they share a shader. Those parameter variants, the other shader families and unlisted shaders remain outside this bounded audit, so P1-3 is still open for a complete audit.
 
 Do not apply one coloring formula to every recurrence without checking its iteration and magnitude values. Shader families can require different formulas.
 
