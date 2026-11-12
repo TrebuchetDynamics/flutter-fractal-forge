@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-PLAN-10"
 title = "Plan whole-session event transport and remaining migration proof from physical, morph, scheduler and installed results"
 short = "Plan whole-session transport and proof"
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Next"
 rank = 37000
@@ -16,6 +16,11 @@ scope = "For RUST-ENGINE-001 read all seven new task records, actual absolute Gi
 acceptance = ["Given actual seven reports and merged source, saved next contracts distinguish source-derived/pure/core/generated/compiled/installed evidence and remaining full Session/app/executor/browser/hardware proof. Preserve exact values, all original gates/consent, priority and true producer prerequisites; technical failures return exact task/operation/source/evidence to the same coordinator/candidate.", "Given saved batch/manual closure/single planning commit, Sources/anchors/cap/round/dependencies readback and task validation pass. At most eight new tasks, exactly one round-10 successor only with new building work; stopping preserves one BLOCKERS question and open remaining-proof task. No fabricated receipt, owner waiver or goal qualification."]
 checks = ["Read all seven dependencies and actual absolute Git-common-directory autowork-execution/slot-data reports, tasks/goals/RUST-ENGINE-001.md, current source/fixtures and complete remaining-proof map.", "autowork tasks validate --worktree .; read back batch Sources/anchors/cap/round/dependencies; after the single planning commit run autowork tasks why FIRST_BUILDING_TASK_ID with the actual first new building ID."]
 exclusions = ["No implementation/dispatch/install/device/runtime-state changes, live/publication/security authority, receipt/waiver or goal qualification. Task-store edits only through supported tasks commands."]
+closure = "manual"
+closure_actor = "DOCS-MAINTAINER"
+closure_timestamp = "2026-11-12T22:30:52.624324+00:00"
+closure_reason = "Reviewed all seven actual producer reports and merged sources; saved round-9 typed physical/timeline transport, inert whole-session adapter and compile-only native fixture contracts plus one round-10 successor depending on all four building tasks. Five new tasks total. Goal remains unmet; no implementation, native rerun, receipt or qualification."
+closure_evidence = "docs/tasks/RUST-PLAN-10.md"
 +++
 
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration; docs/tasks/RUST-PLAN-09.md#remaining-proof-and-continuation
