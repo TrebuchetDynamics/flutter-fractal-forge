@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Correct shader coloring guidance to match shared Multibrot/Buffalo bindings and distinguish source assertions from numeric-only coverage. (MAINT-SHADER-GUIDE-BINDINGS-01)
 - Align development-guide SDK examples with the repository pin and link the authoritative provisioned offline setup. (MAINT-DEVELOPMENT-GUIDE-PIN-01)
 - Define quiet dark/OLED colour roles and localize the auto-pilot crosshair announcement in English and Spanish. (ACAD-015)
 - Reject incomplete, duplicate, unexpected or ambiguous resumed catalog-audit evidence before merging; preserve raw reports and strict diagnostics. (MAINT-CATALOG-AUDIT-COVERAGE-01)

@@ -1,0 +1,25 @@
+schema = 1
+task = "MAINT-SHADER-GUIDE-BINDINGS-01"
+candidate = "8c12cd86221ea46e008cdac55e9cc8dd44065b1a"
+integration = "0d28414cb825ab51dcaeb62379751f2dc5d2ba8b"
+tree = "dae84a2cf8f71c9e16b10ccae774b6a80d1b51d0"
+contract_hash = "7f05b61e7ddcbdfad944a7fdcbd7bbac96b4e5ef4aae9f041337ae4c16d06c02"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAINT-SHADER-GUIDE-BINDINGS-01"]
+result = "pass"
+review = "passed"
+model_review = "passed"
+
+[[acceptance]]
+item = "All current shader/source/test paths in the guide resolve. The Multibrot d=3-12 and Buffalo Cubic coverage descriptions match the actual catalog bindings and configurable-power shader formulas; no deleted dedicated asset is described as live. The coloring source-case/family counts reconcile with the current regression, or unnecessary fixed counts are removed. Numeric-only higher-degree examples are explicitly distinguished from shader-source assertions and rendered proof."
+result = "met"
+evidence = "Guide table matches the actual 15 source cases in 11 labels without fixed prose counts. multibrot3–12 bind to shared integer_powers/multibrot3_gpu.frag; buffalo_cubic binds to power_plane/buffalo_power_gpu.frag. Catalog defaults and actual formulas verified by shader-docs-readback.py (exit 0). Higher-degree numeric-only examples explicitly do not assert per-degree shader source or rendered equivalence. Focused pytest: 8 passed."
+
+[[acceptance]]
+item = "Add test/scripts/test_shader_optimization_docs.py that reads the actual guide, coverage test and bounded catalog sources. It rejects missing referenced paths and an independently stale live module-to-shader association, including an existing-but-wrong shader path. It guards the source-versus-numeric coverage distinction without whole-prose snapshots, hardcoded new source line numbers, or changing product/source tests. Retain failing-before/passing-after evidence and preserve the broader audit/hardware limitations."
+result = "met"
+evidence = "New bounded Python regression reads the actual guide, Dart source-case inventory and three named catalog Sources plus the multibrot3 owner. Three tests cover paths, independent live binding/default-power associations, and source/numeric limitations without prose snapshots or line pins. Fresh before-repair base-guide RED: actual pytest exit 1, all three failure IDs and full output embedded. Post-commit immutable-base replay repeats RED; final focused pytest exit 0/8 passed. Controls reject both a missing asset and existing-but-wrong powered-Buffalo binding independently. Broader audit/hardware limitations remain explicit."
+
+[[acceptance]]
+item = "Only the two Touches change; do not restore deleted shaders, modify registry bindings, expand smooth-coloring implementation/tests, rewrite historical task evidence or mark SMOOTH work qualified. Existing compatibility command paths and relative links remain valid. Guide checks alone do not establish shader performance, rendered equivalence or platform qualification."
+result = "met"
+evidence = "Only the two Touches changed, confirmed by exact final preservation commands and readback. No product/source tests, shader/catalog/registry/lock/pin/migration/history records changed. All relative links and compatibility command targets resolve; non-coloring guide bytes unchanged. P1-3 remains open. No SMOOTH, performance, rendered-equivalence or platform qualification claimed; full offline integration remains the separate runner gate."
