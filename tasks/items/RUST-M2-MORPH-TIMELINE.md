@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-M2-MORPH-TIMELINE"
 title = "Own explicit source-derived module morph ticks without an app timer"
 short = "Own explicit module morph ticks"
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Now"
 rank = 2000
@@ -16,6 +16,8 @@ scope = "Add inert supported-module morph start/replace/cancel/logical-tick stat
 acceptance = ["Given session_morph_timeline tests using supported Mandelbrot/Julia selections and actual source call-site cases, start captures the previous ID only when source does; all 36 logical ticks match 1-(1-step/36)^3, ending progress=1/isMorphing=false/previous=null. Same-module/resetView, animate=false, replacement and load/cancel behavior follow source, not a blanket cancel rule.", "Given composed param-timeline/randomization/replay tests, morph and parameter generations are independent; stale tokens cannot tick replacements, snapshots remain immutable and rejected mixed batch/overflow leave visible and hidden owners unchanged. Preserve all 68 original outputs and existing successful-only undo/terminal reservations.", "Given unchanged Dart interpolation/controller regression checks and result note, current controller automated-test morph skipping is documented, not called differential proof. Haptics remain Flutter, 36x16-ms scheduling is not measured 600-ms timing, unsupported branches/native/app morph qualification remain pending."]
 checks = ["cargo test --manifest-path rust/Cargo.toml -p fractal-core --test session_morph_timeline --test session_param_timeline --test session_randomization --test session_replay --locked --offline", "scripts/ci/rust-check.sh", "flutter test --no-pub test/migration/param_interpolation_oracle_test.dart test/fractal/fractal_controller_behavior_test.dart", "git diff --exit-code -- lib migration packages rust/crates/fractal-bridge rust/Cargo.lock pubspec.lock && git diff --check", "( AUTOWORK_CACHE=\"${AUTOWORK_CACHE:-$(git rev-parse --path-format=absolute --git-common-dir)/autowork-execution/cache}\" && export AUTOWORK_CACHE && export FLUTTER_ROOT=\"$AUTOWORK_CACHE/flutter-3.47.9\" && export PUB_CACHE=\"$AUTOWORK_CACHE/pub-cache\" && export CARGO_HOME=\"$AUTOWORK_CACHE/cargo-1.95.0\" && export RUSTUP_HOME=\"$AUTOWORK_CACHE/rustup-1.95.0\" && test -x \"$RUSTUP_HOME/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin/cargo\" && test -d \"$CARGO_HOME/registry\" && test -x \"$FLUTTER_ROOT/bin/flutter\" && test -d \"$PUB_CACHE\" && export PATH=\"$FLUTTER_ROOT/bin:$RUSTUP_HOME/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:/usr/bin:$PATH\" && scripts/ci/offline-gate.sh --python-bin /usr/bin/python3 --json )"]
 exclusions = ["No app/controller/renderer ownership switch, flag enablement, new module admission, baseline/original-oracle refresh, dependency/lock changes, new live/publication/security authority or full-M2/browser/hardware/performance qualification."]
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/RUST-M2-MORPH-TIMELINE.toml"
 +++
 
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration; docs/tasks/RUST-PLAN-09.md#morph-timeline
@@ -25,3 +27,5 @@ exclusions = ["No app/controller/renderer ownership switch, flag enablement, new
 - Consumes: controller selectModule/_startMorphTransition and load call sites, existing Session module transactions, seeded targets and parameter generation.
 - Produces: source-derived core morph metadata/tick seam; no production test override, captured Dart oracle or app animation switch.
 - Next action: add failing supported selection/tick/replacement and independent parameter-generation tests.
+- Pending live: Non-skipped Dart morph differential proof and unsupported module special branches remain pending outside this slice.
+- Pending live: Native/app morph and haptic presentation, device/hardware timing/performance qualification remain pending; no app ownership switch.

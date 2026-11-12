@@ -1,0 +1,25 @@
+schema = 1
+task = "RUST-M2-MORPH-TIMELINE"
+candidate = "3d517ad1591cd2d07de7faf4307fcfb6eb767742"
+integration = "91cbd0d6f80fd0cba3fde03e507612774816d3c3"
+tree = "d2c32847605d7d292b86b0bf731c9896af670102"
+contract_hash = "365130b84a7a4143847d565e3242d2b59326f4b053924c29799916153a223b2d"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-MORPH-TIMELINE"]
+result = "pass"
+review = "passed"
+model_review = "passed"
+
+[[acceptance]]
+item = "Given session_morph_timeline tests using supported Mandelbrot/Julia selections and actual source call-site cases, start captures the previous ID only when source does; all 36 logical ticks match 1-(1-step/36)^3, ending progress=1/isMorphing=false/previous=null. Same-module/resetView, animate=false, replacement and load/cancel behavior follow source, not a blanket cancel rule."
+result = "met"
+evidence = "Session morph tests pass for supported Mandelbrot/Julia selection, all 36 cubic ticks, immutable start snapshot, same-module/resetView, animate=false, load replacement, stale/idempotent cancellation and deferred Number Wall selection retaining current morph progress."
+
+[[acceptance]]
+item = "Given composed param-timeline/randomization/replay tests, morph and parameter generations are independent; stale tokens cannot tick replacements, snapshots remain immutable and rejected mixed batch/overflow leave visible and hidden owners unchanged. Preserve all 68 original outputs and existing successful-only undo/terminal reservations."
+result = "met"
+evidence = "Composed 13-test focused run and workspace rust-check pass. Independent parameter replacement does not replace morph; stale tokens are inert, mixed batch rejection retains both owners, existing exhaustion test verifies rejected morph tick/cancel/replacement and parameter operations retain visible and hidden state. Original replay retains all 68 outputs; existing successful-only undo/terminal tests pass."
+
+[[acceptance]]
+item = "Given unchanged Dart interpolation/controller regression checks and result note, current controller automated-test morph skipping is documented, not called differential proof. Haptics remain Flutter, 36x16-ms scheduling is not measured 600-ms timing, unsupported branches/native/app morph qualification remain pending."
+result = "met"
+evidence = "Seven unchanged Dart tests pass; component note explicitly documents automated-test morph skipping, source-derived rather than differential proof, Flutter haptics and logical 36x16-ms scheduling without a measured 600-ms claim. Unsupported branches and native/app qualification remain pending."

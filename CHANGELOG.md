@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Add inert source-derived Rust Session module morph generations, detached metadata and 36 cubic logical ticks without changing app animation ownership. (RUST-M2-MORPH-TIMELINE)
 - Honor OS and saved reduced-motion preferences, including live changes, in the timed branded splash decoration without changing completion timing. (MAINT-SPLASH-REDUCED-MOTION-01)
 - Preflight all store screenshot inputs and destinations before writing, preserving raw captures and existing media on detectable input/path errors. (MAINT-STORE-COMPOSE-PREFLIGHT-01)
 - Reject aliased and non-regular icon staging outputs before any output mutation while preserving valid reruns. (MAINT-ICON-STAGING-PREFLIGHT-01)
