@@ -1,0 +1,20 @@
+schema = 1
+task = "RUST-M2-LINUX-TRAJECTORY-U64"
+candidate = "536af53a7ac690747c4968159f8feb9d0a6259ea"
+integration = "291d79541168d378e8f61a082d15dbd4ef8c2ee1"
+tree = "0f1b2b38b7d13eb6ee6c359532b003cd1e3fe314"
+contract_hash = "5a3475a6e5d86806af133e051702cca98699ac9c5ab68405cdb32ade9bfd299f"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-LINUX-TRAJECTORY-U64"]
+result = "pass"
+review = "passed"
+model_review = "passed"
+
+[[acceptance]]
+item = "Given actual current port allocation/private TMPDIR, BOTH targets execute every native assertion through integrationDriver with exit_code=0, protocol_success=true, allTestsPassed=true and cleanup.remaining_pids=[]. Trajectory points/bounds/lifecycle and exact successful BigInt counter pairs/retained snapshots execute, not merely compile; no test skip/assertion replacement or supplemental launch substitutes."
+result = "met"
+evidence = "Both named targets ran natively through the official integrationDriver at d113ac4e65fb8a7be8aa1f37c9bbb24e72c37d0f using actual ports 20300..20399/private scratch. Each run.json and protocol-success.json meets every terminal/cleanup predicate; full logs name the native body plus teardown and end All tests passed. Trajectory executes all three systems, points/bounds at 1e-10, bounded progress, cache/guards/lifecycle and retained data. u64 executes exact successful BigInt pairs (9007199254740993,18446744073709551614) and (18446744073709551614,18446744073709551615), payloads and snapshots after source shutdown. No source/assertion changes or skips."
+
+[[acceptance]]
+item = "Given the result note and private per-target evidence, original/projected inputs and <=32768-byte actual aggregate, source/generated/target/launcher/driver/library/artifact/backend/tools bind both runs; first-run artifacts survive the second build. Missing protocol/native/backend/cleanup remains unmet. Hardware timing/browser/full M2/scheduler and Android qualification remain separate."
+result = "met"
+evidence = "Added the designated note from new current-source execution evidence using the existing collection method. All 518 source paths and hashes match across both pre/post inventories, committed execution HEAD, current checkout and freshly resolved runner integration/main refs, including the physical-time files absent from old runs. Source-set SHA-256 aea4cbc4d832659a186206e27b3ec9603366ada0e1c8335b2e4349c1eec6f9b7. Original/projected bytes, actual CMake aggregates 7377/12713 bytes, 1565 build hashes per target, saved artifacts and loaded Rust SO/backend/tool identities pass readback. Trajectory artifacts were captured before u64 and retained hashes still verify afterward. Same-display Mesa 25.2.8 llvmpipe, Accelerated: no; no hardware/painted-frame/timing qualification. Negative checks reject both old 516-file inventories and added/removed/changed copies. Fresh full inventory comparisons passed again immediately before report. Result note links <path> Independent Android/browser/full-M2/scheduler/hardware gates remain separate."
