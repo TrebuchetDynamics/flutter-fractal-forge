@@ -48,6 +48,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
           .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallRequest;
 
   CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_StatePhysicalEventPtr => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalEvent;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_StatePhysicalInputPtr => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalInput;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_StatePhysicalResultPtr => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalResult;
+
+  CrossPlatformFinalizerArg
       get rust_arc_decrement_strong_count_StateSessionPtr => wire
           .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSession;
 
@@ -123,6 +135,21 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   StateNumberWallRequest
       dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallRequest(
+          dynamic raw);
+
+  @protected
+  StatePhysicalEvent
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalEvent(
+          dynamic raw);
+
+  @protected
+  StatePhysicalInput
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalInput(
+          dynamic raw);
+
+  @protected
+  StatePhysicalResult
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalResult(
           dynamic raw);
 
   @protected
@@ -208,6 +235,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   StateNumberWallRequest
       dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallRequest(
+          dynamic raw);
+
+  @protected
+  StatePhysicalResult
+      dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalResult(
           dynamic raw);
 
   @protected
@@ -298,6 +330,21 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   StateNumberWallRequest
       dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallRequest(
+          dynamic raw);
+
+  @protected
+  StatePhysicalEvent
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalEvent(
+          dynamic raw);
+
+  @protected
+  StatePhysicalInput
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalInput(
+          dynamic raw);
+
+  @protected
+  StatePhysicalResult
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalResult(
           dynamic raw);
 
   @protected
@@ -398,6 +445,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   double dco_decode_box_autoadd_f_64(dynamic raw);
 
   @protected
+  PlatformInt64 dco_decode_box_autoadd_i_64(dynamic raw);
+
+  @protected
   StateCamera dco_decode_box_autoadd_state_camera(dynamic raw);
 
   @protected
@@ -413,6 +463,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   StateView dco_decode_box_autoadd_state_view(dynamic raw);
+
+  @protected
+  StateViewport dco_decode_box_autoadd_state_viewport(dynamic raw);
 
   @protected
   int dco_decode_box_autoadd_u_32(dynamic raw);
@@ -438,6 +491,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
           dynamic raw);
 
   @protected
+  List<StatePhysicalEvent>
+      dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalEvent(
+          dynamic raw);
+
+  @protected
   List<StateSnapshot>
       dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
           dynamic raw);
@@ -455,6 +513,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<(String, StateValue)>
       dco_decode_list_record_string_auto_owned_rust_opaque_flutter_rust_bridgefor_generated_rust_auto_opaque_inner_state_value(
           dynamic raw);
+
+  @protected
+  List<StateInteraction> dco_decode_list_state_interaction(dynamic raw);
+
+  @protected
+  List<StateKeyDisposition> dco_decode_list_state_key_disposition(dynamic raw);
 
   @protected
   List<StateOrbitPoint> dco_decode_list_state_orbit_point(dynamic raw);
@@ -499,12 +563,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   double? dco_decode_opt_box_autoadd_f_64(dynamic raw);
 
   @protected
+  PlatformInt64? dco_decode_opt_box_autoadd_i_64(dynamic raw);
+
+  @protected
   StateNumberWallStatus? dco_decode_opt_box_autoadd_state_number_wall_status(
       dynamic raw);
 
   @protected
   StateTrajectoryStatus? dco_decode_opt_box_autoadd_state_trajectory_status(
       dynamic raw);
+
+  @protected
+  StateViewport? dco_decode_opt_box_autoadd_state_viewport(dynamic raw);
 
   @protected
   int? dco_decode_opt_box_autoadd_u_32(dynamic raw);
@@ -523,6 +593,21 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   StateCamera dco_decode_state_camera(dynamic raw);
 
   @protected
+  StateFocus dco_decode_state_focus(dynamic raw);
+
+  @protected
+  StateInteraction dco_decode_state_interaction(dynamic raw);
+
+  @protected
+  StateKey dco_decode_state_key(dynamic raw);
+
+  @protected
+  StateKeyDisposition dco_decode_state_key_disposition(dynamic raw);
+
+  @protected
+  StateKeyPhase dco_decode_state_key_phase(dynamic raw);
+
+  @protected
   StateNumberWallSequence dco_decode_state_number_wall_sequence(dynamic raw);
 
   @protected
@@ -538,10 +623,19 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   StateOrbitProjection dco_decode_state_orbit_projection(dynamic raw);
 
   @protected
+  StatePointerKind dco_decode_state_pointer_kind(dynamic raw);
+
+  @protected
+  StatePointerPhase dco_decode_state_pointer_phase(dynamic raw);
+
+  @protected
   StateTrajectoryStatus dco_decode_state_trajectory_status(dynamic raw);
 
   @protected
   StateView dco_decode_state_view(dynamic raw);
+
+  @protected
+  StateViewport dco_decode_state_viewport(dynamic raw);
 
   @protected
   StateWorkPhase dco_decode_state_work_phase(dynamic raw);
@@ -600,6 +694,21 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   StateNumberWallRequest
       sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallRequest(
+          SseDeserializer deserializer);
+
+  @protected
+  StatePhysicalEvent
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalEvent(
+          SseDeserializer deserializer);
+
+  @protected
+  StatePhysicalInput
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalInput(
+          SseDeserializer deserializer);
+
+  @protected
+  StatePhysicalResult
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalResult(
           SseDeserializer deserializer);
 
   @protected
@@ -685,6 +794,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   StateNumberWallRequest
       sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallRequest(
+          SseDeserializer deserializer);
+
+  @protected
+  StatePhysicalResult
+      sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalResult(
           SseDeserializer deserializer);
 
   @protected
@@ -775,6 +889,21 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   StateNumberWallRequest
       sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallRequest(
+          SseDeserializer deserializer);
+
+  @protected
+  StatePhysicalEvent
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalEvent(
+          SseDeserializer deserializer);
+
+  @protected
+  StatePhysicalInput
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalInput(
+          SseDeserializer deserializer);
+
+  @protected
+  StatePhysicalResult
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalResult(
           SseDeserializer deserializer);
 
   @protected
@@ -875,6 +1004,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   double sse_decode_box_autoadd_f_64(SseDeserializer deserializer);
 
   @protected
+  PlatformInt64 sse_decode_box_autoadd_i_64(SseDeserializer deserializer);
+
+  @protected
   StateCamera sse_decode_box_autoadd_state_camera(SseDeserializer deserializer);
 
   @protected
@@ -891,6 +1023,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   StateView sse_decode_box_autoadd_state_view(SseDeserializer deserializer);
+
+  @protected
+  StateViewport sse_decode_box_autoadd_state_viewport(
+      SseDeserializer deserializer);
 
   @protected
   int sse_decode_box_autoadd_u_32(SseDeserializer deserializer);
@@ -916,6 +1052,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
           SseDeserializer deserializer);
 
   @protected
+  List<StatePhysicalEvent>
+      sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalEvent(
+          SseDeserializer deserializer);
+
+  @protected
   List<StateSnapshot>
       sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
           SseDeserializer deserializer);
@@ -933,6 +1074,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<(String, StateValue)>
       sse_decode_list_record_string_auto_owned_rust_opaque_flutter_rust_bridgefor_generated_rust_auto_opaque_inner_state_value(
           SseDeserializer deserializer);
+
+  @protected
+  List<StateInteraction> sse_decode_list_state_interaction(
+      SseDeserializer deserializer);
+
+  @protected
+  List<StateKeyDisposition> sse_decode_list_state_key_disposition(
+      SseDeserializer deserializer);
 
   @protected
   List<StateOrbitPoint> sse_decode_list_state_orbit_point(
@@ -978,11 +1127,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   double? sse_decode_opt_box_autoadd_f_64(SseDeserializer deserializer);
 
   @protected
+  PlatformInt64? sse_decode_opt_box_autoadd_i_64(SseDeserializer deserializer);
+
+  @protected
   StateNumberWallStatus? sse_decode_opt_box_autoadd_state_number_wall_status(
       SseDeserializer deserializer);
 
   @protected
   StateTrajectoryStatus? sse_decode_opt_box_autoadd_state_trajectory_status(
+      SseDeserializer deserializer);
+
+  @protected
+  StateViewport? sse_decode_opt_box_autoadd_state_viewport(
       SseDeserializer deserializer);
 
   @protected
@@ -1003,6 +1159,22 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   StateCamera sse_decode_state_camera(SseDeserializer deserializer);
 
   @protected
+  StateFocus sse_decode_state_focus(SseDeserializer deserializer);
+
+  @protected
+  StateInteraction sse_decode_state_interaction(SseDeserializer deserializer);
+
+  @protected
+  StateKey sse_decode_state_key(SseDeserializer deserializer);
+
+  @protected
+  StateKeyDisposition sse_decode_state_key_disposition(
+      SseDeserializer deserializer);
+
+  @protected
+  StateKeyPhase sse_decode_state_key_phase(SseDeserializer deserializer);
+
+  @protected
   StateNumberWallSequence sse_decode_state_number_wall_sequence(
       SseDeserializer deserializer);
 
@@ -1021,11 +1193,21 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       SseDeserializer deserializer);
 
   @protected
+  StatePointerKind sse_decode_state_pointer_kind(SseDeserializer deserializer);
+
+  @protected
+  StatePointerPhase sse_decode_state_pointer_phase(
+      SseDeserializer deserializer);
+
+  @protected
   StateTrajectoryStatus sse_decode_state_trajectory_status(
       SseDeserializer deserializer);
 
   @protected
   StateView sse_decode_state_view(SseDeserializer deserializer);
+
+  @protected
+  StateViewport sse_decode_state_viewport(SseDeserializer deserializer);
 
   @protected
   StateWorkPhase sse_decode_state_work_phase(SseDeserializer deserializer);
@@ -1085,6 +1267,21 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void
       sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallRequest(
           StateNumberWallRequest self, SseSerializer serializer);
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalEvent(
+          StatePhysicalEvent self, SseSerializer serializer);
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalInput(
+          StatePhysicalInput self, SseSerializer serializer);
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalResult(
+          StatePhysicalResult self, SseSerializer serializer);
 
   @protected
   void
@@ -1170,6 +1367,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void
       sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallRequest(
           StateNumberWallRequest self, SseSerializer serializer);
+
+  @protected
+  void
+      sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalResult(
+          StatePhysicalResult self, SseSerializer serializer);
 
   @protected
   void
@@ -1260,6 +1462,21 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void
       sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallRequest(
           StateNumberWallRequest self, SseSerializer serializer);
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalEvent(
+          StatePhysicalEvent self, SseSerializer serializer);
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalInput(
+          StatePhysicalInput self, SseSerializer serializer);
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalResult(
+          StatePhysicalResult self, SseSerializer serializer);
 
   @protected
   void
@@ -1359,6 +1576,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_box_autoadd_f_64(double self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_i_64(
+      PlatformInt64 self, SseSerializer serializer);
+
+  @protected
   void sse_encode_box_autoadd_state_camera(
       StateCamera self, SseSerializer serializer);
 
@@ -1377,6 +1598,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_box_autoadd_state_view(
       StateView self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_state_viewport(
+      StateViewport self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_u_32(int self, SseSerializer serializer);
@@ -1404,6 +1629,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void
+      sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalEvent(
+          List<StatePhysicalEvent> self, SseSerializer serializer);
+
+  @protected
+  void
       sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSnapshot(
           List<StateSnapshot> self, SseSerializer serializer);
 
@@ -1422,6 +1652,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void
       sse_encode_list_record_string_auto_owned_rust_opaque_flutter_rust_bridgefor_generated_rust_auto_opaque_inner_state_value(
           List<(String, StateValue)> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_state_interaction(
+      List<StateInteraction> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_state_key_disposition(
+      List<StateKeyDisposition> self, SseSerializer serializer);
 
   @protected
   void sse_encode_list_state_orbit_point(
@@ -1467,12 +1705,20 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_opt_box_autoadd_f_64(double? self, SseSerializer serializer);
 
   @protected
+  void sse_encode_opt_box_autoadd_i_64(
+      PlatformInt64? self, SseSerializer serializer);
+
+  @protected
   void sse_encode_opt_box_autoadd_state_number_wall_status(
       StateNumberWallStatus? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_box_autoadd_state_trajectory_status(
       StateTrajectoryStatus? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_box_autoadd_state_viewport(
+      StateViewport? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer);
@@ -1488,6 +1734,23 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_state_camera(StateCamera self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_state_focus(StateFocus self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_state_interaction(
+      StateInteraction self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_state_key(StateKey self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_state_key_disposition(
+      StateKeyDisposition self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_state_key_phase(StateKeyPhase self, SseSerializer serializer);
 
   @protected
   void sse_encode_state_number_wall_sequence(
@@ -1510,11 +1773,22 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       StateOrbitProjection self, SseSerializer serializer);
 
   @protected
+  void sse_encode_state_pointer_kind(
+      StatePointerKind self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_state_pointer_phase(
+      StatePointerPhase self, SseSerializer serializer);
+
+  @protected
   void sse_encode_state_trajectory_status(
       StateTrajectoryStatus self, SseSerializer serializer);
 
   @protected
   void sse_encode_state_view(StateView self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_state_viewport(StateViewport self, SseSerializer serializer);
 
   @protected
   void sse_encode_state_work_phase(
@@ -1630,6 +1904,42 @@ class RustLibWire implements BaseWire {
           int ptr) =>
       wasmModule
           .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallRequest(
+              ptr);
+
+  void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalEvent(
+          int ptr) =>
+      wasmModule
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalEvent(
+              ptr);
+
+  void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalEvent(
+          int ptr) =>
+      wasmModule
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalEvent(
+              ptr);
+
+  void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalInput(
+          int ptr) =>
+      wasmModule
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalInput(
+              ptr);
+
+  void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalInput(
+          int ptr) =>
+      wasmModule
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalInput(
+              ptr);
+
+  void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalResult(
+          int ptr) =>
+      wasmModule
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalResult(
+              ptr);
+
+  void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalResult(
+          int ptr) =>
+      wasmModule
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalResult(
               ptr);
 
   void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateSession(
@@ -1825,6 +2135,30 @@ extension type RustLibWasmModule._(JSObject _) implements JSObject {
 
   external void
       rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStateNumberWallRequest(
+          int ptr);
+
+  external void
+      rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalEvent(
+          int ptr);
+
+  external void
+      rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalEvent(
+          int ptr);
+
+  external void
+      rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalInput(
+          int ptr);
+
+  external void
+      rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalInput(
+          int ptr);
+
+  external void
+      rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalResult(
+          int ptr);
+
+  external void
+      rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerStatePhysicalResult(
           int ptr);
 
   external void

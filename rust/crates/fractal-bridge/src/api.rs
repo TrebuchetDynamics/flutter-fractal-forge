@@ -1151,6 +1151,219 @@ impl StateSnapshot {
     }
 }
 
+/// Optional shell layout, in logical pixels; no resolved camera geometry.
+#[derive(Debug, Clone)]
+pub struct StateViewport {
+    pub width: f64,
+    pub height: f64,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum StatePointerPhase {
+    Down,
+    Move,
+    Up,
+    Cancel,
+}
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum StatePointerKind {
+    Touch,
+    Mouse,
+    Stylus,
+}
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum StateFocus {
+    Canvas,
+    Control,
+    None,
+}
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum StateKey {
+    Left,
+    Right,
+    Up,
+    Down,
+    Plus,
+    Minus,
+    Reset,
+    Unknown,
+}
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum StateKeyPhase {
+    Down,
+    Repeat,
+    Up,
+}
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum StateInteraction {
+    Start,
+    End,
+    Correction,
+}
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum StateKeyDisposition {
+    Handled,
+    ControlHandled,
+    Ignored,
+}
+
+/// Raw shell input only. Validation and all camera policy remain in core.
+#[derive(Debug, Clone)]
+#[frb(opaque)]
+pub struct StatePhysicalInput {
+    inner: fractal_core::physical_events::PhysicalInput,
+}
+impl StatePhysicalInput {
+    #[frb(sync)]
+    pub fn pointer(
+        id: u64,
+        local_x: f64,
+        local_y: f64,
+        phase: StatePointerPhase,
+        kind: StatePointerKind,
+        buttons: u64,
+    ) -> Self {
+        use fractal_core::physical_events::{PhysicalInput, PointerKind, PointerPhase};
+        Self {
+            inner: PhysicalInput::Pointer {
+                id,
+                local: [local_x, local_y],
+                buttons,
+                phase: match phase {
+                    StatePointerPhase::Down => PointerPhase::Down,
+                    StatePointerPhase::Move => PointerPhase::Move,
+                    StatePointerPhase::Up => PointerPhase::Up,
+                    StatePointerPhase::Cancel => PointerPhase::Cancel,
+                },
+                kind: match kind {
+                    StatePointerKind::Touch => PointerKind::Touch,
+                    StatePointerKind::Mouse => PointerKind::Mouse,
+                    StatePointerKind::Stylus => PointerKind::Stylus,
+                },
+            },
+        }
+    }
+    #[frb(sync)]
+    pub fn wheel(local_x: f64, local_y: f64, dy: f64) -> Self {
+        Self {
+            inner: fractal_core::physical_events::PhysicalInput::Wheel {
+                local: [local_x, local_y],
+                dy,
+            },
+        }
+    }
+    #[frb(sync)]
+    pub fn key(key: StateKey, phase: StateKeyPhase) -> Self {
+        use fractal_core::physical_events::{Key, KeyPhase, PhysicalInput};
+        Self {
+            inner: PhysicalInput::Key {
+                key: match key {
+                    StateKey::Left => Key::Left,
+                    StateKey::Right => Key::Right,
+                    StateKey::Up => Key::Up,
+                    StateKey::Down => Key::Down,
+                    StateKey::Plus => Key::Plus,
+                    StateKey::Minus => Key::Minus,
+                    StateKey::Reset => Key::Reset,
+                    StateKey::Unknown => Key::Unknown,
+                },
+                phase: match phase {
+                    StateKeyPhase::Down => KeyPhase::Down,
+                    StateKeyPhase::Repeat => KeyPhase::Repeat,
+                    StateKeyPhase::Up => KeyPhase::Up,
+                },
+            },
+        }
+    }
+    #[frb(sync)]
+    pub fn focus(focus: StateFocus) -> Self {
+        use fractal_core::physical_events::{Focus, PhysicalInput};
+        Self {
+            inner: PhysicalInput::Focus(match focus {
+                StateFocus::Canvas => Focus::Canvas,
+                StateFocus::Control => Focus::Control,
+                StateFocus::None => Focus::None,
+            }),
+        }
+    }
+    #[frb(sync)]
+    pub fn wall(us: i64) -> Self {
+        Self {
+            inner: fractal_core::physical_events::PhysicalInput::Wall(us),
+        }
+    }
+    #[frb(sync)]
+    pub fn pump(generation: u64, delta_us: i64) -> Self {
+        Self {
+            inner: fractal_core::physical_events::PhysicalInput::Pump {
+                generation,
+                delta_us,
+            },
+        }
+    }
+    #[frb(sync)]
+    pub fn dispose_input() -> Self {
+        Self {
+            inner: fractal_core::physical_events::PhysicalInput::Dispose,
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+#[frb(opaque)]
+pub struct StatePhysicalEvent {
+    inner: fractal_core::physical_events::PhysicalEvent,
+}
+impl StatePhysicalEvent {
+    #[frb(sync)]
+    pub fn new(
+        sequence: u64,
+        source_us: Option<i64>,
+        consumed: bool,
+        input: StatePhysicalInput,
+    ) -> Self {
+        Self {
+            inner: fractal_core::physical_events::PhysicalEvent {
+                sequence,
+                source_us,
+                consumed,
+                input: input.inner,
+            },
+        }
+    }
+}
+
+/// Detached publication. Raw candidate updates are deliberately not exported:
+/// the snapshot is the sole camera result, never a second shell camera owner.
+#[derive(Debug, Clone)]
+#[frb(opaque)]
+pub struct StatePhysicalResult {
+    snapshot: Snapshot,
+    generation: u64,
+    interactions: Vec<StateInteraction>,
+    keys: Vec<StateKeyDisposition>,
+}
+impl StatePhysicalResult {
+    #[frb(sync)]
+    pub fn snapshot(&self) -> StateSnapshot {
+        StateSnapshot {
+            inner: self.snapshot.clone(),
+        }
+    }
+    #[frb(sync)]
+    pub fn generation(&self) -> u64 {
+        self.generation
+    }
+    #[frb(sync)]
+    pub fn interactions(&self) -> Vec<StateInteraction> {
+        self.interactions.clone()
+    }
+    #[frb(sync)]
+    pub fn keys(&self) -> Vec<StateKeyDisposition> {
+        self.keys.clone()
+    }
+}
+
 static TRAJECTORY_CACHE: OnceLock<TrajectoryCache> = OnceLock::new();
 
 static LAST_SESSION_ID: AtomicU64 = AtomicU64::new(0);
@@ -1175,6 +1388,68 @@ pub struct StateSession {
 }
 
 impl StateSession {
+    /// Read the actual initial/current pump generation under the session lock.
+    #[frb(sync)]
+    pub fn physical_generation(&self) -> Result<u64, String> {
+        let guard = self
+            .inner
+            .lock()
+            .map_err(|_| "Rust state session lock poisoned")?;
+        Ok(guard
+            .as_ref()
+            .ok_or("Rust state session is closed")?
+            .physical_generation())
+    }
+
+    /// Normal-mode FRB Future transport, one atomic core transaction on the existing pool.
+    pub fn apply_physical_async(
+        &self,
+        session_id: u64,
+        expected_revision: u64,
+        viewport: Option<StateViewport>,
+        events: Vec<StatePhysicalEvent>,
+    ) -> Result<StatePhysicalResult, String> {
+        use fractal_core::physical_events::{Interaction, KeyDisposition};
+        let mut guard = self
+            .inner
+            .lock()
+            .map_err(|_| "Rust state session lock poisoned")?;
+        let session = guard.as_mut().ok_or("Rust state session is closed")?;
+        let events: Vec<_> = events.into_iter().map(|e| e.inner).collect();
+        let result = session
+            .apply_physical(
+                session_id,
+                expected_revision,
+                viewport.map(|v| [v.width, v.height]),
+                &events,
+            )
+            .map_err(|e| e.to_string())?;
+        Ok(StatePhysicalResult {
+            snapshot: result.snapshot,
+            generation: session.physical_generation(),
+            interactions: result
+                .output
+                .interactions
+                .into_iter()
+                .map(|i| match i {
+                    Interaction::Start => StateInteraction::Start,
+                    Interaction::End => StateInteraction::End,
+                    Interaction::Correction => StateInteraction::Correction,
+                })
+                .collect(),
+            keys: result
+                .output
+                .keys
+                .into_iter()
+                .map(|k| match k {
+                    KeyDisposition::Handled => StateKeyDisposition::Handled,
+                    KeyDisposition::ControlHandled => StateKeyDisposition::ControlHandled,
+                    KeyDisposition::Ignored => StateKeyDisposition::Ignored,
+                })
+                .collect(),
+        })
+    }
+
     /// Normal-mode FRB dispatch; captures settings without running integration.
     pub fn begin_trajectory_async(
         &self,
