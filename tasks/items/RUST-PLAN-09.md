@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-PLAN-09"
 title = "Plan remaining Session event scheduling and installed trajectory/high-u64 proof from the new producers"
 short = "Plan Session scheduling and native proof"
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Next"
 rank = 21000
@@ -16,6 +16,11 @@ scope = "For RUST-ENGINE-001 read all seven new task records and actual absolute
 acceptance = ["Given actual seven reports/current source, next contracts distinguish pure/oracle/core/generated/compiled/installed evidence and pending full-session/app/executor/browser/hardware proof. Source-backed producers/Touches/checks/true prerequisites preserve exact values, every existing gate/consent and no per-field switch; runtime failures return exact operation/source/evidence to the same coordinator/candidate.", "Given saved final batch and single planning commit, record/source/anchor/cap/round/dependency readback and task validation pass with no unintended drafts/pending errors. Manually close this plan, never fabricate receipts/goal qualification. Exactly one round-9 successor follows new building work before round 10; stopping preserves BLOCKERS question and an open remaining-proof task."]
 checks = ["Read all seven dependency records and actual absolute Git-common-directory autowork-execution/slot-data reports, current source/fixtures, tasks/goals/RUST-ENGINE-001.md and full remaining-proof map; preserve exact failures, source bindings and installed/compiled separation.", "autowork tasks validate --worktree .; read back affected records/Sources/anchors and total cap/round/dependencies; after the single planning commit run autowork tasks why FIRST_BUILDING_TASK_ID, substituting the actual first new building task ID."]
 exclusions = ["No implementation/dispatch/install, runtime-state changes, new live/publication/security authority, receipt/waiver or goal qualification. Task-store writes only through supported tasks commands."]
+closure = "manual"
+closure_actor = "DOCS-MAINTAINER"
+closure_timestamp = "2026-11-12T13:06:19.688763+00:00"
+closure_reason = "Completed focused round-8 planning from seven actual reports/current source; saved seven building tasks and one round-9 successor, retaining unmet goal and all qualification gates."
+closure_evidence = "docs/tasks/RUST-PLAN-09.md"
 +++
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration; docs/tasks/RUST-PLAN-08.md#remaining-proof-and-continuation
 - Plan round: 8 of 10
