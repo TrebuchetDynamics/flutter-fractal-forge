@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-M2-WAYDROID-TRAJECTORY-U64"
 title = "Execute trajectory and successful high-u64 targets on the standing Waydroid instance"
 short = "Prove Waydroid trajectory and high-u64"
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Next"
 rank = 36000
@@ -20,6 +20,8 @@ live = "authorized"
 live_actor = "owner"
 live_at = "2026-10-26"
 live_scope = ["live", "waydroid", "integration_test/migration/rust_state_trajectory_smoke_test.dart", "integration_test/migration/rust_state_u64_smoke_test.dart", "scripts/migration/run_state_session_smoke.py", "scripts/migration/tests/test_state_session_smoke.py", "docs/tasks/RUST-M2-WAYDROID-TRAJECTORY-U64.md"]
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/RUST-M2-WAYDROID-TRAJECTORY-U64.toml"
 +++
 
 - Sources: docs/planning/refactor-plan.md#flutter-shell-and-rust-engine-migration; docs/tasks/RUST-PLAN-09.md#installed-trajectory-and-high-u64-execution

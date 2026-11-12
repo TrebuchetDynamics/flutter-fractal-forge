@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Qualified source-bound trajectory and successful exact high-u64 native assertions on the standing Waydroid container; preserved artifact identities and owned cleanup evidence. (RUST-M2-WAYDROID-TRAJECTORY-U64)
 - Added inert Rust Session transactions for instantaneous raw physical input with atomic hidden-state rollback and source-oracle parity. (RUST-M2-PHYSICAL-STATE)
 - Add inert bounded Rust work admission and a fair single-pump FRB service with detached cached tickets; preserve legacy APIs and default-off app routing. (RUST-M2-WORK-BRIDGE)
 - Add a pure eight-job admission policy with atomic replacement, scoped permit reclamation and fair Session/kind chunk selection. (RUST-M2-WORK-QUEUE)

@@ -1,0 +1,20 @@
+schema = 1
+task = "RUST-M2-WAYDROID-TRAJECTORY-U64"
+candidate = "1a4415f5adc08390a4067a67175c829a493443bc"
+integration = "3ed9d413e6e16be2a1eff31d9554320098265cce"
+tree = "078acdb62f1622790ecf4f7e0bd99914be20e8aa"
+contract_hash = "5bc5dd47d698bf92abd101ec46cc7edc47e20c17592f82050698bbc4bff08d8d"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-WAYDROID-TRAJECTORY-U64"]
+result = "pass"
+review = "passed"
+model_review = "passed"
+
+[[acceptance]]
+item = "Given coordinated designated target admission and revalidated current serial/model/boot with matching ANDROID_DEVICE/ANDROID_DISPOSABLE_DEVICE, BOTH targets actually execute all native trajectory and successful exact BigInt assertions with terminal Flutter exit 0 and owned handles/test/forward cleanup. Build/helper/RUNNING/probe-only/skip outcomes do not pass."
+result = "met"
+evidence = "Supported admission plus process inventory found no competing Android worker; current serial/model/boot and matching consent passed before each run. Both actual native targets completed one test without skips, terminal Flutter exit 0; trajectory ran all three systems/lifecycle checks and u64 ran both exact BigInt pairs after source close. Registered handle teardown completed; app, test/DDS and recorded owned forwards cleaned. Full terminal/cleanup evidence: <path>"
+
+[[acceptance]]
+item = "Given private per-target evidence and note, actual source/input/generated/target/launcher/APK/packaged-and-loaded-SO/backend/tool identities and <=32768-byte aggregate bind terminal results; preserve first-run artifacts. Connectivity failure retains actual status/helper/get-state/model/boot/Flutter errors and next permitted diagnostic, not a target-choice interview. Waydroid is container functional evidence, not physical GPU/browser/scheduler/full-M2 proof."
+result = "met"
+evidence = "docs/tasks/RUST-M2-WAYDROID-TRAJECTORY-U64.md links this attempt durable private evidence. Source cf52b4bd plus only fixture diagnostics; actual input/generated/launcher/target/tools/backend and per-target APK/installed/packaged-and-loaded SO identities verified by readback. Encoded aggregates 6952/32768 and 12288/32768. Both first runs retained before overwrite; previous attempt untouched. Transport healthy; no recovery/reset/auth changes. Note explicitly limits proof to container functional evidence, not physical GPU/browser/scheduler/full M2. Evidence: <path>"
