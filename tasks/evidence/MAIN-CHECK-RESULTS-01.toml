@@ -1,0 +1,25 @@
+schema = 1
+task = "MAIN-CHECK-RESULTS-01"
+candidate = "741fcf9b57b3c395098d002987031e9ccc296646"
+integration = "bc1e02609973f50ee92c098f5a6caa038d5ab229"
+tree = "f372c954580eae595214c19962e401a4030313f5"
+contract_hash = "0f390be512c1681532f2eb85cb5337810135716330b38e9c74f2c1752b199416"
+checks = ["<path>", "<path>", "--verify", "<path>", "MAIN-CHECK-RESULTS-01"]
+result = "pass"
+review = "passed"
+model_review = "passed"
+
+[[acceptance]]
+item = "The documented full check emits explicit terminal verdict, failed stage and stage exits with failure diagnostics observable without relying solely on a private summary pathname. Use the existing --json interface where sufficient; retain complete private stage logs and genuine nonzero exits. No test name from this check-broken notice becomes a repair contract."
+result = "met"
+evidence = "AGENTS.md uses existing --json. Full worker run emitted explicit terminal verdict passed, failed_stage null and eight stage exits 0; terminal/private summary equal. Long failing executable double exposes early diagnostic plus 60 progress lines and full retained log, preserves stage exit 42 and gate exit 1. Private complete logs retained; no named product test repair. full check: runner gate"
+
+[[acceptance]]
+item = "Executable-double regressions prove passing, failing and long-output failure results are observable and consistent with summary/logs; setup failures, timeouts, lock drift and stopped later families cannot become successful checks. All current stage commands and safety constraints remain."
+result = "met"
+evidence = "Seven focused Bats cases pass on delivered implementation. Existing public seams verify pass, long failure, genuine failure exits, terminal/private JSON and full diagnostic/log consistency, setup refusal, timeout 124, missing Cargo, Pub/Rust lock drift and stopped later families. Exact baseline comparison confirms only failure-log forwarding changed in gate code; all stage commands and safety constraints unchanged."
+
+[[acceptance]]
+item = "Run the complete root full offline check with the pinned existing setup on delivered bytes, recording source/command, actual stage results, exit and both lock hashes in the task note. A real test failure remains a failed gate, not INCOMPLETE by omission, and is not repaired here. Preserve existing closures, goals and all live/publication gates; no external runner or runtime-state edits."
+result = "met"
+evidence = "Actual full worker check completed on this composition, not merely promised: exact declared pinned preflight/gate command exit 0, eight stage exits 0, explicit terminal JSON passed/failed_stage=null; NOT_RUN families none. Task note records captured base, exact command, source hashes, stage seconds/exits, overall exit and both lock hashes before/after/base. Source hashes remained unchanged after gate; only receipt documentation added afterward. Existing closures/goals/live/publication gates preserved; four-path diff contains no product/oracle or external runner/runtime-state edits. Real failures remain failed in executable-double regressions, not reclassified. full check: runner gate"
