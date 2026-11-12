@@ -14,6 +14,7 @@ pub mod session;
 pub mod snapshot;
 pub mod trajectory;
 pub mod view;
+pub mod work_queue;
 
 /// Rust engine version, independent of the Flutter app version.
 pub fn engine_version() -> String {
