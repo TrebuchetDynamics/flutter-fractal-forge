@@ -1,0 +1,25 @@
+schema = 1
+task = "RUST-M2-SESSION-ADAPTER"
+candidate = "a07bdddc012362795a631f82f62482f7ec65af93"
+integration = "86739f1738d25340ee8a24e9d821d5703766031f"
+tree = "7790969b72c325e99e9501b95465277fe02889aa"
+contract_hash = "974f01b39baf8d0ff211a50cdf8c061ef47e6c73736c2f0f4250f0f36d23bb91"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-SESSION-ADAPTER"]
+result = "pass"
+review = "passed"
+model_review = "passed"
+
+[[acceptance]]
+item = "Given new rust_state_session_adapter tests with an injected backend, creation is default-off/Web-refused without native initialization. One awaited mutation is admitted; concurrent Busy does not accept/consume input or enqueue hidden work. Typed commands/events/tokens forward unchanged/in order, errors retain last-good state, and editor/preset/load/history/deep-link-shaped inputs and unsupported rejection are rehearsed without live stores."
+result = "met"
+evidence = "Passing default-off/Web, Busy/late-disposal and ordered-input test cases verify loader refusal, one in-flight admission with no hidden backend call, caller retry, identical typed commands/events/tokens, unsupported rejection and retained last-good checkpoint. No live stores or production consumers are imported."
+
+[[acceptance]]
+item = "Given delayed backend responses/tickets, wrong Session/older revision, superseded frame generations and post-disposal responses never publish; equal-revision reads are valid. BigInt counters and exact decimal/string/enum types stay exact. Detached checkpoints preserve module/view/trajectory/transparency/effects/morph/frames/status after close and identify nonserializable hidden owners; FractalPreset alone is not called a complete checkpoint."
+result = "met"
+evidence = "Passing stale/equal-read, immutable-exact-checkpoint and delayed-ticket tests verify Session/revision/frame-generation rejection, BigInt values beyond JS integer precision, decimal/text/enum retention, deep immutability after close and release of stale/late tokens. Native detachment copies every supported snapshot field, including both frame/status trees; the component note explicitly distinguishes the checkpoint from FractalPreset and names hidden owners."
+
+[[acceptance]]
+item = "Given lifecycle/route tests, expensive wall/trajectory work uses the one borrowed service with no manual begin/advance/drain bypass; Finished is not assumed prime success. Replace/cancel/drop/dispose releases owned handles once, including late responses, never the shared service. Note lists external diagnostic bypasses and pending capture/timers/modules/renderer/rollback/platform qualification."
+result = "met"
+evidence = "Passing service-route, token-lifecycle and late-ticket cases verify replacement/cancellation/disposal once, terminal composite versus verified-prime semantics and no execute bypass. Native source uses one injected borrowed StateWorkService for submit/replace wall/trajectory operations and never closes it. Source/readback checks confirm no begin/advance/drain calls. Component note names external diagnostic bypasses and all pending capture/timer/module/renderer/rollback/platform proof. Native execution assertions remain unexecuted and are not required by this detached-adapter acceptance."

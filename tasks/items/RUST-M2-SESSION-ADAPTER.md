@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-M2-SESSION-ADAPTER"
 title = "Add an inert whole-session adapter with ordered admission and detached checkpoints"
 short = "Rehearse whole-session presentation"
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Next"
 rank = 40000
@@ -16,6 +16,8 @@ scope = "Add a separate explicit/default-off RustStateSessionAdapter owning one 
 acceptance = ["Given new rust_state_session_adapter tests with an injected backend, creation is default-off/Web-refused without native initialization. One awaited mutation is admitted; concurrent Busy does not accept/consume input or enqueue hidden work. Typed commands/events/tokens forward unchanged/in order, errors retain last-good state, and editor/preset/load/history/deep-link-shaped inputs and unsupported rejection are rehearsed without live stores.", "Given delayed backend responses/tickets, wrong Session/older revision, superseded frame generations and post-disposal responses never publish; equal-revision reads are valid. BigInt counters and exact decimal/string/enum types stay exact. Detached checkpoints preserve module/view/trajectory/transparency/effects/morph/frames/status after close and identify nonserializable hidden owners; FractalPreset alone is not called a complete checkpoint.", "Given lifecycle/route tests, expensive wall/trajectory work uses the one borrowed service with no manual begin/advance/drain bypass; Finished is not assumed prime success. Replace/cancel/drop/dispose releases owned handles once, including late responses, never the shared service. Note lists external diagnostic bypasses and pending capture/timers/modules/renderer/rollback/platform qualification."]
 checks = ["flutter test --no-pub test/migration/rust_state_session_adapter_test.dart test/migration/rust_engine_adapter_test.dart test/migration/state_replay_test.dart", "flutter analyze --no-pub lib/core/services/engine test/migration/rust_state_session_adapter_test.dart", "scripts/ci/rust-check.sh", "flutter build web --debug --no-pub --dart-define=RUST_CORE=false && flutter build web --debug --no-pub --dart-define=RUST_CORE=true", "git diff --exit-code -- lib/main.dart lib/core/controllers lib/features migration packages rust integration_test scripts pubspec.lock && git diff --check", "( AUTOWORK_CACHE=\"${AUTOWORK_CACHE:-$(git rev-parse --path-format=absolute --git-common-dir)/autowork-execution/cache}\" && export AUTOWORK_CACHE && export FLUTTER_ROOT=\"$AUTOWORK_CACHE/flutter-3.47.9\" && export PUB_CACHE=\"$AUTOWORK_CACHE/pub-cache\" && export CARGO_HOME=\"$AUTOWORK_CACHE/cargo-1.95.0\" && export RUSTUP_HOME=\"$AUTOWORK_CACHE/rustup-1.95.0\" && test -x \"$RUSTUP_HOME/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin/cargo\" && test -d \"$CARGO_HOME/registry\" && test -x \"$FLUTTER_ROOT/bin/flutter\" && test -d \"$PUB_CACHE\" && export PATH=\"$FLUTTER_ROOT/bin:$RUSTUP_HOME/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin:/usr/bin:$PATH\" && scripts/ci/offline-gate.sh --python-bin /usr/bin/python3 --json )"]
 exclusions = ["No production controller/renderer/input/startup/store changes, owner switch, flag enablement, new module admission, dependency/manifest/lock/build-rule changes, baseline refresh, device execution, publication/security authority or full-M2/browser/hardware/performance qualification."]
+closure = "coordinator_verified"
+closure_evidence = "tasks/evidence/RUST-M2-SESSION-ADAPTER.toml"
 +++
 
 
@@ -27,3 +29,5 @@ exclusions = ["No production controller/renderer/input/startup/store changes, ow
 - Produces: An inert awaitable whole-session facade and detached read/checkpoint model for the native fixture. Callers retain/retry unaccepted raw input in order; no production capture connected.
 - Next action: Add failing default-off/Web, concurrent-Busy and late-disposal tests before native forwarding/ownership code.
 - Pending live: Full module admission, scheduled wall randomization, lossless capture/external ticks, snapshot-only legacy rendering, production consumers and quiesced rollback remain unqualified.
+- Pending live: Separate later qualification: full module admission, scheduled wall randomization, lossless capture/external ticks, snapshot-only legacy rendering, production consumers and quiesced rollback.
+- Pending live: Native fixture execution and platform/browser/hardware/performance qualification remain unexecuted; this task proves the detached inert seam only.
