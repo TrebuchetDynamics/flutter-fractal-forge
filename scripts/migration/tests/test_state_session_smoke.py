@@ -15,14 +15,17 @@ smoke = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(smoke)
 
 
-@pytest.mark.parametrize("extended", [False, True, "trajectory"])
-def test_projection_preserves_complete_source_records_and_provenance(extended):
-    trajectory, extended = extended == "trajectory", extended is True
-    inputs = smoke.fixture_inputs(extended=extended, trajectory=trajectory)
-    assert inputs == smoke.fixture_inputs(extended=extended, trajectory=trajectory)
-    ids = smoke.TRAJECTORY_MODULE_IDS if trajectory else (smoke.EXTENDED_MODULE_IDS if extended else smoke.MODULE_IDS)
-    target = ("rust_state_trajectory_smoke_test.dart" if trajectory else
-              ("rust_state_extended_smoke_test.dart" if extended else "rust_state_session_smoke_test.dart"))
+@pytest.mark.parametrize("mode", ["default", "extended", "trajectory", "session"])
+def test_projection_preserves_complete_source_records_and_provenance(mode):
+    options = {} if mode == "default" else {mode: True}
+    inputs = smoke.fixture_inputs(**options)
+    assert inputs == smoke.fixture_inputs(**options)
+    ids = {"default": smoke.MODULE_IDS, "extended": smoke.EXTENDED_MODULE_IDS,
+           "trajectory": smoke.TRAJECTORY_MODULE_IDS, "session": smoke.SESSION_MODULE_IDS}[mode]
+    target = {"default": "rust_state_session_smoke_test.dart",
+              "extended": "rust_state_extended_smoke_test.dart",
+              "trajectory": "rust_state_trajectory_smoke_test.dart",
+              "session": "rust_state_whole_session_smoke_test.dart"}[mode]
     dart = (smoke.ROOT / "integration_test/migration" / target).read_text()
     for kind, projected in inputs.items():
         path = f"migration/baseline/{kind}.json"
@@ -33,7 +36,7 @@ def test_projection_preserves_complete_source_records_and_provenance(extended):
         original, derived = load(raw), load(projected)
         key = "id" if kind == "modules" else "module_id"
         expected = [r for r in original["payload"]["records"] if r[key] in ids]
-        assert len(expected) == (3 if trajectory else (7 if extended else 4))
+        assert len(expected) == len(ids)
         assert smoke.compact(derived["payload"]["records"]) == smoke.compact(expected)
         assert [r[key] for r in expected] == [r[key] for r in derived["payload"]["records"]]
         assert {k: v for k, v in derived.items() if k not in ("payload", "provenance")} == {
@@ -49,6 +52,49 @@ def test_projection_preserves_complete_source_records_and_provenance(extended):
             },
         }
         assert hashlib.sha256(projected).hexdigest() in dart
+
+
+def test_session_launch_and_refusals(tmp_path, monkeypatch):
+    output = tmp_path / "session.json"
+    result = subprocess.run([sys.executable, str(SCRIPT), "--session", "--",
+                             sys.executable, "-c",
+                             "import json,sys; open(sys.argv[1], 'w').write(json.dumps(sys.argv[2:]))",
+                             str(output), "--dart-define=RUST_CORE=true"], capture_output=True)
+    assert result.returncode == 0, result.stderr
+    defines = [arg.split("=", 1)[1] for arg in json.loads(output.read_text())]
+    assert len(defines) == 5
+    actual = smoke.flutter_encoded(defines)
+    assert len(actual) <= 32768
+    assert f"aggregate: {len(actual)}/32768".encode() in result.stdout
+    for define, raw in zip(defines[1:], smoke.fixture_inputs(session=True).values()):
+        assert zlib.decompress(base64.b64decode(define.split("=", 1)[1])) == raw
+    for mode in ("extended", "trajectory"):
+        conflict = subprocess.run([sys.executable, str(SCRIPT), "--session", f"--{mode}",
+                                   "--", "command"], capture_output=True)
+        assert conflict.returncode == 2
+        assert b"mutually exclusive" in conflict.stderr
+    monkeypatch.setattr(smoke.subprocess, "run", lambda *a, **k: pytest.fail("must not launch"))
+    for mode in ("extended", "trajectory"):
+        with pytest.raises(ValueError, match="mutually exclusive"):
+            smoke.fixture_inputs(session=True, **{mode: True})
+    for flag in ("--dart-define=STATE_SESSION_MODULES=bad", "-DX=" + "x" * 26000):
+        with pytest.raises(ValueError, match="override refused|exceeds"):
+            smoke.launch(["command", flag], session=True)
+    raw = (smoke.ROOT / "migration/baseline/modules.json").read_bytes()
+    with pytest.raises(ValueError, match="SHA-256 mismatch"):
+        smoke.project("modules", raw + b" ", session=True)
+    for invalid in ("missing", "duplicate"):
+        envelope = json.loads(raw)
+        records = envelope["payload"]["records"]
+        selected = next(r for r in records if r["id"] in smoke.SESSION_MODULE_IDS)
+        if invalid == "missing":
+            records.remove(selected)
+        else:
+            records.append(selected)
+        data = json.dumps(envelope).encode()
+        monkeypatch.setitem(smoke.ORIGINAL_SHA256, "modules", hashlib.sha256(data).hexdigest())
+        with pytest.raises(ValueError, match="missing or duplicate"):
+            smoke.project("modules", data, session=True)
 
 
 @pytest.mark.parametrize("extended", [False, True, "trajectory"])
