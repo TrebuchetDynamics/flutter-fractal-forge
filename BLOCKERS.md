@@ -4,6 +4,14 @@ This file contains only hard blockers that require user action.
 
 ## Active
 
+### Q-RUST-PLAN-11 — Planning stopped
+
+- Goal: RUST-ENGINE-001 remains unmet. RUST-PLAN-11 reached round 10 of 10; no successor planning task is saved.
+- Remaining proof: The [final proof map](docs/tasks/RUST-PLAN-11.md#remaining-proof-and-continuation) retains unsupported module semantics, scheduled wall randomization/non-skipped morph, lossless production consumers, snapshot-only legacy rendering, whole-session quiescence/rollback and M3-M14/auxiliary/final qualification. Existing native compilation does not prove installed assertions or app/browser/hardware qualification. Open RUST-CORE-01 remains unchanged.
+- Independent work: RUST-M2-LINUX-SESSION and RUST-M2-WAYDROID-SESSION can execute the existing inert whole-session fixture under their original gates and standing target consent. Neither waits for this continuation decision.
+- Question: After those fixture executions, whether/how should RUST-ENGINE-001 continue beyond planning round 10 of 10 for the remaining proof, without waiving any existing gate?
+- Resume condition: Record explicit continuation direction in RUST-MIGRATION-CONTINUE (owner-owned, Needs decision). This is the planning-limit stop, not a request to reapprove routine engineering, the designated Waydroid target or technical recovery.
+
 ### F-Droid external qualification inputs — 2026-11-10
 
 **These are external evidence requirements, not new owner-approval requests.**

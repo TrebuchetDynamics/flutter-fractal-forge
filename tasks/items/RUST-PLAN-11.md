@@ -3,7 +3,7 @@ schema = 1
 id = "RUST-PLAN-11"
 title = "Plan final bounded migration frontier from typed Session adapter and native fixture results"
 short = "Plan final Session frontier"
-status = "open"
+status = "done"
 goal = "RUST-ENGINE-001"
 section = "Next"
 rank = 42000
@@ -16,6 +16,11 @@ scope = "For RUST-ENGINE-001 read four new task records, actual absolute Git-com
 acceptance = ["Given actual four reports and merged source, saved bounded contracts preserve exact values, original gates/consent/priority, true producer prerequisites and pure/core/generated/compiled/installed/app/browser/hardware distinctions. Resolve routine engineering choices without owner interview; technical failures return exact task/operation/source/evidence to the same coordinator/candidate.", "Given manual closure/single planning commit, validation and Sources/anchors/cap/round/dependencies readback pass. Save no successor plan at round 10; absent existing executed goal qualification, save one BLOCKERS continuation question and open Needs decision remaining-proof task. No receipt/waiver/qualification invented."]
 checks = ["Read all four dependencies and actual absolute Git-common-directory autowork-execution/slot-data reports, tasks/goals/RUST-ENGINE-001.md, current source and complete remaining-proof map.", "autowork tasks validate --worktree .; read back Sources/anchors/eight-task cap/final-round stop question/open remaining-proof task; after single commit run tasks why with actual first new building task or report no building frontier."]
 exclusions = ["No production controller/renderer/input/startup/store changes, owner switch, flag enablement, new module admission, dependency/manifest/lock/build-rule changes, baseline refresh, device execution, publication/security authority or full-M2/browser/hardware/performance qualification."]
+closure = "manual"
+closure_actor = "DOCS-MAINTAINER"
+closure_timestamp = "2026-11-13T03:30:12.569820+00:00"
+closure_reason = "Completed final round 10 of 10 from four integrated reports/current source: saved two independent source-bound native execution contracts and one Needs decision continuation task, plus the full remaining-proof map and mandatory stop question. No successor plan, implementation or goal qualification."
+closure_evidence = "docs/tasks/RUST-PLAN-11.md"
 +++
 
 
