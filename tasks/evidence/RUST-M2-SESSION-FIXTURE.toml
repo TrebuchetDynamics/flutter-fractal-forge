@@ -1,0 +1,25 @@
+schema = 1
+task = "RUST-M2-SESSION-FIXTURE"
+candidate = "b74979d4ff67fab354e90b971e5d03135cb87a4f"
+integration = "68b51b71921f21d153b8a337f1759e7aea803758"
+tree = "7f8fe408621fd1ac9e956712f86aae2291baa982"
+contract_hash = "befd0ba0a795a16b92805af757e9d04002a442d05aefb85df73571ef542c1983"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-SESSION-FIXTURE"]
+result = "pass"
+review = "passed"
+model_review = "passed"
+
+[[acceptance]]
+item = "Given extended launcher pytest cases, all ten complete records preserve exact numeric spelling/order and original hash checks, actual encoded aggregate <=32768; missing/duplicate/tampered records and conflicting modes/defines fail. Old default/extended/trajectory outputs/hashes remain identical; new fixture pins hashes calculated from actual projection."
+result = "met"
+evidence = "14 passing launcher pytest cases compare complete source records with NumberToken spelling/order and unchanged old-target hashes. New fixture pins actual session hashes. Native build launches verified original inputs and actual encoded size 14224/32768. Missing/duplicate/tampered/conflicting inputs rejected."
+
+[[acceptance]]
+item = "Given new target analysis and Linux/Android-x64 compilation with RUST_CORE=true, assertions cover supported raw wheel/drag/pump/rejection, seeded parameter ticks/independent morph replacement, typed load/effects/checkpoint retention, real scheduled wall/trajectory terminal results/cancel and exact BigInt counters. Every opaque handle has teardown; polling has finite timeout/failure diagnostics. Native execution remains explicitly unexecuted."
+result = "met"
+evidence = "Analyzer and both RUST_CORE=true native builds passed. The single new inert target covers real raw physical/timeline APIs, parameter/morph independence and replacement, typed load/effects, retained immutable checkpoints, scheduled wall/trajectory results and cancellation, and BigInt fixtures through u64::MAX. Adapter/service/engine/direct Session/snapshot/counter handles have teardown; terminal polling has 30-second overall and 5-second per-poll limits with diagnostics. Native execution remains explicitly unexecuted."
+
+[[acceptance]]
+item = "Given adapter/launcher tests and both Web builds, old paths remain compatible. Note binds actual source/input/generated/tool/build identities and names future official Linux/standing Waydroid terminal/source/library/backend/cleanup proof without claiming scheduler latency/full-M2/browser/hardware qualification."
+result = "met"
+evidence = "11 adapter/engine tests plus 14 launcher cases and both root Web builds passed. docs/tasks/RUST-M2-SESSION-FIXTURE.md binds baseline source, generated/native trees, original and projected inputs, tools, fixture/launcher and fresh artifact hashes; explicitly retains official Linux/standing Waydroid source/library/backend/terminal/cleanup proof and all qualification exclusions. full check: runner gate"

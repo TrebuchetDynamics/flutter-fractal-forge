@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Add a source-bound ten-module whole-Session native compile fixture and mutually exclusive --session launcher mode; retain separate official native execution gates. (RUST-M2-SESSION-FIXTURE)
 - Add a default-off ordered Rust whole-session diagnostic adapter with detached immutable checkpoints and borrowed-service ticket lifecycle guards. (RUST-M2-SESSION-ADAPTER)
 - Add inert typed raw physical-event and explicit-clock StateSession transport with detached generation, snapshot and ordered logical results. (RUST-M2-PHYSICAL-BRIDGE)
 - Added inert Session timeline/seeded ordinary-action transport with opaque tokens, atomic start/undo results and detached morph metadata; production ownership remains unchanged. (RUST-M2-TIMELINE-BRIDGE)
