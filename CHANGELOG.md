@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Add inert typed raw physical-event and explicit-clock StateSession transport with detached generation, snapshot and ordered logical results. (RUST-M2-PHYSICAL-BRIDGE)
 - Added inert Session timeline/seeded ordinary-action transport with opaque tokens, atomic start/undo results and detached morph metadata; production ownership remains unchanged. (RUST-M2-TIMELINE-BRIDGE)
 - Fix forge doctor to fail closed with actionable diagnostics for malformed registry envelopes and entries without modifying input files. (MAINT-DOCTOR-MALFORMED-REGISTRY-01)
 - Verified installed Linux trajectory and exact high-u64 assertions against current integrated sources, retaining fresh official-driver evidence and complete source-drift checks. (RUST-M2-LINUX-TRAJECTORY-U64)

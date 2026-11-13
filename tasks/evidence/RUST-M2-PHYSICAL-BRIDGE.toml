@@ -1,0 +1,25 @@
+schema = 1
+task = "RUST-M2-PHYSICAL-BRIDGE"
+candidate = "6012ee4755b78a3b574bb7136c439fef76ed6fa4"
+integration = "714c2d2e2d47f9fab64827bc86a880c69d0b4bd1"
+tree = "434391837b34786f58ad9ef8afae31c16e7c6a6a"
+contract_hash = "6b2b56f539bde1a780019f5b36b4baaf46fd8f682bf340f3e0f1a122d2701432"
+checks = ["<path>", "<path>", "--verify", "<path>", "RUST-M2-PHYSICAL-BRIDGE"]
+result = "pass"
+review = "passed"
+model_review = "passed"
+
+[[acceptance]]
+item = "Given new state_physical bridge tests mapping supported raw oracle inputs, generated-facing constructors and apply method preserve camera within 1e-8, exact ordered interaction/key results, physical generation and one atomic revision. Cover pointer phases/kinds/buttons, wheel, key/focus, Wall/Pump/Dispose, optional viewport/source times and initial generation without guessed zero; existing 67-scenario/382-checkpoint core tests remain unchanged."
+result = "met"
+evidence = "state_physical public-seam tests map supported frozen wheel and double-interruption raw inputs/checkpoints with 1e-8 camera assertions, ordered interaction/key equality, all input variants and enum phases/kinds, consumed routing, optional source/viewport transport, generation reads and atomic/empty revision rules. Existing core session_physical_time passes all 67 scenarios/382 checkpoints without any core or fixture change."
+
+[[acceptance]]
+item = "Given state_physical lifecycle tests, invalid mixed batches, foreign/stale owners, sequence/time overflow and abandoned pumps preserve hidden/visible state and original publication semantics. Retained output/snapshot getters stay detached/readable after later mutation/shutdown; integer fields retain exact high-u64 and signed-i64 values."
+result = "met"
+evidence = "state_physical lifecycle test rejects mixed invalid/sequence/time-overflow, foreign and stale batches, then compares active-clock continuation against an unaffected control. Abandoned generation publishes the original no-op revision. Retained result/snapshot getters remain readable after mutation/shutdown. Full-width u64 IDs/buttons/sequences and signed i64 extreme source/wall/pump inputs cross typed constructors; generated codecs use u64/i64 without float conversion (Dart BigInt/PlatformInt64)."
+
+[[acceptance]]
+item = "Given both complete five-file generations and existing Linux/APK target/Web checks, current pinned outputs agree and compile; note distinguishes core/generated/compiled evidence from unexecuted installed event/app/browser/hardware proof. No raw output update becomes a second camera owner."
+result = "met"
+evidence = "Final complete five-file generations have identical SHA-256 manifests; pinned rust-check, Flutter analyzer, adapter/Python tests, Linux and Android x64 trajectory/u64 target compilation and both Web builds passed. docs/tasks/RUST-M2-PHYSICAL-BRIDGE.md separates Rust execution, generated signatures and compilation from pending installed/live proof. No raw camera updates are exported; only detached normalized snapshot plus ordered logical results."
