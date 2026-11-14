@@ -300,3 +300,69 @@ migration checks validate complete current bindings and all nonbinding fields;
 this is not a fixture refresh or a hash-only waiver. The worker report records
 executed checks; the full offline check remains the runner gate. No device,
 production or human-language qualification is claimed.
+
+## MAINT-PRESET-KEYBOARD-01 keyboard access
+
+Issue #2 explicitly extends this held task's source-bound delivery to exactly:
+
+- `lib/features/presets/preset_sheet.dart`
+- `test/preset/preset_sheet_keyboard_test.dart`
+- `test/migration/support/provenance_transition.dart`
+- `test/migration/baseline_source_reconciliation_test.dart`
+- `migration/oracles/preset-keyboard-source-transitions.json`
+- this document
+
+The implementation and keyboard regression are retained from candidate
+`9a5dc735baaaeedbbe87028ccf0fd565d191db8c`. The admitted base is
+`059cc9783fe26bd65266c0f8c5cb3b3a244a607a`; its complete collector maps match
+all eleven ACAD-015 terminal maps. No baseline-repair stage is needed or authorized.
+The retained assembled failure at `/tmp/offline-gate-RTeNCo/flutter-tests.log`
+is `Provenance: complete current map mismatch for physical-events`, before
+semantic comparison. This failure was reproduced with the retained preset source
+on the admitted base, rather than substituting a historical passing result.
+
+The new schema-2 stage is named **MAINT-PRESET-KEYBOARD-01** and references this
+section. Its binding allowlist is exactly:
+
+- `lib/features/presets/preset_sheet.dart`
+- `test/migration/support/provenance_transition.dart`
+
+Neither ACAD-015 nor any earlier policy is widened. The new sidecar's before maps
+are the complete retained terminal maps; after maps replace only collected
+occurrences of these two paths with final on-disk SHA-256 values. The preset changes
+physical-events; the helper changes param-interpolation, physical-events,
+precision-replay, randomization, reference and state-replay. All five inventory
+maps are explicit identities at the terminal cursor. No paths are added or
+removed; uncollected keyboard-test, focused-test and documentation paths do not
+appear in the maps. Exact sorted delta sets and canonical after-map identity are
+recorded, not an allowed superset. The existing adjacency algorithm is unchanged:
+terminal identities compose, while competing identities remain ambiguous.
+
+Finalize the helper before constructing this sidecar. Bootstrap claims by copying
+the retained terminal maps and replacing only collected allowed-path hashes;
+these provisional claims are not acceptance evidence. Unchanged collectors and
+comparators must independently prove complete current-map equality and every
+nonbinding field before `MIGRATION_TRANSITION_OUT` records any observation. Two
+private validated exports must each contain exactly twelve expected documents,
+match the sidecar's after maps (both manifests use reference), and agree byte for
+byte. Any additional source delta, import or semantic mismatch stops this bounded
+reconciliation; it does not expand the allowlist.
+
+The original regression checks Tab/Shift-Tab traversal, visible focus,
+Enter/Space single application and return to Viewer, nested rename/delete without
+application, pointer actions, English/Spanish, 320px width and 3x text. Rename's
+controller lives through the dialog exit transition. Focused source-stage tests
+add self-consistent policy/delta/removal/gap mutations, missing/duplicate/unknown
+stages, wrong identities/anchors and competing terminal identities. Existing
+semantic/runtime/metadata, image, independent clock and archive-custody negatives
+remain mandatory, as do all preset tests, individual migration modules and the
+unchanged full offline gate on the final assembled candidate.
+
+Historical fixtures, images, manifests, receipts, seven original archives, hash
+tables, earlier sidecars and both lockfiles remain immutable. In particular the
+physical oracle remains SHA-256
+`ec46427fff067ec864540506827ebd47ae6d083b176ee945b80ddd8f7d6a95ec` and the
+independently validated clock sidecar remains
+`3f0ef636f99c644a924df893ef673977f95c4a0558a5fdff29d4d6b8668e65a5`.
+This is neither an oracle refresh nor automatic admission of future changes;
+Android, browser/hardware qualification and production publication are excluded.
