@@ -2,7 +2,31 @@
 
 ## Current result and boundary
 
-Run `653b8192` executed the official Linux driver against source revision
+Independent review re-executed the official Linux command below after the base
+absorb, at `bd99c29e2d2dc446ae54c45e9699378880cc2077`. Fresh receipts under
+`.orbi/review-evidence/session/` report launcher/driver/observer exit 0,
+`protocol_success=true`, `allTestsPassed=true` and `cleanup.remaining_pids=[]`:
+**one test body plus teardown (`+2`), no skipped assertions**. Complete pre/post
+inventories bind all 526 execution sources to that merged HEAD and frozen base
+`0b497312e336d85114495b69d1e94784fe39bf1f` plus only the fixture/test repairs.
+The collector retained 1567 build-file hashes, actual decoded CMake defines
+(14649/32768 bytes), artifacts, mapped SO and same-display backend evidence.
+The mapped SO hash below remains unchanged; Mesa 25.2.8 / llvmpipe reports
+`Accelerated: no`, and Rust still reports `rendering=false`.
+
+This fresh execution used private mode-0700 scratch
+`/tmp/fractal-session-review-653b8192-ooaKPO` and port range `29100..29199`,
+allocated by simultaneously binding all 100 loopback ports before release to the
+wrapper. Invocation, complete logs, terminal/protocol receipts, source/input/
+artifact/backend bindings and allocation are retained in `.orbi/review-evidence/`.
+The review commit changes only this note. The earlier full offline gate and
+Android/Web builds below remain **pre-absorb evidence**, not merged-tree passes;
+Runner owns current-head merged/full-gate checks. No successful unchanged full
+gate was rerun locally during review.
+
+### Initial pre-absorb execution
+
+Run `653b8192` initially executed the official Linux driver against source revision
 `34fe1f1bc72363a5261ca818c8fe5e08f0b580c5`: **one test body plus teardown (`+2`)**.
 `session/driver/run.json` reports `exit_code=0`, `protocol_success=true`, and
 `cleanup.remaining_pids=[]`. `session/driver/protocol-success.json` contains
@@ -113,7 +137,7 @@ flutter build web --debug --no-pub --dart-define=RUST_CORE=true
 /usr/bin/python3 scripts/migration/run_state_session_smoke.py --session -- timeout --kill-after=10s 660 bash scripts/run-native-integration.sh integration_test/migration/rust_state_whole_session_smoke_test.dart --timeout 600 --dart-define=RUST_CORE=true
 ```
 
-| Check | Current result |
+| Check | Pre-absorb result at `34fe1f1b` |
 | --- | --- |
 | Pinned/import preflight and `flutter pub get --offline --enforce-lockfile` | Exit 0; locks unchanged. |
 | Focused adapter/engine tests | Exit 0; 12 tests (9 Session + 3 engine). |
@@ -143,20 +167,22 @@ Flutter analyze/test, Python and Bats. The unchanged exact Full check from
 The reused private collector/observer/source-binding procedure retains complete
 pre/post inventories: **526 execution-source files** (including the new adapter
 regression) and **1566 build files**, observed rather than hard-coded counts.
-Current bytes match execution HEAD. Freshly resolved local `main` and `origin/main`
-were the frozen base `059cc9783fe26bd65266c0f8c5cb3b3a244a607a`; complete path/hash
+At the initial readback, bytes matched execution HEAD. Freshly resolved local
+`main` and `origin/main` were the then-frozen base `059cc9783fe26bd65266c0f8c5cb3b3a244a607a`; complete path/hash
 comparison differs only by the explicitly recorded fixture/regression overlay.
 No base was fetched, repinned or modified; future merged sources need Runner checks.
 Added, removed and changed source inventory entries are rejected by negative checks.
 
-At final readback, shared `origin/main` had advanced to
+At delivery's final readback, shared `origin/main` had advanced to
 `0b497312e336d85114495b69d1e94784fe39bf1f`, including an unrelated execution-source
 change in `lib/features/presets/preset_sheet.dart`. The complete fresh upstream
 inventory and explicit `NOT_QUALIFIED` drift are retained in
 `final-source-binding.json`; they are not overlaid or repinned as passing source.
-This task's candidate still matches every tested execution-source byte. The
-Runner owns absorbing that base advance and fresh merged-source checks. Neither
-this native pass nor the offline gate qualifies that incoming revision.
+The pre-absorb candidate matched every tested execution-source byte. Runner
+subsequently absorbed that base advance in `bd99c29e`, changing the preset source.
+The fresh independent-review native execution above qualifies those merged
+execution sources for this diagnostic Linux journey; it does not relabel the
+pre-absorb offline gate or Android/Web builds as merged-source results.
 
 All four original envelope hashes remain fixed. Projected bytes match the launcher
 and actual decoded/decompressed CMake defines. Launcher aggregate: **14224/32768**
