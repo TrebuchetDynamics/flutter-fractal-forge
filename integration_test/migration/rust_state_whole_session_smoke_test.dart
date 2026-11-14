@@ -1,4 +1,4 @@
-// Compile-only fixture: native assertions remain unexecuted until official runs.
+// Diagnostic fixture: qualification requires source-bound official native runs.
 import 'dart:convert';
 import 'dart:io';
 
@@ -59,6 +59,8 @@ Future<SessionWorkRead> _terminal(
     final work = last.work!;
     if (work.phase == StateWorkPhase.finished ||
         work.phase == StateWorkPhase.cancelled) {
+      // Completed service entries cannot be used as replacement tickets.
+      adapter.cancelWork();
       return work;
     }
     await Future<void>.delayed(const Duration(milliseconds: 10));
@@ -224,7 +226,14 @@ void main() {
     adapter.cancelWork();
     expect((await adapter.poll()).admission, SessionAdmission.rejected);
 
-    await commands([SessionCommand.selectModule('thomas_attractor')]);
+    // Cancellation revokes the ticket, not a revision already committed by begin.
+    // Reconcile under the Session mutex before submitting the next mutation.
+    _accepted(await adapter.refresh());
+
+    // Keep the module's typed default camera; legacy reset clears trajectory.
+    await commands([
+      SessionCommand.selectModule('thomas_attractor', resetView: false)
+    ]);
     _accepted(await adapter.schedule(const SessionWork.trajectory()));
     final trajectory = await _terminal(adapter, 'trajectory');
     expect(trajectory.phase, StateWorkPhase.finished);

@@ -60,6 +60,34 @@ class FakeBackend implements RustStateSessionBackend {
   }
 }
 
+// Models the native begin commit independently of Dart polling. Revocation
+// prevents a later begin, but cannot roll back a revision already published.
+class CancellationBackend extends FakeBackend {
+  int authoritativeRevision = 0;
+  final admitted = <SessionAction>[];
+
+  void beginWallWork() {
+    if (ticket.closes == 0) authoritativeRevision++;
+  }
+
+  @override
+  Future<SessionReply> read() async =>
+      SessionReply(snapshot(authoritativeRevision));
+
+  @override
+  Future<SessionReply> execute(
+      SessionAction action, BigInt id, BigInt revision) async {
+    calls.add(action);
+    owners.add((id, revision));
+    if (id != BigInt.one) throw StateError('WrongSession');
+    if (revision != BigInt.from(authoritativeRevision)) {
+      throw StateError('StaleRevision');
+    }
+    admitted.add(action);
+    return SessionReply(snapshot(++authoritativeRevision));
+  }
+}
+
 class FakeTicket implements SessionTicket {
   int closes = 0;
   Completer<SessionWorkRead>? pending;
@@ -283,6 +311,55 @@ void main() {
     expect(backend.ticket.closes, 1);
     expect(backend.schedules, 2);
     expect(backend.calls, isEmpty);
+  });
+
+  test('cancel reconciles committed wall revision before the next mutation',
+      () async {
+    for (final beginBeforeCancel in [true, false]) {
+      final backend = CancellationBackend();
+      final adapter = (await RustStateSessionAdapter.create(
+          enabled: true, loader: () async => backend))!;
+      addTearDown(adapter.dispose);
+      expect(
+          (await adapter.schedule(
+                  SessionWork.wall(SessionCommand.numberWallPrime('101'))))
+              .admission,
+          SessionAdmission.accepted);
+      final lastGood = adapter.checkpoint!;
+      if (beginBeforeCancel) backend.beginWallWork();
+      adapter.cancelWork();
+      if (!beginBeforeCancel) backend.beginWallWork();
+      final authoritative = beginBeforeCancel ? BigInt.one : BigInt.zero;
+      expect(BigInt.from(backend.authoritativeRevision), authoritative);
+      expect(lastGood.revision, BigInt.zero);
+      expect((await adapter.poll()).admission, SessionAdmission.rejected);
+      expect(adapter.checkpoint, same(lastGood));
+      final action = SessionAction.commands([
+        SessionCommand.selectModule('thomas_attractor', resetView: false)
+      ]);
+      if (beginBeforeCancel) {
+        final stale = await adapter.apply(action);
+        expect(stale.admission, SessionAdmission.rejected);
+        expect(stale.error.toString(), contains('StaleRevision'));
+        expect(adapter.checkpoint, same(lastGood));
+        expect(backend.admitted, isEmpty);
+        expect(backend.owners, [(BigInt.one, BigInt.zero)]);
+      }
+
+      // Explicit reconciliation, not cancellation rollback or automatic retry.
+      expect((await adapter.refresh()).admission, SessionAdmission.accepted);
+      expect(adapter.checkpoint!.revision, authoritative);
+      expect(backend.admitted, isEmpty);
+      expect((await adapter.apply(action)).admission, SessionAdmission.accepted);
+      expect(backend.owners.last, (BigInt.one, authoritative));
+      expect(backend.admitted, [action]);
+      expect(backend.calls.length, beginBeforeCancel ? 2 : 1);
+      expect(adapter.checkpoint!.revision, authoritative + BigInt.one);
+      await adapter.dispose();
+      await adapter.dispose();
+      expect(backend.ticket.closes, 1);
+      expect(backend.closes, 1);
+    }
   });
 
   test('timeline replace/cancel/dispose releases owned tokens once', () async {
