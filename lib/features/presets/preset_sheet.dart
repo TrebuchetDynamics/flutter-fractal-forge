@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_fractals/core/models/fractal_preset.dart';
 import 'package:flutter_fractals/core/services/storage/preset_store.dart';
@@ -419,8 +420,11 @@ class _PresetSheetState extends State<PresetSheet> {
     AppLocalizations l10n,
   ) async {
     final renameController = TextEditingController(text: preset.name);
-    final newName = await showDialog<String>(
+    final navigator = Navigator.of(context, rootNavigator: true);
+    final route = DialogRoute<String>(
       context: context,
+      themes: InheritedTheme.capture(from: context, to: navigator.context),
+      traversalEdgeBehavior: TraversalEdgeBehavior.closedLoop,
       builder: (ctx) => AppDialog(
         icon: Icons.edit_rounded,
         title: l10n.renamePresetTitle,
@@ -448,6 +452,9 @@ class _PresetSheetState extends State<PresetSheet> {
         },
       ),
     );
+    final newName = await navigator.push(route);
+    // The field still uses its controller during the exit transition.
+    await route.completed;
     renameController.dispose();
     if (newName == null || newName.isEmpty) return;
     try {
@@ -489,6 +496,49 @@ class _PresetSheetState extends State<PresetSheet> {
   }
 }
 
+/// Keyboard apply stays local so nested rename/delete retain their own actions.
+class _PresetApplyButton extends StatefulWidget {
+  final VoidCallback onTap;
+  final Widget Function(bool highlighted) builder;
+
+  const _PresetApplyButton({
+    super.key,
+    required this.onTap,
+    required this.builder,
+  });
+
+  @override
+  State<_PresetApplyButton> createState() => _PresetApplyButtonState();
+}
+
+class _PresetApplyButtonState extends State<_PresetApplyButton> {
+  bool _focused = false;
+
+  @override
+  Widget build(BuildContext context) => FocusableActionDetector(
+        onShowFocusHighlight: (value) => setState(() => _focused = value),
+        shortcuts: const {
+          SingleActivator(LogicalKeyboardKey.enter): ActivateIntent(),
+          SingleActivator(LogicalKeyboardKey.space): ActivateIntent(),
+        },
+        actions: {
+          ActivateIntent: CallbackAction<ActivateIntent>(
+            onInvoke: (_) {
+              widget.onTap();
+              return null;
+            },
+          ),
+        },
+        child: Semantics(
+          button: true,
+          child: PressableScale(
+            onTap: widget.onTap,
+            builder: (pressed) => widget.builder(pressed || _focused),
+          ),
+        ),
+      );
+}
+
 class _PresetChip extends StatelessWidget {
   final String label;
   final IconData icon;
@@ -504,11 +554,11 @@ class _PresetChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PressableScale(
+    return _PresetApplyButton(
       onTap: onTap,
       builder: (isPressed) => AnimatedContainer(
         duration: AppAnimations.normal,
-        // PressableScale defers hit testing to its child, so the chip itself
+        // The apply surface defers hit testing to its child, so the chip itself
         // has to reach the minimum target — padding out empty space around a
         // 35px pill would not be tappable.
         constraints: const BoxConstraints(
@@ -584,7 +634,7 @@ class _UserPresetChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return PressableScale(
+    return _PresetApplyButton(
       key: ValueKey('userPresetChip_$presetId'),
       onTap: onTap,
       builder: (isPressed) => AnimatedContainer(
