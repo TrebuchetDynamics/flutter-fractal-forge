@@ -15,6 +15,8 @@ const _baselineThemeTransitionPath =
     'migration/oracles/acad-015-baseline-source-transitions.json';
 const _quietThemeTransitionPath =
     'migration/oracles/acad-015-source-transitions.json';
+const _presetKeyboardTransitionPath =
+    'migration/oracles/preset-keyboard-source-transitions.json';
 const _clockPath = 'migration/oracles/reference-source-transitions.json';
 const _changeReference =
     'docs/tasks/source-bound-review-gates.md#scoped-reconciliation--2026-11-10';
@@ -57,6 +59,10 @@ const _quietThemeBindingAllowlist = [
   'lib/l10n/app_localizations.dart',
   'lib/l10n/app_localizations_en.dart',
   'lib/l10n/app_localizations_es.dart',
+  'test/migration/support/provenance_transition.dart',
+];
+const _presetKeyboardBindingAllowlist = [
+  'lib/features/presets/preset_sheet.dart',
   'test/migration/support/provenance_transition.dart',
 ];
 const originalFixtureHashes = {
@@ -134,6 +140,7 @@ List<Map> readProvenanceStages() => [
         _a11yTransitionPath,
         _baselineThemeTransitionPath,
         _quietThemeTransitionPath,
+        _presetKeyboardTransitionPath,
       ])
         if (File(path).existsSync())
           jsonDecode(File(path).readAsStringSync()) as Map,
@@ -173,6 +180,7 @@ void validateProvenanceStage(Map stage) {
     'MAINT-A11Y-STATUS-COPY-01' => _a11yBindingAllowlist,
     'ACAD-015-BASELINE' => _baselineThemeBindingAllowlist,
     'ACAD-015' => _quietThemeBindingAllowlist,
+    'MAINT-PRESET-KEYBOARD-01' => _presetKeyboardBindingAllowlist,
     _ => throw StateError('Provenance: unknown task $task'),
   };
   _require(
@@ -183,6 +191,8 @@ void validateProvenanceStage(Map stage) {
                   'docs/tasks/source-bound-review-gates.md#acad-015-baseline-provenance-repair',
                 'ACAD-015' =>
                   'docs/tasks/source-bound-review-gates.md#acad-015-quiet-theme-and-crosshair-localization',
+                'MAINT-PRESET-KEYBOARD-01' =>
+                  'docs/tasks/source-bound-review-gates.md#maint-preset-keyboard-01-keyboard-access',
                 _ => _changeReference,
               } &&
           RegExp(r'^[0-9a-f]{40}$')
