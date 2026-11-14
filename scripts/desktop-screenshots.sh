@@ -9,7 +9,7 @@ set -euo pipefail
 #   ./scripts/desktop-screenshots.sh
 #
 # Output:
-#   ./screenshots/ (copied from build/…)
+#   ./screenshots/ (direct captures, with build/ fallback)
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
@@ -33,6 +33,24 @@ run_flutter_test() {
     --dart-define=FORCE_GPU_RENDER=true
 }
 
+# Keep the suite's existing filename convention, not arbitrary build assets.
+# Direct producer output wins; build fallbacks are ordered lexically for ties.
+capture_paths() {
+  if [[ -d screenshots ]]; then
+    find screenshots -maxdepth 1 -type f \( -name '0*.png' -o -name '1*_*.png' \) -print0 | LC_ALL=C sort -z
+  fi
+  if [[ -d build ]]; then
+    find build -type f \( -name '0*.png' -o -name '1*_*.png' \) -print0 | LC_ALL=C sort -z
+  fi
+}
+
+# Compare file identity and nanosecond metadata, not wall-clock cutoffs: quick
+# rewrites (even with identical bytes) count, unchanged previous outputs do not.
+declare -A before=()
+while IFS= read -r -d '' f; do
+  before["$f"]="$(stat -c '%d:%i:%s:%y:%z' -- "$f")"
+done < <(capture_paths)
+
 echo "[desktop-screenshots] device=$DEVICE_ID test=$TEST_FILE"
 
 if command -v xvfb-run >/dev/null 2>&1; then
@@ -43,42 +61,33 @@ else
   run_flutter_test
 fi
 
-# Flutter versions differ slightly on where screenshots are written.
-CANDIDATES=(
-  "build/integration_test/screenshots"
-  "build/integration_test" 
-  "build" 
-)
-
-SRC=""
-for c in "${CANDIDATES[@]}"; do
-  if compgen -G "$c/*.png" > /dev/null; then
-    SRC="$c"
-    break
+declare -A chosen=()
+current=()
+while IFS= read -r -d '' f; do
+  signature="$(stat -c '%d:%i:%s:%y:%z' -- "$f")"
+  [[ "${before["$f"]:-}" != "$signature" ]] || continue
+  base="${f##*/}"
+  if [[ -n "${chosen["$base"]:-}" ]]; then
+    echo "[desktop-screenshots] Duplicate $base: keeping ${chosen["$base"]}; ignoring $f"
+    continue
   fi
-  if compgen -G "$c/**/screenshots/*.png" > /dev/null; then
-    # shellcheck disable=SC2164
-    SRC="$c"
-    break
-  fi
-done
+  chosen["$base"]="$f"
+  current+=("$f")
+done < <(capture_paths)
 
-echo "[desktop-screenshots] Locating PNGs in build/..."
-PNGS=$(find build -type f -name '*.png' | wc -l | tr -d ' ')
-if [[ "$PNGS" == "0" ]]; then
-  echo "[desktop-screenshots] ERROR: No PNGs found under ./build"
-  echo "  Check test output for 'SCREENSHOT:' lines."
+if [[ ${#current[@]} == 0 ]]; then
+  echo "[desktop-screenshots] ERROR: No new suite screenshots in ./screenshots or ./build"
+  echo "  Check test output for 'SCREENSHOT' lines and capture failures."
   exit 2
 fi
 
-echo "[desktop-screenshots] Copying PNGs to $OUT_DIR"
-find build -type f -name '*.png' -print0 | while IFS= read -r -d '' f; do
-  base=$(basename "$f")
-  # Only keep screenshots from this suite.
-  if [[ "$base" == 0*_*.png || "$base" == 0*.png || "$base" == 1*_*.png ]]; then
-    cp -f "$f" "$OUT_DIR/$base"
+for f in "${current[@]}"; do
+  destination="$OUT_DIR/${f##*/}"
+  # The desktop producer already writes to the default output directory.
+  if [[ ! "$f" -ef "$destination" ]]; then
+    cp -f -- "$f" "$destination"
   fi
+  printf '[desktop-screenshots] Collected: %s (source: %s)\n' "$destination" "$f"
 done
 
-echo "[desktop-screenshots] Done. Output files:"
-ls -la "$OUT_DIR" | sed -n '1,200p'
+echo "[desktop-screenshots] Done. Collected ${#current[@]} screenshot(s) in $OUT_DIR"
