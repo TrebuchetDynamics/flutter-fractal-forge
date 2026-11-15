@@ -8,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'support/baseline_inventory.dart';
 
 import 'support/provenance_transition.dart';
+import 'support/visual_presentation_evolution.dart';
 
 Map _copy(Map value) => jsonDecode(jsonEncode(value)) as Map;
 
@@ -100,12 +101,15 @@ void main() {
           'test/migration/support/provenance_transition.dart',
       ];
       expect(record['changed'], expectedChanged, reason: id);
-      // The keyboard helper binding is historical. The final history stage
-      // alone binds the current comparator bytes; never rewrite an old stage.
-      for (final path in expectedChanged.where(
-          (p) => p != 'test/migration/support/provenance_transition.dart')) {
-        expect(record['after'][path],
-            sha256.convert(File(path).readAsBytesSync()).toString());
+      // Keyboard bindings remain historical; candidates bind current helpers.
+      for (final path in expectedChanged) {
+        if (path == 'test/migration/support/provenance_transition.dart') {
+          expect(record['after'][path],
+              '27778ec2aae6a2efd9db99e851a4e6d7cd7ddcbcaaf63e0483370de3fd839659');
+        } else {
+          expect(record['after'][path],
+              sha256.convert(File(path).readAsBytesSync()).toString());
+        }
       }
       verifySourceStages(id, stages.first['binding_maps'][id]['before'] as Map,
           record['after'] as Map,
@@ -156,8 +160,15 @@ void main() {
       ];
       expect(record['changed'], expectedChanged, reason: id);
       for (final path in expectedChanged) {
-        expect(record['after'][path],
-            sha256.convert(File(path).readAsBytesSync()).toString());
+        if (path == 'test/migration/support/provenance_transition.dart') {
+          expect(record['after'][path],
+              '07cd6e577a0866f1200fce76a890798686c8d576b9d9df556393a5b20d3137b5');
+          expect(readVisualStages().last['binding_maps'][id]['after'][path],
+              sha256.convert(File(path).readAsBytesSync()).toString());
+        } else {
+          expect(record['after'][path],
+              sha256.convert(File(path).readAsBytesSync()).toString());
+        }
       }
       for (final order in [
         stages.reversed.toList(),

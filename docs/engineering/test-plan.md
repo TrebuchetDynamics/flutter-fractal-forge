@@ -580,6 +580,50 @@ The final combined canonical check passed 46 selected shader, mathematics, publi
 
 The isolated focused module/metadata/catalog/shader run passed 292 cases with six existing skips; actual production FragmentProgram readback matched 9,223 margin-stable oracle samples, including 738 near-boundary samples. Academic coverage tests passed three cases. Linux debug build and SkSL/GLES/GLES3/Vulkan shader compilation passed. These are candidate-native/compiler checks, not a full common integration gate or hardware GPU qualification. Chrome attempts stalled before tests started and remain unverified. `MILNOR_PREVIEW_DIR` optionally saves actual 960×720 shader PNGs and replay states. CPU precision, physical-device behavior and complete export journeys remain unsupported or unqualified as stated; no publication follows from these checks.
 
+## Visual presentation evolution: immutable originals, explicit candidates
+
+Issue #9 adds test evidence only. The [staged Rust boundary](spec.md#planned-rust-engine-boundary) remains accepted and unchanged: there is no owner switch or completed Rust migration here. The [PNG/export contract](../../PRD.md#54-export-images) still requires matching the frozen selected state, including transparency. No renderer, formula, palette, default, production state, fixture PNG/JSON or historical sidecar is changed by this infrastructure.
+
+### Historical versus candidate checks
+
+Run the pinned common offline gate from `AGENTS.md`, after its SDK/Python preflight and lock-enforced offline pub get. Focused checks:
+
+```sh
+flutter test --no-pub test/migration/visual_presentation_evolution_test.dart test/migration/baseline_contracts_test.dart test/migration/baseline_source_reconciliation_test.dart test/migration/reference_source_transition_test.dart test/migration/reference_render_test.dart
+flutter test --no-pub test/migration/randomization_oracle_test.dart
+```
+
+Original byte/hash/canonical/source guards execute first, including the original full source maps and the unchanged clock-only transition. Reference rendering loads complete retained schema params/preset/view inputs, **not** the current module default. On the pinned same backend its decoded RGBA must remain exact. Both original manifests, PNGs, compiled artifact hashes and tampering negatives retain their original source identity. When candidate shader source changes, current compiled bytes bind separately to that source and backend through `compiled_artifacts`; they are not required to equal the old compiled bytes. The two original captures still compare their original compiled hashes against each other. Historical randomization likewise freezes retained initial params/view (including navigation back to Mandelbrot); all old seeded trajectories stay exact. New-default randomization runs independently and does not rename old results.
+
+Current inventory metadata/default/schema equality is checked against the original document **plus explicit candidate deltas**. No candidate pixels are compared to repinned original hashes. `migration/oracles/visual-presentation/01-proof.json` binds this proof seam's final sources with zero semantic changes; it is not a blank appearance approval. Original files remain under `migration/baseline/` and `migration/oracles/` unchanged.
+
+Consumers append a separate schema-1 stage under `migration/oracles/visual-presentation/` on their final source:
+
+- `VISUAL-RICHNESS-SCULPTURAL-SURFACE` for issue #10, or `VISUAL-RICHNESS-CURATED-DEFAULTS` for issue #11; unknown/duplicate tasks fail. `base_revision` names the actual full base commit.
+- `binding_maps` contains all eleven named maps, each with complete `before` and `after` source SHA-256 dictionaries. Start from the adjacent terminal candidate (or historical terminal for the proof). Recompute actual current collector maps; never predict a future hash. Removed bindings, undeclared paths, missing/extra maps, stale current bindings and broken/ambiguous adjacency fail. Adjacency uses complete eleven-map bundles, not independent per-map orders; semantic deltas follow the same unique chain. The old stage policies and full maps are not widened or rewritten.
+- `semantic_deltas` names only changed `parameters`, `presets`, or optional `shader-contracts` documents. Each entry has `path`, `before`, `after`; paths address the retained record/parameter indices, for example `/payload/records/<module-index>/default/view/zoom`. Old values must match exactly. Unmentioned metadata, IDs, named presets, mathematical/work-budget params, capabilities and other modules remain equal.
+- Only the five pilot default view/colorScheme records may evolve: Mandelbrot, Burning Ship, Newton z3, Mandelbulb and Mandelbox. Only the three 2D colorScheme schema defaults may change. The two 3D schema defaults remain legacy; max/options may append only Sculptural ID4/8, and new defaultPreset params explicitly select that added style. Existing named presets, including Classic/copyWith descendants, must remain fully explicit and unchanged.
+- Optional `/payload/records/-` in `shader-contracts` adds exactly `test/shaders/sculptural_surface_fixture.frag`, registered once in pubspec with a source binding and no module/catalog ID. Its only floats are `uResolution(vec2)` slots0–1 and `uCase(float)` slot2. No second/unlisted asset or changed production uniform contract is admitted. Without registration there is no added record. Positive exact-fixture and extra-asset negatives run offline.
+- `compiled_artifacts` entries contain `asset`, `source_sha256`, `compiled_sha256`, `backend_sha256`; source must match the candidate reference map and the actual current compiled artifact is checked during readback on that backend. No entries are preapproved by the proof stage.
+- `candidate_identity` is the SHA-256 of canonical JSON of `{binding_maps, semantic_deltas, compiled_artifacts}` (sorted object keys, preserved list order, trailing newline). Empty source-change approvals fail. Run **both** original and candidate checks after appending; never edit an original oracle/clock sidecar to fix a rejection.
+
+Failures begin `Visual presentation:` and distinguish undeclared semantics/paths, stale bindings and broken adjacency. Repair by correcting the bounded change and appending its exact final-source stage, not by blessing altered history. The host count regression also requires the concrete incomplete-capture error and repair instruction; a missing plugin or skipped shader cannot become a green run.
+
+### Five-ID production-path capture and timing entry point
+
+```sh
+VISUAL_RICHNESS_OUT=build/test_output/visual-richness flutter test --no-pub integration_test/catalog/visual_richness_pilot_test.dart -d linux --dart-define=FORCE_GPU_RENDER=true
+# Same command, additionally:
+# --dart-define=VISUAL_RICHNESS_TIMING=true
+```
+
+The harness mounts the actual `FractalRenderer`, disables animation, loads default and a deterministic edited view for each ID, and deep-copies its **effective** `FractalRenderSnapshot`. One reused `FourierOffscreenRenderer` draws all states, followed by awaited raw RGBA readback and PNG encoding. The real export processing helper consumes the owned frozen PNG; decoded exports must match the frozen draw. This checks the reusable export pipeline, not an OS save-dialog/MediaStore/UI journey. The manifest records requested/effective module, full params/view/effects, time0, actual shader path and source graph hashes, runtime/backend path, dimensions, RGBA/PNG/export hashes, alpha histogram and `linuxAuditVisualSignals`. Native premultiplied raw RGBA and decoded PNG RGBA hashes are named separately.
+
+All 40 requests (five IDs × default/edited × 256/512 × opaque/transparent) must reconcile selected/rendered/failed/skipped. Setup failures account for every unrendered state; the manifest and detailed errors are written even on failure. FORCE_GPU_RENDER omission, missing effective snapshot/shader, null readback, export error or skipped state fails rather than returning an empty success report. Restore the missing shader/plugin/export support and rerun the same command.
+
+Timing mode performs 10 warmups then 60 **completed 512×512 render/raw-readback operations per fixed state**, with program loading already done. Timing starts immediately before render and stops immediately after awaited raw readback; excludes PNG encoding, file I/O, copies/disposal and cached capture. Images are disposed. Report median, nearest-rank p95 and all samples; pumped tickers are not measurements. Driver/hardware identity, source-bound platform before/after comparisons, aesthetics, accessibility, installed-device/browser export and production qualification remain independent lane gates (#12–#14). Original states can be passed to today's renderer, but original pixels must never acquire candidate source identity.
+
+Issue #9 infrastructure verification (2026-11-15): the pinned common offline gate passed all stages with unchanged Dart/Rust locks: 3,527 Flutter tests (9 existing skips), 644 Python tests (1 existing skip, 204 subtests) and 34 Bats cases. The first gate attempt correctly failed the existing physical-export test's private-TMPDIR requirement; selecting an owned mode0700 TMPDIR repaired the environment without altering that test. The native Linux/Xvfb harness passed all 40 captures/decoded exports and timing completed 20 × 60 measured readbacks after warmup. The same entry point without FORCE_GPU_RENDER intentionally refused with selected40/rendered0/failed40/skipped0 and a repair message. Host fixture/semantic/path/adjacency/count negatives passed; all 11 original reference frames retained zero changed decoded pixels. These are infrastructure/software-renderer checks, not lane acceptance, an appearance improvement, OS publication or hardware performance qualification; Xvfb's separate GLX probe reported Mesa llvmpipe, unaccelerated.
 
 ## History commit replay (HISTORY-COMMIT-REPLAY-01)
 

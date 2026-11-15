@@ -2,12 +2,58 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_fractals/core/modules/module_registry.dart';
 
 import 'support/randomization_oracle.dart';
+import 'support/baseline_inventory.dart' show retainedDefaultPreset;
 import 'support/provenance_transition.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+
+  test(
+      'new-default randomization is checked separately from retained trajectories',
+      () async {
+    final current =
+        await buildGeneralRandomizationScenarios(currentDefaults: true);
+    expect(await buildGeneralRandomizationScenarios(currentDefaults: true),
+        current);
+    for (final scenario in current
+        .where((s) => !(s['id'] as String).startsWith('synthetic/'))) {
+      final id = (scenario['id'] as String).split('/').first;
+      final module = ModuleRegistry().byId(id);
+      final before = (scenario['expected'] as Map)['before'] as Map;
+      final after = (scenario['expected'] as Map)['after'] as Map;
+      expect(before['params'], module.defaultPreset.params);
+      expect(after['params']['colorScheme'], before['params']['colorScheme']);
+      final schema = (currentRandomizationSchemas()[id] as List).cast<Map>();
+      for (final parameter in module.parameters) {
+        expect(schema.singleWhere((p) => p['id'] == parameter.id)['default'],
+            parameter.defaultValue);
+      }
+    }
+  });
+
+  test('historical synthetic scenarios retain the original base view',
+      () async {
+    final historical = await buildGeneralRandomizationScenarios();
+    final retained = retainedDefaultPreset('mandelbrot').view;
+    final synthetic =
+        historical.where((s) => (s['id'] as String).startsWith('synthetic/'));
+    expect(synthetic, isNotEmpty);
+    for (final scenario in synthetic) {
+      final before = (scenario['expected'] as Map)['before'] as Map;
+      expect(before['view'], {
+        'zoom': retained.zoom,
+        'pan': [retained.pan.x, retained.pan.y],
+        'rotation': [
+          retained.rotation.x,
+          retained.rotation.y,
+          retained.rotation.z
+        ],
+      });
+    }
+  });
 
   test('seeded public Dart outputs are exact, source-bound and immutable',
       () async {

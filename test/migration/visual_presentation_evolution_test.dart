@@ -1,0 +1,364 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter_test/flutter_test.dart';
+
+import 'support/baseline_inventory.dart';
+import 'support/provenance_transition.dart';
+import 'support/visual_presentation_evolution.dart';
+
+Map copy(Map value) => jsonDecode(jsonEncode(value)) as Map;
+void seal(Map stage) => stage['candidate_identity'] = visualHash({
+      for (final key in [
+        'binding_maps',
+        'semantic_deltas',
+        'compiled_artifacts'
+      ])
+        key: stage[key],
+    });
+Map stageFor(String task) {
+  final prior = readProvenanceStages().last['binding_maps'] as Map;
+  final stage = <String, Object?>{
+    'schema': 1,
+    'task': task,
+    'base_revision': '08f3040d990d5df04de6c3f3834ccf30e592235a',
+    'binding_maps': {
+      for (final name in prior.keys)
+        name: {
+          'before': copy(prior[name]['after'] as Map),
+          'after': copy(prior[name]['after'] as Map),
+        },
+    },
+    'semantic_deltas': <String, Object?>{},
+    'compiled_artifacts': [],
+  };
+  final path = task == visualSurfaceTask
+      ? 'lib/core/modules/fractals/mandelbulb_module.dart'
+      : task == visualDefaultsTask
+          ? 'lib/core/modules/builders/escape_time_catalog/families/core_escape_time_family.dart'
+          : 'test/migration/support/provenance_transition.dart';
+  (stage['binding_maps'] as Map)['presets']['after'][path] = 'a' * 64;
+  seal(stage);
+  return stage;
+}
+
+Map retained(String name) =>
+    jsonDecode(File('migration/baseline/$name.json').readAsStringSync()) as Map;
+int indexOf(Map document, String id) => (document['payload']['records'] as List)
+    .indexWhere((r) => r['module_id'] == id);
+
+void main() {
+  test('changed pilot default/schema is not an unchanged historical baseline',
+      () {
+    final inventory = buildBaselineInventory();
+    for (final name in ['presets', 'parameters']) {
+      final bytes = File('migration/baseline/$name.json').readAsStringSync();
+      verifyBoundDocument(name, bytes, inventory[name]!);
+      final changed = copy(inventory[name]!);
+      final i = indexOf(changed, 'mandelbrot');
+      final record = changed['payload']['records'][i];
+      if (name == 'presets') {
+        record['default']['params']['colorScheme'] = 63;
+      } else {
+        (record['parameters'] as List)
+            .cast<Map>()
+            .singleWhere((p) => p['id'] == 'colorScheme')['default'] = 63;
+      }
+      expect(() => verifyBoundDocument(name, bytes, changed), throwsStateError);
+      expect(() => verifyBoundDocument(name, '$bytes ', inventory[name]!),
+          throwsStateError,
+          reason: 'original bytes cannot be repinned');
+    }
+  });
+
+  test('explicit pilot delta preserves all other complete records', () {
+    final old = retained('presets');
+    final i = indexOf(old, 'mandelbrot');
+    final stage = stageFor(visualDefaultsTask);
+    stage['semantic_deltas']['presets'] = [
+      {
+        'path': '/payload/records/$i/default/view/zoom',
+        'before': old['payload']['records'][i]['default']['view']['zoom'],
+        'after': 7.0,
+      }
+    ];
+    seal(stage);
+    final expected = copy(old);
+    expected['payload']['records'][i]['default']['view']['zoom'] = 7.0;
+    expect(evolveVisualDocument('presets', old, [stage]), expected);
+    expect(evolveVisualDocument('parameters', retained('parameters'), [stage]),
+        retained('parameters'));
+    for (final path in [
+      '/payload/records/$i/default/params/iterations',
+      '/payload/records/$i/default/id',
+      '/payload/records/$i/built_in',
+    ]) {
+      final changed = copy(stage);
+      changed['semantic_deltas']['presets'][0]['path'] = path;
+      seal(changed);
+      expect(() => evolveVisualDocument('presets', old, [changed]),
+          throwsStateError,
+          reason: path);
+    }
+    final stale = copy(stage);
+    stale['semantic_deltas']['presets'][0]['before'] = -1;
+    seal(stale);
+    expect(
+        () => evolveVisualDocument('presets', old, [stale]), throwsStateError);
+  });
+
+  test(
+      'candidate source policies reject stale, unknown, removed and gapped maps',
+      () {
+    final stage = stageFor(visualProofTask);
+    final maps = stage['binding_maps']['presets'] as Map;
+    validateVisualSourceChain(
+        'presets', maps['before'] as Map, maps['after'] as Map, [stage]);
+    for (final mutation in [
+      'unknown',
+      'path',
+      'remove',
+      'gap',
+      'identity',
+      'blank'
+    ]) {
+      final bad = copy(stage);
+      final record = bad['binding_maps']['presets'] as Map;
+      switch (mutation) {
+        case 'unknown':
+          bad['task'] = 'FUTURE';
+        case 'path':
+          record['after']['unlisted.dart'] = 'a' * 64;
+        case 'remove':
+          (record['after'] as Map).remove('pubspec.lock');
+        case 'gap':
+          record['before']['pubspec.lock'] = 'b' * 64;
+        case 'blank':
+          record['after'] = copy(record['before'] as Map);
+      }
+      seal(bad);
+      if (mutation == 'identity') bad['candidate_identity'] = 'b' * 64;
+      expect(
+          () => validateVisualSourceChain(
+              'presets', maps['before'] as Map, maps['after'] as Map, [bad]),
+          throwsStateError,
+          reason: mutation);
+    }
+    expect(
+        () => validateVisualSourceChain(
+            'presets', maps['before'] as Map, maps['before'] as Map, [stage]),
+        throwsStateError,
+        reason: 'stale current source');
+    expect(
+        () => validateVisualSourceChain('presets', maps['before'] as Map,
+            maps['after'] as Map, [stage, stage]),
+        throwsStateError);
+  });
+
+  test('candidate ordering uses full bundles, never independent map orders',
+      () {
+    final proof = stageFor(visualProofTask);
+    final defaults = stageFor(visualDefaultsTask);
+    for (final name in (defaults['binding_maps'] as Map).keys) {
+      final after = proof['binding_maps'][name]['after'] as Map;
+      defaults['binding_maps'][name] = {
+        'before': copy(after),
+        'after': copy(after),
+      };
+    }
+    const path =
+        'lib/core/modules/builders/escape_time_catalog/families/core_escape_time_family.dart';
+    defaults['binding_maps']['parameters']['after'][path] = 'b' * 64;
+    seal(defaults);
+    expect(orderedVisualStages([defaults, proof]), [proof, defaults]);
+
+    // Presets order proof -> defaults, but parameters order defaults -> proof.
+    // Each map alone looked valid; there is no adjacent complete bundle.
+    final crossed = copy(defaults);
+    final parameters = crossed['binding_maps']['parameters'] as Map;
+    final original = parameters['before'][path];
+    parameters['before'][path] = parameters['after'][path];
+    parameters['after'][path] = original;
+    seal(crossed);
+    validateVisualStage(crossed);
+    for (final name in ['presets', 'parameters']) {
+      final initial = name == 'parameters'
+          ? crossed['binding_maps'][name]['before'] as Map
+          : proof['binding_maps'][name]['before'] as Map;
+      final terminal = name == 'parameters'
+          ? proof['binding_maps'][name]['after'] as Map
+          : crossed['binding_maps'][name]['after'] as Map;
+      expect(
+          () => validateVisualSourceChain(
+              name, initial, terminal, [proof, crossed]),
+          throwsStateError);
+    }
+    expect(
+        () => evolveVisualDocument(
+            'presets', retained('presets'), [proof, crossed]),
+        throwsStateError);
+  });
+
+  test('only exact optional synthetic fixture may extend shader inventory', () {
+    final old = retained('shader-contracts');
+    final stage = stageFor(visualSurfaceTask);
+    final maps = stage['binding_maps']['shader-contracts'] as Map;
+    maps['after'][visualFixture] = 'a' * 64;
+    maps['after']['pubspec.yaml'] = 'b' * 64;
+    stage['semantic_deltas']['shader-contracts'] = [
+      {
+        'path': '/payload/records/-',
+        'before': null,
+        'after': visualFixtureContract(),
+      }
+    ];
+    seal(stage);
+    final result = evolveVisualDocument('shader-contracts', old, [stage]);
+    expect((result['payload']['records'] as List).length,
+        (old['payload']['records'] as List).length + 1);
+    expect(
+        (result['payload']['records'] as List)
+            .cast<Map>()
+            .where((r) => r['asset'] != visualFixture)
+            .toList(),
+        old['payload']['records']);
+    for (final mutation in [
+      'extra',
+      'uniform',
+      'module',
+      'unbound',
+      'duplicate'
+    ]) {
+      final bad = copy(stage);
+      final delta = bad['semantic_deltas']['shader-contracts'][0] as Map;
+      switch (mutation) {
+        case 'extra':
+          delta['after']['asset'] = 'test/shaders/extra.frag';
+          bad['binding_maps']['shader-contracts']['after']
+              ['test/shaders/extra.frag'] = 'a' * 64;
+        case 'uniform':
+          delta['after']['float_slots'][1]['slot'] = 3;
+        case 'module':
+          delta['after']['module_ids'] = ['mandelbulb'];
+        case 'unbound':
+          (bad['binding_maps']['shader-contracts']['after'] as Map)
+              .remove(visualFixture);
+        case 'duplicate':
+          bad['semantic_deltas']['shader-contracts'].add(copy(delta));
+      }
+      seal(bad);
+      expect(() => evolveVisualDocument('shader-contracts', old, [bad]),
+          throwsStateError,
+          reason: mutation);
+    }
+  });
+
+  test(
+      'missing plugin or skipped shader never reconciles as successful capture',
+      () {
+    validateVisualCaptureCounts(
+        selected: 40, rendered: 40, failed: 0, skipped: 0);
+    for (final counts in [
+      [39, 1, 0],
+      [39, 0, 1],
+      [39, 0, 0],
+      [0, 0, 40]
+    ]) {
+      expect(
+          () => validateVisualCaptureCounts(
+              selected: 40,
+              rendered: counts[0],
+              failed: counts[1],
+              skipped: counts[2]),
+          throwsA(isA<StateError>().having((e) => e.message, 'repair',
+              contains('restore shader/plugin/export support and rerun'))));
+    }
+  });
+  test('only enumerated color fields may evolve, with legacy 3D defaults', () {
+    final old = retained('parameters');
+    for (final id in visualPilotIds) {
+      final i = indexOf(old, id);
+      final parameters = old['payload']['records'][i]['parameters'] as List;
+      final j = parameters.indexWhere((p) => p['id'] == 'colorScheme');
+      final parameter = parameters[j] as Map;
+      final surface = ['mandelbulb', 'mandelbox'].contains(id);
+      final stage = stageFor(surface ? visualSurfaceTask : visualDefaultsTask);
+      final max = id == 'mandelbulb' ? 4 : 8;
+      stage['semantic_deltas']['parameters'] = surface
+          ? [
+              {
+                'path': '/payload/records/$i/parameters/$j/max',
+                'before': parameter['max'],
+                'after': max
+              },
+              {
+                'path': '/payload/records/$i/parameters/$j/options',
+                'before': parameter['options'],
+                'after': [
+                  ...parameter['options'] as List,
+                  {'value': max, 'label_en': 'Sculptural'},
+                ]
+              },
+            ]
+          : [
+              {
+                'path': '/payload/records/$i/parameters/$j/default',
+                'before': parameter['default'],
+                'after': 7
+              },
+            ];
+      seal(stage);
+      final result = evolveVisualDocument('parameters', old, [stage]);
+      final evolved = result['payload']['records'][i]['parameters'][j] as Map;
+      expect(evolved['default'], surface ? parameter['default'] : 7);
+      final bad = copy(stage);
+      bad['semantic_deltas']['parameters'] = [
+        {
+          'path':
+              '/payload/records/$i/parameters/$j/${surface ? 'default' : 'max'}',
+          'before': surface ? parameter['default'] : parameter['max'],
+          'after': 99
+        },
+      ];
+      seal(bad);
+      expect(() => evolveVisualDocument('parameters', old, [bad]),
+          throwsStateError);
+    }
+    final stage = stageFor(visualSurfaceTask);
+    final contracts = retained('shader-contracts');
+    stage['semantic_deltas']['shader-contracts'] = [
+      {'path': '/payload/records/0/float_slot_count', 'before': 0, 'after': 1},
+    ];
+    seal(stage);
+    expect(() => evolveVisualDocument('shader-contracts', contracts, [stage]),
+        throwsStateError,
+        reason: 'Production uniform declarations stay exact');
+  });
+  test('optional fixture registration permits exactly the named single entry',
+      () {
+    const before = 'name: app\nflutter:\n  shaders:\n    - shaders/old.frag\n';
+    final after = '$before    - $visualFixture\n';
+    validateVisualFixtureRegistration(before, after);
+    for (final bad in [
+      '$after    - test/shaders/unlisted.frag\n',
+      '$after    - $visualFixture\n',
+      after.replaceFirst('name: app', 'name: different'),
+      after.replaceFirst('    - shaders/old.frag\n', ''),
+      before,
+    ]) {
+      expect(() => validateVisualFixtureRegistration(before, bad),
+          throwsStateError);
+    }
+    final sdk = Platform.environment['FLUTTER_ROOT']!;
+    final declarations = shaderDeclarations(
+        visualFixture,
+        (path) => path == visualFixture
+            ? '#include <flutter/runtime_effect.glsl>\nuniform vec2 uResolution;\nuniform float uCase;'
+            : File('$sdk/engine/src/flutter/impeller/compiler/shader_lib/$path')
+                .readAsStringSync());
+    final contract = visualFixtureContract();
+    for (final key in declarations.keys) {
+      expect(contract[key], declarations[key], reason: key);
+    }
+  });
+}

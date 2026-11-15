@@ -4,6 +4,7 @@ import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'support/reference_capture.dart';
+import 'support/baseline_inventory.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -33,20 +34,23 @@ void main() {
       final descriptor = capture.baselineRecord('modules', moduleId);
       expect(module.shaderAsset, descriptor['shader_asset']);
       expect(module.dimension.name, descriptor['dimension']);
-      expect(module.defaultPreset.toJson()..remove('createdAt'),
-          capture.baselineRecord('presets', moduleId)['default']);
+      // Current defaults are independently checked by the candidate inventory
+      // in prepare(); historical assertions always use original retained inputs.
+      expect(retainedDefaultPreset(moduleId).toJson()..remove('createdAt'), {
+        ...capture.baselineRecord('presets', moduleId)['default'] as Map,
+        'params': retainedDefaultPreset(moduleId).params,
+      });
       final preset = referencePreset(module, stateId);
       expect(preset.moduleId, moduleId);
       expect(preset.params, {
-        for (final parameter in module.parameters)
-          parameter.id: parameter.defaultValue,
-        ...module.defaultPreset.params,
+        ...retainedDefaultPreset(moduleId).params,
       });
       final inputs = referenceInputs(module, preset);
       expect(inputs['transparent_background'], isFalse);
       expect(inputs['time'], 0);
       if (stateId.endsWith('-edited')) {
-        expect(inputs['view'], isNot(module.defaultPreset.toJson()['view']));
+        expect(inputs['view'],
+            isNot(retainedDefaultPreset(moduleId).toJson()['view']));
       }
       if (moduleId == 'milnor_brieskorn') {
         expect(
