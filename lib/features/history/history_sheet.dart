@@ -303,51 +303,41 @@ class _HistorySheetState extends State<HistorySheet>
     );
   }
 
-  void _navigateBack(BuildContext context, HistoryProvider history) {
-    final entry = history.goBack();
-    if (entry != null) {
-      _applyEntry(context, entry);
-    }
+  bool _ownsController(FractalController controller) =>
+      mounted &&
+      (ModalRoute.of(context)?.isCurrent ?? true) &&
+      identical(context.read<FractalController>(), controller);
+
+  Future<bool> _navigateBack(BuildContext context, HistoryProvider history) {
+    final controller = context.read<FractalController>();
+    return history.replayBack(controller,
+        shouldCommit: () => _ownsController(controller));
   }
 
-  void _navigateForward(BuildContext context, HistoryProvider history) {
-    final entry = history.goForward();
-    if (entry != null) {
-      _applyEntry(context, entry);
-    }
+  Future<bool> _navigateForward(BuildContext context, HistoryProvider history) {
+    final controller = context.read<FractalController>();
+    return history.replayForward(controller,
+        shouldCommit: () => _ownsController(controller));
   }
 
-  void _jumpToEntry(
-    BuildContext context,
-    HistoryProvider history,
-    HistoryEntry entry,
-  ) {
-    final jumped = history.jumpToEntry(entry.id);
-    if (jumped != null) {
-      _applyEntry(context, jumped);
-    }
-  }
-
-  void _applyFavorite(
+  Future<bool> _jumpToEntry(
     BuildContext context,
     HistoryProvider history,
     HistoryEntry entry,
   ) {
     final controller = context.read<FractalController>();
-    history.applyToController(entry, controller);
-
-    // Record this navigation in history
-    history.recordLocation(
-      moduleId: entry.moduleId,
-      view: entry.view,
-      params: entry.params,
-    );
+    return history.replayEntry(entry, controller,
+        shouldCommit: () => _ownsController(controller));
   }
 
-  void _applyEntry(BuildContext context, HistoryEntry entry) {
+  Future<bool> _applyFavorite(
+    BuildContext context,
+    HistoryProvider history,
+    HistoryEntry entry,
+  ) {
     final controller = context.read<FractalController>();
-    final history = context.read<HistoryProvider>();
-    history.applyToController(entry, controller);
+    return history.replayFavorite(entry, controller,
+        shouldCommit: () => _ownsController(controller));
   }
 
   void _showSaveFavoriteDialog(

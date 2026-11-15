@@ -366,3 +366,88 @@ independently validated clock sidecar remains
 `3f0ef636f99c644a924df893ef673977f95c4a0558a5fdff29d4d6b8668e65a5`.
 This is neither an oracle refresh nor automatic admission of future changes;
 Android, browser/hardware qualification and production publication are excluded.
+
+
+## History commit replay
+
+**HISTORY-COMMIT-REPLAY-01**, admitted base
+`08f3040d990d5df04de6c3f3834ccf30e592235a`, deepens the existing provider/replay
+commit seam. Its dedicated schema-2 stage is
+`migration/oracles/history-commit-replay-source-transitions.json`; its exact sorted
+allowlist is:
+
+- `lib/features/history/history_provider.dart`
+- `lib/features/history/history_replay.dart`
+- `lib/features/viewer/fractal_viewer_screen.dart`
+- `test/migration/support/provenance_transition.dart`
+
+The first three paths are collected recursively by the unchanged physical-events
+collector; the helper is already collected. `history.dart` and `history_sheet.dart`
+are uncollected and must not be inserted. `navigation/viewer_history.dart` stays
+unchanged. Documentation and tests are outside these maps. No additions/removals
+are authorized. All eleven before maps copy the retained keyboard-stage terminal
+maps; after maps change only collected occurrences of the four allowed paths.
+Five inventory maps remain explicit identities. Exact delta sets and canonical
+full after-bundle identity are required. Earlier sidecars, original archives,
+fixtures/images/manifests/receipts/hash anchors and both locks remain immutable.
+
+### Successor ordering decision
+
+The historical preset-keyboard report above describes the then-current per-map
+ordering. A second successor exposes its ambiguity: several individually
+unchanged inventory maps cannot distinguish those stages. This bounded amendment
+orders **complete eleven-map bundles**, without changing schema or any prior
+policy/sidecar. First validate every selected stage, unique tasks, complete keys,
+exact deltas/identity and existing anchors. Reject any stage identical across its
+entire bundle. Find exactly one before bundle not produced by another selected
+stage, then consume exactly one adjacent complete-bundle successor at each step.
+Never break ties using filename, task name or supplied order. Reject branches,
+gaps, cycles, disconnected/unused stages, competing successors and zero/multiple
+roots. Only then can per-map identities compose in that uniquely ordered chain.
+For the requested map, the first before must equal the caller's supplied map,
+every edge must agree and the terminal after must equal fresh collection.
+Reference still starts at the unchanged independent clock validator's after map.
+Semantic/metadata comparison, current digest and custody guards are unchanged.
+
+Focused reconciliation tests compose retained keyboard plus history stages for
+all eleven maps in reversed/permuted order. They reject real full-bundle
+branch/no-op/gap/cycle and missing/duplicate stages, plus self-consistent policy,
+anchor, unlisted-path/removal and identity mutations. Original competing-identity
+negatives and keyboard base/two-path policy/historical deltas remain. Intermediate
+helper bindings stay historical; only the final history stage is compared with
+current helper bytes.
+
+Finalize handwritten source/helper before making provisional claims from retained
+terminal maps. Those claims alone are not evidence: unchanged collectors and the
+amended guard-preserving comparator must validate them before the existing
+post-validation observer exports anything. Run the seven migration modules
+individually, then two exports with `MIGRATION_TRANSITION_OUT` in private external
+scratch directories. Each export must contain exactly twelve expected documents,
+whose current maps equal this stage's after maps (both manifests use reference).
+Require byte-for-byte `diff -ru` equality. Run the mandatory unskipped offline gate
+and retain actual commands/exits, full logs and lock/evidence readback. No result
+here claims live platform qualification. Visual-richness issue #9's separate
+isolated worktree/contract is not edited; any later base integration must retain
+both stages and their guards rather than widen this history-only policy.
+
+### Executed local evidence (run_id=9b7fcf3b)
+
+- The initial composed provider regression failed against eager cursor movement;
+  the final focused history/Number Walls/viewer command passed **288 tests**.
+  A modal-pop regression also failed before the route-current guard and passed
+  after it, proving cancellation before sheet exit animation finishes.
+- Focused reconciliation checks passed, including policy-valid full-bundle
+  branch/cycle negatives. All seven required migration modules ran individually
+  with exit 0; the final candidate also passed them through both exports.
+- Both final validated exports contained exactly all twelve expected documents;
+  complete current maps matched this stage's after maps, with both manifests
+  mapped to reference. Map readback and `diff -ru` each exited 0.
+- The exact root AGENTS offline gate, under the provisioned SDK/cache and private
+  mode-0700 TMPDIR, exited **0**, terminal verdict `passed`, `failed_stage: null`.
+  Pub-get, Cargo fmt/clippy/test, Flutter analyze/test, Python and Bats all exited
+  0; no families were bypassed. Flutter passed 3541 tests (9 existing skips),
+  Python passed 644 tests plus 204 subtests (1 existing skip), Bats passed 34.
+- Final lock readback and `git diff --check` passed. Unchanged earlier evidence,
+  controller, viewer history hook and Number Walls ingress assertions were
+  retained. Full local logs and the validated exports are in the excluded run
+  artifacts; no browser/device/hardware qualification or screenshot is claimed.

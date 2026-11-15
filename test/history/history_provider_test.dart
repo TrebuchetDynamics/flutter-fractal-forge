@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/services/storage/history_store.dart';
 import 'package:flutter_fractals/core/models/history/history_entry.dart';
 import 'package:flutter_fractals/features/history/history_provider.dart';
@@ -62,11 +64,335 @@ final class _LegacyReplayController {
   }
 }
 
+// Gate the real controller commit seam, not a simulated provider outcome.
+class _ControlledReplayController extends FractalController {
+  _ControlledReplayController() : super(ModuleRegistry());
+
+  Completer<void>? gate;
+
+  @override
+  Future<bool> loadState({
+    FractalModule? module,
+    String? moduleId,
+    required Map<String, Object> params,
+    required FractalViewState view,
+    bool transparentBackground = false,
+    bool animateModule = false,
+    void Function()? onCommitted,
+    bool Function()? shouldCommit,
+  }) async {
+    final pending = gate;
+    if (pending != null) await pending.future;
+    return super.loadState(
+      module: module,
+      moduleId: moduleId,
+      params: params,
+      view: view,
+      transparentBackground: transparentBackground,
+      animateModule: animateModule,
+      onCommitted: onCommitted,
+      shouldCommit: shouldCommit,
+    );
+  }
+}
+
+void _recordController(HistoryProvider provider, FractalController controller) {
+  provider.recordLocation(
+      moduleId: controller.module.id,
+      view: controller.view,
+      params: controller.params);
+}
+
 void main() {
   group('HistoryProvider navigation recording', () {
     setUp(() {
       TestWidgetsFlutterBinding.ensureInitialized();
       SharedPreferences.setMockInitialValues({});
+    });
+
+    testWidgets(
+        'pending rejected replay keeps the committed cursor and forward entries',
+        (tester) async {
+      final store = await HistoryStore.create();
+      final provider = HistoryProvider(store: store);
+      final controller = _ControlledReplayController();
+      addTearDown(provider.dispose);
+      addTearDown(controller.dispose);
+      await _recordAndFlush(tester, provider, zoom: 1);
+      provider.recordLocation(
+        moduleId: 'number_wall',
+        view: _view(2),
+        params: const {'prime': '15'},
+      );
+      await tester.pump(const Duration(milliseconds: 501));
+      await _recordAndFlush(tester, provider, zoom: 3);
+      await _recordAndFlush(tester, provider, zoom: 4);
+      provider.goBack();
+      await controller.loadState(
+          moduleId: 'mandelbrot',
+          params: const {'iterations': 100},
+          view: _view(3));
+      controller.addListener(() => _recordController(provider, controller));
+      final committed = provider.currentEntry;
+      final ids = provider.history.map((e) => e.id).toList();
+      final persisted =
+          jsonEncode(store.loadHistory().map((e) => e.toJson()).toList());
+      controller.gate = Completer<void>();
+      final replay = provider.replayBack(controller);
+      expect(provider.currentEntry, same(committed));
+      expect(provider.currentPosition, 3);
+      expect(provider.canGoForward, isTrue);
+      controller.notifyListeners(); // Unchanged pending status must not record.
+      await tester.pump(const Duration(milliseconds: 501));
+      expect(provider.history.map((e) => e.id), ids);
+      expect(provider.currentEntry, same(committed));
+      await provider.saveCurrentAsFavorite('during pending');
+      expect(provider.favorites.single.view.zoom, 3);
+      controller.gate!.complete();
+      await tester.pump();
+      expect(await replay, isFalse);
+      await tester.pump(const Duration(milliseconds: 501));
+      expect(controller.module.id, 'mandelbrot');
+      expect(controller.view.zoom, 3);
+      expect(provider.currentEntry, same(committed));
+      expect(provider.history.map((e) => e.id), ids);
+      expect(jsonEncode(store.loadHistory().map((e) => e.toJson()).toList()),
+          persisted);
+    });
+
+    testWidgets(
+        'accepted normalized entries select before observers without truncation',
+        (tester) async {
+      final store = await HistoryStore.create();
+      final provider = HistoryProvider(store: store);
+      final controller = _ControlledReplayController();
+      addTearDown(provider.dispose);
+      addTearDown(controller.dispose);
+      await _recordAndFlush(tester, provider, zoom: 1);
+      provider.recordLocation(
+          moduleId: 'julia',
+          view: _view(2),
+          params: const {'iterations': 999999999});
+      await tester.pump(const Duration(milliseconds: 501));
+      await _recordAndFlush(tester, provider, zoom: 3);
+      final target = provider.history[1];
+      final original = jsonEncode(target.toJson());
+      controller.addListener(() {
+        expectSync(provider.currentEntry, same(target));
+        expectSync(provider.currentPosition, 2);
+        _recordController(provider, controller);
+      });
+      controller.gate = Completer<void>();
+      final replay = provider.replayBack(controller);
+      expect(provider.currentPosition, 3);
+      controller.gate!.complete();
+      await tester.pump();
+      expect(await replay, isTrue);
+      expect(controller.module.id, 'julia');
+      expect(controller.params['iterations'], isNot(999999999));
+      await tester.pump(const Duration(milliseconds: 501));
+      expect(provider.historyCount, 3);
+      expect(provider.canGoForward, isTrue);
+      expect(jsonEncode(target.toJson()), original);
+      expect(store.loadHistory().length, 3);
+    });
+
+    testWidgets(
+        'repeated pending Back resolves committed cursor and newest wins',
+        (tester) async {
+      final provider = HistoryProvider(store: await HistoryStore.create());
+      final controller = _ControlledReplayController();
+      addTearDown(provider.dispose);
+      addTearDown(controller.dispose);
+      for (final zoom in [1.0, 2.0, 3.0]) {
+        await _recordAndFlush(tester, provider, zoom: zoom);
+      }
+      final oldGate = Completer<void>();
+      controller.gate = oldGate;
+      final old = provider.replayBack(controller);
+      controller.gate = Completer<void>();
+      final newest = provider.replayBack(controller);
+      controller.gate!.complete();
+      await tester.pump();
+      expect(await newest, isTrue);
+      expect(provider.currentPosition, 2);
+      expect(controller.view.zoom, 2);
+      oldGate.complete();
+      await tester.pump();
+      expect(await old, isFalse);
+      expect(provider.currentPosition, 2);
+      controller.gate = null;
+      expect(await provider.replayForward(controller), isTrue);
+      expect(provider.currentPosition, 3);
+      expect(await provider.replayEntry(provider.history.first, controller),
+          isTrue);
+      expect(provider.currentPosition, 1);
+    });
+
+    for (final interruption in [
+      'ordinary',
+      'manual',
+      'clear',
+      'dispose',
+      'owner',
+      'cursor'
+    ]) {
+      testWidgets('pending replay invalidated by $interruption',
+          (tester) async {
+        final store = await HistoryStore.create();
+        final provider = HistoryProvider(store: store);
+        final controller = _ControlledReplayController();
+        addTearDown(controller.dispose);
+        if (interruption != 'dispose') addTearDown(provider.dispose);
+        for (final zoom in [1.0, 2.0, 3.0]) {
+          await _recordAndFlush(tester, provider, zoom: zoom);
+        }
+        await controller
+            .loadState(params: const {'iterations': 100}, view: _view(3));
+        controller.addListener(() => _recordController(provider, controller));
+        var owns = true;
+        final gate = Completer<void>();
+        controller.gate = gate;
+        final old = provider.replayBack(controller, shouldCommit: () => owns);
+        switch (interruption) {
+          case 'ordinary':
+            controller.gate = null;
+            expect(
+                await provider.replayEntry(provider.history.first, controller),
+                isTrue);
+          case 'manual':
+            controller.updateZoom(4);
+          case 'clear':
+            await provider.clearHistory();
+          case 'dispose':
+            provider.dispose();
+          case 'owner':
+            owns = false;
+          case 'cursor':
+            provider.goBack();
+        }
+        gate.complete();
+        await tester.pump();
+        expect(await old, isFalse);
+        await tester.pump(const Duration(milliseconds: 501));
+        expect(
+            controller.view.zoom,
+            interruption == 'ordinary'
+                ? 1
+                : interruption == 'manual'
+                    ? 4
+                    : 3);
+        expect(
+            provider.historyCount,
+            interruption == 'clear'
+                ? 0
+                : interruption == 'manual'
+                    ? 4
+                    : 3);
+        expect(
+            provider.currentPosition,
+            interruption == 'ordinary'
+                ? 1
+                : interruption == 'cursor'
+                    ? 2
+                    : interruption == 'manual'
+                        ? 4
+                        : interruption == 'clear'
+                            ? 0
+                            : 3);
+      });
+    }
+
+    testWidgets(
+        'favorite records only normalized accepted state and deduplicates',
+        (tester) async {
+      final provider = HistoryProvider(store: await HistoryStore.create());
+      final controller = _ControlledReplayController();
+      addTearDown(provider.dispose);
+      addTearDown(controller.dispose);
+      _recordController(provider, controller);
+      await tester.pump(const Duration(milliseconds: 501));
+      final raw = HistoryEntry.fromState(
+          moduleId: 'julia',
+          view: _view(2),
+          params: const {'iterations': 999999999});
+      await provider.saveAsFavorite(raw, 'clamped');
+      controller.addListener(() => _recordController(provider, controller));
+      controller.gate = Completer<void>();
+      final replay =
+          provider.replayFavorite(provider.favorites.single, controller);
+      expect(provider.historyCount, 1);
+      controller.gate!.complete();
+      await tester.pump();
+      expect(await replay, isTrue);
+      expect(provider.historyCount, 2);
+      expect(provider.currentEntry!.params, controller.params);
+      expect(provider.currentEntry!.params['iterations'], isNot(999999999));
+      await tester.pump(const Duration(milliseconds: 501));
+      controller.gate = null;
+      expect(
+          await provider.replayFavorite(provider.favorites.single, controller),
+          isTrue);
+      await tester.pump(const Duration(milliseconds: 501));
+      expect(provider.historyCount, 2);
+      await provider.saveAsFavorite(
+          HistoryEntry.fromState(
+              moduleId: 'number_wall',
+              view: _view(7),
+              params: const {'prime': '15'}),
+          'invalid');
+      final rejected =
+          provider.replayFavorite(provider.favorites.last, controller);
+      await tester.pump();
+      expect(await rejected, isFalse);
+      expect(provider.historyCount, 2);
+    });
+
+    testWidgets(
+        'commit callback remains authoritative across reentrant false result and errors propagate',
+        (tester) async {
+      final provider = HistoryProvider(store: await HistoryStore.create());
+      final controller = _ControlledReplayController();
+      addTearDown(provider.dispose);
+      addTearDown(controller.dispose);
+      provider.recordLocation(
+          moduleId: 'number_wall',
+          view: _view(1),
+          params: const {'prime': '7', 'rows': 4, 'columns': 16});
+      await tester.pump(const Duration(milliseconds: 501));
+      await _recordAndFlush(tester, provider, zoom: 2);
+      final accepted = provider.history.first;
+      var reentered = false;
+      Future<bool>? newer;
+      controller.addListener(() {
+        if (controller.module.id == 'number_wall' && !reentered) {
+          reentered = true;
+          expectSync(provider.currentEntry, same(accepted));
+          // Invalidates controller's Number Walls ingress generation after its
+          // already-published commit; it can return false without undoing history.
+          controller.cancelNumberWallRequest();
+          newer = provider.replayEntry(accepted, controller,
+              shouldCommit: () => false);
+        }
+      });
+      final old = provider.replayBack(controller);
+      var finished = false;
+      old.then((_) => finished = true);
+      for (var i = 0; i < 100 && !finished; i++) {
+        await tester.pump(const Duration(milliseconds: 10));
+      }
+      expect(finished, isTrue, reason: 'bounded real Number Walls completion');
+      expect(await old, isFalse);
+      expect(await newer, isFalse);
+      expect(provider.currentEntry, same(accepted));
+      expect(provider.canGoForward, isTrue);
+      controller.gate = Completer<void>();
+      final error = provider.replayForward(controller);
+      final expectation = expectLater(error, throwsStateError);
+      controller.gate!.completeError(StateError('controlled replay failure'));
+      await tester.pump();
+      await expectation;
+      expect(provider.currentEntry, same(accepted));
     });
 
     testWidgets(

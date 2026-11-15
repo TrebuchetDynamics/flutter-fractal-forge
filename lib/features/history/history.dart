@@ -23,8 +23,7 @@
 ///
 /// // Go back/forward
 /// if (history.canGoBack) {
-///   final entry = history.goBack();
-///   history.applyToController(entry!, controller);
+///   await history.replayBack(controller);
 /// }
 ///
 /// // Save favorite
