@@ -585,7 +585,7 @@ if [[ "$DRY_RUN" -eq 1 ]]; then
   print_command adb -s "$DEVICE" exec-out screencap -p
   print_command adb -s "$DEVICE" exec-out uiautomator dump /dev/tty
   printf '+ assert foreground package is Fractal Forge\n'
-  printf '+ assert restored UI contains Julia and Edit fractal when semantics capture is available\n'
+  printf '+ assert restored UI contains the Julia canvas when semantics capture is available\n'
 else
   adb -s "$DEVICE" exec-out screencap -p \
     >"$LOG_DIR/process-restoration.png"
@@ -601,12 +601,12 @@ else
   # Flutter's large catalog semantics tree. Preserve the screenshot and
   # foreground-activity proof in that case instead of misreporting an app
   # restoration failure. When semantics are available, keep the stronger
-  # route-and-controls assertion.
+  # route-and-canvas assertion.
   ui_dump="$LOG_DIR/process-restoration-ui.xml"
   if adb -s "$DEVICE" exec-out uiautomator dump /dev/tty \
       >"$ui_dump" 2>"$LOG_DIR/process-restoration-uiautomator.log" && \
       grep -q '<hierarchy' "$ui_dump"; then
-    if ! grep -q 'Julia' "$ui_dump" || ! grep -q 'Edit fractal' "$ui_dump"; then
+    if ! python3 "$PROJECT_ROOT/scripts/verify-restored-viewer.py" "$ui_dump"; then
       echo 'Process-death restoration did not return to the Julia viewer.' >&2
       exit 1
     fi
