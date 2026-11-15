@@ -19,6 +19,8 @@ const _quietThemeTransitionPath =
     'migration/oracles/acad-015-source-transitions.json';
 const _presetKeyboardTransitionPath =
     'migration/oracles/preset-keyboard-source-transitions.json';
+const _historyReplayTransitionPath =
+    'migration/oracles/history-commit-replay-source-transitions.json';
 const _clockPath = 'migration/oracles/reference-source-transitions.json';
 const _changeReference =
     'docs/tasks/source-bound-review-gates.md#scoped-reconciliation--2026-11-10';
@@ -65,6 +67,12 @@ const _quietThemeBindingAllowlist = [
 ];
 const _presetKeyboardBindingAllowlist = [
   'lib/features/presets/preset_sheet.dart',
+  'test/migration/support/provenance_transition.dart',
+];
+const _historyReplayBindingAllowlist = [
+  'lib/features/history/history_provider.dart',
+  'lib/features/history/history_replay.dart',
+  'lib/features/viewer/fractal_viewer_screen.dart',
   'test/migration/support/provenance_transition.dart',
 ];
 const originalFixtureHashes = {
@@ -143,6 +151,7 @@ List<Map> readProvenanceStages() => [
         _baselineThemeTransitionPath,
         _quietThemeTransitionPath,
         _presetKeyboardTransitionPath,
+        _historyReplayTransitionPath,
       ])
         if (File(path).existsSync())
           jsonDecode(File(path).readAsStringSync()) as Map,
@@ -183,6 +192,7 @@ void validateProvenanceStage(Map stage) {
     'ACAD-015-BASELINE' => _baselineThemeBindingAllowlist,
     'ACAD-015' => _quietThemeBindingAllowlist,
     'MAINT-PRESET-KEYBOARD-01' => _presetKeyboardBindingAllowlist,
+    'HISTORY-COMMIT-REPLAY-01' => _historyReplayBindingAllowlist,
     _ => throw StateError('Provenance: unknown task $task'),
   };
   _require(
@@ -195,6 +205,8 @@ void validateProvenanceStage(Map stage) {
                   'docs/tasks/source-bound-review-gates.md#acad-015-quiet-theme-and-crosshair-localization',
                 'MAINT-PRESET-KEYBOARD-01' =>
                   'docs/tasks/source-bound-review-gates.md#maint-preset-keyboard-01-keyboard-access',
+                'HISTORY-COMMIT-REPLAY-01' =>
+                  'docs/tasks/source-bound-review-gates.md#history-commit-replay',
                 _ => _changeReference,
               } &&
           RegExp(r'^[0-9a-f]{40}$')
@@ -314,19 +326,36 @@ void verifySourceStages(String id, Map before, Map current,
   for (final stage in pending) {
     validateProvenanceStage(stage);
   }
+  Map bundle(Map stage, String edge) => {
+        for (final name in _mapNames) name: stage['binding_maps'][name][edge],
+      };
+  for (final stage in pending) {
+    _require(!_equal.equals(bundle(stage, 'before'), bundle(stage, 'after')),
+        'full-bundle no-op stage');
+  }
+  // Single-map identities carry no ordering information. Use the complete
+  // eleven-map bundle, never task/list/filename order, to find a unique chain.
+  final roots = pending
+      .where((stage) => !pending.any((other) =>
+          _equal.equals(bundle(other, 'after'), bundle(stage, 'before'))))
+      .toList();
+  _require(roots.length == 1, 'missing/ambiguous full-bundle root');
+  var bundleCursor = bundle(roots.single, 'before');
+  final visitedBundles = [bundleCursor];
   Map cursor = before;
   while (pending.isNotEmpty) {
     final adjacent = pending
-        .where((s) => _equal.equals(s['binding_maps'][id]['before'], cursor))
+        .where((stage) => _equal.equals(bundle(stage, 'before'), bundleCursor))
         .toList();
-    // A scoped stage can leave this map unchanged; consume it before advancing.
-    final unchanged = adjacent
-        .where((s) => _equal.equals(s['binding_maps'][id]['after'], cursor))
-        .toList();
-    final next = unchanged.isEmpty ? adjacent : unchanged;
-    _require(next.length == 1, 'broken/ambiguous stage adjacency for $id');
-    final stage = next.single;
+    _require(adjacent.length == 1, 'broken/ambiguous full-bundle adjacency');
+    final stage = adjacent.single;
+    _require(_equal.equals(stage['binding_maps'][id]['before'], cursor),
+        'broken map adjacency for $id');
     cursor = stage['binding_maps'][id]['after'] as Map;
+    bundleCursor = bundle(stage, 'after');
+    _require(!visitedBundles.any((seen) => _equal.equals(seen, bundleCursor)),
+        'cyclic full-bundle adjacency');
+    visitedBundles.add(bundleCursor);
     pending.remove(stage);
   }
   if (visual.isNotEmpty) {
@@ -391,7 +420,10 @@ void verifyBoundDocument(String name, String beforeBytes, Map generated,
   final visual = readVisualStages();
   // Validate unchanged historical documents/stages first; visual evolution is
   // never a replacement for original custody or metadata equality.
-  final historicalSources = selected.last['binding_maps'][name]['after'] as Map;
+  final historicalSources = visual.isEmpty
+      ? _bindings(generated)
+      : orderedVisualStages(visual).first['binding_maps'][name]['before']
+          as Map;
   verifySourceStages(name, _bindings(before), historicalSources,
       stages: selected);
   verifySourceStages(name, _bindings(before), _bindings(generated),

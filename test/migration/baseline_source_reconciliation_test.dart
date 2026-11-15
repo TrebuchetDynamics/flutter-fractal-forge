@@ -67,7 +67,14 @@ void main() {
     final keyboard =
         stages.singleWhere((s) => s['task'] == 'MAINT-PRESET-KEYBOARD-01');
     final terminal = stages.singleWhere((s) => s['task'] == 'ACAD-015');
-    expect(stages.length, 5);
+    expect(stages.map((s) => s['task']).toSet(), {
+      'RUST-CORE-BOOTSTRAP',
+      'MAINT-A11Y-STATUS-COPY-01',
+      'ACAD-015-BASELINE',
+      'ACAD-015',
+      'MAINT-PRESET-KEYBOARD-01',
+      'HISTORY-COMMIT-REPLAY-01',
+    });
     expect(
         keyboard['base_revision'], '059cc9783fe26bd65266c0f8c5cb3b3a244a607a');
     expect(keyboard['allowed_paths'], [
@@ -94,14 +101,11 @@ void main() {
           'test/migration/support/provenance_transition.dart',
       ];
       expect(record['changed'], expectedChanged, reason: id);
+      // Keyboard bindings remain historical; candidates bind current helpers.
       for (final path in expectedChanged) {
         if (path == 'test/migration/support/provenance_transition.dart') {
           expect(record['after'][path],
-              '27778ec2aae6a2efd9db99e851a4e6d7cd7ddcbcaaf63e0483370de3fd839659',
-              reason: 'Original historical source binding remains exact');
-          expect(readVisualStages().last['binding_maps'][id]['after'][path],
-              sha256.convert(File(path).readAsBytesSync()).toString(),
-              reason: 'Candidate is bound independently, not repinned history');
+              '27778ec2aae6a2efd9db99e851a4e6d7cd7ddcbcaaf63e0483370de3fd839659');
         } else {
           expect(record['after'][path],
               sha256.convert(File(path).readAsBytesSync()).toString());
@@ -109,14 +113,230 @@ void main() {
       }
       verifySourceStages(id, stages.first['binding_maps'][id]['before'] as Map,
           record['after'] as Map,
-          stages: stages.reversed.toList());
+          stages: stages
+              .where((s) => s['task'] != 'HISTORY-COMMIT-REPLAY-01')
+              .toList()
+              .reversed
+              .toList());
+    }
+  });
+
+  test('history stage composes eleven-map bundles independent of input order',
+      () {
+    final stages = readProvenanceStages();
+    final history =
+        stages.singleWhere((s) => s['task'] == 'HISTORY-COMMIT-REPLAY-01');
+    final keyboard =
+        stages.singleWhere((s) => s['task'] == 'MAINT-PRESET-KEYBOARD-01');
+    expect(
+        history['base_revision'], '08f3040d990d5df04de6c3f3834ccf30e592235a');
+    expect(history['change_reference'],
+        'docs/tasks/source-bound-review-gates.md#history-commit-replay');
+    const allowed = [
+      'lib/features/history/history_provider.dart',
+      'lib/features/history/history_replay.dart',
+      'lib/features/viewer/fractal_viewer_screen.dart',
+      'test/migration/support/provenance_transition.dart',
+    ];
+    expect(history['allowed_paths'], allowed);
+    final maps = history['binding_maps'] as Map;
+    expect(maps.length, 11);
+    for (final id in maps.keys.cast<String>()) {
+      final record = maps[id] as Map;
+      expect(record['before'], keyboard['binding_maps'][id]['after']);
+      expect(record['added'], isEmpty);
+      expect(record['removed'], isEmpty);
+      final expectedChanged = [
+        if (id == 'physical-events') ...allowed.take(3),
+        if ([
+          'param-interpolation',
+          'physical-events',
+          'precision-replay',
+          'randomization',
+          'reference',
+          'state-replay'
+        ].contains(id))
+          allowed.last,
+      ];
+      expect(record['changed'], expectedChanged, reason: id);
+      for (final path in expectedChanged) {
+        if (path == 'test/migration/support/provenance_transition.dart') {
+          expect(record['after'][path],
+              '07cd6e577a0866f1200fce76a890798686c8d576b9d9df556393a5b20d3137b5');
+          expect(readVisualStages().last['binding_maps'][id]['after'][path],
+              sha256.convert(File(path).readAsBytesSync()).toString());
+        } else {
+          expect(record['after'][path],
+              sha256.convert(File(path).readAsBytesSync()).toString());
+        }
+      }
+      for (final order in [
+        stages.reversed.toList(),
+        [stages[3], stages[5], stages[1], stages[4], stages[0], stages[2]],
+        [history, keyboard],
+      ]) {
+        final before = order.length == 2
+            ? keyboard['binding_maps'][id]['before'] as Map
+            : stages.first['binding_maps'][id]['before'] as Map;
+        verifySourceStages(id, before, record['after'] as Map, stages: order);
+      }
+    }
+  });
+
+  test('full-bundle branches no-ops gaps cycles and policy mutations reject',
+      () {
+    final stages = readProvenanceStages();
+    final history =
+        stages.singleWhere((s) => s['task'] == 'HISTORY-COMMIT-REPLAY-01');
+    final keyboard =
+        stages.singleWhere((s) => s['task'] == 'MAINT-PRESET-KEYBOARD-01');
+    const id = 'physical-events';
+    const hash =
+        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+    final initial = stages.first['binding_maps'][id]['before'] as Map;
+    final terminal = history['binding_maps'][id]['after'] as Map;
+    for (final mutation in [
+      'branch',
+      'no-op',
+      'gap',
+      'policy',
+      'anchor',
+      'unlisted',
+      'remove',
+      'identity'
+    ]) {
+      final changed = _copy(history);
+      final records = changed['binding_maps'] as Map;
+      for (final name in records.keys) {
+        final record = records[name] as Map;
+        switch (mutation) {
+          case 'branch':
+            record['before'] =
+                _copy(keyboard['binding_maps'][name]['before'] as Map);
+            record['after'] = _copy(record['before'] as Map);
+            if (record['after'].containsKey(
+                'test/migration/support/provenance_transition.dart')) {
+              record['after']
+                  ['test/migration/support/provenance_transition.dart'] = hash;
+            }
+          case 'no-op':
+            record['after'] = _copy(record['before'] as Map);
+        }
+      }
+      final record = records[id] as Map;
+      switch (mutation) {
+        case 'gap':
+          record['before']['lib/features/history/history_provider.dart'] = hash;
+        case 'policy':
+          changed['allowed_paths']
+              .add('lib/core/controllers/fractal_controller.dart');
+        case 'anchor':
+          changed['retained_document_hashes']['modules'] = hash;
+        case 'unlisted':
+          record['after']['lib/core/controllers/fractal_controller.dart'] =
+              hash;
+        case 'remove':
+          record['after'].remove('lib/features/history/history_replay.dart');
+      }
+      _seal(changed);
+      if (['branch', 'no-op', 'gap'].contains(mutation))
+        validateProvenanceStage(changed);
+      if (mutation == 'identity') changed['candidate_identity'] = hash;
+      expect(
+          () => verifySourceStages(id, initial, terminal, stages: [
+                ...stages.where((s) => s['task'] != history['task']),
+                changed,
+              ]),
+          throwsStateError,
+          reason: mutation);
+    }
+    for (final selection in [
+      [...stages, history],
+      for (final omitted in stages)
+        stages.where((s) => s['task'] != omitted['task']).toList(),
+    ]) {
+      expect(() => verifySourceStages(id, initial, terminal, stages: selection),
+          throwsStateError);
+    }
+    // Construct two individually policy-valid stages changing only the shared
+    // helper. Their complete bundles form a true cycle with no root.
+    final cycle = _copy(history);
+    final predecessor = _copy(keyboard);
+    const helper = 'test/migration/support/provenance_transition.dart';
+    for (final name in (cycle['binding_maps'] as Map).keys) {
+      final before = _copy(keyboard['binding_maps'][name]['before'] as Map);
+      final after = _copy(before);
+      if (after.containsKey(helper)) after[helper] = hash;
+      predecessor['binding_maps'][name]['before'] = _copy(before);
+      predecessor['binding_maps'][name]['after'] = _copy(after);
+      cycle['binding_maps'][name]['before'] = _copy(after);
+      cycle['binding_maps'][name]['after'] = _copy(before);
+    }
+    for (final stage in [predecessor, cycle]) {
+      _seal(stage);
+      validateProvenanceStage(stage);
+    }
+    expect(
+        () => verifySourceStages(
+            id, predecessor['binding_maps'][id]['before'] as Map, terminal,
+            stages: [cycle, predecessor]),
+        throwsStateError);
+  });
+
+  test('a rooted full-bundle cycle cannot revisit an already consumed bundle',
+      () {
+    final stages = readProvenanceStages();
+    final keyboard =
+        stages.singleWhere((s) => s['task'] == 'MAINT-PRESET-KEYBOARD-01');
+    final root = _copy(keyboard);
+    final outgoing = _copy(
+        stages.singleWhere((s) => s['task'] == 'HISTORY-COMMIT-REPLAY-01'));
+    final returning = _copy(stages.singleWhere((s) => s['task'] == 'ACAD-015'));
+    const helper = 'test/migration/support/provenance_transition.dart';
+    // A -> B -> C -> B has one root and one unconsumed successor at each
+    // step. Consuming each stage once is insufficient to reject this cycle.
+    for (final id in (keyboard['binding_maps'] as Map).keys) {
+      final a = _copy(keyboard['binding_maps'][id]['before'] as Map);
+      final b = _copy(a);
+      final c = _copy(a);
+      if (a.containsKey(helper)) {
+        b[helper] = 'b' * 64;
+        c[helper] = 'c' * 64;
+      }
+      root['binding_maps'][id]['before'] = a;
+      root['binding_maps'][id]['after'] = b;
+      outgoing['binding_maps'][id]['before'] = _copy(b);
+      outgoing['binding_maps'][id]['after'] = c;
+      returning['binding_maps'][id]['before'] = _copy(c);
+      returning['binding_maps'][id]['after'] = _copy(b);
+    }
+    for (final stage in [root, outgoing, returning]) {
+      _seal(stage);
+      validateProvenanceStage(stage);
+    }
+    for (final id in (root['binding_maps'] as Map).keys.cast<String>()) {
+      for (final order in [
+        [root, outgoing, returning],
+        [returning, root, outgoing],
+      ]) {
+        expect(
+            () => verifySourceStages(
+                id,
+                root['binding_maps'][id]['before'] as Map,
+                returning['binding_maps'][id]['after'] as Map,
+                stages: order),
+            throwsStateError,
+            reason: id);
+      }
     }
   });
 
   test(
       'preset policy rejects self-consistent malicious stages and broken chains',
       () {
-    final stages = readProvenanceStages();
+    final stages = readProvenanceStages()
+        .where((s) => s['task'] != 'HISTORY-COMMIT-REPLAY-01')
+        .toList();
     final task =
         stages.singleWhere((s) => s['task'] == 'MAINT-PRESET-KEYBOARD-01');
     const id = 'physical-events';

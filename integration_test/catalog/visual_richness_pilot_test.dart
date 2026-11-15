@@ -110,9 +110,13 @@ void main() {
           ]);
       report['source_bindings'] = sources;
       report['source_set_sha256'] = visualHash(sources);
-      report['source_revision'] =
-          (Process.runSync('git', ['rev-parse', 'HEAD']).stdout as String)
-              .trim();
+      final revision =
+          Process.runSync('timeout', ['10', 'git', 'rev-parse', 'HEAD']);
+      if (revision.exitCode != 0) {
+        throw StateError(
+            'Cannot identify capture revision: ${revision.stderr}');
+      }
+      report['source_revision'] = (revision.stdout as String).trim();
       report['runtime'] = {
         'os': Platform.operatingSystem,
         'dart': Platform.version,

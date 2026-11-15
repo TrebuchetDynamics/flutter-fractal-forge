@@ -155,6 +155,50 @@ void main() {
         throwsStateError);
   });
 
+  test('candidate ordering uses full bundles, never independent map orders',
+      () {
+    final proof = stageFor(visualProofTask);
+    final defaults = stageFor(visualDefaultsTask);
+    for (final name in (defaults['binding_maps'] as Map).keys) {
+      final after = proof['binding_maps'][name]['after'] as Map;
+      defaults['binding_maps'][name] = {
+        'before': copy(after),
+        'after': copy(after),
+      };
+    }
+    const path =
+        'lib/core/modules/builders/escape_time_catalog/families/core_escape_time_family.dart';
+    defaults['binding_maps']['parameters']['after'][path] = 'b' * 64;
+    seal(defaults);
+    expect(orderedVisualStages([defaults, proof]), [proof, defaults]);
+
+    // Presets order proof -> defaults, but parameters order defaults -> proof.
+    // Each map alone looked valid; there is no adjacent complete bundle.
+    final crossed = copy(defaults);
+    final parameters = crossed['binding_maps']['parameters'] as Map;
+    final original = parameters['before'][path];
+    parameters['before'][path] = parameters['after'][path];
+    parameters['after'][path] = original;
+    seal(crossed);
+    validateVisualStage(crossed);
+    for (final name in ['presets', 'parameters']) {
+      final initial = name == 'parameters'
+          ? crossed['binding_maps'][name]['before'] as Map
+          : proof['binding_maps'][name]['before'] as Map;
+      final terminal = name == 'parameters'
+          ? proof['binding_maps'][name]['after'] as Map
+          : crossed['binding_maps'][name]['after'] as Map;
+      expect(
+          () => validateVisualSourceChain(
+              name, initial, terminal, [proof, crossed]),
+          throwsStateError);
+    }
+    expect(
+        () => evolveVisualDocument(
+            'presets', retained('presets'), [proof, crossed]),
+        throwsStateError);
+  });
+
   test('only exact optional synthetic fixture may extend shader inventory', () {
     final old = retained('shader-contracts');
     final stage = stageFor(visualSurfaceTask);

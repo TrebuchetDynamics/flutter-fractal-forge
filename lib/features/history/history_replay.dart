@@ -1,3 +1,4 @@
+import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/models/history/history_entry.dart';
 import 'package:flutter_fractals/core/models/history/history_location.dart';
@@ -29,25 +30,26 @@ final class HistoryControllerReplayPlan {
   final FractalViewState view;
   final Map<String, Object> params;
 
-  void applyTo(Object controller) {
-    if (_tryApplyCompleteState(controller)) return;
-    _applyIncrementalState(controller);
-  }
-
-  bool _tryApplyCompleteState(Object controller) {
-    final Function loadState;
-    try {
-      loadState = (controller as dynamic).loadState as Function;
-    } on NoSuchMethodError {
-      return false;
+  Future<bool> applyTo(
+    Object controller, {
+    void Function()? onCommitted,
+    bool Function()? shouldCommit,
+  }) {
+    if (controller is FractalController) {
+      return controller.loadState(
+        moduleId: moduleId,
+        params: params,
+        view: view,
+        onCommitted: onCommitted,
+        shouldCommit: shouldCommit,
+      );
     }
-
-    Function.apply(loadState, const [], {
-      #moduleId: moduleId,
-      #params: params,
-      #view: view,
-    });
-    return true;
+    // Only legacy structural test doubles use incremental replay. Do not probe
+    // them for optional callbacks: real controllers own complete-state commits.
+    if (!(shouldCommit?.call() ?? true)) return Future.value(false);
+    _applyIncrementalState(controller);
+    onCommitted?.call();
+    return Future.value(true);
   }
 
   void _applyIncrementalState(Object controller) {
@@ -72,6 +74,14 @@ final class HistoryControllerReplayPlan {
 }
 
 /// Applies a complete history entry to a controller-like object.
-void applyHistoryEntryToController(HistoryEntry entry, Object controller) {
-  HistoryControllerReplayPlan.fromEntry(entry).applyTo(controller);
-}
+Future<bool> applyHistoryEntryToController(
+  HistoryEntry entry,
+  Object controller, {
+  void Function()? onCommitted,
+  bool Function()? shouldCommit,
+}) =>
+    HistoryControllerReplayPlan.fromEntry(entry).applyTo(
+      controller,
+      onCommitted: onCommitted,
+      shouldCommit: shouldCommit,
+    );

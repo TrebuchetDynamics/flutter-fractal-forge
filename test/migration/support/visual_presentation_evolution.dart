@@ -180,15 +180,51 @@ void validateVisualFixtureRegistration(String before, String after) {
   visualRequire(_equal.equals(old, next), 'unlisted pubspec change');
 }
 
-/// Historical stages have already validated their own immutable policy.
-void validateVisualSourceChain(
-    String name, Map historical, Map current, List<Map> stages) {
-  Map cursor = historical;
+/// Order complete bundles, not individual maps (which may be identities).
+/// Semantics must follow the very same uniquely adjacent source chain.
+List<Map> orderedVisualStages(List<Map> stages) {
+  if (stages.isEmpty) return [];
   final pending = [...stages];
   visualRequire(pending.map((s) => s['task']).toSet().length == pending.length,
       'duplicate candidate task');
   for (final stage in pending) {
     validateVisualStage(stage);
+  }
+  Map bundle(Map stage, String edge) => {
+        for (final name in (stage['binding_maps'] as Map).keys)
+          name: stage['binding_maps'][name][edge],
+      };
+  final roots = pending
+      .where((stage) => !pending.any((other) =>
+          _equal.equals(bundle(other, 'after'), bundle(stage, 'before'))))
+      .toList();
+  visualRequire(roots.length == 1, 'broken/ambiguous candidate bundle root');
+  var cursor = bundle(roots.single, 'before');
+  final seen = [cursor];
+  final ordered = <Map>[];
+  while (pending.isNotEmpty) {
+    final adjacent = pending
+        .where((s) => _equal.equals(bundle(s, 'before'), cursor))
+        .toList();
+    visualRequire(
+        adjacent.length == 1, 'broken/ambiguous candidate bundle adjacency');
+    final stage = adjacent.single;
+    cursor = bundle(stage, 'after');
+    visualRequire(!seen.any((s) => _equal.equals(s, cursor)),
+        'cyclic candidate bundle adjacency');
+    seen.add(cursor);
+    ordered.add(stage);
+    pending.remove(stage);
+  }
+  return ordered;
+}
+
+/// Historical stages have already validated their own immutable policy.
+void validateVisualSourceChain(
+    String name, Map historical, Map current, List<Map> stages) {
+  Map cursor = historical;
+  final ordered = orderedVisualStages(stages);
+  for (final stage in ordered) {
     final record = stage['binding_maps'][name] as Map;
     if (name == 'shader-contracts' &&
         stage['task'] == visualSurfaceTask &&
@@ -208,18 +244,10 @@ void validateVisualSourceChain(
       validateVisualFixtureRegistration(before, after);
     }
   }
-  while (pending.isNotEmpty) {
-    final adjacent = pending
-        .where((s) => _equal.equals(s['binding_maps'][name]['before'], cursor))
-        .toList();
-    final identities = adjacent
-        .where((s) => _equal.equals(s['binding_maps'][name]['after'], cursor))
-        .toList();
-    final next = identities.isEmpty ? adjacent : identities;
-    visualRequire(
-        next.length == 1, 'broken/ambiguous stage adjacency for $name');
-    cursor = next.single['binding_maps'][name]['after'] as Map;
-    pending.remove(next.single);
+  for (final stage in ordered) {
+    visualRequire(_equal.equals(stage['binding_maps'][name]['before'], cursor),
+        'broken stage adjacency for $name');
+    cursor = stage['binding_maps'][name]['after'] as Map;
   }
   visualRequire(
       _equal.equals(cursor, current), 'stale candidate bindings $name');
@@ -318,8 +346,7 @@ Map visualFixtureContract() => {
 
 Map evolveVisualDocument(String name, Map historical, List<Map> stages) {
   final document = _copy(historical);
-  for (final stage in stages) {
-    validateVisualStage(stage);
+  for (final stage in orderedVisualStages(stages)) {
     for (final delta in ((stage['semantic_deltas'] as Map)[name] as List? ?? [])
         .cast<Map>()) {
       visualRequire(

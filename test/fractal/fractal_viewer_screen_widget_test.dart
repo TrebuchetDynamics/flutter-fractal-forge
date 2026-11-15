@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_fractals/core/models/export_options.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
+import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/fractal_mathematics.dart';
 import 'package:flutter_fractals/core/services/export/export_coordinator.dart';
 import 'package:flutter_fractals/core/services/export/export_service.dart';
@@ -536,6 +537,37 @@ class _BlockingPublicationExportService extends ExportService {
   Future<void> _blockPublication() async {
     if (!publicationStarted.isCompleted) publicationStarted.complete();
     await releasePublication.future;
+  }
+}
+
+class _ControlledReplayController extends FractalController {
+  _ControlledReplayController(ModuleRegistry registry) : super(registry);
+
+  Completer<void>? gate;
+
+  @override
+  Future<bool> loadState({
+    FractalModule? module,
+    String? moduleId,
+    required Map<String, Object> params,
+    required FractalViewState view,
+    bool transparentBackground = false,
+    bool animateModule = false,
+    void Function()? onCommitted,
+    bool Function()? shouldCommit,
+  }) async {
+    final pending = gate;
+    if (pending != null) await pending.future;
+    return super.loadState(
+      module: module,
+      moduleId: moduleId,
+      params: params,
+      view: view,
+      transparentBackground: transparentBackground,
+      animateModule: animateModule,
+      onCommitted: onCommitted,
+      shouldCommit: shouldCommit,
+    );
   }
 }
 
@@ -2732,6 +2764,51 @@ void main() {
       }
       await tester.pumpWidget(const SizedBox.shrink());
     });
+
+    for (final outcome in ['accepted', 'rejected', 'unmount', 'controller']) {
+      testWidgets('previous fractal controlled replay: $outcome',
+          (tester) async {
+        controller.dispose();
+        final controlled = _ControlledReplayController(registry);
+        controller = controlled;
+        await tester.pumpWidget(buildTestWidget());
+        await tester.pumpAndSettle();
+        historyProvider.cancelPendingRecord();
+        await historyProvider.clearHistory();
+        historyProvider.recordLocation(
+            moduleId: outcome == 'rejected' ? 'number_wall' : 'julia',
+            view: controller.view,
+            params: outcome == 'rejected'
+                ? const {'prime': '15'}
+                : controller.params);
+        await tester.pump(const Duration(milliseconds: 501));
+        controller.updateZoom(2);
+        await tester.pump(const Duration(milliseconds: 601));
+        final committed = historyProvider.currentEntry;
+        expect(historyProvider.historyCount, 2);
+        controlled.gate = Completer<void>();
+        await tester
+            .tap(find.byKey(const ValueKey('viewerPreviousFractalButton')));
+        await tester.pump();
+        expect(historyProvider.currentEntry, same(committed));
+        expect(controller.view.zoom, 2);
+        if (outcome == 'unmount') {
+          await tester.pumpWidget(const SizedBox.shrink());
+        } else if (outcome == 'controller') {
+          controller = FractalController(registry);
+          addTearDown(controlled.dispose);
+          await tester.pumpWidget(buildTestWidget());
+        }
+        controlled.gate!.complete();
+        await tester.pumpAndSettle();
+        expect(historyProvider.currentPosition, outcome == 'accepted' ? 1 : 2);
+        expect(controlled.module.id,
+            outcome == 'accepted' ? 'julia' : 'mandelbrot');
+        expect(tester.takeException(), isNull);
+        historyProvider.cancelPendingRecord();
+        await tester.pumpWidget(const SizedBox.shrink());
+      });
+    }
 
     testWidgets('previous fractal returns to the earlier history entry',
         (tester) async {

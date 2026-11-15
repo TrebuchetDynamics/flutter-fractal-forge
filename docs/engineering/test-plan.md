@@ -600,7 +600,7 @@ Current inventory metadata/default/schema equality is checked against the origin
 Consumers append a separate schema-1 stage under `migration/oracles/visual-presentation/` on their final source:
 
 - `VISUAL-RICHNESS-SCULPTURAL-SURFACE` for issue #10, or `VISUAL-RICHNESS-CURATED-DEFAULTS` for issue #11; unknown/duplicate tasks fail. `base_revision` names the actual full base commit.
-- `binding_maps` contains all eleven named maps, each with complete `before` and `after` source SHA-256 dictionaries. Start from the adjacent terminal candidate (or historical terminal for the proof). Recompute actual current collector maps; never predict a future hash. Removed bindings, undeclared paths, missing/extra maps, stale current bindings and broken/ambiguous adjacency fail. The old stage policies and full maps are not widened or rewritten.
+- `binding_maps` contains all eleven named maps, each with complete `before` and `after` source SHA-256 dictionaries. Start from the adjacent terminal candidate (or historical terminal for the proof). Recompute actual current collector maps; never predict a future hash. Removed bindings, undeclared paths, missing/extra maps, stale current bindings and broken/ambiguous adjacency fail. Adjacency uses complete eleven-map bundles, not independent per-map orders; semantic deltas follow the same unique chain. The old stage policies and full maps are not widened or rewritten.
 - `semantic_deltas` names only changed `parameters`, `presets`, or optional `shader-contracts` documents. Each entry has `path`, `before`, `after`; paths address the retained record/parameter indices, for example `/payload/records/<module-index>/default/view/zoom`. Old values must match exactly. Unmentioned metadata, IDs, named presets, mathematical/work-budget params, capabilities and other modules remain equal.
 - Only the five pilot default view/colorScheme records may evolve: Mandelbrot, Burning Ship, Newton z3, Mandelbulb and Mandelbox. Only the three 2D colorScheme schema defaults may change. The two 3D schema defaults remain legacy; max/options may append only Sculptural ID4/8, and new defaultPreset params explicitly select that added style. Existing named presets, including Classic/copyWith descendants, must remain fully explicit and unchanged.
 - Optional `/payload/records/-` in `shader-contracts` adds exactly `test/shaders/sculptural_surface_fixture.frag`, registered once in pubspec with a source binding and no module/catalog ID. Its only floats are `uResolution(vec2)` slots0–1 and `uCase(float)` slot2. No second/unlisted asset or changed production uniform contract is admitted. Without registration there is no added record. Positive exact-fixture and extra-asset negatives run offline.
@@ -624,3 +624,31 @@ All 40 requests (five IDs × default/edited × 256/512 × opaque/transparent) mu
 Timing mode performs 10 warmups then 60 **completed 512×512 render/raw-readback operations per fixed state**, with program loading already done. Timing starts immediately before render and stops immediately after awaited raw readback; excludes PNG encoding, file I/O, copies/disposal and cached capture. Images are disposed. Report median, nearest-rank p95 and all samples; pumped tickers are not measurements. Driver/hardware identity, source-bound platform before/after comparisons, aesthetics, accessibility, installed-device/browser export and production qualification remain independent lane gates (#12–#14). Original states can be passed to today's renderer, but original pixels must never acquire candidate source identity.
 
 Issue #9 infrastructure verification (2026-11-15): the pinned common offline gate passed all stages with unchanged Dart/Rust locks: 3,527 Flutter tests (9 existing skips), 644 Python tests (1 existing skip, 204 subtests) and 34 Bats cases. The first gate attempt correctly failed the existing physical-export test's private-TMPDIR requirement; selecting an owned mode0700 TMPDIR repaired the environment without altering that test. The native Linux/Xvfb harness passed all 40 captures/decoded exports and timing completed 20 × 60 measured readbacks after warmup. The same entry point without FORCE_GPU_RENDER intentionally refused with selected40/rendered0/failed40/skipped0 and a repair message. Host fixture/semantic/path/adjacency/count negatives passed; all 11 original reference frames retained zero changed decoded pixels. These are infrastructure/software-renderer checks, not lane acceptance, an appearance improvement, OS publication or hardware performance qualification; Xvfb's separate GLX probe reported Mesa llvmpipe, unaccelerated.
+
+## History commit replay (HISTORY-COMMIT-REPLAY-01)
+
+Run the provider, sheet accessibility and viewer widget targets together with
+`test/number_walls/number_wall_state_test.dart`. The composed provider schedule
+uses Completer-gated real `FractalController.loadState` calls (not sleeps or a
+production hook). It covers pending/composite rejection with unchanged persisted
+history and forward entries; saving current during pending; status-only notices;
+normalized acceptance before observers; repeated Back from the committed cursor;
+Forward/entry selection; ordinary-module supersession; genuine manual edits;
+clear/disposal/cursor/ownership loss; favorite normalization/de-duplication; errors;
+and authoritative callbacks despite reentrant false results. Bounded fake-clock
+pumps guard the accepted Number Walls schedule. Retain every original ingress
+certification assertion.
+
+The real HistorySheet handlers exercise Back/Forward/entry/favorite acceptance
+and mounted/controller-identity loss. Viewer Previous exercises controlled
+acceptance, composite rejection, unmount and controller replacement. Existing
+keyboard, semantics, tap targets and accessibility checks remain. These are
+public-caller widget/state-machine checks, not rendered platform or hardware
+qualification; this slice changes no visual design and performs no device,
+browser, audio or production qualification.
+
+Run the source reconciliation target, each existing migration module and two
+validated twelve-document exports as specified in
+[source-bound review gates](../tasks/source-bound-review-gates.md#history-commit-replay),
+then the mandatory root AGENTS offline gate. Do not infer acceptance from a
+provisional source sidecar or rewrite historical evidence to make a check pass.

@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 
 import 'support/randomization_oracle.dart';
+import 'support/baseline_inventory.dart' show retainedDefaultPreset;
 import 'support/provenance_transition.dart';
 
 void main() {
@@ -30,6 +31,27 @@ void main() {
         expect(schema.singleWhere((p) => p['id'] == parameter.id)['default'],
             parameter.defaultValue);
       }
+    }
+  });
+
+  test('historical synthetic scenarios retain the original base view',
+      () async {
+    final historical = await buildGeneralRandomizationScenarios();
+    final retained = retainedDefaultPreset('mandelbrot').view;
+    final synthetic =
+        historical.where((s) => (s['id'] as String).startsWith('synthetic/'));
+    expect(synthetic, isNotEmpty);
+    for (final scenario in synthetic) {
+      final before = (scenario['expected'] as Map)['before'] as Map;
+      expect(before['view'], {
+        'zoom': retained.zoom,
+        'pan': [retained.pan.x, retained.pan.y],
+        'rotation': [
+          retained.rotation.x,
+          retained.rotation.y,
+          retained.rotation.z
+        ],
+      });
     }
   });
 

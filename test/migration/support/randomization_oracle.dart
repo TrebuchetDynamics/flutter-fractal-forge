@@ -229,9 +229,12 @@ Future<List<Map<String, Object?>>> buildGeneralRandomizationScenarios(
         final module = moduleId == 'synthetic'
             ? _synthetic(controller.module)
             : controller.registry.byId(moduleId);
-        final initial = moduleId == 'synthetic' || currentDefaults
+        final initial = currentDefaults
             ? module.defaultPreset
-            : retainedDefaultPreset(moduleId);
+            : moduleId == 'synthetic'
+                ? module.defaultPreset
+                    .copyWith(view: retainedDefaultPreset('mandelbrot').view)
+                : retainedDefaultPreset(moduleId);
         final params = {
           ...initial.params,
           if (!currentDefaults) 'colorScheme': 17,

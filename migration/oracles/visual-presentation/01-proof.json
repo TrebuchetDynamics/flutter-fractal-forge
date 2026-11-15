@@ -1,5 +1,5 @@
 {
-  "base_revision": "08f3040d990d5df04de6c3f3834ccf30e592235a",
+  "base_revision": "498cf390033d9807f9e89077a1cc88efa55a03a2",
   "binding_maps": {
     "capabilities": {
       "after": {
@@ -2869,9 +2869,9 @@
         "test/migration/param_interpolation_oracle_test.dart": "547562244c5c4bfe9451fde43bec48a3c10837b428671f2cd2bbeafba1445153",
         "test/migration/state_replay_test.dart": "2e447c24887c8099358ba4c78a151dd115763d74d332136fcc7dabe23ea98805",
         "test/migration/support/baseline_inventory.dart": "dcbaf3df7c57d3e34fc28efe3d4a7c16645c4802659a384c4ec3cc3b382dc424",
-        "test/migration/support/provenance_transition.dart": "c4719aaa2db7637dd4c53ed666d5e1b877bf4d40cbba53bdc41575b287f953cd",
+        "test/migration/support/provenance_transition.dart": "82c8633c1681a72f3a244125d0c5b791ea52fb9cc22361ff2ec0362d7919f487",
         "test/migration/support/replay_codec.dart": "ccbdf52028eeb98d56640171e081343d004b2efc5d54fa2583cde922887c3e79",
-        "test/migration/support/visual_presentation_evolution.dart": "8fc1a0f87d745925f73789855156a72e09b89db79cc4c46ed9de36a20f2bb0d6"
+        "test/migration/support/visual_presentation_evolution.dart": "efa4821cbbe2094016b6c293b40dee13cc364850c6f15e1f39ba8ddc2d0d41ca"
       },
       "before": {
         "dart-sdk/lib/_internal/vm/lib/math_patch.dart": "3cd16c96c4c1b6985317c6d3f9fab3e4b0466b87a9450230784249070d687790",
@@ -3020,7 +3020,7 @@
         "test/migration/param_interpolation_oracle_test.dart": "547562244c5c4bfe9451fde43bec48a3c10837b428671f2cd2bbeafba1445153",
         "test/migration/state_replay_test.dart": "2e447c24887c8099358ba4c78a151dd115763d74d332136fcc7dabe23ea98805",
         "test/migration/support/baseline_inventory.dart": "35b0bf8ed9815de2d9ab8a0724f967b4befd76afe7d1e48ae3e268aae7f41589",
-        "test/migration/support/provenance_transition.dart": "27778ec2aae6a2efd9db99e851a4e6d7cd7ddcbcaaf63e0483370de3fd839659",
+        "test/migration/support/provenance_transition.dart": "07cd6e577a0866f1200fce76a890798686c8d576b9d9df556393a5b20d3137b5",
         "test/migration/support/replay_codec.dart": "ccbdf52028eeb98d56640171e081343d004b2efc5d54fa2583cde922887c3e79"
       }
     },
@@ -4601,8 +4601,8 @@
         "lib/features/fourier/widgets/fourier_settings_sheet.dart": "c42d3a09d781610e15933164f730779d4d4ad0dc0bca4c95f30ed40de2fe6a68",
         "lib/features/fourier/widgets/fourier_spectrum_view.dart": "5322bb587f32ac91538aedd7675ff8ca01786aba0ffa73851062f7077735adc9",
         "lib/features/history/history_favorites.dart": "ca03fcdec63a3d2ce588cc8ac87f9337c409e881599d6134cecd6fee4a3adc16",
-        "lib/features/history/history_provider.dart": "0d007c510a500611b3d53d8886eaf263904c5adbf7ada75dbeb2cd215d9caf75",
-        "lib/features/history/history_replay.dart": "e02a916645b09e8cfbb886257af5c5e96d69e5922851d0c9284bfdc062a43b67",
+        "lib/features/history/history_provider.dart": "2a38c4ed7ae1a25d1605f316381253a4e3821e63c53750cb41709e5dbebe5da0",
+        "lib/features/history/history_replay.dart": "fd458a8d1e77c531a2709eb60c19f5296a87dd4c621ada1383b8a4e432e43a84",
         "lib/features/history/history_window.dart": "d6b86d6dc36861b0a347ed6ce7b8661532999cd7f129c18bd7dd5c5590cb3750",
         "lib/features/looper/looper_camera_sampler.dart": "b06e54f78d87f888deb71bf9d7b48b7efef641e19e07625c9e57c7d4e472fc3c",
         "lib/features/looper/looper_controller.dart": "143a2cf71dd1c64dfab2c9ca4c6651cafac2f0631a80efa796038d43abed8b61",
@@ -4661,7 +4661,7 @@
         "lib/features/viewer/export/viewer_export_feedback.dart": "ebaf2a9605f23c6781f9d20bd36e26e27148a14be2b0b6843c6f2fe49c10359e",
         "lib/features/viewer/export/viewer_export_overlay.dart": "5c957cbd0b3e3580a86825902e4a26e57898f90be6bf2bd0a628b36327780e13",
         "lib/features/viewer/export/viewer_export_session.dart": "c8068d5f841f2cc81e6179bcb4ec7683f0573cfa31d3c704e0fad6719033a058",
-        "lib/features/viewer/fractal_viewer_screen.dart": "935f8329caf149e579e17a2e22a6f79bf8625b024f1f4fd47f462b36f2257aa5",
+        "lib/features/viewer/fractal_viewer_screen.dart": "da8c6a54c4e918cd908c93b06cb246d75e3bce79c35b57e3252ea1707b587f03",
         "lib/features/viewer/gaussian_moat_map.dart": "ede7df1f31d1e2d2c9c91852d498ce8330784c0cf3a55959f099253149d786a0",
         "lib/features/viewer/gaussian_moat_plot.dart": "b04d49e785ce20042e9e766087bfc26ad05d92f050e31c5c4bcf6eb90701e31d",
         "lib/features/viewer/navigation/viewer_history.dart": "0f3496f1925db9a33753a389bdffa8a8d4819fcf2cf280abf73377e6f50744c9",
@@ -4689,8 +4689,8 @@
         "test/migration/physical_events_oracle_test.dart": "01a916798cab7d1656e0b7445fc322db8c66b4757100d745ed979df01ade9971",
         "test/migration/support/baseline_inventory.dart": "dcbaf3df7c57d3e34fc28efe3d4a7c16645c4802659a384c4ec3cc3b382dc424",
         "test/migration/support/physical_events_oracle.dart": "3d55879a306ccd4591e8109441145dabd403a2f8992258ade3951fcf73a1784a",
-        "test/migration/support/provenance_transition.dart": "c4719aaa2db7637dd4c53ed666d5e1b877bf4d40cbba53bdc41575b287f953cd",
-        "test/migration/support/visual_presentation_evolution.dart": "8fc1a0f87d745925f73789855156a72e09b89db79cc4c46ed9de36a20f2bb0d6"
+        "test/migration/support/provenance_transition.dart": "82c8633c1681a72f3a244125d0c5b791ea52fb9cc22361ff2ec0362d7919f487",
+        "test/migration/support/visual_presentation_evolution.dart": "efa4821cbbe2094016b6c293b40dee13cc364850c6f15e1f39ba8ddc2d0d41ca"
       },
       "before": {
         "fdroid/flutter.version": "3643b714d5f0c18e13c9066f514e45cdbe7fea071b4d427c3aa6e0fbf3bfcaf0",
@@ -4908,8 +4908,8 @@
         "lib/features/fourier/widgets/fourier_settings_sheet.dart": "c42d3a09d781610e15933164f730779d4d4ad0dc0bca4c95f30ed40de2fe6a68",
         "lib/features/fourier/widgets/fourier_spectrum_view.dart": "5322bb587f32ac91538aedd7675ff8ca01786aba0ffa73851062f7077735adc9",
         "lib/features/history/history_favorites.dart": "ca03fcdec63a3d2ce588cc8ac87f9337c409e881599d6134cecd6fee4a3adc16",
-        "lib/features/history/history_provider.dart": "0d007c510a500611b3d53d8886eaf263904c5adbf7ada75dbeb2cd215d9caf75",
-        "lib/features/history/history_replay.dart": "e02a916645b09e8cfbb886257af5c5e96d69e5922851d0c9284bfdc062a43b67",
+        "lib/features/history/history_provider.dart": "2a38c4ed7ae1a25d1605f316381253a4e3821e63c53750cb41709e5dbebe5da0",
+        "lib/features/history/history_replay.dart": "fd458a8d1e77c531a2709eb60c19f5296a87dd4c621ada1383b8a4e432e43a84",
         "lib/features/history/history_window.dart": "d6b86d6dc36861b0a347ed6ce7b8661532999cd7f129c18bd7dd5c5590cb3750",
         "lib/features/looper/looper_camera_sampler.dart": "b06e54f78d87f888deb71bf9d7b48b7efef641e19e07625c9e57c7d4e472fc3c",
         "lib/features/looper/looper_controller.dart": "143a2cf71dd1c64dfab2c9ca4c6651cafac2f0631a80efa796038d43abed8b61",
@@ -4968,7 +4968,7 @@
         "lib/features/viewer/export/viewer_export_feedback.dart": "ebaf2a9605f23c6781f9d20bd36e26e27148a14be2b0b6843c6f2fe49c10359e",
         "lib/features/viewer/export/viewer_export_overlay.dart": "5c957cbd0b3e3580a86825902e4a26e57898f90be6bf2bd0a628b36327780e13",
         "lib/features/viewer/export/viewer_export_session.dart": "c8068d5f841f2cc81e6179bcb4ec7683f0573cfa31d3c704e0fad6719033a058",
-        "lib/features/viewer/fractal_viewer_screen.dart": "935f8329caf149e579e17a2e22a6f79bf8625b024f1f4fd47f462b36f2257aa5",
+        "lib/features/viewer/fractal_viewer_screen.dart": "da8c6a54c4e918cd908c93b06cb246d75e3bce79c35b57e3252ea1707b587f03",
         "lib/features/viewer/gaussian_moat_map.dart": "ede7df1f31d1e2d2c9c91852d498ce8330784c0cf3a55959f099253149d786a0",
         "lib/features/viewer/gaussian_moat_plot.dart": "b04d49e785ce20042e9e766087bfc26ad05d92f050e31c5c4bcf6eb90701e31d",
         "lib/features/viewer/navigation/viewer_history.dart": "0f3496f1925db9a33753a389bdffa8a8d4819fcf2cf280abf73377e6f50744c9",
@@ -4996,7 +4996,7 @@
         "test/migration/physical_events_oracle_test.dart": "01a916798cab7d1656e0b7445fc322db8c66b4757100d745ed979df01ade9971",
         "test/migration/support/baseline_inventory.dart": "35b0bf8ed9815de2d9ab8a0724f967b4befd76afe7d1e48ae3e268aae7f41589",
         "test/migration/support/physical_events_oracle.dart": "3d55879a306ccd4591e8109441145dabd403a2f8992258ade3951fcf73a1784a",
-        "test/migration/support/provenance_transition.dart": "27778ec2aae6a2efd9db99e851a4e6d7cd7ddcbcaaf63e0483370de3fd839659"
+        "test/migration/support/provenance_transition.dart": "07cd6e577a0866f1200fce76a890798686c8d576b9d9df556393a5b20d3137b5"
       }
     },
     "precision-replay": {
@@ -5144,9 +5144,9 @@
         "pubspec.lock": "b0677b30481bb5321a7e365eb64dc9b28a71987d3fa32626ff13aa90c328adc8",
         "test/migration/state_replay_test.dart": "2e447c24887c8099358ba4c78a151dd115763d74d332136fcc7dabe23ea98805",
         "test/migration/support/baseline_inventory.dart": "dcbaf3df7c57d3e34fc28efe3d4a7c16645c4802659a384c4ec3cc3b382dc424",
-        "test/migration/support/provenance_transition.dart": "c4719aaa2db7637dd4c53ed666d5e1b877bf4d40cbba53bdc41575b287f953cd",
+        "test/migration/support/provenance_transition.dart": "82c8633c1681a72f3a244125d0c5b791ea52fb9cc22361ff2ec0362d7919f487",
         "test/migration/support/replay_codec.dart": "ccbdf52028eeb98d56640171e081343d004b2efc5d54fa2583cde922887c3e79",
-        "test/migration/support/visual_presentation_evolution.dart": "8fc1a0f87d745925f73789855156a72e09b89db79cc4c46ed9de36a20f2bb0d6"
+        "test/migration/support/visual_presentation_evolution.dart": "efa4821cbbe2094016b6c293b40dee13cc364850c6f15e1f39ba8ddc2d0d41ca"
       },
       "before": {
         "fdroid/flutter.version": "3643b714d5f0c18e13c9066f514e45cdbe7fea071b4d427c3aa6e0fbf3bfcaf0",
@@ -5292,7 +5292,7 @@
         "pubspec.lock": "b0677b30481bb5321a7e365eb64dc9b28a71987d3fa32626ff13aa90c328adc8",
         "test/migration/state_replay_test.dart": "2e447c24887c8099358ba4c78a151dd115763d74d332136fcc7dabe23ea98805",
         "test/migration/support/baseline_inventory.dart": "35b0bf8ed9815de2d9ab8a0724f967b4befd76afe7d1e48ae3e268aae7f41589",
-        "test/migration/support/provenance_transition.dart": "27778ec2aae6a2efd9db99e851a4e6d7cd7ddcbcaaf63e0483370de3fd839659",
+        "test/migration/support/provenance_transition.dart": "07cd6e577a0866f1200fce76a890798686c8d576b9d9df556393a5b20d3137b5",
         "test/migration/support/replay_codec.dart": "ccbdf52028eeb98d56640171e081343d004b2efc5d54fa2583cde922887c3e79"
       }
     },
@@ -6801,13 +6801,13 @@
         "lib/l10n/app_localizations_en.dart": "f3f8be8d052717b7a33f317bc4a8cbc187d10fd38678005fcd2b2946f3088e90",
         "lib/l10n/app_localizations_es.dart": "4fe3fb7f6c0eb4ada0f38827e243939633a3c99e63cb208ddf9ef043096a3e2e",
         "pubspec.lock": "b0677b30481bb5321a7e365eb64dc9b28a71987d3fa32626ff13aa90c328adc8",
-        "test/migration/randomization_oracle_test.dart": "04f6a6bf869a756dcb2e08dffc92db4b800fc23ce8f0590c7759d8252c680a26",
+        "test/migration/randomization_oracle_test.dart": "f3e8f4c93e979020c8ec82e6f6a69d3268777634e6e27bb21ce54e12e902d8e8",
         "test/migration/state_replay_test.dart": "2e447c24887c8099358ba4c78a151dd115763d74d332136fcc7dabe23ea98805",
         "test/migration/support/baseline_inventory.dart": "dcbaf3df7c57d3e34fc28efe3d4a7c16645c4802659a384c4ec3cc3b382dc424",
-        "test/migration/support/provenance_transition.dart": "c4719aaa2db7637dd4c53ed666d5e1b877bf4d40cbba53bdc41575b287f953cd",
-        "test/migration/support/randomization_oracle.dart": "08a946364c459e7743df938a0555988a88760d8cfea30654c726ff9d944da3ac",
+        "test/migration/support/provenance_transition.dart": "82c8633c1681a72f3a244125d0c5b791ea52fb9cc22361ff2ec0362d7919f487",
+        "test/migration/support/randomization_oracle.dart": "026a436086bebfe86a84964de00e86f3bb88efd9f48bbdbe1984904449ccbd91",
         "test/migration/support/replay_codec.dart": "ccbdf52028eeb98d56640171e081343d004b2efc5d54fa2583cde922887c3e79",
-        "test/migration/support/visual_presentation_evolution.dart": "8fc1a0f87d745925f73789855156a72e09b89db79cc4c46ed9de36a20f2bb0d6"
+        "test/migration/support/visual_presentation_evolution.dart": "efa4821cbbe2094016b6c293b40dee13cc364850c6f15e1f39ba8ddc2d0d41ca"
       },
       "before": {
         "dart-sdk/lib/_internal/vm/lib/math_patch.dart": "3cd16c96c4c1b6985317c6d3f9fab3e4b0466b87a9450230784249070d687790",
@@ -6956,7 +6956,7 @@
         "test/migration/randomization_oracle_test.dart": "4cb05b0dd888d73ee9afe6e0a712729a74c3389345cebd2ad4a5fc74471bfa80",
         "test/migration/state_replay_test.dart": "2e447c24887c8099358ba4c78a151dd115763d74d332136fcc7dabe23ea98805",
         "test/migration/support/baseline_inventory.dart": "35b0bf8ed9815de2d9ab8a0724f967b4befd76afe7d1e48ae3e268aae7f41589",
-        "test/migration/support/provenance_transition.dart": "27778ec2aae6a2efd9db99e851a4e6d7cd7ddcbcaaf63e0483370de3fd839659",
+        "test/migration/support/provenance_transition.dart": "07cd6e577a0866f1200fce76a890798686c8d576b9d9df556393a5b20d3137b5",
         "test/migration/support/randomization_oracle.dart": "6d65989655a9e79c49a92d9d1491d63640ae44877159e97d97ce60de045b921e",
         "test/migration/support/replay_codec.dart": "ccbdf52028eeb98d56640171e081343d004b2efc5d54fa2583cde922887c3e79"
       }
@@ -7686,10 +7686,10 @@
         "shaders/trigonometric_and_transcendental/special_functions/zeta_gpu.frag": "8cbebf70cd73810939448f39b8b66bcd65919aff7485b4550322d682346f2612",
         "test/migration/reference_render_test.dart": "1cdbff0dc417cbc973d11dd83228744248971188d524012298a923185528d9f4",
         "test/migration/support/baseline_inventory.dart": "dcbaf3df7c57d3e34fc28efe3d4a7c16645c4802659a384c4ec3cc3b382dc424",
-        "test/migration/support/provenance_transition.dart": "c4719aaa2db7637dd4c53ed666d5e1b877bf4d40cbba53bdc41575b287f953cd",
+        "test/migration/support/provenance_transition.dart": "82c8633c1681a72f3a244125d0c5b791ea52fb9cc22361ff2ec0362d7919f487",
         "test/migration/support/reference_capture.dart": "cd579c6889460a366b8b530d4119ecde09144823637289ac03c2054ed233a6c4",
         "test/migration/support/reference_source_transition.dart": "3c0b6929f089df4d0b36ad3aa628be66a51ad34b9c0525a40321791b12468b0b",
-        "test/migration/support/visual_presentation_evolution.dart": "8fc1a0f87d745925f73789855156a72e09b89db79cc4c46ed9de36a20f2bb0d6",
+        "test/migration/support/visual_presentation_evolution.dart": "efa4821cbbe2094016b6c293b40dee13cc364850c6f15e1f39ba8ddc2d0d41ca",
         "test/shaders/recursive_sine_sphere_kernel_fixture.frag": "7fefc279f95b75ca3925df77e4e9d2f51aba9f246dc3193fa5402719160afdd6"
       },
       "before": {
@@ -8416,7 +8416,7 @@
         "shaders/trigonometric_and_transcendental/special_functions/zeta_gpu.frag": "8cbebf70cd73810939448f39b8b66bcd65919aff7485b4550322d682346f2612",
         "test/migration/reference_render_test.dart": "eecb36ae0c771fb409a606298eec7394b7fd15cedeec855955537d0dae41f6ce",
         "test/migration/support/baseline_inventory.dart": "35b0bf8ed9815de2d9ab8a0724f967b4befd76afe7d1e48ae3e268aae7f41589",
-        "test/migration/support/provenance_transition.dart": "27778ec2aae6a2efd9db99e851a4e6d7cd7ddcbcaaf63e0483370de3fd839659",
+        "test/migration/support/provenance_transition.dart": "07cd6e577a0866f1200fce76a890798686c8d576b9d9df556393a5b20d3137b5",
         "test/migration/support/reference_capture.dart": "4edd11c5990ce164d90ea6da0a67f4c8d7a9c04fdb9b322c88f731250b75aeb8",
         "test/migration/support/reference_source_transition.dart": "3c0b6929f089df4d0b36ad3aa628be66a51ad34b9c0525a40321791b12468b0b",
         "test/shaders/recursive_sine_sphere_kernel_fixture.frag": "7fefc279f95b75ca3925df77e4e9d2f51aba9f246dc3193fa5402719160afdd6"
@@ -9927,9 +9927,9 @@
         "pubspec.lock": "b0677b30481bb5321a7e365eb64dc9b28a71987d3fa32626ff13aa90c328adc8",
         "test/migration/state_replay_test.dart": "2e447c24887c8099358ba4c78a151dd115763d74d332136fcc7dabe23ea98805",
         "test/migration/support/baseline_inventory.dart": "dcbaf3df7c57d3e34fc28efe3d4a7c16645c4802659a384c4ec3cc3b382dc424",
-        "test/migration/support/provenance_transition.dart": "c4719aaa2db7637dd4c53ed666d5e1b877bf4d40cbba53bdc41575b287f953cd",
+        "test/migration/support/provenance_transition.dart": "82c8633c1681a72f3a244125d0c5b791ea52fb9cc22361ff2ec0362d7919f487",
         "test/migration/support/replay_codec.dart": "ccbdf52028eeb98d56640171e081343d004b2efc5d54fa2583cde922887c3e79",
-        "test/migration/support/visual_presentation_evolution.dart": "8fc1a0f87d745925f73789855156a72e09b89db79cc4c46ed9de36a20f2bb0d6"
+        "test/migration/support/visual_presentation_evolution.dart": "efa4821cbbe2094016b6c293b40dee13cc364850c6f15e1f39ba8ddc2d0d41ca"
       },
       "before": {
         "fdroid/flutter.version": "3643b714d5f0c18e13c9066f514e45cdbe7fea071b4d427c3aa6e0fbf3bfcaf0",
@@ -10075,12 +10075,12 @@
         "pubspec.lock": "b0677b30481bb5321a7e365eb64dc9b28a71987d3fa32626ff13aa90c328adc8",
         "test/migration/state_replay_test.dart": "2e447c24887c8099358ba4c78a151dd115763d74d332136fcc7dabe23ea98805",
         "test/migration/support/baseline_inventory.dart": "35b0bf8ed9815de2d9ab8a0724f967b4befd76afe7d1e48ae3e268aae7f41589",
-        "test/migration/support/provenance_transition.dart": "27778ec2aae6a2efd9db99e851a4e6d7cd7ddcbcaaf63e0483370de3fd839659",
+        "test/migration/support/provenance_transition.dart": "07cd6e577a0866f1200fce76a890798686c8d576b9d9df556393a5b20d3137b5",
         "test/migration/support/replay_codec.dart": "ccbdf52028eeb98d56640171e081343d004b2efc5d54fa2583cde922887c3e79"
       }
     }
   },
-  "candidate_identity": "7215e3697d4088a12a3baa00f560656d0ded91ed46c33614f78c879f8cdd866f",
+  "candidate_identity": "da1057a59caead55164ecd88e6cb7cecf33e681baa186b78a4c7602fc4fe573a",
   "compiled_artifacts": [],
   "schema": 1,
   "semantic_deltas": {},
