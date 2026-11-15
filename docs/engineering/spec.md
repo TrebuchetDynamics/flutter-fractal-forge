@@ -34,6 +34,33 @@ and limits.
 
 Provider supplies application dependencies. `ChangeNotifier`-based controllers expose mutable view state to widgets. Shared preferences and the project's storage services persist supported user settings and presets. Module IDs remain language-independent; localized display names are presentation values, not persistence keys.
 
+History replay is controller-committed navigation. Sheet Back/Forward, entry and
+favorite selection and Viewer Previous use `HistoryProvider.replayBack`,
+`replayForward`, `replayEntry` or `replayFavorite` (`Future<bool>`). The existing
+replay helper forwards `shouldCommit` and synchronous `onCommitted` to the real
+`FractalController.loadState`; incremental replay is only for legacy test doubles.
+Cursor-only compatibility methods are not the production replay interface.
+
+A pending request cancels the old recording debounce but does not select or
+persist its target. Repeated clicks resolve from the committed cursor; newest
+request owns acceptance. Unchanged starting-view status notifications do not arm
+a record; a real committed edit remains recordable with the ordinary 500ms
+debounce and revokes the pending request. Clear, disposal, cursor changes and
+sheet/viewer ownership loss also prevent late commits. Closing a sheet never
+retries its request. Rejection or error leaves the committed cursor and forward
+entries intact; errors are not converted to success.
+
+At `onCommitted`, before controller observers, existing-entry replay selects the
+extant ID without rewriting/reordering its saved payload. The de-duplication
+anchor uses the controller's normalized committed snapshot, so clamping or
+canonicalization cannot append a duplicate or truncate forward history. Favorite
+navigation records that normalized snapshot at most once on acceptance (an
+identical current location remains a no-op). An already-published callback is
+never undone because reentrant work later makes the returned future false.
+Saving current as favorite while replay is pending still saves the committed
+entry. Storage schema, limits, exact integer strings and preference-write failure
+acknowledgement/retry behavior are unchanged.
+
 ## Failure behavior
 
 - Shader loading or compilation failures must remain visible through renderer diagnostics or the UI's loading/error state; do not silently report a successful render.

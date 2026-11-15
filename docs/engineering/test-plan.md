@@ -579,3 +579,32 @@ See [the mathematics owner](../../research/milnor-brieskorn.md). `test/modules/m
 The final combined canonical check passed 46 selected shader, mathematics, public-count, shared-modal, Share-feedback and live-HUD tests, plus three academic-coverage tests and a clean analyzer. Earlier integrated attempts exposed stale public/localized counts; those failures were retained and the source counts were reconciled before the passing rerun. Fresh canonical 960×720 previews were decoded and bound to the unchanged shader hash. This focused pass does not replace the full common integration suite.
 
 The isolated focused module/metadata/catalog/shader run passed 292 cases with six existing skips; actual production FragmentProgram readback matched 9,223 margin-stable oracle samples, including 738 near-boundary samples. Academic coverage tests passed three cases. Linux debug build and SkSL/GLES/GLES3/Vulkan shader compilation passed. These are candidate-native/compiler checks, not a full common integration gate or hardware GPU qualification. Chrome attempts stalled before tests started and remain unverified. `MILNOR_PREVIEW_DIR` optionally saves actual 960×720 shader PNGs and replay states. CPU precision, physical-device behavior and complete export journeys remain unsupported or unqualified as stated; no publication follows from these checks.
+
+
+## History commit replay (HISTORY-COMMIT-REPLAY-01)
+
+Run the provider, sheet accessibility and viewer widget targets together with
+`test/number_walls/number_wall_state_test.dart`. The composed provider schedule
+uses Completer-gated real `FractalController.loadState` calls (not sleeps or a
+production hook). It covers pending/composite rejection with unchanged persisted
+history and forward entries; saving current during pending; status-only notices;
+normalized acceptance before observers; repeated Back from the committed cursor;
+Forward/entry selection; ordinary-module supersession; genuine manual edits;
+clear/disposal/cursor/ownership loss; favorite normalization/de-duplication; errors;
+and authoritative callbacks despite reentrant false results. Bounded fake-clock
+pumps guard the accepted Number Walls schedule. Retain every original ingress
+certification assertion.
+
+The real HistorySheet handlers exercise Back/Forward/entry/favorite acceptance
+and mounted/controller-identity loss. Viewer Previous exercises controlled
+acceptance, composite rejection, unmount and controller replacement. Existing
+keyboard, semantics, tap targets and accessibility checks remain. These are
+public-caller widget/state-machine checks, not rendered platform or hardware
+qualification; this slice changes no visual design and performs no device,
+browser, audio or production qualification.
+
+Run the source reconciliation target, each existing migration module and two
+validated twelve-document exports as specified in
+[source-bound review gates](../tasks/source-bound-review-gates.md#history-commit-replay),
+then the mandatory root AGENTS offline gate. Do not infer acceptance from a
+provisional source sidecar or rewrite historical evidence to make a check pass.

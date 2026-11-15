@@ -1287,11 +1287,15 @@ class _FractalViewerScreenState extends FractalViewerRouteState
 
   void _goToPreviousFractal(BuildContext context) {
     final history = context.read<HistoryProvider?>();
-    final entry = history?.goBack();
-    if (history == null || entry == null) return;
+    if (history == null || !history.canGoBack) return;
     _looperController?.stop();
     _autoExploreService?.stop();
-    history.applyToController(entry, _activeController(context));
+    final controller = _activeController(context);
+    history.replayBack(controller,
+        shouldCommit: () =>
+            mounted &&
+            (ModalRoute.of(this.context)?.isCurrent ?? true) &&
+            identical(_activeController(this.context), controller));
     HapticService.light();
   }
 

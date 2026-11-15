@@ -1,5 +1,6 @@
 import 'dart:async' show Timer, unawaited;
 import 'package:flutter/foundation.dart';
+import 'package:flutter_fractals/core/controllers/fractal_controller.dart';
 import 'package:flutter_fractals/core/models/fractal_view_state.dart';
 import 'package:flutter_fractals/core/services/storage/history_store.dart';
 import 'package:flutter_fractals/core/models/history/history_entry.dart';
@@ -34,8 +35,7 @@ import 'package:flutter_fractals/features/history/history_window.dart';
 ///
 /// // Navigate back
 /// if (history.canGoBack) {
-///   final entry = history.goBack();
-///   // Apply entry to controller
+///   await history.replayBack(controller);
 /// }
 /// ```
 class HistoryProvider extends ChangeNotifier {
@@ -59,6 +59,84 @@ class HistoryProvider extends ChangeNotifier {
   HistoryEntry? _lastRecorded;
 
   bool _disposed = false;
+  int _replayGeneration = 0;
+  HistoryEntry? _pendingTarget;
+  HistoryEntry? _pendingStart;
+
+  void _invalidateReplay() {
+    ++_replayGeneration;
+    _pendingTarget = null;
+    _pendingStart = null;
+  }
+
+  HistoryEntry _controllerSnapshot(FractalController controller) =>
+      HistoryEntry.fromState(
+        moduleId: controller.module.id,
+        view: controller.view,
+        params: controller.params,
+      );
+
+  /// Replays from the committed cursor; pending clicks never speculate a cursor.
+  Future<bool> replayBack(FractalController controller,
+          {bool Function()? shouldCommit}) =>
+      canGoBack
+          ? replayEntry(_history[_currentIndex - 1], controller,
+              shouldCommit: shouldCommit)
+          : Future.value(false);
+
+  Future<bool> replayForward(FractalController controller,
+          {bool Function()? shouldCommit}) =>
+      canGoForward
+          ? replayEntry(_history[_currentIndex + 1], controller,
+              shouldCommit: shouldCommit)
+          : Future.value(false);
+
+  Future<bool> replayEntry(HistoryEntry entry, FractalController controller,
+          {bool Function()? shouldCommit}) =>
+      _replay(entry, controller, favorite: false, shouldCommit: shouldCommit);
+
+  Future<bool> replayFavorite(HistoryEntry entry, FractalController controller,
+          {bool Function()? shouldCommit}) =>
+      _replay(entry, controller, favorite: true, shouldCommit: shouldCommit);
+
+  Future<bool> _replay(HistoryEntry entry, FractalController controller,
+      {required bool favorite, bool Function()? shouldCommit}) async {
+    if (_disposed) return false;
+    _invalidateReplay();
+    cancelPendingRecord();
+    final generation = _replayGeneration;
+    bool targetPresent() =>
+        (favorite ? _favorites : _history).any((e) => e.id == entry.id);
+    if (!targetPresent()) return false;
+    _pendingTarget = entry;
+    _pendingStart = _controllerSnapshot(controller);
+    bool ownsReplay() =>
+        !_disposed &&
+        generation == _replayGeneration &&
+        identical(_pendingTarget, entry) &&
+        targetPresent() &&
+        (shouldCommit?.call() ?? true);
+    try {
+      return await applyHistoryEntryToController(entry, controller,
+          shouldCommit: ownsReplay, onCommitted: () {
+        // This is the authoritative event, before controller observers run.
+        // Never roll it back based on the Future result after a reentrant replay.
+        final committed = _controllerSnapshot(controller);
+        _pendingTarget = null;
+        _pendingStart = null;
+        if (favorite) {
+          _doRecordLocation(
+              committed.moduleId, committed.view, committed.params);
+        } else {
+          _currentIndex = _history.indexWhere((e) => e.id == entry.id);
+          _lastRecorded = committed;
+          _notifyIfAlive();
+        }
+      });
+    } finally {
+      if (generation == _replayGeneration) _invalidateReplay();
+    }
+  }
 
   void _notifyIfAlive() {
     if (!_disposed) notifyListeners();
@@ -123,6 +201,20 @@ class HistoryProvider extends ChangeNotifier {
     required FractalViewState view,
     required Map<String, Object> params,
   }) {
+    if (_disposed) return;
+    final pendingStart = _pendingStart;
+    if (pendingStart != null) {
+      if (isSameHistoryLocation(
+        moduleId: moduleId,
+        view: view,
+        params: params,
+        otherModuleId: pendingStart.moduleId,
+        otherView: pendingStart.view,
+        otherParams: pendingStart.params,
+      )) return;
+      // A genuinely changed committed view is an edit, not replay status noise.
+      _invalidateReplay();
+    }
     final viewSnapshot = snapshotHistoryView(view);
     final paramsSnapshot = snapshotHistoryParams(params);
 
@@ -162,6 +254,7 @@ class HistoryProvider extends ChangeNotifier {
     _notifyIfAlive();
   }
 
+  /// Cursor-only compatibility API. Production navigation uses [replayBack].
   /// Navigates back to the previous location in history.
   ///
   /// Returns the entry to navigate to, or null if [canGoBack] is false.
@@ -170,6 +263,7 @@ class HistoryProvider extends ChangeNotifier {
     return jumpToIndex(_currentIndex - 1);
   }
 
+  /// Cursor-only compatibility API. Production navigation uses [replayForward].
   /// Navigates forward to the next location in history.
   ///
   /// Returns the entry to navigate to, or null if [canGoForward] is false.
@@ -178,9 +272,11 @@ class HistoryProvider extends ChangeNotifier {
     return jumpToIndex(_currentIndex + 1);
   }
 
+  /// Cursor-only compatibility API; does not replay the controller.
   /// Jumps to a specific entry in history by index.
   HistoryEntry? jumpToIndex(int index) {
     if (index < 0 || index >= _history.length) return null;
+    _invalidateReplay();
     _selectHistoryIndex(index);
     _notifyIfAlive();
     return _history[_currentIndex];
@@ -265,6 +361,7 @@ class HistoryProvider extends ChangeNotifier {
   }
 
   void _clearInMemoryHistory() {
+    _invalidateReplay();
     cancelPendingRecord();
     _history.clear();
     _currentIndex = -1;
@@ -290,9 +387,8 @@ class HistoryProvider extends ChangeNotifier {
   /// Complete-state controllers should expose `loadState` so replay switches to
   /// the recorded module before applying module-specific params. Legacy test
   /// doubles without `loadState` keep the old structural update sequence.
-  void applyToController(HistoryEntry entry, Object controller) {
-    applyHistoryEntryToController(entry, controller);
-  }
+  Future<bool> applyToController(HistoryEntry entry, Object controller) =>
+      applyHistoryEntryToController(entry, controller);
 
   /// Cancels any pending debounced history record.
   void cancelPendingRecord() {
@@ -303,6 +399,7 @@ class HistoryProvider extends ChangeNotifier {
   @override
   void dispose() {
     _disposed = true;
+    _invalidateReplay();
     cancelPendingRecord();
     super.dispose();
   }
