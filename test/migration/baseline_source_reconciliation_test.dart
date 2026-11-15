@@ -163,7 +163,9 @@ void main() {
         if (path == 'test/migration/support/provenance_transition.dart') {
           expect(record['after'][path],
               '07cd6e577a0866f1200fce76a890798686c8d576b9d9df556393a5b20d3137b5');
-          expect(readVisualStages().last['binding_maps'][id]['after'][path],
+          expect(
+              orderedVisualStages(readVisualStages()).last['binding_maps'][id]
+                  ['after'][path],
               sha256.convert(File(path).readAsBytesSync()).toString());
         } else {
           expect(record['after'][path],
@@ -179,6 +181,51 @@ void main() {
             ? keyboard['binding_maps'][id]['before'] as Map
             : stages.first['binding_maps'][id]['before'] as Map;
         verifySourceStages(id, before, record['after'] as Map, stages: order);
+      }
+    }
+  });
+
+  test('shader recovery follows visual proof in every complete-map input order',
+      () {
+    final historical = readProvenanceStages();
+    final candidates = readVisualStages();
+    expect(candidates.map((s) => s['task']).toSet(), {
+      visualProofTask,
+      shaderCacheRecoveryTask,
+    });
+    final proof = candidates.singleWhere((s) => s['task'] == visualProofTask);
+    final recovery =
+        candidates.singleWhere((s) => s['task'] == shaderCacheRecoveryTask);
+    expect(
+        recovery['base_revision'], '6031f27314ad6cbe58cca3cebf9e60d10af4aaf1');
+    expect(recovery['semantic_deltas'], isEmpty);
+    expect(recovery['compiled_artifacts'], isEmpty);
+    const allowed = {
+      'lib/features/renderer/widgets/renderer/shaders/shader_loader.dart',
+      'test/migration/support/provenance_transition.dart',
+      'test/migration/support/visual_presentation_evolution.dart',
+    };
+    final maps = recovery['binding_maps'] as Map;
+    expect(maps.length, 11);
+    for (final order in [candidates, candidates.reversed.toList()]) {
+      expect(orderedVisualStages(order), [proof, recovery]);
+      for (final id in maps.keys.cast<String>()) {
+        final record = maps[id] as Map;
+        final before = record['before'] as Map;
+        final after = record['after'] as Map;
+        expect(before, proof['binding_maps'][id]['after'], reason: id);
+        expect(after.keys.toSet(), before.keys.toSet(), reason: id);
+        for (final path in after.keys.cast<String>()) {
+          expect(
+              after[path],
+              allowed.contains(path)
+                  ? sha256.convert(File(path).readAsBytesSync()).toString()
+                  : before[path],
+              reason: '$id: $path');
+        }
+        verifySourceStages(
+            id, historical.first['binding_maps'][id]['before'] as Map, after,
+            stages: [...order, ...historical.reversed]);
       }
     }
   });

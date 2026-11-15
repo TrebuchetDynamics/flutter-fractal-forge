@@ -652,3 +652,42 @@ validated twelve-document exports as specified in
 [source-bound review gates](../tasks/source-bound-review-gates.md#history-commit-replay),
 then the mandatory root AGENTS offline gate. Do not infer acceptance from a
 provisional source sidecar or rewrite historical evidence to make a check pass.
+
+## Shader cache recovery
+
+`SHADER-CACHE-RECOVERY-01` exercises the public controller on one mounted real
+`FractalRenderer`: warm Mandelbrot B, load a test-only nonexistent shader A until
+all three attempts fail, select cached B without Retry/cache clearing, then
+repeat A and select uncached Julia C. Genuine A failure must remain visible
+before either repair. Recovery removes the error/details controls, identifies B
+or C in both the effective snapshot and actual painter, and reads real boundary
+RGBA with more than 16 colors and nonzero colored pixels. Unmount must produce
+no callback exception. Byte readback proves nonblank/nonuniform output, not
+floating-point shader arithmetic finiteness or hardware performance.
+
+Two separate commands are mandatory under the root AGENTS pinned environment:
+
+```sh
+flutter test --no-pub --dart-define=FORCE_GPU_RENDER=true test/fractal/shader_cache_recovery_gpu.dart
+scripts/ci/offline-gate.sh --python-bin /usr/bin/python3 --json
+```
+
+Use bounded `timeout` wrappers and a private mode-0700 TMPDIR **outside the
+checkout**, as required by the existing physical-oracle export test. Stage logs
+must also be outside the checkout (the default under that TMPDIR or the gate's
+documented `--log-dir`); collect logs into excluded run artifacts afterward.
+The dedicated filename deliberately has no `_test.dart` suffix:
+ordinary discovery retains its existing placeholder behavior without globally
+enabling FORCE_GPU_RENDER or adding skips. The dedicated test requires real
+runtime effects, clears caches only at setup/cleanup, uses bounded event-loop
+turns/fake-time pumps (not sleeps), and fails on missing rendering/readback
+support. Its raster-runtime-effect evidence is separate from browser/device
+qualification. The unchanged full offline gate is not a substitute for this
+flagged regression, nor vice versa.
+
+The additive source-only stage follows the ordered complete visual bundle, not
+filename order. Focused provenance/reconciliation negatives reject semantic or
+compiled deltas, unlisted paths, even allowlisted added keys, removals, stale
+maps, broken adjacency, unknown task IDs and tampered historical originals.
+Existing visual-task addition/semantic policies and original PNG/oracle bytes
+remain unchanged. See [source-bound rationale](../tasks/source-bound-review-gates.md#shader-cache-recovery).

@@ -473,3 +473,55 @@ remain unchanged. Complete review logs and exports are in the excluded run
 artifacts. The full offline gate above predates this review correction; it was
 not rerun during review. Current-head CI remains the merge authority, and no
 live platform qualification is claimed.
+
+## Shader cache recovery
+
+`SHADER-CACHE-RECOVERY-01` completes the existing `_setLoadedProgram` Ready
+postcondition by clearing the previous shader error, details and classification.
+Both cached and cold success already use that synchronous seam. It does not
+change shader mathematics, presets, resource lifetime, retries, cancellation or
+state persistence. The real-renderer fault/recovery regression failed before
+this fix and passed after it; exact verification commands and evidence limits
+are in [the test plan](../engineering/test-plan.md#shader-cache-recovery).
+
+The source-only successor is
+`migration/oracles/visual-presentation/shader-cache-recovery.json`, appended after
+merged visual proof without altering any historic record. The dispatcher admits
+exactly this maintenance task, not an arbitrary maintenance prefix. Its exact
+allowlist is:
+
+- `lib/features/renderer/widgets/renderer/shaders/shader_loader.dart`
+- `test/migration/support/provenance_transition.dart`
+- `test/migration/support/visual_presentation_evolution.dart`
+
+All eleven before maps equal the preceding complete terminal bundle; after maps
+update only existing collected occurrences of these final on-disk hashes.
+Identical key sets are required (no additions or removals), with empty
+`semantic_deltas` and `compiled_artifacts`. Uncollected tests/docs are not
+invented into maps. Existing visual-stage policies, canonical identity and
+original sidecars/oracles/PNGs remain immutable. Current helper-byte assertions
+use `orderedVisualStages(readVisualStages()).last`, retaining the earlier
+historical hash assertion. Permuted complete-bundle input must produce the same
+terminal stage. No Rust mathematical owner switch or speedup is claimed.
+
+### Executed local evidence (run_id=3ac64fe6)
+
+- The dedicated real-renderer regression failed before the fix: cached B was
+  logged installed, but `Ready(mandelbrot)` never reached its bounded snapshot
+  condition. With the fix it passed cached B and cold Julia C recovery, actual
+  painter/snapshot identity, nonblank/nonuniform readback, visible genuine A
+  failure and clean unmount. No cache clear occurred between failure/recovery.
+- Focused renderer/cache checks passed 28 tests; the four required migration
+  targets passed 29, including all eleven retained frames with zero changed
+  pixels. Analyzer reported no issues.
+- The unchanged common offline gate passed all stages, exit 0: pub-get, Cargo
+  fmt/clippy/test, analyze, 3554 Flutter tests (9 existing skips), 644 Python tests
+  (1 existing skip, 204 subtests), and 34 Bats cases. Both lockfiles remained
+  byte-identical. Earlier attempts retained a setup refusal and then the
+  physical-export test's outside-checkout TMPDIR failure; selecting a private
+  external TMPDIR repaired the environment, not the test or gate.
+- Complete logs and the failed/green regression evidence are retained in the
+  excluded `.orbi/` run artifacts. This is software raster/runtime-effect
+  qualification, not browser/device/hardware performance or new mathematical
+  evidence; no UI layout change or UI screenshot claim is made. GitHub Actions
+  on the eventual PR remain the delivery check authority.

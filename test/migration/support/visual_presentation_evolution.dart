@@ -22,6 +22,7 @@ const visualFixture = 'test/shaders/sculptural_surface_fixture.frag';
 const visualProofTask = 'VISUAL-RICHNESS-PROOF';
 const visualSurfaceTask = 'VISUAL-RICHNESS-SCULPTURAL-SURFACE';
 const visualDefaultsTask = 'VISUAL-RICHNESS-CURATED-DEFAULTS';
+const shaderCacheRecoveryTask = 'SHADER-CACHE-RECOVERY-01';
 const _equal = DeepCollectionEquality();
 const _proofPaths = [
   'test/migration/visual_presentation_evolution_test.dart',
@@ -44,6 +45,11 @@ const _surfacePaths = [
   'lib/l10n/app_localizations_es.dart',
   visualFixture,
   'pubspec.yaml',
+];
+const _shaderCacheRecoveryPaths = [
+  'lib/features/renderer/widgets/renderer/shaders/shader_loader.dart',
+  'test/migration/support/provenance_transition.dart',
+  'test/migration/support/visual_presentation_evolution.dart',
 ];
 const _defaultsPaths = [
   'lib/core/modules/builders/escape_time_catalog/families/core_escape_time_family.dart',
@@ -84,6 +90,7 @@ void validateVisualStage(Map stage) {
     visualProofTask => _proofPaths,
     visualSurfaceTask => _surfacePaths,
     visualDefaultsTask => _defaultsPaths,
+    shaderCacheRecoveryTask => _shaderCacheRecoveryPaths,
     _ => throw StateError('Visual presentation: unknown task ${stage['task']}'),
   };
   visualRequire(
@@ -121,6 +128,10 @@ void validateVisualStage(Map stage) {
     }
     visualRequire(before.keys.toSet().difference(after.keys.toSet()).isEmpty,
         'removed binding');
+    if (stage['task'] == shaderCacheRecoveryTask) {
+      visualRequire(_equal.equals(before.keys.toSet(), after.keys.toSet()),
+          'maintenance binding key sets');
+    }
     for (final key in after.keys) {
       if (before[key] == after[key]) continue;
       changed = true;
@@ -135,6 +146,11 @@ void validateVisualStage(Map stage) {
       'undeclared semantic document');
   if (stage['task'] == visualProofTask) {
     visualRequire(deltas.isEmpty, 'proof cannot change semantics');
+  }
+  if (stage['task'] == shaderCacheRecoveryTask) {
+    visualRequire(deltas.isEmpty, 'maintenance cannot change semantics');
+    visualRequire((stage['compiled_artifacts'] as List).isEmpty,
+        'maintenance cannot change compiled artifacts');
   }
   for (final artifact in (stage['compiled_artifacts'] as List).cast<Map>()) {
     visualRequire(

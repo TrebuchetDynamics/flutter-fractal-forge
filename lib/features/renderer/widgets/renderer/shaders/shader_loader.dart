@@ -76,6 +76,9 @@ mixin _ShaderLoaderMixin on State<FractalRenderer> {
     _program = program;
     _shaderAsset = asset;
     _shaderRetryCount = 0;
+    _shaderError = null;
+    _shaderErrorDetails = null;
+    _shaderErrorType = ShaderErrorType.unknown;
     _loading = false;
   }
 

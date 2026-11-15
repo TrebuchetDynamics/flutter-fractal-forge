@@ -316,7 +316,9 @@ void verifySourceStages(String id, Map before, Map current,
     {List<Map>? stages}) {
   final selected = stages ?? [...readProvenanceStages(), ...readVisualStages()];
   final visual = selected
-      .where((s) => (s['task'] as String).startsWith('VISUAL-RICHNESS-'))
+      .where((s) =>
+          (s['task'] as String).startsWith('VISUAL-RICHNESS-') ||
+          s['task'] == shaderCacheRecoveryTask)
       .toList();
   final pending = selected.where((s) => !visual.contains(s)).toList();
   _require(

@@ -61,6 +61,18 @@ Saving current as favorite while replay is pending still saves the committed
 entry. Storage schema, limits, exact integer strings and preference-write failure
 acknowledgement/retry behavior are unchanged.
 
+### Renderer shader recovery
+
+Every successful shader program installation, whether freshly compiled or taken
+from the shared cache, establishes one complete Ready state: selected program and
+asset installed, retry count zero, loading false, error and details null, error
+type unknown. A previous asset's terminal failure must not mask a valid cached
+fractal. Selecting a valid cached or cold shader repairs the visible failure
+without manual Retry or a cache flush; a genuinely failing current asset keeps
+its error and retry diagnostics. Loading clocks, first-frame logging, epoch and
+mounted guards, shared in-flight loads, LRU eviction and fragment release remain
+unchanged. Cache storage and mounted-widget error state are separate dimensions.
+
 ## Failure behavior
 
 - Shader loading or compilation failures must remain visible through renderer diagnostics or the UI's loading/error state; do not silently report a successful render.
