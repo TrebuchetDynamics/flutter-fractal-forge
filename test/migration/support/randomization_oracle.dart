@@ -10,6 +10,9 @@ import 'package:flutter_fractals/core/modules/fractal_module.dart';
 import 'package:flutter_fractals/core/modules/module_registry.dart';
 import 'package:vector_math/vector_math_64.dart';
 
+import 'baseline_inventory.dart'
+    show retainedDefaultPreset, retainedBaselineRecord;
+
 import 'replay_codec.dart' show canonicalJson, replaySourceBindings;
 
 export 'replay_codec.dart' show canonicalJson;
@@ -104,7 +107,9 @@ String _kind(Object value) => value is int
                 ? 'String'
                 : throw StateError('Unsupported oracle value: $value');
 
-List<Map<String, Object?>> _schema(FractalModule module) => [
+List<Map<String, Object?>> _schema(FractalModule module,
+        {bool historical = false}) =>
+    [
       for (final p in module.parameters)
         {
           'id': p.id,
@@ -112,7 +117,14 @@ List<Map<String, Object?>> _schema(FractalModule module) => [
           'min': p.min,
           'max': p.max,
           'step': p.step,
-          'default': p.defaultValue,
+          'default': historical &&
+                  module.id == 'mandelbrot' &&
+                  p.id == 'colorScheme'
+              ? (retainedBaselineRecord('parameters', module.id)['parameters']
+                      as List)
+                  .cast<Map>()
+                  .singleWhere((v) => v['id'] == p.id)['default']
+              : p.defaultValue,
           'options': [
             for (final option in p.options)
               {'value': option.value, 'kind': _kind(option.value)},
@@ -207,7 +219,8 @@ Map<String, Object?> _wallDraws(
   };
 }
 
-Future<List<Map<String, Object?>>> _generalScenarios() async {
+Future<List<Map<String, Object?>>> buildGeneralRandomizationScenarios(
+    {bool currentDefaults = false}) async {
   final scenarios = <Map<String, Object?>>[];
   for (final moduleId in ['mandelbrot', 'julia', 'synthetic']) {
     for (final seed in oracleSeeds) {
@@ -216,13 +229,16 @@ Future<List<Map<String, Object?>>> _generalScenarios() async {
         final module = moduleId == 'synthetic'
             ? _synthetic(controller.module)
             : controller.registry.byId(moduleId);
+        final initial = moduleId == 'synthetic' || currentDefaults
+            ? module.defaultPreset
+            : retainedDefaultPreset(moduleId);
         final params = {
-          ...module.defaultPreset.params,
-          'colorScheme': 17,
-          'colorCycleSpeed': 0.625
+          ...initial.params,
+          if (!currentDefaults) 'colorScheme': 17,
+          if (!currentDefaults) 'colorCycleSpeed': 0.625
         };
         await controller.loadState(
-            module: module, params: params, view: module.defaultPreset.view);
+            module: module, params: params, view: initial.view);
         final before = _snapshot(controller);
         final random = RecordingRandom(seed);
         controller.randomizeParams(animate: false, random: random);
@@ -365,6 +381,8 @@ Future<Map<String, Object?>> _unsuccessfulScenario() async {
     record('startRandomizeNumberWall', null, {'seed': -1});
     controller.selectModule(controller.registry.byId('mandelbrot'),
         animate: false);
+    final retained = retainedDefaultPreset('mandelbrot');
+    await controller.loadState(params: retained.params, view: retained.view);
     record('selectModule', null, {'module': 'mandelbrot', 'animate': false});
     record('awaitRandomizeNumberWall', await abandoned);
     record('randomizeNumberWall',
@@ -410,7 +428,6 @@ Map<String, String> _sourceBindings() {
 }
 
 Future<Map<String, Object?>> buildRandomizationOracle() async {
-  final registry = ModuleRegistry();
   return {
     'schema': 1,
     'kind': 'seeded-Dart-randomization',
@@ -420,18 +437,24 @@ Future<Map<String, Object?>> buildRandomizationOracle() async {
       'target': 'Dart VM (not browser RNG equivalence)'
     },
     'source_bindings': _sourceBindings(),
-    'schemas': {
-      for (final module in [
-        registry.byId('mandelbrot'),
-        registry.byId('julia'),
-        _synthetic(registry.byId('mandelbrot')),
-        registry.byId('number_wall')
-      ])
-        module.id: _schema(module),
-    },
-    'general': await _generalScenarios(),
+    // Historical schema/defaults are independent of current presentation.
+    'schemas': currentRandomizationSchemas(historical: true),
+    'general': await buildGeneralRandomizationScenarios(),
     'numberWalls': await _wallScenarios(),
     'unsuccessful': await _unsuccessfulScenario(),
+  };
+}
+
+Map<String, Object?> currentRandomizationSchemas({bool historical = false}) {
+  final registry = ModuleRegistry();
+  return {
+    for (final module in [
+      registry.byId('mandelbrot'),
+      registry.byId('julia'),
+      _synthetic(registry.byId('mandelbrot')),
+      registry.byId('number_wall')
+    ])
+      module.id: _schema(module, historical: historical),
   };
 }
 

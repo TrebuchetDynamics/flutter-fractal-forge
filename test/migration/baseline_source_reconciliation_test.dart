@@ -8,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'support/baseline_inventory.dart';
 
 import 'support/provenance_transition.dart';
+import 'support/visual_presentation_evolution.dart';
 
 Map _copy(Map value) => jsonDecode(jsonEncode(value)) as Map;
 
@@ -94,8 +95,17 @@ void main() {
       ];
       expect(record['changed'], expectedChanged, reason: id);
       for (final path in expectedChanged) {
-        expect(record['after'][path],
-            sha256.convert(File(path).readAsBytesSync()).toString());
+        if (path == 'test/migration/support/provenance_transition.dart') {
+          expect(record['after'][path],
+              '27778ec2aae6a2efd9db99e851a4e6d7cd7ddcbcaaf63e0483370de3fd839659',
+              reason: 'Original historical source binding remains exact');
+          expect(readVisualStages().last['binding_maps'][id]['after'][path],
+              sha256.convert(File(path).readAsBytesSync()).toString(),
+              reason: 'Candidate is bound independently, not repinned history');
+        } else {
+          expect(record['after'][path],
+              sha256.convert(File(path).readAsBytesSync()).toString());
+        }
       }
       verifySourceStages(id, stages.first['binding_maps'][id]['before'] as Map,
           record['after'] as Map,

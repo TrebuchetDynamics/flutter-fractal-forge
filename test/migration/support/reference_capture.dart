@@ -22,6 +22,7 @@ import 'package:vector_math/vector_math_64.dart';
 import 'baseline_inventory.dart';
 import 'provenance_transition.dart';
 import 'reference_source_transition.dart';
+import 'visual_presentation_evolution.dart';
 
 const referenceOutput = String.fromEnvironment('MIGRATION_REFERENCE_OUT');
 const referenceCompare = String.fromEnvironment('MIGRATION_REFERENCE_COMPARE');
@@ -49,12 +50,7 @@ Map<String, dynamic> readManifest(String directory) =>
         as Map<String, dynamic>;
 
 FractalPreset referencePreset(FractalModule module, String stateId) {
-  // The controller fills omitted preset fields from the module schema.
-  final preset = module.defaultPreset.copyWith(params: {
-    for (final parameter in module.parameters)
-      parameter.id: parameter.defaultValue,
-    ...module.defaultPreset.params,
-  });
+  final preset = retainedDefaultPreset(module.id);
   return switch (stateId) {
     'mandelbrot-edited' => preset.copyWith(
         view: preset.view.copyWith(pan: Vector2(-0.55, 0.12), zoom: 3)),
@@ -233,7 +229,8 @@ Map<String, Object> referenceVariance(Uint8List a, Uint8List b) {
   };
 }
 
-Map<String, String> captureReferenceSources(Map baselineSources) {
+Map<String, String> captureReferenceSources(Map baselineSources,
+    {List<String> additionalRoots = const []}) {
   final hashes = Map<String, String>.from(baselineSources);
   final visited = <String>{};
   void visit(String path) {
@@ -254,6 +251,9 @@ Map<String, String> captureReferenceSources(Map baselineSources) {
 
   visit('test/migration/reference_render_test.dart');
   visit('lib/features/renderer/widgets/renderer/fractal_renderer.dart');
+  for (final path in additionalRoots) {
+    visit(path);
+  }
   return hashes;
 }
 
@@ -384,8 +384,7 @@ class ReferenceCapture {
   }
 
   Map baselineRecord(String kind, String id) =>
-      ((inventory[kind]!['payload'] as Map)['records'] as List).singleWhere(
-          (r) => r[kind == 'modules' ? 'id' : 'module_id'] == id) as Map;
+      retainedBaselineRecord(kind, id);
 
   void accept(String stateId, FractalModule module, FractalPreset preset,
       Uint8List rgba) {
@@ -429,16 +428,39 @@ class ReferenceCapture {
       // This transition qualifies only the retained same-backend image contract.
       expect(objectHash(backend), retained!['provenance']['backend_sha256']);
       expect(variance['equal'], isTrue,
-          reason: '$stateId clock seam must preserve same-backend pixels');
+          reason:
+              '$stateId legacy inputs must preserve exact same-backend pixels');
       for (final key in [
         'health',
         'png_sha256',
         'rgba_sha256',
         'pixel_format',
-        'alpha',
-        'compiled_shader_sha256'
+        'alpha'
       ]) {
         expect(record[key], old[key], reason: '$stateId retained $key');
+      }
+      // Original artifacts stay attached to the original source and manifests.
+      // Changed candidates bind their own compiled bytes to their own source.
+      if (record.containsKey('compiled_shader_sha256')) {
+        final oldSource =
+            retained!['provenance']['source_bindings'][module.shaderAsset];
+        final source =
+            (provenance['source_bindings'] as Map)[module.shaderAsset];
+        if (source == oldSource) {
+          expect(
+              record['compiled_shader_sha256'], old['compiled_shader_sha256']);
+        } else {
+          final artifacts = readVisualStages()
+              .expand((s) => (s['compiled_artifacts'] as List).cast<Map>())
+              .where((a) =>
+                  a['asset'] == module.shaderAsset &&
+                  a['source_sha256'] == source &&
+                  a['backend_sha256'] == objectHash(backend));
+          expect(artifacts, hasLength(1),
+              reason: 'Candidate compiled/source/backend binding');
+          expect(record['compiled_shader_sha256'],
+              artifacts.single['compiled_sha256']);
+        }
       }
       print('$stateId retained comparison: ${canonicalJson(variance).trim()}');
     }

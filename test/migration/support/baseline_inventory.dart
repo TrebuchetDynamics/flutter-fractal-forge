@@ -24,6 +24,31 @@ const baselineNames = [
   'shader-contracts',
 ];
 
+/// Retained inputs, never reconstructed from a current default. Callers also
+/// validate immutable document custody through verifyBoundDocument.
+Map retainedBaselineRecord(String kind, String id) {
+  final document =
+      jsonDecode(File('migration/baseline/$kind.json').readAsStringSync())
+          as Map;
+  return (document['payload']['records'] as List)
+      .cast<Map>()
+      .singleWhere((r) => r[kind == 'modules' ? 'id' : 'module_id'] == id);
+}
+
+FractalPreset retainedDefaultPreset(String id) {
+  final record = retainedBaselineRecord('presets', id)['default'] as Map;
+  final parameters =
+      retainedBaselineRecord('parameters', id)['parameters'] as List;
+  return FractalPreset.fromJson({
+    ...Map<String, Object?>.from(record),
+    'createdAt': '1970-01-01T00:00:00.000Z',
+    'params': {
+      for (final p in parameters.cast<Map>()) p['id'] as String: p['default'],
+      ...record['params'] as Map,
+    },
+  });
+}
+
 /// Sort object keys, not arrays: array order and explicit order fields are data.
 String canonicalJson(Object? value) {
   Object? sorted(Object? value) {

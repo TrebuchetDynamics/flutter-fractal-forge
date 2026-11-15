@@ -7,6 +7,8 @@ import 'package:collection/collection.dart';
 // ignore: depend_on_referenced_packages
 import 'package:crypto/crypto.dart';
 
+import 'visual_presentation_evolution.dart';
+
 const bootstrapTransitionPath =
     'migration/baseline/provenance-transitions.json';
 const _a11yTransitionPath =
@@ -300,7 +302,11 @@ void validateProvenanceStage(Map stage) {
 
 void verifySourceStages(String id, Map before, Map current,
     {List<Map>? stages}) {
-  final pending = [...(stages ?? readProvenanceStages())];
+  final selected = stages ?? [...readProvenanceStages(), ...readVisualStages()];
+  final visual = selected
+      .where((s) => (s['task'] as String).startsWith('VISUAL-RICHNESS-'))
+      .toList();
+  final pending = selected.where((s) => !visual.contains(s)).toList();
   _require(
       pending.isNotEmpty &&
           pending.map((s) => s['task']).toSet().length == pending.length,
@@ -323,8 +329,12 @@ void verifySourceStages(String id, Map before, Map current,
     cursor = stage['binding_maps'][id]['after'] as Map;
     pending.remove(stage);
   }
-  _require(
-      _equal.equals(cursor, current), 'complete current map mismatch for $id');
+  if (visual.isNotEmpty) {
+    validateVisualSourceChain(id, cursor, current, visual);
+  } else {
+    _require(_equal.equals(cursor, current),
+        'complete current map mismatch for $id');
+  }
 }
 
 Map _bindings(Map document) {
@@ -378,10 +388,17 @@ void verifyBoundDocument(String name, String beforeBytes, Map generated,
             _canonical(before),
         'historical nonbinding drift');
   }
-  verifySourceStages(name, _bindings(before), _bindings(generated),
+  final visual = readVisualStages();
+  // Validate unchanged historical documents/stages first; visual evolution is
+  // never a replacement for original custody or metadata equality.
+  final historicalSources = selected.last['binding_maps'][name]['after'] as Map;
+  verifySourceStages(name, _bindings(before), historicalSources,
       stages: selected);
+  verifySourceStages(name, _bindings(before), _bindings(generated),
+      stages: [...selected, ...visual]);
+  final candidate = evolveVisualDocument(name, before, visual);
   _require(
-      _canonical(_withBindings(before, _bindings(generated))) ==
+      _canonical(_withBindings(candidate, _bindings(generated))) ==
           _canonical(generated),
       'semantic/metadata drift $name');
   // Validate the current digest too; replacement must not hide a corrupt digest.
