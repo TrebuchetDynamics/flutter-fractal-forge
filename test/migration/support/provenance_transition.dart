@@ -335,6 +335,7 @@ void verifySourceStages(String id, Map before, Map current,
       .toList();
   _require(roots.length == 1, 'missing/ambiguous full-bundle root');
   var bundleCursor = bundle(roots.single, 'before');
+  final visitedBundles = [bundleCursor];
   Map cursor = before;
   while (pending.isNotEmpty) {
     final adjacent = pending
@@ -346,6 +347,9 @@ void verifySourceStages(String id, Map before, Map current,
         'broken map adjacency for $id');
     cursor = stage['binding_maps'][id]['after'] as Map;
     bundleCursor = bundle(stage, 'after');
+    _require(!visitedBundles.any((seen) => _equal.equals(seen, bundleCursor)),
+        'cyclic full-bundle adjacency');
+    visitedBundles.add(bundleCursor);
     pending.remove(stage);
   }
   _require(

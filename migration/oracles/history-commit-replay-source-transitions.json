@@ -2882,7 +2882,7 @@
         "test/migration/param_interpolation_oracle_test.dart": "547562244c5c4bfe9451fde43bec48a3c10837b428671f2cd2bbeafba1445153",
         "test/migration/state_replay_test.dart": "2e447c24887c8099358ba4c78a151dd115763d74d332136fcc7dabe23ea98805",
         "test/migration/support/baseline_inventory.dart": "35b0bf8ed9815de2d9ab8a0724f967b4befd76afe7d1e48ae3e268aae7f41589",
-        "test/migration/support/provenance_transition.dart": "aa7db40949ded0aca3fd175bcd619043c89e3d713d234de54c461a36c9c78fc8",
+        "test/migration/support/provenance_transition.dart": "07cd6e577a0866f1200fce76a890798686c8d576b9d9df556393a5b20d3137b5",
         "test/migration/support/replay_codec.dart": "ccbdf52028eeb98d56640171e081343d004b2efc5d54fa2583cde922887c3e79"
       },
       "before": {
@@ -4709,7 +4709,7 @@
         "test/migration/physical_events_oracle_test.dart": "01a916798cab7d1656e0b7445fc322db8c66b4757100d745ed979df01ade9971",
         "test/migration/support/baseline_inventory.dart": "35b0bf8ed9815de2d9ab8a0724f967b4befd76afe7d1e48ae3e268aae7f41589",
         "test/migration/support/physical_events_oracle.dart": "3d55879a306ccd4591e8109441145dabd403a2f8992258ade3951fcf73a1784a",
-        "test/migration/support/provenance_transition.dart": "aa7db40949ded0aca3fd175bcd619043c89e3d713d234de54c461a36c9c78fc8"
+        "test/migration/support/provenance_transition.dart": "07cd6e577a0866f1200fce76a890798686c8d576b9d9df556393a5b20d3137b5"
       },
       "before": {
         "fdroid/flutter.version": "3643b714d5f0c18e13c9066f514e45cdbe7fea071b4d427c3aa6e0fbf3bfcaf0",
@@ -5171,7 +5171,7 @@
         "pubspec.lock": "b0677b30481bb5321a7e365eb64dc9b28a71987d3fa32626ff13aa90c328adc8",
         "test/migration/state_replay_test.dart": "2e447c24887c8099358ba4c78a151dd115763d74d332136fcc7dabe23ea98805",
         "test/migration/support/baseline_inventory.dart": "35b0bf8ed9815de2d9ab8a0724f967b4befd76afe7d1e48ae3e268aae7f41589",
-        "test/migration/support/provenance_transition.dart": "aa7db40949ded0aca3fd175bcd619043c89e3d713d234de54c461a36c9c78fc8",
+        "test/migration/support/provenance_transition.dart": "07cd6e577a0866f1200fce76a890798686c8d576b9d9df556393a5b20d3137b5",
         "test/migration/support/replay_codec.dart": "ccbdf52028eeb98d56640171e081343d004b2efc5d54fa2583cde922887c3e79"
       },
       "before": {
@@ -6838,7 +6838,7 @@
         "test/migration/randomization_oracle_test.dart": "4cb05b0dd888d73ee9afe6e0a712729a74c3389345cebd2ad4a5fc74471bfa80",
         "test/migration/state_replay_test.dart": "2e447c24887c8099358ba4c78a151dd115763d74d332136fcc7dabe23ea98805",
         "test/migration/support/baseline_inventory.dart": "35b0bf8ed9815de2d9ab8a0724f967b4befd76afe7d1e48ae3e268aae7f41589",
-        "test/migration/support/provenance_transition.dart": "aa7db40949ded0aca3fd175bcd619043c89e3d713d234de54c461a36c9c78fc8",
+        "test/migration/support/provenance_transition.dart": "07cd6e577a0866f1200fce76a890798686c8d576b9d9df556393a5b20d3137b5",
         "test/migration/support/randomization_oracle.dart": "6d65989655a9e79c49a92d9d1491d63640ae44877159e97d97ce60de045b921e",
         "test/migration/support/replay_codec.dart": "ccbdf52028eeb98d56640171e081343d004b2efc5d54fa2583cde922887c3e79"
       },
@@ -7724,7 +7724,7 @@
         "shaders/trigonometric_and_transcendental/special_functions/zeta_gpu.frag": "8cbebf70cd73810939448f39b8b66bcd65919aff7485b4550322d682346f2612",
         "test/migration/reference_render_test.dart": "eecb36ae0c771fb409a606298eec7394b7fd15cedeec855955537d0dae41f6ce",
         "test/migration/support/baseline_inventory.dart": "35b0bf8ed9815de2d9ab8a0724f967b4befd76afe7d1e48ae3e268aae7f41589",
-        "test/migration/support/provenance_transition.dart": "aa7db40949ded0aca3fd175bcd619043c89e3d713d234de54c461a36c9c78fc8",
+        "test/migration/support/provenance_transition.dart": "07cd6e577a0866f1200fce76a890798686c8d576b9d9df556393a5b20d3137b5",
         "test/migration/support/reference_capture.dart": "4edd11c5990ce164d90ea6da0a67f4c8d7a9c04fdb9b322c88f731250b75aeb8",
         "test/migration/support/reference_source_transition.dart": "3c0b6929f089df4d0b36ad3aa628be66a51ad34b9c0525a40321791b12468b0b",
         "test/shaders/recursive_sine_sphere_kernel_fixture.frag": "7fefc279f95b75ca3925df77e4e9d2f51aba9f246dc3193fa5402719160afdd6"
@@ -9972,7 +9972,7 @@
         "pubspec.lock": "b0677b30481bb5321a7e365eb64dc9b28a71987d3fa32626ff13aa90c328adc8",
         "test/migration/state_replay_test.dart": "2e447c24887c8099358ba4c78a151dd115763d74d332136fcc7dabe23ea98805",
         "test/migration/support/baseline_inventory.dart": "35b0bf8ed9815de2d9ab8a0724f967b4befd76afe7d1e48ae3e268aae7f41589",
-        "test/migration/support/provenance_transition.dart": "aa7db40949ded0aca3fd175bcd619043c89e3d713d234de54c461a36c9c78fc8",
+        "test/migration/support/provenance_transition.dart": "07cd6e577a0866f1200fce76a890798686c8d576b9d9df556393a5b20d3137b5",
         "test/migration/support/replay_codec.dart": "ccbdf52028eeb98d56640171e081343d004b2efc5d54fa2583cde922887c3e79"
       },
       "before": {
@@ -10128,7 +10128,7 @@
       "removed": []
     }
   },
-  "candidate_identity": "dc399e586a1af52391a73f3f26fc539f2a7d2b43d68667f6d4fb656e40612d61",
+  "candidate_identity": "1ab59d4be907311d129fe2cf7d5b7b7161cff691db6d9d861f36eaf8cf8c2f5f",
   "change_reference": "docs/tasks/source-bound-review-gates.md#history-commit-replay",
   "original_fixture_hashes": {
     "capabilities": "1753218c708ce12f90132e5429af616f46dc5cc7d6a49358ae81c393f4b38e3b",

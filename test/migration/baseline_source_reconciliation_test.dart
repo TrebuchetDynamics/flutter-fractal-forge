@@ -272,6 +272,54 @@ void main() {
         throwsStateError);
   });
 
+  test('a rooted full-bundle cycle cannot revisit an already consumed bundle',
+      () {
+    final stages = readProvenanceStages();
+    final keyboard =
+        stages.singleWhere((s) => s['task'] == 'MAINT-PRESET-KEYBOARD-01');
+    final root = _copy(keyboard);
+    final outgoing = _copy(
+        stages.singleWhere((s) => s['task'] == 'HISTORY-COMMIT-REPLAY-01'));
+    final returning = _copy(stages.singleWhere((s) => s['task'] == 'ACAD-015'));
+    const helper = 'test/migration/support/provenance_transition.dart';
+    // A -> B -> C -> B has one root and one unconsumed successor at each
+    // step. Consuming each stage once is insufficient to reject this cycle.
+    for (final id in (keyboard['binding_maps'] as Map).keys) {
+      final a = _copy(keyboard['binding_maps'][id]['before'] as Map);
+      final b = _copy(a);
+      final c = _copy(a);
+      if (a.containsKey(helper)) {
+        b[helper] = 'b' * 64;
+        c[helper] = 'c' * 64;
+      }
+      root['binding_maps'][id]['before'] = a;
+      root['binding_maps'][id]['after'] = b;
+      outgoing['binding_maps'][id]['before'] = _copy(b);
+      outgoing['binding_maps'][id]['after'] = c;
+      returning['binding_maps'][id]['before'] = _copy(c);
+      returning['binding_maps'][id]['after'] = _copy(b);
+    }
+    for (final stage in [root, outgoing, returning]) {
+      _seal(stage);
+      validateProvenanceStage(stage);
+    }
+    for (final id in (root['binding_maps'] as Map).keys.cast<String>()) {
+      for (final order in [
+        [root, outgoing, returning],
+        [returning, root, outgoing],
+      ]) {
+        expect(
+            () => verifySourceStages(
+                id,
+                root['binding_maps'][id]['before'] as Map,
+                returning['binding_maps'][id]['after'] as Map,
+                stages: order),
+            throwsStateError,
+            reason: id);
+      }
+    }
+  });
+
   test(
       'preset policy rejects self-consistent malicious stages and broken chains',
       () {

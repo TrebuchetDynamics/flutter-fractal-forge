@@ -403,7 +403,9 @@ entire bundle. Find exactly one before bundle not produced by another selected
 stage, then consume exactly one adjacent complete-bundle successor at each step.
 Never break ties using filename, task name or supplied order. Reject branches,
 gaps, cycles, disconnected/unused stages, competing successors and zero/multiple
-roots. Only then can per-map identities compose in that uniquely ordered chain.
+roots. Track visited full bundles as well: a rooted chain such as
+`A -> B -> C -> B` must fail even though each stage is consumed only once.
+Only then can per-map identities compose in that uniquely ordered chain.
 For the requested map, the first before must equal the caller's supplied map,
 every edge must agree and the terminal after must equal fresh collection.
 Reference still starts at the unchanged independent clock validator's after map.
@@ -451,3 +453,23 @@ both stages and their guards rather than widen this history-only policy.
   controller, viewer history hook and Number Walls ingress assertions were
   retained. Full local logs and the validated exports are in the excluded run
   artifacts; no browser/device/hardware qualification or screenshot is claimed.
+
+### Independent review correction (round 1)
+
+A policy-valid rooted cycle (`A -> B -> C -> B`) initially passed the new
+ordering comparator. A focused regression reproduced that acceptance (exit 1:
+expected `StateError`, returned normally). The comparator now rejects any
+revisited complete bundle, including the terminal bundle. The regression checks
+all eleven maps in two input orders; the original rootless-cycle and competing
+identity checks remain unchanged.
+
+After this bounded helper correction, reconciliation passed all six tests and
+focused analysis reported no issues (both exit 0). Two fresh validated exports
+ran all seven migration modules (10 plus 12 tests per export, all exit 0),
+contained exactly twelve expected documents, matched every final stage after
+map, and were byte-identical (`diff -ru` exit 0). Only this task's sidecar helper
+hashes and candidate identity were updated; prior sidecars and both lockfiles
+remain unchanged. Complete review logs and exports are in the excluded run
+artifacts. The full offline gate above predates this review correction; it was
+not rerun during review. Current-head CI remains the merge authority, and no
+live platform qualification is claimed.
